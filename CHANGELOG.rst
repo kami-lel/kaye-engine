@@ -65,11 +65,20 @@ Catch up ``dev`` branch with the version::
 ###
 version message::
 
-    1-0:TODO
+    1-1:TODO
+
+change structure TODO
+
 
 changes re ``system_message.md``:
 
 - captialize *Sir* as the refer
+- rename section *task* (from *mission*)
+
+changes re ``commit_message.md``:
+
+- new! copied from *VS code* extension ``ChatGPT - Genie AI``'s default commit prompt
+
 
 
 
