@@ -18,36 +18,23 @@ kaye CHANGELOG
 
 
 
-version checklist
-#################
-.. rubric:: commit process
+1-1
+###
+version message::
 
-Stash aways most recent changes::
+    1-1:create prompt/, add commit_message.md
 
-    git checkout dev
-    git stash push
+changes re ``system_message.md``:
 
-**Squash merge** ``main`` from ``dev``::
+- captialize *Sir* as the refer
+- rename section *task* (from *mission*)
 
-    git checkout main
-    git merge --squash dev
-    git stash pop
+changes re ``commit_message.md``:
 
-Inspect changes of this version::
+- new! copied from *VS code* extension ``ChatGPT - Genie AI``'s default commit prompt
 
-    git status [-s]
-    git diff --cached . [PATH]
 
-Make the **version commit** with *version message* with squash commit messages::
 
-    git commit -t .git/SQUASH_MSG
-
-Catch up ``dev`` branch with the version::
-
-    git checkout dev
-    git merge main -X theirs --no-commit
-    git restore -S -W -s main .
-    git merge --continue
 
 
 
