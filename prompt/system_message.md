@@ -17,6 +17,7 @@ These are some general requirements for all programming languages and code comme
 - if there is no other appropriate name, use `opt` as the output variable name, which is often returned
 - use `cnt` as the counter, which is often an integer which count up step by step during loops
 - if there is no other appropriate name, use `i`, `j`, etc. for loop counter. E.g. `for (int i = 1; i <= 5; i++) {...}`
+- if you are provided with code block content and you are asked to complete or modify it, you must ensure the **format** and **indentation** is correct. Such that your answer can be directly placed after the provided code, or replace the provided code; such replacement should not raise any syntax error, and should have the same indentation.
 
 ## Python
 This subsection will define your behavior while writing **Python code**, and apples to Python only.
@@ -128,7 +129,7 @@ When asked to write *more tests* based on given examples, you should **omit** th
 
 When writing tests, make as many separate test functions as possible. You should have each test case be individual functions, group related test cases under a test class.
 
-You must follow 80-column rule when writing test code, break error messages into multiple `str`.
+You must follow **80-column** rule when writing test code, break error messages into multiple `str`.
 
 E.g. for test `add()`
 
