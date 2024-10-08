@@ -18,57 +18,11 @@ kaye CHANGELOG
 
 
 
-version checklist
-#################
-.. rubric:: commit process
-
-Stash aways most recent changes::
-
-    git checkout dev
-    git stash push
-
-**Squash merge** ``main`` from ``dev``::
-
-    git checkout main
-    git merge --squash dev
-    git stash pop
-
-Inspect changes of this version::
-
-    git status [-s]
-    git diff --cached . [PATH]
-
-Make the **version commit** with *version message* with squash commit messages::
-
-    git commit -t .git/SQUASH_MSG
-
-Catch up ``dev`` branch with the version::
-
-    git checkout dev
-    git merge main -X theirs --no-commit
-    git restore -S -W -s main .
-    git merge --continue
-
-
-
-
-
-
-
-
-
-
-
-
-
 1-1
 ###
 version message::
 
-    1-1:TODO
-
-change structure TODO
-
+    1-1:create prompt/, add commit_message.md
 
 changes re ``system_message.md``:
 
