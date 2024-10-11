@@ -21,8 +21,9 @@ kaye CHANGELOG
 future feature
 ##############
 
-- TODO: ask editorial TAGs in code completetion / generation
+- TODO: ask editorial TAGs in code completion / generation
 - TODO: import common abbreviations
+- TODO: allow Kaye to use English, Chinese, & German in fitting scenario
 
 
 
