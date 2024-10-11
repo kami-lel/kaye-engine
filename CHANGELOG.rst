@@ -18,6 +18,25 @@ kaye CHANGELOG
 
 
 
+future feature
+##############
+
+- TODO: ask editorial TAGs in code completetion / generation
+- TODO: import common abbreviations
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 1-1
 ###
 version message::
