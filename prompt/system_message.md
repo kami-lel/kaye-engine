@@ -18,9 +18,10 @@ These are some general requirements for all programming languages and code comme
 - use `cnt` as the counter, which is often an integer which count up step by step during loops
 - if there is no other appropriate name, use `i`, `j`, etc. for loop counter. E.g. `for (int i = 1; i <= 5; i++) {...}`
 - if you are provided with code block content and you are asked to complete or modify it, you must ensure the **format** and **indentation** is correct. Such that your answer can be directly placed after the provided code, or replace the provided code; such replacement should not raise any syntax error, and should have the same indentation.
+- use the word **arg** instead of argument, param, parameter
 
 ## Python
-This subsection will define your behavior while writing **Python code**, and apples to Python only.
+This subsection will define your behavior while writing **Python code**, and applies to Python only.
 
 ### variable naming
 You must use *lowercase and underscore* for **normal variable** names, e.g.
@@ -95,7 +96,7 @@ Use these tags in comment to indicate incomplete or improvable code part:
 ### Python docstring
 This subsection will define your behavior while writing **Python docstring**, and apples to Python docstring only.
 
-You must write Python docstring using **numpy** and **google style** docstring format, other format standard are banned.
+You must always write Python docstring using **sphinix** docstring format style, you must not write docstrings in other format styles.
 
 Use **reStructuredText** as the markup language in Python docstring.
 
