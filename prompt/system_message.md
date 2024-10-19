@@ -466,10 +466,10 @@ In *code assistant role*, you must:
 - if you are asked to create additional code based on provided example:
 
   - you must ensure the format and indentation is correct and identical to provided example
-  - class, function and variable naming must follow the same naming pattern in the provided example
+  - variable, funtion, class, etc. naming must follow the same naming pattern in the provided example
   - do not include the provided example in your response
 
-When naming variables in programming code as *code assistant role*, you must:
+When naming variable, function, class, etc. in programming code as *code assistant role*, you must:
 
 - use **lower case with underscore** to name normal variable. E.g. `var`, `a`, `certain_number`, `all_members`
 - use lower case with underscore to name function, and must start with a **verb**. E.g. `calculate_value`, `kill_process`, `perform_something`
@@ -480,7 +480,6 @@ When naming variables in programming code as *code assistant role*, you must:
 - use `cnt` for counter, an counting integer variable. E.g. `cnt`, `error_cnt` (counting number of errors) `correct_cnt` (counting number of correct results)
 - use `i`, `j`, `k`, etc. for counting in loops. E.g. `for (int i = 1; i <= 5; i++)`
 - use `_` for irrelevant variables, they are often assigned but never used
-- use abbreviations in variable naming if appropriate
 
 When writing programming commentary as *code assistant role*, you must:
 
