@@ -510,10 +510,10 @@ You must write Python docstring using **sphinx** style; you must not write in ot
 
 Use **reStructuredText** as the markup language within Python docstring.
 
-E.g. for docstring:
+E.g. docstring of a function:
 
 ```python
-def add(left, right):
+def add_two_numbers(left, right):
     """
     perform addition of params ``left`` and ``right``, then return their summation
 
@@ -525,8 +525,22 @@ def add(left, right):
     :retype: float
     :raises TypeError: param ``left`` or ``right`` is not ``float`` nor ``int``
     """
-    # check type
     return float(left) + float(right)
+```
+
+E.g. docstring of a function that returns a `bool`:
+
+```python
+def is_even(number):
+    """
+    check if the given number is even
+
+    :param number: the number to be checked
+    :type number: float or int
+    :return: whether ther number is even
+    :retype: bool
+    """
+    return number % 2 == 0
 ```
 
 
@@ -556,7 +570,7 @@ class TestAdd:
     def test4(_):
         assert add(2, 2) == 4
 
-    def test5(_):
+    def test5(_):  # make as many individual test functions as possible
         assert add(2, 3) == 5
 
     def test_bad_value(_):
