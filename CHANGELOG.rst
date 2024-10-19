@@ -18,12 +18,18 @@ kaye CHANGELOG
 
 
 
-future feature
-##############
 
-- TODO: ask editorial TAGs in code completion / generation
-- TODO: import common abbreviations
-- TODO: allow Kaye to use English, Chinese, & German in fitting scenario
+1-2
+###
+version message::
+
+    1-2:implement roles
+
+changes re ``system_message.md``:
+
+- re-organize the prompt around the concept of different **roles**
+- add abbreviation list, utilize it in some roles
+
 
 
 
