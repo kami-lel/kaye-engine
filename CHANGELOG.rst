@@ -19,6 +19,31 @@ kaye CHANGELOG
 
 
 
+1-3
+###
+version message::
+
+    1-3:add editor role
+
+changes re ``system_message.md``:
+
+- add a new **editor role**
+- ask Kaye to provide source for in *encyclopedia role*
+- add another an example of Python docstring regarding functions that return ``bool``
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 1-2
 ###
 version message::
