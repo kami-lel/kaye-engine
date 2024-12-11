@@ -1,0 +1,5 @@
+
+TODO dynamically generate prompt
+TODO dynamically generated prompt should remove uncessary spaces
+TODO python module which chnage VS code settings by cmd
+TODO script to generate static prompts for saving purpose
