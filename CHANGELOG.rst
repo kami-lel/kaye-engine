@@ -19,6 +19,33 @@ kaye CHANGELOG
 
 
 
+1-4
+###
+version message::
+
+    1-4:add role secretary and librarian
+
+changes re ``./prompt/system_message.md``:
+
+- add role *secretary*
+- add role *librarian*
+- use ISO 639-1 Language Code (2 letter)
+- other change to the prompt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 1-3
 ###
 version message::
