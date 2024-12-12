@@ -1,4 +1,3 @@
 
-TODO python module which chnage VS code settings by cmd
 TODO script to generate static prompts for saving purpose
 TODO test to generate static prompts & check they are correct
