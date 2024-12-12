@@ -1,4 +1,5 @@
 
+# TODO script to generate static prompts for saving purpose
 
 # relative path to prompt full file
 PROMPT_FULL_FILE_PATH = '../prompt_full.md'
@@ -30,20 +31,49 @@ def get_prompt(prompt_name):
         tree.set()
 
 
+    elif prompt_name == 'secretary':
+        tree['personality'].set()
+        tree['conversation'].set()
+        tree['format'].set()
+        tree['abbreviation'].set()
+        tree['role']['encyclopedic'].set()
+        tree['role']['editor'].set()
+        tree['role']['secretary'].set()
+        tree['role']['translator'].set()
+
+
+    elif prompt_name == 'code':
+        tree['personality'].set()
+        tree['conversation'].set()
+        tree['format'].set()
+        tree['abbreviation'].set()
+        tree['role']['code assistant'].set()
+
+
+    elif prompt_name == 'python':
+        tree['personality'].set()
+        tree['conversation'].set()
+        tree['format'].set()
+        tree['abbreviation'].set()
+        tree['role']['code assistant']['Python'].set()
+
+
     elif prompt_name == 'librarian':
         tree['personality'].set()
         tree['conversation'].set()
         tree['role']['librarian'].set()
 
 
+    elif prompt_name == 'commit message writer':
+        tree['personality'].set()
+        tree['conversation'].set()
+        tree['role']['commit message writer'].set()
+
+
     else:
-        raise KeyError()
+        raise KeyError()  # TODO
 
 
 
     # perform .md render
     return str(tree)
-
-
-
-print(get_prompt('librarian'))
