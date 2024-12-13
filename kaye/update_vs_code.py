@@ -8,7 +8,7 @@ SYSTEM_MESSAGE_KEY = 'genieai.systemMessage'  # in settings.json
 from argparse import ArgumentParser, RawTextHelpFormatter, FileType
 import platform
 from os import getenv
-from os.path import join, abspath, expanduser
+from os.path import join, abspath, realpath, expanduser
 import errno
 from sys import stderr
 import json
@@ -27,10 +27,12 @@ def _find_vscode_setting_json_file_default_location():
     os_type = platform.system()
 
     if os_type == 'Windows':
-        return abspath(join(getenv('APPDATA'), r'\Code\User\settings.json'))
+        return realpath(abspath(join(
+                getenv('APPDATA'), 'Code', 'User', 'settings.json')))
 
     elif os_type == 'Linux':
-        return abspath(expanduser('~/.config/Code/User/settings.json'))
+        return realpath(abspath(expanduser(
+                '~/.config/Code/User/settings.json')))
 
     else:
         print("Error: can not find settings.json default location on {}"
@@ -74,7 +76,7 @@ if __name__ == "__main__":
 
     # update the file
     try:
-        with open(dest, 'r') as file:
+        with open(dest, 'r', encoding='utf-8', newline='') as file:
             data = json.load(file)
 
     except json.JSONDecodeError as err:
@@ -86,8 +88,9 @@ if __name__ == "__main__":
 
     data[SYSTEM_MESSAGE_KEY] = content
 
-    with open(dest, 'w') as file:
+    with open(dest, 'w', encoding='utf-8', newline='') as file:
         json.dump(data, file, indent=4)
 
+    print('VS code settins updated: {}'.format(dest))
 
     exit(0)

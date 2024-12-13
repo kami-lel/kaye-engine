@@ -24,7 +24,7 @@ prompt_full_path = \
 
 
 def _load_prompt_tree():
-    with open(prompt_full_path, 'r') as file:
+    with open(prompt_full_path, 'r', encoding='utf-8', newline='') as file:
         file_content = file.read()
         return PromptTreeNode(file_content)
 
