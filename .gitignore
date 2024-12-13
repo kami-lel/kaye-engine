@@ -19,4 +19,4 @@ build/
 
 
 # ignore the config folder
-config/
+kaye/settings.ini

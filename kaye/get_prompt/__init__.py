@@ -1,2 +1,2 @@
 
-from generate_prompt import *
+from .generate_prompt import *
