@@ -1,0 +1,18 @@
+# python cache
+__pycache__/
+*.py[cod]
+
+# virtual environments
+venv/
+env/
+ENV/
+.env/
+
+# other common ignores
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ide/editor specific
+.vscode/
