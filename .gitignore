@@ -16,7 +16,3 @@ build/
 
 # ide/editor specific
 .vscode/
-
-
-# ignore the config folder
-kaye/settings.ini
