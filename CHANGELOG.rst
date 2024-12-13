@@ -18,6 +18,33 @@ kaye CHANGELOG
 
 
 
+2-0
+###
+version message::
+
+    2-0:distribute kaye as Python package
+
+- create ``.gitignore``
+- add ``requirement.txt``
+- distribute ``kaye`` as a Python package
+
+  - add sub-module ``kaye.get_prompt``
+  - add sub-module ``kaye.update_vsc``
+
+- create folder ``static_prompts`` to store predefined prompts; also new script ``generate_static_prompts.py``
+- create various tests
+
+
+
+
+
+
+
+
+
+
+
+
 
 1-4
 ###
