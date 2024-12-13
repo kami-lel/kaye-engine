@@ -8,6 +8,8 @@ from collections import OrderedDict
 
 class PromptTreeNode(OrderedDict):
     """
+    represents a node ina prompt tree structure
+
     :param text:
     :type text: str or list(str)
     :param level: level which this node exist, e.g.
@@ -17,6 +19,8 @@ class PromptTreeNode(OrderedDict):
     - etc.
 
     :type level: int, optional
+    :param parent: parent of the node in the tree; ``None`` if root node
+    :type parent: PromptTreeNode
     """
 
     def __new__(cls, text, level=0, parent=None):
@@ -24,8 +28,8 @@ class PromptTreeNode(OrderedDict):
 
     def __init__(self, text, level=0, parent=None):
         self.level = level
-        self.enable = False  # by default
         self.parent = parent
+        self.enable = False  # by default
         self._init_populate(text)
 
     def _init_populate(self, text):
@@ -120,7 +124,6 @@ class PromptTreeNode(OrderedDict):
         for _, node in self.items():
             node._set_unset(enable)
 
-
     def __str__(self):
         """
         :return: rendered ``.md`` content, when conisder ``.enable`` of current node and sub-nodes
@@ -166,4 +169,3 @@ class PromptTreeNode(OrderedDict):
             return LF.join([first_line, content_line, nodes_repr, last_line])
         else:
             return first_line + content_line + last_line
-

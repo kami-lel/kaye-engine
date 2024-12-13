@@ -16,6 +16,7 @@ from get_prompt import get_prompt
 psr = ArgumentParser(prog=PROGRAM_NAME,
         description=__doc__, formatter_class=RawTextHelpFormatter)
 
+
 # positional arguments
 psr.add_argument('PROMPT',
         help='PROMPT name')

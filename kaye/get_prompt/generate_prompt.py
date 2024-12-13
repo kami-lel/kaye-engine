@@ -1,30 +1,46 @@
+"""
+predefined prompts:
 
-# TODO script to generate static prompts for saving purpose
-
-# relative path to prompt full file
-PROMPT_FULL_FILE_PATH = '../prompt_full.md'
-
-
-from os.path import join, abspath, dirname
-
-from prompt_tree_node import PromptTreeNode
+- full: entire prompt
+- secretary: prompt focus on everyday activity, e.g. conversation, encyclopedic, translation, etc.
+- code: prompt include all code-writing roles
+- python: prompt specific for Python code assistant
+- librarian: create a book label and determine DDC
+- commit message writer: take a result of git --diff, then generate an appropriate git commit message
+"""
 
 
-__all__ = ('get_prompt')
+from pathlib import Path
 
+from .prompt_tree_node import PromptTreeNode
+
+
+__all__ = ('get_prompt',)
+
+
+# path to prompt_full.md
+prompt_full_path = \
+        (Path(__file__).resolve().parent.parent / 'prompt_full.md').absolute()
 
 
 def _load_prompt_tree():
-    with open(
-            abspath(join(dirname(__file__), PROMPT_FULL_FILE_PATH)),
-            'r') as file:
+    with open(prompt_full_path, 'r') as file:
         file_content = file.read()
         return PromptTreeNode(file_content)
 
 
-
 def get_prompt(prompt_name):
-    # TODO docstring
+    """
+    generate one of the **predefined prompt** as whole or a subset of *prompt full*
+
+    q.v. __doc__ of ``generate_prompt.py``
+
+    :param prompt_name: name of the prompt, q.v. __doc__ of ``generate_prompt.py`` for supported prompt & function
+    :type prompt_name: str
+    :return: content of the generated prompt
+    :rtype: str
+    :raises ValueError: arg prompt_name not recognized
+    """
     tree = _load_prompt_tree()
 
     if prompt_name == 'full':
@@ -71,9 +87,12 @@ def get_prompt(prompt_name):
 
 
     else:
-        raise KeyError()  # TODO
-
+        raise ValueError("{} of arg prompt_name not recognized".format(
+                repr(prompt_name)))
 
 
     # perform .md render
     return str(tree)
+
+
+
