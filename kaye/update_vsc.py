@@ -1,0 +1,86 @@
+"""modify settings.json file of VS code
+"""
+
+
+PROGRAM_NAME = 'kaye.update_vsc'
+SYSTEM_MESSAGE_KEY = 'genieai.systemMessage'  # in settings.json
+ENV_VAR_TOKEN = 'KAYE_UPDATE_VSC_SETTING_JSON_PATH'
+
+
+from argparse import ArgumentParser, RawTextHelpFormatter, FileType
+import platform
+from os import getenv
+from os.path import join, abspath, realpath, expanduser
+import errno
+from sys import stderr
+import json
+
+from kaye.get_prompt import get_prompt
+from kaye.get_prompt.generate_prompt import __doc__ as prompt_doc
+
+
+psr = ArgumentParser(prog=PROGRAM_NAME,
+        description=__doc__ + prompt_doc,
+        formatter_class=RawTextHelpFormatter)
+
+
+# positional arguments
+psr.add_argument('PROMPT',
+        help='name of a predefined prompt')
+
+
+# options
+psr.add_argument('-f', '--file',
+        action='store',
+        type=FileType('r+'),
+        required=False,
+        metavar='SETTING_JSON',
+        help='update settings.json at SETTING_JSON, instead default location')
+psr.add_argument('-v', '--verbose',
+        action='store_true',
+        required=False)
+
+
+if __name__ == "__main__":
+    args = psr.parse_args()
+
+    # generate the prompt
+    try:
+        content = get_prompt(args.PROMPT)
+    except ValueError as err:
+        print('Error: {} of arg PROMPT not recognized'
+                .format(args.PROMPT), file=stderr)
+        exit(errno.EINVAL)
+
+    # decide where settings.json is
+    if args.file:
+        dest = args.file.name
+    elif getenv(ENV_VAR_TOKEN):
+        dest = getenv(ENV_VAR_TOKEN)
+    else:
+        print("Error: enviornment variable {} not set"
+                .format(ENV_VAR_TOKEN), file=stderr)
+        exit(errno.ENONET)
+
+    # update the file
+    try:
+        with open(dest, 'r', encoding='utf-8', newline='') as file:
+            data = json.load(file)
+
+    except json.JSONDecodeError as err:
+        print('Error: JSON: {}'.format(err.args[0]), file=stderr)
+        exit(errno.EINVAL)
+    except (FileNotFoundError, PermissionError) as err:
+        print('Error: {}: {}'.format(err.args[1], dest))
+        exit(err.errno)
+
+    data[SYSTEM_MESSAGE_KEY] = content
+
+    with open(dest, 'w', encoding='utf-8', newline='') as file:
+        json.dump(data, file, indent=4)
+
+    if args.verbose:
+        print('prompt {} saved into VS code settins: {}'.format(
+                args.PROMPT, dest))
+
+    exit(0)
