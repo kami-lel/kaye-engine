@@ -19,7 +19,7 @@ def test_prompt_full():
 
     # create a full prompt w/o repeating lines
     file_path = abspath(join(dirname(__file__), PROMPT_FULL_FILE_PATH))
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding='utf-8', newline='') as file:
         lines = file.read().split('\n')
         clean_lines = PromptTreeNode._init_lines_cleanup(lines)
         content = '\n'.join(l for l in clean_lines)

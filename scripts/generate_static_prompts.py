@@ -23,7 +23,7 @@ if __name__ == '__main__':
     for prompt in AVAILABLE_PROMPTS:
 
         file_path = (static_prompt_folder / (prompt + '.md')).absolute()
-        with open(file_path, 'w+') as f:
+        with open(file_path, 'w+', encoding='utf-8', newline='') as f:
             prompt_content = get_prompt(prompt)
             f.write(prompt_content)
 
