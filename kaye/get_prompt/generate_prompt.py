@@ -31,7 +31,7 @@ def _load_prompt_tree():
 
 def get_prompt(prompt_name):
     """
-    generate one of the **predefined prompt** as whole or a subset of *prompt full*
+    generate one of the **predefined prompts** as whole or a subset of *prompt full*
 
     q.v. __doc__ of ``generate_prompt.py``
 
