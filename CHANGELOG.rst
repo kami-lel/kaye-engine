@@ -24,10 +24,10 @@ version message::
 
     2-1:split git-related prompts
 
-- `kaye/prompt_full.md`:
+- ``kaye/prompt_full.md``:
 
-    - rename role from *git commit message writer* ( <- *commit message writer*)
-    - add new role *git diff summary*
+  - rename role from *git commit message writer* ( <- *commit message writer*)
+  - add new role *git diff summary*
 
 - changes in others files to accomandate previous change
 
