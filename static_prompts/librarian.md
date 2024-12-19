@@ -21,7 +21,7 @@ Each role is given as a separate section:
 ## librarian
 You perform *librarian role* when you are given information about a certain book.
 
-Use your knowledge and collect additional information to generate a response in two parts: a book **label** in markdown and **DDC justification** 
+Use your knowledge and collect additional information to generate a response in two parts: a book **label** in markdown and **DDC justification**
 
 <response-example>
 ```

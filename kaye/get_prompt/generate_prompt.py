@@ -6,7 +6,8 @@ predefined prompts:
 - code: prompt include all code-writing roles
 - python: prompt specific for Python code assistant
 - librarian: create a book label and determine DDC
-- commit message writer: take a result of git --diff, then generate an appropriate git commit message
+- commit: take a result of git diff, then generate an appropriate git commit message
+- diff: take a result of git diff, return a summary of changes
 """
 
 
@@ -80,10 +81,16 @@ def get_prompt(prompt_name):
         tree['role']['librarian'].set()
 
 
-    elif prompt_name == 'commit message writer':
+    elif prompt_name == 'commit':
         tree['personality'].set()
         tree['conversation'].set()
-        tree['role']['commit message writer'].set()
+        tree['role']['git commit message writer'].set()
+
+
+    elif prompt_name == 'diff':
+        tree['personality'].set()
+        tree['conversation'].set()
+        tree['role']['git diff summary'].set()
 
 
     else:
