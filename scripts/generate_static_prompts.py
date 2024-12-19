@@ -8,7 +8,8 @@ AVAILABLE_PROMPTS = [
         'code',
         'python',
         'librarian',
-        'commit message writer']
+        'commit',
+        'diff']
 
 
 from pathlib import Path

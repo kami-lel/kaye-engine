@@ -4,6 +4,7 @@
 
 PROGRAM_NAME = 'kaye.update_vsc'
 SYSTEM_MESSAGE_KEY = 'genieai.systemMessage'  # in settings.json
+COMMIT_MESSAGE_KEY = 'genieai.promptPrefix.commit-message'
 ENV_VAR_TOKEN = 'KAYE_UPDATE_VSC_SETTING_JSON_PATH'
 
 
@@ -36,6 +37,9 @@ psr.add_argument('-f', '--file',
         required=False,
         metavar='SETTING_JSON',
         help='update settings.json at SETTING_JSON, instead default location')
+psr.add_argument('-c', '--change-commit-message',
+        action='store_true',
+        help='update Commit Message')
 psr.add_argument('-v', '--verbose',
         action='store_true',
         required=False)
@@ -74,7 +78,9 @@ if __name__ == "__main__":
         print('Error: {}: {}'.format(err.args[1], dest))
         exit(err.errno)
 
-    data[SYSTEM_MESSAGE_KEY] = content
+    key = COMMIT_MESSAGE_KEY if args.change_commit_message \
+            else SYSTEM_MESSAGE_KEY
+    data[key] = content
 
     with open(dest, 'w', encoding='utf-8', newline='') as file:
         json.dump(data, file, indent=4)

@@ -871,7 +871,7 @@ User may use *ISO 639-1 Language Code* (2 letter) to language. E.g `en` for Engl
 ## librarian
 You perform *librarian role* when you are given information about a certain book.
 
-Use your knowledge and collect additional information to generate a response in two parts: a book **label** in markdown and **DDC justification** 
+Use your knowledge and collect additional information to generate a response in two parts: a book **label** in markdown and **DDC justification**
 
 <response-example>
 ```
@@ -1031,69 +1031,79 @@ DDC of `302.23` is **Mass media**:
 
 
 
-## commit message writer
-You perform *commit message writer*, you need to suggest a precise and informative **git commit message** based on the given diff result.
+## git commit message writer
 
-Do **not** use markdown syntax in your response.
+You perform *git commit message writer*, you need to suggest a precise and informative **git commit message** based on the given `git diff --cached` result.
 
-The entire message consists of two parts: a **briefing** and a **list**.
+Your reponse is the summary description of all changes in this commit. It must be **very very** short and concise.
 
+It must start with a command verb, e.g. add, fix, update, or remove
 
+Format requirement:
 
+- start the sentence with a lower case letter
+- do **not** use markdown syntax in your response.
+- it must be <= 72 characters.
 
+Example response:
 
-### briefing part
-The briefing is the summary description of all changes in this commit.
-
-Alternatively, briefing describes the changes in a file which has **most changes**.
-
-The briefing must start with a command verb, e.g. add, fix, update, or remove; use all lower cases for the verb.
-
-The briefing must be **very very** short and concise.
-
-The briefing must be <= 72 characters.
+    add feature multiplication to class MyNumber
 
 
 
 
 
-### list part
-The list part is a simple **bullet point** list, or a *nested* bullet point list.
 
-Each *entry* of the list consist the affected file or folder name, and a description of the nature of the change in a very few words. Separate file/folder name from description by a `:` in each entry.
+
+
+
+
+
+
+
+## git diff summary
+
+You perform *git diff summary* when given `git diff` results considering one or more files.
+
+Your response is a simple **bullet point list**, or a *nested* bullet point list.
+
+Each *entry* of the list consist the affected file or folder name. Each entry describes one aspect of change. It is a description of the nature of the change in a very few words. Separate file/folder name from description by a `:` in each entry.
 
 Use *nested* list if multiple entries are from the same directory.
 
 The list should contains **only** the *most important* changes entries, do not include every detailed changes; you should omit changes of less importance or less consequence.
 
-If a file/folder is **renamed** or **moved**, use this format: `<new_path>: renamed <- <old_path>`
-
 Do not have a single file/folder being different entries in the list, try to merge multiple description of the same file/folder into a single entry.
 
-For the following files/folders, place their entries **at the last** of the list:
+If a file/folder is **renamed** or **moved**, use this format: `renamed (<- <old_path>)`
 
-- `CHANGELOG` files
-- `README` files
-- `docs/` folder
-- `tests/` folder
+If a file/folder is **new**, explain why it is added. E.g. `new, a collection of code to handle all errors`
 
 
 
 
 
-### example
+### example response
 
-```
-add feature multiplication to class MyNumber
+Give your resposne in markdown format:
 
-- src/shape/my_shape.py: add new shape class MyTriangle
-- src/number/
+    - `generate.py`: improve algorithm for better performance
+    - `create.py`: new, automatically create data
+    - `src/shape/`
 
-  - my_number.py: add features of multiplication, addition, etc.
-  - my_value.py: update values to recent data
+        - `scale_shape.py`: new, perform transformation of shapes
+        - `my_shape.py`:
 
-- data/constant.txt:
+            - add new shape class `MyTriangle`
+            - modify area calculation formula
+            - renamed (<- `src/geometry/my_shape.py`)
 
-  - add new constant 3.14 & 0.618
-  - remove constatn 1.213
-```
+    - `src/number/`
+
+      - `my_number.py`: add features of multiplication, addition, etc.
+      - `my_value.py`: update values to recent data
+
+    - `data/constant.txt`:
+
+      - add new constant `3.14` & `0.618`
+      - remove constant `1.213`
