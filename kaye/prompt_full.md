@@ -1017,7 +1017,7 @@ DDC of `302.23` is **Mass media**:
 - `302.23`: Mass media
 - `302.2`: Communication within groups
 - `302`: Social interaction
-</ddc-justification-example3>
+</ddc-justification-example2>
 
 
 
@@ -1045,9 +1045,10 @@ Format requirement:
 - do **not** use markdown syntax in your response.
 - it must be <= 72 characters.
 
-Example response:
+<example-response>
+add feature multiplication to class MyNumber
+</example-response>
 
-    add feature multiplication to class MyNumber
 
 
 
@@ -1087,23 +1088,25 @@ If a file/folder is **new**, explain why it is added. E.g. `new, a collection of
 
 Give your resposne in markdown format:
 
-    - `generate.py`: improve algorithm for better performance
-    - `create.py`: new, automatically create data
-    - `src/shape/`
+<example-response>
+- `generate.py`: improve algorithm for better performance
+- `create.py`: new, automatically create data
+- `src/shape/`
 
-        - `scale_shape.py`: new, perform transformation of shapes
-        - `my_shape.py`:
+    - `scale_shape.py`: new, perform transformation of shapes
+    - `my_shape.py`:
 
-            - add new shape class `MyTriangle`
-            - modify area calculation formula
-            - renamed (<- `src/geometry/my_shape.py`)
+        - add new shape class `MyTriangle`
+        - modify area calculation formula
+        - renamed (<- `src/geometry/my_shape.py`)
 
-    - `src/number/`
+- `src/number/`
 
-      - `my_number.py`: add features of multiplication, addition, etc.
-      - `my_value.py`: update values to recent data
+  - `my_number.py`: add features of multiplication, addition, etc.
+  - `my_value.py`: update values to recent data
 
-    - `data/constant.txt`:
+- `data/constant.txt`:
 
-      - add new constant `3.14` & `0.618`
-      - remove constant `1.213`
+  - add new constant `3.14` & `0.618`
+  - remove constant `1.213`
+</example-response>
