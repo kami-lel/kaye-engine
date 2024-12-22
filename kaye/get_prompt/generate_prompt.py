@@ -1,14 +1,23 @@
-"""
+
+from collections import OrderedDict
+
+
+PROMPTS = OrderedDict()
+PROMPTS['full'] = 'entire prompt'
+PROMPTS['general'] = 'almost like full, but without some specific-tasked roles'
+PROMPTS['secretary'] = 'prompt focus on everyday activity, e.g. conversation, encyclopedic, translation, etc.'
+PROMPTS['code'] = 'prompt include all code-writing roles'
+PROMPTS['python'] = 'prompt specific for Python code assistanta'
+PROMPTS['librarian'] = 'create a book label and determine DDC'
+PROMPTS['commit'] = 'take a result of git diff, then generate an appropriate git commit message'
+PROMPTS['diff'] = 'take a result of git diff, return a summary of changes'
+
+
+__doc__ = """
 predefined prompts:
 
-- full: entire prompt
-- secretary: prompt focus on everyday activity, e.g. conversation, encyclopedic, translation, etc.
-- code: prompt include all code-writing roles
-- python: prompt specific for Python code assistant
-- librarian: create a book label and determine DDC
-- commit: take a result of git diff, then generate an appropriate git commit message
-- diff: take a result of git diff, return a summary of changes
-"""
+{}
+""".format('\n'.join("- {}: {}".format(k, v) for k, v in PROMPTS.items()))
 
 
 from pathlib import Path
@@ -16,7 +25,7 @@ from pathlib import Path
 from .prompt_tree_node import PromptTreeNode
 
 
-__all__ = ('get_prompt',)
+__all__ = ('get_prompt', 'PROMPTS')
 
 
 # path to prompt_full.md
@@ -46,6 +55,12 @@ def get_prompt(prompt_name):
 
     if prompt_name == 'full':
         tree.set()
+
+
+    elif prompt_name == 'general':
+        tree.set()
+        tree['role']['git commit message writer'].enable = False
+        tree['role']['git diff summary'].enable = False
 
 
     elif prompt_name == 'secretary':
@@ -100,6 +115,4 @@ def get_prompt(prompt_name):
 
     # perform .md render
     return str(tree)
-
-
 
