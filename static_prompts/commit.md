@@ -32,6 +32,6 @@ Format requirement:
 - do **not** use markdown syntax in your response.
 - it must be <= 72 characters.
 
-Example response:
-
-    add feature multiplication to class MyNumber
+<example-response>
+add feature multiplication to class MyNumber
+</example-response>

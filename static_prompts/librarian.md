@@ -25,7 +25,7 @@ Use your knowledge and collect additional information to generate a response in 
 
 <response-example>
 ```
-Nesnesitelná lehkost bytí[1987]Kundera_Milan[HarperCollins]{en[The Unbearable Lightness of Being],dd[891.8654]}
+Nesnesitelná lehkost bytí[1987]Kundera_Milan[HarperCollins]{en[The Unbearable Lightness of Being],[891.8654]dd}
 ```
 
 `891.8654` in DDC is **Czech literature during 1945-1989**:
@@ -94,22 +94,22 @@ List of possible tags, all informational tags (except DDC tag) is optional. You 
   - use `ed[1]` for 1st version, etc.
 - DDC tag:
   - DDC tag is **required** as the **last tag** in *tag* part
-  - prefix with `dd[`, suffix with `]`
-  - e.g. DDC tag is `dd[940]` when DDC is 940 (History of Europe); DDC tag is `dd[005.44]` when DDC is 005.44 (Operating system for specfic types of computers)
+  - prefix with `[`, suffix with `]dd`
+  - e.g. DDC tag is `dd[940]` when DDC is 940 (History of Europe); DDC tag is `[005.44]dd` when DDC is 005.44 (Operating system for specfic types of computers)
 
 #### label examples
 These are examples of legal book labels:
 
 ```
-The Communist Manifesto[2018]Karl_Marx,Friedrich_Engels,edr=John_E_Toews[Macmillan]{dd[335.422]}
-The Fatal Conceit_The Errors of Socialism[2011]F_A_Hayek[Routledge]{dd[330.1]}
-The Elements of Style[2000]William_Strunk_Jr,E_B_White[Allyn&Bacon]{ed[4],dd[428.0071]}
-Do Androids Dream of Electric Sheep_[1999]Philip_K_Dick[S.F.Masterworks]{dd[813.54]}
-Imagined Communities_Reflections on the Origin and Spread of Nationalism[2006]Benedict_Anderson[Verso]{ed[rev],dd[320,5401]}
-On Heroes,Hero-Worship,and the Heroic in History[2013]Thomas_Carlyle,edr{David_R_Sorensen,Brent_E_Kinser}[Yale]{dd[824.8]}
-What Life Could Mean to You[2012]Alfred_Adler,tr=李青霞[沈阳出版社]{zh[自卑与超越],dd[155.2]}
-L'Étranger[1993]Albert_Camus[Everyman's Library]{en[The Stanger],dd[843.912]}
-The Postmodern Condition_A Report on Knowledge[1984]Jean-Francois_Lyotard[University of Minnesota]{dd[121.68]}
+The Communist Manifesto[2018]Karl_Marx,Friedrich_Engels,edr=John_E_Toews[Macmillan]{[335.422]dd}
+The Fatal Conceit_The Errors of Socialism[2011]F_A_Hayek[Routledge]{[330.1]dd}
+The Elements of Style[2000]William_Strunk_Jr,E_B_White[Allyn&Bacon]{ed[4],[428.0071]dd}
+Do Androids Dream of Electric Sheep_[1999]Philip_K_Dick[S.F.Masterworks]{[813.54]dd}
+Imagined Communities_Reflections on the Origin and Spread of Nationalism[2006]Benedict_Anderson[Verso]{ed[rev],[320,5401]dd}
+On Heroes,Hero-Worship,and the Heroic in History[2013]Thomas_Carlyle,edr{David_R_Sorensen,Brent_E_Kinser}[Yale]{[824.8]dd}
+What Life Could Mean to You[2012]Alfred_Adler,tr=李青霞[沈阳出版社]{zh[自卑与超越],[155.2]dd}
+L'Étranger[1993]Albert_Camus[Everyman's Library]{en[The Stanger],[843.912]dd}
+The Postmodern Condition_A Report on Knowledge[1984]Jean-Francois_Lyotard[University of Minnesota]{[121.68]dd}
 ```
 
 ### DDC
@@ -143,4 +143,4 @@ DDC of `302.23` is **Mass media**:
 - `302.23`: Mass media
 - `302.2`: Communication within groups
 - `302`: Social interaction
-</ddc-justification-example3>
+</ddc-justification-example2>
