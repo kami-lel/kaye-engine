@@ -1,10 +1,20 @@
-==============
-kaye CHANGELOG
-==============
+# kaye CHANGELOG
 
-.. default-role:: smart
+## versions
 
-.. contents::
+### 2-2
+
+```
+2-2:add general role
+```
+
+- translate *CHANGELOG* from rST to **md** format, i.e. `CHANGELOG.md` (<- `CHANGELOG.rst`)
+
+change re `./kaye/prompt_full.md`
+
+- new role *general* which include almost all roles, except some really task-specific roles
+- in *librarian* role, update DDC tag format (e.g. `[100]dd` <- `dd[100]`)
+- minor adjustments of format
 
 
 
@@ -18,11 +28,13 @@ kaye CHANGELOG
 
 
 
-2-1
-###
-version message::
+### 2-1
 
-    2-1:split git-related prompts
+version message
+
+```
+2-1:split git-related prompts
+```
 
 - `kaye/prompt_full.md`:
 
@@ -43,18 +55,20 @@ version message::
 
 
 
-2-0
-###
-version message::
+### 2-0
 
-    2-0:distribute kaye as Python package
+version message:
+
+```
+2-0:distribute kaye as Python package
+```
 
 - create ``.gitignore``
 - add ``requirement.txt``
 - distribute ``kaye`` as a Python package
 
-  - add sub-module ``kaye.get_prompt``
-  - add sub-module ``kaye.update_vsc``
+    - add sub-module ``kaye.get_prompt``
+    - add sub-module ``kaye.update_vsc``
 
 - create folder ``static_prompts`` to store predefined prompts; also new script ``generate_static_prompts.py``
 - create various tests
@@ -71,11 +85,13 @@ version message::
 
 
 
-1-4
-###
-version message::
+### 1-4
 
-    1-4:add role secretary and librarian
+version message:
+
+```
+1-4:add role secretary and librarian
+```
 
 changes re ``./prompt/system_message.md``:
 
@@ -98,11 +114,13 @@ changes re ``./prompt/system_message.md``:
 
 
 
-1-3
-###
-version message::
+### 1-3
 
-    1-3:add editor role
+version message:
+
+```
+1-3:add editor role
+```
 
 changes re ``system_message.md``:
 
@@ -123,11 +141,13 @@ changes re ``system_message.md``:
 
 
 
-1-2
-###
-version message::
+### 1-2
 
-    1-2:implement roles
+version message:
+
+```
+1-2:implement roles
+```
 
 changes re ``system_message.md``:
 
@@ -148,11 +168,13 @@ changes re ``system_message.md``:
 
 
 
-1-1
-###
-version message::
+### 1-1
 
-    1-1:create prompt/, add commit_message.md
+version message:
+
+```
+1-1:create prompt/, add commit_message.md
+```
 
 changes re ``system_message.md``:
 
@@ -177,12 +199,13 @@ changes re ``commit_message.md``:
 
 
 
+### 1-0
 
-1-0
-###
-version message::
+version message:
 
-    1-0:create Kaye
+```
+1-0:create Kaye
+```
 
 The very first version of prompt for **Kaye**. The *mission* part is adpated from default prompt provided in *VS code* extension ``ChatGPT - Genie AI``.
 
