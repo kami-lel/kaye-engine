@@ -9,24 +9,23 @@ ENV_VAR_TOKEN = 'KAYE_UPDATE_VSC_SETTING_JSON_PATH'
 
 
 from argparse import ArgumentParser, RawTextHelpFormatter, FileType
-import platform
 from os import getenv
-from os.path import join, abspath, realpath, expanduser
 import errno
 from sys import stderr
 import json
 
-from kaye.get_prompt import get_prompt
-from kaye.get_prompt.generate_prompt import __doc__ as prompt_doc
+from kaye.get_prompt import get_prompt, PROMPTS, PROMPT_DOC
+
 
 
 psr = ArgumentParser(prog=PROGRAM_NAME,
-        description=__doc__ + prompt_doc,
+        description=__doc__ + PROMPT_DOC,
         formatter_class=RawTextHelpFormatter)
 
 
 # positional arguments
 psr.add_argument('PROMPT',
+        choices=list(PROMPTS.keys()),
         help='name of a predefined prompt')
 
 
