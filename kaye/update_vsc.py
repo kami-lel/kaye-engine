@@ -8,6 +8,7 @@ specified by an enviornment variable {}
 PROGRAM_NAME = "kaye.update_vsc"
 SYSTEM_MESSAGE_KEY = "genieai.systemMessage"  # in settings.json
 COMMIT_MESSAGE_KEY = "genieai.promptPrefix.commit-message"
+OPENAI_MODEL_KEY = "genieai.openai.model"
 
 
 from argparse import ArgumentParser, RawTextHelpFormatter, FileType
@@ -94,6 +95,8 @@ if __name__ == "__main__":
         else SYSTEM_MESSAGE_KEY
     )
     data[key] = content
+
+    # TODO update used model based on which prompt is used
 
     with open(dest, "w", encoding="utf-8", newline="") as file:
         json.dump(data, file, indent=4)
