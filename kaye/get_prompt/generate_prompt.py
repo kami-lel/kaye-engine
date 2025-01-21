@@ -13,19 +13,21 @@ PROMPTS['commit'] = 'take a result of git diff, then generate an appropriate git
 PROMPTS['diff'] = 'take a result of git diff, return a summary of changes'
 
 
-__doc__ = """
+PROMPT_DOC = """
 predefined prompts:
 
 {}
 """.format('\n'.join("- {}: {}".format(k, v) for k, v in PROMPTS.items()))
 
 
+__doc__ = PROMPT_DOC
+
+
 from pathlib import Path
 
 from .prompt_tree_node import PromptTreeNode
 
-
-__all__ = ('get_prompt', 'PROMPTS')
+__all__ = ('get_prompt', 'PROMPTS', 'PROMPT_DOC')
 
 
 # path to prompt_full.md

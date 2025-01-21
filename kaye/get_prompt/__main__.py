@@ -8,16 +8,16 @@ from argparse import ArgumentParser, RawTextHelpFormatter, FileType
 from sys import stderr, stdout
 import errno
 
-from .generate_prompt import get_prompt
-from .generate_prompt import __doc__ as prompt_doc
+from .generate_prompt import get_prompt, PROMPTS, PROMPT_DOC
 
 
 psr = ArgumentParser(prog=PROGRAM_NAME,
-        description=__doc__ + prompt_doc, formatter_class=RawTextHelpFormatter)
+        description=__doc__ + PROMPT_DOC, formatter_class=RawTextHelpFormatter)
 
 
 # positional arguments
 psr.add_argument('PROMPT',
+        choices=list(PROMPTS.keys()),
         help='name of a predefined prompt')
 
 
