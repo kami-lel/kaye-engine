@@ -10,3 +10,4 @@ This work of prompt engineering attempts to, while using the extension, provide 
 
 TODO Don’t say anything not important in some of role
 TODO improve clarity and simplicity
+TODO include version in each prompt
