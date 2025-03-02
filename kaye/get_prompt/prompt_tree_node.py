@@ -1,6 +1,5 @@
-
-LF = '\n'
-HEADING_MARKER = '#'
+LF = "\n"
+HEADING_MARKER = "#"
 
 
 from collections import OrderedDict
@@ -39,7 +38,7 @@ class PromptTreeNode(OrderedDict):
             lines = self._init_lines_cleanup(lines)
 
         level_next = self.level + 1
-        heading_prefix = HEADING_MARKER * level_next + ' '
+        heading_prefix = HEADING_MARKER * level_next + " "
 
         # find every line which is a heading of next level
         heading_lines = OrderedDict()
@@ -47,7 +46,7 @@ class PromptTreeNode(OrderedDict):
             if line.startswith(heading_prefix):
                 # extract heading content
                 # e.g. "### this is heading " -> "this is heading"
-                heading_content = line[level_next + 1:].strip()
+                heading_content = line[level_next + 1 :].strip()
                 heading_lines[idx] = heading_content
 
         # e.g. now, heading_lines = {0: 'personality',
@@ -63,9 +62,10 @@ class PromptTreeNode(OrderedDict):
             next_idx = heading_lines_idx[1:]
             next_idx.append(len(lines))
             subsections = OrderedDict()
-            for (start_idx, heading), end_idx \
-                    in zip(heading_lines.items(), next_idx):
-                subsections[heading] = lines[start_idx: end_idx]
+            for (start_idx, heading), end_idx in zip(
+                heading_lines.items(), next_idx
+            ):
+                subsections[heading] = lines[start_idx:end_idx]
 
             # e.g. now subsections = {
             #       'personality': ['1st line in personality', '2nd line', 'etc'],
@@ -88,14 +88,14 @@ class PromptTreeNode(OrderedDict):
         """
         i = 0  # index
         while i < len(lines):
-            if lines[i] == '':  # detect an empty line
+            if lines[i] == "":  # detect an empty line
                 j = i + 1
                 for _ in range(j, len(lines)):
                     if lines[j]:  # non-empty
                         break
                     j += 1
 
-                lines = lines[:i+1] + lines[j:]
+                lines = lines[: i + 1] + lines[j:]
 
             i += 1
 
@@ -133,13 +133,13 @@ class PromptTreeNode(OrderedDict):
 
         for heading, node in self.items():
             if node.enable:
-                heading_md = HEADING_MARKER * node.level + ' ' + heading + LF
+                heading_md = HEADING_MARKER * node.level + " " + heading + LF
                 part = heading_md + node.__str__()
                 parts.append(part)
 
         return LF.join(parts)
 
-    def __repr__(self, heading=''):
+    def __repr__(self, heading=""):
         """
         debug print of _PromptTreeNode, showing
 
@@ -147,19 +147,23 @@ class PromptTreeNode(OrderedDict):
         - node content as 1st entry
         - heading & content of its sub-nodes
         """
-        tab_prefix = '\t' * self.level
+        tab_prefix = "\t" * self.level
 
-        first_line = \
-                ('☑' if self.enable else '☐') + \
-                tab_prefix + \
-                HEADING_MARKER * self.level + " " + \
-                heading + " " + \
-                "{"
+        first_line = (
+            ("☑" if self.enable else "☐")
+            + tab_prefix
+            + HEADING_MARKER * self.level
+            + " "
+            + heading
+            + " "
+            + "{"
+        )
 
         content_line = repr(self.content[:64])
 
         nodes_repr = LF.join(
-                node.__repr__(heading) for heading, node in self.items())
+            node.__repr__(heading) for heading, node in self.items()
+        )
 
         last_line = "}"
 

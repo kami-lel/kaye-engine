@@ -6,6 +6,21 @@ HEADING_MARKER = "#"
 
 
 class PromptParserNode(OrderedDict):
+    """
+    represents a node ina prompt tree structure
+
+    :param text:
+    :type text: str or list(str)
+    :param level: level which this node exist, e.g.
+
+    - ``0`` for root node (entire document)
+    - ``1`` for 1st level section, i.e. an section of ``# heading``
+    - etc.
+
+    :type level: int, optional
+    :param parent: parent of the node in the tree; ``None`` if root node
+    :type parent: PromptParserNode
+    """
 
     def __str__(self):
         """
@@ -138,4 +153,4 @@ class PromptParserNode(OrderedDict):
 
         # make all children & grandchilrens enabled
         for _, node in self.items():
-            node._set_unset(enable)
+            node._set_unset_recursively(enable)
