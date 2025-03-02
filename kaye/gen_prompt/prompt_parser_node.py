@@ -18,11 +18,14 @@ class PromptParserNode(OrderedDict):
 
     def __init__(self, text, parent=None):
         self.parent = parent
-        self.level = 0 if parent is None else parent.level + 1
         self.content = ""
+        self.enable = True
 
-        if parent is None:
+        if parent is None:  # when current node is root
+            self.level = 0
             text = self._convert_full_prompt2text_list(text)
+        else:
+            self.level = parent.level + 1
 
         self._init_populate_by_text_list(text)
 
@@ -58,9 +61,9 @@ class PromptParserNode(OrderedDict):
         # parse sub-sections as nodes
         heading_lines.append(len(lines))
         for start, end in zip(heading_lines, heading_lines[1:]):
+            # extract heading content
+            # e.g. "### this is heading " -> "this is heading"
             heading_content = lines[start][len(heading_prefix) :].strip()
             self[heading_content] = PromptParserNode(
                 lines[start + 1 : end], self
             )
-
-            pass  # TODO
