@@ -1,3 +1,7 @@
+"""
+Define a PromptParserNode for making construct a prompt tree
+"""
+
 import re
 from collections import OrderedDict
 
