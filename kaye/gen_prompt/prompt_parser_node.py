@@ -2,8 +2,12 @@
 Define a PromptParserNode for making construct a prompt tree
 """
 
+__all__ = ("PromptParserNode",)
+
+
 import re
 from collections import OrderedDict
+
 
 LF = "\n"
 HEADING_MARKER = "#"
@@ -77,19 +81,27 @@ class PromptParserNode(OrderedDict):
         else:
             return first_line + content_line + last_line
 
-    def set_recursively(self):
+    def set_recursively(self, set_parent=True):
         """
-        enable this node (& its sub-nodes) to be present
-        during ``.md`` render (q.v. ``__str__``)
-        """
-        self._set_unset_recursively(True)
+        Enable this node (& its sub-nodes) to be present during ``.md`` render
+        (q.v. ``__str__``).
 
-    def unset_recursively(self):
+        :param set_parent: If True, also enable the parent and grandparent
+        nodes in the tree to ensure they are also rendered. Default is True.
+        :type set_parent: bool
         """
-        disable this node (& its sub-nodes) to be absent
-        during ``.md`` render (q.v. ``__str__``)
+        self._set_unset_recursively(True, set_parent)
+
+    def unset_recursively(self, set_parent=True):
         """
-        self._set_unset_recursively(False)
+        Disable this node (& its sub-nodes) to be present during ``.md`` render
+        (q.v. ``__str__``).
+
+        :param set_parent: If True, also enable the parent and grandparent
+        nodes in the tree to ensure they are also rendered. Default is True.
+        :type set_parent: bool
+        """
+        self._set_unset_recursively(False, set_parent)
 
     def __new__(cls, text, parent=None):
         return super().__new__(cls, {})  # new as empty dict
@@ -146,14 +158,15 @@ class PromptParserNode(OrderedDict):
                 lines[start + 1 : end], self
             )
 
-    def _set_unset_recursively(self, enable):
+    def _set_unset_recursively(self, enable, set_parent=True):
         self.enable = enable
 
-        # make sure all parent & grandparents enabled
-        parent = self.parent
-        while parent is not None:
-            parent.enable = enable
-            parent = parent.parent
+        if set_parent:
+            # make sure all parent & grandparents enabled
+            parent = self.parent
+            while parent is not None:
+                parent.enable = enable
+                parent = parent.parent
 
         # make all children & grandchilrens enabled
         for _, node in self.items():
