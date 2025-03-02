@@ -13,14 +13,15 @@ class PromptParserNode(OrderedDict):
     def __repr__(self):
         return ""  # TODO
 
-    def __new__(cls, level, parent, full_prompt):
+    def __new__(cls, text, parent=None):
         return super().__new__(cls, {})  # new as empty dict
 
-    def __init__(self, text, parent=None, level=0):
+    def __init__(self, text, parent=None):
         self.parent = parent
-        self.level = level
+        self.level = 0 if parent is None else parent.level + 1
+        self.content = ""
 
-        if level == 0:
+        if parent is None:
             text = self._convert_full_prompt2text_list(text)
 
         self._init_populate_by_text_list(text)
@@ -46,5 +47,20 @@ class PromptParserNode(OrderedDict):
             if line.startswith(heading_prefix):
                 heading_lines.append(idx)
 
-        heading_lines.insert(0, 0)
+        if not heading_lines:  # contain no subsection
+            self.content = LF.join(lines)  # all lines are content
+            return
+
+        # this node contains subsections
+        # parse the content part out
+        self.content = LF.join(lines[: heading_lines[0]])
+
+        # parse sub-sections as nodes
         heading_lines.append(len(lines))
+        for start, end in zip(heading_lines, heading_lines[1:]):
+            heading_content = lines[start][len(heading_prefix) :].strip()
+            self[heading_content] = PromptParserNode(
+                lines[start + 1 : end], self
+            )
+
+            pass  # TODO
