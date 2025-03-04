@@ -23,9 +23,6 @@ class PromptTreeNode(OrderedDict):
     :type parent: PromptTreeNode
     """
 
-    def __repr__(self, indent=0, column_width_limit=79):
-        return ""
-
     def __new__(cls, text, parent=None):
         return super().__new__(cls, {})  # new as empty dict
 
@@ -73,3 +70,26 @@ class PromptTreeNode(OrderedDict):
             self[heading_content] = PromptTreeNode(
                 lines[start + 1 : end], self
             )
+
+    def __repr__(self, indent=0, column_width_limit=79):
+        opt = []
+
+        for key, value in self.items():
+            entries = []
+            # title line
+            entries.append(" " * indent + key)
+
+            # content line
+            content = value.content
+            if content:
+                content = re.sub(r"\n", "⏎", content)
+                content_line = " " * (indent + 12) + content
+                limited_content_line = content_line[:column_width_limit]
+                entries.append(limited_content_line)
+
+            # sub nodes
+            entries.append(value.__repr__(indent + 4, column_width_limit))
+
+            opt.append("\n".join(entries))
+
+        return "".join(opt)
