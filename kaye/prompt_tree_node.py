@@ -40,7 +40,7 @@ class PromptTreeNode(OrderedDict):
 
     @staticmethod
     def _convert_full_prompt2str_list_per_line(full_prompt):
-        cleanup = re.sub(rf"\n+", "\n", full_prompt)
+        cleanup = re.sub(r"\n+", "\n", full_prompt)
         # remove all empty lines
         return list(cleanup.split("\n"))
 
