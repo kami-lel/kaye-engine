@@ -23,10 +23,10 @@ def _get_full_prompt_file_path():
 def get_full_prompt_tree_root():
     """
     reads the content of the full prompt file and
-    initializes a `PromptTreeNode` with it.
+    initializes a `FullPromptTreeNode` with it.
 
     :return: root node of the structured prompt tree.
-    :rtype: PromptTreeNode
+    :rtype: FullPromptTreeNode
     """
     full_prompt_file_path = _get_full_prompt_file_path()
     with open(
