@@ -2,7 +2,7 @@
 test parsing for PromptTreeNode
 """
 
-from kaye import PromptTreeNode
+from kaye.gen_prompt import PromptTreeNode
 
 
 class TestParse1:
