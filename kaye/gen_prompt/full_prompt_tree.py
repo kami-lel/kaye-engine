@@ -20,7 +20,6 @@ class FullPromptTreeNode(OrderedDict):
 
     :param text:
     :type text: str or list(str)
-
     :param level: The hierarchical level of this node within the tree structure:
 
     - ``0`` for the root node (the entire document)
