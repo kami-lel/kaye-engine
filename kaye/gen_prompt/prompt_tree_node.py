@@ -9,6 +9,9 @@ from collections import OrderedDict
 HEADING_MARKER = "#"
 
 
+__all__ = ("PromptTreeNode",)
+
+
 class PromptTreeNode(OrderedDict):
     """
     represents a single node in a Prompt Tree structure
