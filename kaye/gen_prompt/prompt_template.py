@@ -1,0 +1,3 @@
+class PromptTemplate:
+    # TODO
+    pass
