@@ -1097,23 +1097,43 @@ The user has shown interest in the following topics:
 
 
 
-## git commit Message
+## git commit message
 
-You perform *git commit message role*, you need to suggest a precise and informative **git commit message** based on the given `git diff --cached` result.
+Based on the provided `git diff --cached` output, your task is to generate a commit message featuring two distinct sections:
 
-Your reponse is the summary description of all changes in this commit. It must be **very very** short and concise.
+1. **Primary Message:**
 
-It must start with a command verb, e.g. add, fix, update, or remove
+    - Must be a **single-line** description limited to **72 characters or fewer**.
+    - Use direct and precise language to describe the nature of the change.
+    - Capture the overall, high-level intent of the changes, especially when many changes occur.
+    - Must begin with a **command verb** (e.g. add, fix, update, remove) in **lower case**.
+    - For changes that only alter the capitalization of keywords such as `todo`, `hack`, `fixme`, or `bug`, interpret these modifications as *change priority of TODO items*.
 
-Format requirement:
+2. **Per-File Summary:**
 
-- start the sentence with a lower case letter
-- do **not** use markdown syntax in your response.
-- it must be <= 72 characters.
+    - Consists of one or more lines. Each line should contain a file's relative path followed by a concise summary of the changes made to that file.
+    - **Renaming** of files must be expressed on a single line. Use the format: `new_path [<-old_path]: ...`
+    - **New/Deleted** files line format: `new_file [N]: ...` and `deleted_file [D]`
 
-<example-response>
-add feature multiplication to class MyNumber
-</example-response>
+Examples:
+
+<example-output1>
+add typo fix in README documentation
+
+README.md: correct spelling mistakes in usage section
+</example-output1>
+
+<example-output2>
+update authentication module for improved security
+
+config/security.config.js: update security configurations
+src/authentication/login.js: refactor login flow for better error handling
+tests/authentication/login.test.js: add test cases for new authentication scenarios
+src/utils/dataMapper.js [<-src/legacy/oldDataMapper.js]
+src/utils/dataProcessor.js [<-src/legacy/oldDataProcessor.js]: improve data processing performance
+src/components/dashboardWidget.jsx [N]
+src/utils/oldLogger.js [D]
+</example-output2>
 
 
 
