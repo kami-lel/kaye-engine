@@ -20,7 +20,7 @@ def _get_full_prompt_file_path():
     ).absolute()
 
 
-def get_prompt_tree_root():
+def get_full_prompt_tree_root():
     """
     reads the content of the full prompt file and
     initializes a `PromptTreeNode` with it.
@@ -33,4 +33,4 @@ def get_prompt_tree_root():
         full_prompt_file_path, "r", encoding="utf-8", newline=""
     ) as file:
         file_content = file.read()
-        return PromptTreeNode(file_content)
+        return FullPromptTreeNode(file_content)

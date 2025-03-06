@@ -1,6 +1,5 @@
 """
-Defines the `PromptTreeNode` class for creating a hierarchical
-Prompt Tree structure.
+define `FullPromptTreeNode`
 """
 
 import re
@@ -9,24 +8,30 @@ from collections import OrderedDict
 HEADING_MARKER = "#"
 
 
-__all__ = ("PromptTreeNode",)
+__all__ = ("FullPromptTreeNode",)
 
 
-class PromptTreeNode(OrderedDict):
+class FullPromptTreeNode(OrderedDict):
     """
-    represents a single node in a Prompt Tree structure
+    Represents a single node in a **Full Prompt Tree**, which
+    organizes and structures content within a prompt. Each node
+    can represent either a root node encompassing the entire
+    document or a subsection represented by headings.
 
     :param text:
     :type text: str or list(str)
-    :param level: level which this node exist, e.g.
 
-    - ``0`` for root node (entire document)
-    - ``1`` for 1st level section, i.e. an section of ``# heading``
+    :param level: The hierarchical level of this node within the tree structure:
+
+    - ``0`` for the root node (the entire document)
+    - ``1`` for first-level sections (e.g., a section
+    under a single `# heading`)
     - etc.
 
     :type level: int, optional
-    :param parent: parent of the node in the tree; ``None`` if root node
-    :type parent: PromptTreeNode
+    :param parent: parent node in the tree structure;
+    `None` for the root node.
+    :type parent: FullPromptTreeNode
     """
 
     def __new__(cls, text, parent=None):
@@ -73,7 +78,7 @@ class PromptTreeNode(OrderedDict):
             # extract heading content
             # e.g. "### this is heading " -> "this is heading"
             heading_content = lines[start][len(heading_prefix) :].strip()
-            self[heading_content] = PromptTreeNode(
+            self[heading_content] = FullPromptTreeNode(
                 lines[start + 1 : end], self
             )
 
