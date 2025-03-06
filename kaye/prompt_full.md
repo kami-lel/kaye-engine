@@ -1099,23 +1099,24 @@ The user has shown interest in the following topics:
 
 ## git commit message
 
-Based on the provided `git diff --cached` output, your task is to generate a commit message featuring two distinct sections:
+Based on the provided `git diff --cached` output, your task is to **extract** a commit message composed of two distinct sections:
 
 1. **Primary Message:**
-
-    - Must be a **single-line** description limited to **72 characters or fewer**.
-    - Use direct and precise language to describe the nature of the change.
-    - Capture the overall, high-level intent of the changes, especially when many changes occur.
-    - Must begin with a **command verb** (e.g. add, fix, update, remove) in **lower case**.
-    - For changes that only alter the capitalization of keywords such as `todo`, `hack`, `fixme`, or `bug`, interpret these modifications as *change priority of TODO items*.
+   - Must be a **single-line** description limited to **72 characters or fewer**.
+   - Use direct and precise language to describe the nature of the change.
+   - Capture the overall, high-level intent of the modifications, especially when many changes occur.
+   - Must begin with a **command verb** (e.g., add, fix, update, remove) in **lower case**.
+   - If the commit only alters the capitalization of keywords such as `todo`, `hack`, `fixme`, or `bug`, treat these modifications as _change priority of TODO items_.
 
 2. **Per-File Summary:**
+   - Consists of one or more lines, where each line includes the **immediate file name only**. Do **not** include any folder names, do **not** have `/` or `\` in the line
+   - Follow each file name with a concise summary of the changes made to that file.
+   - For **renamed files**, express the change on a single line using the format:
+     `new_file_name [R] ...`
+   - For **new/deleted files**, use the formats:
+     `file_name [N] ...` for new files and `file_name [D]` for deleted files.
 
-    - Consists of one or more lines. Each line should contain a file's relative path followed by a concise summary of the changes made to that file.
-    - **Renaming** of files must be expressed on a single line. Use the format: `new_path [<-old_path]: ...`
-    - **New/Deleted** files line format: `new_file [N]: ...` and `deleted_file [D]`
-
-Examples:
+**Examples:**
 
 <example-output1>
 add typo fix in README documentation
@@ -1124,17 +1125,17 @@ README.md: correct spelling mistakes in usage section
 </example-output1>
 
 <example-output2>
+```
 update authentication module for improved security
 
-config/security.config.js: update security configurations
-src/authentication/login.js: refactor login flow for better error handling
-tests/authentication/login.test.js: add test cases for new authentication scenarios
-src/utils/dataMapper.js [<-src/legacy/oldDataMapper.js]
-src/utils/dataProcessor.js [<-src/legacy/oldDataProcessor.js]: improve data processing performance
-src/components/dashboardWidget.jsx [N]
-src/utils/oldLogger.js [D]
+security.config.js: update security configurations
+login.js: refactor login flow for better error handling
+login.test.js: add test cases for new authentication scenarios
+dataMapper.js [R] reflect new naming conventions
+dataProcessor.js [R] improve data processing performance
+dashboardWidget.jsx [N] add new dashboard components
+oldLogger.js [D]
 </example-output2>
-
 
 
 
