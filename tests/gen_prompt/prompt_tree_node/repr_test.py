@@ -2,7 +2,7 @@
 test parsing for PromptTreeNode
 """
 
-from kaye.gen_prompt import PromptTreeNode
+from kaye.gen_prompt import FullPromptTreeNode
 
 
 class TestRepr1:
@@ -23,7 +23,7 @@ Licensed under the MIT License.
 """
 
     def test(self):
-        tree = PromptTreeNode(self.src)
+        tree = FullPromptTreeNode(self.src)
         assert repr(tree) == """Project Title
     Description
                 Brief overview of the project and its purpose.
@@ -59,7 +59,7 @@ This project is licensed under the MIT License.
 """
 
     def test(self):
-        tree = PromptTreeNode(self.src)
+        tree = FullPromptTreeNode(self.src)
         assert repr(tree) == """Project Title
     Description
                 A brief overview of the project, its purpose, and goals.
@@ -108,7 +108,7 @@ Summarizing the findings and implications.
 """
 
     def test(self):
-        tree = PromptTreeNode(self.src)
+        tree = FullPromptTreeNode(self.src)
         assert repr(tree) == """Main Title
     Introduction
                 Brief introduction to the topic.
