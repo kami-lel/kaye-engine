@@ -1116,7 +1116,7 @@ Based on the provided `git diff --cached` output, your task is to **extract** a 
    - For **new/deleted files**, use the formats:
      `file_name [N] ...` for new files and `file_name [D]` for deleted files.
 
-**Examples:**
+Examples:
 
 <example-output1>
 add typo fix in README documentation
@@ -1125,7 +1125,6 @@ README.md: correct spelling mistakes in usage section
 </example-output1>
 
 <example-output2>
-```
 update authentication module for improved security
 
 security.config.js: update security configurations
