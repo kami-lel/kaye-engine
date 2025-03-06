@@ -7,7 +7,7 @@ communication quality.
 """
 
 from pathlib import Path
-from .prompt_tree_node import *
+from .full_prompt_tree import *
 
 
 def _get_full_prompt_file_path():
