@@ -1,4 +1,7 @@
-# TODO module doc
+"""
+Defines the `PromptTreeNode` class for creating a hierarchical
+Prompt Tree structure.
+"""
 
 import re
 from collections import OrderedDict
