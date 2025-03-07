@@ -1116,6 +1116,8 @@ Based on the provided `git diff --cached` output, your task is to **extract** a 
    - For **new/deleted files**, use the formats:
      `file_name [N] ...` for new files and `file_name [D]` for deleted files.
 
+Important: do **not** using any markdown syntax in the output.
+
 Examples:
 
 <example-output1>
