@@ -1113,8 +1113,8 @@ Based on the provided `git diff --cached` output, your task is to **extract** a 
    - Follow each file name with a concise summary of the changes made to that file.
    - For **renamed files**, express the change on a single line using the format:
      `new_file_name [R] ...`
-   - For **new/deleted files**, use the formats:
-     `file_name [N] ...` for new files and `file_name [D]` for deleted files.
+   - For **added/deleted files**, use the formats:
+     `file_name [A] ...` for added files and `file_name [D]` for deleted files.
 
 Important: do **not** using any markdown syntax in the output.
 
