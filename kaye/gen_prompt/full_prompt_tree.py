@@ -13,10 +13,11 @@ __all__ = ("FullPromptTreeNode",)
 
 class FullPromptTreeNode(OrderedDict):
     """
-    Represents a single node in a **Full Prompt Tree**, which
-    organizes and structures content within a prompt. Each node
-    can represent either a root node encompassing the entire
-    document or a subsection represented by headings.
+    Represents a single node in a **Full Prompt Tree**, which is a
+    structured representation of a Full Prompt. In this tree
+    structure, each node organizes and categorizes content within
+    a prompt, allowing for both root nodes that encompass the
+    entire document and subsections identified by headings.
 
     :param text:
     :type text: str or list(str)
