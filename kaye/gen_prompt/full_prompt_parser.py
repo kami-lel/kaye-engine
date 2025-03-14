@@ -13,7 +13,27 @@ __all__ = ("FullPromptParserNode",)
 
 
 class FullPromptParserNode(OrderedDict):
-    # TODO docstring
+    """
+    Represents a single node in a **Full Prompt Tree**, which is a
+    structured representation of a Full Prompt. In this tree
+    structure, each node organizes and categorizes content within
+    a prompt, allowing for both root nodes that encompass the
+    entire document and subsections identified by headings.
+
+    :param text:
+    :type text: str or list(str)
+    :param level: The hierarchical level of this node within the tree structure:
+
+    - ``0`` for the root node (the entire document)
+    - ``1`` for first-level sections (e.g., a section
+    under a single `# heading`)
+    - etc.
+
+    :type level: int, optional
+    :param parent: parent node in the tree structure;
+    `None` for the root node.
+    :type parent: FullPromptTreeNode
+    """
 
     def __new__(cls, text, parent=None):
         return super().__new__(cls, {})  # new as an empty dict
