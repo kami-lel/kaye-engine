@@ -83,13 +83,17 @@ class FullPromptParserNode(OrderedDict):
                 lines[start + 1 : end], self
             )
 
-    def _children_as_anytree_node(self):
+    def _as_anytree_node(self, tag=None):
         """
-        :return: all children of ``self`` converted to ``anytree.Node``
-        :rtype: list(anytree.Node)
+        :param tag: tag/name of ``self`` as node; ``None`` for ``self`` is root
+        :type tag: str; NoneType
+        :return: convert ``self`` and its children into anytree.Node
+        :rtype: anytree.Node
         """
-        children_nodes = []
-        # BUG
+        if tag is None:
+            tag = "R"
+
+        return children_nodes
 
         return Node()
 
