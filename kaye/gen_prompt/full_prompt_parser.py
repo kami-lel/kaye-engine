@@ -82,3 +82,18 @@ class FullPromptParserNode(OrderedDict):
             self[heading_content] = FullPromptParserNode(
                 lines[start + 1 : end], self
             )
+
+    def _children_as_anytree_node(self):
+        """
+        :return: all children of ``self`` converted to ``anytree.Node``
+        :rtype: list(anytree.Node)
+        """
+        children_nodes = []
+        # BUG
+
+        return Node()
+
+    def __repr__(self):
+        # BUG
+        self_node = Node()
+        return super().__repr__()
