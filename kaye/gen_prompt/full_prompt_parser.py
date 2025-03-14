@@ -11,6 +11,7 @@ __all__ = ("FullPromptParserNode",)
 
 
 class FullPromptParserNode(OrderedDict):
+    # TODO docstring
 
     def __new__(cls, text, parent=None):
         return super().__new__(cls, {})  # new as an empty dict
