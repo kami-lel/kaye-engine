@@ -2,7 +2,7 @@
 test parsing for PromptTreeNode
 """
 
-from kaye.gen_prompt import FullPromptTreeNode
+from kaye.gen_prompt import FullPromptParserNode
 
 
 class TestParse1:
@@ -23,7 +23,7 @@ Licensed under the MIT License.
 """
 
     def test_root(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
 
         assert tree.level == 0
         assert tree.parent is None
@@ -31,7 +31,7 @@ Licensed under the MIT License.
         assert tree.content == ""
 
     def test_project(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
 
         assert project.level == 1
@@ -40,7 +40,7 @@ Licensed under the MIT License.
         assert project.content == ""
 
     def test_sub1(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
         sub = project["Description"]
 
@@ -52,7 +52,7 @@ Licensed under the MIT License.
         )
 
     def test_sub2(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
         sub = project["Installation"]
 
@@ -62,7 +62,7 @@ Licensed under the MIT License.
         assert sub.content == """Clone the repo and install dependencies."""
 
     def test_sub3(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
         sub = project["License"]
 
@@ -98,7 +98,7 @@ This project is licensed under the MIT License.
 """
 
     def test_root(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
 
         assert tree.level == 0
         assert tree.parent is None
@@ -106,7 +106,7 @@ This project is licensed under the MIT License.
         assert tree.content == ""
 
     def test_project(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
 
         assert project.level == 1
@@ -115,7 +115,7 @@ This project is licensed under the MIT License.
         assert project.content == ""
 
     def test_description(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
         sub = project["Description"]
 
@@ -128,7 +128,7 @@ This project is licensed under the MIT License.
         )
 
     def test_install(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
         sub = project["Installation"]
 
@@ -140,7 +140,7 @@ This project is licensed under the MIT License.
 3. Run the application"""
 
     def test_usage1(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
         sub = project["Usage"]
 
@@ -153,7 +153,7 @@ This project is licensed under the MIT License.
         )
 
     def test_usage2(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
         sub = project["Contributing"]
 
@@ -165,7 +165,7 @@ This project is licensed under the MIT License.
 3. Submit a pull request"""
 
     def test_license(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
         sub = project["License"]
 
@@ -212,7 +212,7 @@ Summarizing the findings and implications.
 """
 
     def test_root(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
 
         assert tree.level == 0
         assert tree.parent is None
@@ -220,7 +220,7 @@ Summarizing the findings and implications.
         assert tree.content == ""
 
     def test_project(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Main Title"]
 
         assert project.level == 1
@@ -229,7 +229,7 @@ Summarizing the findings and implications.
         assert project.content == ""
 
     def test_intro(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Main Title"]
         node = project["Introduction"]
 
@@ -239,7 +239,7 @@ Summarizing the findings and implications.
         assert node.content == """Brief introduction to the topic."""
 
     def test_intro_bg(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Main Title"]
         parent = project["Introduction"]
         node = parent["Background"]
@@ -250,7 +250,7 @@ Summarizing the findings and implications.
         assert node.content == """Context or history relevant to the topic."""
 
     def test_intro_bg_mpt(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Main Title"]
         parent = project["Introduction"]["Background"]
         node = parent["Importance"]
@@ -264,7 +264,7 @@ Summarizing the findings and implications.
         )
 
     def test_intro_bg_mpt_obj(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Main Title"]
         parent = project["Introduction"]["Background"]["Importance"]
         node = parent["Objective"]
@@ -275,7 +275,7 @@ Summarizing the findings and implications.
         assert node.content == """The primary goal of this document."""
 
     def test_met(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Main Title"]
         node = project["Methods"]
 
@@ -285,7 +285,7 @@ Summarizing the findings and implications.
         assert node.content == """Overview of the methodologies used."""
 
     def test_met_dc(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Main Title"]
         parent = project["Methods"]
         node = parent["Data Collection"]
@@ -296,7 +296,7 @@ Summarizing the findings and implications.
         assert node.content == """How data was gathered for analysis."""
 
     def test_met_dc_tu(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Main Title"]
         parent = project["Methods"]["Data Collection"]
         node = parent["Tools Used"]
@@ -307,7 +307,7 @@ Summarizing the findings and implications.
         assert node.content == """List of tools utilized during the project."""
 
     def test_met_dc_tu_fw(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Main Title"]
         parent = project["Methods"]["Data Collection"]["Tools Used"]
         node = parent["Future Work"]
@@ -318,7 +318,7 @@ Summarizing the findings and implications.
         assert node.content == """Suggestions for future research or tasks."""
 
     def test_concl(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Main Title"]
         node = project["Conclusion"]
 
@@ -380,7 +380,7 @@ This project is licensed under the MIT License.
 """
 
     def test_root(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
 
         assert tree.level == 0
         assert tree.parent is None
@@ -388,7 +388,7 @@ This project is licensed under the MIT License.
         assert tree.content == ""
 
     def test_project(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
 
         assert project.level == 1
@@ -397,7 +397,7 @@ This project is licensed under the MIT License.
         assert project.content == ""
 
     def test_description(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
         sub = project["Description"]
 
@@ -410,7 +410,7 @@ This project is licensed under the MIT License.
         )
 
     def test_install(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
         sub = project["Installation"]
 
@@ -422,7 +422,7 @@ This project is licensed under the MIT License.
 3. Run the application"""
 
     def test_usage1(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
         sub = project["Usage"]
 
@@ -435,7 +435,7 @@ This project is licensed under the MIT License.
         )
 
     def test_usage2(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
         sub = project["Contributing"]
 
@@ -447,7 +447,7 @@ This project is licensed under the MIT License.
 3. Submit a pull request"""
 
     def test_license(self):
-        tree = FullPromptTreeNode(self.src)
+        tree = FullPromptParserNode(self.src)
         project = tree["Project Title"]
         sub = project["License"]
 
@@ -465,7 +465,7 @@ class TestEdge:  # various edge cases
     def test_empty1(_):  # total empty
         src = """"""
 
-        tree = FullPromptTreeNode(src)
+        tree = FullPromptParserNode(src)
         assert tree.level == 0
         assert tree.parent is None
 
@@ -474,7 +474,7 @@ class TestEdge:  # various edge cases
     def test_empty2(_):
         src = "\n"
 
-        tree = FullPromptTreeNode(src)
+        tree = FullPromptParserNode(src)
         assert tree.level == 0
         assert tree.parent is None
 
@@ -483,7 +483,7 @@ class TestEdge:  # various edge cases
     def test_empty3(_):
         src = "\n" * 10
 
-        tree = FullPromptTreeNode(src)
+        tree = FullPromptParserNode(src)
         assert tree.level == 0
         assert tree.parent is None
 
