@@ -488,3 +488,11 @@ class TestEdge:  # various edge cases
         assert tree.parent is None
 
         assert len(tree) == 0
+
+
+# HACK
+def test_test():
+    tree = FullPromptParserNode(TestParse1.src)
+
+    print("hi")
+    pass
