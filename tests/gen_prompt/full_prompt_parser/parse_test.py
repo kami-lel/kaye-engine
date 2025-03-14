@@ -1,5 +1,5 @@
 """
-test parsing for PromptTreeNode
+test parsing for FullPromptParser
 """
 
 from kaye.gen_prompt import FullPromptParserNode
