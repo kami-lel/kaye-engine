@@ -11,10 +11,6 @@ class Test1:
     def test_norm(_):
         tree = FullPromptParserNode.parse(PROMPT1)
 
-        print(repr(tree))
-        print(tree.content)
-        return  # HACkKt s
-
         assert repr(tree) == """○
 └── Project Title
     ├── Description

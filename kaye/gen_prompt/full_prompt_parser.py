@@ -24,7 +24,6 @@ class FullPromptParserNode(AnytreeNode):
     def __init__(self, name, parent, text_lines):
         super().__init__(name, parent)
         self.content = []
-        # BUG empty content is not []
         self._populate_self_by_text_lines(text_lines)
 
     @staticmethod
