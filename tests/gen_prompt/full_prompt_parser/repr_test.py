@@ -78,6 +78,23 @@ class Test2:
     ├── Contributing
     └── License"""
 
+    def test_limit_line(_):
+        tree = FullPromptParserNode(PROMPT2)
+        result = tree.__repr__(preview_line_count=1)
+
+        assert result == """○
+└── Project Title
+    ├── Description
+    │   A brief overview of the project, its purpose, and goals.
+    ├── Installation
+    │   1. Clone the repo
+    ├── Usage
+    │   Provide instructions on how to use the application.
+    ├── Contributing
+    │   1. Fork the repo
+    └── License
+        This project is licensed under the MIT License."""
+
     def test_limited_width(_):
         tree = FullPromptParserNode(PROMPT2)
         result = tree.__repr__(preview_line_width=7)
