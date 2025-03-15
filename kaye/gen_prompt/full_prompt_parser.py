@@ -5,14 +5,18 @@ define ``FullPromptParserNode``
 import re
 from collections import OrderedDict
 
-from anytree import Node, RenderTree
+from anytree import Node as AnytreeNode, RenderTree
 
 HEADING_MARKER = "#"
 
 __all__ = ("FullPromptParserNode",)
 
 
-class FullPromptParserNode(OrderedDict):
+class FullPromptParserNode(AnytreeNode):
+    pass  # TODO
+
+
+class FullPromptParserNodeAlt(OrderedDict):
     """
     Represents a single node in a **Full Prompt Tree**, which is a
     structured representation of a Full Prompt. In this tree
@@ -123,7 +127,7 @@ class FullPromptParserNode(OrderedDict):
         else:
             lines = []
 
-        at_node = Node(node_name, parent=parent, lines=lines)
+        at_node = AnytreeNode(node_name, parent=parent, lines=lines)
 
         # make childrens connected to self
         for key, value in self.items():
