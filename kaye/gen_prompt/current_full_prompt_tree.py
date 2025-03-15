@@ -5,6 +5,8 @@ define ``get_current_full_prompt_tree``
 from pathlib import Path
 from .full_prompt_parser import FullPromptParserNode
 
+__all__ = ("get_current_full_prompt_tree",)
+
 
 def _get_full_prompt_file_path():
     """
