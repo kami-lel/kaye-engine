@@ -8,14 +8,60 @@ from collections import OrderedDict
 from anytree import Node as AnytreeNode, RenderTree
 
 HEADING_MARKER = "#"
+TREE_ROOT_NAME = "○"
 
 __all__ = ("FullPromptParserNode",)
 
 
 class FullPromptParserNode(AnytreeNode):
-    pass  # TODO
+
+    @classmethod
+    def parse(cls, full_prompt):
+        text_lines = cls._convert_full_prompt2lines(full_prompt)
+        root = cls(TREE_ROOT_NAME, None, 0, text_lines)
+        return root
+
+    def __init__(self, name, parent, level, text_lines):
+        super().__init__(name, parent)
+        self.level = level
+        self.content = ""
+        self._populate_self_by_text_lines(text_lines)
+
+    @staticmethod
+    def _convert_full_prompt2lines(full_prompt):
+        # remove all empty lines
+        cleanup = re.sub(r"\n+(?=\Z)", "", re.sub(r"\n+", "\n", full_prompt))
+        return list(cleanup.split("\n"))
+
+    def _populate_self_by_text_lines(self, text_lines):
+        # find every sub-section heading lines
+        heading_prefix = HEADING_MARKER * (self.level + 1) + ""
+        heading_lines = []
+        for idx, line in enumerate(text_lines):
+            if line.startswith(heading_prefix):
+                heading_lines.append(idx)
+
+        # contain no subsection
+        if not heading_lines:
+            self.content = "\n".join(text_lines)  # all lines are content
+            return
+
+        # this node contains subsections, then parse the content part out
+        self.content = "\n".join(text_lines[: heading_lines[0]])
+
+        # parse sub-sections as nodes
+        heading_lines.append(len(text_lines))
+        for start, end in zip(heading_lines, heading_lines[1:]):
+            # extract heading content
+            # e.g. "### this is heading " -> "this is heading"
+            heading_content = text_lines[start][len(heading_prefix) :].strip()
+            children_nodes = text_lines[start + 1 : end]
+            FullPromptParserNode(
+                heading_content, self, self.level + 1, children_nodes
+            )
 
 
+# FIXME deprecation
 class FullPromptParserNodeAlt(OrderedDict):
     """
     Represents a single node in a **Full Prompt Tree**, which is a
@@ -38,54 +84,6 @@ class FullPromptParserNodeAlt(OrderedDict):
     `None` for the root node.
     :type parent: FullPromptTreeNode
     """
-
-    def __new__(cls, text, parent=None):
-        return super().__new__(cls, {})  # new as an empty dict
-
-    def __init__(self, text, parent=None):
-        self.parent = parent
-        self.content = ""
-
-        if parent is None:  # when current node is root
-            self.level = 0
-            text = self._convert_full_prompt2str_list_per_line(text)
-        else:
-            self.level = parent.level + 1
-
-        self._populate_self_by_str_line(text)
-
-    @staticmethod
-    def _convert_full_prompt2str_list_per_line(full_prompt):
-        # remove all empty lines
-        cleanup = re.sub(r"\n+(?=\Z)", "", re.sub(r"\n+", "\n", full_prompt))
-        return list(cleanup.split("\n"))
-
-    def _populate_self_by_str_line(self, lines):
-        heading_prefix = HEADING_MARKER * (self.level + 1) + " "
-
-        # find every sub-section heading lines
-        heading_lines = []
-        for idx, line in enumerate(lines):
-            if line.startswith(heading_prefix):
-                heading_lines.append(idx)
-
-        if not heading_lines:  # contain no subsection
-            self.content = "\n".join(lines)  # all lines are content
-            return
-
-        # this node contains subsections
-        # parse the content part out
-        self.content = "\n".join(lines[: heading_lines[0]])
-
-        # parse sub-sections as nodes
-        heading_lines.append(len(lines))
-        for start, end in zip(heading_lines, heading_lines[1:]):
-            # extract heading content
-            # e.g. "### this is heading " -> "this is heading"
-            heading_content = lines[start][len(heading_prefix) :].strip()
-            self[heading_content] = FullPromptParserNode(
-                lines[start + 1 : end], self
-            )
 
     def as_anytree_node(
         self,
