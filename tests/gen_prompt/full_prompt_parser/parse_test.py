@@ -378,7 +378,7 @@ class TestEdge:  # various edge cases
         assert tree.depth == 0
         assert tree.parent is None
 
-        assert len(tree) == 0
+        assert len(tree.children) == 0
 
     def test_empty2(_):
         src = "\n"
@@ -387,7 +387,7 @@ class TestEdge:  # various edge cases
         assert tree.depth == 0
         assert tree.parent is None
 
-        assert len(tree) == 0
+        assert len(tree.children) == 0
 
     def test_empty3(_):
         src = "\n" * 10
@@ -396,4 +396,4 @@ class TestEdge:  # various edge cases
         assert tree.depth == 0
         assert tree.parent is None
 
-        assert len(tree) == 0
+        assert len(tree.children) == 0
