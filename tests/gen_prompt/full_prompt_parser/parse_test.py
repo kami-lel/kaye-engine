@@ -3,7 +3,7 @@ test parsing for FullPromptParser
 """
 
 from kaye.gen_prompt import FullPromptParserNode
-from prompts import PROMPT1, PROMPT2, PROMPT3
+from prompts import PROMPT1, PROMPT2, PROMPT3, PROMPT_EMPTYLINES
 
 
 class TestParse1:
@@ -282,56 +282,8 @@ class TestParse3:
 
 class TestEmptyLine:  # source material contains various empty lines
 
-    src = """
-# Project Title
-
-
-
-
-## Description
-A brief overview of the project, its purpose, and goals.
-
-
-
-
-
-
-## Installation
-1. Clone the repo
-2. Install dependencies
-3. Run the application
-
-## Usage
-
-Provide instructions on how to use the application.
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Contributing
-1. Fork the repo
-2. Creat e anew branch
-3. Submit a pull request
-
-
-
-
-
-## License
-This project is licensed under the MIT License.
-"""
-
     def test_root(self):
-        tree = FullPromptParserNode.parse(self.src)
+        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
 
         assert tree.depth == 0
         assert tree.parent is None
@@ -339,72 +291,78 @@ This project is licensed under the MIT License.
         assert tree.content == ""
 
     def test_project(self):
-        tree = FullPromptParserNode.parse(self.src)
+        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
         project = tree.children[0]
 
+        assert project.name == "Project Title"
         assert project.depth == 1
         assert project.parent is tree
-        assert len(project) == 5
+        assert len(project.children) == 5
         assert project.content == ""
 
     def test_description(self):
-        tree = FullPromptParserNode.parse(self.src)
+        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
         project = tree.children[0]
-        sub = project["Description"]
+        sub = project.children[0]
 
+        assert sub.name == "Description"
         assert sub.depth == 2
         assert sub.parent is project
-        assert len(sub) == 0
+        assert len(sub.children) == 0
         assert (
             sub.content
             == """A brief overview of the project, its purpose, and goals."""
         )
 
     def test_install(self):
-        tree = FullPromptParserNode.parse(self.src)
+        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
         project = tree.children[0]
-        sub = project["Installation"]
+        sub = project.children[1]
 
+        assert sub.name == "Installation"
         assert sub.depth == 2
         assert sub.parent is project
-        assert len(sub) == 0
+        assert len(sub.children) == 0
         assert sub.content == """1. Clone the repo
 2. Install dependencies
 3. Run the application"""
 
     def test_usage1(self):
-        tree = FullPromptParserNode.parse(self.src)
+        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
         project = tree.children[0]
-        sub = project["Usage"]
+        sub = project.children[2]
 
+        assert sub.name == "Usage"
         assert sub.depth == 2
         assert sub.parent is project
-        assert len(sub) == 0
+        assert len(sub.children) == 0
         assert (
             sub.content
             == """Provide instructions on how to use the application."""
         )
 
     def test_usage2(self):
-        tree = FullPromptParserNode.parse(self.src)
+        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
         project = tree.children[0]
-        sub = project["Contributing"]
+        sub = project.children[3]
 
+        assert sub.name == "Contributing"
         assert sub.depth == 2
         assert sub.parent is project
-        assert len(sub) == 0
+        assert len(sub.children) == 0
         assert sub.content == """1. Fork the repo
 2. Create a new branch
 3. Submit a pull request"""
 
     def test_license(self):
-        tree = FullPromptParserNode.parse(self.src)
+        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
         project = tree.children[0]
-        sub = project["License"]
+        sub = project.children[4]
 
+        assert sub.name == "License"
         assert sub.depth == 2
         assert sub.parent is project
-        assert len(sub) == 0
+        assert len(sub.children) == 0
         assert (
             sub.content
             == """This project is licensed under the MIT License."""
