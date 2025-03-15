@@ -20,6 +20,7 @@ class TestParse1:
         tree = FullPromptParserNode.parse(PROMPT1)
         project = tree.children[0]
 
+        assert project.name == "Project Title"
         assert project.depth == 1
         assert project.parent is tree
         assert len(project.children) == 3
@@ -30,6 +31,7 @@ class TestParse1:
         project = tree.children[0]
         sub = project.children[0]
 
+        assert sub.name == "Description"
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
@@ -42,6 +44,7 @@ class TestParse1:
         project = tree.children[0]
         sub = project.children[1]
 
+        assert sub.name == "Installation"
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
@@ -52,6 +55,7 @@ class TestParse1:
         project = tree.children[0]
         sub = project.children[2]
 
+        assert sub.name == "License"
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
@@ -80,7 +84,7 @@ class TestParse2:
     def test_description(self):
         tree = FullPromptParserNode.parse(PROMPT2)
         project = tree.children[0]
-        sub = project["Description"]
+        sub = project.children[0]
 
         assert sub.depth == 2
         assert sub.parent is project
@@ -93,7 +97,7 @@ class TestParse2:
     def test_install(self):
         tree = FullPromptParserNode.parse(PROMPT2)
         project = tree.children[0]
-        sub = project["Installation"]
+        sub = project.children[1]
 
         assert sub.depth == 2
         assert sub.parent is project
