@@ -119,7 +119,7 @@ class FullPromptParserNode(OrderedDict):
             # convert self.content into lines required by anytree node
             lines = [
                 line[:preview_line_width] for line in self.content.split("\n")
-            ]
+            ][:preview_line_count]
         else:
             lines = []
 
