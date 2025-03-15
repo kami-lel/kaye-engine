@@ -70,8 +70,7 @@ Licensed under the MIT License.
         assert sub.level == 2
         assert sub.parent is project
         assert len(sub) == 0
-        assert sub.content == """Licensed under the MIT License.
-"""
+        assert sub.content == """Licensed under the MIT License."""
 
 
 class TestParse2:
@@ -152,8 +151,8 @@ class TestParse2:
         assert sub.parent is project
         assert len(sub) == 0
         assert (
-            sub.content == """This project is licensed under the MIT License.
-"""
+            sub.content
+            == """This project is licensed under the MIT License."""
         )
 
 
@@ -273,8 +272,7 @@ class TestParse3:
         assert node.level == 2
         assert node.parent is project
         assert len(node) == 0
-        assert node.content == """Summarizing the findings and implications.
-"""
+        assert node.content == """Summarizing the findings and implications."""
 
 
 class TestEmptyLine:  # source material contains various empty lines
@@ -403,8 +401,8 @@ This project is licensed under the MIT License.
         assert sub.parent is project
         assert len(sub) == 0
         assert (
-            sub.content == """This project is licensed under the MIT License.
-"""
+            sub.content
+            == """This project is licensed under the MIT License."""
         )
 
 
@@ -436,11 +434,3 @@ class TestEdge:  # various edge cases
         assert tree.parent is None
 
         assert len(tree) == 0
-
-
-# HACK
-def test_test():
-    tree = FullPromptParserNode(TestParse1.src)
-
-    print("hi")
-    pass
