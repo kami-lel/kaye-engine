@@ -163,8 +163,9 @@ class TestParse3:
 
     def test_project(self):
         tree = FullPromptParserNode.parse(PROMPT3)
-        project = tree["Main Title"]
+        project = tree.children[0]
 
+        assert project.name == "Main Title"
         assert project.depth == 1
         assert project.parent is tree
         assert len(project.children) == 3
@@ -172,9 +173,10 @@ class TestParse3:
 
     def test_intro(self):
         tree = FullPromptParserNode.parse(PROMPT3)
-        project = tree["Main Title"]
-        node = project["Introduction"]
+        project = tree.children[0]
+        node = project.children[0]
 
+        assert node.name == "Introduction"
         assert node.depth == 2
         assert node.parent is project
         assert len(node.children) == 1
@@ -182,10 +184,11 @@ class TestParse3:
 
     def test_intro_bg(self):
         tree = FullPromptParserNode.parse(PROMPT3)
-        project = tree["Main Title"]
-        parent = project["Introduction"]
-        node = parent["Background"]
+        project = tree.children[0]
+        parent = project.children[0]
+        node = parent.children[0]
 
+        assert node.name == "Background"
         assert node.depth == 3
         assert node.parent is parent
         assert len(node.children) == 1
@@ -193,10 +196,11 @@ class TestParse3:
 
     def test_intro_bg_mpt(self):
         tree = FullPromptParserNode.parse(PROMPT3)
-        project = tree["Main Title"]
-        parent = project["Introduction"]["Background"]
-        node = parent["Importance"]
+        project = tree.children[0]
+        parent = project.children[0].children[0]
+        node = parent.children[0]
 
+        assert node.name == "Importance"
         assert node.depth == 4
         assert node.parent is parent
         assert len(node.children) == 1
@@ -207,10 +211,11 @@ class TestParse3:
 
     def test_intro_bg_mpt_obj(self):
         tree = FullPromptParserNode.parse(PROMPT3)
-        project = tree["Main Title"]
-        parent = project["Introduction"]["Background"]["Importance"]
-        node = parent["Objective"]
+        project = tree.children[0]
+        parent = project.children[0].children[0].children[0]
+        node = parent.children[0]
 
+        assert node.name == "Objective"
         assert node.depth == 5
         assert node.parent is parent
         assert len(node.children) == 0
@@ -218,9 +223,10 @@ class TestParse3:
 
     def test_met(self):
         tree = FullPromptParserNode.parse(PROMPT3)
-        project = tree["Main Title"]
-        node = project["Methods"]
+        project = tree.children[0]
+        node = project.children[1]
 
+        assert node.name == "Methods"
         assert node.depth == 2
         assert node.parent is project
         assert len(node.children) == 1
@@ -228,10 +234,11 @@ class TestParse3:
 
     def test_met_dc(self):
         tree = FullPromptParserNode.parse(PROMPT3)
-        project = tree["Main Title"]
-        parent = project["Methods"]
-        node = parent["Data Collection"]
+        project = tree.children[0]
+        parent = project.children[1]
+        node = parent.children[0]
 
+        assert node.name == "Data Collection"
         assert node.depth == 3
         assert node.parent is parent
         assert len(node.children) == 1
@@ -239,10 +246,11 @@ class TestParse3:
 
     def test_met_dc_tu(self):
         tree = FullPromptParserNode.parse(PROMPT3)
-        project = tree["Main Title"]
-        parent = project["Methods"]["Data Collection"]
-        node = parent["Tools Used"]
+        project = tree.children[0]
+        parent = project.children[1].children[0]
+        node = parent.children[0]
 
+        assert node.name == "Tools Used"
         assert node.depth == 4
         assert node.parent is parent
         assert len(node.children) == 1
@@ -250,10 +258,11 @@ class TestParse3:
 
     def test_met_dc_tu_fw(self):
         tree = FullPromptParserNode.parse(PROMPT3)
-        project = tree["Main Title"]
-        parent = project["Methods"]["Data Collection"]["Tools Used"]
-        node = parent["Future Work"]
+        project = tree.children[0]
+        parent = project.children[1].children[0].children[0]
+        node = parent.children[0]
 
+        assert node.name == "Future Work"
         assert node.depth == 5
         assert node.parent is parent
         assert len(node.children) == 0
@@ -261,9 +270,10 @@ class TestParse3:
 
     def test_concl(self):
         tree = FullPromptParserNode.parse(PROMPT3)
-        project = tree["Main Title"]
-        node = project["Conclusion"]
+        project = tree.children[0]
+        node = project.children[2]
 
+        assert node.name == "Conclusion"
         assert node.depth == 2
         assert node.parent is project
         assert len(node.children) == 0
