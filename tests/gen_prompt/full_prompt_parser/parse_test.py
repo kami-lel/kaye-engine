@@ -8,21 +8,6 @@ from prompts import PROMPT1, PROMPT2, PROMPT3
 
 class TestParse1:
 
-    src = """
-# Project Title
-
-## Description
-Brief overview of the project and its purpose.
-
-## Installation
-Clone the repo and install dependencies.
-
-
-## License
-
-Licensed under the MIT License.
-"""
-
     def test_root(self):
         tree = FullPromptParserNode.parse(PROMPT1)
 
@@ -33,7 +18,7 @@ Licensed under the MIT License.
 
     def test_project(self):
         tree = FullPromptParserNode.parse(PROMPT1)
-        project = tree["Project Title"]
+        project = tree.children[0]
 
         assert project.depth == 1
         assert project.parent is tree
@@ -42,8 +27,8 @@ Licensed under the MIT License.
 
     def test_sub1(self):
         tree = FullPromptParserNode.parse(PROMPT1)
-        project = tree["Project Title"]
-        sub = project["Description"]
+        project = tree.children[0]
+        sub = project.children[0]
 
         assert sub.depth == 2
         assert sub.parent is project
@@ -54,8 +39,8 @@ Licensed under the MIT License.
 
     def test_sub2(self):
         tree = FullPromptParserNode.parse(PROMPT1)
-        project = tree["Project Title"]
-        sub = project["Installation"]
+        project = tree.children[0]
+        sub = project.children[1]
 
         assert sub.depth == 2
         assert sub.parent is project
@@ -64,8 +49,8 @@ Licensed under the MIT License.
 
     def test_sub3(self):
         tree = FullPromptParserNode.parse(PROMPT1)
-        project = tree["Project Title"]
-        sub = project["License"]
+        project = tree.children[0]
+        sub = project.children[2]
 
         assert sub.depth == 2
         assert sub.parent is project
@@ -85,7 +70,7 @@ class TestParse2:
 
     def test_project(self):
         tree = FullPromptParserNode.parse(PROMPT2)
-        project = tree["Project Title"]
+        project = tree.children[0]
 
         assert project.depth == 1
         assert project.parent is tree
@@ -94,7 +79,7 @@ class TestParse2:
 
     def test_description(self):
         tree = FullPromptParserNode.parse(PROMPT2)
-        project = tree["Project Title"]
+        project = tree.children[0]
         sub = project["Description"]
 
         assert sub.depth == 2
@@ -107,7 +92,7 @@ class TestParse2:
 
     def test_install(self):
         tree = FullPromptParserNode.parse(PROMPT2)
-        project = tree["Project Title"]
+        project = tree.children[0]
         sub = project["Installation"]
 
         assert sub.depth == 2
@@ -119,7 +104,7 @@ class TestParse2:
 
     def test_usage1(self):
         tree = FullPromptParserNode.parse(PROMPT2)
-        project = tree["Project Title"]
+        project = tree.children[0]
         sub = project["Usage"]
 
         assert sub.depth == 2
@@ -132,7 +117,7 @@ class TestParse2:
 
     def test_usage2(self):
         tree = FullPromptParserNode.parse(PROMPT2)
-        project = tree["Project Title"]
+        project = tree.children[0]
         sub = project["Contributing"]
 
         assert sub.depth == 2
@@ -144,7 +129,7 @@ class TestParse2:
 
     def test_license(self):
         tree = FullPromptParserNode.parse(PROMPT2)
-        project = tree["Project Title"]
+        project = tree.children[0]
         sub = project["License"]
 
         assert sub.depth == 2
@@ -335,7 +320,7 @@ This project is licensed under the MIT License.
 
     def test_project(self):
         tree = FullPromptParserNode.parse(self.src)
-        project = tree["Project Title"]
+        project = tree.children[0]
 
         assert project.depth == 1
         assert project.parent is tree
@@ -344,7 +329,7 @@ This project is licensed under the MIT License.
 
     def test_description(self):
         tree = FullPromptParserNode.parse(self.src)
-        project = tree["Project Title"]
+        project = tree.children[0]
         sub = project["Description"]
 
         assert sub.depth == 2
@@ -357,7 +342,7 @@ This project is licensed under the MIT License.
 
     def test_install(self):
         tree = FullPromptParserNode.parse(self.src)
-        project = tree["Project Title"]
+        project = tree.children[0]
         sub = project["Installation"]
 
         assert sub.depth == 2
@@ -369,7 +354,7 @@ This project is licensed under the MIT License.
 
     def test_usage1(self):
         tree = FullPromptParserNode.parse(self.src)
-        project = tree["Project Title"]
+        project = tree.children[0]
         sub = project["Usage"]
 
         assert sub.depth == 2
@@ -382,7 +367,7 @@ This project is licensed under the MIT License.
 
     def test_usage2(self):
         tree = FullPromptParserNode.parse(self.src)
-        project = tree["Project Title"]
+        project = tree.children[0]
         sub = project["Contributing"]
 
         assert sub.depth == 2
@@ -394,7 +379,7 @@ This project is licensed under the MIT License.
 
     def test_license(self):
         tree = FullPromptParserNode.parse(self.src)
-        project = tree["Project Title"]
+        project = tree.children[0]
         sub = project["License"]
 
         assert sub.depth == 2
