@@ -24,6 +24,7 @@ class FullPromptParserNode(AnytreeNode):
     def __init__(self, name, parent, text_lines):
         super().__init__(name, parent)
         self.content = []
+        # BUG empty content is not []
         self._populate_self_by_text_lines(text_lines)
 
     @staticmethod
@@ -33,6 +34,7 @@ class FullPromptParserNode(AnytreeNode):
         return list(cleanup.split("\n"))
 
     def _populate_self_by_text_lines(self, text_lines):
+
         # find every sub-section heading lines
         heading_prefix = HEADING_MARKER * (self.depth + 1) + " "
         heading_lines = []
