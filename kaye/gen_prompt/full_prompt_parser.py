@@ -3,7 +3,6 @@ define ``FullPromptParserNode``
 """
 
 import re
-from collections import OrderedDict
 
 from anytree import Node as AnytreeNode, RenderTree
 
@@ -33,12 +32,27 @@ class FullPromptParserNode(AnytreeNode):
 
     @classmethod
     def parse(cls, full_prompt):
+        """
+        Parses a full prompt string into a structured **Full Prompt Tree**.
+
+        This method takes a full prompt as input,,
+        and constructs the root node of the tree.
+        The resulting tree structure contains nodes that
+        represent the various sections and subsections of the
+        prompt based on headings.
+
+        :param full_prompt: The entire prompt to be parsed into a tree structure.
+        :type full_prompt: str
+        :return: The root node of the **Full Prompt Tree**,
+                representing the parsed structure of the full prompt.
+        :rtype: FullPromptParserNode
+        """
+
         text_lines = cls._convert_full_prompt2lines(full_prompt)
         root = cls(TREE_ROOT_NAME, None, text_lines)
         return root
 
     def __init__(self, name, parent, text_lines):
-
         super().__init__(name, parent)
         self.content = []
         self._populate_self_by_text_lines(text_lines)
