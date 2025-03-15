@@ -34,7 +34,6 @@ class FullPromptParserNode(AnytreeNode):
         return list(cleanup.split("\n"))
 
     def _populate_self_by_text_lines(self, text_lines):
-
         # find every sub-section heading lines
         heading_prefix = HEADING_MARKER * (self.depth + 1) + " "
         heading_lines = []
@@ -44,11 +43,14 @@ class FullPromptParserNode(AnytreeNode):
 
         # contain no subsection
         if not heading_lines:
-            self.content = list(text_lines)  # all lines are content
+            # all lines are content
+            self.content = list(text_lines)
             return
 
         # this node contains subsections, then parse the content part out
         self.content = text_lines[: heading_lines[0]]
+        if not any(self.content):
+            self.content = []
 
         # parse sub-sections as nodes
         heading_lines.append(len(text_lines))
