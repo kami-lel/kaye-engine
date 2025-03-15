@@ -123,27 +123,7 @@ class FullPromptParserNodeAlt(OrderedDict):
         :return: A node representing the current node and its children.
         :rtype: anytree.Node
         """
-
-        if node_name is None:
-            node_name = "○"
-
-        if self.content and preview_line_count:
-            # convert self.content into lines required by anytree node
-            lines = [line[:preview_line_width] for line in self.content][
-                :preview_line_count
-            ]
-        else:
-            lines = []
-
-        at_node = AnytreeNode(node_name, parent=parent, lines=lines)
-
-        # make childrens connected to self
-        for key, value in self.items():
-            value.as_anytree_node(
-                key, at_node, preview_line_count, preview_line_width
-            )
-
-        return at_node
+        pass
 
     def __repr__(self, preview_line_count=3, preview_line_width=64):
         """
@@ -164,18 +144,4 @@ class FullPromptParserNodeAlt(OrderedDict):
         :return: A string representation of the current node and its children.
         :rtype: str
         """
-        opt_lines = []
-
-        self_as_anytree_node = self.as_anytree_node(
-            None,
-            None,
-            preview_line_count=preview_line_count,
-            preview_line_width=preview_line_width,
-        )
-
-        for pre, fill, node in RenderTree(self_as_anytree_node):
-            opt_lines.append(pre + node.name)
-            for line in node.lines:
-                opt_lines.append(fill + line)
-
-        return "\n".join(opt_lines)
+        pass
