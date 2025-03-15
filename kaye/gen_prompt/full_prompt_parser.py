@@ -57,6 +57,16 @@ class FullPromptParserNode(AnytreeNode):
             children_nodes = text_lines[start + 1 : end]
             FullPromptParserNode(heading_content, self, children_nodes)
 
+    def __repr__(self, preview_line_count=3, preview_line_width=64):
+        opt_lines = []
+
+        for pre, fill, node in RenderTree(self):
+            opt_lines.append(pre + node.name)
+            # for line in node.lines:
+            #     opt_lines.append(fill + line)
+
+        return "\n".join(opt_lines)
+
 
 # FIXME deprecation
 class FullPromptParserNodeAlt(OrderedDict):
