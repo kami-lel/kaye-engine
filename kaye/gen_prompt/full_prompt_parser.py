@@ -23,7 +23,7 @@ class FullPromptParserNode(AnytreeNode):
 
     def __init__(self, name, parent, text_lines):
         super().__init__(name, parent)
-        self.content = ""
+        self.content = []
         self._populate_self_by_text_lines(text_lines)
 
     @staticmethod
@@ -42,11 +42,11 @@ class FullPromptParserNode(AnytreeNode):
 
         # contain no subsection
         if not heading_lines:
-            self.content = "\n".join(text_lines)  # all lines are content
+            self.content = list(text_lines)  # all lines are content
             return
 
         # this node contains subsections, then parse the content part out
-        self.content = "\n".join(text_lines[: heading_lines[0]])
+        self.content = text_lines[: heading_lines[0]]
 
         # parse sub-sections as nodes
         heading_lines.append(len(text_lines))
@@ -62,8 +62,9 @@ class FullPromptParserNode(AnytreeNode):
 
         for pre, fill, node in RenderTree(self):
             opt_lines.append(pre + node.name)
-            # for line in node.lines:
-            #     opt_lines.append(fill + line)
+            if node.content and preview_line_count:  # print content of node
+                for content_line in node.content[:preview_line_count]:
+                    opt_lines.append(fill + content_line[:preview_line_width])
 
         return "\n".join(opt_lines)
 
@@ -126,9 +127,9 @@ class FullPromptParserNodeAlt(OrderedDict):
 
         if self.content and preview_line_count:
             # convert self.content into lines required by anytree node
-            lines = [
-                line[:preview_line_width] for line in self.content.split("\n")
-            ][:preview_line_count]
+            lines = [line[:preview_line_width] for line in self.content][
+                :preview_line_count
+            ]
         else:
             lines = []
 

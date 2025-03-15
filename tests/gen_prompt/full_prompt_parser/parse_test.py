@@ -14,7 +14,7 @@ class TestParse1:
         assert tree.depth == 0
         assert tree.parent is None
         assert len(tree.children) == 1
-        assert tree.content == ""
+        assert tree.content == []
 
     def test_project(self):
         tree = FullPromptParserNode.parse(PROMPT1)
@@ -24,7 +24,7 @@ class TestParse1:
         assert project.depth == 1
         assert project.parent is tree
         assert len(project.children) == 3
-        assert project.content == ""
+        assert project.content == []
 
     def test_sub1(self):
         tree = FullPromptParserNode.parse(PROMPT1)
@@ -35,9 +35,9 @@ class TestParse1:
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
-        assert (
-            sub.content == """Brief overview of the project and its purpose."""
-        )
+        assert sub.content == [
+            "Brief overview of the project and its purpose."
+        ]
 
     def test_sub2(self):
         tree = FullPromptParserNode.parse(PROMPT1)
@@ -48,7 +48,7 @@ class TestParse1:
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
-        assert sub.content == """Clone the repo and install dependencies."""
+        assert sub.content == ["Clone the repo and install dependencies."]
 
     def test_sub3(self):
         tree = FullPromptParserNode.parse(PROMPT1)
@@ -59,11 +59,10 @@ class TestParse1:
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
-        assert sub.content == """Licensed under the MIT License."""
+        assert sub.content == ["Licensed under the MIT License."]
 
 
 class TestParse2:
-
     def test_root(self):
         tree = FullPromptParserNode.parse(PROMPT2)
 
@@ -91,23 +90,23 @@ class TestParse2:
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
-        assert (
-            sub.content
-            == """A brief overview of the project, its purpose, and goals."""
-        )
+        assert sub.content == [
+            "A brief overview of the project, its purpose, and goals."
+        ]
 
     def test_install(self):
         tree = FullPromptParserNode.parse(PROMPT2)
         project = tree.children[0]
         sub = project.children[1]
-
         assert sub.name == "Installation"
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
-        assert sub.content == """1. Clone the repo
-2. Install dependencies
-3. Run the application"""
+        assert sub.content == [
+            "1. Clone the repo",
+            "2. Install dependencies",
+            "3. Run the application",
+        ]
 
     def test_usage1(self):
         tree = FullPromptParserNode.parse(PROMPT2)
@@ -118,10 +117,9 @@ class TestParse2:
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
-        assert (
-            sub.content
-            == """Provide instructions on how to use the application."""
-        )
+        assert sub.content == [
+            "Provide instructions on how to use the application."
+        ]
 
     def test_usage2(self):
         tree = FullPromptParserNode.parse(PROMPT2)
@@ -132,9 +130,11 @@ class TestParse2:
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
-        assert sub.content == """1. Fork the repo
-2. Create a new branch
-3. Submit a pull request"""
+        assert sub.content == [
+            "1. Fork the repo",
+            "2. Create a new branch",
+            "3. Submit a pull request",
+        ]
 
     def test_license(self):
         tree = FullPromptParserNode.parse(PROMPT2)
@@ -145,17 +145,15 @@ class TestParse2:
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
-        assert (
-            sub.content
-            == """This project is licensed under the MIT License."""
-        )
+        assert sub.content == [
+            "This project is licensed under the MIT License."
+        ]
 
 
 class TestParse3:
 
     def test_root(self):
         tree = FullPromptParserNode.parse(PROMPT3)
-
         assert tree.depth == 0
         assert tree.parent is None
         assert len(tree.children) == 1
@@ -180,7 +178,7 @@ class TestParse3:
         assert node.depth == 2
         assert node.parent is project
         assert len(node.children) == 1
-        assert node.content == """Brief introduction to the topic."""
+        assert node.content == ["Brief introduction to the topic."]
 
     def test_intro_bg(self):
         tree = FullPromptParserNode.parse(PROMPT3)
@@ -192,7 +190,7 @@ class TestParse3:
         assert node.depth == 3
         assert node.parent is parent
         assert len(node.children) == 1
-        assert node.content == """Context or history relevant to the topic."""
+        assert node.content == ["Context or history relevant to the topic."]
 
     def test_intro_bg_mpt(self):
         tree = FullPromptParserNode.parse(PROMPT3)
@@ -204,10 +202,9 @@ class TestParse3:
         assert node.depth == 4
         assert node.parent is parent
         assert len(node.children) == 1
-        assert (
-            node.content
-            == """Why this topic matters in the current scenario."""
-        )
+        assert node.content == [
+            "Why this topic matters in the current scenario."
+        ]
 
     def test_intro_bg_mpt_obj(self):
         tree = FullPromptParserNode.parse(PROMPT3)
@@ -219,7 +216,7 @@ class TestParse3:
         assert node.depth == 5
         assert node.parent is parent
         assert len(node.children) == 0
-        assert node.content == """The primary goal of this document."""
+        assert node.content == ["The primary goal of this document."]
 
     def test_met(self):
         tree = FullPromptParserNode.parse(PROMPT3)
@@ -230,7 +227,7 @@ class TestParse3:
         assert node.depth == 2
         assert node.parent is project
         assert len(node.children) == 1
-        assert node.content == """Overview of the methodologies used."""
+        assert node.content == ["Overview of the methodologies used."]
 
     def test_met_dc(self):
         tree = FullPromptParserNode.parse(PROMPT3)
@@ -242,7 +239,7 @@ class TestParse3:
         assert node.depth == 3
         assert node.parent is parent
         assert len(node.children) == 1
-        assert node.content == """How data was gathered for analysis."""
+        assert node.content == ["How data was gathered for analysis."]
 
     def test_met_dc_tu(self):
         tree = FullPromptParserNode.parse(PROMPT3)
@@ -254,7 +251,7 @@ class TestParse3:
         assert node.depth == 4
         assert node.parent is parent
         assert len(node.children) == 1
-        assert node.content == """List of tools utilized during the project."""
+        assert node.content == ["List of tools utilized during the project."]
 
     def test_met_dc_tu_fw(self):
         tree = FullPromptParserNode.parse(PROMPT3)
@@ -266,7 +263,7 @@ class TestParse3:
         assert node.depth == 5
         assert node.parent is parent
         assert len(node.children) == 0
-        assert node.content == """Suggestions for future research or tasks."""
+        assert node.content == ["Suggestions for future research or tasks."]
 
     def test_concl(self):
         tree = FullPromptParserNode.parse(PROMPT3)
@@ -277,7 +274,7 @@ class TestParse3:
         assert node.depth == 2
         assert node.parent is project
         assert len(node.children) == 0
-        assert node.content == """Summarizing the findings and implications."""
+        assert node.content == ["Summarizing the findings and implications."]
 
 
 class TestEmptyLine:  # source material contains various empty lines
@@ -288,7 +285,7 @@ class TestEmptyLine:  # source material contains various empty lines
         assert tree.depth == 0
         assert tree.parent is None
         assert len(tree.children) == 1
-        assert tree.content == ""
+        assert tree.content == []
 
     def test_project(self):
         tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
@@ -298,7 +295,7 @@ class TestEmptyLine:  # source material contains various empty lines
         assert project.depth == 1
         assert project.parent is tree
         assert len(project.children) == 5
-        assert project.content == ""
+        assert project.content == []
 
     def test_description(self):
         tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
@@ -309,10 +306,9 @@ class TestEmptyLine:  # source material contains various empty lines
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
-        assert (
-            sub.content
-            == """A brief overview of the project, its purpose, and goals."""
-        )
+        assert sub.content == [
+            "A brief overview of the project, its purpose, and goals."
+        ]
 
     def test_install(self):
         tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
@@ -323,9 +319,11 @@ class TestEmptyLine:  # source material contains various empty lines
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
-        assert sub.content == """1. Clone the repo
-2. Install dependencies
-3. Run the application"""
+        assert sub.content == [
+            "1. Clone the repo",
+            "2. Install dependencies",
+            "3. Run the application",
+        ]
 
     def test_usage1(self):
         tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
@@ -336,10 +334,9 @@ class TestEmptyLine:  # source material contains various empty lines
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
-        assert (
-            sub.content
-            == """Provide instructions on how to use the application."""
-        )
+        assert sub.content == [
+            "Provide instructions on how to use the application."
+        ]
 
     def test_usage2(self):
         tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
@@ -350,9 +347,11 @@ class TestEmptyLine:  # source material contains various empty lines
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
-        assert sub.content == """1. Fork the repo
-2. Create a new branch
-3. Submit a pull request"""
+        assert sub.content == [
+            "1. Fork the repo",
+            "2. Create a new branch",
+            "3. Submit a pull request",
+        ]
 
     def test_license(self):
         tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
@@ -363,10 +362,9 @@ class TestEmptyLine:  # source material contains various empty lines
         assert sub.depth == 2
         assert sub.parent is project
         assert len(sub.children) == 0
-        assert (
-            sub.content
-            == """This project is licensed under the MIT License."""
-        )
+        assert sub.content == [
+            "This project is licensed under the MIT License."
+        ]
 
 
 class TestEdge:  # various edge cases
