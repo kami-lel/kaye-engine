@@ -18,12 +18,11 @@ class FullPromptParserNode(AnytreeNode):
     @classmethod
     def parse(cls, full_prompt):
         text_lines = cls._convert_full_prompt2lines(full_prompt)
-        root = cls(TREE_ROOT_NAME, None, 0, text_lines)
+        root = cls(TREE_ROOT_NAME, None, text_lines)
         return root
 
-    def __init__(self, name, parent, level, text_lines):
+    def __init__(self, name, parent, text_lines):
         super().__init__(name, parent)
-        self.level = level
         self.content = ""
         self._populate_self_by_text_lines(text_lines)
 
@@ -35,7 +34,7 @@ class FullPromptParserNode(AnytreeNode):
 
     def _populate_self_by_text_lines(self, text_lines):
         # find every sub-section heading lines
-        heading_prefix = HEADING_MARKER * (self.level + 1) + ""
+        heading_prefix = HEADING_MARKER * (self.depth + 1) + " "
         heading_lines = []
         for idx, line in enumerate(text_lines):
             if line.startswith(heading_prefix):
@@ -56,9 +55,7 @@ class FullPromptParserNode(AnytreeNode):
             # e.g. "### this is heading " -> "this is heading"
             heading_content = text_lines[start][len(heading_prefix) :].strip()
             children_nodes = text_lines[start + 1 : end]
-            FullPromptParserNode(
-                heading_content, self, self.level + 1, children_nodes
-            )
+            FullPromptParserNode(heading_content, self, children_nodes)
 
 
 # FIXME deprecation
