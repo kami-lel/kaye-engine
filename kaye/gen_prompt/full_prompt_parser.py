@@ -27,7 +27,6 @@ class FullPromptParserNode(AnytreeNode):
     :type parent: FullPromptParserNode
     :param text_lines: content to be parsed, each ``str`` represents a line
     :type text_lines: list(str)
-
     """
 
     @classmethod
