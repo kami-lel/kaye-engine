@@ -2,7 +2,6 @@
 test ``__repr__()`` for FullPromptParser
 """
 
-from anytree import RenderTree
 from kaye.gen_prompt import FullPromptParserNode
 from prompts import PROMPT1, PROMPT2, PROMPT3
 
@@ -67,6 +66,39 @@ class Test2:
     └── License
         This project is licensed under the MIT License."""
 
+    def test_no_content(_):
+        tree = FullPromptParserNode(PROMPT2)
+        result = tree.__repr__(preview_line_count=0)
+
+        assert result == """○
+└── Project Title
+    ├── Description
+    ├── Installation
+    ├── Usage
+    ├── Contributing
+    └── License"""
+
+    def test_limited_width(_):
+        tree = FullPromptParserNode(PROMPT2)
+        result = tree.__repr__(preview_line_width=7)
+
+        assert result == """○
+└── Project Title
+    ├── Description
+    │   A brief
+    ├── Installation
+    │   1. Clon
+    │   2. Inst
+    │   3. Run 
+    ├── Usage
+    │   Provide
+    ├── Contributing
+    │   1. Fork
+    │   2. Crea
+    │   3. Subm
+    └── License
+        This pr"""
+
 
 class Test3:
 
@@ -93,3 +125,44 @@ class Test3:
     │               Suggestions for future research or tasks.
     └── Conclusion
         Summarizing the findings and implications."""
+
+    def test_no_content(_):
+        tree = FullPromptParserNode(PROMPT3)
+        result = tree.__repr__(preview_line_count=0)
+
+        assert result == """○
+└── Main Title
+    ├── Introduction
+    │   └── Background
+    │       └── Importance
+    │           └── Objective
+    ├── Methods
+    │   └── Data Collection
+    │       └── Tools Used
+    │           └── Future Work
+    └── Conclusion"""
+
+    def test_limited_width(_):
+        tree = FullPromptParserNode(PROMPT3)
+        result = tree.__repr__(preview_line_width=5)
+
+        assert result == """○
+└── Main Title
+    ├── Introduction
+    │   Brief
+    │   └── Background
+    │       Conte
+    │       └── Importance
+    │           Why t
+    │           └── Objective
+    │               The p
+    ├── Methods
+    │   Overv
+    │   └── Data Collection
+    │       How d
+    │       └── Tools Used
+    │           List 
+    │           └── Future Work
+    │               Sugge
+    └── Conclusion
+        Summa"""
