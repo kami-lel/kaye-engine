@@ -69,7 +69,7 @@ class TestParse2:
         assert tree.depth == 0
         assert tree.parent is None
         assert len(tree.children) == 1
-        assert tree.content == ""
+        assert tree.content == []
 
     def test_project(self):
         tree = FullPromptParserNode.parse(PROMPT2)
@@ -79,7 +79,7 @@ class TestParse2:
         assert project.depth == 1
         assert project.parent is tree
         assert len(project.children) == 5
-        assert project.content == ""
+        assert project.content == []
 
     def test_description(self):
         tree = FullPromptParserNode.parse(PROMPT2)
@@ -157,7 +157,7 @@ class TestParse3:
         assert tree.depth == 0
         assert tree.parent is None
         assert len(tree.children) == 1
-        assert tree.content == ""
+        assert tree.content == []
 
     def test_project(self):
         tree = FullPromptParserNode.parse(PROMPT3)
@@ -167,7 +167,7 @@ class TestParse3:
         assert project.depth == 1
         assert project.parent is tree
         assert len(project.children) == 3
-        assert project.content == ""
+        assert project.content == []
 
     def test_intro(self):
         tree = FullPromptParserNode.parse(PROMPT3)
