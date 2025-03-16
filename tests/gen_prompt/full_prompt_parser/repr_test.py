@@ -3,7 +3,11 @@ test ``__repr__()`` for FullPromptParser
 """
 
 from kaye.gen_prompt import FullPromptParserNode
-from prompts import PROMPT1, PROMPT2, PROMPT3
+from tests.gen_prompt.full_prompt_parser.prompts import (
+    PROMPT1,
+    PROMPT2,
+    PROMPT3,
+)
 
 
 class Test1:
