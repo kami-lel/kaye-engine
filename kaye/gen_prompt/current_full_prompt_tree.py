@@ -36,4 +36,4 @@ def get_current_full_prompt_tree():
         full_prompt_file_path, "r", encoding="utf-8", newline=""
     ) as file:
         file_content = file.read()
-        return FullPromptParserNode(file_content)
+        return FullPromptParserNode.parse(file_content)
