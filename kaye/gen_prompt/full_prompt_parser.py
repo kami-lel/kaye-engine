@@ -112,9 +112,23 @@ class FullPromptParserNode(AnytreeNode):
         opt_lines = []
 
         for pre, fill, node in RenderTree(self):
+            # line for the node
             opt_lines.append(pre + node.name)
-            if node.content and preview_line_count:  # print content of node
-                for content_line in node.content[:preview_line_count]:
-                    opt_lines.append(fill + content_line[:preview_line_width])
+            # lines for the content of node
+            opt_lines.extend(
+                node.generate_repr_content_part(
+                    fill, preview_line_count, preview_line_width
+                )
+            )
 
         return "\n".join(opt_lines)
+
+    def generate_repr_content_part(
+        self, fill, preview_line_count, preview_line_width
+    ):
+        # TODO docstring
+        lines = []
+        if self.content and preview_line_count:  # print content of node
+            for content_line in self.content[:preview_line_count]:
+                lines.append(fill + content_line[:preview_line_width])
+        return lines
