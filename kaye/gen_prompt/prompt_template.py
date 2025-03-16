@@ -45,19 +45,4 @@ class PromptTemplate:
 
     def __str__(self, preview_line_count=3, preview_line_width=64):
         # TODO docstring
-        opt_lines = []
-
-        for pre, fill, node in RenderTree(self.tree_root):
-            node_name = node.name
-            if node_name in self.enables:
-                # node heading line
-                opt_lines.append(pre + node.name)
-
-                # lines for the content of node
-                opt_lines.extend(
-                    node.generate_repr_content_part(
-                        fill, preview_line_count, preview_line_width
-                    )
-                )
-
-        return "\n".join(opt_lines)
+        return ""
