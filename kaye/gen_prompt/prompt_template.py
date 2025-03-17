@@ -31,7 +31,7 @@ class PromptTemplate:
             full_prompt_tree or get_current_full_prompt_tree()
         )
 
-        return  # HACK
+        return  # BUG
         if savable_prompt_template:
             self._init_populate_enabled_nodes_names(savable_prompt_template)
 

@@ -114,4 +114,94 @@ class TestDetachedMode:  # test detached mdoe
 
 
 class TestParseSavable:  # TODO
-    pass
+
+    def test1(_):
+        savable_prompt_template = """[x]○
+[ ]└── Project Title
+[ ]    ├── Description
+[ ]    ├── Installation
+[ ]    ├── Usage
+[ ]    ├── Contributing
+[ ]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        assert len(pt.enabled_nodes_names) == 1
+        assert "○" in pt.enabled_nodes_names
+        assert "Project Title" not in pt.enabled_nodes_names
+        assert "Description" not in pt.enabled_nodes_names
+        assert "Installation" not in pt.enabled_nodes_names
+        assert "Usage" not in pt.enabled_nodes_names
+        assert "Contributing" not in pt.enabled_nodes_names
+        assert "License" not in pt.enabled_nodes_names
+
+    def test2(_):
+        savable_prompt_template = """[x]○
+[ ]└── Project Title
+[ ]    ├── Description
+[ ]    ├── Installation
+[ ]    ├── Usage
+[x]    ├── Contributing
+[ ]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        assert len(pt.enabled_nodes_names) == 2
+        assert "○" in pt.enabled_nodes_names
+        assert "Project Title" not in pt.enabled_nodes_names
+        assert "Description" in pt.enabled_nodes_names
+        assert "Installation" not in pt.enabled_nodes_names
+        assert "Usage" not in pt.enabled_nodes_names
+        assert "Contributing" not in pt.enabled_nodes_names
+        assert "License" not in pt.enabled_nodes_names
+
+    def test3(_):
+        savable_prompt_template = """[x]○
+[x]└── Project Title
+[ ]    ├── Description
+[x]    ├── Installation
+[ ]    ├── Usage
+[x]    ├── Contributing
+[ ]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        assert len(pt.enabled_nodes_names) == 4
+        assert "○" in pt.enabled_nodes_names
+        assert "Project Title" in pt.enabled_nodes_names
+        assert "Description" in pt.enabled_nodes_names
+        assert "Installation" in pt.enabled_nodes_names
+        assert "Usage" not in pt.enabled_nodes_names
+        assert "Contributing" in pt.enabled_nodes_names
+        assert "License" not in pt.enabled_nodes_names
+
+    def test4(_):
+        savable_prompt_template = """[x]○
+[x]└── Project Title
+[x]    ├── Description
+[x]    ├── Installation
+[x]    ├── Usage
+[x]    ├── Contributing
+[x]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        assert len(pt.enabled_nodes_names) == 7
+        assert "○" in pt.enabled_nodes_names
+        assert "Project Title" in pt.enabled_nodes_names
+        assert "Description" in pt.enabled_nodes_names
+        assert "Installation" in pt.enabled_nodes_names
+        assert "Usage" in pt.enabled_nodes_names
+        assert "Contributing" in pt.enabled_nodes_names
+        assert "License" in pt.enabled_nodes_names
+
+    def test_detached_mode(_):  # TODO
+        pass
