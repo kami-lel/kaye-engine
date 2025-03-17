@@ -234,3 +234,100 @@ class TestParseSavable:
         assert "License" not in pt.enabled_nodes_names
 
         assert pt.is_detached_mode
+
+
+class TestStr:  # BUG
+
+    def test1(_):
+        savable_prompt_template = """[x]○
+[ ]└── Project Title
+[ ]    ├── Description
+[ ]    ├── Installation
+[ ]    ├── Usage
+[ ]    ├── Contributing
+[ ]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == ""
+
+    def test2(_):
+        savable_prompt_template = """[x]○
+[x]└── Project Title
+[ ]    ├── Description
+[ ]    ├── Installation
+[ ]    ├── Usage
+[x]    ├── Contributing
+[ ]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == """# Project Title
+## Contributing
+1. Fork the repo
+2. Create a new branch
+3. Submit a pull request"""
+
+    def test3(_):
+        savable_prompt_template = """[x]○
+[x]└── Project Title
+[ ]    ├── Description
+[x]    ├── Installation
+[ ]    ├── Usage
+[x]    ├── Contributing
+[ ]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == """# Project Title
+## Installation
+1. Clone the repo
+2. Install dependencies
+3. Run the application
+## Usage
+1. Fork the repo
+2. Create a new branch
+3. Submit a pull request"""
+
+    def test4(_):
+        savable_prompt_template = """[x]○
+[x]└── Project Title
+[x]    ├── Description
+[x]    ├── Installation
+[x]    ├── Usage
+[x]    ├── Contributing
+[x]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == """# Project Title
+## Description
+A brief overview of the project, its purpose, and goals.
+## Installation
+1. Clone the repo
+2. Install dependencies
+3. Run the application
+## Usage
+Provide instructions on how to use the application.
+## Contributing
+1. Fork the repo
+2. Create a new branch
+3. Submit a pull request
+## License
+This project is licensed under the MIT License."""
