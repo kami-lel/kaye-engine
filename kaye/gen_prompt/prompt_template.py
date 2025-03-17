@@ -2,6 +2,7 @@
 define `PromptTemplate`
 """
 
+import re
 from anytree import RenderTree
 
 from .full_prompt_parser import TREE_ROOT_NAME
@@ -24,8 +25,7 @@ class PromptTemplate:
     ):
         self.enabled_nodes_names = []
         # enable tree root node means non-detached mode
-        if not detached_mode:
-            self.enabled_nodes_names.append(TREE_ROOT_NAME)
+        self.set_unset_detached_mode(detached_mode)
 
         self.full_prompt_tree = (
             full_prompt_tree or get_current_full_prompt_tree()
@@ -35,27 +35,55 @@ class PromptTemplate:
             self._init_populate_enabled_nodes_names(savable_prompt_template)
 
     def _init_populate_enabled_nodes_names(self, savable_prompt_template):
-        pass  # TODO
+        # parse detached mode
+        detached_mode = re.match(
+            re.escape(CHECKED_BOX + TREE_ROOT_NAME), savable_prompt_template
+        )
+        self.set_unset_detached_mode(detached_mode)
+
+        # find all node names in the tree
+        node_names = [node.name for node in self.full_prompt_tree.descendants]
+
+        # extract all enabled headings
+        pattern = r"{}.+── (.+)".format(re.escape(CHECKED_BOX))
+        for line in savable_prompt_template.split("\n"):
+            match = re.fullmatch(pattern, line)
+            if match:  # find a line start w/ checked box
+                found_heading = match.group(1)
+                if found_heading in node_names:
+                    # ensure the found heading in present in the tree
+                    self.enabled_nodes_names.append(found_heading)
+
+    def set_unset_detached_mode(self, detached_mode):
+        """
+        Set or unset the **detached mode** for the PromptTemplate.
+
+        :param detached_mode: whether to set or unset the detached mode.
+        :type detached_mode: bool
+        """
+        if detached_mode:  # set detached mode
+            # ensure "○" is present in ``.enabled_nodes_names``
+            if TREE_ROOT_NAME not in self.enabled_nodes_names:
+                self.enabled_nodes_names.append(TREE_ROOT_NAME)
+
+        else:  # unset detached mode
+            # ensure "○" is absent in ``.enabled_nodes_names``
+            if TREE_ROOT_NAME in self.enabled_nodes_names:
+                self.enabled_nodes_names.remove(TREE_ROOT_NAME)
 
     def __repr__(self, preview_line_count=3, preview_line_width=64):
         """
-        Returns a string representation of the PromptTemplate and its
-        enabled nodes in a human-readable format, allowing a preview of
-        each node's content.
+        Returns a brief string representation of the PromptTemplate,
+        showing enabled nodes along with a preview of their content.
 
-        The representation includes checkbox indicators for whether each
-        node is enabled (checked or unchecked) along with the respective
-        lines of content previewed according to the specified parameters.
+        It includes checkbox indicators for enabled nodes (checked or
+        unchecked) with content previews based on the provided parameters.
 
-        :param preview_line_count: The number of lines to preview for the
-                content of the node; defaults to 3.
+        :param preview_line_count: Number of lines to preview for node content.
         :type preview_line_count: int
-        :param preview_line_width: The width of each preview line,
-               which determines how many characters from the content will be
-               included in the preview; defaults to 64.
+        :param preview_line_width: Width of each preview line; defaults to 64.
         :type preview_line_width: int
-        :return: A string representation of the current node, with enabled
-               nodes and their content previews included.
+        :return: String representation of current node with previews.
         :rtype: str
         """
         opt_lines = []
