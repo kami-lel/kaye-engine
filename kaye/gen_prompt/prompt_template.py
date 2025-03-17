@@ -24,30 +24,29 @@ class PromptTemplate:
         full_prompt_tree=None,
     ):
         self.enabled_nodes_names = []
-        # enable tree root node means non-detached mode
-        self.set_unset_detached_mode(detached_mode)
 
         self.full_prompt_tree = (
             full_prompt_tree or get_current_full_prompt_tree()
         )
 
-        return  # BUG
         if savable_prompt_template:
             self._init_populate_enabled_nodes_names(savable_prompt_template)
+        else:
+            # enable tree root node means non-detached mode
+            self.set_unset_detached_mode(detached_mode)
 
     def _init_populate_enabled_nodes_names(self, savable_prompt_template):
+        lines = savable_prompt_template.split("\n")
+
         # parse detached mode
-        detached_mode = re.match(
-            re.escape(CHECKED_BOX + TREE_ROOT_NAME), savable_prompt_template
-        )
-        self.set_unset_detached_mode(detached_mode)
+        self.set_unset_detached_mode(lines[0] != CHECKED_BOX + TREE_ROOT_NAME)
 
         # find all node names in the tree
         node_names = [node.name for node in self.full_prompt_tree.descendants]
 
         # extract all enabled headings
         pattern = r"{}.+── (.+)".format(re.escape(CHECKED_BOX))
-        for line in savable_prompt_template.split("\n"):
+        for line in lines:
             match = re.fullmatch(pattern, line)
             if match:  # find a line start w/ checked box
                 found_heading = match.group(1)
