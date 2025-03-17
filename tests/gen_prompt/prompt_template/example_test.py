@@ -104,6 +104,14 @@ class TestDetachedMode:  # test detached mdoe
         pt.set_unset_detached_mode(False)
         assert "○" in pt.enabled_nodes_names
 
+    def test_is_dm1(_):  # test is_detached_mode
+        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=True)
+        assert pt.is_detached_mode
+
+    def test_is_dm2(_):
+        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        assert not pt.is_detached_mode
+
 
 class TestParseSavable:  # TODO
     pass

@@ -72,6 +72,14 @@ class PromptTemplate:
             if TREE_ROOT_NAME not in self.enabled_nodes_names:
                 self.enabled_nodes_names.append(TREE_ROOT_NAME)
 
+    @property
+    def is_detached_mode(self):
+        """
+        :return: whether the PromptTemplate is in **detached mode**
+        :rtype: bool
+        """
+        return TREE_ROOT_NAME not in self.enabled_nodes_names
+
     def __repr__(self, preview_line_count=3, preview_line_width=64):
         """
         Returns a brief string representation of the PromptTemplate,
