@@ -16,6 +16,18 @@ NO_CHECKBOX = "   "
 
 
 class PromptTemplate:
+    """
+    _summary_
+
+    :param savable_prompt_template: _description_, defaults to None
+    :type savable_prompt_template: _type_, optional
+    :param detached_mode: _description_, defaults to False
+    :type detached_mode: bool, optional
+    :param full_prompt_tree: _description_, defaults to None
+    :type full_prompt_tree: FullPromptParserNode, optional
+    """
+
+    # TODO docstring
 
     def __init__(
         self,
@@ -116,6 +128,6 @@ class PromptTemplate:
 
         return "\n".join(opt_lines)
 
-    def __str__(self, preview_line_count=3, preview_line_width=64):
+    def __str__(self):
         # TODO docstring
         return ""

@@ -90,6 +90,30 @@ class FullPromptParserNode(AnytreeNode):
             children_nodes = text_lines[start + 1 : end]
             FullPromptParserNode(heading_content, self, children_nodes)
 
+    def generate_repr_content_part(
+        self, fill, preview_line_count, preview_line_width
+    ):
+        """
+        Generate a part of the string representation for the content of the node.
+
+        This method is used to generate a portion of the result for the
+        __repr__() method, allowing a preview of the node's content.
+
+        :param fill: The string to prepend to each line of content.
+        :type fill: str
+        :param preview_line_count: The number of lines to include in the preview.
+        :type preview_line_count: int
+        :param preview_line_width: The maximum width of each preview line.
+        :type preview_line_width: int
+        :return: A list of formatted content lines for the node's representation.
+        :rtype: list[str]
+        """
+        lines = []
+        if self.content and preview_line_count:  # print content of node
+            for content_line in self.content[:preview_line_count]:
+                lines.append(fill + content_line[:preview_line_width])
+        return lines
+
     def __repr__(self, preview_line_count=3, preview_line_width=64):
         """
         Returns a string representation of the FullPromptParserNode and
@@ -122,27 +146,3 @@ class FullPromptParserNode(AnytreeNode):
             )
 
         return "\n".join(opt_lines)
-
-    def generate_repr_content_part(
-        self, fill, preview_line_count, preview_line_width
-    ):
-        """
-        Generate a part of the string representation for the content of the node.
-
-        This method is used to generate a portion of the result for the
-        __repr__() method, allowing a preview of the node's content.
-
-        :param fill: The string to prepend to each line of content.
-        :type fill: str
-        :param preview_line_count: The number of lines to include in the preview.
-        :type preview_line_count: int
-        :param preview_line_width: The maximum width of each preview line.
-        :type preview_line_width: int
-        :return: A list of formatted content lines for the node's representation.
-        :rtype: list[str]
-        """
-        lines = []
-        if self.content and preview_line_count:  # print content of node
-            for content_line in self.content[:preview_line_count]:
-                lines.append(fill + content_line[:preview_line_width])
-        return lines
