@@ -113,7 +113,7 @@ class TestDetachedMode:  # test detached mdoe
         assert not pt.is_detached_mode
 
 
-class TestParseSavable:  # BUG
+class TestParseSavable:
 
     def test1(_):
         savable_prompt_template = """[x]○
@@ -137,6 +137,8 @@ class TestParseSavable:  # BUG
         assert "Contributing" not in pt.enabled_nodes_names
         assert "License" not in pt.enabled_nodes_names
 
+        assert not pt.is_detached_mode
+
     def test2(_):
         savable_prompt_template = """[x]○
 [ ]└── Project Title
@@ -153,11 +155,13 @@ class TestParseSavable:  # BUG
         assert len(pt.enabled_nodes_names) == 2
         assert "○" in pt.enabled_nodes_names
         assert "Project Title" not in pt.enabled_nodes_names
-        assert "Description" in pt.enabled_nodes_names
+        assert "Description" not in pt.enabled_nodes_names
         assert "Installation" not in pt.enabled_nodes_names
         assert "Usage" not in pt.enabled_nodes_names
-        assert "Contributing" not in pt.enabled_nodes_names
+        assert "Contributing" in pt.enabled_nodes_names
         assert "License" not in pt.enabled_nodes_names
+
+        assert not pt.is_detached_mode
 
     def test3(_):
         savable_prompt_template = """[x]○
@@ -175,11 +179,13 @@ class TestParseSavable:  # BUG
         assert len(pt.enabled_nodes_names) == 4
         assert "○" in pt.enabled_nodes_names
         assert "Project Title" in pt.enabled_nodes_names
-        assert "Description" in pt.enabled_nodes_names
+        assert "Description" not in pt.enabled_nodes_names
         assert "Installation" in pt.enabled_nodes_names
         assert "Usage" not in pt.enabled_nodes_names
         assert "Contributing" in pt.enabled_nodes_names
         assert "License" not in pt.enabled_nodes_names
+
+        assert not pt.is_detached_mode
 
     def test4(_):
         savable_prompt_template = """[x]○
@@ -203,5 +209,28 @@ class TestParseSavable:  # BUG
         assert "Contributing" in pt.enabled_nodes_names
         assert "License" in pt.enabled_nodes_names
 
-    def test_detached_mode(_):  # TODO
-        pass
+        assert not pt.is_detached_mode
+
+    def test_detached_mode(_):
+        savable_prompt_template = """[ ]○
+[x]└── Project Title
+[ ]    ├── Description
+[x]    ├── Installation
+[ ]    ├── Usage
+[x]    ├── Contributing
+[ ]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        assert len(pt.enabled_nodes_names) == 3
+        assert "○" not in pt.enabled_nodes_names
+        assert "Project Title" in pt.enabled_nodes_names
+        assert "Description" not in pt.enabled_nodes_names
+        assert "Installation" in pt.enabled_nodes_names
+        assert "Usage" not in pt.enabled_nodes_names
+        assert "Contributing" in pt.enabled_nodes_names
+        assert "License" not in pt.enabled_nodes_names
+
+        assert pt.is_detached_mode
