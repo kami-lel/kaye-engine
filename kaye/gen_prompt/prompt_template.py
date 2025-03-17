@@ -31,6 +31,7 @@ class PromptTemplate:
             full_prompt_tree or get_current_full_prompt_tree()
         )
 
+        return  # HACK
         if savable_prompt_template:
             self._init_populate_enabled_nodes_names(savable_prompt_template)
 
@@ -62,14 +63,14 @@ class PromptTemplate:
         :type detached_mode: bool
         """
         if detached_mode:  # set detached mode
-            # ensure "○" is present in ``.enabled_nodes_names``
-            if TREE_ROOT_NAME not in self.enabled_nodes_names:
-                self.enabled_nodes_names.append(TREE_ROOT_NAME)
-
-        else:  # unset detached mode
             # ensure "○" is absent in ``.enabled_nodes_names``
             if TREE_ROOT_NAME in self.enabled_nodes_names:
                 self.enabled_nodes_names.remove(TREE_ROOT_NAME)
+
+        else:  # unset detached mode
+            # ensure "○" is present in ``.enabled_nodes_names``
+            if TREE_ROOT_NAME not in self.enabled_nodes_names:
+                self.enabled_nodes_names.append(TREE_ROOT_NAME)
 
     def __repr__(self, preview_line_count=3, preview_line_width=64):
         """
