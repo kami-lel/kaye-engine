@@ -33,7 +33,7 @@ example_tree = FullPromptParserNode.parse(FULL_PROMPT)
 class TestRepr:
 
     def test_dft(_):
-        pt = PromptTemplate(example_tree)
+        pt = PromptTemplate(full_prompt_tree=example_tree)
         opt = repr(pt)
         print(opt)
         assert opt == """[x]○
@@ -54,7 +54,7 @@ class TestRepr:
            This project is licensed under the MIT License."""
 
     def test_no_content(_):
-        pt = PromptTemplate(example_tree)
+        pt = PromptTemplate(full_prompt_tree=example_tree)
         opt = pt.__repr__(preview_line_count=0)
         print(opt)
         assert opt == """[x]○
@@ -64,3 +64,46 @@ class TestRepr:
 [ ]    ├── Usage
 [ ]    ├── Contributing
 [ ]    └── License"""
+
+
+class TestDetachedMode:  # test detached mdoe
+
+    def test_init_set(_):
+        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=True)
+        assert "○" not in pt.enabled_nodes_names
+
+    def test_init_unset(_):
+        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        assert "○" in pt.enabled_nodes_names
+
+    def test_init_dft(_):
+        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        assert "○" in pt.enabled_nodes_names
+
+    def test_set1(_):  # set by set_unset_detached_mode()
+        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        assert "○" in pt.enabled_nodes_names
+        pt.set_unset_detached_mode(True)
+        assert "○" not in pt.enabled_nodes_names
+
+    def test_set2(_):
+        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=True)
+        assert "○" not in pt.enabled_nodes_names
+        pt.set_unset_detached_mode(True)
+        assert "○" not in pt.enabled_nodes_names
+
+    def test_unset1(_):  # unset by set_unset_detached_mode()
+        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=True)
+        assert "○" not in pt.enabled_nodes_names
+        pt.set_unset_detached_mode(False)
+        assert "○" in pt.enabled_nodes_names
+
+    def test_unset2(_):
+        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        assert "○" in pt.enabled_nodes_names
+        pt.set_unset_detached_mode(False)
+        assert "○" in pt.enabled_nodes_names
+
+
+class TestParseSavable:
+    pass
