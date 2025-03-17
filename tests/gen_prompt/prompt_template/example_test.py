@@ -113,7 +113,7 @@ class TestDetachedMode:  # test detached mdoe
         assert not pt.is_detached_mode
 
 
-class TestParseSavable:  # TODO
+class TestParseSavable:  # BUG
 
     def test1(_):
         savable_prompt_template = """[x]○
