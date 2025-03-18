@@ -17,17 +17,37 @@ NO_CHECKBOX = "   "
 
 class PromptTemplate:
     """
-    _summary_
+    A ``PromptTemplate`` represents a part or the entirety of
+    a *Full Prompt Tree*. It allows nodes in the tree to be enabled or disabled,
+    controlling which prompts are extracted and displayed from
+    the full prompt tree.
 
-    :param savable_prompt_template: _description_, defaults to None
-    :type savable_prompt_template: _type_, optional
-    :param detached_mode: _description_, defaults to False
+    Use ``__repr__`` to obtain a representation of the attached
+    full prompt tree, along with the enabled/disabled status of each node.
+
+    You may provide a ``savable_prompt_template`` during creation; it must be
+    formatted like the output of the repr. This will set the enabled/disabled
+    status during the initialization of the template.
+
+    Use ``__str__`` to render the content of the prompt based on the
+    enabled/disabled conditions of the tree.
+
+    If in *detached_mode*, the prompt allows disconnected individual nodes
+    regardless of the tree structure. For instance, leaf nodes may be enabled
+    without requiring their root to be enabled. Conversely, if not in detached
+    mode, a node is rendered only when it is enabled and all its ancestors are
+    also enabled.
+
+    :param savable_prompt_template: string representation of a
+            prompt template, defaults to None.
+    :type savable_prompt_template: str, optional
+    :param detached_mode: A flag indicating whether to enable detached mode
+            for the PromptTemplate, defaults to False.
     :type detached_mode: bool, optional
-    :param full_prompt_tree: _description_, defaults to None
+    :param full_prompt_tree: An optional FullPromptParserNode instance that
+            represents the full prompt tree. Defaults to None.
     :type full_prompt_tree: FullPromptParserNode, optional
     """
-
-    # TODO docstring
 
     @property
     def is_detached_mode(self):
