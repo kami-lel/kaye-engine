@@ -73,6 +73,7 @@ class PromptTemplate:
             self.set_unset_detached_mode(detached_mode)
 
     def _init_populate_enabled_nodes_names(self, savable_prompt_template):
+        # fixme allow use both x&X for checekd box
         lines = savable_prompt_template.split("\n")
 
         # parse detached mode
