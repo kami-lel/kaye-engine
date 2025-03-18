@@ -147,11 +147,7 @@ class PromptTemplate:
 
         lines = []
         if node.parent is not None:  # skip root node
-            # heading line
-            lines.append(HEADING_MARKER * node.depth + " " + node_name)
-
-            # contents
-            lines.extend(node.content)
+            lines.extend(node.generate_heading_and_content_lines())
 
         # children
         for child_node in node.children:
