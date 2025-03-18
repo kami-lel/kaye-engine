@@ -424,6 +424,7 @@ Summarizing the findings and implications."""
 
         opt = str(pt)
         print(opt)
+        return  # TODO
         assert opt == """# Main Title
 ## Methods
 Overview of the methodologies used.

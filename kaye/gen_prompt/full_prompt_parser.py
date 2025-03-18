@@ -34,12 +34,9 @@ class FullPromptParserNode(AnytreeNode):
         """
         Parses a full prompt string into a structured **Full Prompt Tree**.
 
-        This method takes a full prompt as input,,
-        and constructs the root node of the tree.
-        The resulting tree structure contains nodes that
-        represent the various sections and subsections of the
-        prompt based on headings.
-
+        This method takes a full prompt as input, and constructs the root node
+        of the tree. The resulting tree structure contains nodes that represent
+        the various sections and subsections of the prompt based on headings.
         :param full_prompt: The entire prompt to be parsed into a tree structure.
         :type full_prompt: str
         :return: The root node of the **Full Prompt Tree**,
@@ -89,6 +86,30 @@ class FullPromptParserNode(AnytreeNode):
             heading_content = text_lines[start][len(heading_prefix) :].strip()
             children_nodes = text_lines[start + 1 : end]
             FullPromptParserNode(heading_content, self, children_nodes)
+
+    def generate_heading_and_content_lines(self):
+        """
+        Generate lines representing the heading and content of the node.
+
+        This method constructs a list of strings, where each string is a line
+        representing the node's heading followed by its content. The heading
+        is formatted based on the node's depth, and each content line is
+        included in the resulting list.
+
+        :return: A list of strings, each representing a line of the node's
+                heading and content. The first line is the heading,
+                followed by the content lines if available.
+        :rtype: list[str]
+
+        :example:
+        >>> node = ...
+        >>> node.generate_heading_and_content_lines()
+        ['### Node Heading', 'content 1st line', 'content 2nd line']
+        """
+        lines = []
+        lines.append(HEADING_MARKER * self.depth + " " + self.name)
+        lines.extend(self.content)
+        return lines
 
     def generate_repr_content_part(
         self, fill, preview_line_count, preview_line_width

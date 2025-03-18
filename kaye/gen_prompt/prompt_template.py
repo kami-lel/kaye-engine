@@ -131,17 +131,22 @@ class PromptTemplate:
     def __str__(self):
         # TODO docstring
 
-        lines = self._generate_str_recursively(self.full_prompt_tree)
+        lines = (
+            self._generate_str_recursively_detached_mode(self.full_prompt_tree)
+            if self.is_detached_mode
+            else self._generate_str_recursively(self.full_prompt_tree)
+        )
         return "\n".join(lines)
 
     def _generate_str_recursively(self, node):
         node_name = node.name
 
-        is_node_enabled = node_name in self.enabled_nodes_names
+        # stop recurisve if this node is not enabled
+        if node_name not in self.enabled_nodes_names:
+            return []
 
         lines = []
-
-        if node.parent is not None and is_node_enabled:  # skip root node
+        if node.parent is not None:  # skip root node
             # heading line
             lines.append(HEADING_MARKER * node.depth + " " + node_name)
 
@@ -151,5 +156,11 @@ class PromptTemplate:
         # children
         for child_node in node.children:
             lines.extend(self._generate_str_recursively(child_node))
+
+        return lines
+
+    def _generate_str_recursively_detached_mode(self, node):
+
+        lines = []
 
         return lines
