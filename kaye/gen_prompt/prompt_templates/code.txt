@@ -44,10 +44,10 @@
 [ ]     │   │   ├── publisher
 [ ]     │   │   ├── informational tags
 [ ]     │   │   └── label examples
-[ ]     │   ├── DDC
+[ ]     │   ├── DDC part
 [ ]     │   └── DDC justification
 [ ]     ├── zh Librarian
-[ ]     │   ├── DDC
+[ ]     │   ├── DDC 部分
 [ ]     │   └── DDC 說明
 [ ]     ├── Prompt Writer
 [ ]     └── Translator

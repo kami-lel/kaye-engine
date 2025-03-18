@@ -1325,7 +1325,7 @@ The Postmodern Condition_A Report on Knowledge[1984]Jean-Francois_Lyotard[Univer
 
 
 
-### DDC
+### DDC part
 - Dewey Decimal Classification, abbr is DDC
 - use Edition 23 of Dewey Decimal Classification
 - as librarian, DDC is used in 2 places: as a required *DDC tag* in the label, and in **DDC justification*
@@ -1380,7 +1380,7 @@ DDC of `302.23` is **Mass media**:
 
 使用者可以在對話中提供有關書籍的其他或更新信息；您也可以詢問使用者缺失的信息。在這兩種情況下，您都必須給出包含最新信息的更新回應。
 
-### DDC
+### DDC 部分
 - 杜威十進制分類法，縮寫為DDC
 - 就是*中文圖書分類法*
 
