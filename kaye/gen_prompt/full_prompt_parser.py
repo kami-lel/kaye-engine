@@ -153,6 +153,33 @@ class FullPromptParserNode(AnytreeNode):
         :type preview_line_width: int
         :return: A string representation of the current node and its children.
         :rtype: str
+
+        :example:
+        >>> repr(tree)
+        ○
+        └── Project Title
+            ├── Description
+            │   A brief overview of the project, its purpose, and goals.
+            ├── Installation
+            │   1. Clone the repo
+            │   2. Install dependencies
+            │   3. Run the application
+            ├── Usage
+            │   Provide instructions on how to use the application.
+            ├── Contributing
+            │   1. Fork the repo
+            │   2. Create a new branch
+            │   3. Submit a pull request
+            └── License
+                This project is licensed under the MIT License.
+        >>> tree.__repr__(preview_line_count=0)
+        ○
+        └── Project Title
+            ├── Description
+            ├── Installation
+            ├── Usage
+            ├── Contributing
+            └── License
         """
         opt_lines = []
 
