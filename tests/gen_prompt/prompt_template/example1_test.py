@@ -331,8 +331,7 @@ Provide instructions on how to use the application.
 This project is licensed under the MIT License."""
 
 
-# BUG
-class ATestStrDetach:  # test detached mode
+class TestStrDetach:  # test detached mode
 
     def test1(_):
         savable_prompt_template = """[ ]○
