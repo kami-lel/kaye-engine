@@ -29,6 +29,31 @@ class PromptTemplate:
 
     # TODO docstring
 
+    @property
+    def is_detached_mode(self):
+        """
+        :return: whether the PromptTemplate is in **detached mode**
+        :rtype: bool
+        """
+        return TREE_ROOT_NAME not in self.enabled_nodes_names
+
+    def set_unset_detached_mode(self, detached_mode):
+        """
+        Set or unset the **detached mode** for the PromptTemplate.
+
+        :param detached_mode: whether to set or unset the detached mode.
+        :type detached_mode: bool
+        """
+        if detached_mode:  # set detached mode
+            # ensure "○" is absent in ``.enabled_nodes_names``
+            if TREE_ROOT_NAME in self.enabled_nodes_names:
+                self.enabled_nodes_names.remove(TREE_ROOT_NAME)
+
+        else:  # unset detached mode
+            # ensure "○" is present in ``.enabled_nodes_names``
+            if TREE_ROOT_NAME not in self.enabled_nodes_names:
+                self.enabled_nodes_names.append(TREE_ROOT_NAME)
+
     def __init__(
         self,
         savable_prompt_template=None,
@@ -66,30 +91,34 @@ class PromptTemplate:
                     # ensure the found heading in present in the tree
                     self.enabled_nodes_names.append(found_heading)
 
-    def set_unset_detached_mode(self, detached_mode):
-        """
-        Set or unset the **detached mode** for the PromptTemplate.
+    def _generate_str_recursively(self, node):
+        # stop recurisve if this node is not enabled
+        if node.name not in self.enabled_nodes_names:
+            return []
 
-        :param detached_mode: whether to set or unset the detached mode.
-        :type detached_mode: bool
-        """
-        if detached_mode:  # set detached mode
-            # ensure "○" is absent in ``.enabled_nodes_names``
-            if TREE_ROOT_NAME in self.enabled_nodes_names:
-                self.enabled_nodes_names.remove(TREE_ROOT_NAME)
+        lines = []
+        if node.parent is not None:  # skip root node
+            lines.extend(node.generate_heading_and_content_lines())
 
-        else:  # unset detached mode
-            # ensure "○" is present in ``.enabled_nodes_names``
-            if TREE_ROOT_NAME not in self.enabled_nodes_names:
-                self.enabled_nodes_names.append(TREE_ROOT_NAME)
+        # children
+        for child_node in node.children:
+            lines.extend(self._generate_str_recursively(child_node))
 
-    @property
-    def is_detached_mode(self):
-        """
-        :return: whether the PromptTemplate is in **detached mode**
-        :rtype: bool
-        """
-        return TREE_ROOT_NAME not in self.enabled_nodes_names
+        return lines
+
+    def _generate_str_recursively_detached_mode(self, node):
+        lines = []
+
+        if node.name in self.enabled_nodes_names and node.parent is not None:
+            lines.extend(node.generate_heading_and_content_lines())
+
+        # children
+        for child_node in node.children:
+            lines.extend(
+                self._generate_str_recursively_detached_mode(child_node)
+            )
+
+        return lines
 
     def __repr__(self, preview_line_count=3, preview_line_width=64):
         """
@@ -178,32 +207,3 @@ class PromptTemplate:
             else self._generate_str_recursively(self.full_prompt_tree)
         )
         return "\n".join(lines)
-
-    def _generate_str_recursively(self, node):
-        # stop recurisve if this node is not enabled
-        if node.name not in self.enabled_nodes_names:
-            return []
-
-        lines = []
-        if node.parent is not None:  # skip root node
-            lines.extend(node.generate_heading_and_content_lines())
-
-        # children
-        for child_node in node.children:
-            lines.extend(self._generate_str_recursively(child_node))
-
-        return lines
-
-    def _generate_str_recursively_detached_mode(self, node):
-        lines = []
-
-        if node.name in self.enabled_nodes_names and node.parent is not None:
-            lines.extend(node.generate_heading_and_content_lines())
-
-        # children
-        for child_node in node.children:
-            lines.extend(
-                self._generate_str_recursively_detached_mode(child_node)
-            )
-
-        return lines
