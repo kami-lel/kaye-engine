@@ -405,6 +405,28 @@ How data was gathered for analysis.
 ## Conclusion
 Summarizing the findings and implications."""
 
+
+class TestStrDetach:  # test detached mode
+
+    # TODO
+
+    def test1(_):
+        savable_prompt_template = """[ ]○
+[ ]└── Project Title
+[ ]    ├── Description
+[ ]    ├── Installation
+[ ]    ├── Usage
+[ ]    ├── Contributing
+[ ]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == ""
+
     def test_detach1(_):  # BUG
         savable_prompt_template = """[x]○
 [x]└── Main Title
@@ -436,25 +458,3 @@ List of tools utilized during the project.
 Suggestions for future research or tasks.
 ## Conclusion
 Summarizing the findings and implications."""
-
-
-class TestStrDetach:  # test detached mode
-
-    # TODO
-
-    def test1(_):
-        savable_prompt_template = """[ ]○
-[ ]└── Project Title
-[ ]    ├── Description
-[ ]    ├── Installation
-[ ]    ├── Usage
-[ ]    ├── Contributing
-[ ]    └── License"""
-
-        pt = PromptTemplate(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
-
-        opt = str(pt)
-        print(opt)
-        assert opt == ""
