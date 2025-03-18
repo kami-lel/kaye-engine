@@ -281,8 +281,8 @@ class TestStr:  # BUG
 [x]└── Project Title
 [ ]    ├── Description
 [x]    ├── Installation
-[ ]    ├── Usage
-[x]    ├── Contributing
+[x]    ├── Usage
+[ ]    ├── Contributing
 [ ]    └── License"""
 
         pt = PromptTemplate(
@@ -297,9 +297,7 @@ class TestStr:  # BUG
 2. Install dependencies
 3. Run the application
 ## Usage
-1. Fork the repo
-2. Create a new branch
-3. Submit a pull request"""
+Provide instructions on how to use the application."""
 
     def test4(_):
         savable_prompt_template = """[x]○

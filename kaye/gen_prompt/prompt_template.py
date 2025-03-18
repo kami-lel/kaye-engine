@@ -135,12 +135,16 @@ class PromptTemplate:
         return "\n".join(lines)
 
     def _generate_str_recursively(self, node):
+        node_name = node.name
+
+        if node_name not in self.enabled_nodes_names:
+            return []
 
         lines = []
 
         if node.parent is not None:  # skip root node
             # heading line
-            lines.append(HEADING_MARKER * node.depth + " " + node.name)
+            lines.append(HEADING_MARKER * node.depth + " " + node_name)
 
             # contents
             lines.extend(node.content)
