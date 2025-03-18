@@ -236,7 +236,7 @@ class TestParseSavable:
         assert pt.is_detached_mode
 
 
-class TestStr:  # BUG
+class TestStr:
 
     def test1(_):
         savable_prompt_template = """[x]○
@@ -316,6 +316,98 @@ Provide instructions on how to use the application."""
         print(opt)
         assert opt == """# Project Title
 ## Description
+A brief overview of the project, its purpose, and goals.
+## Installation
+1. Clone the repo
+2. Install dependencies
+3. Run the application
+## Usage
+Provide instructions on how to use the application.
+## Contributing
+1. Fork the repo
+2. Create a new branch
+3. Submit a pull request
+## License
+This project is licensed under the MIT License."""
+
+
+class TestStrDetach:  # test detached mode
+
+    def test1(_):
+        savable_prompt_template = """[ ]○
+[ ]└── Project Title
+[ ]    ├── Description
+[ ]    ├── Installation
+[ ]    ├── Usage
+[ ]    ├── Contributing
+[ ]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == ""
+
+    def test2(_):
+        savable_prompt_template = """[ ]○
+[ ]└── Project Title
+[ ]    ├── Description
+[ ]    ├── Installation
+[ ]    ├── Usage
+[x]    ├── Contributing
+[ ]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == """## Contributing
+1. Fork the repo
+2. Create a new branch
+3. Submit a pull request"""
+
+    def test3(_):
+        savable_prompt_template = """[ ]○
+[ ]└── Project Title
+[ ]    ├── Description
+[x]    ├── Installation
+[x]    ├── Usage
+[ ]    ├── Contributing
+[ ]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == """## Installation
+1. Clone the repo
+2. Install dependencies
+3. Run the application
+## Usage
+Provide instructions on how to use the application."""
+
+    def test4(_):
+        savable_prompt_template = """[ ]○
+[ ]└── Project Title
+[x]    ├── Description
+[x]    ├── Installation
+[x]    ├── Usage
+[x]    ├── Contributing
+[x]    └── License"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == """## Description
 A brief overview of the project, its purpose, and goals.
 ## Installation
 1. Clone the repo
