@@ -405,32 +405,10 @@ How data was gathered for analysis.
 ## Conclusion
 Summarizing the findings and implications."""
 
-
-class TestStrDetach:  # test detached mode
-
-    # TODO
-
-    def test1(_):
-        savable_prompt_template = """[ ]○
-[ ]└── Project Title
-[ ]    ├── Description
-[ ]    ├── Installation
-[ ]    ├── Usage
-[ ]    ├── Contributing
-[ ]    └── License"""
-
-        pt = PromptTemplate(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
-
-        opt = str(pt)
-        print(opt)
-        assert opt == ""
-
-    def test_detach1(_):  # BUG
+    def test_full(_):
         savable_prompt_template = """[x]○
 [x]└── Main Title
-[ ]    ├── Introduction
+[x]    ├── Introduction
 [x]    │   └── Background
 [x]    │       └── Importance
 [x]    │           └── Objective
@@ -446,8 +424,15 @@ class TestStrDetach:  # test detached mode
 
         opt = str(pt)
         print(opt)
-        return  # TODO
         assert opt == """# Main Title
+## Introduction
+Brief introduction to the topic.
+### Background
+Context or history relevant to the topic.
+#### Importance
+Why this topic matters in the current scenario.
+##### Objective
+The primary goal of this document.
 ## Methods
 Overview of the methodologies used.
 ### Data Collection
@@ -458,3 +443,151 @@ List of tools utilized during the project.
 Suggestions for future research or tasks.
 ## Conclusion
 Summarizing the findings and implications."""
+
+
+class TestStrDetach:  # test detached mode
+
+    def test_full(_):
+        savable_prompt_template = """[ ]○
+[x]└── Main Title
+[x]    ├── Introduction
+[x]    │   └── Background
+[x]    │       └── Importance
+[x]    │           └── Objective
+[x]    ├── Methods
+[x]    │   └── Data Collection
+[x]    │       └── Tools Used
+[x]    │           └── Future Work
+[x]    └── Conclusion"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == """# Main Title
+## Introduction
+Brief introduction to the topic.
+### Background
+Context or history relevant to the topic.
+#### Importance
+Why this topic matters in the current scenario.
+##### Objective
+The primary goal of this document.
+## Methods
+Overview of the methodologies used.
+### Data Collection
+How data was gathered for analysis.
+#### Tools Used
+List of tools utilized during the project.
+##### Future Work
+Suggestions for future research or tasks.
+## Conclusion
+Summarizing the findings and implications."""
+
+    def test_empty(_):
+        savable_prompt_template = """[ ]○
+[ ]└── Main Title
+[ ]    ├── Introduction
+[ ]    │   └── Background
+[ ]    │       └── Importance
+[ ]    │           └── Objective
+[ ]    ├── Methods
+[ ]    │   └── Data Collection
+[ ]    │       └── Tools Used
+[ ]    │           └── Future Work
+[ ]    └── Conclusion"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == ""
+
+    def test1(_):
+        savable_prompt_template = """[ ]○
+[ ]└── Main Title
+[x]    ├── Introduction
+[ ]    │   └── Background
+[ ]    │       └── Importance
+[x]    │           └── Objective
+[ ]    ├── Methods
+[ ]    │   └── Data Collection
+[x]    │       └── Tools Used
+[ ]    │           └── Future Work
+[x]    └── Conclusion"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == """## Introduction
+Brief introduction to the topic.
+##### Objective
+The primary goal of this document.
+#### Tools Used
+List of tools utilized during the project.
+## Conclusion
+Summarizing the findings and implications."""
+
+    def test2(_):
+        savable_prompt_template = """[ ]○
+[ ]└── Main Title
+[x]    ├── Introduction
+[ ]    │   └── Background
+[x]    │       └── Importance
+[x]    │           └── Objective
+[ ]    ├── Methods
+[ ]    │   └── Data Collection
+[x]    │       └── Tools Used
+[x]    │           └── Future Work
+[ ]    └── Conclusion"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == """## Introduction
+Brief introduction to the topic.
+#### Importance
+Why this topic matters in the current scenario.
+##### Objective
+The primary goal of this document.
+#### Tools Used
+List of tools utilized during the project.
+##### Future Work
+Suggestions for future research or tasks."""
+
+    def test3(_):
+        savable_prompt_template = """[ ]○
+[x]└── Main Title
+[ ]    ├── Introduction
+[x]    │   └── Background
+[ ]    │       └── Importance
+[ ]    │           └── Objective
+[x]    ├── Methods
+[ ]    │   └── Data Collection
+[ ]    │       └── Tools Used
+[x]    │           └── Future Work
+[ ]    └── Conclusion"""
+
+        pt = PromptTemplate(
+            savable_prompt_template, full_prompt_tree=example_tree
+        )
+
+        opt = str(pt)
+        print(opt)
+        assert opt == """# Main Title
+### Background
+Context or history relevant to the topic.
+## Methods
+Overview of the methodologies used.
+##### Future Work
+Suggestions for future research or tasks."""
