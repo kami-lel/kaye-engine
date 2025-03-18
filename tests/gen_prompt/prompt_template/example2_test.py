@@ -45,42 +45,42 @@ class TestRepr:
         pt = PromptTemplate(full_prompt_tree=example_tree)
         opt = repr(pt)
         print(opt)
-        assert opt == """[x]○
-[ ]└── Main Title
-[ ]    ├── Introduction
-       │   Brief introduction to the topic.
-[ ]    │   └── Background
-       │       Context or history relevant to the topic.
-[ ]    │       └── Importance
-       │           Why this topic matters in the current scenario.
-[ ]    │           └── Objective
-       │               The primary goal of this document.
-[ ]    ├── Methods
-       │   Overview of the methodologies used.
-[ ]    │   └── Data Collection
-       │       How data was gathered for analysis.
-[ ]    │       └── Tools Used
-       │           List of tools utilized during the project.
-[ ]    │           └── Future Work
-       │               Suggestions for future research or tasks.
-[ ]    └── Conclusion
-           Summarizing the findings and implications."""
+        assert opt == """[x] ○
+[ ] └── Main Title
+[ ]     ├── Introduction
+        │   Brief introduction to the topic.
+[ ]     │   └── Background
+        │       Context or history relevant to the topic.
+[ ]     │       └── Importance
+        │           Why this topic matters in the current scenario.
+[ ]     │           └── Objective
+        │               The primary goal of this document.
+[ ]     ├── Methods
+        │   Overview of the methodologies used.
+[ ]     │   └── Data Collection
+        │       How data was gathered for analysis.
+[ ]     │       └── Tools Used
+        │           List of tools utilized during the project.
+[ ]     │           └── Future Work
+        │               Suggestions for future research or tasks.
+[ ]     └── Conclusion
+            Summarizing the findings and implications."""
 
     def test_no_content(_):
         pt = PromptTemplate(full_prompt_tree=example_tree)
         opt = pt.__repr__(preview_line_count=0)
         print(opt)
-        assert opt == """[x]○
-[ ]└── Main Title
-[ ]    ├── Introduction
-[ ]    │   └── Background
-[ ]    │       └── Importance
-[ ]    │           └── Objective
-[ ]    ├── Methods
-[ ]    │   └── Data Collection
-[ ]    │       └── Tools Used
-[ ]    │           └── Future Work
-[ ]    └── Conclusion"""
+        assert opt == """[x] ○
+[ ] └── Main Title
+[ ]     ├── Introduction
+[ ]     │   └── Background
+[ ]     │       └── Importance
+[ ]     │           └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[ ]     │           └── Future Work
+[ ]     └── Conclusion"""
 
 
 class TestDetachedMode:  # test detached mdoe
@@ -133,17 +133,17 @@ class TestDetachedMode:  # test detached mdoe
 class TestParseSavable:
 
     def test_empty(_):
-        savable_prompt_template = """[x]○
-[ ]└── Main Title
-[ ]    ├── Introduction
-[ ]    │   └── Background
-[ ]    │       └── Importance
-[ ]    │           └── Objective
-[ ]    ├── Methods
-[ ]    │   └── Data Collection
-[ ]    │       └── Tools Used
-[ ]    │           └── Future Work
-[ ]    └── Conclusion"""
+        savable_prompt_template = """[x] ○
+[ ] └── Main Title
+[ ]     ├── Introduction
+[ ]     │   └── Background
+[ ]     │       └── Importance
+[ ]     │           └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[ ]     │           └── Future Work
+[ ]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -165,17 +165,17 @@ class TestParseSavable:
         assert not pt.is_detached_mode
 
     def test_full(_):
-        savable_prompt_template = """[x]○
-[x]└── Main Title
-[x]    ├── Introduction
-[x]    │   └── Background
-[x]    │       └── Importance
-[x]    │           └── Objective
-[x]    ├── Methods
-[x]    │   └── Data Collection
-[x]    │       └── Tools Used
-[x]    │           └── Future Work
-[x]    └── Conclusion"""
+        savable_prompt_template = """[x] ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │   └── Background
+[x]     │       └── Importance
+[x]     │           └── Objective
+[x]     ├── Methods
+[x]     │   └── Data Collection
+[x]     │       └── Tools Used
+[x]     │           └── Future Work
+[x]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -197,17 +197,17 @@ class TestParseSavable:
         assert not pt.is_detached_mode
 
     def test1(_):
-        savable_prompt_template = """[x]○
-[x]└── Main Title
-[ ]    ├── Introduction
-[ ]    │   └── Background
-[ ]    │       └── Importance
-[x]    │           └── Objective
-[ ]    ├── Methods
-[ ]    │   └── Data Collection
-[ ]    │       └── Tools Used
-[x]    │           └── Future Work
-[x]    └── Conclusion"""
+        savable_prompt_template = """[x] ○
+[x] └── Main Title
+[ ]     ├── Introduction
+[ ]     │   └── Background
+[ ]     │       └── Importance
+[x]     │           └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[x]     │           └── Future Work
+[x]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -229,17 +229,17 @@ class TestParseSavable:
         assert not pt.is_detached_mode
 
     def test2(_):
-        savable_prompt_template = """[x]○
-[ ]└── Main Title
-[ ]    ├── Introduction
-[x]    │   └── Background
-[ ]    │       └── Importance
-[ ]    │           └── Objective
-[x]    ├── Methods
-[x]    │   └── Data Collection
-[x]    │       └── Tools Used
-[ ]    │           └── Future Work
-[ ]    └── Conclusion"""
+        savable_prompt_template = """[x] ○
+[ ] └── Main Title
+[ ]     ├── Introduction
+[x]     │   └── Background
+[ ]     │       └── Importance
+[ ]     │           └── Objective
+[x]     ├── Methods
+[x]     │   └── Data Collection
+[x]     │       └── Tools Used
+[ ]     │           └── Future Work
+[ ]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -261,17 +261,17 @@ class TestParseSavable:
         assert not pt.is_detached_mode
 
     def test_detached_mode(_):
-        savable_prompt_template = """[ ]○
-[x]└── Main Title
-[ ]    ├── Introduction
-[ ]    │   └── Background
-[ ]    │       └── Importance
-[x]    │           └── Objective
-[ ]    ├── Methods
-[ ]    │   └── Data Collection
-[ ]    │       └── Tools Used
-[x]    │           └── Future Work
-[x]    └── Conclusion"""
+        savable_prompt_template = """[ ] ○
+[x] └── Main Title
+[ ]     ├── Introduction
+[ ]     │   └── Background
+[ ]     │       └── Importance
+[x]     │           └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[x]     │           └── Future Work
+[x]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -296,17 +296,17 @@ class TestParseSavable:
 class TestStr:
 
     def test1(_):
-        savable_prompt_template = """[x]○
-[ ]└── Main Title
-[ ]    ├── Introduction
-[ ]    │   └── Background
-[ ]    │       └── Importance
-[ ]    │           └── Objective
-[ ]    ├── Methods
-[ ]    │   └── Data Collection
-[ ]    │       └── Tools Used
-[ ]    │           └── Future Work
-[ ]    └── Conclusion"""
+        savable_prompt_template = """[x] ○
+[ ] └── Main Title
+[ ]     ├── Introduction
+[ ]     │   └── Background
+[ ]     │       └── Importance
+[ ]     │           └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[ ]     │           └── Future Work
+[ ]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -317,17 +317,17 @@ class TestStr:
         assert opt == ""
 
     def test2(_):
-        savable_prompt_template = """[x]○
-[x]└── Main Title
-[x]    ├── Introduction
-[x]    │   └── Background
-[x]    │       └── Importance
-[x]    │           └── Objective
-[ ]    ├── Methods
-[ ]    │   └── Data Collection
-[ ]    │       └── Tools Used
-[ ]    │           └── Future Work
-[x]    └── Conclusion"""
+        savable_prompt_template = """[x] ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │   └── Background
+[x]     │       └── Importance
+[x]     │           └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[ ]     │           └── Future Work
+[x]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -348,17 +348,17 @@ The primary goal of this document.
 Summarizing the findings and implications."""
 
     def test3(_):
-        savable_prompt_template = """[x]○
-[x]└── Main Title
-[ ]    ├── Introduction
-[ ]    │   └── Background
-[ ]    │       └── Importance
-[ ]    │           └── Objective
-[x]    ├── Methods
-[x]    │   └── Data Collection
-[x]    │       └── Tools Used
-[x]    │           └── Future Work
-[x]    └── Conclusion"""
+        savable_prompt_template = """[x] ○
+[x] └── Main Title
+[ ]     ├── Introduction
+[ ]     │   └── Background
+[ ]     │       └── Importance
+[ ]     │           └── Objective
+[x]     ├── Methods
+[x]     │   └── Data Collection
+[x]     │       └── Tools Used
+[x]     │           └── Future Work
+[x]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -379,17 +379,17 @@ Suggestions for future research or tasks.
 Summarizing the findings and implications."""
 
     def test4(_):
-        savable_prompt_template = """[x]○
-[x]└── Main Title
-[ ]    ├── Introduction
-[ ]    │   └── Background
-[ ]    │       └── Importance
-[ ]    │           └── Objective
-[x]    ├── Methods
-[x]    │   └── Data Collection
-[ ]    │       └── Tools Used
-[ ]    │           └── Future Work
-[x]    └── Conclusion"""
+        savable_prompt_template = """[x] ○
+[x] └── Main Title
+[ ]     ├── Introduction
+[ ]     │   └── Background
+[ ]     │       └── Importance
+[ ]     │           └── Objective
+[x]     ├── Methods
+[x]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[ ]     │           └── Future Work
+[x]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -406,17 +406,17 @@ How data was gathered for analysis.
 Summarizing the findings and implications."""
 
     def test_full(_):
-        savable_prompt_template = """[x]○
-[x]└── Main Title
-[x]    ├── Introduction
-[x]    │   └── Background
-[x]    │       └── Importance
-[x]    │           └── Objective
-[x]    ├── Methods
-[x]    │   └── Data Collection
-[x]    │       └── Tools Used
-[x]    │           └── Future Work
-[x]    └── Conclusion"""
+        savable_prompt_template = """[x] ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │   └── Background
+[x]     │       └── Importance
+[x]     │           └── Objective
+[x]     ├── Methods
+[x]     │   └── Data Collection
+[x]     │       └── Tools Used
+[x]     │           └── Future Work
+[x]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -448,17 +448,17 @@ Summarizing the findings and implications."""
 class TestStrDetach:  # test detached mode
 
     def test_full(_):
-        savable_prompt_template = """[ ]○
-[x]└── Main Title
-[x]    ├── Introduction
-[x]    │   └── Background
-[x]    │       └── Importance
-[x]    │           └── Objective
-[x]    ├── Methods
-[x]    │   └── Data Collection
-[x]    │       └── Tools Used
-[x]    │           └── Future Work
-[x]    └── Conclusion"""
+        savable_prompt_template = """[ ] ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │   └── Background
+[x]     │       └── Importance
+[x]     │           └── Objective
+[x]     ├── Methods
+[x]     │   └── Data Collection
+[x]     │       └── Tools Used
+[x]     │           └── Future Work
+[x]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -487,17 +487,17 @@ Suggestions for future research or tasks.
 Summarizing the findings and implications."""
 
     def test_empty(_):
-        savable_prompt_template = """[ ]○
-[ ]└── Main Title
-[ ]    ├── Introduction
-[ ]    │   └── Background
-[ ]    │       └── Importance
-[ ]    │           └── Objective
-[ ]    ├── Methods
-[ ]    │   └── Data Collection
-[ ]    │       └── Tools Used
-[ ]    │           └── Future Work
-[ ]    └── Conclusion"""
+        savable_prompt_template = """[ ] ○
+[ ] └── Main Title
+[ ]     ├── Introduction
+[ ]     │   └── Background
+[ ]     │       └── Importance
+[ ]     │           └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[ ]     │           └── Future Work
+[ ]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -508,17 +508,17 @@ Summarizing the findings and implications."""
         assert opt == ""
 
     def test1(_):
-        savable_prompt_template = """[ ]○
-[ ]└── Main Title
-[x]    ├── Introduction
-[ ]    │   └── Background
-[ ]    │       └── Importance
-[x]    │           └── Objective
-[ ]    ├── Methods
-[ ]    │   └── Data Collection
-[x]    │       └── Tools Used
-[ ]    │           └── Future Work
-[x]    └── Conclusion"""
+        savable_prompt_template = """[ ] ○
+[ ] └── Main Title
+[x]     ├── Introduction
+[ ]     │   └── Background
+[ ]     │       └── Importance
+[x]     │           └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[x]     │       └── Tools Used
+[ ]     │           └── Future Work
+[x]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -536,17 +536,17 @@ List of tools utilized during the project.
 Summarizing the findings and implications."""
 
     def test2(_):
-        savable_prompt_template = """[ ]○
-[ ]└── Main Title
-[x]    ├── Introduction
-[ ]    │   └── Background
-[x]    │       └── Importance
-[x]    │           └── Objective
-[ ]    ├── Methods
-[ ]    │   └── Data Collection
-[x]    │       └── Tools Used
-[x]    │           └── Future Work
-[ ]    └── Conclusion"""
+        savable_prompt_template = """[ ] ○
+[ ] └── Main Title
+[x]     ├── Introduction
+[ ]     │   └── Background
+[x]     │       └── Importance
+[x]     │           └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[x]     │       └── Tools Used
+[x]     │           └── Future Work
+[ ]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
@@ -566,17 +566,17 @@ List of tools utilized during the project.
 Suggestions for future research or tasks."""
 
     def test3(_):
-        savable_prompt_template = """[ ]○
-[x]└── Main Title
-[ ]    ├── Introduction
-[x]    │   └── Background
-[ ]    │       └── Importance
-[ ]    │           └── Objective
-[x]    ├── Methods
-[ ]    │   └── Data Collection
-[ ]    │       └── Tools Used
-[x]    │           └── Future Work
-[ ]    └── Conclusion"""
+        savable_prompt_template = """[ ] ○
+[x] └── Main Title
+[ ]     ├── Introduction
+[x]     │   └── Background
+[ ]     │       └── Importance
+[ ]     │           └── Objective
+[x]     ├── Methods
+[ ]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[x]     │           └── Future Work
+[ ]     └── Conclusion"""
 
         pt = PromptTemplate(
             savable_prompt_template, full_prompt_tree=example_tree
