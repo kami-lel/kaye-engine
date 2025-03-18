@@ -10,9 +10,9 @@ from .current_full_prompt_tree import get_current_full_prompt_tree
 
 __all__ = ("PromptTemplate",)
 
-CHECKED_BOX = "[x]"
-UNCHECKED_BOX = "[ ]"
-NO_CHECKBOX = "   "
+CHECKED_BOX = "[x] "
+UNCHECKED_BOX = "[ ] "
+NO_CHECKBOX = "    "
 
 
 class PromptTemplate:
@@ -158,30 +158,30 @@ class PromptTemplate:
 
         :example:
         >>> repr(tree)
-        [x]○
-        [x]└── Project Title
-        [ ]    ├── Description
-               │   A brief overview of the project, its purpose, and goals.
-        [ ]    ├── Installation
-               │   1. Clone the repo
-               │   2. Install dependencies
-               │   3. Run the application
-        [ ]    ├── Usage
-               │   Provide instructions on how to use the application.
-        [ ]    ├── Contributing
-               │   1. Fork the repo
-               │   2. Create a new branch
-               │   3. Submit a pull request
-        [x]    └── License
-                   This project is licensed under the MIT License.
+        [x] ○
+        [x] └── Project Title
+        [ ]     ├── Description
+                │   A brief overview of the project, its purpose, and goals.
+        [ ]     ├── Installation
+                │   1. Clone the repo
+                │   2. Install dependencies
+                │   3. Run the application
+        [ ]     ├── Usage
+                │   Provide instructions on how to use the application.
+        [ ]     ├── Contributing
+                │   1. Fork the repo
+                │   2. Create a new branch
+                │   3. Submit a pull request
+        [x]     └── License
+                    This project is licensed under the MIT License.
         >>> tree.__repr__(preview_line_count=0)
-        [x]○
-        [x]└── Project Title
-        [ ]    ├── Description
-        [ ]    ├── Installation
-        [ ]    ├── Usage
-        [ ]    ├── Contributing
-        [x]    └── License
+        [x] ○
+        [x] └── Project Title
+        [ ]     ├── Description
+        [ ]     ├── Installation
+        [ ]     ├── Usage
+        [ ]     ├── Contributing
+        [x]     └── License
         """
         opt_lines = []
 
