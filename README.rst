@@ -7,7 +7,3 @@ kaye README
 This repository keeps track of **system message** setting of *VS code* extension ``ChatGPT - Genie AI``, utilizing *OpenAI*'s LLM ``gpt-40-mini``.
 
 This work of prompt engineering attempts to, while using the extension, provide a consistent experience, imitate a certain personality, and provide reference for future implementation of a more powerful AI helper agent.
-
-TODO Don’t say anything not important in some of role
-TODO improve clarity and simplicity
-TODO include version in each prompt
