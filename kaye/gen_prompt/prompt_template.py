@@ -129,8 +129,22 @@ class PromptTemplate:
         return "\n".join(opt_lines)
 
     def __str__(self):
-        # TODO docstring
+        """
+        Returns the string representation of the PromptTemplate,
+        including either the full prompt or part of it based on enabled nodes.
 
+        :return: the prompt showing enabled nodes and their respective content.
+        :rtype: str
+
+        :example:
+        >>> str(tree)
+        # Main Title
+        Overview of the methodologies used.
+        ### Data Collection
+        How data was gathered for analysis.
+        ## Conclusion
+        Summarizing the findings and implications.
+        """
         lines = (
             self._generate_str_recursively_detached_mode(self.full_prompt_tree)
             if self.is_detached_mode
