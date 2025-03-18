@@ -12,7 +12,6 @@ class Test:
 
     def test_struture(_):
         root = get_current_full_prompt_tree()
-        print(root.__repr__(preview_line_count=3))  # HACK
 
         assert root.__repr__(preview_line_count=0) == """○
 ├── Personality

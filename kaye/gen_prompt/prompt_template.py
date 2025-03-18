@@ -5,7 +5,7 @@ define `PromptTemplate`
 import re
 from anytree import RenderTree
 
-from .full_prompt_parser import TREE_ROOT_NAME, HEADING_MARKER
+from .full_prompt_parser import TREE_ROOT_NAME
 from .current_full_prompt_tree import get_current_full_prompt_tree
 
 __all__ = ("PromptTemplate",)
@@ -139,10 +139,8 @@ class PromptTemplate:
         return "\n".join(lines)
 
     def _generate_str_recursively(self, node):
-        node_name = node.name
-
         # stop recurisve if this node is not enabled
-        if node_name not in self.enabled_nodes_names:
+        if node.name not in self.enabled_nodes_names:
             return []
 
         lines = []
@@ -156,7 +154,15 @@ class PromptTemplate:
         return lines
 
     def _generate_str_recursively_detached_mode(self, node):
-
         lines = []
+
+        if node.name in self.enabled_nodes_names and node.parent is not None:
+            lines.extend(node.generate_heading_and_content_lines())
+
+        # children
+        for child_node in node.children:
+            lines.extend(
+                self._generate_str_recursively_detached_mode(child_node)
+            )
 
         return lines
