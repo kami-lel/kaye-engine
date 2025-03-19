@@ -1,18 +1,17 @@
 """
-test for ``get_current_full_prompt_tree``
+test for ``load_current_full_prompt_tree``
 """
 
-from kaye.gen_prompt import get_current_full_prompt_tree, FullPromptParserNode
+from kaye.gen_prompt import load_current_full_prompt_tree, FullPromptParserNode
 
 
 class Test:
     def test_type(_):
-        opt = get_current_full_prompt_tree()
+        opt = load_current_full_prompt_tree()
         assert isinstance(opt, FullPromptParserNode)
 
     def test_struture(_):
-        root = get_current_full_prompt_tree()
-        print(root.__repr__(preview_line_count=3))  # HACK
+        root = load_current_full_prompt_tree()
 
         assert root.__repr__(preview_line_count=0) == """○
 ├── Personality
@@ -60,10 +59,10 @@ class Test:
     │   │   ├── publisher
     │   │   ├── informational tags
     │   │   └── label examples
-    │   ├── DDC
+    │   ├── DDC part
     │   └── DDC justification
     ├── zh Librarian
-    │   ├── DDC
+    │   ├── DDC 部分
     │   └── DDC 說明
     ├── Prompt Writer
     └── Translator"""

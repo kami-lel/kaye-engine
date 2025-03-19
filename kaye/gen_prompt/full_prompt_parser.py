@@ -3,16 +3,16 @@ define ``FullPromptParserNode``
 """
 
 import re
-from collections import OrderedDict
 
-from anytree import Node, RenderTree
+from anytree import Node as AnytreeNode, RenderTree
 
 HEADING_MARKER = "#"
+TREE_ROOT_NAME = "○"
 
 __all__ = ("FullPromptParserNode",)
 
 
-class FullPromptParserNode(OrderedDict):
+class FullPromptParserNode(AnytreeNode):
     """
     Represents a single node in a **Full Prompt Tree**, which is a
     structured representation of a Full Prompt. In this tree
@@ -20,118 +20,120 @@ class FullPromptParserNode(OrderedDict):
     a prompt, allowing for both root nodes that encompass the
     entire document and subsections identified by headings.
 
-    :param text:
-    :type text: str or list(str)
-    :param level: The hierarchical level of this node within the tree structure:
-
-    - ``0`` for the root node (the entire document)
-    - ``1`` for first-level sections (e.g., a section
-    under a single `# heading`)
-    - etc.
-
-    :type level: int, optional
+    :param name: name / heading of the node
+    :type name: str
     :param parent: parent node in the tree structure;
     `None` for the root node.
-    :type parent: FullPromptTreeNode
+    :type parent: FullPromptParserNode
+    :param text_lines: content to be parsed, each ``str`` represents a line
+    :type text_lines: list(str)
     """
 
-    def __new__(cls, text, parent=None):
-        return super().__new__(cls, {})  # new as an empty dict
+    @classmethod
+    def parse(cls, full_prompt):
+        """
+        Parses a full prompt string into a structured **Full Prompt Tree**.
 
-    def __init__(self, text, parent=None):
-        self.parent = parent
-        self.content = ""
+        This method takes a full prompt as input, and constructs the root node
+        of the tree. The resulting tree structure contains nodes that represent
+        the various sections and subsections of the prompt based on headings.
+        :param full_prompt: The entire prompt to be parsed into a tree structure.
+        :type full_prompt: str
+        :return: The root node of the **Full Prompt Tree**,
+                representing the parsed structure of the full prompt.
+        :rtype: FullPromptParserNode
+        """
 
-        if parent is None:  # when current node is root
-            self.level = 0
-            text = self._convert_full_prompt2str_list_per_line(text)
-        else:
-            self.level = parent.level + 1
+        text_lines = cls._convert_full_prompt2lines(full_prompt)
+        root = cls(TREE_ROOT_NAME, None, text_lines)
+        return root
 
-        self._populate_self_by_str_line(text)
+    def __init__(self, name, parent, text_lines):
+        super().__init__(name, parent)
+        self.content = []
+        self._populate_self_by_text_lines(text_lines)
 
     @staticmethod
-    def _convert_full_prompt2str_list_per_line(full_prompt):
+    def _convert_full_prompt2lines(full_prompt):
         # remove all empty lines
         cleanup = re.sub(r"\n+(?=\Z)", "", re.sub(r"\n+", "\n", full_prompt))
         return list(cleanup.split("\n"))
 
-    def _populate_self_by_str_line(self, lines):
-        heading_prefix = HEADING_MARKER * (self.level + 1) + " "
-
+    def _populate_self_by_text_lines(self, text_lines):
         # find every sub-section heading lines
+        heading_prefix = HEADING_MARKER * (self.depth + 1) + " "
         heading_lines = []
-        for idx, line in enumerate(lines):
+        for idx, line in enumerate(text_lines):
             if line.startswith(heading_prefix):
                 heading_lines.append(idx)
 
-        if not heading_lines:  # contain no subsection
-            self.content = "\n".join(lines)  # all lines are content
+        # contain no subsection
+        if not heading_lines:
+            # all lines are content
+            self.content = list(text_lines)
             return
 
-        # this node contains subsections
-        # parse the content part out
-        self.content = "\n".join(lines[: heading_lines[0]])
+        # this node contains subsections, then parse the content part out
+        self.content = text_lines[: heading_lines[0]]
+        if not any(self.content):
+            self.content = []
 
         # parse sub-sections as nodes
-        heading_lines.append(len(lines))
+        heading_lines.append(len(text_lines))
         for start, end in zip(heading_lines, heading_lines[1:]):
             # extract heading content
             # e.g. "### this is heading " -> "this is heading"
-            heading_content = lines[start][len(heading_prefix) :].strip()
-            self[heading_content] = FullPromptParserNode(
-                lines[start + 1 : end], self
-            )
+            heading_content = text_lines[start][len(heading_prefix) :].strip()
+            children_nodes = text_lines[start + 1 : end]
+            FullPromptParserNode(heading_content, self, children_nodes)
 
-    def as_anytree_node(
-        self,
-        node_name=None,
-        parent=None,
-        preview_line_count=3,
-        preview_line_width=64,
+    def generate_heading_and_content_lines(self):
+        """
+        Generate lines representing the heading and content of the node.
+
+        This method constructs a list of strings, where each string is a line
+        representing the node's heading followed by its content. The heading
+        is formatted based on the node's depth, and each content line is
+        included in the resulting list.
+
+        :return: A list of strings, each representing a line of the node's
+                heading and content. The first line is the heading,
+                followed by the content lines if available.
+        :rtype: list[str]
+
+        :example:
+        >>> node = ...
+        >>> node.generate_heading_and_content_lines()
+        ['### Node Heading', 'content 1st line', 'content 2nd line']
+        """
+        lines = []
+        lines.append(HEADING_MARKER * self.depth + " " + self.name)
+        lines.extend(self.content)
+        return lines
+
+    def generate_repr_content_part(
+        self, fill, preview_line_count, preview_line_width
     ):
         """
-        Convert the current node and its children into an
-        `anytree.Node`.
+        Generate a part of the string representation for the content of the node.
 
-        (helper method used in ``__repr__()``)
+        This method is used to generate a portion of the result for the
+        __repr__() method, allowing a preview of the node's content.
 
-        :param node_name: Tag or name of the current node;
-                `None` if the node is root.
-        :type node_name: str; NoneType
-        :param parent: The parent node in the tree structure.
-        :type parent: anytree.Node; NoneType
-        :param preview_line_count: The number of lines to preview for the
-                content of the node; defaults to 3.
+        :param fill: The string to prepend to each line of content.
+        :type fill: str
+        :param preview_line_count: The number of lines to include in the preview.
         :type preview_line_count: int
-        :param preview_line_width: The width of each preview line,
-                which determines how many characters from the content
-                will be included in the preview; defaults to 64.
+        :param preview_line_width: The maximum width of each preview line.
         :type preview_line_width: int
-        :return: A node representing the current node and its children.
-        :rtype: anytree.Node
+        :return: A list of formatted content lines for the node's representation.
+        :rtype: list[str]
         """
-
-        if node_name is None:
-            node_name = "○"
-
-        if self.content and preview_line_count:
-            # convert self.content into lines required by anytree node
-            lines = [
-                line[:preview_line_width] for line in self.content.split("\n")
-            ][:preview_line_count]
-        else:
-            lines = []
-
-        at_node = Node(node_name, parent=parent, lines=lines)
-
-        # make childrens connected to self
-        for key, value in self.items():
-            value.as_anytree_node(
-                key, at_node, preview_line_count, preview_line_width
-            )
-
-        return at_node
+        lines = []
+        if self.content and preview_line_count:  # print content of node
+            for content_line in self.content[:preview_line_count]:
+                lines.append(fill + content_line[:preview_line_width])
+        return lines
 
     def __repr__(self, preview_line_count=3, preview_line_width=64):
         """
@@ -151,19 +153,44 @@ class FullPromptParserNode(OrderedDict):
         :type preview_line_width: int
         :return: A string representation of the current node and its children.
         :rtype: str
+
+        :example:
+        >>> repr(tree)
+        ○
+        └── Project Title
+            ├── Description
+            │   A brief overview of the project, its purpose, and goals.
+            ├── Installation
+            │   1. Clone the repo
+            │   2. Install dependencies
+            │   3. Run the application
+            ├── Usage
+            │   Provide instructions on how to use the application.
+            ├── Contributing
+            │   1. Fork the repo
+            │   2. Create a new branch
+            │   3. Submit a pull request
+            └── License
+                This project is licensed under the MIT License.
+        >>> tree.__repr__(preview_line_count=0)
+        ○
+        └── Project Title
+            ├── Description
+            ├── Installation
+            ├── Usage
+            ├── Contributing
+            └── License
         """
         opt_lines = []
 
-        self_as_anytree_node = self.as_anytree_node(
-            None,
-            None,
-            preview_line_count=preview_line_count,
-            preview_line_width=preview_line_width,
-        )
-
-        for pre, fill, node in RenderTree(self_as_anytree_node):
+        for pre, fill, node in RenderTree(self):
+            # line for the node
             opt_lines.append(pre + node.name)
-            for line in node.lines:
-                opt_lines.append(fill + line)
+            # lines for the content of node
+            opt_lines.extend(
+                node.generate_repr_content_part(
+                    fill, preview_line_count, preview_line_width
+                )
+            )
 
         return "\n".join(opt_lines)
