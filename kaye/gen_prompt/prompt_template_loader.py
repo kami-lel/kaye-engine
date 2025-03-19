@@ -30,7 +30,6 @@ def load_prompt_template(prompt_name):
     :raises FileNotFoundError:
     :raises OSError:
     """
-    # TODO need unit test
 
     # assert prompt_name is an existing prompt file
     prompt_file_path = _get_prompt_templates_names_and_paths().get(
