@@ -1,0 +1,53 @@
+[ ] ○
+[ ] ├── Personality
+[ ] ├── Character
+[ ] ├── Conversation
+[ ] ├── Format Guidelines
+[ ] ├── Abbreviation
+[ ] └── Role
+[ ]     ├── Book Buddy
+[ ]     │   └── Reading Notes Guidelines
+[ ]     ├── Code Assistant
+[ ]     │   ├── C & C++
+[ ]     │   ├── C Sharp
+[ ]     │   ├── Unity Engine
+[ ]     │   ├── GDScript
+[ ]     │   ├── HTML
+[ ]     │   ├── JavaScript & TypeScript
+[ ]     │   │   ├── Naming Conventions
+[ ]     │   │   └── Documentation and Comments
+[ ]     │   └── Python
+[ ]     │       ├── Docstring Style
+[ ]     │       └── Testing Guidelines
+[ ]     ├── Conversation Title Generation
+[ ]     │   ├── Guidelines
+[ ]     │   ├── Output
+[ ]     │   ├── Examples
+[ ]     │   └── Chat History
+[ ]     ├── Conversation Tag Generation
+[ ]     │   ├── Guidelines
+[ ]     │   ├── Output
+[ ]     │   └── Chat History
+[ ]     ├── Deutschlehrer
+[x]     ├── Editor
+[ ]     ├── Email Secretary
+[ ]     ├── Encyclopedic
+[ ]     ├── Etiquette Coach
+[ ]     ├── Event Search
+[ ]     ├── git commit message
+[ ]     ├── git diff Summary
+[ ]     ├── Librarian
+[ ]     │   ├── label
+[ ]     │   │   ├── book title
+[ ]     │   │   ├── publish year
+[ ]     │   │   ├── authors, editors, translators
+[ ]     │   │   ├── publisher
+[ ]     │   │   ├── informational tags
+[ ]     │   │   └── label examples
+[ ]     │   ├── DDC part
+[ ]     │   └── DDC justification
+[ ]     ├── zh Librarian
+[ ]     │   ├── DDC 部分
+[ ]     │   └── DDC 說明
+[ ]     ├── Prompt Writer
+[ ]     └── Translator

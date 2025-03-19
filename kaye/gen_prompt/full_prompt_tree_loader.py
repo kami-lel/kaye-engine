@@ -1,24 +1,25 @@
 """
-define ``get_current_full_prompt_tree``
+define ``load_current_full_prompt_tree``
 """
 
 from pathlib import Path
 from .full_prompt_parser import FullPromptParserNode
 
-__all__ = ("get_current_full_prompt_tree",)
+__all__ = ("load_current_full_prompt_tree",)
 
 
 def _get_full_prompt_file_path():
     """
-    :return: Absolute path to the "prompt_full.md" file.
+    :return: absolute path to the ``prompt_full.md`` file.
     :rtype: Path
     """
+    # find path of prompt_full.md based by relative path from this script
     return (
         Path(__file__).resolve().parent.parent / "prompt_full.md"
     ).absolute()
 
 
-def get_current_full_prompt_tree():
+def load_current_full_prompt_tree():
     """
     Read the content of the full prompt file and parse it into a tree structure.
 
@@ -36,4 +37,4 @@ def get_current_full_prompt_tree():
         full_prompt_file_path, "r", encoding="utf-8", newline=""
     ) as file:
         file_content = file.read()
-        return FullPromptParserNode(file_content)
+        return FullPromptParserNode.parse(file_content)
