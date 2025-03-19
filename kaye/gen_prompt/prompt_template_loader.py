@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 
 from .full_prompt_tree_loader import load_current_full_prompt_tree
+from .prompt_template import PromptTemplate
 
 __all__ = ("get_prompt_templates_names", "load_prompt_template")
 
@@ -28,7 +29,21 @@ def get_prompt_templates_names():
 
 
 def load_prompt_template(prompt_name):
-    pass  # TODO
+    """
+    :param prompt_name:
+    :type prompt_name: str
+    :return: an exsiting PromptTemplate with name ``prompt_name``
+    :rtype: PromptTemplate
+    :raises FileNotFoundError:
+    :raises OSError:
+    """
+    if prompt_name not in get_prompt_templates_names():
+        raise FileNotFoundError(
+            "The prompt template '{}' does not exist in the"
+            " available templates.".format(prompt_name)
+        )
+
+    # TODO
 
 
 def _get_prompt_templates_folder_path():
