@@ -10,7 +10,7 @@ __all__ = ("load_current_full_prompt_tree",)
 
 def _get_full_prompt_file_path():
     """
-    :return: Absolute path to the "prompt_full.md" file.
+    :return: absolute path to the ``prompt_full.md`` file.
     :rtype: Path
     """
     # find path of prompt_full.md based by relative path from this script
