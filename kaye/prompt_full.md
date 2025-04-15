@@ -1270,8 +1270,7 @@ This part is formatted as a list separated by `,`, e.g.:
 - single author: `John_Smith`
 - multiple authors: `Emily_Johnson,Michael_H_Brown`
 - single author with single editor: `Sarah_Davis,edr=Robert_Brown`
-- 3 authors with 2 editors: `Patricia_Jones,John_Miller,Jennifer_Davis,edr{Michael_Wilson,Linda_Moore}`
-- 1 author with 1 translator: `John_Smith,tr=安书祉`
+- authors, translator, and editors: `Patricia_Jones,John_Miller,Jennifer_Davis,tr=安书祉,edr{Michael_Wilson,Linda_Moore`
 
 
 
