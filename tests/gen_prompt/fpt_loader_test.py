@@ -11,6 +11,7 @@ class Test:
         assert isinstance(opt, FullPromptParserNode)
 
     def test_struture(_):
+        # BUG didn't pass
         root = load_current_full_prompt_tree()
 
         assert root.__repr__(preview_line_count=0) == """○

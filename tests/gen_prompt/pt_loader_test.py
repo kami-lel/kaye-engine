@@ -2,6 +2,8 @@
 test ``prompt_template_loader.py``
 """
 
+# BUG many test failed
+
 from kaye.gen_prompt.prompt_template import PromptTemplate
 from kaye.gen_prompt.prompt_template_loader import load_prompt_template
 
