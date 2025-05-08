@@ -74,8 +74,8 @@ def _get_prompt_blueprints_names_and_paths():
 
 def _get_prompt_blueprints_folder_path():
     """
-    :return: absolute path to ``prompt_templates`` folder
+    :return: absolute path to ``prompt_blueprints`` folder
     :rtype: Path
     """
     # find folder path by relative path from this script
-    return (Path(__file__).resolve().parent / "prompt_templates").absolute()
+    return (Path(__file__).resolve().parent / "prompt_blueprints").absolute()
