@@ -1,5 +1,5 @@
 """
-define ``load_current_full_prompt_tree``
+define ``load_embedded_prompt_corpus``
 """
 
 from pathlib import Path
