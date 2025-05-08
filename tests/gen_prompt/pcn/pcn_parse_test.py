@@ -1,15 +1,20 @@
 """
-test parsing for FullPromptParser
+test .parse() and instance creation for ``PromptCorpusNode``
 """
 
-from kaye.gen_prompt import FullPromptParserNode
-from prompts import PROMPT1, PROMPT2, PROMPT3, PROMPT_EMPTYLINES
+from kaye.gen_prompt import PromptCorpusNode
+from tests.gen_prompt.pcn.pcn_testee_corpus import (
+    PROMPT1,
+    PROMPT2,
+    PROMPT3,
+    PROMPT_EMPTYLINES,
+)
 
 
-class TestParse1:
+class TestParse1:  # test using PROMPT1
 
     def test_root(self):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
 
         assert tree.depth == 0
         assert tree.parent is None
@@ -17,7 +22,7 @@ class TestParse1:
         assert tree.content == []
 
     def test_project(self):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
         project = tree.children[0]
 
         assert project.name == "Project Title"
@@ -27,7 +32,7 @@ class TestParse1:
         assert project.content == []
 
     def test_sub1(self):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
         project = tree.children[0]
         sub = project.children[0]
 
@@ -40,7 +45,7 @@ class TestParse1:
         ]
 
     def test_sub2(self):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
         project = tree.children[0]
         sub = project.children[1]
 
@@ -51,7 +56,7 @@ class TestParse1:
         assert sub.content == ["Clone the repo and install dependencies."]
 
     def test_sub3(self):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
         project = tree.children[0]
         sub = project.children[2]
 
@@ -62,9 +67,9 @@ class TestParse1:
         assert sub.content == ["Licensed under the MIT License."]
 
 
-class TestParse2:
+class TestParse2:  # test using PROMPT2
     def test_root(self):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
 
         assert tree.depth == 0
         assert tree.parent is None
@@ -72,7 +77,7 @@ class TestParse2:
         assert tree.content == []
 
     def test_project(self):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         project = tree.children[0]
 
         assert project.name == "Project Title"
@@ -82,7 +87,7 @@ class TestParse2:
         assert project.content == []
 
     def test_description(self):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         project = tree.children[0]
         sub = project.children[0]
 
@@ -95,7 +100,7 @@ class TestParse2:
         ]
 
     def test_install(self):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         project = tree.children[0]
         sub = project.children[1]
         assert sub.name == "Installation"
@@ -109,7 +114,7 @@ class TestParse2:
         ]
 
     def test_usage1(self):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         project = tree.children[0]
         sub = project.children[2]
 
@@ -122,7 +127,7 @@ class TestParse2:
         ]
 
     def test_usage2(self):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         project = tree.children[0]
         sub = project.children[3]
 
@@ -137,7 +142,7 @@ class TestParse2:
         ]
 
     def test_license(self):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         project = tree.children[0]
         sub = project.children[4]
 
@@ -150,17 +155,17 @@ class TestParse2:
         ]
 
 
-class TestParse3:
+class TestParse3:  # test using PROMPT3
 
     def test_root(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         assert tree.depth == 0
         assert tree.parent is None
         assert len(tree.children) == 1
         assert tree.content == []
 
     def test_project(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
 
         assert project.name == "Main Title"
@@ -170,7 +175,7 @@ class TestParse3:
         assert project.content == []
 
     def test_intro(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         node = project.children[0]
 
@@ -181,7 +186,7 @@ class TestParse3:
         assert node.content == ["Brief introduction to the topic."]
 
     def test_intro_bg(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         parent = project.children[0]
         node = parent.children[0]
@@ -193,7 +198,7 @@ class TestParse3:
         assert node.content == ["Context or history relevant to the topic."]
 
     def test_intro_bg_mpt(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         parent = project.children[0].children[0]
         node = parent.children[0]
@@ -207,7 +212,7 @@ class TestParse3:
         ]
 
     def test_intro_bg_mpt_obj(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         parent = project.children[0].children[0].children[0]
         node = parent.children[0]
@@ -219,7 +224,7 @@ class TestParse3:
         assert node.content == ["The primary goal of this document."]
 
     def test_met(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         node = project.children[1]
 
@@ -230,7 +235,7 @@ class TestParse3:
         assert node.content == ["Overview of the methodologies used."]
 
     def test_met_dc(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         parent = project.children[1]
         node = parent.children[0]
@@ -242,7 +247,7 @@ class TestParse3:
         assert node.content == ["How data was gathered for analysis."]
 
     def test_met_dc_tu(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         parent = project.children[1].children[0]
         node = parent.children[0]
@@ -254,7 +259,7 @@ class TestParse3:
         assert node.content == ["List of tools utilized during the project."]
 
     def test_met_dc_tu_fw(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         parent = project.children[1].children[0].children[0]
         node = parent.children[0]
@@ -266,7 +271,7 @@ class TestParse3:
         assert node.content == ["Suggestions for future research or tasks."]
 
     def test_concl(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         node = project.children[2]
 
@@ -280,7 +285,7 @@ class TestParse3:
 class TestEmptyLine:  # source material contains various empty lines
 
     def test_root(self):
-        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
+        tree = PromptCorpusNode.parse(PROMPT_EMPTYLINES)
 
         assert tree.depth == 0
         assert tree.parent is None
@@ -288,7 +293,7 @@ class TestEmptyLine:  # source material contains various empty lines
         assert tree.content == []
 
     def test_project(self):
-        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
+        tree = PromptCorpusNode.parse(PROMPT_EMPTYLINES)
         project = tree.children[0]
 
         assert project.name == "Project Title"
@@ -298,7 +303,7 @@ class TestEmptyLine:  # source material contains various empty lines
         assert project.content == []
 
     def test_description(self):
-        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
+        tree = PromptCorpusNode.parse(PROMPT_EMPTYLINES)
         project = tree.children[0]
         sub = project.children[0]
 
@@ -311,7 +316,7 @@ class TestEmptyLine:  # source material contains various empty lines
         ]
 
     def test_install(self):
-        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
+        tree = PromptCorpusNode.parse(PROMPT_EMPTYLINES)
         project = tree.children[0]
         sub = project.children[1]
 
@@ -326,7 +331,7 @@ class TestEmptyLine:  # source material contains various empty lines
         ]
 
     def test_usage1(self):
-        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
+        tree = PromptCorpusNode.parse(PROMPT_EMPTYLINES)
         project = tree.children[0]
         sub = project.children[2]
 
@@ -339,7 +344,7 @@ class TestEmptyLine:  # source material contains various empty lines
         ]
 
     def test_usage2(self):
-        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
+        tree = PromptCorpusNode.parse(PROMPT_EMPTYLINES)
         project = tree.children[0]
         sub = project.children[3]
 
@@ -354,7 +359,7 @@ class TestEmptyLine:  # source material contains various empty lines
         ]
 
     def test_license(self):
-        tree = FullPromptParserNode.parse(PROMPT_EMPTYLINES)
+        tree = PromptCorpusNode.parse(PROMPT_EMPTYLINES)
         project = tree.children[0]
         sub = project.children[4]
 
@@ -372,7 +377,7 @@ class TestEdge:  # various edge cases
     def test_empty1(_):  # total empty
         src = """"""
 
-        tree = FullPromptParserNode.parse(src)
+        tree = PromptCorpusNode.parse(src)
         assert tree.depth == 0
         assert tree.parent is None
 
@@ -381,7 +386,7 @@ class TestEdge:  # various edge cases
     def test_empty2(_):
         src = "\n"
 
-        tree = FullPromptParserNode.parse(src)
+        tree = PromptCorpusNode.parse(src)
         assert tree.depth == 0
         assert tree.parent is None
 
@@ -390,7 +395,7 @@ class TestEdge:  # various edge cases
     def test_empty3(_):
         src = "\n" * 10
 
-        tree = FullPromptParserNode.parse(src)
+        tree = PromptCorpusNode.parse(src)
         assert tree.depth == 0
         assert tree.parent is None
 
