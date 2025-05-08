@@ -5,34 +5,30 @@ define ``load_current_full_prompt_tree``
 from pathlib import Path
 from .prompt_corpus_node import PromptCorpusNode
 
-__all__ = ("load_current_full_prompt_tree",)
+__all__ = ("load_embedded_prompt_corpus",)
 
 
-def _get_full_prompt_file_path():
+def _get_prompt_corpus_file_path():
     """
-    :return: absolute path to the ``prompt_full.md`` file.
+    :return: absolute path of the ``prompt_corpus.md`` file.
     :rtype: Path
     """
-    # find path of prompt_full.md based by relative path from this script
     return (
-        Path(__file__).resolve().parent.parent / "prompt_full.md"
+        Path(__file__).resolve().parent.parent / "prompt_corpus.md"
     ).absolute()
 
 
-def load_current_full_prompt_tree():
+def load_embedded_prompt_corpus():
     """
-    Read the content of the full prompt file and parse it into a tree structure.
+    Load the prompt corpus embedded with this Python package,
+    then parse the text to the tree structre.
 
-    This function retrieves the full prompt from the ``prompt_full.md`` file,
-    parses its content using the `FullPromptParserNode`, and returns an instance
-    representing the full prompt's tree structure.
-
-    :return: root of Full Prompt Tree
-    :rtype: FullPromptParserNode
-    :raises FileNotFoundError: If the full prompt file cannot be found.
-    :raises IOError: If an error occurs while reading the file.
+    :return: **root node** of the parsed *prompt corpus* tree structure
+    :rtype: PromptCorpusNode
+    :raises FileNotFoundError:
+    :raises IOError:
     """
-    full_prompt_file_path = _get_full_prompt_file_path()
+    full_prompt_file_path = _get_prompt_corpus_file_path()
     with open(
         full_prompt_file_path, "r", encoding="utf-8", newline=""
     ) as file:

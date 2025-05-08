@@ -2,16 +2,16 @@
 test for ``load_current_full_prompt_tree``
 """
 
-from kaye.gen_prompt import load_current_full_prompt_tree, PromptCorpusNode
+from kaye.gen_prompt import load_embedded_prompt_corpus, PromptCorpusNode
 
 
 class Test:
     def test_type(_):
-        opt = load_current_full_prompt_tree()
+        opt = load_embedded_prompt_corpus()
         assert isinstance(opt, PromptCorpusNode)
 
     def test_struture(_):
-        root = load_current_full_prompt_tree()
+        root = load_embedded_prompt_corpus()
 
         testee = root.__repr__(preview_line_count=0)
         print(testee)
