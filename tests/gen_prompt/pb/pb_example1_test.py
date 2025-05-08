@@ -374,8 +374,3 @@ Provide instructions on how to use the application.
 3. Submit a pull request
 ## License
 This project is licensed under the MIT License."""
-
-
-class TestCFPB:  # test classmethod create_full_prompt_blueprint()
-    def test1(_):
-        pass
