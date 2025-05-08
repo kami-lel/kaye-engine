@@ -1,5 +1,5 @@
 """
-define ``FullPromptParserNode``
+define ``PromptCorpusNode``
 """
 
 import re
