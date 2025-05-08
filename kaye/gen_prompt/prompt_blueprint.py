@@ -19,39 +19,42 @@ NO_CHECKBOX_PREFIX = "    "
 
 class PromptBlueprint:
     """
-    A **prompt blueprint** ``PromptBlueprint`` defines a specific subset of
-    the prompt corpus.
+    Represents a **prompt blueprint**, encapsulating a configurable subset of
+    the prompt corpus with enable/disable control over each tree node.
+
+    A ``PromptBlueprint`` mirrors the hierarchical structure of the prompt
+    corpus, but each node can be explicitly **enabled** or **disabled**.
+
+    Use ``__repr__()`` to generate a visual representation of the **full tree**,
+    clearly marking each node as enabled or disabled with checkbox indicators.
+
+    Use ``__str__()`` to render a **concrete prompt** composed of nodes,
+    supports 2 operational modes:
+
+    - **detached mode**: Any node is included in the output if it is enabled,
+      regardless of its parent or ancestor status.
+
+    - else: A node appears in the output
+      if **both** it and all its ancestor nodes are enabled
+    """
+
+    # TODO TODO
+
+    """
+    :param savable_prompt_template: string representation of a
+            prompt template;
+            defaults to None.
 
 
 
-
-
-
-
-    A  represents a part or the entirety of
-    a *Full Prompt Tree*. It allows nodes in the tree to be enabled or disabled,
-    controlling which prompts are extracted and displayed from
-    the full prompt tree.
-
-    Use ``__repr__`` to obtain a representation of the attached
-    full prompt tree, along with the enabled/disabled status of each node.
 
     You may provide a ``savable_prompt_template`` during creation; it must be
     formatted like the output of the repr. This will set the enabled/disabled
     status during the initialization of the template.
 
-    Use ``__str__`` to render the content of the prompt based on the
-    enabled/disabled conditions of the tree.
 
-    If in *detached_mode*, the prompt allows disconnected individual nodes
-    regardless of the tree structure. For instance, leaf nodes may be enabled
-    without requiring their root to be enabled. Conversely, if not in detached
-    mode, a node is rendered only when it is enabled and all its ancestors are
-    also enabled.
 
-    :param savable_prompt_template: string representation of a
-            prompt template;
-            defaults to None.
+
     :type savable_prompt_template: str, optional
     :param detached_mode: A flag indicating whether to enable detached mode
             for the PromptBlueprint, defaults to False.
