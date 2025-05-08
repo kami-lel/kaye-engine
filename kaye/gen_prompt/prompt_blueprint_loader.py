@@ -15,11 +15,6 @@ __all__ = (
 )
 
 
-# Bug full should be a special case
-
-# HACK improve all docstring
-
-
 def get_embedded_prompt_blueprints_folder_path():
     """
     :return: absolute path to ``prompt_blueprints`` folder
@@ -32,12 +27,12 @@ def get_embedded_prompt_blueprints_folder_path():
 
 def get_embedded_prompt_blueprints_names():
     """
-    :return: names of all available existing prompt templates
-    :rtype: dict{str: str}
-    :raises FileNotFoundError: If the ``prompt_templates`` folder does not exist.
-    :raises OSError: If there is an error accessing the files in the folder.
+    :return: names of all available embedded prompt blueprints
+    :rtype: list(str)
+    :raises FileNotFoundError:
+    :raises OSError:
     """
-    return list(_get_prompt_blueprints_names_and_paths().keys())
+    return list(_get_embedded_prompt_blueprints_names_and_paths().keys())
 
 
 def load_embedded_prompt_blueprint(prompt_blueprint_name):
@@ -49,9 +44,11 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     :raises FileNotFoundError:
     :raises OSError:
     """
+    # HACK improve all docstring
+    # BUG full should be a special case
 
     # assert prompt_name is an existing prompt file
-    prompt_file_path = _get_prompt_blueprints_names_and_paths().get(
+    prompt_file_path = _get_embedded_prompt_blueprints_names_and_paths().get(
         prompt_blueprint_name, ""
     )
     if not prompt_file_path:
@@ -68,9 +65,9 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
         )
 
 
-def _get_prompt_blueprints_names_and_paths():
+def _get_embedded_prompt_blueprints_names_and_paths():
     """
-    :return: names and full paths of all available existing prompt templates
+    :return: names and full paths of all available embedded prompt blueprints
     :rtype: dict{str: str}
     """
     folder_path = get_embedded_prompt_blueprints_folder_path()
