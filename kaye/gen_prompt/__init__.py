@@ -17,7 +17,7 @@ A **prompt blueprint** defines a specific subset of the prompt corpus.
 
 The ``PromptBlueprint`` class encapsulates prompt blueprint structure.
 
-The supporting function ``load_prompt_blueprint(prompt_blueprint_name)``
+The supporting function ``load_embedded_prompt_blueprint(prompt_blueprint_name)``
 retrieves and loads a selected *embedded* blueprint stored in
 ``kaye/gen_prompt/prompt_blueprints/`` at runtime.
 """
