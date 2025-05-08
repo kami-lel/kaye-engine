@@ -27,6 +27,6 @@ from .full_prompt_tree_loader import *
 from .prompt_template import *
 from .prompt_template_loader import *
 
-# Fixme refactor full prompt tree to prompt corpus
-# Fixme refactor prompt template to blueprint
-# Todo better docstrings, etc.
+# FIXME refactor full prompt tree to prompt corpus
+# FIXME refactor prompt template to blueprint
+# TODO better docstrings, etc.

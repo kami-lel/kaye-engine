@@ -11,7 +11,7 @@ from .prompt_template import PromptTemplate
 __all__ = ("get_prompt_templates_names", "load_prompt_template")
 
 
-# BUG full should be a special case
+# Bug full should be a special case
 
 
 def get_prompt_templates_names():
