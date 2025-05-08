@@ -10,7 +10,7 @@ class Test:
         opt = load_embedded_prompt_corpus()
         assert isinstance(opt, PromptCorpusNode)
 
-    # !!! this test change if prompt_corpus.md is changed
+    # !!! this test change with prompt_corpus.md
     def test_struture(_):
         root = load_embedded_prompt_corpus()
 
