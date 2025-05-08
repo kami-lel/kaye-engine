@@ -1,5 +1,5 @@
 """
-test ``__repr__()`` for FullPromptParser
+test ``__repr__()`` of class ``PromptCorpusNode``
 """
 
 from kaye.gen_prompt import PromptCorpusNode
@@ -10,7 +10,7 @@ from tests.gen_prompt.pcn.pcn_testee_corpus import (
 )
 
 
-class Test1:
+class Test1:  # test using PROMPT1
 
     def test_norm(_):
         tree = PromptCorpusNode.parse(PROMPT1)
@@ -48,7 +48,7 @@ class Test1:
         Lic"""
 
 
-class Test2:
+class Test2:  # test using PROMPT2
 
     def test_norm(_):
         tree = PromptCorpusNode.parse(PROMPT2)
@@ -121,7 +121,7 @@ class Test2:
         This pr"""
 
 
-class Test3:
+class Test3:  # test using PROMPT3
 
     def test_norm(_):
         tree = PromptCorpusNode.parse(PROMPT3)
