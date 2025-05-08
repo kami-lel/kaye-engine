@@ -6,7 +6,6 @@ import re
 from anytree import RenderTree
 
 from .prompt_corpus_node import ROOT_NODE_NAME
-from .prompt_corpus_loader import load_embedded_prompt_corpus
 
 __all__ = ("PromptBlueprint",)
 
@@ -25,8 +24,8 @@ class PromptBlueprint:
     A ``PromptBlueprint`` mirrors the hierarchical structure of the prompt
     corpus, but each node can be explicitly **enabled** or **disabled**.
 
-    Use ``__repr__()`` to generate a visual representation of the **full tree**,
-    clearly marking each node as enabled or disabled with checkbox indicators.
+    Use ``__repr__()`` to generate a visual representation of the **tree**
+    with checkboxes to indicate nodes' enabling status.
 
     Use ``__str__()`` to render a **concrete prompt** composed of nodes,
     supports 2 operational modes:
@@ -36,35 +35,20 @@ class PromptBlueprint:
 
     - else: A node appears in the output
       if **both** it and all its ancestor nodes are enabled
-    """
-
-    # TODO TODO
-
-    """
-    :param savable_prompt_template: string representation of a
-            prompt template;
-            defaults to None.
 
 
-
-
-    You may provide a ``savable_prompt_template`` during creation; it must be
-    formatted like the output of the repr. This will set the enabled/disabled
-    status during the initialization of the template.
-
-
-
-
-    :type savable_prompt_template: str, optional
-    :param detached_mode: A flag indicating whether to enable detached mode
-            for the PromptBlueprint, defaults to False.
+    :param prompt_corpus: *prompt corpus* tree root node
+            which this prompt blueprint attached to
+    :type prompt_corpus: PromptCorpusNode
+    :param prompt_blueprint_text: prompt blueprint text to set nodes.
+            It must be formatted identical to output of ``__repr__()``
+            (with tree structure and checkboxes.)
+            if ``None``:
+            the created ``PromptBlueprint`` has **all** nodes **disabled**
+    :type prompt_blueprint_text: str, optional
+    :param detached_mode: defaults to False
     :type detached_mode: bool, optional
-    :param full_prompt_tree: An optional FullPromptParserNode instance that
-            represents the full prompt tree. Defaults to None.
-    :type full_prompt_tree: FullPromptParserNode, optional
     """
-
-    # TODO TODO rewrite docstring, + example
 
     @property
     def is_detached_mode(self):
@@ -92,26 +76,20 @@ class PromptBlueprint:
                 self.enabled_nodes_names.append(ROOT_NODE_NAME)
 
     def __init__(
-        self,
-        savable_prompt_template=None,
-        detached_mode=False,
-        full_prompt_tree=None,
+        self, prompt_corpus, prompt_blueprint_text=None, detached_mode=False
     ):
-        self.enabled_nodes_names = []
+        self.prompt_corpus = prompt_corpus
+        self.enabled_nodes_names = []  # all nodes currently enabled
 
-        self.full_prompt_tree = (
-            full_prompt_tree or load_embedded_prompt_corpus()
-        )
-
-        if savable_prompt_template:
-            self._init_populate_enabled_nodes_names(savable_prompt_template)
+        if prompt_blueprint_text:
+            self._init_populate_enabled_nodes_names(prompt_blueprint_text)
         else:
             # enable tree root node means non-detached mode
             self.set_unset_detached_mode(detached_mode)
 
-    def _init_populate_enabled_nodes_names(self, savable_prompt_template):
+    def _init_populate_enabled_nodes_names(self, prompt_blueprint_text):
         # fixme allow use both x&X for checekd box
-        lines = savable_prompt_template.split("\n")
+        lines = prompt_blueprint_text.split("\n")
 
         # parse detached mode
         self.set_unset_detached_mode(
@@ -119,7 +97,7 @@ class PromptBlueprint:
         )
 
         # find all node names in the tree
-        node_names = [node.name for node in self.full_prompt_tree.descendants]
+        node_names = [node.name for node in self.prompt_corpus.descendants]
 
         # extract all enabled headings
         pattern = r"{}.+── (.+)".format(re.escape(CHECKED_BOX_PREFIX))
@@ -160,22 +138,43 @@ class PromptBlueprint:
 
         return lines
 
+    # TODO TODO
     def __repr__(self, preview_line_count=3, preview_line_width=64):
         """
+        Return a visual representation of the **tree**
+        with checkboxes to indicate nodes' enabling status.
+
+
+
+        String representation of current node with previews.
+
         Returns a brief string representation of the PromptBlueprint,
         showing enabled nodes along with a preview of their content.
 
         It includes checkbox indicators for enabled nodes (checked or
         unchecked) with content previews based on the provided parameters.
 
-        :param preview_line_count: Number of lines to preview for node content.
+
+        :return: human-readable representation of ``self`` node and children,
+                showing the tree structure, node name (i.e. section headings,)
+                node content preview, etc.
+        :return: v.s.
+        :rtype: str
+
+
+        :param preview_line_count: set maximum line count of
+                *content preview* part, (excluding section heading line)
+                defaults to 3
         :type preview_line_count: int
-        :param preview_line_width: Width of each preview line; defaults to 64.
+        :param preview_line_width: set maximum column width of
+                *content preview* part;
+                defaults to 64.
         :type preview_line_width: int
-        :return: String representation of current node with previews.
+        :return: v.s.
         :rtype: str
 
         :example:
+        >>> tree = PromptBlueprint(...)
         >>> repr(tree)
         [x] ○
         [x] └── Project Title
@@ -204,7 +203,7 @@ class PromptBlueprint:
         """
         opt_lines = []
 
-        for pre, fill, node in RenderTree(self.full_prompt_tree):
+        for pre, fill, node in RenderTree(self.prompt_corpus):
             node_name = node.name
             # decide either have [x] or [ ] before node lines
             checkbox_prefix = (
@@ -228,6 +227,10 @@ class PromptBlueprint:
 
     def __str__(self):
         """
+
+        Use ``__str__()`` to render a **concrete prompt** composed of nodes,
+        supports 2 operational modes:
+
         Returns the string representation of the PromptBlueprint,
         including either the full prompt or part of it based on enabled nodes.
 
@@ -244,8 +247,8 @@ class PromptBlueprint:
         Summarizing the findings and implications.
         """
         lines = (
-            self._generate_str_recursively_detached_mode(self.full_prompt_tree)
+            self._generate_str_recursively_detached_mode(self.prompt_corpus)
             if self.is_detached_mode
-            else self._generate_str_recursively(self.full_prompt_tree)
+            else self._generate_str_recursively(self.prompt_corpus)
         )
         return "\n".join(lines)
