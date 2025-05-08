@@ -5,7 +5,7 @@ define `PromptTemplate`
 import re
 from anytree import RenderTree
 
-from .full_prompt_parser import TREE_ROOT_NAME
+from .prompt_corpus_node import TREE_ROOT_NAME
 from .full_prompt_tree_loader import load_current_full_prompt_tree
 
 __all__ = ("PromptTemplate",)

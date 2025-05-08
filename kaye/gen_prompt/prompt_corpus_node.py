@@ -9,10 +9,10 @@ from anytree import Node as AnytreeNode, RenderTree
 HEADING_MARKER = "#"
 TREE_ROOT_NAME = "○"
 
-__all__ = ("FullPromptParserNode",)
+__all__ = ("PromptCorpusNode",)
 
 
-class FullPromptParserNode(AnytreeNode):
+class PromptCorpusNode(AnytreeNode):
     """
     Represents a single node in a **Full Prompt Tree**, which is a
     structured representation of a Full Prompt. In this tree
@@ -29,6 +29,8 @@ class FullPromptParserNode(AnytreeNode):
     :type text_lines: list(str)
     """
 
+    # Fixme rewrite docstring
+
     @classmethod
     def parse(cls, full_prompt):
         """
@@ -43,6 +45,7 @@ class FullPromptParserNode(AnytreeNode):
                 representing the parsed structure of the full prompt.
         :rtype: FullPromptParserNode
         """
+        # Fixme rewrite docstring
 
         text_lines = cls._convert_full_prompt2lines(full_prompt)
         root = cls(TREE_ROOT_NAME, None, text_lines)
@@ -85,7 +88,7 @@ class FullPromptParserNode(AnytreeNode):
             # e.g. "### this is heading " -> "this is heading"
             heading_content = text_lines[start][len(heading_prefix) :].strip()
             children_nodes = text_lines[start + 1 : end]
-            FullPromptParserNode(heading_content, self, children_nodes)
+            PromptCorpusNode(heading_content, self, children_nodes)
 
     def generate_heading_and_content_lines(self):
         """

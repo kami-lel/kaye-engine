@@ -2,14 +2,14 @@
 test function generate_heading_and_content_lines() for ``FullPromptParserNode``
 """
 
-from kaye.gen_prompt import FullPromptParserNode
+from kaye.gen_prompt import PromptCorpusNode
 from prompts import PROMPT1, PROMPT2, PROMPT3, PROMPT_EMPTYLINES
 
 
 class TestParse1:
 
     def test_project(self):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
 
         project = tree.children[0]
 
@@ -18,7 +18,7 @@ class TestParse1:
         assert opt == ["# Project Title"]
 
     def test_sub1(self):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
         project = tree.children[0]
         sub = project.children[0]
 
@@ -30,7 +30,7 @@ class TestParse1:
         ]
 
     def test_sub2(self):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
         project = tree.children[0]
         sub = project.children[1]
 
@@ -42,7 +42,7 @@ class TestParse1:
         ]
 
     def test_sub3(self):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
         project = tree.children[0]
         sub = project.children[2]
 
@@ -55,7 +55,7 @@ class TestParse1:
 class TestParse2:
 
     def test_project(self):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         project = tree.children[0]
 
         opt = project.generate_heading_and_content_lines()
@@ -63,7 +63,7 @@ class TestParse2:
         assert opt == ["# Project Title"]
 
     def test_description(self):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         project = tree.children[0]
         sub = project.children[0]
 
@@ -75,7 +75,7 @@ class TestParse2:
         ]
 
     def test_usage1(self):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         project = tree.children[0]
         sub = project.children[2]
 
@@ -87,7 +87,7 @@ class TestParse2:
         ]
 
     def test_contribute(self):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         project = tree.children[0]
         sub = project.children[3]
 
@@ -104,7 +104,7 @@ class TestParse2:
 class TestParse3:
 
     def test_project(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
 
         opt = project.generate_heading_and_content_lines()
@@ -112,7 +112,7 @@ class TestParse3:
         assert opt == ["# Main Title"]
 
     def test_intro(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         node = project.children[0]
 
@@ -125,7 +125,7 @@ class TestParse3:
         ]
 
     def test_intro_bg(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         parent = project.children[0]
         node = parent.children[0]
@@ -139,7 +139,7 @@ class TestParse3:
         ]
 
     def test_intro_bg_mpt(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         parent = project.children[0].children[0]
         node = parent.children[0]
@@ -152,7 +152,7 @@ class TestParse3:
         ]
 
     def test_intro_bg_mpt_obj(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         parent = project.children[0].children[0].children[0]
         node = parent.children[0]
@@ -162,7 +162,7 @@ class TestParse3:
         assert opt == ["##### Objective", "The primary goal of this document."]
 
     def test_met(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         node = project.children[1]
 
@@ -172,7 +172,7 @@ class TestParse3:
         assert opt == ["## Methods", "Overview of the methodologies used."]
 
     def test_met_dc(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         parent = project.children[1]
         node = parent.children[0]
@@ -186,7 +186,7 @@ class TestParse3:
         ]
 
     def test_met_dc_tu(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         parent = project.children[1].children[0]
         node = parent.children[0]
@@ -200,7 +200,7 @@ class TestParse3:
         ]
 
     def test_met_dc_tu_fw(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         parent = project.children[1].children[0].children[0]
         node = parent.children[0]
@@ -214,7 +214,7 @@ class TestParse3:
         ]
 
     def test_concl(self):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         project = tree.children[0]
         node = project.children[2]
 

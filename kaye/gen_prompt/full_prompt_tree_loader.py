@@ -3,7 +3,7 @@ define ``load_current_full_prompt_tree``
 """
 
 from pathlib import Path
-from .full_prompt_parser import FullPromptParserNode
+from .prompt_corpus_node import PromptCorpusNode
 
 __all__ = ("load_current_full_prompt_tree",)
 
@@ -37,4 +37,4 @@ def load_current_full_prompt_tree():
         full_prompt_file_path, "r", encoding="utf-8", newline=""
     ) as file:
         file_content = file.read()
-        return FullPromptParserNode.parse(file_content)
+        return PromptCorpusNode.parse(file_content)

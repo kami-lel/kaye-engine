@@ -2,7 +2,7 @@
 test ``__repr__()`` for FullPromptParser
 """
 
-from kaye.gen_prompt import FullPromptParserNode
+from kaye.gen_prompt import PromptCorpusNode
 from tests.gen_prompt.full_prompt_parser.prompts import (
     PROMPT1,
     PROMPT2,
@@ -13,7 +13,7 @@ from tests.gen_prompt.full_prompt_parser.prompts import (
 class Test1:
 
     def test_norm(_):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
 
         assert repr(tree) == """○
 └── Project Title
@@ -25,7 +25,7 @@ class Test1:
         Licensed under the MIT License."""
 
     def test_no_content(_):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
         result = tree.__repr__(preview_line_count=0)
 
         assert result == """○
@@ -35,7 +35,7 @@ class Test1:
     └── License"""
 
     def test_limited_width(_):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
         result = tree.__repr__(preview_line_width=3)
 
         assert result == """○
@@ -51,7 +51,7 @@ class Test1:
 class Test2:
 
     def test_norm(_):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
 
         assert repr(tree) == """○
 └── Project Title
@@ -71,7 +71,7 @@ class Test2:
         This project is licensed under the MIT License."""
 
     def test_no_content(_):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         result = tree.__repr__(preview_line_count=0)
 
         assert result == """○
@@ -83,7 +83,7 @@ class Test2:
     └── License"""
 
     def test_limit_line(_):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         result = tree.__repr__(preview_line_count=1)
 
         assert result == """○
@@ -100,7 +100,7 @@ class Test2:
         This project is licensed under the MIT License."""
 
     def test_limited_width(_):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         result = tree.__repr__(preview_line_width=7)
 
         assert result == """○
@@ -124,7 +124,7 @@ class Test2:
 class Test3:
 
     def test_norm(_):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
 
         assert repr(tree) == """○
 └── Main Title
@@ -148,7 +148,7 @@ class Test3:
         Summarizing the findings and implications."""
 
     def test_no_content(_):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         result = tree.__repr__(preview_line_count=0)
 
         assert result == """○
@@ -164,7 +164,7 @@ class Test3:
     └── Conclusion"""
 
     def test_limited_width(_):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         result = tree.__repr__(preview_line_width=5)
 
         assert result == """○
