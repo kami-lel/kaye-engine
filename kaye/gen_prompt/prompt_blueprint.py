@@ -3,7 +3,7 @@ define `PromptBlueprint`
 """
 
 import re
-from anytree import RenderTree
+from anytree import RenderTree, PreOrderIter
 
 from .prompt_corpus_node import ROOT_NODE_NAME
 
@@ -50,8 +50,24 @@ class PromptBlueprint:
     """
 
     @classmethod
-    def get_full_prompt_blueprint(cls, prompt_corpus):
-        pass  # TODO
+    def create_full_prompt_blueprint(cls, prompt_corpus):
+        """
+        :param prompt_corpus: *prompt corpus* tree root node
+                which this prompt blueprint attached to
+        :type prompt_corpus: PromptCorpusNode
+        :return: an instance of ``PromptBlueprint`` attached to the given
+                ``prompt_corpus``, and with **all nodes enabled**
+        :rtype: PromptBlueprint
+        """
+        blueprint = cls(prompt_corpus)
+        # set all nodes
+        for node in PreOrderIter(prompt_corpus):
+            if node is prompt_corpus:  # skip root node
+                continue
+
+            blueprint.enabled_nodes_names.append(node)
+
+        return blueprint
 
     @property
     def is_detached_mode(self):

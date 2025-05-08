@@ -2,7 +2,7 @@
 test ``prompt_template_loader.py``
 """
 
-# Bug many test failed
+# BUG many test failed
 
 from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
 from kaye.gen_prompt.prompt_blueprint_loader import (
