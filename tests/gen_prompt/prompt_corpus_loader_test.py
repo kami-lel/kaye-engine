@@ -1,5 +1,5 @@
 """
-test for ``load_current_full_prompt_tree``
+test for ``load_embedded_prompt_corpus``
 """
 
 from kaye.gen_prompt import load_embedded_prompt_corpus, PromptCorpusNode
@@ -10,6 +10,7 @@ class Test:
         opt = load_embedded_prompt_corpus()
         assert isinstance(opt, PromptCorpusNode)
 
+    # !!! this test change if prompt_corpus.md is changed
     def test_struture(_):
         root = load_embedded_prompt_corpus()
 
