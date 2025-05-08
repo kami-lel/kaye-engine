@@ -3,7 +3,12 @@ test parsing for FullPromptParser
 """
 
 from kaye.gen_prompt import PromptCorpusNode
-from prompts import PROMPT1, PROMPT2, PROMPT3, PROMPT_EMPTYLINES
+from tests.gen_prompt.pcn.testee_corpus import (
+    PROMPT1,
+    PROMPT2,
+    PROMPT3,
+    PROMPT_EMPTYLINES,
+)
 
 
 class TestParse1:
