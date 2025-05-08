@@ -8,6 +8,7 @@ from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 from tests.gen_prompt.pb.pb_testee_corpus import PROMPT2
 
 example_corpus = PromptCorpusNode.parse(PROMPT2)
+version_line = PromptBlueprint.create_version_comment_line()
 
 
 class TestRepr:
@@ -273,7 +274,7 @@ class TestStr:
 
         opt = str(pt)
         print(opt)
-        assert opt == ""
+        assert opt == version_line
 
     def test2(_):
         blueprint_text = """[x] ○
@@ -291,6 +292,36 @@ class TestStr:
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
         opt = str(pt)
+        print(opt)
+        assert opt == """# Main Title
+## Introduction
+Brief introduction to the topic.
+### Background
+Context or history relevant to the topic.
+#### Importance
+Why this topic matters in the current scenario.
+##### Objective
+The primary goal of this document.
+## Conclusion
+Summarizing the findings and implications.
+""" + version_line
+
+    def test2_no_ver(_):
+        blueprint_text = """[x] ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │   └── Background
+[x]     │       └── Importance
+[x]     │           └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[ ]     │           └── Future Work
+[x]     └── Conclusion"""
+
+        pt = PromptBlueprint(example_corpus, blueprint_text)
+
+        opt = pt.__str__(hide_version=True)
         print(opt)
         assert opt == """# Main Title
 ## Introduction
@@ -331,7 +362,8 @@ List of tools utilized during the project.
 ##### Future Work
 Suggestions for future research or tasks.
 ## Conclusion
-Summarizing the findings and implications."""
+Summarizing the findings and implications.
+""" + version_line
 
     def test4(_):
         blueprint_text = """[x] ○
@@ -356,7 +388,8 @@ Overview of the methodologies used.
 ### Data Collection
 How data was gathered for analysis.
 ## Conclusion
-Summarizing the findings and implications."""
+Summarizing the findings and implications.
+""" + version_line
 
     def test_full(_):
         blueprint_text = """[x] ○
@@ -393,7 +426,8 @@ List of tools utilized during the project.
 ##### Future Work
 Suggestions for future research or tasks.
 ## Conclusion
-Summarizing the findings and implications."""
+Summarizing the findings and implications.
+""" + version_line
 
 
 class TestStrDetach:  # test detached mode
@@ -433,7 +467,8 @@ List of tools utilized during the project.
 ##### Future Work
 Suggestions for future research or tasks.
 ## Conclusion
-Summarizing the findings and implications."""
+Summarizing the findings and implications.
+""" + version_line
 
     def test_empty(_):
         blueprint_text = """[ ] ○
@@ -450,9 +485,28 @@ Summarizing the findings and implications."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_version=True)
         print(opt)
         assert opt == ""
+
+    def test_empty_version(_):
+        blueprint_text = """[ ] ○
+[ ] └── Main Title
+[ ]     ├── Introduction
+[ ]     │   └── Background
+[ ]     │       └── Importance
+[ ]     │           └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[ ]     │           └── Future Work
+[ ]     └── Conclusion"""
+
+        pt = PromptBlueprint(example_corpus, blueprint_text)
+
+        opt = str(pt)
+        print(opt)
+        assert opt == version_line
 
     def test1(_):
         blueprint_text = """[ ] ○
@@ -478,7 +532,8 @@ The primary goal of this document.
 #### Tools Used
 List of tools utilized during the project.
 ## Conclusion
-Summarizing the findings and implications."""
+Summarizing the findings and implications.
+""" + version_line
 
     def test2(_):
         blueprint_text = """[ ] ○
@@ -496,6 +551,35 @@ Summarizing the findings and implications."""
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
         opt = str(pt)
+        print(opt)
+        assert opt == """## Introduction
+Brief introduction to the topic.
+#### Importance
+Why this topic matters in the current scenario.
+##### Objective
+The primary goal of this document.
+#### Tools Used
+List of tools utilized during the project.
+##### Future Work
+Suggestions for future research or tasks.
+""" + version_line
+
+    def test2_no_ver(_):
+        blueprint_text = """[ ] ○
+[ ] └── Main Title
+[x]     ├── Introduction
+[ ]     │   └── Background
+[x]     │       └── Importance
+[x]     │           └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[x]     │       └── Tools Used
+[x]     │           └── Future Work
+[ ]     └── Conclusion"""
+
+        pt = PromptBlueprint(example_corpus, blueprint_text)
+
+        opt = pt.__str__(hide_version=True)
         print(opt)
         assert opt == """## Introduction
 Brief introduction to the topic.
@@ -531,4 +615,5 @@ Context or history relevant to the topic.
 ## Methods
 Overview of the methodologies used.
 ##### Future Work
-Suggestions for future research or tasks."""
+Suggestions for future research or tasks.
+""" + version_line

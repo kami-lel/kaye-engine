@@ -1,6 +1,6 @@
 """test"""
 
-# Todo docstring
+# todo docstring
 
 import sys
 
@@ -21,9 +21,9 @@ ls_psr = psr.add_subparsers(dest="ls")
 if __name__ == "__main__":
     args = psr.parse_args()
 
-    # TODO ls prompts
-    # TODO prompt name => prompt content
-    # TODO interactive mode
-    # TODO corpus from
+    # todo ls prompts
+    # todo prompt name => prompt content
+    # todo interactive mode
+    # todo corpus from
 
     sys.exit()
