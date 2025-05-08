@@ -6,7 +6,7 @@ import re
 from anytree import RenderTree
 
 from .prompt_corpus_node import TREE_ROOT_NAME
-from .full_prompt_tree_loader import load_embedded_prompt_corpus
+from .prompt_corpus_loader import load_embedded_prompt_corpus
 
 __all__ = ("PromptTemplate",)
 

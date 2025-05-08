@@ -25,7 +25,7 @@ retrieves and loads a selected *embedded* blueprint stored in
 # todo include version in generated prompt
 
 from .prompt_corpus_node import *
-from .full_prompt_tree_loader import *
+from .prompt_corpus_loader import *
 from .prompt_template import *
 from .prompt_template_loader import *
 
