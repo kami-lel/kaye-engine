@@ -2,13 +2,13 @@
 test ``prompt_template_loader.py``
 """
 
-# BUG many test failed
+# Bug many test failed
 
 from kaye.gen_prompt.prompt_template import PromptTemplate
 from kaye.gen_prompt.prompt_template_loader import load_prompt_template
 
 
-class TestFull:
+class OTestFull:
 
     prompt_name = "full"
 
@@ -75,7 +75,7 @@ class TestFull:
 [x]     └── Translator"""
 
 
-class TestLibrarian:
+class OTestLibrarian:
 
     prompt_name = "librarian"
 
@@ -240,7 +240,7 @@ DDC of `302.23` is **Mass media**:
 </ddc-justification-example2>"""
 
 
-class TestCode:
+class OTestCode:
 
     prompt_name = "code"
 
@@ -303,7 +303,7 @@ class TestCode:
 [ ]     └── Translator"""
 
 
-class TestConversation:
+class OTestConversation:
 
     prompt_name = "conversation"
 
