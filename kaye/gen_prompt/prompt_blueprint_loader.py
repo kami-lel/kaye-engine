@@ -51,6 +51,11 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     :raises ValueError: prompt_name is
             not a recognized embedded prompt blueprint
     """
+    corpus = load_embedded_prompt_corpus()
+
+    # special case 'full'
+    if prompt_blueprint_name == "full":
+        return PromptBlueprint.create_full_prompt_blueprint(corpus)
 
     # assert prompt_name is an existing prompt file
     prompt_file_path = _get_embedded_prompt_blueprints_names_and_paths().get(
@@ -66,9 +71,7 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     # read content
     with open(prompt_file_path, "r", encoding="utf-8") as file:
         content = file.read()
-        return PromptBlueprint(load_embedded_prompt_corpus(), content)
-
-    # TODO full special case
+        return PromptBlueprint(corpus, content)
 
 
 def _get_embedded_prompt_blueprints_names_and_paths():

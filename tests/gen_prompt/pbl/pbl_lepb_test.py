@@ -16,10 +16,63 @@ class TestFull:  # special case "full"
     # !!! this test change with prompt_corpus.md
     def test_repr(self):
         blueprint = load_embedded_prompt_blueprint(self.prompt_name)
-        opt = str(blueprint)
+        opt = blueprint.__repr__(preview_line_count=0)
         print(opt)
-        # BUG
-        assert opt == ""
+        assert opt == """[x] ○
+[x] ├── Personality
+[x] ├── Character
+[x] ├── Conversation
+[x] ├── Format Guidelines
+[x] ├── Abbreviation
+[x] └── Role
+[x]     ├── Biliographer
+[x]     ├── Book Buddy
+[x]     │   └── Reading Notes Guidelines
+[x]     ├── Code Assistant
+[x]     │   ├── C & C++
+[x]     │   ├── C Sharp
+[x]     │   ├── Unity Engine
+[x]     │   ├── GDScript
+[x]     │   ├── HTML
+[x]     │   ├── JavaScript & TypeScript
+[x]     │   │   ├── Naming Conventions
+[x]     │   │   └── Documentation and Comments
+[x]     │   └── Python
+[x]     │       ├── Docstring Style
+[x]     │       └── Testing Guidelines
+[x]     ├── Conversation Title Generation
+[x]     │   ├── Guidelines
+[x]     │   ├── Output
+[x]     │   ├── Examples
+[x]     │   └── Chat History
+[x]     ├── Conversation Tag Generation
+[x]     │   ├── Guidelines
+[x]     │   ├── Output
+[x]     │   └── Chat History
+[x]     ├── Deutschlehrer
+[x]     ├── Editor Role
+[x]     ├── Email Secretary
+[x]     ├── Encyclopedic
+[x]     ├── Etiquette Coach
+[x]     ├── Event Search
+[x]     ├── git commit message
+[x]     ├── git diff Summary
+[x]     ├── Grammar Checker
+[x]     ├── Librarian
+[x]     │   ├── label
+[x]     │   │   ├── book title
+[x]     │   │   ├── publish year
+[x]     │   │   ├── authors, editors, translators
+[x]     │   │   ├── publisher
+[x]     │   │   ├── informational tags
+[x]     │   │   └── label examples
+[x]     │   ├── DDC part
+[x]     │   └── DDC justification
+[x]     ├── zh Librarian
+[x]     │   ├── DDC 部分
+[x]     │   └── DDC 說明
+[x]     ├── Prompt Writer
+[x]     └── Translator"""
 
 
 class TestConversation:
