@@ -3,7 +3,7 @@ test ``__repr__()`` for FullPromptParser
 """
 
 from kaye.gen_prompt import PromptCorpusNode
-from tests.gen_prompt.full_prompt_parser.prompts import (
+from tests.gen_prompt.pcn.testee_corpus import (
     PROMPT1,
     PROMPT2,
     PROMPT3,

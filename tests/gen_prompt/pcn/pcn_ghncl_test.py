@@ -1,12 +1,16 @@
 """
-test function generate_heading_and_content_lines() for ``FullPromptParserNode``
+test function generate_heading_and_content_lines() for ``class PromptCorpusNode``
 """
 
 from kaye.gen_prompt import PromptCorpusNode
-from prompts import PROMPT1, PROMPT2, PROMPT3, PROMPT_EMPTYLINES
+from tests.gen_prompt.pcn.testee_corpus import (
+    PROMPT1,
+    PROMPT2,
+    PROMPT3,
+)
 
 
-class TestParse1:
+class TestParse1:  # tes use PROMPT1
 
     def test_project(self):
         tree = PromptCorpusNode.parse(PROMPT1)
@@ -52,7 +56,7 @@ class TestParse1:
         assert opt == ["## License", "Licensed under the MIT License."]
 
 
-class TestParse2:
+class TestParse2:  # test use PROMPT2
 
     def test_project(self):
         tree = PromptCorpusNode.parse(PROMPT2)
@@ -101,7 +105,7 @@ class TestParse2:
         ]
 
 
-class TestParse3:
+class TestParse3:  # test use PROMPT3
 
     def test_project(self):
         tree = PromptCorpusNode.parse(PROMPT3)
