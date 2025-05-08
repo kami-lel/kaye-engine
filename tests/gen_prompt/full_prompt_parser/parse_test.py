@@ -3,7 +3,7 @@ test parsing for FullPromptParser
 """
 
 from kaye.gen_prompt import PromptCorpusNode
-from tests.gen_prompt.pcn.testee_corpus import (
+from tests.gen_prompt.pcn.pcn_testee_corpus import (
     PROMPT1,
     PROMPT2,
     PROMPT3,
