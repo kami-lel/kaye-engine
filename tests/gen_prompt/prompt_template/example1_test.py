@@ -2,7 +2,7 @@
 tests features of ``PromptTemplate`` using a example full prompt
 """
 
-from kaye.gen_prompt import PromptTemplate, FullPromptParserNode
+from kaye.gen_prompt import PromptTemplate, PromptCorpusNode
 
 FULL_PROMPT = """
 # Project Title
@@ -27,7 +27,7 @@ This project is licensed under the MIT License.
 """
 
 
-example_tree = FullPromptParserNode.parse(FULL_PROMPT)
+example_tree = PromptCorpusNode.parse(FULL_PROMPT)
 
 
 class TestRepr:

@@ -2,7 +2,7 @@
 tests features of ``PromptTemplate`` using a 2nd example full prompt
 """
 
-from kaye.gen_prompt import PromptTemplate, FullPromptParserNode
+from kaye.gen_prompt import PromptTemplate, PromptCorpusNode
 
 FULL_PROMPT = """
 # Main Title
@@ -36,7 +36,7 @@ Summarizing the findings and implications.
 """
 
 
-example_tree = FullPromptParserNode.parse(FULL_PROMPT)
+example_tree = PromptCorpusNode.parse(FULL_PROMPT)
 
 
 class TestRepr:

@@ -22,7 +22,7 @@ specified in `kaye/gen_prompt/prompt_templates/` at runtime.
 
 # todo include version in generated prompt
 
-from .full_prompt_parser import *
+from .prompt_corpus_node import *
 from .full_prompt_tree_loader import *
 from .prompt_template import *
 from .prompt_template_loader import *
