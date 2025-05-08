@@ -5,12 +5,15 @@ define ``load_embedded_prompt_corpus``
 from pathlib import Path
 from .prompt_corpus_node import PromptCorpusNode
 
-__all__ = ("load_embedded_prompt_corpus",)
+__all__ = (
+    "get_embedded_prompt_corpus_file_path",
+    "load_embedded_prompt_corpus",
+)
 
 
-def _get_prompt_corpus_file_path():
+def get_embedded_prompt_corpus_file_path():
     """
-    :return: absolute path of the ``prompt_corpus.md`` file.
+    :return: absolute path of embedded prompt corpus ``prompt_corpus.md`` file
     :rtype: Path
     """
     return (
@@ -28,7 +31,7 @@ def load_embedded_prompt_corpus():
     :raises FileNotFoundError:
     :raises IOError:
     """
-    full_prompt_file_path = _get_prompt_corpus_file_path()
+    full_prompt_file_path = get_embedded_prompt_corpus_file_path()
     with open(
         full_prompt_file_path, "r", encoding="utf-8", newline=""
     ) as file:
