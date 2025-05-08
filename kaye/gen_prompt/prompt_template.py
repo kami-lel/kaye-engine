@@ -6,7 +6,7 @@ import re
 from anytree import RenderTree
 
 from .prompt_corpus_node import TREE_ROOT_NAME
-from .full_prompt_tree_loader import load_current_full_prompt_tree
+from .full_prompt_tree_loader import load_embedded_prompt_corpus
 
 __all__ = ("PromptTemplate",)
 
@@ -83,7 +83,7 @@ class PromptTemplate:
         self.enabled_nodes_names = []
 
         self.full_prompt_tree = (
-            full_prompt_tree or load_current_full_prompt_tree()
+            full_prompt_tree or load_embedded_prompt_corpus()
         )
 
         if savable_prompt_template:

@@ -5,7 +5,7 @@ define ``get_prompt_templates_names``, ``load_prompt_template``
 import os
 from pathlib import Path
 
-from .full_prompt_tree_loader import load_current_full_prompt_tree
+from .full_prompt_tree_loader import load_embedded_prompt_corpus
 from .prompt_template import PromptTemplate
 
 __all__ = ("get_prompt_templates_names", "load_prompt_template")
@@ -48,7 +48,7 @@ def load_prompt_template(prompt_name):
     with open(prompt_file_path, "r", encoding="utf-8") as file:
         content = file.read()
         return PromptTemplate(
-            content, full_prompt_tree=load_current_full_prompt_tree()
+            content, full_prompt_tree=load_embedded_prompt_corpus()
         )
 
 
