@@ -11,16 +11,19 @@ class Test:
         assert isinstance(opt, FullPromptParserNode)
 
     def test_struture(_):
-        # BUG didn't pass
         root = load_current_full_prompt_tree()
 
-        assert root.__repr__(preview_line_count=0) == """○
+        testee = root.__repr__(preview_line_count=0)
+        print(testee)
+
+        assert testee == """○
 ├── Personality
 ├── Character
 ├── Conversation
 ├── Format Guidelines
 ├── Abbreviation
 └── Role
+    ├── Biliographer
     ├── Book Buddy
     │   └── Reading Notes Guidelines
     ├── Code Assistant
@@ -45,13 +48,14 @@ class Test:
     │   ├── Output
     │   └── Chat History
     ├── Deutschlehrer
-    ├── Editor
+    ├── Editor Role
     ├── Email Secretary
     ├── Encyclopedic
     ├── Etiquette Coach
     ├── Event Search
     ├── git commit message
     ├── git diff Summary
+    ├── Grammar Checker
     ├── Librarian
     │   ├── label
     │   │   ├── book title
