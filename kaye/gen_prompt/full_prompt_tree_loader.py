@@ -8,6 +8,9 @@ from .full_prompt_parser import FullPromptParserNode
 __all__ = ("load_current_full_prompt_tree",)
 
 
+# BUG full should be a special case
+
+
 def _get_full_prompt_file_path():
     """
     :return: absolute path to the ``prompt_full.md`` file.

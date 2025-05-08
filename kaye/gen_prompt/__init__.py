@@ -26,3 +26,7 @@ from .full_prompt_parser import *
 from .full_prompt_tree_loader import *
 from .prompt_template import *
 from .prompt_template_loader import *
+
+# Fixme refactor full prompt tree to prompt corpus
+# Fixme refactor prompt template to blueprint
+# Todo better docstrings, etc.
