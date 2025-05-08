@@ -1,8 +1,8 @@
 """
-tests features of ``PromptTemplate`` using a example full prompt
+tests features of ``PromptBlueprint`` using a example full prompt
 """
 
-from kaye.gen_prompt import PromptTemplate, PromptCorpusNode
+from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 FULL_PROMPT = """
 # Project Title
@@ -33,7 +33,7 @@ example_tree = PromptCorpusNode.parse(FULL_PROMPT)
 class TestRepr:
 
     def test_dft(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree)
+        pt = PromptBlueprint(full_prompt_tree=example_tree)
         opt = repr(pt)
         print(opt)
         assert opt == """[x] ○
@@ -54,7 +54,7 @@ class TestRepr:
             This project is licensed under the MIT License."""
 
     def test_no_content(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree)
+        pt = PromptBlueprint(full_prompt_tree=example_tree)
         opt = pt.__repr__(preview_line_count=0)
         print(opt)
         assert opt == """[x] ○
@@ -69,47 +69,57 @@ class TestRepr:
 class TestDetachedMode:  # test detached mdoe
 
     def test_init_set(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=True)
+        pt = PromptBlueprint(full_prompt_tree=example_tree, detached_mode=True)
         assert "○" not in pt.enabled_nodes_names
 
     def test_init_unset(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        pt = PromptBlueprint(
+            full_prompt_tree=example_tree, detached_mode=False
+        )
         assert "○" in pt.enabled_nodes_names
 
     def test_init_dft(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        pt = PromptBlueprint(
+            full_prompt_tree=example_tree, detached_mode=False
+        )
         assert "○" in pt.enabled_nodes_names
 
     def test_set1(_):  # set by set_unset_detached_mode()
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        pt = PromptBlueprint(
+            full_prompt_tree=example_tree, detached_mode=False
+        )
         assert "○" in pt.enabled_nodes_names
         pt.set_unset_detached_mode(True)
         assert "○" not in pt.enabled_nodes_names
 
     def test_set2(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=True)
+        pt = PromptBlueprint(full_prompt_tree=example_tree, detached_mode=True)
         assert "○" not in pt.enabled_nodes_names
         pt.set_unset_detached_mode(True)
         assert "○" not in pt.enabled_nodes_names
 
     def test_unset1(_):  # unset by set_unset_detached_mode()
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=True)
+        pt = PromptBlueprint(full_prompt_tree=example_tree, detached_mode=True)
         assert "○" not in pt.enabled_nodes_names
         pt.set_unset_detached_mode(False)
         assert "○" in pt.enabled_nodes_names
 
     def test_unset2(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        pt = PromptBlueprint(
+            full_prompt_tree=example_tree, detached_mode=False
+        )
         assert "○" in pt.enabled_nodes_names
         pt.set_unset_detached_mode(False)
         assert "○" in pt.enabled_nodes_names
 
     def test_is_dm1(_):  # test is_detached_mode
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=True)
+        pt = PromptBlueprint(full_prompt_tree=example_tree, detached_mode=True)
         assert pt.is_detached_mode
 
     def test_is_dm2(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        pt = PromptBlueprint(
+            full_prompt_tree=example_tree, detached_mode=False
+        )
         assert not pt.is_detached_mode
 
 
@@ -124,7 +134,7 @@ class TestParseSavable:
 [ ]     ├── Contributing
 [ ]     └── License"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -148,7 +158,7 @@ class TestParseSavable:
 [x]     ├── Contributing
 [ ]     └── License"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -172,7 +182,7 @@ class TestParseSavable:
 [x]     ├── Contributing
 [ ]     └── License"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -196,7 +206,7 @@ class TestParseSavable:
 [x]     ├── Contributing
 [x]     └── License"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -220,7 +230,7 @@ class TestParseSavable:
 [x]     ├── Contributing
 [ ]     └── License"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -247,7 +257,7 @@ class TestStr:
 [ ]     ├── Contributing
 [ ]     └── License"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -264,7 +274,7 @@ class TestStr:
 [x]     ├── Contributing
 [ ]     └── License"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -285,7 +295,7 @@ class TestStr:
 [ ]     ├── Contributing
 [ ]     └── License"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -308,7 +318,7 @@ Provide instructions on how to use the application."""
 [x]     ├── Contributing
 [x]     └── License"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -342,7 +352,7 @@ class TestStrDetach:  # test detached mode
 [ ]     ├── Contributing
 [ ]     └── License"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -359,7 +369,7 @@ class TestStrDetach:  # test detached mode
 [x]     ├── Contributing
 [ ]     └── License"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -379,7 +389,7 @@ class TestStrDetach:  # test detached mode
 [ ]     ├── Contributing
 [ ]     └── License"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -401,7 +411,7 @@ Provide instructions on how to use the application."""
 [x]     ├── Contributing
 [x]     └── License"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 

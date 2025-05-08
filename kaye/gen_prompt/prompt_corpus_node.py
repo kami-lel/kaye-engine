@@ -6,6 +6,7 @@ import re
 
 from anytree import Node as AnytreeNode, RenderTree
 
+# HACK better name
 HEADING_MARKER = "#"
 TREE_ROOT_NAME = "○"
 
