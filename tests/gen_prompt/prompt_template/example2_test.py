@@ -1,8 +1,8 @@
 """
-tests features of ``PromptTemplate`` using a 2nd example full prompt
+tests features of ``PromptBlueprint`` using a 2nd example full prompt
 """
 
-from kaye.gen_prompt import PromptTemplate, PromptCorpusNode
+from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 FULL_PROMPT = """
 # Main Title
@@ -42,7 +42,7 @@ example_tree = PromptCorpusNode.parse(FULL_PROMPT)
 class TestRepr:
 
     def test_dft(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree)
+        pt = PromptBlueprint(full_prompt_tree=example_tree)
         opt = repr(pt)
         print(opt)
         assert opt == """[x] ○
@@ -67,7 +67,7 @@ class TestRepr:
             Summarizing the findings and implications."""
 
     def test_no_content(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree)
+        pt = PromptBlueprint(full_prompt_tree=example_tree)
         opt = pt.__repr__(preview_line_count=0)
         print(opt)
         assert opt == """[x] ○
@@ -86,47 +86,57 @@ class TestRepr:
 class TestDetachedMode:  # test detached mdoe
 
     def test_init_set(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=True)
+        pt = PromptBlueprint(full_prompt_tree=example_tree, detached_mode=True)
         assert "○" not in pt.enabled_nodes_names
 
     def test_init_unset(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        pt = PromptBlueprint(
+            full_prompt_tree=example_tree, detached_mode=False
+        )
         assert "○" in pt.enabled_nodes_names
 
     def test_init_dft(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        pt = PromptBlueprint(
+            full_prompt_tree=example_tree, detached_mode=False
+        )
         assert "○" in pt.enabled_nodes_names
 
     def test_set1(_):  # set by set_unset_detached_mode()
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        pt = PromptBlueprint(
+            full_prompt_tree=example_tree, detached_mode=False
+        )
         assert "○" in pt.enabled_nodes_names
         pt.set_unset_detached_mode(True)
         assert "○" not in pt.enabled_nodes_names
 
     def test_set2(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=True)
+        pt = PromptBlueprint(full_prompt_tree=example_tree, detached_mode=True)
         assert "○" not in pt.enabled_nodes_names
         pt.set_unset_detached_mode(True)
         assert "○" not in pt.enabled_nodes_names
 
     def test_unset1(_):  # unset by set_unset_detached_mode()
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=True)
+        pt = PromptBlueprint(full_prompt_tree=example_tree, detached_mode=True)
         assert "○" not in pt.enabled_nodes_names
         pt.set_unset_detached_mode(False)
         assert "○" in pt.enabled_nodes_names
 
     def test_unset2(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        pt = PromptBlueprint(
+            full_prompt_tree=example_tree, detached_mode=False
+        )
         assert "○" in pt.enabled_nodes_names
         pt.set_unset_detached_mode(False)
         assert "○" in pt.enabled_nodes_names
 
     def test_is_dm1(_):  # test is_detached_mode
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=True)
+        pt = PromptBlueprint(full_prompt_tree=example_tree, detached_mode=True)
         assert pt.is_detached_mode
 
     def test_is_dm2(_):
-        pt = PromptTemplate(full_prompt_tree=example_tree, detached_mode=False)
+        pt = PromptBlueprint(
+            full_prompt_tree=example_tree, detached_mode=False
+        )
         assert not pt.is_detached_mode
 
 
@@ -145,7 +155,7 @@ class TestParseSavable:
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -177,7 +187,7 @@ class TestParseSavable:
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -209,7 +219,7 @@ class TestParseSavable:
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -241,7 +251,7 @@ class TestParseSavable:
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -273,7 +283,7 @@ class TestParseSavable:
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -308,7 +318,7 @@ class TestStr:
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -329,7 +339,7 @@ class TestStr:
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -360,7 +370,7 @@ Summarizing the findings and implications."""
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -391,7 +401,7 @@ Summarizing the findings and implications."""
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -418,7 +428,7 @@ Summarizing the findings and implications."""
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -460,7 +470,7 @@ class TestStrDetach:  # test detached mode
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -499,7 +509,7 @@ Summarizing the findings and implications."""
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -520,7 +530,7 @@ Summarizing the findings and implications."""
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -548,7 +558,7 @@ Summarizing the findings and implications."""
 [x]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 
@@ -578,7 +588,7 @@ Suggestions for future research or tasks."""
 [x]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptTemplate(
+        pt = PromptBlueprint(
             savable_prompt_template, full_prompt_tree=example_tree
         )
 

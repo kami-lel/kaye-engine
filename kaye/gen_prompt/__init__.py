@@ -26,7 +26,7 @@ retrieves and loads a selected *embedded* blueprint stored in
 
 from .prompt_corpus_node import *
 from .prompt_corpus_loader import *
-from .prompt_template import *
-from .prompt_template_loader import *
+from .prompt_blueprint import *
+from .prompt_blueprint_loader import *
 
 # FIXME refactor prompt template to blueprint

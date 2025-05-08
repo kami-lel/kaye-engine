@@ -4,8 +4,10 @@ test ``prompt_template_loader.py``
 
 # Bug many test failed
 
-from kaye.gen_prompt.prompt_template import PromptTemplate
-from kaye.gen_prompt.prompt_template_loader import load_prompt_template
+from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
+from kaye.gen_prompt.prompt_blueprint_loader import (
+    load_embedded_prompt_blueprint,
+)
 
 
 class OTestFull:
@@ -13,11 +15,11 @@ class OTestFull:
     prompt_name = "full"
 
     def test_type(self):
-        template = load_prompt_template(self.prompt_name)
-        assert isinstance(template, PromptTemplate)
+        template = load_embedded_prompt_blueprint(self.prompt_name)
+        assert isinstance(template, PromptBlueprint)
 
     def test_repr0(self):
-        template = load_prompt_template(self.prompt_name)
+        template = load_embedded_prompt_blueprint(self.prompt_name)
         opt = template.__repr__(preview_line_count=0)
         print(opt)
         assert opt == """[x] ○
@@ -80,7 +82,7 @@ class OTestLibrarian:
     prompt_name = "librarian"
 
     def test_repr0(self):
-        template = load_prompt_template(self.prompt_name)
+        template = load_embedded_prompt_blueprint(self.prompt_name)
         opt = template.__repr__(preview_line_count=0)
         print(opt)
         assert opt == """[ ] ○
@@ -138,7 +140,7 @@ class OTestLibrarian:
 [ ]     └── Translator"""
 
     def test_str(self):
-        template = load_prompt_template(self.prompt_name)
+        template = load_embedded_prompt_blueprint(self.prompt_name)
         opt = str(template)
         print(opt)
         assert opt == """## Librarian
@@ -245,7 +247,7 @@ class OTestCode:
     prompt_name = "code"
 
     def test_repr(self):
-        template = load_prompt_template(self.prompt_name)
+        template = load_embedded_prompt_blueprint(self.prompt_name)
         opt = template.__repr__(preview_line_count=0)
         print(opt)
         assert opt == """[x] ○
@@ -308,7 +310,7 @@ class OTestConversation:
     prompt_name = "conversation"
 
     def test_repr(self):
-        template = load_prompt_template(self.prompt_name)
+        template = load_embedded_prompt_blueprint(self.prompt_name)
         opt = template.__repr__(preview_line_count=0)
         print(opt)
         assert opt == """[x] ○
@@ -366,7 +368,7 @@ class OTestConversation:
 [ ]     └── Translator"""
 
     def test_str(self):
-        template = load_prompt_template(self.prompt_name)
+        template = load_embedded_prompt_blueprint(self.prompt_name)
         opt = str(template)
         print(opt)
         assert (

@@ -1,5 +1,5 @@
 """
-define `PromptTemplate`
+define `PromptBlueprint`
 """
 
 import re
@@ -8,16 +8,17 @@ from anytree import RenderTree
 from .prompt_corpus_node import TREE_ROOT_NAME
 from .prompt_corpus_loader import load_embedded_prompt_corpus
 
-__all__ = ("PromptTemplate",)
+__all__ = ("PromptBlueprint",)
 
+# HACK better name
 CHECKED_BOX = "[x] "
 UNCHECKED_BOX = "[ ] "
 NO_CHECKBOX = "    "
 
 
-class PromptTemplate:
+class PromptBlueprint:
     """
-    A ``PromptTemplate`` represents a part or the entirety of
+    A ``PromptBlueprint`` represents a part or the entirety of
     a *Full Prompt Tree*. It allows nodes in the tree to be enabled or disabled,
     controlling which prompts are extracted and displayed from
     the full prompt tree.
@@ -42,7 +43,7 @@ class PromptTemplate:
             prompt template, defaults to None.
     :type savable_prompt_template: str, optional
     :param detached_mode: A flag indicating whether to enable detached mode
-            for the PromptTemplate, defaults to False.
+            for the PromptBlueprint, defaults to False.
     :type detached_mode: bool, optional
     :param full_prompt_tree: An optional FullPromptParserNode instance that
             represents the full prompt tree. Defaults to None.
@@ -52,14 +53,14 @@ class PromptTemplate:
     @property
     def is_detached_mode(self):
         """
-        :return: whether the PromptTemplate is in **detached mode**
+        :return: whether the PromptBlueprint is in **detached mode**
         :rtype: bool
         """
         return TREE_ROOT_NAME not in self.enabled_nodes_names
 
     def set_unset_detached_mode(self, detached_mode):
         """
-        Set or unset the **detached mode** for the PromptTemplate.
+        Set or unset the **detached mode** for the PromptBlueprint.
 
         :param detached_mode: whether to set or unset the detached mode.
         :type detached_mode: bool
@@ -143,7 +144,7 @@ class PromptTemplate:
 
     def __repr__(self, preview_line_count=3, preview_line_width=64):
         """
-        Returns a brief string representation of the PromptTemplate,
+        Returns a brief string representation of the PromptBlueprint,
         showing enabled nodes along with a preview of their content.
 
         It includes checkbox indicators for enabled nodes (checked or
@@ -207,7 +208,7 @@ class PromptTemplate:
 
     def __str__(self):
         """
-        Returns the string representation of the PromptTemplate,
+        Returns the string representation of the PromptBlueprint,
         including either the full prompt or part of it based on enabled nodes.
 
         :return: the prompt showing enabled nodes and their respective content.
