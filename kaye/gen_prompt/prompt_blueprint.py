@@ -19,7 +19,16 @@ NO_CHECKBOX_PREFIX = "    "
 
 class PromptBlueprint:
     """
-    A ``PromptBlueprint`` represents a part or the entirety of
+    A **prompt blueprint** ``PromptBlueprint`` defines a specific subset of
+    the prompt corpus.
+
+
+
+
+
+
+
+    A  represents a part or the entirety of
     a *Full Prompt Tree*. It allows nodes in the tree to be enabled or disabled,
     controlling which prompts are extracted and displayed from
     the full prompt tree.
@@ -41,7 +50,8 @@ class PromptBlueprint:
     also enabled.
 
     :param savable_prompt_template: string representation of a
-            prompt template, defaults to None.
+            prompt template;
+            defaults to None.
     :type savable_prompt_template: str, optional
     :param detached_mode: A flag indicating whether to enable detached mode
             for the PromptBlueprint, defaults to False.
@@ -50,6 +60,8 @@ class PromptBlueprint:
             represents the full prompt tree. Defaults to None.
     :type full_prompt_tree: FullPromptParserNode, optional
     """
+
+    # TODO TODO rewrite docstring, + example
 
     @property
     def is_detached_mode(self):
