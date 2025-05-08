@@ -24,10 +24,9 @@ class PromptBlueprint:
     A ``PromptBlueprint`` mirrors the hierarchical structure of the prompt
     corpus, but each node can be explicitly **enabled** or **disabled**.
 
-    Use ``__repr__()`` to generate a visual representation of the **tree**
-    with checkboxes to indicate nodes' enabling status.
+    Use ``__repr__()`` to generate a visual representation of the **tree**.
 
-    Use ``__str__()`` to render a **concrete prompt** composed of nodes,
+    Use ``__str__()`` to render a **concrete prompt** composed of nodes.
     supports 2 operational modes:
 
     - **detached mode**: Any node is included in the output if it is enabled,
@@ -44,11 +43,15 @@ class PromptBlueprint:
             It must be formatted identical to output of ``__repr__()``
             (with tree structure and checkboxes.)
             if ``None``:
-            the created ``PromptBlueprint`` has **all** nodes **disabled**
+            the created ``PromptBlueprint`` has *all* nodes **disabled**
     :type prompt_blueprint_text: str, optional
     :param detached_mode: defaults to False
     :type detached_mode: bool, optional
     """
+
+    @classmethod
+    def get_full_prompt_blueprint(cls, prompt_corpus):
+        pass  # TODO
 
     @property
     def is_detached_mode(self):
@@ -138,28 +141,18 @@ class PromptBlueprint:
 
         return lines
 
-    # TODO TODO
     def __repr__(self, preview_line_count=3, preview_line_width=64):
         """
-        Return a visual representation of the **tree**
-        with checkboxes to indicate nodes' enabling status.
+        Return a visual representation of the **tree**, showing:
 
+        - tree structure
+        - node name (i.e. section heading)
+        - node enabled/disbaled status indicated by checkboxes
+        - node content preview
 
-
-        String representation of current node with previews.
-
-        Returns a brief string representation of the PromptBlueprint,
-        showing enabled nodes along with a preview of their content.
-
-        It includes checkbox indicators for enabled nodes (checked or
-        unchecked) with content previews based on the provided parameters.
-
-
-        :return: human-readable representation of ``self`` node and children,
-                showing the tree structure, node name (i.e. section headings,)
-                node content preview, etc.
-        :return: v.s.
-        :rtype: str
+        Root node is named ``○``.
+        If it is prefixed with unchecked checkbox ``[ ]``,
+        the instance operate in *detached mode*.
 
 
         :param preview_line_count: set maximum line count of
@@ -227,17 +220,12 @@ class PromptBlueprint:
 
     def __str__(self):
         """
-
-        Use ``__str__()`` to render a **concrete prompt** composed of nodes,
-        supports 2 operational modes:
-
-        Returns the string representation of the PromptBlueprint,
-        including either the full prompt or part of it based on enabled nodes.
-
-        :return: the prompt showing enabled nodes and their respective content.
+        :return: **concrete prompt** composed of nodes heading and content,
+                depending on *detached mode* and each nodes' enabling status.
+                Q.v. ``PromptBlueprint``
         :rtype: str
-
         :example:
+        >>> tree = PromptBlueprint(...)
         >>> str(tree)
         # Main Title
         Overview of the methodologies used.
