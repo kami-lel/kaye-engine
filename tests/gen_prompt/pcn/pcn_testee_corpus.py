@@ -1,3 +1,7 @@
+"""
+define testee prompt corpus used to test class ``PromptCorpusNode``
+"""
+
 PROMPT1 = """
 # Project Title
 ## Description

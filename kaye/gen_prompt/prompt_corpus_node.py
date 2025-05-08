@@ -1,51 +1,54 @@
 """
-define ``FullPromptParserNode``
+define ``PromptCorpusNode``
 """
 
 import re
 
 from anytree import Node as AnytreeNode, RenderTree
 
-HEADING_MARKER = "#"
-TREE_ROOT_NAME = "○"
+# section heading prefix used for parsing .md file of prompt corpus
+HEADING_PREFIX = "#"
+ROOT_NODE_NAME = "○"  # placeholder name for root node
 
-__all__ = ("FullPromptParserNode",)
+__all__ = ("PromptCorpusNode",)
 
 
-class FullPromptParserNode(AnytreeNode):
+class PromptCorpusNode(AnytreeNode):
     """
-    Represents a single node in a **Full Prompt Tree**, which is a
-    structured representation of a Full Prompt. In this tree
-    structure, each node organizes and categorizes content within
-    a prompt, allowing for both root nodes that encompass the
-    entire document and subsections identified by headings.
+    A ``PromptCorpusNode`` represents a single node in the *prompt corpus*.
 
-    :param name: name / heading of the node
+    The **prompt corpus** comprises the complete set of available prompts.
+
+    This class enables the creation of a **tree-structured** representation
+    of the *prompt corpus*. Each instance of the class is a node in the tree,
+    corresponding to a part of the corpus and associated with a specific
+    section heading.
+
+
+    :param name: section heading of the node
     :type name: str
     :param parent: parent node in the tree structure;
-    `None` for the root node.
-    :type parent: FullPromptParserNode
+            `None` if the root node
+    :type parent: PromptCorpusNode
     :param text_lines: content to be parsed, each ``str`` represents a line
     :type text_lines: list(str)
+    :example:
+    >>> tree = PromptCorpusNode.parse(prompt_corpus_text)
     """
 
     @classmethod
-    def parse(cls, full_prompt):
+    def parse(cls, prompt_corpus_text):
         """
-        Parses a full prompt string into a structured **Full Prompt Tree**.
+        Parse *prompt corpus* text into the tree structure.
 
-        This method takes a full prompt as input, and constructs the root node
-        of the tree. The resulting tree structure contains nodes that represent
-        the various sections and subsections of the prompt based on headings.
-        :param full_prompt: The entire prompt to be parsed into a tree structure.
-        :type full_prompt: str
-        :return: The root node of the **Full Prompt Tree**,
-                representing the parsed structure of the full prompt.
-        :rtype: FullPromptParserNode
+        :param prompt_corpus_text: full source *prompt corpus* content
+        :type prompt_corpus_text: str
+        :return: **root node** of the parsed *prompt corpus* tree structure
+        :rtype: PromptCorpusNode
         """
 
-        text_lines = cls._convert_full_prompt2lines(full_prompt)
-        root = cls(TREE_ROOT_NAME, None, text_lines)
+        text_lines = cls._convert_corpus_text2lines(prompt_corpus_text)
+        root = cls(ROOT_NODE_NAME, None, text_lines)
         return root
 
     def __init__(self, name, parent, text_lines):
@@ -54,14 +57,14 @@ class FullPromptParserNode(AnytreeNode):
         self._populate_self_by_text_lines(text_lines)
 
     @staticmethod
-    def _convert_full_prompt2lines(full_prompt):
+    def _convert_corpus_text2lines(full_prompt):
         # remove all empty lines
         cleanup = re.sub(r"\n+(?=\Z)", "", re.sub(r"\n+", "\n", full_prompt))
         return list(cleanup.split("\n"))
 
     def _populate_self_by_text_lines(self, text_lines):
         # find every sub-section heading lines
-        heading_prefix = HEADING_MARKER * (self.depth + 1) + " "
+        heading_prefix = HEADING_PREFIX * (self.depth + 1) + " "
         heading_lines = []
         for idx, line in enumerate(text_lines):
             if line.startswith(heading_prefix):
@@ -85,29 +88,20 @@ class FullPromptParserNode(AnytreeNode):
             # e.g. "### this is heading " -> "this is heading"
             heading_content = text_lines[start][len(heading_prefix) :].strip()
             children_nodes = text_lines[start + 1 : end]
-            FullPromptParserNode(heading_content, self, children_nodes)
+            PromptCorpusNode(heading_content, self, children_nodes)
 
     def generate_heading_and_content_lines(self):
         """
-        Generate lines representing the heading and content of the node.
-
-        This method constructs a list of strings, where each string is a line
-        representing the node's heading followed by its content. The heading
-        is formatted based on the node's depth, and each content line is
-        included in the resulting list.
-
-        :return: A list of strings, each representing a line of the node's
-                heading and content. The first line is the heading,
-                followed by the content lines if available.
+        :return: a list of section heading and content of ``self``.
+                0th entry being section heading with ``#`` prefix;
+                the rest entries are each line of content
         :rtype: list[str]
-
         :example:
-        >>> node = ...
         >>> node.generate_heading_and_content_lines()
         ['### Node Heading', 'content 1st line', 'content 2nd line']
         """
         lines = []
-        lines.append(HEADING_MARKER * self.depth + " " + self.name)
+        lines.append(HEADING_PREFIX * self.depth + " " + self.name)
         lines.extend(self.content)
         return lines
 
@@ -115,19 +109,21 @@ class FullPromptParserNode(AnytreeNode):
         self, fill, preview_line_count, preview_line_width
     ):
         """
-        Generate a part of the string representation for the content of the node.
-
-        This method is used to generate a portion of the result for the
-        __repr__() method, allowing a preview of the node's content.
-
-        :param fill: The string to prepend to each line of content.
+        :param fill: set prefix filling before each line
         :type fill: str
-        :param preview_line_count: The number of lines to include in the preview.
+        :param preview_line_count: set maximum line count of
+                *content preview* part, (excluding section heading line)
         :type preview_line_count: int
-        :param preview_line_width: The maximum width of each preview line.
+        :param preview_line_width: set maximum column width of
+                *content preview* part
         :type preview_line_width: int
-        :return: A list of formatted content lines for the node's representation.
+        :return: content lines of ``self`` as it will be shown in
+                tree ``__repr__()``, with formatting included
+                Each entry represent a line in the ``__repr__()``
         :rtype: list[str]
+        :example:
+        >>> node.generate_repr_content_part('$$$' 3, 10)
+        ["$$$You per", "$$$When tr", "$$$User ma"]
         """
         lines = []
         if self.content and preview_line_count:  # print content of node
@@ -137,23 +133,18 @@ class FullPromptParserNode(AnytreeNode):
 
     def __repr__(self, preview_line_count=3, preview_line_width=64):
         """
-        Returns a string representation of the FullPromptParserNode and
-        its children in a human-readable format, allowing a preview of its
-        content.
-
-        The representation includes the names of nodes in the tree as well as
-        a limited preview of their respective lines of content.
-
-        :param preview_line_count: The number of lines to preview for the
-                content of the node; defaults to 3.
+        :param preview_line_count: set maximum line count of
+                *content preview* part, (excluding section heading line);
+                defaults to 3
         :type preview_line_count: int
-        :param preview_line_width: The width of each preview line,
-                which determines how many characters from the content will be
-                included in the preview; defaults to 64.
+        :param preview_line_width: set maximum column width of
+                *content preview* part;
+                defaults to 64.
         :type preview_line_width: int
-        :return: A string representation of the current node and its children.
+        :return: human-readable representation of ``self`` node and children,
+                showing the tree structure, node name (i.e. section headings,)
+                node content preview, etc.
         :rtype: str
-
         :example:
         >>> repr(tree)
         ○

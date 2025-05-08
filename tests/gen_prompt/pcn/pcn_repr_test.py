@@ -1,19 +1,19 @@
 """
-test ``__repr__()`` for FullPromptParser
+test ``__repr__()`` of class ``PromptCorpusNode``
 """
 
-from kaye.gen_prompt import FullPromptParserNode
-from tests.gen_prompt.full_prompt_parser.prompts import (
+from kaye.gen_prompt import PromptCorpusNode
+from tests.gen_prompt.pcn.pcn_testee_corpus import (
     PROMPT1,
     PROMPT2,
     PROMPT3,
 )
 
 
-class Test1:
+class Test1:  # test using PROMPT1
 
     def test_norm(_):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
 
         assert repr(tree) == """○
 └── Project Title
@@ -25,7 +25,7 @@ class Test1:
         Licensed under the MIT License."""
 
     def test_no_content(_):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
         result = tree.__repr__(preview_line_count=0)
 
         assert result == """○
@@ -35,7 +35,7 @@ class Test1:
     └── License"""
 
     def test_limited_width(_):
-        tree = FullPromptParserNode.parse(PROMPT1)
+        tree = PromptCorpusNode.parse(PROMPT1)
         result = tree.__repr__(preview_line_width=3)
 
         assert result == """○
@@ -48,10 +48,10 @@ class Test1:
         Lic"""
 
 
-class Test2:
+class Test2:  # test using PROMPT2
 
     def test_norm(_):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
 
         assert repr(tree) == """○
 └── Project Title
@@ -71,7 +71,7 @@ class Test2:
         This project is licensed under the MIT License."""
 
     def test_no_content(_):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         result = tree.__repr__(preview_line_count=0)
 
         assert result == """○
@@ -83,7 +83,7 @@ class Test2:
     └── License"""
 
     def test_limit_line(_):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         result = tree.__repr__(preview_line_count=1)
 
         assert result == """○
@@ -100,7 +100,7 @@ class Test2:
         This project is licensed under the MIT License."""
 
     def test_limited_width(_):
-        tree = FullPromptParserNode.parse(PROMPT2)
+        tree = PromptCorpusNode.parse(PROMPT2)
         result = tree.__repr__(preview_line_width=7)
 
         assert result == """○
@@ -121,10 +121,10 @@ class Test2:
         This pr"""
 
 
-class Test3:
+class Test3:  # test using PROMPT3
 
     def test_norm(_):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
 
         assert repr(tree) == """○
 └── Main Title
@@ -148,7 +148,7 @@ class Test3:
         Summarizing the findings and implications."""
 
     def test_no_content(_):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         result = tree.__repr__(preview_line_count=0)
 
         assert result == """○
@@ -164,7 +164,7 @@ class Test3:
     └── Conclusion"""
 
     def test_limited_width(_):
-        tree = FullPromptParserNode.parse(PROMPT3)
+        tree = PromptCorpusNode.parse(PROMPT3)
         result = tree.__repr__(preview_line_width=5)
 
         assert result == """○
