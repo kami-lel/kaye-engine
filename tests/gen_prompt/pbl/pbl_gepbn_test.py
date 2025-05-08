@@ -6,7 +6,9 @@ from kaye.gen_prompt import get_embedded_prompt_blueprints_names
 
 
 class Test:
-    def test1(_):  # !!! this test change with folder prompt_blueprints
+
+    # !!! this test change with folder prompt_blueprints
+    def test1(_):
         opt = get_embedded_prompt_blueprints_names()
         print(opt)
         expected = [
