@@ -143,7 +143,7 @@ class TestDetachedMode:  # test detached mdoe
 class TestParseSavable:
 
     def test_empty(_):
-        savable_prompt_template = """[x] ○
+        blueprint_text = """[x] ○
 [ ] └── Main Title
 [ ]     ├── Introduction
 [ ]     │   └── Background
@@ -155,9 +155,7 @@ class TestParseSavable:
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         assert len(pt.enabled_nodes_names) == 1
         assert "○" in pt.enabled_nodes_names
@@ -175,7 +173,7 @@ class TestParseSavable:
         assert not pt.is_detached_mode
 
     def test_full(_):
-        savable_prompt_template = """[x] ○
+        blueprint_text = """[x] ○
 [x] └── Main Title
 [x]     ├── Introduction
 [x]     │   └── Background
@@ -187,9 +185,7 @@ class TestParseSavable:
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         assert len(pt.enabled_nodes_names) == 11
         assert "○" in pt.enabled_nodes_names
@@ -207,7 +203,7 @@ class TestParseSavable:
         assert not pt.is_detached_mode
 
     def test1(_):
-        savable_prompt_template = """[x] ○
+        blueprint_text = """[x] ○
 [x] └── Main Title
 [ ]     ├── Introduction
 [ ]     │   └── Background
@@ -219,9 +215,7 @@ class TestParseSavable:
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         assert len(pt.enabled_nodes_names) == 5
         assert "○" in pt.enabled_nodes_names
@@ -239,7 +233,7 @@ class TestParseSavable:
         assert not pt.is_detached_mode
 
     def test2(_):
-        savable_prompt_template = """[x] ○
+        blueprint_text = """[x] ○
 [ ] └── Main Title
 [ ]     ├── Introduction
 [x]     │   └── Background
@@ -251,9 +245,7 @@ class TestParseSavable:
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         assert len(pt.enabled_nodes_names) == 5
         assert "○" in pt.enabled_nodes_names
@@ -271,7 +263,7 @@ class TestParseSavable:
         assert not pt.is_detached_mode
 
     def test_detached_mode(_):
-        savable_prompt_template = """[ ] ○
+        blueprint_text = """[ ] ○
 [x] └── Main Title
 [ ]     ├── Introduction
 [ ]     │   └── Background
@@ -283,9 +275,7 @@ class TestParseSavable:
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         assert len(pt.enabled_nodes_names) == 4
         assert "○" not in pt.enabled_nodes_names
@@ -306,7 +296,7 @@ class TestParseSavable:
 class TestStr:
 
     def test1(_):
-        savable_prompt_template = """[x] ○
+        blueprint_text = """[x] ○
 [ ] └── Main Title
 [ ]     ├── Introduction
 [ ]     │   └── Background
@@ -318,16 +308,14 @@ class TestStr:
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         opt = str(pt)
         print(opt)
         assert opt == ""
 
     def test2(_):
-        savable_prompt_template = """[x] ○
+        blueprint_text = """[x] ○
 [x] └── Main Title
 [x]     ├── Introduction
 [x]     │   └── Background
@@ -339,9 +327,7 @@ class TestStr:
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         opt = str(pt)
         print(opt)
@@ -358,7 +344,7 @@ The primary goal of this document.
 Summarizing the findings and implications."""
 
     def test3(_):
-        savable_prompt_template = """[x] ○
+        blueprint_text = """[x] ○
 [x] └── Main Title
 [ ]     ├── Introduction
 [ ]     │   └── Background
@@ -370,9 +356,7 @@ Summarizing the findings and implications."""
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         opt = str(pt)
         print(opt)
@@ -389,7 +373,7 @@ Suggestions for future research or tasks.
 Summarizing the findings and implications."""
 
     def test4(_):
-        savable_prompt_template = """[x] ○
+        blueprint_text = """[x] ○
 [x] └── Main Title
 [ ]     ├── Introduction
 [ ]     │   └── Background
@@ -401,9 +385,7 @@ Summarizing the findings and implications."""
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         opt = str(pt)
         print(opt)
@@ -416,7 +398,7 @@ How data was gathered for analysis.
 Summarizing the findings and implications."""
 
     def test_full(_):
-        savable_prompt_template = """[x] ○
+        blueprint_text = """[x] ○
 [x] └── Main Title
 [x]     ├── Introduction
 [x]     │   └── Background
@@ -428,9 +410,7 @@ Summarizing the findings and implications."""
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         opt = str(pt)
         print(opt)
@@ -458,7 +438,7 @@ Summarizing the findings and implications."""
 class TestStrDetach:  # test detached mode
 
     def test_full(_):
-        savable_prompt_template = """[ ] ○
+        blueprint_text = """[ ] ○
 [x] └── Main Title
 [x]     ├── Introduction
 [x]     │   └── Background
@@ -470,9 +450,7 @@ class TestStrDetach:  # test detached mode
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         opt = str(pt)
         print(opt)
@@ -497,7 +475,7 @@ Suggestions for future research or tasks.
 Summarizing the findings and implications."""
 
     def test_empty(_):
-        savable_prompt_template = """[ ] ○
+        blueprint_text = """[ ] ○
 [ ] └── Main Title
 [ ]     ├── Introduction
 [ ]     │   └── Background
@@ -509,16 +487,14 @@ Summarizing the findings and implications."""
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         opt = str(pt)
         print(opt)
         assert opt == ""
 
     def test1(_):
-        savable_prompt_template = """[ ] ○
+        blueprint_text = """[ ] ○
 [ ] └── Main Title
 [x]     ├── Introduction
 [ ]     │   └── Background
@@ -530,9 +506,7 @@ Summarizing the findings and implications."""
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         opt = str(pt)
         print(opt)
@@ -546,7 +520,7 @@ List of tools utilized during the project.
 Summarizing the findings and implications."""
 
     def test2(_):
-        savable_prompt_template = """[ ] ○
+        blueprint_text = """[ ] ○
 [ ] └── Main Title
 [x]     ├── Introduction
 [ ]     │   └── Background
@@ -558,9 +532,7 @@ Summarizing the findings and implications."""
 [x]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         opt = str(pt)
         print(opt)
@@ -576,7 +548,7 @@ List of tools utilized during the project.
 Suggestions for future research or tasks."""
 
     def test3(_):
-        savable_prompt_template = """[ ] ○
+        blueprint_text = """[ ] ○
 [x] └── Main Title
 [ ]     ├── Introduction
 [x]     │   └── Background
@@ -588,9 +560,7 @@ Suggestions for future research or tasks."""
 [x]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(
-            savable_prompt_template, full_prompt_tree=example_tree
-        )
+        pt = PromptBlueprint(blueprint_text, full_prompt_tree=example_tree)
 
         opt = str(pt)
         print(opt)
