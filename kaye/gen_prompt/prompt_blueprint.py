@@ -65,7 +65,7 @@ class PromptBlueprint:
             if node is prompt_corpus:  # skip root node
                 continue
 
-            blueprint.enabled_nodes_names.append(node)
+            blueprint.enabled_nodes_names.append(node.name)
 
         return blueprint
 
