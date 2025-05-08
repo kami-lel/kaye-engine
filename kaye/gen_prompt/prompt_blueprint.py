@@ -5,15 +5,16 @@ define `PromptBlueprint`
 import re
 from anytree import RenderTree
 
-from .prompt_corpus_node import TREE_ROOT_NAME
+from .prompt_corpus_node import ROOT_NODE_NAME
 from .prompt_corpus_loader import load_embedded_prompt_corpus
 
 __all__ = ("PromptBlueprint",)
 
-# HACK better name
-CHECKED_BOX = "[x] "
-UNCHECKED_BOX = "[ ] "
-NO_CHECKBOX = "    "
+
+# types of line prefix used for __repr__() generation
+CHECKED_BOX_PREFIX = "[x] "
+UNCHECKED_BOX_PREFIX = "[ ] "
+NO_CHECKBOX_PREFIX = "    "
 
 
 class PromptBlueprint:
@@ -56,7 +57,7 @@ class PromptBlueprint:
         :return: whether the PromptBlueprint is in **detached mode**
         :rtype: bool
         """
-        return TREE_ROOT_NAME not in self.enabled_nodes_names
+        return ROOT_NODE_NAME not in self.enabled_nodes_names
 
     def set_unset_detached_mode(self, detached_mode):
         """
@@ -67,13 +68,13 @@ class PromptBlueprint:
         """
         if detached_mode:  # set detached mode
             # ensure "○" is absent in ``.enabled_nodes_names``
-            if TREE_ROOT_NAME in self.enabled_nodes_names:
-                self.enabled_nodes_names.remove(TREE_ROOT_NAME)
+            if ROOT_NODE_NAME in self.enabled_nodes_names:
+                self.enabled_nodes_names.remove(ROOT_NODE_NAME)
 
         else:  # unset detached mode
             # ensure "○" is present in ``.enabled_nodes_names``
-            if TREE_ROOT_NAME not in self.enabled_nodes_names:
-                self.enabled_nodes_names.append(TREE_ROOT_NAME)
+            if ROOT_NODE_NAME not in self.enabled_nodes_names:
+                self.enabled_nodes_names.append(ROOT_NODE_NAME)
 
     def __init__(
         self,
@@ -98,13 +99,15 @@ class PromptBlueprint:
         lines = savable_prompt_template.split("\n")
 
         # parse detached mode
-        self.set_unset_detached_mode(lines[0] != CHECKED_BOX + TREE_ROOT_NAME)
+        self.set_unset_detached_mode(
+            lines[0] != CHECKED_BOX_PREFIX + ROOT_NODE_NAME
+        )
 
         # find all node names in the tree
         node_names = [node.name for node in self.full_prompt_tree.descendants]
 
         # extract all enabled headings
-        pattern = r"{}.+── (.+)".format(re.escape(CHECKED_BOX))
+        pattern = r"{}.+── (.+)".format(re.escape(CHECKED_BOX_PREFIX))
         for line in lines:
             match = re.fullmatch(pattern, line)
             if match:  # find a line start w/ checked box
@@ -190,9 +193,9 @@ class PromptBlueprint:
             node_name = node.name
             # decide either have [x] or [ ] before node lines
             checkbox_prefix = (
-                CHECKED_BOX
+                CHECKED_BOX_PREFIX
                 if node_name in self.enabled_nodes_names
-                else UNCHECKED_BOX
+                else UNCHECKED_BOX_PREFIX
             )
 
             opt_lines.append(checkbox_prefix + pre + node_name)
@@ -200,7 +203,9 @@ class PromptBlueprint:
             # lines for the content of node
             opt_lines.extend(
                 node.generate_repr_content_part(
-                    NO_CHECKBOX + fill, preview_line_count, preview_line_width
+                    NO_CHECKBOX_PREFIX + fill,
+                    preview_line_count,
+                    preview_line_width,
                 )
             )
 

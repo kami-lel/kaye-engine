@@ -6,9 +6,9 @@ import re
 
 from anytree import Node as AnytreeNode, RenderTree
 
-# HACK better name
-HEADING_MARKER = "#"
-TREE_ROOT_NAME = "○"
+# section heading prefix used for parsing .md file of prompt corpus
+HEADING_PREFIX = "#"
+ROOT_NODE_NAME = "○"  # placeholder name for root node
 
 __all__ = ("PromptCorpusNode",)
 
@@ -48,7 +48,7 @@ class PromptCorpusNode(AnytreeNode):
         """
 
         text_lines = cls._convert_corpus_text2lines(prompt_corpus_text)
-        root = cls(TREE_ROOT_NAME, None, text_lines)
+        root = cls(ROOT_NODE_NAME, None, text_lines)
         return root
 
     def __init__(self, name, parent, text_lines):
@@ -64,7 +64,7 @@ class PromptCorpusNode(AnytreeNode):
 
     def _populate_self_by_text_lines(self, text_lines):
         # find every sub-section heading lines
-        heading_prefix = HEADING_MARKER * (self.depth + 1) + " "
+        heading_prefix = HEADING_PREFIX * (self.depth + 1) + " "
         heading_lines = []
         for idx, line in enumerate(text_lines):
             if line.startswith(heading_prefix):
@@ -101,7 +101,7 @@ class PromptCorpusNode(AnytreeNode):
         ['### Node Heading', 'content 1st line', 'content 2nd line']
         """
         lines = []
-        lines.append(HEADING_MARKER * self.depth + " " + self.name)
+        lines.append(HEADING_PREFIX * self.depth + " " + self.name)
         lines.extend(self.content)
         return lines
 
