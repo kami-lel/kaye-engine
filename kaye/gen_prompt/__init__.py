@@ -13,7 +13,7 @@ from the filesystem at runtime.
 
 ----
 
-A **prompt blueprint** defines a specific subset the prompt corpus.
+A **prompt blueprint** defines a specific subset of the prompt corpus.
 
 The ``PromptBlueprint`` class encapsulates prompt blueprint structure.
 
@@ -28,5 +28,3 @@ from .prompt_corpus_node import *
 from .prompt_corpus_loader import *
 from .prompt_blueprint import *
 from .prompt_blueprint_loader import *
-
-# FIXME refactor prompt template to blueprint
