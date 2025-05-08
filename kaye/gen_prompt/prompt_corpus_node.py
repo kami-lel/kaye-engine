@@ -14,40 +14,37 @@ __all__ = ("PromptCorpusNode",)
 
 class PromptCorpusNode(AnytreeNode):
     """
-    Represents a single node in a **Full Prompt Tree**, which is a
-    structured representation of a Full Prompt. In this tree
-    structure, each node organizes and categorizes content within
-    a prompt, allowing for both root nodes that encompass the
-    entire document and subsections identified by headings.
+    A ``PromptCorpusNode`` represents a single node in the *prompt corpus*.
 
-    :param name: name / heading of the node
+    The **prompt corpus** comprises the complete set of available prompts.
+
+    This class enables the creation of a **tree-structured** representation
+    of the *prompt corpus*. Each instance of the class is a node in the tree,
+    corresponding to a part of the corpus and associated with a specific
+    section heading.
+
+
+    :param name: section heading of the node
     :type name: str
     :param parent: parent node in the tree structure;
-    `None` for the root node.
-    :type parent: FullPromptParserNode
+    `None` if the root node
+    :type parent: PromptCorpusNode
     :param text_lines: content to be parsed, each ``str`` represents a line
     :type text_lines: list(str)
     """
 
-    # Fixme rewrite docstring
-
     @classmethod
-    def parse(cls, full_prompt):
+    def parse(cls, prompt_corpus_text):
         """
-        Parses a full prompt string into a structured **Full Prompt Tree**.
+        Parse *prompt corpus* text into the tree structure.
 
-        This method takes a full prompt as input, and constructs the root node
-        of the tree. The resulting tree structure contains nodes that represent
-        the various sections and subsections of the prompt based on headings.
-        :param full_prompt: The entire prompt to be parsed into a tree structure.
-        :type full_prompt: str
-        :return: The root node of the **Full Prompt Tree**,
-                representing the parsed structure of the full prompt.
-        :rtype: FullPromptParserNode
+        :param prompt_corpus_text: full source *prompt corpus* content
+        :type prompt_corpus_text: str
+        :return: **root node** of the parsed *prompt corpus* tree structure
+        :rtype: PromptCorpusNode
         """
-        # Fixme rewrite docstring
 
-        text_lines = cls._convert_full_prompt2lines(full_prompt)
+        text_lines = cls._convert_corpus_text2lines(prompt_corpus_text)
         root = cls(TREE_ROOT_NAME, None, text_lines)
         return root
 
@@ -57,7 +54,7 @@ class PromptCorpusNode(AnytreeNode):
         self._populate_self_by_text_lines(text_lines)
 
     @staticmethod
-    def _convert_full_prompt2lines(full_prompt):
+    def _convert_corpus_text2lines(full_prompt):
         # remove all empty lines
         cleanup = re.sub(r"\n+(?=\Z)", "", re.sub(r"\n+", "\n", full_prompt))
         return list(cleanup.split("\n"))
@@ -109,6 +106,7 @@ class PromptCorpusNode(AnytreeNode):
         >>> node.generate_heading_and_content_lines()
         ['### Node Heading', 'content 1st line', 'content 2nd line']
         """
+        # FIXME better docstring
         lines = []
         lines.append(HEADING_MARKER * self.depth + " " + self.name)
         lines.extend(self.content)
@@ -132,6 +130,7 @@ class PromptCorpusNode(AnytreeNode):
         :return: A list of formatted content lines for the node's representation.
         :rtype: list[str]
         """
+        # FIXME better docstring
         lines = []
         if self.content and preview_line_count:  # print content of node
             for content_line in self.content[:preview_line_count]:
@@ -184,6 +183,7 @@ class PromptCorpusNode(AnytreeNode):
             ├── Contributing
             └── License
         """
+        # FIXME better docstring
         opt_lines = []
 
         for pre, fill, node in RenderTree(self):
