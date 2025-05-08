@@ -1,5 +1,5 @@
 """
-test parsing for FullPromptParser
+test .parse() and instance creation for ``PromptCorpusNode``
 """
 
 from kaye.gen_prompt import PromptCorpusNode
@@ -11,7 +11,7 @@ from tests.gen_prompt.pcn.pcn_testee_corpus import (
 )
 
 
-class TestParse1:
+class TestParse1:  # test using PROMPT1
 
     def test_root(self):
         tree = PromptCorpusNode.parse(PROMPT1)
@@ -67,7 +67,7 @@ class TestParse1:
         assert sub.content == ["Licensed under the MIT License."]
 
 
-class TestParse2:
+class TestParse2:  # test using PROMPT2
     def test_root(self):
         tree = PromptCorpusNode.parse(PROMPT2)
 
@@ -155,7 +155,7 @@ class TestParse2:
         ]
 
 
-class TestParse3:
+class TestParse3:  # test using PROMPT3
 
     def test_root(self):
         tree = PromptCorpusNode.parse(PROMPT3)
