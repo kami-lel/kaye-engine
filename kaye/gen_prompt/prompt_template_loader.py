@@ -5,7 +5,7 @@ define ``get_prompt_templates_names``, ``load_prompt_template``
 import os
 from pathlib import Path
 
-from .full_prompt_tree_loader import load_embedded_prompt_corpus
+from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .prompt_template import PromptTemplate
 
 __all__ = ("get_prompt_templates_names", "load_prompt_template")
