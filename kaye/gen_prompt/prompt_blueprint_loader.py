@@ -37,32 +37,38 @@ def get_embedded_prompt_blueprints_names():
 
 def load_embedded_prompt_blueprint(prompt_blueprint_name):
     """
-    :param prompt_name:
-    :type prompt_name: str
-    :return: an exsiting PromptBlueprint with name ``prompt_name``
+    Load one of the prompt blueprints embedded with this Python package
+
+
+    :param prompt_blueprint_name: name of an embedded prompt blueprints,
+            must be from ``get_embedded_prompt_blueprints_names()``;
+            if ``'full'``: special case blueprint with **all nodes enabled**
+    :type prompt_blueprint_name: str
+    :return: v.s.
     :rtype: PromptBlueprint
     :raises FileNotFoundError:
-    :raises OSError:
+    :raises IOError:
+    :raises ValueError: prompt_name is
+            not a recognized embedded prompt blueprint
     """
-    # HACK improve all docstring
-    # BUG full should be a special case
 
     # assert prompt_name is an existing prompt file
     prompt_file_path = _get_embedded_prompt_blueprints_names_and_paths().get(
         prompt_blueprint_name, ""
     )
     if not prompt_file_path:
-        raise FileNotFoundError(
-            "The prompt template '{}' does not exist in the "
-            "available templates.".format(prompt_blueprint_name)
+        raise ValueError(
+            "'{}' is not a recognized embedded prompt blueprint.".format(
+                prompt_blueprint_name
+            )
         )
 
     # read content
     with open(prompt_file_path, "r", encoding="utf-8") as file:
         content = file.read()
-        return PromptBlueprint(
-            content, full_prompt_tree=load_embedded_prompt_corpus()
-        )
+        return PromptBlueprint(load_embedded_prompt_corpus(), content)
+
+    # TODO full special case
 
 
 def _get_embedded_prompt_blueprints_names_and_paths():
