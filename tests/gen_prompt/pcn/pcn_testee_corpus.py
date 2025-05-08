@@ -1,5 +1,5 @@
 """
-define testee prompt corpus used to test ``class PromptCorpusNode``
+define testee prompt corpus used to test class ``PromptCorpusNode``
 """
 
 PROMPT1 = """

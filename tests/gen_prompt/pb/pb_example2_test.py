@@ -4,39 +4,10 @@ tests features of ``PromptBlueprint`` using a 2nd example full prompt
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
-FULL_PROMPT = """
-# Main Title
 
-## Introduction
-Brief introduction to the topic.
+from tests.gen_prompt.pb.pb_testee_corpus import PROMPT2
 
-### Background
-Context or history relevant to the topic.
-
-#### Importance
-Why this topic matters in the current scenario.
-
-##### Objective
-The primary goal of this document.
-
-## Methods
-Overview of the methodologies used.
-
-### Data Collection
-How data was gathered for analysis.
-
-#### Tools Used
-List of tools utilized during the project.
-
-##### Future Work
-Suggestions for future research or tasks.
-
-## Conclusion
-Summarizing the findings and implications.
-"""
-
-
-example_corpus = PromptCorpusNode.parse(FULL_PROMPT)
+example_corpus = PromptCorpusNode.parse(PROMPT2)
 
 
 class TestRepr:
