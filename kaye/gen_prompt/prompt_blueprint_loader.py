@@ -9,6 +9,7 @@ from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .prompt_blueprint import PromptBlueprint
 
 __all__ = (
+    "get_embedded_prompt_blueprints_folder_path",
     "get_embedded_prompt_blueprints_names",
     "load_embedded_prompt_blueprint",
 )
@@ -17,6 +18,16 @@ __all__ = (
 # Bug full should be a special case
 
 # HACK improve all docstring
+
+
+def get_embedded_prompt_blueprints_folder_path():
+    """
+    :return: absolute path to ``prompt_blueprints`` folder
+            containing embedded prompt blueprints
+    :rtype: Path
+    """
+    # find folder path by relative path from this script
+    return (Path(__file__).resolve().parent / "prompt_blueprints").absolute()
 
 
 def get_embedded_prompt_blueprints_names():
@@ -62,7 +73,7 @@ def _get_prompt_blueprints_names_and_paths():
     :return: names and full paths of all available existing prompt templates
     :rtype: dict{str: str}
     """
-    folder_path = _get_prompt_blueprints_folder_path()
+    folder_path = get_embedded_prompt_blueprints_folder_path()
     files_paths = os.listdir(folder_path)
     # Filter out directories, keeping only files and removing extensions
     return {
@@ -70,12 +81,3 @@ def _get_prompt_blueprints_names_and_paths():
         for file in files_paths
         if os.path.isfile(os.path.join(folder_path, file))
     }
-
-
-def _get_prompt_blueprints_folder_path():
-    """
-    :return: absolute path to ``prompt_blueprints`` folder
-    :rtype: Path
-    """
-    # find folder path by relative path from this script
-    return (Path(__file__).resolve().parent / "prompt_blueprints").absolute()
