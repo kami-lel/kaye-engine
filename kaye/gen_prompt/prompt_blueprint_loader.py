@@ -27,7 +27,8 @@ def get_embedded_prompt_blueprints_folder_path():
 
 def get_embedded_prompt_blueprints_names():
     """
-    :return: names of all available embedded prompt blueprints
+    :return: names of all available embedded prompt blueprints,
+            including specal case "full"
     :rtype: list(str)
     :raises FileNotFoundError:
     :raises OSError:
@@ -76,14 +77,18 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
 
 def _get_embedded_prompt_blueprints_names_and_paths():
     """
-    :return: names and full paths of all available embedded prompt blueprints
+    :return: names and full paths of all available embedded prompt blueprints;
+            special case: {~~, 'full': None}
     :rtype: dict{str: str}
     """
     folder_path = get_embedded_prompt_blueprints_folder_path()
     files_paths = os.listdir(folder_path)
     # Filter out directories, keeping only files and removing extensions
-    return {
+    opt = {
         os.path.splitext(file)[0]: os.path.join(folder_path, file)
         for file in files_paths
         if os.path.isfile(os.path.join(folder_path, file))
     }
+    # add the special case 'full'
+    opt["full"] = None
+    return opt

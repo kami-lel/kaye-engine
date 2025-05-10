@@ -26,6 +26,7 @@ class Test:
             "conversation_tag_generation",
             "conversation",
             "event_search",
+            "full",
         ]
         # Assert that both lists contain the same elements regardless of order
         assert set(opt) == set(expected)
