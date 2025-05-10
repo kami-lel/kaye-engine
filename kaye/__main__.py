@@ -8,6 +8,8 @@ define the CLI for ``kaye``
 
 import argparse
 
+from kaye.gen_prompt.__main__ import prompt_init
+
 # setup main parser
 
 
