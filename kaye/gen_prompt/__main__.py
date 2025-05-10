@@ -2,28 +2,22 @@
 
 # todo docstring
 
-import sys
+from kaye.__main__ import kaye_subpsr
+
+prompt_psr = kaye_subpsr.add_parser("prompt")
+prompt_subpsr = prompt_psr.add_subparsers()
 
 
-from argparse import ArgumentParser
-
-PROGRAM_NAME = "kaye.gen_prompt"
-
-psr = ArgumentParser(prog=PROGRAM_NAME, description=__doc__)
-
-ls_psr = psr.add_subparsers(dest="ls")
+ls_psr = prompt_subpsr.add_parser("ls")
+ls_psr.set_defaults()
 
 
-# positional argument
-# options
+def prompt_main(args):
+    args
+    pass
 
 
 if __name__ == "__main__":
-    args = psr.parse_args()
+    pass
 
-    # todo ls prompts
-    # todo prompt name => prompt content
-    # todo interactive mode
-    # todo corpus from
-
-    sys.exit()
+# TODO TODO
