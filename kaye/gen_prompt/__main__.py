@@ -12,6 +12,10 @@ ls_psr = prompt_subpsr.add_parser("ls")
 ls_psr.set_defaults()
 
 
+def prompt_init(kaye_psr):
+    pass
+
+
 def prompt_main(args):
     args
     pass
