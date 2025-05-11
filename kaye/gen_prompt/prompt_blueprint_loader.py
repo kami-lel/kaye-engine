@@ -8,8 +8,7 @@ from pathlib import Path
 from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .prompt_blueprint import PromptBlueprint
 
-# FIXME technical prompts: full, empty
-# todo sort names
+TECHNICAL_BLUEPRINT = ["full", "empty"]
 
 __all__ = (
     "get_embedded_prompt_blueprints_folder_path",
@@ -28,15 +27,27 @@ def get_embedded_prompt_blueprints_folder_path():
     return (Path(__file__).resolve().parent / "prompt_blueprints").absolute()
 
 
-def get_embedded_prompt_blueprints_names():
+def get_embedded_prompt_blueprints_names(exclude_technical_blueprint=False):
     """
+    :param exclude_technical_blueprint: exclude technical blueprints
+            ("full", "empty") from the resulted list
+    :type exclude_technical_blueprint: bool, optional
     :return: names of all available embedded prompt blueprints,
             including specal case "full"
     :rtype: list(str)
     :raises FileNotFoundError:
     :raises OSError:
     """
-    return list(_get_embedded_prompt_blueprints_names_and_paths().keys())
+    # todo sort names
+    # FIXME test need
+
+    opt = list(_get_embedded_prompt_blueprints_names_and_paths().keys())
+
+    # include technical blueprints if required
+    if not exclude_technical_blueprint:
+        opt.extend(TECHNICAL_BLUEPRINT)
+
+    return opt
 
 
 def load_embedded_prompt_blueprint(prompt_blueprint_name):
@@ -46,7 +57,8 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
 
     :param prompt_blueprint_name: name of an embedded prompt blueprints,
             must be from ``get_embedded_prompt_blueprints_names()``;
-            if ``'full'``: special case blueprint with **all nodes enabled**
+            if ``'full'``: blueprint with **all nodes enabled**;
+            if ``'empty'``: blueprint with **all nodes disabled** (detached mode)
     :type prompt_blueprint_name: str
     :return: v.s.
     :rtype: PromptBlueprint
@@ -57,9 +69,13 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     """
     corpus = load_embedded_prompt_corpus()
 
-    # special case 'full'
+    # deal with technical prompts
+    # technical blueprints
+    # FIXME need tests
     if prompt_blueprint_name == "full":
         return PromptBlueprint.create_full_prompt_blueprint(corpus)
+    elif prompt_blueprint_name == "empty":
+        return PromptBlueprint(corpus)
 
     # assert prompt_name is an existing prompt file
     prompt_file_path = _get_embedded_prompt_blueprints_names_and_paths().get(
@@ -81,7 +97,7 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
 def _get_embedded_prompt_blueprints_names_and_paths():
     """
     :return: names and full paths of all available embedded prompt blueprints;
-            special case: {~~, 'full': None}
+            does *not* include technical blueprints
     :rtype: dict{str: str}
     """
     folder_path = get_embedded_prompt_blueprints_folder_path()
@@ -92,6 +108,4 @@ def _get_embedded_prompt_blueprints_names_and_paths():
         for file in files_paths
         if os.path.isfile(os.path.join(folder_path, file))
     }
-    # add the special case 'full'
-    opt["full"] = None
     return opt
