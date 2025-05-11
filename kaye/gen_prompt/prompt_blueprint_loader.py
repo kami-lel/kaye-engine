@@ -73,7 +73,7 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     if prompt_blueprint_name == "full":
         return PromptBlueprint.create_full_prompt_blueprint(corpus)
     elif prompt_blueprint_name == "empty":
-        return PromptBlueprint(corpus)
+        return PromptBlueprint(corpus, detached_mode=True)
 
     # assert prompt_name is an existing prompt file
     prompt_file_path = _get_embedded_prompt_blueprints_names_and_paths().get(
