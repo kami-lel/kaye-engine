@@ -21,7 +21,6 @@ def _kaye_main(_):
 
 kaye_psr = argparse.ArgumentParser(prog="kaye", description=__doc__)
 kaye_psr.set_defaults(func=_kaye_main)
-
 kaye_subpsr = kaye_psr.add_subparsers(title="subcommands")
 
 
@@ -31,15 +30,28 @@ def _prompt_main(_):
     prompt_psr.print_help()
 
 
-PROMPT_HELP_TEXT = "prompt related"  # TODO
+PROMPT_HELP_TEXT = (
+    "dynamically generate AI system prompt with a prompt blueprint"
+    " as a subset of the prompt corpus"
+)
 prompt_psr = kaye_subpsr.add_parser(
     "prompt", help=PROMPT_HELP_TEXT, description=PROMPT_HELP_TEXT
 )
 prompt_psr.set_defaults(func=_prompt_main)
+prompt_subpsr = prompt_psr.add_subparsers(
+    description="utility functions related to prompt generation"
+)
 
-prompt_subpsr = prompt_psr.add_subparsers(title="subcommands")
+prompt_psr.add_argument(
+    "BLUEPRINT",
+    help="name of any embedded prompt blueprints",
+    choices=blueprint_names,
+    type=str,
+)
 
-# TODO allow render
+# TODO interactive mode
+# TODO destination file
+# TODO source file
 
 
 # setup subparser: kaye prompt ls
@@ -60,10 +72,26 @@ ls_psr.set_defaults(func=_prompt_ls_main)
 
 
 # setup subparser: kaye prompt show
+def _prompt_show_main(args):
+    # when calling ``python -m kaye prompt show``
+    bluerpint_name = args.BLUEPRINT
+    blueprint_obj = load_embedded_prompt_blueprint(bluerpint_name)
+    blueprint_content = repr(blueprint_obj)
+    # todo allow user set preview line, etc.
+
+    # with --file FILE
+    if args.file:
+        with args.file as f:
+            f.write(blueprint_content)
+    else:
+        print(blueprint_content)
+
+
 SHOW_HELP_TEXT = "show content of any of embedded blueprints"
 show_psr = prompt_subpsr.add_parser(
     "show", help=SHOW_HELP_TEXT, description=SHOW_HELP_TEXT
 )
+show_psr.set_defaults(func=_prompt_show_main)
 
 # positional argument with choices
 show_psr.add_argument(
@@ -82,24 +110,6 @@ show_psr.add_argument(
     nargs=None,
     help="save the prompt blueprint to the specified file",
 )
-
-
-def _prompt_show_main(args):
-    # when calling ``python -m kaye prompt show``
-    bluerpint_name = args.BLUEPRINT
-    blueprint_obj = load_embedded_prompt_blueprint(bluerpint_name)
-    blueprint_content = repr(blueprint_obj)
-    # todo allow user set preview line, etc.
-
-    # with --file FILE
-    if args.file:
-        with args.file as f:
-            f.write(blueprint_content)
-    else:
-        print(blueprint_content)
-
-
-show_psr.set_defaults(func=_prompt_show_main)
 
 
 if __name__ == "__main__":
