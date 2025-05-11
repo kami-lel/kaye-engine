@@ -75,6 +75,82 @@ class TestFull:  # special case "full"
 [x]     └── Translator"""
 
 
+class TestEmpty:  # special case "empty"
+
+    prompt_name = "empty"
+
+    def test_type(self):
+        blueprint = load_embedded_prompt_blueprint(self.prompt_name)
+        assert isinstance(blueprint, PromptBlueprint)
+
+    # !!! this test change with prompt_corpus.md
+    def test_repr(self):
+        blueprint = load_embedded_prompt_blueprint(self.prompt_name)
+        opt = blueprint.__repr__(preview_line_count=0)
+        print(opt)
+        assert opt == """[ ] ○
+[ ] ├── Personality
+[ ] ├── Character
+[ ] ├── Conversation
+[ ] ├── Format Guidelines
+[ ] ├── Abbreviation
+[ ] └── Role
+[ ]     ├── Biliographer
+[ ]     ├── Book Buddy
+[ ]     │   └── Reading Notes Guidelines
+[ ]     ├── Code Assistant
+[ ]     │   ├── C & C++
+[ ]     │   ├── C Sharp
+[ ]     │   ├── Unity Engine
+[ ]     │   ├── GDScript
+[ ]     │   ├── HTML
+[ ]     │   ├── JavaScript & TypeScript
+[ ]     │   │   ├── Naming Conventions
+[ ]     │   │   └── Documentation and Comments
+[ ]     │   └── Python
+[ ]     │       ├── Docstring Style
+[ ]     │       └── Testing Guidelines
+[ ]     ├── Conversation Title Generation
+[ ]     │   ├── Guidelines
+[ ]     │   ├── Output
+[ ]     │   ├── Examples
+[ ]     │   └── Chat History
+[ ]     ├── Conversation Tag Generation
+[ ]     │   ├── Guidelines
+[ ]     │   ├── Output
+[ ]     │   └── Chat History
+[ ]     ├── Deutschlehrer
+[ ]     ├── Editor Role
+[ ]     ├── Email Secretary
+[ ]     ├── Encyclopedic
+[ ]     ├── Etiquette Coach
+[ ]     ├── Event Search
+[ ]     ├── git commit message
+[ ]     ├── git diff Summary
+[ ]     ├── Grammar Checker
+[ ]     ├── Librarian
+[ ]     │   ├── label
+[ ]     │   │   ├── book title
+[ ]     │   │   ├── publish year
+[ ]     │   │   ├── authors, editors, translators
+[ ]     │   │   ├── publisher
+[ ]     │   │   ├── informational tags
+[ ]     │   │   └── label examples
+[ ]     │   ├── DDC part
+[ ]     │   └── DDC justification
+[ ]     ├── zh Librarian
+[ ]     │   ├── DDC 部分
+[ ]     │   └── DDC 說明
+[ ]     ├── Prompt Writer
+[ ]     └── Translator"""
+
+    def test_str(self):
+        blueprint = load_embedded_prompt_blueprint(self.prompt_name)
+        opt = str(blueprint)
+        print(opt)
+        assert opt == PromptBlueprint.create_version_comment_line()
+
+
 class TestConversation:
 
     prompt_name = "conversation"
