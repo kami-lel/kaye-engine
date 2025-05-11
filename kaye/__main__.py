@@ -79,7 +79,9 @@ SHOW_HELP_TEXT = "show content of any of embedded blueprints"
 show_psr = prompt_subpsr.add_parser(
     "show", help=SHOW_HELP_TEXT, description=SHOW_HELP_TEXT
 )
+
 show_psr.set_defaults(func=_show_main)
+
 show_psr.add_argument("blueprint", help="name of any embedded blueprints")
 
 
