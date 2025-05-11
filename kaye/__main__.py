@@ -43,7 +43,7 @@ prompt_subpsr = prompt_psr.add_subparsers(title="subcommands")
 
 
 # setup subparser: kaye prompt ls
-def _ls_main(_):
+def _prompt_ls_main(_):
     # when calling ``python -m kaye prompt ls``
     print("all available embedded blueprints:\n")
     for blueprint_name in blueprint_names:
@@ -56,7 +56,7 @@ ls_psr = prompt_subpsr.add_parser(
     help=LS_HELP_TEXT,
     description=LS_HELP_TEXT,
 )
-ls_psr.set_defaults(func=_ls_main)
+ls_psr.set_defaults(func=_prompt_ls_main)
 
 
 # setup subparser: kaye prompt show
@@ -84,7 +84,7 @@ show_psr.add_argument(
 )
 
 
-def _show_main(args):
+def _prompt_show_main(args):
     # when calling ``python -m kaye prompt show``
     bluerpint_name = args.BLUEPRINT
     blueprint_obj = load_embedded_prompt_blueprint(bluerpint_name)
@@ -99,7 +99,7 @@ def _show_main(args):
         print(blueprint_content)
 
 
-show_psr.set_defaults(func=_show_main)
+show_psr.set_defaults(func=_prompt_show_main)
 
 
 if __name__ == "__main__":
