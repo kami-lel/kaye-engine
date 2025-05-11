@@ -10,7 +10,7 @@ from kaye.gen_prompt.prompt_blueprint_loader import (
 )
 
 # get all available blueprints at runtime
-blueprint_names = get_embedded_prompt_blueprints_names()
+blueprint_names = sorted(get_embedded_prompt_blueprints_names())
 
 
 # setup main parser
