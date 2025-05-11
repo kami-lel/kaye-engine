@@ -38,7 +38,6 @@ def get_embedded_prompt_blueprints_names(exclude_technical_blueprint=False):
     :raises FileNotFoundError:
     :raises OSError:
     """
-    # TODO sort names
     opt = list(_get_embedded_prompt_blueprints_names_and_paths().keys())
 
     # include technical blueprints if required
@@ -69,7 +68,6 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
 
     # deal with technical prompts
     # technical blueprints
-    # FIXME need tests
     if prompt_blueprint_name == "full":
         return PromptBlueprint.create_full_prompt_blueprint(corpus)
     elif prompt_blueprint_name == "empty":
