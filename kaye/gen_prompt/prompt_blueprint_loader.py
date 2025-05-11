@@ -8,6 +8,8 @@ from pathlib import Path
 from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .prompt_blueprint import PromptBlueprint
 
+# TODO technical prompts: full, empty
+
 __all__ = (
     "get_embedded_prompt_blueprints_folder_path",
     "get_embedded_prompt_blueprints_names",
