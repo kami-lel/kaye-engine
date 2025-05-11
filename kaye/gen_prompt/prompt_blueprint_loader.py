@@ -38,9 +38,7 @@ def get_embedded_prompt_blueprints_names(exclude_technical_blueprint=False):
     :raises FileNotFoundError:
     :raises OSError:
     """
-    # todo sort names
-    # FIXME test need
-
+    # TODO sort names
     opt = list(_get_embedded_prompt_blueprints_names_and_paths().keys())
 
     # include technical blueprints if required
