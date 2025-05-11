@@ -10,6 +10,7 @@ import argparse
 
 from kaye.gen_prompt.prompt_blueprint_loader import (
     get_embedded_prompt_blueprints_names,
+    load_embedded_prompt_blueprint,
 )
 
 
@@ -63,10 +64,31 @@ ls_psr = prompt_subpsr.add_parser(
 ls_psr.set_defaults(func=_ls_main)
 
 
-# setup subparser: kaye prompt
+# setup subparser: kaye prompt show
+def _show_main(args):
+    """
+    main behvaior when calling ``python -m kaye prompt show``
+    """
+    # todo make possible to edit
+    bluerpint_name = args.blueprint
+    blueprint_obj = load_embedded_prompt_blueprint(bluerpint_name)
+    print(repr(blueprint_obj))
+
+
+SHOW_HELP_TEXT = "show content of any of embedded blueprints"
+show_psr = prompt_subpsr.add_parser(
+    "show", help=SHOW_HELP_TEXT, description=SHOW_HELP_TEXT
+)
+show_psr.set_defaults(func=_show_main)
+show_psr.add_argument("blueprint", help="name of any embedded blueprints")
+
+
+# setup subparser: kaye promtp gen
+
+
 # TODO TODO
 
 
 if __name__ == "__main__":
-    args = kaye_psr.parse_args()
-    args.func(args)
+    parsed_args = kaye_psr.parse_args()
+    parsed_args.func(parsed_args)  # call respective main function
