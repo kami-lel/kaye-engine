@@ -8,7 +8,8 @@ from pathlib import Path
 from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .prompt_blueprint import PromptBlueprint
 
-# TODO technical prompts: full, empty
+# FIXME technical prompts: full, empty
+# todo sort names
 
 __all__ = (
     "get_embedded_prompt_blueprints_folder_path",
