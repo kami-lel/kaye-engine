@@ -8,6 +8,7 @@ from kaye.gen_prompt.prompt_blueprint_loader import (
     get_embedded_prompt_blueprints_names,
     load_embedded_prompt_blueprint,
 )
+from kaye.gen_prompt import __doc__ as gen_prompt_doc
 
 # get all available blueprints at runtime
 blueprint_names = sorted(get_embedded_prompt_blueprints_names())
@@ -35,8 +36,13 @@ PROMPT_HELP_TEXT = (
     " as a subset of the prompt corpus"
 )
 prompt_psr = kaye_subpsr.add_parser(
-    "prompt", help=PROMPT_HELP_TEXT, description=PROMPT_HELP_TEXT
+    "prompt",
+    help=PROMPT_HELP_TEXT,
+    description=PROMPT_HELP_TEXT,
+    epilog=gen_prompt_doc,
 )
+# TODO epilog loook bad, use raw text etc.
+
 prompt_psr.set_defaults(func=_prompt_main)
 prompt_subpsr = prompt_psr.add_subparsers(
     description="utility functions related to prompt generation"
