@@ -63,6 +63,26 @@ ls_psr = prompt_subpsr.add_parser(
 ls_psr.set_defaults(func=_prompt_ls_main)
 
 
+# args shared by gen and show
+arg_sharing_psr = ArgumentParser(add_help=False)
+
+# positional argument
+arg_sharing_psr.add_argument(
+    "BLUEPRINT",
+    help="name of any embedded blueprints",
+    type=str,
+)
+# options
+arg_sharing_psr.add_argument(
+    "-f",
+    "--file",
+    metavar="FILE",
+    type=FileType(mode="w"),
+    nargs="?",
+    help="save the result to file",
+)
+
+
 # setup subparser: kaye prompt gen
 def _prompt_gen_main(args):
     # when calling ``python -m kaye prompt gen``
@@ -85,26 +105,14 @@ def _prompt_gen_main(args):
 
 GEN_HELP_TEXT = "generate concreate prompt from blueprint"
 gen_psr = prompt_subpsr.add_parser(
-    "gen", help=GEN_HELP_TEXT, description=GEN_HELP_TEXT
+    "gen",
+    help=GEN_HELP_TEXT,
+    description=GEN_HELP_TEXT,
+    parents=[
+        arg_sharing_psr,
+    ],
 )
 gen_psr.set_defaults(func=_prompt_gen_main)
-
-# positional argument
-gen_psr.add_argument(
-    "BLUEPRINT",
-    help="name of any embedded blueprints",
-    type=str,
-)
-
-# options
-gen_psr.add_argument(
-    "-f",
-    "--file",
-    metavar="FILE",
-    type=FileType(mode="w"),
-    nargs="?",
-    help="save the resulted prompt to file",
-)
 
 
 # setup subparser: kaye prompt show
@@ -125,26 +133,14 @@ def _prompt_show_main(args):
 
 SHOW_HELP_TEXT = "show content of any of embedded blueprints"
 show_psr = prompt_subpsr.add_parser(
-    "show", help=SHOW_HELP_TEXT, description=SHOW_HELP_TEXT
+    "show",
+    help=SHOW_HELP_TEXT,
+    description=SHOW_HELP_TEXT,
+    parents=[
+        arg_sharing_psr,
+    ],
 )
 show_psr.set_defaults(func=_prompt_show_main)
-
-# positional argument
-show_psr.add_argument(
-    "BLUEPRINT",
-    help="name of any embedded blueprints",
-    type=str,
-)
-
-# options
-show_psr.add_argument(
-    "-f",
-    "--file",
-    metavar="FILE",
-    type=FileType(mode="w"),
-    nargs="?",
-    help="save the prompt blueprint to file",
-)
 
 
 if __name__ == "__main__":
