@@ -186,11 +186,12 @@ class PromptBlueprint:
 
 
         :param preview_line_count: set maximum line count of
-                *content preview* part, (excluding section heading line)
+                *content preview* part for each entry,
+                (excluding section heading line)
                 defaults to 3
         :type preview_line_count: int
         :param preview_line_width: set maximum column width of
-                *content preview* part;
+                *content preview* part for each entry;
                 defaults to 64.
         :type preview_line_width: int
         :return: v.s.

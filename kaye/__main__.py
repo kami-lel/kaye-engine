@@ -81,6 +81,25 @@ arg_sharing_psr.add_argument(
     nargs="?",
     help="save the result to file",
 )
+# options
+arg_sharing_psr.add_argument(
+    "-l",
+    "--preview-line-count",
+    metavar="LINE_COUNT",
+    type=int,
+    nargs="?",
+    help="maximum line count for each entry in blueprint preview",
+    default=None,
+)
+arg_sharing_psr.add_argument(
+    "-w",
+    "--preview-line-width",
+    metavar="LINE_WIDTH",
+    type=int,
+    nargs="?",
+    help="maximum line width for each entry in blueprint preview",
+    default=None,
+)
 
 
 # setup subparser: kaye prompt gen
@@ -97,8 +116,7 @@ def _prompt_gen_main(args):
     else:
         print(prompt_content)
 
-    # todo allow user set preview line, etc.
-
+    # TODO allow user set preview line, etc.
     # TODO interactive mode
     # TODO source file
 
@@ -120,8 +138,11 @@ def _prompt_show_main(args):
     # when calling ``python -m kaye prompt show``
     bluerpint_name = args.BLUEPRINT
     blueprint_obj = load_embedded_prompt_blueprint(bluerpint_name)
-    blueprint_content = repr(blueprint_obj)
-    # todo allow user set preview line, etc.
+
+    blueprint_content = blueprint_obj.__repr__(
+        preview_line_count=args.preview_line_count,
+        preview_line_width=args.preview_line_width,
+    )
 
     # with --file FILE
     if args.file:
