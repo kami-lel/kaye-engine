@@ -2,13 +2,12 @@
 CLI for Python module ``kaye``
 """
 
-import argparse
+from argparse import ArgumentParser, FileType
 
 from kaye.gen_prompt.prompt_blueprint_loader import (
     get_embedded_prompt_blueprints_names,
     load_embedded_prompt_blueprint,
 )
-from kaye.gen_prompt import __doc__ as gen_prompt_doc
 
 # get all available blueprints at runtime
 blueprint_names = sorted(get_embedded_prompt_blueprints_names())
@@ -20,7 +19,7 @@ def _kaye_main(_):
     kaye_psr.print_help()
 
 
-kaye_psr = argparse.ArgumentParser(prog="kaye", description=__doc__)
+kaye_psr = ArgumentParser(prog="kaye", description=__doc__)
 kaye_psr.set_defaults(func=_kaye_main)
 kaye_subpsr = kaye_psr.add_subparsers(title="subcommands")
 
@@ -39,7 +38,6 @@ prompt_psr = kaye_subpsr.add_parser(
     "prompt",
     help=PROMPT_HELP_TEXT,
     description=PROMPT_HELP_TEXT,
-    epilog=gen_prompt_doc,
 )
 # TODO epilog loook bad, use raw text etc.
 
@@ -112,7 +110,7 @@ show_psr.add_argument(
     "-f",
     "--file",
     metavar="FILE",
-    type=argparse.FileType(mode="w"),
+    type=FileType(mode="w"),
     nargs=None,
     help="save the prompt blueprint to the specified file",
 )
