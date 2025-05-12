@@ -39,23 +39,11 @@ prompt_psr = kaye_subpsr.add_parser(
     help=PROMPT_HELP_TEXT,
     description=PROMPT_HELP_TEXT,
 )
-# TODO epilog loook bad, use raw text etc.
 
 prompt_psr.set_defaults(func=_prompt_main)
 prompt_subpsr = prompt_psr.add_subparsers(
     description="utility functions related to prompt generation"
 )
-
-prompt_psr.add_argument(
-    "BLUEPRINT",
-    help="name of any embedded prompt blueprints",
-    choices=blueprint_names,
-    type=str,
-)
-
-# TODO interactive mode
-# TODO destination file
-# TODO source file
 
 
 # setup subparser: kaye prompt ls
@@ -73,6 +61,50 @@ ls_psr = prompt_subpsr.add_parser(
     description=LS_HELP_TEXT,
 )
 ls_psr.set_defaults(func=_prompt_ls_main)
+
+
+# setup subparser: kaye prompt gen
+def _prompt_gen_main(args):
+    # when calling ``python -m kaye prompt gen``
+    bluerpint_name = args.BLUEPRINT
+    blueprint_obj = load_embedded_prompt_blueprint(bluerpint_name)
+    prompt_content = str(blueprint_obj)
+
+    # with --file FILE
+    if args.file:
+        with args.file as f:
+            f.write(prompt_content)
+    else:
+        print(prompt_content)
+
+    # todo allow user set preview line, etc.
+
+    # TODO interactive mode
+    # TODO source file
+
+
+GEN_HELP_TEXT = "generate concreate prompt from blueprint"
+gen_psr = prompt_subpsr.add_parser(
+    "gen", help=GEN_HELP_TEXT, description=GEN_HELP_TEXT
+)
+gen_psr.set_defaults(func=_prompt_gen_main)
+
+# positional argument
+gen_psr.add_argument(
+    "BLUEPRINT",
+    help="name of any embedded blueprints",
+    type=str,
+)
+
+# options
+gen_psr.add_argument(
+    "-f",
+    "--file",
+    metavar="FILE",
+    type=FileType(mode="w"),
+    nargs="?",
+    help="save the resulted prompt to file",
+)
 
 
 # setup subparser: kaye prompt show
@@ -97,11 +129,10 @@ show_psr = prompt_subpsr.add_parser(
 )
 show_psr.set_defaults(func=_prompt_show_main)
 
-# positional argument with choices
+# positional argument
 show_psr.add_argument(
     "BLUEPRINT",
     help="name of any embedded blueprints",
-    choices=blueprint_names,
     type=str,
 )
 
@@ -111,8 +142,8 @@ show_psr.add_argument(
     "--file",
     metavar="FILE",
     type=FileType(mode="w"),
-    nargs=None,
-    help="save the prompt blueprint to the specified file",
+    nargs="?",
+    help="save the prompt blueprint to file",
 )
 
 
