@@ -38,6 +38,7 @@ prompt_psr = kaye_subpsr.add_parser(
     "prompt",
     help=PROMPT_HELP_TEXT,
     description=PROMPT_HELP_TEXT,
+    aliases=["pmt", "p"],
 )
 
 prompt_psr.set_defaults(func=_prompt_main)
