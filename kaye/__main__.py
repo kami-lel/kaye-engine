@@ -114,7 +114,7 @@ def _prompt_gen_main(args):
     if args.source_file:
         try:
             with open(blueprint_arg, "r", encoding="utf-8") as file:
-                file_content = file.read()  # HACK
+                file_content = file.read()
 
         except (FileNotFoundError, OSError) as e:
             raise ValueError(
@@ -139,25 +139,24 @@ def _prompt_gen_main(args):
     else:
         print(prompt_content)
 
-    # TODO allow user set preview line, etc.
-    # TODO interactive mode
+    # todo interactive mode, which allow user set preview line, etc.
 
 
-GEN_HELP_TEXT = "generate concrete prompt from blueprint"
+gen_help_text = "generate concrete prompt from blueprint"
 gen_psr = prompt_subpsr.add_parser(
     "gen",
-    help=GEN_HELP_TEXT,
-    description=GEN_HELP_TEXT,
+    help=gen_help_text,
+    description=gen_help_text,
     parents=[
         arg_sharing_psr,
     ],
 )
 
 gen_psr.add_argument(
-    "-F",
+    "-f",
     "--source-file",
     action="store_true",
-    help="provide BLUEPRINT as source file of prompt blueprint",
+    help="provide blueprint as source file of prompt blueprint",
 )
 gen_psr.set_defaults(func=_prompt_gen_main)
 
@@ -165,7 +164,7 @@ gen_psr.set_defaults(func=_prompt_gen_main)
 # setup subparser: kaye prompt show
 def _prompt_show_main(args):
     # when calling ``python -m kaye prompt show``
-    bluerpint_name = args.BLUEPRINT
+    bluerpint_name = args.blueprint
     blueprint_obj = load_embedded_prompt_blueprint(bluerpint_name)
 
     blueprint_content = blueprint_obj.__repr__(
@@ -173,7 +172,7 @@ def _prompt_show_main(args):
         preview_line_width=args.preview_line_width,
     )
 
-    # with --file FILE
+    # with --file file
     if args.file:
         with args.file as f:
             f.write(blueprint_content)
@@ -181,11 +180,11 @@ def _prompt_show_main(args):
         print(blueprint_content)
 
 
-SHOW_HELP_TEXT = "show content of any of embedded blueprints"
+show_help_text = "show content of any of embedded blueprints"
 show_psr = prompt_subpsr.add_parser(
     "show",
-    help=SHOW_HELP_TEXT,
-    description=SHOW_HELP_TEXT,
+    help=show_help_text,
+    description=show_help_text,
     parents=[
         arg_sharing_psr,
     ],
