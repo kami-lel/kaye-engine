@@ -5,8 +5,10 @@ CLI for Python module ``kaye``
 from argparse import ArgumentParser, FileType
 
 from kaye.gen_prompt.prompt_blueprint_loader import (
+    PromptBlueprint,
     get_embedded_prompt_blueprints_names,
     load_embedded_prompt_blueprint,
+    load_embedded_prompt_corpus,
 )
 
 # get all available blueprints at runtime
@@ -106,8 +108,28 @@ arg_sharing_psr.add_argument(
 # setup subparser: kaye prompt gen
 def _prompt_gen_main(args):
     # when calling ``python -m kaye prompt gen``
-    bluerpint_name = args.BLUEPRINT
-    blueprint_obj = load_embedded_prompt_blueprint(bluerpint_name)
+
+    blueprint_arg = args.BLUEPRINT
+
+    if args.source_file:
+        try:
+            with open(blueprint_arg, "r", encoding="utf-8") as file:
+                file_content = file.read()  # HACK
+
+        except (FileNotFoundError, OSError) as e:
+            raise ValueError(
+                'bad filename "{}" of BLUEPRINT with --source-file'.format(
+                    blueprint_arg
+                )
+            ) from e
+
+        blueprint_obj = PromptBlueprint(
+            load_embedded_prompt_corpus(), file_content
+        )
+
+    else:
+        blueprint_obj = load_embedded_prompt_blueprint(blueprint_arg)
+
     prompt_content = str(blueprint_obj)
 
     # with --file FILE
@@ -119,10 +141,9 @@ def _prompt_gen_main(args):
 
     # TODO allow user set preview line, etc.
     # TODO interactive mode
-    # TODO source file
 
 
-GEN_HELP_TEXT = "generate concreate prompt from blueprint"
+GEN_HELP_TEXT = "generate concrete prompt from blueprint"
 gen_psr = prompt_subpsr.add_parser(
     "gen",
     help=GEN_HELP_TEXT,
@@ -130,6 +151,13 @@ gen_psr = prompt_subpsr.add_parser(
     parents=[
         arg_sharing_psr,
     ],
+)
+
+gen_psr.add_argument(
+    "-F",
+    "--source-file",
+    action="store_true",
+    help="provide BLUEPRINT as source file of prompt blueprint",
 )
 gen_psr.set_defaults(func=_prompt_gen_main)
 
