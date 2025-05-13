@@ -1,4 +1,4 @@
-v3.4.1-alpha
+v4.0
 
 implement the **CLI** for the module, implement parsers for:
 
