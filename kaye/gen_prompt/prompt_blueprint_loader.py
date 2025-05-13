@@ -8,6 +8,8 @@ from pathlib import Path
 from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .prompt_blueprint import PromptBlueprint
 
+TECHNICAL_BLUEPRINT = ["full", "empty"]
+
 __all__ = (
     "get_embedded_prompt_blueprints_folder_path",
     "get_embedded_prompt_blueprints_names",
@@ -25,14 +27,24 @@ def get_embedded_prompt_blueprints_folder_path():
     return (Path(__file__).resolve().parent / "prompt_blueprints").absolute()
 
 
-def get_embedded_prompt_blueprints_names():
+def get_embedded_prompt_blueprints_names(exclude_technical_blueprint=False):
     """
-    :return: names of all available embedded prompt blueprints
+    :param exclude_technical_blueprint: exclude technical blueprints
+            ("full", "empty") from the resulted list
+    :type exclude_technical_blueprint: bool, optional
+    :return: names of all available embedded prompt blueprints,
+            including specal case "full"
     :rtype: list(str)
     :raises FileNotFoundError:
     :raises OSError:
     """
-    return list(_get_embedded_prompt_blueprints_names_and_paths().keys())
+    opt = list(_get_embedded_prompt_blueprints_names_and_paths().keys())
+
+    # include technical blueprints if required
+    if not exclude_technical_blueprint:
+        opt.extend(TECHNICAL_BLUEPRINT)
+
+    return opt
 
 
 def load_embedded_prompt_blueprint(prompt_blueprint_name):
@@ -42,7 +54,8 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
 
     :param prompt_blueprint_name: name of an embedded prompt blueprints,
             must be from ``get_embedded_prompt_blueprints_names()``;
-            if ``'full'``: special case blueprint with **all nodes enabled**
+            if ``'full'``: blueprint with **all nodes enabled**;
+            if ``'empty'``: blueprint with **all nodes disabled** (detached mode)
     :type prompt_blueprint_name: str
     :return: v.s.
     :rtype: PromptBlueprint
@@ -53,9 +66,12 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     """
     corpus = load_embedded_prompt_corpus()
 
-    # special case 'full'
+    # deal with technical prompts
+    # technical blueprints
     if prompt_blueprint_name == "full":
         return PromptBlueprint.create_full_prompt_blueprint(corpus)
+    elif prompt_blueprint_name == "empty":
+        return PromptBlueprint(corpus, detached_mode=True)
 
     # assert prompt_name is an existing prompt file
     prompt_file_path = _get_embedded_prompt_blueprints_names_and_paths().get(
@@ -76,14 +92,16 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
 
 def _get_embedded_prompt_blueprints_names_and_paths():
     """
-    :return: names and full paths of all available embedded prompt blueprints
+    :return: names and full paths of all available embedded prompt blueprints;
+            does *not* include technical blueprints
     :rtype: dict{str: str}
     """
     folder_path = get_embedded_prompt_blueprints_folder_path()
     files_paths = os.listdir(folder_path)
     # Filter out directories, keeping only files and removing extensions
-    return {
+    opt = {
         os.path.splitext(file)[0]: os.path.join(folder_path, file)
         for file in files_paths
         if os.path.isfile(os.path.join(folder_path, file))
     }
+    return opt

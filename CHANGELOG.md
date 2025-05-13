@@ -1,9 +1,12 @@
-v3.3
+v4.0
 
-re `gen_prompt`:
+implement the **CLI** for the module, implement parsers for:
 
-- refactor **prompt corpus** from full prompt tree
-- refactor **prompt blueprint** from prompt template
-- rewrite many docstrings for better clarity
-- reorganize tests for
-- append kaye version at end of rendered
+- `python -m kaye`
+- `python -m kaye prompt`
+- `python -m kaye prompt ls`
+- `python -m kaye prompt show`
+
+re `prompt_blueprint_loader.py``:
+
+- implement *technical blueprints*
