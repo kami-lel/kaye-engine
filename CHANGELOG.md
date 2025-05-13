@@ -1,12 +1,1 @@
-v4.0
-
-implement the **CLI** for the module, implement parsers for:
-
-- `python -m kaye`
-- `python -m kaye prompt`
-- `python -m kaye prompt ls`
-- `python -m kaye prompt show`
-
-re `prompt_blueprint_loader.py``:
-
-- implement *technical blueprints*
+v4.0.1-alpha
