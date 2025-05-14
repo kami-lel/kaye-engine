@@ -142,11 +142,11 @@ def _prompt_gen_main(args):
     # todo interactive mode, which allow user set preview line, etc.
 
 
-gen_help_text = "generate concrete prompt from blueprint"
+GEN_HELP_TEXT = "generate concrete prompt from blueprint"
 gen_psr = prompt_subpsr.add_parser(
     "gen",
-    help=gen_help_text,
-    description=gen_help_text,
+    help=GEN_HELP_TEXT,
+    description=GEN_HELP_TEXT,
     parents=[
         arg_sharing_psr,
     ],
