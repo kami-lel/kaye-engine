@@ -139,7 +139,8 @@ def _prompt_gen_main(args):
     else:
         print(prompt_content)
 
-    # todo interactive mode, which allow user set preview line, etc.
+    # TODO interactive mode
+    # todo which allow user set preview line, etc.
 
 
 GEN_HELP_TEXT = "generate concrete prompt from blueprint"
