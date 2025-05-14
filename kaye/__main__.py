@@ -153,7 +153,7 @@ gen_psr = prompt_subpsr.add_parser(
 )
 
 gen_psr.add_argument(
-    "-f",
+    "-F",
     "--source-file",
     action="store_true",
     help="provide blueprint as source file of prompt blueprint",
