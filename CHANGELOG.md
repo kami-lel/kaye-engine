@@ -1,12 +1,8 @@
-v4.0
+v4.0.1
 
-implement the **CLI** for the module, implement parsers for:
+- update prompt corpus to improve conersation langauge consistency
 
-- `python -m kaye`
-- `python -m kaye prompt`
-- `python -m kaye prompt ls`
-- `python -m kaye prompt show`
+fix bug in:
 
-re `prompt_blueprint_loader.py``:
-
-- implement *technical blueprints*
+- CLI subcommand `kaye prompt show` can not get BLUEPRINT
+- conflicting `-f` in calling CLI

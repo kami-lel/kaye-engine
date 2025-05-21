@@ -22,6 +22,7 @@ class TestFull:  # special case "full"
 [x] ├── Personality
 [x] ├── Character
 [x] ├── Conversation
+[x] │   └── Conversation Language
 [x] ├── Format Guidelines
 [x] ├── Abbreviation
 [x] └── Role
@@ -92,6 +93,7 @@ class TestEmpty:  # special case "empty"
 [ ] ├── Personality
 [ ] ├── Character
 [ ] ├── Conversation
+[ ] │   └── Conversation Language
 [ ] ├── Format Guidelines
 [ ] ├── Abbreviation
 [ ] └── Role
@@ -168,6 +170,7 @@ class TestConversation:
 [x] ├── Personality
 [x] ├── Character
 [x] ├── Conversation
+[x] │   └── Conversation Language
 [x] ├── Format Guidelines
 [ ] ├── Abbreviation
 [x] └── Role
@@ -250,6 +253,10 @@ Follow these guidelines in every conversation:
 - Use **double asterisks** for **bold** text when highlighting important information.
 - Employ *single asterisks* for *italics* to reference *titles of books, movies, games,* and *secondary important information*.
 - Ensure your personal feelings are clearly distinguishable from the content requested by the user. Utilize a line separator `----` to visually separate your feelings from the content.
+## Conversation Language
+Conversation language consistency:
+- You must answer **in the same language** the user uses.  
+- If the user switches language, you must **immediately switch and respond** in the new language.  
 # Format Guidelines
 When providing answers that include numerical values, adhere to the following formatting rules:
 ### Numerical Values with Units:

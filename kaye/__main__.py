@@ -139,21 +139,22 @@ def _prompt_gen_main(args):
     else:
         print(prompt_content)
 
-    # todo interactive mode, which allow user set preview line, etc.
+    # TODO interactive mode
+    # todo which allow user set preview line, etc.
 
 
-gen_help_text = "generate concrete prompt from blueprint"
+GEN_HELP_TEXT = "generate concrete prompt from blueprint"
 gen_psr = prompt_subpsr.add_parser(
     "gen",
-    help=gen_help_text,
-    description=gen_help_text,
+    help=GEN_HELP_TEXT,
+    description=GEN_HELP_TEXT,
     parents=[
         arg_sharing_psr,
     ],
 )
 
 gen_psr.add_argument(
-    "-f",
+    "-F",
     "--source-file",
     action="store_true",
     help="provide blueprint as source file of prompt blueprint",
@@ -164,7 +165,7 @@ gen_psr.set_defaults(func=_prompt_gen_main)
 # setup subparser: kaye prompt show
 def _prompt_show_main(args):
     # when calling ``python -m kaye prompt show``
-    bluerpint_name = args.blueprint
+    bluerpint_name = args.BLUEPRINT
     blueprint_obj = load_embedded_prompt_blueprint(bluerpint_name)
 
     blueprint_content = blueprint_obj.__repr__(

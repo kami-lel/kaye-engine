@@ -2,6 +2,7 @@
 [x] ├── Personality
 [ ] ├── Character
 [x] ├── Conversation
+[x] │   └── Conversation Language
 [x] ├── Format Guidelines
 [ ] ├── Abbreviation
 [x] └── Role
