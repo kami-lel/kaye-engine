@@ -42,6 +42,7 @@ class TestLoad:  # test function load_embedded_prompt_corpus
 ├── Personality
 ├── Character
 ├── Conversation
+│   └── Conversation Language
 ├── Format Guidelines
 ├── Abbreviation
 └── Role
