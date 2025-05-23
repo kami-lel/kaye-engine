@@ -1,5 +1,5 @@
 """
-test classmethod ``create_full_prompt_blueprint()`` of class ``PromptBlueprint``
+test classmethod ``create_full_prompt_blueprint("test", )`` of class ``PromptBlueprint``
 """
 
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
@@ -10,7 +10,9 @@ class TestCFPB:
 
     def test1(_):  # using prompt1
         corpus = PromptCorpusNode.parse(PROMPT1)
-        blueprint = PromptBlueprint.create_full_prompt_blueprint(corpus)
+        blueprint = PromptBlueprint.create_full_prompt_blueprint(
+            "test", corpus
+        )
 
         opt = blueprint.__repr__(preview_line_count=0)
         print(opt)
@@ -24,7 +26,9 @@ class TestCFPB:
 
     def test2(_):  # using prompt2
         corpus = PromptCorpusNode.parse(PROMPT2)
-        blueprint = PromptBlueprint.create_full_prompt_blueprint(corpus)
+        blueprint = PromptBlueprint.create_full_prompt_blueprint(
+            "test", corpus
+        )
 
         opt = blueprint.__repr__(preview_line_count=0)
         print(opt)
