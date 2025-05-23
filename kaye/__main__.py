@@ -52,7 +52,7 @@ prompt_subpsr = prompt_psr.add_subparsers(
 # setup subparser: kaye prompt ls
 def _prompt_ls_main(_):
     # when calling ``python -m kaye prompt ls``
-    print("all available embedded blueprints:\n")
+    print("(all available embedded blueprints:)")
     for blueprint_name in blueprint_names:
         print(blueprint_name)
 
