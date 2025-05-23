@@ -276,16 +276,12 @@ class PromptBlueprint:
             else self._generate_str_recursively(self.prompt_corpus)
         )
 
-        # place comment as last line
-        if not hide_comment:
-            lines.append(self.create_version_comment_line())
-
         # create comment part
         if not hide_comment:
             kaye_version = importlib.metadata.version("kaye")
             comment_line = "<!-- {}Kaye v{} -->".format(
                 (
-                    "blueprint:{};".format(self.blueprint_name)
+                    "blueprint:{}; ".format(self.blueprint_name)
                     if self.blueprint_name
                     else ""
                 ),
