@@ -74,14 +74,14 @@ class PromptBlueprint:
         :param prompt_corpus: *prompt corpus* tree root node
                 which this prompt blueprint attached to
         :type prompt_corpus: PromptCorpusNode
-        :param blueprint_name: display name given to the prompt;
+        :param prompt_blueprint_name: display name given to the prompt;
                 defaults to "full"
-        :type blueprint_name: str, optional
+        :type prompt_blueprint_name: str, optional
         :return: an instance of ``PromptBlueprint`` attached to the given
                 ``prompt_corpus``, and with **all nodes enabled**
         :rtype: PromptBlueprint
         """
-        blueprint = cls(blueprint_name, prompt_corpus)
+        blueprint = cls(prompt_corpus, prompt_blueprint_name=blueprint_name)
         # set all nodes
         for node in PreOrderIter(prompt_corpus):
             if node is prompt_corpus:  # skip root node
@@ -119,11 +119,11 @@ class PromptBlueprint:
     def __init__(
         self,
         prompt_corpus,
-        blueprint_name=None,
         prompt_blueprint_text=None,
+        prompt_blueprint_name=None,
         detached_mode=False,
     ):
-        self.blueprint_name = blueprint_name
+        self.blueprint_name = prompt_blueprint_name
         self.prompt_corpus = prompt_corpus
         self.enabled_nodes_names = []  # all nodes currently enabled
 

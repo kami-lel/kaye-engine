@@ -72,7 +72,9 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
         return PromptBlueprint.create_full_prompt_blueprint(corpus)
     elif prompt_blueprint_name == "empty":
         return PromptBlueprint(
-            corpus, prompt_blueprint_name, detached_mode=True
+            corpus,
+            prompt_blueprint_name=prompt_blueprint_name,
+            detached_mode=True,
         )
 
     # assert prompt_name is an existing prompt file
