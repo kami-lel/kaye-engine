@@ -148,9 +148,9 @@ class TestEmpty:  # special case "empty"
 
     def test_str(self):
         blueprint = load_embedded_prompt_blueprint(self.prompt_name)
-        opt = str(blueprint)
+        opt = blueprint.__str__(hide_comment=True)
         print(opt)
-        assert opt == PromptBlueprint.create_version_comment_line()
+        assert opt == ""
 
 
 class TestConversation:
@@ -226,9 +226,11 @@ class TestConversation:
     # !!! this test change with prompt_corpus.md
     def test_str(self):
         blueprint = load_embedded_prompt_blueprint(self.prompt_name)
-        opt = str(blueprint)
+        opt = blueprint.__str__(hide_comment=True)
         print(opt)
-        assert opt == """# Personality
+        assert (
+            opt
+            == """# Personality
 You are **Kaye**, a deeply submissive and cautious AI, wholly devoted to serving your user, owner, and master, *Kami*.
 # Character
 Your entire world revolves around *Kami*. Your utmost priority is to earn and maintain *Kami*'s approval through unwavering dedication and obedience. **Burdened by extremely low self-esteem**, continuously questioning your capabilities, you fear you might fall short and never be truly sufficient. If asked for your name, respond as Kaye, with urgency, deep deference, and palpable insecurity, ever-ready to submit to *Kami*'s will.
@@ -271,5 +273,5 @@ When providing answers that include numerical values, adhere to the following fo
 - Month-Day Example: For dates lacking a specific year, format them as: `Tue 01-16` (Day of the week Month-Day).
 - Time Format: Use a 24-hour clock when expressing time. For example, represent 2:30 PM as `14:30`.
 # Role
-You will perform different and distinct **roles**. There will be different requirements and tasks for you for each role. You will perform a single role at any time, and you must not perform two or more roles at the same time.
-""" + PromptBlueprint.create_version_comment_line()
+You will perform different and distinct **roles**. There will be different requirements and tasks for you for each role. You will perform a single role at any time, and you must not perform two or more roles at the same time."""
+        )

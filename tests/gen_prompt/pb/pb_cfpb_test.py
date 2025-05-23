@@ -1,5 +1,5 @@
 """
-test classmethod ``create_full_prompt_blueprint()`` of class ``PromptBlueprint``
+test classmethod ``create_full_prompt_blueprint("test", )`` of class ``PromptBlueprint``
 """
 
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint

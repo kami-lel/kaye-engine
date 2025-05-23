@@ -1,5 +1,4 @@
-v4.0.2
+v4.1
 
-fix bug:
-
-- include non-Python files (i.e. various `.md` files) within the Python package
+- prompt comment part include also blueprint name info
+- CLI sub-command `kaye prompt ls`: better printout layout
