@@ -91,7 +91,7 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     # read content
     with open(prompt_file_path, "r", encoding="utf-8") as file:
         content = file.read()
-        return PromptBlueprint(corpus, prompt_blueprint_name, content)
+        return PromptBlueprint(corpus, content, prompt_blueprint_name)
 
 
 def _get_embedded_prompt_blueprints_names_and_paths():
