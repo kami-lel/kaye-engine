@@ -124,7 +124,7 @@ def _prompt_gen_main(args):
             ) from e
 
         blueprint_obj = PromptBlueprint(
-            "test", load_embedded_prompt_corpus(), file_content
+            load_embedded_prompt_corpus(), file_content
         )
 
     else:

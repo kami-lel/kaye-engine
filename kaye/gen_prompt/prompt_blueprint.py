@@ -37,11 +37,11 @@ class PromptBlueprint:
       if **both** it and all its ancestor nodes are enabled
 
 
-    :param blueprint_name:
-    :type blueprint_name: str
     :param prompt_corpus: *prompt corpus* tree root node
             which this prompt blueprint attached to
     :type prompt_corpus: PromptCorpusNode
+    :param blueprint_name: display name given to the prompt
+    :type blueprint_name: str, optional
     :param prompt_blueprint_text: prompt blueprint text to set nodes.
             It must be formatted identical to output of ``__repr__()``
             (with tree structure and checkboxes.)
@@ -67,13 +67,16 @@ class PromptBlueprint:
         return "<!-- Kaye v{} -->".format(version)
 
     @classmethod
-    def create_full_prompt_blueprint(cls, blueprint_name, prompt_corpus):
+    def create_full_prompt_blueprint(
+        cls, prompt_corpus, blueprint_name="full"
+    ):
         """
-        :param blueprint_name:
-        :type blueprint_name: str
         :param prompt_corpus: *prompt corpus* tree root node
                 which this prompt blueprint attached to
         :type prompt_corpus: PromptCorpusNode
+        :param blueprint_name: display name given to the prompt;
+                defaults to "full"
+        :type blueprint_name: str, optional
         :return: an instance of ``PromptBlueprint`` attached to the given
                 ``prompt_corpus``, and with **all nodes enabled**
         :rtype: PromptBlueprint
@@ -115,8 +118,8 @@ class PromptBlueprint:
 
     def __init__(
         self,
-        blueprint_name,
         prompt_corpus,
+        blueprint_name=None,
         prompt_blueprint_text=None,
         detached_mode=False,
     ):
@@ -208,7 +211,7 @@ class PromptBlueprint:
         :rtype: str
 
         :example:
-        >>> tree = PromptBlueprint("test", ...)
+        >>> tree = PromptBlueprint(...)
         >>> repr(tree)
         [x] ○
         [x] └── Project Title
@@ -235,6 +238,8 @@ class PromptBlueprint:
         [ ]     ├── Contributing
         [x]     └── License
         """
+        # fixme include prompt name
+
         opt_lines = []
 
         for pre, fill, node in RenderTree(self.prompt_corpus):
@@ -269,7 +274,7 @@ class PromptBlueprint:
                 Q.v. ``PromptBlueprint``
         :rtype: str
         :example:
-        >>> tree = PromptBlueprint("test", ...)
+        >>> tree = PromptBlueprint(...)
         >>> str(tree)
         # Main Title
         Overview of the methodologies used.
