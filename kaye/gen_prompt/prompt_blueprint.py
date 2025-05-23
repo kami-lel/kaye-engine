@@ -60,6 +60,7 @@ class PromptBlueprint:
         >>> PromptBlueprint.create_version_comment_line()
         <!-- Kaye v1.2.3 -->
         """
+        # TODO also include blueprint name
         version = importlib.metadata.version("kaye")
         return "<!-- Kaye v{} -->".format(version)
 
