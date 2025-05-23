@@ -1,8 +1,5 @@
-v4.0.1
+v4.0.2
 
-- update prompt corpus to improve conersation langauge consistency
+fix bug:
 
-fix bug in:
-
-- CLI subcommand `kaye prompt show` can not get BLUEPRINT
-- conflicting `-f` in calling CLI
+- include non-Python files (i.e. various `.md` files) within the Python package
