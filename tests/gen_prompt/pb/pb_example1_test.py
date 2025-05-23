@@ -7,7 +7,6 @@ from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 from tests.gen_prompt.pb.pb_testee_corpus import PROMPT1
 
 example_corpus = PromptCorpusNode.parse(PROMPT1)
-version_line = PromptBlueprint.create_version_comment_line()
 
 
 class TestRepr:
@@ -215,14 +214,13 @@ class TestStr:
 [ ]     ├── Installation
 [ ]     ├── Usage
 [ ]     ├── Contributing
-[ ]     └── License
-"""
+[ ]     └── License"""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
-        assert opt == version_line
+        assert opt == ""
 
     def test2(_):
         blueprint_text = """[x] ○
@@ -235,27 +233,7 @@ class TestStr:
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
-        print(opt)
-        assert opt == """# Project Title
-## Contributing
-1. Fork the repo
-2. Create a new branch
-3. Submit a pull request
-""" + version_line
-
-    def test2_no_ver(_):
-        blueprint_text = """[x] ○
-[x] └── Project Title
-[ ]     ├── Description
-[ ]     ├── Installation
-[ ]     ├── Usage
-[x]     ├── Contributing
-[ ]     └── License"""
-
-        pt = PromptBlueprint(example_corpus, blueprint_text)
-
-        opt = pt.__str__(hide_version=True)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """# Project Title
 ## Contributing
@@ -274,7 +252,7 @@ class TestStr:
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """# Project Title
 ## Installation
@@ -282,8 +260,7 @@ class TestStr:
 2. Install dependencies
 3. Run the application
 ## Usage
-Provide instructions on how to use the application.
-""" + version_line
+Provide instructions on how to use the application."""
 
     def test4(_):
         blueprint_text = """[x] ○
@@ -296,7 +273,7 @@ Provide instructions on how to use the application.
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """# Project Title
 ## Description
@@ -312,8 +289,7 @@ Provide instructions on how to use the application.
 2. Create a new branch
 3. Submit a pull request
 ## License
-This project is licensed under the MIT License.
-""" + version_line
+This project is licensed under the MIT License."""
 
 
 class TestStrDetach:  # test detached mode
@@ -329,9 +305,9 @@ class TestStrDetach:  # test detached mode
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
-        assert opt == version_line
+        assert opt == ""
 
     def test2(_):
         blueprint_text = """[ ] ○
@@ -344,13 +320,12 @@ class TestStrDetach:  # test detached mode
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """## Contributing
 1. Fork the repo
 2. Create a new branch
-3. Submit a pull request
-""" + version_line
+3. Submit a pull request"""
 
     def test2_no_ver(_):
         blueprint_text = """[ ] ○
@@ -363,7 +338,7 @@ class TestStrDetach:  # test detached mode
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_version=True)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """## Contributing
 1. Fork the repo
@@ -381,15 +356,14 @@ class TestStrDetach:  # test detached mode
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """## Installation
 1. Clone the repo
 2. Install dependencies
 3. Run the application
 ## Usage
-Provide instructions on how to use the application.
-""" + version_line
+Provide instructions on how to use the application."""
 
     def test4(_):
         blueprint_text = """[ ] ○
@@ -402,7 +376,7 @@ Provide instructions on how to use the application.
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """## Description
 A brief overview of the project, its purpose, and goals.
@@ -417,5 +391,4 @@ Provide instructions on how to use the application.
 2. Create a new branch
 3. Submit a pull request
 ## License
-This project is licensed under the MIT License.
-""" + version_line
+This project is licensed under the MIT License."""
