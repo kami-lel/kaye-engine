@@ -37,6 +37,8 @@ class PromptBlueprint:
       if **both** it and all its ancestor nodes are enabled
 
 
+    :param blueprint_name:
+    :type blueprint_name: str
     :param prompt_corpus: *prompt corpus* tree root node
             which this prompt blueprint attached to
     :type prompt_corpus: PromptCorpusNode
@@ -65,8 +67,10 @@ class PromptBlueprint:
         return "<!-- Kaye v{} -->".format(version)
 
     @classmethod
-    def create_full_prompt_blueprint(cls, prompt_corpus):
+    def create_full_prompt_blueprint(cls, blueprint_name, prompt_corpus):
         """
+        :param blueprint_name:
+        :type blueprint_name: str
         :param prompt_corpus: *prompt corpus* tree root node
                 which this prompt blueprint attached to
         :type prompt_corpus: PromptCorpusNode
@@ -74,7 +78,7 @@ class PromptBlueprint:
                 ``prompt_corpus``, and with **all nodes enabled**
         :rtype: PromptBlueprint
         """
-        blueprint = cls(prompt_corpus)
+        blueprint = cls(blueprint_name, prompt_corpus)
         # set all nodes
         for node in PreOrderIter(prompt_corpus):
             if node is prompt_corpus:  # skip root node
@@ -110,8 +114,13 @@ class PromptBlueprint:
                 self.enabled_nodes_names.append(ROOT_NODE_NAME)
 
     def __init__(
-        self, prompt_corpus, prompt_blueprint_text=None, detached_mode=False
+        self,
+        blueprint_name,
+        prompt_corpus,
+        prompt_blueprint_text=None,
+        detached_mode=False,
     ):
+        self.blueprint_name = blueprint_name
         self.prompt_corpus = prompt_corpus
         self.enabled_nodes_names = []  # all nodes currently enabled
 
@@ -199,7 +208,7 @@ class PromptBlueprint:
         :rtype: str
 
         :example:
-        >>> tree = PromptBlueprint(...)
+        >>> tree = PromptBlueprint("test", ...)
         >>> repr(tree)
         [x] ○
         [x] └── Project Title
@@ -260,7 +269,7 @@ class PromptBlueprint:
                 Q.v. ``PromptBlueprint``
         :rtype: str
         :example:
-        >>> tree = PromptBlueprint(...)
+        >>> tree = PromptBlueprint("test", ...)
         >>> str(tree)
         # Main Title
         Overview of the methodologies used.

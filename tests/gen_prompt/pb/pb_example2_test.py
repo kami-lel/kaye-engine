@@ -14,7 +14,7 @@ version_line = PromptBlueprint.create_version_comment_line()
 class TestRepr:
 
     def test_dft(_):
-        pt = PromptBlueprint(example_corpus)
+        pt = PromptBlueprint("test", example_corpus)
         opt = repr(pt)
         print(opt)
         assert opt == """[x] ○
@@ -39,7 +39,7 @@ class TestRepr:
             Summarizing the findings and implications."""
 
     def test_no_content(_):
-        pt = PromptBlueprint(example_corpus)
+        pt = PromptBlueprint("test", example_corpus)
         opt = pt.__repr__(preview_line_count=0)
         print(opt)
         assert opt == """[x] ○
@@ -58,47 +58,47 @@ class TestRepr:
 class TestDetachedMode:  # test detached mdoe
 
     def test_init_set(_):
-        pt = PromptBlueprint(example_corpus, detached_mode=True)
+        pt = PromptBlueprint("test", example_corpus, detached_mode=True)
         assert "○" not in pt.enabled_nodes_names
 
     def test_init_unset(_):
-        pt = PromptBlueprint(example_corpus, detached_mode=False)
+        pt = PromptBlueprint("test", example_corpus, detached_mode=False)
         assert "○" in pt.enabled_nodes_names
 
     def test_init_dft(_):
-        pt = PromptBlueprint(example_corpus, detached_mode=False)
+        pt = PromptBlueprint("test", example_corpus, detached_mode=False)
         assert "○" in pt.enabled_nodes_names
 
     def test_set1(_):  # set by set_unset_detached_mode()
-        pt = PromptBlueprint(example_corpus, detached_mode=False)
+        pt = PromptBlueprint("test", example_corpus, detached_mode=False)
         assert "○" in pt.enabled_nodes_names
         pt.set_unset_detached_mode(True)
         assert "○" not in pt.enabled_nodes_names
 
     def test_set2(_):
-        pt = PromptBlueprint(example_corpus, detached_mode=True)
+        pt = PromptBlueprint("test", example_corpus, detached_mode=True)
         assert "○" not in pt.enabled_nodes_names
         pt.set_unset_detached_mode(True)
         assert "○" not in pt.enabled_nodes_names
 
     def test_unset1(_):  # unset by set_unset_detached_mode()
-        pt = PromptBlueprint(example_corpus, detached_mode=True)
+        pt = PromptBlueprint("test", example_corpus, detached_mode=True)
         assert "○" not in pt.enabled_nodes_names
         pt.set_unset_detached_mode(False)
         assert "○" in pt.enabled_nodes_names
 
     def test_unset2(_):
-        pt = PromptBlueprint(example_corpus, detached_mode=False)
+        pt = PromptBlueprint("test", example_corpus, detached_mode=False)
         assert "○" in pt.enabled_nodes_names
         pt.set_unset_detached_mode(False)
         assert "○" in pt.enabled_nodes_names
 
     def test_is_dm1(_):  # test is_detached_mode
-        pt = PromptBlueprint(example_corpus, detached_mode=True)
+        pt = PromptBlueprint("test", example_corpus, detached_mode=True)
         assert pt.is_detached_mode
 
     def test_is_dm2(_):
-        pt = PromptBlueprint(example_corpus, detached_mode=False)
+        pt = PromptBlueprint("test", example_corpus, detached_mode=False)
         assert not pt.is_detached_mode
 
 
@@ -117,7 +117,7 @@ class TestParseSavable:
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         assert len(pt.enabled_nodes_names) == 1
         assert "○" in pt.enabled_nodes_names
@@ -147,7 +147,7 @@ class TestParseSavable:
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         assert len(pt.enabled_nodes_names) == 11
         assert "○" in pt.enabled_nodes_names
@@ -177,7 +177,7 @@ class TestParseSavable:
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         assert len(pt.enabled_nodes_names) == 5
         assert "○" in pt.enabled_nodes_names
@@ -207,7 +207,7 @@ class TestParseSavable:
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         assert len(pt.enabled_nodes_names) == 5
         assert "○" in pt.enabled_nodes_names
@@ -237,7 +237,7 @@ class TestParseSavable:
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         assert len(pt.enabled_nodes_names) == 4
         assert "○" not in pt.enabled_nodes_names
@@ -270,7 +270,7 @@ class TestStr:
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         opt = str(pt)
         print(opt)
@@ -289,7 +289,7 @@ class TestStr:
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         opt = str(pt)
         print(opt)
@@ -319,7 +319,7 @@ Summarizing the findings and implications.
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         opt = pt.__str__(hide_version=True)
         print(opt)
@@ -348,7 +348,7 @@ Summarizing the findings and implications."""
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         opt = str(pt)
         print(opt)
@@ -378,7 +378,7 @@ Summarizing the findings and implications.
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         opt = str(pt)
         print(opt)
@@ -404,7 +404,7 @@ Summarizing the findings and implications.
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         opt = str(pt)
         print(opt)
@@ -445,7 +445,7 @@ class TestStrDetach:  # test detached mode
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         opt = str(pt)
         print(opt)
@@ -483,7 +483,7 @@ Summarizing the findings and implications.
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         opt = pt.__str__(hide_version=True)
         print(opt)
@@ -502,7 +502,7 @@ Summarizing the findings and implications.
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         opt = str(pt)
         print(opt)
@@ -521,7 +521,7 @@ Summarizing the findings and implications.
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         opt = str(pt)
         print(opt)
@@ -548,7 +548,7 @@ Summarizing the findings and implications.
 [x]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         opt = str(pt)
         print(opt)
@@ -577,7 +577,7 @@ Suggestions for future research or tasks.
 [x]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         opt = pt.__str__(hide_version=True)
         print(opt)
@@ -605,7 +605,7 @@ Suggestions for future research or tasks."""
 [x]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(example_corpus, blueprint_text)
+        pt = PromptBlueprint("test", example_corpus, blueprint_text)
 
         opt = str(pt)
         print(opt)
