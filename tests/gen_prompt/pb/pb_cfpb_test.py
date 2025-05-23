@@ -10,9 +10,7 @@ class TestCFPB:
 
     def test1(_):  # using prompt1
         corpus = PromptCorpusNode.parse(PROMPT1)
-        blueprint = PromptBlueprint.create_full_prompt_blueprint(
-            "test", corpus
-        )
+        blueprint = PromptBlueprint.create_full_prompt_blueprint(corpus)
 
         opt = blueprint.__repr__(preview_line_count=0)
         print(opt)
@@ -26,9 +24,7 @@ class TestCFPB:
 
     def test2(_):  # using prompt2
         corpus = PromptCorpusNode.parse(PROMPT2)
-        blueprint = PromptBlueprint.create_full_prompt_blueprint(
-            "test", corpus
-        )
+        blueprint = PromptBlueprint.create_full_prompt_blueprint(corpus)
 
         opt = blueprint.__repr__(preview_line_count=0)
         print(opt)
