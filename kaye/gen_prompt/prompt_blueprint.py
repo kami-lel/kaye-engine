@@ -40,6 +40,8 @@ class PromptBlueprint:
     :param prompt_corpus: *prompt corpus* tree root node
             which this prompt blueprint attached to
     :type prompt_corpus: PromptCorpusNode
+    :param blueprint_name: display name given to the prompt
+    :type blueprint_name: str, optional
     :param prompt_blueprint_text: prompt blueprint text to set nodes.
             It must be formatted identical to output of ``__repr__()``
             (with tree structure and checkboxes.)
@@ -50,30 +52,22 @@ class PromptBlueprint:
     :type detached_mode: bool, optional
     """
 
-    @staticmethod
-    def create_version_comment_line():
-        """
-        :return: a HTML comment string containing the current version of
-                the ``kaye`` package.
-        :rtype: str
-        :example:
-        >>> PromptBlueprint.create_version_comment_line()
-        <!-- Kaye v1.2.3 -->
-        """
-        version = importlib.metadata.version("kaye")
-        return "<!-- Kaye v{} -->".format(version)
-
     @classmethod
-    def create_full_prompt_blueprint(cls, prompt_corpus):
+    def create_full_prompt_blueprint(
+        cls, prompt_corpus, blueprint_name="full"
+    ):
         """
         :param prompt_corpus: *prompt corpus* tree root node
                 which this prompt blueprint attached to
         :type prompt_corpus: PromptCorpusNode
+        :param prompt_blueprint_name: display name given to the prompt;
+                defaults to "full"
+        :type prompt_blueprint_name: str, optional
         :return: an instance of ``PromptBlueprint`` attached to the given
                 ``prompt_corpus``, and with **all nodes enabled**
         :rtype: PromptBlueprint
         """
-        blueprint = cls(prompt_corpus)
+        blueprint = cls(prompt_corpus, prompt_blueprint_name=blueprint_name)
         # set all nodes
         for node in PreOrderIter(prompt_corpus):
             if node is prompt_corpus:  # skip root node
@@ -109,8 +103,13 @@ class PromptBlueprint:
                 self.enabled_nodes_names.append(ROOT_NODE_NAME)
 
     def __init__(
-        self, prompt_corpus, prompt_blueprint_text=None, detached_mode=False
+        self,
+        prompt_corpus,
+        prompt_blueprint_text=None,
+        prompt_blueprint_name=None,
+        detached_mode=False,
     ):
+        self.blueprint_name = prompt_blueprint_name
         self.prompt_corpus = prompt_corpus
         self.enabled_nodes_names = []  # all nodes currently enabled
 
@@ -225,6 +224,8 @@ class PromptBlueprint:
         [ ]     ├── Contributing
         [x]     └── License
         """
+        # fixme include prompt name
+
         opt_lines = []
 
         for pre, fill, node in RenderTree(self.prompt_corpus):
@@ -249,11 +250,11 @@ class PromptBlueprint:
 
         return "\n".join(opt_lines)
 
-    def __str__(self, *, hide_version=False):
+    def __str__(self, *, hide_comment=False):
         """
-        :param hide_version: Disable placing ``kaye` version as last line;
+        :param hide_comment: Disable placing comment part after last line;
                 Defaults to False
-        :type hide_version: bool, optional
+        :type hide_comment: bool, optional
         :return: **concrete prompt** composed of nodes heading and content,
                 depending on *detached mode* and each nodes' enabling status.
                 Q.v. ``PromptBlueprint``
@@ -275,8 +276,17 @@ class PromptBlueprint:
             else self._generate_str_recursively(self.prompt_corpus)
         )
 
-        # place comment as last line
-        if not hide_version:
-            lines.append(self.create_version_comment_line())
+        # create comment part
+        if not hide_comment:
+            kaye_version = importlib.metadata.version("kaye")
+            comment_line = "<!-- {}Kaye v{} -->".format(
+                (
+                    "blueprint:{}; ".format(self.blueprint_name)
+                    if self.blueprint_name
+                    else ""
+                ),
+                kaye_version,
+            )
+            lines.append(comment_line)
 
         return "\n".join(lines)

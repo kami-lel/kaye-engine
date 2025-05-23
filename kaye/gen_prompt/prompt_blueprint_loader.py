@@ -71,7 +71,11 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     if prompt_blueprint_name == "full":
         return PromptBlueprint.create_full_prompt_blueprint(corpus)
     elif prompt_blueprint_name == "empty":
-        return PromptBlueprint(corpus, detached_mode=True)
+        return PromptBlueprint(
+            corpus,
+            prompt_blueprint_name=prompt_blueprint_name,
+            detached_mode=True,
+        )
 
     # assert prompt_name is an existing prompt file
     prompt_file_path = _get_embedded_prompt_blueprints_names_and_paths().get(
@@ -87,7 +91,7 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     # read content
     with open(prompt_file_path, "r", encoding="utf-8") as file:
         content = file.read()
-        return PromptBlueprint(corpus, content)
+        return PromptBlueprint(corpus, content, prompt_blueprint_name)
 
 
 def _get_embedded_prompt_blueprints_names_and_paths():

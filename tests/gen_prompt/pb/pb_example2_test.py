@@ -8,7 +8,6 @@ from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 from tests.gen_prompt.pb.pb_testee_corpus import PROMPT2
 
 example_corpus = PromptCorpusNode.parse(PROMPT2)
-version_line = PromptBlueprint.create_version_comment_line()
 
 
 class TestRepr:
@@ -272,9 +271,9 @@ class TestStr:
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
-        assert opt == version_line
+        assert opt == ""
 
     def test2(_):
         blueprint_text = """[x] ○
@@ -291,7 +290,7 @@ class TestStr:
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ## Introduction
@@ -303,8 +302,7 @@ Why this topic matters in the current scenario.
 ##### Objective
 The primary goal of this document.
 ## Conclusion
-Summarizing the findings and implications.
-""" + version_line
+Summarizing the findings and implications."""
 
     def test2_no_ver(_):
         blueprint_text = """[x] ○
@@ -321,7 +319,7 @@ Summarizing the findings and implications.
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_version=True)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ## Introduction
@@ -350,7 +348,7 @@ Summarizing the findings and implications."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ## Methods
@@ -362,8 +360,7 @@ List of tools utilized during the project.
 ##### Future Work
 Suggestions for future research or tasks.
 ## Conclusion
-Summarizing the findings and implications.
-""" + version_line
+Summarizing the findings and implications."""
 
     def test4(_):
         blueprint_text = """[x] ○
@@ -380,7 +377,7 @@ Summarizing the findings and implications.
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ## Methods
@@ -388,8 +385,7 @@ Overview of the methodologies used.
 ### Data Collection
 How data was gathered for analysis.
 ## Conclusion
-Summarizing the findings and implications.
-""" + version_line
+Summarizing the findings and implications."""
 
     def test_full(_):
         blueprint_text = """[x] ○
@@ -406,7 +402,7 @@ Summarizing the findings and implications.
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ## Introduction
@@ -426,8 +422,7 @@ List of tools utilized during the project.
 ##### Future Work
 Suggestions for future research or tasks.
 ## Conclusion
-Summarizing the findings and implications.
-""" + version_line
+Summarizing the findings and implications."""
 
 
 class TestStrDetach:  # test detached mode
@@ -447,7 +442,7 @@ class TestStrDetach:  # test detached mode
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ## Introduction
@@ -467,8 +462,7 @@ List of tools utilized during the project.
 ##### Future Work
 Suggestions for future research or tasks.
 ## Conclusion
-Summarizing the findings and implications.
-""" + version_line
+Summarizing the findings and implications."""
 
     def test_empty(_):
         blueprint_text = """[ ] ○
@@ -485,7 +479,7 @@ Summarizing the findings and implications.
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_version=True)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == ""
 
@@ -504,9 +498,9 @@ Summarizing the findings and implications.
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
-        assert opt == version_line
+        assert opt == ""
 
     def test1(_):
         blueprint_text = """[ ] ○
@@ -523,7 +517,7 @@ Summarizing the findings and implications.
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """## Introduction
 Brief introduction to the topic.
@@ -532,8 +526,7 @@ The primary goal of this document.
 #### Tools Used
 List of tools utilized during the project.
 ## Conclusion
-Summarizing the findings and implications.
-""" + version_line
+Summarizing the findings and implications."""
 
     def test2(_):
         blueprint_text = """[ ] ○
@@ -550,7 +543,7 @@ Summarizing the findings and implications.
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """## Introduction
 Brief introduction to the topic.
@@ -561,8 +554,7 @@ The primary goal of this document.
 #### Tools Used
 List of tools utilized during the project.
 ##### Future Work
-Suggestions for future research or tasks.
-""" + version_line
+Suggestions for future research or tasks."""
 
     def test2_no_ver(_):
         blueprint_text = """[ ] ○
@@ -579,7 +571,7 @@ Suggestions for future research or tasks.
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_version=True)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """## Introduction
 Brief introduction to the topic.
@@ -607,7 +599,7 @@ Suggestions for future research or tasks."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = str(pt)
+        opt = pt.__str__(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ### Background
@@ -615,5 +607,4 @@ Context or history relevant to the topic.
 ## Methods
 Overview of the methodologies used.
 ##### Future Work
-Suggestions for future research or tasks.
-""" + version_line
+Suggestions for future research or tasks."""
