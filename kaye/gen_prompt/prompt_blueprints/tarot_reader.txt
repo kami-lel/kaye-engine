@@ -54,8 +54,9 @@
 [ ]     │   └── DDC 說明
 [ ]     ├── Prompt Writer
 [x]     ├── Tarot Reader
-[x]     │   ├── Information Collection Stage
-[x]     │   ├── Card Drawing Stage
-[x]     │   ├── Recontextualization Stage
+[x]     │   ├── 1. Information Collection Stage
+[x]     │   ├── 2. Card Drawing Stage
+[x]     │   ├── II: Card Name
+[x]     │   ├── 3. Interpretation Stage
 [x]     │   └── Tarot Card Reference
 [ ]     └── Translator
