@@ -120,7 +120,7 @@ class PromptBlueprint:
             self.set_unset_detached_mode(detached_mode)
 
     def _init_populate_enabled_nodes_names(self, prompt_blueprint_text):
-        # fixme allow use both x&X for checekd box
+        # fixme allow use both x&X for checked box
         lines = prompt_blueprint_text.split("\n")
 
         # parse detached mode
@@ -142,7 +142,7 @@ class PromptBlueprint:
                     self.enabled_nodes_names.append(found_heading)
 
     def _generate_str_recursively(self, node):
-        # stop recurisve if this node is not enabled
+        # stop recursive if this node is not enabled
         if node.name not in self.enabled_nodes_names:
             return []
 
@@ -176,7 +176,7 @@ class PromptBlueprint:
 
         - tree structure
         - node name (i.e. section heading)
-        - node enabled/disbaled status indicated by checkboxes
+        - node enabled/disabled status indicated by checkboxes
         - node content preview
 
         Root node is named ``○``.
