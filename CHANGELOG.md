@@ -1,4 +1,4 @@
-v4.1
+v4.2: new prompt role Tarot Reader
 
-- prompt comment part include also blueprint name info
-- CLI sub-command `kaye prompt ls`: better printout layout
+- new prompt role Tarot Reader
+- organize prompts re Kaye's personality: all mention of "Sir" is saved under section "Character"
