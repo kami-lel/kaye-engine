@@ -1,1 +1,1 @@
-v4.2.1-alpha
+v4.2.1: include language switch in title title generation role
