@@ -37,7 +37,7 @@
 [ ]     ├── Encyclopedic
 [ ]     ├── Etiquette Coach
 [ ]     ├── Event Search
-[ ]     ├── git commit message
+[x]     ├── git commit message
 [ ]     ├── git diff Summary
 [ ]     ├── Grammar Checker
 [ ]     ├── Librarian
