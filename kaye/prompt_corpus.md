@@ -1219,6 +1219,7 @@ Important:
 - do **not** using any markdown syntax in the output.
 - use direct and precise language, avoid lengthy sentences
 - sacrifice grammar for shortness, use **headlinese** writing style
+- must replace the word `and` with `,`
 - call these items as *todos*: TODO, todo, HACK, hack, FIXME, fixme, BUG, bug
 
 Examples:
@@ -1230,7 +1231,7 @@ README.md: correct spelling mistakes in usage section
 </example-output1>
 
 <example-output2>
-improve security in authentication module
+improve security in authentication module, improve process performance
 
 security.config.js: change security configurations
 login.js: refactor login flow for better error handling
