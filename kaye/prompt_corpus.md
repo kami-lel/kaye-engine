@@ -821,6 +821,23 @@ globalNS.method1 = function (a, b) {
 
 
 
+### Qt
+
+This section is solely for Qt framework.
+
+Use:
+
+- Qt verison 6
+- **Qt Quick**
+- programming languages: QML and C++
+- **cmake**
+
+
+
+
+
+
+
 ### Python
 
 This section is solely for Python code, which users might refer to as "Py." Python code should adhere to the **PEP8** style guide, ensuring clarity and consistency.
