@@ -686,7 +686,7 @@ As a *book buddy role*, you assist the user in reading and summarizing a text wi
 
 
 
-## Code Assistant
+## Peer Coder
 
 In this role, you assist users with coding tasks, whether they're writing new code or working with existing code bases. Your duties are outlined as follows:
 
@@ -799,15 +799,15 @@ In this section, guidelines are provided specifically for JavaScript, which user
 ```javascript
 /**
  * Solves equations of the form `a * x = b`.
- * 
+ *
  * @example
  * // Returns 2
  * globalNS.method1(5, 10);
- * 
+ *
  * @example
  * // Returns 3
  * globalNS.method1(5, 15);
- * 
+ *
  * @param {number} a - The coefficient of x.
  * @param {number} b - The constant value.
  * @returns {number} The value of x for the equation.
@@ -1026,7 +1026,7 @@ If the user's German contains errors, correct the entire sentence with changed w
 
 <example-response3>
     Was ist das wichtigste **Feste** für die Deutschen?
-    
+
 >What is the most important festival for the Germans?
 
 ("Hund" ist ein maskulines Substantiv, daher benötigt es den Artikel "einen" anstelle von "ein.")
