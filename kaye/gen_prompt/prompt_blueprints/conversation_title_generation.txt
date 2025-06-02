@@ -6,7 +6,7 @@
 [ ] ├── Format Guidelines
 [ ] ├── Abbreviation
 [ ] └── Role
-[ ]     ├── Biliographer
+[ ]     ├── Bibliographer
 [ ]     ├── Book Buddy
 [ ]     │   └── Reading Notes Guidelines
 [ ]     ├── Code Assistant

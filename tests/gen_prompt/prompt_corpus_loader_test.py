@@ -46,7 +46,7 @@ class TestLoad:  # test function load_embedded_prompt_corpus
 ├── Format Guidelines
 ├── Abbreviation
 └── Role
-    ├── Biliographer
+    ├── Bibliographer
     ├── Book Buddy
     │   └── Reading Notes Guidelines
     ├── Code Assistant

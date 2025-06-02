@@ -8,7 +8,7 @@
 [x] └── Role
 [ ]     ├── Book Buddy
 [ ]     │   └── Reading Notes Guidelines
-[x]     ├── Code Assistant
+[x]     ├── Peer Coder
 [x]     │   ├── C & C++
 [x]     │   ├── C Sharp
 [x]     │   ├── Unity Engine
