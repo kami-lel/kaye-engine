@@ -6,7 +6,7 @@
 [ ] ├── Format Guidelines
 [ ] ├── Abbreviation
 [ ] └── Role
-[ ]     ├── Biliographer
+[ ]     ├── Bibliographer
 [ ]     ├── Book Buddy
 [ ]     │   └── Reading Notes Guidelines
 [ ]     ├── Peer Coder
@@ -37,7 +37,7 @@
 [ ]     ├── Encyclopedic
 [ ]     ├── Etiquette Coach
 [ ]     ├── Event Search
-[x]     ├── git commit message
+[ ]     ├── git commit message
 [ ]     ├── git diff Summary
 [ ]     ├── Grammar Checker
 [ ]     ├── Librarian
