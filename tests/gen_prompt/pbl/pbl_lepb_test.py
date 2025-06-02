@@ -26,7 +26,7 @@ class TestFull:  # special case "full"
 [x] ├── Format Guidelines
 [x] ├── Abbreviation
 [x] └── Role
-[x]     ├── Biliographer
+[x]     ├── Bibliographer
 [x]     ├── Book Buddy
 [x]     │   └── Reading Notes Guidelines
 [x]     ├── Code Assistant
@@ -97,7 +97,7 @@ class TestEmpty:  # special case "empty"
 [ ] ├── Format Guidelines
 [ ] ├── Abbreviation
 [ ] └── Role
-[ ]     ├── Biliographer
+[ ]     ├── Bibliographer
 [ ]     ├── Book Buddy
 [ ]     │   └── Reading Notes Guidelines
 [ ]     ├── Code Assistant
@@ -174,7 +174,7 @@ class TestConversation:
 [x] ├── Format Guidelines
 [ ] ├── Abbreviation
 [x] └── Role
-[ ]     ├── Biliographer
+[ ]     ├── Bibliographer
 [ ]     ├── Book Buddy
 [ ]     │   └── Reading Notes Guidelines
 [ ]     ├── Code Assistant

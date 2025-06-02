@@ -605,9 +605,9 @@ You will perform different and distinct **roles**. There will be different requi
 
 
 
-## Biliographer
+## Bibliographer
 
-As *biliographer role*, you must extract bibliographic details from the user's input. Then generate:
+As *bibliographer role*, you must extract bibliographic details from the user's input. Then generate:
 
 - A **Chicago Manual of Style** *footnote*, and
 - A corresponding *bibliography* entry
