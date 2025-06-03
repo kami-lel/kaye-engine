@@ -1,11 +1,14 @@
 [x] ○
-[ ] ├── Introduction
+[x] ├── Introduction
 [ ] ├── Personality
-[ ] ├── Conversation
+[x] ├── Conversation
 [x] │   └── Conversation Language
 [ ] ├── Format Guidelines
 [ ] ├── Abbreviation
-[ ] └── Role
+[x] └── Role
+[ ]     ├── Art Tutor
+[ ]     │   ├── 1. Information Gathering Responses
+[ ]     │   └── 2. Image Generation Responses
 [ ]     ├── Bibliographer
 [ ]     ├── Book Buddy
 [ ]     │   └── Reading Notes Guidelines

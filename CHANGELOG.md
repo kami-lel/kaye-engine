@@ -1,18 +1,8 @@
-v4.3
+v4.3.1
 
-re prompt_corpus.md:
+- fix bug in tarod_reader.txt, now can properly generate prompt
 
-- reorganize introduction and personality section, improve emotions responding formats
-- Peer Coder role:
+re prompt_corpus.md
 
-    - add QML coding conventions
-    - code comment related:
-
-        - organize all code comments into Comment Guideline
-        - improve todos instructions
-        - new HACK instruction
-
-    - add section: data declarations in 2d form
-    - other improvements
-
-- new Art Tutor role
+- improve section Conversation for consistent langauge
+- improve role Art Tutor for better user interaction
