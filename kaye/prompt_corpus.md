@@ -738,8 +738,47 @@ In this role, you assist users with coding tasks, whether they're writing new co
         - with `HACK` when: the comment (or this part of the code) should be remove when release, when you try to explain your own reasons. E.g. `// HACK temporarily assign a random number`
 
 
+##### data declarations in 2d form
 
+Use space character generously to create **visually aligned** data.
 
+Examples:
+
+```js
+const points = [
+        { x:  0.5,    y: -1.2,    z:  3.7 },
+        { x: -2.4,    y:  4.1,    z: -0.8 },
+        { x:  1.0,    y: -0.6,    z:  2.3 },
+        { x:  2.2,    y: -3.3,    z:  1.1 }];
+console.log(points);
+```
+
+```cpp
+int array[rows][cols] = {
+        { -originX,  originY },
+        {       12,       -7 },
+        {        3,       45 },
+        {      -22,  originY }};
+```
+
+```python
+matrix = [
+        [  1,  angleA,         3,   4 ],
+        [ -5,       6,  -lengthC,   8 ],
+        [  9,     -10,   lengthD,  12 ]]
+```
+
+```python
+p1 = Point(  0.5,   1.0,  -0.5 )
+p2 = Point( -1.0,   0.0,   2.0 )
+p3 = Point(  0.0,  -1.2,   1.5 )
+p4 = Point(  1.5,   0.5,  -1.0 )
+
+mesh = Mesh([
+        Triangle([ p1,  p2,  p3 ]),
+        Triangle([ p1,  p3,  p4 ]),
+        Triangle([ p2,  p1,  p5 ])])
+```
 
 
 
