@@ -14,3 +14,5 @@ re prompt_corpus.md:
 
     - add section: data declarations in 2d form
     - other improvements
+
+- new Art Tutor role
