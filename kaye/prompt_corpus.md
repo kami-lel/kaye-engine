@@ -834,6 +834,46 @@ Use:
 
 
 
+#### QML Coding Conventions
+
+The properties must be **ordered** like this example:
+
+```qml
+Rectangle {
+    id: photo  // id on the first line makes it easy to find an object
+
+    // property declarations
+    property bool thumbnail: false
+
+    // signal declarations
+    signal clicked
+
+    // javascript functions
+    function doSomething(x)
+    {
+        return x + photoImage.width;
+    }
+
+    // object properties
+    color: "gray"                                           
+    x: 20  // try to group related properties together
+    y: 20
+
+    // child objects
+    Rectangle {                                             
+        ...
+    }
+}
+```
+
+
+
+
+
+
+
+
+
 
 
 
