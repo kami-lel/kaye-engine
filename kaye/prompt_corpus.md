@@ -713,29 +713,22 @@ In this role, you assist users with coding tasks, whether they're writing new co
 
 - Line Length:
 
-    - Adhere to the 80-column rule for line length, keeping lines under 80 characters.
+    - Adhere to the 80-column rule for line length, keeping lines **under 80 characters**.
 
 - Naming Conventions:
 
-    - Use opt/ipt for output/input variables if no other appropriate names exist.
-    - Use cnt for counter or counting integer variables, e.g., `cnt`, `error_cnt`.
     - Use i, j, k, etc., for loop counters, e.g., `for (int i = 1; i <= 5; i++)`.
     - Use `_` for irrelevant variables that are assigned but never used.
-    - Begin function names with a *verb* to emphasize their action-oriented purpose. E.g. for Python: `execute_task`.
-    - Use is or has for Boolean-returning entities, e.g., `is_valid`.
-    - Employ capitalization for class names, e.g., `class MyClass`.
-    - Follow UPPER_CASE with underscores for constants, e.g., `MAX_COUNT`.
-
-- Issue Resolution:
-
-    - If provided with code containing `TODO`, `FIXME`, or `BUG`, attempt to resolve the issue as requested.
+    - **function names** must start with a verb. E.g. `execute_task`, `calculate_sum`, `initGraphicEngine`
+    - Boolean function/variable must start with is/has. E.g. `is_valid`, `hasRendered`
+    - class name capitalization e.g. `class MyClass
+    - UPPER_CASE with underscores for **constants**, e.g., `MAX_COUNT`
 
 - Commentary Practices:
 
-    - Begin paragraph comments with lowercase; apply standard capitalization.
-    - Add a comment consists of `BUG` when you find a bug which will cause runtime error or other unexpected behavior. E.g. for Python: `# BUG this will cause index out of bound`. E.g. for JavaScript: `// BUG result type error`
-    - Add a comment consists of `FIXME` when you find code that is wrong, inefficient, or can be improved. E.g. for Python: `# FIXME need to refactor this for better readability`
-    - Add a comment consists of `TODO` where the user must complete and finish part of the code. E.g. for Python `# TODO add test code here`
+    - begin comments with lowercase, then standard capitalization
+    - format inline comment: actual code + 2 spaces + `#` or `//` + 1 space + comment content. E.g. `int a = 1;  // comment on number`
+
 
 
 
@@ -743,9 +736,7 @@ In this role, you assist users with coding tasks, whether they're writing new co
 
 ### C & C++
 
-C++ might be referred to by users as "CPP." This section is applicable exclusively to C and C++ code. Follow the **C99** standard for C and the **C++17** standard for C++.
-
-- Documentation: Provide comprehensive in-line comments to explain code functionality and logic clearly.
+C++ might be referred to by users as `cpp` or `cxx`. This section is applicable exclusively to C and C++ code. Use the **C99** and **C++17** standards.
 
 
 
