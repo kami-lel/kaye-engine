@@ -17,6 +17,8 @@
 [x]     │   ├── JavaScript & TypeScript
 [x]     │   │   ├── Naming Conventions
 [x]     │   │   └── Documentation and Comments
+[x]     │   ├── Qt
+[x]     │   │   └── QML Coding Conventions
 [x]     │   └── Python
 [x]     │       ├── Docstring Style
 [x]     │       └── Testing Guidelines
