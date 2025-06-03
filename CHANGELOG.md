@@ -1,3 +1,9 @@
 v4.2.3
 
-- add QML coding conventions to prompt corpus
+re peer coder role of prompt_corpus.md:
+
+- add QML coding conventions
+- improve inline comment instruction
+- improve todos instructions
+- new instruction: add HACK in comment
+- other clarifications
