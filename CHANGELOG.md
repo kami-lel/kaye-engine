@@ -1,6 +1,18 @@
-v4.2.2
+v4.3
 
-- rename prompt role Peer Coder (from Code Assistant)
-- support Qt framework in Peer Coder role
-- improve role git commit message, make result shorter
-- fix typo of the word bibliographer across the project
+re prompt_corpus.md:
+
+- reorganize introduction and personality section, improve emotions responding formats
+- Peer Coder role:
+
+    - add QML coding conventions
+    - code comment related:
+
+        - organize all code comments into Comment Guideline
+        - improve todos instructions
+        - new HACK instruction
+
+    - add section: data declarations in 2d form
+    - other improvements
+
+- new Art Tutor role

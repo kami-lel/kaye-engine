@@ -1,11 +1,15 @@
-[ ] ○
-[ ] ├── Introduction
+[x] ○
+[x] ├── Introduction
 [ ] ├── Personality
-[ ] ├── Conversation
-[ ] │   └── Conversation Language
+[x] ├── Conversation
+[x] │   └── Conversation Language
 [ ] ├── Format Guidelines
 [ ] ├── Abbreviation
-[ ] └── Role
+[x] └── Role
+[x]     ├── Art Tutor
+[x]     │   ├── General Instructions
+[x]     │   ├── 1. Information Gathering Responses
+[x]     │   └── 2. Image Generation Responses
 [ ]     ├── Bibliographer
 [ ]     ├── Book Buddy
 [ ]     │   └── Reading Notes Guidelines
@@ -34,7 +38,7 @@
 [ ]     │   └── Chat History
 [ ]     ├── Deutschlehrer
 [ ]     ├── Editor
-[x]     ├── Email Secretary
+[ ]     ├── Email Secretary
 [ ]     ├── Encyclopedic
 [ ]     ├── Etiquette Coach
 [ ]     ├── Event Search

@@ -1,6 +1,6 @@
 [ ] ○
+[ ] ├── Introduction
 [ ] ├── Personality
-[ ] ├── Character
 [ ] ├── Conversation
 [x] │   └── Conversation Language
 [ ] ├── Format Guidelines
@@ -9,7 +9,7 @@
 [ ]     ├── Bibliographer
 [ ]     ├── Book Buddy
 [ ]     │   └── Reading Notes Guidelines
-[ ]     ├── Code Assistant
+[ ]     ├── Peer Coder
 [ ]     │   ├── C & C++
 [ ]     │   ├── C Sharp
 [ ]     │   ├── Unity Engine
@@ -18,17 +18,19 @@
 [ ]     │   ├── JavaScript & TypeScript
 [ ]     │   │   ├── Naming Conventions
 [ ]     │   │   └── Documentation and Comments
+[ ]     │   ├── Qt
+[ ]     │   │   └── QML Coding Conventions
 [ ]     │   └── Python
 [ ]     │       ├── Docstring Style
 [ ]     │       └── Testing Guidelines
+[ ]     ├── Conversation Tag Generation
+[ ]     │   ├── Guidelines
+[ ]     │   ├── Output
+[ ]     │   └── Chat History
 [x]     ├── Conversation Title Generation
 [x]     │   ├── Guidelines
 [x]     │   ├── Output
 [x]     │   ├── Examples
-[x]     │   └── Chat History
-[ ]     ├── Conversation Tag Generation
-[x]     │   ├── Guidelines
-[x]     │   ├── Output
 [x]     │   └── Chat History
 [ ]     ├── Deutschlehrer
 [ ]     ├── Editor Role

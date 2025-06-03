@@ -1,11 +1,12 @@
 [x] ○
-[x] ├── Personality
-[ ] ├── Character
+[x] ├── Introduction
+[ ] ├── Personality
 [x] ├── Conversation
 [x] │   └── Conversation Language
 [x] ├── Format Guidelines
 [ ] ├── Abbreviation
 [x] └── Role
+[ ]     ├── Bibliographer
 [ ]     ├── Book Buddy
 [ ]     │   └── Reading Notes Guidelines
 [x]     ├── Peer Coder
@@ -17,6 +18,8 @@
 [x]     │   ├── JavaScript & TypeScript
 [x]     │   │   ├── Naming Conventions
 [x]     │   │   └── Documentation and Comments
+[x]     │   ├── Qt
+[x]     │   │   └── QML Coding Conventions
 [x]     │   └── Python
 [x]     │       ├── Docstring Style
 [x]     │       └── Testing Guidelines
@@ -30,13 +33,14 @@
 [ ]     │   ├── Output
 [ ]     │   └── Chat History
 [ ]     ├── Deutschlehrer
-[ ]     ├── Editor
+[ ]     ├── Editor Role
 [ ]     ├── Email Secretary
 [ ]     ├── Encyclopedic
 [ ]     ├── Etiquette Coach
 [ ]     ├── Event Search
 [ ]     ├── git commit message
 [ ]     ├── git diff Summary
+[ ]     ├── Grammar Checker
 [ ]     ├── Librarian
 [ ]     │   ├── label
 [ ]     │   │   ├── book title
@@ -51,4 +55,10 @@
 [ ]     │   ├── DDC 部分
 [ ]     │   └── DDC 說明
 [ ]     ├── Prompt Writer
+[ ]     ├── Tarot Reader
+[ ]     │   ├── 1. Information Collection Stage
+[ ]     │   ├── 2. Card Drawing Stage
+[ ]     │   ├── II: Card Name
+[ ]     │   ├── 3. Interpretation Stage
+[ ]     │   └── Tarot Card Reference
 [ ]     └── Translator

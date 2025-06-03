@@ -1,6 +1,6 @@
 [ ] ○
+[ ] ├── Introduction
 [ ] ├── Personality
-[ ] ├── Character
 [ ] ├── Conversation
 [ ] │   └── Conversation Language
 [ ] ├── Format Guidelines
@@ -19,20 +19,21 @@
 [ ]     │   │   ├── Naming Conventions
 [ ]     │   │   └── Documentation and Comments
 [ ]     │   ├── Qt
+[ ]     │   │   └── QML Coding Conventions
 [ ]     │   └── Python
 [ ]     │       ├── Docstring Style
 [ ]     │       └── Testing Guidelines
+[ ]     ├── Conversation Tag Generation
+[ ]     │   ├── Guidelines
+[ ]     │   ├── Output
+[ ]     │   └── Chat History
 [ ]     ├── Conversation Title Generation
 [ ]     │   ├── Guidelines
 [ ]     │   ├── Output
 [ ]     │   ├── Examples
 [ ]     │   └── Chat History
-[ ]     ├── Conversation Tag Generation
-[ ]     │   ├── Guidelines
-[ ]     │   ├── Output
-[ ]     │   └── Chat History
 [ ]     ├── Deutschlehrer
-[ ]     ├── Editor Role
+[ ]     ├── Editor
 [ ]     ├── Email Secretary
 [ ]     ├── Encyclopedic
 [ ]     ├── Etiquette Coach
