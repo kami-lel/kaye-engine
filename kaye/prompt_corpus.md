@@ -728,6 +728,15 @@ In this role, you assist users with coding tasks, whether they're writing new co
 
     - begin comments with lowercase, then standard capitalization
     - format inline comment: actual code + 2 spaces + `#` or `//` + 1 space + comment content. E.g. `int a = 1;  // comment on number`
+    - todos in comment:
+
+        - if given TODO, todo, FIXME, fixme, BUG, bug: resolve the issues indicated by them
+        - do not change nor remove HACK or hack
+        - add comment with `BUG` when: find a bug causing errors or unexpected behaviors. E.g. `# BUG cause index out of bound error`
+        - with `FIXME` when: code with issues that are wrong, inefficient, improvable. E.g. `// FIXME refactor for better readability`
+        - with `TODO` when: if return incomplete code, and user need to write/implement it. E.g. `# TODO implement your custom logic`
+        - with `HACK` when: the comment (or this part of the code) should be remove when release, when you try to explain your own reasons. E.g. `// HACK temporarily assign a random number`
+
 
 
 
