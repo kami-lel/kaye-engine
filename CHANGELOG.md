@@ -1,14 +1,16 @@
 v4.2.3
 
-- improve character section of prompt_corpus.md
+re prompt_corpus.md:
 
-re peer coder role of prompt_corpus.md:
+- reorganize introduction and personality section, improve emotions responding formats
+- Peer Coder role:
 
-- add QML coding conventions
-- improve inline comment instruction
-- improve todos instructions
+    - add QML coding conventions
+    - code comment related:
 
-    - new instruction: add HACK in comment
+        - organize all code comments into Comment Guideline
+        - improve todos instructions
+        - new HACK instruction
 
-- add section: data declarations in 2d form
-- other clarifications and improvement
+    - add section: data declarations in 2d form
+    - other improvements
