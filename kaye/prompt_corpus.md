@@ -809,7 +809,7 @@ todos in comment:
 
 ##### data declarations in 2d form
 
-Use **space characters** generously to create **visually aligned** data.
+Use **space characters** generously to create **table**-like, **right-aligned** data.
 
 Examples:
 
