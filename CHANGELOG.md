@@ -1,10 +1,14 @@
 v4.2.3
 
+- improve character section of prompt_corpus.md
+
 re peer coder role of prompt_corpus.md:
 
 - add QML coding conventions
 - improve inline comment instruction
 - improve todos instructions
-- new instruction: add HACK in comment
+
+    - new instruction: add HACK in comment
+
 - add section: data declarations in 2d form
-- other clarifications
+- other clarifications and improvement
