@@ -3,6 +3,8 @@ define `PromptBlueprint`
 """
 
 import re
+from datetime import datetime
+
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
@@ -279,6 +281,11 @@ class PromptBlueprint:
         # create comment part
         if not hide_comment:
             kaye_version = importlib.metadata.version("kaye")
+
+            # append render date-time in version for alpha releases
+            if "a" in kaye_version:
+                kaye_version += datetime.now().strftime(".0%Y%m%d%H%M%S")
+
             comment_line = "<!-- {}Kaye v{} -->".format(
                 (
                     "blueprint:{}; ".format(self.blueprint_name)
