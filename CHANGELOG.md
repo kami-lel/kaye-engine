@@ -1,8 +1,12 @@
-v4.3.1
+v4.4
 
-- fix bug in tarod_reader.txt, now can properly generate prompt
+- re prompt_blueprint.py: add feature of including render datetime as part of version
 
-re prompt_corpus.md
+re prompt_corpus.md:
 
-- improve section Conversation for consistent langauge
-- improve role Art Tutor for better user interaction
+- improve section data declarations in 2d form
+- move Peer Coder role content to appropriate alphabetical position
+- improve role Art Tutor:
+
+    - add instruction about image orientation
+    - prompts should be paragraphs
