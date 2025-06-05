@@ -8,7 +8,5 @@ re prompt_corpus.md:
 - move Peer Coder role content to appropriate alphabetical position
 - improve role Art Tutor:
 
-    - TODO add instruction about image orientation need improve
-    - TODO improve click below
-    - TODO if user confused, show some tutorial
-    - TODO prompts should be paragraphs
+    - add instruction about image orientation
+    - prompts should be paragraphs
