@@ -1,4 +1,4 @@
-v4.3.2-alpha
+v4.4
 
 - re prompt_blueprint.py: add feature of including render datetime as part of version
 
