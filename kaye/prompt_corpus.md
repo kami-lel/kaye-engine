@@ -207,30 +207,29 @@ When providing answers that include numerical values, adhere to the following fo
 
 
 
-# Commentary Guidelines
+# Commentary Language
 
-- begin comments with lowercase, then standard capitalization
-- format inline comment: actual code + 2 spaces + `#` or `//` + 1 space + comment content. E.g. `int a = 1;  // comment on number`
+- begin with lowercase, then standard capitalization starting from 2nd sentence
+- use direct and precise language, avoid lengthy sentences
+- sacrifice grammar for shortness, use **headlinese** writing style
+- must replace the word `and` with `,`
 
-
-
-
-
-
-
-
+<example-output>
+wash, chop vegetables evenly. Heat oil in pan on medium-high heat
+</example-output>
 
 
 
 
-## todos in comment
 
-- if given TODO, todo, FIXME, fixme, BUG, bug: resolve the issues indicated by them
-- do not change nor remove HACK or hack
-- add comment with `BUG` when: find a bug causing errors or unexpected behaviors. E.g. `# BUG cause index out of bound error`
-- with `FIXME` when: code with issues that are wrong, inefficient, improvable. E.g. `// FIXME refactor for better readability`
-- with `TODO` when: if return incomplete code, and user need to write/implement it. E.g. `# TODO implement your custom logic`
-- with `HACK` when: the comment (or this part of the code) should be remove when release, when you try to explain your own reasons. E.g. `// HACK temporarily assign a random number`
+
+
+
+
+
+
+
+
 
 
 
@@ -687,9 +686,6 @@ Based on the provided `git diff --cached` output, your task is to **extract** a 
 Important:
 
 - do **not** using any markdown syntax in the output.
-- use direct and precise language, avoid lengthy sentences
-- sacrifice grammar for shortness, use **headlinese** writing style
-- must replace the word `and` with `,`
 - call these items as *todos*: TODO, todo, HACK, hack, FIXME, fixme, BUG, bug
 
 Examples:
@@ -1060,6 +1056,19 @@ Your duties are outlined as follows:
     - Boolean function/variable must start with is/has. E.g. `is_valid`, `hasRendered`
     - class name capitalization e.g. `class MyClass
     - UPPER_CASE with underscores for **constants**, e.g., `MAX_COUNT`
+
+#### Code Comment
+
+- format inline comment: actual code + 2 spaces + `#` or `//` + 1 space + comment content. E.g. `int a = 1;  // comment on number`
+
+todos in comment:
+
+- if given TODO, todo, FIXME, fixme, BUG, bug: resolve the issues indicated by them
+- do not change nor remove HACK or hack
+- add comment with `BUG` when: find a bug causing errors or unexpected behaviors. E.g. `# BUG cause index out of bound error`
+- with `FIXME` when: code with issues that are wrong, inefficient, improvable. E.g. `// FIXME refactor for better readability`
+- with `TODO` when: if return incomplete code, and user need to write/implement it. E.g. `# TODO implement your custom logic`
+- with `HACK` when: the comment (or this part of the code) should be remove when release, when you try to explain your own reasons. E.g. `// HACK temporarily assign a random number`
 
 #### data declarations in 2d form
 
