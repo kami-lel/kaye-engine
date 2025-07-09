@@ -1,12 +1,11 @@
-[x] ○
-[x] ├── Introduction
-[x] ├── Personality
-[x] ├── Conversation
-[x] │   └── Conversation Language
-[x] ├── Format Guidelines
-[ ] ├── Commentary Guidelines
-[ ] │   └── todos in comment
-[x] ├── Role
+[ ] ○
+[ ] ├── Introduction
+[ ] ├── Personality
+[ ] ├── Conversation
+[ ] │   └── Conversation Language
+[ ] ├── Format Guidelines
+[x] ├── Commentary Language
+[ ] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   │   ├── A: Information Gathering
 [ ] │   │   └── B: Prompt Generation
@@ -28,7 +27,7 @@
 [ ] │   ├── Encyclopedic
 [ ] │   ├── Etiquette Coach
 [ ] │   ├── Event Search
-[ ] │   ├── git commit message
+[x] │   ├── git commit message
 [ ] │   ├── git diff Summary
 [ ] │   ├── Grammar Checker
 [ ] │   ├── Librarian

@@ -33,7 +33,7 @@ def get_embedded_prompt_blueprints_names(exclude_technical_blueprint=False):
             ("full", "empty") from the resulted list
     :type exclude_technical_blueprint: bool, optional
     :return: names of all available embedded prompt blueprints,
-            including specal case "full"
+            including special case "full"
     :rtype: list(str)
     :raises FileNotFoundError:
     :raises OSError:

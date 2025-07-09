@@ -168,8 +168,8 @@ gen_psr.set_defaults(func=_prompt_gen_main)
 # setup subparser: kaye prompt show
 def _prompt_show_main(args):
     # when calling ``python -m kaye prompt show``
-    bluerpint_name = args.BLUEPRINT
-    blueprint_obj = load_embedded_prompt_blueprint(bluerpint_name)
+    blueprint_name = args.BLUEPRINT
+    blueprint_obj = load_embedded_prompt_blueprint(blueprint_name)
 
     blueprint_content = blueprint_obj.__repr__(
         preview_line_count=args.preview_line_count,
