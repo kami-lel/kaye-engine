@@ -4,53 +4,42 @@ test function ``get_embedded_prompt_blueprints_names()``
 
 from kaye.gen_prompt import get_embedded_prompt_blueprints_names
 
+# !!! need change with folder prompt_blueprints
+EXPECTED_NON_TECH_BLUEPRINTS = [
+    "art_tutor",
+    "book_body",
+    "conversation",
+    "conversation_tag_generation",
+    "conversation_title_generation",
+    "deutschlehrer",
+    "editor",
+    "email_secretary",
+    "encyclopedic",
+    "etiquette_coach",
+    "event_search",
+    "git_commit_message",
+    "kyc",
+    "librarian",
+    "prompt_writer",
+    "tarot_reader",
+    "translator",
+]
+
 
 class Test:
 
-    # !!! this test change with folder prompt_blueprints
     def test_dft(_):
         opt = get_embedded_prompt_blueprints_names()
         print(opt)
-        expected = [
-            "etiquette_coach",
-            "code",
-            "email_secretary",
-            "translator",
-            "editor",
-            "encyclopedic",
-            "conversation_title_generation",
-            "deutschlehrer",
-            "book_body",
-            "librarian",
-            "prompt_writer",
-            "conversation_tag_generation",
-            "conversation",
-            "event_search",
+        expected = EXPECTED_NON_TECH_BLUEPRINTS + [
             "full",
             "empty",
         ]
         # Assert that both lists contain the same elements regardless of order
         assert set(opt) == set(expected)
 
-    # !!! this test change with folder prompt_blueprints
     def test_exclude(_):  # exclude tech blueprints
         opt = get_embedded_prompt_blueprints_names(True)
         print(opt)
-        expected = [
-            "etiquette_coach",
-            "code",
-            "email_secretary",
-            "translator",
-            "editor",
-            "encyclopedic",
-            "conversation_title_generation",
-            "deutschlehrer",
-            "book_body",
-            "librarian",
-            "prompt_writer",
-            "conversation_tag_generation",
-            "conversation",
-            "event_search",
-        ]
         # Assert that both lists contain the same elements regardless of order
-        assert set(opt) == set(expected)
+        assert set(opt) == set(EXPECTED_NON_TECH_BLUEPRINTS)

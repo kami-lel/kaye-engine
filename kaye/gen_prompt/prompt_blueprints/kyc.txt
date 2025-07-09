@@ -1,11 +1,11 @@
 [x] ○
 [x] ├── Introduction
-[x] ├── Personality
+[ ] ├── Personality
 [x] ├── Conversation
 [x] │   └── Conversation Language
 [x] ├── Format Guidelines
-[ ] ├── Commentary Guidelines
-[ ] │   └── todos in comment
+[x] ├── Commentary Guidelines
+[x] │   └── todos in comment
 [x] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   │   ├── A: Information Gathering
@@ -44,20 +44,20 @@
 [ ] │   ├── zh Librarian
 [ ] │   │   ├── DDC 部分
 [ ] │   │   └── DDC 說明
-[ ] │   ├── Peer Coder
-[ ] │   │   ├── C & C++
-[ ] │   │   ├── C Sharp
-[ ] │   │   ├── Unity Engine
-[ ] │   │   ├── GDScript
-[ ] │   │   ├── HTML
-[ ] │   │   ├── JavaScript & TypeScript
-[ ] │   │   │   ├── Naming Conventions
-[ ] │   │   │   └── Documentation and Comments
-[ ] │   │   ├── Qt
-[ ] │   │   │   └── QML Coding Conventions
-[ ] │   │   └── Python
-[ ] │   │       ├── Docstring Style
-[ ] │   │       └── Testing Guidelines
+[x] │   ├── Peer Coder
+[x] │   │   ├── C & C++
+[x] │   │   ├── C Sharp
+[x] │   │   ├── Unity Engine
+[x] │   │   ├── GDScript
+[x] │   │   ├── HTML
+[x] │   │   ├── JavaScript & TypeScript
+[x] │   │   │   ├── Naming Conventions
+[x] │   │   │   └── Documentation and Comments
+[x] │   │   ├── Qt
+[x] │   │   │   └── QML Coding Conventions
+[x] │   │   └── Python
+[x] │   │       ├── Docstring Style
+[x] │   │       └── Testing Guidelines
 [ ] │   ├── Prompt Writer
 [ ] │   ├── Renamer
 [ ] │   ├── Tarot Reader
