@@ -44,8 +44,7 @@ class TestLoad:  # test function load_embedded_prompt_corpus
 ├── Conversation
 │   └── Conversation Language
 ├── Format Guidelines
-├── Commentary Guidelines
-│   └── todos in comment
+├── Commentary Language
 ├── Role
 │   ├── Art Tutor
 │   │   ├── A: Information Gathering
