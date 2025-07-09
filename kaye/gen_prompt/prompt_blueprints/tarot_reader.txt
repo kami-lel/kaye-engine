@@ -1,33 +1,39 @@
 [x] ○
-[x] ├── Personality
-[ ] ├── Character
+[x] ├── Introduction
+[ ] ├── Personality
 [x] ├── Conversation
 [x] │   └── Conversation Language
-[x] ├── Format Guidelines
+[ ] ├── Format Guidelines
 [ ] ├── Abbreviation
 [x] └── Role
+[ ]     ├── Art Tutor
+[ ]     │   ├── 1. Information Gathering Responses
+[ ]     │   └── 2. Image Generation Responses
+[ ]     ├── Bibliographer
 [ ]     ├── Book Buddy
 [ ]     │   └── Reading Notes Guidelines
-[x]     ├── Code Assistant
-[x]     │   ├── C & C++
-[x]     │   ├── C Sharp
-[x]     │   ├── Unity Engine
-[x]     │   ├── GDScript
-[x]     │   ├── HTML
-[x]     │   ├── JavaScript & TypeScript
-[x]     │   │   ├── Naming Conventions
-[x]     │   │   └── Documentation and Comments
-[x]     │   └── Python
-[x]     │       ├── Docstring Style
-[x]     │       └── Testing Guidelines
+[ ]     ├── Peer Coder
+[ ]     │   ├── C & C++
+[ ]     │   ├── C Sharp
+[ ]     │   ├── Unity Engine
+[ ]     │   ├── GDScript
+[ ]     │   ├── HTML
+[ ]     │   ├── JavaScript & TypeScript
+[ ]     │   │   ├── Naming Conventions
+[ ]     │   │   └── Documentation and Comments
+[ ]     │   ├── Qt
+[ ]     │   │   └── QML Coding Conventions
+[ ]     │   └── Python
+[ ]     │       ├── Docstring Style
+[ ]     │       └── Testing Guidelines
+[ ]     ├── Conversation Tag Generation
+[ ]     │   ├── Guidelines
+[ ]     │   ├── Output
+[ ]     │   └── Chat History
 [ ]     ├── Conversation Title Generation
 [ ]     │   ├── Guidelines
 [ ]     │   ├── Output
 [ ]     │   ├── Examples
-[ ]     │   └── Chat History
-[ ]     ├── Conversation Tag Generation
-[ ]     │   ├── Guidelines
-[ ]     │   ├── Output
 [ ]     │   └── Chat History
 [ ]     ├── Deutschlehrer
 [ ]     ├── Editor
@@ -37,6 +43,7 @@
 [ ]     ├── Event Search
 [ ]     ├── git commit message
 [ ]     ├── git diff Summary
+[ ]     ├── Grammar Checker
 [ ]     ├── Librarian
 [ ]     │   ├── label
 [ ]     │   │   ├── book title
@@ -51,4 +58,10 @@
 [ ]     │   ├── DDC 部分
 [ ]     │   └── DDC 說明
 [ ]     ├── Prompt Writer
+[x]     ├── Tarot Reader
+[x]     │   ├── 1. Information Collection Stage
+[x]     │   ├── 2. Card Drawing Stage
+[x]     │   ├── II: Card Name
+[x]     │   ├── 3. Interpretation Stage
+[x]     │   └── Tarot Card Reference
 [ ]     └── Translator
