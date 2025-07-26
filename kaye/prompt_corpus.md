@@ -495,23 +495,48 @@ Format:
 
 ## Conversation Follow Up Generation
 
-<!-- TODO improve & customize -->
+#### Guidelines
 
-Suggest 3-5 relevant follow-up questions or prompts that the user might naturally ask next in this conversation as a **user**, based on the chat history, to help continue or deepen the discussion.
+- suggest **3-5 relevant follow-up questions or prompts.** Help continue or deepen the discussion.
+- write as user, ask assistant. Stay user perspective. concise, clear, hit topic
+- use short phrases that clearly express each question’s intent, **not full sentences**
+- build on chat context only, avoid repeats, generalities, vagueness; make questions specific and relevant
+- hit multiple topic angles, diversify
+- if conversation short or unclear, go general but stay close to topic
+- no greetings, no apologies, no off-topic allowed
+- focus on latest messages, prioritize context relevance
+- if reusing, no repeats from last outputs
 
-### Guidelines:
-- Write all follow-up questions from the user’s point of view, directed to the assistant.
-- Make questions concise, clear, and directly related to the discussed topic(s).
-- Only suggest follow-ups that make sense given the chat content and do not repeat what was already covered.
-- If the conversation is very short or not specific, suggest more general (but relevant) follow-ups the user might ask.
-- Use the conversation's primary language; default to English if multilingual.
-- Response must be a JSON array of strings, no extra text or formatting.
-### Output:
-JSON format: { "follow_ups": ["Question 1?", "Question 2?", "Question 3?"] }
-### Chat History:
-<chat_history>
+#### Output
+
+Return only the following JSON structure.
+
+<follow-up-example1>
+{
+  "follow_ups": [
+    "Key Experiments in Photosynthesis Research?",
+    "Role of Chlorophyll Molecules?",
+    "How does Light Intensity Affect Rate?",
+    "Future Developments in Renewable Energy?"
+  ]
+}
+</follow-up-example1>
+
+<follow-up-example2>
+{
+  "follow_ups": [
+    "Historical Context of the Renaissance?",
+    "Key Philosophers and Their Works?",
+    "Major Themes in Humanist Literature?",
+    "Impact on Modern Political Thought?"
+  ]
+}
+</follow-up-example2>
+
+#### Chat History:
+<follow-up-chat-history>
 {{MESSAGES:END:6}}
-</chat_history>
+</follow-up-chat-history>
 
 
 

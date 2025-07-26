@@ -12,10 +12,8 @@
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
 [ ] │   │   └── Reading Notes Guidelines
+[ ] │   ├── Changelog Writer
 [x] │   ├── Conversation Follow Up Generation
-[x] │   │   ├── Guidelines:
-[x] │   │   ├── Output:
-[x] │   │   └── Chat History:
 [ ] │   ├── Conversation Tag Generation
 [ ] │   │   ├── Guidelines
 [ ] │   │   ├── Output
