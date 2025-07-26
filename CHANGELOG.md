@@ -15,10 +15,11 @@
 
 - **Changelog Writer** role and blueprint
 - **Conversation Follow Up Generation** role and blueprint
+- *Commentary Language* blueprint
 
 ### Changed
 
-- include more text in `prompt_writer` blueprint
+- include more sections & improve in `prompt_writer` blueprint
 - minor language fix in `prompt_corpus.md`
 
 ### Deprecated
