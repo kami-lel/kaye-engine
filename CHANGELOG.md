@@ -18,6 +18,7 @@
 
 ### Changed
 
+- include more text in `prompt_writer` blueprint
 - minor language fix in `prompt_corpus.md`
 
 ### Deprecated
