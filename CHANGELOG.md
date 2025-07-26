@@ -12,16 +12,7 @@
 ## [Unreleased]
 
 ### Added
-
-- **Changelog Writer** role and blueprint
-- **Conversation Follow Up Generation** role and blueprint
-- *Commentary Language* blueprint
-
 ### Changed
-
-- include more sections & improve in `prompt_writer` blueprint
-- minor language fix in `prompt_corpus.md`
-
 ### Deprecated
 ### Removed
 ### Fixed
@@ -39,7 +30,32 @@
 
 
 
-## [4.4.1] - 2024-07-09
+## [4.5.0] - 2025-07-27
+
+### Added
+
+- **Changelog Writer** role and blueprint
+- **Conversation Follow Up Generation** role and blueprint
+- *Commentary Language* blueprint
+
+### Changed
+
+- include more sections & improve in `prompt_writer` blueprint
+- minor language fix in `prompt_corpus.md`
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.4.1] - 2025-07-09
 ### Changed
 - rename prompt blueprint `kyc` (abbr Kaye Code) from `code`
 - create Commentary Language section in `prompt_corpus.md` for comment writing style
@@ -57,7 +73,7 @@
 
 
 
-## [4.4] - 2024-06-05
+## [4.4] - 2025-06-05
 ### Changed
 - prompt_blueprint.py: add render datetime in version
 - prompt_corpus.md:
@@ -77,7 +93,7 @@
 
 
 
-## [4.3.1] - 2024-06-03
+## [4.3.1] - 2025-06-03
 ### Fixed
 - fix bug in `tarod_reader.txt`, prompt generation issue
 ### Changed
@@ -97,7 +113,7 @@
 
 
 
-## [4.3] - 2024-06-03
+## [4.3] - 2025-06-03
 ### Changed
 - prompt_corpus.md:
   - reorganize introduction, personality, emotion response format
@@ -119,7 +135,7 @@
 
 
 
-## [4.2.2] - 2024-06-02
+## [4.2.2] - 2025-06-02
 ### Changed
 - rename prompt role Peer Coder (from Code Assistant)
 - add Qt framework support in Peer Coder role
@@ -138,7 +154,7 @@
 
 
 
-## [4.2.1] - 2024-05-31
+## [4.2.1] - 2025-05-31
 ### Changed
 - add language switch in title generation role
 
@@ -154,7 +170,7 @@
 
 
 
-## [4.2] - 2024-05-31
+## [4.2] - 2025-05-31
 ### Added
 - new prompt role Tarot Reader
 ### Changed
@@ -172,7 +188,7 @@
 
 
 
-## [4.1] - 2024-05-24
+## [4.1] - 2025-05-24
 ### Changed
 - prompt comments include blueprint name info
 - improve CLI `kaye prompt ls` printout layout
@@ -189,7 +205,7 @@
 
 
 
-## [4.0.2] - 2024-05-24
+## [4.0.2] - 2025-05-24
 ### Fixed
 - include non-Python files (.md) in Python package
 
@@ -205,7 +221,7 @@
 
 
 
-## [4.0.1] - 2024-05
+## [4.0.1] - 2025-05
 ### Changed
 - improve conversation language consistency in prompt corpus
 ### Fixed
@@ -224,7 +240,7 @@
 
 
 
-## [4.0] - 2024-05-13
+## [4.0] - 2025-05-13
 ### Added
 - implement CLI for module
 - add parsers for:
@@ -246,7 +262,7 @@
 
 
 
-## [3.3] - 2024-05-09
+## [3.3] - 2025-05-09
 ### Changed
 - refactor prompt corpus from full prompt tree in `gen_prompt`
 - refactor prompt blueprint from prompt template
@@ -266,7 +282,7 @@
 
 
 
-## [3.2] - 2024-04-18
+## [3.2] - 2025-04-18
 ### Changed
 - merge dev branch
 
@@ -282,7 +298,7 @@
 
 
 
-## [3.1] - 2024-03-19
+## [3.1] - 2025-03-19
 ### Added
 - implement `PromptTemplate` and tests
 
@@ -298,7 +314,7 @@
 
 
 
-## [3.0] - 2024-03-16
+## [3.0] - 2025-03-16
 ### Changed
 - rewrite `gen_prompt` module using `anytree`
 - remove vscode plugin-related module
@@ -316,7 +332,7 @@
 
 
 
-## [2.2.1] - 2024-01-22
+## [2.2.1] - 2025-01-22
 ### Added
 - add prompt for C#
 ### Changed
@@ -334,7 +350,7 @@
 
 
 
-## [2.2] - 2023-03-16
+## [2.2] - 2025-03-16
 ### Added
 - add general role
 ### Changed
@@ -355,7 +371,7 @@
 
 
 
-## [2.1] - 2023-03-16
+## [2.1] - 2025-03-16
 ### Added
 - add git diff summary role
 ### Changed
@@ -375,7 +391,7 @@
 
 
 
-## [2.0] - 2023-03-16
+## [2.0] - 2025-03-16
 ### Added
 - create `.gitignore` file
 - add `requirement.txt`
@@ -395,7 +411,7 @@
 
 
 
-## [1.4] - 2023-03-16
+## [1.4] - 2025-03-16
 ### Added
 - add secretary role
 - add librarian role
@@ -415,7 +431,7 @@
 
 
 
-## [1.3] - 2023-03-16
+## [1.3] - 2025-03-16
 ### Added
 - add editor role
 - add encyclopedia role source citation
@@ -433,7 +449,7 @@
 
 
 
-## [1.2] - 2023-03-16
+## [1.2] - 2025-03-16
 ### Added
 - add abbreviation list for roles
 ### Changed
@@ -451,7 +467,7 @@
 
 
 
-## [1.1] - 2023-03-16
+## [1.1] - 2025-03-16
 ### Added
 - create `prompt/` directory
 - add `commit_message.md` file
@@ -471,7 +487,7 @@
 
 
 
-## [1.0] - 2023-03-16
+## [1.0] - 2025-03-16
 ### Added
 - initial prompt for Kaye with mission adapted from ChatGPT - Genie AI extension
 
@@ -487,7 +503,8 @@
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.4.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.5.0...dev
+[4.5.0]: https://github.com/kami-lel/kaye/compare/v4.4.1...v4.5.0
 [4.4.1]: https://github.com/kami-lel/kaye/compare/v4.4...v4.4.1
 [4.4]: https://github.com/kami-lel/kaye/compare/v4.3.1...v4.4
 [4.3.1]: https://github.com/kami-lel/kaye/compare/v4.3...v4.3.1
