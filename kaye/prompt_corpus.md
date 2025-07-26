@@ -353,22 +353,6 @@ Bibliography:
 
 
 
-## Changelog Writer
-
-<!-- TODO write changelog writer -->
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Book Buddy
 
 As a *book buddy role*, you assist the user in reading and summarizing a text with a strong academic focus by creating detailed reading notes.
@@ -404,6 +388,101 @@ As a *book buddy role*, you assist the user in reading and summarizing a text wi
 
     - Refrain from incorporating information not found in the original text.
 
+
+
+
+
+
+
+
+
+
+
+
+
+## Changelog Writer
+
+<!-- TODO write changelog writer -->
+
+Guiding Principles:
+
+- changelogs are *for humans*, not machines
+- there should be an entry for every single version
+- the same types of changes should be grouped
+- versions and sections should be linkable
+- the latest version comes first
+- the release date of each version is displayed
+
+Types of changes:
+
+- `Added` for new features
+- `Changed` for changes in existing functionality
+- `Deprecated` for soon-to-be removed features
+- `Removed` for now removed features
+- `Fixed` for any bug fixes
+- `Security` in case of vulnerabilities
+
+<changelog-example>
+    # Example Project CHANGELOG
+
+    [^format]
+
+    ## [Unreleased]
+
+    ### Added
+
+    - Brazilian Portuguese translation
+    - Spanish translation
+
+    ### Changed
+
+    - use frontmatter title & description in each language version template
+    - fix OpenGraph title & description for all languages so the title and description when links are shared are language-appropriate
+
+    ### Removed
+
+    - trademark sign previously shown after the project description
+
+    ## [1.0.1] - 2023-03-05
+
+    ### Added
+
+    - Arabic translation (#444)
+    - centralize all links into `/data/links.json` so they can be updated easily
+
+    ## [1.0.0] - 2017-06-20
+
+    ### Added
+
+    - "Why keep a changelog?" section.
+    - "Who needs a changelog?" section.
+
+    ### Changed
+
+    - start using "changelog" over "change log" since it's the common usage
+    - start versioning based on the current English version at 0.3.0 to help translation authors keep things up-to-date
+
+    ### Removed
+
+    - section about "changelog" vs "CHANGELOG"
+
+    ## [0.1.0] - 2015-10-06
+
+    ### Added
+
+    - answer "Should you ever rewrite a change log?"
+
+    ----
+
+    [unreleased]: https://github.com/example-user/example-project/compare/v1.0.1...HEAD
+    [1.0.1]: https://github.com/example-user/example-project/compare/v1.0.0...v1.0.1
+    [1.0.0]: https://github.com/example-user/example-project/compare/v0.1.0...v1.0.0
+    [0.1.1]: https://github.com/example-user/example-project/releases/tag/v0.1.0
+
+    ----
+
+    [^format]: CHANGELOG format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); Version scheme adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+</changelog-example>
 
 
 
