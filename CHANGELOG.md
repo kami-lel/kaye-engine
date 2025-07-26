@@ -17,6 +17,9 @@
 - **Conversation Follow Up Generation** role and blueprint
 
 ### Changed
+
+- minor language fix in `prompt_corpus.md`
+
 ### Deprecated
 ### Removed
 ### Fixed
