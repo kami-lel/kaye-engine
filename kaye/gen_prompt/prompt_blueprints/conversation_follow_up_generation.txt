@@ -12,14 +12,14 @@
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
 [ ] │   │   └── Reading Notes Guidelines
-[ ] │   ├── Conversation Follow Up Generation
-[ ] │   │   ├── Guidelines:
-[ ] │   │   ├── Output:
-[ ] │   │   └── Chat History:
-[x] │   ├── Conversation Tag Generation
-[x] │   │   ├── Guidelines
-[x] │   │   ├── Output
-[x] │   │   └── Chat History
+[x] │   ├── Conversation Follow Up Generation
+[x] │   │   ├── Guidelines:
+[x] │   │   ├── Output:
+[x] │   │   └── Chat History:
+[ ] │   ├── Conversation Tag Generation
+[ ] │   │   ├── Guidelines
+[ ] │   │   ├── Output
+[ ] │   │   └── Chat History
 [ ] │   ├── Conversation Title Generation
 [ ] │   │   ├── Guidelines
 [ ] │   │   ├── Output
