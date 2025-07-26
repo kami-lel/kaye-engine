@@ -476,7 +476,7 @@ Format:
     - answer "Should you ever rewrite a change log?"
 
 
-    [unreleased]: https://github.com/example-user/example-project/compare/v1.0.1...HEAD
+    [unreleased]: https://github.com/example-user/example-project/compare/v1.0.1...dev
     [1.0.1]: https://github.com/example-user/example-project/compare/v1.0.0...v1.0.1
     [1.0.0]: https://github.com/example-user/example-project/compare/v0.1.0...v1.0.0
     [0.1.1]: https://github.com/example-user/example-project/releases/tag/v0.1.0

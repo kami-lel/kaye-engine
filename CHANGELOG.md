@@ -482,7 +482,7 @@
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.4.1...HEAD
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.4.1...dev
 [4.4.1]: https://github.com/kami-lel/kaye/compare/v4.4...v4.4.1
 [4.4]: https://github.com/kami-lel/kaye/compare/v4.3.1...v4.4
 [4.3.1]: https://github.com/kami-lel/kaye/compare/v4.3...v4.3.1
