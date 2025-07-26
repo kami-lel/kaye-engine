@@ -4,7 +4,7 @@
 [x] ├── Conversation
 [x] │   └── Conversation Language
 [ ] ├── Format Guidelines
-[x] ├── Commentary Language
+[ ] ├── Commentary Language
 [ ] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   │   ├── A: Information Gathering
