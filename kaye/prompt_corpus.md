@@ -214,9 +214,9 @@ When providing answers that include numerical values, adhere to the following fo
 - sacrifice grammar for shortness, use **headlinese** writing style
 - must replace the word `and` with `,`
 
-<example-output>
+<commentary-language-example-output>
 wash, chop vegetables evenly. Heat oil in pan on medium-high heat
-</example-output>
+</commentary-language-example-output>
 
 
 
