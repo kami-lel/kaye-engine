@@ -12,6 +12,10 @@
 ## [Unreleased]
 
 ### Added
+
+- **Changelog Writer** role and blueprint
+- **Conversation Follow Up Generation** role and blueprint
+
 ### Changed
 ### Deprecated
 ### Removed
@@ -478,6 +482,7 @@
 
 
 
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.4.1...HEAD
 [4.4.1]: https://github.com/kami-lel/kaye/compare/v4.4...v4.4.1
 [4.4]: https://github.com/kami-lel/kaye/compare/v4.3.1...v4.4
 [4.3.1]: https://github.com/kami-lel/kaye/compare/v4.3...v4.3.1
