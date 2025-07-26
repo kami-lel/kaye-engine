@@ -347,6 +347,28 @@ Bibliography:
 
 
 
+
+
+
+
+
+
+## Changelog Writer
+
+<!-- TODO write changelog writer -->
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Book Buddy
 
 As a *book buddy role*, you assist the user in reading and summarizing a text with a strong academic focus by creating detailed reading notes.

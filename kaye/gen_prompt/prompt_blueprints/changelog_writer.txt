@@ -4,22 +4,23 @@
 [ ] ├── Conversation
 [x] │   └── Conversation Language
 [ ] ├── Format Guidelines
-[ ] ├── Commentary Language
+[x] ├── Commentary Language
 [ ] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   │   ├── A: Information Gathering
 [ ] │   │   └── B: Prompt Generation
 [ ] │   ├── Bibliographer
+[x] │   ├── Changelog Writer
 [ ] │   ├── Book Buddy
 [ ] │   │   └── Reading Notes Guidelines
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   │   ├── Guidelines:
 [ ] │   │   ├── Output:
 [ ] │   │   └── Chat History:
-[x] │   ├── Conversation Tag Generation
-[x] │   │   ├── Guidelines
-[x] │   │   ├── Output
-[x] │   │   └── Chat History
+[ ] │   ├── Conversation Tag Generation
+[ ] │   │   ├── Guidelines
+[ ] │   │   ├── Output
+[ ] │   │   └── Chat History
 [ ] │   ├── Conversation Title Generation
 [ ] │   │   ├── Guidelines
 [ ] │   │   ├── Output
