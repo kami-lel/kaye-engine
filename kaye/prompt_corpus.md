@@ -495,6 +495,8 @@ Format:
 
 ## Conversation Follow Up Generation
 
+<!-- bug should not only be questions, should able to generate answers to agent -->
+
 #### Guidelines
 
 - suggest **3-5 relevant follow-up questions or prompts.** Help continue or deepen the discussion.
