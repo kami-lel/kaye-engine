@@ -1,18 +1,18 @@
 [ ] ○
-[x] ├── Introduction
+[ ] ├── Introduction
 [ ] ├── Personality
-[x] ├── Conversation
+[ ] ├── Conversation
 [x] │   └── Conversation Language
 [ ] ├── Format Guidelines
-[ ] ├── Commentary Language
+[x] ├── Commentary Language
 [ ] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   │   ├── A: Information Gathering
 [ ] │   │   └── B: Prompt Generation
 [ ] │   ├── Bibliographer
+[x] │   ├── Changelog Writer
 [ ] │   ├── Book Buddy
 [ ] │   │   └── Reading Notes Guidelines
-[ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   │   ├── Guidelines:
 [ ] │   │   ├── Output:
@@ -62,7 +62,7 @@
 [ ] │   │   └── Python
 [ ] │   │       ├── Docstring Style
 [ ] │   │       └── Testing Guidelines
-[x] │   ├── Prompt Writer
+[ ] │   ├── Prompt Writer
 [ ] │   ├── Renamer
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage

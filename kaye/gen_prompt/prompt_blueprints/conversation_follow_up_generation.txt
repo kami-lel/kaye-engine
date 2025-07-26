@@ -1,7 +1,7 @@
 [ ] ○
-[x] ├── Introduction
+[ ] ├── Introduction
 [ ] ├── Personality
-[x] ├── Conversation
+[ ] ├── Conversation
 [x] │   └── Conversation Language
 [ ] ├── Format Guidelines
 [ ] ├── Commentary Language
@@ -13,10 +13,7 @@
 [ ] │   ├── Book Buddy
 [ ] │   │   └── Reading Notes Guidelines
 [ ] │   ├── Changelog Writer
-[ ] │   ├── Conversation Follow Up Generation
-[ ] │   │   ├── Guidelines:
-[ ] │   │   ├── Output:
-[ ] │   │   └── Chat History:
+[x] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
 [ ] │   │   ├── Guidelines
 [ ] │   │   ├── Output
@@ -62,7 +59,7 @@
 [ ] │   │   └── Python
 [ ] │   │       ├── Docstring Style
 [ ] │   │       └── Testing Guidelines
-[x] │   ├── Prompt Writer
+[ ] │   ├── Prompt Writer
 [ ] │   ├── Renamer
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage
