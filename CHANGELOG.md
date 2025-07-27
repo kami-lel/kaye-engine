@@ -16,7 +16,26 @@
 ### Deprecated
 ### Removed
 ### Fixed
-#### Security
+### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.5.1] - 2025-07-27
+
+### Changed
+
+- improve *Conversation Follow Up Generation* role (in `prompt_corpus.md`) to generate answers as follow-ups
+
 
 
 
@@ -503,7 +522,8 @@
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.5.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.5.1...dev
+[4.5.1]: https://github.com/kami-lel/kaye/compare/v4.5.0...v4.5.1
 [4.5.0]: https://github.com/kami-lel/kaye/compare/v4.4.1...v4.5.0
 [4.4.1]: https://github.com/kami-lel/kaye/compare/v4.4...v4.4.1
 [4.4]: https://github.com/kami-lel/kaye/compare/v4.3.1...v4.4
