@@ -52,6 +52,8 @@ class TestLoad:  # test function load_embedded_prompt_corpus
 │   ├── Bibliographer
 │   ├── Book Buddy
 │   │   └── Reading Notes Guidelines
+│   ├── Changelog Writer
+│   ├── Conversation Follow Up Generation
 │   ├── Conversation Tag Generation
 │   │   ├── Guidelines
 │   │   ├── Output

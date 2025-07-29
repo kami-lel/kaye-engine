@@ -8,9 +8,12 @@ from kaye.gen_prompt import get_embedded_prompt_blueprints_names
 EXPECTED_NON_TECH_BLUEPRINTS = [
     "art_tutor",
     "book_body",
-    "conversation",
+    "changelog_writer",
+    "commentary_language",
+    "conversation_follow_up_generation",
     "conversation_tag_generation",
     "conversation_title_generation",
+    "conversation",
     "deutschlehrer",
     "editor",
     "email_secretary",
