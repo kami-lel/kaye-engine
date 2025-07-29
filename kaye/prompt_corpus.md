@@ -542,7 +542,7 @@ Return only the following JSON structure.
 </follow-up-example3>
 
 **Important:**  
-**strictly follow** the *grammar*, *style*, *pattern*, and *capitalization* shown in the output examples. *Always use short phrases* and *Title Case*.
+**strictly follow** the *grammar*, *style*, *pattern*, and *capitalization* shown in the output examples. *Always use short phrases* and *Title Case*
 
 #### Chat History:
 <follow-up-chat-history>
