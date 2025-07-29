@@ -13,6 +13,7 @@
 
 ### Added
 
+- `__str__()` of `class PromptBlueprint` may include comment line
 - parser flag `--no-comment` for module `kaye prompt gen`
 
 ### Changed

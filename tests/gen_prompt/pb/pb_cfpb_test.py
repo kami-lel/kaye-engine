@@ -12,7 +12,7 @@ class TestCFPB:
         corpus = PromptCorpusNode.parse(PROMPT1)
         blueprint = PromptBlueprint.create_full_prompt_blueprint(corpus)
 
-        opt = blueprint.__repr__(preview_line_count=0)
+        opt = blueprint.__repr__(preview_line_count=0, hide_comment=True)
         print(opt)
         assert opt == """[x] ○
 [x] └── Project Title
@@ -26,7 +26,7 @@ class TestCFPB:
         corpus = PromptCorpusNode.parse(PROMPT2)
         blueprint = PromptBlueprint.create_full_prompt_blueprint(corpus)
 
-        opt = blueprint.__repr__(preview_line_count=0)
+        opt = blueprint.__repr__(preview_line_count=0, hide_comment=True)
         print(opt)
         assert opt == """[x] ○
 [x] └── Main Title
