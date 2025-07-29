@@ -546,7 +546,7 @@ Return only the following JSON structure.
 
 #### Chat History:
 <follow-up-chat-history>
-{{MESSAGES:END:6}}
+{{MESSAGES:END:4}}
 </follow-up-chat-history>
 
 
