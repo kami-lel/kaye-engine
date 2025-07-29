@@ -13,6 +13,9 @@
 
 ### Added
 ### Changed
+
+- improve *Conversation Follow Up Generation* role in `prompt_corpus.md`, attempt to emphasize to create short-phrase and use title case
+
 ### Deprecated
 ### Removed
 ### Fixed
