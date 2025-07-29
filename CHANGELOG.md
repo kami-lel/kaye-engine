@@ -9,7 +9,33 @@
 
 
 
+
+
+
+
+
 ## [Unreleased]
+
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.5.2] - 2025-07-30
 
 ### Added
 
@@ -20,13 +46,9 @@
 
 - improve *Conversation Follow Up Generation* role in `prompt_corpus.md`, attempt to emphasize to create short-phrase and use title case
 
-### Deprecated
-### Removed
 ### Fixed
 
 - update tests criteria to accommodate new features
-
-### Security
 
 
 
@@ -532,7 +554,8 @@
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.5.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.5.2...dev
+[4.5.2]: https://github.com/kami-lel/kaye/compare/v4.5.1...v4.5.2
 [4.5.1]: https://github.com/kami-lel/kaye/compare/v4.5.0...v4.5.1
 [4.5.0]: https://github.com/kami-lel/kaye/compare/v4.4.1...v4.5.0
 [4.4.1]: https://github.com/kami-lel/kaye/compare/v4.4...v4.4.1
