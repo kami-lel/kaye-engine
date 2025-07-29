@@ -16,6 +16,9 @@
 ### Deprecated
 ### Removed
 ### Fixed
+
+- update tests criteria to accommodate new features
+
 ### Security
 
 
@@ -114,7 +117,7 @@
 
 ## [4.3.1] - 2025-06-03
 ### Fixed
-- fix bug in `tarod_reader.txt`, prompt generation issue
+- fix bug in `tarot_reader.txt`, prompt generation issue
 ### Changed
 - prompt_corpus.md:
   - improve Conversation section for language consistency
