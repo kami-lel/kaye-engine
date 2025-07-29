@@ -122,7 +122,6 @@ class PromptBlueprint:
             self.set_unset_detached_mode(detached_mode)
 
     def _init_populate_enabled_nodes_names(self, prompt_blueprint_text):
-        # fixme allow use both x&X for checked box
         lines = prompt_blueprint_text.split("\n")
 
         # parse detached mode
