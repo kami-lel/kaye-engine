@@ -16,7 +16,7 @@ class TestFull:  # special case "full"
     # !!! this test change with prompt_corpus.md
     def test_repr(self):
         blueprint = load_embedded_prompt_blueprint(self.prompt_name)
-        opt = blueprint.__repr__(preview_line_count=0)
+        opt = blueprint.__repr__(preview_line_count=0, hide_comment=True)
         print(opt)
         assert all(line.startswith("[x]") for line in opt.splitlines())
 
@@ -31,7 +31,7 @@ class TestEmpty:  # special case "empty"
 
     def test_repr(self):
         blueprint = load_embedded_prompt_blueprint(self.prompt_name)
-        opt = blueprint.__repr__(preview_line_count=0)
+        opt = blueprint.__repr__(preview_line_count=0, hide_comment=True)
         print(opt)
         assert all(line.startswith("[ ]") for line in opt.splitlines())
 
@@ -53,7 +53,7 @@ class TestConversation:
     # !!! this test change with prompt_corpus.md
     def test_repr(self):
         blueprint = load_embedded_prompt_blueprint(self.prompt_name)
-        opt = blueprint.__repr__(preview_line_count=0)
+        opt = blueprint.__repr__(preview_line_count=0, hide_comment=True)
         print(opt)
 
         assert opt == """[x] ○

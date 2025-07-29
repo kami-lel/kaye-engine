@@ -14,7 +14,7 @@ class TestRepr:
 
     def test_dft(_):
         pt = PromptBlueprint(example_corpus)
-        opt = repr(pt)
+        opt = pt.__repr__(hide_comment=True)
         print(opt)
         assert opt == """[x] ○
 [ ] └── Main Title
@@ -39,7 +39,7 @@ class TestRepr:
 
     def test_no_content(_):
         pt = PromptBlueprint(example_corpus)
-        opt = pt.__repr__(preview_line_count=0)
+        opt = pt.__repr__(preview_line_count=0, hide_comment=True)
         print(opt)
         assert opt == """[x] ○
 [ ] └── Main Title
