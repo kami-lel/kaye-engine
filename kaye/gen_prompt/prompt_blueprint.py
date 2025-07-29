@@ -122,7 +122,6 @@ class PromptBlueprint:
             self.set_unset_detached_mode(detached_mode)
 
     def _init_populate_enabled_nodes_names(self, prompt_blueprint_text):
-        # fixme allow use both x&X for checked box
         lines = prompt_blueprint_text.split("\n")
 
         # parse detached mode
@@ -172,7 +171,38 @@ class PromptBlueprint:
 
         return lines
 
-    def __repr__(self, preview_line_count=3, preview_line_width=64):
+    def _generate_prompt_comment_content(self):
+        """
+        :return: prompt comment (used in __repr__() and __str__()) containing
+                blueprint name and Kaye version
+        :rtype: str
+
+        :example:
+        >>> print(tree._generate_prompt_comment_content())
+        'blueprint:conversation; Kaye v1.2.3'
+        """
+        kaye_version = importlib.metadata.version("kaye")
+
+        # append render date-time in version for alpha releases
+        if "a" in kaye_version:
+            kaye_version += datetime.now().strftime(".0%Y%m%d%H%M%S")
+
+        return "{}Kaye v{}".format(
+            (
+                "blueprint:{}; ".format(self.blueprint_name)
+                if self.blueprint_name
+                else ""
+            ),
+            kaye_version,
+        )
+
+    def __repr__(
+        self,
+        preview_line_count=3,
+        preview_line_width=64,
+        *,
+        hide_comment=False
+    ):
         """
         Return a visual representation of the **tree**, showing:
 
@@ -195,6 +225,9 @@ class PromptBlueprint:
                 *content preview* part for each entry;
                 defaults to 64.
         :type preview_line_width: int
+        :param hide_comment: Disable placing comment part after last line;
+                Defaults to False
+        :type hide_comment: bool, optional
         :return: v.s.
         :rtype: str
 
@@ -217,7 +250,8 @@ class PromptBlueprint:
                 │   3. Submit a pull request
         [x]     └── License
                     This project is licensed under the MIT License.
-        >>> tree.__repr__(preview_line_count=0)
+        (blueprint:conversation; Kaye v1.2.3)
+        >>> tree.__repr__(preview_line_count=0, hide_comment=True)
         [x] ○
         [x] └── Project Title
         [ ]     ├── Description
@@ -226,7 +260,6 @@ class PromptBlueprint:
         [ ]     ├── Contributing
         [x]     └── License
         """
-        # fixme include prompt name
 
         opt_lines = []
 
@@ -250,12 +283,16 @@ class PromptBlueprint:
                 )
             )
 
+        if not hide_comment:
+            comment_line = "(" + self._generate_prompt_comment_content() + ")"
+            opt_lines.append(comment_line)
+
         return "\n".join(opt_lines)
 
     def __str__(self, *, hide_comment=False):
         """
-        :param hide_comment: Disable placing comment part after last line;
-                Defaults to False
+        :param hide_comment: disable placing comment part after last line;
+                defaults to False
         :type hide_comment: bool, optional
         :return: **concrete prompt** composed of nodes heading and content,
                 depending on *detached mode* and each nodes' enabling status.
@@ -272,7 +309,7 @@ class PromptBlueprint:
         Summarizing the findings and implications.
         """
 
-        # bug this will remove all blank lines, sometimes empty lines are needed
+        # BUG this will remove all blank lines, sometimes empty lines are needed
         lines = (
             self._generate_str_recursively_detached_mode(self.prompt_corpus)
             if self.is_detached_mode
@@ -281,19 +318,8 @@ class PromptBlueprint:
 
         # create comment part
         if not hide_comment:
-            kaye_version = importlib.metadata.version("kaye")
-
-            # append render date-time in version for alpha releases
-            if "a" in kaye_version:
-                kaye_version += datetime.now().strftime(".0%Y%m%d%H%M%S")
-
-            comment_line = "<!-- {}Kaye v{} -->".format(
-                (
-                    "blueprint:{}; ".format(self.blueprint_name)
-                    if self.blueprint_name
-                    else ""
-                ),
-                kaye_version,
+            comment_line = (
+                "<!-- " + self._generate_prompt_comment_content() + " -->"
             )
             lines.append(comment_line)
 

@@ -495,20 +495,19 @@ Format:
 
 ## Conversation Follow Up Generation
 
-- **generate 3–5 relevant follow-ups** per turn, deepen or continue discussion
-- using the chat context, **respond as the user** directed to the assistant
-- all follow-ups in a set must be **questions or answers**, never mix
-
-  - answer as follow-ups if assistant last message (in chat history) is a question directed to the user role, or provides options to choose from
-
-- use short phrases only, no full sentences  
+- **generate 3–5 relevant follow-ups** per turn; deepen or continue discussion  
+- using the chat context, **respond as the user** to the assistant  
+- all follow-ups in a set must be **questions or answers**, never mix  
+  - answer as follow-ups: when assistant’s last message is a question directed to the user role, or gives user options to choose from  
+- use **short phrases only, never full sentences**
+- use **Title Case**: capitalize the first letter of all important words in each follow-up  
 - **topics:**  
-  - *follow chat context, focus on latest messages*  
+  - follow chat context, focus on latest messages  
   - if chat is short or unclear, go general but stay on topic  
-  - diversify, hit multiple topic angles  
-  - for answers: direct responses to earlier questions  
-- **no repeats from last output**  
-- no greetings, no apologies, no off-topic
+  - diversify, address multiple topic angles  
+  - for answers: direct replies to earlier questions  
+- no repeats from last output  
+- no greetings, apologies, or off-topic  
 
 #### Output  
 Return only the following JSON structure.  
@@ -517,7 +516,7 @@ Return only the following JSON structure.
   "follow_ups": [
     "Key Experiments in Photosynthesis Research?",
     "Role of Chlorophyll Molecules?",
-    "How does Light Intensity Affect Rate?",
+    "How Does Light Intensity Affect Rate?",
     "Future Developments in Renewable Energy?"
   ]
 }
@@ -535,16 +534,19 @@ Return only the following JSON structure.
 <follow-up-example3>
 {
   "follow_ups": [
-    "Yes, Rewrite in the style of a Pop Song",
-    "No, Keep the answer as it is",
-    "No, Rewrite in the style of Boardway Musical"
+    "Yes, Rewrite in the Style of a Pop Song",
+    "No, Keep the Answer as It Is",
+    "No, Rewrite in the Style of Broadway Musical"
   ]
 }
 </follow-up-example3>
 
+**Important:**  
+**strictly follow** the *grammar*, *style*, *pattern*, and *capitalization* shown in the output examples. *Always use short phrases* and *Title Case*
+
 #### Chat History:
 <follow-up-chat-history>
-{{MESSAGES:END:6}}
+{{MESSAGES:END:4}}
 </follow-up-chat-history>
 
 
