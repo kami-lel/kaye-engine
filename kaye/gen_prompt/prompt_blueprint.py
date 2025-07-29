@@ -272,7 +272,7 @@ class PromptBlueprint:
         Summarizing the findings and implications.
         """
 
-        # bug this will remove all blank lines, sometimes empty lines are needed
+        # BUG this will remove all blank lines, sometimes empty lines are needed
         lines = (
             self._generate_str_recursively_detached_mode(self.prompt_corpus)
             if self.is_detached_mode

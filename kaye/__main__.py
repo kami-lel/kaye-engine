@@ -130,7 +130,7 @@ def _prompt_gen_main(args):
     else:
         blueprint_obj = load_embedded_prompt_blueprint(blueprint_arg)
 
-    prompt_content = str(blueprint_obj)
+    prompt_content = blueprint_obj.__str__(hide_comment=args.no_comment)
 
     # with --file FILE
     if args.file:
@@ -141,9 +141,6 @@ def _prompt_gen_main(args):
 
     # todo interactive mode
     # todo which allow user set preview line, etc.
-
-
-# TODO add option: disable prompt comment
 
 
 GEN_HELP_TEXT = "generate concrete prompt from blueprint"
@@ -161,6 +158,12 @@ gen_psr.add_argument(
     "--source-file",
     action="store_true",
     help="provide blueprint as source file of prompt blueprint",
+)
+gen_psr.add_argument(
+    "-C",
+    "--no-comment",
+    action="store_true",
+    help="disable last-line prompt comment in result",
 )
 gen_psr.set_defaults(func=_prompt_gen_main)
 
