@@ -12,6 +12,9 @@
 ## [Unreleased]
 
 ### Added
+
+- parser flag `--no-comment` for module `kaye prompt gen`
+
 ### Changed
 
 - improve *Conversation Follow Up Generation* role in `prompt_corpus.md`, attempt to emphasize to create short-phrase and use title case
