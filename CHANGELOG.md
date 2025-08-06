@@ -18,6 +18,9 @@
 
 ### Added
 ### Changed
+
+- improve section *Conversation* to prevent use of `_` for bold and italics
+
 ### Deprecated
 ### Removed
 ### Fixed
