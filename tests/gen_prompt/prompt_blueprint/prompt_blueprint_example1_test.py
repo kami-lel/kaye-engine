@@ -1,10 +1,10 @@
 """
-tests features of ``PromptBlueprint`` using a example full prompt
+tests features of ``PromptBlueprint`` using a full PROMPT1
 """
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
-from tests.gen_prompt.pb.pb_testee_corpus import PROMPT1
+from tests.gen_prompt.prompt_blueprint.testees import PROMPT1
 
 example_corpus = PromptCorpusNode.parse(PROMPT1)
 
@@ -13,7 +13,7 @@ class TestRepr:
 
     def test_dft(_):
         pt = PromptBlueprint(example_corpus)
-        opt = pt.__repr__(hide_comment=True)
+        opt = pt.generate_preview_tree(hide_comment=True)
         print(opt)
         assert opt == """[x] ○
 [ ] └── Project Title
@@ -34,7 +34,7 @@ class TestRepr:
 
     def test_no_content(_):
         pt = PromptBlueprint(example_corpus)
-        opt = pt.__repr__(preview_line_count=0, hide_comment=True)
+        opt = pt.generate_preview_tree(preview_line_count=0, hide_comment=True)
         print(opt)
         assert opt == """[x] ○
 [ ] └── Project Title
@@ -218,7 +218,7 @@ class TestStr:
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == ""
 
@@ -233,7 +233,7 @@ class TestStr:
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """# Project Title
 ## Contributing
@@ -252,7 +252,7 @@ class TestStr:
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """# Project Title
 ## Installation
@@ -273,7 +273,7 @@ Provide instructions on how to use the application."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """# Project Title
 ## Description
@@ -305,7 +305,7 @@ class TestStrDetach:  # test detached mode
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == ""
 
@@ -320,7 +320,7 @@ class TestStrDetach:  # test detached mode
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """## Contributing
 1. Fork the repo
@@ -338,7 +338,7 @@ class TestStrDetach:  # test detached mode
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """## Contributing
 1. Fork the repo
@@ -356,7 +356,7 @@ class TestStrDetach:  # test detached mode
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """## Installation
 1. Clone the repo
@@ -376,7 +376,7 @@ Provide instructions on how to use the application."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """## Description
 A brief overview of the project, its purpose, and goals.
@@ -392,3 +392,23 @@ Provide instructions on how to use the application.
 3. Submit a pull request
 ## License
 This project is licensed under the MIT License."""
+
+
+class TestCFPB:  # test create_full_prompt_blueprint
+
+    def test1(_):
+        blueprint = PromptBlueprint.create_full_prompt_blueprint(
+            example_corpus
+        )
+
+        opt = blueprint.generate_preview_tree(
+            preview_line_count=0, hide_comment=True
+        )
+        print(opt)
+        assert opt == """[x] ○
+[x] └── Project Title
+[x]     ├── Description
+[x]     ├── Installation
+[x]     ├── Usage
+[x]     ├── Contributing
+[x]     └── License"""
