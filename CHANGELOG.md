@@ -26,7 +26,6 @@
 - section `Commentary Capitalization` (partially from content of `Commentary Language`)
 
 <!-- TODO test for render all blueprints -->
-<!-- FIXME simplify peer coder, UE -->
 
 ### Changed
 
