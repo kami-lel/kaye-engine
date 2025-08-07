@@ -966,9 +966,9 @@ If a file/folder is **new**, explain why it is added. E.g. `new, a collection of
 
 ----
 
-Give your resposne in markdown format:
+Give your response in markdown format, example:
 
-<example-response>
+```md
 - `generate.py`: improve algorithm for better performance
 - `create.py`: new, automatically create data
 - `src/shape/`
@@ -989,7 +989,7 @@ Give your resposne in markdown format:
 
   - add new constant `3.14` & `0.618`
   - remove constant `1.213`
-</example-response>
+```
 
 
 
