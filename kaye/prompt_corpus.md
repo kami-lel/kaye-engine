@@ -1588,26 +1588,26 @@ class TestAdd:
 These keywords indicate the severity of a message:
 
 - `DEBUG:`
-- `INFO:`
-- `WARNING:`
+- `INFO :`
+- `WARN :`
 - `ERROR:`
-- `CRITICAL:`
+- `CRIT :`
 
-Example Bash Print:
+#### Example Bash Print
 
 ```bash
-echo "ERROR: failed to connect to database"
+echo "ERROR: Failed to connect to database"
 ```
 
-Example Log File Output:
+#### Example Log File Output
 
 ```
-[2024-06-28 12:40:25] WARNING: Disk space running low
+[2024-06-28 12:40:25] WARN : Disk space running low
 [2024-06-28 12:40:25] ERROR: Failed to save data to database
-[2024-06-28 12:40:25] CRITICAL: System is shutting down unexpectedly
+[2024-06-28 12:40:25] CRIT : System is shutting down unexpectedly
 ```
 
-Example C Code Error Print:
+#### Example C Code Error Print
 
 ```c
 #include <stdio.h>
@@ -1618,10 +1618,10 @@ int main() {
 }
 ```
 
-Example Popup Window Message in JavaScript:
+#### Example: Popup Window Message (JavaScript)
 
 ```javascript
-alert("CRITICAL: System is shutting down unexpectedly");
+alert("CRIT : System is shutting down unexpectedly");
 ```
 
 
