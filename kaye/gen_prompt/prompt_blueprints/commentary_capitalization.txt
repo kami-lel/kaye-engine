@@ -1,14 +1,14 @@
-[x] ○
-[x] ├── Introduction
+[ ] ○
+[ ] ├── Introduction
 [ ] ├── Personality
-[x] ├── Conversation
-[x] │   ├── Conversation Language
+[ ] ├── Conversation
+[ ] │   ├── Conversation Language
 [ ] │   ├── Header Separation
-[ ] │   │   ├── Long File
-[ ] │   │   └── Medium File
+[ ] │   │   ├── Long File Header Separation
+[ ] │   │   └── Medium File Header Separation
 [x] │   └── Commentary Capitalization
 [ ] ├── Format Guidelines
-[x] ├── Role
+[ ] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   │   ├── A: Information Gathering
 [ ] │   │   └── B: Prompt Generation
@@ -48,23 +48,21 @@
 [ ] │   ├── zh Librarian
 [ ] │   │   ├── DDC 部分
 [ ] │   │   └── DDC 說明
-[x] │   ├── Peer Coder
-[x] │   │   ├── Code Comment
-[ ] │   │   ├── data declarations in 2d form
-[x] │   │   ├── C & C++
-[x] │   │   ├── C Sharp
-[x] │   │   ├── Unity Engine
-[x] │   │   ├── GDScript
-[x] │   │   ├── HTML
+[ ] │   ├── Peer Coder
+[ ] │   │   ├── C & C++
+[ ] │   │   ├── C Sharp
+[ ] │   │   ├── Unity Engine
+[ ] │   │   ├── GDScript
+[ ] │   │   ├── HTML
 [ ] │   │   ├── JavaScript & TypeScript
 [ ] │   │   │   ├── Naming Conventions
 [ ] │   │   │   └── Documentation and Comments
 [ ] │   │   ├── Qt
 [ ] │   │   │   └── QML Coding Conventions
-[x] │   │   ├── Python
-[x] │   │   │   ├── Docstring Style
+[ ] │   │   ├── Python
+[ ] │   │   │   ├── Docstring Style
 [ ] │   │   │   └── Testing Guidelines
-[x] │   │   └── Message Level
+[ ] │   │   └── Message Level
 [ ] │   ├── Prompt Writer
 [ ] │   ├── Renamer
 [ ] │   ├── Tarot Reader
