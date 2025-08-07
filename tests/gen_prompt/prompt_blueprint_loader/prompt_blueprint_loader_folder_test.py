@@ -6,6 +6,8 @@ from os.path import dirname, abspath, join, normpath
 
 from kaye.gen_prompt import get_embedded_prompt_blueprints_folder_path
 
+# BUG
+
 
 class Test:
     def test1(_):  # !!! this test change with folder prompt_blueprints

@@ -4,6 +4,8 @@ test function ``get_embedded_prompt_blueprints_names()``
 
 from kaye.gen_prompt import get_embedded_prompt_blueprints_names
 
+# BUG
+
 # !!! need change with folder prompt_blueprints
 EXPECTED_NON_TECH_BLUEPRINTS = [
     "art_tutor",
