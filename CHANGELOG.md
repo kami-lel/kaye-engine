@@ -20,12 +20,15 @@
 
 - section `Header Separation`
 - section `Message Level`
+- section `Commentary Capitalization`
 
+<!-- TODO commentary blueprint -->
 <!-- TODO test for render all blueprints -->
 
 ### Changed
 
 - improve section *Conversation* to prevent use of `_` for bold and italics
+- merge into `Code Comment` (from part content of old `Commentary Language` )
 - some example code blocks' format
 
 ### Deprecated
