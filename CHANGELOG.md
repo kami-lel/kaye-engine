@@ -2,6 +2,9 @@
 
 [^format]
 
+<!-- todo finish writing renamer role-->
+<!-- bug commentary capitalization sometimes not respected by llm -->
+
 
 
 
@@ -18,17 +21,23 @@
 
 ### Added
 
-- section `Header Separation`
+- section `Header Separation` and related blueprint
 - section `Message Level`
-- section `Commentary Capitalization`
+- section `Commentary Capitalization` (partially from content of `Commentary Language`)
 
 <!-- TODO test for render all blueprints -->
+<!-- TODO comment section header -->
+<!-- TODO UE for unreal -->
 
 ### Changed
 
-- improve section *Conversation* to prevent use of `_` for bold and italics
-- merge into `Code Comment` (from part content of old `Commentary Language` )
+- simplify role of `Peer Coder` to be 
+- improve section `Conversation` to prevent use of `_` for bold and italics
+- split content of the removed `Commentary Language` into `Code Comment`
+- ensure consistent empty lines before section header
 - some example code blocks' format
+
+<!-- FIXME simplify peer coder -->
 
 ### Deprecated
 ### Removed
