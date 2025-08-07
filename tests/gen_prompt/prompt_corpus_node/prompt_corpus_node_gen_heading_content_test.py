@@ -9,8 +9,6 @@ from tests.gen_prompt.prompt_corpus_node.testees import (
     PROMPT3,
 )
 
-# BUG
-
 
 class TestParse1:  # tes use PROMPT1
 
