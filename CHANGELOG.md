@@ -25,7 +25,10 @@
 ### Changed
 
 - create public function `generate_preview_tree()` of `class PromptCorpusNode` to replace direct call to `__repr__()`
-- create public function `generate_preview_tree()` & `generate_prompt()` of `class PromptBlueprint` to replace direct call to `__repr__()` & `__str__()`
+- re `class PromptBlueprint`:
+
+  - create public function `generate_preview_tree()` & `generate_prompt()` to replace direct call to `__repr__()` & `__str__()`
+  - improve handling of empty lines
 
 ### Deprecated
 ### Removed

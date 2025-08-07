@@ -113,6 +113,14 @@ class PromptCorpusNode(AnytreeNode):
         self.content = []
         self._populate_self_by_text_lines(text_lines)
 
+        # trim leading/trailing empty strings
+        start, end = 0, len(self.content)
+        while start < end and self.content[start] == "":
+            start += 1
+        while end > start and self.content[end - 1] == "":
+            end -= 1
+        self.content = self.content[start:end]
+
     @staticmethod
     def _convert_corpus_text2lines(full_prompt):
         # reduce formatting empty lines
