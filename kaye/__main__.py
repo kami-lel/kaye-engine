@@ -2,8 +2,6 @@
 CLI for Python module ``kaye``
 """
 
-# TODO comment section heading
-
 from argparse import ArgumentParser, FileType
 
 from kaye.gen_prompt.prompt_blueprint_loader import (
@@ -17,6 +15,7 @@ from kaye.gen_prompt.prompt_blueprint_loader import (
 blueprint_names = sorted(get_embedded_prompt_blueprints_names())
 
 
+# Main Parser: kaye ============================================================
 # setup main parser
 def _kaye_main(_):
     # when calling ``python -m kaye``
@@ -28,7 +27,7 @@ kaye_psr.set_defaults(func=_kaye_main)
 kaye_subpsr = kaye_psr.add_subparsers(title="subcommands")
 
 
-# setup subparser: kaye prompt
+# Subparser: kaye prompt =======================================================
 def _prompt_main(_):
     # when calling ``python -m kaye prompt``
     prompt_psr.print_help()
@@ -51,7 +50,7 @@ prompt_subpsr = prompt_psr.add_subparsers(
 )
 
 
-# setup subparser: kaye prompt ls
+# Subparser: kaye prompt ls ----------------------------------------------------
 def _prompt_ls_main(_):
     # when calling ``python -m kaye prompt ls``
     print("(all available embedded blueprints:)")
@@ -107,7 +106,7 @@ arg_sharing_psr.add_argument(
 )
 
 
-# setup subparser: kaye prompt gen
+# Subparser: kaye prompt gen ---------------------------------------------------
 def _prompt_gen_main(args):
     # when calling ``python -m kaye prompt gen``
 
@@ -172,7 +171,7 @@ gen_psr.add_argument(
 gen_psr.set_defaults(func=_prompt_gen_main)
 
 
-# setup subparser: kaye prompt show
+# Subparser: kaye prompt show --------------------------------------------------
 def _prompt_show_main(args):
     # when calling ``python -m kaye prompt show``
     blueprint_name = args.BLUEPRINT
@@ -203,8 +202,8 @@ show_psr = prompt_subpsr.add_parser(
 show_psr.set_defaults(func=_prompt_show_main)
 
 
+# Subparser: kaye gen_continue_config ==========================================
 # TODO generate for continue extension
-
 
 if __name__ == "__main__":
     parsed_args = kaye_psr.parse_args()
