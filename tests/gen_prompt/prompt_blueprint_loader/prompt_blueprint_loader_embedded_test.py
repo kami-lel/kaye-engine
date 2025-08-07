@@ -4,6 +4,8 @@ test function ``load_embedded_prompt_blueprint()``
 
 from kaye.gen_prompt import load_embedded_prompt_blueprint, PromptBlueprint
 
+# BUG
+
 
 class TestFull:  # special case "full"
 
