@@ -148,7 +148,7 @@ Note: Do not include the text inside parentheses `()`, these are *instructions* 
 
 
 
-### Long File Header Separation
+### Long File
 
 | Level | MD Header                       | Empty Line Before |
 |-------|---------------------------------|-------------------|
@@ -173,7 +173,7 @@ Note: Do not include the text inside parentheses `()`, these are *instructions* 
 
 
 
-### Medium File Header Separation
+### Medium File
 
 | Level | MD Header                       | Empty Line Before |
 |-------|---------------------------------|-------------------|
