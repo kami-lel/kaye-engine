@@ -308,8 +308,6 @@ class PromptBlueprint:
         ## Conclusion
         Summarizing the findings and implications.
         """
-
-        # BUG this will remove all blank lines, sometimes empty lines are needed
         lines = (
             self._generate_str_recursively_detached_mode(self.prompt_corpus)
             if self.is_detached_mode

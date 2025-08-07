@@ -3,6 +3,8 @@
 [^format]
 
 <!-- todo finish writing renamer role-->
+<!-- bug improve tests such that updates are easier -->
+<!-- todo test to render all blueprints at least once -->
 <!-- bug commentary capitalization sometimes not respected by llm -->
 
 
@@ -24,8 +26,6 @@
 - section `Header Separation` and related blueprint
 - section `Message Level`
 - section `Commentary Capitalization` (partially from content of `Commentary Language`)
-
-<!-- TODO test for render all blueprints -->
 
 ### Changed
 
