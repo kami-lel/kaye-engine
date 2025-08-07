@@ -32,7 +32,7 @@ class TestLoad:  # test function load_embedded_prompt_corpus
         assert isinstance(opt, PromptCorpusNode)
 
     # !!! this test change with prompt_corpus.md
-    def test_struture(_):
+    def test_structure(_):
         root = load_embedded_prompt_corpus()
 
         testee = root.__repr__(preview_line_count=0)

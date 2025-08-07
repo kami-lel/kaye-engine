@@ -1,13 +1,15 @@
 """
-test ``__repr__()`` of class ``PromptCorpusNode``
+test ``generate_preview_tree()`` & ``__repr__()`` of class ``PromptCorpusNode``
 """
 
 from kaye.gen_prompt import PromptCorpusNode
-from tests.gen_prompt.pcn.pcn_testee_corpus import (
+from tests.gen_prompt.prompt_corpus_node.testees import (
     PROMPT1,
     PROMPT2,
     PROMPT3,
 )
+
+# BUG
 
 
 class Test1:  # test using PROMPT1
@@ -110,7 +112,7 @@ class Test2:  # test using PROMPT2
     ├── Installation
     │   1. Clon
     │   2. Inst
-    │   3. Run 
+    │   3. Run
     ├── Usage
     │   Provide
     ├── Contributing
@@ -182,7 +184,7 @@ class Test3:  # test using PROMPT3
     │   └── Data Collection
     │       How d
     │       └── Tools Used
-    │           List 
+    │           List
     │           └── Future Work
     │               Sugge
     └── Conclusion
