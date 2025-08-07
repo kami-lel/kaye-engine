@@ -2191,7 +2191,8 @@ mesh = Mesh([
 
 ### C & C++
 
-C++ might be referred to by users as `cpp` or `cxx`. This section is applicable exclusively to C and C++ code. Use the **C99** and **C++17** standards.
+- Use **C99** standard
+- C++ (*cpp* or *cxx*): use **C++17** standard
 
 
 
@@ -2207,7 +2208,7 @@ C++ might be referred to by users as `cpp` or `cxx`. This section is applicable 
 
 ### C Sharp
 
-C Sharp may be referred to by users as "C#" or "CS." This section should be applied only to C Sharp code.
+(*c#* or *cs*)
 
 - Documentation: Use XML comments (`/// <summary>...</summary>`) to document functionality and provide examples wherever helpful.
 
@@ -2226,10 +2227,31 @@ C Sharp may be referred to by users as "C#" or "CS." This section should be appl
 
 ### Unity Engine
 
-Unity Engine code might be referred to as "UE" This section is specific to Unity C Sharp code.
+(*unity* or *u3d*)
 
-- Code Structure: Utilize Unity's API efficiently by adhering to its component-based structure.
-- Documentation: Employ XML documentation comments to clarify script functions and interactions within the Unity framework.
+- Version: `6000.0.34f1`
+- Documentation: Employ XML documentation comments
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Unreal Engine
+
+(*unreal* or *ue*)
+
+- Version: Unreal Engine `5.6.0`
+
+
+
 
 
 
@@ -2246,10 +2268,9 @@ Unity Engine code might be referred to as "UE" This section is specific to Unity
 
 ### GDScript
 
-GDScript is the native script language of the *Godot Engine* and may be referred to as "GD" or "GDS." This section pertains solely to GDScript code for **Godot 4**.
+(*gd*)
 
-- Script Structure: Embrace Godot's node-based structure to organize code effectively.
-- Documentation: Offer clear inline comments and use Godot's built-in documentation tools for further elaboration.
+- Version: Godot 4
 
 
 
@@ -2265,11 +2286,7 @@ GDScript is the native script language of the *Godot Engine* and may be referred
 
 ### HTML
 
-This section applies only to **HTML** code, adhering to the **HTML5** standard.
-
-- Structure: Ensure semantic correctness by using appropriate tags such as `<header>`, `<footer>`, `<article>`.
-- Accessibility: Incorporate best practices for accessibility, including alt attributes for images.
-- Documentation: Comment on complex structures and use external documentation when integrating advanced techniques.
+- Version: **HTML5** standard
 
 
 
@@ -2284,6 +2301,8 @@ This section applies only to **HTML** code, adhering to the **HTML5** standard.
 
 
 ### JavaScript & TypeScript
+
+<!-- hack currently disabled due to inefficiency -->
 
 In this section, guidelines are provided specifically for JavaScript, which users may refer to as "JS," and TypeScript, which may be called "TS." These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard.
 
@@ -2339,6 +2358,8 @@ globalNS.method1 = function (a, b) {
 
 
 ### Qt
+
+<!-- hack currently disabled due to inefficiency -->
 
 This section is solely for Qt framework.
 
@@ -2408,44 +2429,42 @@ Rectangle {
 
 ### Python
 
-This section is solely for Python code, which users might refer to as "Py." Python code should adhere to the **PEP8** style guide, ensuring clarity and consistency.
+(*py*)
+
+Adhere to the **PEP8** style guide, ensuring clarity and consistency.
+
+
+
+
 
 #### Docstring Style
 
-In this section, focus specifically on Python docstrings. The docstrings must be written using the **Sphinx** style and employ **reStructuredText** as the markup language. Avoid using any other styles.
+The docstrings must be written using the **Sphinx** style and employ **reStructuredText** as the markup language. Avoid using any other styles.
 
 *Example of a function's docstring:*
 ```python
-def add_two_numbers(left, right):
+def calc_square(number):
     """
-    Perform addition of parameters ``left`` and ``right``, then return their sum.
+    calculate the square of a number
 
-    :param left: The left value to be added.
-    :type left: float or int
-    :param right: The right value to be added.
-    :type right: float or int
-    :return: The sum of parameters ``left`` and ``right``.
-    :rtype: float
-    :raises TypeError: If parameter ``left`` or ``right`` is not of type ``float`` or ``int``.
+    :param number: number to be squared
+    :type number: int
+    :return: square of ``number``
+    :rtype: int
+    :example:
+    >>> square(3)
+    9
     """
-    return float(left) + float(right)
+    return number ** 2
 ```
 
-*Example of a function that returns a `bool`:*
-```python
-def is_even(number):
-    """
-    Check if the given number is even.
 
-    :param number: The number to be checked.
-    :type number: float or int
-    :return: Whether the number is even.
-    :rtype: bool
-    """
-    return number % 2 == 0
-```
+
+
 
 #### Testing Guidelines
+
+<!-- hack currently disabled due to inefficiency -->
 
 This section pertains specifically to Python test code. Tests should be compatible with the `pytest` module.
 

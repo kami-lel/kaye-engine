@@ -26,16 +26,13 @@
 - section `Commentary Capitalization` (partially from content of `Commentary Language`)
 
 <!-- TODO test for render all blueprints -->
-<!-- TODO comment section header -->
-<!-- TODO UE for unreal -->
+<!-- FIXME simplify peer coder, UE -->
 
 ### Changed
 
 - improve and simplify role text of `Peer Coder`
 - improve section `Conversation` to prevent use of `_` for bold and italics
 - some example code blocks' format, for better preview rendering
-
-<!-- FIXME simplify peer coder -->
 
 ### Deprecated
 ### Removed
