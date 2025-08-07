@@ -1,5 +1,5 @@
 """
-define testee prompt corpus used to test class ``PromptCorpusNode``
+define testees used in tests under `.../prompt_corpus_node/`
 """
 
 PROMPT1 = """
@@ -13,6 +13,7 @@ Clone the repo and install dependencies.
 ## License
 Licensed under the MIT License.
 """
+
 
 PROMPT2 = """
 # Project Title
@@ -68,8 +69,9 @@ Summarizing the findings and implications.
 """
 
 
-PROMPT_EMPTYLINES = """
+PROMPT_EMPTY_LINES = """
 # Project Title
+
 
 
 
