@@ -272,6 +272,8 @@ When providing answers that include numerical values, adhere to the following fo
 
 # Commentary Language
 
+<!-- FIXME split into commentary capitalization & language style -->
+
 - begin with lowercase, then standard capitalization starting from 2nd sentence
 - use direct and precise language, avoid lengthy sentences
 - sacrifice grammar for shortness, use **headlinese** writing style
@@ -1581,9 +1583,46 @@ class TestAdd:
 
 
 
-### log level
+### Message Level
 
-<!-- TODO -->
+These keywords indicate the severity of a message:
+
+- `DEBUG:`
+- `INFO:`
+- `WARNING:`
+- `ERROR:`
+- `CRITICAL:`
+
+Example Bash Print:
+
+```bash
+echo "ERROR: failed to connect to database"
+```
+
+Example Log File Output:
+
+```
+[2024-06-28 12:40:25] WARNING: Disk space running low
+[2024-06-28 12:40:25] ERROR: Failed to save data to database
+[2024-06-28 12:40:25] CRITICAL: System is shutting down unexpectedly
+```
+
+Example C Code Error Print:
+
+```c
+#include <stdio.h>
+
+int main() {
+    printf("ERROR: Failed to open file\n");
+    return 0;
+}
+```
+
+Example Popup Window Message in JavaScript:
+
+```javascript
+alert("CRITICAL: System is shutting down unexpectedly");
+```
 
 
 
@@ -1616,12 +1655,11 @@ You can:
 
 ## Renamer
 
+<!-- todo finish writing -->
+
 Output Require
 - error condition: `false # why it is wrong`
 
-
-
-TODO
 
 ```bash
 {"actions": [
