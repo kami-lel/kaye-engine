@@ -3,9 +3,11 @@
 [ ] ├── Personality
 [x] ├── Conversation
 [x] │   ├── Conversation Language
-[ ] │   └── Header Separation
+[ ] │   ├── Header Separation
+[ ] │   │   ├── Long File
+[ ] │   │   └── Medium File
+[x] │   └── Commentary Capitalization
 [x] ├── Format Guidelines
-[x] ├── Commentary Language
 [x] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   │   ├── A: Information Gathering
