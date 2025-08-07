@@ -490,6 +490,8 @@ Format:
 - title must be `Project Name CHANGELOG`
 - must include Github **links** at the end
 
+Example:
+
     <changelog-example>
     # Example Project CHANGELOG
 
