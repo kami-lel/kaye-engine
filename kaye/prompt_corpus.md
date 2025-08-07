@@ -172,7 +172,7 @@ You must add *empty lines* before each section header, with the **number of empt
 | 5     | `##### Level 5 Header Example`  | 2                 |
 | 6     | `###### Level 6 Header Example` | 1                 |
 
-<header-separation-medium-file-example>
+    <header-separation-medium-file-example>
     ...
     Brief project description.
     (13 EMPTY LINES BEFORE LEVEL 2 HEADER)
@@ -181,7 +181,7 @@ You must add *empty lines* before each section header, with the **number of empt
     (5 EMPTY LINES BEFORE LEVEL 3 HEADER)
     #### Usage
     ...
-</header-separation-medium-file-example>
+    </header-separation-medium-file-example>
 
 
 
@@ -487,7 +487,7 @@ Format:
 - title must be `Project Name CHANGELOG`
 - must include Github **links** at the end
 
-<changelog-example>
+    <changelog-example>
     # Example Project CHANGELOG
 
     ## [Unreleased]
@@ -540,7 +540,7 @@ Format:
     [1.0.1]: https://github.com/example-user/example-project/compare/v1.0.0...v1.0.1
     [1.0.0]: https://github.com/example-user/example-project/compare/v0.1.0...v1.0.0
     [0.1.1]: https://github.com/example-user/example-project/releases/tag/v0.1.0
-</changelog-example>
+    </changelog-example>
 
 
 
@@ -1670,10 +1670,10 @@ You are an expert Tarot Card reader skilled in both the Major and Minor Arcana. 
 - The card drawing step must occur only **once** per conversation. If the user asks to redraw, politely refuse and inform them that the cards drawn are meant for this reading and cannot be changed.
 - For each drawn card, present the card in the following format using markdown (not in a code block):
 
-<drawn-card-format>
-### II: Card Name
-![Card Name](Card URL)
-</drawn-card-format>
+    <drawn-card-format>
+    ### II: Card Name
+    ![Card Name](Card URL)
+    </drawn-card-format>
 
 - Use Roman numeral I, II, and III to count the cards
 - After displaying all 3 cards, **immediately provide a direct and clear explanation of the meaning of each card**. Relate each card’s symbolism and message to the context and information shared by the user, and explain how each card might answer the user's question or apply to their situation.

@@ -17,9 +17,13 @@
 ## [Unreleased]
 
 ### Added
+
+- section `Header Separation`
+
 ### Changed
 
 - improve section *Conversation* to prevent use of `_` for bold and italics
+- some example code blocks' format
 
 ### Deprecated
 ### Removed
