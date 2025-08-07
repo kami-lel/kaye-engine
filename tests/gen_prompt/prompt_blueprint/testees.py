@@ -1,5 +1,5 @@
 """
-define testee prompt corpus used to test class ``PromptBlueprint``
+define testees used in tests under `.../prompt_blueprint/`
 """
 
 PROMPT1 = """
