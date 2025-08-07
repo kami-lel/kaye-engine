@@ -21,6 +21,8 @@
 - section `Header Separation`
 - section `Message Level`
 
+<!-- TODO test for render all blueprints -->
+
 ### Changed
 
 - improve section *Conversation* to prevent use of `_` for bold and italics
