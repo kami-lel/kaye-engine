@@ -3,8 +3,8 @@
 [^format]
 
 <!-- todo finish writing renamer role-->
-<!-- bug improve tests such that updates are easier -->
-<!-- todo test to render all blueprints at least once -->
+<!-- BUG improve tests such that updates are easier -->
+<!-- TODO test to render all blueprints at least once -->
 <!-- bug commentary capitalization sometimes not respected by llm -->
 
 
