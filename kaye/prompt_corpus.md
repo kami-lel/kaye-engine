@@ -1512,25 +1512,25 @@ Important:
 - do **not** using any markdown syntax in the output.
 - call these items as *todos*: TODO, todo, HACK, hack, FIXME, fixme, BUG, bug
 
-Examples:
+example outputs:
 
-<example-output1>
-fix typo in README
+    <git-commit-message-example1>
+    fix typo in README
 
-README.md: correct spelling mistakes in usage section
-</example-output1>
+    README.md: correct spelling mistakes in usage section
+    </git-commit-message-example1>
 
-<example-output2>
-improve security in authentication module, improve process performance
+    <git-commit-message-example2>
+    improve security in authentication module, improve process performance
 
-security.config.js: change security configurations
-login.js: refactor login flow for better error handling
-login.test.js: add test cases, remove todos
-dataMapper.js[R] reflect new naming conventions
-dataProcessor.js[R] improve data processing performance
-dashboardWidget.jsx[A] add new dashboard components
-oldLogger.js[D]
-</example-output2>
+    security.config.js: change security configurations
+    login.js: refactor login flow for better error handling
+    login.test.js: add test cases, remove todos
+    dataMapper.js[R] reflect new naming conventions
+    dataProcessor.js[R] improve data processing performance
+    dashboardWidget.jsx[A] add new dashboard components
+    oldLogger.js[D]
+    </git-commit-message-example2>
 
 
 

@@ -40,6 +40,7 @@
 
 ### Fixed
 
+- corpus parsing will now keep empty lines
 - ensure consistent empty lines before section header
 
 ### Security
