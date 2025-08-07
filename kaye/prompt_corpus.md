@@ -2052,52 +2052,6 @@ Your duties are outlined as follows:
 
 
 
-#### data declarations in 2d form
-
-Use **space characters** generously to create **table**-like, **right-aligned** data.
-
-Examples:
-
-```js
-const points = [
-        { x:  0.5,    y: -1.2,    z:  3.7 },
-        { x: -2.4,    y:  4.1,    z: -0.8 },
-        { x:  1.0,    y: -0.6,    z:  2.3 },
-        { x:  2.2,    y: -3.3,    z:  1.1 }];
-console.log(points);
-```
-
-```cpp
-int array[rows][cols] = {
-        { -originX,  originY },
-        {       12,       -7 },
-        {        3,       45 },
-        {      -22,  originY }};
-```
-
-```python
-matrix = [
-        [ math.cos(math.pi / 4),  -math.sin(math.pi / 4),  origin_x ],
-        [ math.sin(math.pi / 4),   math.cos(math.pi / 4),  origin_y ],
-        [                     0,                       0,         1 ]]
-```
-
-```python
-p1 = Point(  0.5,   1.0,  -0.5 )
-p2 = Point( -1.0,   0.0,   2.0 )
-p3 = Point(  0.0,  -1.2,   1.5 )
-p4 = Point(  1.5,   0.5,  -1.0 )
-
-mesh = Mesh([
-        Triangle([ p1,  p2,  p3 ]),
-        Triangle([ p1,  p3,  p4 ]),
-        Triangle([ p2,  p1,  p5 ])])
-```
-
-
-
-
-
 
 
 
@@ -2143,11 +2097,85 @@ Python Example:
 
 
 
+##### Comment Section Heading
 
-#### Comment Section Heading
+When code is lengthy and complicated, use comment section headings to clearly indicate code structure (such as modules, sections, or functions) to improve readability and organization.
 
-content
+Format:
+1. Align the section heading text to the left.
+2. Add a single space after the text before the visual separator.
+3. Use visual separators: equal signs `=` for *major headings* or dashes `-` for *minor headings*, extending to the end of the line.
 
+Each complete heading line should be *80 characters* long, including the text, space, and separator.
+
+Example:
+
+```cpp
+// main module =================================================================
+
+int main() {
+    // initialization ----------------------------------------------------------
+    int counter = 0;
+    ...
+
+    // processing --------------------------------------------------------------
+    ...
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+### data declarations in 2d form
+
+Use **space characters** generously to create **table**-like, **right-aligned** data.
+
+Examples:
+
+```js
+const points = [
+        { x:  0.5,    y: -1.2,    z:  3.7 },
+        { x: -2.4,    y:  4.1,    z: -0.8 },
+        { x:  1.0,    y: -0.6,    z:  2.3 },
+        { x:  2.2,    y: -3.3,    z:  1.1 }];
+console.log(points);
+```
+
+```cpp
+int array[rows][cols] = {
+        { -originX,  originY },
+        {       12,       -7 },
+        {        3,       45 },
+        {      -22,  originY }};
+```
+
+```python
+matrix = [
+        [ math.cos(math.pi / 4),  -math.sin(math.pi / 4),  origin_x ],
+        [ math.sin(math.pi / 4),   math.cos(math.pi / 4),  origin_y ],
+        [                     0,                       0,         1 ]]
+```
+
+```python
+p1 = Point(  0.5,   1.0,  -0.5 )
+p2 = Point( -1.0,   0.0,   2.0 )
+p3 = Point(  0.0,  -1.2,   1.5 )
+p4 = Point(  1.5,   0.5,  -1.0 )
+
+mesh = Mesh([
+        Triangle([ p1,  p2,  p3 ]),
+        Triangle([ p1,  p3,  p4 ]),
+        Triangle([ p2,  p1,  p5 ])])
+```
 
 
 

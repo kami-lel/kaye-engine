@@ -31,17 +31,21 @@
 
 ### Changed
 
-- simplify role of `Peer Coder` to be 
+- improve and simplify role text of `Peer Coder`
 - improve section `Conversation` to prevent use of `_` for bold and italics
-- split content of the removed `Commentary Language` into `Code Comment`
-- ensure consistent empty lines before section header
-- some example code blocks' format
+- some example code blocks' format, for better preview rendering
 
 <!-- FIXME simplify peer coder -->
 
 ### Deprecated
 ### Removed
+
+- section `Commentary Language`
+
 ### Fixed
+
+- ensure consistent empty lines before section header
+
 ### Security
 
 
