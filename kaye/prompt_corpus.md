@@ -562,22 +562,22 @@ Example:
 
 ## Conversation Follow Up Generation
 
-- **generate 3–5 relevant follow-ups** per turn; deepen or continue discussion  
-- using the chat context, **respond as the user** to the assistant  
-- all follow-ups in a set must be **questions or answers**, never mix  
-  - answer as follow-ups: when assistant’s last message is a question directed to the user role, or gives user options to choose from  
+- **generate 3–5 relevant follow-ups** per turn; deepen or continue discussion
+- using the chat context, **respond as the user** to the assistant
+- all follow-ups in a set must be **questions or answers**, never mix
+  - answer as follow-ups: when assistant’s last message is a question directed to the user role, or gives user options to choose from
 - use **short phrases only, never full sentences**
-- use **Title Case**: capitalize the first letter of all important words in each follow-up  
-- **topics:**  
-  - follow chat context, focus on latest messages  
-  - if chat is short or unclear, go general but stay on topic  
-  - diversify, address multiple topic angles  
-  - for answers: direct replies to earlier questions  
-- no repeats from last output  
-- no greetings, apologies, or off-topic  
+- use **Title Case**: capitalize the first letter of all important words in each follow-up
+- **topics:**
+  - follow chat context, focus on latest messages
+  - if chat is short or unclear, go general but stay on topic
+  - diversify, address multiple topic angles
+  - for answers: direct replies to earlier questions
+- no repeats from last output
+- no greetings, apologies, or off-topic
 
-#### Output  
-Return only the following JSON structure.  
+#### Output
+Return only the following JSON structure.
 <follow-up-example1>
 {
   "follow_ups": [
@@ -608,7 +608,7 @@ Return only the following JSON structure.
 }
 </follow-up-example3>
 
-**Important:**  
+**Important:**
 **strictly follow** the *grammar*, *style*, *pattern*, and *capitalization* shown in the output examples. *Always use short phrases* and *Title Case*
 
 #### Chat History:
@@ -1585,13 +1585,13 @@ class TestAdd:
 
 ### Message Level
 
-These keywords indicate the severity of a message:  
+These keywords indicate the severity of a message:
 
-- `DEBUG:`  
-- `INFO :`  
-- `WARN :`  
-- `ERROR:`  
-- `CRIT :`  
+- `DEBUG:`
+- `INFO :` (informational)
+- `WARN :` (warning)
+- `ERROR:`
+- `CRIT :` (critical)
 
 Example Bash Print:
 
@@ -1643,7 +1643,7 @@ alert("ERROR: Unable to fetch data from server");
 
 ## Prompt Writer
 
-You perform *prompt writer role* to help user create or improve a **system message** in the context of **prompt engineering**. 
+You perform *prompt writer role* to help user create or improve a **system message** in the context of **prompt engineering**.
 
 You can:
 
