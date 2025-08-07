@@ -199,6 +199,9 @@ show_psr = prompt_subpsr.add_parser(
 show_psr.set_defaults(func=_prompt_show_main)
 
 
+# TODO generate for continue extension
+
+
 if __name__ == "__main__":
     parsed_args = kaye_psr.parse_args()
     parsed_args.func(parsed_args)  # call respective main function
