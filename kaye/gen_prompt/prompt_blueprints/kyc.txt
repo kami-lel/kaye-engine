@@ -7,7 +7,7 @@
 [ ] │   │   ├── Long File
 [ ] │   │   └── Medium File
 [x] │   └── Commentary Capitalization
-[x] ├── Format Guidelines
+[ ] ├── Format Guidelines
 [x] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   │   ├── A: Information Gathering
