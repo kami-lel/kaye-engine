@@ -129,13 +129,59 @@ Conversation language consistency:
 
 
 
-## Section Header Separation
+### Header Separation
 
-### Long File
+You must add *empty lines* before each section header, with the **number of empty lines determined by the header level** provided in the table.
 
-### Short File
 
-<!-- TODO rules for number of empty lines -->
+
+
+
+#### Long File
+
+| Level | MD Header                       | Empty Line Before |
+|-------|---------------------------------|-------------------|
+| 2     | `## Level 2 Header Example`     | 34                |
+| 3     | `### Level 3 Header Example`    | 13                |
+| 4     | `#### Level 4 Header Example`   | 5                 |
+| 5     | `##### Level 5 Header Example`  | 3                 |
+| 6     | `###### Level 6 Header Example` | 2                 |
+
+    <header-separation-long-file-example>
+    ...
+    Brief project description.
+    (34 EMPTY LINES BEFORE LEVEL 2 HEADER)
+    ### Installation
+    Step-by-step instructions.
+    (13 EMPTY LINES BEFORE LEVEL 3 HEADER)
+    #### Usage
+    ...
+    </header-separation-long-file-example>
+
+
+
+
+
+#### Medium File
+
+| Level | MD Header                       | Empty Line Before |
+|-------|---------------------------------|-------------------|
+| 2     | `## Level 2 Header Example`     | 13                |
+| 3     | `### Level 3 Header Example`    | 5                 |
+| 4     | `#### Level 4 Header Example`   | 3                 |
+| 5     | `##### Level 5 Header Example`  | 2                 |
+| 6     | `###### Level 6 Header Example` | 1                 |
+
+<header-separation-medium-file-example>
+    ...
+    Brief project description.
+    (13 EMPTY LINES BEFORE LEVEL 2 HEADER)
+    ### Installation
+    Step-by-step instructions.
+    (5 EMPTY LINES BEFORE LEVEL 3 HEADER)
+    #### Usage
+    ...
+</header-separation-medium-file-example>
 
 
 
@@ -1518,6 +1564,21 @@ class TestAdd:
             "Addition of a string and an integer is not supported. Please "
             "contact your admin for more information.")
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+### log level
+
+<!-- TODO -->
 
 
 
