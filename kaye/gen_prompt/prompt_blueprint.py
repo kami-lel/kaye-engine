@@ -196,6 +196,7 @@ class PromptBlueprint:
             kaye_version,
         )
 
+    # FIXME ugly, use public function
     def __repr__(
         self,
         preview_line_count=3,
@@ -289,6 +290,7 @@ class PromptBlueprint:
 
         return "\n".join(opt_lines)
 
+    # FIXME ugly, use public function
     def __str__(self, *, hide_comment=False):
         """
         :param hide_comment: disable placing comment part after last line;

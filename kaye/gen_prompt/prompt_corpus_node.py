@@ -131,6 +131,7 @@ class PromptCorpusNode(AnytreeNode):
                 lines.append(fill + content_line[:preview_line_width])
         return lines
 
+    # FIXME ugly, use public function
     def __repr__(self, preview_line_count=3, preview_line_width=64):
         """
         :param preview_line_count: set maximum line count of
