@@ -133,6 +133,9 @@ Conversation language consistency:
 
 You must add *empty lines* before each section header, with the **number of empty lines determined by the header level** provided in the table.
 
+Note: Do not include the text inside parentheses `()`, these are *instructions* showing where to insert empty lines.
+
+
 
 
 
@@ -148,14 +151,14 @@ You must add *empty lines* before each section header, with the **number of empt
 | 6     | `###### Level 6 Header Example` | 2                 |
 
     <header-separation-long-file-example>
-    ...
+    (...)
     Brief project description.
     (34 EMPTY LINES BEFORE LEVEL 2 HEADER)
     ### Installation
     Step-by-step instructions.
     (13 EMPTY LINES BEFORE LEVEL 3 HEADER)
     #### Usage
-    ...
+    (...)
     </header-separation-long-file-example>
 
 
@@ -173,14 +176,14 @@ You must add *empty lines* before each section header, with the **number of empt
 | 6     | `###### Level 6 Header Example` | 1                 |
 
     <header-separation-medium-file-example>
-    ...
+    (...)
     Brief project description.
     (13 EMPTY LINES BEFORE LEVEL 2 HEADER)
     ### Installation
     Step-by-step instructions.
     (5 EMPTY LINES BEFORE LEVEL 3 HEADER)
     #### Usage
-    ...
+    (...)
     </header-separation-medium-file-example>
 
 
