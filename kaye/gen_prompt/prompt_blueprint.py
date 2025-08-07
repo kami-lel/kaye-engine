@@ -104,6 +104,133 @@ class PromptBlueprint:
             if ROOT_NODE_NAME not in self.enabled_nodes_names:
                 self.enabled_nodes_names.append(ROOT_NODE_NAME)
 
+    def generate_preview_tree(
+        self,
+        preview_line_count=3,
+        preview_line_width=64,
+        *,
+        hide_comment=False
+    ):
+        """
+        Return a visual representation of the **tree**, showing:
+
+        - tree structure
+        - node name (i.e. section heading)
+        - node enabled/disabled status indicated by checkboxes
+        - node content preview
+
+        Root node is named ``○``.
+        If it is prefixed with unchecked checkbox ``[ ]``,
+        the instance operate in *detached mode*.
+
+
+        :param preview_line_count: set maximum line count of
+                *content preview* part for each entry,
+                (excluding section heading line)
+                defaults to 3
+        :type preview_line_count: int
+        :param preview_line_width: set maximum column width of
+                *content preview* part for each entry;
+                defaults to 64.
+        :type preview_line_width: int
+        :param hide_comment: Disable placing comment part after last line;
+                Defaults to False
+        :type hide_comment: bool, optional
+        :return: v.s.
+        :rtype: str
+
+        :example:
+        >>> tree = PromptBlueprint(...)
+        >>> tree.generate_preview_tree()
+        [x] ○
+        [x] └── Project Title
+        [ ]     ├── Description
+                │   A brief overview of the project, its purpose, and goals.
+        [ ]     ├── Installation
+                │   1. Clone the repo
+                │   2. Install dependencies
+                │   3. Run the application
+        [ ]     ├── Usage
+                │   Provide instructions on how to use the application.
+        [ ]     ├── Contributing
+                │   1. Fork the repo
+                │   2. Create a new branch
+                │   3. Submit a pull request
+        [x]     └── License
+                    This project is licensed under the MIT License.
+        (blueprint:conversation; Kaye v1.2.3)
+        >>> tree.generate_preview_tree(preview_line_count=0, hide_comment=True)
+        [x] ○
+        [x] └── Project Title
+        [ ]     ├── Description
+        [ ]     ├── Installation
+        [ ]     ├── Usage
+        [ ]     ├── Contributing
+        [x]     └── License
+        """
+
+        opt_lines = []
+
+        for pre, fill, node in RenderTree(self.prompt_corpus):
+            node_name = node.name
+            # decide either have [x] or [ ] before node lines
+            checkbox_prefix = (
+                CHECKED_BOX_PREFIX
+                if node_name in self.enabled_nodes_names
+                else UNCHECKED_BOX_PREFIX
+            )
+
+            opt_lines.append(checkbox_prefix + pre + node_name)
+
+            # lines for the content of node
+            opt_lines.extend(
+                node.generate_preview_tree_content_part(
+                    NO_CHECKBOX_PREFIX + fill,
+                    preview_line_count,
+                    preview_line_width,
+                )
+            )
+
+        if not hide_comment:
+            comment_line = "(" + self._generate_prompt_comment_content() + ")"
+            opt_lines.append(comment_line)
+
+        return "\n".join(opt_lines)
+
+    def generate_prompt(self, *, hide_comment=False):
+        """
+        :param hide_comment: disable placing comment part after last line;
+                defaults to False
+        :type hide_comment: bool, optional
+        :return: **concrete prompt** composed of nodes heading and content,
+                depending on *detached mode* and each nodes' enabling status.
+                Q.v. ``PromptBlueprint``
+        :rtype: str
+        :example:
+        >>> tree = PromptBlueprint(...)
+        >>> tree.generate_prompt(hide_comment=True)
+        # Main Title
+        Overview of the methodologies used.
+        ### Data Collection
+        How data was gathered for analysis.
+        ## Conclusion
+        Summarizing the findings and implications.
+        """
+        lines = (
+            self._generate_str_recursively_detached_mode(self.prompt_corpus)
+            if self.is_detached_mode
+            else self._generate_str_recursively(self.prompt_corpus)
+        )
+
+        # create comment part
+        if not hide_comment:
+            comment_line = (
+                "<!-- " + self._generate_prompt_comment_content() + " -->"
+            )
+            lines.append(comment_line)
+
+        return "\n".join(lines)
+
     def __init__(
         self,
         prompt_corpus,
@@ -196,131 +323,8 @@ class PromptBlueprint:
             kaye_version,
         )
 
-    # FIXME ugly, use public function
-    def __repr__(
-        self,
-        preview_line_count=3,
-        preview_line_width=64,
-        *,
-        hide_comment=False
-    ):
-        """
-        Return a visual representation of the **tree**, showing:
+    def __repr__(self):
+        return self.generate_preview_tree()
 
-        - tree structure
-        - node name (i.e. section heading)
-        - node enabled/disabled status indicated by checkboxes
-        - node content preview
-
-        Root node is named ``○``.
-        If it is prefixed with unchecked checkbox ``[ ]``,
-        the instance operate in *detached mode*.
-
-
-        :param preview_line_count: set maximum line count of
-                *content preview* part for each entry,
-                (excluding section heading line)
-                defaults to 3
-        :type preview_line_count: int
-        :param preview_line_width: set maximum column width of
-                *content preview* part for each entry;
-                defaults to 64.
-        :type preview_line_width: int
-        :param hide_comment: Disable placing comment part after last line;
-                Defaults to False
-        :type hide_comment: bool, optional
-        :return: v.s.
-        :rtype: str
-
-        :example:
-        >>> tree = PromptBlueprint(...)
-        >>> repr(tree)
-        [x] ○
-        [x] └── Project Title
-        [ ]     ├── Description
-                │   A brief overview of the project, its purpose, and goals.
-        [ ]     ├── Installation
-                │   1. Clone the repo
-                │   2. Install dependencies
-                │   3. Run the application
-        [ ]     ├── Usage
-                │   Provide instructions on how to use the application.
-        [ ]     ├── Contributing
-                │   1. Fork the repo
-                │   2. Create a new branch
-                │   3. Submit a pull request
-        [x]     └── License
-                    This project is licensed under the MIT License.
-        (blueprint:conversation; Kaye v1.2.3)
-        >>> tree.__repr__(preview_line_count=0, hide_comment=True)
-        [x] ○
-        [x] └── Project Title
-        [ ]     ├── Description
-        [ ]     ├── Installation
-        [ ]     ├── Usage
-        [ ]     ├── Contributing
-        [x]     └── License
-        """
-
-        opt_lines = []
-
-        for pre, fill, node in RenderTree(self.prompt_corpus):
-            node_name = node.name
-            # decide either have [x] or [ ] before node lines
-            checkbox_prefix = (
-                CHECKED_BOX_PREFIX
-                if node_name in self.enabled_nodes_names
-                else UNCHECKED_BOX_PREFIX
-            )
-
-            opt_lines.append(checkbox_prefix + pre + node_name)
-
-            # lines for the content of node
-            opt_lines.extend(
-                node.generate_repr_content_part(
-                    NO_CHECKBOX_PREFIX + fill,
-                    preview_line_count,
-                    preview_line_width,
-                )
-            )
-
-        if not hide_comment:
-            comment_line = "(" + self._generate_prompt_comment_content() + ")"
-            opt_lines.append(comment_line)
-
-        return "\n".join(opt_lines)
-
-    # FIXME ugly, use public function
-    def __str__(self, *, hide_comment=False):
-        """
-        :param hide_comment: disable placing comment part after last line;
-                defaults to False
-        :type hide_comment: bool, optional
-        :return: **concrete prompt** composed of nodes heading and content,
-                depending on *detached mode* and each nodes' enabling status.
-                Q.v. ``PromptBlueprint``
-        :rtype: str
-        :example:
-        >>> tree = PromptBlueprint(...)
-        >>> str(tree)
-        # Main Title
-        Overview of the methodologies used.
-        ### Data Collection
-        How data was gathered for analysis.
-        ## Conclusion
-        Summarizing the findings and implications.
-        """
-        lines = (
-            self._generate_str_recursively_detached_mode(self.prompt_corpus)
-            if self.is_detached_mode
-            else self._generate_str_recursively(self.prompt_corpus)
-        )
-
-        # create comment part
-        if not hide_comment:
-            comment_line = (
-                "<!-- " + self._generate_prompt_comment_content() + " -->"
-            )
-            lines.append(comment_line)
-
-        return "\n".join(lines)
+    def __str__(self):
+        return self.generate_prompt()
