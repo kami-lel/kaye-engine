@@ -56,14 +56,14 @@
 [x] │   │   ├── Unity Engine
 [x] │   │   ├── GDScript
 [x] │   │   ├── HTML
-[x] │   │   ├── JavaScript & TypeScript
-[x] │   │   │   ├── Naming Conventions
-[x] │   │   │   └── Documentation and Comments
-[x] │   │   ├── Qt
-[x] │   │   │   └── QML Coding Conventions
+[ ] │   │   ├── JavaScript & TypeScript
+[ ] │   │   │   ├── Naming Conventions
+[ ] │   │   │   └── Documentation and Comments
+[ ] │   │   ├── Qt
+[ ] │   │   │   └── QML Coding Conventions
 [x] │   │   ├── Python
 [x] │   │   │   ├── Docstring Style
-[x] │   │   │   └── Testing Guidelines
+[ ] │   │   │   └── Testing Guidelines
 [x] │   │   └── Message Level
 [ ] │   ├── Prompt Writer
 [ ] │   ├── Renamer
