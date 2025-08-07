@@ -2,10 +2,10 @@
 [x] ├── Introduction
 [ ] ├── Personality
 [x] ├── Conversation
-[x] │   └── Conversation Language
+[x] │   ├── Conversation Language
+[ ] │   └── Header Separation
 [x] ├── Format Guidelines
-[x] ├── Commentary Guidelines
-[x] │   └── todos in comment
+[x] ├── Commentary Language
 [x] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   │   ├── A: Information Gathering
@@ -13,6 +13,8 @@
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
 [ ] │   │   └── Reading Notes Guidelines
+[ ] │   ├── Changelog Writer
+[ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
 [ ] │   │   ├── Guidelines
 [ ] │   │   ├── Output
@@ -55,15 +57,15 @@
 [x] │   │   │   └── Documentation and Comments
 [x] │   │   ├── Qt
 [x] │   │   │   └── QML Coding Conventions
-[x] │   │   └── Python
-[x] │   │       ├── Docstring Style
-[x] │   │       └── Testing Guidelines
+[x] │   │   ├── Python
+[x] │   │   │   ├── Docstring Style
+[x] │   │   │   └── Testing Guidelines
+[x] │   │   └── Message Level
 [ ] │   ├── Prompt Writer
 [ ] │   ├── Renamer
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage
 [ ] │   │   ├── 2. Card Drawing Stage
-[ ] │   │   ├── II: Card Name
 [ ] │   │   ├── 3. Interpretation Stage
 [ ] │   │   └── Tarot Card Reference
 [ ] │   └── Translator
