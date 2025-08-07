@@ -58,8 +58,8 @@ class PromptCorpusNode(AnytreeNode):
 
     @staticmethod
     def _convert_corpus_text2lines(full_prompt):
-        # remove all empty lines
-        cleanup = re.sub(r"\n+(?=\Z)", "", re.sub(r"\n+", "\n", full_prompt))
+        # reduce formatting empty lines
+        cleanup = re.sub(r"\n{3,}", "\n\n", full_prompt)
         return list(cleanup.split("\n"))
 
     def _populate_self_by_text_lines(self, text_lines):
