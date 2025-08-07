@@ -130,7 +130,9 @@ def _prompt_gen_main(args):
     else:
         blueprint_obj = load_embedded_prompt_blueprint(blueprint_arg)
 
-    prompt_content = blueprint_obj.__str__(hide_comment=args.no_comment)
+    prompt_content = blueprint_obj.generate_prompt(
+        hide_comment=args.no_comment
+    )
 
     # with --file FILE
     if args.file:
@@ -174,7 +176,7 @@ def _prompt_show_main(args):
     blueprint_name = args.BLUEPRINT
     blueprint_obj = load_embedded_prompt_blueprint(blueprint_name)
 
-    blueprint_content = blueprint_obj.__repr__(
+    blueprint_content = blueprint_obj.generate_preview_tree(
         preview_line_count=args.preview_line_count,
         preview_line_width=args.preview_line_width,
     )
@@ -187,11 +189,11 @@ def _prompt_show_main(args):
         print(blueprint_content)
 
 
-show_help_text = "show content of any of embedded blueprints"
+SHOW_HELP_TEXT = "show content of any of embedded blueprints"
 show_psr = prompt_subpsr.add_parser(
     "show",
-    help=show_help_text,
-    description=show_help_text,
+    help=SHOW_HELP_TEXT,
+    description=SHOW_HELP_TEXT,
     parents=[
         arg_sharing_psr,
     ],
