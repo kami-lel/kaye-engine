@@ -22,7 +22,6 @@
 - section `Message Level`
 - section `Commentary Capitalization`
 
-<!-- TODO commentary blueprint -->
 <!-- TODO test for render all blueprints -->
 
 ### Changed
