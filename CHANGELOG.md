@@ -2,6 +2,11 @@
 
 [^format]
 
+<!-- todo finish writing renamer role-->
+<!-- bug improve tests such that updates are easier -->
+<!-- todo test to render all blueprints at least once -->
+<!-- bug commentary capitalization sometimes not respected by llm -->
+
 
 
 
@@ -22,6 +27,41 @@
 ### Removed
 ### Fixed
 ### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.6.0] - 2025-08-07
+
+### Added
+
+- section `Header Separation` and related blueprint
+- section `Message Level`
+- section `Commentary Capitalization` (partially from content of `Commentary Language`)
+
+### Changed
+
+- improve and simplify role text of `Peer Coder`
+- improve section `Conversation` to prevent use of `_` for bold and italics
+- some example code blocks' format, for better preview rendering
+
+### Removed
+
+- section `Commentary Language`
+
+### Fixed
+
+- corpus parsing will now keep empty lines
+- ensure consistent empty lines before section header
 
 
 
@@ -554,7 +594,8 @@
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.5.2...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.6.0...dev
+[4.5.2]: https://github.com/kami-lel/kaye/compare/v4.5.2...v4.6.0
 [4.5.2]: https://github.com/kami-lel/kaye/compare/v4.5.1...v4.5.2
 [4.5.1]: https://github.com/kami-lel/kaye/compare/v4.5.0...v4.5.1
 [4.5.0]: https://github.com/kami-lel/kaye/compare/v4.4.1...v4.5.0

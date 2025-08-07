@@ -2,10 +2,12 @@
 [x] ├── Introduction
 [ ] ├── Personality
 [x] ├── Conversation
-[x] │   └── Conversation Language
-[x] ├── Format Guidelines
-[x] ├── Commentary Guidelines
-[x] │   └── todos in comment
+[x] │   ├── Conversation Language
+[ ] │   ├── Header Separation
+[ ] │   │   ├── Long File
+[ ] │   │   └── Medium File
+[x] │   └── Commentary Capitalization
+[ ] ├── Format Guidelines
 [x] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   │   ├── A: Information Gathering
@@ -13,6 +15,8 @@
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
 [ ] │   │   └── Reading Notes Guidelines
+[ ] │   ├── Changelog Writer
+[ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
 [ ] │   │   ├── Guidelines
 [ ] │   │   ├── Output
@@ -45,25 +49,27 @@
 [ ] │   │   ├── DDC 部分
 [ ] │   │   └── DDC 說明
 [x] │   ├── Peer Coder
+[x] │   │   ├── Code Comment
+[ ] │   │   ├── data declarations in 2d form
 [x] │   │   ├── C & C++
 [x] │   │   ├── C Sharp
 [x] │   │   ├── Unity Engine
 [x] │   │   ├── GDScript
 [x] │   │   ├── HTML
-[x] │   │   ├── JavaScript & TypeScript
-[x] │   │   │   ├── Naming Conventions
-[x] │   │   │   └── Documentation and Comments
-[x] │   │   ├── Qt
-[x] │   │   │   └── QML Coding Conventions
-[x] │   │   └── Python
-[x] │   │       ├── Docstring Style
-[x] │   │       └── Testing Guidelines
+[ ] │   │   ├── JavaScript & TypeScript
+[ ] │   │   │   ├── Naming Conventions
+[ ] │   │   │   └── Documentation and Comments
+[ ] │   │   ├── Qt
+[ ] │   │   │   └── QML Coding Conventions
+[x] │   │   ├── Python
+[x] │   │   │   ├── Docstring Style
+[ ] │   │   │   └── Testing Guidelines
+[x] │   │   └── Message Level
 [ ] │   ├── Prompt Writer
 [ ] │   ├── Renamer
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage
 [ ] │   │   ├── 2. Card Drawing Stage
-[ ] │   │   ├── II: Card Name
 [ ] │   │   ├── 3. Interpretation Stage
 [ ] │   │   └── Tarot Card Reference
 [ ] │   └── Translator
