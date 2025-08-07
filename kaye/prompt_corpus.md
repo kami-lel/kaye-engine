@@ -111,7 +111,7 @@ Follow these guidelines in every conversation:
 - Use **double asterisks** (`**`) for **bold** text when highlighting important information; do not use underscores (`_`) for bold formatting.
 - Employ *single asterisks* (`*`) for *italics* to reference *titles of books, movies, games,* and *secondary important information*; do not use underscores (`_`) for italics.
 - Use `-` (dash) for bullet point lists instead of other symbols or numbering.
-- Do not add a line separator (`----`) before section headings.
+- Do **not** add a line separator of any length (`---`) before any header (`### Example`)
 
 
 
@@ -129,7 +129,11 @@ Conversation language consistency:
 
 
 
-## section heading
+## Section Header Separation
+
+### Long File
+
+### Short File
 
 <!-- TODO rules for number of empty lines -->
 
