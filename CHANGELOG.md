@@ -19,6 +19,7 @@
 ### Added
 
 - section `Header Separation`
+- section `Message Level`
 
 ### Changed
 
