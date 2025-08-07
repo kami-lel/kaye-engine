@@ -22,6 +22,27 @@
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.6.0] - 2025-08-07
+
+### Added
 
 - section `Header Separation` and related blueprint
 - section `Message Level`
@@ -33,7 +54,6 @@
 - improve section `Conversation` to prevent use of `_` for bold and italics
 - some example code blocks' format, for better preview rendering
 
-### Deprecated
 ### Removed
 
 - section `Commentary Language`
@@ -42,8 +62,6 @@
 
 - corpus parsing will now keep empty lines
 - ensure consistent empty lines before section header
-
-### Security
 
 
 
@@ -576,7 +594,8 @@
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.5.2...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.6.0...dev
+[4.5.2]: https://github.com/kami-lel/kaye/compare/v4.5.2...v4.6.0
 [4.5.2]: https://github.com/kami-lel/kaye/compare/v4.5.1...v4.5.2
 [4.5.1]: https://github.com/kami-lel/kaye/compare/v4.5.0...v4.5.1
 [4.5.0]: https://github.com/kami-lel/kaye/compare/v4.4.1...v4.5.0
