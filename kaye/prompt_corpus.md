@@ -208,6 +208,8 @@ Note: Do not include the text inside parentheses `()`, these are *instructions* 
 
 ## Commentary Capitalization
 
+<!-- bug sometimes not respected by llm -->
+
 - begin 1st sentence with a lowercase letter; use standard sentence capitalization for the 2nd and subsequent sentences
 - use *Title Capitalization* for important words within a sentence
 - the last sentence should not end with punctuation
@@ -218,10 +220,9 @@ Note: Do not include the text inside parentheses `()`, these are *instructions* 
     # check the Config. Validate the Filepath with the Tool. Process final result
     </commentary-capitalization-code-example>
 
-
     <commentary-capitalization-list-example>
-    - this begins a sublist  
-    - subitems follow the commentary Rule. This is Another Subitem  
+    - this is first item
+    - second item follow the commentary Rule. This is continue sentence
     </commentary-capitalization-list-example>
 
 
