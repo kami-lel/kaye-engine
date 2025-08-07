@@ -129,7 +129,7 @@ Conversation language consistency:
 
 
 
-### Header Separation
+## Header Separation
 
 You must add *empty lines* before each section header, with the **number of empty lines determined by the header level** provided in the table.
 
@@ -1585,44 +1585,47 @@ class TestAdd:
 
 ### Message Level
 
-These keywords indicate the severity of a message:
+These keywords indicate the severity of a message:  
 
-- `DEBUG:`
-- `INFO :`
-- `WARN :`
-- `ERROR:`
-- `CRIT :`
+- `DEBUG:`  
+- `INFO :`  
+- `WARN :`  
+- `ERROR:`  
+- `CRIT :`  
 
-#### Example Bash Print
+Example Bash Print:
 
 ```bash
-echo "ERROR: Failed to connect to database"
+echo "DEBUG: Starting backup operation"
+echo "WARN : Disk space running low"
 ```
 
-#### Example Log File Output
+Example Log File Output:
 
 ```
-[2024-06-28 12:40:25] WARN : Disk space running low
-[2024-06-28 12:40:25] ERROR: Failed to save data to database
-[2024-06-28 12:40:25] CRIT : System is shutting down unexpectedly
+[2024-06-28 12:40:25] INFO : Application started
+[2024-06-28 12:41:03] ERROR: Failed to connect to database
+[2024-06-28 12:41:10] CRIT : System is shutting down unexpectedly
 ```
 
-#### Example C Code Error Print
+Example C Code Message Print:
 
 ```c
 #include <stdio.h>
-
 int main() {
-    printf("ERROR: Failed to open file\n");
+    printf("DEBUG: Initialized successfully\n");
+    printf("ERROR: File read error\n");
     return 0;
 }
 ```
 
-#### Example: Popup Window Message (JavaScript)
+Example Popup Window Message in JavaScript:
 
 ```javascript
-alert("CRIT : System is shutting down unexpectedly");
+alert("INFO : Update completed");
+alert("ERROR: Unable to fetch data from server");
 ```
+
 
 
 
