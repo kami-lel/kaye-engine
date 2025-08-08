@@ -3,7 +3,6 @@
 [^format]
 
 <!-- todo finish writing renamer role-->
-<!-- TODO test to render all blueprints at least once -->
 <!-- bug commentary capitalization sometimes not respected by llm -->
 
 
@@ -21,6 +20,11 @@
 ## [Unreleased]
 
 ### Added
+
+- test to check runtime-generated prompt against static prompts
+
+  - & its supporting script
+
 ### Changed
 
 - create public function `generate_preview_tree()` of `class PromptCorpusNode` to replace direct call to `__repr__()`
@@ -28,6 +32,8 @@
 
   - create public function `generate_preview_tree()` & `generate_prompt()` to replace direct call to `__repr__()` & `__str__()`
   - improve handling of empty lines
+
+- re-organize & simplify all tests
 
 ### Deprecated
 ### Removed
