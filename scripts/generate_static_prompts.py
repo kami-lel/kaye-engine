@@ -1,26 +1,38 @@
-# TODO docstring
+"""
+Generate Static Prompt Files For Embedded Prompt Blueprints
 
+This script iterates over all embedded prompt blueprints, generates each
+prompt via the load_embedded_prompt_blueprint function, and writes the
+output as markdown files to the static prompts directory.
+"""
 
-import os
+from pathlib import Path
+
 from kaye.gen_prompt import (
     get_embedded_prompt_blueprints_names,
     load_embedded_prompt_blueprint,
 )
 
-# relative path to folder static_prompts
+# relative path to folder static_prompts from this script
 STATIC_PROMPTS_REL_PATH = "../tests/static_prompts"
+# file extension used for static prompt files
+STATIC_PROMPTS_EXTENSION = ".md"
+
 
 if __name__ == "__main__":
+    blueprints_names = get_embedded_prompt_blueprints_names()
 
-    blueprints_names = get_embedded_prompt_blueprints_names(
-        exclude_technical_blueprint=False
-    )
-    static_prompts_folder_path = os.path.normpath(
-        os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), STATIC_PROMPTS_REL_PATH
+    # resolve path to static prompt folder
+    static_prompts_folder_path = (
+        Path(__file__).parent / STATIC_PROMPTS_REL_PATH
+    ).resolve()
+
+    for name in blueprints_names:
+        # generate each prompt and write to file
+        file_path = static_prompts_folder_path / (
+            name + STATIC_PROMPTS_EXTENSION
         )
-    )
+        blueprint = load_embedded_prompt_blueprint(name)
 
-    for blueprint in blueprints_names:
-        content = load_embedded_prompt_blueprint(blueprint)
-        # TODO continue
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(blueprint.generate_prompt(hide_comment=True))

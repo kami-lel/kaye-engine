@@ -16,3 +16,7 @@ build/
 
 # ide/editor specific
 .vscode/
+
+
+# Ignore generated static prompts
+tests/static_prompts/*.md
