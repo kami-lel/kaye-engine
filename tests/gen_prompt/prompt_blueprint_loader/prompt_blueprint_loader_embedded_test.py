@@ -9,6 +9,7 @@ from kaye.gen_prompt import (
     load_embedded_prompt_blueprint,
     PromptBlueprint,
 )
+from tests.static_prompts import STATIC_PROMPT_FILE_EXTENSION
 
 
 class TestFull:  # special case "full"
@@ -63,11 +64,23 @@ class TestNonTech:  # test other embedded blueprints
     # test runtime generated prompts against files in .../static_prompts
     def test_generate_prompt(self):
         static_prompts_folder_path = (
-            Path(__file__).parent / "../../../static_prompts"
+            Path(__file__).parent / "../../static_prompts"
         ).resolve()
+
+        bads = []
 
         for prompt_name in self.names:
             blueprint = load_embedded_prompt_blueprint(prompt_name)
-            opt = blueprint.generate_prompt(hide_comment=True)
-            print(opt)
-            assert opt == ""
+            submission = blueprint.generate_prompt(hide_comment=True)
+
+            static_prompt_file = static_prompts_folder_path / (
+                prompt_name + STATIC_PROMPT_FILE_EXTENSION
+            )
+            with open(static_prompt_file, "r", encoding="utf-8") as f:
+                solution = f.read()
+
+                if submission != solution:
+                    bads.append(prompt_name)
+
+        if bads:
+            raise AssertionError(bads)

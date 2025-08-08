@@ -12,11 +12,10 @@ from kaye.gen_prompt import (
     get_embedded_prompt_blueprints_names,
     load_embedded_prompt_blueprint,
 )
+from tests.static_prompts import STATIC_PROMPT_FILE_EXTENSION
 
 # relative path to folder static_prompts from this script
 STATIC_PROMPTS_REL_PATH = "../tests/static_prompts"
-# file extension used for static prompt files
-STATIC_PROMPTS_EXTENSION = ".md"
 
 
 if __name__ == "__main__":
@@ -30,7 +29,7 @@ if __name__ == "__main__":
     for name in blueprints_names:
         # generate each prompt and write to file
         file_path = static_prompts_folder_path / (
-            name + STATIC_PROMPTS_EXTENSION
+            name + STATIC_PROMPT_FILE_EXTENSION
         )
         blueprint = load_embedded_prompt_blueprint(name)
 
