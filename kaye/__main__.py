@@ -143,7 +143,7 @@ def _prompt_gen_main(args):
         print(prompt_content)
 
     # todo interactive mode
-    # todo which allow user set preview line, etc.
+    # TODO which allow user set preview line, etc.
 
 
 GEN_HELP_TEXT = "generate concrete prompt from blueprint"
@@ -203,7 +203,7 @@ show_psr.set_defaults(func=_prompt_show_main)
 
 
 # Subparser: kaye gen_continue_config ==========================================
-# todo generate for continue extension
+# TODO generate for continue extension
 
 if __name__ == "__main__":
     parsed_args = kaye_psr.parse_args()
