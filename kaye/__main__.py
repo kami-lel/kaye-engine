@@ -15,6 +15,7 @@ from kaye.gen_prompt.prompt_blueprint_loader import (
 blueprint_names = sorted(get_embedded_prompt_blueprints_names())
 
 
+# Main Parser: kaye ============================================================
 # setup main parser
 def _kaye_main(_):
     # when calling ``python -m kaye``
@@ -26,7 +27,7 @@ kaye_psr.set_defaults(func=_kaye_main)
 kaye_subpsr = kaye_psr.add_subparsers(title="subcommands")
 
 
-# setup subparser: kaye prompt
+# Subparser: kaye prompt =======================================================
 def _prompt_main(_):
     # when calling ``python -m kaye prompt``
     prompt_psr.print_help()
@@ -49,7 +50,7 @@ prompt_subpsr = prompt_psr.add_subparsers(
 )
 
 
-# setup subparser: kaye prompt ls
+# Subparser: kaye prompt ls ----------------------------------------------------
 def _prompt_ls_main(_):
     # when calling ``python -m kaye prompt ls``
     print("(all available embedded blueprints:)")
@@ -105,7 +106,7 @@ arg_sharing_psr.add_argument(
 )
 
 
-# setup subparser: kaye prompt gen
+# Subparser: kaye prompt gen ---------------------------------------------------
 def _prompt_gen_main(args):
     # when calling ``python -m kaye prompt gen``
 
@@ -130,7 +131,9 @@ def _prompt_gen_main(args):
     else:
         blueprint_obj = load_embedded_prompt_blueprint(blueprint_arg)
 
-    prompt_content = blueprint_obj.__str__(hide_comment=args.no_comment)
+    prompt_content = blueprint_obj.generate_prompt(
+        hide_comment=args.no_comment
+    )
 
     # with --file FILE
     if args.file:
@@ -168,13 +171,13 @@ gen_psr.add_argument(
 gen_psr.set_defaults(func=_prompt_gen_main)
 
 
-# setup subparser: kaye prompt show
+# Subparser: kaye prompt show --------------------------------------------------
 def _prompt_show_main(args):
     # when calling ``python -m kaye prompt show``
     blueprint_name = args.BLUEPRINT
     blueprint_obj = load_embedded_prompt_blueprint(blueprint_name)
 
-    blueprint_content = blueprint_obj.__repr__(
+    blueprint_content = blueprint_obj.generate_preview_tree(
         preview_line_count=args.preview_line_count,
         preview_line_width=args.preview_line_width,
     )
@@ -187,17 +190,20 @@ def _prompt_show_main(args):
         print(blueprint_content)
 
 
-show_help_text = "show content of any of embedded blueprints"
+SHOW_HELP_TEXT = "show content of any of embedded blueprints"
 show_psr = prompt_subpsr.add_parser(
     "show",
-    help=show_help_text,
-    description=show_help_text,
+    help=SHOW_HELP_TEXT,
+    description=SHOW_HELP_TEXT,
     parents=[
         arg_sharing_psr,
     ],
 )
 show_psr.set_defaults(func=_prompt_show_main)
 
+
+# Subparser: kaye gen_continue_config ==========================================
+# todo generate for continue extension
 
 if __name__ == "__main__":
     parsed_args = kaye_psr.parse_args()

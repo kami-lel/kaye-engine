@@ -51,10 +51,75 @@ class PromptCorpusNode(AnytreeNode):
         root = cls(ROOT_NODE_NAME, None, text_lines)
         return root
 
+    def generate_preview_tree(
+        self, preview_line_count=3, preview_line_width=64
+    ):
+        """
+        :param preview_line_count: set maximum line count of
+                *content preview* part, (excluding section heading line);
+                defaults to 3
+        :type preview_line_count: int
+        :param preview_line_width: set maximum column width of
+                *content preview* part;
+                defaults to 64.
+        :type preview_line_width: int
+        :return: human-readable representation of ``self`` node and children,
+                showing the tree structure, node name (i.e. section headings,)
+                node content preview, etc.
+        :rtype: str
+        :example:
+        >>> tree.generate_preview_tree()
+        ○
+        └── Project Title
+            ├── Description
+            │   A brief overview of the project, its purpose, and goals.
+            ├── Installation
+            │   1. Clone the repo
+            │   2. Install dependencies
+            │   3. Run the application
+            ├── Usage
+            │   Provide instructions on how to use the application.
+            ├── Contributing
+            │   1. Fork the repo
+            │   2. Create a new branch
+            │   3. Submit a pull request
+            └── License
+                This project is licensed under the MIT License.
+        >>> tree.generate_preview_tree(preview_line_count=0)
+        ○
+        └── Project Title
+            ├── Description
+            ├── Installation
+            ├── Usage
+            ├── Contributing
+            └── License
+        """
+        opt_lines = []
+
+        for pre, fill, node in RenderTree(self):
+            # line for the node
+            opt_lines.append(pre + node.name)
+            # lines for the content of node
+            opt_lines.extend(
+                node.generate_preview_tree_content_part(
+                    fill, preview_line_count, preview_line_width
+                )
+            )
+
+        return "\n".join(opt_lines)
+
     def __init__(self, name, parent, text_lines):
         super().__init__(name, parent)
         self.content = []
         self._populate_self_by_text_lines(text_lines)
+
+        # trim leading/trailing empty strings
+        start, end = 0, len(self.content)
+        while start < end and self.content[start] == "":
+            start += 1
+        while end > start and self.content[end - 1] == "":
+            end -= 1
+        self.content = self.content[start:end]
 
     @staticmethod
     def _convert_corpus_text2lines(full_prompt):
@@ -105,7 +170,7 @@ class PromptCorpusNode(AnytreeNode):
         lines.extend(self.content)
         return lines
 
-    def generate_repr_content_part(
+    def generate_preview_tree_content_part(
         self, fill, preview_line_count, preview_line_width
     ):
         """
@@ -122,7 +187,7 @@ class PromptCorpusNode(AnytreeNode):
                 Each entry represent a line in the ``__repr__()``
         :rtype: list[str]
         :example:
-        >>> node.generate_repr_content_part('$$$' 3, 10)
+        >>> node.generate_preview_tree_content_part('$$$' 3, 10)
         ["$$$You per", "$$$When tr", "$$$User ma"]
         """
         lines = []
@@ -131,57 +196,5 @@ class PromptCorpusNode(AnytreeNode):
                 lines.append(fill + content_line[:preview_line_width])
         return lines
 
-    def __repr__(self, preview_line_count=3, preview_line_width=64):
-        """
-        :param preview_line_count: set maximum line count of
-                *content preview* part, (excluding section heading line);
-                defaults to 3
-        :type preview_line_count: int
-        :param preview_line_width: set maximum column width of
-                *content preview* part;
-                defaults to 64.
-        :type preview_line_width: int
-        :return: human-readable representation of ``self`` node and children,
-                showing the tree structure, node name (i.e. section headings,)
-                node content preview, etc.
-        :rtype: str
-        :example:
-        >>> repr(tree)
-        ○
-        └── Project Title
-            ├── Description
-            │   A brief overview of the project, its purpose, and goals.
-            ├── Installation
-            │   1. Clone the repo
-            │   2. Install dependencies
-            │   3. Run the application
-            ├── Usage
-            │   Provide instructions on how to use the application.
-            ├── Contributing
-            │   1. Fork the repo
-            │   2. Create a new branch
-            │   3. Submit a pull request
-            └── License
-                This project is licensed under the MIT License.
-        >>> tree.__repr__(preview_line_count=0)
-        ○
-        └── Project Title
-            ├── Description
-            ├── Installation
-            ├── Usage
-            ├── Contributing
-            └── License
-        """
-        opt_lines = []
-
-        for pre, fill, node in RenderTree(self):
-            # line for the node
-            opt_lines.append(pre + node.name)
-            # lines for the content of node
-            opt_lines.extend(
-                node.generate_repr_content_part(
-                    fill, preview_line_count, preview_line_width
-                )
-            )
-
-        return "\n".join(opt_lines)
+    def __repr__(self):
+        return self.generate_preview_tree()

@@ -1,9 +1,9 @@
 """
-test function generate_heading_and_content_lines() for ``class PromptCorpusNode``
+test public function ``.generate_heading_and_content_lines()`` for ``class PromptCorpusNode``
 """
 
 from kaye.gen_prompt import PromptCorpusNode
-from tests.gen_prompt.pcn.pcn_testee_corpus import (
+from tests.gen_prompt.prompt_corpus_node.testees import (
     PROMPT1,
     PROMPT2,
     PROMPT3,

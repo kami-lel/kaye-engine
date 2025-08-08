@@ -3,8 +3,6 @@
 [^format]
 
 <!-- todo finish writing renamer role-->
-<!-- bug improve tests such that updates are easier -->
-<!-- todo test to render all blueprints at least once -->
 <!-- bug commentary capitalization sometimes not respected by llm -->
 
 
@@ -27,6 +25,35 @@
 ### Removed
 ### Fixed
 ### Security
+
+
+
+
+
+
+
+
+
+
+
+## [4.6.1] - 2025-08-08
+
+### Added
+
+- test to check runtime-generated prompt against static prompts
+
+  - & its supporting script
+
+### Changed
+
+- create public function `generate_preview_tree()` of `class PromptCorpusNode` to replace direct call to `__repr__()`
+- re `class PromptBlueprint`:
+
+  - create public function `generate_preview_tree()` & `generate_prompt()` to replace direct call to `__repr__()` & `__str__()`
+  - improve handling of empty lines
+
+- re-organize & simplify all tests
+- add section divider in `__main__.py` for better visual clarity
 
 
 
@@ -594,8 +621,9 @@
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.6.0...dev
-[4.5.2]: https://github.com/kami-lel/kaye/compare/v4.5.2...v4.6.0
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.6.1...dev
+[4.6.1]: https://github.com/kami-lel/kaye/compare/v4.6.0...v4.6.1
+[4.6.0]: https://github.com/kami-lel/kaye/compare/v4.5.2...v4.6.0
 [4.5.2]: https://github.com/kami-lel/kaye/compare/v4.5.1...v4.5.2
 [4.5.1]: https://github.com/kami-lel/kaye/compare/v4.5.0...v4.5.1
 [4.5.0]: https://github.com/kami-lel/kaye/compare/v4.4.1...v4.5.0

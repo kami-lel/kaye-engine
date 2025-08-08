@@ -1,11 +1,10 @@
 """
-tests features of ``PromptBlueprint`` using a 2nd example full prompt
+tests features of ``PromptBlueprint`` using a full PROMPT2
 """
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
-
-from tests.gen_prompt.pb.pb_testee_corpus import PROMPT2
+from tests.gen_prompt.prompt_blueprint.testees import PROMPT2
 
 example_corpus = PromptCorpusNode.parse(PROMPT2)
 
@@ -14,7 +13,7 @@ class TestRepr:
 
     def test_dft(_):
         pt = PromptBlueprint(example_corpus)
-        opt = pt.__repr__(hide_comment=True)
+        opt = pt.generate_preview_tree(hide_comment=True)
         print(opt)
         assert opt == """[x] ○
 [ ] └── Main Title
@@ -39,7 +38,7 @@ class TestRepr:
 
     def test_no_content(_):
         pt = PromptBlueprint(example_corpus)
-        opt = pt.__repr__(preview_line_count=0, hide_comment=True)
+        opt = pt.generate_preview_tree(preview_line_count=0, hide_comment=True)
         print(opt)
         assert opt == """[x] ○
 [ ] └── Main Title
@@ -271,7 +270,7 @@ class TestStr:
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == ""
 
@@ -290,7 +289,7 @@ class TestStr:
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ## Introduction
@@ -319,7 +318,7 @@ Summarizing the findings and implications."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ## Introduction
@@ -348,7 +347,7 @@ Summarizing the findings and implications."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ## Methods
@@ -377,7 +376,7 @@ Summarizing the findings and implications."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ## Methods
@@ -402,7 +401,7 @@ Summarizing the findings and implications."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ## Introduction
@@ -442,7 +441,7 @@ class TestStrDetach:  # test detached mode
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ## Introduction
@@ -479,7 +478,7 @@ Summarizing the findings and implications."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == ""
 
@@ -498,7 +497,7 @@ Summarizing the findings and implications."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == ""
 
@@ -517,7 +516,7 @@ Summarizing the findings and implications."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """## Introduction
 Brief introduction to the topic.
@@ -543,7 +542,7 @@ Summarizing the findings and implications."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """## Introduction
 Brief introduction to the topic.
@@ -571,7 +570,7 @@ Suggestions for future research or tasks."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """## Introduction
 Brief introduction to the topic.
@@ -599,7 +598,7 @@ Suggestions for future research or tasks."""
 
         pt = PromptBlueprint(example_corpus, blueprint_text)
 
-        opt = pt.__str__(hide_comment=True)
+        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == """# Main Title
 ### Background
@@ -608,3 +607,27 @@ Context or history relevant to the topic.
 Overview of the methodologies used.
 ##### Future Work
 Suggestions for future research or tasks."""
+
+
+class TestCFPB:  # test create_full_prompt_blueprint
+
+    def test1(_):
+        blueprint = PromptBlueprint.create_full_prompt_blueprint(
+            example_corpus
+        )
+
+        opt = blueprint.generate_preview_tree(
+            preview_line_count=0, hide_comment=True
+        )
+        print(opt)
+        assert opt == """[x] ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │   └── Background
+[x]     │       └── Importance
+[x]     │           └── Objective
+[x]     ├── Methods
+[x]     │   └── Data Collection
+[x]     │       └── Tools Used
+[x]     │           └── Future Work
+[x]     └── Conclusion"""
