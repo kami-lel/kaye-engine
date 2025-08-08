@@ -20,6 +20,25 @@
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
+
+
+
+
+
+
+
+
+
+
+## [4.6.1] - 2025-08-08
+
+### Added
 
 - test to check runtime-generated prompt against static prompts
 
@@ -34,11 +53,7 @@
   - improve handling of empty lines
 
 - re-organize & simplify all tests
-
-### Deprecated
-### Removed
-### Fixed
-### Security
+- add section divider in `__main__.py` for better visual clarity
 
 
 
@@ -606,8 +621,9 @@
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.6.0...dev
-[4.5.2]: https://github.com/kami-lel/kaye/compare/v4.5.2...v4.6.0
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.6.1...dev
+[4.6.1]: https://github.com/kami-lel/kaye/compare/v4.6.0...v4.6.1
+[4.6.0]: https://github.com/kami-lel/kaye/compare/v4.5.2...v4.6.0
 [4.5.2]: https://github.com/kami-lel/kaye/compare/v4.5.1...v4.5.2
 [4.5.1]: https://github.com/kami-lel/kaye/compare/v4.5.0...v4.5.1
 [4.5.0]: https://github.com/kami-lel/kaye/compare/v4.4.1...v4.5.0
