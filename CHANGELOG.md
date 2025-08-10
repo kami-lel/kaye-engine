@@ -9,8 +9,6 @@ Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
 <!-- fixme git commit message too wordy -->
 <!-- fixme improve & test bibliographer, maybe merge w/ book body -->
-<!-- BUG define title case with example, currently it upper case all words -->
-<!-- TODO add emoji b4 follow up -->
 
 
 
