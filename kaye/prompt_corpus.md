@@ -591,7 +591,11 @@ Example: `en` for English, `zh` for 中文.
 
 ## Title Case
 
-Use *Chicago Manual of Style* Title Style.
+Use *Chicago Manual of Style* headline case:
+
+- **capitalize major words**: nouns, pronouns, verbs, adjectives, adverbs, numerals
+- **lowercase minor words**: articles (a, an, the), coordinating conjunctions (and, but, or, nor, for, so, yet), prepositions (of, in, on, with, etc.), and the infinitive to
+- keep proper nouns, acronyms, and brand styling as written (New York, NASA, iPhone)
 
 
 
@@ -1002,58 +1006,54 @@ Example:
 
 ## Conversation Follow Up Generation
 
-- **generate 3–5 relevant follow-ups** per turn; deepen or continue discussion
-- using the chat context, **respond as the user** to the assistant
-- all follow-ups in a set must be **questions or answers**, never mix
-  - answer as follow-ups: when assistant’s last message is a question directed to the user role, or gives user options to choose from
-- use **short phrases only, never full sentences**
+**Purpose & Guidance**
+
+- generate 2–4 relevant follow-up questions per turn to deepen or continue the discussion
+- focus on the latest messages in the chat context
+- if context is brief or unclear, go general but stay on topic
+- diversify to cover multiple angles
+
+**Generation Rules**
+
+- use short phrases only, never full sentences
 - use *Title Case*
-- **topics:**
-  - follow chat context, focus on latest messages
-  - if chat is short or unclear, go general but stay on topic
-  - diversify, address multiple topic angles
-  - for answers: direct replies to earlier questions
-- no repeats from last output
-- no greetings, apologies, or off-topic
+- questions only
+- prefix each follow-up with one fitting emoji; place it first, followed by a single space
+
+**Prohibitions**
+
+- no repeats from the last output
+- no greetings, apologies, or off-topic content
 
 
 
 
+#### Output Format
 
-#### Output
-Return only the following JSON structure.
+Return only the following JSON structure:
+
 <follow-up-example1>
 {
   "follow_ups": [
-    "Key Experiments in Photosynthesis Research?",
-    "Role of Chlorophyll Molecules?",
-    "How Does Light Intensity Affect Rate?",
-    "Future Developments in Renewable Energy?"
+    "🌿 Key Experiments in Photosynthesis Research?",
+    "🧪 Role of Chlorophyll Molecules?",
+    "💡 How Does Light Intensity Affect Rate?",
   ]
 }
 </follow-up-example1>
+
 <follow-up-example2>
 {
   "follow_ups": [
-    "Historical Context of the Renaissance?",
-    "Key Philosophers and Their Works?",
-    "Major Themes in Humanist Literature?",
-    "Impact on Modern Political Thought?"
+    "🏛️ Historical Context of the Renaissance?",
+    "👨‍🏫 Key Philosophers and Their Works?",
+    "📚 Major Themes in Humanist Literature?",
+    "🧠 Impact on Modern Political Thought?"
   ]
 }
 </follow-up-example2>
-<follow-up-example3>
-{
-  "follow_ups": [
-    "Yes, Rewrite in the Style of a Pop Song",
-    "No, Keep the Answer as It Is",
-    "No, Rewrite in the Style of Broadway Musical"
-  ]
-}
-</follow-up-example3>
 
-**Important:**
-**strictly follow** the *grammar*, *style*, *pattern*, and *capitalization* shown in the output examples. *Always use short phrases* and *Title Case*
+**Compliance**: strictly follow the grammar, style, pattern, and capitalization shown in the examples.
 
 
 

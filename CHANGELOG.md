@@ -7,8 +7,8 @@
 Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
+<!-- fixme git commit message too wordy -->
 <!-- fixme improve & test bibliographer, maybe merge w/ book body -->
-<!-- fixme improve & test git commit message -->
 
 
 
@@ -30,6 +30,29 @@ Role.Peer Coder.Python.Testing Guideline -->
 ### Removed
 ### Fixed
 ### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.7.1] - 2025-08-11
+
+### Changed
+
+- improve `Conversation Follow Up Generation`, prefix with emoji
+
+### Fixed
+
+- more clearly define `Title Case`
+- blueprint settings of `conversation_title_generation` and `conversation_follow_up_generation`
 
 
 
@@ -667,7 +690,8 @@ Role.Peer Coder.Python.Testing Guideline -->
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.1...dev
+[4.7.1]: https://github.com/kami-lel/kaye/compare/v4.7.0...v4.7.1
 [4.7.0]: https://github.com/kami-lel/kaye/compare/v4.6.2...v4.7.0
 [4.6.2]: https://github.com/kami-lel/kaye/compare/v4.6.1...v4.6.2
 [4.6.1]: https://github.com/kami-lel/kaye/compare/v4.6.0...v4.6.1
