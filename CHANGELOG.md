@@ -7,7 +7,7 @@
 Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
-<!-- TODO reference style under standards -->
+<!-- todo improve & test bibliographer -->
 <!-- HACK test all prompts are proper -->
 
 
@@ -27,6 +27,7 @@ Role.Peer Coder.Python.Testing Guideline -->
 ### Added
 
 - CLI command `kaye generate_vsc_continue_prompts`: generate `.yaml` prompts that could be utilized by VS Code extension *Continue*
+- blueprint `abbreviation`
 
 ### Changed
 

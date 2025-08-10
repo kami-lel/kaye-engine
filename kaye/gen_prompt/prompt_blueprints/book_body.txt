@@ -8,7 +8,6 @@
 [ ] └── Role
 [ ]     ├── Bibliographer
 [x]     ├── Book Buddy
-[x]     │   └── Reading Notes Guidelines
 [ ]     ├── Peer Coder
 [ ]     │   ├── C & C++
 [ ]     │   ├── C Sharp
