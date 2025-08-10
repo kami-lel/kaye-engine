@@ -15,7 +15,7 @@ from kaye.gen_prompt.prompt_blueprint_loader import (
 blueprint_names = sorted(get_embedded_prompt_blueprints_names())
 
 
-# Main Parser: kaye ============================================================
+# Main Parser: kaye ############################################################
 # setup main parser
 def _kaye_main(_):
     # when calling ``python -m kaye``
@@ -27,7 +27,7 @@ kaye_psr.set_defaults(func=_kaye_main)
 kaye_subpsr = kaye_psr.add_subparsers(title="subcommands")
 
 
-# Subparser: kaye prompt =======================================================
+# Subparser: kaye prompt #######################################################
 
 # todo separate config (json based)/preview(tree like)
 
@@ -45,7 +45,7 @@ prompt_psr = kaye_subpsr.add_parser(
     "prompt",
     help=PROMPT_HELP_TEXT,
     description=PROMPT_HELP_TEXT,
-    aliases=["pmt", "p"],
+    aliases=["p"],
 )
 
 prompt_psr.set_defaults(func=_prompt_main)
@@ -205,11 +205,25 @@ show_psr = prompt_subpsr.add_parser(
 show_psr.set_defaults(func=_prompt_show_main)
 
 
-# Subparser: kaye generate_continue_prompts ====================================
-# TODO generate for continue extension
+# Subparser: kaye generate_vsc_continue_prompts ################################
+# main logic
+def _continue_main(args):
+    print("continue!")  # TODO
 
 
-# main logic ===================================================================
+# set up parser
+CONTINUE_HELP_TEXT = "test"  # TODO
+continue_psr = kaye_subpsr.add_parser(
+    "generate_vsc_continue_prompts",
+    help=CONTINUE_HELP_TEXT,
+    description=CONTINUE_HELP_TEXT,
+    aliases=["c"],
+)
+continue_psr.set_defaults(func=_continue_main)
+
+
+# main logic ###################################################################
+
 if __name__ == "__main__":
     parsed_args = kaye_psr.parse_args()
     parsed_args.func(parsed_args)  # call respective main function
