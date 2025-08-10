@@ -8,6 +8,7 @@
 Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
+<!-- todo improve git_commit_message by applying commentary case -->
 
 <!-- TODO write title caps section: write -->
 <!-- TODO merge title caps content together  -->
@@ -34,6 +35,7 @@ Role.Peer Coder.Python.Testing Guideline -->
 ### Changed
 
 - content of `Comment Section Headings` to be 3-level systems
+- consolidate content related to *capitalization* under section `Capitalization Style`
 
 ### Deprecated
 ### Removed

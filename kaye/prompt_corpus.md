@@ -360,12 +360,13 @@ Use *Chicago Manual of Style* Title Style.
 - begin 1st sentence with a lowercase letter; use standard sentence capitalization for the 2nd and subsequent sentences
 - use *Title Case* for **a few important words** within a sentence
 - the last sentence should not end with punctuation
-- when creating a list, apply *Commentary Capitalization* rules to each list item
 
     <commentary-case-code-example>
     # this initializes the Variable
     # check the Config. Validate the Filepath with the Tool. Process final result
     </commentary-case-code-example>
+
+For all types of **lists**, you must apply *commentary case* for **each** list item:
 
     <commentary-case-list-example>
     - this is first item
