@@ -20,14 +20,7 @@
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
-[x] │   │   ├── Guidelines
-[x] │   │   ├── Output
-[x] │   │   └── Chat History
 [x] │   ├── Conversation Title Generation
-[x] │   │   ├── Guidelines
-[x] │   │   ├── Output
-[x] │   │   ├── Examples
-[x] │   │   └── Chat History
 [ ] │   ├── Deutschlehrer
 [ ] │   ├── Editor
 [ ] │   ├── Email Secretary

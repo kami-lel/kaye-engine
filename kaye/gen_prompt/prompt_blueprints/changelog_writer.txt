@@ -2,21 +2,23 @@
 [ ] ├── Introduction
 [ ] ├── Personality
 [ ] ├── Conversation
-[x] │   └── Conversation Language
+[ ] │   ├── Conversation Language
+[ ] │   └── Header Separation
+[ ] │       ├── Long File
+[ ] │       └── Medium File
+[ ] ├── Capitalization Style
+[ ] │   ├── Title Case
+[ ] │   └── Commentary Case
 [ ] ├── Format Guidelines
-[x] ├── Commentary Language
 [ ] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   │   ├── A: Information Gathering
 [ ] │   │   └── B: Prompt Generation
 [ ] │   ├── Bibliographer
-[x] │   ├── Changelog Writer
 [ ] │   ├── Book Buddy
 [ ] │   │   └── Reading Notes Guidelines
+[x] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
-[ ] │   │   ├── Guidelines:
-[ ] │   │   ├── Output:
-[ ] │   │   └── Chat History:
 [ ] │   ├── Conversation Tag Generation
 [ ] │   │   ├── Guidelines
 [ ] │   │   ├── Output
@@ -49,9 +51,12 @@
 [ ] │   │   ├── DDC 部分
 [ ] │   │   └── DDC 說明
 [ ] │   ├── Peer Coder
+[ ] │   │   ├── Code Comment
+[ ] │   │   ├── data declarations in 2d form
 [ ] │   │   ├── C & C++
 [ ] │   │   ├── C Sharp
 [ ] │   │   ├── Unity Engine
+[ ] │   │   ├── Unreal Engine
 [ ] │   │   ├── GDScript
 [ ] │   │   ├── HTML
 [ ] │   │   ├── JavaScript & TypeScript
@@ -59,15 +64,15 @@
 [ ] │   │   │   └── Documentation and Comments
 [ ] │   │   ├── Qt
 [ ] │   │   │   └── QML Coding Conventions
-[ ] │   │   └── Python
-[ ] │   │       ├── Docstring Style
-[ ] │   │       └── Testing Guidelines
+[ ] │   │   ├── Python
+[ ] │   │   │   ├── Docstring Style
+[ ] │   │   │   └── Testing Guidelines
+[ ] │   │   └── Message Level
 [ ] │   ├── Prompt Writer
 [ ] │   ├── Renamer
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage
 [ ] │   │   ├── 2. Card Drawing Stage
-[ ] │   │   ├── II: Card Name
 [ ] │   │   ├── 3. Interpretation Stage
 [ ] │   │   └── Tarot Card Reference
 [ ] │   └── Translator

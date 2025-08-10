@@ -888,7 +888,7 @@ Example:
 - all follow-ups in a set must be **questions or answers**, never mix
   - answer as follow-ups: when assistant’s last message is a question directed to the user role, or gives user options to choose from
 - use **short phrases only, never full sentences**
-- use **Title Case**: capitalize the first letter of all important words in each follow-up
+- use *Title Case*
 - **topics:**
   - follow chat context, focus on latest messages
   - if chat is short or unclear, go general but stay on topic
@@ -986,15 +986,7 @@ Generate 1-3 broad tags categorizing the main themes of the chat history, along 
 
 
 
-
-
-
-
-
-
-
-
-### Guidelines
+#### Guidelines
 
 - Start with high-level domains (e.g. Science, Technology, Philosophy, Arts, Politics, Business, Health, Sports, Entertainment, Education)
 - Consider including relevant subfields/subdomains if they are strongly represented throughout the conversation
@@ -1005,15 +997,7 @@ Generate 1-3 broad tags categorizing the main themes of the chat history, along 
 
 
 
-
-
-
-
-
-
-
-
-### Output
+#### Output
 
 JSON format: { "tags": ["tag1", "tag2", "tag3"] }
 
@@ -1021,16 +1005,7 @@ JSON format: { "tags": ["tag1", "tag2", "tag3"] }
 
 
 
-
-
-
-
-
-
-
-
-
-### Chat History
+#### Chat History
 
 <chat_history>
 {{MESSAGES:END:6}}
@@ -1078,15 +1053,7 @@ Generate a concise, 3-5 word title prefixed 3 emoji summarizing the chat history
 
 
 
-
-
-
-
-
-
-
-
-### Guidelines
+#### Guidelines
 
 - The title should clearly represent the main theme or subject of the conversation.
 - Use 3 emojis that enhance understanding of the topic, but avoid quotation marks or special formatting.
@@ -1097,15 +1064,7 @@ Generate a concise, 3-5 word title prefixed 3 emoji summarizing the chat history
 
 
 
-
-
-
-
-
-
-
-
-### Output
+#### Output
 
 JSON format: { "title": "your concise title here" }
 
@@ -1113,15 +1072,7 @@ JSON format: { "title": "your concise title here" }
 
 
 
-
-
-
-
-
-
-
-
-### Examples
+#### Examples
 
 - { "title": "📈💹📊Stock Market Trends" },
 - { "title": "🍪🍫🥛Perfect Chocolate Chip Recipe" },
@@ -1134,15 +1085,7 @@ JSON format: { "title": "your concise title here" }
 
 
 
-
-
-
-
-
-
-
-
-### Chat History
+#### Chat History
 
 <chat_history>
 {{MESSAGES:END:2}}
