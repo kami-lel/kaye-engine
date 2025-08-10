@@ -3,6 +3,11 @@ CLI for Python module ``kaye``
 """
 
 from argparse import ArgumentParser, FileType
+import pathlib
+import os
+
+import appdirs  # todo save vsc continue path for persistent data
+
 
 from kaye.gen_prompt.prompt_blueprint_loader import (
     PromptBlueprint,
@@ -10,6 +15,10 @@ from kaye.gen_prompt.prompt_blueprint_loader import (
     load_embedded_prompt_blueprint,
     load_embedded_prompt_corpus,
 )
+
+# Constants ####################################################################
+PROGRAM_NAME = "kaye"
+
 
 # get all available blueprints at runtime
 blueprint_names = sorted(get_embedded_prompt_blueprints_names())
@@ -22,7 +31,7 @@ def _kaye_main(_):
     kaye_psr.print_help()
 
 
-kaye_psr = ArgumentParser(prog="kaye", description=__doc__)
+kaye_psr = ArgumentParser(prog=PROGRAM_NAME, description=__doc__)
 kaye_psr.set_defaults(func=_kaye_main)
 kaye_subpsr = kaye_psr.add_subparsers(title="subcommands")
 
@@ -208,7 +217,32 @@ show_psr.set_defaults(func=_prompt_show_main)
 # Subparser: kaye generate_vsc_continue_prompts ################################
 # main logic
 def _continue_main(args):
-    print("continue!")  # TODO
+    config_dir = args.CONTINUE_CONFIG_DIR
+
+    # check if config_dir exists, is directory, and has read/write permissions
+    if not (
+        config_dir.exists()
+        and config_dir.is_dir()
+        and os.access(config_dir, os.R_OK)
+        and os.access(config_dir, os.W_OK)
+    ):
+        raise PermissionError(
+            "Config directory {} is missing, not a directory, or lacks"
+            " permissions".format(config_dir)
+        )
+
+    # check 'prompts' subfolder exists, is dir, and has read/write permissions
+    prompts_folder = config_dir / "prompts"  # Path object
+    if not (
+        prompts_folder.exists()
+        and prompts_folder.is_dir()
+        and os.access(prompts_folder, os.R_OK)
+        and os.access(prompts_folder, os.W_OK)
+    ):
+        raise PermissionError(
+            "Prompts folder {} is missing, not a directory, or lacks"
+            " permissions".format(prompts_folder)
+        )
 
 
 # set up parser
@@ -218,6 +252,11 @@ continue_psr = kaye_subpsr.add_parser(
     help=CONTINUE_HELP_TEXT,
     description=CONTINUE_HELP_TEXT,
     aliases=["c"],
+)
+continue_psr.add_argument(
+    "CONTINUE_CONFIG_DIR",
+    type=pathlib.Path,
+    help="path to config folder of Continue",
 )
 continue_psr.set_defaults(func=_continue_main)
 
