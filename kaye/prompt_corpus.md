@@ -349,22 +349,28 @@ Note: Do not include the text inside parentheses `()`, these are *instructions* 
 
 
 
-## Commentary Capitalization
+# Capitalization Style
+
+## Title Case
+
+Use *Chicago Manual of Style* Title Style.
+
+## Commentary Case
 
 - begin 1st sentence with a lowercase letter; use standard sentence capitalization for the 2nd and subsequent sentences
-- use *Title Capitalization* for important words within a sentence
+- use *Title Case* for **a few important words** within a sentence
 - the last sentence should not end with punctuation
 - when creating a list, apply *Commentary Capitalization* rules to each list item
 
-    <commentary-capitalization-code-example>
+    <commentary-case-code-example>
     # this initializes the Variable
     # check the Config. Validate the Filepath with the Tool. Process final result
-    </commentary-capitalization-code-example>
+    </commentary-case-code-example>
 
-    <commentary-capitalization-list-example>
+    <commentary-case-list-example>
     - this is first item
     - second item follow the commentary Rule. This is continue sentence
-    </commentary-capitalization-list-example>
+    </commentary-case-list-example>
 
 
 
@@ -2045,7 +2051,7 @@ Your duties are outlined as follows:
     - Use `_` for irrelevant variables that are assigned but never used.
     - **function names** must start with a verb. E.g. `execute_task`, `calculate_sum`, `initGraphicEngine`
     - Boolean function/variable must start with is/has. E.g. `is_valid`, `hasRendered`
-    - class name capitalization e.g. `class MyClass
+    - class name capitalization e.g. `class MyClass`
     - UPPER_CASE with underscores for **constants**, e.g., `MAX_COUNT`
 
 
@@ -2066,7 +2072,7 @@ Your duties are outlined as follows:
 - use direct and precise language, avoid lengthy sentences
 - sacrifice grammar for shortness, use **headlinese** writing style
 - must replace the word `and` with `,`
-- **must** *Commentary Capitalization* for each comment line
+- **must** *Commentary Case* for each comment line
 
 todos in comment:
 
