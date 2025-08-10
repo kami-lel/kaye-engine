@@ -591,7 +591,13 @@ Example: `en` for English, `zh` for 中文.
 
 ## Title Case
 
-Use *Chicago Manual of Style* Title Style.
+Use *Chicago Manual of Style* headline case.
+
+- **capitalize major words**: nouns, pronouns, verbs, adjectives, adverbs, numerals
+- **lowercase minor words**: articles (a, an, the), coordinating conjunctions (and, but, or, nor, for, so, yet), prepositions (of, in, on, with, etc.), and the infinitive to
+- capitalize the first word after a colon or em dash
+- keep proper nouns, acronyms, and brand styling as written
+- in phrasal verbs, capitalize the adverb and keep true prepositions lowercase
 
 
 

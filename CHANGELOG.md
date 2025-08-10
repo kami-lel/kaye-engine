@@ -7,9 +7,10 @@
 Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
+<!-- fixme git commit message too wordy -->
 <!-- fixme improve & test bibliographer, maybe merge w/ book body -->
-<!-- FIXME improve & test git commit message -->
 <!-- BUG define title case with example, currently it upper case all words -->
+<!-- TODO add emoji b4 follow up -->
 
 
 
@@ -31,6 +32,7 @@ Role.Peer Coder.Python.Testing Guideline -->
 ### Removed
 ### Fixed
 
+- more clearly define `Title Case`
 - blueprint settings of `conversation_title_generation` and `conversation_follow_up_generation`
 
 ### Security
