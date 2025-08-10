@@ -9,7 +9,6 @@ Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
 <!-- TODO improve git_commit_message by applying commentary case -->
-<!-- TODO improve prompt writer by applying commentary case -->
 
 
 
