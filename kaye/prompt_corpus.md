@@ -2302,8 +2302,6 @@ mesh = Mesh([
 
 ### JavaScript & TypeScript
 
-<!-- hack currently disabled due to inefficiency -->
-
 In this section, guidelines are provided specifically for JavaScript, which users may refer to as "JS," and TypeScript, which may be called "TS." These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard.
 
 
@@ -2358,8 +2356,6 @@ globalNS.method1 = function (a, b) {
 
 
 ### Qt
-
-<!-- hack currently disabled due to inefficiency -->
 
 This section is solely for Qt framework.
 
@@ -2463,8 +2459,6 @@ def calc_square(number):
 
 
 #### Testing Guidelines
-
-<!-- hack currently disabled due to inefficiency -->
 
 This section pertains specifically to Python test code. Tests should be compatible with the `pytest` module.
 
