@@ -25,6 +25,27 @@ Role.Peer Coder.Python.Testing Guideline -->
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [Unreleased] - 2025-08-11
+
+### Added
 
 - CLI command `kaye generate_vsc_continue_prompts`: generate `.yaml` prompts that could be utilized by VS Code extension *Continue*
 - blueprint `abbreviation`
@@ -33,15 +54,7 @@ Role.Peer Coder.Python.Testing Guideline -->
 
 - shuffle content of `Language`, `Formats`, `Standards`
 - consolidate content related to *capitalization* under section `Capitalization Style`
-
-  - update blueprints accordingly
-
 - content of `Comment Section Headings` to be 3-level systems
-
-### Deprecated
-### Removed
-### Fixed
-### Security
 
 
 
@@ -654,7 +667,8 @@ Role.Peer Coder.Python.Testing Guideline -->
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.6.2...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.0...dev
+[4.7.0]: https://github.com/kami-lel/kaye/compare/v4.6.2...v4.7.0
 [4.6.2]: https://github.com/kami-lel/kaye/compare/v4.6.1...v4.6.2
 [4.6.1]: https://github.com/kami-lel/kaye/compare/v4.6.0...v4.6.1
 [4.6.0]: https://github.com/kami-lel/kaye/compare/v4.5.2...v4.6.0
