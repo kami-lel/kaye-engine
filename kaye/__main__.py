@@ -5,8 +5,10 @@ CLI for Python module ``kaye``
 from argparse import ArgumentParser, FileType
 import pathlib
 import os
+import importlib
 
 import appdirs  # todo save vsc continue path for persistent data
+import yaml
 
 
 from kaye.gen_prompt.prompt_blueprint_loader import (
@@ -219,6 +221,7 @@ show_psr.set_defaults(func=_prompt_show_main)
 def _continue_main(args):
     config_dir = args.CONTINUE_CONFIG_DIR
 
+    # check folder permissions -------------------------------------------------
     # check if config_dir exists, is directory, and has read/write permissions
     if not (
         config_dir.exists()
@@ -243,6 +246,26 @@ def _continue_main(args):
             "Prompts folder {} is missing, not a directory, or lacks"
             " permissions".format(prompts_folder)
         )
+
+    # create/overwrite files ---------------------------------------------------
+    for name in blueprint_names:
+        prompt = load_embedded_prompt_blueprint(name).generate_prompt(
+            hide_comment=True
+        )
+        data = {
+            "name": name,
+            "version": importlib.metadata.version(PROGRAM_NAME),
+            "schema": "v1",
+            "prompts": [{
+                "name": name,
+                "description": "",
+                "prompt": prompt,
+            }],
+        }
+
+        file_path = prompts_folder / (name + ".yaml")
+        with open(file_path, "w", encoding="utf-8") as f:
+            yaml.safe_dump(data, f, allow_unicode=True)
 
 
 # set up parser

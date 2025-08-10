@@ -24,6 +24,9 @@ Role.Peer Coder.Python.Testing Guideline -->
 ## [Unreleased]
 
 ### Added
+
+- CLI command `kaye generate_vsc_continue_prompts`: generate `.yaml` prompts that could be utilized by VS Code extension *Continue*
+
 ### Changed
 
 - content of `Comment Section Headings` to be 3-level systems
