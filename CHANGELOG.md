@@ -3,12 +3,12 @@
 [^format]
 
 <!-- todo finish writing renamer role-->
-<!-- bug commentary capitalization sometimes not respected by llm -->
 <!-- hack sections of corpus currently disabled:
 Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
-<!-- TODO write rapid blueprint -->
+<!-- fixme improve & test bibliographer, maybe merge w/ book body -->
+<!-- fixme improve & test git commit message -->
 
 
 
@@ -30,6 +30,31 @@ Role.Peer Coder.Python.Testing Guideline -->
 ### Removed
 ### Fixed
 ### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.7.0] - 2025-08-11
+
+### Added
+
+- CLI command `kaye generate_vsc_continue_prompts`: generate `.yaml` prompts that could be utilized by VS Code extension *Continue*
+- blueprint `abbreviation`
+
+### Changed
+
+- shuffle content of `Language`, `Formats`, `Standards`
+- consolidate content related to *capitalization* under section `Capitalization Style`
+- content of `Comment Section Headings` to be 3-level systems
 
 
 
@@ -642,7 +667,8 @@ Role.Peer Coder.Python.Testing Guideline -->
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.6.2...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.0...dev
+[4.7.0]: https://github.com/kami-lel/kaye/compare/v4.6.2...v4.7.0
 [4.6.2]: https://github.com/kami-lel/kaye/compare/v4.6.1...v4.6.2
 [4.6.1]: https://github.com/kami-lel/kaye/compare/v4.6.0...v4.6.1
 [4.6.0]: https://github.com/kami-lel/kaye/compare/v4.5.2...v4.6.0

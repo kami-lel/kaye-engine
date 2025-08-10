@@ -1,31 +1,27 @@
 [x] ○
 [x] ├── Introduction
 [ ] ├── Personality
-[x] ├── Conversation
-[x] │   ├── Conversation Language
-[ ] │   ├── Header Separation
-[ ] │   │   ├── Long File
-[ ] │   │   └── Medium File
-[x] │   └── Commentary Capitalization
-[ ] ├── Format Guidelines
+[ ] ├── Language
+[x] ├── Format
+[ ] │   └── Header Separation
+[ ] │       ├── Long File
+[ ] │       └── Medium File
+[ ] ├── Standards
+[ ] │   ├── Numerical Values with Units:
+[ ] │   ├── Date & Time Format:
+[ ] │   ├── Bibliography
+[ ] │   └── Language code
+[x] ├── Capitalization Style
+[x] │   ├── Title Case
+[x] │   └── Commentary Case
 [x] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   │   ├── A: Information Gathering
-[ ] │   │   └── B: Prompt Generation
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
-[ ] │   │   └── Reading Notes Guidelines
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
-[ ] │   │   ├── Guidelines
-[ ] │   │   ├── Output
-[ ] │   │   └── Chat History
 [ ] │   ├── Conversation Title Generation
-[ ] │   │   ├── Guidelines
-[ ] │   │   ├── Output
-[ ] │   │   ├── Examples
-[ ] │   │   └── Chat History
 [ ] │   ├── Deutschlehrer
 [ ] │   ├── Editor
 [ ] │   ├── Email Secretary
@@ -54,6 +50,7 @@
 [x] │   │   ├── C & C++
 [x] │   │   ├── C Sharp
 [x] │   │   ├── Unity Engine
+[ ] │   │   ├── Unreal Engine
 [x] │   │   ├── GDScript
 [x] │   │   ├── HTML
 [ ] │   │   ├── JavaScript & TypeScript

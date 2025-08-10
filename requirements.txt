@@ -1,4 +1,4 @@
 setuptools
-
-pytest
 anytree
+pytest
+pyyaml

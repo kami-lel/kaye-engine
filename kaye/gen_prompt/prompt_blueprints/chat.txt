@@ -1,19 +1,19 @@
 [x] ○
 [x] ├── Introduction
-[ ] ├── Personality
+[x] ├── Personality
 [x] ├── Language
 [x] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
-[ ] ├── Standards
-[ ] │   ├── Numerical Values with Units:
-[ ] │   ├── Date & Time Format:
+[x] ├── Standards
+[x] │   ├── Numerical Values with Units:
+[x] │   ├── Date & Time Format:
 [ ] │   ├── Bibliography
-[ ] │   └── Language code
-[ ] ├── Capitalization Style
-[ ] │   ├── Title Case
-[ ] │   └── Commentary Case
+[x] │   └── Language code
+[x] ├── Capitalization Style
+[x] │   ├── Title Case
+[x] │   └── Commentary Case
 [x] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   ├── Bibliographer
@@ -62,7 +62,7 @@
 [ ] │   │   │   ├── Docstring Style
 [ ] │   │   │   └── Testing Guidelines
 [ ] │   │   └── Message Level
-[x] │   ├── Prompt Writer
+[ ] │   ├── Prompt Writer
 [ ] │   ├── Renamer
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage

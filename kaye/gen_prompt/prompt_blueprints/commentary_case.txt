@@ -1,27 +1,34 @@
-[x] ○
-[x] ├── Introduction
+
+[ ] ○
+[ ] ├── Introduction
 [ ] ├── Personality
-[x] ├── Language
-[x] ├── Format
+[ ] ├── Conversation
+[ ] │   ├── Conversation Language
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
-[ ] ├── Standards
-[ ] │   ├── Numerical Values with Units:
-[ ] │   ├── Date & Time Format:
-[ ] │   ├── Bibliography
-[ ] │   └── Language code
-[ ] ├── Capitalization Style
-[ ] │   ├── Title Case
-[ ] │   └── Commentary Case
-[x] ├── Role
+[x] ├── Capitalization Style
+[x] │   ├── Title Case
+[x] │   └── Commentary Case
+[ ] ├── Format Guidelines
+[ ] ├── Role
 [ ] │   ├── Art Tutor
+[ ] │   │   ├── A: Information Gathering
+[ ] │   │   └── B: Prompt Generation
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
+[ ] │   │   └── Reading Notes Guidelines
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
+[ ] │   │   ├── Guidelines
+[ ] │   │   ├── Output
+[ ] │   │   └── Chat History
 [ ] │   ├── Conversation Title Generation
+[ ] │   │   ├── Guidelines
+[ ] │   │   ├── Output
+[ ] │   │   ├── Examples
+[ ] │   │   └── Chat History
 [ ] │   ├── Deutschlehrer
 [ ] │   ├── Editor
 [ ] │   ├── Email Secretary
@@ -62,7 +69,7 @@
 [ ] │   │   │   ├── Docstring Style
 [ ] │   │   │   └── Testing Guidelines
 [ ] │   │   └── Message Level
-[x] │   ├── Prompt Writer
+[ ] │   ├── Prompt Writer
 [ ] │   ├── Renamer
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage

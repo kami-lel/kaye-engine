@@ -2,21 +2,21 @@
 [x] ├── Introduction
 [ ] ├── Personality
 [x] ├── Language
-[x] ├── Format
+[ ] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
-[ ] ├── Standards
+[x] ├── Standards
 [ ] │   ├── Numerical Values with Units:
 [ ] │   ├── Date & Time Format:
-[ ] │   ├── Bibliography
+[x] │   ├── Bibliography
 [ ] │   └── Language code
 [ ] ├── Capitalization Style
 [ ] │   ├── Title Case
 [ ] │   └── Commentary Case
 [x] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   ├── Bibliographer
+[x] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
@@ -62,7 +62,7 @@
 [ ] │   │   │   ├── Docstring Style
 [ ] │   │   │   └── Testing Guidelines
 [ ] │   │   └── Message Level
-[x] │   ├── Prompt Writer
+[ ] │   ├── Prompt Writer
 [ ] │   ├── Renamer
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage
