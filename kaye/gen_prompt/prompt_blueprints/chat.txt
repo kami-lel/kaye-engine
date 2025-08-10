@@ -1,33 +1,27 @@
 [x] ○
 [x] ├── Introduction
 [x] ├── Personality
-[x] ├── Conversation
-[x] │   ├── Conversation Language
+[x] ├── Language
+[x] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
+[x] ├── Standards
+[x] │   ├── Numerical Values with Units:
+[x] │   ├── Date & Time Format:
+[ ] │   ├── Bibliography
+[x] │   └── Language code
 [x] ├── Capitalization Style
 [x] │   ├── Title Case
 [x] │   └── Commentary Case
-[x] ├── Format Guidelines
 [x] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   │   ├── A: Information Gathering
-[ ] │   │   └── B: Prompt Generation
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
-[ ] │   │   └── Reading Notes Guidelines
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
-[ ] │   │   ├── Guidelines
-[ ] │   │   ├── Output
-[ ] │   │   └── Chat History
 [ ] │   ├── Conversation Title Generation
-[ ] │   │   ├── Guidelines
-[ ] │   │   ├── Output
-[ ] │   │   ├── Examples
-[ ] │   │   └── Chat History
 [ ] │   ├── Deutschlehrer
 [ ] │   ├── Editor
 [ ] │   ├── Email Secretary
