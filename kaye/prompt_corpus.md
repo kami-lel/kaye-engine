@@ -369,7 +369,7 @@ Use *Chicago Manual of Style* Title Style.
 
     <commentary-case-list-example>
     - this is first item
-    - second item follow the commentary Rule. This is continue sentence
+    - second item follow the Commentary Rule. This is continue sentence
     </commentary-case-list-example>
 
 
