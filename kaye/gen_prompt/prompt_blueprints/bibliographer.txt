@@ -6,18 +6,18 @@
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
-[ ] ├── Standards
+[x] ├── Standards
 [ ] │   ├── Numerical Values with Units:
 [ ] │   ├── Date & Time Format:
+[x] │   ├── Bibliography
 [ ] │   └── Language code
 [ ] ├── Capitalization Style
 [ ] │   ├── Title Case
 [ ] │   └── Commentary Case
 [x] ├── Role
-[x] │   ├── Art Tutor
-[ ] │   ├── Bibliographer
+[ ] │   ├── Art Tutor
+[x] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
-[ ] │   │   └── Reading Notes Guidelines
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
