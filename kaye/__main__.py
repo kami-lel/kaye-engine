@@ -205,9 +205,11 @@ show_psr = prompt_subpsr.add_parser(
 show_psr.set_defaults(func=_prompt_show_main)
 
 
-# Subparser: kaye gen_continue_config ==========================================
-# todo generate for continue extension
+# Subparser: kaye generate_continue_prompts ====================================
+# TODO generate for continue extension
 
+
+# main logic ===================================================================
 if __name__ == "__main__":
     parsed_args = kaye_psr.parse_args()
     parsed_args.func(parsed_args)  # call respective main function

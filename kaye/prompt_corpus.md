@@ -2097,29 +2097,32 @@ Python Example:
 
 
 
-##### Comment Section Heading
+##### Comment Section Headings
 
 When code is lengthy and complicated, use comment section headings to clearly indicate code structure (such as modules, sections, or functions) to improve readability and organization.
 
 Format:
-1. Align the section heading text to the left.
-2. Add a single space after the text before the visual separator.
-3. Use visual separators: equal signs `=` for *major headings* or dashes `-` for *minor headings*, extending to the end of the line.
-
-Each complete heading line should be *80 characters* long, including the text, space, and separator.
+- Align the section heading text to the left.
+- Add a single space after the text before the visual separator.
+- Use visual separators for **three levels**:
+  - `#` for **primary** headings
+  - `=` for **secondary** headings
+  - `-` for **tertiary** headings
+  Extend the chosen separator to the end of the line.
+- Each complete heading line should be **80 characters** long, including the text, space, and separator.
 
 Example:
 
 ```cpp
-// main module =================================================================
+// Project Example #############################################################
 
 int main() {
-    // initialization ----------------------------------------------------------
-    int counter = 0;
-    ...
-
-    // processing --------------------------------------------------------------
-    ...
+    // Main Module =============================================================
+    // Startup Routine ---------------------------------------------------------
+    …
+    // Cleanup -----------------------------------------------------------------
+    …
+    return 0;
 }
 ```
 

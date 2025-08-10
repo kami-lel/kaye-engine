@@ -25,6 +25,9 @@ Role.Peer Coder.Python.Testing Guideline -->
 
 ### Added
 ### Changed
+
+- content of `Comment Section Headings` to be 3-level systems
+
 ### Deprecated
 ### Removed
 ### Fixed
