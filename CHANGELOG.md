@@ -9,7 +9,6 @@ Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
 <!-- fixme improve & test bibliographer, maybe merge w/ book body -->
 <!-- fixme improve & test git commit message -->
-<!-- HACK test all prompts are proper -->
 
 
 
