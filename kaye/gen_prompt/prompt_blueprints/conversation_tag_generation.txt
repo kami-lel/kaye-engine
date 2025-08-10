@@ -2,63 +2,71 @@
 [ ] ├── Introduction
 [ ] ├── Personality
 [ ] ├── Conversation
-[ ] │   └── Conversation Language
+[x] │   ├── Conversation Language
+[ ] │   └── Header Separation
+[ ] │       ├── Long File
+[ ] │       └── Medium File
+[x] ├── Capitalization Style
+[x] │   ├── Title Case
+[ ] │   └── Commentary Case
 [ ] ├── Format Guidelines
-[ ] ├── Abbreviation
-[ ] └── Role
-[ ]     ├── Bibliographer
-[ ]     ├── Book Buddy
-[ ]     │   └── Reading Notes Guidelines
-[ ]     ├── Peer Coder
-[ ]     │   ├── C & C++
-[ ]     │   ├── C Sharp
-[ ]     │   ├── Unity Engine
-[ ]     │   ├── GDScript
-[ ]     │   ├── HTML
-[ ]     │   ├── JavaScript & TypeScript
-[ ]     │   │   ├── Naming Conventions
-[ ]     │   │   └── Documentation and Comments
-[ ]     │   ├── Qt
-[ ]     │   │   └── QML Coding Conventions
-[ ]     │   └── Python
-[ ]     │       ├── Docstring Style
-[ ]     │       └── Testing Guidelines
-[x]     ├── Conversation Tag Generation
-[x]     │   ├── Guidelines
-[x]     │   ├── Output
-[x]     │   └── Chat History
-[ ]     ├── Conversation Title Generation
-[ ]     │   ├── Guidelines
-[ ]     │   ├── Output
-[ ]     │   ├── Examples
-[ ]     │   └── Chat History
-[ ]     ├── Deutschlehrer
-[ ]     ├── Editor Role
-[ ]     ├── Email Secretary
-[ ]     ├── Encyclopedic
-[ ]     ├── Etiquette Coach
-[ ]     ├── Event Search
-[ ]     ├── git commit message
-[ ]     ├── git diff Summary
-[ ]     ├── Grammar Checker
-[ ]     ├── Librarian
-[ ]     │   ├── label
-[ ]     │   │   ├── book title
-[ ]     │   │   ├── publish year
-[ ]     │   │   ├── authors, editors, translators
-[ ]     │   │   ├── publisher
-[ ]     │   │   ├── informational tags
-[ ]     │   │   └── label examples
-[ ]     │   ├── DDC part
-[ ]     │   └── DDC justification
-[ ]     ├── zh Librarian
-[ ]     │   ├── DDC 部分
-[ ]     │   └── DDC 說明
-[ ]     ├── Prompt Writer
-[ ]     ├── Tarot Reader
-[ ]     │   ├── 1. Information Collection Stage
-[ ]     │   ├── 2. Card Drawing Stage
-[ ]     │   ├── II: Card Name
-[ ]     │   ├── 3. Interpretation Stage
-[ ]     │   └── Tarot Card Reference
-[ ]     └── Translator
+[x] ├── Role
+[ ] │   ├── Art Tutor
+[ ] │   │   ├── A: Information Gathering
+[ ] │   │   └── B: Prompt Generation
+[ ] │   ├── Bibliographer
+[ ] │   ├── Book Buddy
+[ ] │   │   └── Reading Notes Guidelines
+[ ] │   ├── Changelog Writer
+[ ] │   ├── Conversation Follow Up Generation
+[x] │   ├── Conversation Tag Generation
+[ ] │   ├── Conversation Title Generation
+[ ] │   ├── Deutschlehrer
+[ ] │   ├── Editor
+[ ] │   ├── Email Secretary
+[ ] │   ├── Encyclopedic
+[ ] │   ├── Etiquette Coach
+[ ] │   ├── Event Search
+[ ] │   ├── git commit message
+[ ] │   ├── git diff Summary
+[ ] │   ├── Grammar Checker
+[ ] │   ├── Librarian
+[ ] │   │   ├── label
+[ ] │   │   │   ├── book title
+[ ] │   │   │   ├── publish year
+[ ] │   │   │   ├── authors, editors, translators
+[ ] │   │   │   ├── publisher
+[ ] │   │   │   ├── informational tags
+[ ] │   │   │   └── label examples
+[ ] │   │   ├── DDC part
+[ ] │   │   └── DDC justification
+[ ] │   ├── zh Librarian
+[ ] │   │   ├── DDC 部分
+[ ] │   │   └── DDC 說明
+[ ] │   ├── Peer Coder
+[ ] │   │   ├── Code Comment
+[ ] │   │   ├── data declarations in 2d form
+[ ] │   │   ├── C & C++
+[ ] │   │   ├── C Sharp
+[ ] │   │   ├── Unity Engine
+[ ] │   │   ├── Unreal Engine
+[ ] │   │   ├── GDScript
+[ ] │   │   ├── HTML
+[ ] │   │   ├── JavaScript & TypeScript
+[ ] │   │   │   ├── Naming Conventions
+[ ] │   │   │   └── Documentation and Comments
+[ ] │   │   ├── Qt
+[ ] │   │   │   └── QML Coding Conventions
+[ ] │   │   ├── Python
+[ ] │   │   │   ├── Docstring Style
+[ ] │   │   │   └── Testing Guidelines
+[ ] │   │   └── Message Level
+[ ] │   ├── Prompt Writer
+[ ] │   ├── Renamer
+[ ] │   ├── Tarot Reader
+[ ] │   │   ├── 1. Information Collection Stage
+[ ] │   │   ├── 2. Card Drawing Stage
+[ ] │   │   ├── 3. Interpretation Stage
+[ ] │   │   └── Tarot Card Reference
+[ ] │   └── Translator
+[ ] └── Abbreviation

@@ -1,27 +1,29 @@
-[x] ○
-[x] ├── Introduction
-[x] ├── Personality
-[x] ├── Conversation
-[x] │   └── Conversation Language
-[x] ├── Format Guidelines
-[ ] ├── Commentary Guidelines
-[ ] │   └── todos in comment
-[x] ├── Role
+[ ] ○
+[ ] ├── Introduction
+[ ] ├── Personality
+[ ] ├── Language
+[ ] ├── Format
+[ ] │   └── Header Separation
+[ ] │       ├── Long File
+[ ] │       └── Medium File
+[ ] ├── Standards
+[ ] │   ├── Numerical Values with Units:
+[ ] │   ├── Date & Time Format:
+[ ] │   └── Language code
+[ ] ├── Capitalization Style
+[ ] │   ├── Title Case
+[ ] │   └── Commentary Case
+[ ] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   │   ├── A: Information Gathering
 [ ] │   │   └── B: Prompt Generation
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
 [ ] │   │   └── Reading Notes Guidelines
+[ ] │   ├── Changelog Writer
+[ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
-[ ] │   │   ├── Guidelines
-[ ] │   │   ├── Output
-[ ] │   │   └── Chat History
 [ ] │   ├── Conversation Title Generation
-[ ] │   │   ├── Guidelines
-[ ] │   │   ├── Output
-[ ] │   │   ├── Examples
-[ ] │   │   └── Chat History
 [ ] │   ├── Deutschlehrer
 [ ] │   ├── Editor
 [ ] │   ├── Email Secretary
@@ -45,9 +47,12 @@
 [ ] │   │   ├── DDC 部分
 [ ] │   │   └── DDC 說明
 [ ] │   ├── Peer Coder
+[ ] │   │   ├── Code Comment
+[ ] │   │   ├── data declarations in 2d form
 [ ] │   │   ├── C & C++
 [ ] │   │   ├── C Sharp
 [ ] │   │   ├── Unity Engine
+[ ] │   │   ├── Unreal Engine
 [ ] │   │   ├── GDScript
 [ ] │   │   ├── HTML
 [ ] │   │   ├── JavaScript & TypeScript
@@ -55,16 +60,16 @@
 [ ] │   │   │   └── Documentation and Comments
 [ ] │   │   ├── Qt
 [ ] │   │   │   └── QML Coding Conventions
-[ ] │   │   └── Python
-[ ] │   │       ├── Docstring Style
-[ ] │   │       └── Testing Guidelines
+[ ] │   │   ├── Python
+[ ] │   │   │   ├── Docstring Style
+[ ] │   │   │   └── Testing Guidelines
+[ ] │   │   └── Message Level
 [ ] │   ├── Prompt Writer
 [ ] │   ├── Renamer
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage
 [ ] │   │   ├── 2. Card Drawing Stage
-[ ] │   │   ├── II: Card Name
 [ ] │   │   ├── 3. Interpretation Stage
 [ ] │   │   └── Tarot Card Reference
 [ ] │   └── Translator
-[ ] └── Abbreviation
+[x] └── Abbreviation

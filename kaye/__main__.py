@@ -3,6 +3,12 @@ CLI for Python module ``kaye``
 """
 
 from argparse import ArgumentParser, FileType
+import pathlib
+import os
+import importlib
+
+import yaml
+
 
 from kaye.gen_prompt.prompt_blueprint_loader import (
     PromptBlueprint,
@@ -11,23 +17,27 @@ from kaye.gen_prompt.prompt_blueprint_loader import (
     load_embedded_prompt_corpus,
 )
 
+# Constants ####################################################################
+PROGRAM_NAME = "kaye"
+
+
 # get all available blueprints at runtime
 blueprint_names = sorted(get_embedded_prompt_blueprints_names())
 
 
-# Main Parser: kaye ============================================================
+# Main Parser: kaye ############################################################
 # setup main parser
 def _kaye_main(_):
     # when calling ``python -m kaye``
     kaye_psr.print_help()
 
 
-kaye_psr = ArgumentParser(prog="kaye", description=__doc__)
+kaye_psr = ArgumentParser(prog=PROGRAM_NAME, description=__doc__)
 kaye_psr.set_defaults(func=_kaye_main)
 kaye_subpsr = kaye_psr.add_subparsers(title="subcommands")
 
 
-# Subparser: kaye prompt =======================================================
+# Subparser: kaye prompt #######################################################
 
 # todo separate config (json based)/preview(tree like)
 
@@ -45,7 +55,7 @@ prompt_psr = kaye_subpsr.add_parser(
     "prompt",
     help=PROMPT_HELP_TEXT,
     description=PROMPT_HELP_TEXT,
-    aliases=["pmt", "p"],
+    aliases=["p"],
 )
 
 prompt_psr.set_defaults(func=_prompt_main)
@@ -205,8 +215,78 @@ show_psr = prompt_subpsr.add_parser(
 show_psr.set_defaults(func=_prompt_show_main)
 
 
-# Subparser: kaye gen_continue_config ==========================================
-# todo generate for continue extension
+# Subparser: kaye generate_vsc_continue_prompts ################################
+# main logic
+# todo save vsc continue path for persistent data, via e.g. appdirs
+def _continue_main(args):
+    config_dir = args.CONTINUE_CONFIG_DIR
+
+    # check folder permissions -------------------------------------------------
+    # check if config_dir exists, is directory, and has read/write permissions
+    if not (
+        config_dir.exists()
+        and config_dir.is_dir()
+        and os.access(config_dir, os.R_OK)
+        and os.access(config_dir, os.W_OK)
+    ):
+        raise PermissionError(
+            "Config directory {} is missing, not a directory, or lacks"
+            " permissions".format(config_dir)
+        )
+
+    # check 'prompts' subfolder exists, is dir, and has read/write permissions
+    prompts_folder = config_dir / "prompts"  # Path object
+    if not (
+        prompts_folder.exists()
+        and prompts_folder.is_dir()
+        and os.access(prompts_folder, os.R_OK)
+        and os.access(prompts_folder, os.W_OK)
+    ):
+        raise PermissionError(
+            "Prompts folder {} is missing, not a directory, or lacks"
+            " permissions".format(prompts_folder)
+        )
+
+    # create/overwrite files ---------------------------------------------------
+    for name in blueprint_names:
+        prompt = load_embedded_prompt_blueprint(name).generate_prompt(
+            hide_comment=True
+        )
+        data = {
+            "name": name,
+            "version": importlib.metadata.version(PROGRAM_NAME),
+            "schema": "v1",
+            "prompts": [{
+                "name": name,
+                "description": "",
+                "prompt": prompt,
+            }],
+        }
+
+        file_path = prompts_folder / (name + ".yaml")
+        with open(file_path, "w", encoding="utf-8") as f:
+            yaml.safe_dump(data, f, allow_unicode=True)
+
+
+# set up parser
+CONTINUE_HELP_TEXT = (
+    "generate prompts files (.yaml) used by VS Code extension Continue"
+)
+continue_psr = kaye_subpsr.add_parser(
+    "generate_vsc_continue_prompts",
+    help=CONTINUE_HELP_TEXT,
+    description=CONTINUE_HELP_TEXT,
+    aliases=["c"],
+)
+continue_psr.add_argument(
+    "CONTINUE_CONFIG_DIR",
+    type=pathlib.Path,
+    help="path to config folder of Continue",
+)
+continue_psr.set_defaults(func=_continue_main)
+
+
+# main logic ###################################################################
 
 if __name__ == "__main__":
     parsed_args = kaye_psr.parse_args()
