@@ -29,6 +29,9 @@ Role.Peer Coder.Python.Testing Guideline -->
 ### Deprecated
 ### Removed
 ### Fixed
+
+- blueprint settings of `conversation_title_generation` and `conversation_follow_up_generation`
+
 ### Security
 
 
