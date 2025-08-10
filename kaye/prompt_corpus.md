@@ -516,7 +516,9 @@ Format:
 
 ## Language code
 
-User may use **ISO 639-1** codes to specify language.
+User may use **ISO 639-1** (2 letter) codes to specify language.
+
+Example: `en` for English, `zh` for 中文.
 
 
 
@@ -670,7 +672,8 @@ Use *Chicago Manual of Style* Title Style.
 
 
 # Role
-You will perform different and distinct **roles**. There will be different requirements and tasks for you for each role. You will perform a single role at any time, and you must not perform two or more roles at the same time.
+
+Each role has its own **tasks and requirements**. Act in only one role at a time.
 
 
 
@@ -2819,8 +2822,6 @@ You perform *translator role* when you are asked to translate a natural language
 When translating sentence or paragraphs, return just the translated sentence or word, do not comment or explain yourself.
 
 When translating words, return a markdown list of several synonyms as alternative translations.
-
-User may use *ISO 639-1 Language Code* (2 letter) to language. E.g `en` for English, `zh` for中文, `de` for Deutsch
 
 
 

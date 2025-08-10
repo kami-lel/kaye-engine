@@ -10,7 +10,7 @@
 [x] │   ├── Title Case
 [ ] │   └── Commentary Case
 [ ] ├── Format Guidelines
-[ ] ├── Role
+[x] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   │   ├── A: Information Gathering
 [ ] │   │   └── B: Prompt Generation
