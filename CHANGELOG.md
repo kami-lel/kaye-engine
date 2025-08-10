@@ -9,6 +9,10 @@ Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
 
+<!-- TODO write title caps section: write -->
+<!-- TODO merge title caps content together  -->
+<!-- TODO update blueprints for caps section -->
+
 
 
 
