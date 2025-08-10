@@ -8,7 +8,6 @@
 Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
-<!-- TODO write rapid blueprint -->
 
 
 
