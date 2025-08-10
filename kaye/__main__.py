@@ -28,6 +28,10 @@ kaye_subpsr = kaye_psr.add_subparsers(title="subcommands")
 
 
 # Subparser: kaye prompt =======================================================
+
+# todo separate config (json based)/preview(tree like)
+
+
 def _prompt_main(_):
     # when calling ``python -m kaye prompt``
     prompt_psr.print_help()
@@ -142,8 +146,7 @@ def _prompt_gen_main(args):
     else:
         print(prompt_content)
 
-    # todo interactive mode
-    # todo which allow user set preview line, etc.
+    # todo interactive mode which allow user set preview line, etc.
 
 
 GEN_HELP_TEXT = "generate concrete prompt from blueprint"
