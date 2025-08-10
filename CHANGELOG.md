@@ -28,6 +28,9 @@ Role.Peer Coder.Python.Testing Guideline -->
 
 ### Added
 ### Changed
+
+- improve `Conversation Follow Up Generation`, prefix with emoji
+
 ### Deprecated
 ### Removed
 ### Fixed
