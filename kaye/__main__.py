@@ -269,7 +269,9 @@ def _continue_main(args):
 
 
 # set up parser
-CONTINUE_HELP_TEXT = "test"  # TODO
+CONTINUE_HELP_TEXT = (
+    "generate prompts files (.yaml) used by VS Code extension Continue"
+)
 continue_psr = kaye_subpsr.add_parser(
     "generate_vsc_continue_prompts",
     help=CONTINUE_HELP_TEXT,
