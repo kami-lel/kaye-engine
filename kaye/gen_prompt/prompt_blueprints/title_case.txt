@@ -1,12 +1,15 @@
+
 [ ] ○
 [ ] ├── Introduction
 [ ] ├── Personality
 [ ] ├── Conversation
 [ ] │   ├── Conversation Language
-[ ] │   ├── Header Separation
-[ ] │   │   ├── Long File Header Separation
-[ ] │   │   └── Medium File Header Separation
-[x] │   └── Commentary Capitalization
+[ ] │   └── Header Separation
+[ ] │       ├── Long File
+[ ] │       └── Medium File
+[x] ├── Capitalization Style
+[x] │   ├── Title Case
+[ ] │   └── Commentary Case
 [ ] ├── Format Guidelines
 [ ] ├── Role
 [ ] │   ├── Art Tutor
@@ -49,9 +52,12 @@
 [ ] │   │   ├── DDC 部分
 [ ] │   │   └── DDC 說明
 [ ] │   ├── Peer Coder
+[ ] │   │   ├── Code Comment
+[ ] │   │   ├── data declarations in 2d form
 [ ] │   │   ├── C & C++
 [ ] │   │   ├── C Sharp
 [ ] │   │   ├── Unity Engine
+[ ] │   │   ├── Unreal Engine
 [ ] │   │   ├── GDScript
 [ ] │   │   ├── HTML
 [ ] │   │   ├── JavaScript & TypeScript
