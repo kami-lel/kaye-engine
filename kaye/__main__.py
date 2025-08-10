@@ -7,7 +7,6 @@ import pathlib
 import os
 import importlib
 
-import appdirs  # todo save vsc continue path for persistent data
 import yaml
 
 
@@ -218,6 +217,7 @@ show_psr.set_defaults(func=_prompt_show_main)
 
 # Subparser: kaye generate_vsc_continue_prompts ################################
 # main logic
+# todo save vsc continue path for persistent data, via e.g. appdirs
 def _continue_main(args):
     config_dir = args.CONTINUE_CONFIG_DIR
 
