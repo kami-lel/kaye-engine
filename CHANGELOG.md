@@ -4,6 +4,11 @@
 
 <!-- todo finish writing renamer role-->
 <!-- bug commentary capitalization sometimes not respected by llm -->
+<!-- hack sections of corpus currently disabled:
+Role.Peer Coder.JavaScript & TypeScript
+Role.Peer Coder.Qt
+Role.Peer Coder.Python.Testing Guideline -->
+<!-- TODO write rapid blueprint -->
 
 
 
