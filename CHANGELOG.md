@@ -3,12 +3,12 @@
 [^format]
 
 <!-- todo finish writing renamer role-->
-<!-- bug commentary capitalization sometimes not respected by llm -->
 <!-- hack sections of corpus currently disabled:
 Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
-<!-- TODO improve git_commit_message by applying commentary case -->
+<!-- TODO reference style under standards -->
+<!-- HACK test all prompts are proper -->
 
 
 
@@ -30,10 +30,12 @@ Role.Peer Coder.Python.Testing Guideline -->
 
 ### Changed
 
-- content of `Comment Section Headings` to be 3-level systems
+- shuffle content of `Language`, `Formats`, `Standards`
 - consolidate content related to *capitalization* under section `Capitalization Style`
 
   - update blueprints accordingly
+
+- content of `Comment Section Headings` to be 3-level systems
 
 ### Deprecated
 ### Removed
