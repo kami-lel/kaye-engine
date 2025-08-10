@@ -41,6 +41,22 @@ Role.Peer Coder.Python.Testing Guideline -->
 
 
 
+## [4.6.2] - 2025-08-10
+
+### Added
+
+- blueprint `rapid`
+
+
+
+
+
+
+
+
+
+
+
 ## [4.6.1] - 2025-08-08
 
 ### Added
@@ -626,7 +642,8 @@ Role.Peer Coder.Python.Testing Guideline -->
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.6.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.6.2...dev
+[4.6.2]: https://github.com/kami-lel/kaye/compare/v4.6.1...v4.6.2
 [4.6.1]: https://github.com/kami-lel/kaye/compare/v4.6.0...v4.6.1
 [4.6.0]: https://github.com/kami-lel/kaye/compare/v4.5.2...v4.6.0
 [4.5.2]: https://github.com/kami-lel/kaye/compare/v4.5.1...v4.5.2
