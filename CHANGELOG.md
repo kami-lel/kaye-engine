@@ -4,6 +4,11 @@
 
 <!-- todo finish writing renamer role-->
 <!-- bug commentary capitalization sometimes not respected by llm -->
+<!-- hack sections of corpus currently disabled:
+Role.Peer Coder.JavaScript & TypeScript
+Role.Peer Coder.Qt
+Role.Peer Coder.Python.Testing Guideline -->
+<!-- TODO write rapid blueprint -->
 
 
 
@@ -25,6 +30,22 @@
 ### Removed
 ### Fixed
 ### Security
+
+
+
+
+
+
+
+
+
+
+
+## [4.6.2] - 2025-08-10
+
+### Added
+
+- blueprint `rapid`
 
 
 
@@ -621,7 +642,8 @@
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.6.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.6.2...dev
+[4.6.2]: https://github.com/kami-lel/kaye/compare/v4.6.1...v4.6.2
 [4.6.1]: https://github.com/kami-lel/kaye/compare/v4.6.0...v4.6.1
 [4.6.0]: https://github.com/kami-lel/kaye/compare/v4.5.2...v4.6.0
 [4.5.2]: https://github.com/kami-lel/kaye/compare/v4.5.1...v4.5.2
