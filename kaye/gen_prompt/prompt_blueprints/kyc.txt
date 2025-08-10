@@ -3,10 +3,12 @@
 [ ] ├── Personality
 [x] ├── Conversation
 [x] │   ├── Conversation Language
-[ ] │   ├── Header Separation
-[ ] │   │   ├── Long File
-[ ] │   │   └── Medium File
-[x] │   └── Commentary Capitalization
+[ ] │   └── Header Separation
+[ ] │       ├── Long File
+[ ] │       └── Medium File
+[x] ├── Capitalization Style
+[x] │   ├── Title Case
+[x] │   └── Commentary Case
 [ ] ├── Format Guidelines
 [x] ├── Role
 [ ] │   ├── Art Tutor
@@ -54,6 +56,7 @@
 [x] │   │   ├── C & C++
 [x] │   │   ├── C Sharp
 [x] │   │   ├── Unity Engine
+[ ] │   │   ├── Unreal Engine
 [x] │   │   ├── GDScript
 [x] │   │   ├── HTML
 [ ] │   │   ├── JavaScript & TypeScript
