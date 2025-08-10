@@ -8,7 +8,8 @@ Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
 <!-- fixme improve & test bibliographer, maybe merge w/ book body -->
-<!-- fixme improve & test git commit message -->
+<!-- FIXME improve & test git commit message -->
+<!-- BUG define title case with example, currently it upper case all words -->
 
 
 
