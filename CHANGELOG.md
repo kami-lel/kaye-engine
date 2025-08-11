@@ -10,11 +10,10 @@ Role.Peer Coder.Python.Testing Guideline
 Role.Conversation Tag Generation -->
 
 
+<!-- TODO test git commit message -->
 <!-- FIXME improve & test bibliographer, maybe merge w/ book body -->
 <!-- TODO use title case in conversation -->
-
-<!-- TODO reference to annotation markers in these section&blueprint: 
-git commit message, code comment -->
+<!-- TODO use annotation markers in code comment -->
 
 
 
