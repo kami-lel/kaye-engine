@@ -7,9 +7,9 @@
 [ ] │   └── Date & Time Format
 [x] ├── Style
 [x] │   ├── Capitalization Style
-[x] │   │   ├── Title Case
+[ ] │   │   ├── Title Case
 [x] │   │   └── Commentary Case
-[ ] │   └── Briefness Style
+[x] │   └── Briefness Style
 [x] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
@@ -76,5 +76,5 @@
 [ ] │   └── Translator
 [x] └── Abbreviations
 [x]     ├── Understandable Abbrs
-[ ]     ├── Usable Abbrs
+[x]     ├── Usable Abbrs
 [ ]     └── Infrequent Abbrs

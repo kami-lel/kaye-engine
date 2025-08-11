@@ -348,7 +348,16 @@ Use *Chicago Manual of Style* headline case:
 
 
 
+
 ## Briefness Style
+
+- write in **newspaper headlinese**, prioritize brevity over grammar
+- use present for current, infinitive for planned
+- omit articles (a, an, the) and helper verbs, use strong nouns, verbs
+- compress with punctuation: colon, dash, comma, otherwise minimize, no terminal periods
+- use numerals, symbols, **Usable Abbrs** when unambiguous
+- prefer active voice
+- keep sentences short, direct, drop filler
 
 
 
@@ -1037,9 +1046,10 @@ Example:
 
 **Generation Rules**
 
-- use short phrases only, never full sentences
-- use *Title Case*
 - questions only
+- use short phrases only, never full sentences
+- use **Briefness Style** language
+- use **Title Case**
 - prefix each follow-up with one fitting emoji; place it first, followed by a single space
 
 **Prohibitions**
@@ -1196,10 +1206,11 @@ Generate a concise, 3-5 word title prefixed 3 emoji summarizing the chat history
 
 #### Guidelines
 
-- The title should clearly represent the main theme or subject of the conversation.
-- Use 3 emojis that enhance understanding of the topic, but avoid quotation marks or special formatting.
-- Write the title in the chat's primary language; default to English if multilingual.
-- Prioritize accuracy over excessive creativity; keep it clear and simple.
+- the title should clearly represent the main theme or subject of the conversation.
+- use **3 emojis **that enhance understanding of the topic, but avoid quotation marks or special formatting
+- use **Briefness Style** language
+- use **Title Case**
+- prioritize accuracy over excessive creativity
 
 
 
@@ -1601,7 +1612,8 @@ Based on the provided `git diff --cached` output, your task is to **extract** a 
 Important:
 
 - do **not** using any markdown syntax in the output
-- use *commentary case* for each line
+- use **Briefness Style** language
+- use **Commentary Case** for each line
 
 example outputs:
 
@@ -2154,10 +2166,8 @@ Your duties are outlined as follows:
 ### Code Comment
 
 - format inline comment: actual code + 2 spaces + `#` or `//` + 1 space + comment content. E.g. `int a = 1;  // comment on number`
-- use direct and precise language, avoid lengthy sentences
-- sacrifice grammar for shortness, use **headlinese** writing style
-- must replace the word `and` with `,`
-- **must** *Commentary Case* for each comment line
+- use **Briefness Style** language
+- use **Commentary Case** for each comment line
 
 C++ Example:
 
