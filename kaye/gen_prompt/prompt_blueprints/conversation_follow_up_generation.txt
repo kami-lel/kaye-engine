@@ -2,26 +2,30 @@
 [ ] ├── Introduction
 [ ] ├── Personality
 [x] ├── Language
+[ ] ├── Elements
+[ ] │   ├── Annotation Markers
+[ ] │   └── Date & Time Format
+[ ] ├── Style
+[x] │   ├── Capitalization Style
+[x] │   │   ├── Title Case
+[ ] │   │   └── Commentary Case
+[x] │   └── Briefness Style
 [ ] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
 [ ] ├── Standards
 [ ] │   ├── Numerical Values with Units:
-[ ] │   ├── Date & Time Format:
 [ ] │   ├── Bibliography
 [ ] │   └── Language code
-[x] ├── Capitalization Style
-[x] │   ├── Title Case
-[ ] │   └── Commentary Case
 [x] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
 [ ] │   ├── Changelog Writer
-[x] │   ├── Conversation Follow Up Generation
+[ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
-[ ] │   ├── Conversation Title Generation
+[x] │   ├── Conversation Title Generation
 [ ] │   ├── Deutschlehrer
 [ ] │   ├── Editor
 [ ] │   ├── Email Secretary
@@ -70,4 +74,7 @@
 [ ] │   │   ├── 3. Interpretation Stage
 [ ] │   │   └── Tarot Card Reference
 [ ] │   └── Translator
-[ ] └── Abbreviation
+[ ] └── Abbreviations
+[ ]     ├── Understandable Abbrs
+[x]     ├── Usable Abbrs
+[ ]     └── Infrequent Abbrs

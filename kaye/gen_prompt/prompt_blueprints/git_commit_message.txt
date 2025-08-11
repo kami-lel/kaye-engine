@@ -1,22 +1,27 @@
 [ ] ○
-[ ] ├── Introduction
 [ ] ├── Personality
-[ ] ├── Conversation
-[ ] │   ├── Conversation Language
+[ ] ├── Language
+[ ] ├── Elements
+[x] │   ├── Annotation Markers
+[ ] │   │   └── Meaning
+[ ] │   └── Date & Time Format
+[ ] ├── Style
+[x] │   ├── Capitalization Style
+[ ] │   │   ├── Title Case
+[x] │   │   └── Commentary Case
+[x] │   └── Briefness Style
+[ ] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
-[x] ├── Capitalization Style
-[x] │   ├── Title Case
-[x] │   └── Commentary Case
-[ ] ├── Format Guidelines
-[ ] ├── Role
+[ ] ├── Standards
+[ ] │   ├── Numerical Values with Units:
+[ ] │   ├── Bibliography
+[ ] │   └── Language code
+[x] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   │   ├── A: Information Gathering
-[ ] │   │   └── B: Prompt Generation
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
-[ ] │   │   └── Reading Notes Guidelines
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
@@ -69,4 +74,7 @@
 [ ] │   │   ├── 3. Interpretation Stage
 [ ] │   │   └── Tarot Card Reference
 [ ] │   └── Translator
-[ ] └── Abbreviation
+[ ] └── Abbreviations
+[ ]     ├── Understandable Abbrs
+[x]     ├── Usable Abbrs
+[ ]     └── Infrequent Abbrs
