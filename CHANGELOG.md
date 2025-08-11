@@ -6,7 +6,8 @@
 <!-- hack sections of corpus currently disabled:
 Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
-Role.Peer Coder.Python.Testing Guideline -->
+Role.Peer Coder.Python.Testing Guideline
+Role.Conversation Tag Generation -->
 
 
 <!-- FIXME improve & test bibliographer, maybe merge w/ book body -->
@@ -17,13 +18,6 @@ Role.Peer Coder.Python.Testing Guideline -->
 git commit message, code comment -->
 
 <!-- FIXME git commit message too wordy -->
-
-
-<!-- TODO apply beefiness style language style that emphasize briefness
-may use common abbr list
-consolidate from sections: git commit message, code comment, changelog writer
-conversation title/follow up/tag generation -->
-<!-- TODO write briefness style -->
 
 
 
