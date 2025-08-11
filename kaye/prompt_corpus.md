@@ -1615,26 +1615,26 @@ Based on the provided `git diff --cached` result as input, your task is to **ext
 
 - write exactly **one line per file**
 - order the files in the same sequence they appear in the input
-- format of the line:
+- line content format (left to right):
 
-    1. change tag: select a single tag (see definitions below) that best describes the primary nature of the change to this file
+    1. change tag enclosed in `[]`: select a single tag (see definitions below) that best describes the primary nature of the change to this file
     2. filename: use the bare filename only; do not include directories or path separators
     3. colon separator: place a single colon followed by one space after the filename
     4. single-action summary: describe **only** the single most important, influential, and significant change in this file; omit implementation details, low-level steps, and code fragments
 
-Tag definitions:
+Tag definitions: items are ordered by **priority**; earlier entries take precedence over later ones
 
 - `^`: new file
 - `!`: deleted file
-- `+`: primarily content additions
-- `-`: primarily content deletions
-- `*`: mixed edits with both additions and deletions
-- `=`: file rename without substantial content changes
-- `/`: file relocation without substantial content changes
-- `,`: only whitespace, indentation, or blank-line changes
 - `@`: only changes to *annotation markers* and directly related lines
 - `#`: primarily documentation or comment changes
 - `~`: primarily content reordering or code refactors
+- `=`: file rename without substantial content changes
+- `/`: file relocation without substantial content changes
+- `+`: primarily content additions
+- `-`: primarily content deletions
+- `*`: mixed edits with both additions and deletions
+- `.`: only whitespace, indentation, or blank-line changes
 - `?`: non-textual file change (binary/data), e.g., binaries, compressed archives, database files, or encrypted blobs
 
 ----
@@ -1644,17 +1644,17 @@ example outputs:
     <git-commit-message-example1>
     refactor Authentication module for improved Security and Readability
 
-    ~utils.py: reorganize utility functions for clarity
+    [~]utils.py: reorganize utility functions for clarity
     </git-commit-message-example1>
 
     <git-commit-message-example2>
     implement Feature Toggle System for flexible deployment
 
-    +feature_flags.h: define new feature toggle macros
-    =config.yaml: rename to better reflect feature settings
-    *app.py: update feature check logic to utilize toggles
-    #README.md: document new feature toggle capabilities
-    +profile.py: implement user data storage
+    [+]feature_flags.h: define new feature toggle macros
+    [=]config.yaml: rename to better reflect feature settings
+    [*]app.py: update feature check logic to utilize toggles
+    [#]README.md: document new feature toggle capabilities
+    [+]profile.py: implement user data storage
     </git-commit-message-example2>
 
 Important:
@@ -2928,6 +2928,7 @@ You may understand the user's use of the following abbreviations, but do not use
 - dft: default
 - dep: depend, dependent, dependence
 - i.dep: independent, independence
+- impt: improve, improvement
 - dif.: difference, different
 - diff: difficult, difficulty
 - divs: diverse, diversity
