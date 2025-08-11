@@ -6,9 +6,13 @@
 <!-- hack sections of corpus currently disabled:
 Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
-Role.Peer Coder.Python.Testing Guideline -->
-<!-- fixme git commit message too wordy -->
+Role.Peer Coder.Python.Testing Guideline
+Role.Conversation Tag Generation -->
 <!-- fixme improve & test bibliographer, maybe merge w/ book body -->
+<!-- todo test&improve git commit message -->
+
+
+
 
 
 
@@ -30,6 +34,31 @@ Role.Peer Coder.Python.Testing Guideline -->
 ### Removed
 ### Fixed
 ### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.7.2] - 2025-08-12
+
+### Added
+
+- section `Elements` and `Styles` for customized language styles
+- section `Briefness Style`
+- section `Annotation Markers` & update related blueprints
+
+### Changed
+
+- split the single abbreviation table into 3 sub-lists. Utilize these abbrs in various prompts
+- improve role `git_commit_message` to avoid generated output being wordy
 
 
 
@@ -690,7 +719,8 @@ Role.Peer Coder.Python.Testing Guideline -->
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.2...dev
+[4.7.2]: https://github.com/kami-lel/kaye/compare/v4.7.1...v4.7.2
 [4.7.1]: https://github.com/kami-lel/kaye/compare/v4.7.0...v4.7.1
 [4.7.0]: https://github.com/kami-lel/kaye/compare/v4.6.2...v4.7.0
 [4.6.2]: https://github.com/kami-lel/kaye/compare/v4.6.1...v4.6.2

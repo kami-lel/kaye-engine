@@ -2,18 +2,22 @@
 [x] ├── Introduction
 [x] ├── Personality
 [x] ├── Language
+[x] ├── Elements
+[ ] │   ├── Annotation Markers
+[x] │   └── Date & Time Format
+[ ] ├── Style
+[x] │   ├── Capitalization Style
+[x] │   │   ├── Title Case
+[x] │   │   └── Commentary Case
+[ ] │   └── Briefness Style
 [x] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
 [x] ├── Standards
 [x] │   ├── Numerical Values with Units:
-[x] │   ├── Date & Time Format:
 [ ] │   ├── Bibliography
 [x] │   └── Language code
-[x] ├── Capitalization Style
-[x] │   ├── Title Case
-[x] │   └── Commentary Case
 [x] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   ├── Bibliographer
@@ -70,4 +74,7 @@
 [ ] │   │   ├── 3. Interpretation Stage
 [ ] │   │   └── Tarot Card Reference
 [ ] │   └── Translator
-[ ] └── Abbreviation
+[x] └── Abbreviations
+[x]     ├── Understandable Abbrs
+[ ]     ├── Usable Abbrs
+[ ]     └── Infrequent Abbrs
