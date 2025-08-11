@@ -35,6 +35,9 @@ git commit message, code comment -->
 ## [Unreleased]
 
 ### Added
+
+- section `Elements` and `Styles` for customized language styles
+
 ### Changed
 ### Deprecated
 ### Removed

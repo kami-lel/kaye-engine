@@ -1,34 +1,30 @@
-
 [ ] ○
 [ ] ├── Introduction
 [ ] ├── Personality
-[ ] ├── Conversation
-[ ] │   ├── Conversation Language
+[ ] ├── Language
+[ ] ├── Elements
+[ ] │   ├── Annotation Markers
+[ ] │   └── Date & Time Format
+[ ] ├── Style
+[x] │   └── Capitalization Style
+[x] │       ├── Title Case
+[ ] │       └── Commentary Case
+[ ] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
-[x] ├── Capitalization Style
-[x] │   ├── Title Case
-[ ] │   └── Commentary Case
-[ ] ├── Format Guidelines
+[ ] ├── Standards
+[ ] │   ├── Numerical Values with Units:
+[ ] │   ├── Bibliography
+[ ] │   └── Language code
 [ ] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   │   ├── A: Information Gathering
-[ ] │   │   └── B: Prompt Generation
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
-[ ] │   │   └── Reading Notes Guidelines
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
-[ ] │   │   ├── Guidelines
-[ ] │   │   ├── Output
-[ ] │   │   └── Chat History
 [ ] │   ├── Conversation Title Generation
-[ ] │   │   ├── Guidelines
-[ ] │   │   ├── Output
-[ ] │   │   ├── Examples
-[ ] │   │   └── Chat History
 [ ] │   ├── Deutschlehrer
 [ ] │   ├── Editor
 [ ] │   ├── Email Secretary
@@ -78,3 +74,4 @@
 [ ] │   │   └── Tarot Card Reference
 [ ] │   └── Translator
 [ ] └── Abbreviation
+

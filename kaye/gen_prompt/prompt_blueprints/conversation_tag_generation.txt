@@ -1,22 +1,26 @@
 [ ] ○
 [ ] ├── Introduction
 [ ] ├── Personality
-[ ] ├── Conversation
-[x] │   ├── Conversation Language
+[ ] ├── Language
+[ ] ├── Elements
+[ ] │   ├── Annotation Markers
+[ ] │   └── Date & Time Format
+[ ] ├── Style
+[x] │   └── Capitalization Style
+[x] │       ├── Title Case
+[ ] │       └── Commentary Case
+[ ] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
-[x] ├── Capitalization Style
-[x] │   ├── Title Case
-[ ] │   └── Commentary Case
-[ ] ├── Format Guidelines
+[ ] ├── Standards
+[ ] │   ├── Numerical Values with Units:
+[ ] │   ├── Bibliography
+[ ] │   └── Language code
 [x] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   │   ├── A: Information Gathering
-[ ] │   │   └── B: Prompt Generation
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
-[ ] │   │   └── Reading Notes Guidelines
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [x] │   ├── Conversation Tag Generation

@@ -1,31 +1,30 @@
 [ ] ○
 [ ] ├── Introduction
 [ ] ├── Personality
-[ ] ├── Conversation
-[ ] │   ├── Conversation Language
-[x] │   ├── Header Separation
-[x] │   │   ├── Long File
-[ ] │   │   └── Medium File
-[ ] │   └── Commentary Capitalization
-[ ] ├── Format Guidelines
+[ ] ├── Language
+[ ] ├── Elements
+[ ] │   ├── Annotation Markers
+[ ] │   └── Date & Time Format
+[ ] ├── Style
+[ ] │   └── Capitalization Style
+[ ] │       ├── Title Case
+[ ] │       └── Commentary Case
+[ ] ├── Format
+[x] │   └── Header Separation
+[x] │       ├── Long File
+[ ] │       └── Medium File
+[ ] ├── Standards
+[ ] │   ├── Numerical Values with Units:
+[ ] │   ├── Bibliography
+[ ] │   └── Language code
 [ ] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   │   ├── A: Information Gathering
-[ ] │   │   └── B: Prompt Generation
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
-[ ] │   │   └── Reading Notes Guidelines
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
-[ ] │   │   ├── Guidelines
-[ ] │   │   ├── Output
-[ ] │   │   └── Chat History
 [ ] │   ├── Conversation Title Generation
-[ ] │   │   ├── Guidelines
-[ ] │   │   ├── Output
-[ ] │   │   ├── Examples
-[ ] │   │   └── Chat History
 [ ] │   ├── Deutschlehrer
 [ ] │   ├── Editor
 [ ] │   ├── Email Secretary
@@ -49,9 +48,12 @@
 [ ] │   │   ├── DDC 部分
 [ ] │   │   └── DDC 說明
 [ ] │   ├── Peer Coder
+[ ] │   │   ├── Code Comment
+[ ] │   │   ├── data declarations in 2d form
 [ ] │   │   ├── C & C++
 [ ] │   │   ├── C Sharp
 [ ] │   │   ├── Unity Engine
+[ ] │   │   ├── Unreal Engine
 [ ] │   │   ├── GDScript
 [ ] │   │   ├── HTML
 [ ] │   │   ├── JavaScript & TypeScript
