@@ -2196,6 +2196,7 @@ Your duties are outlined as follows:
 - format inline comment: actual code + 2 spaces + `#` or `//` + 1 space + comment content. E.g. `int a = 1;  // comment on number`
 - use **Briefness Style** language
 - use **Commentary Case** for each comment line
+- leave appropriate **Immediate Annotation Markers** in your code response
 
 C++ Example:
 

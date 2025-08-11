@@ -11,7 +11,7 @@ Role.Conversation Tag Generation -->
 <!-- fixme improve & test bibliographer, maybe merge w/ book body -->
 
 
-<!-- TODO test git commit message -->
+<!-- todo test&improve git commit message -->
 <!-- TODO use annotation markers in code comment -->
 
 
