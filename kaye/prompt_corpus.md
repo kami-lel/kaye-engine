@@ -348,6 +348,40 @@ Use *Chicago Manual of Style* headline case:
 
 
 
+## Briefness Style
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Format
 

@@ -8,20 +8,24 @@ Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
 
-<!-- TODO write a "shortness* language style that emphasize briefness
-may use common abbr list
-consolidate from sections: git commit message, code comment, changelog writer
-conversation title/follow up/tag generation -->
 
 <!-- FIXME improve & test bibliographer, maybe merge w/ book body -->
 <!-- BUG follow up generation caps all words -->
 <!-- TODO use title case in conversation -->
 
-<!-- FIXME git commit message too wordy -->
 <!-- TODO reference to annotation markers in these section&blueprint: 
 git commit message, code comment -->
 
-<!-- TODO apply abbr list to various blueprints -->
+<!-- FIXME git commit message too wordy -->
+
+
+<!-- TODO apply beefiness style language style that emphasize briefness
+may use common abbr list
+consolidate from sections: git commit message, code comment, changelog writer
+conversation title/follow up/tag generation -->
+<!-- TODO write briefness style -->
+<!-- TODO apply understandable abbr list to kyc & chat, as part of format?  -->
+
 
 
 
