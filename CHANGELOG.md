@@ -24,7 +24,6 @@ may use common abbr list
 consolidate from sections: git commit message, code comment, changelog writer
 conversation title/follow up/tag generation -->
 <!-- TODO write briefness style -->
-<!-- TODO apply understandable abbr list to kyc & chat, as part of format?  -->
 
 
 
