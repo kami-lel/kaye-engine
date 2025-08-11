@@ -41,6 +41,7 @@ git commit message, code comment -->
 ### Changed
 
 - split the single abbreviation table into 3 sub-lists. Utilize these abbrs in various prompts
+- improve role `git_commit_message` to avoid generated output being wordy
 
 ### Deprecated
 ### Removed
