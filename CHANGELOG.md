@@ -7,8 +7,9 @@
 Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
-<!-- fixme git commit message too wordy -->
-<!-- fixme improve & test bibliographer, maybe merge w/ book body -->
+<!-- FIXME git commit message too wordy -->
+<!-- FIXME improve & test bibliographer, maybe merge w/ book body -->
+<!-- BUG follow up generation caps all words -->
 
 
 
