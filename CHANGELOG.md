@@ -11,13 +11,10 @@ Role.Conversation Tag Generation -->
 
 
 <!-- FIXME improve & test bibliographer, maybe merge w/ book body -->
-<!-- BUG follow up generation caps all words -->
 <!-- TODO use title case in conversation -->
 
 <!-- TODO reference to annotation markers in these section&blueprint: 
 git commit message, code comment -->
-
-<!-- FIXME git commit message too wordy -->
 
 
 
@@ -39,8 +36,12 @@ git commit message, code comment -->
 ### Added
 
 - section `Elements` and `Styles` for customized language styles
+- section `Briefness Style`
 
 ### Changed
+
+- split the single abbreviation table into 3 sub-lists. Utilize these abbrs in various prompts
+
 ### Deprecated
 ### Removed
 ### Fixed

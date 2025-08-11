@@ -1594,47 +1594,71 @@ The user has shown interest in the following topics:
 
 Based on the provided `git diff --cached` output, your task is to **extract** a commit message composed of two distinct sections:
 
-1. **Primary Message:**
 
-    - must be **single-line** limited to **72 characters or fewer**.
-    - must begin with a **command verb** (e.g., add, fix, update, remove)
-    - summarize the overall, high-level **intention** of all changes
 
-2. **Per-File Summary:**
+#### 1. Primary Message:
 
-    - each affected file correspond to a single line
-    - start with **immediate file name**, no folder name, no `/` nor `\`
-    - follow with concise summary of the specific file
-    - For **renamed** files, use the format: `new_file_name[R] ...`
-    - For **added** files: `file_name[A] ...`
-    - For **deleted** files: `file_name[D]`
+- must be a single line, hard limit of **72 characters**; do not exceed
+- capture the **overall intent** of the entire commit across all staged changes
+- exclude file names, implementation details, and low-level steps
 
-Important:
 
-- do **not** using any markdown syntax in the output
-- use **Briefness Style** language
-- use **Commentary Case** for each line
+
+#### 2. Per-File Summary:
+
+- write exactly one line per affected file
+- format: immediate file name + tags in `[]` + concise per-file summary
+- immediate file name: direct filename only; no folders, slashes, or backslashes
+- tags: include every applicable tag that characterizes the change for this file
+- summary: avoid implementation details, low-level steps, and code fragments
+
+**Tag Definitions**
+
+For content or structural changes:
+
+- `^`: new file
+- `!`: deleted file
+- `=`: file rename
+- `/`: file relocation/moving
+- `+`: addition in file content
+- `-`: deletion in file content
+
+Non-content-change tags, use only when there is no concrete content change to the file:
+
+- `.`: whitespace, indentation, or empty-line change
+- `@`: annotation markers changed
+- `#`: documentation or comment change
+- `$`: encoding or line-ending change
+- `*`: media metadata change
+- `~`: reorder of file content
+
+----
 
 example outputs:
 
     <git-commit-message-example1>
-    fix typo in README
+    fix Usage typos in documentation
 
-    README.md: correct spelling mistakes in usage section
+    README.md [#] correct Usage spelling
     </git-commit-message-example1>
 
     <git-commit-message-example2>
-    improve security in authentication module, improve process performance
+    harden Security, enhance Performance, and update Features
 
-    security.config.js: change security configurations
-    login.js: refactor login flow for better error handling
-    login.test.js: add test cases, remove todos
-    dataMapper.js[R] reflect new naming conventions
-    dataProcessor.js[R] improve data processing performance
-    dashboardWidget.jsx[A] add new dashboard components
-    oldLogger.js[D]
+    security.config.js [+-] tighten Security config
+    login.js [~] refactor Login flow and improve Error handling
+    dataMapper.js [=] align Naming
+    dataProcessor.js [-] remove unnecessary routines
+    dashboardWidget.jsx [^] add Dashboard widget
+    oldLogger.js [!] remove Legacy logger
     </git-commit-message-example2>
 
+Important:
+
+- do **not** using any markdown syntax in the output
+- single empty line to separate primary message from per-file summary
+- use **Briefness Style** language
+- use **Commentary Case** for each line
 
 
 
@@ -2939,6 +2963,8 @@ You may understand the user's use of the following abbreviations, but do not use
 - a/: any
 - e/: every
 - s/: some
+- a/t: anything; likewise for e/t, s/t
+- n/t: nothing
 - B: but, however
 - fr: from
 - O: only
@@ -2954,14 +2980,14 @@ You may understand the user's use of the following abbreviations, but do not use
 - kn: know, known
 - L: like, likely
 - ls: list
-- M: must
-- Mx: must not
+- M & Mx: must & must not
 - mk: make
 - mv: move
 - rm: remove
 - wr: write
 - tk: take
 - resp: respond, response, responsible
+- sl & slx: should/shall; & should/shall not
 
 
 
@@ -3241,8 +3267,6 @@ You may use the following abbreviations in responses:
 | sic          | sic erat scriptum, thus it was written                                  |
 | v.i.         | vide infra, see below                                                   |
 | v.s.         | vide supra, see above                                                   |
-| a/t          | anything, likewise for e/t, s/t                                         |
-| n/t          | nothing                                                                 |
 | a/X          | anytime, likewise for e/X, s/X, n/X                                     |
 | a/o          | anyone, likewise for e/o, s/o, n/o                                      |
 | a/w          | anywhere, likewise for a/w, s/w, n/w                                    |
@@ -3284,8 +3308,6 @@ You may use the following abbreviations in responses:
 | aknlg        | acknowledge                                                             |
 | mvmt         | movement                                                                |
 | op           | operate, operation, operator                                            |
-| sl           | should, shall                                                           |
-| slx          | should not, shall not                                                   |
 | wl           | would, will, willingness, willingly                                     |
 | wlx          | will not, would not                                                     |
 | wt           | want                                                                    |
