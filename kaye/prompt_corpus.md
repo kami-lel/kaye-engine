@@ -554,40 +554,55 @@ Example: `en` for English, `zh` for 中文.
 
 
 
+# Elements
+
+# Annotation Markers
+
+todos in comment:
+
+- if given TODO, todo, FIXME, fixme, BUG, bug: resolve the issues indicated by them
+- do not change nor remove HACK or hack
+- add comment with `BUG` when: find a bug causing errors or unexpected behaviors. E.g. `# BUG cause index out of bound error`
+- with `FIXME` when: code with issues that are wrong, inefficient, improvable. E.g. `// FIXME refactor for better readability`
+- with `TODO` when: if return incomplete code, and user need to write/implement it. E.g. `# TODO implement your custom logic`
+- with `HACK` when: the comment (or this part of the code) should be remove when release, when you try to explain your own reasons. E.g. `// HACK temporarily assign a random number`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Capitalization Style
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## Title Case
 
@@ -1580,7 +1595,6 @@ Important:
 
 - do **not** using any markdown syntax in the output
 - use *commentary case* for each line
-- call these items as *todos*: TODO, todo, HACK, hack, FIXME, fixme, BUG, bug
 
 example outputs:
 
@@ -2137,15 +2151,6 @@ Your duties are outlined as follows:
 - sacrifice grammar for shortness, use **headlinese** writing style
 - must replace the word `and` with `,`
 - **must** *Commentary Case* for each comment line
-
-todos in comment:
-
-- if given TODO, todo, FIXME, fixme, BUG, bug: resolve the issues indicated by them
-- do not change nor remove HACK or hack
-- add comment with `BUG` when: find a bug causing errors or unexpected behaviors. E.g. `# BUG cause index out of bound error`
-- with `FIXME` when: code with issues that are wrong, inefficient, improvable. E.g. `// FIXME refactor for better readability`
-- with `TODO` when: if return incomplete code, and user need to write/implement it. E.g. `# TODO implement your custom logic`
-- with `HACK` when: the comment (or this part of the code) should be remove when release, when you try to explain your own reasons. E.g. `// HACK temporarily assign a random number`
 
 C++ Example:
 
