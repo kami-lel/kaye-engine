@@ -12,7 +12,6 @@ Role.Conversation Tag Generation -->
 
 <!-- TODO test git commit message -->
 <!-- FIXME improve & test bibliographer, maybe merge w/ book body -->
-<!-- TODO use title case in conversation -->
 <!-- TODO use annotation markers in code comment -->
 
 
