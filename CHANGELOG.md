@@ -7,6 +7,7 @@
 Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline -->
+<!-- TODO common abbr list -->
 <!-- FIXME improve & test bibliographer, maybe merge w/ book body -->
 <!-- BUG follow up generation caps all words -->
 <!-- TODO use title case in conversation -->
@@ -16,7 +17,6 @@ git commit message, code comment -->
 <!-- FIXME git commit message too wordy -->
 <!-- TODO reference to annotation markers in these section&blueprint: 
 git commit message, code comment -->
-<!-- TODO write section annotation markers -->
 
 
 

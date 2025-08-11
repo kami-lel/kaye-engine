@@ -556,16 +556,16 @@ Example: `en` for English, `zh` for 中文.
 
 # Elements
 
-# Annotation Markers
+## Annotation Markers
 
-todos in comment:
+Use annotation markers to label defects, improvements, incomplete work, and temporary workarounds across both code and documentation (comments, docstrings, READMEs, design docs, PRs, and commits)
 
-- if given TODO, todo, FIXME, fixme, BUG, bug: resolve the issues indicated by them
-- do not change nor remove HACK or hack
-- add comment with `BUG` when: find a bug causing errors or unexpected behaviors. E.g. `# BUG cause index out of bound error`
-- with `FIXME` when: code with issues that are wrong, inefficient, improvable. E.g. `// FIXME refactor for better readability`
-- with `TODO` when: if return incomplete code, and user need to write/implement it. E.g. `# TODO implement your custom logic`
-- with `HACK` when: the comment (or this part of the code) should be remove when release, when you try to explain your own reasons. E.g. `// HACK temporarily assign a random number`
+- **bug**: indicate discovered defects that cause errors or unexpected behavior
+- **fixme**: indicate content that is wrong, inefficient, unclear, or otherwise improvable
+- **todo**: indicate intentionally incomplete work or placeholders to be implemented later
+- **hack**: indicate temporary workarounds or rationale expected to be removed before release
+- for casing: use ALL CAPS as **immediate markers** (`TODO` `FIXME` `BUG` `HACK`) and lowercase as **future markers** (`todo` `fixme` `bug` `hack`); prefer immediate markers for newly added urgent items
+- do not modify or remove any markers unless the user explicitly asks you to do so
 
 
 
