@@ -1617,7 +1617,7 @@ Based on the provided `git diff --cached` result as input, your task is to **ext
     1. change tag: select a single tag (see definitions below) that best describes the primary nature of the change to this file
     2. filename: use the bare filename only; do not include directories or path separators
     3. colon separator: place a single colon followed by one space after the filename
-    4. concise per-file summary: provide a brief summary for this file; avoid implementation details, low-level steps, and code fragments
+    4. single-action summary: describe **only** the single most important, influential, and significant change in this file; omit implementation details, low-level steps, and code fragments
 
 Tag definitions:
 
@@ -1657,8 +1657,8 @@ example outputs:
 Important:
 
 - do **not** using any markdown syntax in the output
-- single empty line to separate primary message from per-file summary
-- use **Briefness Style** language
+- single empty line to separate 2 parts
+- strictly use **Briefness Style** language for both 2 parts
 - use **Commentary Case** for each line
 
 
