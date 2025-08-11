@@ -29,6 +29,27 @@ Role.Conversation Tag Generation -->
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.7.2] - 2025-08-12
+
+### Added
 
 - section `Elements` and `Styles` for customized language styles
 - section `Briefness Style`
@@ -38,11 +59,6 @@ Role.Conversation Tag Generation -->
 
 - split the single abbreviation table into 3 sub-lists. Utilize these abbrs in various prompts
 - improve role `git_commit_message` to avoid generated output being wordy
-
-### Deprecated
-### Removed
-### Fixed
-### Security
 
 
 
@@ -703,7 +719,8 @@ Role.Conversation Tag Generation -->
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.2...dev
+[4.7.2]: https://github.com/kami-lel/kaye/compare/v4.7.1...v4.7.2
 [4.7.1]: https://github.com/kami-lel/kaye/compare/v4.7.0...v4.7.1
 [4.7.0]: https://github.com/kami-lel/kaye/compare/v4.6.2...v4.7.0
 [4.6.2]: https://github.com/kami-lel/kaye/compare/v4.6.1...v4.6.2
