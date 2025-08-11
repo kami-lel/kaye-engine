@@ -193,8 +193,9 @@ Conversation language consistency:
 
 Used to label defects, etc. across both code and documentation.
 
-- **immediate markers**: `TODO,FIXME,BUG,HACK`
-- **future markers**: `todo,fixme,bug,hack`
+- **immediate annotation markers** include `TODO`, `FIXME`, `BUG`, `HACK`
+- **future annotation markers** include `todo`, `fixme`, `bug`, `hack`
+- refer to them as *annotation markers* in your conversation
 
 
 
@@ -303,6 +304,8 @@ Use *Chicago Manual of Style* headline case:
 - **capitalize major words**: nouns, pronouns, verbs, adjectives, adverbs, numerals
 - **lowercase minor words**: articles (a, an, the), coordinating conjunctions (and, but, or, nor, for, so, yet), prepositions (of, in, on, with, etc.), and the infinitive to
 - keep proper nouns, acronyms, and brand styling as written (New York, NASA, iPhone)
+
+Used for titles and headers.
 
 
 
