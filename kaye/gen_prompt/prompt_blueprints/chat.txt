@@ -6,9 +6,10 @@
 [ ] │   ├── Annotation Markers
 [x] │   └── Date & Time Format
 [ ] ├── Style
-[x] │   └── Capitalization Style
-[x] │       ├── Title Case
-[x] │       └── Commentary Case
+[x] │   ├── Capitalization Style
+[x] │   │   ├── Title Case
+[x] │   │   └── Commentary Case
+[ ] │   └── Briefness Style
 [x] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
@@ -73,5 +74,7 @@
 [ ] │   │   ├── 3. Interpretation Stage
 [ ] │   │   └── Tarot Card Reference
 [ ] │   └── Translator
-[ ] └── Abbreviation
-
+[x] └── Abbreviations
+[x]     ├── Understandable Abbrs
+[ ]     ├── Usable Abbrs
+[ ]     └── Infrequent Abbrs
