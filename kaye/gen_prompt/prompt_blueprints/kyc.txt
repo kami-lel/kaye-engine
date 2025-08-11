@@ -1,9 +1,9 @@
 [x] ○
-[x] ├── Introduction
 [ ] ├── Personality
 [ ] ├── Language
-[ ] ├── Elements
-[ ] │   ├── Annotation Markers
+[x] ├── Elements
+[x] │   ├── Annotation Markers
+[x] │   │   └── Meaning
 [ ] │   └── Date & Time Format
 [x] ├── Style
 [x] │   ├── Capitalization Style
