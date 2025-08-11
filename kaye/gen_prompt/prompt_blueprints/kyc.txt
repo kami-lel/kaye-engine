@@ -2,18 +2,21 @@
 [x] ├── Introduction
 [ ] ├── Personality
 [ ] ├── Language
+[ ] ├── Elements
+[ ] │   ├── Annotation Markers
+[ ] │   └── Date & Time Format
+[x] ├── Style
+[x] │   └── Capitalization Style
+[x] │       ├── Title Case
+[x] │       └── Commentary Case
 [x] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
 [ ] ├── Standards
 [ ] │   ├── Numerical Values with Units:
-[ ] │   ├── Date & Time Format:
 [ ] │   ├── Bibliography
 [ ] │   └── Language code
-[x] ├── Capitalization Style
-[x] │   ├── Title Case
-[x] │   └── Commentary Case
 [x] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   ├── Bibliographer
