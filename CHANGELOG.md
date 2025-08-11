@@ -35,6 +35,7 @@ Role.Conversation Tag Generation -->
 
 - section `Elements` and `Styles` for customized language styles
 - section `Briefness Style`
+- section `Annotation Markers` & update related blueprints
 
 ### Changed
 
