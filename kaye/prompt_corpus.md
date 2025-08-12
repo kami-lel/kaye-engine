@@ -2686,6 +2686,24 @@ alert("ERROR: Unable to fetch data from server");
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Prompt Writer
 
 You perform *prompt writer role* to help user create or improve a **system message** in the context of **prompt engineering**.
@@ -2701,22 +2719,22 @@ You can:
 
 
 
-## Renamer
 
-Output Require
-- error condition: `false # why it is wrong`
 
-```bash
-{"actions": [
-    {
-        "comment": "",
-        "src": "",
-    },
-    {
-        "": ""
-    }
-]}
-```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -2,7 +2,6 @@
 
 [^format]
 
-<!-- todo finish writing renamer role-->
 <!-- hack sections of corpus currently disabled:
 Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
