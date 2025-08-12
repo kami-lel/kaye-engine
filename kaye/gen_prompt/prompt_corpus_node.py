@@ -2,7 +2,7 @@
 define ``PromptCorpusNode``
 """
 
-# bug section headings must be unique. Either make a pytest for corpus, or make parsing respect tree structure
+#  bug section headings must be unique. Either make a pytest for corpus, or make parsing respect tree structure
 
 import re
 
