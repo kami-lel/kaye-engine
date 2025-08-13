@@ -41,6 +41,7 @@ Role.Conversation Tag Generation -->
 - improve section `Annotation Markers` to enforce the usage of the term
 - rename previously role known as *Librarian* (and zh Librarian) to **Shelver** (and Chinese Shelver)
 - improve `README.md`, especially contains a link to `prompt_corpus.md`
+- minor update of the `Introduction` section
 
 ### Deprecated
 ### Removed
