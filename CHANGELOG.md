@@ -2,14 +2,13 @@
 
 [^format]
 
-<!-- todo finish writing renamer role-->
 <!-- hack sections of corpus currently disabled:
 Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline
 Role.Conversation Tag Generation -->
-<!-- fixme improve & test bibliographer, maybe merge w/ book body -->
-<!-- todo test&improve git commit message -->
+<!-- todo test & improve git commit message -->
+<!-- bug (git commit message) instruction on which tag to use is not clear -->
 
 
 
@@ -33,7 +32,44 @@ Role.Conversation Tag Generation -->
 ### Deprecated
 ### Removed
 ### Fixed
-### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.7.3] - 2025-08-14
+
+### Added
+
+- abbreviations related:
+
+  - new blueprint `all_abbreviations`
+  - new blueprint `understandable_abbreviations`
+  - more abbrs
+
+### Changed
+
+- re `prompt_corpus.md`:
+
+  - rewrite old *book buddy* and *bibliographer* into the new **Librarian** role
+  - rename previously role known as *Librarian* (and zh Librarian) to **Shelver** (and Chinese Shelver)
+  - improve section `Annotation Markers` to enforce the usage of the term
+  - minor update of the `Introduction` section
+
+- improve `README.md`, especially contains a link to `prompt_corpus.md`
+
+### Fixed
+
+- restore section `Introduction` which was accidentally deleted
+- stronger tone in paragraph preceding Understandable Abbreviations, forbid agent use these abbrs
 
 
 

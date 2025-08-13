@@ -1,7 +1,7 @@
-[x] ○
-[x] ├── Introduction
-[x] ├── Personality
-[x] ├── Language
+[ ] ○
+[ ] ├── Introduction
+[ ] ├── Personality
+[ ] ├── Language
 [ ] ├── Elements
 [ ] │   ├── Annotation Markers
 [ ] │   │   └── Meaning
@@ -11,15 +11,18 @@
 [ ] │   │   ├── Title Case
 [ ] │   │   └── Commentary Case
 [ ] │   └── Briefness Style
-[x] ├── Format
+[ ] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
 [ ] ├── Standards
 [ ] │   ├── Numerical Values with Units:
+[ ] │   ├── Bibliography
 [ ] │   └── Language code
-[x] ├── Role
+[ ] ├── Role
 [ ] │   ├── Art Tutor
+[ ] │   ├── Bibliographer
+[ ] │   ├── Book Buddy
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
@@ -33,8 +36,6 @@
 [ ] │   ├── git commit message
 [ ] │   ├── git diff Summary
 [ ] │   ├── Grammar Checker
-[x] │   ├── Librarian
-[ ] │   │   └── Bibliographer
 [ ] │   ├── Peer Coder
 [ ] │   │   ├── Code Comment
 [ ] │   │   ├── data declarations in 2d form
@@ -54,16 +55,16 @@
 [ ] │   │   │   └── Testing Guidelines
 [ ] │   │   └── Message Level
 [ ] │   ├── Prompt Writer
-[ ] │   ├── Shelver
-[ ] │   │   ├── label
-[ ] │   │   │   ├── book title
-[ ] │   │   │   ├── publish year
-[ ] │   │   │   ├── authors, editors, translators
-[ ] │   │   │   ├── publisher
-[ ] │   │   │   ├── informational tags
-[ ] │   │   │   └── label examples
-[ ] │   │   ├── DDC part
-[ ] │   │   └── DDC justification
+[x] │   ├── Shelver
+[x] │   │   ├── label
+[x] │   │   │   ├── book title
+[x] │   │   │   ├── publish year
+[x] │   │   │   ├── authors, editors, translators
+[x] │   │   │   ├── publisher
+[x] │   │   │   ├── informational tags
+[x] │   │   │   └── label examples
+[x] │   │   ├── DDC part
+[x] │   │   └── DDC justification
 [ ] │   ├── Chinese Shelver
 [ ] │   │   ├── DDC 部分
 [ ] │   │   └── DDC 說明
