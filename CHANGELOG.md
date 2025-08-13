@@ -30,21 +30,23 @@ Role.Conversation Tag Generation -->
 
 ### Added
 
-- blueprint `all_abbreviations`
-- blueprint `understandable_abbreviations`
-- more abbrs
+- abbreviations related:
+
+  - new blueprint `all_abbreviations`
+  - new blueprint `understandable_abbreviations`
+  - more abbrs
 
 ### Changed
 
-- section `Annotation Markers` to enforce the usage of the term
-- stronger tone in paragraph preceding Understandable Abbreviations
-- rename previous role known as *Librarian* (and zh Librarian) to **Shelver** (and Chinese Shelver)
+- improve section `Annotation Markers` to enforce the usage of the term
+- rename previously role known as *Librarian* (and zh Librarian) to **Shelver** (and Chinese Shelver)
 
 ### Deprecated
 ### Removed
 ### Fixed
 
 - restore section `Introduction` which was accidentally deleted
+- stronger tone in paragraph preceding Understandable Abbreviations, forbid agent use these abbrs
 
 ### Security
 
