@@ -38,6 +38,7 @@ Role.Conversation Tag Generation -->
 
 - section `Annotation Markers` to enforce the usage of the term
 - stronger tone in paragraph preceding Understandable Abbreviations
+- rename previous role known as *Librarian* (and zh Librarian) to **Shelver** (and Chinese Shelver)
 
 ### Deprecated
 ### Removed
