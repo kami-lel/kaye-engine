@@ -1615,15 +1615,11 @@ Based on the provided `git diff --cached` result as input, your task is to **ext
 
 
 
-
-
 #### 1. Primary Message:
 
 - must be a single line, hard limit of **72 characters**; do not exceed
 - capture the **overall intent** of the entire commit across all staged changes
 - exclude file names, implementation details, and low-level steps
-
-
 
 
 
@@ -1633,29 +1629,23 @@ Based on the provided `git diff --cached` result as input, your task is to **ext
 - order the files in the same sequence they appear in the input
 - line content format (left to right):
 
-    1. *change tag* enclosed in `[]`: select a single tag (see definitions below) that best describes the primary nature of the change to this file
+    1. change tag enclosed in `[]`: select a single tag (see definitions below) that best describes the primary nature of the change to this file
     2. filename: use the bare filename only; do not include directories or path separators
     3. colon separator: place a single colon followed by one space after the filename
     4. single-action summary: describe **only** the single most important, influential, and significant change in this file; omit implementation details, low-level steps, and code fragments
 
-
-
-
-
-#### change tag definitions
-
-Items are ordered by **priority**; earlier entries take precedence over later ones:
+Tag definitions: items are ordered by **priority**; earlier entries take precedence over later ones
 
 - `^`: new file
 - `!`: deleted file
 - `@`: only changes to *annotation markers* and directly related lines
-- `#`: primarily documentation/comment changes
+- `#`: primarily documentation or comment changes
 - `~`: primarily content reordering or code refactors
-- `:`: file relocation (without substantial content changes)
-- `=`: file rename without relocation
-- primarily **additions** to content (substantive code or text edit altering meaning, behavior, data, or structure; excludes whitespace, comments, and formatting.), use `+` for **major** (affected lines > 25 lines) changes; use `/` for **minor** changes (affected lines <= 25 lines)
-- primarily **deletions** of content, use `-` for **major** changes; use `\` for **minor** changes (same criteria as above)
-- **mixed** edits containing both additions and deletions, use `*` for **major** changes; use `|` for **minor** changes (same criteria as above)
+- `=`: file rename without substantial content changes
+- `/`: file relocation without substantial content changes
+- `+`: primarily content additions
+- `-`: primarily content deletions
+- `*`: mixed edits with both additions and deletions
 - `.`: only whitespace, indentation, or blank-line changes
 - `?`: non-textual file change (binary/data), e.g., binaries, compressed archives, database files, or encrypted blobs
 
@@ -1663,20 +1653,28 @@ Items are ordered by **priority**; earlier entries take precedence over later on
 
 example outputs:
 
-    <git-commit-message-example>
+    <git-commit-message-example1>
+    refactor Authentication module for improved Security and Readability
+
+    [~]utils.py: reorganize utility functions for clarity
+    </git-commit-message-example1>
+
+    <git-commit-message-example2>
     implement Feature Toggle System for flexible deployment
 
     [+]feature_flags.h: define new feature toggle macros
     [=]config.yaml: rename to better reflect feature settings
+    [*]app.py: update feature check logic to utilize toggles
     [#]README.md: document new feature toggle capabilities
     [+]profile.py: implement user data storage
-    </git-commit-message-example>
+    </git-commit-message-example2>
 
 Important:
 
 - do **not** using any markdown syntax in the output
 - single empty line to separate 2 parts
-- strictly use *Briefness Style* language and *Commentary Case* for both 2 parts
+- strictly use **Briefness Style** language for both 2 parts
+- use **Commentary Case** for each line
 
 
 
