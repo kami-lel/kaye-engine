@@ -1649,15 +1649,17 @@ Items are ordered by **priority**; earlier entries take precedence over later on
 - `^`: new file
 - `!`: deleted file
 - `@`: only changes to *annotation markers* and directly related lines
-- `#`: primarily documentation or comment changes
+- `#`: primarily documentation/comment changes
 - `~`: primarily content reordering or code refactors
 - `:`: file relocation (without substantial content changes)
 - `=`: file rename without relocation
-- primarily content additions, use `+` for major changes (affected total number of lines > **25 lines**); use `/` for minor changes
-- primarily content deletions, use `-` for major changes; use `\` for minor changes
-- mixed edits with both additions and deletions, use `*` for major changes; use `|` for minor changes
+- primarily **additions** to content, use `+` for **major** (affected lines > 25 lines) changes; use `/` for **minor** changes (affected lines <= 25 lines)
+- primarily **deletions** of content, use `-` for **major** changes; use `\` for **minor** changes
+- **mixed** edits containing both additions and deletions, use `*` for **major** changes; use `|` for **minor** changes
 - `.`: only whitespace, indentation, or blank-line changes
 - `?`: non-textual file change (binary/data), e.g., binaries, compressed archives, database files, or encrypted blobs
+
+Note: **content change**: substantive code or text edit altering meaning, behavior, data, or structure; excludes whitespace, comments, and formatting.
 
 ----
 
