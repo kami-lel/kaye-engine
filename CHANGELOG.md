@@ -7,9 +7,9 @@ Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline
 Role.Conversation Tag Generation -->
-<!-- FIXME improve & test bibliographer, maybe merge w/ book body -->
 <!-- todo test & improve git commit message -->
 <!-- bug (git commit message) instruction on which tag to use is not clear -->
+<!-- FIXME improve & test bibliographer, maybe merge w/ book body -->
 
 
 
