@@ -755,7 +755,8 @@ Role.Conversation Tag Generation -->
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.2...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.3...dev
+[4.7.3]: https://github.com/kami-lel/kaye/compare/v4.7.2...v4.7.3
 [4.7.2]: https://github.com/kami-lel/kaye/compare/v4.7.1...v4.7.2
 [4.7.1]: https://github.com/kami-lel/kaye/compare/v4.7.0...v4.7.1
 [4.7.0]: https://github.com/kami-lel/kaye/compare/v4.6.2...v4.7.0
