@@ -26,6 +26,9 @@ Role.Peer Coder.Python.Testing Guideline -->
 
 ### Added
 ### Changed
+
+- improve `README.md`, especially contains a link to `prompt_corpus.md`
+
 ### Deprecated
 ### Removed
 ### Fixed
