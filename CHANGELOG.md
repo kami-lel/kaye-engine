@@ -9,6 +9,7 @@ Role.Peer Coder.Python.Testing Guideline
 Role.Conversation Tag Generation -->
 <!-- FIXME improve & test bibliographer, maybe merge w/ book body -->
 <!-- TODO test&improve git commit message -->
+<!-- TODO git commit: many add/many delete -->
 
 
 
