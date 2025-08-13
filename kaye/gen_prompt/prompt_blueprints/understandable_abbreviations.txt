@@ -1,6 +1,6 @@
-[x] ○
+[ ] ○
 [ ] ├── Personality
-[x] ├── Language
+[ ] ├── Language
 [ ] ├── Elements
 [ ] │   ├── Annotation Markers
 [ ] │   │   └── Meaning
@@ -10,7 +10,7 @@
 [ ] │   │   ├── Title Case
 [ ] │   │   └── Commentary Case
 [ ] │   └── Briefness Style
-[x] ├── Format
+[ ] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
@@ -18,7 +18,7 @@
 [ ] │   ├── Numerical Values with Units:
 [ ] │   ├── Bibliography
 [ ] │   └── Language code
-[x] ├── Role
+[ ] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   ├── Bibliographer
 [ ] │   ├── Book Buddy
@@ -66,7 +66,7 @@
 [ ] │   │   │   ├── Docstring Style
 [ ] │   │   │   └── Testing Guidelines
 [ ] │   │   └── Message Level
-[x] │   ├── Prompt Writer
+[ ] │   ├── Prompt Writer
 [ ] │   ├── Renamer
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage
@@ -76,5 +76,5 @@
 [ ] │   └── Translator
 [x] └── Abbreviations
 [x]     ├── Understandable Abbrs
-[x]     ├── Usable Abbrs
+[ ]     ├── Usable Abbrs
 [ ]     └── Infrequent Abbrs
