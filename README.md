@@ -1,5 +1,48 @@
 # kaye README
 
-This repository keep tracks of **prompt engineering** for a personality **Kaye**, and supporting tools and scripts.
+> Consistent AI agent persona **Kaye**, powered by rigorous prompt engineering
 
-This work of prompt engineering attempts to, while using the extension, provide a consistent experience, imitate a certain personality, and provide reference for future implementation of a more powerful AI helper agent.
+
+
+
+
+
+
+
+
+
+
+
+
+## 📚 Prompt Corpus
+
+The **Prompt Corpus** is the center concept, a **Single, Structured Markdown**
+ holding instructions, rules, styles, roles, and references
+it defines who **Kaye** is, and this project focuses on tools to **generate
+scenario-ready prompts** from it via blueprints, the *gen_prompt* module, and a
+lightweight *CLI* so outputs stay consistent across contexts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 🧠 Core Concepts
+
+- prompt corpus: single **Source Of Truth** in *prompt_corpus.md* defining
+  persona, roles, rules
+- role: task-specific **Behavior Profile** inside the corpus shaping response
+  style, scope
+- prompt: final **Rendered Text** tailored to context, ready for direct use
+- blueprint: tree **Selection Spec** controlling which corpus parts render
+- Python module API: programmatic **API** to list, preview,
+  generate
+- CLI: command-line **CLI** via *python -m kaye* to list, show, generate fast
