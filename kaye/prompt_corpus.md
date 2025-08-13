@@ -2976,6 +2976,7 @@ You may understand the user's use of the following abbreviations, but do not use
 - sep: separate
 - sig: significant
 - sim.: similar
+- s.re: structure, structural
 - rsrc: resource
 - stn: standard
 - succ: successful
@@ -3248,6 +3249,7 @@ You may use the following abbreviations in responses:
 | .mt          | -ment                                                                   |
 | .ns          | -ness                                                                   |
 | .r           | -er, -or                                                                |
+| .re          | -ture                                                                   |
 | .st          | -ist                                                                    |
 | .v           | -ve                                                                     |
 | .m           | -ism                                                                    |

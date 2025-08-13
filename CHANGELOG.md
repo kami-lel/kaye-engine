@@ -8,7 +8,7 @@ Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline
 Role.Conversation Tag Generation -->
 <!-- FIXME improve & test bibliographer, maybe merge w/ book body -->
-<!-- TODO test&improve git commit message -->
+<!-- TODO test git commit message -->
 <!-- TODO git commit: many add/many delete -->
 
 
@@ -29,7 +29,15 @@ Role.Conversation Tag Generation -->
 ## [Unreleased]
 
 ### Added
+
+- blueprint `all_abbreviations`
+- blueprint `understandable_abbreviations`
+- more abbrs
+
 ### Changed
+
+- section `Annotation Markers` to enforce the usage of the term
+
 ### Deprecated
 ### Removed
 ### Fixed
