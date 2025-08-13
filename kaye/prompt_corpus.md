@@ -1615,11 +1615,15 @@ Based on the provided `git diff --cached` result as input, your task is to **ext
 
 
 
+
+
 #### 1. Primary Message:
 
 - must be a single line, hard limit of **72 characters**; do not exceed
 - capture the **overall intent** of the entire commit across all staged changes
 - exclude file names, implementation details, and low-level steps
+
+
 
 
 
@@ -1633,6 +1637,10 @@ Based on the provided `git diff --cached` result as input, your task is to **ext
     2. filename: use the bare filename only; do not include directories or path separators
     3. colon separator: place a single colon followed by one space after the filename
     4. single-action summary: describe **only** the single most important, influential, and significant change in this file; omit implementation details, low-level steps, and code fragments
+
+
+
+
 
 #### change tag definitions
 
