@@ -9,7 +9,6 @@ Role.Peer Coder.Python.Testing Guideline
 Role.Conversation Tag Generation -->
 <!-- todo test & improve git commit message -->
 <!-- bug (git commit message) instruction on which tag to use is not clear -->
-<!-- FIXME improve & test bibliographer, maybe merge w/ book body -->
 
 
 
@@ -29,6 +28,26 @@ Role.Conversation Tag Generation -->
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.7.3] - 2025-08-14
+
+### Added
 
 - abbreviations related:
 
@@ -38,19 +57,19 @@ Role.Conversation Tag Generation -->
 
 ### Changed
 
-- improve section `Annotation Markers` to enforce the usage of the term
-- rename previously role known as *Librarian* (and zh Librarian) to **Shelver** (and Chinese Shelver)
-- improve `README.md`, especially contains a link to `prompt_corpus.md`
-- minor update of the `Introduction` section
+- re `prompt_corpus.md`:
 
-### Deprecated
-### Removed
+  - rewrite old *book buddy* and *bibliographer* into the new **Librarian** role
+  - rename previously role known as *Librarian* (and zh Librarian) to **Shelver** (and Chinese Shelver)
+  - improve section `Annotation Markers` to enforce the usage of the term
+  - minor update of the `Introduction` section
+
+- improve `README.md`, especially contains a link to `prompt_corpus.md`
+
 ### Fixed
 
 - restore section `Introduction` which was accidentally deleted
 - stronger tone in paragraph preceding Understandable Abbreviations, forbid agent use these abbrs
-
-### Security
 
 
 
