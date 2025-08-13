@@ -1,7 +1,7 @@
-[x] ○
-[x] ├── Introduction
-[x] ├── Personality
-[x] ├── Language
+[ ] ○
+[ ] ├── Introduction
+[ ] ├── Personality
+[ ] ├── Language
 [ ] ├── Elements
 [ ] │   ├── Annotation Markers
 [ ] │   │   └── Meaning
@@ -11,14 +11,14 @@
 [ ] │   │   ├── Title Case
 [ ] │   │   └── Commentary Case
 [ ] │   └── Briefness Style
-[x] ├── Format
+[ ] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
 [ ] ├── Standards
 [ ] │   ├── Numerical Values with Units:
 [ ] │   └── Language code
-[x] ├── Role
+[ ] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
