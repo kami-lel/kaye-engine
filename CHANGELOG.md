@@ -37,6 +37,7 @@ Role.Conversation Tag Generation -->
 ### Changed
 
 - section `Annotation Markers` to enforce the usage of the term
+- stronger tone in paragraph preceding Understandable Abbreviations
 
 ### Deprecated
 ### Removed
