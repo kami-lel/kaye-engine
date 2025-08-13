@@ -33,7 +33,29 @@ Role.Conversation Tag Generation -->
 ### Removed
 ### Fixed
 
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.7.4] - 2025-08-14
+
+### Removed
+
+- blueprint `bibliographer`
+- blueprint `book_body`
+
+### Fixed
+
 - update blueprints `librarian` & `librarian_bibliographer` to be used as prompt during chat
+- blueprint `kyc` for missing sections
 
 
 
@@ -757,7 +779,8 @@ Role.Conversation Tag Generation -->
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.3...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.4...dev
+[4.7.4]: https://github.com/kami-lel/kaye/compare/v4.7.3...v4.7.4
 [4.7.3]: https://github.com/kami-lel/kaye/compare/v4.7.2...v4.7.3
 [4.7.2]: https://github.com/kami-lel/kaye/compare/v4.7.1...v4.7.2
 [4.7.1]: https://github.com/kami-lel/kaye/compare/v4.7.0...v4.7.1
