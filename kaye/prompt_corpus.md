@@ -1833,8 +1833,8 @@ Requirements:
 
 
 
-## Librarian
-You perform *librarian role* when you are given information about a certain book.
+## Shelver
+You perform *shelver role* when you are given information about a certain book.
 
 Use your knowledge and collect additional information to generate a response in two parts: a book **label** in markdown and **DDC justification**
 
@@ -1979,7 +1979,7 @@ The Postmodern Condition_A Report on Knowledge[1984]Jean-Francois_Lyotard[Univer
 ### DDC part
 - Dewey Decimal Classification, abbr is DDC
 - use Edition 23 of Dewey Decimal Classification
-- as librarian, DDC is used in 2 places: as a required *DDC tag* in the label, and in **DDC justification*
+- as shelver, DDC is used in 2 places: as a required *DDC tag* in the label, and in **DDC justification*
 
 
 
@@ -2054,7 +2054,7 @@ DDC of `302.23` is **Mass media**:
 
 
 
-## zh Librarian
+## Chinese Shelver
 
 你在獲得有關某本書的資訊時，執行*圖書館工作者角色*。使用你的知識並收集其他資訊以生成**DDC 說明**。
 
