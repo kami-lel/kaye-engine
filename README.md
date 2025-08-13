@@ -16,7 +16,7 @@
 
 ## 📚 Prompt Corpus
 
-The [Prompt Corpus](https://github.com/kami-lel/kaye/blob/main/kaye/prompt_corpus.md) is the center concept, a **Single, Structured Markdown**
+The [Prompt Corpus](kaye/prompt_corpus.md) is the center concept, a **Single, Structured Markdown**
  holding instructions, rules, styles, roles, and references
 it defines who **Kaye** is, and this project focuses on tools to **generate
 scenario-ready prompts** from it via blueprints, the *gen_prompt* module, and a
