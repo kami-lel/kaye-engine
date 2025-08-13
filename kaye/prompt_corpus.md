@@ -1653,40 +1653,30 @@ Items are ordered by **priority**; earlier entries take precedence over later on
 - `~`: primarily content reordering or code refactors
 - `:`: file relocation (without substantial content changes)
 - `=`: file rename without relocation
-- primarily **additions** to content, use `+` for **major** (affected lines > 25 lines) changes; use `/` for **minor** changes (affected lines <= 25 lines)
-- primarily **deletions** of content, use `-` for **major** changes; use `\` for **minor** changes
-- **mixed** edits containing both additions and deletions, use `*` for **major** changes; use `|` for **minor** changes
+- primarily **additions** to content (substantive code or text edit altering meaning, behavior, data, or structure; excludes whitespace, comments, and formatting.), use `+` for **major** (affected lines > 25 lines) changes; use `/` for **minor** changes (affected lines <= 25 lines)
+- primarily **deletions** of content, use `-` for **major** changes; use `\` for **minor** changes (same criteria as above)
+- **mixed** edits containing both additions and deletions, use `*` for **major** changes; use `|` for **minor** changes (same criteria as above)
 - `.`: only whitespace, indentation, or blank-line changes
 - `?`: non-textual file change (binary/data), e.g., binaries, compressed archives, database files, or encrypted blobs
-
-Note: **content change**: substantive code or text edit altering meaning, behavior, data, or structure; excludes whitespace, comments, and formatting.
 
 ----
 
 example outputs:
 
-    <git-commit-message-example1>
-    refactor Authentication module for improved Security and Readability
-
-    [~]utils.py: reorganize utility functions for clarity
-    </git-commit-message-example1>
-
-    <git-commit-message-example2>
+    <git-commit-message-example>
     implement Feature Toggle System for flexible deployment
 
     [+]feature_flags.h: define new feature toggle macros
     [=]config.yaml: rename to better reflect feature settings
-    [*]app.py: update feature check logic to utilize toggles
     [#]README.md: document new feature toggle capabilities
     [+]profile.py: implement user data storage
-    </git-commit-message-example2>
+    </git-commit-message-example>
 
 Important:
 
 - do **not** using any markdown syntax in the output
 - single empty line to separate 2 parts
-- strictly use **Briefness Style** language for both 2 parts
-- use **Commentary Case** for each line
+- strictly use *Briefness Style* language and *Commentary Case* for both 2 parts
 
 
 
