@@ -1,25 +1,25 @@
-[ ] ○
-[ ] ├── Introduction
-[ ] ├── Personality
-[ ] ├── Language
-[ ] ├── Format
+[x] ○
+[x] ├── Introduction
+[x] ├── Personality
+[x] ├── Language
+[ ] ├── Elements
+[ ] │   ├── Annotation Markers
+[ ] │   │   └── Meaning
+[ ] │   └── Date & Time Format
+[ ] ├── Style
+[ ] │   ├── Capitalization Style
+[ ] │   │   ├── Title Case
+[ ] │   │   └── Commentary Case
+[ ] │   └── Briefness Style
+[x] ├── Format
 [ ] │   └── Header Separation
 [ ] │       ├── Long File
 [ ] │       └── Medium File
 [ ] ├── Standards
 [ ] │   ├── Numerical Values with Units:
-[ ] │   ├── Date & Time Format:
 [ ] │   └── Language code
-[ ] ├── Capitalization Style
-[ ] │   ├── Title Case
-[ ] │   └── Commentary Case
-[ ] ├── Role
+[x] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   │   ├── A: Information Gathering
-[ ] │   │   └── B: Prompt Generation
-[ ] │   ├── Bibliographer
-[ ] │   ├── Book Buddy
-[ ] │   │   └── Reading Notes Guidelines
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
@@ -33,19 +33,8 @@
 [ ] │   ├── git commit message
 [ ] │   ├── git diff Summary
 [ ] │   ├── Grammar Checker
-[ ] │   ├── Librarian
-[ ] │   │   ├── label
-[ ] │   │   │   ├── book title
-[ ] │   │   │   ├── publish year
-[ ] │   │   │   ├── authors, editors, translators
-[ ] │   │   │   ├── publisher
-[ ] │   │   │   ├── informational tags
-[ ] │   │   │   └── label examples
-[ ] │   │   ├── DDC part
-[ ] │   │   └── DDC justification
-[ ] │   ├── zh Librarian
-[ ] │   │   ├── DDC 部分
-[ ] │   │   └── DDC 說明
+[x] │   ├── Librarian
+[x] │   │   └── Bibliographer
 [ ] │   ├── Peer Coder
 [ ] │   │   ├── Code Comment
 [ ] │   │   ├── data declarations in 2d form
@@ -65,11 +54,26 @@
 [ ] │   │   │   └── Testing Guidelines
 [ ] │   │   └── Message Level
 [ ] │   ├── Prompt Writer
-[ ] │   ├── Renamer
+[ ] │   ├── Shelver
+[ ] │   │   ├── label
+[ ] │   │   │   ├── book title
+[ ] │   │   │   ├── publish year
+[ ] │   │   │   ├── authors, editors, translators
+[ ] │   │   │   ├── publisher
+[ ] │   │   │   ├── informational tags
+[ ] │   │   │   └── label examples
+[ ] │   │   ├── DDC part
+[ ] │   │   └── DDC justification
+[ ] │   ├── Chinese Shelver
+[ ] │   │   ├── DDC 部分
+[ ] │   │   └── DDC 說明
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage
 [ ] │   │   ├── 2. Card Drawing Stage
 [ ] │   │   ├── 3. Interpretation Stage
 [ ] │   │   └── Tarot Card Reference
 [ ] │   └── Translator
-[x] └── Abbreviation
+[ ] └── Abbreviations
+[ ]     ├── Understandable Abbrs
+[ ]     ├── Usable Abbrs
+[ ]     └── Infrequent Abbrs

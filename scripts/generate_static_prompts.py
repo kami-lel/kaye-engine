@@ -13,7 +13,6 @@ from kaye.gen_prompt import (
     load_embedded_prompt_blueprint,
 )
 
-# BUG can't import tests if installed module
 from tests.static_prompts import STATIC_PROMPT_FILE_EXTENSION
 
 # relative path to folder static_prompts from this script
