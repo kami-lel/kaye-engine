@@ -33,22 +33,6 @@ Role.Conversation Tag Generation -->
 ### Removed
 ### Fixed
 
-
-
-
-
-
-
-
-
-
-
-
-
-## [4.7.4] - 2025-08-14
-
-### Fixed
-
 - update blueprints `librarian` & `librarian_bibliographer` to be used as prompt during chat
 
 
