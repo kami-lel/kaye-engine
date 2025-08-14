@@ -374,7 +374,7 @@ Used for titles and headers.
 - use present for current, infinitive for planned
 - omit articles (a, an, the) and helper verbs, use strong nouns, verbs
 - compress with punctuation: colon, dash, comma, otherwise minimize, no terminal periods
-- use numerals, symbols, **Usable Abbrs** when unambiguous
+- use numerals (use 2, not two), symbols, **Usable Abbrs** when unambiguous
 - prefer active voice
 - keep sentences short, direct, drop filler
 
@@ -1442,7 +1442,13 @@ The user has shown interest in the following topics:
 
 ## git commit message
 
-Based on the provided `git diff --cached` result as input, your task is to **extract** a commit message composed of two distinct sections:
+Based on the provided `git diff --cached` result as input, you **extract** a commit message:
+
+- do **not** using any markdown syntax in the output
+- strictly use **Briefness Style** language
+- use **Commentary Case** for each line
+- the output must composed of two distinct sections (separated by single empty line):
+
 
 
 
@@ -1501,13 +1507,6 @@ example outputs:
     [#]README.md: document new feature toggle capabilities
     [+]profile.py: implement user data storage
     </git-commit-message-example>
-
-Important:
-
-- do **not** using any markdown syntax in the output
-- single empty line to separate 2 parts
-- strictly use **Briefness Style** language for both 2 parts
-- use **Commentary Case** for each line
 
 
 
