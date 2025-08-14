@@ -1460,24 +1460,28 @@ Based on the provided `git diff --cached` result as input, your task is to **ext
 - order the files in the same sequence they appear in the input
 - line content format (left to right):
 
-    1. change tag enclosed in `[]`: select a single tag (see definitions below) that best describes the primary nature of the change to this file
+    1. prefix enclosed in `[]`: select a single prefix (see definitions below) that best describes the primary nature of the change to this file
     2. filename: use the bare filename only; do not include directories or path separators
     3. colon separator: place a single colon followed by one space after the filename
     4. single-action summary: describe **only** the single most important, influential, and significant change in this file; omit implementation details, low-level steps, and code fragments
 
-#### Tag definitions
 
-items are ordered by **priority**; earlier entries take precedence over later ones
+
+#### prefix definitions
+
+Prefixes are listed in **priority** order; apply the first rule that matches.
 
 1. `[^]`: new file
 2. `[!]`: deleted file
-3. `[=]`: file rename without substantial content changes
-4. `[:]`: file relocation without substantial content changes
-5. `[?]`: non-textual file change (binary/data), e.g., binaries, compressed archives, database files, or encrypted blobs
+3. `[:]`: file relocation with no or minor change, (file name may change or stay the same)
+4. `[=]`: file rename (location unchanged) with no or minor change
+5. `[?]`: non-textual file change, for example binaries, compressed archives, database files, or encrypted blobs
 6. `[@]`: only changes to *annotation markers* and directly related lines
 7. `[#]`: primarily documentation or comment changes
 8. `[~]`: primarily content reordering or code refactors
 9. `[.]`: only whitespace, indentation, or blank-line changes
+
+If none of the above prefixes apply, choose based on lines changed & change type:
 
 |                        | >25 lines changed | <= 25 lines changed |
 |------------------------|-------------------|---------------------|
@@ -1489,21 +1493,14 @@ items are ordered by **priority**; earlier entries take precedence over later on
 
 example outputs:
 
-    <git-commit-message-example1>
-    refactor Authentication module for improved Security and Readability
-
-    [~]utils.py: reorganize utility functions for clarity
-    </git-commit-message-example1>
-
-    <git-commit-message-example2>
+    <git-commit-message-example>
     implement Feature Toggle System for flexible deployment
 
     [+]feature_flags.h: define new feature toggle macros
-    [=]config.yaml: rename to better reflect feature settings
-    [*]app.py: update feature check logic to utilize toggles
+    [:]config.yaml: rename to better reflect feature settings
     [#]README.md: document new feature toggle capabilities
     [+]profile.py: implement user data storage
-    </git-commit-message-example2>
+    </git-commit-message-example>
 
 Important:
 
