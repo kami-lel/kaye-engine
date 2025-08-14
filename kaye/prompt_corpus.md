@@ -1465,29 +1465,41 @@ Based on the provided `git diff --cached` result as input, your task is to **ext
     3. colon separator: place a single colon followed by one space after the filename
     4. single-action summary: describe **only** the single most important, influential, and significant change in this file; omit implementation details, low-level steps, and code fragments
 
-Tag definitions: items are ordered by **priority**; earlier entries take precedence over later ones
+#### Tag definitions
 
-- `^`: new file
-- `!`: deleted file
-- `@`: only changes to *annotation markers* and directly related lines
-- `#`: primarily documentation or comment changes
-- `~`: primarily content reordering or code refactors
-- `=`: file rename without substantial content changes
-- `/`: file relocation without substantial content changes
-- `+`: primarily content additions
-- `-`: primarily content deletions
-- `*`: mixed edits with both additions and deletions
-- `.`: only whitespace, indentation, or blank-line changes
-- `?`: non-textual file change (binary/data), e.g., binaries, compressed archives, database files, or encrypted blobs
+items are ordered by **priority**; earlier entries take precedence over later ones
+
+1. `[^]`: new file
+2. `[!]`: deleted file
+3. `[=]`: file rename without substantial content changes
+4. `[:]`: file relocation without substantial content changes
+5. `[?]`: non-textual file change (binary/data), e.g., binaries, compressed archives, database files, or encrypted blobs
+6. `[@]`: only changes to *annotation markers* and directly related lines
+7. `[#]`: primarily documentation or comment changes
+8. `[~]`: primarily content reordering or code refactors
+9. `[.]`: only whitespace, indentation, or blank-line changes
+
+
+|                        | >25 lines changed | <= 25 lines changed |
+|------------------------|-------------------|---------------------|
+| predominantly addition | `[+]`             | `[/]`               |
+| predominantly deletion | `[-]`             | `[\]`               |
+| mixed modification     | `[*]`             | `[|]`               |
+
 
 ```mermaid
 flowchart TD
-    start(Start) -->consider-single-file[Consider a Single File]
-    consider-single-file --> is-new-file{New File?}
-    is-new-file -->|True| use-caret(use: ^)
-    is-new-file -->|False| is-file-deleted{File Deleted?}
-    is-file-deleted -->|True| use-exclamation-mark(use: !)
-    is-file-deleted-->|False| is-textual-change
+    start(Decide Prefix consider Change of a Single File) --> is-new{is it a New File?}
+    is-new -->|Yes| use-caret("prefix:[^]")
+    is-new -->|No| is-del{is the File Deleted?}
+    is-del -->|Yes| use-exclamation-mark("prefix:[!]")
+    is-del -->|No| is-text{is the file Textual?}
+    is-text -->|Plain Text| is-anno{"`is Change Primarily of/related to *Annotation Markers*?`"}
+    is-text -->|Binary,Compressed,Encrypted,etc.| use-question-mark("prefix:[?]")
+    is-anno -->|Yes| use-at-sign("prefix:[@]")
+    is-anno -->|No| is-doc{is Change Primarily of Documentations or of Comments}
+    is-doc -->|Yes| use-hash-sign("prefix:[#]")
+    is-doc -->|No| testtest
 ```
 
 ----
