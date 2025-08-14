@@ -1480,6 +1480,16 @@ Tag definitions: items are ordered by **priority**; earlier entries take precede
 - `.`: only whitespace, indentation, or blank-line changes
 - `?`: non-textual file change (binary/data), e.g., binaries, compressed archives, database files, or encrypted blobs
 
+```mermaid
+flowchart TD
+    start(Start) -->consider-single-file[Consider a Single File]
+    consider-single-file --> is-new-file{New File?}
+    is-new-file -->|True| use-caret(use: ^)
+    is-new-file -->|False| is-file-deleted{File Deleted?}
+    is-file-deleted -->|True| use-exclamation-mark(use: !)
+    is-file-deleted-->|False| is-textual-change
+```
+
 ----
 
 example outputs:
