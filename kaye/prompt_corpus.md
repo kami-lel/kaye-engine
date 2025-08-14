@@ -1493,7 +1493,7 @@ If none of the above prefixes apply, choose based on lines changed & change type
 |------------------------|-------------------|---------------------|
 | predominantly addition | `[+]`             | `[/]`               |
 | predominantly deletion | `[-]`             | `[\]`               |
-| mixed modification     | `[*]`             | `[\|]`              |
+| mixed modification     | `[*]`             | `[|]`               |
 
 ----
 
