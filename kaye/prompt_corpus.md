@@ -1479,28 +1479,11 @@ items are ordered by **priority**; earlier entries take precedence over later on
 8. `[~]`: primarily content reordering or code refactors
 9. `[.]`: only whitespace, indentation, or blank-line changes
 
-
 |                        | >25 lines changed | <= 25 lines changed |
 |------------------------|-------------------|---------------------|
 | predominantly addition | `[+]`             | `[/]`               |
 | predominantly deletion | `[-]`             | `[\]`               |
-| mixed modification     | `[*]`             | `[|]`               |
-
-
-```mermaid
-flowchart TD
-    start(Decide Prefix consider Change of a Single File) --> is-new{is it a New File?}
-    is-new -->|Yes| use-caret("prefix:[^]")
-    is-new -->|No| is-del{is the File Deleted?}
-    is-del -->|Yes| use-exclamation-mark("prefix:[!]")
-    is-del -->|No| is-text{is the file Textual?}
-    is-text -->|Plain Text| is-anno{"`is Change Primarily of/related to *Annotation Markers*?`"}
-    is-text -->|Binary,Compressed,Encrypted,etc.| use-question-mark("prefix:[?]")
-    is-anno -->|Yes| use-at-sign("prefix:[@]")
-    is-anno -->|No| is-doc{is Change Primarily of Documentations or of Comments}
-    is-doc -->|Yes| use-hash-sign("prefix:[#]")
-    is-doc -->|No| testtest
-```
+| mixed modification     | `[*]`             | `[\|]`              |
 
 ----
 
