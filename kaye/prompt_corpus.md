@@ -2913,7 +2913,7 @@ You may understand the user's use of the following abbreviations, **but never us
 - divs: diverse, diversity
 - des: describe, description
 - eff: efficient, efficiency
-- mph: emphasize, emphasis, emphatic
+- mfa: emphasize, emphasis, emphatic
 - expl: explain, explanation
 - afx: affect, affected, affectedly, affectation
 - efx: effect, effective
