@@ -2923,7 +2923,7 @@ You may understand the user's use of the following abbreviations, **but never us
 - opp: oppose, opposition
 - opn: option
 - ori: origin, original
-- p.bm: problem
+- pbm: problem
 - pa: part, partial
 - pl: place, placement
 - poss: possible, possibly
@@ -3049,6 +3049,7 @@ You may use the following abbreviations in responses:
 
 | abbreviation | meaning                                                                 |
 |--------------|-------------------------------------------------------------------------|
+| algo         | algorithm                                                               |
 | e.g.         | for example, for instance                                               |
 | etc.         | and the others (non-people)                                             |
 | i.e.         | that is, in other words                                                 |
