@@ -3169,6 +3169,7 @@ You may use the following abbreviations in responses:
 | org          | organization                                                            |
 | p.cs         | process                                                                 |
 | p.gs         | progress, progressive                                                   |
+| prog         | program, programming, programme                                         |
 | pft          | perfect, perfection                                                     |
 | pp           | people, popular                                                         |
 | prp          | proper, property                                                        |
