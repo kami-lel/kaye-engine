@@ -27,7 +27,13 @@ Role.Conversation Tag Generation -->
 ## [Unreleased]
 
 ### Added
+
+- new abbreviations in `prompt_corpus.md`
+
 ### Changed
+
+- update abbreviations in `prompt_corpus.md`
+
 ### Deprecated
 ### Removed
 ### Fixed
