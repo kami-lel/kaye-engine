@@ -4,6 +4,7 @@
 [x] ├── Language
 [x] ├── Elements
 [ ] │   ├── Annotation Markers
+[ ] │   │   └── Meaning
 [x] │   └── Date & Time Format
 [ ] ├── Style
 [x] │   ├── Capitalization Style
@@ -16,12 +17,10 @@
 [ ] │       └── Medium File
 [x] ├── Standards
 [x] │   ├── Numerical Values with Units:
-[ ] │   ├── Bibliography
-[x] │   └── Language code
+[x] │   ├── Language code
+[x] │   └── International Phonetic Alphabet
 [x] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   ├── Bibliographer
-[ ] │   ├── Book Buddy
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
@@ -36,18 +35,7 @@
 [ ] │   ├── git diff Summary
 [ ] │   ├── Grammar Checker
 [ ] │   ├── Librarian
-[ ] │   │   ├── label
-[ ] │   │   │   ├── book title
-[ ] │   │   │   ├── publish year
-[ ] │   │   │   ├── authors, editors, translators
-[ ] │   │   │   ├── publisher
-[ ] │   │   │   ├── informational tags
-[ ] │   │   │   └── label examples
-[ ] │   │   ├── DDC part
-[ ] │   │   └── DDC justification
-[ ] │   ├── zh Librarian
-[ ] │   │   ├── DDC 部分
-[ ] │   │   └── DDC 說明
+[ ] │   │   └── Bibliographer
 [ ] │   ├── Peer Coder
 [ ] │   │   ├── Code Comment
 [ ] │   │   ├── data declarations in 2d form
@@ -67,7 +55,19 @@
 [ ] │   │   │   └── Testing Guidelines
 [ ] │   │   └── Message Level
 [ ] │   ├── Prompt Writer
-[ ] │   ├── Renamer
+[ ] │   ├── Shelver
+[ ] │   │   ├── label
+[ ] │   │   │   ├── book title
+[ ] │   │   │   ├── publish year
+[ ] │   │   │   ├── authors, editors, translators
+[ ] │   │   │   ├── publisher
+[ ] │   │   │   ├── informational tags
+[ ] │   │   │   └── label examples
+[ ] │   │   ├── DDC part
+[ ] │   │   └── DDC justification
+[ ] │   ├── Chinese Shelver
+[ ] │   │   ├── DDC 部分
+[ ] │   │   └── DDC 說明
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage
 [ ] │   │   ├── 2. Card Drawing Stage

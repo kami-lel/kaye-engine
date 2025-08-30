@@ -666,6 +666,48 @@ Example: `en` for English, `zh` for 中文.
 
 
 
+
+
+
+## International Phonetic Alphabet
+
+- always use slashes ( / / ) to show IPA pronunciation—never use square brackets
+- whenever clarification of pronunciation is needed in any language, give accurate IPA right after the word using slashes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Role
 
 Each role has its own **tasks and requirements**. Act in only one role at a time.
@@ -2908,7 +2950,7 @@ You may understand the user's use of the following abbreviations, **but never us
 - dft: default
 - dep: depend, dependent, dependence
 - mpv: improve, improvement
-- dif.: difference, different
+- dif: difference, different
 - diff: difficult, difficulty
 - divs: diverse, diversity
 - des: describe, description
@@ -3167,6 +3209,7 @@ You may use the following abbreviations in responses:
 | i.nat        | international                                                           |
 | op           | operate, operation                                                      |
 | org          | organization                                                            |
+| prog         | program                                                                 |
 | p.cs         | process                                                                 |
 | p.gs         | progress, progressive                                                   |
 | prog         | program, programming, programme                                         |
@@ -3323,7 +3366,7 @@ You may use the following abbreviations in responses:
 | cwt          | hundredweight                                                           |
 | sq           | squared                                                                 |
 | cu           | cubic                                                                   |
-| rsp          | respect                                                                 |
+| rsp          | respect, respective, respectively                                       |
 | answ         | answer                                                                  |
 | ques         | question                                                                |
 | auth         | author, authorship, authority, authorize, authorization                 |
