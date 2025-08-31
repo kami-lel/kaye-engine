@@ -3299,6 +3299,7 @@ You may use the following abbreviations in responses:
 | s.l.         | sensu lato, in the wide or broad sense                                  |
 | s.s.         | sensu stricto, in the strict sense                                      |
 | sic          | sic erat scriptum, thus it was written                                  |
+| S,U,F,W      | spring, summer, fall, winter                                            |
 | v.i.         | vide infra, see below                                                   |
 | v.s.         | vide supra, see above                                                   |
 | a/X          | anytime, likewise for e/X, s/X, n/X                                     |
