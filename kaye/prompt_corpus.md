@@ -3115,8 +3115,8 @@ You may use the following abbreviations in responses:
 | prev         | previous                                                                |
 | priv         | private                                                                 |
 | pub          | public; publish                                                         |
-| qly          | quality                                                                 |
-| qty          | quantity                                                                |
+| qly          | quality, qualify, qualification, qualitative                            |
+| qty          | quantity, quantify, quantification, quantitative                        |
 | ad lib       | at one’s pleasure, optional                                             |
 | No.          | number                                                                  |
 | qq.v.        | plural of *q.v.*                                                        |
