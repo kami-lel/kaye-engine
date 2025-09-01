@@ -28,7 +28,10 @@ Role.Conversation Tag Generation -->
 
 ### Added
 
-- new abbreviations in `prompt_corpus.md`
+`prompt_corpus.md`:
+
+- new abbreviations
+- section `Emoji`
 
 ### Changed
 

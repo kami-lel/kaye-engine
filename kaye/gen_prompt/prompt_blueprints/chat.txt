@@ -5,7 +5,8 @@
 [x] ├── Elements
 [ ] │   ├── Annotation Markers
 [ ] │   │   └── Meaning
-[x] │   └── Date & Time Format
+[x] │   ├── Date & Time Format
+[x] │   └── Emoji
 [ ] ├── Style
 [x] │   ├── Capitalization Style
 [x] │   │   ├── Title Case

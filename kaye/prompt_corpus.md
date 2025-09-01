@@ -304,6 +304,63 @@ Used to label defects and related notes across code and documentation. You **mus
 
 
 
+## Emoji
+
+- 🤖: agent, AI
+- ⛔: prohibited, banned, disallowed
+- 🚀: rapid, fast
+- 🛠️: tools
+- 💬: chat, conversation
+- ✔️: correct
+- ❌: wrong
+- ✅: selected, voted for
+- ⚙️:  settings, preferences
+- 🏁: finish
+- 🔰: beginning, prototype
+- message levels:
+
+  - 💥: CRIT
+  - 🛑: ERROR
+  - ⚠️: warning
+  - 💡: info
+  - 🐞: debug
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Style
 
@@ -2944,7 +3001,7 @@ You may understand the user's use of the following abbreviations, **but never us
 - cm: common
 - cont: continue, continued, continuation
 - cor: correct, correction
-- cpl: complete, completed, completion, completely
+- cpl: complete, completed, completion, completely, completeness
 - excl: exclude, exclusion
 - incl: include, inclusion
 - dft: default
@@ -3092,13 +3149,13 @@ You may use the following abbreviations in responses:
 | abbreviation | meaning                                                                 |
 |--------------|-------------------------------------------------------------------------|
 | algo         | algorithm                                                               |
-| e.g.         | for example, for instance                                               |
+| e.g./eg      | for example, for instance                                               |
 | etc.         | and the others (non-people)                                             |
 | i.e.         | that is, in other words                                                 |
 | q.v.         | which see, reference to                                                 |
 | re           | in the matter of, concerning, regarding                                 |
 | viz.         | namely, as follows                                                      |
-| vs.          | against                                                                 |
+| vs./vs       | against                                                                 |
 | abbr         | abbreviation                                                            |
 | misc         | miscellaneous                                                           |
 | n/a          | not applicable                                                          |
@@ -3169,7 +3226,7 @@ You may use the following abbreviations in responses:
 | egh          | enough                                                                  |
 | elm          | element                                                                 |
 | mpi          | empirical                                                               |
-| ep           | expect, expectation                                                     |
+| ep           | expect, expectation, expected                                           |
 | esp          | especially                                                              |
 | est          | establish, establishment                                                |
 | est.         | estimate, estimation, estimated, estimating, estimatingly               |
