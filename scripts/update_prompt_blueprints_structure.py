@@ -23,4 +23,4 @@ if __name__ == "__main__":
 
         with open(file_path, "w", encoding="utf-8") as file:
             # TODO print out to console
-            file.write(blueprint.generate_preview_tree())
+            file.write(blueprint.generate_preview_tree(preview_line_count=0))

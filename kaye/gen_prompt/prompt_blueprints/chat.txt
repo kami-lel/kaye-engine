@@ -79,3 +79,4 @@
 [x]     ├── Understandable Abbrs
 [ ]     ├── Usable Abbrs
 [ ]     └── Infrequent Abbrs
+(blueprint:chat; Kaye v4.7.6a0.020250901204925)

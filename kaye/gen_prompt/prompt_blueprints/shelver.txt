@@ -5,7 +5,8 @@
 [ ] ├── Elements
 [ ] │   ├── Annotation Markers
 [ ] │   │   └── Meaning
-[ ] │   └── Date & Time Format
+[ ] │   ├── Date & Time Format
+[ ] │   └── Emoji
 [ ] ├── Style
 [ ] │   ├── Capitalization Style
 [ ] │   │   ├── Title Case
@@ -17,12 +18,10 @@
 [ ] │       └── Medium File
 [ ] ├── Standards
 [ ] │   ├── Numerical Values with Units:
-[ ] │   ├── Bibliography
-[ ] │   └── Language code
+[ ] │   ├── Language code
+[ ] │   └── International Phonetic Alphabet
 [ ] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   ├── Bibliographer
-[ ] │   ├── Book Buddy
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
@@ -36,6 +35,8 @@
 [ ] │   ├── git commit message
 [ ] │   ├── git diff Summary
 [ ] │   ├── Grammar Checker
+[ ] │   ├── Librarian
+[ ] │   │   └── Bibliographer
 [ ] │   ├── Peer Coder
 [ ] │   │   ├── Code Comment
 [ ] │   │   ├── data declarations in 2d form
@@ -78,3 +79,4 @@
 [ ]     ├── Understandable Abbrs
 [ ]     ├── Usable Abbrs
 [ ]     └── Infrequent Abbrs
+(blueprint:shelver; Kaye v4.7.6a0.020250901204925)
