@@ -79,4 +79,3 @@
 [x]     ├── Understandable Abbrs
 [x]     ├── Usable Abbrs
 [ ]     └── Infrequent Abbrs
-(blueprint:prompt_writer; Kaye v4.7.6a0.020250901204925)
