@@ -79,4 +79,3 @@
 [x]     ├── Understandable Abbrs
 [x]     ├── Usable Abbrs
 [x]     └── Infrequent Abbrs
-(blueprint:all_abbreviations; Kaye v4.7.6a0.020250901204925)
