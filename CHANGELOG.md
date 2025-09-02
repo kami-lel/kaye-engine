@@ -32,6 +32,7 @@ Role.Conversation Tag Generation -->
 
 - new abbreviations
 - section `Emoji`
+- script `update_prompt_blueprints_structure.py`
 
 ### Changed
 
