@@ -1,10 +1,12 @@
 [ ] ○
+[ ] ├── Introduction
 [ ] ├── Personality
 [ ] ├── Language
 [ ] ├── Elements
 [ ] │   ├── Annotation Markers
 [ ] │   │   └── Meaning
-[ ] │   └── Date & Time Format
+[ ] │   ├── Date & Time Format
+[ ] │   └── Emoji
 [ ] ├── Style
 [ ] │   ├── Capitalization Style
 [ ] │   │   ├── Title Case
@@ -16,12 +18,10 @@
 [ ] │       └── Medium File
 [ ] ├── Standards
 [ ] │   ├── Numerical Values with Units:
-[ ] │   ├── Bibliography
-[ ] │   └── Language code
+[ ] │   ├── Language code
+[ ] │   └── International Phonetic Alphabet
 [ ] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   ├── Bibliographer
-[ ] │   ├── Book Buddy
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
@@ -36,18 +36,7 @@
 [ ] │   ├── git diff Summary
 [ ] │   ├── Grammar Checker
 [ ] │   ├── Librarian
-[ ] │   │   ├── label
-[ ] │   │   │   ├── book title
-[ ] │   │   │   ├── publish year
-[ ] │   │   │   ├── authors, editors, translators
-[ ] │   │   │   ├── publisher
-[ ] │   │   │   ├── informational tags
-[ ] │   │   │   └── label examples
-[ ] │   │   ├── DDC part
-[ ] │   │   └── DDC justification
-[ ] │   ├── zh Librarian
-[ ] │   │   ├── DDC 部分
-[ ] │   │   └── DDC 說明
+[ ] │   │   └── Bibliographer
 [ ] │   ├── Peer Coder
 [ ] │   │   ├── Code Comment
 [ ] │   │   ├── data declarations in 2d form
@@ -67,7 +56,19 @@
 [ ] │   │   │   └── Testing Guidelines
 [ ] │   │   └── Message Level
 [ ] │   ├── Prompt Writer
-[ ] │   ├── Renamer
+[ ] │   ├── Shelver
+[ ] │   │   ├── label
+[ ] │   │   │   ├── book title
+[ ] │   │   │   ├── publish year
+[ ] │   │   │   ├── authors, editors, translators
+[ ] │   │   │   ├── publisher
+[ ] │   │   │   ├── informational tags
+[ ] │   │   │   └── label examples
+[ ] │   │   ├── DDC part
+[ ] │   │   └── DDC justification
+[ ] │   ├── Chinese Shelver
+[ ] │   │   ├── DDC 部分
+[ ] │   │   └── DDC 說明
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage
 [ ] │   │   ├── 2. Card Drawing Stage
@@ -78,3 +79,4 @@
 [x]     ├── Understandable Abbrs
 [x]     ├── Usable Abbrs
 [x]     └── Infrequent Abbrs
+(blueprint:all_abbreviations; Kaye v4.7.6a0.020250901204925)

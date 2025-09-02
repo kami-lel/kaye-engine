@@ -5,7 +5,8 @@
 [ ] ├── Elements
 [ ] │   ├── Annotation Markers
 [ ] │   │   └── Meaning
-[ ] │   └── Date & Time Format
+[ ] │   ├── Date & Time Format
+[ ] │   └── Emoji
 [ ] ├── Style
 [ ] │   ├── Capitalization Style
 [ ] │   │   ├── Title Case
@@ -17,7 +18,8 @@
 [ ] │       └── Medium File
 [ ] ├── Standards
 [ ] │   ├── Numerical Values with Units:
-[ ] │   └── Language code
+[ ] │   ├── Language code
+[ ] │   └── International Phonetic Alphabet
 [ ] ├── Role
 [ ] │   ├── Art Tutor
 [ ] │   ├── Changelog Writer
@@ -77,3 +79,4 @@
 [ ]     ├── Understandable Abbrs
 [ ]     ├── Usable Abbrs
 [ ]     └── Infrequent Abbrs
+(blueprint:librarian_bibliographer; Kaye v4.7.6a0.020250901204925)
