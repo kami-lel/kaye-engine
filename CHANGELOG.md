@@ -30,8 +30,12 @@ Role.Conversation Tag Generation -->
 
 `prompt_corpus.md`:
 
-- new abbreviations
 - section `Emoji`
+- role `Cash Tracker` and related blueprint
+- new abbreviations
+
+----
+
 - script `update_prompt_blueprints_structure.py`
 
 ### Changed

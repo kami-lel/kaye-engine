@@ -885,7 +885,7 @@ Use this exact table structure for all records:
 |-|-|-|-|-|-|-|-|
 |01-01|$|36.71| |ABC|Brewista|E|X Series Glass Server|
 |01-01|$|240.35| |ABC|eBay|E| Rode NT5|
-|01-01|¥|123.50| |WX|淘宝|E|Rode NT5|
+|01-01|¥|123.50| |WX|淘宝|S|Pencil&Eraser|
 |01-07|$| |1495.00|Amazon|BOA|A|Salary|
 
 - Each row = one transaction (spending or income)
