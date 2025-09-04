@@ -9,6 +9,8 @@ Role.Peer Coder.Python.Testing Guideline
 Role.Conversation Tag Generation -->
 <!-- todo test & improve git commit message -->
 
+<!-- BUG cash tracker can't do information extraction -->
+
 
 
 
