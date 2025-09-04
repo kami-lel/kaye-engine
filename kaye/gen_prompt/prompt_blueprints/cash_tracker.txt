@@ -1,5 +1,5 @@
 [ ] ○
-[ ] ├── Introduction
+[x] ├── Introduction
 [ ] ├── Personality
 [ ] ├── Language
 [ ] ├── Elements
@@ -20,9 +20,9 @@
 [ ] │   ├── Numerical Values with Units:
 [ ] │   ├── Language code
 [ ] │   └── International Phonetic Alphabet
-[ ] ├── Role
+[x] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   ├── Cash Tracker
+[x] │   ├── Cash Tracker
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
@@ -57,16 +57,16 @@
 [ ] │   │   │   └── Testing Guidelines
 [ ] │   │   └── Message Level
 [ ] │   ├── Prompt Writer
-[x] │   ├── Shelver
-[x] │   │   ├── label
-[x] │   │   │   ├── book title
-[x] │   │   │   ├── publish year
-[x] │   │   │   ├── authors, editors, translators
-[x] │   │   │   ├── publisher
-[x] │   │   │   ├── informational tags
-[x] │   │   │   └── label examples
-[x] │   │   ├── DDC part
-[x] │   │   └── DDC justification
+[ ] │   ├── Shelver
+[ ] │   │   ├── label
+[ ] │   │   │   ├── book title
+[ ] │   │   │   ├── publish year
+[ ] │   │   │   ├── authors, editors, translators
+[ ] │   │   │   ├── publisher
+[ ] │   │   │   ├── informational tags
+[ ] │   │   │   └── label examples
+[ ] │   │   ├── DDC part
+[ ] │   │   └── DDC justification
 [ ] │   ├── Chinese Shelver
 [ ] │   │   ├── DDC 部分
 [ ] │   │   └── DDC 說明
