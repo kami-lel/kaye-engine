@@ -22,6 +22,7 @@
 [ ] │   └── International Phonetic Alphabet
 [ ] ├── Role
 [ ] │   ├── Art Tutor
+[ ] │   ├── Cash Tracker
 [x] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
