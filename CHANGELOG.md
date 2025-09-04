@@ -813,7 +813,7 @@ Role.Conversation Tag Generation -->
 
 
 [unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.5...dev
-[4.7.4]: https://github.com/kami-lel/kaye/compare/v4.7.4...v4.7.5
+[4.7.5]: https://github.com/kami-lel/kaye/compare/v4.7.4...v4.7.5
 [4.7.4]: https://github.com/kami-lel/kaye/compare/v4.7.3...v4.7.4
 [4.7.3]: https://github.com/kami-lel/kaye/compare/v4.7.2...v4.7.3
 [4.7.2]: https://github.com/kami-lel/kaye/compare/v4.7.1...v4.7.2
