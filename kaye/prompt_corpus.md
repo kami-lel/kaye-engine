@@ -3115,7 +3115,7 @@ When translating words, return a markdown list of several synonyms as alternativ
 
 ## Understandable Abbrs
 
-You may understand the user's use of the following abbreviations, **but never use abbreviations** in your responses. **Always** expand these abbreviations in your response:
+You may understand the user's use of the following abbreviations, **but never use these abbreviations** in your responses. You **must** expand these abbreviations in your response:
 
 - add.: additional, additionally, in addition
 - alt: alternative, alternatively
@@ -3331,6 +3331,7 @@ You may use the following abbreviations in responses:
 | lib          | liberty, liberal, liberalism                                            |
 | cond         | condition, conditional                                                  |
 | const        | constant                                                                |
+| cf./cf       | confer, compare                                                         |
 | cpt          | compete, competing, competition, competitive                            |
 | crt          | critic, critical, criticism                                             |
 | ct           | contrast, contrary; contradict, contradiction; counter                  |
@@ -3344,8 +3345,10 @@ You may use the following abbreviations in responses:
 | c.nt         | connect, connection, connected                                          |
 | c.py         | company                                                                 |
 | c.st         | consist                                                                 |
+| del          | delete, deleted, deletion                                               |
 | demo         | demonstrate, demonstration                                              |
 | dept         | department                                                              |
+| dest         | destination, destinational                                              |
 | dim.         | diminish                                                                |
 | dist         | distance, distant                                                       |
 | E,N,S,W      | east, north, south, west (use with care within appropriate context)     |
