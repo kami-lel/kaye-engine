@@ -1,0 +1,105 @@
+{
+  "$comment": "TODO change response_format to object to match API schema requirement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "rows"
+  ],
+  "description": "Use empty string for empty cells. Use ??? when info missing",
+  "examples": [
+    {
+      "rows": [
+        [
+          "01-01",
+          "$",
+          "36.71",
+          "",
+          "ABC",
+          "Brewista",
+          "E",
+          "X Series Glass Server"
+        ],
+        [
+          "01-01",
+          "$",
+          "240.35",
+          "",
+          "ABC",
+          "Amazon",
+          "E",
+          "Rode NT5"
+        ],
+        [
+          "01-01",
+          "$",
+          "32.91",
+          "",
+          "ABC",
+          "Amazon",
+          "E",
+          "XLR cable, rotatable, low-profile *2"
+        ]
+      ]
+    }
+  ],
+  "properties": {
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "minItems": 8,
+        "maxItems": 8,
+        "additionalItems": false,
+        "items": [
+          {
+            "type": "string",
+            "title": "date",
+            "description": "MM-dd format"
+          },
+          {
+            "type": "string",
+            "title": "currency_symbol",
+            "minLength": 1,
+            "maxLength": 1
+          },
+          {
+            "type": "string",
+            "title": "out",
+            "description": "expense value; empty string if not expense"
+          },
+          {
+            "type": "string",
+            "title": "in",
+            "description": "income value; empty string if not income"
+          },
+          {
+            "type": "string",
+            "title": "from",
+            "description": "for income: payer; for expense: User Account"
+          },
+          {
+            "type": "string",
+            "title": "to",
+            "description": "for income: User Account; for expense: recipient"
+          },
+          {
+            "type": "string",
+            "title": "category",
+            "description": "see Categories section",
+            "minLength": 1,
+            "maxLength": 3
+          },
+          {
+            "type": "string",
+            "title": "remark",
+            "description": "use only when essential; prefer short specific phrases",
+            "examples": [
+              "flu shot",
+              "Nov bonus"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
