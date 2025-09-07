@@ -1,23 +1,17 @@
 def main(transactions):
-    header = [
-        "",
-        "¤",
-        "Out",
-        "In",
-        "from",
-        "To",
-        "",
-        "Remark",
-    ]  # header init with Updated Headers
-    separator = ["---"] * 8  # separator set for Markdown Table
-    md_lines = []  # init markdown lines with Header
-    md_lines.append("| " + " | ".join(header) + " |")  # append header line
-    md_lines.append(
-        "| " + " | ".join(separator) + " |"
-    )  # append separator line
-    for item in transactions:  # iterate Transactions list
-        row = item.get("row", [])  # get row list or empty list
-        str_cells = [str(cell) for cell in row]
-        md_lines.append("| " + " | ".join(str_cells) + " |")  # append data row
-    md_table = "\n".join(md_lines)  # join lines into single Markdown string
+    # Generate header row with updated headers
+    header = ["", "¤", "Out", "In", "from", "To", "", "Remark"]
+    # Separator line for markdown table formatting
+    separator = ["---"] * 8
+    # Initialize list for markdown lines including header
+    md_lines = []
+    md_lines.append("| " + " | ".join(header) + " |")
+    md_lines.append("| " + " | ".join(separator) + " |")
+
+    # Fill in data rows from spreadsheet
+    for row in transactions.get("rows", []):
+        # Replace None entries with empty string
+        row_processed = [entry if entry is not None else "" for entry in row]
+        md_lines.append("| " + " | ".join(row_processed) + " |")
+    md_table = "\n".join(md_lines)
     return {"result": md_table}
