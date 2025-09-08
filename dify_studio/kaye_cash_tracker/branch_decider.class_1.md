@@ -1,0 +1,1 @@
+The user confirms, finalizes, or requests adding current transactions to the database, either by saying "PUSH" or clearly expressing that intent.

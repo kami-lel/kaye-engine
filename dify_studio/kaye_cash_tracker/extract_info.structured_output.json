@@ -40,12 +40,12 @@
         {
           "type": "string",
           "title": "party_from",
-          "description": "for income: payer; for expense: see User Account"
+          "description": "for income: payer; for expense: see User Account; required"
         },
         {
           "type": "string",
           "title": "party_to",
-          "description": "for income: see User Account; for expense: recipient"
+          "description": "for income: see User Account; for expense: recipient; required"
         },
         {
           "type": "string",

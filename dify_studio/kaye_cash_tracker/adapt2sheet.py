@@ -1,4 +1,4 @@
-def main(transactions, sheet_name, first_empty_row, current_year):
+def main(transactions, sheet_name, first_empty_row):
     # todo docstring
     rows_from = transactions["rows"]
 
@@ -12,10 +12,7 @@ def main(transactions, sheet_name, first_empty_row, current_year):
     for row in rows_from:
         current_row = []
         for i, col in enumerate(row):
-            if i == 0:  # date
-                # use iso date format
-                current_row.append('"{}-{}"'.format(current_year, col))
-            elif i in (2, 3) and col:  # amount in/out
+            if i in (2, 3) and col:  # amount in/out
                 # convert to number for amount in/out col, when not empty
                 current_row.append(col)
             else:  # string entry
