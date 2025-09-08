@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "row": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": [
+        { "type": "string", "description": "date" },
+        { "type": "string", "description": "currency_symbol" },
+        { "type": "string", "description": "amount_out" },
+        { "type": "string", "description": "amount_in" },
+        { "type": "string", "description": "party_from" },
+        { "type": "string", "description": "party_to" },
+        { "type": "string", "description": "category" },
+        { "type": "string", "description": "remark" }
+      ],
+      "additionalItems": false
+    }
+  },
+  "required": [
+    "row"
+  ],
+  "additionalProperties": false
+}
