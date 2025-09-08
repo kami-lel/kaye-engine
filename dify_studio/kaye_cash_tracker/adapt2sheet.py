@@ -1,3 +1,30 @@
-def main(transactions, current_table):
-    result = {}
+def main(transactions, sheet_name, first_empty_row, current_year):
+    # todo docstring
+    rows_from = transactions["rows"]
+
+    # generate range
+    sheet_range = "{}!A{}:H{}".format(
+        sheet_name, first_empty_row, first_empty_row + len(rows_from) - 1
+    )
+
+    # generate values
+    rows_to = []
+    for row in rows_from:
+        current_row = []
+        for i, col in enumerate(row):
+            if i == 0:  # date
+                # use iso date format
+                current_row.append('"{}-{}"'.format(current_year, col))
+            elif i in (2, 3) and col:  # amount in/out
+                # convert to number for amount in/out col, when not empty
+                current_row.append(col)
+            else:  # string entry
+                current_row.append('"{}"'.format(col))
+
+        row_content = ",".join(current_row)
+        rows_to.append(row_content)
+
+    values = "[{}]".format(",".join("[{}]".format(row) for row in rows_to))
+
+    result = '[{{"range": "{}", "values": {}}}]'.format(sheet_range, values)
     return {"result": result}

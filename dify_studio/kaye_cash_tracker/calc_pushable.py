@@ -1,4 +1,5 @@
 def main(transactions):
+    # todo docstring
     rows = transactions.get("rows", [])
     for row in rows:
         for cell in row:
