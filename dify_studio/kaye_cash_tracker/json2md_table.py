@@ -1,6 +1,6 @@
 def main(transactions):
     # Generate header row with updated headers
-    header = ["", "¤", "Out", "In", "from", "To", "", "Remark"]
+    header = ["", "¤", "Out", "In", "From", "To", "", "Remarks"]
     # Separator line for markdown table formatting
     separator = ["---"] * 8
     # Initialize list for markdown lines including header
