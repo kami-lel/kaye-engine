@@ -3391,6 +3391,7 @@ You may use the following abbreviations in responses:
 | milit        | military                                                                |
 | mkt          | market, marketing                                                       |
 | modn         | modern, modernization                                                   |
+| mpmt         | implement                                                               |
 | nat          | nation, national                                                        |
 | i.nat        | international                                                           |
 | op           | operate, operation                                                      |
