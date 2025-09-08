@@ -1,0 +1,104 @@
+{
+  "type": "object",
+  "properties": {
+    "rows": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/row"
+      }
+    }
+  },
+  "required": [
+    "rows"
+  ],
+  "description": "For required field of missing or unclear information, enter ??? in cell. Use empty string for empty optional field. Increasing date order, row with newer date at bottom",
+  "additionalProperties": false,
+  "$defs": {
+    "row": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "string",
+          "title": "date",
+          "description": "MM-dd format, required, ??? when missing"
+        },
+        {
+          "type": "string",
+          "title": "currency_symbol",
+          "description": "required"
+        },
+        {
+          "type": "string",
+          "title": "amount_out",
+          "description": "expense with exactly 2 decimal places, optional"
+        },
+        {
+          "type": "string",
+          "title": "amount_in",
+          "description": "income with exactly 2 decimal places, optional"
+        },
+        {
+          "type": "string",
+          "title": "party_from",
+          "description": "for income: payer; for expense: see User Account"
+        },
+        {
+          "type": "string",
+          "title": "party_to",
+          "description": "for income: see User Account; for expense: recipient"
+        },
+        {
+          "type": "string",
+          "title": "category",
+          "description": "see Categories"
+        },
+        {
+          "type": "string",
+          "title": "remarks",
+          "description": "optional; leave empty unless essential; use only short, specific phrases not found in other fields"
+        }
+      ],
+      "items": {
+        "type": "string"
+      },
+      "minItems": 8,
+      "maxItems": 8
+    }
+  },
+  "examples": [
+    {
+      "rows": [
+        [
+          "???",
+          "$",
+          "36.71",
+          "",
+          "???",
+          "Target",
+          "G",
+          ""
+        ],
+        [
+          "04-12",
+          "HK$",
+          "240.35",
+          "",
+          "ABC",
+          "Amazon",
+          "E",
+          "buy Rode NT5"
+        ],
+        [
+          "05-10",
+          "¥",
+          "",
+          "3000.00",
+          "Amazon",
+          "BOC",
+          "A",
+          "Jan salary"
+        ]
+      ]
+    }
+  ]
+}
