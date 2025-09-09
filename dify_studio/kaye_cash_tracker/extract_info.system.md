@@ -4,23 +4,23 @@ Today: %%%
 
 Existing Transactions: %%%
 
-#### Currency Symbol
+## Currency Symbol
 
 - $: USD
 - ¥: RMB/Chinese Yuan
 - HK$
 - €
 
-#### Party From & To
+## Party From & To
 
 Transaction type decides party_from and party_to content:
 
 - Income:
   - party_from: payer (e.g., employer for salary, bank for investment,) or User Account
-  - party_to: User Account
+  - party_to: often User Account
 
 - Expense:
-  - party_from: User Account
+  - party_from: often User Account
   - party_to: recipient (e.g., restaurant, grocery,) or User Account
 
 For payer and recipient, extract info and fill field with commonly known names using clear capitalization.
@@ -35,7 +35,7 @@ User Accounts:
 - ALI: Alipay
 - CASH: Physical cash
 
-#### Categories
+## Categories
 
 Select the most likely category abbreviation for each transaction based on its details. Choose only from the list below and enter the abbreviation in the category field.
 
