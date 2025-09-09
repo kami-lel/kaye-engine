@@ -16,12 +16,12 @@ Existing Transactions: %%%
 Transaction type decides party_from and party_to content:
 
 - Income:
-  - party_from: payer (e.g., employer for salary, bank for investment)
-  - party_to: User Account (required)
+  - party_from: payer (e.g., employer for salary, bank for investment,) or User Account
+  - party_to: User Account
 
 - Expense:
-  - party_from: User Account (required)
-  - party_to: recipient (e.g., restaurant, grocery)
+  - party_from: User Account
+  - party_to: recipient (e.g., restaurant, grocery,) or User Account
 
 For payer and recipient, extract info and fill field with commonly known names using clear capitalization.
 

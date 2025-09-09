@@ -1,1 +1,0 @@
-The user is providing additional details, updates, or new information relating to transactions.
