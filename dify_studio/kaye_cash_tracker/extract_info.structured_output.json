@@ -40,12 +40,12 @@
         {
           "type": "string",
           "title": "party_from",
-          "description": "for income: payer; for expense: see User Account; required"
+          "description": "see Party From&To; required"
         },
         {
           "type": "string",
           "title": "party_to",
-          "description": "for income: see User Account; for expense: recipient; required"
+          "description": "see Party From&To; required"
         },
         {
           "type": "string",
@@ -55,7 +55,7 @@
         {
           "type": "string",
           "title": "remarks",
-          "description": "optional; leave empty unless essential; use only short, specific phrases not found in other fields"
+          "description": "optional; leave empty unless essential, no record irrelevant details; use only short, specific phrases not found in other fields"
         }
       ],
       "items": {
