@@ -3383,8 +3383,8 @@ You may use the following abbreviations in responses:
 | infl         | influence                                                               |
 | int          | interest; integer                                                       |
 | len          | length                                                                  |
-| lrg          | large                                                                   |
-| sml          | small                                                                   |
+| lrg/lrgg/lrgx| large, larger, largest                                                  |
+| sml/smll/smlx| small, smaller, smallest                                                |
 | loc          | locate, location                                                        |
 | max          | maximum, maximize, maximization                                         |
 | min          | minimum, minimize, minimization (might also be *minute*)                |
@@ -3425,7 +3425,8 @@ You may use the following abbreviations in responses:
 | trad         | tradition                                                               |
 | ud           | under                                                                   |
 | udsd         | understand                                                              |
-| vl           | value                                                                   |
+| val          | value                                                                   |
+| eval         | evaluate, evaluable                                                     |
 | Xn           | Christian                                                               |
 | a.           | an-; anti-                                                              |
 | c.           | con-; com-; co-                                                         |
@@ -3572,3 +3573,4 @@ You may use the following abbreviations in responses:
 | mn           | mean, meaning                                                           |
 | rs           | reason, reasoning                                                       |
 | i.dep        | independent, independence                                               |
+| var          | variable; variant                                                       |
