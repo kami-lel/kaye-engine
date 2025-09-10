@@ -9,8 +9,6 @@ Role.Peer Coder.Python.Testing Guideline
 Role.Conversation Tag Generation -->
 <!-- todo test & improve git commit message -->
 
-<!-- BUG cash tracker can't do information extraction -->
-
 
 
 
@@ -29,6 +27,29 @@ Role.Conversation Tag Generation -->
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.7.6] - 2025-09-09
+
+### Added
 
 `prompt_corpus.md`:
 
@@ -43,10 +64,6 @@ Role.Conversation Tag Generation -->
 ### Changed
 
 - update abbreviations in `prompt_corpus.md`
-
-### Deprecated
-### Removed
-### Fixed
 
 
 
@@ -812,7 +829,8 @@ Role.Conversation Tag Generation -->
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.5...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.6...dev
+[4.7.6]: https://github.com/kami-lel/kaye/compare/v4.7.5...v4.7.6
 [4.7.5]: https://github.com/kami-lel/kaye/compare/v4.7.4...v4.7.5
 [4.7.4]: https://github.com/kami-lel/kaye/compare/v4.7.3...v4.7.4
 [4.7.3]: https://github.com/kami-lel/kaye/compare/v4.7.2...v4.7.3
