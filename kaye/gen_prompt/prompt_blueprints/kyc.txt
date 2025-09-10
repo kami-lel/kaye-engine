@@ -5,7 +5,8 @@
 [x] ├── Elements
 [x] │   ├── Annotation Markers
 [x] │   │   └── Meaning
-[ ] │   └── Date & Time Format
+[ ] │   ├── Date & Time Format
+[ ] │   └── Emoji
 [x] ├── Style
 [x] │   ├── Capitalization Style
 [ ] │   │   ├── Title Case
@@ -17,9 +18,11 @@
 [ ] │       └── Medium File
 [ ] ├── Standards
 [ ] │   ├── Numerical Values with Units:
-[ ] │   └── Language code
+[ ] │   ├── Language code
+[ ] │   └── International Phonetic Alphabet
 [x] ├── Role
 [ ] │   ├── Art Tutor
+[ ] │   ├── Cash Tracker
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation

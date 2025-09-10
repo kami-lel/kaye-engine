@@ -4,23 +4,25 @@
 [ ] ├── Language
 [ ] ├── Elements
 [ ] │   ├── Annotation Markers
-[ ] │   └── Date & Time Format
+[ ] │   │   └── Meaning
+[ ] │   ├── Date & Time Format
+[ ] │   └── Emoji
 [ ] ├── Style
-[ ] │   └── Capitalization Style
-[ ] │       ├── Title Case
-[ ] │       └── Commentary Case
+[ ] │   ├── Capitalization Style
+[ ] │   │   ├── Title Case
+[ ] │   │   └── Commentary Case
+[ ] │   └── Briefness Style
 [ ] ├── Format
 [x] │   └── Header Separation
 [ ] │       ├── Long File
 [x] │       └── Medium File
 [ ] ├── Standards
 [ ] │   ├── Numerical Values with Units:
-[ ] │   ├── Bibliography
-[ ] │   └── Language code
+[ ] │   ├── Language code
+[ ] │   └── International Phonetic Alphabet
 [ ] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   ├── Bibliographer
-[ ] │   ├── Book Buddy
+[ ] │   ├── Cash Tracker
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
@@ -35,18 +37,7 @@
 [ ] │   ├── git diff Summary
 [ ] │   ├── Grammar Checker
 [ ] │   ├── Librarian
-[ ] │   │   ├── label
-[ ] │   │   │   ├── book title
-[ ] │   │   │   ├── publish year
-[ ] │   │   │   ├── authors, editors, translators
-[ ] │   │   │   ├── publisher
-[ ] │   │   │   ├── informational tags
-[ ] │   │   │   └── label examples
-[ ] │   │   ├── DDC part
-[ ] │   │   └── DDC justification
-[ ] │   ├── zh Librarian
-[ ] │   │   ├── DDC 部分
-[ ] │   │   └── DDC 說明
+[ ] │   │   └── Bibliographer
 [ ] │   ├── Peer Coder
 [ ] │   │   ├── Code Comment
 [ ] │   │   ├── data declarations in 2d form
@@ -66,11 +57,26 @@
 [ ] │   │   │   └── Testing Guidelines
 [ ] │   │   └── Message Level
 [ ] │   ├── Prompt Writer
-[ ] │   ├── Renamer
+[ ] │   ├── Shelver
+[ ] │   │   ├── label
+[ ] │   │   │   ├── book title
+[ ] │   │   │   ├── publish year
+[ ] │   │   │   ├── authors, editors, translators
+[ ] │   │   │   ├── publisher
+[ ] │   │   │   ├── informational tags
+[ ] │   │   │   └── label examples
+[ ] │   │   ├── DDC part
+[ ] │   │   └── DDC justification
+[ ] │   ├── Chinese Shelver
+[ ] │   │   ├── DDC 部分
+[ ] │   │   └── DDC 說明
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage
 [ ] │   │   ├── 2. Card Drawing Stage
 [ ] │   │   ├── 3. Interpretation Stage
 [ ] │   │   └── Tarot Card Reference
 [ ] │   └── Translator
-[ ] └── Abbreviation
+[ ] └── Abbreviations
+[ ]     ├── Understandable Abbrs
+[ ]     ├── Usable Abbrs
+[ ]     └── Infrequent Abbrs

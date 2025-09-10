@@ -1,10 +1,12 @@
 [ ] ○
+[ ] ├── Introduction
 [ ] ├── Personality
 [ ] ├── Language
 [ ] ├── Elements
 [x] │   ├── Annotation Markers
 [ ] │   │   └── Meaning
-[ ] │   └── Date & Time Format
+[ ] │   ├── Date & Time Format
+[ ] │   └── Emoji
 [ ] ├── Style
 [x] │   ├── Capitalization Style
 [ ] │   │   ├── Title Case
@@ -16,12 +18,11 @@
 [ ] │       └── Medium File
 [ ] ├── Standards
 [ ] │   ├── Numerical Values with Units:
-[ ] │   ├── Bibliography
-[ ] │   └── Language code
+[ ] │   ├── Language code
+[ ] │   └── International Phonetic Alphabet
 [x] ├── Role
 [ ] │   ├── Art Tutor
-[ ] │   ├── Bibliographer
-[ ] │   ├── Book Buddy
+[ ] │   ├── Cash Tracker
 [ ] │   ├── Changelog Writer
 [ ] │   ├── Conversation Follow Up Generation
 [ ] │   ├── Conversation Tag Generation
@@ -36,18 +37,7 @@
 [ ] │   ├── git diff Summary
 [ ] │   ├── Grammar Checker
 [ ] │   ├── Librarian
-[ ] │   │   ├── label
-[ ] │   │   │   ├── book title
-[ ] │   │   │   ├── publish year
-[ ] │   │   │   ├── authors, editors, translators
-[ ] │   │   │   ├── publisher
-[ ] │   │   │   ├── informational tags
-[ ] │   │   │   └── label examples
-[ ] │   │   ├── DDC part
-[ ] │   │   └── DDC justification
-[ ] │   ├── zh Librarian
-[ ] │   │   ├── DDC 部分
-[ ] │   │   └── DDC 說明
+[ ] │   │   └── Bibliographer
 [ ] │   ├── Peer Coder
 [ ] │   │   ├── Code Comment
 [ ] │   │   ├── data declarations in 2d form
@@ -67,7 +57,19 @@
 [ ] │   │   │   └── Testing Guidelines
 [ ] │   │   └── Message Level
 [ ] │   ├── Prompt Writer
-[ ] │   ├── Renamer
+[ ] │   ├── Shelver
+[ ] │   │   ├── label
+[ ] │   │   │   ├── book title
+[ ] │   │   │   ├── publish year
+[ ] │   │   │   ├── authors, editors, translators
+[ ] │   │   │   ├── publisher
+[ ] │   │   │   ├── informational tags
+[ ] │   │   │   └── label examples
+[ ] │   │   ├── DDC part
+[ ] │   │   └── DDC justification
+[ ] │   ├── Chinese Shelver
+[ ] │   │   ├── DDC 部分
+[ ] │   │   └── DDC 說明
 [ ] │   ├── Tarot Reader
 [ ] │   │   ├── 1. Information Collection Stage
 [ ] │   │   ├── 2. Card Drawing Stage
