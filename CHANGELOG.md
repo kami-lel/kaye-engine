@@ -27,7 +27,13 @@ Role.Conversation Tag Generation -->
 ## [Unreleased]
 
 ### Added
+
+- new abbreviations
+
 ### Changed
+
+- abbreviations
+
 ### Deprecated
 ### Removed
 ### Fixed
