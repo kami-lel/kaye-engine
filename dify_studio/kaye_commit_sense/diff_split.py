@@ -4,4 +4,5 @@ def main(input):
     result_list = []
     for segment in segments[1:]:
         result_list.append(DIFF_GIT + segment)
-    return {"output": result_list}
+
+    return {"output": result_list, "file_count": len(result_list)}
