@@ -47,6 +47,33 @@ Role.Conversation Tag Generation -->
 
 
 
+## [4.8.0] - 2025-09-17
+
+### Added
+
+- new abbreviations in `prompt_corpus.md`
+- Dify App: Kaye Cash Tracker
+- Dify App: Kaye Commit Sense
+
+### Changed
+
+- abbreviations in `prompt_corpus.md`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## [4.7.6] - 2025-09-09
 
 ### Added
@@ -829,7 +856,8 @@ Role.Conversation Tag Generation -->
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.7.6...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.8.0...dev
+[4.8.0]: https://github.com/kami-lel/kaye/compare/v4.7.6...v4.8.0
 [4.7.6]: https://github.com/kami-lel/kaye/compare/v4.7.5...v4.7.6
 [4.7.5]: https://github.com/kami-lel/kaye/compare/v4.7.4...v4.7.5
 [4.7.4]: https://github.com/kami-lel/kaye/compare/v4.7.3...v4.7.4
