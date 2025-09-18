@@ -1,5 +1,4 @@
 def main(transactions, sheet_name, first_empty_row):
-    # todo docstring
     rows_from = transactions["rows"]
 
     # generate range

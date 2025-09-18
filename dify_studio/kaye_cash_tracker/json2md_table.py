@@ -1,5 +1,4 @@
 def main(transactions):
-    # todo docstring
     # Generate header row with updated headers
     header = ["", "¤", "Out", "In", "From", "To", "", "Remarks"]
     # Separator line for markdown table formatting
