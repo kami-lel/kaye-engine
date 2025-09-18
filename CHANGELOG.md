@@ -53,6 +53,7 @@ Role.Conversation Tag Generation -->
 
 - new abbreviations in `prompt_corpus.md`
 - Dify App: Kaye Cash Tracker
+- Dify App: Kaye Commit Sense
 
 ### Changed
 
