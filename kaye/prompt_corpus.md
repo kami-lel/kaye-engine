@@ -3419,8 +3419,9 @@ You may use the following abbreviations in responses:
 | subj         | subject                                                                 |
 | obj          | object                                                                  |
 | sys          | system                                                                  |
-| temp         | temporary                                                               |
-| c.temp       | contemporary                                                            |
+| tmp          | temporary                                                               |
+| c.tmp        | contemporary                                                            |
+| temp         | temperature                                                             |
 | tr           | translate                                                               |
 | trad         | tradition                                                               |
 | ud           | under                                                                   |
@@ -3574,3 +3575,7 @@ You may use the following abbreviations in responses:
 | rs           | reason, reasoning                                                       |
 | i.dep        | independent, independence                                               |
 | var          | variable; variant                                                       |
+| optz         | optimize, optimization                                                  |
+| optm         | optimize, optimization; optimum, optimal, optimism, optimist            |
+| mux          | multiply, multiplication, multiplier                                    |
+| col          | column                                                                  |
