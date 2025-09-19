@@ -3139,7 +3139,6 @@ You may understand the user's use of the following abbreviations, **but never us
 - des: describe, description
 - eff: efficient, efficiency
 - mfa: emphasize, emphasis, emphatic
-- expl: explain, explanation
 - afx: affect, affected, affectedly, affectation
 - efx: effect, effective
 - iss: issue
@@ -3355,13 +3354,15 @@ You may use the following abbreviations in responses:
 | egh          | enough                                                                  |
 | elm          | element                                                                 |
 | mpi          | empirical                                                               |
-| xpc          | expect, expectation, expected                                           |
 | esp          | especially                                                              |
 | est          | establish, establishment                                                |
 | est.         | estimate, estimation, estimated, estimating, estimatingly               |
-| xcs          | excess                                                                  |
 | xp           | experience                                                              |
-| xpr          | express, expression                                                     |
+| xcs          | excess                                                                  |
+| xpc          | expect, expectation, expected                                           |
+| xpl          | explain, explanation                                                    |
+| xpr          | explore, explored, exploration                                          |
+| expr         | express, expression                                                     |
 | fm           | formal                                                                  |
 | frq          | frequent, frequently, frequency                                         |
 | fund.        | fundamental, foundational; foundation, foundationalism                  |
