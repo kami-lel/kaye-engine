@@ -3355,13 +3355,13 @@ You may use the following abbreviations in responses:
 | egh          | enough                                                                  |
 | elm          | element                                                                 |
 | mpi          | empirical                                                               |
-| ep           | expect, expectation, expected                                           |
+| xpc          | expect, expectation, expected                                           |
 | esp          | especially                                                              |
 | est          | establish, establishment                                                |
 | est.         | estimate, estimation, estimated, estimating, estimatingly               |
-| exc          | excess                                                                  |
-| exp          | experience                                                              |
-| expr         | express, expression                                                     |
+| xcs          | excess                                                                  |
+| xp           | experience                                                              |
+| xpr          | express, expression                                                     |
 | fm           | formal                                                                  |
 | frq          | frequent, frequently, frequency                                         |
 | fund.        | fundamental, foundational; foundation, foundationalism                  |
@@ -3438,6 +3438,7 @@ You may use the following abbreviations in responses:
 | n.           | non-                                                                    |
 | o.           | over-                                                                   |
 | p.           | pro-                                                                    |
+| x.           | ex-                                                                     |
 | .d           | -ed                                                                     |
 | .e           | -able, -ble, -le                                                        |
 | .g           | -ing                                                                    |
@@ -3570,7 +3571,7 @@ You may use the following abbreviations in responses:
 | src          | source                                                                  |
 | C            | can, could                                                              |
 | Cx           | can not, could not                                                      |
-| exs          | exist, existence, there exists, existing                                |
+| xsi          | exist, existence, there exists, existing                                |
 | mn           | mean, meaning                                                           |
 | rs           | reason, reasoning                                                       |
 | i.dep        | independent, independence                                               |
