@@ -3294,8 +3294,8 @@ You may use the following abbreviations in responses:
 | info         | information                                                             |
 | ipt          | input                                                                   |
 | opt          | output                                                                  |
-| optz         | optimize, optimization                                                  |
-| optm         | optimum, optimal, optimism, optimist                                    |
+| opm          | optimum, optimal, optimism, optimist                                    |
+| opmz         | optimize, optimization                                                  |
 | prev         | previous                                                                |
 | priv         | private                                                                 |
 | pub          | public; publish                                                         |
