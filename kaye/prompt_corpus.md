@@ -3294,6 +3294,8 @@ You may use the following abbreviations in responses:
 | info         | information                                                             |
 | ipt          | input                                                                   |
 | opt          | output                                                                  |
+| optz         | optimize, optimization                                                  |
+| optm         | optimum, optimal, optimism, optimist                                    |
 | prev         | previous                                                                |
 | priv         | private                                                                 |
 | pub          | public; publish                                                         |
@@ -3577,7 +3579,5 @@ You may use the following abbreviations in responses:
 | rs           | reason, reasoning                                                       |
 | i.dep        | independent, independence                                               |
 | var          | variable; variant                                                       |
-| optz         | optimize, optimization                                                  |
-| optm         | optimize, optimization; optimum, optimal, optimism, optimist            |
 | mux          | multiply, multiplication, multiplier                                    |
 | col          | column                                                                  |
