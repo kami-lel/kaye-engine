@@ -3200,6 +3200,7 @@ You may understand the user's use of the following abbreviations, **but never us
 - m. & mm & mx: more & more & most
 - l. & ll & lx: little/few & less/fewer & least/fewest
 - R: are
+- `|`: such that
 
 
 
