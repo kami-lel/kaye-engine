@@ -1,9 +1,9 @@
 app:
   description: ''
-  icon: 🤖
+  icon: 📊
   icon_background: '#FFEAD5'
   mode: advanced-chat
-  name: Kaye Cash Tracker
+  name: Kaye_Cash_Tracker
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
@@ -473,7 +473,7 @@ workflow:
 
           [Google Sheets](https://docs.google.com/spreadsheets/d/{{#env.google_sheet_id#}}/edit)'
         desc: ''
-        selected: true
+        selected: false
         title: Answer Pushed
         type: answer
         variables: []
@@ -485,7 +485,7 @@ workflow:
       positionAbsolute:
         x: 2643.629746084044
         y: 35.43845163933776
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -858,7 +858,7 @@ workflow:
       positionAbsolute:
         x: 1936.8985572837382
         y: 35.43845163933776
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1655,7 +1655,7 @@ workflow:
       type: custom
       width: 242
     viewport:
-      x: -1934.61244219956
-      y: 463.4158912459309
-      zoom: 0.9143998895484112
+      x: -124.88403172680819
+      y: 196.2051150710185
+      zoom: 0.69891692869741
   rag_pipeline_variables: []
