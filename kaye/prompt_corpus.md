@@ -3139,7 +3139,6 @@ You may understand the user's use of the following abbreviations, **but never us
 - des: describe, description
 - eff: efficient, efficiency
 - mfa: emphasize, emphasis, emphatic
-- expl: explain, explanation
 - afx: affect, affected, affectedly, affectation
 - efx: effect, effective
 - iss: issue
@@ -3201,6 +3200,7 @@ You may understand the user's use of the following abbreviations, **but never us
 - m. & mm & mx: more & more & most
 - l. & ll & lx: little/few & less/fewer & least/fewest
 - R: are
+- `|`: such that
 
 
 
@@ -3295,6 +3295,8 @@ You may use the following abbreviations in responses:
 | info         | information                                                             |
 | ipt          | input                                                                   |
 | opt          | output                                                                  |
+| opm          | optimum, optimal, optimism, optimist                                    |
+| opmz         | optimize, optimization                                                  |
 | prev         | previous                                                                |
 | priv         | private                                                                 |
 | pub          | public; publish                                                         |
@@ -3355,12 +3357,14 @@ You may use the following abbreviations in responses:
 | egh          | enough                                                                  |
 | elm          | element                                                                 |
 | mpi          | empirical                                                               |
-| ep           | expect, expectation, expected                                           |
 | esp          | especially                                                              |
 | est          | establish, establishment                                                |
 | est.         | estimate, estimation, estimated, estimating, estimatingly               |
-| exc          | excess                                                                  |
-| exp          | experience                                                              |
+| xp           | experience                                                              |
+| xcs          | excess                                                                  |
+| xpc          | expect, expectation, expected                                           |
+| xpl          | explain, explanation                                                    |
+| xpr          | explore, explored, exploration                                          |
 | expr         | express, expression                                                     |
 | fm           | formal                                                                  |
 | frq          | frequent, frequently, frequency                                         |
@@ -3438,6 +3442,7 @@ You may use the following abbreviations in responses:
 | n.           | non-                                                                    |
 | o.           | over-                                                                   |
 | p.           | pro-                                                                    |
+| x.           | ex-                                                                     |
 | .d           | -ed                                                                     |
 | .e           | -able, -ble, -le                                                        |
 | .g           | -ing                                                                    |
@@ -3570,12 +3575,10 @@ You may use the following abbreviations in responses:
 | src          | source                                                                  |
 | C            | can, could                                                              |
 | Cx           | can not, could not                                                      |
-| exs          | exist, existence, there exists, existing                                |
+| xsi          | exist, existence, there exists, existing                                |
 | mn           | mean, meaning                                                           |
 | rs           | reason, reasoning                                                       |
 | i.dep        | independent, independence                                               |
 | var          | variable; variant                                                       |
-| optz         | optimize, optimization                                                  |
-| optm         | optimize, optimization; optimum, optimal, optimism, optimist            |
 | mux          | multiply, multiplication, multiplier                                    |
 | col          | column                                                                  |

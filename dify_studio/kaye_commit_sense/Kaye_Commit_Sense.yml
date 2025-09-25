@@ -1,9 +1,9 @@
 app:
   description: ''
-  icon: 🤖
+  icon: 🐙
   icon_background: '#FFEAD5'
   mode: workflow
-  name: Kaye Commit Sense
+  name: Kaye_Commit_Sense
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
@@ -86,6 +86,7 @@ workflow:
         sourceType: iteration-start
         targetType: llm
       id: 1757062707114start-source-1757062988503-target
+      selected: false
       source: 1757062707114start
       sourceHandle: source
       target: '1757062988503'
@@ -94,57 +95,10 @@ workflow:
       zIndex: 1002
     - data:
         isInLoop: false
-        sourceType: template-transform
-        targetType: end
-      id: 1757065691478-source-1756587276076-target
-      selected: false
-      source: '1757065691478'
-      sourceHandle: source
-      target: '1756587276076'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: true
-        isInLoop: false
-        iteration_id: '1757062707114'
-        sourceType: llm
-        targetType: template-transform
-      id: 1757062988503-source-1757064587549-target
-      source: '1757062988503'
-      sourceHandle: source
-      target: '1757064587549'
-      targetHandle: target
-      type: custom
-      zIndex: 1002
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: template-transform
-      id: 1757066198191-source-1757065691478-target
-      selected: false
-      source: '1757066198191'
-      sourceHandle: source
-      target: '1757065691478'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: iteration
-        targetType: template-transform
-      id: 1757062707114-source-1757065691478-target
-      source: '1757062707114'
-      sourceHandle: source
-      target: '1757065691478'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
         sourceType: start
         targetType: code
       id: 1756587193642-source-1757067408703-target
+      selected: false
       source: '1756587193642'
       sourceHandle: source
       target: '1757067408703'
@@ -156,6 +110,7 @@ workflow:
         sourceType: code
         targetType: iteration
       id: 1757067408703-source-1757062707114-target
+      selected: false
       source: '1757067408703'
       sourceHandle: source
       target: '1757062707114'
@@ -167,9 +122,59 @@ workflow:
         sourceType: start
         targetType: llm
       id: 1756587193642-source-1757066198191-target
+      selected: false
       source: '1756587193642'
       sourceHandle: source
       target: '1757066198191'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1757062707114'
+        sourceType: llm
+        targetType: code
+      id: 1757062988503-source-1758835263510-target
+      selected: false
+      source: '1757062988503'
+      sourceHandle: source
+      target: '1758835263510'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: end
+      id: 1758835564168-source-1756587276076-target
+      selected: false
+      source: '1758835564168'
+      sourceHandle: source
+      target: '1756587276076'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1757066198191-source-1758835564168-target
+      source: '1757066198191'
+      sourceHandle: source
+      target: '1758835564168'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: code
+      id: 1757062707114-source-1758835564168-target
+      source: '1757062707114'
+      sourceHandle: source
+      target: '1758835564168'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -218,8 +223,8 @@ workflow:
         desc: ''
         outputs:
         - value_selector:
-          - '1757065691478'
-          - output
+          - '1758835564168'
+          - result
           value_type: string
           variable: output
         selected: false
@@ -228,10 +233,10 @@ workflow:
       height: 88
       id: '1756587276076'
       position:
-        x: 2363.5821435838234
+        x: 1938.0574964516177
         y: 175.46740480595236
       positionAbsolute:
-        x: 2363.5821435838234
+        x: 1938.0574964516177
         y: 175.46740480595236
       selected: true
       sourcePosition: right
@@ -241,35 +246,35 @@ workflow:
     - data:
         desc: ''
         error_handle_mode: terminated
-        height: 230.54522937617446
+        height: 226
         is_parallel: true
         iterator_input_type: array[string]
         iterator_selector:
         - '1757067408703'
         - output
         output_selector:
-        - '1757064587549'
-        - output
+        - '1758835263510'
+        - result
         output_type: array[string]
         parallel_nums: 10
         selected: false
         start_node_id: 1757062707114start
         title: Iteration
         type: iteration
-        width: 1124.8123537889655
-      height: 231
+        width: 725
+      height: 226
       id: '1757062707114'
       position:
-        x: 678.7851239348784
+        x: 719.8360108256309
         y: 250.45616381937793
       positionAbsolute:
-        x: 678.7851239348784
+        x: 719.8360108256309
         y: 250.45616381937793
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 1125
+      width: 725
       zIndex: 1
     - data:
         desc: ''
@@ -285,7 +290,7 @@ workflow:
         x: 24
         y: 68
       positionAbsolute:
-        x: 702.7851239348784
+        x: 743.8360108256309
         y: 318.45616381937793
       selectable: false
       selected: false
@@ -372,7 +377,7 @@ workflow:
         x: 118.71047911714686
         y: 65.15647842333863
       positionAbsolute:
-        x: 797.4956030520252
+        x: 838.5464899427777
         y: 315.61264224271656
       selected: false
       sourcePosition: right
@@ -380,79 +385,6 @@ workflow:
       type: custom
       width: 242
       zIndex: 1002
-    - data:
-        desc: ''
-        isInIteration: true
-        isInLoop: false
-        iteration_id: '1757062707114'
-        selected: false
-        template: '[{{ symbol }}]{{ file_name }}:{{summary}}'
-        title: per file line
-        type: template-transform
-        variables:
-        - value_selector:
-          - '1757062988503'
-          - structured_output
-          - symbol
-          value_type: object
-          variable: symbol
-        - value_selector:
-          - '1757062988503'
-          - structured_output
-          - file_name
-          value_type: object
-          variable: file_name
-        - value_selector:
-          - '1757062988503'
-          - structured_output
-          - summary
-          value_type: object
-          variable: summary
-      height: 52
-      id: '1757064587549'
-      parentId: '1757062707114'
-      position:
-        x: 406.1959740857669
-        y: 65
-      positionAbsolute:
-        x: 1084.9810980206453
-        y: 315.45616381937793
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-      zIndex: 1002
-    - data:
-        desc: ''
-        selected: false
-        template: "{{ primary }}\r\n\r\n{{ per_files | join(\"\\n\") }}"
-        title: merge final output
-        type: template-transform
-        variables:
-        - value_selector:
-          - '1757062707114'
-          - output
-          value_type: array[string]
-          variable: per_files
-        - value_selector:
-          - '1757066198191'
-          - text
-          value_type: string
-          variable: primary
-      height: 52
-      id: '1757065691478'
-      position:
-        x: 2039.145209150512
-        y: 175.46740480595236
-      positionAbsolute:
-        x: 2039.145209150512
-        y: 175.46740480595236
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
     - data:
         context:
           enabled: false
@@ -531,8 +463,93 @@ workflow:
       targetPosition: left
       type: custom
       width: 242
+    - data:
+        code: "def main(symbol: dict, file_name: dict, summary: dict):\n    output\
+          \ = \"[{}]{}:{}\".format(symbol, file_name, summary)\n    return {\"result\"\
+          : output}"
+        code_language: python3
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1757062707114'
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: per file line
+        type: code
+        variables:
+        - value_selector:
+          - '1757062988503'
+          - structured_output
+          - symbol
+          value_type: object
+          variable: symbol
+        - value_selector:
+          - '1757062988503'
+          - structured_output
+          - file_name
+          value_type: object
+          variable: file_name
+        - value_selector:
+          - '1757062988503'
+          - structured_output
+          - summary
+          value_type: object
+          variable: summary
+      height: 52
+      id: '1758835263510'
+      parentId: '1757062707114'
+      position:
+        x: 420.71047911714686
+        y: 65.15647842333863
+      positionAbsolute:
+        x: 1140.5464899427777
+        y: 315.61264224271656
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        code: "def main(primary: str, per_files: list[str]):\n\n    lines = \"\\n\"\
+          .join(per_files)\n    opt = \"\"\"{}\n\n{}\"\"\".format(primary, lines)\n\
+          \n    return {\"result\": opt}\n"
+        code_language: python3
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: merge final output
+        type: code
+        variables:
+        - value_selector:
+          - '1757066198191'
+          - text
+          value_type: string
+          variable: primary
+        - value_selector:
+          - '1757062707114'
+          - output
+          value_type: array[string]
+          variable: per_files
+      height: 52
+      id: '1758835564168'
+      position:
+        x: 1664.5606799085017
+        y: 175.46740480595236
+      positionAbsolute:
+        x: 1664.5606799085017
+        y: 175.46740480595236
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
     viewport:
-      x: 109.75821076482191
-      y: 195.96367244034525
-      zoom: 0.6260527119074226
+      x: -715.1911616892387
+      y: 325.3949259554006
+      zoom: 0.7855441695376874
   rag_pipeline_variables: []
