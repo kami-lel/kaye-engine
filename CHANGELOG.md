@@ -62,8 +62,7 @@ re `dify_studio/`:
 - rename `.yml` files to not use spaces
   improve execution time
 - select emojis for each app
-- for Kaye Commit Sense:
-  use only Python code node instead of Jinja2 template node
+- use only Python code node instead of Jinja2 template node
 
 
 
