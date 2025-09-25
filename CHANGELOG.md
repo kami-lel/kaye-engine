@@ -894,7 +894,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.8.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.8.1...dev
+[4.8.1]: https://github.com/kami-lel/kaye/compare/v4.8.0...v4.8.1
 [4.8.0]: https://github.com/kami-lel/kaye/compare/v4.7.6...v4.8.0
 [4.7.6]: https://github.com/kami-lel/kaye/compare/v4.7.5...v4.7.6
 [4.7.5]: https://github.com/kami-lel/kaye/compare/v4.7.4...v4.7.5
