@@ -47,6 +47,44 @@ Role.Conversation Tag Generation -->
 
 
 
+## [4.8.1] - 2025-09-25
+
+### Added
+
+re `prompt_corpus.md`:
+
+- add abbr
+
+### Changed
+
+re `dify_studio/`:
+
+- rename `.yml` files to not use spaces
+  improve execution time
+- select emojis for each app
+- for Kaye Commit Sense:
+  use only Python code node instead of Jinja2 template node
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## [4.8.0] - 2025-09-17
 
 ### Added
@@ -856,7 +894,8 @@ Role.Conversation Tag Generation -->
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.8.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.8.1...dev
+[4.8.1]: https://github.com/kami-lel/kaye/compare/v4.8.0...v4.8.1
 [4.8.0]: https://github.com/kami-lel/kaye/compare/v4.7.6...v4.8.0
 [4.7.6]: https://github.com/kami-lel/kaye/compare/v4.7.5...v4.7.6
 [4.7.5]: https://github.com/kami-lel/kaye/compare/v4.7.4...v4.7.5
