@@ -47,6 +47,39 @@ Role.Conversation Tag Generation -->
 
 
 
+## [4.8.1] - 2025-09-25
+
+### Added
+
+re `prompt_corpus.md`:
+
+- add abbr
+
+### Changed
+
+re `dify_studio/`:
+
+- rename `.yml` files to not use spaces
+- use only Python code node instead of Jinja2 template node,
+  improve execution time
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## [4.8.0] - 2025-09-17
 
 ### Added
