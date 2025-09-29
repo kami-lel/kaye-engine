@@ -23,14 +23,3 @@ Prefixes are listed in **priority** order; apply the first rule that matches.
 
 If none of the above prefixes apply, choose based on lines changed & change type:
 
-- >25 lines changed
-
-  - predominantly addition: +
-  - predominantly deletion: -
-  - mixed modification: *
-
-- <= 25 lines changed
-
-  - predominantly addition: /
-  - predominantly deletion: \
-  - mixed modification: |
