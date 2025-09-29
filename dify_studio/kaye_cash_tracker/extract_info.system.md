@@ -24,25 +24,7 @@ Transaction type decides party_from and party_to content:
 
 For payer and recipient, extract info and fill field with commonly known names using clear capitalization.
 
-User Accounts:
-
-- BOC: Bank of China Debit
-- BOA: Bank of America Debit
-- BOAC: Bank of America USC Credit Card
-- ABC: Agricultural Bank of China Credit Card
-- WX: WeChat Wallet
-- ALI: Alipay
-- CASH: Physical cash
-
-User Accounts:
-
-- BOC: Bank of China Debit
-- BOA: Bank of America Debit
-- BOAC: Bank of America USC Credit Card
-- ABC: Agricultural Bank of China Credit Card
-- WX: WeChat Wallet
-- ALI: Alipay
-- CASH: Physical cash
+%extract info context%
 
 ## Categories
 

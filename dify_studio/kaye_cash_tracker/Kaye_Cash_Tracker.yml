@@ -44,6 +44,14 @@ workflow:
       rows: []
     value_type: object
   environment_variables:
+  - description: ''
+    id: 70ee9016-aab1-4710-8454-fec09d9073ce
+    name: extract_info_context
+    selector:
+    - env
+    - extract_info_context
+    value: ''
+    value_type: secret
   - description: which sheet contains the main data part
     id: 72d19e8a-2184-4303-b098-28712cfeb58a
     name: google_sheet_name
@@ -58,8 +66,8 @@ workflow:
     selector:
     - env
     - google_sheet_id
-    value: 1BxwHWXcpgL-zH-UDU_JuN9pXwVERfLtfAKd6GfXSGJc
-    value_type: string
+    value: ''
+    value_type: secret
   features:
     file_upload:
       allowed_file_extensions:
@@ -132,19 +140,6 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: template-transform
-        targetType: llm
-      id: 1757327014618-source-1757203447144-target
-      selected: false
-      source: '1757327014618'
-      sourceHandle: source
-      target: '1757203447144'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
         sourceType: llm
         targetType: code
       id: 1757203447144-source-1757328597649-target
@@ -205,19 +200,6 @@ workflow:
       type: custom
       zIndex: 0
     - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: template-transform
-        targetType: tool
-      id: 1757357329653-source-1757355389668-target
-      selected: false
-      source: '1757357329653'
-      sourceHandle: source
-      target: '1757355389668'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInLoop: false
         sourceType: code
         targetType: code
@@ -255,17 +237,6 @@ workflow:
       zIndex: 0
     - data:
         isInLoop: false
-        sourceType: if-else
-        targetType: template-transform
-      id: 1757193459119-true-1757357329653-target
-      source: '1757193459119'
-      sourceHandle: 'true'
-      target: '1757357329653'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
         sourceType: tool
         targetType: llm
       id: 1757363098690-source-1757203447144-target
@@ -298,18 +269,6 @@ workflow:
       type: custom
       zIndex: 0
     - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: start
-        targetType: if-else
-      id: 1757003052142-source-1757396822111-target
-      source: '1757003052142'
-      sourceHandle: source
-      target: '1757396822111'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInLoop: false
         sourceType: if-else
         targetType: if-else
@@ -317,17 +276,6 @@ workflow:
       source: '1757396822111'
       sourceHandle: 'true'
       target: '1757193459119'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: template-transform
-      id: 1757396822111-false-1757327014618-target
-      source: '1757396822111'
-      sourceHandle: 'false'
-      target: '1757327014618'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -351,6 +299,64 @@ workflow:
       source: '1757358619560'
       sourceHandle: fail-branch
       target: '1758157796312'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1757193459119-true-1758838128097-target
+      source: '1757193459119'
+      sourceHandle: 'true'
+      target: '1758838128097'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: tool
+      id: 1758838128097-source-1757355389668-target
+      source: '1758838128097'
+      sourceHandle: source
+      target: '1757355389668'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1757396822111-false-1758838279693-target
+      source: '1757396822111'
+      sourceHandle: 'false'
+      target: '1758838279693'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1758838279693-source-1757203447144-target
+      source: '1758838279693'
+      sourceHandle: source
+      target: '1757203447144'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1757003052142-source-1757396822111-target
+      selected: false
+      source: '1757003052142'
+      sourceHandle: source
+      target: '1757396822111'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -387,10 +393,10 @@ workflow:
       height: 119
       id: answer
       position:
-        x: 2363.5127734114712
+        x: 2963.5127734114712
         y: 431.03771643277946
       positionAbsolute:
-        x: 2363.5127734114712
+        x: 2963.5127734114712
         y: 431.03771643277946
       selected: false
       sourcePosition: right
@@ -427,10 +433,10 @@ workflow:
       height: 96
       id: '1757100234840'
       position:
-        x: 1192.1925120563064
+        x: 1792.1925120563064
         y: 656.6005089533724
       positionAbsolute:
-        x: 1192.1925120563064
+        x: 1792.1925120563064
         y: 656.6005089533724
       selected: false
       sourcePosition: right
@@ -457,10 +463,10 @@ workflow:
       height: 124
       id: '1757193459119'
       position:
-        x: 595.1178681649056
+        x: 895.1178681649056
         y: 164.13479565191045
       positionAbsolute:
-        x: 595.1178681649056
+        x: 895.1178681649056
         y: 164.13479565191045
       selected: false
       sourcePosition: right
@@ -480,10 +486,10 @@ workflow:
       height: 135
       id: '1757199641292'
       position:
-        x: 2643.629746084044
+        x: 3243.629746084044
         y: 35.43845163933776
       positionAbsolute:
-        x: 2643.629746084044
+        x: 3243.629746084044
         y: 35.43845163933776
       selected: false
       sourcePosition: right
@@ -527,10 +533,10 @@ workflow:
       height: 136
       id: '1757199830234'
       position:
-        x: 1534.1857525570715
+        x: 2134.1857525570713
         y: 513.3071362240263
       positionAbsolute:
-        x: 1534.1857525570715
+        x: 2134.1857525570713
         y: 513.3071362240263
       selected: false
       sourcePosition: right
@@ -568,10 +574,10 @@ workflow:
       height: 136
       id: '1757200011862'
       position:
-        x: 3075.208218750914
+        x: 3675.208218750914
         y: 35.43845163933776
       positionAbsolute:
-        x: 3075.208218750914
+        x: 3675.208218750914
         y: 35.43845163933776
       selected: false
       sourcePosition: right
@@ -590,10 +596,10 @@ workflow:
       height: 52
       id: '1757200206103'
       position:
-        x: 1924.211314628252
+        x: 2524.211314628252
         y: 431.03771643277946
       positionAbsolute:
-        x: 1924.211314628252
+        x: 2524.211314628252
         y: 431.03771643277946
       selected: false
       sourcePosition: right
@@ -602,8 +608,10 @@ workflow:
       width: 242
     - data:
         context:
-          enabled: false
-          variable_selector: []
+          enabled: true
+          variable_selector:
+          - env
+          - extract_info_context
         desc: ''
         model:
           completion_params: {}
@@ -619,32 +627,26 @@ workflow:
             \ and merging them with new data to output a single, combined set. Assign\
             \ categories using the codes below, making reasonable assumptions if needed.\
             \ Ensure all records are accurate, complete, and clear.\n\nToday: {{#1757363098690.text#}}\n\
-            Existing Transactions: {{#1757327014618.output#}}\n\n## Currency Symbol\n\
+            Existing Transactions: {{#1758838279693.result#}}\n\n## Currency Symbol\n\
             \n- $: USD\n- ¥: RMB/Chinese Yuan\n- HK$\n- €\n\n## Party From & To\n\n\
             Transaction type decides party_from and party_to content:\n\n- Income:\n\
             \  - party_from: payer (e.g., employer for salary, bank for investment,)\
             \ or User Account\n  - party_to: often User Account\n\n- Expense:\n  -\
             \ party_from: often User Account\n  - party_to: recipient (e.g., restaurant,\
             \ grocery,) or User Account\n\nFor payer and recipient, extract info and\
-            \ fill field with commonly known names using clear capitalization.\n\n\
-            User Accounts:\n\n- BOC: Bank of China Debit\n- BOA: Bank of America Debit\n\
-            - BOAC: Bank of America USC Credit Card\n- ABC: Agricultural Bank of China\
-            \ Credit Card\n- WX: WeChat Wallet\n- ALI: Alipay\n- CASH: Physical cash\n\
-            \nUser Accounts:\n\n- BOC: Bank of China Debit\n- BOA: Bank of America\
-            \ Debit\n- BOAC: Bank of America USC Credit Card\n- ABC: Agricultural\
-            \ Bank of China Credit Card\n- WX: WeChat Wallet\n- ALI: Alipay\n- CASH:\
-            \ Physical cash\n\n## Categories\n\nSelect the most likely category abbreviation\
-            \ for each transaction based on its details. Choose only from the list\
-            \ below and enter the abbreviation in the category field.\n\n- A: Salary\n\
-            - B: Balance\n  - BT: Account transfer\n  - BI: Investment principal\n\
-            \  - BC: Currency exchange\n  - BR: Yearly carryover\n- C: Clothing\n\
-            - D: Dining\n  - DB: Coffee/bar\n- E: Electronics/Device\n- F: Gift\n\
-            \  - FO: Offering/church\n- G: Grocery\n  - GB: Alcohol, coffee, beverages\n\
-            - H: Housing\n- I: Investment/Finance\n  - IP: Profit\n  - IF: Fee\n-\
-            \ M: Medical/Insurance\n- N: Education\n- O: Online\n  - OG: Online Game\n\
-            - P: Personal\n- R: Recreation\n  - RE: Event\n- S: Supplies\n- T: Transportation\n\
-            - U: Utilities\n- V: Vacation\n- X: Tax\n- Y: Payback from individuals\n\
-            - Z: Miscellaneous\n"
+            \ fill field with commonly known names using clear capitalization.\nPrefers\
+            \ names list below:\n\n{{#context#}}\n\n## Categories\n\nSelect the most\
+            \ likely category abbreviation for each transaction based on its details.\
+            \ Choose only from the list below and enter the abbreviation in the category\
+            \ field.\n\n- A: Salary\n- B: Balance\n  - BT: Account transfer\n  - BI:\
+            \ Investment principal\n  - BC: Currency exchange\n  - BR: Yearly carryover\n\
+            - C: Clothing\n- D: Dining\n  - DB: Coffee/bar\n- E: Electronics/Device\n\
+            - F: Gift\n  - FO: Offering/church\n- G: Grocery\n  - GB: Alcohol, coffee,\
+            \ beverages\n- H: Housing\n- I: Investment/Finance\n  - IP: Profit\n \
+            \ - IF: Fee\n- M: Medical/Insurance\n- N: Education\n- O: Online\n  -\
+            \ OG: Online Game\n- P: Personal\n- R: Recreation\n  - RE: Event\n- S:\
+            \ Supplies\n- T: Transportation\n- U: Utilities\n- V: Vacation\n- X: Tax\n\
+            - Y: Payback from individuals\n- Z: Miscellaneous\n"
         - id: 263db14f-07bf-4cc3-b643-30605bc4b873
           role: user
           text: '{{#sys.query#}}
@@ -742,37 +744,12 @@ workflow:
       height: 88
       id: '1757203447144'
       position:
-        x: 911.8374671463712
+        x: 1511.8374671463712
         y: 513.3071362240263
       positionAbsolute:
-        x: 911.8374671463712
+        x: 1511.8374671463712
         y: 513.3071362240263
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        desc: ''
-        selected: false
-        template: '{{ transactions }}'
-        title: json 2 string
-        type: template-transform
-        variables:
-        - value_selector:
-          - conversation
-          - transactions
-          value_type: object
-          variable: transactions
-      height: 52
-      id: '1757327014618'
-      position:
-        x: 588.818645643104
-        y: 513.3071362240263
-      positionAbsolute:
-        x: 588.818645643104
-        y: 513.3071362240263
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -801,10 +778,10 @@ workflow:
       height: 96
       id: '1757328597649'
       position:
-        x: 1192.1925120563064
+        x: 1792.1925120563064
         y: 514.6266441347992
       positionAbsolute:
-        x: 1192.1925120563064
+        x: 1792.1925120563064
         y: 514.6266441347992
       selected: false
       sourcePosition: right
@@ -853,12 +830,12 @@ workflow:
       height: 96
       id: '1757353902819'
       position:
-        x: 1936.8985572837382
+        x: 2536.8985572837382
         y: 35.43845163933776
       positionAbsolute:
-        x: 1936.8985572837382
+        x: 2536.8985572837382
         y: 35.43845163933776
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1061,7 +1038,7 @@ workflow:
         tool_parameters:
           ranges:
             type: mixed
-            value: '{{#1757357329653.output#}} '
+            value: '{{#1758838128097.result#}}'
           spreadsheet_id:
             type: mixed
             value: '{{#env.google_sheet_id#}}'
@@ -1069,10 +1046,10 @@ workflow:
       height: 140
       id: '1757355389668'
       position:
-        x: 1244.7057513000157
+        x: 1844.7057513000157
         y: 35.43845163933776
       positionAbsolute:
-        x: 1244.7057513000157
+        x: 1844.7057513000157
         y: 35.43845163933776
       selected: false
       sourcePosition: right
@@ -1100,35 +1077,10 @@ workflow:
       height: 96
       id: '1757356715142'
       position:
-        x: 1486.6262711836164
+        x: 2086.626271183616
         y: 35.43845163933776
       positionAbsolute:
-        x: 1486.6262711836164
-        y: 35.43845163933776
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        desc: ''
-        selected: false
-        template: '["{{ google_sheet_name }}!A:A"]'
-        title: Get First Empty Row Range
-        type: template-transform
-        variables:
-        - value_selector:
-          - env
-          - google_sheet_name
-          value_type: string
-          variable: google_sheet_name
-      height: 52
-      id: '1757357329653'
-      position:
-        x: 1002.7640993740229
-        y: 35.43845163933776
-      positionAbsolute:
-        x: 1002.7640993740229
+        x: 2086.626271183616
         y: 35.43845163933776
       selected: false
       sourcePosition: right
@@ -1382,10 +1334,10 @@ workflow:
       height: 214
       id: '1757358619560'
       position:
-        x: 2177.906479898954
+        x: 2777.906479898954
         y: 35.43845163933776
       positionAbsolute:
-        x: 2177.906479898954
+        x: 2777.906479898954
         y: 35.43845163933776
       selected: false
       sourcePosition: right
@@ -1595,11 +1547,11 @@ workflow:
       height: 114
       id: '1757363098690'
       position:
-        x: 588.818645643104
-        y: 606.3071362240263
+        x: 960.9971320519277
+        y: 608.4943630848998
       positionAbsolute:
-        x: 588.818645643104
-        y: 606.3071362240263
+        x: 960.9971320519277
+        y: 608.4943630848998
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1625,10 +1577,10 @@ workflow:
       height: 124
       id: '1757396822111'
       position:
-        x: 19.226207635926016
+        x: 319.226207635926
         y: 277.10848570164273
       positionAbsolute:
-        x: 19.226207635926016
+        x: 319.226207635926
         y: 277.10848570164273
       selected: false
       sourcePosition: right
@@ -1644,18 +1596,78 @@ workflow:
       height: 100
       id: '1758157796312'
       position:
-        x: 2643.629746084044
+        x: 3243.629746084044
         y: 174.43845163933776
       positionAbsolute:
-        x: 2643.629746084044
+        x: 3243.629746084044
         y: 174.43845163933776
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
+    - data:
+        code: "def main(google_sheet_name: str):\n    result = '[\"{}!A:A\"]'.format(google_sheet_name)\n\
+          \    return {\"result\": result}\n\n"
+        code_language: python3
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: Get First Empty Row Range
+        type: code
+        variables:
+        - value_selector:
+          - env
+          - google_sheet_name
+          value_type: string
+          variable: google_sheet_name
+      height: 52
+      id: '1758838128097'
+      position:
+        x: 1595.852498731065
+        y: 35.43845163933776
+      positionAbsolute:
+        x: 1595.852498731065
+        y: 35.43845163933776
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(transactions: dict):\n    result = \"{}\".format(transactions)\n\
+          \    return {\"result\": result}\n"
+        code_language: python3
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: json 2 string
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - transactions
+          value_type: object
+          variable: transactions
+      height: 52
+      id: '1758838279693'
+      position:
+        x: 960.9971320519277
+        y: 513.3071362240263
+      positionAbsolute:
+        x: 960.9971320519277
+        y: 513.3071362240263
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
     viewport:
-      x: -124.88403172680819
-      y: 196.2051150710185
-      zoom: 0.69891692869741
+      x: -1528.4132133026314
+      y: 121.90251140069307
+      zoom: 0.7065664412510118
   rag_pipeline_variables: []
