@@ -6,7 +6,7 @@ def main(primary: str, per_files: list[dict]):
         symbol = file["symbol"]
         file_name = file["file_name"]
         summary = file["summary"]
-        line = "[{}]{}:{}".format(symbol, file_name, summary)
+        line = "[{}]{}: {}".format(symbol, file_name, summary)
         lines.append(line)
 
     lines_text = "\n".join(lines)
