@@ -27,7 +27,15 @@ Role.Conversation Tag Generation -->
 ## [Unreleased]
 
 ### Added
+
+- `kaye_cash_tracker` dify app:
+  provide common transaction parties for better info extraction
+
 ### Changed
+
+- `kaye_cash_tracker` dify app:
+  use secret environment variable to hide user accounts details
+
 ### Deprecated
 ### Removed
 ### Fixed

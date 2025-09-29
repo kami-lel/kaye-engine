@@ -14,9 +14,17 @@ dist/
 build/
 *.egg
 
-# ide/editor specific
-.vscode/
-
 
 # Ignore generated static prompts
 tests/static_prompts/*.md
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+!*.code-workspace
+
+# Built Visual Studio Code Extensions
+*.vsix
