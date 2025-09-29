@@ -36,8 +36,11 @@ Role.Conversation Tag Generation -->
 - `kaye_cash_tracker` dify app:
   use secret environment variable to hide user accounts details
 
-- `kaye_commit_sense` dify app:
-  different behavior dealing with single/multiple files commits
+`kaye_commit_sense` dify app:
+
+- different behavior dealing with single/multiple files commits
+- improve prompt handling
+- utilize `long_short_threshold` to decide if a file's change is large/small
 
 ### Deprecated
 ### Removed
