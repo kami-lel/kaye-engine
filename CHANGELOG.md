@@ -36,6 +36,9 @@ Role.Conversation Tag Generation -->
 - `kaye_cash_tracker` dify app:
   use secret environment variable to hide user accounts details
 
+- `kaye_commit_sense` dify app:
+  different behavior dealing with single/multiple files commits
+
 ### Deprecated
 ### Removed
 ### Fixed
