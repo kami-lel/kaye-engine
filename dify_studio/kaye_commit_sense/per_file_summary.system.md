@@ -1,4 +1,4 @@
-%%%
+%message_style%
 
 ## Annotation Markers
 
@@ -21,5 +21,6 @@ Prefixes are listed in **priority** order; apply the first rule that matches.
 8. ~: primarily content reordering or code refactors
 9. .: only whitespace, indentation, or blank-line changes
 
-If none of the above prefixes apply, choose based on lines changed & change type:
+If none of the above prefixes apply:
 
+%decide long short%
