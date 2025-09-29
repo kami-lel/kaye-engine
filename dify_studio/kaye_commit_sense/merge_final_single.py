@@ -5,7 +5,7 @@ def main(per_files: list[dict]):
     summary = file['summary']
 
     opt = """{}
-    
+
 [{}]{}""".format(summary, symbol, file_name)
 
     return {"result": opt}

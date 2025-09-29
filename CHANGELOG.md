@@ -8,10 +8,6 @@ Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline
 Role.Conversation Tag Generation -->
 <!-- todo test & improve git commit message -->
-<!-- TODO git commit sense too wordy, need fine tuning -->
-<!-- TODO git commit sense improve structure -->
-<!-- TODO git commit sense req better prompt structure -->
-
 
 
 
