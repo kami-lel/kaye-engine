@@ -2,15 +2,6 @@
 
 [^format]
 
-<!-- hack sections of corpus currently disabled:
-Role.Peer Coder.JavaScript & TypeScript
-Role.Peer Coder.Qt
-Role.Peer Coder.Python.Testing Guideline
-Role.Conversation Tag Generation -->
-<!-- FIXME kaye-commit-sense prompt improve  -->
-<!-- FIXME cash tracker dynamically get prompt from corpus -->
-<!-- TODO cash tracker add prompt parts to do basic conversation -->
-
 
 
 
