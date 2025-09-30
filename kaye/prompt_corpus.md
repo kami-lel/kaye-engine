@@ -1702,31 +1702,27 @@ The user has shown interest in the following topics:
 
 ### kaye-commit-sense-per-file
 
-- write exactly **one line per file**
+#### kaye-commit-sense-per-file-summary
 
-summary: describe **only** the single most important, influential, and significant change in this file; omit implementation details, low-level steps, and code fragments
+You are to select a single prefix that best describes the primary nature of the change to a given file. Use the following prefixes, in **priority order**. Apply the **first rule that matches**:
 
-Symbol: best describes the primary nature of the change to this file
+1. `^` if the file is a new addition
+2. `!` if the file has been deleted
+3. `:` if the file was relocated (moved), with no or only minor changes (filename may change or stay the same)
+4. `=` if the file was renamed (location unchanged), with no or only minor changes
+5. `?` if the file is a non-textual type (e.g., binaries, compressed archives, databases, encrypted blobs), and was modified
+6. `@` if the file contains only changes to annotation markers and directly related lines
+7. `#` if the change primarily concerns documentation or code comments
+8. `~` if the change is primarily content reordering or code refactoring
+9. `.` if the change is only whitespace, indentation, or blank-line edits
 
-Prefixes are listed in **priority** order; apply the first rule that matches.
-
-1. `^` new file
-2. `!` deleted file
-3. `:` file relocation with no or minor change, (file name may change or stay the same)
-4. `=` file rename (location unchanged) with no or minor change
-5. `?` non-textual file change, for example binaries, compressed archives, database files, or encrypted blobs
-6. `@` only changes to *annotation markers* and directly related lines
-7. `#` primarily documentation or comment changes
-8. `~` primarily content reordering or code refactors
-9. `.` only whitespace, indentation, or blank-line changes
-
-If none of the above prefixes apply:
+If none of the above prefixes apply, use one of the following to describe the change:
 
 
 
 
 
-#### kaye-commit-sense-per-file-long
+##### kaye-commit-sense-per-file-long
 
 - predominantly addition: +
 - predominantly deletion: -
@@ -1736,7 +1732,7 @@ If none of the above prefixes apply:
 
 
 
-#### kaye-commit-sense-per-file-short
+##### kaye-commit-sense-per-file-short
 
 - predominantly addition: /
 - predominantly deletion: \

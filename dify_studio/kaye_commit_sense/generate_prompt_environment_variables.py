@@ -20,6 +20,8 @@ COMMON_NODES = (
 PER_FILE_COMMON_NODES = (
     "Annotation Markers",
     "kaye-commit-sense-per-file",
+    "kaye-commit-sense-per-file-summary",
+    "kaye-commit-sense-per-file-symbol",
 )
 
 

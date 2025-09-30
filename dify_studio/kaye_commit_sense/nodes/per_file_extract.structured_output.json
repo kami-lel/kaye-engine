@@ -2,25 +2,18 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "file_name",
     "symbol",
     "summary"
   ],
   "properties": {
-    "file_name": {
-      "type": "string",
-      "description": "the bare filename only (no directories or path separators)"
-    },
     "symbol": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 1,
-      "description": "select a single prefix that best describes the primary nature of the change to this file"
+      "maxLength": 1
     },
     "summary": {
       "type": "string",
-      "maxLength": 72,
-      "description": "describe only the single most important, influential, and significant change in this file; omit implementation details, low-level steps, and code fragments. May be empty. MUST be <= 72 character long"
+      "maxLength": 72
     }
   }
 }
