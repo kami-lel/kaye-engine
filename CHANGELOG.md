@@ -2,13 +2,6 @@
 
 [^format]
 
-<!-- hack sections of corpus currently disabled:
-Role.Peer Coder.JavaScript & TypeScript
-Role.Peer Coder.Qt
-Role.Peer Coder.Python.Testing Guideline
-Role.Conversation Tag Generation -->
-<!-- todo test & improve git commit message -->
-
 
 
 
