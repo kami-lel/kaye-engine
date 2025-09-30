@@ -7,7 +7,8 @@ Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline
 Role.Conversation Tag Generation -->
-<!-- todo test & improve git commit message -->
+<!-- FIXME kaye-commit-sense prompt improve  -->
+
 
 
 
@@ -33,6 +34,17 @@ Role.Conversation Tag Generation -->
 
 - use secret environment variable to hide user accounts details
 - provide common transaction parties for better info extraction
+
+`kaye_commit_sense` dify app:
+
+- different behavior dealing with single/multiple files commits
+- dynamically generate prompts by `gen_prompt` module using script
+- utilize `long_short_threshold` to decide if a file's change is large/small
+
+`gen_prompt` module:
+
+- add functions `load_empty_prompt_blueprint`, `load_full_prompt_blueprint`
+  and adjust related code
 
 ### Deprecated
 ### Removed

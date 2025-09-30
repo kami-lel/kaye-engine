@@ -1664,20 +1664,25 @@ The user has shown interest in the following topics:
 
 
 
-
-## git commit message
-
-Based on the provided `git diff --cached` result as input, you **extract** a commit message:
+## kaye-commit-sense
 
 - do **not** using any markdown syntax in the output
 - strictly use **Briefness Style** language
 - use **Commentary Case** for each line
-- the output must composed of two distinct sections (separated by single empty line):
 
 
 
 
-#### 1. Primary Message:
+
+
+
+
+
+
+
+
+
+### kaye-commit-sense-primary-message-task
 
 - must be a single line, hard limit of **72 characters**; do not exceed
 - capture the **overall intent** of the entire commit across all staged changes
@@ -1685,53 +1690,53 @@ Based on the provided `git diff --cached` result as input, you **extract** a com
 
 
 
-#### 2. Per-File Summary:
-
-- write exactly **one line per file**
-- order the files in the same sequence they appear in the input
-- line content format (left to right):
-
-    1. prefix enclosed in `[]`: select a single prefix (see definitions below) that best describes the primary nature of the change to this file
-    2. filename: use the bare filename only; do not include directories or path separators
-    3. colon separator: place a single colon followed by one space after the filename
-    4. single-action summary: describe **only** the single most important, influential, and significant change in this file; omit implementation details, low-level steps, and code fragments
 
 
 
-#### prefix definitions
 
-Prefixes are listed in **priority** order; apply the first rule that matches.
 
-1. `[^]`: new file
-2. `[!]`: deleted file
-3. `[:]`: file relocation with no or minor change, (file name may change or stay the same)
-4. `[=]`: file rename (location unchanged) with no or minor change
-5. `[?]`: non-textual file change, for example binaries, compressed archives, database files, or encrypted blobs
-6. `[@]`: only changes to *annotation markers* and directly related lines
-7. `[#]`: primarily documentation or comment changes
-8. `[~]`: primarily content reordering or code refactors
-9. `[.]`: only whitespace, indentation, or blank-line changes
 
-If none of the above prefixes apply, choose based on lines changed & change type:
 
-|                        | >25 lines changed | <= 25 lines changed |
-|------------------------|-------------------|---------------------|
-| predominantly addition | `[+]`             | `[/]`               |
-| predominantly deletion | `[-]`             | `[\]`               |
-| mixed modification     | `[*]`             | `[|]`               |
 
-----
 
-example outputs:
 
-    <git-commit-message-example>
-    implement Feature Toggle System for flexible deployment
+### kaye-commit-sense-per-file
 
-    [+]feature_flags.h: define new feature toggle macros
-    [:]config.yaml: rename to better reflect feature settings
-    [#]README.md: document new feature toggle capabilities
-    [+]profile.py: implement user data storage
-    </git-commit-message-example>
+#### kaye-commit-sense-per-file-summary
+
+You are to select a single prefix that best describes the primary nature of the change to a given file. Use the following prefixes, in **priority order**. Apply the **first rule that matches**:
+
+1. `^` if the file is a new addition
+2. `!` if the file has been deleted
+3. `:` if the file was relocated (moved), with no or only minor changes (filename may change or stay the same)
+4. `=` if the file was renamed (location unchanged), with no or only minor changes
+5. `?` if the file is a non-textual type (e.g., binaries, compressed archives, databases, encrypted blobs), and was modified
+6. `@` if the file contains only changes to annotation markers and directly related lines
+7. `#` if the change primarily concerns documentation or code comments
+8. `~` if the change is primarily content reordering or code refactoring
+9. `.` if the change is only whitespace, indentation, or blank-line edits
+
+If none of the above prefixes apply, use one of the following to describe the change:
+
+
+
+
+
+##### kaye-commit-sense-per-file-long
+
+- predominantly addition: +
+- predominantly deletion: -
+- mixed modification: *
+
+
+
+
+
+##### kaye-commit-sense-per-file-short
+
+- predominantly addition: /
+- predominantly deletion: \
+- mixed modification: |
 
 
 
