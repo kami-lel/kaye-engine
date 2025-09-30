@@ -81,45 +81,6 @@ ls_psr = prompt_subpsr.add_parser(
 ls_psr.set_defaults(func=_prompt_ls_main)
 
 
-# args shared by gen and show
-arg_sharing_psr = ArgumentParser(add_help=False)
-
-# positional argument
-arg_sharing_psr.add_argument(
-    "BLUEPRINT",
-    help="name of any embedded blueprints",
-    type=str,
-)
-# options
-arg_sharing_psr.add_argument(
-    "-f",
-    "--file",
-    metavar="FILE",
-    type=FileType(mode="w"),
-    nargs="?",
-    help="save the result to file",
-)
-# options
-arg_sharing_psr.add_argument(
-    "-l",
-    "--preview-line-count",
-    metavar="LINE_COUNT",
-    type=int,
-    nargs="?",
-    help="maximum line count for each entry in blueprint preview",
-    default=None,
-)
-arg_sharing_psr.add_argument(
-    "-w",
-    "--preview-line-width",
-    metavar="LINE_WIDTH",
-    type=int,
-    nargs="?",
-    help="maximum line width for each entry in blueprint preview",
-    default=None,
-)
-
-
 # Subparser: kaye prompt gen ---------------------------------------------------
 def _prompt_gen_main(args):
     # when calling ``python -m kaye prompt gen``
@@ -164,9 +125,42 @@ gen_psr = prompt_subpsr.add_parser(
     "gen",
     help=GEN_HELP_TEXT,
     description=GEN_HELP_TEXT,
-    parents=[
-        arg_sharing_psr,
-    ],
+)
+
+
+# positional argument
+gen_psr.add_argument(
+    "BLUEPRINT",
+    help="name of any embedded blueprints",
+    type=str,
+)
+# options
+gen_psr.add_argument(
+    "-f",
+    "--file",
+    metavar="FILE",
+    type=FileType(mode="w"),
+    nargs="?",
+    help="save the result to file",
+)
+# options
+gen_psr.add_argument(
+    "-l",
+    "--preview-line-count",
+    metavar="LINE_COUNT",
+    type=int,
+    nargs="?",
+    help="maximum line count for each entry in blueprint preview",
+    default=None,
+)
+gen_psr.add_argument(
+    "-w",
+    "--preview-line-width",
+    metavar="LINE_WIDTH",
+    type=int,
+    nargs="?",
+    help="maximum line width for each entry in blueprint preview",
+    default=None,
 )
 
 gen_psr.add_argument(
@@ -214,10 +208,42 @@ show_psr = prompt_subpsr.add_parser(
     "show",
     help=SHOW_HELP_TEXT,
     description=SHOW_HELP_TEXT,
-    parents=[
-        arg_sharing_psr,
-    ],
 )
+
+# positional argument
+show_psr.add_argument(
+    "BLUEPRINT",
+    help="name of any embedded blueprints",
+    type=str,
+)
+# options
+show_psr.add_argument(
+    "-f",
+    "--file",
+    metavar="FILE",
+    type=FileType(mode="w"),
+    nargs="?",
+    help="save the result to file",
+)
+show_psr.add_argument(
+    "-l",
+    "--preview-line-count",
+    metavar="LINE_COUNT",
+    type=int,
+    nargs="?",
+    help="maximum line count for each entry in blueprint preview",
+    default=None,
+)
+show_psr.add_argument(
+    "-w",
+    "--preview-line-width",
+    metavar="LINE_WIDTH",
+    type=int,
+    nargs="?",
+    help="maximum line width for each entry in blueprint preview",
+    default=None,
+)
+
 show_psr.set_defaults(func=_prompt_show_main)
 
 
