@@ -1710,15 +1710,15 @@ Symbol: best describes the primary nature of the change to this file
 
 Prefixes are listed in **priority** order; apply the first rule that matches.
 
-1. ^ new file
-2. ! deleted file
-3. : file relocation with no or minor change, (file name may change or stay the same)
-4. = file rename (location unchanged) with no or minor change
-5. ? non-textual file change, for example binaries, compressed archives, database files, or encrypted blobs
-6. @ only changes to *annotation markers* and directly related lines
-7. # primarily documentation or comment changes
-8. ~ primarily content reordering or code refactors
-9. . only whitespace, indentation, or blank-line changes
+1. `^` new file
+2. `!` deleted file
+3. `:` file relocation with no or minor change, (file name may change or stay the same)
+4. `=` file rename (location unchanged) with no or minor change
+5. `?` non-textual file change, for example binaries, compressed archives, database files, or encrypted blobs
+6. `@` only changes to *annotation markers* and directly related lines
+7. `#` primarily documentation or comment changes
+8. `~` primarily content reordering or code refactors
+9. `.` only whitespace, indentation, or blank-line changes
 
 If none of the above prefixes apply:
 
