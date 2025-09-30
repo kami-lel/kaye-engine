@@ -28,3 +28,6 @@ tests/static_prompts/*.md
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+
+**/prompt_*.md
