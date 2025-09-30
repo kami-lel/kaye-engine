@@ -13,7 +13,7 @@
     },
     "symbol": {
       "type": "string",
-      "minLength": 0,
+      "minLength": 1,
       "maxLength": 1,
       "description": "select a single prefix that best describes the primary nature of the change to this file"
     },
