@@ -1650,113 +1650,6 @@ The user has shown interest in the following topics:
 
 
 
-
-## kaye-commit-sense
-
-- do **not** using any markdown syntax in the output
-- strictly use **Briefness Style** language
-- use **Commentary Case** for each line
-
-
-
-
-
-
-
-
-
-
-
-
-
-### kaye-commit-sense-primary-message-task
-
-- must be a single line, hard limit of **72 characters**; do not exceed
-- capture the **overall intent** of the entire commit across all staged changes
-- exclude file names, implementation details, and low-level steps
-
-
-
-
-
-
-
-
-
-
-
-
-
-### kaye-commit-sense-per-file
-
-#### kaye-commit-sense-per-file-summary
-
-You are to select a single prefix that best describes the primary nature of the change to a given file. Use the following prefixes, in **priority order**. Apply the **first rule that matches**:
-
-1. `^` if the file is a new addition
-2. `!` if the file has been deleted
-3. `:` if the file was relocated (moved), with no or only minor changes (filename may change or stay the same)
-4. `=` if the file was renamed (location unchanged), with no or only minor changes
-5. `?` if the file is a non-textual type (e.g., binaries, compressed archives, databases, encrypted blobs), and was modified
-6. `@` if the file contains only changes to annotation markers and directly related lines
-7. `#` if the change primarily concerns documentation or code comments
-8. `~` if the change is primarily content reordering or code refactoring
-9. `.` if the change is only whitespace, indentation, or blank-line edits
-
-If none of the above prefixes apply, use one of the following to describe the change:
-
-
-
-
-
-##### kaye-commit-sense-per-file-long
-
-- predominantly addition: +
-- predominantly deletion: -
-- mixed modification: *
-
-
-
-
-
-##### kaye-commit-sense-per-file-short
-
-- predominantly addition: /
-- predominantly deletion: \
-- mixed modification: |
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## git diff Summary
 
 You perform *git diff summary role* when given `git diff` results considering one or more files.
@@ -1846,6 +1739,150 @@ Requirements:
 2. Correct grammatical mistakes, including punctuation, sentence structure, and verb tense.
 3. Maintain the original voice and tone of the text.
 4. Limit changes to the essential corrections needed for readability and accuracy.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## kaye-cash-tracker
+
+### kaye-cash-tracker-extract-info
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## kaye-commit-sense
+
+- do **not** using any markdown syntax in the output
+- strictly use **Briefness Style** language
+- use **Commentary Case** for each line
+
+
+
+
+
+
+
+
+
+
+
+
+
+### kaye-commit-sense-primary-message-task
+
+- must be a single line, hard limit of **72 characters**; do not exceed
+- capture the **overall intent** of the entire commit across all staged changes
+- exclude file names, implementation details, and low-level steps
+
+
+
+
+
+
+
+
+
+
+
+
+
+### kaye-commit-sense-per-file
+
+#### kaye-commit-sense-per-file-summary
+
+You are to select a single prefix that best describes the primary nature of the change to a given file. Use the following prefixes, in **priority order**. Apply the **first rule that matches**:
+
+1. `^` if the file is a new addition
+2. `!` if the file has been deleted
+3. `:` if the file was relocated (moved), with no or only minor changes (filename may change or stay the same)
+4. `=` if the file was renamed (location unchanged), with no or only minor changes
+5. `?` if the file is a non-textual type (e.g., binaries, compressed archives, databases, encrypted blobs), and was modified
+6. `@` if the file contains only changes to annotation markers and directly related lines
+7. `#` if the change primarily concerns documentation or code comments
+8. `~` if the change is primarily content reordering or code refactoring
+9. `.` if the change is only whitespace, indentation, or blank-line edits
+
+If none of the above prefixes apply, use one of the following to describe the change:
+
+
+
+
+
+##### kaye-commit-sense-per-file-long
+
+- predominantly addition: +
+- predominantly deletion: -
+- mixed modification: *
+
+
+
+
+
+##### kaye-commit-sense-per-file-short
+
+- predominantly addition: /
+- predominantly deletion: \
+- mixed modification: |
+
 
 
 
