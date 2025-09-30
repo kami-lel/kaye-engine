@@ -30,4 +30,4 @@ tests/static_prompts/*.md
 *.vsix
 
 
-dify_studio/kaye_commit_sense/prompt_*
+**/prompt_*.md
