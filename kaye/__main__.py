@@ -183,6 +183,8 @@ gen_psr.add_argument(
 )
 gen_psr.set_defaults(func=_prompt_gen_main)
 
+# Subparser: kaye prompt generate ----------------------------------------------
+
 
 # Subparser: kaye prompt show --------------------------------------------------
 def _prompt_show_main(args):
