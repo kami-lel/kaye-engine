@@ -12,10 +12,15 @@ PER_FILE_LONG_FILENAME = "prompt_per_file_summary_long.md"
 PER_FILE_SHORT_FILENAME = "prompt_per_file_summary_short.md"
 
 # shared across 3 prompts
-MESSAGE_STYLE_NODES = [
+COMMON_NODES = (
+    "kaye-commit-sense",
     "Commentary Case",
     "Briefness Style",
-]
+)
+PER_FILE_COMMON_NODES = (
+    "Annotation Markers",
+    "kaye-commit-sense-per-file",
+)
 
 
 def _print_debug_preview_tree(blueprint, filename):
@@ -38,9 +43,12 @@ if __name__ == "__main__":
         encoding="utf-8",
     ) as file:
         blueprint = load_empty_prompt_blueprint()
+
         # add style nodes
-        blueprint.enabled_nodes_names.extend(MESSAGE_STYLE_NODES)
-        # FIXME add more nodes
+        blueprint.enabled_nodes_names.extend(COMMON_NODES)
+        blueprint.enabled_nodes_names.append(
+            "kaye-commit-sense-primary-message-task"
+        )
 
         _print_debug_preview_tree(blueprint, PRIMARY_MESSAGE_FILENAME)
         file.write(blueprint.generate_prompt())
@@ -51,9 +59,11 @@ if __name__ == "__main__":
         encoding="utf-8",
     ) as file:
         blueprint = load_empty_prompt_blueprint()
+
         # add style nodes
-        blueprint.enabled_nodes_names.extend(MESSAGE_STYLE_NODES)
-        # FIXME add more nodes
+        blueprint.enabled_nodes_names.extend(COMMON_NODES)
+        blueprint.enabled_nodes_names.extend(PER_FILE_COMMON_NODES)
+        blueprint.enabled_nodes_names.append("kaye-commit-sense-per-file-long")
 
         _print_debug_preview_tree(blueprint, PER_FILE_LONG_FILENAME)
         file.write(blueprint.generate_prompt())
@@ -64,9 +74,13 @@ if __name__ == "__main__":
         encoding="utf-8",
     ) as file:
         blueprint = load_empty_prompt_blueprint()
+
         # add style nodes
-        blueprint.enabled_nodes_names.extend(MESSAGE_STYLE_NODES)
-        # FIXME add more nodes
+        blueprint.enabled_nodes_names.extend(COMMON_NODES)
+        blueprint.enabled_nodes_names.extend(PER_FILE_COMMON_NODES)
+        blueprint.enabled_nodes_names.append(
+            "kaye-commit-sense-per-file-short"
+        )
 
         _print_debug_preview_tree(blueprint, PER_FILE_SHORT_FILENAME)
         file.write(blueprint.generate_prompt())

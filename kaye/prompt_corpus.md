@@ -1664,25 +1664,66 @@ The user has shown interest in the following topics:
 
 
 
-
-## git commit message
-
-Based on the provided `git diff --cached` result as input, you **extract** a commit message:
+## kaye-commit-sense
 
 - do **not** using any markdown syntax in the output
 - strictly use **Briefness Style** language
 - use **Commentary Case** for each line
-- the output must composed of two distinct sections (separated by single empty line):
 
 
 
 
-#### 1. Primary Message:
+
+
+
+
+
+
+
+
+
+### kaye-commit-sense-primary-message-task
 
 - must be a single line, hard limit of **72 characters**; do not exceed
 - capture the **overall intent** of the entire commit across all staged changes
 - exclude file names, implementation details, and low-level steps
 
+### kaye-commit-sense-per-file
+
+<!-- BUG need to specify symbol & summary -->
+
+Prefixes are listed in **priority** order; apply the first rule that matches.
+
+1. ^ new file
+2. ! deleted file
+3. : file relocation with no or minor change, (file name may change or stay the same)
+4. = file rename (location unchanged) with no or minor change
+5. ? non-textual file change, for example binaries, compressed archives, database files, or encrypted blobs
+6. @ only changes to *annotation markers* and directly related lines
+7. # primarily documentation or comment changes
+8. ~ primarily content reordering or code refactors
+9. . only whitespace, indentation, or blank-line changes
+
+If none of the above prefixes apply:
+
+#### kaye-commit-sense-per-file-long
+
+- predominantly addition: +
+- predominantly deletion: -
+- mixed modification: *
+
+#### kaye-commit-sense-per-file-short
+
+- predominantly addition: /
+- predominantly deletion: \
+- mixed modification: |
+
+
+
+
+## git commit message
+
+<!-- HACK rm this node -->
 
 
 #### 2. Per-File Summary:
