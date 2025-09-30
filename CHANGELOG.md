@@ -7,7 +7,8 @@ Role.Peer Coder.JavaScript & TypeScript
 Role.Peer Coder.Qt
 Role.Peer Coder.Python.Testing Guideline
 Role.Conversation Tag Generation -->
-<!-- BUG kaye-commit-sense-per-file organize -->
+<!-- FIXME kaye-commit-sense prompt improve  -->
+<!-- BUG fix dify app structure -->
 
 
 
