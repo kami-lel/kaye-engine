@@ -42,6 +42,11 @@ Role.Conversation Tag Generation -->
 - improve prompt handling
 - utilize `long_short_threshold` to decide if a file's change is large/small
 
+`gen_prompt` module:
+
+- add functions `load_empty_prompt_blueprint`, `load_full_prompt_blueprint`
+  and adjust related code
+
 ### Deprecated
 ### Removed
 ### Fixed
