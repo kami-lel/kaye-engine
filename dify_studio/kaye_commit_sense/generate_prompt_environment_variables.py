@@ -40,8 +40,10 @@ if __name__ == "__main__":
         blueprint = load_empty_prompt_blueprint()
         # add style nodes
         blueprint.enabled_nodes_names.extend(MESSAGE_STYLE_NODES)
+        # FIXME add more nodes
+
         _print_debug_preview_tree(blueprint, PRIMARY_MESSAGE_FILENAME)
-        file.write(blueprint.generate_prompt())  # TODO
+        file.write(blueprint.generate_prompt())
 
     with open(
         (folder / PER_FILE_LONG_FILENAME).resolve(),
@@ -51,8 +53,10 @@ if __name__ == "__main__":
         blueprint = load_empty_prompt_blueprint()
         # add style nodes
         blueprint.enabled_nodes_names.extend(MESSAGE_STYLE_NODES)
+        # FIXME add more nodes
+
         _print_debug_preview_tree(blueprint, PER_FILE_LONG_FILENAME)
-        file.write(blueprint.generate_prompt())  # TODO
+        file.write(blueprint.generate_prompt())
 
     with open(
         (folder / PER_FILE_SHORT_FILENAME).resolve(),
@@ -62,5 +66,7 @@ if __name__ == "__main__":
         blueprint = load_empty_prompt_blueprint()
         # add style nodes
         blueprint.enabled_nodes_names.extend(MESSAGE_STYLE_NODES)
+        # FIXME add more nodes
+
         _print_debug_preview_tree(blueprint, PER_FILE_SHORT_FILENAME)
-        file.write(blueprint.generate_prompt())  # TODO
+        file.write(blueprint.generate_prompt())
