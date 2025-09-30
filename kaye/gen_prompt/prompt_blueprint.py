@@ -168,6 +168,7 @@ class PromptBlueprint:
         [ ]     ├── Contributing
         [x]     └── License
         """
+        # todo option to omit disabled nodes
 
         opt_lines = []
 
