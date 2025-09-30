@@ -28,6 +28,9 @@
 - provide common transaction parties for better info extraction
 
 ### Deprecated
+
+- `kaye generate_vsc_continue_prompts`
+
 ### Removed
 ### Fixed
 
