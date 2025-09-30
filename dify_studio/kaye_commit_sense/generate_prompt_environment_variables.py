@@ -7,8 +7,6 @@ from pathlib import Path
 
 from kaye.gen_prompt import load_empty_prompt_blueprint
 
-# todo printing of tree only when debugging
-
 PRIMARY_MESSAGE_FILENAME = "prompt_primary_message.md"
 PER_FILE_LONG_FILENAME = "prompt_per_file_summary_long.md"
 PER_FILE_SHORT_FILENAME = "prompt_per_file_summary_short.md"
@@ -20,6 +18,17 @@ MESSAGE_STYLE_NODES = [
 ]
 
 
+def _print_debug_preview_tree(blueprint, filename):
+    # todo printing of tree only when debugging
+    print()
+    print((filename + "  ").ljust(80, "-"))
+    print(
+        blueprint.generate_preview_tree(
+            preview_line_count=0, hide_comment=True
+        )
+    )
+
+
 if __name__ == "__main__":
     folder = Path(__file__).parent
 
@@ -29,26 +38,29 @@ if __name__ == "__main__":
         encoding="utf-8",
     ) as file:
         blueprint = load_empty_prompt_blueprint()
+        # add style nodes
         blueprint.enabled_nodes_names.extend(MESSAGE_STYLE_NODES)
-        # print for debug
-        print((PRIMARY_MESSAGE_FILENAME + "  ").ljust(80, "-"))
-        print(
-            blueprint.generate_preview_tree(
-                preview_line_count=0, hide_comment=True
-            )
-        )
-        file.write("")  # TODO
+        _print_debug_preview_tree(blueprint, PRIMARY_MESSAGE_FILENAME)
+        file.write(blueprint.generate_prompt())  # TODO
 
     with open(
         (folder / PER_FILE_LONG_FILENAME).resolve(),
         "w",
         encoding="utf-8",
     ) as file:
-        file.write("")  # TODO
+        blueprint = load_empty_prompt_blueprint()
+        # add style nodes
+        blueprint.enabled_nodes_names.extend(MESSAGE_STYLE_NODES)
+        _print_debug_preview_tree(blueprint, PER_FILE_LONG_FILENAME)
+        file.write(blueprint.generate_prompt())  # TODO
 
     with open(
         (folder / PER_FILE_SHORT_FILENAME).resolve(),
         "w",
         encoding="utf-8",
     ) as file:
-        file.write("")  # TODO
+        blueprint = load_empty_prompt_blueprint()
+        # add style nodes
+        blueprint.enabled_nodes_names.extend(MESSAGE_STYLE_NODES)
+        _print_debug_preview_tree(blueprint, PER_FILE_SHORT_FILENAME)
+        file.write(blueprint.generate_prompt())  # TODO
