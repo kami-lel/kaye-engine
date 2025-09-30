@@ -1,9 +1,13 @@
-def main(transactions, sheet_name, first_empty_row):
-    rows_from = transactions["rows"]
+def main(
+    transactions_array: dict, google_sheet_name: str, empty_row_number: float
+):
+    rows_from = transactions_array["rows"]
+
+    end_range_row = empty_row_number + len(rows_from) - 1
 
     # generate range
     sheet_range = "{}!A{}:H{}".format(
-        sheet_name, first_empty_row, first_empty_row + len(rows_from) - 1
+        google_sheet_name, empty_row_number, end_range_row
     )
 
     # generate values
@@ -23,4 +27,5 @@ def main(transactions, sheet_name, first_empty_row):
     values = "[{}]".format(",".join("[{}]".format(row) for row in rows_to))
 
     result = '[{{"range": "{}", "values": {}}}]'.format(sheet_range, values)
+
     return {"result": result}
