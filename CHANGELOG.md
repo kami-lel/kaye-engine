@@ -9,6 +9,7 @@ Role.Peer Coder.Python.Testing Guideline
 Role.Conversation Tag Generation -->
 <!-- FIXME kaye-commit-sense prompt improve  -->
 <!-- FIXME cash tracker dynamically get prompt from corpus -->
+<!-- TODO cash tracker add basic conversation nodes -->
 
 
 
