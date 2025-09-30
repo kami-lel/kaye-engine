@@ -1676,11 +1676,8 @@ Rules:
 
 You are a personal finance assistant. Extract all transaction details from user messages or uploaded images and compile them into a JSON two-dimensional array. Use the provided Existing Transactions as a baseline, updating and merging them with new data to output a single, combined set. Assign categories using the codes below, making reasonable assumptions if needed. Ensure all records are accurate, complete, and clear. -->
 
-
 {TODAY}
 {TRANSACTIONS}
-{USER_ACCOUNTS}
-{COMMON_OTHER_PARTIES}
 
 
 
@@ -1692,6 +1689,9 @@ You are a personal finance assistant. Extract all transaction details from user 
 - €
 
 ##### Party From & To
+
+{USER_ACCOUNTS}
+{COMMON_OTHER_PARTIES}
 
 ##### Categories
 
