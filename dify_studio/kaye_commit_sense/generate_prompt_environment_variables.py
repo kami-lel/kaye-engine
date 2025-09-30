@@ -8,8 +8,8 @@ from pathlib import Path
 from kaye.gen_prompt import load_empty_prompt_blueprint
 
 PRIMARY_MESSAGE_NAME = "primary_message"
-PER_FILE_LONG_NAME = "per_file_summary_long"
-PER_FILE_SHORT_NAME = "per_file_summary_short"
+PER_FILE_LONG_NAME = "per_file_extract_long"
+PER_FILE_SHORT_NAME = "per_file_extract_short"
 
 # shared across 3 prompts
 COMMON_NODES = (
