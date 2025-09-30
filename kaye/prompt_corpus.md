@@ -919,19 +919,6 @@ Columns:
 
 
 
-#### User Accounts
-- BOC: Bank of China Debit, 长城电子借记卡, ...0096
-- BOA: Bank of America Debit, Adv Plus Banking, ...6722
-- BOAC: Bank of America USC Credit, University of Southern California Visa Signature, ...4482
-- ABC: Agricultural Bank of China Credit, 尊然白金卡, ...0614
-- WX: WeChat Wallet
-- ALI: Alipay
-- CASH: physical cash
-
-
-
-
-
 #### Categories
 - A: Salary
 - B: Balance
