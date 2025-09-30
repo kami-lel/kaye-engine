@@ -1,19 +1,19 @@
-def main(primary: str, per_files: list[dict]):
-
+def main(
+    primary_message: str,
+    filenames_list: list[str],
+    per_file_extracts: list[dict],
+):
     # create line per file
     lines = []
-    for file in per_files:
-        symbol = file["symbol"]
-        file_name = file["file_name"]
-        summary = file["summary"]
-        line = "[{}]{}: {}".format(symbol, file_name, summary)
+    for filename, file_extract in zip(filenames_list, per_file_extracts):
+        symbol = file_extract["symbol"]
+        summary = file_extract["summary"]
+        line = "[{}]{}: {}".format(symbol, filename, summary)
         lines.append(line)
-
-    lines_text = "\n".join(lines)
 
     # combines
     opt = """{}
 
-{}""".format(primary, lines_text)
+{}""".format(primary_message, "\n".join(lines))
 
     return {"result": opt}

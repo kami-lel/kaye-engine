@@ -1,11 +1,13 @@
-def main(per_files: list[dict]):
-    file = per_files[0]  # only single file
-    file_name = file['file_name']
-    symbol = file['symbol']
-    summary = file['summary']
+def main(filenames_list: list[str], per_file_extracts: list[dict]):
+    filename = filenames_list[0]
+
+    file_extract = per_file_extracts[0]
+
+    symbol = file_extract["symbol"]
+    summary = file_extract["summary"]
 
     opt = """{}
 
-[{}]{}""".format(summary, symbol, file_name)
+[{}]{}""".format(summary, symbol, filename)
 
     return {"result": opt}
