@@ -20,3 +20,6 @@ cli_parser.set_defaults(func=_cli_main)
 cli_subparser = cli_parser.add_subparsers(title="subcommands")
 
 register_cli_prompt_parser(cli_subparser)
+
+
+# TODO use logger
