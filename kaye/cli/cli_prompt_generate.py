@@ -55,7 +55,6 @@ def register_cli_prompt_generate_parser(cli_prompt_subparser):
         help="maximum line width for each entry in blueprint preview",
         default=None,
     )
-    # TODO maybe -s?
     gen_parser.add_argument(
         "-F",
         "--source-file",
