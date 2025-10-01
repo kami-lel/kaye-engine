@@ -21,8 +21,6 @@ CLI for Python module ``kaye``
 PROGRAM_NAME = "kaye"
 
 
-# todo make import/export json file for OpenWebUI
-
 if __name__ == "__main__":
     parsed_args = kaye_psr.parse_args()  # BUG
     parsed_args.func(parsed_args)  # call respective main function
