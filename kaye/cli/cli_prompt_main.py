@@ -1,5 +1,8 @@
 # BUG not functional
 
+# todo import/export w/ OpenWebUI
+# todo import/export w/ dify
+
 
 def _prompt_main(_):
     # when calling ``python -m kaye prompt``
