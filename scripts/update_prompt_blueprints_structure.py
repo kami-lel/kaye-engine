@@ -1,4 +1,4 @@
-# TODO docstring
+# FIXME detect blueprints files as .kaye_blueprint
 
 
 from kaye.gen_prompt import (
