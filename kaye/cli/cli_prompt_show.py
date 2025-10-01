@@ -6,6 +6,8 @@ from kaye.gen_prompt.prompt_blueprint_loader import (
     load_embedded_prompt_blueprint,
 )
 
+# TODO use logger to handle raise
+
 
 def register_cli_prompt_show_parser(cli_prompt_subparser):
     """
