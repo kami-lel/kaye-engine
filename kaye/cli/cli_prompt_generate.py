@@ -16,9 +16,7 @@ def register_cli_prompt_generate_parser(cli_prompt_subparser):
     """
 
     gen_parser = cli_prompt_subparser.add_parser(
-        "gen",
-        help=__doc__,
-        description=__doc__,
+        "generate", help=__doc__, description=__doc__, aliases=["gen"]
     )
 
     # add arguments  -----------------------------------------------------------

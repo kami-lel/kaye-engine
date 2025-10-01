@@ -36,3 +36,6 @@ if __name__ == "__main__":
 
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(blueprint.generate_prompt(hide_comment=True))
+
+
+# HACK deprecation?
