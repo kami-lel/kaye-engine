@@ -41,6 +41,7 @@ def get_embedded_prompt_blueprints_names(exclude_technical_blueprint=False):
     :raises OSError:
     """
     opt = list(_get_embedded_prompt_blueprints_names_and_paths().keys())
+    # todo add sorted option
 
     # include technical blueprints if required
     if not exclude_technical_blueprint:
