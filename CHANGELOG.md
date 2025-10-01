@@ -27,6 +27,10 @@
 - use secret environment variable to hide user accounts details
 - provide common transaction parties for better info extraction
 
+CLI:
+
+- split parsing logic into multiple files under `./kaye/cli/`
+
 ### Deprecated
 ### Removed
 

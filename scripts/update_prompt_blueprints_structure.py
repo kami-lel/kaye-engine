@@ -1,4 +1,4 @@
-# FIXME detect blueprints files as .kaye_blueprint
+# Fixme detect blueprints files as .kaye_blueprint
 
 
 from kaye.gen_prompt import (
@@ -22,7 +22,7 @@ if __name__ == "__main__":
         file_path = folder_path / "{}.txt".format(blueprint_name)
 
         with open(file_path, "w", encoding="utf-8") as file:
-            # TODO print out to console
+            # Todo print out to console
             content = blueprint.generate_preview_tree(
                 preview_line_count=0, hide_comment=True
             )
