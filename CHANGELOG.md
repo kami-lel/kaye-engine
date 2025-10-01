@@ -28,10 +28,10 @@
 - provide common transaction parties for better info extraction
 
 ### Deprecated
-
-- `kaye generate_vsc_continue_prompts`
-
 ### Removed
+
+- functions of cli `kaye generate_vsc_continue_prompts`
+
 ### Fixed
 
 
