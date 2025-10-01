@@ -1,26 +1,24 @@
-# BUG not functional
+"""dynamically generate system prompt with a prompt blueprint
+as a subset of the prompt corpus"""
 
 # todo import/export w/ OpenWebUI
 # todo import/export w/ dify
 
 
-def _prompt_main(_):
+def _cli_prompt_parser_main(_):
     # when calling ``python -m kaye prompt``
-    prompt_psr.print_help()
+    cli_prompt_parser.print_help()
 
 
-PROMPT_HELP_TEXT = (
-    "dynamically generate AI system prompt with a prompt blueprint"
-    " as a subset of the prompt corpus"
-)
-prompt_psr = kaye_subpsr.add_parser(
+# BUG
+cli_prompt_parser = cli_parser.add_parser(
     "prompt",
-    help=PROMPT_HELP_TEXT,
-    description=PROMPT_HELP_TEXT,
-    aliases=["p"],
+    help=__doc__,
+    description=__doc__,
+    alias=["p"],
 )
-
-prompt_psr.set_defaults(func=_prompt_main)
-prompt_subpsr = prompt_psr.add_subparsers(
+cli_prompt_subparser = cli_prompt_parser.add_subparsers(
     description="utility functions related to prompt generation"
 )
+
+cli_prompt_parser.set_defaults(func=_cli_prompt_parser_main)
