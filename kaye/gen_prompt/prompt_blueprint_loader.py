@@ -2,7 +2,7 @@
 define ``get_prompt_templates_names``, ``load_prompt_template``
 """
 
-# Fixme detect blueprints files as .kaye_blueprint
+# FIXME detect blueprints files as .kaye_blueprint
 
 import os
 from pathlib import Path

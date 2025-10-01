@@ -38,4 +38,4 @@ if __name__ == "__main__":
             f.write(blueprint.generate_prompt(hide_comment=True))
 
 
-# Hack deprecation?
+# HACK deprecation?
