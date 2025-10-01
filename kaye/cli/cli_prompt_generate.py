@@ -8,6 +8,8 @@ from kaye.gen_prompt.prompt_blueprint_loader import (
 )
 from kaye.gen_prompt.prompt_corpus_loader import load_embedded_prompt_corpus
 
+# TODO use logger to handle print & raise
+
 
 def register_cli_prompt_generate_parser(cli_prompt_subparser):
     """
