@@ -62,7 +62,7 @@ class TestNonTech:  # test other embedded blueprints
 
     # test runtime generated prompts against files in .../static_prompts
     def test_generate_prompt(self):
-        return  # HACK deprecation
+        return  # Hack deprecation
         static_prompts_folder_path = (
             Path(__file__).parent / "../../static_prompts"
         ).resolve()
