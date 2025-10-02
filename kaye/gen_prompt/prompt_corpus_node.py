@@ -2,6 +2,8 @@
 define ``PromptCorpusNode``
 """
 
+# Todo use kamilog
+
 import re
 
 from anytree import Node as AnytreeNode, RenderTree
@@ -128,19 +130,6 @@ class PromptCorpusNode(AnytreeNode):
             path_names = self.parent.get_path()
             path_names.append(self.name)
             return path_names
-
-    def get_descendants_paths(self):
-        """
-        :return: list of all descendants,
-                each descendant represented by their ``.get_path()``;
-        :rtype: list(list(str))
-        :example:
-        >>> root = ...
-        >>> print(root.get_descendants_paths())
-        [['Top Level'], ['Top Level', 'Heading 1'], ['Top Level', 'Heading 2'],
-                ['Top Level', 'Heading 2', 'Subheading'], ...]
-        """
-        return [node.get_path() for node in self.descendants]
 
     def __init__(self, name, parent, text_lines):
         super().__init__(name, parent)
