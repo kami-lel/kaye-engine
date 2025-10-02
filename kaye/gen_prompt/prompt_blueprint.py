@@ -28,6 +28,9 @@ class _PreviewTreeNode(Node):
     in ``.generate_preview_tree()`` of ``class PromptBlueprint``
     """
 
+    def __init__(self, name, parent, enables):
+        super().__init__(name, parent)
+
     pass  # TODO
 
 
@@ -155,7 +158,7 @@ class PromptBlueprint:
         [ ]     ├── Contributing
         [x]     └── License
         """
-        pass  # TODO
+        pass  # TODO TODO
 
         return ""  # HACK
         opt_lines = []
