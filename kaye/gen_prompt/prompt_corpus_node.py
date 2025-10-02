@@ -125,7 +125,7 @@ class PromptCorpusNode(AnytreeNode):
         if self.parent is None:
             return []  # root node
         else:
-            path_names = self.parent.get_path_names()
+            path_names = self.parent.get_path()
             path_names.append(self.name)
             return path_names
 
