@@ -24,7 +24,7 @@ def get_embedded_prompt_blueprints_folder_path():
     :rtype: pathlib.Path
     """
     # find folder path by relative path from this script
-    return (Path(__file__).resolve().parent / "prompt_blueprints").absolute()
+    return (Path(__file__).resolve().parent / "embedded_blueprints").absolute()
 
 
 def get_embedded_prompt_blueprints_names(exclude_technical_blueprint=False):
