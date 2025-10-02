@@ -20,6 +20,9 @@
 ## [Unreleased]
 
 ### Added
+
+- utility module `kamilog` version `v1.2.0`
+
 ### Changed
 
 `kaye_cash_tracker` dify app:
