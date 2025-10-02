@@ -110,26 +110,11 @@ class PromptCorpusNode(AnytreeNode):
 
         return "\n".join(opt_lines)
 
-    def get_path(self):
-        """
-        :return: a path from root to this node,
-                represented by list of titles of ancestors and of this node
-                names of ancestors and ``self``;
-                ``[]`` if root node
-        :rtype: list
-        :example:
-        >>> root, leaf = ...
-        >>> print(leaf.get_path())
-        []
-        >>> print(leaf.get_path())
-        ['ProjectABC', 'Sub Heading']
-        """
-        if self.parent is None:
-            return []  # root node
-        else:
-            path_names = self.parent.get_path()
-            path_names.append(self.name)
-            return path_names
+    @staticmethod
+    def _convert_corpus_text2lines(full_prompt):
+        # reduce formatting empty lines
+        cleanup = re.sub(r"\n{3,}", "\n\n", full_prompt)
+        return list(cleanup.split("\n"))
 
     def __init__(self, name, parent, text_lines):
         super().__init__(name, parent)
@@ -144,11 +129,25 @@ class PromptCorpusNode(AnytreeNode):
             end -= 1
         self.content = self.content[start:end]
 
-    @staticmethod
-    def _convert_corpus_text2lines(full_prompt):
-        # reduce formatting empty lines
-        cleanup = re.sub(r"\n{3,}", "\n\n", full_prompt)
-        return list(cleanup.split("\n"))
+        self.names_path = self._init_generate_names_path()
+
+    def _init_generate_names_path(self):
+        """
+        helper method used in ``__init__()``
+
+        generate content of ``.names_path``, a path from root to this node,
+        represented by a tuple of titles of ancestors and of this node
+        names of ancestors and ``self``, eg, ``('ProjectABC', 'Sub Heading')``;
+        for root node, ``()``
+        """
+
+        if self.parent is None:
+            return tuple()  # root node
+        else:
+            # BUG BUG not working
+            parent_names_path = self.parent.names_path
+            names_path = (*parent_names_path, self.name)
+            return names_path
 
     def _populate_self_by_text_lines(self, text_lines):
         # find every sub-section heading lines
