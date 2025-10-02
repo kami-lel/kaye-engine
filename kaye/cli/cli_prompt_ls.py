@@ -16,7 +16,9 @@ def register_cli_prompt_ls_parser(cli_prompt_subparser):
 
     def _cli_prompt_ls_main(_):
         # when calling ``python -m kaye prompt ls``
-        for blueprint_name in get_embedded_prompt_blueprints_names():
+        for blueprint_name in get_embedded_prompt_blueprints_names(
+            enable_sort=True
+        ):
             print(blueprint_name)
 
     ls_parser.set_defaults(func=_cli_prompt_ls_main)
