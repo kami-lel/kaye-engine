@@ -110,6 +110,20 @@ class PromptCorpusNode(AnytreeNode):
 
         return "\n".join(opt_lines)
 
+    def get_path_names(self):
+        """
+        :return: names of ancestors and ``self``,
+                eg ``['ProjectABC', 'Sub Heading']``;
+                ``[]`` for root node
+        :rtype: list
+        """
+        if self.parent is None:
+            return []  # root node
+        else:
+            path_names = self.parent.get_path_names()
+            path_names.append(self.name)
+            return path_names
+
     def __init__(self, name, parent, text_lines):
         super().__init__(name, parent)
         self.content = []
