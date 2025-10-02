@@ -2,8 +2,6 @@
 define ``PromptCorpusNode``
 """
 
-#  BUG section headings must be unique. Either make a pytest for corpus, or make parsing respect tree structure
-
 import re
 
 from anytree import Node as AnytreeNode, RenderTree
@@ -110,12 +108,19 @@ class PromptCorpusNode(AnytreeNode):
 
         return "\n".join(opt_lines)
 
-    def get_path_names(self):
+    def get_path(self):
         """
-        :return: names of ancestors and ``self``,
-                eg ``['ProjectABC', 'Sub Heading']``;
-                ``[]`` for root node
+        :return: a path from root to this node,
+                represented by list of titles of ancestors and of this node
+                names of ancestors and ``self``;
+                ``[]`` if root node
         :rtype: list
+        :example:
+        >>> root, leaf = ...
+        >>> print(leaf.get_path())
+        []
+        >>> print(leaf.get_path())
+        ['ProjectABC', 'Sub Heading']
         """
         if self.parent is None:
             return []  # root node
@@ -123,6 +128,19 @@ class PromptCorpusNode(AnytreeNode):
             path_names = self.parent.get_path_names()
             path_names.append(self.name)
             return path_names
+
+    def get_descendants_paths(self):
+        """
+        :return: list of all descendants,
+                each descendant represented by their ``.get_path()``;
+        :rtype: list(list(str))
+        :example:
+        >>> root = ...
+        >>> print(root.get_descendants_paths())
+        [['Top Level'], ['Top Level', 'Heading 1'], ['Top Level', 'Heading 2'],
+                ['Top Level', 'Heading 2', 'Subheading'], ...]
+        """
+        return [node.get_path() for node in self.descendants]
 
     def __init__(self, name, parent, text_lines):
         super().__init__(name, parent)

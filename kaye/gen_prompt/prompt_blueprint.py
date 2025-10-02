@@ -23,10 +23,6 @@ NO_CHECKBOX_PREFIX = "    "
 
 
 class PromptBlueprint:
-    pass
-
-
-class PromptBlueprintLegacy:
     """
     Represents a **prompt blueprint**, encapsulating a configurable subset of
     the prompt corpus with enable/disable control over each tree node.
@@ -34,32 +30,57 @@ class PromptBlueprintLegacy:
     A ``PromptBlueprint`` mirrors the hierarchical structure of the prompt
     corpus, but each node can be explicitly **enabled** or **disabled**.
 
-    Use ``__repr__()`` to generate a visual representation of the **tree**.
+    Use ``.generate_preview_tree()`` (or ``__repr__()``) to generate
+    a visual representation of the **tree**
+    showing enabled node with ``[x]`` and disabled node with ``[ ]``
 
-    Use ``__str__()`` to render a **concrete prompt** composed of nodes.
-    supports 2 operational modes:
-
-    - **detached mode**: Any node is included in the output if it is enabled,
-      regardless of its parent or ancestor status.
-
-    - else: A node appears in the output
-      if **both** it and all its ancestor nodes are enabled
+    Use ``.generate_prompt()`` (or ``__str__()``) to render
+    a **concrete prompt** composed of all enabled nodes
 
 
-    :param prompt_corpus: *prompt corpus* tree root node
+    :param prompt_corpus: *prompt corpus* tree **root** node
             which this prompt blueprint attached to
     :type prompt_corpus: PromptCorpusNode
-    :param blueprint_name: display name given to the prompt
-    :type blueprint_name: str, optional
-    :param prompt_blueprint_text: prompt blueprint text to set nodes.
-            It must be formatted identical to output of ``__repr__()``
-            (with tree structure and checkboxes.)
-            if ``None``:
-            the created ``PromptBlueprint`` has *all* nodes **disabled**
-    :type prompt_blueprint_text: str, optional
-    :param detached_mode: defaults to False
-    :type detached_mode: bool, optional
+    :param blueprint_text: prompt blueprint text to set nodes,
+            must in the same format of output of ``__repr__()``
+            (with tree structure and checkboxes;)
+            if ``None``: create an **empty** prompt blueprint,
+            i.e. all nodes disabled
+    :type blueprint_text: str
+    :param blueprint_display_name: display name given to the prompt,
+            defaults to ""
+    :type blueprint_display_name: str, optional
     """
+
+    def __init__(
+        self,
+        prompt_corpus,
+        blueprint_text=None,
+        *,
+        blueprint_display_name="",
+    ):
+        self.display_name = blueprint_display_name
+        self.prompt_corpus = prompt_corpus
+
+        # list of all enabled nodes
+        # each node represented by its .get_path_names()
+        self.enabled = []  # default as empty blueprint
+
+        # populate .enabled by blueprint_text
+        if blueprint_text:
+            self._init_populate_enabled_by_blueprint_text(blueprint_text)
+
+    def _init_populate_enabled_by_blueprint_text(self, blueprint_text):
+        """
+        helper method used in ``__init__()``
+
+        populate ``self.enabled`` by parsing the init param ``blueprint_text``
+        """
+        lines = blueprint_text.split("\n")
+        pass  # TODO
+
+
+class PromptBlueprintLegacy:
 
     @classmethod
     def create_full_prompt_blueprint(
@@ -116,7 +137,7 @@ class PromptBlueprintLegacy:
         preview_line_count=3,
         preview_line_width=64,
         *,
-        hide_comment=False
+        hide_comment=False,
     ):
         """
         Return a visual representation of the **tree**, showing:

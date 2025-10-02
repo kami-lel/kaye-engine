@@ -1,5 +1,5 @@
 """
-test .get_path_names()
+test .get_path()
 """
 
 from kaye.gen_prompt import PromptCorpusNode
@@ -14,7 +14,7 @@ class TestParse1:  # test using PROMPT1
     def test_root(self):
         tree = PromptCorpusNode.parse(PROMPT1)
 
-        names = tree.get_path_names()
+        names = tree.get_path()
 
         print(names)
         assert isinstance(names, list)
@@ -24,7 +24,7 @@ class TestParse1:  # test using PROMPT1
         tree = PromptCorpusNode.parse(PROMPT1)
         project = tree.children[0]
 
-        names = project.get_path_names()
+        names = project.get_path()
 
         print(names)
         assert names == ["Project Title"]
@@ -34,7 +34,7 @@ class TestParse1:  # test using PROMPT1
         project = tree.children[0]
         sub = project.children[0]
 
-        names = sub.get_path_names()
+        names = sub.get_path()
 
         print(names)
         assert names == ["Project Title", "Description"]
@@ -44,7 +44,7 @@ class TestParse1:  # test using PROMPT1
         project = tree.children[0]
         sub = project.children[1]
 
-        names = sub.get_path_names()
+        names = sub.get_path()
 
         print(names)
         assert names == ["Project Title", "Installation"]
@@ -54,7 +54,7 @@ class TestParse1:  # test using PROMPT1
         project = tree.children[0]
         sub = project.children[2]
 
-        names = sub.get_path_names()
+        names = sub.get_path()
 
         print(names)
         assert names == ["Project Title", "License"]
@@ -67,7 +67,7 @@ class TestParse3:  # test using PROMPT3
         project = tree.children[0]
         node = project.children[0]
 
-        names = node.get_path_names()
+        names = node.get_path()
 
         print(names)
         assert names == ["Main Title", "Introduction"]
@@ -78,7 +78,7 @@ class TestParse3:  # test using PROMPT3
         parent = project.children[0]
         node = parent.children[0]
 
-        names = node.get_path_names()
+        names = node.get_path()
 
         print(names)
         assert names == ["Main Title", "Introduction", "Background"]
@@ -89,7 +89,7 @@ class TestParse3:  # test using PROMPT3
         parent = project.children[0].children[0]
         node = parent.children[0]
 
-        names = node.get_path_names()
+        names = node.get_path()
 
         print(names)
         assert names == [
@@ -105,7 +105,7 @@ class TestParse3:  # test using PROMPT3
         parent = project.children[0].children[0].children[0]
         node = parent.children[0]
 
-        names = node.get_path_names()
+        names = node.get_path()
 
         print(names)
         assert names == [
@@ -121,7 +121,7 @@ class TestParse3:  # test using PROMPT3
         project = tree.children[0]
         node = project.children[1]
 
-        names = node.get_path_names()
+        names = node.get_path()
 
         print(names)
         assert names == ["Main Title", "Methods"]
@@ -132,7 +132,7 @@ class TestParse3:  # test using PROMPT3
         parent = project.children[1]
         node = parent.children[0]
 
-        names = node.get_path_names()
+        names = node.get_path()
 
         print(names)
         assert names == [
@@ -147,7 +147,7 @@ class TestParse3:  # test using PROMPT3
         parent = project.children[1].children[0]
         node = parent.children[0]
 
-        names = node.get_path_names()
+        names = node.get_path()
 
         print(names)
         assert names == [
@@ -163,7 +163,7 @@ class TestParse3:  # test using PROMPT3
         parent = project.children[1].children[0].children[0]
         node = parent.children[0]
 
-        names = node.get_path_names()
+        names = node.get_path()
 
         print(names)
         assert names == [
@@ -179,7 +179,7 @@ class TestParse3:  # test using PROMPT3
         project = tree.children[0]
         node = project.children[2]
 
-        names = node.get_path_names()
+        names = node.get_path()
 
         print(names)
         assert names == ["Main Title", "Conclusion"]
