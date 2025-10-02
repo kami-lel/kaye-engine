@@ -2,7 +2,8 @@
 define `PromptBlueprint`
 """
 
-# todo when generating prompts, respect empty line before headings
+# TODO when generating prompts, respect empty line before headings
+# Todo use kamilog
 
 
 import re
@@ -66,7 +67,6 @@ class PromptBlueprint:
         # each node represented by its .get_path_names()
         self.enabled = []  # default as empty blueprint
 
-        # populate .enabled by blueprint_text
         if blueprint_text:
             self._init_populate_enabled_by_blueprint_text(blueprint_text)
 
@@ -77,7 +77,14 @@ class PromptBlueprint:
         populate ``self.enabled`` by parsing the init param ``blueprint_text``
         """
         lines = blueprint_text.split("\n")
-        pass  # TODO
+
+        path_hash2node = {
+            hash(tuple(node.get_path())): node
+            for node in self.prompt_corpus.descendants
+        }
+
+        # extract all enabled headings
+        # TODO
 
 
 class PromptBlueprintLegacy:
