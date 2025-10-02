@@ -6,7 +6,7 @@ from kaye.gen_prompt.prompt_blueprint_loader import (
     load_embedded_prompt_blueprint,
 )
 
-# TODO use logger to handle raise
+from kaye import PROGRAM_NAME, kamilog
 
 
 def register_cli_prompt_show_parser(cli_prompt_subparser):
@@ -14,6 +14,8 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
     create cli parser for ``kaye prompt show``,
     and add it to ``cli_prompt_subparser``
     """
+    logger = kamilog.getLogger(PROGRAM_NAME)
+
     show_parser = cli_prompt_subparser.add_parser(
         "show",
         help=__doc__,
@@ -59,7 +61,11 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
     def _prompt_show_main(args):
         # when calling ``python -m kaye prompt show``
         blueprint_name = args.BLUEPRINT
-        blueprint_obj = load_embedded_prompt_blueprint(blueprint_name)
+        try:
+            blueprint_obj = load_embedded_prompt_blueprint(blueprint_name)
+        except (FileNotFoundError, IOError, ValueError) as err:
+            logger.error(err)
+            raise
 
         blueprint_content = blueprint_obj.generate_preview_tree(
             preview_line_count=args.preview_line_count,
