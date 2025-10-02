@@ -2,11 +2,10 @@
 
 from argparse import FileType
 
+from kaye import PROGRAM_NAME, kamilog
 from kaye.gen_prompt.prompt_blueprint_loader import (
     load_embedded_prompt_blueprint,
 )
-
-from kaye import PROGRAM_NAME, kamilog
 
 
 def register_cli_prompt_show_parser(cli_prompt_subparser):
