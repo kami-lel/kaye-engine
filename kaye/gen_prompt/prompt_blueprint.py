@@ -2,6 +2,9 @@
 define `PromptBlueprint`
 """
 
+# todo when generating prompts, respect empty line before headings
+
+
 import re
 from datetime import datetime
 
@@ -20,6 +23,10 @@ NO_CHECKBOX_PREFIX = "    "
 
 
 class PromptBlueprint:
+    pass
+
+
+class PromptBlueprintLegacy:
     """
     Represents a **prompt blueprint**, encapsulating a configurable subset of
     the prompt corpus with enable/disable control over each tree node.
