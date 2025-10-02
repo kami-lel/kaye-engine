@@ -28,7 +28,7 @@ class _PreviewTreeNode(Node):
     in ``.generate_preview_tree()`` of ``class PromptBlueprint``
     """
 
-    pass
+    pass  # TODO
 
 
 class PromptBlueprint:
@@ -60,6 +60,34 @@ class PromptBlueprint:
             defaults to ""
     :type blueprint_display_name: str, optional
     """
+
+    @classmethod
+    def create_full_prompt_blueprint(
+        cls, prompt_corpus, blueprint_display_name="full"
+    ):
+        """
+        :param prompt_corpus: *prompt corpus* tree root node
+                which this prompt blueprint attached to
+        :type prompt_corpus: PromptCorpusNode
+        :param blueprint_display_name: display name given to the prompt;
+                defaults to "full"
+        :type blueprint_display_name: str, optional
+        :return: an instance of ``PromptBlueprint`` attached to the given
+                ``prompt_corpus``, and with **all nodes enabled**
+        :rtype: PromptBlueprint
+        """
+        # TODO need tests
+        blueprint = cls(
+            prompt_corpus, blueprint_display_name=blueprint_display_name
+        )
+        # set all nodes
+        for node in PreOrderIter(prompt_corpus):
+            if node is prompt_corpus:  # skip root node
+                continue
+
+            blueprint.enabled.append(node)
+
+        return blueprint
 
     def generate_preview_tree(
         self,
@@ -128,6 +156,35 @@ class PromptBlueprint:
         [x]     └── License
         """
         pass  # TODO
+
+        return ""  # HACK
+        opt_lines = []
+
+        for pre, fill, node in RenderTree(self.prompt_corpus):
+            node_name = node.name
+            # decide either have [x] or [ ] before node lines
+            checkbox_prefix = (
+                CHECKED_BOX_PREFIX
+                if node_name in self.enabled_nodes_names
+                else UNCHECKED_BOX_PREFIX
+            )
+
+            opt_lines.append(checkbox_prefix + pre + node_name)
+
+            # lines for the content of node
+            opt_lines.extend(
+                node.generate_preview_tree_content_part(
+                    NO_CHECKBOX_PREFIX + fill,
+                    preview_line_count,
+                    preview_line_width,
+                )
+            )
+
+        if not hide_comment:
+            comment_line = "(" + self._generate_prompt_comment_content() + ")"
+            opt_lines.append(comment_line)
+
+        return "\n".join(opt_lines)
 
     def generate_prompt(self, *, hide_comment=False):
         """
@@ -257,66 +314,3 @@ class PromptBlueprint:
 
     def __str__(self):
         return self.generate_prompt()
-
-
-class PromptBlueprintLegacy:
-
-    @classmethod
-    def create_full_prompt_blueprint(
-        cls, prompt_corpus, blueprint_name="full"
-    ):
-        """
-        :param prompt_corpus: *prompt corpus* tree root node
-                which this prompt blueprint attached to
-        :type prompt_corpus: PromptCorpusNode
-        :param prompt_blueprint_name: display name given to the prompt;
-                defaults to "full"
-        :type prompt_blueprint_name: str, optional
-        :return: an instance of ``PromptBlueprint`` attached to the given
-                ``prompt_corpus``, and with **all nodes enabled**
-        :rtype: PromptBlueprint
-        """
-        blueprint = cls(prompt_corpus, prompt_blueprint_name=blueprint_name)
-        # set all nodes
-        for node in PreOrderIter(prompt_corpus):
-            if node is prompt_corpus:  # skip root node
-                continue
-
-            blueprint.enabled_nodes_names.append(node.name)
-
-        return blueprint
-
-    def generate_preview_tree(
-        self,
-        preview_line_count=3,
-        preview_line_width=64,
-        *,
-        hide_comment=False,
-    ):
-        opt_lines = []
-
-        for pre, fill, node in RenderTree(self.prompt_corpus):
-            node_name = node.name
-            # decide either have [x] or [ ] before node lines
-            checkbox_prefix = (
-                CHECKED_BOX_PREFIX
-                if node_name in self.enabled_nodes_names
-                else UNCHECKED_BOX_PREFIX
-            )
-
-            opt_lines.append(checkbox_prefix + pre + node_name)
-
-            # lines for the content of node
-            opt_lines.extend(
-                node.generate_preview_tree_content_part(
-                    NO_CHECKBOX_PREFIX + fill,
-                    preview_line_count,
-                    preview_line_width,
-                )
-            )
-
-        if not hide_comment:
-            comment_line = "(" + self._generate_prompt_comment_content() + ")"
-            opt_lines.append(comment_line)
-
-        return "\n".join(opt_lines)
