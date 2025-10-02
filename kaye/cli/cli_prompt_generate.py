@@ -2,13 +2,12 @@
 
 from argparse import FileType
 
+from kaye import PROGRAM_NAME, kamilog
 from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
 from kaye.gen_prompt.prompt_blueprint_loader import (
     load_embedded_prompt_blueprint,
 )
 from kaye.gen_prompt.prompt_corpus_loader import load_embedded_prompt_corpus
-
-# Todo use logger to handle print & raise
 
 
 def register_cli_prompt_generate_parser(cli_prompt_subparser):
@@ -16,6 +15,7 @@ def register_cli_prompt_generate_parser(cli_prompt_subparser):
     create cli parser for ``kaye prompt generate``,
     and add it to ``cli_prompt_ls_parser``
     """
+    logger = kamilog.getLogger(PROGRAM_NAME)
 
     gen_parser = cli_prompt_subparser.add_parser(
         "generate", help=__doc__, description=__doc__, aliases=["gen"]
@@ -87,12 +87,20 @@ def register_cli_prompt_generate_parser(cli_prompt_subparser):
                     )
                 ) from e
 
-            blueprint_obj = PromptBlueprint(
-                load_embedded_prompt_corpus(), file_content
-            )
+            try:
+                blueprint_obj = PromptBlueprint(
+                    load_embedded_prompt_corpus(), file_content
+                )
+            except (FileNotFoundError, IOError) as err:
+                logger.error(err)
+                raise
 
         else:
-            blueprint_obj = load_embedded_prompt_blueprint(blueprint_arg)
+            try:
+                blueprint_obj = load_embedded_prompt_blueprint(blueprint_arg)
+            except (FileNotFoundError, IOError, ValueError) as err:
+                logger.error(err)
+                raise
 
         prompt_content = blueprint_obj.generate_prompt(
             hide_comment=args.no_comment
