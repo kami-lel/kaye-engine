@@ -1,5 +1,6 @@
 """
-define ``get_prompt_templates_names``, ``load_prompt_template``
+define ``get_prompt_templates_names``, ``load_prompt_template``,
+``load_embedded_prompt_corpus``
 """
 
 import os
@@ -82,7 +83,7 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     elif prompt_blueprint_name == "empty":
         return PromptBlueprint(
             corpus,
-            prompt_blueprint_name=prompt_blueprint_name,
+            blueprint_display_name=prompt_blueprint_name,
             detached_mode=True,
         )
 
