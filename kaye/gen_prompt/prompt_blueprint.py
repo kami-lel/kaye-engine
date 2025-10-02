@@ -168,6 +168,7 @@ class PromptBlueprint:
         [ ]     ├── Contributing
         [x]     └── License
         """
+        # TODO allow preview tree to ignore some nodes
 
         opt_lines = []
 
