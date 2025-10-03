@@ -9,12 +9,16 @@ from pathlib import Path
 from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .prompt_blueprint import PromptBlueprint
 
-TECHNICAL_BLUEPRINT = ["full", "empty"]
+EMPTY_BLUEPRINT_NAME = "empty"
+FULL_BLUEPRINT_NAME = "full"
+TECHNICAL_BLUEPRINT = [EMPTY_BLUEPRINT_NAME, FULL_BLUEPRINT_NAME]
 
 __all__ = (
     "get_embedded_prompt_blueprints_folder_path",
     "get_embedded_prompt_blueprints_names",
     "load_embedded_prompt_blueprint",
+    "load_empty_prompt_blueprint",
+    "load_full_prompt_blueprint",
 )
 
 
@@ -78,9 +82,9 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
 
     # deal with technical prompts
     # technical blueprints
-    if prompt_blueprint_name == "full":
+    if prompt_blueprint_name == FULL_BLUEPRINT_NAME:
         return PromptBlueprint.create_full_prompt_blueprint(corpus)
-    elif prompt_blueprint_name == "empty":
+    elif prompt_blueprint_name == EMPTY_BLUEPRINT_NAME:
         return PromptBlueprint(
             corpus, blueprint_display_name=prompt_blueprint_name
         )
@@ -100,6 +104,24 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     with open(prompt_file_path, "r", encoding="utf-8") as file:
         content = file.read()
         return PromptBlueprint(corpus, content, prompt_blueprint_name)
+
+
+def load_empty_prompt_blueprint():
+    """
+    Load **empty** prompt blueprints embedded with this Python package
+
+    Q.v. ``load_embedded_prompt_blueprint()``
+    """
+    return load_embedded_prompt_blueprint(EMPTY_BLUEPRINT_NAME)
+
+
+def load_full_prompt_blueprint():
+    """
+    Load **full** prompt blueprints embedded with this Python package
+
+    Q.v. ``load_embedded_prompt_blueprint()``
+    """
+    return load_embedded_prompt_blueprint(FULL_BLUEPRINT_NAME)
 
 
 def _get_embedded_prompt_blueprints_names_and_paths():

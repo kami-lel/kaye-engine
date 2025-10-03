@@ -106,12 +106,38 @@ workflow:
       type: custom
       zIndex: 0
     - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1757067408703-source-1759184701469-target
+      selected: false
+      source: '1757067408703'
+      sourceHandle: source
+      target: '1759184701469'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1759184701469-source-1759184659338-target
+      selected: false
+      source: '1759184701469'
+      sourceHandle: source
+      target: '1759184659338'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
         isInLoop: false
         sourceType: code
         targetType: iteration
-      id: 1757067408703-source-1757062707114-target
+      id: 1759184701469-source-1757062707114-target
       selected: false
-      source: '1757067408703'
+      source: '1759184701469'
       sourceHandle: source
       target: '1757062707114'
       targetHandle: target
@@ -119,38 +145,48 @@ workflow:
       zIndex: 0
     - data:
         isInLoop: false
-        sourceType: start
+        sourceType: if-else
         targetType: llm
-      id: 1756587193642-source-1757066198191-target
+      id: 1759184659338-false-1757066198191-target
       selected: false
-      source: '1756587193642'
-      sourceHandle: source
+      source: '1759184659338'
+      sourceHandle: 'false'
       target: '1757066198191'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
-        isInIteration: true
-        isInLoop: false
-        iteration_id: '1757062707114'
-        sourceType: llm
-        targetType: code
-      id: 1757062988503-source-1758835263510-target
-      selected: false
-      source: '1757062988503'
-      sourceHandle: source
-      target: '1758835263510'
-      targetHandle: target
-      type: custom
-      zIndex: 1002
-    - data:
         isInIteration: false
         isInLoop: false
         sourceType: code
-        targetType: end
-      id: 1758835564168-source-1756587276076-target
+        targetType: variable-aggregator
+      id: 1758835564168-source-1759185130596-target
       selected: false
       source: '1758835564168'
+      sourceHandle: source
+      target: '1759185130596'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: variable-aggregator
+      id: 17591850851050-source-1759185130596-target
+      selected: false
+      source: '17591850851050'
+      sourceHandle: source
+      target: '1759185130596'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: variable-aggregator
+        targetType: end
+      id: 1759185130596-source-1756587276076-target
+      selected: false
+      source: '1759185130596'
       sourceHandle: source
       target: '1756587276076'
       targetHandle: target
@@ -160,9 +196,22 @@ workflow:
         isInLoop: false
         sourceType: llm
         targetType: code
-      id: 1757066198191-source-1758835564168-target
+      id: 1757066198191-source-17591850851050-target
+      selected: false
       source: '1757066198191'
       sourceHandle: source
+      target: '17591850851050'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1759184659338-true-1758835564168-target
+      selected: false
+      source: '1759184659338'
+      sourceHandle: 'true'
       target: '1758835564168'
       targetHandle: target
       type: custom
@@ -170,11 +219,36 @@ workflow:
     - data:
         isInLoop: false
         sourceType: iteration
-        targetType: code
-      id: 1757062707114-source-1758835564168-target
+        targetType: if-else
+      id: 1757062707114-source-17591852274600-target
+      selected: false
       source: '1757062707114'
       sourceHandle: source
+      target: '17591852274600'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 17591852274600-true-1758835564168-target
+      selected: false
+      source: '17591852274600'
+      sourceHandle: 'true'
       target: '1758835564168'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 17591852274600-false-17591850851050-target
+      selected: false
+      source: '17591852274600'
+      sourceHandle: 'false'
+      target: '17591850851050'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -209,11 +283,11 @@ workflow:
       height: 114
       id: '1756587193642'
       position:
-        x: 75.99012659851957
-        y: 225.45616381937788
+        x: -319.5069034866185
+        y: 197.5580330664843
       positionAbsolute:
-        x: 75.99012659851957
-        y: 225.45616381937788
+        x: -319.5069034866185
+        y: 197.5580330664843
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -223,8 +297,8 @@ workflow:
         desc: ''
         outputs:
         - value_selector:
-          - '1758835564168'
-          - result
+          - '1759185130596'
+          - output
           value_type: string
           variable: output
         selected: false
@@ -233,12 +307,12 @@ workflow:
       height: 88
       id: '1756587276076'
       position:
-        x: 1938.0574964516177
-        y: 175.46740480595236
+        x: 2500.590105949421
+        y: 134.18112849329148
       positionAbsolute:
-        x: 1938.0574964516177
-        y: 175.46740480595236
-      selected: true
+        x: 2500.590105949421
+        y: 134.18112849329148
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -246,35 +320,35 @@ workflow:
     - data:
         desc: ''
         error_handle_mode: terminated
-        height: 226
+        height: 209
         is_parallel: true
         iterator_input_type: array[string]
         iterator_selector:
         - '1757067408703'
         - output
         output_selector:
-        - '1758835263510'
-        - result
-        output_type: array[string]
+        - '1757062988503'
+        - structured_output
+        output_type: array[object]
         parallel_nums: 10
         selected: false
         start_node_id: 1757062707114start
         title: Iteration
         type: iteration
-        width: 725
-      height: 226
+        width: 438
+      height: 209
       id: '1757062707114'
       position:
-        x: 719.8360108256309
-        y: 250.45616381937793
+        x: 858.2404485941811
+        y: 389.6046291183531
       positionAbsolute:
-        x: 719.8360108256309
-        y: 250.45616381937793
+        x: 858.2404485941811
+        y: 389.6046291183531
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 725
+      width: 438
       zIndex: 1
     - data:
         desc: ''
@@ -290,8 +364,8 @@ workflow:
         x: 24
         y: 68
       positionAbsolute:
-        x: 743.8360108256309
-        y: 318.45616381937793
+        x: 882.2404485941811
+        y: 457.6046291183531
       selectable: false
       selected: false
       sourcePosition: right
@@ -377,8 +451,8 @@ workflow:
         x: 118.71047911714686
         y: 65.15647842333863
       positionAbsolute:
-        x: 838.5464899427777
-        y: 315.61264224271656
+        x: 976.950927711328
+        y: 454.76110754169173
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -421,11 +495,11 @@ workflow:
       height: 88
       id: '1757066198191'
       position:
-        x: 727.9805613141825
-        y: 83.43575147442195
+        x: 1210.6231383868435
+        y: 168.4583392460194
       positionAbsolute:
-        x: 727.9805613141825
-        y: 83.43575147442195
+        x: 1210.6231383868435
+        y: 168.4583392460194
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -436,7 +510,7 @@ workflow:
           \    result_list = []\n    for segment in segments[1:]:\n        result_list.append(DIFF_GIT\
           \ + segment)\n    return {\"output\": result_list}"
         code_language: python3
-        desc: ''
+        desc: split git diff content by files
         outputs:
           output:
             children: null
@@ -450,79 +524,133 @@ workflow:
           - input
           value_type: string
           variable: input
-      height: 52
+      height: 80
       id: '1757067408703'
       position:
-        x: 389.56313490670556
-        y: 250.45616381937793
+        x: 9.977878193965353
+        y: 197.5580330664843
       positionAbsolute:
-        x: 389.56313490670556
-        y: 250.45616381937793
+        x: 9.977878193965353
+        y: 197.5580330664843
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        code: "def main(symbol: dict, file_name: dict, summary: dict):\n    output\
-          \ = \"[{}]{}:{}\".format(symbol, file_name, summary)\n    return {\"result\"\
-          : output}"
+        code: "def main(per_files: list[dict]):\n    file = per_files[0]  # only single\
+          \ file\n    file_name = file['file_name']\n    symbol = file['symbol']\n\
+          \    summary = file['summary']\n\n    opt = \"\"\"{}\n    \n[{}]{}\"\"\"\
+          .format(summary, symbol, file_name)\n\n    return {\"result\": opt}\n"
         code_language: python3
-        isInIteration: true
-        isInLoop: false
-        iteration_id: '1757062707114'
+        desc: 'merge to produce final output,
+
+          when only single file is involved'
         outputs:
           result:
             children: null
             type: string
         selected: false
-        title: per file line
+        title: merge final single
         type: code
         variables:
         - value_selector:
-          - '1757062988503'
-          - structured_output
-          - symbol
-          value_type: object
-          variable: symbol
-        - value_selector:
-          - '1757062988503'
-          - structured_output
-          - file_name
-          value_type: object
-          variable: file_name
-        - value_selector:
-          - '1757062988503'
-          - structured_output
-          - summary
-          value_type: object
-          variable: summary
-      height: 52
-      id: '1758835263510'
-      parentId: '1757062707114'
+          - '1757062707114'
+          - output
+          value_type: array[object]
+          variable: per_files
+      height: 96
+      id: '1758835564168'
       position:
-        x: 420.71047911714686
-        y: 65.15647842333863
+        x: 1839.1220614589351
+        y: 57.071985689653104
       positionAbsolute:
-        x: 1140.5464899427777
-        y: 315.61264224271656
+        x: 1839.1220614589351
+        y: 57.071985689653104
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
-      zIndex: 1002
     - data:
-        code: "def main(primary: str, per_files: list[str]):\n\n    lines = \"\\n\"\
-          .join(per_files)\n    opt = \"\"\"{}\n\n{}\"\"\".format(primary, lines)\n\
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 58066f70-304a-4400-9278-7942e1299964
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1759184701469'
+            - result
+          id: 'true'
+          logical_operator: and
+        desc: single/multiple file(s) branch
+        selected: false
+        title: single multiple branch
+        type: if-else
+      height: 152
+      id: '1759184659338'
+      position:
+        x: 858.2404485941811
+        y: 53.22923529749556
+      positionAbsolute:
+        x: 858.2404485941811
+        y: 53.22923529749556
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(diff_split_result: list[str]):\n    opt = len(diff_split_result)\
+          \ == 1\n    return {\n        \"result\": opt\n    }\n"
+        code_language: python3
+        desc: decide if this commit involve only a single file
+        outputs:
+          result:
+            children: null
+            type: boolean
+        selected: false
+        title: if commit single file
+        type: code
+        variables:
+        - value_selector:
+          - '1757067408703'
+          - output
+          value_type: array[string]
+          variable: diff_split_result
+      height: 96
+      id: '1759184701469'
+      position:
+        x: 287.46447363962625
+        y: 197.5580330664843
+      positionAbsolute:
+        x: 287.46447363962625
+        y: 197.5580330664843
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(primary: str, per_files: list[dict]):\n\n    # create line\
+          \ per file\n    lines = []\n    for file in per_files:\n        symbol =\
+          \ file[\"symbol\"]\n        file_name = file[\"file_name\"]\n        summary\
+          \ = file[\"summary\"]\n        line = \"[{}]{}: {}\".format(symbol, file_name,\
+          \ summary)\n        lines.append(line)\n\n    lines_text = \"\\n\".join(lines)\n\
+          \n    # combines\n    opt = \"\"\"{}\n\n{}\"\"\".format(primary, lines_text)\n\
           \n    return {\"result\": opt}\n"
         code_language: python3
+        desc: 'merge to produce final output,
+
+          when multiple files are involved'
         outputs:
           result:
             children: null
             type: string
-        selected: false
-        title: merge final output
+        selected: true
+        title: merge final multiple
         type: code
         variables:
         - value_selector:
@@ -533,23 +661,76 @@ workflow:
         - value_selector:
           - '1757062707114'
           - output
-          value_type: array[string]
+          value_type: array[object]
           variable: per_files
-      height: 52
-      id: '1758835564168'
+      height: 96
+      id: '17591850851050'
       position:
-        x: 1664.5606799085017
-        y: 175.46740480595236
+        x: 1839.1220614589351
+        y: 216.26505470361616
       positionAbsolute:
-        x: 1664.5606799085017
-        y: 175.46740480595236
+        x: 1839.1220614589351
+        y: 216.26505470361616
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        output_type: string
+        selected: false
+        title: Final Aggregator
+        type: variable-aggregator
+        variables:
+        - - '17591850851050'
+          - result
+        - - '1758835564168'
+          - result
+      height: 134
+      id: '1759185130596'
+      position:
+        x: 2179.6766328607546
+        y: 134.18112849329148
+      positionAbsolute:
+        x: 2179.6766328607546
+        y: 134.18112849329148
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 58066f70-304a-4400-9278-7942e1299964
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1759184701469'
+            - result
+          id: 'true'
+          logical_operator: and
+        desc: single/multiple file(s) branch
+        selected: false
+        title: single multiple branch
+        type: if-else
+      height: 152
+      id: '17591852274600'
+      position:
+        x: 1295.4522066603931
+        y: 389.6046291183531
+      positionAbsolute:
+        x: 1295.4522066603931
+        y: 389.6046291183531
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -715.1911616892387
-      y: 325.3949259554006
-      zoom: 0.7855441695376874
+      x: -956.8418062470062
+      y: 348.4701516239139
+      zoom: 0.7746603107931427
   rag_pipeline_variables: []
