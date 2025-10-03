@@ -16,8 +16,6 @@ class TestParse1:  # test using PROMPT1
 
         names = tree.names_path
 
-        print(type(tree))  # HACK
-
         print(names)
         assert isinstance(names, tuple)
         assert names == tuple()
