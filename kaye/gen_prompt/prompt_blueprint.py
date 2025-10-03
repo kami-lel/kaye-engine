@@ -57,10 +57,10 @@ class _PreviewTreeNode(Node):
                 return True  # keep this enabled leaf node
         else:
             non_trivial = [
-                child.prune_trivial_branches() for child in self.descendants
+                child.prune_trivial_branches() for child in self.children
             ]
-            if any(non_trivial):
-                return True  # children has marked nodes
+            if self.is_enabled() or any(non_trivial):
+                return True  # self is marked/children has marked nodes
 
         # remove self from tree, ready for garbage collection
         self.parent = None
