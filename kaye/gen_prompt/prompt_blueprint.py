@@ -49,38 +49,6 @@ class _PreviewTreeNode(Node):
             else "[ ] "
         )
 
-    def generate_preview_content_lines(
-        self, fill, preview_line_count, preview_line_width
-    ):
-        return []  # TODO
-
-    # HACK
-    # def generate_preview_tree_content_part(
-    #     self, fill, preview_line_count, preview_line_width
-    # ):
-    #     """
-    #     :param fill: set prefix filling before each line
-    #     :type fill: str
-    #     :param preview_line_count: set maximum line count of
-    #             *content preview* part, (excluding section heading line)
-    #     :type preview_line_count: int
-    #     :param preview_line_width: set maximum column width of
-    #             *content preview* part
-    #     :type preview_line_width: int
-    #     :return: content lines of ``self`` as it will be shown in
-    #             tree ``__repr__()``, with formatting included
-    #             Each entry represent a line in the ``__repr__()``
-    #     :rtype: list[str]
-    #     :example:
-    #     >>> node.generate_preview_tree_content_part('$$$' 3, 10)
-    #     ["$$$You per", "$$$When tr", "$$$User ma"]
-    #     """
-    #     lines = []
-    #     if self.content and preview_line_count:  # print content of node
-    #         for content_line in self.content[:preview_line_count]:
-    #             lines.append(fill + content_line[:preview_line_width])
-    #     return lines
-
     def __init__(self, blueprint, concurrent_corpus_node, parent):
         super().__init__(concurrent_corpus_node.name, parent)
 
@@ -137,7 +105,7 @@ class PromptBlueprint:
                 ``prompt_corpus``, and with **all nodes enabled**
         :rtype: PromptBlueprint
         """
-        # TODO need tests
+        # TODO TODO need tests
         blueprint = cls(
             prompt_corpus, blueprint_display_name=blueprint_display_name
         )
@@ -227,10 +195,10 @@ class PromptBlueprint:
             heading_line = node.get_prefix_content() + pre + node.name
             opt_lines.append(heading_line)
 
-            # preview lines
+            # generate content preview
             opt_lines.extend(
-                node.generate_preview_content_lines(
-                    fill, preview_line_count, preview_line_width
+                node.concurrent_corpus_node.generate_preview_tree_content_part(
+                    "    " + fill, preview_line_count, preview_line_width
                 )
             )
 
@@ -240,27 +208,6 @@ class PromptBlueprint:
             opt_lines.append(comment_line)
 
         return "\n".join(opt_lines)
-
-        # HACK
-        # for pre, fill, node in RenderTree(self.prompt_corpus):
-        #     node_name = node.name
-        #     # decide either have [x] or [ ] before node lines
-        #     checkbox_prefix = (
-        #         CHECKED_BOX_PREFIX
-        #         if node_name in self.enabled_nodes_names
-        #         else UNCHECKED_BOX_PREFIX
-        #     )
-
-        #     opt_lines.append(checkbox_prefix + pre + node_name)
-
-        #     # lines for the content of node
-        #     opt_lines.extend(
-        #         node.generate_preview_tree_content_part(
-        #             NO_CHECKBOX_PREFIX + fill,
-        #             preview_line_count,
-        #             preview_line_width,
-        #         )
-        #     )
 
     def generate_prompt(self, *, hide_comment=False):
         """
@@ -279,7 +226,7 @@ class PromptBlueprint:
         ## Conclusion
         Summarizing the findings and implications.
         """
-        # TODO need tests
+        # TODO TODO need tests
         # generate lines from root node
         lines = self._generate_prompt_recursively(self.prompt_corpus)
 
@@ -314,11 +261,11 @@ class PromptBlueprint:
 
         populate ``self.enabled`` by parsing the init param ``blueprint_text``
         """
-        # TODO need tests
+        # TODO TODO need tests
         lines = blueprint_text.split("\n")
 
         path_hash2node = {
-            hash(tuple(node.get_path())): node
+            hash(tuple(node.names_path)): node
             for node in self.prompt_corpus.descendants
         }
 
