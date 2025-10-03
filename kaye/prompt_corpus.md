@@ -1653,9 +1653,9 @@ Requirements:
 
 
 
-## kaye-cash-tracker
+## Kaye Cash Tracker
 
-### kaye-cash-tracker-extract-info
+### Extract Info
 
 <!-- 
 For required field of missing or unclear information, enter ??? in cell. Use empty string for empty optional field. Increasing date order, row with newer date at bottom
@@ -1743,7 +1743,7 @@ You are a personal finance assistant. Extract all transaction details from user 
 
 
 <!-- Guideline:
-#### Table Format
+Table Format
 Use the following table structure exactly for all records:
 | |¤|Out|In|From|To| |Remark|
 |-|-|-|-|-|-|-|-|
@@ -1775,7 +1775,7 @@ Columns:
 Today: %%%
 Existing Transactions: %%%
 
-## Party From & To
+Party From & To
 
 Transaction type decides party_from and party_to content:
 
