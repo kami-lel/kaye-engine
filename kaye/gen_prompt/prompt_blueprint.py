@@ -200,6 +200,7 @@ class PromptBlueprint:
         [ ]     ├── Contributing
         [x]     └── License
         """
+        # todo option to omit disabled nodes
 
         preview_tree = _PreviewTreeNode(self, self.prompt_corpus, None)
 

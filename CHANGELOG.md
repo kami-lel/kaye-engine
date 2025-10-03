@@ -17,6 +17,7 @@
 
 
 
+
 ## [Unreleased]
 
 ### Added
@@ -33,6 +34,19 @@
 CLI:
 
 - split parsing logic into multiple files under `./kaye/cli/`
+
+`gen_prompt` module:
+
+- add functions `load_empty_prompt_blueprint`, `load_full_prompt_blueprint`
+  and adjust related code
+- use `.kaye_blueprint` to store all blueprint files
+
+`kaye_commit_sense` dify app:
+
+- different behavior dealing with single/multiple files commits
+- dynamically generate prompts by `gen_prompt` module using script
+- utilize `long_short_threshold` to decide if a file's change is large/small
+- extract filename by code node, instead of LLM (unstable result)
 
 ### Deprecated
 ### Removed
