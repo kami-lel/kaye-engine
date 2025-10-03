@@ -10,7 +10,7 @@ from kaye.gen_prompt import (
     PromptBlueprint,
 )
 
-# bug
+# BUG
 
 
 class TestFull:  # special case "full"
@@ -64,7 +64,7 @@ class TestNonTech:  # test other embedded blueprints
 
     # test runtime generated prompts against files in .../static_prompts
     def test_generate_prompt(self):
-        return  # Hack deprecation
+        return  # HACK deprecation
         static_prompts_folder_path = (
             Path(__file__).parent / "../../static_prompts"
         ).resolve()
