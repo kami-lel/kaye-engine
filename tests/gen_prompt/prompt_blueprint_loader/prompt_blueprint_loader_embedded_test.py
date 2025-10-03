@@ -10,6 +10,8 @@ from kaye.gen_prompt import (
     PromptBlueprint,
 )
 
+# bug
+
 
 class TestFull:  # special case "full"
 

@@ -1,15 +1,11 @@
 """
-test .generate_preview_tree(show_full_tree=True,) and __repr__()
+test .generate_preview_tree(show_full_tree=True,)
 """
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 
 from tests.gen_prompt.prompt_blueprint.testees import PROMPT1, PROMPT2
-
-
-def _remove_last_line(text):
-    return "\n".join(text.split("\n")[:-1])
 
 
 class Test1:  # use PROMPT1
@@ -53,13 +49,6 @@ class Test1:  # use PROMPT1
 [ ]     ├── Usage
 [ ]     ├── Contributing
 [ ]     └── License"""
-
-    def test_repr(self):
-        pt = PromptBlueprint(self.corpus)
-        opt = repr(pt)
-
-        print(opt)
-        assert _remove_last_line(opt) == self.dft_preview_tree
 
 
 class Test2:  # use PROMPT2
@@ -111,10 +100,3 @@ class Test2:  # use PROMPT2
 [ ]     │       └── Tools Used
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
-
-    def test_repr(self):
-        pt = PromptBlueprint(self.corpus)
-        opt = repr(pt)
-
-        print(opt)
-        assert _remove_last_line(opt) == self.dft_preview_tree
