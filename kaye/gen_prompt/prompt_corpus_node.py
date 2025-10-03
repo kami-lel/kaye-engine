@@ -119,7 +119,9 @@ class PromptCorpusNode(AnytreeNode):
     def __init__(self, name, parent, text_lines):
         super().__init__(name, parent)
         self.content = []
-        self._populate_self_by_text_lines(text_lines)
+        self.names_path = self._init_generate_names_path()
+
+        self._init_populate_content(text_lines)
 
         # trim leading/trailing empty strings
         start, end = 0, len(self.content)
@@ -128,8 +130,6 @@ class PromptCorpusNode(AnytreeNode):
         while end > start and self.content[end - 1] == "":
             end -= 1
         self.content = self.content[start:end]
-
-        self.names_path = self._init_generate_names_path()
 
     def _init_generate_names_path(self):
         """
@@ -144,12 +144,16 @@ class PromptCorpusNode(AnytreeNode):
         if self.parent is None:
             return tuple()  # root node
         else:
-            # BUG BUG not working
             parent_names_path = self.parent.names_path
             names_path = (*parent_names_path, self.name)
             return names_path
 
-    def _populate_self_by_text_lines(self, text_lines):
+    def _init_populate_content(self, text_lines):
+        """
+        helper method used in ``__init__()``
+
+        populate self.content by parsing ``text_lines``
+        """
         # find every sub-section heading lines
         heading_prefix = HEADING_PREFIX * (self.depth + 1) + " "
         heading_lines = []
