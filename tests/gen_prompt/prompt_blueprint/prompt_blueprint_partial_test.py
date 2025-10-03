@@ -374,8 +374,16 @@ class Test2:  # use PROMPT2
 
     blueprint2_repr = """    ○
 [ ] └── Main Title
+[ ]     ├── Introduction
+        │   Brief introduction to the topic.
+[x]     │   └── Background
+        │       Context or history relevant to the topic.
 [x]     └── Methods
-            Overview of the methodologies used."""
+            Overview of the methodologies used.
+[x]         └── Data Collection
+                How data was gathered for analysis.
+[x]             └── Tools Used
+                    List of tools utilized during the project."""
 
     def test2_part2full(self):  # input partial tree, gen full tree
         input = self.blueprint2_partial
@@ -434,7 +442,6 @@ class Test2:  # use PROMPT2
         assert ("Main Title", "Conclusion") not in enabled_names_path
 
     def test2_full2part(self):  # input full tree, gen partial tree
-        # BUG
         input = self.blueprint2_full
         output = self.blueprint2_significant
 
@@ -447,7 +454,6 @@ class Test2:  # use PROMPT2
         assert preview_tree == output
 
     def test2_part2part(self):  # input part tree, gen partial tree
-        # BUG
         input = self.blueprint2_significant
         output = self.blueprint2_significant
 
@@ -460,7 +466,6 @@ class Test2:  # use PROMPT2
         assert preview_tree == output
 
     def test2_full2repr(self):  # test __repr__()
-        # BUG
         input = self.blueprint2_full
         output = self.blueprint2_repr
 
