@@ -55,9 +55,12 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
         help="maximum line width for each entry in blueprint preview",
         default=None,
     )
+    kamilog.add_verbose_arguments(show_parser)
 
     # define main function  ----------------------------------------------------
     def _prompt_show_main(args):
+        kamilog.set_logging_level_by_verbosity(args, PROGRAM_NAME)
+
         # when calling ``python -m kaye prompt show``
         blueprint_name = args.BLUEPRINT
         try:
