@@ -181,22 +181,6 @@ class PromptCorpusNode(AnytreeNode):
             children_nodes = text_lines[start + 1 : end]
             PromptCorpusNode(heading_content, self, children_nodes)
 
-    # fixme maybe move code to prompt_blueprint
-    def generate_heading_and_content_lines(self):
-        """
-        :return: a list of section heading and content of ``self``.
-                0th entry being section heading with ``#`` prefix;
-                the rest entries are each line of content
-        :rtype: list[str]
-        :example:
-        >>> node.generate_heading_and_content_lines()
-        ['### Node Heading', 'content 1st line', 'content 2nd line']
-        """
-        lines = []
-        lines.append(HEADING_PREFIX * self.depth + " " + self.name)
-        lines.extend(self.content)
-        return lines
-
     def generate_preview_tree_content_part(
         self, fill, preview_line_count, preview_line_width
     ):

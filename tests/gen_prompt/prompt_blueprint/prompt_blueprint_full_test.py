@@ -12,8 +12,6 @@ def test1():  # test using PROMPT1
         PromptCorpusNode.parse(PROMPT1)
     )
 
-    print([node.names_path for node in blueprint.enabled])  # HACK
-
     opt = blueprint.generate_preview_tree(
         preview_line_count=0, hide_comment=True
     )
