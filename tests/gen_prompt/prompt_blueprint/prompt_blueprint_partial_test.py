@@ -53,6 +53,13 @@ class Test1:  # use PROMPT1
 [ ] └── Project Title
 [x]     └── Contributing"""
 
+    blueprint1_repr = """    ○
+[ ] └── Project Title
+[x]     └── Contributing
+            1. Fork the repo
+            2. Create a new branch
+            3. Submit a pull request"""
+
     def test1_part2full(self):  # input partial tree, gen full tree
         input = self.blueprint1_significant
         output = self.blueprint1_full
@@ -76,7 +83,6 @@ class Test1:  # use PROMPT1
         assert ("Project Title", "License") not in enabled_names_path
 
     def test1_full2part(self):  # input full tree, gen partial tree
-        return  # BUG
         input = self.blueprint1_full
         output = self.blueprint1_significant
 
@@ -89,7 +95,6 @@ class Test1:  # use PROMPT1
         assert preview_tree == output
 
     def test1_part2part(self):  # input part tree, gen partial tree
-        return  # BUG
         input = self.blueprint1_significant
         output = self.blueprint1_significant
 
@@ -102,15 +107,14 @@ class Test1:  # use PROMPT1
         assert preview_tree == output
 
     def test1_full2repr(self):  # test __repr__()
-        return  # BUG
         input = self.blueprint1_full
-        output = self.blueprint1_significant
+        output = self.blueprint1_repr
 
         tree = PromptBlueprint(self.corpus, input)
         preview_tree = repr(tree)
 
         print(preview_tree)
-        assert preview_tree == output
+        assert _remove_last_line(preview_tree) == output
 
     blueprint2_full = """    ○
 [x] └── Project Title
@@ -130,6 +134,17 @@ class Test1:  # use PROMPT1
 [x] └── Project Title
 [x]     ├── Installation
 [x]     └── Contributing"""
+
+    blueprint2_repr = """    ○
+[x] └── Project Title
+[x]     ├── Installation
+        │   1. Clone the repo
+        │   2. Install dependencies
+        │   3. Run the application
+[x]     └── Contributing
+            1. Fork the repo
+            2. Create a new branch
+            3. Submit a pull request"""
 
     def test2_part2full(self):  # input partial tree, gen full tree
         input = self.blueprint2_partial
@@ -154,7 +169,6 @@ class Test1:  # use PROMPT1
         assert ("Project Title", "License") not in enabled_names_path
 
     def test2_full2part(self):  # input full tree, gen partial tree
-        return  # BUG
         input = self.blueprint2_full
         output = self.blueprint2_significant
 
@@ -167,7 +181,6 @@ class Test1:  # use PROMPT1
         assert preview_tree == output
 
     def test2_part2part(self):  # input part tree, gen partial tree
-        return  # BUG
         input = self.blueprint2_significant
         output = self.blueprint2_significant
 
@@ -180,15 +193,14 @@ class Test1:  # use PROMPT1
         assert preview_tree == output
 
     def test2_full2repr(self):  # test __repr__()
-        return  # BUG
         input = self.blueprint2_full
-        output = self.blueprint2_significant
+        output = self.blueprint2_repr
 
         tree = PromptBlueprint(self.corpus, input)
         preview_tree = repr(tree)
 
         print(preview_tree)
-        assert preview_tree == output
+        assert _remove_last_line(preview_tree) == output
 
 
 class Test2:  # use PROMPT2
@@ -220,7 +232,7 @@ class Test2:  # use PROMPT2
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-    blueprint1_partial = """    ○
+    blueprint1_significant = """    ○
 [x] └── Main Title
 [ ]     ├── Methods
 [ ]     │   └── Data Collection
@@ -228,12 +240,21 @@ class Test2:  # use PROMPT2
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-    blueprint1_significant = """    ○
-[ ] └── Project Title
-[x]     └── Contributing"""
+    blueprint1_repr = """    ○
+[x] └── Main Title
+[ ]     ├── Methods
+        │   Overview of the methodologies used.
+[ ]     │   └── Data Collection
+        │       How data was gathered for analysis.
+[ ]     │       └── Tools Used
+        │           List of tools utilized during the project.
+[x]     │           └── Future Work
+        │               Suggestions for future research or tasks.
+[x]     └── Conclusion
+            Summarizing the findings and implications."""
 
     def test1_part2full(self):  # input partial tree, gen full tree
-        input = self.blueprint1_partial
+        input = self.blueprint1_significant
         output = self.blueprint1_full
 
         tree = PromptBlueprint(self.corpus, input)
@@ -289,7 +310,6 @@ class Test2:  # use PROMPT2
         assert ("Main Title", "Conclusion") in enabled_names_path
 
     def test1_full2part(self):  # input full tree, gen partial tree
-        return  # BUG
         input = self.blueprint1_full
         output = self.blueprint1_significant
 
@@ -302,7 +322,6 @@ class Test2:  # use PROMPT2
         assert preview_tree == output
 
     def test1_part2part(self):  # input part tree, gen partial tree
-        return  # BUG
         input = self.blueprint1_significant
         output = self.blueprint1_significant
 
@@ -315,15 +334,14 @@ class Test2:  # use PROMPT2
         assert preview_tree == output
 
     def test1_full2repr(self):  # test __repr__()
-        return  # BUG
         input = self.blueprint1_full
-        output = self.blueprint1_significant
+        output = self.blueprint1_repr
 
         tree = PromptBlueprint(self.corpus, input)
         preview_tree = repr(tree)
 
         print(preview_tree)
-        assert preview_tree == output
+        assert _remove_last_line(preview_tree) == output
 
     blueprint2_full = """    ○
 [ ] └── Main Title
@@ -346,9 +364,18 @@ class Test2:  # use PROMPT2
 [x]     │       └── Tools Used
 [ ]     └── Conclusion"""
 
-    blueprint2_sig = """    ○
-[ ] └── Project Title
-[x]     └── Contributing"""
+    blueprint2_significant = """    ○
+[ ] └── Main Title
+[ ]     ├── Introduction
+[x]     │   └── Background
+[x]     └── Methods
+[x]         └── Data Collection
+[x]             └── Tools Used"""
+
+    blueprint2_repr = """    ○
+[ ] └── Main Title
+[x]     └── Methods
+            Overview of the methodologies used."""
 
     def test2_part2full(self):  # input partial tree, gen full tree
         input = self.blueprint2_partial
@@ -407,7 +434,7 @@ class Test2:  # use PROMPT2
         assert ("Main Title", "Conclusion") not in enabled_names_path
 
     def test2_full2part(self):  # input full tree, gen partial tree
-        return  # BUG
+        # BUG
         input = self.blueprint2_full
         output = self.blueprint2_significant
 
@@ -420,7 +447,7 @@ class Test2:  # use PROMPT2
         assert preview_tree == output
 
     def test2_part2part(self):  # input part tree, gen partial tree
-        return  # BUG
+        # BUG
         input = self.blueprint2_significant
         output = self.blueprint2_significant
 
@@ -433,12 +460,12 @@ class Test2:  # use PROMPT2
         assert preview_tree == output
 
     def test2_full2repr(self):  # test __repr__()
-        return  # BUG
+        # BUG
         input = self.blueprint2_full
-        output = self.blueprint2_significant
+        output = self.blueprint2_repr
 
         tree = PromptBlueprint(self.corpus, input)
         preview_tree = repr(tree)
 
         print(preview_tree)
-        assert preview_tree == output
+        assert _remove_last_line(preview_tree) == output
