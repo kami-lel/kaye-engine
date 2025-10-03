@@ -24,12 +24,24 @@
 ## [Unreleased]
 
 ### Added
+
+- utility module `kamilog` version `v1.2.0`
+
 ### Changed
 
 `kaye_cash_tracker` dify app:
 
 - use secret environment variable to hide user accounts details
 - provide common transaction parties for better info extraction
+
+CLI:
+
+- split parsing logic into multiple files under `./kaye/cli/`
+
+`gen_prompt` module:
+
+- add functions `load_empty_prompt_blueprint`, `load_full_prompt_blueprint`
+  and adjust related code
 
 `kaye_commit_sense` dify app:
 
@@ -38,13 +50,11 @@
 - utilize `long_short_threshold` to decide if a file's change is large/small
 - extract filename by code node, instead of LLM (unstable result)
 
-`gen_prompt` module:
-
-- add functions `load_empty_prompt_blueprint`, `load_full_prompt_blueprint`
-  and adjust related code
-
 ### Deprecated
 ### Removed
+
+- functions of cli `kaye generate_vsc_continue_prompts`
+
 ### Fixed
 
 
