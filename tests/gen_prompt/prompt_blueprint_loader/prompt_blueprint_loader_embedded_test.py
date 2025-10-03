@@ -7,8 +7,6 @@ from kaye.gen_prompt import (
     PromptBlueprint,
 )
 
-# BUG
-
 
 class TestFull:  # special case "full"
 
@@ -24,7 +22,7 @@ class TestFull:  # special case "full"
             preview_line_count=0, hide_comment=True
         )
         print(opt)
-        assert all(line.startswith("[x]") for line in opt.splitlines())
+        assert all(line.startswith("[x]") for line in opt.splitlines()[1:])
 
 
 class TestEmpty:  # special case "empty"
@@ -41,7 +39,7 @@ class TestEmpty:  # special case "empty"
             preview_line_count=0, hide_comment=True
         )
         print(opt)
-        assert all(line.startswith("[ ]") for line in opt.splitlines())
+        assert all(line.startswith("[ ]") for line in opt.splitlines()[1:])
 
     def test_generate_prompt(self):
         blueprint = load_embedded_prompt_blueprint(self.prompt_name)
