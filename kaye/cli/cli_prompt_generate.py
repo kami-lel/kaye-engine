@@ -67,11 +67,13 @@ def register_cli_prompt_generate_parser(cli_prompt_subparser):
         action="store_true",
         help="disable last-line prompt comment in result",
     )
+    kamilog.add_verbose_arguments(gen_parser)
 
     # define main function  ----------------------------------------------------
     def _prompt_generate_main(args):
         # when calling ``python -m kaye prompt gen``
         # todo interactive mode which allow user set preview line, etc.
+        kamilog.set_logging_level_by_verbosity(args, PROGRAM_NAME)
 
         blueprint_arg = args.BLUEPRINT
 
