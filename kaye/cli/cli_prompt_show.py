@@ -55,6 +55,8 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
         help="maximum line width for each entry in blueprint preview",
         default=None,
     )
+    # Todo read from blueprint file
+    # Todo use file name as blueprint display name
     kamilog.add_verbose_arguments(show_parser)
 
     # define main function  ----------------------------------------------------
