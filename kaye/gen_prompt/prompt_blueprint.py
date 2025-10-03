@@ -12,7 +12,7 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter, Node
 from anytree.render import ContStyle
 
-from .prompt_corpus_node import ROOT_NODE_NAME
+from .prompt_corpus_node import HEADING_PREFIX
 
 __all__ = ("PromptBlueprint",)
 
@@ -314,9 +314,22 @@ class PromptBlueprint:
         """
         lines = []
 
-        # BUG when generating prompts, respect empty line before headings
-        if node in self.enabled and node.parent is not None:
-            lines.extend(node.generate_heading_and_content_lines())
+        try:
+            idx = self.enabled.index(node)
+        except ValueError:
+            idx = -1
+        if idx >= 0 and node.parent is not None:
+            level = node.depth
+
+            # add empty lines before headings
+            if idx > 0:
+                lines.append("")
+
+            # add heading line
+            heading_line = HEADING_PREFIX * level + " " + node.name
+            lines.append(heading_line)
+            # add content lines
+            lines.extend(node.content)
 
         # children
         for child_node in node.children:
