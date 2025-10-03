@@ -39,6 +39,7 @@ CLI:
 
 - add functions `load_empty_prompt_blueprint`, `load_full_prompt_blueprint`
   and adjust related code
+- use `.kaye_blueprint` to store all blueprint files
 
 `kaye_commit_sense` dify app:
 
