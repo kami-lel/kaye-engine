@@ -1,5 +1,5 @@
 """
-test .generate_preview_tree() and __repr__()
+test .generate_preview_tree(show_full_tree=True,) and __repr__()
 """
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
@@ -34,14 +34,16 @@ class Test1:  # use PROMPT1
 
     def test_dft(self):
         pt = PromptBlueprint(self.corpus)
-        opt = pt.generate_preview_tree(hide_comment=True)
+        opt = pt.generate_preview_tree(show_full_tree=True, hide_comment=True)
 
         print(opt)
         assert opt == self.dft_preview_tree
 
     def test_no_content(self):
         pt = PromptBlueprint(self.corpus)
-        opt = pt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+        opt = pt.generate_preview_tree(
+            show_full_tree=True, preview_line_count=0, hide_comment=True
+        )
 
         print(opt)
         assert opt == """    ○
@@ -86,14 +88,16 @@ class Test2:  # use PROMPT2
 
     def test_dft(self):
         pt = PromptBlueprint(self.corpus)
-        opt = pt.generate_preview_tree(hide_comment=True)
+        opt = pt.generate_preview_tree(show_full_tree=True, hide_comment=True)
 
         print(opt)
         assert opt == self.dft_preview_tree
 
     def test_no_content(self):
         pt = PromptBlueprint(self.corpus)
-        opt = pt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+        opt = pt.generate_preview_tree(
+            show_full_tree=True, preview_line_count=0, hide_comment=True
+        )
 
         print(opt)
         assert opt == """    ○

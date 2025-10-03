@@ -34,20 +34,20 @@ class _PreviewTreeNode(Node):
     :type parent: _PreviewTreeNode
     """
 
-    def get_prefix_content(self):
+    def is_enabled(self):
         """
-        :return: '[x] ' if this node is enabled in the blueprint;
-                '[ ] ' otherwise
-        :rtype: str
+        :return: whether this node is enabled in the blueprint;
+        :rtype: bool
         """
-
-        # todo opmz w/ hash
+        # todo opmz by hash names_path
         names_path = self.concurrent_corpus_node.names_path
-        is_enabled = any(
+        return any(
             (names_path == node.names_path) for node in self.blueprint.enabled
         )
 
-        return "[x] " if is_enabled else "[ ] "
+    def prune_trivial_branches(self):
+
+        return True  # TODO
 
     def __init__(self, blueprint, concurrent_corpus_node, parent):
         super().__init__(concurrent_corpus_node.name, parent)
@@ -120,7 +120,7 @@ class PromptBlueprint:
     def generate_preview_tree(
         self,
         *,
-        enable_full_tree=False,
+        show_full_tree=False,
         preview_line_count=3,
         preview_line_width=64,
         hide_comment=False,
@@ -138,8 +138,8 @@ class PromptBlueprint:
         - node content preview
 
 
-        :param enable_full_tree: _description_, defaults to False
-        :type enable_full_tree: bool, optional
+        :param show_full_tree: _description_, defaults to False
+        :type show_full_tree: bool, optional
         :param preview_line_count: set maximum line count of
                 *content preview* part for each entry,
                 (excluding section heading line;)
@@ -186,7 +186,8 @@ class PromptBlueprint:
 
         preview_tree = _PreviewTreeNode(self, self.prompt_corpus, None)
 
-        # TODO del irrelevant nodes
+        if not show_full_tree:
+            preview_tree.prune_trivial_branches()
 
         opt_lines = []
         for pre, fill, node in RenderTree(preview_tree, style=ContStyle()):
@@ -196,7 +197,8 @@ class PromptBlueprint:
                 continue
 
             # create node / heading line
-            heading_line = node.get_prefix_content() + pre + node.name
+            checkbox = "[x] " if node.is_enabled() else "[ ] "
+            heading_line = checkbox + pre + node.name
             opt_lines.append(heading_line)
 
             # generate content preview

@@ -1,5 +1,5 @@
 """
-basic test __init__(), ie text parsing
+test __init__(), ie text parsing, when the tree is partial
 """
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
@@ -14,10 +14,6 @@ class Test1:  # use PROMPT1
     def test1(self):
         blueprint_text = """    ○
 [ ] └── Project Title
-[ ]     ├── Description
-[ ]     ├── Installation
-[ ]     ├── Usage
-[ ]     ├── Contributing
 [ ]     └── License"""
 
         pt = PromptBlueprint(self.corpus, blueprint_text)
@@ -35,11 +31,7 @@ class Test1:  # use PROMPT1
     def test2(self):
         blueprint_text = """    ○
 [ ] └── Project Title
-[ ]     ├── Description
-[ ]     ├── Installation
-[ ]     ├── Usage
-[x]     ├── Contributing
-[ ]     └── License"""
+[x]     └── Contributing"""
 
         pt = PromptBlueprint(self.corpus, blueprint_text)
         enabled_names_path = [node.names_path for node in pt.enabled]
@@ -55,9 +47,7 @@ class Test1:  # use PROMPT1
     def test3(self):
         blueprint_text = """    ○
 [x] └── Project Title
-[ ]     ├── Description
 [x]     ├── Installation
-[ ]     ├── Usage
 [x]     ├── Contributing
 [ ]     └── License"""
 
@@ -72,26 +62,6 @@ class Test1:  # use PROMPT1
         assert ("Project Title", "Contributing") in enabled_names_path
         assert ("Project Title", "License") not in enabled_names_path
 
-    def test4(self):
-        blueprint_text = """    ○
-[x] └── Project Title
-[x]     ├── Description
-[x]     ├── Installation
-[x]     ├── Usage
-[x]     ├── Contributing
-[x]     └── License"""
-
-        pt = PromptBlueprint(self.corpus, blueprint_text)
-        enabled_names_path = [node.names_path for node in pt.enabled]
-
-        assert len(pt.enabled) == 6
-        assert ("Project Title",) in enabled_names_path
-        assert ("Project Title", "Description") in enabled_names_path
-        assert ("Project Title", "Installation") in enabled_names_path
-        assert ("Project Title", "Usage") in enabled_names_path
-        assert ("Project Title", "Contributing") in enabled_names_path
-        assert ("Project Title", "License") in enabled_names_path
-
 
 class Test2:  # use PROMPT2
 
@@ -104,10 +74,6 @@ class Test2:  # use PROMPT2
 [ ]     │   └── Background
 [ ]     │       └── Importance
 [ ]     │           └── Objective
-[ ]     ├── Methods
-[ ]     │   └── Data Collection
-[ ]     │       └── Tools Used
-[ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
         pt = PromptBlueprint(self.corpus, blueprint_text)
@@ -155,71 +121,9 @@ class Test2:  # use PROMPT2
         ) not in enabled_names_path
         assert ("Main Title", "Conclusion") not in enabled_names_path
 
-    def test_full(self):
-        blueprint_text = """    ○
-[x] └── Main Title
-[x]     ├── Introduction
-[x]     │   └── Background
-[x]     │       └── Importance
-[x]     │           └── Objective
-[x]     ├── Methods
-[x]     │   └── Data Collection
-[x]     │       └── Tools Used
-[x]     │           └── Future Work
-[x]     └── Conclusion"""
-
-        pt = PromptBlueprint(self.corpus, blueprint_text)
-        enabled_names_path = [node.names_path for node in pt.enabled]
-
-        assert len(pt.enabled) == 10
-        assert ("Main Title",) in enabled_names_path
-        assert ("Main Title", "Introduction") in enabled_names_path
-        assert (
-            "Main Title",
-            "Introduction",
-            "Background",
-        ) in enabled_names_path
-        assert (
-            "Main Title",
-            "Introduction",
-            "Background",
-            "Importance",
-        ) in enabled_names_path
-        assert (
-            "Main Title",
-            "Introduction",
-            "Background",
-            "Importance",
-            "Objective",
-        ) in enabled_names_path
-        assert ("Main Title", "Methods") in enabled_names_path
-        assert (
-            "Main Title",
-            "Methods",
-            "Data Collection",
-        ) in enabled_names_path
-        assert (
-            "Main Title",
-            "Methods",
-            "Data Collection",
-            "Tools Used",
-        ) in enabled_names_path
-        assert (
-            "Main Title",
-            "Methods",
-            "Data Collection",
-            "Tools Used",
-            "Future Work",
-        ) in enabled_names_path
-        assert ("Main Title", "Conclusion") in enabled_names_path
-
     def test1(self):
         blueprint_text = """    ○
 [x] └── Main Title
-[ ]     ├── Introduction
-[ ]     │   └── Background
-[ ]     │       └── Importance
-[x]     │           └── Objective
 [ ]     ├── Methods
 [ ]     │   └── Data Collection
 [ ]     │       └── Tools Used
@@ -229,7 +133,7 @@ class Test2:  # use PROMPT2
         pt = PromptBlueprint(self.corpus, blueprint_text)
         enabled_names_path = [node.names_path for node in pt.enabled]
 
-        assert len(pt.enabled) == 4
+        assert len(pt.enabled) == 3
         assert ("Main Title",) in enabled_names_path
         assert ("Main Title", "Introduction") not in enabled_names_path
         assert (
@@ -249,7 +153,7 @@ class Test2:  # use PROMPT2
             "Background",
             "Importance",
             "Objective",
-        ) in enabled_names_path
+        ) not in enabled_names_path
         assert ("Main Title", "Methods") not in enabled_names_path
         assert (
             "Main Title",
@@ -276,12 +180,9 @@ class Test2:  # use PROMPT2
 [ ] └── Main Title
 [ ]     ├── Introduction
 [x]     │   └── Background
-[ ]     │       └── Importance
-[ ]     │           └── Objective
 [x]     ├── Methods
 [x]     │   └── Data Collection
 [x]     │       └── Tools Used
-[ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
         pt = PromptBlueprint(self.corpus, blueprint_text)
