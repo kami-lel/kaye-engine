@@ -46,8 +46,21 @@ class _PreviewTreeNode(Node):
         )
 
     def prune_trivial_branches(self):
+        """
+        prune all branches that contains no enabled nodes
 
-        return True  # TODO
+        :return: whether this node has any enabled descendants
+        :rtype: bool
+        """
+        if self.is_leaf:
+            if self.is_enabled():
+                return True  # keep this enabled leaf node
+        elif any(child.prune_trivial_branches() for child in self.descendants):
+            return True  # children has marked nodes
+
+        # remove self from tree, ready for garbage collection
+        self.parent = None
+        return False
 
     def __init__(self, blueprint, concurrent_corpus_node, parent):
         super().__init__(concurrent_corpus_node.name, parent)
