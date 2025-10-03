@@ -2,9 +2,6 @@
 define `PromptBlueprint`
 """
 
-# TODO use kamilog
-
-
 import re
 from datetime import datetime
 
@@ -12,9 +9,12 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter, Node
 from anytree.render import ContStyle
 
+from .. import kamilog, PROGRAM_NAME
 from .prompt_corpus_node import HEADING_PREFIX
 
 __all__ = ("PromptBlueprint",)
+
+logger = kamilog.getLogger(PROGRAM_NAME)
 
 
 class _PreviewTreeNode(Node):
@@ -302,8 +302,13 @@ class PromptBlueprint:
 
                 # dynamically decide the names_path
                 if level > previous_level:
+
                     if level - previous_level > 1:
-                        raise ValueError("bad format")  # FIXME use logger
+                        logger.error(
+                            "detect bad blueprint tree format at:\n%s", line
+                        )
+                        continue
+
                     path = previous_path + [""]
 
                 elif level == previous_level:
@@ -316,8 +321,12 @@ class PromptBlueprint:
 
                 path_tuple = tuple(path)
                 if path_tuple not in path2node:
-                    # FIXME better wording, use logger
-                    raise ValueError(path)
+                    logger.warning(
+                        "not part of the provided prompt corpus, skipped"
+                        " during blueprint parsing:\n%s",
+                        line,
+                    )
+                    continue
 
                 if is_checked:
                     node = path2node[path_tuple]
