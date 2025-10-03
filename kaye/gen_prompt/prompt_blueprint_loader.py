@@ -1,8 +1,7 @@
 """
-define ``get_prompt_templates_names``, ``load_prompt_template``
+define ``get_prompt_templates_names``, ``load_prompt_template``,
+``load_embedded_prompt_corpus``
 """
-
-# Fixme detect blueprints files as .kaye_blueprint
 
 import os
 from pathlib import Path
@@ -26,28 +25,36 @@ def get_embedded_prompt_blueprints_folder_path():
     :rtype: pathlib.Path
     """
     # find folder path by relative path from this script
-    return (Path(__file__).resolve().parent / "prompt_blueprints").absolute()
+    return (Path(__file__).resolve().parent / "embedded_blueprints").absolute()
 
 
-def get_embedded_prompt_blueprints_names(exclude_technical_blueprint=False):
+def get_embedded_prompt_blueprints_names(
+    *, exclude_technical_blueprint=False, enable_sort=False
+):
     """
     :param exclude_technical_blueprint: exclude technical blueprints
             ("full", "empty") from the resulted list
     :type exclude_technical_blueprint: bool, optional
     :return: names of all available embedded prompt blueprints,
             including special case "full"
+    :param enable_sort: whether sort the blueprint name list
+    :type enable_sort: bool
     :rtype: list(str)
     :raises FileNotFoundError:
     :raises OSError:
     """
-    opt = list(_get_embedded_prompt_blueprints_names_and_paths().keys())
-    # todo add sorted option
+    blueprints_names = list(
+        _get_embedded_prompt_blueprints_names_and_paths().keys()
+    )
 
     # include technical blueprints if required
     if not exclude_technical_blueprint:
-        opt.extend(TECHNICAL_BLUEPRINT)
+        blueprints_names.extend(TECHNICAL_BLUEPRINT)
 
-    return opt
+    if enable_sort:
+        blueprints_names = sorted(blueprints_names)
+
+    return blueprints_names
 
 
 def load_embedded_prompt_blueprint(prompt_blueprint_name):
@@ -76,7 +83,7 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     elif prompt_blueprint_name == "empty":
         return PromptBlueprint(
             corpus,
-            prompt_blueprint_name=prompt_blueprint_name,
+            blueprint_display_name=prompt_blueprint_name,
             detached_mode=True,
         )
 
