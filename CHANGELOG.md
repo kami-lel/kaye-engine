@@ -2,9 +2,6 @@
 
 [^format]
 
-<!-- FIXME kaye-commit-sense prompt improve  -->
-<!-- BUG primary message still try to describe each file -->
-
 
 
 
