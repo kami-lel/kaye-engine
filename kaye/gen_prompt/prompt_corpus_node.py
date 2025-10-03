@@ -2,8 +2,6 @@
 define ``PromptCorpusNode``
 """
 
-# Todo use kamilog
-
 import re
 
 from anytree import Node as AnytreeNode, RenderTree
