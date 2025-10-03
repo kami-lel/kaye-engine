@@ -1,5 +1,5 @@
 """
-test __init__(), ie text parsing
+basic test __init__(), ie text parsing
 """
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
