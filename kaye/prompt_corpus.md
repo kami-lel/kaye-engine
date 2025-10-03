@@ -1664,7 +1664,7 @@ The user has shown interest in the following topics:
 
 
 
-## kaye-commit-sense
+## Kaye Commit Sense
 
 - do **not** using any markdown syntax in the output
 - strictly use **Briefness Style** language
@@ -1682,7 +1682,7 @@ The user has shown interest in the following topics:
 
 
 
-### kaye-commit-sense-primary-message-task
+### Primary Message Task
 
 - must be a single line, hard limit of **72 characters**; do not exceed
 - capture the **overall intent** of the entire commit across all staged changes
@@ -1700,9 +1700,9 @@ The user has shown interest in the following topics:
 
 
 
-### kaye-commit-sense-per-file
+### Per File
 
-#### kaye-commit-sense-per-file-summary
+#### Per File Summary
 
 You are to select a single prefix that best describes the primary nature of the change to a given file. Use the following prefixes, in **priority order**. Apply the **first rule that matches**:
 
@@ -1722,7 +1722,7 @@ If none of the above prefixes apply, use one of the following to describe the ch
 
 
 
-##### kaye-commit-sense-per-file-long
+##### Long
 
 - predominantly addition: +
 - predominantly deletion: -
@@ -1732,7 +1732,7 @@ If none of the above prefixes apply, use one of the following to describe the ch
 
 
 
-##### kaye-commit-sense-per-file-short
+##### Short
 
 - predominantly addition: /
 - predominantly deletion: \
