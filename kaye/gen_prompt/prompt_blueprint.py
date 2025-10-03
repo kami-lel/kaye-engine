@@ -10,28 +10,86 @@ from datetime import datetime
 
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter, Node
+from anytree.render import ContStyle
 
 from .prompt_corpus_node import ROOT_NODE_NAME
 
 __all__ = ("PromptBlueprint",)
 
 
-# types of line prefix used for __repr__() generation
-CHECKED_BOX_PREFIX = "[x] "
-UNCHECKED_BOX_PREFIX = "[ ] "
-NO_CHECKBOX_PREFIX = "    "
-
-
 class _PreviewTreeNode(Node):
     """
-    helper class used
+    helper class usedVjj
     in ``.generate_preview_tree()`` of ``class PromptBlueprint``
+
+    create a tree structured same as prompt corpus tree
+    for the utility of preview tree generation
+
+
+    :param blueprint: blueprint object which create this preview tree
+    :type blueprint: PromptBlueprint
+    :param concurrent_corpus_node: concurrent node in the prompt corpus tree
+    :type concurrent_corpus_node: PromptCorpusNode
+    :param parent:
+    :type parent: _PreviewTreeNode
     """
 
-    def __init__(self, name, parent, enables):
-        super().__init__(name, parent)
+    def get_prefix_content(self):
+        """
+        :return: '[x] ' if this node is enabled in the blueprint;
+                '[ ] ' otherwise
+        :rtype: str
+        """
+        return (
+            "[x] "
+            if (
+                self.concurrent_corpus_node.names_path
+                in self.blueprint.enabled
+            )
+            else "[ ] "
+        )
 
-    pass  # TODO
+    def generate_preview_content_lines(
+        self, fill, preview_line_count, preview_line_width
+    ):
+        return []  # TODO
+
+    # HACK
+    # def generate_preview_tree_content_part(
+    #     self, fill, preview_line_count, preview_line_width
+    # ):
+    #     """
+    #     :param fill: set prefix filling before each line
+    #     :type fill: str
+    #     :param preview_line_count: set maximum line count of
+    #             *content preview* part, (excluding section heading line)
+    #     :type preview_line_count: int
+    #     :param preview_line_width: set maximum column width of
+    #             *content preview* part
+    #     :type preview_line_width: int
+    #     :return: content lines of ``self`` as it will be shown in
+    #             tree ``__repr__()``, with formatting included
+    #             Each entry represent a line in the ``__repr__()``
+    #     :rtype: list[str]
+    #     :example:
+    #     >>> node.generate_preview_tree_content_part('$$$' 3, 10)
+    #     ["$$$You per", "$$$When tr", "$$$User ma"]
+    #     """
+    #     lines = []
+    #     if self.content and preview_line_count:  # print content of node
+    #         for content_line in self.content[:preview_line_count]:
+    #             lines.append(fill + content_line[:preview_line_width])
+    #     return lines
+
+    def __init__(self, blueprint, concurrent_corpus_node, parent):
+        super().__init__(concurrent_corpus_node.name, parent)
+
+        self.blueprint = blueprint
+        self.concurrent_corpus_node = concurrent_corpus_node
+
+        # create children nodes
+        for child_concurrent_node in concurrent_corpus_node.children:
+            _PreviewTreeNode(blueprint, child_concurrent_node, self)
 
 
 class PromptBlueprint:
@@ -158,36 +216,51 @@ class PromptBlueprint:
         [ ]     ├── Contributing
         [x]     └── License
         """
-        pass  # TODO TODO
 
-        return ""  # HACK
+        preview_tree = _PreviewTreeNode(self, self.prompt_corpus, None)
+
+        # TODO del irrelevant nodes
+
         opt_lines = []
+        for pre, fill, node in RenderTree(preview_tree, style=ContStyle()):
+            # create node / heading line
+            heading_line = node.get_prefix_content() + pre + node.name
+            opt_lines.append(heading_line)
 
-        for pre, fill, node in RenderTree(self.prompt_corpus):
-            node_name = node.name
-            # decide either have [x] or [ ] before node lines
-            checkbox_prefix = (
-                CHECKED_BOX_PREFIX
-                if node_name in self.enabled_nodes_names
-                else UNCHECKED_BOX_PREFIX
-            )
-
-            opt_lines.append(checkbox_prefix + pre + node_name)
-
-            # lines for the content of node
+            # preview lines
             opt_lines.extend(
-                node.generate_preview_tree_content_part(
-                    NO_CHECKBOX_PREFIX + fill,
-                    preview_line_count,
-                    preview_line_width,
+                node.generate_preview_content_lines(
+                    fill, preview_line_count, preview_line_width
                 )
             )
 
+        # append comment line
         if not hide_comment:
-            comment_line = "(" + self._generate_prompt_comment_content() + ")"
+            comment_line = "({})".format(self._generate_comment_content())
             opt_lines.append(comment_line)
 
         return "\n".join(opt_lines)
+
+        # HACK
+        # for pre, fill, node in RenderTree(self.prompt_corpus):
+        #     node_name = node.name
+        #     # decide either have [x] or [ ] before node lines
+        #     checkbox_prefix = (
+        #         CHECKED_BOX_PREFIX
+        #         if node_name in self.enabled_nodes_names
+        #         else UNCHECKED_BOX_PREFIX
+        #     )
+
+        #     opt_lines.append(checkbox_prefix + pre + node_name)
+
+        #     # lines for the content of node
+        #     opt_lines.extend(
+        #         node.generate_preview_tree_content_part(
+        #             NO_CHECKBOX_PREFIX + fill,
+        #             preview_line_count,
+        #             preview_line_width,
+        #         )
+        #     )
 
     def generate_prompt(self, *, hide_comment=False):
         """
