@@ -1666,9 +1666,11 @@ The user has shown interest in the following topics:
 
 ## Kaye Commit Sense
 
+You are given the result of `git diff --cached`; interpret it as the changes ready to be committed for the file(s).
+
 - do **not** using any markdown syntax in the output
-- strictly use **Briefness Style** language
-- use **Commentary Case** for each line
+- strictly use *Briefness Style* language
+- use *Commentary Case* for each line
 
 
 
@@ -1684,9 +1686,7 @@ The user has shown interest in the following topics:
 
 ### Primary Message Task
 
-- must be a single line, hard limit of **72 characters**; do not exceed
-- capture the **overall intent** of the entire commit across all staged changes
-- exclude file names, implementation details, and low-level steps
+Summarize the overall intent and major change pattern of all staged files in one clear line under 72 characters
 
 
 
@@ -1700,9 +1700,15 @@ The user has shown interest in the following topics:
 
 
 
-### Per File
+### Per File Summary
 
-#### Per File Summary
+Summarize the overall intent and major change pattern of the file in an extremely short and concise manner.
+
+
+
+
+
+#### Prefix Symbol
 
 You are to select a single prefix that best describes the primary nature of the change to a given file. Use the following prefixes, in **priority order**. Apply the **first rule that matches**:
 
@@ -1720,15 +1726,11 @@ If none of the above prefixes apply, use one of the following to describe the ch
 
 
 
-
-
 ##### Long
 
 - predominantly addition: +
 - predominantly deletion: -
 - mixed modification: *
-
-
 
 
 
