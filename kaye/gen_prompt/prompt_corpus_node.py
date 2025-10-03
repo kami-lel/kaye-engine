@@ -2,7 +2,7 @@
 define ``PromptCorpusNode``
 """
 
-# Todo use kamilog
+# TODO use kamilog
 
 import re
 

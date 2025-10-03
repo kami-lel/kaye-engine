@@ -2,7 +2,7 @@
 define `PromptBlueprint`
 """
 
-# Todo use kamilog
+# TODO use kamilog
 
 
 import re
@@ -303,7 +303,7 @@ class PromptBlueprint:
                 # dynamically decide the names_path
                 if level > previous_level:
                     if level - previous_level > 1:
-                        raise ValueError("bad format")  # Fixme use logger
+                        raise ValueError("bad format")  # FIXME use logger
                     path = previous_path + [""]
 
                 elif level == previous_level:
@@ -316,7 +316,7 @@ class PromptBlueprint:
 
                 path_tuple = tuple(path)
                 if path_tuple not in path2node:
-                    # Fixme better wording, use logger
+                    # FIXME better wording, use logger
                     raise ValueError(path)
 
                 if is_checked:
