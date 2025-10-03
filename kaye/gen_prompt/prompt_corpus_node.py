@@ -2,7 +2,7 @@
 define ``PromptCorpusNode``
 """
 
-#  bug section headings must be unique. Either make a pytest for corpus, or make parsing respect tree structure
+# Todo use kamilog
 
 import re
 
@@ -110,10 +110,17 @@ class PromptCorpusNode(AnytreeNode):
 
         return "\n".join(opt_lines)
 
+    @staticmethod
+    def _convert_corpus_text2lines(full_prompt):
+        # reduce formatting empty lines
+        cleanup = re.sub(r"\n{3,}", "\n\n", full_prompt)
+        return list(cleanup.split("\n"))
+
     def __init__(self, name, parent, text_lines):
         super().__init__(name, parent)
-        self.content = []
-        self._populate_self_by_text_lines(text_lines)
+        self.content = []  # content lines
+
+        self._init_populate_children(text_lines)
 
         # trim leading/trailing empty strings
         start, end = 0, len(self.content)
@@ -123,13 +130,30 @@ class PromptCorpusNode(AnytreeNode):
             end -= 1
         self.content = self.content[start:end]
 
-    @staticmethod
-    def _convert_corpus_text2lines(full_prompt):
-        # reduce formatting empty lines
-        cleanup = re.sub(r"\n{3,}", "\n\n", full_prompt)
-        return list(cleanup.split("\n"))
+        self.names_path = self._init_generate_names_path()
 
-    def _populate_self_by_text_lines(self, text_lines):
+    def _init_generate_names_path(self):
+        """
+        helper method used in ``__init__()``
+
+        generate content of ``.names_path``, a path from root to this node,
+        represented by a tuple of titles of ancestors and of this node
+        names of ancestors and ``self``, eg, ``('ProjectABC', 'Sub Heading')``;
+        for root node, ``()``
+        """
+        if self.parent is None:
+            return tuple()  # root node
+        else:
+            nodes_path = self.path[1:]  # remove root node
+            return tuple(node.name for node in nodes_path)
+
+    def _init_populate_children(self, text_lines):
+        """
+        helper method used in ``__init__()``
+
+        create children nodes of ``self`` and populate self.content
+        by parsing ``text_lines``
+        """
         # find every sub-section heading lines
         heading_prefix = HEADING_PREFIX * (self.depth + 1) + " "
         heading_lines = []
@@ -156,21 +180,6 @@ class PromptCorpusNode(AnytreeNode):
             heading_content = text_lines[start][len(heading_prefix) :].strip()
             children_nodes = text_lines[start + 1 : end]
             PromptCorpusNode(heading_content, self, children_nodes)
-
-    def generate_heading_and_content_lines(self):
-        """
-        :return: a list of section heading and content of ``self``.
-                0th entry being section heading with ``#`` prefix;
-                the rest entries are each line of content
-        :rtype: list[str]
-        :example:
-        >>> node.generate_heading_and_content_lines()
-        ['### Node Heading', 'content 1st line', 'content 2nd line']
-        """
-        lines = []
-        lines.append(HEADING_PREFIX * self.depth + " " + self.name)
-        lines.extend(self.content)
-        return lines
 
     def generate_preview_tree_content_part(
         self, fill, preview_line_count, preview_line_width
