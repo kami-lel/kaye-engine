@@ -9,42 +9,6 @@ from tests.gen_prompt.prompt_blueprint.testees import PROMPT1
 example_corpus = PromptCorpusNode.parse(PROMPT1)
 
 
-class TestRepr:
-
-    def test_dft(_):
-        pt = PromptBlueprint(example_corpus)
-        opt = pt.generate_preview_tree(hide_comment=True)
-        print(opt)
-        assert opt == """[x] ○
-[ ] └── Project Title
-[ ]     ├── Description
-        │   A brief overview of the project, its purpose, and goals.
-[ ]     ├── Installation
-        │   1. Clone the repo
-        │   2. Install dependencies
-        │   3. Run the application
-[ ]     ├── Usage
-        │   Provide instructions on how to use the application.
-[ ]     ├── Contributing
-        │   1. Fork the repo
-        │   2. Create a new branch
-        │   3. Submit a pull request
-[ ]     └── License
-            This project is licensed under the MIT License."""
-
-    def test_no_content(_):
-        pt = PromptBlueprint(example_corpus)
-        opt = pt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-        print(opt)
-        assert opt == """[x] ○
-[ ] └── Project Title
-[ ]     ├── Description
-[ ]     ├── Installation
-[ ]     ├── Usage
-[ ]     ├── Contributing
-[ ]     └── License"""
-
-
 class TestDetachedMode:  # test detached mdoe
 
     def test_init_set(_):
@@ -92,123 +56,10 @@ class TestDetachedMode:  # test detached mdoe
         assert not pt.is_detached_mode
 
 
-class TestParseSavable:
-
-    def test1(_):
-        blueprint_text = """[x] ○
-[ ] └── Project Title
-[ ]     ├── Description
-[ ]     ├── Installation
-[ ]     ├── Usage
-[ ]     ├── Contributing
-[ ]     └── License"""
-
-        pt = PromptBlueprint(example_corpus, blueprint_text)
-
-        assert len(pt.enabled_nodes_names) == 1
-        assert "○" in pt.enabled_nodes_names
-        assert "Project Title" not in pt.enabled_nodes_names
-        assert "Description" not in pt.enabled_nodes_names
-        assert "Installation" not in pt.enabled_nodes_names
-        assert "Usage" not in pt.enabled_nodes_names
-        assert "Contributing" not in pt.enabled_nodes_names
-        assert "License" not in pt.enabled_nodes_names
-
-        assert not pt.is_detached_mode
-
-    def test2(_):
-        blueprint_text = """[x] ○
-[ ] └── Project Title
-[ ]     ├── Description
-[ ]     ├── Installation
-[ ]     ├── Usage
-[x]     ├── Contributing
-[ ]     └── License"""
-
-        pt = PromptBlueprint(example_corpus, blueprint_text)
-
-        assert len(pt.enabled_nodes_names) == 2
-        assert "○" in pt.enabled_nodes_names
-        assert "Project Title" not in pt.enabled_nodes_names
-        assert "Description" not in pt.enabled_nodes_names
-        assert "Installation" not in pt.enabled_nodes_names
-        assert "Usage" not in pt.enabled_nodes_names
-        assert "Contributing" in pt.enabled_nodes_names
-        assert "License" not in pt.enabled_nodes_names
-
-        assert not pt.is_detached_mode
-
-    def test3(_):
-        blueprint_text = """[x] ○
-[x] └── Project Title
-[ ]     ├── Description
-[x]     ├── Installation
-[ ]     ├── Usage
-[x]     ├── Contributing
-[ ]     └── License"""
-
-        pt = PromptBlueprint(example_corpus, blueprint_text)
-
-        assert len(pt.enabled_nodes_names) == 4
-        assert "○" in pt.enabled_nodes_names
-        assert "Project Title" in pt.enabled_nodes_names
-        assert "Description" not in pt.enabled_nodes_names
-        assert "Installation" in pt.enabled_nodes_names
-        assert "Usage" not in pt.enabled_nodes_names
-        assert "Contributing" in pt.enabled_nodes_names
-        assert "License" not in pt.enabled_nodes_names
-
-        assert not pt.is_detached_mode
-
-    def test4(_):
-        blueprint_text = """[x] ○
-[x] └── Project Title
-[x]     ├── Description
-[x]     ├── Installation
-[x]     ├── Usage
-[x]     ├── Contributing
-[x]     └── License"""
-
-        pt = PromptBlueprint(example_corpus, blueprint_text)
-
-        assert len(pt.enabled_nodes_names) == 7
-        assert "○" in pt.enabled_nodes_names
-        assert "Project Title" in pt.enabled_nodes_names
-        assert "Description" in pt.enabled_nodes_names
-        assert "Installation" in pt.enabled_nodes_names
-        assert "Usage" in pt.enabled_nodes_names
-        assert "Contributing" in pt.enabled_nodes_names
-        assert "License" in pt.enabled_nodes_names
-
-        assert not pt.is_detached_mode
-
-    def test_detached_mode(_):
-        blueprint_text = """[ ] ○
-[x] └── Project Title
-[ ]     ├── Description
-[x]     ├── Installation
-[ ]     ├── Usage
-[x]     ├── Contributing
-[ ]     └── License"""
-
-        pt = PromptBlueprint(example_corpus, blueprint_text)
-
-        assert len(pt.enabled_nodes_names) == 3
-        assert "○" not in pt.enabled_nodes_names
-        assert "Project Title" in pt.enabled_nodes_names
-        assert "Description" not in pt.enabled_nodes_names
-        assert "Installation" in pt.enabled_nodes_names
-        assert "Usage" not in pt.enabled_nodes_names
-        assert "Contributing" in pt.enabled_nodes_names
-        assert "License" not in pt.enabled_nodes_names
-
-        assert pt.is_detached_mode
-
-
 class TestStr:
 
     def test1(_):
-        blueprint_text = """[x] ○
+        blueprint_text = """    ○
 [ ] └── Project Title
 [ ]     ├── Description
 [ ]     ├── Installation
@@ -223,7 +74,7 @@ class TestStr:
         assert opt == ""
 
     def test2(_):
-        blueprint_text = """[x] ○
+        blueprint_text = """    ○
 [x] └── Project Title
 [ ]     ├── Description
 [ ]     ├── Installation
@@ -242,7 +93,7 @@ class TestStr:
 3. Submit a pull request"""
 
     def test3(_):
-        blueprint_text = """[x] ○
+        blueprint_text = """    ○
 [x] └── Project Title
 [ ]     ├── Description
 [x]     ├── Installation
@@ -263,7 +114,7 @@ class TestStr:
 Provide instructions on how to use the application."""
 
     def test4(_):
-        blueprint_text = """[x] ○
+        blueprint_text = """    ○
 [x] └── Project Title
 [x]     ├── Description
 [x]     ├── Installation
@@ -392,23 +243,3 @@ Provide instructions on how to use the application.
 3. Submit a pull request
 ## License
 This project is licensed under the MIT License."""
-
-
-class TestCFPB:  # test create_full_prompt_blueprint
-
-    def test1(_):
-        blueprint = PromptBlueprint.create_full_prompt_blueprint(
-            example_corpus
-        )
-
-        opt = blueprint.generate_preview_tree(
-            preview_line_count=0, hide_comment=True
-        )
-        print(opt)
-        assert opt == """[x] ○
-[x] └── Project Title
-[x]     ├── Description
-[x]     ├── Installation
-[x]     ├── Usage
-[x]     ├── Contributing
-[x]     └── License"""

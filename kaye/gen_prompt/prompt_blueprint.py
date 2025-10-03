@@ -40,14 +40,14 @@ class _PreviewTreeNode(Node):
                 '[ ] ' otherwise
         :rtype: str
         """
-        return (
-            "[x] "
-            if (
-                self.concurrent_corpus_node.names_path
-                in self.blueprint.enabled
-            )
-            else "[ ] "
+
+        # todo opmz w/ hash
+        names_path = self.concurrent_corpus_node.names_path
+        is_enabled = any(
+            (names_path == node.names_path) for node in self.blueprint.enabled
         )
+
+        return "[x] " if is_enabled else "[ ] "
 
     def __init__(self, blueprint, concurrent_corpus_node, parent):
         super().__init__(concurrent_corpus_node.name, parent)
@@ -105,13 +105,12 @@ class PromptBlueprint:
                 ``prompt_corpus``, and with **all nodes enabled**
         :rtype: PromptBlueprint
         """
-        # TODO TODO need tests
         blueprint = cls(
             prompt_corpus, blueprint_display_name=blueprint_display_name
         )
         # set all nodes
         for node in PreOrderIter(prompt_corpus):
-            if node is prompt_corpus:  # skip root node
+            if node.parent is None:  # skip root node
                 continue
 
             blueprint.enabled.append(node)
@@ -158,7 +157,7 @@ class PromptBlueprint:
         :example:
         >>> tree = PromptBlueprint(...)
         >>> tree.generate_preview_tree()
-        [x] ○
+            ○
         [x] └── Project Title
         [ ]     ├── Description
                 │   A brief overview of the project, its purpose, and goals.
@@ -176,7 +175,7 @@ class PromptBlueprint:
                     This project is licensed under the MIT License.
         (blueprint:conversation; Kaye v1.2.3)
         >>> tree.generate_preview_tree(preview_line_count=0, hide_comment=True)
-        [x] ○
+            ○
         [x] └── Project Title
         [ ]     ├── Description
         [ ]     ├── Installation
@@ -191,6 +190,11 @@ class PromptBlueprint:
 
         opt_lines = []
         for pre, fill, node in RenderTree(preview_tree, style=ContStyle()):
+            if node.parent is None:
+                root_line = "    {}".format(node.name)
+                opt_lines.append(root_line)
+                continue
+
             # create node / heading line
             heading_line = node.get_prefix_content() + pre + node.name
             opt_lines.append(heading_line)
@@ -226,7 +230,6 @@ class PromptBlueprint:
         ## Conclusion
         Summarizing the findings and implications.
         """
-        # TODO TODO need tests
         # generate lines from root node
         lines = self._generate_prompt_recursively(self.prompt_corpus)
 
@@ -237,7 +240,7 @@ class PromptBlueprint:
 
         return "\n".join(lines)
 
-    HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]──(.+) "
+    HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
     def __init__(
         self,
@@ -261,32 +264,47 @@ class PromptBlueprint:
 
         populate ``self.enabled`` by parsing the init param ``blueprint_text``
         """
-        # TODO TODO need tests
         lines = blueprint_text.split("\n")
 
-        path_hash2node = {
-            hash(tuple(node.names_path)): node
-            for node in self.prompt_corpus.descendants
+        path2node = {
+            node.names_path: node for node in self.prompt_corpus.descendants
         }
 
         # extract all enabled headings
-        path = []
+        previous_level = -1
+        previous_path = []
         for line in lines:
             match = re.fullmatch(self.HEADING_LINE_PATTERN, line)
-            if match:  # find all heading lines in the tree
-                is_checked = bool(match.group(1))
+            # find node / heading as a line
+            if match:
+                is_checked = match.group(1) == "x"
                 level = len(match.group(2)) // 4
                 heading = match.group(3)
 
+                # dynamically decide the names_path
+                if level > previous_level:
+                    if level - previous_level > 1:
+                        raise ValueError("bad format")  # Fixme use logger
+                    path = previous_path + [""]
+
+                elif level == previous_level:
+                    path = previous_path
+
+                else:
+                    path = previous_path[: level + 1]
+
                 path[level] = heading
-                path_hash = hash(tuple(path))
-                if path_hash not in path_hash2node:
+
+                path_tuple = tuple(path)
+                if path_tuple not in path2node:
                     # Fixme better wording, use logger
-                    raise ValueError
+                    raise ValueError(path)
 
                 if is_checked:
-                    node = path_hash2node[path_hash]
+                    node = path2node[path_tuple]
                     self.enabled.append(node)
+
+                previous_level, previous_path = level, path
 
     def _generate_prompt_recursively(self, node):
         """
