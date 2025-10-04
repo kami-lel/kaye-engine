@@ -1,13 +1,14 @@
 """show content of any of embedded blueprints"""
 
-from argparse import FileType
-
 from kaye import PROGRAM_NAME, kamilog
 from kaye.gen_prompt.prompt_blueprint_loader import (
     load_embedded_prompt_blueprint,
 )
 
-from .cli_prompt_generate import base_gen_show_parser
+from .cli_prompt_generate import (
+    base_gen_show_parser,
+    create_blueprint_from_generate_show,
+)
 
 
 def register_cli_prompt_show_parser(cli_prompt_subparser):
@@ -51,24 +52,17 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
         help="display the entire preview tree",
     )
 
-    # TODO flag options for full/partial preview tree
     kamilog.add_verbose_arguments(show_parser)
 
     # define main function  ----------------------------------------------------
     def _prompt_show_main(args):
         kamilog.set_logging_level_by_verbosity(args, PROGRAM_NAME)
 
-        # TODO use _create_blueprint_from_generate_show
+        blueprint = create_blueprint_from_generate_show(args)
 
-        # when calling ``python -m kaye prompt show``
-        blueprint_name = args.BLUEPRINT
-        try:
-            blueprint_obj = load_embedded_prompt_blueprint(blueprint_name)
-        except (FileNotFoundError, IOError, ValueError) as err:
-            logger.error(err)
-            raise
+        # FIXME need tests
 
-        blueprint_content = blueprint_obj.generate_preview_tree(
+        blueprint_content = blueprint.generate_preview_tree(
             preview_line_count=args.preview_line_count,
             preview_line_width=args.preview_line_width,
         )

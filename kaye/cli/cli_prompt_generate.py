@@ -9,6 +9,8 @@ from kaye.gen_prompt.prompt_blueprint_loader import (
 )
 from kaye.gen_prompt.prompt_corpus_loader import load_embedded_prompt_corpus
 
+logger = kamilog.getLogger(PROGRAM_NAME)
+
 # base parsers  ----------------------------------------------------------------
 # defining args shared by gen_parser and show_parser
 base_gen_show_parser = ArgumentParser(add_help=False)
@@ -41,8 +43,43 @@ base_gen_show_parser.add_argument(
 )
 
 
-def _create_blueprint_from_generate_show(namespace):
-    pass  # TODO use file name as blueprint display name
+def create_blueprint_from_generate_show(args):
+    """
+    :param args: parsed from ``gen_parser`` or ``show_parser``
+    :type args: argparse.Namespace
+    :return: create a blueprint object from cli,
+            shared by ``gen_parser`` and ``show_parser``
+    :rtype: PromptBlueprint
+    """
+
+    blueprint_arg = args.BLUEPRINT
+
+    if args.source_file:  # load from file
+        # TODO use file name as blueprint display name
+        try:
+            with open(blueprint_arg, "r", encoding="utf-8") as file:
+                file_content = file.read()
+
+        except (FileNotFoundError, OSError) as e:
+            raise ValueError(
+                'bad filename "{}" of BLUEPRINT with --source-file'.format(
+                    blueprint_arg
+                )
+            ) from e
+            # FIXME use logger
+
+        try:
+            return PromptBlueprint(load_embedded_prompt_corpus(), file_content)
+        except (FileNotFoundError, IOError, ValueError) as err:
+            logger.error(err)
+            raise
+
+    else:  # embedded blueprints
+        try:
+            return load_embedded_prompt_blueprint(blueprint_arg)
+        except (FileNotFoundError, IOError, ValueError) as err:
+            logger.error(err)
+            raise
 
 
 def register_cli_prompt_generate_parser(cli_prompt_subparser):
@@ -50,7 +87,6 @@ def register_cli_prompt_generate_parser(cli_prompt_subparser):
     create cli parser for ``kaye prompt generate``,
     and add it to ``cli_prompt_ls_parser``
     """
-    logger = kamilog.getLogger(PROGRAM_NAME)
 
     gen_parser = cli_prompt_subparser.add_parser(
         "generate",
@@ -70,38 +106,11 @@ def register_cli_prompt_generate_parser(cli_prompt_subparser):
         # todo interactive mode which allow user set preview line, etc.
         kamilog.set_logging_level_by_verbosity(args, PROGRAM_NAME)
 
-        # TODO use _create_blueprint_from_generate_show
+        blueprint = create_blueprint_from_generate_show(args)
 
-        blueprint_arg = args.BLUEPRINT
+        # FIXME need tests
 
-        if args.source_file:
-            try:
-                with open(blueprint_arg, "r", encoding="utf-8") as file:
-                    file_content = file.read()
-
-            except (FileNotFoundError, OSError) as e:
-                raise ValueError(
-                    'bad filename "{}" of BLUEPRINT with --source-file'.format(
-                        blueprint_arg
-                    )
-                ) from e
-
-            try:
-                blueprint_obj = PromptBlueprint(
-                    load_embedded_prompt_corpus(), file_content
-                )
-            except (FileNotFoundError, IOError) as err:
-                logger.error(err)
-                raise
-
-        else:
-            try:
-                blueprint_obj = load_embedded_prompt_blueprint(blueprint_arg)
-            except (FileNotFoundError, IOError, ValueError) as err:
-                logger.error(err)
-                raise
-
-        prompt_content = blueprint_obj.generate_prompt(
+        prompt_content = blueprint.generate_prompt(
             hide_comment=args.no_comment
         )
 
