@@ -19,12 +19,12 @@
         {
           "title": "date",
           "type": "string",
-          "description": "MM-dd format, required, ??? when missing"
+          "description": "MM-dd format, required"
         },
         {
           "title": "currency_symbol",
           "type": "string",
-          "description": "required, see Currency Symbol"
+          "description": "required"
         },
         {
           "title": "amount_out",
@@ -39,17 +39,17 @@
         {
           "title": "party_from",
           "type": "string",
-          "description": "see Party From&To; required"
+          "description": "required"
         },
         {
           "title": "party_to",
           "type": "string",
-          "description": "see Party From&To; required"
+          "description": "required"
         },
         {
           "title": "category",
           "type": "string",
-          "description": "see Categories"
+          "description": "required"
         },
         {
           "title": "remarks",
