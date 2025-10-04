@@ -28,6 +28,7 @@
 CLI:
 
 - split parsing logic into multiple files under `./kaye/cli/`
+- adjustments on option argument of `kaye prompt show/gen`
 
 `gen_prompt` module:
 
