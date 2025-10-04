@@ -17,7 +17,6 @@
 
 
 
-
 ## [Unreleased]
 
 ### Added
@@ -25,11 +24,6 @@
 - utility module `kamilog` version `v1.2.0`
 
 ### Changed
-
-`kaye_cash_tracker` dify app:
-
-- use secret environment variable to hide user accounts details
-- provide common transaction parties for better info extraction
 
 CLI:
 
@@ -40,6 +34,11 @@ CLI:
 - add functions `load_empty_prompt_blueprint`, `load_full_prompt_blueprint`
   and adjust related code
 - use `.kaye_blueprint` to store all blueprint files
+
+`kaye_cash_tracker` dify app:
+
+- use secret environment variable to hide user accounts details
+- provide common transaction parties for better info extraction
 
 `kaye_commit_sense` dify app:
 
