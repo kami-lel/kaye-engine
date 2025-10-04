@@ -68,7 +68,7 @@ def register_cli_prompt_generate_parser(cli_prompt_subparser):
         help="disable last-line prompt comment in result",
     )
     kamilog.add_verbose_arguments(gen_parser)
-    # Todo use file name as blueprint display name
+    # TODO use file name as blueprint display name
 
     # define main function  ----------------------------------------------------
     def _prompt_generate_main(args):
