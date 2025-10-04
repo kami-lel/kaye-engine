@@ -92,7 +92,6 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
         prompt_blueprint_name, ""
     )
     if not prompt_file_path:
-        # FIXME use logger
         raise ValueError(
             "'{}' is not a recognized embedded prompt blueprint.".format(
                 prompt_blueprint_name
