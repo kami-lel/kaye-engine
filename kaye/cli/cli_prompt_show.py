@@ -1,9 +1,6 @@
 """show content of any of embedded blueprints"""
 
 from kaye import PROGRAM_NAME, kamilog
-from kaye.gen_prompt.prompt_blueprint_loader import (
-    load_embedded_prompt_blueprint,
-)
 
 from .cli_prompt_generate import (
     base_gen_show_parser,
@@ -16,7 +13,6 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
     create cli parser for ``kaye prompt show``,
     and add it to ``cli_prompt_subparser``
     """
-    logger = kamilog.getLogger(PROGRAM_NAME)
 
     show_parser = cli_prompt_subparser.add_parser(
         "show",
@@ -45,9 +41,9 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
         help="maximum line width for each entry in blueprint preview",
         default=None,
     )
-    base_gen_show_parser.add_argument(
+    show_parser.add_argument(
         "-t",
-        "--full-preview-tree",
+        "--show-full-tree",
         action="store_true",
         help="display the entire preview tree",
     )
@@ -60,18 +56,20 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
 
         blueprint = create_blueprint_from_generate_show(args)
 
-        # FIXME need tests
-
         blueprint_content = blueprint.generate_preview_tree(
+            show_full_tree=args.show_full_tree,
             preview_line_count=args.preview_line_count,
             preview_line_width=args.preview_line_width,
+            hide_comment=args.no_comment,
         )
 
-        # with --file file
-        if args.file:
-            with args.file as f:
+        # with --destination-file FILE
+        if args.destination_file:
+            # TODO logger debug
+            with args.destination_file as f:
                 f.write(blueprint_content)
         else:
+            # TODO logger debug
             print(blueprint_content)
 
     show_parser.set_defaults(func=_prompt_show_main)

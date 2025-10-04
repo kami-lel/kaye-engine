@@ -102,9 +102,9 @@ class PromptBlueprint:
             if ``None``: create an **empty** prompt blueprint,
             i.e. all nodes disabled
     :type blueprint_text: str
-    :param blueprint_display_name: display name given to the prompt,
+    :param display_name: display name given to the prompt,
             defaults to ""
-    :type blueprint_display_name: str, optional
+    :type display_name: str, optional
     """
 
     @classmethod
@@ -266,9 +266,9 @@ class PromptBlueprint:
         prompt_corpus,
         blueprint_text=None,
         *,
-        blueprint_display_name="",
+        display_name="",
     ):
-        self.display_name = blueprint_display_name
+        self.display_name = display_name
         self.prompt_corpus = prompt_corpus
 
         # list of all enabled nodes

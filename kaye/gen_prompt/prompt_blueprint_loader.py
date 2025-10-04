@@ -85,15 +85,14 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     if prompt_blueprint_name == FULL_BLUEPRINT_NAME:
         return PromptBlueprint.create_full_prompt_blueprint(corpus)
     elif prompt_blueprint_name == EMPTY_BLUEPRINT_NAME:
-        return PromptBlueprint(
-            corpus, blueprint_display_name=prompt_blueprint_name
-        )
+        return PromptBlueprint(corpus, display_name=prompt_blueprint_name)
 
     # assert prompt_name is an existing prompt file
     prompt_file_path = _get_embedded_prompt_blueprints_names_and_paths().get(
         prompt_blueprint_name, ""
     )
     if not prompt_file_path:
+        # FIXME use logger
         raise ValueError(
             "'{}' is not a recognized embedded prompt blueprint.".format(
                 prompt_blueprint_name
@@ -103,7 +102,9 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     # read content
     with open(prompt_file_path, "r", encoding="utf-8") as file:
         content = file.read()
-        return PromptBlueprint(corpus, content, prompt_blueprint_name)
+        return PromptBlueprint(
+            corpus, content, display_name=prompt_blueprint_name
+        )
 
 
 def load_empty_prompt_blueprint():

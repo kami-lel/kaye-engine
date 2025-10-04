@@ -1,6 +1,7 @@
 """generate concrete prompt from blueprint"""
 
 from argparse import FileType, ArgumentParser
+from pathlib import Path
 
 from kaye import PROGRAM_NAME, kamilog
 from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
@@ -55,7 +56,6 @@ def create_blueprint_from_generate_show(args):
     blueprint_arg = args.BLUEPRINT
 
     if args.source_file:  # load from file
-        # TODO use file name as blueprint display name
         try:
             with open(blueprint_arg, "r", encoding="utf-8") as file:
                 file_content = file.read()
@@ -68,8 +68,14 @@ def create_blueprint_from_generate_show(args):
             ) from e
             # FIXME use logger
 
+        filename = Path(blueprint_arg).stem
+
         try:
-            return PromptBlueprint(load_embedded_prompt_corpus(), file_content)
+            return PromptBlueprint(
+                load_embedded_prompt_corpus(),
+                file_content,
+                display_name=filename,
+            )
         except (FileNotFoundError, IOError, ValueError) as err:
             logger.error(err)
             raise
@@ -108,17 +114,17 @@ def register_cli_prompt_generate_parser(cli_prompt_subparser):
 
         blueprint = create_blueprint_from_generate_show(args)
 
-        # FIXME need tests
-
         prompt_content = blueprint.generate_prompt(
             hide_comment=args.no_comment
         )
 
-        # with --file FILE
-        if args.file:
-            with args.file as f:
+        # with --destination-file FILE
+        if args.destination_file:
+            # TODO logger debug
+            with args.destination_file as f:
                 f.write(prompt_content)
         else:
+            # TODO logger debug
             print(prompt_content)
 
     gen_parser.set_defaults(func=_prompt_generate_main)
