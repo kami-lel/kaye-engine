@@ -7,6 +7,8 @@ from kaye.gen_prompt.prompt_blueprint_loader import (
     load_embedded_prompt_blueprint,
 )
 
+from .cli_prompt_generate import base_gen_show_parser
+
 
 def register_cli_prompt_show_parser(cli_prompt_subparser):
     """
@@ -19,24 +21,11 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
         "show",
         help=__doc__,
         description=__doc__,
+        parents=[base_gen_show_parser],
     )
 
     # add arguments  -----------------------------------------------------------
-    # positional argument
-    show_parser.add_argument(
-        "BLUEPRINT",
-        help="name of any embedded blueprints",
-        type=str,
-    )
     # options
-    show_parser.add_argument(
-        "-f",
-        "--file",
-        metavar="FILE",
-        type=FileType(mode="w"),
-        nargs="?",
-        help="save the result to file",
-    )
     show_parser.add_argument(
         "-l",
         "--preview-line-count",
@@ -63,6 +52,8 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
     # define main function  ----------------------------------------------------
     def _prompt_show_main(args):
         kamilog.set_logging_level_by_verbosity(args, PROGRAM_NAME)
+
+        # TODO use _create_blueprint_from_generate_show
 
         # when calling ``python -m kaye prompt show``
         blueprint_name = args.BLUEPRINT
