@@ -2,13 +2,6 @@
 
 [^format]
 
-<!-- hack sections of corpus currently disabled:
-Role.Peer Coder.JavaScript & TypeScript
-Role.Peer Coder.Qt
-Role.Peer Coder.Python.Testing Guideline
-Role.Conversation Tag Generation -->
-<!-- todo test & improve git commit message -->
-
 
 
 
@@ -31,6 +24,56 @@ Role.Conversation Tag Generation -->
 ### Deprecated
 ### Removed
 ### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.9.0] - 2025-10-04
+
+### Added
+
+- utility module `kamilog` version `v1.2.0`
+
+### Changed
+
+CLI:
+
+- split parsing logic into multiple files under `./kaye/cli/`
+- adjustments on option argument of `kaye prompt show/gen`
+
+`gen_prompt` module:
+
+- add functions `load_empty_prompt_blueprint`, `load_full_prompt_blueprint`
+  and adjust related code
+- use `.kaye_blueprint` to store all blueprint files
+
+`kaye_cash_tracker` dify app:
+
+- use secret environment variable to hide user accounts details
+- provide common transaction parties for better info extraction
+
+`kaye_commit_sense` dify app:
+
+- different behavior dealing with single/multiple files commits
+- dynamically generate prompts by `gen_prompt` module using script
+- utilize `long_short_threshold` to decide if a file's change is large/small
+- extract filename by code node, instead of LLM (unstable result)
+
+### Removed
+
+- functions of cli `kaye generate_vsc_continue_prompts`
 
 
 
@@ -893,7 +936,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.8.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.9.0...dev
+[4.9.0]: https://github.com/kami-lel/kaye/compare/v4.8.1...v4.9.0
 [4.8.1]: https://github.com/kami-lel/kaye/compare/v4.8.0...v4.8.1
 [4.8.0]: https://github.com/kami-lel/kaye/compare/v4.7.6...v4.8.0
 [4.7.6]: https://github.com/kami-lel/kaye/compare/v4.7.5...v4.7.6

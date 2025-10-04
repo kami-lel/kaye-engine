@@ -11,7 +11,8 @@ from kaye.gen_prompt import (
 
 blueprints_folder_path = os.path.normpath(
     os.path.join(
-        os.path.dirname(__file__), "../../../kaye/gen_prompt/prompt_blueprints"
+        os.path.dirname(__file__),
+        "../../../kaye/gen_prompt/embedded_blueprints",
     )
 )
 non_tech_blueprints = set(
@@ -37,7 +38,9 @@ class TestGEPBN:  # get_embedded_prompt_blueprints_names
         assert set(opt) == expected
 
     def test_exclude(_):  # exclude tech blueprints
-        opt = get_embedded_prompt_blueprints_names(True)
+        opt = get_embedded_prompt_blueprints_names(
+            exclude_technical_blueprint=True
+        )
         print(opt)
         # Assert that both lists contain the same elements regardless of order
         assert set(opt) == non_tech_blueprints

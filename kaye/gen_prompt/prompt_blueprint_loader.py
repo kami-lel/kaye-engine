@@ -1,5 +1,6 @@
 """
-define ``get_prompt_templates_names``, ``load_prompt_template``
+define ``get_prompt_templates_names``, ``load_prompt_template``,
+``load_embedded_prompt_corpus``
 """
 
 import os
@@ -8,12 +9,16 @@ from pathlib import Path
 from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .prompt_blueprint import PromptBlueprint
 
-TECHNICAL_BLUEPRINT = ["full", "empty"]
+EMPTY_BLUEPRINT_NAME = "empty"
+FULL_BLUEPRINT_NAME = "full"
+TECHNICAL_BLUEPRINT = [EMPTY_BLUEPRINT_NAME, FULL_BLUEPRINT_NAME]
 
 __all__ = (
     "get_embedded_prompt_blueprints_folder_path",
     "get_embedded_prompt_blueprints_names",
     "load_embedded_prompt_blueprint",
+    "load_empty_prompt_blueprint",
+    "load_full_prompt_blueprint",
 )
 
 
@@ -24,27 +29,36 @@ def get_embedded_prompt_blueprints_folder_path():
     :rtype: pathlib.Path
     """
     # find folder path by relative path from this script
-    return (Path(__file__).resolve().parent / "prompt_blueprints").absolute()
+    return (Path(__file__).resolve().parent / "embedded_blueprints").absolute()
 
 
-def get_embedded_prompt_blueprints_names(exclude_technical_blueprint=False):
+def get_embedded_prompt_blueprints_names(
+    *, exclude_technical_blueprint=False, enable_sort=False
+):
     """
     :param exclude_technical_blueprint: exclude technical blueprints
             ("full", "empty") from the resulted list
     :type exclude_technical_blueprint: bool, optional
     :return: names of all available embedded prompt blueprints,
             including special case "full"
+    :param enable_sort: whether sort the blueprint name list
+    :type enable_sort: bool
     :rtype: list(str)
     :raises FileNotFoundError:
     :raises OSError:
     """
-    opt = list(_get_embedded_prompt_blueprints_names_and_paths().keys())
+    blueprints_names = list(
+        _get_embedded_prompt_blueprints_names_and_paths().keys()
+    )
 
     # include technical blueprints if required
     if not exclude_technical_blueprint:
-        opt.extend(TECHNICAL_BLUEPRINT)
+        blueprints_names.extend(TECHNICAL_BLUEPRINT)
 
-    return opt
+    if enable_sort:
+        blueprints_names = sorted(blueprints_names)
+
+    return blueprints_names
 
 
 def load_embedded_prompt_blueprint(prompt_blueprint_name):
@@ -68,14 +82,10 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
 
     # deal with technical prompts
     # technical blueprints
-    if prompt_blueprint_name == "full":
+    if prompt_blueprint_name == FULL_BLUEPRINT_NAME:
         return PromptBlueprint.create_full_prompt_blueprint(corpus)
-    elif prompt_blueprint_name == "empty":
-        return PromptBlueprint(
-            corpus,
-            prompt_blueprint_name=prompt_blueprint_name,
-            detached_mode=True,
-        )
+    elif prompt_blueprint_name == EMPTY_BLUEPRINT_NAME:
+        return PromptBlueprint(corpus, display_name=prompt_blueprint_name)
 
     # assert prompt_name is an existing prompt file
     prompt_file_path = _get_embedded_prompt_blueprints_names_and_paths().get(
@@ -91,7 +101,27 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     # read content
     with open(prompt_file_path, "r", encoding="utf-8") as file:
         content = file.read()
-        return PromptBlueprint(corpus, content, prompt_blueprint_name)
+        return PromptBlueprint(
+            corpus, content, display_name=prompt_blueprint_name
+        )
+
+
+def load_empty_prompt_blueprint():
+    """
+    Load **empty** prompt blueprints embedded with this Python package
+
+    Q.v. ``load_embedded_prompt_blueprint()``
+    """
+    return load_embedded_prompt_blueprint(EMPTY_BLUEPRINT_NAME)
+
+
+def load_full_prompt_blueprint():
+    """
+    Load **full** prompt blueprints embedded with this Python package
+
+    Q.v. ``load_embedded_prompt_blueprint()``
+    """
+    return load_embedded_prompt_blueprint(FULL_BLUEPRINT_NAME)
 
 
 def _get_embedded_prompt_blueprints_names_and_paths():
