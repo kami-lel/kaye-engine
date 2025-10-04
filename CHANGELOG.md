@@ -20,6 +20,29 @@
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.9.0] - 2025-10-04
+
+### Added
 
 - utility module `kamilog` version `v1.2.0`
 
@@ -48,12 +71,9 @@ CLI:
 - utilize `long_short_threshold` to decide if a file's change is large/small
 - extract filename by code node, instead of LLM (unstable result)
 
-### Deprecated
 ### Removed
 
 - functions of cli `kaye generate_vsc_continue_prompts`
-
-### Fixed
 
 
 
@@ -916,7 +936,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.8.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.9.0...dev
+[4.9.0]: https://github.com/kami-lel/kaye/compare/v4.8.1...v4.9.0
 [4.8.1]: https://github.com/kami-lel/kaye/compare/v4.8.0...v4.8.1
 [4.8.0]: https://github.com/kami-lel/kaye/compare/v4.7.6...v4.8.0
 [4.7.6]: https://github.com/kami-lel/kaye/compare/v4.7.5...v4.7.6
