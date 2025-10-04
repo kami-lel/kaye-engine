@@ -57,6 +57,7 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
     )
     # Todo read from blueprint file
     # Todo use file name as blueprint display name
+    # Todo flag options for full/partial preview tree
     kamilog.add_verbose_arguments(show_parser)
 
     # define main function  ----------------------------------------------------
