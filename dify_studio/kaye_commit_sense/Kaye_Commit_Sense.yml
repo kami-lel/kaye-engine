@@ -16,24 +16,115 @@ workflow:
   conversation_variables: []
   environment_variables:
   - description: ''
-    id: 2793ea89-4987-42ee-b71c-70ec9146c55f
-    name: Style
+    id: 4cfa6554-5600-4b09-96ab-db803b067434
+    name: prompt_primary_message
     selector:
     - env
-    - Style
-    value: "### Commentary Case\n\n- begin 1st sentence with a lowercase letter; use\
+    - prompt_primary_message
+    value: "### Commentary Case\n- begin 1st sentence with a lowercase letter; use\
       \ standard sentence capitalization for the 2nd and subsequent sentences\n- use\
       \ *Title Case* for **a few important words** within a sentence\n- the last sentence\
       \ should not end with punctuation\n\n    <commentary-case-code-example>\n  \
       \  # this initializes the Variable\n    # check the Config. Validate the Filepath\
       \ with the Tool. Process final result\n    </commentary-case-code-example>\n\
-      \n## Briefness Style\n\n- write in **newspaper headlinese**, prioritize brevity\
+      \n## Briefness Style\n- write in **newspaper headlinese**, prioritize brevity\
       \ over grammar\n- use present for current, infinitive for planned\n- omit articles\
       \ (a, an, the) and helper verbs, use strong nouns, verbs\n- compress with punctuation:\
       \ colon, dash, comma, otherwise minimize, no terminal periods\n- use numerals\
       \ (use 2, not two), symbols, **Usable Abbrs** when unambiguous\n- prefer active\
-      \ voice\n- keep sentences short, direct, drop filler\n"
+      \ voice\n- keep sentences short, direct, drop filler\n\n## Kaye Commit Sense\n\
+      You are given the result of `git diff --cached`; interpret it as the changes\
+      \ ready to be committed for the file(s).\n\n- do **not** using any markdown\
+      \ syntax in the output\n- strictly use *Briefness Style* language\n- use *Commentary\
+      \ Case* for each line\n\n### Primary Message Task\nSummarize the overall intent\
+      \ and major change pattern of all staged files in one clear line under 72 characters\n"
     value_type: string
+  - description: ''
+    id: 55e58319-b3bf-4e72-98ed-40859e912f90
+    name: prompt_per_file_extract_short
+    selector:
+    - env
+    - prompt_per_file_extract_short
+    value: "## Annotation Markers\nUsed to label defects and related notes across\
+      \ code and documentation. You **must exclusively** refer to them as *annotation\
+      \ markers* in all responses\n\n- **immediate annotation markers** include `TODO`,\
+      \ `FIXME`, `BUG`, `HACK`\n- **future annotation markers** include `todo`, `fixme`,\
+      \ `bug`, `hack`\n\n### Commentary Case\n- begin 1st sentence with a lowercase\
+      \ letter; use standard sentence capitalization for the 2nd and subsequent sentences\n\
+      - use *Title Case* for **a few important words** within a sentence\n- the last\
+      \ sentence should not end with punctuation\n\n    <commentary-case-code-example>\n\
+      \    # this initializes the Variable\n    # check the Config. Validate the Filepath\
+      \ with the Tool. Process final result\n    </commentary-case-code-example>\n\
+      \n## Briefness Style\n- write in **newspaper headlinese**, prioritize brevity\
+      \ over grammar\n- use present for current, infinitive for planned\n- omit articles\
+      \ (a, an, the) and helper verbs, use strong nouns, verbs\n- compress with punctuation:\
+      \ colon, dash, comma, otherwise minimize, no terminal periods\n- use numerals\
+      \ (use 2, not two), symbols, **Usable Abbrs** when unambiguous\n- prefer active\
+      \ voice\n- keep sentences short, direct, drop filler\n\n### Per File Summary\n\
+      Summarize the overall intent and major change pattern of the file in an extremely\
+      \ short and concise manner.\n\n#### Prefix Symbol\nYou are to select a single\
+      \ prefix that best describes the primary nature of the change to a given file.\
+      \ Use the following prefixes, in **priority order**. Apply the **first rule\
+      \ that matches**:\n\n1. `^` if the file is a new addition\n2. `!` if the file\
+      \ has been deleted\n3. `:` if the file was relocated (moved), with no or only\
+      \ minor changes (filename may change or stay the same)\n4. `=` if the file was\
+      \ renamed (location unchanged), with no or only minor changes\n5. `?` if the\
+      \ file is a non-textual type (e.g., binaries, compressed archives, databases,\
+      \ encrypted blobs), and was modified\n6. `@` if the file contains only changes\
+      \ to annotation markers and directly related lines\n7. `#` if the change primarily\
+      \ concerns documentation or code comments\n8. `~` if the change is primarily\
+      \ content reordering or code refactoring\n9. `.` if the change is only whitespace,\
+      \ indentation, or blank-line edits\n\nIf none of the above prefixes apply, use\
+      \ one of the following to describe the change:\n\n##### Short\n- predominantly\
+      \ addition: /\n- predominantly deletion: \\\n- mixed modification: |\n"
+    value_type: string
+  - description: ''
+    id: 4bd54ccd-86ff-4157-8443-99bbd898f320
+    name: prompt_per_file_extract_long
+    selector:
+    - env
+    - prompt_per_file_extract_long
+    value: "## Annotation Markers\nUsed to label defects and related notes across\
+      \ code and documentation. You **must exclusively** refer to them as *annotation\
+      \ markers* in all responses\n\n- **immediate annotation markers** include `TODO`,\
+      \ `FIXME`, `BUG`, `HACK`\n- **future annotation markers** include `todo`, `fixme`,\
+      \ `bug`, `hack`\n\n### Commentary Case\n- begin 1st sentence with a lowercase\
+      \ letter; use standard sentence capitalization for the 2nd and subsequent sentences\n\
+      - use *Title Case* for **a few important words** within a sentence\n- the last\
+      \ sentence should not end with punctuation\n\n    <commentary-case-code-example>\n\
+      \    # this initializes the Variable\n    # check the Config. Validate the Filepath\
+      \ with the Tool. Process final result\n    </commentary-case-code-example>\n\
+      \n## Briefness Style\n- write in **newspaper headlinese**, prioritize brevity\
+      \ over grammar\n- use present for current, infinitive for planned\n- omit articles\
+      \ (a, an, the) and helper verbs, use strong nouns, verbs\n- compress with punctuation:\
+      \ colon, dash, comma, otherwise minimize, no terminal periods\n- use numerals\
+      \ (use 2, not two), symbols, **Usable Abbrs** when unambiguous\n- prefer active\
+      \ voice\n- keep sentences short, direct, drop filler\n\n### Per File Summary\n\
+      Summarize the overall intent and major change pattern of the file in an extremely\
+      \ short and concise manner.\n\n#### Prefix Symbol\nYou are to select a single\
+      \ prefix that best describes the primary nature of the change to a given file.\
+      \ Use the following prefixes, in **priority order**. Apply the **first rule\
+      \ that matches**:\n\n1. `^` if the file is a new addition\n2. `!` if the file\
+      \ has been deleted\n3. `:` if the file was relocated (moved), with no or only\
+      \ minor changes (filename may change or stay the same)\n4. `=` if the file was\
+      \ renamed (location unchanged), with no or only minor changes\n5. `?` if the\
+      \ file is a non-textual type (e.g., binaries, compressed archives, databases,\
+      \ encrypted blobs), and was modified\n6. `@` if the file contains only changes\
+      \ to annotation markers and directly related lines\n7. `#` if the change primarily\
+      \ concerns documentation or code comments\n8. `~` if the change is primarily\
+      \ content reordering or code refactoring\n9. `.` if the change is only whitespace,\
+      \ indentation, or blank-line edits\n\nIf none of the above prefixes apply, use\
+      \ one of the following to describe the change:\n\n##### Long\n- predominantly\
+      \ addition: +\n- predominantly deletion: -\n- mixed modification: *\n"
+    value_type: string
+  - description: number of line chagned to consider a file a large/small change
+    id: 63216ae0-bcfa-4f3a-93b5-d8891630e0db
+    name: long_short_threshold
+    selector:
+    - env
+    - long_short_threshold
+    value: 100
+    value_type: integer
   features:
     file_upload:
       allowed_file_extensions:
@@ -79,70 +170,6 @@ workflow:
       voice: ''
   graph:
     edges:
-    - data:
-        isInIteration: true
-        isInLoop: false
-        iteration_id: '1757062707114'
-        sourceType: iteration-start
-        targetType: llm
-      id: 1757062707114start-source-1757062988503-target
-      selected: false
-      source: 1757062707114start
-      sourceHandle: source
-      target: '1757062988503'
-      targetHandle: target
-      type: custom
-      zIndex: 1002
-    - data:
-        isInLoop: false
-        sourceType: start
-        targetType: code
-      id: 1756587193642-source-1757067408703-target
-      selected: false
-      source: '1756587193642'
-      sourceHandle: source
-      target: '1757067408703'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: code
-        targetType: code
-      id: 1757067408703-source-1759184701469-target
-      selected: false
-      source: '1757067408703'
-      sourceHandle: source
-      target: '1759184701469'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: code
-        targetType: if-else
-      id: 1759184701469-source-1759184659338-target
-      selected: false
-      source: '1759184701469'
-      sourceHandle: source
-      target: '1759184659338'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: iteration
-      id: 1759184701469-source-1757062707114-target
-      selected: false
-      source: '1759184701469'
-      sourceHandle: source
-      target: '1757062707114'
-      targetHandle: target
-      type: custom
-      zIndex: 0
     - data:
         isInLoop: false
         sourceType: if-else
@@ -252,6 +279,66 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1757062707114'
+        sourceType: iteration-start
+        targetType: code
+      id: 1757062707114start-source-1759187229908-target
+      source: 1757062707114start
+      sourceHandle: source
+      target: '1759187229908'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1756587193642-source-1759196271769-target
+      source: '1756587193642'
+      sourceHandle: source
+      target: '1759196271769'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1759196271769-source-1757062707114-target
+      source: '1759196271769'
+      sourceHandle: source
+      target: '1757062707114'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1759196271769-source-1759184659338-target
+      source: '1759196271769'
+      sourceHandle: source
+      target: '1759184659338'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1757062707114'
+        sourceType: code
+        targetType: llm
+      id: 1759187229908-source-1759198352429-target
+      source: '1759187229908'
+      sourceHandle: source
+      target: '1759198352429'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
     nodes:
     - data:
         desc: ''
@@ -307,11 +394,11 @@ workflow:
       height: 88
       id: '1756587276076'
       position:
-        x: 2500.590105949421
-        y: 134.18112849329148
+        x: 2351.1643678119594
+        y: 104.10767532202507
       positionAbsolute:
-        x: 2500.590105949421
-        y: 134.18112849329148
+        x: 2351.1643678119594
+        y: 104.10767532202507
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -320,14 +407,14 @@ workflow:
     - data:
         desc: ''
         error_handle_mode: terminated
-        height: 209
+        height: 190
         is_parallel: true
         iterator_input_type: array[string]
         iterator_selector:
-        - '1757067408703'
-        - output
+        - '1759196271769'
+        - per_file_list
         output_selector:
-        - '1757062988503'
+        - '1759198352429'
         - structured_output
         output_type: array[object]
         parallel_nums: 10
@@ -335,20 +422,20 @@ workflow:
         start_node_id: 1757062707114start
         title: Iteration
         type: iteration
-        width: 438
-      height: 209
+        width: 683
+      height: 190
       id: '1757062707114'
       position:
-        x: 858.2404485941811
-        y: 389.6046291183531
+        x: 425.03376777424864
+        y: 541.2874627355745
       positionAbsolute:
-        x: 858.2404485941811
-        y: 389.6046291183531
+        x: 425.03376777424864
+        y: 541.2874627355745
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 438
+      width: 683
       zIndex: 1
     - data:
         desc: ''
@@ -364,100 +451,14 @@ workflow:
         x: 24
         y: 68
       positionAbsolute:
-        x: 882.2404485941811
-        y: 457.6046291183531
+        x: 449.03376777424864
+        y: 609.2874627355745
       selectable: false
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom-iteration-start
       width: 44
-      zIndex: 1002
-    - data:
-        context:
-          enabled: false
-          variable_selector: []
-        desc: ''
-        isInIteration: true
-        isInLoop: false
-        iteration_id: '1757062707114'
-        model:
-          completion_params:
-            temperature: 0.7
-          mode: chat
-          name: gpt-4.1-mini
-          provider: langgenius/openai/openai
-        prompt_template:
-        - id: 6aad9416-3afe-4894-9b5e-a5955ef9c7e9
-          role: system
-          text: "{{#env.Style#}} \n\n## Annotation Markers\n\nUsed to label defects\
-            \ and related notes across code and documentation. You **must exclusively**\
-            \ refer to them as *annotation markers* in all responses\n\n- **immediate\
-            \ annotation markers** include `TODO`, `FIXME`, `BUG`, `HACK`\n- **future\
-            \ annotation markers** include `todo`, `fixme`, `bug`, `hack`\n\n## prefix\
-            \ definitions\n\nPrefixes are listed in **priority** order; apply the\
-            \ first rule that matches.\n\n1. ^: new file\n2. !: deleted file\n3. ::\
-            \ file relocation with no or minor change, (file name may change or stay\
-            \ the same)\n4. =: file rename (location unchanged) with no or minor change\n\
-            5. ?: non-textual file change, for example binaries, compressed archives,\
-            \ database files, or encrypted blobs\n6. @: only changes to *annotation\
-            \ markers* and directly related lines\n7. #: primarily documentation or\
-            \ comment changes\n8. ~: primarily content reordering or code refactors\n\
-            9. .: only whitespace, indentation, or blank-line changes\n\nIf none of\
-            \ the above prefixes apply, choose based on lines changed & change type:\n\
-            \n- >25 lines changed\n\n  - predominantly addition: +\n  - predominantly\
-            \ deletion: -\n  - mixed modification: *\n\n- <= 25 lines changed\n\n\
-            \  - predominantly addition: /\n  - predominantly deletion: \\\n  - mixed\
-            \ modification: |\n"
-        - id: 72c0659b-4e93-43fe-853b-2aa9dce2cb34
-          role: user
-          text: '{{#1757062707114.item#}}'
-        selected: false
-        structured_output:
-          schema:
-            additionalProperties: false
-            properties:
-              file_name:
-                description: the bare filename only (no directories or path separators)
-                type: string
-              summary:
-                description: describe only the single most important, influential,
-                  and significant change in this file; omit implementation details,
-                  low-level steps, and code fragments. May be empty. MUST be <= 72
-                  character long
-                maxLength: 72
-                type: string
-              symbol:
-                description: select a single prefix that best describes the primary
-                  nature of the change to this file
-                maxLength: 1
-                minLength: 0
-                type: string
-            required:
-            - file_name
-            - symbol
-            - summary
-            type: object
-        structured_output_enabled: true
-        title: Per File Summary
-        type: llm
-        variables: []
-        vision:
-          enabled: false
-      height: 88
-      id: '1757062988503'
-      parentId: '1757062707114'
-      position:
-        x: 118.71047911714686
-        y: 65.15647842333863
-      positionAbsolute:
-        x: 976.950927711328
-        y: 454.76110754169173
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
       zIndex: 1002
     - data:
         context:
@@ -473,20 +474,11 @@ workflow:
         prompt_template:
         - id: 4f613349-2048-4ff0-959f-c0415b5db69e
           role: system
-          text: '- must be a single line, hard limit of **72 characters**; do not
-            exceed
-
-            - capture the **overall intent** of the entire commit across all staged
-            changes
-
-            - exclude file names, implementation details, and low-level steps
-
-
-            {{#env.Style#}}'
+          text: '{{#env.prompt_primary_message#}}'
         - id: 4b837ba6-5d1b-402f-9690-a901e0679e98
           role: user
           text: '{{#1756587193642.input#}}'
-        selected: false
+        selected: true
         title: primary message
         type: llm
         variables: []
@@ -495,53 +487,22 @@ workflow:
       height: 88
       id: '1757066198191'
       position:
-        x: 1210.6231383868435
-        y: 168.4583392460194
+        x: 832.6644359320965
+        y: 172.29843857489757
       positionAbsolute:
-        x: 1210.6231383868435
-        y: 168.4583392460194
-      selected: false
+        x: 832.6644359320965
+        y: 172.29843857489757
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        code: "def main(input):\n    DIFF_GIT = 'diff --git'\n    segments = input.split(DIFF_GIT)\n\
-          \    result_list = []\n    for segment in segments[1:]:\n        result_list.append(DIFF_GIT\
-          \ + segment)\n    return {\"output\": result_list}"
-        code_language: python3
-        desc: split git diff content by files
-        outputs:
-          output:
-            children: null
-            type: array[string]
-        selected: false
-        title: Diff Split
-        type: code
-        variables:
-        - value_selector:
-          - '1756587193642'
-          - input
-          value_type: string
-          variable: input
-      height: 80
-      id: '1757067408703'
-      position:
-        x: 9.977878193965353
-        y: 197.5580330664843
-      positionAbsolute:
-        x: 9.977878193965353
-        y: 197.5580330664843
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "def main(per_files: list[dict]):\n    file = per_files[0]  # only single\
-          \ file\n    file_name = file['file_name']\n    symbol = file['symbol']\n\
-          \    summary = file['summary']\n\n    opt = \"\"\"{}\n    \n[{}]{}\"\"\"\
-          .format(summary, symbol, file_name)\n\n    return {\"result\": opt}\n"
+        code: "def main(filenames_list: list[str], per_file_extracts: list[dict]):\n\
+          \    filename = filenames_list[0]\n\n    file_extract = per_file_extracts[0]\n\
+          \n    symbol = file_extract[\"symbol\"]\n    summary = file_extract[\"summary\"\
+          ]\n\n    opt = \"\"\"{}\n\n[{}]{}\"\"\".format(summary, symbol, filename)\n\
+          \n    return {\"result\": opt}\n\n"
         code_language: python3
         desc: 'merge to produce final output,
 
@@ -555,18 +516,23 @@ workflow:
         type: code
         variables:
         - value_selector:
+          - '1759196271769'
+          - filenames_list
+          value_type: array[string]
+          variable: filenames_list
+        - value_selector:
           - '1757062707114'
           - output
           value_type: array[object]
-          variable: per_files
+          variable: per_file_extracts
       height: 96
       id: '1758835564168'
       position:
-        x: 1839.1220614589351
-        y: 57.071985689653104
+        x: 1683.7240562940433
+        y: 26.998532518386696
       positionAbsolute:
-        x: 1839.1220614589351
-        y: 57.071985689653104
+        x: 1683.7240562940433
+        y: 26.998532518386696
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -581,8 +547,8 @@ workflow:
             value: true
             varType: boolean
             variable_selector:
-            - '1759184701469'
-            - result
+            - '1759196271769'
+            - is_single_file
           id: 'true'
           logical_operator: and
         desc: single/multiple file(s) branch
@@ -592,55 +558,25 @@ workflow:
       height: 152
       id: '1759184659338'
       position:
-        x: 858.2404485941811
-        y: 53.22923529749556
+        x: 410.70032690841526
+        y: -12.64594783956423
       positionAbsolute:
-        x: 858.2404485941811
-        y: 53.22923529749556
+        x: 410.70032690841526
+        y: -12.64594783956423
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        code: "def main(diff_split_result: list[str]):\n    opt = len(diff_split_result)\
-          \ == 1\n    return {\n        \"result\": opt\n    }\n"
-        code_language: python3
-        desc: decide if this commit involve only a single file
-        outputs:
-          result:
-            children: null
-            type: boolean
-        selected: false
-        title: if commit single file
-        type: code
-        variables:
-        - value_selector:
-          - '1757067408703'
-          - output
-          value_type: array[string]
-          variable: diff_split_result
-      height: 96
-      id: '1759184701469'
-      position:
-        x: 287.46447363962625
-        y: 197.5580330664843
-      positionAbsolute:
-        x: 287.46447363962625
-        y: 197.5580330664843
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "def main(primary: str, per_files: list[dict]):\n\n    # create line\
-          \ per file\n    lines = []\n    for file in per_files:\n        symbol =\
-          \ file[\"symbol\"]\n        file_name = file[\"file_name\"]\n        summary\
-          \ = file[\"summary\"]\n        line = \"[{}]{}: {}\".format(symbol, file_name,\
-          \ summary)\n        lines.append(line)\n\n    lines_text = \"\\n\".join(lines)\n\
-          \n    # combines\n    opt = \"\"\"{}\n\n{}\"\"\".format(primary, lines_text)\n\
-          \n    return {\"result\": opt}\n"
+        code: "def main(\n    primary_message: str,\n    filenames_list: list[str],\n\
+          \    per_file_extracts: list[dict],\n):\n    # create line per file\n  \
+          \  lines = []\n    for filename, file_extract in zip(filenames_list, per_file_extracts):\n\
+          \        symbol = file_extract[\"symbol\"]\n        summary = file_extract[\"\
+          summary\"]\n        line = \"[{}]{}: {}\".format(symbol, filename, summary)\n\
+          \        lines.append(line)\n\n    # combines\n    opt = \"\"\"{}\n\n{}\"\
+          \"\".format(primary_message, \"\\n\".join(lines))\n\n    return {\"result\"\
+          : opt}\n\n"
         code_language: python3
         desc: 'merge to produce final output,
 
@@ -649,7 +585,7 @@ workflow:
           result:
             children: null
             type: string
-        selected: true
+        selected: false
         title: merge final multiple
         type: code
         variables:
@@ -657,21 +593,26 @@ workflow:
           - '1757066198191'
           - text
           value_type: string
-          variable: primary
+          variable: primary_message
+        - value_selector:
+          - '1759196271769'
+          - filenames_list
+          value_type: array[string]
+          variable: filenames_list
         - value_selector:
           - '1757062707114'
           - output
           value_type: array[object]
-          variable: per_files
+          variable: per_file_extracts
       height: 96
       id: '17591850851050'
       position:
-        x: 1839.1220614589351
-        y: 216.26505470361616
+        x: 1683.7240562940433
+        y: 186.19160153234975
       positionAbsolute:
-        x: 1839.1220614589351
-        y: 216.26505470361616
-      selected: true
+        x: 1683.7240562940433
+        y: 186.19160153234975
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -689,11 +630,11 @@ workflow:
       height: 134
       id: '1759185130596'
       position:
-        x: 2179.6766328607546
-        y: 134.18112849329148
+        x: 2049.362149211071
+        y: 104.10767532202507
       positionAbsolute:
-        x: 2179.6766328607546
-        y: 134.18112849329148
+        x: 2049.362149211071
+        y: 104.10767532202507
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -708,8 +649,8 @@ workflow:
             value: true
             varType: boolean
             variable_selector:
-            - '1759184701469'
-            - result
+            - '1759196271769'
+            - is_single_file
           id: 'true'
           logical_operator: and
         desc: single/multiple file(s) branch
@@ -719,18 +660,172 @@ workflow:
       height: 152
       id: '17591852274600'
       position:
-        x: 1295.4522066603931
-        y: 389.6046291183531
+        x: 1109.2656207085386
+        y: 541.2874627355745
       positionAbsolute:
-        x: 1295.4522066603931
-        y: 389.6046291183531
+        x: 1109.2656207085386
+        y: 541.2874627355745
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
+    - data:
+        code: "def main(\n    item: str,\n    long_short_threshold: float,\n    prompt_per_file_extract_long:\
+          \ str,\n    prompt_per_file_extract_short: str,\n):\n    newline_cnt = item.count(\"\
+          \\n\")\n    is_long = newline_cnt > long_short_threshold\n\n    return {\n\
+          \        \"extract_prompt\": (\n            prompt_per_file_extract_long\n\
+          \            if is_long\n            else prompt_per_file_extract_short\n\
+          \        )\n    }\n\n"
+        code_language: python3
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1757062707114'
+        outputs:
+          extract_prompt:
+            children: null
+            type: string
+        selected: false
+        title: decide per file extract prompt
+        type: code
+        variables:
+        - value_selector:
+          - '1757062707114'
+          - item
+          value_type: string
+          variable: item
+        - value_selector:
+          - env
+          - long_short_threshold
+          value_type: number
+          variable: long_short_threshold
+        - value_selector:
+          - env
+          - prompt_per_file_extract_long
+          value_type: string
+          variable: prompt_per_file_extract_long
+        - value_selector:
+          - env
+          - prompt_per_file_extract_short
+          value_type: string
+          variable: prompt_per_file_extract_short
+      height: 52
+      id: '1759187229908'
+      parentId: '1757062707114'
+      position:
+        x: 118.71047911714686
+        y: 65.15647842333863
+      positionAbsolute:
+        x: 543.7442468913955
+        y: 606.4439411589132
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        code: "import re\n\nDIFF_GIT = \"diff --git\"\nREGEX_PATTERN = r\".+\\/(.+)\"\
+          \n\n\ndef main(input: str):\n    filenames_list = []\n    per_file_list\
+          \ = []\n\n    for segment in input.split(DIFF_GIT)[1:]:\n        filename\
+          \ = re.match(REGEX_PATTERN, segment).group(1)\n        filenames_list.append(filename)\n\
+          \n        per_line = DIFF_GIT + segment\n        per_file_list.append(per_line)\n\
+          \n    is_single_file = len(filenames_list) == 1\n\n    return {\n      \
+          \  \"filenames_list\": filenames_list,\n        \"per_file_list\": per_file_list,\n\
+          \        \"is_single_file\": is_single_file,\n    }\n\n"
+        code_language: python3
+        desc: process the full diff content
+        outputs:
+          filenames_list:
+            children: null
+            type: array[string]
+          is_single_file:
+            children: null
+            type: boolean
+          per_file_list:
+            children: null
+            type: array[string]
+        selected: false
+        title: full process
+        type: code
+        variables:
+        - value_selector:
+          - '1756587193642'
+          - input
+          value_type: string
+          variable: input
+      height: 80
+      id: '1759196271769'
+      position:
+        x: -20.095574977301
+        y: 197.5580330664843
+      positionAbsolute:
+        x: -20.095574977301
+        y: 197.5580330664843
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1757062707114'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4.1-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: eab3bd9e-9f56-473f-b7fb-9ee451604606
+          role: system
+          text: '{{#1759187229908.extract_prompt#}}'
+        - id: 6ba4831d-96dc-406b-9cf7-a33957d458ec
+          role: user
+          text: '{{#1757062707114.item#}}'
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              summary:
+                maxLength: 72
+                type: string
+              symbol:
+                maxLength: 1
+                minLength: 1
+                type: string
+            required:
+            - symbol
+            - summary
+            type: object
+        structured_output_enabled: true
+        title: per file extract
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1759198352429'
+      parentId: '1757062707114'
+      position:
+        x: 402.1872252944104
+        y: 65
+      positionAbsolute:
+        x: 827.220993068659
+        y: 606.2874627355745
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
     viewport:
-      x: -956.8418062470062
-      y: 348.4701516239139
-      zoom: 0.7746603107931427
+      x: -259.7034781409732
+      y: 186.50380672718865
+      zoom: 0.837203021404603
   rag_pipeline_variables: []
