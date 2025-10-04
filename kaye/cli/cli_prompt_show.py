@@ -7,6 +7,8 @@ from .cli_prompt_generate import (
     create_blueprint_from_generate_show,
 )
 
+logger = kamilog.getLogger(PROGRAM_NAME)
+
 
 def register_cli_prompt_show_parser(cli_prompt_subparser):
     """
@@ -65,11 +67,16 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
 
         # with --destination-file FILE
         if args.destination_file:
-            # TODO logger debug
             with args.destination_file as f:
                 f.write(blueprint_content)
+
+            logger.debug(
+                "blueprint preview tree saved to: %s",
+                args.destination_file.name,
+            )
+
         else:
-            # TODO logger debug
+            logger.debug("render blueprint preview tree")
             print(blueprint_content)
 
     show_parser.set_defaults(func=_prompt_show_main)

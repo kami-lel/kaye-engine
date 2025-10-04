@@ -60,13 +60,15 @@ def create_blueprint_from_generate_show(args):
             with open(blueprint_arg, "r", encoding="utf-8") as file:
                 file_content = file.read()
 
-        except (FileNotFoundError, OSError) as e:
-            raise ValueError(
+        except (FileNotFoundError, OSError) as err:
+            err2 = ValueError(
                 'bad filename "{}" of BLUEPRINT with --source-file'.format(
                     blueprint_arg
                 )
-            ) from e
-            # FIXME use logger
+            )
+            err2.__cause__ = err
+            logger.critical(err2)
+            raise
 
         filename = Path(blueprint_arg).stem
 
@@ -120,11 +122,16 @@ def register_cli_prompt_generate_parser(cli_prompt_subparser):
 
         # with --destination-file FILE
         if args.destination_file:
-            # TODO logger debug
             with args.destination_file as f:
                 f.write(prompt_content)
+
+            logger.debug(
+                "rendered blueprint prompt save to: %s",
+                args.destination_file.name,
+            )
+
         else:
-            # TODO logger debug
+            logger.debug("render blueprint prompt")
             print(prompt_content)
 
     gen_parser.set_defaults(func=_prompt_generate_main)
