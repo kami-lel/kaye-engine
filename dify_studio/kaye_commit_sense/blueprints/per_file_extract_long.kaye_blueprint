@@ -1,0 +1,12 @@
+    ○
+[ ] ├── Elements
+[x] │   └── Annotation Markers
+[ ] ├── Style
+[ ] │   ├── Capitalization Style
+[x] │   │   └── Commentary Case
+[x] │   └── Briefness Style
+[ ] └── Role
+[ ]     └── Kaye Commit Sense
+[x]         └── Per File Summary
+[x]             └── Prefix Symbol
+[x]                 └── Long

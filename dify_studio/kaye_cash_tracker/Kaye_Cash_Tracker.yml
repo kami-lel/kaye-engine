@@ -18,32 +18,79 @@ kind: app
 version: 0.4.0
 workflow:
   conversation_variables:
-  - description: content of transactions, as a md table
-    id: 78665b3d-25cc-4047-b46a-7f8495fc3f14
-    name: transactions_md
+  - description: transactions maintained over rounds
+    id: cfeb9259-a48c-457a-9c6a-bd89ace48670
+    name: transactions_array
     selector:
     - conversation
-    - transactions_md
-    value: ''
-    value_type: string
-  - description: 1 if transctions is ready to be pushed into database, 0 otherwise
-    id: ab5df7ea-bd58-437b-9896-a5288c02c6ba
-    name: is_pushable
-    selector:
-    - conversation
-    - is_pushable
-    value: 0
-    value_type: integer
-  - description: 'all transactions of current conversation:'
-    id: 4954490c-1b8f-4729-8701-d01e8b12a24a
-    name: transactions
-    selector:
-    - conversation
-    - transactions
+    - transactions_array
     value:
       rows: []
     value_type: object
+  - description: ''
+    id: a0a0e634-6712-439d-b63b-649440ddbd38
+    name: prompt_extract_info
+    selector:
+    - conversation
+    - prompt_extract_info
+    value: "# Introduction\nYou are **Kaye**, an AI assisting *agent* to the *user*.\n\
+      \n### Extract Info\nYou are a personal finance assistant. Extract all transaction\
+      \ details from user messages or images and compile them into a JSON two-dimensional\
+      \ array, in increasing date order (newest at the bottom). Use provided Existing\
+      \ Transactions as a baseline, merging with new data into a single, updated table.\n\
+      \nRules:\n- record each transaction as a separate entry, using the correct category\
+      \ codes and required format\n- for missing or unclear required fields, enter\
+      \ ???; for empty optional fields, use an empty string\n- verify all required\
+      \ information is present; if not, ask the user for missing details\n- do not\
+      \ modify the table structure\n- after any update, always display the full, updated\
+      \ table for review\n- use concise, clear language for requests and confirmations\n\
+      - ensure all transactions are complete before providing summaries or analytics\
+      \ if requested\n- assign categories using the codes provided, making reasonable\
+      \ assumptions if needed\n\nAlways maintain accurate, complete, and clear transaction\
+      \ records.\n\ntoday: {TODAY}\n\n##### Existing Transactions\n\n{TRANSACTIONS}\n\
+      \n##### Currency Symbol\n\n- $: USD\n- ¥: RMB/Chinese Yuan\n- HK$\n- €\n\n#####\
+      \ Party From & To\n\nUser Accounts:\n\n{USER_ACCOUNTS}\n\nCommon Other Parties:\n\
+      \n{COMMON_OTHER_PARTIES}\n\nTransaction type decides party_from and party_to\
+      \ content:\n\n- Income:\n\n  - party_from: payer (e.g., employer for salary,\
+      \ bank for investment,) or User Account\n  - party_to: often User Account\n\n\
+      - Expense:\n  - party_from: often User Account\n  - party_to: recipient (e.g.,\
+      \ restaurant, grocery,) or User Account\n\nFor payer and recipient, extract\
+      \ info and fill field with commonly known names using clear capitalization.\n\
+      \n##### Categories\n\nSelect the most likely category abbreviation for each\
+      \ transaction based on its details.\n\n- A: Salary\n- B: Balance\n  - BT: Account\
+      \ transfer\n  - BI: Investment principal\n  - BC: Currency exchange\n  - BR:\
+      \ Yearly carryover\n- C: Clothing\n- D: Dining\n  - DB: Coffee/bar\n- E: Electronics/Device\n\
+      - F: Gift\n  - FO: Offering/church\n- G: Grocery\n  - GB: Alcohol, coffee, beverages\n\
+      - H: Housing\n- I: Investment/Finance\n  - IP: Profit\n  - IF: Fee\n- M: Medical/Insurance\n\
+      - N: Education\n- O: Online\n  - OG: Online Game\n- P: Personal\n- R: Recreation\n\
+      \  - RE: Event\n- S: Supplies\n- T: Transportation\n- U: Utilities\n- V: Vacation\n\
+      - X: Tax\n- Y: Payback from individuals\n- Z: Miscellaneous\n"
+    value_type: string
   environment_variables:
+  - description: ''
+    id: f5b8e763-1977-40f5-a8a0-460a7598f697
+    name: common_other_parties
+    selector:
+    - env
+    - common_other_parties
+    value: ''
+    value_type: secret
+  - description: ''
+    id: 7153dfd2-95c7-4722-a07a-c852f66e0fd4
+    name: user_accounts
+    selector:
+    - env
+    - user_accounts
+    value: ''
+    value_type: secret
+  - description: keyword to use in conversation to trigger push
+    id: 250d7407-3e68-4633-b4aa-5694e75c7701
+    name: push_trigger
+    selector:
+    - env
+    - push_trigger
+    value: PUSH
+    value_type: string
   - description: which sheet contains the main data part
     id: 72d19e8a-2184-4303-b098-28712cfeb58a
     name: google_sheet_name
@@ -58,8 +105,8 @@ workflow:
     selector:
     - env
     - google_sheet_id
-    value: 1BxwHWXcpgL-zH-UDU_JuN9pXwVERfLtfAKd6GfXSGJc
-    value_type: string
+    value: ''
+    value_type: secret
   features:
     file_upload:
       allowed_file_extensions:
@@ -106,92 +153,6 @@ workflow:
   graph:
     edges:
     - data:
-        isInLoop: false
-        sourceType: assigner
-        targetType: code
-      id: 1757199830234-source-1757200206103-target
-      selected: false
-      source: '1757199830234'
-      sourceHandle: source
-      target: '1757200206103'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: code
-      id: 1757193459119-false-1757200206103-target
-      selected: false
-      source: '1757193459119'
-      sourceHandle: 'false'
-      target: '1757200206103'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: template-transform
-        targetType: llm
-      id: 1757327014618-source-1757203447144-target
-      selected: false
-      source: '1757327014618'
-      sourceHandle: source
-      target: '1757203447144'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: llm
-        targetType: code
-      id: 1757203447144-source-1757328597649-target
-      selected: false
-      source: '1757203447144'
-      sourceHandle: source
-      target: '1757328597649'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: assigner
-      id: 1757328597649-source-1757199830234-target
-      selected: false
-      source: '1757328597649'
-      sourceHandle: source
-      target: '1757199830234'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: code
-      id: 1757203447144-source-1757100234840-target
-      selected: false
-      source: '1757203447144'
-      sourceHandle: source
-      target: '1757100234840'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: assigner
-      id: 1757100234840-source-1757199830234-target
-      selected: false
-      source: '1757100234840'
-      sourceHandle: source
-      target: '1757199830234'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInIteration: false
         isInLoop: false
         sourceType: tool
@@ -201,43 +162,6 @@ workflow:
       source: '1757355389668'
       sourceHandle: source
       target: '1757356715142'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: template-transform
-        targetType: tool
-      id: 1757357329653-source-1757355389668-target
-      selected: false
-      source: '1757357329653'
-      sourceHandle: source
-      target: '1757355389668'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: code
-      id: 1757356715142-source-1757353902819-target
-      selected: false
-      source: '1757356715142'
-      sourceHandle: source
-      target: '1757353902819'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: tool
-      id: 1757353902819-source-1757358619560-target
-      selected: false
-      source: '1757353902819'
-      sourceHandle: source
-      target: '1757358619560'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -255,90 +179,13 @@ workflow:
       zIndex: 0
     - data:
         isInLoop: false
-        sourceType: if-else
-        targetType: template-transform
-      id: 1757193459119-true-1757357329653-target
-      source: '1757193459119'
-      sourceHandle: 'true'
-      target: '1757357329653'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: tool
-        targetType: llm
-      id: 1757363098690-source-1757203447144-target
-      source: '1757363098690'
-      sourceHandle: source
-      target: '1757203447144'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
         sourceType: answer
         targetType: assigner
       id: 1757199641292-source-1757200011862-target
+      selected: false
       source: '1757199641292'
       sourceHandle: source
       target: '1757200011862'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: answer
-      id: 1757200206103-source-answer-target
-      source: '1757200206103'
-      sourceHandle: source
-      target: answer
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: start
-        targetType: if-else
-      id: 1757003052142-source-1757396822111-target
-      source: '1757003052142'
-      sourceHandle: source
-      target: '1757396822111'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: if-else
-      id: 1757396822111-true-1757193459119-target
-      source: '1757396822111'
-      sourceHandle: 'true'
-      target: '1757193459119'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: template-transform
-      id: 1757396822111-false-1757327014618-target
-      source: '1757396822111'
-      sourceHandle: 'false'
-      target: '1757327014618'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: tool
-      id: 1757396822111-false-1757363098690-target
-      source: '1757396822111'
-      sourceHandle: 'false'
-      target: '1757363098690'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -348,9 +195,162 @@ workflow:
         sourceType: tool
         targetType: answer
       id: 1757358619560-fail-branch-1758157796312-target
+      selected: false
       source: '1757358619560'
       sourceHandle: fail-branch
       target: '1758157796312'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: tool
+      id: 1758838128097-source-1757355389668-target
+      selected: false
+      source: '1758838128097'
+      sourceHandle: source
+      target: '1757355389668'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1757003052142-source-1759202358714-target
+      source: '1757003052142'
+      sourceHandle: source
+      target: '1759202358714'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1759202358714-source-1759202724150-target
+      selected: false
+      source: '1759202358714'
+      sourceHandle: source
+      target: '1759202724150'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - animated: true
+      data:
+        sourceType: code
+        targetType: if-else
+      id: tmp_1759202358714-source-1759202724150-target
+      selected: false
+      source: '1759202358714'
+      sourceHandle: source_tmp
+      target: '1759202724150'
+      targetHandle: target_tmp
+      type: custom
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1759202724150-true-1758838128097-target
+      selected: false
+      source: '1759202724150'
+      sourceHandle: 'true'
+      target: '1758838128097'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1757356715142-source-1759203319094-target
+      selected: false
+      source: '1757356715142'
+      sourceHandle: source
+      target: '1759203319094'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: tool
+      id: 1759203319094-source-1757358619560-target
+      selected: false
+      source: '1759203319094'
+      sourceHandle: source
+      target: '1757358619560'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1759202724150-false-1757363098690-target
+      source: '1759202724150'
+      sourceHandle: 'false'
+      target: '1757363098690'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: code
+      id: 1757363098690-source-1759204166762-target
+      source: '1757363098690'
+      sourceHandle: source
+      target: '1759204166762'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: answer
+      id: 1757100234840-source-answer-target
+      source: '1757100234840'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: assigner
+      id: 1757203447144-source-1757199830234-target
+      source: '1757203447144'
+      sourceHandle: source
+      target: '1757199830234'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1757203447144-source-1757100234840-target
+      source: '1757203447144'
+      sourceHandle: source
+      target: '1757100234840'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1759204166762-source-1757203447144-target
+      source: '1759204166762'
+      sourceHandle: source
+      target: '1757203447144'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -378,20 +378,20 @@ workflow:
         answer: 'fill missing info ???, provide new info, or PUSH
 
 
-          {{#conversation.transactions_md#}}'
+          {{#1757100234840.result#}}'
         desc: ''
         selected: false
         title: Answer
         type: answer
         variables: []
-      height: 119
+      height: 118
       id: answer
       position:
-        x: 2363.5127734114712
-        y: 431.03771643277946
+        x: 2163.686672529107
+        y: 784.787142817307
       positionAbsolute:
-        x: 2363.5127734114712
-        y: 431.03771643277946
+        x: 2163.686672529107
+        y: 784.787142817307
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -410,13 +410,13 @@ workflow:
           \        md_lines.append(\"| \" + \" | \".join(row_processed) + \" |\")\n\
           \    md_table = \"\\n\".join(md_lines)\n    return {\"result\": md_table}"
         code_language: python3
-        desc: take transactions json, and convert it to a md table to be used in conversation
+        desc: ''
         outputs:
           result:
             children: null
             type: string
         selected: false
-        title: json 2 md table
+        title: 'transactions array to md '
         type: code
         variables:
         - value_selector:
@@ -424,44 +424,14 @@ workflow:
           - structured_output
           value_type: object
           variable: transactions
-      height: 96
+      height: 52
       id: '1757100234840'
       position:
-        x: 1192.1925120563064
-        y: 656.6005089533724
+        x: 1871.926979944084
+        y: 784.787142817307
       positionAbsolute:
-        x: 1192.1925120563064
-        y: 656.6005089533724
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        cases:
-        - case_id: 'true'
-          conditions:
-          - comparison_operator: '='
-            id: 02f2e7da-8ba4-4537-90fe-614c2a95c9b7
-            value: '1'
-            varType: number
-            variable_selector:
-            - conversation
-            - is_pushable
-          id: 'true'
-          logical_operator: and
-        desc: ''
-        selected: false
-        title: Validate Pushable Branch
-        type: if-else
-      height: 124
-      id: '1757193459119'
-      position:
-        x: 595.1178681649056
-        y: 164.13479565191045
-      positionAbsolute:
-        x: 595.1178681649056
-        y: 164.13479565191045
+        x: 1871.926979944084
+        y: 784.787142817307
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -474,17 +444,17 @@ workflow:
           [Google Sheets](https://docs.google.com/spreadsheets/d/{{#env.google_sheet_id#}}/edit)'
         desc: ''
         selected: false
-        title: Answer Pushed
+        title: Push Failed
         type: answer
         variables: []
       height: 135
       id: '1757199641292'
       position:
-        x: 2643.629746084044
-        y: 35.43845163933776
+        x: 2416.6965011201078
+        y: -513.9352729776037
       positionAbsolute:
-        x: 2643.629746084044
-        y: 35.43845163933776
+        x: 2416.6965011201078
+        y: -513.9352729776037
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -500,38 +470,20 @@ workflow:
           - structured_output
           variable_selector:
           - conversation
-          - transactions
-          write_mode: over-write
-        - input_type: variable
-          operation: over-write
-          value:
-          - '1757328597649'
-          - result
-          variable_selector:
-          - conversation
-          - is_pushable
-          write_mode: over-write
-        - input_type: variable
-          operation: over-write
-          value:
-          - '1757100234840'
-          - result
-          variable_selector:
-          - conversation
-          - transactions_md
+          - transactions_array
           write_mode: over-write
         selected: false
         title: Variable Assigner
         type: assigner
         version: '2'
-      height: 136
+      height: 84
       id: '1757199830234'
       position:
-        x: 1534.1857525570715
-        y: 513.3071362240263
+        x: 1871.926979944084
+        y: 1094.9356986665055
       positionAbsolute:
-        x: 1534.1857525570715
-        y: 513.3071362240263
+        x: 1871.926979944084
+        y: 1094.9356986665055
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -545,56 +497,20 @@ workflow:
           value: ''
           variable_selector:
           - conversation
-          - transactions
-          write_mode: over-write
-        - input_type: constant
-          operation: set
-          value: 0
-          variable_selector:
-          - conversation
-          - is_pushable
-          write_mode: over-write
-        - input_type: variable
-          operation: clear
-          value: ''
-          variable_selector:
-          - conversation
-          - transactions_md
+          - transactions_array
           write_mode: over-write
         selected: false
         title: 'Empty Transactions '
         type: assigner
         version: '2'
-      height: 136
+      height: 84
       id: '1757200011862'
       position:
-        x: 3075.208218750914
-        y: 35.43845163933776
+        x: 2658.158330258897
+        y: -513.9352729776037
       positionAbsolute:
-        x: 3075.208218750914
-        y: 35.43845163933776
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "def main():\n    return {}"
-        code_language: python3
-        desc: ''
-        outputs: {}
-        selected: false
-        title: no op
-        type: code
-        variables: []
-      height: 52
-      id: '1757200206103'
-      position:
-        x: 1924.211314628252
-        y: 431.03771643277946
-      positionAbsolute:
-        x: 1924.211314628252
-        y: 431.03771643277946
+        x: 2658.158330258897
+        y: -513.9352729776037
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -613,38 +529,7 @@ workflow:
         prompt_template:
         - id: 3f516f34-fc6f-4832-8ecf-a0e66a3de8cb
           role: system
-          text: "You are a personal finance assistant. Extract all transaction details\
-            \ from user messages or uploaded images and compile them into a JSON two-dimensional\
-            \ array. Use the provided Existing Transactions as a baseline, updating\
-            \ and merging them with new data to output a single, combined set. Assign\
-            \ categories using the codes below, making reasonable assumptions if needed.\
-            \ Ensure all records are accurate, complete, and clear.\n\nToday: {{#1757363098690.text#}}\n\
-            Existing Transactions: {{#1757327014618.output#}}\n\n## Currency Symbol\n\
-            \n- $: USD\n- ¥: RMB/Chinese Yuan\n- HK$\n- €\n\n## Party From & To\n\n\
-            Transaction type decides party_from and party_to content:\n\n- Income:\n\
-            \  - party_from: payer (e.g., employer for salary, bank for investment,)\
-            \ or User Account\n  - party_to: often User Account\n\n- Expense:\n  -\
-            \ party_from: often User Account\n  - party_to: recipient (e.g., restaurant,\
-            \ grocery,) or User Account\n\nFor payer and recipient, extract info and\
-            \ fill field with commonly known names using clear capitalization.\n\n\
-            User Accounts:\n\n- BOC: Bank of China Debit\n- BOA: Bank of America Debit\n\
-            - BOAC: Bank of America USC Credit Card\n- ABC: Agricultural Bank of China\
-            \ Credit Card\n- WX: WeChat Wallet\n- ALI: Alipay\n- CASH: Physical cash\n\
-            \nUser Accounts:\n\n- BOC: Bank of China Debit\n- BOA: Bank of America\
-            \ Debit\n- BOAC: Bank of America USC Credit Card\n- ABC: Agricultural\
-            \ Bank of China Credit Card\n- WX: WeChat Wallet\n- ALI: Alipay\n- CASH:\
-            \ Physical cash\n\n## Categories\n\nSelect the most likely category abbreviation\
-            \ for each transaction based on its details. Choose only from the list\
-            \ below and enter the abbreviation in the category field.\n\n- A: Salary\n\
-            - B: Balance\n  - BT: Account transfer\n  - BI: Investment principal\n\
-            \  - BC: Currency exchange\n  - BR: Yearly carryover\n- C: Clothing\n\
-            - D: Dining\n  - DB: Coffee/bar\n- E: Electronics/Device\n- F: Gift\n\
-            \  - FO: Offering/church\n- G: Grocery\n  - GB: Alcohol, coffee, beverages\n\
-            - H: Housing\n- I: Investment/Finance\n  - IP: Profit\n  - IF: Fee\n-\
-            \ M: Medical/Insurance\n- N: Education\n- O: Online\n  - OG: Online Game\n\
-            - P: Personal\n- R: Recreation\n  - RE: Event\n- S: Supplies\n- T: Transportation\n\
-            - U: Utilities\n- V: Vacation\n- X: Tax\n- Y: Payback from individuals\n\
-            - Z: Miscellaneous\n"
+          text: '{{#1759204166762.result#}}'
         - id: 263db14f-07bf-4cc3-b643-30605bc4b873
           role: user
           text: '{{#sys.query#}}
@@ -742,123 +627,12 @@ workflow:
       height: 88
       id: '1757203447144'
       position:
-        x: 911.8374671463712
-        y: 513.3071362240263
+        x: 1507.0540914005142
+        y: 937.5640240319121
       positionAbsolute:
-        x: 911.8374671463712
-        y: 513.3071362240263
+        x: 1507.0540914005142
+        y: 937.5640240319121
       selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        desc: ''
-        selected: false
-        template: '{{ transactions }}'
-        title: json 2 string
-        type: template-transform
-        variables:
-        - value_selector:
-          - conversation
-          - transactions
-          value_type: object
-          variable: transactions
-      height: 52
-      id: '1757327014618'
-      position:
-        x: 588.818645643104
-        y: 513.3071362240263
-      positionAbsolute:
-        x: 588.818645643104
-        y: 513.3071362240263
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "def main(transactions):\n    rows = transactions.get(\"rows\", [])\n\
-          \    for row in rows:\n        for cell in row:\n            if str(cell)\
-          \ == \"???\":  # match exact triple question marks\n                return\
-          \ {\"result\": 0}  # return dict with failure code\n    return {\"result\"\
-          : 1}  # return dict with success code\n\n"
-        code_language: python3
-        desc: calculate if the new transactions is pushable
-        outputs:
-          result:
-            children: null
-            type: number
-        selected: false
-        title: calc pushable
-        type: code
-        variables:
-        - value_selector:
-          - '1757203447144'
-          - structured_output
-          value_type: object
-          variable: transactions
-      height: 96
-      id: '1757328597649'
-      position:
-        x: 1192.1925120563064
-        y: 514.6266441347992
-      positionAbsolute:
-        x: 1192.1925120563064
-        y: 514.6266441347992
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "def main(transactions, sheet_name, first_empty_row):\n    rows_from\
-          \ = transactions[\"rows\"]\n\n    # generate range\n    sheet_range = \"\
-          {}!A{}:H{}\".format(\n        sheet_name, first_empty_row, first_empty_row\
-          \ + len(rows_from) - 1\n    )\n\n    # generate values\n    rows_to = []\n\
-          \    for row in rows_from:\n        current_row = []\n        for i, col\
-          \ in enumerate(row):\n            if i in (2, 3) and col:  # amount in/out\n\
-          \                # convert to number for amount in/out col, when not empty\n\
-          \                current_row.append(col)\n            else:  # string entry\n\
-          \                current_row.append('\"{}\"'.format(col))\n\n        row_content\
-          \ = \",\".join(current_row)\n        rows_to.append(row_content)\n\n   \
-          \ values = \"[{}]\".format(\",\".join(\"[{}]\".format(row) for row in rows_to))\n\
-          \n    result = '[{{\"range\": \"{}\", \"values\": {}}}]'.format(sheet_range,\
-          \ values)\n    return {\"result\": result}"
-        code_language: python3
-        desc: change transactions json -> spreadd sheet json object
-        outputs:
-          result:
-            children: null
-            type: string
-        selected: false
-        title: Adapt 2 Sheet
-        type: code
-        variables:
-        - value_selector:
-          - conversation
-          - transactions
-          value_type: object
-          variable: transactions
-        - value_selector:
-          - env
-          - google_sheet_name
-          value_type: string
-          variable: sheet_name
-        - value_selector:
-          - '1757356715142'
-          - result
-          value_type: number
-          variable: first_empty_row
-      height: 96
-      id: '1757353902819'
-      position:
-        x: 1936.8985572837382
-        y: 35.43845163933776
-      positionAbsolute:
-        x: 1936.8985572837382
-        y: 35.43845163933776
-      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1043,7 +817,7 @@ workflow:
         provider_name: omluc/google_sheets/google_sheets
         provider_type: builtin
         selected: false
-        title: Get First Empty Row
+        title: find empty row
         tool_configurations:
           date_time_render_option:
             type: constant
@@ -1061,7 +835,7 @@ workflow:
         tool_parameters:
           ranges:
             type: mixed
-            value: '{{#1757357329653.output#}} '
+            value: '{{#1758838128097.result#}}'
           spreadsheet_id:
             type: mixed
             value: '{{#env.google_sheet_id#}}'
@@ -1069,19 +843,19 @@ workflow:
       height: 140
       id: '1757355389668'
       position:
-        x: 1244.7057513000157
-        y: 35.43845163933776
+        x: 1085.705751300015
+        y: -324.5615483606622
       positionAbsolute:
-        x: 1244.7057513000157
-        y: 35.43845163933776
+        x: 1085.705751300015
+        y: -324.5615483606622
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        code: "def main(current_sheet):\n    result = len(current_sheet[0][\"valueRanges\"\
-          ][0][\"values\"]) + 1\n    return {\"result\": result}\n\n"
+        code: "def main(current_sheet: list[dict]):\n    result = len(current_sheet[0][\"\
+          valueRanges\"][0][\"values\"]) + 1\n    return {\"result\": result}\n\n"
         code_language: python3
         desc: find empty row in current sheet to insert new data
         outputs:
@@ -1089,7 +863,7 @@ workflow:
             children: null
             type: number
         selected: false
-        title: get first empty row 2 number
+        title: find empty row number
         type: code
         variables:
         - value_selector:
@@ -1100,36 +874,11 @@ workflow:
       height: 96
       id: '1757356715142'
       position:
-        x: 1486.6262711836164
-        y: 35.43845163933776
+        x: 1325.594838050595
+        y: -324.5615483606622
       positionAbsolute:
-        x: 1486.6262711836164
-        y: 35.43845163933776
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        desc: ''
-        selected: false
-        template: '["{{ google_sheet_name }}!A:A"]'
-        title: Get First Empty Row Range
-        type: template-transform
-        variables:
-        - value_selector:
-          - env
-          - google_sheet_name
-          value_type: string
-          variable: google_sheet_name
-      height: 52
-      id: '1757357329653'
-      position:
-        x: 1002.7640993740229
-        y: 35.43845163933776
-      positionAbsolute:
-        x: 1002.7640993740229
-        y: 35.43845163933776
+        x: 1325.594838050595
+        y: -324.5615483606622
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1374,7 +1123,7 @@ workflow:
         tool_parameters:
           data:
             type: mixed
-            value: '{{#1757353902819.result#}}'
+            value: '{{#1759203319094.result#}}'
           spreadsheet_id:
             type: mixed
             value: '{{#env.google_sheet_id#}}'
@@ -1382,11 +1131,11 @@ workflow:
       height: 214
       id: '1757358619560'
       position:
-        x: 2177.906479898954
-        y: 35.43845163933776
+        x: 2011.346357246026
+        y: -324.5615483606622
       positionAbsolute:
-        x: 2177.906479898954
-        y: 35.43845163933776
+        x: 2011.346357246026
+        y: -324.5615483606622
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1595,11 +1344,105 @@ workflow:
       height: 114
       id: '1757363098690'
       position:
-        x: 588.818645643104
-        y: 606.3071362240263
+        x: 852.5501385177668
+        y: 937.5640240319121
       positionAbsolute:
-        x: 588.818645643104
-        y: 606.3071362240263
+        x: 852.5501385177668
+        y: 937.5640240319121
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: FAILED to PUSH
+        selected: false
+        title: Answer Failed
+        type: answer
+        variables: []
+      height: 100
+      id: '1758157796312'
+      position:
+        x: 2416.6965011201078
+        y: -173.7350566177393
+      positionAbsolute:
+        x: 2416.6965011201078
+        y: -173.7350566177393
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(google_sheet_name: str):\n    result = '[\"{}!A:A\"]'.format(google_sheet_name)\n\
+          \    return {\"result\": result}\n\n"
+        code_language: python3
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: find empty row get range
+        type: code
+        variables:
+        - value_selector:
+          - env
+          - google_sheet_name
+          value_type: string
+          variable: google_sheet_name
+      height: 52
+      id: '1758838128097'
+      position:
+        x: 846.1889398468718
+        y: -324.5615483606622
+      positionAbsolute:
+        x: 846.1889398468718
+        y: -324.5615483606622
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "OUTPUT_KEY = \"is_pushable\"\n\n\ndef main(input: str, push_trigger:\
+          \ str, transactions_array: dict):\n\n    if push_trigger not in input:\n\
+          \        return {OUTPUT_KEY: False}\n\n    rows = transactions_array.get(\"\
+          rows\", [])\n    for row in rows:\n        for cell in row:\n          \
+          \  if str(cell) == \"???\":  # match exact triple question marks\n     \
+          \           return {OUTPUT_KEY: False}\n    return {OUTPUT_KEY: True}  #\
+          \ return dict with success code\n\n"
+        code_language: python3
+        outputs:
+          is_pushable:
+            children: null
+            type: boolean
+        selected: false
+        title: is_pushable
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: input
+        - value_selector:
+          - env
+          - push_trigger
+          value_type: string
+          variable: push_trigger
+        - value_selector:
+          - conversation
+          - transactions_array
+          value_type: object
+          variable: transactions_array
+      height: 52
+      id: '1759202358714'
+      position:
+        x: -70.36387537735851
+        y: 290.80809893913
+      positionAbsolute:
+        x: -70.36387537735851
+        y: 290.80809893913
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1609,53 +1452,139 @@ workflow:
         cases:
         - case_id: 'true'
           conditions:
-          - comparison_operator: contains
-            id: 52a16439-7afb-446a-b372-689882d6e453
-            value: PUSH
-            varType: string
+          - comparison_operator: is
+            id: 9086d9d3-0264-41e0-aa6e-e2787d6d8c9e
+            value: true
+            varType: boolean
             variable_selector:
-            - sys
-            - query
+            - '1759202358714'
+            - is_pushable
           id: 'true'
           logical_operator: and
-        desc: ''
         selected: false
-        title: IF/ELSE 2
+        title: pushable branch
         type: if-else
       height: 124
-      id: '1757396822111'
+      id: '1759202724150'
       position:
-        x: 19.226207635926016
-        y: 277.10848570164273
+        x: 231.6361246226415
+        y: 290.80809893913
       positionAbsolute:
-        x: 19.226207635926016
-        y: 277.10848570164273
+        x: 231.6361246226415
+        y: 290.80809893913
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: Failed to Push
+        code: "def main(\n    transactions_array: dict, google_sheet_name: str, empty_row_number:\
+          \ float\n):\n    rows_from = transactions_array[\"rows\"]\n\n    end_range_row\
+          \ = empty_row_number + len(rows_from) - 1\n\n    # generate range\n    sheet_range\
+          \ = \"{}!A{}:H{}\".format(\n        google_sheet_name, empty_row_number,\
+          \ end_range_row\n    )\n\n    # generate values\n    rows_to = []\n    for\
+          \ row in rows_from:\n        current_row = []\n        for i, col in enumerate(row):\n\
+          \            if i in (2, 3) and col:  # amount in/out\n                #\
+          \ convert to number for amount in/out col, when not empty\n            \
+          \    current_row.append(col)\n            else:  # string entry\n      \
+          \          current_row.append('\"{}\"'.format(col))\n\n        row_content\
+          \ = \",\".join(current_row)\n        rows_to.append(row_content)\n\n   \
+          \ values = \"[{}]\".format(\",\".join(\"[{}]\".format(row) for row in rows_to))\n\
+          \n    result = '[{{\"range\": \"{}\", \"values\": {}}}]'.format(sheet_range,\
+          \ values)\n\n    return {\"result\": result}\n"
+        code_language: python3
+        desc: adapt transactions_array to format for google sheet
+        outputs:
+          result:
+            children: null
+            type: string
         selected: false
-        title: Answer Failed
-        type: answer
-        variables: []
-      height: 100
-      id: '1758157796312'
+        title: transactions array to sheet
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - transactions_array
+          value_type: object
+          variable: transactions_array
+        - value_selector:
+          - env
+          - google_sheet_name
+          value_type: string
+          variable: google_sheet_name
+        - value_selector:
+          - '1757356715142'
+          - result
+          value_type: number
+          variable: empty_row_number
+      height: 96
+      id: '1759203319094'
       position:
-        x: 2643.629746084044
-        y: 174.43845163933776
+        x: 1769.4830003729548
+        y: -324.5615483606622
       positionAbsolute:
-        x: 2643.629746084044
-        y: 174.43845163933776
+        x: 1769.4830003729548
+        y: -324.5615483606622
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
+    - data:
+        code: "def main(\n    prompt_extract_info: str,\n    today: str,\n    transactions_array:\
+          \ dict,\n    user_accounts,\n    common_other_parties,\n):\n    opt = prompt_extract_info.format(\n\
+          \        TODAY=today,\n        TRANSACTIONS=transactions_array,\n      \
+          \  USER_ACCOUNTS=user_accounts,\n        COMMON_OTHER_PARTIES=common_other_parties,\n\
+          \    )\n\n    return {\"result\": opt}\n"
+        code_language: python3
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: render extract info prompt
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - prompt_extract_info
+          value_type: string
+          variable: prompt_extract_info
+        - value_selector:
+          - '1757363098690'
+          - text
+          value_type: string
+          variable: today
+        - value_selector:
+          - conversation
+          - transactions_array
+          value_type: object
+          variable: transactions_array
+        - value_selector:
+          - env
+          - user_accounts
+          value_type: secret
+          variable: user_accounts
+        - value_selector:
+          - env
+          - common_other_parties
+          value_type: secret
+          variable: common_other_parties
+      height: 52
+      id: '1759204166762'
+      position:
+        x: 1181.8814204435575
+        y: 937.5640240319121
+      positionAbsolute:
+        x: 1181.8814204435575
+        y: 937.5640240319121
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
     viewport:
-      x: -124.88403172680819
-      y: 196.2051150710185
-      zoom: 0.69891692869741
+      x: -699.335102897863
+      y: 598.5297536381969
+      zoom: 0.5145073279775856
   rag_pipeline_variables: []
