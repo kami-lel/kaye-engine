@@ -44,8 +44,13 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
         help="maximum line width for each entry in blueprint preview",
         default=None,
     )
-    # TODO read from blueprint file
-    # TODO use file name as blueprint display name
+    base_gen_show_parser.add_argument(
+        "-t",
+        "--full-preview-tree",
+        action="store_true",
+        help="display the entire preview tree",
+    )
+
     # TODO flag options for full/partial preview tree
     kamilog.add_verbose_arguments(show_parser)
 

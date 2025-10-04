@@ -15,7 +15,7 @@ base_gen_show_parser = ArgumentParser(add_help=False)
 # positional argument
 base_gen_show_parser.add_argument(
     "BLUEPRINT",
-    help="name of any embedded blueprints",
+    help="embedded blueprints name",
     type=str,
 )
 # options
@@ -25,19 +25,19 @@ base_gen_show_parser.add_argument(
     metavar="FILE",
     type=FileType(mode="w"),
     nargs="?",
-    help="save the result to file",
+    help="save result to FILE",
 )
 base_gen_show_parser.add_argument(
     "-s",
     "--source-file",
     action="store_true",
-    help="provide blueprint as source file of prompt blueprint",
+    help="load blueprint from path BLUEPRINT",
 )
 base_gen_show_parser.add_argument(
     "-C",
     "--no-comment",
     action="store_true",
-    help="disable last-line prompt comment in result",
+    help="disable last-line comment in result",
 )
 
 
