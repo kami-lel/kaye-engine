@@ -1,11 +1,13 @@
 """show content of any of embedded blueprints"""
 
-from argparse import FileType
-
 from kaye import PROGRAM_NAME, kamilog
-from kaye.gen_prompt.prompt_blueprint_loader import (
-    load_embedded_prompt_blueprint,
+
+from .cli_prompt_generate import (
+    base_gen_show_parser,
+    create_blueprint_from_generate_show,
 )
+
+logger = kamilog.getLogger(PROGRAM_NAME)
 
 
 def register_cli_prompt_show_parser(cli_prompt_subparser):
@@ -13,30 +15,16 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
     create cli parser for ``kaye prompt show``,
     and add it to ``cli_prompt_subparser``
     """
-    logger = kamilog.getLogger(PROGRAM_NAME)
 
     show_parser = cli_prompt_subparser.add_parser(
         "show",
         help=__doc__,
         description=__doc__,
+        parents=[base_gen_show_parser],
     )
 
     # add arguments  -----------------------------------------------------------
-    # positional argument
-    show_parser.add_argument(
-        "BLUEPRINT",
-        help="name of any embedded blueprints",
-        type=str,
-    )
     # options
-    show_parser.add_argument(
-        "-f",
-        "--file",
-        metavar="FILE",
-        type=FileType(mode="w"),
-        nargs="?",
-        help="save the result to file",
-    )
     show_parser.add_argument(
         "-l",
         "--preview-line-count",
@@ -55,33 +43,40 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
         help="maximum line width for each entry in blueprint preview",
         default=None,
     )
-    # Todo read from blueprint file
-    # Todo use file name as blueprint display name
-    # Todo flag options for full/partial preview tree
+    show_parser.add_argument(
+        "-t",
+        "--show-full-tree",
+        action="store_true",
+        help="display the entire preview tree",
+    )
+
     kamilog.add_verbose_arguments(show_parser)
 
     # define main function  ----------------------------------------------------
     def _prompt_show_main(args):
         kamilog.set_logging_level_by_verbosity(args, PROGRAM_NAME)
 
-        # when calling ``python -m kaye prompt show``
-        blueprint_name = args.BLUEPRINT
-        try:
-            blueprint_obj = load_embedded_prompt_blueprint(blueprint_name)
-        except (FileNotFoundError, IOError, ValueError) as err:
-            logger.error(err)
-            raise
+        blueprint = create_blueprint_from_generate_show(args)
 
-        blueprint_content = blueprint_obj.generate_preview_tree(
+        blueprint_content = blueprint.generate_preview_tree(
+            show_full_tree=args.show_full_tree,
             preview_line_count=args.preview_line_count,
             preview_line_width=args.preview_line_width,
+            hide_comment=args.no_comment,
         )
 
-        # with --file file
-        if args.file:
-            with args.file as f:
+        # with --destination-file FILE
+        if args.destination_file:
+            with args.destination_file as f:
                 f.write(blueprint_content)
+
+            logger.debug(
+                "blueprint preview tree saved to: %s",
+                args.destination_file.name,
+            )
+
         else:
+            logger.debug("render blueprint preview tree")
             print(blueprint_content)
 
     show_parser.set_defaults(func=_prompt_show_main)
