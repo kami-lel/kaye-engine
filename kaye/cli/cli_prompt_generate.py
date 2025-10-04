@@ -1,6 +1,6 @@
 """generate concrete prompt from blueprint"""
 
-from argparse import FileType
+from argparse import FileType, ArgumentParser
 
 from kaye import PROGRAM_NAME, kamilog
 from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
@@ -8,6 +8,41 @@ from kaye.gen_prompt.prompt_blueprint_loader import (
     load_embedded_prompt_blueprint,
 )
 from kaye.gen_prompt.prompt_corpus_loader import load_embedded_prompt_corpus
+
+# base parsers  ----------------------------------------------------------------
+# defining args shared by gen_parser and show_parser
+base_gen_show_parser = ArgumentParser(add_help=False)
+# positional argument
+base_gen_show_parser.add_argument(
+    "BLUEPRINT",
+    help="name of any embedded blueprints",
+    type=str,
+)
+# options
+base_gen_show_parser.add_argument(
+    "-f",
+    "--destination-file",
+    metavar="FILE",
+    type=FileType(mode="w"),
+    nargs="?",
+    help="save the result to file",
+)
+base_gen_show_parser.add_argument(
+    "-s",
+    "--source-file",
+    action="store_true",
+    help="provide blueprint as source file of prompt blueprint",
+)
+base_gen_show_parser.add_argument(
+    "-C",
+    "--no-comment",
+    action="store_true",
+    help="disable last-line prompt comment in result",
+)
+
+
+def _create_blueprint_from_generate_show(namespace):
+    pass  # TODO use file name as blueprint display name
 
 
 def register_cli_prompt_generate_parser(cli_prompt_subparser):
@@ -18,63 +53,24 @@ def register_cli_prompt_generate_parser(cli_prompt_subparser):
     logger = kamilog.getLogger(PROGRAM_NAME)
 
     gen_parser = cli_prompt_subparser.add_parser(
-        "generate", help=__doc__, description=__doc__, aliases=["gen"]
+        "generate",
+        help=__doc__,
+        description=__doc__,
+        aliases=["gen"],
+        parents=[base_gen_show_parser],
     )
 
     # add arguments  -----------------------------------------------------------
-    # positional argument
-    gen_parser.add_argument(
-        "BLUEPRINT",
-        help="name of any embedded blueprints",
-        type=str,
-    )
     # options
-    gen_parser.add_argument(
-        "-f",
-        "--file",
-        metavar="FILE",
-        type=FileType(mode="w"),
-        nargs="?",
-        help="save the result to file",
-    )
-    gen_parser.add_argument(
-        "-l",
-        "--preview-line-count",
-        metavar="LINE_COUNT",
-        type=int,
-        nargs="?",
-        help="maximum line count for each entry in blueprint preview",
-        default=None,
-    )
-    gen_parser.add_argument(
-        "-w",
-        "--preview-line-width",
-        metavar="LINE_WIDTH",
-        type=int,
-        nargs="?",
-        help="maximum line width for each entry in blueprint preview",
-        default=None,
-    )
-    gen_parser.add_argument(
-        "-F",
-        "--source-file",
-        action="store_true",
-        help="provide blueprint as source file of prompt blueprint",
-    )
-    gen_parser.add_argument(
-        "-C",
-        "--no-comment",
-        action="store_true",
-        help="disable last-line prompt comment in result",
-    )
     kamilog.add_verbose_arguments(gen_parser)
-    # TODO use file name as blueprint display name
 
     # define main function  ----------------------------------------------------
     def _prompt_generate_main(args):
         # when calling ``python -m kaye prompt gen``
         # todo interactive mode which allow user set preview line, etc.
         kamilog.set_logging_level_by_verbosity(args, PROGRAM_NAME)
+
+        # TODO use _create_blueprint_from_generate_show
 
         blueprint_arg = args.BLUEPRINT
 
