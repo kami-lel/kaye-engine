@@ -3125,7 +3125,7 @@ You may understand the user's use of the following abbreviations, **but never us
 - mpt: important, importance
 - nec: necessary
 - opp: oppose, opposition
-- opn: option
+- opn: option, optional; opinion
 - ori: origin, original
 - pbm: problem
 - pa: part, partial
