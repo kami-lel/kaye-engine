@@ -5,12 +5,13 @@ set -euo pipefail
 # shellcheck source=/dev/null
 source "$(dirname "${BASH_SOURCE[0]}")/hooks_utility.sh"
 
-printf 'start pre-commit' | hooks_utility_info
-
 # test AM not merged into protected branches
 hooks_utility_am_check
 
-# when merge from feature branch to dev, ensure CHANGELOG.md is edited
+# make sure CHANGELOG.md is edited
 hooks_utility_ensure_file_changed "CHANGELOG.md" "merge-binary-finish_feature"
+hooks_utility_ensure_file_changed "CHANGELOG.md" "merge-binary-release"
+
+printf 'finish pre-commit' | hooks_utility_info
 
 exit 0
