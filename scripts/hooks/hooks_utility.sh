@@ -468,11 +468,11 @@ hooks_utility_am_check() {
     # populate result
     case "${commit_type}" in
         merge-binary-finish_feature)
-            result+=$(_search_am_from_git_diff_cached 1)
+            result=$(_search_am_from_git_diff_cached 1)
             ;;
         merge-binary-release)
-            result+=$(_search_am_from_git_diff_cached 1)
-            result+=$(_search_am_from_git_diff_cached 2)
+            result="$(_search_am_from_git_diff_cached 1)\n\
+$(_search_am_from_git_diff_cached 2)"
             ;;
         *)
             echo "skipped, trivial commit type" | \
