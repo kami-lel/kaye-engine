@@ -54,7 +54,7 @@
         {
           "title": "remarks",
           "type": "string",
-          "description": "optional; leave empty unless essential, no record irrelevant details; use only short, specific phrases not found in other fields"
+          "description": "optional"
         }
       ],
       "items": {
