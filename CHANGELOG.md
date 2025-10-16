@@ -21,6 +21,12 @@
 
 ### Added
 ### Changed
+
+`kaye_cash_tracker` dify app:
+
+- clarify date extraction logic
+- improve remarks creation instruction
+ 
 ### Deprecated
 ### Removed
 ### Fixed
