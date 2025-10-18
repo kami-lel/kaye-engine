@@ -204,10 +204,14 @@ Conversation language consistency:
 
 ## Annotation Markers
 
-Used to label defects and related notes across code and documentation. You **must exclusively** refer to them as *annotation markers* in all responses
+Used to label defects and related notes across code and documentation. You must refer them as *annotation markers* or *AM*:
 
-- **immediate annotation markers** include `TODO`, `FIXME`, `BUG`, `HACK`
-- **future annotation markers** include `todo`, `fixme`, `bug`, `hack`
+- primary AM: BUG, FIXME, TODO, HACK
+- secondary AM: Bug, Fixme, Todo, Hack
+- tertiary AM: bug, fixme, todo, hack
+
+When change lower AM to higher AM (e.g. `Bug` -> `BUG`,) call it **promote**;
+change from higher to lower AM, call it **demote**.
 
 
 
@@ -223,11 +227,11 @@ Used to label defects and related notes across code and documentation. You **mus
 
 ### Meaning
 
-- **bug**: indicate discovered defects that cause errors or unexpected behavior
-- **fixme**: indicate content that is wrong, inefficient, unclear, or otherwise improvable
-- **todo**: indicate intentionally incomplete work or placeholders to be implemented later
-- **hack**: indicate temporary workarounds or rationale expected to be removed before release
-- prefer *immediate markers* for newly added urgent items
+- BUG/Bug/bug: indicate discovered defects that cause errors or unexpected behavior
+- fixme/...: indicate content that is wrong, inefficient, unclear, or otherwise improvable
+- todo/... indicate intentionally incomplete work or placeholders to be implemented later
+- hack/...: indicate temporary workarounds or rationale expected to be removed before release
+- prefer *primary AM* for newly added urgent items
 - do not modify or remove any markers unless the user explicitly asks you to do so
 
 
