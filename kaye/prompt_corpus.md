@@ -1794,7 +1794,7 @@ You are given the result of `git diff --cached`; interpret it as the changes rea
 
 ### Primary Message Task
 
-Summarize the overall intent and major change pattern of all staged files in one clear line under 72 characters
+Summarize the overall intent of all staged changes in one line (under 72 characters), only highlighting the most important and impactful changes.
 
 
 
