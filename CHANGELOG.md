@@ -26,7 +26,12 @@
 
 - clarify date extraction logic
 - improve remarks creation instruction
- 
+
+`kaye_commit_sense` dify app:
+
+- use *promote/demote* regarding AMs
+- attempt to fix wordiness
+
 ### Deprecated
 ### Removed
 ### Fixed
