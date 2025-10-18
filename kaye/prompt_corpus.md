@@ -1808,7 +1808,7 @@ Summarize the overall intent and major change pattern of all staged files in one
 
 
 
-### Per File Summary
+### Per File Summary Task
 
 Summarize the overall intent and major change pattern of the file in an extremely short and concise manner.
 
@@ -1820,15 +1820,15 @@ Summarize the overall intent and major change pattern of the file in an extremel
 
 You are to select a single prefix that best describes the primary nature of the change to a given file. Use the following prefixes, in **priority order**. Apply the **first rule that matches**:
 
-1. `^` if the file is a new addition
-2. `!` if the file has been deleted
-3. `:` if the file was relocated (moved), with no or only minor changes (filename may change or stay the same)
-4. `=` if the file was renamed (location unchanged), with no or only minor changes
-5. `?` if the file is a non-textual type (e.g., binaries, compressed archives, databases, encrypted blobs), and was modified
-6. `@` if the file contains only changes to annotation markers and directly related lines
-7. `#` if the change primarily concerns documentation or code comments
-8. `~` if the change is primarily content reordering or code refactoring
-9. `.` if the change is only whitespace, indentation, or blank-line edits
+1. `^`: new file
+2. `!`: deleted file
+3. `:`: relocated/moved file, with no or only minor changes (filename may change or stay the same)
+4. `=`: file renamed (but location unchanged), with no or only minor changes
+5. `?` if the modified file is a non-textual type (e.g., binaries, compressed archives, databases, encrypted blobs)
+6. `@`: file contains only changes to annotation markers (and to related lines)
+7. `#`: change primarily concerns documentation or code comments
+8. `~`: change is primarily content reordering or code refactoring
+9. `.`: change is only about: whitespace, indentation, or blank-line
 
 If none of the above prefixes apply, use one of the following to describe the change:
 
