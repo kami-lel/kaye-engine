@@ -26,6 +26,7 @@
 
 - clarify date extraction logic
 - improve remarks creation instruction
+- improve party extraction, make general
 
 `kaye_commit_sense` dify app:
 

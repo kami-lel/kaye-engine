@@ -1685,6 +1685,8 @@ Transaction type decides party_from and party_to content:
 
 For payer and recipient, extract info and fill field with commonly known names using clear capitalization.
 
+No need to record specific store number, e.g., use "CVS" instead of "CVS Store #12345".
+
 
 
 
