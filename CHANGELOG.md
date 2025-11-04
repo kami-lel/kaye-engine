@@ -33,6 +33,13 @@
 - use *promote/demote* regarding AMs
 - attempt to fix wordiness
 
+Python CLI, change args:
+
+- change to `-f` (from `-s`)
+- change to `-F` (from `-f`)
+- change to `--target-file` (from `--destination-file`)
+
+
 ### Deprecated
 ### Removed
 ### Fixed
