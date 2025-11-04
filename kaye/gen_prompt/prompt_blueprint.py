@@ -122,9 +122,7 @@ class PromptBlueprint:
                 ``prompt_corpus``, and with **all nodes enabled**
         :rtype: PromptBlueprint
         """
-        blueprint = cls(
-            prompt_corpus, blueprint_display_name=blueprint_display_name
-        )
+        blueprint = cls(prompt_corpus, display_name=blueprint_display_name)
         # set all nodes
         for node in PreOrderIter(prompt_corpus):
             if node.parent is None:  # skip root node
