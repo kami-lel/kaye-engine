@@ -24,17 +24,17 @@ base_gen_show_parser.add_argument(
 # options
 base_gen_show_parser.add_argument(
     "-f",
-    "--destination-file",
+    "--source-file",
+    action="store_true",
+    help="load blueprint from path BLUEPRINT",
+)
+base_gen_show_parser.add_argument(
+    "-F",
+    "--target-file",
     metavar="FILE",
     type=FileType(mode="w"),
     nargs="?",
     help="save result to FILE",
-)
-base_gen_show_parser.add_argument(
-    "-s",
-    "--source-file",
-    action="store_true",
-    help="load blueprint from path BLUEPRINT",
 )
 base_gen_show_parser.add_argument(
     "-C",
@@ -120,14 +120,14 @@ def register_cli_prompt_generate_parser(cli_prompt_subparser):
             hide_comment=args.no_comment
         )
 
-        # with --destination-file FILE
-        if args.destination_file:
-            with args.destination_file as f:
+        # with --target-file FILE
+        if args.target_file:
+            with args.target_file as f:
                 f.write(prompt_content)
 
             logger.debug(
                 "rendered blueprint prompt save to: %s",
-                args.destination_file.name,
+                args.target_file.name,
             )
 
         else:
