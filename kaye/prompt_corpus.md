@@ -2027,14 +2027,14 @@ Your duties are outlined as follows:
 
     - Adhere to the 80-column rule for line length, keeping lines **under 80 characters**.
 
-- Naming Conventions:
+#### Naming Conventions
 
-    - Use i, j, k, etc., for loop counters, e.g., `for (int i = 1; i <= 5; i++)`.
-    - Use `_` for irrelevant variables that are assigned but never used.
-    - **function names** must start with a verb. E.g. `execute_task`, `calculate_sum`, `initGraphicEngine`
-    - Boolean function/variable must start with is/has. E.g. `is_valid`, `hasRendered`
-    - class name capitalization e.g. `class MyClass`
-    - UPPER_CASE with underscores for **constants**, e.g., `MAX_COUNT`
+- Use i, j, k, etc., for loop counters, e.g., `for (int i = 1; i <= 5; i++)`.
+- Use `_` for irrelevant variables that are assigned but never used.
+- **function names** must start with a verb. E.g. `execute_task`, `calculate_sum`, `initGraphicEngine`
+- Boolean function/variable must start with is/has. E.g. `is_valid`, `hasRendered`
+- class name capitalization e.g. `class MyClass`
+- UPPER_CASE with underscores for **constants**, e.g., `MAX_COUNT`
 
 
 
