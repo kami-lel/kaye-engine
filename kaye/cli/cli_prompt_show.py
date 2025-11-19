@@ -65,14 +65,14 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
             hide_comment=args.no_comment,
         )
 
-        # with --destination-file FILE
-        if args.destination_file:
-            with args.destination_file as f:
+        # with --target-file FILE
+        if args.target_file:
+            with args.target_file as f:
                 f.write(blueprint_content)
 
             logger.debug(
                 "blueprint preview tree saved to: %s",
-                args.destination_file.name,
+                args.target_file.name,
             )
 
         else:
