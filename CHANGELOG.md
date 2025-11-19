@@ -23,6 +23,9 @@
 ## [Unreleased]
 
 ### Added
+
+- dify app `kaye_event_radar`, based on previous prompt-based role *Event Search*
+
 ### Changed
 
 `kaye_cash_tracker` dify app:
