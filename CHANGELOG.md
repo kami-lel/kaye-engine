@@ -3,6 +3,7 @@
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
 <!-- bug kaye cash tracker: can not push -->
 <!-- todo kaye cash tracker: reverse entry order, newer at top  -->
+<!-- todo hooks: must update setup.cfg, for version -->
 
 [^format]
 
