@@ -1,6 +1,7 @@
 # Kaye CHANGELOG
 
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
+<!-- TODO convert event radar prompt -->
 
 [^format]
 
