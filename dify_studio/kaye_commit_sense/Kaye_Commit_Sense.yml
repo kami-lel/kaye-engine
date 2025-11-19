@@ -10,8 +10,9 @@ dependencies:
   type: marketplace
   value:
     marketplace_plugin_unique_identifier: langgenius/openai:0.2.5@373362a028986aae53a7baf73a7f11991ba3c22c69eaf97d6cde048cfd4a9f98
+    version: null
 kind: app
-version: 0.4.0
+version: 0.5.0
 workflow:
   conversation_variables: []
   environment_variables:
@@ -367,7 +368,7 @@ workflow:
           required: false
           type: paragraph
           variable: debug_info
-      height: 114
+      height: 135
       id: '1756587193642'
       position:
         x: -319.5069034866185
@@ -388,7 +389,7 @@ workflow:
           - output
           value_type: string
           variable: output
-        selected: false
+        selected: true
         title: End
         type: end
       height: 88
@@ -399,7 +400,7 @@ workflow:
       positionAbsolute:
         x: 2351.1643678119594
         y: 104.10767532202507
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -478,7 +479,7 @@ workflow:
         - id: 4b837ba6-5d1b-402f-9690-a901e0679e98
           role: user
           text: '{{#1756587193642.input#}}'
-        selected: true
+        selected: false
         title: primary message
         type: llm
         variables: []
@@ -492,7 +493,7 @@ workflow:
       positionAbsolute:
         x: 832.6644359320965
         y: 172.29843857489757
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -733,7 +734,7 @@ workflow:
           \n        per_line = DIFF_GIT + segment\n        per_file_list.append(per_line)\n\
           \n    is_single_file = len(filenames_list) == 1\n\n    return {\n      \
           \  \"filenames_list\": filenames_list,\n        \"per_file_list\": per_file_list,\n\
-          \        \"is_single_file\": is_single_file,\n    }\n\n"
+          \        \"is_single_file\": is_single_file,\n    }"
         code_language: python3
         desc: process the full diff content
         outputs:
@@ -825,7 +826,7 @@ workflow:
       width: 242
       zIndex: 1002
     viewport:
-      x: -259.7034781409732
-      y: 186.50380672718865
+      x: -1160.7034781409734
+      y: 276.5038067271887
       zoom: 0.837203021404603
   rag_pipeline_variables: []

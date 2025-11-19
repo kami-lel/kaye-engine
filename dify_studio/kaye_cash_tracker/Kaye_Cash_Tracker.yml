@@ -10,12 +10,14 @@ dependencies:
   type: marketplace
   value:
     marketplace_plugin_unique_identifier: omluc/google_sheets:0.0.2@17f06eaa1d905595e1a76460e7249707a722142353d551cf14aed3d8517c134f
+    version: null
 - current_identifier: null
   type: marketplace
   value:
     marketplace_plugin_unique_identifier: langgenius/openai:0.2.5@373362a028986aae53a7baf73a7f11991ba3c22c69eaf97d6cde048cfd4a9f98
+    version: null
 kind: app
-version: 0.4.0
+version: 0.5.0
 workflow:
   conversation_variables:
   - description: transactions maintained over rounds
@@ -27,11 +29,12 @@ workflow:
     value:
       rows: []
     value_type: object
+  environment_variables:
   - description: ''
-    id: a0a0e634-6712-439d-b63b-649440ddbd38
+    id: 3fd0f101-c81b-4d37-ba3b-b281d2b6a408
     name: prompt_extract_info
     selector:
-    - conversation
+    - env
     - prompt_extract_info
     value: "# Introduction\nYou are **Kaye**, an AI assisting *agent* to the *user*.\n\
       \n### Extract Info\nYou are a personal finance assistant. Extract all transaction\
@@ -40,33 +43,37 @@ workflow:
       \ Transactions as a baseline, merging with new data into a single, updated table.\n\
       \nRules:\n- record each transaction as a separate entry, using the correct category\
       \ codes and required format\n- for missing or unclear required fields, enter\
-      \ ???; for empty optional fields, use an empty string\n- verify all required\
-      \ information is present; if not, ask the user for missing details\n- do not\
-      \ modify the table structure\n- after any update, always display the full, updated\
-      \ table for review\n- use concise, clear language for requests and confirmations\n\
-      - ensure all transactions are complete before providing summaries or analytics\
-      \ if requested\n- assign categories using the codes provided, making reasonable\
-      \ assumptions if needed\n\nAlways maintain accurate, complete, and clear transaction\
-      \ records.\n\ntoday: {TODAY}\n\n##### Existing Transactions\n\n{TRANSACTIONS}\n\
-      \n##### Currency Symbol\n\n- $: USD\n- ¥: RMB/Chinese Yuan\n- HK$\n- €\n\n#####\
-      \ Party From & To\n\nUser Accounts:\n\n{USER_ACCOUNTS}\n\nCommon Other Parties:\n\
-      \n{COMMON_OTHER_PARTIES}\n\nTransaction type decides party_from and party_to\
-      \ content:\n\n- Income:\n\n  - party_from: payer (e.g., employer for salary,\
-      \ bank for investment,) or User Account\n  - party_to: often User Account\n\n\
-      - Expense:\n  - party_from: often User Account\n  - party_to: recipient (e.g.,\
-      \ restaurant, grocery,) or User Account\n\nFor payer and recipient, extract\
-      \ info and fill field with commonly known names using clear capitalization.\n\
-      \n##### Categories\n\nSelect the most likely category abbreviation for each\
-      \ transaction based on its details.\n\n- A: Salary\n- B: Balance\n  - BT: Account\
-      \ transfer\n  - BI: Investment principal\n  - BC: Currency exchange\n  - BR:\
-      \ Yearly carryover\n- C: Clothing\n- D: Dining\n  - DB: Coffee/bar\n- E: Electronics/Device\n\
-      - F: Gift\n  - FO: Offering/church\n- G: Grocery\n  - GB: Alcohol, coffee, beverages\n\
-      - H: Housing\n- I: Investment/Finance\n  - IP: Profit\n  - IF: Fee\n- M: Medical/Insurance\n\
-      - N: Education\n- O: Online\n  - OG: Online Game\n- P: Personal\n- R: Recreation\n\
-      \  - RE: Event\n- S: Supplies\n- T: Transportation\n- U: Utilities\n- V: Vacation\n\
-      - X: Tax\n- Y: Payback from individuals\n- Z: Miscellaneous\n"
+      \ ???; for empty optional fields, use an empty string\n- after any update, always\
+      \ display the full, updated table for review\n- use the *notification* date\
+      \ (often seen in small font in chat window,) ignore other dates\n\nAlways maintain\
+      \ accurate, complete, and clear transaction records.\n\ntoday: {TODAY}\n\n#####\
+      \ Existing Transactions\n\n{TRANSACTIONS}\n\n##### Currency Symbol\n\n- $: USD\n\
+      - ¥: RMB/Chinese Yuan\n- HK$\n- €\n\n##### Party From & To\n\nUser Accounts:\n\
+      \n{USER_ACCOUNTS}\n\nCommon Other Parties:\n\n{COMMON_OTHER_PARTIES}\n\nTransaction\
+      \ type decides party_from and party_to content:\n\n- Income:\n\n  - party_from:\
+      \ payer (e.g., employer for salary, bank for investment,) or User Account\n\
+      \  - party_to: often User Account\n\n- Expense:\n  - party_from: often User\
+      \ Account\n  - party_to: recipient (e.g., restaurant, grocery,) or User Account\n\
+      \nFor payer and recipient, extract info and fill field with commonly known names\
+      \ using clear capitalization.\n\nNo need to record specific store number, e.g.,\
+      \ use \"CVS\" instead of \"CVS Store #12345\".\n\n##### Categories\n\nSelect\
+      \ the most likely category abbreviation for each transaction based on its details.\n\
+      \n- A: Salary\n- B: Balance\n  - BT: Account transfer\n  - BI: Investment principal\n\
+      \  - BC: Currency exchange\n  - BR: Yearly carryover\n- C: Clothing\n- D: Dining\n\
+      \  - DB: Coffee/bar\n- E: Electronics/Device\n- F: Gift\n  - FO: Offering/church\n\
+      - G: Grocery\n  - GB: Alcohol, coffee, beverages\n- H: Housing\n- I: Investment/Finance\n\
+      \  - IP: Profit\n  - IF: Fee\n- M: Medical/Insurance\n- N: Education\n- O: Online\n\
+      \  - OG: Online Game\n- P: Personal\n- R: Recreation\n  - RE: Event\n- S: Supplies\n\
+      - T: Transportation\n- U: Utilities\n- V: Vacation\n- X: Tax\n- Y: Payback from\
+      \ individuals\n- Z: Miscellaneous\n\n##### Remarks\n\n- leave empty unless essential,\
+      \ no record irrelevant details\n- use only short, specific phrases not found\
+      \ in other fields\n\n- if a *platform* party is involved, record in remarks.\n\
+      \  E.g. if a purchase from McDonald's via DoorDash,\n  record \"McDonald's\"\
+      \ in `party_to` and record \"via DoorDash\" in `remarks`\n\n- if the transaction\
+      \ is made on behalf of others, record it in remarks.\n  E.g. if Alex Chen purchases\
+      \ McDonald's, but paid from my account BOA\n  `party_from`: \"BOA\", `party_to`:\
+      \ \"McDonald's\", `remarks`: \"by Alex Chen\""
     value_type: string
-  environment_variables:
   - description: ''
     id: f5b8e763-1977-40f5-a8a0-460a7598f697
     name: common_other_parties
@@ -361,7 +368,7 @@ workflow:
         title: Start
         type: start
         variables: []
-      height: 52
+      height: 73
       id: '1757003052142'
       position:
         x: -372.3638753773585
@@ -530,16 +537,14 @@ workflow:
         - id: 3f516f34-fc6f-4832-8ecf-a0e66a3de8cb
           role: system
           text: '{{#1759204166762.result#}}'
-        - id: 263db14f-07bf-4cc3-b643-30605bc4b873
+        - id: cc14240e-2962-48d9-bff6-0b88c66a41ba
           role: user
-          text: '{{#sys.query#}}
-
-            '
+          text: '{{#sys.query#}}'
         retry_config:
           max_retries: 3
           retry_enabled: false
           retry_interval: 1000
-        selected: false
+        selected: true
         structured_output:
           schema:
             $defs:
@@ -549,10 +554,10 @@ workflow:
                 maxItems: 8
                 minItems: 8
                 prefixItems:
-                - description: MM-dd format, required, ??? when missing
+                - description: MM-dd format, required
                   title: date
                   type: string
-                - description: required, see Currency Symbol
+                - description: required
                   title: currency_symbol
                   type: string
                 - description: expense with exactly 2 decimal places, optional
@@ -561,24 +566,20 @@ workflow:
                 - description: income with exactly 2 decimal places, optional
                   title: amount_in
                   type: string
-                - description: see Party From&To; required
+                - description: required
                   title: party_from
                   type: string
-                - description: see Party From&To; required
+                - description: required
                   title: party_to
                   type: string
-                - description: see Categories
+                - description: required
                   title: category
                   type: string
-                - description: optional; leave empty unless essential, no record irrelevant
-                    details; use only short, specific phrases not found in other fields
+                - description: optional
                   title: remarks
                   type: string
                 type: array
             additionalProperties: false
-            description: For required field of missing or unclear information, enter
-              ??? in cell. Use empty string for empty optional field. Increasing date
-              order, row with newer date at bottom
             examples:
             - rows:
               - - ???
@@ -632,7 +633,7 @@ workflow:
       positionAbsolute:
         x: 1507.0540914005142
         y: 937.5640240319121
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1128,7 +1129,7 @@ workflow:
             type: mixed
             value: '{{#env.google_sheet_id#}}'
         type: tool
-      height: 214
+      height: 213
       id: '1757358619560'
       position:
         x: 2011.346357246026
@@ -1546,7 +1547,7 @@ workflow:
         type: code
         variables:
         - value_selector:
-          - conversation
+          - env
           - prompt_extract_info
           value_type: string
           variable: prompt_extract_info
@@ -1578,13 +1579,13 @@ workflow:
       positionAbsolute:
         x: 1181.8814204435575
         y: 937.5640240319121
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -699.335102897863
-      y: 598.5297536381969
-      zoom: 0.5145073279775856
+      x: -472.79411633362065
+      y: -107.61138217187636
+      zoom: 0.7805420926098134
   rag_pipeline_variables: []
