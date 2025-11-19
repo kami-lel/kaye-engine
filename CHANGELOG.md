@@ -1,5 +1,10 @@
 # Kaye CHANGELOG
 
+<!-- fixme merge role: Grammar Checker & Etiquette Coach -->
+<!-- bug kaye cash tracker: can not push -->
+<!-- todo kaye cash tracker: reverse entry order, newer at top  -->
+<!-- todo hooks: must update setup.cfg, for version -->
+
 [^format]
 
 
@@ -24,6 +29,46 @@
 ### Deprecated
 ### Removed
 ### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.9.1] - 2025-11-19
+
+### Changed
+
+- clean up blueprints for embedded prompts
+
+`kaye_cash_tracker` dify app:
+
+- clarify date extraction logic
+- improve remarks creation instruction
+- improve party extraction, make general
+
+`kaye_commit_sense` dify app:
+
+- use *promote/demote* regarding AMs
+- attempt to fix wordiness
+
+Python CLI, change args:
+
+- change to `-f` (from `-s`)
+- change to `-F` (from `-f`)
+- change to `--target-file` (from `--destination-file`)
+
+
 
 
 
@@ -936,7 +981,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.9.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.9.1...dev
+[4.9.1]: https://github.com/kami-lel/kaye/compare/v4.9.0...v4.9.1
 [4.9.0]: https://github.com/kami-lel/kaye/compare/v4.8.1...v4.9.0
 [4.8.1]: https://github.com/kami-lel/kaye/compare/v4.8.0...v4.8.1
 [4.8.0]: https://github.com/kami-lel/kaye/compare/v4.7.6...v4.8.0
