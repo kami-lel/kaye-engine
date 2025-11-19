@@ -1,0 +1,263 @@
+app:
+  description: ''
+  icon: 🎭
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: Kaye_Event_Radar
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/discord:0.0.2@cffa449e46ccfdd45ad95f0da68b01d7c1a740312e067e33de12297ba2b65924
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: trigger-schedule
+        targetType: tool
+      id: 1763543549247-source-1763545190553-target
+      source: '1763543549247'
+      sourceHandle: source
+      target: '1763545190553'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        config:
+          frequency: daily
+          mode: visual
+          timezone: UTC
+          visual_config:
+            monthly_days:
+            - 1
+            on_minute: 0
+            time: 12:00 AM
+            weekdays:
+            - sun
+        frequency: weekly
+        mode: visual
+        selected: false
+        timezone: America/New_York
+        title: Schedule Trigger
+        type: trigger-schedule
+        visual_config:
+          monthly_days:
+          - 1
+          on_minute: 0
+          time: 12:00 AM
+          weekdays:
+          - fri
+      height: 130
+      id: '1763543549247'
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Discord Incoming Webhook url
+            ja_JP: Discord Incoming Webhook url
+            pt_BR: Discord Incoming Webhook url
+            zh_Hans: Discord入站Webhook的url
+          label:
+            en_US: Discord Incoming Webhook url
+            ja_JP: Discord Incoming Webhook url
+            pt_BR: Discord Incoming Webhook url
+            zh_Hans: Discord入站Webhook的url
+          llm_description: ''
+          max: null
+          min: null
+          name: webhook_url
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Content to sent to the channel or person.
+            ja_JP: Content to sent to the channel or person.
+            pt_BR: Content to sent to the channel or person.
+            zh_Hans: 消息内容文本
+          label:
+            en_US: content
+            ja_JP: content
+            pt_BR: content
+            zh_Hans: 消息内容
+          llm_description: Content of the message
+          max: null
+          min: null
+          name: content
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Discord Webhook Username
+            ja_JP: Discord Webhook Username
+            pt_BR: Discord Webhook Username
+            zh_Hans: Discord Webhook用户名
+          label:
+            en_US: Discord Webhook Username
+            ja_JP: Discord Webhook Username
+            pt_BR: Discord Webhook Username
+            zh_Hans: Discord Webhook用户名
+          llm_description: Discord Webhook Username
+          max: null
+          min: null
+          name: username
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Discord Webhook Avatar URL
+            ja_JP: Discord Webhook Avatar URL
+            pt_BR: Discord Webhook Avatar URL
+            zh_Hans: Discord Webhook头像地址
+          label:
+            en_US: Discord Webhook Avatar
+            ja_JP: Discord Webhook Avatar
+            pt_BR: Discord Webhook Avatar
+            zh_Hans: Discord Webhook头像
+          llm_description: ''
+          max: null
+          min: null
+          name: avatar_url
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          avatar_url: ''
+          content: ''
+          username: ''
+          webhook_url: ''
+        plugin_id: langgenius/discord
+        plugin_unique_identifier: langgenius/discord:0.0.2@cffa449e46ccfdd45ad95f0da68b01d7c1a740312e067e33de12297ba2b65924
+        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=d22cabd0-10fe-4a07-a439-22bb1cbc4e43&filename=9129e3dcdecb94d8a8569cd1acfcbbcc39aa4f4c90af6af3cfd0c12271d429dc.svg
+        provider_id: langgenius/discord/discord
+        provider_name: langgenius/discord/discord
+        provider_type: builtin
+        selected: true
+        title: Incoming Webhook to send message
+        tool_configurations:
+          avatar_url:
+            type: mixed
+            value: ''
+          webhook_url:
+            type: mixed
+            value: ''
+        tool_description: Sending a message on Discord via the Incoming Webhook
+        tool_label: Incoming Webhook to send message
+        tool_name: discord_webhook
+        tool_node_version: '2'
+        tool_parameters:
+          content:
+            type: mixed
+            value: ''
+          username:
+            type: mixed
+            value: null
+        type: tool
+      height: 114
+      id: '1763545190553'
+      position:
+        x: 382
+        y: 282
+      positionAbsolute:
+        x: 382
+        y: 282
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 0
+      y: 0
+      zoom: 1
+  rag_pipeline_variables: []
