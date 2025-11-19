@@ -2,6 +2,9 @@
 
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
 <!-- TODO convert event radar prompt -->
+<!-- bug kaye cash tracker: can not push -->
+<!-- todo kaye cash tracker: reverse entry order, newer at top  -->
+<!-- todo hooks: must update setup.cfg, for version -->
 
 [^format]
 
@@ -27,6 +30,30 @@
 - dify app `kaye_event_radar`, based on previous prompt-based role *Event Search*
 
 ### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.9.1] - 2025-11-19
+
+### Changed
+
+- clean up blueprints for embedded prompts
 
 `kaye_cash_tracker` dify app:
 
@@ -46,9 +73,6 @@ Python CLI, change args:
 - change to `--target-file` (from `--destination-file`)
 
 
-### Deprecated
-### Removed
-### Fixed
 
 
 
@@ -961,7 +985,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.9.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.9.1...dev
+[4.9.1]: https://github.com/kami-lel/kaye/compare/v4.9.0...v4.9.1
 [4.9.0]: https://github.com/kami-lel/kaye/compare/v4.8.1...v4.9.0
 [4.8.1]: https://github.com/kami-lel/kaye/compare/v4.8.0...v4.8.1
 [4.8.0]: https://github.com/kami-lel/kaye/compare/v4.7.6...v4.8.0
