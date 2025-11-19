@@ -1,0 +1,64 @@
+{
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "description": "A list of event objects; each object represents a single event.",
+      "items": {
+        "type": "object",
+        "description": "Describes single event",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Short, human-readable name of the event."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Link to more information about the event."
+          },
+          "summary": {
+            "type": "string",
+            "description": "Concise summary or abstract describing the event."
+          },
+          "keywords": {
+            "type": "array",
+            "description": "List of keywords or tags related to the event.",
+            "items": {
+              "type": "string",
+              "description": "A single keyword or tag."
+            }
+          },
+          "date": {
+            "type": "string",
+            "pattern": "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$",
+            "description": "The calendar date of the event in MM-DD format (month-day)."
+          },
+          "time": {
+            "type": "string",
+            "pattern": "^(?:[01][0-9]|2[0-3])[0-5][0-9]$",
+            "description": "The local time of the event as HHMM where HH is 24-hour (for example 0930, 2359)."
+          },
+          "location": {
+            "type": "string",
+            "description": "Location or address of the event as a single string."
+          }
+        },
+        "required": [
+          "name",
+          "link",
+          "summary",
+          "keywords",
+          "date",
+          "time",
+          "location"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "events"
+  ],
+  "additionalProperties": false
+}
