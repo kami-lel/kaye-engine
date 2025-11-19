@@ -2,19 +2,78 @@ app:
   description: ''
   icon: 🎭
   icon_background: '#FFEAD5'
-  mode: workflow
+  mode: advanced-chat
   name: Kaye_Event_Radar
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/discord:0.0.2@cffa449e46ccfdd45ad95f0da68b01d7c1a740312e067e33de12297ba2b65924
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.5@373362a028986aae53a7baf73a7f11991ba3c22c69eaf97d6cde048cfd4a9f98
     version: null
 kind: app
 version: 0.5.0
 workflow:
-  conversation_variables: []
+  conversation_variables:
+  - description: ''
+    id: 18d78181-2696-413f-a4c6-c465ff3ed6c8
+    name: GRAB_TRIGGER_KEYWORD
+    selector:
+    - conversation
+    - GRAB_TRIGGER_KEYWORD
+    value: GRAB
+    value_type: string
+  - description: ''
+    id: 5a32e9f5-9bcf-40b5-92be-708f77009009
+    name: PROMPT_EVENT_SEARCH
+    selector:
+    - conversation
+    - PROMPT_EVENT_SEARCH
+    value: '## Kaye Event Radar
+
+
+      In the *event search role*, your task is to assist the user by searching for
+      events that may interest them. You will:
+
+
+      - **Identify events** aligned with the user''s provided topics and expand the
+      search to include events that might pique their interest.
+
+      - **Provide detailed and relevant event information** to the user, delivering
+      clear and comprehensive details in a straightforward manner.
+
+      - Utilize the user''s provided topics as a foundation, while also exploring
+      other areas that may appeal to the user''s interests.
+
+
+      {INTERESTED_TOPICS}
+
+      '
+    value_type: string
+  - description: ''
+    id: 9e7612f0-426a-4789-ac3c-ab2e992a21da
+    name: interested_topics
+    selector:
+    - conversation
+    - interested_topics
+    value:
+    - Jazz
+    - Rock Music
+    - Photography
+    - Video Games
+    - Films
+    - Reading
+    - Philosophy
+    - Indie Music
+    value_type: array[string]
+  - description: ''
+    id: 86f7a503-e9d8-4875-b878-a48c0ffbb793
+    name: grab_urls
+    selector:
+    - conversation
+    - grab_urls
+    value: []
+    value_type: array[string]
   environment_variables: []
   features:
     file_upload:
@@ -64,43 +123,85 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: trigger-schedule
-        targetType: tool
-      id: 1763543549247-source-1763545190553-target
-      source: '1763543549247'
+        sourceType: start
+        targetType: code
+      id: 1763588758713-source-1763588868368-target
+      selected: false
+      source: '1763588758713'
       sourceHandle: source
-      target: '1763545190553'
+      target: '1763588868368'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1763588868368-source-1763588885692-target
+      selected: false
+      source: '1763588868368'
+      sourceHandle: source
+      target: '1763588885692'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1763591247691-source-1763588896537-target
+      selected: false
+      source: '1763591247691'
+      sourceHandle: source
+      target: '1763588896537'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1763588885692-false-1763591247691-target
+      selected: false
+      source: '1763588885692'
+      sourceHandle: 'false'
+      target: '1763591247691'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1763588896537-source-answer-target
+      selected: false
+      source: '1763588896537'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1763588885692-true-1763591247691-target
+      source: '1763588885692'
+      sourceHandle: 'true'
+      target: '1763591247691'
       targetHandle: target
       type: custom
       zIndex: 0
     nodes:
     - data:
-        config:
-          frequency: daily
-          mode: visual
-          timezone: UTC
-          visual_config:
-            monthly_days:
-            - 1
-            on_minute: 0
-            time: 12:00 AM
-            weekdays:
-            - sun
-        frequency: weekly
-        mode: visual
         selected: false
-        timezone: America/New_York
-        title: Schedule Trigger
-        type: trigger-schedule
-        visual_config:
-          monthly_days:
-          - 1
-          on_minute: 0
-          time: 12:00 AM
-          weekdays:
-          - fri
-      height: 130
-      id: '1763543549247'
+        title: User Input
+        type: start
+        variables: []
+      height: 73
+      id: '1763588758713'
       position:
         x: 80
         y: 282
@@ -113,151 +214,180 @@ workflow:
       type: custom
       width: 242
     - data:
-        is_team_authorization: true
-        paramSchemas:
-        - auto_generate: null
-          default: null
-          form: form
-          human_description:
-            en_US: Discord Incoming Webhook url
-            ja_JP: Discord Incoming Webhook url
-            pt_BR: Discord Incoming Webhook url
-            zh_Hans: Discord入站Webhook的url
-          label:
-            en_US: Discord Incoming Webhook url
-            ja_JP: Discord Incoming Webhook url
-            pt_BR: Discord Incoming Webhook url
-            zh_Hans: Discord入站Webhook的url
-          llm_description: ''
-          max: null
-          min: null
-          name: webhook_url
-          options: []
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: string
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: Content to sent to the channel or person.
-            ja_JP: Content to sent to the channel or person.
-            pt_BR: Content to sent to the channel or person.
-            zh_Hans: 消息内容文本
-          label:
-            en_US: content
-            ja_JP: content
-            pt_BR: content
-            zh_Hans: 消息内容
-          llm_description: Content of the message
-          max: null
-          min: null
-          name: content
-          options: []
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: string
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: Discord Webhook Username
-            ja_JP: Discord Webhook Username
-            pt_BR: Discord Webhook Username
-            zh_Hans: Discord Webhook用户名
-          label:
-            en_US: Discord Webhook Username
-            ja_JP: Discord Webhook Username
-            pt_BR: Discord Webhook Username
-            zh_Hans: Discord Webhook用户名
-          llm_description: Discord Webhook Username
-          max: null
-          min: null
-          name: username
-          options: []
-          placeholder: null
-          precision: null
-          required: false
-          scope: null
-          template: null
-          type: string
-        - auto_generate: null
-          default: null
-          form: form
-          human_description:
-            en_US: Discord Webhook Avatar URL
-            ja_JP: Discord Webhook Avatar URL
-            pt_BR: Discord Webhook Avatar URL
-            zh_Hans: Discord Webhook头像地址
-          label:
-            en_US: Discord Webhook Avatar
-            ja_JP: Discord Webhook Avatar
-            pt_BR: Discord Webhook Avatar
-            zh_Hans: Discord Webhook头像
-          llm_description: ''
-          max: null
-          min: null
-          name: avatar_url
-          options: []
-          placeholder: null
-          precision: null
-          required: false
-          scope: null
-          template: null
-          type: string
-        params:
-          avatar_url: ''
-          content: ''
-          username: ''
-          webhook_url: ''
-        plugin_id: langgenius/discord
-        plugin_unique_identifier: langgenius/discord:0.0.2@cffa449e46ccfdd45ad95f0da68b01d7c1a740312e067e33de12297ba2b65924
-        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=d22cabd0-10fe-4a07-a439-22bb1cbc4e43&filename=9129e3dcdecb94d8a8569cd1acfcbbcc39aa4f4c90af6af3cfd0c12271d429dc.svg
-        provider_id: langgenius/discord/discord
-        provider_name: langgenius/discord/discord
-        provider_type: builtin
-        selected: true
-        title: Incoming Webhook to send message
-        tool_configurations:
-          avatar_url:
-            type: mixed
-            value: ''
-          webhook_url:
-            type: mixed
-            value: ''
-        tool_description: Sending a message on Discord via the Incoming Webhook
-        tool_label: Incoming Webhook to send message
-        tool_name: discord_webhook
-        tool_node_version: '2'
-        tool_parameters:
-          content:
-            type: mixed
-            value: ''
-          username:
-            type: mixed
-            value: null
-        type: tool
-      height: 114
-      id: '1763545190553'
+        answer: '{{#1763588896537.text#}}'
+        selected: false
+        title: Answer
+        type: answer
+        variables: []
+      height: 102
+      id: answer
       position:
-        x: 382
-        y: 282
+        x: 2889.5858480620323
+        y: 294.7901179950615
       positionAbsolute:
-        x: 382
-        y: 282
+        x: 2889.5858480620323
+        y: 294.7901179950615
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(user_query: str, grab_trigger_keyword: str):\n    opt = grab_trigger_keyword\
+          \ in user_query\n    return {\"output\": opt}"
+        code_language: python3
+        desc: decide if need to trigger web grabbing function
+        outputs:
+          output:
+            children: null
+            type: boolean
+        selected: false
+        title: decide grab
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: user_query
+        - value_selector:
+          - conversation
+          - GRAB_TRIGGER_KEYWORD
+          value_type: string
+          variable: grab_trigger_keyword
+      height: 96
+      id: '1763588868368'
+      position:
+        x: 468.2983442881949
+        y: 303
+      positionAbsolute:
+        x: 468.2983442881949
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 31744645-fd10-499a-8018-c56f26b402d6
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1763588868368'
+            - output
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: IF/ELSE
+        type: if-else
+      height: 124
+      id: '1763588885692'
+      position:
+        x: 709.4061809542185
+        y: 303
+      positionAbsolute:
+        x: 709.4061809542185
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 5bf37c48-085f-4a5f-87b2-b6686eb6e238
+          role: system
+          text: '{{#1763591247691.output#}}'
+        - id: 0397474c-0bd8-43c8-9887-cf100316167c
+          role: user
+          text: '{{#sys.query#}}
+
+            {{#sys.files#}}'
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              events:
+                items:
+                  additionalProperties: false
+                  properties: {}
+                  required: []
+                  type: object
+                type: array
+            required: []
+            type: object
+        structured_output_enabled: true
+        title: event search
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1763588896537'
+      position:
+        x: 2238.8451827010895
+        y: 294.7901179950615
+      positionAbsolute:
+        x: 2238.8451827010895
+        y: 294.7901179950615
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(prompt_event_search: str, interested_topics: list[str]):\n\
+          \    lines = [\"#### Interested Topics\", \"\"]\n\n    for topic in interested_topics:\n\
+          \        lines.append(topic)\n\n    opt = prompt_event_search.format(INTERESTED_TOPICS=\"\
+          \\n\".join(lines))\n    return {\"output\": opt}"
+        code_language: python3
+        desc: populate prompt with interest keywords
+        outputs:
+          output:
+            children: null
+            type: string
+        selected: true
+        title: gen prompt
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - PROMPT_EVENT_SEARCH
+          value_type: string
+          variable: prompt_event_search
+        - value_selector:
+          - conversation
+          - interested_topics
+          value_type: array[string]
+          variable: interested_topics
+      height: 80
+      id: '1763591247691'
+      position:
+        x: 1998.3954355476499
+        y: 294.7901179950615
+      positionAbsolute:
+        x: 1998.3954355476499
+        y: 294.7901179950615
       selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: 0
-      y: 0
-      zoom: 1
+      x: -716.1665226409709
+      y: 355.66520596450283
+      zoom: 0.5894754749423124
   rag_pipeline_variables: []
