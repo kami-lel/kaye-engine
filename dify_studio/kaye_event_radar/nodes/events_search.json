@@ -42,7 +42,7 @@
           },
           "summary": {
             "type": "string",
-            "description": "concise summary in 1 or more paragraphs; use Briefness Style; **bold** for emphasis; expressive many emojis along key info; omit date, time, location in summary"
+            "description": "concise summary in 1 or more paragraphs\nuse Briefness Style\n**bold** for emphasis\nexpressive emojis"
           }
         },
         "required": [
