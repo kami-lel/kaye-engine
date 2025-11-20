@@ -43,6 +43,25 @@
 
 
 
+## [4.10.0] - 2025-11-20
+
+### Added
+
+- dify app `kaye_event_radar`, based on previous prompt-based role *Event Search*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## [4.9.1] - 2025-11-19
@@ -981,7 +1000,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.9.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.10.0...dev
+[4.10.0]: https://github.com/kami-lel/kaye/compare/v4.9.1...v4.10.0
 [4.9.1]: https://github.com/kami-lel/kaye/compare/v4.9.0...v4.9.1
 [4.9.0]: https://github.com/kami-lel/kaye/compare/v4.8.1...v4.9.0
 [4.8.1]: https://github.com/kami-lel/kaye/compare/v4.8.0...v4.8.1
