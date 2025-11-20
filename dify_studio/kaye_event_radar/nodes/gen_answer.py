@@ -1,10 +1,21 @@
-NAME_KEY = "name"
-DATE_KEY = "date"
-TIME_KEY = "time"
-LOCATION_KEY = "location"
-LINK_KEY = "link"
-SUMMARY_KEY = "summary"
-KEYWORDS_KEY = "keywords"
+from datetime import date as date_cls
+
+EVENT_TEMPLATE = """## [{name}]({link})
+
+- 🕒 **{time}**
+- 💰 {price}
+- 📍 {location}
+
+{summary}
+
+"""
+
+
+def create_date_line(date):
+    month_str, day_str = date.split("-")
+    dt = date_cls(date_cls.today().year, int(month_str), int(day_str))
+    weekday = dt.strftime("%a")
+    return "# {weekday} {date}\n".format(weekday=weekday, date=date)
 
 
 def main(event_search_result: dict):
@@ -12,33 +23,20 @@ def main(event_search_result: dict):
     by_dates = {}
 
     for event in event_search_result["events"]:
-        date = event[DATE_KEY]
-        entry = (
-            event[NAME_KEY],
-            event[TIME_KEY],
-            event[LOCATION_KEY],
-            event[LINK_KEY],
-            event[SUMMARY_KEY],
-            event[KEYWORDS_KEY],
-        )
+        date = event["date"]
         if date not in by_dates:
             by_dates[date] = []  # init a new list
 
-        by_dates[date].append(entry)
+        by_dates[date].append(event)
 
     # create md result  --------------------------------------------------------
-    lines = []
-    lines.append("# Events Radar")
+    answer_parts = []
 
     for date, events_of_day in sorted(by_dates.items()):
-        lines.append("## {}".format(date))
+        answer_parts.append(create_date_line(date))
 
-        for name, time, location, link, summary, keywords in events_of_day:
-            lines.append("### [{}]({})".format(name, link))
-            lines.extend(["", summary, "", ""])
-            lines.append("- {} {}".format(date, time))
-            lines.append("- {}".format(location))
-            lines.append("- {}".format(",".join(keywords)))
+        for event in events_of_day:
+            answer_parts.append(EVENT_TEMPLATE.format(**event))
 
-    opt = "\n".join(lines)
+    opt = "".join(answer_parts)
     return {"output": opt}

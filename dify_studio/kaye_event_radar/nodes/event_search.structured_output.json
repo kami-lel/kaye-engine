@@ -3,53 +3,55 @@
   "properties": {
     "events": {
       "type": "array",
-      "description": "A list of event objects; each object represents a single event.",
+      "minItems": 1,
       "items": {
         "type": "object",
-        "description": "Describes single event",
         "properties": {
           "name": {
             "type": "string",
-            "description": "Short, human-readable name of the event."
+            "description": "Short human-readable event title"
           },
           "link": {
             "type": "string",
             "format": "uri",
-            "description": "Link to more information about the event."
-          },
-          "summary": {
-            "type": "string",
-            "description": "Concise summary or abstract describing the event."
-          },
-          "keywords": {
-            "type": "array",
-            "description": "List of keywords or tags related to the event.",
-            "items": {
-              "type": "string",
-              "description": "A single keyword or tag."
-            }
+            "description": "URL to detailed event information"
           },
           "date": {
             "type": "string",
-            "description": "The calendar date of the event in MM-DD format (month-day)."
+            "description": "Month and day in MM-DD format"
           },
           "time": {
             "type": "string",
-            "description": "The local time of the event as HHMM where HH is 24-hour (for example 0930, 2359)."
+            "description": "Start time as HH:MM or range HH:MM ~ HH:MM (24-hour)"
+          },
+          "price": {
+            "type": "string",
+            "description": "Admission price or fee",
+            "examples": [
+              "$15.00",
+              "free"
+            ]
           },
           "location": {
             "type": "string",
-            "description": "Location or address of the event as a single string."
+            "description": "Single-line address; omit state, country, postal code",
+            "examples": [
+              "Central Library, 123 Main St, Springfield",
+              "Student Hall, USC, Los Angeles"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "description": "concise summary in 1 or more paragraphs; use Briefness Style; **bold** for emphasis; expressive many emojis along key info; omit date, time, location in summary"
           }
         },
         "required": [
           "name",
           "link",
-          "summary",
-          "keywords",
           "date",
           "time",
-          "location"
+          "location",
+          "summary"
         ],
         "additionalProperties": false
       }
