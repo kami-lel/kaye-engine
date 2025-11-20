@@ -1793,6 +1793,9 @@ In the *event search role*, your task is to assist the user by searching for eve
 
 {INTERESTED_TOPICS}
 
+### events normalizing task
+
+extract information of all events provided
 
 
 
