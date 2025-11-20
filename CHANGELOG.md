@@ -1,6 +1,7 @@
 # Kaye CHANGELOG
 
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
+<!-- TODO convert event radar prompt -->
 <!-- bug kaye cash tracker: can not push -->
 <!-- todo kaye cash tracker: reverse entry order, newer at top  -->
 <!-- todo hooks: must update setup.cfg, for version -->
@@ -25,6 +26,9 @@
 ## [Unreleased]
 
 ### Added
+
+- dify app `kaye_event_radar`, based on previous prompt-based role *Event Search*
+
 ### Changed
 ### Deprecated
 ### Removed
