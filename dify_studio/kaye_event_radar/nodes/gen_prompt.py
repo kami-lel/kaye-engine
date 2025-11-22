@@ -6,3 +6,6 @@ def main(prompt_events_search: str, interested_topics: list[str]):
 
     opt = prompt_events_search.format(INTERESTED_TOPICS="\n".join(lines))
     return {"output": opt}
+
+
+# TODO better docs

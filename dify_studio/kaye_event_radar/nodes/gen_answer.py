@@ -10,6 +10,8 @@ EVENT_TEMPLATE = """## [{name}]({link})
 
 """
 
+# TODO better docs
+
 
 def create_date_line(date):
     month_str, day_str = date.split("-")
