@@ -51,8 +51,6 @@ def main():
 
     :return: ``opt`` is a ``list`` of urls (``str``) to be scraped
     """
-    # TODO take list of website names from user input
-
     start_date, end_date, days_cnt = _create_date_range()
 
     # create urls  -------------------------------------------------------------

@@ -1,2 +1,3 @@
 Todo improve filter down events
-Todo test whether needed register?
+todo implement ability to fetch websites w/ authentication
+Todo take list of website names from user input
