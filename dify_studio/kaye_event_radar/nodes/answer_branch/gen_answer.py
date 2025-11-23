@@ -11,6 +11,10 @@ EVENT_TEMPLATE = """## [{name}]({link})
 """
 
 
+def _filter_events(events, filtered_events_names):
+    return events  # TODO
+
+
 def _create_date_line(date):
     """
     :param date:
@@ -24,19 +28,12 @@ def _create_date_line(date):
     return "# {weekday} {date}\n".format(weekday=weekday, date=date)
 
 
-def main(event_search_result: dict):
-    """
-    create a standard, well-formatted answer in ``md``
-
-
-    :param event_search_result:
-    :type event_search_result: dict
-    :return: ``opt`` is a ``str`` of well-formatted answer in ``md``
-    """
+def _generate_md_format(events):
+    # TODO doc
     # tab by date  -------------------------------------------------------------
     by_dates = {}
 
-    for event in event_search_result["events"]:
+    for event in events["events"]:
         date = event["date"]
         if date not in by_dates:
             by_dates[date] = []  # init a new list
@@ -52,5 +49,21 @@ def main(event_search_result: dict):
         for event in events_of_day:
             answer_parts.append(EVENT_TEMPLATE.format(**event))
 
-    opt = "".join(answer_parts)
+    return "".join(answer_parts)
+
+
+def main(events: list[dict], filtered_events_names: dict):
+    """
+    create a standard, well-formatted answer in ``md``
+
+
+    :param event_search_result:
+    :type event_search_result: dict
+    :return: ``opt`` is a ``str`` of well-formatted answer in ``md``
+    """
+    # TODO update doc
+
+    filtered_events = _filter_events(events, filtered_events_names)
+    opt = _generate_md_format(filtered_events)
+
     return {"output": opt}
