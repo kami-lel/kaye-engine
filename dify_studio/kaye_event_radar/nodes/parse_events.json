@@ -3,30 +3,30 @@
   "properties": {
     "events": {
       "type": "array",
-      "minItems": 1,
+      "minitems": 1,
       "items": {
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
-            "description": "Short human-readable event title"
+            "description": "short human-readable event title"
           },
           "link": {
             "type": "string",
             "format": "uri",
-            "description": "URL to detailed event information"
+            "description": "url to detailed event information"
           },
           "date": {
             "type": "string",
-            "description": "Month and day in MM-DD format"
+            "description": "month and day in mm-dd format"
           },
           "time": {
             "type": "string",
-            "description": "Start time as HH:MM or range HH:MM ~ HH:MM (24-hour)"
+            "description": "start time as hh:mm or range hh:mm ~ hh:mm (24-hour)"
           },
           "price": {
             "type": "string",
-            "description": "Admission price or fee",
+            "description": "admission price or fee",
             "examples": [
               "$15.00",
               "free"
@@ -34,15 +34,15 @@
           },
           "location": {
             "type": "string",
-            "description": "Single-line address; omit state, country, postal code",
+            "description": "single-line address; omit state, country, postal code",
             "examples": [
-              "Central Library, 123 Main St, Springfield",
-              "Student Hall, USC, Los Angeles"
+              "central library, 123 main st, springfield",
+              "student hall, usc, los angeles"
             ]
           },
           "summary": {
             "type": "string",
-            "description": "concise summary in 1 or more paragraphs\nuse Briefness Style\n**bold** for emphasis\nexpressive emojis"
+            "description": "concise summary in 1 or more paragraphs\nuse briefness style\n**bold** for emphasis\nexpressive emojis"
           }
         },
         "required": [
@@ -53,12 +53,12 @@
           "location",
           "summary"
         ],
-        "additionalProperties": false
+        "additionalproperties": false
       }
     }
   },
   "required": [
     "events"
   ],
-  "additionalProperties": false
+  "additionalproperties": false
 }

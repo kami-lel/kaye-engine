@@ -1785,7 +1785,24 @@ If none of the above prefixes apply, use one of the following to describe the ch
 
 ## Kaye Event Radar
 
+### parse events
+
+Parse all events into the desired format
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### events search
+
 
 In the *event search role*, your task is to assist the user by searching for events that may interest them. You will:
 
