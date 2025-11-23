@@ -12,7 +12,7 @@ EVENT_TEMPLATE = """## [{name}]({link})
 
 
 WARNING_TEMPLATE = """
-<span style="color: red; font-weight: bold;">WARNING: {}</span>
+<span style="color: red; font-weight: bold;">WARN : {}</span>
 """
 
 DEBUG_SKIP_EVENT_FILTERING_WARNING = WARNING_TEMPLATE.format(
