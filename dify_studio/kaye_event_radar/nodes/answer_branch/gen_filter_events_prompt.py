@@ -10,7 +10,7 @@ def main(filter_events_prompt: str, interested_topics: list[str]):
     :type interested_topics: list[str]
     :return: ``opt`` is the populated, usable prompt (typed ``str``)
     """
-    lines = ["#### Interested Topics", ""]
+    lines = ["##### Interested Topics", ""]
 
     for topic in interested_topics:
         lines.append(topic)

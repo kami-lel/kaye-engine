@@ -1823,6 +1823,9 @@ Parse all events into the desired format, keep all information.
 
 ### filter events
 
+- Select all events loosely related to the provided *Interested Topics*
+- Return an array of event `name` exactly as given
+
 {INTERESTED_TOPICS}
 
 

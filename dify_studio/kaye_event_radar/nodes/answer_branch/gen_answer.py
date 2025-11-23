@@ -2,28 +2,13 @@ from datetime import date as date_cls
 
 EVENT_TEMPLATE = """## [{name}]({link})
 
-- 🕒 **{time}**
+- 🕒 `{time}`
 - 💰 {price}
-- 📍 {location}
+- 📍 <ins>{location}</ins>
 
 {summary}
 
 """
-
-
-def _filter_events(events, filtered_events_names):
-    """
-    :param events:
-    :type events: list[dict]
-    :param filtered_events_names:
-    :type filtered_events_names: list[str]
-    :return: filter ``events``
-            by keep only those with names appeared in ``filtered_events_names``
-    :rtype: list[dict]
-    """
-    return [
-        event for event in events if event["name"] in filtered_events_names
-    ]
 
 
 def _create_date_line(date):
@@ -39,19 +24,19 @@ def _create_date_line(date):
     return "# {weekday} {date}\n".format(weekday=weekday, date=date)
 
 
-def _generate_md_format(events):
+def main(filtered_events: list[dict]):
     """
-    create a well-formatted ``md`` text
+    create a well-formatted ``md`` text answer of ``filtered_events``
 
-    :param events:
-    :type events: list[dict]
-    :return: formatted text
-    :rtype: str
+    :param filtered_events:
+    :type filtered_events: list[dict]
+    :return: ``opt`` is the formatted text answer (typed ``str``)
     """
+
     # tab by date  -------------------------------------------------------------
     by_dates = {}
 
-    for event in events["events"]:
+    for event in filtered_events:
         date = event["date"]
         if date not in by_dates:
             by_dates[date] = []  # init a new list
@@ -67,23 +52,5 @@ def _generate_md_format(events):
         for event in events_of_day:
             answer_parts.append(EVENT_TEMPLATE.format(**event))
 
-    return "".join(answer_parts)
-
-
-def main(events: list[dict], filtered_events_names: dict):
-    """
-    create a well-formatted ``md`` text answer of ``events`` after filtering
-
-
-    :param events:
-    :type events: list[dict]
-    :param filtered_events_names:
-    :type filtered_events_names: dict
-    :return: ``opt`` is a ``str`` of well-formatted answer text in ``md``
-    :rtype: dict
-    """
-
-    filtered_events = _filter_events(events, filtered_events_names)
-    opt = _generate_md_format(filtered_events)
-
+    opt = "".join(answer_parts)
     return {"output": opt}
