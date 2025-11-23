@@ -10,6 +10,8 @@ EVENT_TEMPLATE = """## [{name}]({link})
 
 """
 
+# FIXME better format for links
+
 
 def _create_date_line(date):
     """
