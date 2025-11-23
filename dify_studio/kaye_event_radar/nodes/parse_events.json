@@ -25,12 +25,7 @@
             "description": "start time as hh:mm or range hh:mm ~ hh:mm (24-hour)"
           },
           "price": {
-            "type": "string",
-            "description": "admission price or fee",
-            "examples": [
-              "$15.00",
-              "free"
-            ]
+            "type": "string"
           },
           "location": {
             "type": "string",
@@ -41,8 +36,7 @@
             ]
           },
           "summary": {
-            "type": "string",
-            "description": "concise summary in 1 or more paragraphs, don't contain repeated information given in previous fields\nuse briefness style\n**bold** for emphasis\nexpressive emojis"
+            "type": "string"
           }
         },
         "required": [
