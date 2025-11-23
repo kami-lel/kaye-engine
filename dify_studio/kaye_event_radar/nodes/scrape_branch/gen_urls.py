@@ -1,5 +1,8 @@
 from datetime import timedelta, date as date_cls
 
+# todo implement ability to fetch websites w/ authentication
+
+
 EVENTBRITE_URL = (
     "https://www.eventbrite.com/d/ca--los-angeles/all-events/"
     "?page=1&start_date={}&end_date={}"

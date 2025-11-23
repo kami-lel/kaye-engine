@@ -1,4 +1,2 @@
-todo implement ability to fetch websites w/ authentication
 TODO prompt corpus, improve
 TODO filter_event.json: add description
-BUG summary often contains repeated info
