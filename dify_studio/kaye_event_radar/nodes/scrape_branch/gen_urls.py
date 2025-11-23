@@ -73,7 +73,7 @@ def main(
     opt = []
 
     # eventide
-    # Fixme only search 1st page
+    # FIXME only search 1st page
     if enable_eventbride:
         opt.append(
             EVENTBRITE_URL.format(
@@ -92,12 +92,12 @@ def main(
         )
 
     # Discover LA
-    # Fixme no date filter
+    # FIXME no date filter
     if enable_discover_la:
         opt.append(DISCOVER_LA_URL)
 
     # LA Live.com
-    # Bug filter not applied
+    # BUG filter not applied
     if enable_la_live:
         opt.append(
             LA_LIVE_URL.format(
@@ -107,7 +107,7 @@ def main(
         )
 
     # USC Event Calendar
-    # Fixme only page 1
+    # FIXME only page 1
     if enable_usc_event_calendar:
         opt.append(
             USC_EVENT_CALENDAR_URL.format(
