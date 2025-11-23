@@ -50,7 +50,14 @@ def _create_date_range():
     return start_date, end_date, days_passed + 1
 
 
-def main():
+def main(
+    enable_eventbride,
+    enable_downtown_la,
+    enable_discover_la,
+    enable_la_live,
+    enable_usc_event_calendar,
+    enable_engage_sc,
+):
     """
     dynamically create information for scarping various websites
 
@@ -64,49 +71,55 @@ def main():
 
     # eventide
     # Fixme only search 1st page
-    opt.append(
-        EVENTBRITE_URL.format(
-            start_date.strftime(EVENTBRITE_DATE),
-            end_date.strftime(EVENTBRITE_DATE),
+    if enable_eventbride:
+        opt.append(
+            EVENTBRITE_URL.format(
+                start_date.strftime(EVENTBRITE_DATE),
+                end_date.strftime(EVENTBRITE_DATE),
+            )
         )
-    )
 
     # downtownla.com
-    opt.append(
-        DOWNTOWN_LA_URL.format(
-            start_date.strftime(DOWNTOWN_LA_DATE),
-            end_date.strftime(DOWNTOWN_LA_DATE),
+    if enable_downtown_la:
+        opt.append(
+            DOWNTOWN_LA_URL.format(
+                start_date.strftime(DOWNTOWN_LA_DATE),
+                end_date.strftime(DOWNTOWN_LA_DATE),
+            )
         )
-    )
 
     # Discover LA
     # Fixme no date filter
-    opt.append(DISCOVER_LA_URL)
+    if enable_discover_la:
+        opt.append(DISCOVER_LA_URL)
 
     # LA Live.com
     # Bug filter not applied
-    opt.append(
-        LA_LIVE_URL.format(
-            start_date.strftime(LA_LIVE_DATE),
-            end_date.strftime(LA_LIVE_DATE),
+    if enable_la_live:
+        opt.append(
+            LA_LIVE_URL.format(
+                start_date.strftime(LA_LIVE_DATE),
+                end_date.strftime(LA_LIVE_DATE),
+            )
         )
-    )
 
     # USC Event Calendar
     # Fixme only page 1
-    opt.append(
-        USC_EVENT_CALENDAR_URL.format(
-            start_date.strftime(USC_EVENT_CALENDAR_DATE), days_cnt
+    if enable_usc_event_calendar:
+        opt.append(
+            USC_EVENT_CALENDAR_URL.format(
+                start_date.strftime(USC_EVENT_CALENDAR_DATE), days_cnt
+            )
         )
-    )
 
     # engageSC
-    opt.append(
-        ENGAGE_SC_URL.format(
-            start_date.strftime(ENGAGE_SC_DATE),
-            end_date.strftime(ENGAGE_SC_DATE),
+    if enable_engage_sc:
+        opt.append(
+            ENGAGE_SC_URL.format(
+                start_date.strftime(ENGAGE_SC_DATE),
+                end_date.strftime(ENGAGE_SC_DATE),
+            )
         )
-    )
 
     # return all urls  ---------------------------------------------------------
     return {"output": opt}
