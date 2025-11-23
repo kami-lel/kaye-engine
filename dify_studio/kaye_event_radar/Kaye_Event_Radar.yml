@@ -20,6 +20,14 @@ kind: app
 version: 0.5.0
 workflow:
   conversation_variables:
+  - description: sustained events across rounds
+    id: e27aec12-23f3-4cef-8964-5a0c963a092b
+    name: events
+    selector:
+    - conversation
+    - events
+    value: []
+    value_type: array[object]
   - description: ''
     id: 9e7612f0-426a-4789-ac3c-ab2e992a21da
     name: interested_topics
@@ -35,49 +43,50 @@ workflow:
     - Reading
     - Philosophy
     - Indie Music
+    - Music Festival
     value_type: array[string]
   environment_variables:
   - description: ''
-    id: 5c97ef67-c2d1-4fc4-8c81-31072df5e7c3
-    name: EVENT_SEARCH_PROMPT
+    id: 1517f83c-f57f-4fcf-b884-2354a69b055c
+    name: FILTER_EVENTS_PROMPT
     selector:
     - env
-    - EVENT_SEARCH_PROMPT
-    value: '## Briefness Style
+    - FILTER_EVENTS_PROMPT
+    value: '### filter events
 
-      - write in **newspaper headlinese**, prioritize brevity over grammar
+      - Select all events loosely related to the provided *Interested Topics*
 
-      - use present for current, infinitive for planned
-
-      - omit articles (a, an, the) and helper verbs, use strong nouns, verbs
-
-      - compress with punctuation: colon, dash, comma, otherwise minimize, no terminal
-      periods
-
-      - use numerals (use 2, not two), symbols, **Usable Abbrs** when unambiguous
-
-      - prefer active voice
-
-      - keep sentences short, direct, drop filler
+      - Return an array of event `name` exactly as given
 
 
-      ### events search
+      {INTERESTED_TOPICS}
 
-      In the *event search role*, your task is to assist the user by searching for
-      events that may interest them. You will:
+      <!-- blueprint: filter_events; Kaye v4.9.2a0.020251123115422 -->
 
-
-      - **Identify events** aligned with the user''s provided topics and expand the
-      search to include events that might pique their interest.
-
-      - **Provide detailed and relevant event information** to the user, delivering
-      clear and comprehensive details in a straightforward manner.
-
-      - Utilize the user''s provided topics as a foundation, while also exploring
-      other areas that may appeal to the user''s interests.
-
-
-      {INTERESTED_TOPICS}'
+      '
+    value_type: string
+  - description: ''
+    id: 81741d5c-0cb7-404c-9b8e-45dcc96c03d7
+    name: PARSE_EVENTS_PROMPT
+    selector:
+    - env
+    - PARSE_EVENTS_PROMPT
+    value: "## Briefness Style\n- write in **newspaper headlinese**, prioritize brevity\
+      \ over grammar\n- use present for current, infinitive for planned\n- omit articles\
+      \ (a, an, the) and helper verbs, use strong nouns, verbs\n- compress with punctuation:\
+      \ colon, dash, comma, otherwise minimize, no terminal periods\n- use numerals\
+      \ (use 2, not two), symbols, **Usable Abbrs** when unambiguous\n- prefer active\
+      \ voice\n- keep sentences short, direct, drop filler\n\n### parse events\nParse\
+      \ all events into the desired format, keep all information.\n\n##### price field\n\
+      \n- Extract admission price or fee; mention if registration or sign-up is required\n\
+      - Indicate separate prices for groups (e.g., adults, children) if applicable\n\
+      - Use `\U0001F193` if the event is free\n- Use `❓` if fee info is unknown\n\
+      - Examples:\n  - $15\n  - $5 early bird, $15 at door\n  - \U0001F193, need registration\n\
+      \n##### summary field\n\n- Write a concise summary using *Briefness Style*\n\
+      - Use multiple lines; prefer short line width for each line\n- Do not repeat\
+      \ information from previous fields\n- Use **bold** for key words\n- Add expressive\
+      \ emojis within the text where relevant\n<!-- blueprint: parse_events; Kaye\
+      \ v4.9.2a0.020251123112456 -->\n"
     value_type: string
   - description: ''
     id: 4c510f56-e1fb-44e2-aae9-3a9e848524d3
@@ -141,56 +150,6 @@ workflow:
   graph:
     edges:
     - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: code
-        targetType: answer
-      id: 1763612427355-source-answer-target
-      selected: false
-      source: '1763612427355'
-      sourceHandle: source
-      target: answer
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: llm
-      id: 1763591247691-source-1763628188021-target
-      selected: false
-      source: '1763591247691'
-      sourceHandle: source
-      target: '1763628188021'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: code
-      id: 1763628188021-source-1763612427355-target
-      selected: false
-      source: '1763628188021'
-      sourceHandle: source
-      target: '1763612427355'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: if-else
-        targetType: answer
-      id: 1763853265591-dcf38d88-0624-42d5-a270-9024bcc6f125-1763854019727-target
-      selected: false
-      source: '1763853265591'
-      sourceHandle: dcf38d88-0624-42d5-a270-9024bcc6f125
-      target: '1763854019727'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInIteration: true
         isInLoop: false
         iteration_id: '1763855870458'
@@ -206,32 +165,10 @@ workflow:
       zIndex: 1002
     - data:
         isInLoop: false
-        sourceType: start
-        targetType: if-else
-      id: 1763588758713-source-1763853265591-target
-      source: '1763588758713'
-      sourceHandle: source
-      target: '1763853265591'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: if-else
-        targetType: code
-      id: 1763853265591-true-1763857859306-target
-      source: '1763853265591'
-      sourceHandle: 'true'
-      target: '1763857859306'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
         sourceType: code
         targetType: iteration
       id: 1763857859306-source-1763855870458-target
+      selected: false
       source: '1763857859306'
       sourceHandle: source
       target: '1763855870458'
@@ -239,25 +176,170 @@ workflow:
       type: custom
       zIndex: 0
     - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763855870458'
+        sourceType: tool
+        targetType: llm
+      id: 1763855884147-source-1763872259334-target
+      selected: false
+      source: '1763855884147'
+      sourceHandle: source
+      target: '1763872259334'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
         isInLoop: false
         sourceType: if-else
-        targetType: code
-      id: 1763853265591-false-1763591247691-target
+        targetType: llm
+      id: 1763853265591-false-17638731366060-target
+      selected: false
       source: '1763853265591'
       sourceHandle: 'false'
-      target: '1763591247691'
+      target: '17638731366060'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInLoop: false
-        sourceType: iteration
+        sourceType: if-else
         targetType: code
-      id: 1763855870458-source-1763591247691-target
+      id: 1763853265591-dcf38d88-0624-42d5-a270-9024bcc6f125-1763857859306-target
+      selected: false
+      source: '1763853265591'
+      sourceHandle: dcf38d88-0624-42d5-a270-9024bcc6f125
+      target: '1763857859306'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1763853265591-true-1763854019727-target
+      selected: false
+      source: '1763853265591'
+      sourceHandle: 'true'
+      target: '1763854019727'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: assigner
+      id: 1763855870458-source-1763881643223-target
       selected: false
       source: '1763855870458'
       sourceHandle: source
-      target: '1763591247691'
+      target: '1763881643223'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: assigner
+      id: 17638731366060-source-1763881676490-target
+      selected: false
+      source: '17638731366060'
+      sourceHandle: source
+      target: '1763881676490'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: answer
+      id: 1763926278859-source-answer-target
+      selected: false
+      source: '1763926278859'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1763926842007-source-1763926278859-target
+      selected: false
+      source: '1763926842007'
+      sourceHandle: source
+      target: '1763926278859'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1763872720444-source-1763872877047-target
+      source: '1763872720444'
+      sourceHandle: source
+      target: '1763872877047'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1763872877047-source-1763926842007-target
+      source: '1763872877047'
+      sourceHandle: source
+      target: '1763926842007'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: template-transform
+        targetType: code
+      id: 1763873589914-source-1763872720444-target
+      source: '1763873589914'
+      sourceHandle: source
+      target: '1763872720444'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: template-transform
+      id: 1763881676490-source-1763873589914-target
+      source: '1763881676490'
+      sourceHandle: source
+      target: '1763873589914'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: template-transform
+      id: 1763881643223-source-1763873589914-target
+      source: '1763881643223'
+      sourceHandle: source
+      target: '1763873589914'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1763588758713-source-1763853265591-target
+      source: '1763588758713'
+      sourceHandle: source
+      target: '1763853265591'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -322,7 +404,7 @@ workflow:
           required: true
           type: checkbox
           variable: enable_engage_sc
-      height: 238
+      height: 239
       id: '1763588758713'
       position:
         x: 80
@@ -336,7 +418,7 @@ workflow:
       type: custom
       width: 242
     - data:
-        answer: '{{#1763612427355.output#}}'
+        answer: '{{#1763926278859.output#}}'
         selected: false
         title: Answer
         type: answer
@@ -344,194 +426,11 @@ workflow:
       height: 102
       id: answer
       position:
-        x: 3211.3927371147906
-        y: 585.7545746630121
+        x: 4094.164969306968
+        y: 353.97631468070904
       positionAbsolute:
-        x: 3211.3927371147906
-        y: 585.7545746630121
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "def main(event_search_prompt: str, interested_topics: list[str]):\n\
-          \    \"\"\"\n    generate ``event_search_prompt`` as a full, usable prompt\n\
-          \    by populated it of ``interested_topics``\n\n\n    :param event_search_prompt:\n\
-          \    :type event_search_prompt: str\n    :param interested_topics:\n   \
-          \ :type interested_topics: list[str]\n    :return: ``opt`` is the populated,\
-          \ usable prompt (typed ``str`` )\n    \"\"\"\n    lines = [\"#### Interested\
-          \ Topics\", \"\"]\n\n    for topic in interested_topics:\n        lines.append(topic)\n\
-          \n    opt = event_search_prompt.format(INTERESTED_TOPICS=\"\\n\".join(lines))\n\
-          \    return {\"output\": opt}\n"
-        code_language: python3
-        desc: ''
-        outputs:
-          output:
-            children: null
-            type: string
-        selected: false
-        title: gen search prompt
-        type: code
-        variables:
-        - value_selector:
-          - env
-          - EVENT_SEARCH_PROMPT
-          value_type: string
-          variable: event_search_prompt
-        - value_selector:
-          - conversation
-          - interested_topics
-          value_type: array[string]
-          variable: interested_topics
-      height: 52
-      id: '1763591247691'
-      position:
-        x: 2420.264584919146
-        y: 585.7545746630121
-      positionAbsolute:
-        x: 2420.264584919146
-        y: 585.7545746630121
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "from datetime import date as date_cls\n\nEVENT_TEMPLATE = \"\"\"##\
-          \ [{name}]({link})\n\n- \U0001F552 **{time}**\n- \U0001F4B0 {price}\n- \U0001F4CD\
-          \ {location}\n\n{summary}\n\n\"\"\"\n\n\ndef _create_date_line(date):\n\
-          \    \"\"\"\n    :param date:\n    :type date: datetime.date\n    :return:\
-          \ a ``md`` heading line containing day-of-week and date\n    :rtype: str\n\
-          \    \"\"\"\n    month_str, day_str = date.split(\"-\")\n    dt = date_cls(date_cls.today().year,\
-          \ int(month_str), int(day_str))\n    weekday = dt.strftime(\"%a\")\n   \
-          \ return \"# {weekday} {date}\\n\".format(weekday=weekday, date=date)\n\n\
-          \ndef main(event_search_result: dict):\n    \"\"\"\n    create a standard,\
-          \ well-formatted answer in ``md``\n\n\n    :param event_search_result:\n\
-          \    :type event_search_result: dict\n    :return: ``opt`` is a ``str``\
-          \ of well-formatted answer in ``md``\n    \"\"\"\n    # tab by date  -------------------------------------------------------------\n\
-          \    by_dates = {}\n\n    for event in event_search_result[\"events\"]:\n\
-          \        date = event[\"date\"]\n        if date not in by_dates:\n    \
-          \        by_dates[date] = []  # init a new list\n\n        by_dates[date].append(event)\n\
-          \n    # create md result  --------------------------------------------------------\n\
-          \    answer_parts = []\n\n    for date, events_of_day in sorted(by_dates.items()):\n\
-          \        answer_parts.append(_create_date_line(date))\n\n        for event\
-          \ in events_of_day:\n            answer_parts.append(EVENT_TEMPLATE.format(**event))\n\
-          \n    opt = \"\".join(answer_parts)\n    return {\"output\": opt}\n\n"
-        code_language: python3
-        outputs:
-          output:
-            children: null
-            type: string
-        selected: false
-        title: gen answer
-        type: code
-        variables:
-        - value_selector:
-          - '1763628188021'
-          - structured_output
-          value_type: object
-          variable: event_search_result
-      height: 52
-      id: '1763612427355'
-      position:
-        x: 2971.6853875418633
-        y: 585.7545746630121
-      positionAbsolute:
-        x: 2971.6853875418633
-        y: 585.7545746630121
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        context:
-          enabled: false
-          variable_selector: []
-        desc: using LLM to search intersting events
-        model:
-          completion_params: {}
-          mode: chat
-          name: gpt-5-mini
-          provider: langgenius/openai/openai
-        prompt_template:
-        - id: 5304266e-7d92-4e74-a2de-11487a62712d
-          role: system
-          text: '{{#1763591247691.output#}}'
-        - id: 3f0f3d26-510d-4b49-8c5b-50f8ba8dafbe
-          role: user
-          text: '{{#sys.query#}}
-
-            {{#sys.files#}}
-
-            {{#1763855870458.output#}}'
-        selected: false
-        structured_output:
-          schema:
-            additionalProperties: false
-            properties:
-              events:
-                items:
-                  additionalProperties: false
-                  properties:
-                    date:
-                      description: Month and day in MM-DD format
-                      type: string
-                    link:
-                      description: URL to detailed event information
-                      format: uri
-                      type: string
-                    location:
-                      description: Single-line address; omit state, country, postal
-                        code
-                      examples:
-                      - Central Library, 123 Main St, Springfield
-                      - Student Hall, USC, Los Angeles
-                      type: string
-                    name:
-                      description: Short human-readable event title
-                      type: string
-                    price:
-                      description: Admission price or fee
-                      examples:
-                      - $15.00
-                      - free
-                      type: string
-                    summary:
-                      description: concise summary in 1 or more paragraphs; use Briefness
-                        Style; **bold** for emphasis; expressive many emojis along
-                        key info; omit date, time, location in summary
-                      type: string
-                    time:
-                      description: Start time as HH:MM or range HH:MM ~ HH:MM (24-hour)
-                      type: string
-                  required:
-                  - name
-                  - link
-                  - date
-                  - time
-                  - location
-                  - summary
-                  type: object
-                minItems: 1
-                type: array
-            required:
-            - events
-            type: object
-        structured_output_enabled: true
-        title: event search
-        type: llm
-        vision:
-          enabled: false
-      height: 116
-      id: '1763628188021'
-      position:
-        x: 2661.4896643962943
-        y: 585.7545746630121
-      positionAbsolute:
-        x: 2661.4896643962943
-        y: 585.7545746630121
+        x: 4094.164969306968
+        y: 353.97631468070904
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -543,7 +442,7 @@ workflow:
           conditions:
           - comparison_operator: is
             id: 11c5e618-0946-4fe8-af4e-d1293909d743
-            value: '{{#env.SCRAPE_MODE_TRIGGER#}}'
+            value: '{{#env.ASSESS_MODE_TRIGGER#}}'
             varType: string
             variable_selector:
             - sys
@@ -554,7 +453,7 @@ workflow:
           conditions:
           - comparison_operator: is
             id: 232fae9b-7c5b-4e51-b811-6295524d73ff
-            value: '{{#env.ASSESS_MODE_TRIGGER#}}'
+            value: '{{#env.SCRAPE_MODE_TRIGGER#}}'
             varType: string
             variable_selector:
             - sys
@@ -564,12 +463,12 @@ workflow:
         desc: 'decide conversation mode per run
 
 
-          - case 1: scrape a set of websites for events
+          - case 1: assess user''s interested topic
 
-          - case 2: assess user''s interested topic
+          - case 2: scrape a set of websites for events
 
           - else: use user''s input as source data for events'
-        selected: false
+        selected: true
         title: Round Mode Branching
         type: if-else
       height: 296
@@ -580,7 +479,7 @@ workflow:
       positionAbsolute:
         x: 531.6356510954458
         y: 303
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -597,11 +496,11 @@ workflow:
       height: 100
       id: '1763854019727'
       position:
-        x: 1092.3606741530893
-        y: 196.6456476495669
+        x: 979.4341338645108
+        y: -619.8200920981034
       positionAbsolute:
-        x: 1092.3606741530893
-        y: 196.6456476495669
+        x: 979.4341338645108
+        y: -619.8200920981034
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -609,36 +508,37 @@ workflow:
       width: 242
     - data:
         error_handle_mode: terminated
-        flatten_output: false
-        height: 305
+        flatten_output: true
+        height: 309
         is_parallel: true
         iterator_input_type: array[string]
         iterator_selector:
         - '1763857859306'
         - output
         output_selector:
-        - '1763855884147'
-        - text
-        output_type: array[string]
+        - '1763872259334'
+        - structured_output
+        - events
+        output_type: array[object]
         parallel_nums: 10
         selected: false
         start_node_id: 1763855870458start
         title: Iteration
         type: iteration
-        width: 386
-      height: 305
+        width: 729
+      height: 309
       id: '1763855870458'
       position:
-        x: 1208.757958552078
-        y: -402.25013012546066
+        x: 1309.256515925185
+        y: -33.07216023782247
       positionAbsolute:
-        x: 1208.757958552078
-        y: -402.25013012546066
+        x: 1309.256515925185
+        y: -33.07216023782247
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 386
+      width: 729
       zIndex: 1
     - data:
         desc: ''
@@ -654,8 +554,8 @@ workflow:
         x: 24
         y: 68
       positionAbsolute:
-        x: 1232.757958552078
-        y: -334.25013012546066
+        x: 1333.256515925185
+        y: 34.92783976217753
       selectable: false
       sourcePosition: right
       targetPosition: left
@@ -883,7 +783,7 @@ workflow:
         provider_name: langgenius/spider/spider
         provider_type: builtin
         selected: false
-        title: Web Scraper & Crawler
+        title: Website Scraper
         tool_configurations:
           blacklist:
             type: mixed
@@ -913,15 +813,15 @@ workflow:
             type: mixed
             value: '{{#1763855870458.item#}}'
         type: tool
-      height: 217
+      height: 218
       id: '1763855884147'
       parentId: '1763855870458'
       position:
-        x: 128
-        y: 66.05492940717625
+        x: 123.03348022572686
+        y: 69.36594259002503
       positionAbsolute:
-        x: 1336.757958552078
-        y: -336.1952007182844
+        x: 1432.289996150912
+        y: 36.293782352202555
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -979,7 +879,7 @@ workflow:
           output:
             children: null
             type: array[string]
-        selected: true
+        selected: false
         title: gen urls
         type: code
         variables:
@@ -1016,18 +916,469 @@ workflow:
       height: 52
       id: '1763857859306'
       position:
-        x: 916.5248833903843
-        y: -402.25013012546066
+        x: 979.4341338645108
+        y: -33.07216023782247
       positionAbsolute:
-        x: 916.5248833903843
-        y: -402.25013012546066
-      selected: true
+        x: 979.4341338645108
+        y: -33.07216023782247
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: convert scrapped text into structured event data
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763855870458'
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 69a71fb9-3367-4dd0-ad3b-9c778dc40067
+          role: system
+          text: '{{#env.PARSE_EVENTS_PROMPT#}}'
+        - id: 9ea59277-3a12-46d8-ac01-72da06e40430
+          role: user
+          text: '{{#1763855884147.text#}}'
+        selected: false
+        structured_output:
+          schema:
+            additionalproperties: false
+            properties:
+              events:
+                items:
+                  additionalproperties: false
+                  properties:
+                    date:
+                      description: month and day in mm-dd format
+                      type: string
+                    link:
+                      description: url to detailed event information
+                      format: uri
+                      type: string
+                    location:
+                      description: single-line address; omit state, country, postal
+                        code
+                      examples:
+                      - central library, 123 main st, springfield
+                      - student hall, usc, los angeles
+                      type: string
+                    name:
+                      description: short human-readable event title
+                      type: string
+                    price:
+                      description: admission price or fee; 🆓 if free
+                      examples:
+                      - $15
+                      - 🆓
+                      - $5 (early bird ticket), $15 (at door)
+                      - '🆓, need registration '
+                      type: string
+                    summary:
+                      description: 'concise summary in 1 or more paragraphs, don''t
+                        contain repeated information given in previous fields
+
+                        use briefness style
+
+                        **bold** for emphasis
+
+                        expressive emojis'
+                      type: string
+                    time:
+                      description: start time as hh:mm or range hh:mm ~ hh:mm (24-hour)
+                      type: string
+                  required:
+                  - name
+                  - link
+                  - date
+                  - time
+                  - location
+                  - summary
+                  type: object
+                minitems: 1
+                type: array
+            required:
+            - events
+            type: object
+        structured_output_enabled: true
+        title: Parse Events
+        type: llm
+        vision:
+          enabled: false
+      height: 132
+      id: '1763872259334'
+      parentId: '1763855870458'
+      position:
+        x: 425.03348022572686
+        y: 69.36594259002503
+      positionAbsolute:
+        x: 1734.289996150912
+        y: 36.293782352202555
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        code: "def main(filter_events_prompt: str, interested_topics: list[str]):\n\
+          \    \"\"\"\n    generate ``filter_events_prompt`` as a full, usable prompt\n\
+          \    by populated it of ``interested_topics``\n\n\n    :param filter_events_prompt:\n\
+          \    :type filter_events_prompt: str\n    :param interested_topics:\n  \
+          \  :type interested_topics: list[str]\n    :return: ``opt`` is the populated,\
+          \ usable prompt (typed ``str``)\n    \"\"\"\n    lines = [\"#### Interested\
+          \ Topics\", \"\"]\n\n    for topic in interested_topics:\n        lines.append(topic)\n\
+          \n    opt = filter_events_prompt.format(INTERESTED_TOPICS=\"\\n\".join(lines))\n\
+          \    return {\"output\": opt}"
+        code_language: python3
+        outputs:
+          output:
+            children: null
+            type: string
+        selected: false
+        title: gen filter events prompt
+        type: code
+        variables:
+        - value_selector:
+          - env
+          - FILTER_EVENTS_PROMPT
+          value_type: string
+          variable: filter_events_prompt
+        - value_selector:
+          - conversation
+          - interested_topics
+          value_type: array[string]
+          variable: interested_topics
+      height: 52
+      id: '1763872720444'
+      position:
+        x: 2958.185719782864
+        y: 355.610773086087
+      positionAbsolute:
+        x: 2958.185719782864
+        y: 355.610773086087
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: filter events by searching for interested topics
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 5748ed14-957e-4e4e-99f6-78f225056d11
+          role: system
+          text: '{{#1763872720444.output#}}'
+        - id: 9c34db05-ce3d-4c84-9c2e-8cd33337cc91
+          role: user
+          text: ' {{#1763873589914.output#}}  '
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              names:
+                items:
+                  type: string
+                type: array
+            required: []
+            type: object
+        structured_output_enabled: true
+        title: Filter Events
+        type: llm
+        vision:
+          enabled: false
+      height: 132
+      id: '1763872877047'
+      position:
+        x: 3196.9523821750386
+        y: 355.610773086087
+      positionAbsolute:
+        x: 3196.9523821750386
+        y: 355.610773086087
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: convert user content into structured event data
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763855870458'
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 69a71fb9-3367-4dd0-ad3b-9c778dc40067
+          role: system
+          text: '{{#env.PARSE_EVENTS_PROMPT#}}'
+        - id: 9ea59277-3a12-46d8-ac01-72da06e40430
+          role: user
+          text: '{{#sys.query#}}
+
+            {{#sys.files#}}'
+        selected: false
+        structured_output:
+          schema:
+            additionalproperties: false
+            properties:
+              events:
+                items:
+                  additionalproperties: false
+                  properties:
+                    date:
+                      description: month and day in mm-dd format
+                      type: string
+                    link:
+                      description: url to detailed event information
+                      format: uri
+                      type: string
+                    location:
+                      description: single-line address; omit state, country, postal
+                        code
+                      examples:
+                      - central library, 123 main st, springfield
+                      - student hall, usc, los angeles
+                      type: string
+                    name:
+                      description: short human-readable event title
+                      type: string
+                    price:
+                      type: string
+                    summary:
+                      type: string
+                    time:
+                      description: start time as hh:mm or range hh:mm ~ hh:mm (24-hour)
+                      type: string
+                  required:
+                  - name
+                  - link
+                  - date
+                  - time
+                  - location
+                  - summary
+                  type: object
+                minitems: 1
+                type: array
+            required:
+            - events
+            type: object
+        structured_output_enabled: true
+        title: Parse Events
+        type: llm
+        vision:
+          enabled: false
+      height: 132
+      id: '17638731366060'
+      position:
+        x: 1459.4503230327875
+        y: 528.4173079574903
+      positionAbsolute:
+        x: 1459.4503230327875
+        y: 528.4173079574903
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        selected: false
+        template: '{{ events }}    '
+        title: convert events to text
+        type: template-transform
+        variables:
+        - value_selector:
+          - conversation
+          - events
+          value_type: array[object]
+          variable: events
+      height: 52
+      id: '1763873589914'
+      position:
+        x: 2626.6904935979433
+        y: 355.610773086087
+      positionAbsolute:
+        x: 2626.6904935979433
+        y: 355.610773086087
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1763855870458'
+          - output
+          variable_selector:
+          - conversation
+          - events
+          write_mode: over-write
+        selected: false
+        title: Variable Assigner
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1763881643223'
+      position:
+        x: 2038.1014941615376
+        y: -33.07216023782247
+      positionAbsolute:
+        x: 2038.1014941615376
+        y: -33.07216023782247
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '17638731366060'
+          - structured_output
+          - events
+          variable_selector:
+          - conversation
+          - events
+          write_mode: over-write
+        selected: false
+        title: Variable Assigner
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1763881676490'
+      position:
+        x: 1695.1532744487301
+        y: 525.9619625398079
+      positionAbsolute:
+        x: 1695.1532744487301
+        y: 525.9619625398079
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "from datetime import date as date_cls\n\nEVENT_TEMPLATE = \"\"\"##\
+          \ [{name}]({link})\n\n- \U0001F552 `{time}`\n- \U0001F4B0 {price}\n- \U0001F4CD\
+          \ <ins>{location}</ins>\n\n{summary}\n\n\"\"\"\n\n\ndef _create_date_line(date):\n\
+          \    \"\"\"\n    :param date:\n    :type date: datetime.date\n    :return:\
+          \ a ``md`` heading line containing day-of-week and date\n    :rtype: str\n\
+          \    \"\"\"\n    month_str, day_str = date.split(\"-\")\n    dt = date_cls(date_cls.today().year,\
+          \ int(month_str), int(day_str))\n    weekday = dt.strftime(\"%a\")\n   \
+          \ return \"# {weekday} {date}\\n\".format(weekday=weekday, date=date)\n\n\
+          \ndef main(filtered_events: list[dict]):\n    \"\"\"\n    create a well-formatted\
+          \ ``md`` text answer of ``filtered_events``\n\n    :param filtered_events:\n\
+          \    :type filtered_events: list[dict]\n    :return: ``opt`` is the formatted\
+          \ text answer (typed ``str``)\n    \"\"\"\n\n    # tab by date  -------------------------------------------------------------\n\
+          \    by_dates = {}\n\n    for event in filtered_events:\n        date =\
+          \ event[\"date\"]\n        if date not in by_dates:\n            by_dates[date]\
+          \ = []  # init a new list\n\n        by_dates[date].append(event)\n\n  \
+          \  # create md result  --------------------------------------------------------\n\
+          \    answer_parts = []\n\n    for date, events_of_day in sorted(by_dates.items()):\n\
+          \        answer_parts.append(_create_date_line(date))\n\n        for event\
+          \ in events_of_day:\n            answer_parts.append(EVENT_TEMPLATE.format(**event))\n\
+          \n    opt = \"\".join(answer_parts)\n    return {\"output\": opt}\n\n"
+        code_language: python3
+        outputs:
+          output:
+            children: null
+            type: string
+        selected: false
+        title: gen answer
+        type: code
+        variables:
+        - value_selector:
+          - '1763926842007'
+          - output
+          value_type: array[object]
+          variable: filtered_events
+      height: 52
+      id: '1763926278859'
+      position:
+        x: 3854.1649693069685
+        y: 353.97631468070904
+      positionAbsolute:
+        x: 3854.1649693069685
+        y: 353.97631468070904
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def _filter_events(events, filtered_events_names):\n    \"\"\"\n  \
+          \  :param events:\n    :type events: list[dict]\n    :param filtered_events_names:\n\
+          \    :type filtered_events_names: list[str]\n    :return: filter ``events``\n\
+          \            by keep only those with names appeared in ``filtered_events_names``\n\
+          \    :rtype: list[dict]\n    \"\"\"\n    return [\n        event for event\
+          \ in events if event[\"name\"] in filtered_events_names\n    ]\n\n\ndef\
+          \ main(events: list[dict], filtered_events_names: list[str]):\n    \"\"\"\
+          \n    filter ``events`` by selecting only those names appeared in ``names``\n\
+          \n\n    :param events:\n    :type events: list[dict]\n    :param names:\n\
+          \    :type names: list[str]\n    :return: ``opt`` is filtered events, (identical\
+          \ structure as ``events``)\n    \"\"\"\n    opt = [event for event in events\
+          \ if event[\"name\"] in filtered_events_names]\n    return {\"output\":\
+          \ opt}\n\n"
+        code_language: python3
+        outputs:
+          output:
+            children: null
+            type: array[object]
+        selected: false
+        title: apply filtering
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - events
+          value_type: array[object]
+          variable: events
+        - value_selector:
+          - '1763872877047'
+          - structured_output
+          - names
+          value_type: object
+          variable: filtered_events_names
+      height: 52
+      id: '1763926842007'
+      position:
+        x: 3436.7653828184857
+        y: 355.610773086087
+      positionAbsolute:
+        x: 3436.7653828184857
+        y: 355.610773086087
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -293.81217505420636
-      y: 554.1899785565022
-      zoom: 0.526592245718773
+      x: 172.35632756895933
+      y: 400.43022927938705
+      zoom: 0.500000000000001
   rag_pipeline_variables: []
