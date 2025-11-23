@@ -11,6 +11,18 @@ EVENT_TEMPLATE = """## [{name}]({link})
 """
 
 
+WARNING_TEMPLATE = """
+<span style="color: red; font-weight: bold;">WARNING: {}</span>
+"""
+
+DEBUG_SKIP_EVENT_FILTERING_WARNING = WARNING_TEMPLATE.format(
+    "skip event filtering"
+)
+DEBUG_USE_EXAMPLE_EVENTS_WARNING = WARNING_TEMPLATE.format(
+    "use example events"
+)
+
+
 def _create_date_line(date):
     """
     :param date:
@@ -24,7 +36,11 @@ def _create_date_line(date):
     return "# {weekday} {date}\n".format(weekday=weekday, date=date)
 
 
-def main(filtered_events: list[dict]):
+def main(
+    filtered_events: list[dict],
+    debug_skip_event_filtering: float,
+    debug_use_example_events_warning: float,
+):
     """
     create a well-formatted ``md`` text answer of ``filtered_events``
 
@@ -51,6 +67,12 @@ def main(filtered_events: list[dict]):
 
         for event in events_of_day:
             answer_parts.append(EVENT_TEMPLATE.format(**event))
+
+    # warning for enabled debug flags
+    if debug_skip_event_filtering:
+        answer_parts.append(DEBUG_SKIP_EVENT_FILTERING_WARNING)
+    if debug_use_example_events_warning:
+        answer_parts.append(DEBUG_USE_EXAMPLE_EVENTS_WARNING)
 
     opt = "".join(answer_parts)
     return {"output": opt}
