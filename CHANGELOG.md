@@ -28,6 +28,7 @@
 ### Changed
 
 - improve role `Prompt Writer`
+- use `|` for push trigger for `Dify Cash Tracker`
 
 ### Deprecated
 ### Removed
