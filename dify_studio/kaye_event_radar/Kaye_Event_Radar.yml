@@ -26,7 +26,117 @@ workflow:
     selector:
     - conversation
     - events
-    value: []
+    value:
+    - date: 07-20
+      link: https://summerbeatsfest.com
+      location: Sunset Park, Los Angeles
+      name: Summer Beats Music Festival
+      price: $50
+      summary: '**Live bands & DJs** bring sunlit energy 🎶
+
+        **Food trucks & dance zones** create festival vibes 🌞
+
+        Bring friends, party outdoor, music for all levels 🎧🍔'
+      time: 14:00 ~ 22:00
+    - date: 09-10
+      link: ''
+      location: Convention Center, Boston
+      name: Tech Innovators Job Fair 2024
+      price: 🆓, need registration
+      summary: '**To meet top tech employers** — networking & hiring 💼
+
+        **Workshops & on-site recruiting** for career moves 💡
+
+        Bring resume, register to attend, prepare for interviews 🤝'
+      time: 09:00 ~ 17:00
+    - date: 08-03
+      link: https://foodtruckrallyaustin.com
+      location: Central Plaza, Austin
+      name: Gourmet Food Truck Rally
+      price: 🆓
+      summary: '**30+ food trucks** offering global flavors 🌮🍜
+
+        **Live cooking demos & family activities** 🎉
+
+        Stroll, taste, enjoy casual outdoor eats 🍦'
+      time: '11:00'
+    - date: 10-25
+      link: https://masqueradeballny.com
+      location: Grand Ballroom, New York
+      name: Annual Masquerade Ball
+      price: $120 per person
+      summary: '**Elegance & mystery** — formal attire, mask required 🎭
+
+        **Dinner & live orchestra** set sophisticated tone 🍷
+
+        Limited tickets — dress to impress, book early ✨'
+      time: '19:00'
+    - date: 07-28
+      link: ''
+      location: Blue Ridge Mountains
+      name: Outdoor Yoga & Wellness Retreat
+      price: ❓
+      summary: '**Guided yoga & meditation** to refresh body + mind 🧘‍♀️
+
+        **Organic meals & nature setting** for deep recharge 🌲
+
+        All levels welcome — reconnect away from city noise 🍃'
+      time: 08:00 ~ 16:00
+    - date: 09-15
+      link: https://vintagecarshowdetroit.com
+      location: ''
+      name: Vintage Car Show & Expo
+      price: $25 Adults / $15 Children
+      summary: '**Classic car showcase** with rare models on display 🚗🏁
+
+        **Vendors & contests** for collectors and fans 🔧
+
+        Family-friendly celebration of automotive history'
+      time: 10:15 ~ 18:35
+    - date: 08-10
+      link: https://indiefilmpremiereseattle.com
+      location: ''
+      name: Indie Film Premiere Night
+      price: $15
+      summary: '**Premieres of latest indie films** — first screenings 🎬
+
+        **Q&A with directors** after show to meet filmmakers ⭐
+
+        Discover fresh cinematic voices, support indie creators 🍿'
+      time: '19:30'
+    - date: 09-21
+      link: https://portlandcraftbeerfest.com
+      location: Riverside Park, Portland
+      name: Craft Beer & Cider Festival
+      price: $40 includes tasting glass and 5 samples
+      summary: '**Local breweries & cideries** pour tastings 🍺🎶
+
+        **Live music & food pairings** complement tasting vibe 🍻
+
+        Tasting glass included — sample, learn, celebrate brews'
+      time: 12:00 ~ 22:00
+    - date: 10-05
+      link: https://chiscienceday.org
+      location: City Museum, Chicago
+      name: Children’s Science Discovery Day
+      price: 🆓
+      summary: '**Interactive exhibits & experiments** spark curiosity 🔬🧪
+
+        **Hands-on workshops** designed for young scientists 🌟
+
+        Family-focused learning day to inspire tomorrow’s innovators'
+      time: 10:05 ~ 16:05
+    - date: 11-08
+      link: https://intl-dancefiesta.com
+      location: Civic Auditorium, Miami
+      name: International Dance Fiesta
+      price: $35 advance / $45 door
+      summary: '**Global dance performances** showcase diverse styles 💃🌍
+
+        **Workshops & social dancing** invite participation 🎟️
+
+        Bring passion to floor — for beginners through pros 🎶'
+      time: 18:30 ~ 23:00
     value_type: array[object]
   - description: ''
     id: 9e7612f0-426a-4789-ac3c-ab2e992a21da
@@ -282,6 +392,7 @@ workflow:
         sourceType: code
         targetType: llm
       id: 1763872720444-source-1763872877047-target
+      selected: false
       source: '1763872720444'
       sourceHandle: source
       target: '1763872877047'
@@ -293,6 +404,7 @@ workflow:
         sourceType: llm
         targetType: code
       id: 1763872877047-source-1763926842007-target
+      selected: false
       source: '1763872877047'
       sourceHandle: source
       target: '1763926842007'
@@ -300,11 +412,13 @@ workflow:
       type: custom
       zIndex: 0
     - data:
+        isInIteration: false
         isInLoop: false
-        sourceType: template-transform
+        sourceType: code
         targetType: code
-      id: 1763873589914-source-1763872720444-target
-      source: '1763873589914'
+      id: 1763929135051-source-1763872720444-target
+      selected: false
+      source: '1763929135051'
       sourceHandle: source
       target: '1763872720444'
       targetHandle: target
@@ -313,22 +427,24 @@ workflow:
     - data:
         isInLoop: false
         sourceType: assigner
-        targetType: template-transform
-      id: 1763881676490-source-1763873589914-target
+        targetType: code
+      id: 1763881676490-source-1763929135051-target
+      selected: false
       source: '1763881676490'
       sourceHandle: source
-      target: '1763873589914'
+      target: '1763929135051'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInLoop: false
         sourceType: assigner
-        targetType: template-transform
-      id: 1763881643223-source-1763873589914-target
+        targetType: code
+      id: 1763881643223-source-1763929135051-target
+      selected: false
       source: '1763881643223'
       sourceHandle: source
-      target: '1763873589914'
+      target: '1763929135051'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -407,10 +523,10 @@ workflow:
       height: 239
       id: '1763588758713'
       position:
-        x: 80
+        x: 192
         y: 282
       positionAbsolute:
-        x: 80
+        x: 192
         y: 282
       selected: false
       sourcePosition: right
@@ -426,11 +542,11 @@ workflow:
       height: 102
       id: answer
       position:
-        x: 4094.164969306968
-        y: 353.97631468070904
+        x: 3350.4756945474596
+        y: 156.8101822386869
       positionAbsolute:
-        x: 4094.164969306968
-        y: 353.97631468070904
+        x: 3350.4756945474596
+        y: 156.8101822386869
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -468,7 +584,7 @@ workflow:
           - case 2: scrape a set of websites for events
 
           - else: use user''s input as source data for events'
-        selected: true
+        selected: false
         title: Round Mode Branching
         type: if-else
       height: 296
@@ -479,7 +595,7 @@ workflow:
       positionAbsolute:
         x: 531.6356510954458
         y: 303
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -916,11 +1032,11 @@ workflow:
       height: 52
       id: '1763857859306'
       position:
-        x: 979.4341338645108
-        y: -33.07216023782247
+        x: 1309.256515925185
+        y: -83.09080693266552
       positionAbsolute:
-        x: 979.4341338645108
-        y: -33.07216023782247
+        x: 1309.256515925185
+        y: -83.09080693266552
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -937,7 +1053,7 @@ workflow:
         model:
           completion_params: {}
           mode: chat
-          name: gpt-5-mini
+          name: gpt-4.1-mini
           provider: langgenius/openai/openai
         prompt_template:
         - id: 69a71fb9-3367-4dd0-ad3b-9c778dc40067
@@ -973,22 +1089,8 @@ workflow:
                       description: short human-readable event title
                       type: string
                     price:
-                      description: admission price or fee; 🆓 if free
-                      examples:
-                      - $15
-                      - 🆓
-                      - $5 (early bird ticket), $15 (at door)
-                      - '🆓, need registration '
                       type: string
                     summary:
-                      description: 'concise summary in 1 or more paragraphs, don''t
-                        contain repeated information given in previous fields
-
-                        use briefness style
-
-                        **bold** for emphasis
-
-                        expressive emojis'
                       type: string
                     time:
                       description: start time as hh:mm or range hh:mm ~ hh:mm (24-hour)
@@ -1041,7 +1143,7 @@ workflow:
           output:
             children: null
             type: string
-        selected: false
+        selected: true
         title: gen filter events prompt
         type: code
         variables:
@@ -1058,11 +1160,11 @@ workflow:
       height: 52
       id: '1763872720444'
       position:
-        x: 2958.185719782864
-        y: 355.610773086087
+        x: 2925.224625783743
+        y: 125.9125918757432
       positionAbsolute:
-        x: 2958.185719782864
-        y: 355.610773086087
+        x: 2925.224625783743
+        y: 125.9125918757432
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1084,7 +1186,7 @@ workflow:
           text: '{{#1763872720444.output#}}'
         - id: 9c34db05-ce3d-4c84-9c2e-8cd33337cc91
           role: user
-          text: ' {{#1763873589914.output#}}  '
+          text: ' {{#1763929135051.output#}}'
         selected: false
         structured_output:
           schema:
@@ -1104,11 +1206,11 @@ workflow:
       height: 132
       id: '1763872877047'
       position:
-        x: 3196.9523821750386
-        y: 355.610773086087
+        x: 2925.224625783743
+        y: 174.1579227856186
       positionAbsolute:
-        x: 3196.9523821750386
-        y: 355.610773086087
+        x: 2925.224625783743
+        y: 174.1579227856186
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1125,7 +1227,7 @@ workflow:
         model:
           completion_params: {}
           mode: chat
-          name: gpt-5-mini
+          name: gpt-4.1-mini
           provider: langgenius/openai/openai
         prompt_template:
         - id: 69a71fb9-3367-4dd0-ad3b-9c778dc40067
@@ -1190,41 +1292,17 @@ workflow:
       height: 132
       id: '17638731366060'
       position:
-        x: 1459.4503230327875
-        y: 528.4173079574903
+        x: 1527.353266969885
+        y: 516.2296000713446
       positionAbsolute:
-        x: 1459.4503230327875
-        y: 528.4173079574903
+        x: 1527.353266969885
+        y: 516.2296000713446
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
       zIndex: 1002
-    - data:
-        selected: false
-        template: '{{ events }}    '
-        title: convert events to text
-        type: template-transform
-        variables:
-        - value_selector:
-          - conversation
-          - events
-          value_type: array[object]
-          variable: events
-      height: 52
-      id: '1763873589914'
-      position:
-        x: 2626.6904935979433
-        y: 355.610773086087
-      positionAbsolute:
-        x: 2626.6904935979433
-        y: 355.610773086087
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
     - data:
         items:
         - input_type: variable
@@ -1243,11 +1321,11 @@ workflow:
       height: 84
       id: '1763881643223'
       position:
-        x: 2038.1014941615376
-        y: -33.07216023782247
+        x: 1794.071126953364
+        y: 273.10258619727733
       positionAbsolute:
-        x: 2038.1014941615376
-        y: -33.07216023782247
+        x: 1794.071126953364
+        y: 273.10258619727733
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1272,11 +1350,11 @@ workflow:
       height: 84
       id: '1763881676490'
       position:
-        x: 1695.1532744487301
-        y: 525.9619625398079
+        x: 1528.0075662958748
+        y: 646.0979402746727
       positionAbsolute:
-        x: 1695.1532744487301
-        y: 525.9619625398079
+        x: 1528.0075662958748
+        y: 646.0979402746727
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1320,12 +1398,12 @@ workflow:
       height: 52
       id: '1763926278859'
       position:
-        x: 3854.1649693069685
-        y: 353.97631468070904
+        x: 3350.4756945474596
+        y: 105.97005790882338
       positionAbsolute:
-        x: 3854.1649693069685
-        y: 353.97631468070904
-      selected: false
+        x: 3350.4756945474596
+        y: 105.97005790882338
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1367,18 +1445,50 @@ workflow:
       height: 52
       id: '1763926842007'
       position:
-        x: 3436.7653828184857
-        y: 355.610773086087
+        x: 2925.224625783743
+        y: 303.96083690028325
       positionAbsolute:
-        x: 3436.7653828184857
-        y: 355.610773086087
+        x: 2925.224625783743
+        y: 303.96083690028325
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(events: list[dict]):\n    \"\"\"\n    simple conversion of\
+          \ ``events`` array to flattened text\n\n\n    :return: ``opt`` is text (typed\
+          \ ``str``)\n    \"\"\"\n    opt = \"\\n\\n\".join(\"{}\".format(event) for\
+          \ event in events)\n    return {\"output\": opt}\n"
+        code_language: python3
+        outputs:
+          output:
+            children: null
+            type: string
+        selected: false
+        title: convert events to text
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - events
+          value_type: array[object]
+          variable: events
+      height: 52
+      id: '1763929135051'
+      position:
+        x: 2925.224625783743
+        y: 77.03479730697711
+      positionAbsolute:
+        x: 2925.224625783743
+        y: 77.03479730697711
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: 172.35632756895933
-      y: 400.43022927938705
-      zoom: 0.500000000000001
+      x: -1983.3366489900172
+      y: 225.95942506092774
+      zoom: 0.8705505632961266
   rag_pipeline_variables: []
