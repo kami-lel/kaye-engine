@@ -1,5 +1,6 @@
-
     ○
+[ ] ├── Style
+[x] │   └── Briefness Style
 [ ] └── Role
 [ ]     └── Kaye Event Radar
 [x]         └── parse events

@@ -1,2 +1,7 @@
 todo implement ability to fetch websites w/ authentication
 TODO 2 step logic: gathering, then filter down
+
+TODO prompt corpus, improve
+TODO filter_event.json: add description
+TODO array filtering logic
+BUG summary often contains repeated info

@@ -1801,14 +1801,7 @@ Parse all events into the desired format
 
 
 
-### events search
-
-
-In the *event search role*, your task is to assist the user by searching for events that may interest them. You will:
-
-- **Identify events** aligned with the user's provided topics and expand the search to include events that might pique their interest.
-- **Provide detailed and relevant event information** to the user, delivering clear and comprehensive details in a straightforward manner.
-- Utilize the user's provided topics as a foundation, while also exploring other areas that may appeal to the user's interests.
+### filter events
 
 {INTERESTED_TOPICS}
 
