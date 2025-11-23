@@ -12,7 +12,18 @@ EVENT_TEMPLATE = """## [{name}]({link})
 
 
 def _filter_events(events, filtered_events_names):
-    return events  # TODO
+    """
+    :param events:
+    :type events: list[dict]
+    :param filtered_events_names:
+    :type filtered_events_names: list[str]
+    :return: filter ``events``
+            by keep only those with names appeared in ``filtered_events_names``
+    :rtype: list[dict]
+    """
+    return [
+        event for event in events if event["name"] in filtered_events_names
+    ]
 
 
 def _create_date_line(date):
@@ -29,7 +40,14 @@ def _create_date_line(date):
 
 
 def _generate_md_format(events):
-    # TODO doc
+    """
+    create a well-formatted ``md`` text
+
+    :param events:
+    :type events: list[dict]
+    :return: formatted text
+    :rtype: str
+    """
     # tab by date  -------------------------------------------------------------
     by_dates = {}
 
@@ -54,14 +72,16 @@ def _generate_md_format(events):
 
 def main(events: list[dict], filtered_events_names: dict):
     """
-    create a standard, well-formatted answer in ``md``
+    create a well-formatted ``md`` text answer of ``events`` after filtering
 
 
-    :param event_search_result:
-    :type event_search_result: dict
-    :return: ``opt`` is a ``str`` of well-formatted answer in ``md``
+    :param events:
+    :type events: list[dict]
+    :param filtered_events_names:
+    :type filtered_events_names: dict
+    :return: ``opt`` is a ``str`` of well-formatted answer text in ``md``
+    :rtype: dict
     """
-    # TODO update doc
 
     filtered_events = _filter_events(events, filtered_events_names)
     opt = _generate_md_format(filtered_events)
