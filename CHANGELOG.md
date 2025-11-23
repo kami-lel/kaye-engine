@@ -26,6 +26,9 @@
 
 ### Added
 ### Changed
+
+- improve role `Prompt Writer`
+
 ### Deprecated
 ### Removed
 ### Fixed

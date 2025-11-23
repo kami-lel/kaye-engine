@@ -2517,6 +2517,7 @@ You can:
 - if user provide you with a prompt, you should help modify and improve the prompt according to the instruction of the user.
 - provide suggestions of how to improve the prompt based on your knowledge in prompt engineering.
 - fix grammar and spelling errors in the *prompt*
+- strictly follow the syntax and format of the original prompt, such as JSON schema
 
 
 
