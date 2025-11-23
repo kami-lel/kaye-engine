@@ -26,22 +26,28 @@ ENGAGE_SC_DATE = "%d+%b+%Y"
 
 def _create_date_range():
     """
-    create a date range starting **today**, and ending on **coming Sunday**,
-    spanning for at max 1 week
+    create a date range starting **today**, and ending on **next Sunday**
+
+    *next Sunday* is:
+
+    - if weekend (Sat, Sun): next next Sunday
+    - else: coming Sunday
 
 
     :return: start date, end date, days count (inclusive)
-    :rtype: tuple(datetime.date, datetime.date)
+    :rtype: tuple(datetime.date, datetime.date, int)
     """
     start_date = date_cls.today()
 
-    # Fixme when weekend (Fri, Sat, Sun, find coming week)
-    # BUG inclusive days count
-    # find coming Sunday
-    days_cnt = ((6 - start_date.weekday()) % 7) or 7
-    end_date = start_date + timedelta(days=days_cnt)
+    day_of_week = start_date.weekday()
+    if day_of_week >= 5:  # weekend: Sat,Sun
+        days_passed = 13 - day_of_week
+    else:
+        days_passed = 6 - day_of_week
 
-    return start_date, end_date, days_cnt
+    end_date = start_date + timedelta(days=days_passed)
+
+    return start_date, end_date, days_passed + 1
 
 
 def main():
