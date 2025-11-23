@@ -11,16 +11,38 @@ dependencies:
   value:
     marketplace_plugin_unique_identifier: langgenius/openai:0.2.5@373362a028986aae53a7baf73a7f11991ba3c22c69eaf97d6cde048cfd4a9f98
     version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/spider:0.0.4@d9c19d338a78f0bc54144fc26e0e4f1cc5cebc5b629ae8e9a37c671a2f5ff2ef
+    version: null
 kind: app
 version: 0.5.0
 workflow:
   conversation_variables:
   - description: ''
-    id: dd35c856-2dc8-492f-a6a7-538d87ea5bda
-    name: PROMPT_EVENTS_SEARCH
+    id: 9e7612f0-426a-4789-ac3c-ab2e992a21da
+    name: interested_topics
     selector:
     - conversation
-    - PROMPT_EVENTS_SEARCH
+    - interested_topics
+    value:
+    - Jazz
+    - Rock Music
+    - Photography
+    - Video Games
+    - Films
+    - Reading
+    - Philosophy
+    - Indie Music
+    value_type: array[string]
+  environment_variables:
+  - description: ''
+    id: 5c97ef67-c2d1-4fc4-8c81-31072df5e7c3
+    name: EVENT_SEARCH_PROMPT
+    selector:
+    - env
+    - EVENT_SEARCH_PROMPT
     value: '## Briefness Style
 
       - write in **newspaper headlinese**, prioritize brevity over grammar
@@ -55,43 +77,24 @@ workflow:
       other areas that may appeal to the user''s interests.
 
 
-      {INTERESTED_TOPICS}
-
-      '
+      {INTERESTED_TOPICS}'
     value_type: string
   - description: ''
-    id: 18d78181-2696-413f-a4c6-c465ff3ed6c8
-    name: GRAB_TRIGGER_KEYWORD
+    id: 4c510f56-e1fb-44e2-aae9-3a9e848524d3
+    name: SCRAPE_MODE_TRIGGER
     selector:
-    - conversation
-    - GRAB_TRIGGER_KEYWORD
-    value: GRAB
+    - env
+    - SCRAPE_MODE_TRIGGER
+    value: '?'
     value_type: string
-  - description: ''
-    id: 9e7612f0-426a-4789-ac3c-ab2e992a21da
-    name: interested_topics
+  - description: when user input this, trigger interests assessing mode
+    id: 0f6bbeb7-0fdb-4edd-98bd-5d5d6746001e
+    name: ASSESS_MODE_TRIGGER
     selector:
-    - conversation
-    - interested_topics
-    value:
-    - Jazz
-    - Rock Music
-    - Photography
-    - Video Games
-    - Films
-    - Reading
-    - Philosophy
-    - Indie Music
-    value_type: array[string]
-  - description: ''
-    id: 86f7a503-e9d8-4875-b878-a48c0ffbb793
-    name: grab_urls
-    selector:
-    - conversation
-    - grab_urls
-    value: []
-    value_type: array[string]
-  environment_variables: []
+    - env
+    - ASSESS_MODE_TRIGGER
+    value: '!'
+    value_type: string
   features:
     file_upload:
       allowed_file_extensions:
@@ -140,31 +143,6 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: start
-        targetType: code
-      id: 1763588758713-source-1763608420780-target
-      selected: false
-      source: '1763588758713'
-      sourceHandle: source
-      target: '1763608420780'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: if-else
-      id: 1763608420780-source-1763588885692-target
-      selected: false
-      source: '1763608420780'
-      sourceHandle: source
-      target: '1763588885692'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
         sourceType: code
         targetType: answer
       id: 1763612427355-source-answer-target
@@ -200,14 +178,63 @@ workflow:
       type: custom
       zIndex: 0
     - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1763853265591-dcf38d88-0624-42d5-a270-9024bcc6f125-1763854019727-target
+      selected: false
+      source: '1763853265591'
+      sourceHandle: dcf38d88-0624-42d5-a270-9024bcc6f125
+      target: '1763854019727'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763855870458'
+        sourceType: iteration-start
+        targetType: tool
+      id: 1763855870458start-source-1763855884147-target
+      selected: false
+      source: 1763855870458start
+      sourceHandle: source
+      target: '1763855884147'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1763588758713-source-1763853265591-target
+      source: '1763588758713'
+      sourceHandle: source
+      target: '1763853265591'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
         isInLoop: false
         sourceType: if-else
         targetType: code
-      id: 1763588885692-true-1763591247691-target
-      selected: false
-      source: '1763588885692'
+      id: 1763853265591-true-1763857859306-target
+      source: '1763853265591'
       sourceHandle: 'true'
-      target: '1763591247691'
+      target: '1763857859306'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1763857859306-source-1763855870458-target
+      source: '1763857859306'
+      sourceHandle: source
+      target: '1763855870458'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -215,10 +242,20 @@ workflow:
         isInLoop: false
         sourceType: if-else
         targetType: code
-      id: 1763588885692-false-1763591247691-target
-      selected: false
-      source: '1763588885692'
+      id: 1763853265591-false-1763591247691-target
+      source: '1763853265591'
       sourceHandle: 'false'
+      target: '1763591247691'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: code
+      id: 1763855870458-source-1763591247691-target
+      source: '1763855870458'
+      sourceHandle: source
       target: '1763591247691'
       targetHandle: target
       type: custom
@@ -251,121 +288,55 @@ workflow:
       height: 102
       id: answer
       position:
-        x: 3222.2679130633683
-        y: 303
+        x: 3211.3927371147906
+        y: 585.7545746630121
       positionAbsolute:
-        x: 3222.2679130633683
-        y: 303
+        x: 3211.3927371147906
+        y: 585.7545746630121
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        cases:
-        - case_id: 'true'
-          conditions:
-          - comparison_operator: '='
-            id: 31744645-fd10-499a-8018-c56f26b402d6
-            value: '0'
-            varType: number
-            variable_selector:
-            - '1763608420780'
-            - output
-          id: 'true'
-          logical_operator: and
-        selected: false
-        title: IF/ELSE
-        type: if-else
-      height: 124
-      id: '1763588885692'
-      position:
-        x: 710.1860294373596
-        y: 303
-      positionAbsolute:
-        x: 710.1860294373596
-        y: 303
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "def main(prompt_events_search: str, interested_topics: list[str]):\n\
-          \    lines = [\"#### Interested Topics\", \"\"]\n\n    for topic in interested_topics:\n\
-          \        lines.append(topic)\n\n    opt = prompt_events_search.format(INTERESTED_TOPICS=\"\
-          \\n\".join(lines))\n    return {\"output\": opt}\n\n"
+        code: "def main(event_search_prompt: str, interested_topics: list[str]):\n\
+          \    \"\"\"\n    generate ``event_search_prompt`` as a full, usable prompt\n\
+          \    by populated it of ``interested_topics``\n\n\n    :param event_search_prompt:\n\
+          \    :type event_search_prompt: str\n    :param interested_topics:\n   \
+          \ :type interested_topics: list[str]\n    :return: ``opt`` is the populated,\
+          \ usable prompt (typed ``str`` )\n    \"\"\"\n    lines = [\"#### Interested\
+          \ Topics\", \"\"]\n\n    for topic in interested_topics:\n        lines.append(topic)\n\
+          \n    opt = event_search_prompt.format(INTERESTED_TOPICS=\"\\n\".join(lines))\n\
+          \    return {\"output\": opt}\n"
         code_language: python3
-        desc: populate prompt with interest keywords
+        desc: ''
         outputs:
           output:
             children: null
             type: string
         selected: false
-        title: gen prompt
+        title: gen search prompt
         type: code
         variables:
         - value_selector:
-          - conversation
-          - PROMPT_EVENTS_SEARCH
+          - env
+          - EVENT_SEARCH_PROMPT
           value_type: string
-          variable: prompt_events_search
+          variable: event_search_prompt
         - value_selector:
           - conversation
           - interested_topics
           value_type: array[string]
           variable: interested_topics
-      height: 80
+      height: 52
       id: '1763591247691'
       position:
-        x: 2064.1637492615737
-        y: 303
+        x: 2420.264584919146
+        y: 585.7545746630121
       positionAbsolute:
-        x: 2064.1637492615737
-        y: 303
+        x: 2420.264584919146
+        y: 585.7545746630121
       selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "def main(user_query: str, grab_trigger_keyword: str):\n    \"\"\"\n\
-          \    decide operating mode for this round of conversation\n\n    :param\
-          \ user_query:\n    :type user_query: str\n    :param grab_trigger_keyword:\n\
-          \    :type grab_trigger_keyword: str\n    :return: value of ``\"output\"\
-          `` is an ``int``:\n\n    - ``0``: scan events provided by user\n    - ``1``:\
-          \ scan events by grabbing webs\n\n    :rtype: dict\n    \"\"\"\n    opt\
-          \ = int(grab_trigger_keyword in user_query)\n    return {\"output\": opt}\n\
-          \n"
-        code_language: python3
-        desc: decide operating mode for this round of conversation
-        outputs:
-          output:
-            children: null
-            type: number
-        selected: true
-        title: decide mode
-        type: code
-        variables:
-        - value_selector:
-          - sys
-          - query
-          value_type: string
-          variable: user_query
-        - value_selector:
-          - conversation
-          - GRAB_TRIGGER_KEYWORD
-          value_type: string
-          variable: grab_trigger_keyword
-      height: 96
-      id: '1763608420780'
-      position:
-        x: 468.2983442881949
-        y: 303
-      positionAbsolute:
-        x: 468.2983442881949
-        y: 303
-      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -373,17 +344,22 @@ workflow:
     - data:
         code: "from datetime import date as date_cls\n\nEVENT_TEMPLATE = \"\"\"##\
           \ [{name}]({link})\n\n- \U0001F552 **{time}**\n- \U0001F4B0 {price}\n- \U0001F4CD\
-          \ {location}\n\n{summary}\n\n\"\"\"\n\n\ndef create_date_line(date):\n \
-          \   month_str, day_str = date.split(\"-\")\n    dt = date_cls(date_cls.today().year,\
+          \ {location}\n\n{summary}\n\n\"\"\"\n\n\ndef _create_date_line(date):\n\
+          \    \"\"\"\n    :param date:\n    :type date: datetime.date\n    :return:\
+          \ a ``md`` heading line containing day-of-week and date\n    :rtype: str\n\
+          \    \"\"\"\n    month_str, day_str = date.split(\"-\")\n    dt = date_cls(date_cls.today().year,\
           \ int(month_str), int(day_str))\n    weekday = dt.strftime(\"%a\")\n   \
           \ return \"# {weekday} {date}\\n\".format(weekday=weekday, date=date)\n\n\
-          \ndef main(event_search_result: dict):\n    # tab by date  -------------------------------------------------------------\n\
+          \ndef main(event_search_result: dict):\n    \"\"\"\n    create a standard,\
+          \ well-formatted answer in ``md``\n\n\n    :param event_search_result:\n\
+          \    :type event_search_result: dict\n    :return: ``opt`` is a ``str``\
+          \ of well-formatted answer in ``md``\n    \"\"\"\n    # tab by date  -------------------------------------------------------------\n\
           \    by_dates = {}\n\n    for event in event_search_result[\"events\"]:\n\
           \        date = event[\"date\"]\n        if date not in by_dates:\n    \
           \        by_dates[date] = []  # init a new list\n\n        by_dates[date].append(event)\n\
           \n    # create md result  --------------------------------------------------------\n\
           \    answer_parts = []\n\n    for date, events_of_day in sorted(by_dates.items()):\n\
-          \        answer_parts.append(create_date_line(date))\n\n        for event\
+          \        answer_parts.append(_create_date_line(date))\n\n        for event\
           \ in events_of_day:\n            answer_parts.append(EVENT_TEMPLATE.format(**event))\n\
           \n    opt = \"\".join(answer_parts)\n    return {\"output\": opt}\n\n"
         code_language: python3
@@ -391,7 +367,7 @@ workflow:
           output:
             children: null
             type: string
-        selected: false
+        selected: true
         title: gen answer
         type: code
         variables:
@@ -403,11 +379,11 @@ workflow:
       height: 52
       id: '1763612427355'
       position:
-        x: 2977.122975516152
-        y: 303
+        x: 2971.6853875418633
+        y: 585.7545746630121
       positionAbsolute:
-        x: 2977.122975516152
-        y: 303
+        x: 2971.6853875418633
+        y: 585.7545746630121
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -417,6 +393,7 @@ workflow:
         context:
           enabled: false
           variable_selector: []
+        desc: using LLM to search intersting events
         model:
           completion_params: {}
           mode: chat
@@ -430,7 +407,9 @@ workflow:
           role: user
           text: '{{#sys.query#}}
 
-            {{#sys.files#}}'
+            {{#sys.files#}}
+
+            {{#1763855870458.output#}}'
         selected: false
         structured_output:
           schema:
@@ -485,25 +464,464 @@ workflow:
             - events
             type: object
         structured_output_enabled: true
-        title: events search
+        title: event search
         type: llm
         vision:
           enabled: false
-      height: 88
+      height: 116
       id: '1763628188021'
       position:
-        x: 2308.0464460675294
+        x: 2661.4896643962943
+        y: 585.7545746630121
+      positionAbsolute:
+        x: 2661.4896643962943
+        y: 585.7545746630121
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 11c5e618-0946-4fe8-af4e-d1293909d743
+            value: '{{#env.SCRAPE_MODE_TRIGGER#}}'
+            varType: string
+            variable_selector:
+            - sys
+            - query
+          id: 'true'
+          logical_operator: and
+        - case_id: dcf38d88-0624-42d5-a270-9024bcc6f125
+          conditions:
+          - comparison_operator: is
+            id: 232fae9b-7c5b-4e51-b811-6295524d73ff
+            value: '{{#env.ASSESS_MODE_TRIGGER#}}'
+            varType: string
+            variable_selector:
+            - sys
+            - query
+          id: dcf38d88-0624-42d5-a270-9024bcc6f125
+          logical_operator: and
+        desc: 'decide conversation mode per run
+
+
+          - case 1: scrape a set of websites for events
+
+          - case 2: assess user''s interested topic
+
+          - else: use user''s input as source data for events'
+        selected: false
+        title: Round Mode Branching
+        type: if-else
+      height: 296
+      id: '1763853265591'
+      position:
+        x: 531.6356510954458
         y: 303
       positionAbsolute:
-        x: 2308.0464460675294
+        x: 531.6356510954458
         y: 303
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
+    - data:
+        answer: 'TODO to be implemented
+
+
+          assess'
+        selected: false
+        title: '%TODO'
+        type: answer
+        variables: []
+      height: 100
+      id: '1763854019727'
+      position:
+        x: 1092.3606741530893
+        y: 196.6456476495669
+      positionAbsolute:
+        x: 1092.3606741530893
+        y: 196.6456476495669
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        error_handle_mode: terminated
+        flatten_output: false
+        height: 305
+        is_parallel: true
+        iterator_input_type: array[string]
+        iterator_selector:
+        - '1763857859306'
+        - output
+        output_selector:
+        - '1763855884147'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1763855870458start
+        title: Iteration
+        type: iteration
+        width: 386
+      height: 305
+      id: '1763855870458'
+      position:
+        x: 1208.757958552078
+        y: -402.25013012546066
+      positionAbsolute:
+        x: 1208.757958552078
+        y: -402.25013012546066
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 386
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1763855870458start
+      parentId: '1763855870458'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1232.757958552078
+        y: -334.25013012546066
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1763855870458'
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: url to be scraped or crawled
+            ja_JP: url to be scraped or crawled
+            pt_BR: url to be scraped or crawled
+            zh_Hans: 要抓取或爬取的网址
+          label:
+            en_US: URL
+            ja_JP: URL
+            pt_BR: URL
+            zh_Hans: 网址
+          llm_description: url to either be scraped or crawled
+          max: null
+          min: null
+          name: url
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: crawl
+          form: form
+          human_description:
+            en_US: used for selecting to either scrape the website or crawl the entire
+              website following subpages
+            ja_JP: used for selecting to either scrape the website or crawl the entire
+              website following subpages
+            pt_BR: used for selecting to either scrape the website or crawl the entire
+              website following subpages
+            zh_Hans: 用于选择抓取网站或爬取整个网站及其子页面
+          label:
+            en_US: Mode
+            ja_JP: Mode
+            pt_BR: Mode
+            zh_Hans: 模式
+          llm_description: ''
+          max: null
+          min: null
+          name: mode
+          options:
+          - icon: ''
+            label:
+              en_US: scrape
+              ja_JP: scrape
+              pt_BR: scrape
+              zh_Hans: 抓取
+            value: scrape
+          - icon: ''
+            label:
+              en_US: crawl
+              ja_JP: crawl
+              pt_BR: crawl
+              zh_Hans: 爬取
+            value: crawl
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: 0
+          form: form
+          human_description:
+            en_US: specify the maximum number of pages to crawl per website. the crawler
+              will stop after reaching this limit.
+            ja_JP: specify the maximum number of pages to crawl per website. the crawler
+              will stop after reaching this limit.
+            pt_BR: specify the maximum number of pages to crawl per website. the crawler
+              will stop after reaching this limit.
+            zh_Hans: 指定每个网站要爬取的最大页面数。爬虫将在达到此限制后停止。
+          label:
+            en_US: maximum number of pages to crawl
+            ja_JP: maximum number of pages to crawl
+            pt_BR: maximum number of pages to crawl
+            zh_Hans: 最大爬取页面数
+          llm_description: ''
+          max: null
+          min: 0
+          name: limit
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: 0
+          form: form
+          human_description:
+            en_US: the crawl limit for maximum depth.
+            ja_JP: the crawl limit for maximum depth.
+            pt_BR: the crawl limit for maximum depth.
+            zh_Hans: 最大爬取深度的限制。
+          label:
+            en_US: maximum depth of pages to crawl
+            ja_JP: maximum depth of pages to crawl
+            pt_BR: maximum depth of pages to crawl
+            zh_Hans: 最大爬取深度
+          llm_description: ''
+          max: null
+          min: 0
+          name: depth
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: blacklist a set of paths that you do not want to crawl. you can
+              use regex patterns to help with the list.
+            ja_JP: blacklist a set of paths that you do not want to crawl. you can
+              use regex patterns to help with the list.
+            pt_BR: blacklist a set of paths that you do not want to crawl. you can
+              use regex patterns to help with the list.
+            zh_Hans: 指定一组不想爬取的路径。您可以使用正则表达式模式来帮助定义列表。
+          label:
+            en_US: url patterns to exclude
+            ja_JP: url patterns to exclude
+            pt_BR: url patterns to exclude
+            zh_Hans: 要排除的URL模式
+          llm_description: ''
+          max: null
+          min: null
+          name: blacklist
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Whitelist a set of paths that you want to crawl, ignoring all other
+              routes that do not match the patterns. You can use regex patterns to
+              help with the list.
+            ja_JP: Whitelist a set of paths that you want to crawl, ignoring all other
+              routes that do not match the patterns. You can use regex patterns to
+              help with the list.
+            pt_BR: Whitelist a set of paths that you want to crawl, ignoring all other
+              routes that do not match the patterns. You can use regex patterns to
+              help with the list.
+            zh_Hans: 指定一组要爬取的路径，忽略所有不匹配模式的其他路由。您可以使用正则表达式模式来帮助定义列表。
+          label:
+            en_US: URL patterns to include
+            ja_JP: URL patterns to include
+            pt_BR: URL patterns to include
+            zh_Hans: 要包含的URL模式
+          llm_description: ''
+          max: null
+          min: null
+          name: whitelist
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: false
+          form: form
+          human_description:
+            en_US: Use Mozilla's readability to pre-process the content for reading.
+              This may drastically improve the content for LLM usage.
+            ja_JP: Use Mozilla's readability to pre-process the content for reading.
+              This may drastically improve the content for LLM usage.
+            pt_BR: Use Mozilla's readability to pre-process the content for reading.
+              This may drastically improve the content for LLM usage.
+            zh_Hans: 如果启用，爬虫将仅返回页面的主要内容，不包括标题、导航、页脚等。
+          label:
+            en_US: Pre-process the content for LLM usage
+            ja_JP: Pre-process the content for LLM usage
+            pt_BR: Pre-process the content for LLM usage
+            zh_Hans: 仅返回页面的主要内容
+          llm_description: ''
+          max: null
+          min: null
+          name: readability
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        params:
+          blacklist: ''
+          depth: ''
+          limit: ''
+          mode: ''
+          readability: ''
+          url: ''
+          whitelist: ''
+        plugin_id: langgenius/spider
+        plugin_unique_identifier: langgenius/spider:0.0.4@d9c19d338a78f0bc54144fc26e0e4f1cc5cebc5b629ae8e9a37c671a2f5ff2ef
+        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=d22cabd0-10fe-4a07-a439-22bb1cbc4e43&filename=2fe93450a54d0815086eb25c8cd1763db178d81dd9d1ea39d166f0c98d8d1fe4.svg
+        provider_id: langgenius/spider/spider
+        provider_name: langgenius/spider/spider
+        provider_type: builtin
+        selected: false
+        title: Web Scraper & Crawler
+        tool_configurations:
+          blacklist:
+            type: mixed
+            value: null
+          depth:
+            type: constant
+            value: 0
+          limit:
+            type: constant
+            value: 0
+          mode:
+            type: constant
+            value: scrape
+          readability:
+            type: constant
+            value: true
+          whitelist:
+            type: mixed
+            value: null
+        tool_description: A tool for scraping & crawling webpages. Input should be
+          a url.
+        tool_label: Web Scraper & Crawler
+        tool_name: scraper_crawler
+        tool_node_version: '2'
+        tool_parameters:
+          url:
+            type: mixed
+            value: '{{#1763855870458.item#}}'
+        type: tool
+      height: 217
+      id: '1763855884147'
+      parentId: '1763855870458'
+      position:
+        x: 128
+        y: 66.05492940717625
+      positionAbsolute:
+        x: 1336.757958552078
+        y: -336.1952007182844
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        code: "from datetime import timedelta, date as date_cls\n\nEVENTBRITE_URL\
+          \ = \"https://www.eventbrite.com/d/ca--los-angeles/all-events/?page=1&start_date={}&end_date={}\"\
+          \nEVENTBRITE_DATE = \"%Y-%m-%d\"\nDOWNTOWN_LA_URL = \"https://downtownla.com/calendar#{}-to-{}\"\
+          \nDOWNTOWN_LA_DATE = \"%m-%d-%y\"\nLA_LIVE_URL = \"https://www.lalive.com/events/filter/{}/{}/\"\
+          \nLA_LIVE_DATE = \"%Y-%m-%d\"\nDISCOVER_LA_URL = \"https://www.discoverlosangeles.com/events\"\
+          \n\n\ndef _create_date_range():\n    \"\"\"\n    create a date range starting\
+          \ **today**, and ending on **coming Sunday**,\n    spanning for at max 1\
+          \ week\n\n\n    :return: start & end date\n    :rtype: tuple(datetime.date,\
+          \ datetime.date)\n    \"\"\"\n    start_date = date_cls.today()\n\n    #\
+          \ find coming Sunday\n    days_ahead = ((6 - start_date.weekday()) % 7)\
+          \ or 7\n    end_date = start_date + timedelta(days=days_ahead)\n\n    return\
+          \ start_date, end_date\n\n\ndef main():\n    \"\"\"\n    dynamically create\
+          \ information for scarping various websites\n\n\n    :return: ``opt`` is\
+          \ a ``list`` of urls (``str``) to be scraped\n    \"\"\"\n\n    start_date,\
+          \ end_date = _create_date_range()\n\n    # create urls  -------------------------------------------------------------\n\
+          \    opt = []\n\n    # eventide\n    # Fixme only search 1st page\n    opt.append(\n\
+          \        EVENTBRITE_URL.format(\n            start_date.strftime(EVENTBRITE_DATE),\n\
+          \            end_date.strftime(EVENTBRITE_DATE),\n        )\n    )\n\n \
+          \   # downtownla.com\n    opt.append(\n        DOWNTOWN_LA_URL.format(\n\
+          \            start_date.strftime(DOWNTOWN_LA_DATE),\n            end_date.strftime(DOWNTOWN_LA_DATE),\n\
+          \        )\n    )\n\n    # Discover LA\n    opt.append(DISCOVER_LA_URL)\n\
+          \n    # LA Live.com\n    opt.append(\n        LA_LIVE_URL.format(\n    \
+          \        start_date.strftime(LA_LIVE_DATE),\n            end_date.strftime(LA_LIVE_DATE),\n\
+          \        )\n    )\n\n    # return all urls  ---------------------------------------------------------\n\
+          \    return {\"output\": opt}\n\n"
+        code_language: python3
+        outputs:
+          output:
+            children: null
+            type: array[string]
+        selected: false
+        title: gen urls
+        type: code
+        variables: []
+      height: 52
+      id: '1763857859306'
+      position:
+        x: 916.5248833903843
+        y: -402.25013012546066
+      positionAbsolute:
+        x: 916.5248833903843
+        y: -402.25013012546066
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
     viewport:
-      x: 236.6549241579046
-      y: 282.58282573864733
-      zoom: 0.6014609442411091
+      x: 110.29630841182302
+      y: 282.0323070558029
+      zoom: 0.526592245718773
   rag_pipeline_variables: []

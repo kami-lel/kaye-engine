@@ -10,10 +10,14 @@ EVENT_TEMPLATE = """## [{name}]({link})
 
 """
 
-# TODO better docs
 
-
-def create_date_line(date):
+def _create_date_line(date):
+    """
+    :param date:
+    :type date: datetime.date
+    :return: a ``md`` heading line containing day-of-week and date
+    :rtype: str
+    """
     month_str, day_str = date.split("-")
     dt = date_cls(date_cls.today().year, int(month_str), int(day_str))
     weekday = dt.strftime("%a")
@@ -21,6 +25,14 @@ def create_date_line(date):
 
 
 def main(event_search_result: dict):
+    """
+    create a standard, well-formatted answer in ``md``
+
+
+    :param event_search_result:
+    :type event_search_result: dict
+    :return: ``opt`` is a ``str`` of well-formatted answer in ``md``
+    """
     # tab by date  -------------------------------------------------------------
     by_dates = {}
 
@@ -35,7 +47,7 @@ def main(event_search_result: dict):
     answer_parts = []
 
     for date, events_of_day in sorted(by_dates.items()):
-        answer_parts.append(create_date_line(date))
+        answer_parts.append(_create_date_line(date))
 
         for event in events_of_day:
             answer_parts.append(EVENT_TEMPLATE.format(**event))
