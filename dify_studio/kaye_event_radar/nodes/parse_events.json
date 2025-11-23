@@ -3,7 +3,6 @@
   "properties": {
     "events": {
       "type": "array",
-      "minitems": 1,
       "items": {
         "type": "object",
         "properties": {
