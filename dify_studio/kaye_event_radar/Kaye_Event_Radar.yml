@@ -254,6 +254,7 @@ workflow:
         sourceType: iteration
         targetType: code
       id: 1763855870458-source-1763591247691-target
+      selected: false
       source: '1763855870458'
       sourceHandle: source
       target: '1763591247691'
@@ -265,8 +266,63 @@ workflow:
         selected: false
         title: User Input
         type: start
-        variables: []
-      height: 73
+        variables:
+        - default: true
+          hide: false
+          hint: ''
+          label: search Evenbride
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: checkbox
+          variable: enable_eventbride
+        - default: true
+          hint: ''
+          label: search DowntownLA.com
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: checkbox
+          variable: enable_downtown_la
+        - default: true
+          hint: ''
+          label: search Discover Los Angeles
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: checkbox
+          variable: enable_discover_la
+        - default: true
+          hint: ''
+          label: search L.A.Live
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: checkbox
+          variable: enable_la_live
+        - default: true
+          hint: ''
+          label: search USC Event Calendar
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: checkbox
+          variable: enable_usc_event_calendar
+        - default: true
+          hint: ''
+          label: search engageSC
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: checkbox
+          variable: enable_engage_sc
+      height: 238
       id: '1763588758713'
       position:
         x: 80
@@ -367,7 +423,7 @@ workflow:
           output:
             children: null
             type: string
-        selected: true
+        selected: false
         title: gen answer
         type: code
         variables:
@@ -546,7 +602,7 @@ workflow:
       positionAbsolute:
         x: 1092.3606741530893
         y: 196.6456476495669
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -874,39 +930,89 @@ workflow:
       zIndex: 1002
     - data:
         code: "from datetime import timedelta, date as date_cls\n\nEVENTBRITE_URL\
-          \ = \"https://www.eventbrite.com/d/ca--los-angeles/all-events/?page=1&start_date={}&end_date={}\"\
-          \nEVENTBRITE_DATE = \"%Y-%m-%d\"\nDOWNTOWN_LA_URL = \"https://downtownla.com/calendar#{}-to-{}\"\
-          \nDOWNTOWN_LA_DATE = \"%m-%d-%y\"\nLA_LIVE_URL = \"https://www.lalive.com/events/filter/{}/{}/\"\
-          \nLA_LIVE_DATE = \"%Y-%m-%d\"\nDISCOVER_LA_URL = \"https://www.discoverlosangeles.com/events\"\
-          \n\n\ndef _create_date_range():\n    \"\"\"\n    create a date range starting\
-          \ **today**, and ending on **coming Sunday**,\n    spanning for at max 1\
-          \ week\n\n\n    :return: start & end date\n    :rtype: tuple(datetime.date,\
-          \ datetime.date)\n    \"\"\"\n    start_date = date_cls.today()\n\n    #\
-          \ find coming Sunday\n    days_ahead = ((6 - start_date.weekday()) % 7)\
-          \ or 7\n    end_date = start_date + timedelta(days=days_ahead)\n\n    return\
-          \ start_date, end_date\n\n\ndef main():\n    \"\"\"\n    dynamically create\
-          \ information for scarping various websites\n\n\n    :return: ``opt`` is\
-          \ a ``list`` of urls (``str``) to be scraped\n    \"\"\"\n\n    start_date,\
-          \ end_date = _create_date_range()\n\n    # create urls  -------------------------------------------------------------\n\
-          \    opt = []\n\n    # eventide\n    # Fixme only search 1st page\n    opt.append(\n\
-          \        EVENTBRITE_URL.format(\n            start_date.strftime(EVENTBRITE_DATE),\n\
-          \            end_date.strftime(EVENTBRITE_DATE),\n        )\n    )\n\n \
-          \   # downtownla.com\n    opt.append(\n        DOWNTOWN_LA_URL.format(\n\
-          \            start_date.strftime(DOWNTOWN_LA_DATE),\n            end_date.strftime(DOWNTOWN_LA_DATE),\n\
-          \        )\n    )\n\n    # Discover LA\n    opt.append(DISCOVER_LA_URL)\n\
-          \n    # LA Live.com\n    opt.append(\n        LA_LIVE_URL.format(\n    \
-          \        start_date.strftime(LA_LIVE_DATE),\n            end_date.strftime(LA_LIVE_DATE),\n\
-          \        )\n    )\n\n    # return all urls  ---------------------------------------------------------\n\
+          \ = (\n    \"https://www.eventbrite.com/d/ca--los-angeles/all-events/\"\n\
+          \    \"?page=1&start_date={}&end_date={}\"\n)\nEVENTBRITE_DATE = \"%Y-%m-%d\"\
+          \n\nDOWNTOWN_LA_URL = \"https://downtownla.com/calendar#{}-to-{}\"\nDOWNTOWN_LA_DATE\
+          \ = \"%m-%d-%y\"\n\nLA_LIVE_URL = \"https://www.lalive.com/events/filter/{}/{}/\"\
+          \nLA_LIVE_DATE = \"%Y-%m-%d\"\n\nDISCOVER_LA_URL = \"https://www.discoverlosangeles.com/events\"\
+          \n\nUSC_EVENT_CALENDAR_URL = (\n    \"https://calendar.usc.edu/calendar/day/\"\
+          \n    \"{}?card_size=small&order=date&days={}&experience=\"\n)\nUSC_EVENT_CALENDAR_DATE\
+          \ = \"%Y/%m/%d\"\n\nENGAGE_SC_URL = \"https://engage.usc.edu/events?from_date={}&to_date={}\"\
+          \nENGAGE_SC_DATE = \"%d+%b+%Y\"\n\n\ndef _create_date_range():\n    \"\"\
+          \"\n    create a date range starting **today**, and ending on **next Sunday**\n\
+          \n    *next Sunday* is:\n\n    - if weekend (Sat, Sun): next next Sunday\n\
+          \    - else: coming Sunday\n\n\n    :return: start date, end date, days\
+          \ count (inclusive)\n    :rtype: tuple(datetime.date, datetime.date, int)\n\
+          \    \"\"\"\n    start_date = date_cls.today()\n\n    day_of_week = start_date.weekday()\n\
+          \    if day_of_week >= 5:  # weekend: Sat,Sun\n        days_passed = 13\
+          \ - day_of_week\n    else:\n        days_passed = 6 - day_of_week\n\n  \
+          \  end_date = start_date + timedelta(days=days_passed)\n\n    return start_date,\
+          \ end_date, days_passed + 1\n\n\ndef main(\n    enable_eventbride,\n   \
+          \ enable_downtown_la,\n    enable_discover_la,\n    enable_la_live,\n  \
+          \  enable_usc_event_calendar,\n    enable_engage_sc,\n):\n    \"\"\"\n \
+          \   dynamically create information for scarping various websites\n\n\n \
+          \   :return: ``opt`` is a ``list`` of urls (``str``) to be scraped\n   \
+          \ \"\"\"\n    start_date, end_date, days_cnt = _create_date_range()\n\n\
+          \    # create urls  -------------------------------------------------------------\n\
+          \    opt = []\n\n    # eventide\n    # Fixme only search 1st page\n    if\
+          \ enable_eventbride:\n        opt.append(\n            EVENTBRITE_URL.format(\n\
+          \                start_date.strftime(EVENTBRITE_DATE),\n               \
+          \ end_date.strftime(EVENTBRITE_DATE),\n            )\n        )\n\n    #\
+          \ downtownla.com\n    if enable_downtown_la:\n        opt.append(\n    \
+          \        DOWNTOWN_LA_URL.format(\n                start_date.strftime(DOWNTOWN_LA_DATE),\n\
+          \                end_date.strftime(DOWNTOWN_LA_DATE),\n            )\n \
+          \       )\n\n    # Discover LA\n    # Fixme no date filter\n    if enable_discover_la:\n\
+          \        opt.append(DISCOVER_LA_URL)\n\n    # LA Live.com\n    # Bug filter\
+          \ not applied\n    if enable_la_live:\n        opt.append(\n           \
+          \ LA_LIVE_URL.format(\n                start_date.strftime(LA_LIVE_DATE),\n\
+          \                end_date.strftime(LA_LIVE_DATE),\n            )\n     \
+          \   )\n\n    # USC Event Calendar\n    # Fixme only page 1\n    if enable_usc_event_calendar:\n\
+          \        opt.append(\n            USC_EVENT_CALENDAR_URL.format(\n     \
+          \           start_date.strftime(USC_EVENT_CALENDAR_DATE), days_cnt\n   \
+          \         )\n        )\n\n    # engageSC\n    if enable_engage_sc:\n   \
+          \     opt.append(\n            ENGAGE_SC_URL.format(\n                start_date.strftime(ENGAGE_SC_DATE),\n\
+          \                end_date.strftime(ENGAGE_SC_DATE),\n            )\n   \
+          \     )\n\n    # return all urls  ---------------------------------------------------------\n\
           \    return {\"output\": opt}\n\n"
         code_language: python3
         outputs:
           output:
             children: null
             type: array[string]
-        selected: false
+        selected: true
         title: gen urls
         type: code
-        variables: []
+        variables:
+        - value_selector:
+          - '1763588758713'
+          - enable_eventbride
+          value_type: boolean
+          variable: enable_eventbride
+        - value_selector:
+          - '1763588758713'
+          - enable_downtown_la
+          value_type: boolean
+          variable: enable_downtown_la
+        - value_selector:
+          - '1763588758713'
+          - enable_discover_la
+          value_type: boolean
+          variable: enable_discover_la
+        - value_selector:
+          - '1763588758713'
+          - enable_la_live
+          value_type: boolean
+          variable: enable_la_live
+        - value_selector:
+          - '1763588758713'
+          - enable_usc_event_calendar
+          value_type: boolean
+          variable: enable_usc_event_calendar
+        - value_selector:
+          - '1763588758713'
+          - enable_engage_sc
+          value_type: boolean
+          variable: enable_engage_sc
       height: 52
       id: '1763857859306'
       position:
@@ -915,13 +1021,13 @@ workflow:
       positionAbsolute:
         x: 916.5248833903843
         y: -402.25013012546066
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: 110.29630841182302
-      y: 282.0323070558029
+      x: -293.81217505420636
+      y: 554.1899785565022
       zoom: 0.526592245718773
   rag_pipeline_variables: []
