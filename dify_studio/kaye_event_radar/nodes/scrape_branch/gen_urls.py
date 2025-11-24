@@ -73,8 +73,7 @@ def main(
     opt = []
 
     # eventide
-    # FIXME only search 1st page
-    if enable_eventbride:
+    if False and enable_eventbride:  # BUG fail to search any events
         opt.append(
             EVENTBRITE_URL.format(
                 start_date.strftime(EVENTBRITE_DATE),

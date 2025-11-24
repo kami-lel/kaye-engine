@@ -1,14 +1,14 @@
 from datetime import date as date_cls
 import re
 
-EVENT_TEMPLATE = """## [{name}]({link})
+EVENT_TEMPLATE = """
+## [{name}]({link})
 
 - 🕒 `{time}`
 - 💰 {price}
 - 📍 <ins>{location}</ins>
 
 {summary}
-
 """
 
 
