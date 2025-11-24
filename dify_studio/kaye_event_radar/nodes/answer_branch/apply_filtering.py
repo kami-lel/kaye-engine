@@ -14,9 +14,7 @@ def _filter_events(events, filtered_events_names):
 
 
 def main(
-    events: list[dict],
-    filtered_events_names: list[str],
-    debug_skip_event_filtering: float,
+    events: list[dict], filtered_events_names: dict, debug_skip_event_filtering
 ):
     """
     filter ``events`` by selecting only those names appeared in ``names``
@@ -27,7 +25,7 @@ def main(
     :param names:
     :type names: list[str]
     :param debug_skip_event_filtering:
-    :type debug_skip_event_filtering: float
+    :type debug_skip_event_filtering: bool
     :return: ``opt`` is filtered events, (identical structure as ``events``)
     """
     if debug_skip_event_filtering:

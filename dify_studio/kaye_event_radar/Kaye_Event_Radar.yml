@@ -20,6 +20,124 @@ kind: app
 version: 0.5.0
 workflow:
   conversation_variables:
+  - description: ''
+    id: da639014-d295-4b3d-b758-89f8bae81e89
+    name: EVENTS_EXAMPLE
+    selector:
+    - conversation
+    - EVENTS_EXAMPLE
+    value:
+    - date: 07-20
+      link: https://summerbeatsfest.com
+      location: Sunset Park, Los Angeles
+      name: Summer Beats Music Festival
+      price: $50
+      summary: '**Live bands & DJs** bring sunlit energy 🎶
+
+        **Food trucks & dance zones** create festival vibes 🌞
+
+        Bring friends, party outdoor, music for all levels 🎧🍔'
+      time: 14:00 ~ 22:00
+    - date: 09-10
+      link: ''
+      location: Convention Center, Boston
+      name: Tech Innovators Job Fair 2024
+      price: 🆓, need registration
+      summary: '**To meet top tech employers** — networking & hiring 💼
+
+        **Workshops & on-site recruiting** for career moves 💡
+
+        Bring resume, register to attend, prepare for interviews 🤝'
+      time: 09:00 ~ 17:00
+    - date: 08-03
+      link: https://foodtruckrallyaustin.com
+      location: Central Plaza, Austin
+      name: Gourmet Food Truck Rally
+      price: 🆓
+      summary: '**30+ food trucks** offering global flavors 🌮🍜
+
+        **Live cooking demos & family activities** 🎉
+
+        Stroll, taste, enjoy casual outdoor eats 🍦'
+      time: '11:00'
+    - date: 10-25
+      link: https://masqueradeballny.com
+      location: Grand Ballroom, New York
+      name: Annual Masquerade Ball
+      price: $120 per person
+      summary: '**Elegance & mystery** — formal attire, mask required 🎭
+
+        **Dinner & live orchestra** set sophisticated tone 🍷
+
+        Limited tickets — dress to impress, book early ✨'
+      time: '19:00'
+    - date: 07-28
+      link: ''
+      location: Blue Ridge Mountains
+      name: Outdoor Yoga & Wellness Retreat
+      price: ❓
+      summary: '**Guided yoga & meditation** to refresh body + mind 🧘‍♀️
+
+        **Organic meals & nature setting** for deep recharge 🌲
+
+        All levels welcome — reconnect away from city noise 🍃'
+      time: 08:00 ~ 16:00
+    - date: 09-15
+      link: https://vintagecarshowdetroit.com
+      location: ''
+      name: Vintage Car Show & Expo
+      price: $25 Adults / $15 Children
+      summary: '**Classic car showcase** with rare models on display 🚗🏁
+
+        **Vendors & contests** for collectors and fans 🔧
+
+        Family-friendly celebration of automotive history'
+      time: 10:15 ~ 18:35
+    - date: 08-10
+      link: https://indiefilmpremiereseattle.com
+      location: ''
+      name: Indie Film Premiere Night
+      price: $15
+      summary: '**Premieres of latest indie films** — first screenings 🎬
+
+        **Q&A with directors** after show to meet filmmakers ⭐
+
+        Discover fresh cinematic voices, support indie creators 🍿'
+      time: '19:30'
+    - date: 09-21
+      link: https://portlandcraftbeerfest.com
+      location: Riverside Park, Portland
+      name: Craft Beer & Cider Festival
+      price: $40 includes tasting glass and 5 samples
+      summary: '**Local breweries & cideries** pour tastings 🍺🎶
+
+        **Live music & food pairings** complement tasting vibe 🍻
+
+        Tasting glass included — sample, learn, celebrate brews'
+      time: 12:00 ~ 22:00
+    - date: 10-05
+      link: https://chiscienceday.org
+      location: City Museum, Chicago
+      name: Children’s Science Discovery Day
+      price: 🆓
+      summary: '**Interactive exhibits & experiments** spark curiosity 🔬🧪
+
+        **Hands-on workshops** designed for young scientists 🌟
+
+        Family-focused learning day to inspire tomorrow’s innovators'
+      time: 10:05 ~ 16:05
+    - date: 11-08
+      link: https://intl-dancefiesta.com
+      location: Civic Auditorium, Miami
+      name: International Dance Fiesta
+      price: $35 advance / $45 door
+      summary: '**Global dance performances** showcase diverse styles 💃🌍
+
+        **Workshops & social dancing** invite participation 🎟️
+
+        Bring passion to floor — for beginners through pros 🎶'
+      time: 18:30 ~ 23:00
+    value_type: array[object]
   - description: sustained events across rounds
     id: e27aec12-23f3-4cef-8964-5a0c963a092b
     name: events
@@ -156,6 +274,16 @@ workflow:
     - Music Festival
     value_type: array[string]
   environment_variables:
+  - description: '1: skip event filtering
+
+      2: use example events'
+    id: 68c2094b-2149-4f38-87f3-418aae440f61
+    name: DEBUG_FLAGS
+    selector:
+    - env
+    - DEBUG_FLAGS
+    value: 1
+    value_type: integer
   - description: ''
     id: 1517f83c-f57f-4fcf-b884-2354a69b055c
     name: FILTER_EVENTS_PROMPT
@@ -312,30 +440,6 @@ workflow:
       type: custom
       zIndex: 0
     - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: code
-      id: 1763853265591-dcf38d88-0624-42d5-a270-9024bcc6f125-1763857859306-target
-      selected: false
-      source: '1763853265591'
-      sourceHandle: dcf38d88-0624-42d5-a270-9024bcc6f125
-      target: '1763857859306'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: answer
-      id: 1763853265591-true-1763854019727-target
-      selected: false
-      source: '1763853265591'
-      sourceHandle: 'true'
-      target: '1763854019727'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInIteration: false
         isInLoop: false
         sourceType: iteration
@@ -426,12 +530,12 @@ workflow:
       zIndex: 0
     - data:
         isInLoop: false
-        sourceType: assigner
+        sourceType: if-else
         targetType: code
-      id: 1763881676490-source-1763929135051-target
+      id: 1763931126383-false-1763929135051-target
       selected: false
-      source: '1763881676490'
-      sourceHandle: source
+      source: '1763931126383'
+      sourceHandle: 'false'
       target: '1763929135051'
       targetHandle: target
       type: custom
@@ -439,21 +543,103 @@ workflow:
     - data:
         isInLoop: false
         sourceType: assigner
-        targetType: code
-      id: 1763881643223-source-1763929135051-target
+        targetType: if-else
+      id: 1763881643223-source-1763931126383-target
       selected: false
       source: '1763881643223'
       sourceHandle: source
-      target: '1763929135051'
+      target: '1763931126383'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInLoop: false
-        sourceType: start
+        sourceType: if-else
+        targetType: code
+      id: 1763931126383-true-1763926842007-target
+      selected: false
+      source: '1763931126383'
+      sourceHandle: 'true'
+      target: '1763926842007'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1763853265591-cb09fd4b-f79c-4e2f-af5f-a51cb80b2bda-1763857859306-target
+      selected: false
+      source: '1763853265591'
+      sourceHandle: cb09fd4b-f79c-4e2f-af5f-a51cb80b2bda
+      target: '1763857859306'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1763853265591-dcf38d88-0624-42d5-a270-9024bcc6f125-1763854019727-target
+      selected: false
+      source: '1763853265591'
+      sourceHandle: dcf38d88-0624-42d5-a270-9024bcc6f125
+      target: '1763854019727'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: assigner
+      id: 1763853265591-true-1763932847499-target
+      source: '1763853265591'
+      sourceHandle: 'true'
+      target: '1763932847499'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
         targetType: if-else
-      id: 1763588758713-source-1763853265591-target
+      id: 1763932847499-source-1763931126383-target
+      source: '1763932847499'
+      sourceHandle: source
+      target: '1763931126383'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: if-else
+      id: 1763881676490-source-1763931126383-target
+      source: '1763881676490'
+      sourceHandle: source
+      target: '1763931126383'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1763588758713-source-1763984743090-target
       source: '1763588758713'
+      sourceHandle: source
+      target: '1763984743090'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1763984743090-source-1763853265591-target
+      source: '1763984743090'
       sourceHandle: source
       target: '1763853265591'
       targetHandle: target
@@ -542,10 +728,10 @@ workflow:
       height: 102
       id: answer
       position:
-        x: 2870.4756945474596
+        x: 4070.4756945474596
         y: 344.81018223868693
       positionAbsolute:
-        x: 2870.4756945474596
+        x: 4070.4756945474596
         y: 344.81018223868693
       selected: false
       sourcePosition: right
@@ -557,24 +743,35 @@ workflow:
         - case_id: 'true'
           conditions:
           - comparison_operator: is
-            id: 11c5e618-0946-4fe8-af4e-d1293909d743
-            value: '{{#env.ASSESS_MODE_TRIGGER#}}'
-            varType: string
+            id: 113026df-ecec-4f5b-b696-3ca8da30ca7f
+            value: true
+            varType: boolean
             variable_selector:
-            - sys
-            - query
+            - '1763984743090'
+            - use_example_events
           id: 'true'
           logical_operator: and
         - case_id: dcf38d88-0624-42d5-a270-9024bcc6f125
           conditions:
           - comparison_operator: is
             id: 232fae9b-7c5b-4e51-b811-6295524d73ff
-            value: '{{#env.SCRAPE_MODE_TRIGGER#}}'
+            value: '{{#env.ASSESS_MODE_TRIGGER#}}'
             varType: string
             variable_selector:
             - sys
             - query
           id: dcf38d88-0624-42d5-a270-9024bcc6f125
+          logical_operator: and
+        - case_id: cb09fd4b-f79c-4e2f-af5f-a51cb80b2bda
+          conditions:
+          - comparison_operator: is
+            id: 02bb3712-a95f-4c65-b2a4-ddc26d7bd3f6
+            value: '{{#env.SCRAPE_MODE_TRIGGER#}}'
+            varType: string
+            variable_selector:
+            - sys
+            - query
+          id: cb09fd4b-f79c-4e2f-af5f-a51cb80b2bda
           logical_operator: and
         desc: 'decide conversation mode per run
 
@@ -587,13 +784,13 @@ workflow:
         selected: false
         title: Round Mode Branching
         type: if-else
-      height: 296
+      height: 344
       id: '1763853265591'
       position:
-        x: 531.6356510954458
+        x: 831.6356510954458
         y: 303
       positionAbsolute:
-        x: 531.6356510954458
+        x: 831.6356510954458
         y: 303
       selected: false
       sourcePosition: right
@@ -612,12 +809,12 @@ workflow:
       height: 100
       id: '1763854019727'
       position:
-        x: 1221.556910417741
-        y: -135.1717706229335
+        x: 1704.8489758133192
+        y: -82.01707165821587
       positionAbsolute:
-        x: 1221.556910417741
-        y: -135.1717706229335
-      selected: true
+        x: 1704.8489758133192
+        y: -82.01707165821587
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -625,7 +822,7 @@ workflow:
     - data:
         error_handle_mode: terminated
         flatten_output: true
-        height: 309
+        height: 335.666337082581
         is_parallel: true
         iterator_input_type: array[string]
         iterator_selector:
@@ -642,13 +839,13 @@ workflow:
         title: Iteration
         type: iteration
         width: 729
-      height: 309
+      height: 336
       id: '1763855870458'
       position:
-        x: 1221.556910417741
+        x: 1521.556910417741
         y: 146.34283047930376
       positionAbsolute:
-        x: 1221.556910417741
+        x: 1521.556910417741
         y: 146.34283047930376
       selected: false
       sourcePosition: right
@@ -670,7 +867,7 @@ workflow:
         x: 24
         y: 68
       positionAbsolute:
-        x: 1245.556910417741
+        x: 1545.556910417741
         y: 214.34283047930376
       selectable: false
       sourcePosition: right
@@ -936,7 +1133,7 @@ workflow:
         x: 115.63426921083851
         y: 61.66633708258098
       positionAbsolute:
-        x: 1337.1911796285794
+        x: 1637.1911796285794
         y: 208.00916756188474
       selected: false
       sourcePosition: right
@@ -1032,10 +1229,10 @@ workflow:
       height: 52
       id: '1763857859306'
       position:
-        x: 1221.556910417741
+        x: 1521.556910417741
         y: 96.32418378446073
       positionAbsolute:
-        x: 1221.556910417741
+        x: 1521.556910417741
         y: 96.32418378446073
       selected: false
       sourcePosition: right
@@ -1120,7 +1317,7 @@ workflow:
         x: 417.6342692108385
         y: 61.66633708258098
       positionAbsolute:
-        x: 1639.1911796285794
+        x: 1939.1911796285794
         y: 208.00916756188474
       selected: false
       sourcePosition: right
@@ -1160,10 +1357,10 @@ workflow:
       height: 52
       id: '1763872720444'
       position:
-        x: 2445.224625783743
+        x: 3645.224625783743
         y: 313.9125918757432
       positionAbsolute:
-        x: 2445.224625783743
+        x: 3645.224625783743
         y: 313.9125918757432
       selected: false
       sourcePosition: right
@@ -1187,7 +1384,7 @@ workflow:
         - id: 9c34db05-ce3d-4c84-9c2e-8cd33337cc91
           role: user
           text: ' {{#1763929135051.output#}}'
-        selected: false
+        selected: true
         structured_output:
           schema:
             additionalProperties: false
@@ -1206,12 +1403,12 @@ workflow:
       height: 132
       id: '1763872877047'
       position:
-        x: 2445.224625783743
+        x: 3645.224625783743
         y: 362.1579227856186
       positionAbsolute:
-        x: 2445.224625783743
+        x: 3645.224625783743
         y: 362.1579227856186
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1292,10 +1489,10 @@ workflow:
       height: 132
       id: '17638731366060'
       position:
-        x: 1439.6536614624408
+        x: 1739.6536614624408
         y: 695.6445907884709
       positionAbsolute:
-        x: 1439.6536614624408
+        x: 1739.6536614624408
         y: 695.6445907884709
       selected: false
       sourcePosition: right
@@ -1321,11 +1518,11 @@ workflow:
       height: 84
       id: '1763881643223'
       position:
-        x: 1706.3715214459198
-        y: 452.51757691440355
+        x: 2006.5799148624405
+        y: 480.10631569569045
       positionAbsolute:
-        x: 1706.3715214459198
-        y: 452.51757691440355
+        x: 2006.5799148624405
+        y: 480.10631569569045
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1350,10 +1547,10 @@ workflow:
       height: 84
       id: '1763881676490'
       position:
-        x: 1440.3079607884306
+        x: 1740.3079607884306
         y: 825.512930991799
       positionAbsolute:
-        x: 1440.3079607884306
+        x: 1740.3079607884306
         y: 825.512930991799
       selected: false
       sourcePosition: right
@@ -1361,18 +1558,28 @@ workflow:
       type: custom
       width: 242
     - data:
-        code: "from datetime import date as date_cls\n\nEVENT_TEMPLATE = \"\"\"##\
-          \ [{name}]({link})\n\n- \U0001F552 `{time}`\n- \U0001F4B0 {price}\n- \U0001F4CD\
-          \ <ins>{location}</ins>\n\n{summary}\n\n\"\"\"\n\n\ndef _create_date_line(date):\n\
-          \    \"\"\"\n    :param date:\n    :type date: datetime.date\n    :return:\
-          \ a ``md`` heading line containing day-of-week and date\n    :rtype: str\n\
-          \    \"\"\"\n    month_str, day_str = date.split(\"-\")\n    dt = date_cls(date_cls.today().year,\
-          \ int(month_str), int(day_str))\n    weekday = dt.strftime(\"%a\")\n   \
-          \ return \"# {weekday} {date}\\n\".format(weekday=weekday, date=date)\n\n\
-          \ndef main(filtered_events: list[dict]):\n    \"\"\"\n    create a well-formatted\
-          \ ``md`` text answer of ``filtered_events``\n\n    :param filtered_events:\n\
-          \    :type filtered_events: list[dict]\n    :return: ``opt`` is the formatted\
-          \ text answer (typed ``str``)\n    \"\"\"\n\n    # tab by date  -------------------------------------------------------------\n\
+        code: "from datetime import date as date_cls\nimport re\n\nEVENT_TEMPLATE\
+          \ = \"\"\"## [{name}]({link})\n\n- \U0001F552 `{time}`\n- \U0001F4B0 {price}\n\
+          - \U0001F4CD <ins>{location}</ins>\n\n{summary}\n\n\"\"\"\n\n\nWARNING_TEMPLATE\
+          \ = \"\"\"\n<span style=\"color: red; font-weight: bold;\">WARN : {}</span>\n\
+          \"\"\"\n\nDEBUG_SKIP_EVENT_FILTERING_WARNING = WARNING_TEMPLATE.format(\n\
+          \    \"skip event filtering\"\n)\nDEBUG_USE_EXAMPLE_EVENTS_WARNING = WARNING_TEMPLATE.format(\n\
+          \    \"use example events\"\n)\n\n\ndef _create_date_line(date):\n    \"\
+          \"\"\n    :param date:\n    :type date: datetime.date\n    :return: a ``md``\
+          \ heading line containing day-of-week and date\n    :rtype: str\n    \"\"\
+          \"\n\n    match = re.fullmatch(r\"([01]\\d)-([0123]\\d)\", date)\n    if\
+          \ match:\n        month_str, day_str = match.group(1), match.group(2)\n\
+          \        dt = date_cls(date_cls.today().year, int(month_str), int(day_str))\n\
+          \        weekday = dt.strftime(\"%a\")\n        return \"# {weekday} {date}\\\
+          n\".format(weekday=weekday, date=date)\n    else:\n        # fall back for\
+          \ bad date\n        return \"# {}\".format(date)\n\n\ndef main(\n    filtered_events:\
+          \ list[dict],\n    debug_skip_event_filtering,\n    debug_use_example_events_warning,\n\
+          ):\n    \"\"\"\n    create a well-formatted ``md`` text answer of ``filtered_events``\n\
+          \n    :param filtered_events:\n    :type filtered_events: list[dict]\n \
+          \   :param debug_skip_event_filtering:\n    :type debug_skip_event_filtering:\
+          \ bool\n    :param debug_use_example_events_warning:\n    :type debug_use_example_events_warning:\
+          \ bool\n    :return: ``opt`` is the formatted text answer (typed ``str``)\n\
+          \    \"\"\"\n\n    # tab by date  -------------------------------------------------------------\n\
           \    by_dates = {}\n\n    for event in filtered_events:\n        date =\
           \ event[\"date\"]\n        if date not in by_dates:\n            by_dates[date]\
           \ = []  # init a new list\n\n        by_dates[date].append(event)\n\n  \
@@ -1380,6 +1587,9 @@ workflow:
           \    answer_parts = []\n\n    for date, events_of_day in sorted(by_dates.items()):\n\
           \        answer_parts.append(_create_date_line(date))\n\n        for event\
           \ in events_of_day:\n            answer_parts.append(EVENT_TEMPLATE.format(**event))\n\
+          \n    # warning for enabled debug flags\n    if debug_skip_event_filtering:\n\
+          \        answer_parts.append(DEBUG_SKIP_EVENT_FILTERING_WARNING)\n    if\
+          \ debug_use_example_events_warning:\n        answer_parts.append(DEBUG_USE_EXAMPLE_EVENTS_WARNING)\n\
           \n    opt = \"\".join(answer_parts)\n    return {\"output\": opt}\n\n"
         code_language: python3
         outputs:
@@ -1395,13 +1605,23 @@ workflow:
           - output
           value_type: array[object]
           variable: filtered_events
+        - value_selector:
+          - '1763984743090'
+          - skip_event_filtering
+          value_type: boolean
+          variable: debug_skip_event_filtering
+        - value_selector:
+          - '1763984743090'
+          - use_example_events
+          value_type: boolean
+          variable: debug_use_example_events_warning
       height: 52
       id: '1763926278859'
       position:
-        x: 2870.4756945474596
+        x: 4070.4756945474596
         y: 293.9700579088234
       positionAbsolute:
-        x: 2870.4756945474596
+        x: 4070.4756945474596
         y: 293.9700579088234
       selected: false
       sourcePosition: right
@@ -1415,13 +1635,16 @@ workflow:
           \            by keep only those with names appeared in ``filtered_events_names``\n\
           \    :rtype: list[dict]\n    \"\"\"\n    return [\n        event for event\
           \ in events if event[\"name\"] in filtered_events_names\n    ]\n\n\ndef\
-          \ main(events: list[dict], filtered_events_names: list[str]):\n    \"\"\"\
-          \n    filter ``events`` by selecting only those names appeared in ``names``\n\
-          \n\n    :param events:\n    :type events: list[dict]\n    :param names:\n\
-          \    :type names: list[str]\n    :return: ``opt`` is filtered events, (identical\
-          \ structure as ``events``)\n    \"\"\"\n    opt = [event for event in events\
-          \ if event[\"name\"] in filtered_events_names]\n    return {\"output\":\
-          \ opt}\n\n"
+          \ main(\n    events: list[dict],\n    filtered_events_names: dict,\n   \
+          \ debug_skip_event_filtering: bool,\n):\n    \"\"\"\n    filter ``events``\
+          \ by selecting only those names appeared in ``names``\n\n\n    :param events:\n\
+          \    :type events: list[dict]\n    :param names:\n    :type names: list[str]\n\
+          \    :param debug_skip_event_filtering:\n    :type debug_skip_event_filtering:\
+          \ bool\n    :return: ``opt`` is filtered events, (identical structure as\
+          \ ``events``)\n    \"\"\"\n    if debug_skip_event_filtering:\n        opt\
+          \ = events\n    else:\n        opt = [\n            event for event in events\
+          \ if event[\"name\"] in filtered_events_names\n        ]\n\n    return {\"\
+          output\": opt}\n\n"
         code_language: python3
         outputs:
           output:
@@ -1442,14 +1665,19 @@ workflow:
           - names
           value_type: object
           variable: filtered_events_names
+        - value_selector:
+          - '1763984743090'
+          - skip_event_filtering
+          value_type: boolean
+          variable: debug_skip_event_filtering
       height: 52
       id: '1763926842007'
       position:
-        x: 2445.224625783743
-        y: 491.96083690028325
+        x: 3645.224625783743
+        y: 489.8612270908234
       positionAbsolute:
-        x: 2445.224625783743
-        y: 491.96083690028325
+        x: 3645.224625783743
+        y: 489.8612270908234
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1477,18 +1705,114 @@ workflow:
       height: 52
       id: '1763929135051'
       position:
-        x: 2445.224625783743
+        x: 3645.224625783743
         y: 265.0347973069771
       positionAbsolute:
-        x: 2445.224625783743
+        x: 3645.224625783743
         y: 265.0347973069771
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: c158e99e-1f9c-471c-ad68-275554504e78
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1763984743090'
+            - skip_event_filtering
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: DEBUG skip event filtering
+        type: if-else
+      height: 124
+      id: '1763931126383'
+      position:
+        x: 3645.224625783743
+        y: 36.90704409243202
+      positionAbsolute:
+        x: 3645.224625783743
+        y: 36.90704409243202
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - conversation
+          - EVENTS_EXAMPLE
+          variable_selector:
+          - conversation
+          - events
+          write_mode: over-write
+        selected: false
+        title: Use Example Events
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1763932847499'
+      position:
+        x: 1625.5721936474338
+        y: -364.26181947494206
+      positionAbsolute:
+        x: 1625.5721936474338
+        y: -364.26181947494206
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(debug_flags: float):\n    \"\"\"\n    parse ``debug_flags``\
+          \ as bitwise flags, assume integer:\n\n    - 1: ``skip_event_filtering``\n\
+          \    - 2: ``use_example_events``\n\n\n    :param debug_flags:\n    :type\
+          \ debug_flags: float\n    :return: entries with key as flag names (v.s.)\
+          \ and value as ``bool``\n    :rtype: dict{str: bool}\n    \"\"\"\n    flags\
+          \ = int(debug_flags)\n\n    skip_event_filtering = bool(flags & 1)\n   \
+          \ use_example_events = bool(flags & 2)\n\n    return {\n        \"skip_event_filtering\"\
+          : skip_event_filtering,\n        \"use_example_events\": use_example_events,\n\
+          \    }\n\n"
+        code_language: python3
+        outputs:
+          skip_event_filtering:
+            children: null
+            type: boolean
+          use_example_events:
+            children: null
+            type: boolean
+        selected: false
+        title: parse debug flags
+        type: code
+        variables:
+        - value_selector:
+          - env
+          - DEBUG_FLAGS
+          value_type: number
+          variable: debug_flags
+      height: 52
+      id: '1763984743090'
+      position:
+        x: 531.6356510954458
+        y: 303
+      positionAbsolute:
+        x: 531.6356510954458
+        y: 303
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
     viewport:
-      x: 292.3636206768854
-      y: 356.39227323041996
-      zoom: 0.29908330784543513
+      x: -2090.9548633287204
+      y: 177.75755779278825
+      zoom: 0.6524401185098435
   rag_pipeline_variables: []

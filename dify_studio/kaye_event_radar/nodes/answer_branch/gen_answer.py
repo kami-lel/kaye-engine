@@ -45,14 +45,18 @@ def _create_date_line(date):
 
 def main(
     filtered_events: list[dict],
-    debug_skip_event_filtering: float,
-    debug_use_example_events_warning: float,
+    debug_skip_event_filtering,
+    debug_use_example_events_warning,
 ):
     """
     create a well-formatted ``md`` text answer of ``filtered_events``
 
     :param filtered_events:
     :type filtered_events: list[dict]
+    :param debug_skip_event_filtering:
+    :type debug_skip_event_filtering: bool
+    :param debug_use_example_events_warning:
+    :type debug_use_example_events_warning: bool
     :return: ``opt`` is the formatted text answer (typed ``str``)
     """
 
