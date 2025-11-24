@@ -1,4 +1,5 @@
 from datetime import date as date_cls
+import re
 
 EVENT_TEMPLATE = """## [{name}]({link})
 
@@ -30,10 +31,16 @@ def _create_date_line(date):
     :return: a ``md`` heading line containing day-of-week and date
     :rtype: str
     """
-    month_str, day_str = date.split("-")
-    dt = date_cls(date_cls.today().year, int(month_str), int(day_str))
-    weekday = dt.strftime("%a")
-    return "# {weekday} {date}\n".format(weekday=weekday, date=date)
+
+    match = re.fullmatch(r"([01]\d)-([0123]\d)", date)
+    if match:
+        month_str, day_str = match.group(1), match.group(2)
+        dt = date_cls(date_cls.today().year, int(month_str), int(day_str))
+        weekday = dt.strftime("%a")
+        return "# {weekday} {date}\n".format(weekday=weekday, date=date)
+    else:
+        # fall back for bad date
+        return "# {}".format(date)
 
 
 def main(
