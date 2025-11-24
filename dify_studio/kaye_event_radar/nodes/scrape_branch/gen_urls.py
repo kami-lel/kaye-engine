@@ -82,7 +82,7 @@ def main(
         )
 
     # downtownla.com
-    if enable_downtown_la:
+    if False and enable_downtown_la:  # BUG only get 4 entries
         opt.append(
             DOWNTOWN_LA_URL.format(
                 start_date.strftime(DOWNTOWN_LA_DATE),
