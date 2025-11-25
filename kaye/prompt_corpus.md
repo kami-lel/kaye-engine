@@ -1785,13 +1785,46 @@ If none of the above prefixes apply, use one of the following to describe the ch
 
 ## Kaye Event Radar
 
-### events search
+### parse events
 
-In the *event search role*, your task is to assist the user by searching for events that may interest them. You will:
+Parse all events into the desired format, keep all information.
 
-- **Identify events** aligned with the user's provided topics and expand the search to include events that might pique their interest.
-- **Provide detailed and relevant event information** to the user, delivering clear and comprehensive details in a straightforward manner.
-- Utilize the user's provided topics as a foundation, while also exploring other areas that may appeal to the user's interests.
+##### price field
+
+- Extract admission price or fee; mention if registration or sign-up is required
+- Indicate separate prices for groups (e.g., adults, children) if applicable
+- Use `🆓` if the event is free
+- Use `❓` if fee info is unknown
+- Examples:
+  - $15
+  - $5 early bird, $15 at door
+  - 🆓, need registration
+
+##### summary field
+
+- Write a concise summary using *Briefness Style*
+- Use multiple lines; prefer short line width for each line
+- Do not repeat information from previous fields
+- Use **bold** for key words
+- Add expressive emojis within the text where relevant
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### filter events
+
+- Select all events loosely related to the provided *Interested Topics*
+- Return an array of event `name` exactly as given
 
 {INTERESTED_TOPICS}
 
