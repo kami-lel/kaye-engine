@@ -276,13 +276,15 @@ workflow:
   environment_variables:
   - description: '1: skip event filtering
 
-      2: use example events'
+      2: use example events
+
+      4: only print urls'
     id: 68c2094b-2149-4f38-87f3-418aae440f61
     name: DEBUG_FLAGS
     selector:
     - env
     - DEBUG_FLAGS
-    value: 1
+    value: 4
     value_type: integer
   - description: ''
     id: 1517f83c-f57f-4fcf-b884-2354a69b055c
@@ -354,9 +356,9 @@ workflow:
       allowed_file_types:
       - image
       allowed_file_upload_methods:
-      - local_file
       - remote_url
-      enabled: false
+      - local_file
+      enabled: true
       fileUploadConfig:
         audio_file_size_limit: 50
         batch_count_limit: 5
@@ -401,18 +403,6 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 1002
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: iteration
-      id: 1763857859306-source-1763855870458-target
-      selected: false
-      source: '1763857859306'
-      sourceHandle: source
-      target: '1763855870458'
-      targetHandle: target
-      type: custom
-      zIndex: 0
     - data:
         isInIteration: true
         isInLoop: false
@@ -615,6 +605,7 @@ workflow:
         sourceType: assigner
         targetType: if-else
       id: 1763881676490-source-1763931126383-target
+      selected: false
       source: '1763881676490'
       sourceHandle: source
       target: '1763931126383'
@@ -642,6 +633,42 @@ workflow:
       source: '1763984743090'
       sourceHandle: source
       target: '1763853265591'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1763857859306-source-1764045604493-target
+      selected: false
+      source: '1763857859306'
+      sourceHandle: source
+      target: '1764045604493'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: iteration
+      id: 1764045604493-true-1763855870458-target
+      selected: false
+      source: '1764045604493'
+      sourceHandle: 'true'
+      target: '1763855870458'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1764045604493-false-1764045292279-target
+      source: '1764045604493'
+      sourceHandle: 'false'
+      target: '1764045292279'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -803,17 +830,17 @@ workflow:
 
           assess'
         selected: false
-        title: '%TODO'
+        title: '%%%tmp'
         type: answer
         variables: []
       height: 100
       id: '1763854019727'
       position:
-        x: 1704.8489758133192
-        y: -82.01707165821587
+        x: 1632.4247716352356
+        y: -137.1974176986605
       positionAbsolute:
-        x: 1704.8489758133192
-        y: -82.01707165821587
+        x: 1632.4247716352356
+        y: -137.1974176986605
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -842,11 +869,11 @@ workflow:
       height: 336
       id: '1763855870458'
       position:
-        x: 1521.556910417741
-        y: 146.34283047930376
+        x: 1927.9712045055935
+        y: 129.54395168614832
       positionAbsolute:
-        x: 1521.556910417741
-        y: 146.34283047930376
+        x: 1927.9712045055935
+        y: 129.54395168614832
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -867,8 +894,8 @@ workflow:
         x: 24
         y: 68
       positionAbsolute:
-        x: 1545.556910417741
-        y: 214.34283047930376
+        x: 1951.9712045055935
+        y: 197.54395168614832
       selectable: false
       sourcePosition: right
       targetPosition: left
@@ -1115,7 +1142,7 @@ workflow:
             value: true
           whitelist:
             type: mixed
-            value: null
+            value: ''
         tool_description: A tool for scraping & crawling webpages. Input should be
           a url.
         tool_label: Web Scraper & Crawler
@@ -1130,11 +1157,11 @@ workflow:
       id: '1763855884147'
       parentId: '1763855870458'
       position:
-        x: 115.63426921083851
-        y: 61.66633708258098
+        x: 122.89166731955015
+        y: 63.48068660975889
       positionAbsolute:
-        x: 1637.1911796285794
-        y: 208.00916756188474
+        x: 2050.862871825144
+        y: 193.0246382959072
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1142,10 +1169,11 @@ workflow:
       width: 242
       zIndex: 1002
     - data:
-        code: "from datetime import timedelta, date as date_cls\n\nEVENTBRITE_URL\
-          \ = (\n    \"https://www.eventbrite.com/d/ca--los-angeles/all-events/\"\n\
-          \    \"?page=1&start_date={}&end_date={}\"\n)\nEVENTBRITE_DATE = \"%Y-%m-%d\"\
-          \n\nDOWNTOWN_LA_URL = \"https://downtownla.com/calendar#{}-to-{}\"\nDOWNTOWN_LA_DATE\
+        code: "from datetime import timedelta, date as date_cls\n\n# todo implement\
+          \ ability to fetch websites w/ authentication\n\n\nEVENTBRITE_URL = (\n\
+          \    \"https://www.eventbrite.com/d/ca--los-angeles/all-events/\"\n    \"\
+          ?page=1&start_date={}&end_date={}\"\n)\nEVENTBRITE_DATE = \"%Y-%m-%d\"\n\
+          \nDOWNTOWN_LA_URL = \"https://downtownla.com/calendar#{}-to-{}\"\nDOWNTOWN_LA_DATE\
           \ = \"%m-%d-%y\"\n\nLA_LIVE_URL = \"https://www.lalive.com/events/filter/{}/{}/\"\
           \nLA_LIVE_DATE = \"%Y-%m-%d\"\n\nDISCOVER_LA_URL = \"https://www.discoverlosangeles.com/events\"\
           \n\nUSC_EVENT_CALENDAR_URL = (\n    \"https://calendar.usc.edu/calendar/day/\"\
@@ -1167,19 +1195,19 @@ workflow:
           \   :return: ``opt`` is a ``list`` of urls (``str``) to be scraped\n   \
           \ \"\"\"\n    start_date, end_date, days_cnt = _create_date_range()\n\n\
           \    # create urls  -------------------------------------------------------------\n\
-          \    opt = []\n\n    # eventide\n    # Fixme only search 1st page\n    if\
-          \ enable_eventbride:\n        opt.append(\n            EVENTBRITE_URL.format(\n\
+          \    opt = []\n\n    # eventide\n    if False and enable_eventbride:  #\
+          \ BUG fail to search any events\n        opt.append(\n            EVENTBRITE_URL.format(\n\
           \                start_date.strftime(EVENTBRITE_DATE),\n               \
           \ end_date.strftime(EVENTBRITE_DATE),\n            )\n        )\n\n    #\
           \ downtownla.com\n    if enable_downtown_la:\n        opt.append(\n    \
           \        DOWNTOWN_LA_URL.format(\n                start_date.strftime(DOWNTOWN_LA_DATE),\n\
           \                end_date.strftime(DOWNTOWN_LA_DATE),\n            )\n \
-          \       )\n\n    # Discover LA\n    # Fixme no date filter\n    if enable_discover_la:\n\
-          \        opt.append(DISCOVER_LA_URL)\n\n    # LA Live.com\n    # Bug filter\
+          \       )\n\n    # Discover LA\n    # FIXME no date filter\n    if enable_discover_la:\n\
+          \        opt.append(DISCOVER_LA_URL)\n\n    # LA Live.com\n    # BUG filter\
           \ not applied\n    if enable_la_live:\n        opt.append(\n           \
           \ LA_LIVE_URL.format(\n                start_date.strftime(LA_LIVE_DATE),\n\
           \                end_date.strftime(LA_LIVE_DATE),\n            )\n     \
-          \   )\n\n    # USC Event Calendar\n    # Fixme only page 1\n    if enable_usc_event_calendar:\n\
+          \   )\n\n    # USC Event Calendar\n    # FIXME only page 1\n    if enable_usc_event_calendar:\n\
           \        opt.append(\n            USC_EVENT_CALENDAR_URL.format(\n     \
           \           start_date.strftime(USC_EVENT_CALENDAR_DATE), days_cnt\n   \
           \         )\n        )\n\n    # engageSC\n    if enable_engage_sc:\n   \
@@ -1229,11 +1257,11 @@ workflow:
       height: 52
       id: '1763857859306'
       position:
-        x: 1521.556910417741
-        y: 96.32418378446073
+        x: 1559.763951678676
+        y: 120.63879135448414
       positionAbsolute:
-        x: 1521.556910417741
-        y: 96.32418378446073
+        x: 1559.763951678676
+        y: 120.63879135448414
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1250,7 +1278,7 @@ workflow:
         model:
           completion_params: {}
           mode: chat
-          name: gpt-4.1-mini
+          name: gpt-5-mini
           provider: langgenius/openai/openai
         prompt_template:
         - id: 69a71fb9-3367-4dd0-ad3b-9c778dc40067
@@ -1314,12 +1342,12 @@ workflow:
       id: '1763872259334'
       parentId: '1763855870458'
       position:
-        x: 417.6342692108385
-        y: 61.66633708258098
+        x: 424.8916673195499
+        y: 63.48068660975889
       positionAbsolute:
-        x: 1939.1911796285794
-        y: 208.00916756188474
-      selected: false
+        x: 2352.8628718251434
+        y: 193.0246382959072
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1384,7 +1412,7 @@ workflow:
         - id: 9c34db05-ce3d-4c84-9c2e-8cd33337cc91
           role: user
           text: ' {{#1763929135051.output#}}'
-        selected: true
+        selected: false
         structured_output:
           schema:
             additionalProperties: false
@@ -1408,7 +1436,7 @@ workflow:
       positionAbsolute:
         x: 3645.224625783743
         y: 362.1579227856186
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1424,7 +1452,7 @@ workflow:
         model:
           completion_params: {}
           mode: chat
-          name: gpt-4.1-mini
+          name: gpt-5-mini
           provider: langgenius/openai/openai
         prompt_template:
         - id: 69a71fb9-3367-4dd0-ad3b-9c778dc40067
@@ -1518,11 +1546,11 @@ workflow:
       height: 84
       id: '1763881643223'
       position:
-        x: 2006.5799148624405
-        y: 480.10631569569045
+        x: 2412.9942089502933
+        y: 460.14847089673344
       positionAbsolute:
-        x: 2006.5799148624405
-        y: 480.10631569569045
+        x: 2412.9942089502933
+        y: 460.14847089673344
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1559,8 +1587,8 @@ workflow:
       width: 242
     - data:
         code: "from datetime import date as date_cls\nimport re\n\nEVENT_TEMPLATE\
-          \ = \"\"\"## [{name}]({link})\n\n- \U0001F552 `{time}`\n- \U0001F4B0 {price}\n\
-          - \U0001F4CD <ins>{location}</ins>\n\n{summary}\n\n\"\"\"\n\n\nWARNING_TEMPLATE\
+          \ = \"\"\"\n## [{name}]({link})\n\n- \U0001F552 `{time}`\n- \U0001F4B0 {price}\n\
+          - \U0001F4CD <ins>{location}</ins>\n\n{summary}\n\"\"\"\n\n\nWARNING_TEMPLATE\
           \ = \"\"\"\n<span style=\"color: red; font-weight: bold;\">WARN : {}</span>\n\
           \"\"\"\n\nDEBUG_SKIP_EVENT_FILTERING_WARNING = WARNING_TEMPLATE.format(\n\
           \    \"skip event filtering\"\n)\nDEBUG_USE_EXAMPLE_EVENTS_WARNING = WARNING_TEMPLATE.format(\n\
@@ -1592,6 +1620,7 @@ workflow:
           \ debug_use_example_events_warning:\n        answer_parts.append(DEBUG_USE_EXAMPLE_EVENTS_WARNING)\n\
           \n    opt = \"\".join(answer_parts)\n    return {\"output\": opt}\n\n"
         code_language: python3
+        desc: '             '
         outputs:
           output:
             children: null
@@ -1615,7 +1644,7 @@ workflow:
           - use_example_events
           value_type: boolean
           variable: debug_use_example_events_warning
-      height: 52
+      height: 64
       id: '1763926278859'
       position:
         x: 4070.4756945474596
@@ -1775,15 +1804,19 @@ workflow:
     - data:
         code: "def main(debug_flags: float):\n    \"\"\"\n    parse ``debug_flags``\
           \ as bitwise flags, assume integer:\n\n    - 1: ``skip_event_filtering``\n\
-          \    - 2: ``use_example_events``\n\n\n    :param debug_flags:\n    :type\
-          \ debug_flags: float\n    :return: entries with key as flag names (v.s.)\
-          \ and value as ``bool``\n    :rtype: dict{str: bool}\n    \"\"\"\n    flags\
-          \ = int(debug_flags)\n\n    skip_event_filtering = bool(flags & 1)\n   \
-          \ use_example_events = bool(flags & 2)\n\n    return {\n        \"skip_event_filtering\"\
-          : skip_event_filtering,\n        \"use_example_events\": use_example_events,\n\
-          \    }\n\n"
+          \    - 2: ``use_example_events``\n    - 4: ``only_print_urls``\n\n\n   \
+          \ :param debug_flags:\n    :type debug_flags: float\n    :return: entries\
+          \ with key as flag names (v.s.) and value as ``bool``\n    :rtype: dict{str:\
+          \ bool}\n    \"\"\"\n    flags = int(debug_flags)\n\n    skip_event_filtering\
+          \ = bool(flags & 1)\n    use_example_events = bool(flags & 2)\n    only_print_urls\
+          \ = bool(flags & 4)\n\n    return {\n        \"skip_event_filtering\": skip_event_filtering,\n\
+          \        \"use_example_events\": use_example_events,\n        \"only_print_urls\"\
+          : only_print_urls,\n    }\n\n"
         code_language: python3
         outputs:
+          only_print_urls:
+            children: null
+            type: boolean
           skip_event_filtering:
             children: null
             type: boolean
@@ -1807,12 +1840,65 @@ workflow:
       positionAbsolute:
         x: 531.6356510954458
         y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '<span style="color: red; font-weight: bold;">WARN : print only urls</span>
+
+
+          {{#1763857859306.output#}}'
+        desc: answer when print_only_urls debug flag
+        selected: false
+        title: print only urls
+        type: answer
+        variables: []
+      height: 162
+      id: '1764045292279'
+      position:
+        x: 1559.763951678676
+        y: 354.90709250543125
+      positionAbsolute:
+        x: 1559.763951678676
+        y: 354.90709250543125
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: ff992d15-b308-4b5a-a78a-1dbbec0b7d7e
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1763984743090'
+            - only_print_urls
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: only print urls branch
+        type: if-else
+      height: 124
+      id: '1764045604493'
+      position:
+        x: 1559.763951678676
+        y: 170.80346609197267
+      positionAbsolute:
+        x: 1559.763951678676
+        y: 170.80346609197267
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -2090.9548633287204
-      y: 177.75755779278825
-      zoom: 0.6524401185098435
+      x: -533.3020244562586
+      y: 335.14219817899783
+      zoom: 0.7272622452330297
   rag_pipeline_variables: []
