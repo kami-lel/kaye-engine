@@ -26,6 +26,9 @@
 
 ### Added
 ### Changed
+
+- dify app `kaye_event_radar`: generate URLs of various websites for better interactions
+
 ### Deprecated
 ### Removed
 ### Fixed
