@@ -24,14 +24,29 @@
 
 ### Added
 ### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.10.1] - 2025-11-24
+
+### Changed
 
 - role *Prompt Writer*: improvement
 - dify app `kaye_cash_tracker`: use `|` for push trigger
 - dify app `kaye_event_radar`: generate URLs of various websites for better interactions
-
-### Deprecated
-### Removed
-### Fixed
 
 
 
@@ -1003,7 +1018,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.10.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.10.1...dev
+[4.10.1]: https://github.com/kami-lel/kaye/compare/v4.10.0...v4.10.1
 [4.10.0]: https://github.com/kami-lel/kaye/compare/v4.9.1...v4.10.0
 [4.9.1]: https://github.com/kami-lel/kaye/compare/v4.9.0...v4.9.1
 [4.9.0]: https://github.com/kami-lel/kaye/compare/v4.8.1...v4.9.0
