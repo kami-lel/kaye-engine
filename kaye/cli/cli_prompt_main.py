@@ -2,7 +2,7 @@
 as a subset of the prompt corpus"""
 
 # todo import/export w/ OpenWebUI
-# todo import/export w/ dify
+
 
 from kaye.cli.cli_prompt_ls import register_cli_prompt_ls_parser
 from kaye.cli.cli_prompt_show import register_cli_prompt_show_parser

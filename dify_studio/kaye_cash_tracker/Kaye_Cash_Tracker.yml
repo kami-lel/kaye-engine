@@ -31,6 +31,14 @@ workflow:
     value_type: object
   environment_variables:
   - description: ''
+    id: f897efca-b0e8-43a6-a079-0b2b0e087eb6
+    name: PUSH_TRIGGER
+    selector:
+    - env
+    - PUSH_TRIGGER
+    value: '|'
+    value_type: string
+  - description: ''
     id: 3fd0f101-c81b-4d37-ba3b-b281d2b6a408
     name: prompt_extract_info
     selector:
@@ -90,14 +98,6 @@ workflow:
     - user_accounts
     value: ''
     value_type: secret
-  - description: keyword to use in conversation to trigger push
-    id: 250d7407-3e68-4633-b4aa-5694e75c7701
-    name: push_trigger
-    selector:
-    - env
-    - push_trigger
-    value: PUSH
-    value_type: string
   - description: which sheet contains the main data part
     id: 72d19e8a-2184-4303-b098-28712cfeb58a
     name: google_sheet_name
@@ -311,6 +311,7 @@ workflow:
         sourceType: tool
         targetType: code
       id: 1757363098690-source-1759204166762-target
+      selected: false
       source: '1757363098690'
       sourceHandle: source
       target: '1759204166762'
@@ -333,6 +334,7 @@ workflow:
         sourceType: llm
         targetType: assigner
       id: 1757203447144-source-1757199830234-target
+      selected: false
       source: '1757203447144'
       sourceHandle: source
       target: '1757199830234'
@@ -344,6 +346,7 @@ workflow:
         sourceType: llm
         targetType: code
       id: 1757203447144-source-1757100234840-target
+      selected: false
       source: '1757203447144'
       sourceHandle: source
       target: '1757100234840'
@@ -355,6 +358,7 @@ workflow:
         sourceType: code
         targetType: llm
       id: 1759204166762-source-1757203447144-target
+      selected: false
       source: '1759204166762'
       sourceHandle: source
       target: '1757203447144'
@@ -382,7 +386,8 @@ workflow:
       type: custom
       width: 242
     - data:
-        answer: 'fill missing info ???, provide new info, or PUSH
+        answer: 'fill missing info ???, provide new info, or push changes by replying
+          `{{#env.PUSH_TRIGGER#}}`
 
 
           {{#1757100234840.result#}}'
@@ -391,7 +396,7 @@ workflow:
         title: Answer
         type: answer
         variables: []
-      height: 118
+      height: 153
       id: answer
       position:
         x: 2163.686672529107
@@ -544,7 +549,7 @@ workflow:
           max_retries: 3
           retry_enabled: false
           retry_interval: 1000
-        selected: true
+        selected: false
         structured_output:
           schema:
             $defs:
@@ -554,10 +559,10 @@ workflow:
                 maxItems: 8
                 minItems: 8
                 prefixItems:
-                - description: MM-dd format, required
+                - description: MM-dd format, required, ??? when missing
                   title: date
                   type: string
-                - description: required
+                - description: required, see Currency Symbol
                   title: currency_symbol
                   type: string
                 - description: expense with exactly 2 decimal places, optional
@@ -566,20 +571,24 @@ workflow:
                 - description: income with exactly 2 decimal places, optional
                   title: amount_in
                   type: string
-                - description: required
+                - description: see Party From&To; required
                   title: party_from
                   type: string
-                - description: required
+                - description: see Party From&To; required
                   title: party_to
                   type: string
-                - description: required
+                - description: see Categories
                   title: category
                   type: string
-                - description: optional
+                - description: optional; leave empty unless essential, no record irrelevant
+                    details; use only short, specific phrases not found in other fields
                   title: remarks
                   type: string
                 type: array
             additionalProperties: false
+            description: For required field of missing or unclear information, enter
+              ??? in cell. Use empty string for empty optional field. Increasing date
+              order, row with newer date at bottom
             examples:
             - rows:
               - - ???
@@ -628,12 +637,12 @@ workflow:
       height: 88
       id: '1757203447144'
       position:
-        x: 1507.0540914005142
-        y: 937.5640240319121
+        x: 1363.793261805985
+        y: 958.326463103583
       positionAbsolute:
-        x: 1507.0540914005142
-        y: 937.5640240319121
-      selected: true
+        x: 1363.793261805985
+        y: 958.326463103583
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -875,11 +884,11 @@ workflow:
       height: 96
       id: '1757356715142'
       position:
-        x: 1325.594838050595
-        y: -324.5615483606622
+        x: 1085.705751300015
+        y: -186.4913285340507
       positionAbsolute:
-        x: 1325.594838050595
-        y: -324.5615483606622
+        x: 1085.705751300015
+        y: -186.4913285340507
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1129,14 +1138,14 @@ workflow:
             type: mixed
             value: '{{#env.google_sheet_id#}}'
         type: tool
-      height: 213
+      height: 214
       id: '1757358619560'
       position:
-        x: 2011.346357246026
-        y: -324.5615483606622
+        x: 1853.5518203013269
+        y: -312.1040849176597
       positionAbsolute:
-        x: 2011.346357246026
-        y: -324.5615483606622
+        x: 1853.5518203013269
+        y: -312.1040849176597
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1394,11 +1403,11 @@ workflow:
       height: 52
       id: '1758838128097'
       position:
-        x: 846.1889398468718
-        y: -324.5615483606622
+        x: 1085.705751300015
+        y: -374.3914021326723
       positionAbsolute:
-        x: 846.1889398468718
-        y: -324.5615483606622
+        x: 1085.705751300015
+        y: -374.3914021326723
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1428,7 +1437,7 @@ workflow:
           variable: input
         - value_selector:
           - env
-          - push_trigger
+          - PUSH_TRIGGER
           value_type: string
           variable: push_trigger
         - value_selector:
@@ -1439,12 +1448,12 @@ workflow:
       height: 52
       id: '1759202358714'
       position:
-        x: -70.36387537735851
-        y: 290.80809893913
+        x: 231.6361246226415
+        y: 238.90200125995273
       positionAbsolute:
-        x: -70.36387537735851
-        y: 290.80809893913
-      selected: false
+        x: 231.6361246226415
+        y: 238.90200125995273
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1521,11 +1530,11 @@ workflow:
       height: 96
       id: '1759203319094'
       position:
-        x: 1769.4830003729548
-        y: -324.5615483606622
+        x: 1853.5518203013269
+        y: -405.5350607401787
       positionAbsolute:
-        x: 1769.4830003729548
-        y: -324.5615483606622
+        x: 1853.5518203013269
+        y: -405.5350607401787
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1574,18 +1583,18 @@ workflow:
       height: 52
       id: '1759204166762'
       position:
-        x: 1181.8814204435575
-        y: 937.5640240319121
+        x: 1363.793261805985
+        y: 908.4966093315729
       positionAbsolute:
-        x: 1181.8814204435575
-        y: 937.5640240319121
+        x: 1363.793261805985
+        y: 908.4966093315729
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -472.79411633362065
-      y: -107.61138217187636
-      zoom: 0.7805420926098134
+      x: 48.875142617343954
+      y: 340.48483250072877
+      zoom: 0.5010959045478074
   rag_pipeline_variables: []
