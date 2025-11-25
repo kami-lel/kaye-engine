@@ -1,8 +1,6 @@
 # Kaye CHANGELOG
 
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
-<!-- bug kaye cash tracker: can not push -->
-<!-- todo kaye cash tracker: reverse entry order, newer at top  -->
 <!-- todo hooks: must update setup.cfg, for version -->
 
 [^format]
@@ -27,8 +25,9 @@
 ### Added
 ### Changed
 
-- improve role `Prompt Writer`
-- use `|` for push trigger for `Dify Cash Tracker`
+- role *Prompt Writer*: improvement
+- dify app `kaye_cash_tracker`: use `|` for push trigger
+- dify app `kaye_event_radar`: generate URLs of various websites for better interactions
 
 ### Deprecated
 ### Removed
