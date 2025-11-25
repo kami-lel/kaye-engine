@@ -583,6 +583,7 @@ workflow:
         sourceType: if-else
         targetType: assigner
       id: 1763853265591-true-1763932847499-target
+      selected: false
       source: '1763853265591'
       sourceHandle: 'true'
       target: '1763932847499'
@@ -594,6 +595,7 @@ workflow:
         sourceType: assigner
         targetType: if-else
       id: 1763932847499-source-1763931126383-target
+      selected: false
       source: '1763932847499'
       sourceHandle: source
       target: '1763931126383'
@@ -618,6 +620,7 @@ workflow:
         sourceType: start
         targetType: code
       id: 1763588758713-source-1763984743090-target
+      selected: false
       source: '1763588758713'
       sourceHandle: source
       target: '1763984743090'
@@ -630,6 +633,7 @@ workflow:
         sourceType: code
         targetType: if-else
       id: 1763984743090-source-1763853265591-target
+      selected: false
       source: '1763984743090'
       sourceHandle: source
       target: '1763853265591'
@@ -653,10 +657,10 @@ workflow:
         isInLoop: false
         sourceType: if-else
         targetType: iteration
-      id: 1764045604493-true-1763855870458-target
+      id: 1764045604493-false-1763855870458-target
       selected: false
       source: '1764045604493'
-      sourceHandle: 'true'
+      sourceHandle: 'false'
       target: '1763855870458'
       targetHandle: target
       type: custom
@@ -665,9 +669,9 @@ workflow:
         isInLoop: false
         sourceType: if-else
         targetType: answer
-      id: 1764045604493-false-1764045292279-target
+      id: 1764045604493-true-1764045292279-target
       source: '1764045604493'
-      sourceHandle: 'false'
+      sourceHandle: 'true'
       target: '1764045292279'
       targetHandle: target
       type: custom
@@ -836,11 +840,11 @@ workflow:
       height: 100
       id: '1763854019727'
       position:
-        x: 1632.4247716352356
-        y: -137.1974176986605
+        x: 1625.5721936474338
+        y: -204.5733887753653
       positionAbsolute:
-        x: 1632.4247716352356
-        y: -137.1974176986605
+        x: 1625.5721936474338
+        y: -204.5733887753653
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1169,11 +1173,10 @@ workflow:
       width: 242
       zIndex: 1002
     - data:
-        code: "from datetime import timedelta, date as date_cls\n\n# todo implement\
-          \ ability to fetch websites w/ authentication\n\n\nEVENTBRITE_URL = (\n\
-          \    \"https://www.eventbrite.com/d/ca--los-angeles/all-events/\"\n    \"\
-          ?page=1&start_date={}&end_date={}\"\n)\nEVENTBRITE_DATE = \"%Y-%m-%d\"\n\
-          \nDOWNTOWN_LA_URL = \"https://downtownla.com/calendar#{}-to-{}\"\nDOWNTOWN_LA_DATE\
+        code: "from datetime import timedelta, date as date_cls\n\nEVENTBRITE_URL\
+          \ = (\n    \"https://www.eventbrite.com/d/ca--los-angeles/all-events/\"\n\
+          \    \"?page=1&start_date={}&end_date={}\"\n)\nEVENTBRITE_DATE = \"%Y-%m-%d\"\
+          \n\nDOWNTOWN_LA_URL = \"https://downtownla.com/calendar#{}-to-{}\"\nDOWNTOWN_LA_DATE\
           \ = \"%m-%d-%y\"\n\nLA_LIVE_URL = \"https://www.lalive.com/events/filter/{}/{}/\"\
           \nLA_LIVE_DATE = \"%Y-%m-%d\"\n\nDISCOVER_LA_URL = \"https://www.discoverlosangeles.com/events\"\
           \n\nUSC_EVENT_CALENDAR_URL = (\n    \"https://calendar.usc.edu/calendar/day/\"\
@@ -1195,25 +1198,24 @@ workflow:
           \   :return: ``opt`` is a ``list`` of urls (``str``) to be scraped\n   \
           \ \"\"\"\n    start_date, end_date, days_cnt = _create_date_range()\n\n\
           \    # create urls  -------------------------------------------------------------\n\
-          \    opt = []\n\n    # eventide\n    if False and enable_eventbride:  #\
-          \ BUG fail to search any events\n        opt.append(\n            EVENTBRITE_URL.format(\n\
-          \                start_date.strftime(EVENTBRITE_DATE),\n               \
-          \ end_date.strftime(EVENTBRITE_DATE),\n            )\n        )\n\n    #\
-          \ downtownla.com\n    if enable_downtown_la:\n        opt.append(\n    \
-          \        DOWNTOWN_LA_URL.format(\n                start_date.strftime(DOWNTOWN_LA_DATE),\n\
-          \                end_date.strftime(DOWNTOWN_LA_DATE),\n            )\n \
-          \       )\n\n    # Discover LA\n    # FIXME no date filter\n    if enable_discover_la:\n\
-          \        opt.append(DISCOVER_LA_URL)\n\n    # LA Live.com\n    # BUG filter\
-          \ not applied\n    if enable_la_live:\n        opt.append(\n           \
-          \ LA_LIVE_URL.format(\n                start_date.strftime(LA_LIVE_DATE),\n\
+          \    opt = []\n\n    # eventide\n    if enable_eventbride:\n        opt.append(\n\
+          \            EVENTBRITE_URL.format(\n                start_date.strftime(EVENTBRITE_DATE),\n\
+          \                end_date.strftime(EVENTBRITE_DATE),\n            )\n  \
+          \      )\n\n    # downtownla.com\n    if False and enable_downtown_la:\n\
+          \        opt.append(\n            DOWNTOWN_LA_URL.format(\n            \
+          \    start_date.strftime(DOWNTOWN_LA_DATE),\n                end_date.strftime(DOWNTOWN_LA_DATE),\n\
+          \            )\n        )\n\n    # Discover LA\n    if enable_discover_la:\n\
+          \        opt.append(DISCOVER_LA_URL)\n\n    # LA Live.com\n    if enable_la_live:\n\
+          \        opt.append(\n            LA_LIVE_URL.format(\n                start_date.strftime(LA_LIVE_DATE),\n\
           \                end_date.strftime(LA_LIVE_DATE),\n            )\n     \
-          \   )\n\n    # USC Event Calendar\n    # FIXME only page 1\n    if enable_usc_event_calendar:\n\
-          \        opt.append(\n            USC_EVENT_CALENDAR_URL.format(\n     \
-          \           start_date.strftime(USC_EVENT_CALENDAR_DATE), days_cnt\n   \
-          \         )\n        )\n\n    # engageSC\n    if enable_engage_sc:\n   \
-          \     opt.append(\n            ENGAGE_SC_URL.format(\n                start_date.strftime(ENGAGE_SC_DATE),\n\
+          \   )\n\n    # USC Event Calendar\n    if enable_usc_event_calendar:\n \
+          \       opt.append(\n            USC_EVENT_CALENDAR_URL.format(\n      \
+          \          start_date.strftime(USC_EVENT_CALENDAR_DATE), days_cnt\n    \
+          \        )\n        )\n\n    # engageSC\n    if enable_engage_sc:\n    \
+          \    opt.append(\n            ENGAGE_SC_URL.format(\n                start_date.strftime(ENGAGE_SC_DATE),\n\
           \                end_date.strftime(ENGAGE_SC_DATE),\n            )\n   \
-          \     )\n\n    # return all urls  ---------------------------------------------------------\n\
+          \     )\n\n    # bug spider.web fail to extract full info via only url\n\
+          \n    # return all urls  ---------------------------------------------------------\n\
           \    return {\"output\": opt}\n\n"
         code_language: python3
         outputs:
@@ -1347,7 +1349,7 @@ workflow:
       positionAbsolute:
         x: 2352.8628718251434
         y: 193.0246382959072
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1804,10 +1806,10 @@ workflow:
     - data:
         code: "def main(debug_flags: float):\n    \"\"\"\n    parse ``debug_flags``\
           \ as bitwise flags, assume integer:\n\n    - 1: ``skip_event_filtering``\n\
-          \    - 2: ``use_example_events``\n    - 4: ``only_print_urls``\n\n\n   \
-          \ :param debug_flags:\n    :type debug_flags: float\n    :return: entries\
-          \ with key as flag names (v.s.) and value as ``bool``\n    :rtype: dict{str:\
-          \ bool}\n    \"\"\"\n    flags = int(debug_flags)\n\n    skip_event_filtering\
+          \    - 2: ``use_example_events``\n    - 4: ``only_print_urls`` during scraping\
+          \ mode\n\n\n    :param debug_flags:\n    :type debug_flags: float\n    :return:\
+          \ entries with key as flag names (v.s.) and value as ``bool``\n    :rtype:\
+          \ dict{str: bool}\n    \"\"\"\n    flags = int(debug_flags)\n\n    skip_event_filtering\
           \ = bool(flags & 1)\n    use_example_events = bool(flags & 2)\n    only_print_urls\
           \ = bool(flags & 4)\n\n    return {\n        \"skip_event_filtering\": skip_event_filtering,\n\
           \        \"use_example_events\": use_example_events,\n        \"only_print_urls\"\
@@ -1858,11 +1860,11 @@ workflow:
       height: 162
       id: '1764045292279'
       position:
-        x: 1559.763951678676
-        y: 354.90709250543125
+        x: 1927.9712045055935
+        y: -57.5988528621491
       positionAbsolute:
-        x: 1559.763951678676
-        y: 354.90709250543125
+        x: 1927.9712045055935
+        y: -57.5988528621491
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1874,7 +1876,7 @@ workflow:
           conditions:
           - comparison_operator: is
             id: ff992d15-b308-4b5a-a78a-1dbbec0b7d7e
-            value: false
+            value: true
             varType: boolean
             variable_selector:
             - '1763984743090'
@@ -1892,13 +1894,13 @@ workflow:
       positionAbsolute:
         x: 1559.763951678676
         y: 170.80346609197267
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -533.3020244562586
-      y: 335.14219817899783
+      x: -777.3020244562586
+      y: 341.14219817899783
       zoom: 0.7272622452330297
   rag_pipeline_variables: []
