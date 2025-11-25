@@ -1,8 +1,5 @@
 from datetime import timedelta, date as date_cls
 
-# todo implement ability to fetch websites w/ authentication
-
-
 EVENTBRITE_URL = (
     "https://www.eventbrite.com/d/ca--los-angeles/all-events/"
     "?page=1&start_date={}&end_date={}"
@@ -73,7 +70,7 @@ def main(
     opt = []
 
     # eventide
-    if False and enable_eventbride:  # BUG fail to search any events
+    if enable_eventbride:
         opt.append(
             EVENTBRITE_URL.format(
                 start_date.strftime(EVENTBRITE_DATE),
@@ -82,7 +79,7 @@ def main(
         )
 
     # downtownla.com
-    if False and enable_downtown_la:  # BUG only get 4 entries
+    if False and enable_downtown_la:
         opt.append(
             DOWNTOWN_LA_URL.format(
                 start_date.strftime(DOWNTOWN_LA_DATE),
@@ -91,12 +88,10 @@ def main(
         )
 
     # Discover LA
-    # FIXME no date filter
     if enable_discover_la:
         opt.append(DISCOVER_LA_URL)
 
     # LA Live.com
-    # BUG filter not applied
     if enable_la_live:
         opt.append(
             LA_LIVE_URL.format(
@@ -106,7 +101,6 @@ def main(
         )
 
     # USC Event Calendar
-    # FIXME only page 1
     if enable_usc_event_calendar:
         opt.append(
             USC_EVENT_CALENDAR_URL.format(
@@ -122,6 +116,8 @@ def main(
                 end_date.strftime(ENGAGE_SC_DATE),
             )
         )
+
+    # bug spider.web fail to extract full info via only url
 
     # return all urls  ---------------------------------------------------------
     return {"output": opt}

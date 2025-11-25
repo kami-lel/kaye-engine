@@ -4,6 +4,7 @@ def main(debug_flags: float):
 
     - 1: ``skip_event_filtering``
     - 2: ``use_example_events``
+    - 4: ``only_print_urls`` during scraping mode
 
 
     :param debug_flags:
@@ -15,8 +16,10 @@ def main(debug_flags: float):
 
     skip_event_filtering = bool(flags & 1)
     use_example_events = bool(flags & 2)
+    only_print_urls = bool(flags & 4)
 
     return {
         "skip_event_filtering": skip_event_filtering,
         "use_example_events": use_example_events,
+        "only_print_urls": only_print_urls,
     }
