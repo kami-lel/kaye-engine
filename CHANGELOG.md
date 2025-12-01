@@ -24,6 +24,9 @@
 
 ### Added
 ### Changed
+
+- restore basic function of role: Peer Coder
+
 ### Deprecated
 ### Removed
 ### Fixed
