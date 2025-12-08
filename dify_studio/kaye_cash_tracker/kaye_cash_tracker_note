@@ -1,5 +1,3 @@
-FIXME enforce use common party to list
-FIXME refund should be category Y
 Todo sort entries by code
 Todo mpv logic for large table: AI only return new & update entry
 dont return old entries, but use code to merge
