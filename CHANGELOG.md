@@ -27,6 +27,10 @@
 
 - restore basic function of role: Peer Coder
 
+dify app `kaye_cash_tracker`:
+
+- improve push branching logic, add a fail answer node
+
 ### Deprecated
 ### Removed
 ### Fixed
