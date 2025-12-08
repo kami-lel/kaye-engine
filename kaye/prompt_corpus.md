@@ -1573,18 +1573,18 @@ Common Other Parties:
 
 {COMMON_OTHER_PARTIES}
 
-Transaction type decides party_from and party_to content:
+When transaction type is:
 
 - Income:
 
-  - party_from: payer (e.g., employer for salary, bank for investment,) or User Account
+  - party_from: payer (e.g., employer for salary, bank for investment)
   - party_to: often User Account
 
 - Expense:
   - party_from: often User Account
-  - party_to: recipient (e.g., restaurant, grocery,) or User Account
+  - party_to: recipient (e.g., restaurant, grocery)
 
-For payer and recipient, extract info and fill field with commonly known names using clear capitalization.
+For payer and recipient, attempt to find in the “User Accounts” and “Common Other Parties” sections. If no match exists, extract and fill the fields with the most commonly known names, using clear capitalization.
 
 No need to record specific store number, e.g., use "CVS" instead of "CVS Store #12345".
 
