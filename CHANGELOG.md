@@ -30,6 +30,7 @@
 dify app `kaye_cash_tracker`:
 
 - improve push branching logic, add a fail answer node
+- improve party_from and party_to extraction in prompt to prefer using given entries
 
 ### Deprecated
 ### Removed
