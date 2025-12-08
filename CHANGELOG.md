@@ -24,6 +24,24 @@
 
 ### Added
 ### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.10.2] - 2025-12-08
+### Changed
 
 - restore basic function of role: Peer Coder
 
@@ -32,9 +50,6 @@ dify app `kaye_cash_tracker`:
 - improve push branching logic, add a fail answer node
 - improve party_from and party_to extraction in prompt to prefer using given entries
 
-### Deprecated
-### Removed
-### Fixed
 
 
 
@@ -1026,7 +1041,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.10.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.10.2...dev
+[4.10.2]: https://github.com/kami-lel/kaye/compare/v4.10.1...v4.10.2
 [4.10.1]: https://github.com/kami-lel/kaye/compare/v4.10.0...v4.10.1
 [4.10.0]: https://github.com/kami-lel/kaye/compare/v4.9.1...v4.10.0
 [4.9.1]: https://github.com/kami-lel/kaye/compare/v4.9.0...v4.9.1
