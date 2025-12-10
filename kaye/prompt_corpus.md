@@ -3264,6 +3264,8 @@ You may use the following abbreviations in responses:
 | calc         | calculate, calculation                                                  |
 | def          | define, definition, definite, definitive                                |
 | dev          | develop, development                                                    |
+| dl           | download                                                                |
+| upl          | upload                                                                  |
 | env          | environment                                                             |
 | gen          | generate, generation, generative                                        |
 | id           | identity, identification                                                |
