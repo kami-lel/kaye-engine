@@ -24,6 +24,11 @@
 
 ### Added
 ### Changed
+
+dify app `kaye_event_radar`:
+
+- add conversation opener
+
 ### Deprecated
 ### Removed
 ### Fixed
