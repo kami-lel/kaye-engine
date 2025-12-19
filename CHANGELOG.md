@@ -24,6 +24,9 @@
 
 ### Added
 ### Changed
+
+- use hooks-utility as Git Submodule
+
 ### Deprecated
 ### Removed
 ### Fixed
