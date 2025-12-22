@@ -3,21 +3,24 @@
 set -euo pipefail
 
 # shellcheck source=/dev/null
+source "$(dirname "${BASH_SOURCE[0]}")/set_environment_variable.sh"
+# shellcheck source=/dev/null
 source "$(dirname "${BASH_SOURCE[0]}")/../hooks_utility/hooks_utility.sh"
 
+# start pre-commit checks  #####################################################
 echo "pre-commit" | hooks_utility_enter
-
-# perform branch protection
-hooks_utility_protect_branch
 
 # ensure file modification  ----------------------------------------------------
 # make sure CHANGELOG.md is edited when finish feature branch
 hooks_utility_ensure_changelog_edited 'CHANGELOG.md'
 
 # make sure version is bumped when finish feature branch
-version_line_pattern='^version *= *[0-9.]+$'
-hooks_utility_ensure_version_updated 'setup.cfg' "${version_line_pattern}"
+hooks_utility_ensure_version_updated
 
+# perform branch protection  ---------------------------------------------------
+hooks_utility_protect_branch
+
+# finish pre-commit checks  ####################################################
 echo "pre-commit" | hooks_utility_pass
 
 exit 0
