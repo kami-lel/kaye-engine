@@ -26,6 +26,7 @@
 ### Changed
 
 - use hooks-utility as Git Submodule
+- add abbreviation to `prompt_corpus.md`
 
 ### Deprecated
 ### Removed
