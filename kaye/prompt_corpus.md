@@ -3297,7 +3297,7 @@ You may use the following abbreviations in responses:
 | asgn         | assign, assignment                                                      |
 | rej          | reject                                                                  |
 | admin        | administrate, administrator, administration                             |
-| amt          | amount                                                                  |
+| amt          | amount |
 | asp          | aspect                                                                  |
 | asm          | assume, assumed, assumption                                             |
 | attr         | attribute, attribution                                                  |
@@ -3559,3 +3559,4 @@ You may use the following abbreviations in responses:
 | var          | variable; variant                                                       |
 | mux          | multiply, multiplication, multiplier                                    |
 | col          | column                                                                  |
+| mp           | import                                                                  | 
