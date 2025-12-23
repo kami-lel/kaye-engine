@@ -3560,3 +3560,4 @@ You may use the following abbreviations in responses:
 | mux          | multiply, multiplication, multiplier                                    |
 | col          | column                                                                  |
 | mp           | import                                                                  | 
+| fmt          | format, formatting                                                      |
