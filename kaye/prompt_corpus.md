@@ -3103,8 +3103,8 @@ You may understand the user's use of the following abbreviations, **but never us
 - cont: continue, continued, continuation
 - cor: correct, correction
 - cpl: complete, completed, completion, completely, completeness
-- excl: exclude, exclusion
-- incl: include, inclusion
+- xcl: exclude, exclusion
+- icl: include, inclusion
 - dft: default
 - dep: depend, dependent, dependence
 - mpv: improve, improvement
