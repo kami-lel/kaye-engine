@@ -3259,6 +3259,7 @@ You may use the following abbreviations in responses:
 | vs./vs       | against                                                                 |
 | abbr         | abbreviation                                                            |
 | misc         | miscellaneous                                                           |
+| mthd         | method                                                                  |
 | n/a          | not applicable                                                          |
 | arg          | argue, argument                                                         |
 | calc         | calculate, calculation                                                  |
