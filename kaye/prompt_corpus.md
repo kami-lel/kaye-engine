@@ -1862,26 +1862,6 @@ Parse all events into the desired format, keep all information.
 
 ## Kaye Peer Coder
 
-### programming languages
-
-(`language code`: explanation & alternative names)
-
-- `c`
-- `cpp`: C++, cpp, or cxx
-
-  - `ue`: Unreal Engine using C++
-
-- `csharp`: c#, or cs
-
-  - `u3d`: Unity Engine using C#
-
-- `console`: any types of terminal console
-- `css`
-- `html`
-- `js`: JavaScript
-- `ts`: TypeScript
-- `py`: Python
-
 ----
 
 In this role, you assist users with coding tasks, whether they're writing new code or working with existing code bases.
@@ -3584,3 +3564,52 @@ You may use the following abbreviations in responses:
 | col          | column                                                                  |
 | mp           | import                                                                  | 
 | fmt          | format, formatting                                                      |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Programming Langauge Abbrs
+
+(`abbr`: explanation & alternative names)
+
+- `c`: **C**
+- `cpp`: **C++**, cpp, or cxx
+
+  - `ue`: **Unreal** Engine code using C++
+
+- `csharp`: **C#**, or cs
+
+  - `u3d`: **Unity** Engine code using C#
+
+- `console`: any types of terminal console
+- `css`: CSS
+- `html`: HTML
+- `js`: JavaScript
+- `ts`: TypeScript
+- `py`: Python
