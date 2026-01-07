@@ -30,6 +30,11 @@
 
 ### Deprecated
 ### Removed
+
+re `prompt_corpus`:
+
+- rm 2D data declaration for role *Kaye Peer Coder*
+
 ### Fixed
 
 
