@@ -23,15 +23,18 @@
 ## [Unreleased]
 
 ### Added
+
+- dify app `kaye_peer_coder`
+
 ### Changed
 
 - use hooks-utility as Git Submodule
-- add abbreviation to `prompt_corpus.md`
+- add abbreviations to `prompt_corpus.md`
 
 ### Deprecated
 ### Removed
 
-re `prompt_corpus`:
+re `prompt_corpus.md`:
 
 - rm 2D data declaration for role *Kaye Peer Coder*
 
