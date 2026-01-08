@@ -34,6 +34,7 @@
 - update Dify Apps to utilize the new API:
 
   - Kaye Cash Tracker
+  - Kaye Commit Sense
 
 ### Deprecated
 ### Removed
