@@ -1,12 +1,3 @@
-BLUEPRINT = """ ○
-[x] ├── Role
-[x] │   └── Kaye Peer Coder
-[x] │       └── pre-sense
-[x] └── Abbreviations
-[x]     └── Programming Languages
-"""
-
-
 # constants  ###################################################################
 PROMPT_KEY_IN_CACHE = "pre_sense_prompt"
 OUTPUT_PROMPT_KEY = "presense_prompt"

@@ -9,6 +9,27 @@ from flask import Blueprint
 from kaye import PROGRAM_NAME
 
 # Blueprints  ##################################################################
+PRE_SENSE_PROMPT_BLUEPRINT = """ ○
+[x] ├── Role
+[x] │   └── Kaye Peer Coder
+[x] │       └── pre-sense
+[x] └── Abbreviations
+[x]     └── Programming Languages
+"""
+
+
+TASK_PROMPT_BASIC_BLUEPRINT = """ ○
+[x] ├── Introduction
+[x] ├── Style
+[x] │   ├── Capitalization Style
+[x] │   │   └── Commentary Case
+[x] │   └── Briefness Style
+[x] ├── Format
+[x] └── Role
+[x]     └── Peer Coder
+[x]         └── Code Comment
+"""
+
 
 # Flask Routing  ###############################################################
 
