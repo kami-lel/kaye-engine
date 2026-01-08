@@ -1,4 +1,6 @@
-# Kaye Flask API documentation
+# Kaye Flask HTTP API documentation
+
+Port Number: `11255` (k=11, a=1, y=25, e=5)
 
 ## Endpoints
 
