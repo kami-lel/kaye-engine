@@ -1,6 +1,4 @@
-from requests import Response
-
-from flask import Blueprint
+from flask import Blueprint, Response
 
 from kaye import PROGRAM_NAME
 
