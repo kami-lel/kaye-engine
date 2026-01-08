@@ -1,3 +1,8 @@
+"""
+define API to specific work with Dify Apps,
+such that they can use Http Request Node to dynamically get newest prompt
+"""
+
 # pylint: disable=missing-function-docstring
 
 from pathlib import Path

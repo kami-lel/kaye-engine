@@ -8,6 +8,7 @@ PROMPT_BLUEPRINT = """○
 
 
 def call_kaye_cash_tracker():
+    # pylint: disable=missing-function-docstring
 
     blueprint = PromptBlueprint(
         load_embedded_prompt_corpus(),

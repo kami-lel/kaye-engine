@@ -1,3 +1,7 @@
+"""
+define Kaye Flask HTTP API
+"""
+
 from flask import Flask, Blueprint
 
 from kaye import PROGRAM_NAME
