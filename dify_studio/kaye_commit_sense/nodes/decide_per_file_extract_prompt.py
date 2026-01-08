@@ -1,14 +1,23 @@
+"""
+count number of lines, and decide to use either long/short prompts
+"""
+
+# constants  ###################################################################
+OUTPUT_PROMPT_KEY = "extract_prompt"
+LONG_SHORT_THRESHOLD = 100
+
+
+# entry point  #################################################################
 def main(
     item: str,
-    long_short_threshold: float,
     prompt_per_file_extract_long: str,
     prompt_per_file_extract_short: str,
-):
+):  # pylint: disable=missing-function-docstring
     newline_cnt = item.count("\n")
-    is_long = newline_cnt > long_short_threshold
+    is_long = newline_cnt > LONG_SHORT_THRESHOLD
 
     return {
-        "extract_prompt": (
+        OUTPUT_PROMPT_KEY: (
             prompt_per_file_extract_long
             if is_long
             else prompt_per_file_extract_short

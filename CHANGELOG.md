@@ -23,7 +23,18 @@
 ## [Unreleased]
 
 ### Added
+
+- dify app `kaye_peer_coder`
+- Kaye Flask HTTP API to create prompts dynamically
+
 ### Changed
+
+- use hooks-utility as Git Submodule
+- add abbreviations to `prompt_corpus.md`
+- update Dify Apps to utilize the new API:
+
+  - Kaye Cash Tracker
+  - Kaye Commit Sense
 
 dify app `kaye_event_radar`:
 
@@ -31,6 +42,12 @@ dify app `kaye_event_radar`:
 
 ### Deprecated
 ### Removed
+
+re `prompt_corpus.md`:
+
+- rm 2D data declaration for role *Kaye Peer Coder*
+- *Peer Coder* role (adapted into a dify App)
+
 ### Fixed
 
 

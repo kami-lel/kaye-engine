@@ -3,24 +3,24 @@
 set -euo pipefail
 
 # shellcheck source=/dev/null
-source "$(dirname "${BASH_SOURCE[0]}")/hooks_utility.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/set_environment_variable.sh"
+# shellcheck source=/dev/null
+source "$(dirname "${BASH_SOURCE[0]}")/../hooks_utility/hooks_utility.sh"
 
-# test AM not merged into protected branches
-hooks_utility_am_check
+# start pre-commit checks  #####################################################
+echo "pre-commit" | hooks_utility_enter
 
-# make sure CHANGELOG.md is edited
-hooks_utility_ensure_file_changed "CHANGELOG.md" "merge-binary-finish_feature"
-hooks_utility_ensure_file_changed "CHANGELOG.md" "merge-binary-release"
+# ensure file modification  ----------------------------------------------------
+# make sure CHANGELOG.md is edited when finish feature branch
+hooks_utility_ensure_changelog_edited 'CHANGELOG.md'
 
-# dify app yml files update
-hooks_utility_ensure_file_changed \
-        "dify_studio/kaye_cash_tracker/Kaye_Cash_Tracker.yml" \
-        "merge-binary-release"
+# make sure version is bumped when finish feature branch
+hooks_utility_ensure_version_updated
 
-hooks_utility_ensure_file_changed \
-        "dify_studio/kaye_commit_sense/Kaye_Commit_Sense.yml" \
-        "merge-binary-release"
+# perform branch protection  ---------------------------------------------------
+hooks_utility_protect_branch
 
-printf 'finish pre-commit' | hooks_utility_info
+# finish pre-commit checks  ####################################################
+echo "pre-commit" | hooks_utility_pass
 
 exit 0
