@@ -15,9 +15,10 @@ def main(
     transactions_array: dict,
     user_accounts,
     common_other_parties,
-):
-    # get prompt template by API  ----------------------------------------------
+):  # pylint: disable=missing-function-docstring
+
     if not prompt_template_cache:  # when not locally cached
+        # get prompt template by API  ------------------------------------------
         pass  # TODO
 
     # fill template w/ runtime info  -------------------------------------------
