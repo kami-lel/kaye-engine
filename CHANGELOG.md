@@ -37,6 +37,7 @@
 re `prompt_corpus.md`:
 
 - rm 2D data declaration for role *Kaye Peer Coder*
+- *Peer Coder* role (adapted into a dify App)
 
 ### Fixed
 
