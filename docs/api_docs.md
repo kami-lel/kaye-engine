@@ -4,16 +4,86 @@
 
 ### Dify App Support
 
-#### Kaye Peer Coder
+#### Kaye Cash Tracker
 
-<!-- TODO -->
+At `/kaye/dify-app/kaye-cash-tracker`
 
-`/kaye/dify-app/kaye-peer-coder/pre-sense`
+- generate prompt for: node Extract Info
+- by `GET`
+- response type `text/plain`
 
-response type: `text/plain`
+
+
+
+
+#### Kaye Commit Sense
+
+All endpoints below `/kaye/dify-app/kaye-commit-sense`
 
 ----
 
-`/kaye/dify-app/kaye-peer-coder/task`
+`/primary-message`
+
+- generate prompt for: Primary Message
+- by `GET`
+- response type `text/plain`
+
+----
+
+`/per-file-extract`
+
+- generate prompt for: Primary Message
+- by `GET`
+- response type `text/plain`
+
+<!-- Todo specify request type -->
+
+
+
+
+
+#### Kaye Event Radar
+
+All endpoints below `/kaye/dify-app/kaye-event-radar`
+
+----
+
+`/filter-events`
+
+- by `GET`
+- response type `text/plain`
+
+----
+
+`/parse-events`
+
+- by `GET`
+- response type `text/plain`
+
+
+
+
+
+
+
+#### Kaye Peer Coder
+
+All endpoints below `/kaye/dify-app/kaye-peer-coder`
+
+----
+
+`/pre-sense`
 
 response type: `text/plain`
+
+- by `GET`
+- response type `text/plain`
+
+----
+
+`/task`
+
+- by `GET`
+- response type `text/plain`
+
+<!-- Todo specify request type -->
