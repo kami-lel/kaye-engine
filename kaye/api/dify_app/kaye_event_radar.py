@@ -8,6 +8,10 @@ from flask import Blueprint
 
 from kaye import PROGRAM_NAME
 
+# Blueprints  ##################################################################
+
+# Flask Routing  ###############################################################
+
 # /kaye/dify-app/kaye-event-radar
 event_radar_bp = Blueprint(
     "kaye-event-radar", PROGRAM_NAME, url_prefix="/kaye-event-radar"

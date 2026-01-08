@@ -8,6 +8,10 @@ from flask import Blueprint
 
 from kaye import PROGRAM_NAME
 
+# Blueprints  ##################################################################
+
+# Flask Routing  ###############################################################
+
 # /kaye/dify-app/kaye-peer-coder
 kyc_bp = Blueprint(
     "kaye-peer-coder", PROGRAM_NAME, url_prefix="/kaye-peer-coder"

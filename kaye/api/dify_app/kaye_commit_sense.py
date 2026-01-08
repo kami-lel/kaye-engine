@@ -8,7 +8,18 @@ from flask import Blueprint
 
 from kaye import PROGRAM_NAME
 
-# Kaye Commit Sense  ###########################################################
+# Blueprints  ##################################################################
+PRIMARY_MESSAGE_BLUEPRINT = """ ○
+[ ] ├── Style
+[ ] │   ├── Capitalization Style
+[x] │   │   └── Commentary Case
+[x] │   └── Briefness Style
+[ ] └── Role
+[x]     └── Kaye Commit Sense
+[x]         └── Primary Message Task
+"""
+
+# Flask Routing  ###############################################################
 
 # /kaye/dify-app/kaye-commit-sense
 commit_sense_bp = Blueprint(
