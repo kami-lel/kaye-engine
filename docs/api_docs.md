@@ -38,7 +38,7 @@ All endpoints below `/kaye/dify-app/kaye-commit-sense`
 - by `GET`
 - response type `text/plain`
 
-<!-- Todo specify request type -->
+<!-- TODO specify request type -->
 
 
 
