@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, Blueprint
 
 from kaye import PROGRAM_NAME
 from kaye.api.prompt import prompt_bp
@@ -10,7 +10,10 @@ PORT = 5000
 
 
 if __name__ == "__main__":
+    app_bp = Blueprint("kaye", PROGRAM_NAME, url_prefix="/kaye")
+    app_bp.register_blueprint(prompt_bp)
+    app_bp.register_blueprint(dify_bp)
+
     app = Flask(PROGRAM_NAME)
-    app.register_blueprint(prompt_bp)
-    app.register_blueprint(dify_bp)
+    app.register_blueprint(app_bp)
     app.run(host=HOST, port=PORT)

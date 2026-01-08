@@ -2,7 +2,8 @@ from flask import Blueprint, Response
 
 from kaye import PROGRAM_NAME
 
-prompt_bp = Blueprint("prompt", PROGRAM_NAME, url_prefix="/kaye/prompt")
+# /kaye/prompt
+prompt_bp = Blueprint("prompt", PROGRAM_NAME, url_prefix="/prompt")
 
 
 @prompt_bp.route("/generate", methods=["GET"])
