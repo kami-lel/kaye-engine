@@ -15,12 +15,12 @@ kind: app
 version: 0.5.0
 workflow:
   conversation_variables:
-  - description: local cache of collections of all prompts
-    id: 9619a76b-ad66-403c-b861-18d93c897dea
-    name: prompts_cache
+  - description: ''
+    id: 7a158ae3-a53a-47f6-96dd-fc914b4e7086
+    name: caches
     selector:
     - conversation
-    - prompts_cache
+    - caches
     value: {}
     value_type: object
   environment_variables:
@@ -220,6 +220,19 @@ workflow:
       type: custom
       zIndex: 0
     - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1767846007340-source-1767848443232-target
+      selected: false
+      source: '1767846007340'
+      sourceHandle: source
+      target: '1767848443232'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
         isInLoop: false
         sourceType: code
         targetType: if-else
@@ -283,10 +296,10 @@ workflow:
       height: 172
       id: '1767838255184'
       position:
-        x: 1043.3027028696185
+        x: 1099.9936512575564
         y: 303
       positionAbsolute:
-        x: 1043.3027028696185
+        x: 1099.9936512575564
         y: 303
       selected: false
       sourcePosition: right
@@ -320,10 +333,10 @@ workflow:
       height: 88
       id: '1767838496854'
       position:
-        x: 1402.5297155773442
+        x: 1407.1109449900944
         y: 308.7656732916175
       positionAbsolute:
-        x: 1402.5297155773442
+        x: 1407.1109449900944
         y: 308.7656732916175
       selected: false
       sourcePosition: right
@@ -356,10 +369,10 @@ workflow:
       height: 88
       id: '1767838544107'
       position:
-        x: 1402.5297155773442
+        x: 1407.1109449900944
         y: 435.7656732916175
       positionAbsolute:
-        x: 1402.5297155773442
+        x: 1407.1109449900944
         y: 435.7656732916175
       selected: false
       sourcePosition: right
@@ -392,10 +405,10 @@ workflow:
       height: 88
       id: '1767838557126'
       position:
-        x: 1402.5297155773442
+        x: 1407.1109449900944
         y: 562.7656732916175
       positionAbsolute:
-        x: 1402.5297155773442
+        x: 1407.1109449900944
         y: 562.7656732916175
       selected: false
       sourcePosition: right
@@ -418,10 +431,10 @@ workflow:
       height: 204
       id: '1767838618133'
       position:
-        x: 1754.48489876436
+        x: 1759.0661281771102
         y: 307.91353871572284
       positionAbsolute:
-        x: 1754.48489876436
+        x: 1759.0661281771102
         y: 307.91353871572284
       selected: false
       sourcePosition: right
@@ -437,10 +450,10 @@ workflow:
       height: 102
       id: '1767838673908'
       position:
-        x: 2051.9524017593085
+        x: 2056.5336311720584
         y: 308.7656732916175
       positionAbsolute:
-        x: 2051.9524017593085
+        x: 2056.5336311720584
         y: 308.7656732916175
       selected: false
       sourcePosition: right
@@ -448,58 +461,61 @@ workflow:
       type: custom
       width: 242
     - data:
-        code: "\"\"\"\nget `pre-sense` node's prompts from Kaye's Flask API\n\"\"\"\
-          \n\nKEY_IN_PROMPTS_CACHE = \"pre-sense\"\n\n\nBLUEPRINT = \"\"\" ○\n[x]\
-          \ ├── Role\n[x] │   └── Kaye Peer Coder\n[x] │       └── pre-sense\n[x]\
-          \ └── Abbreviations\n[x]     └── Programming Languages\n\"\"\"\n\n\ndef\
-          \ main(prompts_cache: dict):\n    # prompt already in cache\n    if KEY_IN_PROMPTS_CACHE\
-          \ in prompts_cache:\n        system_message = prompts_cache[KEY_IN_PROMPTS_CACHE]\n\
-          \n    else:\n        # get prompt from API  -------------------------------------------------\n\
-          \        # Todo use API\n        system_message = \"\"\"\n## Kaye Peer Coder\n\
+        code: "BLUEPRINT = \"\"\" ○\n[x] ├── Role\n[x] │   └── Kaye Peer Coder\n[x]\
+          \ │       └── pre-sense\n[x] └── Abbreviations\n[x]     └── Programming\
+          \ Languages\n\"\"\"\n\n\n# constants  ###################################################################\n\
+          PROMPT_KEY_IN_CACHE = \"pre_sense_prompt\"\nOUTPUT_PROMPT_KEY = \"presense_prompt\"\
+          \nOUTPUT_CACHES_KEY = \"updated_caches\"\n\n\n# entry point  #################################################################\n\
+          def main(caches: dict):\n    if PROMPT_KEY_IN_CACHE in caches:\n       \
+          \ return {\n            OUTPUT_PROMPT_KEY: caches[PROMPT_KEY_IN_CACHE],\n\
+          \            OUTPUT_CACHES_KEY: caches,\n        }\n\n    else:\n      \
+          \  # get prompt from API  -------------------------------------------------\n\
+          \        # Todo use API\n        presense_prompt = \"\"\"## Kaye Peer Coder\n\
           \n### pre-sense\n\nHere is an improved and clarified version of your prompt:\n\
           \nExtract the following two variables:\n\n- difficulty: Provide a number\
           \ between `0.0` (very easy) and `1.0` (very hard) that represents the assumed\
           \ difficulty of the user's proposed task. You may use as many decimal places\
-          \ as necessary for appropriate precision.\n\n- languages: Return an array\
-          \ containing the abbreviations of programming languages (as defined below)\
-          \ required by the user. For example, `['py', 'cpp']`. If the conversation\
-          \ does not mention any specific programming language, such as in cases involving\
-          \ conceptual or general algorithms, return an empty array (`[]`).\n\n##\
-          \ Programming Languages\n\n(`abbr`: explanation & alternative names)\n\n\
-          - `c`: **C**\n- `cpp`: **C++**, cpp, or cxx\n\n  - `ue`: **Unreal** Engine\
-          \ code using C++\n\n- `csharp`: **C#**, or cs\n\n  - `u3d`: **Unity** Engine\
-          \ code using C#\n\n- `console`: any types of terminal console\n- `css`:\
-          \ CSS\n- `html`: HTML\n- `js`: JavaScript\n- `ts`: TypeScript\n- `py`: Python\n\
-          \"\"\"\n        # update Conversation Variable\n        prompts_cache[KEY_IN_PROMPTS_CACHE]\
-          \ = system_message\n\n    return {\"system_message\": system_message, \"\
-          prompts_cache\": prompts_cache}\n\n"
+          \ as necessary for appropriate precision.\n\n- languages: Return a string\
+          \ containing the abbreviations of the programming languages (as defined\
+          \ below) required by the user, separated by commas. For example, `'py,cpp'`.\
+          \ If the conversation does not mention any specific programming language,\
+          \ such as when discussing conceptual or general algorithms, return an empty\
+          \ string (`''`).\n\n## Programming Languages\n\n(`abbr`: explanation & alternative\
+          \ names)\n\n- `c`: **C**\n- `cpp`: **C++**, cpp, or cxx\n\n  - `ue`: **Unreal**\
+          \ Engine code using C++\n\n- `csharp`: **C#**, or cs\n\n  - `u3d`: **Unity**\
+          \ Engine code using C#\n\n- `console`: any types of terminal console\n-\
+          \ `css`: CSS\n- `html`: HTML\n- `js`: JavaScript\n- `ts`: TypeScript\n-\
+          \ `py`: Python\n\"\"\"\n\n        # update Conversation Variable caches\n\
+          \        caches[PROMPT_KEY_IN_CACHE] = presense_prompt\n        return {\n\
+          \            OUTPUT_PROMPT_KEY: presense_prompt,\n            OUTPUT_CACHES_KEY:\
+          \ caches,\n        }\n\n"
         code_language: python3
         desc: ''
         outputs:
-          system_message:
+          presense_prompt:
             children: null
             type: string
-          updated_prompts_cache:
+          updated_caches:
             children: null
             type: object
-        selected: false
+        selected: true
         title: pre-sense prompt getter
         type: code
         variables:
         - value_selector:
           - conversation
-          - prompts_cache
+          - caches
           value_type: object
-          variable: prompts_cache
+          variable: caches
       height: 52
       id: '1767842794457'
       position:
         x: 448.98212977466494
-        y: 169.00863375743975
+        y: 166.15697782627316
       positionAbsolute:
         x: 448.98212977466494
-        y: 169.00863375743975
-      selected: false
+        y: 166.15697782627316
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -516,7 +532,7 @@ workflow:
         prompt_template:
         - id: 6d415748-d13d-4f8e-8a24-37fbf3043270
           role: system
-          text: '{{#1767842794457.system_message#}}'
+          text: '{{#1767842794457.presense_prompt#}}'
         - id: 14232e28-6697-4173-99aa-544af131d952
           role: user
           text: '{{#sys.query#}}'
@@ -527,12 +543,10 @@ workflow:
             properties:
               difficulty:
                 type: number
-              langauges:
-                items:
-                  type: string
-                type: array
+              languages:
+                type: string
             required:
-            - langauges
+            - languages
             - difficulty
             type: object
         structured_output_enabled: true
@@ -543,10 +557,10 @@ workflow:
       height: 88
       id: '1767843543355'
       position:
-        x: 450.0627053088791
+        x: 448.98212977466494
         y: 303
       positionAbsolute:
-        x: 450.0627053088791
+        x: 448.98212977466494
         y: 303
       selected: false
       sourcePosition: right
@@ -559,13 +573,13 @@ workflow:
           operation: over-write
           value:
           - '1767842794457'
-          - updated_prompts_cache
+          - updated_caches
           variable_selector:
           - conversation
-          - prompts_cache
+          - caches
           write_mode: over-write
         selected: false
-        title: update prompts_cache when pre-sense
+        title: cachees update post pre-sense
         type: assigner
         version: '2'
       height: 84
@@ -582,47 +596,106 @@ workflow:
       type: custom
       width: 242
     - data:
-        code: "def main(structured_output: dict, prompts_cache: dict):\n\n    # TODO\n\
-          \    task_prompt = \"\"\n\n    return {\n        \"task_prompt\": task_prompt,\n\
-          \        \"updated_prompts_cache\": prompts_cache,\n    }\n\n"
+        code: "from enum import IntFlag, auto\n\n# constants  ###################################################################\n\
+          PROMPT_KEY_IN_CACHE = \"task_prompt\"\nFLAGS_KEY_IN_CACHE = \"flags\"\n\
+          OUTPUT_PROMPT_KEY = \"task_prompt\"\nOUTPUT_CACHES_KEY = \"updated_caches\"\
+          \n\n\nclass PL(IntFlag):\n    \"\"\"\n    represent a single programming\
+          \ language\n    \"\"\"\n\n    NONE = 0\n\n    # pylint: disable=invalid-name\n\
+          \n    # abbreviations defined in prompt corpus\n    c = auto()\n    cpp\
+          \ = auto()\n    ue = auto()\n    csharp = auto()\n    u3d = auto()\n   \
+          \ console = auto()\n    css = auto()\n    html = auto()\n    js = auto()\n\
+          \    ts = auto()\n    py = auto()\n\n\ndef _calc_flags(languages):\n   \
+          \ flags = PL.NONE\n\n    try:\n        if languages:  # when languages list\
+          \ is not empty\n            for lang in languages.split(\",\"):\n      \
+          \          flags |= PL[lang]\n\n    except ValueError as err:\n        raise\
+          \ ValueError(\n            \"contains unsupported language: {}\".format(languages)\n\
+          \        ) from err\n\n    return flags\n\n\ndef main(languages: str, caches:\
+          \ dict):\n    \"\"\"\n    :param languages: languages list, e.g. ``'cpp,py'``\n\
+          \    :type languages: str\n    :param caches: Conversation Variable ``caches``\n\
+          \    :type caches: dict\n    :return:\n\n    {\n        \"task_prompt\"\
+          :\n                task prompt generated from API, or fetched from cache,\n\
+          \        \"updated_caches\": updated ``caches``\n    }\n    :rtype: dict{'task_prompt':\
+          \ str, \"updated_caches\": dict}\n    \"\"\"\n    flags = _calc_flags(languages)\n\
+          \n    try:\n        cached_flags = PL(int(caches[FLAGS_KEY_IN_CACHE]))\n\
+          \    except KeyError:\n        cached_flags = PL.NONE\n\n    if flags ==\
+          \ cached_flags and cached_flags:\n        # identical language requirement,\
+          \ thus send cached prompt\n        return {\n            OUTPUT_PROMPT_KEY:\
+          \ caches[PROMPT_KEY_IN_CACHE],\n            OUTPUT_CACHES_KEY: caches,\n\
+          \        }\n\n    # get prompt  --------------------------------------------------------------\n\
+          \    flags |= cached_flags  # combined with previous languages\n\n    if\
+          \ flags == 0:  # no programming\n        task_prompt = \"basic\"  # Todo\
+          \ use API\n\n    else:\n        # contains additional required languages\n\
+          \        task_prompt = \"basic + {}\".format(repr(flags))  # Todo use API\n\
+          \n    # update Conversation Variable caches\n    caches[FLAGS_KEY_IN_CACHE]\
+          \ = flags\n    caches[PROMPT_KEY_IN_CACHE] = task_prompt\n\n    return {\n\
+          \        OUTPUT_PROMPT_KEY: task_prompt,\n        OUTPUT_CACHES_KEY: caches,\n\
+          \    }\n\n"
         code_language: python3
         outputs:
           task_prompt:
             children: null
             type: string
-          updated_prompts_cache:
+          updated_caches:
             children: null
             type: object
-        selected: true
-        title: create task prompt
+        selected: false
+        title: task prompt getter
         type: code
         variables:
         - value_selector:
           - '1767843543355'
           - structured_output
-          - langauges
+          - languages
           value_type: object
-          variable: structured_output
+          variable: languages
         - value_selector:
           - conversation
-          - prompts_cache
+          - caches
           value_type: object
-          variable: prompts_cache
+          variable: caches
       height: 52
       id: '1767846007340'
       position:
-        x: 744.6151732772679
+        x: 760.2992808986841
         y: 303
       positionAbsolute:
-        x: 744.6151732772679
+        x: 760.2992808986841
         y: 303
-      selected: true
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1767846007340'
+          - updated_caches
+          variable_selector:
+          - conversation
+          - caches
+          write_mode: over-write
+        selected: false
+        title: caches update post task prompt
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1767848443232'
+      position:
+        x: 760.2992808986841
+        y: 351.3211822370869
+      positionAbsolute:
+        x: 760.2992808986841
+        y: 351.3211822370869
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -241.8341114064151
-      y: 123.32850156656286
-      zoom: 0.701346883451623
+      x: -322.40901775849613
+      y: 149.52567249939727
+      zoom: 1.063043090118063
   rag_pipeline_variables: []
