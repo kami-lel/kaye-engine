@@ -31,6 +31,8 @@ class PL(IntFlag):
 
 
 def _calc_flags(languages):
+    # TODO docstring
+    # BUG error handling
     flags = PL.NONE
 
     if languages:  # when languages list is not empty
@@ -41,12 +43,14 @@ def _calc_flags(languages):
 
 
 def main(languages: str, caches: dict):
+    # TODO docstring
     flags = _calc_flags(languages)
 
     try:
         cached_flags = PL(int(caches[FLAGS_KEY_IN_CACHE]))
     except KeyError:
         cached_flags = PL.NONE
+        # BUG value error when init PL
 
     if flags == cached_flags and cached_flags:
         # identical language requirement, thus send cached prompt
