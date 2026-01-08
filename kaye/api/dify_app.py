@@ -14,7 +14,7 @@ dify_bp = Blueprint("dify-app", PROGRAM_NAME, url_prefix="/dify-app")
 # /kaye/dify-app/kaye-cash-tracker
 @dify_bp.route("/kaye-cash-tracker", methods=["GET"])
 def kaye_cash_tracker():
-    return "not implemented yet"  # Todo
+    return "not implemented yet"  # TODO
 
 
 # Kaye Commit Sense  ###########################################################
