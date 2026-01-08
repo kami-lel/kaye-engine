@@ -2,6 +2,8 @@
 define Kaye Flask HTTP API
 """
 
+# Todo think about move api folder to top level
+
 from flask import Flask, Blueprint
 
 from kaye import PROGRAM_NAME
