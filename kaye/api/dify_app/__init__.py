@@ -1,8 +1,14 @@
 # pylint: disable=missing-function-docstring
 
+from pathlib import Path
+
 from flask import Blueprint
 
 from kaye import PROGRAM_NAME
+
+from kaye.api.dify_app.kaye_cash_tracker import call_kaye_cash_tracker
+
+DIR = Path(__file__).parent
 
 # /kaye/dify-app
 dify_bp = Blueprint("dify-app", PROGRAM_NAME, url_prefix="/dify-app")
@@ -14,7 +20,7 @@ dify_bp = Blueprint("dify-app", PROGRAM_NAME, url_prefix="/dify-app")
 # /kaye/dify-app/kaye-cash-tracker
 @dify_bp.route("/kaye-cash-tracker", methods=["GET"])
 def kaye_cash_tracker():
-    return "not implemented yet"  # TODO
+    return call_kaye_cash_tracker()
 
 
 # Kaye Commit Sense  ###########################################################
