@@ -1,6 +1,6 @@
 app:
   description: ''
-  icon: 🧬
+  icon: 🤖
   icon_background: '#FFEAD5'
   mode: advanced-chat
   name: Kaye_Peer_Coder
@@ -16,14 +16,22 @@ version: 0.5.0
 workflow:
   conversation_variables:
   - description: ''
-    id: f0f468c2-5d0b-4462-b782-6488baf0d9f5
-    name: var
+    id: 5b569e85-c1bf-405a-8bd9-adb9fda058fd
+    name: PROMPTS_COLLECTIONS
     selector:
     - conversation
-    - var
-    value: 0
-    value_type: integer
-  environment_variables: []
+    - PROMPTS_COLLECTIONS
+    value: {}
+    value_type: object
+  environment_variables:
+  - description: ''
+    id: 80a87ee7-a277-4469-baf2-6e141b8ea00e
+    name: PARAMETER_EXTRACTOR_PROMPT
+    selector:
+    - env
+    - PARAMETER_EXTRACTOR_PROMPT
+    value: aaa
+    value_type: string
   features:
     file_upload:
       allowed_file_extensions:
@@ -43,7 +51,9 @@ workflow:
         audio_file_size_limit: 50
         batch_count_limit: 5
         file_size_limit: 15
+        image_file_batch_limit: 10
         image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
         video_file_size_limit: 100
         workflow_file_upload_limit: 10
       image:
@@ -73,11 +83,75 @@ workflow:
         isInIteration: false
         isInLoop: false
         sourceType: start
-        targetType: llm
-      id: 1766694234003-source-1766954146821-target
+        targetType: parameter-extractor
+      id: 1766694234003-source-1767795651789-target
       source: '1766694234003'
       sourceHandle: source
-      target: '1766954146821'
+      target: '1767795651789'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: parameter-extractor
+        targetType: code
+      id: 1767795651789-source-1767837925664-target
+      source: '1767795651789'
+      sourceHandle: source
+      target: '1767837925664'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1767837925664-source-1767838255184-target
+      selected: false
+      source: '1767837925664'
+      sourceHandle: source
+      target: '1767838255184'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1767838255184-true-1767838496854-target
+      selected: false
+      source: '1767838255184'
+      sourceHandle: 'true'
+      target: '1767838496854'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1767838255184-2f79cf0e-8010-4e04-82fd-3111c739849a-1767838544107-target
+      selected: false
+      source: '1767838255184'
+      sourceHandle: 2f79cf0e-8010-4e04-82fd-3111c739849a
+      target: '1767838544107'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1767838255184-false-1767838557126-target
+      selected: false
+      source: '1767838255184'
+      sourceHandle: 'false'
+      target: '1767838557126'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -85,11 +159,49 @@ workflow:
         isInIteration: false
         isInLoop: false
         sourceType: llm
-        targetType: answer
-      id: 1766954146821-source-answer-target
-      source: '1766954146821'
+        targetType: variable-aggregator
+      id: 1767838544107-source-1767838618133-target
+      selected: false
+      source: '1767838544107'
       sourceHandle: source
-      target: answer
+      target: '1767838618133'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1767838496854-source-1767838618133-target
+      selected: false
+      source: '1767838496854'
+      sourceHandle: source
+      target: '1767838618133'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1767838557126-source-1767838618133-target
+      selected: false
+      source: '1767838557126'
+      sourceHandle: source
+      target: '1767838618133'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: variable-aggregator
+        targetType: answer
+      id: 1767838618133-source-1767838673908-target
+      selected: false
+      source: '1767838618133'
+      sourceHandle: source
+      target: '1767838673908'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -107,25 +219,156 @@ workflow:
       positionAbsolute:
         x: 80
         y: 282
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: '{{#1766954146821.text#}}'
+        desc: '- determine difficulty of task
+
+          - find out what programming languages is requried in final result'
+        instruction: '{{#env.PARAMETER_EXTRACTOR_PROMPT#}}'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-5-nano
+          provider: langgenius/openai/openai
+        parameters:
+        - description: a list of languages requried
+          name: programming_langauages
+          required: true
+          type: array[string]
+        - description: how difficult
+          name: task_difficulty
+          required: true
+          type: number
+        query: []
+        reasoning_mode: prompt
         selected: false
-        title: Answer
-        type: answer
-        variables: []
-      height: 102
-      id: answer
+        title: Parameter Extractor
+        type: parameter-extractor
+        vision:
+          enabled: false
+      height: 148
+      id: '1767795651789'
       position:
-        x: 844.3505783790272
-        y: 284.74814577313833
+        x: 446.14040168356894
+        y: 303
       positionAbsolute:
-        x: 844.3505783790272
-        y: 284.74814577313833
+        x: 446.14040168356894
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\ndef main(prompt_collections: dict, programming_languages: list[str]):\n\
+          \    return {\n        \"result\": arg1 + arg2,\n    }\n"
+        code_language: python3
+        desc: assmble prompt based on parameter extracted
+        outputs:
+          assembled_prompt:
+            children: null
+            type: string
+        selected: false
+        title: prompt assembler
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - PROMPTS_COLLECTIONS
+          value_type: object
+          variable: prompt_collections
+        - value_selector:
+          - '1767795651789'
+          - programming_langauages
+          value_type: array[string]
+          variable: programming_languages
+      height: 96
+      id: '1767837925664'
+      position:
+        x: 788.9008282960569
+        y: 303
+      positionAbsolute:
+        x: 788.9008282960569
+        y: 303
       selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: <
+            id: e8a1eee8-98d2-4cc6-b696-c0b2b563bca4
+            numberVarType: constant
+            value: '0.5'
+            varType: number
+            variable_selector:
+            - '1767795651789'
+            - task_difficulty
+          id: 'true'
+          logical_operator: and
+        - case_id: 2f79cf0e-8010-4e04-82fd-3111c739849a
+          conditions:
+          - comparison_operator: <
+            id: 2bfff6d9-502c-49ae-8eff-a53316e3f17b
+            value: '0.9'
+            varType: number
+            variable_selector:
+            - '1767795651789'
+            - task_difficulty
+          id: 2f79cf0e-8010-4e04-82fd-3111c739849a
+          logical_operator: and
+        selected: false
+        title: IF/ELSE
+        type: if-else
+      height: 172
+      id: '1767838255184'
+      position:
+        x: 1114.2416433058218
+        y: 303
+      positionAbsolute:
+        x: 1114.2416433058218
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4.1-nano
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: a211bf9b-135d-463e-82c2-5c98c4bf11cb
+          role: system
+          text: '{{#1767837925664.assembled_prompt#}}'
+        selected: false
+        title: LLM Easy
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1767838496854'
+      position:
+        x: 1454.6666568708142
+        y: 303.85213457589464
+      positionAbsolute:
+        x: 1454.6666568708142
+        y: 303.85213457589464
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -140,99 +383,105 @@ workflow:
           name: gpt-5-mini
           provider: langgenius/openai/openai
         prompt_template:
-        - role: system
-          text: "# Introduction\nYou are **Kaye**, an AI assisting *agent* to the\
-            \ *user*.\n\n# Style\n\n## Capitalization Style\n\n### Commentary Case\n\
-            - begin 1st sentence with a lowercase letter; use standard sentence capitalization\
-            \ for the 2nd and subsequent sentences\n- use *Title Case* for **a few\
-            \ important words** within a sentence\n- the last sentence should not\
-            \ end with punctuation\n\n    <commentary-case-code-example>\n    # this\
-            \ initializes the Variable\n    # check the Config. Validate the Filepath\
-            \ with the Tool. Process final result\n    </commentary-case-code-example>\n\
-            \n## Briefness Style\n- write in **newspaper headlinese**, prioritize\
-            \ brevity over grammar\n- use present for current, infinitive for planned\n\
-            - omit articles (a, an, the) and helper verbs, use strong nouns, verbs\n\
-            - compress with punctuation: colon, dash, comma, otherwise minimize, no\
-            \ terminal periods\n- use numerals (use 2, not two), symbols, **Usable\
-            \ Abbrs** when unambiguous\n- prefer active voice\n- keep sentences short,\
-            \ direct, drop filler\n\n# Format\nPlease style your responses using *Github\
-            \ Flavored Markdown*. Avoid mentioning markdown or styling in your response.\n\
-            \nFollow these guidelines in every conversation:\n\n- Use **double asterisks**\
-            \ (`**`) for **bold** text when highlighting important information\n-\
-            \ Employ *single asterisks* (`*`) for *italics* to reference *titles of\
-            \ books, movies, games,* and *secondary important information*\n- do not\
-            \ use underscores (`_`) for bold/italics formatting.\n- use `-` (dash)\
-            \ for bullet point lists\n- do **not** add a line separator of any length\
-            \ (`---`) before any header (`### Example`)\n\n### List Format\n\nFor\
-            \ all types of **lists**, you must apply *commentary case* for **each**\
-            \ list item:\n\n    <list-format-example>\n    - this is first item\n\
-            \    - second item follow the Commentary Rule. This is continue sentence\n\
-            \    </list-format-example>\n\n# Role\nEach role has its own **tasks and\
-            \ requirements**. Act in only one role at a time.\n\n## Peer Coder\nIn\
-            \ this role, you assist users with coding tasks, whether they're writing\
-            \ new code or working with existing code bases.\n\nBe straight-to-point,\
-            \ avoid casual conversation and focus on the task. **No** explanation\
-            \ unless the user requests it, respond with only code.\n\nYour duties\
-            \ are outlined as follows:\n\n- Coding Support:\n\n    - Provide knowledgeable\
-            \ and accurate coding assistance.\n    - Write only the specified code\
-            \ without explanation unless requested.\n\n- Code Adjustment:\n\n    -\
-            \ Ensure proper formatting and indentation to match given code.\n    -\
-            \ Avoid syntax errors when modifying or appending code.\n\n- Code Expansion:\n\
-            \n    - Maintain formatting and naming consistency with examples provided.\n\
-            \    - Exclude source example from your response.\n\n- Line Length:\n\n\
-            \    - Adhere to the 80-column rule for line length, keeping lines **under\
-            \ 80 characters**.\n\n#### Naming Conventions\n\n- Use i, j, k, etc.,\
-            \ for loop counters, e.g., `for (int i = 1; i <= 5; i++)`.\n- Use `_`\
-            \ for irrelevant variables that are assigned but never used.\n- **function\
-            \ names** must start with a verb. E.g. `execute_task`, `calculate_sum`,\
-            \ `initGraphicEngine`\n- Boolean function/variable must start with is/has.\
-            \ E.g. `is_valid`, `hasRendered`\n- class name capitalization e.g. `class\
-            \ MyClass`\n- UPPER_CASE with underscores for **constants**, e.g., `MAX_COUNT`\n\
-            \n### Code Comment\n- format inline comment: actual code + 2 spaces +\
-            \ `#` or `//` + 1 space + comment content. E.g. `int a = 1;  // comment\
-            \ on number`\n- use **Briefness Style** language\n- use **Commentary Case**\
-            \ for each comment line\n- leave appropriate **Immediate Annotation Markers**\
-            \ in your code response\n\nC++ Example:\n\n```cpp\n...\nstd::vector<int>\
-            \ nums = {1, 2, 3};  // vector nums init with 3 ints\nint index = 3;\n\
-            int value = nums[index];  // BUG index out of bound error\n...\n```\n\n\
-            Python Example:\n\n    x = 5  # set x 5\n    y = 10  # set y 10\n    #\
-            \ TODO read user input to replace hardcoded x,y\n    sum_ = x + y  # sum\
-            \ x, y store sum_\n\n##### Comment Section Headings\n\nWhen code is lengthy\
-            \ and complicated, use comment section headings to clearly indicate code\
-            \ structure (such as modules, sections, or functions) to improve readability\
-            \ and organization.\n\nFormat:\n- Align the section heading text to the\
-            \ left.\n- Add a single space after the text before the visual separator.\n\
-            - Use visual separators for **three levels**:\n  - `#` for **primary**\
-            \ headings\n  - `=` for **secondary** headings\n  - `-` for **tertiary**\
-            \ headings\n  Extend the chosen separator to the end of the line.\n- Each\
-            \ complete heading line should be **80 characters** long, including the\
-            \ text, space, and separator.\n\nExample:\n\n```cpp\n// Project Example\
-            \ #############################################################\n\nint\
-            \ main() {\n    // Main Module =============================================================\n\
-            \    // Startup Routine ---------------------------------------------------------\n\
-            \    …\n    // Cleanup -----------------------------------------------------------------\n\
-            \    …\n    return 0;\n}\n```\n<!-- blueprint: kyc; Kaye v4.10.3a0.020251228123516\
-            \ -->\n"
+        - id: abaf21b2-5712-401c-876c-871cd49d8e5b
+          role: system
+          text: ''
         selected: false
-        title: LLM
+        title: LLM Medium
         type: llm
         vision:
           enabled: false
       height: 88
-      id: '1766954146821'
+      id: '1767838544107'
       position:
-        x: 485.42958518301646
-        y: 294.36789976432374
+        x: 1454.6666568708142
+        y: 430.85213457589464
       positionAbsolute:
-        x: 485.42958518301646
-        y: 294.36789976432374
+        x: 1454.6666568708142
+        y: 430.85213457589464
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 409d4727-18c7-4565-b2cf-ddb4eb4c6c48
+          role: system
+          text: ''
+        selected: false
+        title: LLM Difficult
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1767838557126'
+      position:
+        x: 1454.6666568708142
+        y: 557.8521345758948
+      positionAbsolute:
+        x: 1454.6666568708142
+        y: 557.8521345758948
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: aggregate LLM response result from all branches
+        output_type: string
+        selected: false
+        title: Resposne Aggregator
+        type: variable-aggregator
+        variables:
+        - - '1767838544107'
+          - text
+        - - '1767838496854'
+          - text
+        - - '1767838557126'
+          - text
+      height: 204
+      id: '1767838618133'
+      position:
+        x: 1806.6218400578302
+        y: 303
+      positionAbsolute:
+        x: 1806.6218400578302
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1767838618133.output#}}'
+        selected: false
+        title: Answer
+        type: answer
+        variables: []
+      height: 102
+      id: '1767838673908'
+      position:
+        x: 2171.502657196712
+        y: 303
+      positionAbsolute:
+        x: 2171.502657196712
+        y: 303
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: 447.6180752121315
-      y: 324.43427715017026
-      zoom: 0.8316220983749066
+      x: -551.491110014149
+      y: 148.5932685416583
+      zoom: 0.6105579244547915
   rag_pipeline_variables: []
