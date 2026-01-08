@@ -15,7 +15,19 @@ OUTPUT_CACHES_KEY = "updated_caches"
 
 # entry point  #################################################################
 def main(caches: dict):
-    # TODO docstring
+    """
+    :param caches: Conversation Variable ``caches``
+    :type caches: dict
+    :return:
+
+    {
+        "presence_prompt":
+                pre-sense prompt generated from API, or fetched from cache,
+        "updated_caches": updated ``caches``
+    }
+
+    :rtype: dict{'presence_prompt': str, "updated_caches": dict}
+    """
     if PROMPT_KEY_IN_CACHE in caches:
         return {
             OUTPUT_PROMPT_KEY: caches[PROMPT_KEY_IN_CACHE],
