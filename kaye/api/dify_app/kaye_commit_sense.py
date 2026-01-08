@@ -70,10 +70,18 @@ def kaye_commit_sense_primary_message():
 # /kaye/dify-app/kaye-commit-sense/per-file-long
 @commit_sense_bp.route("/per-file-long", methods=["GET"])
 def kaye_commit_sense_per_file_long():
-    return "not implemented yet"  # TODO
+    blueprint = PromptBlueprint(
+        load_embedded_prompt_corpus(),
+        PER_FILE_LONG_PROMPT_BLUEPRINT,
+    )
+    return str(blueprint)
 
 
 # /kaye/dify-app/kaye-commit-sense/per-file-short
 @commit_sense_bp.route("/per-file-short", methods=["GET"])
 def kaye_commit_sense_per_file_short():
-    return "not implemented yet"  # TODO
+    blueprint = PromptBlueprint(
+        load_embedded_prompt_corpus(),
+        PER_FILE_SHORT_PROMPT_BLUEPRINT,
+    )
+    return str(blueprint)
