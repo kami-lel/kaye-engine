@@ -5,6 +5,15 @@ get `pre-sense` node's prompts from Kaye's Flask API
 KEY_IN_PROMPTS_CACHE = "pre-sense"
 
 
+BLUEPRINT = """ ○
+[x] ├── Role
+[x] │   └── Kaye Peer Coder
+[x] │       └── pre-sense
+[x] └── Abbreviations
+[x]     └── Programming Languages
+"""
+
+
 def main(prompts_cache: dict):
     # prompt already in cache
     if KEY_IN_PROMPTS_CACHE in prompts_cache:

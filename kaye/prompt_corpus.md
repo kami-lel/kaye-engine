@@ -1864,7 +1864,13 @@ Parse all events into the desired format, keep all information.
 
 ### pre-sense
 
-abc def, you must aaaa
+Here is an improved and clarified version of your prompt:
+
+Extract the following two variables:
+
+- difficulty: Provide a number between `0.0` (very easy) and `1.0` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
+
+- languages: Return an array containing the abbreviations of programming languages (as defined below) required by the user. For example, `['py', 'cpp']`. If the conversation does not mention any specific programming language, such as in cases involving conceptual or general algorithms, return an empty array (`[]`).
 
 ### Kaye Peer Coder
 
@@ -3543,7 +3549,7 @@ You may use the following abbreviations in responses:
 
 
 
-## Programming Langauge Abbrs
+## Programming Languages
 
 (`abbr`: explanation & alternative names)
 
