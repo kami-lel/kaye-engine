@@ -8,12 +8,12 @@ kyc_bp = Blueprint(
 )
 
 
-@kyc_bp.route("/kaye-peer-coder/pre-sense", methods=["GET"])
+@kyc_bp.route("/pre-sense", methods=["GET"])
 def kaye_peer_coder_pre_sense():  # todo
     return "PRE SENSE"  # TODO
 
 
-@kyc_bp.route("/kaye-peer-coder/task", methods=["GET"])
+@kyc_bp.route("/task", methods=["GET"])
 def kaye_peer_coder_task():  # todo
     return "TASK"  # TODO
 
