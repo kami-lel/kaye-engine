@@ -1,5 +1,5 @@
 """
-define API to specific work with Dify App: Kaye_Commit Sense
+define API to specific work with Dify App: Kaye Commit Sense
 """
 
 # pylint: disable=missing-function-docstring
