@@ -10,7 +10,9 @@ import requests
 # constants  ###################################################################
 OUTPUT_PROMPT_KEY = "concrete_prompt"
 OUTPUT_TEMPLATE_KEY = "updated_prompt_template_cache"
-KAYE_API_URL = "http://127.0.0.1:11255/kaye/dify-app/kaye-cash-tracker"
+KAYE_API_URL = (
+    "http://host.docker.interal:11255/kaye/dify-app/kaye-cash-tracker"
+)
 REQUEST_TIMEOUT = 10
 
 
