@@ -43,7 +43,20 @@ def _calc_flags(languages):
 
 
 def main(languages: str, caches: dict):
-    # TODO docstring
+    """
+    :param languages: languages list, e.g. ``'cpp,py'``
+    :type languages: str
+    :param caches: Conversation Variable ``caches``
+    :type caches: dict
+    :return:
+
+    {
+        "task_prompt":
+                task prompt generated from API, or fetched from cache,
+        "updated_caches": updated ``caches``
+    }
+    :rtype: dict{'task_prompt': str, "updated_caches": dict}
+    """
     flags = _calc_flags(languages)
 
     try:
