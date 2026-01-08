@@ -5,14 +5,18 @@ cache the template locally
 then fill the template with runtime info to produce the concrete prompt
 """
 
+import os
 import requests
 
 # constants  ###################################################################
 OUTPUT_PROMPT_KEY = "concrete_prompt"
 OUTPUT_TEMPLATE_KEY = "updated_prompt_template_cache"
-KAYE_API_URL = (
-    "http://host.docker.interal:11255/kaye/dify-app/kaye-cash-tracker"
-)
+
+
+# Environment Variable KAYE_API_URL must be set for sandbox container
+# e.g. "http://12.34.56.78:11255/kaye"
+KAYE_API_URL = os.environ["KAYE_API_URL"]
+ENDPOINT = KAYE_API_URL + "/dify-app/kaye-cash-tracker"
 REQUEST_TIMEOUT = 10
 
 
@@ -28,7 +32,7 @@ def main(
     if not prompt_template_cache:  # when not locally cached
         # get prompt template by API  ------------------------------------------
         try:
-            response = requests.get(KAYE_API_URL, timeout=REQUEST_TIMEOUT)
+            response = requests.get(ENDPOINT, timeout=REQUEST_TIMEOUT)
             response.raise_for_status()
             prompt_template_cache = response.text
 
