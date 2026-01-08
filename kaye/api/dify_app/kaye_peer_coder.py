@@ -7,6 +7,7 @@ define API to specific work with Dify App: Kaye Peer Coder
 from flask import Blueprint
 
 from kaye import PROGRAM_NAME
+from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
 
 # Blueprints  ##################################################################
 PRE_SENSE_PROMPT_BLUEPRINT = """ ○
@@ -42,7 +43,11 @@ kyc_bp = Blueprint(
 # /kaye/dify-app/kaye-peer-coder/pre-sense
 @kyc_bp.route("/pre-sense", methods=["GET"])
 def kaye_peer_coder_pre_sense():
-    return "not implemented yet"  # TODO
+    blueprint = PromptBlueprint(
+        load_embedded_prompt_corpus(),
+        PRE_SENSE_PROMPT_BLUEPRINT,
+    )
+    return str(blueprint)
 
 
 # /kaye/dify-app/kaye-peer-coder/task
