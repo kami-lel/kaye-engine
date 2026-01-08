@@ -15,12 +15,12 @@ kind: app
 version: 0.5.0
 workflow:
   conversation_variables:
-  - description: ''
-    id: 5b569e85-c1bf-405a-8bd9-adb9fda058fd
-    name: PROMPTS_COLLECTIONS
+  - description: local cache of collections of all prompts
+    id: 9619a76b-ad66-403c-b861-18d93c897dea
+    name: prompts_cache
     selector:
     - conversation
-    - PROMPTS_COLLECTIONS
+    - prompts_cache
     value: {}
     value_type: object
   environment_variables:
@@ -79,43 +79,6 @@ workflow:
       voice: ''
   graph:
     edges:
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: start
-        targetType: parameter-extractor
-      id: 1766694234003-source-1767795651789-target
-      source: '1766694234003'
-      sourceHandle: source
-      target: '1767795651789'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: parameter-extractor
-        targetType: code
-      id: 1767795651789-source-1767837925664-target
-      source: '1767795651789'
-      sourceHandle: source
-      target: '1767837925664'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: code
-        targetType: if-else
-      id: 1767837925664-source-1767838255184-target
-      selected: false
-      source: '1767837925664'
-      sourceHandle: source
-      target: '1767838255184'
-      targetHandle: target
-      type: custom
-      zIndex: 0
     - data:
         isInIteration: false
         isInLoop: false
@@ -205,6 +168,69 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1766694234003-source-1767842794457-target
+      selected: false
+      source: '1766694234003'
+      sourceHandle: source
+      target: '1767842794457'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1767842794457-source-1767844395058-target
+      selected: false
+      source: '1767842794457'
+      sourceHandle: source
+      target: '1767844395058'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1767842794457-source-1767843543355-target
+      selected: false
+      source: '1767842794457'
+      sourceHandle: source
+      target: '1767843543355'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1767843543355-source-1767846007340-target
+      selected: false
+      source: '1767843543355'
+      sourceHandle: source
+      target: '1767846007340'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1767846007340-source-1767838255184-target
+      selected: false
+      source: '1767846007340'
+      sourceHandle: source
+      target: '1767838255184'
+      targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
         selected: false
@@ -214,88 +240,12 @@ workflow:
       height: 73
       id: '1766694234003'
       position:
-        x: 80
+        x: 82.16115106842847
         y: 282
       positionAbsolute:
-        x: 80
+        x: 82.16115106842847
         y: 282
       selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        desc: '- determine difficulty of task
-
-          - find out what programming languages is requried in final result'
-        instruction: '{{#env.PARAMETER_EXTRACTOR_PROMPT#}}'
-        model:
-          completion_params:
-            temperature: 0.7
-          mode: chat
-          name: gpt-5-nano
-          provider: langgenius/openai/openai
-        parameters:
-        - description: a list of languages requried
-          name: programming_langauages
-          required: true
-          type: array[string]
-        - description: how difficult
-          name: task_difficulty
-          required: true
-          type: number
-        query: []
-        reasoning_mode: prompt
-        selected: false
-        title: Parameter Extractor
-        type: parameter-extractor
-        vision:
-          enabled: false
-      height: 148
-      id: '1767795651789'
-      position:
-        x: 446.14040168356894
-        y: 303
-      positionAbsolute:
-        x: 446.14040168356894
-        y: 303
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "\ndef main(prompt_collections: dict, programming_languages: list[str]):\n\
-          \    return {\n        \"result\": arg1 + arg2,\n    }\n"
-        code_language: python3
-        desc: assmble prompt based on parameter extracted
-        outputs:
-          assembled_prompt:
-            children: null
-            type: string
-        selected: false
-        title: prompt assembler
-        type: code
-        variables:
-        - value_selector:
-          - conversation
-          - PROMPTS_COLLECTIONS
-          value_type: object
-          variable: prompt_collections
-        - value_selector:
-          - '1767795651789'
-          - programming_langauages
-          value_type: array[string]
-          variable: programming_languages
-      height: 96
-      id: '1767837925664'
-      position:
-        x: 788.9008282960569
-        y: 303
-      positionAbsolute:
-        x: 788.9008282960569
-        y: 303
-      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -310,8 +260,9 @@ workflow:
             value: '0.5'
             varType: number
             variable_selector:
-            - '1767795651789'
-            - task_difficulty
+            - '1767843543355'
+            - structured_output
+            - difficulty
           id: 'true'
           logical_operator: and
         - case_id: 2f79cf0e-8010-4e04-82fd-3111c739849a
@@ -321,8 +272,9 @@ workflow:
             value: '0.9'
             varType: number
             variable_selector:
-            - '1767795651789'
-            - task_difficulty
+            - '1767843543355'
+            - structured_output
+            - difficulty
           id: 2f79cf0e-8010-4e04-82fd-3111c739849a
           logical_operator: and
         selected: false
@@ -331,10 +283,10 @@ workflow:
       height: 172
       id: '1767838255184'
       position:
-        x: 1114.2416433058218
+        x: 1043.3027028696185
         y: 303
       positionAbsolute:
-        x: 1114.2416433058218
+        x: 1043.3027028696185
         y: 303
       selected: false
       sourcePosition: right
@@ -354,7 +306,12 @@ workflow:
         prompt_template:
         - id: a211bf9b-135d-463e-82c2-5c98c4bf11cb
           role: system
-          text: '{{#1767837925664.assembled_prompt#}}'
+          text: '{{#1767846007340.task_prompt#}}'
+        - id: 6460cb44-2d07-47ac-a74e-e2e1fa091fd4
+          role: user
+          text: '{{#sys.query#}}
+
+            {{#sys.files#}}'
         selected: false
         title: LLM Easy
         type: llm
@@ -363,11 +320,11 @@ workflow:
       height: 88
       id: '1767838496854'
       position:
-        x: 1454.6666568708142
-        y: 303.85213457589464
+        x: 1402.5297155773442
+        y: 308.7656732916175
       positionAbsolute:
-        x: 1454.6666568708142
-        y: 303.85213457589464
+        x: 1402.5297155773442
+        y: 308.7656732916175
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -385,7 +342,12 @@ workflow:
         prompt_template:
         - id: abaf21b2-5712-401c-876c-871cd49d8e5b
           role: system
-          text: ''
+          text: '{{#1767846007340.task_prompt#}}'
+        - id: dba42b02-2805-4b1c-9736-7e9a7b7bb52f
+          role: user
+          text: '{{#sys.query#}}
+
+            {{#sys.files#}}'
         selected: false
         title: LLM Medium
         type: llm
@@ -394,11 +356,11 @@ workflow:
       height: 88
       id: '1767838544107'
       position:
-        x: 1454.6666568708142
-        y: 430.85213457589464
+        x: 1402.5297155773442
+        y: 435.7656732916175
       positionAbsolute:
-        x: 1454.6666568708142
-        y: 430.85213457589464
+        x: 1402.5297155773442
+        y: 435.7656732916175
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -416,7 +378,12 @@ workflow:
         prompt_template:
         - id: 409d4727-18c7-4565-b2cf-ddb4eb4c6c48
           role: system
-          text: ''
+          text: '{{#1767846007340.task_prompt#}}'
+        - id: 8f77a27b-f592-45bf-899d-6c030eea5145
+          role: user
+          text: '{{#sys.query#}}
+
+            {{#sys.files#}}'
         selected: false
         title: LLM Difficult
         type: llm
@@ -425,11 +392,11 @@ workflow:
       height: 88
       id: '1767838557126'
       position:
-        x: 1454.6666568708142
-        y: 557.8521345758948
+        x: 1402.5297155773442
+        y: 562.7656732916175
       positionAbsolute:
-        x: 1454.6666568708142
-        y: 557.8521345758948
+        x: 1402.5297155773442
+        y: 562.7656732916175
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -451,11 +418,11 @@ workflow:
       height: 204
       id: '1767838618133'
       position:
-        x: 1806.6218400578302
-        y: 303
+        x: 1754.48489876436
+        y: 307.91353871572284
       positionAbsolute:
-        x: 1806.6218400578302
-        y: 303
+        x: 1754.48489876436
+        y: 307.91353871572284
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -470,18 +437,192 @@ workflow:
       height: 102
       id: '1767838673908'
       position:
-        x: 2171.502657196712
+        x: 2051.9524017593085
+        y: 308.7656732916175
+      positionAbsolute:
+        x: 2051.9524017593085
+        y: 308.7656732916175
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\"\"\"\nget `pre-sense` node's prompts from Kaye's Flask API\n\"\"\"\
+          \n\nKEY_IN_PROMPTS_CACHE = \"pre-sense\"\n\n\nBLUEPRINT = \"\"\" ○\n[x]\
+          \ ├── Role\n[x] │   └── Kaye Peer Coder\n[x] │       └── pre-sense\n[x]\
+          \ └── Abbreviations\n[x]     └── Programming Languages\n\"\"\"\n\n\ndef\
+          \ main(prompts_cache: dict):\n    # prompt already in cache\n    if KEY_IN_PROMPTS_CACHE\
+          \ in prompts_cache:\n        system_message = prompts_cache[KEY_IN_PROMPTS_CACHE]\n\
+          \n    else:\n        # get prompt from API  -------------------------------------------------\n\
+          \        # Todo use API\n        system_message = \"\"\"\n## Kaye Peer Coder\n\
+          \n### pre-sense\n\nHere is an improved and clarified version of your prompt:\n\
+          \nExtract the following two variables:\n\n- difficulty: Provide a number\
+          \ between `0.0` (very easy) and `1.0` (very hard) that represents the assumed\
+          \ difficulty of the user's proposed task. You may use as many decimal places\
+          \ as necessary for appropriate precision.\n\n- languages: Return an array\
+          \ containing the abbreviations of programming languages (as defined below)\
+          \ required by the user. For example, `['py', 'cpp']`. If the conversation\
+          \ does not mention any specific programming language, such as in cases involving\
+          \ conceptual or general algorithms, return an empty array (`[]`).\n\n##\
+          \ Programming Languages\n\n(`abbr`: explanation & alternative names)\n\n\
+          - `c`: **C**\n- `cpp`: **C++**, cpp, or cxx\n\n  - `ue`: **Unreal** Engine\
+          \ code using C++\n\n- `csharp`: **C#**, or cs\n\n  - `u3d`: **Unity** Engine\
+          \ code using C#\n\n- `console`: any types of terminal console\n- `css`:\
+          \ CSS\n- `html`: HTML\n- `js`: JavaScript\n- `ts`: TypeScript\n- `py`: Python\n\
+          \"\"\"\n        # update Conversation Variable\n        prompts_cache[KEY_IN_PROMPTS_CACHE]\
+          \ = system_message\n\n    return {\"system_message\": system_message, \"\
+          prompts_cache\": prompts_cache}\n\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          system_message:
+            children: null
+            type: string
+          updated_prompts_cache:
+            children: null
+            type: object
+        selected: false
+        title: pre-sense prompt getter
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - prompts_cache
+          value_type: object
+          variable: prompts_cache
+      height: 52
+      id: '1767842794457'
+      position:
+        x: 448.98212977466494
+        y: 169.00863375743975
+      positionAbsolute:
+        x: 448.98212977466494
+        y: 169.00863375743975
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-4.1-nano
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 6d415748-d13d-4f8e-8a24-37fbf3043270
+          role: system
+          text: '{{#1767842794457.system_message#}}'
+        - id: 14232e28-6697-4173-99aa-544af131d952
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              difficulty:
+                type: number
+              langauges:
+                items:
+                  type: string
+                type: array
+            required:
+            - langauges
+            - difficulty
+            type: object
+        structured_output_enabled: true
+        title: pre-sense
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1767843543355'
+      position:
+        x: 450.0627053088791
         y: 303
       positionAbsolute:
-        x: 2171.502657196712
+        x: 450.0627053088791
         y: 303
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1767842794457'
+          - updated_prompts_cache
+          variable_selector:
+          - conversation
+          - prompts_cache
+          write_mode: over-write
+        selected: false
+        title: update prompts_cache when pre-sense
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1767844395058'
+      position:
+        x: 448.98212977466494
+        y: 220.3208644176614
+      positionAbsolute:
+        x: 448.98212977466494
+        y: 220.3208644176614
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(structured_output: dict, prompts_cache: dict):\n\n    # TODO\n\
+          \    task_prompt = \"\"\n\n    return {\n        \"task_prompt\": task_prompt,\n\
+          \        \"updated_prompts_cache\": prompts_cache,\n    }\n\n"
+        code_language: python3
+        outputs:
+          task_prompt:
+            children: null
+            type: string
+          updated_prompts_cache:
+            children: null
+            type: object
+        selected: true
+        title: create task prompt
+        type: code
+        variables:
+        - value_selector:
+          - '1767843543355'
+          - structured_output
+          - langauges
+          value_type: object
+          variable: structured_output
+        - value_selector:
+          - conversation
+          - prompts_cache
+          value_type: object
+          variable: prompts_cache
+      height: 52
+      id: '1767846007340'
+      position:
+        x: 744.6151732772679
+        y: 303
+      positionAbsolute:
+        x: 744.6151732772679
+        y: 303
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
     viewport:
-      x: -551.491110014149
-      y: 148.5932685416583
-      zoom: 0.6105579244547915
+      x: -241.8341114064151
+      y: 123.32850156656286
+      zoom: 0.701346883451623
   rag_pipeline_variables: []
