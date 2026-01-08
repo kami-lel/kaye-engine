@@ -1,0 +1,701 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: Kaye_Peer_Coder
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.5@373362a028986aae53a7baf73a7f11991ba3c22c69eaf97d6cde048cfd4a9f98
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables:
+  - description: ''
+    id: 7a158ae3-a53a-47f6-96dd-fc914b4e7086
+    name: caches
+    selector:
+    - conversation
+    - caches
+    value: {}
+    value_type: object
+  environment_variables:
+  - description: ''
+    id: 80a87ee7-a277-4469-baf2-6e141b8ea00e
+    name: PARAMETER_EXTRACTOR_PROMPT
+    selector:
+    - env
+    - PARAMETER_EXTRACTOR_PROMPT
+    value: aaa
+    value_type: string
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1767838255184-true-1767838496854-target
+      selected: false
+      source: '1767838255184'
+      sourceHandle: 'true'
+      target: '1767838496854'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1767838255184-2f79cf0e-8010-4e04-82fd-3111c739849a-1767838544107-target
+      selected: false
+      source: '1767838255184'
+      sourceHandle: 2f79cf0e-8010-4e04-82fd-3111c739849a
+      target: '1767838544107'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1767838255184-false-1767838557126-target
+      selected: false
+      source: '1767838255184'
+      sourceHandle: 'false'
+      target: '1767838557126'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1767838544107-source-1767838618133-target
+      selected: false
+      source: '1767838544107'
+      sourceHandle: source
+      target: '1767838618133'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1767838496854-source-1767838618133-target
+      selected: false
+      source: '1767838496854'
+      sourceHandle: source
+      target: '1767838618133'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1767838557126-source-1767838618133-target
+      selected: false
+      source: '1767838557126'
+      sourceHandle: source
+      target: '1767838618133'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: variable-aggregator
+        targetType: answer
+      id: 1767838618133-source-1767838673908-target
+      selected: false
+      source: '1767838618133'
+      sourceHandle: source
+      target: '1767838673908'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1766694234003-source-1767842794457-target
+      selected: false
+      source: '1766694234003'
+      sourceHandle: source
+      target: '1767842794457'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1767842794457-source-1767844395058-target
+      selected: false
+      source: '1767842794457'
+      sourceHandle: source
+      target: '1767844395058'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1767842794457-source-1767843543355-target
+      selected: false
+      source: '1767842794457'
+      sourceHandle: source
+      target: '1767843543355'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1767843543355-source-1767846007340-target
+      selected: false
+      source: '1767843543355'
+      sourceHandle: source
+      target: '1767846007340'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1767846007340-source-1767848443232-target
+      selected: false
+      source: '1767846007340'
+      sourceHandle: source
+      target: '1767848443232'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1767846007340-source-1767838255184-target
+      selected: false
+      source: '1767846007340'
+      sourceHandle: source
+      target: '1767838255184'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: User Input
+        type: start
+        variables: []
+      height: 73
+      id: '1766694234003'
+      position:
+        x: 82.16115106842847
+        y: 282
+      positionAbsolute:
+        x: 82.16115106842847
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: <
+            id: e8a1eee8-98d2-4cc6-b696-c0b2b563bca4
+            numberVarType: constant
+            value: '0.5'
+            varType: number
+            variable_selector:
+            - '1767843543355'
+            - structured_output
+            - difficulty
+          id: 'true'
+          logical_operator: and
+        - case_id: 2f79cf0e-8010-4e04-82fd-3111c739849a
+          conditions:
+          - comparison_operator: <
+            id: 2bfff6d9-502c-49ae-8eff-a53316e3f17b
+            value: '0.9'
+            varType: number
+            variable_selector:
+            - '1767843543355'
+            - structured_output
+            - difficulty
+          id: 2f79cf0e-8010-4e04-82fd-3111c739849a
+          logical_operator: and
+        selected: false
+        title: IF/ELSE
+        type: if-else
+      height: 172
+      id: '1767838255184'
+      position:
+        x: 1099.9936512575564
+        y: 303
+      positionAbsolute:
+        x: 1099.9936512575564
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4.1-nano
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: a211bf9b-135d-463e-82c2-5c98c4bf11cb
+          role: system
+          text: '{{#1767846007340.task_prompt#}}'
+        - id: 6460cb44-2d07-47ac-a74e-e2e1fa091fd4
+          role: user
+          text: '{{#sys.query#}}
+
+            {{#sys.files#}}'
+        selected: false
+        title: LLM Easy
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1767838496854'
+      position:
+        x: 1407.1109449900944
+        y: 308.7656732916175
+      positionAbsolute:
+        x: 1407.1109449900944
+        y: 308.7656732916175
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: abaf21b2-5712-401c-876c-871cd49d8e5b
+          role: system
+          text: '{{#1767846007340.task_prompt#}}'
+        - id: dba42b02-2805-4b1c-9736-7e9a7b7bb52f
+          role: user
+          text: '{{#sys.query#}}
+
+            {{#sys.files#}}'
+        selected: false
+        title: LLM Medium
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1767838544107'
+      position:
+        x: 1407.1109449900944
+        y: 435.7656732916175
+      positionAbsolute:
+        x: 1407.1109449900944
+        y: 435.7656732916175
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 409d4727-18c7-4565-b2cf-ddb4eb4c6c48
+          role: system
+          text: '{{#1767846007340.task_prompt#}}'
+        - id: 8f77a27b-f592-45bf-899d-6c030eea5145
+          role: user
+          text: '{{#sys.query#}}
+
+            {{#sys.files#}}'
+        selected: false
+        title: LLM Difficult
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1767838557126'
+      position:
+        x: 1407.1109449900944
+        y: 562.7656732916175
+      positionAbsolute:
+        x: 1407.1109449900944
+        y: 562.7656732916175
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: aggregate LLM response result from all branches
+        output_type: string
+        selected: false
+        title: Resposne Aggregator
+        type: variable-aggregator
+        variables:
+        - - '1767838544107'
+          - text
+        - - '1767838496854'
+          - text
+        - - '1767838557126'
+          - text
+      height: 204
+      id: '1767838618133'
+      position:
+        x: 1759.0661281771102
+        y: 307.91353871572284
+      positionAbsolute:
+        x: 1759.0661281771102
+        y: 307.91353871572284
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1767838618133.output#}}'
+        selected: false
+        title: Answer
+        type: answer
+        variables: []
+      height: 102
+      id: '1767838673908'
+      position:
+        x: 2056.5336311720584
+        y: 308.7656732916175
+      positionAbsolute:
+        x: 2056.5336311720584
+        y: 308.7656732916175
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "BLUEPRINT = \"\"\" ○\n[x] ├── Role\n[x] │   └── Kaye Peer Coder\n[x]\
+          \ │       └── pre-sense\n[x] └── Abbreviations\n[x]     └── Programming\
+          \ Languages\n\"\"\"\n\n\n# constants  ###################################################################\n\
+          PROMPT_KEY_IN_CACHE = \"pre_sense_prompt\"\nOUTPUT_PROMPT_KEY = \"presense_prompt\"\
+          \nOUTPUT_CACHES_KEY = \"updated_caches\"\n\n\n# entry point  #################################################################\n\
+          def main(caches: dict):\n    if PROMPT_KEY_IN_CACHE in caches:\n       \
+          \ return {\n            OUTPUT_PROMPT_KEY: caches[PROMPT_KEY_IN_CACHE],\n\
+          \            OUTPUT_CACHES_KEY: caches,\n        }\n\n    else:\n      \
+          \  # get prompt from API  -------------------------------------------------\n\
+          \        # Todo use API\n        presense_prompt = \"\"\"## Kaye Peer Coder\n\
+          \n### pre-sense\n\nHere is an improved and clarified version of your prompt:\n\
+          \nExtract the following two variables:\n\n- difficulty: Provide a number\
+          \ between `0.0` (very easy) and `1.0` (very hard) that represents the assumed\
+          \ difficulty of the user's proposed task. You may use as many decimal places\
+          \ as necessary for appropriate precision.\n\n- languages: Return a string\
+          \ containing the abbreviations of the programming languages (as defined\
+          \ below) required by the user, separated by commas. For example, `'py,cpp'`.\
+          \ If the conversation does not mention any specific programming language,\
+          \ such as when discussing conceptual or general algorithms, return an empty\
+          \ string (`''`).\n\n## Programming Languages\n\n(`abbr`: explanation & alternative\
+          \ names)\n\n- `c`: **C**\n- `cpp`: **C++**, cpp, or cxx\n\n  - `ue`: **Unreal**\
+          \ Engine code using C++\n\n- `csharp`: **C#**, or cs\n\n  - `u3d`: **Unity**\
+          \ Engine code using C#\n\n- `console`: any types of terminal console\n-\
+          \ `css`: CSS\n- `html`: HTML\n- `js`: JavaScript\n- `ts`: TypeScript\n-\
+          \ `py`: Python\n\"\"\"\n\n        # update Conversation Variable caches\n\
+          \        caches[PROMPT_KEY_IN_CACHE] = presense_prompt\n        return {\n\
+          \            OUTPUT_PROMPT_KEY: presense_prompt,\n            OUTPUT_CACHES_KEY:\
+          \ caches,\n        }\n\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          presense_prompt:
+            children: null
+            type: string
+          updated_caches:
+            children: null
+            type: object
+        selected: true
+        title: pre-sense prompt getter
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - caches
+          value_type: object
+          variable: caches
+      height: 52
+      id: '1767842794457'
+      position:
+        x: 448.98212977466494
+        y: 166.15697782627316
+      positionAbsolute:
+        x: 448.98212977466494
+        y: 166.15697782627316
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-4.1-nano
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 6d415748-d13d-4f8e-8a24-37fbf3043270
+          role: system
+          text: '{{#1767842794457.presense_prompt#}}'
+        - id: 14232e28-6697-4173-99aa-544af131d952
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              difficulty:
+                type: number
+              languages:
+                type: string
+            required:
+            - languages
+            - difficulty
+            type: object
+        structured_output_enabled: true
+        title: pre-sense
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1767843543355'
+      position:
+        x: 448.98212977466494
+        y: 303
+      positionAbsolute:
+        x: 448.98212977466494
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1767842794457'
+          - updated_caches
+          variable_selector:
+          - conversation
+          - caches
+          write_mode: over-write
+        selected: false
+        title: cachees update post pre-sense
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1767844395058'
+      position:
+        x: 448.98212977466494
+        y: 220.3208644176614
+      positionAbsolute:
+        x: 448.98212977466494
+        y: 220.3208644176614
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "from enum import IntFlag, auto\n\n# constants  ###################################################################\n\
+          PROMPT_KEY_IN_CACHE = \"task_prompt\"\nFLAGS_KEY_IN_CACHE = \"flags\"\n\
+          OUTPUT_PROMPT_KEY = \"task_prompt\"\nOUTPUT_CACHES_KEY = \"updated_caches\"\
+          \n\n\nclass PL(IntFlag):\n    \"\"\"\n    represent a single programming\
+          \ language\n    \"\"\"\n\n    NONE = 0\n\n    # pylint: disable=invalid-name\n\
+          \n    # abbreviations defined in prompt corpus\n    c = auto()\n    cpp\
+          \ = auto()\n    ue = auto()\n    csharp = auto()\n    u3d = auto()\n   \
+          \ console = auto()\n    css = auto()\n    html = auto()\n    js = auto()\n\
+          \    ts = auto()\n    py = auto()\n\n\ndef _calc_flags(languages):\n   \
+          \ flags = PL.NONE\n\n    try:\n        if languages:  # when languages list\
+          \ is not empty\n            for lang in languages.split(\",\"):\n      \
+          \          flags |= PL[lang]\n\n    except ValueError as err:\n        raise\
+          \ ValueError(\n            \"contains unsupported language: {}\".format(languages)\n\
+          \        ) from err\n\n    return flags\n\n\ndef main(languages: str, caches:\
+          \ dict):\n    \"\"\"\n    :param languages: languages list, e.g. ``'cpp,py'``\n\
+          \    :type languages: str\n    :param caches: Conversation Variable ``caches``\n\
+          \    :type caches: dict\n    :return:\n\n    {\n        \"task_prompt\"\
+          :\n                task prompt generated from API, or fetched from cache,\n\
+          \        \"updated_caches\": updated ``caches``\n    }\n    :rtype: dict{'task_prompt':\
+          \ str, \"updated_caches\": dict}\n    \"\"\"\n    flags = _calc_flags(languages)\n\
+          \n    try:\n        cached_flags = PL(int(caches[FLAGS_KEY_IN_CACHE]))\n\
+          \    except KeyError:\n        cached_flags = PL.NONE\n\n    if flags ==\
+          \ cached_flags and cached_flags:\n        # identical language requirement,\
+          \ thus send cached prompt\n        return {\n            OUTPUT_PROMPT_KEY:\
+          \ caches[PROMPT_KEY_IN_CACHE],\n            OUTPUT_CACHES_KEY: caches,\n\
+          \        }\n\n    # get prompt  --------------------------------------------------------------\n\
+          \    flags |= cached_flags  # combined with previous languages\n\n    if\
+          \ flags == 0:  # no programming\n        task_prompt = \"basic\"  # Todo\
+          \ use API\n\n    else:\n        # contains additional required languages\n\
+          \        task_prompt = \"basic + {}\".format(repr(flags))  # Todo use API\n\
+          \n    # update Conversation Variable caches\n    caches[FLAGS_KEY_IN_CACHE]\
+          \ = flags\n    caches[PROMPT_KEY_IN_CACHE] = task_prompt\n\n    return {\n\
+          \        OUTPUT_PROMPT_KEY: task_prompt,\n        OUTPUT_CACHES_KEY: caches,\n\
+          \    }\n\n"
+        code_language: python3
+        outputs:
+          task_prompt:
+            children: null
+            type: string
+          updated_caches:
+            children: null
+            type: object
+        selected: false
+        title: task prompt getter
+        type: code
+        variables:
+        - value_selector:
+          - '1767843543355'
+          - structured_output
+          - languages
+          value_type: object
+          variable: languages
+        - value_selector:
+          - conversation
+          - caches
+          value_type: object
+          variable: caches
+      height: 52
+      id: '1767846007340'
+      position:
+        x: 760.2992808986841
+        y: 303
+      positionAbsolute:
+        x: 760.2992808986841
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1767846007340'
+          - updated_caches
+          variable_selector:
+          - conversation
+          - caches
+          write_mode: over-write
+        selected: false
+        title: caches update post task prompt
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1767848443232'
+      position:
+        x: 760.2992808986841
+        y: 351.3211822370869
+      positionAbsolute:
+        x: 760.2992808986841
+        y: 351.3211822370869
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -322.40901775849613
+      y: 149.52567249939727
+      zoom: 1.063043090118063
+  rag_pipeline_variables: []
