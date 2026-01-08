@@ -26,19 +26,22 @@ All endpoints below `/kaye/dify-app/kaye-commit-sense`
 
 `/primary-message`
 
-- generate prompt for: Primary Message
 - by `GET`
 - response type `text/plain`
 
 ----
 
-`/per-file-extract`
+`/per-file-long`
 
-- generate prompt for: Primary Message
 - by `GET`
 - response type `text/plain`
 
-<!-- TODO specify request type -->
+----
+
+`/per-file-short`
+
+- by `GET`
+- response type `text/plain`
 
 
 
