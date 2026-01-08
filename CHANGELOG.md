@@ -25,12 +25,15 @@
 ### Added
 
 - dify app `kaye_peer_coder`
-- Flask-based API to create prompts dynamically
+- Kaye Flask HTTP API to create prompts dynamically
 
 ### Changed
 
 - use hooks-utility as Git Submodule
 - add abbreviations to `prompt_corpus.md`
+- update Dify Apps to utilize the new API:
+
+  - Kaye Cash Tracker
 
 ### Deprecated
 ### Removed
