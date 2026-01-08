@@ -7,9 +7,10 @@ define API to specific work with Dify App: Kaye Commit Sense
 from flask import Blueprint
 
 from kaye import PROGRAM_NAME
+from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
 
 # Blueprints  ##################################################################
-PRIMARY_MESSAGE_BLUEPRINT = """ ○
+PRIMARY_MESSAGE_PROMPT_BLUEPRINT = """ ○
 [ ] ├── Style
 [ ] │   ├── Capitalization Style
 [x] │   │   └── Commentary Case
@@ -30,7 +31,11 @@ commit_sense_bp = Blueprint(
 # /kaye/dify-app/kaye-commit-sense/primary-message
 @commit_sense_bp.route("/primary-message", methods=["GET"])
 def kaye_commit_sense_primary_message():
-    return "not implemented yet"  # TODO
+    blueprint = PromptBlueprint(
+        load_embedded_prompt_corpus(),
+        PRIMARY_MESSAGE_PROMPT_BLUEPRINT,
+    )
+    return str(blueprint)
 
 
 # /kaye/dify-app/kaye-commit-sense/per-file-extract
