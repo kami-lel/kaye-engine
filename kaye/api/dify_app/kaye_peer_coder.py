@@ -4,6 +4,8 @@ define API to specific work with Dify App: Kaye Peer Coder
 
 # pylint: disable=missing-function-docstring
 
+from enum import IntFlag, auto
+
 from flask import Blueprint, request, jsonify
 
 from kaye import PROGRAM_NAME
@@ -36,6 +38,31 @@ TASK_PROMPT_BASIC_BLUEPRINT = """ ○
 OUTPUT_PROMPT_KEY = "prompt"
 OUTPUT_FLAGS_KEY = "flags"
 
+
+# helpers  #####################################################################
+class PL(IntFlag):
+    """
+    represent a single programming language
+    """
+
+    NONE = 0
+
+    # pylint: disable=invalid-name
+
+    # abbreviations defined in prompt corpus
+    c = auto()
+    cpp = auto()
+    ue = auto()
+    csharp = auto()
+    u3d = auto()
+    console = auto()
+    css = auto()
+    html = auto()
+    js = auto()
+    ts = auto()
+    py = auto()
+
+
 # Flask Routing  ###############################################################
 
 # /kaye/dify-app/kaye-peer-coder
@@ -57,8 +84,20 @@ def kaye_peer_coder_pre_sense():
 # /kaye/dify-app/kaye-peer-coder/task
 @kyc_bp.route("/task", methods=["GET"])
 def kaye_peer_coder_task():
-    languages_arg = request.args.get("languages")
+    languages = request.args.get("languages")
     flags_arg = request.args.get("flags")
+
+    flags = PL(flags_arg)
+
+    try:
+        if languages:  # when languages list is not empty
+            for lang in languages.split(","):
+                flags |= PL[lang]
+
+    except ValueError as err:
+        raise ValueError(
+            "contains unsupported language: {}".format(languages)
+        ) from err
 
     # BUG need test
     prompt = ""
