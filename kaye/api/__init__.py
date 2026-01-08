@@ -16,4 +16,4 @@ if __name__ == "__main__":
 
     app = Flask(PROGRAM_NAME)
     app.register_blueprint(app_bp)
-    app.run(host=HOST, port=PORT)
+    app.run(host=HOST, port=PORT, debug=True)  # Hack turn off debug
