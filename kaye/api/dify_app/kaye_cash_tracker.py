@@ -1,3 +1,7 @@
+"""
+define API to specific work with Dify App: Kaye_Cash_Tracker
+"""
+
 from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
 
 PROMPT_BLUEPRINT = """○
