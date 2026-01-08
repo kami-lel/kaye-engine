@@ -20,6 +20,35 @@ PRIMARY_MESSAGE_PROMPT_BLUEPRINT = """ ○
 [x]         └── Primary Message Task
 """
 
+PER_FILE_LONG_PROMPT_BLUEPRINT = """ ○
+[ ] ├── Elements
+[x] │   └── Annotation Markers
+[ ] ├── Style
+[ ] │   ├── Capitalization Style
+[x] │   │   └── Commentary Case
+[x] │   └── Briefness Style
+[ ] └── Role
+[ ]     └── Kaye Commit Sense
+[x]         └── Per File Summary Task
+[x]             └── Prefix Symbol
+[x]                 └── Long
+"""
+
+PER_FILE_SHORT_PROMPT_BLUEPRINT = """ ○
+[ ] ├── Elements
+[x] │   └── Annotation Markers
+[ ] ├── Style
+[ ] │   ├── Capitalization Style
+[x] │   │   └── Commentary Case
+[x] │   └── Briefness Style
+[ ] └── Role
+[ ]     └── Kaye Commit Sense
+[x]         └── Per File Summary Task
+[x]             └── Prefix Symbol
+[x]                 └── Short
+"""
+
+
 # Flask Routing  ###############################################################
 
 # /kaye/dify-app/kaye-commit-sense
