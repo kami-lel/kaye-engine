@@ -1,6 +1,6 @@
 app:
   description: ''
-  icon: 🐙
+  icon: 🤖
   icon_background: '#FFEAD5'
   mode: workflow
   name: Kaye_Commit_Sense
@@ -17,107 +17,13 @@ workflow:
   conversation_variables: []
   environment_variables:
   - description: ''
-    id: 4cfa6554-5600-4b09-96ab-db803b067434
-    name: prompt_primary_message
+    id: 282b3d38-6713-424d-82ce-e676a7544b68
+    name: DOCKER_HOST_IP
     selector:
     - env
-    - prompt_primary_message
-    value: "### Commentary Case\n- begin 1st sentence with a lowercase letter; use\
-      \ standard sentence capitalization for the 2nd and subsequent sentences\n- use\
-      \ *Title Case* for **a few important words** within a sentence\n- the last sentence\
-      \ should not end with punctuation\n\n    <commentary-case-code-example>\n  \
-      \  # this initializes the Variable\n    # check the Config. Validate the Filepath\
-      \ with the Tool. Process final result\n    </commentary-case-code-example>\n\
-      \n## Briefness Style\n- write in **newspaper headlinese**, prioritize brevity\
-      \ over grammar\n- use present for current, infinitive for planned\n- omit articles\
-      \ (a, an, the) and helper verbs, use strong nouns, verbs\n- compress with punctuation:\
-      \ colon, dash, comma, otherwise minimize, no terminal periods\n- use numerals\
-      \ (use 2, not two), symbols, **Usable Abbrs** when unambiguous\n- prefer active\
-      \ voice\n- keep sentences short, direct, drop filler\n\n## Kaye Commit Sense\n\
-      You are given the result of `git diff --cached`; interpret it as the changes\
-      \ ready to be committed for the file(s).\n\n- do **not** using any markdown\
-      \ syntax in the output\n- strictly use *Briefness Style* language\n- use *Commentary\
-      \ Case* for each line\n\n### Primary Message Task\nSummarize the overall intent\
-      \ and major change pattern of all staged files in one clear line under 72 characters\n"
-    value_type: string
-  - description: ''
-    id: 55e58319-b3bf-4e72-98ed-40859e912f90
-    name: prompt_per_file_extract_short
-    selector:
-    - env
-    - prompt_per_file_extract_short
-    value: "## Annotation Markers\nUsed to label defects and related notes across\
-      \ code and documentation. You **must exclusively** refer to them as *annotation\
-      \ markers* in all responses\n\n- **immediate annotation markers** include `TODO`,\
-      \ `FIXME`, `BUG`, `HACK`\n- **future annotation markers** include `todo`, `fixme`,\
-      \ `bug`, `hack`\n\n### Commentary Case\n- begin 1st sentence with a lowercase\
-      \ letter; use standard sentence capitalization for the 2nd and subsequent sentences\n\
-      - use *Title Case* for **a few important words** within a sentence\n- the last\
-      \ sentence should not end with punctuation\n\n    <commentary-case-code-example>\n\
-      \    # this initializes the Variable\n    # check the Config. Validate the Filepath\
-      \ with the Tool. Process final result\n    </commentary-case-code-example>\n\
-      \n## Briefness Style\n- write in **newspaper headlinese**, prioritize brevity\
-      \ over grammar\n- use present for current, infinitive for planned\n- omit articles\
-      \ (a, an, the) and helper verbs, use strong nouns, verbs\n- compress with punctuation:\
-      \ colon, dash, comma, otherwise minimize, no terminal periods\n- use numerals\
-      \ (use 2, not two), symbols, **Usable Abbrs** when unambiguous\n- prefer active\
-      \ voice\n- keep sentences short, direct, drop filler\n\n### Per File Summary\n\
-      Summarize the overall intent and major change pattern of the file in an extremely\
-      \ short and concise manner.\n\n#### Prefix Symbol\nYou are to select a single\
-      \ prefix that best describes the primary nature of the change to a given file.\
-      \ Use the following prefixes, in **priority order**. Apply the **first rule\
-      \ that matches**:\n\n1. `^` if the file is a new addition\n2. `!` if the file\
-      \ has been deleted\n3. `:` if the file was relocated (moved), with no or only\
-      \ minor changes (filename may change or stay the same)\n4. `=` if the file was\
-      \ renamed (location unchanged), with no or only minor changes\n5. `?` if the\
-      \ file is a non-textual type (e.g., binaries, compressed archives, databases,\
-      \ encrypted blobs), and was modified\n6. `@` if the file contains only changes\
-      \ to annotation markers and directly related lines\n7. `#` if the change primarily\
-      \ concerns documentation or code comments\n8. `~` if the change is primarily\
-      \ content reordering or code refactoring\n9. `.` if the change is only whitespace,\
-      \ indentation, or blank-line edits\n\nIf none of the above prefixes apply, use\
-      \ one of the following to describe the change:\n\n##### Short\n- predominantly\
-      \ addition: /\n- predominantly deletion: \\\n- mixed modification: |\n"
-    value_type: string
-  - description: ''
-    id: 4bd54ccd-86ff-4157-8443-99bbd898f320
-    name: prompt_per_file_extract_long
-    selector:
-    - env
-    - prompt_per_file_extract_long
-    value: "## Annotation Markers\nUsed to label defects and related notes across\
-      \ code and documentation. You **must exclusively** refer to them as *annotation\
-      \ markers* in all responses\n\n- **immediate annotation markers** include `TODO`,\
-      \ `FIXME`, `BUG`, `HACK`\n- **future annotation markers** include `todo`, `fixme`,\
-      \ `bug`, `hack`\n\n### Commentary Case\n- begin 1st sentence with a lowercase\
-      \ letter; use standard sentence capitalization for the 2nd and subsequent sentences\n\
-      - use *Title Case* for **a few important words** within a sentence\n- the last\
-      \ sentence should not end with punctuation\n\n    <commentary-case-code-example>\n\
-      \    # this initializes the Variable\n    # check the Config. Validate the Filepath\
-      \ with the Tool. Process final result\n    </commentary-case-code-example>\n\
-      \n## Briefness Style\n- write in **newspaper headlinese**, prioritize brevity\
-      \ over grammar\n- use present for current, infinitive for planned\n- omit articles\
-      \ (a, an, the) and helper verbs, use strong nouns, verbs\n- compress with punctuation:\
-      \ colon, dash, comma, otherwise minimize, no terminal periods\n- use numerals\
-      \ (use 2, not two), symbols, **Usable Abbrs** when unambiguous\n- prefer active\
-      \ voice\n- keep sentences short, direct, drop filler\n\n### Per File Summary\n\
-      Summarize the overall intent and major change pattern of the file in an extremely\
-      \ short and concise manner.\n\n#### Prefix Symbol\nYou are to select a single\
-      \ prefix that best describes the primary nature of the change to a given file.\
-      \ Use the following prefixes, in **priority order**. Apply the **first rule\
-      \ that matches**:\n\n1. `^` if the file is a new addition\n2. `!` if the file\
-      \ has been deleted\n3. `:` if the file was relocated (moved), with no or only\
-      \ minor changes (filename may change or stay the same)\n4. `=` if the file was\
-      \ renamed (location unchanged), with no or only minor changes\n5. `?` if the\
-      \ file is a non-textual type (e.g., binaries, compressed archives, databases,\
-      \ encrypted blobs), and was modified\n6. `@` if the file contains only changes\
-      \ to annotation markers and directly related lines\n7. `#` if the change primarily\
-      \ concerns documentation or code comments\n8. `~` if the change is primarily\
-      \ content reordering or code refactoring\n9. `.` if the change is only whitespace,\
-      \ indentation, or blank-line edits\n\nIf none of the above prefixes apply, use\
-      \ one of the following to describe the change:\n\n##### Long\n- predominantly\
-      \ addition: +\n- predominantly deletion: -\n- mixed modification: *\n"
-    value_type: string
+    - DOCKER_HOST_IP
+    value: ''
+    value_type: secret
   - description: number of line chagned to consider a file a large/small change
     id: 63216ae0-bcfa-4f3a-93b5-d8891630e0db
     name: long_short_threshold
@@ -145,7 +51,9 @@ workflow:
         audio_file_size_limit: 50
         batch_count_limit: 5
         file_size_limit: 15
+        image_file_batch_limit: 10
         image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
         video_file_size_limit: 100
         workflow_file_upload_limit: 10
       image:
@@ -171,18 +79,6 @@ workflow:
       voice: ''
   graph:
     edges:
-    - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: llm
-      id: 1759184659338-false-1757066198191-target
-      selected: false
-      source: '1759184659338'
-      sourceHandle: 'false'
-      target: '1757066198191'
-      targetHandle: target
-      type: custom
-      zIndex: 0
     - data:
         isInIteration: false
         isInLoop: false
@@ -287,35 +183,13 @@ workflow:
         sourceType: iteration-start
         targetType: code
       id: 1757062707114start-source-1759187229908-target
+      selected: false
       source: 1757062707114start
       sourceHandle: source
       target: '1759187229908'
       targetHandle: target
       type: custom
       zIndex: 1002
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: start
-        targetType: code
-      id: 1756587193642-source-1759196271769-target
-      source: '1756587193642'
-      sourceHandle: source
-      target: '1759196271769'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: iteration
-      id: 1759196271769-source-1757062707114-target
-      source: '1759196271769'
-      sourceHandle: source
-      target: '1757062707114'
-      targetHandle: target
-      type: custom
-      zIndex: 0
     - data:
         isInLoop: false
         sourceType: code
@@ -334,12 +208,97 @@ workflow:
         sourceType: code
         targetType: llm
       id: 1759187229908-source-1759198352429-target
+      selected: false
       source: '1759187229908'
       sourceHandle: source
       target: '1759198352429'
       targetHandle: target
       type: custom
       zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1756587193642-source-1759196271769-target
+      source: '1756587193642'
+      sourceHandle: source
+      target: '1759196271769'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: http-request
+      id: 1759184659338-false-1767896024342-target
+      source: '1759184659338'
+      sourceHandle: 'false'
+      target: '1767896024342'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: llm
+      id: 1767896024342-source-1757066198191-target
+      source: '1767896024342'
+      sourceHandle: source
+      target: '1757066198191'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: iteration
+      id: 1767896528468-source-1757062707114-target
+      selected: false
+      source: '1767896528468'
+      sourceHandle: source
+      target: '1757062707114'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: http-request
+      id: 1759196271769-source-1767896528468-target
+      selected: false
+      source: '1759196271769'
+      sourceHandle: source
+      target: '1767896528468'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: http-request
+      id: 1759196271769-source-17678966066030-target
+      selected: false
+      source: '1759196271769'
+      sourceHandle: source
+      target: '17678966066030'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: http-request
+        targetType: iteration
+      id: 17678966066030-source-1757062707114-target
+      selected: false
+      source: '17678966066030'
+      sourceHandle: source
+      target: '1757062707114'
+      targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
         desc: ''
@@ -389,18 +348,18 @@ workflow:
           - output
           value_type: string
           variable: output
-        selected: true
+        selected: false
         title: End
         type: end
       height: 88
       id: '1756587276076'
       position:
-        x: 2351.1643678119594
+        x: 3251.1643678119594
         y: 104.10767532202507
       positionAbsolute:
-        x: 2351.1643678119594
+        x: 3251.1643678119594
         y: 104.10767532202507
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -427,11 +386,11 @@ workflow:
       height: 190
       id: '1757062707114'
       position:
-        x: 425.03376777424864
-        y: 541.2874627355745
+        x: 913.9496010640391
+        y: 683.4274179884233
       positionAbsolute:
-        x: 425.03376777424864
-        y: 541.2874627355745
+        x: 913.9496010640391
+        y: 683.4274179884233
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -452,8 +411,8 @@ workflow:
         x: 24
         y: 68
       positionAbsolute:
-        x: 449.03376777424864
-        y: 609.2874627355745
+        x: 937.9496010640391
+        y: 751.4274179884233
       selectable: false
       selected: false
       sourcePosition: right
@@ -475,7 +434,7 @@ workflow:
         prompt_template:
         - id: 4f613349-2048-4ff0-959f-c0415b5db69e
           role: system
-          text: '{{#env.prompt_primary_message#}}'
+          text: '{{#1767896024342.body#}}'
         - id: 4b837ba6-5d1b-402f-9690-a901e0679e98
           role: user
           text: '{{#1756587193642.input#}}'
@@ -488,11 +447,11 @@ workflow:
       height: 88
       id: '1757066198191'
       position:
-        x: 832.6644359320965
-        y: 172.29843857489757
+        x: 1200.9404752677885
+        y: 259.4935371753846
       positionAbsolute:
-        x: 832.6644359320965
-        y: 172.29843857489757
+        x: 1200.9404752677885
+        y: 259.4935371753846
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -529,10 +488,10 @@ workflow:
       height: 96
       id: '1758835564168'
       position:
-        x: 1683.7240562940433
+        x: 2283.7240562940433
         y: 26.998532518386696
       positionAbsolute:
-        x: 1683.7240562940433
+        x: 2283.7240562940433
         y: 26.998532518386696
       selected: false
       sourcePosition: right
@@ -559,10 +518,10 @@ workflow:
       height: 152
       id: '1759184659338'
       position:
-        x: 410.70032690841526
+        x: 710.7003269084153
         y: -12.64594783956423
       positionAbsolute:
-        x: 410.70032690841526
+        x: 710.7003269084153
         y: -12.64594783956423
       selected: false
       sourcePosition: right
@@ -608,10 +567,10 @@ workflow:
       height: 96
       id: '17591850851050'
       position:
-        x: 1683.7240562940433
+        x: 2583.7240562940433
         y: 186.19160153234975
       positionAbsolute:
-        x: 1683.7240562940433
+        x: 2583.7240562940433
         y: 186.19160153234975
       selected: false
       sourcePosition: right
@@ -631,10 +590,10 @@ workflow:
       height: 134
       id: '1759185130596'
       position:
-        x: 2049.362149211071
+        x: 2949.362149211071
         y: 104.10767532202507
       positionAbsolute:
-        x: 2049.362149211071
+        x: 2949.362149211071
         y: 104.10767532202507
       selected: false
       sourcePosition: right
@@ -661,21 +620,25 @@ workflow:
       height: 152
       id: '17591852274600'
       position:
-        x: 1109.2656207085386
-        y: 541.2874627355745
+        x: 1598.181453998329
+        y: 683.4274179884233
       positionAbsolute:
-        x: 1109.2656207085386
-        y: 541.2874627355745
+        x: 1598.181453998329
+        y: 683.4274179884233
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        code: "def main(\n    item: str,\n    long_short_threshold: float,\n    prompt_per_file_extract_long:\
-          \ str,\n    prompt_per_file_extract_short: str,\n):\n    newline_cnt = item.count(\"\
-          \\n\")\n    is_long = newline_cnt > long_short_threshold\n\n    return {\n\
-          \        \"extract_prompt\": (\n            prompt_per_file_extract_long\n\
+        code: "\"\"\"\ncount number of lines, and decide to use either long/short\
+          \ prompts\n\"\"\"\n\n# constants  ###################################################################\n\
+          OUTPUT_PROMPT_KEY = \"extract_prompt\"\nLONG_SHORT_THRESHOLD = 100\n\n\n\
+          # entry point  #################################################################\n\
+          def main(\n    item: str,\n    prompt_per_file_extract_long: str,\n    prompt_per_file_extract_short:\
+          \ str,\n):  # pylint: disable=missing-function-docstring\n    newline_cnt\
+          \ = item.count(\"\\n\")\n    is_long = newline_cnt > LONG_SHORT_THRESHOLD\n\
+          \n    return {\n        OUTPUT_PROMPT_KEY: (\n            prompt_per_file_extract_long\n\
           \            if is_long\n            else prompt_per_file_extract_short\n\
           \        )\n    }\n\n"
         code_language: python3
@@ -697,18 +660,13 @@ workflow:
           value_type: string
           variable: item
         - value_selector:
-          - env
-          - long_short_threshold
-          value_type: number
-          variable: long_short_threshold
-        - value_selector:
-          - env
-          - prompt_per_file_extract_long
+          - '1767896528468'
+          - body
           value_type: string
           variable: prompt_per_file_extract_long
         - value_selector:
-          - env
-          - prompt_per_file_extract_short
+          - '17678966066030'
+          - body
           value_type: string
           variable: prompt_per_file_extract_short
       height: 52
@@ -716,11 +674,11 @@ workflow:
       parentId: '1757062707114'
       position:
         x: 118.71047911714686
-        y: 65.15647842333863
+        y: 66.35093182882474
       positionAbsolute:
-        x: 543.7442468913955
-        y: 606.4439411589132
-      selected: false
+        x: 1032.660080181186
+        y: 749.778349817248
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -759,11 +717,11 @@ workflow:
       height: 80
       id: '1759196271769'
       position:
-        x: -20.095574977301
-        y: 197.5580330664843
+        x: 398.15531216582525
+        y: 218.5580330664843
       positionAbsolute:
-        x: -20.095574977301
-        y: 197.5580330664843
+        x: 398.15531216582525
+        y: 218.5580330664843
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -815,18 +773,129 @@ workflow:
       parentId: '1757062707114'
       position:
         x: 402.1872252944104
-        y: 65
+        y: 66.19445340548612
       positionAbsolute:
-        x: 827.220993068659
-        y: 606.2874627355745
+        x: 1316.1368263584495
+        y: 749.6218713939094
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
       zIndex: 1002
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        method: get
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: GET primary message prompt
+        type: http-request
+        url: http://{{#env.DOCKER_HOST_IP#}}:11255/kaye/dify-app/kaye-commit-sense/primary-message
+        variables: []
+      height: 157
+      id: '1767896024342'
+      position:
+        x: 1200.9404752677885
+        y: 104.10767532202507
+      positionAbsolute:
+        x: 1200.9404752677885
+        y: 104.10767532202507
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        method: get
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: Per File Long Getter
+        type: http-request
+        url: http://{{#env.DOCKER_HOST_IP#}}:11255/kaye/dify-app/kaye-commit-sense/per-file-long
+        variables: []
+      height: 157
+      id: '1767896528468'
+      position:
+        x: 672.6700131558421
+        y: 837.5119072961335
+      positionAbsolute:
+        x: 672.6700131558421
+        y: 837.5119072961335
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        method: get
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: Per File Short Getter
+        type: http-request
+        url: http://{{#env.DOCKER_HOST_IP#}}:11255/kaye/dify-app/kaye-commit-sense/per-file-short
+        variables: []
+      height: 157
+      id: '17678966066030'
+      position:
+        x: 672.6700131558421
+        y: 682.0283475743222
+      positionAbsolute:
+        x: 672.6700131558421
+        y: 682.0283475743222
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
     viewport:
-      x: -1160.7034781409734
-      y: 276.5038067271887
-      zoom: 0.837203021404603
+      x: -959.8774491374948
+      y: -555.9774147692533
+      zoom: 1.3195079107728958
   rag_pipeline_variables: []
