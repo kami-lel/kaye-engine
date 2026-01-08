@@ -40,7 +40,7 @@ def main(languages: dict, task_prompt_flags: float, task_prompt_cache: str):
     cached_flags = PL(int(task_prompt_flags))
 
     if flags == cached_flags:
-        # identical language reburied, thus send cached values
+        # identical language requirement, thus send cached values
         return {
             TASK_PROMPT_FLAGS_KEY: task_prompt_flags,
             TASK_PROMPT_KEY: task_prompt_cache,
