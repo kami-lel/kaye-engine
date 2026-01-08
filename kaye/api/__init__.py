@@ -1,4 +1,1 @@
-""""""
-
-# TODO
-# create_app()
+from kaye.api import create_app
