@@ -25,6 +25,7 @@
 ### Added
 
 - dify app `kaye_peer_coder`
+- Flask-based API to create prompts dynamically
 
 ### Changed
 
