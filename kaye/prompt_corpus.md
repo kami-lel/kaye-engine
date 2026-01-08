@@ -1870,7 +1870,19 @@ Extract the following two variables:
 
 - difficulty: Provide a number between `0.0` (very easy) and `1.0` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
 
-- languages: Return an array containing the abbreviations of programming languages (as defined below) required by the user. For example, `['py', 'cpp']`. If the conversation does not mention any specific programming language, such as in cases involving conceptual or general algorithms, return an empty array (`[]`).
+- languages: Return a string containing the abbreviations of the programming languages (as defined below) required by the user, separated by commas. For example, `'py,cpp'`. If the conversation does not mention any specific programming language, such as when discussing conceptual or general algorithms, return an empty string (`''`).
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### Kaye Peer Coder
 
