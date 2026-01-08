@@ -31,8 +31,6 @@ class PL(IntFlag):
 
 
 def _calc_flags(languages):
-    # TODO docstring
-
     flags = PL.NONE
 
     if languages:  # when languages list is not empty
@@ -59,11 +57,11 @@ def main(languages: dict, caches: dict):
 
     # get prompt  --------------------------------------------------------------
     if flags == 0:  # no programming
-        task_prompt = ""  # TODO
+        task_prompt = ""  # Todo use API
 
     else:
         # contains additional required languages
-        task_prompt = ""  # TODO
+        task_prompt = ""  # Todo use API
 
     # update Conversation Variable caches
     caches[PROMPT_KEY_IN_CACHE] = task_prompt
