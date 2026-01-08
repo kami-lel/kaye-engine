@@ -23,8 +23,10 @@ def main(prompts_cache: dict):
         # get prompt from API  -------------------------------------------------
         # Todo use API
         system_message = ""
-
         # update Conversation Variable
         prompts_cache[KEY_IN_PROMPTS_CACHE] = system_message
 
-    return {"system_message": system_message, "prompts_cache": prompts_cache}
+    return {
+        "system_message": system_message,
+        "updated_prompts_cache": prompts_cache,
+    }
