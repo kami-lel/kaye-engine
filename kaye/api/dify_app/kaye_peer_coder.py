@@ -21,10 +21,10 @@ kyc_bp = Blueprint(
 # /kaye/dify-app/kaye-peer-coder/pre-sense
 @kyc_bp.route("/pre-sense", methods=["GET"])
 def kaye_peer_coder_pre_sense():
-    return "not implemented yet"  # Todo
+    return "not implemented yet"  # TODO
 
 
 # /kaye/dify-app/kaye-peer-coder/task
 @kyc_bp.route("/task", methods=["GET"])
 def kaye_peer_coder_task():
-    return "not implemented yet"  # Todo
+    return "not implemented yet"  # TODO

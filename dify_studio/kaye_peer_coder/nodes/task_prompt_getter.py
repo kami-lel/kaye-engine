@@ -79,11 +79,11 @@ def main(languages: str, caches: dict):
     flags |= cached_flags  # combined with previous languages
 
     if flags == 0:  # no programming
-        task_prompt = "basic"  # Todo use API
+        task_prompt = "basic"  # TODO use API
 
     else:
         # contains additional required languages
-        task_prompt = "basic + {}".format(repr(flags))  # Todo use API
+        task_prompt = "basic + {}".format(repr(flags))  # TODO use API
 
     # update Conversation Variable caches
     caches[FLAGS_KEY_IN_CACHE] = flags

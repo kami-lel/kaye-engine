@@ -36,7 +36,7 @@ def main(caches: dict):
 
     else:
         # get prompt from API  -------------------------------------------------
-        # Todo use API
+        # TODO use API
         presense_prompt = ""
 
         # update Conversation Variable caches
