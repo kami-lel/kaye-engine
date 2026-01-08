@@ -1,7 +1,10 @@
 from enum import IntFlag, auto
 
-TASK_PROMPT_KEY = "task_prompt"
-TASK_PROMPT_FLAGS_KEY = "updated_task_prompt_flags"
+# constants  ###################################################################
+PROMPT_KEY_IN_CACHE = "task_prompt"
+FLAGS_KEY_IN_CACHE = "flags"
+OUTPUT_PROMPT_KEY = "task_prompt"
+OUTPUT_CACHES_KEY = "updated_caches"
 
 
 class PL(IntFlag):
@@ -29,23 +32,32 @@ class PL(IntFlag):
 
 def _calc_flags(languages):
     # TODO docstring
+
     flags = PL.NONE
-    for lang in languages:
-        flags |= PL[lang]
+
+    if languages:  # when languages list is not empty
+        for lang in languages:
+            flags |= PL[lang]
+
     return flags
 
 
-def main(languages: dict, task_prompt_flags: float, task_prompt_cache: str):
+def main(languages: dict, caches: dict):
     flags = _calc_flags(languages)
-    cached_flags = PL(int(task_prompt_flags))
 
-    if flags == cached_flags:
-        # identical language requirement, thus send cached values
+    try:
+        cached_flags = PL(int(caches[FLAGS_KEY_IN_CACHE]))
+    except KeyError:
+        cached_flags = PL.NONE
+
+    if flags == cached_flags and cached_flags:
+        # identical language requirement, thus send cached prompt
         return {
-            TASK_PROMPT_FLAGS_KEY: task_prompt_flags,
-            TASK_PROMPT_KEY: task_prompt_cache,
+            OUTPUT_PROMPT_KEY: caches[PROMPT_KEY_IN_CACHE],
+            OUTPUT_CACHES_KEY: caches,
         }
 
+    # get prompt  --------------------------------------------------------------
     if flags == 0:  # no programming
         task_prompt = ""  # TODO
 
@@ -53,7 +65,10 @@ def main(languages: dict, task_prompt_flags: float, task_prompt_cache: str):
         # contains additional required languages
         task_prompt = ""  # TODO
 
+    # update Conversation Variable caches
+    caches[PROMPT_KEY_IN_CACHE] = task_prompt
+
     return {
-        TASK_PROMPT_FLAGS_KEY: int(flags),
-        TASK_PROMPT_KEY: task_prompt_cache,
+        OUTPUT_PROMPT_KEY: task_prompt,
+        OUTPUT_CACHES_KEY: caches,
     }
