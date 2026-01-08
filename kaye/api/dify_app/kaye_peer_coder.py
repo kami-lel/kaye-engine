@@ -32,6 +32,10 @@ TASK_PROMPT_BASIC_BLUEPRINT = """ ○
 """
 
 
+# constants  ###################################################################
+OUTPUT_PROMPT_KEY = "prompt"
+OUTPUT_FLAGS_KEY = "flags"
+
 # Flask Routing  ###############################################################
 
 # /kaye/dify-app/kaye-peer-coder
@@ -53,8 +57,12 @@ def kaye_peer_coder_pre_sense():
 # /kaye/dify-app/kaye-peer-coder/task
 @kyc_bp.route("/task", methods=["GET"])
 def kaye_peer_coder_task():
-    # BUG need test
     languages_arg = request.args.get("languages")
+    flags_arg = request.args.get("flags")
 
-    result = {"abc": 1, "def": "ghi", "languages": languages_arg}
-    return jsonify(result)
+    # BUG need test
+    prompt = ""
+    flags = 5
+
+    opt = {OUTPUT_PROMPT_KEY: prompt, OUTPUT_FLAGS_KEY: int(flags)}
+    return jsonify(opt)
