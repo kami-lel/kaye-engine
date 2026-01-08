@@ -6,7 +6,7 @@ from kaye.api.dify_app import dify_bp
 
 # constants  ###################################################################
 HOST = "127.0.0.1"
-PORT = 5000
+PORT = 11255
 
 
 if __name__ == "__main__":
