@@ -34,13 +34,13 @@ def _calc_flags(languages):
     flags = PL.NONE
 
     if languages:  # when languages list is not empty
-        for lang in languages:
+        for lang in languages.split(","):
             flags |= PL[lang]
 
     return flags
 
 
-def main(languages: dict, caches: dict):
+def main(languages: str, caches: dict):
     flags = _calc_flags(languages)
 
     try:
@@ -57,13 +57,15 @@ def main(languages: dict, caches: dict):
 
     # get prompt  --------------------------------------------------------------
     if flags == 0:  # no programming
-        task_prompt = ""  # Todo use API
+        task_prompt = "basic"  # Todo use API
 
     else:
+        flags |= cached_flags  # combined with previous languages
         # contains additional required languages
-        task_prompt = ""  # Todo use API
+        task_prompt = "basic + {}".format(languages)  # Todo use API
 
     # update Conversation Variable caches
+    caches[FLAGS_KEY_IN_CACHE] = flags
     caches[PROMPT_KEY_IN_CACHE] = task_prompt
 
     return {
