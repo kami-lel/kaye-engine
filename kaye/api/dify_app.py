@@ -18,13 +18,13 @@ kyc_bp = Blueprint(
 # /kaye/dify-app/kaye-peer-coder/pre-sense
 @kyc_bp.route("/pre-sense", methods=["GET"])
 def kaye_peer_coder_pre_sense():
-    return "PRE SENSE"  # TODO
+    return "not implemented yet"  # Todo
 
 
 # /kaye/dify-app/kaye-peer-coder/task
 @kyc_bp.route("/task", methods=["GET"])
 def kaye_peer_coder_task():
-    return "TASK"  # TODO
+    return "not implemented yet"  # Todo
 
 
 # Kaye Cash Tracker  ###########################################################
@@ -33,7 +33,7 @@ def kaye_peer_coder_task():
 # /kaye/dify-app/kaye-cash-tracker
 @dify_bp.route("/kaye-cash-tracker", methods=["GET"])
 def kaye_cash_tracker():
-    return "PRE SENSE"  # TODO
+    return "not implemented yet"  # Todo
 
 
 # Kaye Event Radar  ############################################################
@@ -47,13 +47,13 @@ event_radar_bp = Blueprint(
 # /kaye/dify-app/kaye-event-radar/filter
 @event_radar_bp.route("/filter", methods=["GET"])
 def kaye_event_radar_filter():
-    return "TODO"  # TODO
+    return "not implemented yet"  # Todo
 
 
 # /kaye/dify-app/kaye-event-radar/parse
 @event_radar_bp.route("/parse", methods=["GET"])
 def kaye_event_radar_parse():
-    return "TODO"  # TODO
+    return "not implemented yet"  # Todo
 
 
 # Kaye Commit Sense  ###########################################################
@@ -67,13 +67,13 @@ commit_sense_bp = Blueprint(
 # /kaye/dify-app/kaye-commit-sense/primary-message
 @commit_sense_bp.route("/primary-message", methods=["GET"])
 def kaye_commit_sense_primary_message():
-    return "TODO"  # TODO
+    return "not implemented yet"  # Todo
 
 
 # /kaye/dify-app/kaye-commit-sense/per-file-extract
 @commit_sense_bp.route("/per-file-extract", methods=["GET"])
 def kaye_commit_sense_per_file_extract():
-    return "TODO"  # TODO
+    return "not implemented yet"  # Todo
 
 
 # register per app bps  ########################################################
