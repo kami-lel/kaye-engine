@@ -1,6 +1,7 @@
 from enum import IntFlag, auto
 
 TASK_PROMPT_KEY = "task_prompt"
+TASK_PROMPT_FLAGS_KEY = "updated_task_prompt_flags"
 
 
 class PL(IntFlag):
@@ -38,15 +39,21 @@ def main(languages: dict, task_prompt_flags: float, task_prompt_cache: str):
     flags = _calc_flags(languages)
     cached_flags = PL(int(task_prompt_flags))
 
+    if flags == cached_flags:
+        # identical language reburied, thus send cached values
+        return {
+            TASK_PROMPT_FLAGS_KEY: task_prompt_flags,
+            TASK_PROMPT_KEY: task_prompt_cache,
+        }
+
     if flags == 0:  # no programming
         task_prompt = ""  # TODO
 
-    elif flags not in cached_flags:
+    else:
         # contains additional required languages
         task_prompt = ""  # TODO
 
-    else:
-        # sending the cached/same prompt
-        task_prompt = task_prompt_cache
-
-    return {TASK_PROMPT_KEY: task_prompt}
+    return {
+        TASK_PROMPT_FLAGS_KEY: int(flags),
+        TASK_PROMPT_KEY: task_prompt_cache,
+    }
