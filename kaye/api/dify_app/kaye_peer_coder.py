@@ -106,12 +106,14 @@ def _parse_flags_from_languages_arg(languages_arg):
 
 
 def _generate_task_prompt_based_on_flags(flags):
+    corpus = load_embedded_prompt_corpus()
     blueprint = PromptBlueprint(
-        load_embedded_prompt_corpus(),
+        corpus,
         TASK_PROMPT_BASIC_BLUEPRINT,
     )
 
     # add language prompt fragments  -------------------------------------------
+    kyc_node = corpus.children["Role"].children["Kaye Peer Coder"]
     # TODO code
 
     return str(blueprint)
