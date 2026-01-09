@@ -63,6 +63,36 @@ class PL(IntFlag):
     py = auto()
 
 
+# helpers for /task endpoint  ==================================================
+def _calc_flags_from_languages(languages_arg):
+    """
+    :param languages_arg: ',' separated programming language list
+    :type languages_arg: str or NoneType
+    :return: parsed languages flags
+    :rtype: PL
+    :raises: ValueError: languages_arg contains unsupported language
+    """
+    flags = PL.NONE
+
+    if languages_arg:  # when languages list is not empty
+        for lang in languages_arg.split(","):
+            if lang:  # skip empty entry
+                flags |= PL[lang]
+
+    return flags
+
+
+def _generate_task_prompt(flags):
+    """
+    :param flags:
+    :type flags: PL
+    :return: task prompt constructed based on language flags
+    :rtype: str
+    """
+    # TODO
+    return ""
+
+
 # Flask Routing  ###############################################################
 
 # /kaye/dify-app/kaye-peer-coder
@@ -84,24 +114,16 @@ def kaye_peer_coder_pre_sense():
 # /kaye/dify-app/kaye-peer-coder/task
 @kyc_bp.route("/task", methods=["GET"])
 def kaye_peer_coder_task():
-    languages = request.args.get("languages")
+    # BUG need test
+
+    languages_arg = request.args.get("languages")
     flags_arg = request.args.get("flags")
 
-    flags = PL(flags_arg)
+    # merge language flags from languages list & provided flag number
+    flags = PL(flags_arg)  # BUG err handling
+    flags |= _calc_flags_from_languages(languages_arg)  # BUG err handling
 
-    try:
-        if languages:  # when languages list is not empty
-            for lang in languages.split(","):
-                flags |= PL[lang]
-
-    except ValueError as err:
-        raise ValueError(
-            "contains unsupported language: {}".format(languages)
-        ) from err
-
-    # BUG need test
-    prompt = ""
-    flags = 5
+    prompt = _generate_task_prompt(flags)
 
     opt = {OUTPUT_PROMPT_KEY: prompt, OUTPUT_FLAGS_KEY: int(flags)}
     return jsonify(opt)
