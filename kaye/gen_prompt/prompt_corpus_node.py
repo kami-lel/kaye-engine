@@ -13,7 +13,7 @@ ROOT_NODE_NAME = "○"  # placeholder name for root node
 __all__ = ("PromptCorpusNode",)
 
 
-# TODO make subscriptable
+# todo move some content to python_api_doc.md
 class PromptCorpusNode(AnytreeNode):
     """
     A ``PromptCorpusNode`` represents a single node in the *prompt corpus*.
@@ -223,5 +223,5 @@ class PromptCorpusNode(AnytreeNode):
         if key is None:
             return self.parent
         else:
-            # BUG
+            # bug non functional
             return self.children[key]
