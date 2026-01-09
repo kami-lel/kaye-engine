@@ -1,4 +1,6 @@
 setuptools
-anytree
 pytest
-pyyaml
+
+# required by kaye Python package
+anytree
+flask

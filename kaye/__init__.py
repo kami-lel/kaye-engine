@@ -2,4 +2,4 @@
 Python module ``kaye``
 """
 
-PROGRAM_NAME = "kaye"
+PROGRAM_NAME = "Kaye"
