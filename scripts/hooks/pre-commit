@@ -19,6 +19,12 @@ hooks_utility_ensure_changelog_edited 'CHANGELOG.md'
 # make sure version is bumped when finish feature branch
 hooks_utility_ensure_version_updated
 
+# ensure Dify Apps' .yml files are updated
+hooks_utility_ensure_changelog_edited 'dify_studio/kaye_cash_tracker/Kaye_Cash_Tracker.yml'
+hooks_utility_ensure_changelog_edited 'dify_studio/kaye_commit_sense/Kaye_Commit_Sense.yml'
+hooks_utility_ensure_changelog_edited 'dify_studio/kaye_event_radar/Kaye_Event_Radar.yml'
+hooks_utility_ensure_changelog_edited 'dify_studio/kaye_peer_coder/Kaye_Peer_Coder.yml'
+
 # perform branch protection  ---------------------------------------------------
 hooks_utility_protect_branch
 
@@ -26,5 +32,3 @@ hooks_utility_protect_branch
 echo "pre-commit" | hooks_utility_pass
 
 exit 0
-
-# TODO hooks: must update .ymls
