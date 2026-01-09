@@ -10,6 +10,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/../hooks_utility/hooks_utility.sh"
 # start pre-commit checks  #####################################################
 echo "pre-commit" | hooks_utility_enter
 
+hooks_utility_debug_commit_type
+
 # ensure file modification  ----------------------------------------------------
 # make sure CHANGELOG.md is edited when finish feature branch
 hooks_utility_ensure_changelog_edited 'CHANGELOG.md'
@@ -25,5 +27,4 @@ echo "pre-commit" | hooks_utility_pass
 
 exit 0
 
-# TODO hooks: must update setup.cfg, for version
 # TODO hooks: must update .ymls
