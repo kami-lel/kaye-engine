@@ -3,8 +3,8 @@
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
 <!-- Todo standardize module & entry docstring for all dify apps' code node -->
 <!-- todo kyc: difficulty cool down, keep a array of difficult of recent rounds  -->
-<!-- Fixme corpus:kyc: improve task prompt content  -->
-<!-- Fixme corpus:kyc: pre-sense corpus, provide anchor point-->
+<!-- FIXME corpus:kyc: improve task prompt content  -->
+<!-- FIXME corpus:kyc: pre-sense corpus, provide anchor point-->
 
 [^format]
 
