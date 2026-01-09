@@ -2,6 +2,7 @@
 
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
 <!-- todo hooks: must update setup.cfg, for version -->
+<!-- Todo hooks: must update .ymls -->
 
 [^format]
 
