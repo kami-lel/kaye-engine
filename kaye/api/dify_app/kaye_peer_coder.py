@@ -4,7 +4,7 @@ define API to specific work with Dify App: Kaye Peer Coder
 
 # pylint: disable=missing-function-docstring
 
-from enum import IntFlag, auto
+from enum import IntFlag, auto, STRICT
 
 from flask import Blueprint, request, jsonify, abort, Response
 
@@ -40,7 +40,7 @@ OUTPUT_FLAGS_KEY = "flags"
 
 
 # helpers  #####################################################################
-class PL(IntFlag):
+class PL(IntFlag, boundary=STRICT):
     """
     represent a single programming language
     """
@@ -121,15 +121,12 @@ def kaye_peer_coder_task():
     if flags_arg:
         try:
             flags_value = int(flags_arg)
-            # TODO
             # if flags_value < 0:
             #     raise ValueError()
             flags = PL(flags_value)
 
         except ValueError:
-            abort(Response("bad bad: {}".format(flags_arg), 422))  # TODO
-
-        # TODO non value error
+            abort(Response("bad param: ?flags={}".format(flags_arg), 422))
 
     else:
         flags = PL.NONE
