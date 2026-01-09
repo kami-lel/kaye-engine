@@ -17,7 +17,7 @@ __all__ = ("PromptBlueprint",)
 logger = kamilog.getLogger(PROGRAM_NAME)
 
 
-# todo move some content to python_api_doc.md
+# Todo move some content to python_api_doc.md
 class _PreviewTreeNode(Node):
     """
     helper class usedVjj
@@ -40,7 +40,7 @@ class _PreviewTreeNode(Node):
         :return: whether this node is enabled in the blueprint;
         :rtype: bool
         """
-        # todo opmz by hash names_path
+        # Todo opmz by hash names_path
         names_path = self.concurrent_corpus_node.names_path
         return any(
             (names_path == node.names_path) for node in self.blueprint.enabled

@@ -113,7 +113,7 @@ def _generate_task_prompt_based_on_flags(flags):
     )
 
     # add language prompt fragments  -------------------------------------------
-    # todo code dynamically add language fragment
+    # Todo code dynamically add language fragment
 
     return str(blueprint)
 
