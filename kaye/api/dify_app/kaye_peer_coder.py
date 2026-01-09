@@ -63,21 +63,41 @@ class PL(IntFlag, boundary=STRICT):
     py = auto()
 
 
-# helpers for /task endpoint  ==================================================
-def _calc_flags_from_languages(languages_arg):
-    """
-    :param languages_arg: ',' separated programming language list
-    :type languages_arg: str or NoneType
-    :return: parsed languages flags
-    :rtype: PL
-    :raises: ValueError: languages_arg contains unsupported language
-    """
+def _create_flags_from_flags_arg(flags_arg):
+    if not flags_arg:
+        # empty or not provided
+        return PL.NONE
+
+    try:
+        flags_value = int(flags_arg)
+        if flags_value < 0:
+            raise ValueError()
+
+        return PL(flags_value)
+
+    except ValueError:
+        abort(Response("bad param: ?flags={}".format(flags_arg), 422))
+
+
+def _parse_flags_from_languages_arg(languages_arg):
     flags = PL.NONE
 
-    if languages_arg:  # when languages list is not empty
+    if not languages_arg:  # empty or not present
+        return flags
+
+    try:
         for lang in languages_arg.split(","):
             if lang:  # skip empty entry
                 flags |= PL[lang]
+
+    except KeyError:
+        abort(
+            Response(
+                "bad param, contains unsupported language: "
+                "?languages={}".format(languages_arg),
+                422,
+            )
+        )
 
     return flags
 
@@ -89,12 +109,10 @@ def _generate_task_prompt(flags):
     :return: task prompt constructed based on language flags
     :rtype: str
     """
-    # TODO
-    return ""
+    return "flags={}".format(repr(flags))  # TODO
 
 
 # Flask Routing  ###############################################################
-
 # /kaye/dify-app/kaye-peer-coder
 kyc_bp = Blueprint(
     "kaye-peer-coder", PROGRAM_NAME, url_prefix="/kaye-peer-coder"
@@ -114,28 +132,9 @@ def kaye_peer_coder_pre_sense():
 # /kaye/dify-app/kaye-peer-coder/task
 @kyc_bp.route("/task", methods=["GET"])
 def kaye_peer_coder_task():
-    languages_arg = request.args.get("languages")
-    flags_arg = request.args.get("flags")
-
-    # create flags from provided args
-    if flags_arg:
-        try:
-            flags_value = int(flags_arg)
-            # if flags_value < 0:
-            #     raise ValueError()
-            flags = PL(flags_value)
-
-        except ValueError:
-            abort(Response("bad param: ?flags={}".format(flags_arg), 422))
-
-    else:
-        flags = PL.NONE
-
-    opt = {OUTPUT_PROMPT_KEY: "", OUTPUT_FLAGS_KEY: int(flags)}  # HACK
-    return jsonify(opt)
-
+    flags = _create_flags_from_flags_arg(request.args.get("flags"))
     # merge language flags from languages list & provided flag number
-    flags |= _calc_flags_from_languages(languages_arg)  # BUG err handling
+    flags |= _parse_flags_from_languages_arg(request.args.get("languages"))
 
     prompt = _generate_task_prompt(flags)
 
