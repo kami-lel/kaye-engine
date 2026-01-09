@@ -29,7 +29,8 @@ TASK_PROMPT_BASIC_BLUEPRINT = """ ○
 [x] │   └── Briefness Style
 [x] ├── Format
 [x] └── Role
-[x]     └── Task
+[x] │   └── Kaye Peer Coder
+[x] │       └── task
 """
 
 
