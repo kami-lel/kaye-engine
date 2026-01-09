@@ -1,4 +1,6 @@
 """
+Kaye's Prompt Generation
+
 This module implements a systematic, dynamic, and structured framework for
 prompt management and manipulation.
 
@@ -22,7 +24,7 @@ retrieves and loads a selected *embedded* blueprint stored in
 ``kaye/gen_prompt/prompt_blueprints/`` at runtime.
 """
 
-# TODO move content to python_api_doc.md
+# TODO combine w/ doc file
 
 from .prompt_corpus_node import *
 from .prompt_corpus_loader import *
