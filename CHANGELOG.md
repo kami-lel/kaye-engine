@@ -3,7 +3,9 @@
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
 <!-- todo hooks: must update setup.cfg, for version -->
 
+<!-- Todo standardize module & entry docstring for all dify apps' code node -->
 <!-- TODO kyc: improve task prompt content  -->
+<!-- Todo kyc: difficulty cool down, keep a array of difficult of recent rounds  -->
 <!-- FIXME kyc: pre-sense corpus, provide anchor point-->
 
 [^format]
