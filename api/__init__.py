@@ -2,7 +2,6 @@
 define Kaye Flask HTTP API
 """
 
-# TODO think about move api folder to top level
 # bug maybe write unit tests?
 
 from flask import Flask, Blueprint
@@ -23,4 +22,4 @@ if __name__ == "__main__":
 
     app = Flask(PROGRAM_NAME)
     app.register_blueprint(app_bp)
-    app.run(host=HOST, port=PORT, debug=True)  # HACK turn off debug
+    app.run(host=HOST, port=PORT, debug=False)
