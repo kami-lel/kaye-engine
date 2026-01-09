@@ -2,14 +2,13 @@
 define Kaye Flask HTTP API
 """
 
-# Todo think about move api folder to top level
-# Bug maybe write unit tests?
+# bug maybe write unit tests?
 
 from flask import Flask, Blueprint
 
 from kaye import PROGRAM_NAME
-from kaye.api.prompt import prompt_bp
-from kaye.api.dify_app import dify_bp
+from api.prompt import prompt_bp
+from api.dify_app import dify_bp
 
 # constants  ###################################################################
 HOST = "0.0.0.0"
@@ -23,4 +22,4 @@ if __name__ == "__main__":
 
     app = Flask(PROGRAM_NAME)
     app.register_blueprint(app_bp)
-    app.run(host=HOST, port=PORT, debug=True)  # Hack turn off debug
+    app.run(host=HOST, port=PORT, debug=False)
