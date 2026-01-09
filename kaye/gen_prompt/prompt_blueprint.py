@@ -40,7 +40,7 @@ class _PreviewTreeNode(Node):
         :return: whether this node is enabled in the blueprint;
         :rtype: bool
         """
-        # todo opmz by hash names_path
+        # TODO opmz by hash names_path
         names_path = self.concurrent_corpus_node.names_path
         return any(
             (names_path == node.names_path) for node in self.blueprint.enabled
