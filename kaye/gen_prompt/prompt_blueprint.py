@@ -17,6 +17,7 @@ __all__ = ("PromptBlueprint",)
 logger = kamilog.getLogger(PROGRAM_NAME)
 
 
+# TODO make subscriptable, improve how to use etc.
 class _PreviewTreeNode(Node):
     """
     helper class usedVjj
