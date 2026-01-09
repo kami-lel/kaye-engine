@@ -1,8 +1,6 @@
 # Kaye CHANGELOG
 
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
-<!-- TODO hooks: must update setup.cfg, for version -->
-<!-- TODO hooks: must update .ymls -->
 <!-- todo standardize module & entry docstring for all dify apps' code node -->
 <!-- todo kyc: difficulty cool down, keep a array of difficult of recent rounds  -->
 <!-- fixme corpus:kyc: improve task prompt content  -->
