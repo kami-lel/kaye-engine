@@ -36,6 +36,8 @@
   - Kaye Cash Tracker
   - Kaye Commit Sense
 
+- start writing *Kaye Python API documentation*
+
 ### Deprecated
 ### Removed
 
