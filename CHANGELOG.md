@@ -2,6 +2,7 @@
 
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
 <!-- todo hooks: must update setup.cfg, for version -->
+<!-- Todo hooks: must update .ymls -->
 
 <!-- Todo standardize module & entry docstring for all dify apps' code node -->
 <!-- Todo kyc: difficulty cool down, keep a array of difficult of recent rounds  -->
@@ -40,9 +41,14 @@
 
   - Kaye Cash Tracker
   - Kaye Commit Sense
-  - Kaye Peer Coder, partially functional with basic static prompt
+  - Kaye Event Radar: non-functional in current version
+  - Kaye Peer Coder: partially functional with basic static prompt
 
 - start writing *Kaye Python API documentation*
+
+dify app `kaye_event_radar`:
+
+- add conversation opener
 
 ### Deprecated
 ### Removed
