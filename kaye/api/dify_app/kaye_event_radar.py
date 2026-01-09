@@ -18,13 +18,16 @@ event_radar_bp = Blueprint(
 )
 
 
+# todo implement HTTP API support for Event Radar
+
+
 # /kaye/dify-app/kaye-event-radar/filter-events
 @event_radar_bp.route("/filter-events", methods=["GET"])
 def kaye_event_radar_filter():
-    return "not implemented yet"  # Todo
+    return "not implemented yet"
 
 
 # /kaye/dify-app/kaye-event-radar/parse-events
 @event_radar_bp.route("/parse-events", methods=["GET"])
 def kaye_event_radar_parse():
-    return "not implemented yet"  # Todo
+    return "not implemented yet"
