@@ -29,8 +29,7 @@ TASK_PROMPT_BASIC_BLUEPRINT = """ ○
 [x] │   └── Briefness Style
 [x] ├── Format
 [x] └── Role
-[x]     └── Peer Coder
-[x]         └── Code Comment
+[x]     └── Task
 """
 
 
@@ -108,6 +107,7 @@ def _generate_task_prompt_based_on_flags(flags):
         TASK_PROMPT_BASIC_BLUEPRINT,
     )
 
+    # FIXME improve task prompt
     # TODO code
 
     return str(blueprint)
