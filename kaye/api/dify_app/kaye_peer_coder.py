@@ -6,7 +6,7 @@ define API to specific work with Dify App: Kaye Peer Coder
 
 from enum import IntFlag, auto
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, abort
 
 from kaye import PROGRAM_NAME
 from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
@@ -114,13 +114,23 @@ def kaye_peer_coder_pre_sense():
 # /kaye/dify-app/kaye-peer-coder/task
 @kyc_bp.route("/task", methods=["GET"])
 def kaye_peer_coder_task():
-    # BUG need test
-
     languages_arg = request.args.get("languages")
     flags_arg = request.args.get("flags")
 
+    # create flags from provided args
+    if flags_arg:
+        try:
+            flags = PL(int(flags_arg))  # BUG 2 errors handling
+        except ValueError as err:
+            abort()  # TODO
+
+    else:
+        flags = PL.NONE
+
+    opt = {OUTPUT_PROMPT_KEY: "", OUTPUT_FLAGS_KEY: int(flags)}  # HACK
+    return jsonify(opt)
+
     # merge language flags from languages list & provided flag number
-    flags = PL(flags_arg)  # BUG err handling
     flags |= _calc_flags_from_languages(languages_arg)  # BUG err handling
 
     prompt = _generate_task_prompt(flags)
