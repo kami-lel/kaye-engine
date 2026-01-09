@@ -40,6 +40,7 @@
 
   - Kaye Cash Tracker
   - Kaye Commit Sense
+  - Kaye Peer Coder, partially functional with basic static prompt
 
 ### Deprecated
 ### Removed
