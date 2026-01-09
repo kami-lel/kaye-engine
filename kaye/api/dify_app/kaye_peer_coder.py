@@ -6,7 +6,7 @@ define API to specific work with Dify App: Kaye Peer Coder
 
 from enum import IntFlag, auto
 
-from flask import Blueprint, request, jsonify, abort
+from flask import Blueprint, request, jsonify, abort, Response
 
 from kaye import PROGRAM_NAME
 from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
@@ -120,9 +120,16 @@ def kaye_peer_coder_task():
     # create flags from provided args
     if flags_arg:
         try:
-            flags = PL(int(flags_arg))  # BUG 2 errors handling
-        except ValueError as err:
-            abort()  # TODO
+            flags_value = int(flags_arg)
+            # TODO
+            # if flags_value < 0:
+            #     raise ValueError()
+            flags = PL(flags_value)
+
+        except ValueError:
+            abort(Response("bad bad: {}".format(flags_arg), 422))  # TODO
+
+        # TODO non value error
 
     else:
         flags = PL.NONE
