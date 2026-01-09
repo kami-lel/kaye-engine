@@ -3,6 +3,9 @@
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
 <!-- todo hooks: must update setup.cfg, for version -->
 
+<!-- TODO kyc: improve task prompt content  -->
+<!-- FIXME kyc: pre-sense corpus, provide anchor point-->
+
 [^format]
 
 
