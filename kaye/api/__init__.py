@@ -3,6 +3,7 @@ define Kaye Flask HTTP API
 """
 
 # Todo think about move api folder to top level
+# Bug maybe write unit tests?
 
 from flask import Flask, Blueprint
 
