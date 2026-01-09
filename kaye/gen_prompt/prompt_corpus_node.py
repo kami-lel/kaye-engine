@@ -13,6 +13,7 @@ ROOT_NODE_NAME = "○"  # placeholder name for root node
 __all__ = ("PromptCorpusNode",)
 
 
+# todo move some content to python_api_doc.md
 class PromptCorpusNode(AnytreeNode):
     """
     A ``PromptCorpusNode`` represents a single node in the *prompt corpus*.
@@ -50,6 +51,22 @@ class PromptCorpusNode(AnytreeNode):
         text_lines = cls._convert_corpus_text2lines(prompt_corpus_text)
         root = cls(ROOT_NODE_NAME, None, text_lines)
         return root
+
+    def __init__(self, name, parent, text_lines):
+        super().__init__(name, parent)
+        self.content = []  # content lines
+
+        self._init_populate_children(text_lines)
+
+        # trim leading/trailing empty strings
+        start, end = 0, len(self.content)
+        while start < end and self.content[start] == "":
+            start += 1
+        while end > start and self.content[end - 1] == "":
+            end -= 1
+        self.content = self.content[start:end]
+
+        self.names_path = self._init_generate_names_path()
 
     def generate_preview_tree(
         self, preview_line_count=3, preview_line_width=64
@@ -108,27 +125,37 @@ class PromptCorpusNode(AnytreeNode):
 
         return "\n".join(opt_lines)
 
+    def generate_preview_tree_content_part(
+        self, fill, preview_line_count, preview_line_width
+    ):
+        """
+        :param fill: set prefix filling before each line
+        :type fill: str
+        :param preview_line_count: set maximum line count of
+                *content preview* part, (excluding section heading line)
+        :type preview_line_count: int
+        :param preview_line_width: set maximum column width of
+                *content preview* part
+        :type preview_line_width: int
+        :return: content lines of ``self`` as it will be shown in
+                tree ``__repr__()``, with formatting included
+                Each entry represent a line in the ``__repr__()``
+        :rtype: list[str]
+        :example:
+        >>> node.generate_preview_tree_content_part('$$$' 3, 10)
+        ["$$$You per", "$$$When tr", "$$$User ma"]
+        """
+        lines = []
+        if self.content and preview_line_count:  # print content of node
+            for content_line in self.content[:preview_line_count]:
+                lines.append(fill + content_line[:preview_line_width])
+        return lines
+
     @staticmethod
     def _convert_corpus_text2lines(full_prompt):
         # reduce formatting empty lines
         cleanup = re.sub(r"\n{3,}", "\n\n", full_prompt)
         return list(cleanup.split("\n"))
-
-    def __init__(self, name, parent, text_lines):
-        super().__init__(name, parent)
-        self.content = []  # content lines
-
-        self._init_populate_children(text_lines)
-
-        # trim leading/trailing empty strings
-        start, end = 0, len(self.content)
-        while start < end and self.content[start] == "":
-            start += 1
-        while end > start and self.content[end - 1] == "":
-            end -= 1
-        self.content = self.content[start:end]
-
-        self.names_path = self._init_generate_names_path()
 
     def _init_generate_names_path(self):
         """
@@ -179,31 +206,22 @@ class PromptCorpusNode(AnytreeNode):
             children_nodes = text_lines[start + 1 : end]
             PromptCorpusNode(heading_content, self, children_nodes)
 
-    def generate_preview_tree_content_part(
-        self, fill, preview_line_count, preview_line_width
-    ):
-        """
-        :param fill: set prefix filling before each line
-        :type fill: str
-        :param preview_line_count: set maximum line count of
-                *content preview* part, (excluding section heading line)
-        :type preview_line_count: int
-        :param preview_line_width: set maximum column width of
-                *content preview* part
-        :type preview_line_width: int
-        :return: content lines of ``self`` as it will be shown in
-                tree ``__repr__()``, with formatting included
-                Each entry represent a line in the ``__repr__()``
-        :rtype: list[str]
-        :example:
-        >>> node.generate_preview_tree_content_part('$$$' 3, 10)
-        ["$$$You per", "$$$When tr", "$$$User ma"]
-        """
-        lines = []
-        if self.content and preview_line_count:  # print content of node
-            for content_line in self.content[:preview_line_count]:
-                lines.append(fill + content_line[:preview_line_width])
-        return lines
-
     def __repr__(self):
         return self.generate_preview_tree()
+
+    def __getitem__(self, key=None):
+        """
+        :param key: heading of children node; if ``None``, get node parent
+        :type key: str or NoneType
+        :return: children or parent node of ``self``
+        :rtype: PromptCorpusNode
+        :example:
+        node = ~
+        node['Info']    # get child node with heading 'Info'
+        node[]          # get parent node
+        """
+        if key is None:
+            return self.parent
+        else:
+            # bug non functional
+            return self.children[key]

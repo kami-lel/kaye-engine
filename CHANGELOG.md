@@ -1,12 +1,12 @@
 # Kaye CHANGELOG
 
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
-<!-- todo hooks: must update setup.cfg, for version -->
+<!-- todo standardize module & entry docstring for all dify apps' code node -->
+<!-- todo kyc: difficulty cool down, keep a array of difficult of recent rounds  -->
+<!-- fixme corpus:kyc: improve task prompt content  -->
+<!-- fixme corpus:kyc: pre-sense corpus, provide anchor point-->
 
 [^format]
-
-
-
 
 
 
@@ -40,7 +40,48 @@
 
 
 
+## [4.11.0] - 2026-01-09
+
+### Added
+
+- dify app `kaye_peer_coder`
+- Kaye HTTP API to create prompts dynamically,
+  and update Dify Apps to utilize the new API:
+
+  - Kaye Cash Tracker
+  - Kaye Commit Sense
+  - Kaye Event Radar: non-functional in current version
+  - Kaye Peer Coder: partially functional with basic static prompt
+
+- conversation opener for Dify App Kaye Event Radar
+
+### Changed
+
+- use hooks-utility as Git Submodule
+- add abbreviations to `prompt_corpus.md`
+- start writing *Kaye Python API documentation*
+
+### Removed
+
+re `prompt_corpus.md`:
+
+- rm 2D data declaration for role *Kaye Peer Coder*
+- *Peer Coder* role (adapted into a dify App)
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## [4.10.2] - 2025-12-08
+
 ### Changed
 
 - restore basic function of role: Peer Coder
@@ -1041,7 +1082,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.10.2...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.11.0...dev
+[4.11.0]: https://github.com/kami-lel/kaye/compare/v4.10.2...v4.11.0
 [4.10.2]: https://github.com/kami-lel/kaye/compare/v4.10.1...v4.10.2
 [4.10.1]: https://github.com/kami-lel/kaye/compare/v4.10.0...v4.10.1
 [4.10.0]: https://github.com/kami-lel/kaye/compare/v4.9.1...v4.10.0

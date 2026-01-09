@@ -22,6 +22,8 @@ retrieves and loads a selected *embedded* blueprint stored in
 ``kaye/gen_prompt/prompt_blueprints/`` at runtime.
 """
 
+# todo move content to python_api_doc.md
+
 from .prompt_corpus_node import *
 from .prompt_corpus_loader import *
 from .prompt_blueprint import *

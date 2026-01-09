@@ -3,24 +3,47 @@
 set -euo pipefail
 
 # shellcheck source=/dev/null
-source "$(dirname "${BASH_SOURCE[0]}")/hooks_utility.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/set_environment_variable.sh"
+# shellcheck source=/dev/null
+source "$(dirname "${BASH_SOURCE[0]}")/../hooks_utility/hooks_utility.sh"
 
-# test AM not merged into protected branches
-hooks_utility_am_check
+# start pre-commit checks  #####################################################
+echo "pre-commit" | hooks_utility_enter
 
-# make sure CHANGELOG.md is edited
-hooks_utility_ensure_file_changed "CHANGELOG.md" "merge-binary-finish_feature"
-hooks_utility_ensure_file_changed "CHANGELOG.md" "merge-binary-release"
+hooks_utility_debug_commit_type
 
-# dify app yml files update
-hooks_utility_ensure_file_changed \
-        "dify_studio/kaye_cash_tracker/Kaye_Cash_Tracker.yml" \
-        "merge-binary-release"
+# ensure file modification  ----------------------------------------------------
+# make sure CHANGELOG.md is edited when finish feature branch
+hooks_utility_ensure_changelog_edited 'CHANGELOG.md'
 
-hooks_utility_ensure_file_changed \
-        "dify_studio/kaye_commit_sense/Kaye_Commit_Sense.yml" \
-        "merge-binary-release"
+# make sure version is bumped when finish feature branch
+hooks_utility_ensure_version_updated
 
-printf 'finish pre-commit' | hooks_utility_info
+# ensure Dify Apps' .yml files are updated
+hooks_utility_ensure_file_modified \
+    'dify_studio/kaye_cash_tracker/Kaye_Cash_Tracker.yml' \
+    'merge-binary-release' \
+    'download newest .yml by Export DSL'
+
+hooks_utility_ensure_file_modified \
+    'dify_studio/kaye_commit_sense/Kaye_Commit_Sense.yml' \
+    'merge-binary-release' \
+    'download newest .yml by Export DSL'
+
+hooks_utility_ensure_file_modified \
+    'dify_studio/kaye_event_radar/Kaye_Event_Radar.yml' \
+    'merge-binary-release' \
+    'download newest .yml by Export DSL'
+
+hooks_utility_ensure_file_modified \
+    'dify_studio/kaye_peer_coder/Kaye_Peer_Coder.yml' \
+    'merge-binary-release' \
+    'download newest .yml by Export DSL'
+
+# perform branch protection  ---------------------------------------------------
+hooks_utility_protect_branch
+
+# finish pre-commit checks  ####################################################
+echo "pre-commit" | hooks_utility_pass
 
 exit 0
