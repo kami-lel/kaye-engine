@@ -3,5 +3,5 @@ dont return old entries, but use code to merge
 
 todo reverse order of transactions entries in Google Sheet
 
-Bug: show extract negative numbers
-Bug: difficulty creating party_to, ask it to distinguish service & service provide/company
+bug: show extract negative numbers
+bug: difficulty creating party_to, ask it to distinguish service & service provide/company
