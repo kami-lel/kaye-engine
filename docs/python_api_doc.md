@@ -2,4 +2,4 @@
 
 ## `gen_prompt` module
 
-<!-- Todo write Python API documentation -->
+<!-- TODO write Python API documentation -->
