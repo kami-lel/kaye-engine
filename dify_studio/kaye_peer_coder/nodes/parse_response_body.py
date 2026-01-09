@@ -1,6 +1,5 @@
 # pylint: disable=missing-module-docstring
 
-
 import json
 
 # constants  ###################################################################
