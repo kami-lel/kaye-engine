@@ -89,6 +89,15 @@ response type: `text/plain`
 `/task`
 
 - by `GET`
-- response type `text/plain`
 
-<!-- Todo specify request type -->
+- support param `languages`:
+  provide a `,` separated list of language abbreviations
+  (specified in prompt corpus.) E.g. `?languages=cpp,py`
+
+- support param `flags`: provide an integer flag value,
+  that will be merged into when creating prompts
+
+- response type `application/json`:
+
+  - key `"prompt"`: concrete task prompt
+  - key `"flags"`: integer value representing the prompt
