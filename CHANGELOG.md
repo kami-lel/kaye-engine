@@ -35,6 +35,7 @@
 
   - Kaye Cash Tracker
   - Kaye Commit Sense
+  - Kaye Event Radar: non-functional in current version
 
 dify app `kaye_event_radar`:
 
