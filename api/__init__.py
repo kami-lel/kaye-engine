@@ -8,8 +8,8 @@ define Kaye Flask HTTP API
 from flask import Flask, Blueprint
 
 from kaye import PROGRAM_NAME
-from kaye.api.prompt import prompt_bp
-from kaye.api.dify_app import dify_bp
+from api.prompt import prompt_bp
+from api.dify_app import dify_bp
 
 # constants  ###################################################################
 HOST = "0.0.0.0"

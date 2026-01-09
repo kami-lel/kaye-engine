@@ -7,10 +7,10 @@ from flask import Blueprint
 
 from kaye import PROGRAM_NAME
 
-from kaye.api.dify_app.kaye_cash_tracker import call_kaye_cash_tracker
-from kaye.api.dify_app.kaye_commit_sense import commit_sense_bp
-from kaye.api.dify_app.kaye_event_radar import event_radar_bp
-from kaye.api.dify_app.kaye_peer_coder import kyc_bp
+from api.dify_app.kaye_cash_tracker import call_kaye_cash_tracker
+from api.dify_app.kaye_commit_sense import commit_sense_bp
+from api.dify_app.kaye_event_radar import event_radar_bp
+from api.dify_app.kaye_peer_coder import kyc_bp
 
 # /kaye/dify-app
 dify_bp = Blueprint("dify-app", PROGRAM_NAME, url_prefix="/dify-app")
