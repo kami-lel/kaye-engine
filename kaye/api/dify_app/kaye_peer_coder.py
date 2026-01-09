@@ -108,7 +108,6 @@ def _generate_task_prompt_based_on_flags(flags):
         TASK_PROMPT_BASIC_BLUEPRINT,
     )
 
-    # FIXME improve task prompt
     # TODO code
 
     return str(blueprint)
