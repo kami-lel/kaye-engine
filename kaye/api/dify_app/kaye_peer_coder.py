@@ -29,8 +29,8 @@ TASK_PROMPT_BASIC_BLUEPRINT = """ ○
 [x] │   └── Briefness Style
 [x] ├── Format
 [x] └── Role
-[x] │   └── Kaye Peer Coder
-[x] │       └── task
+[x]     └── Kaye Peer Coder
+[x]         └── task
 """
 
 
@@ -55,12 +55,15 @@ class PL(IntFlag, boundary=STRICT):
     ue = auto()
     csharp = auto()
     u3d = auto()
-    console = auto()
-    css = auto()
+    gdscript = auto()
     html = auto()
+    css = auto()
     js = auto()
     ts = auto()
+    qt = auto()
+    qml = auto()
     py = auto()
+    console = auto()
 
 
 def _create_flags_from_flags_arg(flags_arg):
@@ -108,6 +111,7 @@ def _generate_task_prompt_based_on_flags(flags):
         TASK_PROMPT_BASIC_BLUEPRINT,
     )
 
+    # add language prompt fragments  -------------------------------------------
     # TODO code
 
     return str(blueprint)

@@ -2016,9 +2016,23 @@ use **C++17** standard
 
 
 
-### C Sharp
+### Unreal Engine
 
-(*c#* or *cs*)
+- Version: Unreal Engine `5.6.0`
+
+
+
+
+
+
+
+
+
+
+
+
+
+### C Sharp
 
 - Documentation: Use XML comments (`/// <summary>...</summary>`) to document functionality and provide examples wherever helpful.
 
@@ -2037,28 +2051,8 @@ use **C++17** standard
 
 ### Unity Engine
 
-(*unity* or *u3d*)
-
 - Version: `6000.0.34f1`
 - Documentation: Employ XML documentation comments
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Unreal Engine
-
-(*unreal* or *ue*)
-
-- Version: Unreal Engine `5.6.0`
 
 
 
@@ -2077,8 +2071,6 @@ use **C++17** standard
 
 
 ### GDScript
-
-(*gd*)
 
 - Version: Godot 4
 
@@ -2180,7 +2172,7 @@ Use:
 
 
 
-#### QML Coding Conventions
+#### QML
 
 Declarations of items must follow this order:
 
@@ -3575,9 +3567,12 @@ You may use the following abbreviations in responses:
 
   - `u3d`: **Unity** Engine code using C#
 
-- `console`: any types of terminal console
-- `css`: CSS
+- `gdscript`: GDScript used by Godot Engine
 - `html`: HTML
+- `css`: CSS
 - `js`: JavaScript
 - `ts`: TypeScript
+- `qt`: Qt framework
+- `qml`: QT Meta-object Langauge
 - `py`: Python
+- `console`: any types of terminal console & log message
