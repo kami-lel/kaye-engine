@@ -223,4 +223,5 @@ class PromptCorpusNode(AnytreeNode):
         if key is None:
             return self.parent
         else:
+            # BUG
             return self.children[key]
