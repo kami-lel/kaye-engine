@@ -13,6 +13,7 @@ ROOT_NODE_NAME = "○"  # placeholder name for root node
 __all__ = ("PromptCorpusNode",)
 
 
+# TODO make subscriptable
 class PromptCorpusNode(AnytreeNode):
     """
     A ``PromptCorpusNode`` represents a single node in the *prompt corpus*.
