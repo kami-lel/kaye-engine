@@ -20,10 +20,27 @@
 
 
 
-
-
-
 ## [Unreleased]
+
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.11.0] - 2026-01-09
 
 ### Added
 
@@ -44,15 +61,12 @@
 - add abbreviations to `prompt_corpus.md`
 - start writing *Kaye Python API documentation*
 
-### Deprecated
 ### Removed
 
 re `prompt_corpus.md`:
 
 - rm 2D data declaration for role *Kaye Peer Coder*
 - *Peer Coder* role (adapted into a dify App)
-
-### Fixed
 
 
 
@@ -67,6 +81,7 @@ re `prompt_corpus.md`:
 
 
 ## [4.10.2] - 2025-12-08
+
 ### Changed
 
 - restore basic function of role: Peer Coder
@@ -1067,7 +1082,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.10.2...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.11.0...dev
+[4.11.0]: https://github.com/kami-lel/kaye/compare/v4.10.2...v4.11.0
 [4.10.2]: https://github.com/kami-lel/kaye/compare/v4.10.1...v4.10.2
 [4.10.1]: https://github.com/kami-lel/kaye/compare/v4.10.0...v4.10.1
 [4.10.0]: https://github.com/kami-lel/kaye/compare/v4.9.1...v4.10.0
