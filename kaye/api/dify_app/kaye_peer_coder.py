@@ -102,14 +102,15 @@ def _parse_flags_from_languages_arg(languages_arg):
     return flags
 
 
-def _generate_task_prompt(flags):
-    """
-    :param flags:
-    :type flags: PL
-    :return: task prompt constructed based on language flags
-    :rtype: str
-    """
-    return "flags={}".format(repr(flags))  # TODO
+def _generate_task_prompt_based_on_flags(flags):
+    blueprint = PromptBlueprint(
+        load_embedded_prompt_corpus(),
+        TASK_PROMPT_BASIC_BLUEPRINT,
+    )
+
+    # TODO code
+
+    return str(blueprint)
 
 
 # Flask Routing  ###############################################################
@@ -136,7 +137,7 @@ def kaye_peer_coder_task():
     # merge language flags from languages list & provided flag number
     flags |= _parse_flags_from_languages_arg(request.args.get("languages"))
 
-    prompt = _generate_task_prompt(flags)
+    prompt = _generate_task_prompt_based_on_flags(flags)
 
     opt = {OUTPUT_PROMPT_KEY: prompt, OUTPUT_FLAGS_KEY: int(flags)}
     return jsonify(opt)
