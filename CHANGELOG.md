@@ -3,6 +3,11 @@
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
 <!-- todo hooks: must update setup.cfg, for version -->
 
+<!-- Todo standardize module & entry docstring for all dify apps' code node -->
+<!-- Todo kyc: difficulty cool down, keep a array of difficult of recent rounds  -->
+<!-- fixme corpus:kyc: improve task prompt content  -->
+<!-- fixme corpus:kyc: pre-sense corpus, provide anchor point-->
+
 [^format]
 
 
@@ -35,6 +40,7 @@
 
   - Kaye Cash Tracker
   - Kaye Commit Sense
+  - Kaye Peer Coder, partially functional with basic static prompt
 
 - start writing *Kaye Python API documentation*
 
