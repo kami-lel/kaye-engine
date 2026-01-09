@@ -20,7 +20,7 @@ logger = kamilog.getLogger(PROGRAM_NAME)
 # TODO move some content to python_api_doc.md
 class _PreviewTreeNode(Node):
     """
-    helper class usedVjj
+    helper class used
     in ``.generate_preview_tree()`` of ``class PromptBlueprint``
 
     create a tree structured same as prompt corpus tree
