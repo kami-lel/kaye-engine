@@ -15,7 +15,7 @@ class TestRoot:
 
         key = "Introduction"
 
-        # bug non-functional
+        # Bug non-functional
         opt = node[key]
 
         print(opt)

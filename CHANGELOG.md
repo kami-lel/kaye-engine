@@ -1,10 +1,10 @@
 # Kaye CHANGELOG
 
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
-<!-- todo standardize module & entry docstring for all dify apps' code node -->
+<!-- Todo standardize module & entry docstring for all dify apps' code node -->
 <!-- todo kyc: difficulty cool down, keep a array of difficult of recent rounds  -->
-<!-- fixme corpus:kyc: improve task prompt content  -->
-<!-- fixme corpus:kyc: pre-sense corpus, provide anchor point-->
+<!-- Fixme corpus:kyc: improve task prompt content  -->
+<!-- Fixme corpus:kyc: pre-sense corpus, provide anchor point-->
 
 [^format]
 
