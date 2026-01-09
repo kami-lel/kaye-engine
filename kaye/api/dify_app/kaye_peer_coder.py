@@ -113,8 +113,7 @@ def _generate_task_prompt_based_on_flags(flags):
     )
 
     # add language prompt fragments  -------------------------------------------
-    kyc_node = corpus.children["Role"].children["Kaye Peer Coder"]
-    # TODO code
+    # todo code dynamically add language fragment
 
     return str(blueprint)
 
