@@ -46,3 +46,5 @@ lightweight *CLI* so outputs stay consistent across contexts
 - Python module API: programmatic **API** to list, preview,
   generate
 - CLI: command-line **CLI** via *python -m kaye* to list, show, generate fast
+
+<!-- Todo: introduce: corpus, Python API, HTTP API, CLI, Dify Apps -->
