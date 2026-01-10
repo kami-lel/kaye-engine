@@ -6,6 +6,17 @@ Place the entire project folder at `/opt/kaye`.
 
 ----
 
+Set up Python virtual environments:
+
+```bash
+cd /opt/kaye
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+----
+
 Copy the `.service` file:
 
 ```bash
