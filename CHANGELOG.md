@@ -25,6 +25,9 @@
 
 ### Added
 ### Changed
+
+- update Dify App *Kaye Peer Coder* structure such that it support text streaming
+
 ### Deprecated
 ### Removed
 ### Fixed
