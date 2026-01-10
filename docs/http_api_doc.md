@@ -1,8 +1,62 @@
 # Kaye HTTP API documentation
 
-Port Number: `11255` (k=11, a=1, y=25, e=5)
+## deployment as `systemd` on Ubuntu
+
+Place the entire project folder at `/opt/kaye`.
+
+----
+
+Copy the `.service` file:
+
+```bash
+cp /opt/kaye/api/kaye_http_api.service /etc/systemd/system
+```
+
+----
+
+Set permissions
+
+```bash
+chmod 644 /etc/systemd/system/kaye_http_api.service
+```
+
+<!-- TODO -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Endpoints
+
+Port Number: `11255` (k=11, a=1, y=25, e=5)
 
 ### Dify App Support
 

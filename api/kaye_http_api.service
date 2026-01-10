@@ -1,5 +1,5 @@
 [Unit]
-Description=Kaye (Flask) HTTP API service
+Description=Kaye HTTP API service
 After=network.target
 
 [Service]
