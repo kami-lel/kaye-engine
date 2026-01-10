@@ -2,8 +2,6 @@
 
 Port Number: `11255` (k=11, a=1, y=25, e=5)
 
-<!-- todo write how to setup systemd -->
-
 ## Endpoints
 
 ### Dify App Support
