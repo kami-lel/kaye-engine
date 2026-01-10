@@ -5,6 +5,7 @@
 <!-- todo kyc: difficulty cool down, keep a array of difficult of recent rounds  -->
 <!-- FIXME corpus:kyc: improve task prompt content  -->
 <!-- FIXME corpus:kyc: pre-sense corpus, provide anchor point-->
+<!-- BUG conversation forget last round -->
 
 [^format]
 
