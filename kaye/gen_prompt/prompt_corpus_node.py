@@ -197,8 +197,8 @@ class PromptCorpusNode(AnytreeNode):
 
     def __getitem__(self, key=None):
         """
-        :param key: heading of children node; if ``None``, get node parent
-        :type key: str or NoneType
+        :param key:
+        :type key: NoneType or str or int
         :return: children or parent node of ``self``
         :rtype: PromptCorpusNode
         :raises IndexError:
