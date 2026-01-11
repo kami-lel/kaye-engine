@@ -133,6 +133,22 @@ class PromptBlueprint:
 
         return blueprint
 
+    def __init__(
+        self,
+        prompt_corpus,
+        blueprint_text=None,
+        *,
+        display_name="",
+    ):
+        self.display_name = display_name
+        self.prompt_corpus = prompt_corpus
+
+        # list of all enabled nodes
+        self.enabled = []  # default as empty blueprint
+
+        if blueprint_text:
+            self._init_populate_enabled_by_blueprint_text(blueprint_text)
+
     def generate_preview_tree(
         self,
         *,
@@ -259,22 +275,6 @@ class PromptBlueprint:
         return "\n".join(lines)
 
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
-
-    def __init__(
-        self,
-        prompt_corpus,
-        blueprint_text=None,
-        *,
-        display_name="",
-    ):
-        self.display_name = display_name
-        self.prompt_corpus = prompt_corpus
-
-        # list of all enabled nodes
-        self.enabled = []  # default as empty blueprint
-
-        if blueprint_text:
-            self._init_populate_enabled_by_blueprint_text(blueprint_text)
 
     def _init_populate_enabled_by_blueprint_text(self, blueprint_text):
         """
