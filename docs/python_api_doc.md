@@ -74,7 +74,9 @@ tree_root = load_embedded_prompt_corpus()
 
 
 
-#### node operation
+#### node properties
+
+###### name
 
 To access node **name**, i.e. **section heading**:
 
@@ -83,7 +85,7 @@ node = ~~~
 assert node.name == "Introduction"
 ```
 
-----
+###### parent
 
 To access node **parent**:
 
@@ -93,7 +95,7 @@ node.parent
 
 The `.parent` of a root node is ``None``
 
-----
+###### content
 
 To access node's textual **content lines**, use `.content` (typed `list`.) E.g. with prompt corpus text:
 
@@ -120,7 +122,12 @@ introduction_basic_node.content == [
 ]
 ```
 
-----
+
+
+
+#### node inspection
+
+###### path of names
 
 The node store a **path of names**, describing a path from root to this node, with node's ancestors and the parent in between.
 
@@ -148,10 +155,21 @@ assert add_node.path_of_names == (
 )
 ```
 
+----
+
+Use `repr(node)` also yield similar result:
+
+```python
+assert repr(root_node) == "PromptCorpusNode()"
+assert repr(intro_node) == "PromptCorpusNode(Introduction)"
+assert repr(basic_node) == "PromptCorpusNode(Introduction#Basic)"
+```
 
 
 
-#### node inspection
+
+
+###### preview tree
 
 
 
