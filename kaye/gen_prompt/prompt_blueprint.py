@@ -17,24 +17,9 @@ __all__ = ("PromptBlueprint",)
 logger = kamilog.getLogger(PROGRAM_NAME)
 
 
-# TODO move some content to python_api_doc.md
-
-
 class PromptBlueprint:
     """
-    Represents a **prompt blueprint**, encapsulating a configurable subset of
-    the prompt corpus with enable/disable control over each tree node.
-
-    A ``PromptBlueprint`` mirrors the hierarchical structure of the prompt
-    corpus, but each node can be explicitly **enabled** or **disabled**.
-
-    Use ``.generate_preview_tree()`` (or ``__repr__()``) to generate
-    a visual representation of the **tree**
-    showing enabled node with ``[x]`` and disabled node with ``[ ]``
-
-    Use ``.generate_prompt()`` (or ``__str__()``) to render
-    a **concrete prompt** composed of all enabled nodes
-
+    TODO
 
     :param prompt_corpus: *prompt corpus* tree **root** node
             which this prompt blueprint attached to
@@ -392,6 +377,7 @@ class PromptBlueprint:
 
         return "{}Kaye v{}".format(name_part, kaye_version)
 
+    # BUG separate repr vs str/preview_tree vs prompt
     def __repr__(self):
         return self.generate_preview_tree()
 
