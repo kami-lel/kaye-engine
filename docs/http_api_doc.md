@@ -29,6 +29,7 @@ Set permissions, enable boot-start service, & check status
 
 ```bash
 chmod 644 /etc/systemd/system/kaye_http_api.service
+systemctl daemon-reload
 systemctl enable kaye_http_api.service
 systemctl status kaye_http_api.service
 ```
@@ -107,6 +108,24 @@ All endpoints below `/kaye/dify-app/kaye-commit-sense`
 
 - by `GET`
 - response type `text/plain`
+
+
+
+
+
+#### Kaye Chat
+
+All endpoints below `/kaye/dify-app/ky`
+
+----
+
+`/pre-sense`
+
+response type: `text/plain`
+
+- by `GET`
+- response type `text/plain`
+
 
 
 
