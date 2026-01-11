@@ -1675,6 +1675,43 @@ Select the most likely category abbreviation for each transaction based on its d
 
 
 
+## Kaye Chat
+
+### pre-sense
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Kaye Commit Sense
 
 You are given the result of `git diff --cached`; interpret it as the changes ready to be committed for the file(s).
