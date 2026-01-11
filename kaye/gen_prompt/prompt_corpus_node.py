@@ -197,7 +197,6 @@ class PromptCorpusNode(AnytreeNode):
 
     def __getitem__(self, key=None):
         """
-        TODO
         :param key: heading of children node; if ``None``, get node parent
         :type key: str or NoneType
         :return: children or parent node of ``self``
@@ -207,7 +206,7 @@ class PromptCorpusNode(AnytreeNode):
         :raises TypeError:
         :example:
         node = ~~~
-        node[]          # get parent node
+        node[None]      # get parent node
         node[0]         # get first child
         node['Info']    # get child node with name/heading 'Info'
         """
