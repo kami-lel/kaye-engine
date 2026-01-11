@@ -1,15 +1,9 @@
 """
 Kaye Python API: Prompt Generation
 
-
-TODO
-
-
-This module implements a systematic, dynamic, and structured framework for
-prompt management and manipulation.
-
-The **prompt corpus** comprises the complete set of available prompts.
-
+The **core** module of *Kaye Python API*,
+implement a systematic, dynamic, and structured framework
+for **prompt management and manipulation**.
 """
 
 from .prompt_corpus_node import *

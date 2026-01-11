@@ -2,9 +2,10 @@
 
 ## `gen_prompt` module
 
-Dynamically **generate prompt** from *prompt corpus* text, and allow
+The **core** module of *Kaye Python API*,
+implement a systematic, dynamic, and structured framework
+for **prompt management and manipulation**.
 
-<!-- TODO -->
 
 
 
@@ -18,6 +19,10 @@ Dynamically **generate prompt** from *prompt corpus* text, and allow
 
 
 ### Prompt Node `PromptCorpusNode`
+
+<!-- TODO -->
+
+The **prompt corpus** comprises the complete set of available prompts.
 
 The class ``PromptCorpusNode`` serves as a tree-structured representation of
 the prompt corpus, enabling hierarchical organization and efficient traversal.
