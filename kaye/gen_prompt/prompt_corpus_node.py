@@ -13,17 +13,9 @@ ROOT_NODE_NAME = "○"  # placeholder name for root node
 __all__ = ("PromptCorpusNode",)
 
 
-# TODO move some content to python_api_doc.md
 class PromptCorpusNode(AnytreeNode):
     """
-    A ``PromptCorpusNode`` represents a single node in the *prompt corpus*.
-
-    The **prompt corpus** comprises the complete set of available prompts.
-
-    This class enables the creation of a **tree-structured** representation
-    of the *prompt corpus*. Each instance of the class is a node in the tree,
-    corresponding to a part of the corpus and associated with a specific
-    section heading.
+    A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
 
 
     :param name: section heading of the node
