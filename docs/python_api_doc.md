@@ -4,6 +4,19 @@
 
 Dynamically **generate prompt** from *prompt corpus* text, and allow
 
+<!-- TODO -->
+
+
+
+
+
+
+
+
+
+
+
+
 ### Prompt Node `PromptCorpusNode`
 
 The class ``PromptCorpusNode`` serves as a tree-structured representation of
