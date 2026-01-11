@@ -25,7 +25,8 @@
 
 ### Added
 
-- Dify App **Kaye Chat**: dynamically change LLM used for conversation
+- Dify App **Kaye Chat**: conversation focused agent,
+  dynamically change LLM based on type of conversation
 
 - `kaye_http_api.service` to enable Kaye HTTP API to be ran
   as *systemd* on Linux; & related documentations
