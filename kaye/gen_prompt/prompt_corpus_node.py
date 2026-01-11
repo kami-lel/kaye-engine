@@ -149,21 +149,6 @@ class PromptCorpusNode(AnytreeNode):
         cleanup = re.sub(r"\n{3,}", "\n\n", full_prompt)
         return list(cleanup.split("\n"))
 
-    def _init_generate_names_path(self):
-        """
-        helper method used in ``__init__()``
-
-        generate content of ``.names_path``, a path from root to this node,
-        represented by a tuple of titles of ancestors and of this node
-        names of ancestors and ``self``, eg, ``('ProjectABC', 'Sub Heading')``;
-        for root node, ``()``
-        """
-        if self.parent is None:
-            return tuple()  # root node
-        else:
-            nodes_path = self.path[1:]  # remove root node
-            return tuple(node.name for node in nodes_path)
-
     def _init_populate_children(self, text_lines):
         """
         helper method used in ``__init__()``
@@ -198,8 +183,20 @@ class PromptCorpusNode(AnytreeNode):
             children_nodes = text_lines[start + 1 : end]
             PromptCorpusNode(heading_content, self, children_nodes)
 
-    def __repr__(self):
-        return self.generate_preview_tree()
+    def _init_generate_names_path(self):
+        """
+        helper method used in ``__init__()``
+
+        generate content of ``.names_path``, a path from root to this node,
+        represented by a tuple of titles of ancestors and of this node
+        names of ancestors and ``self``, eg, ``('ProjectABC', 'Sub Heading')``;
+        for root node, ``()``
+        """
+        if self.parent is None:
+            return tuple()  # root node
+        else:
+            nodes_path = self.path[1:]  # remove root node
+            return tuple(node.name for node in nodes_path)
 
     def __getitem__(self, key=None):
         """
@@ -217,3 +214,6 @@ class PromptCorpusNode(AnytreeNode):
         else:
             # BUG non functional
             return self.children[key]
+
+    def __repr__(self):
+        return self.generate_preview_tree()
