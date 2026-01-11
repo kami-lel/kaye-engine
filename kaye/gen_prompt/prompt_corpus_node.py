@@ -202,6 +202,9 @@ class PromptCorpusNode(AnytreeNode):
         :type key: str or NoneType
         :return: children or parent node of ``self``
         :rtype: PromptCorpusNode
+        :raises IndexError:
+        :raises KeyError:
+        :raises TypeError:
         :example:
         node = ~
         node['Info']    # get child node with heading 'Info'
@@ -211,16 +214,30 @@ class PromptCorpusNode(AnytreeNode):
             return self.parent
 
         elif isinstance(key, int):
-            return self.children[key]
+            try:
+                return self.children[key]
+            except IndexError as err:
+                raise IndexError(
+                    "index out of range for PromptCorpusNode children: {}"
+                    .format(key)
+                ) from err
 
         elif isinstance(key, str):
             for child in self.children:
                 if child.name == key:
                     return child
-            raise ValueError()  # TODO
+            raise KeyError(
+                "fail to find child {} in this PromptCorpusNode".format(
+                    repr(key)
+                )
+            )
 
         else:
-            raise TypeError()  # TODO
+            raise TypeError(
+                "unsupported type for PromptCorpusNode[~]: {}".format(
+                    type(key)
+                )
+            )
 
     def __repr__(self):
         """
