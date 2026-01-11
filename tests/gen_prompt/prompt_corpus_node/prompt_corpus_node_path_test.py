@@ -14,7 +14,7 @@ class TestParse1:  # test using PROMPT1
     def test_root(self):
         tree = PromptCorpusNode.parse(PROMPT1)
 
-        names = tree.names_path
+        names = tree.path_of_names
 
         print(names)
         assert isinstance(names, tuple)
