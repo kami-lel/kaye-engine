@@ -212,10 +212,16 @@ class PromptCorpusNode(AnytreeNode):
             # BUG non functional
             return self.children[key]
 
-    def __str__(self):
-        # TODO
-        return super(PromptCorpusNode, self).__str__()
-
     def __repr__(self):
+        """
+        :return:
+        :rtype: str
+        :example:
+        node=~~~
+        assert str(node) == "PromptCorpusNode(Introduction#Data#Advanced)"
+        """
+        return "PromptCorpusNode({})".format("#".join(self.path_of_names))
+
+    def __str__(self):
         # BUG use correct format
         return self.generate_preview_tree()
