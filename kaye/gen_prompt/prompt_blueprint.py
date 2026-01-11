@@ -18,64 +18,6 @@ logger = kamilog.getLogger(PROGRAM_NAME)
 
 
 # TODO move some content to python_api_doc.md
-class _PreviewTreeNode(Node):
-    """
-    helper class used
-    in ``.generate_preview_tree()`` of ``class PromptBlueprint``
-
-    create a tree structured same as prompt corpus tree
-    for the utility of preview tree generation
-
-
-    :param blueprint: blueprint object which create this preview tree
-    :type blueprint: PromptBlueprint
-    :param concurrent_corpus_node: concurrent node in the prompt corpus tree
-    :type concurrent_corpus_node: PromptCorpusNode
-    :param parent:
-    :type parent: _PreviewTreeNode
-    """
-
-    def is_enabled(self):
-        """
-        :return: whether this node is enabled in the blueprint;
-        :rtype: bool
-        """
-        # TODO opmz by hash names_path
-        names_path = self.concurrent_corpus_node.names_path
-        return any(
-            (names_path == node.names_path) for node in self.blueprint.enabled
-        )
-
-    def prune_trivial_branches(self):
-        """
-        prune all branches that contains no enabled nodes
-
-        :return: whether this node has any enabled descendants
-        :rtype: bool
-        """
-        if self.is_leaf:
-            if self.is_enabled():
-                return True  # keep this enabled leaf node
-        else:
-            non_trivial = [
-                child.prune_trivial_branches() for child in self.children
-            ]
-            if self.is_enabled() or any(non_trivial):
-                return True  # self is marked/children has marked nodes
-
-        # remove self from tree, ready for garbage collection
-        self.parent = None
-        return False
-
-    def __init__(self, blueprint, concurrent_corpus_node, parent):
-        super().__init__(concurrent_corpus_node.name, parent)
-
-        self.blueprint = blueprint
-        self.concurrent_corpus_node = concurrent_corpus_node
-
-        # create children nodes
-        for child_concurrent_node in concurrent_corpus_node.children:
-            _PreviewTreeNode(blueprint, child_concurrent_node, self)
 
 
 class PromptBlueprint:
@@ -216,7 +158,7 @@ class PromptBlueprint:
         [x]     └── License
         """
 
-        preview_tree = _PreviewTreeNode(self, self.prompt_corpus, None)
+        preview_tree = self._PreviewTreeNode(self, self.prompt_corpus, None)
 
         if not show_full_tree:
             preview_tree.prune_trivial_branches()
@@ -273,6 +215,66 @@ class PromptBlueprint:
             lines.append(comment_line)
 
         return "\n".join(lines)
+
+    class _PreviewTreeNode(Node):
+        """
+        helper class used
+        in ``.generate_preview_tree()`` of ``class PromptBlueprint``
+
+        create a tree structured same as prompt corpus tree
+        for the utility of preview tree generation
+
+
+        :param blueprint: blueprint object which create this preview tree
+        :type blueprint: PromptBlueprint
+        :param concurrent_corpus_node: concurrent node in the prompt corpus tree
+        :type concurrent_corpus_node: PromptCorpusNode
+        :param parent:
+        :type parent: _PreviewTreeNode
+        """
+
+        def is_enabled(self):
+            """
+            :return: whether this node is enabled in the blueprint;
+            :rtype: bool
+            """
+            # TODO opmz by hash names_path
+            names_path = self.concurrent_corpus_node.names_path
+            return any(
+                (names_path == node.names_path)
+                for node in self.blueprint.enabled
+            )
+
+        def prune_trivial_branches(self):
+            """
+            prune all branches that contains no enabled nodes
+
+            :return: whether this node has any enabled descendants
+            :rtype: bool
+            """
+            if self.is_leaf:
+                if self.is_enabled():
+                    return True  # keep this enabled leaf node
+            else:
+                non_trivial = [
+                    child.prune_trivial_branches() for child in self.children
+                ]
+                if self.is_enabled() or any(non_trivial):
+                    return True  # self is marked/children has marked nodes
+
+            # remove self from tree, ready for garbage collection
+            self.parent = None
+            return False
+
+    def __init__(self, blueprint, concurrent_corpus_node, parent):
+        super().__init__(concurrent_corpus_node.name, parent)
+
+        self.blueprint = blueprint
+        self.concurrent_corpus_node = concurrent_corpus_node
+
+        # create children nodes
+        for child_concurrent_node in concurrent_corpus_node.children:
+            _PreviewTreeNode(blueprint, child_concurrent_node, self)
 
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
