@@ -23,14 +23,14 @@ A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
 The **prompt corpus tree** is the structured representation parsed from *prompt corpus text* . A **node** of tree is corresponding to a section heading in the text. E.g. text in such form:
 
 ```md
-## Introduction
-~
-### Basic
-~
-### Advanced
-~
-## Usage
-~
+# Introduction
+~~~
+## Basic
+~~~
+## Advanced
+~~~
+# Usage
+~~~
 ```
 
 is equivalent to tree structure:
@@ -76,6 +76,77 @@ tree_root = load_embedded_prompt_corpus()
 
 #### node operation
 
+To access node **name**, i.e. **section heading**:
+
+```python
+node = ~~~
+assert node.name == "Introduction"
+```
+
+----
+
+To access node **parent**:
+
+```python
+node.parent
+```
+
+The `.parent` of a root node is ``None``
+
+----
+
+To access node's textual **content lines**, use `.content` (typed `list`.) E.g. with prompt corpus text:
+
+```python
+prompt_corpus_text = """
+# Introduction
+~~~
+## Basic
+Hi, my name is Alice.
+It is nice to see you.
+
+What is your name?
+
+## Advanced
+~~~
+"""
+
+introduction_basic_node = ~~~
+introduction_basic_node.content == [
+    "Hi, my name is Alice.",
+    "It is nice to see you.",
+    "",
+    "What is your name?",
+]
+```
+
+----
+
+The node store a **path of names**, describing a path from root to this node, with traversal ancestors and parent in between.
+
+E.g. consider this tree:
+
+```
+○
+├── Introduction
+│   ├── Basic
+│   └── Advanced
+│       └── Additional Info
+└── Usage
+```
+
+`.path_of_names` store such path as a `tuple` of `str`.
+
+```python
+assert intro_node.path_of_names == "Introduction"
+assert basic_node.path_of_names == ("Introduction", "Basic")
+assert add_node.path_of_names == (
+    "Introduction",
+    "Advanced",
+    "Additional Info",
+)
+
+```
 
 
 

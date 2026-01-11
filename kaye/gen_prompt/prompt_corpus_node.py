@@ -58,6 +58,7 @@ class PromptCorpusNode(AnytreeNode):
             end -= 1
         self.content = self.content[start:end]
 
+        # FIXME change of path of names
         self.names_path = self._init_generate_names_path()
 
     def generate_preview_tree(
