@@ -58,8 +58,7 @@ class PromptCorpusNode(AnytreeNode):
             end -= 1
         self.content = self.content[start:end]
 
-        # FIXME change of path of names
-        self.names_path = self._init_generate_names_path()
+        self.path_of_names = self._init_generate_path_of_names()
 
     def generate_preview_tree(
         self, preview_line_count=3, preview_line_width=64
@@ -184,7 +183,7 @@ class PromptCorpusNode(AnytreeNode):
             children_nodes = text_lines[start + 1 : end]
             PromptCorpusNode(heading_content, self, children_nodes)
 
-    def _init_generate_names_path(self):
+    def _init_generate_path_of_names(self):
         """
         helper method used in ``__init__()``
 
