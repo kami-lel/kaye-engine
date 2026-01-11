@@ -163,6 +163,11 @@ Use `repr(node)` also yield similar result:
 assert repr(root_node) == "PromptCorpusNode()"
 assert repr(intro_node) == "PromptCorpusNode(Introduction)"
 assert repr(basic_node) == "PromptCorpusNode(Introduction#Basic)"
+assert (
+    repr(add_note)
+    == "PromptCorpusNode("
+    "Introduction#Advanced#Additional Info)"
+)
 ```
 
 
