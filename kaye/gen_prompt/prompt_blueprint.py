@@ -17,7 +17,46 @@ __all__ = ("PromptBlueprint",)
 logger = kamilog.getLogger(PROGRAM_NAME)
 
 
-class PromptBlueprint:
+class PromptBlueprint(list):
+    """
+    TODO docstring for class PromptBlueprint
+    """
+
+    @classmethod
+    def parse_blueprint(
+        cls, prompt_corpus, blueprint_text=None, *, display_name=""
+    ):
+        pass
+
+    @classmethod
+    def create_full_blueprint(cls, prompt_corpus, *, display_name="full"):
+        pass
+
+    @classmethod
+    def create_empty_blueprint(cls, prompt_corpus, *, display_name="empty"):
+        pass
+
+    def generate_preview_tree(
+        self,
+        *,
+        show_full_tree=False,
+        preview_line_count=3,
+        preview_line_width=64,
+        hide_comment=False,
+    ):
+        pass
+
+    def generate_prompt(self, *, hide_comment=False):
+        pass
+
+    def __repr__(self):
+        raise NotImplementedError
+
+    def __str__(self):
+        return self.generate_preview_tree()
+
+
+class PromptBlueprintOld:  # HACK rm
     """
     TODO
 
