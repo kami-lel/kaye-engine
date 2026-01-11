@@ -2,7 +2,12 @@
 
 ## `gen_prompt` module
 
+Dynamically **generate prompt** from *prompt corpus* text, and allow
+
 ### Prompt Node `PromptCorpusNode`
+
+The class ``PromptCorpusNode`` serves as a tree-structured representation of
+the prompt corpus, enabling hierarchical organization and efficient traversal.
 
 Q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 
@@ -21,6 +26,11 @@ Q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 ### Prompt Blueprint `PromptBlueprint`
 
 
+A **prompt blueprint** defines a specific subset of the prompt corpus.
+
+The ``PromptBlueprint`` class encapsulates prompt blueprint structure.
+
+
 
 
 
@@ -33,5 +43,13 @@ Q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 
 
 ### loaders
+
+The supporting function ``load_embedded_prompt_corpus()`` loads
+the *embedded* prompt corpus (``kaye/gen_prompt/prompt_corpus.md``)
+from the filesystem at runtime.
+
+The supporting function ``load_embedded_prompt_blueprint(prompt_blueprint_name)``
+retrieves and loads a selected *embedded* blueprint stored in
+``kaye/gen_prompt/prompt_blueprints/`` at runtime.
 
 <!-- TODO write Python API documentation -->
