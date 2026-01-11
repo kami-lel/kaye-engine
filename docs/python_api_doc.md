@@ -202,6 +202,21 @@ Use `.generate_preview_tree()` to create a tree formatted representation
 ### Prompt Blueprint `PromptBlueprint`
 
 
+Represents a **prompt blueprint**, encapsulating a configurable subset of
+the prompt corpus with enable/disable control over each tree node.
+
+A `PromptBlueprint` mirrors the hierarchical structure of the prompt
+corpus, but each node can be explicitly **enabled** or **disabled**.
+
+Use `.generate_preview_tree()` (or `repr()`) to generate
+a visual representation of the **tree**
+showing enabled node with `[x]` and disabled node with `[ ]`
+
+Use `.generate_prompt()` (or `str()`) to render
+a **concrete prompt** composed of all enabled nodes
+
+
+
 A **prompt blueprint** defines a specific subset of the prompt corpus.
 
 The ``PromptBlueprint`` class encapsulates prompt blueprint structure.
