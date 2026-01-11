@@ -176,6 +176,12 @@ assert (
 
 ###### preview tree
 
+<!-- TODO write Python API documentation -->
+
+----
+
+`str(node)` is equivalent to ``node.generate_preview_tree()``
+
 
 
 

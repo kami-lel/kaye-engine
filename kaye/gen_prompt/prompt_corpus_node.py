@@ -223,5 +223,4 @@ class PromptCorpusNode(AnytreeNode):
         return "PromptCorpusNode({})".format("#".join(self.path_of_names))
 
     def __str__(self):
-        # BUG use correct format
         return self.generate_preview_tree()
