@@ -25,13 +25,13 @@ cp /opt/kaye/api/kaye_http_api.service /etc/systemd/system
 
 ----
 
-Set permissions
+Set permissions, enable boot-start service, & check status
 
 ```bash
 chmod 644 /etc/systemd/system/kaye_http_api.service
+systemctl enable kaye_http_api.service
+systemctl status kaye_http_api.service
 ```
-
-<!-- TODO -->
 
 
 
