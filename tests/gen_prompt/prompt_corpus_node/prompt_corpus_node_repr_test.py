@@ -9,8 +9,6 @@ from tests.gen_prompt.prompt_corpus_node.testees import (
     PROMPT3,
 )
 
-# BUG
-
 
 class Test1:  # test using PROMPT1
 

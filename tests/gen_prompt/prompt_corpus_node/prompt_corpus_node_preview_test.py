@@ -27,8 +27,8 @@ class Test1:  # test using PROMPT1
         print(opt)
         assert opt == self.STR_CONTENT
 
-    def test_repr(self):
-        opt = repr(self.tree)
+    def test_str(self):
+        opt = str(self.tree)
         print(opt)
         assert opt == self.STR_CONTENT
 
@@ -79,8 +79,8 @@ class Test2:  # test using PROMPT2
         print(opt)
         assert opt == self.STR_CONTENT
 
-    def test_repr(self):
-        opt = repr(self.tree)
+    def test_str(self):
+        opt = str(self.tree)
         print(opt)
         assert opt == self.STR_CONTENT
 
@@ -161,8 +161,8 @@ class Test3:  # test using PROMPT3
         print(opt)
         assert opt == self.STR_CONTENT
 
-    def test_repr(self):
-        opt = repr(self.tree)
+    def test_str(self):
+        opt = str(self.tree)
         print(opt)
         assert opt == self.STR_CONTENT
 
