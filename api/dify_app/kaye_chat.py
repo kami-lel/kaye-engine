@@ -11,11 +11,9 @@ from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
 
 # Blueprints  ##################################################################
 PRE_SENSE_PROMPT_BLUEPRINT = """ ○
-[x] ├── Role
-[x] │   └── Kaye Peer Coder
-[x] │       └── pre-sense
-[x] └── Abbreviations
-[x]     └── Programming Languages
+[x] └── Role
+[x]     └── Kaye Chat
+[x]         └── pre-sense
 """
 
 
