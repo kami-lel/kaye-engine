@@ -30,11 +30,13 @@ class PromptBlueprint(list):
 
     @classmethod
     def create_full_blueprint(cls, prompt_corpus, *, display_name="full"):
-        pass
+        obj = PromptBlueprint(prompt_corpus, display_name=display_name)
+        # TODO populate all
+        return obj
 
     @classmethod
     def create_empty_blueprint(cls, prompt_corpus, *, display_name="empty"):
-        pass
+        return PromptBlueprint(prompt_corpus, display_name=display_name)
 
     def generate_preview_tree(
         self,
@@ -49,8 +51,14 @@ class PromptBlueprint(list):
     def generate_prompt(self, *, hide_comment=False):
         pass
 
+    def __init__(self, prompt_corpus, *, display_name=""):
+        super().__init__()  # init as empty list
+        self.corpus = prompt_corpus
+        self.display_name = display_name
+
     def __repr__(self):
-        raise NotImplementedError
+        # TODO need test
+        return "PromptBlueprint({})".format(self.display_name)
 
     def __str__(self):
         return self.generate_preview_tree()
