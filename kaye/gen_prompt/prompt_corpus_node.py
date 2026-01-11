@@ -197,6 +197,7 @@ class PromptCorpusNode(AnytreeNode):
 
     def __getitem__(self, key=None):
         """
+        TODO
         :param key: heading of children node; if ``None``, get node parent
         :type key: str or NoneType
         :return: children or parent node of ``self``
@@ -208,9 +209,18 @@ class PromptCorpusNode(AnytreeNode):
         """
         if key is None:
             return self.parent
-        else:
-            # BUG non functional
+
+        elif isinstance(key, int):
             return self.children[key]
+
+        elif isinstance(key, str):
+            for child in self.children:
+                if child.name == key:
+                    return child
+            raise ValueError()  # TODO
+
+        else:
+            raise TypeError()  # TODO
 
     def __repr__(self):
         """
