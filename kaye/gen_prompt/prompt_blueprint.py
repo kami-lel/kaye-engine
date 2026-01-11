@@ -19,23 +19,60 @@ logger = kamilog.getLogger(PROGRAM_NAME)
 
 class PromptBlueprint(list):
     """
-    TODO docstring for class PromptBlueprint
+    TODO summary
+
+    :param prompt_corpus: *prompt corpus tree* **root** node
+            which this prompt blueprint attached to
+    :type prompt_corpus: PromptCorpusNode
+    :param blueprint_display_name: display name given to the blueprint;
+            defaults to ""
+    :type blueprint_display_name: str, optional
+    :return: an instance of ``PromptBlueprint`` attached to the given
+            ``prompt_corpus``, and with **all nodes enabled**
     """
 
     @classmethod
     def parse_blueprint(
         cls, prompt_corpus, blueprint_text=None, *, display_name=""
     ):
-        pass
+        """
+        :param blueprint_text: prompt blueprint text to set nodes,
+                must in the same format of output of ``__repr__()``
+                (with tree structure and checkboxes;)
+                if ``None``: create an **empty** prompt blueprint,
+                i.e. all nodes disabled
+        """
+        pass  # TODO
 
     @classmethod
     def create_full_blueprint(cls, prompt_corpus, *, display_name="full"):
-        obj = PromptBlueprint(prompt_corpus, display_name=display_name)
-        # TODO populate all
-        return obj
+        """
+        :param prompt_corpus:
+        :type prompt_corpus: PromptCorpusNode
+        :param display_name:
+        :type display_name: str, optional
+        :return: a blueprint of ``prompt_corpus`` containing all nodes
+        :rtype: PromptBlueprint
+        """
+        # BUG need test
+        blueprint = PromptBlueprint(prompt_corpus, display_name=display_name)
+        # include all nodes
+        for node in PreOrderIter(prompt_corpus):
+            if node.parent is None:  # skip root node
+                blueprint.append(node)
+
+        return blueprint
 
     @classmethod
     def create_empty_blueprint(cls, prompt_corpus, *, display_name="empty"):
+        """
+        :param prompt_corpus:
+        :type prompt_corpus: PromptCorpusNode
+        :param display_name:
+        :type display_name: str, optional
+        :return: a blueprint of ``prompt_corpus`` containing none of the nodes
+        :rtype: PromptBlueprint
+        """
         return PromptBlueprint(prompt_corpus, display_name=display_name)
 
     def generate_preview_tree(
@@ -46,55 +83,33 @@ class PromptBlueprint(list):
         preview_line_width=64,
         hide_comment=False,
     ):
-        pass
+        pass  # TODO
 
     def generate_prompt(self, *, hide_comment=False):
-        pass
+        pass  # TODO
 
     def __init__(self, prompt_corpus, *, display_name=""):
+        # BUG need test
         super().__init__()  # init as empty list
         self.corpus = prompt_corpus
         self.display_name = display_name
 
     def __repr__(self):
-        # TODO need test
+        # BUG need test
         return "PromptBlueprint({})".format(self.display_name)
 
     def __str__(self):
+        # BUG need test
         return self.generate_preview_tree()
 
 
 class PromptBlueprintOld:  # HACK rm
-    """
-    TODO
-
-    :param prompt_corpus: *prompt corpus* tree **root** node
-            which this prompt blueprint attached to
-    :type prompt_corpus: PromptCorpusNode
-    :param blueprint_text: prompt blueprint text to set nodes,
-            must in the same format of output of ``__repr__()``
-            (with tree structure and checkboxes;)
-            if ``None``: create an **empty** prompt blueprint,
-            i.e. all nodes disabled
-    :type blueprint_text: str
-    :param display_name: display name given to the prompt,
-            defaults to ""
-    :type display_name: str, optional
-    """
 
     @classmethod
     def create_full_prompt_blueprint(
         cls, prompt_corpus, blueprint_display_name="full"
     ):
         """
-        :param prompt_corpus: *prompt corpus* tree root node
-                which this prompt blueprint attached to
-        :type prompt_corpus: PromptCorpusNode
-        :param blueprint_display_name: display name given to the prompt;
-                defaults to "full"
-        :type blueprint_display_name: str, optional
-        :return: an instance of ``PromptBlueprint`` attached to the given
-                ``prompt_corpus``, and with **all nodes enabled**
         :rtype: PromptBlueprint
         """
         blueprint = cls(prompt_corpus, display_name=blueprint_display_name)
@@ -423,10 +438,3 @@ class PromptBlueprintOld:  # HACK rm
         )
 
         return "{}Kaye v{}".format(name_part, kaye_version)
-
-    # BUG separate repr vs str/preview_tree vs prompt
-    def __repr__(self):
-        return self.generate_preview_tree()
-
-    def __str__(self):
-        return self.generate_prompt()
