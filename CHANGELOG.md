@@ -23,6 +23,10 @@
 ## [Unreleased]
 
 ### Added
+
+- `kaye_http_api.service` to enable Kaye HTTP API to be ran
+  as *systemd* on Linux; & related documentations
+
 ### Changed
 ### Deprecated
 ### Removed

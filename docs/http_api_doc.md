@@ -1,10 +1,73 @@
 # Kaye HTTP API documentation
 
-Port Number: `11255` (k=11, a=1, y=25, e=5)
+## deployment as `systemd` on Ubuntu
 
-<!-- todo write how to setup systemd -->
+Place the entire project folder at `/opt/kaye`.
+
+----
+
+Set up Python virtual environments:
+
+```bash
+cd /opt/kaye
+python -m venv venv
+source venv/bin/activate
+pip install .
+```
+
+----
+
+Copy the `.service` file:
+
+```bash
+cp /opt/kaye/api/kaye_http_api.service /etc/systemd/system
+```
+
+----
+
+Set permissions, enable boot-start service, & check status
+
+```bash
+chmod 644 /etc/systemd/system/kaye_http_api.service
+systemctl enable kaye_http_api.service
+systemctl status kaye_http_api.service
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Endpoints
+
+Port Number: `11255` (k=11, a=1, y=25, e=5)
 
 ### Dify App Support
 
