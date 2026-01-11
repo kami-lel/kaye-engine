@@ -90,10 +90,13 @@ assert node.name == "Introduction"
 To access node **parent**:
 
 ```python
-node.parent
+node.parent  # or
+node[None]
 ```
 
 The `.parent` of a root node is ``None``
+
+----
 
 ###### content
 
