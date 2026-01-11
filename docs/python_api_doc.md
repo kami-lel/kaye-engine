@@ -176,7 +176,9 @@ assert (
 
 ###### preview tree
 
-<!-- TODO write Python API documentation -->
+Use `.generate_preview_tree()` to create a tree formatted representation
+
+<!-- fixme improve update details -->
 
 ----
 
