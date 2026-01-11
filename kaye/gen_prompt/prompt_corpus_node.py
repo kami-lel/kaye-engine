@@ -187,10 +187,7 @@ class PromptCorpusNode(AnytreeNode):
         """
         helper method used in ``__init__()``
 
-        generate content of ``.names_path``, a path from root to this node,
-        represented by a tuple of titles of ancestors and of this node
-        names of ancestors and ``self``, eg, ``('ProjectABC', 'Sub Heading')``;
-        for root node, ``()``
+        generate content of ``.path_of_names``
         """
         if self.parent is None:
             return tuple()  # root node
