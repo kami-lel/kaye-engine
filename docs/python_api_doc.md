@@ -122,7 +122,7 @@ introduction_basic_node.content == [
 
 ----
 
-The node store a **path of names**, describing a path from root to this node, with traversal ancestors and parent in between.
+The node store a **path of names**, describing a path from root to this node, with node's ancestors and the parent in between.
 
 E.g. consider this tree:
 
@@ -138,6 +138,7 @@ E.g. consider this tree:
 `.path_of_names` store such path as a `tuple` of `str`.
 
 ```python
+assert root_node.path_of_names == tuple()  # empty
 assert intro_node.path_of_names == "Introduction"
 assert basic_node.path_of_names == ("Introduction", "Basic")
 assert add_node.path_of_names == (
@@ -145,7 +146,6 @@ assert add_node.path_of_names == (
     "Advanced",
     "Additional Info",
 )
-
 ```
 
 
