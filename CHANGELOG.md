@@ -5,7 +5,7 @@
 <!-- todo kyc: difficulty cool down, keep a array of difficult of recent rounds  -->
 <!-- Fixme corpus:kyc: improve task prompt content  -->
 <!-- Fixme corpus:kyc: pre-sense corpus, provide anchor point-->
-<!-- Bug Kaye Chat forget conversation if change model -->
+<!-- bug Kaye_Chat & Kaye_Peer_Coder apps forget conversation when switch LLM -->
 
 [^format]
 
