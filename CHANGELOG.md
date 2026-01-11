@@ -23,7 +23,13 @@
 ## [Unreleased]
 
 ### Added
+
+- for `PromptCorpusNode`, allow `node['name']` pattern
+
 ### Changed
+
+- complete `python_api_doc.md`
+
 ### Deprecated
 ### Removed
 ### Fixed
