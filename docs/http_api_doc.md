@@ -77,6 +77,8 @@ All endpoints below `/kaye/dify-app/kaye-event-radar`
 
 All endpoints below `/kaye/dify-app/kaye-peer-coder`
 
+<!-- TODO change to /kyc -->
+
 ----
 
 `/pre-sense`
