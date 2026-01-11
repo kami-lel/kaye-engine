@@ -239,6 +239,9 @@ class PromptCorpusNode(AnytreeNode):
                 )
             )
 
+    def __hash__(self):
+        return hash(self.path_of_names)
+
     def __repr__(self):
         """
         :return:
