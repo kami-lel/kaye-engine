@@ -126,6 +126,15 @@ response type: `text/plain`
 - by `GET`
 - response type `text/plain`
 
+----
+
+`/chat`
+
+response type: `text/plain`
+
+- by `GET`
+- response type `text/plain`
+
 
 
 

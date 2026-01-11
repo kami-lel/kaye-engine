@@ -17,6 +17,10 @@ PRE_SENSE_PROMPT_BLUEPRINT = """ ○
 """
 
 
+CHAT_PROMPT_BLUEPRINT = """
+"""
+
+
 # Flask Routing  ###############################################################
 # /kaye/dify-app/kaye-peer-coder
 ky_bp = Blueprint("kaye-chat", PROGRAM_NAME, url_prefix="/ky")
@@ -28,5 +32,15 @@ def kaye_chat_pre_sense():
     blueprint = PromptBlueprint(
         load_embedded_prompt_corpus(),
         PRE_SENSE_PROMPT_BLUEPRINT,
+    )
+    return str(blueprint)
+
+
+# /kaye/dify-app/kaye-peer-coder/chat
+@ky_bp.route("/chat", methods=["GET"])
+def kaye_chat_chat():
+    blueprint = PromptBlueprint(
+        load_embedded_prompt_corpus(),
+        CHAT_PROMPT_BLUEPRINT,
     )
     return str(blueprint)
