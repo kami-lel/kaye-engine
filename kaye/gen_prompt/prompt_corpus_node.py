@@ -206,9 +206,10 @@ class PromptCorpusNode(AnytreeNode):
         :raises KeyError:
         :raises TypeError:
         :example:
-        node = ~
-        node['Info']    # get child node with heading 'Info'
+        node = ~~~
         node[]          # get parent node
+        node[0]         # get first child
+        node['Info']    # get child node with name/heading 'Info'
         """
         if key is None:
             return self.parent
