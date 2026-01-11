@@ -24,6 +24,8 @@
 
 ### Added
 
+- Dify App **Kaye Chat**: dynamically change LLM used for conversation
+
 - `kaye_http_api.service` to enable Kaye HTTP API to be ran
   as *systemd* on Linux; & related documentations
 
