@@ -179,10 +179,12 @@ class PromptCorpusNode(AnytreeNode):
             nodes_path = self.path[1:]  # remove root node
             return tuple(node.name for node in nodes_path)
 
-    def _generate_preview_tree_content_part(
+    def _generate_preview_tree_create_content_preview(
         self, fill, preview_line_count, preview_line_width
     ):
         """
+        create the **preview content**
+
         helper method used in ``generate_preview_tree()``
 
 
