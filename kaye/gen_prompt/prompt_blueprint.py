@@ -32,7 +32,7 @@ class PromptBlueprint(dict):
     """
 
     @classmethod
-    def parse_blueprint(
+    def parse(
         cls,
         prompt_corpus,
         blueprint_text,
