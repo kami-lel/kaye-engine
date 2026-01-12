@@ -17,7 +17,7 @@ __all__ = ("PromptBlueprint",)
 logger = kamilog.getLogger(PROGRAM_NAME)
 
 
-class PromptBlueprint(list):
+class PromptBlueprint(dict):
     """
     TODO summary
 
@@ -32,10 +32,15 @@ class PromptBlueprint(list):
 
     @classmethod
     def parse_blueprint(
-        cls, prompt_corpus, blueprint_text=None, *, display_name=""
+        cls,
+        prompt_corpus,
+        blueprint_text=None,
+        *,
+        display_name="",
+        disable_prune=False,
     ):
         """
-        TODO
+        TODO, disable_prune
 
 
         :param prompt_corpus:
@@ -51,7 +56,9 @@ class PromptBlueprint(list):
         """
         # BUG need test
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
-        path2node = {node.names_path: node for node in bp.corpus.descendants}
+        path2node_hash = {
+            node.names_path: hash(node) for node in bp.corpus.descendants
+        }
 
         # extract all headings  ++++++++++++++++++++++++++++++++++++++++++++++++
         previous_level = -1
@@ -88,19 +95,18 @@ class PromptBlueprint(list):
             path_tuple = tuple(path)
 
             # check node's existence in tree  ----------------------------------
-            if path_tuple not in path2node:
+            if path_tuple not in path2node_hash:
                 # BUG need test & improve wording
                 logger.warning(
                     "not part of the provided prompt corpus, skipped"
                     " during blueprint parsing:\n%s",
                     line,
                 )
-                continue
+                continue  # skip this node
 
-            # append an enabled node  ------------------------------------------
-            if is_checked:
-                node = path2node[path_tuple]
-                bp.append(node)
+            # append a node  ---------------------------------------------------
+            node_hash = path2node_hash[path_tuple]
+            bp[node_hash] = is_checked
 
             # update loop vars  ------------------------------------------------
             previous_level, previous_path = level, path
@@ -114,7 +120,7 @@ class PromptBlueprint(list):
         :type prompt_corpus: PromptCorpusNode
         :param display_name:
         :type display_name: str, optional
-        :return: a blueprint of ``prompt_corpus`` with all nodes enabled
+        :return: a blueprint of ``prompt_corpus`` with all nodes checked
         :rtype: PromptBlueprint
         """
         # BUG need test
@@ -127,17 +133,30 @@ class PromptBlueprint(list):
         return blueprint
 
     @classmethod
-    def create_empty_blueprint(cls, prompt_corpus, *, display_name="empty"):
+    def create_empty_blueprint(
+        cls, prompt_corpus, *, display_name="empty", disable_prune=False
+    ):
         """
         :param prompt_corpus:
         :type prompt_corpus: PromptCorpusNode
         :param display_name:
         :type display_name: str, optional
-        :return: a blueprint of ``prompt_corpus`` with none of nodes enabled
+        :return: a blueprint of ``prompt_corpus`` with none of nodes checked
         :rtype: PromptBlueprint
         """
         # BUG need test
-        return PromptBlueprint(prompt_corpus, display_name=display_name)
+        if disable_prune:
+            bp = cls.create_full_blueprint(
+                prompt_corpus, display_name=display_name
+            )
+            for k in bp:  # uncheck all node
+                bp[k] = False
+            return bp
+        else:
+            return PromptBlueprint(prompt_corpus, display_name=display_name)
+
+    def prune(self):
+        pass  # TODO
 
     def generate_preview_tree(
         self,
@@ -156,7 +175,7 @@ class PromptBlueprint(list):
 
     def __init__(self, prompt_corpus, *, display_name=""):
         # BUG need test
-        super().__init__()  # init as empty list
+        super().__init__()  # init as empty dict
         self.corpus = prompt_corpus
         self.display_name = display_name
 
