@@ -64,6 +64,10 @@ class PromptCorpusNode(AnytreeNode):
         self, preview_line_count=3, preview_line_width=64
     ):
         """
+        generate **preview tree** of ``self`` as root,
+        an human-readable representation
+
+
         :param preview_line_count: set maximum line count of
                 *content preview* part, (excluding section heading line);
                 defaults to 3
@@ -72,9 +76,7 @@ class PromptCorpusNode(AnytreeNode):
                 *content preview* part;
                 defaults to 64.
         :type preview_line_width: int
-        :return: human-readable representation of ``self`` node and children,
-                showing the tree structure, node name (i.e. section headings,)
-                node content preview, etc.
+        :return: the preview tree
         :rtype: str
         :example:
         >>> tree.generate_preview_tree()
@@ -120,6 +122,7 @@ class PromptCorpusNode(AnytreeNode):
     def generate_preview_tree_content_part(
         self, fill, preview_line_count, preview_line_width
     ):
+        # TODO
         """
         :param fill: set prefix filling before each line
         :type fill: str
@@ -129,9 +132,9 @@ class PromptCorpusNode(AnytreeNode):
         :param preview_line_width: set maximum column width of
                 *content preview* part
         :type preview_line_width: int
-        :return: content lines of ``self`` as it will be shown in
-                tree ``__repr__()``, with formatting included
-                Each entry represent a line in the ``__repr__()``
+        :return: content lines of ``self`` as it will be shown in preview tree,
+                with formatting included each entry represent
+                a preview tree line
         :rtype: list[str]
         :example:
         >>> node.generate_preview_tree_content_part('$$$' 3, 10)
