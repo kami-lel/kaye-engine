@@ -143,6 +143,13 @@ class PromptCorpusNode(AnytreeNode):
                 lines.append(fill + content_line[:preview_line_width])
         return lines
 
+    def path_of_names_as_str(self):
+        """
+        :return: self.path_of_names, but use '#' to connect
+        :rtype: str
+        """
+        return "#".join(self.path_of_names)
+
     @staticmethod
     def _convert_corpus_text2lines(full_prompt):
         # reduce formatting empty lines
@@ -250,7 +257,7 @@ class PromptCorpusNode(AnytreeNode):
         node=~~~
         assert str(node) == "PromptCorpusNode(Introduction#Data#Advanced)"
         """
-        return "PromptCorpusNode({})".format("#".join(self.path_of_names))
+        return "PromptCorpusNode({})".format(self.path_of_names_as_str())
 
     def __str__(self):
         return self.generate_preview_tree()
