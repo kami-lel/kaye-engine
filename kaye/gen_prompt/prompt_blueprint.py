@@ -157,6 +157,13 @@ class PromptBlueprint(dict):
             return PromptBlueprint(prompt_corpus, display_name=display_name)
 
     def prune(self):
+        """
+        :return: a **pruned** blueprint
+                which contains only branches with checkmarked nodes
+        :rtype: PromptBlueprint
+        """
+        # BUG need test
+
         pruned_bp = PromptBlueprint(
             self.corpus, display_name=self.display_name
         )
@@ -213,7 +220,6 @@ def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
     :return: if ``node`` has any checkmarked descents
     :rtype: bool
     """
-    # BUG need tests
     node_hash = hash(node)
     # if current node is checkmarked
     is_checkmarked = old_bp[node_hash]
@@ -225,6 +231,7 @@ def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
     )
 
     if is_checkmarked or has_checkmarked_descents:
+        # this node should be in the pruned_bp
         pruned_bp[node_hash] = is_checkmarked
         return True
     else:
