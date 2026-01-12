@@ -24,8 +24,7 @@ class PromptBlueprint(list):
     :param prompt_corpus: *prompt corpus tree* **root** node
             which this prompt blueprint attached to
     :type prompt_corpus: PromptCorpusNode
-    :param blueprint_display_name: display name given to the blueprint;
-            defaults to ""
+    :param blueprint_display_name: display name given to the blueprint
     :type blueprint_display_name: str, optional
     :return: an instance of ``PromptBlueprint`` attached to the given
             ``prompt_corpus``, and with **all nodes enabled**
@@ -36,13 +35,75 @@ class PromptBlueprint(list):
         cls, prompt_corpus, blueprint_text=None, *, display_name=""
     ):
         """
+        TODO
+
+
+        :param prompt_corpus:
+        :type prompt_corpus: PromptCorpusNode
         :param blueprint_text: prompt blueprint text to set nodes,
                 must in the same format of output of ``__repr__()``
                 (with tree structure and checkboxes;)
                 if ``None``: create an **empty** prompt blueprint,
                 i.e. all nodes disabled
+        :type blueprint_text: str
+        :param display_name:
+        :type display_name: str, optional
         """
-        pass  # TODO
+        # BUG need test
+        bp = PromptBlueprint(prompt_corpus, display_name=display_name)
+
+        path2node = {node.names_path: node for node in bp.corpus.descendants}
+
+        # extract all checked names  +++++++++++++++++++++++++++++++++++++++++++
+        previous_level = -1
+        previous_path = []
+        for line in blueprint_text.split("\n"):
+            match = re.fullmatch(cls.HEADING_LINE_PATTERN, line)
+            if match:  # find a line as node / heading
+                is_checked = match.group(1) == "x"
+                level = len(match.group(2)) // 4
+                heading = match.group(3)
+
+                # dynamically decide path  -------------------------------------
+                if level > previous_level:
+
+                    if level - previous_level > 1:
+                        # BUG need test & improve wording
+                        logger.error(
+                            "detect bad blueprint tree format at:\n%s", line
+                        )
+                        continue
+
+                    path = previous_path + [""]
+
+                elif level == previous_level:
+                    path = previous_path
+
+                else:
+                    path = previous_path[: level + 1]
+
+                path[level] = heading
+                path_tuple = tuple(path)
+
+                # check node's existence in tree  ------------------------------
+                if path_tuple not in path2node:
+                    # BUG need test & improve wording
+                    logger.warning(
+                        "not part of the provided prompt corpus, skipped"
+                        " during blueprint parsing:\n%s",
+                        line,
+                    )
+                    continue
+
+                # append an enabled node  --------------------------------------
+                if is_checked:
+                    node = path2node[path_tuple]
+                    bp.append(node)
+
+                # update loop vars  --------------------------------------------
+                previous_level, previous_path = level, path
+
+        return bp
 
     @classmethod
     def create_full_blueprint(cls, prompt_corpus, *, display_name="full"):
@@ -51,7 +112,7 @@ class PromptBlueprint(list):
         :type prompt_corpus: PromptCorpusNode
         :param display_name:
         :type display_name: str, optional
-        :return: a blueprint of ``prompt_corpus`` containing all nodes
+        :return: a blueprint of ``prompt_corpus`` with all nodes enabled
         :rtype: PromptBlueprint
         """
         # BUG need test
@@ -70,9 +131,10 @@ class PromptBlueprint(list):
         :type prompt_corpus: PromptCorpusNode
         :param display_name:
         :type display_name: str, optional
-        :return: a blueprint of ``prompt_corpus`` containing none of the nodes
+        :return: a blueprint of ``prompt_corpus`` with none of nodes enabled
         :rtype: PromptBlueprint
         """
+        # BUG need test
         return PromptBlueprint(prompt_corpus, display_name=display_name)
 
     def generate_preview_tree(
@@ -87,6 +149,8 @@ class PromptBlueprint(list):
 
     def generate_prompt(self, *, hide_comment=False):
         pass  # TODO
+
+    HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
     def __init__(self, prompt_corpus, *, display_name=""):
         # BUG need test
@@ -104,23 +168,6 @@ class PromptBlueprint(list):
 
 
 class PromptBlueprintOld:  # HACK rm
-
-    @classmethod
-    def create_full_prompt_blueprint(
-        cls, prompt_corpus, blueprint_display_name="full"
-    ):
-        """
-        :rtype: PromptBlueprint
-        """
-        blueprint = cls(prompt_corpus, display_name=blueprint_display_name)
-        # set all nodes
-        for node in PreOrderIter(prompt_corpus):
-            if node.parent is None:  # skip root node
-                continue
-
-            blueprint.enabled.append(node)
-
-        return blueprint
 
     def __init__(
         self,
@@ -322,65 +369,6 @@ class PromptBlueprintOld:  # HACK rm
         # create children nodes
         for child_concurrent_node in concurrent_corpus_node.children:
             _PreviewTreeNode(blueprint, child_concurrent_node, self)
-
-    HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
-
-    def _init_populate_enabled_by_blueprint_text(self, blueprint_text):
-        """
-        helper method used in ``__init__()``
-
-        populate ``self.enabled`` by parsing the init param ``blueprint_text``
-        """
-        lines = blueprint_text.split("\n")
-
-        path2node = {
-            node.names_path: node for node in self.prompt_corpus.descendants
-        }
-
-        # extract all enabled headings
-        previous_level = -1
-        previous_path = []
-        for line in lines:
-            match = re.fullmatch(self.HEADING_LINE_PATTERN, line)
-            # find node / heading as a line
-            if match:
-                is_checked = match.group(1) == "x"
-                level = len(match.group(2)) // 4
-                heading = match.group(3)
-
-                # dynamically decide the names_path
-                if level > previous_level:
-
-                    if level - previous_level > 1:
-                        logger.error(
-                            "detect bad blueprint tree format at:\n%s", line
-                        )
-                        continue
-
-                    path = previous_path + [""]
-
-                elif level == previous_level:
-                    path = previous_path
-
-                else:
-                    path = previous_path[: level + 1]
-
-                path[level] = heading
-
-                path_tuple = tuple(path)
-                if path_tuple not in path2node:
-                    logger.warning(
-                        "not part of the provided prompt corpus, skipped"
-                        " during blueprint parsing:\n%s",
-                        line,
-                    )
-                    continue
-
-                if is_checked:
-                    node = path2node[path_tuple]
-                    self.enabled.append(node)
-
-                previous_level, previous_path = level, path
 
     def _generate_prompt_recursively(self, node):
         """
