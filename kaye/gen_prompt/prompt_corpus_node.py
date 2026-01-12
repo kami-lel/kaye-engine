@@ -261,8 +261,8 @@ class PromptCorpusNode(AnytreeNode):
         :return: a copy without any children
         :rtype: PromptCorpusNode
         """
-        # BUG need test
         obj = PromptCorpusNode(self.name, self.parent, None)
+        obj.depth = self.depth
         obj.content = self.content
         return obj
 
