@@ -179,7 +179,49 @@ assert (
 
 ###### preview tree
 
-Use `.generate_preview_tree()` to create a tree formatted representation
+Use `.generate_preview_tree()` to show a human-readable representation which shows:
+
+- tree structure
+- node name, i.e. section heading
+- node content preview
+
+E.g.
+
+```python
+>>> tree.generate_preview_tree()
+○
+└── Project Title
+    ├── Description
+    │   A brief overview of the project, its purpose, and goals.
+    ├── Installation
+    │   1. Clone the repo
+    │   2. Install dependencies
+    │   3. Run the application
+    ├── Usage
+    │   Provide instructions on how to use the application.
+    ├── Contributing
+    │   1. Fork the repo
+    │   2. Create a new branch
+    │   3. Submit a pull request
+    └── License
+        This project is licensed under the MIT License.
+```
+
+As shown above, it contains *content preview*, which can be customized by arguments `preview_line_count` and `preview_line_width`, e.g.
+
+```python
+>>> tree.generate_preview_tree(preview_line_count=0)
+○
+└── Project Title
+    ├── Description
+    ├── Installation
+    ├── Usage
+    ├── Contributing
+    └── License
+```
+
+
+
 
 <!-- fixme improve update details -->
 
