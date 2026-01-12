@@ -96,8 +96,6 @@ node[None]
 
 The `.parent` of a root node is ``None``
 
-----
-
 ###### content
 
 To access node's textual **content lines**, use `.content` (typed `list`.) E.g. with prompt corpus text:
@@ -238,7 +236,6 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 ### Prompt Blueprint `PromptBlueprint`
 
-
 Represents a **prompt blueprint**, encapsulating a configurable subset of
 the prompt corpus with enable/disable control over each tree node.
 
@@ -252,8 +249,6 @@ showing enabled node with `[x]` and disabled node with `[ ]`
 Use `.generate_prompt()` (or `str()`) to render
 a **concrete prompt** composed of all enabled nodes
 
-
-
 A **prompt blueprint** defines a specific subset of the prompt corpus.
 
 The ``PromptBlueprint`` class encapsulates prompt blueprint structure.
@@ -261,5 +256,9 @@ The ``PromptBlueprint`` class encapsulates prompt blueprint structure.
 The supporting function ``load_embedded_prompt_blueprint(prompt_blueprint_name)``
 retrieves and loads a selected *embedded* blueprint stored in
 ``kaye/gen_prompt/prompt_blueprints/`` at runtime.
+
+USAGE
+
+----
 
 <!-- TODO write Python API documentation -->
