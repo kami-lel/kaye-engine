@@ -152,18 +152,10 @@ class PromptBlueprint(dict):
             bp[k] = False
         return bp
 
-    def prune(self):
-        """
-        :return: a **pruned** blueprint (of ``self``)
-                which contains only branches with checkmarked nodes
-        :rtype: PromptBlueprint
-        """
-        # BUG need test
-        pruned_bp = PromptBlueprint(
-            self.corpus, display_name=self.display_name
-        )
-        _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
-        return pruned_bp
+    def __init__(self, prompt_corpus, *, display_name=""):
+        super().__init__()  # init as empty dict
+        self.corpus = prompt_corpus
+        self.display_name = display_name
 
     def generate_preview_tree(
         self,
@@ -178,12 +170,20 @@ class PromptBlueprint(dict):
     def generate_prompt(self, *, hide_comment=False):
         return ""  # TODO
 
-    HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
+    def prune(self):
+        """
+        :return: a **pruned** blueprint (of ``self``)
+                which contains only branches with checkmarked nodes
+        :rtype: PromptBlueprint
+        """
+        # BUG need test
+        pruned_bp = PromptBlueprint(
+            self.corpus, display_name=self.display_name
+        )
+        _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
+        return pruned_bp
 
-    def __init__(self, prompt_corpus, *, display_name=""):
-        super().__init__()  # init as empty dict
-        self.corpus = prompt_corpus
-        self.display_name = display_name
+    HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
     def __repr__(self):
         # BUG need test
