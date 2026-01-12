@@ -42,7 +42,6 @@ class PromptBlueprint(dict):
         """
         TODO, disable_prune
 
-
         :param prompt_corpus:
         :type prompt_corpus: PromptCorpusNode
         :param blueprint_text: prompt blueprint text to set nodes,
@@ -138,6 +137,8 @@ class PromptBlueprint(dict):
         cls, prompt_corpus, *, display_name="empty", disable_prune=False
     ):
         """
+
+
         :param prompt_corpus:
         :type prompt_corpus: PromptCorpusNode
         :param display_name:
