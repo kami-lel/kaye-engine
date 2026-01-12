@@ -238,44 +238,63 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 A **prompt blueprint** represents a configurable subset of *prompt corpus tree*, such that individual node are either **checkmarked** (i.e. enabled, turned on) or **uncheckmarked** (i.e. disabled, turned off.) Then one can generate a prompt as a subset of the tree.
 
-use parse blueprint
+----
 
-empty blue prints
+One might create a populated `PromptBlueprint` by **parsing** a preview-tree text (v.i.) by using *classmethod* `.parse()`, e.g.
 
-full blueprints
+```python
+prompt_corpus = ~~~
+blueprint_text = """ ○
+└── Project Title
+    ├── Description
+    ├── Installation
+    ├── Usage
+    ├── Contributing
+    └── License
+"""
+
+blueprint = Blueprint.parse(prompt_corpus, blueprint_text)
+```
+
+Additionally, one might create full/empty blueprints by *classmethods*:
+
+- ``Blueprint.create_full_blueprint()``, and
+- ``Blueprint.create_empty_blueprint()``
 
 ----
 
-A `PromptBlueprint` mirrors the hierarchical structure of the prompt
-corpus, but each node can be explicitly **enabled** or **disabled**.
-
-Use `.generate_preview_tree()` (or `repr()`) to generate
-a visual representation of the **tree**
-showing enabled node with `[x]` and disabled node with `[ ]`
-
-Use `.generate_prompt()` (or `str()`) to render
-a **concrete prompt** composed of all enabled nodes
-
-A **prompt blueprint** defines a specific subset of the prompt corpus.
-
-The ``PromptBlueprint`` class encapsulates prompt blueprint structure.
-
-The supporting function ``load_embedded_prompt_blueprint(prompt_blueprint_name)``
-retrieves and loads a selected *embedded* blueprint stored in
-``kaye/gen_prompt/prompt_blueprints/`` at runtime.
-
+<!-- TODO -->
 
 
 
 
 #### generate prompt
 
+Use `.generate_prompt()` (or `str()`) to render
+a **concrete prompt** composed of all enabled nodes
+
+<!-- TODO write Python API documentation -->
 
 
 
 
 #### preview tree
 
+Use `.generate_preview_tree()` (or `repr()`) to generate
+a visual representation of the **tree**
+showing enabled node with `[x]` and disabled node with `[ ]`
+
 i.e. ``str()``
+
+<!-- TODO write Python API documentation -->
+
+
+
+
+#### embedded blueprints
+
+The supporting function ``load_embedded_prompt_blueprint(prompt_blueprint_name)``
+retrieves and loads a selected *embedded* blueprint stored in
+``kaye/gen_prompt/prompt_blueprints/`` at runtime.
 
 <!-- TODO write Python API documentation -->

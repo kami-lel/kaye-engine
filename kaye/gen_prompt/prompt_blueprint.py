@@ -21,6 +21,7 @@ class PromptBlueprint(dict):
     """
     TODO summary
 
+
     :param prompt_corpus: *prompt corpus tree* **root** node
             which this prompt blueprint attached to
     :type prompt_corpus: PromptCorpusNode
@@ -34,7 +35,7 @@ class PromptBlueprint(dict):
     def parse_blueprint(
         cls,
         prompt_corpus,
-        blueprint_text=None,
+        blueprint_text,
         *,
         display_name="",
         disable_prune=False,
@@ -42,13 +43,12 @@ class PromptBlueprint(dict):
         """
         TODO, disable_prune
 
+
         :param prompt_corpus:
         :type prompt_corpus: PromptCorpusNode
         :param blueprint_text: prompt blueprint text to set nodes,
                 must in the same format of output of ``__repr__()``
-                (with tree structure and checkboxes;)
-                if ``None``: create an **empty** prompt blueprint,
-                i.e. all nodes disabled
+                (with tree structure and checkboxes)
         :type blueprint_text: str
         :param display_name:
         :type display_name: str, optional
@@ -115,6 +115,9 @@ class PromptBlueprint(dict):
     @classmethod
     def create_full_blueprint(cls, prompt_corpus, *, display_name="full"):
         """
+        TODO
+
+
         :param prompt_corpus:
         :type prompt_corpus: PromptCorpusNode
         :param display_name:
@@ -137,6 +140,7 @@ class PromptBlueprint(dict):
         cls, prompt_corpus, *, display_name="empty", disable_prune=False
     ):
         """
+        TODO
 
 
         :param prompt_corpus:
