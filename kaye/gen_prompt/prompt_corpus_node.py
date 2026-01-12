@@ -183,12 +183,9 @@ class PromptCorpusNode(AnytreeNode):
         self, fill, preview_line_count, preview_line_width
     ):
         """
-        create the **preview content**
-
         helper method used in ``generate_preview_tree()``
 
 
-        TODO
         :param fill: set prefix filling before each line
         :type fill: str
         :param preview_line_count: set maximum line count of
@@ -197,12 +194,10 @@ class PromptCorpusNode(AnytreeNode):
         :param preview_line_width: set maximum column width of
                 *content preview* part
         :type preview_line_width: int
-        :return: content lines of ``self`` as it will be shown in preview tree,
-                with formatting included each entry represent
-                a preview tree line
+        :return: content lines as it will be shown in preview tree
         :rtype: list[str]
         :example:
-        >>> node.generate_preview_tree_content_part('$$$' 3, 10)
+        >>> node._generate_preview_tree_create_content_preview('$$$' 3, 10)
         ["$$$You per", "$$$When tr", "$$$User ma"]
         """
         lines = []
