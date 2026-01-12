@@ -51,57 +51,59 @@ class PromptBlueprint(list):
         """
         # BUG need test
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
-
         path2node = {node.names_path: node for node in bp.corpus.descendants}
 
-        # extract all checked names  +++++++++++++++++++++++++++++++++++++++++++
+        # extract all headings  ++++++++++++++++++++++++++++++++++++++++++++++++
         previous_level = -1
         previous_path = []
         for line in blueprint_text.split("\n"):
             match = re.fullmatch(cls.HEADING_LINE_PATTERN, line)
-            if match:  # find a line as node / heading
-                is_checked = match.group(1) == "x"
-                level = len(match.group(2)) // 4
-                heading = match.group(3)
 
-                # dynamically decide path  -------------------------------------
-                if level > previous_level:
+            if not match:
+                continue  # skip line that is not a node heading
 
-                    if level - previous_level > 1:
-                        # BUG need test & improve wording
-                        logger.error(
-                            "detect bad blueprint tree format at:\n%s", line
-                        )
-                        continue
+            is_checked = match.group(1) == "x"
+            level = len(match.group(2)) // 4
+            heading = match.group(3)
 
-                    path = previous_path + [""]
+            # dynamically decide path  -----------------------------------------
+            if level > previous_level:
 
-                elif level == previous_level:
-                    path = previous_path
-
-                else:
-                    path = previous_path[: level + 1]
-
-                path[level] = heading
-                path_tuple = tuple(path)
-
-                # check node's existence in tree  ------------------------------
-                if path_tuple not in path2node:
+                if level - previous_level > 1:
                     # BUG need test & improve wording
-                    logger.warning(
-                        "not part of the provided prompt corpus, skipped"
-                        " during blueprint parsing:\n%s",
-                        line,
+                    logger.error(
+                        "detect bad blueprint tree format at:\n%s", line
                     )
                     continue
 
-                # append an enabled node  --------------------------------------
-                if is_checked:
-                    node = path2node[path_tuple]
-                    bp.append(node)
+                path = previous_path + [""]
 
-                # update loop vars  --------------------------------------------
-                previous_level, previous_path = level, path
+            elif level == previous_level:
+                path = previous_path
+
+            else:
+                path = previous_path[: level + 1]
+
+            path[level] = heading
+            path_tuple = tuple(path)
+
+            # check node's existence in tree  ----------------------------------
+            if path_tuple not in path2node:
+                # BUG need test & improve wording
+                logger.warning(
+                    "not part of the provided prompt corpus, skipped"
+                    " during blueprint parsing:\n%s",
+                    line,
+                )
+                continue
+
+            # append an enabled node  ------------------------------------------
+            if is_checked:
+                node = path2node[path_tuple]
+                bp.append(node)
+
+            # update loop vars  ------------------------------------------------
+            previous_level, previous_path = level, path
 
         return bp
 
