@@ -119,33 +119,6 @@ class PromptCorpusNode(AnytreeNode):
 
         return "\n".join(opt_lines)
 
-    def generate_preview_tree_content_part(
-        self, fill, preview_line_count, preview_line_width
-    ):
-        # TODO
-        """
-        :param fill: set prefix filling before each line
-        :type fill: str
-        :param preview_line_count: set maximum line count of
-                *content preview* part, (excluding section heading line)
-        :type preview_line_count: int
-        :param preview_line_width: set maximum column width of
-                *content preview* part
-        :type preview_line_width: int
-        :return: content lines of ``self`` as it will be shown in preview tree,
-                with formatting included each entry represent
-                a preview tree line
-        :rtype: list[str]
-        :example:
-        >>> node.generate_preview_tree_content_part('$$$' 3, 10)
-        ["$$$You per", "$$$When tr", "$$$User ma"]
-        """
-        lines = []
-        if self.content and preview_line_count:  # print content of node
-            for content_line in self.content[:preview_line_count]:
-                lines.append(fill + content_line[:preview_line_width])
-        return lines
-
     def path_of_names_as_str(self):
         """
         :return: self.path_of_names, but use '#' to connect
@@ -162,6 +135,7 @@ class PromptCorpusNode(AnytreeNode):
     def _init_populate_children(self, text_lines):
         """
         helper method used in ``__init__()``
+
 
         create children nodes of ``self`` and populate self.content
         by parsing ``text_lines``
@@ -204,6 +178,36 @@ class PromptCorpusNode(AnytreeNode):
         else:
             nodes_path = self.path[1:]  # remove root node
             return tuple(node.name for node in nodes_path)
+
+    def _generate_preview_tree_content_part(
+        self, fill, preview_line_count, preview_line_width
+    ):
+        """
+        helper method used in ``generate_preview_tree()``
+
+
+        TODO
+        :param fill: set prefix filling before each line
+        :type fill: str
+        :param preview_line_count: set maximum line count of
+                *content preview* part, (excluding section heading line)
+        :type preview_line_count: int
+        :param preview_line_width: set maximum column width of
+                *content preview* part
+        :type preview_line_width: int
+        :return: content lines of ``self`` as it will be shown in preview tree,
+                with formatting included each entry represent
+                a preview tree line
+        :rtype: list[str]
+        :example:
+        >>> node.generate_preview_tree_content_part('$$$' 3, 10)
+        ["$$$You per", "$$$When tr", "$$$User ma"]
+        """
+        lines = []
+        if self.content and preview_line_count:  # print content of node
+            for content_line in self.content[:preview_line_count]:
+                lines.append(fill + content_line[:preview_line_width])
+        return lines
 
     def __getitem__(self, key=None):
         """
