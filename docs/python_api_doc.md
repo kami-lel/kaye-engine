@@ -240,19 +240,11 @@ A **prompt blueprint** represents a configurable subset of *prompt corpus tree*,
 
 ----
 
-One might create a populated `PromptBlueprint` by **parsing** a preview-tree text (v.i.) by using *classmethod* `.parse()`, e.g.
+One might **create** a populated `PromptBlueprint` by **parsing** a preview-tree text (v.i.) by using *classmethod* `.parse()`, e.g.
 
 ```python
 prompt_corpus = ~~~
-blueprint_text = """ ○
-└── Project Title
-    ├── Description
-    ├── Installation
-    ├── Usage
-    ├── Contributing
-    └── License
-"""
-
+blueprint_text = ~~~
 blueprint = Blueprint.parse(prompt_corpus, blueprint_text)
 ```
 
@@ -293,6 +285,48 @@ a visual representation of the **tree**
 showing enabled node with `[x]` and disabled node with `[ ]`
 
 i.e. ``str()``
+
+generate a visual representation of the **tree**, showing:
+
+- tree structure
+- node name (i.e. section heading)
+- node enabled/disabled status, prefixed with:
+
+  - ``[x]`` for enabled node
+  - ``[ ]`` for disabled node
+
+- node content preview
+
+```python
+>>> tree = PromptBlueprint(...)
+>>> tree.generate_preview_tree()
+    ○
+[x] └── Project Title
+[ ]     ├── Description
+        │   A brief overview of the project, its purpose, and goals.
+[ ]     ├── Installation
+        │   1. Clone the repo
+        │   2. Install dependencies
+        │   3. Run the application
+[ ]     ├── Usage
+        │   Provide instructions on how to use the application.
+[ ]     ├── Contributing
+        │   1. Fork the repo
+        │   2. Create a new branch
+        │   3. Submit a pull request
+[x]     └── License
+            This project is licensed under the MIT License.
+(blueprint:conversation; Kaye v1.2.3)
+>>> tree.generate_preview_tree(preview_line_count=0, hide_comment=True)
+    ○
+[x] └── Project Title
+[ ]     ├── Description
+[ ]     ├── Installation
+[ ]     ├── Usage
+[ ]     ├── Contributing
+[x]     └── License
+```
+
 
 <!-- TODO write Python API documentation -->
 
