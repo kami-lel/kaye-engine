@@ -180,10 +180,10 @@ class PromptBlueprint(dict):
         preview_line_width=64,
         hide_comment=False,
     ):
-        pass  # TODO
+        return ""  # TODO
 
     def generate_prompt(self, *, hide_comment=False):
-        pass  # TODO
+        return ""  # TODO
 
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
