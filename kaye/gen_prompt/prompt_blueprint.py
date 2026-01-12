@@ -157,7 +157,17 @@ class PromptBlueprint(dict):
             return PromptBlueprint(prompt_corpus, display_name=display_name)
 
     def prune(self):
-        pass  # TODO
+        # BUG need tests
+        # only find relevant nodes, i.e. checkmarked nodes & their ancestors
+        relevant_nodes_hash = _prune_discovery(self, self.corpus)
+
+        bp = PromptBlueprint(self.corpus, display_name=self.display_name)
+
+        for node_hash in relevant_nodes_hash:
+            # set checkmark status to be the same
+            bp[node_hash] = self[node_hash]
+
+        return bp
 
     def generate_preview_tree(
         self,
@@ -187,6 +197,34 @@ class PromptBlueprint(dict):
     def __str__(self):
         # BUG need test
         return self.generate_preview_tree()
+
+
+# helpers  #####################################################################
+
+
+def _prune_discovery(blueprint, node):
+    """
+    TODO & better name
+    """
+    # TODO working on this logic
+    if node.is_leaf:
+        node_hash = hash(node)
+        return [node_hash] if node_hash in blueprint else []
+
+    hashes = []
+    current_node_hash = hash(node)
+
+    # add self to the returned list
+    if current_node_hash in blueprint:
+        hashes.append(current_node_hash)
+
+    # resurvey iterately all children
+    for child in node.children:
+        pass
+
+    return hashes
+
+    return []  # TODO
 
 
 class PromptBlueprintOld:  # HACK rm
