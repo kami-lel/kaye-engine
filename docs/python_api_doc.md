@@ -273,6 +273,17 @@ Each entry in `PromptBlueprint` represents a node, with key being node `hash()` 
 Use `.generate_prompt()` (or `str()`) to render
 a **concrete prompt** composed of all enabled nodes
 
+```python
+>>> tree = PromptBlueprint(...)
+>>> tree.generate_prompt(hide_comment=True)
+# Main Title
+Overview of the methodologies used.
+### Data Collection
+How data was gathered for analysis.
+## Conclusion
+Summarizing the findings and implications.
+```
+
 <!-- TODO write Python API documentation -->
 
 
@@ -326,7 +337,6 @@ generate a visual representation of the **tree**, showing:
 [ ]     ├── Contributing
 [x]     └── License
 ```
-
 
 <!-- TODO write Python API documentation -->
 
