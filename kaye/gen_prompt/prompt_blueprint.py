@@ -27,7 +27,7 @@ class PromptBlueprint(dict):
     :param blueprint_display_name: display name given to the blueprint
     :type blueprint_display_name: str, optional
     :return: an instance of ``PromptBlueprint`` attached to the given
-            ``prompt_corpus``, and with **all nodes enabled**
+            ``prompt_corpus``, and with **all nodes checkmarked**
     """
 
     @classmethod
@@ -69,7 +69,7 @@ class PromptBlueprint(dict):
             if not match:
                 continue  # skip line that is not a node heading
 
-            is_checked = match.group(1) == "x"
+            is_checkmarked = match.group(1) == "x"
             level = len(match.group(2)) // 4
             heading = match.group(3)
 
@@ -106,7 +106,7 @@ class PromptBlueprint(dict):
 
             # append a node  ---------------------------------------------------
             node_hash = path2node_hash[path_tuple]
-            bp[node_hash] = is_checked
+            bp[node_hash] = is_checkmarked
 
             # update loop vars  ------------------------------------------------
             previous_level, previous_path = level, path
@@ -120,7 +120,7 @@ class PromptBlueprint(dict):
         :type prompt_corpus: PromptCorpusNode
         :param display_name:
         :type display_name: str, optional
-        :return: a blueprint of ``prompt_corpus`` with all nodes checked
+        :return: a blueprint of ``prompt_corpus`` with all nodes checkmarked
         :rtype: PromptBlueprint
         """
         # BUG need test
@@ -128,7 +128,8 @@ class PromptBlueprint(dict):
         # include all nodes
         for node in PreOrderIter(prompt_corpus):
             if node.parent is None:  # skip root node
-                blueprint.append(node)
+                key = hash(node)
+                blueprint[key] = True  #  check all nodes
 
         return blueprint
 
@@ -141,7 +142,7 @@ class PromptBlueprint(dict):
         :type prompt_corpus: PromptCorpusNode
         :param display_name:
         :type display_name: str, optional
-        :return: a blueprint of ``prompt_corpus`` with none of nodes checked
+        :return: a blueprint of ``prompt_corpus`` with none of nodes checkmarked
         :rtype: PromptBlueprint
         """
         # BUG need test
@@ -149,7 +150,7 @@ class PromptBlueprint(dict):
             bp = cls.create_full_blueprint(
                 prompt_corpus, display_name=display_name
             )
-            for k in bp:  # uncheck all node
+            for k in bp:  # un-checkmark all node
                 bp[k] = False
             return bp
         else:
