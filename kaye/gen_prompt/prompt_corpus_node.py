@@ -44,9 +44,14 @@ class PromptCorpusNode(AnytreeNode):
         root = cls(ROOT_NODE_NAME, None, text_lines)
         return root
 
-    def __init__(self, name, parent, text_lines):
+    def __init__(self, name, parent, text_lines=None):
         super().__init__(name, parent)
         self.content = []  # content lines
+
+        self.path_of_names = self._init_generate_path_of_names()
+
+        if text_lines is None:
+            return
 
         self._init_populate_children(text_lines)
 
@@ -57,8 +62,6 @@ class PromptCorpusNode(AnytreeNode):
         while end > start and self.content[end - 1] == "":
             end -= 1
         self.content = self.content[start:end]
-
-        self.path_of_names = self._init_generate_path_of_names()
 
     def generate_preview_tree(
         self, preview_line_count=3, preview_line_width=64
@@ -112,7 +115,7 @@ class PromptCorpusNode(AnytreeNode):
             opt_lines.append(pre + node.name)
             # lines for the content of node
             opt_lines.extend(
-                node.generate_preview_tree_create_content_preview(
+                node.generate_preview_tree_content_preview_lines(
                     fill, preview_line_count, preview_line_width
                 )
             )
@@ -252,6 +255,16 @@ class PromptCorpusNode(AnytreeNode):
 
     def __hash__(self):
         return hash(self.path_of_names)
+
+    def __copy__(self):
+        """
+        :return: a copy without any children
+        :rtype: PromptCorpusNode
+        """
+        # BUG need test
+        obj = PromptCorpusNode(self.name, self.parent, None)
+        obj.content = self.content
+        return obj
 
     def __repr__(self):
         """

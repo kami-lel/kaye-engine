@@ -10,7 +10,7 @@ from anytree import RenderTree, PreOrderIter, Node
 from anytree.render import ContStyle
 
 from .. import kamilog, PROGRAM_NAME
-from .prompt_corpus_node import HEADING_PREFIX
+from .prompt_corpus_node import HEADING_PREFIX, PromptCorpusNode
 
 __all__ = ("PromptBlueprint",)
 
@@ -189,7 +189,9 @@ class PromptBlueprint(dict):
         if show_full_tree:
             preview_tree = self.corpus
         else:
-            preview_tree = self.corpus  # TODO
+            preview_tree = _filter_for_preview_tree_recursively(
+                self, self.corpus
+            )
 
         # generate content  ----------------------------------------------------
         opt = preview_tree.generate_preview_tree(
@@ -204,6 +206,15 @@ class PromptBlueprint(dict):
         return opt
 
     def generate_prompt(self, *, hide_comment=False):
+        """
+        TODO
+
+        :param hide_comment: disable comment part after last line;
+                defaults to False
+        :type hide_comment: bool, optional
+        :return: **concrete prompt** composed of nodes heading and content
+        :rtype: str
+        """
         return ""  # TODO
 
     def prune(self):
@@ -292,25 +303,25 @@ def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
         return False
 
 
+def _filter_for_preview_tree_recursively(blueprint, node):
+    """
+    TODO
+
+    :param blueprint:
+    :type blueprint: PromptBlueprint
+    :param node:
+    :type node: PromptCorpusNode
+    :return: root of the filtered node
+    :rtype: PromptCorpusNode
+    """
+    new_node = PromptCorpusNode(node.name, node.parent, None)
+
+    return ""  # TODO
+
+
 class PromptBlueprintOld:  # HACK rm
 
     def generate_prompt(self, *, hide_comment=False):
-        """
-        :param hide_comment: disable comment part after last line;
-                defaults to False
-        :type hide_comment: bool, optional
-        :return: **concrete prompt** composed of nodes heading and content
-        :rtype: str
-        :example:
-        >>> tree = PromptBlueprint(...)
-        >>> tree.generate_prompt(hide_comment=True)
-        # Main Title
-        Overview of the methodologies used.
-        ### Data Collection
-        How data was gathered for analysis.
-        ## Conclusion
-        Summarizing the findings and implications.
-        """
         # generate lines from root node
         lines = self._generate_prompt_recursively(self.prompt_corpus)
 
