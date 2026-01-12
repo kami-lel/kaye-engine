@@ -188,7 +188,6 @@ class PromptBlueprint(dict):
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
     def __init__(self, prompt_corpus, *, display_name=""):
-        # BUG need test
         super().__init__()  # init as empty dict
         self.corpus = prompt_corpus
         self.display_name = display_name
