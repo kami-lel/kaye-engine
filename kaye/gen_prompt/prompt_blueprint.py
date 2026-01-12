@@ -115,14 +115,12 @@ class PromptBlueprint(dict):
     @classmethod
     def create_full_blueprint(cls, prompt_corpus, *, display_name="full"):
         """
-        TODO
-
-
         :param prompt_corpus:
         :type prompt_corpus: PromptCorpusNode
         :param display_name:
         :type display_name: str, optional
-        :return: a blueprint of ``prompt_corpus`` with all nodes checkmarked
+        :return: a blueprint with all nodes from `prompt_corpus`,
+                and checkmarking all nodes
         :rtype: PromptBlueprint
         """
         # BUG need test
@@ -136,30 +134,23 @@ class PromptBlueprint(dict):
         return blueprint
 
     @classmethod
-    def create_empty_blueprint(
-        cls, prompt_corpus, *, display_name="empty", disable_prune=False
-    ):
+    def create_empty_blueprint(cls, prompt_corpus, *, display_name="empty"):
         """
-        TODO
-
-
         :param prompt_corpus:
         :type prompt_corpus: PromptCorpusNode
         :param display_name:
         :type display_name: str, optional
-        :return: a blueprint of ``prompt_corpus`` with none of nodes checkmarked
+        :return: a blueprint with all nodes from `prompt_corpus`,
+                but checkmarking all nodes
         :rtype: PromptBlueprint
         """
         # BUG need test
-        if disable_prune:
-            bp = cls.create_full_blueprint(
-                prompt_corpus, display_name=display_name
-            )
-            for k in bp:  # un-checkmark all node
-                bp[k] = False
-            return bp
-        else:
-            return PromptBlueprint(prompt_corpus, display_name=display_name)
+        bp = cls.create_full_blueprint(
+            prompt_corpus, display_name=display_name
+        )
+        for k in bp:  # un-checkmark all node
+            bp[k] = False
+        return bp
 
     def prune(self):
         """
@@ -168,13 +159,10 @@ class PromptBlueprint(dict):
         :rtype: PromptBlueprint
         """
         # BUG need test
-
         pruned_bp = PromptBlueprint(
             self.corpus, display_name=self.display_name
         )
-
         _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
-
         return pruned_bp
 
     def generate_preview_tree(
