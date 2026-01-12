@@ -236,8 +236,15 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 ### Prompt Blueprint `PromptBlueprint`
 
-Represents a **prompt blueprint**, encapsulating a configurable subset of
-the prompt corpus with enable/disable control over each tree node.
+A **prompt blueprint** represents a configurable subset of *prompt corpus tree*, such that individual node are either **checkmarked** (i.e. enabled, turned on) or **uncheckmarked** (i.e. disabled, turned off.) Then one can generate a prompt as a subset of the tree.
+
+use parse blueprint
+
+empty blue prints
+
+full blueprints
+
+----
 
 A `PromptBlueprint` mirrors the hierarchical structure of the prompt
 corpus, but each node can be explicitly **enabled** or **disabled**.
@@ -257,8 +264,18 @@ The supporting function ``load_embedded_prompt_blueprint(prompt_blueprint_name)`
 retrieves and loads a selected *embedded* blueprint stored in
 ``kaye/gen_prompt/prompt_blueprints/`` at runtime.
 
-USAGE
 
-----
+
+
+
+#### generate prompt
+
+
+
+
+
+#### preview tree
+
+i.e. ``str()``
 
 <!-- TODO write Python API documentation -->

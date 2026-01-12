@@ -5,6 +5,7 @@
         "dify",
         "presense",
         "subpsr",
+        "uncheckmarked",
         "unprunable"
     ],
     "todo-tree.filtering.excludeGlobs": [

@@ -159,7 +159,7 @@ class PromptBlueprint(dict):
 
     def prune(self):
         """
-        :return: a **pruned** blueprint
+        :return: a **pruned** blueprint (of ``self``)
                 which contains only branches with checkmarked nodes
         :rtype: PromptBlueprint
         """
