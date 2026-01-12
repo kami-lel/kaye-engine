@@ -157,17 +157,13 @@ class PromptBlueprint(dict):
             return PromptBlueprint(prompt_corpus, display_name=display_name)
 
     def prune(self):
-        # BUG need tests
-        # only find relevant nodes, i.e. checkmarked nodes & their ancestors
-        relevant_nodes_hash = _prune_discovery(self, self.corpus)
+        pruned_bp = PromptBlueprint(
+            self.corpus, display_name=self.display_name
+        )
 
-        bp = PromptBlueprint(self.corpus, display_name=self.display_name)
+        _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
 
-        for node_hash in relevant_nodes_hash:
-            # set checkmark status to be the same
-            bp[node_hash] = self[node_hash]
-
-        return bp
+        return pruned_bp
 
     def generate_preview_tree(
         self,
@@ -202,29 +198,37 @@ class PromptBlueprint(dict):
 # helpers  #####################################################################
 
 
-def _prune_discovery(blueprint, node):
+def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
     """
-    TODO & better name
+    recursively walk ``node``, and add necessary nodes from ``old_bp`` to
+    ``pruned_bp``, such that trivial branches are pruned in the ``pruned_bp``
+
+
+    :param old_bp:
+    :type old_bp: PromptBlueprint
+    :param pruned_bp:
+    :type pruned_bp: PromptBlueprint
+    :param node:
+    :type node: PromptCorpusNode
+    :return: if ``node`` has any checkmarked descents
+    :rtype: bool
     """
-    # TODO working on this logic
-    if node.is_leaf:
-        node_hash = hash(node)
-        return [node_hash] if node_hash in blueprint else []
+    # BUG need tests
+    node_hash = hash(node)
+    # if current node is checkmarked
+    is_checkmarked = old_bp[node_hash]
 
-    hashes = []
-    current_node_hash = hash(node)
+    # if any of dependents is checkmarked
+    has_checkmarked_descents = not node.is_leaf and any(
+        _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, child)
+        for child in node.children
+    )
 
-    # add self to the returned list
-    if current_node_hash in blueprint:
-        hashes.append(current_node_hash)
-
-    # resurvey iterately all children
-    for child in node.children:
-        pass
-
-    return hashes
-
-    return []  # TODO
+    if is_checkmarked or has_checkmarked_descents:
+        pruned_bp[node_hash] = is_checkmarked
+        return True
+    else:
+        return False
 
 
 class PromptBlueprintOld:  # HACK rm

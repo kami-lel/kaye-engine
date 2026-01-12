@@ -4,7 +4,8 @@
         "checkmarked",
         "dify",
         "presense",
-        "subpsr"
+        "subpsr",
+        "unprunable"
     ],
     "todo-tree.filtering.excludeGlobs": [
         "**/hooks_utility/*",
