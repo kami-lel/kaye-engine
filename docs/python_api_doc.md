@@ -220,11 +220,6 @@ As shown above, it contains *content preview*, which can be customized by argume
     └── License
 ```
 
-
-
-
-<!-- fixme improve update details -->
-
 ----
 
 `str(node)` is equivalent to ``node.generate_preview_tree()``

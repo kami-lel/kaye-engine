@@ -24,11 +24,12 @@
 
 ### Added
 
-- for `PromptCorpusNode`, allow `node['name']` pattern
+- for `PromptCorpusNode`, implement `__getitem__()` for subscriptable
 
 ### Changed
 
 - complete `python_api_doc.md`
+- implementation of `PromptBlueprint` to improve efficiency and clarity
 
 ### Deprecated
 ### Removed
