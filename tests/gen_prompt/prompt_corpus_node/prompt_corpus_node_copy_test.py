@@ -4,12 +4,13 @@ prompt_corpus_node_copy_test.py
 Unit Tests (using pytest) for: PromptCorpusNode.__copy__()
 """
 
+from copy import copy
+
 from kaye.gen_prompt import PromptCorpusNode
 from tests.gen_prompt.prompt_corpus_node.testees import (
     PROMPT1,
     PROMPT2,
     PROMPT3,
-    PROMPT_EMPTY_LINES,
 )
 
 # BUG
@@ -20,7 +21,7 @@ class TestParse1:  # test using PROMPT1
     def test_root(self):
         src_node = PromptCorpusNode.parse(PROMPT1)
 
-        opt = src_node.copy()
+        opt = copy(src_node)
         print(str(opt))
 
         assert src_node.depth == opt.depth
@@ -32,7 +33,7 @@ class TestParse1:  # test using PROMPT1
         tree = PromptCorpusNode.parse(PROMPT1)
         scr_node = tree.children[0]
 
-        opt = src_node.copy()
+        opt = copy(src_node)
 
         print(str(opt))
         assert src_node.name == opt.name
@@ -46,7 +47,7 @@ class TestParse1:  # test using PROMPT1
         project = tree.children[0]
         src_node = project.children[0]
 
-        opt = src_node.copy()
+        opt = copy(src_node)
 
         print(str(opt))
         assert src_node.name == opt.name
@@ -60,7 +61,7 @@ class TestParse2:  # test using PROMPT2
     def test_root(self):
         src_node = PromptCorpusNode.parse(PROMPT2)
 
-        opt = src_node.copy()
+        opt = copy(src_node)
         print(str(opt))
 
         assert src_node.depth == opt.depth
@@ -72,7 +73,7 @@ class TestParse2:  # test using PROMPT2
         tree = PromptCorpusNode.parse(PROMPT2)
         src_node = tree.children[0]
 
-        opt = src_node.copy()
+        opt = copy(src_node)
         print(str(opt))
 
         assert src_node.depth == opt.depth
@@ -85,7 +86,7 @@ class TestParse2:  # test using PROMPT2
         project = tree.children[0]
         src_node = project.children[0]
 
-        opt = src_node.copy()
+        opt = copy(src_node)
         print(str(opt))
 
         assert src_node.depth == opt.depth
@@ -98,7 +99,7 @@ class TestParse2:  # test using PROMPT2
         project = tree.children[0]
         src_node = project.children[1]
 
-        opt = src_node.copy()
+        opt = copy(src_node)
         print(str(opt))
 
         assert src_node.depth == opt.depth
@@ -111,7 +112,7 @@ class TestParse2:  # test using PROMPT2
         project = tree.children[0]
         src_node = project.children[2]
 
-        opt = src_node.copy()
+        opt = copy(src_node)
         print(str(opt))
 
         assert src_node.depth == opt.depth
@@ -125,7 +126,7 @@ class TestParse3:  # test using PROMPT3
     def test_root(self):
         src_node = PromptCorpusNode.parse(PROMPT3)
 
-        opt = src_node.copy()
+        opt = copy(src_node)
         print(str(opt))
 
         assert src_node.depth == opt.depth
@@ -137,7 +138,7 @@ class TestParse3:  # test using PROMPT3
         tree = PromptCorpusNode.parse(PROMPT3)
         src_node = tree.children[0]
 
-        opt = src_node.copy()
+        opt = copy(src_node)
         print(str(opt))
 
         assert src_node.depth == opt.depth
@@ -150,7 +151,7 @@ class TestParse3:  # test using PROMPT3
         project = tree.children[0]
         src_node = project.children[0]
 
-        opt = src_node.copy()
+        opt = copy(src_node)
         print(str(opt))
 
         assert src_node.depth == opt.depth
@@ -164,7 +165,7 @@ class TestParse3:  # test using PROMPT3
         parent = project.children[0]
         src_node = parent.children[0]
 
-        opt = src_node.copy()
+        opt = copy(src_node)
         print(str(opt))
 
         assert src_node.depth == opt.depth
@@ -178,7 +179,7 @@ class TestParse3:  # test using PROMPT3
         parent = project.children[0].children[0]
         src_node = parent.children[0]
 
-        opt = src_node.copy()
+        opt = copy(src_node)
         print(str(opt))
 
         assert src_node.depth == opt.depth
@@ -192,7 +193,7 @@ class TestParse3:  # test using PROMPT3
         parent = project.children[0].children[0].children[0]
         src_node = parent.children[0]
 
-        opt = src_node.copy()
+        opt = copy(src_node)
         print(str(opt))
 
         assert src_node.depth == opt.depth
