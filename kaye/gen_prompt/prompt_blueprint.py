@@ -159,29 +159,31 @@ class PromptBlueprint(dict):
     def generate_preview_tree(
         self,
         *,
-        show_full_tree=False,
         preview_line_count=3,
         preview_line_width=64,
+        show_full_tree=False,
         hide_comment=False,
     ):
         """
-        TODO
+        generate **preview tree** of the blueprint,
+        an human-readable representation
 
-        :param show_full_tree: _description_, defaults to False
-        :type show_full_tree: bool, optional
+
         :param preview_line_count: set maximum line count of
-                *content preview* part for each entry,
-                (excluding section heading line;)
+                *content preview* part, (excluding section heading line);
                 defaults to 3
-        :type preview_line_count: int, optional
+        :type preview_line_count: int
         :param preview_line_width: set maximum column width of
-                *content preview* part for each entry;
-                defaults to 64
-        :type preview_line_count: int, optional
+                *content preview* part;
+                defaults to 64.
+        :type preview_line_width: int
+        :param show_full_tree: whether to show the full corpus tree,
+                regardless of node's inclusion in this blueprint;
+        :type show_full_tree: bool, optional
         :param hide_comment: disable comment part after last line;
                 defaults to False
         :type hide_comment: bool, optional
-        :return: v.s.
+        :return: the preview tree
         :rtype: str
         """
         # BUG BUG need test
@@ -210,6 +212,7 @@ class PromptBlueprint(dict):
     def generate_prompt(self, *, hide_comment=False):
         """
         TODO
+
 
         :param hide_comment: disable comment part after last line;
                 defaults to False
@@ -261,10 +264,20 @@ class PromptBlueprint(dict):
         return "{}Kaye v{}".format(name_part, kaye_version)
 
     def __repr__(self):
+        """
+        :return:
+        :rtype: str
+        :example:
+        assert repr(node) == "PromptBlueprint(My Blueprint)"
+        """
         # BUG need test
         return "PromptBlueprint({})".format(self.display_name)
 
     def __str__(self):
+        """
+        :return: equivalent to self.generate_preview_tree()
+        :rtype: str
+        """
         # BUG need test
         return self.generate_preview_tree()
 

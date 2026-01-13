@@ -291,25 +291,19 @@ Summarizing the findings and implications.
 
 #### preview tree
 
-Use `.generate_preview_tree()` (or `repr()`) to generate
-a visual representation of the **tree**
-showing enabled node with `[x]` and disabled node with `[ ]`
+Like `PromptCorpusNode`, one may use `.generate_preview_tree()` to show a human-readable presentation of `PromptBlueprint`; the tree contains:
 
-i.e. ``str()``
-
-generate a visual representation of the **tree**, showing:
-
-- tree structure
-- node name (i.e. section heading)
-- node enabled/disabled status, prefixed with:
-
-  - ``[x]`` for enabled node
-  - ``[ ]`` for disabled node
-
+- tree structure of corresponding *prompt corpus tree*
+- node name, i.e. section heading
 - node content preview
+- **checkmark status** of the node, shown with either `[x]` or `[ ]` as prefix
+
+By default, this print an **pruned** tree, showing only branches & nodes relevant to this blueprint. By using keyword argument `show_full_tree=`, user may force it to show the full prompt corpus tree.
+
+E.g.
 
 ```python
->>> tree = PromptBlueprint(...)
+>>> tree = PromptBlueprint(~~~)
 >>> tree.generate_preview_tree()
     ○
 [x] └── Project Title
@@ -338,7 +332,9 @@ generate a visual representation of the **tree**, showing:
 [x]     └── License
 ```
 
-<!-- TODO write Python API documentation -->
+----
+
+`str(blueprint)` is equivalent to `blueprint.generate_preview_tree()`
 
 
 
