@@ -41,17 +41,24 @@ class PromptBlueprint(dict):
         disable_prune=False,
     ):
         """
-        TODO, disable_prune
+        parse ``blueprint_text`` into a blueprint object
 
 
         :param prompt_corpus:
         :type prompt_corpus: PromptCorpusNode
-        :param blueprint_text: prompt blueprint text to set nodes,
-                must in the same format of output of ``__repr__()``
-                (with tree structure and checkboxes)
+        :param blueprint_text: prompt blueprint text to set nodes, must in
+                the same format of output of ``.generate_preview_tree()``
+                (with tree structure and checkmarks)
         :type blueprint_text: str
         :param display_name:
         :type display_name: str, optional
+        :param disable_prune: by default, the parsed tree does not include
+                irreverent nodes;
+                when ``disable_prune``, the parsed tree contains the full
+                prompt corpus tree of ``prompt_corpus``
+        :type disable_prune: bool, optional
+        :return: a blueprint parsed from ``blueprint_text``
+        :rtype: PromptBlueprint
         """
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
         path2node_hash = {

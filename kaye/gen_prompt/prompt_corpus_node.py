@@ -32,7 +32,7 @@ class PromptCorpusNode(AnytreeNode):
     @classmethod
     def parse(cls, prompt_corpus_text):
         """
-        Parse *prompt corpus* text into the tree structure.
+        parse *prompt corpus* text into the tree structure.
 
         :param prompt_corpus_text: full source *prompt corpus* content
         :type prompt_corpus_text: str
