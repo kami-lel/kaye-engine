@@ -7,6 +7,7 @@ from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 from tests.gen_prompt.prompt_blueprint.testees import PROMPT1, PROMPT2
 
 
+# BUG
 class Test1:  # use PROMPT1
 
     corpus = PromptCorpusNode.parse(PROMPT1)
