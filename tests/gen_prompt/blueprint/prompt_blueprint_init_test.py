@@ -1,36 +1,56 @@
 """
 prompt_blueprint_init_test.py
 
-Unit Tests (using pytest) for: PromptBlueprint.__init__()
+Unit Tests (using pytest) for: PromptBlueprint
+
+- .__init__()
+- .__repr__()
 """
 
 from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
 
-
-def test_dft():
-    corpus = load_embedded_prompt_corpus()
-
-    empty_bp = PromptBlueprint(corpus)
-
-    print(empty_bp)
-
-    assert isinstance(empty_bp, dict)
-    assert len(empty_bp) == 0
-    assert empty_bp.corpus is corpus
-    assert isinstance(empty_bp.display_name, str)
-    assert empty_bp.display_name == ""
+corpus = load_embedded_prompt_corpus()
 
 
-def test_name():
-    corpus = load_embedded_prompt_corpus()
-    name = "My Blueprint"
+class TestEmpty:
 
-    empty_bp = PromptBlueprint(corpus, display_name=name)
+    def test_init(self):
+        bp = PromptBlueprint(corpus)
 
-    print(empty_bp)
+        print(bp)
 
-    assert isinstance(empty_bp, dict)
-    assert len(empty_bp) == 0
-    assert empty_bp.corpus is corpus
-    assert isinstance(empty_bp.display_name, str)
-    assert empty_bp.display_name == name
+        assert isinstance(bp, dict)
+        assert len(bp) == 0
+        assert bp.corpus is corpus
+        assert isinstance(bp.display_name, str)
+        assert bp.display_name == ""
+
+    def test_repr(self):
+        bp = PromptBlueprint(corpus)
+
+        opt = repr(bp)
+
+        assert opt == "PromptBlueprint()"
+
+
+class TestName:
+
+    NAME = "My Blueprint"
+
+    def test_init(self):
+        bp = PromptBlueprint(corpus, display_name=self.NAME)
+
+        print(bp)
+
+        assert isinstance(bp, dict)
+        assert len(bp) == 0
+        assert bp.corpus is corpus
+        assert isinstance(bp.display_name, str)
+        assert bp.display_name == self.NAME
+
+    def test_repr(self):
+        bp = PromptBlueprint(corpus, display_name=self.NAME)
+
+        opt = repr(bp)
+
+        assert opt == "PromptBlueprint(My Blueprint)"

@@ -270,7 +270,6 @@ class PromptBlueprint(dict):
         :example:
         assert repr(node) == "PromptBlueprint(My Blueprint)"
         """
-        # BUG need test
         return "PromptBlueprint({})".format(self.display_name)
 
     def __str__(self):
