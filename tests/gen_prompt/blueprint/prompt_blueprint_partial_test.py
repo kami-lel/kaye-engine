@@ -7,11 +7,14 @@ with partial blueprint input, and prune_trivial_branches() (ie partial output)
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 
-from tests.gen_prompt.prompt_blueprint.testees import PROMPT1, PROMPT2
+from tests.gen_prompt.node.testees import PROMPT1, PROMPT2
 
 
 def _remove_last_line(text):
     return "\n".join(text.split("\n")[:-1])
+
+
+# BUG update
 
 
 class Test1:  # use PROMPT1

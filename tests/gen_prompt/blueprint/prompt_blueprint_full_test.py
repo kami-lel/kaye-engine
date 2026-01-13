@@ -4,11 +4,12 @@ test .create_full_prompt_blueprint()
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
-from tests.gen_prompt.prompt_blueprint.testees import PROMPT1, PROMPT2
+from tests.gen_prompt.node.testees import PROMPT1, PROMPT2
 
 
+# BUG
 def test1():  # test using PROMPT1
-    blueprint = PromptBlueprint.create_full_prompt_blueprint(
+    blueprint = PromptBlueprint.create_full_blueprint(
         PromptCorpusNode.parse(PROMPT1)
     )
 
@@ -27,7 +28,7 @@ def test1():  # test using PROMPT1
 
 
 def test2():  # test using PROMPT2
-    blueprint = PromptBlueprint.create_full_prompt_blueprint(
+    blueprint = PromptBlueprint.create_full_blueprint(
         PromptCorpusNode.parse(PROMPT2)
     )
 
@@ -47,3 +48,6 @@ def test2():  # test using PROMPT2
 [x]     │       └── Tools Used
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
+
+
+# TODO more tests, create empty
