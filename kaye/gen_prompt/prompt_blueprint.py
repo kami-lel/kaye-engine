@@ -192,6 +192,7 @@ class PromptBlueprint(dict):
             preview_tree = _create_pruned_tree_for_preview_recursively(
                 self, self.corpus
             )
+            preview_tree = self.corpus  # HACK
 
         # generate content  ----------------------------------------------------
         opt = preview_tree.generate_preview_tree(

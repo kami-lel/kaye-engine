@@ -1,5 +1,10 @@
 """
-test .create_full_prompt_blueprint()
+prompt_blueprint_full_test.py
+
+Unit Tests (using pytest) for: PromptBlueprint
+
+- .create_full_blueprint()
+- .create_empty_blueprint()
 """
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
