@@ -185,11 +185,12 @@ class PromptBlueprint(dict):
         :return: v.s.
         :rtype: str
         """
-
         if show_full_tree:
             preview_tree = self.corpus
         else:
-            preview_tree = _filter_for_preview_tree_recursively(
+            # create a duplicated tree,
+            # but contains only nodes relevant to this blueprint
+            preview_tree = _create_pruned_tree_for_preview_recursively(
                 self, self.corpus
             )
 
@@ -199,6 +200,7 @@ class PromptBlueprint(dict):
             preview_line_width=preview_line_width,
         )
 
+        # append comment line
         if not hide_comment:
             comment_line = "<!-- " + self._generate_comment_content() + " -->"
             opt = opt + "\n" + comment_line
@@ -303,7 +305,7 @@ def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
         return False
 
 
-def _filter_for_preview_tree_recursively(blueprint, node):
+def _create_pruned_tree_for_preview_recursively(blueprint, node):
     """
     TODO
 
