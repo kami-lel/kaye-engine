@@ -24,14 +24,13 @@ class TestParse1:  # test using PROMPT1
         opt = copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content
 
     def test_project(self):
         tree = PromptCorpusNode.parse(PROMPT1)
-        scr_node = tree.children[0]
+        src_node = tree.children[0]
 
         opt = copy(src_node)
 
@@ -39,7 +38,7 @@ class TestParse1:  # test using PROMPT1
         assert src_node.name == opt.name
         assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content
 
     def test_sub1(self):
@@ -53,7 +52,7 @@ class TestParse1:  # test using PROMPT1
         assert src_node.name == opt.name
         assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content
 
 
@@ -66,7 +65,7 @@ class TestParse2:  # test using PROMPT2
 
         assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content
 
     def test_project(self):
@@ -78,7 +77,7 @@ class TestParse2:  # test using PROMPT2
 
         assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content
 
     def test_description(self):
@@ -91,7 +90,7 @@ class TestParse2:  # test using PROMPT2
 
         assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content
 
     def test_install(self):
@@ -104,7 +103,7 @@ class TestParse2:  # test using PROMPT2
 
         assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content
 
     def test_usage1(self):
@@ -117,7 +116,7 @@ class TestParse2:  # test using PROMPT2
 
         assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content
 
 
@@ -131,7 +130,7 @@ class TestParse3:  # test using PROMPT3
 
         assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content
 
     def test_project(self):
@@ -143,7 +142,7 @@ class TestParse3:  # test using PROMPT3
 
         assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content
 
     def test_intro(self):
@@ -156,7 +155,7 @@ class TestParse3:  # test using PROMPT3
 
         assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content
 
     def test_intro_bg(self):
@@ -170,7 +169,7 @@ class TestParse3:  # test using PROMPT3
 
         assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content
 
     def test_intro_bg_mpt(self):
@@ -184,7 +183,7 @@ class TestParse3:  # test using PROMPT3
 
         assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content
 
     def test_intro_bg_mpt_obj(self):
@@ -198,5 +197,5 @@ class TestParse3:  # test using PROMPT3
 
         assert src_node.depth == opt.depth
         assert src_node.parent is opt.parent
-        assert len(src_node.children) == 0
+        assert len(opt.children) == 0
         assert src_node.content == opt.content

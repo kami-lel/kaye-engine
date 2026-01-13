@@ -262,7 +262,6 @@ class PromptCorpusNode(AnytreeNode):
         :rtype: PromptCorpusNode
         """
         obj = PromptCorpusNode(self.name, self.parent, None)
-        obj.depth = self.depth
         obj.content = self.content
         return obj
 
