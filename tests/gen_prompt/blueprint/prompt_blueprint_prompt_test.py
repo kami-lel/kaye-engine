@@ -5,7 +5,9 @@ test .generate_prompt() and __str__()
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 
-from tests.gen_prompt.prompt_blueprint.testees import PROMPT1, PROMPT2
+from tests.gen_prompt.node.testees import PROMPT1, PROMPT2
+
+# BUG better name
 
 
 class Test1:  # use PROMPT1

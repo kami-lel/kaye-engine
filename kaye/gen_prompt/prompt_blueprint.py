@@ -75,7 +75,7 @@ class PromptBlueprint(dict):
             if level > previous_level:
 
                 if level - previous_level > 1:
-                    # BUG need test & improve wording
+                    # Bug need test & improve wording
                     logger.error(
                         "detect bad blueprint tree format at:\n%s", line
                     )
@@ -94,7 +94,7 @@ class PromptBlueprint(dict):
 
             # check node's existence in tree  ----------------------------------
             if path_tuple not in path2node_hash:
-                # BUG need test & improve wording
+                # Bug need test & improve wording
                 logger.warning(
                     "not part of the provided prompt corpus, skipped"
                     " during blueprint parsing:\n%s",

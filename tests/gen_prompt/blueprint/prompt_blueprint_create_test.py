@@ -4,7 +4,7 @@ basic test __init__(), ie text parsing
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
-from tests.gen_prompt.prompt_blueprint.testees import PROMPT1, PROMPT2
+from tests.gen_prompt.node.testees import PROMPT1, PROMPT2
 
 
 # BUG
