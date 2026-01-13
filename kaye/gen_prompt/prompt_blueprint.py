@@ -4,6 +4,7 @@ define `PromptBlueprint`
 
 import re
 from datetime import datetime
+from copy import copy
 
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter, Node
@@ -343,9 +344,17 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
     :return: root of the filtered node
     :rtype: PromptCorpusNode
     """
-    new_node = PromptCorpusNode(node.name, node.parent, None)
+    new_node = copy(node)  # an copy w/o children
 
-    return ""  # TODO TODO
+    for child in node.children:
+        if hash(child) in blueprint:
+            new_child = _create_pruned_tree_for_preview_recursively(
+                blueprint, child
+            )
+            # BUG maybe wrong, how to set parent?
+            new_child.parent = new_node
+
+    return new_node
 
 
 class PromptBlueprintOld:  # HACK rm
