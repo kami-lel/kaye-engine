@@ -270,10 +270,13 @@ class PromptCorpusNode(AnytreeNode):
         :return:
         :rtype: str
         :example:
-        node=~~~
-        assert str(node) == "PromptCorpusNode(Introduction#Data#Advanced)"
+        assert repr(node) == "PromptCorpusNode(Introduction#Data#Advanced)"
         """
         return "PromptCorpusNode({})".format(self.path_of_names_as_str())
 
     def __str__(self):
+        """
+        :return: equivalent to self.generate_preview_tree()
+        :rtype: str
+        """
         return self.generate_preview_tree()
