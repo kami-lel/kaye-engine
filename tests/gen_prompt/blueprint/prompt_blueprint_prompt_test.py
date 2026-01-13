@@ -1,5 +1,5 @@
 """
-test .generate_prompt() and __str__()
+test .generate_prompt()
 """
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
@@ -7,7 +7,7 @@ from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 from tests.gen_prompt.node.testees import PROMPT1, PROMPT2
 
-# BUG better name
+# BUG not working
 
 
 class Test1:  # use PROMPT1

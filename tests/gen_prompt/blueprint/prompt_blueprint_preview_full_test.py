@@ -2,6 +2,8 @@
 test .generate_preview_tree(show_full_tree=True,)
 """
 
+# HACK HACK
+
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 
