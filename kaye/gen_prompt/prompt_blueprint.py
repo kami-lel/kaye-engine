@@ -184,6 +184,7 @@ class PromptBlueprint(dict):
         :return: v.s.
         :rtype: str
         """
+        # BUG BUG need test
         if show_full_tree:
             preview_tree = self.corpus
         else:
@@ -192,7 +193,6 @@ class PromptBlueprint(dict):
             preview_tree = _create_pruned_tree_for_preview_recursively(
                 self, self.corpus
             )
-            preview_tree = self.corpus  # HACK
 
         # generate content  ----------------------------------------------------
         opt = preview_tree.generate_preview_tree(
@@ -266,7 +266,6 @@ class PromptBlueprint(dict):
 
     def __str__(self):
         # BUG need test
-        return ""  # HACK
         return self.generate_preview_tree()
 
 
@@ -319,7 +318,7 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
     """
     new_node = PromptCorpusNode(node.name, node.parent, None)
 
-    return ""  # TODO
+    return ""  # TODO TODO
 
 
 class PromptBlueprintOld:  # HACK rm
