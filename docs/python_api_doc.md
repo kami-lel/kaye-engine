@@ -240,7 +240,7 @@ A **prompt blueprint** represents a configurable subset of *prompt corpus tree*,
 
 ----
 
-One might **create** a populated `PromptBlueprint` by **parsing** a preview-tree text (v.i.) by using *classmethod* `.parse()`, e.g.
+One might **create** a populated `PromptBlueprint` by **parsing** a preview-tree text (v.i.) (positional argument `blueprint_text`) by using *classmethod* `.parse()`, e.g.
 
 ```python
 prompt_corpus = ~~~
