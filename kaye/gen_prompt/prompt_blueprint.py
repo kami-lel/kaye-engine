@@ -53,7 +53,6 @@ class PromptBlueprint(dict):
         :param display_name:
         :type display_name: str, optional
         """
-        # BUG need test
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
         path2node_hash = {
             node.names_path: hash(node) for node in bp.corpus.descendants
