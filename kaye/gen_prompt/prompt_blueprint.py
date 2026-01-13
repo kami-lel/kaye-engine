@@ -296,6 +296,8 @@ def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
     recursively walk ``node``, and add necessary nodes from ``old_bp`` to
     ``pruned_bp``, such that trivial branches are pruned in the ``pruned_bp``
 
+    (helper method used in ``PromptBlueprint.prune()``)
+
 
     :param old_bp:
     :type old_bp: PromptBlueprint
@@ -326,7 +328,13 @@ def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
 
 def _create_pruned_tree_for_preview_recursively(blueprint, node):
     """
-    TODO
+    create a `PromptCorpusNode` as root of a new **pruned** tree such that
+    only nodes contained in `blueprint` is kept.
+    This is done by traverse the tree and check if any nodes is contained
+    in the blueprint
+
+    (helper method used in ``PromptBlueprint.generate_preview_tree()``)
+
 
     :param blueprint:
     :type blueprint: PromptBlueprint
