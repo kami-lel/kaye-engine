@@ -265,6 +265,7 @@ class PromptBlueprint(dict):
 
     def __str__(self):
         # BUG need test
+        return ""  # HACK
         return self.generate_preview_tree()
 
 
