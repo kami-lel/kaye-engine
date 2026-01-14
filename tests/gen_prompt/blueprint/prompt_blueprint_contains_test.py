@@ -8,7 +8,7 @@ from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
 from tests.gen_prompt import PROMPT1, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
-    BLUEPRINT_2_FULL,
+    BLUEPRINT_3_FULL,
 )
 
 CORPUS1 = PromptCorpusNode.parse(PROMPT1)
@@ -55,7 +55,7 @@ class Test3:  # use corpus3  ##############################################
 
     def test_full(_):
         corpus = CORPUS3
-        bp_text = BLUEPRINT_2_FULL
+        bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
