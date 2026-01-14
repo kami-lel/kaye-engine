@@ -35,7 +35,6 @@ def _split_tree_and_comment(preview_tree):
 
 # w/ all args
 class TestAllArgs1:  # w/ corpus1
-    # BUG BUG
 
     def test_full(_):
         corpus = CORPUS1
@@ -65,6 +64,7 @@ class TestAllArgs1:  # w/ corpus1
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
     def test_part1(_):
+        # BUG BUG
         corpus = CORPUS1
         bp_text = BLUEPRINT_1_PARTIAL_1
 
