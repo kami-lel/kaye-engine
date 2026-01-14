@@ -3,7 +3,7 @@ test ``generate_preview_tree()`` & ``__str__()`` of class ``PromptCorpusNode``
 """
 
 from kaye.gen_prompt import PromptCorpusNode
-from tests.gen_prompt.node.testees import (
+from tests.gen_prompt import (
     PROMPT1,
     PROMPT2,
     PROMPT3,

@@ -5,20 +5,20 @@ Unit Tests (using pytest) for: PromptBlueprint.parse()
 """
 
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
-from testees import PROMPT1, PROMPT2
+from tests.gen_prompt import PROMPT4, PROMPT5
 
-corpus1 = PromptCorpusNode(PROMPT1)
-corpus2 = PromptCorpusNode(PROMPT2)
+corpus4 = PromptCorpusNode(PROMPT4)
+corpus5 = PromptCorpusNode(PROMPT5)
 
 # test by data structure  ######################################################
 
 
 class TestBasic:
 
-    def test1(_):
+    def test4(_):
         bp_text = """"""
 
-        opt = PromptBlueprint.parse(corpus1, bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(corpus4, bp_text, disable_prune=True)
 
         print(opt)
 
