@@ -14,7 +14,7 @@ from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
-    BLUEPRINT_1_FULL_PARTIAL_1,
+    BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_1_FULL_PARTIAL_2,
     BLUEPRINT_1_FULL_EMPTY,
     BLUEPRINT_2_FULL,
@@ -75,7 +75,7 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
 
     def test_part1(_):
         corpus = CORPUS1
-        bp_text = BLUEPRINT_1_FULL_PARTIAL_1
+        bp_text = BLUEPRINT_1_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -432,7 +432,7 @@ class TestNoContent1:  # w/ corpus1  *******************************************
 
     def test_part1(_):
         corpus = CORPUS1
-        bp_text = BLUEPRINT_1_FULL_PARTIAL_1
+        bp_text = BLUEPRINT_1_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(

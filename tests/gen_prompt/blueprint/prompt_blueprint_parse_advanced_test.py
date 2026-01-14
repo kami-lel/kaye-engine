@@ -7,11 +7,194 @@ this perform tests relied on
 accurate implementation of PromptBlueprint.generate_preview_tree()
 """
 
-# thorough tests by .generate_preview_tree()  ##################################
-# i.e. dep on correct implementation of .generate_preview_tree()
+from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
+from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
+from tests.gen_prompt.blueprint import (
+    BLUEPRINT_1_FULL,
+    BLUEPRINT_1_FULL_PARTIAL_1,
+    BLUEPRINT_1_FULL_PARTIAL_2,
+    BLUEPRINT_1_FULL_EMPTY,
+    BLUEPRINT_2_FULL,
+    BLUEPRINT_2_FULL_PARTIAL_1,
+    BLUEPRINT_2_FULL_EMPTY,
+    BLUEPRINT_3_FULL,
+    BLUEPRINT_3_FULL_PARTIAL_1,
+    BLUEPRINT_3_FULL_PARTIAL_2,
+    BLUEPRINT_3_FULL_EMPTY,
+)
 
-# TODO TODO thorough test after .generate_preview_tree
+CORPUS1 = PromptCorpusNode.parse(PROMPT1)
+CORPUS2 = PromptCorpusNode.parse(PROMPT2)
+CORPUS3 = PromptCorpusNode.parse(PROMPT3)
 
-# BUG BUG disable prune not working
-# BUG BUG test display name setting
-# BUG BUG test bp text w/ content preview
+
+# default behavior  ############################################################
+# BUG BUG
+class TestDft1:  # use PROMPT1  ==============================================
+
+    corpus = CORPUS1
+
+    def test_full(self):
+        bp_text = BLUEPRINT_1_FULL
+
+        opt = PromptBlueprint.parse(self.corpus, bp_text)
+
+        print(opt)
+        assert isinstance(opt, PromptBlueprint)
+        assert len(opt) == 4
+        assert opt.corpus is self.corpus
+        assert opt.display_name == ""
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+    def test_part1(self):
+        bp_text = BLUEPRINT_1_FULL_PARTIAL_1
+
+        opt = PromptBlueprint.parse(self.corpus, bp_text)
+
+        print(opt)
+        assert len(opt) == 4
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+    def test_part2(self):
+        bp_text = BLUEPRINT_1_FULL_PARTIAL_2
+
+        opt = PromptBlueprint.parse(self.corpus, bp_text)
+
+        print(opt)
+        assert len(opt) == 4
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+    def test_empty(self):
+        bp_text = BLUEPRINT_1_FULL_EMPTY
+
+        opt = PromptBlueprint.parse(self.corpus, bp_text)
+
+        print(opt)
+        assert len(opt) == 4
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+
+class TestDft2:  # use PROMPT2  ================================================
+
+    corpus = CORPUS2
+
+    def test_full(self):
+        bp_text = BLUEPRINT_2_FULL
+
+        opt = PromptBlueprint.parse(self.corpus, bp_text)
+
+        print(opt)
+        assert isinstance(opt, PromptBlueprint)
+        assert len(opt) == 4
+        assert opt.corpus is self.corpus
+        assert opt.display_name == ""
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+    def test_part1(self):
+        bp_text = BLUEPRINT_2_FULL_PARTIAL_1
+
+        opt = PromptBlueprint.parse(self.corpus, bp_text)
+
+        print(opt)
+        assert len(opt) == 4
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+    def test_empty(self):
+        bp_text = BLUEPRINT_1_FULL_EMPTY
+
+        opt = PromptBlueprint.parse(self.corpus, bp_text)
+
+        print(opt)
+        assert len(opt) == 4
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+
+class TestDft3:  # use PROMPT3  ================================================
+
+    corpus = CORPUS3
+
+    def test_full(self):
+        bp_text = BLUEPRINT_3_FULL
+
+        opt = PromptBlueprint.parse(self.corpus, bp_text)
+
+        print(opt)
+        assert isinstance(opt, PromptBlueprint)
+        assert len(opt) == 10
+        assert opt.corpus is self.corpus
+        assert opt.display_name == ""
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+    def test_part1(self):
+        bp_text = BLUEPRINT_3_FULL_PARTIAL_1
+
+        opt = PromptBlueprint.parse(self.corpus, bp_text)
+
+        print(opt)
+        assert len(opt) == 10
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+    def test_part2(self):
+        bp_text = BLUEPRINT_3_FULL_PARTIAL_2
+        opt = PromptBlueprint.parse(self.corpus, bp_text)
+
+        print(opt)
+        assert len(opt) == 10
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+    def test_empty(self):
+        bp_text = BLUEPRINT_3_FULL_EMPTY
+        opt = PromptBlueprint.parse(self.corpus, bp_text)
+
+        print(opt)
+        assert len(opt) == 10
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+
+# text include content preview  ################################################
+# TODO TODO test bp text w/ content preview
+
+
+# blueprint text is pruned  ####################################################
+# TODO TODO
+
+
+# setting display_name  ########################################################
+# TODO TODO test display name setting
+
+
+# set disable_prune  ###########################################################
+# TODO TODO disable prune not working
