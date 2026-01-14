@@ -426,3 +426,6 @@ class Test3:  # use corpus3  ##############################################
         opt = bp.is_checkmarked(_node)
         print(repr(opt) + "\t" + repr(_node))
         assert not opt
+
+
+# Bug test call .prompt_blueprint_is_checkmarked_test when node not contained
