@@ -262,7 +262,7 @@ A `PromptBlueprint` has 2 additional attributes:
 - `.corpus`: corresponding prompt corpus tree root (typed `PromptCorpusNode`)
 - `.display_name`: name of the blueprint, typed `str`, default to `''`
 
-Each entry in `PromptBlueprint` represents a node, with key being node `hash()` (typed `int`,) and value being if the node is *checkmarked*, (typed `bool`.)
+Each entry in `PromptBlueprint` represents a node, with key being node `hash()` (typed `int`,) and value being if the node is *checkmarked*, (typed `bool`.) The *root node* is never included in blueprint, because one will assume root node is always enabled/checkmarked.
 
 
 
