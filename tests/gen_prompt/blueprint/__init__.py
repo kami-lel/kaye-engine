@@ -25,6 +25,7 @@ BLUEPRINT_1_FULL_EMPTY = """    ○
 [ ]     ├── Installation
 [ ]     └── License"""
 
+
 BLUEPRINT_2_FULL = """    ○
 [x] └── Project Title
 [x]     ├── Description
