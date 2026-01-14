@@ -40,8 +40,6 @@ from tests.gen_prompt.blueprint import (
 
 class Test1:  # with PROMPT1  ##################################################
 
-    # BUG
-
     corpus = PromptCorpusNode.parse(PROMPT1)
 
     def test_full(self):
@@ -52,12 +50,24 @@ class Test1:  # with PROMPT1  ##################################################
 
         print(opt)
         content, comment = _split_content_and_comment(opt)
-        assert content == """"""
+        assert content == """# Project Title
+
+## Description
+Brief overview of the project and its purpose.
+
+## Installation
+Clone the repo and install dependencies.
+
+## License
+Licensed under the MIT License."""
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment)
 
+    # TODO
+
     def test_part1(_):
+
         bp_text = BLUEPRINT_1_PARTIAL_1
 
     def test_part2(_):
