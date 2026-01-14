@@ -191,6 +191,19 @@ class PromptBlueprint(dict):
                 "int or PromptCorpusNode, not {}".format(type(node))
             )
 
+    def prune(self):
+        """
+        :return: a **pruned** blueprint (of ``self``)
+                which contains only branches with checkmarked nodes
+        :rtype: PromptBlueprint
+        """
+        # BUG BUG need test
+        pruned_bp = PromptBlueprint(
+            self.corpus, display_name=self.display_name
+        )
+        _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
+        return pruned_bp
+
     def generate_preview_tree(
         self,
         *,
@@ -274,19 +287,6 @@ class PromptBlueprint(dict):
         """
         return ""  # TODO
 
-    def prune(self):
-        """
-        :return: a **pruned** blueprint (of ``self``)
-                which contains only branches with checkmarked nodes
-        :rtype: PromptBlueprint
-        """
-        # BUG need test
-        pruned_bp = PromptBlueprint(
-            self.corpus, display_name=self.display_name
-        )
-        _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
-        return pruned_bp
-
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
     def _generate_comment_content(self):
@@ -344,7 +344,6 @@ class PromptBlueprint(dict):
         :return: equivalent to self.generate_preview_tree()
         :rtype: str
         """
-        # BUG need test
         return self.generate_preview_tree()
 
 
