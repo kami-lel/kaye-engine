@@ -315,49 +315,49 @@ class Test3:  # use corpus3  ##############################################
         _node = _node.children[0]
         opt = bp.is_checkmarked(_node)
         print(repr(opt) + "\t" + repr(_node))
-        assert not opt
+        assert opt
 
         # Importance
         _node = _node.children[0]
         opt = bp.is_checkmarked(_node)
         print(repr(opt) + "\t" + repr(_node))
-        assert opt
+        assert not opt
 
         # Objective
         _node = _node.children[0]
         opt = bp.is_checkmarked(_node)
         print(repr(opt) + "\t" + repr(_node))
-        assert not opt
+        assert opt
 
         # Methods
         _node = main_title_node.children[1]
         opt = bp.is_checkmarked(_node)
         print(repr(opt) + "\t" + repr(_node))
-        assert opt
+        assert not opt
 
         # Data Collection
         _node = _node.children[0]
         opt = bp.is_checkmarked(_node)
         print(repr(opt) + "\t" + repr(_node))
-        assert not opt
+        assert opt
 
         # Tool Used
         _node = _node.children[0]
         opt = bp.is_checkmarked(_node)
         print(repr(opt) + "\t" + repr(_node))
-        assert opt
+        assert not opt
 
         # Future Work
         _node = _node.children[0]
         opt = bp.is_checkmarked(_node)
         print(repr(opt) + "\t" + repr(_node))
-        assert not opt
+        assert opt
 
         # Conclusion
         _node = main_title_node.children[2]
         opt = bp.is_checkmarked(_node)
         print(repr(opt) + "\t" + repr(_node))
-        assert opt
+        assert not opt
 
     def test_empty(_):
         corpus = CORPUS3
