@@ -111,11 +111,12 @@ class PromptCorpusNode(AnytreeNode):
         opt_lines = []
 
         for pre, fill, node in RenderTree(self):
-            # line for the node
+            # line for tree structure
             opt_lines.append(pre + node.name)
-            # lines for the content of node
+            # lines for node content preview
             opt_lines.extend(
-                node.generate_preview_tree_content_preview_lines(
+                # pylint: disable=protected-access
+                node._generate_preview_tree_content_preview_lines(
                     fill, preview_line_count, preview_line_width
                 )
             )
@@ -182,7 +183,7 @@ class PromptCorpusNode(AnytreeNode):
             nodes_path = self.path[1:]  # remove root node
             return tuple(node.name for node in nodes_path)
 
-    def generate_preview_tree_content_preview_lines(
+    def _generate_preview_tree_content_preview_lines(
         self, fill, preview_line_count, preview_line_width
     ):
         """
@@ -200,7 +201,7 @@ class PromptCorpusNode(AnytreeNode):
         :return: content lines as it will be shown in preview tree
         :rtype: list[str]
         :example:
-        >>> node.generate_preview_tree_content_preview_lines('$$$' 3, 10)
+        >>> self._generate_preview_tree_content_preview_lines('$$$', 3, 10)
         ["$$$You per", "$$$When tr", "$$$User ma"]
         """
         lines = []

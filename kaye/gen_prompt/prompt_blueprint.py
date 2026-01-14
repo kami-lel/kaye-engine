@@ -18,6 +18,12 @@ __all__ = ("PromptBlueprint",)
 logger = kamilog.getLogger(PROGRAM_NAME)
 
 
+# constants  ###################################################################
+CHECKMARKED_PREFIX = "[x] "
+UNCHECKMARKED_PREFIX = "[ ] "
+EMPTY_PREFIX = "    "
+
+
 class PromptBlueprint(dict):
     """
     TODO summary
@@ -204,17 +210,33 @@ class PromptBlueprint(dict):
             )
 
         # generate content  ----------------------------------------------------
-        opt = preview_tree.generate_preview_tree(
-            preview_line_count=preview_line_count,
-            preview_line_width=preview_line_width,
-        )
+        opt_lines = []
+        for pre, fill, node in RenderTree(preview_tree):
+            # line for tree structure
+            checkmark_prefix = (
+                CHECKMARKED_PREFIX if (node in self) else UNCHECKMARKED_PREFIX
+            )
+            if node.is_root:
+                checkmark_prefix = EMPTY_PREFIX
+
+            node_line = checkmark_prefix + pre + node.name
+            opt_lines.append(node_line)
+
+            # lines for node content preview
+            content_fill = "    " + fill
+            opt_lines.extend(
+                # pylint: disable=protected-access
+                node._generate_preview_tree_content_preview_lines(
+                    content_fill, preview_line_count, preview_line_width
+                )
+            )
 
         # append comment line
         if not hide_comment:
             comment_line = "<!-- " + self._generate_comment_content() + " -->"
-            opt = opt + "\n" + comment_line
+            opt_lines.append(comment_line)
 
-        return opt
+        return "\n".join(opt_lines)
 
     def generate_prompt(self, *, hide_comment=False):
         """
@@ -269,6 +291,20 @@ class PromptBlueprint(dict):
         )
 
         return "{}Kaye v{}".format(name_part, kaye_version)
+
+    def __contains__(self, key):
+        """
+        TODO TODO TODO
+
+        :param key: _description_
+        :type key: _type_
+        :return: _description_
+        :rtype: _type_
+        """
+        if isinstance(key, PromptCorpusNode):
+            key = hash(key)
+
+        return super().__contains__(key)
 
     def __repr__(self):
         """
