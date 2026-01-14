@@ -295,7 +295,73 @@ class TestContentPreview3:  # use PROMPT2  =====================================
 
 
 # blueprint text is pruned  ####################################################
-# TODO TODO
+class TestPrunedText:
+
+    def test1(_):
+        bp_text = BLUEPRINT_1_PARTIAL_2_PRUNED
+
+        opt = PromptBlueprint.parse(CORPUS1, bp_text)
+
+        print(opt)
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+    def test2(_):
+        bp_text = BLUEPRINT_2_PARTIAL_1_PRUNED
+
+        opt = PromptBlueprint.parse(CORPUS2, bp_text)
+
+        print(opt)
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+    def test31(_):
+        bp_text = BLUEPRINT_3_PARTIAL_1_PRUNED
+
+        opt = PromptBlueprint.parse(CORPUS3, bp_text)
+
+        print(opt)
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+    def test32(_):
+        bp_text = BLUEPRINT_3_PARTIAL_2_PRUNED
+
+        opt = PromptBlueprint.parse(CORPUS3, bp_text)
+
+        print(opt)
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == bp_text
+        )
+
+    def test_pruned_input(_):
+        bp_text = """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+        │   Brief introduction to the topic.
+[x]     │   └── Background
+        │       Context or history relevant to the topic.
+[x]     │       └── Importance
+        │           Why this topic matters in the current scenario.
+[x]     │           └── Objective
+        │               The primary goal of this document.
+[x]     └── Conclusion
+            Summarizing the findings and implications."""
+
+        opt = PromptBlueprint.parse(CORPUS3, bp_text)
+
+        print(opt)
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == BLUEPRINT_3_PARTIAL_1_PRUNED
+        )
 
 
 # setting display_name  ########################################################
