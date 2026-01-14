@@ -1,13 +1,13 @@
 """
-test .generate_prompt()
+prompt_blueprint_prompt_test.py
+
+Unit Tests (using pytest) for: PromptBlueprint.generate_prompt()
 """
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 
-from tests.gen_prompt.node.testees import PROMPT1, PROMPT2
-
-# BUG not working
+from tests.gen_prompt import PROMPT1, PROMPT2
 
 
 class Test1:  # use PROMPT1
@@ -23,12 +23,13 @@ class Test1:  # use PROMPT1
 [ ]     ├── Contributing
 [ ]     └── License"""
 
-        pt = PromptBlueprint(self.corpus, blueprint_text)
+        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
 
         opt = pt.generate_prompt(hide_comment=True)
         print(opt)
         assert opt == ""
 
+    # BUG
     def test2(self):
         blueprint_text = """    ○
 [x] └── Project Title
@@ -38,11 +39,12 @@ class Test1:  # use PROMPT1
 [x]     ├── Contributing
 [ ]     └── License"""
 
-        pt = PromptBlueprint(self.corpus, blueprint_text)
+        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
 
         opt = pt.generate_prompt(hide_comment=True)
         print(opt)
-        assert opt == """# Project Title
+        assert opt == """
+# Project Title
 
 ## Contributing
 1. Fork the repo
@@ -58,7 +60,7 @@ class Test1:  # use PROMPT1
 [ ]     ├── Contributing
 [ ]     └── License"""
 
-        pt = PromptBlueprint(self.corpus, blueprint_text)
+        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
 
         opt = pt.generate_prompt(hide_comment=True)
         print(opt)
@@ -81,7 +83,7 @@ Provide instructions on how to use the application."""
 [x]     ├── Contributing
 [x]     └── License"""
 
-        pt = PromptBlueprint(self.corpus, blueprint_text)
+        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
 
         opt = pt.generate_prompt(hide_comment=True)
         print(opt)
@@ -124,7 +126,7 @@ class Test2:  # use PROMPT2
 [ ]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-        pt = PromptBlueprint(self.corpus, blueprint_text)
+        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
 
         opt = pt.generate_prompt(hide_comment=True)
         print(opt)
@@ -143,7 +145,7 @@ class Test2:  # use PROMPT2
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(self.corpus, blueprint_text)
+        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
 
         opt = pt.generate_prompt(hide_comment=True)
         print(opt)
@@ -177,7 +179,7 @@ Summarizing the findings and implications."""
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(self.corpus, blueprint_text)
+        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
 
         opt = pt.generate_prompt(hide_comment=True)
         print(opt)
@@ -211,7 +213,7 @@ Summarizing the findings and implications."""
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(self.corpus, blueprint_text)
+        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
 
         opt = pt.generate_prompt(hide_comment=True)
         print(opt)
@@ -239,7 +241,7 @@ Summarizing the findings and implications."""
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
 
-        pt = PromptBlueprint(self.corpus, blueprint_text)
+        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
 
         opt = pt.generate_prompt(hide_comment=True)
         print(opt)
