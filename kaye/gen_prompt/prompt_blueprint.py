@@ -89,6 +89,7 @@ class PromptBlueprint(dict):
                     raise ValueError(
                         "malformed tree format at line:\n{}".format(line)
                     )
+                    # fixme print to logger, then continue
 
                 path = previous_path + [""]
 
@@ -106,6 +107,7 @@ class PromptBlueprint(dict):
                 raise ValueError(
                     "missing node from prompt_corpus:\n{}".format(line)
                 )
+                # fixme print to logger, then continue
 
             # append a node  ---------------------------------------------------
             node_hash = path2node_hash[path_tuple]
