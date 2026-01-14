@@ -666,7 +666,7 @@ class TestDft:
         print(opt)
         tree_content, comment_content = _split_tree_and_comment(opt)
 
-        assert tree_content == TestAllArgs1.FULL_ANSWER
+        assert tree_content == BLUEPRINT_1_FULL_PREVIEW
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
@@ -717,7 +717,7 @@ class TestStr:
         print(opt)
         tree_content, comment_content = _split_tree_and_comment(opt)
 
-        assert tree_content == TestAllArgs1.FULL_ANSWER
+        assert tree_content == BLUEPRINT_1_FULL_PREVIEW
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
