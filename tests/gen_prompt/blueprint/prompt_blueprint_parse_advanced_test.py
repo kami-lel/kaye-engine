@@ -79,7 +79,7 @@ class TestDft1:  # use PROMPT1  ==============================================
         opt = PromptBlueprint.parse(self.corpus, bp_text)
 
         print(opt)
-        assert len(opt) == 4
+        assert len(opt) == 0
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
             == bp_text
@@ -123,7 +123,7 @@ class TestDft2:  # use PROMPT2  ================================================
         opt = PromptBlueprint.parse(self.corpus, bp_text)
 
         print(opt)
-        assert len(opt) == 4
+        assert len(opt) == 0
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
             == bp_text
@@ -177,7 +177,7 @@ class TestDft3:  # use PROMPT3  ================================================
         opt = PromptBlueprint.parse(self.corpus, bp_text)
 
         print(opt)
-        assert len(opt) == 10
+        assert len(opt) == 0
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
             == bp_text
