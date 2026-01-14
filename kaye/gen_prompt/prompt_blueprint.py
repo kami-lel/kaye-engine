@@ -261,7 +261,7 @@ class PromptBlueprint(dict):
             comment_line = "<!-- " + self._generate_comment_content() + " -->"
             opt_lines.append(comment_line)
 
-        return ("\n".join(opt_lines)).strip("\n")
+        return "\n".join(opt_lines)
 
     def generate_prompt(self, *, hide_comment=False):
         """
@@ -282,7 +282,7 @@ class PromptBlueprint(dict):
             comment_line = "<!-- " + self._generate_comment_content() + " -->"
             lines.append(comment_line)
 
-        return "\n".join(lines)
+        return "\n".join(lines).strip("\n")
 
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 

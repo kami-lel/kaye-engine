@@ -89,6 +89,7 @@ Licensed under the MIT License."""
 
         print(opt)
         assert opt == """# Project Title
+
 ## Installation
 Clone the repo and install dependencies.
 
@@ -117,6 +118,7 @@ class Test2:  # with PROMPT2  ##################################################
 
         print(opt)
         assert opt == """# Project Title
+
 ## Description
 A brief overview of the project, its purpose, and goals.
 
@@ -144,6 +146,7 @@ This project is licensed under the MIT License."""
 
         print(opt)
         assert opt == """# Project Title
+
 ## Installation
 1. Clone the repo
 2. Install dependencies
@@ -176,6 +179,7 @@ class Test3:  # with PROMPT3  ##################################################
 
         print(opt)
         assert opt == """# Main Title
+
 ## Introduction
 Brief introduction to the topic.
 
@@ -211,6 +215,7 @@ Summarizing the findings and implications."""
 
         print(opt)
         assert opt == """# Main Title
+
 ## Introduction
 Brief introduction to the topic.
 
