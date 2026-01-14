@@ -19,9 +19,11 @@ from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL_PARTIAL_1,
     BLUEPRINT_1_FULL_PARTIAL_2,
     BLUEPRINT_2_FULL,
+    BLUEPRINT_2_FULL_PREVIEW,
     BLUEPRINT_2_FULL_PARTIAL_1,
     BLUEPRINT_2_FULL_EMPTY,
     BLUEPRINT_3_FULL,
+    BLUEPRINT_3_FULL_PREVIEW,
     BLUEPRINT_3_FULL_PARTIAL_1,
     BLUEPRINT_3_FULL_PARTIAL_2,
     BLUEPRINT_3_FULL_EMPTY,
@@ -140,23 +142,6 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
 
 class TestAllArgs2:  # w/ corpus2  *********************************************
 
-    FULL_ANSWER = """    ○
-[x] └── Project Title
-[x]     ├── Description
-        │   A brief overview of the project, its purpose, and goals.
-[x]     ├── Installation
-        │   1. Clone the repo
-        │   2. Install dependencies
-        │   3. Run the application
-[x]     ├── Usage
-        │   Provide instructions on how to use the application.
-[x]     ├── Contributing
-        │   1. Fork the repo
-        │   2. Create a new branch
-        │   3. Submit a pull request
-[x]     └── License
-            This project is licensed under the MIT License."""
-
     def test_full(self):
         corpus = CORPUS2
         bp_text = BLUEPRINT_2_FULL
@@ -172,7 +157,7 @@ class TestAllArgs2:  # w/ corpus2  *********************************************
         print(opt)
         tree_content, comment_content = _split_tree_and_comment(opt)
 
-        assert tree_content == self.FULL_ANSWER
+        assert tree_content == BLUEPRINT_2_FULL_PREVIEW
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
@@ -244,27 +229,6 @@ class TestAllArgs2:  # w/ corpus2  *********************************************
 
 class TestAllArgs3:  # w/ corpus1  *********************************************
 
-    FULL_ANSWER = """    ○
-[x] └── Main Title
-[x]     ├── Introduction
-        │   Brief introduction to the topic.
-[x]     │   └── Background
-        │       Context or history relevant to the topic.
-[x]     │       └── Importance
-        │           Why this topic matters in the current scenario.
-[x]     │           └── Objective
-        │               The primary goal of this document.
-[x]     ├── Methods
-        │   Overview of the methodologies used.
-[x]     │   └── Data Collection
-        │       How data was gathered for analysis.
-[x]     │       └── Tools Used
-        │           List of tools utilized during the project.
-[x]     │           └── Future Work
-        │               Suggestions for future research or tasks.
-[x]     └── Conclusion
-            Summarizing the findings and implications."""
-
     def test_full(self):
         corpus = CORPUS3
         bp_text = BLUEPRINT_3_FULL
@@ -280,7 +244,7 @@ class TestAllArgs3:  # w/ corpus1  *********************************************
         print(opt)
         tree_content, comment_content = _split_tree_and_comment(opt)
 
-        assert tree_content == self.FULL_ANSWER
+        assert tree_content == BLUEPRINT_3_FULL_PREVIEW
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
@@ -681,7 +645,7 @@ class TestDft:
         print(opt)
         tree_content, comment_content = _split_tree_and_comment(opt)
 
-        assert tree_content == TestAllArgs2.FULL_ANSWER
+        assert tree_content == BLUEPRINT_2_FULL_PREVIEW
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
@@ -696,7 +660,7 @@ class TestDft:
         print(opt)
         tree_content, comment_content = _split_tree_and_comment(opt)
 
-        assert tree_content == TestAllArgs3.FULL_ANSWER
+        assert tree_content == BLUEPRINT_3_FULL_PREVIEW
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
@@ -732,7 +696,7 @@ class TestStr:
         print(opt)
         tree_content, comment_content = _split_tree_and_comment(opt)
 
-        assert tree_content == TestAllArgs2.FULL_ANSWER
+        assert tree_content == BLUEPRINT_2_FULL_PREVIEW
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
@@ -747,7 +711,7 @@ class TestStr:
         print(opt)
         tree_content, comment_content = _split_tree_and_comment(opt)
 
-        assert tree_content == TestAllArgs3.FULL_ANSWER
+        assert tree_content == BLUEPRINT_3_FULL_PREVIEW
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)

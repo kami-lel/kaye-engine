@@ -11,11 +11,13 @@ from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
 from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
+    BLUEPRINT_1_FULL_PREVIEW,
     BLUEPRINT_1_FULL_PARTIAL_1,
     BLUEPRINT_1_FULL_PARTIAL_2,
     BLUEPRINT_1_FULL_PARTIAL_2_PRUNED,
     BLUEPRINT_1_FULL_EMPTY,
     BLUEPRINT_2_FULL,
+    BLUEPRINT_2_FULL_PREVIEW,
     BLUEPRINT_2_FULL_PARTIAL_1,
     BLUEPRINT_2_FULL_PARTIAL_1_PRUNED,
     BLUEPRINT_2_FULL_EMPTY,
@@ -189,9 +191,44 @@ class TestDft3:  # use PROMPT3  ================================================
 
 
 # text include content preview  ################################################
-class TestContentPreview:
+class TestContentPreview1:  # use PROMPT1  =====================================
 
-    pass
+    def test1(_):
+        bp_text = BLUEPRINT_1_FULL_PREVIEW
+
+        opt = PromptBlueprint.parse(CORPUS1, bp_text)
+
+        print(opt)
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == BLUEPRINT_1_FULL
+        )
+
+
+class TestContentPreview2:  # use PROMPT2  =====================================
+    def test_full(_):
+        bp_text = BLUEPRINT_2_FULL_PREVIEW
+
+        opt = PromptBlueprint.parse(CORPUS1, bp_text)
+
+        print(opt)
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == BLUEPRINT_2_FULL
+        )
+
+
+class TestContentPreview3:  # use PROMPT2  =====================================
+    def test_full(_):
+        bp_text = BLUEPRINT_3_FULL_PREVIEW
+
+        opt = PromptBlueprint.parse(CORPUS1, bp_text)
+
+        print(opt)
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == BLUEPRINT_3_FULL
+        )
 
 
 # TODO TODO test bp text w/ content preview
