@@ -118,7 +118,7 @@ class TestDft2:  # use PROMPT2  ================================================
         )
 
     def test_empty(self):
-        bp_text = BLUEPRINT_1_FULL_EMPTY
+        bp_text = BLUEPRINT_2_FULL_EMPTY
 
         opt = PromptBlueprint.parse(self.corpus, bp_text)
 
