@@ -4,7 +4,7 @@ test __init__() && .generate_preview_tree() / __repr__()
 with partial blueprint input, and prune_trivial_branches() (ie partial output)
 """
 
-# HACK HACK rm
+# HACK rm
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
