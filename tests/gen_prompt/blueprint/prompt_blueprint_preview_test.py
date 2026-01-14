@@ -7,12 +7,19 @@ Unit Tests (using pytest) for: PromptBlueprint
 - .__str__()
 """
 
-# TODO TODO
+from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
+from tests.gen_prompt.node.testees import PROMPT1, PROMPT2
+
+corpus1 = PromptCorpusNode.parse(PROMPT1)
+corpus2 = PromptCorpusNode.parse(PROMPT2)
 
 
 # test .generate_preview_tree()  ###############################################
+class TestAllArgs1:  # test w/ all args with PROMPT1
 
-# default  =====================================================================
+    def test_empty(_):
+        pass
+
 
 # no content  ==================================================================
 
@@ -20,4 +27,8 @@ Unit Tests (using pytest) for: PromptBlueprint
 
 # full tree (nor content)  =====================================================
 
+# default  =====================================================================
+
 # test __str__()   #############################################################
+
+# TODO TODO

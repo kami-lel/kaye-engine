@@ -61,6 +61,7 @@ class PromptBlueprint(dict):
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
         """
+        # BUG BUG BUG need tests
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
         path2node_hash = {
             node.names_path: hash(node) for node in bp.corpus.descendants

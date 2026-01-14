@@ -2,14 +2,12 @@
 test .generate_preview_tree(show_full_tree=True,)
 """
 
-# HACK HACK
+# HACK HACK rm
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 
 from tests.gen_prompt.node.testees import PROMPT1, PROMPT2
-
-# BUG update
 
 
 class Test1:  # use PROMPT1
