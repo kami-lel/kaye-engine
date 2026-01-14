@@ -265,13 +265,14 @@ class PromptBlueprint(dict):
 
     def generate_prompt(self, *, hide_comment=False):
         """
-        TODO
+        render the **concrete prompt** that can be used as LLM system message
+        with it content based on node's checkmarking status of this blueprint
 
 
         :param hide_comment: disable comment part after last line;
                 defaults to False
         :type hide_comment: bool, optional
-        :return: **concrete prompt** composed of nodes heading and content
+        :return: the generated prompt
         :rtype: str
         """
         lines = _generate_prompt_recursively(self, self.corpus)
@@ -436,14 +437,18 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
 
 def _generate_prompt_recursively(blueprint, node):
     """
-    TODO
+    recursively traverse tree and only select nodes that is checkmarked in
+    blueprint. Create the prompt by combining these nodes' content.
 
-    :param blueprint: _description_
-    :type blueprint: _type_
-    :param node: _description_
-    :type node: _type_
-    :return: _description_
-    :rtype: _type_
+    (helper method used in ``PromptBlueprint.generate_prompt()``)
+
+
+    :param blueprint:
+    :type blueprint: PromptBlueprint
+    :param node:
+    :type node: PromptCorpusNode
+    :return: prompt lines
+    :rtype: list[str]
     """
     return []  # TODO
 
