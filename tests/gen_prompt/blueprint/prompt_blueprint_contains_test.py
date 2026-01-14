@@ -29,99 +29,133 @@ class Test1:  # use corpus1  ###################################################
         corpus = CORPUS1
         bp_text = BLUEPRINT_1_FULL
 
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         # test entries  --------------------------------------------------------
         # test Project Title
         proj_node = corpus.children[0]
-        assert proj_node in opt
+
+        opt = proj_node in bp
+        print(opt + "\t" + repr(proj_node))
+        assert opt
 
         # test Description
         _node = proj_node.children[0]
-        assert _node in opt
+        print(opt + "\t" + repr(proj_node))
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # test Installation
         _node = proj_node.children[1]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # test License
         _node = proj_node.children[2]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
     def test_no_project(_):
         corpus = CORPUS1
         bp_text = BLUEPRINT_1_PARTIAL_1
 
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         # test entries  --------------------------------------------------------
         # test Project Title
         proj_node = corpus.children[0]
-        assert proj_node not in opt
+        opt = proj_node not in bp
+        print(opt + "\t" + repr(proj_node))
+        assert opt
 
         # test Description
         _node = proj_node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # test Installation
         _node = proj_node.children[1]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # test License
         _node = proj_node.children[2]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
     def test_no_description(_):
         corpus = CORPUS1
         bp_text = BLUEPRINT_1_PARTIAL_2
 
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
-        print(opt)
-        assert len(opt) == 4
+        print(bp)
+        opt = len(bp) == 4
 
         # test entries  --------------------------------------------------------
         # test Project Title
         proj_node = corpus.children[0]
-        assert proj_node in opt
+        opt = proj_node in bp
+        print(opt + "\t" + repr(proj_node))
+        assert opt
 
         # test Description
         _node = proj_node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # test Installation
         _node = proj_node.children[1]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # test License
         _node = proj_node.children[2]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
     def test_empty(_):
         corpus = CORPUS1
         bp_text = BLUEPRINT_1_EMPTY
 
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
-        print(opt)
-        assert len(opt) == 4
+        print(bp)
+        opt = len(bp) == 4
 
         # test entries  --------------------------------------------------------
         # test Project Title
         proj_node = corpus.children[0]
-        assert proj_node not in opt
+        opt = proj_node not in bp
+        print(opt + "\t" + repr(proj_node))
+        assert opt
 
         # test Description
         _node = proj_node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # test Installation
         _node = proj_node.children[1]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # test License
         _node = proj_node.children[2]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
 
 class Test3:  # use corpus3  ##############################################
@@ -130,187 +164,267 @@ class Test3:  # use corpus3  ##############################################
         corpus = CORPUS3
         bp_text = BLUEPRINT_2_FULL
 
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         # test entries  --------------------------------------------------------
         # Main Title
         main_title_node = corpus.children[0]
-        assert main_title_node in opt
+        opt = main_title_node in bp
+        print(opt + "\t" + repr(main_title_node))
+        assert opt
 
         # Introduction
         _node = main_title_node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Background
         _node = _node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Importance
         _node = _node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Objective
         _node = _node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Methods
         _node = main_title_node.children[1]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Data Collection
         _node = _node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Tool Used
         _node = _node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Future Work
         _node = _node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Conclusion
         _node = main_title_node.children[2]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
     def test_part1(_):
         corpus = CORPUS3
         bp_text = BLUEPRINT_2_PARTIAL_1
 
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         # test entries  --------------------------------------------------------
         # Main Title
         main_title_node = corpus.children[0]
-        assert main_title_node in opt
+        opt = main_title_node in bp
+        print(opt + "\t" + repr(main_title_node))
+        assert opt
 
         # Introduction
         _node = main_title_node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Background
         _node = _node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Importance
         _node = _node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Objective
         _node = _node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Methods
         _node = main_title_node.children[1]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Data Collection
         _node = _node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Tool Used
         _node = _node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Future Work
         _node = _node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Conclusion
         _node = main_title_node.children[2]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
     def test_part2(_):
         corpus = CORPUS3
         bp_text = BLUEPRINT_2_PARTIAL_2
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
-        print(opt)
+        print(bp)
         # test entries  --------------------------------------------------------
         # Main Title
         main_title_node = corpus.children[0]
-        assert main_title_node in opt
+        opt = main_title_node in bp
+        print(opt + "\t" + repr(main_title_node))
+        assert opt
 
         # Introduction
         _node = main_title_node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Background
         _node = _node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Importance
         _node = _node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Objective
         _node = _node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Methods
         _node = main_title_node.children[1]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Data Collection
         _node = _node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Tool Used
         _node = _node.children[0]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Future Work
         _node = _node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Conclusion
         _node = main_title_node.children[2]
-        assert _node in opt
+        opt = _node in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
     def test_empty(_):
         corpus = CORPUS3
 
         bp_text = BLUEPRINT_2_EMPTY
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
-        print(opt)
+        print(bp)
         # test entries  --------------------------------------------------------
         # Main Title
         main_title_node = corpus.children[0]
-        assert main_title_node not in opt
+        opt = main_title_node not in bp
+        print(opt + "\t" + repr(main_title_node))
+        assert opt
 
         # Introduction
         _node = main_title_node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Background
         _node = _node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Importance
         _node = _node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Objective
         _node = _node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Methods
         _node = main_title_node.children[1]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Data Collection
         _node = _node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Tool Used
         _node = _node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Future Work
         _node = _node.children[0]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
 
         # Conclusion
         _node = main_title_node.children[2]
-        assert _node not in opt
+        opt = _node not in bp
+        print(opt + "\t" + repr(_node))
+        assert opt
