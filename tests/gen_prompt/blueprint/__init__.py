@@ -19,12 +19,31 @@ BLUEPRINT_1_FULL_PARTIAL_1 = """    ○
 [x]     ├── Installation
 [x]     └── License"""
 
+BLUEPRINT_1_FULL_PARTIAL_1_PREVIEW = """    ○
+[ ] └── Project Title
+[x]     ├── Description
+        │   Brief overview of the project and its purpose.
+[x]     ├── Installation
+        │   Clone the repo and install dependencies.
+[x]     └── License
+            Licensed under the MIT License."""
+
 
 BLUEPRINT_1_FULL_PARTIAL_2 = """    ○
 [x] └── Project Title
 [ ]     ├── Description
 [x]     ├── Installation
 [x]     └── License"""
+
+
+BLUEPRINT_1_FULL_PARTIAL_2_PREVIEW = """    ○
+[x] └── Project Title
+[ ]     ├── Description
+        │   Brief overview of the project and its purpose.
+[x]     ├── Installation
+        │   Clone the repo and install dependencies.
+[x]     └── License
+            Licensed under the MIT License."""
 
 
 BLUEPRINT_1_FULL_PARTIAL_2_PRUNED = """    ○
@@ -74,6 +93,23 @@ BLUEPRINT_2_FULL_PARTIAL_1 = """    ○
 [ ]     ├── Usage
 [x]     ├── Contributing
 [ ]     └── License"""
+
+BLUEPRINT_2_FULL_PARTIAL_1_PREVIEW = """    ○
+[x] └── Project Title
+[ ]     ├── Description
+        │   A brief overview of the project, its purpose, and goals.
+[x]     ├── Installation
+        │   1. Clone the repo
+        │   2. Install dependencies
+        │   3. Run the application
+[ ]     ├── Usage
+        │   Provide instructions on how to use the application.
+[x]     ├── Contributing
+        │   1. Fork the repo
+        │   2. Create a new branch
+        │   3. Submit a pull request
+[ ]     └── License
+            This project is licensed under the MIT License."""
 
 BLUEPRINT_2_FULL_PARTIAL_1_PRUNED = """    ○
 [x] └── Project Title
@@ -138,6 +174,28 @@ BLUEPRINT_3_FULL_PARTIAL_1 = """    ○
 [x]     └── Conclusion
 """
 
+BLUEPRINT_3_FULL_PARTIAL_1_PREVIEW = """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+        │   Brief introduction to the topic.
+[x]     │   └── Background
+        │       Context or history relevant to the topic.
+[x]     │       └── Importance
+        │           Why this topic matters in the current scenario.
+[x]     │           └── Objective
+        │               The primary goal of this document.
+[ ]     ├── Methods
+        │   Overview of the methodologies used.
+[ ]     │   └── Data Collection
+        │       How data was gathered for analysis.
+[ ]     │       └── Tools Used
+        │           List of tools utilized during the project.
+[ ]     │           └── Future Work
+        │               Suggestions for future research or tasks.
+[x]     └── Conclusion
+            Summarizing the findings and implications."""
+
+
 BLUEPRINT_3_FULL_PARTIAL_1_PRUNED = """    ○
 [x] └── Main Title
 [x]     ├── Introduction
@@ -159,6 +217,28 @@ BLUEPRINT_3_FULL_PARTIAL_2 = """    ○
 [x]     │           └── Future Work
 [ ]     └── Conclusion
 """
+
+
+BLUEPRINT_3_FULL_PARTIAL_2_PREVIEW = """    ○
+[x] └── Main Title
+[ ]     ├── Introduction
+        │   Brief introduction to the topic.
+[x]     │   └── Background
+        │       Context or history relevant to the topic.
+[ ]     │       └── Importance
+        │           Why this topic matters in the current scenario.
+[x]     │           └── Objective
+        │               The primary goal of this document.
+[ ]     ├── Methods
+        │   Overview of the methodologies used.
+[x]     │   └── Data Collection
+        │       How data was gathered for analysis.
+[ ]     │       └── Tools Used
+        │           List of tools utilized during the project.
+[x]     │           └── Future Work
+        │               Suggestions for future research or tasks.
+[ ]     └── Conclusion
+            Summarizing the findings and implications."""
 
 
 BLUEPRINT_3_FULL_PARTIAL_2_PRUNED = """    ○
