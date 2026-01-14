@@ -31,7 +31,13 @@
 - `kaye_http_api.service` to enable Kaye HTTP API to be ran
   as *systemd* on Linux; & related documentations
 
+- for `PromptCorpusNode`, implement `__getitem__()` for subscriptable
+
 ### Changed
+
+- complete `python_api_doc.md`
+- implementation of `PromptBlueprint` to improve efficiency and clarity
+
 ### Deprecated
 ### Removed
 ### Fixed
