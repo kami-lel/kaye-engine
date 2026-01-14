@@ -171,8 +171,24 @@ class PromptBlueprint(dict):
         self.display_name = display_name
 
     def is_checkmarked(self, node):
-        # TODO TODO TODO
-        pass
+        """
+        :param node: node hash; or node object
+        :type node: int or PromptCorpusNode
+        :return: whether a node is **checkmarked** in the blueprint
+        :rtype: bool
+        :raises TypeError:
+        """
+        if isinstance(node, int):  # check by hash
+            return self[node]
+
+        elif isinstance(node, PromptCorpusNode):  # check by node obj
+            return self.is_checkmarked(hash(node))
+
+        else:
+            raise TypeError(
+                "arg 'node' must be typed: "
+                "int or PromptCorpusNode, not {}".format(type(node))
+            )
 
     def generate_preview_tree(
         self,
