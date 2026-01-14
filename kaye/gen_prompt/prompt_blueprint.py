@@ -4,370 +4,305 @@ define `PromptBlueprint`
 
 import re
 from datetime import datetime
+from copy import copy
 
 import importlib.metadata
-from anytree import RenderTree, PreOrderIter, Node
-from anytree.render import ContStyle
+from anytree import RenderTree, PreOrderIter
 
-from .. import kamilog, PROGRAM_NAME
-from .prompt_corpus_node import HEADING_PREFIX
+from .prompt_corpus_node import HEADING_PREFIX, PromptCorpusNode
 
 __all__ = ("PromptBlueprint",)
 
-logger = kamilog.getLogger(PROGRAM_NAME)
+
+# constants  ###################################################################
+CHECKMARKED_PREFIX = "[x] "
+UNCHECKMARKED_PREFIX = "[ ] "
+EMPTY_PREFIX = "    "
 
 
-# Todo move some content to python_api_doc.md
-class _PreviewTreeNode(Node):
+class PromptBlueprint(dict):
     """
-    helper class usedVjj
-    in ``.generate_preview_tree()`` of ``class PromptBlueprint``
-
-    create a tree structured same as prompt corpus tree
-    for the utility of preview tree generation
+    `PromptCorpusNode` represents a configurable subset of *prompt corpus tree*
 
 
-    :param blueprint: blueprint object which create this preview tree
-    :type blueprint: PromptBlueprint
-    :param concurrent_corpus_node: concurrent node in the prompt corpus tree
-    :type concurrent_corpus_node: PromptCorpusNode
-    :param parent:
-    :type parent: _PreviewTreeNode
-    """
-
-    def is_enabled(self):
-        """
-        :return: whether this node is enabled in the blueprint;
-        :rtype: bool
-        """
-        # Todo opmz by hash names_path
-        names_path = self.concurrent_corpus_node.names_path
-        return any(
-            (names_path == node.names_path) for node in self.blueprint.enabled
-        )
-
-    def prune_trivial_branches(self):
-        """
-        prune all branches that contains no enabled nodes
-
-        :return: whether this node has any enabled descendants
-        :rtype: bool
-        """
-        if self.is_leaf:
-            if self.is_enabled():
-                return True  # keep this enabled leaf node
-        else:
-            non_trivial = [
-                child.prune_trivial_branches() for child in self.children
-            ]
-            if self.is_enabled() or any(non_trivial):
-                return True  # self is marked/children has marked nodes
-
-        # remove self from tree, ready for garbage collection
-        self.parent = None
-        return False
-
-    def __init__(self, blueprint, concurrent_corpus_node, parent):
-        super().__init__(concurrent_corpus_node.name, parent)
-
-        self.blueprint = blueprint
-        self.concurrent_corpus_node = concurrent_corpus_node
-
-        # create children nodes
-        for child_concurrent_node in concurrent_corpus_node.children:
-            _PreviewTreeNode(blueprint, child_concurrent_node, self)
-
-
-class PromptBlueprint:
-    """
-    Represents a **prompt blueprint**, encapsulating a configurable subset of
-    the prompt corpus with enable/disable control over each tree node.
-
-    A ``PromptBlueprint`` mirrors the hierarchical structure of the prompt
-    corpus, but each node can be explicitly **enabled** or **disabled**.
-
-    Use ``.generate_preview_tree()`` (or ``__repr__()``) to generate
-    a visual representation of the **tree**
-    showing enabled node with ``[x]`` and disabled node with ``[ ]``
-
-    Use ``.generate_prompt()`` (or ``__str__()``) to render
-    a **concrete prompt** composed of all enabled nodes
-
-
-    :param prompt_corpus: *prompt corpus* tree **root** node
+    :param prompt_corpus: *prompt corpus tree* **root** node
             which this prompt blueprint attached to
     :type prompt_corpus: PromptCorpusNode
-    :param blueprint_text: prompt blueprint text to set nodes,
-            must in the same format of output of ``__repr__()``
-            (with tree structure and checkboxes;)
-            if ``None``: create an **empty** prompt blueprint,
-            i.e. all nodes disabled
-    :type blueprint_text: str
-    :param display_name: display name given to the prompt,
-            defaults to ""
-    :type display_name: str, optional
+    :param blueprint_display_name: display name given to the blueprint
+    :type blueprint_display_name: str, optional
+    :return: an instance of ``PromptBlueprint`` attached to the given
+            ``prompt_corpus``, and with **all nodes checkmarked**
     """
 
     @classmethod
-    def create_full_prompt_blueprint(
-        cls, prompt_corpus, blueprint_display_name="full"
+    def parse(
+        cls,
+        prompt_corpus,
+        blueprint_text,
+        *,
+        display_name="",
+        disable_prune=False,
     ):
         """
-        :param prompt_corpus: *prompt corpus* tree root node
-                which this prompt blueprint attached to
+        parse ``blueprint_text`` into a blueprint object
+
+
+        :param prompt_corpus:
         :type prompt_corpus: PromptCorpusNode
-        :param blueprint_display_name: display name given to the prompt;
-                defaults to "full"
-        :type blueprint_display_name: str, optional
-        :return: an instance of ``PromptBlueprint`` attached to the given
-                ``prompt_corpus``, and with **all nodes enabled**
+        :param blueprint_text: prompt blueprint text to set nodes, must in
+                the same format of output of ``.generate_preview_tree()``
+                (with tree structure and checkmarks)
+        :type blueprint_text: str
+        :param display_name:
+        :type display_name: str, optional
+        :param disable_prune: by default, the parsed tree does not include
+                irreverent nodes;
+                when ``disable_prune``, the parsed tree contains the full
+                prompt corpus tree of ``prompt_corpus``
+        :type disable_prune: bool, optional
+        :return: a blueprint parsed from ``blueprint_text``
+        :rtype: PromptBlueprint
+        :raise ValueError: bad formatted `blueprint_text`
+        """
+        bp = PromptBlueprint(prompt_corpus, display_name=display_name)
+        path2node_hash = {
+            node.path_of_names: hash(node) for node in bp.corpus.descendants
+        }
+
+        # extract all headings  ++++++++++++++++++++++++++++++++++++++++++++++++
+        previous_level = -1
+        previous_path = []
+        for line in blueprint_text.split("\n"):
+            match = re.fullmatch(cls.HEADING_LINE_PATTERN, line)
+
+            if not match:
+                continue  # skip line that is not a node heading
+
+            is_checkmarked = match.group(1) == "x"
+            level = len(match.group(2)) // 4
+            heading = match.group(3)
+
+            # dynamically decide path  -----------------------------------------
+            if level > previous_level:
+
+                if level - previous_level > 1:
+                    raise ValueError(
+                        "malformed tree format at line:\n{}".format(line)
+                    )
+                    # fixme print to logger, then continue
+
+                path = previous_path + [""]
+
+            elif level == previous_level:
+                path = previous_path
+
+            else:
+                path = previous_path[: level + 1]
+
+            path[level] = heading
+            path_tuple = tuple(path)
+
+            # check node's existence in tree  ----------------------------------
+            if path_tuple not in path2node_hash:
+                raise ValueError(
+                    "missing node from prompt_corpus:\n{}".format(line)
+                )
+                # fixme print to logger, then continue
+
+            # append a node  ---------------------------------------------------
+            node_hash = path2node_hash[path_tuple]
+            bp[node_hash] = is_checkmarked
+
+            # update loop vars  ------------------------------------------------
+            previous_level, previous_path = level, path
+
+        # prune the tree
+        return bp if disable_prune else bp.prune()
+
+    @classmethod
+    def create_full_blueprint(cls, prompt_corpus, *, display_name="full"):
+        """
+        :param prompt_corpus:
+        :type prompt_corpus: PromptCorpusNode
+        :param display_name:
+        :type display_name: str, optional
+        :return: a blueprint with all nodes from `prompt_corpus`,
+                and checkmarking all nodes
         :rtype: PromptBlueprint
         """
-        blueprint = cls(prompt_corpus, display_name=blueprint_display_name)
-        # set all nodes
-        for node in PreOrderIter(prompt_corpus):
-            if node.parent is None:  # skip root node
-                continue
+        return cls._create_full_or_empty_blueprint(
+            prompt_corpus, True, display_name
+        )
 
-            blueprint.enabled.append(node)
+    @classmethod
+    def create_empty_blueprint(cls, prompt_corpus, *, display_name="empty"):
+        """
+        :param prompt_corpus:
+        :type prompt_corpus: PromptCorpusNode
+        :param display_name:
+        :type display_name: str, optional
+        :return: a blueprint with all nodes from `prompt_corpus`,
+                but checkmarking all nodes
+        :rtype: PromptBlueprint
+        """
+        return cls._create_full_or_empty_blueprint(
+            prompt_corpus, False, display_name
+        )
 
-        return blueprint
+    def __init__(self, prompt_corpus, *, display_name=""):
+        super().__init__()  # init as empty dict
+        self.corpus = prompt_corpus
+        self.display_name = display_name
+
+    def is_checkmarked(self, node):
+        """
+        :param node: node hash; or node object
+        :type node: int or PromptCorpusNode
+        :return: whether a node is **checkmarked** in the blueprint;
+                also ``False`` if node is not contained in blueprint
+        :rtype: bool
+        :raises TypeError:
+        """
+        if isinstance(node, int):  # check by hash
+            return node in self and self[node]
+
+        elif isinstance(node, PromptCorpusNode):  # check by node obj
+            return self.is_checkmarked(hash(node))
+
+        else:
+            raise TypeError(
+                "arg 'node' must be typed: "
+                "int or PromptCorpusNode, not {}".format(type(node))
+            )
+
+    def prune(self):
+        """
+        :return: a **pruned** blueprint (of ``self``)
+                which contains only branches with checkmarked nodes
+        :rtype: PromptBlueprint
+        """
+        pruned_bp = PromptBlueprint(
+            self.corpus, display_name=self.display_name
+        )
+        _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
+        return pruned_bp
 
     def generate_preview_tree(
         self,
         *,
-        show_full_tree=False,
         preview_line_count=3,
         preview_line_width=64,
+        show_full_tree=False,
         hide_comment=False,
     ):
         """
-        generate a visual representation of the **tree**, showing:
-
-        - tree structure
-        - node name (i.e. section heading)
-        - node enabled/disabled status, prefixed with:
-
-          - ``[x]`` for enabled node
-          - ``[ ]`` for disabled node
-
-        - node content preview
+        generate **preview tree** of the blueprint,
+        an human-readable representation
 
 
-        :param show_full_tree: _description_, defaults to False
-        :type show_full_tree: bool, optional
         :param preview_line_count: set maximum line count of
-                *content preview* part for each entry,
-                (excluding section heading line;)
+                *content preview* part, (excluding section heading line);
                 defaults to 3
-        :type preview_line_count: int, optional
+        :type preview_line_count: int
         :param preview_line_width: set maximum column width of
-                *content preview* part for each entry;
-                defaults to 64
-        :type preview_line_count: int, optional
+                *content preview* part;
+                defaults to 64.
+        :type preview_line_width: int
+        :param show_full_tree: whether to show the full corpus tree,
+                regardless of node's inclusion in this blueprint;
+        :type show_full_tree: bool, optional
         :param hide_comment: disable comment part after last line;
                 defaults to False
         :type hide_comment: bool, optional
-        :return: v.s.
+        :return: the preview tree
         :rtype: str
-        :example:
-        >>> tree = PromptBlueprint(...)
-        >>> tree.generate_preview_tree()
-            ○
-        [x] └── Project Title
-        [ ]     ├── Description
-                │   A brief overview of the project, its purpose, and goals.
-        [ ]     ├── Installation
-                │   1. Clone the repo
-                │   2. Install dependencies
-                │   3. Run the application
-        [ ]     ├── Usage
-                │   Provide instructions on how to use the application.
-        [ ]     ├── Contributing
-                │   1. Fork the repo
-                │   2. Create a new branch
-                │   3. Submit a pull request
-        [x]     └── License
-                    This project is licensed under the MIT License.
-        (blueprint:conversation; Kaye v1.2.3)
-        >>> tree.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            ○
-        [x] └── Project Title
-        [ ]     ├── Description
-        [ ]     ├── Installation
-        [ ]     ├── Usage
-        [ ]     ├── Contributing
-        [x]     └── License
         """
+        if show_full_tree:
+            preview_tree = self.corpus
+        else:
+            # create a duplicated tree,
+            # but contains only nodes relevant to this blueprint
+            preview_tree = _create_pruned_tree_for_preview_recursively(
+                self, self.corpus
+            )
 
-        preview_tree = _PreviewTreeNode(self, self.prompt_corpus, None)
-
-        if not show_full_tree:
-            preview_tree.prune_trivial_branches()
-
+        # generate content  ----------------------------------------------------
         opt_lines = []
-        for pre, fill, node in RenderTree(preview_tree, style=ContStyle()):
-            if node.parent is None:
-                root_line = "    {}".format(node.name)
-                opt_lines.append(root_line)
-                continue
+        for pre, fill, node in RenderTree(preview_tree):
+            # line for tree structure
+            checkmark_prefix = (
+                CHECKMARKED_PREFIX
+                if self.is_checkmarked(node)
+                else UNCHECKMARKED_PREFIX
+            )
+            if node.is_root:
+                checkmark_prefix = EMPTY_PREFIX
 
-            # create node / heading line
-            checkbox = "[x] " if node.is_enabled() else "[ ] "
-            heading_line = checkbox + pre + node.name
-            opt_lines.append(heading_line)
+            node_line = checkmark_prefix + pre + node.name
+            opt_lines.append(node_line)
 
-            # generate content preview
+            # lines for node content preview
+            content_fill = "    " + fill
             opt_lines.extend(
-                node.concurrent_corpus_node.generate_preview_tree_content_part(
-                    "    " + fill, preview_line_count, preview_line_width
+                # pylint: disable=protected-access
+                node._generate_preview_tree_content_preview_lines(
+                    content_fill, preview_line_count, preview_line_width
                 )
             )
 
         # append comment line
         if not hide_comment:
-            comment_line = "({})".format(self._generate_comment_content())
+            comment_line = "<!-- " + self._generate_comment_content() + " -->"
             opt_lines.append(comment_line)
 
         return "\n".join(opt_lines)
 
     def generate_prompt(self, *, hide_comment=False):
         """
+        render the **concrete prompt** that can be used as LLM system message
+        with it content based on node's checkmarking status of this blueprint
+
+
         :param hide_comment: disable comment part after last line;
                 defaults to False
         :type hide_comment: bool, optional
-        :return: **concrete prompt** composed of nodes heading and content
+        :return: the generated prompt
         :rtype: str
-        :example:
-        >>> tree = PromptBlueprint(...)
-        >>> tree.generate_prompt(hide_comment=True)
-        # Main Title
-        Overview of the methodologies used.
-        ### Data Collection
-        How data was gathered for analysis.
-        ## Conclusion
-        Summarizing the findings and implications.
         """
-        # generate lines from root node
-        lines = self._generate_prompt_recursively(self.prompt_corpus)
+        lines = _generate_prompt_recursively(self, self.corpus)
 
-        # create comment part
+        # create comment line
         if not hide_comment:
             comment_line = "<!-- " + self._generate_comment_content() + " -->"
             lines.append(comment_line)
 
-        return "\n".join(lines)
+        return "\n".join(lines).strip("\n")
 
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
-    def __init__(
-        self,
-        prompt_corpus,
-        blueprint_text=None,
-        *,
-        display_name="",
+    @classmethod
+    def _create_full_or_empty_blueprint(
+        cls, prompt_corpus, is_full, display_name
     ):
-        self.display_name = display_name
-        self.prompt_corpus = prompt_corpus
-
-        # list of all enabled nodes
-        self.enabled = []  # default as empty blueprint
-
-        if blueprint_text:
-            self._init_populate_enabled_by_blueprint_text(blueprint_text)
-
-    def _init_populate_enabled_by_blueprint_text(self, blueprint_text):
         """
-        helper method used in ``__init__()``
-
-        populate ``self.enabled`` by parsing the init param ``blueprint_text``
+        helper method used
+        in ``._create_full_blueprint()`` & in ``_create_empty_blueprint()``,
+        i.e. a generic version of the 2 functions
         """
-        lines = blueprint_text.split("\n")
+        blueprint = PromptBlueprint(prompt_corpus, display_name=display_name)
+        # include all nodes
+        for node in PreOrderIter(prompt_corpus):
+            if not node.is_root:  # skip root node
+                key = hash(node)
+                # add all nodes
+                blueprint[key] = is_full
 
-        path2node = {
-            node.names_path: node for node in self.prompt_corpus.descendants
-        }
-
-        # extract all enabled headings
-        previous_level = -1
-        previous_path = []
-        for line in lines:
-            match = re.fullmatch(self.HEADING_LINE_PATTERN, line)
-            # find node / heading as a line
-            if match:
-                is_checked = match.group(1) == "x"
-                level = len(match.group(2)) // 4
-                heading = match.group(3)
-
-                # dynamically decide the names_path
-                if level > previous_level:
-
-                    if level - previous_level > 1:
-                        logger.error(
-                            "detect bad blueprint tree format at:\n%s", line
-                        )
-                        continue
-
-                    path = previous_path + [""]
-
-                elif level == previous_level:
-                    path = previous_path
-
-                else:
-                    path = previous_path[: level + 1]
-
-                path[level] = heading
-
-                path_tuple = tuple(path)
-                if path_tuple not in path2node:
-                    logger.warning(
-                        "not part of the provided prompt corpus, skipped"
-                        " during blueprint parsing:\n%s",
-                        line,
-                    )
-                    continue
-
-                if is_checked:
-                    node = path2node[path_tuple]
-                    self.enabled.append(node)
-
-                previous_level, previous_path = level, path
-
-    def _generate_prompt_recursively(self, node):
-        """
-        helper method used in ``.generate_preview()``
-
-        generate recursively prompt lines from ``node``
-        """
-        lines = []
-
-        try:
-            idx = self.enabled.index(node)
-        except ValueError:
-            idx = -1
-        if idx >= 0 and node.parent is not None:
-            level = node.depth
-
-            # add empty lines before headings
-            if idx > 0:
-                lines.append("")
-
-            # add heading line
-            heading_line = HEADING_PREFIX * level + " " + node.name
-            lines.append(heading_line)
-            # add content lines
-            lines.extend(node.content)
-
-        # children
-        for child_node in node.children:
-            lines.extend(self._generate_prompt_recursively(child_node))
-
-        return lines
+        return blueprint
 
     def _generate_comment_content(self):
         """
-        helper method used in ``.generate_preview_tree()`` and
-        ``.generate_prompt()``
+        helper method used in
+        ``.generate_preview_tree()`` and ``.generate_prompt()``
 
 
         :return: prompt comment containing blueprint name and Kaye version
@@ -390,8 +325,138 @@ class PromptBlueprint:
 
         return "{}Kaye v{}".format(name_part, kaye_version)
 
+    def __contains__(self, key):
+        """
+        allow ``PromptBlueprint`` to perform membership tests with key being
+
+
+        :param key: hash of node; or node object
+        :type key: int or PromptCorpusNode
+        :return: if blueprint contains the node
+        :rtype: bool
+        """
+        if isinstance(key, PromptCorpusNode):
+            key = hash(key)
+
+        return super().__contains__(key)
+
     def __repr__(self):
-        return self.generate_preview_tree()
+        """
+        :return:
+        :rtype: str
+        :example:
+        assert repr(node) == "PromptBlueprint(My Blueprint)"
+        """
+        return "PromptBlueprint({})".format(self.display_name)
 
     def __str__(self):
-        return self.generate_prompt()
+        """
+        :return: equivalent to self.generate_preview_tree()
+        :rtype: str
+        """
+        return self.generate_preview_tree()
+
+
+# helpers  #####################################################################
+
+
+def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
+    """
+    recursively walk ``node``, and add necessary nodes from ``old_bp`` to
+    ``pruned_bp``, such that trivial branches are pruned in the ``pruned_bp``
+
+    (helper method used in ``PromptBlueprint.prune()``)
+
+
+    :param old_bp:
+    :type old_bp: PromptBlueprint
+    :param pruned_bp:
+    :type pruned_bp: PromptBlueprint
+    :param node:
+    :type node: PromptCorpusNode
+    :return: if ``node`` has any checkmarked descents
+    :rtype: bool
+    """
+    node_hash = hash(node)
+
+    # if current node is checkmarked
+    is_checkmarked = old_bp.is_checkmarked(node)
+
+    # traherne all children
+    children_results = [
+        _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, child)
+        for child in node.children
+    ]
+
+    # if any of dependents is checkmarked
+    has_checkmarked_descents = any(children_results)
+
+    if is_checkmarked or has_checkmarked_descents:
+        if not node.is_root:
+            # this node should be in the pruned_bp
+            pruned_bp[node_hash] = is_checkmarked
+        return True
+    else:
+        return False
+
+
+def _create_pruned_tree_for_preview_recursively(blueprint, node):
+    """
+    create a `PromptCorpusNode` as root of a new **pruned** tree such that
+    only nodes contained in `blueprint` is kept.
+    This is done by traverse the tree and check if any nodes is contained
+    in the blueprint
+
+    (helper method used in ``PromptBlueprint.generate_preview_tree()``)
+
+
+    :param blueprint:
+    :type blueprint: PromptBlueprint
+    :param node:
+    :type node: PromptCorpusNode
+    :return: root of the filtered node
+    :rtype: PromptCorpusNode
+    """
+    new_node = copy(node)  # an copy w/o children
+
+    for child in node.children:
+        if hash(child) in blueprint:
+            new_child = _create_pruned_tree_for_preview_recursively(
+                blueprint, child
+            )
+            new_child.parent = new_node
+
+    return new_node
+
+
+def _generate_prompt_recursively(blueprint, node):
+    """
+    recursively traverse tree and only select nodes that is checkmarked in
+    blueprint. Create the prompt by combining these nodes' content.
+
+    (helper method used in ``PromptBlueprint.generate_prompt()``)
+
+
+    :param blueprint:
+    :type blueprint: PromptBlueprint
+    :param node:
+    :type node: PromptCorpusNode
+    :return: prompt lines
+    :rtype: list[str]
+    """
+    lines = []
+
+    # add current node if checkmarked
+    if blueprint.is_checkmarked(node):
+        lines.append("")  # add empty lines before headings
+
+        # heading line
+        lines.append(HEADING_PREFIX * node.depth + " " + node.name)
+        # content lines
+        lines.extend(node.content)
+
+    # add descendent
+    for child in node.children:
+        lines.extend(_generate_prompt_recursively(blueprint, child))
+
+    return lines

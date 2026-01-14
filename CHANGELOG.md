@@ -2,6 +2,10 @@
 
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
 <!-- Todo standardize module & entry docstring for all dify apps' code node -->
+<!-- todo kyc: difficulty cool down, keep a array of difficult of recent rounds  -->
+<!-- Fixme corpus:kyc: improve task prompt content  -->
+<!-- Fixme corpus:kyc: pre-sense corpus, provide anchor point-->
+<!-- bug Kaye_Chat & Kaye_Peer_Coder apps forget conversation when switch LLM -->
 
 [^format]
 
@@ -20,9 +24,20 @@
 ## [Unreleased]
 
 ### Added
+
+- Dify App **Kaye Chat**: conversation focused agent,
+  dynamically change LLM based on type of conversation
+
+- `kaye_http_api.service` to enable Kaye HTTP API to be ran
+  as *systemd* on Linux; & related documentations
+
+- `PromptCorpusNode`: implement `__getitem__()` for subscriptable
+
 ### Changed
 
 - update Dify App *Kaye Peer Coder* structure such that it support text streaming
+- complete `python_api_doc.md`
+- implementation of `PromptBlueprint` to improve efficiency and clarity
 
 ### Deprecated
 ### Removed

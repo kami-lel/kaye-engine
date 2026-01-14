@@ -1,5 +1,5 @@
 """
-Python module ``kaye``
+Kaye Python API
 """
 
 PROGRAM_NAME = "Kaye"
