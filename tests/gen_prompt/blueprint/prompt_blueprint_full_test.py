@@ -78,22 +78,21 @@ class TestFull2:
 # test .create_empty_blueprint()  ##############################################
 class TestEmpty1:
 
-    # BUG BUG BUG need test
     def test_dft(_):
         corpus = CORPUS1
 
-        bp = PromptBlueprint.create_full_blueprint(corpus)
+        bp = PromptBlueprint.create_empty_blueprint(corpus)
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)
         assert opt == BLUEPRINT_1_FULL_EMPTY
-        assert bp.display_name == "full"
+        assert bp.display_name == "empty"
 
     def test_name(_):
         corpus = CORPUS1
         display_name = "My Empty Blueprint"
 
-        bp = PromptBlueprint.create_full_blueprint(
+        bp = PromptBlueprint.create_empty_blueprint(
             corpus, display_name=display_name
         )
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
@@ -108,7 +107,7 @@ class TestEmpty:
     def test_dft(_):
         corpus = CORPUS2
 
-        bp = PromptBlueprint.create_full_blueprint(corpus)
+        bp = PromptBlueprint.create_empty_blueprint(corpus)
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)
@@ -119,7 +118,7 @@ class TestEmpty:
         corpus = CORPUS2
         display_name = "My Empty Blueprint"
 
-        bp = PromptBlueprint.create_full_blueprint(
+        bp = PromptBlueprint.create_empty_blueprint(
             corpus, display_name=display_name
         )
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
