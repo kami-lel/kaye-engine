@@ -83,9 +83,9 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     # deal with technical prompts
     # technical blueprints
     if prompt_blueprint_name == FULL_BLUEPRINT_NAME:
-        return PromptBlueprint.create_full_prompt_blueprint(corpus)
+        return PromptBlueprint.create_full_blueprint(corpus)
     elif prompt_blueprint_name == EMPTY_BLUEPRINT_NAME:
-        return PromptBlueprint(corpus, display_name=prompt_blueprint_name)
+        return PromptBlueprint.create_empty_blueprint(corpus)
 
     # assert prompt_name is an existing prompt file
     prompt_file_path = _get_embedded_prompt_blueprints_names_and_paths().get(
@@ -101,7 +101,7 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     # read content
     with open(prompt_file_path, "r", encoding="utf-8") as file:
         content = file.read()
-        return PromptBlueprint(
+        return PromptBlueprint.parse(
             corpus, content, display_name=prompt_blueprint_name
         )
 
