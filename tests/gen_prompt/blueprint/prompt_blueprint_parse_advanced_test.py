@@ -198,7 +198,6 @@ class TestDft3:  # use PROMPT3  ================================================
 
 # text include content preview  ################################################
 class TestContentPreview1:  # use PROMPT1  =====================================
-    # BUG BUG
 
     def test1(_):
         bp_text = BLUEPRINT_1_FULL_PREVIEW
@@ -219,7 +218,7 @@ class TestContentPreview1:  # use PROMPT1  =====================================
         print(opt)
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == BLUEPRINT_1_FULL
+            == BLUEPRINT_1_PARTIAL_1
         )
 
     def test_pa2(_):
@@ -230,7 +229,7 @@ class TestContentPreview1:  # use PROMPT1  =====================================
         print(opt)
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == BLUEPRINT_1_FULL
+            == BLUEPRINT_1_PARTIAL_2_PRUNED
         )
 
 
@@ -255,7 +254,7 @@ class TestContentPreview2:  # use PROMPT2  =====================================
         print(opt)
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == BLUEPRINT_2_FULL
+            == BLUEPRINT_2_PARTIAL_1_PRUNED
         )
 
 
@@ -280,7 +279,7 @@ class TestContentPreview3:  # use PROMPT2  =====================================
         print(opt)
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == BLUEPRINT_3_FULL
+            == BLUEPRINT_3_PARTIAL_1_PRUNED
         )
 
     def test_pa2(_):
@@ -291,7 +290,7 @@ class TestContentPreview3:  # use PROMPT2  =====================================
         print(opt)
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == BLUEPRINT_3_FULL
+            == BLUEPRINT_3_PARTIAL_2_PRUNED
         )
 
 
