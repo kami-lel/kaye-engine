@@ -8,7 +8,7 @@ from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
-    BLUEPRINT_1_FULL_PARTIAL_1,
+    BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_1_FULL_PARTIAL_2,
     BLUEPRINT_1_FULL_EMPTY,
     BLUEPRINT_2_FULL,
@@ -41,7 +41,7 @@ class Test1:  # use PROMPT1  ###################################################
         )
 
     def test_no_prune1(self):
-        bp_text = BLUEPRINT_1_FULL_PARTIAL_1
+        bp_text = BLUEPRINT_1_PARTIAL_1
         old = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
 
         opt = old.prune()

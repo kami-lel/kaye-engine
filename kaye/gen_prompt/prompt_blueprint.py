@@ -7,8 +7,7 @@ from datetime import datetime
 from copy import copy
 
 import importlib.metadata
-from anytree import RenderTree, PreOrderIter, Node
-from anytree.render import ContStyle
+from anytree import RenderTree, PreOrderIter
 
 from .. import kamilog, PROGRAM_NAME
 from .prompt_corpus_node import HEADING_PREFIX, PromptCorpusNode
@@ -123,7 +122,8 @@ class PromptBlueprint(dict):
             # update loop vars  ------------------------------------------------
             previous_level, previous_path = level, path
 
-        return bp
+        # prune the tree
+        return bp if disable_prune else bp.prune()
 
     @classmethod
     def create_full_blueprint(cls, prompt_corpus, *, display_name="full"):
