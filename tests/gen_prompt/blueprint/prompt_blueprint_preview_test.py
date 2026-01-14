@@ -545,7 +545,6 @@ class TestNoComment:  # w/ corpus1  *******************************************
 
 # full tree (nor content)  =====================================================
 class TestFullTree:
-    # BUG
 
     def test1(_):
         bp_text = BLUEPRINT_1_PARTIAL_2_PRUNED
@@ -559,7 +558,7 @@ class TestFullTree:
 
         print(opt)
 
-        assert opt == bp_text
+        assert opt == BLUEPRINT_1_PARTIAL_2
 
     def test2(_):
         bp_text = BLUEPRINT_2_PARTIAL_1_PRUNED
@@ -573,7 +572,7 @@ class TestFullTree:
 
         print(opt)
 
-        assert opt == bp_text
+        assert opt == BLUEPRINT_2_PARTIAL_1
 
     def test31(_):
         bp_text = BLUEPRINT_3_PARTIAL_1_PRUNED
@@ -587,7 +586,7 @@ class TestFullTree:
 
         print(opt)
 
-        assert opt == bp_text
+        assert opt == BLUEPRINT_3_PARTIAL_1
 
     def test32(_):
         bp_text = BLUEPRINT_3_PARTIAL_2_PRUNED
@@ -601,7 +600,7 @@ class TestFullTree:
 
         print(opt)
 
-        assert opt == bp_text
+        assert opt == BLUEPRINT_3_PARTIAL_2
 
 
 # default  =====================================================================
