@@ -6,6 +6,16 @@ Unit Tests (using pytest) for: PromptBlueprint.parse()
 
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
 from tests.gen_prompt import PROMPT1, PROMPT3
+from tests.gen_prompt.blueprint import (
+    BLUEPRINT_1_FULL,
+    BLUEPRINT_1_PARTIAL_1,
+    BLUEPRINT_1_PARTIAL_2,
+    BLUEPRINT_1_EMPTY,
+    BLUEPRINT_2_FULL,
+    BLUEPRINT_2_PARTIAL_1,
+    BLUEPRINT_2_PARTIAL_2,
+    BLUEPRINT_2_EMPTY,
+)
 
 CORPUS1 = PromptCorpusNode.parse(PROMPT1)
 CORPUS3 = PromptCorpusNode.parse(PROMPT3)
@@ -17,11 +27,7 @@ class TestBasic1:  # use corpus1  ==============================================
 
     def test_full(_):
         corpus = CORPUS1
-        bp_text = """    ○
-[x] └── Project Title
-[x]     ├── Description
-[x]     ├── Installation
-[x]     └── License"""
+        bp_text = BLUEPRINT_1_FULL
 
         opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
@@ -58,11 +64,7 @@ class TestBasic1:  # use corpus1  ==============================================
 
     def test_no_project(_):
         corpus = CORPUS1
-        bp_text = """    ○
-[ ] └── Project Title
-[x]     ├── Description
-[x]     ├── Installation
-[x]     └── License"""
+        bp_text = BLUEPRINT_1_PARTIAL_1
 
         opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
@@ -96,11 +98,7 @@ class TestBasic1:  # use corpus1  ==============================================
 
     def test_no_description(_):
         corpus = CORPUS1
-        bp_text = """    ○
-[x] └── Project Title
-[ ]     ├── Description
-[x]     ├── Installation
-[x]     └── License"""
+        bp_text = BLUEPRINT_1_PARTIAL_2
 
         opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
@@ -134,11 +132,7 @@ class TestBasic1:  # use corpus1  ==============================================
 
     def test_empty(_):
         corpus = CORPUS1
-        bp_text = """    ○
-[ ] └── Project Title
-[ ]     ├── Description
-[ ]     ├── Installation
-[ ]     └── License"""
+        bp_text = BLUEPRINT_1_EMPTY
 
         opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
@@ -175,18 +169,8 @@ class TestBasic3:  # use corpus3  ==============================================
 
     def test_full(_):
         corpus = CORPUS3
-        bp_text = """    ○
-[x] └── Main Title
-[x]     ├── Introduction
-[x]     │   └── Background
-[x]     │       └── Importance
-[x]     │           └── Objective
-[x]     ├── Methods
-[x]     │   └── Data Collection
-[x]     │       └── Tools Used
-[x]     │           └── Future Work
-[x]     └── Conclusion
-"""
+        bp_text = BLUEPRINT_2_FULL
+
         opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)
@@ -258,18 +242,8 @@ class TestBasic3:  # use corpus3  ==============================================
 
     def test_part1(_):
         corpus = CORPUS3
-        bp_text = """    ○
-[x] └── Main Title
-[x]     ├── Introduction
-[x]     │   └── Background
-[x]     │       └── Importance
-[x]     │           └── Objective
-[ ]     ├── Methods
-[ ]     │   └── Data Collection
-[ ]     │       └── Tools Used
-[ ]     │           └── Future Work
-[x]     └── Conclusion
-"""
+        bp_text = BLUEPRINT_2_PARTIAL_1
+
         opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)
@@ -338,18 +312,7 @@ class TestBasic3:  # use corpus3  ==============================================
 
     def test_part2(_):
         corpus = CORPUS3
-        bp_text = """    ○
-[x] └── Main Title
-[ ]     ├── Introduction
-[x]     │   └── Background
-[ ]     │       └── Importance
-[x]     │           └── Objective
-[ ]     ├── Methods
-[x]     │   └── Data Collection
-[ ]     │       └── Tools Used
-[x]     │           └── Future Work
-[ ]     └── Conclusion
-"""
+        bp_text = BLUEPRINT_2_PARTIAL_2
         opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)
@@ -418,18 +381,8 @@ class TestBasic3:  # use corpus3  ==============================================
 
     def test_empty(_):
         corpus = CORPUS3
-        bp_text = """    ○
-[ ] └── Main Title
-[ ]     ├── Introduction
-[ ]     │   └── Background
-[ ]     │       └── Importance
-[ ]     │           └── Objective
-[ ]     ├── Methods
-[ ]     │   └── Data Collection
-[ ]     │       └── Tools Used
-[ ]     │           └── Future Work
-[ ]     └── Conclusion
-"""
+
+        bp_text = BLUEPRINT_2_EMPTY
         opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)

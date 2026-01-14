@@ -10,12 +10,15 @@ Unit Tests (using pytest) for: PromptBlueprint
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 from tests.gen_prompt.node.testees import PROMPT1, PROMPT2
 
-corpus1 = PromptCorpusNode.parse(PROMPT1)
-corpus2 = PromptCorpusNode.parse(PROMPT2)
+CORPUS1 = PromptCorpusNode.parse(PROMPT1)
+CORPUS2 = PromptCorpusNode.parse(PROMPT2)
 
 
 # test .generate_preview_tree()  ###############################################
-class TestAllArgs1:  # test w/ all args with PROMPT1
+
+
+# w/ all args
+class TestAllArgs1:  # w/ corpus1
 
     def test_empty(_):
         pass

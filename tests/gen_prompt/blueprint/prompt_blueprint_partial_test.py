@@ -16,9 +16,6 @@ def _remove_last_line(text):
     return "\n".join(text.split("\n")[:-1])
 
 
-# BUG BUG update
-
-
 class Test1:  # use PROMPT1
 
     corpus = PromptCorpusNode.parse(PROMPT1)
