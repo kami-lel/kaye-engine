@@ -11,6 +11,7 @@ import re
 
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
+
 from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
