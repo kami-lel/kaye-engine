@@ -6,7 +6,6 @@
 <!-- Fixme corpus:kyc: improve task prompt content  -->
 <!-- Fixme corpus:kyc: pre-sense corpus, provide anchor point-->
 <!-- bug Kaye_Chat & Kaye_Peer_Coder apps forget conversation when switch LLM -->
-<!-- Bug commit sense is too wordy, ask to limit word count; also primary message fail to generalize, maybe ask it to describe only one important message -->
 
 [^format]
 
