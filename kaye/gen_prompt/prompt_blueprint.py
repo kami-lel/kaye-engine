@@ -304,6 +304,9 @@ class PromptBlueprint(dict):
         """
         if isinstance(key, PromptCorpusNode):
             key = hash(key)
+            # HACK
+            print(key)
+            print(self.keys())
 
         return super().__contains__(key)
 
