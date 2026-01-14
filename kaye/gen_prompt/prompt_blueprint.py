@@ -194,7 +194,6 @@ class PromptBlueprint(dict):
         :return: the preview tree
         :rtype: str
         """
-        # BUG BUG need test
         if show_full_tree:
             preview_tree = self.corpus
         else:
@@ -351,7 +350,6 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
             new_child = _create_pruned_tree_for_preview_recursively(
                 blueprint, child
             )
-            # BUG maybe wrong, how to set parent?
             new_child.parent = new_node
 
     return new_node
