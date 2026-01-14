@@ -274,7 +274,14 @@ class PromptBlueprint(dict):
         :return: **concrete prompt** composed of nodes heading and content
         :rtype: str
         """
-        return ""
+        lines = _generate_prompt_recursively(self, self.corpus)
+
+        # create comment line
+        if not hide_comment:
+            comment_line = "<!-- " + self._generate_comment_content() + " -->"
+            lines.append(comment_line)
+
+        return "\n".join(lines)
 
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
@@ -427,20 +434,21 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
     return new_node
 
 
+def _generate_prompt_recursively(blueprint, node):
+    """
+    TODO
+
+    :param blueprint: _description_
+    :type blueprint: _type_
+    :param node: _description_
+    :type node: _type_
+    :return: _description_
+    :rtype: _type_
+    """
+    return []  # TODO
+
+
 class PromptBlueprintOld:  # HACK rm
-
-    def generate_prompt(self, *, hide_comment=False):
-        # generate lines from root node
-        lines = self._generate_prompt_recursively(self.prompt_corpus)
-
-        # create comment part
-        if not hide_comment:
-            comment_line = (
-                "<!-- " + self._generate_preview_tree_comment_line() + " -->"
-            )
-            lines.append(comment_line)
-
-        return "\n".join(lines)
 
     def _generate_prompt_recursively(self, node):
         """
