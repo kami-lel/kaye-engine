@@ -25,6 +25,32 @@ BLUEPRINT_1_FULL_EMPTY = """    ○
 [ ]     ├── Installation
 [ ]     └── License"""
 
+BLUEPRINT_2_FULL = """    ○
+[x] └── Project Title
+[x]     ├── Description
+[x]     ├── Installation
+[x]     ├── Usage
+[x]     ├── Contributing
+[x]     └── License"""
+
+
+BLUEPRINT_2_FULL_PARTIAL_1 = """    ○
+[x] └── Project Title
+[ ]     ├── Description
+[x]     ├── Installation
+[ ]     ├── Usage
+[x]     ├── Contributing
+[ ]     └── License"""
+
+
+BLUEPRINT_2_FULL_EMPTY = """    ○
+[ ] └── Project Title
+[ ]     ├── Description
+[ ]     ├── Installation
+[ ]     ├── Usage
+[ ]     ├── Contributing
+[ ]     └── License"""
+
 
 BLUEPRINT_3_FULL = """    ○
 [x] └── Main Title
