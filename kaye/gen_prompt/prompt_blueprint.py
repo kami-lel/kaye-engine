@@ -170,6 +170,10 @@ class PromptBlueprint(dict):
         self.corpus = prompt_corpus
         self.display_name = display_name
 
+    def is_checkmarked(self, node):
+        # TODO TODO TODO
+        pass
+
     def generate_preview_tree(
         self,
         *,
