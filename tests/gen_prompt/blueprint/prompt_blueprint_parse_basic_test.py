@@ -13,6 +13,7 @@ from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_1_PARTIAL_2,
     BLUEPRINT_1_EMPTY,
+    BLUEPRINT_2_PARTIAL_1,
     BLUEPRINT_3_FULL,
     BLUEPRINT_3_PARTIAL_1,
     BLUEPRINT_3_PARTIAL_2,
@@ -448,6 +449,53 @@ class TestBasic3:  # use corpus3  ##############################################
         _hash = hash(_node)
         assert _hash in opt
         assert not opt[_hash]
+
+
+# setting display_name  ########################################################
+
+
+class TestDisplayName:
+
+    def test_dft(_):
+        bp_text = BLUEPRINT_1_FULL
+
+        opt = PromptBlueprint.parse(CORPUS1, bp_text)
+
+        print(opt)
+        assert opt.display_name == ""
+
+    def test1(_):
+        bp_text = BLUEPRINT_1_FULL
+        display_name = "My Blueprint"
+
+        opt = PromptBlueprint.parse(
+            CORPUS1, bp_text, display_name=display_name
+        )
+
+        print(opt)
+        assert opt.display_name == display_name
+
+    def test2(_):
+        bp_text = BLUEPRINT_1_PARTIAL_1
+        display_name = "My Blueprint"
+
+        opt = PromptBlueprint.parse(
+            CORPUS1, bp_text, display_name=display_name
+        )
+
+        print(opt)
+        assert opt.display_name == display_name
+
+    def test3(_):
+        bp_text = BLUEPRINT_3_EMPTY
+        display_name = "My Blueprint"
+
+        opt = PromptBlueprint.parse(
+            CORPUS3, bp_text, display_name=display_name
+        )
+
+        print(opt)
+        assert opt.display_name == display_name
 
 
 # Bug tests for errors

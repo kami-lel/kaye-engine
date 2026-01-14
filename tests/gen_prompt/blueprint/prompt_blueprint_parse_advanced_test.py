@@ -364,9 +364,5 @@ class TestPrunedText:
         )
 
 
-# setting display_name  ########################################################
-# TODO TODO test display name setting
-
-
 # set disable_prune  ###########################################################
 # TODO TODO disable prune not working
