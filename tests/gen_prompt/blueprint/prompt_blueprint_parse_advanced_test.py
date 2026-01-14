@@ -34,7 +34,6 @@ CORPUS3 = PromptCorpusNode.parse(PROMPT3)
 
 
 # default behavior  ############################################################
-# BUG BUG
 class TestDft1:  # use PROMPT1  ==============================================
 
     corpus = CORPUS1
