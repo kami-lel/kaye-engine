@@ -17,15 +17,20 @@ from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL_PREVIEW,
     BLUEPRINT_1_FULL_EMPTY,
     BLUEPRINT_1_FULL_PARTIAL_1,
+    BLUEPRINT_1_FULL_PARTIAL_1_PREVIEW,
     BLUEPRINT_1_FULL_PARTIAL_2,
+    BLUEPRINT_1_FULL_PARTIAL_2_PREVIEW,
     BLUEPRINT_2_FULL,
     BLUEPRINT_2_FULL_PREVIEW,
     BLUEPRINT_2_FULL_PARTIAL_1,
+    BLUEPRINT_2_FULL_PARTIAL_1_PREVIEW,
     BLUEPRINT_2_FULL_EMPTY,
     BLUEPRINT_3_FULL,
     BLUEPRINT_3_FULL_PREVIEW,
     BLUEPRINT_3_FULL_PARTIAL_1,
+    BLUEPRINT_3_FULL_PARTIAL_1_PREVIEW,
     BLUEPRINT_3_FULL_PARTIAL_2,
+    BLUEPRINT_3_FULL_PARTIAL_2_PREVIEW,
     BLUEPRINT_3_FULL_EMPTY,
 )
 
@@ -82,14 +87,7 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
         print(opt)
         tree_content, _ = _split_tree_and_comment(opt)
 
-        assert tree_content == """    ○
-[ ] └── Project Title
-[x]     ├── Description
-        │   Brief overview of the project and its purpose.
-[x]     ├── Installation
-        │   Clone the repo and install dependencies.
-[x]     └── License
-            Licensed under the MIT License."""
+        assert tree_content == BLUEPRINT_1_FULL_PARTIAL_1_PREVIEW
 
     def test_part2(_):
         corpus = CORPUS1
@@ -106,14 +104,7 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
         print(opt)
         tree_content, _ = _split_tree_and_comment(opt)
 
-        assert tree_content == """    ○
-[x] └── Project Title
-[ ]     ├── Description
-        │   Brief overview of the project and its purpose.
-[x]     ├── Installation
-        │   Clone the repo and install dependencies.
-[x]     └── License
-            Licensed under the MIT License."""
+        assert tree_content == BLUEPRINT_1_FULL_PARTIAL_2_PREVIEW
 
     def test_empty(_):
         corpus = CORPUS1
@@ -177,22 +168,7 @@ class TestAllArgs2:  # w/ corpus2  *********************************************
         print(opt)
         tree_content, _ = _split_tree_and_comment(opt)
 
-        assert tree_content == """    ○
-[x] └── Project Title
-[ ]     ├── Description
-        │   A brief overview of the project, its purpose, and goals.
-[x]     ├── Installation
-        │   1. Clone the repo
-        │   2. Install dependencies
-        │   3. Run the application
-[ ]     ├── Usage
-        │   Provide instructions on how to use the application.
-[x]     ├── Contributing
-        │   1. Fork the repo
-        │   2. Create a new branch
-        │   3. Submit a pull request
-[ ]     └── License
-            This project is licensed under the MIT License."""
+        assert tree_content == BLUEPRINT_2_FULL_PARTIAL_1_PREVIEW
 
     def test_empty(_):
         corpus = CORPUS2
@@ -263,26 +239,7 @@ class TestAllArgs3:  # w/ corpus1  *********************************************
         print(opt)
         tree_content, _ = _split_tree_and_comment(opt)
 
-        assert tree_content == """    ○
-[x] └── Main Title
-[x]     ├── Introduction
-        │   Brief introduction to the topic.
-[x]     │   └── Background
-        │       Context or history relevant to the topic.
-[x]     │       └── Importance
-        │           Why this topic matters in the current scenario.
-[x]     │           └── Objective
-        │               The primary goal of this document.
-[ ]     ├── Methods
-        │   Overview of the methodologies used.
-[ ]     │   └── Data Collection
-        │       How data was gathered for analysis.
-[ ]     │       └── Tools Used
-        │           List of tools utilized during the project.
-[ ]     │           └── Future Work
-        │               Suggestions for future research or tasks.
-[x]     └── Conclusion
-            Summarizing the findings and implications."""
+        assert tree_content == BLUEPRINT_3_FULL_PARTIAL_1_PREVIEW
 
     def test_part2(_):
         corpus = CORPUS3
@@ -299,26 +256,7 @@ class TestAllArgs3:  # w/ corpus1  *********************************************
         print(opt)
         tree_content, _ = _split_tree_and_comment(opt)
 
-        assert tree_content == """    ○
-[x] └── Main Title
-[ ]     ├── Introduction
-        │   Brief introduction to the topic.
-[x]     │   └── Background
-        │       Context or history relevant to the topic.
-[ ]     │       └── Importance
-        │           Why this topic matters in the current scenario.
-[x]     │           └── Objective
-        │               The primary goal of this document.
-[ ]     ├── Methods
-        │   Overview of the methodologies used.
-[x]     │   └── Data Collection
-        │       How data was gathered for analysis.
-[ ]     │       └── Tools Used
-        │           List of tools utilized during the project.
-[x]     │           └── Future Work
-        │               Suggestions for future research or tasks.
-[ ]     └── Conclusion
-            Summarizing the findings and implications."""
+        assert tree_content == BLUEPRINT_3_FULL_PARTIAL_2_PREVIEW
 
     def test_empty(_):
         corpus = CORPUS3

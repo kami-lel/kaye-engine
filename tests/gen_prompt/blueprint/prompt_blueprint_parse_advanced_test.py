@@ -205,9 +205,43 @@ class TestContentPreview1:  # use PROMPT1  =====================================
             == BLUEPRINT_1_FULL
         )
 
+    def test_pa1(_):
+        bp_text = BLUEPRINT_1_FULL_PREVIEW
+
+        opt = PromptBlueprint.parse(CORPUS1, bp_text)
+
+        print(opt)
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == BLUEPRINT_1_FULL
+        )
+
+    def test_pa2(_):
+        bp_text = BLUEPRINT_1_FULL_PREVIEW
+
+        opt = PromptBlueprint.parse(CORPUS1, bp_text)
+
+        print(opt)
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == BLUEPRINT_1_FULL
+        )
+
 
 class TestContentPreview2:  # use PROMPT2  =====================================
+
     def test_full(_):
+        bp_text = BLUEPRINT_2_FULL_PREVIEW
+
+        opt = PromptBlueprint.parse(CORPUS2, bp_text)
+
+        print(opt)
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == BLUEPRINT_2_FULL
+        )
+
+    def test_pa1(_):
         bp_text = BLUEPRINT_2_FULL_PREVIEW
 
         opt = PromptBlueprint.parse(CORPUS2, bp_text)
@@ -220,7 +254,30 @@ class TestContentPreview2:  # use PROMPT2  =====================================
 
 
 class TestContentPreview3:  # use PROMPT2  =====================================
+
     def test_full(_):
+        bp_text = BLUEPRINT_3_FULL_PREVIEW
+
+        opt = PromptBlueprint.parse(CORPUS3, bp_text)
+
+        print(opt)
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == BLUEPRINT_3_FULL
+        )
+
+    def test_pa1(_):
+        bp_text = BLUEPRINT_3_FULL_PREVIEW
+
+        opt = PromptBlueprint.parse(CORPUS3, bp_text)
+
+        print(opt)
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == BLUEPRINT_3_FULL
+        )
+
+    def test_pa2(_):
         bp_text = BLUEPRINT_3_FULL_PREVIEW
 
         opt = PromptBlueprint.parse(CORPUS3, bp_text)
