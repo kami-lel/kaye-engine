@@ -19,6 +19,12 @@ BLUEPRINT_1_FULL_PARTIAL_2 = """    ○
 [x]     └── License"""
 
 
+BLUEPRINT_1_FULL_PARTIAL_2_PRUNED = """    ○
+[x] └── Project Title
+[x]     ├── Installation
+[x]     └── License"""
+
+
 BLUEPRINT_1_FULL_EMPTY = """    ○
 [ ] └── Project Title
 [ ]     ├── Description
@@ -42,6 +48,11 @@ BLUEPRINT_2_FULL_PARTIAL_1 = """    ○
 [ ]     ├── Usage
 [x]     ├── Contributing
 [ ]     └── License"""
+
+BLUEPRINT_2_FULL_PARTIAL_1_PRUNED = """    ○
+[x] └── Project Title
+[x]     ├── Installation
+[x]     └── Contributing"""
 
 
 BLUEPRINT_2_FULL_EMPTY = """    ○
@@ -79,6 +90,14 @@ BLUEPRINT_3_FULL_PARTIAL_1 = """    ○
 [x]     └── Conclusion
 """
 
+BLUEPRINT_3_FULL_PARTIAL_1_PRUNED = """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │   └── Background
+[x]     │       └── Importance
+[x]     │           └── Objective
+[x]     └── Conclusion"""
+
 
 BLUEPRINT_3_FULL_PARTIAL_2 = """    ○
 [x] └── Main Title
@@ -94,6 +113,18 @@ BLUEPRINT_3_FULL_PARTIAL_2 = """    ○
 """
 
 
+BLUEPRINT_3_FULL_PARTIAL_2_PRUNED = """    ○
+[x] └── Main Title
+[ ]     ├── Introduction
+[x]     │   └── Background
+[ ]     │       └── Importance
+[x]     │           └── Objective
+[ ]     └── Methods
+[x]         └── Data Collection
+[ ]             └── Tools Used
+[x]                 └── Future Work"""
+
+
 BLUEPRINT_3_FULL_EMPTY = """    ○
 [ ] └── Main Title
 [ ]     ├── Introduction
@@ -106,3 +137,6 @@ BLUEPRINT_3_FULL_EMPTY = """    ○
 [ ]     │           └── Future Work
 [ ]     └── Conclusion
 """
+
+
+BLUEPRINT_EMPTY_PRUNED = """    ○"""
