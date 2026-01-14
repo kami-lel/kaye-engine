@@ -12,7 +12,7 @@ from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 from tests.gen_prompt.node.testees import PROMPT1, PROMPT2
 
 
-# BUG
+# TODO TODO TODO
 def test1():  # test using PROMPT1
     blueprint = PromptBlueprint.create_full_blueprint(
         PromptCorpusNode.parse(PROMPT1)
@@ -53,6 +53,3 @@ def test2():  # test using PROMPT2
 [x]     │       └── Tools Used
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
-
-
-# TODO more tests, create empty
