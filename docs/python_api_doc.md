@@ -303,7 +303,7 @@ How data was gathered for analysis.
 Summarizing the findings and implications.
 ```
 
-<!-- Todo write Python API documentation -->
+<!-- TODO write Python API documentation -->
 
 
 
@@ -364,4 +364,4 @@ The supporting function ``load_embedded_prompt_blueprint(prompt_blueprint_name)`
 retrieves and loads a selected *embedded* blueprint stored in
 ``kaye/gen_prompt/prompt_blueprints/`` at runtime.
 
-<!-- Todo write Python API documentation -->
+<!-- TODO write Python API documentation -->

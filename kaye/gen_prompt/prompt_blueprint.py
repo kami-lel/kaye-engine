@@ -265,7 +265,7 @@ class PromptBlueprint(dict):
 
     def generate_prompt(self, *, hide_comment=False):
         """
-        Todo
+        TODO
 
 
         :param hide_comment: disable comment part after last line;
@@ -427,7 +427,7 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
     return new_node
 
 
-class PromptBlueprintOld:  # Hack rm
+class PromptBlueprintOld:  # HACK rm
 
     def generate_prompt(self, *, hide_comment=False):
         # generate lines from root node
