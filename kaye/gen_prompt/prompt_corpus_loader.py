@@ -7,14 +7,10 @@ define ``load_embedded_prompt_corpus``
 from pathlib import Path
 from .prompt_corpus_node import PromptCorpusNode
 
-from .. import kamilog, PROGRAM_NAME
-
 __all__ = (
     "get_embedded_prompt_corpus_file_path",
     "load_embedded_prompt_corpus",
 )
-
-logger = kamilog.getLogger(PROGRAM_NAME)
 
 
 def get_embedded_prompt_corpus_file_path():
