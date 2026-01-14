@@ -4,272 +4,95 @@ prompt_blueprint_prompt_test.py
 Unit Tests (using pytest) for: PromptBlueprint.generate_prompt()
 """
 
+import re
+
+
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
-
-from tests.gen_prompt import PROMPT2
-
-
-class Test2:  # use PROMPT2
-
-    corpus = PromptCorpusNode.parse(PROMPT2)
-
-    def test1(self):
-        blueprint_text = """    ○
-[ ] └── Project Title
-[ ]     ├── Description
-[ ]     ├── Installation
-[ ]     ├── Usage
-[ ]     ├── Contributing
-[ ]     └── License"""
-
-        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
-
-        opt = pt.generate_prompt(hide_comment=True)
-        print(opt)
-        assert opt == ""
-
-    def test2(self):
-        # BUG
-        blueprint_text = """    ○
-[x] └── Project Title
-[ ]     ├── Description
-[ ]     ├── Installation
-[ ]     ├── Usage
-[x]     ├── Contributing
-[ ]     └── License"""
-
-        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
-
-        opt = pt.generate_prompt(hide_comment=True)
-        print(opt)
-        assert opt == """
-# Project Title
-
-## Contributing
-1. Fork the repo
-2. Create a new branch
-3. Submit a pull request"""
-
-    def test3(self):
-        blueprint_text = """    ○
-[x] └── Project Title
-[ ]     ├── Description
-[x]     ├── Installation
-[x]     ├── Usage
-[ ]     ├── Contributing
-[ ]     └── License"""
-
-        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
-
-        opt = pt.generate_prompt(hide_comment=True)
-        print(opt)
-        assert opt == """# Project Title
-
-## Installation
-1. Clone the repo
-2. Install dependencies
-3. Run the application
-
-## Usage
-Provide instructions on how to use the application."""
-
-    def test4(self):
-        blueprint_text = """    ○
-[x] └── Project Title
-[x]     ├── Description
-[x]     ├── Installation
-[x]     ├── Usage
-[x]     ├── Contributing
-[x]     └── License"""
-
-        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
-
-        opt = pt.generate_prompt(hide_comment=True)
-        print(opt)
-        assert opt == """# Project Title
-
-## Description
-A brief overview of the project, its purpose, and goals.
-
-## Installation
-1. Clone the repo
-2. Install dependencies
-3. Run the application
-
-## Usage
-Provide instructions on how to use the application.
-
-## Contributing
-1. Fork the repo
-2. Create a new branch
-3. Submit a pull request
-
-## License
-This project is licensed under the MIT License."""
+from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
+from tests.gen_prompt.blueprint import (
+    BLUEPRINT_1_FULL,
+    BLUEPRINT_1_FULL_PREVIEW,
+    BLUEPRINT_1_EMPTY,
+    BLUEPRINT_1_PARTIAL_1,
+    BLUEPRINT_1_PARTIAL_1_PREVIEW,
+    BLUEPRINT_1_PARTIAL_2,
+    BLUEPRINT_1_PARTIAL_2_PREVIEW,
+    BLUEPRINT_1_PARTIAL_2_PRUNED,
+    BLUEPRINT_2_FULL,
+    BLUEPRINT_2_PREVIEW,
+    BLUEPRINT_2_PARTIAL_1,
+    BLUEPRINT_2_PARTIAL_1_PREVIEW,
+    BLUEPRINT_2_PARTIAL_1_PRUNED,
+    BLUEPRINT_2_EMPTY,
+    BLUEPRINT_3_FULL,
+    BLUEPRINT_3_FULL_PREVIEW,
+    BLUEPRINT_3_PARTIAL_1,
+    BLUEPRINT_3_PARTIAL_1_PREVIEW,
+    BLUEPRINT_3_PARTIAL_1_PRUNED,
+    BLUEPRINT_3_PARTIAL_2,
+    BLUEPRINT_3_PARTIAL_2_PREVIEW,
+    BLUEPRINT_3_PARTIAL_2_PRUNED,
+    BLUEPRINT_3_EMPTY,
+    _split_content_and_comment,
+)
 
 
-class Test2:  # use PROMPT2
+class Test1:  # with PROMPT1  ##################################################
 
-    corpus = PromptCorpusNode.parse(PROMPT2)
+    # BUG
 
-    def test1(self):
-        blueprint_text = """    ○
-[ ] └── Main Title
-[ ]     ├── Introduction
-[ ]     │   └── Background
-[ ]     │       └── Importance
-[ ]     │           └── Objective
-[ ]     ├── Methods
-[ ]     │   └── Data Collection
-[ ]     │       └── Tools Used
-[ ]     │           └── Future Work
-[ ]     └── Conclusion"""
-
-        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
-
-        opt = pt.generate_prompt(hide_comment=True)
-        print(opt)
-        assert opt == ""
-
-    def test2(self):
-        blueprint_text = """    ○
-[x] └── Main Title
-[x]     ├── Introduction
-[x]     │   └── Background
-[x]     │       └── Importance
-[x]     │           └── Objective
-[ ]     ├── Methods
-[ ]     │   └── Data Collection
-[ ]     │       └── Tools Used
-[ ]     │           └── Future Work
-[x]     └── Conclusion"""
-
-        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
-
-        opt = pt.generate_prompt(hide_comment=True)
-        print(opt)
-        assert opt == """# Main Title
-
-## Introduction
-Brief introduction to the topic.
-
-### Background
-Context or history relevant to the topic.
-
-#### Importance
-Why this topic matters in the current scenario.
-
-##### Objective
-The primary goal of this document.
-
-## Conclusion
-Summarizing the findings and implications."""
-
-    def test3(self):
-        blueprint_text = """    ○
-[x] └── Main Title
-[ ]     ├── Introduction
-[ ]     │   └── Background
-[ ]     │       └── Importance
-[ ]     │           └── Objective
-[x]     ├── Methods
-[x]     │   └── Data Collection
-[x]     │       └── Tools Used
-[x]     │           └── Future Work
-[x]     └── Conclusion"""
-
-        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
-
-        opt = pt.generate_prompt(hide_comment=True)
-        print(opt)
-        assert opt == """# Main Title
-
-## Methods
-Overview of the methodologies used.
-
-### Data Collection
-How data was gathered for analysis.
-
-#### Tools Used
-List of tools utilized during the project.
-
-##### Future Work
-Suggestions for future research or tasks.
-
-## Conclusion
-Summarizing the findings and implications."""
-
-    def test4(self):
-        blueprint_text = """    ○
-[x] └── Main Title
-[ ]     ├── Introduction
-[ ]     │   └── Background
-[ ]     │       └── Importance
-[ ]     │           └── Objective
-[x]     ├── Methods
-[x]     │   └── Data Collection
-[ ]     │       └── Tools Used
-[ ]     │           └── Future Work
-[x]     └── Conclusion"""
-
-        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
-
-        opt = pt.generate_prompt(hide_comment=True)
-        print(opt)
-        assert opt == """# Main Title
-
-## Methods
-Overview of the methodologies used.
-
-### Data Collection
-How data was gathered for analysis.
-
-## Conclusion
-Summarizing the findings and implications."""
+    corpus = PromptCorpusNode.parse(PROMPT1)
 
     def test_full(self):
-        blueprint_text = """    ○
-[x] └── Main Title
-[x]     ├── Introduction
-[x]     │   └── Background
-[x]     │       └── Importance
-[x]     │           └── Objective
-[x]     ├── Methods
-[x]     │   └── Data Collection
-[x]     │       └── Tools Used
-[x]     │           └── Future Work
-[x]     └── Conclusion"""
+        bp_text = BLUEPRINT_1_FULL
+        bp = PromptBlueprint.parse(self.corpus, bp_text)
 
-        pt = PromptBlueprint.parse(self.corpus, blueprint_text)
+        opt = bp.generate_prompt(hide_comment=False)
 
-        opt = pt.generate_prompt(hide_comment=True)
         print(opt)
-        assert opt == """# Main Title
+        content, comment = _split_content_and_comment(opt)
+        assert content == """"""
 
-## Introduction
-Brief introduction to the topic.
+        # test comment structure
+        assert re.fullmatch("<!-- Kaye v.+ -->", comment)
 
-### Background
-Context or history relevant to the topic.
+    def test_part1(_):
+        bp_text = BLUEPRINT_1_PARTIAL_1
 
-#### Importance
-Why this topic matters in the current scenario.
+    def test_part2(_):
+        bp_text = BLUEPRINT_1_PARTIAL_2
 
-##### Objective
-The primary goal of this document.
+    def test_empty(_):
+        bp_text = BLUEPRINT_1_EMPTY
 
-## Methods
-Overview of the methodologies used.
 
-### Data Collection
-How data was gathered for analysis.
+class Test2:  # with PROMPT2  ##################################################
 
-#### Tools Used
-List of tools utilized during the project.
+    corpus = PromptCorpusNode.parse(PROMPT2)
 
-##### Future Work
-Suggestions for future research or tasks.
+    def test_full(self):
+        bp_text = BLUEPRINT_2_FULL
 
-## Conclusion
-Summarizing the findings and implications."""
+    def test_part1(_):
+        bp_text = BLUEPRINT_2_PARTIAL_1
+
+    def test_empty(_):
+        bp_text = BLUEPRINT_2_EMPTY
+
+
+class Test3:  # with PROMPT3  ##################################################
+
+    corpus = PromptCorpusNode.parse(PROMPT3)
+
+    def test_full(self):
+        bp_text = BLUEPRINT_3_FULL
+
+    def test_part1(_):
+        bp_text = BLUEPRINT_3_PARTIAL_1
+
+    def test_part2(_):
+        bp_text = BLUEPRINT_3_PARTIAL_2
+
+    def test_empty(_):
+        bp_text = BLUEPRINT_3_EMPTY
