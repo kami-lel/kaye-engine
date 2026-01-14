@@ -31,7 +31,7 @@
 - `kaye_http_api.service` to enable Kaye HTTP API to be ran
   as *systemd* on Linux; & related documentations
 
-- for `PromptCorpusNode`, implement `__getitem__()` for subscriptable
+- `PromptCorpusNode`: implement `__getitem__()` for subscriptable
 
 ### Changed
 
