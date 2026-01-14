@@ -136,11 +136,10 @@ class PromptBlueprint(dict):
                 and checkmarking all nodes
         :rtype: PromptBlueprint
         """
-        # BUG BUG BUG need test
         blueprint = PromptBlueprint(prompt_corpus, display_name=display_name)
         # include all nodes
         for node in PreOrderIter(prompt_corpus):
-            if node.parent is None:  # skip root node
+            if not node.is_root:  # skip root node
                 key = hash(node)
                 blueprint[key] = True  #  check all nodes
 
