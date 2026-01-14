@@ -271,3 +271,10 @@ BLUEPRINT_3_EMPTY = """    ○
 
 
 BLUEPRINT_EMPTY_PRUNED = """    ○"""
+
+
+def _split_content_and_comment(preview_tree):
+    lines = preview_tree.splitlines()
+    tree = "\n".join(lines[:-1])
+    comment = lines[-1]
+    return tree, comment
