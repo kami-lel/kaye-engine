@@ -428,4 +428,10 @@ class Test3:  # use corpus3  ##############################################
         assert not opt
 
 
-# Bug test call .prompt_blueprint_is_checkmarked_test when node not contained
+# err handling  ################################################################
+
+
+def test_not_contained():
+    # a node that is not contained in blueprint at all
+    bp = PromptBlueprint.parse(CORPUS1, BLUEPRINT_1_FULL, disable_prune=True)
+    assert not bp.is_checkmarked(CORPUS3)
