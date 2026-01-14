@@ -64,7 +64,6 @@ class TestAllArgs1:  # w/ corpus1
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
     def test_part1(_):
-        # BUG BUG
         corpus = CORPUS1
         bp_text = BLUEPRINT_1_FULL_PARTIAL_1
 
@@ -137,7 +136,7 @@ class TestAllArgs1:  # w/ corpus1
             Licensed under the MIT License."""
 
 
-# TODO use prompt 2;
+# TODO TODO use prompt 2;
 
 # no content  ==================================================================
 
@@ -148,5 +147,3 @@ class TestAllArgs1:  # w/ corpus1
 # default  =====================================================================
 
 # test __str__()   #############################################################
-
-# TODO TODO

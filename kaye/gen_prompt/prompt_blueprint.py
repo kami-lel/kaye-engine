@@ -174,12 +174,13 @@ class PromptBlueprint(dict):
         """
         :param node: node hash; or node object
         :type node: int or PromptCorpusNode
-        :return: whether a node is **checkmarked** in the blueprint
+        :return: whether a node is **checkmarked** in the blueprint;
+                also ``False`` if node is not contained in blueprint
         :rtype: bool
         :raises TypeError:
         """
         if isinstance(node, int):  # check by hash
-            return self[node]
+            return node in self and self[node]
 
         elif isinstance(node, PromptCorpusNode):  # check by node obj
             return self.is_checkmarked(hash(node))
@@ -234,7 +235,9 @@ class PromptBlueprint(dict):
         for pre, fill, node in RenderTree(preview_tree):
             # line for tree structure
             checkmark_prefix = (
-                CHECKMARKED_PREFIX if (node in self) else UNCHECKMARKED_PREFIX
+                CHECKMARKED_PREFIX
+                if self.is_checkmarked(node)
+                else UNCHECKMARKED_PREFIX
             )
             if node.is_root:
                 checkmark_prefix = EMPTY_PREFIX
