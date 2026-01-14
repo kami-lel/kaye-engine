@@ -20,8 +20,6 @@ from tests.gen_prompt.blueprint import (
     BLUEPRINT_3_FULL_EMPTY,
 )
 
-# BUG BUG BUG wrong amount
-
 
 class Test1:  # use PROMPT1  ###################################################
 
@@ -34,6 +32,7 @@ class Test1:  # use PROMPT1  ###################################################
         opt = old.prune()
 
         print(opt)
+
         assert len(opt) == 3
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
