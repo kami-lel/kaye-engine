@@ -450,38 +450,18 @@ def _generate_prompt_recursively(blueprint, node):
     :return: prompt lines
     :rtype: list[str]
     """
-    return []  # TODO
+    lines = []
 
+    # add current node if checkmarked
+    if blueprint.is_checkmarked(node):
+        lines.append("")  # add empty lines before headings
+        # heading line
+        lines.append(HEADING_PREFIX * node.depth + " " + node.name)
+        # content lines
+        lines.extend(node.content)
 
-class PromptBlueprintOld:  # HACK rm
+    # add descendent
+    for child in node.children:
+        lines.extend(_generate_prompt_recursively(blueprint, child))
 
-    def _generate_prompt_recursively(self, node):
-        """
-        helper method used in ``.generate_preview()``
-
-        generate recursively prompt lines from ``node``
-        """
-        lines = []
-
-        try:
-            idx = self.enabled.index(node)
-        except ValueError:
-            idx = -1
-        if idx >= 0 and node.parent is not None:
-            level = node.depth
-
-            # add empty lines before headings
-            if idx > 0:
-                lines.append("")
-
-            # add heading line
-            heading_line = HEADING_PREFIX * level + " " + node.name
-            lines.append(heading_line)
-            # add content lines
-            lines.extend(node.content)
-
-        # children
-        for child_node in node.children:
-            lines.extend(self._generate_prompt_recursively(child_node))
-
-        return lines
+    return lines
