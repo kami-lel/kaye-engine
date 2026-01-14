@@ -2,6 +2,8 @@
 define ``load_embedded_prompt_corpus``
 """
 
+# BUG
+
 from pathlib import Path
 from .prompt_corpus_node import PromptCorpusNode
 
