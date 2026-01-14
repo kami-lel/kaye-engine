@@ -4,6 +4,8 @@ test function ``load_embedded_prompt_blueprint()``
 
 from kaye.gen_prompt import (
     load_embedded_prompt_blueprint,
+    load_empty_prompt_blueprint,
+    load_full_prompt_blueprint,
     PromptBlueprint,
 )
 

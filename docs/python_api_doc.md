@@ -359,8 +359,17 @@ E.g.
 
 #### embedded blueprints
 
-The supporting function ``load_embedded_prompt_blueprint(prompt_blueprint_name)``
-retrieves and loads a selected *embedded* blueprint stored in
-``kaye/gen_prompt/prompt_blueprints/`` at runtime.
+**Embedded blueprints** are saved under `./kaye/kaye/gen_prompt/embedded_blueprints`. Programmatically, one might use these functions to load them from filesystem:
 
-<!-- TODO write Python API documentation -->
+```python
+from kaye.gen_prompt import (
+    load_embedded_prompt_blueprint,
+    load_empty_prompt_blueprint,
+    load_full_prompt_blueprint,
+)
+
+
+empty_blueprint = load_embedded_prompt_blueprint()
+full_blueprint = load_full_prompt_blueprint()
+chat_blueprint = load_embedded_prompt_blueprint("chat")
+```
