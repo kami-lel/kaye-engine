@@ -7,7 +7,7 @@ from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 from tests.gen_prompt.node.testees import PROMPT1, PROMPT2
 
-# BUG not working
+# Bug not working
 
 
 class Test1:  # use PROMPT1
