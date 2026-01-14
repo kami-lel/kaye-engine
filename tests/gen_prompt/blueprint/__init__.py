@@ -176,8 +176,7 @@ BLUEPRINT_3_PARTIAL_1 = """    ○
 [ ]     │   └── Data Collection
 [ ]     │       └── Tools Used
 [ ]     │           └── Future Work
-[x]     └── Conclusion
-"""
+[x]     └── Conclusion"""
 
 BLUEPRINT_3_PARTIAL_1_PREVIEW = """    ○
 [x] └── Main Title
@@ -220,8 +219,7 @@ BLUEPRINT_3_PARTIAL_2 = """    ○
 [x]     │   └── Data Collection
 [ ]     │       └── Tools Used
 [x]     │           └── Future Work
-[ ]     └── Conclusion
-"""
+[ ]     └── Conclusion"""
 
 
 BLUEPRINT_3_PARTIAL_2_PREVIEW = """    ○
