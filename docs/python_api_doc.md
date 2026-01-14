@@ -270,15 +270,18 @@ Each entry in `PromptBlueprint` represents a node, with key being node `hash()` 
 
 #### node membership
 
-<!-- TODO TODO TODO explain various memberships -->
+There are 2 types of relationships of a prompt corpus **node** and a **blueprint**:
 
-Membership checking for `PromptBlueprint` takes either the node hash value or node object itself. E.g.
+- if a node is **contained**/included as part of the blueprint
+- if a node is **checkmarked**/enabled in the blueprint
 
-```python
+| check for: | contains/inclusion | is checkmarked |
+| ---- | ---- | ---- |
+| by node hash | `h in bp`, `h in bp.keys()` | `bp.is_checkmarked(h)`, `bp[h]` |
+| by node object | `node in bp` | `bp.is_checkmarked(node)` |
 
-assert hash(node) in blueprint
-assert node in blueprint
-```
+(`h`: hash value, `node`: node object, `bp`: blueprint)
+
 
 
 
