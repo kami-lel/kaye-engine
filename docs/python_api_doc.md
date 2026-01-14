@@ -289,8 +289,9 @@ There are 2 types of relationships of a prompt corpus **node** and a **blueprint
 
 #### generate prompt
 
-Use `.generate_prompt()` (or `str()`) to render
-a **concrete prompt** composed of all enabled nodes
+Use `.generate_prompt()` to render the **concrete prompt** that can be used as LLM system message with it content based on node's checkmarking status of this blueprint.
+
+E.g.
 
 ```python
 >>> tree = PromptBlueprint(...)
@@ -302,8 +303,6 @@ How data was gathered for analysis.
 ## Conclusion
 Summarizing the findings and implications.
 ```
-
-<!-- Todo write Python API documentation -->
 
 
 
