@@ -36,26 +36,26 @@ class Test1:  # use corpus1  ###################################################
         proj_node = corpus.children[0]
 
         opt = proj_node in bp
-        print(opt + "\t" + repr(proj_node))
+        print(repr(opt) + "\t" + repr(proj_node))
         assert opt
 
         # test Description
         _node = proj_node.children[0]
-        print(opt + "\t" + repr(proj_node))
+        print(repr(opt) + "\t" + repr(proj_node))
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # test Installation
         _node = proj_node.children[1]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # test License
         _node = proj_node.children[2]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
     def test_no_project(_):
@@ -68,25 +68,25 @@ class Test1:  # use corpus1  ###################################################
         # test Project Title
         proj_node = corpus.children[0]
         opt = proj_node not in bp
-        print(opt + "\t" + repr(proj_node))
+        print(repr(opt) + "\t" + repr(proj_node))
         assert opt
 
         # test Description
         _node = proj_node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # test Installation
         _node = proj_node.children[1]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # test License
         _node = proj_node.children[2]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
     def test_no_description(_):
@@ -102,25 +102,25 @@ class Test1:  # use corpus1  ###################################################
         # test Project Title
         proj_node = corpus.children[0]
         opt = proj_node in bp
-        print(opt + "\t" + repr(proj_node))
+        print(repr(opt) + "\t" + repr(proj_node))
         assert opt
 
         # test Description
         _node = proj_node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # test Installation
         _node = proj_node.children[1]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # test License
         _node = proj_node.children[2]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
     def test_empty(_):
@@ -136,25 +136,25 @@ class Test1:  # use corpus1  ###################################################
         # test Project Title
         proj_node = corpus.children[0]
         opt = proj_node not in bp
-        print(opt + "\t" + repr(proj_node))
+        print(repr(opt) + "\t" + repr(proj_node))
         assert opt
 
         # test Description
         _node = proj_node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # test Installation
         _node = proj_node.children[1]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # test License
         _node = proj_node.children[2]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
 
@@ -170,61 +170,61 @@ class Test3:  # use corpus3  ##############################################
         # Main Title
         main_title_node = corpus.children[0]
         opt = main_title_node in bp
-        print(opt + "\t" + repr(main_title_node))
+        print(repr(opt) + "\t" + repr(main_title_node))
         assert opt
 
         # Introduction
         _node = main_title_node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Background
         _node = _node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Importance
         _node = _node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Objective
         _node = _node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Methods
         _node = main_title_node.children[1]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Data Collection
         _node = _node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Tool Used
         _node = _node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Future Work
         _node = _node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Conclusion
         _node = main_title_node.children[2]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
     def test_part1(_):
@@ -237,61 +237,61 @@ class Test3:  # use corpus3  ##############################################
         # Main Title
         main_title_node = corpus.children[0]
         opt = main_title_node in bp
-        print(opt + "\t" + repr(main_title_node))
+        print(repr(opt) + "\t" + repr(main_title_node))
         assert opt
 
         # Introduction
         _node = main_title_node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Background
         _node = _node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Importance
         _node = _node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Objective
         _node = _node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Methods
         _node = main_title_node.children[1]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Data Collection
         _node = _node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Tool Used
         _node = _node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Future Work
         _node = _node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Conclusion
         _node = main_title_node.children[2]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
     def test_part2(_):
@@ -304,61 +304,61 @@ class Test3:  # use corpus3  ##############################################
         # Main Title
         main_title_node = corpus.children[0]
         opt = main_title_node in bp
-        print(opt + "\t" + repr(main_title_node))
+        print(repr(opt) + "\t" + repr(main_title_node))
         assert opt
 
         # Introduction
         _node = main_title_node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Background
         _node = _node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Importance
         _node = _node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Objective
         _node = _node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Methods
         _node = main_title_node.children[1]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Data Collection
         _node = _node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Tool Used
         _node = _node.children[0]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Future Work
         _node = _node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Conclusion
         _node = main_title_node.children[2]
         opt = _node in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
     def test_empty(_):
@@ -372,59 +372,59 @@ class Test3:  # use corpus3  ##############################################
         # Main Title
         main_title_node = corpus.children[0]
         opt = main_title_node not in bp
-        print(opt + "\t" + repr(main_title_node))
+        print(repr(opt) + "\t" + repr(main_title_node))
         assert opt
 
         # Introduction
         _node = main_title_node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Background
         _node = _node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Importance
         _node = _node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Objective
         _node = _node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Methods
         _node = main_title_node.children[1]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Data Collection
         _node = _node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Tool Used
         _node = _node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Future Work
         _node = _node.children[0]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
 
         # Conclusion
         _node = main_title_node.children[2]
         opt = _node not in bp
-        print(opt + "\t" + repr(_node))
+        print(repr(opt) + "\t" + repr(_node))
         assert opt
