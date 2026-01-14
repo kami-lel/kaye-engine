@@ -22,6 +22,7 @@ from tests.gen_prompt.blueprint import (
     BLUEPRINT_2_FULL_PARTIAL_1_PRUNED,
     BLUEPRINT_2_FULL_EMPTY,
     BLUEPRINT_3_FULL,
+    BLUEPRINT_3_FULL_PREVIEW,
     BLUEPRINT_3_FULL_PARTIAL_1,
     BLUEPRINT_3_FULL_PARTIAL_1_PRUNED,
     BLUEPRINT_3_FULL_PARTIAL_2,
@@ -209,7 +210,7 @@ class TestContentPreview2:  # use PROMPT2  =====================================
     def test_full(_):
         bp_text = BLUEPRINT_2_FULL_PREVIEW
 
-        opt = PromptBlueprint.parse(CORPUS1, bp_text)
+        opt = PromptBlueprint.parse(CORPUS2, bp_text)
 
         print(opt)
         assert (
@@ -222,7 +223,7 @@ class TestContentPreview3:  # use PROMPT2  =====================================
     def test_full(_):
         bp_text = BLUEPRINT_3_FULL_PREVIEW
 
-        opt = PromptBlueprint.parse(CORPUS1, bp_text)
+        opt = PromptBlueprint.parse(CORPUS3, bp_text)
 
         print(opt)
         assert (
