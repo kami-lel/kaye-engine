@@ -13,13 +13,13 @@ BLUEPRINT_1_FULL_PREVIEW = """    ○
 [x]     └── License
             Licensed under the MIT License."""
 
-BLUEPRINT_1_FULL_PARTIAL_1 = """    ○
+BLUEPRINT_1_PARTIAL_1 = """    ○
 [ ] └── Project Title
 [x]     ├── Description
 [x]     ├── Installation
 [x]     └── License"""
 
-BLUEPRINT_1_FULL_PARTIAL_1_PREVIEW = """    ○
+BLUEPRINT_1_PARTIAL_1_PREVIEW = """    ○
 [ ] └── Project Title
 [x]     ├── Description
         │   Brief overview of the project and its purpose.
@@ -29,14 +29,14 @@ BLUEPRINT_1_FULL_PARTIAL_1_PREVIEW = """    ○
             Licensed under the MIT License."""
 
 
-BLUEPRINT_1_FULL_PARTIAL_2 = """    ○
+BLUEPRINT_1_PARTIAL_2 = """    ○
 [x] └── Project Title
 [ ]     ├── Description
 [x]     ├── Installation
 [x]     └── License"""
 
 
-BLUEPRINT_1_FULL_PARTIAL_2_PREVIEW = """    ○
+BLUEPRINT_1_PARTIAL_2_PREVIEW = """    ○
 [x] └── Project Title
 [ ]     ├── Description
         │   Brief overview of the project and its purpose.
@@ -46,13 +46,13 @@ BLUEPRINT_1_FULL_PARTIAL_2_PREVIEW = """    ○
             Licensed under the MIT License."""
 
 
-BLUEPRINT_1_FULL_PARTIAL_2_PRUNED = """    ○
+BLUEPRINT_1_PARTIAL_2_PRUNED = """    ○
 [x] └── Project Title
 [x]     ├── Installation
 [x]     └── License"""
 
 
-BLUEPRINT_1_FULL_EMPTY = """    ○
+BLUEPRINT_1_EMPTY = """    ○
 [ ] └── Project Title
 [ ]     ├── Description
 [ ]     ├── Installation
@@ -68,7 +68,7 @@ BLUEPRINT_2_FULL = """    ○
 [x]     └── License"""
 
 
-BLUEPRINT_2_FULL_PREVIEW = """    ○
+BLUEPRINT_2_PREVIEW = """    ○
 [x] └── Project Title
 [x]     ├── Description
         │   A brief overview of the project, its purpose, and goals.
@@ -86,7 +86,7 @@ BLUEPRINT_2_FULL_PREVIEW = """    ○
             This project is licensed under the MIT License."""
 
 
-BLUEPRINT_2_FULL_PARTIAL_1 = """    ○
+BLUEPRINT_2_PARTIAL_1 = """    ○
 [x] └── Project Title
 [ ]     ├── Description
 [x]     ├── Installation
@@ -94,7 +94,8 @@ BLUEPRINT_2_FULL_PARTIAL_1 = """    ○
 [x]     ├── Contributing
 [ ]     └── License"""
 
-BLUEPRINT_2_FULL_PARTIAL_1_PREVIEW = """    ○
+
+BLUEPRINT_2_PARTIAL_1_PREVIEW = """    ○
 [x] └── Project Title
 [ ]     ├── Description
         │   A brief overview of the project, its purpose, and goals.
@@ -111,13 +112,14 @@ BLUEPRINT_2_FULL_PARTIAL_1_PREVIEW = """    ○
 [ ]     └── License
             This project is licensed under the MIT License."""
 
-BLUEPRINT_2_FULL_PARTIAL_1_PRUNED = """    ○
+
+BLUEPRINT_2_PARTIAL_1_PRUNED = """    ○
 [x] └── Project Title
 [x]     ├── Installation
 [x]     └── Contributing"""
 
 
-BLUEPRINT_2_FULL_EMPTY = """    ○
+BLUEPRINT_2_EMPTY = """    ○
 [ ] └── Project Title
 [ ]     ├── Description
 [ ]     ├── Installation
@@ -161,7 +163,7 @@ BLUEPRINT_3_FULL_PREVIEW = """    ○
             Summarizing the findings and implications."""
 
 
-BLUEPRINT_3_FULL_PARTIAL_1 = """    ○
+BLUEPRINT_3_PARTIAL_1 = """    ○
 [x] └── Main Title
 [x]     ├── Introduction
 [x]     │   └── Background
@@ -174,7 +176,7 @@ BLUEPRINT_3_FULL_PARTIAL_1 = """    ○
 [x]     └── Conclusion
 """
 
-BLUEPRINT_3_FULL_PARTIAL_1_PREVIEW = """    ○
+BLUEPRINT_3_PARTIAL_1_PREVIEW = """    ○
 [x] └── Main Title
 [x]     ├── Introduction
         │   Brief introduction to the topic.
@@ -196,7 +198,7 @@ BLUEPRINT_3_FULL_PARTIAL_1_PREVIEW = """    ○
             Summarizing the findings and implications."""
 
 
-BLUEPRINT_3_FULL_PARTIAL_1_PRUNED = """    ○
+BLUEPRINT_3_PARTIAL_1_PRUNED = """    ○
 [x] └── Main Title
 [x]     ├── Introduction
 [x]     │   └── Background
@@ -205,7 +207,7 @@ BLUEPRINT_3_FULL_PARTIAL_1_PRUNED = """    ○
 [x]     └── Conclusion"""
 
 
-BLUEPRINT_3_FULL_PARTIAL_2 = """    ○
+BLUEPRINT_3_PARTIAL_2 = """    ○
 [x] └── Main Title
 [ ]     ├── Introduction
 [x]     │   └── Background
@@ -219,7 +221,7 @@ BLUEPRINT_3_FULL_PARTIAL_2 = """    ○
 """
 
 
-BLUEPRINT_3_FULL_PARTIAL_2_PREVIEW = """    ○
+BLUEPRINT_3_PARTIAL_2_PREVIEW = """    ○
 [x] └── Main Title
 [ ]     ├── Introduction
         │   Brief introduction to the topic.
@@ -241,7 +243,7 @@ BLUEPRINT_3_FULL_PARTIAL_2_PREVIEW = """    ○
             Summarizing the findings and implications."""
 
 
-BLUEPRINT_3_FULL_PARTIAL_2_PRUNED = """    ○
+BLUEPRINT_3_PARTIAL_2_PRUNED = """    ○
 [x] └── Main Title
 [ ]     ├── Introduction
 [x]     │   └── Background
@@ -253,7 +255,7 @@ BLUEPRINT_3_FULL_PARTIAL_2_PRUNED = """    ○
 [x]                 └── Future Work"""
 
 
-BLUEPRINT_3_FULL_EMPTY = """    ○
+BLUEPRINT_3_EMPTY = """    ○
 [ ] └── Main Title
 [ ]     ├── Introduction
 [ ]     │   └── Background

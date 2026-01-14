@@ -15,23 +15,23 @@ from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_FULL_PREVIEW,
-    BLUEPRINT_1_FULL_EMPTY,
-    BLUEPRINT_1_FULL_PARTIAL_1,
-    BLUEPRINT_1_FULL_PARTIAL_1_PREVIEW,
-    BLUEPRINT_1_FULL_PARTIAL_2,
-    BLUEPRINT_1_FULL_PARTIAL_2_PREVIEW,
+    BLUEPRINT_1_EMPTY,
+    BLUEPRINT_1_PARTIAL_1,
+    BLUEPRINT_1_PARTIAL_1_PREVIEW,
+    BLUEPRINT_1_PARTIAL_2,
+    BLUEPRINT_1_PARTIAL_2_PREVIEW,
     BLUEPRINT_2_FULL,
-    BLUEPRINT_2_FULL_PREVIEW,
-    BLUEPRINT_2_FULL_PARTIAL_1,
-    BLUEPRINT_2_FULL_PARTIAL_1_PREVIEW,
-    BLUEPRINT_2_FULL_EMPTY,
+    BLUEPRINT_2_PREVIEW,
+    BLUEPRINT_2_PARTIAL_1,
+    BLUEPRINT_2_PARTIAL_1_PREVIEW,
+    BLUEPRINT_2_EMPTY,
     BLUEPRINT_3_FULL,
     BLUEPRINT_3_FULL_PREVIEW,
-    BLUEPRINT_3_FULL_PARTIAL_1,
-    BLUEPRINT_3_FULL_PARTIAL_1_PREVIEW,
-    BLUEPRINT_3_FULL_PARTIAL_2,
-    BLUEPRINT_3_FULL_PARTIAL_2_PREVIEW,
-    BLUEPRINT_3_FULL_EMPTY,
+    BLUEPRINT_3_PARTIAL_1,
+    BLUEPRINT_3_PARTIAL_1_PREVIEW,
+    BLUEPRINT_3_PARTIAL_2,
+    BLUEPRINT_3_PARTIAL_2_PREVIEW,
+    BLUEPRINT_3_EMPTY,
 )
 
 CORPUS1 = PromptCorpusNode.parse(PROMPT1)
@@ -74,7 +74,7 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
 
     def test_part1(_):
         corpus = CORPUS1
-        bp_text = BLUEPRINT_1_FULL_PARTIAL_1
+        bp_text = BLUEPRINT_1_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -87,11 +87,11 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
         print(opt)
         tree_content, _ = _split_tree_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_1_FULL_PARTIAL_1_PREVIEW
+        assert tree_content == BLUEPRINT_1_PARTIAL_1_PREVIEW
 
     def test_part2(_):
         corpus = CORPUS1
-        bp_text = BLUEPRINT_1_FULL_PARTIAL_2
+        bp_text = BLUEPRINT_1_PARTIAL_2
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -104,11 +104,11 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
         print(opt)
         tree_content, _ = _split_tree_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_1_FULL_PARTIAL_2_PREVIEW
+        assert tree_content == BLUEPRINT_1_PARTIAL_2_PREVIEW
 
     def test_empty(_):
         corpus = CORPUS1
-        bp_text = BLUEPRINT_1_FULL_EMPTY
+        bp_text = BLUEPRINT_1_EMPTY
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -148,14 +148,14 @@ class TestAllArgs2:  # w/ corpus2  *********************************************
         print(opt)
         tree_content, comment_content = _split_tree_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_2_FULL_PREVIEW
+        assert tree_content == BLUEPRINT_2_PREVIEW
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
     def test_part1(_):
         corpus = CORPUS2
-        bp_text = BLUEPRINT_2_FULL_PARTIAL_1
+        bp_text = BLUEPRINT_2_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -168,11 +168,11 @@ class TestAllArgs2:  # w/ corpus2  *********************************************
         print(opt)
         tree_content, _ = _split_tree_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_2_FULL_PARTIAL_1_PREVIEW
+        assert tree_content == BLUEPRINT_2_PARTIAL_1_PREVIEW
 
     def test_empty(_):
         corpus = CORPUS2
-        bp_text = BLUEPRINT_2_FULL_EMPTY
+        bp_text = BLUEPRINT_2_EMPTY
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -226,7 +226,7 @@ class TestAllArgs3:  # w/ corpus1  *********************************************
 
     def test_part1(_):
         corpus = CORPUS3
-        bp_text = BLUEPRINT_3_FULL_PARTIAL_1
+        bp_text = BLUEPRINT_3_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -239,11 +239,11 @@ class TestAllArgs3:  # w/ corpus1  *********************************************
         print(opt)
         tree_content, _ = _split_tree_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_3_FULL_PARTIAL_1_PREVIEW
+        assert tree_content == BLUEPRINT_3_PARTIAL_1_PREVIEW
 
     def test_part2(_):
         corpus = CORPUS3
-        bp_text = BLUEPRINT_3_FULL_PARTIAL_2
+        bp_text = BLUEPRINT_3_PARTIAL_2
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -256,11 +256,11 @@ class TestAllArgs3:  # w/ corpus1  *********************************************
         print(opt)
         tree_content, _ = _split_tree_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_3_FULL_PARTIAL_2_PREVIEW
+        assert tree_content == BLUEPRINT_3_PARTIAL_2_PREVIEW
 
     def test_empty(_):
         corpus = CORPUS3
-        bp_text = BLUEPRINT_3_FULL_EMPTY
+        bp_text = BLUEPRINT_3_EMPTY
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -326,7 +326,7 @@ class TestNoContent1:  # w/ corpus1  *******************************************
 
     def test_part1(_):
         corpus = CORPUS1
-        bp_text = BLUEPRINT_1_FULL_PARTIAL_1
+        bp_text = BLUEPRINT_1_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -346,7 +346,7 @@ class TestNoContent1:  # w/ corpus1  *******************************************
 
     def test_part2(_):
         corpus = CORPUS1
-        bp_text = BLUEPRINT_1_FULL_PARTIAL_2
+        bp_text = BLUEPRINT_1_PARTIAL_2
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -366,7 +366,7 @@ class TestNoContent1:  # w/ corpus1  *******************************************
 
     def test_empty(_):
         corpus = CORPUS1
-        bp_text = BLUEPRINT_1_FULL_EMPTY
+        bp_text = BLUEPRINT_1_EMPTY
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -418,7 +418,7 @@ class TestNoContent3:  # w/ corpus1  *******************************************
 
     def test_part1(_):
         corpus = CORPUS3
-        bp_text = BLUEPRINT_3_FULL_PARTIAL_1
+        bp_text = BLUEPRINT_3_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -444,7 +444,7 @@ class TestNoContent3:  # w/ corpus1  *******************************************
 
     def test_part2(_):
         corpus = CORPUS3
-        bp_text = BLUEPRINT_3_FULL_PARTIAL_2
+        bp_text = BLUEPRINT_3_PARTIAL_2
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -470,7 +470,7 @@ class TestNoContent3:  # w/ corpus1  *******************************************
 
     def test_empty(_):
         corpus = CORPUS3
-        bp_text = BLUEPRINT_3_FULL_EMPTY
+        bp_text = BLUEPRINT_3_EMPTY
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -583,7 +583,7 @@ class TestDft:
         print(opt)
         tree_content, comment_content = _split_tree_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_2_FULL_PREVIEW
+        assert tree_content == BLUEPRINT_2_PREVIEW
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
@@ -634,7 +634,7 @@ class TestStr:
         print(opt)
         tree_content, comment_content = _split_tree_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_2_FULL_PREVIEW
+        assert tree_content == BLUEPRINT_2_PREVIEW
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
