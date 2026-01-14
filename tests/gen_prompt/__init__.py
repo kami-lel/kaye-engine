@@ -88,38 +88,6 @@ This project is licensed under the MIT License.
 """
 
 
-PROMPT5 = """
-# Main Title
-
-## Introduction
-Brief introduction to the topic.
-
-### Background
-Context or history relevant to the topic.
-
-#### Importance
-Why this topic matters in the current scenario.
-
-##### Objective
-The primary goal of this document.
-
-## Methods
-Overview of the methodologies used.
-
-### Data Collection
-How data was gathered for analysis.
-
-#### Tools Used
-List of tools utilized during the project.
-
-##### Future Work
-Suggestions for future research or tasks.
-
-## Conclusion
-Summarizing the findings and implications.
-"""
-
-
 PROMPT_EMPTY_LINES = """
 # Project Title
 
