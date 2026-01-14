@@ -9,12 +9,9 @@ from copy import copy
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
-from .. import kamilog, PROGRAM_NAME
 from .prompt_corpus_node import HEADING_PREFIX, PromptCorpusNode
 
 __all__ = ("PromptBlueprint",)
-
-logger = kamilog.getLogger(PROGRAM_NAME)
 
 
 # constants  ###################################################################
@@ -65,6 +62,7 @@ class PromptBlueprint(dict):
         :type disable_prune: bool, optional
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
+        :raise ValueError: bad formatted `blueprint_text`
         """
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
         path2node_hash = {
@@ -88,11 +86,10 @@ class PromptBlueprint(dict):
             if level > previous_level:
 
                 if level - previous_level > 1:
-                    # Bug need test & improve wording
-                    logger.error(
-                        "detect bad blueprint tree format at:\n%s", line
+                    raise ValueError(
+                        "malformed tree format at line:\n{}".format(line)
                     )
-                    continue
+                    # fixme print to logger, then continue
 
                 path = previous_path + [""]
 
@@ -107,13 +104,10 @@ class PromptBlueprint(dict):
 
             # check node's existence in tree  ----------------------------------
             if path_tuple not in path2node_hash:
-                # Bug need test & improve wording
-                logger.warning(
-                    "not part of the provided prompt corpus, skipped"
-                    " during blueprint parsing:\n%s",
-                    line,
+                raise ValueError(
+                    "missing node from prompt_corpus:\n{}".format(line)
                 )
-                continue  # skip this node
+                # fixme print to logger, then continue
 
             # append a node  ---------------------------------------------------
             node_hash = path2node_hash[path_tuple]

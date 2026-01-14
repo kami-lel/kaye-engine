@@ -6,7 +6,11 @@ Unit Tests (using pytest) for: PromptBlueprint.parse()
 this perform basic test of the parsed blueprint
 """
 
+import pytest
+
+
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
+
 from tests.gen_prompt import PROMPT1, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
@@ -497,4 +501,39 @@ class TestDisplayName:
         assert opt.display_name == display_name
 
 
-# Bug tests for errors
+# err handling  ################################################################
+
+
+class TestErr:
+
+    def test_malformed(_):
+        bp_text = """    ○
+[ ] └── Project Title
+[x]     ├── Description
+[x]         ├── Installation
+[x]     └── License"""
+
+        with pytest.raises(ValueError) as exec_info:
+            PromptBlueprint.parse(CORPUS1, bp_text)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == """missing node from prompt_corpus:
+[x]         ├── Installation"""
+
+    def test_missing_node(_):
+        bp_text = """    ○
+[x] └── Project Title
+[x]     ├── Description
+[x]     ├── Node Nonexistent In Prompt
+[x]     ├── Installation
+[x]     └── License"""
+
+        with pytest.raises(ValueError) as exec_info:
+            PromptBlueprint.parse(CORPUS1, bp_text)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == """missing node from prompt_corpus:
+[x]     ├── Node Nonexistent In Prompt"""
