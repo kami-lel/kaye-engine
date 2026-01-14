@@ -9,12 +9,9 @@ from copy import copy
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
-from .. import kamilog, PROGRAM_NAME
 from .prompt_corpus_node import HEADING_PREFIX, PromptCorpusNode
 
 __all__ = ("PromptBlueprint",)
-
-logger = kamilog.getLogger(PROGRAM_NAME)
 
 
 # constants  ###################################################################
@@ -89,7 +86,6 @@ class PromptBlueprint(dict):
 
                 if level - previous_level > 1:
                     # BUG BUG need test & improve wording
-                    # FIXME FIXME rm kamilog
                     logger.error(
                         "detect bad blueprint tree format at:\n%s", line
                     )
