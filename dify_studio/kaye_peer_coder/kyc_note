@@ -1,4 +1,5 @@
 
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
-Fixme corpus:kyc: improve task prompt content
-Fixme corpus:kyc: pre-sense corpus, provide anchor point
+FIXME corpus: improve task prompt content
+FIXME corpus: pre-sense corpus, provide anchor point
+BUG forget conversation when switch LLM

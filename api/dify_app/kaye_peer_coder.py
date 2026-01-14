@@ -107,6 +107,7 @@ def _parse_flags_from_languages_arg(languages_arg):
 
 
 def _generate_task_prompt_based_on_flags(flags):
+    # BUG
     corpus = load_embedded_prompt_corpus()
     blueprint = PromptBlueprint(
         corpus,
@@ -129,6 +130,7 @@ kyc_bp = Blueprint(
 # /kaye/dify-app/kaye-peer-coder/pre-sense
 @kyc_bp.route("/pre-sense", methods=["GET"])
 def kaye_peer_coder_pre_sense():
+    # BUG
     blueprint = PromptBlueprint(
         load_embedded_prompt_corpus(),
         PRE_SENSE_PROMPT_BLUEPRINT,
