@@ -20,17 +20,21 @@ from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_PARTIAL_1_PREVIEW,
     BLUEPRINT_1_PARTIAL_2,
     BLUEPRINT_1_PARTIAL_2_PREVIEW,
+    BLUEPRINT_1_PARTIAL_2_PRUNED,
     BLUEPRINT_2_FULL,
     BLUEPRINT_2_PREVIEW,
     BLUEPRINT_2_PARTIAL_1,
     BLUEPRINT_2_PARTIAL_1_PREVIEW,
+    BLUEPRINT_2_PARTIAL_1_PRUNED,
     BLUEPRINT_2_EMPTY,
     BLUEPRINT_3_FULL,
     BLUEPRINT_3_FULL_PREVIEW,
     BLUEPRINT_3_PARTIAL_1,
     BLUEPRINT_3_PARTIAL_1_PREVIEW,
+    BLUEPRINT_3_PARTIAL_1_PRUNED,
     BLUEPRINT_3_PARTIAL_2,
     BLUEPRINT_3_PARTIAL_2_PREVIEW,
+    BLUEPRINT_3_PARTIAL_2_PRUNED,
     BLUEPRINT_3_EMPTY,
 )
 
@@ -47,8 +51,6 @@ def _split_tree_and_comment(preview_tree):
 
 
 # test .generate_preview_tree()  ###############################################
-
-
 # w/ all args
 class TestAllArgs1:  # w/ corpus1  *********************************************
 
@@ -296,8 +298,6 @@ class TestAllArgs3:  # w/ corpus1  *********************************************
 
 
 # no content  ==================================================================
-
-
 # w/ all args
 class TestNoContent1:  # w/ corpus1  *******************************************
 
@@ -496,8 +496,6 @@ class TestNoContent3:  # w/ corpus1  *******************************************
 
 
 # no comment (nor content)  ====================================================
-
-
 # w/ all args
 class TestNoComment:  # w/ corpus1  *******************************************
 
@@ -545,17 +543,68 @@ class TestNoComment:  # w/ corpus1  *******************************************
 [x]     └── Conclusion"""
 
 
-# pruned tree  =================================================================
-
-# TODO
-
 # full tree (nor content)  =====================================================
+class TestFullTree:
+    # BUG
 
-# TODO
+    def test1(_):
+        bp_text = BLUEPRINT_1_PARTIAL_2_PRUNED
+        bp = PromptBlueprint.parse(CORPUS1, bp_text)
+
+        opt = bp.generate_preview_tree(
+            preview_line_count=0,
+            show_full_tree=True,
+            hide_comment=True,
+        )
+
+        print(opt)
+
+        assert opt == bp_text
+
+    def test2(_):
+        bp_text = BLUEPRINT_2_PARTIAL_1_PRUNED
+        bp = PromptBlueprint.parse(CORPUS2, bp_text)
+
+        opt = bp.generate_preview_tree(
+            preview_line_count=0,
+            show_full_tree=True,
+            hide_comment=True,
+        )
+
+        print(opt)
+
+        assert opt == bp_text
+
+    def test31(_):
+        bp_text = BLUEPRINT_3_PARTIAL_1_PRUNED
+        bp = PromptBlueprint.parse(CORPUS3, bp_text)
+
+        opt = bp.generate_preview_tree(
+            preview_line_count=0,
+            show_full_tree=True,
+            hide_comment=True,
+        )
+
+        print(opt)
+
+        assert opt == bp_text
+
+    def test32(_):
+        bp_text = BLUEPRINT_3_PARTIAL_2_PRUNED
+        bp = PromptBlueprint.parse(CORPUS3, bp_text)
+
+        opt = bp.generate_preview_tree(
+            preview_line_count=0,
+            show_full_tree=True,
+            hide_comment=True,
+        )
+
+        print(opt)
+
+        assert opt == bp_text
+
 
 # default  =====================================================================
-
-
 class TestDft:
 
     def test1(_):

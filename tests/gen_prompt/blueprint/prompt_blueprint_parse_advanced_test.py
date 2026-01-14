@@ -362,7 +362,3 @@ class TestPrunedText:
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
             == BLUEPRINT_3_PARTIAL_1_PRUNED
         )
-
-
-# set disable_prune  ###########################################################
-# TODO TODO disable prune not working
