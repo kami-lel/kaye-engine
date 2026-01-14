@@ -12,33 +12,20 @@ from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
-    BLUEPRINT_1_FULL_PREVIEW,
     BLUEPRINT_1_EMPTY,
     BLUEPRINT_1_PARTIAL_1,
-    BLUEPRINT_1_PARTIAL_1_PREVIEW,
     BLUEPRINT_1_PARTIAL_2,
-    BLUEPRINT_1_PARTIAL_2_PREVIEW,
-    BLUEPRINT_1_PARTIAL_2_PRUNED,
     BLUEPRINT_2_FULL,
-    BLUEPRINT_2_PREVIEW,
     BLUEPRINT_2_PARTIAL_1,
-    BLUEPRINT_2_PARTIAL_1_PREVIEW,
-    BLUEPRINT_2_PARTIAL_1_PRUNED,
     BLUEPRINT_2_EMPTY,
     BLUEPRINT_3_FULL,
-    BLUEPRINT_3_FULL_PREVIEW,
     BLUEPRINT_3_PARTIAL_1,
-    BLUEPRINT_3_PARTIAL_1_PREVIEW,
-    BLUEPRINT_3_PARTIAL_1_PRUNED,
     BLUEPRINT_3_PARTIAL_2,
-    BLUEPRINT_3_PARTIAL_2_PREVIEW,
-    BLUEPRINT_3_PARTIAL_2_PRUNED,
     BLUEPRINT_3_EMPTY,
     _split_content_and_comment,
 )
 
 
-# BUG
 class Test1:  # with PROMPT1  ##################################################
 
     corpus = PromptCorpusNode.parse(PROMPT1)
