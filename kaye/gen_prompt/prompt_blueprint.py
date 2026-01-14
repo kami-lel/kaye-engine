@@ -390,8 +390,9 @@ def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
     has_checkmarked_descents = any(children_results)
 
     if is_checkmarked or has_checkmarked_descents:
-        # this node should be in the pruned_bp
-        pruned_bp[node_hash] = is_checkmarked
+        if not node.is_root:
+            # this node should be in the pruned_bp
+            pruned_bp[node_hash] = is_checkmarked
         return True
     else:
         return False
