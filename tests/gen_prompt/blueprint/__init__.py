@@ -63,8 +63,7 @@ BLUEPRINT_3_FULL = """    ○
 [x]     │   └── Data Collection
 [x]     │       └── Tools Used
 [x]     │           └── Future Work
-[x]     └── Conclusion
-"""
+[x]     └── Conclusion"""
 
 
 BLUEPRINT_3_FULL_PARTIAL_1 = """    ○

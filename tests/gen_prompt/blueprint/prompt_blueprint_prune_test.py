@@ -20,8 +20,6 @@ from tests.gen_prompt.blueprint import (
     BLUEPRINT_3_FULL_EMPTY,
 )
 
-# BUG BUG
-
 
 class Test1:  # use PROMPT1  ###################################################
 
@@ -156,14 +154,14 @@ class Test3:  # use PROMPT1  ###################################################
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
             == """    ○
 [x] └── Main Title
+[ ]     ├── Introduction
 [x]     │   └── Background
 [ ]     │       └── Importance
 [x]     │           └── Objective
 [ ]     └── Methods
 [x]         └── Data Collection
 [ ]             └── Tools Used
-[x]                 └── Future Work
-"""
+[x]                 └── Future Work"""
         )
 
     def test_full(self):  # no prune
