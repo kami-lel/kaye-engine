@@ -136,14 +136,9 @@ class PromptBlueprint(dict):
                 and checkmarking all nodes
         :rtype: PromptBlueprint
         """
-        blueprint = PromptBlueprint(prompt_corpus, display_name=display_name)
-        # include all nodes
-        for node in PreOrderIter(prompt_corpus):
-            if not node.is_root:  # skip root node
-                key = hash(node)
-                blueprint[key] = True  #  check all nodes
-
-        return blueprint
+        return cls._create_full_or_empty_blueprint(
+            prompt_corpus, True, display_name
+        )
 
     @classmethod
     def create_empty_blueprint(cls, prompt_corpus, *, display_name="empty"):
@@ -156,13 +151,9 @@ class PromptBlueprint(dict):
                 but checkmarking all nodes
         :rtype: PromptBlueprint
         """
-        # BUG BUG BUG need test
-        bp = cls.create_full_blueprint(
-            prompt_corpus, display_name=display_name
+        return cls._create_full_or_empty_blueprint(
+            prompt_corpus, False, display_name
         )
-        for k in bp:  # un-checkmark all node
-            bp[k] = False
-        return bp
 
     def __init__(self, prompt_corpus, *, display_name=""):
         super().__init__()  # init as empty dict
@@ -287,6 +278,25 @@ class PromptBlueprint(dict):
         return ""  # TODO
 
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
+
+    @classmethod
+    def _create_full_or_empty_blueprint(
+        cls, prompt_corpus, is_full, display_name
+    ):
+        """
+        helper method used
+        in ``._create_full_blueprint()`` & in ``_create_empty_blueprint()``,
+        i.e. a generic version of the 2 functions
+        """
+        blueprint = PromptBlueprint(prompt_corpus, display_name=display_name)
+        # include all nodes
+        for node in PreOrderIter(prompt_corpus):
+            if not node.is_root:  # skip root node
+                key = hash(node)
+                # add all nodes
+                blueprint[key] = is_full
+
+        return blueprint
 
     def _generate_comment_content(self):
         """
