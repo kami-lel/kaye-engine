@@ -26,7 +26,7 @@ BLUEPRINT_1_FULL_EMPTY = """    ○
 [ ]     └── License"""
 
 
-BLUEPRINT_2_FULL = """    ○
+BLUEPRINT_3_FULL = """    ○
 [x] └── Main Title
 [x]     ├── Introduction
 [x]     │   └── Background
@@ -40,7 +40,7 @@ BLUEPRINT_2_FULL = """    ○
 """
 
 
-BLUEPRINT_2_FULL_PARTIAL_1 = """    ○
+BLUEPRINT_3_FULL_PARTIAL_1 = """    ○
 [x] └── Main Title
 [x]     ├── Introduction
 [x]     │   └── Background
@@ -54,7 +54,7 @@ BLUEPRINT_2_FULL_PARTIAL_1 = """    ○
 """
 
 
-BLUEPRINT_2_FULL_PARTIAL_2 = """    ○
+BLUEPRINT_3_FULL_PARTIAL_2 = """    ○
 [x] └── Main Title
 [ ]     ├── Introduction
 [x]     │   └── Background
@@ -68,7 +68,7 @@ BLUEPRINT_2_FULL_PARTIAL_2 = """    ○
 """
 
 
-BLUEPRINT_2_FULL_EMPTY = """    ○
+BLUEPRINT_3_FULL_EMPTY = """    ○
 [ ] └── Main Title
 [ ]     ├── Introduction
 [ ]     │   └── Background

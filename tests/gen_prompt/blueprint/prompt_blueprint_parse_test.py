@@ -11,10 +11,10 @@ from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL_PARTIAL_1,
     BLUEPRINT_1_FULL_PARTIAL_2,
     BLUEPRINT_1_FULL_EMPTY,
-    BLUEPRINT_2_FULL,
-    BLUEPRINT_2_FULL_PARTIAL_1,
-    BLUEPRINT_2_FULL_PARTIAL_2,
-    BLUEPRINT_2_FULL_EMPTY,
+    BLUEPRINT_3_FULL,
+    BLUEPRINT_3_FULL_PARTIAL_1,
+    BLUEPRINT_3_FULL_PARTIAL_2,
+    BLUEPRINT_3_FULL_EMPTY,
 )
 
 CORPUS1 = PromptCorpusNode.parse(PROMPT1)
@@ -169,7 +169,7 @@ class TestBasic3:  # use corpus3  ==============================================
 
     def test_full(_):
         corpus = CORPUS3
-        bp_text = BLUEPRINT_2_FULL
+        bp_text = BLUEPRINT_3_FULL
 
         opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
@@ -242,7 +242,7 @@ class TestBasic3:  # use corpus3  ==============================================
 
     def test_part1(_):
         corpus = CORPUS3
-        bp_text = BLUEPRINT_2_FULL_PARTIAL_1
+        bp_text = BLUEPRINT_3_FULL_PARTIAL_1
 
         opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
@@ -312,7 +312,7 @@ class TestBasic3:  # use corpus3  ==============================================
 
     def test_part2(_):
         corpus = CORPUS3
-        bp_text = BLUEPRINT_2_FULL_PARTIAL_2
+        bp_text = BLUEPRINT_3_FULL_PARTIAL_2
         opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)
@@ -382,7 +382,7 @@ class TestBasic3:  # use corpus3  ==============================================
     def test_empty(_):
         corpus = CORPUS3
 
-        bp_text = BLUEPRINT_2_FULL_EMPTY
+        bp_text = BLUEPRINT_3_FULL_EMPTY
         opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)

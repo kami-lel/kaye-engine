@@ -11,16 +11,21 @@ import re
 
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
-from tests.gen_prompt import PROMPT1, PROMPT2
+from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_FULL_PARTIAL_1,
     BLUEPRINT_1_FULL_PARTIAL_2,
     BLUEPRINT_1_FULL_EMPTY,
+    BLUEPRINT_3_FULL,
+    BLUEPRINT_3_FULL_PARTIAL_1,
+    BLUEPRINT_3_FULL_PARTIAL_2,
+    BLUEPRINT_3_FULL_EMPTY,
 )
 
 CORPUS1 = PromptCorpusNode.parse(PROMPT1)
 CORPUS2 = PromptCorpusNode.parse(PROMPT2)
+CORPUS3 = PromptCorpusNode.parse(PROMPT3)
 
 
 def _split_tree_and_comment(preview_tree):
@@ -34,7 +39,7 @@ def _split_tree_and_comment(preview_tree):
 
 
 # w/ all args
-class TestAllArgs1:  # w/ corpus1
+class TestAllArgs1:  # w/ corpus1  *********************************************
 
     def test_full(_):
         corpus = CORPUS1
@@ -136,7 +141,157 @@ class TestAllArgs1:  # w/ corpus1
             Licensed under the MIT License."""
 
 
-# TODO TODO use prompt 2;
+class TestAllArgs3:  # w/ corpus1  *********************************************
+
+    def test_full(_):
+        corpus = CORPUS3
+        bp_text = BLUEPRINT_3_FULL
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree(
+            preview_line_count=3,
+            preview_line_width=64,
+            show_full_tree=False,
+            hide_comment=False,
+        )
+
+        print(opt)
+        tree_content, comment_content = _split_tree_and_comment(opt)
+
+        assert tree_content == """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+        │   Brief introduction to the topic.
+[x]     │   └── Background
+        │       Context or history relevant to the topic.
+[x]     │       └── Importance
+        │           Why this topic matters in the current scenario.
+[x]     │           └── Objective
+        │               The primary goal of this document.
+[x]     ├── Methods
+        │   Overview of the methodologies used.
+[x]     │   └── Data Collection
+        │       How data was gathered for analysis.
+[x]     │       └── Tools Used
+        │           List of tools utilized during the project.
+[x]     │           └── Future Work
+        │               Suggestions for future research or tasks.
+[x]     └── Conclusion
+            Summarizing the findings and implications."""
+
+        # test comment structure
+        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+
+    def test_part1(_):
+        corpus = CORPUS3
+        bp_text = BLUEPRINT_3_FULL_PARTIAL_1
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree(
+            preview_line_count=3,
+            preview_line_width=64,
+            show_full_tree=False,
+            hide_comment=False,
+        )
+
+        print(opt)
+        tree_content, _ = _split_tree_and_comment(opt)
+
+        assert tree_content == """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+        │   Brief introduction to the topic.
+[x]     │   └── Background
+        │       Context or history relevant to the topic.
+[x]     │       └── Importance
+        │           Why this topic matters in the current scenario.
+[x]     │           └── Objective
+        │               The primary goal of this document.
+[ ]     ├── Methods
+        │   Overview of the methodologies used.
+[ ]     │   └── Data Collection
+        │       How data was gathered for analysis.
+[ ]     │       └── Tools Used
+        │           List of tools utilized during the project.
+[ ]     │           └── Future Work
+        │               Suggestions for future research or tasks.
+[x]     └── Conclusion
+            Summarizing the findings and implications."""
+
+    def test_part2(_):
+        corpus = CORPUS3
+        bp_text = BLUEPRINT_3_FULL_PARTIAL_2
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree(
+            preview_line_count=3,
+            preview_line_width=64,
+            show_full_tree=False,
+            hide_comment=False,
+        )
+
+        print(opt)
+        tree_content, _ = _split_tree_and_comment(opt)
+
+        assert tree_content == """    ○
+[x] └── Main Title
+[ ]     ├── Introduction
+        │   Brief introduction to the topic.
+[x]     │   └── Background
+        │       Context or history relevant to the topic.
+[ ]     │       └── Importance
+        │           Why this topic matters in the current scenario.
+[x]     │           └── Objective
+        │               The primary goal of this document.
+[ ]     ├── Methods
+        │   Overview of the methodologies used.
+[x]     │   └── Data Collection
+        │       How data was gathered for analysis.
+[ ]     │       └── Tools Used
+        │           List of tools utilized during the project.
+[x]     │           └── Future Work
+        │               Suggestions for future research or tasks.
+[ ]     └── Conclusion
+            Summarizing the findings and implications."""
+
+    def test_empty(_):
+        corpus = CORPUS3
+        bp_text = BLUEPRINT_3_FULL_EMPTY
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree(
+            preview_line_count=3,
+            preview_line_width=64,
+            show_full_tree=False,
+            hide_comment=False,
+        )
+
+        print(opt)
+        tree_content, _ = _split_tree_and_comment(opt)
+
+        assert tree_content == """    ○
+[ ] └── Main Title
+[ ]     ├── Introduction
+        │   Brief introduction to the topic.
+[ ]     │   └── Background
+        │       Context or history relevant to the topic.
+[ ]     │       └── Importance
+        │           Why this topic matters in the current scenario.
+[ ]     │           └── Objective
+        │               The primary goal of this document.
+[ ]     ├── Methods
+        │   Overview of the methodologies used.
+[ ]     │   └── Data Collection
+        │       How data was gathered for analysis.
+[ ]     │       └── Tools Used
+        │           List of tools utilized during the project.
+[ ]     │           └── Future Work
+        │               Suggestions for future research or tasks.
+[ ]     └── Conclusion
+            Summarizing the findings and implications."""
+
+
+# TODO TODO
 
 # no content  ==================================================================
 
