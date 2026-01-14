@@ -5,21 +5,21 @@ BLUEPRINT_1_FULL = """    ○
 [x]     └── License"""
 
 
-BLUEPRINT_1_PARTIAL_1 = """    ○
+BLUEPRINT_1_FULL_PARTIAL_1 = """    ○
 [ ] └── Project Title
 [x]     ├── Description
 [x]     ├── Installation
 [x]     └── License"""
 
 
-BLUEPRINT_1_PARTIAL_2 = """    ○
+BLUEPRINT_1_FULL_PARTIAL_2 = """    ○
 [x] └── Project Title
 [ ]     ├── Description
 [x]     ├── Installation
 [x]     └── License"""
 
 
-BLUEPRINT_1_EMPTY = """    ○
+BLUEPRINT_1_FULL_EMPTY = """    ○
 [ ] └── Project Title
 [ ]     ├── Description
 [ ]     ├── Installation
@@ -40,7 +40,7 @@ BLUEPRINT_2_FULL = """    ○
 """
 
 
-BLUEPRINT_2_PARTIAL_1 = """    ○
+BLUEPRINT_2_FULL_PARTIAL_1 = """    ○
 [x] └── Main Title
 [x]     ├── Introduction
 [x]     │   └── Background
@@ -54,7 +54,7 @@ BLUEPRINT_2_PARTIAL_1 = """    ○
 """
 
 
-BLUEPRINT_2_PARTIAL_2 = """    ○
+BLUEPRINT_2_FULL_PARTIAL_2 = """    ○
 [x] └── Main Title
 [ ]     ├── Introduction
 [x]     │   └── Background
@@ -68,7 +68,7 @@ BLUEPRINT_2_PARTIAL_2 = """    ○
 """
 
 
-BLUEPRINT_2_EMPTY = """    ○
+BLUEPRINT_2_FULL_EMPTY = """    ○
 [ ] └── Main Title
 [ ]     ├── Introduction
 [ ]     │   └── Background
