@@ -44,7 +44,16 @@ def _split_tree_and_comment(preview_tree):
 # w/ all args
 class TestAllArgs1:  # w/ corpus1  *********************************************
 
-    def test_full(_):
+    FULL_ANSWER = """    ○
+[x] └── Project Title
+[x]     ├── Description
+        │   Brief overview of the project and its purpose.
+[x]     ├── Installation
+        │   Clone the repo and install dependencies.
+[x]     └── License
+            Licensed under the MIT License."""
+
+    def test_full(self):
         corpus = CORPUS1
         bp_text = BLUEPRINT_1_FULL
 
@@ -59,14 +68,7 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
         print(opt)
         tree_content, comment_content = _split_tree_and_comment(opt)
 
-        assert tree_content == """    ○
-[x] └── Project Title
-[x]     ├── Description
-        │   Brief overview of the project and its purpose.
-[x]     ├── Installation
-        │   Clone the repo and install dependencies.
-[x]     └── License
-            Licensed under the MIT License."""
+        assert tree_content == self.FULL_ANSWER
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
@@ -146,22 +148,7 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
 
 class TestAllArgs2:  # w/ corpus2  *********************************************
 
-    def test_full(_):
-        corpus = CORPUS2
-        bp_text = BLUEPRINT_2_FULL
-
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=3,
-            preview_line_width=64,
-            show_full_tree=False,
-            hide_comment=False,
-        )
-
-        print(opt)
-        tree_content, comment_content = _split_tree_and_comment(opt)
-
-        assert tree_content == """    ○
+    FULL_ANSWER = """    ○
 [x] └── Project Title
 [x]     ├── Description
         │   A brief overview of the project, its purpose, and goals.
@@ -177,6 +164,23 @@ class TestAllArgs2:  # w/ corpus2  *********************************************
         │   3. Submit a pull request
 [x]     └── License
             This project is licensed under the MIT License."""
+
+    def test_full(self):
+        corpus = CORPUS2
+        bp_text = BLUEPRINT_2_FULL
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree(
+            preview_line_count=3,
+            preview_line_width=64,
+            show_full_tree=False,
+            hide_comment=False,
+        )
+
+        print(opt)
+        tree_content, comment_content = _split_tree_and_comment(opt)
+
+        assert tree_content == self.FULL_ANSWER
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
@@ -248,22 +252,7 @@ class TestAllArgs2:  # w/ corpus2  *********************************************
 
 class TestAllArgs3:  # w/ corpus1  *********************************************
 
-    def test_full(_):
-        corpus = CORPUS3
-        bp_text = BLUEPRINT_3_FULL
-
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=3,
-            preview_line_width=64,
-            show_full_tree=False,
-            hide_comment=False,
-        )
-
-        print(opt)
-        tree_content, comment_content = _split_tree_and_comment(opt)
-
-        assert tree_content == """    ○
+    FULL_ANSWER = """    ○
 [x] └── Main Title
 [x]     ├── Introduction
         │   Brief introduction to the topic.
@@ -284,6 +273,22 @@ class TestAllArgs3:  # w/ corpus1  *********************************************
 [x]     └── Conclusion
             Summarizing the findings and implications."""
 
+    def test_full(self):
+        corpus = CORPUS3
+        bp_text = BLUEPRINT_3_FULL
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree(
+            preview_line_count=3,
+            preview_line_width=64,
+            show_full_tree=False,
+            hide_comment=False,
+        )
+
+        print(opt)
+        tree_content, comment_content = _split_tree_and_comment(opt)
+
+        assert tree_content == self.FULL_ANSWER
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
@@ -652,6 +657,105 @@ class TestNoComment:  # w/ corpus1  *******************************************
 
 # full tree (nor content)  =====================================================
 
+# TODO TODO
+
 # default  =====================================================================
 
+
+class TestDft:
+
+    def test1(_):
+        corpus = CORPUS1
+        bp_text = BLUEPRINT_1_FULL
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree()
+
+        print(opt)
+        tree_content, comment_content = _split_tree_and_comment(opt)
+
+        assert tree_content == TestAllArgs1.FULL_ANSWER
+
+        # test comment structure
+        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+
+    def test2(_):
+        corpus = CORPUS2
+        bp_text = BLUEPRINT_2_FULL
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree()
+
+        print(opt)
+        tree_content, comment_content = _split_tree_and_comment(opt)
+
+        assert tree_content == TestAllArgs2.FULL_ANSWER
+
+        # test comment structure
+        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+
+    def test3(_):
+        corpus = CORPUS3
+        bp_text = BLUEPRINT_3_FULL
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree()
+
+        print(opt)
+        tree_content, comment_content = _split_tree_and_comment(opt)
+
+        assert tree_content == TestAllArgs3.FULL_ANSWER
+
+        # test comment structure
+        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+
+
 # test __str__()   #############################################################
+
+
+class TestStr:
+
+    def test1(_):
+        corpus = CORPUS1
+        bp_text = BLUEPRINT_1_FULL
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = str(bp)
+
+        print(opt)
+        tree_content, comment_content = _split_tree_and_comment(opt)
+
+        assert tree_content == TestAllArgs1.FULL_ANSWER
+
+        # test comment structure
+        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+
+    def test2(_):
+        corpus = CORPUS2
+        bp_text = BLUEPRINT_2_FULL
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = str(bp)
+
+        print(opt)
+        tree_content, comment_content = _split_tree_and_comment(opt)
+
+        assert tree_content == TestAllArgs2.FULL_ANSWER
+
+        # test comment structure
+        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+
+    def test3(_):
+        corpus = CORPUS3
+        bp_text = BLUEPRINT_3_FULL
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = str(bp)
+
+        print(opt)
+        tree_content, comment_content = _split_tree_and_comment(opt)
+
+        assert tree_content == TestAllArgs3.FULL_ANSWER
+
+        # test comment structure
+        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
