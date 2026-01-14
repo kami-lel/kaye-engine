@@ -261,7 +261,7 @@ class PromptBlueprint(dict):
             comment_line = "<!-- " + self._generate_comment_content() + " -->"
             opt_lines.append(comment_line)
 
-        return "\n".join(opt_lines)
+        return ("\n".join(opt_lines)).strip("\n")
 
     def generate_prompt(self, *, hide_comment=False):
         """
@@ -454,8 +454,7 @@ def _generate_prompt_recursively(blueprint, node):
 
     # add current node if checkmarked
     if blueprint.is_checkmarked(node):
-        if node.depth > 1:
-            lines.append("")  # add empty lines before headings
+        lines.append("")  # add empty lines before headings
 
         # heading line
         lines.append(HEADING_PREFIX * node.depth + " " + node.name)
