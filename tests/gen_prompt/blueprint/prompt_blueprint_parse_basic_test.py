@@ -497,4 +497,4 @@ class TestDisplayName:
         assert opt.display_name == display_name
 
 
-# Bug tests for errors
+# BUG BUG tests for errors
