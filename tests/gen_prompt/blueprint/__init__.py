@@ -49,6 +49,24 @@ BLUEPRINT_2_FULL = """    ○
 [x]     └── License"""
 
 
+BLUEPRINT_2_FULL_PREVIEW = """    ○
+[x] └── Project Title
+[x]     ├── Description
+        │   A brief overview of the project, its purpose, and goals.
+[x]     ├── Installation
+        │   1. Clone the repo
+        │   2. Install dependencies
+        │   3. Run the application
+[x]     ├── Usage
+        │   Provide instructions on how to use the application.
+[x]     ├── Contributing
+        │   1. Fork the repo
+        │   2. Create a new branch
+        │   3. Submit a pull request
+[x]     └── License
+            This project is licensed under the MIT License."""
+
+
 BLUEPRINT_2_FULL_PARTIAL_1 = """    ○
 [x] └── Project Title
 [ ]     ├── Description
@@ -83,6 +101,28 @@ BLUEPRINT_3_FULL = """    ○
 [x]     │       └── Tools Used
 [x]     │           └── Future Work
 [x]     └── Conclusion"""
+
+
+BLUEPRINT_3_FULL_PREVIEW = """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+        │   Brief introduction to the topic.
+[x]     │   └── Background
+        │       Context or history relevant to the topic.
+[x]     │       └── Importance
+        │           Why this topic matters in the current scenario.
+[x]     │           └── Objective
+        │               The primary goal of this document.
+[x]     ├── Methods
+        │   Overview of the methodologies used.
+[x]     │   └── Data Collection
+        │       How data was gathered for analysis.
+[x]     │       └── Tools Used
+        │           List of tools utilized during the project.
+[x]     │           └── Future Work
+        │               Suggestions for future research or tasks.
+[x]     └── Conclusion
+            Summarizing the findings and implications."""
 
 
 BLUEPRINT_3_FULL_PARTIAL_1 = """    ○
