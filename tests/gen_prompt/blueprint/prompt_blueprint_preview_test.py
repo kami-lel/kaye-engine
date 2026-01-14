@@ -11,6 +11,7 @@ import re
 
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
+
 from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
@@ -36,18 +37,12 @@ from tests.gen_prompt.blueprint import (
     BLUEPRINT_3_PARTIAL_2_PREVIEW,
     BLUEPRINT_3_PARTIAL_2_PRUNED,
     BLUEPRINT_3_EMPTY,
+    _split_content_and_comment,
 )
 
 CORPUS1 = PromptCorpusNode.parse(PROMPT1)
 CORPUS2 = PromptCorpusNode.parse(PROMPT2)
 CORPUS3 = PromptCorpusNode.parse(PROMPT3)
-
-
-def _split_tree_and_comment(preview_tree):
-    lines = preview_tree.splitlines()
-    tree = "\n".join(lines[:-1])
-    comment = lines[-1]
-    return tree, comment
 
 
 # test .generate_preview_tree()  ###############################################
@@ -67,7 +62,7 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
         )
 
         print(opt)
-        tree_content, comment_content = _split_tree_and_comment(opt)
+        tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_1_FULL_PREVIEW
 
@@ -87,7 +82,7 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_1_PARTIAL_1_PREVIEW
 
@@ -104,7 +99,7 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_1_PARTIAL_2_PREVIEW
 
@@ -121,7 +116,7 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == """    ○
 [ ] └── Project Title
@@ -148,7 +143,7 @@ class TestAllArgs2:  # w/ corpus2  *********************************************
         )
 
         print(opt)
-        tree_content, comment_content = _split_tree_and_comment(opt)
+        tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_2_PREVIEW
 
@@ -168,7 +163,7 @@ class TestAllArgs2:  # w/ corpus2  *********************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_2_PARTIAL_1_PREVIEW
 
@@ -185,7 +180,7 @@ class TestAllArgs2:  # w/ corpus2  *********************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == """    ○
 [ ] └── Project Title
@@ -220,7 +215,7 @@ class TestAllArgs3:  # w/ corpus1  *********************************************
         )
 
         print(opt)
-        tree_content, comment_content = _split_tree_and_comment(opt)
+        tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_3_FULL_PREVIEW
         # test comment structure
@@ -239,7 +234,7 @@ class TestAllArgs3:  # w/ corpus1  *********************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_3_PARTIAL_1_PREVIEW
 
@@ -256,7 +251,7 @@ class TestAllArgs3:  # w/ corpus1  *********************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_3_PARTIAL_2_PREVIEW
 
@@ -273,7 +268,7 @@ class TestAllArgs3:  # w/ corpus1  *********************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == """    ○
 [ ] └── Main Title
@@ -313,7 +308,7 @@ class TestNoContent1:  # w/ corpus1  *******************************************
         )
 
         print(opt)
-        tree_content, comment_content = _split_tree_and_comment(opt)
+        tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == """    ○
 [x] └── Project Title
@@ -336,7 +331,7 @@ class TestNoContent1:  # w/ corpus1  *******************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == """    ○
 [ ] └── Project Title
@@ -356,7 +351,7 @@ class TestNoContent1:  # w/ corpus1  *******************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == """    ○
 [x] └── Project Title
@@ -376,7 +371,7 @@ class TestNoContent1:  # w/ corpus1  *******************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == """    ○
 [ ] └── Project Title
@@ -399,7 +394,7 @@ class TestNoContent3:  # w/ corpus1  *******************************************
         )
 
         print(opt)
-        tree_content, comment_content = _split_tree_and_comment(opt)
+        tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == """    ○
 [x] └── Main Title
@@ -428,7 +423,7 @@ class TestNoContent3:  # w/ corpus1  *******************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == """    ○
 [x] └── Main Title
@@ -454,7 +449,7 @@ class TestNoContent3:  # w/ corpus1  *******************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == """    ○
 [x] └── Main Title
@@ -480,7 +475,7 @@ class TestNoContent3:  # w/ corpus1  *******************************************
         )
 
         print(opt)
-        tree_content, _ = _split_tree_and_comment(opt)
+        tree_content, _ = _split_content_and_comment(opt)
 
         assert tree_content == """    ○
 [ ] └── Main Title
@@ -614,7 +609,7 @@ class TestDft:
         opt = bp.generate_preview_tree()
 
         print(opt)
-        tree_content, comment_content = _split_tree_and_comment(opt)
+        tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_1_FULL_PREVIEW
 
@@ -629,7 +624,7 @@ class TestDft:
         opt = bp.generate_preview_tree()
 
         print(opt)
-        tree_content, comment_content = _split_tree_and_comment(opt)
+        tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_2_PREVIEW
 
@@ -644,7 +639,7 @@ class TestDft:
         opt = bp.generate_preview_tree()
 
         print(opt)
-        tree_content, comment_content = _split_tree_and_comment(opt)
+        tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_3_FULL_PREVIEW
 
@@ -665,7 +660,7 @@ class TestStr:
         opt = str(bp)
 
         print(opt)
-        tree_content, comment_content = _split_tree_and_comment(opt)
+        tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_1_FULL_PREVIEW
 
@@ -680,7 +675,7 @@ class TestStr:
         opt = str(bp)
 
         print(opt)
-        tree_content, comment_content = _split_tree_and_comment(opt)
+        tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_2_PREVIEW
 
@@ -695,7 +690,7 @@ class TestStr:
         opt = str(bp)
 
         print(opt)
-        tree_content, comment_content = _split_tree_and_comment(opt)
+        tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_3_FULL_PREVIEW
 

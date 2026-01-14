@@ -5,6 +5,7 @@ Unit Tests (using pytest) for: PromptBlueprint.prune()
 """
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
+
 from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
@@ -84,7 +85,7 @@ class Test1:  # use PROMPT1  ###################################################
         )
 
 
-class Test2:  # use PROMPT1  ###################################################
+class Test2:  # use PROMPT2  ###################################################
 
     corpus = PromptCorpusNode.parse(PROMPT2)
 

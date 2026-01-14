@@ -265,16 +265,24 @@ class PromptBlueprint(dict):
 
     def generate_prompt(self, *, hide_comment=False):
         """
-        Todo
+        render the **concrete prompt** that can be used as LLM system message
+        with it content based on node's checkmarking status of this blueprint
 
 
         :param hide_comment: disable comment part after last line;
                 defaults to False
         :type hide_comment: bool, optional
-        :return: **concrete prompt** composed of nodes heading and content
+        :return: the generated prompt
         :rtype: str
         """
-        return ""
+        lines = _generate_prompt_recursively(self, self.corpus)
+
+        # create comment line
+        if not hide_comment:
+            comment_line = "<!-- " + self._generate_comment_content() + " -->"
+            lines.append(comment_line)
+
+        return "\n".join(lines).strip("\n")
 
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
@@ -427,48 +435,34 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
     return new_node
 
 
-class PromptBlueprintOld:  # Hack rm
+def _generate_prompt_recursively(blueprint, node):
+    """
+    recursively traverse tree and only select nodes that is checkmarked in
+    blueprint. Create the prompt by combining these nodes' content.
 
-    def generate_prompt(self, *, hide_comment=False):
-        # generate lines from root node
-        lines = self._generate_prompt_recursively(self.prompt_corpus)
+    (helper method used in ``PromptBlueprint.generate_prompt()``)
 
-        # create comment part
-        if not hide_comment:
-            comment_line = (
-                "<!-- " + self._generate_preview_tree_comment_line() + " -->"
-            )
-            lines.append(comment_line)
 
-        return "\n".join(lines)
+    :param blueprint:
+    :type blueprint: PromptBlueprint
+    :param node:
+    :type node: PromptCorpusNode
+    :return: prompt lines
+    :rtype: list[str]
+    """
+    lines = []
 
-    def _generate_prompt_recursively(self, node):
-        """
-        helper method used in ``.generate_preview()``
+    # add current node if checkmarked
+    if blueprint.is_checkmarked(node):
+        lines.append("")  # add empty lines before headings
 
-        generate recursively prompt lines from ``node``
-        """
-        lines = []
+        # heading line
+        lines.append(HEADING_PREFIX * node.depth + " " + node.name)
+        # content lines
+        lines.extend(node.content)
 
-        try:
-            idx = self.enabled.index(node)
-        except ValueError:
-            idx = -1
-        if idx >= 0 and node.parent is not None:
-            level = node.depth
+    # add descendent
+    for child in node.children:
+        lines.extend(_generate_prompt_recursively(blueprint, child))
 
-            # add empty lines before headings
-            if idx > 0:
-                lines.append("")
-
-            # add heading line
-            heading_line = HEADING_PREFIX * level + " " + node.name
-            lines.append(heading_line)
-            # add content lines
-            lines.extend(node.content)
-
-        # children
-        for child_node in node.children:
-            lines.extend(self._generate_prompt_recursively(child_node))
-
-        return lines
+    return lines
