@@ -597,6 +597,57 @@ class TestNoContent3:  # w/ corpus1  *******************************************
 
 
 # no comment (nor content)  ====================================================
+
+
+# w/ all args
+class TestNoComment:  # w/ corpus1  *******************************************
+
+    def test1(_):
+        corpus = CORPUS1
+        bp_text = BLUEPRINT_1_FULL
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree(
+            preview_line_count=0,
+            show_full_tree=False,
+            hide_comment=True,
+        )
+
+        print(opt)
+        assert opt == """    ○
+[x] └── Project Title
+[x]     ├── Description
+[x]     ├── Installation
+[x]     └── License"""
+
+    def test3(_):
+        corpus = CORPUS3
+        bp_text = BLUEPRINT_3_FULL
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree(
+            preview_line_count=0,
+            show_full_tree=False,
+            hide_comment=True,
+        )
+
+        print(opt)
+
+        assert opt == """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │   └── Background
+[x]     │       └── Importance
+[x]     │           └── Objective
+[x]     ├── Methods
+[x]     │   └── Data Collection
+[x]     │       └── Tools Used
+[x]     │           └── Future Work
+[x]     └── Conclusion"""
+
+
+# pruned tree  =================================================================
+
 # TODO TODO
 
 # full tree (nor content)  =====================================================
