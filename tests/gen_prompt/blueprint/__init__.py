@@ -4,6 +4,14 @@ BLUEPRINT_1_FULL = """    ○
 [x]     ├── Installation
 [x]     └── License"""
 
+BLUEPRINT_1_FULL_PREVIEW = """    ○
+[x] └── Project Title
+[x]     ├── Description
+        │   Brief overview of the project and its purpose.
+[x]     ├── Installation
+        │   Clone the repo and install dependencies.
+[x]     └── License
+            Licensed under the MIT License."""
 
 BLUEPRINT_1_FULL_PARTIAL_1 = """    ○
 [ ] └── Project Title
