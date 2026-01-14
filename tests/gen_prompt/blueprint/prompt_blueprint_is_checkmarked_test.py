@@ -9,12 +9,12 @@ from tests.gen_prompt import PROMPT1, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,
-    BLUEPRINT_1_FULL_PARTIAL_2,
-    BLUEPRINT_1_FULL_EMPTY,
+    BLUEPRINT_1_PARTIAL_2,
+    BLUEPRINT_1_EMPTY,
     BLUEPRINT_3_FULL,
-    BLUEPRINT_3_FULL_PARTIAL_1,
-    BLUEPRINT_3_FULL_PARTIAL_2,
-    BLUEPRINT_3_FULL_EMPTY,
+    BLUEPRINT_3_PARTIAL_1,
+    BLUEPRINT_3_PARTIAL_2,
+    BLUEPRINT_3_EMPTY,
 )
 
 CORPUS1 = PromptCorpusNode.parse(PROMPT1)
@@ -89,7 +89,7 @@ class Test1:  # use corpus1  ###################################################
 
     def test_no_description(_):
         corpus = CORPUS1
-        bp_text = BLUEPRINT_1_FULL_PARTIAL_2
+        bp_text = BLUEPRINT_1_PARTIAL_2
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
@@ -123,7 +123,7 @@ class Test1:  # use corpus1  ###################################################
 
     def test_empty(_):
         corpus = CORPUS1
-        bp_text = BLUEPRINT_1_FULL_EMPTY
+        bp_text = BLUEPRINT_1_EMPTY
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
@@ -227,7 +227,7 @@ class Test3:  # use corpus3  ##############################################
 
     def test_part1(_):
         corpus = CORPUS3
-        bp_text = BLUEPRINT_3_FULL_PARTIAL_1
+        bp_text = BLUEPRINT_3_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
@@ -294,7 +294,7 @@ class Test3:  # use corpus3  ##############################################
 
     def test_part2(_):
         corpus = CORPUS3
-        bp_text = BLUEPRINT_3_FULL_PARTIAL_2
+        bp_text = BLUEPRINT_3_PARTIAL_2
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(bp)
@@ -362,7 +362,7 @@ class Test3:  # use corpus3  ##############################################
     def test_empty(_):
         corpus = CORPUS3
 
-        bp_text = BLUEPRINT_3_FULL_EMPTY
+        bp_text = BLUEPRINT_3_EMPTY
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(bp)

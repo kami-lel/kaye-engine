@@ -12,22 +12,22 @@ from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_FULL_PREVIEW,
-    BLUEPRINT_1_FULL_PARTIAL_1,
-    BLUEPRINT_1_FULL_PARTIAL_2,
-    BLUEPRINT_1_FULL_PARTIAL_2_PRUNED,
-    BLUEPRINT_1_FULL_EMPTY,
+    BLUEPRINT_1_PARTIAL_1,
+    BLUEPRINT_1_PARTIAL_2,
+    BLUEPRINT_1_PARTIAL_2_PRUNED,
+    BLUEPRINT_1_EMPTY,
     BLUEPRINT_2_FULL,
-    BLUEPRINT_2_FULL_PREVIEW,
-    BLUEPRINT_2_FULL_PARTIAL_1,
-    BLUEPRINT_2_FULL_PARTIAL_1_PRUNED,
-    BLUEPRINT_2_FULL_EMPTY,
+    BLUEPRINT_2_PREVIEW,
+    BLUEPRINT_2_PARTIAL_1,
+    BLUEPRINT_2_PARTIAL_1_PRUNED,
+    BLUEPRINT_2_EMPTY,
     BLUEPRINT_3_FULL,
     BLUEPRINT_3_FULL_PREVIEW,
-    BLUEPRINT_3_FULL_PARTIAL_1,
-    BLUEPRINT_3_FULL_PARTIAL_1_PRUNED,
-    BLUEPRINT_3_FULL_PARTIAL_2,
-    BLUEPRINT_3_FULL_PARTIAL_2_PRUNED,
-    BLUEPRINT_3_FULL_EMPTY,
+    BLUEPRINT_3_PARTIAL_1,
+    BLUEPRINT_3_PARTIAL_1_PRUNED,
+    BLUEPRINT_3_PARTIAL_2,
+    BLUEPRINT_3_PARTIAL_2_PRUNED,
+    BLUEPRINT_3_EMPTY,
     BLUEPRINT_EMPTY_PRUNED,
 )
 
@@ -57,7 +57,7 @@ class TestDft1:  # use PROMPT1  ==============================================
         )
 
     def test_part1(self):
-        bp_text = BLUEPRINT_1_FULL_PARTIAL_1
+        bp_text = BLUEPRINT_1_PARTIAL_1
 
         opt = PromptBlueprint.parse(self.corpus, bp_text)
 
@@ -69,7 +69,7 @@ class TestDft1:  # use PROMPT1  ==============================================
         )
 
     def test_part2(self):
-        bp_text = BLUEPRINT_1_FULL_PARTIAL_2
+        bp_text = BLUEPRINT_1_PARTIAL_2
 
         opt = PromptBlueprint.parse(self.corpus, bp_text)
 
@@ -77,11 +77,11 @@ class TestDft1:  # use PROMPT1  ==============================================
         assert len(opt) == 3
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == BLUEPRINT_1_FULL_PARTIAL_2_PRUNED
+            == BLUEPRINT_1_PARTIAL_2_PRUNED
         )
 
     def test_empty(self):
-        bp_text = BLUEPRINT_1_FULL_EMPTY
+        bp_text = BLUEPRINT_1_EMPTY
 
         opt = PromptBlueprint.parse(self.corpus, bp_text)
 
@@ -113,7 +113,7 @@ class TestDft2:  # use PROMPT2  ================================================
         )
 
     def test_part1(self):
-        bp_text = BLUEPRINT_2_FULL_PARTIAL_1
+        bp_text = BLUEPRINT_2_PARTIAL_1
 
         opt = PromptBlueprint.parse(self.corpus, bp_text)
 
@@ -121,11 +121,11 @@ class TestDft2:  # use PROMPT2  ================================================
         assert len(opt) == 3
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == BLUEPRINT_2_FULL_PARTIAL_1_PRUNED
+            == BLUEPRINT_2_PARTIAL_1_PRUNED
         )
 
     def test_empty(self):
-        bp_text = BLUEPRINT_2_FULL_EMPTY
+        bp_text = BLUEPRINT_2_EMPTY
 
         opt = PromptBlueprint.parse(self.corpus, bp_text)
 
@@ -157,7 +157,7 @@ class TestDft3:  # use PROMPT3  ================================================
         )
 
     def test_part1(self):
-        bp_text = BLUEPRINT_3_FULL_PARTIAL_1
+        bp_text = BLUEPRINT_3_PARTIAL_1
 
         opt = PromptBlueprint.parse(self.corpus, bp_text)
 
@@ -165,22 +165,22 @@ class TestDft3:  # use PROMPT3  ================================================
         assert len(opt) == 6
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == BLUEPRINT_3_FULL_PARTIAL_1_PRUNED
+            == BLUEPRINT_3_PARTIAL_1_PRUNED
         )
 
     def test_part2(self):
-        bp_text = BLUEPRINT_3_FULL_PARTIAL_2
+        bp_text = BLUEPRINT_3_PARTIAL_2
         opt = PromptBlueprint.parse(self.corpus, bp_text)
 
         print(opt)
         assert len(opt) == 9
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == BLUEPRINT_3_FULL_PARTIAL_2_PRUNED
+            == BLUEPRINT_3_PARTIAL_2_PRUNED
         )
 
     def test_empty(self):
-        bp_text = BLUEPRINT_3_FULL_EMPTY
+        bp_text = BLUEPRINT_3_EMPTY
         opt = PromptBlueprint.parse(self.corpus, bp_text)
 
         print(opt)
@@ -231,7 +231,7 @@ class TestContentPreview1:  # use PROMPT1  =====================================
 class TestContentPreview2:  # use PROMPT2  =====================================
 
     def test_full(_):
-        bp_text = BLUEPRINT_2_FULL_PREVIEW
+        bp_text = BLUEPRINT_2_PREVIEW
 
         opt = PromptBlueprint.parse(CORPUS2, bp_text)
 
@@ -242,7 +242,7 @@ class TestContentPreview2:  # use PROMPT2  =====================================
         )
 
     def test_pa1(_):
-        bp_text = BLUEPRINT_2_FULL_PREVIEW
+        bp_text = BLUEPRINT_2_PREVIEW
 
         opt = PromptBlueprint.parse(CORPUS2, bp_text)
 

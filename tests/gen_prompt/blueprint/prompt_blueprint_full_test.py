@@ -13,8 +13,8 @@ from tests.gen_prompt import PROMPT1, PROMPT2
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_2_FULL,
-    BLUEPRINT_1_FULL_EMPTY,
-    BLUEPRINT_2_FULL_EMPTY,
+    BLUEPRINT_1_EMPTY,
+    BLUEPRINT_2_EMPTY,
 )
 
 CORPUS1 = PromptCorpusNode.parse(PROMPT1)
@@ -85,7 +85,7 @@ class TestEmpty1:
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)
-        assert opt == BLUEPRINT_1_FULL_EMPTY
+        assert opt == BLUEPRINT_1_EMPTY
         assert bp.display_name == "empty"
 
     def test_name(_):
@@ -98,7 +98,7 @@ class TestEmpty1:
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)
-        assert opt == BLUEPRINT_1_FULL_EMPTY
+        assert opt == BLUEPRINT_1_EMPTY
         assert bp.display_name == display_name
 
 
@@ -111,7 +111,7 @@ class TestEmpty:
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)
-        assert opt == BLUEPRINT_2_FULL_EMPTY
+        assert opt == BLUEPRINT_2_EMPTY
         assert bp.display_name == "empty"
 
     def test_name(_):
@@ -124,5 +124,5 @@ class TestEmpty:
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)
-        assert opt == BLUEPRINT_2_FULL_EMPTY
+        assert opt == BLUEPRINT_2_EMPTY
         assert bp.display_name == display_name
