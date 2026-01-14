@@ -17,6 +17,9 @@ from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL_PARTIAL_1,
     BLUEPRINT_1_FULL_PARTIAL_2,
     BLUEPRINT_1_FULL_EMPTY,
+    BLUEPRINT_2_FULL,
+    BLUEPRINT_2_FULL_PARTIAL_1,
+    BLUEPRINT_2_FULL_EMPTY,
     BLUEPRINT_3_FULL,
     BLUEPRINT_3_FULL_PARTIAL_1,
     BLUEPRINT_3_FULL_PARTIAL_2,
@@ -139,6 +142,108 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
         │   Clone the repo and install dependencies.
 [ ]     └── License
             Licensed under the MIT License."""
+
+
+class TestAllArgs2:  # w/ corpus2  *********************************************
+
+    def test_full(_):
+        corpus = CORPUS2
+        bp_text = BLUEPRINT_2_FULL
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree(
+            preview_line_count=3,
+            preview_line_width=64,
+            show_full_tree=False,
+            hide_comment=False,
+        )
+
+        print(opt)
+        tree_content, comment_content = _split_tree_and_comment(opt)
+
+        assert tree_content == """    ○
+[x] └── Project Title
+[x]     ├── Description
+        │   A brief overview of the project, its purpose, and goals.
+[x]     ├── Installation
+        │   1. Clone the repo
+        │   2. Install dependencies
+        │   3. Run the application
+[x]     ├── Usage
+        │   Provide instructions on how to use the application.
+[x]     ├── Contributing
+        │   1. Fork the repo
+        │   2. Create a new branch
+        │   3. Submit a pull request
+[x]     └── License
+            This project is licensed under the MIT License."""
+
+        # test comment structure
+        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+
+    def test_part1(_):
+        corpus = CORPUS2
+        bp_text = BLUEPRINT_2_FULL_PARTIAL_1
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree(
+            preview_line_count=3,
+            preview_line_width=64,
+            show_full_tree=False,
+            hide_comment=False,
+        )
+
+        print(opt)
+        tree_content, _ = _split_tree_and_comment(opt)
+
+        assert tree_content == """    ○
+[x] └── Project Title
+[ ]     ├── Description
+        │   A brief overview of the project, its purpose, and goals.
+[x]     ├── Installation
+        │   1. Clone the repo
+        │   2. Install dependencies
+        │   3. Run the application
+[ ]     ├── Usage
+        │   Provide instructions on how to use the application.
+[x]     ├── Contributing
+        │   1. Fork the repo
+        │   2. Create a new branch
+        │   3. Submit a pull request
+[ ]     └── License
+            This project is licensed under the MIT License."""
+
+    def test_empty(_):
+        corpus = CORPUS2
+        bp_text = BLUEPRINT_2_FULL_EMPTY
+
+        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = bp.generate_preview_tree(
+            preview_line_count=3,
+            preview_line_width=64,
+            show_full_tree=False,
+            hide_comment=False,
+        )
+
+        print(opt)
+        tree_content, _ = _split_tree_and_comment(opt)
+
+        assert tree_content == """    ○
+[ ] └── Project Title
+[ ]     ├── Description
+        │   A brief overview of the project, its purpose, and goals.
+[ ]     ├── Installation
+        │   1. Clone the repo
+        │   2. Install dependencies
+        │   3. Run the application
+[ ]     ├── Usage
+        │   Provide instructions on how to use the application.
+[ ]     ├── Contributing
+        │   1. Fork the repo
+        │   2. Create a new branch
+        │   3. Submit a pull request
+[ ]     └── License
+            This project is licensed under the MIT License."""
 
 
 class TestAllArgs3:  # w/ corpus1  *********************************************
@@ -290,8 +395,6 @@ class TestAllArgs3:  # w/ corpus1  *********************************************
 [ ]     └── Conclusion
             Summarizing the findings and implications."""
 
-
-# TODO use prompt3 (multi lines content)
 
 # no content  ==================================================================
 
