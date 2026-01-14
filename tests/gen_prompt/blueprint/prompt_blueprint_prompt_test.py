@@ -7,12 +7,12 @@ Unit Tests (using pytest) for: PromptBlueprint.generate_prompt()
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 
-from tests.gen_prompt import PROMPT1, PROMPT2
+from tests.gen_prompt import PROMPT2
 
 
-class Test1:  # use PROMPT1
+class Test2:  # use PROMPT2
 
-    corpus = PromptCorpusNode.parse(PROMPT1)
+    corpus = PromptCorpusNode.parse(PROMPT2)
 
     def test1(self):
         blueprint_text = """    ○
@@ -29,8 +29,8 @@ class Test1:  # use PROMPT1
         print(opt)
         assert opt == ""
 
-    # BUG
     def test2(self):
+        # BUG
         blueprint_text = """    ○
 [x] └── Project Title
 [ ]     ├── Description
