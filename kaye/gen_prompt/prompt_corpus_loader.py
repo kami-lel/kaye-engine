@@ -27,10 +27,10 @@ def get_embedded_prompt_corpus_file_path():
 
 def load_embedded_prompt_corpus():
     """
-    Load the prompt corpus embedded with this Python package,
-    then parse the text to the tree structure.
+    Load a prompt corpus tree of the **embedded** prompt corpus text.
 
-    :return: **root node** of the parsed *prompt corpus* tree structure
+
+    :return: **root** node of the parsed *prompt corpus* tree
     :rtype: PromptCorpusNode
     :raises FileNotFoundError:
     :raises IOError:

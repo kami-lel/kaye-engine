@@ -1,11 +1,13 @@
 """
-test .generate_prompt() and __str__()
+test .generate_prompt()
 """
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 
-from tests.gen_prompt.prompt_blueprint.testees import PROMPT1, PROMPT2
+from tests.gen_prompt.node.testees import PROMPT1, PROMPT2
+
+# Bug not working
 
 
 class Test1:  # use PROMPT1
