@@ -26,7 +26,7 @@ EMPTY_PREFIX = "    "
 
 class PromptBlueprint(dict):
     """
-    TODO summary
+    `PromptCorpusNode` represents a configurable subset of *prompt corpus tree*
 
 
     :param prompt_corpus: *prompt corpus tree* **root** node
@@ -136,7 +136,7 @@ class PromptBlueprint(dict):
                 and checkmarking all nodes
         :rtype: PromptBlueprint
         """
-        # BUG need test
+        # BUG BUG BUG need test
         blueprint = PromptBlueprint(prompt_corpus, display_name=display_name)
         # include all nodes
         for node in PreOrderIter(prompt_corpus):
@@ -157,7 +157,7 @@ class PromptBlueprint(dict):
                 but checkmarking all nodes
         :rtype: PromptBlueprint
         """
-        # BUG need test
+        # BUG BUG BUG need test
         bp = cls.create_full_blueprint(
             prompt_corpus, display_name=display_name
         )
