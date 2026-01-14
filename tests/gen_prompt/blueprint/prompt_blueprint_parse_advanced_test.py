@@ -13,19 +13,24 @@ from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_FULL_PREVIEW,
     BLUEPRINT_1_PARTIAL_1,
+    BLUEPRINT_1_PARTIAL_1_PREVIEW,
     BLUEPRINT_1_PARTIAL_2,
+    BLUEPRINT_1_PARTIAL_2_PREVIEW,
     BLUEPRINT_1_PARTIAL_2_PRUNED,
     BLUEPRINT_1_EMPTY,
     BLUEPRINT_2_FULL,
     BLUEPRINT_2_PREVIEW,
     BLUEPRINT_2_PARTIAL_1,
+    BLUEPRINT_2_PARTIAL_1_PREVIEW,
     BLUEPRINT_2_PARTIAL_1_PRUNED,
     BLUEPRINT_2_EMPTY,
     BLUEPRINT_3_FULL,
     BLUEPRINT_3_FULL_PREVIEW,
     BLUEPRINT_3_PARTIAL_1,
+    BLUEPRINT_3_PARTIAL_1_PREVIEW,
     BLUEPRINT_3_PARTIAL_1_PRUNED,
     BLUEPRINT_3_PARTIAL_2,
+    BLUEPRINT_3_PARTIAL_2_PREVIEW,
     BLUEPRINT_3_PARTIAL_2_PRUNED,
     BLUEPRINT_3_EMPTY,
     BLUEPRINT_EMPTY_PRUNED,
@@ -193,6 +198,7 @@ class TestDft3:  # use PROMPT3  ================================================
 
 # text include content preview  ################################################
 class TestContentPreview1:  # use PROMPT1  =====================================
+    # BUG BUG
 
     def test1(_):
         bp_text = BLUEPRINT_1_FULL_PREVIEW
@@ -206,7 +212,7 @@ class TestContentPreview1:  # use PROMPT1  =====================================
         )
 
     def test_pa1(_):
-        bp_text = BLUEPRINT_1_FULL_PREVIEW
+        bp_text = BLUEPRINT_1_PARTIAL_1_PREVIEW
 
         opt = PromptBlueprint.parse(CORPUS1, bp_text)
 
@@ -217,7 +223,7 @@ class TestContentPreview1:  # use PROMPT1  =====================================
         )
 
     def test_pa2(_):
-        bp_text = BLUEPRINT_1_FULL_PREVIEW
+        bp_text = BLUEPRINT_1_PARTIAL_2_PREVIEW
 
         opt = PromptBlueprint.parse(CORPUS1, bp_text)
 
@@ -242,7 +248,7 @@ class TestContentPreview2:  # use PROMPT2  =====================================
         )
 
     def test_pa1(_):
-        bp_text = BLUEPRINT_2_PREVIEW
+        bp_text = BLUEPRINT_2_PARTIAL_1_PREVIEW
 
         opt = PromptBlueprint.parse(CORPUS2, bp_text)
 
@@ -267,7 +273,7 @@ class TestContentPreview3:  # use PROMPT2  =====================================
         )
 
     def test_pa1(_):
-        bp_text = BLUEPRINT_3_FULL_PREVIEW
+        bp_text = BLUEPRINT_3_PARTIAL_1_PREVIEW
 
         opt = PromptBlueprint.parse(CORPUS3, bp_text)
 
@@ -278,7 +284,7 @@ class TestContentPreview3:  # use PROMPT2  =====================================
         )
 
     def test_pa2(_):
-        bp_text = BLUEPRINT_3_FULL_PREVIEW
+        bp_text = BLUEPRINT_3_PARTIAL_2_PREVIEW
 
         opt = PromptBlueprint.parse(CORPUS3, bp_text)
 
@@ -287,9 +293,6 @@ class TestContentPreview3:  # use PROMPT2  =====================================
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
             == BLUEPRINT_3_FULL
         )
-
-
-# TODO TODO test bp text w/ content preview
 
 
 # blueprint text is pruned  ####################################################

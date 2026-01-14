@@ -29,7 +29,7 @@ class TestBasic1:  # use corpus1  ##############################################
         corpus = CORPUS1
         bp_text = BLUEPRINT_1_FULL
 
-        opt = PromptBlueprint.parse(corpus, bp_text)
+        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)
         assert isinstance(opt, PromptBlueprint)
@@ -66,7 +66,7 @@ class TestBasic1:  # use corpus1  ##############################################
         corpus = CORPUS1
         bp_text = BLUEPRINT_1_PARTIAL_1
 
-        opt = PromptBlueprint.parse(corpus, bp_text)
+        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)
         assert len(opt) == 4
@@ -100,7 +100,7 @@ class TestBasic1:  # use corpus1  ##############################################
         corpus = CORPUS1
         bp_text = BLUEPRINT_1_PARTIAL_2
 
-        opt = PromptBlueprint.parse(corpus, bp_text)
+        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)
         assert len(opt) == 4
@@ -134,7 +134,7 @@ class TestBasic1:  # use corpus1  ##############################################
         corpus = CORPUS1
         bp_text = BLUEPRINT_1_EMPTY
 
-        opt = PromptBlueprint.parse(corpus, bp_text)
+        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)
         assert len(opt) == 4
@@ -171,7 +171,7 @@ class TestBasic3:  # use corpus3  ##############################################
         corpus = CORPUS3
         bp_text = BLUEPRINT_3_FULL
 
-        opt = PromptBlueprint.parse(corpus, bp_text)
+        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)
         assert isinstance(opt, PromptBlueprint)
@@ -244,7 +244,7 @@ class TestBasic3:  # use corpus3  ##############################################
         corpus = CORPUS3
         bp_text = BLUEPRINT_3_PARTIAL_1
 
-        opt = PromptBlueprint.parse(corpus, bp_text)
+        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)
         assert len(opt) == 10
@@ -313,7 +313,7 @@ class TestBasic3:  # use corpus3  ##############################################
     def test_part2(_):
         corpus = CORPUS3
         bp_text = BLUEPRINT_3_PARTIAL_2
-        opt = PromptBlueprint.parse(corpus, bp_text)
+        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)
         assert len(opt) == 10
@@ -383,7 +383,7 @@ class TestBasic3:  # use corpus3  ##############################################
         corpus = CORPUS3
 
         bp_text = BLUEPRINT_3_EMPTY
-        opt = PromptBlueprint.parse(corpus, bp_text)
+        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
 
         print(opt)
         assert len(opt) == 10
