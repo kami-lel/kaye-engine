@@ -264,7 +264,13 @@ A `PromptBlueprint` has 2 additional attributes:
 
 Each entry in `PromptBlueprint` represents a node, with key being node `hash()` (typed `int`,) and value being if the node is *checkmarked*, (typed `bool`.) The *root node* is never included in blueprint, because one will assume root node is always enabled/checkmarked.
 
-----
+
+
+
+
+#### node membership
+
+<!-- TODO TODO TODO explain various memberships -->
 
 Membership checking for `PromptBlueprint` takes either the node hash value or node object itself. E.g.
 
