@@ -189,6 +189,11 @@ class TestDft3:  # use PROMPT3  ================================================
 
 
 # text include content preview  ################################################
+class TestContentPreview:
+
+    pass
+
+
 # TODO TODO test bp text w/ content preview
 
 

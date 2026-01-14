@@ -14,9 +14,10 @@ from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.gen_prompt.blueprint import (
     BLUEPRINT_1_FULL,
-    BLUEPRINT_1_PARTIAL_1,
-    BLUEPRINT_1_FULL_PARTIAL_2,
+    BLUEPRINT_1_FULL_PREVIEW,
     BLUEPRINT_1_FULL_EMPTY,
+    BLUEPRINT_1_FULL_PARTIAL_1,
+    BLUEPRINT_1_FULL_PARTIAL_2,
     BLUEPRINT_2_FULL,
     BLUEPRINT_2_FULL_PARTIAL_1,
     BLUEPRINT_2_FULL_EMPTY,
@@ -44,15 +45,6 @@ def _split_tree_and_comment(preview_tree):
 # w/ all args
 class TestAllArgs1:  # w/ corpus1  *********************************************
 
-    FULL_ANSWER = """    ○
-[x] └── Project Title
-[x]     ├── Description
-        │   Brief overview of the project and its purpose.
-[x]     ├── Installation
-        │   Clone the repo and install dependencies.
-[x]     └── License
-            Licensed under the MIT License."""
-
     def test_full(self):
         corpus = CORPUS1
         bp_text = BLUEPRINT_1_FULL
@@ -68,14 +60,14 @@ class TestAllArgs1:  # w/ corpus1  *********************************************
         print(opt)
         tree_content, comment_content = _split_tree_and_comment(opt)
 
-        assert tree_content == self.FULL_ANSWER
+        assert tree_content == BLUEPRINT_1_FULL_PREVIEW
 
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
     def test_part1(_):
         corpus = CORPUS1
-        bp_text = BLUEPRINT_1_PARTIAL_1
+        bp_text = BLUEPRINT_1_FULL_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
@@ -432,7 +424,7 @@ class TestNoContent1:  # w/ corpus1  *******************************************
 
     def test_part1(_):
         corpus = CORPUS1
-        bp_text = BLUEPRINT_1_PARTIAL_1
+        bp_text = BLUEPRINT_1_FULL_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
         opt = bp.generate_preview_tree(
