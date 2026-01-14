@@ -124,7 +124,7 @@ class Test1:  # use corpus1  ###################################################
         assert _node not in opt
 
 
-class TestBasic3:  # use corpus3  ##############################################
+class Test3:  # use corpus3  ##############################################
 
     def test_full(_):
         corpus = CORPUS3

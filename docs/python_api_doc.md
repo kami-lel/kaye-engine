@@ -266,7 +266,13 @@ Each entry in `PromptBlueprint` represents a node, with key being node `hash()` 
 
 ----
 
-<!-- TODO TODO TODO contains -->
+Membership checking for `PromptBlueprint` takes either the node hash value or node object itself. E.g.
+
+```python
+
+assert hash(node) in blueprint
+assert node in blueprint
+```
 
 
 

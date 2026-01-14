@@ -294,12 +294,13 @@ class PromptBlueprint(dict):
 
     def __contains__(self, key):
         """
-        TODO TODO TODO
+        allow ``PromptBlueprint`` to perform membership tests with key being
 
-        :param key: _description_
-        :type key: _type_
-        :return: _description_
-        :rtype: _type_
+
+        :param key: hash of node; or node object
+        :type key: int or PromptCorpusNode
+        :return: if blueprint contains the node
+        :rtype: bool
         """
         if isinstance(key, PromptCorpusNode):
             key = hash(key)
