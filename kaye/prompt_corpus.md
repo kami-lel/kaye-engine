@@ -1675,6 +1675,54 @@ Select the most likely category abbreviation for each transaction based on its d
 
 
 
+## Kaye Chat
+
+### pre-sense
+
+Select the single most appropriate label to describe the nature of the user's query:
+
+- `rapid`: short, immediate, or highly repetitive tasks that require little or no reasoning; fast direct transformations or simple format conversions.
+
+- `chat`: general conversational questions or information requests that rely on broad knowledge but do not require multi-step problem solving.
+
+- `think`: queries that require moderate reasoning or multi-step solutions, such as planning, debugging, comparing, or stepwise explanations.
+
+- `think-think`: queries that require deep, abstract, or prolonged reasoning, creative synthesis, designing solutions with trade-offs, or tasks that need many chained logical steps.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Kaye Commit Sense
 
 You are given the result of `git diff --cached`; interpret it as the changes ready to be committed for the file(s).
@@ -1863,8 +1911,6 @@ Parse all events into the desired format, keep all information.
 ## Kaye Peer Coder
 
 ### pre-sense
-
-Here is an improved and clarified version of your prompt:
 
 Extract the following two variables:
 

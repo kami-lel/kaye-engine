@@ -1,7 +1,3 @@
-"""
-define testees used in tests under `.../prompt_corpus_node/`
-"""
-
 PROMPT1 = """
 # Project Title
 ## Description

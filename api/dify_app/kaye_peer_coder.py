@@ -94,6 +94,7 @@ def _parse_flags_from_languages_arg(languages_arg):
                 flags |= PL[lang]
 
     except KeyError:
+        # Fixme, instead of abort, log it
         abort(
             Response(
                 "bad param, contains unsupported language: "
