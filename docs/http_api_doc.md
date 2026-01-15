@@ -166,9 +166,7 @@ All endpoints below `/kaye/dify-app/kaye-event-radar`
 
 #### Kaye Peer Coder
 
-All endpoints below `/kaye/dify-app/kaye-peer-coder`
-
-<!-- Todo change to /kyc -->
+All endpoints below `/kaye/dify-app/kyc`
 
 ----
 
