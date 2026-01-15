@@ -93,15 +93,8 @@ def _parse_flags_from_languages_arg(languages_arg):
             if lang:  # skip empty entry
                 flags |= PL[lang]
 
-    except KeyError:
-        # FIXME, instead of abort, log it
-        abort(
-            Response(
-                "bad param, contains unsupported language: "
-                "?languages={}".format(languages_arg),
-                422,
-            )
-        )
+    except KeyError:  # encounter unsupported languages
+        pass
 
     return flags
 
@@ -114,6 +107,7 @@ def _generate_task_prompt_based_on_flags(flags):
     )
 
     # add language prompt fragments  -------------------------------------------
+    kyc_node = corpus["Role"]["Kaye Peer Coder"]
     # TODO code dynamically add language fragment
 
     return str(blueprint)
