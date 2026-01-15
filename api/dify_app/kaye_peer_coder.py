@@ -120,13 +120,11 @@ def _generate_task_prompt_based_on_flags(flags):
 
 
 # Flask Routing  ###############################################################
-# /kaye/dify-app/kaye-peer-coder
-kyc_bp = Blueprint(
-    "kaye-peer-coder", PROGRAM_NAME, url_prefix="/kaye-peer-coder"
-)
+# /kaye/dify-app/kyc
+kyc_bp = Blueprint("kaye-peer-coder", PROGRAM_NAME, url_prefix="/kyc")
 
 
-# /kaye/dify-app/kaye-peer-coder/pre-sense
+# /kaye/dify-app/kyc/pre-sense
 @kyc_bp.route("/pre-sense", methods=["GET"])
 def kaye_peer_coder_pre_sense():
     blueprint = PromptBlueprint.parse(
@@ -136,7 +134,7 @@ def kaye_peer_coder_pre_sense():
     return str(blueprint)
 
 
-# /kaye/dify-app/kaye-peer-coder/task
+# /kaye/dify-app/kyc/task
 @kyc_bp.route("/task", methods=["GET"])
 def kaye_peer_coder_task():
     flags = _create_flags_from_flags_arg(request.args.get("flags"))
