@@ -178,6 +178,19 @@ class PromptBlueprint(dict):
         _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
         return pruned_bp
 
+    def checkmark(self, node):
+        pass  # TODO
+
+    def uncheckmark(self, node):
+        node_hash = _normalize_node_hash(node)
+
+        if node_hash not in self:
+            raise KeyError(
+                "fail to remove node, not in the blueprint: {}".format(node)
+            )
+
+        del self[node_hash]
+
     def generate_preview_tree(
         self,
         *,
@@ -329,6 +342,9 @@ class PromptBlueprint(dict):
         """
         return super().__contains__(_normalize_node_hash(key))
 
+    def __iadd__(self, other):
+        pass  # TODO
+
     def __repr__(self):
         """
         :return:
@@ -344,8 +360,6 @@ class PromptBlueprint(dict):
         :rtype: str
         """
         return self.generate_preview_tree()
-
-    # TODO add
 
 
 # helpers  #####################################################################
@@ -461,6 +475,7 @@ def _normalize_node_hash(node):
     :rtype: int
     :raises TypeError:
     """
+    # TODO support use str
     if isinstance(node, PromptCorpusNode):
         return hash(node)
 
