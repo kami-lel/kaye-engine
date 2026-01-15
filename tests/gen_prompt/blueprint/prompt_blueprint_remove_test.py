@@ -8,8 +8,6 @@ from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
 from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.gen_prompt.blueprint import BLUEPRINT_1_FULL, BLUEPRINT_1_PARTIAL_1
 
-# BUG
-
 
 class Test1:  # use corpus1  ###################################################
 
@@ -21,7 +19,8 @@ class Test1:  # use corpus1  ###################################################
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
 
         description_node = self.corpus["Project Title"]
-        print(opt.keys())
+
+        print("=" * 15 + "  a  " + "=" * 15)
 
         opt.uncheckmark(description_node)
 
@@ -33,6 +32,8 @@ class Test1:  # use corpus1  ###################################################
             )
             == BLUEPRINT_1_PARTIAL_1
         )
+
+    # TODO more
 
 
 class Test2:  # use corpus2  ##############################################
