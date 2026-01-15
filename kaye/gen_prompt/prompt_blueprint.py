@@ -330,15 +330,13 @@ class PromptBlueprint(dict):
         allow ``PromptBlueprint`` to perform membership tests with key being
 
 
-        :param key: hash of node; or node object
-        :type key: int or PromptCorpusNode
+        :param key: node object; or hash value of node
+        :type key: PromptCorpusNode or int
         :return: if blueprint contains the node
         :rtype: bool
+        :raises TypeError:
         """
-        if isinstance(key, PromptCorpusNode):
-            key = hash(key)
-
-        return super().__contains__(key)
+        return super().__contains__(_normalize_node_hash(key))
 
     def __repr__(self):
         """
@@ -462,3 +460,23 @@ def _generate_prompt_recursively(blueprint, node):
         lines.extend(_generate_prompt_recursively(blueprint, child))
 
     return lines
+
+
+def _normalize_node_hash(node):
+    """
+    :param node: node object; or hash value of node
+    :type node: PromptCorpusNode or int
+    :return: hash of node
+    :rtype: int
+    :raises TypeError:
+    """
+    if isinstance(node, PromptCorpusNode):
+        return hash(node)
+
+    elif isinstance(node, int):  # already hash
+        return node
+
+    else:
+        raise TypeError(
+            "must be PromptBlueprint or hash value: {}".format(repr(node))
+        )
