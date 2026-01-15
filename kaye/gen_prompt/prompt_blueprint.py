@@ -189,6 +189,7 @@ class PromptBlueprint(dict):
                 "fail to remove node, not in the blueprint: {}".format(node)
             )
 
+        # BUG don't delete, just uncheck, should i remove it?
         del self[node_hash]
 
     def generate_preview_tree(
