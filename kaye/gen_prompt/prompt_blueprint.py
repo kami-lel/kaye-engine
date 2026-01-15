@@ -156,24 +156,15 @@ class PromptBlueprint(dict):
 
     def is_checkmarked(self, node):
         """
-        :param node: node hash; or node object
-        :type node: int or PromptCorpusNode
+        :param node: node object; or hash value of node
+        :type node: PromptCorpusNode or int
         :return: whether a node is **checkmarked** in the blueprint;
                 also ``False`` if node is not contained in blueprint
         :rtype: bool
         :raises TypeError:
         """
-        if isinstance(node, int):  # check by hash
-            return node in self and self[node]
-
-        elif isinstance(node, PromptCorpusNode):  # check by node obj
-            return self.is_checkmarked(hash(node))
-
-        else:
-            raise TypeError(
-                "arg 'node' must be typed: "
-                "int or PromptCorpusNode, not {}".format(type(node))
-            )
+        node = _normalize_node_hash(node)  # node as hash
+        return node in self and self[node]
 
     def prune(self):
         """
@@ -478,5 +469,5 @@ def _normalize_node_hash(node):
 
     else:
         raise TypeError(
-            "must be PromptBlueprint or hash value: {}".format(repr(node))
+            "must be PromptCorpusNode or hash value: {}".format(repr(node))
         )
