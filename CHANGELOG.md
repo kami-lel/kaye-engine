@@ -19,27 +19,45 @@
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.12.0] - 2026-01-16
+
+### Added
 
 - Dify App **Kaye Chat**: conversation focused agent,
   dynamically change LLM based on type of conversation
 
-- `kaye_http_api.service` to enable Kaye HTTP API to be ran
+- Python HTTP API:
+
+  - unit tests for endpoints
+  - `kaye_http_api.service` to enable Kaye HTTP API to be ran
   as *systemd* on Linux; & related documentations
 
 - `PromptCorpusNode`: implement `__getitem__()` for subscriptable
 
-- unit tests for Python HTTP API
-
 ### Changed
 
+- re-implementation of `PromptBlueprint` to improve efficiency and clarity
 - update Dify App *Kaye Peer Coder* structure such that it support text streaming
-- complete `python_api_doc.md`
-- implementation of `PromptBlueprint` to improve efficiency and clarity
 - complete HTTP API support for Dify App *Kaye Peer Coder*
-
-### Deprecated
-### Removed
-### Fixed
+- complete `python_api_doc.md`
 
 
 
@@ -1095,7 +1113,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.11.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.12.0...dev
+[4.12.0]: https://github.com/kami-lel/kaye/compare/v4.11.0...v4.12.0
 [4.11.0]: https://github.com/kami-lel/kaye/compare/v4.10.2...v4.11.0
 [4.10.2]: https://github.com/kami-lel/kaye/compare/v4.10.1...v4.10.2
 [4.10.1]: https://github.com/kami-lel/kaye/compare/v4.10.0...v4.10.1
