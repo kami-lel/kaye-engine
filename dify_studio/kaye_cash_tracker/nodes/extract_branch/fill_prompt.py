@@ -19,7 +19,6 @@ def main(
     user_accounts,
     common_other_parties,
 ):  # pylint: disable=missing-function-docstring
-
     prompt = prompt_template_cache.format(
         TODAY=datetime.today().strftime("%Y-%m-%d"),
         TRANSACTIONS=transactions_array,
