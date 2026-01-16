@@ -6,8 +6,8 @@ Unit Tests (using pytest) for: PromptBlueprint.prune()
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
-from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
-from tests.gen_prompt.blueprint import (
+from tests.prompt import PROMPT1, PROMPT2, PROMPT3
+from tests.prompt.blueprint import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_1_PARTIAL_2,
