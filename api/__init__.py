@@ -23,10 +23,10 @@ def create_app():
 
     app = Flask(PROGRAM_NAME)
     app.register_blueprint(app_bp)
-    app.run(host=HOST, port=PORT, debug=False)
 
     return app
 
 
 if __name__ == "__main__":
-    create_app()
+    app = create_app()
+    app.run(host=HOST, port=PORT, debug=False)
