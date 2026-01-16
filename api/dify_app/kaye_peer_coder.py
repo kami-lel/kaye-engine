@@ -100,6 +100,7 @@ def _parse_flags_from_languages_arg(languages_arg):
 
 
 def _generate_task_prompt_based_on_flags(flags):
+    # Bug buggy behavior
     corpus = load_embedded_prompt_corpus()
     bp = PromptBlueprint.parse(
         corpus,
