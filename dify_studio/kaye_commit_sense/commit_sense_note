@@ -1,4 +1,4 @@
 
-Bug commit sense is too wordy, ask to limit word count
-Bug also primary message fail to generalize, maybe ask it to describe only one important message
-Todo use .md in generated format, use env var to set
+BUG commit sense is too wordy, ask to limit word count
+BUG also primary message fail to generalize, maybe ask it to describe only one important message
+TODO use .md in generated format, use env var to set
