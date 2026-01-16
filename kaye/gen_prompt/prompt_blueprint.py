@@ -191,7 +191,7 @@ class PromptBlueprint(dict):
 
         self[node_hash] = False
 
-        return self.prune()
+        return self
 
     def generate_preview_tree(
         self,
