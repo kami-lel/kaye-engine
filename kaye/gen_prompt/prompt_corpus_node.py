@@ -203,6 +203,24 @@ class PromptCorpusNode(AnytreeNode):
                 lines.append(fill + content_line[:preview_line_width])
         return lines
 
+    def _generate_prompt_lines(self):
+        """
+        generate prompt lines as this node appeared in concrete prompt
+
+        (helper method used in ``PromptBlueprint.generate_prompt()``)
+
+
+        :return: lines of prompt
+        :rtype: list[str]
+        """
+        lines = [""]  # add empty lines before headings
+        # heading line
+        lines.append(HEADING_PREFIX * self.depth + " " + self.name)
+        # content lines
+        lines.extend(self.content)
+
+        return lines
+
     def __getitem__(self, key=None):
         """
         :param key:

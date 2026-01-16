@@ -76,6 +76,27 @@ class TestChat:  # /chat  ######################################################
         assert flags == PL.NONE
         assert self.basic_prompt in prompt
 
+    # test languages param  ----------------------------------------------------
+    def test_languages1(self, flask_test_client):
+        # BUG this is wrong
+        flags = PL.NONE
+        lang_param = "cpp"
+
+        flags_param = int(flags)
+        response = flask_test_client.get(
+            self.endpoint
+            + "?flags={}&languages={}".format(flags_param, lang_param)
+        )
+        flags, prompt = _deconstruct_chat_response(response)
+
+        _print_heading("flags")
+        print(flags)
+        _print_heading("prompt")
+        print(prompt)
+
+        assert flags == PL.cpp
+        assert self.basic_prompt in prompt
+
 
 # helper  ######################################################################
 def _deconstruct_chat_response(response):
