@@ -3,7 +3,7 @@ test .path_of_names
 """
 
 from kaye.gen_prompt import PromptCorpusNode
-from tests.gen_prompt import (
+from tests.prompt import (
     PROMPT1,
     PROMPT3,
 )

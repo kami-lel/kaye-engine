@@ -3,7 +3,7 @@ test ``__repr__()`` of class ``PromptCorpusNode``
 """
 
 from kaye.gen_prompt import PromptCorpusNode
-from tests.gen_prompt import (
+from tests.prompt import (
     PROMPT1,
     PROMPT2,
     PROMPT3,
