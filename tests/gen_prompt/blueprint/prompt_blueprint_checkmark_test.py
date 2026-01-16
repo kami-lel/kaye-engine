@@ -24,7 +24,7 @@ from tests.gen_prompt.blueprint import (
 )
 
 
-class Test11:  # PROMPT1:  partial 1 -> full  ##################################
+class Test11:  # PROMPT1: partial 1 -> full  ###################################
 
     corpus = PromptCorpusNode.parse(PROMPT1)
     src = BLUEPRINT_1_PARTIAL_1
@@ -141,4 +141,205 @@ class Test11:  # PROMPT1:  partial 1 -> full  ##################################
             opt
             == "node missing from blueprint's corpus: "
             "PromptCorpusNode(Main Title)"
+        )
+
+
+class Test12:  # PROMPT 1: partial 2 -> full  ##################################
+
+    corpus = PromptCorpusNode.parse(PROMPT1)
+    src = BLUEPRINT_1_PARTIAL_2
+    dest = BLUEPRINT_1_FULL
+
+    def test2_checkmark_by_obj(self):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        _print_heading("before checkmark")
+        print(opt)
+
+        node = self.corpus["Project Title"]["Description"]
+        opt.checkmark(node)
+
+        _print_heading("after checkmark")
+        print(opt)
+
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == self.dest
+        )
+
+    def test2_checkmark_by_hash(self):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        _print_heading("before checkmark")
+        print(opt)
+
+        node = self.corpus["Project Title"]["Description"]
+        node_hash = hash(node)
+        opt.checkmark(node_hash)
+
+        _print_heading("after checkmark")
+        print(opt)
+
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == self.dest
+        )
+
+
+class Test2:  # PROMPT2: full -> partial 1  ####################################
+
+    corpus = PromptCorpusNode.parse(PROMPT2)
+    src = BLUEPRINT_2_PARTIAL_1
+    dest = BLUEPRINT_2_FULL
+
+    def test1_checkmark_by_obj(self):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        _print_heading("before checkmark")
+        print(opt)
+
+        proj_node = self.corpus["Project Title"]
+        opt.checkmark(proj_node["Description"]).checkmark(
+            proj_node["Usage"]
+        ).checkmark(proj_node["License"])
+
+        _print_heading("after checkmark")
+        print(opt)
+
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == self.dest
+        )
+
+    def test1_checkmark_by_hash(self):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        _print_heading("before checkmark")
+        print(opt)
+
+        proj_node = self.corpus["Project Title"]
+        for h in [
+            hash(proj_node[name])
+            for name in ("Description", "Usage", "License")
+        ]:
+            opt.checkmark(h)
+
+        _print_heading("after checkmark")
+        print(opt)
+
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == self.dest
+        )
+
+
+class Test31:  # PROMPT3: partial 1 -> full  ###################################
+
+    corpus = PromptCorpusNode.parse(PROMPT3)
+    src = BLUEPRINT_3_PARTIAL_1
+    dest = BLUEPRINT_3_FULL
+
+    def test1_checkmark_by_obj(self):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        _print_heading("before checkmark")
+        print(opt)
+
+        node = self.corpus["Main Title"]["Methods"]
+        opt.checkmark(node)
+        node = node["Data Collection"]
+        opt.checkmark(node)
+        node = node["Tools Used"]
+        opt.checkmark(node)
+        node = node["Future Work"]
+        opt.checkmark(node)
+
+        _print_heading("after checkmark")
+        print(opt)
+
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == self.dest
+        )
+
+    def test1_checkmark_by_hash(self):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        _print_heading("before checkmark")
+        print(opt)
+
+        node = self.corpus["Main Title"]["Methods"]
+        opt.checkmark(hash(node))
+        node = node["Data Collection"]
+        opt.checkmark(hash(node))
+        node = node["Tools Used"]
+        opt.checkmark(hash(node))
+        node = node["Future Work"]
+        opt.checkmark(hash(node))
+
+        _print_heading("after checkmark")
+        print(opt)
+
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == self.dest
+        )
+
+
+class Test32:  # PROMPT3: partial 2 -> full  ###################################
+
+    corpus = PromptCorpusNode.parse(PROMPT3)
+    src = BLUEPRINT_3_PARTIAL_2
+    dest = BLUEPRINT_3_FULL
+
+    def test2_checkmark_by_obj(self):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        _print_heading("before checkmark")
+        print(opt)
+
+        main_node = self.corpus["Main Title"]
+        node = main_node["Introduction"]
+        opt.checkmark(node)
+        node = node["Background"]["Importance"]
+        opt.checkmark(node)
+        node = main_node["Methods"]
+        opt.checkmark(node)
+        node = node["Data Collection"]["Tools Used"]
+        opt.checkmark(node)
+        node = main_node["Conclusion"]
+        opt.checkmark(node)
+
+        _print_heading("after checkmark")
+        print(opt)
+
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == self.dest
+        )
+
+    def test2_checkmark_by_hash(self):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        _print_heading("before checkmark")
+        print(opt)
+
+        main_node = self.corpus["Main Title"]
+        node = main_node["Introduction"]
+        opt.checkmark(hash(node))
+        node = node["Background"]["Importance"]
+        opt.checkmark(hash(node))
+        node = main_node["Methods"]
+        opt.checkmark(hash(node))
+        node = node["Data Collection"]["Tools Used"]
+        opt.checkmark(hash(node))
+        node = main_node["Conclusion"]
+        opt.checkmark(hash(node))
+
+        _print_heading("after checkmark")
+        print(opt)
+
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == self.dest
         )
