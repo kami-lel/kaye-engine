@@ -1,7 +1,7 @@
 """
 fill the prompt template with runtime info to produce the concrete prompt
 
-TODO add params
+todo add params
 """
 
 from datetime import datetime

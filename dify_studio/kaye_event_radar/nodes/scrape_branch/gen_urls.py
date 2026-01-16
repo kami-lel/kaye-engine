@@ -2,7 +2,6 @@
 dynamically create information for scarping various websites
 
 
-TODO params
 :return: ``opt`` is a ``list`` of urls (``str``) to be scraped
 """
 
