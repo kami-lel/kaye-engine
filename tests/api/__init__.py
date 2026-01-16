@@ -12,5 +12,3 @@ def flask_test_client():
 
 HTTP_API_IP = "127.0.0.1"
 HTTP_API_PORT = 11255
-
-# TODO implement API unit tests (using sh?)
