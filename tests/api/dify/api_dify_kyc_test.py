@@ -37,16 +37,16 @@ def test_pre_sense(flask_test_client):
 
 # test /chat  ##################################################################
 
+CHAT_ENDPOINT = APP_PREFIX + "/chat"
+CHAT_BASIC_PROMPT = PromptBlueprint.parse(
+    load_embedded_prompt_corpus(), CHAT_PROMPT_BASIC_BLUEPRINT
+).generate_prompt(hide_comment=True)
 
-class TestChat:  # /chat  ######################################################
 
-    endpoint = APP_PREFIX + "/chat"
-    basic_prompt = PromptBlueprint.parse(
-        load_embedded_prompt_corpus(), CHAT_PROMPT_BASIC_BLUEPRINT
-    ).generate_prompt(hide_comment=True)
+class TestChatBasic:  # ========================================================
 
     def test_no_param(self, flask_test_client):
-        response = flask_test_client.get(self.endpoint)
+        response = flask_test_client.get(CHAT_ENDPOINT)
         flags, prompt = _deconstruct_chat_response(response)
 
         _print_heading("flags")
@@ -55,7 +55,7 @@ class TestChat:  # /chat  ######################################################
         print(prompt)
 
         assert flags == PL.NONE
-        assert self.basic_prompt in prompt
+        assert CHAT_BASIC_PROMPT in prompt
 
     def test_empty_param(self, flask_test_client):
         flags = PL.NONE
@@ -63,7 +63,7 @@ class TestChat:  # /chat  ######################################################
 
         flags_param = int(flags)
         response = flask_test_client.get(
-            self.endpoint
+            CHAT_ENDPOINT
             + "?flags={}&languages={}".format(flags_param, lang_param)
         )
         flags, prompt = _deconstruct_chat_response(response)
@@ -74,16 +74,18 @@ class TestChat:  # /chat  ######################################################
         print(prompt)
 
         assert flags == PL.NONE
-        assert self.basic_prompt in prompt
+        assert CHAT_BASIC_PROMPT in prompt
 
-    # test languages param  ----------------------------------------------------
-    def test_languages1(self, flask_test_client):
+
+class TestChatLanguages:  # fx of languages  ===================================
+
+    def test1(self, flask_test_client):
         flags = PL.NONE
         lang_param = "cpp"
 
         flags_param = int(flags)
         response = flask_test_client.get(
-            self.endpoint
+            CHAT_ENDPOINT
             + "?flags={}&languages={}".format(flags_param, lang_param)
         )
         flags, prompt = _deconstruct_chat_response(response)
@@ -94,9 +96,30 @@ class TestChat:  # /chat  ######################################################
         print(prompt)
 
         assert flags == PL.cpp
-        assert self.basic_prompt in prompt
+        assert CHAT_BASIC_PROMPT in prompt
 
         assert _is_language_prompt_part_contained_in_prompt("C++", prompt)
+
+    def test2(self, flask_test_client):
+        flags = PL.NONE
+        lang_param = "py"
+
+        flags_param = int(flags)
+        response = flask_test_client.get(
+            CHAT_ENDPOINT
+            + "?flags={}&languages={}".format(flags_param, lang_param)
+        )
+        flags, prompt = _deconstruct_chat_response(response)
+
+        _print_heading("flags")
+        print(flags)
+        _print_heading("prompt")
+        print(prompt)
+
+        assert flags == PL.py
+        assert CHAT_BASIC_PROMPT in prompt
+
+        assert _is_language_prompt_part_contained_in_prompt("Python", prompt)
 
     # TODO mm languages
 

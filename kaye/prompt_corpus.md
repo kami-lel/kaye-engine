@@ -2156,7 +2156,7 @@ In this section, guidelines are provided specifically for JavaScript, which user
 
 
 
-#### Naming Conventions
+##### Naming Conventions
 
 - Use **camelCase** for naming variables and functions. Avoid using *lowercase_with_underscores*. For example: `var`, `certainNumber`, `allMemberValues`.
 
@@ -2281,7 +2281,7 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
 
 
-#### Docstring Style
+##### Docstring Style
 
 The docstrings must be written using the **Sphinx** style and employ **reStructuredText** as the markup language. Avoid using any other styles.
 
@@ -2306,7 +2306,7 @@ def calc_square(number):
 
 
 
-#### Testing Guidelines
+##### Testing Guidelines
 
 This section pertains specifically to Python test code. Tests should be compatible with the `pytest` module.
 

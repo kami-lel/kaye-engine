@@ -134,8 +134,6 @@ def _generate_task_prompt_based_on_flags(flags):
     if PL.py in flags:
         py_node = kyc_node["Python"]
         bp += py_node
-        bp += py_node["Docstring Style"]
-        bp += py_node["Testing Guidelines"]
     if PL.console in flags:
         bp += kyc_node["Message Level"]
 
