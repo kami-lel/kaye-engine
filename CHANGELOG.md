@@ -20,6 +20,9 @@
 
 ### Added
 ### Changed
+
+- unify docstring of all `.py` files of Dify App nodes
+
 ### Deprecated
 ### Removed
 ### Fixed
