@@ -4,12 +4,11 @@ from api import create_app
 
 
 @pytest.fixture(scope="session")
-def flask_app():
+def flask_test_client():
     app = create_app()
     app.config["TESTING"] = True
-    yield app
-
-
-@pytest.fixture(scope="session")
-def flask_test_client(flask_app):
-    return flask_app.test_client()
+    ctx = app.app_context
+    ctx.push()
+    client = app.test_client()
+    yield client
+    ctx.pop()
