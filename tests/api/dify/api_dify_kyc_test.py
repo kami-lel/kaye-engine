@@ -228,7 +228,12 @@ class TestChatLanguages:  # fx of languages  ===================================
             assert _is_language_prompt_part_contained(v, prompt)
 
 
-# TODO combines
+class TestChatFlags:  # ========================================================
+    pass  # TODO
+
+
+class TestChatBoth:  # =========================================================
+    pass  # TODO
 
 
 # helper  ######################################################################
