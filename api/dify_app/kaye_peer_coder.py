@@ -122,7 +122,7 @@ def _generate_task_prompt_based_on_flags(flags):
     if PL.u3d in flags:
         bp += kyc_node["Unity Engine"]
     if PL.gdscript in flags:
-        bp += kyc_node["GDscript"]
+        bp += kyc_node["GDScript"]
     if PL.html in flags:
         bp += kyc_node["HTML"]
     if PL.ts in flags or PL.js in flags:
@@ -130,7 +130,7 @@ def _generate_task_prompt_based_on_flags(flags):
     if PL.qt in flags:
         bp += kyc_node["Qt"]
     if PL.qml in flags:
-        bp += kyc_node["QML"]
+        bp += kyc_node["Qt"]["QML"]
     if PL.py in flags:
         py_node = kyc_node["Python"]
         bp += py_node
