@@ -7,7 +7,7 @@ Unit Tests (using pytest) for: PromptCorpusNode.__getitem__()
 import pytest
 
 from kaye.gen_prompt import PromptCorpusNode
-from tests.gen_prompt import PROMPT3
+from tests.prompt import PROMPT3
 
 
 class TestRoot:
