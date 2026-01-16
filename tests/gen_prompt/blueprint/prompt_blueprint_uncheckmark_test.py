@@ -34,20 +34,13 @@ class Test1:  # corpus1  #######################################################
         print(opt)
 
         node = self.corpus["Project Title"]
-        ret = opt.uncheckmark(node)
+        opt.uncheckmark(node)
 
         _print_heading("after uncheckmark")
         print(opt)
-        _print_heading("returned object")
-        print(ret)
 
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == BLUEPRINT_1_PARTIAL_1
-        )
-
-        assert (
-            ret.generate_preview_tree(preview_line_count=0, hide_comment=True)
             == BLUEPRINT_1_PARTIAL_1
         )
 
@@ -69,33 +62,24 @@ class Test1:  # corpus1  #######################################################
             == BLUEPRINT_1_PARTIAL_1
         )
 
-    def test1_iadd_by_obj(self):
-        # TODO
+    def test1_isub_by_obj(self):
         bp_text = BLUEPRINT_1_FULL
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before uncheckmark")
         print(opt)
 
         node = self.corpus["Project Title"]
-        ret = opt.uncheckmark(node)
+        opt -= node
 
         _print_heading("after uncheckmark")
         print(opt)
-        _print_heading("returned object")
-        print(ret)
 
         assert (
             opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
             == BLUEPRINT_1_PARTIAL_1
         )
 
-        assert (
-            ret.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == BLUEPRINT_1_PARTIAL_1
-        )
-
-    def test1_iadd_by_hash(self):
-        # TODO
+    def test1_isub_by_hash(self):
         bp_text = BLUEPRINT_1_FULL
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before uncheckmark")
@@ -103,7 +87,7 @@ class Test1:  # corpus1  #######################################################
 
         node = self.corpus["Project Title"]
         node_hash = hash(node)
-        opt.uncheckmark(node_hash)
+        opt -= node_hash
 
         _print_heading("after uncheckmark")
         print(opt)
