@@ -30,7 +30,10 @@ hooks_utility_ensure_file_modified \
     'merge-binary-release' \
     'download newest .yml by Export DSL'
 
-# todo check Kaye Chat yml
+hooks_utility_ensure_file_modified \
+    'dify_studio/kaye_chat/Kaye_Chat.yml' \
+    'merge-binary-release' \
+    'download newest .yml by Export DSL'
 
 # perform branch protection  ---------------------------------------------------
 hooks_utility_protect_branch
