@@ -21,7 +21,7 @@ PRE_SENSE_PROMPT_BLUEPRINT = """ ○
 """
 
 
-TASK_PROMPT_BASIC_BLUEPRINT = """ ○
+CHAT_PROMPT_BASIC_BLUEPRINT = """ ○
 [x] ├── Introduction
 [x] ├── Style
 [x] │   ├── Capitalization Style
@@ -100,14 +100,14 @@ def _parse_flags_from_languages_arg(languages_arg):
 
 
 def _generate_task_prompt_based_on_flags(flags):
-    # Bug buggy behavior
     corpus = load_embedded_prompt_corpus()
     bp = PromptBlueprint.parse(
         corpus,
-        TASK_PROMPT_BASIC_BLUEPRINT,
+        CHAT_PROMPT_BASIC_BLUEPRINT,
     )
 
     # add language prompt fragments  -------------------------------------------
+    # pylint: disable-next=unsubscriptable-object
     kyc_node = corpus["Role"]["Kaye Peer Coder"]
 
     if PL.c in flags:
@@ -121,7 +121,7 @@ def _generate_task_prompt_based_on_flags(flags):
     if PL.u3d in flags:
         bp += kyc_node["Unity Engine"]
     if PL.gdscript in flags:
-        bp += kyc_node["GDscript"]
+        bp += kyc_node["GDScript"]
     if PL.html in flags:
         bp += kyc_node["HTML"]
     if PL.ts in flags or PL.js in flags:
@@ -129,16 +129,14 @@ def _generate_task_prompt_based_on_flags(flags):
     if PL.qt in flags:
         bp += kyc_node["Qt"]
     if PL.qml in flags:
-        bp += kyc_node["QML"]
+        bp += kyc_node["Qt"]["QML"]
     if PL.py in flags:
         py_node = kyc_node["Python"]
         bp += py_node
-        bp += py_node["Docstring Style"]
-        bp += py_node["Testing Guidelines"]
     if PL.console in flags:
         bp += kyc_node["Message Level"]
 
-    return str(bp)
+    return bp.generate_prompt()
 
 
 # Flask Routing  ###############################################################
@@ -153,11 +151,11 @@ def kaye_peer_coder_pre_sense():
         load_embedded_prompt_corpus(),
         PRE_SENSE_PROMPT_BLUEPRINT,
     )
-    return str(blueprint)
+    return blueprint.generate_prompt()
 
 
-# /kaye/dify-app/kyc/task
-@kyc_bp.route("/task", methods=["GET"])
+# /kaye/dify-app/kyc/chat
+@kyc_bp.route("/chat", methods=["GET"])
 def kaye_peer_coder_task():
     flags = _create_flags_from_flags_arg(request.args.get("flags"))
     # merge language flags from languages list & provided flag number

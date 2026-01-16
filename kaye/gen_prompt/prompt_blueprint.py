@@ -514,12 +514,8 @@ def _generate_prompt_recursively(blueprint, node):
 
     # add current node if checkmarked
     if blueprint.is_checkmarked(node):
-        lines.append("")  # add empty lines before headings
-
-        # heading line
-        lines.append(HEADING_PREFIX * node.depth + " " + node.name)
-        # content lines
-        lines.extend(node.content)
+        # pylint: disable-next=protected-access
+        lines.extend(node._generate_prompt_lines())
 
     # add descendent
     for child in node.children:
