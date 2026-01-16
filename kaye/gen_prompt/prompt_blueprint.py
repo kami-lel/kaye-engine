@@ -189,13 +189,15 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-        if not _checkmark_verify_node_existence(node):
+
+        node_hash = _normalize_node_hash(node)
+
+        if not _checkmark_find_node_recursively(node, self.corpus):
             raise ValueError(
                 "node missing from blueprint's corpus: {}".format(repr(node))
             )
 
-        node = _normalize_node_hash(node)
-        self[node] = True
+        self[node_hash] = True
 
         return self
 
@@ -525,5 +527,28 @@ def _normalize_node_hash(node):
         )
 
 
-def _checkmark_verify_node_existence(node):
-    return True  # TODo
+def _checkmark_find_node_recursively(target, node):
+    """
+    recursively traverse node and find if target is present in the tree
+
+    (helper method used in ``PromptBlueprint.checkmark()``)
+
+
+    :param target: node object; or hash value of node
+    :type target: PromptCorpusNode or int
+    :param node:
+    :type node: PromptCorpusNode
+    :return: whether `target` existed in tree of `node`
+    :rtype: bool
+    """
+    if node is target or (isinstance(target, int) and hash(node) == target):
+        # find the target node
+        return True
+    elif node.is_leaf:
+        # reach bottom of tree
+        return False
+
+    return any(
+        _checkmark_find_node_recursively(target, child)
+        for child in node.children
+    )

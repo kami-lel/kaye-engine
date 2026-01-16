@@ -101,7 +101,6 @@ class Test11:  # PROMPT1: partial 1 -> full  ###################################
         )
 
     # err handling  ------------------------------------------------------------
-    # BUG
     def test_bad_type(self):
         bp_text = self.src
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
