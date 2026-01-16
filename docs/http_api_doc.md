@@ -179,7 +179,7 @@ response type: `text/plain`
 
 ----
 
-`/task`
+`/chat`
 
 - by `GET`
 
