@@ -60,9 +60,9 @@ class PromptBlueprint(dict):
                 when ``disable_prune``, the parsed tree contains the full
                 prompt corpus tree of ``prompt_corpus``
         :type disable_prune: bool, optional
+        :raise ValueError: bad formatted `blueprint_text`
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
-        :raise ValueError: bad formatted `blueprint_text`
         """
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
         path2node_hash = {
@@ -158,10 +158,10 @@ class PromptBlueprint(dict):
         """
         :param node: node object; or hash value of node
         :type node: PromptCorpusNode or int
+        :raises TypeError:
         :return: whether a node is **checkmarked** in the blueprint;
                 also ``False`` if node is not contained in blueprint
         :rtype: bool
-        :raises TypeError:
         """
         node = _normalize_node_hash(node)  # node as hash
         return node in self and self[node]
@@ -179,19 +179,36 @@ class PromptBlueprint(dict):
         return pruned_bp
 
     def checkmark(self, node):
-        pass  # TODO
+        """
+        TODO
+
+        :param node: node object; or hash value of node
+        :type node: PromptBlueprint or int
+        :raise TypeError:
+        :raise KeyError:
+        :return: self
+        :rtype: PromptBlueprint
+        """
+        if not _checkmark_verify_node_existence(node):
+            raise ValueError(
+                "node missing from blueprint's corpus: {}".format(repr(node))
+            )
+
+        node = _normalize_node_hash(node)
+        self[node] = True
+
+        return self
 
     def uncheckmark(self, node):
         """
         TODO
 
-        :param node: _description_
-        :type node: _type_
-        :raises KeyError: _description_
-        :return: _description_
-        :rtype: _type_
+        :param node: node object; or hash value of node
+        :type node: PromptBlueprint or int
         :raise TypeError:
         :raise KeyError:
+        :return: self
+        :rtype: PromptBlueprint
         """
         node_hash = _normalize_node_hash(node)
 
@@ -350,9 +367,9 @@ class PromptBlueprint(dict):
 
         :param key: node object; or hash value of node
         :type key: PromptCorpusNode or int
+        :raises TypeError:
         :return: if blueprint contains the node
         :rtype: bool
-        :raises TypeError:
         """
         return super().__contains__(_normalize_node_hash(key))
 
@@ -490,9 +507,9 @@ def _normalize_node_hash(node):
     """
     :param node: node object; or hash value of node
     :type node: PromptCorpusNode or int
+    :raises TypeError:
     :return: hash of node
     :rtype: int
-    :raises TypeError:
     """
     if isinstance(node, PromptCorpusNode):
         return hash(node)
@@ -506,3 +523,7 @@ def _normalize_node_hash(node):
                 repr(node)
             )
         )
+
+
+def _checkmark_verify_node_existence(node):
+    return True  # TODo
