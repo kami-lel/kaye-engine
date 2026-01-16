@@ -13,17 +13,9 @@ ROOT_NODE_NAME = "○"  # placeholder name for root node
 __all__ = ("PromptCorpusNode",)
 
 
-# todo move some content to python_api_doc.md
 class PromptCorpusNode(AnytreeNode):
     """
-    A ``PromptCorpusNode`` represents a single node in the *prompt corpus*.
-
-    The **prompt corpus** comprises the complete set of available prompts.
-
-    This class enables the creation of a **tree-structured** representation
-    of the *prompt corpus*. Each instance of the class is a node in the tree,
-    corresponding to a part of the corpus and associated with a specific
-    section heading.
+    A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
 
 
     :param name: section heading of the node
@@ -40,7 +32,7 @@ class PromptCorpusNode(AnytreeNode):
     @classmethod
     def parse(cls, prompt_corpus_text):
         """
-        Parse *prompt corpus* text into the tree structure.
+        parse *prompt corpus* text into the tree structure.
 
         :param prompt_corpus_text: full source *prompt corpus* content
         :type prompt_corpus_text: str
@@ -52,9 +44,14 @@ class PromptCorpusNode(AnytreeNode):
         root = cls(ROOT_NODE_NAME, None, text_lines)
         return root
 
-    def __init__(self, name, parent, text_lines):
+    def __init__(self, name, parent, text_lines=None):
         super().__init__(name, parent)
         self.content = []  # content lines
+
+        self.path_of_names = self._init_generate_path_of_names()
+
+        if text_lines is None:
+            return
 
         self._init_populate_children(text_lines)
 
@@ -66,12 +63,14 @@ class PromptCorpusNode(AnytreeNode):
             end -= 1
         self.content = self.content[start:end]
 
-        self.names_path = self._init_generate_names_path()
-
     def generate_preview_tree(
         self, preview_line_count=3, preview_line_width=64
     ):
         """
+        generate **preview tree** of ``self`` as root,
+        an human-readable representation
+
+
         :param preview_line_count: set maximum line count of
                 *content preview* part, (excluding section heading line);
                 defaults to 3
@@ -80,9 +79,7 @@ class PromptCorpusNode(AnytreeNode):
                 *content preview* part;
                 defaults to 64.
         :type preview_line_width: int
-        :return: human-readable representation of ``self`` node and children,
-                showing the tree structure, node name (i.e. section headings,)
-                node content preview, etc.
+        :return: the preview tree
         :rtype: str
         :example:
         >>> tree.generate_preview_tree()
@@ -114,42 +111,17 @@ class PromptCorpusNode(AnytreeNode):
         opt_lines = []
 
         for pre, fill, node in RenderTree(self):
-            # line for the node
+            # line for tree structure
             opt_lines.append(pre + node.name)
-            # lines for the content of node
+            # lines for node content preview
             opt_lines.extend(
-                node.generate_preview_tree_content_part(
+                # pylint: disable=protected-access
+                node._generate_preview_tree_content_preview_lines(
                     fill, preview_line_count, preview_line_width
                 )
             )
 
         return "\n".join(opt_lines)
-
-    def generate_preview_tree_content_part(
-        self, fill, preview_line_count, preview_line_width
-    ):
-        """
-        :param fill: set prefix filling before each line
-        :type fill: str
-        :param preview_line_count: set maximum line count of
-                *content preview* part, (excluding section heading line)
-        :type preview_line_count: int
-        :param preview_line_width: set maximum column width of
-                *content preview* part
-        :type preview_line_width: int
-        :return: content lines of ``self`` as it will be shown in
-                tree ``__repr__()``, with formatting included
-                Each entry represent a line in the ``__repr__()``
-        :rtype: list[str]
-        :example:
-        >>> node.generate_preview_tree_content_part('$$$' 3, 10)
-        ["$$$You per", "$$$When tr", "$$$User ma"]
-        """
-        lines = []
-        if self.content and preview_line_count:  # print content of node
-            for content_line in self.content[:preview_line_count]:
-                lines.append(fill + content_line[:preview_line_width])
-        return lines
 
     @staticmethod
     def _convert_corpus_text2lines(full_prompt):
@@ -157,24 +129,10 @@ class PromptCorpusNode(AnytreeNode):
         cleanup = re.sub(r"\n{3,}", "\n\n", full_prompt)
         return list(cleanup.split("\n"))
 
-    def _init_generate_names_path(self):
-        """
-        helper method used in ``__init__()``
-
-        generate content of ``.names_path``, a path from root to this node,
-        represented by a tuple of titles of ancestors and of this node
-        names of ancestors and ``self``, eg, ``('ProjectABC', 'Sub Heading')``;
-        for root node, ``()``
-        """
-        if self.parent is None:
-            return tuple()  # root node
-        else:
-            nodes_path = self.path[1:]  # remove root node
-            return tuple(node.name for node in nodes_path)
-
     def _init_populate_children(self, text_lines):
         """
         helper method used in ``__init__()``
+
 
         create children nodes of ``self`` and populate self.content
         by parsing ``text_lines``
@@ -206,22 +164,129 @@ class PromptCorpusNode(AnytreeNode):
             children_nodes = text_lines[start + 1 : end]
             PromptCorpusNode(heading_content, self, children_nodes)
 
-    def __repr__(self):
-        return self.generate_preview_tree()
+    def _init_generate_path_of_names(self):
+        """
+        helper method used in ``__init__()``
+
+        generate content of ``.path_of_names``
+        """
+        if self.parent is None:
+            return tuple()  # root node
+        else:
+            nodes_path = self.path[1:]  # remove root node
+            return tuple(node.name for node in nodes_path)
+
+    def _generate_preview_tree_content_preview_lines(
+        self, fill, preview_line_count, preview_line_width
+    ):
+        """
+        helper method used in ``generate_preview_tree()``
+
+
+        :param fill: set prefix filling before each line
+        :type fill: str
+        :param preview_line_count: set maximum line count of
+                *content preview* part, (excluding section heading line)
+        :type preview_line_count: int
+        :param preview_line_width: set maximum column width of
+                *content preview* part
+        :type preview_line_width: int
+        :return: content lines as it will be shown in preview tree
+        :rtype: list[str]
+        :example:
+        >>> self._generate_preview_tree_content_preview_lines('$$$', 3, 10)
+        ["$$$You per", "$$$When tr", "$$$User ma"]
+        """
+        lines = []
+        if self.content and preview_line_count:  # print content of node
+            for content_line in self.content[:preview_line_count]:
+                lines.append(fill + content_line[:preview_line_width])
+        return lines
+
+    def _generate_prompt_lines(self):
+        """
+        generate prompt lines as this node appeared in concrete prompt
+
+        (helper method used in ``PromptBlueprint.generate_prompt()``)
+
+
+        :return: lines of prompt
+        :rtype: list[str]
+        """
+        lines = [""]  # add empty lines before headings
+        # heading line
+        lines.append(HEADING_PREFIX * self.depth + " " + self.name)
+        # content lines
+        lines.extend(self.content)
+
+        return lines
 
     def __getitem__(self, key=None):
         """
-        :param key: heading of children node; if ``None``, get node parent
-        :type key: str or NoneType
+        :param key:
+        :type key: NoneType or str or int
         :return: children or parent node of ``self``
         :rtype: PromptCorpusNode
+        :raises IndexError:
+        :raises KeyError:
+        :raises TypeError:
         :example:
-        node = ~
-        node['Info']    # get child node with heading 'Info'
-        node[]          # get parent node
+        node = ~~~
+        node[None]      # get parent node
+        node[0]         # get first child
+        node['Info']    # get child node with name/heading 'Info'
         """
         if key is None:
             return self.parent
+
+        elif isinstance(key, int):
+            try:
+                return self.children[key]
+            except IndexError as err:
+                raise IndexError(
+                    "index out of range for PromptCorpusNode children: {}"
+                    .format(key)
+                ) from err
+
+        elif isinstance(key, str):
+            for child in self.children:
+                if child.name == key:
+                    return child
+            raise KeyError(
+                "fail to find child {} in {}".format(repr(key), repr(self))
+            )
+
         else:
-            # bug non functional
-            return self.children[key]
+            raise TypeError(
+                "unsupported type for PromptCorpusNode[~]: {}".format(
+                    type(key)
+                )
+            )
+
+    def __hash__(self):
+        return hash(self.path_of_names)
+
+    def __copy__(self):
+        """
+        :return: a copy without any children
+        :rtype: PromptCorpusNode
+        """
+        obj = PromptCorpusNode(self.name, self.parent, None)
+        obj.content = self.content
+        return obj
+
+    def __repr__(self):
+        """
+        :return:
+        :rtype: str
+        :example:
+        assert repr(node) == "PromptCorpusNode(Introduction#Data#Advanced)"
+        """
+        return "PromptCorpusNode({})".format("#".join(self.path_of_names))
+
+    def __str__(self):
+        """
+        :return: equivalent to self.generate_preview_tree()
+        :rtype: str
+        """
+        return self.generate_preview_tree()

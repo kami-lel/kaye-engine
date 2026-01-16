@@ -60,28 +60,28 @@ commit_sense_bp = Blueprint(
 # /kaye/dify-app/kaye-commit-sense/primary-message
 @commit_sense_bp.route("/primary-message", methods=["GET"])
 def kaye_commit_sense_primary_message():
-    blueprint = PromptBlueprint(
+    blueprint = PromptBlueprint.parse(
         load_embedded_prompt_corpus(),
         PRIMARY_MESSAGE_PROMPT_BLUEPRINT,
     )
-    return str(blueprint)
+    return blueprint.generate_prompt()
 
 
 # /kaye/dify-app/kaye-commit-sense/per-file-long
 @commit_sense_bp.route("/per-file-long", methods=["GET"])
 def kaye_commit_sense_per_file_long():
-    blueprint = PromptBlueprint(
+    blueprint = PromptBlueprint.parse(
         load_embedded_prompt_corpus(),
         PER_FILE_LONG_PROMPT_BLUEPRINT,
     )
-    return str(blueprint)
+    return blueprint.generate_prompt()
 
 
 # /kaye/dify-app/kaye-commit-sense/per-file-short
 @commit_sense_bp.route("/per-file-short", methods=["GET"])
 def kaye_commit_sense_per_file_short():
-    blueprint = PromptBlueprint(
+    blueprint = PromptBlueprint.parse(
         load_embedded_prompt_corpus(),
         PER_FILE_SHORT_PROMPT_BLUEPRINT,
     )
-    return str(blueprint)
+    return blueprint.generate_prompt()

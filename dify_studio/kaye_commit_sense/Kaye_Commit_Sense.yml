@@ -9,7 +9,7 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/openai:0.2.5@373362a028986aae53a7baf73a7f11991ba3c22c69eaf97d6cde048cfd4a9f98
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
     version: null
 kind: app
 version: 0.5.0
@@ -318,16 +318,7 @@ workflow:
           required: true
           type: paragraph
           variable: input
-        - default: ''
-          hint: ''
-          label: debug_info
-          max_length: 10000000000
-          options: []
-          placeholder: ''
-          required: false
-          type: paragraph
-          variable: debug_info
-      height: 135
+      height: 109
       id: '1756587193642'
       position:
         x: -319.5069034866185
@@ -678,7 +669,7 @@ workflow:
       positionAbsolute:
         x: 1032.660080181186
         y: 749.778349817248
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -815,7 +806,7 @@ workflow:
       positionAbsolute:
         x: 1200.9404752677885
         y: 104.10767532202507
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -885,17 +876,17 @@ workflow:
       id: '17678966066030'
       position:
         x: 672.6700131558421
-        y: 682.0283475743222
+        y: 683.4274179884233
       positionAbsolute:
         x: 672.6700131558421
-        y: 682.0283475743222
+        y: 683.4274179884233
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -959.8774491374948
-      y: -555.9774147692533
-      zoom: 1.3195079107728958
+      x: -487.7987798771811
+      y: 146.7853753832021
+      zoom: 0.659753955386448
   rag_pipeline_variables: []

@@ -21,7 +21,7 @@ PRE_SENSE_PROMPT_BLUEPRINT = """ ○
 """
 
 
-TASK_PROMPT_BASIC_BLUEPRINT = """ ○
+CHAT_PROMPT_BASIC_BLUEPRINT = """ ○
 [x] ├── Introduction
 [x] ├── Style
 [x] │   ├── Capitalization Style
@@ -93,50 +93,69 @@ def _parse_flags_from_languages_arg(languages_arg):
             if lang:  # skip empty entry
                 flags |= PL[lang]
 
-    except KeyError:
-        abort(
-            Response(
-                "bad param, contains unsupported language: "
-                "?languages={}".format(languages_arg),
-                422,
-            )
-        )
+    except KeyError:  # encounter unsupported languages
+        pass
 
     return flags
 
 
 def _generate_task_prompt_based_on_flags(flags):
     corpus = load_embedded_prompt_corpus()
-    blueprint = PromptBlueprint(
+    bp = PromptBlueprint.parse(
         corpus,
-        TASK_PROMPT_BASIC_BLUEPRINT,
+        CHAT_PROMPT_BASIC_BLUEPRINT,
     )
 
     # add language prompt fragments  -------------------------------------------
-    # todo code dynamically add language fragment
+    # pylint: disable-next=unsubscriptable-object
+    kyc_node = corpus["Role"]["Kaye Peer Coder"]
 
-    return str(blueprint)
+    if PL.c in flags:
+        bp += kyc_node["C"]
+    if PL.cpp in flags:
+        bp += kyc_node["C++"]
+    if PL.ue in flags:
+        bp += kyc_node["Unreal Engine"]
+    if PL.csharp in flags:
+        bp += kyc_node["C Sharp"]
+    if PL.u3d in flags:
+        bp += kyc_node["Unity Engine"]
+    if PL.gdscript in flags:
+        bp += kyc_node["GDScript"]
+    if PL.html in flags:
+        bp += kyc_node["HTML"]
+    if PL.ts in flags or PL.js in flags:
+        bp += kyc_node["JavaScript & TypeScript"]
+    if PL.qt in flags:
+        bp += kyc_node["Qt"]
+    if PL.qml in flags:
+        bp += kyc_node["Qt"]["QML"]
+    if PL.py in flags:
+        py_node = kyc_node["Python"]
+        bp += py_node
+    if PL.console in flags:
+        bp += kyc_node["Message Level"]
+
+    return bp.generate_prompt()
 
 
 # Flask Routing  ###############################################################
-# /kaye/dify-app/kaye-peer-coder
-kyc_bp = Blueprint(
-    "kaye-peer-coder", PROGRAM_NAME, url_prefix="/kaye-peer-coder"
-)
+# /kaye/dify-app/kyc
+kyc_bp = Blueprint("kaye-peer-coder", PROGRAM_NAME, url_prefix="/kyc")
 
 
-# /kaye/dify-app/kaye-peer-coder/pre-sense
+# /kaye/dify-app/kyc/pre-sense
 @kyc_bp.route("/pre-sense", methods=["GET"])
 def kaye_peer_coder_pre_sense():
-    blueprint = PromptBlueprint(
+    blueprint = PromptBlueprint.parse(
         load_embedded_prompt_corpus(),
         PRE_SENSE_PROMPT_BLUEPRINT,
     )
-    return str(blueprint)
+    return blueprint.generate_prompt()
 
 
-# /kaye/dify-app/kaye-peer-coder/task
-@kyc_bp.route("/task", methods=["GET"])
+# /kaye/dify-app/kyc/chat
+@kyc_bp.route("/chat", methods=["GET"])
 def kaye_peer_coder_task():
     flags = _create_flags_from_flags_arg(request.args.get("flags"))
     # merge language flags from languages list & provided flag number

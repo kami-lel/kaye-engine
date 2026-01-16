@@ -1,11 +1,19 @@
 {
     "cSpell.words": [
+        "checkmark",
+        "checkmarked",
+        "checkmarking",
+        "checkmarks",
         "dify",
         "presense",
-        "subpsr"
+        "subpsr",
+        "uncheckmark",
+        "uncheckmarked",
+        "uncheckmarking",
+        "unprunable"
     ],
     "todo-tree.filtering.excludeGlobs": [
-        "**/hooks_utility/*",
+        "**/hooks_utility/*/**",
         "*.yml",
         "**/prompt_corpus.md"
     ]
