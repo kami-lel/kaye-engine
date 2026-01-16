@@ -29,6 +29,8 @@
 
 - `PromptCorpusNode`: implement `__getitem__()` for subscriptable
 
+- unit tests for Python HTTP API
+
 ### Changed
 
 - update Dify App *Kaye Peer Coder* structure such that it support text streaming
