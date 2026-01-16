@@ -3,7 +3,7 @@ test .parse() and instance creation for ``class PromptCorpusNode``
 """
 
 from kaye.gen_prompt import PromptCorpusNode
-from tests.gen_prompt.prompt_corpus_node.testees import (
+from tests.prompt import (
     PROMPT1,
     PROMPT2,
     PROMPT3,
