@@ -286,6 +286,14 @@ There are 2 types of relationships of a prompt corpus **node** and a **blueprint
 
 
 
+#### checkmarking & uncheckmarking
+
+<!-- TODO -->
+
+
+
+
+
 
 #### generate prompt
 

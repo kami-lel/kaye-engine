@@ -9,6 +9,7 @@
         "subpsr",
         "uncheckmark",
         "uncheckmarked",
+        "uncheckmarking",
         "unprunable"
     ],
     "todo-tree.filtering.excludeGlobs": [
