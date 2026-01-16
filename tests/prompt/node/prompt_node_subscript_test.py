@@ -47,7 +47,7 @@ class TestRoot:
             self.node["???"]
 
         opt = exec_info.value.args[0]
-        assert opt == "fail to find child '???' in this PromptCorpusNode"
+        assert opt == "fail to find child '???' in PromptCorpusNode()"
 
     def test_bad_type(self):
         with pytest.raises(TypeError) as exec_info:
@@ -125,7 +125,9 @@ class TestMain:
             self.node["???"]
 
         opt = exec_info.value.args[0]
-        assert opt == "fail to find child '???' in this PromptCorpusNode"
+        assert (
+            opt == "fail to find child '???' in PromptCorpusNode(Main Title)"
+        )
 
     def test_bad_type(self):
         with pytest.raises(TypeError) as exec_info:

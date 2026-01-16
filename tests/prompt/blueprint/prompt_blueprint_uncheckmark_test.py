@@ -10,6 +10,7 @@ Unit Tests (using pytest) for: PromptBlueprint
 import pytest
 
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
+from tests import _print_heading
 from tests.prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.prompt.blueprint import (
     BLUEPRINT_1_FULL,
@@ -20,7 +21,6 @@ from tests.prompt.blueprint import (
     BLUEPRINT_3_FULL,
     BLUEPRINT_3_PARTIAL_1,
     BLUEPRINT_3_PARTIAL_2,
-    _print_heading,
 )
 
 
