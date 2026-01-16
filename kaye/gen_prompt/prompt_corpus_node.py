@@ -123,13 +123,6 @@ class PromptCorpusNode(AnytreeNode):
 
         return "\n".join(opt_lines)
 
-    def path_of_names_as_str(self):
-        """
-        :return: self.path_of_names, but use '#' to connect
-        :rtype: str
-        """
-        return "#".join(self.path_of_names)
-
     @staticmethod
     def _convert_corpus_text2lines(full_prompt):
         # reduce formatting empty lines
@@ -273,7 +266,7 @@ class PromptCorpusNode(AnytreeNode):
         :example:
         assert repr(node) == "PromptCorpusNode(Introduction#Data#Advanced)"
         """
-        return "PromptCorpusNode({})".format(self.path_of_names_as_str())
+        return "PromptCorpusNode({})".format("#".join(self.path_of_names))
 
     def __str__(self):
         """

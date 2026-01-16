@@ -60,9 +60,9 @@ class PromptBlueprint(dict):
                 when ``disable_prune``, the parsed tree contains the full
                 prompt corpus tree of ``prompt_corpus``
         :type disable_prune: bool, optional
+        :raise ValueError: bad formatted `blueprint_text`
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
-        :raise ValueError: bad formatted `blueprint_text`
         """
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
         path2node_hash = {
@@ -154,24 +154,15 @@ class PromptBlueprint(dict):
 
     def is_checkmarked(self, node):
         """
-        :param node: node hash; or node object
-        :type node: int or PromptCorpusNode
+        :param node: node object; or hash value of node
+        :type node: PromptCorpusNode or int
+        :raises TypeError:
         :return: whether a node is **checkmarked** in the blueprint;
                 also ``False`` if node is not contained in blueprint
         :rtype: bool
-        :raises TypeError:
         """
-        if isinstance(node, int):  # check by hash
-            return node in self and self[node]
-
-        elif isinstance(node, PromptCorpusNode):  # check by node obj
-            return self.is_checkmarked(hash(node))
-
-        else:
-            raise TypeError(
-                "arg 'node' must be typed: "
-                "int or PromptCorpusNode, not {}".format(type(node))
-            )
+        node = _normalize_node_hash(node)  # node as hash
+        return node in self and self[node]
 
     def prune(self):
         """
@@ -184,6 +175,53 @@ class PromptBlueprint(dict):
         )
         _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
         return pruned_bp
+
+    def checkmark(self, node):
+        """
+        checkmark a ``node`` in this blueprint
+
+
+        :param node: node object; or hash value of node
+        :type node: PromptBlueprint or int
+        :raise TypeError:
+        :raise ValueError:
+        :return: self
+        :rtype: PromptBlueprint
+        """
+        node_hash = _normalize_node_hash(node)
+
+        if not _checkmark_find_node_recursively(node, self.corpus):
+            raise ValueError(
+                "node missing from blueprint's corpus: {}".format(repr(node))
+            )
+
+        self[node_hash] = True
+
+        return self
+
+    def uncheckmark(self, node):
+        """
+        uncheckmark a ``node`` in this blueprint
+
+
+        :param node: node object; or hash value of node
+        :type node: PromptBlueprint or int
+        :raise TypeError:
+        :raise KeyError:
+        :return: self
+        :rtype: PromptBlueprint
+        """
+        node_hash = _normalize_node_hash(node)
+
+        if node_hash not in self:
+            raise KeyError(
+                "fail to uncheckmark node, missing in this blueprint: {}"
+                .format(repr(node))
+            )
+
+        self[node_hash] = False
+
+        return self
 
     def generate_preview_tree(
         self,
@@ -328,15 +366,45 @@ class PromptBlueprint(dict):
         allow ``PromptBlueprint`` to perform membership tests with key being
 
 
-        :param key: hash of node; or node object
-        :type key: int or PromptCorpusNode
+        :param key: node object; or hash value of node
+        :type key: PromptCorpusNode or int
+        :raises TypeError:
         :return: if blueprint contains the node
         :rtype: bool
         """
-        if isinstance(key, PromptCorpusNode):
-            key = hash(key)
+        return super().__contains__(_normalize_node_hash(key))
 
-        return super().__contains__(key)
+    def __iadd__(self, other):
+        """
+        checkmark a ``node`` in this blueprint
+
+        (wrapper of and identical to ``.checkmark()``)
+
+
+        :param node: node object; or hash value of node
+        :type node: PromptBlueprint or int
+        :raise TypeError:
+        :raise ValueError:
+        :return: self
+        :rtype: PromptBlueprint
+        """
+        return self.checkmark(other)
+
+    def __isub__(self, other):
+        """
+        uncheckmark a ``node`` in this blueprint
+
+        (wrapper of and identical to ``.uncheckmark()``)
+
+
+        :param node: node object; or hash value of node
+        :type node: PromptBlueprint or int
+        :raise TypeError:
+        :raise KeyError:
+        :return: self
+        :rtype: PromptBlueprint
+        """
+        return self.uncheckmark(other)
 
     def __repr__(self):
         """
@@ -458,3 +526,52 @@ def _generate_prompt_recursively(blueprint, node):
         lines.extend(_generate_prompt_recursively(blueprint, child))
 
     return lines
+
+
+def _normalize_node_hash(node):
+    """
+    :param node: node object; or hash value of node
+    :type node: PromptCorpusNode or int
+    :raises TypeError:
+    :return: hash of node
+    :rtype: int
+    """
+    if isinstance(node, PromptCorpusNode):
+        return hash(node)
+
+    elif isinstance(node, int):  # already hash
+        return node
+
+    else:
+        raise TypeError(
+            "must be PromptCorpusNode or hash value, not: {}".format(
+                repr(node)
+            )
+        )
+
+
+def _checkmark_find_node_recursively(target, node):
+    """
+    recursively traverse node and find if target is present in the tree
+
+    (helper method used in ``PromptBlueprint.checkmark()``)
+
+
+    :param target: node object; or hash value of node
+    :type target: PromptCorpusNode or int
+    :param node:
+    :type node: PromptCorpusNode
+    :return: whether `target` existed in tree of `node`
+    :rtype: bool
+    """
+    if node is target or (isinstance(target, int) and hash(node) == target):
+        # find the target node
+        return True
+    elif node.is_leaf:
+        # reach bottom of tree
+        return False
+
+    return any(
+        _checkmark_find_node_recursively(target, child)
+        for child in node.children
+    )

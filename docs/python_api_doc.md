@@ -286,6 +286,26 @@ There are 2 types of relationships of a prompt corpus **node** and a **blueprint
 
 
 
+#### checkmarking & uncheckmarking
+
+One might **checkmark** a node in a blueprint, and such node must be from blueprint's corpus tree:
+
+```python
+blueprint.checkmark(node)
+blueprint += node  # identical
+```
+
+And one might **uncheckmark** a node already in the blueprint:
+
+```python
+blueprint.uncheckmark(node)
+blueprint -= node  # identical
+```
+
+
+
+
+
 
 #### generate prompt
 
