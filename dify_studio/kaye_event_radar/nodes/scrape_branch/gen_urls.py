@@ -1,5 +1,13 @@
+"""
+dynamically create information for scarping various websites
+
+
+:return: ``opt`` is a ``list`` of urls (``str``) to be scraped
+"""
+
 from datetime import timedelta, date as date_cls
 
+# constants  ###################################################################
 EVENTBRITE_URL = (
     "https://www.eventbrite.com/d/ca--los-angeles/all-events/"
     "?page=1&start_date={}&end_date={}"
@@ -24,6 +32,7 @@ ENGAGE_SC_URL = "https://engage.usc.edu/events?from_date={}&to_date={}"
 ENGAGE_SC_DATE = "%d+%b+%Y"
 
 
+# helper method  ###############################################################
 def _create_date_range():
     """
     create a date range starting **today**, and ending on **next Sunday**
@@ -50,6 +59,7 @@ def _create_date_range():
     return start_date, end_date, days_passed + 1
 
 
+# entry point  #################################################################
 def main(
     enable_eventbride,
     enable_downtown_la,
@@ -57,13 +67,7 @@ def main(
     enable_la_live,
     enable_usc_event_calendar,
     enable_engage_sc,
-):
-    """
-    dynamically create information for scarping various websites
-
-
-    :return: ``opt`` is a ``list`` of urls (``str``) to be scraped
-    """
+):  # pylint: disable=missing-function-docstring
     start_date, end_date, days_cnt = _create_date_range()
 
     # create urls  -------------------------------------------------------------

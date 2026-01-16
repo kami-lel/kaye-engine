@@ -1,15 +1,19 @@
-def main(filter_events_prompt: str, interested_topics: list[str]):
-    """
-    generate ``filter_events_prompt`` as a full, usable prompt
-    by populated it of ``interested_topics``
+"""
+generate ``filter_events_prompt`` as a full, usable prompt
+by populated it of ``interested_topics``
 
 
-    :param filter_events_prompt:
-    :type filter_events_prompt: str
-    :param interested_topics:
-    :type interested_topics: list[str]
-    :return: ``opt`` is the populated, usable prompt (typed ``str``)
-    """
+:param filter_events_prompt:
+:type filter_events_prompt: str
+:param interested_topics:
+:type interested_topics: list[str]
+:return: ``opt`` is the populated, usable prompt (typed ``str``)
+"""
+
+
+def main(
+    filter_events_prompt: str, interested_topics: list[str]
+):  # pylint: disable=missing-function-docstring
     lines = ["##### Interested Topics", ""]
 
     for topic in interested_topics:
