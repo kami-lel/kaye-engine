@@ -35,6 +35,7 @@
 - update Dify App *Kaye Peer Coder* structure such that it support text streaming
 - complete `python_api_doc.md`
 - implementation of `PromptBlueprint` to improve efficiency and clarity
+- complete HTTP API support for Dify App *Kaye Peer Coder*
 
 ### Deprecated
 ### Removed
