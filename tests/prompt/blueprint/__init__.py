@@ -1,5 +1,3 @@
-from math import floor, ceil
-
 BLUEPRINT_1_FULL = """    ○
 [x] └── Project Title
 [x]     ├── Description
@@ -276,22 +274,6 @@ BLUEPRINT_EMPTY_PRUNED = """    ○"""
 
 
 # helper fx  ###################################################################
-
-
-def _print_heading(content):
-    filler_length = (76 - len(content)) / 2
-    FILLER = "#"
-    print(
-        "\n"
-        + FILLER * ceil(filler_length)
-        + "  "
-        + content
-        + "  "
-        + FILLER * floor(filler_length)
-        + "\n"
-    )
-
-
 def _split_content_and_comment(preview_tree):
     lines = preview_tree.splitlines()
     tree = "\n".join(lines[:-1])
