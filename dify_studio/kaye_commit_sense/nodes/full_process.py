@@ -1,16 +1,39 @@
-# TODO docstring
+"""
+process the full diff content by split content per file,
+and get various information from it
+
+
+:param content:
+:type content: str
+:return: {
+    "filename_list": a list of all files' name
+    "per_file_list": a list of all files' diff content
+    "is_single_file": if the given content contains only single file
+}
+:rtype: dict{
+    "filename_list": list[str]
+    "per_file_list": list[str]
+    "is_single_file": bool
+}
+"""
 
 import re
 
+# config  #####################################################################
+OUTPUT_FILENAME_LIST_KEY = "filenames_list"
+OUTPUT_PER_FILE_LIST_KEY = "per_file_list"
+OUTPUT_IS_SINGLE_FILE_KEY = "is_single_file"
+
+# constants  ###################################################################
 DIFF_GIT = "diff --git"
 REGEX_PATTERN = r".+\/(.+)"
 
 
-def main(input: str):  # pylint: disable=missing-function-docstring
+def main(content: str):  # pylint: disable=missing-function-docstring
     filenames_list = []
     per_file_list = []
 
-    for segment in input.split(DIFF_GIT)[1:]:
+    for segment in content.split(DIFF_GIT)[1:]:
         filename = re.match(REGEX_PATTERN, segment).group(1)
         filenames_list.append(filename)
 
@@ -20,7 +43,7 @@ def main(input: str):  # pylint: disable=missing-function-docstring
     is_single_file = len(filenames_list) == 1
 
     return {
-        "filenames_list": filenames_list,
-        "per_file_list": per_file_list,
-        "is_single_file": is_single_file,
+        OUTPUT_FILENAME_LIST_KEY: filenames_list,
+        OUTPUT_PER_FILE_LIST_KEY: per_file_list,
+        OUTPUT_IS_SINGLE_FILE_KEY: is_single_file,
     }
