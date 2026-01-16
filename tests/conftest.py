@@ -7,8 +7,4 @@ from api import create_app
 def flask_test_client():
     app = create_app()
     app.config["TESTING"] = True
-    ctx = app.app_context
-    ctx.push()
-    client = app.test_client()
-    yield client
-    ctx.pop()
+    return app.test_client()
