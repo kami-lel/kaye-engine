@@ -9,7 +9,7 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/openai:0.2.5@373362a028986aae53a7baf73a7f11991ba3c22c69eaf97d6cde048cfd4a9f98
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
     version: null
 kind: app
 version: 0.5.0
@@ -137,56 +137,6 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: llm
-        targetType: variable-aggregator
-      id: 1767838544107-source-1767838618133-target
-      selected: false
-      source: '1767838544107'
-      sourceHandle: source
-      target: '1767838618133'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: variable-aggregator
-      id: 1767838496854-source-1767838618133-target
-      selected: false
-      source: '1767838496854'
-      sourceHandle: source
-      target: '1767838618133'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: variable-aggregator
-      id: 1767838557126-source-1767838618133-target
-      selected: false
-      source: '1767838557126'
-      sourceHandle: source
-      target: '1767838618133'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: variable-aggregator
-        targetType: answer
-      id: 1767838618133-source-1767838673908-target
-      selected: false
-      source: '1767838618133'
-      sourceHandle: source
-      target: '1767838673908'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
         sourceType: start
         targetType: if-else
       id: 1766694234003-source-1767897791793-target
@@ -297,6 +247,42 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1767838496854-source-1768079802012-target
+      source: '1767838496854'
+      sourceHandle: source
+      target: '1768079802012'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1767838544107-source-1768079807379-target
+      source: '1767838544107'
+      sourceHandle: source
+      target: '1768079807379'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1767838557126-source-1768079816132-target
+      source: '1767838557126'
+      sourceHandle: source
+      target: '1768079816132'
+      targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
         selected: false
@@ -390,7 +376,7 @@ workflow:
 
             {{#sys.files#}} '
         selected: false
-        title: LLM Easy
+        title: LLM I
         type: llm
         vision:
           enabled: false
@@ -437,7 +423,7 @@ workflow:
 
             {{#sys.files#}}'
         selected: false
-        title: LLM Medium
+        title: LLM II
         type: llm
         vision:
           enabled: false
@@ -484,7 +470,7 @@ workflow:
 
             {{#sys.files#}}'
         selected: false
-        title: LLM Difficult
+        title: LLM III
         type: llm
         vision:
           enabled: false
@@ -496,51 +482,6 @@ workflow:
       positionAbsolute:
         x: 2174.119035774485
         y: 551.241777207165
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        desc: aggregate LLM response result from all branches
-        output_type: string
-        selected: false
-        title: Resposne Aggregator
-        type: variable-aggregator
-        variables:
-        - - '1767838544107'
-          - text
-        - - '1767838496854'
-          - text
-        - - '1767838557126'
-          - text
-      height: 204
-      id: '1767838618133'
-      position:
-        x: 2533.203358789417
-        y: 292.1121587345204
-      positionAbsolute:
-        x: 2533.203358789417
-        y: 292.1121587345204
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        answer: '{{#1767838618133.output#}}'
-        selected: false
-        title: Answer
-        type: answer
-        variables: []
-      height: 102
-      id: '1767838673908'
-      position:
-        x: 2830.670861784366
-        y: 292.96429331041503
-      positionAbsolute:
-        x: 2830.670861784366
-        y: 292.96429331041503
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -583,10 +524,10 @@ workflow:
       height: 88
       id: '1767843543355'
       position:
-        x: 863.5716953108888
+        x: 864.652270845103
         y: 303
       positionAbsolute:
-        x: 863.5716953108888
+        x: 864.652270845103
         y: 303
       selected: false
       sourcePosition: right
@@ -636,7 +577,7 @@ workflow:
           max_retries: 3
           retry_enabled: true
           retry_interval: 100
-        selected: true
+        selected: false
         ssl_verify: true
         timeout:
           max_connect_timeout: 0
@@ -654,7 +595,7 @@ workflow:
       positionAbsolute:
         x: 462.7688593664485
         y: 303
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -803,8 +744,65 @@ workflow:
       targetPosition: left
       type: custom
       width: 242
+    - data:
+        answer: '{{#1767838496854.text#}}'
+        selected: false
+        title: Answer I
+        type: answer
+        variables: []
+      height: 102
+      id: '1768079802012'
+      position:
+        x: 2476.119035774485
+        y: 297.24177720716483
+      positionAbsolute:
+        x: 2476.119035774485
+        y: 297.24177720716483
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1767838544107.text#}}'
+        selected: false
+        title: Answer II
+        type: answer
+        variables: []
+      height: 102
+      id: '1768079807379'
+      position:
+        x: 2476.119035774485
+        y: 424.24177720716483
+      positionAbsolute:
+        x: 2476.119035774485
+        y: 424.24177720716483
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1767838557126.text#}}'
+        selected: false
+        title: Answer III
+        type: answer
+        variables: []
+      height: 102
+      id: '1768079816132'
+      position:
+        x: 2476.119035774485
+        y: 551.241777207165
+      positionAbsolute:
+        x: 2476.119035774485
+        y: 551.241777207165
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
     viewport:
-      x: 52.527660232230346
-      y: 178.38997870668095
-      zoom: 0.8056360113031776
+      x: 175.54096031043446
+      y: 177.72565065485207
+      zoom: 0.9254327609103337
   rag_pipeline_variables: []

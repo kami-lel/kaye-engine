@@ -21,17 +21,7 @@ hooks_utility_ensure_version_updated
 
 # ensure Dify Apps' .yml files are updated
 hooks_utility_ensure_file_modified \
-    'dify_studio/kaye_cash_tracker/Kaye_Cash_Tracker.yml' \
-    'merge-binary-release' \
-    'download newest .yml by Export DSL'
-
-hooks_utility_ensure_file_modified \
     'dify_studio/kaye_commit_sense/Kaye_Commit_Sense.yml' \
-    'merge-binary-release' \
-    'download newest .yml by Export DSL'
-
-hooks_utility_ensure_file_modified \
-    'dify_studio/kaye_event_radar/Kaye_Event_Radar.yml' \
     'merge-binary-release' \
     'download newest .yml by Export DSL'
 
