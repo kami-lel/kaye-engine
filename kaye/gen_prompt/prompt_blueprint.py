@@ -185,7 +185,7 @@ class PromptBlueprint(dict):
         :param node: node object; or hash value of node
         :type node: PromptBlueprint or int
         :raise TypeError:
-        :raise KeyError:
+        :raise ValueError:
         :return: self
         :rtype: PromptBlueprint
         """
