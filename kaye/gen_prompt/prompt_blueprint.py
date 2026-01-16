@@ -182,6 +182,7 @@ class PromptBlueprint(dict):
         pass  # TODO
 
     def uncheckmark(self, node):
+        # TODO docstring
         node_hash = _normalize_node_hash(node)
 
         if node_hash not in self:
@@ -345,7 +346,12 @@ class PromptBlueprint(dict):
         return super().__contains__(_normalize_node_hash(key))
 
     def __iadd__(self, other):
-        pass  # TODO
+        # TODO docstring
+        return self.checkmark(other)
+
+    def __isub__(self, other):
+        # TODO docstring
+        return self.uncheckmark(other)
 
     def __repr__(self):
         """

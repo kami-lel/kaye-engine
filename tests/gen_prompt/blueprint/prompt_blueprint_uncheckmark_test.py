@@ -1,7 +1,10 @@
 """
 prompt_blueprint_uncheckmark_test.py
 
-Unit Tests (using pytest) for: PromptBlueprint.remove()
+Unit Tests (using pytest) for: PromptBlueprint
+
+- .uncheckmark()
+- __isub__()
 """
 
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
@@ -19,12 +22,12 @@ from tests.gen_prompt.blueprint import (
 )
 
 
-class Test1:  # use corpus1  ###################################################
+class Test1:  # corpus1  #######################################################
 
     corpus = PromptCorpusNode.parse(PROMPT1)
 
     # full -> partial 1  -------------------------------------------------------
-    def test1_use_obj(self):
+    def test1_uncheckmark_by_obj(self):
         bp_text = BLUEPRINT_1_FULL
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before uncheckmark")
@@ -48,7 +51,51 @@ class Test1:  # use corpus1  ###################################################
             == BLUEPRINT_1_PARTIAL_1
         )
 
-    def test1_use_hash(self):
+    def test1_uncheckmark_by_hash(self):
+        bp_text = BLUEPRINT_1_FULL
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        _print_heading("before uncheckmark")
+        print(opt)
+
+        node = self.corpus["Project Title"]
+        node_hash = hash(node)
+        opt.uncheckmark(node_hash)
+
+        _print_heading("after uncheckmark")
+        print(opt)
+
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == BLUEPRINT_1_PARTIAL_1
+        )
+
+    def test1_iadd_by_obj(self):
+        # TODO
+        bp_text = BLUEPRINT_1_FULL
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        _print_heading("before uncheckmark")
+        print(opt)
+
+        node = self.corpus["Project Title"]
+        ret = opt.uncheckmark(node)
+
+        _print_heading("after uncheckmark")
+        print(opt)
+        _print_heading("returned object")
+        print(ret)
+
+        assert (
+            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == BLUEPRINT_1_PARTIAL_1
+        )
+
+        assert (
+            ret.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            == BLUEPRINT_1_PARTIAL_1
+        )
+
+    def test1_iadd_by_hash(self):
+        # TODO
         bp_text = BLUEPRINT_1_FULL
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before uncheckmark")
@@ -67,7 +114,7 @@ class Test1:  # use corpus1  ###################################################
         )
 
     # full -> partial 2  -------------------------------------------------------
-    def test2_use_obj(self):
+    def test2_uncheckmark_by_obj(self):
         bp_text = BLUEPRINT_1_FULL
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before uncheckmark")
@@ -84,7 +131,7 @@ class Test1:  # use corpus1  ###################################################
             == BLUEPRINT_1_PARTIAL_2
         )
 
-    def test2_use_hash(self):
+    def test2_uncheckmark_by_hash(self):
         bp_text = BLUEPRINT_1_FULL
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before uncheckmark")
@@ -106,12 +153,12 @@ class Test1:  # use corpus1  ###################################################
     # TODO more tests
 
 
-class Test2:  # use corpus2  ##############################################
+class Test2:  # PROMPT 2  ######################################################
 
     corpus = PromptCorpusNode.parse(PROMPT2)
 
     # full -> partial 1  -------------------------------------------------------
-    def test1_use_obj(self):
+    def test1_uncheckmark_by_obj(self):
         bp_text = BLUEPRINT_2_FULL
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before uncheckmark")
@@ -130,7 +177,7 @@ class Test2:  # use corpus2  ##############################################
             == BLUEPRINT_2_PARTIAL_1
         )
 
-    def test1_use_hash(self):
+    def test1_uncheckmark_by_hash(self):
         bp_text = BLUEPRINT_2_FULL
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before uncheckmark")
@@ -152,12 +199,12 @@ class Test2:  # use corpus2  ##############################################
         )
 
 
-class Test3:  # use corpus3  ##############################################
+class Test3:  # PROMPT 3  ######################################################
 
     corpus = PromptCorpusNode.parse(PROMPT3)
 
     # full -> partial 1  -------------------------------------------------------
-    def test1_use_obj(self):
+    def test1_uncheckmark_by_obj(self):
         bp_text = BLUEPRINT_3_FULL
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before uncheckmark")
@@ -180,7 +227,7 @@ class Test3:  # use corpus3  ##############################################
             == BLUEPRINT_3_PARTIAL_1
         )
 
-    def test1_use_hash(self):
+    def test1_uncheckmark_by_hash(self):
         bp_text = BLUEPRINT_3_FULL
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before uncheckmark")
@@ -204,7 +251,7 @@ class Test3:  # use corpus3  ##############################################
         )
 
     # full -> partial 2  -------------------------------------------------------
-    def test2_use_obj(self):
+    def test2_uncheckmark_by_obj(self):
         bp_text = BLUEPRINT_3_FULL
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before uncheckmark")
@@ -230,7 +277,7 @@ class Test3:  # use corpus3  ##############################################
             == BLUEPRINT_3_PARTIAL_2
         )
 
-    def test2_use_hash(self):
+    def test2_uncheckmark_by_hash(self):
         bp_text = BLUEPRINT_3_FULL
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before uncheckmark")
