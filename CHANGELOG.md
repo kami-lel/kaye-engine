@@ -1,7 +1,7 @@
 # Kaye CHANGELOG
 
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
-<!-- Todo standardize module & entry docstring for all dify apps' code node -->
+<!-- todo standardize module & entry docstring for all dify apps' code node -->
 
 [^format]
 
