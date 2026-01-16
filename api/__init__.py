@@ -14,6 +14,9 @@ PORT = 11255
 
 
 def create_app():
+    """
+    create a Flask App for: Kaye HTTP API
+    """
     app_bp = Blueprint("kaye", PROGRAM_NAME, url_prefix="/kaye")
     app_bp.register_blueprint(prompt_bp)
     app_bp.register_blueprint(dify_bp)
