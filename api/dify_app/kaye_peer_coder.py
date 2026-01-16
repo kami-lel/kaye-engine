@@ -101,16 +101,43 @@ def _parse_flags_from_languages_arg(languages_arg):
 
 def _generate_task_prompt_based_on_flags(flags):
     corpus = load_embedded_prompt_corpus()
-    blueprint = PromptBlueprint.parse(
+    bp = PromptBlueprint.parse(
         corpus,
         TASK_PROMPT_BASIC_BLUEPRINT,
     )
 
     # add language prompt fragments  -------------------------------------------
     kyc_node = corpus["Role"]["Kaye Peer Coder"]
-    # TODO code dynamically add language fragment
 
-    return str(blueprint)
+    if PL.c in flags:
+        bp += kyc_node["C"]
+    if PL.cpp in flags:
+        bp += kyc_node["C++"]
+    if PL.ue in flags:
+        bp += kyc_node["Unreal Engine"]
+    if PL.csharp in flags:
+        bp += kyc_node["C Sharp"]
+    if PL.u3d in flags:
+        bp += kyc_node["Unity Engine"]
+    if PL.gdscript in flags:
+        bp += kyc_node["GDscript"]
+    if PL.html in flags:
+        bp += kyc_node["HTML"]
+    if PL.ts in flags or PL.js in flags:
+        bp += kyc_node["JavaScript & TypeScript"]
+    if PL.qt in flags:
+        bp += kyc_node["Qt"]
+    if PL.qml in flags:
+        bp += kyc_node["QML"]
+    if PL.py in flags:
+        py_node = kyc_node["Python"]
+        bp += py_node
+        bp += py_node["Docstring Style"]
+        bp += py_node["Testing Guidelines"]
+    if PL.console in flags:
+        bp += kyc_node["Message Level"]
+
+    return str(bp)
 
 
 # Flask Routing  ###############################################################
