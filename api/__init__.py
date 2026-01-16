@@ -2,7 +2,7 @@
 define Kaye Flask HTTP API
 """
 
-# bug maybe write unit tests?
+# Bug maybe write unit tests?
 
 from flask import Flask, Blueprint
 
