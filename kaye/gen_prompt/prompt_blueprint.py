@@ -180,7 +180,8 @@ class PromptBlueprint(dict):
 
     def checkmark(self, node):
         """
-        TODO
+        checkmark a ``node`` in this blueprint
+
 
         :param node: node object; or hash value of node
         :type node: PromptBlueprint or int
@@ -189,7 +190,6 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-
         node_hash = _normalize_node_hash(node)
 
         if not _checkmark_find_node_recursively(node, self.corpus):
@@ -203,7 +203,8 @@ class PromptBlueprint(dict):
 
     def uncheckmark(self, node):
         """
-        TODO
+        uncheckmark a ``node`` in this blueprint
+
 
         :param node: node object; or hash value of node
         :type node: PromptBlueprint or int
@@ -376,11 +377,35 @@ class PromptBlueprint(dict):
         return super().__contains__(_normalize_node_hash(key))
 
     def __iadd__(self, other):
-        # TODO docstring
+        """
+        checkmark a ``node`` in this blueprint
+
+        (wrapper of and identical to ``.checkmark()``)
+
+
+        :param node: node object; or hash value of node
+        :type node: PromptBlueprint or int
+        :raise TypeError:
+        :raise ValueError:
+        :return: self
+        :rtype: PromptBlueprint
+        """
         return self.checkmark(other)
 
     def __isub__(self, other):
-        # TODO docstring
+        """
+        uncheckmark a ``node`` in this blueprint
+
+        (wrapper of and identical to ``.uncheckmark()``)
+
+
+        :param node: node object; or hash value of node
+        :type node: PromptBlueprint or int
+        :raise TypeError:
+        :raise KeyError:
+        :return: self
+        :rtype: PromptBlueprint
+        """
         return self.uncheckmark(other)
 
     def __repr__(self):
