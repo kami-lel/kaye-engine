@@ -182,12 +182,23 @@ class PromptBlueprint(dict):
         pass  # TODO
 
     def uncheckmark(self, node):
-        # TODO docstring
+        """
+        TODO
+
+        :param node: _description_
+        :type node: _type_
+        :raises KeyError: _description_
+        :return: _description_
+        :rtype: _type_
+        :raise TypeError:
+        :raise KeyError:
+        """
         node_hash = _normalize_node_hash(node)
 
         if node_hash not in self:
             raise KeyError(
-                "fail to remove node, not in the blueprint: {}".format(node)
+                "fail to uncheckmark node, missing in this blueprint: {}"
+                .format(repr(node))
             )
 
         self[node_hash] = False
@@ -483,7 +494,6 @@ def _normalize_node_hash(node):
     :rtype: int
     :raises TypeError:
     """
-    # TODO support use str
     if isinstance(node, PromptCorpusNode):
         return hash(node)
 
@@ -492,5 +502,7 @@ def _normalize_node_hash(node):
 
     else:
         raise TypeError(
-            "must be PromptCorpusNode or hash value: {}".format(repr(node))
+            "must be PromptCorpusNode or hash value, not: {}".format(
+                repr(node)
+            )
         )

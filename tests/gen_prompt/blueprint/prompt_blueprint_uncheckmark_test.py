@@ -7,6 +7,8 @@ Unit Tests (using pytest) for: PromptBlueprint
 - __isub__()
 """
 
+import pytest
+
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
 from tests.gen_prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.gen_prompt.blueprint import (
@@ -134,7 +136,46 @@ class Test1:  # corpus1  #######################################################
         )
 
     # err handling  ------------------------------------------------------------
-    # TODO more tests
+    def test_bad_type(self):
+        bp_text = BLUEPRINT_1_FULL
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+
+        with pytest.raises(TypeError) as exec_info:
+            opt.uncheckmark(12.5)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "must be PromptCorpusNode or hash value, not: 12.5"
+
+    def test_bad_hash(self):
+        bp_text = BLUEPRINT_1_FULL
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+
+        with pytest.raises(KeyError) as exec_info:
+            opt.uncheckmark(5)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "fail to uncheckmark node, missing in this blueprint: 5"
+
+    def test_bad_obj(self):
+        bp_text = BLUEPRINT_1_FULL
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        bad_node = PromptCorpusNode.parse(PROMPT3)["Main Title"]
+
+        with pytest.raises(KeyError) as exec_info:
+            opt.uncheckmark(bad_node)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert (
+            opt
+            == "fail to uncheckmark node, missing in this blueprint: "
+            "PromptCorpusNode(Main Title)"
+        )
 
 
 class Test2:  # PROMPT 2  ######################################################
