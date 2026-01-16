@@ -1,7 +1,15 @@
 """
 count number of lines, and decide to use either long/short prompts
 
-TODO params
+
+:param item:
+:type item: str
+:param prompt_per_file_extract_long:
+:type prompt_per_file_extract_long: str
+:param prompt_per_file_extract_short:
+:type prompt_per_file_extract_short: str
+:return: {"extract_prompt": prompt to use}
+:rtype: dict{"extract_prompt": str}
 """
 
 # constants  ###################################################################

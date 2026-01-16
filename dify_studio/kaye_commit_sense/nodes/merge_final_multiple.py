@@ -1,6 +1,23 @@
-# todo module docstring
+"""
+merge to produce final output,
+when multiple files are involved
 
 
+:param primary_message:
+:type primary_message: str
+:param filenames_list:
+:type filenames_list: list[str]
+:param per_file_extracts:
+:type per_file_extracts: list[dict]
+:return: {"result": merged output}
+:rtype: dict{"result": str}
+"""
+
+# config  ######################################################################
+OUTPUT_RESULT_KEY = "result"
+
+
+# Entry Point  #################################################################
 def main(
     primary_message: str,
     filenames_list: list[str],
@@ -19,4 +36,4 @@ def main(
 
 {}""".format(primary_message, "\n".join(lines))
 
-    return {"result": opt}
+    return {OUTPUT_RESULT_KEY: opt}
