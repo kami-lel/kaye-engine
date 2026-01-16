@@ -138,7 +138,7 @@ def _generate_task_prompt_based_on_flags(flags):
     if PL.console in flags:
         bp += kyc_node["Message Level"]
 
-    return str(bp)
+    return bp.generate_prompt()
 
 
 # Flask Routing  ###############################################################
@@ -153,7 +153,7 @@ def kaye_peer_coder_pre_sense():
         load_embedded_prompt_corpus(),
         PRE_SENSE_PROMPT_BLUEPRINT,
     )
-    return str(blueprint)
+    return blueprint.generate_prompt()
 
 
 # /kaye/dify-app/kyc/task

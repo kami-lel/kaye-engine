@@ -29,11 +29,11 @@ ky_bp = Blueprint("kaye-chat", PROGRAM_NAME, url_prefix="/ky")
 # /kaye/dify-app/kaye-peer-coder/pre-sense
 @ky_bp.route("/pre-sense", methods=["GET"])
 def kaye_chat_pre_sense():
-    blueprint = PromptBlueprint(
+    blueprint = PromptBlueprint.parse(
         load_embedded_prompt_corpus(),
         PRE_SENSE_PROMPT_BLUEPRINT,
     )
-    return str(blueprint)
+    return blueprint.generate_prompt()
 
 
 # /kaye/dify-app/kaye-peer-coder/chat
@@ -41,4 +41,4 @@ def kaye_chat_pre_sense():
 def kaye_chat_chat():
     blueprint = load_embedded_prompt_blueprint("chat")
 
-    return str(blueprint)
+    return blueprint.generate_prompt()
