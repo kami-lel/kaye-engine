@@ -1,26 +1,16 @@
-# kaye README
+# Kaye README
 
-> Consistent AI agent persona **Kaye**, powered by rigorous prompt engineering
+> Consistent AI Agent Persona **Kaye**, powered by rigorous prompt engineering
 
+Kaye is a toolkit for maintaining a consistent AI agent persona from a single, structured source of truth. The project focuses on producing scenario-ready prompts from a central Markdown corpus using blueprints, a `gen_prompt` module, and a lightweight CLI for reproducible outputs.
 
+#### ✨ Features
 
-
-
-
-
-
-
-
-
-
-
-## 📚 Prompt Corpus
-
-The [Prompt Corpus](kaye/prompt_corpus.md) is the center concept, a **Single, Structured Markdown**
- holding instructions, rules, styles, roles, and references
-it defines who **Kaye** is, and this project focuses on tools to **generate
-scenario-ready prompts** from it via blueprints, the *gen_prompt* module, and a
-lightweight *CLI* so outputs stay consistent across contexts
+- 📌 single Source Of Truth for persona, roles, and rules
+- ⚙️ generate scenario-ready prompts from blueprints and templates
+- 🐍 programmatic Python API for listing, previewing, and generating prompts
+- 🌐 HTTP endpoints for dynamic prompt generation via a lightweight Flask service
+- 💻 CLI for quick local generation and inspection
 
 
 
@@ -33,18 +23,76 @@ lightweight *CLI* so outputs stay consistent across contexts
 
 
 
+## 🧩 Core Concepts
+
+### 📄 Prompt Corpus
+
+The [Prompt Corpus](kaye/prompt_corpus.md) is the single, structured Markdown file that defines persona, roles, rules, styles, and references. It is the authoritative Source Of Truth used to generate prompts for different scenarios.
+
+----
+
+Other core concepts:
+
+- 🎭 role: task-specific **Behavior Profile** inside the corpus shaping response style and scope
+- 📝 prompt: final **Rendered Text** tailored to a context and ready for direct use
+- 🌲 blueprint: tree **Selection Spec** that controls which corpus parts are rendered
 
 
-## 🧠 Core Concepts
 
-- prompt corpus: single **Source Of Truth** in *prompt_corpus.md* defining
-  persona, roles, rules
-- role: task-specific **Behavior Profile** inside the corpus shaping response
-  style, scope
-- prompt: final **Rendered Text** tailored to context, ready for direct use
-- blueprint: tree **Selection Spec** controlling which corpus parts render
-- Python module API: programmatic **API** to list, preview,
-  generate
-- CLI: command-line **CLI** via *python -m kaye* to list, show, generate fast
 
-<!-- Todo: introduce: corpus, python api, http api, cli, dify apps -->
+
+
+
+
+
+
+
+
+
+##  Install
+Install the Kaye Python package/API for all usages:
+
+```bash
+pip install .
+```
+
+
+
+
+
+
+
+
+
+
+
+## 🐍 Usage
+
+### 📖 Python API
+The **Kaye Python API** provides programmatic access to list corpus entries, preview sections, and generate concrete prompts.
+
+Q.v. [Kaye Python API documentation](docs/python_api_doc.md)
+
+
+
+
+
+### 🌐 HTTP API
+
+The **Kaye HTTP API** uses Flask to provide endpoints for requesting rendered prompts and previews dynamically.
+
+Q.v. [Kaye HTTP API documentation](docs/http_api_doc.md)
+
+
+
+
+
+### 💻 Python CLI
+
+A simple CLI is provided to list, show, and generate prompts from the terminal:
+
+```bash
+python -m kaye --help
+```
+
+<!-- todo write doc file for CLI -->
