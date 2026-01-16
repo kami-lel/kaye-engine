@@ -1,5 +1,7 @@
 """
 count number of lines, and decide to use either long/short prompts
+
+TODO params
 """
 
 # constants  ###################################################################

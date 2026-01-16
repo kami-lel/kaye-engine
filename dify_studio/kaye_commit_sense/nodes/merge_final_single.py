@@ -1,4 +1,9 @@
-def main(filenames_list: list[str], per_file_extracts: list[dict]):
+# TODO
+
+
+def main(
+    filenames_list: list[str], per_file_extracts: list[dict]
+):  # pylint: disable=missing-function-docstring
     filename = filenames_list[0]
 
     file_extract = per_file_extracts[0]

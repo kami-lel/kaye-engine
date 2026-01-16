@@ -1,10 +1,12 @@
+# TODO docstring
+
 import re
 
 DIFF_GIT = "diff --git"
 REGEX_PATTERN = r".+\/(.+)"
 
 
-def main(input: str):
+def main(input: str):  # pylint: disable=missing-function-docstring
     filenames_list = []
     per_file_list = []
 

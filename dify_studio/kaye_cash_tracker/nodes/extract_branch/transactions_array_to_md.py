@@ -1,4 +1,7 @@
-def main(transactions):
+# TODO docstring
+
+
+def main(transactions):  # pylint: disable=missing-function-docstring
     # Generate header row with updated headers
     header = ["", "¤", "Out", "In", "From", "To", "", "Remarks"]
     # Separator line for markdown table formatting

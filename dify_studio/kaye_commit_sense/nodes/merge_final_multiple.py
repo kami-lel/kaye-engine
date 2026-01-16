@@ -1,8 +1,11 @@
+# TODO
+
+
 def main(
     primary_message: str,
     filenames_list: list[str],
     per_file_extracts: list[dict],
-):
+):  # pylint: disable=missing-function-docstring
     # create line per file
     lines = []
     for filename, file_extract in zip(filenames_list, per_file_extracts):
