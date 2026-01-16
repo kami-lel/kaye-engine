@@ -229,11 +229,139 @@ class TestChatLanguages:  # fx of languages  ===================================
 
 
 class TestChatFlags:  # ========================================================
-    pass  # TODO
+
+    def test1(self, flask_test_client):
+        flags = PL.cpp
+
+        flags_param = int(flags)
+        response = flask_test_client.get(
+            CHAT_ENDPOINT + "?flags={}".format(flags_param)
+        )
+        flags, prompt = _deconstruct_chat_response(response)
+
+        _print_heading("flags")
+        print(flags)
+        _print_heading("prompt")
+        print(prompt)
+
+        assert flags == PL.cpp
+        assert CHAT_BASIC_PROMPT in prompt
+        assert _is_language_prompt_part_contained("C++", prompt)
+
+    def test2(self, flask_test_client):
+        flags = PL.html
+
+        flags_param = int(flags)
+        response = flask_test_client.get(
+            CHAT_ENDPOINT + "?flags={}".format(flags_param)
+        )
+        flags, prompt = _deconstruct_chat_response(response)
+
+        _print_heading("flags")
+        print(flags)
+        _print_heading("prompt")
+        print(prompt)
+
+        assert flags == PL.html
+        assert CHAT_BASIC_PROMPT in prompt
+        assert _is_language_prompt_part_contained("HTML", prompt)
+
+    def test3(self, flask_test_client):
+        flags = PL.js | PL.u3d
+
+        flags_param = int(flags)
+        response = flask_test_client.get(
+            CHAT_ENDPOINT + "?flags={}".format(flags_param)
+        )
+        flags, prompt = _deconstruct_chat_response(response)
+
+        _print_heading("flags")
+        print(flags)
+        _print_heading("prompt")
+        print(prompt)
+
+        assert PL.js in flags
+        assert PL.u3d in flags
+        assert CHAT_BASIC_PROMPT in prompt
+        assert _is_language_prompt_part_contained(
+            "JavaScript & TypeScript", prompt
+        )
+        assert _is_language_prompt_part_contained("Unity Engine", prompt)
+
+    def test4(self, flask_test_client):
+        flags = PL.ue | PL.qt | PL.c
+
+        flags_param = int(flags)
+        response = flask_test_client.get(
+            CHAT_ENDPOINT + "?flags={}".format(flags_param)
+        )
+        flags, prompt = _deconstruct_chat_response(response)
+
+        _print_heading("flags")
+        print(flags)
+        _print_heading("prompt")
+        print(prompt)
+
+        assert PL.c in flags
+        assert PL.ue in flags
+        assert PL.qt in flags
+        assert CHAT_BASIC_PROMPT in prompt
+        assert _is_language_prompt_part_contained("C", prompt)
+        assert _is_language_prompt_part_contained("Unreal Engine", prompt)
+        assert _is_language_prompt_part_contained("Qt", prompt)
 
 
 class TestChatBoth:  # =========================================================
-    pass  # TODO
+
+    def test1(self, flask_test_client):
+        flags = PL.cpp
+        lang_param = "py"
+
+        flags_param = int(flags)
+        response = flask_test_client.get(
+            CHAT_ENDPOINT
+            + "?flags={}&languages={}".format(flags_param, lang_param)
+        )
+        flags, prompt = _deconstruct_chat_response(response)
+
+        _print_heading("flags")
+        print(flags)
+        _print_heading("prompt")
+        print(prompt)
+
+        assert PL.cpp in flags
+        assert PL.py in flags
+        assert CHAT_BASIC_PROMPT in prompt
+        assert _is_language_prompt_part_contained("C++", prompt)
+        assert _is_language_prompt_part_contained("Python", prompt)
+
+    def test2(self, flask_test_client):
+        flags = PL.c | PL.html
+        lang_param = "py,qt,u3d"
+
+        flags_param = int(flags)
+        response = flask_test_client.get(
+            CHAT_ENDPOINT
+            + "?flags={}&languages={}".format(flags_param, lang_param)
+        )
+        flags, prompt = _deconstruct_chat_response(response)
+
+        _print_heading("flags")
+        print(flags)
+        _print_heading("prompt")
+        print(prompt)
+
+        assert PL.c in flags
+        assert PL.html in flags
+        assert PL.py in flags
+        assert PL.qt in flags
+        assert PL.u3d in flags
+        assert CHAT_BASIC_PROMPT in prompt
+        assert _is_language_prompt_part_contained("C", prompt)
+        assert _is_language_prompt_part_contained("HTML", prompt)
+        assert _is_language_prompt_part_contained("Python", prompt)
+        assert _is_language_prompt_part_contained("Qt", prompt)
+        assert _is_language_prompt_part_contained("Unity Engine", prompt)
 
 
 # helper  ######################################################################
