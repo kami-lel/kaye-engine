@@ -78,7 +78,6 @@ class TestChat:  # /chat  ######################################################
 
     # test languages param  ----------------------------------------------------
     def test_languages1(self, flask_test_client):
-        # BUG this is wrong
         flags = PL.NONE
         lang_param = "cpp"
 
@@ -97,6 +96,12 @@ class TestChat:  # /chat  ######################################################
         assert flags == PL.cpp
         assert self.basic_prompt in prompt
 
+        assert _is_language_prompt_part_contained_in_prompt("C++", prompt)
+
+    # TODO mm languages
+
+    # test languages param  ----------------------------------------------------
+
 
 # helper  ######################################################################
 def _deconstruct_chat_response(response):
@@ -106,3 +111,11 @@ def _deconstruct_chat_response(response):
     prompt = data["prompt"]
     print(prompt)  # HACK
     return flags, prompt
+
+
+def _is_language_prompt_part_contained_in_prompt(heading, prompt):
+    kyc_node = load_embedded_prompt_corpus()["Role"]["Kaye Peer Coder"][
+        heading
+    ]
+    language_prompt = "\n".join(kyc_node._generate_prompt_lines())
+    return language_prompt in prompt

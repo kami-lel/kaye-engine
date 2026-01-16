@@ -253,9 +253,7 @@ class PromptCorpusNode(AnytreeNode):
                 if child.name == key:
                     return child
             raise KeyError(
-                "fail to find child {} in this PromptCorpusNode".format(
-                    repr(key)
-                )
+                "fail to find child {} in {}".format(repr(key), repr(self))
             )
 
         else:

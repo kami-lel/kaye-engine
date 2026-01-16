@@ -47,6 +47,7 @@ class TestRoot:
             self.node["???"]
 
         opt = exec_info.value.args[0]
+        # BUG
         assert opt == "fail to find child '???' in this PromptCorpusNode"
 
     def test_bad_type(self):
@@ -125,6 +126,7 @@ class TestMain:
             self.node["???"]
 
         opt = exec_info.value.args[0]
+        # BUG
         assert opt == "fail to find child '???' in this PromptCorpusNode"
 
     def test_bad_type(self):
