@@ -2,8 +2,6 @@
 define Kaye Flask HTTP API
 """
 
-# Bug maybe write unit tests?
-
 from flask import Flask, Blueprint
 
 from kaye import PROGRAM_NAME
