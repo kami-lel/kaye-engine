@@ -45,7 +45,24 @@ single **Source Of Truth** in *prompt_corpus.md* defining persona, roles, rules
 
 
 
-## Python API
+## Install
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Usage
+
+### Python API
 
 - Python module API: programmatic **API** to list, preview,
   generate
@@ -53,30 +70,13 @@ single **Source Of Truth** in *prompt_corpus.md* defining persona, roles, rules
 
 
 
+### HTTP API
 
 
 
 
 
-
-
-
-
-## HTTP API
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Python CLI
+### Python CLI
 
 - CLI: command-line **CLI** via *python -m kaye* to list, show, generate fast
 
