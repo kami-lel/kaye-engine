@@ -101,4 +101,44 @@ class Test11:  # PROMPT1:  partial 1 -> full  ##################################
         )
 
     # err handling  ------------------------------------------------------------
-    # TODO
+    # BUG
+    def test_bad_type(self):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+
+        with pytest.raises(TypeError) as exec_info:
+            opt.checkmark(12.5)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "must be PromptCorpusNode or hash value, not: 12.5"
+
+    def test_bad_hash(self):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+
+        with pytest.raises(ValueError) as exec_info:
+            opt.checkmark(5)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "node missing from blueprint's corpus: 5"
+
+    def test_bad_obj(self):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        bad_node = PromptCorpusNode.parse(PROMPT3)["Main Title"]
+
+        with pytest.raises(ValueError) as exec_info:
+            opt.checkmark(bad_node)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert (
+            opt
+            == "node missing from blueprint's corpus: "
+            "PromptCorpusNode(Main Title)"
+        )
