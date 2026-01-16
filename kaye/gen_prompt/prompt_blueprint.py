@@ -189,7 +189,7 @@ class PromptBlueprint(dict):
                 "fail to remove node, not in the blueprint: {}".format(node)
             )
 
-        self[node] = False
+        self[node_hash] = False
 
         return self.prune()
 
