@@ -13,6 +13,7 @@
         "unprunable"
     ],
     "todo-tree.filtering.excludeGlobs": [
+        "**/hooks_utility/*/**",
         "*.yml",
         "**/prompt_corpus.md"
     ]
