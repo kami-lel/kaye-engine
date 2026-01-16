@@ -65,7 +65,7 @@ class Test11:  # PROMPT1:  partial 1 -> full  ##################################
             == self.dest
         )
 
-    def test1_isub_by_obj(self):
+    def test1_iadd_by_obj(self):
         bp_text = self.src
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before checkmark")
@@ -82,7 +82,7 @@ class Test11:  # PROMPT1:  partial 1 -> full  ##################################
             == self.dest
         )
 
-    def test1_isub_by_hash(self):
+    def test1_iadd_by_hash(self):
         bp_text = self.src
         opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
         _print_heading("before checkmark")
