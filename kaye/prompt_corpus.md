@@ -1774,7 +1774,7 @@ Eg:
 
 ### Per File Summary Task
 
-Produce a summary of changes of a **single** file.
+Produce a concise summary of changes of a **single** file.
 
 Eg:
 
