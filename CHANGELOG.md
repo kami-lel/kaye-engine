@@ -22,6 +22,7 @@
 ### Changed
 
 - unify docstring of all `.py` files of Dify App nodes
+- improve *Kaye Commit Sense* prompts to summarize better
 
 ### Deprecated
 ### Removed
