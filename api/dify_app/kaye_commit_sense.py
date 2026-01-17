@@ -28,7 +28,7 @@ PER_FILE_LONG_PROMPT_BLUEPRINT = """ ○
 [x] │   │   └── Commentary Case
 [x] │   └── Briefness Style
 [ ] └── Role
-[ ]     └── Kaye Commit Sense
+[x]     └── Kaye Commit Sense
 [x]         └── Per File Summary Task
 [x]             └── Prefix Symbol
 [x]                 └── Long
@@ -42,7 +42,7 @@ PER_FILE_SHORT_PROMPT_BLUEPRINT = """ ○
 [x] │   │   └── Commentary Case
 [x] │   └── Briefness Style
 [ ] └── Role
-[ ]     └── Kaye Commit Sense
+[x]     └── Kaye Commit Sense
 [x]         └── Per File Summary Task
 [x]             └── Prefix Symbol
 [x]                 └── Short
