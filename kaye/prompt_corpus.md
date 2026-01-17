@@ -1731,6 +1731,8 @@ You are given the result of `git diff --cached`; interpret it as the changes rea
 - strictly use *Briefness Style* language
 - use *Commentary Case* for each line
 
+**You must produce a single-line, ultra-concise summary** (max **72 characters**) that captures the file’s overall intent and its primary or most impactful change; omit secondary changes if including them would exceed the limit, so the line highlights only the most significant change.
+
 
 
 
@@ -1745,8 +1747,19 @@ You are given the result of `git diff --cached`; interpret it as the changes rea
 
 ### Primary Message Task
 
-Summarize the overall intent of all staged changes in one line (under 72 characters), only highlighting the most important and impactful changes.
+Produce a concise summary of changes across **multiple** files.
 
+Identify any overarching patterns, paradigm shifts, or common themes that span the files; if such cross-file changes exist, summarize them and infer the likely intent or direction of the changes.
+
+If no clear, consistent cross-file pattern exists (i.e., each file was edited for unrelated reasons), summarize the single most important change among the files and omit minor or numerous unrelated edits that would make the summary wordy.
+
+Eg:
+
+- modularize payment processing; split into gateway adapters
+- introduce feature-flag framework; enable gradual rollout for search
+- optimize database queries across services; remove n+1 patterns
+- upgrade dependencies: bump framework and address breaking changes
+- remove legacy analytics pipeline; replace with event-driven collector
 
 
 
@@ -1761,7 +1774,15 @@ Summarize the overall intent of all staged changes in one line (under 72 charact
 
 ### Per File Summary Task
 
-Summarize the overall intent and major change pattern of the file in an extremely short and concise manner.
+Produce a summary of changes of a **single** file.
+
+Eg:
+
+- refactor date parsing to reduce duplication
+- fix null-pointer crash in payment processor
+- simplify configuration loading logic
+- rename parser variable for clarity
+- optimize string concatenation in report generator
 
 
 
