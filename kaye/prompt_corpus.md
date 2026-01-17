@@ -2010,35 +2010,70 @@ Suggestions for improvement
 - include preferred file-level ordering (imports, constants, classes, functions,
   main) if consistent structure is desired
 
-##### Comment Section Headings
+----
 
-When code is lengthy and complicated, use comment section headings to clearly indicate code structure (such as modules, sections, or functions) to improve readability and organization.
+Use **comment section headings** to show code structure (file info, modules, sections, functions) for readability and organization.
 
-Format:
-- Align the section heading text to the left.
-- Add a single space after the text before the visual separator.
-- Use visual separators for **three levels**:
-  - `#` for **primary** headings
-  - `=` for **secondary** headings
-  - `-` for **lowest** headings
-  Extend the chosen separator to the end of the line.
-- Each complete heading line should be **80 characters** long, including the text, space, and separator.
+Rules:
+- Use symbol order: **#, =, *, +, -** to represent descending structure levels.
+- Repeat symbols as visual rulers to match line width.
+- Use `-` freely as local detail headers; it does not need to strictly follow the hierarchy.
+- Keep headings concise and place them in comments appropriate to the language.
 
-Example:
-
+Example (C++): short, functional, demonstrating all levels
 ```cpp
-// Project Example #############################################################
+/*
+################################################################################
+# stats_demo.cpp
+#
+# compute simple statistics
+################################################################################
+*/
 
+#include <cstdio>
+// Globals  ====================================================================
+const int kValues[] = {10, 20, 30};
+const int kCount = sizeof(kValues) / sizeof(kValues[0]);
+
+// Public API  =================================================================
+// Utility functions  **********************************************************
+double compute_average(const int* values, int count) {
+    // Sum values  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    int sum = 0;
+    // accumulate  -------------------------------------------------------------
+    for (int i = 0; i < count; ++i) {
+        sum += values[i];
+    }
+    // Sum values  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    ...
+    // Compute average  --------------------------------------------------------
+    return (count > 0) ? static_cast<double>(sum) / count : 0.0;
+}
+
+// Data Analysis  **************************************************************
+...
+
+// Entry Point  ================================================================
 int main() {
-    // Main Module =============================================================
-    // Startup Routine ---------------------------------------------------------
-    …
-    // Cleanup -----------------------------------------------------------------
-    …
+    double average = compute_average(kValues, kCount);
+    // print result  -----------------------------------------------------------
+    std::printf("Average: %.2f\n", average);
+    ...
     return 0;
 }
 ```
 
+Example (Python):
+
+```python
+...
+# Public Parser  ###############################################################
+def to_int(s):
+    s = s.strip()
+    # Quick parse  -------------------------------------------------------------
+    ...
+    return int(s) if s.isdigit() else None
+```
 
 
 
