@@ -12,6 +12,8 @@ def main(
     show_prefix_meta_content,
     languages: str,
 ):
+    # TODO docstring
+    # BUG need test functionality
     # decide branch  ------------------------------------------------------------
     if difficulty < difficulty_thresholds[0]:
         branch = 0
