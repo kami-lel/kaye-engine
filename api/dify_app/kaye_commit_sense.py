@@ -56,18 +56,26 @@ def _checkmark_md_related_node(blueprint):
     """
     md_arg = request.args.get("allows_md")
 
-    try:
-        if md_arg and int(md_arg) == 1:  # allows md
+    # default to disable  md
+    node = blueprint.corpus["Role"]["Kaye Commit Sense"]["no markdown syntax"]
+
+    if md_arg:
+        try:
+            md_value = int(md_arg)
+        except ValueError:
+            abort(Response("bad param: ?allows_md={}".format(md_arg), 422))
+
+        if md_value == 1:
             node = blueprint.corpus["Format"]
+        elif md_value != 0:
+            abort(
+                Response(
+                    "param ?allows_md must be 1/0, not {}".format(md_value),
+                    422,
+                )
+            )
 
-        else:  # disallow md
-            node = blueprint.corpus["Role"]["Kaye Commit Sense"][
-                "no markdown syntax"
-            ]
-        blueprint.checkmark(node)
-
-    except ValueError:
-        abort(Response("bad param: ?allows_md={}".format(md_arg), 422))
+    blueprint.checkmark(node)
 
 
 # Flask Routing  ###############################################################
