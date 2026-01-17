@@ -14,9 +14,9 @@ from api.dify_app.kaye_commit_sense import (
 APP_PREFIX = "/kaye/dify-app/kaye-commit-sense"
 
 
-class TestPrimary  # /primary-message  #########################################
+class TestPrimary:  # /primary-message  ########################################
 
-    def test_fx(flask_test_client):
+    def test_fx(_, flask_test_client):
         response = flask_test_client.get(APP_PREFIX + "/primary-message")
 
         opt = response.data.decode("utf-8")
@@ -30,8 +30,9 @@ class TestPrimary  # /primary-message  #########################################
         )
 
 
-class TestLong  # /per-file-long  ##############################################
-    def test_fx(flask_test_client):
+class TestLong:  # /per-file-long  #############################################
+
+    def test_fx(_, flask_test_client):
         response = flask_test_client.get(APP_PREFIX + "/per-file-long")
 
         opt = response.data.decode("utf-8")
@@ -45,9 +46,9 @@ class TestLong  # /per-file-long  ##############################################
         )
 
 
-class TestShort  # /per-file-short  ############################################
+class TestShort:  # /per-file-short  ###########################################
 
-    def test_fx(flask_test_client):
+    def test_fx(_, flask_test_client):
         response = flask_test_client.get(APP_PREFIX + "/per-file-short")
 
         opt = response.data.decode("utf-8")
