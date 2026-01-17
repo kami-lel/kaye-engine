@@ -85,3 +85,6 @@ def kaye_commit_sense_per_file_short():
         PER_FILE_SHORT_PROMPT_BLUEPRINT,
     )
     return blueprint.generate_prompt()
+
+
+# TODO support ?md=1

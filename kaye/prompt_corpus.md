@@ -1727,11 +1727,15 @@ Select the single most appropriate label to describe the nature of the user's qu
 
 You are given the result of `git diff --cached`; interpret it as the changes ready to be committed for the file(s).
 
-- do **not** using any markdown syntax in the output
 - strictly use *Briefness Style* language
 - use *Commentary Case* for each line
 
 **You must produce a single-line, ultra-concise summary** (max **72 characters**) that captures the file’s overall intent and its primary or most impactful change; omit secondary changes if including them would exceed the limit, so the line highlights only the most significant change.
+
+### no markdown syntax
+
+Do **NOT** using any markdown syntax in the output.
+
 
 
 
