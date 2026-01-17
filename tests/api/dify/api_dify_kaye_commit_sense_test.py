@@ -145,7 +145,7 @@ class TestPrimary:  # /primary-message  ########################################
 
         assert NO_MD in opt
 
-    def test_md_1(self, flask_test_client):  # BUG
+    def test_md_1(self, flask_test_client):
         params = "?allows_md=1"
         response = flask_test_client.get(self.url + params)
 
@@ -213,7 +213,7 @@ class TestLong:  # /per-file-long  #############################################
 
         assert NO_MD in opt
 
-    def test_md_1(self, flask_test_client):  # BUG
+    def test_md_1(self, flask_test_client):
         params = "?allows_md=1"
         response = flask_test_client.get(self.url + params)
 
@@ -277,7 +277,7 @@ class TestShort:  # /per-file-short  ###########################################
 
         assert NO_MD in opt
 
-    def test_md_1(self, flask_test_client):  # BUG
+    def test_md_1(self, flask_test_client):
         params = "?allows_md=1"
         response = flask_test_client.get(self.url + params)
 

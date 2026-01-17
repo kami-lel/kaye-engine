@@ -54,9 +54,9 @@ def _checkmark_md_related_node(blueprint):
     """
     checkmark the correct markdown related node
     """
-    md_arg = request.args.get("flags")
+    md_arg = request.args.get("allows_md")
 
-    if md_arg and bool(int(md_arg)):  # allows md
+    if md_arg and int(md_arg) == 1:  # allows md
         node = blueprint.corpus["Format"]
 
     else:  # disallow md
