@@ -14,46 +14,51 @@ from api.dify_app.kaye_commit_sense import (
 APP_PREFIX = "/kaye/dify-app/kaye-commit-sense"
 
 
-def test_primary_message(flask_test_client):
-    response = flask_test_client.get(APP_PREFIX + "/primary-message")
+class TestPrimary  # /primary-message  #########################################
 
-    opt = response.data.decode("utf-8")
-    print(opt)
+    def test_fx(flask_test_client):
+        response = flask_test_client.get(APP_PREFIX + "/primary-message")
 
-    assert (
-        opt
-        == PromptBlueprint.parse(
-            load_embedded_prompt_corpus(), PRIMARY_MESSAGE_PROMPT_BLUEPRINT
-        ).generate_prompt()
-    )
+        opt = response.data.decode("utf-8")
+        print(opt)
 
-
-def test_per_file_long(flask_test_client):
-    response = flask_test_client.get(APP_PREFIX + "/per-file-long")
-
-    opt = response.data.decode("utf-8")
-    print(opt)
-
-    assert (
-        opt
-        == PromptBlueprint.parse(
-            load_embedded_prompt_corpus(), PER_FILE_LONG_PROMPT_BLUEPRINT
-        ).generate_prompt()
-    )
+        assert (
+            opt
+            == PromptBlueprint.parse(
+                load_embedded_prompt_corpus(), PRIMARY_MESSAGE_PROMPT_BLUEPRINT
+            ).generate_prompt()
+        )
 
 
-def test_per_file_short(flask_test_client):
-    response = flask_test_client.get(APP_PREFIX + "/per-file-short")
+class TestLong  # /per-file-long  ##############################################
+    def test_fx(flask_test_client):
+        response = flask_test_client.get(APP_PREFIX + "/per-file-long")
 
-    opt = response.data.decode("utf-8")
-    print(opt)
+        opt = response.data.decode("utf-8")
+        print(opt)
 
-    assert (
-        opt
-        == PromptBlueprint.parse(
-            load_embedded_prompt_corpus(), PER_FILE_SHORT_PROMPT_BLUEPRINT
-        ).generate_prompt()
-    )
+        assert (
+            opt
+            == PromptBlueprint.parse(
+                load_embedded_prompt_corpus(), PER_FILE_LONG_PROMPT_BLUEPRINT
+            ).generate_prompt()
+        )
+
+
+class TestShort  # /per-file-short  ############################################
+
+    def test_fx(flask_test_client):
+        response = flask_test_client.get(APP_PREFIX + "/per-file-short")
+
+        opt = response.data.decode("utf-8")
+        print(opt)
+
+        assert (
+            opt
+            == PromptBlueprint.parse(
+                load_embedded_prompt_corpus(), PER_FILE_SHORT_PROMPT_BLUEPRINT
+            ).generate_prompt()
+        )
 
 
 # TODO tests for params
