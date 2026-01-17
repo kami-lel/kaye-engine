@@ -1,3 +1,26 @@
+"""
+decide which branch/LLM to use for branching, also generate prefix meta content
+
+
+:param difficulty:
+:type difficulty: float
+:param difficulty_thresholds: a list of thresholds, exclude 0.0 & 1.0
+:type difficulty_thresholds: list[float]
+:param show_prefix_meta_content: whether show prefix meta content
+        in final print out
+:type show_prefix_meta_content: bool
+:param languages:
+:type languages: str
+:return: {
+        "branch": 0~2, which LLM/branch should be used
+        "prefix_meta_content": may be empty
+        }
+:rtype: dict{
+        "branch": int
+        "prefix_meta_content": str
+        }
+"""
+
 # constants  ###################################################################
 OUTPUT_BRANCH_KEY = "branch"
 OUTPUT_PREFIX_KEY = "prefix_meta_content"
@@ -12,8 +35,6 @@ def main(
     show_prefix_meta_content,
     languages: str,
 ):
-    # TODO docstring
-    # BUG need test functionality
     # decide branch  ------------------------------------------------------------
     if difficulty < difficulty_thresholds[0]:
         branch = 0
@@ -27,7 +48,9 @@ def main(
     if show_prefix_meta_content:
         prefix_content = """> difficulty = {}
 > languages = {}
-> branch = {}
+> LLM used = {}
+
+
 """.format(difficulty, languages, branch)
 
     return {OUTPUT_BRANCH_KEY: branch, OUTPUT_PREFIX_KEY: prefix_content}
