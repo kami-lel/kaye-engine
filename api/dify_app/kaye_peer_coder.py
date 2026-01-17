@@ -110,8 +110,6 @@ def _generate_task_prompt_based_on_flags(flags):
     # pylint: disable-next=unsubscriptable-object
     kyc_node = corpus["Role"]["Kaye Peer Coder"]
 
-    print(corpus.generate_preview_tree(preview_line_count=0))  # HACK
-
     if PL.c in flags:
         bp += kyc_node["C"]
     if PL.cpp in flags:
