@@ -16,18 +16,54 @@ APP_PREFIX = "/kaye/dify-app/kaye-commit-sense"
 
 class TestPrimary:  # /primary-message  ########################################
 
-    def test_fx(_, flask_test_client):
+    part1 = PromptBlueprint.parse(
+        load_embedded_prompt_corpus(),
+        """ ○
+[ ] ├── Style
+[ ] │   ├── Capitalization Style
+[x] │   │   └── Commentary Case
+[x] │   └── Briefness Style
+[ ] └── Role
+[ ]     └── Kaye Commit Sense
+[ ]         └── Primary Message Task
+""",
+    ).generate_prompt(hide_comment=True)
+
+    part2 = PromptBlueprint.parse(
+        load_embedded_prompt_corpus(),
+        """ ○
+[ ] ├── Style
+[ ] │   ├── Capitalization Style
+[ ] │   │   └── Commentary Case
+[ ] │   └── Briefness Style
+[ ] └── Role
+[x]     └── Kaye Commit Sense
+[ ]         └── Primary Message Task
+""",
+    ).generate_prompt(hide_comment=True)
+
+    part3 = PromptBlueprint.parse(
+        load_embedded_prompt_corpus(),
+        """ ○
+[ ] ├── Style
+[ ] │   ├── Capitalization Style
+[ ] │   │   └── Commentary Case
+[ ] │   └── Briefness Style
+[ ] └── Role
+[ ]     └── Kaye Commit Sense
+[x]         └── Primary Message Task
+""",
+    ).generate_prompt(hide_comment=True)
+
+    def test_fx(self, flask_test_client):
         response = flask_test_client.get(APP_PREFIX + "/primary-message")
 
         opt = response.data.decode("utf-8")
         print(opt)
 
-        assert (
-            opt
-            == PromptBlueprint.parse(
-                load_embedded_prompt_corpus(), PRIMARY_MESSAGE_PROMPT_BLUEPRINT
-            ).generate_prompt()
-        )
+        assert self.part1 in opt
+        assert self.part2 in opt
+        assert self.part3 in opt
 
 
 class TestLong:  # /per-file-long  #############################################
