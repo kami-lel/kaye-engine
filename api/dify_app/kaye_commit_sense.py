@@ -56,7 +56,7 @@ def _checkmark_md_related_node(blueprint):
     """
     md_arg = request.args.get("flags")
 
-    if md_arg:  # allows md
+    if md_arg and bool(int(md_arg)):  # allows md
         node = blueprint.corpus["Format"]
 
     else:  # disallow md
