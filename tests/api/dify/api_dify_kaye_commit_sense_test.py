@@ -159,10 +159,19 @@ class TestPrimary:  # /primary-message  ########################################
         assert YES_MD in opt
 
     def test_md_bad_type(self, flask_test_client):
-        pass  # TODO
+        params = "?allows_md=abc"
+        response = flask_test_client.get(self.url + params)
+        assert response.status_code == 422
+        assert response.get_data(as_text=True) == "bad param: ?allows_md=abc"
 
     def test_md_bad_value(self, flask_test_client):
-        pass  # TODO
+        params = "?allows_md=150"
+        response = flask_test_client.get(self.url + params)
+        assert response.status_code == 422
+        assert (
+            response.get_data(as_text=True)
+            == "param ?allows_md must be 1/0, not 150"
+        )
 
 
 class TestLong:  # /per-file-long  #############################################

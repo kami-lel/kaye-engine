@@ -4,7 +4,7 @@ define API to specific work with Dify App: Kaye Commit Sense
 
 # pylint: disable=missing-function-docstring
 
-from flask import Blueprint, request
+from flask import Blueprint, request, abort, Response
 
 from kaye import PROGRAM_NAME
 from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
@@ -56,15 +56,18 @@ def _checkmark_md_related_node(blueprint):
     """
     md_arg = request.args.get("allows_md")
 
-    if md_arg and int(md_arg) == 1:  # allows md
-        node = blueprint.corpus["Format"]
+    try:
+        if md_arg and int(md_arg) == 1:  # allows md
+            node = blueprint.corpus["Format"]
 
-    else:  # disallow md
-        node = blueprint.corpus["Role"]["Kaye Commit Sense"][
-            "no markdown syntax"
-        ]
+        else:  # disallow md
+            node = blueprint.corpus["Role"]["Kaye Commit Sense"][
+                "no markdown syntax"
+            ]
+        blueprint.checkmark(node)
 
-    blueprint.checkmark(node)
+    except ValueError:
+        abort(Response("bad param: ?allows_md={}".format(md_arg), 422))
 
 
 # Flask Routing  ###############################################################
