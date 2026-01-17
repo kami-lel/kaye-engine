@@ -22,7 +22,11 @@
 ### Changed
 
 - unify docstring of all `.py` files of Dify App nodes
-- improve *Kaye Commit Sense* prompts to summarize better
+
+Kaye Commit Sense:
+
+- improve prompts to summarize better
+- functions for disable/enable usage of markdown syntax in result
 
 ### Deprecated
 ### Removed
