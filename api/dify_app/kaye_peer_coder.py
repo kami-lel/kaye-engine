@@ -30,7 +30,7 @@ CHAT_PROMPT_BASIC_BLUEPRINT = """ ○
 [x] ├── Format
 [x] └── Role
 [x]     └── Kaye Peer Coder
-[x]         └── task
+[x]         └── chat
 """
 
 
