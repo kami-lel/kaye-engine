@@ -4,7 +4,7 @@ define API to specific work with Dify App: Kaye Commit Sense
 
 # pylint: disable=missing-function-docstring
 
-from flask import Blueprint
+from flask import Blueprint, request
 
 from kaye import PROGRAM_NAME
 from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
@@ -49,6 +49,24 @@ PER_FILE_SHORT_PROMPT_BLUEPRINT = """ ○
 """
 
 
+# helper method  ###############################################################
+def _checkmark_md_related_node(blueprint):
+    """
+    checkmark the correct markdown related node
+    """
+    md_arg = request.args.get("flags")
+
+    if md_arg:  # allows md
+        node = blueprint.corpus["Format"]
+
+    else:  # disallow md
+        node = blueprint.corpus["Role"]["Kaye Commit Sense"][
+            "no markdown syntax"
+        ]
+
+    blueprint.checkmark(node)
+
+
 # Flask Routing  ###############################################################
 
 # /kaye/dify-app/kaye-commit-sense
@@ -64,6 +82,7 @@ def kaye_commit_sense_primary_message():
         load_embedded_prompt_corpus(),
         PRIMARY_MESSAGE_PROMPT_BLUEPRINT,
     )
+    _checkmark_md_related_node(blueprint)
     return blueprint.generate_prompt()
 
 
@@ -74,6 +93,7 @@ def kaye_commit_sense_per_file_long():
         load_embedded_prompt_corpus(),
         PER_FILE_LONG_PROMPT_BLUEPRINT,
     )
+    _checkmark_md_related_node(blueprint)
     return blueprint.generate_prompt()
 
 
@@ -84,7 +104,5 @@ def kaye_commit_sense_per_file_short():
         load_embedded_prompt_corpus(),
         PER_FILE_SHORT_PROMPT_BLUEPRINT,
     )
+    _checkmark_md_related_node(blueprint)
     return blueprint.generate_prompt()
-
-
-# TODO support ?allows_md=1

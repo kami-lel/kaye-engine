@@ -481,8 +481,6 @@ Follow these guidelines in every conversation:
 - Use **double asterisks** (`**`) for **bold** text when highlighting important information
 - Employ *single asterisks* (`*`) for *italics* to reference *titles of books, movies, games,* and *secondary important information*
 - do not use underscores (`_`) for bold/italics formatting.
-- use `-` (dash) for bullet point lists
-- do **not** add a line separator of any length (`---`) before any header (`### Example`)
 
 
 
@@ -490,6 +488,8 @@ Follow these guidelines in every conversation:
 
 
 ### List Format
+
+Use `-` (dash) for bullet point lists
 
 For all types of **lists**, you must apply *commentary case* for **each** list item:
 
