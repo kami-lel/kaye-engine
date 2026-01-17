@@ -94,6 +94,10 @@ All endpoints below `/kaye/dify-app/kaye-commit-sense`
 
 - by `GET`
 - response type `text/plain`
+- param `allows_md`:
+
+  - `?allows_md=1`: the prompt will instruct to utilize markdown syntax
+  - `?allows_md=0`: forbid usage of markdown syntax
 
 ----
 
@@ -101,6 +105,7 @@ All endpoints below `/kaye/dify-app/kaye-commit-sense`
 
 - by `GET`
 - response type `text/plain`
+- param `allows_md`, v.s.
 
 ----
 
@@ -108,6 +113,7 @@ All endpoints below `/kaye/dify-app/kaye-commit-sense`
 
 - by `GET`
 - response type `text/plain`
+- param `allows_md`, v.s.
 
 
 
