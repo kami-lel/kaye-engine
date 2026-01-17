@@ -28,6 +28,10 @@ Kaye Commit Sense:
 - improve prompts to summarize better
 - functions for disable/enable usage of markdown syntax in result
 
+Kaye Peer Coder:
+
+- improve prompt
+
 ### Deprecated
 ### Removed
 ### Fixed
