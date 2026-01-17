@@ -31,6 +31,7 @@ Kaye Commit Sense:
 Kaye Peer Coder:
 
 - improve prompt
+- allows *prefix meta content*
 
 ### Deprecated
 ### Removed
