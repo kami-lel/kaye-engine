@@ -1997,12 +1997,13 @@ int value = nums[index];  // BUG index out of bound error
 ```
 
 Python example
-```python
-x = 5  # set x 5
-y = 10  # set y 10
-# TODO read user input to replace hardcoded x,y
-sum_ = x + y  # sum x, y store sum_
-```
+
+    ```python
+    x = 5  # set x 5
+    y = 10  # set y 10
+    # TODO read user input to replace hardcoded x,y
+    sum_ = x + y  # sum x, y store sum_
+    ```
 
 Suggestions for improvement
 - clarify ambiguous terms and remove duplicate rules to reduce redundancy
@@ -2021,59 +2022,60 @@ Rules:
 - Keep headings concise and place them in comments appropriate to the language.
 
 Example (C++): short, functional, demonstrating all levels
-```cpp
-/*
-################################################################################
-# stats_demo.cpp
-#
-# compute simple statistics
-################################################################################
-*/
 
-#include <cstdio>
-// Globals  ====================================================================
-const int kValues[] = {10, 20, 30};
-const int kCount = sizeof(kValues) / sizeof(kValues[0]);
+    ```cpp
+    /*
+    ################################################################################
+    # stats_demo.cpp
+    #
+    # compute simple statistics
+    ################################################################################
+    */
 
-// Public API  =================================================================
-// Utility functions  **********************************************************
-double compute_average(const int* values, int count) {
-    // Sum values  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    int sum = 0;
-    // accumulate  -------------------------------------------------------------
-    for (int i = 0; i < count; ++i) {
-        sum += values[i];
+    #include <cstdio>
+    // Globals  ====================================================================
+    const int kValues[] = {10, 20, 30};
+    const int kCount = sizeof(kValues) / sizeof(kValues[0]);
+
+    // Public API  =================================================================
+    // Utility functions  **********************************************************
+    double compute_average(const int* values, int count) {
+        // Sum values  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        int sum = 0;
+        // accumulate  -------------------------------------------------------------
+        for (int i = 0; i < count; ++i) {
+            sum += values[i];
+        }
+        // Sum values  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        ...
+        // Compute average  --------------------------------------------------------
+        return (count > 0) ? static_cast<double>(sum) / count : 0.0;
     }
-    // Sum values  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    ...
-    // Compute average  --------------------------------------------------------
-    return (count > 0) ? static_cast<double>(sum) / count : 0.0;
-}
 
-// Data Analysis  **************************************************************
-...
-
-// Entry Point  ================================================================
-int main() {
-    double average = compute_average(kValues, kCount);
-    // print result  -----------------------------------------------------------
-    std::printf("Average: %.2f\n", average);
+    // Data Analysis  **************************************************************
     ...
-    return 0;
-}
-```
+
+    // Entry Point  ================================================================
+    int main() {
+        double average = compute_average(kValues, kCount);
+        // print result  -----------------------------------------------------------
+        std::printf("Average: %.2f\n", average);
+        ...
+        return 0;
+    }
+    ```
 
 Example (Python):
 
-```python
-...
-# Public Parser  ###############################################################
-def to_int(s):
-    s = s.strip()
-    # Quick parse  -------------------------------------------------------------
+    ```python
     ...
-    return int(s) if s.isdigit() else None
-```
+    # Public Parser  ###############################################################
+    def to_int(s):
+        s = s.strip()
+        # Quick parse  -------------------------------------------------------------
+        ...
+        return int(s) if s.isdigit() else None
+    ```
 
 
 
