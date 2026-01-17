@@ -6,8 +6,7 @@ decide which branch/LLM to use for branching, also generate prefix meta content
 :type difficulty: float
 :param difficulty_thresholds: a list of thresholds, exclude 0.0 & 1.0
 :type difficulty_thresholds: list[float]
-:param show_prefix_meta_content: whether show prefix meta content
-        in final print out
+:param show_prefix_meta_content:
 :type show_prefix_meta_content: bool
 :param languages:
 :type languages: str
@@ -34,7 +33,7 @@ def main(
     difficulty_thresholds: list[float],
     show_prefix_meta_content,
     languages: str,
-):
+):  # pylint: disable=missing-function-docstring
     # decide branch  ------------------------------------------------------------
     if difficulty < difficulty_thresholds[0]:
         branch = 0
