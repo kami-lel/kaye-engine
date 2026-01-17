@@ -145,7 +145,7 @@ class TestPrimary:  # /primary-message  ########################################
 
         assert NO_MD in opt
 
-    def test_md_1(self, flask_test_client):
+    def test_md_1(self, flask_test_client):  # BUG
         params = "?allows_md=1"
         response = flask_test_client.get(self.url + params)
 
@@ -197,6 +197,37 @@ class TestLong:  # /per-file-long  #############################################
         assert PER_FILE_SUMMARY_TASK in opt
         assert self.distinct in opt
 
+    # param allows_md  ---------------------------------------------------------
+    def test_md_0(self, flask_test_client):
+        params = "?allows_md=0"
+        response = flask_test_client.get(self.url + params)
+
+        opt = response.data.decode("utf-8")
+        print(opt)
+
+        assert AM in opt
+        assert COMMENT_BRIEFNESS in opt
+        assert COMMIT_SENSE in opt
+        assert PER_FILE_SUMMARY_TASK in opt
+        assert self.distinct in opt
+
+        assert NO_MD in opt
+
+    def test_md_1(self, flask_test_client):  # BUG
+        params = "?allows_md=1"
+        response = flask_test_client.get(self.url + params)
+
+        opt = response.data.decode("utf-8")
+        print(opt)
+
+        assert AM in opt
+        assert COMMENT_BRIEFNESS in opt
+        assert COMMIT_SENSE in opt
+        assert PER_FILE_SUMMARY_TASK in opt
+        assert self.distinct in opt
+
+        assert YES_MD in opt
+
 
 class TestShort:  # /per-file-short  ###########################################
 
@@ -230,5 +261,33 @@ class TestShort:  # /per-file-short  ###########################################
         assert PER_FILE_SUMMARY_TASK in opt
         assert self.distinct in opt
 
+    # param allows_md  ---------------------------------------------------------
+    def test_md_0(self, flask_test_client):
+        params = "?allows_md=0"
+        response = flask_test_client.get(self.url + params)
 
-# TODO tests for params
+        opt = response.data.decode("utf-8")
+        print(opt)
+
+        assert AM in opt
+        assert COMMENT_BRIEFNESS in opt
+        assert COMMIT_SENSE in opt
+        assert PER_FILE_SUMMARY_TASK in opt
+        assert self.distinct in opt
+
+        assert NO_MD in opt
+
+    def test_md_1(self, flask_test_client):  # BUG
+        params = "?allows_md=1"
+        response = flask_test_client.get(self.url + params)
+
+        opt = response.data.decode("utf-8")
+        print(opt)
+
+        assert AM in opt
+        assert COMMENT_BRIEFNESS in opt
+        assert COMMIT_SENSE in opt
+        assert PER_FILE_SUMMARY_TASK in opt
+        assert self.distinct in opt
+
+        assert YES_MD in opt
