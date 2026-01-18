@@ -62,7 +62,7 @@ def main(
     # get prefix meta content  -------------------------------------------------
     prefix_content = ""
     if show_prefix_meta_content:
-        prefix_content = """[!TIP]
+        prefix_content = """> [!TIP]
 > difficulty: {}
 > languages: {}
 > LLM: {}

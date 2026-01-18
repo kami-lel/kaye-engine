@@ -27,7 +27,7 @@ def main(
     content = ""
 
     if show_prefix_meta_content:
-        content = """[!TIP]
+        content = """> [!TIP]
 > LLM: {}
 
 """.format(selection)
