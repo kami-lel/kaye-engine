@@ -1,12 +1,17 @@
 """
-TODO
+create prefix meta content
+
 
 :param selection:
 :type selection: str
 :param show_prefix_meta_content:
 :type show_prefix_meta_content: bool
-:return: _description_
-:rtype: _type_
+:return: {
+        "prefix_meta_content": may be empty
+        }
+:rtype: dict{
+        "prefix_meta_content": str
+        }
 """
 
 # constants  ###################################################################
@@ -20,6 +25,12 @@ def main(
     selection: dict, show_prefix_meta_content: bool
 ):  # pylint: disable=missing-function-docstring
     content = ""
-    # TODO
+
+    if show_prefix_meta_content:
+        content = """
+> LLM: {}
+
+
+""".format(selection)
 
     return {OUTPUT_PREFIX_KEY: content}
