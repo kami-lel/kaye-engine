@@ -19,6 +19,9 @@ hooks_utility_ensure_changelog_edited 'CHANGELOG.md'
 # make sure version is bumped when finish feature branch
 hooks_utility_ensure_version_updated
 
+
+# Todo make this dynamically change based on git diff --cached
+
 # ensure Dify Apps' .yml files are updated
 hooks_utility_ensure_file_modified \
     'dify_studio/kaye_commit_sense/Kaye_Commit_Sense.yml' \
