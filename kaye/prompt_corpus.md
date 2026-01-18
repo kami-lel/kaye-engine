@@ -2013,7 +2013,7 @@ Suggestions for improvement
 
 ----
 
-Use **comment section headings** to show code structure (file info, modules, sections, functions) for readability and organization.
+Use **comment section headings** to show code structure (file info, modules, sections, functions) for readability and organization, as part of code comment.
 
 Rules:
 - Use symbol order: **#, =, *, +, -** to represent descending structure levels.

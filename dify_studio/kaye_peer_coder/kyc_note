@@ -1,3 +1,2 @@
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
 fixme corpus: pre-sense corpus, provide anchor point
-Bug forget conversation when switch LLM

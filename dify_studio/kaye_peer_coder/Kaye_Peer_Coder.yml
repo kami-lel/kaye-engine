@@ -16,6 +16,24 @@ version: 0.5.0
 workflow:
   conversation_variables:
   - description: ''
+    id: 437e60a0-4a27-4a6f-8f7d-fd749d7319fe
+    name: difficulty_thresholds
+    selector:
+    - conversation
+    - difficulty_thresholds
+    value:
+    - 0.5
+    - 0.8
+    value_type: array[number]
+  - description: ''
+    id: 745eb9d5-b6e5-4097-8e24-0d24f33c8065
+    name: endpoint_url_cache
+    selector:
+    - conversation
+    - endpoint_url_cache
+    value: ''
+    value_type: string
+  - description: ''
     id: e7ee5c1b-6e8c-4280-a43c-850fa6f45eda
     name: task_prompt_flags
     selector:
@@ -137,19 +155,6 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: start
-        targetType: if-else
-      id: 1766694234003-source-1767897791793-target
-      selected: false
-      source: '1766694234003'
-      sourceHandle: source
-      target: '1767897791793'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
         sourceType: http-request
         targetType: assigner
       id: 1767897822831-source-1767898239882-target
@@ -237,22 +242,10 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: assigner
-        targetType: if-else
-      id: 1767900746236-source-1767838255184-target
-      selected: false
-      source: '1767900746236'
-      sourceHandle: source
-      target: '1767838255184'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
         sourceType: llm
         targetType: answer
       id: 1767838496854-source-1768079802012-target
+      selected: false
       source: '1767838496854'
       sourceHandle: source
       target: '1768079802012'
@@ -265,6 +258,7 @@ workflow:
         sourceType: llm
         targetType: answer
       id: 1767838544107-source-1768079807379-target
+      selected: false
       source: '1767838544107'
       sourceHandle: source
       target: '1768079807379'
@@ -277,19 +271,67 @@ workflow:
         sourceType: llm
         targetType: answer
       id: 1767838557126-source-1768079816132-target
+      selected: false
       source: '1767838557126'
       sourceHandle: source
       target: '1768079816132'
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1766694234003-source-1767897791793-target
+      selected: false
+      source: '1766694234003'
+      sourceHandle: source
+      target: '1767897791793'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: assigner
+        targetType: code
+      id: 1767900746236-source-1768676975296-target
+      selected: false
+      source: '1767900746236'
+      sourceHandle: source
+      target: '1768676975296'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1768676975296-source-1767838255184-target
+      selected: false
+      source: '1768676975296'
+      sourceHandle: source
+      target: '1767838255184'
+      targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
-        selected: false
+        selected: true
         title: User Input
         type: start
-        variables: []
-      height: 73
+        variables:
+        - default: false
+          hint: ''
+          label: show_prefix_meta_content
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: false
+          type: checkbox
+          variable: show_prefix_meta_content
+      height: 109
       id: '1766694234003'
       position:
         x: 82.16115106842847
@@ -297,7 +339,7 @@ workflow:
       positionAbsolute:
         x: 82.16115106842847
         y: 282
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -306,27 +348,25 @@ workflow:
         cases:
         - case_id: 'true'
           conditions:
-          - comparison_operator: <
+          - comparison_operator: '='
             id: e8a1eee8-98d2-4cc6-b696-c0b2b563bca4
             numberVarType: constant
-            value: '0.5'
+            value: '0'
             varType: number
             variable_selector:
-            - '1767843543355'
-            - structured_output
-            - difficulty
+            - '1768676975296'
+            - llm
           id: 'true'
           logical_operator: and
         - case_id: 2f79cf0e-8010-4e04-82fd-3111c739849a
           conditions:
-          - comparison_operator: <
+          - comparison_operator: '='
             id: 2bfff6d9-502c-49ae-8eff-a53316e3f17b
-            value: '0.9'
+            value: '1'
             varType: number
             variable_selector:
-            - '1767843543355'
-            - structured_output
-            - difficulty
+            - '1768676975296'
+            - llm
           id: 2f79cf0e-8010-4e04-82fd-3111c739849a
           logical_operator: and
         selected: false
@@ -335,11 +375,11 @@ workflow:
       height: 172
       id: '1767838255184'
       position:
-        x: 1815.1182174000048
-        y: 303
+        x: 1921.9757752867868
+        y: 327.31611574480775
       positionAbsolute:
-        x: 1815.1182174000048
-        y: 303
+        x: 1921.9757752867868
+        y: 327.31611574480775
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -350,10 +390,7 @@ workflow:
           enabled: false
           variable_selector: []
         memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
+          query_prompt_template: '{{#sys.query#}}{{#sys.files#}}'
           role_prefix:
             assistant: ''
             user: ''
@@ -370,11 +407,6 @@ workflow:
         - id: a211bf9b-135d-463e-82c2-5c98c4bf11cb
           role: system
           text: '{{#conversation.task_prompt#}}'
-        - id: 6460cb44-2d07-47ac-a74e-e2e1fa091fd4
-          role: user
-          text: '{{#sys.query#}}
-
-            {{#sys.files#}} '
         selected: false
         title: LLM I
         type: llm
@@ -383,11 +415,11 @@ workflow:
       height: 88
       id: '1767838496854'
       position:
-        x: 2174.119035774485
-        y: 297.24177720716483
+        x: 2379.5215063166306
+        y: 256.0440434090016
       positionAbsolute:
-        x: 2174.119035774485
-        y: 297.24177720716483
+        x: 2379.5215063166306
+        y: 256.0440434090016
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -398,10 +430,7 @@ workflow:
           enabled: false
           variable_selector: []
         memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
+          query_prompt_template: '{{#sys.query#}}{{#sys.files#}}'
           role_prefix:
             assistant: ''
             user: ''
@@ -417,11 +446,6 @@ workflow:
         - id: abaf21b2-5712-401c-876c-871cd49d8e5b
           role: system
           text: '{{#conversation.task_prompt#}}'
-        - id: dba42b02-2805-4b1c-9736-7e9a7b7bb52f
-          role: user
-          text: '{{#sys.query#}}
-
-            {{#sys.files#}}'
         selected: false
         title: LLM II
         type: llm
@@ -430,11 +454,11 @@ workflow:
       height: 88
       id: '1767838544107'
       position:
-        x: 2174.119035774485
-        y: 424.24177720716483
+        x: 2379.5215063166306
+        y: 383.0440434090016
       positionAbsolute:
-        x: 2174.119035774485
-        y: 424.24177720716483
+        x: 2379.5215063166306
+        y: 383.0440434090016
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -445,10 +469,7 @@ workflow:
           enabled: false
           variable_selector: []
         memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
+          query_prompt_template: '{{#sys.query#}}{{#sys.files#}}'
           role_prefix:
             assistant: ''
             user: ''
@@ -464,11 +485,6 @@ workflow:
         - id: 409d4727-18c7-4565-b2cf-ddb4eb4c6c48
           role: system
           text: '{{#conversation.task_prompt#}}'
-        - id: 8f77a27b-f592-45bf-899d-6c030eea5145
-          role: user
-          text: '{{#sys.query#}}
-
-            {{#sys.files#}}'
         selected: false
         title: LLM III
         type: llm
@@ -477,11 +493,11 @@ workflow:
       height: 88
       id: '1767838557126'
       position:
-        x: 2174.119035774485
-        y: 551.241777207165
+        x: 2379.5215063166306
+        y: 510.04404340900174
       positionAbsolute:
-        x: 2174.119035774485
-        y: 551.241777207165
+        x: 2379.5215063166306
+        y: 510.04404340900174
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -524,11 +540,11 @@ workflow:
       height: 88
       id: '1767843543355'
       position:
-        x: 864.652270845103
-        y: 303
+        x: 971.5098287318847
+        y: 274.90503611043096
       positionAbsolute:
-        x: 864.652270845103
-        y: 303
+        x: 971.5098287318847
+        y: 274.90503611043096
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -553,11 +569,11 @@ workflow:
       height: 124
       id: '1767897791793'
       position:
-        x: 462.7688593664485
-        y: 182.0270311854671
+        x: 569.6264172532301
+        y: 153.93206729589807
       positionAbsolute:
-        x: 462.7688593664485
-        y: 182.0270311854671
+        x: 569.6264172532301
+        y: 153.93206729589807
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -585,16 +601,16 @@ workflow:
           max_write_timeout: 0
         title: Pre-Sense Prompt Getter
         type: http-request
-        url: http://{{#env.DOCKER_HOST_IP#}}:11255/kaye/dify-app/kaye-peer-coder/pre-sense
+        url: http://{{#env.DOCKER_HOST_IP#}}:11255/kaye/dify-app/kyc/pre-sense
         variables: []
       height: 157
       id: '1767897822831'
       position:
-        x: 462.7688593664485
-        y: 303
+        x: 569.6264172532301
+        y: 274.90503611043096
       positionAbsolute:
-        x: 462.7688593664485
-        y: 303
+        x: 569.6264172532301
+        y: 274.90503611043096
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -618,11 +634,11 @@ workflow:
       height: 84
       id: '1767898239882'
       position:
-        x: 462.7688593664485
-        y: 456.8202063328245
+        x: 569.6264172532301
+        y: 428.72524244325547
       positionAbsolute:
-        x: 462.7688593664485
-        y: 456.8202063328245
+        x: 569.6264172532301
+        y: 428.72524244325547
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -652,16 +668,16 @@ workflow:
           max_write_timeout: 0
         title: Task Prompt Getter
         type: http-request
-        url: http://{{#env.DOCKER_HOST_IP#}}:11255/kaye/dify-app/kaye-peer-coder/task
+        url: http://{{#env.DOCKER_HOST_IP#}}:11255/kaye/dify-app/kyc/chat
         variables: []
-      height: 157
+      height: 141
       id: '17678984873510'
       position:
-        x: 1267.2726865145605
-        y: 300.1114649206536
+        x: 1374.1302444013422
+        y: 272.01650103108454
       positionAbsolute:
-        x: 1267.2726865145605
-        y: 300.1114649206536
+        x: 1374.1302444013422
+        y: 272.01650103108454
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -697,11 +713,11 @@ workflow:
       height: 52
       id: '1767900039787'
       position:
-        x: 1267.2726865145605
-        y: 455.35749921906114
+        x: 1374.1302444013422
+        y: 412.52191918232364
       positionAbsolute:
-        x: 1267.2726865145605
-        y: 455.35749921906114
+        x: 1374.1302444013422
+        y: 412.52191918232364
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -734,75 +750,152 @@ workflow:
       height: 110
       id: '1767900746236'
       position:
-        x: 1267.2726865145605
-        y: 506.1646295548894
+        x: 1374.1302444013422
+        y: 464.1479726374391
       positionAbsolute:
-        x: 1267.2726865145605
-        y: 506.1646295548894
+        x: 1374.1302444013422
+        y: 464.1479726374391
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: '{{#1767838496854.text#}}'
+        answer: '{{#1768676975296.prefix_meta_content#}}{{#1767838496854.text#}}'
         selected: false
         title: Answer I
         type: answer
         variables: []
-      height: 102
+      height: 120
       id: '1768079802012'
       position:
-        x: 2476.119035774485
-        y: 297.24177720716483
+        x: 2681.5215063166306
+        y: 256.0440434090016
       positionAbsolute:
-        x: 2476.119035774485
-        y: 297.24177720716483
+        x: 2681.5215063166306
+        y: 256.0440434090016
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: '{{#1767838544107.text#}}'
+        answer: '{{#1768676975296.prefix_meta_content#}}{{#1767838544107.text#}}'
         selected: false
         title: Answer II
         type: answer
         variables: []
-      height: 102
+      height: 120
       id: '1768079807379'
       position:
-        x: 2476.119035774485
-        y: 424.24177720716483
+        x: 2681.5215063166306
+        y: 383.0440434090016
       positionAbsolute:
-        x: 2476.119035774485
-        y: 424.24177720716483
+        x: 2681.5215063166306
+        y: 383.0440434090016
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: '{{#1767838557126.text#}}'
+        answer: '{{#1768676975296.prefix_meta_content#}}{{#1767838557126.text#}}'
         selected: false
         title: Answer III
         type: answer
         variables: []
-      height: 102
+      height: 120
       id: '1768079816132'
       position:
-        x: 2476.119035774485
-        y: 551.241777207165
+        x: 2681.5215063166306
+        y: 510.04404340900174
       positionAbsolute:
-        x: 2476.119035774485
-        y: 551.241777207165
+        x: 2681.5215063166306
+        y: 510.04404340900174
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\"\"\"\n- decide which branch/LLM to use depending on difficulty\n\n\
+          - produce supplementary historical user/bot messages for this round\n  (exclude\
+          \ this round's user message)\n\n- produce prefix meta content\n\n\n:param\
+          \ difficulty:\n:type difficulty: int\n:param difficulty_thresholds:\n:type\
+          \ difficulty_thresholds: list[float]\n:param languages:\n:type languages:\
+          \ str\n:param show_prefix_meta_content:\n:type show_prefix_meta_content:\
+          \ bool\n:return: {\n        \"llm\": 0~2, which LLM to be used\n       \
+          \ \"supplement_user_messages\": additional historical user messages\n  \
+          \              that this model is unaware of\n        \"supplement_bot_messages\"\
+          : v.s.\n        \"prefix_meta_content\": prefix meta content, may be empty\n\
+          \        \"last_memory\": updated last_memory\n        }\n:rtype: dict{\n\
+          \        \"llm\": int,\n        \"supplement_user_messages\": str,\n   \
+          \     \"supplement_bot_messages\": str,\n        \"prefix_meta_content\"\
+          : str,\n        \"last_memory\": list[str]\n        }\n\"\"\"\n\n# output\
+          \ keys  #################################################################\n\
+          OUTPUT_LLM_KEY = \"llm\"\nOUTPUT_PREFIX_KEY = \"prefix_meta_content\"\n\n\
+          \n# constants  ###################################################################\n\
+          LLM_COUNT = 3  # number of LLMs\nMESSAGE_SPLIT = \"\\n\\n\\n\"\n\n\n# Entry\
+          \ Point  #################################################################\n\
+          \n\ndef main(\n    difficulty: int,\n    difficulty_thresholds: list[float],\n\
+          \    languages: str,\n    show_prefix_meta_content: bool,\n):  # pylint:\
+          \ disable=missing-function-docstring\n    # decide branch  -----------------------------------------------------------\n\
+          \    if difficulty < difficulty_thresholds[0]:\n        llm = 0\n    elif\
+          \ difficulty < difficulty_thresholds[1]:\n        llm = 1\n    else:\n \
+          \       llm = 2\n\n    # get prefix meta content  -------------------------------------------------\n\
+          \    prefix_content = \"\"\n    if show_prefix_meta_content:\n        prefix_content\
+          \ = \"\"\"> [!TIP]\n> difficulty: {}\n> languages: {}\n> LLM: {}\n\n\"\"\
+          \".format(difficulty, languages, llm)\n\n    return {\n        OUTPUT_LLM_KEY:\
+          \ llm,\n        OUTPUT_PREFIX_KEY: prefix_content,\n    }\n\n"
+        code_language: python3
+        outputs:
+          llm:
+            children: null
+            type: number
+          prefix_meta_content:
+            children: null
+            type: string
+        selected: false
+        title: pre branch
+        type: code
+        variables:
+        - value_selector:
+          - '1767843543355'
+          - structured_output
+          - difficulty
+          value_type: object
+          variable: difficulty
+        - value_selector:
+          - conversation
+          - difficulty_thresholds
+          value_type: array[number]
+          variable: difficulty_thresholds
+        - value_selector:
+          - '1767843543355'
+          - structured_output
+          - languages
+          value_type: object
+          variable: languages
+        - value_selector:
+          - '1766694234003'
+          - show_prefix_meta_content
+          value_type: boolean
+          variable: show_prefix_meta_content
+      height: 52
+      id: '1768676975296'
+      position:
+        x: 1921.9757752867868
+        y: 274.90503611043096
+      positionAbsolute:
+        x: 1921.9757752867868
+        y: 274.90503611043096
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: 175.54096031043446
-      y: 177.72565065485207
-      zoom: 0.9254327609103337
+      x: -170.04521510118866
+      y: 129.02248833874205
+      zoom: 0.9254327609103343
   rag_pipeline_variables: []
