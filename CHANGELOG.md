@@ -23,6 +23,10 @@
 
 - unify docstring of all `.py` files of Dify App nodes
 
+Kaye Chat:
+
+- utilize dify LLM node's *memory* build-in function to prevent lack of context when switching LLM
+
 Kaye Commit Sense:
 
 - improve prompts to summarize better
@@ -32,6 +36,7 @@ Kaye Peer Coder:
 
 - improve prompt
 - allows *prefix meta content*
+- utilize *memory* build-in, v.s.
 
 ### Deprecated
 ### Removed
