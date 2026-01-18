@@ -16,6 +16,7 @@
 
 
 
+
 ## [Unreleased]
 
 ### Added
@@ -23,6 +24,39 @@
 ### Deprecated
 ### Removed
 ### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.12.1] - 2026-01-18
+
+### Changed
+
+- unify docstring of all `.py` files of Dify App nodes
+
+Kaye Chat:
+
+- utilize dify LLM node's *memory* build-in function to prevent lack of context when switching LLM
+
+Kaye Commit Sense:
+
+- improve prompts to summarize better
+- functions for disable/enable usage of markdown syntax in result
+
+Kaye Peer Coder:
+
+- improve prompt
+- allows *prefix meta content*
+- utilize *memory* build-in, v.s.
 
 
 
@@ -1114,6 +1148,7 @@ re `dify_studio/`:
 
 
 [unreleased]: https://github.com/kami-lel/kaye/compare/v4.12.0...dev
+[4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1
 [4.12.0]: https://github.com/kami-lel/kaye/compare/v4.11.0...v4.12.0
 [4.11.0]: https://github.com/kami-lel/kaye/compare/v4.10.2...v4.11.0
 [4.10.2]: https://github.com/kami-lel/kaye/compare/v4.10.1...v4.10.2

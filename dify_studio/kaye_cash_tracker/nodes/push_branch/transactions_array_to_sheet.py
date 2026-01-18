@@ -1,6 +1,9 @@
+# todo docstring
+
+
 def main(
     transactions_array: dict, google_sheet_name: str, empty_row_number: float
-):
+):  # pylint: disable=missing-function-docstring
     rows_from = transactions_array["rows"]
 
     end_range_row = empty_row_number + len(rows_from) - 1

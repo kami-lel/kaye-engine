@@ -275,11 +275,24 @@ workflow:
       type: custom
       zIndex: 0
     - data:
+        isInIteration: false
         isInLoop: false
         sourceType: llm
-        targetType: if-else
-      id: 1768125156310-source-1768125161865-target
+        targetType: code
+      id: 1768125156310-source-1768679307205-target
       source: '1768125156310'
+      sourceHandle: source
+      target: '1768679307205'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1768679307205-source-1768125161865-target
+      source: '1768679307205'
       sourceHandle: source
       target: '1768125161865'
       targetHandle: target
@@ -287,11 +300,20 @@ workflow:
       zIndex: 0
     nodes:
     - data:
-        selected: false
+        selected: true
         title: User Input
         type: start
-        variables: []
-      height: 73
+        variables:
+        - default: false
+          hint: ''
+          label: show_prefix_meta_content
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: false
+          type: checkbox
+          variable: show_prefix_meta_content
+      height: 109
       id: '1768125126392'
       position:
         x: 80
@@ -299,6 +321,7 @@ workflow:
       positionAbsolute:
         x: 80
         y: 282
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -348,7 +371,7 @@ workflow:
       positionAbsolute:
         x: 865.0947104214451
         y: 303
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -409,10 +432,10 @@ workflow:
       height: 268
       id: '1768125161865'
       position:
-        x: 1245.0005406825774
+        x: 1545.0005406825774
         y: 303
       positionAbsolute:
-        x: 1245.0005406825774
+        x: 1545.0005406825774
         y: 303
       selected: false
       sourcePosition: right
@@ -534,10 +557,7 @@ workflow:
           enabled: false
           variable_selector: []
         memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
+          query_prompt_template: '{{#sys.query#}}{{#sys.files#}}'
           role_prefix:
             assistant: ''
             user: ''
@@ -570,10 +590,10 @@ workflow:
       height: 88
       id: '1768126349402'
       position:
-        x: 1590.4562389444945
+        x: 1890.4562389444945
         y: 203.48084340584995
       positionAbsolute:
-        x: 1590.4562389444945
+        x: 1890.4562389444945
         y: 203.48084340584995
       selected: false
       sourcePosition: right
@@ -581,18 +601,18 @@ workflow:
       type: custom
       width: 242
     - data:
-        answer: '{{#1768126349402.text#}}'
+        answer: '{{#1768679307205.prefix_meta_content#}}{{#1768126349402.text#}}'
         selected: false
         title: Answer Rapid
         type: answer
         variables: []
-      height: 102
+      height: 120
       id: '1768126430684'
       position:
-        x: 1833.4562389444945
+        x: 2133.4562389444945
         y: 203.48084340584995
       positionAbsolute:
-        x: 1833.4562389444945
+        x: 2133.4562389444945
         y: 203.48084340584995
       selected: false
       sourcePosition: right
@@ -604,10 +624,7 @@ workflow:
           enabled: false
           variable_selector: []
         memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
+          query_prompt_template: '{{#sys.query#}}{{#sys.files#}}'
           role_prefix:
             assistant: ''
             user: ''
@@ -640,10 +657,10 @@ workflow:
       height: 88
       id: '17681264500970'
       position:
-        x: 1590.4562389444945
+        x: 1890.4562389444945
         y: 329.48084340584995
       positionAbsolute:
-        x: 1590.4562389444945
+        x: 1890.4562389444945
         y: 329.48084340584995
       selected: false
       sourcePosition: right
@@ -651,18 +668,18 @@ workflow:
       type: custom
       width: 242
     - data:
-        answer: '{{#17681264500970.text#}}'
+        answer: '{{#1768679307205.prefix_meta_content#}}{{#17681264500970.text#}}'
         selected: false
         title: Answer Chat
         type: answer
         variables: []
-      height: 102
+      height: 120
       id: '17681264500971'
       position:
-        x: 1833.4562389444945
+        x: 2133.4562389444945
         y: 329.48084340584995
       positionAbsolute:
-        x: 1833.4562389444945
+        x: 2133.4562389444945
         y: 329.48084340584995
       selected: false
       sourcePosition: right
@@ -674,10 +691,7 @@ workflow:
           enabled: false
           variable_selector: []
         memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
+          query_prompt_template: '{{#sys.query#}} {{#sys.files#}}'
           role_prefix:
             assistant: ''
             user: ''
@@ -704,10 +718,10 @@ workflow:
       height: 88
       id: '17681264838950'
       position:
-        x: 1590.4562389444945
+        x: 1890.4562389444945
         y: 460.48084340584995
       positionAbsolute:
-        x: 1590.4562389444945
+        x: 1890.4562389444945
         y: 460.48084340584995
       selected: false
       sourcePosition: right
@@ -715,18 +729,18 @@ workflow:
       type: custom
       width: 242
     - data:
-        answer: '{{#17681264838950.text#}}'
+        answer: '{{#1768679307205.prefix_meta_content#}}{{#17681264838950.text#}}'
         selected: false
         title: Answer Think
         type: answer
         variables: []
-      height: 102
+      height: 120
       id: '1768126501328'
       position:
-        x: 1833.4562389444945
+        x: 2133.4562389444945
         y: 460.48084340584995
       positionAbsolute:
-        x: 1833.4562389444945
+        x: 2133.4562389444945
         y: 460.48084340584995
       selected: false
       sourcePosition: right
@@ -738,10 +752,7 @@ workflow:
           enabled: false
           variable_selector: []
         memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
+          query_prompt_template: '{{#sys.query#}}{{#sys.files#}}'
           role_prefix:
             assistant: ''
             user: ''
@@ -773,10 +784,10 @@ workflow:
       height: 88
       id: '17681265147590'
       position:
-        x: 1592.1973400710867
+        x: 1892.1973400710867
         y: 604.8109332665197
       positionAbsolute:
-        x: 1592.1973400710867
+        x: 1892.1973400710867
         y: 604.8109332665197
       selected: false
       sourcePosition: right
@@ -784,18 +795,18 @@ workflow:
       type: custom
       width: 242
     - data:
-        answer: '{{#17681265147590.text#}}'
+        answer: '{{#1768679307205.prefix_meta_content#}}{{#17681265147590.text#}}'
         selected: false
         title: Answer think-think
         type: answer
         variables: []
-      height: 102
+      height: 120
       id: '1768126536196'
       position:
-        x: 1835.1973400710867
+        x: 2135.1973400710867
         y: 604.8109332665197
       positionAbsolute:
-        x: 1835.1973400710867
+        x: 2135.1973400710867
         y: 604.8109332665197
       selected: false
       sourcePosition: right
@@ -839,8 +850,53 @@ workflow:
       targetPosition: left
       type: custom
       width: 242
+    - data:
+        code: "\"\"\"\ncreate prefix meta content\n\n\n:param selection:\n:type selection:\
+          \ str\n:param show_prefix_meta_content:\n:type show_prefix_meta_content:\
+          \ bool\n:return: {\n        \"prefix_meta_content\": may be empty\n    \
+          \    }\n:rtype: dict{\n        \"prefix_meta_content\": str\n        }\n\
+          \"\"\"\n\n# constants  ###################################################################\n\
+          OUTPUT_PREFIX_KEY = \"prefix_meta_content\"\n\n\n# Entry Point  #################################################################\n\
+          \n\ndef main(\n    selection: dict, show_prefix_meta_content: bool\n): \
+          \ # pylint: disable=missing-function-docstring\n    content = \"\"\n\n \
+          \   if show_prefix_meta_content:\n        content = \"\"\"> [!TIP]\n> LLM:\
+          \ {}\n\n\"\"\".format(selection)\n\n    return {OUTPUT_PREFIX_KEY: content}\n\
+          \n"
+        code_language: python3
+        outputs:
+          prefix_meta_content:
+            children: null
+            type: string
+        selected: false
+        title: gen prefix_meta_content
+        type: code
+        variables:
+        - value_selector:
+          - '1768125156310'
+          - structured_output
+          - selection
+          value_type: object
+          variable: selection
+        - value_selector:
+          - '1768125126392'
+          - show_prefix_meta_content
+          value_type: boolean
+          variable: show_prefix_meta_content
+      height: 52
+      id: '1768679307205'
+      position:
+        x: 1245.0005406825774
+        y: 303
+      positionAbsolute:
+        x: 1245.0005406825774
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
     viewport:
-      x: 3.1850424503210206
-      y: 115.99080851468966
-      zoom: 0.7578582832552002
+      x: 443.1164084648681
+      y: 242.47732489887517
+      zoom: 0.8198800045906056
   rag_pipeline_variables: []

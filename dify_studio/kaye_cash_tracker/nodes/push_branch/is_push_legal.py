@@ -1,7 +1,11 @@
+# todo module docstring
+
 OUTPUT_KEY = "is_push_legal"
 
 
-def main(input: str, transactions_array: dict):
+def main(
+    input: str, transactions_array: dict
+):  # pylint: disable=missing-function-docstring
     """
     decide whetehr if making a push with current `transactions_array` is legal
 

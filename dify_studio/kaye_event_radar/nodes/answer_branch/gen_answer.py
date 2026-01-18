@@ -1,6 +1,19 @@
+"""
+create a well-formatted ``md`` text answer of ``filtered_events``
+
+:param filtered_events:
+:type filtered_events: list[dict]
+:param debug_skip_event_filtering:
+:type debug_skip_event_filtering: bool
+:param debug_use_example_events_warning:
+:type debug_use_example_events_warning: bool
+:return: ``opt`` is the formatted text answer (typed ``str``)
+"""
+
 from datetime import date as date_cls
 import re
 
+# constants  ###################################################################
 EVENT_TEMPLATE = """
 ## [{name}]({link})
 
@@ -24,6 +37,7 @@ DEBUG_USE_EXAMPLE_EVENTS_WARNING = WARNING_TEMPLATE.format(
 )
 
 
+# helper method  ###############################################################
 def _create_date_line(date):
     """
     :param date:
@@ -43,22 +57,12 @@ def _create_date_line(date):
         return "# {}".format(date)
 
 
+# entry point  #################################################################
 def main(
     filtered_events: list[dict],
     debug_skip_event_filtering,
     debug_use_example_events_warning,
-):
-    """
-    create a well-formatted ``md`` text answer of ``filtered_events``
-
-    :param filtered_events:
-    :type filtered_events: list[dict]
-    :param debug_skip_event_filtering:
-    :type debug_skip_event_filtering: bool
-    :param debug_use_example_events_warning:
-    :type debug_use_example_events_warning: bool
-    :return: ``opt`` is the formatted text answer (typed ``str``)
-    """
+):  # pylint: disable=missing-function-docstring
 
     # tab by date  -------------------------------------------------------------
     by_dates = {}

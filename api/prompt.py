@@ -11,7 +11,7 @@ from kaye import PROGRAM_NAME
 # /kaye/prompt
 prompt_bp = Blueprint("prompt", PROGRAM_NAME, url_prefix="/prompt")
 
-# todo prompt API endpoints
+# todo implement /kaye/prompt
 
 
 @prompt_bp.route("/generate", methods=["GET"])

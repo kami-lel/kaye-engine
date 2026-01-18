@@ -1,17 +1,19 @@
-def main(debug_flags: float):
-    """
-    parse ``debug_flags`` as bitwise flags, assume integer:
+"""
+parse ``debug_flags`` as bitwise flags, assume integer:
 
-    - 1: ``skip_event_filtering``
-    - 2: ``use_example_events``
-    - 4: ``only_print_urls`` during scraping mode
+- 1: ``skip_event_filtering``
+- 2: ``use_example_events``
+- 4: ``only_print_urls`` during scraping mode
 
 
-    :param debug_flags:
-    :type debug_flags: float
-    :return: entries with key as flag names (v.s.) and value as ``bool``
-    :rtype: dict{str: bool}
-    """
+:param debug_flags:
+:type debug_flags: float
+:return: entries with key as flag names (v.s.) and value as ``bool``
+:rtype: dict{str: bool}
+"""
+
+
+def main(debug_flags: float):  # pylint: disable=missing-function-docstring
     flags = int(debug_flags)
 
     skip_event_filtering = bool(flags & 1)

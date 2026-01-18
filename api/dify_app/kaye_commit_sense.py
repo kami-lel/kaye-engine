@@ -4,7 +4,7 @@ define API to specific work with Dify App: Kaye Commit Sense
 
 # pylint: disable=missing-function-docstring
 
-from flask import Blueprint
+from flask import Blueprint, request, abort, Response
 
 from kaye import PROGRAM_NAME
 from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
@@ -28,7 +28,7 @@ PER_FILE_LONG_PROMPT_BLUEPRINT = """ ○
 [x] │   │   └── Commentary Case
 [x] │   └── Briefness Style
 [ ] └── Role
-[ ]     └── Kaye Commit Sense
+[x]     └── Kaye Commit Sense
 [x]         └── Per File Summary Task
 [x]             └── Prefix Symbol
 [x]                 └── Long
@@ -42,11 +42,40 @@ PER_FILE_SHORT_PROMPT_BLUEPRINT = """ ○
 [x] │   │   └── Commentary Case
 [x] │   └── Briefness Style
 [ ] └── Role
-[ ]     └── Kaye Commit Sense
+[x]     └── Kaye Commit Sense
 [x]         └── Per File Summary Task
 [x]             └── Prefix Symbol
 [x]                 └── Short
 """
+
+
+# helper method  ###############################################################
+def _checkmark_md_related_node(blueprint):
+    """
+    checkmark the correct markdown related node
+    """
+    md_arg = request.args.get("allows_md")
+
+    # default to disable  md
+    node = blueprint.corpus["Role"]["Kaye Commit Sense"]["no markdown syntax"]
+
+    if md_arg:
+        try:
+            md_value = int(md_arg)
+        except ValueError:
+            abort(Response("bad param: ?allows_md={}".format(md_arg), 422))
+
+        if md_value == 1:
+            node = blueprint.corpus["Format"]
+        elif md_value != 0:
+            abort(
+                Response(
+                    "param ?allows_md must be 1/0, not {}".format(md_value),
+                    422,
+                )
+            )
+
+    blueprint.checkmark(node)
 
 
 # Flask Routing  ###############################################################
@@ -64,6 +93,7 @@ def kaye_commit_sense_primary_message():
         load_embedded_prompt_corpus(),
         PRIMARY_MESSAGE_PROMPT_BLUEPRINT,
     )
+    _checkmark_md_related_node(blueprint)
     return blueprint.generate_prompt()
 
 
@@ -74,6 +104,7 @@ def kaye_commit_sense_per_file_long():
         load_embedded_prompt_corpus(),
         PER_FILE_LONG_PROMPT_BLUEPRINT,
     )
+    _checkmark_md_related_node(blueprint)
     return blueprint.generate_prompt()
 
 
@@ -84,4 +115,5 @@ def kaye_commit_sense_per_file_short():
         load_embedded_prompt_corpus(),
         PER_FILE_SHORT_PROMPT_BLUEPRINT,
     )
+    _checkmark_md_related_node(blueprint)
     return blueprint.generate_prompt()
