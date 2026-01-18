@@ -59,7 +59,7 @@ def main(
     historical_bot_messages: list[str],
     show_prefix_meta_content: bool,
 ):  # pylint: disable=missing-function-docstring
-    # decide branch  ===========================================================
+    # decide branch  -----------------------------------------------------------
     if difficulty < difficulty_thresholds[0]:
         branch = 0
     elif difficulty < difficulty_thresholds[1]:
@@ -67,14 +67,15 @@ def main(
     else:
         branch = 2
 
-    # generate complementary messages  =========================================
-
+    # generate complementary messages  -----------------------------------------
     # TODO
     historical_user_message = ""
     historical_bot_message = ""
-    # TODO update last_memory
 
-    # get prefix meta content  =================================================
+    # update last_memory
+    last_memory[branch] = dialogue_count + 1
+
+    # get prefix meta content  -------------------------------------------------
     prefix_content = ""
     if show_prefix_meta_content:
         prefix_content = """> difficulty: {}
