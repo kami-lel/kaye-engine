@@ -16,9 +16,29 @@
 
 
 
+
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [4.12.1] - 2026-01-18
+
 ### Changed
 
 - unify docstring of all `.py` files of Dify App nodes
@@ -37,10 +57,6 @@ Kaye Peer Coder:
 - improve prompt
 - allows *prefix meta content*
 - utilize *memory* build-in, v.s.
-
-### Deprecated
-### Removed
-### Fixed
 
 
 
