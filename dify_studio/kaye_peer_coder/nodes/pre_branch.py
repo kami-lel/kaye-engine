@@ -62,14 +62,12 @@ def main(
     # get prefix meta content  -------------------------------------------------
     prefix_content = ""
     if show_prefix_meta_content:
-        prefix_content = """> difficulty: {}
+        prefix_content = """[!TIP]
+> difficulty: {}
 > languages: {}
-> LLM used: {}
-
+> LLM: {}
 
 """.format(difficulty, languages, llm)
-
-    # TODO better format
 
     return {
         OUTPUT_LLM_KEY: llm,

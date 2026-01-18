@@ -27,12 +27,9 @@ def main(
     content = ""
 
     if show_prefix_meta_content:
-        content = """
+        content = """[!TIP]
 > LLM: {}
 
-
 """.format(selection)
-
-    # TODO better format
 
     return {OUTPUT_PREFIX_KEY: content}
