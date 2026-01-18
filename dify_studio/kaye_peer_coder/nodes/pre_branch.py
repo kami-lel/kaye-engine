@@ -24,26 +24,31 @@
 :param show_prefix_meta_content:
 :type show_prefix_meta_content: bool
 :return: {
-        "branch": 0~2, which LLM to be used
+        "llm": 0~2, which LLM to be used
         "supplement_user_messages": additional historical user messages
                 that this model is unaware of
         "supplement_bot_messages": v.s.
         "prefix_meta_content": prefix meta content, may be empty
         }
 :rtype: dict{
-        "branch": int,
+        "llm": int,
         "supplement_user_messages": str,
         "supplement_bot_messages": str,
         "prefix_meta_content": str,
         }
 """
 
-# constants  ###################################################################
-OUTPUT_BRANCH_KEY = "branch"
+# output keys  #################################################################
+OUTPUT_LLM_KEY = "llm"
 OUTPUT_USER_KEY = "supplement_user_messages"
 OUTPUT_BOT_KEY = "supplement_bot_messages"
 OUTPUT_PREFIX_KEY = "prefix_meta_content"
 OUTPUT_MEMORY_KEY = "last_memory"
+
+
+# constants  ###################################################################
+LLM_COUNT = 3  # number of LLMs
+MESSAGE_SPLIT = "\n\n\n"
 
 
 # Entry Point  #################################################################
@@ -61,19 +66,28 @@ def main(
 ):  # pylint: disable=missing-function-docstring
     # decide branch  -----------------------------------------------------------
     if difficulty < difficulty_thresholds[0]:
-        branch = 0
+        llm = 0
     elif difficulty < difficulty_thresholds[1]:
-        branch = 1
+        llm = 1
     else:
-        branch = 2
+        llm = 2
 
     # generate complementary messages  -----------------------------------------
+    # init last_memory
+    if len(last_memory) == 0:  # init
+        last_memory = [0] * LLM_COUNT
+
     # TODO
-    historical_user_message = ""
-    historical_bot_message = ""
+    llm_last_memory = last_memory[llm]
+    supplement_user_message = MESSAGE_SPLIT.join(
+        historical_user_messages[llm_last_memory:dialogue_count]
+    )
+    supplement_bot_message = MESSAGE_SPLIT.join(
+        historical_bot_messages[llm_last_memory:dialogue_count]
+    )
 
     # update last_memory
-    last_memory[branch] = dialogue_count + 1
+    last_memory[llm] = dialogue_count
 
     # get prefix meta content  -------------------------------------------------
     prefix_content = ""
@@ -83,12 +97,12 @@ def main(
 > LLM used: {}
 
 
-""".format(difficulty, languages, branch)
+""".format(difficulty, languages, llm)
 
     return {
-        OUTPUT_BRANCH_KEY: branch,
-        OUTPUT_USER_KEY: historical_user_message,
-        OUTPUT_BOT_KEY: historical_bot_message,
+        OUTPUT_LLM_KEY: llm,
+        OUTPUT_USER_KEY: supplement_user_message,
+        OUTPUT_BOT_KEY: supplement_bot_message,
         OUTPUT_MEMORY_KEY: last_memory,
         OUTPUT_PREFIX_KEY: prefix_content,
     }
