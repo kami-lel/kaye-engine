@@ -74,7 +74,7 @@ Port Number: `11255` (k=11, a=1, y=25, e=5)
 
 #### Kaye Cash Tracker
 
-At `/kaye/dify-app/kaye-cash-tracker`
+At `/kaye/dify-app/kaye-cash-tracker/extract`
 
 - generate prompt for: node Extract Info
 - by `GET`
