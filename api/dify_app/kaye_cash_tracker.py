@@ -2,8 +2,13 @@
 define API to specific work with Dify App: Kaye_Cash_Tracker
 """
 
-from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
+# pylint: disable=missing-function-docstring
 
+from flask import Blueprint
+
+from kaye import PROGRAM_NAME
+
+# Blueprints  ##################################################################
 PROMPT_BLUEPRINT = """○
 [ ] └── Role
 [ ]     └── Kaye Cash Tracker
@@ -11,12 +16,14 @@ PROMPT_BLUEPRINT = """○
 """
 
 
-def call_kaye_cash_tracker():
-    # pylint: disable=missing-function-docstring
+# Flask Routing  ###############################################################
+# /kaye/dify-app/kaye-cash-tracker
+cash_tracker_bp = Blueprint(
+    "kaye-cash-tracker", PROGRAM_NAME, url_prefix="/kaye-cash-tracker"
+)
 
-    blueprint = PromptBlueprint(
-        load_embedded_prompt_corpus(),
-        PROMPT_BLUEPRINT,
-    )
 
-    return str(blueprint)
+# /kaye/dify-app/kaye-cash-tracker/extract
+@cash_tracker_bp.route("/track", methods=["GET"])
+def kaye_cash_tracker_extract():
+    return ""  # TODO
