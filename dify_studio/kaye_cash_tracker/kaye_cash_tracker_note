@@ -1,7 +1,7 @@
-todo mpv logic for large table: AI only return new & update entry
+Todo mpv logic for large table: AI only return new & update entry
 dont return old entries, but use code to merge
 
-todo reverse order of transactions entries in Google Sheet
+Todo reverse order of transactions entries in Google Sheet
 
-bug: show extract negative numbers
-bug: difficulty creating party_to, ask it to distinguish service & service provide/company
+Bug: show extract negative numbers
+Bug: difficulty creating party_to, ask it to distinguish service & service provide/company

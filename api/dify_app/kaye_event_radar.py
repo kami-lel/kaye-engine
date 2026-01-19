@@ -18,7 +18,7 @@ event_radar_bp = Blueprint(
 )
 
 
-# todo implement HTTP API support for Event Radar
+# Todo implement HTTP API support for Event Radar
 
 
 # /kaye/dify-app/kaye-event-radar/filter-events
