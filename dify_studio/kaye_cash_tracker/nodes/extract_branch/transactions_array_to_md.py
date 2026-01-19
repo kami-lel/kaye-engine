@@ -1,4 +1,14 @@
-# TODO docstring
+"""
+take a transactions_array and convert it to transactions_array_md format
+
+
+:param transactions:
+:type transactions: dict
+:return: {"transaction_array_md": converted md content}
+:rtype: dict{"transaction_array_md": str}
+"""
+
+OUTPUT_MD_KEY = "transaction_array_md"
 
 
 def main(transactions):  # pylint: disable=missing-function-docstring
@@ -17,4 +27,5 @@ def main(transactions):  # pylint: disable=missing-function-docstring
         row_processed = [entry if entry is not None else "" for entry in row]
         md_lines.append("| " + " | ".join(row_processed) + " |")
     md_table = "\n".join(md_lines)
-    return {"result": md_table}
+
+    return {OUTPUT_MD_KEY: md_table}
