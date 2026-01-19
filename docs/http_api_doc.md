@@ -34,6 +34,15 @@ systemctl enable kaye_http_api.service
 systemctl status kaye_http_api.service
 ```
 
+----
+
+If resource under `/opt/kaye` is updated, restart service:
+
+```bash
+systemctl daemon-reload
+systemctl restart kaye_http_api.service
+```
+
 
 
 
