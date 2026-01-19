@@ -25,7 +25,7 @@ cash_tracker_bp = Blueprint(
 
 
 # /kaye/dify-app/kaye-cash-tracker/extract
-@cash_tracker_bp.route("/track", methods=["GET"])
+@cash_tracker_bp.route("/extract", methods=["GET"])
 def kaye_cash_tracker_extract():
     blueprint = PromptBlueprint.parse(
         load_embedded_prompt_corpus(), EXTRACT_PROMPT_BLUEPRINT
