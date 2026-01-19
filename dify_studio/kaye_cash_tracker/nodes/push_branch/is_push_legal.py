@@ -1,4 +1,4 @@
-# Todo module docstring
+# TODO module docstring
 
 OUTPUT_KEY = "is_push_legal"
 
