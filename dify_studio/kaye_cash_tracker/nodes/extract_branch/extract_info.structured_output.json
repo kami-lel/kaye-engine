@@ -19,7 +19,7 @@
         {
           "title": "id",
           "type": "string",
-          "description": "numerical id"
+          "description": "numerical id, required"
         },
         {
           "title": "date",
