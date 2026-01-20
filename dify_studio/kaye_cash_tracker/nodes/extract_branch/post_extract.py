@@ -25,13 +25,33 @@ post extract node, perform:
 OUTPUT_TRANSACTIONS_KEY = "transactions"
 OUTPUT_TABLE_KEY = "transactions_table"
 
+# constants  ###################################################################
+TRANSACTIONS_KEY = "transactions"
+
 
 def main(
     current_transactions: dict,
     extract_obj: dict,
 ):  # pylint: disable=missing-function-docstring
 
-    transactions_obj = ""  # TODO
+    # merge 2 transactions  ====================================================
+    transactions_dict = {}  # dict with id -> entry
+    # fill transactions_dict w/ current transactions
+    for transaction in current_transactions[TRANSACTIONS_KEY]:
+        tid = transaction[0]  # get id as 1st entry of list
+        transactions_dict[tid] = transaction
+
+    # update transactions_dict with newly extracted entries
+    for transaction in extract_obj[TRANSACTIONS_KEY]:
+        tid = transaction[0]
+        transactions_dict[tid] = transaction
+
+    # convert dict to list, sorted by date
+    # TODO
+    transactions = []
+
+    # wrap in dict for correct returned type
+    transactions_obj = {TRANSACTIONS_KEY: transactions}
 
     # create MD table  =========================================================
     # BUG
