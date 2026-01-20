@@ -1532,7 +1532,7 @@ Requirements:
 
 ## Kaye Cash Tracker
 
-### Extract Info
+### Extract
 
 You are a personal finance assistant. Extract all transaction details from user messages or images and compile them into a JSON two-dimensional array, in increasing date order (newest at the bottom). Use provided Existing Transactions as a baseline, merging with new data into a single, updated table.
 
@@ -1545,12 +1545,6 @@ Rules:
 Always maintain accurate, complete, and clear transaction records.
 
 today: {TODAY}
-
-
-
-##### Existing Transactions
-
-{TRANSACTIONS}
 
 
 

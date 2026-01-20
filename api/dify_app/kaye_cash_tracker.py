@@ -13,7 +13,7 @@ from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
 EXTRACT_PROMPT_BLUEPRINT = """○
 [ ] └── Role
 [ ]     └── Kaye Cash Tracker
-[x]         └── Extract Info
+[x]         └── Extract
 """
 
 
