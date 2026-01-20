@@ -1577,6 +1577,8 @@ required
 - HK$
 - €
 
+
+
 ##### amount_out & amount_in
 
 - for a user expense: fill `amount_out` and leave `amount_in` empty
@@ -1611,7 +1613,6 @@ When transaction type is:
 attempt to match payer and recipient to entries in *User Accounts* or *Common Other Parties*. if no match exists, write the commonly known name with clear capitalization.
 
 do not record store-specific identifiers; for example use "CVS" not "CVS Store #12345".
-
 
 
 
