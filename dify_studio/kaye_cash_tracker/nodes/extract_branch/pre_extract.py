@@ -8,9 +8,13 @@ from datetime import datetime
 
 # constants  ###################################################################
 OUTPUT_PROMPT_KEY = "concrete_prompt"
+OUTPUT_TRANSACTIONS_KEY = "flattened_transactions"
+OUTPUT_PARTIES_KEY = "other_parties"
 
 
 # entry point  #################################################################
+
+# BUG not integrated
 
 
 def main(
