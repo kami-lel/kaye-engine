@@ -5,3 +5,6 @@ TODO reverse order of transactions entries in Google Sheet
 
 BUG: show extract negative numbers
 BUG: difficulty creating party_to, ask it to distinguish service & service provide/company
+
+
+BUG BUG prompt is wrong

@@ -30,7 +30,7 @@ def main(
 
     user_msg = """{}
 
-Existing Transactions:
+## Existing Transactions
 
 {}""".format(query, transactions)
 

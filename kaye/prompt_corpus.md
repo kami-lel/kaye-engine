@@ -1546,18 +1546,38 @@ Always maintain accurate, complete, and clear transaction records.
 
 today: {TODAY}
 
+Remarks on each Column:
 
 
-##### Currency Symbol
+##### id
+
+required, numerical id, unique to each transaction entry
+
+##### date
+
+required, MM-dd format
+
+
+##### currency_symbol
+
+required
 
 - $: USD
 - ¥: RMB/Chinese Yuan
 - HK$
 - €
 
+##### amount_out & amount_in
+
+expense with exactly 2 decimal places, optional
+
+income with exactly 2 decimal places, optional
 
 
-##### Party From & To
+
+##### party_from & party_to
+
+both required
 
 User Accounts:
 
@@ -1586,6 +1606,8 @@ No need to record specific store number, e.g., use "CVS" instead of "CVS Store #
 
 
 ##### Categories
+
+required
 
 Select the most likely category abbreviation for each transaction based on its details.
 
@@ -1625,6 +1647,8 @@ Select the most likely category abbreviation for each transaction based on its d
 
 
 ##### Remarks
+
+optional
 
 - leave empty unless essential, no record irrelevant details
 - use only short, specific phrases not found in other fields
