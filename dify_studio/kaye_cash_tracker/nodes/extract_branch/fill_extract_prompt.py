@@ -16,6 +16,8 @@ fill the prompt with ``user_accounts`` and ``common_other_parties``
 }
 """
 
+from datetime import datetime
+
 OUTPUT_PROMPT_KEY = "concrete_prompt"
 
 
@@ -24,7 +26,10 @@ def main(
     user_accounts: str,
     common_other_parties: str,
 ):  # pylint: disable=missing-function-docstring
+    today = datetime.today().strftime("%Y-%m-%d")
     concrete_prompt = prompt_template.format(
-        USER_ACCOUNTS=user_accounts, COMMON_OTHER_PARTIES=common_other_parties
+        TODAY=today,
+        USER_ACCOUNTS=user_accounts,
+        COMMON_OTHER_PARTIES=common_other_parties,
     )
     return {OUTPUT_PROMPT_KEY: concrete_prompt}

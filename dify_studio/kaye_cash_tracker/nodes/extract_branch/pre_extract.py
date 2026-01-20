@@ -4,8 +4,6 @@ fill the prompt template with runtime info to produce the concrete prompt
 TODO add params
 """
 
-from datetime import datetime
-
 # constants  ###################################################################
 OUTPUT_USER_MSG_KEY = "user_msg"
 
@@ -15,8 +13,6 @@ OUTPUT_USER_MSG_KEY = "user_msg"
 
 def main(
     transactions: dict,
-    user_accounts: str,
-    common_other_parties: str,
     query: str,
 ):  # pylint: disable=missing-function-docstring
     """
@@ -39,14 +35,7 @@ def main(
     }
     """
 
-    # prompt = prompt_template_cache.format(
-    #     TODAY=datetime.today().strftime("%Y-%m-%d"),
-    #     TRANSACTIONS=transactions_array,
-    #     USER_ACCOUNTS=user_accounts,
-    #     COMMON_OTHER_PARTIES=common_other_parties,
-    # )
-
     user_msg = ""
-    # TODO contains: transactions, today, & parties
+    # TODO contains: combine transactions & query
 
     return {OUTPUT_USER_MSG_KEY: user_msg}
