@@ -1,7 +1,21 @@
 """
-fill the prompt template with runtime info to produce the concrete prompt
+create *User Message* part for Extract Node
 
-TODO add params
+
+:param transactions:
+:type transactions: dict
+:param user_accounts:
+:type user_accounts: str
+:param common_other_parties:
+:type common_other_parties: str
+:param query:
+:type query: str
+:return: {
+    "user_msg": content used for User Account
+}
+:rtype: dict{
+    "user_msg": str
+}
 """
 
 # constants  ###################################################################
@@ -9,33 +23,15 @@ OUTPUT_USER_MSG_KEY = "user_msg"
 
 
 # entry point  #################################################################
-
-
 def main(
     transactions: dict,
     query: str,
 ):  # pylint: disable=missing-function-docstring
-    """
-    create *User Message* part for Extract Node
 
+    user_msg = """{}
 
-    :param transactions:
-    :type transactions: dict
-    :param user_accounts:
-    :type user_accounts: str
-    :param common_other_parties:
-    :type common_other_parties: str
-    :param query:
-    :type query: str
-    :return: {
-        "user_msg": content used for User Account
-    }
-    :rtype: dict{
-        "user_msg": str
-    }
-    """
+Existing Transactions:
 
-    user_msg = ""
-    # TODO contains: combine transactions & query
+{}""".format(query, transactions)
 
     return {OUTPUT_USER_MSG_KEY: user_msg}
