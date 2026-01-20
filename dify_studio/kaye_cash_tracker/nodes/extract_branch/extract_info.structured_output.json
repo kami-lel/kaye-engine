@@ -1,7 +1,7 @@
 {
   "type": "object",
   "properties": {
-    "rows": {
+    "transactions": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/row"
@@ -9,13 +9,18 @@
     }
   },
   "required": [
-    "rows"
+    "transactions"
   ],
   "additionalProperties": false,
   "$defs": {
     "row": {
       "type": "array",
       "prefixItems": [
+        {
+          "title": "id",
+          "type": "string",
+          "description": "numerical id"
+        },
         {
           "title": "date",
           "type": "string",
@@ -66,7 +71,7 @@
   },
   "examples": [
     {
-      "rows": [
+      "transactions": [
         [
           "???",
           "$",
