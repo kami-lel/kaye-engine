@@ -4,7 +4,7 @@
     "transactions": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/row"
+        "$ref": "#/$defs/transaction"
       }
     }
   },
@@ -13,7 +13,7 @@
   ],
   "additionalProperties": false,
   "$defs": {
-    "row": {
+    "transaction": {
       "type": "array",
       "prefixItems": [
         {
