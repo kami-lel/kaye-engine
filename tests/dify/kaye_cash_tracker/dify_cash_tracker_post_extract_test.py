@@ -8,13 +8,11 @@ from dify_studio.kaye_cash_tracker.nodes.extract_branch.post_extract import (
     main,
 )
 
-# TODO test table
-
-
 EMPTY_TRANSACTIONS = {"transactions": []}
 EXAMPLE_TRANSACTIONS = {
     "transactions": [
         ["1", "???", "$", "36.71", "", "???", "Target", "G", ""],
+        ["3", "05-10", "¥", "", "3000.00", "Amazon", "BOC", "A", "Jan salary"],
         [
             "2",
             "04-12",
@@ -26,7 +24,6 @@ EXAMPLE_TRANSACTIONS = {
             "E",
             "buy Rode NT5",
         ],
-        ["3", "05-10", "¥", "", "3000.00", "Amazon", "BOC", "A", "Jan salary"],
     ]
 }
 
@@ -57,7 +54,7 @@ class TestEmptyCurrent:
         print(opt)
 
         transactions_obj = opt["transactions"]
-        transactions_table = opt["transactions_table"]
+        assert "transactions_table" in opt
 
         assert transactions_obj == extract_transactions
 
@@ -98,7 +95,7 @@ class TestEmptyCurrent:
         print(opt)
 
         transactions_obj = opt["transactions"]
-        transactions_table = opt["transactions_table"]
+        assert "transactions_table" in opt
 
         assert transactions_obj == extract_transactions
 
@@ -117,6 +114,101 @@ class TestEmptyUpdated:
         print(opt)
 
         transactions_obj = opt["transactions"]
-        transactions_table = opt["transactions_table"]
+        assert "transactions_table" in opt
 
         assert transactions_obj == current_transactions
+
+
+class TestMergeNoUpdate:
+
+    def test1(_):
+        current_transactions = EXAMPLE_TRANSACTIONS
+        extract_transactions = {
+            "transactions": [
+                [
+                    "4",
+                    "10-05",
+                    "$",
+                    "",
+                    "1.50",
+                    "Alice",
+                    "CASH",
+                    "Y",
+                    "",
+                ],
+                [
+                    "5",
+                    "10-01",
+                    "$",
+                    "12.50",
+                    "",
+                    "CASH",
+                    "Target",
+                    "G",
+                    "weekly grocery",
+                ],
+            ]
+        }
+
+        opt = main(
+            current_transactions=current_transactions,
+            extract_obj=extract_transactions,
+        )
+
+        print(opt)
+
+        transactions_obj = opt["transactions"]
+        assert "transactions_table" in opt
+
+        assert transactions_obj == {
+            "transactions": [
+                ["1", "???", "$", "36.71", "", "???", "Target", "G", ""],
+                [
+                    "4",
+                    "10-05",
+                    "$",
+                    "",
+                    "1.50",
+                    "Alice",
+                    "CASH",
+                    "Y",
+                    "",
+                ],
+                [
+                    "5",
+                    "10-01",
+                    "$",
+                    "12.50",
+                    "",
+                    "CASH",
+                    "Target",
+                    "G",
+                    "weekly grocery",
+                ],
+                [
+                    "3",
+                    "05-10",
+                    "¥",
+                    "",
+                    "3000.00",
+                    "Amazon",
+                    "BOC",
+                    "A",
+                    "Jan salary",
+                ],
+                [
+                    "2",
+                    "04-12",
+                    "HK$",
+                    "240.35",
+                    "",
+                    "ABC",
+                    "Amazon",
+                    "E",
+                    "buy Rode NT5",
+                ],
+            ],
+        }
+
+
+# TODO test table

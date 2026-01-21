@@ -48,17 +48,15 @@ def main(
         tid = transaction[0]
         transactions_dict[tid] = transaction
 
-    transactions = list(transactions_dict.values())  # HACK need to sort
     # convert dict to list
-    # transactions = sorted(
-    #     transactions_dict.values(),
-    #     key=lambda transaction: transaction[1],  # sort by date
-    #     reverse=True,  # newest at top
-    # )
+    transactions = sorted(
+        transactions_dict.values(),
+        key=lambda transaction: transaction[1],  # sort by date
+        reverse=True,  # newest at top
+    )
 
     # wrap in dict for correct returned type
-    transactions_obj = {}
-    transactions_obj[TRANSACTIONS_KEY] = transactions
+    transactions_obj = {TRANSACTIONS_KEY: transactions}
 
     # # create MD table  =========================================================
     # # generate header row with updated headers
