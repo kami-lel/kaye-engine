@@ -21,6 +21,11 @@
 
 ### Added
 ### Changed
+
+Kaye Commit Sense:
+
+- minor adjustment on change commit message format
+
 ### Deprecated
 ### Removed
 ### Fixed
