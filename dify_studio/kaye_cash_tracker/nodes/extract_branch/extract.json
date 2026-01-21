@@ -1,7 +1,7 @@
 {
   "type": "object",
   "properties": {
-    "transactions": {
+    "rows": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/row"
