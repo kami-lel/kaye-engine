@@ -40,9 +40,7 @@ def main(
     # merge 2 transactions as a 2D array
     rows_array = []
     # add current transactions
-    if current_transactions:
-        rows_array.extend(json.loads(current_transactions))
-
+    rows_array.extend(json.loads(current_transactions))
     # add updated transactions
     rows_array.extend(extracted_rows)
 
