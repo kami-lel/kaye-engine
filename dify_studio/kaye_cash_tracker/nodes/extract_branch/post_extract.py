@@ -55,26 +55,24 @@ def main(
     # wrap in dict for correct returned type
     transactions_obj = {TRANSACTIONS_KEY: transactions}
 
-    # # create MD table  =========================================================
-    # # generate header row with updated headers
-    # header = ["", "¤", "Out", "In", "From", "To", "", "Remarks"]
-    # # Separator line for markdown table formatting
-    # separator = ["---"] * 8
-    # # Initialize list for markdown lines including header
-    # md_lines = []
-    # md_lines.append("| " + " | ".join(header) + " |")
-    # md_lines.append("| " + " | ".join(separator) + " |")
+    # create MD table  =========================================================
+    # generate header row with updated headers
+    header = ["", "¤", "Out", "In", "From", "To", "", "Remarks"]
+    # Separator line for markdown table formatting
+    separator = ["---"] * 8
+    # Initialize list for markdown lines including header
+    md_lines = []
+    md_lines.append("| " + " | ".join(header) + " |")
+    md_lines.append("| " + " | ".join(separator) + " |")
 
-    # # Fill in data rows from spreadsheet
-    # for row in transactions:
-    #     # make sure None -> '', and don't skip id field
-    #     entries = [entry if entry is not None else "" for entry in row[1:]]
-    #     line = "| " + " | ".join(entries) + " |"
-    #     md_lines.append(line)
+    # Fill in data rows from spreadsheet
+    for row in transactions:
+        # make sure None -> '', and don't skip id field
+        entries = [entry if entry is not None else "" for entry in row[1:]]
+        line = "| " + " | ".join(entries) + " |"
+        md_lines.append(line)
 
-    # transactions_table = "\n".join(md_lines)
-    # HACK
-    transactions_table = ""
+    transactions_table = "\n".join(md_lines)
 
     # returns ==================================================================
     return {

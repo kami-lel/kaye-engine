@@ -401,4 +401,50 @@ class TestMergeWithUpdate:  # ==================================================
 # table  #######################################################################
 
 
-# TODO test table
+class TestTable:
+
+    def test1(_):
+        current_transactions = EXAMPLE_TRANSACTIONS
+        extract_transactions = {
+            "transactions": [
+                [
+                    "4",
+                    "10-05",
+                    "$",
+                    "",
+                    "1.50",
+                    "Alice",
+                    "CASH",
+                    "Y",
+                    "",
+                ],
+                [
+                    "5",
+                    "10-01",
+                    "$",
+                    "12.50",
+                    "",
+                    "CASH",
+                    "Target",
+                    "G",
+                    "weekly grocery",
+                ],
+            ]
+        }
+
+        obj = main(
+            current_transactions=current_transactions,
+            extract_obj=extract_transactions,
+        )
+
+        opt = obj["transactions_table"]
+
+        print(opt)
+
+        assert opt == """|  | ¤ | Out | In | From | To |  | Remarks |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ??? | $ | 36.71 |  | ??? | Target | G |  |
+| 10-05 | $ |  | 1.50 | Alice | CASH | Y |  |
+| 10-01 | $ | 12.50 |  | CASH | Target | G | weekly grocery |
+| 05-10 | ¥ |  | 3000.00 | Amazon | BOC | A | Jan salary |
+| 04-12 | HK$ | 240.35 |  | ABC | Amazon | E | buy Rode NT5 |"""
