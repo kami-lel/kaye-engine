@@ -61,7 +61,7 @@ def main(
     transactions = sorted(
         rows_dict.values(),
         key=lambda transaction: transaction[1],  # sort by date
-        reverse=True,  # newest at top
+        reverse=False,  # newest at bottom
     )
 
     # serialize as json string to store
