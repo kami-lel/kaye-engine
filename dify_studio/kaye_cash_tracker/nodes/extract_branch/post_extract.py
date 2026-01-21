@@ -79,3 +79,6 @@ def main(
         OUTPUT_TRANSACTIONS_KEY: transactions_obj,
         OUTPUT_TABLE_KEY: transactions_table,
     }
+
+
+# BUG
