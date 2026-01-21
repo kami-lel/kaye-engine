@@ -21,9 +21,12 @@
 
 ### Added
 ### Changed
-### Deprecated
 ### Removed
 ### Fixed
+
+Kaye Cash Tracker:
+
+- re-implement app using new HTTP API
 
 
 
