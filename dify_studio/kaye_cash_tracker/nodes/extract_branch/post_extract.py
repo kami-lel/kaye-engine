@@ -21,6 +21,8 @@ post extract node, perform:
 }
 """
 
+import json
+
 # output keys  #################################################################
 OUTPUT_TRANSACTIONS_KEY = "transactions"
 OUTPUT_TABLE_KEY = "transactions_table"
@@ -30,29 +32,34 @@ ROWS_KEY = "rows"
 
 
 def main(
-    current_transactions: dict,
-    extract_obj: dict,
+    current_transactions: str,
+    extracted_rows: list,
 ):  # pylint: disable=missing-function-docstring
 
     # merge 2 transactions  ====================================================
-    transactions_dict = {}  # dict with id -> entry
-    # fill transactions_dict w/ current transactions
+    # merge 2 transactions as a 2D array
+    rows_array = []
+    # add current transactions
+    if current_transactions:
+        rows_array.extend(json.loads(current_transactions))
 
-    for transaction in (
-        current_transactions[ROWS_KEY]  # add existing transactions
-        + extract_obj[ROWS_KEY]  # update/add new transactions
-    ):
-        tid = transaction[0]
-        transactions_dict[tid] = transaction
+    # add updated transactions
+    rows_array.extend(extracted_rows)
+
+    rows_dict = {}  # use dict to merge by id/keys
+    for row in rows_array:
+        tid = row[0]
+        rows_dict[tid] = row
 
     # convert dict to list
     transactions = sorted(
-        transactions_dict.values(),
+        rows_dict.values(),
         key=lambda transaction: transaction[1],  # sort by date
         reverse=True,  # newest at top
     )
 
-    transactions_obj = {ROWS_KEY: transactions}
+    # serialize as json string to store
+    transactions_obj = json.dumps(transactions)
 
     # create MD table  =========================================================
     # generate header row with updated headers
@@ -66,39 +73,12 @@ def main(
 
     # Fill in data rows from spreadsheet
     for row in transactions:
-        # make sure None -> '', and don't skip id field
+        # make sure None -> '', and skip id field
         entries = [entry if entry is not None else "" for entry in row[1:]]
         line = "| " + " | ".join(entries) + " |"
         md_lines.append(line)
 
     transactions_table = "\n".join(md_lines)
-
-    transactions_obj = {
-        "rows": [
-            [
-                "2",
-                "01-05",
-                "$",
-                "",
-                "1.50",
-                "Alice",
-                "CASH",
-                "Y",
-                "",
-            ],
-            [
-                "1",
-                "01-01",
-                "$",
-                "12.50",
-                "",
-                "CASH",
-                "Target",
-                "G",
-                "weekly grocery",
-            ],
-        ]
-    }  # HACK
 
     # returns ==================================================================
     return {
