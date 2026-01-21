@@ -26,7 +26,7 @@ OUTPUT_TRANSACTIONS_KEY = "transactions"
 OUTPUT_TABLE_KEY = "transactions_table"
 
 # constants  ###################################################################
-TRANSACTIONS_KEY = "transactions"
+TRANSACTIONS_KEY = "rows"
 
 
 def main(

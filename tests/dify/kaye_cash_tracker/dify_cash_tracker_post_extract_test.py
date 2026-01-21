@@ -8,9 +8,9 @@ from dify_studio.kaye_cash_tracker.nodes.extract_branch.post_extract import (
     main,
 )
 
-EMPTY_TRANSACTIONS = {"transactions": []}
+EMPTY_TRANSACTIONS = {"rows": []}
 EXAMPLE_TRANSACTIONS = {
-    "transactions": [
+    "rows": [
         ["1", "???", "$", "36.71", "", "???", "Target", "G", ""],
         ["3", "05-10", "¥", "", "3000.00", "Amazon", "BOC", "A", "Jan salary"],
         [
@@ -34,7 +34,7 @@ class TestEmptyCurrent:  # =====================================================
     def test1(_):
         current_transactions = EMPTY_TRANSACTIONS
         extract_transactions = {
-            "transactions": [[
+            "rows": [[
                 "1",
                 "01-01",
                 "$",
@@ -62,7 +62,7 @@ class TestEmptyCurrent:  # =====================================================
     def test2(_):
         current_transactions = EMPTY_TRANSACTIONS
         extract_transactions = {
-            "transactions": [
+            "rows": [
                 [
                     "2",
                     "01-05",
@@ -126,7 +126,7 @@ class TestMergeNoUpdate:  # ====================================================
     def test1(_):
         current_transactions = EXAMPLE_TRANSACTIONS
         extract_transactions = {
-            "transactions": [
+            "rows": [
                 [
                     "4",
                     "10-05",
@@ -163,7 +163,7 @@ class TestMergeNoUpdate:  # ====================================================
         assert "transactions_table" in opt
 
         assert transactions_obj == {
-            "transactions": [
+            "rows": [
                 ["1", "???", "$", "36.71", "", "???", "Target", "G", ""],
                 [
                     "4",
@@ -218,7 +218,7 @@ class TestMergeWithUpdate:  # ==================================================
     def test1(_):
         current_transactions = EXAMPLE_TRANSACTIONS
         extract_transactions = {
-            "transactions": [
+            "rows": [
                 ["1", "01-01", "$", "36.71", "", "CASH", "Target", "G", ""],
             ]
         }
@@ -234,7 +234,7 @@ class TestMergeWithUpdate:  # ==================================================
         assert "transactions_table" in opt
 
         assert transactions_obj == {
-            "transactions": [
+            "rows": [
                 [
                     "3",
                     "05-10",
@@ -264,7 +264,7 @@ class TestMergeWithUpdate:  # ==================================================
     def test2(_):
         current_transactions = EXAMPLE_TRANSACTIONS
         extract_transactions = {
-            "transactions": [
+            "rows": [
                 ["1", "01-01", "$", "36.71", "", "CASH", "Target", "G", ""],
                 [
                     "2",
@@ -291,7 +291,7 @@ class TestMergeWithUpdate:  # ==================================================
         assert "transactions_table" in opt
 
         assert transactions_obj == {
-            "transactions": [
+            "rows": [
                 [
                     "3",
                     "05-10",
@@ -321,7 +321,7 @@ class TestMergeWithUpdate:  # ==================================================
     def test3(_):
         current_transactions = EXAMPLE_TRANSACTIONS
         extract_transactions = {
-            "transactions": [
+            "rows": [
                 ["1", "01-01", "$", "36.71", "", "CASH", "Target", "G", ""],
                 [
                     "2",
@@ -359,7 +359,7 @@ class TestMergeWithUpdate:  # ==================================================
         assert "transactions_table" in opt
 
         assert transactions_obj == {
-            "transactions": [
+            "rows": [
                 [
                     "5",
                     "10-01",
@@ -406,7 +406,7 @@ class TestTable:
     def test1(_):
         current_transactions = EXAMPLE_TRANSACTIONS
         extract_transactions = {
-            "transactions": [
+            "rows": [
                 [
                     "4",
                     "10-05",

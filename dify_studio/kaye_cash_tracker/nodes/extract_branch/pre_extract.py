@@ -32,6 +32,8 @@ def main(
 
 ## Existing Transactions
 
-{}""".format(query, transactions)
+```json
+{}
+```""".format(query, transactions)
 
     return {OUTPUT_USER_MSG_KEY: user_msg}
