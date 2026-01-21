@@ -1,2 +1,6 @@
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
 fixme corpus: pre-sense corpus, provide anchor point
+
+todo utilize dynamic abbr
+
+Bug didn't include AMs definition currently, need to rewrite b/c commit sense also used it
