@@ -37,21 +37,28 @@ def main(
     # merge 2 transactions  ====================================================
     transactions_dict = {}  # dict with id -> entry
     # fill transactions_dict w/ current transactions
+
+    # add existing transactions
     for transaction in current_transactions[TRANSACTIONS_KEY]:
-        # set by current transactions
         tid = transaction[0]
         transactions_dict[tid] = transaction
-        # BUG
 
+    # add new/update
+    for transaction in extract_obj[TRANSACTIONS_KEY]:
+        tid = transaction[0]
+        transactions_dict[tid] = transaction
+
+    transactions = list(transactions_dict.values())  # HACK need to sort
     # convert dict to list
-    transactions = sorted(
-        transactions_dict.values(),
-        key=lambda transaction: transaction[1],  # sort by date
-        reverse=True,  # newest at top
-    )
+    # transactions = sorted(
+    #     transactions_dict.values(),
+    #     key=lambda transaction: transaction[1],  # sort by date
+    #     reverse=True,  # newest at top
+    # )
 
     # wrap in dict for correct returned type
-    transactions_obj = {TRANSACTIONS_KEY: transactions}
+    transactions_obj = {}
+    transactions_obj[TRANSACTIONS_KEY] = transactions
 
     # # create MD table  =========================================================
     # # generate header row with updated headers
@@ -71,7 +78,8 @@ def main(
     #     md_lines.append(line)
 
     # transactions_table = "\n".join(md_lines)
-    transactions_table = ""  # HACK
+    # HACK
+    transactions_table = ""
 
     # returns ==================================================================
     return {
