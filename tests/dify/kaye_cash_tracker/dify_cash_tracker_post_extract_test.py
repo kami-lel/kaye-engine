@@ -29,6 +29,25 @@ EXAMPLE_TRANSACTIONS = {
 
 
 # empty obj  ###################################################################
+class TestBothEmpty:  # ========================================================
+
+    def test1(_):
+        current_transactions = EMPTY_TRANSACTIONS
+        extract_transactions = EMPTY_TRANSACTIONS
+
+        opt = main(
+            current_transactions=current_transactions,
+            extract_obj=extract_transactions,
+        )
+
+        print(opt)
+
+        transactions_obj = opt["transactions"]
+        assert "transactions_table" in opt
+
+        assert transactions_obj == EMPTY_TRANSACTIONS
+
+
 class TestEmptyCurrent:  # =====================================================
 
     def test1(_):
