@@ -37,25 +37,26 @@ def main(
     # merge 2 transactions  ====================================================
     transactions_dict = {}  # dict with id -> entry
     # fill transactions_dict w/ current transactions
-    for transaction in current_transactions[TRANSACTIONS_KEY]:
-        tid = transaction[0]  # get id as 1st entry of list
-        transactions_dict[tid] = transaction
+    for transaction_list in [
+        current_transactions[TRANSACTIONS_KEY],  # set by current transactions
+        extract_obj[TRANSACTIONS_KEY],  # update/add new transactions
+    ]:
+        for transaction in transaction_list:
+            tid = transaction[0]
+            transactions_dict[tid] = transaction
 
-    # update transactions_dict with newly extracted entries
-    for transaction in extract_obj[TRANSACTIONS_KEY]:
-        tid = transaction[0]
-        transactions_dict[tid] = transaction
-
-    # convert dict to list, sorted by date
-    # TODO
-    transactions = []
+    # convert dict to list
+    transactions = sorted(
+        transactions_dict.values(),
+        key=lambda transaction: transaction[1],  # sort by date
+        reverse=True,  # newest at top
+    )
 
     # wrap in dict for correct returned type
     transactions_obj = {TRANSACTIONS_KEY: transactions}
 
     # create MD table  =========================================================
-    # BUG
-    # Generate header row with updated headers
+    # generate header row with updated headers
     header = ["", "¤", "Out", "In", "From", "To", "", "Remarks"]
     # Separator line for markdown table formatting
     separator = ["---"] * 8
@@ -65,12 +66,15 @@ def main(
     md_lines.append("| " + " | ".join(separator) + " |")
 
     # Fill in data rows from spreadsheet
-    for row in transactions_obj.get("rows", []):
-        # Replace None entries with empty string
-        row_processed = [entry if entry is not None else "" for entry in row]
-        md_lines.append("| " + " | ".join(row_processed) + " |")
+    for row in transactions:
+        # make sure None -> '', and don't skip id field
+        entries = [entry if entry is not None else "" for entry in row[1:]]
+        line = "| " + " | ".join(entries) + " |"
+        md_lines.append(line)
+
     transactions_table = "\n".join(md_lines)
 
+    # returns ==================================================================
     return {
         OUTPUT_TRANSACTIONS_KEY: transactions_obj,
         OUTPUT_TABLE_KEY: transactions_table,
