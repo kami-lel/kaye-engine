@@ -26,7 +26,7 @@ OUTPUT_TRANSACTIONS_KEY = "transactions"
 OUTPUT_TABLE_KEY = "transactions_table"
 
 # constants  ###################################################################
-TRANSACTIONS_KEY = "rows"
+ROWS_KEY = "rows"
 
 
 def main(
@@ -39,8 +39,8 @@ def main(
     # fill transactions_dict w/ current transactions
 
     for transaction in (
-        current_transactions[TRANSACTIONS_KEY]  # add existing transactions
-        + extract_obj[TRANSACTIONS_KEY]  # update/add new transactions
+        current_transactions[ROWS_KEY]  # add existing transactions
+        + extract_obj[ROWS_KEY]  # update/add new transactions
     ):
         tid = transaction[0]
         transactions_dict[tid] = transaction
@@ -53,7 +53,7 @@ def main(
     )
 
     # wrap in dict for correct returned type
-    transactions_obj = {TRANSACTIONS_KEY: transactions}
+    transactions_obj = {ROWS_KEY: transactions}
 
     # create MD table  =========================================================
     # generate header row with updated headers
