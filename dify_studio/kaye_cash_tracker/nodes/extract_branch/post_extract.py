@@ -52,7 +52,6 @@ def main(
         reverse=True,  # newest at top
     )
 
-    # wrap in dict for correct returned type
     transactions_obj = {ROWS_KEY: transactions}
 
     # create MD table  =========================================================
@@ -74,11 +73,35 @@ def main(
 
     transactions_table = "\n".join(md_lines)
 
+    transactions_obj = {
+        "rows": [
+            [
+                "2",
+                "01-05",
+                "$",
+                "",
+                "1.50",
+                "Alice",
+                "CASH",
+                "Y",
+                "",
+            ],
+            [
+                "1",
+                "01-01",
+                "$",
+                "12.50",
+                "",
+                "CASH",
+                "Target",
+                "G",
+                "weekly grocery",
+            ],
+        ]
+    }  # HACK
+
     # returns ==================================================================
     return {
         OUTPUT_TRANSACTIONS_KEY: transactions_obj,
         OUTPUT_TABLE_KEY: transactions_table,
     }
-
-
-# BUG
