@@ -12,7 +12,7 @@ post extract node, perform:
 :param extract_obj:
 :type extract_obj: dict
 :return: {
-    "transactions": merged
+    "transactions": merged transactions
     "transactions_table":
 }
 :rtype: dict{
@@ -37,10 +37,10 @@ def main(
     # merge 2 transactions  ====================================================
     transactions_dict = {}  # dict with id -> entry
     # fill transactions_dict w/ current transactions
-    for transaction_list in [
-        current_transactions[TRANSACTIONS_KEY],  # set by current transactions
-        extract_obj[TRANSACTIONS_KEY],  # update/add new transactions
-    ]:
+    for transaction_list in (
+        current_transactions[TRANSACTIONS_KEY]  # set by current transactions
+        + extract_obj[TRANSACTIONS_KEY],  # update/add new transactions
+    ):
         for transaction in transaction_list:
             tid = transaction[0]
             transactions_dict[tid] = transaction
