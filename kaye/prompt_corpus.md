@@ -1649,7 +1649,9 @@ When transaction type is:
 
 attempt to match payer and recipient to entries in *User Accounts* or *Common Other Parties*. if no match exists, write the commonly known name with clear capitalization.
 
-do not record store-specific identifiers; for example use "CVS" not "CVS Store #12345".
+do not record store-specific identifiers; for example use "CVS", not "CVS Store #12345"
+
+record service provider, do not give service name. for example use "Amazon", not "Amazon Prime"
 
 
 
