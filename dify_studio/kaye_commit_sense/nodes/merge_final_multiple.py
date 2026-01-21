@@ -26,7 +26,7 @@ def main(
     filenames_list: list[str],
     per_file_extracts: list[dict],
 ):  # pylint: disable=missing-function-docstring
-    line_pattern = "{}`{}`:{}" if allows_md else "{}[{}]:{}"
+    line_pattern = "{}`{}` {}" if allows_md else "{}[{}] {}"
 
     # create line per file
     lines = []
