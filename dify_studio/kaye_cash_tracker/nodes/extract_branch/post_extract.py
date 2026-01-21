@@ -38,13 +38,10 @@ def main(
     transactions_dict = {}  # dict with id -> entry
     # fill transactions_dict w/ current transactions
 
-    # add existing transactions
-    for transaction in current_transactions[TRANSACTIONS_KEY]:
-        tid = transaction[0]
-        transactions_dict[tid] = transaction
-
-    # add new/update
-    for transaction in extract_obj[TRANSACTIONS_KEY]:
+    for transaction in (
+        current_transactions[TRANSACTIONS_KEY]  # add existing transactions
+        + extract_obj[TRANSACTIONS_KEY]  # update/add new transactions
+    ):
         tid = transaction[0]
         transactions_dict[tid] = transaction
 

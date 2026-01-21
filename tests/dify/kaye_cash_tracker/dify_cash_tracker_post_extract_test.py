@@ -28,7 +28,8 @@ EXAMPLE_TRANSACTIONS = {
 }
 
 
-class TestEmptyCurrent:
+# empty obj  ###################################################################
+class TestEmptyCurrent:  # =====================================================
 
     def test1(_):
         current_transactions = EMPTY_TRANSACTIONS
@@ -100,7 +101,7 @@ class TestEmptyCurrent:
         assert transactions_obj == extract_transactions
 
 
-class TestEmptyUpdated:
+class TestEmptyUpdated:  # =====================================================
 
     def test1(_):
         current_transactions = EXAMPLE_TRANSACTIONS
@@ -119,7 +120,8 @@ class TestEmptyUpdated:
         assert transactions_obj == current_transactions
 
 
-class TestMergeNoUpdate:
+# merge  #######################################################################
+class TestMergeNoUpdate:  # ====================================================
 
     def test1(_):
         current_transactions = EXAMPLE_TRANSACTIONS
@@ -209,6 +211,194 @@ class TestMergeNoUpdate:
                 ],
             ],
         }
+
+
+class TestMergeWithUpdate:  # ==================================================
+
+    def test1(_):
+        current_transactions = EXAMPLE_TRANSACTIONS
+        extract_transactions = {
+            "transactions": [
+                ["1", "01-01", "$", "36.71", "", "CASH", "Target", "G", ""],
+            ]
+        }
+
+        opt = main(
+            current_transactions=current_transactions,
+            extract_obj=extract_transactions,
+        )
+
+        print(opt)
+
+        transactions_obj = opt["transactions"]
+        assert "transactions_table" in opt
+
+        assert transactions_obj == {
+            "transactions": [
+                [
+                    "3",
+                    "05-10",
+                    "¥",
+                    "",
+                    "3000.00",
+                    "Amazon",
+                    "BOC",
+                    "A",
+                    "Jan salary",
+                ],
+                [
+                    "2",
+                    "04-12",
+                    "HK$",
+                    "240.35",
+                    "",
+                    "ABC",
+                    "Amazon",
+                    "E",
+                    "buy Rode NT5",
+                ],
+                ["1", "01-01", "$", "36.71", "", "CASH", "Target", "G", ""],
+            ]
+        }
+
+    def test2(_):
+        current_transactions = EXAMPLE_TRANSACTIONS
+        extract_transactions = {
+            "transactions": [
+                ["1", "01-01", "$", "36.71", "", "CASH", "Target", "G", ""],
+                [
+                    "2",
+                    "01-02",
+                    "HK$",
+                    "240.35",
+                    "",
+                    "ABC",
+                    "Amazon",
+                    "E",
+                    "purchase Rode NT5",
+                ],
+            ]
+        }
+
+        opt = main(
+            current_transactions=current_transactions,
+            extract_obj=extract_transactions,
+        )
+
+        print(opt)
+
+        transactions_obj = opt["transactions"]
+        assert "transactions_table" in opt
+
+        assert transactions_obj == {
+            "transactions": [
+                [
+                    "3",
+                    "05-10",
+                    "¥",
+                    "",
+                    "3000.00",
+                    "Amazon",
+                    "BOC",
+                    "A",
+                    "Jan salary",
+                ],
+                [
+                    "2",
+                    "01-02",
+                    "HK$",
+                    "240.35",
+                    "",
+                    "ABC",
+                    "Amazon",
+                    "E",
+                    "purchase Rode NT5",
+                ],
+                ["1", "01-01", "$", "36.71", "", "CASH", "Target", "G", ""],
+            ]
+        }
+
+    def test3(_):
+        current_transactions = EXAMPLE_TRANSACTIONS
+        extract_transactions = {
+            "transactions": [
+                ["1", "01-01", "$", "36.71", "", "CASH", "Target", "G", ""],
+                [
+                    "2",
+                    "01-02",
+                    "HK$",
+                    "240.35",
+                    "",
+                    "ABC",
+                    "Amazon",
+                    "E",
+                    "purchase Rode NT5",
+                ],
+                [
+                    "5",
+                    "10-01",
+                    "$",
+                    "12.50",
+                    "",
+                    "CASH",
+                    "Target",
+                    "G",
+                    "weekly grocery",
+                ],
+            ]
+        }
+
+        opt = main(
+            current_transactions=current_transactions,
+            extract_obj=extract_transactions,
+        )
+
+        print(opt)
+
+        transactions_obj = opt["transactions"]
+        assert "transactions_table" in opt
+
+        assert transactions_obj == {
+            "transactions": [
+                [
+                    "5",
+                    "10-01",
+                    "$",
+                    "12.50",
+                    "",
+                    "CASH",
+                    "Target",
+                    "G",
+                    "weekly grocery",
+                ],
+                [
+                    "3",
+                    "05-10",
+                    "¥",
+                    "",
+                    "3000.00",
+                    "Amazon",
+                    "BOC",
+                    "A",
+                    "Jan salary",
+                ],
+                [
+                    "2",
+                    "01-02",
+                    "HK$",
+                    "240.35",
+                    "",
+                    "ABC",
+                    "Amazon",
+                    "E",
+                    "purchase Rode NT5",
+                ],
+                ["1", "01-01", "$", "36.71", "", "CASH", "Target", "G", ""],
+            ]
+        }
+
+
+# table  #######################################################################
 
 
 # TODO test table
