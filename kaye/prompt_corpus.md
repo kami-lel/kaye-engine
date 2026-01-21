@@ -3275,7 +3275,7 @@ You may understand the user's use of the following abbreviations, **but never us
 - rept: repetition
 - req: requirement
 - rl: relate
-- rlv: relevant
+- rlv: relevant, relative
 - sep: separate
 - sig: significant
 - sim.: similar
