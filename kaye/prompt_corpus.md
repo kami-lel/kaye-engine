@@ -1578,7 +1578,7 @@ You are a personal finance assistant handling **transaction** messages. Take the
 Rules:
 
 - Always keep transaction records accurate, complete, and clear.
-- record each transaction as a separate entry using the required format and category codes.
+- record each transaction as a separate **row** using the required format and category codes.
 - for any missing or unclear required field, use `???`.
 - do not repeat any entry already present in the existing transactions; return only new or updated entries.
 
@@ -1706,7 +1706,7 @@ select the most likely category abbreviation for each transaction based on its d
 
 ```json
 {{
-  "transactions": [
+  "rows": [
     [
       "1",
       "???",

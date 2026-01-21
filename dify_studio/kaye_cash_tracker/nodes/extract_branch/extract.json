@@ -4,16 +4,16 @@
     "transactions": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/transaction"
+        "$ref": "#/$defs/row"
       }
     }
   },
   "required": [
-    "transactions"
+    "rows"
   ],
   "additionalProperties": false,
   "$defs": {
-    "transaction": {
+    "row": {
       "type": "array",
       "prefixItems": [
         {
