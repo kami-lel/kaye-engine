@@ -39,8 +39,9 @@ def main(
             if i == 0:
                 continue  # skip id
             elif i in (3, 4):  # amount in/out
-                # enter as number
-                current_row.append(float(v))
+                # enter as number or empty str
+                value = float(v) if v else ""
+                current_row.append(value)
             else:
                 # enter as str
                 current_row.append(v)
