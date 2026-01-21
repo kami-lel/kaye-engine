@@ -40,15 +40,14 @@ def main(
                 continue  # skip id
             elif i in (3, 4):  # amount in/out
                 # enter as number
-                current_row.append(v)
+                current_row.append(float(v))
             else:
                 # enter as str
-                current_row.append('"{}"'.format(v))
+                current_row.append(v)
 
-        rows.append(",".join(current_row))
-
-    values = ",".join("[{}]".format(row) for row in rows))
+        rows.append(current_row)
 
     # create data  =============================================================
-    data = '[{{"range": "{}", "values": [{}]}}]'.format(ranges, values)
-    return {OUTPUT_DATA_KEY: data}
+    data = [{"range": ranges, "values": rows}]
+    data_json = json.dumps(data)
+    return {OUTPUT_DATA_KEY: data_json}
