@@ -37,9 +37,11 @@ OUTPUT_ANSWER_KEY = "answer"
 ROWS_KEY = "rows"
 
 
+# Entry Point  #################################################################
 def main(
     current_transactions: str,
     extracted_rows: list,
+    push_trigger: str,
 ):  # pylint: disable=missing-function-docstring
 
     # merge 2 transactions  ====================================================
@@ -85,10 +87,31 @@ def main(
     transactions_table = "\n".join(md_lines)
 
     # calc is_pushable  ========================================================
-    is_pushable = False
+    is_pushable = "???" not in transactions_obj
 
     # create answer  ===========================================================
-    answer = ""
+    if is_pushable:
+        answer = """You may:
+- provide more **new** transactions,
+- make **correction** on existing transactions, or
+- **push** by replying `{}`
+
+----
+
+{}""".format(push_trigger, transactions_table)
+    else:
+        answer = """Please provide **additional information** for cells with `???`
+
+You also may:
+
+- provide more **new** transactions, or
+- make **correction** on existing transactions
+
+----
+
+{}""".format(
+            transactions_table
+        )
 
     # returns ==================================================================
     return {
