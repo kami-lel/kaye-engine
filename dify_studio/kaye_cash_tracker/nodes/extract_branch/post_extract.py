@@ -96,8 +96,6 @@ def main(
 - make **correction** on existing transactions, or
 - **push** by replying `{}`
 
-----
-
 {}""".format(push_trigger, transactions_table)
     else:
         answer = """Please provide **additional information** for cells with `???`
@@ -106,8 +104,6 @@ You also may:
 
 - provide more **new** transactions, or
 - make **correction** on existing transactions
-
-----
 
 {}""".format(
             transactions_table
