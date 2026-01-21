@@ -12,12 +12,16 @@ post extract node, perform:
 :param extract_obj:
 :type extract_obj: dict
 :return: {
-    "transactions": merged transactions
-    "transactions_table":
+    "transactions": merged transactions, serialized as json
+    "transactions_table": md formatted transaction
+    "is_pushable": whether ``transactions`` is directly pushable
+    "answer": full answer to be printed for extract branch
 }
 :rtype: dict{
-    "transactions": dict
+    "transactions": str
     "transactions_table": str
+    "is_pushable": bool
+    "answer": str
 }
 """
 
@@ -26,6 +30,8 @@ import json
 # output keys  #################################################################
 OUTPUT_TRANSACTIONS_KEY = "transactions"
 OUTPUT_TABLE_KEY = "transactions_table"
+OUTPUT_PUSHABLE_KEY = "is_pushable"
+OUTPUT_ANSWER_KEY = "answer"
 
 # constants  ###################################################################
 ROWS_KEY = "rows"
@@ -78,8 +84,16 @@ def main(
 
     transactions_table = "\n".join(md_lines)
 
+    # calc is_pushable  ========================================================
+    is_pushable = False
+
+    # create answer  ===========================================================
+    answer = ""
+
     # returns ==================================================================
     return {
         OUTPUT_TRANSACTIONS_KEY: transactions_obj,
         OUTPUT_TABLE_KEY: transactions_table,
+        OUTPUT_PUSHABLE_KEY: is_pushable,
+        OUTPUT_ANSWER_KEY: answer,
     }
