@@ -34,6 +34,15 @@ systemctl enable kaye_http_api.service
 systemctl status kaye_http_api.service
 ```
 
+----
+
+If resource under `/opt/kaye` is updated, restart service:
+
+```bash
+systemctl daemon-reload
+systemctl restart kaye_http_api.service
+```
+
 
 
 
@@ -74,7 +83,7 @@ Port Number: `11255` (k=11, a=1, y=25, e=5)
 
 #### Kaye Cash Tracker
 
-At `/kaye/dify-app/kaye-cash-tracker`
+At `/kaye/dify-app/kaye-cash-tracker/extract`
 
 - generate prompt for: node Extract Info
 - by `GET`

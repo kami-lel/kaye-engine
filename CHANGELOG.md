@@ -30,6 +30,10 @@ Kaye Commit Sense:
 ### Removed
 ### Fixed
 
+Kaye Cash Tracker:
+
+- re-implement app using new HTTP API
+
 
 
 
