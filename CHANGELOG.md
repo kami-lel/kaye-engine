@@ -20,6 +20,11 @@
 ## [Unreleased]
 
 ### Added
+
+`prompt_corpus.md`:
+
+- more abbreviations
+
 ### Changed
 
 Kaye Commit Sense:
