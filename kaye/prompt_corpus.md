@@ -1621,7 +1621,8 @@ required
 - for a user income: fill `amount_in` and leave `amount_out` empty
 - for transfers or records between accounts: fill both fields
 
-use exactly two decimal places for amounts (for example, "12.34")
+use exactly two decimal places for amounts (for example, "12.34".)
+both must be **positive** numbers or empty
 
 
 
