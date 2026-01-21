@@ -30,8 +30,7 @@ ky_bp = Blueprint("kaye-chat", PROGRAM_NAME, url_prefix="/ky")
 @ky_bp.route("/pre-sense", methods=["GET"])
 def kaye_chat_pre_sense():
     blueprint = PromptBlueprint.parse(
-        load_embedded_prompt_corpus(),
-        PRE_SENSE_PROMPT_BLUEPRINT,
+        load_embedded_prompt_corpus(), PRE_SENSE_PROMPT_BLUEPRINT
     )
     return blueprint.generate_prompt()
 
