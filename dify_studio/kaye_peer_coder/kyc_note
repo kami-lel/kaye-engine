@@ -10,3 +10,5 @@ Bug when working with Unity, it tends to do everything with code; add debug role
 Bug use primary (and other) commentary headers too much in code
 
 Bug use a lot of "this is" during explanation?
+
+todo kyc dify app: add difficulty_override input field
