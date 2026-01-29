@@ -11,6 +11,9 @@ from anytree import RenderTree, PreOrderIter
 
 from .prompt_corpus_node import HEADING_PREFIX, PromptCorpusNode
 
+# Fixme use HEADING_LINE_PATTERN
+# todo allows "merging" 2 blueprints
+
 __all__ = ("PromptBlueprint",)
 
 
