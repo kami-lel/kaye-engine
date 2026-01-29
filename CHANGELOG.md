@@ -1,6 +1,7 @@
 # Kaye CHANGELOG
 
 <!-- fixme merge role: Grammar Checker & Etiquette Coach -->
+<!-- todo shortcut writer role  -->
 
 [^format]
 
