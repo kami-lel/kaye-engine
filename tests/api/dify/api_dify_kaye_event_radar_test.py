@@ -1,1 +1,1 @@
-# Todo tests: Kaye Event Radar HTTP API
+# todo tests: Kaye Event Radar HTTP API
