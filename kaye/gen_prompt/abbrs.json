@@ -3475,9 +3475,35 @@
   {
     "abbr": ".y",
     "alt": [],
-    "mean": "-ly; -ty",
+    "mean": "-ly;-ty",
     "tags": [
       "suffix"
+    ]
+  },
+  {
+    "abbr": "|",
+    "alt": [],
+    "mean": "such that",
+    "tags": [
+      "symbol"
+    ]
+  },
+  {
+    "abbr": "&",
+    "alt": [],
+    "mean": "and",
+    "tags": [
+      "symbol",
+      "usable"
+    ]
+  },
+  {
+    "abbr": "/",
+    "alt": [],
+    "mean": "or",
+    "tags": [
+      "symbol",
+      "usable"
     ]
   }
 ]
