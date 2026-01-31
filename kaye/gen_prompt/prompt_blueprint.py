@@ -9,9 +9,8 @@ from copy import copy
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
-from .prompt_corpus_node import HEADING_PREFIX, PromptCorpusNode
+from .prompt_corpus_node import PromptCorpusNode
 
-# FIXME use HEADING_LINE_PATTERN
 # TODO allows "merging" 2 blueprints
 
 __all__ = ("PromptBlueprint",)
@@ -317,6 +316,18 @@ class PromptBlueprint(dict):
 
         return "\n".join(lines).strip("\n")
 
+    def merge(self, other):
+        """
+        merging 2 blueprints, all nodes will be in the merged blueprint
+
+
+        :param other:
+        :type other: PromptBlueprint
+        :return: merged blueprint
+        :rtype: PromptBlueprint
+        """
+        return self  # TODO TODO
+
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
     @classmethod
@@ -408,6 +419,20 @@ class PromptBlueprint(dict):
         :rtype: PromptBlueprint
         """
         return self.uncheckmark(other)
+
+    def __imul__(self, other):
+        """
+        merging 2 blueprints
+
+        (wrapper of and identical to ``.merge()``)
+
+
+        :param other:
+        :type other: PromptBlueprint
+        :return: merged blueprint
+        :rtype: PromptBlueprint
+        """
+        return self.merge(other)  # BUG need test
 
     def __repr__(self):
         """
