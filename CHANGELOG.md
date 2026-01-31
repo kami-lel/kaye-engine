@@ -28,6 +28,7 @@
 Kaye Peer Coder:
 
 - input field `difficulty_override`
+- anchor point tasks for pre-sense prompt
 
 ### Changed
 

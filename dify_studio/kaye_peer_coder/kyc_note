@@ -1,7 +1,4 @@
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
-
-FIXME corpus: pre-sense corpus, provide anchor point
-
 Todo utilize dynamic abbr
 BUG kyc didn't include AMs definition currently, need to rewrite b/c commit sense also used it
 BUG kyc when working with Unity, it tends to do everything with code; add debug role, help w/ debugging
