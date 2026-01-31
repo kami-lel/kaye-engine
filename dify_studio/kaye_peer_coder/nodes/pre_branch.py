@@ -15,6 +15,8 @@
 :type languages: str
 :param show_prefix_meta_content:
 :type show_prefix_meta_content: bool
+:param difficulty_override:
+:type difficulty_override: float
 :return: {
         "llm": 0~2, which LLM to be used
         "supplement_user_messages": additional historical user messages
@@ -31,8 +33,6 @@
         "last_memory": list[str]
         }
 """
-
-# TODO update docstring
 
 # output keys  #################################################################
 OUTPUT_LLM_KEY = "llm"
