@@ -86,7 +86,6 @@ class TestMerge1:
         )
 
     def test_empty1(self):
-        # BUG BUG
         merged = BP3_EMPTY.merge(self.right_bp)
 
         print(merged)
@@ -94,11 +93,10 @@ class TestMerge1:
             merged.generate_preview_tree(
                 preview_line_count=0, hide_comment=True
             )
-            == BLUEPRINT_3_PARTIAL_2
+            == BLUEPRINT_3_PARTIAL_2_PRUNED
         )
 
     def test_empty2(self):
-        # BUG BUG
         merged = self.right_bp.merge(BP3_EMPTY)
 
         print(merged)
@@ -106,7 +104,7 @@ class TestMerge1:
             merged.generate_preview_tree(
                 preview_line_count=0, hide_comment=True
             )
-            == BLUEPRINT_3_PARTIAL_2
+            == BLUEPRINT_3_PARTIAL_2_PRUNED
         )
 
     def test_full1(self):
