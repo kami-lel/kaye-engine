@@ -245,10 +245,10 @@ One might **create** a populated `PromptBlueprint` by **parsing** a preview-tree
 ```python
 prompt_corpus = ~~~
 blueprint_text = ~~~
-blueprint = Blueprint.parse(prompt_corpus, blueprint_text)
+blueprint = PromptBlueprint.parse(prompt_corpus, blueprint_text)
 ```
 
-Additionally, one might create full/empty blueprints by *classmethods*:
+Additionally, one might create full/empty blueprints by *classmethod*:
 
 - ``Blueprint.create_full_blueprint()``, and
 - ``Blueprint.create_empty_blueprint()``
