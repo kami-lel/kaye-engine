@@ -395,6 +395,15 @@ class PromptBlueprint(dict):
 
         return "{}Kaye v{}".format(name_part, kaye_version)
 
+    def copy(self):
+        copied = PromptBlueprint(self.corpus, display_name=self.display_name)
+
+        # todo PromptBlueprint copy routine optimize
+        for k, v in self.items():
+            copied[k] = v
+
+        return copied
+
     def __contains__(self, key):
         """
         allow ``PromptBlueprint`` to perform membership tests with key being
