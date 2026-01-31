@@ -32,6 +32,8 @@
         }
 """
 
+# TODO update docstring
+
 # output keys  #################################################################
 OUTPUT_LLM_KEY = "llm"
 OUTPUT_PREFIX_KEY = "prefix_meta_content"
@@ -50,6 +52,7 @@ def main(
     difficulty_thresholds: list[float],
     languages: str,
     show_prefix_meta_content: bool,
+    difficulty_override: float,
 ):  # pylint: disable=missing-function-docstring
     # decide branch  -----------------------------------------------------------
     if difficulty < difficulty_thresholds[0]:
@@ -63,11 +66,18 @@ def main(
     prefix_content = ""
     if show_prefix_meta_content:
         prefix_content = """> [!TIP]
+> difficulty_override: {} (usage: {})
 > difficulty: {}
 > languages: {}
 > LLM: {}
 
-""".format(difficulty, languages, llm)
+""".format(
+            difficulty_override,
+            (0 <= difficulty_override <= 1),
+            difficulty,
+            languages,
+            llm,
+        )
 
     return {
         OUTPUT_LLM_KEY: llm,
