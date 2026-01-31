@@ -307,7 +307,18 @@ blueprint -= node  # identical
 
 #### merging
 
-<!-- TODO TODO merge -->
+Merge 2 blueprints (of the same corpus tree,) such that:
+
+- contains all nodes from both blueprints
+- node is checkmarked: they are checkmarked in either blueprint
+
+```python
+left_bp = ~~~
+right_bp = ~~~
+
+merged_bp = left_bp.merge(right_bp)  # or identically
+left_bp *= right_bp
+```
 
 
 
