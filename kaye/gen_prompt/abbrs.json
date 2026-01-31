@@ -3,2402 +3,711 @@
     "2": {
       "mean": "to; too",
       "tags": [
+        "ascii",
         "word"
       ]
     },
     "4": {
       "mean": "for",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "add.": {
-      "mean": "additional,additionally,in addition",
+    ".d": {
+      "mean": "-ed",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "alt": {
-      "mean": "alternative,alternatively",
+    ".e": {
+      "mean": "-able,-ble,-le",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "appr": {
-      "mean": "appropriate,appropriately",
+    ".g": {
+      "mean": "-ing",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "bg": {
-      "mean": "background",
+    ".l": {
+      "mean": "-al",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "capa": {
-      "mean": "capable,capability,capacity",
+    ".ls": {
+      "mean": "-less",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "cat.": {
-      "mean": "category,categorical",
+    ".m": {
+      "mean": "-ism",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "chg": {
-      "mean": "change",
+    ".mt": {
+      "mean": "-ment",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "cm": {
-      "mean": "common",
+    ".ns": {
+      "mean": "-ness",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "cont": {
-      "mean": "continue,continued,continuation",
+    ".r": {
+      "mean": "-er,-or",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "cor": {
-      "mean": "correct,correction",
+    ".re": {
+      "mean": "-ture",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "cpl": {
-      "mean": "complete,completed,completion,completely,completeness",
+    ".sn": {
+      "mean": "-sion",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "xcl": {
-      "mean": "exclude,exclusion",
+    ".st": {
+      "mean": "-ist",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "icl": {
-      "mean": "include,inclusion",
+    ".tn": {
+      "mean": "-tion",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "dft": {
-      "mean": "default",
+    ".v": {
+      "mean": "-ve",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "dep": {
-      "mean": "depend,dependent,dependence",
+    ".y": {
+      "mean": "-ly;-ty",
       "tags": [
-        "word"
+        "ascii",
+        "suffix"
       ]
     },
-    "mpv": {
-      "mean": "improve,improvement",
+    "/": {
+      "mean": "or",
       "tags": [
-        "word"
+        "ascii",
+        "symbol",
+        "usable"
       ]
     },
-    "dif": {
-      "mean": "difference,different",
+    "&": {
+      "mean": "and",
       "tags": [
-        "word"
+        "ascii",
+        "symbol",
+        "usable"
       ]
     },
-    "diff": {
-      "mean": "difficult,difficulty",
+    "|": {
+      "mean": "such that",
       "tags": [
-        "word"
-      ]
-    },
-    "divs": {
-      "mean": "diverse,diversity",
-      "tags": [
-        "word"
-      ]
-    },
-    "eff": {
-      "mean": "efficient,efficiency",
-      "tags": [
-        "word"
-      ]
-    },
-    "mfa": {
-      "mean": "emphasize,emphasis,emphatic",
-      "tags": [
-        "word"
-      ]
-    },
-    "afx": {
-      "mean": "affect,affected,affectedly,affectation",
-      "tags": [
-        "word"
-      ]
-    },
-    "efx": {
-      "mean": "effect,effective",
-      "tags": [
-        "word"
-      ]
-    },
-    "iss": {
-      "mean": "issue",
-      "tags": [
-        "word"
-      ]
-    },
-    "mpt": {
-      "mean": "important,importance",
-      "tags": [
-        "word"
-      ]
-    },
-    "nec": {
-      "mean": "necessary",
-      "tags": [
-        "word"
-      ]
-    },
-    "opp": {
-      "mean": "oppose,opposition",
-      "tags": [
-        "word"
-      ]
-    },
-    "opn": {
-      "mean": "option,optional; opinion",
-      "tags": [
-        "word"
-      ]
-    },
-    "ori": {
-      "mean": "origin,original",
-      "tags": [
-        "word"
-      ]
-    },
-    "pbm": {
-      "mean": "problem",
-      "tags": [
-        "word"
-      ]
-    },
-    "pa": {
-      "mean": "part,partial",
-      "tags": [
-        "word"
-      ]
-    },
-    "pl": {
-      "mean": "place,placement",
-      "tags": [
-        "word"
-      ]
-    },
-    "poss": {
-      "mean": "possible,possibly",
-      "tags": [
-        "word"
-      ]
-    },
-    "prob": {
-      "mean": "probably,probability",
-      "tags": [
-        "word"
-      ]
-    },
-    "pt": [
-      {
-        "mean": "point",
-        "tags": [
-          "word"
-        ]
-      },
-      {
-        "mean": "pint",
-        "tags": [
-          "word"
-        ]
-      }
-    ],
-    "rept": {
-      "mean": "repetition",
-      "tags": [
-        "word"
-      ]
-    },
-    "req": {
-      "mean": "requirement",
-      "tags": [
-        "word"
-      ]
-    },
-    "rl": {
-      "mean": "relate",
-      "tags": [
-        "word"
-      ]
-    },
-    "rlv": {
-      "mean": "relevant,relative",
-      "tags": [
-        "word"
-      ]
-    },
-    "sep": {
-      "mean": "separate",
-      "tags": [
-        "word"
-      ]
-    },
-    "sig": {
-      "mean": "significant",
-      "tags": [
-        "word"
-      ]
-    },
-    "sim.": {
-      "mean": "similar",
-      "tags": [
-        "word"
-      ]
-    },
-    "s.re": {
-      "mean": "structure,structural",
-      "tags": [
-        "word"
-      ]
-    },
-    "rsrc": {
-      "mean": "resource",
-      "tags": [
-        "word"
-      ]
-    },
-    "stn": {
-      "mean": "standard",
-      "tags": [
-        "word"
-      ]
-    },
-    "succ": {
-      "mean": "successful",
-      "tags": [
-        "word"
-      ]
-    },
-    "upd": {
-      "mean": "update",
-      "tags": [
-        "word"
-      ]
-    },
-    "ed": {
-      "mean": "edit,edition,edited",
-      "tags": [
-        "word"
+        "ascii",
+        "symbol"
       ]
     },
     "A": {
       "mean": "also",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "a/": {
-      "mean": "any",
+    "a.": {
+      "mean": "an-; anti-",
       "tags": [
-        "word"
+        "ascii",
+        "prefix"
       ]
     },
-    "e/": {
-      "mean": "every",
+    "a.m.": {
+      "mean": "ante meridiem,before midday",
       "tags": [
-        "word"
-      ]
-    },
-    "e/X": {
-      "mean": "everytime",
-      "tags": [
-        "word"
-      ]
-    },
-    "e/o": {
-      "mean": "everyone",
-      "tags": [
-        "word"
-      ]
-    },
-    "e/w": {
-      "mean": "everywhere",
-      "tags": [
-        "word"
-      ]
-    },
-    "s/": {
-      "mean": "some",
-      "tags": [
-        "word"
-      ]
-    },
-    "a/t": {
-      "mean": "anything",
-      "tags": [
-        "word"
-      ]
-    },
-    "e/t": {
-      "mean": "everything",
-      "tags": [
-        "word"
-      ]
-    },
-    "s/t": {
-      "mean": "something",
-      "tags": [
-        "word"
-      ]
-    },
-    "s/X": {
-      "mean": "sometime",
-      "tags": [
-        "word"
-      ]
-    },
-    "s/w": {
-      "mean": "somewhere",
-      "tags": [
-        "word"
-      ]
-    },
-    "s/o": {
-      "mean": "someone",
-      "tags": [
-        "word"
-      ]
-    },
-    "n/t": {
-      "mean": "nothing",
-      "tags": [
-        "word"
-      ]
-    },
-    "n/w": {
-      "mean": "nowhere",
-      "tags": [
-        "word"
-      ]
-    },
-    "B": {
-      "mean": "but,however",
-      "tags": [
-        "word"
-      ]
-    },
-    "fr": {
-      "mean": "from",
-      "tags": [
-        "word"
-      ]
-    },
-    "O": {
-      "mean": "only",
-      "tags": [
-        "word"
-      ]
-    },
-    "ot": {
-      "mean": "other",
-      "tags": [
+        "ascii",
         "word"
       ]
     },
     "a.ot": {
       "mean": "another",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "T": {
-      "mean": "then,than",
+    "a/": {
+      "mean": "any",
       "tags": [
-        "word"
-      ]
-    },
-    "ts": {
-      "mean": "TypeScript",
-      "tags": [
-        "word",
-        "programming_language"
-      ]
-    },
-    "tt": {
-      "mean": "that,those",
-      "tags": [
-        "word"
-      ]
-    },
-    "X": {
-      "mean": "time,times",
-      "tags": [
-        "word"
-      ]
-    },
-    "x": {
-      "mean": "no,not,incorrect",
-      "tags": [
-        "word"
-      ]
-    },
-    "fd": {
-      "mean": "find,found",
-      "tags": [
-        "word"
-      ]
-    },
-    "hv": {
-      "mean": "have,has",
-      "tags": [
-        "word"
-      ]
-    },
-    "kn": {
-      "mean": "know,known",
-      "tags": [
-        "word"
-      ]
-    },
-    "L": {
-      "mean": "like,likely",
-      "tags": [
-        "word"
-      ]
-    },
-    "ls": {
-      "mean": "list",
-      "tags": [
-        "word"
-      ]
-    },
-    "M": {
-      "mean": "must",
-      "tags": [
-        "word"
-      ]
-    },
-    "Mx": {
-      "mean": "must not",
-      "tags": [
-        "word"
-      ]
-    },
-    "mk": {
-      "mean": "make",
-      "tags": [
-        "word"
-      ]
-    },
-    "mv": {
-      "mean": "move",
-      "tags": [
-        "word"
-      ]
-    },
-    "rm": {
-      "mean": "remove",
-      "tags": [
-        "word"
-      ]
-    },
-    "wr": {
-      "mean": "write",
-      "tags": [
-        "word"
-      ]
-    },
-    "tk": {
-      "mean": "take",
-      "tags": [
-        "word"
-      ]
-    },
-    "resp": {
-      "mean": "respond,response,responsible",
-      "tags": [
-        "word"
-      ]
-    },
-    "sl": {
-      "mean": "should,shall",
-      "tags": [
-        "word"
-      ]
-    },
-    "sl & slx": {
-      "mean": "should,shall not",
-      "tags": [
-        "word"
-      ]
-    },
-    "m.": [
-      {
-        "mean": "many,much",
-        "tags": [
-          "word"
-        ]
-      },
-      {
-        "mean": "mis-; mal-; im-",
-        "tags": [
-          "prefix"
-        ]
-      }
-    ],
-    "mm": {
-      "mean": "more",
-      "tags": [
-        "word"
-      ]
-    },
-    "mx": {
-      "mean": "most",
-      "tags": [
-        "word"
-      ]
-    },
-    "l.": {
-      "mean": "little,few",
-      "tags": [
-        "word"
-      ]
-    },
-    "ll": {
-      "mean": "less,fewer",
-      "tags": [
-        "word"
-      ]
-    },
-    "lx": {
-      "mean": "least,fewest",
-      "tags": [
-        "word"
-      ]
-    },
-    "R": {
-      "mean": "are",
-      "tags": [
-        "word"
-      ]
-    },
-    "algo": {
-      "mean": "algorithm",
-      "tags": [
-        "word"
-      ]
-    },
-    "e.g.": {
-      "mean": "for example,for instance",
-      "tags": [
-        "word"
-      ]
-    },
-    "etc.": {
-      "mean": "and the others (non-people)",
-      "tags": [
-        "word"
-      ]
-    },
-    "i.e.": {
-      "mean": "that is,in other words",
-      "tags": [
-        "word"
-      ]
-    },
-    "q.v.": {
-      "mean": "which see,reference to",
-      "tags": [
-        "word"
-      ]
-    },
-    "re": {
-      "mean": "in the matter of,concerning,regarding",
-      "tags": [
-        "word"
-      ]
-    },
-    "viz.": {
-      "mean": "namely,as follows",
-      "tags": [
-        "word"
-      ]
-    },
-    "vs.": {
-      "mean": "against",
-      "tags": [
-        "word"
-      ]
-    },
-    "abbr": {
-      "mean": "abbreviation",
-      "tags": [
-        "word"
-      ]
-    },
-    "misc": {
-      "mean": "miscellaneous",
-      "tags": [
-        "word"
-      ]
-    },
-    "mthd": {
-      "mean": "method",
-      "tags": [
-        "word"
-      ]
-    },
-    "n/a": {
-      "mean": "not applicable",
-      "tags": [
-        "word"
-      ]
-    },
-    "arg": {
-      "mean": "argue,argument",
-      "tags": [
-        "word"
-      ]
-    },
-    "calc": {
-      "mean": "calculate,calculation",
-      "tags": [
-        "word"
-      ]
-    },
-    "def": {
-      "mean": "define,definition,definite,definitive",
-      "tags": [
-        "word"
-      ]
-    },
-    "dev": {
-      "mean": "develop,development",
-      "tags": [
-        "word"
-      ]
-    },
-    "dl": {
-      "mean": "download",
-      "tags": [
-        "word"
-      ]
-    },
-    "upl": {
-      "mean": "upload",
-      "tags": [
-        "word"
-      ]
-    },
-    "env": {
-      "mean": "environment",
-      "tags": [
-        "word"
-      ]
-    },
-    "gen": {
-      "mean": "generate,generation,generative",
-      "tags": [
-        "word"
-      ]
-    },
-    "id": {
-      "mean": "identity,identification",
-      "tags": [
-        "word"
-      ]
-    },
-    "info": {
-      "mean": "information",
-      "tags": [
-        "word"
-      ]
-    },
-    "ipt": {
-      "mean": "input",
-      "tags": [
-        "word"
-      ]
-    },
-    "opt": {
-      "mean": "output",
-      "tags": [
-        "word"
-      ]
-    },
-    "opm": {
-      "mean": "optimum,optimal,optimism,optimist",
-      "tags": [
-        "word"
-      ]
-    },
-    "opmz": {
-      "mean": "optimize,optimization",
-      "tags": [
-        "word"
-      ]
-    },
-    "prev": {
-      "mean": "previous",
-      "tags": [
-        "word"
-      ]
-    },
-    "priv": {
-      "mean": "private",
-      "tags": [
-        "word"
-      ]
-    },
-    "pub": {
-      "mean": "public;publish",
-      "tags": [
-        "word"
-      ]
-    },
-    "qly": {
-      "mean": "quality,qualitative",
-      "tags": [
-        "word"
-      ]
-    },
-    "qlf": {
-      "mean": "qualify,qualification",
-      "tags": [
-        "word"
-      ]
-    },
-    "qty": {
-      "mean": "quantity,quantitative",
-      "tags": [
-        "word"
-      ]
-    },
-    "qtf": {
-      "mean": "quantify,quantification",
-      "tags": [
-        "word"
-      ]
-    },
-    "ad lib": {
-      "mean": "at one's pleasure,optional",
-      "tags": [
-        "word"
-      ]
-    },
-    "No.": {
-      "mean": "number",
-      "tags": [
-        "word"
-      ]
-    },
-    "sec.": {
-      "mean": "in the sense of,in accordance with,according to",
-      "tags": [
-        "word"
-      ]
-    },
-    "v.v.": {
-      "mean": "vice versa",
-      "tags": [
-        "word"
-      ]
-    },
-    "b/c": {
-      "mean": "because",
-      "tags": [
-        "word"
-      ]
-    },
-    "tf": {
-      "mean": "therefore",
-      "tags": [
-        "word"
-      ]
-    },
-    "b/t": {
-      "mean": "between",
-      "tags": [
-        "word"
-      ]
-    },
-    "iff": {
-      "mean": "if and only if",
-      "tags": [
-        "word"
-      ]
-    },
-    "w/": {
-      "mean": "with",
-      "tags": [
-        "word"
-      ]
-    },
-    "w/o": {
-      "mean": "without",
-      "tags": [
-        "word"
-      ]
-    },
-    "w/i": {
-      "mean": "within",
-      "tags": [
-        "word"
-      ]
-    },
-    "abs": {
-      "mean": "abstract,abstraction; absolute",
-      "tags": [
-        "word"
-      ]
-    },
-    "achv": {
-      "mean": "achieve,achieved,achievement",
-      "tags": [
-        "word"
-      ]
-    },
-    "acpt": {
-      "mean": "accept",
-      "tags": [
-        "word"
-      ]
-    },
-    "asgn": {
-      "mean": "assign,assignment",
-      "tags": [
-        "word"
-      ]
-    },
-    "rej": {
-      "mean": "reject",
-      "tags": [
-        "word"
-      ]
-    },
-    "admin": {
-      "mean": "administrate,administrator,administration",
-      "tags": [
-        "word"
-      ]
-    },
-    "amt": {
-      "mean": "amount",
-      "tags": [
-        "word"
-      ]
-    },
-    "asp": {
-      "mean": "aspect",
-      "tags": [
-        "word"
-      ]
-    },
-    "asm": {
-      "mean": "assume,assumed,assumption",
-      "tags": [
-        "word"
-      ]
-    },
-    "attr": {
-      "mean": "attribute,attribution",
-      "tags": [
-        "word"
-      ]
-    },
-    "avai": {
-      "mean": "available,availability",
-      "tags": [
-        "word"
-      ]
-    },
-    "char": {
-      "mean": "character,characterize,characterization,characteristic",
-      "tags": [
-        "word"
-      ]
-    },
-    "cla": {
-      "mean": "class,classic,classicism,classify,classical",
-      "tags": [
-        "word"
-      ]
-    },
-    "c.m": {
-      "mean": "communicate,communication",
-      "tags": [
-        "word"
-      ]
-    },
-    "c.my": {
-      "mean": "community",
-      "tags": [
-        "word"
-      ]
-    },
-    "con.": {
-      "mean": "conservative",
-      "tags": [
-        "word"
-      ]
-    },
-    "lib": {
-      "mean": "liberty,liberal,liberalism",
-      "tags": [
-        "word"
-      ]
-    },
-    "cond": {
-      "mean": "condition,conditional",
-      "tags": [
-        "word"
-      ]
-    },
-    "const": {
-      "mean": "constant",
-      "tags": [
-        "word"
-      ]
-    },
-    "cf.": {
-      "mean": "confer,compare",
-      "tags": [
-        "word"
-      ]
-    },
-    "cpt": {
-      "mean": "compete,competing,competition,competitive",
-      "tags": [
-        "word"
-      ]
-    },
-    "crt": {
-      "mean": "critic,critical,criticism",
-      "tags": [
-        "word"
-      ]
-    },
-    "ct": {
-      "mean": "contrast,contrary; contradict,contradiction; counter",
-      "tags": [
-        "word"
-      ]
-    },
-    "txt": {
-      "mean": "text",
-      "tags": [
-        "word"
-      ]
-    },
-    "ctr": {
-      "mean": "control",
-      "tags": [
-        "word"
-      ]
-    },
-    "cur": {
-      "mean": "current,currently",
-      "tags": [
-        "word"
-      ]
-    },
-    "cul": {
-      "mean": "culture,cultural",
-      "tags": [
-        "word"
-      ]
-    },
-    "cx": {
-      "mean": "complex,complexity",
-      "tags": [
-        "word"
-      ]
-    },
-    "c.cl": {
-      "mean": "conclude,conclusion",
-      "tags": [
-        "word"
-      ]
-    },
-    "c.fl": {
-      "mean": "conflict",
-      "tags": [
-        "word"
-      ]
-    },
-    "c.nt": {
-      "mean": "connect,connection,connected",
-      "tags": [
-        "word"
-      ]
-    },
-    "c.py": {
-      "mean": "company",
-      "tags": [
-        "word"
-      ]
-    },
-    "c.st": {
-      "mean": "consist",
-      "tags": [
-        "word"
-      ]
-    },
-    "del": {
-      "mean": "delete,deleted,deletion",
-      "tags": [
-        "word"
-      ]
-    },
-    "demo": {
-      "mean": "demonstrate,demonstration",
-      "tags": [
-        "word"
-      ]
-    },
-    "dept": {
-      "mean": "department",
-      "tags": [
-        "word"
-      ]
-    },
-    "dest": {
-      "mean": "destination,destinational",
-      "tags": [
-        "word"
-      ]
-    },
-    "dim.": {
-      "mean": "diminish",
-      "tags": [
-        "word"
-      ]
-    },
-    "dist": {
-      "mean": "distance,distant",
-      "tags": [
-        "word"
-      ]
-    },
-    "egh": {
-      "mean": "enough",
-      "tags": [
-        "word"
-      ]
-    },
-    "elm": {
-      "mean": "element",
-      "tags": [
-        "word"
-      ]
-    },
-    "mpi": {
-      "mean": "empirical",
-      "tags": [
-        "word"
-      ]
-    },
-    "esp": {
-      "mean": "especially",
-      "tags": [
-        "word"
-      ]
-    },
-    "est": {
-      "mean": "establish,establishment",
-      "tags": [
-        "word"
-      ]
-    },
-    "est.": {
-      "mean": "estimate,estimation,estimated,estimating,estimatingly",
-      "tags": [
-        "word"
-      ]
-    },
-    "xp": {
-      "mean": "experience",
-      "tags": [
-        "word"
-      ]
-    },
-    "xcs": {
-      "mean": "excess",
-      "tags": [
-        "word"
-      ]
-    },
-    "xpc": {
-      "mean": "expect,expectation,expected",
-      "tags": [
-        "word"
-      ]
-    },
-    "xpl": {
-      "mean": "explain,explanation",
-      "tags": [
-        "word"
-      ]
-    },
-    "xpr": {
-      "mean": "explore,explored,exploration",
-      "tags": [
-        "word"
-      ]
-    },
-    "expr": {
-      "mean": "express,expression",
-      "tags": [
-        "word"
-      ]
-    },
-    "fm": {
-      "mean": "formal",
-      "tags": [
-        "word"
-      ]
-    },
-    "frq": {
-      "mean": "frequent,frequently,frequency",
-      "tags": [
-        "word"
-      ]
-    },
-    "fund.": {
-      "mean": "fundamental,foundational;foundation,foundationalism",
-      "tags": [
-        "word"
-      ]
-    },
-    "fx": {
-      "mean": "function",
-      "tags": [
-        "word"
-      ]
-    },
-    "gnl": {
-      "mean": "general,generalization",
-      "tags": [
-        "word"
-      ]
-    },
-    "gov": {
-      "mean": "govern",
-      "tags": [
-        "word"
-      ]
-    },
-    "govt": {
-      "mean": "government",
-      "tags": [
-        "word"
-      ]
-    },
-    "h.": {
-      "mean": "high",
-      "tags": [
-        "word"
-      ]
-    },
-    "hh": {
-      "mean": "higher",
-      "tags": [
-        "word"
-      ]
-    },
-    "hx": {
-      "mean": "highest",
-      "tags": [
-        "word"
-      ]
-    },
-    "o.": {
-      "mean": "over-",
-      "tags": [
-        "prefix"
-      ]
-    },
-    "oo": {
-      "mean": "lower",
-      "tags": [
-        "word"
-      ]
-    },
-    "ox": {
-      "mean": "lowest",
-      "tags": [
-        "word"
-      ]
-    },
-    "hw": {
-      "mean": "homework",
-      "tags": [
-        "word"
-      ]
-    },
-    "idx": {
-      "mean": "index,indexing",
-      "tags": [
-        "word"
-      ]
-    },
-    "ind": {
-      "mean": "industry,industrial",
-      "tags": [
-        "word"
-      ]
-    },
-    "indv": {
-      "mean": "individual",
-      "tags": [
-        "word"
-      ]
-    },
-    "inf": {
-      "mean": "infinite",
-      "tags": [
-        "word"
-      ]
-    },
-    "infl": {
-      "mean": "influence",
-      "tags": [
-        "word"
-      ]
-    },
-    "int": {
-      "mean": "interest; integer",
-      "tags": [
-        "word"
-      ]
-    },
-    "len": {
-      "mean": "length",
-      "tags": [
-        "word"
-      ]
-    },
-    "lrg": {
-      "mean": "large",
-      "tags": [
-        "word"
-      ]
-    },
-    "lrgg": {
-      "mean": "larger",
-      "tags": [
-        "word"
-      ]
-    },
-    "lrgx": {
-      "mean": "largest",
-      "tags": [
-        "word"
-      ]
-    },
-    "sml": {
-      "mean": "small",
-      "tags": [
-        "word"
-      ]
-    },
-    "smll": {
-      "mean": "smaller",
-      "tags": [
-        "word"
-      ]
-    },
-    "smlx": {
-      "mean": "smallest",
-      "tags": [
-        "word"
-      ]
-    },
-    "loc": {
-      "mean": "locate,location",
-      "tags": [
-        "word"
-      ]
-    },
-    "max": {
-      "mean": "maximum,maximize,maximization",
-      "tags": [
-        "word"
-      ]
-    },
-    "min": {
-      "mean": "minimum,minimize,minimization;minute",
-      "tags": [
-        "word"
-      ]
-    },
-    "milit": {
-      "mean": "military",
-      "tags": [
-        "word"
-      ]
-    },
-    "mkt": {
-      "mean": "market,marketing",
-      "tags": [
-        "word"
-      ]
-    },
-    "modn": {
-      "mean": "modern,modernization",
-      "tags": [
-        "word"
-      ]
-    },
-    "mpmt": {
-      "mean": "implement",
-      "tags": [
-        "word"
-      ]
-    },
-    "nat": {
-      "mean": "nation,national",
-      "tags": [
-        "word"
-      ]
-    },
-    "i.nat": {
-      "mean": "international",
-      "tags": [
-        "word"
-      ]
-    },
-    "op": [
-      {
-        "mean": "operate,operation",
-        "tags": [
-          "word"
-        ]
-      },
-      {
-        "mean": "operate,operation,operator",
-        "tags": [
-          "word"
-        ]
-      }
-    ],
-    "org": {
-      "mean": "organization",
-      "tags": [
-        "word"
-      ]
-    },
-    "prog": [
-      {
-        "mean": "program",
-        "tags": [
-          "word"
-        ]
-      },
-      {
-        "mean": "program,programming,programme",
-        "tags": [
-          "word"
-        ]
-      }
-    ],
-    "p.cs": {
-      "mean": "process",
-      "tags": [
-        "word"
-      ]
-    },
-    "p.gs": {
-      "mean": "progress,progressive",
-      "tags": [
-        "word"
-      ]
-    },
-    "pft": {
-      "mean": "perfect,perfection",
-      "tags": [
-        "word"
-      ]
-    },
-    "pp": {
-      "mean": "person,people,popular",
-      "tags": [
-        "word"
-      ]
-    },
-    "prp": {
-      "mean": "proper,property",
-      "tags": [
-        "word"
-      ]
-    },
-    "rad": {
-      "mean": "radical,racialist",
-      "tags": [
-        "word"
-      ]
-    },
-    "rand": {
-      "mean": "random,randomize",
-      "tags": [
-        "word"
-      ]
-    },
-    "rat.": {
-      "mean": "rational",
-      "tags": [
-        "word"
-      ]
-    },
-    "reg": {
-      "mean": "register,regulation",
-      "tags": [
-        "word"
-      ]
-    },
-    "rep": {
-      "mean": "reply",
-      "tags": [
-        "word"
-      ]
-    },
-    "repr": {
-      "mean": "representation",
-      "tags": [
-        "word"
-      ]
-    },
-    "rev": {
-      "mean": "revolution",
-      "tags": [
-        "word"
-      ]
-    },
-    "crl": {
-      "mean": "co-relationship",
-      "tags": [
-        "word"
-      ]
-    },
-    "rls": {
-      "mean": "release",
-      "tags": [
-        "word"
-      ]
-    },
-    "sch": {
-      "mean": "search",
-      "tags": [
-        "word"
-      ]
-    },
-    "rsch": {
-      "mean": "research",
-      "tags": [
-        "word"
-      ]
-    },
-    "sq": [
-      {
-        "mean": "sequence; square",
-        "tags": [
-          "word"
-        ]
-      },
-      {
-        "mean": "squared",
-        "tags": [
-          "word"
-        ]
-      }
-    ],
-    "str": {
-      "mean": "string",
-      "tags": [
-        "word"
-      ]
-    },
-    "subj": {
-      "mean": "subject",
-      "tags": [
-        "word"
-      ]
-    },
-    "obj": {
-      "mean": "object",
-      "tags": [
-        "word"
-      ]
-    },
-    "sys": {
-      "mean": "system",
-      "tags": [
-        "word"
-      ]
-    },
-    "tmp": {
-      "mean": "temporary",
-      "tags": [
-        "word"
-      ]
-    },
-    "c.tmp": {
-      "mean": "contemporary",
-      "tags": [
-        "word"
-      ]
-    },
-    "temp": {
-      "mean": "temperature",
-      "tags": [
-        "word"
-      ]
-    },
-    "tr": {
-      "mean": "translate",
-      "tags": [
-        "word"
-      ]
-    },
-    "trad": {
-      "mean": "tradition",
-      "tags": [
-        "word"
-      ]
-    },
-    "ud": {
-      "mean": "under",
-      "tags": [
-        "word"
-      ]
-    },
-    "udsd": {
-      "mean": "understand",
-      "tags": [
-        "word"
-      ]
-    },
-    "val": {
-      "mean": "value",
-      "tags": [
-        "word"
-      ]
-    },
-    "eval": {
-      "mean": "evaluate,evaluable",
-      "tags": [
-        "word"
-      ]
-    },
-    "Xn": {
-      "mean": "Christian",
-      "tags": [
-        "word"
-      ]
-    },
-    "AD": {
-      "mean": "anno Domini,in the year of the Lord,common era,used after year number",
-      "tags": [
-        "word"
-      ]
-    },
-    "BC": {
-      "mean": "before Christ,before common era,used after year number",
-      "tags": [
-        "word"
-      ]
-    },
-    "C.": {
-      "mean": "century,e.g.: 2nd C.;chapitulus,chapter",
-      "tags": [
-        "word"
-      ]
-    },
-    "yr": {
-      "mean": "year",
-      "tags": [
-        "word"
-      ]
-    },
-    "mo": {
-      "mean": "month",
-      "tags": [
-        "word"
-      ]
-    },
-    "wk": {
-      "mean": "week",
-      "tags": [
-        "word"
-      ]
-    },
-    "hr": [
-      {
-        "mean": "hour",
-        "tags": [
-          "word"
-        ]
-      },
-      {
-        "mean": "here",
-        "tags": [
-          "word"
-        ]
-      }
-    ],
-    "sec": {
-      "mean": "second",
-      "tags": [
-        "word"
-      ]
-    },
-    "a.m.": {
-      "mean": "ante meridiem,before midday",
-      "tags": [
-        "word"
-      ]
-    },
-    "p.m.": {
-      "mean": "post meridiem,after midday",
-      "tags": [
-        "word"
-      ]
-    },
-    "n.m.": {
-      "mean": "noon,informal",
-      "tags": [
-        "word"
-      ]
-    },
-    "p.p.m.": {
-      "mean": "night,informal",
-      "tags": [
-        "word"
-      ]
-    },
-    "DoDsg": {
-      "mean": "date of designation",
-      "tags": [
-        "word"
-      ]
-    },
-    "DoRls": {
-      "mean": "date of releasement",
-      "tags": [
-        "word"
-      ]
-    },
-    "bk": {
-      "mean": "book",
-      "tags": [
-        "word"
-      ]
-    },
-    "vol.": {
-      "mean": "volume",
-      "tags": [
-        "word"
-      ]
-    },
-    "Cap.": {
-      "mean": "chapitulus,chapter",
-      "tags": [
-        "word"
-      ]
-    },
-    "para": {
-      "mean": "paragraph",
-      "tags": [
-        "word"
-      ]
-    },
-    "p.": {
-      "mean": "pro-",
-      "tags": [
-        "prefix"
-      ]
-    },
-    "do.": {
-      "mean": "ditto,repetitive as above",
-      "tags": [
-        "word"
-      ]
-    },
-    "edr": {
-      "mean": "editor",
-      "tags": [
-        "word"
-      ]
-    },
-    "et al.": {
-      "mean": "et alii,et aliia,et alibi",
-      "tags": [
-        "word"
-      ]
-    },
-    "et seq.": {
-      "mean": "et sequens,and the words,pages,etc. that follow",
-      "tags": [
-        "word"
-      ]
-    },
-    "fl.": {
-      "mean": "floruit,flourished,",
-      "tags": [
-        "word"
-      ]
-    },
-    "ibid.": {
-      "mean": "ibidem,in the same place (book,etc.)",
-      "tags": [
-        "word"
-      ]
-    },
-    "id.": {
-      "mean": "idem,the same (man)",
-      "tags": [
-        "word"
-      ]
-    },
-    "ead.": {
-      "mean": "eadem,the same (woman)",
-      "tags": [
-        "word"
-      ]
-    },
-    "N.N.": {
-      "mean": "nomen nescio,I do not know the name",
-      "tags": [
-        "word"
-      ]
-    },
-    "p.s.": {
-      "mean": "post scriptum,after what has been written,post script",
-      "tags": [
-        "word"
-      ]
-    },
-    "s.a.": {
-      "mean": "sensu amplo,in a relaxed,generous sense",
-      "tags": [
-        "word"
-      ]
-    },
-    "s.l.": {
-      "mean": "sensu lato,in the wide or broad sense",
-      "tags": [
-        "word"
-      ]
-    },
-    "s.s.": {
-      "mean": "sensu stricto,in the strict sense",
-      "tags": [
-        "word"
-      ]
-    },
-    "sic": {
-      "mean": "sic erat scriptum,thus it was written",
-      "tags": [
-        "word"
-      ]
-    },
-    "F": {
-      "mean": "fall",
-      "tags": [
-        "word"
-      ]
-    },
-    "v.i.": {
-      "mean": "vide infra,see below",
-      "tags": [
-        "word"
-      ]
-    },
-    "v.s.": {
-      "mean": "vide supra,see above",
-      "tags": [
-        "word"
-      ]
-    },
-    "a/X": {
-      "mean": "anytime",
-      "tags": [
+        "ascii",
         "word"
       ]
     },
     "a/o": {
       "mean": "anyone",
       "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "a/t": {
+      "mean": "anything",
+      "tags": [
+        "ascii",
         "word"
       ]
     },
     "a/w": {
       "mean": "anywhere",
       "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "a/X": {
+      "mean": "anytime",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "abbr": {
+      "mean": "abbreviation",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "abs": {
+      "mean": "abstract,abstraction; absolute",
+      "tags": [
+        "ascii",
         "word"
       ]
     },
     "abt": {
       "mean": "about",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "aft": {
-      "mean": "after",
+    "achv": {
+      "mean": "achieve,achieved,achievement",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "alw": {
-      "mean": "always",
+    "acpt": {
+      "mean": "accept",
       "tags": [
-        "word"
-      ]
-    },
-    "oft": {
-      "mean": "often",
-      "tags": [
-        "word"
-      ]
-    },
-    "usu": {
-      "mean": "usual,usually",
-      "tags": [
-        "word"
-      ]
-    },
-    "g.": {
-      "mean": "good",
-      "tags": [
-        "word"
-      ]
-    },
-    "gg": {
-      "mean": "better",
-      "tags": [
-        "word"
-      ]
-    },
-    "gx": {
-      "mean": "best",
-      "tags": [
-        "word"
-      ]
-    },
-    "gt": {
-      "mean": "great",
-      "tags": [
-        "word"
-      ]
-    },
-    "gtt": {
-      "mean": "greater",
-      "tags": [
-        "word"
-      ]
-    },
-    "gtx": {
-      "mean": "greatest",
-      "tags": [
-        "word"
-      ]
-    },
-    "b.": {
-      "mean": "bad",
-      "tags": [
-        "word"
-      ]
-    },
-    "bb": {
-      "mean": "worse",
-      "tags": [
-        "word"
-      ]
-    },
-    "bx": {
-      "mean": "worst",
-      "tags": [
-        "word"
-      ]
-    },
-    "b4": {
-      "mean": "before",
-      "tags": [
-        "word"
-      ]
-    },
-    "E": {
-      "mean": "even;east",
-      "tags": [
-        "word"
-      ]
-    },
-    "er": {
-      "mean": "either;early",
-      "tags": [
-        "word"
-      ]
-    },
-    "ner": {
-      "mean": "neither",
-      "tags": [
-        "word"
-      ]
-    },
-    "lr": {
-      "mean": "later",
-      "tags": [
-        "word"
-      ]
-    },
-    "thr": {
-      "mean": "there",
-      "tags": [
-        "word"
-      ]
-    },
-    "tho": {
-      "mean": "though",
-      "tags": [
-        "word"
-      ]
-    },
-    "thru": {
-      "mean": "through",
-      "tags": [
-        "word"
-      ]
-    },
-    "U": {
-      "mean": "unless;until;summer",
-      "tags": [
-        "word"
-      ]
-    },
-    "v.": {
-      "mean": "very",
-      "tags": [
-        "word"
-      ]
-    },
-    "vv": {
-      "mean": "extreme,extremely",
-      "tags": [
-        "word"
-      ]
-    },
-    "W": {
-      "mean": "while,when;west;winter",
-      "tags": [
-        "word"
-      ]
-    },
-    "knlg": {
-      "mean": "knowledge",
-      "tags": [
-        "word"
-      ]
-    },
-    "aknlg": {
-      "mean": "acknowledge",
-      "tags": [
-        "word"
-      ]
-    },
-    "mvmt": {
-      "mean": "movement",
-      "tags": [
-        "word"
-      ]
-    },
-    "wl": {
-      "mean": "would,will,willingness,willingly",
-      "tags": [
-        "word"
-      ]
-    },
-    "wlx": {
-      "mean": "will not,would not",
-      "tags": [
-        "word"
-      ]
-    },
-    "wt": {
-      "mean": "want",
-      "tags": [
-        "word"
-      ]
-    },
-    "th": {
-      "mean": "think",
-      "tags": [
-        "word"
-      ]
-    },
-    "mtk": {
-      "mean": "mistake,mistaken",
-      "tags": [
+        "ascii",
         "word"
       ]
     },
     "acul": {
       "mean": "agriculture,agricultural",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "econ": {
-      "mean": "economics,economy",
+    "AD": {
+      "mean": "anno Domini,in the year of the Lord,common era,used after year number",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "edu": {
-      "mean": "educate,education",
+    "ad lib": {
+      "mean": "at one's pleasure,optional",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "his.": {
-      "mean": "history",
+    "add.": {
+      "mean": "additional,additionally,in addition",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "math": {
-      "mean": "mathematics",
+    "admin": {
+      "mean": "administrate,administrator,administration",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "phi": {
-      "mean": "philosophy",
+    "aft": {
+      "mean": "after",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "psy": {
-      "mean": "psychology",
+    "afx": {
+      "mean": "affect,affected,affectedly,affectation",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "pol": {
-      "mean": "politics",
+    "aknlg": {
+      "mean": "acknowledge",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "rel": {
-      "mean": "religion",
+    "algo": {
+      "mean": "algorithm",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "sci": {
-      "mean": "science",
+    "alt": {
+      "mean": "alternative,alternatively",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "soc": {
-      "mean": "society",
+    "alw": {
+      "mean": "always",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "stat": {
-      "mean": "statics",
+    "amt": {
+      "mean": "amount",
       "tags": [
-        "word"
-      ]
-    },
-    "tech": {
-      "mean": "technology",
-      "tags": [
-        "word"
-      ]
-    },
-    "in": {
-      "mean": "inch",
-      "tags": [
-        "word"
-      ]
-    },
-    "ft": {
-      "mean": "foot",
-      "tags": [
-        "word"
-      ]
-    },
-    "yd": {
-      "mean": "yard",
-      "tags": [
-        "word"
-      ]
-    },
-    "mi": {
-      "mean": "mile",
-      "tags": [
-        "word"
-      ]
-    },
-    "nmi": {
-      "mean": "nautical mile",
-      "tags": [
-        "word"
-      ]
-    },
-    "qt": {
-      "mean": "Qt framework",
-      "tags": [
-        "word",
-        "programming_language"
-      ]
-    },
-    "gal": {
-      "mean": "gallon",
-      "tags": [
-        "word"
-      ]
-    },
-    "oz": {
-      "mean": "ounce",
-      "tags": [
-        "word"
-      ]
-    },
-    "lb": {
-      "mean": "pound",
-      "tags": [
-        "word"
-      ]
-    },
-    "cwt": {
-      "mean": "hundredweight",
-      "tags": [
-        "word"
-      ]
-    },
-    "cu": {
-      "mean": "cubic",
-      "tags": [
-        "word"
-      ]
-    },
-    "rsp": {
-      "mean": "respect,respective,respectively",
-      "tags": [
+        "ascii",
         "word"
       ]
     },
     "answ": {
       "mean": "answer",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "ques": {
-      "mean": "question",
+    "appr": {
+      "mean": "appropriate,appropriately",
       "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "arg": {
+      "mean": "argue,argument",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "asgn": {
+      "mean": "assign,assignment",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "asm": {
+      "mean": "assume,assumed,assumption",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "asp": {
+      "mean": "aspect",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "attr": {
+      "mean": "attribute,attribution",
+      "tags": [
+        "ascii",
         "word"
       ]
     },
     "auth": {
       "mean": "author,authorship,authority,authorize,authorization",
       "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "avai": {
+      "mean": "available,availability",
+      "tags": [
+        "ascii",
         "word"
       ]
     },
     "avg": {
       "mean": "average",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "cnt": {
-      "mean": "count,counting",
+    "B": {
+      "mean": "but,however",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "ctxt": {
-      "mean": "context",
+    "b.": {
+      "mean": "bad",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "eq": {
-      "mean": "equal,equality,equivalent,equivalence",
+    "b/c": {
+      "mean": "because",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "grp": {
-      "mean": "group,grouping",
+    "b/t": {
+      "mean": "between",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "lang": {
-      "mean": "language",
+    "b4": {
+      "mean": "before",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "st": {
-      "mean": "state",
+    "bb": {
+      "mean": "worse",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "src": {
-      "mean": "source",
+    "BC": {
+      "mean": "before Christ,before common era,used after year number",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "C": {
-      "mean": "can,could",
+    "bg": {
+      "mean": "background",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "Cx": {
-      "mean": "can not,could not",
+    "bk": {
+      "mean": "book",
       "tags": [
+        "ascii",
         "word"
       ]
     },
-    "xsi": {
-      "mean": "exist,existence,there exists,existing",
+    "bx": {
+      "mean": "worst",
       "tags": [
-        "word"
-      ]
-    },
-    "mn": {
-      "mean": "mean,meaning",
-      "tags": [
-        "word"
-      ]
-    },
-    "rs": {
-      "mean": "reason,reasoning",
-      "tags": [
-        "word"
-      ]
-    },
-    "i.dep": {
-      "mean": "independent,independence",
-      "tags": [
-        "word"
-      ]
-    },
-    "var": {
-      "mean": "variable; variant",
-      "tags": [
-        "word"
-      ]
-    },
-    "mux": {
-      "mean": "multiply,multiplication,multiplier",
-      "tags": [
-        "word"
-      ]
-    },
-    "col": {
-      "mean": "column",
-      "tags": [
-        "word"
-      ]
-    },
-    "mp": {
-      "mean": "import",
-      "tags": [
-        "word"
-      ]
-    },
-    "fmt": {
-      "mean": "format,formatting",
-      "tags": [
-        "word"
-      ]
-    },
-    "N": {
-      "mean": "north",
-      "tags": [
-        "word"
-      ]
-    },
-    "S": {
-      "mean": "south;spring",
-      "tags": [
+        "ascii",
         "word"
       ]
     },
     "c": {
       "mean": "C",
       "tags": [
+        "ascii",
         "word",
         "programming_language"
+      ]
+    },
+    "C": {
+      "mean": "can,could",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "c.": {
+      "mean": "con-; com-; co-",
+      "tags": [
+        "ascii",
+        "prefix"
+      ]
+    },
+    "C.": {
+      "mean": "century,e.g.: 2nd C.;chapter",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "c.cl": {
+      "mean": "conclude,conclusion",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "c.fl": {
+      "mean": "conflict",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "c.m": {
+      "mean": "communicate,communication",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "c.my": {
+      "mean": "community",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "c.nt": {
+      "mean": "connect,connection,connected",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "c.py": {
+      "mean": "company",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "c.st": {
+      "mean": "consist",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "c.tmp": {
+      "mean": "contemporary",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "calc": {
+      "mean": "calculate,calculation",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "Cap.": {
+      "mean": "chapter",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "capa": {
+      "mean": "capable,capability,capacity",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cat.": {
+      "mean": "category,categorical",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cf.": {
+      "mean": "confer,compare",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "char": {
+      "mean": "character,characterize,characterization,characteristic",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "chg": {
+      "mean": "change",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cla": {
+      "mean": "class,classic,classicism,classify,classical",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cm": {
+      "mean": "common",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cnt": {
+      "mean": "count,counting",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "col": {
+      "mean": "column",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "con.": {
+      "mean": "conservative",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cond": {
+      "mean": "condition,conditional",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "console": {
+      "mean": "any types of terminal console & log message",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "const": {
+      "mean": "constant",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cont": {
+      "mean": "continue,continued,continuation",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cor": {
+      "mean": "correct,correction",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cpl": {
+      "mean": "complete,completed,completion,completely,completeness",
+      "tags": [
+        "ascii",
+        "word"
       ]
     },
     "cpp": {
       "mean": "C++",
       "tags": [
+        "ascii",
         "word",
         "programming_language"
       ]
     },
-    "ue": {
-      "mean": "Unreal Engine code using C++",
+    "cpt": {
+      "mean": "compete,competing,competition,competitive",
       "tags": [
-        "word",
-        "programming_language"
+        "ascii",
+        "word"
+      ]
+    },
+    "crl": {
+      "mean": "co-relationship",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "crt": {
+      "mean": "critic,critical,criticism",
+      "tags": [
+        "ascii",
+        "word"
       ]
     },
     "csharp": {
       "mean": "C Sharp",
       "tags": [
-        "word",
-        "programming_language"
-      ]
-    },
-    "u3d": {
-      "mean": "Unity Engine code using C#",
-      "tags": [
-        "word",
-        "programming_language"
-      ]
-    },
-    "gdscript": {
-      "mean": "GDScript used by Godot Engine",
-      "tags": [
-        "word",
-        "programming_language"
-      ]
-    },
-    "html": {
-      "mean": "HTML",
-      "tags": [
+        "ascii",
         "word",
         "programming_language"
       ]
@@ -2406,320 +715,2467 @@
     "css": {
       "mean": "CSS",
       "tags": [
+        "ascii",
         "word",
         "programming_language"
       ]
     },
-    "js": {
-      "mean": "JavaScript",
+    "ct": {
+      "mean": "contrast,contrary; contradict,contradiction; counter",
       "tags": [
-        "word",
-        "programming_language"
-      ]
-    },
-    "qml": {
-      "mean": "QT Meta-object Language",
-      "tags": [
-        "word",
-        "programming_language"
-      ]
-    },
-    "py": {
-      "mean": "Python",
-      "tags": [
-        "word",
-        "programming_language"
-      ]
-    },
-    "console": {
-      "mean": "any types of terminal console & log message",
-      "tags": [
+        "ascii",
         "word"
       ]
     },
-    "a.": {
-      "mean": "an-; anti-",
+    "ctr": {
+      "mean": "control",
       "tags": [
-        "prefix"
+        "ascii",
+        "word"
       ]
     },
-    "c.": {
-      "mean": "con-; com-; co-",
+    "ctxt": {
+      "mean": "context",
       "tags": [
-        "prefix"
+        "ascii",
+        "word"
+      ]
+    },
+    "cu": {
+      "mean": "cubic",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cul": {
+      "mean": "culture,cultural",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cur": {
+      "mean": "current,currently",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cwt": {
+      "mean": "hundredweight",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cx": {
+      "mean": "complex,complexity",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "Cx": {
+      "mean": "can not,could not",
+      "tags": [
+        "ascii",
+        "word"
       ]
     },
     "d.": {
       "mean": "de-; dis-",
       "tags": [
+        "ascii",
         "prefix"
+      ]
+    },
+    "def": {
+      "mean": "define,definition,definite,definitive",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "del": {
+      "mean": "delete,deleted,deletion",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "demo": {
+      "mean": "demonstrate,demonstration",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "dep": {
+      "mean": "depend,dependent,dependence",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "dept": {
+      "mean": "department",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "dest": {
+      "mean": "destination,destinational",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "dev": {
+      "mean": "develop,development",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "dft": {
+      "mean": "default",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "dif": {
+      "mean": "difference,different",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "diff": {
+      "mean": "difficult,difficulty",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "dim.": {
+      "mean": "diminish",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "dist": {
+      "mean": "distance,distant",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "divs": {
+      "mean": "diverse,diversity",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "dl": {
+      "mean": "download",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "do.": {
+      "mean": "ditto,repetitive as above",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "DoDsg": {
+      "mean": "date of designation",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "DoRls": {
+      "mean": "date of releasement",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "E": {
+      "mean": "even;east",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "e.g.": {
+      "mean": "for example,for instance",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "e/": {
+      "mean": "every",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "e/o": {
+      "mean": "everyone",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "e/t": {
+      "mean": "everything",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "e/w": {
+      "mean": "everywhere",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "e/X": {
+      "mean": "everytime",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ead.": {
+      "mean": "eadem,the same (woman)",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "econ": {
+      "mean": "economics,economy",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ed": {
+      "mean": "edit,edition,edited",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "edr": {
+      "mean": "editor",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "edu": {
+      "mean": "educate,education",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "eff": {
+      "mean": "efficient,efficiency",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "efx": {
+      "mean": "effect,effective",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "egh": {
+      "mean": "enough",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "elm": {
+      "mean": "element",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "env": {
+      "mean": "environment",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "eq": {
+      "mean": "equal,equality,equivalent,equivalence",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "er": {
+      "mean": "either;early",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "esp": {
+      "mean": "especially",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "est": {
+      "mean": "establish,establishment",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "est.": {
+      "mean": "estimate,estimation,estimated,estimating,estimatingly",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "et al.": {
+      "mean": "et alii,et aliia,et alibi",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "et seq.": {
+      "mean": "et sequens,and the words,pages,etc. that follow",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "etc.": {
+      "mean": "and the others (non-people)",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "eval": {
+      "mean": "evaluate,evaluable",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "expr": {
+      "mean": "express,expression",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "F": {
+      "mean": "fall",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "fd": {
+      "mean": "find,found",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "fl.": {
+      "mean": "floruit,flourished,",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "fm": {
+      "mean": "formal",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "fmt": {
+      "mean": "format,formatting",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "fr": {
+      "mean": "from",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "frq": {
+      "mean": "frequent,frequently,frequency",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ft": {
+      "mean": "foot",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "fund.": {
+      "mean": "fundamental,foundational;foundation,foundationalism",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "fx": {
+      "mean": "function",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "g.": {
+      "mean": "good",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "gal": {
+      "mean": "gallon",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "gdscript": {
+      "mean": "GDScript used by Godot Engine",
+      "tags": [
+        "ascii",
+        "word",
+        "programming_language"
+      ]
+    },
+    "gen": {
+      "mean": "generate,generation,generative",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "gg": {
+      "mean": "better",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "gnl": {
+      "mean": "general,generalization",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "gov": {
+      "mean": "govern",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "govt": {
+      "mean": "government",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "grp": {
+      "mean": "group,grouping",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "gt": {
+      "mean": "great",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "gtt": {
+      "mean": "greater",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "gtx": {
+      "mean": "greatest",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "gx": {
+      "mean": "best",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "h.": {
+      "mean": "high",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "hh": {
+      "mean": "higher",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "his.": {
+      "mean": "history",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "hr": [
+      {
+        "mean": "hour",
+        "tags": [
+          "ascii",
+          "word"
+        ]
+      },
+      {
+        "mean": "here",
+        "tags": [
+          "ascii",
+          "word"
+        ]
+      }
+    ],
+    "html": {
+      "mean": "HTML",
+      "tags": [
+        "ascii",
+        "word",
+        "programming_language"
+      ]
+    },
+    "hv": {
+      "mean": "have,has",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "hw": {
+      "mean": "homework",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "hx": {
+      "mean": "highest",
+      "tags": [
+        "ascii",
+        "word"
       ]
     },
     "i.": {
       "mean": "in-, inter-",
       "tags": [
+        "ascii",
         "prefix"
       ]
     },
-    "u.": {
-      "mean": "un-",
+    "i.dep": {
+      "mean": "independent,independence",
       "tags": [
-        "prefix"
+        "ascii",
+        "word"
+      ]
+    },
+    "i.e.": {
+      "mean": "that is,in other words",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "i.nat": {
+      "mean": "international",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ibid.": {
+      "mean": "ibidem,in the same place (book,etc.)",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "icl": {
+      "mean": "include,inclusion",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "id": {
+      "mean": "identity,identification",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "id.": {
+      "mean": "idem,the same (man)",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "idx": {
+      "mean": "index,indexing",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "iff": {
+      "mean": "if and only if",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "in": {
+      "mean": "inch",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ind": {
+      "mean": "industry,industrial",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "indv": {
+      "mean": "individual",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "inf": {
+      "mean": "infinite",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "infl": {
+      "mean": "influence",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "info": {
+      "mean": "information",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "int": {
+      "mean": "interest; integer",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ipt": {
+      "mean": "input",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "iss": {
+      "mean": "issue",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "js": {
+      "mean": "JavaScript",
+      "tags": [
+        "ascii",
+        "word",
+        "programming_language"
+      ]
+    },
+    "kn": {
+      "mean": "know,known",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "knlg": {
+      "mean": "knowledge",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "L": {
+      "mean": "like,likely",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "l.": {
+      "mean": "little,few",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "lang": {
+      "mean": "language",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "lb": {
+      "mean": "pound",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "len": {
+      "mean": "length",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "lib": {
+      "mean": "liberty,liberal,liberalism",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ll": {
+      "mean": "less,fewer",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "loc": {
+      "mean": "locate,location",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "lr": {
+      "mean": "later",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "lrg": {
+      "mean": "large",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "lrgg": {
+      "mean": "larger",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "lrgx": {
+      "mean": "largest",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ls": {
+      "mean": "list",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "lx": {
+      "mean": "least,fewest",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "M": {
+      "mean": "must",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "m.": [
+      {
+        "mean": "many,much",
+        "tags": [
+          "ascii",
+          "word"
+        ]
+      },
+      {
+        "mean": "mis-; mal-; im-",
+        "tags": [
+          "ascii",
+          "prefix"
+        ]
+      }
+    ],
+    "math": {
+      "mean": "mathematics",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "max": {
+      "mean": "maximum,maximize,maximization",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mfa": {
+      "mean": "emphasize,emphasis,emphatic",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mi": {
+      "mean": "mile",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "milit": {
+      "mean": "military",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "min": {
+      "mean": "minimum,minimize,minimization;minute",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "misc": {
+      "mean": "miscellaneous",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mk": {
+      "mean": "make",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mkt": {
+      "mean": "market,marketing",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mm": {
+      "mean": "more",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mn": {
+      "mean": "mean,meaning",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mo": {
+      "mean": "month",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "modn": {
+      "mean": "modern,modernization",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mp": {
+      "mean": "import",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mpi": {
+      "mean": "empirical",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mpmt": {
+      "mean": "implement",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mpt": {
+      "mean": "important,importance",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mpv": {
+      "mean": "improve,improvement",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mthd": {
+      "mean": "method",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mtk": {
+      "mean": "mistake,mistaken",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mux": {
+      "mean": "multiply,multiplication,multiplier",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mv": {
+      "mean": "move",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mvmt": {
+      "mean": "movement",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "mx": {
+      "mean": "most",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "Mx": {
+      "mean": "must not",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "N": {
+      "mean": "north",
+      "tags": [
+        "ascii",
+        "word"
       ]
     },
     "n.": {
       "mean": "non-",
       "tags": [
+        "ascii",
         "prefix"
+      ]
+    },
+    "n.m.": {
+      "mean": "noon,informal",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "N.N.": {
+      "mean": "nomen nescio,I do not know the name",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "n/a": {
+      "mean": "not applicable",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "n/t": {
+      "mean": "nothing",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "n/w": {
+      "mean": "nowhere",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "nat": {
+      "mean": "nation,national",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "nec": {
+      "mean": "necessary",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ner": {
+      "mean": "neither",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "nmi": {
+      "mean": "nautical mile",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "No.": {
+      "mean": "number",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "O": {
+      "mean": "only",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "o.": {
+      "mean": "over-",
+      "tags": [
+        "ascii",
+        "prefix"
+      ]
+    },
+    "obj": {
+      "mean": "object",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "oft": {
+      "mean": "often",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "oo": {
+      "mean": "lower",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "op": [
+      {
+        "mean": "operate,operation",
+        "tags": [
+          "ascii",
+          "word"
+        ]
+      },
+      {
+        "mean": "operate,operation,operator",
+        "tags": [
+          "ascii",
+          "word"
+        ]
+      }
+    ],
+    "opm": {
+      "mean": "optimum,optimal,optimism,optimist",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "opmz": {
+      "mean": "optimize,optimization",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "opn": {
+      "mean": "option,optional; opinion",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "opp": {
+      "mean": "oppose,opposition",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "opt": {
+      "mean": "output",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "org": {
+      "mean": "organization",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ori": {
+      "mean": "origin,original",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ot": {
+      "mean": "other",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ox": {
+      "mean": "lowest",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "oz": {
+      "mean": "ounce",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "p.": {
+      "mean": "pro-",
+      "tags": [
+        "ascii",
+        "prefix"
+      ]
+    },
+    "p.cs": {
+      "mean": "process",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "p.gs": {
+      "mean": "progress,progressive",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "p.m.": {
+      "mean": "post meridiem,after midday",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "p.p.m.": {
+      "mean": "night,informal",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "p.s.": {
+      "mean": "post scriptum,after what has been written,post script",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "pa": {
+      "mean": "part,partial",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "para": {
+      "mean": "paragraph",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "pbm": {
+      "mean": "problem",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "pft": {
+      "mean": "perfect,perfection",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "phi": {
+      "mean": "philosophy",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "pl": {
+      "mean": "place,placement",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "pol": {
+      "mean": "politics",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "poss": {
+      "mean": "possible,possibly",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "pp": {
+      "mean": "person,people,popular",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "prev": {
+      "mean": "previous",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "priv": {
+      "mean": "private",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "prob": {
+      "mean": "probably,probability",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "prog": [
+      {
+        "mean": "program",
+        "tags": [
+          "ascii",
+          "word"
+        ]
+      },
+      {
+        "mean": "program,programming,programme",
+        "tags": [
+          "ascii",
+          "word"
+        ]
+      }
+    ],
+    "prp": {
+      "mean": "proper,property",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "psy": {
+      "mean": "psychology",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "pt": [
+      {
+        "mean": "point",
+        "tags": [
+          "ascii",
+          "word"
+        ]
+      },
+      {
+        "mean": "pint",
+        "tags": [
+          "ascii",
+          "word"
+        ]
+      }
+    ],
+    "pub": {
+      "mean": "public;publish",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "py": {
+      "mean": "Python",
+      "tags": [
+        "ascii",
+        "word",
+        "programming_language"
+      ]
+    },
+    "q.v.": {
+      "mean": "which see,reference to",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "qlf": {
+      "mean": "qualify,qualification",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "qly": {
+      "mean": "quality,qualitative",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "qml": {
+      "mean": "QT Meta-object Language",
+      "tags": [
+        "ascii",
+        "word",
+        "programming_language"
+      ]
+    },
+    "qt": {
+      "mean": "Qt framework",
+      "tags": [
+        "ascii",
+        "word",
+        "programming_language"
+      ]
+    },
+    "qtf": {
+      "mean": "quantify,quantification",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "qty": {
+      "mean": "quantity,quantitative",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ques": {
+      "mean": "question",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "R": {
+      "mean": "are",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rad": {
+      "mean": "radical,racialist",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rand": {
+      "mean": "random,randomize",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rat.": {
+      "mean": "rational",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "re": {
+      "mean": "in the matter of,concerning,regarding",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "reg": {
+      "mean": "register,regulation",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rej": {
+      "mean": "reject",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rel": {
+      "mean": "religion",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rep": {
+      "mean": "reply",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "repr": {
+      "mean": "representation",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rept": {
+      "mean": "repetition",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "req": {
+      "mean": "requirement",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "resp": {
+      "mean": "respond,response,responsible",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rev": {
+      "mean": "revolution",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rl": {
+      "mean": "relate",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rls": {
+      "mean": "release",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rlv": {
+      "mean": "relevant,relative",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rm": {
+      "mean": "remove",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rs": {
+      "mean": "reason,reasoning",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rsch": {
+      "mean": "research",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rsp": {
+      "mean": "respect,respective,respectively",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "rsrc": {
+      "mean": "resource",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "S": {
+      "mean": "south;spring",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "s.a.": {
+      "mean": "sensu amplo,in a relaxed,generous sense",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "s.l.": {
+      "mean": "sensu lato,in the wide or broad sense",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "s.re": {
+      "mean": "structure,structural",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "s.s.": {
+      "mean": "sensu stricto,in the strict sense",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "s/": {
+      "mean": "some",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "s/o": {
+      "mean": "someone",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "s/t": {
+      "mean": "something",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "s/w": {
+      "mean": "somewhere",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "s/X": {
+      "mean": "sometime",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "sch": {
+      "mean": "search",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "sci": {
+      "mean": "science",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "sec": {
+      "mean": "second",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "sec.": {
+      "mean": "in the sense of,in accordance with,according to",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "sep": {
+      "mean": "separate",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "sic": {
+      "mean": "sic erat scriptum,thus it was written",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "sig": {
+      "mean": "significant",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "sim.": {
+      "mean": "similar",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "sl": {
+      "mean": "should,shall",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "sl & slx": {
+      "mean": "should,shall not",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "sml": {
+      "mean": "small",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "smll": {
+      "mean": "smaller",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "smlx": {
+      "mean": "smallest",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "soc": {
+      "mean": "society",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "sq": [
+      {
+        "mean": "sequence; square",
+        "tags": [
+          "ascii",
+          "word"
+        ]
+      },
+      {
+        "mean": "squared",
+        "tags": [
+          "ascii",
+          "word"
+        ]
+      }
+    ],
+    "src": {
+      "mean": "source",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "st": {
+      "mean": "state",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "stat": {
+      "mean": "statics",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "stn": {
+      "mean": "standard",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "str": {
+      "mean": "string",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "subj": {
+      "mean": "subject",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "succ": {
+      "mean": "successful",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "sys": {
+      "mean": "system",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "T": {
+      "mean": "then,than",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "tech": {
+      "mean": "technology",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "temp": {
+      "mean": "temperature",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "tf": {
+      "mean": "therefore",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "th": {
+      "mean": "think",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "tho": {
+      "mean": "though",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "thr": {
+      "mean": "there",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "thru": {
+      "mean": "through",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "tk": {
+      "mean": "take",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "tmp": {
+      "mean": "temporary",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "tr": {
+      "mean": "translate",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "trad": {
+      "mean": "tradition",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ts": {
+      "mean": "TypeScript",
+      "tags": [
+        "ascii",
+        "word",
+        "programming_language"
+      ]
+    },
+    "tt": {
+      "mean": "that,those",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "txt": {
+      "mean": "text",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "U": {
+      "mean": "unless;until;summer",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "u.": {
+      "mean": "un-",
+      "tags": [
+        "ascii",
+        "prefix"
+      ]
+    },
+    "u3d": {
+      "mean": "Unity Engine code using C#",
+      "tags": [
+        "ascii",
+        "word",
+        "programming_language"
+      ]
+    },
+    "ud": {
+      "mean": "under",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "udsd": {
+      "mean": "understand",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ue": {
+      "mean": "Unreal Engine code using C++",
+      "tags": [
+        "ascii",
+        "word",
+        "programming_language"
+      ]
+    },
+    "upd": {
+      "mean": "update",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "upl": {
+      "mean": "upload",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "usu": {
+      "mean": "usual,usually",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "v.": {
+      "mean": "very",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "v.i.": {
+      "mean": "vide infra,see below",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "v.s.": {
+      "mean": "vide supra,see above",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "v.v.": {
+      "mean": "vice versa",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "val": {
+      "mean": "value",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "var": {
+      "mean": "variable; variant",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "viz.": {
+      "mean": "namely,as follows",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "vol.": {
+      "mean": "volume",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "vs.": {
+      "mean": "against",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "vv": {
+      "mean": "extreme,extremely",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "W": {
+      "mean": "while,when;west;winter",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "w/": {
+      "mean": "with",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "w/i": {
+      "mean": "within",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "w/o": {
+      "mean": "without",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "wk": {
+      "mean": "week",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "wl": {
+      "mean": "would,will,willingness,willingly",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "wlx": {
+      "mean": "will not,would not",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "wr": {
+      "mean": "write",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "wt": {
+      "mean": "want",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "x": {
+      "mean": "no,not,incorrect",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "X": {
+      "mean": "time,times",
+      "tags": [
+        "ascii",
+        "word"
       ]
     },
     "x.": {
       "mean": "ex-",
       "tags": [
+        "ascii",
         "prefix"
       ]
     },
-    ".d": {
-      "mean": "-ed",
+    "xcl": {
+      "mean": "exclude,exclusion",
       "tags": [
-        "suffix"
+        "ascii",
+        "word"
       ]
     },
-    ".e": {
-      "mean": "-able,-ble,-le",
+    "xcs": {
+      "mean": "excess",
       "tags": [
-        "suffix"
+        "ascii",
+        "word"
       ]
     },
-    ".g": {
-      "mean": "-ing",
+    "Xn": {
+      "mean": "Christian",
       "tags": [
-        "suffix"
+        "ascii",
+        "word"
       ]
     },
-    ".l": {
-      "mean": "-al",
+    "xp": {
+      "mean": "experience",
       "tags": [
-        "suffix"
+        "ascii",
+        "word"
       ]
     },
-    ".ls": {
-      "mean": "-less",
+    "xpc": {
+      "mean": "expect,expectation,expected",
       "tags": [
-        "suffix"
+        "ascii",
+        "word"
       ]
     },
-    ".mt": {
-      "mean": "-ment",
+    "xpl": {
+      "mean": "explain,explanation",
       "tags": [
-        "suffix"
+        "ascii",
+        "word"
       ]
     },
-    ".ns": {
-      "mean": "-ness",
+    "xpr": {
+      "mean": "explore,explored,exploration",
       "tags": [
-        "suffix"
+        "ascii",
+        "word"
       ]
     },
-    ".r": {
-      "mean": "-er,-or",
+    "xsi": {
+      "mean": "exist,existence,there exists,existing",
       "tags": [
-        "suffix"
+        "ascii",
+        "word"
       ]
     },
-    ".re": {
-      "mean": "-ture",
+    "yd": {
+      "mean": "yard",
       "tags": [
-        "suffix"
+        "ascii",
+        "word"
       ]
     },
-    ".st": {
-      "mean": "-ist",
+    "yr": {
+      "mean": "year",
       "tags": [
-        "suffix"
-      ]
-    },
-    ".v": {
-      "mean": "-ve",
-      "tags": [
-        "suffix"
-      ]
-    },
-    ".m": {
-      "mean": "-ism",
-      "tags": [
-        "suffix"
-      ]
-    },
-    ".sn": {
-      "mean": "-sion",
-      "tags": [
-        "suffix"
-      ]
-    },
-    ".tn": {
-      "mean": "-tion",
-      "tags": [
-        "suffix"
-      ]
-    },
-    ".y": {
-      "mean": "-ly;-ty",
-      "tags": [
-        "suffix"
-      ]
-    },
-    "|": {
-      "mean": "such that",
-      "tags": [
-        "symbol"
-      ]
-    },
-    "&": {
-      "mean": "and",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "/": {
-      "mean": "or",
-      "tags": [
-        "symbol",
-        "usable"
+        "ascii",
+        "word"
       ]
     }
   },
   "alt": {
-    "e/x": {
-      "abbr": "e/X",
+    "§": {
+      "abbr": "Cap.",
       "tags": [
-        "word"
+        "symbol",
+        "usable"
       ]
     },
-    "s/x": {
-      "abbr": "s/X",
+    "a/x": {
+      "abbr": "a/X",
       "tags": [
-        "word"
-      ]
-    },
-    "eg": {
-      "abbr": "e.g.",
-      "tags": [
-        "word"
-      ]
-    },
-    "etc": {
-      "abbr": "etc.",
-      "tags": [
-        "word"
-      ]
-    },
-    "ie": {
-      "abbr": "i.e.",
-      "tags": [
-        "word"
-      ]
-    },
-    "qq.v.": {
-      "abbr": "q.v.",
-      "tags": [
-        "word"
-      ]
-    },
-    "vs": {
-      "abbr": "vs.",
-      "tags": [
-        "word"
-      ]
-    },
-    "No": {
-      "abbr": "No.",
-      "tags": [
+        "ascii",
         "word"
       ]
     },
     "AM": {
       "abbr": "a.m.",
       "tags": [
-        "word"
-      ]
-    },
-    "PM": {
-      "abbr": "p.m.",
-      "tags": [
-        "word"
-      ]
-    },
-    "nm": {
-      "abbr": "n.m.",
-      "tags": [
-        "word"
-      ]
-    },
-    "ppm": {
-      "abbr": "p.p.m.",
-      "tags": [
-        "word"
-      ]
-    },
-    "vol": {
-      "abbr": "vol.",
-      "tags": [
-        "word"
-      ]
-    },
-    "pp.": {
-      "abbr": "p.",
-      "tags": [
-        "word"
-      ]
-    },
-    "ps": {
-      "abbr": "p.s.",
-      "tags": [
-        "word"
-      ]
-    },
-    "a/x": {
-      "abbr": "a/X",
-      "tags": [
-        "word"
-      ]
-    },
-    "cf": {
-      "abbr": "cf.",
-      "tags": [
-        "word"
-      ]
-    },
-    "cxx": {
-      "abbr": "cpp",
-      "tags": [
-        "word"
-      ]
-    },
-    "c++": {
-      "abbr": "cpp",
-      "tags": [
-        "word"
-      ]
-    },
-    "cs": {
-      "abbr": "csharp",
-      "tags": [
+        "ascii",
         "word"
       ]
     },
     "c#": {
       "abbr": "csharp",
       "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "c++": {
+      "abbr": "cpp",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cf": {
+      "abbr": "cf.",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cs": {
+      "abbr": "csharp",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "cxx": {
+      "abbr": "cpp",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "e/x": {
+      "abbr": "e/X",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "eg": {
+      "abbr": "e.g.",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "etc": {
+      "abbr": "etc.",
+      "tags": [
+        "ascii",
         "word"
       ]
     },
     "gd": {
       "abbr": "gdscript",
       "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ie": {
+      "abbr": "i.e.",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "nm": {
+      "abbr": "n.m.",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "No": {
+      "abbr": "No.",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "PM": {
+      "abbr": "p.m.",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "pp.": {
+      "abbr": "p.",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ppm": {
+      "abbr": "p.p.m.",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "ps": {
+      "abbr": "p.s.",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "qq.v.": {
+      "abbr": "q.v.",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "s/x": {
+      "abbr": "s/X",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "vol": {
+      "abbr": "vol.",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "vs": {
+      "abbr": "vs.",
+      "tags": [
+        "ascii",
         "word"
       ]
     }
