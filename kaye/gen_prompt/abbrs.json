@@ -3084,5 +3084,138 @@
     "tags": [
       "word"
     ]
+  },
+  {
+    "abbr": "c",
+    "alt": [],
+    "mean": "C",
+    "tags": [
+      "word",
+      "programming_language"
+    ]
+  },
+  {
+    "abbr": "cpp",
+    "alt": [
+      "cxx",
+      "c++"
+    ],
+    "mean": "C++",
+    "tags": [
+      "word",
+      "programming_language"
+    ]
+  },
+  {
+    "abbr": "ue",
+    "alt": [],
+    "mean": "Unreal Engine code using C++",
+    "tags": [
+      "word",
+      "programming_language"
+    ]
+  },
+  {
+    "abbr": "csharp",
+    "alt": [
+      "cs",
+      "c#"
+    ],
+    "mean": "C Sharp",
+    "tags": [
+      "word",
+      "programming_language"
+    ]
+  },
+  {
+    "abbr": "u3d",
+    "alt": [],
+    "mean": "Unity Engine code using C#",
+    "tags": [
+      "word",
+      "programming_language"
+    ]
+  },
+  {
+    "abbr": "gdscript",
+    "alt": [
+      "gd"
+    ],
+    "mean": "GDScript used by Godot Engine",
+    "tags": [
+      "word",
+      "programming_language"
+    ]
+  },
+  {
+    "abbr": "html",
+    "alt": [],
+    "mean": "HTML",
+    "tags": [
+      "word",
+      "programming_language"
+    ]
+  },
+  {
+    "abbr": "css",
+    "alt": [],
+    "mean": "CSS",
+    "tags": [
+      "word",
+      "programming_language"
+    ]
+  },
+  {
+    "abbr": "js",
+    "alt": [],
+    "mean": "JavaScript",
+    "tags": [
+      "word",
+      "programming_language"
+    ]
+  },
+  {
+    "abbr": "ts",
+    "alt": [],
+    "mean": "TypeScript",
+    "tags": [
+      "word",
+      "programming_language"
+    ]
+  },
+  {
+    "abbr": "qt",
+    "alt": [],
+    "mean": "Qt framework",
+    "tags": [
+      "word",
+      "programming_language"
+    ]
+  },
+  {
+    "abbr": "qml",
+    "alt": [],
+    "mean": "QT Meta-object Language",
+    "tags": [
+      "word",
+      "programming_language"
+    ]
+  },
+  {
+    "abbr": "py",
+    "alt": [],
+    "mean": "Python",
+    "tags": [
+      "word",
+      "programming_language"
+    ]
+  },
+  {
+    "abbr": "console",
+    "alt": [],
+    "mean": "any types of terminal console & log message",
+    "tags": [
+      "word"
+    ]
   }
 ]
