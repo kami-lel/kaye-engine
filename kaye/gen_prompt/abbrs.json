@@ -3126,7 +3126,8 @@
     "№": {
       "abbr": "No.",
       "tags": [
-        "symbol"
+        "symbol",
+        "usable"
       ]
     },
     "PM": {
@@ -3183,6 +3184,20 @@
       "tags": [
         "ascii",
         "word"
+      ]
+    },
+    "〃": {
+      "abbr": "do.",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "※": {
+      "abbr": "q.v.",
+      "tags": [
+        "symbol",
+        "usable"
       ]
     }
   }
