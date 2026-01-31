@@ -324,6 +324,7 @@ class PromptBlueprint(dict):
         :param other:
         :type other: PromptBlueprint
         :raise TypeError:
+        :raise ValueError:
         :return: merged blueprint
         :rtype: PromptBlueprint
         """
@@ -345,7 +346,7 @@ class PromptBlueprint(dict):
             merged_v = left_v or right_v
             merged[k] = merged_v
 
-        return merged  # BUG BUG test
+        return merged
 
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
@@ -449,10 +450,11 @@ class PromptBlueprint(dict):
         :param other:
         :type other: PromptBlueprint
         :raise TypeError:
+        :raise ValueError:
         :return: merged blueprint
         :rtype: PromptBlueprint
         """
-        return self.merge(other)  # BUG need test
+        return self.merge(other)
 
     def __repr__(self):
         """
