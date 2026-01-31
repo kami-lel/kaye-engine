@@ -344,63 +344,6 @@ def main(
 
 
 
-## Emoji
-
-- 🤖: agent, AI
-- ⛔: prohibited, banned, disallowed
-- 🚀: rapid, fast
-- 🛠️: tools
-- 💬: chat, conversation
-- ✔️: correct
-- ❌: wrong
-- ✅: selected, voted for
-- ⚙️:  settings, preferences
-- 🏁: finish
-- 🔰: beginning, prototype
-- message levels:
-
-  - 💥: CRIT
-  - 🛑: ERROR
-  - ⚠️: warning
-  - 💡: info
-  - 🐞: debug
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Style
 

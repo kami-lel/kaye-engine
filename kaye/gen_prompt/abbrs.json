@@ -1,19 +1,5 @@
 {
   "abbrs": {
-    "2": {
-      "mean": "to; too",
-      "tags": [
-        "ascii",
-        "word"
-      ]
-    },
-    "4": {
-      "mean": "for",
-      "tags": [
-        "ascii",
-        "word"
-      ]
-    },
     ".d": {
       "mean": "-ed",
       "tags": [
@@ -135,11 +121,124 @@
         "usable"
       ]
     },
+    "↑": {
+      "mean": "increase,increment",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "↓": {
+      "mean": "decrease,decrement",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
     "|": {
       "mean": "such that",
       "tags": [
         "ascii",
         "symbol"
+      ]
+    },
+    "⚙️": {
+      "mean": "settings,preferences",
+      "tags": [
+        "emoji",
+        "symbol"
+      ]
+    },
+    "🏁": {
+      "mean": "finish",
+      "tags": [
+        "emoji",
+        "symbol"
+      ]
+    },
+    "💬": {
+      "mean": "chat,conversation",
+      "tags": [
+        "emoji",
+        "symbol"
+      ]
+    },
+    "🔰": {
+      "mean": "beginning,prototype",
+      "tags": [
+        "emoji",
+        "symbol"
+      ]
+    },
+    "🤖": {
+      "mean": "agent,AI",
+      "tags": [
+        "emoji",
+        "symbol"
+      ]
+    },
+    "🚀": {
+      "mean": "rapid,fast",
+      "tags": [
+        "emoji",
+        "symbol"
+      ]
+    },
+    "🛠️": {
+      "mean": "tools",
+      "tags": [
+        "emoji",
+        "symbol"
+      ]
+    },
+    "¤": {
+      "mean": "any non-specific currency",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "¢": {
+      "mean": "(default)US cent",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "$": {
+      "mean": "(default)US Dollar",
+      "tags": [
+        "ascii",
+        "symbol",
+        "usable"
+      ]
+    },
+    "¥": {
+      "mean": "(default)Chinese Yuan,RMB",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "€": {
+      "mean": "Euro",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "2": {
+      "mean": "to;too",
+      "tags": [
+        "ascii",
+        "word"
+      ]
+    },
+    "4": {
+      "mean": "for",
+      "tags": [
+        "ascii",
+        "word"
       ]
     },
     "A": {
@@ -434,20 +533,6 @@
       "tags": [
         "ascii",
         "word"
-      ]
-    },
-    "↑": {
-      "mean": "increase,increment",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "↓": {
-      "mean": "decrease,decrement",
-      "tags": [
-        "symbol",
-        "usable"
       ]
     },
     "BC": {
@@ -3029,47 +3114,88 @@
         "ascii",
         "word"
       ]
-    },
-    "¤": {
-      "mean": "any non-specific currency",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "¥": {
-      "mean": "(default)Chinese Yuan,RMB",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "€": {
-      "mean": "Euro",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "$": {
-      "mean": "(default)US Dollar",
-      "tags": [
-        "ascii",
-        "symbol",
-        "usable"
-      ]
-    },
-    "¢": {
-      "mean": "(default)US cent",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
     }
   },
   "alt": {
     "§": {
       "abbr": "Cap.",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "〃": {
+      "abbr": "do.",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "※": {
+      "abbr": "q.v.",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "⇐": {
+      "abbr": "b/c",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "⇒": {
+      "abbr": "tf",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "⇔": {
+      "abbr": "iff",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "±": {
+      "abbr": "chg",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "<=": {
+      "abbr": "b/c",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "<=>": {
+      "abbr": "iff",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "=>": {
+      "abbr": "tf",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "∴": {
+      "abbr": "tf",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "∵": {
+      "abbr": "b/c",
       "tags": [
         "symbol",
         "usable"
@@ -3234,83 +3360,6 @@
       "tags": [
         "ascii",
         "word"
-      ]
-    },
-    "〃": {
-      "abbr": "do.",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "※": {
-      "abbr": "q.v.",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "∴": {
-      "abbr": "tf",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "∵": {
-      "abbr": "b/c",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "⇐": {
-      "abbr": "b/c",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "<=": {
-      "abbr": "b/c",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "⇒": {
-      "abbr": "tf",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "=>": {
-      "abbr": "tf",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "⇔": {
-      "abbr": "iff",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "<=>": {
-      "abbr": "iff",
-      "tags": [
-        "symbol",
-        "usable"
-      ]
-    },
-    "±": {
-      "abbr": "chg",
-      "tags": [
-        "symbol",
-        "usable"
       ]
     }
   }
