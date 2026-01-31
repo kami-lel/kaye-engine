@@ -8,8 +8,6 @@ BUG kyc when working with Unity, it tends to do everything with code; add debug 
 BUG kyc use primary (and other) commentary headers too much in code
 BUG kyc use a lot of "this is" during explanation?
 
-TODO kyc dify app: add difficulty_override input field
-
 TODO kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
 
 Todo Unity related abbr: mb for MonoScript, etc.; maybe contextual abbr?
