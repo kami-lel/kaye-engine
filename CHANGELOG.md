@@ -1,6 +1,7 @@
 # Kaye CHANGELOG
 
 <!-- Fixme merge role: Grammar Checker & Etiquette Coach -->
+<!-- TODO move emojis in prompt to abbr -->
 
 [^format]
 
