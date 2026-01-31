@@ -424,6 +424,32 @@
     ]
   },
   {
+    "abbr": "e/X",
+    "alt": [
+      "e/x"
+    ],
+    "mean": "everytime",
+    "tags": [
+      "word"
+    ]
+  },
+  {
+    "abbr": "e/o",
+    "alt": [],
+    "mean": "everyone",
+    "tags": [
+      "word"
+    ]
+  },
+  {
+    "abbr": "e/w",
+    "alt": [],
+    "mean": "everywhere",
+    "tags": [
+      "word"
+    ]
+  },
+  {
     "abbr": "s/",
     "alt": [],
     "mean": "some",
@@ -434,13 +460,13 @@
   {
     "abbr": "a/t",
     "alt": [],
-    "mean": "anything; likewise for e/t,s/t",
+    "mean": "anything",
     "tags": [
       "word"
     ]
   },
   {
-    "abbr": "a/t",
+    "abbr": "e/t",
     "alt": [],
     "mean": "everything",
     "tags": [
@@ -456,9 +482,43 @@
     ]
   },
   {
+    "abbr": "s/X",
+    "alt": [
+      "s/x"
+    ],
+    "mean": "sometime",
+    "tags": [
+      "word"
+    ]
+  },
+  {
+    "abbr": "s/w",
+    "alt": [],
+    "mean": "somewhere",
+    "tags": [
+      "word"
+    ]
+  },
+  {
+    "abbr": "s/o",
+    "alt": [],
+    "mean": "someone",
+    "tags": [
+      "word"
+    ]
+  },
+  {
     "abbr": "n/t",
     "alt": [],
     "mean": "nothing",
+    "tags": [
+      "word"
+    ]
+  },
+  {
+    "abbr": "n/w",
+    "alt": [],
+    "mean": "nowhere",
     "tags": [
       "word"
     ]
@@ -2365,8 +2425,10 @@
   },
   {
     "abbr": "a/X",
-    "alt": [],
-    "mean": "anytime,likewise for e/X,s/X,n/X",
+    "alt": [
+      "a/x"
+    ],
+    "mean": "anytime",
     "tags": [
       "word"
     ]
@@ -2374,7 +2436,7 @@
   {
     "abbr": "a/o",
     "alt": [],
-    "mean": "anyone,likewise for e/o,s/o,n/o",
+    "mean": "anyone",
     "tags": [
       "word"
     ]
@@ -2382,7 +2444,7 @@
   {
     "abbr": "a/w",
     "alt": [],
-    "mean": "anywhere,likewise for a/w,s/w,n/w",
+    "mean": "anywhere",
     "tags": [
       "word"
     ]
@@ -3216,6 +3278,206 @@
     "mean": "any types of terminal console & log message",
     "tags": [
       "word"
+    ]
+  },
+  {
+    "abbr": "a.",
+    "alt": [],
+    "mean": "an-; anti-",
+    "tags": [
+      "prefix"
+    ]
+  },
+  {
+    "abbr": "c.",
+    "alt": [],
+    "mean": "con-; com-; co-",
+    "tags": [
+      "prefix"
+    ]
+  },
+  {
+    "abbr": "d.",
+    "alt": [],
+    "mean": "de-; dis-",
+    "tags": [
+      "prefix"
+    ]
+  },
+  {
+    "abbr": "i.",
+    "alt": [],
+    "mean": "in-, inter-",
+    "tags": [
+      "prefix"
+    ]
+  },
+  {
+    "abbr": "u.",
+    "alt": [],
+    "mean": "un-",
+    "tags": [
+      "prefix"
+    ]
+  },
+  {
+    "abbr": "m.",
+    "alt": [],
+    "mean": "mis-; mal-; im-",
+    "tags": [
+      "prefix"
+    ]
+  },
+  {
+    "abbr": "n.",
+    "alt": [],
+    "mean": "non-",
+    "tags": [
+      "prefix"
+    ]
+  },
+  {
+    "abbr": "o.",
+    "alt": [],
+    "mean": "over-",
+    "tags": [
+      "prefix"
+    ]
+  },
+  {
+    "abbr": "p.",
+    "alt": [],
+    "mean": "pro-",
+    "tags": [
+      "prefix"
+    ]
+  },
+  {
+    "abbr": "x.",
+    "alt": [],
+    "mean": "ex-",
+    "tags": [
+      "prefix"
+    ]
+  },
+  {
+    "abbr": ".d",
+    "alt": [],
+    "mean": "-ed",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".e",
+    "alt": [],
+    "mean": "-able,-ble,-le",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".g",
+    "alt": [],
+    "mean": "-ing",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".l",
+    "alt": [],
+    "mean": "-al",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".ls",
+    "alt": [],
+    "mean": "-less",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".mt",
+    "alt": [],
+    "mean": "-ment",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".ns",
+    "alt": [],
+    "mean": "-ness",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".r",
+    "alt": [],
+    "mean": "-er,-or",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".re",
+    "alt": [],
+    "mean": "-ture",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".st",
+    "alt": [],
+    "mean": "-ist",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".v",
+    "alt": [],
+    "mean": "-ve",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".m",
+    "alt": [],
+    "mean": "-ism",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".sn",
+    "alt": [],
+    "mean": "-sion",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".tn",
+    "alt": [],
+    "mean": "-tion",
+    "tags": [
+      "suffix"
+    ]
+  },
+  {
+    "abbr": ".y",
+    "alt": [],
+    "mean": "-ly; -ty",
+    "tags": [
+      "suffix"
     ]
   }
 ]
