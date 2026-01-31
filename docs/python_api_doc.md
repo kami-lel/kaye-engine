@@ -411,3 +411,12 @@ empty_blueprint = load_embedded_prompt_blueprint()
 full_blueprint = load_full_prompt_blueprint()
 chat_blueprint = load_embedded_prompt_blueprint("chat")
 ```
+
+
+
+
+
+
+#### dynamic abbreviation blueprint `DynamicAbbrBlueprint`
+
+<!-- TODO TODO -->
