@@ -25,6 +25,10 @@
 
 - more abbreviations
 
+Kaye Peer Coder:
+
+- input field `difficulty_override`
+
 ### Changed
 
 Kaye Commit Sense:
