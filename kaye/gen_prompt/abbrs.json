@@ -3015,6 +3015,42 @@
         "ascii",
         "word"
       ]
+    },
+    "¤": {
+      "mean": "any non-specific currency",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "¥": {
+      "mean": "(default)Chinese Yuan,RMB",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "€": {
+      "mean": "Euro",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
+    },
+    "$": {
+      "mean": "(default)US Dollar",
+      "tags": [
+        "ascii",
+        "symbol",
+        "usable"
+      ]
+    },
+    "¢": {
+      "mean": "(default)US cent",
+      "tags": [
+        "symbol",
+        "usable"
+      ]
     }
   },
   "alt": {
