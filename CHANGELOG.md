@@ -1,7 +1,6 @@
 # Kaye CHANGELOG
 
-<!-- fixme merge role: Grammar Checker & Etiquette Coach -->
-<!-- todo shortcut writer role  -->
+<!-- Fixme merge role: Grammar Checker & Etiquette Coach -->
 
 [^format]
 
@@ -30,7 +29,7 @@
 
 Kaye Commit Sense:
 
-- minor adjustment on change commit message format
+- minor adjustment on change commit message format to utilize *Markdown*
 
 ### Deprecated
 ### Removed

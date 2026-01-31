@@ -1,20 +1,17 @@
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
-fixme corpus: pre-sense corpus, provide anchor point
 
-todo utilize dynamic abbr
+Fixme corpus: pre-sense corpus, provide anchor point
 
-Bug didn't include AMs definition currently, need to rewrite b/c commit sense also used it
+Todo utilize dynamic abbr
+Bug kyc didn't include AMs definition currently, need to rewrite b/c commit sense also used it
+Bug kyc when working with Unity, it tends to do everything with code; add debug role, help w/ debugging
+Bug kyc use primary (and other) commentary headers too much in code
+Bug kyc use a lot of "this is" during explanation?
 
-Bug when working with Unity, it tends to do everything with code; add debug role, help w/ debugging
+Todo kyc dify app: add difficulty_override input field
 
-Bug use primary (and other) commentary headers too much in code
+Todo kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
 
-Bug use a lot of "this is" during explanation?
-
-todo kyc dify app: add difficulty_override input field
-
-Todo fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
-
-todo unity related abbr: mb for MonoScript, etc.; maybe contextual abbr?
+Todo Unity related abbr: mb for MonoScript, etc.; maybe contextual abbr?
 
 Bug reply 2 tips sometimes during 2nd round conversation
