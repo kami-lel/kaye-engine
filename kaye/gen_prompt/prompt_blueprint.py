@@ -323,10 +323,29 @@ class PromptBlueprint(dict):
 
         :param other:
         :type other: PromptBlueprint
+        :raise TypeError:
         :return: merged blueprint
         :rtype: PromptBlueprint
         """
-        return self  # TODO TODO
+
+        if not isinstance(other, PromptBlueprint):
+            raise TypeError(
+                "must merge another PromptBlueprint, not: {}".format(
+                    repr(other)
+                )
+            )
+
+        if self.corpus is not other.corpus:
+            raise ValueError("must merge 2 blueprints with same corpus")
+
+        # perform merging
+        merged = self.copy()  # based on self
+        for k, right_v in other.items():
+            left_v = k in merged and merged[k]
+            merged_v = left_v or right_v
+            merged[k] = merged_v
+
+        return merged  # BUG BUG test
 
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
@@ -429,6 +448,7 @@ class PromptBlueprint(dict):
 
         :param other:
         :type other: PromptBlueprint
+        :raise TypeError:
         :return: merged blueprint
         :rtype: PromptBlueprint
         """
