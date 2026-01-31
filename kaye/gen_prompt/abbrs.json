@@ -2591,27 +2591,137 @@
     }
   },
   "alt": {
-    "e/x": "e/X",
-    "s/x": "s/X",
-    "eg": "e.g.",
-    "etc": "etc.",
-    "ie": "i.e.",
-    "qq.v.": "q.v.",
-    "vs": "vs.",
-    "No": "No.",
-    "AM": "a.m.",
-    "PM": "p.m.",
-    "nm": "nmi",
-    "ppm": "p.p.m.",
-    "vol": "vol.",
-    "pp.": "p.",
-    "ps": "p.s.",
-    "a/x": "a/X",
-    "cf": "cf.",
-    "cxx": "cpp",
-    "c++": "cpp",
-    "cs": "csharp",
-    "c#": "csharp",
-    "gd": "gdscript"
+    "e/x": {
+      "abbr": "e/X",
+      "tags": [
+        "word"
+      ]
+    },
+    "s/x": {
+      "abbr": "s/X",
+      "tags": [
+        "word"
+      ]
+    },
+    "eg": {
+      "abbr": "e.g.",
+      "tags": [
+        "word"
+      ]
+    },
+    "etc": {
+      "abbr": "etc.",
+      "tags": [
+        "word"
+      ]
+    },
+    "ie": {
+      "abbr": "i.e.",
+      "tags": [
+        "word"
+      ]
+    },
+    "qq.v.": {
+      "abbr": "q.v.",
+      "tags": [
+        "word"
+      ]
+    },
+    "vs": {
+      "abbr": "vs.",
+      "tags": [
+        "word"
+      ]
+    },
+    "No": {
+      "abbr": "No.",
+      "tags": [
+        "word"
+      ]
+    },
+    "AM": {
+      "abbr": "a.m.",
+      "tags": [
+        "word"
+      ]
+    },
+    "PM": {
+      "abbr": "p.m.",
+      "tags": [
+        "word"
+      ]
+    },
+    "nm": {
+      "abbr": "n.m.",
+      "tags": [
+        "word"
+      ]
+    },
+    "ppm": {
+      "abbr": "p.p.m.",
+      "tags": [
+        "word"
+      ]
+    },
+    "vol": {
+      "abbr": "vol.",
+      "tags": [
+        "word"
+      ]
+    },
+    "pp.": {
+      "abbr": "p.",
+      "tags": [
+        "word"
+      ]
+    },
+    "ps": {
+      "abbr": "p.s.",
+      "tags": [
+        "word"
+      ]
+    },
+    "a/x": {
+      "abbr": "a/X",
+      "tags": [
+        "word"
+      ]
+    },
+    "cf": {
+      "abbr": "cf.",
+      "tags": [
+        "word"
+      ]
+    },
+    "cxx": {
+      "abbr": "cpp",
+      "tags": [
+        "word"
+      ]
+    },
+    "c++": {
+      "abbr": "cpp",
+      "tags": [
+        "word"
+      ]
+    },
+    "cs": {
+      "abbr": "csharp",
+      "tags": [
+        "word"
+      ]
+    },
+    "c#": {
+      "abbr": "csharp",
+      "tags": [
+        "word"
+      ]
+    },
+    "gd": {
+      "abbr": "gdscript",
+      "tags": [
+        "word"
+      ]
+    }
   }
 }
