@@ -153,17 +153,7 @@ class TestMerge1:
         assert opt == "must merge another PromptBlueprint, not: 15.0"
 
 
-class TestMerge2:
-
-    left_bp = BP3_PARTIAL1
-    right_bp = None
-
-    # TODO TODO
-
-
 # test .__imul__()  ############################################################
-
-
 class TestIMul:
 
     left_bp = BP3_PARTIAL1
