@@ -381,7 +381,14 @@ class PromptBlueprint(dict):
         return blueprint
 
     def _generate_prompt_split_content_and_comment(self, hide_comment):
-        # TODO docstring
+        """
+        core mechanics of `.generate_prompt()`,
+        but return content and comment as two parts/`str`s;
+        this enable easier implementation of `DynamicAbbrBlueprint`
+
+
+        (helper method used in `.generate_prompt()`)
+        """
         lines = _generate_prompt_recursively(self, self.corpus)
         content = "\n".join(lines).strip("\n")
 
