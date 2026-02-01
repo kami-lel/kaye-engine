@@ -10,3 +10,4 @@ from .prompt_corpus_node import *
 from .prompt_corpus_loader import *
 from .prompt_blueprint import *
 from .prompt_blueprint_loader import *
+from .dynamic_abbr_blueprint import *
