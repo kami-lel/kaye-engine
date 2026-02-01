@@ -11,8 +11,6 @@ from anytree import RenderTree, PreOrderIter
 
 from .prompt_corpus_node import PromptCorpusNode
 
-# TODO allows "merging" 2 blueprints
-
 __all__ = ("PromptBlueprint",)
 
 
