@@ -11,7 +11,7 @@ TODO
 :param languages:
 :type languages: str
 :param llm:
-:type llm: float
+:type llm: str
 :param pre_sense_usage:
 :type pre_sense_usage: dict
 :param llm_usage:
@@ -23,7 +23,6 @@ OUTPUT_META_KEY = "meta_content"
 
 
 # constants  ###################################################################
-LLM_INDEX2NAME = {0: "LLM I", 1: "LLM II", 2: "LLM III"}
 USAGE_TIME_KEY = "time_to_generate"
 
 
@@ -32,18 +31,20 @@ def main(
     difficulty_override: float,
     difficulty: float,
     languages: float,
-    llm: float,
+    llm: str,
     pre_sense_usage: dict,
     llm_usage: dict,
-):  # pylint: disable=missing-function-docstring
+):  # pylint: disable=missing-function-docstring,
+    # pylint: disable=too-many-positional-arguments,too-many-arguments
     if not show_meta_content:
         return {OUTPUT_META_KEY: ""}  # skip
 
     # update formats to be printed
     use_difficulty_override = 0 <= difficulty_override <= 1
-    llm_name = LLM_INDEX2NAME[int(llm)]
     pre_sense_time = (
-        "n/a" if use_difficulty_override else pre_sense_usage[USAGE_TIME_KEY]
+        "n/a"
+        if use_difficulty_override
+        else str(pre_sense_usage[USAGE_TIME_KEY]) + "s"
     )
     llm_time = llm_usage[USAGE_TIME_KEY]
 
@@ -55,13 +56,13 @@ def main(
 > difficulty: {}
 > languages: {}
 > branch: {}
-> pre-sense time: {}s
-> LLM time: {}s""".format(
+> pre-sense time: {}
+> task time: {}s""".format(
         difficulty_override,
         use_difficulty_override,
         difficulty,
         languages,
-        llm_name,
+        llm,
         pre_sense_time,
         llm_time,
     )
