@@ -1,5 +1,5 @@
 """
-TODO
+generate the meta conten
 
 
 :param show_meta_content:
@@ -68,6 +68,3 @@ def main(
     )
 
     return {OUTPUT_META_KEY: meta_content}
-
-
-# BUG on 2nd round issue?
