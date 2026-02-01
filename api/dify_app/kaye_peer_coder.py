@@ -13,11 +13,9 @@ from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
 
 # Blueprints  ##################################################################
 PRE_SENSE_PROMPT_BLUEPRINT = """ ○
-[x] ├── Role
-[x] │   └── Kaye Peer Coder
-[x] │       └── pre-sense
-[x] └── Abbreviations
-[x]     └── Programming Languages
+[x] └── Role
+[x]     └── Kaye Peer Coder
+[x]         └── pre-sense
 """
 
 
@@ -107,7 +105,8 @@ def _generate_task_prompt_based_on_flags(flags):
     )
 
     # add language prompt fragments  -------------------------------------------
-    # BUG use DynamicAbbrBlueprint instead
+    # BUG use DynamicAbbrBlueprint for PL abbr
+
     # pylint: disable-next=unsubscriptable-object
     kyc_node = corpus["Role"]["Kaye Peer Coder"]
 
@@ -148,6 +147,9 @@ kyc_bp = Blueprint("kaye-peer-coder", PROGRAM_NAME, url_prefix="/kyc")
 # /kaye/dify-app/kyc/pre-sense
 @kyc_bp.route("/pre-sense", methods=["GET"])
 def kaye_peer_coder_pre_sense():
+    # TODO utilize dynamic abbr
+    # TODO Unity related abbr: mb for MonoScript, etc.; maybe contextual abbr?
+
     blueprint = PromptBlueprint.parse(
         load_embedded_prompt_corpus(),
         PRE_SENSE_PROMPT_BLUEPRINT,
