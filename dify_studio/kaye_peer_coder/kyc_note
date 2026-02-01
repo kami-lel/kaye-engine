@@ -8,3 +8,6 @@ BUG kyc use a lot of "this is" during explanation?
 TODO kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
 
 Todo Unity related abbr: mb for MonoScript, etc.; maybe contextual abbr?
+
+BUG really slow, consider ways to speed up
+TODO add seconds (of stages) to meta content
