@@ -36,6 +36,7 @@ class PromptBlueprint(dict):
             ``prompt_corpus``, and with **all nodes checkmarked**
     """
 
+    # classmethods =============================================================
     @classmethod
     def parse(
         cls,
@@ -149,11 +150,13 @@ class PromptBlueprint(dict):
             prompt_corpus, False, display_name
         )
 
+    # instace methods  =========================================================
     def __init__(self, prompt_corpus, *, display_name=""):
         super().__init__()  # init as empty dict
         self.corpus = prompt_corpus
         self.display_name = display_name
 
+    # node operations  *********************************************************
     def is_checkmarked(self, node):
         """
         :param node: node object; or hash value of node
@@ -165,18 +168,6 @@ class PromptBlueprint(dict):
         """
         node = _normalize_node_hash(node)  # node as hash
         return node in self and self[node]
-
-    def prune(self):
-        """
-        :return: a **pruned** blueprint (of ``self``)
-                which contains only branches with checkmarked nodes
-        :rtype: PromptBlueprint
-        """
-        pruned_bp = PromptBlueprint(
-            self.corpus, display_name=self.display_name
-        )
-        _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
-        return pruned_bp
 
     def checkmark(self, node):
         """
@@ -225,6 +216,7 @@ class PromptBlueprint(dict):
 
         return self
 
+    # exporting methods  *******************************************************
     def generate_preview_tree(
         self,
         *,
@@ -307,14 +299,23 @@ class PromptBlueprint(dict):
         :return: the generated prompt
         :rtype: str
         """
-        lines = _generate_prompt_recursively(self, self.corpus)
+        content, comment = self._generate_prompt_split_content_and_comment(
+            hide_comment
+        )
+        return content + comment
 
-        # create comment line
-        if not hide_comment:
-            comment_line = "<!-- " + self._generate_comment_content() + " -->"
-            lines.append(comment_line)
-
-        return "\n".join(lines).strip("\n")
+    # Blueprint operation  *****************************************************
+    def prune(self):
+        """
+        :return: a **pruned** blueprint (of ``self``)
+                which contains only branches with checkmarked nodes
+        :rtype: PromptBlueprint
+        """
+        pruned_bp = PromptBlueprint(
+            self.corpus, display_name=self.display_name
+        )
+        _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
+        return pruned_bp
 
     def merge(self, other):
         """
@@ -348,8 +349,18 @@ class PromptBlueprint(dict):
 
         return merged
 
+    def copy(self):
+        copied = type(self)(self.corpus, display_name=self.display_name)
+
+        # todo PromptBlueprint copy routine optimize
+        for k, v in self.items():
+            copied[k] = v
+
+        return copied
+
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
+    # helper methods  ==========================================================
     @classmethod
     def _create_full_or_empty_blueprint(
         cls, prompt_corpus, is_full, display_name
@@ -368,6 +379,19 @@ class PromptBlueprint(dict):
                 blueprint[key] = is_full
 
         return blueprint
+
+    def _generate_prompt_split_content_and_comment(self, hide_comment):
+        # TODO docstring
+        lines = _generate_prompt_recursively(self, self.corpus)
+        content = "\n".join(lines).strip("\n")
+
+        # create comment line
+        if hide_comment:
+            comment_line = ""
+        else:
+            comment_line = "<!-- " + self._generate_comment_content() + " -->"
+
+        return content, comment_line
 
     def _generate_comment_content(self):
         """
@@ -395,15 +419,7 @@ class PromptBlueprint(dict):
 
         return "{}Kaye v{}".format(name_part, kaye_version)
 
-    def copy(self):
-        copied = type(self)(self.corpus, display_name=self.display_name)
-
-        # todo PromptBlueprint copy routine optimize
-        for k, v in self.items():
-            copied[k] = v
-
-        return copied
-
+    # dunder methods  ==========================================================
     def __contains__(self, key):
         """
         allow ``PromptBlueprint`` to perform membership tests with key being
