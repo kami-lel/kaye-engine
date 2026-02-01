@@ -30,7 +30,7 @@ def main(
     show_meta_content: bool,
     difficulty_override: float,
     difficulty: float,
-    languages: float,
+    languages: str,
     llm: str,
     pre_sense_usage: dict,
     llm_usage: dict,
