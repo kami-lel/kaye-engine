@@ -17,6 +17,8 @@ Possible values, such as `"word"` are defined as:
 [LMNPS]{suffix}[Z]
 ```
 
+`Z` include start/end?
+
 For meaning of `LMNPSZ`, q.v. [Unicode General Category](https://en.wikipedia.org/wiki/Unicode_character_property#General_Category)
 
 
