@@ -29,6 +29,7 @@ def test_pre_sense(flask_test_client):
 
 
 def test_task(flask_test_client):
+    # BUG
     response = flask_test_client.get(APP_PREFIX + "/chat")
 
     opt = response.data.decode("utf-8")

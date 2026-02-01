@@ -22,6 +22,7 @@ APP_PREFIX = "/kaye/dify-app/kyc"
 
 # test /pre-sense  #############################################################
 def test_pre_sense(flask_test_client):
+    # BUG
     response = flask_test_client.get(APP_PREFIX + "/pre-sense")
 
     opt = response.data.decode("utf-8")
