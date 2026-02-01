@@ -68,8 +68,6 @@ class TestEmpty:  # special case "empty"
 
 class TestChat:
 
-    # BUG
-
     prompt_name = "chat"
 
     def test_type(self):
