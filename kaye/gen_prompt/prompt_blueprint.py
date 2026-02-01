@@ -302,7 +302,6 @@ class PromptBlueprint(dict):
         content, comment = self._generate_prompt_split_content_and_comment(
             hide_comment
         )
-        # BUG newlines?
         return content + comment
 
     # Blueprint operation  *****************************************************
@@ -397,7 +396,9 @@ class PromptBlueprint(dict):
         if hide_comment:
             comment_line = ""
         else:
-            comment_line = "<!-- " + self._generate_comment_content() + " -->"
+            comment_line = (
+                "\n<!-- " + self._generate_comment_content() + " -->"
+            )
 
         return content, comment_line
 

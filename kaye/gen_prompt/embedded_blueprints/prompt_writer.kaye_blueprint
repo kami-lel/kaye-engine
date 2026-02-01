@@ -1,8 +1,5 @@
     ○
 [x] ├── Language
 [x] ├── Format
-[x] ├── Role
-[x] │   └── Prompt Writer
-[x] └── Abbreviations
-[x]     ├── Understandable Abbrs
-[x]     └── Usable Abbrs
+[x] └── Role
+[x]     └── Prompt Writer
