@@ -1,13 +1,10 @@
-from .prompt_blueprint import PromptBlueprint
-
-
-class DynamicAbbrBlueprint(PromptBlueprint):
+class DynamicAbbr:
     """
     TODO docstring for class AbbreviationBlueprint
     """
 
     @staticmethod
-    def generate(query):
+    def analyze(query):
         return None
 
     # TODO TODO abbr type (how to interpret the abbr)
