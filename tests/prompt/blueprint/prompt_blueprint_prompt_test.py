@@ -38,6 +38,7 @@ class Test1:  # with PROMPT1  ##################################################
 
         print(opt)
         content, comment = _split_content_and_comment(opt)
+
         assert content == """# Project Title
 
 ## Description
