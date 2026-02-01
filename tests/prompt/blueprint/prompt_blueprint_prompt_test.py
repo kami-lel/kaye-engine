@@ -31,7 +31,6 @@ class Test1:  # with PROMPT1  ##################################################
     corpus = PromptCorpusNode.parse(PROMPT1)
 
     def test_full(self):
-        # BUG
         bp_text = BLUEPRINT_1_FULL
         bp = PromptBlueprint.parse(self.corpus, bp_text)
 
@@ -39,6 +38,7 @@ class Test1:  # with PROMPT1  ##################################################
 
         print(opt)
         content, comment = _split_content_and_comment(opt)
+
         assert content == """# Project Title
 
 ## Description
