@@ -396,7 +396,7 @@ class PromptBlueprint(dict):
         return "{}Kaye v{}".format(name_part, kaye_version)
 
     def copy(self):
-        copied = PromptBlueprint(self.corpus, display_name=self.display_name)
+        copied = type(self)(self.corpus, display_name=self.display_name)
 
         # todo PromptBlueprint copy routine optimize
         for k, v in self.items():
