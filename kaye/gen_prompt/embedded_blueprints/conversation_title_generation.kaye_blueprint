@@ -4,7 +4,5 @@
 [x] │   ├── Capitalization Style
 [x] │   │   └── Title Case
 [x] │   └── Briefness Style
-[x] ├── Role
-[x] │   └── Conversation Title Generation
-[ ] └── Abbreviations
-[x]     └── Usable Abbrs
+[x] └── Role
+[x]     └── Conversation Title Generation
