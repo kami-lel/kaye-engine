@@ -1,8 +1,16 @@
+# pylint: disable=c-extension-no-member
+
 from pathlib import Path
+from itertools import chain
+import json
+
 import ahocorasick
+
 from .prompt_blueprint import PromptBlueprint
 
 JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
+
+__all__ = ("DynamicAbbrBlueprint",)
 
 
 class DynamicAbbrBlueprint(PromptBlueprint):
@@ -14,8 +22,18 @@ class DynamicAbbrBlueprint(PromptBlueprint):
         if cls._automaton is not None:
             return  # load once, thus skip loading
 
+        cls._automaton = ahocorasick.Automaton()
+
+        # read lines
         with open(JSON_FILE_PATH, "r", encoding="utf-8") as f:  # read only
-            lines = f.read()
+            try:
+                data = json.load(f)
+            except json.JSONDecodeError as err:
+                msg = err.args[0]  # improve message
+                raise json.JSONDecodeError(
+                    msg, err.args[1], err.args[2]
+                ) from err
+
             # TODO load data
 
     def generate_prompt(
