@@ -1,12 +1,12 @@
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
 Todo utilize dynamic abbr
-BUG kyc didn't include AMs definition currently, need to rewrite b/c commit sense also used it
+Bug kyc didn't include AMs definition currently, need to rewrite b/c commit sense also used it
 BUG kyc when working with Unity, it tends to do everything with code; add debug role, help w/ debugging
 BUG kyc use primary (and other) commentary headers too much in code
 BUG kyc use a lot of "this is" during explanation?
 
-TODO kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
+Todo kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
 
 Todo Unity related abbr: mb for MonoScript, etc.; maybe contextual abbr?
 
-BUG really slow, consider ways to speed up
+Bug really slow, consider ways to speed up
