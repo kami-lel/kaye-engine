@@ -49,6 +49,7 @@ def main(
     llm_time = llm_usage[USAGE_TIME_KEY]
 
     # form final format  -------------------------------------------------------
+    # TODO more compact format
     meta_content = """
 
 > [!TIP]
