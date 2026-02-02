@@ -45,9 +45,17 @@ class DynamicAbbrBlueprint(PromptBlueprint):
         if not all(key in data for key in (JSON_ABBRS_KEY, JSON_ALT_KEY)):
             raise ValueError("abbrs.json must contains 'abbrs' and 'alt'")
 
-        # create entries  ******************************************************
+        abbrs_obj = data[JSON_ABBRS_KEY]
+        alts_obj = data[JSON_ALT_KEY]
 
-        # TODO load data
+        # create entries  ******************************************************
+        cls._entries = []
+        # add all abbr entries
+        for k, v in abbrs_obj.items():
+            cls._entries.append(_AbbrEntry.parse_from_abbr(k, v))
+        # add all alt entries
+        for k, v in alts_obj.items():
+            cls._entries.append(_AbbrEntry.parse_from_alt(k, v, abbrs_obj))
 
         # create automation  ***************************************************
         # init Aho–Corasick automation
@@ -67,13 +75,12 @@ class DynamicAbbrBlueprint(PromptBlueprint):
     ):
         self.__class__.load_abbrs_json()
 
-        # TODO mpl add usable abbr
         content, comment = self._generate_prompt_split_content_and_comment(
             hide_comment
         )
 
+        # TODO query based generation
         if query:
-            # TODO TODO abbr type (how to interpret the abbr)
             abbr_content = ""
         else:
             abbr_content = ""
@@ -83,11 +90,73 @@ class DynamicAbbrBlueprint(PromptBlueprint):
 
 class _AbbrEntry:
 
-    def __init__(self, key, mean, wrap, tags_raw):
+    @classmethod
+    def parse_from_abbr(cls, key, abbr_obj):
+        """
+        :param key: _description_
+        :type key: _type_
+        :param abbr_obj: _description_
+        :type abbr_obj: _type_
+        :raises ValueError:
+        :return: _description_
+        :rtype: _type_
+        """
+        try:
+            mean = abbr_obj["mean"]
+            wrap = abbr_obj["wrap"]
+            tags_list = abbr_obj["tags"]
+            return _AbbrEntry(key, mean, wrap, tags_list)
+
+        except KeyError as err:
+            raise ValueError(
+                "abbr {} is malformed: {}\n{}".format(
+                    repr(key), err.args[0], abbr_obj
+                )
+            ) from err
+
+    @classmethod
+    def parse_from_alt(cls, key, alt_obj, abbrs_obj):
+        """
+        :param key: _description_
+        :type key: _type_
+        :param alt_obj: _description_
+        :type alt_obj: _type_
+        :param abbrs_obj: _description_
+        :type abbrs_obj: _type_
+        :raises ValueError:
+        :return: _description_
+        :rtype: _type_
+        """
+        try:
+            wrap = alt_obj["wrap"]
+            tags_list = alt_obj["tags"]
+
+            abbr = alt_obj["abbr"]
+
+        except KeyError as err:
+            raise ValueError(
+                "alt {} is malformed: {}\n{}".format(
+                    repr(key), err.args[0], alt_obj
+                )
+            ) from err
+
+        try:
+            # find mean based on abbr entry
+            mean = abbrs_obj[abbr]["mean"]
+        except KeyError as err:
+            raise ValueError(
+                "fail to find alt {}'s corresponding abbr {}".format(
+                    repr(key), repr(abbr)
+                )
+            ) from err
+
+        return _AbbrEntry(key, mean, wrap, tags_list)
+
+    def __init__(self, key, mean, wrap, tags_list):
         self.key = key
         self.mean = mean
         self.wrap = _AbbrWrap(wrap)  # TODO error handling
-        self.tags = _AbbrTags.parse(tags_raw)
+        self.tags = _AbbrTags.parse(tags_list)
 
 
 class _AbbrWrap(Enum):
@@ -101,7 +170,14 @@ class _AbbrWrap(Enum):
 class _AbbrTags(Flag):
 
     @classmethod
-    def parse(cls, tags_raw):
+    def parse(cls, tags_list):
+        """
+        :param tags_list: _description_
+        :type tags_list: _type_
+        :raises ValueError:
+        :return: _description_
+        :rtype: _type_
+        """
         return cls.none  # TODO
 
     none = auto()
