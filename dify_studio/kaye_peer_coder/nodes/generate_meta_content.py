@@ -39,33 +39,36 @@ def main(
     if not show_meta_content:
         return {OUTPUT_META_KEY: ""}  # skip
 
+    lines = []
+
     # update formats to be printed
     use_difficulty_override = 0 <= difficulty_override <= 1
-    pre_sense_time = (
-        "n/a"
-        if use_difficulty_override
-        else str(pre_sense_usage[USAGE_TIME_KEY]) + "s"
-    )
+
+    if use_difficulty_override:
+        lines.append("difficulty_override: {}".format(difficulty_override))
+    else:
+        # use pre-sense
+        lines.append(
+            "pre-sense [{}]s: difficulty: {}".format(
+                pre_sense_usage[USAGE_TIME_KEY], difficulty
+            )
+        )
+        if languages:
+            lines.append("languages: {}".format(languages))
+
+    # line re the LLM
     llm_time = llm_usage[USAGE_TIME_KEY]
+    lines.append("{} [{}]s".format(llm, llm_time))
+
+    # > difficulty_override: {} (usage: {})
+    # > difficulty: {}
+    # > languages: {}
+    # > pre-sense time: {}
+    # > task time: {}s
 
     # form final format  -------------------------------------------------------
-    # TODO more compact format
     meta_content = """
 
 > [!TIP]
-> difficulty_override: {} (usage: {})
-> difficulty: {}
-> languages: {}
-> branch: {}
-> pre-sense time: {}
-> task time: {}s""".format(
-        difficulty_override,
-        use_difficulty_override,
-        difficulty,
-        languages,
-        llm,
-        pre_sense_time,
-        llm_time,
-    )
-
+""" + "\n".join("> " + line for line in lines)
     return {OUTPUT_META_KEY: meta_content}
