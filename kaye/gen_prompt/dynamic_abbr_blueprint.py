@@ -25,7 +25,7 @@ class DynamicAbbrBlueprint(PromptBlueprint):
         # init Aho–Corasick automation
         cls._automaton = ahocorasick.Automaton()
 
-        # load abbrs from file to automation
+        # load from abbrs.json into automation  ++++++++++++++++++++++++++++++++
         file_path = abbrs_json_file_path_override or ABBRS_JSON_FILE_PATH
         with open(file_path, "r", encoding="utf-8") as f:  # read only
             try:
@@ -37,10 +37,12 @@ class DynamicAbbrBlueprint(PromptBlueprint):
                     err.pos,
                 ) from err
 
-            if any(key not in data for key in ("abbrs", "alt")):
-                pass
+        if not all(key in data for key in ("abbrs", "alt")):
+            raise ValueError("abbrs.json must contains 'abbrs' and 'alt'")
 
-            # TODO load data
+        # load data ------------------------------------------------------------
+
+        # TODO load data
 
     def generate_prompt(
         self, *, hide_comment=False, query=None, add_usable_abbr=False
