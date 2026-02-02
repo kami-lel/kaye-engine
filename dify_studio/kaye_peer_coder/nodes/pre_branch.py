@@ -1,75 +1,30 @@
 """
-- decide which branch/LLM to use depending on difficulty
-
-- produce supplementary historical user/bot messages for this round
-  (exclude this round's user message)
-
-- produce prefix meta content
+decide which branch/LLM to use depending on difficulty
 
 
 :param difficulty:
-:type difficulty: int
+:type difficulty: float
 :param difficulty_thresholds:
 :type difficulty_thresholds: list[float]
-:param languages:
-:type languages: str
-:param show_prefix_meta_content:
-:type show_prefix_meta_content: bool
-:return: {
-        "llm": 0~2, which LLM to be used
-        "supplement_user_messages": additional historical user messages
-                that this model is unaware of
-        "supplement_bot_messages": v.s.
-        "prefix_meta_content": prefix meta content, may be empty
-        "last_memory": updated last_memory
-        }
-:rtype: dict{
-        "llm": int,
-        "supplement_user_messages": str,
-        "supplement_bot_messages": str,
-        "prefix_meta_content": str,
-        "last_memory": list[str]
-        }
+:return: { "llm": which LLM to be used }
+:rtype: dict{ "llm": str }
 """
 
 # output keys  #################################################################
 OUTPUT_LLM_KEY = "llm"
-OUTPUT_PREFIX_KEY = "prefix_meta_content"
-
-
-# constants  ###################################################################
-LLM_COUNT = 3  # number of LLMs
-MESSAGE_SPLIT = "\n\n\n"
 
 
 # Entry Point  #################################################################
-
-
 def main(
-    difficulty: int,
+    difficulty: float,
     difficulty_thresholds: list[float],
-    languages: str,
-    show_prefix_meta_content: bool,
 ):  # pylint: disable=missing-function-docstring
     # decide branch  -----------------------------------------------------------
     if difficulty < difficulty_thresholds[0]:
-        llm = 0
+        llm = "LLM I"
     elif difficulty < difficulty_thresholds[1]:
-        llm = 1
+        llm = "LLM II"
     else:
-        llm = 2
+        llm = "LLM III"
 
-    # get prefix meta content  -------------------------------------------------
-    prefix_content = ""
-    if show_prefix_meta_content:
-        prefix_content = """> [!TIP]
-> difficulty: {}
-> languages: {}
-> LLM: {}
-
-""".format(difficulty, languages, llm)
-
-    return {
-        OUTPUT_LLM_KEY: llm,
-        OUTPUT_PREFIX_KEY: prefix_content,
-    }
+    return {OUTPUT_LLM_KEY: llm}
