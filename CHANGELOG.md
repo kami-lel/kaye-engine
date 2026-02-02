@@ -29,12 +29,17 @@ Kaye Peer Coder:
 
 - input field `difficulty_override`
 - anchor point tasks for pre-sense prompt
+- additional information for *meta content*: times for pre-sense & task
 
 ### Changed
 
 Kaye Commit Sense:
 
 - minor adjustment on change commit message format to utilize *Markdown*
+
+Kaye Peer Coder:
+
+- move *meta content* from prefix to end of conversation
 
 ### Deprecated
 ### Removed
