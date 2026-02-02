@@ -40,6 +40,9 @@ Kaye Commit Sense:
 Kaye Peer Coder:
 
 - move *meta content* from prefix to end of conversation
+- provide anchor point for difficulty evaluation in prompt
+- improve prompt for *chat* phase, allow it to use natural language chat more
+- more stricter rule on using *comment section headings*
 
 ### Deprecated
 ### Removed
