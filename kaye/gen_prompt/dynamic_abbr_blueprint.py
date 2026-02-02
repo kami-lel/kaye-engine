@@ -8,7 +8,7 @@ import ahocorasick
 
 from .prompt_blueprint import PromptBlueprint
 
-JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
+ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
 
 __all__ = ("DynamicAbbrBlueprint",)
 
@@ -18,21 +18,27 @@ class DynamicAbbrBlueprint(PromptBlueprint):
     _automaton = None
 
     @classmethod
-    def load_abbrs_json(cls):
+    def load_abbrs_json(cls, *, abbrs_json_file_path_override=None):
         if cls._automaton is not None:
             return  # load once, thus skip loading
 
+        # init Aho–Corasick automation
         cls._automaton = ahocorasick.Automaton()
 
-        # read lines
-        with open(JSON_FILE_PATH, "r", encoding="utf-8") as f:  # read only
+        # load abbrs from file to automation
+        file_path = abbrs_json_file_path_override or ABBRS_JSON_FILE_PATH
+        with open(file_path, "r", encoding="utf-8") as f:  # read only
             try:
                 data = json.load(f)
             except json.JSONDecodeError as err:
-                msg = err.args[0]  # improve message
                 raise json.JSONDecodeError(
-                    msg, err.args[1], err.args[2]
+                    "fail to parse abbrs.json: " + err.msg,
+                    err.doc,
+                    err.pos,
                 ) from err
+
+            if any(key not in data for key in ("abbrs", "alt")):
+                pass
 
             # TODO load data
 
