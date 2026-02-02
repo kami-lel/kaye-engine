@@ -12,7 +12,9 @@
         "uncheckmark",
         "uncheckmarked",
         "uncheckmarking",
-        "unprunable"
+        "unprunable",
+        "ahocorasick",
+        "corasick"
     ],
     "todo-tree.filtering.excludeGlobs": [
         "**/hooks_utility/*/**",
