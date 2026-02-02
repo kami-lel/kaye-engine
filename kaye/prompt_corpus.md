@@ -530,8 +530,8 @@ Use `-` (dash) for bullet point lists
 For all types of **lists**, you must apply *commentary case* for **each** list item:
 
     <list-format-example>
-    - this is first item
-    - second item follow the Commentary Rule. This is continue sentence
+    - first item
+    - second item follow the Commentary Rule. And continue sentence
     </list-format-example>
 
 
