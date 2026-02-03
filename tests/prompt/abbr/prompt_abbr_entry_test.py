@@ -16,21 +16,25 @@ ABBR_OBJ = {"mean": MEAN, "wrap": WRAP, "tags": TAGS}
 
 
 # .parse_from_abbr()  ##########################################################
+# TODO TODO
 
 
 class TestFromAbbrErr:
 
-    def test1(_):
-        # TODO TODO
-        key = "avg"
-        abbr_obj = {"": 1}
+    def test_no_mean1(_):
+        abbr_obj = ABBR_OBJ.copy()
+        del abbr_obj["mean"]
 
         with pytest.raises(ValueError) as exec_info:
             AbbrEntry.parse_from_abbr(KEY, abbr_obj)
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert opt == ""
+        assert (
+            opt
+            == "abbr_obj missing key 'mean': "
+            "{'wrap': 'word', 'tags': ['ascii', 'usable']}"
+        )
 
 
 # .parse_from_alt()  ###########################################################
@@ -42,22 +46,22 @@ class TestInitErr:
     def test_key1(_):
         key = 1
 
-        with pytest.raises(ValueError) as exec_info:
+        with pytest.raises(TypeError) as exec_info:
             AbbrEntry(key, MEAN, WRAP, TAGS)
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert opt == "'AAA' is not a valid AbbrWrap"
+        assert opt == "arg key must be str: 1"
 
     def test_mean1(_):
         mean = 123
 
-        with pytest.raises(ValueError) as exec_info:
+        with pytest.raises(TypeError) as exec_info:
             AbbrEntry(KEY, mean, WRAP, TAGS)
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert opt == "'AAA' is not a valid AbbrWrap"
+        assert opt == "arg mean must be str: 123"
 
     def test_wrap1(_):
         wrap = "AAA"
