@@ -1,4 +1,4 @@
-Hack rm
+HACK rm
 
 † dagger
 ‡ double dagger
