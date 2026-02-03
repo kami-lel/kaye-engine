@@ -71,7 +71,8 @@ class AbbrNode:  ##############################################################
         cls._entries = []
         # add all abbr entries
         for k, v in abbrs_obj.items():
-            cls._entries.append(AbbrEntry.parse_from_abbr(k, v))
+            entry = AbbrEntry(k, v[MEAN_KEY], v[WRAP_KEY], v[TAGS_KEY])
+            cls._entries.append(entry)
         # add all alt entries
         for k, v in alts_obj.items():
             cls._entries.append(AbbrEntry.parse_from_alt(k, v, abbrs_obj))
@@ -218,35 +219,6 @@ class AbbrEntry:  ##############################################################
     """
 
     @classmethod
-    def parse_from_abbr(cls, key, abbr_obj):
-        """
-        parsing an **abbr** object read from ``abbrs.json``
-
-
-        :param key:
-        :type key: str
-        :param abbr_obj:
-        :type abbr_obj: dict{str: str}
-        :raises ValueError:
-        :raises TypeError:
-        :return: parsed legal ``AbbrEntry``
-        :rtype: AbbrEntry
-        """
-        try:
-            mean = abbr_obj[MEAN_KEY]
-            wrap = abbr_obj[WRAP_KEY]
-            tags_list = abbr_obj[TAGS_KEY]
-            # may raise ValueError/TypeError
-            return AbbrEntry(key, mean, wrap, tags_list)
-
-        except KeyError as err:
-            raise ValueError(
-                "abbr_obj missing key {}: {}".format(
-                    repr(err.args[0]), repr(abbr_obj)
-                )
-            ) from err
-
-    @classmethod
     def parse_from_alt(cls, key, alt_obj, abbrs_obj):
         """
         parsing an *alt* object read from ``abbrs.json``,
@@ -263,17 +235,9 @@ class AbbrEntry:  ##############################################################
         :return: parsed legal ``AbbrEntry``
         :rtype: AbbrEntry
         """
-        try:
-            abbr = alt_obj[ABBR_KEY]
-            wrap = alt_obj[WRAP_KEY]
-            tags_list = alt_obj[TAGS_KEY]
-
-        except KeyError as err:
-            raise ValueError(
-                "alt_obj missing key {}: {}".format(
-                    repr(err.args[0]), repr(alt_obj)
-                )
-            ) from err
+        abbr = alt_obj[ABBR_KEY]
+        wrap = alt_obj[WRAP_KEY]
+        tags_list = alt_obj[TAGS_KEY]
 
         try:
             # find mean based on abbr entry
@@ -302,6 +266,7 @@ class AbbrEntry:  ##############################################################
         self.tags = AbbrTags.parse(tags_list)  # may raise ValueError/TypeError
 
     def verify(self):
+        # TODO TODO
         pass
 
 
@@ -316,7 +281,7 @@ class AbbrWrap(Enum):  ########################################################
     SYMBOL = "symbol"
 
     def check(self):
-        pass  # TODO AbbrWrap check
+        pass  # TODO TODO AbbrWrap check
 
 
 class AbbrTags(Flag):  ########################################################
@@ -342,21 +307,10 @@ class AbbrTags(Flag):  ########################################################
 
         :param tags_list: v.s.
         :type tags_list: list[str]
-        :raises TypeError:
         :raises ValueError:
         :return: parsed tags
         :rtype: AbbrEntry
         """
-
-        # type guard
-        if not (
-            isinstance(tags_list, list)
-            and all(isinstance(v, str) for v in tags_list)
-        ):
-            raise TypeError(
-                "arg tags_list must list of str: {}".format(repr(tags_list))
-            )
-
         instance = cls.NONE  # start
         for tag in tags_list:
             try:

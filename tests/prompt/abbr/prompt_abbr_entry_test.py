@@ -25,83 +25,6 @@ ABBRS_OBJ = {
 }
 
 
-# .parse_from_abbr()  ##########################################################
-class TestFromAbbr:
-
-    def test1(_):
-        opt = AbbrEntry.parse_from_abbr(ABBR_KEY, ABBR_OBJ)
-
-        print(opt)
-        assert isinstance(opt, AbbrEntry)
-
-        assert isinstance(opt.key, str)
-        assert opt.key == "e.g."
-        assert isinstance(opt.mean, str)
-        assert opt.mean == "for example"
-        assert isinstance(opt.wrap, AbbrWrap)
-        assert opt.wrap == AbbrWrap.WORD
-        assert isinstance(opt.tags, AbbrTags)
-        assert opt.tags == (AbbrTags.ascii | AbbrTags.usable)
-
-
-class TestFromAbbrErr:
-
-    def test_no_mean1(_):
-        abbr_obj = ABBR_OBJ.copy()
-        del abbr_obj["mean"]
-
-        with pytest.raises(ValueError) as exec_info:
-            AbbrEntry.parse_from_abbr(ABBR_KEY, abbr_obj)
-        opt = exec_info.value.args[0]
-        print(opt)
-
-        assert (
-            opt
-            == "abbr_obj missing key 'mean': "
-            "{'wrap': 'word', 'tags': ['ascii', 'usable']}"
-        )
-
-    def test_no_wrap1(_):
-        abbr_obj = ABBR_OBJ.copy()
-        del abbr_obj["wrap"]
-
-        with pytest.raises(ValueError) as exec_info:
-            AbbrEntry.parse_from_abbr(ABBR_KEY, abbr_obj)
-        opt = exec_info.value.args[0]
-        print(opt)
-
-        assert (
-            opt
-            == "abbr_obj missing key 'wrap': "
-            "{'mean': 'for example', 'tags': ['ascii', 'usable']}"
-        )
-
-    def test_no_tags1(_):
-        abbr_obj = ABBR_OBJ.copy()
-        del abbr_obj["tags"]
-
-        with pytest.raises(ValueError) as exec_info:
-            AbbrEntry.parse_from_abbr(ABBR_KEY, abbr_obj)
-        opt = exec_info.value.args[0]
-        print(opt)
-
-        assert (
-            opt
-            == "abbr_obj missing key 'tags': "
-            "{'mean': 'for example', 'wrap': 'word'}"
-        )
-
-    def test_bad_init(_):
-        key = 1
-
-        with pytest.raises(TypeError) as exec_info:
-            AbbrEntry.parse_from_abbr(key, ABBR_OBJ)
-        opt = exec_info.value.args[0]
-        print(opt)
-
-        assert opt == "arg key must be str: 1"
-
-
 # .parse_from_alt()  ###########################################################
 class TestFromAlt:
 
@@ -122,50 +45,6 @@ class TestFromAlt:
 
 
 class TestFromAltErr:
-
-    def test_key_no_abbr1(_):
-        alt_obj = ALT_OBJ.copy()
-        del alt_obj["abbr"]
-
-        with pytest.raises(ValueError) as exec_info:
-            AbbrEntry.parse_from_alt(ALT_KEY, alt_obj, ABBRS_OBJ)
-        opt = exec_info.value.args[0]
-        print(opt)
-
-        assert (
-            opt
-            == "alt_obj missing key 'abbr': "
-            "{'wrap': 'word', 'tags': ['ascii']}"
-        )
-
-    def test_key_no_wrap1(_):
-        alt_obj = ALT_OBJ.copy()
-        del alt_obj["wrap"]
-
-        with pytest.raises(ValueError) as exec_info:
-            AbbrEntry.parse_from_alt(ALT_KEY, alt_obj, ABBRS_OBJ)
-        opt = exec_info.value.args[0]
-        print(opt)
-
-        assert (
-            opt
-            == "alt_obj missing key 'wrap': "
-            "{'abbr': 'e.g.', 'tags': ['ascii']}"
-        )
-
-    def test_key_no_tags1(_):
-        alt_obj = ALT_OBJ.copy()
-        del alt_obj["tags"]
-
-        with pytest.raises(ValueError) as exec_info:
-            AbbrEntry.parse_from_alt(ALT_KEY, alt_obj, ABBRS_OBJ)
-        opt = exec_info.value.args[0]
-        print(opt)
-
-        assert (
-            opt
-            == "alt_obj missing key 'tags': {'abbr': 'e.g.', 'wrap': 'word'}"
-        )
 
     def test_no_abbr(_):
         abbrs_obj = ABBRS_OBJ.copy()
@@ -226,16 +105,6 @@ class TestInitErr:
         print(opt)
 
         assert opt == "'AAA' is not a valid AbbrWrap"
-
-    def test_tags1(_):
-        tags = ["ascii", 5]
-
-        with pytest.raises(TypeError) as exec_info:
-            AbbrEntry(ABBR_KEY, MEAN, WRAP, tags)
-        opt = exec_info.value.args[0]
-        print(opt)
-
-        assert opt == "arg tags_list must list of str: ['ascii', 5]"
 
     def test_tags2(_):
         tags = ["ascii", "AAA"]
