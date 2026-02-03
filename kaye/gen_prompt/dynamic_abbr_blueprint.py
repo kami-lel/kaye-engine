@@ -35,7 +35,7 @@ class DynamicAbbrBlueprint(PromptBlueprint):  #################################
     # load abbrs  ==============================================================
     @classmethod
     def load_abbrs_json(cls, *, abbrs_json_file_path_override=None):
-        if cls._entries is not None:
+        if not (cls._entries is None or cls._automaton is None):
             return  # load once, thus skip loading
 
         # read abbrs.json  -----------------------------------------------------
@@ -66,14 +66,10 @@ class DynamicAbbrBlueprint(PromptBlueprint):  #################################
             cls._entries.append(AbbrEntry.parse_from_alt(k, v, abbrs_obj))
 
         # create automation  ---------------------------------------------------
-        # init Aho–Corasick automation
         cls._automaton = ahocorasick.Automaton()
-
-        for key, _ in chain(data[ABBRS_KEY].items(), data[ALT_KEY].items()):
-            try:
-                cls._automaton.add_word(key, key)
-            except KeyError as err:
-                raise err  # TODO
+        for i, v in enumerate(cls._entries):
+            cls._automaton.add_word(v, i)
+        cls._automaton.make_automation()
 
         return cls
 
