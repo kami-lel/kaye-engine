@@ -30,7 +30,7 @@ class AbbrNode:  ##############################################################
     _automaton = None
     _entries = None
 
-    # load abbrs  ==============================================================
+    # load abbrs from file  ====================================================
     @classmethod
     def load_abbrs_json(cls, *, abbrs_json_override=None):
         """
@@ -189,13 +189,6 @@ class AbbrNode:  ##############################################################
                 )
             )
 
-    def gen(self, query):
-        if not query:
-            return ""
-
-        # TODO
-        return ""
-
 
 class AbbrEntry:  ##############################################################
     """
@@ -265,8 +258,8 @@ class AbbrEntry:  ##############################################################
         self.wrap = AbbrWrap(wrap)  # may raise ValueError
         self.tags = AbbrTags.parse(tags_list)  # may raise ValueError/TypeError
 
-    def verify(self):
-        # TODO TODO
+    def check(self):
+        # lODO
         pass
 
 
@@ -281,7 +274,7 @@ class AbbrWrap(Enum):  ########################################################
     SYMBOL = "symbol"
 
     def check(self):
-        pass  # TODO TODO AbbrWrap check
+        pass  # TODO
 
 
 class AbbrTags(Flag):  ########################################################
