@@ -6,8 +6,6 @@ import json
 
 import ahocorasick
 
-from .prompt_blueprint import PromptBlueprint
-
 ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
 
 __all__ = ("AbbrNode", "AbbrEntry", "AbbrWrap", "AbbrTags")
@@ -65,22 +63,9 @@ class AbbrNode:  ##############################################################
                         err.pos,
                     ) from err
 
-        # validation  ----------------------------------------------------------
-        if not all(key in data for key in (ABBRS_KEY, ALT_KEY)):
-            raise ValueError("abbrs.json must contains 'abbrs' and 'alt'")
-
+        cls._validate_json_data(data)
         abbrs_obj = data[ABBRS_KEY]
         alts_obj = data[ALT_KEY]
-
-        if not isinstance(abbrs_obj, dict):
-            raise ValueError(repr(ABBRS_KEY) + " value must be object")
-        if not isinstance(alts_obj, dict):
-            raise ValueError(repr(ALT_KEY) + " value must be object")
-
-        # validate entries of abbrs
-        # TODO TODO
-        # validate entries of alts
-        # TODO TODO
 
         # create entries  ------------------------------------------------------
         cls._entries = []
@@ -97,6 +82,111 @@ class AbbrNode:  ##############################################################
             cls._automaton.add_word(entry.key, entry)
         # todo use pickle.loads/dumps to save an local automaton, with hash
         cls._automaton.make_automaton()
+
+    @classmethod
+    def _validate_json_data(cls, data):
+        """
+        perform type validation on the json data read from ``abbrs.json``
+
+        helper method used in ``.load_abbrs_json()``
+
+
+        :param data:
+        :type data: dict
+        :raises ValueError:
+        """
+        if not all(key in data for key in (ABBRS_KEY, ALT_KEY)):
+            raise ValueError("abbrs.json must contains 'abbrs' and 'alt'")
+
+        abbrs_obj = data[ABBRS_KEY]
+        alts_obj = data[ALT_KEY]
+
+        if not isinstance(abbrs_obj, dict):
+            raise ValueError(repr(ABBRS_KEY) + " value must be object")
+        if not isinstance(alts_obj, dict):
+            raise ValueError(repr(ALT_KEY) + " value must be object")
+
+        # validate entries of abbrs  -------------------------------------------
+        for k, v in abbrs_obj.items():
+            if not isinstance(k, str):
+                raise ValueError(
+                    "key must be string within {} object: {}".format(
+                        repr(ABBRS_KEY), repr(k)
+                    )
+                )
+
+            if not isinstance(v, dict):
+                raise ValueError(
+                    "value must be object within {} object: {}".format(
+                        repr(ABBRS_KEY), repr(v)
+                    )
+                )
+
+            # validate 'mean'
+            cls._validate_string_entry(v, MEAN_KEY, ABBRS_KEY)
+            # validate 'wrap'
+            cls._validate_string_entry(v, WRAP_KEY, ABBRS_KEY)
+
+            cls._validate_tags(v, ABBRS_KEY)
+
+        # validate entries of alts  --------------------------------------------
+        for k, v in alts_obj.items():
+            if not isinstance(k, str):
+                raise ValueError(
+                    "key must be string within {} object: {}".format(
+                        repr(ALT_KEY), repr(k)
+                    )
+                )
+
+            if not isinstance(v, dict):
+                raise ValueError(
+                    "value must be object within {} object: {}".format(
+                        repr(ALT_KEY), repr(v)
+                    )
+                )
+
+            # validate 'abbr'
+            cls._validate_string_entry(v, ABBR_KEY, ALT_KEY)
+            # validate 'wrap'
+            cls._validate_string_entry(v, WRAP_KEY, ALT_KEY)
+
+            cls._validate_tags(v, ALT_KEY)
+
+    @staticmethod
+    def _validate_string_entry(entry, key, parent_key):
+        if key not in entry:
+            raise ValueError(
+                "{} object must contains {}".format(parent_key, key)
+            )
+
+        if not isinstance(entry[key], str):
+            raise ValueError(
+                "{} in {} object must be string: {}".format(
+                    key, parent_key, repr(entry[key])
+                )
+            )
+
+    @staticmethod
+    def _validate_tags(entry, parent_key):
+        if TAGS_KEY not in entry:
+            raise ValueError(
+                "{} object must contains {}".format(parent_key, TAGS_KEY)
+            )
+
+        tags_list = entry[TAGS_KEY]
+        if not isinstance(tags_list, list):
+            raise ValueError(
+                "{} in {} object must be array: {}".format(
+                    TAGS_KEY, parent_key, repr(entry[tags_list])
+                )
+            )
+
+        if not all(isinstance(v, str) for v in tags_list):
+            raise ValueError(
+                "{} in {} object must contains only string: {}".format(
+                    TAGS_KEY, parent_key, repr(entry[tags_list])
+                )
+            )
 
     def gen(self, query):
         if not query:
