@@ -10,7 +10,7 @@ from .prompt_blueprint import PromptBlueprint
 
 ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
 
-__all__ = ("DynamicAbbrBlueprint", "AbbrEntry", "AbbrWrap", "AbbrTags")
+__all__ = ("AbbrNode", "AbbrEntry", "AbbrWrap", "AbbrTags")
 
 
 # constants  ###################################################################
@@ -26,7 +26,8 @@ WRAP_KEY = "wrap"
 TAGS_KEY = "tags"
 
 
-class DynamicAbbrBlueprint(PromptBlueprint):  #################################
+# TODO better implementation w/ blueprint, as Node?
+class AbbrNode:  ##############################################################
 
     _automaton = None
     _entries = None
@@ -77,25 +78,12 @@ class DynamicAbbrBlueprint(PromptBlueprint):  #################################
         # create automation  ---------------------------------------------------
         cls._automaton = ahocorasick.Automaton()
         for i, entry in enumerate(cls._entries):
-            cls._automaton.add_word(entry.key, i)
+            # BUG BUG
+            cls._automaton.add_word(entry.key, entry)
         # todo use pickle.loads/dumps to save an local automaton, with hash
         cls._automaton.make_automaton()
 
-    # instance method  =========================================================
-    def generate_prompt(
-        self, *, hide_comment=False, query=None, add_usable_abbr=False
-    ):
-        # Todo add usable abbr
-        self.__class__.load_abbrs_json()
-
-        content, comment = self._generate_prompt_split_content_and_comment(
-            hide_comment
-        )
-        abbr_content = self._generate_abbr_content(query)
-
-        return content + abbr_content + comment
-
-    def _generate_abbr_content(self, query):
+    def gen(self, query):
         if not query:
             return ""
 
@@ -207,6 +195,9 @@ class AbbrEntry:  ##############################################################
 
         self.wrap = AbbrWrap(wrap)  # may raise ValueError
         self.tags = AbbrTags.parse(tags_list)  # may raise ValueError/TypeError
+
+    def verify(self):
+        pass
 
 
 class AbbrWrap(Enum):  ########################################################
