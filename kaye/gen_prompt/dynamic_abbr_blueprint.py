@@ -111,7 +111,7 @@ class AbbrEntry:
 
     @classmethod
     def parse_from_abbr(cls, key, abbr_obj):
-        # BUG req unit test
+        # BUG BUG req unit test
         try:
             mean = abbr_obj["mean"]
             wrap = abbr_obj["wrap"]
@@ -156,7 +156,10 @@ class AbbrEntry:
     __slots__ = ("key", "mean", "wrap", "tags")
 
     def __init__(self, key, mean, wrap, tags_list):
+        if not isinstance(key, str):
+            raise TypeError("arg key must be str: {}".format(repr(key)))
         self.key = key
+
         self.mean = mean
         self.wrap = AbbrWrap(wrap)
         self.tags = AbbrTags.parse(tags_list)
