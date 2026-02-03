@@ -92,19 +92,3 @@ class TestEntries:
         assert entry.mean == "for example,for instance"
         assert entry.wrap == AbbrWrap.WORD
         assert entry.tags == AbbrTags.ascii
-
-
-# automation  ##################################################################
-class TestAutomation:
-
-    def test1(_):
-        path = JSON_FILES_FOLDER / "entries.json"
-
-        DynamicAbbrBlueprint._automaton = None
-        DynamicAbbrBlueprint.load_abbrs_json(
-            abbrs_json_file_path_override=path
-        )
-        opt = DynamicAbbrBlueprint._automaton
-
-        print(opt)
-        assert False  # HACK HACK
