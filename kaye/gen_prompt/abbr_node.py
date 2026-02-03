@@ -177,14 +177,14 @@ class AbbrNode:  ##############################################################
         if not isinstance(tags_list, list):
             raise ValueError(
                 "{} in {} object must be array: {}".format(
-                    TAGS_KEY, parent_key, repr(entry[tags_list])
+                    TAGS_KEY, parent_key, repr(tags_list)
                 )
             )
 
         if not all(isinstance(v, str) for v in tags_list):
             raise ValueError(
                 "{} in {} object must contains only string: {}".format(
-                    TAGS_KEY, parent_key, repr(entry[tags_list])
+                    TAGS_KEY, parent_key, repr(tags_list)
                 )
             )
 

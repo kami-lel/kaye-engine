@@ -9,6 +9,16 @@ import pytest
 from kaye.gen_prompt import AbbrNode, AbbrEntry, AbbrWrap, AbbrTags
 
 # validation  ##################################################################
+ABBR_OBJ_VALUE = {
+    "mean": "for example",
+    "tags": ["ascii", "usable"],
+    "wrap": "word",
+}
+ALT_OBJ_VALUE = {
+    "abbr": "e.g.",
+    "tags": ["ascii"],
+    "wrap": "prefix",
+}
 
 
 class TestValidate:
@@ -86,7 +96,93 @@ class TestValidateAbbrs:
 
         assert opt == "value must be object within 'abbrs' object: []"
 
-    # TODO TODO
+    def test_mean_miss(_):
+        entry_value = ABBR_OBJ_VALUE.copy()
+        del entry_value["mean"]
+        json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "abbrs object must contains mean"
+
+    def test_mean_type(_):
+        entry_value = ABBR_OBJ_VALUE.copy()
+        entry_value["mean"] = 5
+        json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "mean in abbrs object must be string: 5"
+
+    def test_wrap_miss(_):
+        entry_value = ABBR_OBJ_VALUE.copy()
+        del entry_value["wrap"]
+        json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "abbrs object must contains wrap"
+
+    def test_wrap_type(_):
+        entry_value = ABBR_OBJ_VALUE.copy()
+        entry_value["wrap"] = 5
+        json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "wrap in abbrs object must be string: 5"
+
+    def test_tags_miss(_):
+        entry_value = ABBR_OBJ_VALUE.copy()
+        del entry_value["tags"]
+        json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "abbrs object must contains tags"
+
+    def test_tags_type(_):
+        entry_value = ABBR_OBJ_VALUE.copy()
+        entry_value["tags"] = "AAA"
+        json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "tags in abbrs object must be array: 'AAA'"
+
+    def test_tags_contains(_):
+        entry_value = ABBR_OBJ_VALUE.copy()
+        entry_value["tags"].append(5)
+        json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert (
+            opt
+            == "tags in abbrs object must contains only string: "
+            "['ascii', 'usable', 5]"
+        )
 
 
 class TestValidateAlts:
@@ -111,7 +207,92 @@ class TestValidateAlts:
 
         assert opt == "value must be object within 'alts' object: 'some text'"
 
-    # TODO TODO
+    def test_abbr_miss(_):
+        entry_value = ALT_OBJ_VALUE.copy()
+        del entry_value["abbr"]
+        json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "alts object must contains abbr"
+
+    def test_abbr_type(_):
+        entry_value = ALT_OBJ_VALUE.copy()
+        entry_value["abbr"] = 5
+        json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "abbr in alts object must be string: 5"
+
+    def test_wrap_miss(_):
+        entry_value = ALT_OBJ_VALUE.copy()
+        del entry_value["wrap"]
+        json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "alts object must contains wrap"
+
+    def test_wrap_type(_):
+        entry_value = ALT_OBJ_VALUE.copy()
+        entry_value["wrap"] = 5
+        json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "wrap in alts object must be string: 5"
+
+    def test_tags_miss(_):
+        entry_value = ALT_OBJ_VALUE.copy()
+        del entry_value["tags"]
+        json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "alts object must contains tags"
+
+    def test_tags_type(_):
+        entry_value = ALT_OBJ_VALUE.copy()
+        entry_value["tags"] = "AAA"
+        json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "tags in alts object must be array: 'AAA'"
+
+    def test_tags_contains(_):
+        entry_value = ALT_OBJ_VALUE.copy()
+        entry_value["tags"].append(5)
+        json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert (
+            opt
+            == "tags in alts object must contains only string: ['ascii', 5]"
+        )
 
 
 # entries population  ##########################################################
