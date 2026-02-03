@@ -107,7 +107,6 @@ class AbbrEntry:
     :type tags_list: list[str]
     :raises ValueError:
     :raises TypeError:
-    :raises KeyError:
     """
 
     @classmethod
@@ -157,7 +156,7 @@ class AbbrEntry:
     def __init__(self, key, mean, wrap, tags_list):
         self.key = key
         self.mean = mean
-        self.wrap = AbbrWrap(wrap)  # TODO error handling
+        self.wrap = AbbrWrap(wrap)
         self.tags = AbbrTags.parse(tags_list)
 
 
@@ -196,9 +195,9 @@ class AbbrTags(Flag):
         :param tags_list: v.s.
         :type tags_list: list[str]
         :raises TypeError:
-        :raises KeyError:
+        :raises ValueError:
         :return: parsed tags
-        :rtype: _AbbrEntry
+        :rtype: AbbrEntry
         """
 
         # type guard
