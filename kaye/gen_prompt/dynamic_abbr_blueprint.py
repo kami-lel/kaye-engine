@@ -34,14 +34,14 @@ class AbbrNode:  ##############################################################
 
     # load abbrs  ==============================================================
     @classmethod
-    def load_abbrs_json(cls, *, abbrs_json_file_path_override=None):
+    def load_abbrs_json(cls, *, abbrs_json_override=None):
         """
         load class properties ``_automaton`` and ``_entries``
         from file ``abbrs.json``
 
 
-        :param abbrs_json_file_path_override:
-        :type abbrs_json_file_path_override: bool, optional
+        :param abbrs_json_override:
+        :type abbrs_json_override: bool, optional
         :raises json.JSONDecodeError:
         :raises ValueError:
         """
@@ -49,16 +49,21 @@ class AbbrNode:  ##############################################################
             return  # load once, thus skip loading
 
         # read abbrs.json  -----------------------------------------------------
-        file_path = abbrs_json_file_path_override or ABBRS_JSON_FILE_PATH
-        with open(file_path, "r", encoding="utf-8") as f:  # read only
-            try:
-                data = json.load(f)
-            except json.JSONDecodeError as err:
-                raise json.JSONDecodeError(
-                    "fail to parse abbrs.json: " + err.msg,
-                    err.doc,
-                    err.pos,
-                ) from err
+        if abbrs_json_override:
+            data = abbrs_json_override
+
+        else:
+            with open(
+                ABBRS_JSON_FILE_PATH, "r", encoding="utf-8"
+            ) as f:  # read only
+                try:
+                    data = json.load(f)
+                except json.JSONDecodeError as err:
+                    raise json.JSONDecodeError(
+                        "fail to parse abbrs.json: " + err.msg,
+                        err.doc,
+                        err.pos,
+                    ) from err
 
         # validation  ----------------------------------------------------------
         if not all(key in data for key in (ABBRS_KEY, ALT_KEY)):
@@ -67,7 +72,15 @@ class AbbrNode:  ##############################################################
         abbrs_obj = data[ABBRS_KEY]
         alts_obj = data[ALT_KEY]
 
-        # BUG BUG strict validation of shape, less strict on AbbrEntry/~Wrap
+        if not isinstance(abbrs_obj, dict):
+            raise ValueError(repr(ABBRS_KEY) + " value must be object")
+        if not isinstance(alts_obj, dict):
+            raise ValueError(repr(ALT_KEY) + " value must be object")
+
+        # validate entries of abbrs
+        # TODO TODO
+        # validate entries of alts
+        # TODO TODO
 
         # create entries  ------------------------------------------------------
         cls._entries = []

@@ -4,60 +4,69 @@ prompt_abbr_load_test.py
 Unit Tests (using pytest) for: load_abbrs_json()
 """
 
-from pathlib import Path
-import json
-
 import pytest
 
 from kaye.gen_prompt import AbbrNode, AbbrEntry, AbbrWrap, AbbrTags
 
-JSON_FILES_FOLDER = Path(__file__).resolve().parent / "json_testees"
+# validation  ##################################################################
 
 
-# read file  ###################################################################
-class TestFileErr:
-
-    def test_bad_json(self):
-        path = JSON_FILES_FOLDER / "bad_parse.json"
-        with pytest.raises(json.JSONDecodeError) as exec_info:
-            AbbrNode.load_abbrs_json(abbrs_json_file_path_override=path)
-        opt = exec_info.value.args[0]
-        print(opt)
-        assert (
-            opt
-            == "fail to parse abbrs.json: "
-            "Expecting value: line 6 column 1 (char 46)"
-        )
+class TestValidate:
 
     def test_no_abbr(self):
-        path = JSON_FILES_FOLDER / "bad_no_abbr.json"
+        json_override = {
+            "alt": {"ie": {"abbr": "i.e.", "tags": ["ascii"], "wrap": "word"}}
+        }
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrNode.load_abbrs_json(abbrs_json_file_path_override=path)
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
         assert opt == "abbrs.json must contains 'abbrs' and 'alt'"
 
     def test_no_alt(self):
-        path = JSON_FILES_FOLDER / "bad_no_alt.json"
+        json_override = {
+            "abbrs": {
+                "i.e.": {
+                    "mean": "that is,in other words",
+                    "tags": ["ascii"],
+                    "wrap": "word",
+                }
+            }
+        }
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrNode.load_abbrs_json(abbrs_json_file_path_override=path)
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
         assert opt == "abbrs.json must contains 'abbrs' and 'alt'"
+
+    def test_bad_abbr(_):
+        pass
 
 
 # entries population  ##########################################################
 class TestEntries:
 
     def test1(_):
-        path = JSON_FILES_FOLDER / "entries.json"
+        json_override = {
+            "abbrs": {
+                "e.g.": {
+                    "mean": "for example,for instance",
+                    "tags": ["ascii"],
+                    "wrap": "word",
+                },
+                ".m": {"mean": "-ism", "tags": ["ascii"], "wrap": "suffix"},
+            },
+            "alts": {
+                "eg": {"abbr": "e.g.", "tags": ["ascii"], "wrap": "word"}
+            },
+        }
 
         AbbrNode._entries = None
-        AbbrNode.load_abbrs_json(abbrs_json_file_path_override=path)
+        AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
         opt = AbbrNode._entries
 
         assert isinstance(opt, list)
