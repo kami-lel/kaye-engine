@@ -111,6 +111,7 @@ class AbbrEntry:
 
     @classmethod
     def parse_from_abbr(cls, key, abbr_obj):
+        # BUG req unit test
         try:
             mean = abbr_obj["mean"]
             wrap = abbr_obj["wrap"]
@@ -126,6 +127,7 @@ class AbbrEntry:
 
     @classmethod
     def parse_from_alt(cls, key, alt_obj, abbrs_obj):
+        # BUG req unit test
         try:
             wrap = alt_obj["wrap"]
             tags_list = alt_obj["tags"]
