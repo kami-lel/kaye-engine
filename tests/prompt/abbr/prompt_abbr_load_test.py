@@ -1,7 +1,7 @@
 """
 prompt_abbr_load_test.py
 
-Unit Tests (using pytest) for: _AbbrTags
+Unit Tests (using pytest) for: load_abbrs_json()
 """
 
 from pathlib import Path
