@@ -43,4 +43,4 @@ class TestParseErr:
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert opt == "'abc' is not a valid AbbrTags"
+        assert opt == "fail to parse 'abc' as an abbr tag"

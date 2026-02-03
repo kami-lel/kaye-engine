@@ -174,19 +174,29 @@ class _AbbrWrap(Enum):
 
 class AbbrTags(Flag):
     """
-    TODO
+    represent **abbreviation tags** as a *bit flag*
     """
 
     # pylint: disable=invalid-name
 
+    NONE = auto()
+    ascii = auto()
+    usable = auto()
+    emoji = auto()
+    programming_language = auto()
+
     @classmethod
     def parse(cls, tags_list):
         """
-        :param tags_list: list of tags
-                as they are stored under key of `"tags"` in ``abbrs.json``
+        parse **tags** as they appeared in ``abbrs.json``,
+        which occurs under each entry of ``"abbrs"`` and ``"alt"``
+        with key of ``"tags"``, e.g::
+
+
+        :param tags_list: v.s.
         :type tags_list: list[str]
-        :raises ValueError:
         :raises TypeError:
+        :raises KeyError:
         :return: parsed tags
         :rtype: _AbbrEntry
         """
@@ -202,7 +212,11 @@ class AbbrTags(Flag):
 
         instance = cls.NONE  # start
         for tag in tags_list:
-            instance |= AbbrTags(tag)  # may raise ValueError
-        return instance
+            try:
+                instance |= AbbrTags[tag]  # may raise KeyError
+            except KeyError as err:
+                raise ValueError(
+                    "fail to parse {} as an abbr tag".format(repr(tag))
+                ) from err
 
-    NONE = auto()
+        return instance
