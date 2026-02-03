@@ -5,7 +5,11 @@ Unit Tests (using pytest) for: AbbrEntry
 """
 
 import pytest
-from kaye.gen_prompt.dynamic_abbr_blueprint import AbbrEntry
+from kaye.gen_prompt.dynamic_abbr_blueprint import (
+    AbbrEntry,
+    AbbrWrap,
+    AbbrTags,
+)
 
 # testees  #####################################################################
 KEY = "avg"
@@ -16,7 +20,22 @@ ABBR_OBJ = {"mean": MEAN, "wrap": WRAP, "tags": TAGS}
 
 
 # .parse_from_abbr()  ##########################################################
-# TODO TODO
+class TestFromAbbr:
+
+    def test1(_):
+        opt = AbbrEntry.parse_from_abbr(KEY, ABBR_OBJ)
+
+        print(opt)
+        assert isinstance(opt, AbbrEntry)
+
+        assert isinstance(opt.key, str)
+        assert opt.key == "avg"
+        assert isinstance(opt.mean, str)
+        assert opt.mean == "average"
+        assert isinstance(opt.wrap, AbbrWrap)
+        assert opt.wrap == AbbrWrap.WORD
+        assert isinstance(opt.tags, AbbrTags)
+        assert opt.tags == (AbbrTags.ascii | AbbrTags.usable)
 
 
 class TestFromAbbrErr:
@@ -78,7 +97,7 @@ class TestFromAbbrErr:
 
 
 # .parse_from_alt()  ###########################################################
-# TODO
+# TODO TODO
 
 
 # ._init__()  ##################################################################

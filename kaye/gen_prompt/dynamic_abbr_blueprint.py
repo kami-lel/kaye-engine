@@ -142,7 +142,7 @@ class AbbrEntry:  ##############################################################
 
     @classmethod
     def parse_from_alt(cls, key, alt_obj, abbrs_obj):
-        # BUG req unit test
+        # BUG BUG req unit test
         try:
             wrap = alt_obj["wrap"]
             tags_list = alt_obj["tags"]
@@ -204,7 +204,7 @@ class AbbrTags(Flag):  ########################################################
 
     # pylint: disable=invalid-name
 
-    NONE = auto()
+    NONE = 0
     ascii = auto()
     usable = auto()
     emoji = auto()
