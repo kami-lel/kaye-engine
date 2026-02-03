@@ -130,6 +130,7 @@ class AbbrEntry:  ##############################################################
             mean = abbr_obj[MEAN_KEY]
             wrap = abbr_obj[WRAP_KEY]
             tags_list = abbr_obj[TAGS_KEY]
+            # may raise ValueError/TypeError
             return AbbrEntry(key, mean, wrap, tags_list)
 
         except KeyError as err:
@@ -178,13 +179,14 @@ class AbbrEntry:  ##############################################################
             raise TypeError("arg mean must be str: {}".format(repr(mean)))
         self.mean = mean
 
-        self.wrap = AbbrWrap(wrap)
-        self.tags = AbbrTags.parse(tags_list)
+        self.wrap = AbbrWrap(wrap)  # may raise ValueError
+        self.tags = AbbrTags.parse(tags_list)  # may raise ValueError/TypeError
 
 
-class AbbrWrap(
-    Enum
-):  #########################################################
+class AbbrWrap(Enum):  ########################################################
+    """
+    represent an abbr wrap type as ``Enum``
+    """
 
     WORD = "word"
     PREFIX = "prefix"
@@ -195,7 +197,7 @@ class AbbrWrap(
         pass  # TODO
 
 
-class AbbrTags(Flag):
+class AbbrTags(Flag):  ########################################################
     """
     represent **abbreviation tags** as a *bit flag*
     """
