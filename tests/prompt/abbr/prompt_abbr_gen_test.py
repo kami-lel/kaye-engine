@@ -8,7 +8,7 @@ DynamicAbbrBlueprint._generate_abbr_content()
 
 from kaye.gen_prompt import AbbrNode
 
-# TODO TODO
+# TODO
 
 
 def test_tmp():  # HACK

@@ -60,11 +60,14 @@ class AbbrNode:  ##############################################################
                     err.pos,
                 ) from err
 
+        # validation  ----------------------------------------------------------
         if not all(key in data for key in (ABBRS_KEY, ALT_KEY)):
             raise ValueError("abbrs.json must contains 'abbrs' and 'alt'")
 
         abbrs_obj = data[ABBRS_KEY]
         alts_obj = data[ALT_KEY]
+
+        # BUG BUG strict validation of shape, less strict on AbbrEntry/~Wrap
 
         # create entries  ------------------------------------------------------
         cls._entries = []
@@ -78,7 +81,6 @@ class AbbrNode:  ##############################################################
         # create automation  ---------------------------------------------------
         cls._automaton = ahocorasick.Automaton()
         for i, entry in enumerate(cls._entries):
-            # BUG BUG
             cls._automaton.add_word(entry.key, entry)
         # todo use pickle.loads/dumps to save an local automaton, with hash
         cls._automaton.make_automaton()
@@ -87,7 +89,7 @@ class AbbrNode:  ##############################################################
         if not query:
             return ""
 
-        # TODO TODO
+        # TODO
         return ""
 
 
