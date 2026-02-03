@@ -14,7 +14,10 @@ from kaye.gen_prompt import DynamicAbbrBlueprint
 JSON_FILES_FOLDER = Path(__file__).resolve().parent
 
 
-class TestErr:  # err tests  ###################################################
+# read file  ###################################################################
+
+
+class TestFileErr:
 
     def test_bad_json(self):
         path = JSON_FILES_FOLDER / "bad_parse.json"

@@ -158,7 +158,7 @@ class _AbbrEntry:
         self.key = key
         self.mean = mean
         self.wrap = _AbbrWrap(wrap)  # TODO error handling
-        self.tags = _AbbrTags.parse(tags_list)
+        self.tags = AbbrTags.parse(tags_list)
 
 
 class _AbbrWrap(Enum):
@@ -168,18 +168,41 @@ class _AbbrWrap(Enum):
     SUFFIX = "suffix"
     SYMBOL = "symbol"
 
+    def check(self):
+        pass  # TODO
 
-class _AbbrTags(Flag):
+
+class AbbrTags(Flag):
+    """
+    TODO
+    """
+
+    # pylint: disable=invalid-name
 
     @classmethod
     def parse(cls, tags_list):
         """
-        :param tags_list: _description_
-        :type tags_list: _type_
+        :param tags_list: list of tags
+                as they are stored under key of `"tags"` in ``abbrs.json``
+        :type tags_list: list[str]
         :raises ValueError:
-        :return: _description_
-        :rtype: _type_
+        :raises TypeError:
+        :return: parsed tags
+        :rtype: _AbbrEntry
         """
-        return cls.none  # TODO
 
-    none = auto()
+        # type guard
+        if not (
+            isinstance(tags_list, list)
+            and all(isinstance(v, str) for v in tags_list)
+        ):
+            raise TypeError(
+                "arg tags_list must list of str: {}".format(repr(tags_list))
+            )
+
+        instance = cls.NONE  # start
+        for tag in tags_list:
+            instance |= AbbrTags(tag)  # may raise ValueError
+        return instance
+
+    NONE = auto()
