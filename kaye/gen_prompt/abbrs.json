@@ -1676,22 +1676,13 @@
       ],
       "wrap": "word"
     },
-    "m.": [
-      {
-        "mean": "many,much",
-        "tags": [
-          "ascii"
-        ],
-        "wrap": "word"
-      },
-      {
-        "mean": "mis-; mal-; im-",
-        "tags": [
-          "ascii"
-        ],
-        "wrap": "prefix"
-      }
-    ],
+    "m.": {
+      "mean": "many,much;mis-;mal-;im-",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
     "math": {
       "mean": "mathematics",
       "tags": [
@@ -1986,22 +1977,13 @@
       ],
       "wrap": "word"
     },
-    "op": [
-      {
-        "mean": "operate,operation",
-        "tags": [
-          "ascii"
-        ],
-        "wrap": "word"
-      },
-      {
-        "mean": "operate,operation,operator",
-        "tags": [
-          "ascii"
-        ],
-        "wrap": "word"
-      }
-    ],
+    "op": {
+      "mean": "operate,operation,operator",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
     "opm": {
       "mean": "optimum,optimal,optimism,optimist",
       "tags": [
