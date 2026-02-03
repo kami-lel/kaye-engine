@@ -111,7 +111,19 @@ class AbbrEntry:
 
     @classmethod
     def parse_from_abbr(cls, key, abbr_obj):
-        # BUG BUG req unit test
+        """
+        parsing an **abbr** object read from ``abbrs.json``
+
+
+        :param key:
+        :type key: str
+        :param abbr_obj:
+        :type abbr_obj: dict{str: str}
+        :raises ValueError:
+        :raises TypeError:
+        :return: parsed legal ``AbbrEntry``
+        :rtype: AbbrEntry
+        """
         try:
             mean = abbr_obj["mean"]
             wrap = abbr_obj["wrap"]
@@ -120,8 +132,8 @@ class AbbrEntry:
 
         except KeyError as err:
             raise ValueError(
-                "abbr {} is malformed: {}\n{}".format(
-                    repr(key), err.args[0], abbr_obj
+                "abbr_obj missing key {}: {}".format(
+                    repr(err.args[0]), repr(abbr_obj)
                 )
             ) from err
 
@@ -160,7 +172,10 @@ class AbbrEntry:
             raise TypeError("arg key must be str: {}".format(repr(key)))
         self.key = key
 
+        if not isinstance(mean, str):
+            raise TypeError("arg mean must be str: {}".format(repr(mean)))
         self.mean = mean
+
         self.wrap = AbbrWrap(wrap)
         self.tags = AbbrTags.parse(tags_list)
 
