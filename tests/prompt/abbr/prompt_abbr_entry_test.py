@@ -36,6 +36,36 @@ class TestFromAbbrErr:
             "{'wrap': 'word', 'tags': ['ascii', 'usable']}"
         )
 
+    def test_no_wrap1(_):
+        abbr_obj = ABBR_OBJ.copy()
+        del abbr_obj["wrap"]
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrEntry.parse_from_abbr(KEY, abbr_obj)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert (
+            opt
+            == "abbr_obj missing key 'wrap': "
+            "{'mean': 'average', 'tags': ['ascii', 'usable']}"
+        )
+
+    def test_no_tags1(_):
+        abbr_obj = ABBR_OBJ.copy()
+        del abbr_obj["tags"]
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrEntry.parse_from_abbr(KEY, abbr_obj)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert (
+            opt
+            == "abbr_obj missing key 'tags': "
+            "{'mean': 'average', 'wrap': 'word'}"
+        )
+
 
 # .parse_from_alt()  ###########################################################
 

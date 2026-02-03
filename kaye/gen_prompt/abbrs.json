@@ -3115,7 +3115,7 @@
       "wrap": "word"
     }
   },
-  "alt": {
+  "alts": {
     "§": {
       "abbr": "Cap.",
       "tags": [
