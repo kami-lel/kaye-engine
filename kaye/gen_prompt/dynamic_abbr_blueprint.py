@@ -67,9 +67,10 @@ class DynamicAbbrBlueprint(PromptBlueprint):  #################################
 
         # create automation  ---------------------------------------------------
         cls._automaton = ahocorasick.Automaton()
-        for i, v in enumerate(cls._entries):
-            cls._automaton.add_word(v, i)
-        cls._automaton.make_automation()
+        for i, entry in enumerate(cls._entries):
+            cls._automaton.add_word(entry.key, i)
+        # todo use pickle.loads/dumps to save an local automaton, with hash
+        cls._automaton.make_automaton()
 
         return cls
 
