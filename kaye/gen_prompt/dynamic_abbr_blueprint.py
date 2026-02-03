@@ -15,10 +15,14 @@ __all__ = ("DynamicAbbrBlueprint",)
 
 
 # constants  ###################################################################
+# top level key-value
 ABBRS_KEY = "abbrs"
 ALT_KEY = "alts"
+# under "abbrs" object
 MEAN_KEY = "mean"
+# under "alts" object
 ABBR_KEY = "abbr"
+# under "abbrs"or "alts" object
 WRAP_KEY = "wrap"
 TAGS_KEY = "tags"
 
@@ -142,30 +146,43 @@ class AbbrEntry:  ##############################################################
 
     @classmethod
     def parse_from_alt(cls, key, alt_obj, abbrs_obj):
-        # BUG BUG req unit test
-        try:
-            wrap = alt_obj["wrap"]
-            tags_list = alt_obj["tags"]
+        """
+        parsing an *alt* object read from ``abbrs.json``,
+        with dereferencing by finding its corresponding abbr from ``abbrs_obj``
 
-            abbr = alt_obj["abbr"]
+
+        :param key:
+        :type key: str
+        :param alt_obj:
+        :type abbr_obj: dict{str: str}
+        :param abbrs_obj:
+        :type abbr_obj: dict{str: dict}
+        :raises ValueError:
+        :return: parsed legal ``AbbrEntry``
+        :rtype: AbbrEntry
+        """
+        try:
+            abbr = alt_obj[ABBR_KEY]
+            wrap = alt_obj[WRAP_KEY]
+            tags_list = alt_obj[TAGS_KEY]
 
         except KeyError as err:
             raise ValueError(
-                "alt {} is malformed: {}\n{}".format(
-                    repr(key), err.args[0], alt_obj
+                "alt_obj missing key {}: {}".format(
+                    repr(err.args[0]), repr(alt_obj)
                 )
             ) from err
 
         try:
             # find mean based on abbr entry
-            mean = abbrs_obj[abbr]["mean"]
+            referenced_abbr = abbrs_obj[abbr]
         except KeyError as err:
             raise ValueError(
-                "fail to find alt {}'s corresponding abbr {}".format(
-                    repr(key), repr(abbr)
-                )
+                "fail to find referenced abbr {} of alt {} in arg abbrs_obj"
+                .format(repr(abbr), repr(key))
             ) from err
 
+        mean = referenced_abbr[MEAN_KEY]
         return AbbrEntry(key, mean, wrap, tags_list)
 
     __slots__ = ("key", "mean", "wrap", "tags")
