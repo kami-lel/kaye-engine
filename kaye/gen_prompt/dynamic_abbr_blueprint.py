@@ -90,6 +90,8 @@ class DynamicAbbrBlueprint(PromptBlueprint):
 
 class _AbbrEntry:
 
+    __slots__ = ("key", "mean", "wrap", "tags")
+
     @classmethod
     def parse_from_abbr(cls, key, abbr_obj):
         """
