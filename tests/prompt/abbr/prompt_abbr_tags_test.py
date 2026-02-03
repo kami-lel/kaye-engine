@@ -13,37 +13,26 @@ from kaye.gen_prompt.abbr_node import AbbrTags
 class TestParseErr:
 
     def test_type1(_):
-        ipt = 123
-
-        with pytest.raises(TypeError) as exec_info:
-            AbbrTags.parse(ipt)
-
-        opt = exec_info.value.args[0]
-        print(opt)
-
-        assert opt == "arg tags_list must list of str: 123"
-
-    def test_type2(_):
         ipt = [123, 456]
 
-        with pytest.raises(TypeError) as exec_info:
+        with pytest.raises(ValueError) as exec_info:
             AbbrTags.parse(ipt)
 
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert opt == "arg tags_list must list of str: [123, 456]"
+        assert opt == "fail to parse 123 as an abbr tag"
 
-    def test_type3(_):
+    def test_type2(_):
         ipt = ["ascii", 5]
 
-        with pytest.raises(TypeError) as exec_info:
+        with pytest.raises(ValueError) as exec_info:
             AbbrTags.parse(ipt)
 
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert opt == "arg tags_list must list of str: ['ascii', 5]"
+        assert opt == "fail to parse 5 as an abbr tag"
 
     def test_value(_):
         ipt = ["abc"]
