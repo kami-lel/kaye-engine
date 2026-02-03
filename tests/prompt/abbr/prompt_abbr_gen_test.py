@@ -8,8 +8,6 @@ DynamicAbbrBlueprint._generate_abbr_content()
 
 from kaye.gen_prompt import AbbrNode
 
-# TODO
-
 
 def test_tmp():  # HACK
     AbbrNode.load_abbrs_json()

@@ -316,7 +316,7 @@ class AbbrWrap(Enum):  ########################################################
     SYMBOL = "symbol"
 
     def check(self):
-        pass  # TODO
+        pass  # TODO AbbrWrap check
 
 
 class AbbrTags(Flag):  ########################################################

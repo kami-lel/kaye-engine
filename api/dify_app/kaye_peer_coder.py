@@ -105,7 +105,7 @@ def _generate_task_prompt_based_on_flags(flags):
     )
 
     # add language prompt fragments  -------------------------------------------
-    # BUG use DynamicAbbrBlueprint for PL abbr
+    # Bug use DynamicAbbrBlueprint for PL abbr
 
     # pylint: disable-next=unsubscriptable-object
     kyc_node = corpus["Role"]["Kaye Peer Coder"]
@@ -147,8 +147,8 @@ kyc_bp = Blueprint("kaye-peer-coder", PROGRAM_NAME, url_prefix="/kyc")
 # /kaye/dify-app/kyc/pre-sense
 @kyc_bp.route("/pre-sense", methods=["GET"])
 def kaye_peer_coder_pre_sense():
-    # TODO utilize dynamic abbr
-    # TODO Unity related abbr: mb for MonoScript, etc.; maybe contextual abbr?
+    # Todo utilize dynamic abbr
+    # Todo Unity related abbr: mb for MonoScript, etc.; maybe contextual abbr?
 
     blueprint = PromptBlueprint.parse(
         load_embedded_prompt_corpus(),
