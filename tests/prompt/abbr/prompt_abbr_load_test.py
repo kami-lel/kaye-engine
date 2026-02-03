@@ -44,7 +44,74 @@ class TestValidate:
         assert opt == "abbrs.json must contains 'abbrs' and 'alt'"
 
     def test_bad_abbr(_):
-        pass
+        json_override = {"abbrs": "abc", "alts": {}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "'abbrs' value must be object"
+
+    def test_bad_alt(_):
+        json_override = {"abbrs": {}, "alts": 5}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "'alts' value must be object"
+
+
+class TestValidateAbbrs:
+
+    def test_bad_key(_):
+        json_override = {"abbrs": {5: {}}, "alts": {}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "key must be string within 'abbrs' object: 5"
+
+    def test_value_type(_):
+        json_override = {"abbrs": {"eg": []}, "alts": {}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "value must be object within 'abbrs' object: []"
+
+    # TODO TODO
+
+
+class TestValidateAlts:
+
+    def test_bad_key(_):
+        json_override = {"abbrs": {}, "alts": {5: {}}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "key must be string within 'alts' object: 5"
+
+    def test_value_type(_):
+        json_override = {"abbrs": {}, "alts": {"eg": "some text"}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrNode.load_abbrs_json(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "value must be object within 'alts' object: 'some text'"
+
+    # TODO TODO
 
 
 # entries population  ##########################################################
