@@ -11,7 +11,7 @@ from .prompt_blueprint import PromptBlueprint
 
 ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
 
-__all__ = ("DynamicAbbrBlueprint",)
+__all__ = ("DynamicAbbrBlueprint", "AbbrEntry", "AbbrWrap", "AbbrTags")
 
 
 # constants  ###################################################################
@@ -74,6 +74,8 @@ class DynamicAbbrBlueprint(PromptBlueprint):  #################################
                 cls._automaton.add_word(key, key)
             except KeyError as err:
                 raise err  # TODO
+
+        return cls
 
     # instance method  =========================================================
     def generate_prompt(

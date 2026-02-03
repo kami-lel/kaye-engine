@@ -1,0 +1,27 @@
+{
+  "abbrs": {
+    "e.g.": {
+      "mean": "for example,for instance",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
+    ".m": {
+      "mean": "-ism",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "suffix"
+    }
+  },
+  "alts": {
+    "eg": {
+      "abbr": "e.g.",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    }
+  }
+}
