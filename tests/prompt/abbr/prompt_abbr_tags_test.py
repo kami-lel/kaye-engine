@@ -34,6 +34,17 @@ class TestParseErr:
 
         assert opt == "arg tags_list must list of str: [123, 456]"
 
+    def test_type3(_):
+        ipt = ["ascii", 5]
+
+        with pytest.raises(TypeError) as exec_info:
+            AbbrTags.parse(ipt)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "arg tags_list must list of str: ['ascii', 5]"
+
     def test_value(_):
         ipt = ["abc"]
 

@@ -52,10 +52,10 @@ class DynamicAbbrBlueprint(PromptBlueprint):
         cls._entries = []
         # add all abbr entries
         for k, v in abbrs_obj.items():
-            cls._entries.append(_AbbrEntry.parse_from_abbr(k, v))
+            cls._entries.append(AbbrEntry.parse_from_abbr(k, v))
         # add all alt entries
         for k, v in alts_obj.items():
-            cls._entries.append(_AbbrEntry.parse_from_alt(k, v, abbrs_obj))
+            cls._entries.append(AbbrEntry.parse_from_alt(k, v, abbrs_obj))
 
         # create automation  ***************************************************
         # init Aho–Corasick automation
@@ -88,26 +88,35 @@ class DynamicAbbrBlueprint(PromptBlueprint):
         return content + abbr_content + comment
 
 
-class _AbbrEntry:
+class AbbrEntry:
+    """
+    present a *unified* data structure to represent
+    either ``"abbr"`` or ``"alt"`` object in ``abbrs.json``
 
-    __slots__ = ("key", "mean", "wrap", "tags")
+    for ``"alt"`` object, its meaning must be dereferenced
+    and store directly w/i the AbbrEntry
+
+
+    :param key:
+    :type key: str
+    :param mean:
+    :type mean: str
+    :param wrap: raw wrap string stored in ``abbrs.json``
+    :type wrap: str
+    :param tags_list: raw tags list stored in ``abbrs.json``
+    :type tags_list: list[str]
+    :raises ValueError:
+    :raises TypeError:
+    :raises KeyError:
+    """
 
     @classmethod
     def parse_from_abbr(cls, key, abbr_obj):
-        """
-        :param key: _description_
-        :type key: _type_
-        :param abbr_obj: _description_
-        :type abbr_obj: _type_
-        :raises ValueError:
-        :return: _description_
-        :rtype: _type_
-        """
         try:
             mean = abbr_obj["mean"]
             wrap = abbr_obj["wrap"]
             tags_list = abbr_obj["tags"]
-            return _AbbrEntry(key, mean, wrap, tags_list)
+            return AbbrEntry(key, mean, wrap, tags_list)
 
         except KeyError as err:
             raise ValueError(
@@ -118,17 +127,6 @@ class _AbbrEntry:
 
     @classmethod
     def parse_from_alt(cls, key, alt_obj, abbrs_obj):
-        """
-        :param key: _description_
-        :type key: _type_
-        :param alt_obj: _description_
-        :type alt_obj: _type_
-        :param abbrs_obj: _description_
-        :type abbrs_obj: _type_
-        :raises ValueError:
-        :return: _description_
-        :rtype: _type_
-        """
         try:
             wrap = alt_obj["wrap"]
             tags_list = alt_obj["tags"]
@@ -152,16 +150,18 @@ class _AbbrEntry:
                 )
             ) from err
 
-        return _AbbrEntry(key, mean, wrap, tags_list)
+        return AbbrEntry(key, mean, wrap, tags_list)
+
+    __slots__ = ("key", "mean", "wrap", "tags")
 
     def __init__(self, key, mean, wrap, tags_list):
         self.key = key
         self.mean = mean
-        self.wrap = _AbbrWrap(wrap)  # TODO error handling
+        self.wrap = AbbrWrap(wrap)  # TODO error handling
         self.tags = AbbrTags.parse(tags_list)
 
 
-class _AbbrWrap(Enum):
+class AbbrWrap(Enum):
 
     WORD = "word"
     PREFIX = "prefix"
