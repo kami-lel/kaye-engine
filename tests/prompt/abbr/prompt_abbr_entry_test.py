@@ -66,8 +66,19 @@ class TestFromAbbrErr:
             "{'mean': 'average', 'wrap': 'word'}"
         )
 
+    def test_bad_init(_):
+        key = 1
+
+        with pytest.raises(TypeError) as exec_info:
+            AbbrEntry.parse_from_abbr(key, ABBR_OBJ)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "arg key must be str: 1"
+
 
 # .parse_from_alt()  ###########################################################
+# TODO
 
 
 # ._init__()  ##################################################################
