@@ -1380,22 +1380,13 @@
       ],
       "wrap": "word"
     },
-    "hr": [
-      {
-        "mean": "hour",
-        "tags": [
-          "ascii"
-        ],
-        "wrap": "word"
-      },
-      {
-        "mean": "here",
-        "tags": [
-          "ascii"
-        ],
-        "wrap": "word"
-      }
-    ],
+    "hr": {
+      "mean": "hour;here",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
     "html": {
       "mean": "HTML",
       "tags": [
