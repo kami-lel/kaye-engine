@@ -2,7 +2,6 @@
 
 from pathlib import Path
 from enum import Flag, Enum, auto
-from itertools import chain
 import json
 
 import ahocorasick
@@ -35,6 +34,16 @@ class DynamicAbbrBlueprint(PromptBlueprint):  #################################
     # load abbrs  ==============================================================
     @classmethod
     def load_abbrs_json(cls, *, abbrs_json_file_path_override=None):
+        """
+        load class properties ``_automaton`` and ``_entries``
+        from file ``abbrs.json``
+
+
+        :param abbrs_json_file_path_override:
+        :type abbrs_json_file_path_override: bool, optional
+        :raises json.JSONDecodeError:
+        :raises ValueError:
+        """
         if not (cls._entries is None or cls._automaton is None):
             return  # load once, thus skip loading
 
@@ -72,25 +81,25 @@ class DynamicAbbrBlueprint(PromptBlueprint):  #################################
         # todo use pickle.loads/dumps to save an local automaton, with hash
         cls._automaton.make_automaton()
 
-        return cls
-
     # instance method  =========================================================
     def generate_prompt(
         self, *, hide_comment=False, query=None, add_usable_abbr=False
     ):
+        # Todo add usable abbr
         self.__class__.load_abbrs_json()
 
         content, comment = self._generate_prompt_split_content_and_comment(
             hide_comment
         )
-
-        # TODO query based generation
-        if query:
-            abbr_content = ""
-        else:
-            abbr_content = ""
+        abbr_content = self._generate_abbr_content(query)
 
         return content + abbr_content + comment
+
+    def _generate_abbr_content(self, query):
+        if not query:
+            return ""
+
+        return ""
 
 
 class AbbrEntry:  ##############################################################
