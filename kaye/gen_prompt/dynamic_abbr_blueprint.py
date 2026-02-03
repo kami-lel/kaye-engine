@@ -15,11 +15,15 @@ __all__ = ("DynamicAbbrBlueprint",)
 
 
 # constants  ###################################################################
-JSON_ABBRS_KEY = "abbrs"
-JSON_ALT_KEY = "alt"
+ABBRS_KEY = "abbrs"
+ALT_KEY = "alts"
+MEAN_KEY = "mean"
+ABBR_KEY = "abbr"
+WRAP_KEY = "wrap"
+TAGS_KEY = "tags"
 
 
-class DynamicAbbrBlueprint(PromptBlueprint):
+class DynamicAbbrBlueprint(PromptBlueprint):  #################################
 
     _automaton = None
     _entries = None
@@ -30,7 +34,7 @@ class DynamicAbbrBlueprint(PromptBlueprint):
         if cls._entries is not None:
             return  # load once, thus skip loading
 
-        # read abbrs.json  *****************************************************
+        # read abbrs.json  -----------------------------------------------------
         file_path = abbrs_json_file_path_override or ABBRS_JSON_FILE_PATH
         with open(file_path, "r", encoding="utf-8") as f:  # read only
             try:
@@ -42,13 +46,13 @@ class DynamicAbbrBlueprint(PromptBlueprint):
                     err.pos,
                 ) from err
 
-        if not all(key in data for key in (JSON_ABBRS_KEY, JSON_ALT_KEY)):
+        if not all(key in data for key in (ABBRS_KEY, ALT_KEY)):
             raise ValueError("abbrs.json must contains 'abbrs' and 'alt'")
 
-        abbrs_obj = data[JSON_ABBRS_KEY]
-        alts_obj = data[JSON_ALT_KEY]
+        abbrs_obj = data[ABBRS_KEY]
+        alts_obj = data[ALT_KEY]
 
-        # create entries  ******************************************************
+        # create entries  ------------------------------------------------------
         cls._entries = []
         # add all abbr entries
         for k, v in abbrs_obj.items():
@@ -57,13 +61,11 @@ class DynamicAbbrBlueprint(PromptBlueprint):
         for k, v in alts_obj.items():
             cls._entries.append(AbbrEntry.parse_from_alt(k, v, abbrs_obj))
 
-        # create automation  ***************************************************
+        # create automation  ---------------------------------------------------
         # init Aho–Corasick automation
         cls._automaton = ahocorasick.Automaton()
 
-        for key, _ in chain(
-            data[JSON_ABBRS_KEY].items(), data[JSON_ALT_KEY].items()
-        ):
+        for key, _ in chain(data[ABBRS_KEY].items(), data[ALT_KEY].items()):
             try:
                 cls._automaton.add_word(key, key)
             except KeyError as err:
@@ -88,7 +90,7 @@ class DynamicAbbrBlueprint(PromptBlueprint):
         return content + abbr_content + comment
 
 
-class AbbrEntry:
+class AbbrEntry:  ##############################################################
     """
     present a *unified* data structure to represent
     either ``"abbr"`` or ``"alt"`` object in ``abbrs.json``
@@ -125,9 +127,9 @@ class AbbrEntry:
         :rtype: AbbrEntry
         """
         try:
-            mean = abbr_obj["mean"]
-            wrap = abbr_obj["wrap"]
-            tags_list = abbr_obj["tags"]
+            mean = abbr_obj[MEAN_KEY]
+            wrap = abbr_obj[WRAP_KEY]
+            tags_list = abbr_obj[TAGS_KEY]
             return AbbrEntry(key, mean, wrap, tags_list)
 
         except KeyError as err:
@@ -180,7 +182,9 @@ class AbbrEntry:
         self.tags = AbbrTags.parse(tags_list)
 
 
-class AbbrWrap(Enum):
+class AbbrWrap(
+    Enum
+):  #########################################################
 
     WORD = "word"
     PREFIX = "prefix"
