@@ -30,10 +30,7 @@ TAGS_KEY = "tags"
 # TODO better implementation w/ blueprint, as Node?
 class AbbrNode(BasePromptCorpusNode):  ########################################
 
-    _automaton = None
-    _entries = None
-
-    # load abbrs from file  ====================================================
+    # public API  ==============================================================
     @classmethod
     def load_abbrs_json(cls, *, abbrs_json_override=None):
         """
@@ -87,6 +84,12 @@ class AbbrNode(BasePromptCorpusNode):  ########################################
         # todo use pickle.loads/dumps to save an local automaton, with hash
         cls._automaton.make_automaton()
 
+    # singleton class properties  ==============================================
+
+    _automaton = None
+    _entries = None
+
+    # helper methods  ==========================================================
     @classmethod
     def _validate_json_data(cls, data):
         """
@@ -301,12 +304,9 @@ class AbbrEntry:  ##############################################################
 
         :rtype: bool
         """
-        return self._verify_case_sensitivity(
-            found
+        return (
+            self.key.islower() or found == self.key  # verify case sensitivity
         ) and self.wrap.is_satisfied_wrap_rule(char_before, char_after)
-
-    def _verify_case_sensitivity(self, found):
-        return self.key.islower() or found == self.key
 
 
 class AbbrWrap(Enum):  ########################################################
