@@ -196,8 +196,7 @@ class AbbrNode:  ##############################################################
         query_lower = query.lower()
 
         lines = []
-        for last_idx, entry in self._automaton.iter(query_lower):
-            # BUG should find longest match
+        for last_idx, entry in self._automaton.iter_long(query_lower):
             key_len = len(entry.key)
             end_idx = last_idx + 1
             start_idx = end_idx - key_len
