@@ -92,7 +92,15 @@ E.g.
 
 #### ``"tags"``
 
-<!-- TODO working -->
+Additional information regards this entry,
+must be an *array* of *string* of these selected values:
+
+- `"ascii"`: this abbreviation contains strictly ASCII characters
+- `"usable"`: LLM may utilize this abbreviation in conversation
+  and it will generally be considered understandable
+- `"emoji"`
+- `"programming_language"`: it is an abbreviation of a programming language,
+  e.g. `cpp` for C++ programming language
 
 
 
@@ -100,4 +108,12 @@ E.g.
 
 #### ``"wrap"``
 
-<!-- TODO working -->
+Define how the abbreviation will be understood
+with character before and after it.
+
+Must be a *string* of these selected values:
+
+- `"word"`
+- `"prefix"`
+- `"suffix"`
+- `"symbol"`
