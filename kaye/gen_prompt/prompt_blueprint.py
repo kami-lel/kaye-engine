@@ -34,7 +34,7 @@ class PromptBlueprint(dict):
             ``prompt_corpus``, and with **all nodes checkmarked**
     """
 
-    # classmethods =============================================================
+    # classmethods  ============================================================
     @classmethod
     def parse(
         cls,
@@ -148,7 +148,7 @@ class PromptBlueprint(dict):
             prompt_corpus, False, display_name
         )
 
-    # instace methods  =========================================================
+    # instance methods  ========================================================
     def __init__(self, prompt_corpus, *, display_name=""):
         super().__init__()  # init as empty dict
         self.corpus = prompt_corpus

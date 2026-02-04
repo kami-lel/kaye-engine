@@ -7,6 +7,8 @@ import re
 
 import ahocorasick
 
+from .prompt_corpus_node import BasePromptCorpusNode
+
 ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
 
 __all__ = ("AbbrNode", "AbbrEntry", "AbbrWrap", "AbbrTags")
@@ -26,7 +28,7 @@ TAGS_KEY = "tags"
 
 
 # TODO better implementation w/ blueprint, as Node?
-class AbbrNode:  ##############################################################
+class AbbrNode(BasePromptCorpusNode):  ########################################
 
     _automaton = None
     _entries = None
