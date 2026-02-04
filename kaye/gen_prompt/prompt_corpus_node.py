@@ -13,6 +13,10 @@ ROOT_NODE_NAME = "○"  # placeholder name for root node
 __all__ = ("PromptCorpusNode",)
 
 
+class BasePromptCorpusNode(AnytreeNode):
+    pass
+
+
 class PromptCorpusNode(AnytreeNode):
     """
     A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
@@ -40,7 +44,10 @@ class PromptCorpusNode(AnytreeNode):
         :rtype: PromptCorpusNode
         """
 
-        text_lines = cls._convert_corpus_text2lines(prompt_corpus_text)
+        # reduce formatting empty lines
+        text_cleanup = re.sub(r"\n{3,}", "\n\n", prompt_corpus_text)
+        text_lines = list(text_cleanup.split("\n"))
+
         root = cls(ROOT_NODE_NAME, None, text_lines)
         return root
 
@@ -122,12 +129,6 @@ class PromptCorpusNode(AnytreeNode):
             )
 
         return "\n".join(opt_lines)
-
-    @staticmethod
-    def _convert_corpus_text2lines(full_prompt):
-        # reduce formatting empty lines
-        cleanup = re.sub(r"\n{3,}", "\n\n", full_prompt)
-        return list(cleanup.split("\n"))
 
     def _init_populate_children(self, text_lines):
         """
