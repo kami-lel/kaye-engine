@@ -4,7 +4,9 @@ define ``PromptCorpusNode``
 
 import re
 
-from anytree import Node as AnytreeNode, RenderTree
+from anytree import Node as RenderTree
+
+from .base_prompt_corpus_node import BasePromptCorpusNode
 
 # section heading prefix used for parsing .md file of prompt corpus
 HEADING_PREFIX = "#"
@@ -13,11 +15,7 @@ ROOT_NODE_NAME = "○"  # placeholder name for root node
 __all__ = ("PromptCorpusNode",)
 
 
-class BasePromptCorpusNode(AnytreeNode):
-    pass
-
-
-class PromptCorpusNode(AnytreeNode):
+class PromptCorpusNode(BasePromptCorpusNode):
     """
     A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
 

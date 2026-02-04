@@ -22,7 +22,7 @@ EMPTY_PREFIX = "    "
 
 class PromptBlueprint(dict):
     """
-    `PromptCorpusNode` represents a configurable subset of *prompt corpus tree*
+    `PromptBlueprint` represents a configurable subset of *prompt corpus tree*
 
 
     :param prompt_corpus: *prompt corpus tree* **root** node

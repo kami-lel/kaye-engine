@@ -28,7 +28,7 @@ TAGS_KEY = "tags"
 
 
 # TODO better implementation w/ blueprint, as Node?
-class AbbrNode(BasePromptCorpusNode):  ########################################
+class AbbrNode(BasePromptCorpusNode):  #########################################
 
     # public API  ==============================================================
     @classmethod
@@ -309,7 +309,7 @@ class AbbrEntry:  ##############################################################
         ) and self.wrap.is_satisfied_wrap_rule(char_before, char_after)
 
 
-class AbbrWrap(Enum):  ########################################################
+class AbbrWrap(Enum):  #########################################################
     """
     represent an abbr wrap type as ``Enum``
     """
@@ -350,12 +350,12 @@ class AbbrWrap(Enum):  ########################################################
         raise NotImplementedError
 
 
-# patterns  ------------------------------------------------------------------
+# patterns  --------------------------------------------------------------------
 WORD_BOUNDARY_PATTERN = re.compile(r"\s|[^\w\s]?")
 WORD_PATTERN = re.compile(r"\w")
 
 
-class AbbrTags(Flag):  ########################################################
+class AbbrTags(Flag):  #########################################################
     """
     represent **abbreviation tags** as a *bit flag*
     """
