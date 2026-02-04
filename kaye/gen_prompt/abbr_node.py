@@ -3,6 +3,7 @@
 from pathlib import Path
 from enum import Flag, Enum, auto
 import json
+import re
 
 import ahocorasick
 
@@ -272,7 +273,7 @@ class AbbrEntry:  ##############################################################
 
     def check(self, found, char_before, char_after):
         is_legal_caps = True  # TODO
-        return is_legal_caps or self.wrap.check_warp_rule(
+        return is_legal_caps or self.wrap.is_satisfied_wrap_rule(
             char_before, char_after
         )
 
@@ -287,8 +288,37 @@ class AbbrWrap(Enum):  ########################################################
     SUFFIX = "suffix"
     SYMBOL = "symbol"
 
-    def check_warp_rule(self, char_before, char_after):
-        pass  # TODO TODO
+    def is_satisfied_wrap_rule(self, char_before, char_after):
+        """
+        :param char_before: single character before the found;
+                `""` if start of text
+        :type char_before: str
+        :param char_after: single character after the found;
+                `""` if end of text
+        :type char_after: str
+        """
+
+        if self == AbbrWrap.WORD:
+            return WORD_BOUNDARY_PATTERN.fullmatch(
+                char_before
+            ) and WORD_BOUNDARY_PATTERN.fullmatch(char_after)
+
+        elif self == AbbrWrap.PREFIX:
+            # FIXME better
+            return WORD_BOUNDARY_PATTERN.fullmatch(char_before)
+
+        elif self == AbbrWrap.SUFFIX:
+            return WORD_BOUNDARY_PATTERN.fullmatch(char_after)
+            pass
+
+        elif self == AbbrWrap.SYMBOL:
+            return True
+
+        raise NotImplementedError
+
+
+# patterns  ------------------------------------------------------------------
+WORD_BOUNDARY_PATTERN = re.compile(r"\s|[^\w\s]?")
 
 
 class AbbrTags(Flag):  ########################################################
