@@ -271,11 +271,29 @@ class AbbrEntry:  ##############################################################
         self.wrap = AbbrWrap(wrap)  # may raise ValueError
         self.tags = AbbrTags.parse(tags_list)  # may raise ValueError/TypeError
 
-    def check(self, found, char_before, char_after):
-        is_legal_caps = True  # TODO TODO
-        return is_legal_caps or self.wrap.is_satisfied_wrap_rule(
-            char_before, char_after
-        )
+    def verify_found(self, found, char_before, char_after):
+        """
+        :param found:
+        :type found: str
+        :param char_before: single character immediately before the found;
+                `""` if start of text
+        :type char_before: str
+        :param char_after: single character immediately after the found;
+                `""` if end of text
+        :type char_after: str
+        :return: whether ``found`` satisfies additional rules of:
+
+        - case sensitivity
+        - wrapping
+
+        :rtype: bool
+        """
+        return self._verify_case_sensitivity(
+            found
+        ) and self.wrap.is_satisfied_wrap_rule(char_before, char_after)
+
+    def _verify_case_sensitivity(self, found):
+        return self.key.islower() or found == self.key
 
 
 class AbbrWrap(Enum):  ########################################################
@@ -290,10 +308,10 @@ class AbbrWrap(Enum):  ########################################################
 
     def is_satisfied_wrap_rule(self, char_before, char_after):
         """
-        :param char_before: single character before the found;
+        :param char_before: single character immediately before the found;
                 `""` if start of text
         :type char_before: str
-        :param char_after: single character after the found;
+        :param char_after: single character immediately after the found;
                 `""` if end of text
         :type char_after: str
         """
