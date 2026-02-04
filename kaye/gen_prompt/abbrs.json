@@ -2180,22 +2180,13 @@
       ],
       "wrap": "word"
     },
-    "prog": [
-      {
-        "mean": "program",
-        "tags": [
-          "ascii"
-        ],
-        "wrap": "word"
-      },
-      {
-        "mean": "program,programming,programme",
-        "tags": [
-          "ascii"
-        ],
-        "wrap": "word"
-      }
-    ],
+    "prog": {
+      "mean": "program,programming,programme",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
     "prp": {
       "mean": "proper,property",
       "tags": [
@@ -2210,22 +2201,13 @@
       ],
       "wrap": "word"
     },
-    "pt": [
-      {
-        "mean": "point",
-        "tags": [
-          "ascii"
-        ],
-        "wrap": "word"
-      },
-      {
-        "mean": "pint",
-        "tags": [
-          "ascii"
-        ],
-        "wrap": "word"
-      }
-    ],
+    "pt": {
+      "mean": "point;pint",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
     "pub": {
       "mean": "public;publish",
       "tags": [
@@ -2620,22 +2602,13 @@
       ],
       "wrap": "word"
     },
-    "sq": [
-      {
-        "mean": "sequence; square",
-        "tags": [
-          "ascii"
-        ],
-        "wrap": "word"
-      },
-      {
-        "mean": "squared",
-        "tags": [
-          "ascii"
-        ],
-        "wrap": "word"
-      }
-    ],
+    "sq": {
+      "mean": "sequence;square,squared",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
     "src": {
       "mean": "source",
       "tags": [
