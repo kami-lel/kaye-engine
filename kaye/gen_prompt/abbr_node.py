@@ -79,7 +79,7 @@ class AbbrNode:  ##############################################################
 
         # create automation  ---------------------------------------------------
         cls._automaton = ahocorasick.Automaton()
-        for i, entry in enumerate(cls._entries):
+        for entry in cls._entries:
             cls._automaton.add_word(entry.key, entry)
         # todo use pickle.loads/dumps to save an local automaton, with hash
         cls._automaton.make_automaton()
@@ -189,6 +189,18 @@ class AbbrNode:  ##############################################################
                 )
             )
 
+    # HACK tmp naming
+    def gen(self, query):
+        self.load_abbrs_json()
+        query_lower = query.lower()
+
+        lines = []
+        for end_idx, entry in self._automaton.iter(query_lower):
+            line = "- {}:{}".format(entry.key, entry.mean)
+            lines.append(line)
+
+        return "\n".join(lines)
+
 
 class AbbrEntry:  ##############################################################
     """
@@ -258,9 +270,11 @@ class AbbrEntry:  ##############################################################
         self.wrap = AbbrWrap(wrap)  # may raise ValueError
         self.tags = AbbrTags.parse(tags_list)  # may raise ValueError/TypeError
 
-    def check(self):
-        # lODO
-        pass
+    def check(self, found, char_before, char_after):
+        is_legal_caps = True  # TODO
+        return is_legal_caps or self.wrap.check_warp_rule(
+            char_before, char_after
+        )
 
 
 class AbbrWrap(Enum):  ########################################################
@@ -273,8 +287,8 @@ class AbbrWrap(Enum):  ########################################################
     SUFFIX = "suffix"
     SYMBOL = "symbol"
 
-    def check(self):
-        pass  # TODO
+    def check_warp_rule(self, char_before, char_after):
+        pass  # TODO TODO
 
 
 class AbbrTags(Flag):  ########################################################

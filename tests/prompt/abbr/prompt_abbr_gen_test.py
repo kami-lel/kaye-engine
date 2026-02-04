@@ -10,12 +10,8 @@ from kaye.gen_prompt import AbbrNode
 
 
 def test_tmp():  # HACK
-    AbbrNode.load_abbrs_json()
-    a = AbbrNode._automaton
-
     t = """this is some Text w/ abbr that"""
 
-    for v in a.iter(t):
-        print(v)
+    print(AbbrNode().gen(t))
 
     assert False
