@@ -6,8 +6,6 @@ Unit Tests (using pytest) for: AbbrWarp
 
 from kaye.gen_prompt import AbbrWrap
 
-# TODO TODO
-
 
 # .is_satisfied_wrap_rule  #####################################################
 class TestRuleWord:  # =========================================================
@@ -78,20 +76,57 @@ class TestRuleWord:  # =========================================================
 
 
 class TestRulePrefix:  # =======================================================
-    pass
+
+    enum = AbbrWrap.PREFIX
 
     # true cases  **************************************************************
+    def test_true1(self):
+        ipt = (" ", "a")
+        print(ipt)
+        assert self.enum.is_satisfied_wrap_rule(*ipt)
+
+    def test_true2(self):
+        ipt = ("\t", "a")
+        print(ipt)
+        assert self.enum.is_satisfied_wrap_rule(*ipt)
 
     # false cases  *************************************************************
+    def test_false1(self):
+        ipt = ("", "")
+        print(ipt)
+        assert not self.enum.is_satisfied_wrap_rule(*ipt)
+
+    def test_false2(self):
+        ipt = (" ", "!")
+        print(ipt)
+        assert not self.enum.is_satisfied_wrap_rule(*ipt)
 
 
 class TestRuleSuffix:  # =======================================================
-    pass
 
+    enum = AbbrWrap.SUFFIX
 
-# true cases  ******************************************************************
+    # true cases  **************************************************************
+    def test_true1(self):
+        ipt = ("a", " ")
+        print(ipt)
+        assert self.enum.is_satisfied_wrap_rule(*ipt)
 
-# false cases  *****************************************************************
+    def test_true2(self):
+        ipt = ("a", "\n")
+        print(ipt)
+        assert self.enum.is_satisfied_wrap_rule(*ipt)
+
+    # false cases  *************************************************************
+    def test_false1(self):
+        ipt = ("", "")
+        print(ipt)
+        assert not self.enum.is_satisfied_wrap_rule(*ipt)
+
+    def test_false2(self):
+        ipt = ("!", " ")
+        print(ipt)
+        assert not self.enum.is_satisfied_wrap_rule(*ipt)
 
 
 class TestRuleSymbol:  # =======================================================

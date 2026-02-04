@@ -272,7 +272,7 @@ class AbbrEntry:  ##############################################################
         self.tags = AbbrTags.parse(tags_list)  # may raise ValueError/TypeError
 
     def check(self, found, char_before, char_after):
-        is_legal_caps = True  # TODO
+        is_legal_caps = True  # TODO TODO
         return is_legal_caps or self.wrap.is_satisfied_wrap_rule(
             char_before, char_after
         )
@@ -304,12 +304,14 @@ class AbbrWrap(Enum):  ########################################################
             ) and WORD_BOUNDARY_PATTERN.fullmatch(char_after)
 
         elif self == AbbrWrap.PREFIX:
-            # FIXME better
-            return WORD_BOUNDARY_PATTERN.fullmatch(char_before)
+            return WORD_BOUNDARY_PATTERN.fullmatch(
+                char_before
+            ) and WORD_PATTERN.fullmatch(char_after)
 
         elif self == AbbrWrap.SUFFIX:
-            return WORD_BOUNDARY_PATTERN.fullmatch(char_after)
-            pass
+            return WORD_PATTERN.fullmatch(
+                char_before
+            ) and WORD_BOUNDARY_PATTERN.fullmatch(char_after)
 
         elif self == AbbrWrap.SYMBOL:
             return True
@@ -319,6 +321,7 @@ class AbbrWrap(Enum):  ########################################################
 
 # patterns  ------------------------------------------------------------------
 WORD_BOUNDARY_PATTERN = re.compile(r"\s|[^\w\s]?")
+WORD_PATTERN = re.compile(r"\w")
 
 
 class AbbrTags(Flag):  ########################################################
