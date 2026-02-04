@@ -115,3 +115,115 @@ class TestInitErr:
         print(opt)
 
         assert opt == "fail to parse 'AAA' as an abbr tag"
+
+
+# .verify_found()  #############################################################
+class TestVerify1:  # ==========================================================
+
+    entry = AbbrEntry("my", "", "word", [])
+
+    def test1(self):
+        found = "my"
+        wraps = ("", "")
+
+        print(found, wraps, sep="\n")
+
+        assert self.entry.verify_found(found, *wraps)
+
+    def test2(self):
+        found = "My"
+        wraps = (" ", " ")
+
+        print(found, wraps, sep="\n")
+
+        assert self.entry.verify_found(found, *wraps)
+
+    def test3(self):
+        found = "MY"
+        wraps = (" ", " ")
+
+        print(found, wraps, sep="\n")
+
+        assert self.entry.verify_found(found, *wraps)
+
+    # false cases  *************************************************************
+    def test_false1(self):
+        found = "my"
+        wraps = ("a", " ")
+
+        print(found, wraps, sep="\n")
+
+        assert not self.entry.verify_found(found, *wraps)
+
+
+class TestVerify2:  # ==========================================================
+
+    entry = AbbrEntry("My", "", "prefix", [])
+
+    def test1(self):
+        found = "My"
+        wraps = (" ", "A")
+
+        print(found, wraps, sep="\n")
+
+        assert self.entry.verify_found(found, *wraps)
+
+    # false cases  *************************************************************
+    def test_false1(self):
+        found = "my"
+        wraps = (" ", "A")
+
+        print(found, wraps, sep="\n")
+
+        assert not self.entry.verify_found(found, *wraps)
+
+    def test_false2(self):
+        found = "MY"
+        wraps = (" ", "A")
+
+        print(found, wraps, sep="\n")
+
+        assert not self.entry.verify_found(found, *wraps)
+
+
+class TestVerify3:  # ==========================================================
+
+    entry = AbbrEntry("My", "", "suffix", [])
+
+    def test1(self):
+        found = "My"
+        wraps = ("A", " ")
+
+        print(found, wraps, sep="\n")
+
+        assert self.entry.verify_found(found, *wraps)
+
+    # false cases  *************************************************************
+    def test_false1(self):
+        found = "my"
+        wraps = ("A", " ")
+
+        print(found, wraps, sep="\n")
+
+        assert not self.entry.verify_found(found, *wraps)
+
+    def test_false2(self):
+        found = "MY"
+        wraps = ("A", " ")
+
+        print(found, wraps, sep="\n")
+
+        assert not self.entry.verify_found(found, *wraps)
+
+
+class TestVerify4:  # ==========================================================
+
+    entry = AbbrEntry("=>", "", "symbol", [])
+
+    def test1(self):
+        found = "=>"
+        wraps = ("A", " ")
+
+        print(found, wraps, sep="\n")
+
+        assert self.entry.verify_found(found, *wraps)
