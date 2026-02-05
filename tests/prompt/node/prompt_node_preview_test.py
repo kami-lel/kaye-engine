@@ -1,5 +1,10 @@
 """
-test ``generate_preview_tree()`` & ``__str__()`` of class ``PromptCorpusNode``
+prompt_node_preview_test.py
+
+Unit Tests (using pytest) for:
+
+- PromptCorpusNode.generate_prompt_tree_preview()
+- PromptCorpusNode.__repr__()
 """
 
 from kaye.gen_prompt import PromptCorpusNode
@@ -10,7 +15,7 @@ from tests.prompt import (
 )
 
 
-class Test1:  # test using PROMPT1
+class TestPrompt1:  ############################################################
 
     tree = PromptCorpusNode.parse(PROMPT1)
     STR_CONTENT = """○
@@ -23,17 +28,12 @@ class Test1:  # test using PROMPT1
         Licensed under the MIT License."""
 
     def test_norm(self):
-        opt = self.tree.generate_preview_tree()
-        print(opt)
-        assert opt == self.STR_CONTENT
-
-    def test_str(self):
-        opt = str(self.tree)
+        opt = self.tree.generate_prompt_tree_preview()
         print(opt)
         assert opt == self.STR_CONTENT
 
     def test_no_content(self):
-        opt = self.tree.generate_preview_tree(preview_line_count=0)
+        opt = self.tree.generate_prompt_tree_preview(content_preview_lines=0)
         print(opt)
         assert opt == """○
 └── Project Title
@@ -42,19 +42,24 @@ class Test1:  # test using PROMPT1
     └── License"""
 
     def test_limited_width(self):
-        opt = self.tree.generate_preview_tree(preview_line_width=3)
+        opt = self.tree.generate_prompt_tree_preview(content_preview_width=12)
         print(opt)
         assert opt == """○
 └── Project Title
     ├── Description
-    │   Bri
+    │   Brie
     ├── Installation
-    │   Clo
+    │   Clon
     └── License
-        Lic"""
+        Lice"""
+
+    def test_repr(self):
+        opt = repr(self.tree)
+        print(opt)
+        assert opt == self.STR_CONTENT
 
 
-class Test2:  # test using PROMPT2
+class TestPrompt2:  ############################################################
 
     tree = PromptCorpusNode.parse(PROMPT2)
     STR_CONTENT = """○
@@ -75,17 +80,12 @@ class Test2:  # test using PROMPT2
         This project is licensed under the MIT License."""
 
     def test_norm(self):
-        opt = self.tree.generate_preview_tree()
-        print(opt)
-        assert opt == self.STR_CONTENT
-
-    def test_str(self):
-        opt = str(self.tree)
+        opt = self.tree.generate_prompt_tree_preview()
         print(opt)
         assert opt == self.STR_CONTENT
 
     def test_no_content(self):
-        opt = self.tree.generate_preview_tree(preview_line_count=0)
+        opt = self.tree.generate_prompt_tree_preview(content_preview_lines=0)
         print(opt)
         assert opt == """○
 └── Project Title
@@ -96,7 +96,7 @@ class Test2:  # test using PROMPT2
     └── License"""
 
     def test_limited_line_count(self):
-        opt = self.tree.generate_preview_tree(preview_line_count=1)
+        opt = self.tree.generate_prompt_tree_preview(content_preview_lines=1)
         print(opt)
         assert opt == """○
 └── Project Title
@@ -112,7 +112,7 @@ class Test2:  # test using PROMPT2
         This project is licensed under the MIT License."""
 
     def test_limited_width(self):
-        opt = self.tree.generate_preview_tree(preview_line_width=7)
+        opt = self.tree.generate_prompt_tree_preview(content_preview_width=15)
         print(opt)
         assert opt == """○
 └── Project Title
@@ -131,8 +131,13 @@ class Test2:  # test using PROMPT2
     └── License
         This pr"""
 
+    def test_repr(self):
+        opt = repr(self.tree)
+        print(opt)
+        assert opt == self.STR_CONTENT
 
-class Test3:  # test using PROMPT3
+
+class TestPrompt3:  ############################################################
 
     tree = PromptCorpusNode.parse(PROMPT3)
     STR_CONTENT = """○
@@ -157,17 +162,12 @@ class Test3:  # test using PROMPT3
         Summarizing the findings and implications."""
 
     def test_norm(self):
-        opt = self.tree.generate_preview_tree()
-        print(opt)
-        assert opt == self.STR_CONTENT
-
-    def test_str(self):
-        opt = str(self.tree)
+        opt = self.tree.generate_prompt_tree_preview()
         print(opt)
         assert opt == self.STR_CONTENT
 
     def test_no_content(self):
-        opt = self.tree.generate_preview_tree(preview_line_count=0)
+        opt = self.tree.generate_prompt_tree_preview(content_preview_lines=0)
         print(opt)
         assert opt == """○
 └── Main Title
@@ -182,25 +182,25 @@ class Test3:  # test using PROMPT3
     └── Conclusion"""
 
     def test_limited_width(self):
-        opt = self.tree.generate_preview_tree(preview_line_width=5)
+        opt = self.tree.generate_prompt_tree_preview(content_preview_width=30)
         print(opt)
         assert opt == """○
 └── Main Title
     ├── Introduction
-    │   Brief
+    │   Brief introduction to 
     │   └── Background
-    │       Conte
+    │       Context or history
     │       └── Importance
-    │           Why t
+    │           Why this topic
     │           └── Objective
-    │               The p
+    │               The primar
     ├── Methods
-    │   Overv
+    │   Overview of the method
     │   └── Data Collection
-    │       How d
+    │       How data was gathe
     │       └── Tools Used
-    │           List 
+    │           List of tools 
     │           └── Future Work
-    │               Sugge
+    │               Suggestion
     └── Conclusion
-        Summa"""
+        Summarizing the findin"""

@@ -12,26 +12,12 @@ ROOT_NODE_NAME = "○"  # placeholder name for root node
 
 __all__ = ("PromptCorpusNode",)
 
+# FIXME FIXME all docstring
+
+HEADING_FORBIDDEN = re.compile(r"[{}#]")
+
 
 class PromptCorpusNode(BasePromptNode):
-
-    # public API  ==============================================================
-
-    @staticmethod
-    def parse_prompt_corpus(prompt_corpus_text):
-        pass  # TODO
-
-    # constructor  =============================================================
-    # constructor helpers  *****************************************************
-
-    # implement BasePromptNode  ================================================
-    @property
-    def id(self):
-        # for PromptCorpusNode, identical to heading
-        return self.name
-
-
-class PromptCorpusNodeLegacy(BasePromptNode):
     """
     A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
 
@@ -54,15 +40,15 @@ class PromptCorpusNodeLegacy(BasePromptNode):
         """
         parse *prompt corpus* text into the tree structure.
 
+
         :param prompt_corpus_text: full source *prompt corpus* content
         :type prompt_corpus_text: str
         :return: **root node** of the parsed *prompt corpus* tree structure
         :rtype: PromptCorpusNode
         """
-        # TODO ban use of {heading}
-
-        # reduce formatting empty lines
+        # reduce 2+ empty lines into single empty line
         text_cleanup = re.sub(r"\n{3,}", "\n\n", prompt_corpus_text)
+        # split to lines
         text_lines = list(text_cleanup.split("\n"))
 
         root = cls(ROOT_NODE_NAME, None, text_lines)
@@ -70,10 +56,13 @@ class PromptCorpusNodeLegacy(BasePromptNode):
 
     # constructor  =============================================================
     def __init__(self, name, parent, text_lines=None):
-        super().__init__(name, parent)
-        self.content = []  # content lines
+        if HEADING_FORBIDDEN.findall(name):
+            raise ValueError(
+                "detects illegal symbol in heading: {}".format(repr(name))
+            )
 
-        self.path_of_names = self._init_generate_path_of_names()
+        super().__init__(name, parent)
+        self._content_lines = []
 
         if text_lines is None:
             return
@@ -81,22 +70,19 @@ class PromptCorpusNodeLegacy(BasePromptNode):
         self._init_populate_children(text_lines)
 
         # trim leading/trailing empty strings
-        start, end = 0, len(self.content)
-        while start < end and self.content[start] == "":
+        start, end = 0, len(self._content_lines)
+        while start < end and self._content_lines[start] == "":
             start += 1
-        while end > start and self.content[end - 1] == "":
+        while end > start and self._content_lines[end - 1] == "":
             end -= 1
-        self.content = self.content[start:end]
+        self._content_lines = self._content_lines[start:end]
 
-    # helper methods  ==========================================================
-
+    # constructor helpers  *****************************************************
     def _init_populate_children(self, text_lines):
         """
-        helper method used in ``__init__()``
+        create node children and add content to ``._content_line``
 
-
-        create children nodes of ``self`` and populate self.content
-        by parsing ``text_lines``
+        (helper method used in ``__init__()``)
         """
         # find every sub-section heading lines
         heading_prefix = HEADING_PREFIX * (self.depth + 1) + " "
@@ -108,13 +94,13 @@ class PromptCorpusNodeLegacy(BasePromptNode):
         # contain no subsection
         if not heading_lines:
             # all lines are content
-            self.content = list(text_lines)
+            self._content_lines = list(text_lines)
             return
 
         # this node contains subsections, then parse the content part out
-        self.content = text_lines[: heading_lines[0]]
-        if not any(self.content):
-            self.content = []
+        self._content_lines = text_lines[: heading_lines[0]]
+        if not any(self._content_lines):
+            self._content_lines = []
 
         # parse sub-sections as nodes
         heading_lines.append(len(text_lines))
@@ -125,31 +111,41 @@ class PromptCorpusNodeLegacy(BasePromptNode):
             children_nodes = text_lines[start + 1 : end]
             PromptCorpusNode(heading_content, self, children_nodes)
 
-    def _generate_prompt_lines(self):
-        """
-        generate prompt lines as this node appeared in concrete prompt
+    # implement BasePromptNode  ================================================
 
-        (helper method used in ``PromptBlueprint.generate_prompt()``)
+    @property
+    def id(self):
+        # for PromptCorpusNode, identical to heading
+        return self.name
 
+    @property
+    def content_lines(self):
+        return self._content_lines
 
-        :return: lines of prompt
-        :rtype: list[str]
-        """
-        lines = [""]  # add empty lines before headings
-        # heading line
-        lines.append(HEADING_PREFIX * self.depth + " " + self.name)
-        # content lines
-        lines.extend(self.content)
+    # HACK rm
 
-        return lines
+    # def __copy__(self):
+    #     """
+    #     :return: a copy without any children
+    #     :rtype: PromptCorpusNode
+    #     """
+    #     obj = type(self)(self.name, self.parent, [])
+    #     obj._content_lines = self._content_lines
+    #     return obj
 
-    # magic methods  ===========================================================
+    # def _generate_prompt_lines(self):
+    #     """
+    #     generate prompt lines as this node appeared in concrete prompt
 
-    def __copy__(self):
-        """
-        :return: a copy without any children
-        :rtype: PromptCorpusNode
-        """
-        obj = PromptCorpusNode(self.name, self.parent, None)
-        obj.content = self.content
-        return obj
+    #     (helper method used in ``PromptBlueprint.generate_prompt()``)
+
+    #     :return: lines of prompt
+    #     :rtype: list[str]
+    #     """
+    #     lines = [""]  # add empty lines before headings
+    #     # heading line
+    #     lines.append(HEADING_PREFIX * self.depth + " " + self.name)
+    #     # content lines
+    #     lines.extend(self.content)
+
+    #     return lines
