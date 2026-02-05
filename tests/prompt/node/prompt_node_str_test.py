@@ -1,5 +1,9 @@
 """
-test ``__repr__()`` of class ``PromptCorpusNode``
+prompt_node_str_test.py
+
+Unit Tests (using pytest) for:
+
+- PromptCorpusNode.__str__()
 """
 
 from kaye.gen_prompt import PromptCorpusNode
@@ -9,17 +13,15 @@ from tests.prompt import (
     PROMPT3,
 )
 
-# BUG BUG
 
-
-class Test1:  # test using PROMPT1
+class TestPrompt1:  ############################################################
 
     tree = PromptCorpusNode.parse(PROMPT1)
 
     def test_root(self):
         node = self.tree
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode()"
@@ -27,7 +29,7 @@ class Test1:  # test using PROMPT1
     def test1(self):
         node = self.tree.children[0]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title)"
@@ -35,20 +37,20 @@ class Test1:  # test using PROMPT1
     def test2(self):
         node = self.tree.children[0].children[0]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title#Description)"
 
 
-class Test2:  # test using PROMPT2
+class TestPrompt2:  ############################################################
 
     tree = PromptCorpusNode.parse(PROMPT2)
 
     def test_root(self):
         node = self.tree
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode()"
@@ -56,7 +58,7 @@ class Test2:  # test using PROMPT2
     def test1(self):
         node = self.tree.children[0]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title)"
@@ -64,7 +66,7 @@ class Test2:  # test using PROMPT2
     def test2(self):
         node = self.tree.children[0].children[0]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title#Description)"
@@ -72,7 +74,7 @@ class Test2:  # test using PROMPT2
     def test3(self):
         node = self.tree.children[0].children[1]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title#Installation)"
@@ -80,7 +82,7 @@ class Test2:  # test using PROMPT2
     def test4(self):
         node = self.tree.children[0].children[2]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title#Usage)"
@@ -88,7 +90,7 @@ class Test2:  # test using PROMPT2
     def test5(self):
         node = self.tree.children[0].children[3]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title#Contributing)"
@@ -96,20 +98,20 @@ class Test2:  # test using PROMPT2
     def test6(self):
         node = self.tree.children[0].children[4]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title#License)"
 
 
-class Test3:  # test using PROMPT3
+class TestPrompt3:  ############################################################
 
     tree = PromptCorpusNode.parse(PROMPT3)
 
     def test_root(self):
         node = self.tree
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode()"
@@ -117,7 +119,7 @@ class Test3:  # test using PROMPT3
     def test1(self):
         node = self.tree.children[0]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Main Title)"
@@ -125,7 +127,7 @@ class Test3:  # test using PROMPT3
     def test2(self):
         node = self.tree.children[0].children[0]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Main Title#Introduction)"
@@ -133,7 +135,7 @@ class Test3:  # test using PROMPT3
     def test3(self):
         node = self.tree.children[0].children[0].children[0]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Main Title#Introduction#Background)"
@@ -141,7 +143,7 @@ class Test3:  # test using PROMPT3
     def test4(self):
         node = self.tree.children[0].children[0].children[0].children[0]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert (
@@ -158,7 +160,7 @@ class Test3:  # test using PROMPT3
             .children[0]
         )
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert (
@@ -170,7 +172,7 @@ class Test3:  # test using PROMPT3
     def test21(self):
         node = self.tree.children[0].children[1]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Main Title#Methods)"
@@ -178,7 +180,7 @@ class Test3:  # test using PROMPT3
     def test22(self):
         node = self.tree.children[0].children[1].children[0]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Main Title#Methods#Data Collection)"
@@ -186,7 +188,7 @@ class Test3:  # test using PROMPT3
     def test23(self):
         node = self.tree.children[0].children[1].children[0].children[0]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert (
@@ -203,7 +205,7 @@ class Test3:  # test using PROMPT3
             .children[0]
         )
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert (
@@ -215,7 +217,7 @@ class Test3:  # test using PROMPT3
     def test31(self):
         node = self.tree.children[0].children[2]
 
-        opt = repr(node)
+        opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Main Title#Conclusion)"
