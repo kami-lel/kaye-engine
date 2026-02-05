@@ -27,7 +27,8 @@ WRAP_KEY = "wrap"
 TAGS_KEY = "tags"
 
 
-# Todo better implementation w/ blueprint, as Node?
+# TODO better implementation w/ blueprint, as Node?
+# TODO different abbr notes: contextual dynamic
 class AbbrNode(BasePromptCorpusNode):  #########################################
 
     # public API  ==============================================================
@@ -86,7 +87,7 @@ class AbbrNode(BasePromptCorpusNode):  #########################################
 
     # singleton class properties  ==============================================
 
-    # Todo make singleton class
+    # TODO make singleton class
     _automaton = None
     _entries = None
 
@@ -196,7 +197,7 @@ class AbbrNode(BasePromptCorpusNode):  #########################################
                 )
             )
 
-    # Hack tmp naming
+    # HACK tmp naming
     def gen(self, query):
         self.load_abbrs_json()
         query_lower = query.lower()

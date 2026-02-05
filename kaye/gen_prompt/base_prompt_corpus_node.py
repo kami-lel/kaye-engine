@@ -3,7 +3,7 @@ from anytree import Node as AnytreeNode
 
 class BasePromptCorpusNode(AnytreeNode):
 
-    # Todo
+    # TODO
 
     def __hash__(self):
         raise NotImplementedError
