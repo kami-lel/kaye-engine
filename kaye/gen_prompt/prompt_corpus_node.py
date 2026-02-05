@@ -16,6 +16,10 @@ __all__ = ("PromptCorpusNode",)
 
 
 class PromptCorpusNode(BasePromptCorpusNode):
+    pass  # TODO
+
+
+class PromptCorpusNodeLegacy(BasePromptCorpusNode):
     """
     A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
 
@@ -263,9 +267,7 @@ class PromptCorpusNode(BasePromptCorpusNode):
 
         else:
             raise TypeError(
-                "unsupported type for PromptCorpusNode[~]: {}".format(
-                    type(key)
-                )
+                "unsupported type for PromptCorpusNode[~]: {}".format(type(key))
             )
 
     def __hash__(self):
