@@ -4,7 +4,9 @@ define ``PromptCorpusNode``
 
 import re
 
-from anytree import Node as AnytreeNode, RenderTree
+from anytree import Node as RenderTree
+
+from .base_prompt_corpus_node import BasePromptCorpusNode
 
 # section heading prefix used for parsing .md file of prompt corpus
 HEADING_PREFIX = "#"
@@ -13,7 +15,7 @@ ROOT_NODE_NAME = "○"  # placeholder name for root node
 __all__ = ("PromptCorpusNode",)
 
 
-class PromptCorpusNode(AnytreeNode):
+class PromptCorpusNode(BasePromptCorpusNode):
     """
     A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
 
@@ -29,6 +31,8 @@ class PromptCorpusNode(AnytreeNode):
     >>> tree = PromptCorpusNode.parse(prompt_corpus_text)
     """
 
+    # public API  ==============================================================
+
     @classmethod
     def parse(cls, prompt_corpus_text):
         """
@@ -40,28 +44,12 @@ class PromptCorpusNode(AnytreeNode):
         :rtype: PromptCorpusNode
         """
 
-        text_lines = cls._convert_corpus_text2lines(prompt_corpus_text)
+        # reduce formatting empty lines
+        text_cleanup = re.sub(r"\n{3,}", "\n\n", prompt_corpus_text)
+        text_lines = list(text_cleanup.split("\n"))
+
         root = cls(ROOT_NODE_NAME, None, text_lines)
         return root
-
-    def __init__(self, name, parent, text_lines=None):
-        super().__init__(name, parent)
-        self.content = []  # content lines
-
-        self.path_of_names = self._init_generate_path_of_names()
-
-        if text_lines is None:
-            return
-
-        self._init_populate_children(text_lines)
-
-        # trim leading/trailing empty strings
-        start, end = 0, len(self.content)
-        while start < end and self.content[start] == "":
-            start += 1
-        while end > start and self.content[end - 1] == "":
-            end -= 1
-        self.content = self.content[start:end]
 
     def generate_preview_tree(
         self, preview_line_count=3, preview_line_width=64
@@ -123,11 +111,27 @@ class PromptCorpusNode(AnytreeNode):
 
         return "\n".join(opt_lines)
 
-    @staticmethod
-    def _convert_corpus_text2lines(full_prompt):
-        # reduce formatting empty lines
-        cleanup = re.sub(r"\n{3,}", "\n\n", full_prompt)
-        return list(cleanup.split("\n"))
+    # constructor  =============================================================
+    def __init__(self, name, parent, text_lines=None):
+        super().__init__(name, parent)
+        self.content = []  # content lines
+
+        self.path_of_names = self._init_generate_path_of_names()
+
+        if text_lines is None:
+            return
+
+        self._init_populate_children(text_lines)
+
+        # trim leading/trailing empty strings
+        start, end = 0, len(self.content)
+        while start < end and self.content[start] == "":
+            start += 1
+        while end > start and self.content[end - 1] == "":
+            end -= 1
+        self.content = self.content[start:end]
+
+    # helper methods  ==========================================================
 
     def _init_populate_children(self, text_lines):
         """
@@ -221,6 +225,7 @@ class PromptCorpusNode(AnytreeNode):
 
         return lines
 
+    # magic methods  ===========================================================
     def __getitem__(self, key=None):
         """
         :param key:

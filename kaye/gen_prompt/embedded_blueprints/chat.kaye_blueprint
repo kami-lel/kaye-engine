@@ -3,8 +3,7 @@
 [x] ├── Personality
 [x] ├── Language
 [x] ├── Elements
-[x] │   ├── Date & Time Format
-[x] │   └── Emoji
+[x] │   └── Date & Time Format
 [ ] ├── Style
 [x] │   └── Capitalization Style
 [x] │       ├── Title Case
@@ -14,6 +13,4 @@
 [x] │   ├── Numerical Values with Units:
 [x] │   ├── Language code
 [x] │   └── International Phonetic Alphabet
-[x] ├── Role
-[x] └── Abbreviations
-[x]     └── Understandable Abbrs
+[x] └── Role

@@ -245,10 +245,10 @@ One might **create** a populated `PromptBlueprint` by **parsing** a preview-tree
 ```python
 prompt_corpus = ~~~
 blueprint_text = ~~~
-blueprint = Blueprint.parse(prompt_corpus, blueprint_text)
+blueprint = PromptBlueprint.parse(prompt_corpus, blueprint_text)
 ```
 
-Additionally, one might create full/empty blueprints by *classmethods*:
+Additionally, one might create full/empty blueprints by *classmethod*:
 
 - ``Blueprint.create_full_blueprint()``, and
 - ``Blueprint.create_empty_blueprint()``
@@ -300,6 +300,24 @@ And one might **uncheckmark** a node already in the blueprint:
 ```python
 blueprint.uncheckmark(node)
 blueprint -= node  # identical
+```
+
+
+
+
+#### merging
+
+Merge 2 blueprints (of the same corpus tree,) such that:
+
+- contains all nodes from both blueprints
+- node is checkmarked: they are checkmarked in either blueprint
+
+```python
+left_bp = ~~~
+right_bp = ~~~
+
+merged_bp = left_bp.merge(right_bp)  # or identically
+left_bp *= right_bp
 ```
 
 
@@ -393,3 +411,12 @@ empty_blueprint = load_embedded_prompt_blueprint()
 full_blueprint = load_full_prompt_blueprint()
 chat_blueprint = load_embedded_prompt_blueprint("chat")
 ```
+
+
+
+
+
+
+#### dynamic abbreviation blueprint `DynamicAbbrBlueprint`
+
+<!-- Todo dynamic abbr doc -->
