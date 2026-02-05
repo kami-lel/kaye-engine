@@ -290,126 +290,7 @@ class TestParse3:
 # empty lines tests  ###########################################################
 class TestEmptyLine:  # source material contains various empty lines
 
-    def test_root(self):
-        tree = PromptCorpusNode.parse(PROMPT_EMPTY_LINES)
-
-        assert tree.depth == 0
-        assert tree.parent is None
-        assert len(tree.children) == 1
-        assert tree._content_lines == []
-
-    def test_project(self):
-        tree = PromptCorpusNode.parse(PROMPT_EMPTY_LINES)
-        project = tree.children[0]
-
-        assert project.name == "Project Title"
-        assert project.depth == 1
-        assert project.parent is tree
-        assert len(project.children) == 5
-        assert project._content_lines == []
-
-    def test_description(self):
-        tree = PromptCorpusNode.parse(PROMPT_EMPTY_LINES)
-        project = tree.children[0]
-        sub = project.children[0]
-
-        assert sub.name == "Description"
-        assert sub.depth == 2
-        assert sub.parent is project
-        assert len(sub.children) == 0
-        assert sub._content_lines == [
-            "A brief overview of the project, its purpose, and goals.",
-        ]
-
-    def test_install(self):
-        tree = PromptCorpusNode.parse(PROMPT_EMPTY_LINES)
-        project = tree.children[0]
-        sub = project.children[1]
-
-        assert sub.name == "Installation"
-        assert sub.depth == 2
-        assert sub.parent is project
-        assert len(sub.children) == 0
-        assert sub._content_lines == [
-            "1. Clone the repo",
-            "2. Install dependencies",
-            "3. Run the application",
-        ]
-
-    def test_usage1(self):
-        tree = PromptCorpusNode.parse(PROMPT_EMPTY_LINES)
-        project = tree.children[0]
-        sub = project.children[2]
-
-        assert sub.name == "Usage"
-        assert sub.depth == 2
-        assert sub.parent is project
-        assert len(sub.children) == 0
-        assert sub._content_lines == [
-            "Provide instructions on how to use the application.",
-        ]
-
-    def test_usage2(self):
-        tree = PromptCorpusNode.parse(PROMPT_EMPTY_LINES)
-        project = tree.children[0]
-        sub = project.children[3]
-
-        assert sub.name == "Contributing"
-        assert sub.depth == 2
-        assert sub.parent is project
-        assert len(sub.children) == 0
-        assert sub._content_lines == [
-            "1. Fork the repo",
-            "2. Create a new branch",
-            "3. Submit a pull request",
-        ]
-
-    def test_license(self):
-        tree = PromptCorpusNode.parse(PROMPT_EMPTY_LINES)
-        project = tree.children[0]
-        sub = project.children[4]
-
-        assert sub.name == "License"
-        assert sub.depth == 2
-        assert sub.parent is project
-        assert len(sub.children) == 0
-        assert sub._content_lines == [
-            "This project is licensed under the MIT License.",
-        ]
-
-
-# edge cases  ##################################################################
-class TestEdge:  # various edge cases
-
-    def test_empty1(_):  # total empty
-        src = """"""
-
-        tree = PromptCorpusNode.parse(src)
-        assert tree.depth == 0
-        assert tree.parent is None
-
-        assert len(tree.children) == 0
-
-    def test_empty2(_):
-        src = "\n"
-
-        tree = PromptCorpusNode.parse(src)
-        assert tree.depth == 0
-        assert tree.parent is None
-
-        assert len(tree.children) == 0
-
-    def test_empty3(_):
-        src = "\n" * 10
-
-        tree = PromptCorpusNode.parse(src)
-        assert tree.depth == 0
-        assert tree.parent is None
-
-        assert len(tree.children) == 0
-
-
-PROMPT_EMPTY_LINES = """
+    tree = PromptCorpusNode.parse("""
 # Project Title
 
 
@@ -456,4 +337,120 @@ Provide instructions on how to use the application.
 
 ## License
 This project is licensed under the MIT License.
-"""
+""")
+
+    def test_root(self):
+        assert self.tree.depth == 0
+        assert self.tree.parent is None
+        assert len(self.tree.children) == 1
+        assert self.tree._content_lines == []
+
+    def test_project(self):
+        project = self.tree.children[0]
+
+        assert project.name == "Project Title"
+        assert project.depth == 1
+        assert project.parent is self.tree
+        assert len(project.children) == 5
+        assert project._content_lines == []
+
+    def test_description(self):
+        project = self.tree.children[0]
+        sub = project.children[0]
+
+        assert sub.name == "Description"
+        assert sub.depth == 2
+        assert sub.parent is project
+        assert len(sub.children) == 0
+        assert sub._content_lines == [
+            "A brief overview of the project, its purpose, and goals.",
+        ]
+
+    def test_install(self):
+        project = self.tree.children[0]
+        sub = project.children[1]
+
+        assert sub.name == "Installation"
+        assert sub.depth == 2
+        assert sub.parent is project
+        assert len(sub.children) == 0
+        assert sub._content_lines == [
+            "1. Clone the repo",
+            "2. Install dependencies",
+            "3. Run the application",
+        ]
+
+    def test_usage1(self):
+        project = self.tree.children[0]
+        sub = project.children[2]
+
+        assert sub.name == "Usage"
+        assert sub.depth == 2
+        assert sub.parent is project
+        assert len(sub.children) == 0
+        assert sub._content_lines == [
+            "Provide instructions on how to use the application.",
+        ]
+
+    def test_usage2(self):
+        project = self.tree.children[0]
+        sub = project.children[3]
+
+        assert sub.name == "Contributing"
+        assert sub.depth == 2
+        assert sub.parent is project
+        assert len(sub.children) == 0
+        assert sub._content_lines == [
+            "1. Fork the repo",
+            "2. Create a new branch",
+            "3. Submit a pull request",
+        ]
+
+    def test_license(self):
+        project = self.tree.children[0]
+        sub = project.children[4]
+
+        assert sub.name == "License"
+        assert sub.depth == 2
+        assert sub.parent is project
+        assert len(sub.children) == 0
+        assert sub._content_lines == [
+            "This project is licensed under the MIT License.",
+        ]
+
+
+# edge cases  ##################################################################
+class TestEdge:  # various edge cases
+
+    def test_empty1(_):  # total empty
+        src = """"""
+
+        tree = PromptCorpusNode.parse(src)
+        assert tree.depth == 0
+        assert tree.parent is None
+
+        assert len(tree.children) == 0
+
+    def test_empty2(_):
+        src = "\n"
+
+        tree = PromptCorpusNode.parse(src)
+        assert tree.depth == 0
+        assert tree.parent is None
+
+        assert len(tree.children) == 0
+
+    def test_empty3(_):
+        src = "\n" * 10
+
+        tree = PromptCorpusNode.parse(src)
+        assert tree.depth == 0
+        assert tree.parent is None
+
+        assert len(tree.children) == 0
+
+
+class TestForbiddenHeading:  ###################################################
+
+    def test1(_):
+        pass  # TODO

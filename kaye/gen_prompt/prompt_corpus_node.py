@@ -57,7 +57,7 @@ class PromptCorpusNode(BasePromptNode):
         return root
 
     # constructor  =============================================================
-    def __init__(self, name, parent, text_lines):
+    def __init__(self, name, parent, text_lines=None):
         if HEADING_FORBIDDEN.match(name):
             # TODO unit test
             raise ValueError(
@@ -67,7 +67,7 @@ class PromptCorpusNode(BasePromptNode):
         super().__init__(name, parent)
         self._content_lines = []
 
-        if len(text_lines) == 0:
+        if text_lines is None:
             return
 
         self._init_populate_children(text_lines)
@@ -101,8 +101,8 @@ class PromptCorpusNode(BasePromptNode):
             return
 
         # this node contains subsections, then parse the content part out
-        self.content = text_lines[: heading_lines[0]]
-        if not any(self.content):
+        self._content_lines = text_lines[: heading_lines[0]]
+        if not any(self._content_lines):
             self._content_lines = []
 
         # parse sub-sections as nodes
