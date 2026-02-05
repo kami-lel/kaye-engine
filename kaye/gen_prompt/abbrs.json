@@ -1,40 +1,5 @@
 {
   "abbrs": {
-    "💥": {
-      "mean": "critical",
-      "tags": [
-        "emoji"
-      ],
-      "wrap": "symbol"
-    },
-    "🛑": {
-      "mean": "error",
-      "tags": [
-        "emoji"
-      ],
-      "wrap": "symbol"
-    },
-    "⚠️": {
-      "mean": "warning",
-      "tags": [
-        "emoji"
-      ],
-      "wrap": "symbol"
-    },
-    "💡": {
-      "mean": "information,informational",
-      "tags": [
-        "emoji"
-      ],
-      "wrap": "symbol"
-    },
-    "🐞": {
-      "mean": "debug",
-      "tags": [
-        "emoji"
-      ],
-      "wrap": "symbol"
-    },
     ".d": {
       "mean": "-ed",
       "tags": [
@@ -305,6 +270,21 @@
       "tags": [],
       "wrap": "symbol"
     },
+    "☐": {
+      "mean": "unselected",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "☑": {
+      "mean": "selected",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "☒": {
+      "mean": "selected with a cross",
+      "tags": [],
+      "wrap": "word"
+    },
     "☜": {
       "mean": "points/notice left;left direction",
       "tags": [],
@@ -332,8 +312,36 @@
       ],
       "wrap": "symbol"
     },
+    "⚠️": {
+      "mean": "warning",
+      "tags": [
+        "emoji"
+      ],
+      "wrap": "symbol"
+    },
     "🏁": {
       "mean": "finish",
+      "tags": [
+        "emoji"
+      ],
+      "wrap": "symbol"
+    },
+    "🐞": {
+      "mean": "debug",
+      "tags": [
+        "emoji"
+      ],
+      "wrap": "symbol"
+    },
+    "💡": {
+      "mean": "information,informational",
+      "tags": [
+        "emoji"
+      ],
+      "wrap": "symbol"
+    },
+    "💥": {
+      "mean": "critical",
       "tags": [
         "emoji"
       ],
@@ -362,6 +370,13 @@
     },
     "🚀": {
       "mean": "rapid,fast",
+      "tags": [
+        "emoji"
+      ],
+      "wrap": "symbol"
+    },
+    "🛑": {
+      "mean": "error",
       "tags": [
         "emoji"
       ],
@@ -3495,6 +3510,37 @@
       "tags": [],
       "wrap": "symbol"
     },
+    "✅": {
+      "abbr": "☑",
+      "tags": [
+        "emoji"
+      ],
+      "wrap": "symbol"
+    },
+    "✓": {
+      "abbr": "cor",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "✔️": {
+      "abbr": "cor",
+      "tags": [
+        "emoji"
+      ],
+      "wrap": "symbol"
+    },
+    "✗": {
+      "abbr": "x",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "❌": {
+      "abbr": "x",
+      "tags": [
+        "emoji"
+      ],
+      "wrap": "symbol"
+    },
     "a/x": {
       "abbr": "a/X",
       "tags": [
@@ -3532,6 +3578,13 @@
     },
     "cf": {
       "abbr": "cf.",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
+    "crit": {
+      "abbr": "💥",
       "tags": [
         "ascii"
       ],
@@ -3609,6 +3662,13 @@
     },
     "iff": {
       "abbr": "⇔",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
+    "info": {
+      "abbr": "💡",
       "tags": [
         "ascii"
       ],
@@ -3719,20 +3779,6 @@
       ],
       "wrap": "word"
     },
-    "xsi": {
-      "abbr": "∃",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    },
-    "crit": {
-      "abbr": "💥",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    },
     "warn": {
       "abbr": "⚠️",
       "tags": [
@@ -3740,8 +3786,8 @@
       ],
       "wrap": "word"
     },
-    "info": {
-      "abbr": "💡",
+    "xsi": {
+      "abbr": "∃",
       "tags": [
         "ascii"
       ],
