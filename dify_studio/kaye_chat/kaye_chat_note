@@ -1,3 +1,7 @@
 Todo dynamic chat prompt allows dynamic roles
 Bug fail to follow language of user
 Todo use dynamic abbr for ky
+
+todo smart pre-sense, take only part of the user's input as pre-sense message
+eg by taking first n lines + last n lines
+eg by removing all codes block out
