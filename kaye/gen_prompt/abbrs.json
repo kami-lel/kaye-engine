@@ -1,5 +1,26 @@
 {
   "abbrs": {
+    "↔": {
+      "mean": "interchanges",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "←": {
+      "mean": "become/change/transform from",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "→": {
+      "mean": "become/change/transform into",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
     "⇔": {
       "mean": "if and only if",
       "tags": [
@@ -3633,6 +3654,29 @@
         "ascii"
       ],
       "wrap": "word"
+    },
+    "<-": {
+      "abbr": "←",
+      "tags": [
+        "ascii",
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "->": {
+      "abbr": "→",
+      "tags": [
+        "ascii",
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "<->": {
+      "abbr": "→",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
     }
   }
 }
