@@ -186,15 +186,12 @@ class BasePromptNode(AnyTreeNode):
         return "{}({})".format(type(self).__name__, lineage)
 
 
-class DynamicNode(BasePromptNode):
+class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
     """
     abstract class for all *dynamic node*
     """
 
+    # implement BasePromptNode  ================================================
     @property
     def id(self):
         return "{" + self.name + "}"
-
-    @property
-    def content_lines(self):
-        raise NotImplementedError
