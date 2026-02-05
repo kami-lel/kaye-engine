@@ -9,13 +9,3 @@ HACK rm
 "✔️":
 "❌":
 - "✅": selected, voted for
-
-
-
-- message levels:
-
-  - "💥": CRIT
-  - "🛑": ERROR
-  - "⚠️": warning
-  - "💡": info
-  - "🐞": debug

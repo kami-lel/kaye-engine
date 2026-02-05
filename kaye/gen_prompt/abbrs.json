@@ -1,5 +1,40 @@
 {
   "abbrs": {
+    "💥": {
+      "mean": "critical",
+      "tags": [
+        "emoji"
+      ],
+      "wrap": "symbol"
+    },
+    "🛑": {
+      "mean": "error",
+      "tags": [
+        "emoji"
+      ],
+      "wrap": "symbol"
+    },
+    "⚠️": {
+      "mean": "warning",
+      "tags": [
+        "emoji"
+      ],
+      "wrap": "symbol"
+    },
+    "💡": {
+      "mean": "information,informational",
+      "tags": [
+        "emoji"
+      ],
+      "wrap": "symbol"
+    },
+    "🐞": {
+      "mean": "debug",
+      "tags": [
+        "emoji"
+      ],
+      "wrap": "symbol"
+    },
     ".d": {
       "mean": "-ed",
       "tags": [
@@ -1776,13 +1811,6 @@
     },
     "infl": {
       "mean": "influence",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    },
-    "info": {
-      "mean": "information",
       "tags": [
         "ascii"
       ],
@@ -3693,6 +3721,27 @@
     },
     "xsi": {
       "abbr": "∃",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
+    "crit": {
+      "abbr": "💥",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
+    "warn": {
+      "abbr": "⚠️",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
+    "info": {
+      "abbr": "💡",
       "tags": [
         "ascii"
       ],
