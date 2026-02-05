@@ -127,7 +127,7 @@ class PromptCorpusNode(BasePromptNode):
     def content_lines(self):
         return self._content_lines
 
-    # HACK rm
+    # Hack rm
 
     # def __copy__(self):
     #     """
