@@ -56,8 +56,6 @@ class PromptCorpusNode(BasePromptNode):
 
     # constructor  =============================================================
     def __init__(self, name, parent, text_lines=None):
-        print(name)  # HACK
-
         if HEADING_FORBIDDEN.findall(name):
             raise ValueError(
                 "detects illegal symbol in heading: {}".format(repr(name))
@@ -124,18 +122,17 @@ class PromptCorpusNode(BasePromptNode):
     def content_lines(self):
         return self._content_lines
 
-    # magic methods  ===========================================================
+    # HACK rm
 
-    def __copy__(self):
-        """
-        :return: a copy without any children
-        :rtype: PromptCorpusNode
-        """
-        obj = type(self)(self.name, self.parent, [])
-        obj._content_lines = self._content_lines
-        return obj
+    # def __copy__(self):
+    #     """
+    #     :return: a copy without any children
+    #     :rtype: PromptCorpusNode
+    #     """
+    #     obj = type(self)(self.name, self.parent, [])
+    #     obj._content_lines = self._content_lines
+    #     return obj
 
-    # HACK
     # def _generate_prompt_lines(self):
     #     """
     #     generate prompt lines as this node appeared in concrete prompt
