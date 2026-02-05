@@ -127,54 +127,9 @@ introduction_basic_node.content_lines == [
 
 
 
-#### node inspection
+#### tree preview
 
-###### `.generate_id_lineage()`
-
-
-The node store a **path of names**, describing a path from root to this node, with node's ancestors and the parent in between.
-
-E.g. consider this tree:
-
-```
-○
-├── Introduction
-│   ├── Basic
-│   └── Advanced
-│       └── Additional Info
-└── Usage
-```
-
-`.path_of_names` store such path as a `tuple` of `str`.
-
-```python
-assert root_node.path_of_names == tuple()  # empty
-assert intro_node.path_of_names == "Introduction"
-assert basic_node.path_of_names == ("Introduction", "Basic")
-assert add_node.path_of_names == (
-    "Introduction",
-    "Advanced",
-    "Additional Info",
-)
-```
-
-----
-
-Use `repr(node)` also yield similar result:
-
-```python
-assert repr(root_node) == "PromptCorpusNode()"
-assert repr(intro_node) == "PromptCorpusNode(Introduction)"
-assert repr(basic_node) == "PromptCorpusNode(Introduction#Basic)"
-assert (
-    repr(add_note)
-    == "PromptCorpusNode("
-    "Introduction#Advanced#Additional Info)"
-)
-```
-###### preview tree
-
-Use `.generate_preview_tree()` to show a human-readable representation which shows:
+Use `.generate_prompt_tree_preview()` on **root** instance to show a human-readable representation which shows:
 
 - tree structure
 - node name, i.e. section heading
@@ -202,10 +157,10 @@ E.g.
         This project is licensed under the MIT License.
 ```
 
-As shown above, it contains *content preview*, which can be customized by arguments `preview_line_count` and `preview_line_width`, e.g.
+As shown above, it contains *content preview*, which can be customized by arguments `content_preview_lines` and `content_preview_width`, e.g.
 
 ```python
->>> tree.generate_preview_tree(preview_line_count=0)
+>>> tree.generate_preview_tree(content_preview_lines=0)
 ○
 └── Project Title
     ├── Description
@@ -217,7 +172,7 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 ----
 
-`str(node)` is equivalent to ``node.generate_preview_tree()``
+`repr(node)` is equivalent to ``node.generate_preview_tree()``
 
 
 
@@ -391,7 +346,7 @@ E.g.
 [x]     └── License
             This project is licensed under the MIT License.
 (blueprint:conversation; Kaye v1.2.3)
->>> tree.generate_preview_tree(preview_line_count=0, hide_comment=True)
+>>> tree.generate_preview_tree(content_preview_lines=0, hide_comment=True)
     ○
 [x] └── Project Title
 [ ]     ├── Description
