@@ -1,5 +1,10 @@
 """
-test ``generate_preview_tree()`` & ``__str__()`` of class ``PromptCorpusNode``
+prompt_node_preview_test.py
+
+Unit Tests (using pytest) for:
+
+- PromptCorpusNode.generate_prompt_tree_preview()
+- PromptCorpusNode.__repr__()
 """
 
 # BUG BUG
