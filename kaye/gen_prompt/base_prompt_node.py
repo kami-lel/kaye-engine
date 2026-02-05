@@ -184,3 +184,11 @@ class BasePromptNode(AnyTreeNode):
         """
         lineage = "#".join(node.name for node in self.path[1:])
         return "{}({})".format(type(self).__name__, lineage)
+
+
+class DynamicNode(BasePromptNode):
+    # TODO docstring
+
+    @property
+    def id(self):
+        return "{" + self.name + "}"
