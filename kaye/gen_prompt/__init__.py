@@ -6,6 +6,7 @@ implement a systematic, dynamic, and structured framework
 for **prompt management and manipulation**.
 """
 
+from .base_prompt_node import *
 from .prompt_corpus_node import *
 from .prompt_corpus_loader import *
 from .prompt_blueprint import *

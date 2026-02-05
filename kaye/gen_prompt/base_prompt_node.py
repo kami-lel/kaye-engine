@@ -4,6 +4,8 @@ define ``BasePromptNode``
 
 from anytree import Node as AnyTreeNode, RenderTree
 
+__all__ = ("BasePromptNode",)
+
 
 class BasePromptNode(AnyTreeNode):
 
