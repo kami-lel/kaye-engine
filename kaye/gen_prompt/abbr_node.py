@@ -7,7 +7,7 @@ import re
 
 import ahocorasick
 
-from .prompt_corpus_node import BasePromptNode
+from .base_prompt_node import BasePromptNode
 
 ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
 
@@ -36,7 +36,6 @@ class AbbrNode(BasePromptNode):
         return "{abbr}"
 
 
-# TODO better implementation w/ blueprint, as Node?
 # TODO different abbr notes: contextual dynamic
 class DynamicAbbr:
 
