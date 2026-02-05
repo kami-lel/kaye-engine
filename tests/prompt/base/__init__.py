@@ -26,21 +26,7 @@ class UnitTestNode(BasePromptNode):
         return self.lines
 
 
-WORLD = UnitTestNode(
-    "World",
-    lines=[
-        "A vast, open expanse where many stories begin.",
-        "Home to scattered hamlets and wandering traders.",
-        (
-            "Horizons that seem to go on forever; "
-            "at dusk the sky burns like a promise"
-        ),
-        (
-            "and travelers whisper of lights that move "
-            "like ships across the plains."
-        ),
-    ],
-)
+WORLD = UnitTestNode("World", lines=[])
 
 MOUNTAIN = UnitTestNode(
     "Mountain Range",
@@ -108,15 +94,6 @@ FOREST = UnitTestNode(
     parent=WORLD,
     lines=[
         "Ancient Forest: trees older than most kingdoms.",
-        "Trails are braided with roots and leaves; moss carpets ruin stones.",
-        (
-            "Occasionally, a circle of mushrooms marks a place the older folk"
-            " say is not for humans."
-        ),
-        (
-            "The canopy filters the light into emerald, "
-            "and night in the forest is thick and full of small sounds."
-        ),
     ],
 )
 

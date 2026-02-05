@@ -62,13 +62,13 @@ class BasePromptNode(AnyTreeNode):
         # enforce perform preview only from root
         if not self.is_root:
             raise NotImplementedError(
-                "generating prompt tree preview is only possible with root node"
+                ".generate_prompt_tree_preview() is only possible for root"
             )
 
         lines = []
         for pre, fill, node in RenderTree(self):  # iterate per node
             # tree structure line, i.e. line w/ node name
-            lines.append(pre + node.name_in_lineage)
+            lines.append(pre + node.name)
 
             # content preview part
             if content_preview_lines:
