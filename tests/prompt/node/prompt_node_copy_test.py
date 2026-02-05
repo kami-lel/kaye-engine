@@ -13,7 +13,7 @@ from tests.prompt import (
     PROMPT3,
 )
 
-# HACK rm
+# Hack rm
 
 
 class XXTestParse1:  # test using PROMPT1

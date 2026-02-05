@@ -11,12 +11,10 @@ from .base_prompt_node import DynamicNode
 TODAY_NODE_HEADING = "Today"
 
 
-# TODO unit tests
-
-
 class TodayNode(DynamicNode):
     """
-    TODO docstring for class TodayNode
+    a dynamic node to provide today's **date** and current **time**
+
 
     :param parent:
     :type parent: BasePromptNode
