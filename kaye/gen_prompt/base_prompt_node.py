@@ -18,24 +18,26 @@ class BasePromptNode(AnyTreeNode):
         self, content_preview_lines=3, content_preview_width=64
     ):
         """
-        FIXME FIXME
+        generate a **preview** of *prompt tree*
+        in human-readable representation,
+        containing *content preview* part
 
-        generate **preview tree** of ``self`` as root,
-        an human-readable representation
+        only applicable on **root** node
 
 
-        :param preview_line_count: set maximum line count of
-                *content preview* part, (excluding section heading line);
+        :param preview_line_count: set maximum line count
+                (excluding section heading line) of *content preview* part;
                 defaults to 3
-        :type preview_line_count: int
-        :param preview_line_width: set maximum column width of
-                *content preview* part;
+        :type content_preview_lines: int
+        :param content_preview_width: set maximum column width
+                of *content preview* part;
                 defaults to 64.
-        :type preview_line_width: int
-        :return: the preview tree
+        :type content_preview_width: int
+        :raises NotImplementedError:
+        :return: the tree preview
         :rtype: str
         :example:
-        >>> tree.generate_preview_tree()
+        >>> root.generate_prompt_tree_preview()
         ○
         └── Project Title
             ├── Description
@@ -52,7 +54,8 @@ class BasePromptNode(AnyTreeNode):
             │   3. Submit a pull request
             └── License
                 This project is licensed under the MIT License.
-        >>> tree.generate_preview_tree(preview_line_count=0)
+
+        >>> root.generate_prompt_tree_preview(content_preview_lines=0)
         ○
         └── Project Title
             ├── Description
