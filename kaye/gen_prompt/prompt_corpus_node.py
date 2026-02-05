@@ -12,7 +12,6 @@ ROOT_NODE_NAME = "○"  # placeholder name for root node
 
 __all__ = ("PromptCorpusNode",)
 
-# FIXME FIXME all docstring
 
 HEADING_FORBIDDEN = re.compile(r"[{}#]")
 
@@ -22,7 +21,7 @@ class PromptCorpusNode(BasePromptNode):
     A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
 
 
-    :param name: section heading of the node
+    :param name: section heading
     :type name: str
     :param parent: parent node in the tree structure;
             `None` if the root node
@@ -43,7 +42,7 @@ class PromptCorpusNode(BasePromptNode):
 
         :param prompt_corpus_text: full source *prompt corpus* content
         :type prompt_corpus_text: str
-        :return: **root node** of the parsed *prompt corpus* tree structure
+        :return: **root node** of the parsed *prompt* tree structure
         :rtype: PromptCorpusNode
         """
         # reduce 2+ empty lines into single empty line
@@ -55,7 +54,7 @@ class PromptCorpusNode(BasePromptNode):
         return root
 
     # constructor  =============================================================
-    def __init__(self, name, parent, text_lines=None):
+    def __init__(self, name, parent, text_lines):
         if HEADING_FORBIDDEN.findall(name):
             raise ValueError(
                 "detects illegal symbol in heading: {}".format(repr(name))
@@ -64,7 +63,7 @@ class PromptCorpusNode(BasePromptNode):
         super().__init__(name, parent)
         self._content_lines = []
 
-        if text_lines is None:
+        if len(text_lines) == 0:
             return
 
         self._init_populate_children(text_lines)

@@ -16,7 +16,7 @@ The **core** module of *Kaye Python API*, implement a systematic, dynamic, and s
 
 
 
-### Prompt Node `PromptCorpusNode`
+### Prompt Corpus Node `PromptCorpusNode`
 
 <!-- FIXME FIXME rewrite -->
 
@@ -172,11 +172,6 @@ assert (
     "Introduction#Advanced#Additional Info)"
 )
 ```
-
-
-
-
-
 ###### preview tree
 
 Use `.generate_preview_tree()` to show a human-readable representation which shows:
@@ -223,6 +218,22 @@ As shown above, it contains *content preview*, which can be customized by argume
 ----
 
 `str(node)` is equivalent to ``node.generate_preview_tree()``
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Abbreviation Node
+
+<!-- TODO -->
 
 
 
@@ -413,12 +424,3 @@ empty_blueprint = load_embedded_prompt_blueprint()
 full_blueprint = load_full_prompt_blueprint()
 chat_blueprint = load_embedded_prompt_blueprint("chat")
 ```
-
-
-
-
-
-
-#### dynamic abbreviation blueprint `DynamicAbbrBlueprint`
-
-<!-- TODO dynamic abbr doc -->
