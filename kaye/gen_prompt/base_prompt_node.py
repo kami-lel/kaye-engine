@@ -187,8 +187,19 @@ class BasePromptNode(AnyTreeNode):
 
 
 class DynamicNode(BasePromptNode):
-    # TODO docstring
+    """
+    abstract class for all *dynamic node*
+    """
 
     @property
     def id(self):
         return "{" + self.name + "}"
+
+    @property
+    def content_lines(self):
+        """
+        :return: content **lines** this node as appeared in concrete prompt;
+                each element in ``list`` is a single line
+        :rtype: list[str]
+        """
+        raise NotImplementedError
