@@ -141,16 +141,83 @@ class TestByInt:  ##############################################################
 
 
 class TestByName:  #############################################################
-    pass  # TODO
+
+    def test1(_):
+        src = WORLD
+        key = "Mountain Range"
+
+        opt = src[key]
+
+        print(opt)
+        assert opt is MOUNTAIN
+
+    def test2(_):
+        src = MOUNTAIN
+        key = "High Peak!"
+
+        opt = src[key]
+
+        print(opt)
+        assert opt is PEAK
+
+    def test3(_):
+        src = PEAK
+        key = "Dark Cave"
+
+        opt = src[key]
+
+        print(opt)
+        assert opt is CAVE
+
+    # fail cases  --------------------------------------------------------------
+
+    def test_no_found1(_):
+        src = MOUNTAIN
+        key = "aaa"
+
+        with pytest.raises(KeyError) as exec_info:
+            src[key]
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert (
+            opt
+            == "UnitTestNode(Mountain Range) "
+            "contains no child with name/id of 'aaa'"
+        )
 
 
 class TestById:  ###############################################################
-    pass  # TODO
+
+    def test1(_):
+        src = WORLD
+        key = "MOUNTAIN RANGE"
+
+        opt = src[key]
+
+        print(opt)
+        assert opt is MOUNTAIN
+
+    def test2(_):
+        src = MOUNTAIN
+        key = "HIGH PEAK!"
+
+        opt = src[key]
+
+        print(opt)
+        assert opt is PEAK
+
+    def test3(_):
+        src = PEAK
+        key = "DARK CAVE"
+
+        opt = src[key]
+
+        print(opt)
+        assert opt is CAVE
 
 
 # bad type  ####################################################################
-
-
 class TestBadType:
 
     def test1(_):
