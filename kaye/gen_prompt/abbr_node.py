@@ -27,7 +27,7 @@ WRAP_KEY = "wrap"
 TAGS_KEY = "tags"
 
 
-# TODO better implementation w/ blueprint, as Node?
+# Todo better implementation w/ blueprint, as Node?
 class AbbrNode(BasePromptCorpusNode):  #########################################
 
     # public API  ==============================================================
@@ -86,7 +86,7 @@ class AbbrNode(BasePromptCorpusNode):  #########################################
 
     # singleton class properties  ==============================================
 
-    # TODO make singleton class
+    # Todo make singleton class
     _automaton = None
     _entries = None
 
@@ -196,7 +196,7 @@ class AbbrNode(BasePromptCorpusNode):  #########################################
                 )
             )
 
-    # HACK tmp naming
+    # Hack tmp naming
     def gen(self, query):
         self.load_abbrs_json()
         query_lower = query.lower()

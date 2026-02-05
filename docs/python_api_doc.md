@@ -419,4 +419,4 @@ chat_blueprint = load_embedded_prompt_blueprint("chat")
 
 #### dynamic abbreviation blueprint `DynamicAbbrBlueprint`
 
-<!-- TODO dynamic abbr doc -->
+<!-- Todo dynamic abbr doc -->
