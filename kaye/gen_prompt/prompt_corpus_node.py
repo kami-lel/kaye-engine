@@ -20,7 +20,7 @@ class PromptCorpusNode(BasePromptNode):
     # public API  ==============================================================
 
     @staticmethod
-    def parse_prompt_corpus(prompt_corpus):
+    def parse_prompt_corpus(prompt_corpus_text):
         pass  # TODO
 
     # constructor  =============================================================
@@ -29,6 +29,7 @@ class PromptCorpusNode(BasePromptNode):
     # implement BasePromptNode  ================================================
     @property
     def name_in_lineage(self):
+        # for PromptCorpusNode, identical to heading
         return self.name
 
 
@@ -60,6 +61,7 @@ class PromptCorpusNodeLegacy(BasePromptNode):
         :return: **root node** of the parsed *prompt corpus* tree structure
         :rtype: PromptCorpusNode
         """
+        # TODO ban use of {heading}
 
         # reduce formatting empty lines
         text_cleanup = re.sub(r"\n{3,}", "\n\n", prompt_corpus_text)
@@ -231,48 +233,6 @@ class PromptCorpusNodeLegacy(BasePromptNode):
         return lines
 
     # magic methods  ===========================================================
-    def __getitem__(self, key=None):
-        """
-        :param key:
-        :type key: NoneType or str or int
-        :return: children or parent node of ``self``
-        :rtype: PromptCorpusNode
-        :raises IndexError:
-        :raises KeyError:
-        :raises TypeError:
-        :example:
-        node = ~~~
-        node[None]      # get parent node
-        node[0]         # get first child
-        node['Info']    # get child node with name/heading 'Info'
-        """
-        if key is None:
-            return self.parent
-
-        elif isinstance(key, int):
-            try:
-                return self.children[key]
-            except IndexError as err:
-                raise IndexError(
-                    "index out of range for PromptCorpusNode children: {}"
-                    .format(key)
-                ) from err
-
-        elif isinstance(key, str):
-            for child in self.children:
-                if child.name == key:
-                    return child
-            raise KeyError(
-                "fail to find child {} in {}".format(repr(key), repr(self))
-            )
-
-        else:
-            raise TypeError(
-                "unsupported type for PromptCorpusNode[~]: {}".format(type(key))
-            )
-
-    def __hash__(self):
-        return hash(self.path_of_names)
 
     def __copy__(self):
         """
