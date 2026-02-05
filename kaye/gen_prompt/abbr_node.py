@@ -88,7 +88,7 @@ class DynamicAbbr:
 
         # create automation  ---------------------------------------------------
         cls._automaton = ahocorasick.Automaton()
-        for entry in cls._entries:
+        for entry in iter(cls._entries):
             cls._automaton.add_word(entry.key, entry)
         # todo use pickle.loads/dumps to save an local automaton, with hash
         cls._automaton.make_automaton()
