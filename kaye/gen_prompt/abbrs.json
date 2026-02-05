@@ -280,10 +280,17 @@
       "tags": [],
       "wrap": "symbol"
     },
+    "PL": {
+      "mean": "programming language",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
     "☒": {
       "mean": "selected with a cross",
       "tags": [],
-      "wrap": "word"
+      "wrap": "symbol"
     },
     "☜": {
       "mean": "points/notice left;left direction",
@@ -1085,7 +1092,7 @@
       "wrap": "word"
     },
     "cor": {
-      "mean": "correct,correction",
+      "mean": "correct,correction;true",
       "tags": [
         "ascii"
       ],
@@ -3266,7 +3273,7 @@
       "wrap": "word"
     },
     "x": {
-      "mean": "no,not,incorrect",
+      "mean": "no,not,incorrect;false",
       "tags": [
         "ascii"
       ],
