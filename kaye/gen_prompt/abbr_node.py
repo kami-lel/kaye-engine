@@ -7,7 +7,7 @@ import re
 
 import ahocorasick
 
-from .prompt_corpus_node import BasePromptCorpusNode
+from .prompt_corpus_node import BasePromptNode
 
 ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
 
@@ -27,9 +27,18 @@ WRAP_KEY = "wrap"
 TAGS_KEY = "tags"
 
 
+class AbbrNode(BasePromptNode):
+    pass
+
+    # implement BasePromptNode  ================================================
+    @property
+    def name_in_lineage(self):
+        return "{abbr}"
+
+
 # TODO better implementation w/ blueprint, as Node?
 # TODO different abbr notes: contextual dynamic
-class AbbrNode(BasePromptCorpusNode):  #########################################
+class DynamicAbbr:
 
     # public API  ==============================================================
     @classmethod
