@@ -109,17 +109,18 @@ class BasePromptNode(AnyTreeNode):
 
     def generate_id_lineage(self):
         """
-        :return: a **lineage** from root to current node (inclusively),
+        :return: a **lineage**
+                from root (exclusively) to current node (inclusively),
                 represented as a ``list`` of node's ``.id``
         :rtype: list(str)
         :example:
         >>> root.generate_id_lineage()
-        [""]
+        []
         >>> node.generate_id_lineage()
-        ["", "My Parent", "Myself"]
+        ["My Parent", "Myself"]
         """
         if self.is_root:
-            return [""]
+            return []
 
         ancestry_path = self.parent.generate_id_lineage()
         ancestry_path.append(self.id)
