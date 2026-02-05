@@ -197,9 +197,4 @@ class DynamicNode(BasePromptNode):
 
     @property
     def content_lines(self):
-        """
-        :return: content **lines** this node as appeared in concrete prompt;
-                each element in ``list`` is a single line
-        :rtype: list[str]
-        """
         raise NotImplementedError
