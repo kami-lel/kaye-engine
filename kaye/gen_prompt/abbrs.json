@@ -1,267 +1,5 @@
 {
   "abbrs": {
-    "↔": {
-      "mean": "interchanges",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "←": {
-      "mean": "become/change/transform from",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "→": {
-      "mean": "become/change/transform into",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⇔": {
-      "mean": "if and only if",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "∵": {
-      "mean": "because,caused by,result of",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "∴": {
-      "mean": "therefore,causing,resulting",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅔": {
-      "mean": "fraction two thirds",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅖": {
-      "mean": "fraction two fifths",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅚": {
-      "mean": "fraction five sixths",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅝": {
-      "mean": "fraction five eighths",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅘": {
-      "mean": "fraction four fifths",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "¾": {
-      "mean": "fraction three quarters",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅗": {
-      "mean": "fraction three fifths",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅜": {
-      "mean": "fraction three eighths",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅟": {
-      "mean": "fraction one",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "½": {
-      "mean": "fraction one half",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅓": {
-      "mean": "fraction one third",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "¼": {
-      "mean": "fraction one quarter",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅕": {
-      "mean": "fraction one fifth",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅙": {
-      "mean": "fraction one sixth",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅐": {
-      "mean": "fraction one seventh",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅛": {
-      "mean": "fraction one eighth",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅑": {
-      "mean": "fraction one ninth",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅒": {
-      "mean": "fraction one tenth",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⅞": {
-      "mean": "fraction seven eighths",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "<": {
-      "mean": "less than",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    ">": {
-      "mean": "larger than",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    "≪": {
-      "mean": "much less than",
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "≫": {
-      "mean": "much greater than",
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "≤": {
-      "mean": "less than or equal to",
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "≥": {
-      "mean": "larger than or equal to",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    "≠": {
-      "mean": "not equal",
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "∀": {
-      "mean": "for all",
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "Σ": {
-      "mean": "sum,summation,total",
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "√": {
-      "mean": "square root",
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "†": {
-      "mean": "",
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "‡": {
-      "mean": "",
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "℉": {
-      "mean": "degree Fahrenheit",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "℃": {
-      "mean": "degree Celsius",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "°": {
-      "mean": "degree",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
     ".d": {
       "mean": "-ed",
       "tags": [
@@ -383,6 +121,47 @@
       ],
       "wrap": "symbol"
     },
+    "†": {
+      "mean": "",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "‡": {
+      "mean": "",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "°": {
+      "mean": "degree",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "℃": {
+      "mean": "degree Celsius",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "℉": {
+      "mean": "degree Fahrenheit",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "←": {
+      "mean": "become/change/transform from",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "→": {
+      "mean": "become/change/transform into",
+      "tags": [],
+      "wrap": "symbol"
+    },
     "↑": {
       "mean": "increase,increment",
       "tags": [
@@ -397,11 +176,118 @@
       ],
       "wrap": "symbol"
     },
+    "↔": {
+      "mean": "interchanges",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "⇔": {
+      "mean": "if and only if",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "∀": {
+      "mean": "for all",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "∃": {
+      "mean": "exist,existence,there exists,existing",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "<": {
+      "mean": "less than",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "=": {
+      "mean": "equal,equality,equivalent,equivalence",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "≠": {
+      "mean": "not equal",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    ">": {
+      "mean": "larger than",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
     "|": {
       "mean": "such that",
       "tags": [
         "ascii"
       ],
+      "wrap": "symbol"
+    },
+    "√": {
+      "mean": "square root",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "∴": {
+      "mean": "therefore,causing,resulting",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "∵": {
+      "mean": "because,caused by,result of",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "≤": {
+      "mean": "less than or equal to",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "≥": {
+      "mean": "larger than or equal to",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "≪": {
+      "mean": "much less than",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "≫": {
+      "mean": "much greater than",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "☜": {
+      "mean": "points/notice left;left direction",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "☝": {
+      "mean": "points/notice up;upward direction",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "☞": {
+      "mean": "points/notice right;right direction",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "☟": {
+      "mean": "points/notice down;downward direction",
+      "tags": [],
       "wrap": "symbol"
     },
     "⚙️": {
@@ -489,6 +375,76 @@
       ],
       "wrap": "symbol"
     },
+    "⅟": {
+      "mean": "fraction one",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⅒": {
+      "mean": "fraction one tenth",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "½": {
+      "mean": "fraction one half",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⅓": {
+      "mean": "fraction one third",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "¼": {
+      "mean": "fraction one quarter",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⅕": {
+      "mean": "fraction one fifth",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⅙": {
+      "mean": "fraction one sixth",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⅐": {
+      "mean": "fraction one seventh",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⅛": {
+      "mean": "fraction one eighth",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⅑": {
+      "mean": "fraction one ninth",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
     "2": {
       "mean": "to;too",
       "tags": [
@@ -496,12 +452,75 @@
       ],
       "wrap": "word"
     },
+    "⅔": {
+      "mean": "fraction two thirds",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⅖": {
+      "mean": "fraction two fifths",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "¾": {
+      "mean": "fraction three quarters",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⅗": {
+      "mean": "fraction three fifths",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⅜": {
+      "mean": "fraction three eighths",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
     "4": {
       "mean": "for",
       "tags": [
         "ascii"
       ],
       "wrap": "word"
+    },
+    "⅘": {
+      "mean": "fraction four fifths",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⅚": {
+      "mean": "fraction five sixths",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⅝": {
+      "mean": "fraction five eighths",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⅞": {
+      "mean": "fraction seven eighths",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
     },
     "A": {
       "mean": "also",
@@ -1381,13 +1400,6 @@
         "ascii"
       ],
       "wrap": "word"
-    },
-    "=": {
-      "mean": "equal,equality,equivalent,equivalence",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
     },
     "er": {
       "mean": "either;early",
@@ -3280,11 +3292,6 @@
       ],
       "wrap": "word"
     },
-    "∃": {
-      "mean": "exist,existence,there exists,existing",
-      "tags": [],
-      "wrap": "symbol"
-    },
     "yd": {
       "mean": "yard",
       "tags": [
@@ -3298,9 +3305,35 @@
         "ascii"
       ],
       "wrap": "word"
+    },
+    "Σ": {
+      "mean": "sum,summation,total",
+      "tags": [],
+      "wrap": "symbol"
     }
   },
   "alts": {
+    "->": {
+      "abbr": "→",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "!": {
+      "abbr": "x",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "!=": {
+      "abbr": "≠",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
     "§": {
       "abbr": "Cap.",
       "tags": [
@@ -3322,11 +3355,116 @@
       ],
       "wrap": "symbol"
     },
+    "⇐": {
+      "abbr": "∵",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⇒": {
+      "abbr": "∴",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
     "±": {
       "abbr": "chg",
       "tags": [
         "usable"
       ],
+      "wrap": "symbol"
+    },
+    "×": {
+      "abbr": "mux",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "<-": {
+      "abbr": "←",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "<->": {
+      "abbr": "→",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "<=": {
+      "abbr": "∵",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "<=>": {
+      "abbr": "⇔",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "=<": {
+      "abbr": "≤",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "=>": {
+      "abbr": "∴",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    ">=": {
+      "abbr": "≥",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "¬": {
+      "abbr": "x",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "∝": {
+      "abbr": "crl",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "∞": {
+      "abbr": "inf",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "∹": {
+      "abbr": "xcs",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "≡": {
+      "abbr": "eq",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "☚": {
+      "abbr": "☜",
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "☛": {
+      "abbr": "☞",
+      "tags": [],
       "wrap": "symbol"
     },
     "a/x": {
@@ -3338,6 +3476,13 @@
     },
     "AM": {
       "abbr": "a.m.",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
+    "b/c": {
+      "abbr": "∵",
       "tags": [
         "ascii"
       ],
@@ -3392,6 +3537,13 @@
       ],
       "wrap": "word"
     },
+    "eq": {
+      "abbr": "=",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
     "etc": {
       "abbr": "etc.",
       "tags": [
@@ -3406,12 +3558,54 @@
       ],
       "wrap": "word"
     },
+    "ge": {
+      "abbr": "≥",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "gt": {
+      "abbr": ">",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
     "ie": {
       "abbr": "i.e.",
       "tags": [
         "ascii"
       ],
       "wrap": "word"
+    },
+    "iff": {
+      "abbr": "⇔",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
+    "le": {
+      "abbr": "≤",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "lt": {
+      "abbr": "<",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "ne": {
+      "abbr": "≠",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
     },
     "nm": {
       "abbr": "n.m.",
@@ -3476,6 +3670,13 @@
       ],
       "wrap": "word"
     },
+    "tf": {
+      "abbr": "∴",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
     "vol": {
       "abbr": "vol.",
       "tags": [
@@ -3490,193 +3691,12 @@
       ],
       "wrap": "word"
     },
-    "∹": {
-      "abbr": "xcs",
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "!": {
-      "abbr": "x",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    "¬": {
-      "abbr": "x",
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "×": {
-      "abbr": "mux",
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "∞": {
-      "abbr": "inf",
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "∝": {
-      "abbr": "crl",
-      "tags": [],
-      "wrap": "symbol"
-    },
     "xsi": {
       "abbr": "∃",
       "tags": [
         "ascii"
       ],
       "wrap": "word"
-    },
-    "eq": {
-      "abbr": "=",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    },
-    "≡": {
-      "abbr": "eq",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    "!=": {
-      "abbr": "≠",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    "ne": {
-      "abbr": "≠",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    "lt": {
-      "abbr": "<",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    "gt": {
-      "abbr": ">",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    "ge": {
-      "abbr": "≥",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    "le": {
-      "abbr": "≤",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    ">=": {
-      "abbr": "≥",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    "=<": {
-      "abbr": "≤",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    "⇐": {
-      "abbr": "∵",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "b/c": {
-      "abbr": "∵",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    },
-    "<=": {
-      "abbr": "∵",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⇒": {
-      "abbr": "∴",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "tf": {
-      "abbr": "∴",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    },
-    "=>": {
-      "abbr": "∴",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "<=>": {
-      "abbr": "⇔",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "symbol"
-    },
-    "iff": {
-      "abbr": "⇔",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    },
-    "<-": {
-      "abbr": "←",
-      "tags": [
-        "ascii",
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "->": {
-      "abbr": "→",
-      "tags": [
-        "ascii",
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "<->": {
-      "abbr": "→",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
     }
   }
 }
