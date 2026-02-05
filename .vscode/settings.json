@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "anytree",
         "checkmark",
         "checkmarked",
         "checkmarking",
@@ -11,7 +12,9 @@
         "uncheckmark",
         "uncheckmarked",
         "uncheckmarking",
-        "unprunable"
+        "unprunable",
+        "ahocorasick",
+        "corasick"
     ],
     "todo-tree.filtering.excludeGlobs": [
         "**/hooks_utility/*/**",
