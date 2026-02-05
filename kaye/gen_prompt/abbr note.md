@@ -26,37 +26,6 @@ HACK rm
 
 
 
-↔
-
-"←": {
-  "tags": [
-    "usable"
-  ],
-      "wrap": "symbol"
-},
-"→": {
-  "tags": [
-    "usable"
-  ],
-      "wrap": "symbol"
-},
-"<-": {
-  "abbr": "←",
-  "tags": [
-    "usable"
-  ],
-      "wrap": "symbol"
-},
-"->": {
-  "abbr": "→",
-  "tags": [
-    "usable"
-  ],
-      "wrap": "symbol"
-},
-
-
-
 ☜ manicule white left-pointing index
 ☝ manicule white up-pointing index
 ☞ manicule white right-pointing index
