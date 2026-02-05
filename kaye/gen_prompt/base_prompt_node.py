@@ -180,5 +180,6 @@ class BasePromptNode(AnyTreeNode):
         >>> str(node)
         "PromptCorpusNode(Introduction#Data#Advanced)"
         """
+        # BUG
         ancestry_path_name = "#".join(self.generate_lineage()[1:])
         return "{}({})".format(type(self).__name__, ancestry_path_name)
