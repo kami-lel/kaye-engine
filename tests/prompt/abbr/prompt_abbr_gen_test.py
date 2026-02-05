@@ -9,7 +9,7 @@ DynamicAbbrBlueprint._generate_abbr_content()
 from kaye.gen_prompt import AbbrNode
 
 
-def test_tmp():  # Hack
+def test_tmp():  # HACK
     t = """this is some Text w/ abbr that"""
 
     print(AbbrNode().gen(t))
