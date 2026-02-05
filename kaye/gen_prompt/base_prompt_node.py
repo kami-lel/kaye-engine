@@ -122,7 +122,7 @@ class BasePromptNode(AnyTreeNode):
 
     def __getitem__(self, key):
         """
-        :param key:
+        :param key: index of child; `name` **or** `id` of child
         :type key: int or str
         :raises IndexError:
         :raises KeyError:
@@ -137,10 +137,8 @@ class BasePromptNode(AnyTreeNode):
             try:
                 return self.children[key]
             except IndexError as err:
-                # FIXME err msg
                 raise IndexError(
-                    "index out of range for PromptCorpusNode children: {}"
-                    .format(key)
+                    "index out of range for {}: {}".format(str(self), key)
                 ) from err
 
         elif isinstance(key, str):
@@ -181,5 +179,5 @@ class BasePromptNode(AnyTreeNode):
         >>> str(node)
         "PromptCorpusNode(Introduction#Data#Advanced)"
         """
-        lineage = "#".join(node.name for node in self.path)
+        lineage = "#".join(node.name for node in self.path[1:])
         return "{}({})".format(type(self).__name__, lineage)
