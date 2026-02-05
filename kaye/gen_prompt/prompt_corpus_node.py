@@ -13,9 +13,6 @@ ROOT_NODE_NAME = "○"  # placeholder name for root node
 __all__ = ("PromptCorpusNode",)
 
 
-HEADING_FORBIDDEN = re.compile(r"[{}#]")
-
-
 class PromptCorpusNode(BasePromptNode):
     """
     A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
@@ -55,10 +52,7 @@ class PromptCorpusNode(BasePromptNode):
 
     # constructor  =============================================================
     def __init__(self, name, parent, text_lines):
-        if HEADING_FORBIDDEN.findall(name):
-            raise ValueError(
-                "detects illegal symbol in heading: {}".format(repr(name))
-            )
+        self._init_test_name(name)
 
         super().__init__(name, parent)
         self._content_lines = []
@@ -77,6 +71,18 @@ class PromptCorpusNode(BasePromptNode):
         self._content_lines = self._content_lines[start:end]
 
     # constructor helpers  *****************************************************
+    HEADING_FORBIDDEN = re.compile(r"{.*}")
+
+    @classmethod
+    def _init_test_name(cls, name):
+        """
+        test name to be a legal heading
+
+        (helper method used in ``__init__()``)
+        """
+        if cls.HEADING_FORBIDDEN.fullmatch(name):
+            raise ValueError("illegal heading syntax: {}".format(repr(name)))
+
     def _init_populate_children(self, text_lines):
         """
         create node children and add content to ``._content_line``
