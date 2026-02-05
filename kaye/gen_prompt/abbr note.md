@@ -21,35 +21,40 @@ HACK rm
   - "🐞": debug
 
 
+
+
+
+
+
 ↔
+
 "←": {
-  "abbr": "b/c",
   "tags": [
-    "symbol",
     "usable"
-  ]
-},
-"<-": {
-  "abbr": "b/c",
-  "tags": [
-    "symbol",
-    "usable"
-  ]
+  ],
+      "wrap": "symbol"
 },
 "→": {
-  "abbr": "tf",
   "tags": [
-    "symbol",
     "usable"
-  ]
+  ],
+      "wrap": "symbol"
+},
+"<-": {
+  "abbr": "←",
+  "tags": [
+    "usable"
+  ],
+      "wrap": "symbol"
 },
 "->": {
-  "abbr": "tf",
+  "abbr": "→",
   "tags": [
-    "symbol",
     "usable"
-  ]
+  ],
+      "wrap": "symbol"
 },
+
 
 
 ☜ manicule white left-pointing index

@@ -1,5 +1,26 @@
 {
   "abbrs": {
+    "⇔": {
+      "mean": "if and only if",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "∵": {
+      "mean": "because,caused by,result of",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "∴": {
+      "mean": "therefore,causing,resulting",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
     "⅔": {
       "mean": "fraction two thirds",
       "tags": [
@@ -722,13 +743,6 @@
     },
     "b.": {
       "mean": "bad",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    },
-    "b/c": {
-      "mean": "because,caused by,result of",
       "tags": [
         "ascii"
       ],
@@ -1694,13 +1708,6 @@
     },
     "idx": {
       "mean": "index,indexing",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    },
-    "iff": {
-      "mean": "if and only if",
       "tags": [
         "ascii"
       ],
@@ -2906,13 +2913,6 @@
       ],
       "wrap": "word"
     },
-    "tf": {
-      "mean": "therefore,causing,resulting",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    },
     "th": {
       "mean": "think",
       "tags": [
@@ -3301,64 +3301,8 @@
       ],
       "wrap": "symbol"
     },
-    "⇐": {
-      "abbr": "b/c",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⇒": {
-      "abbr": "tf",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "⇔": {
-      "abbr": "iff",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
     "±": {
       "abbr": "chg",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "<=": {
-      "abbr": "b/c",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "<=>": {
-      "abbr": "iff",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "=>": {
-      "abbr": "tf",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "∴": {
-      "abbr": "tf",
-      "tags": [
-        "usable"
-      ],
-      "wrap": "symbol"
-    },
-    "∵": {
-      "abbr": "b/c",
       "tags": [
         "usable"
       ],
@@ -3633,6 +3577,62 @@
         "ascii"
       ],
       "wrap": "symbol"
+    },
+    "⇐": {
+      "abbr": "∵",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "b/c": {
+      "abbr": "∵",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
+    "<=": {
+      "abbr": "∵",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "⇒": {
+      "abbr": "∴",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "tf": {
+      "abbr": "∴",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
+    },
+    "=>": {
+      "abbr": "∴",
+      "tags": [
+        "usable"
+      ],
+      "wrap": "symbol"
+    },
+    "<=>": {
+      "abbr": "⇔",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "symbol"
+    },
+    "iff": {
+      "abbr": "⇔",
+      "tags": [
+        "ascii"
+      ],
+      "wrap": "word"
     }
   }
 }
