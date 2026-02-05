@@ -4,8 +4,6 @@ define ``PromptCorpusNode``
 
 import re
 
-from anytree import RenderTree
-
 from .base_prompt_corpus_node import BasePromptNode
 
 # section heading prefix used for parsing .md file of prompt corpus
@@ -70,66 +68,6 @@ class PromptCorpusNodeLegacy(BasePromptNode):
         root = cls(ROOT_NODE_NAME, None, text_lines)
         return root
 
-    def generate_preview_tree(
-        self, preview_line_count=3, preview_line_width=64
-    ):
-        """
-        generate **preview tree** of ``self`` as root,
-        an human-readable representation
-
-
-        :param preview_line_count: set maximum line count of
-                *content preview* part, (excluding section heading line);
-                defaults to 3
-        :type preview_line_count: int
-        :param preview_line_width: set maximum column width of
-                *content preview* part;
-                defaults to 64.
-        :type preview_line_width: int
-        :return: the preview tree
-        :rtype: str
-        :example:
-        >>> tree.generate_preview_tree()
-        ○
-        └── Project Title
-            ├── Description
-            │   A brief overview of the project, its purpose, and goals.
-            ├── Installation
-            │   1. Clone the repo
-            │   2. Install dependencies
-            │   3. Run the application
-            ├── Usage
-            │   Provide instructions on how to use the application.
-            ├── Contributing
-            │   1. Fork the repo
-            │   2. Create a new branch
-            │   3. Submit a pull request
-            └── License
-                This project is licensed under the MIT License.
-        >>> tree.generate_preview_tree(preview_line_count=0)
-        ○
-        └── Project Title
-            ├── Description
-            ├── Installation
-            ├── Usage
-            ├── Contributing
-            └── License
-        """
-        opt_lines = []
-
-        for pre, fill, node in RenderTree(self):
-            # line for tree structure
-            opt_lines.append(pre + node.name)
-            # lines for node content preview
-            opt_lines.extend(
-                # pylint: disable=protected-access
-                node._generate_preview_tree_content_preview_lines(
-                    fill, preview_line_count, preview_line_width
-                )
-            )
-
-        return "\n".join(opt_lines)
-
     # constructor  =============================================================
     def __init__(self, name, parent, text_lines=None):
         super().__init__(name, parent)
@@ -186,33 +124,6 @@ class PromptCorpusNodeLegacy(BasePromptNode):
             heading_content = text_lines[start][len(heading_prefix) :].strip()
             children_nodes = text_lines[start + 1 : end]
             PromptCorpusNode(heading_content, self, children_nodes)
-
-    def _generate_preview_tree_content_preview_lines(
-        self, fill, preview_line_count, preview_line_width
-    ):
-        """
-        helper method used in ``generate_preview_tree()``
-
-
-        :param fill: set prefix filling before each line
-        :type fill: str
-        :param preview_line_count: set maximum line count of
-                *content preview* part, (excluding section heading line)
-        :type preview_line_count: int
-        :param preview_line_width: set maximum column width of
-                *content preview* part
-        :type preview_line_width: int
-        :return: content lines as it will be shown in preview tree
-        :rtype: list[str]
-        :example:
-        >>> self._generate_preview_tree_content_preview_lines('$$$', 3, 10)
-        ["$$$You per", "$$$When tr", "$$$User ma"]
-        """
-        lines = []
-        if self.content and preview_line_count:  # print content of node
-            for content_line in self.content[:preview_line_count]:
-                lines.append(fill + content_line[:preview_line_width])
-        return lines
 
     def _generate_prompt_lines(self):
         """
