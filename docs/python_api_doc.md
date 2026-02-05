@@ -4,25 +4,9 @@
 
 The **core** module of *Kaye Python API*, implement a systematic, dynamic, and structured framework for **prompt management and manipulation**.
 
+----
 
-
-
-
-
-
-
-
-
-
-
-
-### Prompt Corpus Node `PromptCorpusNode`
-
-<!-- FIXME FIXME rewrite -->
-
-A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
-
-The **prompt corpus tree** is the structured representation parsed from *prompt corpus text* . A **node** of tree is corresponding to a section heading in the text. E.g. text in such form:
+The **prompt tree** is the structured representation parsed from *prompt corpus text* . A **node** of tree is corresponding to a section heading in the text. E.g. text in such form:
 
 ```md
 # Introduction
@@ -45,17 +29,27 @@ is equivalent to tree structure:
 └── Usage
 ```
 
-A *node* represent a branch of the tree. If the node is *root*, it represents an instance of entire prompt corpus tree.
-
-The class `PromptCorpusNode` is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
+A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, which is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+### Prompt Corpus Node `PromptCorpusNode`
 
 #### tree creation
 
-When deal with `PromptCorpusNode`, it is rare for end users to create individual instances, but to **create** an entire prompt corpus tree (i.e. get the root node.) This is possible by *classmethod* `.parse()`:
+When deal with `PromptCorpusNode`, it is rare for end users to create individual instances, but to **create** an entire prompt tree (i.e. get the root node.) This is possible by *classmethod* `.parse()`:
 
 ```python
 from kaye.gen_prompt import PromptCorpusNode
@@ -85,7 +79,12 @@ To access node **name**, i.e. **section heading**:
 ```python
 node = ~~~
 assert node.name == "Introduction"
+assert node.id == "Introduction"
 ```
+
+> [!NOTE]
+> `.name` and `.id` return identical result for `PromptCorpusNode`
+
 
 ###### parent
 
@@ -100,7 +99,7 @@ The `.parent` of a root node is ``None``
 
 ###### content
 
-To access node's textual **content lines**, use `.content` (typed `list`.) E.g. with prompt corpus text:
+To access node's textual **content lines**, use `.content_lines` (typed `list`.) E.g. with prompt corpus text:
 
 ```python
 prompt_corpus_text = """
@@ -117,7 +116,7 @@ What is your name?
 """
 
 introduction_basic_node = ~~~
-introduction_basic_node.content == [
+introduction_basic_node.content_lines == [
     "Hi, my name is Alice.",
     "It is nice to see you.",
     "",
@@ -130,7 +129,8 @@ introduction_basic_node.content == [
 
 #### node inspection
 
-###### path of names
+###### `.generate_id_lineage()`
+
 
 The node store a **path of names**, describing a path from root to this node, with node's ancestors and the parent in between.
 

@@ -453,6 +453,8 @@ class TestEdge:  # various edge cases
 
 class TestForbiddenHeading:  ###################################################
 
+    # FIXME FIXME allow single {/}, allows #
+
     def test1(_):
         with pytest.raises(ValueError) as exec_info:
             PromptCorpusNode.parse("""# Title
