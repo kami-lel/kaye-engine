@@ -1,7 +1,6 @@
 # Kaye CHANGELOG
 
 <!-- Fixme merge role: Grammar Checker & Etiquette Coach -->
-<!-- Todo dynamic node: datetime -->
 
 [^format]
 
