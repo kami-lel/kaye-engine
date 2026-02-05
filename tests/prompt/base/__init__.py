@@ -26,14 +26,13 @@ class UnitTestNode(BasePromptNode):
         return self.content_lines
 
 
-# Node declarations outside class with ALL CAPS names
-WORLD = UnitTestNode("WORLD")
-MOUNTAIN = UnitTestNode("MOUNTAIN", parent=WORLD)
-PEAK = UnitTestNode("PEAK", parent=MOUNTAIN)
-CAVE = UnitTestNode("CAVE", parent=PEAK)
-LAKE = UnitTestNode("LAKE", parent=MOUNTAIN)
-FOREST = UnitTestNode("FOREST", parent=WORLD)
-GLADE = UnitTestNode("GLADE", parent=FOREST)
-STREAM = UnitTestNode("STREAM", parent=FOREST)
-VILLAGE = UnitTestNode("VILLAGE", parent=WORLD)
-MARKET = UnitTestNode("MARKET", parent=VILLAGE)
+WORLD = UnitTestNode("World")
+MOUNTAIN = UnitTestNode("Mountain Range", parent=WORLD)
+PEAK = UnitTestNode("High Peak!", parent=MOUNTAIN)
+CAVE = UnitTestNode("Dark Cave", parent=PEAK)
+LAKE = UnitTestNode("Serene Lake", parent=MOUNTAIN)
+FOREST = UnitTestNode("Ancient Forest", parent=WORLD)
+GLADE = UnitTestNode("Sunny Glade", parent=FOREST)
+STREAM = UnitTestNode("Hidden Stream", parent=FOREST)
+VILLAGE = UnitTestNode("Old Village", parent=WORLD)
+MARKET = UnitTestNode("Market Square", parent=VILLAGE)
