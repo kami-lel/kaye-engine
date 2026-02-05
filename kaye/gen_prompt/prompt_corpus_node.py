@@ -4,9 +4,9 @@ define ``PromptCorpusNode``
 
 import re
 
-from anytree import Node as RenderTree
+from anytree import RenderTree
 
-from .base_prompt_corpus_node import BasePromptCorpusNode
+from .base_prompt_corpus_node import BasePromptNode
 
 # section heading prefix used for parsing .md file of prompt corpus
 HEADING_PREFIX = "#"
@@ -15,11 +15,24 @@ ROOT_NODE_NAME = "○"  # placeholder name for root node
 __all__ = ("PromptCorpusNode",)
 
 
-class PromptCorpusNode(BasePromptCorpusNode):
-    pass  # TODO
+class PromptCorpusNode(BasePromptNode):
+
+    # public API  ==============================================================
+
+    @staticmethod
+    def parse_prompt_corpus(prompt_corpus):
+        pass  # TODO
+
+    # constructor  =============================================================
+    # constructor helpers  *****************************************************
+
+    # implement BasePromptNode  ================================================
+    @property
+    def name_in_lineage(self):
+        return self.name
 
 
-class PromptCorpusNodeLegacy(BasePromptCorpusNode):
+class PromptCorpusNodeLegacy(BasePromptNode):
     """
     A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
 
@@ -171,18 +184,6 @@ class PromptCorpusNodeLegacy(BasePromptCorpusNode):
             heading_content = text_lines[start][len(heading_prefix) :].strip()
             children_nodes = text_lines[start + 1 : end]
             PromptCorpusNode(heading_content, self, children_nodes)
-
-    def _init_generate_path_of_names(self):
-        """
-        helper method used in ``__init__()``
-
-        generate content of ``.path_of_names``
-        """
-        if self.parent is None:
-            return tuple()  # root node
-        else:
-            nodes_path = self.path[1:]  # remove root node
-            return tuple(node.name for node in nodes_path)
 
     def _generate_preview_tree_content_preview_lines(
         self, fill, preview_line_count, preview_line_width
