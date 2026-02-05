@@ -17,6 +17,7 @@ class BasePromptNode(AnyTreeNode):
             raise NotImplementedError(
                 "generating prompt tree preview is only possible with root node"
             )
+        return ""  # TODO
 
     # abstract methods  ========================================================
 
@@ -49,15 +50,66 @@ class BasePromptNode(AnyTreeNode):
         return ancestry_path
 
     # magic methods  ===========================================================
+
+    def __getitem__(self, key):
+        """
+        :param key:
+        :type key: int or str
+        :raises IndexError:
+        :raises KeyError:
+        :raises TypeError:
+        :return: children node
+        :rtype: BasePromptNode
+        :example:
+        >>> node[0]         # get first child
+        >>> node["Info"]    # get child with name "Info"
+        """
+        if isinstance(key, int):  # get by index
+            try:
+                return self.children[key]
+            except IndexError as err:
+                # FIXME err msg
+                raise IndexError(
+                    "index out of range for PromptCorpusNode children: {}"
+                    .format(key)
+                ) from err
+
+        elif isinstance(key, str):
+            for child in self.children:
+                if child.name == key:
+                    return child
+            # FIXME err msg
+            raise KeyError(
+                "fail to find child {} in {}".format(repr(key), repr(self))
+            )
+
+        else:
+            raise TypeError(
+                "{} index must be int/str: {}".format(
+                    type(self).__name__, repr(key)
+                )
+            )
+
     def __hash__(self):
         return hash(tuple(self.generate_lineage()))
 
     def __repr__(self):
         """
+        :raises NotImplementedError:
+        :return: identical to ``.generate_prompt_tree_preview()``,
+                only for root node
+        :rtype: str
+        """
+        if self.is_root:
+            return self.generate_prompt_tree_preview()
+        return super().__repr__()
+
+    def __str__(self):
+        """
         :return:
         :rtype: str
         :example:
-        >>> repr(node)
+        >>> str(node)
         "PromptCorpusNode(Introduction#Data#Advanced)"
         """
         ancestry_path_name = "#".join(self.generate_lineage()[1:])
