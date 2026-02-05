@@ -282,19 +282,3 @@ class PromptCorpusNodeLegacy(BasePromptNode):
         obj = PromptCorpusNode(self.name, self.parent, None)
         obj.content = self.content
         return obj
-
-    def __repr__(self):
-        """
-        :return:
-        :rtype: str
-        :example:
-        assert repr(node) == "PromptCorpusNode(Introduction#Data#Advanced)"
-        """
-        return "PromptCorpusNode({})".format("#".join(self.path_of_names))
-
-    def __str__(self):
-        """
-        :return: equivalent to self.generate_preview_tree()
-        :rtype: str
-        """
-        return self.generate_preview_tree()
