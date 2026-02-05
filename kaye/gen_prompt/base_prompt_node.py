@@ -7,10 +7,10 @@ from anytree import Node as AnyTreeNode, RenderTree
 __all__ = ("BasePromptNode",)
 
 
-# FIXME FIXME docstring of all cls & fx
-
-
 class BasePromptNode(AnyTreeNode):
+    """
+    abstract class of any node in the *prompt tree*
+    """
 
     # public API  ==============================================================
 
@@ -18,6 +18,8 @@ class BasePromptNode(AnyTreeNode):
         self, content_preview_lines=3, content_preview_width=64
     ):
         """
+        FIXME FIXME
+
         generate **preview tree** of ``self`` as root,
         an human-readable representation
 
@@ -84,7 +86,8 @@ class BasePromptNode(AnyTreeNode):
     @property
     def id(self):
         """
-        :return: this node's name used in ``.generate_lineage()``;
+        :return: unique identifier of this node (among its siblings,)
+                may be different from ``.name``;
                 ``""`` for root node
         :rtype: str
         """
@@ -104,11 +107,12 @@ class BasePromptNode(AnyTreeNode):
     def generate_id_lineage(self):
         """
         :return: a **lineage** from root to current node (inclusively),
-                represented as a ``list`` of node names,
-                with node's name created from ``.name_in_lineage``;
+                represented as a ``list`` of node's ``.id``
         :rtype: list(str)
         :example:
-        >>> node.generate_lineage()
+        >>> root.generate_id_lineage()
+        [""]
+        >>> node.generate_id_lineage()
         ["", "My Parent", "Myself"]
         """
         if self.is_root:
@@ -127,11 +131,11 @@ class BasePromptNode(AnyTreeNode):
         :raises IndexError:
         :raises KeyError:
         :raises TypeError:
-        :return: children node
+        :return: child node
         :rtype: BasePromptNode
         :example:
         >>> node[0]         # get first child
-        >>> node["Info"]    # get child with name "Info"
+        >>> node["Info"]    # get child with name or id of "Info"
         """
         if isinstance(key, int):  # get by index
             try:
@@ -162,12 +166,6 @@ class BasePromptNode(AnyTreeNode):
         return hash(tuple(self.generate_id_lineage()))
 
     def __repr__(self):
-        """
-        :raises NotImplementedError:
-        :return: identical to ``.generate_prompt_tree_preview()``,
-                only for root node
-        :rtype: str
-        """
         if self.is_root:
             return self.generate_prompt_tree_preview()
         return super().__repr__()
