@@ -157,7 +157,6 @@ class TestParse2:
 class TestParse3:
 
     tree = PromptCorpusNode.parse(PROMPT3)
-    # BUGs
 
     def test_root(self):
         assert self.tree.depth == 0
