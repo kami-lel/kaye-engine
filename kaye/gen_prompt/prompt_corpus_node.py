@@ -70,14 +70,13 @@ class PromptCorpusNode(BasePromptNode):
 
         self._init_populate_children(text_lines)
 
-        # FIXME
         # trim leading/trailing empty strings
-        start, end = 0, len(self.content)
-        while start < end and self.content[start] == "":
+        start, end = 0, len(self._content_lines)
+        while start < end and self._content_lines[start] == "":
             start += 1
-        while end > start and self.content[end - 1] == "":
+        while end > start and self._content_lines[end - 1] == "":
             end -= 1
-        self.content = self.content[start:end]
+        self._content_lines = self._content_lines[start:end]
 
     # constructor helpers  *****************************************************
     def _init_populate_children(self, text_lines):
@@ -96,13 +95,13 @@ class PromptCorpusNode(BasePromptNode):
         # contain no subsection
         if not heading_lines:
             # all lines are content
-            self.content = list(text_lines)
+            self._content_lines = list(text_lines)
             return
 
         # this node contains subsections, then parse the content part out
         self.content = text_lines[: heading_lines[0]]
         if not any(self.content):
-            self.content = []
+            self._content_lines = []
 
         # parse sub-sections as nodes
         heading_lines.append(len(text_lines))
@@ -114,6 +113,7 @@ class PromptCorpusNode(BasePromptNode):
             PromptCorpusNode(heading_content, self, children_nodes)
 
     # implement BasePromptNode  ================================================
+
     @property
     def id(self):
         # for PromptCorpusNode, identical to heading
@@ -134,6 +134,7 @@ class PromptCorpusNode(BasePromptNode):
         obj._content_lines = self._content_lines
         return obj
 
+    # HACK
     # def _generate_prompt_lines(self):
     #     """
     #     generate prompt lines as this node appeared in concrete prompt
