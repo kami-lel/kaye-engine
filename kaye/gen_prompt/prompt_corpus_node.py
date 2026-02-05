@@ -51,6 +51,8 @@ class PromptCorpusNode(BasePromptNode):
         # split to lines
         text_lines = list(text_cleanup.split("\n"))
 
+        print(text_lines)  # HACK
+
         root = cls(ROOT_NODE_NAME, None, text_lines)
         return root
 
