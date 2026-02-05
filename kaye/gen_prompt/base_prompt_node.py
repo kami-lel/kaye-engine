@@ -114,7 +114,7 @@ class BasePromptNode(AnyTreeNode):
         if self.is_root:
             return [""]
 
-        ancestry_path = self.parent.generate_lineage()
+        ancestry_path = self.parent.generate_id_lineage()
         ancestry_path.append(self.id)
         return ancestry_path
 
@@ -181,6 +181,5 @@ class BasePromptNode(AnyTreeNode):
         >>> str(node)
         "PromptCorpusNode(Introduction#Data#Advanced)"
         """
-        # BUG
-        ancestry_path_name = "#".join(self.generate_id_lineage()[1:])
-        return "{}({})".format(type(self).__name__, ancestry_path_name)
+        lineage = "#".join(node.name for node in self.path)
+        return "{}({})".format(type(self).__name__, lineage)

@@ -11,64 +11,62 @@ from tests.prompt.base import *
 
 class TestStr:
 
-    # BUG wrong
-
     def test_root(self):
         node = WORLD
         opt = str(node)
         print(opt)
-        assert opt == "UnitTestNode()"
+        assert opt == "UnitTestNode(World)"
 
     def test_mountain(self):
         node = MOUNTAIN
         opt = str(node)
         print(opt)
-        assert opt == "UnitTestNode(Mountain Range)"
+        assert opt == "UnitTestNode(World#Mountain Range)"
 
     def test_peak(self):
         node = PEAK
         opt = str(node)
         print(opt)
-        assert opt == "UnitTestNode(High Peak!)"
+        assert opt == "UnitTestNode(World#Mountain Range#High Peak!)"
 
     def test_cave(self):
         node = CAVE
         opt = str(node)
         print(opt)
-        assert opt == "UnitTestNode(Dark Cave)"
+        assert opt == "UnitTestNode(World#Mountain Range#High Peak!#Dark Cave)"
 
     def test_lake(self):
         node = LAKE
         opt = str(node)
         print(opt)
-        assert opt == "UnitTestNode(Serene Lake)"
+        assert opt == "UnitTestNode(World#Mountain Range#Serene Lake)"
 
     def test_forest(self):
         node = FOREST
         opt = str(node)
         print(opt)
-        assert opt == "UnitTestNode(Ancient Forest)"
+        assert opt == "UnitTestNode(World#Ancient Forest)"
 
     def test_glade(self):
         node = GLADE
         opt = str(node)
         print(opt)
-        assert opt == "UnitTestNode(Sunny Glade)"
+        assert opt == "UnitTestNode(World#Ancient Forest#Sunny Glade)"
 
     def test_stream(self):
         node = STREAM
         opt = str(node)
         print(opt)
-        assert opt == "UnitTestNode(Hidden Stream)"
+        assert opt == "UnitTestNode(World#Ancient Forest#Hidden Stream)"
 
     def test_village(self):
         node = VILLAGE
         opt = str(node)
         print(opt)
-        assert opt == "UnitTestNode(Old Village)"
+        assert opt == "UnitTestNode(World#Old Village)"
 
     def test_market(self):
         node = MARKET
         opt = str(node)
         print(opt)
-        assert opt == "UnitTestNode(Market Square)"
+        assert opt == "UnitTestNode(World#Old Village#Market Square)"
