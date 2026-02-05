@@ -7,8 +7,6 @@ Unit Tests (using pytest) for:
 - PromptCorpusNode.__repr__()
 """
 
-# BUG BUG
-
 from kaye.gen_prompt import PromptCorpusNode
 from tests.prompt import (
     PROMPT1,
