@@ -32,7 +32,7 @@ class AbbrNode(BasePromptNode):
 
     # implement BasePromptNode  ================================================
     @property
-    def name_in_lineage(self):
+    def id(self):
         return "{abbr}"
 
 

@@ -18,7 +18,7 @@ __all__ = [
 class UnitTestNode(BasePromptNode):
 
     @property
-    def name_in_lineage(self):
+    def id(self):
         return self.name.upper()
 
     @property
