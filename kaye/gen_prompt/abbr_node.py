@@ -32,8 +32,8 @@ class AbbrNode(BasePromptNode):
 
     # implement BasePromptNode  ================================================
     @property
-    def id(self):
-        return "{abbr}"
+    def content_lines(self):
+        return []  # TODO
 
 
 # TODO different abbr notes: contextual dynamic
