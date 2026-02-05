@@ -2,6 +2,8 @@
 test ``generate_preview_tree()`` & ``__str__()`` of class ``PromptCorpusNode``
 """
 
+# BUG BUG
+
 from kaye.gen_prompt import PromptCorpusNode
 from tests.prompt import (
     PROMPT1,
