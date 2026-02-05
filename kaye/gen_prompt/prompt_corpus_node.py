@@ -51,15 +51,14 @@ class PromptCorpusNode(BasePromptNode):
         # split to lines
         text_lines = list(text_cleanup.split("\n"))
 
-        print(text_lines)  # HACK
-
         root = cls(ROOT_NODE_NAME, None, text_lines)
         return root
 
     # constructor  =============================================================
     def __init__(self, name, parent, text_lines=None):
-        if HEADING_FORBIDDEN.match(name):
-            # TODO unit test
+        print(name)  # HACK
+
+        if HEADING_FORBIDDEN.findall(name):
             raise ValueError(
                 "detects illegal symbol in heading: {}".format(repr(name))
             )

@@ -2,6 +2,8 @@
 test .parse() and instance creation for ``class PromptCorpusNode``
 """
 
+import pytest
+
 from kaye.gen_prompt import PromptCorpusNode
 from tests.prompt import (
     PROMPT1,
@@ -453,4 +455,30 @@ class TestEdge:  # various edge cases
 class TestForbiddenHeading:  ###################################################
 
     def test1(_):
-        pass  # TODO
+        with pytest.raises(ValueError) as exec_info:
+            PromptCorpusNode.parse("""# Title
+## {Some""")
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "detects illegal symbol in heading: '{Some'"
+
+    def test2(_):
+        with pytest.raises(ValueError) as exec_info:
+            PromptCorpusNode.parse("""# Title
+
+## Some } This""")
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "detects illegal symbol in heading: 'Some } This'"
+
+    def test3(_):
+        with pytest.raises(ValueError) as exec_info:
+            PromptCorpusNode.parse("""# Title
+
+## Some # This""")
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "detects illegal symbol in heading: 'Some # This'"
