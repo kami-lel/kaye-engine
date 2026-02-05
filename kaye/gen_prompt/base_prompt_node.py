@@ -143,11 +143,12 @@ class BasePromptNode(AnyTreeNode):
 
         elif isinstance(key, str):
             for child in self.children:
-                if child.name == key:
+                if key in (child.name, child.id):
                     return child
-            # FIXME err msg
             raise KeyError(
-                "fail to find child {} in {}".format(repr(key), repr(self))
+                "{} contains no child with name/id of {}".format(
+                    self, repr(key)
+                )
             )
 
         else:
