@@ -86,6 +86,7 @@ class AbbrNode(BasePromptCorpusNode):  #########################################
 
     # singleton class properties  ==============================================
 
+    # TODO make singleton class
     _automaton = None
     _entries = None
 

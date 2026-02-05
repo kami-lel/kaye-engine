@@ -1,24 +1,5 @@
 HACK rm
 
-† dagger
-‡ double dagger
-
-℉ degree Fahrenheit
-℃ degree Celsius
-°
-∹
-! not?, as prefix
-× multiplication sign
-¬ not
-∞ infinity, no limit
-∝
-√ square root
-⅞ vulgar fraction seven eighths
-Σ
-∃ there exists
-
-~ tilde
-
 
 ☐ ballot box
 ☒ crossed checkbox / ballot box with x
@@ -30,6 +11,7 @@ HACK rm
 - "✅": selected, voted for
 
 
+
 - message levels:
 
   - "💥": CRIT
@@ -37,14 +19,6 @@ HACK rm
   - "⚠️": warning
   - "💡": info
   - "🐞": debug
-
-≠
-≡
-≤
-≥
-
-≪
-≫
 
 
 ↔
@@ -76,29 +50,6 @@ HACK rm
     "usable"
   ]
 },
-
-
-
-
-⅔ vulgar fraction two thirds
-⅖ vulgar fraction two fifths
-⅚ vulgar fraction five sixths
-⅝ vulgar fraction five eighths
-⅘ vulgar fraction four fifths
-⅝ vulgar fraction five eighths
-¾ vulgar fraction three quarters
-⅗ 〃 three fifths
-⅜ 〃 three eighths
-⅟ vulgar fraction one
-½ 〃 one half
-⅓ 〃 one third
-¼ 〃 one quarter
-⅕ 〃 one fifth
-⅙ 〃 one sixth
-⅐ 〃 one seventh
-⅛ 〃 one eighth
-⅑ 〃 one ninth
-⅒ 〃 one tenth
 
 
 ☜ manicule white left-pointing index

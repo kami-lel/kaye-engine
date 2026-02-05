@@ -7,6 +7,3 @@ class BasePromptCorpusNode(AnytreeNode):
 
     def __hash__(self):
         raise NotImplementedError
-
-    def __copy__(self):
-        raise NotImplementedError
