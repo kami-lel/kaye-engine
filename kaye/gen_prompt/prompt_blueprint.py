@@ -65,6 +65,8 @@ class PromptBlueprint(dict):
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
         """
+        # TODO make prompt_corpus default from using corpus loader
+
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
         path2node_hash = {
             node.path_of_names: hash(node) for node in bp.corpus.descendants
@@ -309,9 +311,7 @@ class PromptBlueprint(dict):
                 which contains only branches with checkmarked nodes
         :rtype: PromptBlueprint
         """
-        pruned_bp = PromptBlueprint(
-            self.corpus, display_name=self.display_name
-        )
+        pruned_bp = PromptBlueprint(self.corpus, display_name=self.display_name)
         _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
         return pruned_bp
 
@@ -394,9 +394,7 @@ class PromptBlueprint(dict):
         if hide_comment:
             comment_line = ""
         else:
-            comment_line = (
-                "\n<!-- " + self._generate_comment_content() + " -->"
-            )
+            comment_line = "\n<!-- " + self._generate_comment_content() + " -->"
 
         return content, comment_line
 
@@ -622,9 +620,7 @@ def _normalize_node_hash(node):
 
     else:
         raise TypeError(
-            "must be PromptCorpusNode or hash value, not: {}".format(
-                repr(node)
-            )
+            "must be PromptCorpusNode or hash value, not: {}".format(repr(node))
         )
 
 
