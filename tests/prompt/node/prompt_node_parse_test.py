@@ -453,33 +453,11 @@ class TestEdge:  # various edge cases
 
 class TestForbiddenHeading:  ###################################################
 
-    # FIXME FIXME allow single {/}, allows #
-
     def test1(_):
         with pytest.raises(ValueError) as exec_info:
             PromptCorpusNode.parse("""# Title
-## {Some""")
+## {Some}""")
 
         opt = exec_info.value.args[0]
         print(opt)
-        assert opt == "detects illegal symbol in heading: '{Some'"
-
-    def test2(_):
-        with pytest.raises(ValueError) as exec_info:
-            PromptCorpusNode.parse("""# Title
-
-## Some } This""")
-
-        opt = exec_info.value.args[0]
-        print(opt)
-        assert opt == "detects illegal symbol in heading: 'Some } This'"
-
-    def test3(_):
-        with pytest.raises(ValueError) as exec_info:
-            PromptCorpusNode.parse("""# Title
-
-## Some # This""")
-
-        opt = exec_info.value.args[0]
-        print(opt)
-        assert opt == "detects illegal symbol in heading: 'Some # This'"
+        assert opt == "illegal heading syntax: '{Some}'"
