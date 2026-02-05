@@ -25,7 +25,7 @@ class BasePromptNode(AnyTreeNode):
         only applicable on **root** node
 
 
-        :param preview_line_count: set maximum line count
+        :param content_preview_lines: set maximum line count
                 (excluding section heading line) of *content preview* part;
                 defaults to 3
         :type content_preview_lines: int
