@@ -7,6 +7,9 @@ from anytree import Node as AnyTreeNode, RenderTree
 __all__ = ("BasePromptNode",)
 
 
+# FIXME docstring of all cls & fx
+
+
 class BasePromptNode(AnyTreeNode):
 
     # public API  ==============================================================
@@ -18,8 +21,6 @@ class BasePromptNode(AnyTreeNode):
         generate **preview tree** of ``self`` as root,
         an human-readable representation
 
-
-        TODO wrong
 
         :param preview_line_count: set maximum line count of
                 *content preview* part, (excluding section heading line);
@@ -81,7 +82,7 @@ class BasePromptNode(AnyTreeNode):
     # abstract methods  ========================================================
 
     @property
-    def name_in_lineage(self):
+    def id(self):
         """
         :return: this node's name used in ``.generate_lineage()``;
                 ``""`` for root node
@@ -100,7 +101,7 @@ class BasePromptNode(AnyTreeNode):
 
     # instance methods  ========================================================
 
-    def generate_lineage(self):
+    def generate_id_lineage(self):
         """
         :return: a **lineage** from root to current node (inclusively),
                 represented as a ``list`` of node names,
@@ -114,7 +115,7 @@ class BasePromptNode(AnyTreeNode):
             return [""]
 
         ancestry_path = self.parent.generate_lineage()
-        ancestry_path.append(self.name_in_lineage)
+        ancestry_path.append(self.id)
         return ancestry_path
 
     # magic methods  ===========================================================
@@ -159,7 +160,7 @@ class BasePromptNode(AnyTreeNode):
             )
 
     def __hash__(self):
-        return hash(tuple(self.generate_lineage()))
+        return hash(tuple(self.generate_id_lineage()))
 
     def __repr__(self):
         """
@@ -181,5 +182,5 @@ class BasePromptNode(AnyTreeNode):
         "PromptCorpusNode(Introduction#Data#Advanced)"
         """
         # BUG
-        ancestry_path_name = "#".join(self.generate_lineage()[1:])
+        ancestry_path_name = "#".join(self.generate_id_lineage()[1:])
         return "{}({})".format(type(self).__name__, ancestry_path_name)

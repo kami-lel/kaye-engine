@@ -26,7 +26,7 @@ class PromptCorpusNode(BasePromptNode):
 
     # implement BasePromptNode  ================================================
     @property
-    def name_in_lineage(self):
+    def id(self):
         # for PromptCorpusNode, identical to heading
         return self.name
 
