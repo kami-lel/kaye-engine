@@ -18,6 +18,8 @@ The **core** module of *Kaye Python API*, implement a systematic, dynamic, and s
 
 ### Prompt Node `PromptCorpusNode`
 
+<!-- FIXME FIXME rewrite -->
+
 A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
 
 The **prompt corpus tree** is the structured representation parsed from *prompt corpus text* . A **node** of tree is corresponding to a section heading in the text. E.g. text in such form:

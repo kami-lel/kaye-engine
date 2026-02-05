@@ -9,6 +9,8 @@ from tests.prompt import (
     PROMPT3,
 )
 
+# BUG BUG
+
 
 class Test1:  # test using PROMPT1
 
@@ -144,8 +146,7 @@ class Test3:  # test using PROMPT3
 
         assert (
             opt
-            == "PromptCorpusNode"
-            "(Main Title#Introduction#Background#Importance)"
+            == "PromptCorpusNode(Main Title#Introduction#Background#Importance)"
         )
 
     def test5(self):
@@ -190,8 +191,7 @@ class Test3:  # test using PROMPT3
 
         assert (
             opt
-            == "PromptCorpusNode"
-            "(Main Title#Methods#Data Collection#Tools Used)"
+            == "PromptCorpusNode(Main Title#Methods#Data Collection#Tools Used)"
         )
 
     def test24(self):

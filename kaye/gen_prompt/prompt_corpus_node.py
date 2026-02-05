@@ -12,7 +12,7 @@ ROOT_NODE_NAME = "○"  # placeholder name for root node
 
 __all__ = ("PromptCorpusNode",)
 
-# FIXME all docstring
+# FIXME FIXME all docstring
 
 HEADING_FORBIDDEN = re.compile(r"[{}#]")
 
