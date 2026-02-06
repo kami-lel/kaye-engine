@@ -216,6 +216,12 @@ class AbbrMeaning:  # **********************************************************
     def __hash__(self):
         return hash(self.mean)
 
+    def __eq__(self, other):
+        if not isinstance(other, AbbrEntry):
+            return NotImplemented
+
+        return self.mean == other.mean
+
 
 class AbbrEntry:  # ============================================================
     """
@@ -297,9 +303,11 @@ class AbbrEntry:  # ============================================================
     # magic methods  ***********************************************************
 
     def __hash__(self):
-        return hash(self.key)  # TODO TODO
+        key = (self.abbr, self.mean)
+        return hash(key)
 
-    def __eq__(self, other):  # TODO TODO
+    def __eq__(self, other):
         if not isinstance(other, AbbrEntry):
             return NotImplemented
-        return self.key == other.key
+
+        return self.abbr == other.abbr and self.mean == other.mean
