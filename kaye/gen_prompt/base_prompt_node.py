@@ -77,7 +77,7 @@ class BasePromptNode(AnyTreeNode):
 
             # content preview part
             if content_preview_lines:
-                content = node.content_lines
+                content = node.content_lines()
                 if content:
                     for line in content[:content_preview_lines]:
                         lines.append((fill + line)[:content_preview_width])

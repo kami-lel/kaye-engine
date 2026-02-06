@@ -21,8 +21,7 @@ class UnitTestNode(BasePromptNode):
     def id(self):
         return self.name.upper()
 
-    @property
-    def content_lines(self):
+    def content_lines(self, query=""):
         return self.lines
 
 
