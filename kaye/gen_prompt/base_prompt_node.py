@@ -96,9 +96,10 @@ class BasePromptNode(AnyTreeNode):
         """
         raise NotImplementedError
 
-    @property
-    def content_lines(self):
+    def content_lines(self, query=""):
         """
+        :param query:
+        :type query: str
         :return: content **lines** this node as appeared in concrete prompt;
                 each element in ``list`` is a single line
         :rtype: list[str]
