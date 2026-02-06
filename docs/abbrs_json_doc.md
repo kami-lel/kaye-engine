@@ -2,18 +2,25 @@
 
 Explain format of `kaye/gen_prompt/abbrs.json`
 
-<!-- TODO TODO -->
-
 Top level structure:
 
 ```json
 {
-  "abbrs": {
-    ...
-  },
-  "alts": {
-    ...
-  }
+  "MEANING1": {
+    "ABBR1": {
+      "priority": 0,
+      "tags": [
+        "ascii_only",
+        "common"
+      ],
+      "wrap": "word",
+     },
+    "ABBR2": { ~ },
+   },
+
+  "MEANING2": { ~ },
+  "MEANING3": { ~ },
+  ~
 }
 ```
 
@@ -21,88 +28,41 @@ Top level structure:
 
 
 
-#### entries in `"abbrs"`
-
-Key must be a *string* of the **abbreviation** itself.
-
-Value must be an object contains:
-
-- ``"mean"``: meaning of the abbreviation, *string*
-- ``"wrap"``: v.i.
-- ``"tags"``: v.i.
-
-E.g.
-
-```json
-{
-  "abbrs": {
-    "e.g.": {
-      "mean": "for example,for instance",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    },
-    "avg": {
-      "mean": "average",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    },
-    ...
-  },
-  ...
-}
-```
-
-
-
-#### entries in `"alts"`
-
-Key must be a *string* of the **alternative spelling** of an abbreviation.
-
-Value must be an object contains:
-
-- ``"abbr"``: name reference of an abbreviation entry existed in ``"abbrs"``
-- ``"wrap"``: v.i.
-- ``"tags"``: v.i.
-
-
-E.g.
-
-```json
-{
-  ...
-  "alts": {
-    "eg": {
-      "abbr": "e.g.",
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    },
-    ...
-  }
-}
-```
 
 
 
 
 
-#### ``"tags"``
+
+
+
+## fields
+
+#### `priority`
+
+An *integer* value, lower value means higher priority.
+
+
+
+
+
+#### `tags`
 
 Additional information regards this entry,
 must be an *array* of *string* of these selected values:
 
-- `"ascii"`: this abbreviation contains strictly ASCII characters
-- `"usable"`: LLM may utilize this abbreviation in conversation
-  and it will generally be considered understandable
-- `"emoji"`
-- `"programming_language"`: it is an abbreviation of a programming language,
+- `"common"`: common abbreviations that any person might understand,
+  thus LLM may utilize this abbreviation in conversation
+
+- `"programming_language"`: it is an abbreviation of a programming language
   e.g. `cpp` for C++ programming language
 
+Character set:
+
+- `"letters_only"`
+- `"word_character_only"`
+- `"ascii_only"`
+- `"emoji"`
 
 
 
