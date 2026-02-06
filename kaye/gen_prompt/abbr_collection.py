@@ -84,11 +84,6 @@ class AbbrWrap(Enum):  #########################################################
     SUFFIX = "suffix"
     SYMBOL = "symbol"
 
-    # classmethods  ============================================================
-    @classmethod
-    def create(cls, raw):
-        pass  # TODO
-
     # instance methods  ========================================================
 
     def is_satisfied_wrap_rule(self, char_before, char_after):
@@ -253,6 +248,12 @@ class AbbrEntry:  # ************************************************************
             )
         self.priority = priority
 
-        # set .tags & .wrap  ---------------------------------------------------
+        # set .tags  -----------------------------------------------------------
         self.tags = AbbrTags.parse(abbr_obj["tags"])
-        self.wrap = AbbrWrap.create(abbr_obj["wrap"])
+
+        # set .wrap  -----------------------------------------------------------
+        wrap = abbr_obj["wrap"]
+        if not isinstance(wrap, str):
+            raise ValueError("wrap value must be String: {}".format(repr(wrap)))
+
+        self.wrap = AbbrWrap(wrap)  # may raise ValueError

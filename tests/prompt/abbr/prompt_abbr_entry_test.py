@@ -19,9 +19,12 @@ ABBR = "e.g."
 ABBR_OBJ = {"priority": 5, "tags": ["ascii_only", "common"], "wrap": "word"}
 
 
-class TestErr:  ################################################################
+# err handling  ###############################################################
 
-    def test_abbr_key_type1(_):
+
+class TestErrAbbr:  # ==========================================================
+
+    def test_key_type1(_):
         abbr = 5
         with pytest.raises(ValueError) as exec_info:
             AbbrEntry(MEAN, abbr, ABBR_OBJ)
@@ -30,7 +33,10 @@ class TestErr:  ################################################################
         print(opt)
         assert opt == "abbr key must be String: 5"
 
-    def test_abbr_obj_type1(_):
+
+class TestErrAbbrObj:  # =======================================================
+
+    def test_value_type1(_):
         abbr_obj = 5
         with pytest.raises(ValueError) as exec_info:
             AbbrEntry(MEAN, ABBR, abbr_obj)
@@ -73,6 +79,9 @@ class TestErr:  ################################################################
         print(opt)
         assert opt == "abbr value must contains key: ['priority', 'wrap']"
 
+
+class TestErrPriority:  # ======================================================
+
     def test_priority(_):
         abbr_obj = ABBR_OBJ.copy()
         abbr_obj["priority"] = "123"
@@ -83,6 +92,30 @@ class TestErr:  ################################################################
         opt = exec_info.value.args[0]
         print(opt)
         assert opt == "priority must be Integer: '123'"
+
+
+class TestErrWrap:  # ==========================================================
+    def test_wrap1(_):
+        abbr_obj = ABBR_OBJ.copy()
+        abbr_obj["wrap"] = 123
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrEntry(MEAN, ABBR, abbr_obj)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "wrap value must be String: 123"
+
+    def test_wrap2(_):
+        abbr_obj = ABBR_OBJ.copy()
+        abbr_obj["wrap"] = "AAA"
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrEntry(MEAN, ABBR, abbr_obj)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "'AAA' is not a valid AbbrWrap"
 
 
 # testees  #####################################################################
