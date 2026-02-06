@@ -7,8 +7,6 @@ import re
 
 import ahocorasick
 
-ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
-
 __all__ = ("AbbrCollection", "AbbrEntry", "AbbrWrap", "AbbrTags")
 # BUG new structure
 
@@ -47,26 +45,6 @@ class AbbrCollection:
     # load abbrs from file  ====================================================
     def _load_abbrs_json(self, *, abbrs_json_override=None):
         # read abbrs.json  -----------------------------------------------------
-        if abbrs_json_override:
-            data = abbrs_json_override
-
-        else:
-            with open(
-                ABBRS_JSON_FILE_PATH, "r", encoding="utf-8"
-            ) as f:  # read only
-                try:
-                    data = json.load(f)
-                except json.JSONDecodeError as err:
-                    raise json.JSONDecodeError(
-                        "fail to parse abbrs.json: " + err.msg,
-                        err.doc,
-                        err.pos,
-                    ) from err
-
-        self._validate_json_data(data)
-        abbrs_obj = data[ABBRS_KEY]
-        alts_obj = data[ALT_KEY]
-
         # create entries  ------------------------------------------------------
         self.entries = []
         # add all abbr entries
@@ -87,16 +65,6 @@ class AbbrCollection:
     # helper methods  **********************************************************
     @classmethod
     def _validate_json_data(cls, data):
-        """
-        perform type validation on the json data read from ``abbrs.json``
-
-        helper method used in ``._load_abbrs_json()``
-
-
-        :param data:
-        :type data: dict
-        :raises ValueError:
-        """
         if not all(key in data for key in (ABBRS_KEY, ALT_KEY)):
             raise ValueError("abbrs.json must contains 'abbrs' and 'alt'")
 
