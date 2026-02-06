@@ -36,6 +36,6 @@ class TestToday:
 └── Today"""
 
     def test_content_lines(self):
-        lines = self.node.content_lines
+        lines = self.node.content_lines()
         assert re.fullmatch(r"Today: \d{4}-\d{2}-\d{2}", lines[0])
         assert re.fullmatch(r"Time: \d{2}:\d{2}:\d{2}", lines[1])
