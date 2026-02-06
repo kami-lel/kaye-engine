@@ -10,7 +10,11 @@ from enum import Enum, Flag, auto
 __all__ = ("AbbrTags", "AbbrWrap", "AbbrData")
 
 
+# abbrs.json constants  ########################################################
 ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
+ABBRS_JSON_PRIORITY_KEY = "priority"
+ABBRS_JSON_TAGS_KEY = "tags"
+ABBRS_JSON_WRAP_KEY = "wrap"
 
 
 class AbbrTags(Flag):  #########################################################
@@ -235,7 +239,13 @@ class AbbrEntry:  # ============================================================
                 "abbr value must be Object: {}".format(repr(abbr_obj))
             )
         missing_keys = [
-            key for key in ("priority", "tags", "wrap") if key not in abbr_obj
+            key
+            for key in (
+                ABBRS_JSON_PRIORITY_KEY,
+                ABBRS_JSON_TAGS_KEY,
+                ABBRS_JSON_WRAP_KEY,
+            )
+            if key not in abbr_obj
         ]
         if missing_keys:
             raise ValueError(
@@ -243,7 +253,7 @@ class AbbrEntry:  # ============================================================
             )
 
         # set .priority  -------------------------------------------------------
-        priority = abbr_obj["priority"]
+        priority = abbr_obj[ABBRS_JSON_PRIORITY_KEY]
         if not isinstance(priority, int):
             raise ValueError(
                 "priority must be Integer: {}".format(repr(priority))
@@ -251,10 +261,11 @@ class AbbrEntry:  # ============================================================
         self.priority = priority
 
         # set .tags  -----------------------------------------------------------
-        self.tags = AbbrTags.parse(abbr_obj["tags"])
+        self.tags = AbbrTags.parse(abbr_obj[ABBRS_JSON_TAGS_KEY])
 
         # set .wrap  -----------------------------------------------------------
-        self.wrap = AbbrWrap(abbr_obj["wrap"])  # may raise ValueError
+        # may raise ValueError
+        self.wrap = AbbrWrap(abbr_obj[ABBRS_JSON_WRAP_KEY])
 
     # instance method  *********************************************************
 
