@@ -2,7 +2,7 @@
 define abbreviations-related node types
 """
 
-from kaye.gen_prompt.abbr_collection import AbbrCollection
+# from kaye.gen_prompt.abbr_collection import AbbrCollection
 from kaye.gen_prompt.base_prompt_node import DynamicNode
 
 __all__ = ("AbbrNode", "PLCNode")
