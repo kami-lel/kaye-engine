@@ -36,6 +36,8 @@ class AbbrTags(Flag):  #########################################################
         :return: parsed tags
         :rtype: AbbrEntry
         """
+        # TODO TODO type check
+
         instance = cls.NONE  # start
         for tag in tags_list:
             try:
@@ -78,6 +80,11 @@ class AbbrWrap(Enum):  #########################################################
     PREFIX = "prefix"
     SUFFIX = "suffix"
     SYMBOL = "symbol"
+
+    # classmethods  ============================================================
+    @classmethod
+    def create(cls, raw):
+        pass  # TODO
 
     # instance methods  ========================================================
 
@@ -212,20 +219,21 @@ class AbbrMeaning:  # **********************************************************
 
 class AbbrEntry:  # ************************************************************
 
-    __slots__ = ("abbr", "mean", "wrap", "tags")
+    __slots__ = ("abbr", "mean", "priority", "tags", "wrap")
 
     def __init__(self, mean, abbr, abbr_obj):
         self.mean = mean  # referenced to meaning
 
-        # test shapes  ---------------------------------------------------------
+        # set .abbr  -----------------------------------------------------------
         if not isinstance(abbr, str):
             raise ValueError("abbr key must be String: {}".format(repr(abbr)))
+        self.abbr = abbr
 
+        # test abbr_obj shapes  ------------------------------------------------
         if not isinstance(abbr_obj, dict):
             raise ValueError(
                 "abbr value must be Object: {}".format(repr(abbr_obj))
             )
-
         missing_keys = [
             key for key in ("priority", "tags", "wrap") if key not in abbr_obj
         ]
@@ -234,4 +242,14 @@ class AbbrEntry:  # ************************************************************
                 "abbr value must contains key: {}".format(missing_keys)
             )
 
-        # TODO TODO create
+        # set .priority  -------------------------------------------------------
+        priority = abbr_obj["priority"]
+        if not isinstance(priority, int):
+            raise ValueError(
+                "priority must be Integer: {}".format(repr(priority))
+            )
+        self.priority = priority
+
+        # set .tags & .wrap  ---------------------------------------------------
+        self.tags = AbbrTags.parse(abbr_obj["tags"])
+        self.wrap = AbbrWrap.create(abbr_obj["wrap"])
