@@ -73,6 +73,23 @@ class TestFromAltErr:
 
 
 # ._init__()  ##################################################################
+class TestInit:
+
+    def test_key1(_):
+        key = "s/X"
+
+        opt = AbbrEntry(key, "sometimes", "word", [])
+
+        assert isinstance(opt.key, str)
+        assert opt.key == "s/X"
+        assert isinstance(opt.mean, str)
+        assert opt.mean == "sometimes"
+        assert isinstance(opt.wrap, AbbrWrap)
+        assert opt.wrap == AbbrWrap.WORD
+        assert isinstance(opt.tags, AbbrTags)
+        assert opt.tags == AbbrTags.NONE
+
+
 class TestInitErr:
 
     def test_key1(_):
