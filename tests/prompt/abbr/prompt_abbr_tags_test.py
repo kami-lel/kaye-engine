@@ -12,6 +12,17 @@ from kaye.gen_prompt.abbr_collection import AbbrTags
 
 class TestParseErr:
 
+    def test_not_array1(_):
+        ipt = 123
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrTags.parse(ipt)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "tags value must be Array: 123"
+
     def test_type1(_):
         ipt = [123, 456]
 
