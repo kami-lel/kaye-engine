@@ -11,7 +11,7 @@ from .base_prompt_node import BasePromptNode
 
 ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
 
-__all__ = ("AbbrNode", "AbbrEntry", "AbbrWrap", "AbbrTags")
+__all__ = ("AbbrCollection", "AbbrEntry", "AbbrWrap", "AbbrTags")
 
 
 # constants  ###################################################################
@@ -27,33 +27,26 @@ WRAP_KEY = "wrap"
 TAGS_KEY = "tags"
 
 
-class AbbrNode(BasePromptNode):  ###############################################
-    pass
+class AbbrCollection:
 
-    # implement BasePromptNode  ================================================
-    @property
-    def content_lines(self, **kwargs):
-        return []  # TODO
+    _instance = None  # singleton
 
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance._load_abbrs_json()
+        return cls._instance
 
-# TODO different abbr notes: contextual dynamic
-class DynamicAbbr:
-
-    # public API  ==============================================================
-    @classmethod
-    def load_abbrs_json(cls, *, abbrs_json_override=None):
+    # load abbrs from file  ====================================================
+    def _load_abbrs_json(self, *, abbrs_json_override=None):
         """
-        load class properties ``_automaton`` and ``_entries``
-        from file ``abbrs.json``
+        load from ``abbrs.json``
+        to create ``self._automation`` and ``self._entries``
 
-
-        :param abbrs_json_override:
-        :type abbrs_json_override: bool, optional
         :raises json.JSONDecodeError:
         :raises ValueError:
         """
-        if not (cls._entries is None or cls._automaton is None):
-            return  # load once, thus skip loading
+        # pylint: disable=attribute-defined-outside-init
 
         # read abbrs.json  -----------------------------------------------------
         if abbrs_json_override:
@@ -72,34 +65,28 @@ class DynamicAbbr:
                         err.pos,
                     ) from err
 
-        cls._validate_json_data(data)
+        self._validate_json_data(data)
         abbrs_obj = data[ABBRS_KEY]
         alts_obj = data[ALT_KEY]
 
         # create entries  ------------------------------------------------------
-        cls._entries = []
+        self._entries = []
         # add all abbr entries
         for k, v in abbrs_obj.items():
             entry = AbbrEntry(k, v[MEAN_KEY], v[WRAP_KEY], v[TAGS_KEY])
-            cls._entries.append(entry)
+            self._entries.append(entry)
         # add all alt entries
         for k, v in alts_obj.items():
-            cls._entries.append(AbbrEntry.parse_from_alt(k, v, abbrs_obj))
+            self._entries.append(AbbrEntry.parse_from_alt(k, v, abbrs_obj))
 
         # create automation  ---------------------------------------------------
-        cls._automaton = ahocorasick.Automaton()
-        for entry in iter(cls._entries):
-            cls._automaton.add_word(entry.key, entry)
+        self._automaton = ahocorasick.Automaton()
+        for entry in self._entries:
+            self._automaton.add_word(entry.key, entry)
         # todo use pickle.loads/dumps to save an local automaton, with hash
-        cls._automaton.make_automaton()
+        self._automaton.make_automaton()
 
-    # singleton class properties  ==============================================
-
-    # TODO make singleton class
-    _automaton = None
-    _entries = None
-
-    # helper methods  ==========================================================
+    # helper methods  **********************************************************
     @classmethod
     def _validate_json_data(cls, data):
         """
@@ -206,27 +193,27 @@ class DynamicAbbr:
             )
 
     # HACK tmp naming
-    def gen(self, query):
-        self.load_abbrs_json()
-        query_lower = query.lower()
+    # def gen(self, query):
+    #     self.load_abbrs_json()
+    #     query_lower = query.lower()
 
-        lines = []
-        for last_idx, entry in self._automaton.iter_long(query_lower):
-            key_len = len(entry.key)
-            end_idx = last_idx + 1
-            start_idx = end_idx - key_len
-            # get found text & its surrounding from original query
-            found = query[start_idx:end_idx]
-            char_before = query[start_idx - 1] if start_idx > 0 else ""
-            char_after = query[end_idx] if end_idx > key_len else ""
-            # check found satisfies additional rules
-            if not entry.verify_found(found, char_before, char_after):
-                continue  # skip this found
+    #     lines = []
+    #     for last_idx, entry in self._automaton.iter_long(query_lower):
+    #         key_len = len(entry.key)
+    #         end_idx = last_idx + 1
+    #         start_idx = end_idx - key_len
+    #         # get found text & its surrounding from original query
+    #         found = query[start_idx:end_idx]
+    #         char_before = query[start_idx - 1] if start_idx > 0 else ""
+    #         char_after = query[end_idx] if end_idx > key_len else ""
+    #         # check found satisfies additional rules
+    #         if not entry.verify_found(found, char_before, char_after):
+    #             continue  # skip this found
 
-            line = "- {}:{}".format(entry.key, entry.mean)
-            lines.append(line)
+    #         line = "- {}:{}".format(entry.key, entry.mean)
+    #         lines.append(line)
 
-        return "\n".join(lines)
+    #     return "\n".join(lines)
 
 
 class AbbrEntry:  ##############################################################
