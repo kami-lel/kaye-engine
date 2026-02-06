@@ -73,6 +73,59 @@ class TestAbbrNode:
             "- ind:industry,industrial",
         }
 
+    # TODO multiple
+
+    def test_emoji1(self):
+        query = (
+            "When configuring your new software, always remember to review the"
+            " ⚙️ settings carefully before proceeding. ☜ Ignoring these"
+            " preferences can lead to unexpected behavior and potential errors"
+            " 🛑 that might disrupt your workflow. If you encounter any issues,"
+            " use the 🛠️ tools provided for debugging 🐞 to isolate the problem"
+            " swiftly. ☝ Also, pay close attention to any ⚠️ warnings during"
+            " installation—they often signal critical steps you must not"
+            " overlook. Once all checks are complete and the process reaches"
+            " the 🏁 finish line, you can confidently launch your project with"
+            " a sense of accomplishment. Remember, a well-organized setup today"
+            " fuels a rapid 🚀 and smooth experience tomorrow."
+        )
+
+        lines = self.node.content_lines(query=query)
+
+        print(lines)
+        assert set(lines) == {
+            "- ⚠️:warning",
+            "- ⚙️:settings,preferences",
+            "- ☝:points/notice up;upward direction",
+            "- 🚀:rapid,fast",
+            "- ☜:points/notice left;left direction",
+            "- 🛠️:tools",
+            "- 🐞:debug",
+            "- 🏁:finish",
+            "- 🛑:error",
+        }
+
+    def test_unicode1(self):
+        query = (
+            "During the experiment, the temperature was carefully lowered ↓"
+            " from 25℃ to 18℃ to observe the reaction rate changes. The"
+            " solution's volume was reduced by ¼ to concentrate the reactants,"
+            " ensuring more accurate results. After completing the checklist,"
+            " the box marked with a ☒ indicated the step was successfully"
+            " executed. These adjustments collectively contributed to the"
+            " observed decrease ↓ in reaction time, confirming the hypothesis."
+        )
+
+        lines = self.node.content_lines(query=query)
+
+        print(lines)
+        assert set(lines) == {
+            "- ℃:degree Celsius",
+            "- ☒:selected with a cross",
+            "- ↓:decrease,decrement",
+            "- ¼:fraction one quarter",
+        }
+
     def test_empty1(self):
         query = "some content without abbreviation"
 
