@@ -164,11 +164,11 @@ class AbbrData:  ###############################################################
         """
         # pylint: disable=attribute-defined-outside-init
 
-        # read abbrs.json  -----------------------------------------------------
         if abbrs_json_override:
             json_data = abbrs_json_override
 
         else:
+            # read abbrs.json  -------------------------------------------------
             with open(
                 ABBRS_JSON_FILE_PATH, "r", encoding="utf-8"
             ) as f:  # read only

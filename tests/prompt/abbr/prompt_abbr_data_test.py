@@ -8,11 +8,11 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from kaye.gen_prompt import AbbrData
+from kaye.gen_prompt import AbbrData, AbbrTags
+from kaye.gen_prompt.abbr_collection import AbbrMeaning, AbbrEntry, AbbrWrap
+
 
 # data validate  ###############################################################
-
-
 class TestValidate:
 
     def test_mean_value(_):
@@ -26,53 +26,78 @@ class TestValidate:
         assert opt == "meaning value must be Object: 5"
 
 
-# BUG BUG
-# entries population  ##########################################################
-class TestEntries:
+# test functions  ##############################################################
+class Test1:
 
-    def test1(_):
-        json_override = {
-            "abbrs": {
+    data = AbbrData(
+        abbrs_json_override={
+            "for example,for instance": {
                 "e.g.": {
-                    "mean": "for example,for instance",
-                    "tags": ["ascii"],
+                    "priority": 5,
+                    "tags": ["ascii_only", "common"],
                     "wrap": "word",
                 },
-                ".m": {"mean": "-ism", "tags": ["ascii"], "wrap": "suffix"},
+                "eg": {
+                    "priority": 6,
+                    "tags": ["letters_only"],
+                    "wrap": "prefix",
+                },
             },
-            "alts": {"eg": {"abbr": "e.g.", "tags": ["ascii"], "wrap": "word"}},
         }
+    )
 
-        instance = AbbrCollection(abbrs_json_override=json_override)
-        opt = instance.entries
+    def test_meanings(self):
+        meanings = self.data.meanings
 
-        assert isinstance(opt, list)
-        assert len(opt) == 3
-        # entry e.g.
-        entry = opt[0]
+        print(meanings)
+
+        assert len(meanings) == 1
+        meaning = meanings[0]
+        assert isinstance(meaning, AbbrMeaning)
+        assert isinstance(meaning.mean, str)
+        assert meaning.mean == "for example,for instance"
+
+    def test_abbrs(self):
+        abbrs = self.data.abbrs
+        meaning = self.data.meanings[0]
+
+        print(abbrs)
+
+        assert len(abbrs) == 2
+
+        # e.g.
+        entry = abbrs[0]
         assert isinstance(entry, AbbrEntry)
-        assert entry.key == "e.g."
-        assert entry.mean == "for example,for instance"
+        assert isinstance(entry.abbr, str)
+        assert entry.abbr == "e.g."
+        assert isinstance(entry.mean, AbbrMeaning)
+        assert entry.mean is meaning
+        assert isinstance(entry.priority, int)
+        assert entry.priority == 5
+        assert isinstance(entry.tags, AbbrTags)
+        assert entry.tags == AbbrTags.ascii_only | AbbrTags.common
+        assert isinstance(entry.wrap, AbbrWrap)
         assert entry.wrap == AbbrWrap.WORD
-        assert entry.tags == AbbrTags.ascii
 
-        # entry eg
-        entry = opt[1]
+        # eg
+        entry = abbrs[1]
         assert isinstance(entry, AbbrEntry)
-        assert entry.key == ".m"
-        assert entry.mean == "-ism"
-        assert entry.wrap == AbbrWrap.SUFFIX
-        assert entry.tags == AbbrTags.ascii
+        assert isinstance(entry.abbr, str)
+        assert entry.abbr == "eg"
+        assert isinstance(entry.mean, AbbrMeaning)
+        assert entry.mean is meaning
+        assert isinstance(entry.priority, int)
+        assert entry.priority == 6
+        assert isinstance(entry.tags, AbbrTags)
+        assert entry.tags == AbbrTags.letters_only
+        assert isinstance(entry.wrap, AbbrWrap)
+        assert entry.wrap == AbbrWrap.PREFIX
 
-        # entry avg
-        entry = opt[2]
-        assert isinstance(entry, AbbrEntry)
-        assert entry.key == "eg"
-        assert entry.mean == "for example,for instance"
-        assert entry.wrap == AbbrWrap.WORD
-        assert entry.tags == AbbrTags.ascii
+    def test_automaton(self):
+        pass  # TODO TODO
+
+    def test_automaton_fx1(self):
+        pass  # TODO TODO
 
 
-# automaton  ###################################################################
-
-# TODO TODO
+# TODO TODO add more test cases
