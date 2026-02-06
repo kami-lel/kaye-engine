@@ -18,7 +18,7 @@ class QueryAbbrNode(DynamicNode):
     # implement BasePromptNode  ================================================
 
     @property
-    def content_lines(self):
+    def content_lines(self, **kwargs):
         pass  # TODO
 
 
@@ -36,7 +36,7 @@ class PLCNode(DynamicNode):
 
     # implement BasePromptNode  ================================================
     @property
-    def content_lines(self):
+    def content_lines(self, **kwargs):
         return []
 
 

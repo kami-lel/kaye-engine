@@ -32,7 +32,7 @@ class AbbrNode(BasePromptNode):  ###############################################
 
     # implement BasePromptNode  ================================================
     @property
-    def content_lines(self):
+    def content_lines(self, **kwargs):
         return []  # TODO
 
 

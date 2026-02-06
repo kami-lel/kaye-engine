@@ -123,8 +123,7 @@ class PromptCorpusNode(BasePromptNode):
         # for PromptCorpusNode, identical to heading
         return self.name
 
-    @property
-    def content_lines(self):
+    def content_lines(self, **kwargs):
         return self._content_lines
 
     # Hack rm
