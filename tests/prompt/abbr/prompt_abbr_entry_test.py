@@ -73,6 +73,17 @@ class TestErr:  ################################################################
         print(opt)
         assert opt == "abbr value must contains key: ['priority', 'wrap']"
 
+    def test_priority(_):
+        abbr_obj = ABBR_OBJ.copy()
+        abbr_obj["priority"] = "123"
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrEntry(MEAN, ABBR, abbr_obj)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "priority must be Integer: '123'"
+
 
 # testees  #####################################################################
 # ABBR_KEY = "e.g."
@@ -89,6 +100,7 @@ class TestErr:  ################################################################
 
 
 # .parse_from_alt()  ###########################################################
+# HACK HACK rm all
 class XTestFromAlt:
 
     def test1(_):
