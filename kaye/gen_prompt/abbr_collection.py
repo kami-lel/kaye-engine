@@ -198,8 +198,6 @@ class AbbrMeaning:  # **********************************************************
     represent a single meaning (of possible different spellings)
 
 
-    :param mean:
-    :type mean: str
     :raises ValueError:
     """
 
@@ -220,6 +218,12 @@ class AbbrMeaning:  # **********************************************************
 
 
 class AbbrEntry:  # ============================================================
+    """
+    represent an abbr => meaning structure
+
+
+    :raises ValueError:
+    """
 
     # instance structure  ******************************************************
 
