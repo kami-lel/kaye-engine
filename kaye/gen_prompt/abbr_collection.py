@@ -282,9 +282,9 @@ class AbbrEntry:  # ============================================================
     # magic methods  ***********************************************************
 
     def __hash__(self):
-        return hash(self.key)  # TODO
+        return hash(self.key)  # TODO TODO
 
-    def __eq__(self, other):  # TODO
+    def __eq__(self, other):  # TODO TODO
         if not isinstance(other, AbbrEntry):
             return NotImplemented
         return self.key == other.key

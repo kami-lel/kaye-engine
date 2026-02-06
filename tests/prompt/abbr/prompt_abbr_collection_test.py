@@ -4,7 +4,7 @@ prompt_abbr_collection_test.py
 Unit Tests (using pytest) for: AbbrCollection
 """
 
-# BUG
+# BUG BUG
 
 import pytest
 
