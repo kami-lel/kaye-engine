@@ -15,7 +15,6 @@ ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
 
 __all__ = ("AbbrCollection", "AbbrEntry", "AbbrWrap", "AbbrTags")
 # BUG new structure
-# TODO work on abbrs: eq/ne/ge/le/gt/lt
 
 
 # constants  ###################################################################

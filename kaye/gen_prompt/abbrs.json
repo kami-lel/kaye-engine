@@ -894,15 +894,15 @@
       ],
       "wrap": "symbol"
     },
-    "Cap.": {
-      "priority": 5,
+    "C.": {
+      "priority": 6,
       "tags": [
         "ascii_only"
       ],
       "wrap": "word"
     },
-    "C.": {
-      "priority": 6,
+    "Cap.": {
+      "priority": 5,
       "tags": [
         "ascii_only"
       ],
@@ -1630,6 +1630,27 @@
       "wrap": "word"
     }
   },
+  "equal,equality,equivalent,equivalence": {
+    "=": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "symbol"
+    },
+    "≡": {
+      "priority": 4,
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "eq": {
+      "priority": 6,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
   "error": {
     "🛑": {
       "priority": 5,
@@ -2272,6 +2293,61 @@
       "wrap": "word"
     }
   },
+  "grater than or equal to": {
+    ">=": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "symbol"
+    },
+    "≥": {
+      "priority": 4,
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "ge": {
+      "priority": 6,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "great": {
+    "gt": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "greater than": {
+    ">": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "symbol"
+    },
+    "gt": {
+      "priority": 6,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "greatest": {
+    "gtx": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
   "group,grouping": {
     "grp": {
       "priority": 5,
@@ -2493,17 +2569,17 @@
     }
   },
   "inch": {
-    "in.": {
-      "priority": 5,
-      "tags": [
-        "ascii_only"
-      ],
-      "wrap": "word"
-    },
     "in": {
       "priority": 6,
       "tags": [
         "letters_only"
+      ],
+      "wrap": "word"
+    },
+    "in.": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -2695,6 +2771,33 @@
       "wrap": "word"
     }
   },
+  "large": {
+    "lrg": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "larger": {
+    "lrgg": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "largest": {
+    "lrgx": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
   "later": {
     "lr": {
       "priority": 5,
@@ -2715,6 +2818,52 @@
   },
   "length": {
     "len": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "less than": {
+    "<": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "symbol"
+    },
+    "lt": {
+      "priority": 6,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "less than or equal to": {
+    "=<": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "symbol"
+    },
+    "≤": {
+      "priority": 4,
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "le": {
+      "priority": 6,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "less,fewer": {
+    "ll": {
       "priority": 5,
       "tags": [
         "letters_only"
@@ -2745,6 +2894,15 @@
       "priority": 5,
       "tags": [
         "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "little,few": {
+    "l.": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -3158,6 +3316,27 @@
       "wrap": "word"
     }
   },
+  "not equal": {
+    "!=": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "symbol"
+    },
+    "≠": {
+      "priority": 4,
+      "tags": [],
+      "wrap": "symbol"
+    },
+    "ne": {
+      "priority": 6,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
   "nothing": {
     "n/t": {
       "priority": 5,
@@ -3318,17 +3497,17 @@
     }
   },
   "ounce": {
-    "oz.": {
-      "priority": 5,
-      "tags": [
-        "ascii_only"
-      ],
-      "wrap": "word"
-    },
     "oz": {
       "priority": 6,
       "tags": [
         "letters_only"
+      ],
+      "wrap": "word"
+    },
+    "oz.": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -3349,6 +3528,24 @@
         "ascii_only"
       ],
       "wrap": "prefix"
+    }
+  },
+  "page": {
+    "p.": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "pages": {
+    "pp.": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "word"
     }
   },
   "paragraph": {
@@ -3402,17 +3599,17 @@
     }
   },
   "pint": {
-    "pt.": {
-      "priority": 5,
-      "tags": [
-        "ascii_only"
-      ],
-      "wrap": "word"
-    },
     "pt": {
       "priority": 6,
       "tags": [
         "letters_only"
+      ],
+      "wrap": "word"
+    },
+    "pt.": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -3524,17 +3721,17 @@
     }
   },
   "pound": {
-    "lb.": {
-      "priority": 5,
-      "tags": [
-        "ascii_only"
-      ],
-      "wrap": "word"
-    },
     "lb": {
       "priority": 6,
       "tags": [
         "letters_only"
+      ],
+      "wrap": "word"
+    },
+    "lb.": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -3564,24 +3761,6 @@
         "ascii_only"
       ],
       "wrap": "prefix"
-    }
-  },
-  "page": {
-    "p.": {
-      "priority": 5,
-      "tags": [
-        "ascii_only"
-      ],
-      "wrap": "word"
-    }
-  },
-  "pages": {
-    "pp.": {
-      "priority": 5,
-      "tags": [
-        "ascii_only"
-      ],
-      "wrap": "word"
     }
   },
   "probably,probability": {
