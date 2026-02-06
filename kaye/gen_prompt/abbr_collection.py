@@ -318,6 +318,15 @@ class AbbrEntry:  ##############################################################
             self.key.islower() or found == self.key  # verify case sensitivity
         ) and self.wrap.is_satisfied_wrap_rule(char_before, char_after)
 
+    # magic methods  ===========================================================
+    def __hash__(self):
+        return hash(self.key)
+
+    def __eq__(self, other):
+        if not isinstance(other, AbbrEntry):
+            return NotImplemented
+        return self.key == other.key
+
 
 class AbbrWrap(Enum):  #########################################################
     """

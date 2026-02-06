@@ -16,7 +16,7 @@ from tests.prompt import PROMPT1
 tree = PromptCorpusNode.parse(PROMPT1)
 
 
-class TestPLC:
+class TestAbbrNode:
 
     node = AbbrNode(tree)
 
@@ -42,10 +42,7 @@ class TestPLC:
 
         lines = self.node.content_lines(query=query)
         print(lines)
-        assert lines == [
-            "- .g:-ing",
-            "- op:operate,operation,operator",
-        ]  # BUG BUG
+        assert set(lines) == {"- op:operate,operation,operator", "- .g:-ing"}
 
         # TODO TODO more tests
 
