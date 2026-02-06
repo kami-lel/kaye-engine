@@ -51,7 +51,7 @@ class TestAbbrNode:
             " mechanized manufacture, precipitating urbanization, the rise of"
             " factory labor, and new cls dynamics; & innovations in pub health,"
             " and pol repr. The period's cul ramifications incl the spread of"
-            " literacy and reorder modn soc."
+            " literacy and reorder modn soc. This is really o.est."
         )
 
         lines = self.node.content_lines(query=query)
@@ -71,6 +71,8 @@ class TestAbbrNode:
             "- pub:public;publish",
             "- ind:industry,industrial",
             "- in:inch",
+            "- o.:over-",
+            "- est.:estimate,estimation,estimated,estimating,estimatingly",
         }
 
     # TODO multiple
