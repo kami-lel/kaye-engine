@@ -71,3 +71,8 @@ class TestEntries:
         assert entry.mean == "for example,for instance"
         assert entry.wrap == AbbrWrap.WORD
         assert entry.tags == AbbrTags.ascii
+
+
+# automaton  ###################################################################
+
+# TODO TODO
