@@ -9,6 +9,42 @@ from enum import Enum, Flag, auto
 __all__ = ("AbbrTags", "AbbrWrap")
 
 
+class AbbrData:  ###############################################################
+    """
+    represents collections of all abbreviation read from ``abbrs.json`
+
+
+    :example:
+    >>> instance = AbbrData()
+    """
+
+    # singleton pattern  =======================================================
+
+    _instance = None  # singleton
+
+    def __new__(cls, *, abbrs_json_override=None):
+        if cls._instance is None or abbrs_json_override:
+            cls._instance = super().__new__(cls)
+            cls._instance._load_abbrs_json(
+                abbrs_json_override=abbrs_json_override
+            )
+        return cls._instance
+
+    def _load_abbrs_json(self, *, abbrs_json_override=None):
+        """
+        load from ``abbrs.json`` to create
+
+        - ``self.meanings``
+        - ``self.abbrs``
+        - ``self.automation``
+
+
+        :raises json.JSONDecodeError:
+        :raises ValueError:
+        """
+        # pylint: disable=attribute-defined-outside-init
+
+
 class AbbrTags(Flag):  #########################################################
     """
     represent **abbreviation tags** as a *bit flag*
@@ -111,3 +147,27 @@ class AbbrWrap(Enum):  #########################################################
 # patterns  --------------------------------------------------------------------
 WORD_BOUNDARY_PATTERN = re.compile(r"\s|[^\w\s]?")
 WORD_PATTERN = re.compile(r"\w")
+
+
+class AbbrMeaning:
+    """
+    represent a single meaning (of possible different spellings)
+
+
+    :param mean:
+    :type mean: str
+    """
+
+    __slots__ = ("mean",)
+
+    def __init__(self, mean):
+        self.mean = mean
+
+    # magic methods  ===========================================================
+
+    def __hash__(self):
+        return hash(self.mean)
+
+
+class AbbrEntry:  # TODO
+    pass

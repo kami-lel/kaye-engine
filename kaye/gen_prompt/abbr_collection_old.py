@@ -27,15 +27,6 @@ TAGS_KEY = "tags"
 
 
 class AbbrCollection:
-    """
-    represents collections of all abbreviation entries,
-    read from ``abbrs.json`
-
-
-    :example:
-    >>> instance = AbbrCollection()
-    """
-
     # public API  ==============================================================
 
     def generate_programming_languages_code(self):
@@ -53,25 +44,8 @@ class AbbrCollection:
 
     _instance = None  # singleton
 
-    def __new__(cls, *, abbrs_json_override=None):
-        if cls._instance is None or abbrs_json_override:
-            cls._instance = super().__new__(cls)
-            cls._instance._load_abbrs_json(
-                abbrs_json_override=abbrs_json_override
-            )
-        return cls._instance
-
     # load abbrs from file  ====================================================
     def _load_abbrs_json(self, *, abbrs_json_override=None):
-        """
-        load from ``abbrs.json``
-        to create ``self._automation`` and ``self._entries``
-
-        :raises json.JSONDecodeError:
-        :raises ValueError:
-        """
-        # pylint: disable=attribute-defined-outside-init
-
         # read abbrs.json  -----------------------------------------------------
         if abbrs_json_override:
             data = abbrs_json_override
