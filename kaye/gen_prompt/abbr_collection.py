@@ -242,6 +242,7 @@ class AbbrEntry:  ##############################################################
     """
 
     # TODO distinguish b/t main & alts in data structure
+    # TODO a priority list of alts?
 
     # classmethods  ============================================================
 

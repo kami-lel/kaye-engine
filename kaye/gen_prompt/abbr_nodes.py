@@ -35,7 +35,7 @@ class AbbrNode(DynamicNode):
             # get found text & its surrounding from original query
             found = query[start_idx:end_idx]
             char_before = query[start_idx - 1] if start_idx > 0 else ""
-            char_after = query[end_idx] if end_idx > key_len else ""
+            char_after = query[end_idx] if end_idx < key_len else ""
             # check found satisfies additional rules
             if not entry.verify_found(found, char_before, char_after):
                 continue  # skip this found
