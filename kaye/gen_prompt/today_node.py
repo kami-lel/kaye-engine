@@ -26,8 +26,7 @@ class TodayNode(DynamicNode):
         super().__init__(self.HEADING, parent)
 
     # implement BasePromptNode  ================================================
-    @property
-    def content_lines(self):
+    def content_lines(self, query=""):
         now = datetime.now()
         date = now.strftime("%Y-%m-%d")
         time = now.strftime("%H:%M:%S")
