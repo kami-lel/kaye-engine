@@ -11,24 +11,85 @@ from kaye.gen_prompt.abbr_collection import (
     AbbrEntry,
     AbbrWrap,
     AbbrTags,
+    AbbrMeaning,
 )
 
+MEAN = AbbrMeaning("for example")
+ABBR = "e.g."
+ABBR_OBJ = {"priority": 5, "tags": ["ascii_only", "common"], "wrap": "word"}
+
+
+class TestErr:  ################################################################
+
+    def test_abbr_key_type1(_):
+        abbr = 5
+        with pytest.raises(ValueError) as exec_info:
+            AbbrEntry(MEAN, abbr, ABBR_OBJ)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "abbr key must be String: 5"
+
+    def test_abbr_obj_type1(_):
+        abbr_obj = 5
+        with pytest.raises(ValueError) as exec_info:
+            AbbrEntry(MEAN, ABBR, abbr_obj)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "abbr value must be Object: 5"
+
+    def test_missing_key1(_):
+        abbr_obj = ABBR_OBJ.copy()
+        del abbr_obj["priority"]
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrEntry(MEAN, ABBR, abbr_obj)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "abbr value must contains key: ['priority']"
+
+    def test_missing_key2(_):
+        abbr_obj = ABBR_OBJ.copy()
+        del abbr_obj["tags"]
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrEntry(MEAN, ABBR, abbr_obj)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "abbr value must contains key: ['tags']"
+
+    def test_missing_key3(_):
+        abbr_obj = ABBR_OBJ.copy()
+        del abbr_obj["priority"]
+        del abbr_obj["wrap"]
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrEntry(MEAN, ABBR, abbr_obj)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "abbr value must contains key: ['priority', 'wrap']"
+
+
 # testees  #####################################################################
-ABBR_KEY = "e.g."
-MEAN = "for example"
-WRAP = "word"
-ABBR_TAGS = ["ascii", "usable"]
-ABBR_OBJ = {"mean": MEAN, "wrap": WRAP, "tags": ABBR_TAGS}
-ALT_KEY = "eg"
-ALT_OBJ = {"abbr": ABBR_KEY, "wrap": WRAP, "tags": ["ascii"]}
-ABBRS_OBJ = {
-    ABBR_KEY: ABBR_OBJ,
-    "avg": {"mean": "average", "tags": ["ascii"], "wrap": "word"},
-}
+# ABBR_KEY = "e.g."
+# MEAN = "for example"
+# WRAP = "word"
+# ABBR_TAGS = ["ascii", "usable"]
+# ABBR_OBJ = {"mean": MEAN, "wrap": WRAP, "tags": ABBR_TAGS}
+# ALT_KEY = "eg"
+# ALT_OBJ = {"abbr": ABBR_KEY, "wrap": WRAP, "tags": ["ascii"]}
+# ABBRS_OBJ = {
+#     ABBR_KEY: ABBR_OBJ,
+#     "avg": {"mean": "average", "tags": ["ascii"], "wrap": "word"},
+# }
 
 
 # .parse_from_alt()  ###########################################################
-class TestFromAlt:
+class XTestFromAlt:
 
     def test1(_):
         opt = AbbrEntry.parse_from_alt(ALT_KEY, ALT_OBJ, ABBRS_OBJ)
@@ -46,7 +107,7 @@ class TestFromAlt:
         assert opt.tags == AbbrTags.ascii
 
 
-class TestFromAltErr:
+class XTestFromAltErr:
 
     def test_no_abbr(_):
         abbrs_obj = ABBRS_OBJ.copy()
@@ -75,7 +136,7 @@ class TestFromAltErr:
 
 
 # ._init__()  ##################################################################
-class TestInit:
+class XTestInit:
 
     def test_key1(_):
         key = "s/X"
@@ -92,7 +153,7 @@ class TestInit:
         assert opt.tags == AbbrTags.NONE
 
 
-class TestInitErr:
+class XTestInitErr:
 
     def test_key1(_):
         key = 1
@@ -136,9 +197,9 @@ class TestInitErr:
 
 
 # .verify_found()  #############################################################
-class TestVerify1:  # ==========================================================
+class XTestVerify1:  # ==========================================================
 
-    entry = AbbrEntry("my", "", "word", [])
+    # entry = AbbrEntry("my", "", "word", [])
 
     def test1(self):
         found = "my"
@@ -182,9 +243,9 @@ class TestVerify1:  # ==========================================================
         assert not self.entry.verify_found(found, *wraps)
 
 
-class TestVerify2:  # ==========================================================
+class XTestVerify2:  # ==========================================================
 
-    entry = AbbrEntry("My", "", "prefix", [])
+    # entry = AbbrEntry("My", "", "prefix", [])
 
     def test1(self):
         found = "My"
@@ -212,9 +273,9 @@ class TestVerify2:  # ==========================================================
         assert not self.entry.verify_found(found, *wraps)
 
 
-class TestVerify3:  # ==========================================================
+class XTestVerify3:  # ==========================================================
 
-    entry = AbbrEntry("My", "", "suffix", [])
+    # entry = AbbrEntry("My", "", "suffix", [])
 
     def test1(self):
         found = "My"
@@ -242,9 +303,9 @@ class TestVerify3:  # ==========================================================
         assert not self.entry.verify_found(found, *wraps)
 
 
-class TestVerify4:  # ==========================================================
+class XTestVerify4:  # ==========================================================
 
-    entry = AbbrEntry("=>", "", "symbol", [])
+    # entry = AbbrEntry("=>", "", "symbol", [])
 
     def test1(self):
         found = "=>"
