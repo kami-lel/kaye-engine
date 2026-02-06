@@ -264,6 +264,8 @@ class AbbrEntry:  ##############################################################
     :raises TypeError:
     """
 
+    # TODO distinguish b/t main & alts in data structure
+
     # classmethods  ============================================================
 
     @classmethod
