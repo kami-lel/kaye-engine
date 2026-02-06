@@ -1,13 +1,28 @@
+from .base_prompt_node import DynamicNode
+
 __all__ = ("QueryAbbrNode", "PLCNode")
 
 
-class QueryAbbrNode:
+class QueryAbbrNode(DynamicNode):
     """
     TODO docstring for class DynamicAbbrNode
     """
 
+    HEADING = "Abbreviations"
 
-class PLCNode:
+    # constructor  =============================================================
+
+    def __init__(self, parent):
+        super().__init__(self.HEADING, parent)
+
+    # implement BasePromptNode  ================================================
+
+    @property
+    def content_lines(self):
+        pass  # TODO
+
+
+class PLCNode(DynamicNode):
     """
     TODO docstring for class PLCNode
     """
@@ -22,7 +37,7 @@ class PLCNode:
     # implement BasePromptNode  ================================================
     @property
     def content_lines(self):
-        pass  # TODO
+        return []
 
 
 # TODO usable abbrs node
