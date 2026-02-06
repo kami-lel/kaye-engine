@@ -38,16 +38,6 @@ class AbbrNode(DynamicNode):
             char_before = query[start_idx - 1] if start_idx > 0 else ""
             char_after = query[end_idx] if end_idx < query_len else ""
 
-            # HACK
-            print(
-                key_len,
-                start_idx,
-                end_idx,
-                repr(found),
-                repr(char_before),
-                repr(char_after),
-            )
-
             # check found satisfies additional rules
             if entry.verify_found(found, char_before, char_after):
                 entries.add(entry)
