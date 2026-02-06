@@ -1,364 +1,294 @@
 {
-  "": {
-    "‡": {
-      "priority": 0,
-      "tags": [],
-      "wrap": "symbol"
-    }
-  },
-  " anti-": {
-    "a.": {
-      "priority": 0,
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "prefix"
-    }
-  },
-  " contradict,contradiction": {
-    "ct": {
-      "priority": 0,
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    }
-  },
-  " counter": {
-    "ct": {
-      "priority": 0,
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    }
-  },
-  " dis-": {
-    "d.": {
-      "priority": 0,
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "prefix"
-    }
-  },
-  " integer": {
-    "int": {
-      "priority": 0,
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    }
-  },
-  " opinion": {
-    "opn": {
-      "priority": 0,
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    }
-  },
-  " variant": {
-    "var": {
-      "priority": 0,
-      "tags": [
-        "ascii"
-      ],
-      "wrap": "word"
-    }
-  },
   "-able,-ble,-le": {
     ".e": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-al": {
     ".l": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-ed": {
     ".d": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-er,-or": {
     ".r": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-ing": {
     ".g": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-ism": {
     ".m": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-ist": {
     ".st": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-less": {
     ".ls": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-ly": {
     ".y": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-ment": {
     ".mt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-ness": {
     ".ns": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-sion": {
     ".sn": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-tion": {
     ".tn": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-ture": {
     ".re": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-ty": {
     ".y": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "-ve": {
     ".v": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "suffix"
     }
   },
   "(default)Chinese Yuan,RMB": {
     "¥": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "(default)US cent": {
     "¢": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "(default)US Dollar": {
     "$": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
-        "usable"
+        "letters_only",
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "abbreviation": {
     "abbr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "about": {
     "abt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "absolute": {
     "abs": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "abstract,abstraction": {
     "abs": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "accept": {
     "acpt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "achieve,achieved,achievement": {
     "achv": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "acknowledge": {
     "aknlg": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "additional,additionally,in addition": {
     "add.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "word"
     }
   },
   "administrate,administrator,administration": {
     "admin": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "affect,affected,affectedly,affectation": {
     "afx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "after": {
     "aft": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "against": {
     "vs": {
-      "priority": 10,
+      "priority": 6,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "vs.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "word"
     }
   },
   "agent,AI": {
     "🤖": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
         "emoji"
       ],
@@ -367,159 +297,168 @@
   },
   "agriculture,agricultural": {
     "acul": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "algorithm": {
     "algo": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "also": {
     "A": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "alternative,alternatively": {
     "alt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "always": {
     "alw": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "amount": {
     "amt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "an-": {
     "a.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "prefix"
     }
   },
   "and": {
     "&": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
-        "usable"
+        "ascii_only",
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "and the others (non-people)": {
     "etc": {
-      "priority": 10,
+      "priority": 6,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "etc.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "word"
     }
   },
   "anno Domini,in the year of the Lord,common era,used after year number": {
     "AD": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "another": {
     "a.ot": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "word"
     }
   },
   "answer": {
     "answ": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "ante meridiem,before midday": {
     "a.m.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "word"
     },
     "AM": {
-      "priority": 10,
+      "priority": 6,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
+  "anti-": {
+    "a.": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "prefix"
+    }
+  },
   "any": {
     "a/": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "word"
     }
   },
   "any non-specific currency": {
     "¤": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "any types of terminal console & log message": {
     "console": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
+        "letters_only",
         "programming_language"
       ],
       "wrap": "word"
@@ -527,250 +466,240 @@
   },
   "anyone": {
     "a/o": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "word"
     }
   },
   "anything": {
     "a/t": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "word"
     }
   },
   "anytime": {
     "a/x": {
-      "priority": 10,
+      "priority": 6,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "word"
     },
     "a/X": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "word"
     }
   },
   "anywhere": {
     "a/w": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "word"
     }
   },
   "appropriate,appropriately": {
     "appr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "are": {
     "R": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "argue,argument": {
     "arg": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "aspect": {
     "asp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "assign,assignment": {
     "asgn": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "assume,assumed,assumption": {
     "asm": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "at one's pleasure,optional": {
     "ad lib": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "attribute,attribution": {
     "attr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "author,authorship,authority,authorize,authorization": {
     "auth": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "available,availability": {
     "avai": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "average": {
     "avg": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "background": {
     "bg": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "bad": {
     "b.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "because,caused by,result of": {
     "⇐": {
-      "priority": 10,
-      "tags": [
-        "usable"
-      ],
+      "priority": 3,
+      "tags": [],
       "wrap": "symbol"
     },
     "<=": {
-      "priority": 10,
-      "tags": [
-        "usable"
-      ],
+      "priority": 6,
+      "tags": [],
       "wrap": "symbol"
     },
     "∵": {
-      "priority": 0,
+      "priority": 2,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     },
     "b/c": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only",
+        "common"
       ],
       "wrap": "word"
     }
   },
   "become/change/transform from": {
     "←": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     },
     "<-": {
-      "priority": 10,
+      "priority": 6,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     }
   },
   "become/change/transform into": {
     "->": {
-      "priority": 10,
+      "priority": 6,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     },
     "→": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
-      "wrap": "symbol"
-    },
-    "<->": {
-      "priority": 10,
-      "tags": [
-        "ascii"
-      ],
       "wrap": "symbol"
     }
   },
   "before": {
     "b4": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "before Christ,before common era,used after year number": {
     "BC": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "beginning,prototype": {
     "🔰": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
         "emoji"
       ],
@@ -779,54 +708,55 @@
   },
   "best": {
     "gx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "better": {
     "gg": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "between": {
     "b/t": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only",
+        "common"
       ],
       "wrap": "word"
     }
   },
   "book": {
     "bk": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "but,however": {
     "B": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
-  "C": {
+  "C language": {
     "c": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
+        "letters_only",
         "programming_language"
       ],
       "wrap": "word"
@@ -834,23 +764,23 @@
   },
   "C Sharp": {
     "c#": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "ascii_only"
       ],
       "wrap": "word"
     },
     "cs": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "csharp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
+        "letters_only",
         "programming_language"
       ],
       "wrap": "word"
@@ -858,126 +788,126 @@
   },
   "C++": {
     "c++": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "cpp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
+        "letters_only",
         "programming_language"
       ],
       "wrap": "word"
     },
     "cxx": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "calculate,calculation": {
     "calc": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "can not,could not": {
     "Cx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "can,could": {
     "C": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "capable,capability,capacity": {
     "capa": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "category,categorical": {
     "cat.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
-  "century,e.g.:2nd C.": {
+  "century,e.g.: 2nd C.": {
     "C.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "change": {
     "±": {
-      "priority": 10,
+      "priority": 3,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     },
     "chg": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "chapter": {
     "§": {
-      "priority": 10,
+      "priority": 3,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     },
     "Cap.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "character,characterize,characterization,characteristic": {
     "char": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "chat,conversation": {
     "💬": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
         "emoji"
       ],
@@ -986,319 +916,337 @@
   },
   "Christian": {
     "Xn": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "class,classic,classicism,classify,classical": {
     "cls": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "co-": {
     "c.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "prefix"
     }
   },
   "co-relationship": {
     "∝": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "crl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "column": {
     "col": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "com-": {
     "c.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "prefix"
     }
   },
   "common": {
     "cm": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "communicate,communication": {
     "c.m": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "community": {
     "c.my": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "company": {
     "c.py": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "compete,competing,competition,competitive": {
     "cpt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "complete,completed,completion,completely,completeness": {
     "cpl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "complex,complexity": {
     "cx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "con-": {
     "c.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "prefix"
     }
   },
   "conclude,conclusion": {
     "c.cl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "condition,conditional": {
     "cond": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "confer,compare": {
     "cf": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "cf.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "conflict": {
     "c.fl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "connect,connection,connected": {
     "c.nt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "conservative": {
     "con.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "consist": {
     "c.st": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "constant": {
     "const": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "contemporary": {
     "c.tmp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "context": {
     "ctxt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "continue,continued,continuation": {
     "cont": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "contradict,contradiction": {
+    "ct": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "contrast,contrary": {
     "ct": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "control": {
     "ctr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "correct,correction": {
     "✓": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "✔️": {
-      "priority": 10,
+      "priority": 2,
       "tags": [
         "emoji"
       ],
       "wrap": "symbol"
     },
     "cor": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "count,counting": {
     "cnt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "counter": {
+    "ct": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "critic,critical,criticism": {
     "crt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "critical": {
     "💥": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
         "emoji"
       ],
       "wrap": "symbol"
     },
     "crit": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "CSS": {
     "css": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
+        "letters_only",
         "programming_language"
       ],
       "wrap": "word"
@@ -1306,61 +1254,61 @@
   },
   "cubic": {
     "cu": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "culture,cultural": {
     "cul": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "current,currently": {
     "cur": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "date of designation": {
     "DoDsg": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "date of releasement": {
     "DoRls": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "de-": {
     "d.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "prefix"
     }
   },
   "debug": {
     "🐞": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
         "emoji"
       ],
@@ -1369,350 +1317,357 @@
   },
   "decrease,decrement": {
     "↓": {
-      "priority": 0,
-      "tags": [
-        "usable"
-      ],
+      "priority": 5,
+      "tags": [],
       "wrap": "symbol"
     }
   },
   "default": {
     "dft": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "define,definition,definite,definitive": {
     "def": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "degree": {
     "°": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "degree Celsius": {
     "℃": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "degree Fahrenheit": {
     "℉": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "delete,deleted,deletion": {
     "del": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "demonstrate,demonstration": {
     "demo": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "department": {
     "dept": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "depend,dependent,dependence": {
     "dep": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "destination,destinational": {
     "dest": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "develop,development": {
     "dev": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "difference,different": {
     "dif": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "difficult,difficulty": {
     "diff": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "diminish": {
     "dim.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
+  "dis-": {
+    "d.": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "prefix"
+    }
+  },
   "distance,distant": {
     "dist": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "ditto,repetitive as above": {
     "〃": {
-      "priority": 10,
+      "priority": 3,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     },
     "do.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "diverse,diversity": {
     "divs": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "download": {
     "dl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "downward direction": {
     "☟": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "eadem,the same (woman)": {
     "ead.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "early": {
     "er": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "east": {
     "E": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "economics,economy": {
     "econ": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "edit,edition,edited": {
     "ed": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "editor": {
     "edr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "educate,education": {
     "edu": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "effect,effective": {
     "efx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "efficient,efficiency": {
     "eff": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "either": {
     "er": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "element": {
     "elm": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "emphasize,emphasis,emphatic": {
     "mfa": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "empirical": {
     "mpi": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "enough": {
     "egh": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "environment": {
     "env": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "equal,equality,equivalent,equivalence": {
     "=": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     },
     "≡": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     },
     "eq": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "error": {
     "🛑": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
         "emoji"
       ],
@@ -1721,282 +1676,282 @@
   },
   "especially": {
     "esp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "establish,establishment": {
     "est": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "estimate,estimation,estimated,estimating,estimatingly": {
     "est.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "et alii,et aliia,et alibi": {
     "et al.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "et sequens,and the words,pages,etc. that follow": {
     "et seq.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "Euro": {
     "€": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "evaluate,evaluable": {
     "eval": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "even": {
     "E": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "every": {
     "e/": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "everyone": {
     "e/o": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "everything": {
     "e/t": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "everytime": {
     "e/x": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "e/X": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "everywhere": {
     "e/w": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "ex-": {
     "x.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "prefix"
     }
   },
   "excess": {
     "∹": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "xcs": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "exclude,exclusion": {
     "xcl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "exist,existence,there exists,existing": {
     "∃": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     },
     "xsi": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "expect,expectation,expected": {
     "xpc": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "experience": {
     "xp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "explain,explanation": {
     "xpl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "explore,explored,exploration": {
     "xpr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "express,expression": {
     "expr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "extreme,extremely": {
     "vv": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "fall": {
     "F": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "false": {
     "!": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     },
     "¬": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "✗": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "❌": {
-      "priority": 10,
+      "priority": 2,
       "tags": [
         "emoji"
       ],
       "wrap": "symbol"
     },
     "x": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "find,found": {
     "fd": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "finish": {
     "🏁": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
         "emoji"
       ],
@@ -2005,309 +1960,325 @@
   },
   "floruit,flourished,": {
     "fl.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "foot": {
     "ft": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
+  "footnote": {
+    "†": {
+      "priority": 5,
+      "tags": [
+        "common"
+      ],
+      "wrap": "symbol"
+    },
+    "‡": {
+      "priority": 6,
+      "tags": [
+        "common"
+      ],
+      "wrap": "symbol"
+    }
+  },
   "for": {
     "4": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "for all": {
     "∀": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "for example,for instance": {
     "e.g.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "eg": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "formal": {
     "fm": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "format,formatting": {
     "fmt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "foundation,foundationalism": {
     "fund.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "fraction five eighths": {
     "⅝": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction five sixths": {
     "⅚": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction four fifths": {
     "⅘": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction one": {
     "⅟": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction one eighth": {
     "⅛": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction one fifth": {
     "⅕": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction one half": {
     "½": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction one ninth": {
     "⅑": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction one quarter": {
     "¼": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction one seventh": {
     "⅐": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction one sixth": {
     "⅙": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction one tenth": {
     "⅒": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction one third": {
     "⅓": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction seven eighths": {
     "⅞": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction three eighths": {
     "⅜": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction three fifths": {
     "⅗": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction three quarters": {
     "¾": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction two fifths": {
     "⅖": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "fraction two thirds": {
     "⅔": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "frequent,frequently,frequency": {
     "frq": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "from": {
     "fr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "function": {
     "fx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "fundamental,foundational": {
     "fund.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "gallon": {
     "gal": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "GDScript used by Godot Engine": {
     "gd": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "gdscript": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
+        "letters_only",
         "programming_language"
       ],
       "wrap": "word"
@@ -2315,162 +2286,162 @@
   },
   "general,generalization": {
     "gnl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "generate,generation,generative": {
     "gen": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "good": {
     "g.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "govern": {
     "gov": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "government": {
     "govt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "great": {
     "gt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "greater": {
     "gtt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "greatest": {
     "gtx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "group,grouping": {
     "grp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "have,has": {
     "hv": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "here": {
     "hr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "high": {
     "h.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "higher": {
     "hh": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "highest": {
     "hx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "history": {
     "his.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "homework": {
     "hw": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "hour": {
     "hr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "HTML": {
     "html": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
+        "letters_only",
         "programming_language"
       ],
       "wrap": "word"
@@ -2478,283 +2449,297 @@
   },
   "hundredweight": {
     "cwt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "ibidem,in the same place (book,etc.)": {
     "ibid.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "idem,the same (man)": {
     "id.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "identity,identification": {
     "id": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "if and only if": {
     "⇔": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     },
     "<=>": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     },
     "iff": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "im-": {
     "m.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "implement": {
     "mpmt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "import": {
     "mp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "important,importance": {
     "mpt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "improve,improvement": {
     "mpv": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "in the matter of,concerning,regarding": {
     "re": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "in the sense of,in accordance with,according to": {
     "sec.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "in-, inter-": {
     "i.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "prefix"
     }
   },
   "inch": {
     "in": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "include,inclusion": {
     "icl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "increase,increment": {
     "↑": {
-      "priority": 0,
-      "tags": [
-        "usable"
-      ],
+      "priority": 5,
+      "tags": [],
       "wrap": "symbol"
     }
   },
   "independent,independence": {
     "i.dep": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "index,indexing": {
     "idx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "individual": {
     "indv": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "industry,industrial": {
     "ind": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "infinite": {
     "∞": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "inf": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "influence": {
     "infl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "information,informational": {
     "💡": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
         "emoji"
       ],
       "wrap": "symbol"
     },
     "info": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "input": {
     "ipt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "integer": {
+    "int": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "interchanges": {
     "↔": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
+      "wrap": "symbol"
+    },
+    "<->": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
       "wrap": "symbol"
     }
   },
   "interest": {
     "int": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "international": {
     "i.nat": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "issue": {
     "iss": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "JavaScript": {
     "js": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
+        "letters_only",
         "programming_language"
       ],
       "wrap": "word"
@@ -2762,1131 +2747,1140 @@
   },
   "know,known": {
     "kn": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "knowledge": {
     "knlg": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "language": {
     "lang": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "large": {
     "lrg": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "larger": {
     "lrgg": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "larger than": {
     ">": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     },
     "gt": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "larger than or equal to": {
     ">=": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     },
     "≥": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     },
     "ge": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "largest": {
     "lrgx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "later": {
     "lr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "least,fewest": {
     "lx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "left direction": {
     "☚": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "☜": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "length": {
     "len": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "less than": {
     "<": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     },
     "lt": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "less than or equal to": {
     "=<": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     },
     "≤": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     },
     "le": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "less,fewer": {
     "ll": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "liberty,liberal,liberalism": {
     "lib": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "like,likely": {
     "L": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "list": {
     "ls": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "little,few": {
     "l.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "locate,location": {
     "loc": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "lower": {
     "oo": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "lowest": {
     "ox": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "make": {
     "mk": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "mal-": {
     "m.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "many,much": {
     "m.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "market,marketing": {
     "mkt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "mathematics": {
     "math": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "maximum,maximize,maximization": {
     "max": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "mean,meaning": {
     "mn": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "method": {
     "mthd": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "mile": {
     "mi": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "military": {
     "milit": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "minimum,minimize,minimization": {
     "min": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "minute": {
     "min": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "mis-": {
     "m.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "miscellaneous": {
     "misc": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "mistake,mistaken": {
     "mtk": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "modern,modernization": {
     "modn": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "month": {
     "mo": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "more": {
     "mm": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "most": {
     "mx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "move": {
     "mv": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "movement": {
     "mvmt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "much greater than": {
     "≫": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "much less than": {
     "≪": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "multiply,multiplication,multiplier": {
     "×": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "mux": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "must": {
     "M": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "must not": {
     "Mx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "namely,as follows": {
     "viz.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "nation,national": {
     "nat": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "nautical mile": {
     "nmi": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "necessary": {
     "nec": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "neither": {
     "ner": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "night,informal": {
     "p.p.m.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "ppm": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "no,not,incorrect": {
     "!": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     },
     "¬": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "✗": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "❌": {
-      "priority": 10,
+      "priority": 2,
       "tags": [
         "emoji"
       ],
       "wrap": "symbol"
     },
     "x": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "nomen nescio,I do not know the name": {
     "N.N.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "non-": {
     "n.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "prefix"
     }
   },
   "noon,informal": {
     "n.m.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "nm": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "north": {
     "N": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "not applicable": {
     "n/a": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "not equal": {
     "!=": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     },
     "≠": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     },
     "ne": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "nothing": {
     "n/t": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "nowhere": {
     "n/w": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "number": {
     "No": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "№": {
-      "priority": 10,
+      "priority": 3,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     },
     "No.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "object": {
     "obj": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "often": {
     "oft": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "only": {
     "O": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "operate,operation,operator": {
     "op": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "opinion": {
+    "opn": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "oppose,opposition": {
     "opp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "optimize,optimization": {
     "opmz": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "optimum,optimal,optimism,optimist": {
     "opm": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "option,optional": {
     "opn": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "or": {
     "/": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
-        "usable"
+        "letters_only",
+        "common"
       ],
       "wrap": "symbol"
     }
   },
   "organization": {
     "org": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "origin,original": {
     "ori": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "other": {
     "ot": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "ounce": {
     "oz": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "output": {
     "opt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "over-": {
     "o.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "prefix"
     }
   },
   "paragraph": {
     "para": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "part,partial": {
     "pa": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "perfect,perfection": {
     "pft": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "person,people,popular": {
     "pp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "philosophy": {
     "phi": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "pint": {
     "pt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "place,placement": {
     "pl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "point": {
     "pt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "points/notice down": {
     "☟": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "points/notice left": {
     "☚": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "☜": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "points/notice right": {
     "☛": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "☞": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "points/notice up": {
     "☝": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "politic,politics,political": {
     "pol": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "possible,possibly": {
     "poss": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "post meridiem,after midday": {
     "p.m.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "PM": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "post scriptum,after what has been written,post script": {
     "p.s.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "ps": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "pound": {
     "lb": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "previous": {
     "prev": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "private": {
     "priv": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "pro-": {
     "p.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "prefix"
     },
     "pp.": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "probably,probability": {
     "prob": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "problem": {
     "pbm": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "process": {
     "p.cs": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "program,programming,programme": {
     "prog": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "programming language": {
     "PL": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "progress,progressive": {
     "p.gs": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "proper,property": {
     "prp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "psychology": {
     "psy": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "public": {
     "pub": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "publish": {
     "pub": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "Python": {
     "py": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "Qt framework": {
     "qt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
+        "letters_only",
         "programming_language"
       ],
       "wrap": "word"
@@ -3894,9 +3888,9 @@
   },
   "QT Meta-object Language": {
     "qml": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
+        "letters_only",
         "programming_language"
       ],
       "wrap": "word"
@@ -3904,70 +3898,70 @@
   },
   "qualify,qualification": {
     "qlf": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "quality,qualitative": {
     "qly": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "quantify,quantification": {
     "qtf": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "quantity,quantitative": {
     "qty": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "question": {
     "ques": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "radical,racialist": {
     "rad": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "random,randomize": {
     "rand": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "rapid,fast": {
     "🚀": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
         "emoji"
       ],
@@ -3976,213 +3970,213 @@
   },
   "rational": {
     "rat.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "reason,reasoning": {
     "rs": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "register,regulation": {
     "reg": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "reject": {
     "rej": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "relate": {
     "rl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "release": {
     "rls": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "relevant,relative": {
     "rlv": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "religion": {
     "rel": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "remove": {
     "rm": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "repetition": {
     "rept": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "reply": {
     "rep": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "representation": {
     "repr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "requirement": {
     "req": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "research": {
     "rsch": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "resource": {
     "rsrc": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "respect,respective,respectively": {
     "rsp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "respond,response,responsible": {
     "resp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "revolution": {
     "rev": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "right direction": {
     "☛": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "☞": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "science": {
     "sci": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "search": {
     "sch": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "second": {
     "sec": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "selected": {
     "☑": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     },
     "✅": {
-      "priority": 10,
+      "priority": 2,
       "tags": [
         "emoji"
       ],
@@ -4191,59 +4185,59 @@
   },
   "selected with a cross": {
     "☒": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "sensu amplo,in a relaxed,generous sense": {
     "s.a.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "sensu lato,in the wide or broad sense": {
     "s.l.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "sensu stricto,in the strict sense": {
     "s.s.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "separate": {
     "sep": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "sequence": {
     "sq": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "settings,preferences": {
     "⚙️": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
         "emoji"
       ],
@@ -4252,452 +4246,452 @@
   },
   "should,shall": {
     "sl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "should,shall not": {
     "sl & slx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "sic erat scriptum,thus it was written": {
     "sic": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "significant": {
     "sig": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "similar": {
     "sim.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "small": {
     "sml": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "smaller": {
     "smll": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "smallest": {
     "smlx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "society": {
     "soc": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "some": {
     "s/": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "someone": {
     "s/o": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "something": {
     "s/t": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "sometime": {
     "s/x": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "s/X": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "somewhere": {
     "s/w": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "source": {
     "src": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "south": {
     "S": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "spring": {
     "S": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "square root": {
     "√": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "square,squared": {
     "sq": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "standard": {
     "stn": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "state": {
     "st": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "statics": {
     "stat": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "string": {
     "str": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "structure,structural": {
     "s.re": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "subject": {
     "subj": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "successful": {
     "succ": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "such that": {
     "|": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "symbol"
     }
   },
   "sum,summation,total": {
     "Σ": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "summer": {
     "U": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "system": {
     "sys": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "take": {
     "tk": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "technology": {
     "tech": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "temperature": {
     "temp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "temporary": {
     "tmp": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "text": {
     "txt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "that is,in other words": {
     "i.e.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "ie": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "that,those": {
     "tt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "then,than": {
     "T": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "there": {
     "thr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "therefore,causing,resulting": {
     "⇒": {
-      "priority": 10,
+      "priority": 3,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     },
     "=>": {
-      "priority": 10,
+      "priority": 6,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     },
     "∴": {
-      "priority": 0,
+      "priority": 2,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     },
     "tf": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "think": {
     "th": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "though": {
     "tho": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "through": {
     "thru": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "time,times": {
     "X": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "to": {
     "2": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "too": {
     "2": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "tools": {
     "🛠️": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
         "emoji"
       ],
@@ -4706,48 +4700,48 @@
   },
   "tradition": {
     "trad": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "translate": {
     "tr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "true": {
     "✓": {
-      "priority": 10,
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
     "✔️": {
-      "priority": 10,
+      "priority": 2,
       "tags": [
         "emoji"
       ],
       "wrap": "symbol"
     },
     "cor": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "TypeScript": {
     "ts": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
+        "letters_only",
         "programming_language"
       ],
       "wrap": "word"
@@ -4755,36 +4749,36 @@
   },
   "un-": {
     "u.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "prefix"
     }
   },
   "under": {
     "ud": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "understand": {
     "udsd": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "Unity Engine code using C#": {
     "u3d": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
+        "letters_only",
         "programming_language"
       ],
       "wrap": "word"
@@ -4792,18 +4786,18 @@
   },
   "unless": {
     "U": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "Unreal Engine code using C++": {
     "ue": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii",
+        "letters_only",
         "programming_language"
       ],
       "wrap": "word"
@@ -4811,294 +4805,303 @@
   },
   "unselected": {
     "☐": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "until": {
     "U": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "update": {
     "upd": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "upload": {
     "upl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "upward direction": {
     "☝": {
-      "priority": 0,
+      "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
   "usual,usually": {
     "usu": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "value": {
     "val": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "variable": {
     "var": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "variant": {
+    "var": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "very": {
     "v.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "vice versa": {
     "v.v.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "vide infra,see below": {
     "v.i.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "vide supra,see above": {
     "v.s.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "volume": {
     "vol": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "vol.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "want": {
     "wt": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "warning": {
     "⚠️": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
         "emoji"
       ],
       "wrap": "symbol"
     },
     "warn": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "week": {
     "wk": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "west": {
     "W": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "which see,reference to": {
     "※": {
-      "priority": 10,
+      "priority": 3,
       "tags": [
-        "usable"
+        "common"
       ],
       "wrap": "symbol"
     },
     "q.v.": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     },
     "qq.v.": {
-      "priority": 10,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "while,when": {
     "W": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "will not,would not": {
     "wlx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "winter": {
     "W": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "with": {
     "w/": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "within": {
     "w/i": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "without": {
     "w/o": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "worse": {
     "bb": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "worst": {
     "bx": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "would,will,willingness,willingly": {
     "wl": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "write": {
     "wr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "yard": {
     "yd": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
   },
   "year": {
     "yr": {
-      "priority": 0,
+      "priority": 5,
       "tags": [
-        "ascii"
+        "letters_only"
       ],
       "wrap": "word"
     }
