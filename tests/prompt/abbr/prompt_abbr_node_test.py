@@ -58,7 +58,6 @@ class TestAbbrNode:
 
         print(lines)
 
-        # BUG BUG
         assert set(lines) == {
             "- modn:modern,modernization",
             "- &:and",
@@ -71,6 +70,7 @@ class TestAbbrNode:
             "- cls:class,classic,classicism,classify,classical",
             "- pub:public;publish",
             "- ind:industry,industrial",
+            "- in:inch",
         }
 
     # TODO multiple
@@ -124,6 +124,7 @@ class TestAbbrNode:
             "- ☒:selected with a cross",
             "- ↓:decrease,decrement",
             "- ¼:fraction one quarter",
+            "- in:inch",
         }
 
     def test_empty1(self):

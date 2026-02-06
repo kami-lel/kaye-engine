@@ -3651,14 +3651,14 @@
       "tags": [
         "ascii"
       ],
-      "wrap": "symbol"
+      "wrap": "word"
     },
     "gt": {
       "abbr": ">",
       "tags": [
         "ascii"
       ],
-      "wrap": "symbol"
+      "wrap": "word"
     },
     "ie": {
       "abbr": "i.e.",
@@ -3686,21 +3686,21 @@
       "tags": [
         "ascii"
       ],
-      "wrap": "symbol"
+      "wrap": "word"
     },
     "lt": {
       "abbr": "<",
       "tags": [
         "ascii"
       ],
-      "wrap": "symbol"
+      "wrap": "word"
     },
     "ne": {
       "abbr": "≠",
       "tags": [
         "ascii"
       ],
-      "wrap": "symbol"
+      "wrap": "word"
     },
     "nm": {
       "abbr": "n.m.",
