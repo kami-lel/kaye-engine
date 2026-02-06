@@ -1,3 +1,7 @@
+"""
+define various data structure supporting **abbreviation nodes**
+"""
+
 # pylint: disable=c-extension-no-member
 
 from pathlib import Path
@@ -6,8 +10,6 @@ import json
 import re
 
 import ahocorasick
-
-from .base_prompt_node import BasePromptNode
 
 ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
 
@@ -28,13 +30,26 @@ TAGS_KEY = "tags"
 
 
 class AbbrCollection:
+    """
+    represents collections of all abbreviation entries,
+    read from ``abbrs.json`
+
+
+    :example:
+    >>> instance = AbbrCollection()
+    """
+
+    # public API  ==============================================================
+    # TODO
 
     _instance = None  # singleton
 
-    def __new__(cls):
-        if cls._instance is None:
+    def __new__(cls, *, abbrs_json_override=None):
+        if cls._instance is None or abbrs_json_override:  # singleton pattern
             cls._instance = super().__new__(cls)
-            cls._instance._load_abbrs_json()
+            cls._instance._load_abbrs_json(
+                abbrs_json_override=abbrs_json_override
+            )
         return cls._instance
 
     # load abbrs from file  ====================================================
@@ -92,7 +107,7 @@ class AbbrCollection:
         """
         perform type validation on the json data read from ``abbrs.json``
 
-        helper method used in ``.load_abbrs_json()``
+        helper method used in ``._load_abbrs_json()``
 
 
         :param data:
