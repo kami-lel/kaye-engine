@@ -40,12 +40,47 @@ class AbbrCollection:
     """
 
     # public API  ==============================================================
-    # TODO
+
+    def generate_programming_languages_code(self):
+        """
+        :yield: all programming language codes entries
+        :rtype: AbbrEntry
+        """
+        for entry in self._entries:
+            if AbbrTags.programming_language in entry.tags:
+                yield entry
+
+    # TODO more public methods
+
+    # HACK tmp naming
+    # def gen(self, query):
+    #     self.load_abbrs_json()
+    #     query_lower = query.lower()
+
+    #     lines = []
+    #     for last_idx, entry in self._automaton.iter_long(query_lower):
+    #         key_len = len(entry.key)
+    #         end_idx = last_idx + 1
+    #         start_idx = end_idx - key_len
+    #         # get found text & its surrounding from original query
+    #         found = query[start_idx:end_idx]
+    #         char_before = query[start_idx - 1] if start_idx > 0 else ""
+    #         char_after = query[end_idx] if end_idx > key_len else ""
+    #         # check found satisfies additional rules
+    #         if not entry.verify_found(found, char_before, char_after):
+    #             continue  # skip this found
+
+    #         line = "- {}:{}".format(entry.key, entry.mean)
+    #         lines.append(line)
+
+    #     return "\n".join(lines)
+
+    # singleton pattern  =======================================================
 
     _instance = None  # singleton
 
     def __new__(cls, *, abbrs_json_override=None):
-        if cls._instance is None or abbrs_json_override:  # singleton pattern
+        if cls._instance is None or abbrs_json_override:
             cls._instance = super().__new__(cls)
             cls._instance._load_abbrs_json(
                 abbrs_json_override=abbrs_json_override
@@ -207,29 +242,6 @@ class AbbrCollection:
                 )
             )
 
-    # HACK tmp naming
-    # def gen(self, query):
-    #     self.load_abbrs_json()
-    #     query_lower = query.lower()
-
-    #     lines = []
-    #     for last_idx, entry in self._automaton.iter_long(query_lower):
-    #         key_len = len(entry.key)
-    #         end_idx = last_idx + 1
-    #         start_idx = end_idx - key_len
-    #         # get found text & its surrounding from original query
-    #         found = query[start_idx:end_idx]
-    #         char_before = query[start_idx - 1] if start_idx > 0 else ""
-    #         char_after = query[end_idx] if end_idx > key_len else ""
-    #         # check found satisfies additional rules
-    #         if not entry.verify_found(found, char_before, char_after):
-    #             continue  # skip this found
-
-    #         line = "- {}:{}".format(entry.key, entry.mean)
-    #         lines.append(line)
-
-    #     return "\n".join(lines)
-
 
 class AbbrEntry:  ##############################################################
     """
@@ -251,6 +263,8 @@ class AbbrEntry:  ##############################################################
     :raises ValueError:
     :raises TypeError:
     """
+
+    # TODO add dh
 
     @classmethod
     def parse_from_alt(cls, key, alt_obj, abbrs_obj):
@@ -331,6 +345,8 @@ class AbbrWrap(Enum):  #########################################################
     SUFFIX = "suffix"
     SYMBOL = "symbol"
 
+    # TODO add dh
+
     def is_satisfied_wrap_rule(self, char_before, char_after):
         """
         :param char_before: single character immediately before the found;
@@ -379,6 +395,8 @@ class AbbrTags(Flag):  #########################################################
     usable = auto()
     emoji = auto()
     programming_language = auto()
+
+    # TODO add dh
 
     @classmethod
     def parse(cls, tags_list):

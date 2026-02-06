@@ -1,4 +1,5 @@
-from .base_prompt_node import DynamicNode
+from kaye.gen_prompt.abbr_collection import AbbrCollection
+from kaye.gen_prompt.base_prompt_node import DynamicNode
 
 __all__ = ("QueryAbbrNode", "PLCNode")
 
@@ -37,7 +38,11 @@ class PLCNode(DynamicNode):
     # implement BasePromptNode  ================================================
     @property
     def content_lines(self, **kwargs):
-        return []
+        lines = [""]
+        for entry in AbbrCollection().generate_programming_languages_code():
+            pass  # TODO
+
+        return lines
 
 
 # TODO usable abbrs node
