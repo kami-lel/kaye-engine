@@ -4,6 +4,8 @@ prompt_abbr_collection_test.py
 Unit Tests (using pytest) for: AbbrCollection
 """
 
+# BUG BUG
+
 import pytest
 
 from kaye.gen_prompt.abbr_collection import (
