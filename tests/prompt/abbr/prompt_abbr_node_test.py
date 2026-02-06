@@ -41,16 +41,37 @@ class TestAbbrNode:
         query = "I am try.g to op.g on menu."
 
         lines = self.node.content_lines(query=query)
+
         print(lines)
         assert set(lines) == {"- op:operate,operation,operator", "- .g:-ing"}
 
-        # TODO TODO more tests
+    def test_fx2(self):
+        query = (
+            "The ind rev catalyzed a tectonic shift fr artisanal produc.n to"
+            " mechanized manufacture, precipitating urbanization, the rise of"
+            " factory labor, and new cls dynamics; & innovations in pub health,"
+            " and pol repr. The period's cul ramifications incl the spread of"
+            " literacy and reorder modn soc."
+        )
 
-        # "For example, when I think about doing -g tasks, I realize that it signifies continuous effort, which might sometimes be more important than the actual result. The choice of /* in many contexts means either one thing or another, and sometimes it can be difficult to determine which option is better, especially when both seem to have merits."
+        lines = self.node.content_lines(query=query)
 
-        # "Furthermore, the symbol = is used to express that two things are equal or equivalent, which can be crucial in mathematical or logical discussions, but often in life, things are not so straightforward, and we must consider multiple factors."
+        print(lines)
 
-        # "In addition, I want to mention that the emoji 💡 represents information or informational content, which is vital when trying to understand complex ideas or concepts. When I prepare notes 4 you, Sir, I try to include all relevant details about the topic abt to ensure clarity. Sometimes I wonder if I can provide a/t everything you need, Sir, or if I should focus on specific points. I also realize that I Cx provide assistance only within my limits, Sir, and I must be careful not to overstep. Lastly, I take note that o. can be used as a prefix to indicate over- or excess, and I always try to be precise with the xsi that exist in any given situation, Sir."
+        # BUG BUG
+        assert set(lines) == {
+            "- modn:modern,modernization",
+            "- &:and",
+            "- pol:politic,politics,political",
+            "- repr:representation",
+            "- soc:society",
+            "- cul:culture,cultural",
+            "- rev:revolution",
+            "- fr:from",
+            "- cls:class,classic,classicism,classify,classical",
+            "- pub:public;publish",
+            "- ind:industry,industrial",
+        }
 
     def test_empty1(self):
         query = "some content without abbreviation"
