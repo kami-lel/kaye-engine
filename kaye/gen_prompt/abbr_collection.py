@@ -212,17 +212,26 @@ class AbbrMeaning:  # **********************************************************
 
 class AbbrEntry:  # ************************************************************
 
-    __slots__ = ("abbr", "meaning", "wrap", "tags")
+    __slots__ = ("abbr", "mean", "wrap", "tags")
 
-    def __init__(self, meaning, abbr, abbr_obj):
-        for abbr, abbr_obj in mean_obj.items():
-            if not isinstance(abbr, str):
-                raise ValueError(
-                    "abbr key must be String: {}".format(repr(abbr))
-                )
-            if not isinstance(abbr_obj, dict):
-                raise ValueError(
-                    "abbr value must be Object: {}".format(repr(abbr_obj))
-                )
-            if not all(key in abbr_obj for key in ("priority", "tags", "wrap")):
-                pass
+    def __init__(self, mean, abbr, abbr_obj):
+        self.mean = mean  # referenced to meaning
+
+        # test shapes  ---------------------------------------------------------
+        if not isinstance(abbr, str):
+            raise ValueError("abbr key must be String: {}".format(repr(abbr)))
+
+        if not isinstance(abbr_obj, dict):
+            raise ValueError(
+                "abbr value must be Object: {}".format(repr(abbr_obj))
+            )
+
+        missing_keys = [
+            key for key in ("priority", "tags", "wrap") if key not in abbr_obj
+        ]
+        if missing_keys:
+            raise ValueError(
+                "abbr value must contains key: {}".format(missing_keys)
+            )
+
+        # TODO TODO create
