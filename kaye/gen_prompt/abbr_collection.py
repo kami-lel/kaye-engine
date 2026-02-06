@@ -215,7 +215,9 @@ class AbbrMeaning:  # **********************************************************
         return hash(self.mean)
 
 
-class AbbrEntry:  # ************************************************************
+class AbbrEntry:  # ============================================================
+
+    # instance structure  ******************************************************
 
     __slots__ = ("abbr", "mean", "priority", "tags", "wrap")
 
@@ -252,8 +254,37 @@ class AbbrEntry:  # ************************************************************
         self.tags = AbbrTags.parse(abbr_obj["tags"])
 
         # set .wrap  -----------------------------------------------------------
-        wrap = abbr_obj["wrap"]
-        if not isinstance(wrap, str):
-            raise ValueError("wrap value must be String: {}".format(repr(wrap)))
+        self.wrap = AbbrWrap(abbr_obj["wrap"])  # may raise ValueError
 
-        self.wrap = AbbrWrap(wrap)  # may raise ValueError
+    # instance method  *********************************************************
+
+    def verify_found(self, found, char_before, char_after):
+        """
+        :param found:
+        :type found: str
+        :param char_before: single character immediately before the found;
+                `""` if start of text
+        :type char_before: str
+        :param char_after: single character immediately after the found;
+                `""` if end of text
+        :type char_after: str
+        :return: whether ``found`` satisfies additional rules of:
+
+        - case sensitivity
+        - wrapping
+
+        :rtype: bool
+        """
+        return (
+            self.abbr.islower() or found == self.abbr  # verify case sensitivity
+        ) and self.wrap.is_satisfied_wrap_rule(char_before, char_after)
+
+    # magic methods  ***********************************************************
+
+    def __hash__(self):
+        return hash(self.key)  # TODO
+
+    def __eq__(self, other):  # TODO
+        if not isinstance(other, AbbrEntry):
+            return NotImplemented
+        return self.key == other.key
