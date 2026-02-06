@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from enum import Enum, Flag, auto
 
-__all__ = ("AbbrTags", "AbbrWrap")
+__all__ = ("AbbrTags", "AbbrWrap", "AbbrData")
 
 
 ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
@@ -36,6 +36,11 @@ class AbbrTags(Flag):  #########################################################
         :return: parsed tags
         :rtype: AbbrEntry
         """
+        if not isinstance(tags_list, list):
+            raise ValueError(
+                "tags value must be Array: {}".format(repr(tags_list))
+            )
+
         instance = cls.NONE  # start
         for tag in tags_list:
             try:
@@ -170,37 +175,18 @@ class AbbrData:  ###############################################################
                         err.pos,
                     ) from err
 
-        # validate json  -------------------------------------------------------
-        # TODO TODO
-        for mean, mean_obj in json_data.items():
-            if not isinstance(mean, str):
-                raise ValueError(
-                    "meaning key must be String: {}".format(repr(mean))
-                )
-            if not isinstance(mean_obj, dict):
-                raise ValueError(
-                    "meaning value must be Object: {}".format(repr(mean_obj))
-                )
+        # fill .meanings & .abbrs  ---------------------------------------------
+        self.meanings = []
+        self.abbrs = []
+        for mean_key, mean_obj in json_data.items():
+            mean = AbbrMeaning(mean_key)
+            self.meanings.append(mean)
 
             for abbr, abbr_obj in mean_obj.items():
-                if not isinstance(abbr, str):
-                    raise ValueError(
-                        "abbr key must be String: {}".format(repr(abbr))
-                    )
-                if not isinstance(abbr_obj, dict):
-                    raise ValueError(
-                        "abbr value must be Object: {}".format(repr(abbr_obj))
-                    )
-                if not all(
-                    key in abbr_obj for key in ("priority", "tags", "wrap")
-                ):
-                    pass
-
-        # fill .meanings & .abbrs  ---------------------------------------------
-        # TODO TODO
+                self.abbrs.append(AbbrEntry(mean, abbr, abbr_obj))
 
         # create automaton  ----------------------------------------------------
-        # TODO TODO
+        # TODO
 
 
 class AbbrMeaning:  # **********************************************************
@@ -210,11 +196,17 @@ class AbbrMeaning:  # **********************************************************
 
     :param mean:
     :type mean: str
+    :raises ValueError:
     """
 
     __slots__ = ("mean",)
 
     def __init__(self, mean):
+        if not isinstance(mean, str):
+            raise ValueError(
+                "meaning key must be String: {}".format(repr(mean))
+            )
+
         self.mean = mean
 
     # magic methods  ===========================================================
@@ -223,8 +215,76 @@ class AbbrMeaning:  # **********************************************************
         return hash(self.mean)
 
 
-class AbbrEntry:  # ************************************************************
+class AbbrEntry:  # ============================================================
 
-    __slots__ = ("abbr", "mean", "wrap", "tags")
+    # instance structure  ******************************************************
 
-    pass
+    __slots__ = ("abbr", "mean", "priority", "tags", "wrap")
+
+    def __init__(self, mean, abbr, abbr_obj):
+        self.mean = mean  # referenced to meaning
+
+        # set .abbr  -----------------------------------------------------------
+        if not isinstance(abbr, str):
+            raise ValueError("abbr key must be String: {}".format(repr(abbr)))
+        self.abbr = abbr
+
+        # test abbr_obj shapes  ------------------------------------------------
+        if not isinstance(abbr_obj, dict):
+            raise ValueError(
+                "abbr value must be Object: {}".format(repr(abbr_obj))
+            )
+        missing_keys = [
+            key for key in ("priority", "tags", "wrap") if key not in abbr_obj
+        ]
+        if missing_keys:
+            raise ValueError(
+                "abbr value must contains key: {}".format(missing_keys)
+            )
+
+        # set .priority  -------------------------------------------------------
+        priority = abbr_obj["priority"]
+        if not isinstance(priority, int):
+            raise ValueError(
+                "priority must be Integer: {}".format(repr(priority))
+            )
+        self.priority = priority
+
+        # set .tags  -----------------------------------------------------------
+        self.tags = AbbrTags.parse(abbr_obj["tags"])
+
+        # set .wrap  -----------------------------------------------------------
+        self.wrap = AbbrWrap(abbr_obj["wrap"])  # may raise ValueError
+
+    # instance method  *********************************************************
+
+    def verify_found(self, found, char_before, char_after):
+        """
+        :param found:
+        :type found: str
+        :param char_before: single character immediately before the found;
+                `""` if start of text
+        :type char_before: str
+        :param char_after: single character immediately after the found;
+                `""` if end of text
+        :type char_after: str
+        :return: whether ``found`` satisfies additional rules of:
+
+        - case sensitivity
+        - wrapping
+
+        :rtype: bool
+        """
+        return (
+            self.abbr.islower() or found == self.abbr  # verify case sensitivity
+        ) and self.wrap.is_satisfied_wrap_rule(char_before, char_after)
+
+    # magic methods  ***********************************************************
+
+    def __hash__(self):
+        return hash(self.key)  # TODO
+
+    def __eq__(self, other):  # TODO
+        if not isinstance(other, AbbrEntry):
+            return NotImplemented
+        return self.key == other.key
