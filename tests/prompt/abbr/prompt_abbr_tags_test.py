@@ -5,7 +5,7 @@ Unit Tests (using pytest) for: _AbbrTags
 """
 
 import pytest
-from kaye.gen_prompt.abbr_node import AbbrTags
+from kaye.gen_prompt.abbr_collection import AbbrTags
 
 # .parse test  #################################################################
 
