@@ -242,11 +242,6 @@ class AbbrEntry:  ##############################################################
     :raises TypeError:
     """
 
-    # TODO distinguish b/t main & alts in data structure
-    # TODO a priority list of alts?
-    # FIXME always use ascii spelling as main
-    # BUG same key different meanings by context
-
     # classmethods  ============================================================
 
     @classmethod
