@@ -1975,7 +1975,8 @@
     "e.g.": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "common"
       ],
       "wrap": "word"
     },

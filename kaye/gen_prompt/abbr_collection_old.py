@@ -159,7 +159,7 @@ class AbbrCollection:
             )
 
 
-class AbbrEntry:  ##############################################################
+class OAbbrEntry:  ##############################################################
     """
     present a *unified* data structure to represent
     either ``"abbr"`` or ``"alt"`` object in ``abbrs.json``
