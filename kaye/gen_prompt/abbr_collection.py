@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from enum import Enum, Flag, auto
 
-__all__ = ("AbbrTags", "AbbrWrap")
+__all__ = ("AbbrTags", "AbbrWrap", "AbbrData")
 
 
 ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
@@ -171,32 +171,17 @@ class AbbrData:  ###############################################################
                     ) from err
 
         # fill .meanings & .abbrs  ---------------------------------------------
+        self.meanings = []
+        self.abbrs = []
         for mean_key, mean_obj in json_data.items():
             mean = AbbrMeaning(mean_key)
-
-        # TODO TODO
-        for mean, mean_obj in json_data.items():
-            if not isinstance(mean_obj, dict):
-                raise ValueError(
-                    "meaning value must be Object: {}".format(repr(mean_obj))
-                )
+            self.meanings.append(mean)
 
             for abbr, abbr_obj in mean_obj.items():
-                if not isinstance(abbr, str):
-                    raise ValueError(
-                        "abbr key must be String: {}".format(repr(abbr))
-                    )
-                if not isinstance(abbr_obj, dict):
-                    raise ValueError(
-                        "abbr value must be Object: {}".format(repr(abbr_obj))
-                    )
-                if not all(
-                    key in abbr_obj for key in ("priority", "tags", "wrap")
-                ):
-                    pass
+                self.abbrs.append(AbbrEntry(mean, abbr, abbr_obj))
 
         # create automaton  ----------------------------------------------------
-        # TODO TODO
+        # TODO
 
 
 class AbbrMeaning:  # **********************************************************
@@ -229,4 +214,15 @@ class AbbrEntry:  # ************************************************************
 
     __slots__ = ("abbr", "meaning", "wrap", "tags")
 
-    pass  # TODO TODO
+    def __init__(self, meaning, abbr, abbr_obj):
+        for abbr, abbr_obj in mean_obj.items():
+            if not isinstance(abbr, str):
+                raise ValueError(
+                    "abbr key must be String: {}".format(repr(abbr))
+                )
+            if not isinstance(abbr_obj, dict):
+                raise ValueError(
+                    "abbr value must be Object: {}".format(repr(abbr_obj))
+                )
+            if not all(key in abbr_obj for key in ("priority", "tags", "wrap")):
+                pass
