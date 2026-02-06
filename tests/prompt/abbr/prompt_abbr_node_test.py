@@ -6,9 +6,10 @@ Unit Tests (using pytest) for:
 - AbbrNode
 """
 
+import pytest
+
 from kaye.gen_prompt import PromptCorpusNode
 from kaye.gen_prompt.abbr_nodes import AbbrNode
-
 
 from tests.prompt import PROMPT1
 
@@ -34,6 +35,20 @@ class TestPLC:
 │   └── License
 └── Abbreviations"""
 
-    # test query function  -----------------------------------------------------
+    # test content_lines  ------------------------------------------------------
 
-    # TODO TODO
+    def test_empty1(self):
+        query = "some content without abbreviation"
+
+        lines = self.node.content_lines(query=query)
+        print(lines)
+        assert lines == []
+
+    def test_err1(self):
+
+        with pytest.raises(ValueError) as exec_info:
+            self.node.content_lines()
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "must provide kwarg: query"

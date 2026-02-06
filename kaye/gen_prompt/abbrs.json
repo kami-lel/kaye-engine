@@ -3501,7 +3501,7 @@
       "wrap": "symbol"
     },
     "≡": {
-      "abbr": "eq",
+      "abbr": "=",
       "tags": [
         "ascii"
       ],

@@ -57,8 +57,7 @@ class TestFromAltErr:
 
         assert (
             opt
-            == "fail to find referenced abbr 'e.g.' of alt 'eg' "
-            "in arg abbrs_obj"
+            == "fail to find referenced abbr 'e.g.' of alt 'eg' in abbrs.json"
         )
 
     def test_bad_init(_):

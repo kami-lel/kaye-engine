@@ -271,7 +271,7 @@ class AbbrEntry:  ##############################################################
             referenced_abbr = abbrs_obj[abbr]
         except KeyError as err:
             raise ValueError(
-                "fail to find referenced abbr {} of alt {} in arg abbrs_obj"
+                "fail to find referenced abbr {} of alt {} in abbrs.json"
                 .format(repr(abbr), repr(key))
             ) from err
 
