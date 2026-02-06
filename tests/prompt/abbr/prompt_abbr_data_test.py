@@ -94,10 +94,25 @@ class Test1:
         assert entry.wrap == AbbrWrap.PREFIX
 
     def test_automaton(self):
-        pass  # TODO TODO
+        automaton = self.data.automaton
+        abbrs = self.data.abbrs
+
+        assert automaton.get("e.g.") is abbrs[0]
+        assert automaton.get("eg") is abbrs[1]
 
     def test_automaton_fx1(self):
-        pass  # TODO TODO
+        ipt = "We can say, e.g. ..."
+        opts_i = [15]
+        opts_e = ["e.g.:for example,for instance"]
+
+        automaton = self.data.automaton
+        for result, opt_i, opt_e in zip(
+            automaton.iter_long(ipt), opts_i, opts_e
+        ):
+            print(result)
+            i, e = result
+            assert i == opt_i
+            assert str(e) == opt_e
 
 
 # TODO TODO add more test cases
