@@ -264,7 +264,7 @@ class AbbrEntry:  ##############################################################
     :raises TypeError:
     """
 
-    # TODO add dh
+    # classmethods  ============================================================
 
     @classmethod
     def parse_from_alt(cls, key, alt_obj, abbrs_obj):
@@ -299,6 +299,8 @@ class AbbrEntry:  ##############################################################
         mean = referenced_abbr[MEAN_KEY]
         return AbbrEntry(key, mean, wrap, tags_list)
 
+    # instance structure  ======================================================
+
     __slots__ = ("key", "mean", "wrap", "tags")
 
     def __init__(self, key, mean, wrap, tags_list):
@@ -312,6 +314,8 @@ class AbbrEntry:  ##############################################################
 
         self.wrap = AbbrWrap(wrap)  # may raise ValueError
         self.tags = AbbrTags.parse(tags_list)  # may raise ValueError/TypeError
+
+    # instance method  =========================================================
 
     def verify_found(self, found, char_before, char_after):
         """
@@ -340,12 +344,14 @@ class AbbrWrap(Enum):  #########################################################
     represent an abbr wrap type as ``Enum``
     """
 
+    # enum instances  ==========================================================
+
     WORD = "word"
     PREFIX = "prefix"
     SUFFIX = "suffix"
     SYMBOL = "symbol"
 
-    # TODO add dh
+    # instance methods  ========================================================
 
     def is_satisfied_wrap_rule(self, char_before, char_after):
         """
@@ -390,13 +396,7 @@ class AbbrTags(Flag):  #########################################################
 
     # pylint: disable=invalid-name
 
-    NONE = 0
-    ascii = auto()
-    usable = auto()
-    emoji = auto()
-    programming_language = auto()
-
-    # TODO add dh
+    # classmethods  ============================================================
 
     @classmethod
     def parse(cls, tags_list):
@@ -422,3 +422,11 @@ class AbbrTags(Flag):  #########################################################
                 ) from err
 
         return instance
+
+    # flag instances  ==========================================================
+
+    NONE = 0
+    ascii = auto()
+    usable = auto()
+    emoji = auto()
+    programming_language = auto()
