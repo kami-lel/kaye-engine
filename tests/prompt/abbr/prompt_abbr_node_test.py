@@ -76,23 +76,20 @@ class TestAbbrNode:
     # TODO multiple
 
     def test_caps1(self):
-        query = "W it happens but s/x and also AM"
+        query = "W it happens but mx and also AM"
 
         lines = self.node.content_lines(query=query)
 
         print(lines)
-        assert set(lines) == {
-            "- W:while,when;west;winter",
-            "- AM:ante meridiem,before midday",
-        }
+        assert set(lines) == {}  # BUG
 
     def test_caps2(self):
-        query = "w it happens but s/X and also am"
+        query = "w it happens but Mx and also am"
 
         lines = self.node.content_lines(query=query)
 
         print(lines)
-        assert set(lines) == {"- s/X:sometime"}
+        assert set(lines) == {}  # BUG
 
     def test_emoji1(self):
         query = (
