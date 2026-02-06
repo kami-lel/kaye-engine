@@ -170,13 +170,12 @@ class AbbrData:  ###############################################################
                         err.pos,
                     ) from err
 
-        # validate json  -------------------------------------------------------
+        # fill .meanings & .abbrs  ---------------------------------------------
+        for mean_key, mean_obj in json_data.items():
+            mean = AbbrMeaning(mean_key)
+
         # TODO TODO
         for mean, mean_obj in json_data.items():
-            if not isinstance(mean, str):
-                raise ValueError(
-                    "meaning key must be String: {}".format(repr(mean))
-                )
             if not isinstance(mean_obj, dict):
                 raise ValueError(
                     "meaning value must be Object: {}".format(repr(mean_obj))
@@ -196,9 +195,6 @@ class AbbrData:  ###############################################################
                 ):
                     pass
 
-        # fill .meanings & .abbrs  ---------------------------------------------
-        # TODO TODO
-
         # create automaton  ----------------------------------------------------
         # TODO TODO
 
@@ -210,11 +206,17 @@ class AbbrMeaning:  # **********************************************************
 
     :param mean:
     :type mean: str
+    :raises ValueError:
     """
 
     __slots__ = ("mean",)
 
     def __init__(self, mean):
+        if not isinstance(mean, str):
+            raise ValueError(
+                "meaning key must be String: {}".format(repr(mean))
+            )
+
         self.mean = mean
 
     # magic methods  ===========================================================
