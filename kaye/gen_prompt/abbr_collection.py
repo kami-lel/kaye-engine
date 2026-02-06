@@ -36,7 +36,10 @@ class AbbrTags(Flag):  #########################################################
         :return: parsed tags
         :rtype: AbbrEntry
         """
-        # TODO TODO type check
+        if not isinstance(tags_list, list):
+            raise ValueError(
+                "tags value must be Array: {}".format(repr(tags_list))
+            )
 
         instance = cls.NONE  # start
         for tag in tags_list:
