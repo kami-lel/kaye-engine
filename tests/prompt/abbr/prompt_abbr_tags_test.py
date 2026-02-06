@@ -24,7 +24,7 @@ class TestParseErr:
         assert opt == "fail to parse 123 as an abbr tag"
 
     def test_type2(_):
-        ipt = ["ascii", 5]
+        ipt = ["ascii_only", 5]
 
         with pytest.raises(ValueError) as exec_info:
             AbbrTags.parse(ipt)
