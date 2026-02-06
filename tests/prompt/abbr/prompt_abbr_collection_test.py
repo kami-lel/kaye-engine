@@ -25,8 +25,6 @@ ALT_OBJ_VALUE = {
     "wrap": "prefix",
 }
 
-# BUG
-
 
 class TestValidate:
 
@@ -36,7 +34,7 @@ class TestValidate:
         }
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -54,7 +52,7 @@ class TestValidate:
         }
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -64,7 +62,7 @@ class TestValidate:
         json_override = {"abbrs": "abc", "alts": {}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -74,7 +72,7 @@ class TestValidate:
         json_override = {"abbrs": {}, "alts": 5}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -87,7 +85,7 @@ class TestValidateAbbrs:
         json_override = {"abbrs": {5: {}}, "alts": {}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -97,7 +95,7 @@ class TestValidateAbbrs:
         json_override = {"abbrs": {"eg": []}, "alts": {}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -109,7 +107,7 @@ class TestValidateAbbrs:
         json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -121,7 +119,7 @@ class TestValidateAbbrs:
         json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -133,7 +131,7 @@ class TestValidateAbbrs:
         json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -145,7 +143,7 @@ class TestValidateAbbrs:
         json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -157,7 +155,7 @@ class TestValidateAbbrs:
         json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -169,7 +167,7 @@ class TestValidateAbbrs:
         json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -181,7 +179,7 @@ class TestValidateAbbrs:
         json_override = {"abbrs": {"e.g.": entry_value}, "alts": {}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -198,7 +196,7 @@ class TestValidateAlts:
         json_override = {"abbrs": {}, "alts": {5: {}}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -208,7 +206,7 @@ class TestValidateAlts:
         json_override = {"abbrs": {}, "alts": {"eg": "some text"}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -220,7 +218,7 @@ class TestValidateAlts:
         json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -232,7 +230,7 @@ class TestValidateAlts:
         json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -244,7 +242,7 @@ class TestValidateAlts:
         json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -256,7 +254,7 @@ class TestValidateAlts:
         json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -268,7 +266,7 @@ class TestValidateAlts:
         json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -280,7 +278,7 @@ class TestValidateAlts:
         json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -292,7 +290,7 @@ class TestValidateAlts:
         json_override = {"abbrs": {}, "alts": {"eg": entry_value}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
+            AbbrCollection(abbrs_json_override=json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -317,9 +315,8 @@ class TestEntries:
             "alts": {"eg": {"abbr": "e.g.", "tags": ["ascii"], "wrap": "word"}},
         }
 
-        AbbrCollection._entries = None
-        AbbrCollection.load_abbrs_json(abbrs_json_override=json_override)
-        opt = AbbrCollection._entries
+        instance = AbbrCollection(abbrs_json_override=json_override)
+        opt = instance._entries
 
         assert isinstance(opt, list)
         assert len(opt) == 3
