@@ -10,6 +10,7 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
 from .prompt_corpus_node import PromptCorpusNode
+from .today_node import TodayNode
 
 __all__ = ("PromptBlueprint",)
 
@@ -649,3 +650,8 @@ def _checkmark_find_node_recursively(target, node):
         _checkmark_find_node_recursively(target, child)
         for child in node.children
     )
+
+
+def _create_dynamic_node(heading, parent):  # HACK
+    if heading == TodayNode.HEADING:
+        return TodayNode(parent)

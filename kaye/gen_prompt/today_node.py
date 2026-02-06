@@ -8,8 +8,6 @@ from datetime import datetime
 
 from .base_prompt_node import DynamicNode
 
-TODAY_NODE_HEADING = "Today"
-
 
 class TodayNode(DynamicNode):
     """
@@ -20,10 +18,12 @@ class TodayNode(DynamicNode):
     :type parent: BasePromptNode
     """
 
+    HEADING = "Today"
+
     # constructor  =============================================================
 
     def __init__(self, parent):
-        super().__init__(TODAY_NODE_HEADING, parent)
+        super().__init__(self.HEADING, parent)
 
     # implement BasePromptNode  ================================================
     @property

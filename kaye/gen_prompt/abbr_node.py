@@ -27,7 +27,7 @@ WRAP_KEY = "wrap"
 TAGS_KEY = "tags"
 
 
-class AbbrNode(BasePromptNode):
+class AbbrNode(BasePromptNode):  ###############################################
     pass
 
     # implement BasePromptNode  ================================================
