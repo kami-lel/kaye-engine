@@ -154,6 +154,14 @@ class TestVerify1:  # ==========================================================
 
         assert not self.entry.verify_found(found, *wraps)
 
+    def test_false2(self):
+        found = "my"
+        wraps = (" ", "b")
+
+        print(found, wraps, sep="\n")
+
+        assert not self.entry.verify_found(found, *wraps)
+
 
 class TestVerify2:  # ==========================================================
 
