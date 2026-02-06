@@ -20,28 +20,31 @@ class QueryAbbrNode(DynamicNode):
     # implement BasePromptNode  ================================================
 
     def content_lines(self, **kwargs):
-        pass  # TODO TODO
+        if "query" not in kwargs:
+            raise ValueError("must provide kwarg: query")
+        query = kwargs["query"]
 
-    #     self.load_abbrs_json()
-    #     query_lower = query.lower()
+        # find abbr occurrences  -----------------------------------------------
+        collection = AbbrCollection()
+        query_lower = query.lower()  # provide lower case to automation
+        lines = []
+        for last_idx, entry in collection.automaton.iter_long(query_lower):
+            key_len = len(entry.key)
+            end_idx = last_idx + 1
+            start_idx = end_idx - key_len
+            # get found text & its surrounding from original query
+            found = query[start_idx:end_idx]
+            char_before = query[start_idx - 1] if start_idx > 0 else ""
+            char_after = query[end_idx] if end_idx > key_len else ""
+            # check found satisfies additional rules
+            if not entry.verify_found(found, char_before, char_after):
+                continue  # skip this found
 
-    #     lines = []
-    #     for last_idx, entry in self._automaton.iter_long(query_lower):
-    #         key_len = len(entry.key)
-    #         end_idx = last_idx + 1
-    #         start_idx = end_idx - key_len
-    #         # get found text & its surrounding from original query
-    #         found = query[start_idx:end_idx]
-    #         char_before = query[start_idx - 1] if start_idx > 0 else ""
-    #         char_after = query[end_idx] if end_idx > key_len else ""
-    #         # check found satisfies additional rules
-    #         if not entry.verify_found(found, char_before, char_after):
-    #             continue  # skip this found
+            # convert entry to md line: - abbrs:meanings
+            line = "- {}:{}".format(entry.key, entry.mean)
+            lines.append(line)
 
-    #         line = "- {}:{}".format(entry.key, entry.mean)
-    #         lines.append(line)
-
-    #     return "\n".join(lines)
+        return lines
 
 
 class PLCNode(DynamicNode):
