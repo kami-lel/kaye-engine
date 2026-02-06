@@ -8,7 +8,7 @@ import re
 import ahocorasick
 
 __all__ = ("AbbrCollection", "AbbrEntry", "AbbrWrap", "AbbrTags")
-# BUG new structure
+# BUG BUG new structure
 
 
 # constants  ###################################################################
