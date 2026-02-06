@@ -46,34 +46,11 @@ class AbbrCollection:
         :yield: all programming language codes entries
         :rtype: AbbrEntry
         """
-        for entry in self._entries:
+        for entry in self.entries:
             if AbbrTags.programming_language in entry.tags:
                 yield entry
 
     # TODO more public methods
-
-    # HACK tmp naming
-    # def gen(self, query):
-    #     self.load_abbrs_json()
-    #     query_lower = query.lower()
-
-    #     lines = []
-    #     for last_idx, entry in self._automaton.iter_long(query_lower):
-    #         key_len = len(entry.key)
-    #         end_idx = last_idx + 1
-    #         start_idx = end_idx - key_len
-    #         # get found text & its surrounding from original query
-    #         found = query[start_idx:end_idx]
-    #         char_before = query[start_idx - 1] if start_idx > 0 else ""
-    #         char_after = query[end_idx] if end_idx > key_len else ""
-    #         # check found satisfies additional rules
-    #         if not entry.verify_found(found, char_before, char_after):
-    #             continue  # skip this found
-
-    #         line = "- {}:{}".format(entry.key, entry.mean)
-    #         lines.append(line)
-
-    #     return "\n".join(lines)
 
     # singleton pattern  =======================================================
 
@@ -120,21 +97,21 @@ class AbbrCollection:
         alts_obj = data[ALT_KEY]
 
         # create entries  ------------------------------------------------------
-        self._entries = []
+        self.entries = []
         # add all abbr entries
         for k, v in abbrs_obj.items():
             entry = AbbrEntry(k, v[MEAN_KEY], v[WRAP_KEY], v[TAGS_KEY])
-            self._entries.append(entry)
+            self.entries.append(entry)
         # add all alt entries
         for k, v in alts_obj.items():
-            self._entries.append(AbbrEntry.parse_from_alt(k, v, abbrs_obj))
+            self.entries.append(AbbrEntry.parse_from_alt(k, v, abbrs_obj))
 
         # create automation  ---------------------------------------------------
-        self._automaton = ahocorasick.Automaton()
-        for entry in self._entries:
-            self._automaton.add_word(entry.key, entry)
+        self.automaton = ahocorasick.Automaton()
+        for entry in self.entries:
+            self.automaton.add_word(entry.key, entry)
         # todo use pickle.loads/dumps to save an local automaton, with hash
-        self._automaton.make_automaton()
+        self.automaton.make_automaton()
 
     # helper methods  **********************************************************
     @classmethod

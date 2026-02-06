@@ -316,7 +316,7 @@ class TestEntries:
         }
 
         instance = AbbrCollection(abbrs_json_override=json_override)
-        opt = instance._entries
+        opt = instance.entries
 
         assert isinstance(opt, list)
         assert len(opt) == 3
