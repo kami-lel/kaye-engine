@@ -1495,13 +1495,6 @@
       "wrap": "word"
     }
   },
-  "downward direction": {
-    "☟": {
-      "priority": 5,
-      "tags": [],
-      "wrap": "symbol"
-    }
-  },
   "eadem,the same (woman)": {
     "ead.": {
       "priority": 5,
@@ -1945,7 +1938,7 @@
     "4": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "word_character_only"
       ],
       "wrap": "word"
     }
@@ -2720,18 +2713,6 @@
       "wrap": "word"
     }
   },
-  "left direction": {
-    "☚": {
-      "priority": 3,
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "☜": {
-      "priority": 5,
-      "tags": [],
-      "wrap": "symbol"
-    }
-  },
   "length": {
     "len": {
       "priority": 5,
@@ -3454,14 +3435,14 @@
       "wrap": "word"
     }
   },
-  "points/notice down": {
+  "points/notice down,downward": {
     "☟": {
       "priority": 5,
       "tags": [],
       "wrap": "symbol"
     }
   },
-  "points/notice left": {
+  "points/notice left,left direction": {
     "☚": {
       "priority": 6,
       "tags": [],
@@ -3473,7 +3454,7 @@
       "wrap": "symbol"
     }
   },
-  "points/notice right": {
+  "points/notice right,right direction": {
     "☛": {
       "priority": 6,
       "tags": [],
@@ -3485,7 +3466,7 @@
       "wrap": "symbol"
     }
   },
-  "points/notice up": {
+  "points/notice up,upward": {
     "☝": {
       "priority": 5,
       "tags": [],
@@ -3583,11 +3564,22 @@
         "ascii_only"
       ],
       "wrap": "prefix"
-    },
+    }
+  },
+  "page": {
+    "p.": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "pages": {
     "pp.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -3614,7 +3606,7 @@
     "p.cs": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -3641,7 +3633,7 @@
     "p.gs": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -3686,7 +3678,8 @@
     "py": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "programming_language"
       ],
       "wrap": "word"
     }
@@ -3787,7 +3780,7 @@
     "rat.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -3945,18 +3938,6 @@
       "wrap": "word"
     }
   },
-  "right direction": {
-    "☛": {
-      "priority": 3,
-      "tags": [],
-      "wrap": "symbol"
-    },
-    "☞": {
-      "priority": 5,
-      "tags": [],
-      "wrap": "symbol"
-    }
-  },
   "science": {
     "sci": {
       "priority": 5,
@@ -4009,7 +3990,7 @@
     "s.a.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4018,7 +3999,7 @@
     "s.l.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4027,7 +4008,7 @@
     "s.s.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4068,8 +4049,8 @@
       "wrap": "word"
     }
   },
-  "should,shall not": {
-    "sl & slx": {
+  "should/shall not": {
+    "slx": {
       "priority": 5,
       "tags": [
         "letters_only"
@@ -4099,7 +4080,7 @@
     "sim.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4144,7 +4125,7 @@
     "s/": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4153,7 +4134,7 @@
     "s/o": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4162,23 +4143,23 @@
     "s/t": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
   },
   "sometime": {
     "s/x": {
-      "priority": 5,
+      "priority": 6,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     },
     "s/X": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4187,7 +4168,7 @@
     "s/w": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4275,7 +4256,7 @@
     "s.re": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4302,7 +4283,7 @@
     "|": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "symbol"
     }
@@ -4381,12 +4362,12 @@
     "i.e.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     },
     "ie": {
-      "priority": 5,
+      "priority": 6,
       "tags": [
         "letters_only"
       ],
@@ -4490,7 +4471,7 @@
     "2": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "word_character_only"
       ],
       "wrap": "word"
     }
@@ -4499,7 +4480,7 @@
     "2": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "word_character_only"
       ],
       "wrap": "word"
     }
@@ -4554,7 +4535,7 @@
     "u.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "prefix"
     }
@@ -4640,13 +4621,6 @@
       "wrap": "word"
     }
   },
-  "upward direction": {
-    "☝": {
-      "priority": 5,
-      "tags": [],
-      "wrap": "symbol"
-    }
-  },
   "usual,usually": {
     "usu": {
       "priority": 5,
@@ -4687,7 +4661,7 @@
     "v.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4696,7 +4670,7 @@
     "v.v.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4705,7 +4679,7 @@
     "v.i.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4714,14 +4688,14 @@
     "v.s.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
   },
   "volume": {
     "vol": {
-      "priority": 5,
+      "priority": 6,
       "tags": [
         "letters_only"
       ],
@@ -4730,7 +4704,7 @@
     "vol.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4753,7 +4727,7 @@
       "wrap": "symbol"
     },
     "warn": {
-      "priority": 5,
+      "priority": 6,
       "tags": [
         "letters_only"
       ],
@@ -4789,14 +4763,14 @@
     "q.v.": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     },
     "qq.v.": {
-      "priority": 5,
+      "priority": 6,
       "tags": [
-        "letters_only"
+        "ascii_only"
       ],
       "wrap": "word"
     }
@@ -4810,7 +4784,7 @@
       "wrap": "word"
     }
   },
-  "will not,would not": {
+  "will/would not": {
     "wlx": {
       "priority": 5,
       "tags": [
@@ -4832,7 +4806,8 @@
     "w/": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only",
+        "common"
       ],
       "wrap": "word"
     }
@@ -4841,7 +4816,8 @@
     "w/i": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only",
+        "common"
       ],
       "wrap": "word"
     }
@@ -4850,7 +4826,8 @@
     "w/o": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "ascii_only",
+        "common"
       ],
       "wrap": "word"
     }
