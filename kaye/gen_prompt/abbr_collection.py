@@ -225,6 +225,6 @@ class AbbrMeaning:  # **********************************************************
 
 class AbbrEntry:  # ************************************************************
 
-    __slots__ = ("abbr", "mean", "wrap", "tags")
+    __slots__ = ("abbr", "meaning", "wrap", "tags")
 
-    pass
+    pass  # TODO TODO
