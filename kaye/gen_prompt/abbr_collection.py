@@ -231,6 +231,9 @@ class AbbrMeaning:  # **********************************************************
 
         return self.mean == other.mean
 
+    def __str__(self):
+        return self.mean
+
 
 class AbbrEntry:  # ============================================================
     """
@@ -320,3 +323,6 @@ class AbbrEntry:  # ============================================================
             return NotImplemented
 
         return self.abbr == other.abbr and self.mean == other.mean
+
+    def __repr__(self):
+        return "{}:{}".format(self.abbr, self.mean)

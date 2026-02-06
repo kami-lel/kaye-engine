@@ -75,7 +75,7 @@ class TestAbbrNode:
             "- est.:estimate,estimation,estimated,estimating,estimatingly",
         }
 
-    # TODO TODO multiple
+    # TODO multiple
 
     def test_caps1(self):
         query = "W it happens but mx and also AM"
@@ -83,7 +83,7 @@ class TestAbbrNode:
         lines = self.node.content_lines(query=query)
 
         print(lines)
-        assert set(lines) == {}  # BUG BUG
+        assert set(lines) == {}  # BUG
 
     def test_caps2(self):
         query = "w it happens but Mx and also am"
@@ -91,7 +91,7 @@ class TestAbbrNode:
         lines = self.node.content_lines(query=query)
 
         print(lines)
-        assert set(lines) == {}  # BUG BUG
+        assert set(lines) == {}  # BUG
 
     def test_emoji1(self):
         query = (
