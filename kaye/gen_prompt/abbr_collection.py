@@ -189,7 +189,6 @@ class AbbrData:  ###############################################################
             self.meanings.append(mean)
 
             for abbr, abbr_obj in mean_obj.items():
-                # BUG BUG
                 self.abbrs.append(AbbrEntry(mean, abbr, abbr_obj))
 
         # create automaton  ----------------------------------------------------
@@ -197,7 +196,6 @@ class AbbrData:  ###############################################################
         # pylint: disable=c-extension-no-member
         self.automaton = ahocorasick.Automaton()
         for entry in self.abbrs:
-            # TODO maybe duplicated abbr?
             self.automaton.add_word(entry.abbr, entry)
         self.automaton.make_automaton()
 
