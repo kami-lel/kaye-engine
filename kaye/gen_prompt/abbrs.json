@@ -1028,7 +1028,7 @@
       ],
       "wrap": "word"
     },
-    "cla": {
+    "cls": {
       "mean": "class,classic,classicism,classify,classical",
       "tags": [
         "ascii"
@@ -2449,7 +2449,7 @@
       "wrap": "word"
     },
     "pol": {
-      "mean": "politics",
+      "mean": "politic,politics,political",
       "tags": [
         "ascii"
       ],
