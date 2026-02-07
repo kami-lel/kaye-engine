@@ -148,8 +148,6 @@ kyc_bp = Blueprint("kaye-peer-coder", PROGRAM_NAME, url_prefix="/kyc")
 @kyc_bp.route("/pre-sense", methods=["GET"])
 def kaye_peer_coder_pre_sense():
     # Todo utilize dynamic abbr
-    # Todo Unity related abbr: mb for MonoScript, etc.; maybe contextual abbr?
-
     blueprint = PromptBlueprint.parse(
         load_embedded_prompt_corpus(),
         PRE_SENSE_PROMPT_BLUEPRINT,

@@ -4,8 +4,6 @@ bug kyc didn't include AMs definition currently, need to rewrite b/c commit sens
 
 todo kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
 
-TODO Unity related abbr: mb for MonoScript, etc.; maybe contextual abbr?
-
 bug really slow, consider ways to speed up, eg pre-sense give answer directly?
 bug reply 2 tips sometimes during 2nd round conversation
 
