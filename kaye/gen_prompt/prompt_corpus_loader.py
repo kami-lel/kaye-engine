@@ -37,11 +37,14 @@ def load_embedded_prompt_corpus():
     """
 
     full_prompt_file_path = get_embedded_prompt_corpus_file_path()
-    with open(
-        full_prompt_file_path, "r", encoding="utf-8", newline=""
-    ) as file:
+    with open(full_prompt_file_path, "r", encoding="utf-8", newline="") as file:
         file_content = file.read()
         logger.debug(
             "embedded prompt corpus loaded from: %s", full_prompt_file_path
         )
         return PromptCorpusNode.parse(file_content)
+
+
+def _create_dynamic_node(heading, parent):  # HACK
+    if heading == TodayNode.HEADING:
+        return TodayNode(parent)

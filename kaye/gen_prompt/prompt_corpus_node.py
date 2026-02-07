@@ -32,7 +32,7 @@ class PromptCorpusNode(BasePromptNode):
     # public API  ==============================================================
 
     @classmethod
-    def parse(cls, prompt_corpus_text):
+    def parse(cls, prompt_corpus_text):  # TODO TODO parse also dynamic nodes
         """
         parse *prompt corpus* text into the tree structure.
 
