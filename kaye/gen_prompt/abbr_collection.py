@@ -139,15 +139,9 @@ class AbbrData:  ###############################################################
 
     # singleton pattern  =======================================================
 
-    _instance = None  # singleton
-
-    def __new__(cls, *, abbrs_json_override=None):
-        if cls._instance is None or abbrs_json_override:
-            cls._instance = super().__new__(cls)
-            cls._instance._load_abbrs_json(
-                abbrs_json_override=abbrs_json_override
-            )
-        return cls._instance
+    def __init__(self, *, abbrs_json_override=None):
+        # todo optimize as singleton
+        self._load_abbrs_json(abbrs_json_override=abbrs_json_override)
 
     # load from abbrs.json  ====================================================
     def _load_abbrs_json(self, *, abbrs_json_override=None):
