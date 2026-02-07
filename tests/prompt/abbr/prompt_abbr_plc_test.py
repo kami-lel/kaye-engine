@@ -37,4 +37,4 @@ class TestPLC:
 
     def test_content_lines(self):
         lines = self.node.content_lines()
-        assert lines == []  # BUG
+        assert lines == []  # BUG BUG
