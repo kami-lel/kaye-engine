@@ -21,6 +21,12 @@
 
 ### Added
 
+- Dynamic Nodes:
+
+  - `TodayNode`
+  - `AbbrNode`
+  - `PLCNode`
+
 `prompt_corpus.md`:
 
 - more abbreviations
@@ -30,6 +36,7 @@ Kaye Peer Coder:
 - input field `difficulty_override`
 - anchor point tasks for pre-sense prompt
 - additional information for *meta content*: times for pre-sense & task
+
 
 ### Changed
 
