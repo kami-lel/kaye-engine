@@ -7,10 +7,16 @@ import json
 from pathlib import Path
 from enum import Enum, Flag, auto
 
+import ahocorasick
+
 __all__ = ("AbbrTags", "AbbrWrap", "AbbrData")
 
 
+# abbrs.json constants  ########################################################
 ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
+ABBRS_JSON_PRIORITY_KEY = "priority"
+ABBRS_JSON_TAGS_KEY = "tags"
+ABBRS_JSON_WRAP_KEY = "wrap"
 
 
 class AbbrTags(Flag):  #########################################################
@@ -158,11 +164,11 @@ class AbbrData:  ###############################################################
         """
         # pylint: disable=attribute-defined-outside-init
 
-        # read abbrs.json  -----------------------------------------------------
         if abbrs_json_override:
             json_data = abbrs_json_override
 
         else:
+            # read abbrs.json  -------------------------------------------------
             with open(
                 ABBRS_JSON_FILE_PATH, "r", encoding="utf-8"
             ) as f:  # read only
@@ -182,11 +188,27 @@ class AbbrData:  ###############################################################
             mean = AbbrMeaning(mean_key)
             self.meanings.append(mean)
 
+            if not isinstance(mean_obj, dict):
+                raise ValueError(
+                    "meaning value must be Object: {}".format(repr(mean_obj))
+                )
+
             for abbr, abbr_obj in mean_obj.items():
                 self.abbrs.append(AbbrEntry(mean, abbr, abbr_obj))
 
         # create automaton  ----------------------------------------------------
-        # TODO
+        # todo use pickle.loads/dumps to save an local automaton, with hash
+        # pylint: disable=c-extension-no-member
+        automaton_entires = {}
+        for entry in self.abbrs:
+            if entry.abbr not in automaton_entires:
+                automaton_entires[entry.abbr] = []
+            automaton_entires[entry.abbr].append(entry)
+
+        self.automaton = ahocorasick.Automaton()
+        for k, v in automaton_entires.items():
+            self.automaton.add_word(k, tuple(v))
+        self.automaton.make_automaton()
 
 
 class AbbrMeaning:  # **********************************************************
@@ -194,8 +216,6 @@ class AbbrMeaning:  # **********************************************************
     represent a single meaning (of possible different spellings)
 
 
-    :param mean:
-    :type mean: str
     :raises ValueError:
     """
 
@@ -214,8 +234,23 @@ class AbbrMeaning:  # **********************************************************
     def __hash__(self):
         return hash(self.mean)
 
+    def __eq__(self, other):
+        if not isinstance(other, AbbrEntry):
+            return NotImplemented
+
+        return self.mean == other.mean
+
+    def __str__(self):
+        return self.mean
+
 
 class AbbrEntry:  # ============================================================
+    """
+    represent an abbr => meaning structure
+
+
+    :raises ValueError:
+    """
 
     # instance structure  ******************************************************
 
@@ -235,7 +270,13 @@ class AbbrEntry:  # ============================================================
                 "abbr value must be Object: {}".format(repr(abbr_obj))
             )
         missing_keys = [
-            key for key in ("priority", "tags", "wrap") if key not in abbr_obj
+            key
+            for key in (
+                ABBRS_JSON_PRIORITY_KEY,
+                ABBRS_JSON_TAGS_KEY,
+                ABBRS_JSON_WRAP_KEY,
+            )
+            if key not in abbr_obj
         ]
         if missing_keys:
             raise ValueError(
@@ -243,7 +284,7 @@ class AbbrEntry:  # ============================================================
             )
 
         # set .priority  -------------------------------------------------------
-        priority = abbr_obj["priority"]
+        priority = abbr_obj[ABBRS_JSON_PRIORITY_KEY]
         if not isinstance(priority, int):
             raise ValueError(
                 "priority must be Integer: {}".format(repr(priority))
@@ -251,10 +292,11 @@ class AbbrEntry:  # ============================================================
         self.priority = priority
 
         # set .tags  -----------------------------------------------------------
-        self.tags = AbbrTags.parse(abbr_obj["tags"])
+        self.tags = AbbrTags.parse(abbr_obj[ABBRS_JSON_TAGS_KEY])
 
         # set .wrap  -----------------------------------------------------------
-        self.wrap = AbbrWrap(abbr_obj["wrap"])  # may raise ValueError
+        # may raise ValueError
+        self.wrap = AbbrWrap(abbr_obj[ABBRS_JSON_WRAP_KEY])
 
     # instance method  *********************************************************
 
@@ -282,9 +324,14 @@ class AbbrEntry:  # ============================================================
     # magic methods  ***********************************************************
 
     def __hash__(self):
-        return hash(self.key)  # TODO
+        key = (self.abbr, self.mean)
+        return hash(key)
 
-    def __eq__(self, other):  # TODO
+    def __eq__(self, other):
         if not isinstance(other, AbbrEntry):
             return NotImplemented
-        return self.key == other.key
+
+        return self.abbr == other.abbr and self.mean == other.mean
+
+    def __repr__(self):
+        return "{}:{}".format(self.abbr, self.mean)
