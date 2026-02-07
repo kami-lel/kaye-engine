@@ -256,16 +256,10 @@ class Test2:  # ================================================================
 
     # automaton  ---------------------------------------------------------------
 
-    def test_automaton(self):
-        automaton = self.data.automaton
-        abbrs = self.data.abbrs
-
-        assert automaton.get("e.g.") is abbrs[0]  # HACK
-
     def test_automaton_fx1(self):  # HACK
-        ipt = "We can say, e.g. ..."
-        opts_i = [15]
-        opts_e = ["e.g.:for example,for instance"]
+        ipt = "Good mor.r but AM"
+        opts_i = [9, 16]
+        opts_e = [".r:-er,-or", "AM:ante meridiem,before midday"]
 
         automaton = self.data.automaton
         for result, opt_i, opt_e in zip(
