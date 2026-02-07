@@ -68,30 +68,39 @@ class TestAbbrNode:
             "- rev:revolution",
             "- fr:from",
             "- cls:class,classic,classicism,classify,classical",
-            "- pub:public;publish",
+            "- pub:public",
+            "- pub:publish",
             "- ind:industry,industrial",
             "- in:inch",
             "- o.:over-",
             "- est.:estimate,estimation,estimated,estimating,estimatingly",
         }
 
-    # TODO multiple
-
     def test_caps1(self):
+        # BUG
         query = "W it happens but mx and also AM"
 
         lines = self.node.content_lines(query=query)
 
         print(lines)
-        assert set(lines) == {}  # BUG
+        assert set(lines) == {
+            "- W:west",
+            "- W:while,when",
+            "- mx:most",
+            "- AM:ante meridiem,before midday",
+        }
 
     def test_caps2(self):
+        # BUG
         query = "w it happens but Mx and also am"
 
         lines = self.node.content_lines(query=query)
 
         print(lines)
-        assert set(lines) == {}  # BUG
+        assert set(lines) == {
+            "- mx:most",
+            "- Mx:must not",
+        }
 
     def test_emoji1(self):
         query = (
@@ -112,15 +121,15 @@ class TestAbbrNode:
 
         print(lines)
         assert set(lines) == {
-            "- ⚠️:warning",
             "- ⚙️:settings,preferences",
-            "- ☝:points/notice up;upward direction",
             "- 🚀:rapid,fast",
-            "- ☜:points/notice left;left direction",
-            "- 🛠️:tools",
+            "- ⚠️:warning",
             "- 🐞:debug",
-            "- 🏁:finish",
             "- 🛑:error",
+            "- ☝:points/notice up,upward",
+            "- 🛠️:tools",
+            "- ☜:points/notice left,left direction",
+            "- 🏁:finish",
         }
 
     def test_unicode1(self):

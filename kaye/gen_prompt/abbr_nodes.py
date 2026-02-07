@@ -25,12 +25,12 @@ class AbbrNode(DynamicNode):
         query = kwargs["query"]
 
         # find abbr occurrences  -----------------------------------------------
-        collection = AbbrCollection()
+        abbr_data = AbbrData()
         query_lower = query.lower()  # provide lower case to automation
         query_len = len(query)
         entries = set()
-        for last_idx, entry in collection.automaton.iter_long(query_lower):
-            key_len = len(entry.key)
+        for last_idx, matched in abbr_data.automaton.iter_long(query_lower):
+            key_len = len(matched[0].abbr)
             end_idx = last_idx + 1
             start_idx = end_idx - key_len
             # get found text & its surrounding from original query
@@ -39,11 +39,12 @@ class AbbrNode(DynamicNode):
             char_after = query[end_idx] if end_idx < query_len else ""
 
             # check found satisfies additional rules
-            if entry.verify_found(found, char_before, char_after):
-                entries.add(entry)
+            for m in matched:
+                if m.verify_found(found, char_before, char_after):
+                    entries.add(m)
 
         # convert to md lines  -------------------------------------------------
-        lines = ["- {}:{}".format(e.key, e.mean) for e in entries]
+        lines = ["- {}:{}".format(e.abbr, e.mean) for e in entries]
         return lines
 
 
