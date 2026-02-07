@@ -94,14 +94,12 @@ class Test1:  # ================================================================
         assert entry.wrap == AbbrWrap.PREFIX
 
     # automaton  ---------------------------------------------------------------
-    # BUG BUG
-
-    def test_automaton(self):
+    def test_automaton_keys(self):
         automaton = self.data.automaton
-        abbrs = self.data.abbrs
 
-        assert automaton.get("e.g.") is abbrs[0]
-        assert automaton.get("eg") is abbrs[1]
+        opt = set(automaton.keys())
+        print(opt)
+        assert opt == {"eg", "e.g."}
 
     def test_automaton_fx1(self):
         ipt = "We can say, e.g. ..."
@@ -115,7 +113,7 @@ class Test1:  # ================================================================
             print(result)
             i, e = result
             assert i == opt_i
-            assert str(e) == opt_e
+            assert str(e[0]) == opt_e
 
 
 class Test2:  # ================================================================
@@ -256,7 +254,12 @@ class Test2:  # ================================================================
         assert entry.wrap == AbbrWrap.WORD
 
     # automaton  ---------------------------------------------------------------
-    # BUG BUG
+    def test_automaton_keys(self):
+        automaton = self.data.automaton
+
+        opt = set(automaton.keys())
+        print(opt)
+        assert opt == {".r", "AM", "T", "⅝", "†", "‡", "a.m."}
 
     def test_automaton_fx1(self):
         ipt = "Good mor.r but AM"
@@ -270,7 +273,7 @@ class Test2:  # ================================================================
             print(result)
             i, e = result
             assert i == opt_i
-            assert str(e) == opt_e
+            assert str(e[0]) == opt_e
 
 
 class Test3:  # ================================================================
@@ -338,22 +341,19 @@ class Test3:  # ================================================================
         assert entry.wrap == AbbrWrap.WORD
 
     # automaton  ---------------------------------------------------------------
-
-    def test_automaton_fx1(self):
-        # BUG BUG
-        ipt = "Good mor.r but AM"
-        opts_i = [9, 16]
-        opts_e = [".r:-er,-or", "AM:ante meridiem,before midday"]
-
+    def test_automaton_keys(self):
         automaton = self.data.automaton
 
-        print(list(automaton.items()))  # HACK
-        assert False
+        opt = set(automaton.keys())
+        print(opt)
+        assert opt == {"W"}
 
-        for result, opt_i, opt_e in zip(
-            automaton.iter_long(ipt), opts_i, opts_e
-        ):
-            print(result)
-            i, e = result
-            assert i == opt_i
-            assert str(e) == opt_e
+    def test_automaton_fx1(self):
+        ipt = "hey W what"
+
+        opt = list(self.data.automaton.iter_long(ipt))
+        i, e = opt[0]
+
+        assert i == 4
+        assert str(e[0]) == "W:west"
+        assert str(e[1]) == "W:while,when"
