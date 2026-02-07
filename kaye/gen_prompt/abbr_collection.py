@@ -188,8 +188,12 @@ class AbbrData:  ###############################################################
             mean = AbbrMeaning(mean_key)
             self.meanings.append(mean)
 
+            if not isinstance(mean_obj, dict):
+                raise ValueError(
+                    "meaning value must be Object: {}".format(repr(mean_obj))
+                )
+
             for abbr, abbr_obj in mean_obj.items():
-                # BUG BUG
                 self.abbrs.append(AbbrEntry(mean, abbr, abbr_obj))
 
         # create automaton  ----------------------------------------------------
