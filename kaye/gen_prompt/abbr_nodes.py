@@ -20,6 +20,7 @@ class AbbrNode(DynamicNode):
     # implement BasePromptNode  ================================================
 
     def content_lines(self, **kwargs):
+        # todo contextual abbrs eg: mb only applies when role kyc
         if "query" not in kwargs:
             raise ValueError("must provide kwarg: query")
         query = kwargs["query"]
