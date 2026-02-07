@@ -72,26 +72,26 @@ class PromptBlueprint(dict):
         if prompt_corpus is None:
             prompt_corpus = load_embedded_prompt_corpus()
 
+        # create empty bp to fill later
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
 
         # mapping id lineage : hash(all node in corpus)
         id_lineage2node_hash = {
-            node.generate_id_lineage(): hash(node)
+            tuple(node.generate_id_lineage()): hash(node)
             for node in bp.corpus.descendants
         }
-
         # extract all headings  ++++++++++++++++++++++++++++++++++++++++++++++++
         previous_level = -1
         previous_path = []
         for line in blueprint_text.split("\n"):
-            match = re.fullmatch(cls.HEADING_LINE_PATTERN, line)
+            heading_line_match = cls.HEADING_LINE_PATTERN.fullmatch(line)
 
-            if not match:
+            if not heading_line_match:
                 continue  # skip line that is not a node heading
 
-            is_checkmarked = match.group(1) == "x"
-            level = len(match.group(2)) // 4
-            heading = match.group(3)
+            is_checkmarked = heading_line_match.group(1) == "x"
+            level = len(heading_line_match.group(2)) // 4
+            heading = heading_line_match.group(3)
 
             # dynamically decide path  -----------------------------------------
             if level > previous_level:
@@ -110,7 +110,11 @@ class PromptBlueprint(dict):
                 path = previous_path[: level + 1]
 
             path[level] = heading
-            path_tuple = tuple(path)  # BUG BUG need new format
+
+            # attach node to blueprint  ----------------------------------------
+            # TODO TODO how to deal w/ dynamic blueprint
+
+            path_tuple = tuple(path)
 
             # check node's existence in tree  ----------------------------------
             if path_tuple not in id_lineage2node_hash:
@@ -266,7 +270,7 @@ class PromptBlueprint(dict):
 
     # helpers  =================================================================
 
-    HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
+    HEADING_LINE_PATTERN = re.compile(r"\[([x ])\] (.*)[└├]── (.+)")
 
     # magic methods  ===========================================================
 
@@ -346,6 +350,9 @@ class PromptBlueprint(dict):
         :rtype: str
         """
         return super().__str__()
+
+
+# helpers  #####################################################################
 
 
 # HACK rm legacy
@@ -714,8 +721,3 @@ def _checkmark_find_node_recursively(target, node):
         _checkmark_find_node_recursively(target, child)
         for child in node.children
     )
-
-
-def _create_dynamic_node(heading, parent):  # HACK
-    if heading == TodayNode.HEADING:
-        return TodayNode(parent)
