@@ -1,7 +1,9 @@
 """
-prompt_corpus_node_subscript_test.py
+prompt_node_getitem_test.py
 
-Unit Tests (using pytest) for: PromptCorpusNode.__getitem__()
+Unit Tests (using pytest) for:
+
+- PromptCorpusNode.__getitem__()
 """
 
 import pytest
@@ -15,11 +17,11 @@ class TestRoot:
     tree = node = PromptCorpusNode.parse(PROMPT3)
 
     def test_parent(self):
-        opt = self.node[None]
+        with pytest.raises(TypeError) as exec_info:
+            self.node[None]
 
-        print(opt)
-
-        assert opt is None
+        opt = exec_info.value.args[0]
+        assert opt == f"{type(self.node).__name__} index must be int/str: None"
 
     def test_int1(self):
         opt = self.node[0]
@@ -40,23 +42,24 @@ class TestRoot:
             self.node[99]
 
         opt = exec_info.value.args[0]
-        assert opt == "index out of range for PromptCorpusNode children: 99"
+        expected = f"index out of range for {str(self.node)}: 99"
+        assert opt == expected
 
     def test_bad_str1(self):
         with pytest.raises(KeyError) as exec_info:
             self.node["???"]
 
         opt = exec_info.value.args[0]
-        assert opt == "fail to find child '???' in PromptCorpusNode()"
+        expected = f"{str(self.node)} contains no child with name/id of '???'"
+        assert opt == expected
 
     def test_bad_type(self):
         with pytest.raises(TypeError) as exec_info:
             self.node[12.5]
 
         opt = exec_info.value.args[0]
-        assert (
-            opt == "unsupported type for PromptCorpusNode[~]: <class 'float'>"
-        )
+        expected = f"{type(self.node).__name__} index must be int/str: 12.5"
+        assert opt == expected
 
 
 class TestMain:
@@ -65,11 +68,11 @@ class TestMain:
     node = tree.children[0]
 
     def test_parent(self):
-        opt = self.node[None]
+        with pytest.raises(TypeError) as exec_info:
+            self.node[None]
 
-        print(opt)
-
-        assert opt is self.tree
+        opt = exec_info.value.args[0]
+        assert opt == f"{type(self.node).__name__} index must be int/str: None"
 
     def test_int1(self):
         opt = self.node[0]
@@ -118,25 +121,24 @@ class TestMain:
             self.node[99]
 
         opt = exec_info.value.args[0]
-        assert opt == "index out of range for PromptCorpusNode children: 99"
+        expected = f"index out of range for {str(self.node)}: 99"
+        assert opt == expected
 
     def test_bad_str1(self):
         with pytest.raises(KeyError) as exec_info:
             self.node["???"]
 
         opt = exec_info.value.args[0]
-        assert (
-            opt == "fail to find child '???' in PromptCorpusNode(Main Title)"
-        )
+        expected = f"{str(self.node)} contains no child with name/id of '???'"
+        assert opt == expected
 
     def test_bad_type(self):
         with pytest.raises(TypeError) as exec_info:
             self.node[12.5]
 
         opt = exec_info.value.args[0]
-        assert (
-            opt == "unsupported type for PromptCorpusNode[~]: <class 'float'>"
-        )
+        expected = f"{type(self.node).__name__} index must be int/str: 12.5"
+        assert opt == expected
 
 
 class TestImportance:
@@ -145,11 +147,11 @@ class TestImportance:
     node = tree.children[0].children[0].children[0].children[0]
 
     def test_parent(self):
-        opt = self.node[None]
+        with pytest.raises(TypeError) as exec_info:
+            self.node[None]
 
-        print(opt)
-
-        assert opt is self.tree.children[0].children[0].children[0]
+        opt = exec_info.value.args[0]
+        assert opt == f"{type(self.node).__name__} index must be int/str: None"
 
     def test_int1(self):
         opt = self.node[0]

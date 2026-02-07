@@ -10,6 +10,7 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
 from .prompt_corpus_node import PromptCorpusNode
+from .today_node import TodayNode
 
 __all__ = ("PromptBlueprint",)
 
@@ -18,6 +19,8 @@ __all__ = ("PromptBlueprint",)
 CHECKMARKED_PREFIX = "[x] "
 UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
+
+# Bug redo prompt blueprint
 
 
 class PromptBlueprint(dict):
@@ -65,6 +68,8 @@ class PromptBlueprint(dict):
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
         """
+        # Todo make prompt_corpus default from using corpus loader
+
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
         path2node_hash = {
             node.path_of_names: hash(node) for node in bp.corpus.descendants
@@ -309,9 +314,7 @@ class PromptBlueprint(dict):
                 which contains only branches with checkmarked nodes
         :rtype: PromptBlueprint
         """
-        pruned_bp = PromptBlueprint(
-            self.corpus, display_name=self.display_name
-        )
+        pruned_bp = PromptBlueprint(self.corpus, display_name=self.display_name)
         _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
         return pruned_bp
 
@@ -394,9 +397,7 @@ class PromptBlueprint(dict):
         if hide_comment:
             comment_line = ""
         else:
-            comment_line = (
-                "\n<!-- " + self._generate_comment_content() + " -->"
-            )
+            comment_line = "\n<!-- " + self._generate_comment_content() + " -->"
 
         return content, comment_line
 
@@ -622,9 +623,7 @@ def _normalize_node_hash(node):
 
     else:
         raise TypeError(
-            "must be PromptCorpusNode or hash value, not: {}".format(
-                repr(node)
-            )
+            "must be PromptCorpusNode or hash value, not: {}".format(repr(node))
         )
 
 
@@ -653,3 +652,8 @@ def _checkmark_find_node_recursively(target, node):
         _checkmark_find_node_recursively(target, child)
         for child in node.children
     )
+
+
+def _create_dynamic_node(heading, parent):  # Hack
+    if heading == TodayNode.HEADING:
+        return TodayNode(parent)

@@ -5,12 +5,23 @@ Unit Tests (using pytest) for: _AbbrTags
 """
 
 import pytest
-from kaye.gen_prompt.abbr_node import AbbrTags
+from kaye.gen_prompt.abbr_collection import AbbrTags
 
 # .parse test  #################################################################
 
 
 class TestParseErr:
+
+    def test_not_array1(_):
+        ipt = 123
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrTags.parse(ipt)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "tags value must be Array: 123"
 
     def test_type1(_):
         ipt = [123, 456]
@@ -24,7 +35,7 @@ class TestParseErr:
         assert opt == "fail to parse 123 as an abbr tag"
 
     def test_type2(_):
-        ipt = ["ascii", 5]
+        ipt = ["ascii_only", 5]
 
         with pytest.raises(ValueError) as exec_info:
             AbbrTags.parse(ipt)

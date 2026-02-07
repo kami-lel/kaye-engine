@@ -4,23 +4,9 @@
 
 The **core** module of *Kaye Python API*, implement a systematic, dynamic, and structured framework for **prompt management and manipulation**.
 
+----
 
-
-
-
-
-
-
-
-
-
-
-
-### Prompt Node `PromptCorpusNode`
-
-A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
-
-The **prompt corpus tree** is the structured representation parsed from *prompt corpus text* . A **node** of tree is corresponding to a section heading in the text. E.g. text in such form:
+The **prompt tree** is the structured representation parsed from *prompt corpus text* . A **node** of tree is corresponding to a section heading in the text. E.g. text in such form:
 
 ```md
 # Introduction
@@ -43,17 +29,27 @@ is equivalent to tree structure:
 └── Usage
 ```
 
-A *node* represent a branch of the tree. If the node is *root*, it represents an instance of entire prompt corpus tree.
-
-The class `PromptCorpusNode` is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
+A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, which is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+### Prompt Corpus Node `PromptCorpusNode`
 
 #### tree creation
 
-When deal with `PromptCorpusNode`, it is rare for end users to create individual instances, but to **create** an entire prompt corpus tree (i.e. get the root node.) This is possible by *classmethod* `.parse()`:
+When deal with `PromptCorpusNode`, it is rare for end users to create individual instances, but to **create** an entire prompt tree (i.e. get the root node.) This is possible by *classmethod* `.parse()`:
 
 ```python
 from kaye.gen_prompt import PromptCorpusNode
@@ -83,7 +79,12 @@ To access node **name**, i.e. **section heading**:
 ```python
 node = ~~~
 assert node.name == "Introduction"
+assert node.id == "Introduction"
 ```
+
+> [!NOTE]
+> `.name` and `.id` return identical result for `PromptCorpusNode`
+
 
 ###### parent
 
@@ -98,7 +99,7 @@ The `.parent` of a root node is ``None``
 
 ###### content
 
-To access node's textual **content lines**, use `.content` (typed `list`.) E.g. with prompt corpus text:
+To access node's textual **content lines**, use `.content_lines` (typed `list`.) E.g. with prompt corpus text:
 
 ```python
 prompt_corpus_text = """
@@ -115,7 +116,7 @@ What is your name?
 """
 
 introduction_basic_node = ~~~
-introduction_basic_node.content == [
+introduction_basic_node.content_lines == [
     "Hi, my name is Alice.",
     "It is nice to see you.",
     "",
@@ -126,58 +127,9 @@ introduction_basic_node.content == [
 
 
 
-#### node inspection
+#### tree preview
 
-###### path of names
-
-The node store a **path of names**, describing a path from root to this node, with node's ancestors and the parent in between.
-
-E.g. consider this tree:
-
-```
-○
-├── Introduction
-│   ├── Basic
-│   └── Advanced
-│       └── Additional Info
-└── Usage
-```
-
-`.path_of_names` store such path as a `tuple` of `str`.
-
-```python
-assert root_node.path_of_names == tuple()  # empty
-assert intro_node.path_of_names == "Introduction"
-assert basic_node.path_of_names == ("Introduction", "Basic")
-assert add_node.path_of_names == (
-    "Introduction",
-    "Advanced",
-    "Additional Info",
-)
-```
-
-----
-
-Use `repr(node)` also yield similar result:
-
-```python
-assert repr(root_node) == "PromptCorpusNode()"
-assert repr(intro_node) == "PromptCorpusNode(Introduction)"
-assert repr(basic_node) == "PromptCorpusNode(Introduction#Basic)"
-assert (
-    repr(add_note)
-    == "PromptCorpusNode("
-    "Introduction#Advanced#Additional Info)"
-)
-```
-
-
-
-
-
-###### preview tree
-
-Use `.generate_preview_tree()` to show a human-readable representation which shows:
+Use `.generate_prompt_tree_preview()` on **root** instance to show a human-readable representation which shows:
 
 - tree structure
 - node name, i.e. section heading
@@ -205,10 +157,10 @@ E.g.
         This project is licensed under the MIT License.
 ```
 
-As shown above, it contains *content preview*, which can be customized by arguments `preview_line_count` and `preview_line_width`, e.g.
+As shown above, it contains *content preview*, which can be customized by arguments `content_preview_lines` and `content_preview_width`, e.g.
 
 ```python
->>> tree.generate_preview_tree(preview_line_count=0)
+>>> tree.generate_preview_tree(content_preview_lines=0)
 ○
 └── Project Title
     ├── Description
@@ -220,7 +172,21 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 ----
 
-`str(node)` is equivalent to ``node.generate_preview_tree()``
+`repr(node)` is equivalent to ``node.generate_preview_tree()``
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Todo docs for dynamic nodes -->
 
 
 
@@ -378,7 +344,7 @@ E.g.
 [x]     └── License
             This project is licensed under the MIT License.
 (blueprint:conversation; Kaye v1.2.3)
->>> tree.generate_preview_tree(preview_line_count=0, hide_comment=True)
+>>> tree.generate_preview_tree(content_preview_lines=0, hide_comment=True)
     ○
 [x] └── Project Title
 [ ]     ├── Description
@@ -411,12 +377,3 @@ empty_blueprint = load_embedded_prompt_blueprint()
 full_blueprint = load_full_prompt_blueprint()
 chat_blueprint = load_embedded_prompt_blueprint("chat")
 ```
-
-
-
-
-
-
-#### dynamic abbreviation blueprint `DynamicAbbrBlueprint`
-
-<!-- Todo dynamic abbr doc -->
