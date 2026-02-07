@@ -2,7 +2,7 @@
 define abbreviations-related node types
 """
 
-# from kaye.gen_prompt.abbr_collection import AbbrCollection
+from kaye.gen_prompt.abbr_collection import AbbrData, AbbrTags
 from kaye.gen_prompt.base_prompt_node import DynamicNode
 
 __all__ = ("AbbrNode", "PLCNode")
@@ -59,9 +59,13 @@ class PLCNode(DynamicNode):
 
     # implement BasePromptNode  ================================================
     def content_lines(self, **kwargs):
-        lines = [""]
-        for entry in AbbrCollection().generate_programming_languages_code():
-            pass  # TODO TODO
+        lines = []
+        for entry in AbbrData().abbrs:
+            if (
+                AbbrTags.programming_language_code in entry.tags
+                and entry.priority == 0
+            ):
+                lines.append("-`{}`:{}".format(entry.abbr, entry.meaning))
 
         return lines
 
