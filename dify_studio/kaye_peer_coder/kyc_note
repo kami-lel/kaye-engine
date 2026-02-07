@@ -1,16 +1,13 @@
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
 Todo utilize dynamic abbr
-Bug kyc didn't include AMs definition currently, need to rewrite b/c commit sense also used it
+bug kyc didn't include AMs definition currently, need to rewrite b/c commit sense also used it
 
-Todo kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
+todo kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
 
-Todo Unity related abbr: mb for MonoScript, etc.; maybe contextual abbr?
+TODO Unity related abbr: mb for MonoScript, etc.; maybe contextual abbr?
 
-Bug really slow, consider ways to speed up
-
-
-todo add json
-Bug reply 2 tips sometimes during 2nd round conversation
+bug really slow, consider ways to speed up, eg pre-sense give answer directly?
+bug reply 2 tips sometimes during 2nd round conversation
 
 
-Todo consider usage case of "apply", must be an role?
+todo consider usage case of "apply", must be an role?

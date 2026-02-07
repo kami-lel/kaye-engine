@@ -37,11 +37,10 @@ hooks_utility_ensure_version_updated
 #     'merge-binary-release' \
 #     'download newest .yml by Export DSL'
 
-
 # perform branch protection  ---------------------------------------------------
 hooks_utility_protect_branch
 
-# Todo perform unit checks
+# todo perform unit checks
 
 # finish pre-commit checks  ####################################################
 echo "pre-commit" | hooks_utility_pass
