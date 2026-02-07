@@ -94,7 +94,7 @@ class Test1:  # ================================================================
         assert entry.wrap == AbbrWrap.PREFIX
 
     # automaton  ---------------------------------------------------------------
-    # HACK HACK redo
+    # BUG BUG
 
     def test_automaton(self):
         automaton = self.data.automaton
@@ -256,7 +256,7 @@ class Test2:  # ================================================================
         assert entry.wrap == AbbrWrap.WORD
 
     # automaton  ---------------------------------------------------------------
-    # HACK HACK redo
+    # BUG BUG
 
     def test_automaton_fx1(self):
         ipt = "Good mor.r but AM"
@@ -340,7 +340,7 @@ class Test3:  # ================================================================
     # automaton  ---------------------------------------------------------------
 
     def test_automaton_fx1(self):
-        # HACK HACK redo
+        # BUG BUG
         ipt = "Good mor.r but AM"
         opts_i = [9, 16]
         opts_e = [".r:-er,-or", "AM:ante meridiem,before midday"]
