@@ -1,6 +1,6 @@
 # Kaye CHANGELOG
 
-<!-- Fixme merge role: Grammar Checker & Etiquette Coach -->
+<!-- fixme merge role: Grammar Checker & Etiquette Coach -->
 
 [^format]
 
@@ -52,6 +52,9 @@ Kaye Peer Coder:
 - more stricter rule on using *comment section headings*
 
 ### Deprecated
+
+- Python CLI
+
 ### Removed
 ### Fixed
 
