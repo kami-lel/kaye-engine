@@ -10,6 +10,7 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
 from .prompt_corpus_node import PromptCorpusNode
+from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .today_node import TodayNode
 
 __all__ = ("PromptBlueprint",)
@@ -41,8 +42,8 @@ class PromptBlueprint(dict):
     @classmethod
     def parse(
         cls,
-        prompt_corpus,
         blueprint_text,
+        prompt_corpus=None,
         *,
         display_name="",
         disable_prune=False,
@@ -51,12 +52,12 @@ class PromptBlueprint(dict):
         parse ``blueprint_text`` into a blueprint object
 
 
-        :param prompt_corpus:
-        :type prompt_corpus: PromptCorpusNode
         :param blueprint_text: prompt blueprint text to set nodes, must in
                 the same format of output of ``.generate_preview_tree()``
                 (with tree structure and checkmarks)
         :type blueprint_text: str
+        :param prompt_corpus: if None, use ``load_embedded_prompt_corpus()``
+        :type prompt_corpus: PromptCorpusNode
         :param display_name:
         :type display_name: str, optional
         :param disable_prune: by default, the parsed tree does not include
@@ -68,11 +69,16 @@ class PromptBlueprint(dict):
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
         """
-        # TODO make prompt_corpus default from using corpus loader
+        if prompt_corpus is None:
+            # TODO need unit test
+            prompt_corpus = load_embedded_prompt_corpus()
 
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
-        path2node_hash = {
-            node.path_of_names: hash(node) for node in bp.corpus.descendants
+
+        # mapping id lineage as tuple : hash(all node in corpus)
+        id_lineage2node_hash = {
+            tuple(node.generate_id_lineage()): hash(node)
+            for node in bp.corpus.descendants
         }
 
         # extract all headings  ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -105,23 +111,42 @@ class PromptBlueprint(dict):
                 path = previous_path[: level + 1]
 
             path[level] = heading
-            path_tuple = tuple(path)
+            path_tuple = tuple(path)  # BUG BUG need new format
 
             # check node's existence in tree  ----------------------------------
-            if path_tuple not in path2node_hash:
+            if path_tuple not in id_lineage2node_hash:
                 raise ValueError(
                     "missing node from prompt_corpus:\n{}".format(line)
                 )
 
             # append a node  ---------------------------------------------------
-            node_hash = path2node_hash[path_tuple]
+            node_hash = id_lineage2node_hash[path_tuple]
             bp[node_hash] = is_checkmarked
 
             # update loop vars  ------------------------------------------------
             previous_level, previous_path = level, path
 
+        return bp  # HACK
         # prune the tree
         return bp if disable_prune else bp.prune()
+
+    # instance methods  ========================================================
+    def __init__(self, prompt_corpus, *, display_name=""):
+        super().__init__()  # init as empty dict
+        self.corpus = prompt_corpus
+        self.display_name = display_name
+
+    # node operations  *********************************************************
+    # exporting methods  *******************************************************
+    # Blueprint operation  *****************************************************
+    # helpers  =================================================================
+    HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
+
+    # magic methods  ===========================================================
+
+
+# HACK rm legacy
+class PromptBlueprintLegacy(dict):
 
     @classmethod
     def create_full_blueprint(cls, prompt_corpus, *, display_name="full"):
@@ -154,10 +179,6 @@ class PromptBlueprint(dict):
         )
 
     # instance methods  ========================================================
-    def __init__(self, prompt_corpus, *, display_name=""):
-        super().__init__()  # init as empty dict
-        self.corpus = prompt_corpus
-        self.display_name = display_name
 
     # node operations  *********************************************************
     def is_checkmarked(self, node):
@@ -359,9 +380,9 @@ class PromptBlueprint(dict):
 
         return copied
 
+    # helpers  =================================================================
     HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
-    # helper methods  ==========================================================
     @classmethod
     def _create_full_or_empty_blueprint(
         cls, prompt_corpus, is_full, display_name
