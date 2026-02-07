@@ -459,7 +459,7 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -759,7 +759,7 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -768,16 +768,14 @@
     "c#": {
       "priority": 4,
       "tags": [
-        "ascii_only",
-        "programming_language"
+        "ascii_only"
       ],
       "wrap": "word"
     },
     "cs": {
       "priority": 6,
       "tags": [
-        "letters_only",
-        "programming_language"
+        "letters_only"
       ],
       "wrap": "word"
     },
@@ -785,7 +783,7 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -794,8 +792,7 @@
     "c++": {
       "priority": 5,
       "tags": [
-        "ascii_only",
-        "programming_language"
+        "ascii_only"
       ],
       "wrap": "word"
     },
@@ -803,15 +800,14 @@
       "priority": 7,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     },
     "cxx": {
       "priority": 6,
       "tags": [
-        "letters_only",
-        "programming_language"
+        "letters_only"
       ],
       "wrap": "word"
     }
@@ -1242,7 +1238,7 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -2235,8 +2231,7 @@
     "gd": {
       "priority": 6,
       "tags": [
-        "letters_only",
-        "programming_language"
+        "letters_only"
       ],
       "wrap": "word"
     },
@@ -2244,7 +2239,7 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -2435,7 +2430,7 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -2740,7 +2735,7 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -3859,7 +3854,7 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -3869,7 +3864,7 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -3879,7 +3874,7 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -4715,7 +4710,7 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -4752,7 +4747,7 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -4771,7 +4766,7 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language"
+        "programming_language_code"
       ],
       "wrap": "word"
     }
