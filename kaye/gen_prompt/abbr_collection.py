@@ -199,9 +199,15 @@ class AbbrData:  ###############################################################
         # create automaton  ----------------------------------------------------
         # todo use pickle.loads/dumps to save an local automaton, with hash
         # pylint: disable=c-extension-no-member
-        self.automaton = ahocorasick.Automaton()
+        automaton_entires = {}
         for entry in self.abbrs:
-            self.automaton.add_word(entry.abbr, entry)
+            if entry.abbr not in automaton_entires:
+                automaton_entires[entry.abbr] = []
+            automaton_entires[entry.abbr].append(entry)
+
+        self.automaton = ahocorasick.Automaton()
+        for k, v in automaton_entires.items():
+            self.automaton.add_word(k, tuple(v))
         self.automaton.make_automaton()
 
 
