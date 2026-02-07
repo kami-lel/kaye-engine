@@ -2,7 +2,7 @@
 define abbreviations-related node types
 """
 
-# from kaye.gen_prompt.abbr_collection import AbbrCollection
+from kaye.gen_prompt.abbr_collection import AbbrData, AbbrTags
 from kaye.gen_prompt.base_prompt_node import DynamicNode
 
 __all__ = ("AbbrNode", "PLCNode")
@@ -38,7 +38,6 @@ class AbbrNode(DynamicNode):
             char_before = query[start_idx - 1] if start_idx > 0 else ""
             char_after = query[end_idx] if end_idx < query_len else ""
 
-            # BUG can't distinguish Cx/cx and Mx/mx
             # check found satisfies additional rules
             if entry.verify_found(found, char_before, char_after):
                 entries.add(entry)
@@ -59,9 +58,10 @@ class PLCNode(DynamicNode):
 
     # implement BasePromptNode  ================================================
     def content_lines(self, **kwargs):
-        lines = [""]
-        for entry in AbbrCollection().generate_programming_languages_code():
-            pass  # TODO
+        lines = []
+        for entry in AbbrData().abbrs:
+            if AbbrTags.programming_language_code in entry.tags:
+                lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
 
         return lines
 
