@@ -4563,7 +4563,16 @@
       "wrap": "word"
     }
   },
-  "then,than": {
+  "then": {
+    "T": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "than": {
     "T": {
       "priority": 5,
       "tags": [
