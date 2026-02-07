@@ -61,7 +61,7 @@ class PLCNode(DynamicNode):
     def content_lines(self, **kwargs):
         lines = [""]
         for entry in AbbrCollection().generate_programming_languages_code():
-            pass  # TODO
+            pass  # TODO TODO
 
         return lines
 
