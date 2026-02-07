@@ -94,7 +94,6 @@ class TestAbbrNode:
         assert set(lines) == {"- cf:confer,compare"}
 
     def test_caps1(self):
-        # BUG
         query = "W it happens but mx and also AM"
 
         lines = self.node.content_lines(query=query)
@@ -102,13 +101,13 @@ class TestAbbrNode:
         print(lines)
         assert set(lines) == {
             "- W:west",
+            "- W:winter",
             "- W:while,when",
             "- mx:most",
             "- AM:ante meridiem,before midday",
         }
 
     def test_caps2(self):
-        # BUG
         query = "w it happens but Mx and also am"
 
         lines = self.node.content_lines(query=query)
