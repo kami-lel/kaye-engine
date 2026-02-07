@@ -20,7 +20,7 @@ CHECKMARKED_PREFIX = "[x] "
 UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
 
-# Bug redo prompt blueprint
+# BUG redo prompt blueprint
 
 
 class PromptBlueprint(dict):
@@ -68,7 +68,7 @@ class PromptBlueprint(dict):
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
         """
-        # Todo make prompt_corpus default from using corpus loader
+        # TODO make prompt_corpus default from using corpus loader
 
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
         path2node_hash = {
@@ -353,7 +353,7 @@ class PromptBlueprint(dict):
     def copy(self):
         copied = type(self)(self.corpus, display_name=self.display_name)
 
-        # todo PromptBlueprint copy routine optimize
+        # TODO PromptBlueprint copy routine optimize
         for k, v in self.items():
             copied[k] = v
 
@@ -654,6 +654,6 @@ def _checkmark_find_node_recursively(target, node):
     )
 
 
-def _create_dynamic_node(heading, parent):  # Hack
+def _create_dynamic_node(heading, parent):  # HACK
     if heading == TodayNode.HEADING:
         return TodayNode(parent)
