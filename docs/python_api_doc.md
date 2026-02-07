@@ -186,9 +186,7 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 
 
-### Abbreviation Node
-
-<!-- TODO -->
+<!-- Todo docs for dynamic nodes -->
 
 
 
