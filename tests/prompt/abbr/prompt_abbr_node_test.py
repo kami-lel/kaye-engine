@@ -9,6 +9,7 @@ Unit Tests (using pytest) for:
 import pytest
 
 from kaye.gen_prompt import PromptCorpusNode
+from kaye.gen_prompt.abbr_collection import AbbrData
 from kaye.gen_prompt.abbr_nodes import AbbrNode
 
 from tests.prompt import PROMPT1
@@ -75,6 +76,22 @@ class TestAbbrNode:
             "- o.:over-",
             "- est.:estimate,estimation,estimated,estimating,estimatingly",
         }
+
+    def test_start(self):
+        query = "cf and other"
+
+        lines = self.node.content_lines(query=query)
+
+        print(lines)
+        assert set(lines) == {"- cf:confer,compare"}
+
+    def test_end(self):
+        query = "other and cf"
+
+        lines = self.node.content_lines(query=query)
+
+        print(lines)
+        assert set(lines) == {"- cf:confer,compare"}
 
     def test_caps1(self):
         # BUG
