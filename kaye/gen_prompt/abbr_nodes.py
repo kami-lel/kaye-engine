@@ -38,7 +38,6 @@ class AbbrNode(DynamicNode):
             char_before = query[start_idx - 1] if start_idx > 0 else ""
             char_after = query[end_idx] if end_idx < query_len else ""
 
-            # BUG can't distinguish Cx/cx and Mx/mx
             # check found satisfies additional rules
             if entry.verify_found(found, char_before, char_after):
                 entries.add(entry)
@@ -61,11 +60,8 @@ class PLCNode(DynamicNode):
     def content_lines(self, **kwargs):
         lines = []
         for entry in AbbrData().abbrs:
-            if (
-                AbbrTags.programming_language_code in entry.tags
-                and entry.priority == 0
-            ):
-                lines.append("-`{}`:{}".format(entry.abbr, entry.meaning))
+            if AbbrTags.programming_language_code in entry.tags:
+                lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
 
         return lines
 
