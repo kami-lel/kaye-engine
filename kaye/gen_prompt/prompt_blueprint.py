@@ -126,27 +126,8 @@ class PromptBlueprint(dict):
             # update loop vars  ------------------------------------------------
             previous_level, previous_path = level, path
 
-        return bp  # HACK
         # prune the tree
         return bp if disable_prune else bp.prune()
-
-    # instance methods  ========================================================
-    def __init__(self, prompt_corpus, *, display_name=""):
-        super().__init__()  # init as empty dict
-        self.corpus = prompt_corpus
-        self.display_name = display_name
-
-    # node operations  *********************************************************
-    # exporting methods  *******************************************************
-    # Blueprint operation  *****************************************************
-    # helpers  =================================================================
-    HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
-
-    # magic methods  ===========================================================
-
-
-# HACK rm legacy
-class PromptBlueprintLegacy(dict):
 
     @classmethod
     def create_full_blueprint(cls, prompt_corpus, *, display_name="full"):
@@ -159,9 +140,6 @@ class PromptBlueprintLegacy(dict):
                 and checkmarking all nodes
         :rtype: PromptBlueprint
         """
-        return cls._create_full_or_empty_blueprint(
-            prompt_corpus, True, display_name
-        )
 
     @classmethod
     def create_empty_blueprint(cls, prompt_corpus, *, display_name="empty"):
@@ -174,11 +152,12 @@ class PromptBlueprintLegacy(dict):
                 but checkmarking all nodes
         :rtype: PromptBlueprint
         """
-        return cls._create_full_or_empty_blueprint(
-            prompt_corpus, False, display_name
-        )
 
     # instance methods  ========================================================
+    def __init__(self, prompt_corpus, *, display_name=""):
+        super().__init__()  # init as empty dict
+        self.corpus = prompt_corpus
+        self.display_name = display_name
 
     # node operations  *********************************************************
     def is_checkmarked(self, node):
@@ -190,8 +169,6 @@ class PromptBlueprintLegacy(dict):
                 also ``False`` if node is not contained in blueprint
         :rtype: bool
         """
-        node = _normalize_node_hash(node)  # node as hash
-        return node in self and self[node]
 
     def checkmark(self, node):
         """
@@ -205,16 +182,6 @@ class PromptBlueprintLegacy(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-        node_hash = _normalize_node_hash(node)
-
-        if not _checkmark_find_node_recursively(node, self.corpus):
-            raise ValueError(
-                "node missing from blueprint's corpus: {}".format(repr(node))
-            )
-
-        self[node_hash] = True
-
-        return self
 
     def uncheckmark(self, node):
         """
@@ -228,19 +195,9 @@ class PromptBlueprintLegacy(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-        node_hash = _normalize_node_hash(node)
-
-        if node_hash not in self:
-            raise KeyError(
-                "fail to uncheckmark node, missing in this blueprint: {}"
-                .format(repr(node))
-            )
-
-        self[node_hash] = False
-
-        return self
 
     # exporting methods  *******************************************************
+
     def generate_preview_tree(
         self,
         *,
@@ -271,6 +228,180 @@ class PromptBlueprintLegacy(dict):
         :return: the preview tree
         :rtype: str
         """
+
+    def generate_prompt(self, *, hide_comment=False):
+        """
+        render the **concrete prompt** that can be used as LLM system message
+        with it content based on node's checkmarking status of this blueprint
+
+
+        :param hide_comment: disable comment part after last line;
+                defaults to False
+        :type hide_comment: bool, optional
+        :return: the generated prompt
+        :rtype: str
+        """
+
+    # Blueprint operation  *****************************************************
+
+    def prune(self):
+        """
+        :return: a **pruned** blueprint (of ``self``)
+                which contains only branches with checkmarked nodes
+        :rtype: PromptBlueprint
+        """
+        return self
+
+    def merge(self, other):
+        """
+        merging 2 blueprints, all nodes will be in the merged blueprint
+
+
+        :param other:
+        :type other: PromptBlueprint
+        :raise TypeError:
+        :raise ValueError:
+        :return: merged blueprint
+        :rtype: PromptBlueprint
+        """
+
+    # helpers  =================================================================
+
+    HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
+
+    # magic methods  ===========================================================
+
+    def __contains__(self, key):
+        """
+        allow ``PromptBlueprint`` to perform membership tests with key being
+
+
+        :param key: node object; or hash value of node
+        :type key: PromptCorpusNode or int
+        :raises TypeError:
+        :return: if blueprint contains the node
+        :rtype: bool
+        """
+        return NotImplemented
+
+    def __iadd__(self, other):
+        """
+        checkmark a ``node`` in this blueprint
+
+        (wrapper of and identical to ``.checkmark()``)
+
+
+        :param node: node object; or hash value of node
+        :type node: PromptBlueprint or int
+        :raise TypeError:
+        :raise ValueError:
+        :return: self
+        :rtype: PromptBlueprint
+        """
+        return NotImplemented
+
+    def __isub__(self, other):
+        """
+        uncheckmark a ``node`` in this blueprint
+
+        (wrapper of and identical to ``.uncheckmark()``)
+
+
+        :param node: node object; or hash value of node
+        :type node: PromptBlueprint or int
+        :raise TypeError:
+        :raise KeyError:
+        :return: self
+        :rtype: PromptBlueprint
+        """
+        return NotImplemented
+
+    def __imul__(self, other):
+        """
+        merging 2 blueprints
+
+        (wrapper of and identical to ``.merge()``)
+
+
+        :param other:
+        :type other: PromptBlueprint
+        :raise TypeError:
+        :raise ValueError:
+        :return: merged blueprint
+        :rtype: PromptBlueprint
+        """
+        return NotImplemented
+
+    def __repr__(self):
+        """
+        :return:
+        :rtype: str
+        :example:
+        assert repr(node) == "PromptBlueprint(My Blueprint)"
+        """
+        return super().__repr__()
+
+    def __str__(self):
+        """
+        :return: equivalent to self.generate_preview_tree()
+        :rtype: str
+        """
+        return super().__str__()
+
+
+# HACK rm legacy
+class PromptBlueprintLegacy(dict):
+
+    @classmethod
+    def create_full_blueprint(cls, prompt_corpus, *, display_name="full"):
+        return cls._create_full_or_empty_blueprint(
+            prompt_corpus, True, display_name
+        )
+
+    @classmethod
+    def create_empty_blueprint(cls, prompt_corpus, *, display_name="empty"):
+        return cls._create_full_or_empty_blueprint(
+            prompt_corpus, False, display_name
+        )
+
+    def is_checkmarked(self, node):
+        node = _normalize_node_hash(node)  # node as hash
+        return node in self and self[node]
+
+    def checkmark(self, node):
+        node_hash = _normalize_node_hash(node)
+
+        if not _checkmark_find_node_recursively(node, self.corpus):
+            raise ValueError(
+                "node missing from blueprint's corpus: {}".format(repr(node))
+            )
+
+        self[node_hash] = True
+
+        return self
+
+    def uncheckmark(self, node):
+        node_hash = _normalize_node_hash(node)
+
+        if node_hash not in self:
+            raise KeyError(
+                "fail to uncheckmark node, missing in this blueprint: {}"
+                .format(repr(node))
+            )
+
+        self[node_hash] = False
+
+        return self
+
+    # exporting methods  *******************************************************
+    def generate_preview_tree(
+        self,
+        *,
+        preview_line_count=3,
+        preview_line_width=64,
+        show_full_tree=False,
+        hide_comment=False,
+    ):
         if show_full_tree:
             preview_tree = self.corpus
         else:
@@ -312,46 +443,17 @@ class PromptBlueprintLegacy(dict):
         return "\n".join(opt_lines)
 
     def generate_prompt(self, *, hide_comment=False):
-        """
-        render the **concrete prompt** that can be used as LLM system message
-        with it content based on node's checkmarking status of this blueprint
-
-
-        :param hide_comment: disable comment part after last line;
-                defaults to False
-        :type hide_comment: bool, optional
-        :return: the generated prompt
-        :rtype: str
-        """
         content, comment = self._generate_prompt_split_content_and_comment(
             hide_comment
         )
         return content + comment
 
-    # Blueprint operation  *****************************************************
     def prune(self):
-        """
-        :return: a **pruned** blueprint (of ``self``)
-                which contains only branches with checkmarked nodes
-        :rtype: PromptBlueprint
-        """
         pruned_bp = PromptBlueprint(self.corpus, display_name=self.display_name)
         _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
         return pruned_bp
 
     def merge(self, other):
-        """
-        merging 2 blueprints, all nodes will be in the merged blueprint
-
-
-        :param other:
-        :type other: PromptBlueprint
-        :raise TypeError:
-        :raise ValueError:
-        :return: merged blueprint
-        :rtype: PromptBlueprint
-        """
-
         if not isinstance(other, PromptBlueprint):
             raise TypeError(
                 "must merge another PromptBlueprint, not: {}".format(
@@ -381,7 +483,6 @@ class PromptBlueprintLegacy(dict):
         return copied
 
     # helpers  =================================================================
-    HEADING_LINE_PATTERN = r"\[([x ])\] (.*)[└├]── (.+)"
 
     @classmethod
     def _create_full_or_empty_blueprint(
@@ -450,80 +551,21 @@ class PromptBlueprintLegacy(dict):
 
     # dunder methods  ==========================================================
     def __contains__(self, key):
-        """
-        allow ``PromptBlueprint`` to perform membership tests with key being
-
-
-        :param key: node object; or hash value of node
-        :type key: PromptCorpusNode or int
-        :raises TypeError:
-        :return: if blueprint contains the node
-        :rtype: bool
-        """
         return super().__contains__(_normalize_node_hash(key))
 
     def __iadd__(self, other):
-        """
-        checkmark a ``node`` in this blueprint
-
-        (wrapper of and identical to ``.checkmark()``)
-
-
-        :param node: node object; or hash value of node
-        :type node: PromptBlueprint or int
-        :raise TypeError:
-        :raise ValueError:
-        :return: self
-        :rtype: PromptBlueprint
-        """
         return self.checkmark(other)
 
     def __isub__(self, other):
-        """
-        uncheckmark a ``node`` in this blueprint
-
-        (wrapper of and identical to ``.uncheckmark()``)
-
-
-        :param node: node object; or hash value of node
-        :type node: PromptBlueprint or int
-        :raise TypeError:
-        :raise KeyError:
-        :return: self
-        :rtype: PromptBlueprint
-        """
         return self.uncheckmark(other)
 
     def __imul__(self, other):
-        """
-        merging 2 blueprints
-
-        (wrapper of and identical to ``.merge()``)
-
-
-        :param other:
-        :type other: PromptBlueprint
-        :raise TypeError:
-        :raise ValueError:
-        :return: merged blueprint
-        :rtype: PromptBlueprint
-        """
         return self.merge(other)
 
     def __repr__(self):
-        """
-        :return:
-        :rtype: str
-        :example:
-        assert repr(node) == "PromptBlueprint(My Blueprint)"
-        """
         return "PromptBlueprint({})".format(self.display_name)
 
     def __str__(self):
-        """
-        :return: equivalent to self.generate_preview_tree()
-        :rtype: str
-        """
         return self.generate_preview_tree()
 
 
