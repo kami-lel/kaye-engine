@@ -201,9 +201,10 @@ class AbbrData:  ###############################################################
         # pylint: disable=c-extension-no-member
         automaton_entires = {}
         for entry in self.abbrs:
-            if entry.abbr not in automaton_entires:
-                automaton_entires[entry.abbr] = []
-            automaton_entires[entry.abbr].append(entry)
+            abbr_lower = entry.abbr.lower()
+            if abbr_lower not in automaton_entires:
+                automaton_entires[abbr_lower] = []
+            automaton_entires[abbr_lower].append(entry)
 
         self.automaton = ahocorasick.Automaton()
         for k, v in automaton_entires.items():

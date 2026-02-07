@@ -28,8 +28,8 @@ class AbbrNode(DynamicNode):
         query_lower = query.lower()  # provide lower case to automation
         query_len = len(query)
         entries = set()
-        for last_idx, matched in AbbrData().automaton.iter_long(query_lower):
 
+        for last_idx, matched in AbbrData().automaton.iter_long(query_lower):
             key_len = len(matched[0].abbr)
             end_idx = last_idx + 1
             start_idx = end_idx - key_len
