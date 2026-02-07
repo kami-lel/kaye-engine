@@ -70,14 +70,13 @@ class PromptBlueprint(dict):
         :rtype: PromptBlueprint
         """
         if prompt_corpus is None:
-            # TODO need unit test
             prompt_corpus = load_embedded_prompt_corpus()
 
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
 
-        # mapping id lineage as tuple : hash(all node in corpus)
+        # mapping id lineage : hash(all node in corpus)
         id_lineage2node_hash = {
-            tuple(node.generate_id_lineage()): hash(node)
+            node.generate_id_lineage(): hash(node)
             for node in bp.corpus.descendants
         }
 
