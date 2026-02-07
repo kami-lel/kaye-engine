@@ -94,6 +94,7 @@ class Test1:  # ================================================================
         assert entry.wrap == AbbrWrap.PREFIX
 
     # automaton  ---------------------------------------------------------------
+    # HACK HACK redo
 
     def test_automaton(self):
         automaton = self.data.automaton
@@ -255,8 +256,9 @@ class Test2:  # ================================================================
         assert entry.wrap == AbbrWrap.WORD
 
     # automaton  ---------------------------------------------------------------
+    # HACK HACK redo
 
-    def test_automaton_fx1(self):  # HACK
+    def test_automaton_fx1(self):
         ipt = "Good mor.r but AM"
         opts_i = [9, 16]
         opts_e = [".r:-er,-or", "AM:ante meridiem,before midday"]
@@ -271,4 +273,87 @@ class Test2:  # ================================================================
             assert str(e) == opt_e
 
 
-# TODO TODO add more test cases with duplicated abbr
+class Test3:  # ================================================================
+
+    data = AbbrData(
+        abbrs_json_override={
+            "west": {
+                "W": {"priority": 5, "tags": ["letters_only"], "wrap": "word"}
+            },
+            "while,when": {
+                "W": {"priority": 5, "tags": ["letters_only"], "wrap": "word"}
+            },
+        }
+    )
+
+    def test_meanings(self):
+        meanings = self.data.meanings
+
+        print(meanings)
+
+        assert len(meanings) == 2
+        # footnote
+        meaning = meanings[0]
+        assert isinstance(meaning, AbbrMeaning)
+        assert str(meaning) == "west"
+        # 5/8
+        meaning = meanings[1]
+        assert isinstance(meaning, AbbrMeaning)
+        assert str(meaning) == "while,when"
+
+    # abbrs  -------------------------------------------------------------------
+    def test_abbr_size(self):
+        abbrs = self.data.abbrs
+
+        print(abbrs)
+
+        assert len(abbrs) == 2
+
+    def test_abbrs1(self):
+        abbrs = self.data.abbrs
+        meaning = self.data.meanings[0]
+
+        print(abbrs)
+
+        entry = abbrs[0]
+        assert isinstance(entry, AbbrEntry)
+        assert entry.abbr == "W"
+        assert entry.mean is meaning
+        assert entry.priority == 5
+        assert entry.tags == AbbrTags.letters_only
+        assert entry.wrap == AbbrWrap.WORD
+
+    def test_abbrs2(self):
+        abbrs = self.data.abbrs
+        meaning = self.data.meanings[1]
+
+        print(abbrs)
+
+        entry = abbrs[1]
+        assert isinstance(entry, AbbrEntry)
+        assert entry.abbr == "W"
+        assert entry.mean is meaning
+        assert entry.priority == 5
+        assert entry.tags == AbbrTags.letters_only
+        assert entry.wrap == AbbrWrap.WORD
+
+    # automaton  ---------------------------------------------------------------
+
+    def test_automaton_fx1(self):
+        # HACK HACK redo
+        ipt = "Good mor.r but AM"
+        opts_i = [9, 16]
+        opts_e = [".r:-er,-or", "AM:ante meridiem,before midday"]
+
+        automaton = self.data.automaton
+
+        print(list(automaton.items()))  # HACK
+        assert False
+
+        for result, opt_i, opt_e in zip(
+            automaton.iter_long(ipt), opts_i, opts_e
+        ):
+            print(result)
+            i, e = result
+            assert i == opt_i
+            assert str(e) == opt_e
