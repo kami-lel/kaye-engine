@@ -189,6 +189,7 @@ class AbbrData:  ###############################################################
             self.meanings.append(mean)
 
             for abbr, abbr_obj in mean_obj.items():
+                # BUG BUG
                 self.abbrs.append(AbbrEntry(mean, abbr, abbr_obj))
 
         # create automaton  ----------------------------------------------------
