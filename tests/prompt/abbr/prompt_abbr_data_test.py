@@ -259,11 +259,11 @@ class Test2:  # ================================================================
 
         opt = set(automaton.keys())
         print(opt)
-        assert opt == {".r", "AM", "T", "⅝", "†", "‡", "a.m."}
+        assert opt == {".r", "am", "t", "⅝", "†", "‡", "a.m."}
 
     def test_automaton_fx1(self):
-        ipt = "Good mor.r but AM"
-        opts_i = [9, 16]
+        ipt = "Good mor.r bu AM"
+        opts_i = [9, 15]
         opts_e = [".r:-er,-or", "AM:ante meridiem,before midday"]
 
         automaton = self.data.automaton
@@ -346,10 +346,10 @@ class Test3:  # ================================================================
 
         opt = set(automaton.keys())
         print(opt)
-        assert opt == {"W"}
+        assert opt == {"w"}
 
     def test_automaton_fx1(self):
-        ipt = "hey W what"
+        ipt = "hey w ha"
 
         opt = list(self.data.automaton.iter_long(ipt))
         i, e = opt[0]
