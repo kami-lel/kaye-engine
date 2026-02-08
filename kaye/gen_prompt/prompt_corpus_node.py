@@ -65,17 +65,7 @@ class PromptCorpusNode(BasePromptNode):
     def content_lines(self, **kwargs):
         return self._content_lines
 
-    # HACK rm
-
-    # def __copy__(self):
-    #     """
-    #     :return: a copy without any children
-    #     :rtype: PromptCorpusNode
-    #     """
-    #     obj = type(self)(self.name, self.parent, [])
-    #     obj._content_lines = self._content_lines
-    #     return obj
-
+    # Hack rm
     # def _generate_prompt_lines(self):
     #     """
     #     generate prompt lines as this node appeared in concrete prompt
