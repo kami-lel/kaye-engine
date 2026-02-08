@@ -8,6 +8,8 @@ from pathlib import Path
 
 
 from .prompt_corpus_node import PromptCorpusNode
+from .today_node import TodayNode
+from .abbr_nodes import AbbrNode, PLCNode
 
 __all__ = (
     "get_embedded_prompt_corpus_file_path",
@@ -25,15 +27,18 @@ def get_embedded_prompt_corpus_file_path():
     ).absolute()
 
 
-def load_prompt_corpus_tree():
+def load_prompt_corpus_tree(disable_dynamic_nodes=False):
     """
-    TODO TODO
+    TODO
 
 
-    :return: **root** node of the parsed *prompt corpus* tree
-    :rtype: PromptCorpusNode
+    :param disable_dynamic_nodes: do not attach dynamics nodes to the tree;
+            defaults to False
+    :type disable_dynamic_nodes: bool, optional
     :raises FileNotFoundError:
     :raises IOError:
+    :return: **root** node of *prompt corpus tree*
+    :rtype: PromptCorpusNode
     """
     # read corpus from file  ---------------------------------------------------
     prompt_corpus_file_path = get_embedded_prompt_corpus_file_path()
@@ -50,32 +55,26 @@ def load_prompt_corpus_tree():
 
     root = PromptCorpusNode(ROOT_NODE_NAME, None, [])
 
-    # TODO TODO
+    # create prompt corpus nodes  ----------------------------------------------
+    _populate_children_from_text_lines_recursively(root, text_lines)
+
+    # attach dynamic nodes  ----------------------------------------------------
+    if not disable_dynamic_nodes:
+        TodayNode(root)
+        AbbrNode(root)
+        PLCNode(root)
 
     return root
 
 
 # helpers  #####################################################################
 ROOT_NODE_NAME = "○"
+HEADING_PREFIX = "#"
 
 
-# HACK rm legacies  ############################################################
+def _populate_children_from_text_lines_recursively(parent, text_lines):
+    # BUG BUG
 
-
-def _create_dynamic_node(heading, parent):  # HACK HACK
-    if heading == TodayNode.HEADING:
-        return TodayNode(parent)
-
-
-# public API  ==============================================================
-
-
-def _init_populate_children(self, text_lines):
-    """
-    create node children and add content to ``._content_line``
-
-    (helper method used in ``__init__()``)
-    """
     # find every sub-section heading lines
     heading_prefix = HEADING_PREFIX * (self.depth + 1) + " "
     heading_lines = []
