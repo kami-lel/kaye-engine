@@ -25,6 +25,10 @@ def get_embedded_prompt_corpus_file_path():
     ).absolute()
 
 
+def load_prompt_corpus_tree():  # TODO TODO
+    pass
+
+
 def load_embedded_prompt_corpus():
     """
     Load a prompt corpus tree of the **embedded** prompt corpus text.

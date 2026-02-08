@@ -15,7 +15,7 @@ __all__ = ("PromptCorpusNode",)
 
 class PromptCorpusNode(BasePromptNode):
     """
-    A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
+    A `PromptCorpuTHACKsNode` encapsule a single node in the *prompt corpus tree*.
 
 
     :param name: section heading
