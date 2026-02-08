@@ -1,7 +1,10 @@
 """
-test .parse() and instance creation for ``class PromptCorpusNode``
+prompt_tree_test.py
+
+Unit Tests (using pytest) for: load_prompt_corpus_tree
 """
 
+# BUG BUG rewrite unit tests
 import pytest
 
 from kaye.gen_prompt import PromptCorpusNode
@@ -461,3 +464,23 @@ class TestForbiddenHeading:  ###################################################
         opt = exec_info.value.args[0]
         print(opt)
         assert opt == "illegal heading syntax: '{Some}'"
+
+
+class TestGet:  # test function get_embedded_prompt_corpus_file_path
+
+    def test1(_):
+        submission = get_embedded_prompt_corpus_file_path()
+        solution = normpath(
+            join(
+                dirname(abspath(__file__)),
+                "../../../kaye/kaye/prompt_corpus.md",
+            )
+        )
+        print("submission:\t{}\nsolution:\t{}".format(submission, solution))
+        assert str(submission) == solution
+
+
+class TestLoad:  # test function load_embedded_prompt_corpus
+    def test_type(_):
+        opt = load_embedded_prompt_corpus()
+        assert isinstance(opt, PromptCorpusNode)
