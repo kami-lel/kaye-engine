@@ -54,3 +54,64 @@ def load_embedded_prompt_corpus():  # HACK rm
 def _create_dynamic_node(heading, parent):  # HACK
     if heading == TodayNode.HEADING:
         return TodayNode(parent)
+
+
+# public API  ==============================================================
+
+
+ROOT_NODE_NAME = "○"  # placeholder name for root node
+
+
+@classmethod
+def parse(cls, prompt_corpus_text):  # TODO TODO parse also dynamic nodes
+    """
+    parse *prompt corpus* text into the tree structure.
+
+
+    :param prompt_corpus_text: full source *prompt corpus* content
+    :type prompt_corpus_text: str
+    :return: **root node** of the parsed *prompt* tree structure
+    :rtype: PromptCorpusNode
+    """
+    # reduce 2+ empty lines into single empty line
+    text_cleanup = re.sub(r"\n{3,}", "\n\n", prompt_corpus_text)
+    # split to lines
+    text_lines = list(text_cleanup.split("\n"))
+
+    root = cls(ROOT_NODE_NAME, None, text_lines)
+    return root
+
+
+def _init_populate_children(self, text_lines):
+    """
+    create node children and add content to ``._content_line``
+
+    (helper method used in ``__init__()``)
+    """
+    # FIXME mv to load
+    # find every sub-section heading lines
+    heading_prefix = HEADING_PREFIX * (self.depth + 1) + " "
+    heading_lines = []
+    for idx, line in enumerate(text_lines):
+        if line.startswith(heading_prefix):
+            heading_lines.append(idx)
+
+    # contain no subsection
+    if not heading_lines:
+        # all lines are content
+        self._content_lines = list(text_lines)
+        return
+
+    # this node contains subsections, then parse the content part out
+    self._content_lines = text_lines[: heading_lines[0]]
+    if not any(self._content_lines):
+        self._content_lines = []
+
+    # parse sub-sections as nodes
+    heading_lines.append(len(text_lines))
+    for start, end in zip(heading_lines, heading_lines[1:]):
+        # extract heading content
+        # e.g. "### this is heading " -> "this is heading"
+        heading_content = text_lines[start][len(heading_prefix) :].strip()
+        children_nodes = text_lines[start + 1 : end]
+        PromptCorpusNode(heading_content, self, children_nodes)
