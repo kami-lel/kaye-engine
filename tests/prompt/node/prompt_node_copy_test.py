@@ -13,7 +13,7 @@ from tests.prompt import (
     PROMPT3,
 )
 
-# Bug rm or make possible
+# BUG rm or make possible
 
 
 class XTestParse1:  # test using PROMPT1
