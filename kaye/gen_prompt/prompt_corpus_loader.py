@@ -11,7 +11,7 @@ from .. import kamilog, PROGRAM_NAME
 __all__ = (
     "get_embedded_prompt_corpus_file_path",
     "load_prompt_corpus_tree",
-    "load_embedded_prompt_corpus",  # HACK rm
+    "load_embedded_prompt_corpus",  # HACK HACK rm
 )
 
 logger = kamilog.getLogger(PROGRAM_NAME)
@@ -31,7 +31,7 @@ def load_prompt_corpus_tree():  # TODO TODO
     pass
 
 
-def load_embedded_prompt_corpus():  # HACK rm
+def load_embedded_prompt_corpus():  # HACK HACK rm
     """
     Load a prompt corpus tree of the **embedded** prompt corpus text.
 
@@ -51,7 +51,7 @@ def load_embedded_prompt_corpus():  # HACK rm
         return PromptCorpusNode.parse(file_content)
 
 
-def _create_dynamic_node(heading, parent):  # HACK
+def _create_dynamic_node(heading, parent):  # HACK HACK
     if heading == TodayNode.HEADING:
         return TodayNode(parent)
 
@@ -88,7 +88,6 @@ def _init_populate_children(self, text_lines):
 
     (helper method used in ``__init__()``)
     """
-    # FIXME mv to load
     # find every sub-section heading lines
     heading_prefix = HEADING_PREFIX * (self.depth + 1) + " "
     heading_lines = []
