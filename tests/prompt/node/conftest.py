@@ -6,32 +6,34 @@ from kaye.gen_prompt.prompt_corpus_node import PromptCorpusNode
 
 @pytest.fixture()
 def test_prompt_corpus_tree1():
-    root = PromptCorpusNode("Project Title", None, [])
+    root = PromptCorpusNode("", None, [])
+    proj = PromptCorpusNode("Project Title", root, [])
 
     PromptCorpusNode(
-        "Description", root, ["Brief overview of the project and its purpose."]
+        "Description", proj, ["Brief overview of the project and its purpose."]
     )
 
     PromptCorpusNode(
-        "Installation", root, ["Clone the repo and install dependencies."]
+        "Installation", proj, ["Clone the repo and install dependencies."]
     )
 
-    PromptCorpusNode("License", root, ["Licensed under the MIT Li]cense."])
+    PromptCorpusNode("License", proj, ["Licensed under the MIT Li]cense."])
 
     return root
 
 
 @pytest.fixture()
 def test_prompt_corpus_tree2():
-    root = PromptCorpusNode("Project Title", None, [])
+    root = PromptCorpusNode("", None, [])
+    proj = PromptCorpusNode("Project Title", root, [])
 
     PromptCorpusNode(
-        "Description", root, ["Brief overview of the project and its purpose."]
+        "Description", proj, ["Brief overview of the project and its purpose."]
     )
 
     PromptCorpusNode(
         "Installation",
-        root,
+        proj,
         [
             "1. Clone the repo",
             "2. Install dependencies",
@@ -40,12 +42,12 @@ def test_prompt_corpus_tree2():
     )
 
     PromptCorpusNode(
-        "Usage", root, ["Provide instructions on how to use the application."]
+        "Usage", proj, ["Provide instructions on how to use the application."]
     )
 
     PromptCorpusNode(
         "Contributing",
-        root,
+        proj,
         [
             "1. Fork the repo",
             "2. Create a new branch",
@@ -53,17 +55,18 @@ def test_prompt_corpus_tree2():
         ],
     )
 
-    PromptCorpusNode("License", root, ["Licensed under the MIT Li]cense."])
+    PromptCorpusNode("License", proj, ["Licensed under the MIT Li]cense."])
 
     return root
 
 
 @pytest.fixture()
 def test_prompt_corpus_tree3():
-    root = PromptCorpusNode("Main Title", None, [])
+    root = PromptCorpusNode("", None, [])
+    proj = PromptCorpusNode("Main Title", root, [])
 
     intro = PromptCorpusNode(
-        "Introduction", root, ["Brief introduction to the topic."]
+        "Introduction", proj, ["Brief introduction to the topic."]
     )
 
     bg = PromptCorpusNode(
@@ -77,7 +80,7 @@ def test_prompt_corpus_tree3():
     PromptCorpusNode("Objective", mpt, ["The primary goal of this document."])
 
     methods = PromptCorpusNode(
-        "Methods", root, ["Overview of the methodologies used."]
+        "Methods", proj, ["Overview of the methodologies used."]
     )
 
     data = PromptCorpusNode(
@@ -93,7 +96,7 @@ def test_prompt_corpus_tree3():
     )
 
     PromptCorpusNode(
-        "Conclusion", root, ["Summarizing the findings and implications."]
+        "Conclusion", proj, ["Summarizing the findings and implications."]
     )
 
     return root
