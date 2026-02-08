@@ -54,6 +54,7 @@ Kaye Peer Coder:
 ### Deprecated
 
 - Python CLI
+- use of `kamilog`
 
 ### Removed
 ### Fixed

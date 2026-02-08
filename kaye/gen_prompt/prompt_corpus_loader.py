@@ -3,18 +3,16 @@ define ``load_prompt_corpus_tree``
 and its supporting function ``get_embedded_prompt_corpus_file_path()``
 """
 
+import re
 from pathlib import Path
-from .prompt_corpus_node import PromptCorpusNode
 
-from .. import kamilog, PROGRAM_NAME
+
+from .prompt_corpus_node import PromptCorpusNode
 
 __all__ = (
     "get_embedded_prompt_corpus_file_path",
     "load_prompt_corpus_tree",
-    "load_embedded_prompt_corpus",  # HACK HACK rm
 )
-
-logger = kamilog.getLogger(PROGRAM_NAME)
 
 
 def get_embedded_prompt_corpus_file_path():
@@ -27,13 +25,9 @@ def get_embedded_prompt_corpus_file_path():
     ).absolute()
 
 
-def load_prompt_corpus_tree():  # TODO TODO
-    pass
-
-
-def load_embedded_prompt_corpus():  # HACK HACK rm
+def load_prompt_corpus_tree():
     """
-    Load a prompt corpus tree of the **embedded** prompt corpus text.
+    TODO TODO
 
 
     :return: **root** node of the parsed *prompt corpus* tree
@@ -41,14 +35,31 @@ def load_embedded_prompt_corpus():  # HACK HACK rm
     :raises FileNotFoundError:
     :raises IOError:
     """
+    # read corpus from file  ---------------------------------------------------
+    prompt_corpus_file_path = get_embedded_prompt_corpus_file_path()
+    with open(
+        prompt_corpus_file_path, "r", encoding="utf-8", newline=""
+    ) as file:
+        prompt_corpus_text = file.read()
 
-    full_prompt_file_path = get_embedded_prompt_corpus_file_path()
-    with open(full_prompt_file_path, "r", encoding="utf-8", newline="") as file:
-        file_content = file.read()
-        logger.debug(
-            "embedded prompt corpus loaded from: %s", full_prompt_file_path
-        )
-        return PromptCorpusNode.parse(file_content)
+    # text split & clean up  ---------------------------------------------------
+    # reduce 2+ empty lines into single empty line
+    text_cleanup = re.sub(r"\n{3,}", "\n\n", prompt_corpus_text)
+    # split to lines
+    text_lines = list(text_cleanup.split("\n"))
+
+    root = PromptCorpusNode(ROOT_NODE_NAME, None, [])
+
+    # TODO TODO
+
+    return root
+
+
+# helpers  #####################################################################
+ROOT_NODE_NAME = "○"
+
+
+# HACK rm legacies  ############################################################
 
 
 def _create_dynamic_node(heading, parent):  # HACK HACK
@@ -57,29 +68,6 @@ def _create_dynamic_node(heading, parent):  # HACK HACK
 
 
 # public API  ==============================================================
-
-
-ROOT_NODE_NAME = "○"  # placeholder name for root node
-
-
-@classmethod
-def parse(cls, prompt_corpus_text):  # TODO TODO parse also dynamic nodes
-    """
-    parse *prompt corpus* text into the tree structure.
-
-
-    :param prompt_corpus_text: full source *prompt corpus* content
-    :type prompt_corpus_text: str
-    :return: **root node** of the parsed *prompt* tree structure
-    :rtype: PromptCorpusNode
-    """
-    # reduce 2+ empty lines into single empty line
-    text_cleanup = re.sub(r"\n{3,}", "\n\n", prompt_corpus_text)
-    # split to lines
-    text_lines = list(text_cleanup.split("\n"))
-
-    root = cls(ROOT_NODE_NAME, None, text_lines)
-    return root
 
 
 def _init_populate_children(self, text_lines):
