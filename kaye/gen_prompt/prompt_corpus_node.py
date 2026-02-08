@@ -15,16 +15,16 @@ __all__ = ("PromptCorpusNode",)
 
 class PromptCorpusNode(BasePromptNode):
     """
-    A `PromptCorpuTHACKsNode` encapsule a single node in the *prompt corpus tree*.
+    A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
 
 
-    :param name: section heading
-    :type name: str
+    :param heading: section heading, i.e. node name
+    :type heading: str
     :param parent: parent node in the tree structure;
             `None` if the root node
     :type parent: PromptCorpusNode
-    :param text_lines: content to be parsed, each ``str`` represents a line
-    :type text_lines: list(str)
+    :param content_lines: section content, each ``str`` represents a line
+    :type content_lines: list(str)
     :example:
     >>> tree = PromptCorpusNode.parse(prompt_corpus_text)
     """
@@ -51,30 +51,24 @@ class PromptCorpusNode(BasePromptNode):
         return root
 
     # constructor  =============================================================
-    def __init__(self, name, parent, text_lines):
-        self._init_test_name(name)
+    def __init__(self, heading, parent, content_lines):
+        self._init_check_name(heading)
 
-        super().__init__(name, parent)
-        self._content_lines = []
-
-        if len(text_lines) == 0:
-            return
-
-        self._init_populate_children(text_lines)
+        super().__init__(heading, parent)
 
         # trim leading/trailing empty strings
-        start, end = 0, len(self._content_lines)
-        while start < end and self._content_lines[start] == "":
+        start, end = 0, len(content_lines)
+        while start < end and content_lines[start] == "":
             start += 1
-        while end > start and self._content_lines[end - 1] == "":
+        while end > start and content_lines[end - 1] == "":
             end -= 1
-        self._content_lines = self._content_lines[start:end]
+        self._content_lines = content_lines[start:end]
 
     # constructor helpers  *****************************************************
     HEADING_FORBIDDEN = re.compile(r"{.*}")
 
     @classmethod
-    def _init_test_name(cls, name):
+    def _init_check_name(cls, name):
         """
         test name to be a legal heading
 
@@ -89,6 +83,7 @@ class PromptCorpusNode(BasePromptNode):
 
         (helper method used in ``__init__()``)
         """
+        # FIXME mv to load
         # find every sub-section heading lines
         heading_prefix = HEADING_PREFIX * (self.depth + 1) + " "
         heading_lines = []
