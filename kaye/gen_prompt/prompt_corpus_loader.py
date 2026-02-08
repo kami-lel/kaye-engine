@@ -11,6 +11,7 @@ from .. import kamilog, PROGRAM_NAME
 __all__ = (
     "get_embedded_prompt_corpus_file_path",
     "load_prompt_corpus_tree",
+    "load_embedded_prompt_corpus",  # HACK rm
 )
 
 logger = kamilog.getLogger(PROGRAM_NAME)
