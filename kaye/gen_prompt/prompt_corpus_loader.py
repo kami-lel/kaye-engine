@@ -1,5 +1,6 @@
 """
-define ``load_embedded_prompt_corpus``
+define ``load_prompt_corpus_tree``
+and its supporting function ``get_embedded_prompt_corpus_file_path()``
 """
 
 from pathlib import Path
@@ -9,7 +10,7 @@ from .. import kamilog, PROGRAM_NAME
 
 __all__ = (
     "get_embedded_prompt_corpus_file_path",
-    "load_embedded_prompt_corpus",
+    "load_prompt_corpus_tree",
 )
 
 logger = kamilog.getLogger(PROGRAM_NAME)
@@ -29,7 +30,7 @@ def load_prompt_corpus_tree():  # TODO TODO
     pass
 
 
-def load_embedded_prompt_corpus():
+def load_embedded_prompt_corpus():  # HACK rm
     """
     Load a prompt corpus tree of the **embedded** prompt corpus text.
 

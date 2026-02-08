@@ -1,5 +1,7 @@
 # Kaye Python API documentation
 
+<!-- Todo rewrite python api doc -->
+
 ## `gen_prompt` module
 
 The **core** module of *Kaye Python API*, implement a systematic, dynamic, and structured framework for **prompt management and manipulation**.
@@ -185,8 +187,6 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 
 
-
-<!-- Todo docs for dynamic nodes -->
 
 
 
