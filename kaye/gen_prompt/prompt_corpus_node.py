@@ -7,7 +7,6 @@ import re
 from .base_prompt_node import BasePromptNode
 
 # section heading prefix used for parsing .md file of prompt corpus
-HEADING_PREFIX = "#"
 
 __all__ = ("PromptCorpusNode",)
 
