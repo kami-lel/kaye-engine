@@ -112,7 +112,7 @@ class PromptBlueprint(dict):
             path[level] = heading
 
             # attach node to blueprint  ----------------------------------------
-            # TODO TODO how to deal w/ dynamic blueprint
+            # TODO how to deal w/ dynamic blueprint
 
             path_tuple = tuple(path)
 
