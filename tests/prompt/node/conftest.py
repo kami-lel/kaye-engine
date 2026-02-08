@@ -6,29 +6,33 @@ from kaye.gen_prompt.prompt_corpus_node import PromptCorpusNode
 
 @pytest.fixture()
 def test_prompt_corpus_tree1():
-    root = PromptCorpusNode("", None, [])
+    root = PromptCorpusNode("○", None, [])
     proj = PromptCorpusNode("Project Title", root, [])
 
     PromptCorpusNode(
-        "Description", proj, ["Brief overview of the project and its purpose."]
+        "Description",
+        proj,
+        ["Brief overview of the project and its purpose."],
     )
 
     PromptCorpusNode(
         "Installation", proj, ["Clone the repo and install dependencies."]
     )
 
-    PromptCorpusNode("License", proj, ["Licensed under the MIT Li]cense."])
+    PromptCorpusNode("License", proj, ["Licensed under the MIT License."])
 
     return root
 
 
 @pytest.fixture()
 def test_prompt_corpus_tree2():
-    root = PromptCorpusNode("", None, [])
+    root = PromptCorpusNode("○", None, [])
     proj = PromptCorpusNode("Project Title", root, [])
 
     PromptCorpusNode(
-        "Description", proj, ["Brief overview of the project and its purpose."]
+        "Description",
+        proj,
+        ["A brief overview of the project, its purpose, and goals."],
     )
 
     PromptCorpusNode(
@@ -55,14 +59,16 @@ def test_prompt_corpus_tree2():
         ],
     )
 
-    PromptCorpusNode("License", proj, ["Licensed under the MIT Li]cense."])
+    PromptCorpusNode(
+        "License", proj, ["This project is licensed under the MIT License."]
+    )
 
     return root
 
 
 @pytest.fixture()
 def test_prompt_corpus_tree3():
-    root = PromptCorpusNode("", None, [])
+    root = PromptCorpusNode("○", None, [])
     proj = PromptCorpusNode("Main Title", root, [])
 
     intro = PromptCorpusNode(
