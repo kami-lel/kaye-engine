@@ -7,7 +7,6 @@ Unit Tests (using pytest) for: PromptBlueprint
 """
 
 # FIXME
-# FIXME test str
 # FIXME test repr
 
 import re

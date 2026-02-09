@@ -39,7 +39,7 @@ def get_prompt_corpus_tree(*, prompt_corpus_text_override=None):
     - attach various dynamic nodes
 
 
-    :param prompt_corpus_text_override: (for test); default to None
+    :param prompt_corpus_text_override: (for testing only); default to None
     :type prompt_corpus_text_override: str, optional
     :raises FileNotFoundError:
     :raises IOError:
