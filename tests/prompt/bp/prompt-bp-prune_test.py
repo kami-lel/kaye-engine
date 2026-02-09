@@ -108,7 +108,9 @@ class Test2:  # use PROMPT2  ###################################################
         assert len(pruned_bp) == 3
         assert (
             pruned_bp.generate_blueprint(
-                content_preview_lines=0, show_comment=False, show_full_tree=True
+                content_preview_lines=0,
+                show_comment=False,
+                show_full_tree=False,
             )
             == BLUEPRINT_2_PARTIAL_1_PRUNED
         )
@@ -125,7 +127,9 @@ class Test2:  # use PROMPT2  ###################################################
         assert len(pruned_bp) == len(old)
         assert (
             pruned_bp.generate_blueprint(
-                content_preview_lines=0, show_comment=False, show_full_tree=True
+                content_preview_lines=0,
+                show_comment=False,
+                show_full_tree=False,
             )
             == bp_text
         )
@@ -142,7 +146,9 @@ class Test2:  # use PROMPT2  ###################################################
         assert len(pruned_bp) == 0
         assert (
             pruned_bp.generate_blueprint(
-                content_preview_lines=0, show_comment=False, show_full_tree=True
+                content_preview_lines=0,
+                show_comment=False,
+                show_full_tree=False,
             )
             == BLUEPRINT_EMPTY_PRUNED
         )
@@ -162,7 +168,9 @@ class Test3:  # use PROMPT3  ###################################################
         assert len(pruned_bp) == 6
         assert (
             pruned_bp.generate_blueprint(
-                content_preview_lines=0, show_comment=False, show_full_tree=True
+                content_preview_lines=0,
+                show_comment=False,
+                show_full_tree=False,
             )
             == BLUEPRINT_3_PARTIAL_1_PRUNED
         )
@@ -179,7 +187,9 @@ class Test3:  # use PROMPT3  ###################################################
         assert len(pruned_bp) == 9
         assert (
             pruned_bp.generate_blueprint(
-                content_preview_lines=0, show_comment=False, show_full_tree=True
+                content_preview_lines=0,
+                show_comment=False,
+                show_full_tree=False,
             )
             == BLUEPRINT_3_PARTIAL_2_PRUNED
         )
@@ -196,7 +206,9 @@ class Test3:  # use PROMPT3  ###################################################
         assert len(pruned_bp) == len(old)
         assert (
             pruned_bp.generate_blueprint(
-                content_preview_lines=0, show_comment=False, show_full_tree=True
+                content_preview_lines=0,
+                show_comment=False,
+                show_full_tree=False,
             )
             == bp_text
         )
@@ -213,7 +225,9 @@ class Test3:  # use PROMPT3  ###################################################
         assert len(pruned_bp) == 0
         assert (
             pruned_bp.generate_blueprint(
-                content_preview_lines=0, show_comment=False, show_full_tree=True
+                content_preview_lines=0,
+                show_comment=False,
+                show_full_tree=False,
             )
             == BLUEPRINT_EMPTY_PRUNED
         )
