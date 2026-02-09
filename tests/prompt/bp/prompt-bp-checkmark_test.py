@@ -1,5 +1,5 @@
 """
-prompt_bp_checkmark_test.py
+prompt-bp-checkmark_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint:
 
@@ -140,9 +140,7 @@ class Test11:  # PROMPT1: partial 1 -> full  ###################################
         print(opt)
 
         assert (
-            opt
-            == "node missing from bp's corpus: "
-            "PromptCorpusNode(Main Title)"
+            opt == "node missing from bp's corpus: PromptCorpusNode(Main Title)"
         )
 
 

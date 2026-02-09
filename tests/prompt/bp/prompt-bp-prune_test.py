@@ -1,5 +1,5 @@
 """
-prompt_bp_prune_test.py
+prompt-bp-prune_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.prune()
 """

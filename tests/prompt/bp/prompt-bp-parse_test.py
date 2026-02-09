@@ -1,5 +1,5 @@
 """
-prompt_bp_parse_basic_test.py
+prompt-bp-parse_basic_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.parse()
 """

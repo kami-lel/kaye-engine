@@ -1,5 +1,5 @@
 """
-prompt_bp_merge_test.py
+prompt-bp-merge_test.py
 
 Unit Tests (using pytest) for:
 

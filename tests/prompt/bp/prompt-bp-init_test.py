@@ -1,5 +1,5 @@
 """
-prompt_bp_init_test.py
+prompt-bp-init_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.__init__()
 """
