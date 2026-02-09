@@ -9,7 +9,7 @@ Unit Tests (using pytest) for: PromptBlueprint
 import re
 
 
-from kaye.gen_prompt import PromptBlueprint
+from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
@@ -35,15 +35,8 @@ from tests.prompt.bp import (
     BLUEPRINT_3_PARTIAL_2_PREVIEW,
     BLUEPRINT_3_PARTIAL_2_PRUNED,
     BLUEPRINT_3_EMPTY,
+    _split_content_and_comment,
 )
-
-
-# helper fx  ###################################################################
-def _split_content_and_comment(preview_tree):
-    lines = preview_tree.splitlines()
-    tree = "\n".join(lines[:-1])
-    comment = lines[-1]
-    return tree, comment
 
 
 # w/ all args  #################################################################
