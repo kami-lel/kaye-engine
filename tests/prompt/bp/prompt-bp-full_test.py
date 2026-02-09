@@ -1,5 +1,5 @@
 """
-prompt_bp_full_test.py
+prompt-bp-full_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint
 
@@ -41,9 +41,7 @@ class TestFull1:
         corpus = CORPUS1
         display_name = "My Full Blueprint"
 
-        bp = PromptBlueprint.create_full_bp(
-            corpus, display_name=display_name
-        )
+        bp = PromptBlueprint.create_full_bp(corpus, display_name=display_name)
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)
@@ -67,9 +65,7 @@ class TestFull2:
         corpus = CORPUS2
         display_name = "My Full Blueprint"
 
-        bp = PromptBlueprint.create_full_bp(
-            corpus, display_name=display_name
-        )
+        bp = PromptBlueprint.create_full_bp(corpus, display_name=display_name)
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)
@@ -94,9 +90,7 @@ class TestEmpty1:
         corpus = CORPUS1
         display_name = "My Empty Blueprint"
 
-        bp = PromptBlueprint.create_empty_bp(
-            corpus, display_name=display_name
-        )
+        bp = PromptBlueprint.create_empty_bp(corpus, display_name=display_name)
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)
@@ -120,9 +114,7 @@ class TestEmpty:
         corpus = CORPUS2
         display_name = "My Empty Blueprint"
 
-        bp = PromptBlueprint.create_empty_bp(
-            corpus, display_name=display_name
-        )
+        bp = PromptBlueprint.create_empty_bp(corpus, display_name=display_name)
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)

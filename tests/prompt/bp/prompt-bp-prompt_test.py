@@ -1,5 +1,5 @@
 """
-prompt_bp_prompt_test.py
+prompt-bp-prompt_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.generate_prompt()
 """

@@ -1,5 +1,5 @@
 """
-prompt_bp_uncheckmark_test.py
+prompt-bp-uncheckmark_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint
 

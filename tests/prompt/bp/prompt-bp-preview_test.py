@@ -1,5 +1,5 @@
 """
-prompt_bp_preview_test.py
+prompt-bp-preview_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint
 

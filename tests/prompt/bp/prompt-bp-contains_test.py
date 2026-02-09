@@ -1,5 +1,5 @@
 """
-prompt_bp_contains_test.py
+prompt-bp-contains_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.__contains__()
 """

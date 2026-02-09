@@ -1,5 +1,5 @@
 """
-prompt_bp_is_checkmarked_test.py
+prompt-bp-is_checkmarked_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.is_enabled()
 """
