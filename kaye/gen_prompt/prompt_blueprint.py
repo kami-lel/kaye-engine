@@ -356,20 +356,18 @@ class PromptBlueprint(dict):
         return NotImplemented  # TODO
 
     def __repr__(self):
-        """
-        :return:
-        :rtype: str
-        :example:
-        assert repr(node) == "PromptBlueprint(My Blueprint)"
-        """
         return super().__repr__()  # TODO
 
     def __str__(self):
         """
-        :return: equivalent to self.generate_preview_tree()
+        :return:
         :rtype: str
+
+        :example:
+        >>> str(node)
+        "PromptBlueprint(My Blueprint)"
         """
-        return super().__str__()  # TODO
+        return "PromptBlueprint({})".format(self.display_name)
 
 
 # helpers  #####################################################################
@@ -605,12 +603,6 @@ class PromptBlueprintLegacy(dict):
 
     def __imul__(self, other):
         return self.merge(other)
-
-    def __repr__(self):
-        return "PromptBlueprint({})".format(self.display_name)
-
-    def __str__(self):
-        return self.generate_preview_tree()
 
 
 # helpers  #####################################################################
