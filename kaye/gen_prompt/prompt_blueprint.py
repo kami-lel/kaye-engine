@@ -9,8 +9,9 @@ import copy
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
+
 from .base_prompt_node import BasePromptNode
-from .prompt_corpus_loader import get_prompt_corpus_tree
+from .prompt_corpus_loader import get_prompt_corpus_tree, HEADING_PREFIX_ELEMENT
 
 # from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .today_node import TodayNode
@@ -309,19 +310,33 @@ class PromptBlueprint(dict):
 
         return "\n".join(lines)
 
-    def generate_prompt(self, *, hide_comment=False):
+    def generate_prompt(self, *, show_comment=False):
         """
         render the **concrete prompt** that can be used as LLM system message
         with it content based on node's checkmarking status of this blueprint
 
 
-        :param hide_comment: disable comment part after last line;
+        :param show_comment: show comment part after last line;
                 defaults to False
-        :type hide_comment: bool, optional
-        :return: the generated prompt
+        :type show_comment: bool, optional
+        :return: generated prompt
         :rtype: str
         """
-        # TODO TODO
+        lines = []
+
+        for node in PreOrderIter(self.corpus):
+            if node in self:
+                # heading line
+                lines.append(
+                    HEADING_PREFIX_ELEMENT * node.depth + " " + node.name
+                )
+                # content lines
+                lines.extend(node.content_lines())
+
+        if show_comment:
+            lines.append("<!-- " + self._generate_comment_content() + " -->")
+
+        return "\n".join(lines)
 
     # Blueprint operation  *****************************************************
 
@@ -615,67 +630,3 @@ def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
         return True
     else:
         return False
-
-
-# HACK HACK rm legacy
-class PromptBlueprintLegacy(dict):
-
-    def generate_prompt(self, *, hide_comment=False):
-        content, comment = self._generate_prompt_split_content_and_comment(
-            hide_comment
-        )
-        return content + comment
-
-    # helpers  =================================================================
-
-    def _generate_prompt_split_content_and_comment(self, hide_comment):
-        """
-        core mechanics of `.generate_prompt()`,
-        but return content and comment as two parts/`str`s;
-        this enable easier implementation of `DynamicAbbrBlueprint`
-
-
-        (helper method used in `.generate_prompt()`)
-        """
-        lines = _generate_prompt_recursively(self, self.corpus)
-        content = "\n".join(lines).strip("\n")
-
-        # create comment line
-        if hide_comment:
-            comment_line = ""
-        else:
-            comment_line = "\n<!-- " + self._generate_comment_content() + " -->"
-
-        return content, comment_line
-
-
-# helpers  #####################################################################
-
-
-def _generate_prompt_recursively(blueprint, node):
-    """
-    recursively traverse tree and only select nodes that is checkmarked in
-    blueprint. Create the prompt by combining these nodes' content.
-
-    (helper method used in ``PromptBlueprint.generate_prompt()``)
-
-
-    :param blueprint:
-    :type blueprint: PromptBlueprint
-    :param node:
-    :type node: PromptCorpusNode
-    :return: prompt lines
-    :rtype: list[str]
-    """
-    lines = []
-
-    # add current node if checkmarked
-    if blueprint.is_checkmarked(node):
-        # pylint: disable-next=protected-access
-        lines.extend(node._generate_prompt_lines())
-
-    # add descendent
-    for child in node.children:
-        lines.extend(_generate_prompt_recursively(blueprint, child))
-
-    return lines

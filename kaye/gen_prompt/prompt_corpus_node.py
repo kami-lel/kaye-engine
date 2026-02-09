@@ -68,21 +68,3 @@ class PromptCorpusNode(BasePromptNode):
         obj = type(self)(self.name, self.parent, [])
         obj._content_lines = self._content_lines
         return obj
-
-    # Hack rm
-    # def _generate_prompt_lines(self):
-    #     """
-    #     generate prompt lines as this node appeared in concrete prompt
-
-    #     (helper method used in ``PromptBlueprint.generate_prompt()``)
-
-    #     :return: lines of prompt
-    #     :rtype: list[str]
-    #     """
-    #     lines = [""]  # add empty lines before headings
-    #     # heading line
-    #     lines.append(HEADING_PREFIX * self.depth + " " + self.name)
-    #     # content lines
-    #     lines.extend(self.content)
-
-    #     return lines
