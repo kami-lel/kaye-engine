@@ -1,5 +1,5 @@
 """
-define ``load_prompt_corpus_tree``
+define ``spawn_prompt_corpus_tree``
 and its supporting function ``get_embedded_prompt_corpus_file_path()``
 """
 
@@ -13,7 +13,7 @@ from .abbr_nodes import AbbrNode, PLCNode
 
 __all__ = (
     "get_embedded_prompt_corpus_file_path",
-    "load_prompt_corpus_tree",
+    "spawn_prompt_corpus_tree",
 )
 
 
@@ -27,15 +27,19 @@ def get_embedded_prompt_corpus_file_path():
     ).absolute()
 
 
-def load_prompt_corpus_tree(
+def spawn_prompt_corpus_tree(
     *, prompt_corpus_text_override=None, disable_dynamic_nodes=False
 ):
     """
-    TODO TODO
+    create the **prompt corpus tree** by:
+
+    - parse the prompt corpus text saved in ``prompt_corpus.md``
+    - attach various dynamic nodes
 
 
-    :param disable_dynamic_nodes: do not attach dynamics nodes to the tree;
-            defaults to False
+    :param prompt_corpus_text_override: (for test); default to None
+    :type prompt_corpus_text_override: str, optional
+    :param disable_dynamic_nodes: (for test); defaults to False
     :type disable_dynamic_nodes: bool, optional
     :raises FileNotFoundError:
     :raises IOError:
