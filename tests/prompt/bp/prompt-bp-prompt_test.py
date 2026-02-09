@@ -9,7 +9,7 @@ Unit Tests (using pytest) for: PromptBlueprint.generate_prompt()
 import re
 
 
-from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
+from kaye.gen_prompt import PromptBlueprint
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
@@ -27,13 +27,13 @@ from tests.prompt.bp import (
 )
 
 
-class XTest1:  # with PROMPT1  ##################################################
+class Test1:  # with PROMPT1  ##################################################
 
-    def test_full(self):
+    def test_full(_, test_corpus1):
         bp_text = BLUEPRINT_1_FULL
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
 
-        opt = bp.generate_prompt(hide_comment=False)
+        opt = bp.generate_prompt(show_comment=True)
 
         print(opt)
         content, comment = _split_content_and_comment(opt)
@@ -52,11 +52,11 @@ Licensed under the MIT License."""
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment)
 
-    def test_part1(self):
+    def test_part1(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_1
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """## Description
@@ -68,11 +68,11 @@ Clone the repo and install dependencies.
 ## License
 Licensed under the MIT License."""
 
-    def test_part2(self):
+    def test_part2(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_2
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """# Project Title
@@ -83,11 +83,11 @@ Clone the repo and install dependencies.
 ## License
 Licensed under the MIT License."""
 
-    def test_empty(self):
+    def test_empty(_, test_corpus1):
         bp_text = BLUEPRINT_1_EMPTY
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == ""
@@ -95,11 +95,11 @@ Licensed under the MIT License."""
 
 class XTest2:  # with PROMPT2  ##################################################
 
-    def test_full(self):
+    def test_full(_, test_corpus2):
         bp_text = BLUEPRINT_2_FULL
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus2)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """# Project Title
@@ -123,11 +123,11 @@ Provide instructions on how to use the application.
 ## License
 This project is licensed under the MIT License."""
 
-    def test_part1(self):
+    def test_part1(_, test_corpus2):
         bp_text = BLUEPRINT_2_PARTIAL_1
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus2)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """# Project Title
@@ -142,11 +142,11 @@ This project is licensed under the MIT License."""
 2. Create a new branch
 3. Submit a pull request"""
 
-    def test_empty(self):
+    def test_empty(_, test_corpus2):
         bp_text = BLUEPRINT_2_EMPTY
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus2)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == ""
@@ -154,11 +154,11 @@ This project is licensed under the MIT License."""
 
 class XTest3:  # with PROMPT3  ##################################################
 
-    def test_full(self):
+    def test_full(_, test_corpus3):
         bp_text = BLUEPRINT_3_FULL
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus3)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """# Main Title
@@ -190,11 +190,11 @@ Suggestions for future research or tasks.
 ## Conclusion
 Summarizing the findings and implications."""
 
-    def test_part1(self):
+    def test_part1(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_1
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus3)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """# Main Title
@@ -214,11 +214,11 @@ The primary goal of this document.
 ## Conclusion
 Summarizing the findings and implications."""
 
-    def test_part2(self):
+    def test_part2(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_2
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus3)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """# Main Title
@@ -235,11 +235,11 @@ How data was gathered for analysis.
 ##### Future Work
 Suggestions for future research or tasks."""
 
-    def test_empty(self):
+    def test_empty(_, test_corpus3):
         bp_text = BLUEPRINT_3_EMPTY
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus3)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == ""
