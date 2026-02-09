@@ -9,6 +9,7 @@ from copy import copy
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
+from .base_prompt_node import BasePromptNode
 from .prompt_corpus_node import PromptCorpusNode
 from .prompt_corpus_loader import get_prompt_corpus_tree
 
@@ -22,8 +23,6 @@ __all__ = ("PromptBlueprint",)
 CHECKMARKED_PREFIX = "[x] "
 UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
-
-# BUG redo prompt blueprint
 
 
 class PromptBlueprint(dict):
@@ -73,7 +72,7 @@ class PromptBlueprint(dict):
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
         """
-        # create empty bp to fill later
+        # create bp w/ nothing, to be filled during this function
         bp = PromptBlueprint(
             display_name=display_name,
             prompt_corpus_override=prompt_corpus_override,
@@ -119,6 +118,8 @@ class PromptBlueprint(dict):
             # TODO how to deal w/ dynamic blueprint
 
             path_tuple = tuple(path)
+            print(path_tuple)  # HACK
+            print(id_lineage2node_hash)  # HACK
 
             # check node's existence in tree  ----------------------------------
             if path_tuple not in id_lineage2node_hash:
@@ -148,9 +149,10 @@ class PromptBlueprint(dict):
                 and checkmarking all nodes
         :rtype: PromptBlueprint
         """
+        # TODO
 
     @classmethod
-    def create_empty_blueprint(cls, prompt_corpus, *, display_name="empty"):
+    def create_empty_blueprint(cls, *, display_name="empty"):
         """
         :param prompt_corpus:
         :type prompt_corpus: PromptCorpusNode
@@ -160,11 +162,18 @@ class PromptBlueprint(dict):
                 but checkmarking all nodes
         :rtype: PromptBlueprint
         """
+        # TODO
 
     # instance methods  ========================================================
     def __init__(self, *, display_name="", prompt_corpus_override=None):
         super().__init__()  # init as empty dict
-        self.corpus = prompt_corpus_override or get_prompt_corpus_tree()
+
+        self.corpus = (
+            get_prompt_corpus_tree()
+            if prompt_corpus_override is None
+            else prompt_corpus_override
+        )
+
         self.display_name = display_name
 
     # node operations  *********************************************************
@@ -177,6 +186,7 @@ class PromptBlueprint(dict):
                 also ``False`` if node is not contained in blueprint
         :rtype: bool
         """
+        # TODO
 
     def checkmark(self, node):
         """
@@ -190,6 +200,7 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
+        # TODO
 
     def uncheckmark(self, node):
         """
@@ -203,6 +214,7 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
+        # TODO
 
     # exporting methods  *******************************************************
 
@@ -236,6 +248,7 @@ class PromptBlueprint(dict):
         :return: the preview tree
         :rtype: str
         """
+        # TODO
 
     def generate_prompt(self, *, hide_comment=False):
         """
@@ -249,6 +262,7 @@ class PromptBlueprint(dict):
         :return: the generated prompt
         :rtype: str
         """
+        # TODO
 
     # Blueprint operation  *****************************************************
 
@@ -258,7 +272,7 @@ class PromptBlueprint(dict):
                 which contains only branches with checkmarked nodes
         :rtype: PromptBlueprint
         """
-        return self
+        return self  # TODO
 
     def merge(self, other):
         """
@@ -272,6 +286,7 @@ class PromptBlueprint(dict):
         :return: merged blueprint
         :rtype: PromptBlueprint
         """
+        # TODO
 
     # helpers  =================================================================
 
@@ -290,7 +305,7 @@ class PromptBlueprint(dict):
         :return: if blueprint contains the node
         :rtype: bool
         """
-        return NotImplemented
+        return super().__contains__(_normalize_as_node_hash(key))
 
     def __iadd__(self, other):
         """
@@ -306,7 +321,7 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-        return NotImplemented
+        return NotImplemented  # TODO
 
     def __isub__(self, other):
         """
@@ -322,7 +337,7 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-        return NotImplemented
+        return NotImplemented  # TODO
 
     def __imul__(self, other):
         """
@@ -338,7 +353,7 @@ class PromptBlueprint(dict):
         :return: merged blueprint
         :rtype: PromptBlueprint
         """
-        return NotImplemented
+        return NotImplemented  # TODO
 
     def __repr__(self):
         """
@@ -347,17 +362,37 @@ class PromptBlueprint(dict):
         :example:
         assert repr(node) == "PromptBlueprint(My Blueprint)"
         """
-        return super().__repr__()
+        return super().__repr__()  # TODO
 
     def __str__(self):
         """
         :return: equivalent to self.generate_preview_tree()
         :rtype: str
         """
-        return super().__str__()
+        return super().__str__()  # TODO
 
 
 # helpers  #####################################################################
+
+
+def _normalize_as_node_hash(node):
+    """
+    :param node: node object; or hash value of node
+    :type node: BasePromptNode or int
+    :raises TypeError:
+    :return: node hash value, regardless when provided node object or node hash
+    :rtype: int
+    """
+    if isinstance(node, BasePromptNode):
+        return hash(node)
+
+    elif isinstance(node, int):  # already hash
+        return node
+
+    else:
+        raise TypeError(
+            "must be BasePromptNode or hash value: {}".format(repr(node))
+        )
 
 
 # HACK rm legacy
@@ -376,11 +411,11 @@ class PromptBlueprintLegacy(dict):
         )
 
     def is_checkmarked(self, node):
-        node = _normalize_node_hash(node)  # node as hash
+        node = _normalize_as_node_hash(node)  # node as hash
         return node in self and self[node]
 
     def checkmark(self, node):
-        node_hash = _normalize_node_hash(node)
+        node_hash = _normalize_as_node_hash(node)
 
         if not _checkmark_find_node_recursively(node, self.corpus):
             raise ValueError(
@@ -392,7 +427,7 @@ class PromptBlueprintLegacy(dict):
         return self
 
     def uncheckmark(self, node):
-        node_hash = _normalize_node_hash(node)
+        node_hash = _normalize_as_node_hash(node)
 
         if node_hash not in self:
             raise KeyError(
@@ -561,8 +596,6 @@ class PromptBlueprintLegacy(dict):
         return "{}Kaye v{}".format(name_part, kaye_version)
 
     # dunder methods  ==========================================================
-    def __contains__(self, key):
-        return super().__contains__(_normalize_node_hash(key))
 
     def __iadd__(self, other):
         return self.checkmark(other)
@@ -679,26 +712,6 @@ def _generate_prompt_recursively(blueprint, node):
         lines.extend(_generate_prompt_recursively(blueprint, child))
 
     return lines
-
-
-def _normalize_node_hash(node):
-    """
-    :param node: node object; or hash value of node
-    :type node: PromptCorpusNode or int
-    :raises TypeError:
-    :return: hash of node
-    :rtype: int
-    """
-    if isinstance(node, PromptCorpusNode):
-        return hash(node)
-
-    elif isinstance(node, int):  # already hash
-        return node
-
-    else:
-        raise TypeError(
-            "must be PromptCorpusNode or hash value, not: {}".format(repr(node))
-        )
 
 
 def _checkmark_find_node_recursively(target, node):
