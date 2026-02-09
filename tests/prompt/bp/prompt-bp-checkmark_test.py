@@ -44,7 +44,9 @@ class XTest11:  # PROMPT1: partial 1 -> full  ##################################
         print(opt)
 
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_preview_tree(
+                content_preview_lines=0, show_comment=False
+            )
             == self.dest
         )
 
@@ -62,7 +64,9 @@ class XTest11:  # PROMPT1: partial 1 -> full  ##################################
         print(opt)
 
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_preview_tree(
+                content_preview_lines=0, show_comment=False
+            )
             == self.dest
         )
 
@@ -79,7 +83,9 @@ class XTest11:  # PROMPT1: partial 1 -> full  ##################################
         print(opt)
 
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_preview_tree(
+                content_preview_lines=0, show_comment=False
+            )
             == self.dest
         )
 
@@ -97,7 +103,9 @@ class XTest11:  # PROMPT1: partial 1 -> full  ##################################
         print(opt)
 
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_preview_tree(
+                content_preview_lines=0, show_comment=False
+            )
             == self.dest
         )
 
@@ -160,7 +168,9 @@ class XTest12:  # PROMPT 1: partial 2 -> full  #################################
         print(opt)
 
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_preview_tree(
+                content_preview_lines=0, show_comment=False
+            )
             == self.dest
         )
 
@@ -178,7 +188,9 @@ class XTest12:  # PROMPT 1: partial 2 -> full  #################################
         print(opt)
 
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_preview_tree(
+                content_preview_lines=0, show_comment=False
+            )
             == self.dest
         )
 
@@ -203,7 +215,9 @@ class XTest2:  # PROMPT2: full -> partial 1  ###################################
         print(opt)
 
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_preview_tree(
+                content_preview_lines=0, show_comment=False
+            )
             == self.dest
         )
 
@@ -224,7 +238,9 @@ class XTest2:  # PROMPT2: full -> partial 1  ###################################
         print(opt)
 
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_preview_tree(
+                content_preview_lines=0, show_comment=False
+            )
             == self.dest
         )
 
@@ -253,7 +269,9 @@ class XTest31:  # PROMPT3: partial 1 -> full  ##################################
         print(opt)
 
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_preview_tree(
+                content_preview_lines=0, show_comment=False
+            )
             == self.dest
         )
 
@@ -276,7 +294,9 @@ class XTest31:  # PROMPT3: partial 1 -> full  ##################################
         print(opt)
 
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_preview_tree(
+                content_preview_lines=0, show_comment=False
+            )
             == self.dest
         )
 
@@ -308,7 +328,9 @@ class XTest32:  # PROMPT3: partial 2 -> full  ##################################
         print(opt)
 
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_preview_tree(
+                content_preview_lines=0, show_comment=False
+            )
             == self.dest
         )
 
@@ -334,6 +356,8 @@ class XTest32:  # PROMPT3: partial 2 -> full  ##################################
         print(opt)
 
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_preview_tree(
+                content_preview_lines=0, show_comment=False
+            )
             == self.dest
         )

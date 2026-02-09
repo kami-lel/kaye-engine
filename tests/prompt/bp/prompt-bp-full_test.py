@@ -3,13 +3,13 @@ prompt-bp-full_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint
 
-- .create_full_bp()
-- .create_empty_bp()
+- .create_full_blueprint()
+- .create_empty_blueprint()
 """
 
 # FIXME
 
-from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
+from kaye.gen_prompt import PromptBlueprint
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
@@ -18,100 +18,103 @@ from tests.prompt.bp import (
     BLUEPRINT_2_EMPTY,
 )
 
-# test .create_full_bp()  ###############################################
 
+# test .create_full_blueprint()  ###############################################
+class TestFull1:  # ============================================================
 
-class XTestFull1:
-
-    def test_dft(_):
-        corpus = CORPUS1
-
-        bp = PromptBlueprint.create_full_bp(corpus)
-        opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
+    def test_dft(_, test_corpus1):
+        bp = PromptBlueprint.create_full_blueprint(
+            prompt_corpus_override=test_corpus1
+        )
+        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
 
         print(opt)
         assert opt == BLUEPRINT_1_FULL
         assert bp.display_name == "full"
 
-    def test_name(_):
-        corpus = CORPUS1
+    def test_name(_, test_corpus1):
         display_name = "My Full Blueprint"
 
-        bp = PromptBlueprint.create_full_bp(corpus, display_name=display_name)
-        opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
+        bp = PromptBlueprint.create_full_blueprint(
+            display_name=display_name, prompt_corpus_override=test_corpus1
+        )
+        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
 
         print(opt)
         assert opt == BLUEPRINT_1_FULL
         assert bp.display_name == display_name
 
 
-class XTestFull2:
+class TestFull2:  # ============================================================
 
-    def test_dft(_):
-        corpus = CORPUS2
-
-        bp = PromptBlueprint.create_full_bp(corpus)
-        opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
+    def test_dft(_, test_corpus2):
+        bp = PromptBlueprint.create_full_blueprint(
+            prompt_corpus_override=test_corpus2
+        )
+        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
 
         print(opt)
         assert opt == BLUEPRINT_2_FULL
         assert bp.display_name == "full"
 
-    def test_name(_):
-        corpus = CORPUS2
+    def test_name(_, test_corpus2):
         display_name = "My Full Blueprint"
 
-        bp = PromptBlueprint.create_full_bp(corpus, display_name=display_name)
-        opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
+        bp = PromptBlueprint.create_full_blueprint(
+            display_name=display_name, prompt_corpus_override=test_corpus2
+        )
+        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
 
         print(opt)
         assert opt == BLUEPRINT_2_FULL
         assert bp.display_name == display_name
 
 
-# test .create_empty_bp()  ##############################################
-class XTestEmpty1:
+# test .create_empty_blueprint()  ##############################################
+class TestEmpty1:  # ===========================================================
 
-    def test_dft(_):
-        corpus = CORPUS1
-
-        bp = PromptBlueprint.create_empty_bp(corpus)
-        opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
+    def test_dft(_, test_corpus1):
+        bp = PromptBlueprint.create_empty_blueprint(
+            prompt_corpus_override=test_corpus1
+        )
+        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
 
         print(opt)
         assert opt == BLUEPRINT_1_EMPTY
         assert bp.display_name == "empty"
 
-    def test_name(_):
-        corpus = CORPUS1
+    def test_name(_, test_corpus1):
         display_name = "My Empty Blueprint"
 
-        bp = PromptBlueprint.create_empty_bp(corpus, display_name=display_name)
-        opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
+        bp = PromptBlueprint.create_empty_blueprint(
+            display_name=display_name, prompt_corpus_override=test_corpus1
+        )
+        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
 
         print(opt)
         assert opt == BLUEPRINT_1_EMPTY
         assert bp.display_name == display_name
 
 
-class XTestEmpty:
+class TestEmpty2:  # ===========================================================
 
-    def test_dft(_):
-        corpus = CORPUS2
-
-        bp = PromptBlueprint.create_empty_bp(corpus)
-        opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
+    def test_dft(_, test_corpus2):
+        bp = PromptBlueprint.create_empty_blueprint(
+            prompt_corpus_override=test_corpus2
+        )
+        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
 
         print(opt)
         assert opt == BLUEPRINT_2_EMPTY
         assert bp.display_name == "empty"
 
-    def test_name(_):
-        corpus = CORPUS2
+    def test_name(_, test_corpus2):
         display_name = "My Empty Blueprint"
 
-        bp = PromptBlueprint.create_empty_bp(corpus, display_name=display_name)
-        opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
+        bp = PromptBlueprint.create_empty_blueprint(
+            display_name=display_name, prompt_corpus_override=test_corpus2
+        )
+        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
 
         print(opt)
         assert opt == BLUEPRINT_2_EMPTY
