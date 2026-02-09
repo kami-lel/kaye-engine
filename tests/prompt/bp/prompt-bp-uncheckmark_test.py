@@ -12,7 +12,6 @@ Unit Tests (using pytest) for: PromptBlueprint
 import pytest
 
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
-from tests import _print_heading
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,

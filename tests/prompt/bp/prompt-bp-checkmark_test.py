@@ -41,7 +41,7 @@ class Test11:  # ===============================================================
         node = test_corpus1["Project Title"]
         opt.checkmark(node)
 
-        print("#" * 50)
+        print("#" * 80)
         print(opt)
 
         assert (
@@ -60,7 +60,7 @@ class Test11:  # ===============================================================
         node_hash = hash(node)
         opt.checkmark(node_hash)
 
-        print("#" * 50)
+        print("#" * 80)
         print(opt)
 
         assert (
@@ -78,7 +78,7 @@ class Test11:  # ===============================================================
         node = test_corpus1["Project Title"]
         opt += node
 
-        print("#" * 50)
+        print("#" * 80)
         print(opt)
 
         assert (
@@ -97,7 +97,7 @@ class Test11:  # ===============================================================
         node_hash = hash(node)
         opt += node_hash
 
-        print("#" * 50)
+        print("#" * 80)
         print(opt)
 
         assert (
@@ -163,13 +163,12 @@ class Test12:  # ===============================================================
         opt = PromptBlueprint.parse(
             bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
         )
-        _print_heading("before checkmark")
         print(opt)
 
         node = test_corpus1["Project Title"]["Description"]
         opt.checkmark(node)
 
-        _print_heading("after checkmark")
+        print("#" * 80)
         print(opt)
 
         assert (
@@ -182,14 +181,13 @@ class Test12:  # ===============================================================
         opt = PromptBlueprint.parse(
             bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
         )
-        _print_heading("before checkmark")
         print(opt)
 
         node = test_corpus1["Project Title"]["Description"]
         node_hash = hash(node)
         opt.checkmark(node_hash)
 
-        _print_heading("after checkmark")
+        print("#" * 80)
         print(opt)
 
         assert (
@@ -199,15 +197,16 @@ class Test12:  # ===============================================================
 
 
 # test_prompt2  ################################################################
-class XTest2:  # PROMPT2: full -> partial 1  ####################################
+class Test2:  # ================================================================
 
     src = BLUEPRINT_2_PARTIAL_1
     dest = BLUEPRINT_2_FULL
 
     def test1_checkmark_by_obj(self, test_corpus2):
         bp_text = self.src
-        opt = PromptBlueprint.parse(test_corpus2, bp_text, disable_prune=True)
-        _print_heading("before checkmark")
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus2
+        )
         print(opt)
 
         proj_node = test_corpus2["Project Title"]
@@ -215,7 +214,7 @@ class XTest2:  # PROMPT2: full -> partial 1  ###################################
             proj_node["Usage"]
         ).checkmark(proj_node["License"])
 
-        _print_heading("after checkmark")
+        print("#" * 80)
         print(opt)
 
         assert (
@@ -225,8 +224,9 @@ class XTest2:  # PROMPT2: full -> partial 1  ###################################
 
     def test1_checkmark_by_hash(self, test_corpus2):
         bp_text = self.src
-        opt = PromptBlueprint.parse(test_corpus2, bp_text, disable_prune=True)
-        _print_heading("before checkmark")
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus2
+        )
         print(opt)
 
         proj_node = test_corpus2["Project Title"]
@@ -236,7 +236,7 @@ class XTest2:  # PROMPT2: full -> partial 1  ###################################
         ]:
             opt.checkmark(h)
 
-        _print_heading("after checkmark")
+        print("#" * 80)
         print(opt)
 
         assert (
@@ -246,15 +246,16 @@ class XTest2:  # PROMPT2: full -> partial 1  ###################################
 
 
 # test_prompt3  ################################################################
-class XTest31:  # PROMPT3: partial 1 -> full  ###################################
+class Test31:  # ===============================================================
 
     src = BLUEPRINT_3_PARTIAL_1
     dest = BLUEPRINT_3_FULL
 
     def test1_checkmark_by_obj(self, test_corpus3):
         bp_text = self.src
-        opt = PromptBlueprint.parse(test_corpus3, bp_text, disable_prune=True)
-        _print_heading("before checkmark")
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
         print(opt)
 
         node = test_corpus3["Main Title"]["Methods"]
@@ -266,7 +267,7 @@ class XTest31:  # PROMPT3: partial 1 -> full  ##################################
         node = node["Future Work"]
         opt.checkmark(node)
 
-        _print_heading("after checkmark")
+        print("#" * 80)
         print(opt)
 
         assert (
@@ -276,8 +277,9 @@ class XTest31:  # PROMPT3: partial 1 -> full  ##################################
 
     def test1_checkmark_by_hash(self, test_corpus3):
         bp_text = self.src
-        opt = PromptBlueprint.parse(test_corpus3, bp_text, disable_prune=True)
-        _print_heading("before checkmark")
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
         print(opt)
 
         node = test_corpus3["Main Title"]["Methods"]
@@ -289,7 +291,7 @@ class XTest31:  # PROMPT3: partial 1 -> full  ##################################
         node = node["Future Work"]
         opt.checkmark(hash(node))
 
-        _print_heading("after checkmark")
+        print("#" * 80)
         print(opt)
 
         assert (
@@ -298,15 +300,16 @@ class XTest31:  # PROMPT3: partial 1 -> full  ##################################
         )
 
 
-class XTest32:  # PROMPT3: partial 2 -> full  ###################################
+class Test32:  # ===============================================================
 
     src = BLUEPRINT_3_PARTIAL_2
     dest = BLUEPRINT_3_FULL
 
     def test2_checkmark_by_obj(self, test_corpus3):
         bp_text = self.src
-        opt = PromptBlueprint.parse(test_corpus3, bp_text, disable_prune=True)
-        _print_heading("before checkmark")
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
         print(opt)
 
         main_node = test_corpus3["Main Title"]
@@ -321,7 +324,7 @@ class XTest32:  # PROMPT3: partial 2 -> full  ##################################
         node = main_node["Conclusion"]
         opt.checkmark(node)
 
-        _print_heading("after checkmark")
+        print("#" * 80)
         print(opt)
 
         assert (
@@ -331,8 +334,9 @@ class XTest32:  # PROMPT3: partial 2 -> full  ##################################
 
     def test2_checkmark_by_hash(self, test_corpus3):
         bp_text = self.src
-        opt = PromptBlueprint.parse(test_corpus3, bp_text, disable_prune=True)
-        _print_heading("before checkmark")
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
         print(opt)
 
         main_node = test_corpus3["Main Title"]
@@ -347,7 +351,7 @@ class XTest32:  # PROMPT3: partial 2 -> full  ##################################
         node = main_node["Conclusion"]
         opt.checkmark(hash(node))
 
-        _print_heading("after checkmark")
+        print("#" * 80)
         print(opt)
 
         assert (
