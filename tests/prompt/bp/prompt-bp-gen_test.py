@@ -645,8 +645,7 @@ class TestFullTree:
 
 
 # default  #####################################################################
-class XTestDft:
-    # FIXME FIXME
+class TestDft:
 
     def test1(_, test_corpus1):
         corpus = test_corpus1
@@ -703,7 +702,7 @@ class XTestDft:
 # test __repr__()   #############################################################
 
 
-class XTestrepr:  # FIXME
+class XTestRepr:
     # FIXME FIXME
 
     def test1(_, test_corpus1):

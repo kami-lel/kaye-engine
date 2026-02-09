@@ -277,7 +277,6 @@ class PromptBlueprint(dict):
 
         # append comment line  -------------------------------------------------
         if show_comment:
-            raise NotImplementedError  # HACK
             comment_line = "<!-- " + self._generate_comment_content() + " -->"
             lines.append(comment_line)
 
@@ -324,6 +323,33 @@ class PromptBlueprint(dict):
     # helpers  =================================================================
 
     HEADING_LINE_PATTERN = re.compile(r"\[([x ])\] (.*)[└├]── (.+)")
+
+    def _generate_comment_content(self):
+        """
+        (helper method used in
+        ``.generate_blueprint()`` and ``.generate_prompt()``)
+
+
+        :return: prompt comment containing blueprint name and Kaye version
+        :rtype: str
+
+        :example:
+        >>> print(tree._generate_prompt_comment_content())
+        'blueprint: chat; Kaye v1.2.3'
+        """
+        kaye_version = importlib.metadata.version("kaye")
+
+        # append render date-time in version for alpha releases
+        if "a" in kaye_version:
+            kaye_version += datetime.now().strftime(".0%Y%m%d%H%M%S")
+
+        name_part = (
+            "blueprint: {}; ".format(self.display_name)
+            if self.display_name
+            else ""
+        )
+
+        return "{}Kaye v{}".format(name_part, kaye_version)
 
     # magic methods  ===========================================================
 
@@ -546,32 +572,6 @@ class PromptBlueprintLegacy(dict):
             comment_line = "\n<!-- " + self._generate_comment_content() + " -->"
 
         return content, comment_line
-
-    def _generate_comment_content(self):
-        """
-        helper method used in
-        ``.generate_blueprint()`` and ``.generate_prompt()``
-
-
-        :return: prompt comment containing blueprint name and Kaye version
-        :rtype: str
-        :example:
-        >>> print(tree._generate_prompt_comment_content())
-        'blueprint: chat; Kaye v1.2.3'
-        """
-        kaye_version = importlib.metadata.version("kaye")
-
-        # append render date-time in version for alpha releases
-        if "a" in kaye_version:
-            kaye_version += datetime.now().strftime(".0%Y%m%d%H%M%S")
-
-        name_part = (
-            "blueprint: {}; ".format(self.display_name)
-            if self.display_name
-            else ""
-        )
-
-        return "{}Kaye v{}".format(name_part, kaye_version)
 
     # dunder methods  ==========================================================
 
