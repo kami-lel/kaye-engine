@@ -46,8 +46,6 @@ class PromptBlueprint(dict):
         prompt_corpus_override=None,
     ):
         """
-        FIXME update docstring
-
         parse ``blueprint_text`` into a blueprint object
 
 
@@ -55,13 +53,16 @@ class PromptBlueprint(dict):
                 the same format of output of ``.generate_blueprint()``
                 (with tree structure and checkmarks)
         :type blueprint_text: str
-        :param display_name:
+        :param display_name: defaults to ""
         :type display_name: str, optional
-        :param disable_prune: by default, the parsed tree does not include
-                irreverent nodes;
+        :type display_name: str, optional
+        :param disable_prune: by default,
+                the parsed tree does not include irreverent nodes;
                 when ``disable_prune``, the parsed tree contains the full
-                prompt corpus tree of ``prompt_corpus``
+                prompt corpus tree
         :type disable_prune: bool, optional
+        :param prompt_corpus_override: (for testing only), defaults to None
+        :type prompt_corpus_override: PromptCorpusNode, optional
         :raise ValueError: bad formatted `blueprint_text`
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
@@ -131,30 +132,38 @@ class PromptBlueprint(dict):
         return bp if disable_prune else bp.prune()
 
     @classmethod
-    def create_full_blueprint(cls, prompt_corpus, *, display_name="full"):
+    def create_full_blueprint(
+        cls, *, display_name="full", prompt_corpus_override=None
+    ):
         """
-        :param prompt_corpus:
-        :type prompt_corpus: PromptCorpusNode
         :param display_name:
         :type display_name: str, optional
+        :param prompt_corpus_override: (for testing only), defaults to None
+        :type prompt_corpus_override: PromptCorpusNode, optional
         :return: a blueprint with all nodes from `prompt_corpus`,
                 and checkmarking all nodes
         :rtype: PromptBlueprint
         """
-        # TODO
+        return cls._create_full_or_empty_blueprint(
+            True, display_name, prompt_corpus_override
+        )
 
     @classmethod
-    def create_empty_blueprint(cls, *, display_name="empty"):
+    def create_empty_blueprint(
+        cls, *, display_name="empty", prompt_corpus_override=None
+    ):
         """
-        :param prompt_corpus:
-        :type prompt_corpus: PromptCorpusNode
         :param display_name:
         :type display_name: str, optional
+        :param prompt_corpus_override: (for testing only), defaults to None
+        :type prompt_corpus_override: PromptCorpusNode, optional
         :return: a blueprint with all nodes from `prompt_corpus`,
                 but checkmarking all nodes
         :rtype: PromptBlueprint
         """
-        # TODO
+        return cls._create_full_or_empty_blueprint(
+            False, display_name, prompt_corpus_override
+        )
 
     # instance methods  ========================================================
     def __init__(self, *, display_name="", prompt_corpus_override=None):
@@ -357,6 +366,29 @@ class PromptBlueprint(dict):
 
         return "{}Kaye v{}".format(name_part, kaye_version)
 
+    @classmethod
+    def _create_full_or_empty_blueprint(
+        cls, is_full, display_name, prompt_corpus_override=None
+    ):
+        """
+        helper method used
+        in ``._create_full_blueprint()`` & in ``_create_empty_blueprint()``,
+        i.e. a generic version of the 2 functions
+        """
+        bp = PromptBlueprint(
+            display_name=display_name,
+            prompt_corpus_override=prompt_corpus_override,
+        )
+
+        # include all nodes
+        for node in PreOrderIter(bp.corpus):
+            if not node.is_root:  # skip root node
+                key = hash(node)
+                # add all nodes
+                bp[key] = is_full
+
+        return bp
+
     # magic methods  ===========================================================
 
     def __contains__(self, key):
@@ -544,18 +576,6 @@ def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
 # HACK rm legacy
 class PromptBlueprintLegacy(dict):
 
-    @classmethod
-    def create_full_blueprint(cls, prompt_corpus, *, display_name="full"):
-        return cls._create_full_or_empty_blueprint(
-            prompt_corpus, True, display_name
-        )
-
-    @classmethod
-    def create_empty_blueprint(cls, prompt_corpus, *, display_name="empty"):
-        return cls._create_full_or_empty_blueprint(
-            prompt_corpus, False, display_name
-        )
-
     def checkmark(self, node):
         node_hash = _normalize_as_node_hash(node)
 
@@ -609,25 +629,6 @@ class PromptBlueprintLegacy(dict):
         return merged
 
     # helpers  =================================================================
-
-    @classmethod
-    def _create_full_or_empty_blueprint(
-        cls, prompt_corpus, is_full, display_name
-    ):
-        """
-        helper method used
-        in ``._create_full_blueprint()`` & in ``_create_empty_blueprint()``,
-        i.e. a generic version of the 2 functions
-        """
-        blueprint = PromptBlueprint(prompt_corpus, display_name=display_name)
-        # include all nodes
-        for node in PreOrderIter(prompt_corpus):
-            if not node.is_root:  # skip root node
-                key = hash(node)
-                # add all nodes
-                blueprint[key] = is_full
-
-        return blueprint
 
     def _generate_prompt_split_content_and_comment(self, hide_comment):
         """
