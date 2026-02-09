@@ -202,7 +202,17 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-        # TODO
+        node_hash = _normalize_as_node_hash(node)
+
+        # assert node existed in corpus
+        if not any(hash(node) == node_hash for node in self.corpus.descendants):
+            raise ValueError(
+                "node absent in prompt corpus tree: {}".format(str(node))
+            )
+
+        self[node_hash] = True
+
+        return self
 
     def uncheckmark(self, node):
         """
@@ -412,13 +422,13 @@ class PromptBlueprint(dict):
 
 
         :param node: node object; or hash value of node
-        :type node: PromptBlueprint or int
+        :type node: BasePromptNode or int
         :raise TypeError:
         :raise ValueError:
         :return: self
         :rtype: PromptBlueprint
         """
-        return NotImplemented  # TODO
+        return self.checkmark(other)
 
     def __isub__(self, other):
         """
@@ -428,13 +438,13 @@ class PromptBlueprint(dict):
 
 
         :param node: node object; or hash value of node
-        :type node: PromptBlueprint or int
+        :type node: BasePromptNode or int
         :raise TypeError:
         :raise KeyError:
         :return: self
         :rtype: PromptBlueprint
         """
-        return NotImplemented  # TODO
+        return self.uncheckmark(other)
 
     def __imul__(self, other):
         """
@@ -576,18 +586,6 @@ def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
 # HACK rm legacy
 class PromptBlueprintLegacy(dict):
 
-    def checkmark(self, node):
-        node_hash = _normalize_as_node_hash(node)
-
-        if not _checkmark_find_node_recursively(node, self.corpus):
-            raise ValueError(
-                "node missing from blueprint's corpus: {}".format(repr(node))
-            )
-
-        self[node_hash] = True
-
-        return self
-
     def uncheckmark(self, node):
         node_hash = _normalize_as_node_hash(node)
 
@@ -652,12 +650,6 @@ class PromptBlueprintLegacy(dict):
 
     # dunder methods  ==========================================================
 
-    def __iadd__(self, other):
-        return self.checkmark(other)
-
-    def __isub__(self, other):
-        return self.uncheckmark(other)
-
     def __imul__(self, other):
         return self.merge(other)
 
@@ -692,30 +684,3 @@ def _generate_prompt_recursively(blueprint, node):
         lines.extend(_generate_prompt_recursively(blueprint, child))
 
     return lines
-
-
-def _checkmark_find_node_recursively(target, node):
-    """
-    recursively traverse node and find if target is present in the tree
-
-    (helper method used in ``PromptBlueprint.checkmark()``)
-
-
-    :param target: node object; or hash value of node
-    :type target: PromptCorpusNode or int
-    :param node:
-    :type node: PromptCorpusNode
-    :return: whether `target` existed in tree of `node`
-    :rtype: bool
-    """
-    if node is target or (isinstance(target, int) and hash(node) == target):
-        # find the target node
-        return True
-    elif node.is_leaf:
-        # reach bottom of tree
-        return False
-
-    return any(
-        _checkmark_find_node_recursively(target, child)
-        for child in node.children
-    )
