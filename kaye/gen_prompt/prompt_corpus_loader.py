@@ -27,9 +27,10 @@ def get_embedded_prompt_corpus_file_path():
     ).absolute()
 
 
-def spawn_prompt_corpus_tree(
-    *, prompt_corpus_text_override=None, disable_dynamic_nodes=False
-):
+prompt_corpus_tree = None
+
+
+def spawn_prompt_corpus_tree(*, prompt_corpus_text_override=None):
     """
     create the **prompt corpus tree** by:
 
@@ -39,23 +40,27 @@ def spawn_prompt_corpus_tree(
 
     :param prompt_corpus_text_override: (for test); default to None
     :type prompt_corpus_text_override: str, optional
-    :param disable_dynamic_nodes: (for test); defaults to False
-    :type disable_dynamic_nodes: bool, optional
     :raises FileNotFoundError:
     :raises IOError:
     :return: **root** node of *prompt corpus tree*
     :rtype: PromptCorpusNode
     """
-    if prompt_corpus_text_override is None:
+    global prompt_corpus_tree
+
+    if prompt_corpus_text_override is not None:
+        prompt_corpus_text = prompt_corpus_text_override
+
+    else:
+        if prompt_corpus_tree is not None:
+            # early exit from stored singleton
+            return prompt_corpus_tree
+
         # read corpus from file  -----------------------------------------------
         prompt_corpus_file_path = get_embedded_prompt_corpus_file_path()
         with open(
             prompt_corpus_file_path, "r", encoding="utf-8", newline=""
         ) as file:
             prompt_corpus_text = file.read()
-
-    else:
-        prompt_corpus_text = prompt_corpus_text_override
 
     # text split & clean up  ---------------------------------------------------
     # reduce 2+ empty lines into single empty line
@@ -68,11 +73,13 @@ def spawn_prompt_corpus_tree(
         ROOT_NODE_NAME, None, text_lines
     )
 
-    # attach dynamic nodes  ----------------------------------------------------
-    if not disable_dynamic_nodes:
+    if prompt_corpus_text_override is None:
+        # attach dynamic nodes  ------------------------------------------------
         TodayNode(root)
         AbbrNode(root)
         PLCNode(root)
+
+        prompt_corpus_tree = root
 
     return root
 

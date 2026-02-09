@@ -10,6 +10,7 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
 from .prompt_corpus_node import PromptCorpusNode
+from .prompt_corpus_loader import spawn_prompt_corpus_tree
 
 # from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .today_node import TodayNode
@@ -44,7 +45,6 @@ class PromptBlueprint(dict):
     def parse(
         cls,
         blueprint_text,
-        prompt_corpus=None,
         *,
         display_name="",
         disable_prune=False,
@@ -57,8 +57,6 @@ class PromptBlueprint(dict):
                 the same format of output of ``.generate_preview_tree()``
                 (with tree structure and checkmarks)
         :type blueprint_text: str
-        :param prompt_corpus: if None, use ``load_embedded_prompt_corpus()``
-        :type prompt_corpus: PromptCorpusNode
         :param display_name:
         :type display_name: str, optional
         :param disable_prune: by default, the parsed tree does not include
@@ -70,8 +68,7 @@ class PromptBlueprint(dict):
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
         """
-        if prompt_corpus is None:
-            prompt_corpus = load_embedded_prompt_corpus()
+        prompt_corpus = spawn_prompt_corpus_tree()
 
         # create empty bp to fill later
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
