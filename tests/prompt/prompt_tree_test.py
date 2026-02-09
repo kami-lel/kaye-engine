@@ -6,13 +6,13 @@ Unit Tests (using pytest) for: load_prompt_corpus_tree
 
 import pytest
 
-from kaye.gen_prompt.prompt_corpus_loader import spawn_prompt_corpus_tree
+from kaye.gen_prompt.prompt_corpus_loader import get_prompt_corpus_tree
 
 
 # test using PROMPT1  ##########################################################
 @pytest.fixture()
 def prompt_tree1():
-    return spawn_prompt_corpus_tree(prompt_corpus_text_override="""
+    return get_prompt_corpus_tree(prompt_corpus_text_override="""
 # Project Title
 ## Description
 Brief overview of the project and its purpose.
@@ -85,7 +85,7 @@ class TestParse1:
 # test using PROMPT2  ##########################################################
 @pytest.fixture()
 def prompt_tree2():
-    return spawn_prompt_corpus_tree(prompt_corpus_text_override="""
+    return get_prompt_corpus_tree(prompt_corpus_text_override="""
 # Project Title
 ## Description
 A brief overview of the project, its purpose, and goals.
@@ -193,7 +193,7 @@ class TestParse2:
 # test using PROMPT3  ##########################################################
 @pytest.fixture()
 def prompt_tree3():
-    return spawn_prompt_corpus_tree(prompt_corpus_text_override="""
+    return get_prompt_corpus_tree(prompt_corpus_text_override="""
 # Main Title
 
 ## Introduction
@@ -360,7 +360,7 @@ class TestParse3:
 # empty lines tests  ###########################################################
 @pytest.fixture()
 def prompt_tree_empty():
-    return spawn_prompt_corpus_tree(prompt_corpus_text_override="""
+    return get_prompt_corpus_tree(prompt_corpus_text_override="""
 
 # Project Title
 
@@ -499,7 +499,7 @@ class TestEdge:  # various edge cases
     def test_empty1(_):  # total empty
         src = """"""
 
-        tree = spawn_prompt_corpus_tree(prompt_corpus_text_override=src)
+        tree = get_prompt_corpus_tree(prompt_corpus_text_override=src)
         assert tree.depth == 0
         assert tree.parent is None
 
@@ -508,7 +508,7 @@ class TestEdge:  # various edge cases
     def test_empty2(_):
         src = "\n"
 
-        tree = spawn_prompt_corpus_tree(prompt_corpus_text_override=src)
+        tree = get_prompt_corpus_tree(prompt_corpus_text_override=src)
         assert tree.depth == 0
         assert tree.parent is None
 
@@ -517,7 +517,7 @@ class TestEdge:  # various edge cases
     def test_empty3(_):
         src = "\n" * 10
 
-        tree = spawn_prompt_corpus_tree(prompt_corpus_text_override=src)
+        tree = get_prompt_corpus_tree(prompt_corpus_text_override=src)
         assert tree.depth == 0
         assert tree.parent is None
 
@@ -528,7 +528,7 @@ class TestForbiddenHeading:  ###################################################
 
     def test1(_):
         with pytest.raises(ValueError) as exec_info:
-            spawn_prompt_corpus_tree(prompt_corpus_text_override="""# Title
+            get_prompt_corpus_tree(prompt_corpus_text_override="""# Title
 ## {Some}""")
 
         opt = exec_info.value.args[0]

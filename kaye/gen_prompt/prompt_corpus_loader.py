@@ -13,7 +13,7 @@ from .abbr_nodes import AbbrNode, PLCNode
 
 __all__ = (
     "get_embedded_prompt_corpus_file_path",
-    "spawn_prompt_corpus_tree",
+    "get_prompt_corpus_tree",
 )
 
 
@@ -27,12 +27,13 @@ def get_embedded_prompt_corpus_file_path():
     ).absolute()
 
 
-prompt_corpus_tree = None
+# singleton prompt corpus tree
+prompt_corpus_tree = None  # pylint: disable=invalid-name
 
 
-def spawn_prompt_corpus_tree(*, prompt_corpus_text_override=None):
+def get_prompt_corpus_tree(*, prompt_corpus_text_override=None):
     """
-    create the **prompt corpus tree** by:
+    get the **prompt corpus tree** *singleton*, which is created by:
 
     - parse the prompt corpus text saved in ``prompt_corpus.md``
     - attach various dynamic nodes
@@ -45,7 +46,7 @@ def spawn_prompt_corpus_tree(*, prompt_corpus_text_override=None):
     :return: **root** node of *prompt corpus tree*
     :rtype: PromptCorpusNode
     """
-    global prompt_corpus_tree
+    global prompt_corpus_tree  # pylint: disable=global-statement
 
     if prompt_corpus_text_override is not None:
         prompt_corpus_text = prompt_corpus_text_override
