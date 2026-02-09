@@ -210,7 +210,7 @@ class PromptBlueprint(dict):
 
     # exporting methods  *******************************************************
 
-    def generate_blueprint_text(
+    def generate_blueprint(
         self,
         *,
         content_preview_lines=3,
@@ -240,7 +240,45 @@ class PromptBlueprint(dict):
         :return: the preview tree
         :rtype: str
         """
-        # TODO
+        if show_full_tree:
+            preview_tree = self.corpus
+        else:
+            # create a duplicated tree,
+            # but contains only nodes relevant to this blueprint
+            preview_tree = _create_pruned_tree_for_preview_recursively(
+                self, self.corpus
+            )
+
+        # generate content  ----------------------------------------------------
+        opt_lines = []
+        for pre, fill, node in RenderTree(preview_tree):
+            # line for tree structure
+            checkmark_prefix = (
+                CHECKMARKED_PREFIX
+                if self.is_checkmarked(node)
+                else UNCHECKMARKED_PREFIX
+            )
+            if node.is_root:
+                checkmark_prefix = EMPTY_PREFIX
+
+            node_line = checkmark_prefix + pre + node.name
+            opt_lines.append(node_line)
+
+            # lines for node content preview
+            content_fill = "    " + fill
+            opt_lines.extend(
+                # BUG BUG
+                node._generate_blueprint_text_content_preview_lines(
+                    content_fill, content_preview_lines, content_preview_width
+                )
+            )
+
+        # append comment line
+        if not hide_comment:
+            comment_line = "<!-- " + self._generate_comment_content() + " -->"
+            opt_lines.append(comment_line)
+
+        return "\n".join(opt_lines)
 
     def generate_prompt(self, *, hide_comment=False):
         """
@@ -428,55 +466,6 @@ class PromptBlueprintLegacy(dict):
         self[node_hash] = False
 
         return self
-
-    # exporting methods  *******************************************************
-    def generate_blueprint_text(
-        self,
-        *,
-        content_preview_lines=3,
-        content_preview_width=64,
-        show_full_tree=False,
-        hide_comment=False,
-    ):
-        if show_full_tree:
-            preview_tree = self.corpus
-        else:
-            # create a duplicated tree,
-            # but contains only nodes relevant to this blueprint
-            preview_tree = _create_pruned_tree_for_preview_recursively(
-                self, self.corpus
-            )
-
-        # generate content  ----------------------------------------------------
-        opt_lines = []
-        for pre, fill, node in RenderTree(preview_tree):
-            # line for tree structure
-            checkmark_prefix = (
-                CHECKMARKED_PREFIX
-                if self.is_checkmarked(node)
-                else UNCHECKMARKED_PREFIX
-            )
-            if node.is_root:
-                checkmark_prefix = EMPTY_PREFIX
-
-            node_line = checkmark_prefix + pre + node.name
-            opt_lines.append(node_line)
-
-            # lines for node content preview
-            content_fill = "    " + fill
-            opt_lines.extend(
-                # pylint: disable=protected-access
-                node._generate_blueprint_text_content_preview_lines(
-                    content_fill, content_preview_lines, content_preview_width
-                )
-            )
-
-        # append comment line
-        if not hide_comment:
-            comment_line = "<!-- " + self._generate_comment_content() + " -->"
-            opt_lines.append(comment_line)
-
-        return "\n".join(opt_lines)
 
     def generate_prompt(self, *, hide_comment=False):
         content, comment = self._generate_prompt_split_content_and_comment(

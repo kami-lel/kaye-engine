@@ -6,13 +6,10 @@ Unit Tests (using pytest) for: PromptBlueprint
 - .generate_blueprint_text()
 """
 
-# FIXME
-# FIXME test repr
-
 import re
 
 
-from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
+from kaye.gen_prompt import PromptBlueprint
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
@@ -38,20 +35,28 @@ from tests.prompt.bp import (
     BLUEPRINT_3_PARTIAL_2_PREVIEW,
     BLUEPRINT_3_PARTIAL_2_PRUNED,
     BLUEPRINT_3_EMPTY,
-    _split_content_and_comment,
 )
 
 
-# test .generate_blueprint_text()  ###############################################
-# w/ all args
-class XTestAllArgs1:  # w/ corpus1  *********************************************
+# helper fx  ###################################################################
+def _split_content_and_comment(preview_tree):
+    lines = preview_tree.splitlines()
+    tree = "\n".join(lines[:-1])
+    comment = lines[-1]
+    return tree, comment
 
-    def test_full(self):
-        corpus = CORPUS1
+
+# w/ all args  #################################################################
+class TestAllArgs1:  # =========================================================
+
+    def test_full(_, test_corpus1):
+        corpus = test_corpus1
         bp_text = BLUEPRINT_1_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -66,12 +71,14 @@ class XTestAllArgs1:  # w/ corpus1  ********************************************
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test_part1(_):
-        corpus = CORPUS1
+    def test_part1(_, test_corpus1):
+        corpus = test_corpus1
         bp_text = BLUEPRINT_1_PARTIAL_1
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -83,12 +90,14 @@ class XTestAllArgs1:  # w/ corpus1  ********************************************
 
         assert tree_content == BLUEPRINT_1_PARTIAL_1_PREVIEW
 
-    def test_part2(_):
-        corpus = CORPUS1
+    def test_part2(_, test_corpus1):
+        corpus = test_corpus1
         bp_text = BLUEPRINT_1_PARTIAL_2
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -100,12 +109,14 @@ class XTestAllArgs1:  # w/ corpus1  ********************************************
 
         assert tree_content == BLUEPRINT_1_PARTIAL_2_PREVIEW
 
-    def test_empty(_):
-        corpus = CORPUS1
+    def test_empty(_, test_corpus1):
+        corpus = test_corpus1
         bp_text = BLUEPRINT_1_EMPTY
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -125,14 +136,17 @@ class XTestAllArgs1:  # w/ corpus1  ********************************************
             Licensed under the MIT License."""
 
 
-class XTestAllArgs2:  # w/ corpus2  *********************************************
+class XTestAllArgs2:  # ========================================================
+    # FIXME FIXME
 
     def test_full(self):
-        corpus = CORPUS2
+        corpus = test_corpus2
         bp_text = BLUEPRINT_2_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -147,12 +161,14 @@ class XTestAllArgs2:  # w/ corpus2  ********************************************
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test_part1(_):
-        corpus = CORPUS2
+    def test_part1(_, test_corpus2):
+        corpus = test_corpus2
         bp_text = BLUEPRINT_2_PARTIAL_1
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -164,12 +180,14 @@ class XTestAllArgs2:  # w/ corpus2  ********************************************
 
         assert tree_content == BLUEPRINT_2_PARTIAL_1_PREVIEW
 
-    def test_empty(_):
-        corpus = CORPUS2
+    def test_empty(_, test_corpus2):
+        corpus = test_corpus2
         bp_text = BLUEPRINT_2_EMPTY
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -197,14 +215,17 @@ class XTestAllArgs2:  # w/ corpus2  ********************************************
             This project is licensed under the MIT License."""
 
 
-class XTestAllArgs3:  # w/ corpus1  *********************************************
+class XTestAllArgs3:  # ========================================================
+    # FIXME FIXME
 
-    def test_full(self):
-        corpus = CORPUS3
+    def test_full(_, test_corpus3):
+        corpus = test_corpus3
         bp_text = BLUEPRINT_3_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -218,12 +239,14 @@ class XTestAllArgs3:  # w/ corpus1  ********************************************
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test_part1(_):
-        corpus = CORPUS3
+    def test_part1(_, test_corpus3):
+        corpus = test_corpus3
         bp_text = BLUEPRINT_3_PARTIAL_1
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -235,12 +258,14 @@ class XTestAllArgs3:  # w/ corpus1  ********************************************
 
         assert tree_content == BLUEPRINT_3_PARTIAL_1_PREVIEW
 
-    def test_part2(_):
-        corpus = CORPUS3
+    def test_part2(_, test_corpus3):
+        corpus = test_corpus3
         bp_text = BLUEPRINT_3_PARTIAL_2
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -252,12 +277,14 @@ class XTestAllArgs3:  # w/ corpus1  ********************************************
 
         assert tree_content == BLUEPRINT_3_PARTIAL_2_PREVIEW
 
-    def test_empty(_):
-        corpus = CORPUS3
+    def test_empty(_, test_corpus3):
+        corpus = test_corpus3
         bp_text = BLUEPRINT_3_EMPTY
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -289,16 +316,19 @@ class XTestAllArgs3:  # w/ corpus1  ********************************************
             Summarizing the findings and implications."""
 
 
-# no content  ==================================================================
+# no content  ##################################################################
 # w/ all args
-class XTestNoContent1:  # w/ corpus1  *******************************************
+class XTestNoContent1:  # ======================================================
+    # FIXME FIXME
 
-    def test_full(_):
-        corpus = CORPUS1
+    def test_full(_, test_corpus1):
+        corpus = test_corpus1
         bp_text = BLUEPRINT_1_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
@@ -316,12 +346,14 @@ class XTestNoContent1:  # w/ corpus1  ******************************************
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test_part1(_):
-        corpus = CORPUS1
+    def test_part1(_, test_corpus1):
+        corpus = test_corpus1
         bp_text = BLUEPRINT_1_PARTIAL_1
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
@@ -336,12 +368,14 @@ class XTestNoContent1:  # w/ corpus1  ******************************************
 [x]     ├── Installation
 [x]     └── License"""
 
-    def test_part2(_):
-        corpus = CORPUS1
+    def test_part2(_, test_corpus1):
+        corpus = test_corpus1
         bp_text = BLUEPRINT_1_PARTIAL_2
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
@@ -356,12 +390,14 @@ class XTestNoContent1:  # w/ corpus1  ******************************************
 [x]     ├── Installation
 [x]     └── License"""
 
-    def test_empty(_):
-        corpus = CORPUS1
+    def test_empty(_, test_corpus1):
+        corpus = test_corpus1
         bp_text = BLUEPRINT_1_EMPTY
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
@@ -377,14 +413,17 @@ class XTestNoContent1:  # w/ corpus1  ******************************************
 [ ]     └── License"""
 
 
-class XTestNoContent3:  # w/ corpus1  *******************************************
+class XTestNoContent3:  # ======================================================
+    # FIXME FIXME
 
-    def test_full(_):
-        corpus = CORPUS3
+    def test_full(_, test_corpus3):
+        corpus = test_corpus3
         bp_text = BLUEPRINT_3_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
@@ -408,12 +447,14 @@ class XTestNoContent3:  # w/ corpus1  ******************************************
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test_part1(_):
-        corpus = CORPUS3
+    def test_part1(_, test_corpus3):
+        corpus = test_corpus3
         bp_text = BLUEPRINT_3_PARTIAL_1
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
@@ -434,12 +475,14 @@ class XTestNoContent3:  # w/ corpus1  ******************************************
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-    def test_part2(_):
-        corpus = CORPUS3
+    def test_part2(_, test_corpus3):
+        corpus = test_corpus3
         bp_text = BLUEPRINT_3_PARTIAL_2
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
@@ -460,12 +503,14 @@ class XTestNoContent3:  # w/ corpus1  ******************************************
 [x]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-    def test_empty(_):
-        corpus = CORPUS3
+    def test_empty(_, test_corpus3):
+        corpus = test_corpus3
         bp_text = BLUEPRINT_3_EMPTY
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
@@ -487,16 +532,19 @@ class XTestNoContent3:  # w/ corpus1  ******************************************
 [ ]     └── Conclusion"""
 
 
-# no comment (nor content)  ====================================================
+# no comment (nor content)  ####################################################
 # w/ all args
-class XTestNoComment:  # w/ corpus1  *******************************************
+class XTestNoComment:  # =======================================================
+    # FIXME FIXME
 
-    def test1(_):
-        corpus = CORPUS1
+    def test1(_, test_corpus1):
+        corpus = test_corpus1
         bp_text = BLUEPRINT_1_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
             hide_comment=True,
@@ -509,12 +557,14 @@ class XTestNoComment:  # w/ corpus1  *******************************************
 [x]     ├── Installation
 [x]     └── License"""
 
-    def test3(_):
-        corpus = CORPUS3
+    def test3(_, test_corpus3):
+        corpus = test_corpus3
         bp_text = BLUEPRINT_3_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text(
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
             hide_comment=True,
@@ -535,12 +585,13 @@ class XTestNoComment:  # w/ corpus1  *******************************************
 [x]     └── Conclusion"""
 
 
-# full tree (nor content)  =====================================================
+# full tree (nor content)  #####################################################
 class XTestFullTree:
+    # FIXME FIXME
 
-    def test1(_):
+    def test1(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_2_PRUNED
-        bp = PromptBlueprint.parse(CORPUS1, bp_text)
+        bp = PromptBlueprint.parse(test_corpus1, bp_text)
 
         opt = bp.generate_blueprint_text(
             content_preview_lines=0,
@@ -552,9 +603,9 @@ class XTestFullTree:
 
         assert opt == BLUEPRINT_1_PARTIAL_2
 
-    def test2(_):
+    def test2(_, test_corpus2):
         bp_text = BLUEPRINT_2_PARTIAL_1_PRUNED
-        bp = PromptBlueprint.parse(CORPUS2, bp_text)
+        bp = PromptBlueprint.parse(test_corpus2, bp_text)
 
         opt = bp.generate_blueprint_text(
             content_preview_lines=0,
@@ -566,9 +617,9 @@ class XTestFullTree:
 
         assert opt == BLUEPRINT_2_PARTIAL_1
 
-    def test31(_):
+    def test31(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_1_PRUNED
-        bp = PromptBlueprint.parse(CORPUS3, bp_text)
+        bp = PromptBlueprint.parse(test_corpus3, bp_text)
 
         opt = bp.generate_blueprint_text(
             content_preview_lines=0,
@@ -580,9 +631,9 @@ class XTestFullTree:
 
         assert opt == BLUEPRINT_3_PARTIAL_1
 
-    def test32(_):
+    def test32(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_2_PRUNED
-        bp = PromptBlueprint.parse(CORPUS3, bp_text)
+        bp = PromptBlueprint.parse(test_corpus3, bp_text)
 
         opt = bp.generate_blueprint_text(
             content_preview_lines=0,
@@ -595,15 +646,18 @@ class XTestFullTree:
         assert opt == BLUEPRINT_3_PARTIAL_2
 
 
-# default  =====================================================================
+# default  #####################################################################
 class XTestDft:
+    # FIXME FIXME
 
-    def test1(_):
-        corpus = CORPUS1
+    def test1(_, test_corpus1):
+        corpus = test_corpus1
         bp_text = BLUEPRINT_1_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text()
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint()
 
         print(opt)
         tree_content, comment_content = _split_content_and_comment(opt)
@@ -613,12 +667,14 @@ class XTestDft:
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test2(_):
-        corpus = CORPUS2
+    def test2(_, test_corpus2):
+        corpus = test_corpus2
         bp_text = BLUEPRINT_2_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text()
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint()
 
         print(opt)
         tree_content, comment_content = _split_content_and_comment(opt)
@@ -628,12 +684,14 @@ class XTestDft:
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test3(_):
-        corpus = CORPUS3
+    def test3(_, test_corpus3):
+        corpus = test_corpus3
         bp_text = BLUEPRINT_3_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_blueprint_text()
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = bp.generate_blueprint()
 
         print(opt)
         tree_content, comment_content = _split_content_and_comment(opt)
@@ -644,52 +702,59 @@ class XTestDft:
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
 
-# test __str__()   #############################################################
+# test __repr__()   #############################################################
 
 
-class XTestStr:
+class XTestrepr:  # FIXME
+    # FIXME FIXME
 
-    def test1(_):
-        corpus = CORPUS1
+    def test1(_, test_corpus1):
+        corpus = test_corpus1
         bp_text = BLUEPRINT_1_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = str(bp)
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = repr(bp)
 
         print(opt)
         tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_1_FULL_PREVIEW
 
-        # test comment structure
+        # test comment repructure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test2(_):
-        corpus = CORPUS2
+    def test2(_, test_corpus2):
+        corpus = test_corpus2
         bp_text = BLUEPRINT_2_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = str(bp)
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = repr(bp)
 
         print(opt)
         tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_2_PREVIEW
 
-        # test comment structure
+        # test comment repructure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test3(_):
-        corpus = CORPUS3
+    def test3(_, test_corpus3):
+        corpus = test_corpus3
         bp_text = BLUEPRINT_3_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = str(bp)
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=corpus
+        )
+        opt = repr(bp)
 
         print(opt)
         tree_content, comment_content = _split_content_and_comment(opt)
 
         assert tree_content == BLUEPRINT_3_FULL_PREVIEW
 
-        # test comment structure
+        # test comment repructure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
