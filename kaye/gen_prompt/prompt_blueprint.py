@@ -196,7 +196,7 @@ class PromptBlueprint(dict):
 
 
         :param node: node object; or hash value of node
-        :type node: PromptBlueprint or int
+        :type node: BasePromptNode or int
         :raise TypeError:
         :raise ValueError:
         :return: self
@@ -220,13 +220,24 @@ class PromptBlueprint(dict):
 
 
         :param node: node object; or hash value of node
-        :type node: PromptBlueprint or int
+        :type node: BasePromptNode or int
         :raise TypeError:
         :raise KeyError:
         :return: self
         :rtype: PromptBlueprint
         """
-        # TODO
+        node_hash = _normalize_as_node_hash(node)
+
+        if node_hash not in self:
+            # TODO TODO update msg
+            raise KeyError(
+                "fail to uncheckmark node, missing in this blueprint: {}"
+                .format(repr(node))
+            )
+
+        self[node_hash] = False
+
+        return self
 
     # exporting methods  *******************************************************
 
@@ -585,19 +596,6 @@ def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
 
 # HACK rm legacy
 class PromptBlueprintLegacy(dict):
-
-    def uncheckmark(self, node):
-        node_hash = _normalize_as_node_hash(node)
-
-        if node_hash not in self:
-            raise KeyError(
-                "fail to uncheckmark node, missing in this blueprint: {}"
-                .format(repr(node))
-            )
-
-        self[node_hash] = False
-
-        return self
 
     def generate_prompt(self, *, hide_comment=False):
         content, comment = self._generate_prompt_split_content_and_comment(

@@ -24,85 +24,104 @@ from tests.prompt.bp import (
 )
 
 
-class XTest11:  # PROMPT 1: full -> partial 1  ##################################
+# test_prompt1  ################################################################
+class Test11:  # ===============================================================
 
     src = BLUEPRINT_1_FULL
     dest = BLUEPRINT_1_PARTIAL_1
 
-    def test1_uncheckmark_by_obj(self):
+    def test1_uncheckmark_by_obj(self, test_corpus1):
         bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-        _print_heading("before uncheckmark")
-        print(opt)
-
-        node = self.corpus["Project Title"]
-        opt.uncheckmark(node)
-
-        _print_heading("after uncheckmark")
-        print(opt)
-
-        assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == self.dest
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
         )
 
-    def test1_uncheckmark_by_hash(self):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-        _print_heading("before uncheckmark")
-        print(opt)
+        print(
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+        )
 
-        node = self.corpus["Project Title"]
+        node = test_corpus1["Project Title"]
+        opt.uncheckmark(node)
+
+        bp_text = opt.generate_blueprint(
+            content_preview_lines=0, show_comment=False
+        )
+        print("#" * 80)
+        print(bp_text)
+
+        assert bp_text == self.dest
+
+    def test1_uncheckmark_by_hash(self, test_corpus1):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+        )
+
+        print(
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+        )
+
+        node = test_corpus1["Project Title"]
         node_hash = hash(node)
         opt.uncheckmark(node_hash)
 
-        _print_heading("after uncheckmark")
-        print(opt)
+        bp_text = opt.generate_blueprint(
+            content_preview_lines=0, show_comment=False
+        )
+        print("#" * 80)
+        print(bp_text)
 
-        assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == self.dest
+        assert bp_text == self.dest
+
+    def test1_isub_by_obj(self, test_corpus1):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
         )
 
-    def test1_isub_by_obj(self):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-        _print_heading("before uncheckmark")
-        print(opt)
+        print(
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+        )
 
-        node = self.corpus["Project Title"]
+        node = test_corpus1["Project Title"]
         opt -= node
 
-        _print_heading("after uncheckmark")
-        print(opt)
+        bp_text = opt.generate_blueprint(
+            content_preview_lines=0, show_comment=False
+        )
+        print("#" * 80)
+        print(bp_text)
 
-        assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == self.dest
+        assert bp_text == self.dest
+
+    def test1_isub_by_hash(self, test_corpus1):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
         )
 
-    def test1_isub_by_hash(self):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-        _print_heading("before uncheckmark")
-        print(opt)
+        print(
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+        )
 
-        node = self.corpus["Project Title"]
+        node = test_corpus1["Project Title"]
         node_hash = hash(node)
         opt -= node_hash
 
-        _print_heading("after uncheckmark")
-        print(opt)
-
-        assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == self.dest
+        bp_text = opt.generate_blueprint(
+            content_preview_lines=0, show_comment=False
         )
+        print("#" * 80)
+        print(bp_text)
+
+        assert bp_text == self.dest
 
     # err handling  ------------------------------------------------------------
-    def test_bad_type(self):
+    def test_bad_type(self, test_corpus1):
         bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+        )
 
         with pytest.raises(TypeError) as exec_info:
             opt.uncheckmark(12.5)
@@ -110,11 +129,13 @@ class XTest11:  # PROMPT 1: full -> partial 1  #################################
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert opt == "must be PromptCorpusNode or hash value, not: 12.5"
+        assert opt == "must be BasePromptNode or hash value: 12.5"
 
-    def test_bad_hash(self):
+    def test_bad_hash(self, test_corpus1):
         bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+        )
 
         with pytest.raises(KeyError) as exec_info:
             opt.uncheckmark(5)
@@ -124,9 +145,11 @@ class XTest11:  # PROMPT 1: full -> partial 1  #################################
 
         assert opt == "fail to uncheckmark node, missing in this bp: 5"
 
-    def test_bad_obj(self):
+    def test_bad_obj(self, test_corpus1):
         bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+        )
         bad_node = PromptCorpusNode.parse(PROMPT3)["Main Title"]
 
         with pytest.raises(KeyError) as exec_info:
@@ -142,105 +165,126 @@ class XTest11:  # PROMPT 1: full -> partial 1  #################################
         )
 
 
-class XTest12:  # PROMPT 1: full -> partial 2  ##################################
+class Test12:  # ===============================================================
 
     src = BLUEPRINT_1_FULL
     dest = BLUEPRINT_1_PARTIAL_2
 
-    def test2_uncheckmark_by_obj(self):
+    def test2_uncheckmark_by_obj(self, test_corpus1):
         bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-        _print_heading("before uncheckmark")
-        print(opt)
-
-        node = self.corpus["Project Title"]["Description"]
-        opt.uncheckmark(node)
-
-        _print_heading("after uncheckmark")
-        print(opt)
-
-        assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == self.dest
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
         )
 
-    def test2_uncheckmark_by_hash(self):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-        _print_heading("before uncheckmark")
-        print(opt)
+        print(
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+        )
 
-        node = self.corpus["Project Title"]["Description"]
+        node = test_corpus1["Project Title"]["Description"]
+        opt.uncheckmark(node)
+
+        bp_text = opt.generate_blueprint(
+            content_preview_lines=0, show_comment=False
+        )
+        print("#" * 80)
+        print(bp_text)
+
+        assert bp_text == self.dest
+
+    def test2_uncheckmark_by_hash(self, test_corpus1):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+        )
+
+        print(
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+        )
+
+        node = test_corpus1["Project Title"]["Description"]
         node_hash = hash(node)
         opt.uncheckmark(node_hash)
 
-        _print_heading("after uncheckmark")
-        print(opt)
-
-        assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == self.dest
+        bp_text = opt.generate_blueprint(
+            content_preview_lines=0, show_comment=False
         )
+        print("#" * 80)
+        print(bp_text)
+
+        assert bp_text == self.dest
 
 
-class XTest2:  # full -> partial 1  #############################################
+class Test2:  # test_prompt2  ##################################################
 
     src = BLUEPRINT_2_FULL
     dest = BLUEPRINT_2_PARTIAL_1
 
-    def test1_uncheckmark_by_obj(self):
+    def test1_uncheckmark_by_obj(self, test_corpus2):
         bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-        _print_heading("before uncheckmark")
-        print(opt)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus2
+        )
 
-        proj_node = self.corpus["Project Title"]
+        print(
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+        )
+
+        proj_node = test_corpus2["Project Title"]
         opt.uncheckmark(proj_node["Description"]).uncheckmark(
             proj_node["Usage"]
         ).uncheckmark(proj_node["License"])
 
-        _print_heading("after uncheckmark")
-        print(opt)
+        bp_text = opt.generate_blueprint(
+            content_preview_lines=0, show_comment=False
+        )
+        print("#" * 80)
+        print(bp_text)
 
-        assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == self.dest
+        assert bp_text == self.dest
+
+    def test1_uncheckmark_by_hash(self, test_corpus2):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus2
         )
 
-    def test1_uncheckmark_by_hash(self):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-        _print_heading("before uncheckmark")
-        print(opt)
+        print(
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+        )
 
-        proj_node = self.corpus["Project Title"]
+        proj_node = test_corpus2["Project Title"]
         for h in [
             hash(proj_node[name])
             for name in ("Description", "Usage", "License")
         ]:
             opt.uncheckmark(h)
 
-        _print_heading("after uncheckmark")
-        print(opt)
-
-        assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == self.dest
+        bp_text = opt.generate_blueprint(
+            content_preview_lines=0, show_comment=False
         )
+        print("#" * 80)
+        print(bp_text)
+
+        assert bp_text == self.dest
 
 
-class XTest31:  # PROMPT3 full -> partial 1  ####################################
+# test_prompt3  ################################################################
+class Test31:  # ===============================================================
 
     src = BLUEPRINT_3_FULL
     dest = BLUEPRINT_3_PARTIAL_1
 
-    def test1_uncheckmark_by_obj(self):
+    def test1_uncheckmark_by_obj(self, test_corpus3):
         bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-        _print_heading("before uncheckmark")
-        print(opt)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
 
-        node = self.corpus["Main Title"]["Methods"]
+        print(
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+        )
+
+        node = test_corpus3["Main Title"]["Methods"]
         opt.uncheckmark(node)
         node = node["Data Collection"]
         opt.uncheckmark(node)
@@ -249,21 +293,25 @@ class XTest31:  # PROMPT3 full -> partial 1  ###################################
         node = node["Future Work"]
         opt.uncheckmark(node)
 
-        _print_heading("after uncheckmark")
-        print(opt)
+        bp_text = opt.generate_blueprint(
+            content_preview_lines=0, show_comment=False
+        )
+        print("#" * 80)
+        print(bp_text)
 
-        assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == self.dest
+        assert bp_text == self.dest
+
+    def test1_uncheckmark_by_hash(self, test_corpus3):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
         )
 
-    def test1_uncheckmark_by_hash(self):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-        _print_heading("before uncheckmark")
-        print(opt)
+        print(
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+        )
 
-        node = self.corpus["Main Title"]["Methods"]
+        node = test_corpus3["Main Title"]["Methods"]
         opt.uncheckmark(hash(node))
         node = node["Data Collection"]
         opt.uncheckmark(hash(node))
@@ -272,27 +320,31 @@ class XTest31:  # PROMPT3 full -> partial 1  ###################################
         node = node["Future Work"]
         opt.uncheckmark(hash(node))
 
-        _print_heading("after uncheckmark")
-        print(opt)
-
-        assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == self.dest
+        bp_text = opt.generate_blueprint(
+            content_preview_lines=0, show_comment=False
         )
+        print("#" * 80)
+        print(bp_text)
+
+        assert bp_text == self.dest
 
 
-class XTest32:  # PROMPT3 full -> partial 2  ####################################
+class Test32:  # ===============================================================
 
     src = BLUEPRINT_3_FULL
     dest = BLUEPRINT_3_PARTIAL_2
 
-    def test2_uncheckmark_by_obj(self):
+    def test2_uncheckmark_by_obj(self, test_corpus3):
         bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-        _print_heading("before uncheckmark")
-        print(opt)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
 
-        main_node = self.corpus["Main Title"]
+        print(
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+        )
+
+        main_node = test_corpus3["Main Title"]
         node = main_node["Introduction"]
         opt.uncheckmark(node)
         node = node["Background"]["Importance"]
@@ -304,21 +356,25 @@ class XTest32:  # PROMPT3 full -> partial 2  ###################################
         node = main_node["Conclusion"]
         opt.uncheckmark(node)
 
-        _print_heading("after uncheckmark")
-        print(opt)
+        bp_text = opt.generate_blueprint(
+            content_preview_lines=0, show_comment=False
+        )
+        print("#" * 80)
+        print(bp_text)
 
-        assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == self.dest
+        assert bp_text == self.dest
+
+    def test2_uncheckmark_by_hash(self, test_corpus3):
+        bp_text = self.src
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
         )
 
-    def test2_uncheckmark_by_hash(self):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-        _print_heading("before uncheckmark")
-        print(opt)
+        print(
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+        )
 
-        main_node = self.corpus["Main Title"]
+        main_node = test_corpus3["Main Title"]
         node = main_node["Introduction"]
         opt.uncheckmark(hash(node))
         node = node["Background"]["Importance"]
@@ -330,10 +386,10 @@ class XTest32:  # PROMPT3 full -> partial 2  ###################################
         node = main_node["Conclusion"]
         opt.uncheckmark(hash(node))
 
-        _print_heading("after uncheckmark")
-        print(opt)
-
-        assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
-            == self.dest
+        bp_text = opt.generate_blueprint(
+            content_preview_lines=0, show_comment=False
         )
+        print("#" * 80)
+        print(bp_text)
+
+        assert bp_text == self.dest
