@@ -29,7 +29,7 @@ def get_embedded_prompt_corpus_file_path():
 
 def load_prompt_corpus_tree(disable_dynamic_nodes=False):
     """
-    TODO
+    TODO TODO
 
 
     :param disable_dynamic_nodes: do not attach dynamics nodes to the tree;
@@ -53,10 +53,10 @@ def load_prompt_corpus_tree(disable_dynamic_nodes=False):
     # split to lines
     text_lines = list(text_cleanup.split("\n"))
 
-    root = PromptCorpusNode(ROOT_NODE_NAME, None, [])
-
     # create prompt corpus nodes  ----------------------------------------------
-    _populate_children_from_text_lines_recursively(root, text_lines)
+    root = _create_prompt_corpus_node_from_text_lines_recursively(
+        ROOT_NODE_NAME, None, text_lines
+    )
 
     # attach dynamic nodes  ----------------------------------------------------
     if not disable_dynamic_nodes:
@@ -69,33 +69,39 @@ def load_prompt_corpus_tree(disable_dynamic_nodes=False):
 
 # helpers  #####################################################################
 ROOT_NODE_NAME = "○"
-HEADING_PREFIX = "#"
+HEADING_PREFIX_ELEMENT = "#"
 
 
-def _populate_children_from_text_lines_recursively(parent, text_lines):
-    # BUG BUG
-
+def _create_prompt_corpus_node_from_text_lines_recursively(
+    name, parent, text_lines
+):
     # find every sub-section heading lines
-    heading_prefix = HEADING_PREFIX * (self.depth + 1) + " "
-    heading_lines = []
+    heading_prefix = HEADING_PREFIX_ELEMENT * (parent.depth + 1) + " "
+    heading_lines_idx = []
     for idx, line in enumerate(text_lines):
         if line.startswith(heading_prefix):
-            heading_lines.append(idx)
+            heading_lines_idx.append(idx)
 
-    # contain no subsection
-    if not heading_lines:
-        # all lines are content
-        self._content_lines = list(text_lines)
-        return
+    if heading_lines_idx:
+        # contains subsections  ------------------------------------------------
 
-    # this node contains subsections, then parse the content part out
-    self._content_lines = text_lines[: heading_lines[0]]
-    if not any(self._content_lines):
-        self._content_lines = []
+        # get content_lines of current node level
+        content_lines = text_lines[: heading_lines_idx[0]]
+        node = PromptCorpusNode(name, parent, content_lines)
+
+        # parse sub-sections, create children nodes
+        # TODO TODO
+
+        return node
+
+    else:
+        # contains no subsection  ----------------------------------------------
+        # i.e. all of text_lines are node content
+        return PromptCorpusNode(name, parent, text_lines)
 
     # parse sub-sections as nodes
-    heading_lines.append(len(text_lines))
-    for start, end in zip(heading_lines, heading_lines[1:]):
+    heading_lines_idx.append(len(text_lines))
+    for start, end in zip(heading_lines_idx, heading_lines_idx[1:]):
         # extract heading content
         # e.g. "### this is heading " -> "this is heading"
         heading_content = text_lines[start][len(heading_prefix) :].strip()

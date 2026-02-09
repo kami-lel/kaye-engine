@@ -6,7 +6,7 @@ define ``get_prompt_templates_names``, ``load_prompt_template``,
 import os
 from pathlib import Path
 
-from .prompt_corpus_loader import load_embedded_prompt_corpus
+# from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .prompt_blueprint import PromptBlueprint
 
 EMPTY_BLUEPRINT_NAME = "empty"
