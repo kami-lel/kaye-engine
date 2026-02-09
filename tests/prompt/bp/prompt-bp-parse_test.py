@@ -131,7 +131,7 @@ class XTestDft1:  # use PROMPT1  ==============================================
         assert opt.corpus is self.corpus
         assert opt.display_name == ""
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(preview_line_count=0, hide_comment=True)
             == bp_text
         )
 
@@ -185,7 +185,7 @@ class XTestDft2:  # use PROMPT2  ===============================================
         assert opt.corpus is self.corpus
         assert opt.display_name == ""
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(preview_line_count=0, hide_comment=True)
             == bp_text
         )
 
@@ -227,7 +227,7 @@ class XTestDft3:  # use PROMPT3  ===============================================
         assert opt.corpus is self.corpus
         assert opt.display_name == ""
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(preview_line_count=0, hide_comment=True)
             == bp_text
         )
 

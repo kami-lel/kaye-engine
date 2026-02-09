@@ -40,7 +40,9 @@ class XTest1:  # use PROMPT1  ##################################################
 
         assert len(opt) == 3
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(
+                content_preview_lines=0, hide_comment=True
+            )
             == BLUEPRINT_1_PARTIAL_2_PRUNED
         )
 
@@ -53,7 +55,9 @@ class XTest1:  # use PROMPT1  ##################################################
         print(opt)
         assert len(opt) == len(old)
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(
+                content_preview_lines=0, hide_comment=True
+            )
             == bp_text
         )
 
@@ -66,7 +70,9 @@ class XTest1:  # use PROMPT1  ##################################################
         print(opt)
         assert len(opt) == len(old)
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(
+                content_preview_lines=0, hide_comment=True
+            )
             == bp_text
         )
 
@@ -79,7 +85,9 @@ class XTest1:  # use PROMPT1  ##################################################
         print(opt)
         assert len(opt) == 0
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(
+                content_preview_lines=0, hide_comment=True
+            )
             == BLUEPRINT_EMPTY_PRUNED
         )
 
@@ -95,7 +103,9 @@ class XTest2:  # use PROMPT2  ##################################################
         print(opt)
         assert len(opt) == 3
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(
+                content_preview_lines=0, hide_comment=True
+            )
             == BLUEPRINT_2_PARTIAL_1_PRUNED
         )
 
@@ -108,7 +118,9 @@ class XTest2:  # use PROMPT2  ##################################################
         print(opt)
         assert len(opt) == len(old)
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(
+                content_preview_lines=0, hide_comment=True
+            )
             == bp_text
         )
 
@@ -121,7 +133,9 @@ class XTest2:  # use PROMPT2  ##################################################
         print(opt)
         assert len(opt) == 0
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(
+                content_preview_lines=0, hide_comment=True
+            )
             == BLUEPRINT_EMPTY_PRUNED
         )
 
@@ -137,7 +151,9 @@ class XTest3:  # use PROMPT1  ##################################################
         print(opt)
         assert len(opt) == 6
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(
+                content_preview_lines=0, hide_comment=True
+            )
             == BLUEPRINT_3_PARTIAL_1_PRUNED
         )
 
@@ -150,7 +166,9 @@ class XTest3:  # use PROMPT1  ##################################################
         print(opt)
         assert len(opt) == 9
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(
+                content_preview_lines=0, hide_comment=True
+            )
             == BLUEPRINT_3_PARTIAL_2_PRUNED
         )
 
@@ -163,7 +181,9 @@ class XTest3:  # use PROMPT1  ##################################################
         print(opt)
         assert len(opt) == len(old)
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(
+                content_preview_lines=0, hide_comment=True
+            )
             == bp_text
         )
 
@@ -176,6 +196,8 @@ class XTest3:  # use PROMPT1  ##################################################
         print(opt)
         assert len(opt) == 0
         assert (
-            opt.generate_preview_tree(preview_line_count=0, hide_comment=True)
+            opt.generate_blueprint_text(
+                content_preview_lines=0, hide_comment=True
+            )
             == BLUEPRINT_EMPTY_PRUNED
         )

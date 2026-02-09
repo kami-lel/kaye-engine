@@ -1,9 +1,9 @@
 """
-prompt-bp-preview_test.py
+prompt-bp-gen_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint
 
-- .generate_preview_tree()
+- .generate_blueprint_text()
 """
 
 # FIXME
@@ -42,7 +42,7 @@ from tests.prompt.bp import (
 )
 
 
-# test .generate_preview_tree()  ###############################################
+# test .generate_blueprint_text()  ###############################################
 # w/ all args
 class XTestAllArgs1:  # w/ corpus1  *********************************************
 
@@ -51,9 +51,9 @@ class XTestAllArgs1:  # w/ corpus1  ********************************************
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=3,
-            preview_line_width=64,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=3,
+            content_preview_width=64,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -71,9 +71,9 @@ class XTestAllArgs1:  # w/ corpus1  ********************************************
         bp_text = BLUEPRINT_1_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=3,
-            preview_line_width=64,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=3,
+            content_preview_width=64,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -88,9 +88,9 @@ class XTestAllArgs1:  # w/ corpus1  ********************************************
         bp_text = BLUEPRINT_1_PARTIAL_2
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=3,
-            preview_line_width=64,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=3,
+            content_preview_width=64,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -105,9 +105,9 @@ class XTestAllArgs1:  # w/ corpus1  ********************************************
         bp_text = BLUEPRINT_1_EMPTY
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=3,
-            preview_line_width=64,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=3,
+            content_preview_width=64,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -132,9 +132,9 @@ class XTestAllArgs2:  # w/ corpus2  ********************************************
         bp_text = BLUEPRINT_2_FULL
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=3,
-            preview_line_width=64,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=3,
+            content_preview_width=64,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -152,9 +152,9 @@ class XTestAllArgs2:  # w/ corpus2  ********************************************
         bp_text = BLUEPRINT_2_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=3,
-            preview_line_width=64,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=3,
+            content_preview_width=64,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -169,9 +169,9 @@ class XTestAllArgs2:  # w/ corpus2  ********************************************
         bp_text = BLUEPRINT_2_EMPTY
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=3,
-            preview_line_width=64,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=3,
+            content_preview_width=64,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -204,9 +204,9 @@ class XTestAllArgs3:  # w/ corpus1  ********************************************
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=3,
-            preview_line_width=64,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=3,
+            content_preview_width=64,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -223,9 +223,9 @@ class XTestAllArgs3:  # w/ corpus1  ********************************************
         bp_text = BLUEPRINT_3_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=3,
-            preview_line_width=64,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=3,
+            content_preview_width=64,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -240,9 +240,9 @@ class XTestAllArgs3:  # w/ corpus1  ********************************************
         bp_text = BLUEPRINT_3_PARTIAL_2
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=3,
-            preview_line_width=64,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=3,
+            content_preview_width=64,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -257,9 +257,9 @@ class XTestAllArgs3:  # w/ corpus1  ********************************************
         bp_text = BLUEPRINT_3_EMPTY
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=3,
-            preview_line_width=64,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=3,
+            content_preview_width=64,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -298,8 +298,8 @@ class XTestNoContent1:  # w/ corpus1  ******************************************
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -321,8 +321,8 @@ class XTestNoContent1:  # w/ corpus1  ******************************************
         bp_text = BLUEPRINT_1_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -341,8 +341,8 @@ class XTestNoContent1:  # w/ corpus1  ******************************************
         bp_text = BLUEPRINT_1_PARTIAL_2
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -361,8 +361,8 @@ class XTestNoContent1:  # w/ corpus1  ******************************************
         bp_text = BLUEPRINT_1_EMPTY
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -384,8 +384,8 @@ class XTestNoContent3:  # w/ corpus1  ******************************************
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -413,8 +413,8 @@ class XTestNoContent3:  # w/ corpus1  ******************************************
         bp_text = BLUEPRINT_3_PARTIAL_1
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -439,8 +439,8 @@ class XTestNoContent3:  # w/ corpus1  ******************************************
         bp_text = BLUEPRINT_3_PARTIAL_2
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -465,8 +465,8 @@ class XTestNoContent3:  # w/ corpus1  ******************************************
         bp_text = BLUEPRINT_3_EMPTY
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=False,
             hide_comment=False,
         )
@@ -496,8 +496,8 @@ class XTestNoComment:  # w/ corpus1  *******************************************
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=False,
             hide_comment=True,
         )
@@ -514,8 +514,8 @@ class XTestNoComment:  # w/ corpus1  *******************************************
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=False,
             hide_comment=True,
         )
@@ -542,8 +542,8 @@ class XTestFullTree:
         bp_text = BLUEPRINT_1_PARTIAL_2_PRUNED
         bp = PromptBlueprint.parse(CORPUS1, bp_text)
 
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=True,
             hide_comment=True,
         )
@@ -556,8 +556,8 @@ class XTestFullTree:
         bp_text = BLUEPRINT_2_PARTIAL_1_PRUNED
         bp = PromptBlueprint.parse(CORPUS2, bp_text)
 
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=True,
             hide_comment=True,
         )
@@ -570,8 +570,8 @@ class XTestFullTree:
         bp_text = BLUEPRINT_3_PARTIAL_1_PRUNED
         bp = PromptBlueprint.parse(CORPUS3, bp_text)
 
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=True,
             hide_comment=True,
         )
@@ -584,8 +584,8 @@ class XTestFullTree:
         bp_text = BLUEPRINT_3_PARTIAL_2_PRUNED
         bp = PromptBlueprint.parse(CORPUS3, bp_text)
 
-        opt = bp.generate_preview_tree(
-            preview_line_count=0,
+        opt = bp.generate_blueprint_text(
+            content_preview_lines=0,
             show_full_tree=True,
             hide_comment=True,
         )
@@ -603,7 +603,7 @@ class XTestDft:
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree()
+        opt = bp.generate_blueprint_text()
 
         print(opt)
         tree_content, comment_content = _split_content_and_comment(opt)
@@ -618,7 +618,7 @@ class XTestDft:
         bp_text = BLUEPRINT_2_FULL
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree()
+        opt = bp.generate_blueprint_text()
 
         print(opt)
         tree_content, comment_content = _split_content_and_comment(opt)
@@ -633,7 +633,7 @@ class XTestDft:
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
-        opt = bp.generate_preview_tree()
+        opt = bp.generate_blueprint_text()
 
         print(opt)
         tree_content, comment_content = _split_content_and_comment(opt)

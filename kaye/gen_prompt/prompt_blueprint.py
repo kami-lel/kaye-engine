@@ -26,18 +26,13 @@ EMPTY_PREFIX = "    "
 
 class PromptBlueprint(dict):
     """
-    FIXME cls docstring
-
     `PromptBlueprint` represents a configurable subset of *prompt corpus tree*
 
 
-    :param prompt_corpus: *prompt corpus tree* **root** node
-            which this prompt blueprint attached to
-    :type prompt_corpus: PromptCorpusNode
-    :param blueprint_display_name: display name given to the blueprint
-    :type blueprint_display_name: str, optional
-    :return: an instance of ``PromptBlueprint`` attached to the given
-            ``prompt_corpus``, and with **all nodes checkmarked**
+    :param display_name: display name given to the blueprint
+    :type display_name: str, optional
+    :param prompt_corpus_override: (for testing only;) defaults to None
+    :type prompt_corpus_override: PromptCorpusNode, optional
     """
 
     # classmethods  ============================================================
@@ -57,7 +52,7 @@ class PromptBlueprint(dict):
 
 
         :param blueprint_text: prompt blueprint text to set nodes, must in
-                the same format of output of ``.generate_preview_tree()``
+                the same format of output of ``.generate_blueprint_text()``
                 (with tree structure and checkmarks)
         :type blueprint_text: str
         :param display_name:
@@ -117,8 +112,6 @@ class PromptBlueprint(dict):
             # TODO how to deal w/ dynamic blueprint
 
             path_tuple = tuple(path)
-            print(path_tuple)  # HACK
-            print(id_lineage2node_hash)  # HACK
 
             # check node's existence in tree  ----------------------------------
             if path_tuple not in id_lineage2node_hash:
@@ -217,11 +210,11 @@ class PromptBlueprint(dict):
 
     # exporting methods  *******************************************************
 
-    def generate_preview_tree(
+    def generate_blueprint_text(
         self,
         *,
-        preview_line_count=3,
-        preview_line_width=64,
+        content_preview_lines=3,
+        content_preview_width=64,
         show_full_tree=False,
         hide_comment=False,
     ):
@@ -230,14 +223,14 @@ class PromptBlueprint(dict):
         an human-readable representation
 
 
-        :param preview_line_count: set maximum line count of
+        :param content_preview_lines: set maximum line count of
                 *content preview* part, (excluding section heading line);
                 defaults to 3
-        :type preview_line_count: int
-        :param preview_line_width: set maximum column width of
+        :type content_preview_lines: int
+        :param content_preview_width: set maximum column width of
                 *content preview* part;
                 defaults to 64.
-        :type preview_line_width: int
+        :type content_preview_width: int
         :param show_full_tree: whether to show the full corpus tree,
                 regardless of node's inclusion in this blueprint;
         :type show_full_tree: bool, optional
@@ -437,11 +430,11 @@ class PromptBlueprintLegacy(dict):
         return self
 
     # exporting methods  *******************************************************
-    def generate_preview_tree(
+    def generate_blueprint_text(
         self,
         *,
-        preview_line_count=3,
-        preview_line_width=64,
+        content_preview_lines=3,
+        content_preview_width=64,
         show_full_tree=False,
         hide_comment=False,
     ):
@@ -473,8 +466,8 @@ class PromptBlueprintLegacy(dict):
             content_fill = "    " + fill
             opt_lines.extend(
                 # pylint: disable=protected-access
-                node._generate_preview_tree_content_preview_lines(
-                    content_fill, preview_line_count, preview_line_width
+                node._generate_blueprint_text_content_preview_lines(
+                    content_fill, content_preview_lines, content_preview_width
                 )
             )
 
@@ -569,7 +562,7 @@ class PromptBlueprintLegacy(dict):
     def _generate_comment_content(self):
         """
         helper method used in
-        ``.generate_preview_tree()`` and ``.generate_prompt()``
+        ``.generate_blueprint_text()`` and ``.generate_prompt()``
 
 
         :return: prompt comment containing blueprint name and Kaye version
@@ -654,7 +647,7 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
     This is done by traverse the tree and check if any nodes is contained
     in the blueprint
 
-    (helper method used in ``PromptBlueprint.generate_preview_tree()``)
+    (helper method used in ``PromptBlueprint.generate_blueprint_text()``)
 
 
     :param blueprint:
