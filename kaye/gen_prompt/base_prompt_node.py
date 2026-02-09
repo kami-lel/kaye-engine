@@ -104,6 +104,13 @@ class BasePromptNode(AnyTreeNode):
         """
         raise NotImplementedError
 
+    def __copy__(self):
+        """
+        :return: a shallow copy without any children
+        :rtype: BasePromptNode
+        """
+        raise NotImplementedError
+
     # instance methods  ========================================================
 
     def generate_id_lineage(self):

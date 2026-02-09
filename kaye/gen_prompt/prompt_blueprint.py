@@ -4,7 +4,7 @@ define `PromptBlueprint`
 
 import re
 from datetime import datetime
-from copy import copy
+import copy
 
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter
@@ -246,7 +246,6 @@ class PromptBlueprint(dict):
         else:
             # create a duplicated tree,
             # but contains only nodes relevant to this blueprint
-            raise NotImplementedError  # HACK
             preview_tree = _create_pruned_tree_for_preview_recursively(
                 self, self.corpus
             )
@@ -304,7 +303,14 @@ class PromptBlueprint(dict):
                 which contains only branches with checkmarked nodes
         :rtype: PromptBlueprint
         """
-        return self  # TODO
+        # create bp w/ nothing
+        pruned_bp = PromptBlueprint(
+            display_name=self.display_name, prompt_corpus_override=self.corpus
+        )
+
+        _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
+
+        return pruned_bp
 
     def merge(self, other):
         """
@@ -414,6 +420,20 @@ class PromptBlueprint(dict):
         """
         return NotImplemented  # TODO
 
+    def __copy__(self):
+        """
+        :return: shallow copy, w/o creating new nodes
+        :rtype: PromptBlueprint
+        """
+        copied = type(self)(
+            display_name=self.display_name, prompt_corpus_override=self.corpus
+        )
+
+        for k, v in self.items():
+            copied[k] = v
+
+        return copied
+
     def __repr__(self):
         return super().__repr__()  # TODO
 
@@ -450,6 +470,75 @@ def _normalize_as_node_hash(node):
         raise TypeError(
             "must be BasePromptNode or hash value: {}".format(repr(node))
         )
+
+
+def _create_pruned_tree_for_preview_recursively(blueprint, node):
+    """
+    create a `PromptCorpusNode` as root of a new **pruned** tree such that
+    only nodes contained in `blueprint` is kept.
+    This is done by traverse the tree and check if any nodes is contained
+    in the blueprint
+
+    (helper method used in ``PromptBlueprint.generate_blueprint()``)
+
+
+    :param blueprint:
+    :type blueprint: PromptBlueprint
+    :param node:
+    :type node: BasePromptNode
+    :return: root of the filtered node
+    :rtype: PromptCorpusNode
+    """
+    new_node = copy.copy(node)  # an copy w/o children
+
+    for child in node.children:
+        if child in blueprint:
+            new_child = _create_pruned_tree_for_preview_recursively(
+                blueprint, child
+            )
+            new_child.parent = new_node
+
+    return new_node
+
+
+def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
+    """
+    recursively walk ``node``, and add necessary nodes from ``old_bp`` to
+    ``pruned_bp``, such that trivial branches are pruned in the ``pruned_bp``
+
+    (helper method used in ``PromptBlueprint.prune()``)
+
+
+    :param old_bp:
+    :type old_bp: PromptBlueprint
+    :param pruned_bp:
+    :type pruned_bp: PromptBlueprint
+    :param node:
+    :type node: PromptCorpusNode
+    :return: if ``node`` has any checkmarked descents
+    :rtype: bool
+    """
+    node_hash = hash(node)
+
+    # if current node is checkmarked
+    is_checkmarked = old_bp.is_checkmarked(node)
+
+    # traherne all children
+    children_results = [
+        _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, child)
+        for child in node.children
+    ]
+
+    # if any of dependents is checkmarked
+    has_checkmarked_descents = any(children_results)
+
+    if is_checkmarked or has_checkmarked_descents:
+        if not node.is_root:
+            # this node should be in the pruned_bp
+            pruned_bp[node_hash] = is_checkmarked
+        return True
+    else:
+        return False
 
 
 # HACK rm legacy
@@ -497,10 +586,6 @@ class PromptBlueprintLegacy(dict):
             hide_comment
         )
         return content + comment
-
-    def prune(self):
-        pruned_bp = PromptBlueprint(self.corpus, display_name=self.display_name)
-        _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
         return pruned_bp
 
     def merge(self, other):
@@ -522,15 +607,6 @@ class PromptBlueprintLegacy(dict):
             merged[k] = merged_v
 
         return merged
-
-    def copy(self):
-        copied = type(self)(self.corpus, display_name=self.display_name)
-
-        # TODO PromptBlueprint copy routine optimize
-        for k, v in self.items():
-            copied[k] = v
-
-        return copied
 
     # helpers  =================================================================
 
@@ -586,75 +662,6 @@ class PromptBlueprintLegacy(dict):
 
 
 # helpers  #####################################################################
-
-
-def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
-    """
-    recursively walk ``node``, and add necessary nodes from ``old_bp`` to
-    ``pruned_bp``, such that trivial branches are pruned in the ``pruned_bp``
-
-    (helper method used in ``PromptBlueprint.prune()``)
-
-
-    :param old_bp:
-    :type old_bp: PromptBlueprint
-    :param pruned_bp:
-    :type pruned_bp: PromptBlueprint
-    :param node:
-    :type node: PromptCorpusNode
-    :return: if ``node`` has any checkmarked descents
-    :rtype: bool
-    """
-    node_hash = hash(node)
-
-    # if current node is checkmarked
-    is_checkmarked = old_bp.is_checkmarked(node)
-
-    # traherne all children
-    children_results = [
-        _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, child)
-        for child in node.children
-    ]
-
-    # if any of dependents is checkmarked
-    has_checkmarked_descents = any(children_results)
-
-    if is_checkmarked or has_checkmarked_descents:
-        if not node.is_root:
-            # this node should be in the pruned_bp
-            pruned_bp[node_hash] = is_checkmarked
-        return True
-    else:
-        return False
-
-
-def _create_pruned_tree_for_preview_recursively(blueprint, node):
-    """
-    create a `PromptCorpusNode` as root of a new **pruned** tree such that
-    only nodes contained in `blueprint` is kept.
-    This is done by traverse the tree and check if any nodes is contained
-    in the blueprint
-
-    (helper method used in ``PromptBlueprint.generate_blueprint()``)
-
-
-    :param blueprint:
-    :type blueprint: PromptBlueprint
-    :param node:
-    :type node: PromptCorpusNode
-    :return: root of the filtered node
-    :rtype: PromptCorpusNode
-    """
-    new_node = copy(node)  # an copy w/o children
-
-    for child in node.children:
-        if hash(child) in blueprint:
-            new_child = _create_pruned_tree_for_preview_recursively(
-                blueprint, child
-            )
-            new_child.parent = new_node
-
-    return new_node
 
 
 def _generate_prompt_recursively(blueprint, node):
