@@ -27,7 +27,9 @@ def get_embedded_prompt_corpus_file_path():
     ).absolute()
 
 
-def load_prompt_corpus_tree(disable_dynamic_nodes=False):
+def load_prompt_corpus_tree(
+    *, prompt_corpus_text_override=None, disable_dynamic_nodes=False
+):
     """
     TODO TODO
 
@@ -40,12 +42,16 @@ def load_prompt_corpus_tree(disable_dynamic_nodes=False):
     :return: **root** node of *prompt corpus tree*
     :rtype: PromptCorpusNode
     """
-    # read corpus from file  ---------------------------------------------------
-    prompt_corpus_file_path = get_embedded_prompt_corpus_file_path()
-    with open(
-        prompt_corpus_file_path, "r", encoding="utf-8", newline=""
-    ) as file:
-        prompt_corpus_text = file.read()
+    if prompt_corpus_text_override is None:
+        # read corpus from file  -----------------------------------------------
+        prompt_corpus_file_path = get_embedded_prompt_corpus_file_path()
+        with open(
+            prompt_corpus_file_path, "r", encoding="utf-8", newline=""
+        ) as file:
+            prompt_corpus_text = file.read()
+
+    else:
+        prompt_corpus_text = prompt_corpus_text_override
 
     # text split & clean up  ---------------------------------------------------
     # reduce 2+ empty lines into single empty line
@@ -76,7 +82,8 @@ def _create_prompt_corpus_node_from_text_lines_recursively(
     name, parent, text_lines
 ):
     # find every sub-section heading lines
-    heading_prefix = HEADING_PREFIX_ELEMENT * (parent.depth + 1) + " "
+    prefix_element_cnt = 1 if parent is None else parent.depth + 2
+    heading_prefix = HEADING_PREFIX_ELEMENT * prefix_element_cnt + " "
     heading_lines_idx = []
     for idx, line in enumerate(text_lines):
         if line.startswith(heading_prefix):
@@ -90,7 +97,16 @@ def _create_prompt_corpus_node_from_text_lines_recursively(
         node = PromptCorpusNode(name, parent, content_lines)
 
         # parse sub-sections, create children nodes
-        # TODO TODO
+        for start, end in zip(
+            heading_lines_idx, heading_lines_idx[1:] + [len(text_lines)]
+        ):
+            # extract heading content
+            # e.g. "### this is heading " -> "this is heading"
+            child_heading = text_lines[start][len(heading_prefix) :].strip()
+            child_text_lines = text_lines[start + 1 : end]
+            _create_prompt_corpus_node_from_text_lines_recursively(
+                child_heading, node, child_text_lines
+            )
 
         return node
 
@@ -98,12 +114,3 @@ def _create_prompt_corpus_node_from_text_lines_recursively(
         # contains no subsection  ----------------------------------------------
         # i.e. all of text_lines are node content
         return PromptCorpusNode(name, parent, text_lines)
-
-    # parse sub-sections as nodes
-    heading_lines_idx.append(len(text_lines))
-    for start, end in zip(heading_lines_idx, heading_lines_idx[1:]):
-        # extract heading content
-        # e.g. "### this is heading " -> "this is heading"
-        heading_content = text_lines[start][len(heading_prefix) :].strip()
-        children_nodes = text_lines[start + 1 : end]
-        PromptCorpusNode(heading_content, self, children_nodes)
