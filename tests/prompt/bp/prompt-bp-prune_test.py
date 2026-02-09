@@ -4,9 +4,7 @@ prompt-bp-prune_test.py
 Unit Tests (using pytest) for: PromptBlueprint.prune()
 """
 
-# FIXME
-
-from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
+from kaye.gen_prompt import PromptBlueprint
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
@@ -28,176 +26,194 @@ from tests.prompt.bp import (
 )
 
 
-class XTest1:  # use PROMPT1  ###################################################
+class Test1:  # use PROMPT1  ###################################################
 
-    def test1(self):
+    def test1(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_2
-        old = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-
-        opt = old.prune()
-
-        print(opt)
-
-        assert len(opt) == 3
-        assert (
-            opt.generate_blueprint_text(
-                content_preview_lines=0, hide_comment=True
-            )
-            == BLUEPRINT_1_PARTIAL_2_PRUNED
+        old = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
         )
 
-    def test_no_prune1(self):
+        pruned_bp = old.prune()
+
+        pruned_bp_text = pruned_bp.generate_blueprint(
+            content_preview_lines=0, show_full_tree=False
+        )
+        print(pruned_bp_text)
+
+        assert len(pruned_bp) == 3
+        assert pruned_bp_text == BLUEPRINT_1_PARTIAL_2_PRUNED
+
+    def test_no_prune1(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_1
-        old = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-
-        opt = old.prune()
-
-        print(opt)
-        assert len(opt) == len(old)
-        assert (
-            opt.generate_blueprint_text(
-                content_preview_lines=0, hide_comment=True
-            )
-            == bp_text
+        old = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
         )
 
-    def test_full(self):  # no prune
+        pruned_bp = old.prune()
+
+        pruned_bp_text = pruned_bp.generate_blueprint(
+            content_preview_lines=0, show_full_tree=False
+        )
+        print(pruned_bp_text)
+
+        print(pruned_bp)
+        assert len(pruned_bp) == len(old)
+        assert pruned_bp_text == bp_text
+
+    def test_full(_, test_corpus1):
         bp_text = BLUEPRINT_1_FULL
-        old = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-
-        opt = old.prune()
-
-        print(opt)
-        assert len(opt) == len(old)
-        assert (
-            opt.generate_blueprint_text(
-                content_preview_lines=0, hide_comment=True
-            )
-            == bp_text
+        old = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
         )
 
-    def test_empty(self):
+        pruned_bp = old.prune()
+
+        pruned_bp_text = pruned_bp.generate_blueprint(
+            content_preview_lines=0, show_full_tree=False
+        )
+        print(pruned_bp_text)
+
+        assert len(pruned_bp) == len(old)
+        assert pruned_bp_text == bp_text
+
+    def test_empty(_, test_corpus1):
         bp_text = BLUEPRINT_1_EMPTY
-        old = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
-
-        opt = old.prune()
-
-        print(opt)
-        assert len(opt) == 0
-        assert (
-            opt.generate_blueprint_text(
-                content_preview_lines=0, hide_comment=True
-            )
-            == BLUEPRINT_EMPTY_PRUNED
+        old = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
         )
 
+        pruned_bp = old.prune()
 
-class XTest2:  # use PROMPT2  ###################################################
+        pruned_bp_text = pruned_bp.generate_blueprint(
+            content_preview_lines=0, show_full_tree=False
+        )
+        print(pruned_bp_text)
 
-    def test1(self):
+        assert len(pruned_bp) == 0
+        assert pruned_bp_text == BLUEPRINT_EMPTY_PRUNED
+
+
+class Test2:  # use PROMPT2  ###################################################
+
+    def test1(_, test_corpus2):
         bp_text = BLUEPRINT_2_PARTIAL_1
-        old = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        old = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus2
+        )
 
-        opt = old.prune()
+        pruned_bp = old.prune()
 
-        print(opt)
-        assert len(opt) == 3
+        print(pruned_bp)
+        assert len(pruned_bp) == 3
         assert (
-            opt.generate_blueprint_text(
-                content_preview_lines=0, hide_comment=True
+            pruned_bp.generate_blueprint(
+                content_preview_lines=0, show_comment=False, show_full_tree=True
             )
             == BLUEPRINT_2_PARTIAL_1_PRUNED
         )
 
-    def test_full(self):  # no prune
+    def test_full(_, test_corpus2):  # no prune
         bp_text = BLUEPRINT_2_FULL
-        old = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        old = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus2
+        )
 
-        opt = old.prune()
+        pruned_bp = old.prune()
 
-        print(opt)
-        assert len(opt) == len(old)
+        print(pruned_bp)
+        assert len(pruned_bp) == len(old)
         assert (
-            opt.generate_blueprint_text(
-                content_preview_lines=0, hide_comment=True
+            pruned_bp.generate_blueprint(
+                content_preview_lines=0, show_comment=False, show_full_tree=True
             )
             == bp_text
         )
 
-    def test_empty(self):
+    def test_empty(_, test_corpus2):
         bp_text = BLUEPRINT_2_EMPTY
-        old = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        old = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus2
+        )
 
-        opt = old.prune()
+        pruned_bp = old.prune()
 
-        print(opt)
-        assert len(opt) == 0
+        print(pruned_bp)
+        assert len(pruned_bp) == 0
         assert (
-            opt.generate_blueprint_text(
-                content_preview_lines=0, hide_comment=True
+            pruned_bp.generate_blueprint(
+                content_preview_lines=0, show_comment=False, show_full_tree=True
             )
             == BLUEPRINT_EMPTY_PRUNED
         )
 
 
-class XTest3:  # use PROMPT1  ###################################################
+class Test3:  # use PROMPT3  ###################################################
 
-    def test1(self):
+    def test1(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_1
-        old = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        old = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
 
-        opt = old.prune()
+        pruned_bp = old.prune()
 
-        print(opt)
-        assert len(opt) == 6
+        print(pruned_bp)
+        assert len(pruned_bp) == 6
         assert (
-            opt.generate_blueprint_text(
-                content_preview_lines=0, hide_comment=True
+            pruned_bp.generate_blueprint(
+                content_preview_lines=0, show_comment=False, show_full_tree=True
             )
             == BLUEPRINT_3_PARTIAL_1_PRUNED
         )
 
-    def test2(self):
+    def test2(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_2
-        old = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        old = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
 
-        opt = old.prune()
+        pruned_bp = old.prune()
 
-        print(opt)
-        assert len(opt) == 9
+        print(pruned_bp)
+        assert len(pruned_bp) == 9
         assert (
-            opt.generate_blueprint_text(
-                content_preview_lines=0, hide_comment=True
+            pruned_bp.generate_blueprint(
+                content_preview_lines=0, show_comment=False, show_full_tree=True
             )
             == BLUEPRINT_3_PARTIAL_2_PRUNED
         )
 
-    def test_full(self):  # no prune
+    def test_full(_, test_corpus3):  # no prune
         bp_text = BLUEPRINT_3_FULL
-        old = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        old = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
 
-        opt = old.prune()
+        pruned_bp = old.prune()
 
-        print(opt)
-        assert len(opt) == len(old)
+        print(pruned_bp)
+        assert len(pruned_bp) == len(old)
         assert (
-            opt.generate_blueprint_text(
-                content_preview_lines=0, hide_comment=True
+            pruned_bp.generate_blueprint(
+                content_preview_lines=0, show_comment=False, show_full_tree=True
             )
             == bp_text
         )
 
-    def test_empty(self):
+    def test_empty(_, test_corpus3):
         bp_text = BLUEPRINT_3_EMPTY
-        old = PromptBlueprint.parse(self.corpus, bp_text, disable_prune=True)
+        old = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
 
-        opt = old.prune()
+        pruned_bp = old.prune()
 
-        print(opt)
-        assert len(opt) == 0
+        print(pruned_bp)
+        assert len(pruned_bp) == 0
         assert (
-            opt.generate_blueprint_text(
-                content_preview_lines=0, hide_comment=True
+            pruned_bp.generate_blueprint(
+                content_preview_lines=0, show_comment=False, show_full_tree=True
             )
             == BLUEPRINT_EMPTY_PRUNED
         )

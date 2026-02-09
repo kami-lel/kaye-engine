@@ -64,6 +64,11 @@ class PromptCorpusNode(BasePromptNode):
     def content_lines(self, **kwargs):
         return self._content_lines
 
+    def __copy__(self):
+        obj = type(self)(self.name, self.parent, [])
+        obj._content_lines = self._content_lines
+        return obj
+
     # Hack rm
     # def _generate_prompt_lines(self):
     #     """
