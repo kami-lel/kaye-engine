@@ -1,21 +1,16 @@
 """
 prompt_blueprint_init_test.py
 
-Unit Tests (using pytest) for: PromptBlueprint
-
-- .__init__()
-- .__repr__()
+Unit Tests (using pytest) for: PromptBlueprint.__init__()
 """
 
-from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
-
-corpus = load_embedded_prompt_corpus()
+from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
 
 
 class TestEmpty:
 
-    def test_init(self):
-        bp = PromptBlueprint(corpus)
+    def test_init(_, corpus):
+        bp = PromptBlueprint()
 
         print(bp)
 
@@ -25,20 +20,13 @@ class TestEmpty:
         assert isinstance(bp.display_name, str)
         assert bp.display_name == ""
 
-    def test_repr(self):
-        bp = PromptBlueprint(corpus)
-
-        opt = repr(bp)
-
-        assert opt == "PromptBlueprint()"
-
 
 class TestName:
 
     NAME = "My Blueprint"
 
-    def test_init(self):
-        bp = PromptBlueprint(corpus, display_name=self.NAME)
+    def test_init(self, corpus):
+        bp = PromptBlueprint(display_name=self.NAME)
 
         print(bp)
 
@@ -47,10 +35,3 @@ class TestName:
         assert bp.corpus is corpus
         assert isinstance(bp.display_name, str)
         assert bp.display_name == self.NAME
-
-    def test_repr(self):
-        bp = PromptBlueprint(corpus, display_name=self.NAME)
-
-        opt = repr(bp)
-
-        assert opt == "PromptBlueprint(My Blueprint)"
