@@ -4,6 +4,8 @@ prompt_blueprint_is_checkmarked_test.py
 Unit Tests (using pytest) for: PromptBlueprint.is_enabled()
 """
 
+# FIXME
+
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
 from tests.prompt import PROMPT1, PROMPT3
 from tests.prompt.blueprint import (

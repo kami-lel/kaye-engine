@@ -155,9 +155,9 @@ class PromptBlueprint(dict):
         """
 
     # instance methods  ========================================================
-    def __init__(self, prompt_corpus, *, display_name=""):
+    def __init__(self, *, display_name=""):
         super().__init__()  # init as empty dict
-        self.corpus = prompt_corpus
+        self.corpus = get_prompt_corpus_tree()
         self.display_name = display_name
 
     # node operations  *********************************************************
