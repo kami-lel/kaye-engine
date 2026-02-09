@@ -352,6 +352,7 @@ class PromptBlueprint(dict):
         :return: merged blueprint
         :rtype: PromptBlueprint
         """
+
         # TODO TODO
         if not isinstance(other, PromptBlueprint):
             raise TypeError(
@@ -497,7 +498,7 @@ class PromptBlueprint(dict):
         :return: shallow copy, w/o creating new nodes
         :rtype: PromptBlueprint
         """
-        copied = type(self)(
+        copied = PromptBlueprint(
             display_name=self.display_name, prompt_corpus_override=self.corpus
         )
 
