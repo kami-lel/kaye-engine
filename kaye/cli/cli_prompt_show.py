@@ -58,7 +58,7 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
 
         blueprint = create_blueprint_from_generate_show(args)
 
-        blueprint_content = blueprint.generate_preview_tree(
+        blueprint_content = blueprint.generate_blueprint_text(
             show_full_tree=args.show_full_tree,
             preview_line_count=args.preview_line_count,
             preview_line_width=args.preview_line_width,

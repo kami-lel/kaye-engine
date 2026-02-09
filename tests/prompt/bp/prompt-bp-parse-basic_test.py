@@ -4,8 +4,6 @@ prompt-bp-parse-basic_test.py
 Unit Tests (using pytest) for: PromptBlueprint.parse()
 """
 
-# FIXME
-
 from kaye.gen_prompt import PromptBlueprint
 
 from tests.prompt.bp import (
@@ -20,7 +18,7 @@ from tests.prompt.bp import (
 )
 
 
-class XTestBasic1:  # use corpus1  ##############################################
+class TestBasic1:  # use corpus1  ##############################################
 
     def test_full(_, test_corpus1):
         bp_text = BLUEPRINT_1_FULL
@@ -63,7 +61,9 @@ class XTestBasic1:  # use corpus1  #############################################
     def test_no_project(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_1
 
-        opt = PromptBlueprint.parse(bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+        )
 
         print(opt)
         assert len(opt) == 4
@@ -96,7 +96,9 @@ class XTestBasic1:  # use corpus1  #############################################
     def test_no_description(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_2
 
-        opt = PromptBlueprint.parse(bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+        )
 
         print(opt)
         assert len(opt) == 4
@@ -129,7 +131,9 @@ class XTestBasic1:  # use corpus1  #############################################
     def test_empty(_, test_corpus1):
         bp_text = BLUEPRINT_1_EMPTY
 
-        opt = PromptBlueprint.parse(bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+        )
 
         print(opt)
         assert len(opt) == 4
@@ -160,12 +164,14 @@ class XTestBasic1:  # use corpus1  #############################################
         assert not opt[_hash]
 
 
-class XTestBasic3:  # use corpus3  ##############################################
+class TestBasic3:  # use corpus3  ##############################################
 
     def test_full(_, test_corpus3):
         bp_text = BLUEPRINT_3_FULL
 
-        opt = PromptBlueprint.parse(bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
 
         print(opt)
         assert isinstance(opt, PromptBlueprint)
@@ -237,7 +243,9 @@ class XTestBasic3:  # use corpus3  #############################################
     def test_part1(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_1
 
-        opt = PromptBlueprint.parse(bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
 
         print(opt)
         assert len(opt) == 10
@@ -305,7 +313,9 @@ class XTestBasic3:  # use corpus3  #############################################
 
     def test_part2(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_2
-        opt = PromptBlueprint.parse(bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
 
         print(opt)
         assert len(opt) == 10
@@ -373,7 +383,9 @@ class XTestBasic3:  # use corpus3  #############################################
 
     def test_empty(_, test_corpus3):
         bp_text = BLUEPRINT_3_EMPTY
-        opt = PromptBlueprint.parse(bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+        )
 
         print(opt)
         assert len(opt) == 10
