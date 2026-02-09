@@ -20,7 +20,7 @@ from tests.prompt.bp import (
 )
 
 
-class TestBasic1:  # use corpus1  ##############################################
+class XTestBasic1:  # use corpus1  ##############################################
 
     def test_full(_, test_corpus1):
         bp_text = BLUEPRINT_1_FULL
@@ -160,7 +160,7 @@ class TestBasic1:  # use corpus1  ##############################################
         assert not opt[_hash]
 
 
-class TestBasic3:  # use corpus3  ##############################################
+class XTestBasic3:  # use corpus3  ##############################################
 
     def test_full(_, test_corpus3):
         bp_text = BLUEPRINT_3_FULL

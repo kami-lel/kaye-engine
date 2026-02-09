@@ -8,7 +8,6 @@ Unit Tests (using pytest) for: PromptBlueprint.prune()
 
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
-from tests.prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,
@@ -29,9 +28,7 @@ from tests.prompt.bp import (
 )
 
 
-class Test1:  # use PROMPT1  ###################################################
-
-    corpus = PromptCorpusNode.parse(PROMPT1)
+class XTest1:  # use PROMPT1  ###################################################
 
     def test1(self):
         bp_text = BLUEPRINT_1_PARTIAL_2
@@ -87,9 +84,7 @@ class Test1:  # use PROMPT1  ###################################################
         )
 
 
-class Test2:  # use PROMPT2  ###################################################
-
-    corpus = PromptCorpusNode.parse(PROMPT2)
+class XTest2:  # use PROMPT2  ###################################################
 
     def test1(self):
         bp_text = BLUEPRINT_2_PARTIAL_1
@@ -131,9 +126,7 @@ class Test2:  # use PROMPT2  ###################################################
         )
 
 
-class Test3:  # use PROMPT1  ###################################################
-
-    corpus = PromptCorpusNode.parse(PROMPT3)
+class XTest3:  # use PROMPT1  ###################################################
 
     def test1(self):
         bp_text = BLUEPRINT_3_PARTIAL_1

@@ -10,7 +10,6 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
 from .base_prompt_node import BasePromptNode
-from .prompt_corpus_node import PromptCorpusNode
 from .prompt_corpus_loader import get_prompt_corpus_tree
 
 # from .prompt_corpus_loader import load_embedded_prompt_corpus

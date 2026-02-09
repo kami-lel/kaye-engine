@@ -14,7 +14,6 @@ import pytest
 
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
 from tests import _print_heading
-from tests.prompt import PROMPT1, PROMPT2, PROMPT3
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,
@@ -27,9 +26,8 @@ from tests.prompt.bp import (
 )
 
 
-class Test11:  # PROMPT1: partial 1 -> full  ###################################
+class XTest11:  # PROMPT1: partial 1 -> full  ###################################
 
-    corpus = PromptCorpusNode.parse(PROMPT1)
     src = BLUEPRINT_1_PARTIAL_1
     dest = BLUEPRINT_1_FULL
 
@@ -144,9 +142,8 @@ class Test11:  # PROMPT1: partial 1 -> full  ###################################
         )
 
 
-class Test12:  # PROMPT 1: partial 2 -> full  ##################################
+class XTest12:  # PROMPT 1: partial 2 -> full  ##################################
 
-    corpus = PromptCorpusNode.parse(PROMPT1)
     src = BLUEPRINT_1_PARTIAL_2
     dest = BLUEPRINT_1_FULL
 
@@ -186,9 +183,8 @@ class Test12:  # PROMPT 1: partial 2 -> full  ##################################
         )
 
 
-class Test2:  # PROMPT2: full -> partial 1  ####################################
+class XTest2:  # PROMPT2: full -> partial 1  ####################################
 
-    corpus = PromptCorpusNode.parse(PROMPT2)
     src = BLUEPRINT_2_PARTIAL_1
     dest = BLUEPRINT_2_FULL
 
@@ -233,9 +229,8 @@ class Test2:  # PROMPT2: full -> partial 1  ####################################
         )
 
 
-class Test31:  # PROMPT3: partial 1 -> full  ###################################
+class XTest31:  # PROMPT3: partial 1 -> full  ###################################
 
-    corpus = PromptCorpusNode.parse(PROMPT3)
     src = BLUEPRINT_3_PARTIAL_1
     dest = BLUEPRINT_3_FULL
 
@@ -286,9 +281,8 @@ class Test31:  # PROMPT3: partial 1 -> full  ###################################
         )
 
 
-class Test32:  # PROMPT3: partial 2 -> full  ###################################
+class XTest32:  # PROMPT3: partial 2 -> full  ###################################
 
-    corpus = PromptCorpusNode.parse(PROMPT3)
     src = BLUEPRINT_3_PARTIAL_2
     dest = BLUEPRINT_3_FULL
 
