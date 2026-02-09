@@ -10,7 +10,7 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
 from .prompt_corpus_node import PromptCorpusNode
-from .prompt_corpus_loader import spawn_prompt_corpus_tree
+from .prompt_corpus_loader import get_prompt_corpus_tree
 
 # from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .today_node import TodayNode
@@ -68,7 +68,7 @@ class PromptBlueprint(dict):
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
         """
-        prompt_corpus = spawn_prompt_corpus_tree()
+        prompt_corpus = get_prompt_corpus_tree()
 
         # create empty bp to fill later
         bp = PromptBlueprint(prompt_corpus, display_name=display_name)
