@@ -25,7 +25,9 @@ class TestBasic1:  # use corpus1  ##############################################
     def test_full(_, test_corpus1):
         bp_text = BLUEPRINT_1_FULL
 
-        opt = PromptBlueprint.parse(bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+        )
 
         print(opt)
         assert isinstance(opt, PromptBlueprint)
