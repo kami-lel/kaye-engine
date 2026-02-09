@@ -1,5 +1,5 @@
 """
-prompt_blueprint_preview_test.py
+prompt_bp_preview_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint
 
@@ -16,7 +16,7 @@ import re
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 from tests.prompt import PROMPT1, PROMPT2, PROMPT3
-from tests.prompt.blueprint import (
+from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_FULL_PREVIEW,
     BLUEPRINT_1_EMPTY,

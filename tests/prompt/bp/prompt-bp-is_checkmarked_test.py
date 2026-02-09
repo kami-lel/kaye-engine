@@ -1,5 +1,5 @@
 """
-prompt_blueprint_is_checkmarked_test.py
+prompt_bp_is_checkmarked_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.is_enabled()
 """
@@ -8,7 +8,7 @@ Unit Tests (using pytest) for: PromptBlueprint.is_enabled()
 
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
 from tests.prompt import PROMPT1, PROMPT3
-from tests.prompt.blueprint import (
+from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_1_PARTIAL_2,
@@ -434,6 +434,6 @@ class Test3:  # use corpus3  ##############################################
 
 
 def test_not_contained():
-    # a node that is not contained in blueprint at all
+    # a node that is not contained in bp at all
     bp = PromptBlueprint.parse(CORPUS1, BLUEPRINT_1_FULL, disable_prune=True)
     assert not bp.is_checkmarked(CORPUS3)

@@ -1,5 +1,5 @@
 """
-prompt_blueprint_merge_test.py
+prompt_bp_merge_test.py
 
 Unit Tests (using pytest) for:
 
@@ -13,7 +13,7 @@ import pytest
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 from tests.prompt import PROMPT1, PROMPT3
-from tests.prompt.blueprint import (
+from tests.prompt.bp import (
     BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_3_PARTIAL_1,
     BLUEPRINT_3_PARTIAL_1_PRUNED,
@@ -141,7 +141,7 @@ class TestMerge1:
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert opt == "must merge 2 blueprints with same corpus"
+        assert opt == "must merge 2 bps with same corpus"
 
     def test_bad_corpus(self):
         bp = self.left_bp.copy()
@@ -193,7 +193,7 @@ class TestIMul:
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert opt == "must merge 2 blueprints with same corpus"
+        assert opt == "must merge 2 bps with same corpus"
 
     def test_bad_corpus(self):
         bp = self.left_bp.copy()

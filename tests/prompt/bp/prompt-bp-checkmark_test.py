@@ -1,5 +1,5 @@
 """
-prompt_blueprint_checkmark_test.py
+prompt_bp_checkmark_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint:
 
@@ -15,7 +15,7 @@ import pytest
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
 from tests import _print_heading
 from tests.prompt import PROMPT1, PROMPT2, PROMPT3
-from tests.prompt.blueprint import (
+from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_1_PARTIAL_2,
@@ -126,7 +126,7 @@ class Test11:  # PROMPT1: partial 1 -> full  ###################################
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert opt == "node missing from blueprint's corpus: 5"
+        assert opt == "node missing from bp's corpus: 5"
 
     def test_bad_obj(self):
         bp_text = self.src
@@ -141,7 +141,7 @@ class Test11:  # PROMPT1: partial 1 -> full  ###################################
 
         assert (
             opt
-            == "node missing from blueprint's corpus: "
+            == "node missing from bp's corpus: "
             "PromptCorpusNode(Main Title)"
         )
 

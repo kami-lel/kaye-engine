@@ -1,5 +1,5 @@
 """
-prompt_blueprint_contains_test.py
+prompt_bp_contains_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.__contains__()
 """
@@ -8,7 +8,7 @@ Unit Tests (using pytest) for: PromptBlueprint.__contains__()
 
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
 from tests.prompt import PROMPT1, PROMPT3
-from tests.prompt.blueprint import (
+from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_3_FULL,
 )
