@@ -28,6 +28,8 @@ EMPTY_PREFIX = "    "
 
 class PromptBlueprint(dict):
     """
+    FIXME cls docstring
+
     `PromptBlueprint` represents a configurable subset of *prompt corpus tree*
 
 
@@ -48,8 +50,11 @@ class PromptBlueprint(dict):
         *,
         display_name="",
         disable_prune=False,
+        prompt_corpus_override=None,
     ):
         """
+        FIXME update docstring
+
         parse ``blueprint_text`` into a blueprint object
 
 
@@ -68,10 +73,11 @@ class PromptBlueprint(dict):
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
         """
-        prompt_corpus = get_prompt_corpus_tree()
-
         # create empty bp to fill later
-        bp = PromptBlueprint(prompt_corpus, display_name=display_name)
+        bp = PromptBlueprint(
+            display_name=display_name,
+            prompt_corpus_override=prompt_corpus_override,
+        )
 
         # mapping id lineage : hash(all node in corpus)
         id_lineage2node_hash = {
@@ -117,7 +123,8 @@ class PromptBlueprint(dict):
             # check node's existence in tree  ----------------------------------
             if path_tuple not in id_lineage2node_hash:
                 raise ValueError(
-                    "missing node from prompt_corpus:\n{}".format(line)
+                    "no node in prompt corpus tree that "
+                    "corresponds to this line:\n{}".format(line)
                 )
 
             # append a node  ---------------------------------------------------
@@ -155,9 +162,9 @@ class PromptBlueprint(dict):
         """
 
     # instance methods  ========================================================
-    def __init__(self, *, display_name=""):
+    def __init__(self, *, display_name="", prompt_corpus_override=None):
         super().__init__()  # init as empty dict
-        self.corpus = get_prompt_corpus_tree()
+        self.corpus = prompt_corpus_override or get_prompt_corpus_tree()
         self.display_name = display_name
 
     # node operations  *********************************************************
