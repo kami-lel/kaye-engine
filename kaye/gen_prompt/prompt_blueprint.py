@@ -352,7 +352,25 @@ class PromptBlueprint(dict):
         :return: merged blueprint
         :rtype: PromptBlueprint
         """
-        # TODO
+        # TODO TODO
+        if not isinstance(other, PromptBlueprint):
+            raise TypeError(
+                "must merge another PromptBlueprint, not: {}".format(
+                    repr(other)
+                )
+            )
+
+        if self.corpus is not other.corpus:
+            raise ValueError("must merge 2 blueprints with same corpus")
+
+        # perform merging
+        merged = self.copy()  # based on self
+        for k, right_v in other.items():
+            left_v = k in merged and merged[k]
+            merged_v = left_v or right_v
+            merged[k] = merged_v
+
+        return merged
 
     # helpers  =================================================================
 
@@ -437,6 +455,7 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
+        # TODO use return NotImplemented
         return self.checkmark(other)
 
     def __isub__(self, other):
@@ -453,6 +472,7 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
+        # TODO use return NotImplemented
         return self.uncheckmark(other)
 
     def __imul__(self, other):
@@ -469,7 +489,8 @@ class PromptBlueprint(dict):
         :return: merged blueprint
         :rtype: PromptBlueprint
         """
-        return NotImplemented  # TODO
+        # TODO use return NotImplemented
+        return self.merge(other)
 
     def __copy__(self):
         """
@@ -600,27 +621,6 @@ class PromptBlueprintLegacy(dict):
             hide_comment
         )
         return content + comment
-        return pruned_bp
-
-    def merge(self, other):
-        if not isinstance(other, PromptBlueprint):
-            raise TypeError(
-                "must merge another PromptBlueprint, not: {}".format(
-                    repr(other)
-                )
-            )
-
-        if self.corpus is not other.corpus:
-            raise ValueError("must merge 2 blueprints with same corpus")
-
-        # perform merging
-        merged = self.copy()  # based on self
-        for k, right_v in other.items():
-            left_v = k in merged and merged[k]
-            merged_v = left_v or right_v
-            merged[k] = merged_v
-
-        return merged
 
     # helpers  =================================================================
 
@@ -643,11 +643,6 @@ class PromptBlueprintLegacy(dict):
             comment_line = "\n<!-- " + self._generate_comment_content() + " -->"
 
         return content, comment_line
-
-    # dunder methods  ==========================================================
-
-    def __imul__(self, other):
-        return self.merge(other)
 
 
 # helpers  #####################################################################
