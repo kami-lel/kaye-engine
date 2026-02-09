@@ -7,9 +7,6 @@ Unit Tests (using pytest) for: PromptBlueprint:
 - .__iadd__()
 """
 
-# FIXME
-
-
 import pytest
 
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint

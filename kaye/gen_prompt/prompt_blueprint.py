@@ -321,7 +321,7 @@ class PromptBlueprint(dict):
         :return: the generated prompt
         :rtype: str
         """
-        # TODO
+        # TODO TODO
 
     # Blueprint operation  *****************************************************
 
@@ -455,8 +455,10 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-        # TODO use return NotImplemented
-        return self.checkmark(other)
+        if isinstance(other, (BasePromptNode, int)):
+            return self.checkmark(other)
+        else:
+            return NotImplemented
 
     def __isub__(self, other):
         """
@@ -472,8 +474,10 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-        # TODO use return NotImplemented
-        return self.uncheckmark(other)
+        if isinstance(other, (BasePromptNode, int)):
+            return self.uncheckmark(other)
+        else:
+            return NotImplemented
 
     def __imul__(self, other):
         """
@@ -613,7 +617,7 @@ def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
         return False
 
 
-# HACK rm legacy
+# HACK HACK rm legacy
 class PromptBlueprintLegacy(dict):
 
     def generate_prompt(self, *, hide_comment=False):
