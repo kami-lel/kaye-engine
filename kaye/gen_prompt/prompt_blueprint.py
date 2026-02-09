@@ -5,6 +5,7 @@ define `PromptBlueprint`
 import re
 from datetime import datetime
 import copy
+from enum import Enum, auto
 
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter
@@ -238,8 +239,6 @@ class PromptBlueprint(dict):
 
         return self
 
-    # exporting methods  *******************************************************
-
     def generate_blueprint(
         self,
         *,
@@ -310,7 +309,63 @@ class PromptBlueprint(dict):
 
         return "\n".join(lines)
 
-    def generate_prompt(self, *, show_comment=False):
+    # prompt creating  *********************************************************
+
+    class Render(Enum):
+        """
+        specify rendering compactness for ``.generate_prompt()``
+
+
+        e.g. for using ``NO_EMPTY_SPACE``::
+
+            # Project Title
+            ## First Heading
+            Content of First Paragraph
+            ## Second Heading
+            ...
+
+        e.g. for using ``COMPACT``::
+
+            # Project Title
+            ## First Heading
+            Content of First Paragraph
+
+            ## Second Heading
+            Content of Second Paragraph
+
+        e.g. for using ``LONG_FORMAT``::
+
+            # Project Title
+
+            ## First Heading
+
+            Content of First Paragraph
+
+            {additional 33 empty lines}
+            ## Second Heading
+
+            Content of Second Paragraph
+
+        e.g. for using ``SHORT_FORMAT``::
+
+            # Project Title
+
+            ## First Heading
+
+            Content of First Paragraph
+
+            {additional 12 empty lines}
+            ## Second Heading
+
+            Content of Second Paragraph
+        """
+
+        NO_EMPTY_SPACE = auto()
+        COMPACT = auto()
+        LONG_FORMAT = auto()
+        SHORT_FORMAT = auto()
+
+    def generate_prompt(self, *, show_comment=False, render=Render.COMPACT):
         """
         render the **concrete prompt** that can be used as LLM system message
         with it content based on node's checkmarking status of this blueprint
@@ -320,8 +375,10 @@ class PromptBlueprint(dict):
                 defaults to False
         :type show_comment: bool, optional
         :return: generated prompt
+        TODO
         :rtype: str
         """
+        # TODO TODO render type
         lines = []
 
         for node in PreOrderIter(self.corpus):
