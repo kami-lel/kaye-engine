@@ -534,3 +534,14 @@ class TestForbiddenHeading:  ###################################################
         opt = exec_info.value.args[0]
         print(opt)
         assert opt == "illegal heading syntax: '{Some}'"
+
+
+class TestSingleton:  ##########################################################
+
+    def test1(_):
+        attempt1 = get_prompt_corpus_tree()
+        attempt2 = get_prompt_corpus_tree()
+        attempt3 = get_prompt_corpus_tree()
+
+        assert attempt1 is attempt2
+        assert attempt2 is attempt3
