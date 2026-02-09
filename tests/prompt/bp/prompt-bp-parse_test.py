@@ -303,7 +303,7 @@ class TestDft3:  # use PROMPT3  ================================================
 
 
 # text include content preview  ################################################
-class XTestContentPreview1:  # use PROMPT1  =====================================
+class TestContentPreview1:  # use PROMPT1  =====================================
 
     def test1(_, test_corpus1):
         bp_text = BLUEPRINT_1_FULL_PREVIEW
@@ -312,7 +312,7 @@ class XTestContentPreview1:  # use PROMPT1  ====================================
             bp_text, prompt_corpus_override=test_corpus1
         )
 
-        print(opt)
+        print(repr(opt))
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_1_FULL
@@ -325,7 +325,7 @@ class XTestContentPreview1:  # use PROMPT1  ====================================
             bp_text, prompt_corpus_override=test_corpus1
         )
 
-        print(opt)
+        print(repr(opt))
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_1_PARTIAL_1
@@ -338,21 +338,23 @@ class XTestContentPreview1:  # use PROMPT1  ====================================
             bp_text, prompt_corpus_override=test_corpus1
         )
 
-        print(opt)
+        print(repr(opt))
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_1_PARTIAL_2_PRUNED
         )
 
 
-class XTestContentPreview2:  # use PROMPT2  =====================================
+class TestContentPreview2:  # use PROMPT2  =====================================
 
     def test_full(_, test_corpus2):
         bp_text = BLUEPRINT_2_PREVIEW
 
-        opt = PromptBlueprint.parse(CORPUS2, bp_text)
+        opt = PromptBlueprint.parse(
+            bp_text, prompt_corpus_override=test_corpus2
+        )
 
-        print(opt)
+        print(repr(opt))
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_2_FULL
@@ -361,23 +363,27 @@ class XTestContentPreview2:  # use PROMPT2  ====================================
     def test_pa1(_, test_corpus2):
         bp_text = BLUEPRINT_2_PARTIAL_1_PREVIEW
 
-        opt = PromptBlueprint.parse(CORPUS2, bp_text)
+        opt = PromptBlueprint.parse(
+            bp_text, prompt_corpus_override=test_corpus2
+        )
 
-        print(opt)
+        print(repr(opt))
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_2_PARTIAL_1_PRUNED
         )
 
 
-class XTestContentPreview3:  # use PROMPT2  =====================================
+class TestContentPreview3:  # use PROMPT2  =====================================
 
     def test_full(_, test_corpus3):
         bp_text = BLUEPRINT_3_FULL_PREVIEW
 
-        opt = PromptBlueprint.parse(CORPUS3, bp_text)
+        opt = PromptBlueprint.parse(
+            bp_text, prompt_corpus_override=test_corpus3
+        )
 
-        print(opt)
+        print(repr(opt))
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_3_FULL
@@ -386,9 +392,11 @@ class XTestContentPreview3:  # use PROMPT2  ====================================
     def test_pa1(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_1_PREVIEW
 
-        opt = PromptBlueprint.parse(CORPUS3, bp_text)
+        opt = PromptBlueprint.parse(
+            bp_text, prompt_corpus_override=test_corpus3
+        )
 
-        print(opt)
+        print(repr(opt))
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_3_PARTIAL_1_PRUNED
@@ -397,17 +405,19 @@ class XTestContentPreview3:  # use PROMPT2  ====================================
     def test_pa2(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_2_PREVIEW
 
-        opt = PromptBlueprint.parse(CORPUS3, bp_text)
+        opt = PromptBlueprint.parse(
+            bp_text, prompt_corpus_override=test_corpus3
+        )
 
-        print(opt)
+        print(repr(opt))
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_3_PARTIAL_2_PRUNED
         )
 
 
-# bp text is pruned  ####################################################
-class XTestPrunedText:
+# bp text is pruned  ###########################################################
+class TestPrunedText:
 
     def test1(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_2_PRUNED
@@ -416,7 +426,7 @@ class XTestPrunedText:
             bp_text, prompt_corpus_override=test_corpus1
         )
 
-        print(opt)
+        print(repr(opt))
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == bp_text
@@ -425,9 +435,11 @@ class XTestPrunedText:
     def test2(_, test_corpus2):
         bp_text = BLUEPRINT_2_PARTIAL_1_PRUNED
 
-        opt = PromptBlueprint.parse(CORPUS2, bp_text)
+        opt = PromptBlueprint.parse(
+            bp_text, prompt_corpus_override=test_corpus2
+        )
 
-        print(opt)
+        print(repr(opt))
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == bp_text
@@ -436,9 +448,11 @@ class XTestPrunedText:
     def test31(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_1_PRUNED
 
-        opt = PromptBlueprint.parse(CORPUS3, bp_text)
+        opt = PromptBlueprint.parse(
+            bp_text, prompt_corpus_override=test_corpus3
+        )
 
-        print(opt)
+        print(repr(opt))
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == bp_text
@@ -447,9 +461,11 @@ class XTestPrunedText:
     def test32(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_2_PRUNED
 
-        opt = PromptBlueprint.parse(CORPUS3, bp_text)
+        opt = PromptBlueprint.parse(
+            bp_text, prompt_corpus_override=test_corpus3
+        )
 
-        print(opt)
+        print(repr(opt))
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == bp_text
@@ -469,9 +485,11 @@ class XTestPrunedText:
 [x]     └── Conclusion
             Summarizing the findings and implications."""
 
-        opt = PromptBlueprint.parse(CORPUS3, bp_text)
+        opt = PromptBlueprint.parse(
+            bp_text, prompt_corpus_override=test_corpus3
+        )
 
-        print(opt)
+        print(repr(opt))
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_3_PARTIAL_1_PRUNED
