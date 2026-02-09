@@ -3,7 +3,7 @@ prompt-bp-gen_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint
 
-- .generate_blueprint_text()
+- .generate_blueprint()
 """
 
 import re
@@ -60,7 +60,7 @@ class TestAllArgs1:  # =========================================================
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -82,7 +82,7 @@ class TestAllArgs1:  # =========================================================
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -101,7 +101,7 @@ class TestAllArgs1:  # =========================================================
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -120,7 +120,7 @@ class TestAllArgs1:  # =========================================================
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -150,7 +150,7 @@ class XTestAllArgs2:  # ========================================================
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -172,7 +172,7 @@ class XTestAllArgs2:  # ========================================================
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -191,7 +191,7 @@ class XTestAllArgs2:  # ========================================================
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -229,7 +229,7 @@ class XTestAllArgs3:  # ========================================================
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -250,7 +250,7 @@ class XTestAllArgs3:  # ========================================================
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -269,7 +269,7 @@ class XTestAllArgs3:  # ========================================================
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -288,7 +288,7 @@ class XTestAllArgs3:  # ========================================================
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -331,7 +331,7 @@ class XTestNoContent1:  # ======================================================
         opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -356,7 +356,7 @@ class XTestNoContent1:  # ======================================================
         opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -378,7 +378,7 @@ class XTestNoContent1:  # ======================================================
         opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -400,7 +400,7 @@ class XTestNoContent1:  # ======================================================
         opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -426,7 +426,7 @@ class XTestNoContent3:  # ======================================================
         opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -457,7 +457,7 @@ class XTestNoContent3:  # ======================================================
         opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -485,7 +485,7 @@ class XTestNoContent3:  # ======================================================
         opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -513,7 +513,7 @@ class XTestNoContent3:  # ======================================================
         opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
-            hide_comment=False,
+            show_comment=True,
         )
 
         print(opt)
@@ -534,8 +534,7 @@ class XTestNoContent3:  # ======================================================
 
 # no comment (nor content)  ####################################################
 # w/ all args
-class XTestNoComment:  # =======================================================
-    # FIXME FIXME
+class TestNoComment:  # =======================================================
 
     def test1(_, test_corpus1):
         corpus = test_corpus1
@@ -547,7 +546,7 @@ class XTestNoComment:  # =======================================================
         opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
-            hide_comment=True,
+            show_comment=False,
         )
 
         print(opt)
@@ -567,7 +566,7 @@ class XTestNoComment:  # =======================================================
         opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=False,
-            hide_comment=True,
+            show_comment=False,
         )
 
         print(opt)
@@ -586,17 +585,16 @@ class XTestNoComment:  # =======================================================
 
 
 # full tree (nor content)  #####################################################
-class XTestFullTree:
-    # FIXME FIXME
+class TestFullTree:
 
     def test1(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_2_PRUNED
-        bp = PromptBlueprint.parse(test_corpus1, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
 
-        opt = bp.generate_blueprint_text(
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=True,
-            hide_comment=True,
+            show_comment=False,
         )
 
         print(opt)
@@ -605,12 +603,12 @@ class XTestFullTree:
 
     def test2(_, test_corpus2):
         bp_text = BLUEPRINT_2_PARTIAL_1_PRUNED
-        bp = PromptBlueprint.parse(test_corpus2, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus2)
 
-        opt = bp.generate_blueprint_text(
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=True,
-            hide_comment=True,
+            show_comment=False,
         )
 
         print(opt)
@@ -619,12 +617,12 @@ class XTestFullTree:
 
     def test31(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_1_PRUNED
-        bp = PromptBlueprint.parse(test_corpus3, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus3)
 
-        opt = bp.generate_blueprint_text(
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=True,
-            hide_comment=True,
+            show_comment=False,
         )
 
         print(opt)
@@ -633,12 +631,12 @@ class XTestFullTree:
 
     def test32(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_2_PRUNED
-        bp = PromptBlueprint.parse(test_corpus3, bp_text)
+        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus3)
 
-        opt = bp.generate_blueprint_text(
+        opt = bp.generate_blueprint(
             content_preview_lines=0,
             show_full_tree=True,
-            hide_comment=True,
+            show_comment=False,
         )
 
         print(opt)
