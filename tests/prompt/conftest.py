@@ -5,7 +5,7 @@ from kaye.gen_prompt.prompt_corpus_node import PromptCorpusNode
 
 
 @pytest.fixture()
-def test_prompt_corpus_tree1():
+def test_corpus1():
     root = PromptCorpusNode("○", None, [])
     proj = PromptCorpusNode("Project Title", root, [])
 
@@ -25,7 +25,7 @@ def test_prompt_corpus_tree1():
 
 
 @pytest.fixture()
-def test_prompt_corpus_tree2():
+def test_corpus2():
     root = PromptCorpusNode("○", None, [])
     proj = PromptCorpusNode("Project Title", root, [])
 
@@ -67,7 +67,7 @@ def test_prompt_corpus_tree2():
 
 
 @pytest.fixture()
-def test_prompt_corpus_tree3():
+def test_corpus3():
     root = PromptCorpusNode("○", None, [])
     proj = PromptCorpusNode("Main Title", root, [])
 
