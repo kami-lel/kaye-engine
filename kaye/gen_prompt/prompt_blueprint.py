@@ -52,7 +52,7 @@ class PromptBlueprint(dict):
 
 
         :param blueprint_text: prompt blueprint text to set nodes, must in
-                the same format of output of ``.generate_blueprint_text()``
+                the same format of output of ``.generate_blueprint()``
                 (with tree structure and checkmarks)
         :type blueprint_text: str
         :param display_name:
@@ -169,16 +169,17 @@ class PromptBlueprint(dict):
         self.display_name = display_name
 
     # node operations  *********************************************************
-    def is_checkmarked(self, node):
+    def is_checkmarked(self, node_hash):
         """
         :param node: node object; or hash value of node
-        :type node: PromptCorpusNode or int
+        :type node: BasePromptNode or int
         :raises TypeError:
         :return: whether a node is **checkmarked** in the blueprint;
-                also ``False`` if node is not contained in blueprint
+                ``False`` if node is: not checkmarked or not contained
         :rtype: bool
         """
-        # TODO
+        node_hash = _normalize_as_node_hash(node_hash)  # node as hash
+        return node_hash in self and self[node_hash]
 
     def checkmark(self, node):
         """
@@ -216,7 +217,7 @@ class PromptBlueprint(dict):
         content_preview_lines=3,
         content_preview_width=64,
         show_full_tree=False,
-        hide_comment=False,
+        show_comment=False,
     ):
         """
         generate **preview tree** of the blueprint,
@@ -245,12 +246,13 @@ class PromptBlueprint(dict):
         else:
             # create a duplicated tree,
             # but contains only nodes relevant to this blueprint
+            raise NotImplementedError  # HACK
             preview_tree = _create_pruned_tree_for_preview_recursively(
                 self, self.corpus
             )
 
         # generate content  ----------------------------------------------------
-        opt_lines = []
+        lines = []
         for pre, fill, node in RenderTree(preview_tree):
             # line for tree structure
             checkmark_prefix = (
@@ -261,24 +263,25 @@ class PromptBlueprint(dict):
             if node.is_root:
                 checkmark_prefix = EMPTY_PREFIX
 
-            node_line = checkmark_prefix + pre + node.name
-            opt_lines.append(node_line)
+            # e.g. "[x] │   └── Capitalization Style"
+            node_line = checkmark_prefix + pre + node.id
+            lines.append(node_line)
 
-            # lines for node content preview
-            content_fill = "    " + fill
-            opt_lines.extend(
-                # BUG BUG
-                node._generate_blueprint_text_content_preview_lines(
-                    content_fill, content_preview_lines, content_preview_width
+            # lines for content preview part
+            if content_preview_lines:
+                content_fill = EMPTY_PREFIX + fill
+                lines.extend(
+                    (content_fill + line)[:content_preview_width]
+                    for line in node.content_lines()[:content_preview_lines]
                 )
-            )
 
-        # append comment line
-        if not hide_comment:
+        # append comment line  -------------------------------------------------
+        if show_comment:
+            raise NotImplementedError  # HACK
             comment_line = "<!-- " + self._generate_comment_content() + " -->"
-            opt_lines.append(comment_line)
+            lines.append(comment_line)
 
-        return "\n".join(opt_lines)
+        return "\n".join(lines)
 
     def generate_prompt(self, *, hide_comment=False):
         """
@@ -438,10 +441,6 @@ class PromptBlueprintLegacy(dict):
             prompt_corpus, False, display_name
         )
 
-    def is_checkmarked(self, node):
-        node = _normalize_as_node_hash(node)  # node as hash
-        return node in self and self[node]
-
     def checkmark(self, node):
         node_hash = _normalize_as_node_hash(node)
 
@@ -551,7 +550,7 @@ class PromptBlueprintLegacy(dict):
     def _generate_comment_content(self):
         """
         helper method used in
-        ``.generate_blueprint_text()`` and ``.generate_prompt()``
+        ``.generate_blueprint()`` and ``.generate_prompt()``
 
 
         :return: prompt comment containing blueprint name and Kaye version
@@ -636,7 +635,7 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
     This is done by traverse the tree and check if any nodes is contained
     in the blueprint
 
-    (helper method used in ``PromptBlueprint.generate_blueprint_text()``)
+    (helper method used in ``PromptBlueprint.generate_blueprint()``)
 
 
     :param blueprint:
