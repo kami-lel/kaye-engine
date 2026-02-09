@@ -229,10 +229,8 @@ class PromptBlueprint(dict):
         node_hash = _normalize_as_node_hash(node)
 
         if node_hash not in self:
-            # TODO TODO update msg
             raise KeyError(
-                "fail to uncheckmark node, missing in this blueprint: {}"
-                .format(repr(node))
+                "node absent in this blueprint: {}".format(str(node))
             )
 
         self[node_hash] = False

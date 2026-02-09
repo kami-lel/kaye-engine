@@ -143,14 +143,14 @@ class Test11:  # ===============================================================
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert opt == "fail to uncheckmark node, missing in this bp: 5"
+        assert opt == "node absent in this blueprint: 5"
 
-    def test_bad_obj(self, test_corpus1):
+    def test_bad_obj(self, test_corpus1, test_corpus3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
             bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
         )
-        bad_node = PromptCorpusNode.parse(PROMPT3)["Main Title"]
+        bad_node = test_corpus3["Main Title"]
 
         with pytest.raises(KeyError) as exec_info:
             opt.uncheckmark(bad_node)
@@ -159,9 +159,7 @@ class Test11:  # ===============================================================
         print(opt)
 
         assert (
-            opt
-            == "fail to uncheckmark node, missing in this bp: "
-            "PromptCorpusNode(Main Title)"
+            opt == "node absent in this blueprint: PromptCorpusNode(Main Title)"
         )
 
 
