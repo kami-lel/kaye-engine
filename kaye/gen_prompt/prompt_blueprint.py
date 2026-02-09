@@ -375,10 +375,9 @@ class PromptBlueprint(dict):
                 defaults to False
         :type show_comment: bool, optional
         :return: generated prompt
-        TODO
         :rtype: str
         """
-        # TODO TODO render type
+        # todo render type
         lines = []
 
         for node in PreOrderIter(self.corpus):
@@ -388,7 +387,10 @@ class PromptBlueprint(dict):
                     HEADING_PREFIX_ELEMENT * node.depth + " " + node.name
                 )
                 # content lines
-                lines.extend(node.content_lines())
+                content_lines = node.content_lines()
+                if content_lines:
+                    lines.extend(content_lines)
+                    lines.append("")  # add an empty line
 
         if show_comment:
             lines.append("<!-- " + self._generate_comment_content() + " -->")

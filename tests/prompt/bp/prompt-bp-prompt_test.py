@@ -30,6 +30,7 @@ from tests.prompt.bp import (
 class Test1:  # with PROMPT1  ##################################################
 
     def test_full(_, test_corpus1):
+        # BUG BUG
         bp_text = BLUEPRINT_1_FULL
         bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
 
@@ -39,7 +40,6 @@ class Test1:  # with PROMPT1  ##################################################
         content, comment = _split_content_and_comment(opt)
 
         assert content == """# Project Title
-
 ## Description
 Brief overview of the project and its purpose.
 
