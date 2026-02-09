@@ -316,8 +316,7 @@ class TestAllArgs3:  # =========================================================
 
 # no content  ##################################################################
 # w/ all args
-class XTestNoContent1:  # ======================================================
-    # FIXME FIXME
+class TestNoContent1:  # =======================================================
 
     def test_full(_, test_corpus1):
         corpus = test_corpus1
@@ -411,8 +410,7 @@ class XTestNoContent1:  # ======================================================
 [ ]     └── License"""
 
 
-class XTestNoContent3:  # ======================================================
-    # FIXME FIXME
+class TestNoContent3:  # =======================================================
 
     def test_full(_, test_corpus3):
         corpus = test_corpus3
@@ -655,12 +653,8 @@ class TestDft:
         opt = bp.generate_blueprint()
 
         print(opt)
-        tree_content, comment_content = _split_content_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_1_FULL_PREVIEW
-
-        # test comment structure
-        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+        assert opt == BLUEPRINT_1_FULL_PREVIEW
 
     def test2(_, test_corpus2):
         corpus = test_corpus2
@@ -672,12 +666,8 @@ class TestDft:
         opt = bp.generate_blueprint()
 
         print(opt)
-        tree_content, comment_content = _split_content_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_2_PREVIEW
-
-        # test comment structure
-        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+        assert opt == BLUEPRINT_2_PREVIEW
 
     def test3(_, test_corpus3):
         corpus = test_corpus3
@@ -689,19 +679,11 @@ class TestDft:
         opt = bp.generate_blueprint()
 
         print(opt)
-        tree_content, comment_content = _split_content_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_3_FULL_PREVIEW
-
-        # test comment structure
-        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+        assert opt == BLUEPRINT_3_FULL_PREVIEW
 
 
-# test __repr__()   #############################################################
-
-
-class XTestRepr:
-    # FIXME FIXME
+class TestRepr:  ###############################################################
 
     def test1(_, test_corpus1):
         corpus = test_corpus1
@@ -713,12 +695,8 @@ class XTestRepr:
         opt = repr(bp)
 
         print(opt)
-        tree_content, comment_content = _split_content_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_1_FULL_PREVIEW
-
-        # test comment repructure
-        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+        assert opt == BLUEPRINT_1_FULL_PREVIEW
 
     def test2(_, test_corpus2):
         corpus = test_corpus2
@@ -730,12 +708,8 @@ class XTestRepr:
         opt = repr(bp)
 
         print(opt)
-        tree_content, comment_content = _split_content_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_2_PREVIEW
-
-        # test comment repructure
-        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+        assert opt == BLUEPRINT_2_PREVIEW
 
     def test3(_, test_corpus3):
         corpus = test_corpus3
@@ -747,9 +721,5 @@ class XTestRepr:
         opt = repr(bp)
 
         print(opt)
-        tree_content, comment_content = _split_content_and_comment(opt)
 
-        assert tree_content == BLUEPRINT_3_FULL_PREVIEW
-
-        # test comment repructure
-        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+        assert opt == BLUEPRINT_3_FULL_PREVIEW
