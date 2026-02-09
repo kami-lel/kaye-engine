@@ -1,10 +1,10 @@
 """
-prompt_blueprint_full_test.py
+prompt_bp_full_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint
 
-- .create_full_blueprint()
-- .create_empty_blueprint()
+- .create_full_bp()
+- .create_empty_bp()
 """
 
 # FIXME
@@ -12,7 +12,7 @@ Unit Tests (using pytest) for: PromptBlueprint
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 from tests.prompt import PROMPT1, PROMPT2
-from tests.prompt.blueprint import (
+from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_2_FULL,
     BLUEPRINT_1_EMPTY,
@@ -22,7 +22,7 @@ from tests.prompt.blueprint import (
 CORPUS1 = PromptCorpusNode.parse(PROMPT1)
 CORPUS2 = PromptCorpusNode.parse(PROMPT2)
 
-# test .create_full_blueprint()  ###############################################
+# test .create_full_bp()  ###############################################
 
 
 class TestFull1:
@@ -30,7 +30,7 @@ class TestFull1:
     def test_dft(_):
         corpus = CORPUS1
 
-        bp = PromptBlueprint.create_full_blueprint(corpus)
+        bp = PromptBlueprint.create_full_bp(corpus)
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)
@@ -41,7 +41,7 @@ class TestFull1:
         corpus = CORPUS1
         display_name = "My Full Blueprint"
 
-        bp = PromptBlueprint.create_full_blueprint(
+        bp = PromptBlueprint.create_full_bp(
             corpus, display_name=display_name
         )
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
@@ -56,7 +56,7 @@ class TestFull2:
     def test_dft(_):
         corpus = CORPUS2
 
-        bp = PromptBlueprint.create_full_blueprint(corpus)
+        bp = PromptBlueprint.create_full_bp(corpus)
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)
@@ -67,7 +67,7 @@ class TestFull2:
         corpus = CORPUS2
         display_name = "My Full Blueprint"
 
-        bp = PromptBlueprint.create_full_blueprint(
+        bp = PromptBlueprint.create_full_bp(
             corpus, display_name=display_name
         )
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
@@ -77,13 +77,13 @@ class TestFull2:
         assert bp.display_name == display_name
 
 
-# test .create_empty_blueprint()  ##############################################
+# test .create_empty_bp()  ##############################################
 class TestEmpty1:
 
     def test_dft(_):
         corpus = CORPUS1
 
-        bp = PromptBlueprint.create_empty_blueprint(corpus)
+        bp = PromptBlueprint.create_empty_bp(corpus)
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)
@@ -94,7 +94,7 @@ class TestEmpty1:
         corpus = CORPUS1
         display_name = "My Empty Blueprint"
 
-        bp = PromptBlueprint.create_empty_blueprint(
+        bp = PromptBlueprint.create_empty_bp(
             corpus, display_name=display_name
         )
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
@@ -109,7 +109,7 @@ class TestEmpty:
     def test_dft(_):
         corpus = CORPUS2
 
-        bp = PromptBlueprint.create_empty_blueprint(corpus)
+        bp = PromptBlueprint.create_empty_bp(corpus)
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)
 
         print(opt)
@@ -120,7 +120,7 @@ class TestEmpty:
         corpus = CORPUS2
         display_name = "My Empty Blueprint"
 
-        bp = PromptBlueprint.create_empty_blueprint(
+        bp = PromptBlueprint.create_empty_bp(
             corpus, display_name=display_name
         )
         opt = bp.generate_preview_tree(preview_line_count=0, hide_comment=True)

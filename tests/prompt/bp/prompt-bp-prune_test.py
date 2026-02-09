@@ -1,5 +1,5 @@
 """
-prompt_blueprint_prune_test.py
+prompt_bp_prune_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.prune()
 """
@@ -9,7 +9,7 @@ Unit Tests (using pytest) for: PromptBlueprint.prune()
 from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
 
 from tests.prompt import PROMPT1, PROMPT2, PROMPT3
-from tests.prompt.blueprint import (
+from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_1_PARTIAL_2,

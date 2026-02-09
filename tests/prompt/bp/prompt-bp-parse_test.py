@@ -1,5 +1,5 @@
 """
-prompt_blueprint_parse_basic_test.py
+prompt_bp_parse_basic_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.parse()
 """
@@ -12,7 +12,7 @@ import pytest
 from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
 
 from tests.prompt import PROMPT1, PROMPT2, PROMPT3
-from tests.prompt.blueprint import (
+from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_FULL_PREVIEW,
     BLUEPRINT_1_PARTIAL_1,
@@ -376,7 +376,7 @@ class TestContentPreview3:  # use PROMPT2  =====================================
         )
 
 
-# blueprint text is pruned  ####################################################
+# bp text is pruned  ####################################################
 class TestPrunedText:
 
     def test1(_):

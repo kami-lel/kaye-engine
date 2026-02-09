@@ -1,10 +1,10 @@
 """
-prompt_blueprint_init_test.py
+prompt_bp_init_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.__init__()
 """
 
-from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
+from kaye.gen_prompt.prompt_bp import PromptBlueprint
 
 
 class TestEmpty:
