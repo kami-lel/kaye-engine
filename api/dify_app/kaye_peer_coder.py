@@ -9,7 +9,8 @@ from enum import IntFlag, auto, STRICT
 from flask import Blueprint, request, jsonify, abort, Response
 
 from kaye import PROGRAM_NAME
-from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
+
+# from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
 
 # Blueprints  ##################################################################
 PRE_SENSE_PROMPT_BLUEPRINT = """ ○

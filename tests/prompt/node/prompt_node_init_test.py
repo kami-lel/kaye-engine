@@ -55,7 +55,7 @@ class TestInit:  ###############################################################
 
         assert parent.children[0] is opt
 
-    def test4(_):
+    def test_structure(_):
         root = PromptCorpusNode("Main Title", None, [])
         intro = PromptCorpusNode(
             "Introduction", root, ["Brief introduction to the topic."]
@@ -175,6 +175,24 @@ class TestInit:  ###############################################################
         print(opt)
 
         assert opt._content_lines == ["aaa", "", "bbb", "", "ccc", "zzz"]
+
+    def test_trim5(_):
+        content_lines = [""]
+
+        opt = PromptCorpusNode("AAA", None, content_lines)
+
+        print(opt)
+
+        assert opt._content_lines == []
+
+    def test_trim6(_):
+        content_lines = ["", ""]
+
+        opt = PromptCorpusNode("AAA", None, content_lines)
+
+        print(opt)
+
+        assert opt._content_lines == []
 
 
 class TestCheckName:  ##########################################################

@@ -7,7 +7,8 @@ define API to specific work with Dify App: Kaye Commit Sense
 from flask import Blueprint, request, abort, Response
 
 from kaye import PROGRAM_NAME
-from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
+
+# from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
 
 # Blueprints  ##################################################################
 PRIMARY_MESSAGE_PROMPT_BLUEPRINT = """ ○

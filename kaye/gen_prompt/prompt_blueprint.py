@@ -10,7 +10,8 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
 from .prompt_corpus_node import PromptCorpusNode
-from .prompt_corpus_loader import load_embedded_prompt_corpus
+
+# from .prompt_corpus_loader import load_embedded_prompt_corpus
 from .today_node import TodayNode
 
 __all__ = ("PromptBlueprint",)
