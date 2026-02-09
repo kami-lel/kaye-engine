@@ -4,24 +4,27 @@ prompt_tree_test.py
 Unit Tests (using pytest) for: load_prompt_corpus_tree
 """
 
-# BUG BUG rewrite unit tests
 import pytest
 
-from kaye.gen_prompt.prompt_corpus_node import PromptCorpusNode
 from kaye.gen_prompt.prompt_corpus_loader import load_prompt_corpus_tree
-
-from tests.prompt import (
-    PROMPT1,
-    PROMPT2,
-    PROMPT3,
-)
 
 
 # test using PROMPT1  ##########################################################
 @pytest.fixture()
 def prompt_tree1():
     return load_prompt_corpus_tree(
-        prompt_corpus_text_override=PROMPT1, disable_dynamic_nodes=True
+        prompt_corpus_text_override="""
+# Project Title
+## Description
+Brief overview of the project and its purpose.
+
+## Installation
+Clone the repo and install dependencies.
+
+## License
+Licensed under the MIT License.
+""",
+        disable_dynamic_nodes=True,
     )
 
 
@@ -86,7 +89,28 @@ class TestParse1:
 @pytest.fixture()
 def prompt_tree2():
     return load_prompt_corpus_tree(
-        prompt_corpus_text_override=PROMPT2, disable_dynamic_nodes=True
+        prompt_corpus_text_override="""
+# Project Title
+## Description
+A brief overview of the project, its purpose, and goals.
+
+## Installation
+1. Clone the repo
+2. Install dependencies
+3. Run the application
+
+## Usage
+Provide instructions on how to use the application.
+
+## Contributing
+1. Fork the repo
+2. Create a new branch
+3. Submit a pull request
+
+## License
+This project is licensed under the MIT License.
+""",
+        disable_dynamic_nodes=True,
     )
 
 
@@ -175,7 +199,39 @@ class TestParse2:
 # test using PROMPT3  ##########################################################
 @pytest.fixture()
 def prompt_tree3():
-    return PromptCorpusNode.parse(PROMPT3)
+    return load_prompt_corpus_tree(
+        prompt_corpus_text_override="""
+# Main Title
+
+## Introduction
+Brief introduction to the topic.
+
+### Background
+Context or history relevant to the topic.
+
+#### Importance
+Why this topic matters in the current scenario.
+
+##### Objective
+The primary goal of this document.
+
+## Methods
+Overview of the methodologies used.
+
+### Data Collection
+How data was gathered for analysis.
+
+#### Tools Used
+List of tools utilized during the project.
+
+##### Future Work
+Suggestions for future research or tasks.
+
+## Conclusion
+Summarizing the findings and implications.
+""",
+        disable_dynamic_nodes=True,
+    )
 
 
 class TestParse3:
@@ -313,7 +369,9 @@ class TestParse3:
 # empty lines tests  ###########################################################
 @pytest.fixture()
 def prompt_tree_empty():
-    return PromptCorpusNode.parse("""
+    return load_prompt_corpus_tree(
+        prompt_corpus_text_override="""
+
 # Project Title
 
 
@@ -360,7 +418,9 @@ Provide instructions on how to use the application.
 
 ## License
 This project is licensed under the MIT License.
-""")
+""",
+        disable_dynamic_nodes=True,
+    )
 
 
 class TestEmptyLine:  # source material contains various empty lines
@@ -371,7 +431,7 @@ class TestEmptyLine:  # source material contains various empty lines
         assert len(prompt_tree_empty.children) == 1
         assert prompt_tree_empty._content_lines == []
 
-    def test_project(self, prompt_prompt_tree_empty_empty):
+    def test_project(self, prompt_tree_empty):
         project = prompt_tree_empty.children[0]
 
         assert project.name == "Project Title"
@@ -380,7 +440,7 @@ class TestEmptyLine:  # source material contains various empty lines
         assert len(project.children) == 5
         assert project._content_lines == []
 
-    def test_description(self, prompt_prompt_tree_empty_empty):
+    def test_description(self, prompt_tree_empty):
         project = prompt_tree_empty.children[0]
         sub = project.children[0]
 
@@ -392,7 +452,7 @@ class TestEmptyLine:  # source material contains various empty lines
             "A brief overview of the project, its purpose, and goals.",
         ]
 
-    def test_install(self, prompt_prompt_tree_empty_empty):
+    def test_install(self, prompt_tree_empty):
         project = prompt_tree_empty.children[0]
         sub = project.children[1]
 
@@ -406,7 +466,7 @@ class TestEmptyLine:  # source material contains various empty lines
             "3. Run the application",
         ]
 
-    def test_usage1(self, prompt_prompt_tree_empty_empty):
+    def test_usage1(self, prompt_tree_empty):
         project = prompt_tree_empty.children[0]
         sub = project.children[2]
 
@@ -418,7 +478,7 @@ class TestEmptyLine:  # source material contains various empty lines
             "Provide instructions on how to use the application.",
         ]
 
-    def test_usage2(self, prompt_prompt_tree_empty_empty):
+    def test_usage2(self, prompt_tree_empty):
         project = prompt_tree_empty.children[0]
         sub = project.children[3]
 
@@ -432,7 +492,7 @@ class TestEmptyLine:  # source material contains various empty lines
             "3. Submit a pull request",
         ]
 
-    def test_license(self, prompt_prompt_tree_empty_empty):
+    def test_license(self, prompt_tree_empty):
         project = prompt_tree_empty.children[0]
         sub = project.children[4]
 
@@ -451,7 +511,9 @@ class TestEdge:  # various edge cases
     def test_empty1(_):  # total empty
         src = """"""
 
-        tree = PromptCorpusNode.parse(src)
+        tree = load_prompt_corpus_tree(
+            prompt_corpus_text_override=src, disable_dynamic_nodes=True
+        )
         assert tree.depth == 0
         assert tree.parent is None
 
@@ -460,7 +522,9 @@ class TestEdge:  # various edge cases
     def test_empty2(_):
         src = "\n"
 
-        tree = PromptCorpusNode.parse(src)
+        tree = load_prompt_corpus_tree(
+            prompt_corpus_text_override=src, disable_dynamic_nodes=True
+        )
         assert tree.depth == 0
         assert tree.parent is None
 
@@ -469,7 +533,9 @@ class TestEdge:  # various edge cases
     def test_empty3(_):
         src = "\n" * 10
 
-        tree = PromptCorpusNode.parse(src)
+        tree = load_prompt_corpus_tree(
+            prompt_corpus_text_override=src, disable_dynamic_nodes=True
+        )
         assert tree.depth == 0
         assert tree.parent is None
 
@@ -480,7 +546,7 @@ class TestForbiddenHeading:  ###################################################
 
     def test1(_):
         with pytest.raises(ValueError) as exec_info:
-            PromptCorpusNode.parse("""# Title
+            load_prompt_corpus_tree(prompt_corpus_text_override="""# Title
 ## {Some}""")
 
         opt = exec_info.value.args[0]
