@@ -7,8 +7,6 @@ Unit Tests (using pytest) for: PromptBlueprint
 - .create_empty_blueprint()
 """
 
-# FIXME
-
 from kaye.gen_prompt import PromptBlueprint
 
 from tests.prompt.bp import (
