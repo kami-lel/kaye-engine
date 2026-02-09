@@ -352,8 +352,7 @@ class PromptBlueprint(dict):
         :return: merged blueprint
         :rtype: PromptBlueprint
         """
-
-        # TODO TODO
+        # Bug
         if not isinstance(other, PromptBlueprint):
             raise TypeError(
                 "must merge another PromptBlueprint, not: {}".format(
@@ -490,7 +489,7 @@ class PromptBlueprint(dict):
         :return: merged blueprint
         :rtype: PromptBlueprint
         """
-        # TODO use return NotImplemented
+        # Todo use return NotImplemented
         return self.merge(other)
 
     def __copy__(self):
