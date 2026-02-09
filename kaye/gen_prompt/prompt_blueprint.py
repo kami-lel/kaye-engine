@@ -435,7 +435,7 @@ class PromptBlueprint(dict):
         return copied
 
     def __repr__(self):
-        return super().__repr__()  # TODO
+        return self.generate_blueprint()
 
     def __str__(self):
         """
