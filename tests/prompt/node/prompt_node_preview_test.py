@@ -19,15 +19,13 @@ class TestPrompt1:  ############################################################
     └── License
         Licensed under the MIT License."""
 
-    def test_norm(self, test_prompt_corpus_tree1):
-        opt = test_prompt_corpus_tree1.generate_prompt_tree_preview()
+    def test_norm(self, test_corpus1):
+        opt = test_corpus1.generate_prompt_tree_preview()
         print(opt)
         assert opt == self.STR_CONTENT
 
-    def test_no_content(self, test_prompt_corpus_tree1):
-        opt = test_prompt_corpus_tree1.generate_prompt_tree_preview(
-            content_preview_lines=0
-        )
+    def test_no_content(self, test_corpus1):
+        opt = test_corpus1.generate_prompt_tree_preview(content_preview_lines=0)
         print(opt)
         assert opt == """○
 └── Project Title
@@ -35,8 +33,8 @@ class TestPrompt1:  ############################################################
     ├── Installation
     └── License"""
 
-    def test_limited_width(self, test_prompt_corpus_tree1):
-        opt = test_prompt_corpus_tree1.generate_prompt_tree_preview(
+    def test_limited_width(self, test_corpus1):
+        opt = test_corpus1.generate_prompt_tree_preview(
             content_preview_width=12
         )
         print(opt)
@@ -49,8 +47,8 @@ class TestPrompt1:  ############################################################
     └── License
         Lice"""
 
-    def test_repr(self, test_prompt_corpus_tree1):
-        opt = repr(test_prompt_corpus_tree1)
+    def test_repr(self, test_corpus1):
+        opt = repr(test_corpus1)
         print(opt)
         assert opt == self.STR_CONTENT
 
@@ -74,15 +72,13 @@ class TestPrompt2:  ############################################################
     └── License
         This project is licensed under the MIT License."""
 
-    def test_norm(self, test_prompt_corpus_tree2):
-        opt = test_prompt_corpus_tree2.generate_prompt_tree_preview()
+    def test_norm(self, test_corpus2):
+        opt = test_corpus2.generate_prompt_tree_preview()
         print(opt)
         assert opt == self.STR_CONTENT
 
-    def test_no_content(self, test_prompt_corpus_tree2):
-        opt = test_prompt_corpus_tree2.generate_prompt_tree_preview(
-            content_preview_lines=0
-        )
+    def test_no_content(self, test_corpus2):
+        opt = test_corpus2.generate_prompt_tree_preview(content_preview_lines=0)
         print(opt)
         assert opt == """○
 └── Project Title
@@ -92,10 +88,8 @@ class TestPrompt2:  ############################################################
     ├── Contributing
     └── License"""
 
-    def test_limited_line_count(self, test_prompt_corpus_tree2):
-        opt = test_prompt_corpus_tree2.generate_prompt_tree_preview(
-            content_preview_lines=1
-        )
+    def test_limited_line_count(self, test_corpus2):
+        opt = test_corpus2.generate_prompt_tree_preview(content_preview_lines=1)
         print(opt)
         assert opt == """○
 └── Project Title
@@ -110,8 +104,8 @@ class TestPrompt2:  ############################################################
     └── License
         This project is licensed under the MIT License."""
 
-    def test_limited_width(self, test_prompt_corpus_tree2):
-        opt = test_prompt_corpus_tree2.generate_prompt_tree_preview(
+    def test_limited_width(self, test_corpus2):
+        opt = test_corpus2.generate_prompt_tree_preview(
             content_preview_width=15
         )
         print(opt)
@@ -132,8 +126,8 @@ class TestPrompt2:  ############################################################
     └── License
         This pr"""
 
-    def test_repr(self, test_prompt_corpus_tree2):
-        opt = repr(test_prompt_corpus_tree2)
+    def test_repr(self, test_corpus2):
+        opt = repr(test_corpus2)
         print(opt)
         assert opt == self.STR_CONTENT
 
@@ -161,15 +155,13 @@ class TestPrompt3:  ############################################################
     └── Conclusion
         Summarizing the findings and implications."""
 
-    def test_norm(self, test_prompt_corpus_tree3):
-        opt = test_prompt_corpus_tree3.generate_prompt_tree_preview()
+    def test_norm(self, test_corpus3):
+        opt = test_corpus3.generate_prompt_tree_preview()
         print(opt)
         assert opt == self.STR_CONTENT
 
-    def test_no_content(self, test_prompt_corpus_tree3):
-        opt = test_prompt_corpus_tree3.generate_prompt_tree_preview(
-            content_preview_lines=0
-        )
+    def test_no_content(self, test_corpus3):
+        opt = test_corpus3.generate_prompt_tree_preview(content_preview_lines=0)
         print(opt)
         assert opt == """○
 └── Main Title
@@ -183,8 +175,8 @@ class TestPrompt3:  ############################################################
     │           └── Future Work
     └── Conclusion"""
 
-    def test_limited_width(self, test_prompt_corpus_tree3):
-        opt = test_prompt_corpus_tree3.generate_prompt_tree_preview(
+    def test_limited_width(self, test_corpus3):
+        opt = test_corpus3.generate_prompt_tree_preview(
             content_preview_width=30
         )
         print(opt)
