@@ -136,10 +136,9 @@ class TestAllArgs1:  # =========================================================
             Licensed under the MIT License."""
 
 
-class XTestAllArgs2:  # ========================================================
-    # FIXME FIXME
+class TestAllArgs2:  # =========================================================
 
-    def test_full(self):
+    def test_full(_, test_corpus2):
         corpus = test_corpus2
         bp_text = BLUEPRINT_2_FULL
 
@@ -200,7 +199,7 @@ class XTestAllArgs2:  # ========================================================
         assert tree_content == """    ○
 [ ] └── Project Title
 [ ]     ├── Description
-        │   A brief overview of the project, its purpose, and goals.
+        │   A brief overview of the project, its purpose, and go
 [ ]     ├── Installation
         │   1. Clone the repo
         │   2. Install dependencies
@@ -215,8 +214,7 @@ class XTestAllArgs2:  # ========================================================
             This project is licensed under the MIT License."""
 
 
-class XTestAllArgs3:  # ========================================================
-    # FIXME FIXME
+class TestAllArgs3:  # =========================================================
 
     def test_full(_, test_corpus3):
         corpus = test_corpus3
@@ -301,7 +299,7 @@ class XTestAllArgs3:  # ========================================================
 [ ]     │   └── Background
         │       Context or history relevant to the topic.
 [ ]     │       └── Importance
-        │           Why this topic matters in the current scenario.
+        │           Why this topic matters in the current scenar
 [ ]     │           └── Objective
         │               The primary goal of this document.
 [ ]     ├── Methods
@@ -311,7 +309,7 @@ class XTestAllArgs3:  # ========================================================
 [ ]     │       └── Tools Used
         │           List of tools utilized during the project.
 [ ]     │           └── Future Work
-        │               Suggestions for future research or tasks.
+        │               Suggestions for future research or tasks
 [ ]     └── Conclusion
             Summarizing the findings and implications."""
 

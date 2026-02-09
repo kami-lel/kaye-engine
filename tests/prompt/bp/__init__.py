@@ -74,7 +74,7 @@ BLUEPRINT_2_FULL = """    ○
 BLUEPRINT_2_PREVIEW = """    ○
 [x] └── Project Title
 [x]     ├── Description
-        │   A brief overview of the project, its purpose, and goals.
+        │   A brief overview of the project, its purpose, and go
 [x]     ├── Installation
         │   1. Clone the repo
         │   2. Install dependencies
@@ -101,7 +101,7 @@ BLUEPRINT_2_PARTIAL_1 = """    ○
 BLUEPRINT_2_PARTIAL_1_PREVIEW = """    ○
 [x] └── Project Title
 [ ]     ├── Description
-        │   A brief overview of the project, its purpose, and goals.
+        │   A brief overview of the project, its purpose, and go
 [x]     ├── Installation
         │   1. Clone the repo
         │   2. Install dependencies
@@ -151,7 +151,7 @@ BLUEPRINT_3_FULL_PREVIEW = """    ○
 [x]     │   └── Background
         │       Context or history relevant to the topic.
 [x]     │       └── Importance
-        │           Why this topic matters in the current scenario.
+        │           Why this topic matters in the current scenar
 [x]     │           └── Objective
         │               The primary goal of this document.
 [x]     ├── Methods
@@ -161,7 +161,7 @@ BLUEPRINT_3_FULL_PREVIEW = """    ○
 [x]     │       └── Tools Used
         │           List of tools utilized during the project.
 [x]     │           └── Future Work
-        │               Suggestions for future research or tasks.
+        │               Suggestions for future research or tasks
 [x]     └── Conclusion
             Summarizing the findings and implications."""
 
@@ -185,7 +185,7 @@ BLUEPRINT_3_PARTIAL_1_PREVIEW = """    ○
 [x]     │   └── Background
         │       Context or history relevant to the topic.
 [x]     │       └── Importance
-        │           Why this topic matters in the current scenario.
+        │           Why this topic matters in the current scenar
 [x]     │           └── Objective
         │               The primary goal of this document.
 [ ]     ├── Methods
@@ -195,7 +195,7 @@ BLUEPRINT_3_PARTIAL_1_PREVIEW = """    ○
 [ ]     │       └── Tools Used
         │           List of tools utilized during the project.
 [ ]     │           └── Future Work
-        │               Suggestions for future research or tasks.
+        │               Suggestions for future research or tasks
 [x]     └── Conclusion
             Summarizing the findings and implications."""
 
@@ -229,7 +229,7 @@ BLUEPRINT_3_PARTIAL_2_PREVIEW = """    ○
 [x]     │   └── Background
         │       Context or history relevant to the topic.
 [ ]     │       └── Importance
-        │           Why this topic matters in the current scenario.
+        │           Why this topic matters in the current scenar
 [x]     │           └── Objective
         │               The primary goal of this document.
 [ ]     ├── Methods
@@ -239,7 +239,7 @@ BLUEPRINT_3_PARTIAL_2_PREVIEW = """    ○
 [ ]     │       └── Tools Used
         │           List of tools utilized during the project.
 [x]     │           └── Future Work
-        │               Suggestions for future research or tasks.
+        │               Suggestions for future research or tasks
 [ ]     └── Conclusion
             Summarizing the findings and implications."""
 
