@@ -3,6 +3,8 @@ define ``spawn_prompt_corpus_tree``
 and its supporting function ``get_embedded_prompt_corpus_file_path()``
 """
 
+# Hack deprecation
+
 import re
 from pathlib import Path
 
