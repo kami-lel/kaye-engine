@@ -380,8 +380,9 @@ class PromptBlueprint(dict):
         # todo render type
         lines = []
 
-        for node in PreOrderIter(self.corpus):
-            if node in self:
+        last_node_idx = self.corpus.size - 1
+        for i, node in enumerate(PreOrderIter(self.corpus)):
+            if self.is_checkmarked(node):
                 # heading line
                 lines.append(
                     HEADING_PREFIX_ELEMENT * node.depth + " " + node.name
@@ -390,7 +391,8 @@ class PromptBlueprint(dict):
                 content_lines = node.content_lines()
                 if content_lines:
                     lines.extend(content_lines)
-                    lines.append("")  # add an empty line
+                    if i != last_node_idx:
+                        lines.append("")  # add an empty line
 
         if show_comment:
             lines.append("<!-- " + self._generate_comment_content() + " -->")

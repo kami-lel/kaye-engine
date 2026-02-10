@@ -4,8 +4,6 @@ prompt-bp-prompt_test.py
 Unit Tests (using pytest) for: PromptBlueprint.generate_prompt()
 """
 
-# FIXME FIXME
-
 import re
 
 
@@ -30,7 +28,6 @@ from tests.prompt.bp import (
 class Test1:  # with PROMPT1  ##################################################
 
     def test_full(_, test_corpus1):
-        # BUG BUG
         bp_text = BLUEPRINT_1_FULL
         bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
 
@@ -76,7 +73,6 @@ Licensed under the MIT License."""
 
         print(opt)
         assert opt == """# Project Title
-
 ## Installation
 Clone the repo and install dependencies.
 
@@ -93,7 +89,7 @@ Licensed under the MIT License."""
         assert opt == ""
 
 
-class XTest2:  # with PROMPT2  ##################################################
+class Test2:  # with PROMPT2  ##################################################
 
     def test_full(_, test_corpus2):
         bp_text = BLUEPRINT_2_FULL
@@ -103,7 +99,6 @@ class XTest2:  # with PROMPT2  #################################################
 
         print(opt)
         assert opt == """# Project Title
-
 ## Description
 A brief overview of the project, its purpose, and goals.
 
@@ -131,7 +126,6 @@ This project is licensed under the MIT License."""
 
         print(opt)
         assert opt == """# Project Title
-
 ## Installation
 1. Clone the repo
 2. Install dependencies
@@ -140,7 +134,8 @@ This project is licensed under the MIT License."""
 ## Contributing
 1. Fork the repo
 2. Create a new branch
-3. Submit a pull request"""
+3. Submit a pull request
+"""
 
     def test_empty(_, test_corpus2):
         bp_text = BLUEPRINT_2_EMPTY
@@ -152,7 +147,7 @@ This project is licensed under the MIT License."""
         assert opt == ""
 
 
-class XTest3:  # with PROMPT3  ##################################################
+class Test3:  # with PROMPT3  ##################################################
 
     def test_full(_, test_corpus3):
         bp_text = BLUEPRINT_3_FULL
@@ -162,7 +157,6 @@ class XTest3:  # with PROMPT3  #################################################
 
         print(opt)
         assert opt == """# Main Title
-
 ## Introduction
 Brief introduction to the topic.
 
@@ -198,7 +192,6 @@ Summarizing the findings and implications."""
 
         print(opt)
         assert opt == """# Main Title
-
 ## Introduction
 Brief introduction to the topic.
 
@@ -222,7 +215,6 @@ Summarizing the findings and implications."""
 
         print(opt)
         assert opt == """# Main Title
-
 ### Background
 Context or history relevant to the topic.
 
@@ -233,7 +225,8 @@ The primary goal of this document.
 How data was gathered for analysis.
 
 ##### Future Work
-Suggestions for future research or tasks."""
+Suggestions for future research or tasks.
+"""
 
     def test_empty(_, test_corpus3):
         bp_text = BLUEPRINT_3_EMPTY
