@@ -14,9 +14,6 @@ from anytree import RenderTree, PreOrderIter
 from .base_prompt_node import BasePromptNode
 from .prompt_corpus_loader import get_prompt_corpus_tree, HEADING_PREFIX_ELEMENT
 
-# from .prompt_corpus_loader import load_embedded_prompt_corpus
-from .today_node import TodayNode
-
 __all__ = ("PromptBlueprint",)
 
 
@@ -112,8 +109,6 @@ class PromptBlueprint(dict):
             path[level] = heading
 
             # attach node to blueprint  ----------------------------------------
-            # TODO how to deal w/ dynamic blueprint
-
             path_tuple = tuple(path)
 
             # check node's existence in tree  ----------------------------------
