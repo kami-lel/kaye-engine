@@ -8,9 +8,10 @@ from copy import copy
 
 # Todo unit test for dynamic node
 # TODO copy a new tree?
+# TODO write copy test
 
 
-class TestParse1:  #############################################################
+class TestPrompt1:  ############################################################
 
     def test_root(_, corpus_testee1):
         src_node = corpus_testee1
@@ -50,7 +51,7 @@ class TestParse1:  #############################################################
         assert src_node._content_lines == opt._content_lines
 
 
-class TestParse2:  #############################################################
+class TestPrompt2:  ############################################################
     def test_root(_, corpus_testee2):
         src_node = corpus_testee2
 
@@ -114,7 +115,7 @@ class TestParse2:  #############################################################
         assert src_node._content_lines == opt._content_lines
 
 
-class TestParse3:  #############################################################
+class TestPrompt3:  ############################################################
 
     def test_root(_, corpus_testee3):
         src_node = corpus_testee3
