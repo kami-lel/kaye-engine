@@ -1,21 +1,16 @@
 """
-define ``spawn_prompt_corpus_tree``
+define ``load_prompt_corpus_tree``
 and its supporting function ``get_embedded_prompt_corpus_file_path()``
 """
-
-# Hack deprecation
 
 import re
 from pathlib import Path
 
-
 from .prompt_corpus_node import PromptCorpusNode
-from .today_node import TodayNode
-from .abbr_nodes import AbbrNode, PLCNode
 
 __all__ = (
     "get_embedded_prompt_corpus_file_path",
-    "get_prompt_corpus_tree",
+    "load_prompt_corpus_tree",
 )
 
 
@@ -33,7 +28,7 @@ def get_embedded_prompt_corpus_file_path():
 prompt_corpus_tree = None  # pylint: disable=invalid-name
 
 
-def get_prompt_corpus_tree(*, prompt_corpus_text_override=None):
+def load_prompt_corpus_tree(*, prompt_corpus_text_override=None):
     """
     get the **prompt corpus tree** *singleton*, which is created by:
 
@@ -77,11 +72,6 @@ def get_prompt_corpus_tree(*, prompt_corpus_text_override=None):
     )
 
     if prompt_corpus_text_override is None:
-        # attach dynamic nodes  ------------------------------------------------
-        TodayNode(root)
-        AbbrNode(root)
-        PLCNode(root)
-
         prompt_corpus_tree = root
 
     return root

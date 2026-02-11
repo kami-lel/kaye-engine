@@ -12,7 +12,10 @@ from anytree import RenderTree, PreOrderIter
 
 
 from .base_prompt_node import BasePromptNode
-from .prompt_corpus_loader import get_prompt_corpus_tree, HEADING_PREFIX_ELEMENT
+from .prompt_corpus_loader import (
+    load_prompt_corpus_tree,
+    HEADING_PREFIX_ELEMENT,
+)
 
 __all__ = ("PromptBlueprint",)
 
@@ -167,7 +170,7 @@ class PromptBlueprint(dict):
         super().__init__()  # init as empty dict
 
         self.corpus = (
-            get_prompt_corpus_tree()
+            load_prompt_corpus_tree()
             if prompt_corpus_override is None
             else prompt_corpus_override
         )
