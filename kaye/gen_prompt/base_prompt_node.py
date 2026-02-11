@@ -194,8 +194,15 @@ class BasePromptNode(AnyTreeNode):
         return "{}({})".format(type(self).__name__, lineage)
 
     def __deepcopy__(self, memo):
+        """
+        :param memo:
+        :type memo:
+        :return: a deep copy with all descendants also copied
+        :rtype: BasePromptNode
+        """
         copied = copy.copy(self)
-        #  TODO & deep copy
+        # attach children
+        copied.children = [copy.copy(child) for child in self.children]
         return copied
 
 
@@ -204,7 +211,12 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
     abstract class for all *dynamic node*
     """
 
+    # TODO need write unit test
+
     # implement BasePromptNode  ================================================
     @property
     def id(self):
         return "{" + self.name + "}"
+
+    def _pre_attach_children(self, children):
+        pass  # TODO dynamic node banned from create instance
