@@ -42,8 +42,8 @@ from tests.prompt.bp import (
 # w/ all args  #################################################################
 class TestAllArgs1:  # =========================================================
 
-    def test_full(_, test_corpus1):
-        corpus = test_corpus1
+    def test_full(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
@@ -64,8 +64,8 @@ class TestAllArgs1:  # =========================================================
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test_part1(_, test_corpus1):
-        corpus = test_corpus1
+    def test_part1(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_PARTIAL_1
 
         bp = PromptBlueprint.parse(
@@ -83,8 +83,8 @@ class TestAllArgs1:  # =========================================================
 
         assert tree_content == BLUEPRINT_1_PARTIAL_1_PREVIEW
 
-    def test_part2(_, test_corpus1):
-        corpus = test_corpus1
+    def test_part2(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_PARTIAL_2
 
         bp = PromptBlueprint.parse(
@@ -102,8 +102,8 @@ class TestAllArgs1:  # =========================================================
 
         assert tree_content == BLUEPRINT_1_PARTIAL_2_PREVIEW
 
-    def test_empty(_, test_corpus1):
-        corpus = test_corpus1
+    def test_empty(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_EMPTY
 
         bp = PromptBlueprint.parse(
@@ -131,8 +131,8 @@ class TestAllArgs1:  # =========================================================
 
 class TestAllArgs2:  # =========================================================
 
-    def test_full(_, test_corpus2):
-        corpus = test_corpus2
+    def test_full(_, corpus_testee2):
+        corpus = corpus_testee2
         bp_text = BLUEPRINT_2_FULL
 
         bp = PromptBlueprint.parse(
@@ -153,8 +153,8 @@ class TestAllArgs2:  # =========================================================
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test_part1(_, test_corpus2):
-        corpus = test_corpus2
+    def test_part1(_, corpus_testee2):
+        corpus = corpus_testee2
         bp_text = BLUEPRINT_2_PARTIAL_1
 
         bp = PromptBlueprint.parse(
@@ -172,8 +172,8 @@ class TestAllArgs2:  # =========================================================
 
         assert tree_content == BLUEPRINT_2_PARTIAL_1_PREVIEW
 
-    def test_empty(_, test_corpus2):
-        corpus = test_corpus2
+    def test_empty(_, corpus_testee2):
+        corpus = corpus_testee2
         bp_text = BLUEPRINT_2_EMPTY
 
         bp = PromptBlueprint.parse(
@@ -209,8 +209,8 @@ class TestAllArgs2:  # =========================================================
 
 class TestAllArgs3:  # =========================================================
 
-    def test_full(_, test_corpus3):
-        corpus = test_corpus3
+    def test_full(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(
@@ -230,8 +230,8 @@ class TestAllArgs3:  # =========================================================
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test_part1(_, test_corpus3):
-        corpus = test_corpus3
+    def test_part1(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_PARTIAL_1
 
         bp = PromptBlueprint.parse(
@@ -249,8 +249,8 @@ class TestAllArgs3:  # =========================================================
 
         assert tree_content == BLUEPRINT_3_PARTIAL_1_PREVIEW
 
-    def test_part2(_, test_corpus3):
-        corpus = test_corpus3
+    def test_part2(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_PARTIAL_2
 
         bp = PromptBlueprint.parse(
@@ -268,8 +268,8 @@ class TestAllArgs3:  # =========================================================
 
         assert tree_content == BLUEPRINT_3_PARTIAL_2_PREVIEW
 
-    def test_empty(_, test_corpus3):
-        corpus = test_corpus3
+    def test_empty(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_EMPTY
 
         bp = PromptBlueprint.parse(
@@ -311,8 +311,8 @@ class TestAllArgs3:  # =========================================================
 # w/ all args
 class TestNoContent1:  # =======================================================
 
-    def test_full(_, test_corpus1):
-        corpus = test_corpus1
+    def test_full(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
@@ -336,8 +336,8 @@ class TestNoContent1:  # =======================================================
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test_part1(_, test_corpus1):
-        corpus = test_corpus1
+    def test_part1(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_PARTIAL_1
 
         bp = PromptBlueprint.parse(
@@ -358,8 +358,8 @@ class TestNoContent1:  # =======================================================
 [x]     ├── Installation
 [x]     └── License"""
 
-    def test_part2(_, test_corpus1):
-        corpus = test_corpus1
+    def test_part2(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_PARTIAL_2
 
         bp = PromptBlueprint.parse(
@@ -380,8 +380,8 @@ class TestNoContent1:  # =======================================================
 [x]     ├── Installation
 [x]     └── License"""
 
-    def test_empty(_, test_corpus1):
-        corpus = test_corpus1
+    def test_empty(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_EMPTY
 
         bp = PromptBlueprint.parse(
@@ -405,8 +405,8 @@ class TestNoContent1:  # =======================================================
 
 class TestNoContent3:  # =======================================================
 
-    def test_full(_, test_corpus3):
-        corpus = test_corpus3
+    def test_full(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(
@@ -436,8 +436,8 @@ class TestNoContent3:  # =======================================================
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
 
-    def test_part1(_, test_corpus3):
-        corpus = test_corpus3
+    def test_part1(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_PARTIAL_1
 
         bp = PromptBlueprint.parse(
@@ -464,8 +464,8 @@ class TestNoContent3:  # =======================================================
 [ ]     │           └── Future Work
 [x]     └── Conclusion"""
 
-    def test_part2(_, test_corpus3):
-        corpus = test_corpus3
+    def test_part2(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_PARTIAL_2
 
         bp = PromptBlueprint.parse(
@@ -492,8 +492,8 @@ class TestNoContent3:  # =======================================================
 [x]     │           └── Future Work
 [ ]     └── Conclusion"""
 
-    def test_empty(_, test_corpus3):
-        corpus = test_corpus3
+    def test_empty(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_EMPTY
 
         bp = PromptBlueprint.parse(
@@ -525,8 +525,8 @@ class TestNoContent3:  # =======================================================
 # w/ all args
 class TestNoComment:  # =======================================================
 
-    def test1(_, test_corpus1):
-        corpus = test_corpus1
+    def test1(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
@@ -545,8 +545,8 @@ class TestNoComment:  # =======================================================
 [x]     ├── Installation
 [x]     └── License"""
 
-    def test3(_, test_corpus3):
-        corpus = test_corpus3
+    def test3(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(
@@ -576,9 +576,9 @@ class TestNoComment:  # =======================================================
 # full tree (nor content)  #####################################################
 class TestFullTree:
 
-    def test1(_, test_corpus1):
+    def test1(_, corpus_testee1):
         bp_text = BLUEPRINT_1_PARTIAL_2_PRUNED
-        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
 
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -590,9 +590,9 @@ class TestFullTree:
 
         assert opt == BLUEPRINT_1_PARTIAL_2
 
-    def test2(_, test_corpus2):
+    def test2(_, corpus_testee2):
         bp_text = BLUEPRINT_2_PARTIAL_1_PRUNED
-        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus2)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee2)
 
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -604,9 +604,9 @@ class TestFullTree:
 
         assert opt == BLUEPRINT_2_PARTIAL_1
 
-    def test31(_, test_corpus3):
+    def test31(_, corpus_testee3):
         bp_text = BLUEPRINT_3_PARTIAL_1_PRUNED
-        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
 
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -618,9 +618,9 @@ class TestFullTree:
 
         assert opt == BLUEPRINT_3_PARTIAL_1
 
-    def test32(_, test_corpus3):
+    def test32(_, corpus_testee3):
         bp_text = BLUEPRINT_3_PARTIAL_2_PRUNED
-        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
 
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -636,8 +636,8 @@ class TestFullTree:
 # default  #####################################################################
 class TestDft:
 
-    def test1(_, test_corpus1):
-        corpus = test_corpus1
+    def test1(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
@@ -649,8 +649,8 @@ class TestDft:
 
         assert opt == BLUEPRINT_1_FULL_PREVIEW
 
-    def test2(_, test_corpus2):
-        corpus = test_corpus2
+    def test2(_, corpus_testee2):
+        corpus = corpus_testee2
         bp_text = BLUEPRINT_2_FULL
 
         bp = PromptBlueprint.parse(
@@ -662,8 +662,8 @@ class TestDft:
 
         assert opt == BLUEPRINT_2_PREVIEW
 
-    def test3(_, test_corpus3):
-        corpus = test_corpus3
+    def test3(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(
@@ -678,8 +678,8 @@ class TestDft:
 
 class TestRepr:  ###############################################################
 
-    def test1(_, test_corpus1):
-        corpus = test_corpus1
+    def test1(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
@@ -691,8 +691,8 @@ class TestRepr:  ###############################################################
 
         assert opt == BLUEPRINT_1_FULL_PREVIEW
 
-    def test2(_, test_corpus2):
-        corpus = test_corpus2
+    def test2(_, corpus_testee2):
+        corpus = corpus_testee2
         bp_text = BLUEPRINT_2_FULL
 
         bp = PromptBlueprint.parse(
@@ -704,8 +704,8 @@ class TestRepr:  ###############################################################
 
         assert opt == BLUEPRINT_2_PREVIEW
 
-    def test3(_, test_corpus3):
-        corpus = test_corpus3
+    def test3(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(

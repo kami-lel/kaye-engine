@@ -13,16 +13,16 @@ from tests.prompt.bp import (
 
 class Test1:  # use corpus1  ###################################################
 
-    def test_full(_, test_corpus1):
+    def test_full(_, corpus_testee1):
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
 
         # test entries  --------------------------------------------------------
         # test Project Title
-        proj_node = test_corpus1.children[0]
+        proj_node = corpus_testee1.children[0]
 
         opt = proj_node in bp
         print(repr(opt) + "\t" + repr(proj_node))
@@ -50,18 +50,18 @@ class Test1:  # use corpus1  ###################################################
 
 class Test3:  # use corpus3  ##############################################
 
-    def test_full(_, test_corpus3):
+    def test_full(_, corpus_testee3):
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(
             bp_text,
             disable_prune=True,
-            corpus_override=test_corpus3,
+            corpus_override=corpus_testee3,
         )
 
         # test entries  --------------------------------------------------------
         # Main Title
-        main_title_node = test_corpus3.children[0]
+        main_title_node = corpus_testee3.children[0]
         opt = main_title_node in bp
         print(repr(opt) + "\t" + repr(main_title_node))
         assert opt
