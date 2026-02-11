@@ -1,12 +1,13 @@
 """
-prompt_blueprint_is_checkmarked_test.py
+prompt-bp-is_checkmarked_test.py
 
-Unit Tests (using pytest) for: PromptBlueprint.is_enabled()
+Unit Tests (using pytest) for: PromptBlueprint.is_checkmarked()
 """
 
-from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
-from tests.prompt import PROMPT1, PROMPT3
-from tests.prompt.blueprint import (
+# Todo unit test for dynamic node
+
+from kaye.gen_prompt import PromptBlueprint
+from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_1_PARTIAL_2,
@@ -17,17 +18,16 @@ from tests.prompt.blueprint import (
     BLUEPRINT_3_EMPTY,
 )
 
-CORPUS1 = PromptCorpusNode.parse(PROMPT1)
-CORPUS3 = PromptCorpusNode.parse(PROMPT3)
-
 
 class Test1:  # use corpus1  ###################################################
 
-    def test_full(_):
-        corpus = CORPUS1
+    def test_full(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus
+        )
 
         # test entries  --------------------------------------------------------
         # test Project Title
@@ -56,11 +56,13 @@ class Test1:  # use corpus1  ###################################################
         print(repr(opt) + "\t" + repr(_node))
         assert opt
 
-    def test_no_project(_):
-        corpus = CORPUS1
+    def test_no_project(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_PARTIAL_1
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus
+        )
 
         # test entries  --------------------------------------------------------
         # test Project Title
@@ -87,11 +89,13 @@ class Test1:  # use corpus1  ###################################################
         print(repr(opt) + "\t" + repr(_node))
         assert opt
 
-    def test_no_description(_):
-        corpus = CORPUS1
+    def test_no_description(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_PARTIAL_2
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus
+        )
 
         print(bp)
         opt = len(bp) == 4
@@ -121,11 +125,13 @@ class Test1:  # use corpus1  ###################################################
         print(repr(opt) + "\t" + repr(_node))
         assert opt
 
-    def test_empty(_):
-        corpus = CORPUS1
+    def test_empty(_, corpus_testee1):
+        corpus = corpus_testee1
         bp_text = BLUEPRINT_1_EMPTY
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus
+        )
 
         print(bp)
         opt = len(bp) == 4
@@ -155,14 +161,36 @@ class Test1:  # use corpus1  ###################################################
         print(repr(opt) + "\t" + repr(_node))
         assert not opt
 
+    # fail cases  ==============================================================
 
-class Test3:  # use corpus3  ##############################################
+    # a node that is not contained in bp at all
+    def test_not_contained1(_, corpus_testee1, corpus_testee3):
+        bp = PromptBlueprint.parse(
+            BLUEPRINT_1_FULL,
+            disable_prune=True,
+            corpus_override=corpus_testee1,
+        )
+        assert not bp.is_checkmarked(corpus_testee3)
 
-    def test_full(_):
-        corpus = CORPUS3
+    # a node that is not contained in bp at all
+    def test_not_contained2(_, corpus_testee1, corpus_testee3):
+        bp = PromptBlueprint.parse(
+            BLUEPRINT_1_FULL,
+            disable_prune=True,
+            corpus_override=corpus_testee1,
+        )
+        assert not bp.is_checkmarked(corpus_testee3.children[0])
+
+
+class Test3:  # use corpus3  ##################################################
+
+    def test_full(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus
+        )
 
         # test entries  --------------------------------------------------------
         # Main Title
@@ -225,11 +253,13 @@ class Test3:  # use corpus3  ##############################################
         print(repr(opt) + "\t" + repr(_node))
         assert opt
 
-    def test_part1(_):
-        corpus = CORPUS3
+    def test_part1(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_PARTIAL_1
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus
+        )
 
         # test entries  --------------------------------------------------------
         # Main Title
@@ -292,10 +322,12 @@ class Test3:  # use corpus3  ##############################################
         print(repr(opt) + "\t" + repr(_node))
         assert opt
 
-    def test_part2(_):
-        corpus = CORPUS3
+    def test_part2(_, corpus_testee3):
+        corpus = corpus_testee3
         bp_text = BLUEPRINT_3_PARTIAL_2
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus
+        )
 
         print(bp)
         # test entries  --------------------------------------------------------
@@ -359,11 +391,13 @@ class Test3:  # use corpus3  ##############################################
         print(repr(opt) + "\t" + repr(_node))
         assert not opt
 
-    def test_empty(_):
-        corpus = CORPUS3
+    def test_empty(_, corpus_testee3):
+        corpus = corpus_testee3
 
         bp_text = BLUEPRINT_3_EMPTY
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus
+        )
 
         print(bp)
         # test entries  --------------------------------------------------------
@@ -426,12 +460,3 @@ class Test3:  # use corpus3  ##############################################
         opt = bp.is_checkmarked(_node)
         print(repr(opt) + "\t" + repr(_node))
         assert not opt
-
-
-# err handling  ################################################################
-
-
-def test_not_contained():
-    # a node that is not contained in blueprint at all
-    bp = PromptBlueprint.parse(CORPUS1, BLUEPRINT_1_FULL, disable_prune=True)
-    assert not bp.is_checkmarked(CORPUS3)

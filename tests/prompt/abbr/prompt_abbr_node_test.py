@@ -12,14 +12,13 @@ from kaye.gen_prompt import PromptCorpusNode
 from kaye.gen_prompt.abbr_collection import AbbrData
 from kaye.gen_prompt.abbr_nodes import AbbrNode
 
-from tests.prompt import PROMPT1
-
-tree = PromptCorpusNode.parse(PROMPT1)
+# tree = PromptCorpusNode.parse(PROMPT1)
+# Bug update unit tests
 
 
 class TestAbbrNode:
 
-    node = AbbrNode(tree)
+    # node = AbbrNode(tree)
 
     def test_init(self):
         self.node.parent is tree

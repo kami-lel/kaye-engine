@@ -9,7 +9,6 @@ from flask import Blueprint
 from kaye import PROGRAM_NAME
 from kaye.gen_prompt import (
     PromptBlueprint,
-    load_embedded_prompt_corpus,
     load_embedded_prompt_blueprint,
 )
 

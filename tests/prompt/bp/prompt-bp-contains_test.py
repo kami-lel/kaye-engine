@@ -1,31 +1,30 @@
 """
-prompt_blueprint_contains_test.py
+prompt-bp-contains_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.__contains__()
 """
 
-from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
-from tests.prompt import PROMPT1, PROMPT3
-from tests.prompt.blueprint import (
+from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
+from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_3_FULL,
 )
 
-CORPUS1 = PromptCorpusNode.parse(PROMPT1)
-CORPUS3 = PromptCorpusNode.parse(PROMPT3)
+# Todo unit test for dynamic node
 
 
 class Test1:  # use corpus1  ###################################################
 
-    def test_full(_):
-        corpus = CORPUS1
+    def test_full(_, corpus_testee1):
         bp_text = BLUEPRINT_1_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
+        )
 
         # test entries  --------------------------------------------------------
         # test Project Title
-        proj_node = corpus.children[0]
+        proj_node = corpus_testee1.children[0]
 
         opt = proj_node in bp
         print(repr(opt) + "\t" + repr(proj_node))
@@ -53,15 +52,18 @@ class Test1:  # use corpus1  ###################################################
 
 class Test3:  # use corpus3  ##############################################
 
-    def test_full(_):
-        corpus = CORPUS3
+    def test_full(_, corpus_testee3):
         bp_text = BLUEPRINT_3_FULL
 
-        bp = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        bp = PromptBlueprint.parse(
+            bp_text,
+            disable_prune=True,
+            corpus_override=corpus_testee3,
+        )
 
         # test entries  --------------------------------------------------------
         # Main Title
-        main_title_node = corpus.children[0]
+        main_title_node = corpus_testee3.children[0]
         opt = main_title_node in bp
         print(repr(opt) + "\t" + repr(main_title_node))
         assert opt

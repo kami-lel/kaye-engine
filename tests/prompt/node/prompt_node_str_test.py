@@ -6,36 +6,27 @@ Unit Tests (using pytest) for:
 - PromptCorpusNode.__str__()
 """
 
-from kaye.gen_prompt import PromptCorpusNode
-from tests.prompt import (
-    PROMPT1,
-    PROMPT2,
-    PROMPT3,
-)
-
 
 class TestPrompt1:  ############################################################
 
-    tree = PromptCorpusNode.parse(PROMPT1)
-
-    def test_root(self):
-        node = self.tree
+    def test_root(_, corpus_testee1):
+        node = corpus_testee1
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode()"
 
-    def test1(self):
-        node = self.tree.children[0]
+    def test1(_, corpus_testee1):
+        node = corpus_testee1.children[0]
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title)"
 
-    def test2(self):
-        node = self.tree.children[0].children[0]
+    def test2(_, corpus_testee1):
+        node = corpus_testee1.children[0].children[0]
 
         opt = str(node)
         print(opt)
@@ -45,58 +36,56 @@ class TestPrompt1:  ############################################################
 
 class TestPrompt2:  ############################################################
 
-    tree = PromptCorpusNode.parse(PROMPT2)
-
-    def test_root(self):
-        node = self.tree
+    def test_root(_, corpus_testee2):
+        node = corpus_testee2
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode()"
 
-    def test1(self):
-        node = self.tree.children[0]
+    def test1(_, corpus_testee2):
+        node = corpus_testee2.children[0]
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title)"
 
-    def test2(self):
-        node = self.tree.children[0].children[0]
+    def test2(_, corpus_testee2):
+        node = corpus_testee2.children[0].children[0]
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title#Description)"
 
-    def test3(self):
-        node = self.tree.children[0].children[1]
+    def test3(_, corpus_testee2):
+        node = corpus_testee2.children[0].children[1]
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title#Installation)"
 
-    def test4(self):
-        node = self.tree.children[0].children[2]
+    def test4(_, corpus_testee2):
+        node = corpus_testee2.children[0].children[2]
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title#Usage)"
 
-    def test5(self):
-        node = self.tree.children[0].children[3]
+    def test5(_, corpus_testee2):
+        node = corpus_testee2.children[0].children[3]
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Project Title#Contributing)"
 
-    def test6(self):
-        node = self.tree.children[0].children[4]
+    def test6(_, corpus_testee2):
+        node = corpus_testee2.children[0].children[4]
 
         opt = str(node)
         print(opt)
@@ -106,42 +95,40 @@ class TestPrompt2:  ############################################################
 
 class TestPrompt3:  ############################################################
 
-    tree = PromptCorpusNode.parse(PROMPT3)
-
-    def test_root(self):
-        node = self.tree
+    def test_root(_, corpus_testee3):
+        node = corpus_testee3
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode()"
 
-    def test1(self):
-        node = self.tree.children[0]
+    def test1(_, corpus_testee3):
+        node = corpus_testee3.children[0]
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Main Title)"
 
-    def test2(self):
-        node = self.tree.children[0].children[0]
+    def test2(_, corpus_testee3):
+        node = corpus_testee3.children[0].children[0]
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Main Title#Introduction)"
 
-    def test3(self):
-        node = self.tree.children[0].children[0].children[0]
+    def test3(_, corpus_testee3):
+        node = corpus_testee3.children[0].children[0].children[0]
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Main Title#Introduction#Background)"
 
-    def test4(self):
-        node = self.tree.children[0].children[0].children[0].children[0]
+    def test4(_, corpus_testee3):
+        node = corpus_testee3.children[0].children[0].children[0].children[0]
 
         opt = str(node)
         print(opt)
@@ -151,9 +138,9 @@ class TestPrompt3:  ############################################################
             == "PromptCorpusNode(Main Title#Introduction#Background#Importance)"
         )
 
-    def test5(self):
+    def test5(_, corpus_testee3):
         node = (
-            self.tree.children[0]
+            corpus_testee3.children[0]
             .children[0]
             .children[0]
             .children[0]
@@ -169,24 +156,24 @@ class TestPrompt3:  ############################################################
             "(Main Title#Introduction#Background#Importance#Objective)"
         )
 
-    def test21(self):
-        node = self.tree.children[0].children[1]
+    def test21(_, corpus_testee3):
+        node = corpus_testee3.children[0].children[1]
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Main Title#Methods)"
 
-    def test22(self):
-        node = self.tree.children[0].children[1].children[0]
+    def test22(_, corpus_testee3):
+        node = corpus_testee3.children[0].children[1].children[0]
 
         opt = str(node)
         print(opt)
 
         assert opt == "PromptCorpusNode(Main Title#Methods#Data Collection)"
 
-    def test23(self):
-        node = self.tree.children[0].children[1].children[0].children[0]
+    def test23(_, corpus_testee3):
+        node = corpus_testee3.children[0].children[1].children[0].children[0]
 
         opt = str(node)
         print(opt)
@@ -196,9 +183,9 @@ class TestPrompt3:  ############################################################
             == "PromptCorpusNode(Main Title#Methods#Data Collection#Tools Used)"
         )
 
-    def test24(self):
+    def test24(_, corpus_testee3):
         node = (
-            self.tree.children[0]
+            corpus_testee3.children[0]
             .children[1]
             .children[0]
             .children[0]
@@ -214,8 +201,8 @@ class TestPrompt3:  ############################################################
             "(Main Title#Methods#Data Collection#Tools Used#Future Work)"
         )
 
-    def test31(self):
-        node = self.tree.children[0].children[2]
+    def test31(_, corpus_testee3):
+        node = corpus_testee3.children[0].children[2]
 
         opt = str(node)
         print(opt)

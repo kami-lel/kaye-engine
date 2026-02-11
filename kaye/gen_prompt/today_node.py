@@ -31,3 +31,6 @@ class TodayNode(DynamicNode):
         date = now.strftime("%Y-%m-%d")
         time = now.strftime("%H:%M:%S")
         return ["Today: {}".format(date), "Time: {}".format(time)]
+
+    def __copy__(self):
+        return TodayNode(self.parent)

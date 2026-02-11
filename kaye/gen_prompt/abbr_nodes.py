@@ -48,6 +48,10 @@ class AbbrNode(DynamicNode):
         lines = ["- {}:{}".format(e.abbr, e.mean) for e in entries]
         return lines
 
+    def __copy__(self):
+        # Todo copy unit test
+        return AbbrNode(self.parent)
+
 
 class PLCNode(DynamicNode):
 
@@ -66,6 +70,10 @@ class PLCNode(DynamicNode):
                 lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
 
         return lines
+
+    def __copy__(self):
+        # Todo copy unit test
+        return AbbrNode(self.parent)
 
 
 # Todo usable abbrs node

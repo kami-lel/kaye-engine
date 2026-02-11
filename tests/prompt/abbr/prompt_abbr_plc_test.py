@@ -9,15 +9,13 @@ Unit Tests (using pytest) for:
 from kaye.gen_prompt import PromptCorpusNode
 from kaye.gen_prompt.abbr_nodes import PLCNode
 
-
-from tests.prompt import PROMPT1
-
-tree = PromptCorpusNode.parse(PROMPT1)
+# tree = PromptCorpusNode.parse(PROMPT1)
 
 
 class TestPLC:
+    # Bug update unit tests
 
-    node = PLCNode(tree)
+    # node = PLCNode(tree)
 
     def test_init(self):
         self.node.parent is tree

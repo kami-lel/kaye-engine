@@ -7,74 +7,46 @@ import re
 from .base_prompt_node import BasePromptNode
 
 # section heading prefix used for parsing .md file of prompt corpus
-HEADING_PREFIX = "#"
-ROOT_NODE_NAME = "○"  # placeholder name for root node
 
 __all__ = ("PromptCorpusNode",)
 
 
 class PromptCorpusNode(BasePromptNode):
     """
-    A `PromptCorpuTHACKsNode` encapsule a single node in the *prompt corpus tree*.
+    A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
 
 
-    :param name: section heading
-    :type name: str
+    :param heading: section heading, i.e. node name
+    :type heading: str
     :param parent: parent node in the tree structure;
             `None` if the root node
     :type parent: PromptCorpusNode
-    :param text_lines: content to be parsed, each ``str`` represents a line
-    :type text_lines: list(str)
+    :param content_lines: section content, each ``str`` represents a line
+    :type content_lines: list(str)
     :example:
     >>> tree = PromptCorpusNode.parse(prompt_corpus_text)
     """
 
-    # public API  ==============================================================
-
-    @classmethod
-    def parse(cls, prompt_corpus_text):  # TODO TODO parse also dynamic nodes
-        """
-        parse *prompt corpus* text into the tree structure.
-
-
-        :param prompt_corpus_text: full source *prompt corpus* content
-        :type prompt_corpus_text: str
-        :return: **root node** of the parsed *prompt* tree structure
-        :rtype: PromptCorpusNode
-        """
-        # reduce 2+ empty lines into single empty line
-        text_cleanup = re.sub(r"\n{3,}", "\n\n", prompt_corpus_text)
-        # split to lines
-        text_lines = list(text_cleanup.split("\n"))
-
-        root = cls(ROOT_NODE_NAME, None, text_lines)
-        return root
-
     # constructor  =============================================================
-    def __init__(self, name, parent, text_lines):
-        self._init_test_name(name)
+    def __init__(self, heading, parent, content_lines):
+        self._init_check_name(heading)
 
-        super().__init__(name, parent)
-        self._content_lines = []
-
-        if len(text_lines) == 0:
-            return
-
-        self._init_populate_children(text_lines)
+        super().__init__(heading, parent)
 
         # trim leading/trailing empty strings
-        start, end = 0, len(self._content_lines)
-        while start < end and self._content_lines[start] == "":
+        start, end = 0, len(content_lines)
+        while start < end and content_lines[start] == "":
             start += 1
-        while end > start and self._content_lines[end - 1] == "":
+        while end > start and content_lines[end - 1] == "":
             end -= 1
-        self._content_lines = self._content_lines[start:end]
+
+        self._content_lines = content_lines[start:end]
 
     # constructor helpers  *****************************************************
     HEADING_FORBIDDEN = re.compile(r"{.*}")
 
     @classmethod
-    def _init_test_name(cls, name):
+    def _init_check_name(cls, name):
         """
         test name to be a legal heading
 
@@ -82,39 +54,6 @@ class PromptCorpusNode(BasePromptNode):
         """
         if cls.HEADING_FORBIDDEN.fullmatch(name):
             raise ValueError("illegal heading syntax: {}".format(repr(name)))
-
-    def _init_populate_children(self, text_lines):
-        """
-        create node children and add content to ``._content_line``
-
-        (helper method used in ``__init__()``)
-        """
-        # find every sub-section heading lines
-        heading_prefix = HEADING_PREFIX * (self.depth + 1) + " "
-        heading_lines = []
-        for idx, line in enumerate(text_lines):
-            if line.startswith(heading_prefix):
-                heading_lines.append(idx)
-
-        # contain no subsection
-        if not heading_lines:
-            # all lines are content
-            self._content_lines = list(text_lines)
-            return
-
-        # this node contains subsections, then parse the content part out
-        self._content_lines = text_lines[: heading_lines[0]]
-        if not any(self._content_lines):
-            self._content_lines = []
-
-        # parse sub-sections as nodes
-        heading_lines.append(len(text_lines))
-        for start, end in zip(heading_lines, heading_lines[1:]):
-            # extract heading content
-            # e.g. "### this is heading " -> "this is heading"
-            heading_content = text_lines[start][len(heading_prefix) :].strip()
-            children_nodes = text_lines[start + 1 : end]
-            PromptCorpusNode(heading_content, self, children_nodes)
 
     # implement BasePromptNode  ================================================
 
@@ -126,30 +65,7 @@ class PromptCorpusNode(BasePromptNode):
     def content_lines(self, **kwargs):
         return self._content_lines
 
-    # Hack rm
-
-    # def __copy__(self):
-    #     """
-    #     :return: a copy without any children
-    #     :rtype: PromptCorpusNode
-    #     """
-    #     obj = type(self)(self.name, self.parent, [])
-    #     obj._content_lines = self._content_lines
-    #     return obj
-
-    # def _generate_prompt_lines(self):
-    #     """
-    #     generate prompt lines as this node appeared in concrete prompt
-
-    #     (helper method used in ``PromptBlueprint.generate_prompt()``)
-
-    #     :return: lines of prompt
-    #     :rtype: list[str]
-    #     """
-    #     lines = [""]  # add empty lines before headings
-    #     # heading line
-    #     lines.append(HEADING_PREFIX * self.depth + " " + self.name)
-    #     # content lines
-    #     lines.extend(self.content)
-
-    #     return lines
+    def __copy__(self):
+        copied = type(self)(self.name, self.parent, [])
+        copied._content_lines = self._content_lines
+        return copied
