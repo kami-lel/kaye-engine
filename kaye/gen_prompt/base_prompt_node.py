@@ -202,7 +202,8 @@ class BasePromptNode(AnyTreeNode):
         """
         copied = copy.copy(self)
         # attach children
-        copied.children = [copy.copy(child) for child in self.children]
+        copied.children = [copy.deepcopy(child) for child in self.children]
+
         return copied
 
 
