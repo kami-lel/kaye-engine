@@ -9,8 +9,8 @@ from copy import copy
 
 class TestParse1:  #############################################################
 
-    def test_root(_, test_corpus1):
-        src_node = test_corpus1
+    def test_root(_, corpus_testee1):
+        src_node = corpus_testee1
 
         opt = copy(src_node)
         print(str(opt))
@@ -19,8 +19,8 @@ class TestParse1:  #############################################################
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
-    def test_project(_, test_corpus1):
-        tree = test_corpus1
+    def test_project(_, corpus_testee1):
+        tree = corpus_testee1
         src_node = tree.children[0]
 
         opt = copy(src_node)
@@ -32,8 +32,8 @@ class TestParse1:  #############################################################
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
-    def test_sub1(_, test_corpus1):
-        tree = test_corpus1
+    def test_sub1(_, corpus_testee1):
+        tree = corpus_testee1
         project = tree.children[0]
         src_node = project.children[0]
 
@@ -48,8 +48,8 @@ class TestParse1:  #############################################################
 
 
 class TestParse2:  #############################################################
-    def test_root(_, test_corpus2):
-        src_node = test_corpus2
+    def test_root(_, corpus_testee2):
+        src_node = corpus_testee2
 
         opt = copy(src_node)
         print(str(opt))
@@ -59,8 +59,8 @@ class TestParse2:  #############################################################
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
-    def test_project(_, test_corpus2):
-        tree = test_corpus2
+    def test_project(_, corpus_testee2):
+        tree = corpus_testee2
         src_node = tree.children[0]
 
         opt = copy(src_node)
@@ -71,8 +71,8 @@ class TestParse2:  #############################################################
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
-    def test_description(_, test_corpus2):
-        tree = test_corpus2
+    def test_description(_, corpus_testee2):
+        tree = corpus_testee2
         project = tree.children[0]
         src_node = project.children[0]
 
@@ -84,8 +84,8 @@ class TestParse2:  #############################################################
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
-    def test_install(_, test_corpus2):
-        tree = test_corpus2
+    def test_install(_, corpus_testee2):
+        tree = corpus_testee2
         project = tree.children[0]
         src_node = project.children[1]
 
@@ -97,8 +97,8 @@ class TestParse2:  #############################################################
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
-    def test_usage1(_, test_corpus2):
-        tree = test_corpus2
+    def test_usage1(_, corpus_testee2):
+        tree = corpus_testee2
         project = tree.children[0]
         src_node = project.children[2]
 
@@ -113,8 +113,8 @@ class TestParse2:  #############################################################
 
 class TestParse3:  #############################################################
 
-    def test_root(_, test_corpus3):
-        src_node = test_corpus3
+    def test_root(_, corpus_testee3):
+        src_node = corpus_testee3
 
         opt = copy(src_node)
         print(str(opt))
@@ -124,8 +124,8 @@ class TestParse3:  #############################################################
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
-    def test_project(_, test_corpus3):
-        tree = test_corpus3
+    def test_project(_, corpus_testee3):
+        tree = corpus_testee3
         src_node = tree.children[0]
 
         opt = copy(src_node)
@@ -136,8 +136,8 @@ class TestParse3:  #############################################################
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
-    def test_intro(_, test_corpus3):
-        tree = test_corpus3
+    def test_intro(_, corpus_testee3):
+        tree = corpus_testee3
         project = tree.children[0]
         src_node = project.children[0]
 
@@ -149,8 +149,8 @@ class TestParse3:  #############################################################
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
-    def test_intro_bg(_, test_corpus3):
-        tree = test_corpus3
+    def test_intro_bg(_, corpus_testee3):
+        tree = corpus_testee3
         project = tree.children[0]
         parent = project.children[0]
         src_node = parent.children[0]
@@ -163,8 +163,8 @@ class TestParse3:  #############################################################
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
-    def test_intro_bg_mpt(_, test_corpus3):
-        tree = test_corpus3
+    def test_intro_bg_mpt(_, corpus_testee3):
+        tree = corpus_testee3
         project = tree.children[0]
         parent = project.children[0].children[0]
         src_node = parent.children[0]
@@ -177,8 +177,8 @@ class TestParse3:  #############################################################
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
-    def test_intro_bg_mpt_obj(_, test_corpus3):
-        tree = test_corpus3
+    def test_intro_bg_mpt_obj(_, corpus_testee3):
+        tree = corpus_testee3
         project = tree.children[0]
         parent = project.children[0].children[0].children[0]
         src_node = parent.children[0]

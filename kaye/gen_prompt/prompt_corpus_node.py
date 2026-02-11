@@ -39,6 +39,7 @@ class PromptCorpusNode(BasePromptNode):
             start += 1
         while end > start and content_lines[end - 1] == "":
             end -= 1
+
         self._content_lines = content_lines[start:end]
 
     # constructor helpers  *****************************************************
@@ -65,7 +66,6 @@ class PromptCorpusNode(BasePromptNode):
         return self._content_lines
 
     def __copy__(self):
-        # TODO write tests
-        obj = type(self)(self.name, self.parent, [])
-        obj._content_lines = self._content_lines
-        return obj
+        copied = type(self)(self.name, self.parent, [])
+        copied._content_lines = self._content_lines
+        return copied
