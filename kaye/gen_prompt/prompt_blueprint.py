@@ -177,7 +177,6 @@ class PromptBlueprint(dict):
     def __init__(self, *, display_name="", corpus_override=None):
         super().__init__()  # init as empty dict
 
-        # FIXME new logic, using copy
         self.corpus = (
             load_prompt_corpus_tree()
             if corpus_override is None
@@ -423,38 +422,6 @@ class PromptBlueprint(dict):
 
         return pruned_bp
 
-    def merge(self, other):
-        """
-        merging 2 blueprints, all nodes will be in the merged blueprint
-
-
-        :param other:
-        :type other: PromptBlueprint
-        :raise TypeError:
-        :raise ValueError:
-        :return: merged blueprint
-        :rtype: PromptBlueprint
-        """
-        # Bug
-        if not isinstance(other, PromptBlueprint):
-            raise TypeError(
-                "must merge another PromptBlueprint, not: {}".format(
-                    repr(other)
-                )
-            )
-
-        if self.corpus is not other.corpus:
-            raise ValueError("must merge 2 blueprints with same corpus")
-
-        # perform merging
-        merged = self.copy()  # based on self
-        for k, right_v in other.items():
-            left_v = k in merged and merged[k]
-            merged_v = left_v or right_v
-            merged[k] = merged_v
-
-        return merged
-
     # helpers  =================================================================
 
     HEADING_LINE_PATTERN = re.compile(r"\[([x ])\] (.*)[└├]── (.+)")
@@ -561,23 +528,6 @@ class PromptBlueprint(dict):
             return self.uncheckmark(other)
         else:
             return NotImplemented
-
-    def __imul__(self, other):
-        """
-        merging 2 blueprints
-
-        (wrapper of and identical to ``.merge()``)
-
-
-        :param other:
-        :type other: PromptBlueprint
-        :raise TypeError:
-        :raise ValueError:
-        :return: merged blueprint
-        :rtype: PromptBlueprint
-        """
-        # Todo use return NotImplemented
-        return self.merge(other)
 
     def __copy__(self):
         """
