@@ -11,6 +11,8 @@ from kaye.gen_prompt.abbr_nodes import AbbrNode
 
 class TestDynamics:
 
+    # TODO
+
     def test1(_):
         bp_text = """ ○
 [ ] └── {Abbreviations}"""
@@ -23,6 +25,3 @@ class TestDynamics:
 
         assert abbr_node in bp
         assert not bp.is_checkmarked(abbr_node)
-
-
-# TODO TODO copy

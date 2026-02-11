@@ -13,7 +13,7 @@ from kaye.gen_prompt.abbr_nodes import PLCNode
 
 
 class TestPLC:
-    # BUG
+    # Bug update unit tests
 
     # node = PLCNode(tree)
 
