@@ -28,17 +28,17 @@ class Test11:  # ===============================================================
     src = BLUEPRINT_1_FULL
     dest = BLUEPRINT_1_PARTIAL_1
 
-    def test1_uncheckmark_by_obj(self, test_corpus1):
+    def test1_uncheckmark_by_obj(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
 
         print(
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
         )
 
-        node = test_corpus1["Project Title"]
+        node = corpus_testee1["Project Title"]
         opt.uncheckmark(node)
 
         bp_text = opt.generate_blueprint(
@@ -49,17 +49,17 @@ class Test11:  # ===============================================================
 
         assert bp_text == self.dest
 
-    def test1_uncheckmark_by_hash(self, test_corpus1):
+    def test1_uncheckmark_by_hash(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
 
         print(
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
         )
 
-        node = test_corpus1["Project Title"]
+        node = corpus_testee1["Project Title"]
         node_hash = hash(node)
         opt.uncheckmark(node_hash)
 
@@ -71,17 +71,17 @@ class Test11:  # ===============================================================
 
         assert bp_text == self.dest
 
-    def test1_isub_by_obj(self, test_corpus1):
+    def test1_isub_by_obj(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
 
         print(
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
         )
 
-        node = test_corpus1["Project Title"]
+        node = corpus_testee1["Project Title"]
         opt -= node
 
         bp_text = opt.generate_blueprint(
@@ -92,17 +92,17 @@ class Test11:  # ===============================================================
 
         assert bp_text == self.dest
 
-    def test1_isub_by_hash(self, test_corpus1):
+    def test1_isub_by_hash(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
 
         print(
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
         )
 
-        node = test_corpus1["Project Title"]
+        node = corpus_testee1["Project Title"]
         node_hash = hash(node)
         opt -= node_hash
 
@@ -115,10 +115,10 @@ class Test11:  # ===============================================================
         assert bp_text == self.dest
 
     # err handling  ------------------------------------------------------------
-    def test_bad_type(self, test_corpus1):
+    def test_bad_type(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
 
         with pytest.raises(TypeError) as exec_info:
@@ -129,10 +129,10 @@ class Test11:  # ===============================================================
 
         assert opt == "must be BasePromptNode or hash value: 12.5"
 
-    def test_bad_hash(self, test_corpus1):
+    def test_bad_hash(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
 
         with pytest.raises(KeyError) as exec_info:
@@ -143,12 +143,12 @@ class Test11:  # ===============================================================
 
         assert opt == "node absent in this blueprint: 5"
 
-    def test_bad_obj(self, test_corpus1, test_corpus3):
+    def test_bad_obj(self, corpus_testee1, corpus_testee3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
-        bad_node = test_corpus3["Main Title"]
+        bad_node = corpus_testee3["Main Title"]
 
         with pytest.raises(KeyError) as exec_info:
             opt.uncheckmark(bad_node)
@@ -166,17 +166,17 @@ class Test12:  # ===============================================================
     src = BLUEPRINT_1_FULL
     dest = BLUEPRINT_1_PARTIAL_2
 
-    def test2_uncheckmark_by_obj(self, test_corpus1):
+    def test2_uncheckmark_by_obj(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
 
         print(
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
         )
 
-        node = test_corpus1["Project Title"]["Description"]
+        node = corpus_testee1["Project Title"]["Description"]
         opt.uncheckmark(node)
 
         bp_text = opt.generate_blueprint(
@@ -187,17 +187,17 @@ class Test12:  # ===============================================================
 
         assert bp_text == self.dest
 
-    def test2_uncheckmark_by_hash(self, test_corpus1):
+    def test2_uncheckmark_by_hash(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
 
         print(
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
         )
 
-        node = test_corpus1["Project Title"]["Description"]
+        node = corpus_testee1["Project Title"]["Description"]
         node_hash = hash(node)
         opt.uncheckmark(node_hash)
 
@@ -215,17 +215,17 @@ class Test2:  # test_prompt2  ##################################################
     src = BLUEPRINT_2_FULL
     dest = BLUEPRINT_2_PARTIAL_1
 
-    def test1_uncheckmark_by_obj(self, test_corpus2):
+    def test1_uncheckmark_by_obj(self, corpus_testee2):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus2
+            bp_text, disable_prune=True, corpus_override=corpus_testee2
         )
 
         print(
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
         )
 
-        proj_node = test_corpus2["Project Title"]
+        proj_node = corpus_testee2["Project Title"]
         opt.uncheckmark(proj_node["Description"]).uncheckmark(
             proj_node["Usage"]
         ).uncheckmark(proj_node["License"])
@@ -238,17 +238,17 @@ class Test2:  # test_prompt2  ##################################################
 
         assert bp_text == self.dest
 
-    def test1_uncheckmark_by_hash(self, test_corpus2):
+    def test1_uncheckmark_by_hash(self, corpus_testee2):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus2
+            bp_text, disable_prune=True, corpus_override=corpus_testee2
         )
 
         print(
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
         )
 
-        proj_node = test_corpus2["Project Title"]
+        proj_node = corpus_testee2["Project Title"]
         for h in [
             hash(proj_node[name])
             for name in ("Description", "Usage", "License")
@@ -270,17 +270,17 @@ class Test31:  # ===============================================================
     src = BLUEPRINT_3_FULL
     dest = BLUEPRINT_3_PARTIAL_1
 
-    def test1_uncheckmark_by_obj(self, test_corpus3):
+    def test1_uncheckmark_by_obj(self, corpus_testee3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=corpus_testee3
         )
 
         print(
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
         )
 
-        node = test_corpus3["Main Title"]["Methods"]
+        node = corpus_testee3["Main Title"]["Methods"]
         opt.uncheckmark(node)
         node = node["Data Collection"]
         opt.uncheckmark(node)
@@ -297,17 +297,17 @@ class Test31:  # ===============================================================
 
         assert bp_text == self.dest
 
-    def test1_uncheckmark_by_hash(self, test_corpus3):
+    def test1_uncheckmark_by_hash(self, corpus_testee3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=corpus_testee3
         )
 
         print(
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
         )
 
-        node = test_corpus3["Main Title"]["Methods"]
+        node = corpus_testee3["Main Title"]["Methods"]
         opt.uncheckmark(hash(node))
         node = node["Data Collection"]
         opt.uncheckmark(hash(node))
@@ -330,17 +330,17 @@ class Test32:  # ===============================================================
     src = BLUEPRINT_3_FULL
     dest = BLUEPRINT_3_PARTIAL_2
 
-    def test2_uncheckmark_by_obj(self, test_corpus3):
+    def test2_uncheckmark_by_obj(self, corpus_testee3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=corpus_testee3
         )
 
         print(
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
         )
 
-        main_node = test_corpus3["Main Title"]
+        main_node = corpus_testee3["Main Title"]
         node = main_node["Introduction"]
         opt.uncheckmark(node)
         node = node["Background"]["Importance"]
@@ -360,17 +360,17 @@ class Test32:  # ===============================================================
 
         assert bp_text == self.dest
 
-    def test2_uncheckmark_by_hash(self, test_corpus3):
+    def test2_uncheckmark_by_hash(self, corpus_testee3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=corpus_testee3
         )
 
         print(
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
         )
 
-        main_node = test_corpus3["Main Title"]
+        main_node = corpus_testee3["Main Title"]
         node = main_node["Introduction"]
         opt.uncheckmark(hash(node))
         node = node["Background"]["Importance"]

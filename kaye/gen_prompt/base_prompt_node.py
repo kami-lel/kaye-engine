@@ -1,5 +1,5 @@
 """
-define ``BasePromptNode``
+define ``BasePromptNode`` and ``DynamicNode``
 """
 
 import copy
@@ -194,8 +194,16 @@ class BasePromptNode(AnyTreeNode):
         return "{}({})".format(type(self).__name__, lineage)
 
     def __deepcopy__(self, memo):
+        """
+        :param memo:
+        :type memo:
+        :return: a deep copy with all descendants also copied
+        :rtype: BasePromptNode
+        """
         copied = copy.copy(self)
-        #  TODO & deep copy
+        # attach children
+        copied.children = [copy.deepcopy(child) for child in self.children]
+
         return copied
 
 
@@ -208,3 +216,8 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
     @property
     def id(self):
         return "{" + self.name + "}"
+
+    def _pre_attach_children(self, children):
+        # dynamic node must be leaf node
+        if len(children) != 0:
+            raise TypeError("{} must be leaf node".format(type(self)))

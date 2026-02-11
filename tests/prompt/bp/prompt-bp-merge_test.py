@@ -39,16 +39,16 @@ BP3_EMPTY = None  # PromptBlueprint.parse(BLUEPRINT_3_EMPTY)
 
 
 @pytest.fixture()
-def corpus3_blueprint_partial1(test_corpus3):
+def corpus3_blueprint_partial1(corpus_testee3):
     return PromptBlueprint.parse(
-        BLUEPRINT_3_PARTIAL_1, corpus_override=test_corpus3
+        BLUEPRINT_3_PARTIAL_1, corpus_override=corpus_testee3
     )
 
 
 @pytest.fixture()
-def corpus3_blueprint_partial2(test_corpus3):
+def corpus3_blueprint_partial2(corpus_testee3):
     return PromptBlueprint.parse(
-        BLUEPRINT_3_PARTIAL_2, corpus_override=test_corpus3
+        BLUEPRINT_3_PARTIAL_2, corpus_override=corpus_testee3
     )
 
 

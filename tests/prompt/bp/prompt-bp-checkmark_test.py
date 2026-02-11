@@ -28,14 +28,14 @@ class Test11:  # ===============================================================
     src = BLUEPRINT_1_PARTIAL_1
     dest = BLUEPRINT_1_FULL
 
-    def test1_checkmark_by_obj(self, test_corpus1):
+    def test1_checkmark_by_obj(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
         print(opt)
 
-        node = test_corpus1["Project Title"]
+        node = corpus_testee1["Project Title"]
         opt.checkmark(node)
 
         print("#" * 80)
@@ -46,14 +46,14 @@ class Test11:  # ===============================================================
             == self.dest
         )
 
-    def test1_checkmark_by_hash(self, test_corpus1):
+    def test1_checkmark_by_hash(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
         print(opt)
 
-        node = test_corpus1["Project Title"]
+        node = corpus_testee1["Project Title"]
         node_hash = hash(node)
         opt.checkmark(node_hash)
 
@@ -65,14 +65,14 @@ class Test11:  # ===============================================================
             == self.dest
         )
 
-    def test1_iadd_by_obj(self, test_corpus1):
+    def test1_iadd_by_obj(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
         print(opt)
 
-        node = test_corpus1["Project Title"]
+        node = corpus_testee1["Project Title"]
         opt += node
 
         print("#" * 80)
@@ -83,14 +83,14 @@ class Test11:  # ===============================================================
             == self.dest
         )
 
-    def test1_iadd_by_hash(self, test_corpus1):
+    def test1_iadd_by_hash(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
         print(opt)
 
-        node = test_corpus1["Project Title"]
+        node = corpus_testee1["Project Title"]
         node_hash = hash(node)
         opt += node_hash
 
@@ -103,10 +103,10 @@ class Test11:  # ===============================================================
         )
 
     # err handling  ------------------------------------------------------------
-    def test_bad_type(self, test_corpus1):
+    def test_bad_type(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
 
         with pytest.raises(TypeError) as exec_info:
@@ -117,10 +117,10 @@ class Test11:  # ===============================================================
 
         assert opt == "must be BasePromptNode or hash value: 12.5"
 
-    def test_bad_hash(self, test_corpus1):
+    def test_bad_hash(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
 
         with pytest.raises(ValueError) as exec_info:
@@ -131,12 +131,12 @@ class Test11:  # ===============================================================
 
         assert opt == "node absent in prompt corpus tree: 5"
 
-    def test_bad_obj(self, test_corpus1, test_corpus3):
+    def test_bad_obj(self, corpus_testee1, corpus_testee3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
-        bad_node = test_corpus3.children[0]
+        bad_node = corpus_testee3.children[0]
 
         with pytest.raises(ValueError) as exec_info:
             opt.checkmark(bad_node)
@@ -155,14 +155,14 @@ class Test12:  # ===============================================================
     src = BLUEPRINT_1_PARTIAL_2
     dest = BLUEPRINT_1_FULL
 
-    def test2_checkmark_by_obj(self, test_corpus1):
+    def test2_checkmark_by_obj(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
         print(opt)
 
-        node = test_corpus1["Project Title"]["Description"]
+        node = corpus_testee1["Project Title"]["Description"]
         opt.checkmark(node)
 
         print("#" * 80)
@@ -173,14 +173,14 @@ class Test12:  # ===============================================================
             == self.dest
         )
 
-    def test2_checkmark_by_hash(self, test_corpus1):
+    def test2_checkmark_by_hash(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
         )
         print(opt)
 
-        node = test_corpus1["Project Title"]["Description"]
+        node = corpus_testee1["Project Title"]["Description"]
         node_hash = hash(node)
         opt.checkmark(node_hash)
 
@@ -198,14 +198,14 @@ class Test2:  # test_prompt2  ##################################################
     src = BLUEPRINT_2_PARTIAL_1
     dest = BLUEPRINT_2_FULL
 
-    def test1_checkmark_by_obj(self, test_corpus2):
+    def test1_checkmark_by_obj(self, corpus_testee2):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus2
+            bp_text, disable_prune=True, corpus_override=corpus_testee2
         )
         print(opt)
 
-        proj_node = test_corpus2["Project Title"]
+        proj_node = corpus_testee2["Project Title"]
         opt.checkmark(proj_node["Description"]).checkmark(
             proj_node["Usage"]
         ).checkmark(proj_node["License"])
@@ -218,14 +218,14 @@ class Test2:  # test_prompt2  ##################################################
             == self.dest
         )
 
-    def test1_checkmark_by_hash(self, test_corpus2):
+    def test1_checkmark_by_hash(self, corpus_testee2):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus2
+            bp_text, disable_prune=True, corpus_override=corpus_testee2
         )
         print(opt)
 
-        proj_node = test_corpus2["Project Title"]
+        proj_node = corpus_testee2["Project Title"]
         for h in [
             hash(proj_node[name])
             for name in ("Description", "Usage", "License")
@@ -247,14 +247,14 @@ class Test31:  # ===============================================================
     src = BLUEPRINT_3_PARTIAL_1
     dest = BLUEPRINT_3_FULL
 
-    def test1_checkmark_by_obj(self, test_corpus3):
+    def test1_checkmark_by_obj(self, corpus_testee3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=corpus_testee3
         )
         print(opt)
 
-        node = test_corpus3["Main Title"]["Methods"]
+        node = corpus_testee3["Main Title"]["Methods"]
         opt.checkmark(node)
         node = node["Data Collection"]
         opt.checkmark(node)
@@ -271,14 +271,14 @@ class Test31:  # ===============================================================
             == self.dest
         )
 
-    def test1_checkmark_by_hash(self, test_corpus3):
+    def test1_checkmark_by_hash(self, corpus_testee3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=corpus_testee3
         )
         print(opt)
 
-        node = test_corpus3["Main Title"]["Methods"]
+        node = corpus_testee3["Main Title"]["Methods"]
         opt.checkmark(hash(node))
         node = node["Data Collection"]
         opt.checkmark(hash(node))
@@ -301,14 +301,14 @@ class Test32:  # ===============================================================
     src = BLUEPRINT_3_PARTIAL_2
     dest = BLUEPRINT_3_FULL
 
-    def test2_checkmark_by_obj(self, test_corpus3):
+    def test2_checkmark_by_obj(self, corpus_testee3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=corpus_testee3
         )
         print(opt)
 
-        main_node = test_corpus3["Main Title"]
+        main_node = corpus_testee3["Main Title"]
         node = main_node["Introduction"]
         opt.checkmark(node)
         node = node["Background"]["Importance"]
@@ -328,14 +328,14 @@ class Test32:  # ===============================================================
             == self.dest
         )
 
-    def test2_checkmark_by_hash(self, test_corpus3):
+    def test2_checkmark_by_hash(self, corpus_testee3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=corpus_testee3
         )
         print(opt)
 
-        main_node = test_corpus3["Main Title"]
+        main_node = corpus_testee3["Main Title"]
         node = main_node["Introduction"]
         opt.checkmark(hash(node))
         node = node["Background"]["Importance"]
