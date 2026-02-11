@@ -2,7 +2,7 @@ import pytest
 
 
 from kaye.gen_prompt.prompt_corpus_node import PromptCorpusNode
-from kaye.gen_prompt.prompt_corpus_loader import get_prompt_corpus_tree
+from kaye.gen_prompt.prompt_corpus_loader import load_prompt_corpus_tree
 
 
 @pytest.fixture()
@@ -111,4 +111,4 @@ def test_corpus3():
 
 @pytest.fixture()
 def corpus():
-    return get_prompt_corpus_tree()
+    return load_prompt_corpus_tree()
