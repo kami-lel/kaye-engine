@@ -33,4 +33,5 @@ class TodayNode(DynamicNode):
         return ["Today: {}".format(date), "Time: {}".format(time)]
 
     def __copy__(self):
+        # TODO TODO unit tests
         return TodayNode(self.parent)

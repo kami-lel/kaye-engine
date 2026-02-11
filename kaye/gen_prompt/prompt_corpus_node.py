@@ -65,6 +65,7 @@ class PromptCorpusNode(BasePromptNode):
         return self._content_lines
 
     def __copy__(self):
+        # TODO TODO write tests
         obj = type(self)(self.name, self.parent, [])
         obj._content_lines = self._content_lines
         return obj
