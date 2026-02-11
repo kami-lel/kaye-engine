@@ -177,7 +177,7 @@ class PromptBlueprint(dict):
     def __init__(self, *, display_name="", corpus_override=None):
         super().__init__()  # init as empty dict
 
-        # FIXME FIXME new logic, using copy
+        # FIXME new logic, using copy
         self.corpus = (
             load_prompt_corpus_tree()
             if corpus_override is None
