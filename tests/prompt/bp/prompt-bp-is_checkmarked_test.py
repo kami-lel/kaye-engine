@@ -24,7 +24,7 @@ class Test1:  # use corpus1  ###################################################
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
 
         # test entries  --------------------------------------------------------
@@ -59,7 +59,7 @@ class Test1:  # use corpus1  ###################################################
         bp_text = BLUEPRINT_1_PARTIAL_1
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
 
         # test entries  --------------------------------------------------------
@@ -92,7 +92,7 @@ class Test1:  # use corpus1  ###################################################
         bp_text = BLUEPRINT_1_PARTIAL_2
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
 
         print(bp)
@@ -128,7 +128,7 @@ class Test1:  # use corpus1  ###################################################
         bp_text = BLUEPRINT_1_EMPTY
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
 
         print(bp)
@@ -166,7 +166,7 @@ class Test1:  # use corpus1  ###################################################
         bp = PromptBlueprint.parse(
             BLUEPRINT_1_FULL,
             disable_prune=True,
-            prompt_corpus_override=test_corpus1,
+            corpus_override=test_corpus1,
         )
         assert not bp.is_checkmarked(test_corpus3)
 
@@ -175,7 +175,7 @@ class Test1:  # use corpus1  ###################################################
         bp = PromptBlueprint.parse(
             BLUEPRINT_1_FULL,
             disable_prune=True,
-            prompt_corpus_override=test_corpus1,
+            corpus_override=test_corpus1,
         )
         assert not bp.is_checkmarked(test_corpus3.children[0])
 
@@ -187,7 +187,7 @@ class Test3:  # use corpus3  ##################################################
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
 
         # test entries  --------------------------------------------------------
@@ -256,7 +256,7 @@ class Test3:  # use corpus3  ##################################################
         bp_text = BLUEPRINT_3_PARTIAL_1
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
 
         # test entries  --------------------------------------------------------
@@ -324,7 +324,7 @@ class Test3:  # use corpus3  ##################################################
         corpus = test_corpus3
         bp_text = BLUEPRINT_3_PARTIAL_2
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
 
         print(bp)
@@ -394,7 +394,7 @@ class Test3:  # use corpus3  ##################################################
 
         bp_text = BLUEPRINT_3_EMPTY
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
 
         print(bp)

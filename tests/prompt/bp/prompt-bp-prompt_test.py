@@ -29,7 +29,7 @@ class Test1:  # with PROMPT1  ##################################################
 
     def test_full(_, test_corpus1):
         bp_text = BLUEPRINT_1_FULL
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         opt = bp.generate_prompt(show_comment=True)
 
@@ -51,7 +51,7 @@ Licensed under the MIT License."""
 
     def test_part1(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_1
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -67,7 +67,7 @@ Licensed under the MIT License."""
 
     def test_part2(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_2
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -81,7 +81,7 @@ Licensed under the MIT License."""
 
     def test_empty(_, test_corpus1):
         bp_text = BLUEPRINT_1_EMPTY
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -93,7 +93,7 @@ class Test2:  # with PROMPT2  ##################################################
 
     def test_full(_, test_corpus2):
         bp_text = BLUEPRINT_2_FULL
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus2)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus2)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -120,7 +120,7 @@ This project is licensed under the MIT License."""
 
     def test_part1(_, test_corpus2):
         bp_text = BLUEPRINT_2_PARTIAL_1
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus2)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus2)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -139,7 +139,7 @@ This project is licensed under the MIT License."""
 
     def test_empty(_, test_corpus2):
         bp_text = BLUEPRINT_2_EMPTY
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus2)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus2)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -151,7 +151,7 @@ class Test3:  # with PROMPT3  ##################################################
 
     def test_full(_, test_corpus3):
         bp_text = BLUEPRINT_3_FULL
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus3)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -186,7 +186,7 @@ Summarizing the findings and implications."""
 
     def test_part1(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_1
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus3)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -209,7 +209,7 @@ Summarizing the findings and implications."""
 
     def test_part2(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_2
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus3)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -230,7 +230,7 @@ Suggestions for future research or tasks.
 
     def test_empty(_, test_corpus3):
         bp_text = BLUEPRINT_3_EMPTY
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus3)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         opt = bp.generate_prompt(show_comment=False)
 

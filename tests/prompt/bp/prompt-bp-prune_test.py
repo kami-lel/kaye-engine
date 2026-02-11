@@ -31,7 +31,7 @@ class Test1:  # use PROMPT1  ###################################################
     def test1(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_2
         old = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
 
         pruned_bp = old.prune()
@@ -47,7 +47,7 @@ class Test1:  # use PROMPT1  ###################################################
     def test_no_prune1(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_1
         old = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
 
         pruned_bp = old.prune()
@@ -64,7 +64,7 @@ class Test1:  # use PROMPT1  ###################################################
     def test_full(_, test_corpus1):
         bp_text = BLUEPRINT_1_FULL
         old = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
 
         pruned_bp = old.prune()
@@ -80,7 +80,7 @@ class Test1:  # use PROMPT1  ###################################################
     def test_empty(_, test_corpus1):
         bp_text = BLUEPRINT_1_EMPTY
         old = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
 
         pruned_bp = old.prune()
@@ -99,7 +99,7 @@ class Test2:  # use PROMPT2  ###################################################
     def test1(_, test_corpus2):
         bp_text = BLUEPRINT_2_PARTIAL_1
         old = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus2
+            bp_text, disable_prune=True, corpus_override=test_corpus2
         )
 
         pruned_bp = old.prune()
@@ -118,7 +118,7 @@ class Test2:  # use PROMPT2  ###################################################
     def test_full(_, test_corpus2):  # no prune
         bp_text = BLUEPRINT_2_FULL
         old = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus2
+            bp_text, disable_prune=True, corpus_override=test_corpus2
         )
 
         pruned_bp = old.prune()
@@ -137,7 +137,7 @@ class Test2:  # use PROMPT2  ###################################################
     def test_empty(_, test_corpus2):
         bp_text = BLUEPRINT_2_EMPTY
         old = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus2
+            bp_text, disable_prune=True, corpus_override=test_corpus2
         )
 
         pruned_bp = old.prune()
@@ -159,7 +159,7 @@ class Test3:  # use PROMPT3  ###################################################
     def test1(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_1
         old = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=test_corpus3
         )
 
         pruned_bp = old.prune()
@@ -178,7 +178,7 @@ class Test3:  # use PROMPT3  ###################################################
     def test2(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_2
         old = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=test_corpus3
         )
 
         pruned_bp = old.prune()
@@ -197,7 +197,7 @@ class Test3:  # use PROMPT3  ###################################################
     def test_full(_, test_corpus3):  # no prune
         bp_text = BLUEPRINT_3_FULL
         old = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=test_corpus3
         )
 
         pruned_bp = old.prune()
@@ -216,7 +216,7 @@ class Test3:  # use PROMPT3  ###################################################
     def test_empty(_, test_corpus3):
         bp_text = BLUEPRINT_3_EMPTY
         old = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=test_corpus3
         )
 
         pruned_bp = old.prune()

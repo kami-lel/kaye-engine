@@ -47,7 +47,7 @@ class TestAllArgs1:  # =========================================================
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=3,
@@ -69,7 +69,7 @@ class TestAllArgs1:  # =========================================================
         bp_text = BLUEPRINT_1_PARTIAL_1
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=3,
@@ -88,7 +88,7 @@ class TestAllArgs1:  # =========================================================
         bp_text = BLUEPRINT_1_PARTIAL_2
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=3,
@@ -107,7 +107,7 @@ class TestAllArgs1:  # =========================================================
         bp_text = BLUEPRINT_1_EMPTY
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=3,
@@ -136,7 +136,7 @@ class TestAllArgs2:  # =========================================================
         bp_text = BLUEPRINT_2_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=3,
@@ -158,7 +158,7 @@ class TestAllArgs2:  # =========================================================
         bp_text = BLUEPRINT_2_PARTIAL_1
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=3,
@@ -177,7 +177,7 @@ class TestAllArgs2:  # =========================================================
         bp_text = BLUEPRINT_2_EMPTY
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=3,
@@ -214,7 +214,7 @@ class TestAllArgs3:  # =========================================================
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=3,
@@ -235,7 +235,7 @@ class TestAllArgs3:  # =========================================================
         bp_text = BLUEPRINT_3_PARTIAL_1
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=3,
@@ -254,7 +254,7 @@ class TestAllArgs3:  # =========================================================
         bp_text = BLUEPRINT_3_PARTIAL_2
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=3,
@@ -273,7 +273,7 @@ class TestAllArgs3:  # =========================================================
         bp_text = BLUEPRINT_3_EMPTY
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=3,
@@ -316,7 +316,7 @@ class TestNoContent1:  # =======================================================
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -341,7 +341,7 @@ class TestNoContent1:  # =======================================================
         bp_text = BLUEPRINT_1_PARTIAL_1
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -363,7 +363,7 @@ class TestNoContent1:  # =======================================================
         bp_text = BLUEPRINT_1_PARTIAL_2
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -385,7 +385,7 @@ class TestNoContent1:  # =======================================================
         bp_text = BLUEPRINT_1_EMPTY
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -410,7 +410,7 @@ class TestNoContent3:  # =======================================================
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -441,7 +441,7 @@ class TestNoContent3:  # =======================================================
         bp_text = BLUEPRINT_3_PARTIAL_1
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -469,7 +469,7 @@ class TestNoContent3:  # =======================================================
         bp_text = BLUEPRINT_3_PARTIAL_2
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -497,7 +497,7 @@ class TestNoContent3:  # =======================================================
         bp_text = BLUEPRINT_3_EMPTY
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -530,7 +530,7 @@ class TestNoComment:  # =======================================================
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -550,7 +550,7 @@ class TestNoComment:  # =======================================================
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -578,7 +578,7 @@ class TestFullTree:
 
     def test1(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_2_PRUNED
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -592,7 +592,7 @@ class TestFullTree:
 
     def test2(_, test_corpus2):
         bp_text = BLUEPRINT_2_PARTIAL_1_PRUNED
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus2)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus2)
 
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -606,7 +606,7 @@ class TestFullTree:
 
     def test31(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_1_PRUNED
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus3)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -620,7 +620,7 @@ class TestFullTree:
 
     def test32(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_2_PRUNED
-        bp = PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus3)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         opt = bp.generate_blueprint(
             content_preview_lines=0,
@@ -641,7 +641,7 @@ class TestDft:
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint()
 
@@ -654,7 +654,7 @@ class TestDft:
         bp_text = BLUEPRINT_2_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint()
 
@@ -667,7 +667,7 @@ class TestDft:
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = bp.generate_blueprint()
 
@@ -683,7 +683,7 @@ class TestRepr:  ###############################################################
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = repr(bp)
 
@@ -696,7 +696,7 @@ class TestRepr:  ###############################################################
         bp_text = BLUEPRINT_2_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = repr(bp)
 
@@ -709,7 +709,7 @@ class TestRepr:  ###############################################################
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=corpus
+            bp_text, disable_prune=True, corpus_override=corpus
         )
         opt = repr(bp)
 

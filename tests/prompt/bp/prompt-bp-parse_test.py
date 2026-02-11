@@ -42,9 +42,7 @@ class TestDisplayName:  ########################################################
     def test_dft(_, test_corpus1):
         bp_text = BLUEPRINT_1_FULL
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus1
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         print(opt)
         assert opt.display_name == ""
@@ -56,7 +54,7 @@ class TestDisplayName:  ########################################################
         opt = PromptBlueprint.parse(
             bp_text,
             display_name=display_name,
-            prompt_corpus_override=test_corpus1,
+            corpus_override=test_corpus1,
         )
 
         print(opt)
@@ -69,7 +67,7 @@ class TestDisplayName:  ########################################################
         opt = PromptBlueprint.parse(
             bp_text,
             display_name=display_name,
-            prompt_corpus_override=test_corpus1,
+            corpus_override=test_corpus1,
         )
 
         print(opt)
@@ -82,7 +80,7 @@ class TestDisplayName:  ########################################################
         opt = PromptBlueprint.parse(
             bp_text,
             display_name=display_name,
-            prompt_corpus_override=test_corpus3,
+            corpus_override=test_corpus3,
         )
 
         print(opt)
@@ -100,7 +98,7 @@ class TestErr:
 [x]     └── License"""
 
         with pytest.raises(ValueError) as exec_info:
-            PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
+            PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         opt = exec_info.value.args[0]
         print(opt)
@@ -120,7 +118,7 @@ class TestErr:
 [x]     └── License"""
 
         with pytest.raises(ValueError) as exec_info:
-            PromptBlueprint.parse(bp_text, prompt_corpus_override=test_corpus1)
+            PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         opt = exec_info.value.args[0]
         print(opt)
@@ -137,9 +135,7 @@ class TestDft1:  # use PROMPT1  ================================================
     def test_full(_, test_corpus1):
         bp_text = BLUEPRINT_1_FULL
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus1
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         print(repr(opt))
         assert isinstance(opt, PromptBlueprint)
@@ -154,9 +150,7 @@ class TestDft1:  # use PROMPT1  ================================================
     def test_part1(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_1
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus1
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         print(repr(opt))
         assert len(opt) == 4
@@ -168,9 +162,7 @@ class TestDft1:  # use PROMPT1  ================================================
     def test_part2(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_2
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus1
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         print(repr(opt))
         assert len(opt) == 3
@@ -182,9 +174,7 @@ class TestDft1:  # use PROMPT1  ================================================
     def test_empty(_, test_corpus1):
         bp_text = BLUEPRINT_1_EMPTY
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus1
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         print(repr(opt))
         assert len(opt) == 0
@@ -199,9 +189,7 @@ class TestDft2:  # use PROMPT2  ================================================
     def test_full(_, test_corpus2):
         bp_text = BLUEPRINT_2_FULL
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus2
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus2)
 
         print(repr(opt))
         assert isinstance(opt, PromptBlueprint)
@@ -216,9 +204,7 @@ class TestDft2:  # use PROMPT2  ================================================
     def test_part1(_, test_corpus2):
         bp_text = BLUEPRINT_2_PARTIAL_1
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus2
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus2)
 
         print(repr(opt))
         assert len(opt) == 3
@@ -230,9 +216,7 @@ class TestDft2:  # use PROMPT2  ================================================
     def test_empty(_, test_corpus2):
         bp_text = BLUEPRINT_2_EMPTY
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus2
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus2)
 
         print(repr(opt))
         assert len(opt) == 0
@@ -247,9 +231,7 @@ class TestDft3:  # use PROMPT3  ================================================
     def test_full(_, test_corpus3):
         bp_text = BLUEPRINT_3_FULL
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus3
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         print(repr(opt))
         assert isinstance(opt, PromptBlueprint)
@@ -264,9 +246,7 @@ class TestDft3:  # use PROMPT3  ================================================
     def test_part1(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_1
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus3
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         print(repr(opt))
         assert len(opt) == 6
@@ -277,9 +257,7 @@ class TestDft3:  # use PROMPT3  ================================================
 
     def test_part2(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_2
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus3
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         print(repr(opt))
         assert len(opt) == 9
@@ -290,9 +268,7 @@ class TestDft3:  # use PROMPT3  ================================================
 
     def test_empty(_, test_corpus3):
         bp_text = BLUEPRINT_3_EMPTY
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus3
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         print(repr(opt))
         assert len(opt) == 0
@@ -308,9 +284,7 @@ class TestContentPreview1:  # use PROMPT1  =====================================
     def test1(_, test_corpus1):
         bp_text = BLUEPRINT_1_FULL_PREVIEW
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus1
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         print(repr(opt))
         assert (
@@ -321,9 +295,7 @@ class TestContentPreview1:  # use PROMPT1  =====================================
     def test_pa1(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_1_PREVIEW
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus1
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         print(repr(opt))
         assert (
@@ -334,9 +306,7 @@ class TestContentPreview1:  # use PROMPT1  =====================================
     def test_pa2(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_2_PREVIEW
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus1
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         print(repr(opt))
         assert (
@@ -350,9 +320,7 @@ class TestContentPreview2:  # use PROMPT2  =====================================
     def test_full(_, test_corpus2):
         bp_text = BLUEPRINT_2_PREVIEW
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus2
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus2)
 
         print(repr(opt))
         assert (
@@ -363,9 +331,7 @@ class TestContentPreview2:  # use PROMPT2  =====================================
     def test_pa1(_, test_corpus2):
         bp_text = BLUEPRINT_2_PARTIAL_1_PREVIEW
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus2
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus2)
 
         print(repr(opt))
         assert (
@@ -379,9 +345,7 @@ class TestContentPreview3:  # use PROMPT2  =====================================
     def test_full(_, test_corpus3):
         bp_text = BLUEPRINT_3_FULL_PREVIEW
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus3
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         print(repr(opt))
         assert (
@@ -392,9 +356,7 @@ class TestContentPreview3:  # use PROMPT2  =====================================
     def test_pa1(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_1_PREVIEW
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus3
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         print(repr(opt))
         assert (
@@ -405,9 +367,7 @@ class TestContentPreview3:  # use PROMPT2  =====================================
     def test_pa2(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_2_PREVIEW
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus3
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         print(repr(opt))
         assert (
@@ -422,9 +382,7 @@ class TestPrunedText:
     def test1(_, test_corpus1):
         bp_text = BLUEPRINT_1_PARTIAL_2_PRUNED
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus1
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus1)
 
         print(repr(opt))
         assert (
@@ -435,9 +393,7 @@ class TestPrunedText:
     def test2(_, test_corpus2):
         bp_text = BLUEPRINT_2_PARTIAL_1_PRUNED
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus2
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus2)
 
         print(repr(opt))
         assert (
@@ -448,9 +404,7 @@ class TestPrunedText:
     def test31(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_1_PRUNED
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus3
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         print(repr(opt))
         assert (
@@ -461,9 +415,7 @@ class TestPrunedText:
     def test32(_, test_corpus3):
         bp_text = BLUEPRINT_3_PARTIAL_2_PRUNED
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus3
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         print(repr(opt))
         assert (
@@ -485,9 +437,7 @@ class TestPrunedText:
 [x]     └── Conclusion
             Summarizing the findings and implications."""
 
-        opt = PromptBlueprint.parse(
-            bp_text, prompt_corpus_override=test_corpus3
-        )
+        opt = PromptBlueprint.parse(bp_text, corpus_override=test_corpus3)
 
         print(repr(opt))
         assert (

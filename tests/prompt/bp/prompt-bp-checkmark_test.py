@@ -31,7 +31,7 @@ class Test11:  # ===============================================================
     def test1_checkmark_by_obj(self, test_corpus1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
         print(opt)
 
@@ -49,7 +49,7 @@ class Test11:  # ===============================================================
     def test1_checkmark_by_hash(self, test_corpus1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
         print(opt)
 
@@ -68,7 +68,7 @@ class Test11:  # ===============================================================
     def test1_iadd_by_obj(self, test_corpus1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
         print(opt)
 
@@ -86,7 +86,7 @@ class Test11:  # ===============================================================
     def test1_iadd_by_hash(self, test_corpus1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
         print(opt)
 
@@ -106,7 +106,7 @@ class Test11:  # ===============================================================
     def test_bad_type(self, test_corpus1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
 
         with pytest.raises(TypeError) as exec_info:
@@ -120,7 +120,7 @@ class Test11:  # ===============================================================
     def test_bad_hash(self, test_corpus1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
 
         with pytest.raises(ValueError) as exec_info:
@@ -134,7 +134,7 @@ class Test11:  # ===============================================================
     def test_bad_obj(self, test_corpus1, test_corpus3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
         bad_node = test_corpus3.children[0]
 
@@ -158,7 +158,7 @@ class Test12:  # ===============================================================
     def test2_checkmark_by_obj(self, test_corpus1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
         print(opt)
 
@@ -176,7 +176,7 @@ class Test12:  # ===============================================================
     def test2_checkmark_by_hash(self, test_corpus1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
         print(opt)
 
@@ -201,7 +201,7 @@ class Test2:  # test_prompt2  ##################################################
     def test1_checkmark_by_obj(self, test_corpus2):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus2
+            bp_text, disable_prune=True, corpus_override=test_corpus2
         )
         print(opt)
 
@@ -221,7 +221,7 @@ class Test2:  # test_prompt2  ##################################################
     def test1_checkmark_by_hash(self, test_corpus2):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus2
+            bp_text, disable_prune=True, corpus_override=test_corpus2
         )
         print(opt)
 
@@ -250,7 +250,7 @@ class Test31:  # ===============================================================
     def test1_checkmark_by_obj(self, test_corpus3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=test_corpus3
         )
         print(opt)
 
@@ -274,7 +274,7 @@ class Test31:  # ===============================================================
     def test1_checkmark_by_hash(self, test_corpus3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=test_corpus3
         )
         print(opt)
 
@@ -304,7 +304,7 @@ class Test32:  # ===============================================================
     def test2_checkmark_by_obj(self, test_corpus3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=test_corpus3
         )
         print(opt)
 
@@ -331,7 +331,7 @@ class Test32:  # ===============================================================
     def test2_checkmark_by_hash(self, test_corpus3):
         bp_text = self.src
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus3
+            bp_text, disable_prune=True, corpus_override=test_corpus3
         )
         print(opt)
 
