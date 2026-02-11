@@ -6,6 +6,8 @@ Unit Tests (using pytest) for: PromptBlueprint.generate_prompt()
 
 import re
 
+# TODO unit test for TodayNode
+# Todo unit test for all dynamic nodes
 
 from kaye.gen_prompt import PromptBlueprint
 
