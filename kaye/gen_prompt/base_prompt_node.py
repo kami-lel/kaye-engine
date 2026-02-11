@@ -2,6 +2,8 @@
 define ``BasePromptNode``
 """
 
+import copy
+
 from anytree import Node as AnyTreeNode, RenderTree
 
 __all__ = ("BasePromptNode",)
@@ -106,7 +108,7 @@ class BasePromptNode(AnyTreeNode):
 
     def __copy__(self):
         """
-        :return: a shallow copy without any children
+        :return: a shallow copy **without** any children
         :rtype: BasePromptNode
         """
         raise NotImplementedError
@@ -191,7 +193,10 @@ class BasePromptNode(AnyTreeNode):
         lineage = "#".join(node.name for node in self.path[1:])
         return "{}({})".format(type(self).__name__, lineage)
 
-    # TODO TODO copy & deep copy
+    def __deepcopy__(self, memo):
+        copied = copy.copy(self)
+        # TODO TODO copy & deep copy
+        return copied
 
 
 class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
