@@ -1,5 +1,5 @@
 """
-define ``BasePromptNode``
+define ``BasePromptNode`` and ``DynamicNode``
 """
 
 import copy
@@ -211,12 +211,12 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
     abstract class for all *dynamic node*
     """
 
-    # TODO need write unit test
-
     # implement BasePromptNode  ================================================
     @property
     def id(self):
         return "{" + self.name + "}"
 
     def _pre_attach_children(self, children):
-        pass  # TODO dynamic node banned from create instance
+        # dynamic node must be leaf node
+        if len(children) != 0:
+            raise TypeError("{} must be leaf node".format(type(self)))
