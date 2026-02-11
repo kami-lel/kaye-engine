@@ -496,6 +496,8 @@ class PromptBlueprint(dict):
         """
         return super().__contains__(_normalize_as_node_hash(key))
 
+    # operators  ---------------------------------------------------------------
+
     def __iadd__(self, other):
         """
         checkmark a ``node`` in this blueprint
@@ -534,9 +536,11 @@ class PromptBlueprint(dict):
         else:
             return NotImplemented
 
+    # copy  --------------------------------------------------------------------
+
     def __copy__(self):
         """
-        :return: shallow copy, w/o creating new nodes
+        :return: shallow copy, w/o creating new node tree
         :rtype: PromptBlueprint
         """
         copied = PromptBlueprint(
@@ -547,6 +551,22 @@ class PromptBlueprint(dict):
             copied[k] = v
 
         return copied
+
+    def __deepcopy__(self, memo):
+        """
+        :param memo:
+        :type memo:
+        :return: deep copy, and creating new tree of copied nodes
+        :rtype: PromptBlueprint
+        """
+        copied = copy.copy(self)
+
+        # create a new tree
+        copied.corpus = copy.deepcopy(self.corpus)
+
+        return copied
+
+    # str  ---------------------------------------------------------------------
 
     def __repr__(self):
         return self.generate_blueprint()
