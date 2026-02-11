@@ -1,16 +1,16 @@
 """
-prompt_blueprint_prompt_test.py
+prompt-bp-prompt_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.generate_prompt()
 """
 
 import re
 
+# Todo unit test for all dynamic nodes
 
-from kaye.gen_prompt import PromptBlueprint, PromptCorpusNode
+from kaye.gen_prompt import PromptBlueprint
 
-from tests.prompt import PROMPT1, PROMPT2, PROMPT3
-from tests.prompt.blueprint import (
+from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_EMPTY,
     BLUEPRINT_1_PARTIAL_1,
@@ -28,19 +28,16 @@ from tests.prompt.blueprint import (
 
 class Test1:  # with PROMPT1  ##################################################
 
-    corpus = PromptCorpusNode.parse(PROMPT1)
-
-    def test_full(self):
+    def test_full(_, corpus_testee1):
         bp_text = BLUEPRINT_1_FULL
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
 
-        opt = bp.generate_prompt(hide_comment=False)
+        opt = bp.generate_prompt(show_comment=True)
 
         print(opt)
         content, comment = _split_content_and_comment(opt)
 
         assert content == """# Project Title
-
 ## Description
 Brief overview of the project and its purpose.
 
@@ -53,11 +50,11 @@ Licensed under the MIT License."""
         # test comment structure
         assert re.fullmatch("<!-- Kaye v.+ -->", comment)
 
-    def test_part1(self):
+    def test_part1(_, corpus_testee1):
         bp_text = BLUEPRINT_1_PARTIAL_1
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """## Description
@@ -69,26 +66,25 @@ Clone the repo and install dependencies.
 ## License
 Licensed under the MIT License."""
 
-    def test_part2(self):
+    def test_part2(_, corpus_testee1):
         bp_text = BLUEPRINT_1_PARTIAL_2
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """# Project Title
-
 ## Installation
 Clone the repo and install dependencies.
 
 ## License
 Licensed under the MIT License."""
 
-    def test_empty(self):
+    def test_empty(_, corpus_testee1):
         bp_text = BLUEPRINT_1_EMPTY
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == ""
@@ -96,17 +92,14 @@ Licensed under the MIT License."""
 
 class Test2:  # with PROMPT2  ##################################################
 
-    corpus = PromptCorpusNode.parse(PROMPT2)
-
-    def test_full(self):
+    def test_full(_, corpus_testee2):
         bp_text = BLUEPRINT_2_FULL
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee2)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """# Project Title
-
 ## Description
 A brief overview of the project, its purpose, and goals.
 
@@ -126,15 +119,14 @@ Provide instructions on how to use the application.
 ## License
 This project is licensed under the MIT License."""
 
-    def test_part1(self):
+    def test_part1(_, corpus_testee2):
         bp_text = BLUEPRINT_2_PARTIAL_1
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee2)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """# Project Title
-
 ## Installation
 1. Clone the repo
 2. Install dependencies
@@ -143,13 +135,14 @@ This project is licensed under the MIT License."""
 ## Contributing
 1. Fork the repo
 2. Create a new branch
-3. Submit a pull request"""
+3. Submit a pull request
+"""
 
-    def test_empty(self):
+    def test_empty(_, corpus_testee2):
         bp_text = BLUEPRINT_2_EMPTY
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee2)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == ""
@@ -157,17 +150,14 @@ This project is licensed under the MIT License."""
 
 class Test3:  # with PROMPT3  ##################################################
 
-    corpus = PromptCorpusNode.parse(PROMPT3)
-
-    def test_full(self):
+    def test_full(_, corpus_testee3):
         bp_text = BLUEPRINT_3_FULL
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """# Main Title
-
 ## Introduction
 Brief introduction to the topic.
 
@@ -195,15 +185,14 @@ Suggestions for future research or tasks.
 ## Conclusion
 Summarizing the findings and implications."""
 
-    def test_part1(self):
+    def test_part1(_, corpus_testee3):
         bp_text = BLUEPRINT_3_PARTIAL_1
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """# Main Title
-
 ## Introduction
 Brief introduction to the topic.
 
@@ -219,15 +208,14 @@ The primary goal of this document.
 ## Conclusion
 Summarizing the findings and implications."""
 
-    def test_part2(self):
+    def test_part2(_, corpus_testee3):
         bp_text = BLUEPRINT_3_PARTIAL_2
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == """# Main Title
-
 ### Background
 Context or history relevant to the topic.
 
@@ -238,13 +226,14 @@ The primary goal of this document.
 How data was gathered for analysis.
 
 ##### Future Work
-Suggestions for future research or tasks."""
+Suggestions for future research or tasks.
+"""
 
-    def test_empty(self):
+    def test_empty(_, corpus_testee3):
         bp_text = BLUEPRINT_3_EMPTY
-        bp = PromptBlueprint.parse(self.corpus, bp_text)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
 
-        opt = bp.generate_prompt(hide_comment=True)
+        opt = bp.generate_prompt(show_comment=False)
 
         print(opt)
         assert opt == ""

@@ -8,173 +8,185 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from kaye.gen_prompt import PromptCorpusNode
-from tests.prompt import PROMPT3
-
 
 class TestRoot:
 
-    tree = node = PromptCorpusNode.parse(PROMPT3)
+    def test_parent(_, corpus_testee3):
+        node = corpus_testee3
 
-    def test_parent(self):
         with pytest.raises(TypeError) as exec_info:
-            self.node[None]
+            node[None]
 
         opt = exec_info.value.args[0]
-        assert opt == f"{type(self.node).__name__} index must be int/str: None"
+        assert opt == f"{type(node).__name__} index must be int/str: None"
 
-    def test_int1(self):
-        opt = self.node[0]
-
-        print(opt)
-
-        assert opt is self.tree.children[0]
-
-    def test_str1(self):
-        opt = self.node["Main Title"]
+    def test_int1(_, corpus_testee3):
+        node = corpus_testee3
+        opt = node[0]
 
         print(opt)
 
-        assert opt is self.tree.children[0]
+        assert opt is corpus_testee3.children[0]
 
-    def test_bad_int1(self):
+    def test_str1(_, corpus_testee3):
+        node = corpus_testee3
+        opt = node["Main Title"]
+
+        print(opt)
+
+        assert opt is corpus_testee3.children[0]
+
+    def test_bad_int1(_, corpus_testee3):
+        node = corpus_testee3
         with pytest.raises(IndexError) as exec_info:
-            self.node[99]
+            node[99]
 
         opt = exec_info.value.args[0]
-        expected = f"index out of range for {str(self.node)}: 99"
+        expected = f"index out of range for {str(node)}: 99"
         assert opt == expected
 
-    def test_bad_str1(self):
+    def test_bad_str1(_, corpus_testee3):
+        node = corpus_testee3
         with pytest.raises(KeyError) as exec_info:
-            self.node["???"]
+            node["???"]
 
         opt = exec_info.value.args[0]
-        expected = f"{str(self.node)} contains no child with name/id of '???'"
+        expected = f"{str(node)} contains no child with name/id of '???'"
         assert opt == expected
 
-    def test_bad_type(self):
+    def test_bad_type(_, corpus_testee3):
+        node = corpus_testee3
         with pytest.raises(TypeError) as exec_info:
-            self.node[12.5]
+            node[12.5]
 
         opt = exec_info.value.args[0]
-        expected = f"{type(self.node).__name__} index must be int/str: 12.5"
+        expected = f"{type(node).__name__} index must be int/str: 12.5"
         assert opt == expected
 
 
 class TestMain:
 
-    tree = PromptCorpusNode.parse(PROMPT3)
-    node = tree.children[0]
-
-    def test_parent(self):
+    def test_parent(_, corpus_testee3):
+        node = corpus_testee3.children[0]
         with pytest.raises(TypeError) as exec_info:
-            self.node[None]
+            node[None]
 
         opt = exec_info.value.args[0]
-        assert opt == f"{type(self.node).__name__} index must be int/str: None"
+        assert opt == f"{type(node).__name__} index must be int/str: None"
 
-    def test_int1(self):
-        opt = self.node[0]
-
-        print(opt)
-
-        assert opt is self.tree.children[0].children[0]
-
-    def test_int2(self):
-        opt = self.node[1]
+    def test_int1(_, corpus_testee3):
+        node = corpus_testee3.children[0]
+        opt = node[0]
 
         print(opt)
 
-        assert opt is self.tree.children[0].children[1]
+        assert opt is corpus_testee3.children[0].children[0]
 
-    def test_int3(self):
-        opt = self.node[2]
-
-        print(opt)
-
-        assert opt is self.tree.children[0].children[2]
-
-    def test_str1(self):
-        opt = self.node["Introduction"]
+    def test_int2(_, corpus_testee3):
+        node = corpus_testee3.children[0]
+        opt = node[1]
 
         print(opt)
 
-        assert opt is self.tree.children[0].children[0]
+        assert opt is corpus_testee3.children[0].children[1]
 
-    def test_str2(self):
-        opt = self.node["Methods"]
-
-        print(opt)
-
-        assert opt is self.tree.children[0].children[1]
-
-    def test_str3(self):
-        opt = self.node["Conclusion"]
+    def test_int3(_, corpus_testee3):
+        node = corpus_testee3.children[0]
+        opt = node[2]
 
         print(opt)
 
-        assert opt is self.tree.children[0].children[2]
+        assert opt is corpus_testee3.children[0].children[2]
 
-    def test_bad_int1(self):
+    def test_str1(_, corpus_testee3):
+        node = corpus_testee3.children[0]
+        opt = node["Introduction"]
+
+        print(opt)
+
+        assert opt is corpus_testee3.children[0].children[0]
+
+    def test_str2(_, corpus_testee3):
+        node = corpus_testee3.children[0]
+        opt = node["Methods"]
+
+        print(opt)
+
+        assert opt is corpus_testee3.children[0].children[1]
+
+    def test_str3(_, corpus_testee3):
+        node = corpus_testee3.children[0]
+        opt = node["Conclusion"]
+
+        print(opt)
+
+        assert opt is corpus_testee3.children[0].children[2]
+
+    def test_bad_int1(_, corpus_testee3):
+        node = corpus_testee3.children[0]
         with pytest.raises(IndexError) as exec_info:
-            self.node[99]
+            node[99]
 
         opt = exec_info.value.args[0]
-        expected = f"index out of range for {str(self.node)}: 99"
+        expected = f"index out of range for {str(node)}: 99"
         assert opt == expected
 
-    def test_bad_str1(self):
+    def test_bad_str1(_, corpus_testee3):
+        node = corpus_testee3.children[0]
         with pytest.raises(KeyError) as exec_info:
-            self.node["???"]
+            node["???"]
 
         opt = exec_info.value.args[0]
-        expected = f"{str(self.node)} contains no child with name/id of '???'"
+        expected = f"{str(node)} contains no child with name/id of '???'"
         assert opt == expected
 
-    def test_bad_type(self):
+    def test_bad_type(_, corpus_testee3):
+        node = corpus_testee3.children[0]
         with pytest.raises(TypeError) as exec_info:
-            self.node[12.5]
+            node[12.5]
 
         opt = exec_info.value.args[0]
-        expected = f"{type(self.node).__name__} index must be int/str: 12.5"
+        expected = f"{type(node).__name__} index must be int/str: 12.5"
         assert opt == expected
 
 
 class TestImportance:
 
-    tree = PromptCorpusNode.parse(PROMPT3)
-    node = tree.children[0].children[0].children[0].children[0]
+    def test_parent(_, corpus_testee3):
+        node = corpus_testee3.children[0].children[0].children[0].children[0]
 
-    def test_parent(self):
         with pytest.raises(TypeError) as exec_info:
-            self.node[None]
+            node[None]
 
         opt = exec_info.value.args[0]
-        assert opt == f"{type(self.node).__name__} index must be int/str: None"
+        assert opt == f"{type(node).__name__} index must be int/str: None"
 
-    def test_int1(self):
-        opt = self.node[0]
+    def test_int1(_, corpus_testee3):
+        node = corpus_testee3.children[0].children[0].children[0].children[0]
+
+        opt = node[0]
 
         print(opt)
 
         assert (
             opt
-            is self.tree.children[0]
+            is corpus_testee3.children[0]
             .children[0]
             .children[0]
             .children[0]
             .children[0]
         )
 
-    def test_str1(self):
-        opt = self.node["Objective"]
+    def test_str1(_, corpus_testee3):
+        node = corpus_testee3.children[0].children[0].children[0].children[0]
+
+        opt = node["Objective"]
 
         print(opt)
 
         assert (
             opt
-            is self.tree.children[0]
+            is corpus_testee3.children[0]
             .children[0]
             .children[0]
             .children[0]

@@ -2,6 +2,8 @@
 test function ``get_embedded_prompt_blueprints_folder_path()`` & ``get_embedded_prompt_blueprints_names()``
 """
 
+# Hack deprecation?
+
 import os
 
 from kaye.gen_prompt import (

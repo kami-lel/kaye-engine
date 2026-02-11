@@ -2,6 +2,8 @@
 test function ``load_embedded_prompt_blueprint()``
 """
 
+# Hack deprecation?
+
 from kaye.gen_prompt import (
     load_embedded_prompt_blueprint,
     load_empty_prompt_blueprint,

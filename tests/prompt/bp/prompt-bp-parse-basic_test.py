@@ -1,13 +1,12 @@
 """
-prompt_blueprint_parse_basic_test.py
+prompt-bp-parse-basic_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.parse()
 """
 
-from kaye.gen_prompt import PromptCorpusNode, PromptBlueprint
+from kaye.gen_prompt import PromptBlueprint
 
-from tests.prompt import PROMPT1, PROMPT2, PROMPT3
-from tests.prompt.blueprint import (
+from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_1_PARTIAL_2,
@@ -18,28 +17,25 @@ from tests.prompt.blueprint import (
     BLUEPRINT_3_EMPTY,
 )
 
-CORPUS1 = PromptCorpusNode.parse(PROMPT1)
-CORPUS2 = PromptCorpusNode.parse(PROMPT2)
-CORPUS3 = PromptCorpusNode.parse(PROMPT3)
 
+class TestBasic1:  # use corpus1  ##############################################
 
-class TestBasic1:  # use corpus1  ==============================================
-
-    def test_full(_):
-        corpus = CORPUS1
+    def test_full(_, corpus_testee1):
         bp_text = BLUEPRINT_1_FULL
 
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
+        )
 
         print(opt)
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 4
-        assert opt.corpus is corpus
+        assert opt.corpus == corpus_testee1
         assert opt.display_name == ""
 
         # test entries  --------------------------------------------------------
         # test Project Title
-        proj_node = corpus.children[0]
+        proj_node = corpus_testee1.children[0]
         _hash = hash(proj_node)
         assert _hash in opt
         assert opt[_hash]
@@ -62,18 +58,19 @@ class TestBasic1:  # use corpus1  ==============================================
         assert _hash in opt
         assert opt[_hash]
 
-    def test_no_project(_):
-        corpus = CORPUS1
+    def test_no_project(_, corpus_testee1):
         bp_text = BLUEPRINT_1_PARTIAL_1
 
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
+        )
 
         print(opt)
         assert len(opt) == 4
 
         # test entries  --------------------------------------------------------
         # test Project Title
-        proj_node = corpus.children[0]
+        proj_node = corpus_testee1.children[0]
         _hash = hash(proj_node)
         assert _hash in opt
         assert not opt[_hash]
@@ -96,18 +93,19 @@ class TestBasic1:  # use corpus1  ==============================================
         assert _hash in opt
         assert opt[_hash]
 
-    def test_no_description(_):
-        corpus = CORPUS1
+    def test_no_description(_, corpus_testee1):
         bp_text = BLUEPRINT_1_PARTIAL_2
 
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
+        )
 
         print(opt)
         assert len(opt) == 4
 
         # test entries  --------------------------------------------------------
         # test Project Title
-        proj_node = corpus.children[0]
+        proj_node = corpus_testee1.children[0]
         _hash = hash(proj_node)
         assert _hash in opt
         assert opt[_hash]
@@ -130,18 +128,19 @@ class TestBasic1:  # use corpus1  ==============================================
         assert _hash in opt
         assert opt[_hash]
 
-    def test_empty(_):
-        corpus = CORPUS1
+    def test_empty(_, corpus_testee1):
         bp_text = BLUEPRINT_1_EMPTY
 
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus_testee1
+        )
 
         print(opt)
         assert len(opt) == 4
 
         # test entries  --------------------------------------------------------
         # test Project Title
-        proj_node = corpus.children[0]
+        proj_node = corpus_testee1.children[0]
         _hash = hash(proj_node)
         assert _hash in opt
         assert not opt[_hash]
@@ -165,23 +164,24 @@ class TestBasic1:  # use corpus1  ==============================================
         assert not opt[_hash]
 
 
-class TestBasic3:  # use corpus3  ==============================================
+class TestBasic3:  # use corpus3  ##############################################
 
-    def test_full(_):
-        corpus = CORPUS3
+    def test_full(_, corpus_testee3):
         bp_text = BLUEPRINT_3_FULL
 
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus_testee3
+        )
 
         print(opt)
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 10
-        assert opt.corpus is corpus
+        assert opt.corpus is corpus_testee3
         assert opt.display_name == ""
 
         # test entries  --------------------------------------------------------
         # Main Title
-        main_title_node = corpus.children[0]
+        main_title_node = corpus_testee3.children[0]
         _hash = hash(main_title_node)
         assert _hash in opt
         assert opt[_hash]
@@ -240,18 +240,19 @@ class TestBasic3:  # use corpus3  ==============================================
         assert _hash in opt
         assert opt[_hash]
 
-    def test_part1(_):
-        corpus = CORPUS3
+    def test_part1(_, corpus_testee3):
         bp_text = BLUEPRINT_3_PARTIAL_1
 
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus_testee3
+        )
 
         print(opt)
         assert len(opt) == 10
 
         # test entries  --------------------------------------------------------
         # Main Title
-        main_title_node = corpus.children[0]
+        main_title_node = corpus_testee3.children[0]
         _hash = hash(main_title_node)
         assert _hash in opt
         assert opt[_hash]
@@ -310,17 +311,18 @@ class TestBasic3:  # use corpus3  ==============================================
         assert _hash in opt
         assert opt[_hash]
 
-    def test_part2(_):
-        corpus = CORPUS3
+    def test_part2(_, corpus_testee3):
         bp_text = BLUEPRINT_3_PARTIAL_2
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus_testee3
+        )
 
         print(opt)
         assert len(opt) == 10
 
         # test entries  --------------------------------------------------------
         # Main Title
-        main_title_node = corpus.children[0]
+        main_title_node = corpus_testee3.children[0]
         _hash = hash(main_title_node)
         assert _hash in opt
         assert opt[_hash]
@@ -379,18 +381,18 @@ class TestBasic3:  # use corpus3  ==============================================
         assert _hash in opt
         assert not opt[_hash]
 
-    def test_empty(_):
-        corpus = CORPUS3
-
+    def test_empty(_, corpus_testee3):
         bp_text = BLUEPRINT_3_EMPTY
-        opt = PromptBlueprint.parse(corpus, bp_text, disable_prune=True)
+        opt = PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_override=corpus_testee3
+        )
 
         print(opt)
         assert len(opt) == 10
 
         # test entries  --------------------------------------------------------
         # Main Title
-        main_title_node = corpus.children[0]
+        main_title_node = corpus_testee3.children[0]
         _hash = hash(main_title_node)
         assert _hash in opt
         assert not opt[_hash]
