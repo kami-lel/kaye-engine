@@ -191,6 +191,8 @@ class BasePromptNode(AnyTreeNode):
         lineage = "#".join(node.name for node in self.path[1:])
         return "{}({})".format(type(self).__name__, lineage)
 
+    # TODO TODO copy & deep copy
+
 
 class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
     """

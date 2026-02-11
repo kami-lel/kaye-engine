@@ -17,7 +17,7 @@ class Test1:  # use corpus1  ###################################################
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, prompt_corpus_override=test_corpus1
+            bp_text, disable_prune=True, corpus_override=test_corpus1
         )
 
         # test entries  --------------------------------------------------------
@@ -56,7 +56,7 @@ class Test3:  # use corpus3  ##############################################
         bp = PromptBlueprint.parse(
             bp_text,
             disable_prune=True,
-            prompt_corpus_override=test_corpus3,
+            corpus_override=test_corpus3,
         )
 
         # test entries  --------------------------------------------------------

@@ -33,8 +33,10 @@ class PromptBlueprint(dict):
 
     :param display_name: display name given to the blueprint
     :type display_name: str, optional
-    :param prompt_corpus_override: (for testing only;) defaults to None
-    :type prompt_corpus_override: PromptCorpusNode, optional
+    :param corpus_override: use to set ``.corpus``,
+            instead of using ``load_prompt_corpus_tree`` by default;
+            defaults to None
+    :type corpus_override: PromptCorpusNode, optional
     """
 
     # classmethods  ============================================================
@@ -45,7 +47,7 @@ class PromptBlueprint(dict):
         *,
         display_name="",
         disable_prune=False,
-        prompt_corpus_override=None,
+        corpus_override=None,
     ):
         """
         parse ``blueprint_text`` into a blueprint object
@@ -63,8 +65,10 @@ class PromptBlueprint(dict):
                 when ``disable_prune``, the parsed tree contains the full
                 prompt corpus tree
         :type disable_prune: bool, optional
-        :param prompt_corpus_override: (for testing only), defaults to None
-        :type prompt_corpus_override: PromptCorpusNode, optional
+        :param corpus_override: use to set ``.corpus``,
+                instead of using ``load_prompt_corpus_tree`` by default;
+                defaults to None
+        :type corpus_override: PromptCorpusNode, optional
         :raise ValueError: bad formatted `blueprint_text`
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
@@ -72,7 +76,7 @@ class PromptBlueprint(dict):
         # create bp w/ nothing, to be filled during this function
         bp = PromptBlueprint(
             display_name=display_name,
-            prompt_corpus_override=prompt_corpus_override,
+            corpus_override=corpus_override,
         )
 
         # mapping id lineage : hash(all node in corpus)
@@ -133,46 +137,51 @@ class PromptBlueprint(dict):
 
     @classmethod
     def create_full_blueprint(
-        cls, *, display_name="full", prompt_corpus_override=None
+        cls, *, display_name="full", corpus_override=None
     ):
         """
         :param display_name:
         :type display_name: str, optional
-        :param prompt_corpus_override: (for testing only), defaults to None
-        :type prompt_corpus_override: PromptCorpusNode, optional
+        :param corpus_override: use to set ``.corpus``,
+                instead of using ``load_prompt_corpus_tree`` by default;
+                defaults to None
+        :type corpus_override: PromptCorpusNode, optional
         :return: a blueprint with all nodes from `prompt_corpus`,
                 and checkmarking all nodes
         :rtype: PromptBlueprint
         """
         return cls._create_full_or_empty_blueprint(
-            True, display_name, prompt_corpus_override
+            True, display_name, corpus_override
         )
 
     @classmethod
     def create_empty_blueprint(
-        cls, *, display_name="empty", prompt_corpus_override=None
+        cls, *, display_name="empty", corpus_override=None
     ):
         """
         :param display_name:
         :type display_name: str, optional
-        :param prompt_corpus_override: (for testing only), defaults to None
-        :type prompt_corpus_override: PromptCorpusNode, optional
+        :param corpus_override: use to set ``.corpus``,
+                instead of using ``load_prompt_corpus_tree`` by default;
+                defaults to None
+        :type corpus_override: PromptCorpusNode, optional
         :return: a blueprint with all nodes from `prompt_corpus`,
                 but checkmarking all nodes
         :rtype: PromptBlueprint
         """
         return cls._create_full_or_empty_blueprint(
-            False, display_name, prompt_corpus_override
+            False, display_name, corpus_override
         )
 
     # instance methods  ========================================================
-    def __init__(self, *, display_name="", prompt_corpus_override=None):
+    def __init__(self, *, display_name="", corpus_override=None):
         super().__init__()  # init as empty dict
 
+        # FIXME FIXME new logic, using copy
         self.corpus = (
             load_prompt_corpus_tree()
-            if prompt_corpus_override is None
-            else prompt_corpus_override
+            if corpus_override is None
+            else corpus_override
         )
 
         self.display_name = display_name
@@ -407,7 +416,7 @@ class PromptBlueprint(dict):
         """
         # create bp w/ nothing
         pruned_bp = PromptBlueprint(
-            display_name=self.display_name, prompt_corpus_override=self.corpus
+            display_name=self.display_name, corpus_override=self.corpus
         )
 
         _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
@@ -479,7 +488,7 @@ class PromptBlueprint(dict):
 
     @classmethod
     def _create_full_or_empty_blueprint(
-        cls, is_full, display_name, prompt_corpus_override=None
+        cls, is_full, display_name, corpus_override=None
     ):
         """
         helper method used
@@ -488,7 +497,7 @@ class PromptBlueprint(dict):
         """
         bp = PromptBlueprint(
             display_name=display_name,
-            prompt_corpus_override=prompt_corpus_override,
+            corpus_override=corpus_override,
         )
 
         # include all nodes
@@ -576,7 +585,7 @@ class PromptBlueprint(dict):
         :rtype: PromptBlueprint
         """
         copied = PromptBlueprint(
-            display_name=self.display_name, prompt_corpus_override=self.corpus
+            display_name=self.display_name, corpus_override=self.corpus
         )
 
         for k, v in self.items():
