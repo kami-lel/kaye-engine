@@ -26,6 +26,9 @@ UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
 
 
+# FIXME FIXME allow dynamic node
+
+
 class PromptBlueprint(dict):
     """
     `PromptBlueprint` represents a configurable subset of *prompt corpus tree*
@@ -146,7 +149,8 @@ class PromptBlueprint(dict):
                 instead of using ``load_prompt_corpus_tree`` by default;
                 defaults to None
         :type corpus_override: PromptCorpusNode, optional
-        :return: a blueprint with all nodes from `prompt_corpus`,
+        :return: a blueprint
+                with all nodes from `prompt_corpus` (except dynamic nodes,)
                 and checkmarking all nodes
         :rtype: PromptBlueprint
         """
@@ -165,8 +169,9 @@ class PromptBlueprint(dict):
                 instead of using ``load_prompt_corpus_tree`` by default;
                 defaults to None
         :type corpus_override: PromptCorpusNode, optional
-        :return: a blueprint with all nodes from `prompt_corpus`,
-                but checkmarking all nodes
+        :return: a blueprint
+                with all nodes from `prompt_corpus` (except dynamic nodes,)
+                but uncheckmarking all nodes
         :rtype: PromptBlueprint
         """
         return cls._create_full_or_empty_blueprint(

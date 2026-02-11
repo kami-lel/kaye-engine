@@ -6,6 +6,9 @@ Unit Tests (using pytest) for: PromptCorpusNode.__copy__()
 
 from copy import copy
 
+# Todo unit test for dynamic node
+# TODO copy a new tree?
+
 
 class TestParse1:  #############################################################
 

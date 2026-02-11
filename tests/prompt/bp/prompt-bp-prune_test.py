@@ -4,6 +4,8 @@ prompt-bp-prune_test.py
 Unit Tests (using pytest) for: PromptBlueprint.prune()
 """
 
+# Todo unit test for dynamic node
+
 from kaye.gen_prompt import PromptBlueprint
 
 from tests.prompt.bp import (
