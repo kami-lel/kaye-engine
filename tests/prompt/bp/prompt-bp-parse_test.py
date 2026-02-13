@@ -105,7 +105,7 @@ class TestErr:
 
         assert (
             opt
-            == """no node in prompt corpus tree that corresponds to this line:
+            == """missing node heading 'Installation' in corpus that corresponds to this line:
 [x]         ├── Installation"""
         )
 
@@ -124,7 +124,7 @@ class TestErr:
         print(opt)
         assert (
             opt
-            == """no node in prompt corpus tree that corresponds to this line:
+            == """missing node heading 'Node Nonexistent In Prompt' in corpus that corresponds to this line:
 [x]     ├── Node Nonexistent In Prompt"""
         )
 
@@ -481,4 +481,5 @@ class TestMalformed:
         opt = exec_info.value.args[0]
 
         print(opt)
-        assert opt == ""  # HACK HACK
+        assert opt == """malformed tree format at line:
+[x]     │       └── Background"""
