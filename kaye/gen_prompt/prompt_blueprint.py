@@ -182,11 +182,12 @@ class PromptBlueprint(dict):
     def __init__(self, *, display_name="", corpus_override=None):
         super().__init__()  # init as empty dict
 
-        self.corpus = (
+        corpus = (
             load_prompt_corpus_tree()
             if corpus_override is None
             else corpus_override
         )
+        self.corpus = copy.deepcopy(corpus)
 
         self.display_name = display_name
 
