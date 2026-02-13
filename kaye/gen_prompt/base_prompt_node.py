@@ -192,6 +192,14 @@ class BasePromptNode(AnyTreeNode):
         ):
             return NotImplemented
 
+        for a, b in zip(PreOrderIter(self), PreOrderIter(other)):
+            print(str(hash(a)) + "\t" + str(hash(b)))  # HACK
+            print(
+                str(a.generate_id_lineage())
+                + "\t"
+                + str(b.generate_id_lineage())
+            )  # HACK
+
         return all(
             hash(a) == hash(b)
             for a, b in zip(PreOrderIter(self), PreOrderIter(other))
