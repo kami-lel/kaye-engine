@@ -52,7 +52,7 @@ DFT_OPT = """World
 class TestTreePreview:
 
     def test1(_):
-        node = WORLD
+        node = world_testee
 
         opt = node.generate_prompt_tree_preview()
 
@@ -60,7 +60,7 @@ class TestTreePreview:
         assert opt == DFT_OPT
 
     def test2(_):
-        node = WORLD
+        node = world_testee
 
         opt = node.generate_prompt_tree_preview(content_preview_lines=0)
 
@@ -77,7 +77,7 @@ class TestTreePreview:
     └── Market Square"""
 
     def test3(_):
-        node = WORLD
+        node = world_testee
 
         opt = node.generate_prompt_tree_preview(content_preview_width=30)
 
@@ -119,7 +119,7 @@ class TestTreePreview:
         At night the square em"""
 
     def test_non_root1(_):
-        node = PEAK
+        node = peak_testee
 
         with pytest.raises(NotImplementedError) as exec_info:
             node.generate_prompt_tree_preview()
@@ -135,7 +135,7 @@ class TestTreePreview:
 class TestRepr:
 
     def test1(_):
-        node = WORLD
+        node = world_testee
 
         opt = repr(node)
 
