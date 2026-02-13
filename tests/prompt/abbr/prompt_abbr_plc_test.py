@@ -6,24 +6,28 @@ Unit Tests (using pytest) for:
 - PLCNode
 """
 
-from kaye.gen_prompt import PromptCorpusNode
+import pytest
+
 from kaye.gen_prompt.abbr_nodes import PLCNode
 
-# tree = PromptCorpusNode.parse(PROMPT1)
+
+@pytest.fixture
+def plc_node_testee1(corpus_testee1):
+    return PLCNode(corpus_testee1)
 
 
 class TestPLC:
-    # BUG update unit tests
 
-    # node = PLCNode(tree)
+    def test_init(self, plc_node_testee1, corpus_testee1):
+        plc_node_testee1.parent is corpus_testee1
+        plc_node_testee1.name == "Programming Languages Code"
+        plc_node_testee1.id == "{Programming Languages Code}"
 
-    def test_init(self):
-        self.node.parent is tree
-        self.node.name == "Programming Languages Code"
-        self.node.id == "{Programming Languages Code}"
-
-    def test_preview(self):
-        opt = tree.generate_prompt_tree_preview(content_preview_lines=0)
+    def test_preview(self, corpus_testee1, plc_node_testee1):
+        plc_node_testee1  # force call to add self to tree
+        opt = corpus_testee1.generate_prompt_tree_preview(
+            content_preview_lines=0
+        )
         print(opt)
         assert opt == """○
 ├── Project Title
@@ -32,8 +36,8 @@ class TestPLC:
 │   └── License
 └── Programming Languages Code"""
 
-    def test_content_lines(self):
-        lines = self.node.content_lines()
+    def test_content_lines(self, plc_node_testee1):
+        lines = plc_node_testee1.content_lines()
         print(lines)
         assert lines == [
             "-`console`:any types of terminal console & log message",

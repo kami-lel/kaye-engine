@@ -24,6 +24,7 @@ class TestAbbrNode:
         abbr_node_testee1.id == "{Abbreviations}"
 
     def test_preview(_, corpus_testee1, abbr_node_testee1):
+        abbr_node_testee1  # force call to add self to tree
         opt = corpus_testee1.generate_prompt_tree_preview(
             content_preview_lines=0
         )
