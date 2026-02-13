@@ -4,7 +4,7 @@ prompt-bp-is_checkmarked_test.py
 Unit Tests (using pytest) for: PromptBlueprint.is_checkmarked()
 """
 
-# Todo unit test for dynamic node
+# TODO unit test for dynamic node
 
 from kaye.gen_prompt import PromptBlueprint
 from tests.prompt.bp import (
