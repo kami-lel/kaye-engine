@@ -451,6 +451,20 @@ class TestMalformed:
 
     def test1(_, corpus_testee3):
         bp_text = """    ○
+[x]     └── Main Title"""
+
+        with pytest.raises(Exception) as exec_info:
+            PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert opt == """malformed tree format at line:
+[x]     └── Main Title"""
+
+        ""
+
+    def test2(_, corpus_testee3):
+        bp_text = """    ○
 [x] └── Main Title
 [x]     ├── Introduction
 [x]     │       └── Background
