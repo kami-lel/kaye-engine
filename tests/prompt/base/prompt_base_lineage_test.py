@@ -12,61 +12,65 @@ from tests.prompt.base import *
 class TestGenLineage:
 
     def test_root(self):
-        node = WORLD
+        node = world_testee
         opt = node.generate_id_lineage()
         print(opt)
         assert opt == []
 
     def test_mountain(self):
-        node = MOUNTAIN
+        node = mountain_testee
         opt = node.generate_id_lineage()
         print(opt)
-        assert opt == ["MOUNTAIN RANGE"]
+        assert opt == ["mountain_testee RANGE"]
 
     def test_peak(self):
-        node = PEAK
+        node = peak_testee
         opt = node.generate_id_lineage()
         print(opt)
-        assert opt == ["MOUNTAIN RANGE", "HIGH PEAK!"]
+        assert opt == ["mountain_testee RANGE", "HIGH peak_testee!"]
 
     def test_cave(self):
-        node = CAVE
+        node = cave_testee
         opt = node.generate_id_lineage()
         print(opt)
-        assert opt == ["MOUNTAIN RANGE", "HIGH PEAK!", "DARK CAVE"]
+        assert opt == [
+            "mountain_testee RANGE",
+            "HIGH peak_testee!",
+            "DARK cave_testee",
+        ]
 
     def test_lake(self):
-        node = LAKE
+        node = lake_testee
         opt = node.generate_id_lineage()
         print(opt)
-        assert opt == ["MOUNTAIN RANGE", "SERENE LAKE"]
+        assert opt == ["mountain_testee RANGE", "SERENE lake_testee"]
 
     def test_forest(self):
-        node = FOREST
+        node = forest_testee
         opt = node.generate_id_lineage()
         print(opt)
-        assert opt == ["ANCIENT FOREST"]
+        assert opt == ["ANCIENT forest_testee"]
 
     def test_glade(self):
-        node = GLADE
+        node = glade_testee
         opt = node.generate_id_lineage()
         print(opt)
-        assert opt == ["ANCIENT FOREST", "SUNNY GLADE"]
+        assert opt == ["ANCIENT forest_testee", "SUNNY glade_testee"]
 
     def test_stream(self):
-        node = STREAM
+        node = stream_testee
         opt = node.generate_id_lineage()
         print(opt)
-        assert opt == ["ANCIENT FOREST", "HIDDEN STREAM"]
+        assert opt == ["ANCIENT forest_testee", "HIDDEN stream_testee"]
 
     def test_village(self):
-        node = VILLAGE
+        node = village_testee
         opt = node.generate_id_lineage()
         print(opt)
-        assert opt == ["OLD VILLAGE"]
+        assert opt == ["OLD village_testee"]
 
     def test_market(self):
-        node = MARKET
+        node = market_testee
         opt = node.generate_id_lineage()
         print(opt)
-        assert opt == ["OLD VILLAGE", "MARKET SQUARE"]
+        assert opt == ["OLD village_testee", "market_testee SQUARE"]

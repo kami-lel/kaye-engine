@@ -14,90 +14,90 @@ from tests.prompt.base import *
 class TestByInt:  ##############################################################
 
     def test_world0(_):
-        src = WORLD
+        src = world_testee
         key = 0
 
         opt = src[key]
 
         print(opt)
-        assert opt is MOUNTAIN
+        assert opt is mountain_testee
 
     def test_world1(_):
-        src = WORLD
+        src = world_testee
         key = 1
 
         opt = src[key]
 
         print(opt)
-        assert opt is FOREST
+        assert opt is forest_testee
 
     def test_world2(_):
-        src = WORLD
+        src = world_testee
         key = 2
 
         opt = src[key]
 
         print(opt)
-        assert opt is VILLAGE
+        assert opt is village_testee
 
     def test_mountain0(_):
-        src = MOUNTAIN
+        src = mountain_testee
         key = 0
 
         opt = src[key]
 
         print(opt)
-        assert opt is PEAK
+        assert opt is peak_testee
 
     def test_mountain1(_):
-        src = MOUNTAIN
+        src = mountain_testee
         key = 1
 
         opt = src[key]
 
         print(opt)
-        assert opt is LAKE
+        assert opt is lake_testee
 
     def test_peak0(_):
-        src = PEAK
+        src = peak_testee
         key = 0
 
         opt = src[key]
 
         print(opt)
-        assert opt is CAVE
+        assert opt is cave_testee
 
     def test_forest0(_):
-        src = FOREST
+        src = forest_testee
         key = 0
 
         opt = src[key]
 
         print(opt)
-        assert opt is GLADE
+        assert opt is glade_testee
 
     def test_forest1(_):
-        src = FOREST
+        src = forest_testee
         key = 1
 
         opt = src[key]
 
         print(opt)
-        assert opt is STREAM
+        assert opt is stream_testee
 
     def test_village0(_):
-        src = VILLAGE
+        src = village_testee
         key = 0
 
         opt = src[key]
 
         print(opt)
-        assert opt is MARKET
+        assert opt is market_testee
 
     # fail cases  --------------------------------------------------------------
 
     def test_leaf1(_):
-        src = CAVE
+        src = cave_testee
         key = 0
 
         with pytest.raises(IndexError) as exec_info:
@@ -113,7 +113,7 @@ class TestByInt:  ##############################################################
         )
 
     def test_leaf2(_):
-        src = MARKET
+        src = market_testee
         key = 0
 
         with pytest.raises(IndexError) as exec_info:
@@ -129,7 +129,7 @@ class TestByInt:  ##############################################################
         )
 
     def test_oor1(_):
-        src = WORLD
+        src = world_testee
         key = 100
 
         with pytest.raises(Exception) as exec_info:
@@ -143,36 +143,36 @@ class TestByInt:  ##############################################################
 class TestByName:  #############################################################
 
     def test1(_):
-        src = WORLD
+        src = world_testee
         key = "Mountain Range"
 
         opt = src[key]
 
         print(opt)
-        assert opt is MOUNTAIN
+        assert opt is mountain_testee
 
     def test2(_):
-        src = MOUNTAIN
+        src = mountain_testee
         key = "High Peak!"
 
         opt = src[key]
 
         print(opt)
-        assert opt is PEAK
+        assert opt is peak_testee
 
     def test3(_):
-        src = PEAK
+        src = peak_testee
         key = "Dark Cave"
 
         opt = src[key]
 
         print(opt)
-        assert opt is CAVE
+        assert opt is cave_testee
 
     # fail cases  --------------------------------------------------------------
 
     def test_no_found1(_):
-        src = MOUNTAIN
+        src = mountain_testee
         key = "aaa"
 
         with pytest.raises(KeyError) as exec_info:
@@ -190,31 +190,31 @@ class TestByName:  #############################################################
 class TestById:  ###############################################################
 
     def test1(_):
-        src = WORLD
-        key = "MOUNTAIN RANGE"
+        src = world_testee
+        key = "mountain_testee RANGE"
 
         opt = src[key]
 
         print(opt)
-        assert opt is MOUNTAIN
+        assert opt is mountain_testee
 
     def test2(_):
-        src = MOUNTAIN
-        key = "HIGH PEAK!"
+        src = mountain_testee
+        key = "HIGH peak_testee!"
 
         opt = src[key]
 
         print(opt)
-        assert opt is PEAK
+        assert opt is peak_testee
 
     def test3(_):
-        src = PEAK
-        key = "DARK CAVE"
+        src = peak_testee
+        key = "DARK cave_testee"
 
         opt = src[key]
 
         print(opt)
-        assert opt is CAVE
+        assert opt is cave_testee
 
 
 # bad type  ####################################################################
@@ -222,7 +222,7 @@ class TestBadType:
 
     def test1(_):
         key = []
-        node = WORLD
+        node = world_testee
 
         with pytest.raises(TypeError) as exec_info:
             node[key]
@@ -233,7 +233,7 @@ class TestBadType:
 
     def test2(_):
         key = {"a": 5}
-        node = FOREST
+        node = forest_testee
 
         with pytest.raises(TypeError) as exec_info:
             node[key]
