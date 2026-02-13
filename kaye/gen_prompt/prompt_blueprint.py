@@ -5,7 +5,6 @@ define `PromptBlueprint`
 import re
 from datetime import datetime
 import copy
-from enum import Enum, auto
 
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter
@@ -24,9 +23,6 @@ __all__ = ("PromptBlueprint",)
 CHECKMARKED_PREFIX = "[x] "
 UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
-
-
-# FIXME FIXME allow dynamic node
 
 
 class PromptBlueprint(dict):
@@ -99,6 +95,7 @@ class PromptBlueprint(dict):
             is_checkmarked = heading_line_match.group(1) == "x"
             level = len(heading_line_match.group(2)) // 4
             heading = heading_line_match.group(3)
+            # TODO TODO attach dynamic node
 
             # dynamically decide path  -----------------------------------------
             if level > previous_level:
