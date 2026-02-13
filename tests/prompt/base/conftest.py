@@ -14,12 +14,12 @@ class UnitTestNode(BasePromptNode):
         return self.lines
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def world_testee():
     return UnitTestNode("World", lines=[])
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def mountain_testee(world_testee):
     return UnitTestNode(
         "Mountain Range",
@@ -36,7 +36,7 @@ def mountain_testee(world_testee):
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def peak_testee(mountain_testee):
     return UnitTestNode(
         "High Peak!",
@@ -57,7 +57,7 @@ def peak_testee(mountain_testee):
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def cave_testee(peak_testee):
     return UnitTestNode(
         "Dark Cave",
@@ -75,7 +75,7 @@ def cave_testee(peak_testee):
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def lake_testee(mountain_testee):
     return UnitTestNode(
         "Serene Lake",
@@ -95,7 +95,7 @@ def lake_testee(mountain_testee):
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def forest_testee(world_testee):
     return UnitTestNode(
         "Ancient Forest",
@@ -106,7 +106,7 @@ def forest_testee(world_testee):
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def glade_testee(forest_testee):
     return UnitTestNode(
         "Sunny Glade",
@@ -125,7 +125,7 @@ def glade_testee(forest_testee):
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def stream_testee(forest_testee):
     return UnitTestNode(
         "Hidden Stream",
@@ -145,7 +145,7 @@ def stream_testee(forest_testee):
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def village_testee(world_testee):
     return UnitTestNode(
         "Old Village",
@@ -162,7 +162,7 @@ def village_testee(world_testee):
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def market_testee(village_testee):
     return UnitTestNode(
         "Market Square",
