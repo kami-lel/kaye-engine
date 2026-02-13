@@ -11,7 +11,7 @@ from kaye.gen_prompt.abbr_nodes import AbbrNode
 
 class TestDynamics:
 
-    # Todo dynamic node unit test
+    # TODO dynamic node unit test
 
     def test1(_):
         bp_text = """ ○

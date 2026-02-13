@@ -49,7 +49,7 @@ class AbbrNode(DynamicNode):
         return lines
 
     def __copy__(self):
-        # Todo copy unit test
+        # TODO copy unit test
         return AbbrNode(self.parent)
 
 
@@ -72,8 +72,8 @@ class PLCNode(DynamicNode):
         return lines
 
     def __copy__(self):
-        # Todo copy unit test
+        # TODO copy unit test
         return AbbrNode(self.parent)
 
 
-# Todo usable abbrs node
+# TODO usable abbrs node

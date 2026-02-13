@@ -7,7 +7,7 @@ Unit Tests (using pytest) for: PromptBlueprint
 - __isub__()
 """
 
-# Todo unit test for dynamic node
+# TODO unit test for dynamic node
 
 import pytest
 

@@ -15,7 +15,7 @@ from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
 
 from tests.prompt.bp import BLUEPRINT_3_PARTIAL_1
 
-# Todo unit test for dynamic node
+# TODO unit test for dynamic node
 
 
 class TestCopy:

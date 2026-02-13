@@ -10,7 +10,7 @@ from tests.prompt.bp import (
     BLUEPRINT_3_FULL,
 )
 
-# Todo unit test for dynamic node
+# TODO unit test for dynamic node
 
 
 class Test1:  # use corpus1  ###################################################
