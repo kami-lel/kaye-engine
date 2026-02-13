@@ -26,7 +26,7 @@ UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
 
 
-# FIXME allow dynamic node
+# Fixme allow dynamic node
 
 
 class PromptBlueprint(dict):
