@@ -78,14 +78,9 @@ class PromptBlueprint(dict):
             corpus_override=corpus_override,
         )
 
-        # mapping id lineage : hash(all node in corpus)
-        id_lineage2node_hash = {
-            tuple(node.generate_id_lineage()): hash(node)
-            for node in bp.corpus.descendants
-        }
         # extract all headings  ++++++++++++++++++++++++++++++++++++++++++++++++
-        previous_level = -1
-        previous_path = []
+        prev_level = -1
+        prev_lineage = []
         for line in blueprint_text.split("\n"):
             heading_line_match = cls.HEADING_LINE_PATTERN.fullmatch(line)
 
@@ -95,42 +90,30 @@ class PromptBlueprint(dict):
             is_checkmarked = heading_line_match.group(1) == "x"
             level = len(heading_line_match.group(2)) // 4
             heading = heading_line_match.group(3)
-            # TODO TODO attach dynamic node
 
-            # dynamically decide path  -----------------------------------------
-            if level > previous_level:
-
-                if level - previous_level > 1:
+            # dynamically decide lineage  --------------------------------------
+            if level > prev_level:
+                if level - prev_level > 1:
                     raise ValueError(
                         "malformed tree format at line:\n{}".format(line)
                     )
+                lineage = prev_lineage + [""]
 
-                path = previous_path + [""]
-
-            elif level == previous_level:
-                path = previous_path
+            elif level == prev_level:
+                lineage = prev_lineage
 
             else:
-                path = previous_path[: level + 1]
+                lineage = prev_lineage[: level + 1]
 
-            path[level] = heading
+            lineage[level] = heading
 
-            # attach node to blueprint  ----------------------------------------
-            path_tuple = tuple(path)
+            # pylint: disable-next=expression-not-assigned
+            bp._parse_add_dynamic_node(heading) or bp._parse_add_corpus_node(
+                lineage, line, is_checkmarked
+            )
 
-            # check node's existence in tree  ----------------------------------
-            if path_tuple not in id_lineage2node_hash:
-                raise ValueError(
-                    "no node in prompt corpus tree that "
-                    "corresponds to this line:\n{}".format(line)
-                )
-
-            # append a node  ---------------------------------------------------
-            node_hash = id_lineage2node_hash[path_tuple]
-            bp[node_hash] = is_checkmarked
-
-            # update loop vars  ------------------------------------------------
-            previous_level, previous_path = level, path
+            # update loop vars
+            prev_level, prev_lineage = level, lineage
 
         # prune the tree
         return bp if disable_prune else bp.prune()
@@ -373,6 +356,9 @@ class PromptBlueprint(dict):
 
     HEADING_LINE_PATTERN = re.compile(r"\[([x ])\] (.*)[└├]── (.+)")
 
+    # mapping of: id lineage : hash(node), for all nodes in self.corpus
+    _id_lineage2node_hash = None
+
     def _generate_comment_content(self):
         """
         (helper method used in
@@ -399,6 +385,31 @@ class PromptBlueprint(dict):
         )
 
         return "{}Kaye v{}".format(name_part, kaye_version)
+
+    def _parse_add_dynamic_node(self, heading):
+        return False  # TODO TODO
+
+    def _parse_add_corpus_node(self, lineage, line, is_checkmarked):
+        # init mapping
+        if self._id_lineage2node_hash is None:
+            self._id_lineage2node_hash = {
+                tuple(node.generate_id_lineage()): hash(node)
+                for node in self.corpus.descendants
+            }
+
+        # attach node to blueprint
+        lineage_tuple = tuple(lineage)
+
+        # check node's existence in tree
+        if lineage_tuple not in self._id_lineage2node_hash:
+            raise ValueError(
+                "no node in prompt corpus tree that "
+                "corresponds to this line:\n{}".format(line)
+            )
+
+        # append a node
+        node_hash = self._id_lineage2node_hash[lineage_tuple]
+        self[node_hash] = is_checkmarked
 
     @classmethod
     def _create_full_or_empty_blueprint(
