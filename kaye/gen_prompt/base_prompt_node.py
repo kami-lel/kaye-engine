@@ -179,26 +179,16 @@ class BasePromptNode(AnyTreeNode):
 
     def __eq__(self, other):
         """
-        TODO TODO
-
-
         :param other:
         :type other: BasePromptNode
-        :return: _description_
+        :return: whether 2 trees are identical in node name structure
+                when given root nodes
         :rtype: bool
         """
         if not (
             self.is_root and isinstance(other, BasePromptNode) and other.is_root
         ):
             return NotImplemented
-
-        for a, b in zip(PreOrderIter(self), PreOrderIter(other)):
-            print(str(hash(a)) + "\t" + str(hash(b)))  # HACK
-            print(
-                str(a.generate_id_lineage())
-                + "\t"
-                + str(b.generate_id_lineage())
-            )  # HACK
 
         return all(
             hash(a) == hash(b)
