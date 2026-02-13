@@ -30,7 +30,7 @@ class TestCopy:
         print(copied.generate_blueprint())
 
         assert copied.display_name == src_bp.display_name
-        assert copied.corpus is src_bp.corpus
+        assert copied.corpus == src_bp.corpus
         # test per entries
         for k, v in copied.items():
             assert k in src_bp
@@ -46,10 +46,7 @@ class TestCopy:
         print(copied.generate_blueprint())
 
         assert copied.display_name == src_bp.display_name
-        assert copied.corpus.name == src_bp.corpus.name
-        assert [str(e) for e in copied.corpus.descendants] == [
-            str(e) for e in src_bp.corpus.descendants
-        ]
+        assert copied.corpus == src_bp.corpus
         # test per entries
         for k, v in copied.items():
             assert k in src_bp

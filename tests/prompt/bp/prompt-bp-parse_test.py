@@ -140,7 +140,7 @@ class TestDft1:  # use PROMPT1  ================================================
         print(repr(opt))
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 4
-        assert opt.corpus is corpus_testee1
+        assert opt.corpus == corpus_testee1
         assert opt.display_name == ""
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
@@ -194,7 +194,7 @@ class TestDft2:  # use PROMPT2  ================================================
         print(repr(opt))
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 6
-        assert opt.corpus is corpus_testee2
+        assert opt.corpus == corpus_testee2
         assert opt.display_name == ""
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
@@ -236,7 +236,7 @@ class TestDft3:  # use PROMPT3  ================================================
         print(repr(opt))
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 10
-        assert opt.corpus is corpus_testee3
+        assert opt.corpus == corpus_testee3
         assert opt.display_name == ""
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
