@@ -8,25 +8,25 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from kaye.gen_prompt import PromptCorpusNode
-from kaye.gen_prompt.abbr_collection import AbbrData
 from kaye.gen_prompt.abbr_nodes import AbbrNode
 
-# tree = PromptCorpusNode.parse(PROMPT1)
-# BUG update unit tests
+
+@pytest.fixture
+def abbr_node_testee1(corpus_testee1):
+    return AbbrNode(corpus_testee1)
 
 
 class TestAbbrNode:
 
-    # node = AbbrNode(tree)
+    def test_init(_, corpus_testee1, abbr_node_testee1):
+        abbr_node_testee1.parent is corpus_testee1
+        abbr_node_testee1.name == "Abbreviations"
+        abbr_node_testee1.id == "{Abbreviations}"
 
-    def test_init(self):
-        self.node.parent is tree
-        self.node.name == "Abbreviations"
-        self.node.id == "{Abbreviations}"
-
-    def test_preview(self):
-        opt = tree.generate_prompt_tree_preview(content_preview_lines=0)
+    def test_preview(_, corpus_testee1, abbr_node_testee1):
+        opt = corpus_testee1.generate_prompt_tree_preview(
+            content_preview_lines=0
+        )
         print(opt)
         assert opt == """○
 ├── Project Title
@@ -37,15 +37,15 @@ class TestAbbrNode:
 
     # test content_lines  ------------------------------------------------------
 
-    def test_fx1(self):
+    def test_fx1(_, abbr_node_testee1):
         query = "I am try.g to op.g on menu."
 
-        lines = self.node.content_lines(query=query)
+        lines = abbr_node_testee1.content_lines(query=query)
 
         print(lines)
         assert set(lines) == {"- op:operate,operation,operator", "- .g:-ing"}
 
-    def test_fx2(self):
+    def test_fx2(_, abbr_node_testee1):
         query = (
             "The ind rev catalyzed a tectonic shift fr artisanal produc.n to"
             " mechanized manufacture, precipitating urbanization, the rise of"
@@ -54,7 +54,7 @@ class TestAbbrNode:
             " literacy and reorder modn soc. This is really o.est."
         )
 
-        lines = self.node.content_lines(query=query)
+        lines = abbr_node_testee1.content_lines(query=query)
 
         print(lines)
 
@@ -76,26 +76,26 @@ class TestAbbrNode:
             "- est.:estimate,estimation,estimated,estimating,estimatingly",
         }
 
-    def test_start(self):
+    def test_start(_, abbr_node_testee1):
         query = "cf and other"
 
-        lines = self.node.content_lines(query=query)
+        lines = abbr_node_testee1.content_lines(query=query)
 
         print(lines)
         assert set(lines) == {"- cf:confer,compare"}
 
-    def test_end(self):
+    def test_end(_, abbr_node_testee1):
         query = "other and cf"
 
-        lines = self.node.content_lines(query=query)
+        lines = abbr_node_testee1.content_lines(query=query)
 
         print(lines)
         assert set(lines) == {"- cf:confer,compare"}
 
-    def test_caps1(self):
+    def test_caps1(_, abbr_node_testee1):
         query = "W it happens but mx and also AM"
 
-        lines = self.node.content_lines(query=query)
+        lines = abbr_node_testee1.content_lines(query=query)
 
         print(lines)
         assert set(lines) == {
@@ -106,10 +106,10 @@ class TestAbbrNode:
             "- AM:ante meridiem,before midday",
         }
 
-    def test_caps2(self):
+    def test_caps2(_, abbr_node_testee1):
         query = "w it happens but Mx and also am"
 
-        lines = self.node.content_lines(query=query)
+        lines = abbr_node_testee1.content_lines(query=query)
 
         print(lines)
         assert set(lines) == {
@@ -117,7 +117,7 @@ class TestAbbrNode:
             "- Mx:must not",
         }
 
-    def test_emoji1(self):
+    def test_emoji1(_, abbr_node_testee1):
         query = (
             "When configuring your new software, always remember to review the"
             " ⚙️ settings carefully before proceeding. ☜ Ignoring these"
@@ -132,7 +132,7 @@ class TestAbbrNode:
             " fuels a rapid 🚀 and smooth experience tomorrow."
         )
 
-        lines = self.node.content_lines(query=query)
+        lines = abbr_node_testee1.content_lines(query=query)
 
         print(lines)
         assert set(lines) == {
@@ -147,7 +147,7 @@ class TestAbbrNode:
             "- 🏁:finish",
         }
 
-    def test_unicode1(self):
+    def test_unicode1(_, abbr_node_testee1):
         query = (
             "During the experiment, the temperature was carefully lowered ↓"
             " from 25℃ to 18℃ to observe the reaction rate changes. The"
@@ -158,7 +158,7 @@ class TestAbbrNode:
             " observed decrease ↓ in reaction time, confirming the hypothesis."
         )
 
-        lines = self.node.content_lines(query=query)
+        lines = abbr_node_testee1.content_lines(query=query)
 
         print(lines)
         assert set(lines) == {
@@ -169,17 +169,17 @@ class TestAbbrNode:
             "- in:inch",
         }
 
-    def test_empty1(self):
+    def test_empty1(_, abbr_node_testee1):
         query = "some content without abbreviation"
 
-        lines = self.node.content_lines(query=query)
+        lines = abbr_node_testee1.content_lines(query=query)
         print(lines)
         assert lines == []
 
-    def test_err1(self):
+    def test_err1(_, abbr_node_testee1):
 
         with pytest.raises(ValueError) as exec_info:
-            self.node.content_lines()
+            abbr_node_testee1.content_lines()
 
         opt = exec_info.value.args[0]
         print(opt)
