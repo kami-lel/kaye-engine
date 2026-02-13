@@ -20,5 +20,5 @@
         "**/hooks_utility/*/**",
         "*.yml",
         "**/prompt_corpus.md"
-    ]
+    ],
 }

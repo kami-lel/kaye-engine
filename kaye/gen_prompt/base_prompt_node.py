@@ -4,7 +4,7 @@ define ``BasePromptNode`` and ``DynamicNode``
 
 import copy
 
-from anytree import Node as AnyTreeNode, RenderTree
+from anytree import Node as AnyTreeNode, RenderTree, PreOrderIter
 
 __all__ = ("BasePromptNode",)
 
@@ -177,6 +177,40 @@ class BasePromptNode(AnyTreeNode):
     def __hash__(self):
         return hash(tuple(self.generate_id_lineage()))
 
+    def __eq__(self, other):
+        """
+        :param other:
+        :type other: BasePromptNode
+        :return: whether 2 trees are identical in node name structure
+                (node content is irrelevant)
+                when given root nodes
+        :rtype: bool
+        """
+        if not (
+            self.is_root and isinstance(other, BasePromptNode) and other.is_root
+        ):
+            return NotImplemented
+
+        return all(
+            hash(a) == hash(b)
+            for a, b in zip(PreOrderIter(self), PreOrderIter(other))
+        )
+
+    def __deepcopy__(self, memo):
+        """
+        :param memo:
+        :type memo:
+        :return: a deep copy with all descendants also copied
+        :rtype: BasePromptNode
+        """
+        copied = copy.copy(self)
+        # attach children
+        copied.children = [copy.deepcopy(child) for child in self.children]
+
+        return copied
+
+    # str-related  *************************************************************
+
     def __repr__(self):
         if self.is_root:
             return self.generate_prompt_tree_preview()
@@ -192,19 +226,6 @@ class BasePromptNode(AnyTreeNode):
         """
         lineage = "#".join(node.name for node in self.path[1:])
         return "{}({})".format(type(self).__name__, lineage)
-
-    def __deepcopy__(self, memo):
-        """
-        :param memo:
-        :type memo:
-        :return: a deep copy with all descendants also copied
-        :rtype: BasePromptNode
-        """
-        copied = copy.copy(self)
-        # attach children
-        copied.children = [copy.deepcopy(child) for child in self.children]
-
-        return copied
 
 
 class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
