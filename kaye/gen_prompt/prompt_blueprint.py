@@ -80,7 +80,7 @@ class PromptBlueprint(dict):
 
         # extract all headings  ++++++++++++++++++++++++++++++++++++++++++++++++
         prev_level = 0
-        lineage = [bp.corpus]
+        ancestors = [bp.corpus]
         for line in blueprint_text.split("\n"):
             heading_line_match = cls.HEADING_LINE_PATTERN.fullmatch(line)
 
@@ -93,20 +93,20 @@ class PromptBlueprint(dict):
             heading = heading_line_match.group(3)
 
             if level - prev_level > 1:
+                print(level, prev_level, sep="\t")  # HACK HACK
                 raise ValueError(
                     "malformed tree format at line:\n{}".format(line)
                 )
             # dynamically decide lineage  --------------------------------------
             if level < prev_level:
-                lineage = lineage[:level]
+                ancestors = ancestors[:level]
 
-            # BUG BUG
             # pylint: disable-next=expression-not-assigned
             node = bp._parse_add_dynamic_node(
                 heading
-            ) or bp._parse_add_corpus_node(lineage, line, is_checkmarked)
+            ) or bp._parse_add_corpus_node(ancestors, line, is_checkmarked)
 
-            lineage[level] = node
+            ancestors[level] = node
 
             # update loop vars
             prev_level = level
@@ -352,9 +352,6 @@ class PromptBlueprint(dict):
 
     HEADING_LINE_PATTERN = re.compile(r"\[([x ])\] (.*)[└├]── (.+)")
 
-    # mapping of: id lineage : hash(node), for all nodes in self.corpus
-    _id_lineage2node_hash = None
-
     def _generate_comment_content(self):
         """
         (helper method used in
@@ -391,13 +388,6 @@ class PromptBlueprint(dict):
 
         (helper method used in ``.parse()``)
         """
-        # init mapping
-        if self._id_lineage2node_hash is None:
-            self._id_lineage2node_hash = {
-                tuple(node.generate_id_lineage()): hash(node)
-                for node in self.corpus.descendants
-            }
-
         # attach node to blueprint
         lineage_tuple = tuple(lineage)
 
