@@ -79,7 +79,7 @@ class PromptBlueprint(dict):
         )
 
         # extract all headings  ++++++++++++++++++++++++++++++++++++++++++++++++
-        prev_level = -1
+        prev_level = 0
         lineage = [bp.corpus]
         for line in blueprint_text.split("\n"):
             heading_line_match = cls.HEADING_LINE_PATTERN.fullmatch(line)
@@ -89,30 +89,24 @@ class PromptBlueprint(dict):
 
             # extract info from the line
             is_checkmarked = heading_line_match.group(1) == "x"
-            level = len(heading_line_match.group(2)) // 4
+            level = len(heading_line_match.group(2)) // 4 + 1
             heading = heading_line_match.group(3)
 
+            if level - prev_level > 1:
+                raise ValueError(
+                    "malformed tree format at line:\n{}".format(line)
+                )
             # dynamically decide lineage  --------------------------------------
-            if level > prev_level:
-                # BUG BUG what is correct behavior for more heading?
-                if level - prev_level > 1:
-                    raise ValueError(
-                        "malformed tree format at line:\n{}".format(line)
-                    )
-                lineage = lineage + [""]
+            if level < prev_level:
+                lineage = lineage[:level]
 
-            elif level == prev_level:
-                lineage = lineage
-
-            else:
-                lineage = lineage[: level + 1]
-
-            lineage[level] = heading
-
+            # BUG BUG
             # pylint: disable-next=expression-not-assigned
-            bp._parse_add_dynamic_node(heading) or bp._parse_add_corpus_node(
-                lineage, line, is_checkmarked
-            )
+            node = bp._parse_add_dynamic_node(
+                heading
+            ) or bp._parse_add_corpus_node(lineage, line, is_checkmarked)
+
+            lineage[level] = node
 
             # update loop vars
             prev_level = level
