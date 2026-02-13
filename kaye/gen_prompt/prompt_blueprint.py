@@ -80,30 +80,32 @@ class PromptBlueprint(dict):
 
         # extract all headings  ++++++++++++++++++++++++++++++++++++++++++++++++
         prev_level = -1
-        prev_lineage = []
+        lineage = [bp.corpus]
         for line in blueprint_text.split("\n"):
             heading_line_match = cls.HEADING_LINE_PATTERN.fullmatch(line)
 
             if not heading_line_match:
                 continue  # skip line that is not a node heading
 
+            # extract info from the line
             is_checkmarked = heading_line_match.group(1) == "x"
             level = len(heading_line_match.group(2)) // 4
             heading = heading_line_match.group(3)
 
             # dynamically decide lineage  --------------------------------------
             if level > prev_level:
+                # BUG BUG what is correct behavior for more heading?
                 if level - prev_level > 1:
                     raise ValueError(
                         "malformed tree format at line:\n{}".format(line)
                     )
-                lineage = prev_lineage + [""]
+                lineage = lineage + [""]
 
             elif level == prev_level:
-                lineage = prev_lineage
+                lineage = lineage
 
             else:
-                lineage = prev_lineage[: level + 1]
+                lineage = lineage[: level + 1]
 
             lineage[level] = heading
 
@@ -113,7 +115,7 @@ class PromptBlueprint(dict):
             )
 
             # update loop vars
-            prev_level, prev_lineage = level, lineage
+            prev_level = level
 
         # prune the tree
         return bp if disable_prune else bp.prune()
@@ -390,6 +392,11 @@ class PromptBlueprint(dict):
         return False  # TODO TODO
 
     def _parse_add_corpus_node(self, lineage, line, is_checkmarked):
+        """
+        add a PromptCorpusNode into this blueprint
+
+        (helper method used in ``.parse()``)
+        """
         # init mapping
         if self._id_lineage2node_hash is None:
             self._id_lineage2node_hash = {
