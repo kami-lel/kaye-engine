@@ -79,37 +79,38 @@ class PromptBlueprint(dict):
         )
 
         # extract all headings  ++++++++++++++++++++++++++++++++++++++++++++++++
-        prev_level = 0
-        ancestors = [bp.corpus]
+        prev_node = bp.corpus
         for line in blueprint_text.split("\n"):
             heading_line_match = cls.HEADING_LINE_PATTERN.fullmatch(line)
 
             if not heading_line_match:
                 continue  # skip line that is not a node heading
 
-            # extract info from the line
+            # extract info for current node
             is_checkmarked = heading_line_match.group(1) == "x"
             level = len(heading_line_match.group(2)) // 4 + 1
             heading = heading_line_match.group(3)
 
-            if level - prev_level > 1:
-                print(level, prev_level, sep="\t")  # HACK HACK
+            # find parent of current node
+            level_offset = level - prev_node.depth
+            if level_offset > 1:
                 raise ValueError(
                     "malformed tree format at line:\n{}".format(line)
                 )
-            # dynamically decide lineage  --------------------------------------
-            if level < prev_level:
-                ancestors = ancestors[:level]
 
-            # pylint: disable-next=expression-not-assigned
-            node = bp._parse_add_dynamic_node(
-                heading
-            ) or bp._parse_add_corpus_node(ancestors, line, is_checkmarked)
+            elif level_offset > 0:
+                parent = prev_node
 
-            ancestors[level] = node
+            else:
+                parent = prev_node.ancestors[level - 1]
 
-            # update loop vars
-            prev_level = level
+            # create/add node
+            prev_node = (
+                bp._parse_add_dynamic_node()
+                or bp._parse_add_corpus_node(
+                    parent, heading, line, is_checkmarked
+                )
+            )
 
         # prune the tree
         return bp if disable_prune else bp.prune()
@@ -379,28 +380,26 @@ class PromptBlueprint(dict):
 
         return "{}Kaye v{}".format(name_part, kaye_version)
 
-    def _parse_add_dynamic_node(self, heading):
+    def _parse_add_dynamic_node(self):
         return False  # TODO TODO
 
-    def _parse_add_corpus_node(self, lineage, line, is_checkmarked):
+    def _parse_add_corpus_node(self, parent, heading, line, is_checkmarked):
         """
-        add a PromptCorpusNode into this blueprint
+        find current node when non-dynamic, and include it in this blueprint
 
         (helper method used in ``.parse()``)
         """
-        # attach node to blueprint
-        lineage_tuple = tuple(lineage)
-
-        # check node's existence in tree
-        if lineage_tuple not in self._id_lineage2node_hash:
+        try:
+            node = parent[heading]
+        except KeyError as err:
             raise ValueError(
-                "no node in prompt corpus tree that "
-                "corresponds to this line:\n{}".format(line)
-            )
+                "missing node heading {} in corpus "
+                "that corresponds to this line:\n{}".format(repr(heading), line)
+            ) from err
 
-        # append a node
-        node_hash = self._id_lineage2node_hash[lineage_tuple]
-        self[node_hash] = is_checkmarked
+        # include node in the blueprint
+        self[hash(node)] = is_checkmarked
+        return node
 
     @classmethod
     def _create_full_or_empty_blueprint(
