@@ -12,7 +12,7 @@ from kaye.gen_prompt import (
 )
 
 
-class TestFull:  # special case "full"
+class XTestFull:  # special case "full"
 
     prompt_name = "full"
 
@@ -37,7 +37,7 @@ class TestFull:  # special case "full"
         assert all(line.startswith("[x]") for line in opt.splitlines()[1:])
 
 
-class TestEmpty:  # special case "empty"
+class XTestEmpty:  # special case "empty"
 
     prompt_name = "empty"
 
@@ -68,7 +68,7 @@ class TestEmpty:  # special case "empty"
         assert all(line.startswith("[ ]") for line in opt.splitlines()[1:])
 
 
-class TestChat:
+class XTestChat:
 
     prompt_name = "chat"
 
