@@ -51,7 +51,7 @@ DFT_OPT = """World
 # tree preview  ################################################################
 class TestTreePreview:
 
-    def test1(_):
+    def test1(_, world_testee):
         node = world_testee
 
         opt = node.generate_prompt_tree_preview()
@@ -59,7 +59,7 @@ class TestTreePreview:
         print(opt)
         assert opt == DFT_OPT
 
-    def test2(_):
+    def test2(_, world_testee):
         node = world_testee
 
         opt = node.generate_prompt_tree_preview(content_preview_lines=0)
@@ -76,7 +76,7 @@ class TestTreePreview:
 └── Old Village
     └── Market Square"""
 
-    def test3(_):
+    def test3(_, world_testee):
         node = world_testee
 
         opt = node.generate_prompt_tree_preview(content_preview_width=30)
@@ -118,7 +118,7 @@ class TestTreePreview:
         Stalls display everyth
         At night the square em"""
 
-    def test_non_root1(_):
+    def test_non_root1(_, peak_testee):
         node = peak_testee
 
         with pytest.raises(NotImplementedError) as exec_info:
@@ -134,7 +134,7 @@ class TestTreePreview:
 # repr  ########################################################################
 class TestRepr:
 
-    def test1(_):
+    def test1(_, world_testee):
         node = world_testee
 
         opt = repr(node)
