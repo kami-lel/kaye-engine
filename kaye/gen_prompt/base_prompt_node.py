@@ -3,6 +3,8 @@ define ``BasePromptNode`` and ``DynamicNode``
 """
 
 import copy
+import re
+
 
 from anytree import Node as AnyTreeNode, RenderTree, PreOrderIter
 
@@ -232,6 +234,8 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
     """
     abstract class for all *dynamic node*
     """
+
+    ID_PATTERN = re.compile(r"^{.+}$")
 
     # implement BasePromptNode  ================================================
     @property

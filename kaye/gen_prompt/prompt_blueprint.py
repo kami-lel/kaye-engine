@@ -10,11 +10,13 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
 
-from .base_prompt_node import BasePromptNode
+from .base_prompt_node import BasePromptNode, DynamicNode
 from .prompt_corpus_loader import (
     load_prompt_corpus_tree,
     HEADING_PREFIX_ELEMENT,
 )
+from .today_node import TodayNode
+from .abbr_nodes import AbbrNode, PLCNode
 
 __all__ = ("PromptBlueprint",)
 
@@ -105,11 +107,10 @@ class PromptBlueprint(dict):
                 parent = prev_node.ancestors[level - 1]
 
             # create/add node
-            prev_node = (
-                bp._parse_add_dynamic_node()
-                or bp._parse_add_corpus_node(
-                    parent, heading, line, is_checkmarked
-                )
+            prev_node = bp._parse_add_dynamic_node(
+                heading, parent
+            ) or bp._parse_add_corpus_node(
+                parent, heading, line, is_checkmarked
             )
 
         # prune the tree
@@ -380,8 +381,22 @@ class PromptBlueprint(dict):
 
         return "{}Kaye v{}".format(name_part, kaye_version)
 
-    def _parse_add_dynamic_node(self):
-        return False  # TODO TODO
+    def _parse_add_dynamic_node(self, heading, parent):
+        # early exit for non-dynamic node
+        if not DynamicNode.ID_PATTERN.match(heading):
+            return False
+
+        name = heading[1:-1]
+
+        # decide type of dynamic node by name's pattern
+        if name == TodayNode.HEADING:
+            return TodayNode(parent)
+        elif name == AbbrNode.HEADING:
+            return AbbrNode(parent)
+        elif PLCNode.HEADING:
+            return PLCNode(parent)
+        else:
+            return False
 
     def _parse_add_corpus_node(self, parent, heading, line, is_checkmarked):
         """
