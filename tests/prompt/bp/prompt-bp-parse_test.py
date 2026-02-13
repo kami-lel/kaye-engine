@@ -444,3 +444,27 @@ class TestPrunedText:
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_3_PARTIAL_1_PRUNED
         )
+
+
+# malformed  ###################################################################
+class TestMalformed:
+
+    def test1(_, corpus_testee3):
+        bp_text = """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │       └── Background
+[x]     │           └── Importance
+[x]     │               └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[ ]     │           └── Future Work
+[x]     └── Conclusion"""
+
+        with pytest.raises(Exception) as exec_info:
+            PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert opt == ""  # HACK HACK
