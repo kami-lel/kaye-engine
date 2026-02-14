@@ -7,7 +7,7 @@ Unit Tests (using pytest) for: PromptBlueprint.generate_prompt()
 import re
 
 
-from kaye.gen_prompt import PromptBlueprint
+from kaye.prompt import PromptBlueprint
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
