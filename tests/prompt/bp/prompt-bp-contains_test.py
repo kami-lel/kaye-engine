@@ -4,6 +4,9 @@ prompt-bp-contains_test.py
 Unit Tests (using pytest) for: PromptBlueprint.__contains__()
 """
 
+import copy
+
+
 import pytest
 
 
@@ -12,8 +15,6 @@ from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_3_FULL,
 )
-
-# TODO unit test for dynamic node
 
 
 # pytest fixures  ##############################################################
@@ -245,3 +246,24 @@ class TestHash3:  # ============================================================
         opt = hash(node) in bp_testee3
         print(repr(opt) + "\t" + repr(node))
         assert opt
+
+
+class TestDynamicNodes:  #######################################################
+
+    def test_obj1(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
+            "Programming Languages Code"
+        ]
+
+        assert node in bp
+
+    def test_hash1(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
+            "Programming Languages Code"
+        ]
+
+        assert hash(node) in bp
