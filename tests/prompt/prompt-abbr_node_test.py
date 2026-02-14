@@ -202,11 +202,14 @@ class TestContentLines:  #######################################################
         print(lines)
         assert lines == []
 
-    def test_err1(_, testee1):
+    def test_empty2(_, testee1):
+        query = ""
 
-        with pytest.raises(ValueError) as exec_info:
-            testee1.content_lines()
+        lines = testee1.content_lines(query=query)
+        print(lines)
+        assert lines == []
 
-        opt = exec_info.value.args[0]
-        print(opt)
-        assert opt == "must provide kwarg: query"
+    def test_empty3(_, testee1):
+        lines = testee1.content_lines()
+        print(lines)
+        assert lines == []
