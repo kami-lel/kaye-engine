@@ -35,7 +35,7 @@ class TestDynamics:
         node = bp.corpus["{Programming Languages Code}"]
         assert isinstance(node, PLCNode)
         assert node in bp
-        assert not bp.is_checkmarked(node)
+        assert bp.is_checkmarked(node)
 
     # use dynamic_bp_testee1  --------------------------------------------------
 
