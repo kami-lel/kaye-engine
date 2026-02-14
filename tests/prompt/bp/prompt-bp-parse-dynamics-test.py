@@ -25,3 +25,7 @@ class TestDynamics:
 
         assert abbr_node in bp
         assert not bp.is_checkmarked(abbr_node)
+
+    def test_mux(_, dynamic_nodes_testee1):
+
+        print(dynamic_nodes_testee1.generate_blueprint(content_preview_lines=0))
