@@ -6,6 +6,8 @@ Unit Tests (using pytest) for:
 copy & deepcopy of PromptCorpusNode
 """
 
+# BUG copy/deepcopy will modify root node
+
 import copy
 
 
