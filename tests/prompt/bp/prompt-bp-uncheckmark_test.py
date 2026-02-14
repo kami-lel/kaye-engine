@@ -395,13 +395,22 @@ class Test32:  # ===============================================================
 
 class TestDynamicNodes:  #######################################################
 
-    def test1(_, dynamic_bp_testee1):
+    def test_abbr(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Introduction"][
+            "Background"
+        ]["Importance"]["Abbreviations"]
+
+        assert bp.uncheckmark(node)
+        assert not bp.is_checkmarked(node)
+
+    def test_plc(_, dynamic_bp_testee1):
         bp = copy.deepcopy(dynamic_bp_testee1)
 
         node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
             "Programming Languages Code"
         ]
 
-        bp.uncheckmark(node)
-
+        assert bp.uncheckmark(node)
         assert not bp.is_checkmarked(node)
