@@ -34,7 +34,7 @@ def bp_testee3(corpus_testee3):
 # node obj  ####################################################################
 class TestObj1:  # =============================================================
 
-    def test1(_, corpus_testee1, bp_testee1):
+    def test_project(_, corpus_testee1, bp_testee1):
         proj_node = corpus_testee1.children[0]
 
         opt = proj_node in bp_testee1
@@ -65,14 +65,84 @@ class TestObj1:  # =============================================================
 
 class TestObj3:  # =============================================================
 
-    def test1(_):
-        pass
+    def test_main(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_introduction(_, corpus_testee3, bp_testee3):
+        main_title_node = corpus_testee3.children[0]
+        node = main_title_node.children[0]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_background(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[0].children[0]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_importance(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[0].children[0].children[0]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_objective(_, corpus_testee3, bp_testee3):
+        node = (
+            corpus_testee3.children[0]
+            .children[0]
+            .children[0]
+            .children[0]
+            .children[0]
+        )
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_methods(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[1]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_data_collection(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[1].children[0]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_tools_used(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[1].children[0].children[0]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_future_work(_, corpus_testee3, bp_testee3):
+        node = (
+            corpus_testee3.children[0]
+            .children[1]
+            .children[0]
+            .children[0]
+            .children[0]
+        )
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_conclusion(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[2]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
 
 
 # hash  ########################################################################
 class TestHash1:  # ============================================================
 
-    def test1(_, corpus_testee1, bp_testee1):
+    def test_project(_, corpus_testee1, bp_testee1):
         proj_node = corpus_testee1.children[0]
 
         opt = hash(proj_node) in bp_testee1
@@ -103,80 +173,75 @@ class TestHash1:  # ============================================================
 
 class TestHash3:  # ============================================================
 
-    def test1(_):
-        pass
+    def test_main(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
 
-
-class Test3:  # use corpus3  ##############################################
-
-    # HACK HACK
-
-    def test_full(_, corpus_testee3):
-        bp_text = BLUEPRINT_3_FULL
-
-        bp = PromptBlueprint.parse(
-            bp_text,
-            disable_prune=True,
-            corpus_override=corpus_testee3,
-        )
-
-        # test entries  --------------------------------------------------------
-        # Main Title
+    def test_introduction(_, corpus_testee3, bp_testee3):
         main_title_node = corpus_testee3.children[0]
-        opt = main_title_node in bp
-        print(repr(opt) + "\t" + repr(main_title_node))
+        node = main_title_node.children[0]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Introduction
-        _node = main_title_node.children[0]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+    def test_background(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[0].children[0]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Background
-        _node = _node.children[0]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+    def test_importance(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[0].children[0].children[0]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Importance
-        _node = _node.children[0]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+    def test_objective(_, corpus_testee3, bp_testee3):
+        node = (
+            corpus_testee3.children[0]
+            .children[0]
+            .children[0]
+            .children[0]
+            .children[0]
+        )
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Objective
-        _node = _node.children[0]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+    def test_methods(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[1]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Methods
-        _node = main_title_node.children[1]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+    def test_data_collection(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[1].children[0]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Data Collection
-        _node = _node.children[0]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+    def test_tools_used(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[1].children[0].children[0]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Tool Used
-        _node = _node.children[0]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+    def test_future_work(_, corpus_testee3, bp_testee3):
+        node = (
+            corpus_testee3.children[0]
+            .children[1]
+            .children[0]
+            .children[0]
+            .children[0]
+        )
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Future Work
-        _node = _node.children[0]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
-        assert opt
-
-        # Conclusion
-        _node = main_title_node.children[2]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+    def test_conclusion(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[2]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
