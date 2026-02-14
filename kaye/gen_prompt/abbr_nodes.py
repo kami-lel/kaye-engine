@@ -10,7 +10,8 @@ __all__ = ("AbbrNode", "PLCNode")
 
 class AbbrNode(DynamicNode):
     """
-    TODO
+    dynamic node to provide abbreviations' meanings
+    based on a given ``query`` content
     """
 
     HEADING = "Abbreviations"
@@ -54,7 +55,7 @@ class AbbrNode(DynamicNode):
 
 class PLCNode(DynamicNode):
     """
-    TODO
+    dynamic node to provide **Programming Languages Code**
     """
 
     HEADING = "Programming Languages Code"
