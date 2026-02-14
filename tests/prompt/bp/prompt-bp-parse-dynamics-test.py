@@ -11,7 +11,23 @@ from kaye.gen_prompt.abbr_nodes import AbbrNode
 
 class TestDynamics:
 
-    # TODO TODO dynamic node unit test
+    def test_today1(_):
+        bp_text = """ ○
+[ ] └── {Today}"""
+
+        bp = PromptBlueprint.parse(bp_text)
+
+        node = bp.corpus["{Today}"]
+
+        print(bp.generate_blueprint(content_preview_lines=0))
+
+        assert node in bp.corpus
+        assert node in bp
+        assert not bp.is_checkmarked(node)
+
+    def test_mux(_, dynamic_nodes_testee1):
+
+        print(dynamic_nodes_testee1.generate_blueprint(content_preview_lines=0))
 
     def test1(_):
         bp_text = """ ○

@@ -4,6 +4,9 @@ prompt-bp-contains_test.py
 Unit Tests (using pytest) for: PromptBlueprint.__contains__()
 """
 
+import pytest
+
+
 from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
@@ -13,44 +16,100 @@ from tests.prompt.bp import (
 # TODO unit test for dynamic node
 
 
-class Test1:  # use corpus1  ###################################################
+# pytest fixures  ##############################################################
+@pytest.fixture(scope="session")
+def bp_testee1(corpus_testee1):
+    return PromptBlueprint.parse(
+        BLUEPRINT_1_FULL, disable_prune=True, corpus_override=corpus_testee1
+    )
 
-    def test_full(_, corpus_testee1):
-        bp_text = BLUEPRINT_1_FULL
 
-        bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
-        )
+@pytest.fixture(scope="session")
+def bp_testee3(corpus_testee3):
+    return PromptBlueprint.parse(
+        BLUEPRINT_3_FULL, disable_prune=True, corpus_override=corpus_testee3
+    )
 
-        # test entries  --------------------------------------------------------
-        # test Project Title
+
+# node obj  ####################################################################
+class TestObj1:  # =============================================================
+
+    def test1(_, corpus_testee1, bp_testee1):
         proj_node = corpus_testee1.children[0]
 
-        opt = proj_node in bp
+        opt = proj_node in bp_testee1
         print(repr(opt) + "\t" + repr(proj_node))
         assert opt
 
-        # test Description
+    def test_description(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
         _node = proj_node.children[0]
-        print(repr(opt) + "\t" + repr(proj_node))
-        opt = _node in bp
+        opt = _node in bp_testee1
         print(repr(opt) + "\t" + repr(_node))
         assert opt
 
-        # test Installation
+    def test_installation(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
         _node = proj_node.children[1]
-        opt = _node in bp
+        opt = _node in bp_testee1
         print(repr(opt) + "\t" + repr(_node))
         assert opt
 
-        # test License
+    def test_license(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
         _node = proj_node.children[2]
-        opt = _node in bp
+        opt = _node in bp_testee1
         print(repr(opt) + "\t" + repr(_node))
         assert opt
+
+
+class TestObj3:  # =============================================================
+
+    def test1(_):
+        pass
+
+
+# hash  ########################################################################
+class TestHash1:  # ============================================================
+
+    def test1(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
+
+        opt = hash(proj_node) in bp_testee1
+        print(repr(opt) + "\t" + repr(proj_node))
+        assert opt
+
+    def test_description(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
+        _node = proj_node.children[0]
+        opt = hash(_node) in bp_testee1
+        print(repr(opt) + "\t" + repr(_node))
+        assert opt
+
+    def test_installation(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
+        _node = proj_node.children[1]
+        opt = hash(_node) in bp_testee1
+        print(repr(opt) + "\t" + repr(_node))
+        assert opt
+
+    def test_license(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
+        _node = proj_node.children[2]
+        opt = hash(_node) in bp_testee1
+        print(repr(opt) + "\t" + repr(_node))
+        assert opt
+
+
+class TestHash3:  # ============================================================
+
+    def test1(_):
+        pass
 
 
 class Test3:  # use corpus3  ##############################################
+
+    # HACK HACK
 
     def test_full(_, corpus_testee3):
         bp_text = BLUEPRINT_3_FULL
