@@ -8,8 +8,6 @@ Unit Tests (using pytest) for: PromptBlueprint
 
 import re
 
-# TODO unit test for dynamic node
-
 
 from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
 
@@ -718,3 +716,26 @@ class TestRepr:  ###############################################################
         print(opt)
 
         assert opt == BLUEPRINT_3_FULL_PREVIEW
+
+
+class TestDynamicNodes:  #######################################################
+
+    def test_abbr(_, dynamic_bp_testee1):
+        opt = dynamic_bp_testee1.generate_blueprint(content_preview_lines=0)
+
+        print(opt)
+
+        assert opt == """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │   └── Background
+[x]     │       └── Importance
+[x]     │           ├── Objective
+[x]     │           └── {Abbreviations}
+[x]     ├── Methods
+[x]     │   ├── Data Collection
+[x]     │   │   └── Tools Used
+[x]     │   │       └── Future Work
+[x]     │   │           └── {Today}
+[ ]     │   └── {Programming Languages Code}
+[x]     └── Conclusion"""
