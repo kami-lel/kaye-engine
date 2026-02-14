@@ -1,3 +1,9 @@
+"""
+prompt-abbr_node-test.py
+
+Unit Tests (using pytest) for: AbbrNode
+"""
+
 import copy
 
 
