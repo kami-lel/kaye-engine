@@ -5,7 +5,7 @@ define abbreviations-related node types
 from kaye.gen_prompt.abbr_collection import AbbrData, AbbrTags
 from kaye.gen_prompt.base_prompt_node import DynamicNode
 
-__all__ = ("AbbrNode", "PLCNode", "UsableAbbrNode")
+__all__ = ("AbbrNode", "PLCNode")
 
 
 class AbbrNode(DynamicNode):
