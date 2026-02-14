@@ -28,3 +28,33 @@ def dynamic_bp_testee1(corpus_testee3):
     return PromptBlueprint.parse(
         text, corpus_override=corpus, disable_prune=True
     )
+
+
+@pytest.fixture(scope="session")
+def dynamic_bp_testee2(corpus_testee1):
+    bp_text = """ ○
+[x] └── {Today}"""
+
+    return PromptBlueprint.parse(
+        bp_text, corpus_override=corpus_testee1, disable_prune=True
+    )
+
+
+@pytest.fixture(scope="session")
+def dynamic_bp_testee3(corpus_testee1):
+    bp_text = """ ○
+[x] └── {Abbreviations}"""
+
+    return PromptBlueprint.parse(
+        bp_text, corpus_override=corpus_testee1, disable_prune=True
+    )
+
+
+@pytest.fixture(scope="session")
+def dynamic_bp_testee4(corpus_testee1):
+    bp_text = """ ○
+[ ] └── {Programming Languages Code}"""
+
+    return PromptBlueprint.parse(
+        bp_text, corpus_override=corpus_testee1, disable_prune=True
+    )

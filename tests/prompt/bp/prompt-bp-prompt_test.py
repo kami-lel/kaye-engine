@@ -237,3 +237,8 @@ Suggestions for future research or tasks.
 
         print(opt)
         assert opt == ""
+
+
+class TestDynamicNodes:  #######################################################
+
+    pass

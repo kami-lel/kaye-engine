@@ -4,8 +4,6 @@ prompt-bp-prune_test.py
 Unit Tests (using pytest) for: PromptBlueprint.prune()
 """
 
-# TODO unit test for dynamic node
-
 from kaye.gen_prompt import PromptBlueprint
 
 from tests.prompt.bp import (
@@ -233,3 +231,26 @@ class Test3:  # use PROMPT3  ###################################################
             )
             == BLUEPRINT_EMPTY_PRUNED
         )
+
+
+class TestDynamicNodes:  #######################################################
+
+    def test_abbr(_, dynamic_bp_testee1):
+        pruned = dynamic_bp_testee1.prune()
+
+        opt = pruned.generate_blueprint(content_preview_lines=0)
+        print(opt)
+
+        assert opt == """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │   └── Background
+[x]     │       └── Importance
+[x]     │           ├── Objective
+[x]     │           └── {Abbreviations}
+[x]     ├── Methods
+[x]     │   └── Data Collection
+[x]     │       └── Tools Used
+[x]     │           └── Future Work
+[x]     │               └── {Today}
+[x]     └── Conclusion"""
