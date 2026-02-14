@@ -52,7 +52,7 @@ class TestNoChild:  ############################################################
         print(opt)
         assert (
             opt
-            == "<class 'tests.prompt.prompt-dynamic_node-test.DynamicTestee'> "
+            == "<class 'tests.prompt.prompt-dynamic_node_test.DynamicTestee'> "
             "must be leaf node"
         )
 
@@ -66,6 +66,6 @@ class TestNoChild:  ############################################################
 
         assert (
             opt
-            == "<class 'tests.prompt.prompt-dynamic_node-test.DynamicTestee'> "
+            == "<class 'tests.prompt.prompt-dynamic_node_test.DynamicTestee'> "
             "must be leaf node"
         )
