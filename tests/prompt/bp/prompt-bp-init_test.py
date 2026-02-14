@@ -16,7 +16,7 @@ class TestEmpty:
 
         assert isinstance(bp, dict)
         assert len(bp) == 0
-        assert bp.corpus is corpus
+        assert bp.corpus == corpus
         assert isinstance(bp.display_name, str)
         assert bp.display_name == ""
 
@@ -32,6 +32,6 @@ class TestName:
 
         assert isinstance(bp, dict)
         assert len(bp) == 0
-        assert bp.corpus is corpus
+        assert bp.corpus == corpus
         assert isinstance(bp.display_name, str)
         assert bp.display_name == self.NAME

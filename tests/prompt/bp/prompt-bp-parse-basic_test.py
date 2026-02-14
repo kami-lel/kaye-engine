@@ -176,7 +176,7 @@ class TestBasic3:  # use corpus3  ##############################################
         print(opt)
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 10
-        assert opt.corpus is corpus_testee3
+        assert opt.corpus == corpus_testee3
         assert opt.display_name == ""
 
         # test entries  --------------------------------------------------------

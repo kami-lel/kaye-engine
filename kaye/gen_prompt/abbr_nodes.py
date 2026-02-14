@@ -9,6 +9,10 @@ __all__ = ("AbbrNode", "PLCNode")
 
 
 class AbbrNode(DynamicNode):
+    """
+    dynamic node to provide abbreviations' meanings
+    based on a given ``query`` content
+    """
 
     HEADING = "Abbreviations"
 
@@ -19,11 +23,8 @@ class AbbrNode(DynamicNode):
 
     # implement BasePromptNode  ================================================
 
-    def content_lines(self, **kwargs):
+    def content_lines(self, *, query=""):  # pylint: disable=arguments-differ
         # todo contextual abbrs eg: mb only applies when role kyc
-        if "query" not in kwargs:
-            raise ValueError("must provide kwarg: query")
-        query = kwargs["query"]
 
         # find abbr occurrences  -----------------------------------------------
         query_lower = query.lower()  # provide lower case to automation
@@ -49,11 +50,13 @@ class AbbrNode(DynamicNode):
         return lines
 
     def __copy__(self):
-        # Todo copy unit test
         return AbbrNode(self.parent)
 
 
 class PLCNode(DynamicNode):
+    """
+    dynamic node to provide **Programming Languages Code**
+    """
 
     HEADING = "Programming Languages Code"
 
@@ -63,6 +66,7 @@ class PLCNode(DynamicNode):
         super().__init__(self.HEADING, parent)
 
     # implement BasePromptNode  ================================================
+
     def content_lines(self, **kwargs):
         lines = []
         for entry in AbbrData().abbrs:
@@ -72,8 +76,7 @@ class PLCNode(DynamicNode):
         return lines
 
     def __copy__(self):
-        # Todo copy unit test
-        return AbbrNode(self.parent)
+        return PLCNode(self.parent)
 
 
-# Todo usable abbrs node
+# todo usable abbreviations node

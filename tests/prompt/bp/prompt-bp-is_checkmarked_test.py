@@ -4,7 +4,8 @@ prompt-bp-is_checkmarked_test.py
 Unit Tests (using pytest) for: PromptBlueprint.is_checkmarked()
 """
 
-# Todo unit test for dynamic node
+import copy
+
 
 from kaye.gen_prompt import PromptBlueprint
 from tests.prompt.bp import (
@@ -460,3 +461,24 @@ class Test3:  # use corpus3  ##################################################
         opt = bp.is_checkmarked(_node)
         print(repr(opt) + "\t" + repr(_node))
         assert not opt
+
+
+class TestDynamicNodes:  #######################################################
+
+    def test_abbr(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Introduction"][
+            "Background"
+        ]["Importance"]["Abbreviations"]
+
+        assert bp.is_checkmarked(node)
+
+    def test_plc(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
+            "Programming Languages Code"
+        ]
+
+        assert not bp.is_checkmarked(node)

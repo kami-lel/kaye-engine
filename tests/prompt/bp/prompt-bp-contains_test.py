@@ -4,120 +4,266 @@ prompt-bp-contains_test.py
 Unit Tests (using pytest) for: PromptBlueprint.__contains__()
 """
 
+import copy
+
+
+import pytest
+
+
 from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_3_FULL,
 )
 
-# Todo unit test for dynamic node
+
+# pytest fixures  ##############################################################
+@pytest.fixture(scope="session")
+def bp_testee1(corpus_testee1):
+    return PromptBlueprint.parse(
+        BLUEPRINT_1_FULL, disable_prune=True, corpus_override=corpus_testee1
+    )
 
 
-class Test1:  # use corpus1  ###################################################
+@pytest.fixture(scope="session")
+def bp_testee3(corpus_testee3):
+    return PromptBlueprint.parse(
+        BLUEPRINT_3_FULL, disable_prune=True, corpus_override=corpus_testee3
+    )
 
-    def test_full(_, corpus_testee1):
-        bp_text = BLUEPRINT_1_FULL
 
-        bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
-        )
+# node obj  ####################################################################
+class TestObj1:  # =============================================================
 
-        # test entries  --------------------------------------------------------
-        # test Project Title
+    def test_project(_, corpus_testee1, bp_testee1):
         proj_node = corpus_testee1.children[0]
 
-        opt = proj_node in bp
+        opt = proj_node in bp_testee1
         print(repr(opt) + "\t" + repr(proj_node))
         assert opt
 
-        # test Description
+    def test_description(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
         _node = proj_node.children[0]
-        print(repr(opt) + "\t" + repr(proj_node))
-        opt = _node in bp
+        opt = _node in bp_testee1
         print(repr(opt) + "\t" + repr(_node))
         assert opt
 
-        # test Installation
+    def test_installation(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
         _node = proj_node.children[1]
-        opt = _node in bp
+        opt = _node in bp_testee1
         print(repr(opt) + "\t" + repr(_node))
         assert opt
 
-        # test License
+    def test_license(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
         _node = proj_node.children[2]
-        opt = _node in bp
+        opt = _node in bp_testee1
         print(repr(opt) + "\t" + repr(_node))
         assert opt
 
 
-class Test3:  # use corpus3  ##############################################
+class TestObj3:  # =============================================================
 
-    def test_full(_, corpus_testee3):
-        bp_text = BLUEPRINT_3_FULL
+    def test_main(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
 
-        bp = PromptBlueprint.parse(
-            bp_text,
-            disable_prune=True,
-            corpus_override=corpus_testee3,
-        )
-
-        # test entries  --------------------------------------------------------
-        # Main Title
+    def test_introduction(_, corpus_testee3, bp_testee3):
         main_title_node = corpus_testee3.children[0]
-        opt = main_title_node in bp
-        print(repr(opt) + "\t" + repr(main_title_node))
+        node = main_title_node.children[0]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Introduction
-        _node = main_title_node.children[0]
-        opt = _node in bp
+    def test_background(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[0].children[0]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_importance(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[0].children[0].children[0]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_objective(_, corpus_testee3, bp_testee3):
+        node = (
+            corpus_testee3.children[0]
+            .children[0]
+            .children[0]
+            .children[0]
+            .children[0]
+        )
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_methods(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[1]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_data_collection(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[1].children[0]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_tools_used(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[1].children[0].children[0]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_future_work(_, corpus_testee3, bp_testee3):
+        node = (
+            corpus_testee3.children[0]
+            .children[1]
+            .children[0]
+            .children[0]
+            .children[0]
+        )
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_conclusion(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[2]
+        opt = node in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+
+# hash  ########################################################################
+class TestHash1:  # ============================================================
+
+    def test_project(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
+
+        opt = hash(proj_node) in bp_testee1
+        print(repr(opt) + "\t" + repr(proj_node))
+        assert opt
+
+    def test_description(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
+        _node = proj_node.children[0]
+        opt = hash(_node) in bp_testee1
         print(repr(opt) + "\t" + repr(_node))
         assert opt
 
-        # Background
-        _node = _node.children[0]
-        opt = _node in bp
+    def test_installation(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
+        _node = proj_node.children[1]
+        opt = hash(_node) in bp_testee1
         print(repr(opt) + "\t" + repr(_node))
         assert opt
 
-        # Importance
-        _node = _node.children[0]
-        opt = _node in bp
+    def test_license(_, corpus_testee1, bp_testee1):
+        proj_node = corpus_testee1.children[0]
+        _node = proj_node.children[2]
+        opt = hash(_node) in bp_testee1
         print(repr(opt) + "\t" + repr(_node))
         assert opt
 
-        # Objective
-        _node = _node.children[0]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+
+class TestHash3:  # ============================================================
+
+    def test_main(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Methods
-        _node = main_title_node.children[1]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+    def test_introduction(_, corpus_testee3, bp_testee3):
+        main_title_node = corpus_testee3.children[0]
+        node = main_title_node.children[0]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Data Collection
-        _node = _node.children[0]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+    def test_background(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[0].children[0]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Tool Used
-        _node = _node.children[0]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+    def test_importance(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[0].children[0].children[0]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Future Work
-        _node = _node.children[0]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+    def test_objective(_, corpus_testee3, bp_testee3):
+        node = (
+            corpus_testee3.children[0]
+            .children[0]
+            .children[0]
+            .children[0]
+            .children[0]
+        )
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-        # Conclusion
-        _node = main_title_node.children[2]
-        opt = _node in bp
-        print(repr(opt) + "\t" + repr(_node))
+    def test_methods(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[1]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test_data_collection(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[1].children[0]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_tools_used(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[1].children[0].children[0]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_future_work(_, corpus_testee3, bp_testee3):
+        node = (
+            corpus_testee3.children[0]
+            .children[1]
+            .children[0]
+            .children[0]
+            .children[0]
+        )
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_conclusion(_, corpus_testee3, bp_testee3):
+        node = corpus_testee3.children[0].children[2]
+        opt = hash(node) in bp_testee3
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+
+class TestDynamicNodes:  #######################################################
+
+    def test_obj1(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
+            "Programming Languages Code"
+        ]
+
+        assert node in bp
+
+    def test_hash1(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
+            "Programming Languages Code"
+        ]
+
+        assert hash(node) in bp

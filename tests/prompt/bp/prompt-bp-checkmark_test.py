@@ -7,7 +7,8 @@ Unit Tests (using pytest) for: PromptBlueprint:
 - .__iadd__()
 """
 
-# Todo unit test for dynamic node
+import copy
+
 
 import pytest
 
@@ -356,3 +357,26 @@ class Test32:  # ===============================================================
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == self.dest
         )
+
+
+class TestDynamicNodes:  #######################################################
+
+    def test_abbr(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Introduction"][
+            "Background"
+        ]["Importance"]["Abbreviations"]
+
+        assert bp.checkmark(node)
+        assert bp.is_checkmarked(node)
+
+    def test_plc(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
+            "Programming Languages Code"
+        ]
+
+        assert bp.checkmark(node)
+        assert bp.is_checkmarked(node)
