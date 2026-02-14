@@ -11,7 +11,7 @@ import copy
 
 import pytest
 
-from kaye.gen_prompt import PromptBlueprint
+from kaye.prompt import PromptBlueprint
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,

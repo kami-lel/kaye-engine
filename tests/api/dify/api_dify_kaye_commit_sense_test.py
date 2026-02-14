@@ -4,7 +4,7 @@ api_dify_kaye_commit_sense_test.py
 Unit Tests (using pytest) for: /kaye/dify-app/kaye-commit-sense/*
 """
 
-from kaye.gen_prompt import load_embedded_prompt_corpus, PromptBlueprint
+from kaye.prompt import load_embedded_prompt_corpus, PromptBlueprint
 
 APP_PREFIX = "/kaye/dify-app/kaye-commit-sense"
 

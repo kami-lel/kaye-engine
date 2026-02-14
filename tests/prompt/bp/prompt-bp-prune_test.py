@@ -4,7 +4,7 @@ prompt-bp-prune_test.py
 Unit Tests (using pytest) for: PromptBlueprint.prune()
 """
 
-from kaye.gen_prompt import PromptBlueprint
+from kaye.prompt import PromptBlueprint
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,

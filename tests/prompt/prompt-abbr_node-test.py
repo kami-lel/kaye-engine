@@ -10,7 +10,7 @@ import copy
 import pytest
 
 
-from kaye.gen_prompt.abbr_nodes import AbbrNode
+from kaye.prompt.abbr_nodes import AbbrNode
 
 
 # pytest fixtures  #############################################################

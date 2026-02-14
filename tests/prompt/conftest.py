@@ -1,8 +1,8 @@
 import pytest
 
 
-from kaye.gen_prompt.prompt_corpus_node import PromptCorpusNode
-from kaye.gen_prompt.prompt_corpus_loader import load_prompt_corpus_tree
+from kaye.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye.prompt.prompt_corpus_loader import load_prompt_corpus_tree
 
 
 @pytest.fixture(scope="session")

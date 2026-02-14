@@ -6,7 +6,7 @@ Unit Tests (using pytest) for: /kaye/dify-app/kyc/*
 
 import json
 
-from kaye.gen_prompt import (
+from kaye.prompt import (
     PromptBlueprint,
     load_embedded_prompt_corpus,
 )
@@ -374,8 +374,6 @@ def _deconstruct_chat_response(response):
 
 
 def _is_language_prompt_part_contained(heading, prompt):
-    kyc_node = load_embedded_prompt_corpus()["Role"]["Kaye Peer Coder"][
-        heading
-    ]
+    kyc_node = load_embedded_prompt_corpus()["Role"]["Kaye Peer Coder"][heading]
     language_prompt = "\n".join(kyc_node._generate_prompt_lines())
     return language_prompt in prompt

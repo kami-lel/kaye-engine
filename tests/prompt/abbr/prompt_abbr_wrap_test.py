@@ -6,7 +6,7 @@ Unit Tests (using pytest) for: AbbrWarp
 
 import pytest
 
-from kaye.gen_prompt import AbbrWrap
+from kaye.prompt import AbbrWrap
 
 
 # .is_satisfied_wrap_rule  #####################################################

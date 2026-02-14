@@ -10,7 +10,7 @@ Unit Tests (using pytest) for: PromptCorpusNode:
 import copy
 
 
-from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
+from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 
 from tests.prompt.bp import BLUEPRINT_3_PARTIAL_1

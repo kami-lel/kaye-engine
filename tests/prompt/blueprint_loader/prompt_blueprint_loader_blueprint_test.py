@@ -6,7 +6,7 @@ test function ``get_embedded_prompt_blueprints_folder_path()`` & ``get_embedded_
 
 import os
 
-from kaye.gen_prompt import (
+from kaye.prompt import (
     get_embedded_prompt_blueprints_folder_path,
     get_embedded_prompt_blueprints_names,
 )
@@ -14,7 +14,7 @@ from kaye.gen_prompt import (
 blueprints_folder_path = os.path.normpath(
     os.path.join(
         os.path.dirname(__file__),
-        "../../../kaye/gen_prompt/embedded_blueprints",
+        "../../../kaye/prompt/embedded_blueprints",
     )
 )
 non_tech_blueprints = set(

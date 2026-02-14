@@ -4,7 +4,7 @@ import copy
 import pytest
 
 
-from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
+from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 
 @pytest.fixture(scope="session")

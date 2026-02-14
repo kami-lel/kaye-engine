@@ -4,7 +4,7 @@ prompt-bp-init_test.py
 Unit Tests (using pytest) for: PromptBlueprint.__init__()
 """
 
-from kaye.gen_prompt.prompt_blueprint import PromptBlueprint
+from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 
 class TestEmpty:
