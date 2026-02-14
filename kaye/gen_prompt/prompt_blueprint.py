@@ -107,11 +107,14 @@ class PromptBlueprint(dict):
                 parent = prev_node.ancestors[level - 1]
 
             # create/add node
-            prev_node = bp._parse_add_dynamic_node(
+            node = bp._parse_add_dynamic_node(
                 heading, parent
-            ) or bp._parse_add_corpus_node(
-                parent, heading, line, is_checkmarked
-            )
+            ) or bp._parse_add_corpus_node(parent, heading, line)
+
+            # include node in the blueprint
+            bp[hash(node)] = is_checkmarked
+
+            prev_node = node
 
         # prune the tree
         return bp if disable_prune else bp.prune()
@@ -398,23 +401,19 @@ class PromptBlueprint(dict):
         else:
             return False
 
-    def _parse_add_corpus_node(self, parent, heading, line, is_checkmarked):
+    def _parse_add_corpus_node(self, parent, heading, line):
         """
         find current node when non-dynamic, and include it in this blueprint
 
         (helper method used in ``.parse()``)
         """
         try:
-            node = parent[heading]
+            return parent[heading]
         except KeyError as err:
             raise ValueError(
                 "missing node heading {} in corpus "
                 "that corresponds to this line:\n{}".format(repr(heading), line)
             ) from err
-
-        # include node in the blueprint
-        self[hash(node)] = is_checkmarked
-        return node
 
     @classmethod
     def _create_full_or_empty_blueprint(
