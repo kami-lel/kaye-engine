@@ -105,7 +105,7 @@ class TestErr:
 
         assert (
             opt
-            == """no node in prompt corpus tree that corresponds to this line:
+            == """missing node heading 'Installation' in corpus that corresponds to this line:
 [x]         ├── Installation"""
         )
 
@@ -124,7 +124,7 @@ class TestErr:
         print(opt)
         assert (
             opt
-            == """no node in prompt corpus tree that corresponds to this line:
+            == """missing node heading 'Node Nonexistent In Prompt' in corpus that corresponds to this line:
 [x]     ├── Node Nonexistent In Prompt"""
         )
 
@@ -140,7 +140,7 @@ class TestDft1:  # use PROMPT1  ================================================
         print(repr(opt))
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 4
-        assert opt.corpus is corpus_testee1
+        assert opt.corpus == corpus_testee1
         assert opt.display_name == ""
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
@@ -194,7 +194,7 @@ class TestDft2:  # use PROMPT2  ================================================
         print(repr(opt))
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 6
-        assert opt.corpus is corpus_testee2
+        assert opt.corpus == corpus_testee2
         assert opt.display_name == ""
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
@@ -236,7 +236,7 @@ class TestDft3:  # use PROMPT3  ================================================
         print(repr(opt))
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 10
-        assert opt.corpus is corpus_testee3
+        assert opt.corpus == corpus_testee3
         assert opt.display_name == ""
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
@@ -444,3 +444,42 @@ class TestPrunedText:
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_3_PARTIAL_1_PRUNED
         )
+
+
+# malformed  ###################################################################
+class TestMalformed:
+
+    def test1(_, corpus_testee3):
+        bp_text = """    ○
+[x]     └── Main Title"""
+
+        with pytest.raises(Exception) as exec_info:
+            PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert opt == """malformed tree format at line:
+[x]     └── Main Title"""
+
+        ""
+
+    def test2(_, corpus_testee3):
+        bp_text = """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │       └── Background
+[x]     │           └── Importance
+[x]     │               └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[ ]     │           └── Future Work
+[x]     └── Conclusion"""
+
+        with pytest.raises(Exception) as exec_info:
+            PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert opt == """malformed tree format at line:
+[x]     │       └── Background"""
