@@ -7,7 +7,7 @@ Unit Tests (using pytest) for: PromptBlueprint
 - __isub__()
 """
 
-# TODO unit test for dynamic node
+import copy
 
 import pytest
 
@@ -391,3 +391,17 @@ class Test32:  # ===============================================================
         print(bp_text)
 
         assert bp_text == self.dest
+
+
+class TestDynamicNodes:  #######################################################
+
+    def test1(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
+            "Programming Languages Code"
+        ]
+
+        bp.uncheckmark(node)
+
+        assert not bp.is_checkmarked(node)

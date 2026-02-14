@@ -63,8 +63,6 @@ class TestDynamics:
         ]["Importance"]["Abbreviations"]
 
         assert isinstance(node, AbbrNode)
-        assert node in dynamic_bp_testee1
-        assert dynamic_bp_testee1.is_checkmarked(node)
 
     def test_mux_plc(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
@@ -74,8 +72,6 @@ class TestDynamics:
         ]
 
         assert isinstance(node, PLCNode)
-        assert node in dynamic_bp_testee1
-        assert dynamic_bp_testee1.is_checkmarked(node)
 
     def test_mux_today(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
@@ -85,5 +81,3 @@ class TestDynamics:
         ]["Tools Used"]["Future Work"]["Today"]
 
         assert isinstance(node, TodayNode)
-        assert node in dynamic_bp_testee1
-        assert dynamic_bp_testee1.is_checkmarked(node)

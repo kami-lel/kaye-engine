@@ -18,11 +18,13 @@ def dynamic_bp_testee1(corpus_testee3):
 [x]     │           ├── Objective
 [x]     │           └── {Abbreviations}
 [x]     ├── Methods
-[x]     │   ├── {Programming Languages Code}
+[ ]     │   ├── {Programming Languages Code}
 [x]     │   └── Data Collection
 [x]     │       └── Tools Used
 [x]     │           └── Future Work
 [x]     │               └── {Today}
 [x]     └── Conclusion"""
 
-    return PromptBlueprint.parse(text, corpus_override=corpus)
+    return PromptBlueprint.parse(
+        text, corpus_override=corpus, disable_prune=True
+    )
