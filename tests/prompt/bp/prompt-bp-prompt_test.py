@@ -240,4 +240,28 @@ Suggestions for future research or tasks.
 
 class TestDynamicNodes:  #######################################################
 
-    pass  # TODO
+    def test1(_, corpus_testee1):
+        bp_text = """    ○
+[ ] └── Project Title
+[x]     ├── Description
+[x]     ├── Installation
+[x]     ├── {Usable Abbreviations}
+[x]     └── License"""
+
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
+
+        opt = bp.generate_prompt(show_comment=False)
+
+        print(opt)
+        assert opt == """## Description
+Brief overview of the project and its purpose.
+
+## Installation
+Clone the repo and install dependencies.
+
+## License
+Licensed under the MIT License.
+
+## Usable Abbreviations
+-`&`:and
+-`/`:or"""
