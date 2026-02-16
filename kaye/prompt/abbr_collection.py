@@ -62,6 +62,7 @@ class AbbrTags(Flag):  #########################################################
 
     NONE = 0
     common = auto()
+    usable = auto()
     programming_language_code = auto()
 
     # contains only letter with no other types of characters
@@ -206,7 +207,7 @@ class AbbrData:  ###############################################################
         self.automaton.make_automaton()
 
 
-class AbbrMeaning:  # ==========================================================
+class AbbrMeaning:  ############################################################
     """
     represent a single meaning (of possible different spellings)
 
@@ -239,7 +240,7 @@ class AbbrMeaning:  # ==========================================================
         return self.mean
 
 
-class AbbrEntry:  # ============================================================
+class AbbrEntry:  ##############################################################
     """
     represent an abbr => meaning structure
 
