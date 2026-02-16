@@ -197,8 +197,8 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-        # Todo add recursively
-        # Todo search by name in blueprint, then in corpus
+        # TODO add recursively
+        # TODO search by name in blueprint, then in corpus
 
         node_hash = _normalize_as_node_hash(node)
 
