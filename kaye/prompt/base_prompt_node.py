@@ -164,7 +164,7 @@ class BasePromptNode(AnyTreeNode):
                 if key in (child.name, child.identifier):
                     return child
             raise KeyError(
-                "{} contains no child with name/id of {}".format(
+                "{} contains no child with name/identifier of {}".format(
                     self, repr(key)
                 )
             )
