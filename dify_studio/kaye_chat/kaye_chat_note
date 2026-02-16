@@ -6,5 +6,4 @@ todo smart pre-sense, take only part of the user's input as pre-sense message
 eg by taking first n lines + last n lines
 eg by removing all codes block out
 
-Todo in meta, use emoji for LLM
 Todo meta better formatting, add empty lines
