@@ -433,12 +433,29 @@ class PromptBlueprint(dict):
         in ``.checkmark()`` & in ``.uncheckmark()``,
         i.e. a generic version of the 2 functions
         """
-        # TODO add recursively
-        # TODO search by name in blueprint, then in corpus
+        if isinstance(node, str):
+            # TODO search by name in blueprint, then in corpus
+            node_obj = None
+            node_hash = hash(node_obj)
 
-        node_hash = _normalize_as_node_hash(node)
+        elif isinstance(node, int):
+            node_obj = None
+            node_hash = node
 
+        elif isinstance(node, BasePromptNode):
+            node_obj = node
+            node_hash = hash(node)
+
+        else:
+            raise TypeError()  # TODO
+
+        # check if node existed in self.corpus
+
+        # actual perform checking/unchecking
         self[node_hash] = is_checkmark
+
+        if recursively:
+            pass  # TODO add recursively
 
         return self
 
