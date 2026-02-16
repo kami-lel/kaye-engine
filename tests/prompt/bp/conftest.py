@@ -13,6 +13,7 @@ def dynamic_bp_testee1(corpus_testee3):
     text = """    ○
 [x] └── Main Title
 [x]     ├── Introduction
+[x]     │   ├── {Usable Abbreviations}
 [x]     │   └── Background
 [x]     │       └── Importance
 [x]     │           ├── Objective
