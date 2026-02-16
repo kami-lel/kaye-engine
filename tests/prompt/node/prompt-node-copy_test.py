@@ -41,7 +41,7 @@ class TestPrompt1:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.parent is opt.parent
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -55,8 +55,8 @@ class TestPrompt1:  ############################################################
 
         print(str(opt))
         assert src_node.name == opt.name
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -71,8 +71,8 @@ class TestPrompt1:  ############################################################
 
         print(str(opt))
         assert src_node.name == opt.name
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -90,7 +90,6 @@ class TestPrompt1:  ############################################################
         assert copied._content_lines == src._content_lines
         assert len(copied.descendants) == len(src.descendants)
 
-        # BUG copy/deepcopy will modify root node
         assert len(src.descendants) == 4
 
     def test_deepcopy2(_, corpus_testee1, deepcopy_testee1):
@@ -109,8 +108,8 @@ class TestPrompt2:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -121,8 +120,8 @@ class TestPrompt2:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -134,8 +133,8 @@ class TestPrompt2:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -147,8 +146,8 @@ class TestPrompt2:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -160,8 +159,8 @@ class TestPrompt2:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -174,8 +173,8 @@ class TestPrompt3:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -188,8 +187,8 @@ class TestPrompt3:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -201,8 +200,8 @@ class TestPrompt3:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -215,8 +214,8 @@ class TestPrompt3:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -229,8 +228,8 @@ class TestPrompt3:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -243,8 +242,8 @@ class TestPrompt3:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 

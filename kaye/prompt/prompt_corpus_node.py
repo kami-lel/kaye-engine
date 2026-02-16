@@ -66,7 +66,6 @@ class PromptCorpusNode(BasePromptNode):
         return self._content_lines
 
     def __copy__(self):
-        # FIXME no parent
-        copied = type(self)(self.name, self.parent, [])
+        copied = type(self)(self.name, None, [])
         copied._content_lines = self._content_lines
         return copied
