@@ -4,7 +4,7 @@ api_dify_ky_test.py
 Unit Tests (using pytest) for: /kaye/dify-app/ky/*
 """
 
-from kaye.gen_prompt import (
+from kaye.prompt import (
     PromptBlueprint,
     load_embedded_prompt_corpus,
     load_embedded_prompt_blueprint,

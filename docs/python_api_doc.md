@@ -1,8 +1,8 @@
-# Kaye Python API documentation
+# Kaye Python Package API documentation
 
-<!-- Todo rewrite python api doc -->
+## `prompt` module
 
-## `gen_prompt` module
+<!-- Fixme rewrite python api doc -->
 
 The **core** module of *Kaye Python API*, implement a systematic, dynamic, and structured framework for **prompt management and manipulation**.
 
@@ -81,11 +81,11 @@ To access node **name**, i.e. **section heading**:
 ```python
 node = ~~~
 assert node.name == "Introduction"
-assert node.id == "Introduction"
+assert node.identifier == "Introduction"
 ```
 
 > [!NOTE]
-> `.name` and `.id` return identical result for `PromptCorpusNode`
+> `.name` and `.identifier` return identical result for `PromptCorpusNode`
 
 
 ###### parent

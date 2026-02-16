@@ -7,7 +7,7 @@ Unit Tests (using pytest) for: PromptBlueprint.is_checkmarked()
 import copy
 
 
-from kaye.gen_prompt import PromptBlueprint
+from kaye.prompt import PromptBlueprint
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,

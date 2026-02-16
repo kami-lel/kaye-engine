@@ -51,11 +51,14 @@ An *integer* value, lower value means higher priority.
 Additional information regards this entry,
 must be an *array* of *string* of these selected values:
 
+
 - `"common"`: common abbreviations that any person might understand,
   thus LLM may utilize this abbreviation in conversation
 
 - `"programming_language"`: it is an abbreviation of a programming language
   e.g. `cpp` for C++ programming language
+
+- `"usable"`
 
 Character set:
 

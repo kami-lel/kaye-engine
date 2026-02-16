@@ -6,7 +6,7 @@ Unit Tests (using pytest) for: DynamicNode
 
 import pytest
 
-from kaye.gen_prompt.base_prompt_node import DynamicNode
+from kaye.prompt.base_prompt_node import DynamicNode
 
 
 # helpers  #####################################################################
@@ -38,8 +38,8 @@ def testee1():
 class TestId:  #################################################################
 
     def test1(_, testee1):
-        print(testee1.id)
-        assert testee1.id == "{Testee Node}"
+        print(testee1.identifier)
+        assert testee1.identifier == "{Testee Node}"
 
 
 class TestNoChild:  ############################################################
@@ -52,7 +52,7 @@ class TestNoChild:  ############################################################
         print(opt)
         assert (
             opt
-            == "<class 'tests.prompt.prompt-dynamic_node-test.DynamicTestee'> "
+            == "<class 'tests.prompt.prompt-dynamic_node_test.DynamicTestee'> "
             "must be leaf node"
         )
 
@@ -66,6 +66,6 @@ class TestNoChild:  ############################################################
 
         assert (
             opt
-            == "<class 'tests.prompt.prompt-dynamic_node-test.DynamicTestee'> "
+            == "<class 'tests.prompt.prompt-dynamic_node_test.DynamicTestee'> "
             "must be leaf node"
         )

@@ -7,7 +7,7 @@ define API to specific work with Dify App: Kaye Chat
 from flask import Blueprint
 
 from kaye import PROGRAM_NAME
-from kaye.gen_prompt import (
+from kaye.prompt import (
     PromptBlueprint,
     load_embedded_prompt_blueprint,
 )

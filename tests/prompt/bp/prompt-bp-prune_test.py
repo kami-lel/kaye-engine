@@ -4,7 +4,7 @@ prompt-bp-prune_test.py
 Unit Tests (using pytest) for: PromptBlueprint.prune()
 """
 
-from kaye.gen_prompt import PromptBlueprint
+from kaye.prompt import PromptBlueprint
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
@@ -244,10 +244,11 @@ class TestDynamicNodes:  #######################################################
         assert opt == """    ○
 [x] └── Main Title
 [x]     ├── Introduction
-[x]     │   └── Background
-[x]     │       └── Importance
-[x]     │           ├── Objective
-[x]     │           └── {Abbreviations}
+[x]     │   ├── Background
+[x]     │   │   └── Importance
+[x]     │   │       ├── Objective
+[x]     │   │       └── {Abbreviations}
+[x]     │   └── {Usable Abbreviations}
 [x]     ├── Methods
 [x]     │   └── Data Collection
 [x]     │       └── Tools Used

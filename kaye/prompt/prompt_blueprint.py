@@ -16,7 +16,7 @@ from .prompt_corpus_loader import (
     HEADING_PREFIX_ELEMENT,
 )
 from .today_node import TodayNode
-from .abbr_nodes import AbbrNode, PLCNode
+from .abbr_nodes import AbbrNode, PLCNode, UsableAbbrNode
 
 __all__ = ("PromptBlueprint",)
 
@@ -284,7 +284,7 @@ class PromptBlueprint(dict):
                 checkmark_prefix = EMPTY_PREFIX
 
             # e.g. "[x] │   └── Capitalization Style"
-            node_line = checkmark_prefix + pre + node.id
+            node_line = checkmark_prefix + pre + node.identifier
             lines.append(node_line)
 
             # lines for content preview part
@@ -396,8 +396,10 @@ class PromptBlueprint(dict):
             return TodayNode(parent)
         elif name == AbbrNode.HEADING:
             return AbbrNode(parent)
-        elif PLCNode.HEADING:
+        elif name == PLCNode.HEADING:
             return PLCNode(parent)
+        elif name == UsableAbbrNode.HEADING:
+            return UsableAbbrNode(parent)
         else:
             return False
 

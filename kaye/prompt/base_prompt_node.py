@@ -91,7 +91,7 @@ class BasePromptNode(AnyTreeNode):
     # abstract methods  ========================================================
 
     @property
-    def id(self):
+    def identifier(self):
         """
         :return: unique identifier of this node (among its siblings,)
                 may be different from ``.name``;
@@ -110,30 +110,30 @@ class BasePromptNode(AnyTreeNode):
 
     def __copy__(self):
         """
-        :return: a shallow copy **without** any children
+        :return: a shallow copy **without** any children & no parent
         :rtype: BasePromptNode
         """
         raise NotImplementedError
 
     # instance methods  ========================================================
 
-    def generate_id_lineage(self):
+    def generate_identifier_lineage(self):
         """
         :return: a **lineage**
                 from root (exclusively) to current node (inclusively),
-                represented as a ``list`` of node's ``.id``
+                represented as a ``list`` of node's ``.identifier``
         :rtype: list(str)
         :example:
-        >>> root.generate_id_lineage()
+        >>> root.generate_identifier_lineage()
         []
-        >>> node.generate_id_lineage()
+        >>> node.generate_identifier_lineage()
         ["My Parent", "Myself"]
         """
         if self.is_root:
             return []
 
-        ancestry_path = self.parent.generate_id_lineage()
-        ancestry_path.append(self.id)
+        ancestry_path = self.parent.generate_identifier_lineage()
+        ancestry_path.append(self.identifier)
         return ancestry_path
 
     # magic methods  ===========================================================
@@ -161,7 +161,7 @@ class BasePromptNode(AnyTreeNode):
 
         elif isinstance(key, str):
             for child in self.children:
-                if key in (child.name, child.id):
+                if key in (child.name, child.identifier):
                     return child
             raise KeyError(
                 "{} contains no child with name/id of {}".format(
@@ -177,7 +177,7 @@ class BasePromptNode(AnyTreeNode):
             )
 
     def __hash__(self):
-        return hash(tuple(self.generate_id_lineage()))
+        return hash(tuple(self.generate_identifier_lineage()))
 
     def __eq__(self, other):
         """
@@ -206,8 +206,11 @@ class BasePromptNode(AnyTreeNode):
         :rtype: BasePromptNode
         """
         copied = copy.copy(self)
+
         # attach children
-        copied.children = [copy.deepcopy(child) for child in self.children]
+        for child in self.children:
+            copied_child = copy.deepcopy(child)
+            copied_child.parent = copied
 
         return copied
 
@@ -239,7 +242,7 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
 
     # implement BasePromptNode  ================================================
     @property
-    def id(self):
+    def identifier(self):
         return "{" + self.name + "}"
 
     def _pre_attach_children(self, children):

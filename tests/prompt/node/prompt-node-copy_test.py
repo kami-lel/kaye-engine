@@ -41,9 +41,11 @@ class TestPrompt1:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.parent is opt.parent
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
+
+        assert len(src_node.descendants) == 4
 
     def test_project(_, corpus_testee1):
         tree = corpus_testee1
@@ -53,10 +55,12 @@ class TestPrompt1:  ############################################################
 
         print(str(opt))
         assert src_node.name == opt.name
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
+
+        assert len(src_node.descendants) == 3
 
     def test_sub1(_, corpus_testee1):
         tree = corpus_testee1
@@ -67,10 +71,12 @@ class TestPrompt1:  ############################################################
 
         print(str(opt))
         assert src_node.name == opt.name
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
+
+        assert len(src_node.descendants) == 0
 
     # deepcopy  ================================================================
 
@@ -78,9 +84,13 @@ class TestPrompt1:  ############################################################
         copied = deepcopy_testee1
         src = corpus_testee1
 
+        print(copied.generate_prompt_tree_preview(content_preview_lines=0))
+
         assert copied.name == "○"
         assert copied._content_lines == src._content_lines
         assert len(copied.descendants) == len(src.descendants)
+
+        assert len(src.descendants) == 4
 
     def test_deepcopy2(_, corpus_testee1, deepcopy_testee1):
         copied = deepcopy_testee1.children[0].children[1]
@@ -98,8 +108,8 @@ class TestPrompt2:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -110,8 +120,8 @@ class TestPrompt2:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -123,8 +133,8 @@ class TestPrompt2:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -136,8 +146,8 @@ class TestPrompt2:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -149,8 +159,8 @@ class TestPrompt2:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -163,10 +173,12 @@ class TestPrompt3:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
+
+        assert len(src_node.descendants) == 10
 
     def test_project(_, corpus_testee3):
         tree = corpus_testee3
@@ -175,8 +187,8 @@ class TestPrompt3:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -188,8 +200,8 @@ class TestPrompt3:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -202,8 +214,8 @@ class TestPrompt3:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -216,8 +228,8 @@ class TestPrompt3:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -230,8 +242,8 @@ class TestPrompt3:  ############################################################
         opt = copy.copy(src_node)
         print(str(opt))
 
-        assert src_node.depth == opt.depth
-        assert src_node.parent is opt.parent
+        assert opt.depth == 0
+        assert opt.parent is None
         assert len(opt.children) == 0
         assert src_node._content_lines == opt._content_lines
 
@@ -241,9 +253,13 @@ class TestPrompt3:  ############################################################
         copied = deepcopy_testee3
         src = corpus_testee3
 
+        print(copied.generate_prompt_tree_preview(content_preview_lines=0))
+
         assert copied.name == "○"
         assert copied._content_lines == src._content_lines
         assert len(copied.descendants) == len(src.descendants)
+
+        assert len(src.descendants) == 10
 
     def test_deepcopy2(_, corpus_testee3, deepcopy_testee3):
         copied = deepcopy_testee3.children[0].children[1]

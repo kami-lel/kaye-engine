@@ -11,7 +11,7 @@ import copy
 import pytest
 
 
-from kaye.gen_prompt.today_node import TodayNode
+from kaye.prompt.today_node import TodayNode
 
 
 # pytest fixture  ##############################################################
@@ -30,7 +30,7 @@ class TestToday:  ##############################################################
     def test_init(_, local_corpus_testee1, testee1):
         assert testee1.parent is local_corpus_testee1
         assert testee1.name == "Today"
-        assert testee1.id == "{Today}"
+        assert testee1.identifier == "{Today}"
 
     def test_preview(_, local_corpus_testee1):
         opt = local_corpus_testee1.generate_prompt_tree_preview(
@@ -58,11 +58,11 @@ class TestCopy:  ###############################################################
 
         assert isinstance(copied, TodayNode)
         assert copied.name == "Today"
-        assert copied.parent is local_corpus_testee1
+        assert copied.parent is None
 
     def test_deep_copy1(_, local_corpus_testee1, testee1):
         copied = copy.deepcopy(testee1)
 
         assert isinstance(copied, TodayNode)
         assert copied.name == "Today"
-        assert copied.parent is local_corpus_testee1
+        assert copied.parent is None

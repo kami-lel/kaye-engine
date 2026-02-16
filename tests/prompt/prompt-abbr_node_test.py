@@ -10,7 +10,7 @@ import copy
 import pytest
 
 
-from kaye.gen_prompt.abbr_nodes import AbbrNode
+from kaye.prompt.abbr_nodes import AbbrNode
 
 
 # pytest fixtures  #############################################################
@@ -29,7 +29,7 @@ class TestInit:  ###############################################################
     def test1(_, testee1, local_corpus_testee1):
         assert testee1.parent is local_corpus_testee1
         assert testee1.name == "Abbreviations"
-        assert testee1.id == "{Abbreviations}"
+        assert testee1.identifier == "{Abbreviations}"
 
     def test_preview1(_, local_corpus_testee1):
         opt = local_corpus_testee1.generate_prompt_tree_preview(
@@ -46,19 +46,19 @@ class TestInit:  ###############################################################
 
 class TestCopy:  ###############################################################
 
-    def test_copy1(_, local_corpus_testee1, testee1):
+    def test_copy1(_, testee1):
         copied = copy.copy(testee1)
 
         assert isinstance(copied, AbbrNode)
         assert copied.name == "Abbreviations"
-        assert copied.parent is local_corpus_testee1
+        assert copied.parent is None
 
-    def test_deep_copy1(_, local_corpus_testee1, testee1):
+    def test_deep_copy1(_, testee1):
         copied = copy.deepcopy(testee1)
 
         assert isinstance(copied, AbbrNode)
         assert copied.name == "Abbreviations"
-        assert copied.parent is local_corpus_testee1
+        assert copied.parent is None
 
 
 class TestContentLines:  #######################################################
@@ -202,11 +202,14 @@ class TestContentLines:  #######################################################
         print(lines)
         assert lines == []
 
-    def test_err1(_, testee1):
+    def test_empty2(_, testee1):
+        query = ""
 
-        with pytest.raises(ValueError) as exec_info:
-            testee1.content_lines()
+        lines = testee1.content_lines(query=query)
+        print(lines)
+        assert lines == []
 
-        opt = exec_info.value.args[0]
-        print(opt)
-        assert opt == "must provide kwarg: query"
+    def test_empty3(_, testee1):
+        lines = testee1.content_lines()
+        print(lines)
+        assert lines == []

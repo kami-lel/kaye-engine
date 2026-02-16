@@ -58,7 +58,7 @@ class PromptCorpusNode(BasePromptNode):
     # implement BasePromptNode  ================================================
 
     @property
-    def id(self):
+    def identifier(self):
         # for PromptCorpusNode, identical to heading
         return self.name
 
@@ -66,6 +66,6 @@ class PromptCorpusNode(BasePromptNode):
         return self._content_lines
 
     def __copy__(self):
-        copied = type(self)(self.name, self.parent, [])
+        copied = type(self)(self.name, None, [])
         copied._content_lines = self._content_lines
         return copied
