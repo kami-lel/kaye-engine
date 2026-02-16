@@ -206,8 +206,6 @@ class BasePromptNode(AnyTreeNode):
         :return: a deep copy with all descendants also copied
         :rtype: BasePromptNode
         """
-
-        # BUG BUG & also use memo
         copied = copy.copy(self)
 
         # attach children
