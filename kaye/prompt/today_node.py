@@ -33,4 +33,5 @@ class TodayNode(DynamicNode):
         return ["Today: {}".format(date), "Time: {}".format(time)]
 
     def __copy__(self):
+        # FIXME no parent
         return TodayNode(self.parent)

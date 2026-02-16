@@ -50,6 +50,7 @@ class AbbrNode(DynamicNode):
         return lines
 
     def __copy__(self):
+        # FIXME no parent
         return AbbrNode(self.parent)
 
 
@@ -76,6 +77,7 @@ class PLCNode(DynamicNode):
         return lines
 
     def __copy__(self):
+        # FIXME no parent
         return PLCNode(self.parent)
 
 
