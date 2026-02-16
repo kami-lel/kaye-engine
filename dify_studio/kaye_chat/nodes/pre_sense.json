@@ -25,9 +25,6 @@
     }
   },
   "required": [
-    "answer",
-    "difficulty",
-    "languages",
     "llm",
     "role"
   ],
