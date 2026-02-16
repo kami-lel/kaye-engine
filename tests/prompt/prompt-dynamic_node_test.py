@@ -38,8 +38,8 @@ def testee1():
 class TestId:  #################################################################
 
     def test1(_, testee1):
-        print(testee1.id)
-        assert testee1.id == "{Testee Node}"
+        print(testee1.identifier)
+        assert testee1.identifier == "{Testee Node}"
 
 
 class TestNoChild:  ############################################################

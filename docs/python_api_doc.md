@@ -81,11 +81,11 @@ To access node **name**, i.e. **section heading**:
 ```python
 node = ~~~
 assert node.name == "Introduction"
-assert node.id == "Introduction"
+assert node.identifier == "Introduction"
 ```
 
 > [!NOTE]
-> `.name` and `.id` return identical result for `PromptCorpusNode`
+> `.name` and `.identifier` return identical result for `PromptCorpusNode`
 
 
 ###### parent

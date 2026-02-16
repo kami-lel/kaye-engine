@@ -29,7 +29,7 @@ class TestInit:  ###############################################################
     def test1(_, testee1, local_corpus_testee1):
         assert testee1.parent is local_corpus_testee1
         assert testee1.name == "Abbreviations"
-        assert testee1.id == "{Abbreviations}"
+        assert testee1.identifier == "{Abbreviations}"
 
     def test_preview1(_, local_corpus_testee1):
         opt = local_corpus_testee1.generate_prompt_tree_preview(

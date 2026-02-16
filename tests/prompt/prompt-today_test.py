@@ -30,7 +30,7 @@ class TestToday:  ##############################################################
     def test_init(_, local_corpus_testee1, testee1):
         assert testee1.parent is local_corpus_testee1
         assert testee1.name == "Today"
-        assert testee1.id == "{Today}"
+        assert testee1.identifier == "{Today}"
 
     def test_preview(_, local_corpus_testee1):
         opt = local_corpus_testee1.generate_prompt_tree_preview(
