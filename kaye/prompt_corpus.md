@@ -813,13 +813,18 @@ Select the single most appropriate label to describe the nature of the user's qu
 
 
 
-## pre-sense for coder
+### for coder
 
 Extract the following two variables:
 
-- difficulty: Provide a number between `0.0` (very easy) and `1.0` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
+##### languages
 
-- languages: Return a string containing the abbreviations of the programming languages (as defined below) required by the user, separated by commas. For example, `'py,cpp'`. If the conversation does not mention any specific programming language, such as when discussing conceptual or general algorithms, return an empty string (`''`).
+Return a string containing the abbreviations of the programming languages (as defined below) required by the user, separated by commas. For example, `'py,cpp'`. If the conversation does not mention any specific programming language, such as when discussing conceptual or general algorithms, return an empty string (`''`).
+
+
+##### difficulty
+
+Provide a number between `0.0` (very easy) and `1.0` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
 
 Use these asks as your **anchor point** when evaluate difficulty:
 

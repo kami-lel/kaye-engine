@@ -12,9 +12,11 @@ from kaye.prompt import PromptBlueprint
 
 # Blueprints  ##################################################################
 PRE_SENSE_PROMPT_BLUEPRINT = """ ○
-[x] └── Role
-[x]     └── Kaye Chat
-[x]         └── pre-sense
+[x] └── Kaye Chat
+[x]     └── pre-sense
+[ ]         ├── role
+[ ]         └── for coder
+[ ]             └── {Programming Languages Code}
 """
 
 
@@ -41,17 +43,27 @@ TASK_PROMPT_BLUEPRINT = """    ○
 ky_bp = Blueprint("kaye-chat", PROGRAM_NAME, url_prefix="/ky")
 
 
-# /kaye/dify-app/ky/pre-sense
+# /kaye/dify-app/ky/pre-sense  =================================================
 @ky_bp.route("/pre-sense", methods=["GET"])
 def kaye_chat_pre_sense():
-    # TODO
     role = request.args.get("role")
 
-    blueprint = PromptBlueprint.parse(PRE_SENSE_PROMPT_BLUEPRINT)
+    blueprint = PromptBlueprint.parse(
+        PRE_SENSE_PROMPT_BLUEPRINT, disable_prune=True
+    )
+    pre_sense_node = blueprint.corpus["Kaye Chat"]["pre-sense"]
+
+    # on role  -----------------------------------------------------------------
+    if role == "coder":
+        blueprint.checkmark(pre_sense_node["for coder"])
+    else:
+        blueprint.checkmark(pre_sense_node["role"])
+
+    # create concrete prompt  --------------------------------------------------
     return blueprint.generate_prompt()
 
 
-# /kaye/dify-app/ky/task
+# /kaye/dify-app/ky/task  ======================================================
 @ky_bp.route("/task", methods=["GET"])
 def kaye_chat_task():
     blueprint = PromptBlueprint.parse(TASK_PROMPT_BLUEPRINT)
