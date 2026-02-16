@@ -432,24 +432,43 @@ class PromptBlueprint(dict):
         helper method used
         in ``.checkmark()`` & in ``.uncheckmark()``,
         i.e. a generic version of the 2 functions
-        """
-        if isinstance(node, str):
-            # TODO search by name in blueprint, then in corpus
-            node_obj = None
-            node_hash = hash(node_obj)
 
+        :raises ValueError:
+        """
+
+        # search by name/identifier  -------------------------------------------
+        if isinstance(node, str):
+            node_obj = None
+
+            # search all descendants with name/identifier of node
+            for n in self.corpus.descendants:
+                if node in (n.name, n.identifier):
+                    node_obj = n
+                    break
+
+            if node_obj is None:
+                raise ValueError()  # TODO
+
+            node_hash = hash(node_obj)
+            is_ensured_in_corpus = True
+
+        # search by node hash  -------------------------------------------------
         elif isinstance(node, int):
             node_obj = None
             node_hash = node
+            is_ensured_in_corpus = False
 
+        # node is already object  ----------------------------------------------
         elif isinstance(node, BasePromptNode):
             node_obj = node
             node_hash = hash(node)
+            is_ensured_in_corpus = False
 
         else:
             raise TypeError()  # TODO
 
-        # check if node existed in self.corpus
+        if not is_ensured_in_corpus:
+            pass  # TODO
 
         # actual perform checking/unchecking
         self[node_hash] = is_checkmark
@@ -457,18 +476,11 @@ class PromptBlueprint(dict):
         if recursively:
             pass  # TODO add recursively
 
-        return self
-
-        # assert node existed in corpus
-        if not any(hash(node) == node_hash for node in self.corpus.descendants):
-            raise ValueError(
-                "node absent in prompt corpus tree: {}".format(str(node))
-            )
-
+        # ensure node is included in this blueprint
         if node_hash not in self:
-            raise KeyError(
-                "node absent in this blueprint: {}".format(str(node))
-            )
+            raise ValueError("node absent in blueprint: {}".format(node_obj))
+
+        return self
 
     # magic methods  ===========================================================
 

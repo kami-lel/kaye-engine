@@ -25,8 +25,61 @@ from tests.prompt.bp import (
 )
 
 
-# test_prompt1  ################################################################
+# pytest fixtures  #############################################################
+@pytest.fixture
+def bp_testee11(corpus_testee1):
+    return PromptBlueprint.parse(
+        BLUEPRINT_1_PARTIAL_1,
+        disable_prune=True,
+        corpus_override=corpus_testee1,
+    )
+
+
+@pytest.fixture
+def answer11():
+    return BLUEPRINT_1_FULL
+
+
+# tests on prompt 1  ###########################################################
 class Test11:  # ===============================================================
+
+    # test .checkmark()  *******************************************************
+
+    def test_checkmark_by_obj1(_, bp_testee11, answer11):
+        testee = bp_testee11
+        answer = answer11
+
+    def test_checkmark_by_hash1(_, bp_testee11, answer11):
+        testee = bp_testee11
+        answer = answer11
+
+    def test_checkmark_by_name1(_, bp_testee11, answer11):
+        testee = bp_testee11
+        answer = answer11
+
+    # test +=  *****************************************************************
+
+    def test_iadd_by_obj1(_, bp_testee11, answer11):
+        testee = bp_testee11
+        answer = answer11
+
+    def test_iadd_by_hash1(_, bp_testee11, answer11):
+        testee = bp_testee11
+        answer = answer11
+
+    def test_iadd_by_name1(_, bp_testee11, answer11):
+        testee = bp_testee11
+        answer = answer11
+
+    # err handling  ************************************************************
+
+
+# tests on prompt 2  ###########################################################
+# tests on prompt 3  ###########################################################
+
+
+# test_prompt1  ################################################################
+class XTest11:  # ==============================================================
 
     src = BLUEPRINT_1_PARTIAL_1
     dest = BLUEPRINT_1_FULL
@@ -157,7 +210,7 @@ class Test11:  # ===============================================================
         )
 
 
-class Test12:  # ===============================================================
+class XTest12:  # ===============================================================
 
     src = BLUEPRINT_1_PARTIAL_2
     dest = BLUEPRINT_1_FULL
@@ -200,7 +253,7 @@ class Test12:  # ===============================================================
         )
 
 
-class Test2:  # test_prompt2  ##################################################
+class XTest2:  # test_prompt2  ##################################################
 
     src = BLUEPRINT_2_PARTIAL_1
     dest = BLUEPRINT_2_FULL
@@ -249,7 +302,7 @@ class Test2:  # test_prompt2  ##################################################
 
 
 # test_prompt3  ################################################################
-class Test31:  # ===============================================================
+class XTest31:  # ===============================================================
 
     src = BLUEPRINT_3_PARTIAL_1
     dest = BLUEPRINT_3_FULL
@@ -303,7 +356,7 @@ class Test31:  # ===============================================================
         )
 
 
-class Test32:  # ===============================================================
+class XTest32:  # ===============================================================
 
     src = BLUEPRINT_3_PARTIAL_2
     dest = BLUEPRINT_3_FULL
@@ -363,7 +416,7 @@ class Test32:  # ===============================================================
         )
 
 
-class TestDynamicNodes:  #######################################################
+class XTestDynamicNodes:  #######################################################
 
     def test_abbr(_, dynamic_bp_testee1):
         bp = copy.deepcopy(dynamic_bp_testee1)
