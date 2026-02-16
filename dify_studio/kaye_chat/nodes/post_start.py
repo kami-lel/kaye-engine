@@ -8,5 +8,11 @@ OUTPUT_ROLE_KEY = "role"
 # Entry Point  #################################################################
 
 
-def main(role_override):
-    return {OUTPUT_ROLE_KEY: role_override}
+def main(
+    role_override: str,
+    current_role: str,
+):
+    # decide role  =============================================================
+    role = current_role or role_override or ""
+
+    return {OUTPUT_ROLE_KEY: role}

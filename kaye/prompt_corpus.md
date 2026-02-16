@@ -760,6 +760,10 @@ Select the single most appropriate label to describe the nature of the user's qu
 
 - `think-think`: queries that require deep, abstract, or prolonged reasoning, creative synthesis, designing solutions with trade-offs, or tasks that need many chained logical steps.
 
+### role
+
+## pre-sense for coder
+
 Extract the following two variables:
 
 - difficulty: Provide a number between `0.0` (very easy) and `1.0` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
