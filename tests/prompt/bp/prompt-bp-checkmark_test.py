@@ -105,7 +105,7 @@ class Test11:  # ===============================================================
             == self.dest
         )
 
-    # err handling  ------------------------------------------------------------
+    # err handling  ************************************************************
     def test_bad_type(self, corpus_testee1):
         bp_text = self.src
         opt = PromptBlueprint.parse(
@@ -119,6 +119,8 @@ class Test11:  # ===============================================================
         print(opt)
 
         assert opt == "must be BasePromptNode or hash value: 12.5"
+
+    # missing  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def xtest_bad_hash(self, corpus_testee1):
         # BUG
