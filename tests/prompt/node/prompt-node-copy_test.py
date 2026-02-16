@@ -259,7 +259,6 @@ class TestPrompt3:  ############################################################
         assert copied._content_lines == src._content_lines
         assert len(copied.descendants) == len(src.descendants)
 
-        # BUG copy/deepcopy will modify root node
         assert len(src.descendants) == 10
 
     def test_deepcopy2(_, corpus_testee3, deepcopy_testee3):
