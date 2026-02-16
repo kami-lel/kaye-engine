@@ -513,7 +513,7 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-        if isinstance(other, (BasePromptNode, int)):
+        if isinstance(other, (BasePromptNode, int, str)):
             return self.checkmark(other)
         else:
             return NotImplemented
@@ -532,7 +532,7 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-        if isinstance(other, (BasePromptNode, int)):
+        if isinstance(other, (BasePromptNode, int, str)):
             return self.uncheckmark(other)
         else:
             return NotImplemented
