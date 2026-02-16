@@ -58,3 +58,13 @@ def dynamic_bp_testee4(corpus_testee1):
     return PromptBlueprint.parse(
         bp_text, corpus_override=corpus_testee1, disable_prune=True
     )
+
+
+@pytest.fixture(scope="session")
+def dynamic_bp_testee5(corpus_testee1):
+    bp_text = """ ○
+[x] └── {Usable Abbreviations}"""
+
+    return PromptBlueprint.parse(
+        bp_text, corpus_override=corpus_testee1, disable_prune=True
+    )
