@@ -58,11 +58,11 @@ class TestCopy:  ###############################################################
 
         assert isinstance(copied, TodayNode)
         assert copied.name == "Today"
-        assert copied.parent is local_corpus_testee1
+        assert copied.parent is None
 
     def test_deep_copy1(_, local_corpus_testee1, testee1):
         copied = copy.deepcopy(testee1)
 
         assert isinstance(copied, TodayNode)
         assert copied.name == "Today"
-        assert copied.parent is local_corpus_testee1
+        assert copied.parent is None
