@@ -48,19 +48,19 @@ class TestInit:  ###############################################################
 
 class TestCopy:  ###############################################################
 
-    def test_copy1(_, local_corpus_testee1, testee1):
+    def test_copy1(_, testee1):
         copied = copy.copy(testee1)
 
         assert isinstance(copied, PLCNode)
         assert copied.name == "Programming Languages Code"
-        assert copied.parent is local_corpus_testee1
+        assert copied.parent is None
 
-    def test_deep_copy1(_, local_corpus_testee1, testee1):
+    def test_deep_copy1(_, testee1):
         copied = copy.deepcopy(testee1)
 
         assert isinstance(copied, PLCNode)
         assert copied.name == "Programming Languages Code"
-        assert copied.parent is local_corpus_testee1
+        assert copied.parent is None
 
 
 class TestContentLines:  #######################################################
