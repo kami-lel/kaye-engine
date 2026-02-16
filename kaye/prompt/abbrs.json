@@ -363,7 +363,8 @@
       "priority": 5,
       "tags": [
         "ascii_only",
-        "common"
+        "common",
+        "usable"
       ],
       "wrap": "symbol"
     }
@@ -3460,7 +3461,8 @@
       "priority": 5,
       "tags": [
         "ascii_only",
-        "common"
+        "common",
+        "usable"
       ],
       "wrap": "symbol"
     }
