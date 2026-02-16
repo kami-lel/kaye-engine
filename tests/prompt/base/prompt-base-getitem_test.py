@@ -183,7 +183,7 @@ class TestByName:  #############################################################
         assert (
             opt
             == "UnitTestNode(Mountain Range) "
-            "contains no child with name/id of 'aaa'"
+            "contains no child with name/identifier of 'aaa'"
         )
 
 
