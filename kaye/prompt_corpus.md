@@ -744,9 +744,14 @@ Example: `en` for English, `zh` for 中文.
 
 
 
+
+
+
 # Kaye Chat
 
 ## pre-sense
+
+#### llm & answer
 
 Select the single most appropriate label to describe the nature of the user's query:
 
@@ -760,7 +765,53 @@ Select the single most appropriate label to describe the nature of the user's qu
 
 - `think-think`: queries that require deep, abstract, or prolonged reasoning, creative synthesis, designing solutions with trade-offs, or tasks that need many chained logical steps.
 
+
+
+
+
+
+
+
+
+
+
+
+
 ### role
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## pre-sense for coder
 
