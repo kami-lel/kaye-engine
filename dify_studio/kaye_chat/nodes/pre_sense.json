@@ -1,18 +1,35 @@
 {
-  "type": "object",
+  "additionalProperties": false,
   "properties": {
-    "selection": {
-      "type": "string",
+    "answer": {
+      "type": "string"
+    },
+    "difficulty": {
+      "type": "number"
+    },
+    "languages": {
+      "type": "string"
+    },
+    "llm": {
       "enum": [
+        "pre-sense",
         "rapid",
         "chat",
         "think",
         "think-think"
-      ]
+      ],
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
     }
   },
   "required": [
-    "selection"
+    "answer",
+    "difficulty",
+    "languages",
+    "llm",
+    "role"
   ],
-  "additionalProperties": false
+  "type": "object"
 }
