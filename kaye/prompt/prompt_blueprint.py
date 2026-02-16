@@ -433,13 +433,14 @@ class PromptBlueprint(dict):
         in ``.checkmark()`` & in ``.uncheckmark()``,
         i.e. a generic version of the 2 functions
         """
-
         # TODO add recursively
         # TODO search by name in blueprint, then in corpus
 
-        return  # TODO
-
         node_hash = _normalize_as_node_hash(node)
+
+        self[node_hash] = is_checkmark
+
+        return self
 
         # assert node existed in corpus
         if not any(hash(node) == node_hash for node in self.corpus.descendants):
@@ -447,20 +448,10 @@ class PromptBlueprint(dict):
                 "node absent in prompt corpus tree: {}".format(str(node))
             )
 
-        self[node_hash] = True
-
-        return self
-
-        node_hash = _normalize_as_node_hash(node)
-
         if node_hash not in self:
             raise KeyError(
                 "node absent in this blueprint: {}".format(str(node))
             )
-
-        self[node_hash] = False
-
-        return self
 
     # magic methods  ===========================================================
 
