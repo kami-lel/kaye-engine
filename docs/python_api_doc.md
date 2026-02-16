@@ -1,6 +1,6 @@
 # Kaye Python API documentation
 
-<!-- Todo rewrite python api doc -->
+<!-- TODO rewrite python api doc -->
 
 ## `gen_prompt` module
 

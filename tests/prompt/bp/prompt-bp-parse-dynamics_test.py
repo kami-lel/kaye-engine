@@ -37,6 +37,15 @@ class TestDynamics:
         assert node in bp
         assert bp.is_checkmarked(node)
 
+    def test_usable_abbr(_, dynamic_bp_testee5):
+        bp = dynamic_bp_testee5
+        print(bp.generate_blueprint(content_preview_lines=0))
+
+        node = bp.corpus["{Usable Abbreviations}"]
+        assert isinstance(node, PLCNode)
+        assert node in bp
+        assert bp.is_checkmarked(node)
+
     # use dynamic_bp_testee1  --------------------------------------------------
 
     def test_mux_abbr(_, dynamic_bp_testee1):
