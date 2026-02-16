@@ -135,7 +135,7 @@ class PromptBlueprint(dict):
                 and checkmarking all nodes
         :rtype: PromptBlueprint
         """
-        return cls._create_full_or_empty_blueprint(
+        return cls._create_full_or_empty_blueprint_generic(
             True, display_name, corpus_override
         )
 
@@ -155,7 +155,7 @@ class PromptBlueprint(dict):
                 but uncheckmarking all nodes
         :rtype: PromptBlueprint
         """
-        return cls._create_full_or_empty_blueprint(
+        return cls._create_full_or_empty_blueprint_generic(
             False, display_name, corpus_override
         )
 
@@ -185,8 +185,10 @@ class PromptBlueprint(dict):
         node_hash = _normalize_as_node_hash(node_hash)  # node as hash
         return node_hash in self and self[node_hash]
 
-    def checkmark(self, node):
+    def checkmark(self, node, *, recursively=False):
         """
+        FIXME update
+
         checkmark a ``node`` in this blueprint
 
 
@@ -197,23 +199,12 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-        # TODO add recursively
-        # TODO search by name in blueprint, then in corpus
+        return self._checkmark_or_uncheckmark_generic(node, recursively, True)
 
-        node_hash = _normalize_as_node_hash(node)
-
-        # assert node existed in corpus
-        if not any(hash(node) == node_hash for node in self.corpus.descendants):
-            raise ValueError(
-                "node absent in prompt corpus tree: {}".format(str(node))
-            )
-
-        self[node_hash] = True
-
-        return self
-
-    def uncheckmark(self, node):
+    def uncheckmark(self, node, *, recursively=False):
         """
+        FIXME update
+
         uncheckmark a ``node`` in this blueprint
 
 
@@ -224,16 +215,7 @@ class PromptBlueprint(dict):
         :return: self
         :rtype: PromptBlueprint
         """
-        node_hash = _normalize_as_node_hash(node)
-
-        if node_hash not in self:
-            raise KeyError(
-                "node absent in this blueprint: {}".format(str(node))
-            )
-
-        self[node_hash] = False
-
-        return self
+        return self._checkmark_or_uncheckmark_generic(node, recursively, False)
 
     def generate_blueprint(
         self,
@@ -421,12 +403,12 @@ class PromptBlueprint(dict):
             ) from err
 
     @classmethod
-    def _create_full_or_empty_blueprint(
+    def _create_full_or_empty_blueprint_generic(
         cls, is_full, display_name, corpus_override=None
     ):
         """
         helper method used
-        in ``._create_full_blueprint()`` & in ``_create_empty_blueprint()``,
+        in ``.create_full_blueprint()`` & in ``.create_empty_blueprint()``,
         i.e. a generic version of the 2 functions
         """
         bp = PromptBlueprint(
@@ -442,6 +424,43 @@ class PromptBlueprint(dict):
                 bp[key] = is_full
 
         return bp
+
+    def _checkmark_or_uncheckmark_generic(
+        self, node, recursively, is_checkmark
+    ):
+        """
+        helper method used
+        in ``.checkmark()`` & in ``.uncheckmark()``,
+        i.e. a generic version of the 2 functions
+        """
+
+        # TODO add recursively
+        # TODO search by name in blueprint, then in corpus
+
+        return  # TODO
+
+        node_hash = _normalize_as_node_hash(node)
+
+        # assert node existed in corpus
+        if not any(hash(node) == node_hash for node in self.corpus.descendants):
+            raise ValueError(
+                "node absent in prompt corpus tree: {}".format(str(node))
+            )
+
+        self[node_hash] = True
+
+        return self
+
+        node_hash = _normalize_as_node_hash(node)
+
+        if node_hash not in self:
+            raise KeyError(
+                "node absent in this blueprint: {}".format(str(node))
+            )
+
+        self[node_hash] = False
+
+        return self
 
     # magic methods  ===========================================================
 
