@@ -284,7 +284,7 @@ class PromptBlueprint(dict):
                 checkmark_prefix = EMPTY_PREFIX
 
             # e.g. "[x] │   └── Capitalization Style"
-            node_line = checkmark_prefix + pre + node.id
+            node_line = checkmark_prefix + pre + node.identifier
             lines.append(node_line)
 
             # lines for content preview part
