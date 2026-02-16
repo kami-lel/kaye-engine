@@ -98,7 +98,7 @@ class BasePromptNode(AnyTreeNode):
                 ``""`` for root node
         :rtype: str
         """
-        # Todo dont use the word id
+        # TODO dont use the word id
         raise NotImplementedError
 
     def content_lines(self, **kwargs):
