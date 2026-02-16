@@ -45,33 +45,112 @@ class Test11:  # ===============================================================
 
     # test .checkmark()  *******************************************************
 
-    def test_checkmark_by_obj1(_, bp_testee11, answer11):
-        testee = bp_testee11
+    def test_checkmark_by_obj1(_, corpus_testee1, bp_testee11, answer11):
+        bp = bp_testee11
         answer = answer11
 
-    def test_checkmark_by_hash1(_, bp_testee11, answer11):
-        testee = bp_testee11
+        print(repr(bp))
+        node = corpus_testee1["Project Title"]
+
+        bp.checkmark(node)
+
+        print("#" * 80)
+        print(repr(bp))
+
+        assert (
+            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+    def test_checkmark_by_hash1(_, corpus_testee1, bp_testee11, answer11):
+        bp = bp_testee11
         answer = answer11
 
-    def test_checkmark_by_name1(_, bp_testee11, answer11):
-        testee = bp_testee11
+        print(repr(bp))
+        node = corpus_testee1["Project Title"]
+        node_hash = hash(node)
+
+        bp.checkmark(node_hash)
+
+        print("#" * 80)
+        print(repr(bp))
+
+        assert (
+            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+    def test_checkmark_by_name1(_, corpus_testee1, bp_testee11, answer11):
+        bp = bp_testee11
         answer = answer11
+
+        print(repr(bp))
+
+        bp.checkmark("Project Title")
+
+        print("#" * 80)
+        print(repr(bp))
+
+        assert (
+            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
 
     # test +=  *****************************************************************
 
-    def test_iadd_by_obj1(_, bp_testee11, answer11):
-        testee = bp_testee11
+    def test_iadd_by_obj1(_, corpus_testee1, bp_testee11, answer11):
+        bp = bp_testee11
         answer = answer11
 
-    def test_iadd_by_hash1(_, bp_testee11, answer11):
-        testee = bp_testee11
+        print(repr(bp))
+        node = corpus_testee1["Project Title"]
+
+        bp += node
+
+        print("#" * 80)
+        print(repr(bp))
+
+        assert (
+            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+    def test_iadd_by_hash1(_, corpus_testee1, bp_testee11, answer11):
+        bp = bp_testee11
         answer = answer11
 
-    def test_iadd_by_name1(_, bp_testee11, answer11):
-        testee = bp_testee11
+        print(repr(bp))
+        node = corpus_testee1["Project Title"]
+        node_hash = hash(node)
+
+        bp += node_hash
+
+        print("#" * 80)
+        print(repr(bp))
+
+        assert (
+            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+    def test_iadd_by_name1(_, corpus_testee1, bp_testee11, answer11):
+        bp = bp_testee11
         answer = answer11
+
+        print(repr(bp))
+
+        bp += "Project Title"
+
+        print("#" * 80)
+        print(repr(bp))
+
+        assert (
+            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
 
     # err handling  ************************************************************
+    # TODO TODO
 
 
 # tests on prompt 2  ###########################################################
@@ -80,83 +159,6 @@ class Test11:  # ===============================================================
 
 # test_prompt1  ################################################################
 class XTest11:  # ==============================================================
-
-    src = BLUEPRINT_1_PARTIAL_1
-    dest = BLUEPRINT_1_FULL
-
-    def test1_checkmark_by_obj(self, corpus_testee1):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
-        )
-        print(opt)
-
-        node = corpus_testee1["Project Title"]
-        opt.checkmark(node)
-
-        print("#" * 80)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == self.dest
-        )
-
-    def test1_checkmark_by_hash(self, corpus_testee1):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
-        )
-        print(opt)
-
-        node = corpus_testee1["Project Title"]
-        node_hash = hash(node)
-        opt.checkmark(node_hash)
-
-        print("#" * 80)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == self.dest
-        )
-
-    def test1_iadd_by_obj(self, corpus_testee1):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
-        )
-        print(opt)
-
-        node = corpus_testee1["Project Title"]
-        opt += node
-
-        print("#" * 80)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == self.dest
-        )
-
-    def test1_iadd_by_hash(self, corpus_testee1):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
-        )
-        print(opt)
-
-        node = corpus_testee1["Project Title"]
-        node_hash = hash(node)
-        opt += node_hash
-
-        print("#" * 80)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == self.dest
-        )
 
     # err handling  ************************************************************
     def test_bad_type(self, corpus_testee1):
