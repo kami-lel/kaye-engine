@@ -98,6 +98,7 @@ class BasePromptNode(AnyTreeNode):
                 ``""`` for root node
         :rtype: str
         """
+        # Todo dont use the word id
         raise NotImplementedError
 
     def content_lines(self, **kwargs):
@@ -205,7 +206,7 @@ class BasePromptNode(AnyTreeNode):
         :return: a deep copy with all descendants also copied
         :rtype: BasePromptNode
         """
-        # BUG BUG
+        # BUG BUG & also use memo
         copied = copy.copy(self)
 
         # attach children
