@@ -111,7 +111,7 @@ class BasePromptNode(AnyTreeNode):
 
     def __copy__(self):
         """
-        :return: a shallow copy **without** any children
+        :return: a shallow copy **without** any children & no parent
         :rtype: BasePromptNode
         """
         raise NotImplementedError
@@ -206,6 +206,7 @@ class BasePromptNode(AnyTreeNode):
         :return: a deep copy with all descendants also copied
         :rtype: BasePromptNode
         """
+
         # BUG BUG & also use memo
         copied = copy.copy(self)
 
