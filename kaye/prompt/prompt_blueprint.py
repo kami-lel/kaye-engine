@@ -499,7 +499,6 @@ class PromptBlueprint(dict):
             )
 
         if node_obj is None:
-            # HACK write unit tests
             raise ValueError(
                 "no node with name/identifier/hash value in corpus: {}".format(
                     repr(node_arg)

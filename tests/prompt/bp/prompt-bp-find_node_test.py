@@ -97,7 +97,36 @@ class Test1:  ##################################################################
             "['a', 'b', 'c']"
         )
 
-    # TODO err handling
+    # can't find  **************************************************************
+
+    def test_miss_node_by_name1(_, checkmark_bp_testee11):
+        bp = checkmark_bp_testee11
+        ipt = "AAAZZZ"
+
+        with pytest.raises(ValueError) as exec_info:
+            bp.checkmark(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+
+        assert (
+            opt == "no node with name/identifier/hash value in corpus: 'AAAZZZ'"
+        )
+
+    def test_miss_node_by_hash1(_, checkmark_bp_testee11):
+        bp = checkmark_bp_testee11
+        ipt = hash(None)
+
+        with pytest.raises(ValueError) as exec_info:
+            bp.checkmark(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+
+        assert (
+            opt
+            == "no node with name/identifier/hash value in corpus: 4238894112"
+        )
 
 
 # TODO TODO
