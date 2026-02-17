@@ -453,24 +453,24 @@ class PromptBlueprint(dict):
 
         return self
 
-    def _checkmark_uncheckmark_is_checkmarked_find_node(self, node):
+    def _checkmark_uncheckmark_is_checkmarked_find_node(self, node_arg):
         """
         TODO TODO
         """
         # search by name/identifier  -------------------------------------------
-        if isinstance(node, str):
+        if isinstance(node_arg, str):
             node_obj = None
 
             # search all descendants with name/identifier of node
             for n in self.corpus.descendants:
-                if node in (n.name, n.identifier):
+                if node_arg in (n.name, n.identifier):
                     node_obj = n
                     break
 
             if node_obj is None:
                 raise ValueError(
                     "no node with name/identifier in corpus: {}".format(
-                        repr(node)
+                        repr(node_arg)
                     )
                 )
 
@@ -478,21 +478,33 @@ class PromptBlueprint(dict):
             is_ensured_in_corpus = True
 
         # search by node hash  -------------------------------------------------
-        elif isinstance(node, int):
+        elif isinstance(node_arg, int):
             node_obj = None
-            node_hash = node
+
+            # search all descendants with hash of node
+            for n in self.corpus.descendants:
+                if node_arg == hash(n):
+                    node_obj = n
+                    break
+
+            if node_obj is None:
+                raise ValueError(
+                    "no node with hash value in corpus: {}".format(node_arg)
+                )
+
+            node_hash = node_arg
             is_ensured_in_corpus = False
 
         # node is already object  ----------------------------------------------
-        elif isinstance(node, BasePromptNode):
-            node_obj = node
-            node_hash = hash(node)
+        elif isinstance(node_arg, BasePromptNode):
+            node_obj = node_arg
+            node_hash = hash(node_arg)
             is_ensured_in_corpus = False
 
         else:
             raise TypeError(
                 "must be BasePromptNode/"
-                "int(hash value)/str(name/identifier): {}".format(node)
+                "int(hash value)/str(name/identifier): {}".format(node_arg)
             )
 
         if not is_ensured_in_corpus:

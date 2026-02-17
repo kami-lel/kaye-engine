@@ -5,6 +5,7 @@ import pytest
 
 
 from kaye.prompt.prompt_blueprint import PromptBlueprint
+from tests.prompt.bp import BLUEPRINT_1_PARTIAL_1
 
 
 @pytest.fixture(scope="session")
@@ -68,4 +69,13 @@ def dynamic_bp_testee5(corpus_testee1):
 
     return PromptBlueprint.parse(
         bp_text, corpus_override=corpus_testee1, disable_prune=True
+    )
+
+
+@pytest.fixture
+def checkmark_bp_testee11(corpus_testee1):
+    return PromptBlueprint.parse(
+        BLUEPRINT_1_PARTIAL_1,
+        disable_prune=True,
+        corpus_override=corpus_testee1,
     )
