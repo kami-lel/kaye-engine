@@ -173,8 +173,9 @@ class PromptBlueprint(dict):
         self.display_name = display_name
 
     # node operations  *********************************************************
-    def is_checkmarked(self, node_hash):
+    def is_checkmarked(self, node):
         """
+        FIXME
         :param node: node object; or hash value of node
         :type node: BasePromptNode or int
         :raises TypeError:
@@ -182,8 +183,10 @@ class PromptBlueprint(dict):
                 ``False`` if node is: not checkmarked or not contained
         :rtype: bool
         """
-        # Fixme allow name/identifier
-        node_hash = _normalize_as_node_hash(node_hash)  # node as hash
+        _, node_hash = self._checkmark_uncheckmark_is_checkmarked_find_node(
+            node
+        )
+        # HACK HACK unit tests
         return node_hash in self and self[node_hash]
 
     def checkmark(self, node, *, recursively=False):
@@ -520,6 +523,7 @@ class PromptBlueprint(dict):
         :return: if blueprint contains the node
         :rtype: bool
         """
+        # TODO use node
         return super().__contains__(_normalize_as_node_hash(key))
 
     # operators  ---------------------------------------------------------------
