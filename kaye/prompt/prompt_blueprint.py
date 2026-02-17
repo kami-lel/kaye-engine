@@ -436,8 +436,25 @@ class PromptBlueprint(dict):
 
         :raises ValueError:
         """
+        node_obj, node_hash = self._checkmark_uncheckmark_find_node(node)
         # FIXME return bool
 
+        # actual perform checking/unchecking
+        self[node_hash] = is_checkmark
+
+        if recursively:
+            pass  # TODO add recursively
+
+        # ensure node is included in this blueprint
+        if node_hash not in self:
+            raise ValueError("node absent in blueprint: {}".format(node_obj))
+
+        return self
+
+    def _checkmark_uncheckmark_find_node(self, node):
+        """
+        TODO
+        """
         # search by name/identifier  -------------------------------------------
         if isinstance(node, str):
             node_obj = None
@@ -479,17 +496,8 @@ class PromptBlueprint(dict):
         if not is_ensured_in_corpus:
             pass  # TODO
 
-        # actual perform checking/unchecking
-        self[node_hash] = is_checkmark
-
-        if recursively:
-            pass  # TODO add recursively
-
-        # ensure node is included in this blueprint
-        if node_hash not in self:
-            raise ValueError("node absent in blueprint: {}".format(node_obj))
-
-        return self
+        # HACK need to write unit test
+        return node_obj, node_hash
 
     # magic methods  ===========================================================
 
