@@ -2,7 +2,7 @@
 
 ## `prompt` module
 
-<!-- Fixme rewrite python api doc -->
+<!-- FIXME rewrite python api doc -->
 
 The **core** module of *Kaye Python API*, implement a systematic, dynamic, and structured framework for **prompt management and manipulation**.
 
