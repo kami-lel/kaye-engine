@@ -7,6 +7,8 @@ Unit Tests (using pytest) for:
 ._checkmark_uncheckmark_is_checkmarked_find_node()
 """
 
+import pytest
+
 
 class Test1:  ##################################################################
 
@@ -56,6 +58,44 @@ class Test1:  ##################################################################
             == node.generate_identifier_lineage()
         )
         assert node_hash == hash(node)
+
+    # err handling  ============================================================
+
+    # bad typed  ***************************************************************
+
+    def test_bad_type1(_, checkmark_bp_testee11):
+        bp = checkmark_bp_testee11
+        ipt = 12.5
+
+        with pytest.raises(TypeError) as exec_info:
+            bp.checkmark(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+
+        assert (
+            opt
+            == "must be "
+            "BasePromptNode/int(hash value)/str(name/identifier): "
+            "12.5"
+        )
+
+    def test_bad_type2(_, checkmark_bp_testee11):
+        bp = checkmark_bp_testee11
+        ipt = ["a", "b", "c"]
+
+        with pytest.raises(TypeError) as exec_info:
+            bp.checkmark(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+
+        assert (
+            opt
+            == "must be "
+            "BasePromptNode/int(hash value)/str(name/identifier): "
+            "['a', 'b', 'c']"
+        )
 
     # TODO err handling
 
