@@ -186,7 +186,6 @@ class PromptBlueprint(dict):
         _, node_hash = self._checkmark_uncheckmark_is_checkmarked_find_node(
             node
         )
-        # HACK HACK unit tests
         return node_hash in self and self[node_hash]
 
     def checkmark(self, node, *, recursively=False):
