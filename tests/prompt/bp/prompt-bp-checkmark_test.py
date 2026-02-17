@@ -133,7 +133,7 @@ class Test11:  # ===============================================================
             == answer
         )
 
-    def test_iadd_by_name1(_, corpus_testee1, bp_testee11, answer11):
+    def test_iadd_by_name1(_, bp_testee11, answer11):
         bp = bp_testee11
         answer = answer11
 
@@ -150,6 +150,51 @@ class Test11:  # ===============================================================
         )
 
     # err handling  ************************************************************
+    def test_bad_type1(_, bp_testee11):
+        bp = bp_testee11
+        ipt = 12.5
+
+        with pytest.raises(TypeError) as exec_info:
+            bp.checkmark(ipt)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert (
+            opt
+            == "must be BasePromptNode/"
+            "int(hash value)/str(name/identifier): 12.5"
+        )
+
+    def test_bad_type2(_, bp_testee11):
+        bp = bp_testee11
+        ipt = ["a", "b", "c"]
+
+        with pytest.raises(TypeError) as exec_info:
+            bp.checkmark(ipt)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert (
+            opt
+            == "must be BasePromptNode/"
+            "int(hash value)/str(name/identifier): ['a', 'b', 'c']"
+        )
+
+    # err unique to by str  ++++++++++++++++++++++++++++++++++++++++++++++++++++
+    def test_bad_str_no_found1(_, bp_testee11):
+        bp = bp_testee11
+        ipt = "AAAZZZ"
+
+        with pytest.raises(ValueError) as exec_info:
+            bp.checkmark(ipt)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "no node with name/identifier in corpus: 'AAAZZZ'"
+
     # TODO TODO
 
 
@@ -157,23 +202,105 @@ class Test11:  # ===============================================================
 # tests on prompt 3  ###########################################################
 
 
+# corpus w/ dynamic nodes  #####################################################
+class TestDynamicNodes:
+
+    # abbr  ====================================================================
+
+    def test_checkmark_by_obj1(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Introduction"][
+            "Background"
+        ]["Importance"]["Abbreviations"]
+
+        assert bp.checkmark(node)
+        assert bp.is_checkmarked(node)
+
+    def test_checkmark_by_hash1(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Introduction"][
+            "Background"
+        ]["Importance"]["Abbreviations"]
+        node_hash = hash(node)
+
+        assert bp.checkmark(node_hash)
+
+        assert bp.is_checkmarked(node)
+
+    def test_checkmark_by_name1(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+        node = dynamic_bp_testee1.corpus["Main Title"]["Introduction"][
+            "Background"
+        ]["Importance"]["Abbreviations"]
+        ipt = "Abbreviations"
+
+        assert bp.checkmark(ipt)
+
+        assert bp.is_checkmarked(node)
+
+    def test_checkmark_by_identifier1(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+        node = dynamic_bp_testee1.corpus["Main Title"]["Introduction"][
+            "Background"
+        ]["Importance"]["Abbreviations"]
+        ipt = "{Abbreviations}"
+
+        assert bp.checkmark(ipt)
+
+        assert bp.is_checkmarked(node)
+
+    # plc  =====================================================================
+
+    def test_checkmark_by_obj2(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
+            "Programming Languages Code"
+        ]
+
+        assert bp.checkmark(node)
+        assert bp.is_checkmarked(node)
+
+    def test_checkmark_by_hash2(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
+            "Programming Languages Code"
+        ]
+        node_hash = hash(node)
+
+        assert bp.checkmark(node_hash)
+
+        assert bp.is_checkmarked(node)
+
+    def test_checkmark_by_name2(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+
+        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
+            "Programming Languages Code"
+        ]
+        ipt = "Programming Languages Code"
+
+        assert bp.checkmark(ipt)
+
+        assert bp.is_checkmarked(node)
+
+    def test_checkmark_by_identifier2(_, dynamic_bp_testee1):
+        bp = copy.deepcopy(dynamic_bp_testee1)
+        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
+            "Programming Languages Code"
+        ]
+        ipt = "{Programming Languages Code}"
+
+        assert bp.checkmark(ipt)
+
+        assert bp.is_checkmarked(node)
+
+
 # test_prompt1  ################################################################
 class XTest11:  # ==============================================================
-
-    # err handling  ************************************************************
-    def test_bad_type(self, corpus_testee1):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
-        )
-
-        with pytest.raises(TypeError) as exec_info:
-            opt.checkmark(12.5)
-
-        opt = exec_info.value.args[0]
-        print(opt)
-
-        assert opt == "must be BasePromptNode or hash value: 12.5"
 
     # missing  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
