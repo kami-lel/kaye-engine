@@ -182,6 +182,7 @@ class PromptBlueprint(dict):
                 ``False`` if node is: not checkmarked or not contained
         :rtype: bool
         """
+        # Fixme allow name/identifier
         node_hash = _normalize_as_node_hash(node_hash)  # node as hash
         return node_hash in self and self[node_hash]
 
@@ -435,6 +436,7 @@ class PromptBlueprint(dict):
 
         :raises ValueError:
         """
+        # FIXME return bool
 
         # search by name/identifier  -------------------------------------------
         if isinstance(node, str):
@@ -447,7 +449,11 @@ class PromptBlueprint(dict):
                     break
 
             if node_obj is None:
-                raise ValueError()  # TODO
+                raise ValueError(
+                    "no node with name/identifier in corpus: {}".format(
+                        repr(node)
+                    )
+                )
 
             node_hash = hash(node_obj)
             is_ensured_in_corpus = True
@@ -465,7 +471,10 @@ class PromptBlueprint(dict):
             is_ensured_in_corpus = False
 
         else:
-            raise TypeError()  # TODO
+            raise TypeError(
+                "must be BasePromptNode/"
+                "int(hash value)/str(name/identifier): {}".format(node)
+            )
 
         if not is_ensured_in_corpus:
             pass  # TODO
