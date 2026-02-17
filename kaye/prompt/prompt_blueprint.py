@@ -436,7 +436,9 @@ class PromptBlueprint(dict):
 
         :raises ValueError:
         """
-        node_obj, node_hash = self._checkmark_uncheckmark_find_node(node)
+        node_obj, node_hash = (
+            self._checkmark_uncheckmark_is_checkmarked_find_node(node)
+        )
         # FIXME return bool
 
         # actual perform checking/unchecking
@@ -451,9 +453,9 @@ class PromptBlueprint(dict):
 
         return self
 
-    def _checkmark_uncheckmark_find_node(self, node):
+    def _checkmark_uncheckmark_is_checkmarked_find_node(self, node):
         """
-        TODO
+        TODO TODO
         """
         # search by name/identifier  -------------------------------------------
         if isinstance(node, str):
