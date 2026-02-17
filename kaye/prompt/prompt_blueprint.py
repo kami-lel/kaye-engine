@@ -455,7 +455,13 @@ class PromptBlueprint(dict):
 
     def _checkmark_uncheckmark_is_checkmarked_find_node(self, node_arg):
         """
-        TODO TODO
+        helper method used in:
+
+        - ``.checkmark()``
+        - ``.uncheckmark()``
+        - ``.is_checkmarked()``
+
+        to search a node in corpus providing node object/name/identifier/hash
         """
         # search by name/identifier  -------------------------------------------
         if isinstance(node_arg, str):
@@ -467,15 +473,7 @@ class PromptBlueprint(dict):
                     node_obj = n
                     break
 
-            if node_obj is None:
-                raise ValueError(
-                    "no node with name/identifier in corpus: {}".format(
-                        repr(node_arg)
-                    )
-                )
-
             node_hash = hash(node_obj)
-            is_ensured_in_corpus = True
 
         # search by node hash  -------------------------------------------------
         elif isinstance(node_arg, int):
@@ -487,19 +485,12 @@ class PromptBlueprint(dict):
                     node_obj = n
                     break
 
-            if node_obj is None:
-                raise ValueError(
-                    "no node with hash value in corpus: {}".format(node_arg)
-                )
-
             node_hash = node_arg
-            is_ensured_in_corpus = False
 
         # node is already object  ----------------------------------------------
         elif isinstance(node_arg, BasePromptNode):
             node_obj = node_arg
             node_hash = hash(node_arg)
-            is_ensured_in_corpus = False
 
         else:
             raise TypeError(
@@ -507,10 +498,14 @@ class PromptBlueprint(dict):
                 "int(hash value)/str(name/identifier): {}".format(node_arg)
             )
 
-        if not is_ensured_in_corpus:
-            pass  # TODO
+        if node_obj is None:
+            # HACK write unit tests
+            raise ValueError(
+                "no node with name/identifier/hash value in corpus: {}".format(
+                    repr(node_arg)
+                )
+            )
 
-        # HACK need to write unit test
         return node_obj, node_hash
 
     # magic methods  ===========================================================
