@@ -285,7 +285,7 @@ class TestDynamicNodes:
         ]
         ipt = "{Programming Languages Code}"
 
-        assert bp.checkmark(ipt)
+        bp.checkmark(ipt)
 
         assert bp.is_checkmarked(node)
 

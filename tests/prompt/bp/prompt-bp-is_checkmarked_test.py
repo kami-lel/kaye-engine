@@ -78,14 +78,15 @@ class Test1Full:  # ============================================================
 
     def test_miss_node(self, bp_testee1full):
         bp = bp_testee1full
-        ipt = PromptCorpusNode("AAAZZZ", None, [])
+        root = PromptCorpusNode("", None, [])
+        ipt = PromptCorpusNode("AAAZZZ", root, [])
 
         with pytest.raises(ValueError) as exec_info:
             bp.is_checkmarked(ipt)
         opt = exec_info.value.args[0]
 
         print(opt)
-        assert opt == "node not in corpus: PromptCorpusNode()"
+        assert opt == "node not in corpus: PromptCorpusNode(AAAZZZ)"
 
     # not in corpus  ***********************************************************
     def test_not_in_corpus1(_, corpus_testee3, bp_testee1full):
