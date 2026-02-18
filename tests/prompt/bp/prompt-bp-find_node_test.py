@@ -10,6 +10,9 @@ Unit Tests (using pytest) for:
 import pytest
 
 
+from kaye.prompt.prompt_corpus_node import PromptCorpusNode
+
+
 class Test1:  ##################################################################
 
     # Project Title  ===========================================================
@@ -121,7 +124,7 @@ class Test1:  ##################################################################
         ipt = 12.5
 
         with pytest.raises(TypeError) as exec_info:
-            bp.checkmark(ipt)
+            bp._find_node_in_corpus_and_blueprint(ipt)
         opt = exec_info.value.args[0]
 
         print(opt)
@@ -138,7 +141,7 @@ class Test1:  ##################################################################
         ipt = ["a", "b", "c"]
 
         with pytest.raises(TypeError) as exec_info:
-            bp.checkmark(ipt)
+            bp._find_node_in_corpus_and_blueprint(ipt)
         opt = exec_info.value.args[0]
 
         print(opt)
@@ -157,26 +160,32 @@ class Test1:  ##################################################################
         ipt = "AAAZZZ"
 
         with pytest.raises(ValueError) as exec_info:
-            bp.checkmark(ipt)
+            bp._find_node_in_corpus_and_blueprint(ipt)
         opt = exec_info.value.args[0]
 
         print(opt)
 
-        assert (
-            opt == "no node in corpus with name/identifier/hash value: 'AAAZZZ'"
-        )
+        assert opt == "no node in corpus with name/identifier: 'AAAZZZ'"
 
     def test_miss_node_by_hash1(_, bp_testee1pa1):
         bp = bp_testee1pa1
         ipt = hash(None)
 
         with pytest.raises(ValueError) as exec_info:
-            bp.checkmark(ipt)
+            bp._find_node_in_corpus_and_blueprint(ipt)
         opt = exec_info.value.args[0]
 
         print(opt)
 
-        assert (
-            opt
-            == "no node in corpus with name/identifier/hash value: 4238894112"
-        )
+        assert opt == "no node in corpus with hash value: 4238894112"
+
+    def test_miss_node_by_obj1(_, bp_testee1pa1):
+        bp = bp_testee1pa1
+        ipt = PromptCorpusNode("", None, [])
+
+        with pytest.raises(ValueError) as exec_info:
+            bp._find_node_in_corpus_and_blueprint(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert opt == "no node in corpus: PromptCorpusNode()"

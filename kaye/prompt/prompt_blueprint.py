@@ -478,6 +478,13 @@ class PromptBlueprint(dict):
                     node_obj = n
                     break
 
+            if node_obj is None:
+                raise ValueError(
+                    "no node in corpus with name/identifier: {}".format(
+                        repr(node_arg)
+                    )
+                )
+
             node_hash = hash(node_obj)
 
         # search by node hash  -------------------------------------------------
@@ -490,10 +497,20 @@ class PromptBlueprint(dict):
                     node_obj = n
                     break
 
+            if node_obj is None:
+                raise ValueError(
+                    "no node in corpus with hash value: {}".format(
+                        repr(node_arg)
+                    )
+                )
+
             node_hash = node_arg
 
         # node is already object  ----------------------------------------------
         elif isinstance(node_arg, BasePromptNode):
+            if node_arg not in self.corpus.descendants:
+                raise ValueError("no node in corpus: {}".format(node_arg))
+
             node_obj = node_arg
             node_hash = hash(node_arg)
 
@@ -501,13 +518,6 @@ class PromptBlueprint(dict):
             raise TypeError(
                 "must be BasePromptNode/"
                 "int(hash value)/str(name/identifier): {}".format(node_arg)
-            )
-
-        if node_obj is None:
-            raise ValueError(
-                "no node in corpus with name/identifier/hash value: {}".format(
-                    repr(node_arg)
-                )
             )
 
         is_contained = super().__contains__(node_hash)

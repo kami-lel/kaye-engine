@@ -188,11 +188,13 @@ class BasePromptNode(AnyTreeNode):
                 when given root nodes
         :rtype: bool
         """
-        if not (
-            self.is_root and isinstance(other, BasePromptNode) and other.is_root
-        ):
+        if not isinstance(other, BasePromptNode):
             return NotImplemented
 
+        return hash(self) == hash(other)
+
+        # HACK change
+        # test both are roots
         return all(
             hash(a) == hash(b)
             for a, b in zip(PreOrderIter(self), PreOrderIter(other))

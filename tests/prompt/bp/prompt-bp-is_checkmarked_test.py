@@ -7,6 +7,12 @@ Unit Tests (using pytest) for: PromptBlueprint.is_checkmarked()
 import copy
 
 
+import pytest
+
+
+from kaye.prompt.prompt_corpus_node import PromptCorpusNode
+
+
 # use corpus 1  ################################################################
 class Test1Full:  # ============================================================
 
@@ -57,6 +63,38 @@ class Test1Full:  # ============================================================
         # a node that is not contained in bp at all
         bp = bp_testee1full
         assert not bp.is_checkmarked(corpus_testee3.children[0])
+
+    # err handling  ************************************************************
+    def test_bad_type(_, bp_testee1full):
+        bp = bp_testee1full
+        ipt = 12.5
+
+        with pytest.raises(TypeError) as exec_info:
+            bp.is_checkmarked(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert (
+            opt
+            == "must be "
+            "BasePromptNode/int(hash value)/str(name/identifier): 12.5"
+        )
+
+    def test_miss_node(self, bp_testee1full):
+        # BUG BUG
+        bp = bp_testee1full
+        ipt = PromptCorpusNode("AAAZZZ", None, [])
+
+        with pytest.raises(ValueError) as exec_info:
+            bp.is_checkmarked(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert (
+            opt
+            == "must be "
+            "BasePromptNode/int(hash value)/str(name/identifier): 12.5"
+        )
 
 
 class Test1Pa1:  # =============================================================
