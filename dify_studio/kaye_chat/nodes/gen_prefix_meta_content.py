@@ -34,6 +34,4 @@ def main(
 
 """.format(selection)
 
-    # TODO in meta, use emoji for LLM
-
     return {OUTPUT_PREFIX_KEY: content}
