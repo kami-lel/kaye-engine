@@ -817,7 +817,7 @@ select the single most appropriate label to describe the nature of the user's qu
 ### leave empty
 
 `plcs` must be empty `""`
-`difficulty` must be valeu of `-1`
+`difficulty` must be value of `0`
 
 
 
