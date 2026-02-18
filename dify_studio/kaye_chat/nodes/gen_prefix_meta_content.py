@@ -1,3 +1,5 @@
+# HACK deprecation
+
 """
 create prefix meta content
 
