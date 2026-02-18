@@ -52,7 +52,7 @@ class Test1Full:  # ============================================================
         print(repr(opt) + "\t" + repr(node))
         assert opt
 
-    # special cases  -----------------------------------------------------------
+    # not contained  ***********************************************************
 
     def test_not_contained1(_, corpus_testee3, bp_testee1full):
         # a node that is not contained in bp at all
@@ -95,6 +95,29 @@ class Test1Full:  # ============================================================
             == "must be "
             "BasePromptNode/int(hash value)/str(name/identifier): 12.5"
         )
+
+    # not in corpus  ***********************************************************
+    def test_not_in_corpus1(_, corpus_testee3, bp_testee1full):
+        bp = bp_testee1full
+        ipt = corpus_testee3
+
+        with pytest.raises(ValueError) as exec_info:
+            bp.is_checkmarked(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert opt == ""
+
+    def test_not_in_corpus2(_, corpus_testee3, bp_testee1full):
+        bp = bp_testee1full
+        ipt = corpus_testee3.children[0]
+
+        with pytest.raises(ValueError) as exec_info:
+            bp.is_checkmarked(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert opt == ""
 
 
 class Test1Pa1:  # =============================================================

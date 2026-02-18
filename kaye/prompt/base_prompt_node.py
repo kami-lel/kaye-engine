@@ -191,14 +191,14 @@ class BasePromptNode(AnyTreeNode):
         if not isinstance(other, BasePromptNode):
             return NotImplemented
 
-        return hash(self) == hash(other)
+        if self.is_root and other.is_root:
+            return all(
+                hash(a) == hash(b)
+                for a, b in zip(PreOrderIter(self), PreOrderIter(other))
+            )
 
-        # HACK change
-        # test both are roots
-        return all(
-            hash(a) == hash(b)
-            for a, b in zip(PreOrderIter(self), PreOrderIter(other))
-        )
+        else:
+            return hash(self) == hash(other)
 
     def __deepcopy__(self, memo):
         """
