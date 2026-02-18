@@ -25,7 +25,7 @@ def corpus_testee1():
     return root
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def corpus_testee2():
     root = PromptCorpusNode("○", None, [])
     proj = PromptCorpusNode("Project Title", root, [])

@@ -20,7 +20,6 @@ from tests.prompt.bp import (
     BLUEPRINT_1_EMPTY,
     BLUEPRINT_2_FULL,
     BLUEPRINT_2_PREVIEW,
-    BLUEPRINT_2_PARTIAL_1,
     BLUEPRINT_2_PARTIAL_1_PREVIEW,
     BLUEPRINT_2_PARTIAL_1_PRUNED,
     BLUEPRINT_2_EMPTY,
@@ -201,10 +200,8 @@ class TestDft2:  # use PROMPT2  ================================================
             == bp_text
         )
 
-    def test_part1(_, corpus_testee2):
-        bp_text = BLUEPRINT_2_PARTIAL_1
-
-        opt = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee2)
+    def test_part1(_, corpus_testee2, bp_testee2pa1):
+        opt = bp_testee2pa1
 
         print(repr(opt))
         assert len(opt) == 3

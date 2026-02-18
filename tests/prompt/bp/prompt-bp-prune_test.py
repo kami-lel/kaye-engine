@@ -13,7 +13,6 @@ from tests.prompt.bp import (
     BLUEPRINT_1_PARTIAL_2_PRUNED,
     BLUEPRINT_1_EMPTY,
     BLUEPRINT_2_FULL,
-    BLUEPRINT_2_PARTIAL_1,
     BLUEPRINT_2_PARTIAL_1_PRUNED,
     BLUEPRINT_2_EMPTY,
     BLUEPRINT_3_FULL,
@@ -96,11 +95,8 @@ class Test1:  # use PROMPT1  ###################################################
 
 class Test2:  # use PROMPT2  ###################################################
 
-    def test1(_, corpus_testee2):
-        bp_text = BLUEPRINT_2_PARTIAL_1
-        old = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee2
-        )
+    def test1(_, bp_testee2pa1):
+        old = bp_testee2pa1
 
         pruned_bp = old.prune()
 
