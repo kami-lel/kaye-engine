@@ -9,6 +9,7 @@ from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_1_PARTIAL_2,
+    BLUEPRINT_1_PARTIAL_2_PRUNED,
     BLUEPRINT_1_EMPTY,
     BLUEPRINT_3_FULL,
     BLUEPRINT_3_PARTIAL_1,
@@ -105,6 +106,16 @@ def bp_testee1pa2(corpus_testee1):
     corpus = corpus_testee1
     return PromptBlueprint.parse(
         BLUEPRINT_1_PARTIAL_2, disable_prune=True, corpus_override=corpus
+    )
+
+
+@pytest.fixture(scope="class")
+def bp_testee1pa2pruned(corpus_testee1):
+    corpus = corpus_testee1
+    return PromptBlueprint.parse(
+        BLUEPRINT_1_PARTIAL_2_PRUNED,
+        disable_prune=False,
+        corpus_override=corpus,
     )
 
 
