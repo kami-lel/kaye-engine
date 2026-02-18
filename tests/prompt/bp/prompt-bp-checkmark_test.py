@@ -36,10 +36,8 @@ class Test11:  # ===============================================================
 
     # test .checkmark()  *******************************************************
 
-    def test_checkmark_by_obj1(
-        _, corpus_testee1, checkmark_bp_testee11, answer11
-    ):
-        bp = checkmark_bp_testee11
+    def test_checkmark_by_obj1(_, corpus_testee1, bp_testee1pa1, answer11):
+        bp = bp_testee1pa1
         answer = answer11
 
         print(repr(bp))
@@ -55,10 +53,8 @@ class Test11:  # ===============================================================
             == answer
         )
 
-    def test_checkmark_by_hash1(
-        _, corpus_testee1, checkmark_bp_testee11, answer11
-    ):
-        bp = checkmark_bp_testee11
+    def test_checkmark_by_hash1(_, corpus_testee1, bp_testee1pa1, answer11):
+        bp = bp_testee1pa1
         answer = answer11
 
         print(repr(bp))
@@ -75,10 +71,8 @@ class Test11:  # ===============================================================
             == answer
         )
 
-    def test_checkmark_by_name1(
-        _, corpus_testee1, checkmark_bp_testee11, answer11
-    ):
-        bp = checkmark_bp_testee11
+    def test_checkmark_by_name1(_, corpus_testee1, bp_testee1pa1, answer11):
+        bp = bp_testee1pa1
         answer = answer11
 
         print(repr(bp))
@@ -95,8 +89,8 @@ class Test11:  # ===============================================================
 
     # test +=  *****************************************************************
 
-    def test_iadd_by_obj1(_, corpus_testee1, checkmark_bp_testee11, answer11):
-        bp = checkmark_bp_testee11
+    def test_iadd_by_obj1(_, corpus_testee1, bp_testee1pa1, answer11):
+        bp = bp_testee1pa1
         answer = answer11
 
         print(repr(bp))
@@ -112,8 +106,8 @@ class Test11:  # ===============================================================
             == answer
         )
 
-    def test_iadd_by_hash1(_, corpus_testee1, checkmark_bp_testee11, answer11):
-        bp = checkmark_bp_testee11
+    def test_iadd_by_hash1(_, corpus_testee1, bp_testee1pa1, answer11):
+        bp = bp_testee1pa1
         answer = answer11
 
         print(repr(bp))
@@ -130,8 +124,8 @@ class Test11:  # ===============================================================
             == answer
         )
 
-    def test_iadd_by_name1(_, checkmark_bp_testee11, answer11):
-        bp = checkmark_bp_testee11
+    def test_iadd_by_name1(_, bp_testee1pa1, answer11):
+        bp = bp_testee1pa1
         answer = answer11
 
         print(repr(bp))
@@ -147,8 +141,8 @@ class Test11:  # ===============================================================
         )
 
     # err handling  ************************************************************
-    def test_bad_type1(_, checkmark_bp_testee11):
-        bp = checkmark_bp_testee11
+    def test_bad_type1(_, bp_testee1pa1):
+        bp = bp_testee1pa1
         ipt = 12.5
 
         with pytest.raises(TypeError) as exec_info:
@@ -163,8 +157,8 @@ class Test11:  # ===============================================================
             "int(hash value)/str(name/identifier): 12.5"
         )
 
-    def test_bad_type2(_, checkmark_bp_testee11):
-        bp = checkmark_bp_testee11
+    def test_bad_type2(_, bp_testee1pa1):
+        bp = bp_testee1pa1
         ipt = ["a", "b", "c"]
 
         with pytest.raises(TypeError) as exec_info:
@@ -180,8 +174,8 @@ class Test11:  # ===============================================================
         )
 
     # err unique to by str  ++++++++++++++++++++++++++++++++++++++++++++++++++++
-    def test_bad_str_no_found1(_, checkmark_bp_testee11):
-        bp = checkmark_bp_testee11
+    def test_bad_str_no_found1(_, bp_testee1pa1):
+        bp = bp_testee1pa1
         ipt = "AAAZZZ"
 
         with pytest.raises(ValueError) as exec_info:
