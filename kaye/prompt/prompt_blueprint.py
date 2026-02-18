@@ -268,7 +268,7 @@ class PromptBlueprint(dict):
             # line for tree structure
             checkmark_prefix = (
                 CHECKMARKED_PREFIX
-                if self.is_checkmarked(node)
+                if self.is_checkmarked(hash(node))
                 else UNCHECKMARKED_PREFIX
             )
             if node.is_root:
