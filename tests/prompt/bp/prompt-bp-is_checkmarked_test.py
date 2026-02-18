@@ -54,10 +54,9 @@ class Test1Full:  # ============================================================
 
     # not contained  ***********************************************************
 
-    def xtest_not_contained1(_, bp_testee1pa2pruned):
-        # BUG
+    def test_not_contained1(_, bp_testee1pa2pruned):
         bp = bp_testee1pa2pruned
-        ipt = None
+        ipt = "Description"
 
         assert not bp.is_checkmarked(ipt)
 
