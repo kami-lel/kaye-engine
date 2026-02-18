@@ -7,8 +7,6 @@ Unit Tests (using pytest) for: PromptBlueprint
 - __isub__()
 """
 
-# FIXME FIXME rewrite
-
 import copy
 
 import pytest
@@ -32,6 +30,11 @@ def local_testee11(bp_testee1full):
 @pytest.fixture
 def local_testee12(bp_testee1full):
     return copy.deepcopy(bp_testee1full), BLUEPRINT_1_PARTIAL_2
+
+
+@pytest.fixture
+def local_testee12pruned(bp_testee1pa2pruned):
+    return copy.deepcopy(bp_testee1pa2pruned)
 
 
 @pytest.fixture
@@ -262,6 +265,24 @@ class Test12:  # ===============================================================
         )
 
 
+class Test1pa2Pruned:  # =======================================================
+
+    def test1(_, local_testee12pruned):
+        bp = local_testee12pruned
+        ipt = "Description"
+
+        with pytest.raises(ValueError) as exec_info:
+            bp.uncheckmark(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert (
+            opt
+            == "node not contained in blueprint: "
+            "PromptCorpusNode(Project Title#Description)"
+        )
+
+
 class Test2:  # tests on prompt 2  ############################################
     def test1_checkmark_by_obj(_, corpus_testee2, local_testee2):
         bp, answer = local_testee2
@@ -485,6 +506,3 @@ class TestDynamicNodes:
         bp.uncheckmark(ipt)
 
         assert not bp.is_checkmarked(node)
-
-
-# TODO TODO test on non existed special case
