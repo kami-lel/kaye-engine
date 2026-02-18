@@ -92,15 +92,6 @@ def bp_testee1full(corpus_testee1):
     )
 
 
-@pytest.fixture
-def checkmark_bp_testee11(corpus_testee1):
-    return PromptBlueprint.parse(
-        BLUEPRINT_1_PARTIAL_1,
-        disable_prune=True,
-        corpus_override=corpus_testee1,
-    )
-
-
 @pytest.fixture(scope="class")
 def bp_testee1pa1(corpus_testee1):
     corpus = corpus_testee1
@@ -126,6 +117,8 @@ def bp_testee1empty(corpus_testee1):
 
 
 # prompt 3 blueprints  ---------------------------------------------------------
+
+
 @pytest.fixture(scope="class")
 def bp_testee3full(corpus_testee3):
     corpus = corpus_testee3
