@@ -55,9 +55,14 @@ def kaye_chat_pre_sense():
     pre_sense_node = blueprint.corpus["Kaye Chat"]["pre-sense"]
 
     # on role  -----------------------------------------------------------------
-    if role == "coder":
-        blueprint.checkmark(pre_sense_node["for coder"], recursively=True)
+    if role:
+        if role == "coder":
+            blueprint.checkmark(pre_sense_node["for coder"], recursively=True)
+        else:
+            # other role
+            blueprint.checkmark(pre_sense_node["llm"])
     else:
+        blueprint.checkmark(pre_sense_node["llm"])
         blueprint.checkmark(pre_sense_node["role"])
 
     # create concrete prompt  --------------------------------------------------
