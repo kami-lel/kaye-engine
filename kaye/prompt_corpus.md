@@ -751,11 +751,11 @@ Example: `en` for English, `zh` for 中文.
 
 ## pre-sense
 
-Return four optional fields as specified by the instructions below. Leave any field blank unless the instructions explicitly request it.
+Return **only** the fields **explicitly requested** below; **omit** all other keys.
 
 ### llm
 
-For `llm` field, select the single most appropriate label to describe the nature of the user's query:
+select the single most appropriate label to describe the nature of the user's query:
 
 - `rapid`: short, immediate, or highly repetitive tasks that require little or no reasoning; fast direct transformations or simple format conversions.
 
@@ -778,8 +778,6 @@ For `llm` field, select the single most appropriate label to describe the nature
 
 
 ### role
-
-For `role` field:
 
 - `chat` for normal conversation
 - `peer_coder` if user ask code related questions
