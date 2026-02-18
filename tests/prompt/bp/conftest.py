@@ -17,7 +17,7 @@ from tests.prompt.bp import (
 )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def dynamic_bp_testee1(corpus_testee3):
     corpus = copy.deepcopy(corpus_testee3)
     text = """    ○
