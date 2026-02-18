@@ -2,8 +2,6 @@
 
 ## `prompt` module
 
-<!-- Fixme rewrite python api doc -->
-
 The **core** module of *Kaye Python API*, implement a systematic, dynamic, and structured framework for **prompt management and manipulation**.
 
 ----
@@ -46,6 +44,83 @@ A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, whi
 
 
 
+### Prompt Tree Nodes `BasePromptNode`
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Prompt Corpus Node `PromptCorpusNode`
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Dynamic Nodes `DynamicNode`
+
+#### Today Node `TodayNode`
+
+
+
+
+
+#### Abbreviations Node `AbbrNode`
+
+
+
+
+
+#### Programming Languages Code Node `PLCNode`
+
+
+
+
+
+#### Usable Abbreviations Node `UsableAbbrNode`
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Prompt Blueprint `PromptBlueprint`
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Fixme rewrite python api doc -->
 
 ### Prompt Corpus Node `PromptCorpusNode`
 
