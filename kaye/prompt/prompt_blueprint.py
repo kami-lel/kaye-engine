@@ -175,10 +175,10 @@ class PromptBlueprint(dict):
     # node operations  *********************************************************
     def is_checkmarked(self, node):
         """
-        FIXME rewrite is_checkmarked docstring
-        :param node: node object; or hash value of node
-        :type node: BasePromptNode or int
+        :param key: node object; hash value; name or identifier
+        :type node: BasePromptNode or int or str
         :raises TypeError:
+        :raise ValueError:
         :return: whether a node is **checkmarked** in the blueprint;
                 ``False`` if node is: not checkmarked or not contained
         :rtype: bool
@@ -188,13 +188,15 @@ class PromptBlueprint(dict):
 
     def checkmark(self, node, *, recursively=False):
         """
-        FIXME rewrite checkmark docstring
-
         checkmark a ``node`` in this blueprint
+        (will add node into this blueprint if not, then checkmarked it)
 
 
-        :param node: node object; or hash value of node
-        :type node: BasePromptNode or int
+        :param key: node object; hash value; name or identifier
+        :type node: BasePromptNode or int or str
+        :param recursively: allow checkmarks on node's descendants,
+                defaults to False
+        :type recursively: bool, optional
         :raise TypeError:
         :raise ValueError:
         :return: self
@@ -204,15 +206,18 @@ class PromptBlueprint(dict):
 
     def uncheckmark(self, node, *, recursively=False):
         """
-        FIXME rewrite uncheckmark docstring
-
         uncheckmark a ``node`` in this blueprint
+        (node must be contained in this blueprint)
 
 
-        :param node: node object; or hash value of node
-        :type node: BasePromptNode or int
+        :param key: node object; hash value; name or identifier
+        :type node: BasePromptNode or int or str
+        :param recursively: allow checkmarks on node's descendants,
+                defaults to False
+        :type recursively: bool, optional
         :raise TypeError:
-        :raise KeyError:
+        :raise ValueError:
+        :raise KeyError: given ``node`` is not contained in this blueprint
         :return: self
         :rtype: PromptBlueprint
         """
@@ -533,13 +538,11 @@ class PromptBlueprint(dict):
 
     def __contains__(self, key):
         """
-        FIXME rewrite contains docstring
-        allow ``PromptBlueprint`` to perform membership tests with key being
+        allow ``PromptBlueprint`` to perform membership tests
 
 
-        :param key: node object; or hash value of node
-        :type key: PromptCorpusNode or int
-        :raises TypeError:
+        :param key: node object; hash value; name or identifier
+        :type key: PromptCorpusNode or int or str
         :raises ValueError:
         :return: if blueprint contains the node
         :rtype: bool
