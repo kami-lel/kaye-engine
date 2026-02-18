@@ -46,6 +46,11 @@ def local_testee32(bp_testee3pa2):
 
 
 @pytest.fixture
+def local_testee3recursive(bp_testee3empty):
+    return copy.deepcopy(bp_testee3empty)
+
+
+@pytest.fixture
 def local_dynamic_testee1(dynamic_bp_testee1):
     return copy.deepcopy(dynamic_bp_testee1)
 
@@ -394,6 +399,55 @@ class Test32:  # ===============================================================
         )
 
 
+class Test3Recursive:  # ======================================================
+
+    def test1(_, local_testee3recursive):
+        bp = local_testee3recursive
+        answer = """    ○
+[ ] └── Main Title
+[ ]     ├── Introduction
+[x]     │   └── Background
+[x]     │       └── Importance
+[x]     │           └── Objective
+[ ]     ├── Methods
+[ ]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[ ]     │           └── Future Work
+[ ]     └── Conclusion"""
+
+        print(bp)
+
+        bp.checkmark("Background", recursively=True)
+
+        assert (
+            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+    def test2(_, local_testee3recursive):
+        bp = local_testee3recursive
+        answer = """    ○
+[ ] └── Main Title
+[ ]     ├── Introduction
+[ ]     │   └── Background
+[ ]     │       └── Importance
+[ ]     │           └── Objective
+[x]     ├── Methods
+[x]     │   └── Data Collection
+[x]     │       └── Tools Used
+[x]     │           └── Future Work
+[ ]     └── Conclusion"""
+
+        print(bp)
+
+        bp.checkmark("Methods", recursively=True)
+
+        assert (
+            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+
 # corpus w/ dynamic nodes  #####################################################
 class TestDynamicNodes:
 
@@ -481,6 +535,3 @@ class TestDynamicNodes:
         bp.checkmark(ipt)
 
         assert bp.is_checkmarked(node)
-
-
-# TODO TODO test for recursively
