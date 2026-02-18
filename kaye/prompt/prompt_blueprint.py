@@ -175,7 +175,7 @@ class PromptBlueprint(dict):
     # node operations  *********************************************************
     def is_checkmarked(self, node):
         """
-        FIXME
+        FIXME rewrite is_checkmarked docstring
         :param node: node object; or hash value of node
         :type node: BasePromptNode or int
         :raises TypeError:
@@ -190,7 +190,7 @@ class PromptBlueprint(dict):
 
     def checkmark(self, node, *, recursively=False):
         """
-        FIXME update
+        FIXME rewrite checkmark docstring
 
         checkmark a ``node`` in this blueprint
 
@@ -206,7 +206,7 @@ class PromptBlueprint(dict):
 
     def uncheckmark(self, node, *, recursively=False):
         """
-        FIXME update
+        FIXME rewrite uncheckmark docstring
 
         uncheckmark a ``node`` in this blueprint
 
@@ -455,7 +455,7 @@ class PromptBlueprint(dict):
         self[node_hash] = is_checkmark
 
         if recursively:
-            pass  # TODO add recursively
+            pass  # TODO TODO add recursively
 
         return self
 
@@ -536,7 +536,7 @@ class PromptBlueprint(dict):
 
     def __contains__(self, key):
         """
-        FIXME
+        FIXME rewrite contains docstring
         allow ``PromptBlueprint`` to perform membership tests with key being
 
 
@@ -641,27 +641,6 @@ class PromptBlueprint(dict):
 
 
 # helpers  #####################################################################
-
-
-# HACK rm
-def _normalize_as_node_hash(node):
-    """
-    :param node: node object; or hash value of node
-    :type node: BasePromptNode or int
-    :raises TypeError:
-    :return: node hash value, regardless when provided node object or node hash
-    :rtype: int
-    """
-    if isinstance(node, BasePromptNode):
-        return hash(node)
-
-    elif isinstance(node, int):  # already hash
-        return node
-
-    else:
-        raise TypeError(
-            "must be BasePromptNode or hash value: {}".format(repr(node))
-        )
 
 
 def _create_pruned_tree_for_preview_recursively(blueprint, node):
