@@ -114,7 +114,7 @@ def bp_testee1pa2pruned(corpus_testee1):
     corpus = corpus_testee1
     return PromptBlueprint.parse(
         BLUEPRINT_1_PARTIAL_2_PRUNED,
-        disable_prune=False,
+        disable_prune=True,
         corpus_override=corpus,
     )
 
