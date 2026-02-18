@@ -457,6 +457,8 @@ class PromptBlueprint(dict):
         if recursively:
             pass  # TODO add recursively
 
+        return self
+
     def _find_node_in_corpus_and_blueprint(self, node_arg):
         """
         helper method used in:
