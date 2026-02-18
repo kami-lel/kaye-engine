@@ -120,7 +120,7 @@ A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, whi
 
 
 
-<!-- FIXME rewrite python api doc -->
+<!-- Fixme rewrite python api doc -->
 
 ### Prompt Corpus Node `PromptCorpusNode`
 
