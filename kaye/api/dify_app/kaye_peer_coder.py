@@ -108,7 +108,6 @@ def _generate_task_prompt_based_on_flags(flags):
     )
 
     # add language prompt fragments  -------------------------------------------
-    # BUG use DynamicAbbrBlueprint for PL abbr
 
     # pylint: disable-next=unsubscriptable-object
     kyc_node = corpus["Role"]["Kaye Peer Coder"]

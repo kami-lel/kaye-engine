@@ -18,7 +18,9 @@ def main(
         return {OUTPUT_META_KEY: ""}  # skip
 
     lines = []
-    # TODO
+    # TODO write meta content generation
+
+    # TODO in meta, use emoji for LLM
 
     # meta content form  -------------------------------------------------------
     meta_content = """

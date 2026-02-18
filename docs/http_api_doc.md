@@ -20,7 +20,7 @@ pip install .
 Copy the `.service` file:
 
 ```bash
-cp /opt/kaye/api/kaye_http_api.service /etc/systemd/system
+cp /opt/kaye/scripts/kaye_http_api.service /etc/systemd/system
 ```
 
 ----
@@ -150,7 +150,7 @@ All endpoints below `/kaye/dify-app/ky`
 
 ##### task
 
-<!-- TODO finish writing this -->
+<!-- TODO TODO finish writing this -->
 
 `/task`
 
