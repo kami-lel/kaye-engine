@@ -751,8 +751,6 @@ Example: `en` for English, `zh` for 中文.
 
 ## pre-sense
 
-Return **only** the fields **explicitly requested** below; **omit** all other keys.
-
 ### llm
 
 select the single most appropriate label to describe the nature of the user's query:
@@ -816,7 +814,50 @@ select the single most appropriate label to describe the nature of the user's qu
 
 
 
+### leave empty
+
+`plcs` must be empty `""`
+`difficulty` must be valeu of `-1`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### for coder
+
+`role` and `llm` must be empty `""`
 
 #### plcs
 

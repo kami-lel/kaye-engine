@@ -16,6 +16,7 @@ PRE_SENSE_PROMPT_BLUEPRINT = """ ○
 [x]     └── pre-sense
 [ ]         ├── llm
 [ ]         ├── role
+[ ]         ├── leave empty
 [ ]         └── for coder
 [ ]             ├── plcs
 [ ]             │   └── {Programming Languages Code}
@@ -68,7 +69,10 @@ def kaye_chat_pre_sense():
         else:
             # other role
             blueprint.checkmark(pre_sense_node["llm"])
+            blueprint.checkmark(pre_sense_node["leave empty"])
+
     else:
+        blueprint.checkmark(pre_sense_node["leave empty"])
         blueprint.checkmark(pre_sense_node["llm"])
         blueprint.checkmark(pre_sense_node["role"])
 
