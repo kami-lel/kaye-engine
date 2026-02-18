@@ -14,6 +14,7 @@ from kaye.prompt import PromptBlueprint
 PRE_SENSE_PROMPT_BLUEPRINT = """ ○
 [x] └── Kaye Chat
 [x]     └── pre-sense
+[ ]         ├── llm
 [ ]         ├── role
 [ ]         └── for coder
 [ ]             └── {Programming Languages Code}

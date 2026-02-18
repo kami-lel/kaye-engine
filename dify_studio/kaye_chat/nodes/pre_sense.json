@@ -1,13 +1,10 @@
 {
   "additionalProperties": false,
   "properties": {
-    "answer": {
-      "type": "string"
-    },
     "difficulty": {
       "type": "number"
     },
-    "languages": {
+    "plcs": {
       "type": "string"
     },
     "llm": {
@@ -24,9 +21,6 @@
       "type": "string"
     }
   },
-  "required": [
-    "llm",
-    "role"
-  ],
+  "required": [],
   "type": "object"
 }

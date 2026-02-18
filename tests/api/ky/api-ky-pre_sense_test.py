@@ -6,6 +6,8 @@ Unit Tests (using pytest) for:
 /kaye/dify-app/ky/pre-sense
 """
 
+# BUG
+
 import pytest
 
 
@@ -18,8 +20,6 @@ def local_endpoint(app_endpoint):
 class TestNoRole:
 
     def test1(_, flask_test_client, local_endpoint):
-        # BUG
-
         response = flask_test_client.get(local_endpoint)
         opt = response.data.decode("utf-8")
 
@@ -27,14 +27,34 @@ class TestNoRole:
         assert opt.startswith("AAA")
         assert opt.endswith("ZZZ")
 
-
-class TestCoder:  ##############################################################
-
-    def test1(_, flask_test_client, local_endpoint):
-        # BUG
+    def test2(_, flask_test_client, local_endpoint):
 
         response = flask_test_client.get(
+            local_endpoint, query_string={"role": ""}
+        )
+        opt = response.data.decode("utf-8")
+
+        print(opt)
+        assert opt.startswith("AAA")
+        assert opt.endswith("ZZZ")
+
+
+class TestRoleCoder:
+    def test1(_, flask_test_client, local_endpoint):
+        response = flask_test_client.get(
             local_endpoint, query_string={"role": "peer_coder"}
+        )
+        opt = response.data.decode("utf-8")
+
+        print(opt)
+        assert opt.startswith("AAA")
+        assert opt.endswith("ZZZ")
+
+
+class TestOtherRole:
+    def test_other_role(_, flask_test_client, local_endpoint):
+        response = flask_test_client.get(
+            local_endpoint, query_string={"role": "aaa"}
         )
         opt = response.data.decode("utf-8")
 
