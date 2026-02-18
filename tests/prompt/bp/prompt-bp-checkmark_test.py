@@ -535,3 +535,57 @@ class TestDynamicNodes:
         bp.checkmark(ipt)
 
         assert bp.is_checkmarked(node)
+
+    # recursively  =============================================================
+
+    def test_recursive1(_, dynamic_bp_testee_empty):
+        bp = dynamic_bp_testee_empty
+        answer = """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │   ├── Background
+[x]     │   │   └── Importance
+[x]     │   │       ├── Objective
+[x]     │   │       └── {Abbreviations}
+[x]     │   └── {Usable Abbreviations}
+[x]     ├── Methods
+[x]     │   ├── Data Collection
+[x]     │   │   └── Tools Used
+[x]     │   │       └── Future Work
+[x]     │   │           └── {Today}
+[x]     │   └── {Programming Languages Code}
+[x]     └── Conclusion"""
+
+        bp.checkmark("Main Title", recursively=True)
+
+        print(repr(bp))
+        assert (
+            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+    def test_recursive2(_, dynamic_bp_testee_empty):
+        bp = dynamic_bp_testee_empty
+        answer = """    ○
+[ ] └── Main Title
+[x]     ├── Introduction
+[x]     │   ├── Background
+[x]     │   │   └── Importance
+[x]     │   │       ├── Objective
+[x]     │   │       └── {Abbreviations}
+[x]     │   └── {Usable Abbreviations}
+[ ]     ├── Methods
+[ ]     │   ├── Data Collection
+[ ]     │   │   └── Tools Used
+[ ]     │   │       └── Future Work
+[ ]     │   │           └── {Today}
+[ ]     │   └── {Programming Languages Code}
+[ ]     └── Conclusion"""
+
+        bp.checkmark("Introduction", recursively=True)
+
+        print(repr(bp))
+        assert (
+            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
