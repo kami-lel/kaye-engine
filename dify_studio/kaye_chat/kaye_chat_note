@@ -1,11 +1,11 @@
-Todo dynamic chat prompt allows dynamic roles
+TODO dynamic chat prompt allows dynamic roles
 bug fail to follow language of user
-Todo use dynamic abbr for ky
+TODO use dynamic abbr for ky
 
 todo smart pre-sense, take only part of the user's input as pre-sense message
 eg by taking first n lines + last n lines
 eg by removing all codes block out
 
-Todo meta better formatting, add empty lines
+TODO meta better formatting, add empty lines
 
 todo utilize models from multiple provider, merge, when extremely difficult task

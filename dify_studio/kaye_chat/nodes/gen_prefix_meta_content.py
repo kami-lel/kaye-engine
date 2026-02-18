@@ -32,6 +32,6 @@ def main(
 
 """.format(selection)
 
-    # Todo in meta, use emoji for LLM
+    # TODO in meta, use emoji for LLM
 
     return {OUTPUT_PREFIX_KEY: content}
