@@ -7,56 +7,7 @@ Unit Tests (using pytest) for: PromptBlueprint.is_checkmarked()
 import copy
 
 
-import pytest
-
-
-from kaye.prompt import PromptBlueprint
-from tests.prompt.bp import (
-    BLUEPRINT_1_FULL,
-    BLUEPRINT_1_PARTIAL_1,
-    BLUEPRINT_1_PARTIAL_2,
-    BLUEPRINT_1_EMPTY,
-    BLUEPRINT_3_FULL,
-    BLUEPRINT_3_PARTIAL_1,
-    BLUEPRINT_3_PARTIAL_2,
-    BLUEPRINT_3_EMPTY,
-)
-
-
 # use corpus 1  ################################################################
-# pytest fixtures  =============================================================
-@pytest.fixture(scope="class")
-def bp_testee1full(corpus_testee1):
-    corpus = corpus_testee1
-    return PromptBlueprint.parse(
-        BLUEPRINT_1_FULL, disable_prune=True, corpus_override=corpus
-    )
-
-
-@pytest.fixture(scope="class")
-def bp_testee1pa1(corpus_testee1):
-    corpus = corpus_testee1
-    return PromptBlueprint.parse(
-        BLUEPRINT_1_PARTIAL_1, disable_prune=True, corpus_override=corpus
-    )
-
-
-@pytest.fixture(scope="class")
-def bp_testee1pa2(corpus_testee1):
-    corpus = corpus_testee1
-    return PromptBlueprint.parse(
-        BLUEPRINT_1_PARTIAL_2, disable_prune=True, corpus_override=corpus
-    )
-
-
-@pytest.fixture(scope="class")
-def bp_testee1empty(corpus_testee1):
-    corpus = corpus_testee1
-    return PromptBlueprint.parse(
-        BLUEPRINT_1_EMPTY, disable_prune=True, corpus_override=corpus
-    )
-
-
 class Test1Full:  # ============================================================
 
     def test_proj(_, corpus_testee1, bp_testee1full):
@@ -226,37 +177,6 @@ class Test1Empty:  # ===========================================================
 
 
 # use corpus 3  ################################################################
-# pytest fixtures  =============================================================
-@pytest.fixture(scope="class")
-def bp_testee3full(corpus_testee3):
-    corpus = corpus_testee3
-    return PromptBlueprint.parse(
-        BLUEPRINT_3_FULL, disable_prune=True, corpus_override=corpus
-    )
-
-
-@pytest.fixture(scope="class")
-def bp_testee3pa1(corpus_testee3):
-    corpus = corpus_testee3
-    return PromptBlueprint.parse(
-        BLUEPRINT_3_PARTIAL_1, disable_prune=True, corpus_override=corpus
-    )
-
-
-@pytest.fixture(scope="class")
-def bp_testee3pa2(corpus_testee3):
-    corpus = corpus_testee3
-    return PromptBlueprint.parse(
-        BLUEPRINT_3_PARTIAL_2, disable_prune=True, corpus_override=corpus
-    )
-
-
-@pytest.fixture(scope="class")
-def bp_testee3empty(corpus_testee3):
-    corpus = corpus_testee3
-    return PromptBlueprint.parse(
-        BLUEPRINT_3_EMPTY, disable_prune=True, corpus_override=corpus
-    )
 
 
 class Test3Full:  # ============================================================
