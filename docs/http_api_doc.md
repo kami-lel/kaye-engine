@@ -140,8 +140,11 @@ All endpoints below `/kaye/dify-app/ky`
 
 - by `GET`
 - response type `text/plain`
-- param `role`, v.i.
-  if provided, skip role-guessing instruction of the given prompt
+- param `role`, v.i.:
+
+  - if provided, skip role-guessing instruction of the given prompt
+  - `peer_coder` will provide its related pre-sense prompts
+
 
 
 
