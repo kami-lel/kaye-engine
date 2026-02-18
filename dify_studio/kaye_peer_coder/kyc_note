@@ -2,7 +2,6 @@ Hack deprecation of this app
 
 
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
-TODO utilize dynamic abbr
 bug kyc didn't include AMs definition currently, need to rewrite b/c commit sense also used it
 
 todo kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags

@@ -4,7 +4,7 @@ define API to specific work with Dify App: Kaye Chat
 
 # pylint: disable=missing-function-docstring
 
-from flask import Blueprint, request
+from flask import Blueprint, request, abort, Response
 
 
 from kaye import PROGRAM_NAME
@@ -27,6 +27,18 @@ PRE_SENSE_PROMPT_BLUEPRINT = """ ○
 RAPID_PROMPT_BLUEPRINT = ""
 
 CHAT_PROMPT_BLUEPRINT = ""
+
+CODER_PROMPT_BLUEPRINT = """ ○
+[x] ├── Introduction
+[x] ├── Style
+[x] │   ├── Capitalization Style
+[x] │   │   └── Commentary Case
+[x] │   └── Briefness Style
+[x] ├── Format
+[x] └── Role
+[x]     └── Kaye Peer Coder
+[x]         └── chat
+"""
 
 
 TASK_PROMPT_BLUEPRINT = """    ○
@@ -83,6 +95,32 @@ def kaye_chat_pre_sense():
 # /kaye/dify-app/ky/task  ======================================================
 @ky_bp.route("/task", methods=["GET"])
 def kaye_chat_task():
-    blueprint = PromptBlueprint.parse(TASK_PROMPT_BLUEPRINT)
+    role = request.args.get("role")
 
-    return blueprint.generate_prompt()
+    # create blueprint based on role
+    if role == "rapid":
+        bp = _create_rapid_bp()
+
+    if role == "chat":
+        bp = _create_chat_bp()
+
+    if role == "peer_coder":
+        bp = PromptBlueprint.parse(CODER_PROMPT_BLUEPRINT, disable_prune=True)
+
+    else:
+        return abort(Response("bad param: ?role={}".format(role), 422))
+
+    # TODO use dynamic abbr for ky
+
+    return bp.generate_prompt()
+
+
+# helpers  #####################################################################
+
+
+def _create_rapid_bp():
+    return PromptBlueprint.parse(RAPID_PROMPT_BLUEPRINT, disable_prune=True)
+
+
+def _create_chat_bp():
+    return PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT, disable_prune=True)

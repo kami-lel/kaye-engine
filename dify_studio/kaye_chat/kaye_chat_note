@@ -1,6 +1,4 @@
-TODO dynamic chat prompt allows dynamic roles
 bug fail to follow language of user
-TODO use dynamic abbr for ky
 
 todo smart pre-sense, take only part of the user's input as pre-sense message
 eg by taking first n lines + last n lines

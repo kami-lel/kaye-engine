@@ -147,17 +147,6 @@ def _generate_task_prompt_based_on_flags(flags):
 kyc_bp = Blueprint("kaye-peer-coder", PROGRAM_NAME, url_prefix="/kyc")
 
 
-# /kaye/dify-app/kyc/pre-sense
-@kyc_bp.route("/pre-sense", methods=["GET"])
-def kaye_peer_coder_pre_sense():
-    # TODO utilize dynamic abbr
-    blueprint = PromptBlueprint.parse(
-        load_embedded_prompt_corpus(),
-        PRE_SENSE_PROMPT_BLUEPRINT,
-    )
-    return blueprint.generate_prompt()
-
-
 # /kaye/dify-app/kyc/chat
 @kyc_bp.route("/chat", methods=["GET"])
 def kaye_peer_coder_task():
