@@ -19,7 +19,6 @@ from tests.prompt.bp import (
     BLUEPRINT_1_PARTIAL_1_PREVIEW,
     BLUEPRINT_1_PARTIAL_2,
     BLUEPRINT_1_PARTIAL_2_PREVIEW,
-    BLUEPRINT_1_PARTIAL_2_PRUNED,
     BLUEPRINT_2_FULL,
     BLUEPRINT_2_PREVIEW,
     BLUEPRINT_2_PARTIAL_1,
@@ -576,9 +575,8 @@ class TestNoComment:  # =======================================================
 # full tree (nor content)  #####################################################
 class TestFullTree:
 
-    def test1(_, corpus_testee1):
-        bp_text = BLUEPRINT_1_PARTIAL_2_PRUNED
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
+    def test1(_, bp_testee1pa2pruned):
+        bp = bp_testee1pa2pruned
 
         opt = bp.generate_blueprint(
             content_preview_lines=0,

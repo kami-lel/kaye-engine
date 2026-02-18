@@ -15,7 +15,6 @@ from tests.prompt.bp import (
     BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_1_PARTIAL_2,
     BLUEPRINT_2_FULL,
-    BLUEPRINT_2_PARTIAL_1,
     BLUEPRINT_2_EMPTY,
     BLUEPRINT_3_FULL,
     BLUEPRINT_3_PARTIAL_1,
@@ -118,9 +117,8 @@ Provide instructions on how to use the application.
 ## License
 This project is licensed under the MIT License."""
 
-    def test_part1(_, corpus_testee2):
-        bp_text = BLUEPRINT_2_PARTIAL_1
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee2)
+    def test_part1(_, bp_testee2pa1):
+        bp = bp_testee2pa1
 
         opt = bp.generate_prompt(show_comment=False)
 

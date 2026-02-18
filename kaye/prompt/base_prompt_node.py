@@ -164,7 +164,7 @@ class BasePromptNode(AnyTreeNode):
                 if key in (child.name, child.identifier):
                     return child
             raise KeyError(
-                "{} contains no child with name/id of {}".format(
+                "{} contains no child with name/identifier of {}".format(
                     self, repr(key)
                 )
             )
@@ -183,20 +183,24 @@ class BasePromptNode(AnyTreeNode):
         """
         :param other:
         :type other: BasePromptNode
-        :return: whether 2 trees are identical in node name structure
+        :return: whether 2 nodes has the same lineage;
+                if both compared noes are root,
+                test whether 2 trees are identical in node name structure
                 (node content is irrelevant)
                 when given root nodes
         :rtype: bool
         """
-        if not (
-            self.is_root and isinstance(other, BasePromptNode) and other.is_root
-        ):
+        if not isinstance(other, BasePromptNode):
             return NotImplemented
 
-        return all(
-            hash(a) == hash(b)
-            for a, b in zip(PreOrderIter(self), PreOrderIter(other))
-        )
+        if self.is_root and other.is_root:
+            return all(
+                hash(a) == hash(b)
+                for a, b in zip(PreOrderIter(self), PreOrderIter(other))
+            )
+
+        else:
+            return hash(self) == hash(other)
 
     def __deepcopy__(self, memo):
         """

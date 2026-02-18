@@ -7,459 +7,656 @@ Unit Tests (using pytest) for: PromptBlueprint.is_checkmarked()
 import copy
 
 
-from kaye.prompt import PromptBlueprint
-from tests.prompt.bp import (
-    BLUEPRINT_1_FULL,
-    BLUEPRINT_1_PARTIAL_1,
-    BLUEPRINT_1_PARTIAL_2,
-    BLUEPRINT_1_EMPTY,
-    BLUEPRINT_3_FULL,
-    BLUEPRINT_3_PARTIAL_1,
-    BLUEPRINT_3_PARTIAL_2,
-    BLUEPRINT_3_EMPTY,
-)
+import pytest
 
 
-class Test1:  # use corpus1  ###################################################
+from kaye.prompt.prompt_corpus_node import PromptCorpusNode
 
-    def test_full(_, corpus_testee1):
+
+# use corpus 1  ################################################################
+class Test1Full:  # ============================================================
+
+    def test_proj(_, corpus_testee1, bp_testee1full):
+        bp = bp_testee1full
         corpus = corpus_testee1
-        bp_text = BLUEPRINT_1_FULL
-
-        bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus
-        )
-
-        # test entries  --------------------------------------------------------
-        # test Project Title
         proj_node = corpus.children[0]
 
         opt = bp.is_checkmarked(proj_node)
         print(repr(opt) + "\t" + repr(proj_node))
         assert opt
 
-        # test Description
-        _node = proj_node.children[0]
-        print(repr(opt) + "\t" + repr(proj_node))
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
-        assert opt
-
-        # test Installation
-        _node = proj_node.children[1]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
-        assert opt
-
-        # test License
-        _node = proj_node.children[2]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
-        assert opt
-
-    def test_no_project(_, corpus_testee1):
+    def test_description(_, corpus_testee1, bp_testee1full):
+        bp = bp_testee1full
         corpus = corpus_testee1
-        bp_text = BLUEPRINT_1_PARTIAL_1
+        node = corpus.children[0].children[0]
 
-        bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_installation(_, corpus_testee1, bp_testee1full):
+        bp = bp_testee1full
+        corpus = corpus_testee1
+        node = corpus.children[0].children[1]
+
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_license(_, corpus_testee1, bp_testee1full):
+        bp = bp_testee1full
+        corpus = corpus_testee1
+        node = corpus.children[0].children[2]
+
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    # not contained  ***********************************************************
+
+    def test_not_contained1(_, bp_testee1pa2pruned):
+        bp = bp_testee1pa2pruned
+        ipt = "Description"
+
+        assert not bp.is_checkmarked(ipt)
+
+    # err handling  ************************************************************
+    def test_bad_type(_, bp_testee1full):
+        bp = bp_testee1full
+        ipt = 12.5
+
+        with pytest.raises(TypeError) as exec_info:
+            bp.is_checkmarked(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert (
+            opt
+            == "must be "
+            "BasePromptNode/int(hash value)/str(name/identifier): 12.5"
         )
 
-        # test entries  --------------------------------------------------------
-        # test Project Title
+    def test_miss_node(self, bp_testee1full):
+        bp = bp_testee1full
+        root = PromptCorpusNode("", None, [])
+        ipt = PromptCorpusNode("AAAZZZ", root, [])
+
+        with pytest.raises(ValueError) as exec_info:
+            bp.is_checkmarked(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert opt == "node not in corpus: PromptCorpusNode(AAAZZZ)"
+
+    # not in corpus  ***********************************************************
+    def test_not_in_corpus1(_, corpus_testee3, bp_testee1full):
+        bp = bp_testee1full
+        ipt = corpus_testee3
+
+        with pytest.raises(ValueError) as exec_info:
+            bp.is_checkmarked(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert opt == "node not in corpus: PromptCorpusNode()"
+
+    def test_not_in_corpus2(_, corpus_testee3, bp_testee1full):
+        bp = bp_testee1full
+        ipt = corpus_testee3.children[0]
+
+        with pytest.raises(ValueError) as exec_info:
+            bp.is_checkmarked(ipt)
+        opt = exec_info.value.args[0]
+
+        print(opt)
+        assert opt == "node not in corpus: PromptCorpusNode(Main Title)"
+
+
+class Test1Pa1:  # =============================================================
+
+    def test_proj(_, corpus_testee1, bp_testee1pa1):
+        bp = bp_testee1pa1
+        corpus = corpus_testee1
         proj_node = corpus.children[0]
+
         opt = bp.is_checkmarked(proj_node)
         print(repr(opt) + "\t" + repr(proj_node))
         assert not opt
 
-        # test Description
-        _node = proj_node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
-        assert opt
-
-        # test Installation
-        _node = proj_node.children[1]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
-        assert opt
-
-        # test License
-        _node = proj_node.children[2]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
-        assert opt
-
-    def test_no_description(_, corpus_testee1):
+    def test_description(_, corpus_testee1, bp_testee1pa1):
+        bp = bp_testee1pa1
         corpus = corpus_testee1
-        bp_text = BLUEPRINT_1_PARTIAL_2
+        node = corpus.children[0].children[0]
 
-        bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus
-        )
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
 
-        print(bp)
-        opt = len(bp) == 4
+    def test_installation(_, corpus_testee1, bp_testee1pa1):
+        bp = bp_testee1pa1
+        corpus = corpus_testee1
+        node = corpus.children[0].children[1]
 
-        # test entries  --------------------------------------------------------
-        # test Project Title
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+    def test_license(_, corpus_testee1, bp_testee1pa1):
+        bp = bp_testee1pa1
+        corpus = corpus_testee1
+        node = corpus.children[0].children[2]
+
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+
+class Test1Pa2:  # =============================================================
+
+    def test_proj(_, corpus_testee1, bp_testee1pa2):
+        bp = bp_testee1pa2
+        corpus = corpus_testee1
         proj_node = corpus.children[0]
+
         opt = bp.is_checkmarked(proj_node)
         print(repr(opt) + "\t" + repr(proj_node))
         assert opt
 
-        # test Description
-        _node = proj_node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+    def test_description(_, corpus_testee1, bp_testee1pa2):
+        bp = bp_testee1pa2
+        corpus = corpus_testee1
+        node = corpus.children[0].children[0]
+
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
 
-        # test Installation
-        _node = proj_node.children[1]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
-        assert opt
-
-        # test License
-        _node = proj_node.children[2]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
-        assert opt
-
-    def test_empty(_, corpus_testee1):
+    def test_installation(_, corpus_testee1, bp_testee1pa2):
+        bp = bp_testee1pa2
         corpus = corpus_testee1
-        bp_text = BLUEPRINT_1_EMPTY
+        node = corpus.children[0].children[1]
 
-        bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus
-        )
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
 
-        print(bp)
-        opt = len(bp) == 4
+    def test_license(_, corpus_testee1, bp_testee1pa2):
+        bp = bp_testee1pa2
+        corpus = corpus_testee1
+        node = corpus.children[0].children[2]
 
-        # test entries  --------------------------------------------------------
-        # test Project Title
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
+        assert opt
+
+
+class Test1Empty:  # ===========================================================
+
+    def test_proj(_, corpus_testee1, bp_testee1empty):
+        bp = bp_testee1empty
+        corpus = corpus_testee1
         proj_node = corpus.children[0]
+
         opt = bp.is_checkmarked(proj_node)
         print(repr(opt) + "\t" + repr(proj_node))
         assert not opt
 
-        # test Description
-        _node = proj_node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+    def test_description(_, corpus_testee1, bp_testee1empty):
+        bp = bp_testee1empty
+        corpus = corpus_testee1
+        node = corpus.children[0].children[0]
+
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
 
-        # test Installation
-        _node = proj_node.children[1]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+    def test_installation(_, corpus_testee1, bp_testee1empty):
+        bp = bp_testee1empty
+        corpus = corpus_testee1
+        node = corpus.children[0].children[1]
+
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
 
-        # test License
-        _node = proj_node.children[2]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+    def test_license(_, corpus_testee1, bp_testee1empty):
+        bp = bp_testee1empty
+        corpus = corpus_testee1
+        node = corpus.children[0].children[2]
+
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
 
-    # fail cases  ==============================================================
 
-    # a node that is not contained in bp at all
-    def test_not_contained1(_, corpus_testee1, corpus_testee3):
-        bp = PromptBlueprint.parse(
-            BLUEPRINT_1_FULL,
-            disable_prune=True,
-            corpus_override=corpus_testee1,
-        )
-        assert not bp.is_checkmarked(corpus_testee3)
-
-    # a node that is not contained in bp at all
-    def test_not_contained2(_, corpus_testee1, corpus_testee3):
-        bp = PromptBlueprint.parse(
-            BLUEPRINT_1_FULL,
-            disable_prune=True,
-            corpus_override=corpus_testee1,
-        )
-        assert not bp.is_checkmarked(corpus_testee3.children[0])
+# use corpus 3  ################################################################
 
 
-class Test3:  # use corpus3  ##################################################
+class Test3Full:  # ============================================================
 
-    def test_full(_, corpus_testee3):
+    def test1(_, corpus_testee3, bp_testee3full):
         corpus = corpus_testee3
-        bp_text = BLUEPRINT_3_FULL
+        bp = bp_testee3full
 
-        bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus
-        )
-
-        # test entries  --------------------------------------------------------
-        # Main Title
+        # main title
         main_title_node = corpus.children[0]
         opt = bp.is_checkmarked(main_title_node)
         print(repr(opt) + "\t" + repr(main_title_node))
         assert opt
 
+    def test2(_, corpus_testee3, bp_testee3full):
+        corpus = corpus_testee3
+        bp = bp_testee3full
+
         # Introduction
-        _node = main_title_node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test3(_, corpus_testee3, bp_testee3full):
+        corpus = corpus_testee3
+        bp = bp_testee3full
 
         # Background
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test4(_, corpus_testee3, bp_testee3full):
+        corpus = corpus_testee3
+        bp = bp_testee3full
 
         # Importance
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[0].children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test5(_, corpus_testee3, bp_testee3full):
+        corpus = corpus_testee3
+        bp = bp_testee3full
 
         # Objective
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = (
+            corpus.children[0].children[0].children[0].children[0].children[0]
+        )
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test6(_, corpus_testee3, bp_testee3full):
+        corpus = corpus_testee3
+        bp = bp_testee3full
 
         # Methods
-        _node = main_title_node.children[1]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[1]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test7(_, corpus_testee3, bp_testee3full):
+        corpus = corpus_testee3
+        bp = bp_testee3full
 
         # Data Collection
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[1].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test8(_, corpus_testee3, bp_testee3full):
+        corpus = corpus_testee3
+        bp = bp_testee3full
 
         # Tool Used
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[1].children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test9(_, corpus_testee3, bp_testee3full):
+        corpus = corpus_testee3
+        bp = bp_testee3full
 
         # Future Work
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = (
+            corpus.children[0].children[1].children[0].children[0].children[0]
+        )
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test10(_, corpus_testee3, bp_testee3full):
+        corpus = corpus_testee3
+        bp = bp_testee3full
 
         # Conclusion
-        _node = main_title_node.children[2]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[2]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-    def test_part1(_, corpus_testee3):
+
+class Test3Pa1:  # =============================================================
+
+    def test1(_, corpus_testee3, bp_testee3pa1):
         corpus = corpus_testee3
-        bp_text = BLUEPRINT_3_PARTIAL_1
+        bp = bp_testee3pa1
 
-        bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus
-        )
-
-        # test entries  --------------------------------------------------------
-        # Main Title
+        # main title
         main_title_node = corpus.children[0]
         opt = bp.is_checkmarked(main_title_node)
         print(repr(opt) + "\t" + repr(main_title_node))
         assert opt
 
+    def test2(_, corpus_testee3, bp_testee3pa1):
+        corpus = corpus_testee3
+        bp = bp_testee3pa1
+
         # Introduction
-        _node = main_title_node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test3(_, corpus_testee3, bp_testee3pa1):
+        corpus = corpus_testee3
+        bp = bp_testee3pa1
 
         # Background
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test4(_, corpus_testee3, bp_testee3pa1):
+        corpus = corpus_testee3
+        bp = bp_testee3pa1
 
         # Importance
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[0].children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test5(_, corpus_testee3, bp_testee3pa1):
+        corpus = corpus_testee3
+        bp = bp_testee3pa1
 
         # Objective
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = (
+            corpus.children[0].children[0].children[0].children[0].children[0]
+        )
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test6(_, corpus_testee3, bp_testee3pa1):
+        corpus = corpus_testee3
+        bp = bp_testee3pa1
 
         # Methods
-        _node = main_title_node.children[1]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[1]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test7(_, corpus_testee3, bp_testee3pa1):
+        corpus = corpus_testee3
+        bp = bp_testee3pa1
 
         # Data Collection
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[1].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test8(_, corpus_testee3, bp_testee3pa1):
+        corpus = corpus_testee3
+        bp = bp_testee3pa1
 
         # Tool Used
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[1].children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test9(_, corpus_testee3, bp_testee3pa1):
+        corpus = corpus_testee3
+        bp = bp_testee3pa1
 
         # Future Work
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = (
+            corpus.children[0].children[1].children[0].children[0].children[0]
+        )
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
 
+    def test10(_, corpus_testee3, bp_testee3pa1):
+        corpus = corpus_testee3
+        bp = bp_testee3pa1
+
         # Conclusion
-        _node = main_title_node.children[2]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[2]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
-    def test_part2(_, corpus_testee3):
-        corpus = corpus_testee3
-        bp_text = BLUEPRINT_3_PARTIAL_2
-        bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus
-        )
 
-        print(bp)
-        # test entries  --------------------------------------------------------
-        # Main Title
+class Test3Pa2:  # =============================================================
+
+    def test1(_, corpus_testee3, bp_testee3pa2):
+        corpus = corpus_testee3
+        bp = bp_testee3pa2
+
+        # main title
         main_title_node = corpus.children[0]
         opt = bp.is_checkmarked(main_title_node)
         print(repr(opt) + "\t" + repr(main_title_node))
         assert opt
 
+    def test2(_, corpus_testee3, bp_testee3pa2):
+        corpus = corpus_testee3
+        bp = bp_testee3pa2
+
         # Introduction
-        _node = main_title_node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test3(_, corpus_testee3, bp_testee3pa2):
+        corpus = corpus_testee3
+        bp = bp_testee3pa2
 
         # Background
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test4(_, corpus_testee3, bp_testee3pa2):
+        corpus = corpus_testee3
+        bp = bp_testee3pa2
 
         # Importance
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[0].children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test5(_, corpus_testee3, bp_testee3pa2):
+        corpus = corpus_testee3
+        bp = bp_testee3pa2
 
         # Objective
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = (
+            corpus.children[0].children[0].children[0].children[0].children[0]
+        )
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test6(_, corpus_testee3, bp_testee3pa2):
+        corpus = corpus_testee3
+        bp = bp_testee3pa2
 
         # Methods
-        _node = main_title_node.children[1]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[1]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test7(_, corpus_testee3, bp_testee3pa2):
+        corpus = corpus_testee3
+        bp = bp_testee3pa2
 
         # Data Collection
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[1].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
+
+    def test8(_, corpus_testee3, bp_testee3pa2):
+        corpus = corpus_testee3
+        bp = bp_testee3pa2
 
         # Tool Used
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[1].children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test9(_, corpus_testee3, bp_testee3pa2):
+        corpus = corpus_testee3
+        bp = bp_testee3pa2
 
         # Future Work
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = (
+            corpus.children[0].children[1].children[0].children[0].children[0]
+        )
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert opt
 
+    def test10(_, corpus_testee3, bp_testee3pa2):
+        corpus = corpus_testee3
+        bp = bp_testee3pa2
+
         # Conclusion
-        _node = main_title_node.children[2]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[2]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
 
-    def test_empty(_, corpus_testee3):
+
+class Test3Empty:  # ===========================================================
+
+    def test1(_, corpus_testee3, bp_testee3empty):
         corpus = corpus_testee3
+        bp = bp_testee3empty
 
-        bp_text = BLUEPRINT_3_EMPTY
-        bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus
-        )
-
-        print(bp)
-        # test entries  --------------------------------------------------------
-        # Main Title
+        # main title
         main_title_node = corpus.children[0]
         opt = bp.is_checkmarked(main_title_node)
         print(repr(opt) + "\t" + repr(main_title_node))
         assert not opt
 
+    def test2(_, corpus_testee3, bp_testee3empty):
+        corpus = corpus_testee3
+        bp = bp_testee3empty
+
         # Introduction
-        _node = main_title_node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test3(_, corpus_testee3, bp_testee3empty):
+        corpus = corpus_testee3
+        bp = bp_testee3empty
 
         # Background
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test4(_, corpus_testee3, bp_testee3empty):
+        corpus = corpus_testee3
+        bp = bp_testee3empty
 
         # Importance
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[0].children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test5(_, corpus_testee3, bp_testee3empty):
+        corpus = corpus_testee3
+        bp = bp_testee3empty
 
         # Objective
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = (
+            corpus.children[0].children[0].children[0].children[0].children[0]
+        )
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test6(_, corpus_testee3, bp_testee3empty):
+        corpus = corpus_testee3
+        bp = bp_testee3empty
 
         # Methods
-        _node = main_title_node.children[1]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[1]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test7(_, corpus_testee3, bp_testee3empty):
+        corpus = corpus_testee3
+        bp = bp_testee3empty
 
         # Data Collection
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[1].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test8(_, corpus_testee3, bp_testee3empty):
+        corpus = corpus_testee3
+        bp = bp_testee3empty
 
         # Tool Used
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[1].children[0].children[0]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
+
+    def test9(_, corpus_testee3, bp_testee3empty):
+        corpus = corpus_testee3
+        bp = bp_testee3empty
 
         # Future Work
-        _node = _node.children[0]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = (
+            corpus.children[0].children[1].children[0].children[0].children[0]
+        )
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
 
+    def test10(_, corpus_testee3, bp_testee3empty):
+        corpus = corpus_testee3
+        bp = bp_testee3empty
+
         # Conclusion
-        _node = main_title_node.children[2]
-        opt = bp.is_checkmarked(_node)
-        print(repr(opt) + "\t" + repr(_node))
+        node = corpus.children[0].children[2]
+        opt = bp.is_checkmarked(node)
+        print(repr(opt) + "\t" + repr(node))
         assert not opt
 
 
