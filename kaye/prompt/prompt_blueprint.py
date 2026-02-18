@@ -183,8 +183,10 @@ class PromptBlueprint(dict):
                 ``False`` if node is: not checkmarked or not contained
         :rtype: bool
         """
-        _, node_hash = self._find_node_in_corpus_and_blueprint(node)
-        return node_hash in self and self[node_hash]
+        _, node_hash, is_contained = self._find_node_in_corpus_and_blueprint(
+            node
+        )
+        return is_contained and self[node_hash]
 
     def checkmark(self, node, *, recursively=False):
         """
@@ -503,12 +505,14 @@ class PromptBlueprint(dict):
 
         if node_obj is None:
             raise ValueError(
-                "no node with name/identifier/hash value in corpus: {}".format(
+                "no node in corpus with name/identifier/hash value: {}".format(
                     repr(node_arg)
                 )
             )
 
-        return node_obj, node_hash
+        is_contained = super().__contains__(node_hash)
+
+        return node_obj, node_hash, is_contained
 
     # magic methods  ===========================================================
 
@@ -521,13 +525,12 @@ class PromptBlueprint(dict):
         :param key: node object; or hash value of node
         :type key: PromptCorpusNode or int
         :raises TypeError:
+        :raises ValueError:
         :return: if blueprint contains the node
         :rtype: bool
         """
         try:
-            # TODO TODO better unit test
-            _, node_hash = self._find_node_in_corpus_and_blueprint(key)
-            return super().__contains__(node_hash)
+            return self._find_node_in_corpus_and_blueprint(key)[2]
 
         except TypeError:
             return NotImplemented
