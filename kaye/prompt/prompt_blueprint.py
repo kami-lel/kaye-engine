@@ -509,7 +509,7 @@ class PromptBlueprint(dict):
         # node is already object  ----------------------------------------------
         elif isinstance(node_arg, BasePromptNode):
             if node_arg not in self.corpus.descendants:
-                raise ValueError("no node in corpus: {}".format(node_arg))
+                raise ValueError("node not in corpus: {}".format(node_arg))
 
             node_obj = node_arg
             node_hash = hash(node_arg)

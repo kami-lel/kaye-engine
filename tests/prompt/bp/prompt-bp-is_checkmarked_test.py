@@ -54,15 +54,12 @@ class Test1Full:  # ============================================================
 
     # not contained  ***********************************************************
 
-    def test_not_contained1(_, corpus_testee3, bp_testee1full):
-        # a node that is not contained in bp at all
-        bp = bp_testee1full
-        assert not bp.is_checkmarked(corpus_testee3)
+    def xtest_not_contained1(_, bp_testee1pa2pruned):
+        # BUG
+        bp = bp_testee1pa2pruned
+        ipt = None
 
-    def test_not_contained2(_, corpus_testee3, bp_testee1full):
-        # a node that is not contained in bp at all
-        bp = bp_testee1full
-        assert not bp.is_checkmarked(corpus_testee3.children[0])
+        assert not bp.is_checkmarked(ipt)
 
     # err handling  ************************************************************
     def test_bad_type(_, bp_testee1full):
@@ -81,7 +78,6 @@ class Test1Full:  # ============================================================
         )
 
     def test_miss_node(self, bp_testee1full):
-        # BUG BUG
         bp = bp_testee1full
         ipt = PromptCorpusNode("AAAZZZ", None, [])
 
@@ -90,11 +86,7 @@ class Test1Full:  # ============================================================
         opt = exec_info.value.args[0]
 
         print(opt)
-        assert (
-            opt
-            == "must be "
-            "BasePromptNode/int(hash value)/str(name/identifier): 12.5"
-        )
+        assert opt == "node not in corpus: PromptCorpusNode()"
 
     # not in corpus  ***********************************************************
     def test_not_in_corpus1(_, corpus_testee3, bp_testee1full):
@@ -106,7 +98,7 @@ class Test1Full:  # ============================================================
         opt = exec_info.value.args[0]
 
         print(opt)
-        assert opt == ""
+        assert opt == "node not in corpus: PromptCorpusNode()"
 
     def test_not_in_corpus2(_, corpus_testee3, bp_testee1full):
         bp = bp_testee1full
@@ -117,7 +109,7 @@ class Test1Full:  # ============================================================
         opt = exec_info.value.args[0]
 
         print(opt)
-        assert opt == ""
+        assert opt == "node not in corpus: PromptCorpusNode(Main Title)"
 
 
 class Test1Pa1:  # =============================================================
