@@ -751,6 +751,8 @@ Example: `en` for English, `zh` for 中文.
 
 ## pre-sense
 
+Return four optional fields as specified by the instructions below. Leave any field blank unless the instructions explicitly request it.
+
 ### llm
 
 For `llm` field, select the single most appropriate label to describe the nature of the user's query:
@@ -777,7 +779,10 @@ For `llm` field, select the single most appropriate label to describe the nature
 
 ### role
 
-For `role` field.
+For `role` field:
+
+- `chat` for normal conversation
+- `peer_coder` if user ask code related questions
 
 
 
