@@ -506,3 +506,6 @@ class TestDynamicNodes:
         bp.uncheckmark(ipt)
 
         assert not bp.is_checkmarked(node)
+
+
+# TODO TODO test for recursively

@@ -22,48 +22,39 @@ class Test1:  ##################################################################
         node = corpus_testee1["Project Title"]
         node_arg = "Project Title"
 
-        node_obj, node_hash, is_contained = (
-            bp._find_node_in_corpus_and_blueprint(node_arg)
-        )
+        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
         assert (
             node_obj.generate_identifier_lineage()
             == node.generate_identifier_lineage()
         )
         assert node_hash == hash(node)
-        assert is_contained
 
     def test_by_obj1(_, corpus_testee1, bp_testee1pa1):
         bp = bp_testee1pa1
         node = corpus_testee1["Project Title"]
         node_arg = node
 
-        node_obj, node_hash, is_contained = (
-            bp._find_node_in_corpus_and_blueprint(node_arg)
-        )
+        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
         assert (
             node_obj.generate_identifier_lineage()
             == node.generate_identifier_lineage()
         )
         assert node_hash == hash(node)
-        assert is_contained
 
     def test_by_hash1(_, corpus_testee1, bp_testee1pa1):
         bp = bp_testee1pa1
         node = corpus_testee1["Project Title"]
         node_arg = hash(node)
 
-        node_obj, node_hash, is_contained = (
-            bp._find_node_in_corpus_and_blueprint(node_arg)
-        )
+        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
         assert (
             node_obj.generate_identifier_lineage()
             == node.generate_identifier_lineage()
         )
         assert node_hash == hash(node)
-        assert is_contained
 
     # Description  =============================================================
 
@@ -72,48 +63,39 @@ class Test1:  ##################################################################
         node = corpus_testee1["Project Title"]["Description"]
         node_arg = "Description"
 
-        node_obj, node_hash, is_contained = (
-            bp._find_node_in_corpus_and_blueprint(node_arg)
-        )
+        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
         assert (
             node_obj.generate_identifier_lineage()
             == node.generate_identifier_lineage()
         )
         assert node_hash == hash(node)
-        assert is_contained
 
     def test_by_obj3(_, corpus_testee1, bp_testee1pa1):
         bp = bp_testee1pa1
         node = corpus_testee1["Project Title"]["Description"]
         node_arg = node
 
-        node_obj, node_hash, is_contained = (
-            bp._find_node_in_corpus_and_blueprint(node_arg)
-        )
+        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
         assert (
             node_obj.generate_identifier_lineage()
             == node.generate_identifier_lineage()
         )
         assert node_hash == hash(node)
-        assert is_contained
 
     def test_by_hash2(_, corpus_testee1, bp_testee1pa1):
         bp = bp_testee1pa1
         node = corpus_testee1["Project Title"]["Description"]
         node_arg = hash(node)
 
-        node_obj, node_hash, is_contained = (
-            bp._find_node_in_corpus_and_blueprint(node_arg)
-        )
+        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
         assert (
             node_obj.generate_identifier_lineage()
             == node.generate_identifier_lineage()
         )
         assert node_hash == hash(node)
-        assert is_contained
 
     # err handling  ============================================================
 

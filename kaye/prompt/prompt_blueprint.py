@@ -183,10 +183,8 @@ class PromptBlueprint(dict):
                 ``False`` if node is: not checkmarked or not contained
         :rtype: bool
         """
-        _, node_hash, is_contained = self._find_node_in_corpus_and_blueprint(
-            node
-        )
-        return is_contained and self[node_hash]
+        _, node_hash = self._find_node_in_corpus_and_blueprint(node)
+        return node_hash in self and self[node_hash]
 
     def checkmark(self, node, *, recursively=False):
         """
@@ -441,12 +439,9 @@ class PromptBlueprint(dict):
         :raises ValueError:
         """
         # find node in corpus
-        node_obj, node_hash, is_contained = (
-            self._find_node_in_corpus_and_blueprint(node)
-        )
+        node_obj, node_hash = self._find_node_in_corpus_and_blueprint(node)
 
-        # err for .uncheckmark & bp not contained in blueprint
-        if not is_contained and not is_checkmark:
+        if node_hash not in self and not is_checkmark:
             raise ValueError(
                 "node not contained in blueprint: {}".format(node_obj)
             )
@@ -454,8 +449,12 @@ class PromptBlueprint(dict):
         # actual perform checking/unchecking
         self[node_hash] = is_checkmark
 
+        # add all descendants too
         if recursively:
-            pass  # TODO TODO add recursively
+            for d in node_obj.descendants:
+                d_hash = hash(d)
+                if d_hash in self or is_checkmark:
+                    self[d_hash] = is_checkmark
 
         return self
 
@@ -528,9 +527,7 @@ class PromptBlueprint(dict):
                 "int(hash value)/str(name/identifier): {}".format(node_arg)
             )
 
-        is_contained = super().__contains__(node_hash)
-
-        return node_obj, node_hash, is_contained
+        return node_obj, node_hash
 
     # magic methods  ===========================================================
 
@@ -547,8 +544,12 @@ class PromptBlueprint(dict):
         :return: if blueprint contains the node
         :rtype: bool
         """
+        if isinstance(key, int):
+            return super().__contains__(key)
+
         try:
-            return self._find_node_in_corpus_and_blueprint(key)[2]
+            _, node_hash = self._find_node_in_corpus_and_blueprint(key)
+            return super().__contains__(node_hash)
 
         except TypeError:
             return NotImplemented
