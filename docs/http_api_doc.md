@@ -1,4 +1,4 @@
-# Kaye HTTP API documentation
+# Kaye Flask HTTP API documentation
 
 ## deployment as `systemd` on Ubuntu
 
@@ -132,23 +132,50 @@ All endpoints below `/kaye/dify-app/kaye-commit-sense`
 
 All endpoints below `/kaye/dify-app/ky`
 
-----
+
+
+##### pre-sense
 
 `/pre-sense`
 
-response type: `text/plain`
+- by `GET`
+- response type `text/plain`
+- param `role`, v.i.
+  if provided, skip role-guessing instruction of the given prompt
+
+
+
+##### task
+
+<!-- TODO finish writing this -->
+
+`/task`
 
 - by `GET`
 - response type `text/plain`
-
-----
 
 `/chat`
 
-response type: `text/plain`
-
 - by `GET`
-- response type `text/plain`
+
+- support param `languages`:
+  provide a `,` separated list of language abbreviations
+  (specified in prompt corpus.) E.g. `?languages=cpp,py`
+
+- support param `flags`: provide an integer flag value,
+  that will be merged into when creating prompts
+
+- response type `application/json`:
+
+  - key `"prompt"`: concrete task prompt
+  - key `"flags"`: integer value representing the prompt
+
+
+
+##### role param
+
+- `peer_coder`
+- empty / absent
 
 
 
@@ -172,40 +199,3 @@ All endpoints below `/kaye/dify-app/kaye-event-radar`
 
 - by `GET`
 - response type `text/plain`
-
-
-
-
-
-
-
-#### Kaye Peer Coder
-
-All endpoints below `/kaye/dify-app/kyc`
-
-----
-
-`/pre-sense`
-
-response type: `text/plain`
-
-- by `GET`
-- response type `text/plain`
-
-----
-
-`/chat`
-
-- by `GET`
-
-- support param `languages`:
-  provide a `,` separated list of language abbreviations
-  (specified in prompt corpus.) E.g. `?languages=cpp,py`
-
-- support param `flags`: provide an integer flag value,
-  that will be merged into when creating prompts
-
-- response type `application/json`:
-
-  - key `"prompt"`: concrete task prompt
-  - key `"flags"`: integer value representing the prompt
