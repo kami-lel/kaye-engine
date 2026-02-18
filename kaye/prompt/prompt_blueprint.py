@@ -472,12 +472,14 @@ class PromptBlueprint(dict):
         :raises TypeError:
         :raises ValueError:
         """
+        corpus_and_descendants = [self.corpus] + list(self.corpus.descendants)
+
         # search by name/identifier  -------------------------------------------
         if isinstance(node_arg, str):
             node_obj = None
 
             # search all descendants with name/identifier of node
-            for n in self.corpus.descendants:
+            for n in corpus_and_descendants:
                 if node_arg in (n.name, n.identifier):
                     node_obj = n
                     break
@@ -496,7 +498,7 @@ class PromptBlueprint(dict):
             node_obj = None
 
             # search all descendants with hash of node
-            for n in self.corpus.descendants:
+            for n in corpus_and_descendants:
                 if node_arg == hash(n):
                     node_obj = n
                     break
@@ -512,7 +514,7 @@ class PromptBlueprint(dict):
 
         # node is already object  ----------------------------------------------
         elif isinstance(node_arg, BasePromptNode):
-            if node_arg not in self.corpus.descendants:
+            if node_arg not in corpus_and_descendants:
                 raise ValueError("node not in corpus: {}".format(node_arg))
 
             node_obj = node_arg
