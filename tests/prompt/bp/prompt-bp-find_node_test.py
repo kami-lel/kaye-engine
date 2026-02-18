@@ -4,10 +4,14 @@ prompt-bp-find_node_test.py
 Unit Tests (using pytest) for:
 
 
-._checkmark_uncheckmark_is_checkmarked_find_node()
+._find_node_in_corpus_and_blueprint(
 """
 
 import pytest
+
+from kaye.prompt.prompt_blueprint import PromptBlueprint
+
+from tests.prompt.bp import BLUEPRINT_1_PARTIAL_2_PRUNED
 
 
 class Test1:  ##################################################################
@@ -19,9 +23,7 @@ class Test1:  ##################################################################
         node = corpus_testee1["Project Title"]
         node_arg = "Project Title"
 
-        node_obj, node_hash = (
-            bp._checkmark_uncheckmark_is_checkmarked_find_node(node_arg)
-        )
+        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
         assert (
             node_obj.generate_identifier_lineage()
@@ -34,9 +36,7 @@ class Test1:  ##################################################################
         node = corpus_testee1["Project Title"]
         node_arg = node
 
-        node_obj, node_hash = (
-            bp._checkmark_uncheckmark_is_checkmarked_find_node(node_arg)
-        )
+        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
         assert (
             node_obj.generate_identifier_lineage()
@@ -49,9 +49,7 @@ class Test1:  ##################################################################
         node = corpus_testee1["Project Title"]
         node_arg = hash(node)
 
-        node_obj, node_hash = (
-            bp._checkmark_uncheckmark_is_checkmarked_find_node(node_arg)
-        )
+        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
         assert (
             node_obj.generate_identifier_lineage()

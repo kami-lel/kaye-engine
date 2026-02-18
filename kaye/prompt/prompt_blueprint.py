@@ -183,9 +183,7 @@ class PromptBlueprint(dict):
                 ``False`` if node is: not checkmarked or not contained
         :rtype: bool
         """
-        _, node_hash = self._checkmark_uncheckmark_is_checkmarked_find_node(
-            node
-        )
+        _, node_hash = self._find_node_in_corpus_and_blueprint(node)
         return node_hash in self and self[node_hash]
 
     def checkmark(self, node, *, recursively=False):
@@ -438,9 +436,7 @@ class PromptBlueprint(dict):
 
         :raises ValueError:
         """
-        node_obj, node_hash = (
-            self._checkmark_uncheckmark_is_checkmarked_find_node(node)
-        )
+        node_obj, node_hash = self._find_node_in_corpus_and_blueprint(node)
         # FIXME return bool
 
         # actual perform checking/unchecking
@@ -455,15 +451,20 @@ class PromptBlueprint(dict):
 
         return self
 
-    def _checkmark_uncheckmark_is_checkmarked_find_node(self, node_arg):
+    def _find_node_in_corpus_and_blueprint(self, node_arg):
         """
         helper method used in:
 
         - ``.checkmark()``
         - ``.uncheckmark()``
         - ``.is_checkmarked()``
+        - ``.__contains__()``
 
         to search a node in corpus providing node object/name/identifier/hash
+
+
+        :raises TypeError:
+        :raises ValueError:
         """
         # search by name/identifier  -------------------------------------------
         if isinstance(node_arg, str):
@@ -513,6 +514,7 @@ class PromptBlueprint(dict):
 
     def __contains__(self, key):
         """
+        FIXME
         allow ``PromptBlueprint`` to perform membership tests with key being
 
 
@@ -522,8 +524,13 @@ class PromptBlueprint(dict):
         :return: if blueprint contains the node
         :rtype: bool
         """
-        # TODO use node
-        return super().__contains__(_normalize_as_node_hash(key))
+        try:
+            # TODO TODO better unit test
+            _, node_hash = self._find_node_in_corpus_and_blueprint(key)
+            return super().__contains__(node_hash)
+
+        except TypeError:
+            return NotImplemented
 
     # operators  ---------------------------------------------------------------
 
@@ -615,6 +622,7 @@ class PromptBlueprint(dict):
 # helpers  #####################################################################
 
 
+# HACK rm
 def _normalize_as_node_hash(node):
     """
     :param node: node object; or hash value of node
