@@ -17,8 +17,15 @@ PRE_SENSE_PROMPT_BLUEPRINT = """ ○
 [ ]         ├── llm
 [ ]         ├── role
 [ ]         └── for coder
-[ ]             └── {Programming Languages Code}
+[ ]             ├── plcs
+[ ]             │   └── {Programming Languages Code}
+[ ]             └── difficulty
 """
+
+
+RAPID_PROMPT_BLUEPRINT = ""
+
+CHAT_PROMPT_BLUEPRINT = ""
 
 
 TASK_PROMPT_BLUEPRINT = """    ○
@@ -56,7 +63,7 @@ def kaye_chat_pre_sense():
 
     # on role  -----------------------------------------------------------------
     if role:
-        if role == "coder":
+        if role == "peer_coder":
             blueprint.checkmark(pre_sense_node["for coder"], recursively=True)
         else:
             # other role

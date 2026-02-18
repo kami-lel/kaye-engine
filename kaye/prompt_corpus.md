@@ -753,9 +753,7 @@ Example: `en` for English, `zh` for 中文.
 
 ### llm
 
-Select the single most appropriate label to describe the nature of the user's query:
-
-- `pre-sense`
+For `llm` field, select the single most appropriate label to describe the nature of the user's query:
 
 - `rapid`: short, immediate, or highly repetitive tasks that require little or no reasoning; fast direct transformations or simple format conversions.
 
@@ -778,6 +776,8 @@ Select the single most appropriate label to describe the nature of the user's qu
 
 
 ### role
+
+For `role` field.
 
 
 
@@ -815,16 +815,11 @@ Select the single most appropriate label to describe the nature of the user's qu
 
 ### for coder
 
-role must be empty
-
-Extract the following two variables:
-
-##### languages
+#### plcs
 
 Return a string containing the abbreviations of the programming languages (as defined below) required by the user, separated by commas. For example, `'py,cpp'`. If the conversation does not mention any specific programming language, such as when discussing conceptual or general algorithms, return an empty string (`''`).
 
-
-##### difficulty
+#### difficulty
 
 Provide a number between `0.0` (very easy) and `1.0` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
 
