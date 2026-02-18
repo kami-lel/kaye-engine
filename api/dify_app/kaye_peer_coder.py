@@ -2,6 +2,8 @@
 define API to specific work with Dify App: Kaye Peer Coder
 """
 
+# Hack deprecation api
+
 # pylint: disable=missing-function-docstring
 
 from enum import IntFlag, auto, STRICT

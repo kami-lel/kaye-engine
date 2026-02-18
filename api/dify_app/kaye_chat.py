@@ -55,7 +55,7 @@ def kaye_chat_pre_sense():
 
     # on role  -----------------------------------------------------------------
     if role == "coder":
-        blueprint.checkmark(pre_sense_node["for coder"])
+        blueprint.checkmark(pre_sense_node["for coder"], recursively=True)
     else:
         blueprint.checkmark(pre_sense_node["role"])
 

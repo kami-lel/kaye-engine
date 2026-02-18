@@ -815,6 +815,8 @@ Select the single most appropriate label to describe the nature of the user's qu
 
 ### for coder
 
+role must be empty
+
 Extract the following two variables:
 
 ##### languages
