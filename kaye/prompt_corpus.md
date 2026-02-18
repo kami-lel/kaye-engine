@@ -751,7 +751,7 @@ Example: `en` for English, `zh` for 中文.
 
 ## pre-sense
 
-Return **only** the fields **explicitly requested** below; **omit** all other keys.
+Return the **four optional fields**; set any field **not explicitly requested** below to an empty value `""`.
 
 ### llm
 
