@@ -12,23 +12,13 @@ import copy
 
 import pytest
 
-from kaye.prompt import PromptBlueprint
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
-    BLUEPRINT_1_PARTIAL_2,
     BLUEPRINT_2_FULL,
-    BLUEPRINT_2_PARTIAL_1,
     BLUEPRINT_3_FULL,
-    BLUEPRINT_3_PARTIAL_1,
-    BLUEPRINT_3_PARTIAL_2,
 )
 
 # pytest fixtures  #############################################################
-
-
-@pytest.fixture
-def answer11():
-    return BLUEPRINT_1_FULL
 
 
 # tests on prompt 1  ###########################################################
@@ -36,9 +26,9 @@ class Test11:  # ===============================================================
 
     # test .checkmark()  *******************************************************
 
-    def test_checkmark_by_obj1(_, corpus_testee1, bp_testee1pa1, answer11):
+    def test_checkmark_by_obj1(_, corpus_testee1, bp_testee1pa1):
         bp = bp_testee1pa1
-        answer = answer11
+        answer = BLUEPRINT_1_FULL
 
         print(repr(bp))
         node = corpus_testee1["Project Title"]
@@ -53,9 +43,9 @@ class Test11:  # ===============================================================
             == answer
         )
 
-    def test_checkmark_by_hash1(_, corpus_testee1, bp_testee1pa1, answer11):
+    def test_checkmark_by_hash1(_, corpus_testee1, bp_testee1pa1):
         bp = bp_testee1pa1
-        answer = answer11
+        answer = BLUEPRINT_1_FULL
 
         print(repr(bp))
         node = corpus_testee1["Project Title"]
@@ -71,9 +61,9 @@ class Test11:  # ===============================================================
             == answer
         )
 
-    def test_checkmark_by_name1(_, corpus_testee1, bp_testee1pa1, answer11):
+    def test_checkmark_by_name1(_, corpus_testee1, bp_testee1pa1):
         bp = bp_testee1pa1
-        answer = answer11
+        answer = BLUEPRINT_1_FULL
 
         print(repr(bp))
 
@@ -89,9 +79,9 @@ class Test11:  # ===============================================================
 
     # test +=  *****************************************************************
 
-    def test_iadd_by_obj1(_, corpus_testee1, bp_testee1pa1, answer11):
+    def test_iadd_by_obj1(_, corpus_testee1, bp_testee1pa1):
         bp = bp_testee1pa1
-        answer = answer11
+        answer = BLUEPRINT_1_FULL
 
         print(repr(bp))
         node = corpus_testee1["Project Title"]
@@ -106,9 +96,9 @@ class Test11:  # ===============================================================
             == answer
         )
 
-    def test_iadd_by_hash1(_, corpus_testee1, bp_testee1pa1, answer11):
+    def test_iadd_by_hash1(_, corpus_testee1, bp_testee1pa1):
         bp = bp_testee1pa1
-        answer = answer11
+        answer = BLUEPRINT_1_FULL
 
         print(repr(bp))
         node = corpus_testee1["Project Title"]
@@ -124,9 +114,9 @@ class Test11:  # ===============================================================
             == answer
         )
 
-    def test_iadd_by_name1(_, bp_testee1pa1, answer11):
+    def test_iadd_by_name1(_, bp_testee1pa1):
         bp = bp_testee1pa1
-        answer = answer11
+        answer = BLUEPRINT_1_FULL
 
         print(repr(bp))
 
@@ -173,7 +163,6 @@ class Test11:  # ===============================================================
             "int(hash value)/str(name/identifier): ['a', 'b', 'c']"
         )
 
-    # err unique to by str  ++++++++++++++++++++++++++++++++++++++++++++++++++++
     def test_bad_str_no_found1(_, bp_testee1pa1):
         bp = bp_testee1pa1
         ipt = "AAAZZZ"
@@ -184,13 +173,212 @@ class Test11:  # ===============================================================
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert opt == "no node with name/identifier in corpus: 'AAAZZZ'"
+        assert opt == "no node in corpus with name/identifier: 'AAAZZZ'"
 
-    # TODO TODO
+    def test_bad_hash(self, bp_testee1pa1):
+        opt = bp_testee1pa1
+
+        with pytest.raises(ValueError) as exec_info:
+            opt.checkmark(5)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "no node in corpus with hash value: 5"
+
+    def test_bad_obj(self, bp_testee1pa1, corpus_testee3):
+        opt = bp_testee1pa1
+        bad_node = corpus_testee3.children[0]
+
+        with pytest.raises(ValueError) as exec_info:
+            opt.checkmark(bad_node)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "node not in corpus: PromptCorpusNode(Main Title)"
 
 
-# tests on prompt 2  ###########################################################
+class Test12:  # ===============================================================
+
+    def test2_checkmark_by_obj(_, bp_testee1pa2, corpus_testee1):
+        opt = bp_testee1pa2
+        answer = BLUEPRINT_1_FULL
+
+        print(opt)
+
+        node = corpus_testee1["Project Title"]["Description"]
+        opt.checkmark(node)
+
+        print("#" * 80)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+    def test2_checkmark_by_hash(_, bp_testee1pa2, corpus_testee1):
+        opt = bp_testee1pa2
+        answer = BLUEPRINT_1_FULL
+
+        print(opt)
+
+        node = corpus_testee1["Project Title"]["Description"]
+        node_hash = hash(node)
+        opt.checkmark(node_hash)
+
+        print("#" * 80)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+
+class Test2:  # tests on prompt 2  ############################################
+    def test1_checkmark_by_obj(_, corpus_testee2, bp_testee2pa1):
+        opt = bp_testee2pa1
+        answer = BLUEPRINT_2_FULL
+        print(opt)
+
+        proj_node = corpus_testee2["Project Title"]
+        opt.checkmark(proj_node["Description"]).checkmark(
+            proj_node["Usage"]
+        ).checkmark(proj_node["License"])
+
+        print("#" * 80)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+    def test1_checkmark_by_hash(_, corpus_testee2, bp_testee2pa1):
+        opt = bp_testee2pa1
+        answer = BLUEPRINT_2_FULL
+        print(opt)
+
+        proj_node = corpus_testee2["Project Title"]
+        for h in [
+            hash(proj_node[name])
+            for name in ("Description", "Usage", "License")
+        ]:
+            opt.checkmark(h)
+
+        print("#" * 80)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+
 # tests on prompt 3  ###########################################################
+class Test31:  # ===============================================================
+
+    def test1_checkmark_by_obj(_, corpus_testee3, bp_testee3pa1):
+        opt = bp_testee3pa1
+        answer = BLUEPRINT_3_FULL
+
+        print(opt)
+
+        node = corpus_testee3["Main Title"]["Methods"]
+        opt.checkmark(node)
+        node = node["Data Collection"]
+        opt.checkmark(node)
+        node = node["Tools Used"]
+        opt.checkmark(node)
+        node = node["Future Work"]
+        opt.checkmark(node)
+
+        print("#" * 80)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+    def test1_checkmark_by_hash(_, corpus_testee3, bp_testee3pa1):
+        opt = bp_testee3pa1
+        answer = BLUEPRINT_3_FULL
+
+        print(opt)
+
+        node = corpus_testee3["Main Title"]["Methods"]
+        opt.checkmark(hash(node))
+        node = node["Data Collection"]
+        opt.checkmark(hash(node))
+        node = node["Tools Used"]
+        opt.checkmark(hash(node))
+        node = node["Future Work"]
+        opt.checkmark(hash(node))
+
+        print("#" * 80)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+
+class Test32:  # ===============================================================
+
+    def test2_checkmark_by_obj(_, corpus_testee3, bp_testee3pa2):
+        opt = bp_testee3pa2
+        answer = BLUEPRINT_3_FULL
+
+        print(opt)
+
+        main_node = corpus_testee3["Main Title"]
+        node = main_node["Introduction"]
+        opt.checkmark(node)
+        node = node["Background"]["Importance"]
+        opt.checkmark(node)
+        node = main_node["Methods"]
+        opt.checkmark(node)
+        node = node["Data Collection"]["Tools Used"]
+        opt.checkmark(node)
+        node = main_node["Conclusion"]
+        opt.checkmark(node)
+
+        print("#" * 80)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
+
+    def test2_checkmark_by_hash(_, corpus_testee3, bp_testee3pa2):
+        opt = bp_testee3pa2
+        answer = BLUEPRINT_3_FULL
+        print(opt)
+
+        main_node = corpus_testee3["Main Title"]
+        node = main_node["Introduction"]
+        opt.checkmark(hash(node))
+        node = node["Background"]["Importance"]
+        opt.checkmark(hash(node))
+        node = main_node["Methods"]
+        opt.checkmark(hash(node))
+        node = node["Data Collection"]["Tools Used"]
+        opt.checkmark(hash(node))
+        node = main_node["Conclusion"]
+        opt.checkmark(hash(node))
+
+        print("#" * 80)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            == answer
+        )
 
 
 # corpus w/ dynamic nodes  #####################################################
@@ -288,249 +476,3 @@ class TestDynamicNodes:
         bp.checkmark(ipt)
 
         assert bp.is_checkmarked(node)
-
-
-# test_prompt1  ################################################################
-class XTest11:  # ==============================================================
-
-    # missing  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    def xtest_bad_hash(self, corpus_testee1):
-        # BUG
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
-        )
-
-        with pytest.raises(ValueError) as exec_info:
-            opt.checkmark(5)
-
-        opt = exec_info.value.args[0]
-        print(opt)
-
-        assert opt == "node absent in prompt corpus tree: 5"
-
-    def xtest_bad_obj(self, corpus_testee1, corpus_testee3):
-        # BUG
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
-        )
-        bad_node = corpus_testee3.children[0]
-
-        with pytest.raises(ValueError) as exec_info:
-            opt.checkmark(bad_node)
-
-        opt = exec_info.value.args[0]
-        print(opt)
-
-        assert (
-            opt
-            == "node absent in prompt corpus tree: PromptCorpusNode(Main Title)"
-        )
-
-
-class XTest12:  # ===============================================================
-
-    src = BLUEPRINT_1_PARTIAL_2
-    dest = BLUEPRINT_1_FULL
-
-    def test2_checkmark_by_obj(self, corpus_testee1):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
-        )
-        print(opt)
-
-        node = corpus_testee1["Project Title"]["Description"]
-        opt.checkmark(node)
-
-        print("#" * 80)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == self.dest
-        )
-
-    def test2_checkmark_by_hash(self, corpus_testee1):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
-        )
-        print(opt)
-
-        node = corpus_testee1["Project Title"]["Description"]
-        node_hash = hash(node)
-        opt.checkmark(node_hash)
-
-        print("#" * 80)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == self.dest
-        )
-
-
-class XTest2:  # test_prompt2  ##################################################
-
-    src = BLUEPRINT_2_PARTIAL_1
-    dest = BLUEPRINT_2_FULL
-
-    def test1_checkmark_by_obj(self, corpus_testee2):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee2
-        )
-        print(opt)
-
-        proj_node = corpus_testee2["Project Title"]
-        opt.checkmark(proj_node["Description"]).checkmark(
-            proj_node["Usage"]
-        ).checkmark(proj_node["License"])
-
-        print("#" * 80)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == self.dest
-        )
-
-    def test1_checkmark_by_hash(self, corpus_testee2):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee2
-        )
-        print(opt)
-
-        proj_node = corpus_testee2["Project Title"]
-        for h in [
-            hash(proj_node[name])
-            for name in ("Description", "Usage", "License")
-        ]:
-            opt.checkmark(h)
-
-        print("#" * 80)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == self.dest
-        )
-
-
-# test_prompt3  ################################################################
-class XTest31:  # ===============================================================
-
-    src = BLUEPRINT_3_PARTIAL_1
-    dest = BLUEPRINT_3_FULL
-
-    def test1_checkmark_by_obj(self, corpus_testee3):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee3
-        )
-        print(opt)
-
-        node = corpus_testee3["Main Title"]["Methods"]
-        opt.checkmark(node)
-        node = node["Data Collection"]
-        opt.checkmark(node)
-        node = node["Tools Used"]
-        opt.checkmark(node)
-        node = node["Future Work"]
-        opt.checkmark(node)
-
-        print("#" * 80)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == self.dest
-        )
-
-    def test1_checkmark_by_hash(self, corpus_testee3):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee3
-        )
-        print(opt)
-
-        node = corpus_testee3["Main Title"]["Methods"]
-        opt.checkmark(hash(node))
-        node = node["Data Collection"]
-        opt.checkmark(hash(node))
-        node = node["Tools Used"]
-        opt.checkmark(hash(node))
-        node = node["Future Work"]
-        opt.checkmark(hash(node))
-
-        print("#" * 80)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == self.dest
-        )
-
-
-class XTest32:  # ===============================================================
-
-    src = BLUEPRINT_3_PARTIAL_2
-    dest = BLUEPRINT_3_FULL
-
-    def test2_checkmark_by_obj(self, corpus_testee3):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee3
-        )
-        print(opt)
-
-        main_node = corpus_testee3["Main Title"]
-        node = main_node["Introduction"]
-        opt.checkmark(node)
-        node = node["Background"]["Importance"]
-        opt.checkmark(node)
-        node = main_node["Methods"]
-        opt.checkmark(node)
-        node = node["Data Collection"]["Tools Used"]
-        opt.checkmark(node)
-        node = main_node["Conclusion"]
-        opt.checkmark(node)
-
-        print("#" * 80)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == self.dest
-        )
-
-    def test2_checkmark_by_hash(self, corpus_testee3):
-        bp_text = self.src
-        opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee3
-        )
-        print(opt)
-
-        main_node = corpus_testee3["Main Title"]
-        node = main_node["Introduction"]
-        opt.checkmark(hash(node))
-        node = node["Background"]["Importance"]
-        opt.checkmark(hash(node))
-        node = main_node["Methods"]
-        opt.checkmark(hash(node))
-        node = node["Data Collection"]["Tools Used"]
-        opt.checkmark(hash(node))
-        node = main_node["Conclusion"]
-        opt.checkmark(hash(node))
-
-        print("#" * 80)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == self.dest
-        )
