@@ -181,11 +181,12 @@ class Test1:  ##################################################################
 
     def test_miss_node_by_obj1(_, bp_testee1pa1):
         bp = bp_testee1pa1
-        ipt = PromptCorpusNode("", None, [])
+        root = PromptCorpusNode("", None, [])
+        ipt = PromptCorpusNode("AAAZZZ", root, [])
 
         with pytest.raises(ValueError) as exec_info:
             bp._find_node_in_corpus_and_blueprint(ipt)
         opt = exec_info.value.args[0]
 
         print(opt)
-        assert opt == "no node in corpus: PromptCorpusNode()"
+        assert opt == "node not in corpus: PromptCorpusNode(AAAZZZ)"
