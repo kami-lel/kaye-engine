@@ -436,22 +436,26 @@ class PromptBlueprint(dict):
         in ``.checkmark()`` & in ``.uncheckmark()``,
         i.e. a generic version of the 2 functions
 
+
+        :raises TypeError:
         :raises ValueError:
         """
-        node_obj, node_hash = self._find_node_in_corpus_and_blueprint(node)
-        # FIXME return bool
+        # find node in corpus
+        node_obj, node_hash, is_contained = (
+            self._find_node_in_corpus_and_blueprint(node)
+        )
+
+        # err for .uncheckmark & bp not contained in blueprint
+        if not is_contained and not is_checkmark:
+            raise ValueError(
+                "node not contained in blueprint: {}".format(node_obj)
+            )
 
         # actual perform checking/unchecking
         self[node_hash] = is_checkmark
 
         if recursively:
             pass  # TODO add recursively
-
-        # ensure node is included in this blueprint
-        if node_hash not in self:
-            raise ValueError("node absent in blueprint: {}".format(node_obj))
-
-        return self
 
     def _find_node_in_corpus_and_blueprint(self, node_arg):
         """
