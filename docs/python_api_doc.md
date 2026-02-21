@@ -44,9 +44,9 @@ is equivalent to tree structure:
 
 A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, which is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 
-<!-- TODO -->
+<!-- todo more explanation on the functionalities of each node type -->
 
-nodes:
+nodes types:
 
 - Prompt Corpus Node `PromptCorpusNode`
 - dynamic nodes `DynamicNode`
@@ -88,34 +88,9 @@ E.g.
 
 ##### content lines
 
-<!-- TODO -->
+<!-- fixme improve, explain kwargs, provide example -->
 
-To access node's textual **content lines**, use `.content_lines` (typed `list`.) E.g. with prompt corpus text:
-
-```python
-prompt_corpus_text = """
-# Introduction
-~~~
-## Basic
-Hi, my name is Alice.
-It is nice to see you.
-
-What is your name?
-
-## Advanced
-~~~
-"""
-
-introduction_basic_node = ~~~
-introduction_basic_node.content_lines == [
-    "Hi, my name is Alice.",
-    "It is nice to see you.",
-    "",
-    "What is your name?",
-]
-```
-
-
+To access node's textual **content lines**, use `.content_lines()` (typed `list`.)
 
 
 
@@ -233,18 +208,7 @@ Use `copy.deepcopy(root)` to copy a prompt tree.
 
 #### tree creation
 
-<!-- TODO -->
-
-When deal with `PromptCorpusNode`, it is rare for end users to create individual instances, but to **create** an entire prompt tree (i.e. get the root node.) This is possible by *classmethod* `.parse()`:
-
-```python
-from kaye.gen_prompt import PromptCorpusNode
-
-text = ~~~
-tree_root = PromptCorpusNode.parse(text)
-```
-
-Or to directly load a tree of the **embedded** *prompt corpus text* (defined in `prompt_corpus.md`.) `load_embedded_prompt_corpus()` method will load it from filesystem at runtime:
+It is rare for end users to create individual instances, but to **create** an entire prompt tree (i.e. get the root node.) This is possible by load a tree of the **embedded** *prompt corpus text* (defined in `prompt_corpus.md`.) `load_embedded_prompt_corpus()` method will load it from filesystem at runtime:
 
 ```python
 from kaye.gen_prompt import load_embedded_prompt_corpus
@@ -266,6 +230,8 @@ tree_root = load_embedded_prompt_corpus()
 
 ### Prompt Blueprint `PromptBlueprint`
 
+<!-- FIXME update on bp -->
+
 A **prompt blueprint** represents a configurable subset of *prompt corpus tree*, such that individual node are either **checkmarked** (i.e. enabled, turned on) or **uncheckmarked** (i.e. disabled, turned off.) Then one can generate a prompt as a subset of the tree.
 
 ----
@@ -273,8 +239,8 @@ A **prompt blueprint** represents a configurable subset of *prompt corpus tree*,
 One might **create** a populated `PromptBlueprint` by **parsing** a preview-tree text (v.i.) (positional argument `blueprint_text`) by using *classmethod* `.parse()`, e.g.
 
 ```python
-prompt_corpus = ~~~
-blueprint_text = ~~~
+prompt_corpus = ~
+blueprint_text = ~
 blueprint = PromptBlueprint.parse(prompt_corpus, blueprint_text)
 ```
 
@@ -426,6 +392,8 @@ E.g.
 
 
 #### embedded blueprints
+
+<!-- Hack deprecation? -->
 
 **Embedded blueprints** are saved under `./kaye/kaye/gen_prompt/embedded_blueprints`. Programmatically, one might use these functions to load them from filesystem:
 
