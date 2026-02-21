@@ -10,13 +10,13 @@ The **prompt tree** is the structured representation parsed from *prompt corpus 
 
 ```md
 # Introduction
-~~~
+~
 ## Basic
-~~~
+~
 ## Advanced
-~~~
+~
 # Usage
-~~~
+
 ```
 
 is equivalent to tree structure:
@@ -120,7 +120,7 @@ A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, whi
 
 
 
-<!-- Fixme rewrite python api doc -->
+<!-- FIXME rewrite python api doc -->
 
 ### Prompt Corpus Node `PromptCorpusNode`
 
