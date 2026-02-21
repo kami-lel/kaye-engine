@@ -266,9 +266,7 @@ Each entry in `PromptBlueprint` represents a node, with key being node `hash()` 
 
 
 
-
-
-#### node membership
+#### per node operations
 
 There are 2 types of relationships of a prompt corpus **node** and a **blueprint**:
 
@@ -286,9 +284,7 @@ There are 2 types of relationships of a prompt corpus **node** and a **blueprint
 
 
 
-
-
-#### checkmarking & uncheckmarking
+##### checkmarking & uncheckmarking
 
 One might **checkmark** a node in a blueprint, and such node must be from blueprint's corpus tree:
 
@@ -326,11 +322,15 @@ However, when encounter a node findable in corpus tree, but not contained in the
 
 
 
+#### blueprint-level operations
+
+##### prune
+
+Use `bp.prune()` will create a minimum version that contains only branches with checkmarked nodes.
 
 
 
-
-#### generate prompt
+##### generate prompt
 
 Use `.generate_prompt()` to render the **concrete prompt** that can be used as LLM system message with it content based on node's checkmarking status of this blueprint.
 
@@ -349,12 +349,9 @@ Summarizing the findings and implications.
 
 
 
+##### generate blueprint text
 
-#### blueprint text
-
-<!-- FIXME -->
-
-Like `PromptCorpusNode`, one may use `.generate_preview_tree()` to show a human-readable presentation of `PromptBlueprint`; the tree contains:
+User may use `.generate_blueprint()` to show a human-readable presentation of `PromptBlueprint`; the tree contains:
 
 - tree structure of corresponding *prompt corpus tree*
 - node name, i.e. section heading
@@ -366,8 +363,8 @@ By default, this print an **pruned** tree, showing only branches & nodes relevan
 E.g.
 
 ```python
->>> tree = PromptBlueprint(~~~)
->>> tree.generate_preview_tree()
+>>> tree = PromptBlueprint.parse(~)
+>>> tree.generate_blueprint()
     ○
 [x] └── Project Title
 [ ]     ├── Description
@@ -385,7 +382,7 @@ E.g.
 [x]     └── License
             This project is licensed under the MIT License.
 (blueprint:conversation; Kaye v1.2.3)
->>> tree.generate_preview_tree(content_preview_lines=0, hide_comment=True)
+>>> tree.generate_blueprint(content_preview_lines=0, hide_comment=True)
     ○
 [x] └── Project Title
 [ ]     ├── Description
