@@ -184,10 +184,9 @@ class BasePromptNode(AnyTreeNode):
         :param other:
         :type other: BasePromptNode
         :return: whether 2 nodes has the same lineage;
-                if both compared noes are root,
+                if both nodes are roots,
                 test whether 2 trees are identical in node name structure
                 (node content is irrelevant)
-                when given root nodes
         :rtype: bool
         """
         if not isinstance(other, BasePromptNode):
