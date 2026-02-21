@@ -869,36 +869,36 @@ Provide a number between `0.0` (very easy) and `1.0` (very hard) that represents
 
 Use these asks as your **anchor point** when evaluate difficulty:
 
-- ``0.09`` Find the correct syntax for a language feature; provide a minimal snippet.
-- ``0.10`` Look up how to use a library/API call; provide a minimal working example.
-- ``0.11`` Write/fix a simple regex; include a few test cases.
-- ``0.19`` Implement a small utility function + edge-case tests (e.g., slugify/rounding/URL encode).
-- ``0.20`` Fix a null/undefined crash from a stack trace; add correct guards.
-- ``0.21`` Add basic input validation (formats/required fields) with clear error messages.
-- ``0.29`` Replace recursion with an iterative approach; state complexity.
-- ``0.30`` Pick and implement the right common algorithm/data structure (dedupe, top‑k, sliding window).
-- ``0.31`` Fix a type-system error (generics/constraints/lifetimes) idiomatically.
-- ``0.39`` Convert a sync flow to async/await (or equivalent) without behavior changes.
-- ``0.40`` Refactor a messy module into smaller units without changing behavior; update tests.
-- ``0.43`` Diagnose and fix a flaky test (timing/order); add a regression test.
-- ``0.48`` Write/fix SQL (joins/grouping) for correct results and no accidental duplicates.
-- ``0.50`` Implement an API endpoint with pagination/sorting/filtering (cursor-based if needed).
-- ``0.52`` Write a safe DB migration (schema + backfill + constraints) with rollback.
-- ``0.58`` Implement streaming I/O for large files/CSV to avoid full-memory loads.
-- ``0.60`` Add retries with exponential backoff + jitter; document parameters.
-- ``0.62`` Add caching with TTL (in-memory/Redis), key design, and invalidation.
-- ``0.70`` Find and fix a race condition; choose mutex/atomic/channel appropriately.
-- ``0.72`` Build background jobs with retries and dead-letter handling.
-- ``0.74`` Debug and fix a deadlock/concurrency stall (lock ordering/scope).
-- ``0.78`` Add rate limiting middleware (token bucket/sliding window) with edge cases covered.
-- ``0.80`` Implement OAuth login + secure session management.
-- ``0.82`` Patch common web vulns (SQLi/XSS/CSRF) and add regression tests.
-- ``0.88`` Dockerize the app (Dockerfile + compose) and document local run steps.
-- ``0.89`` Set up CI (lint/test/build) with caching and artifacts.
-- ``0.90`` Add observability (structured logs, metrics, tracing) with request IDs end-to-end.
-- ``0.98`` Implement an advanced distributed algorithm prototype (e.g., Raft leader election).
-- ``0.99`` Build a small interpreter/compiler (lexer → parser → AST → evaluator) with tests.
-- ``1.00`` Start a monolith→microservices migration: plan + implement first extraction safely.
+- `0.09` Find the correct syntax for a language feature; provide a minimal snippet.
+- `0.10` Look up how to use a library/API call; provide a minimal working example.
+- `0.11` Write/fix a simple regex; include a few test cases.
+- `0.19` Implement a small utility function + edge-case tests (e.g., slugify/rounding/URL encode).
+- `0.20` Fix a null/undefined crash from a stack trace; add correct guards.
+- `0.21` Add basic input validation (formats/required fields) with clear error messages.
+- `0.29` Replace recursion with an iterative approach; state complexity.
+- `0.30` Pick and implement the right common algorithm/data structure (dedupe, top‑k, sliding window).
+- `0.31` Fix a type-system error (generics/constraints/lifetimes) idiomatically.
+- `0.39` Convert a sync flow to async/await (or equivalent) without behavior changes.
+- `0.40` Refactor a messy module into smaller units without changing behavior; update tests.
+- `0.43` Diagnose and fix a flaky test (timing/order); add a regression test.
+- `0.48` Write/fix SQL (joins/grouping) for correct results and no accidental duplicates.
+- `0.50` Implement an API endpoint with pagination/sorting/filtering (cursor-based if needed).
+- `0.52` Write a safe DB migration (schema + backfill + constraints) with rollback.
+- `0.58` Implement streaming I/O for large files/CSV to avoid full-memory loads.
+- `0.60` Add retries with exponential backoff + jitter; document parameters.
+- `0.62` Add caching with TTL (in-memory/Redis), key design, and invalidation.
+- `0.70` Find and fix a race condition; choose mutex/atomic/channel appropriately.
+- `0.72` Build background jobs with retries and dead-letter handling.
+- `0.74` Debug and fix a deadlock/concurrency stall (lock ordering/scope).
+- `0.78` Add rate limiting middleware (token bucket/sliding window) with edge cases covered.
+- `0.80` Implement OAuth login + secure session management.
+- `0.82` Patch common web vulns (SQLi/XSS/CSRF) and add regression tests.
+- `0.88` Dockerize the app (Dockerfile + compose) and document local run steps.
+- `0.89` Set up CI (lint/test/build) with caching and artifacts.
+- `0.90` Add observability (structured logs, metrics, tracing) with request IDs end-to-end.
+- `0.98` Implement an advanced distributed algorithm prototype (e.g., Raft leader election).
+- `0.99` Build a small interpreter/compiler (lexer → parser → AST → evaluator) with tests.
+- `1.00` Start a monolith→microservices migration: plan + implement first extraction safely.
 
 
 

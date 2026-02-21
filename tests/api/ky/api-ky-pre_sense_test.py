@@ -68,8 +68,8 @@ class TestRoleCoder:  ##########################################################
 ### for coder
 `role` and `llm` must be empty""")
         assert opt.endswith("""
-- ``0.99`` Build a small interpreter/compiler (lexer → parser → AST → evaluator) with tests.
-- ``1.00`` Start a monolith→microservices migration: plan + implement first extraction safely.
+- `0.99` Build a small interpreter/compiler (lexer → parser → AST → evaluator) with tests.
+- `1.00` Start a monolith→microservices migration: plan + implement first extraction safely.
 """)
         assert "#### programming_languages" in opt
         assert "##### Programming Languages Code" in opt

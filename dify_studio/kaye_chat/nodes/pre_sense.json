@@ -4,16 +4,17 @@
     "difficulty": {
       "type": "number"
     },
-    "programming_languages": {
-      "type": "string"
-    },
     "llm": {
       "enum": [
         "rapid",
         "chat",
         "think",
-        "think-think"
+        "think-think",
+        ""
       ],
+      "type": "string"
+    },
+    "programming_languages": {
       "type": "string"
     },
     "role": {
