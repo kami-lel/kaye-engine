@@ -71,9 +71,9 @@ class TestRoleCoder:  ##########################################################
 - ``0.99`` Build a small interpreter/compiler (lexer → parser → AST → evaluator) with tests.
 - ``1.00`` Start a monolith→microservices migration: plan + implement first extraction safely.
 """)
-        assert """#### programming_languages""" in opt
-        assert """##### Programming Languages Code""" in opt
-        assert """#### difficulty""" in opt
+        assert "#### programming_languages" in opt
+        assert "##### Programming Languages Code" in opt
+        assert "#### difficulty" in opt
 
 
 class TestOtherRole:  ##########################################################
