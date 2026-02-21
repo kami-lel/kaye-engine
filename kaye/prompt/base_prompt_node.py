@@ -140,7 +140,7 @@ class BasePromptNode(AnyTreeNode):
 
     def __getitem__(self, key):
         """
-        :param key: index of child; `name` **or** `id` of child
+        :param key: index of child; `.name` **or** `.identifier` of child
         :type key: int or str
         :raises IndexError:
         :raises KeyError:
@@ -149,7 +149,7 @@ class BasePromptNode(AnyTreeNode):
         :rtype: BasePromptNode
         :example:
         >>> node[0]         # get first child
-        >>> node["Info"]    # get child with name or id of "Info"
+        >>> node["Info"]    # get child with name of "Info"
         """
         if isinstance(key, int):  # get by index
             try:

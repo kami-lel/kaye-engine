@@ -113,22 +113,23 @@ Additionally, if both nodes are roots, test whether 2 trees are identical in nod
 
 ##### `[]` operator
 
-<!-- TODO -->
+Use `[]` operator to access child of `node` by:
 
-
-To access node **parent**:
-
-```python
-node.parent  # or
-node[None]
-```
+- index (typed `int`) among all children,
+- child's name (typed `str`,) or
+- child's identifier (typed `str`)
 
 > [!NOTE]
-> The `.parent` of a root node is ``None``
+> When using `str` as key, it will return 1st node that has a name or identifier identical to the given value.
+
+> [!TIP]
+> Use `.parent` to access node's parent, and `.parent` of a root node is ``None``
 
 
 
 ##### tree preview
+
+<!-- TODO -->
 
 tree preview i.e. `__repr__` for root
 
