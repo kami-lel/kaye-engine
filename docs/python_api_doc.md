@@ -44,7 +44,17 @@ is equivalent to tree structure:
 
 A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, which is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 
-A prompt tree node is either a *prompt corpus node* `PromptCorpusNode` (v.i.) or a *dynamic nodes* `DynamicNode` (v.i.)
+<!-- TODO -->
+
+nodes:
+
+- Prompt Corpus Node `PromptCorpusNode`
+- dynamic nodes `DynamicNode`
+
+  - Today Node `TodayNode`
+  - Abbreviations Node `AbbrNode`
+  - Programming Languages Code Node `PLCNode`
+  - Usable Abbreviations Node `UsableAbbrNode`
 
 
 
@@ -73,6 +83,39 @@ E.g.
 
 > [!NOTE]
 > `.name` is a property of `anytree.Node`
+
+
+
+##### content lines
+
+<!-- TODO -->
+
+To access node's textual **content lines**, use `.content_lines` (typed `list`.) E.g. with prompt corpus text:
+
+```python
+prompt_corpus_text = """
+# Introduction
+~~~
+## Basic
+Hi, my name is Alice.
+It is nice to see you.
+
+What is your name?
+
+## Advanced
+~~~
+"""
+
+introduction_basic_node = ~~~
+introduction_basic_node.content_lines == [
+    "Hi, my name is Alice.",
+    "It is nice to see you.",
+    "",
+    "What is your name?",
+]
+```
+
+
 
 
 
@@ -129,149 +172,6 @@ Use `[]` operator to access child of `node` by:
 
 ##### tree preview
 
-<!-- TODO -->
-
-tree preview i.e. `__repr__` for root
-
-
-
-##### support `copy`
-
-copy & deepcopy
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Prompt Corpus Node `PromptCorpusNode`
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Dynamic Nodes `DynamicNode`
-
-#### Today Node `TodayNode`
-
-
-
-
-
-#### Abbreviations Node `AbbrNode`
-
-
-
-
-
-#### Programming Languages Code Node `PLCNode`
-
-
-
-
-
-#### Usable Abbreviations Node `UsableAbbrNode`
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Prompt Blueprint `PromptBlueprint`
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Prompt Corpus Node `PromptCorpusNode`
-
-#### tree creation
-
-When deal with `PromptCorpusNode`, it is rare for end users to create individual instances, but to **create** an entire prompt tree (i.e. get the root node.) This is possible by *classmethod* `.parse()`:
-
-```python
-from kaye.gen_prompt import PromptCorpusNode
-
-text = ~~~
-tree_root = PromptCorpusNode.parse(text)
-```
-
-Or to directly load a tree of the **embedded** *prompt corpus text* (defined in `prompt_corpus.md`.) `load_embedded_prompt_corpus()` method will load it from filesystem at runtime:
-
-```python
-from kaye.gen_prompt import load_embedded_prompt_corpus
-
-tree_root = load_embedded_prompt_corpus()
-```
-
-
-
-
-
-#### node properties
-
-###### content
-
-To access node's textual **content lines**, use `.content_lines` (typed `list`.) E.g. with prompt corpus text:
-
-```python
-prompt_corpus_text = """
-# Introduction
-~~~
-## Basic
-Hi, my name is Alice.
-It is nice to see you.
-
-What is your name?
-
-## Advanced
-~~~
-"""
-
-introduction_basic_node = ~~~
-introduction_basic_node.content_lines == [
-    "Hi, my name is Alice.",
-    "It is nice to see you.",
-    "",
-    "What is your name?",
-]
-```
-
-
-
-
-#### tree preview
-
 Use `.generate_prompt_tree_preview()` on **root** instance to show a human-readable representation which shows:
 
 - tree structure
@@ -319,15 +219,38 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 
 
+##### support `copy`
+
+`BasePromptNode` support Python `copy` operations.
+
+Use `copy.copy(node)` to create a shallow copied identical node, but with no children and no parent (set to `None`)
+
+Use `copy.deepcopy(root)` to copy a prompt tree.
 
 
 
 
 
+#### tree creation
 
+<!-- TODO -->
 
+When deal with `PromptCorpusNode`, it is rare for end users to create individual instances, but to **create** an entire prompt tree (i.e. get the root node.) This is possible by *classmethod* `.parse()`:
 
+```python
+from kaye.gen_prompt import PromptCorpusNode
 
+text = ~~~
+tree_root = PromptCorpusNode.parse(text)
+```
+
+Or to directly load a tree of the **embedded** *prompt corpus text* (defined in `prompt_corpus.md`.) `load_embedded_prompt_corpus()` method will load it from filesystem at runtime:
+
+```python
+from kaye.gen_prompt import load_embedded_prompt_corpus
+
+tree_root = load_embedded_prompt_corpus()
+```
 
 
 

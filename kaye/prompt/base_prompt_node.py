@@ -110,7 +110,8 @@ class BasePromptNode(AnyTreeNode):
 
     def __copy__(self):
         """
-        :return: a shallow copy **without** any children & no parent
+        :return: a shallow copied identical node,
+                but with no children and no parent (set to ``None``)
         :rtype: BasePromptNode
         """
         raise NotImplementedError
@@ -159,7 +160,7 @@ class BasePromptNode(AnyTreeNode):
                     "index out of range for {}: {}".format(str(self), key)
                 ) from err
 
-        elif isinstance(key, str):
+        elif isinstance(key, str):  # get by name/identifier
             for child in self.children:
                 if key in (child.name, child.identifier):
                     return child
