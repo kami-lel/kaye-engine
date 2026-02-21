@@ -104,20 +104,17 @@ E.g.
 
 ----
 
-eq
+`==` operator of nodes is also based on `.generate_identifier_lineage()`.
+I.e. `a == b` return whether two nodes has the same lineage.
 
-<!-- TODO -->
+Additionally, if both nodes are roots, test whether 2 trees are identical in node name structure (node content is irrelevant)
 
 
 
 ##### `[]` operator
 
+<!-- TODO -->
 
-----
-
-getitem
-
-###### parent
 
 To access node **parent**:
 
@@ -126,11 +123,16 @@ node.parent  # or
 node[None]
 ```
 
-The `.parent` of a root node is ``None``
+> [!NOTE]
+> The `.parent` of a root node is ``None``
 
-----
 
-tree preview __repr__ for root
+
+##### tree preview
+
+tree preview i.e. `__repr__` for root
+
+
 
 ##### support `copy`
 
