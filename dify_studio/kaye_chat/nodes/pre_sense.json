@@ -4,12 +4,11 @@
     "difficulty": {
       "type": "number"
     },
-    "plcs": {
+    "programming_languages": {
       "type": "string"
     },
     "llm": {
       "enum": [
-        "pre-sense",
         "rapid",
         "chat",
         "think",
@@ -23,7 +22,7 @@
   },
   "required": [
     "difficulty",
-    "plcs",
+    "programming_languages",
     "llm",
     "role"
   ],

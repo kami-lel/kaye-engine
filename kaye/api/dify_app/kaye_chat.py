@@ -18,7 +18,7 @@ PRE_SENSE_PROMPT_BLUEPRINT = """ ○
 [ ]         ├── role
 [ ]         ├── leave empty
 [ ]         └── for coder
-[ ]             ├── programming_langauges
+[ ]             ├── programming_languages
 [ ]             │   └── {Programming Languages Code}
 [ ]             └── difficulty
 """

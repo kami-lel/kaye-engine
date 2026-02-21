@@ -816,8 +816,8 @@ select the single most appropriate label to describe the nature of the user's qu
 
 ### leave empty
 
-`plcs` must be empty `""`
-`difficulty` must be value of `0`
+`programming_languages` must be empty
+`difficulty` must be `0`
 
 
 
@@ -857,9 +857,9 @@ select the single most appropriate label to describe the nature of the user's qu
 
 ### for coder
 
-`role` and `llm` must be empty `""`
+`role` and `llm` must be empty
 
-#### programming_langauges
+#### programming_languages
 
 Return a string containing the abbreviations of the programming languages (as defined below) required by the user, separated by commas. For example, `'py,cpp'`. If the conversation does not mention any specific programming language, such as when discussing conceptual or general algorithms, return an empty string (`''`).
 
