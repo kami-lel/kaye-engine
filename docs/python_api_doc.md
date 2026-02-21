@@ -4,7 +4,20 @@
 
 The **core** module of *Kaye Python API*, implement a systematic, dynamic, and structured framework for **prompt management and manipulation**.
 
-----
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Prompt Tree Nodes `BasePromptNode`
 
 The **prompt tree** is the structured representation parsed from *prompt corpus text* . A **node** of tree is corresponding to a section heading in the text. E.g. text in such form:
 
@@ -31,20 +44,97 @@ is equivalent to tree structure:
 
 A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, which is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 
+A prompt tree node is either a *prompt corpus node* `PromptCorpusNode` (v.i.) or a *dynamic nodes* `DynamicNode` (v.i.)
 
 
 
+##### name & identifier
+
+Each node has `.name` and `.identifier`:
+
+- `.name`: i.e. **section heading**, also what appears in *preview tree* (v.i.)
+- `.identifier`:
+
+  - for `PromptCorpusNode`: this is identical to `.name`
+  - for `DynamicNode` instances: this is `.name` enclosed by `{}`.
+
+E.g.
+
+```python
+>>> corpus_node.name
+"Introduction"
+>>> corpus_node.identifier
+"Introduction"
+>>> dynamic_node.name
+"Abbreviations"
+>>> dynamic_node.identifier
+"{Abbreviations}"
+```
+
+> [!NOTE]
+> `.name` is a property of `anytree.Node`
 
 
 
+##### lineage
+
+Use `.generate_identifier_lineage()` to get a linage from root (exclusively) to current node (inclusively,) represented as a ``list`` of node's ``.identifier``.
+
+> [!TIP]
+> Since root is excluded from lineage, tree with different root nodes' names may produce identical lineage.
+
+----
+
+Use `str()` to produce a node's representation that contains the lineage.
+
+E.g.
+
+```python
+>>> str(root)
+"PromptCorpusNode()"
+>>> str(corpus_node)
+"PromptCorpusNode(Introduction#Data#Advanced)"
+>>> str(abbr_node)
+"AbbrNode(Introduction#Data#{Abbreviations})"
+```
+
+----
+
+`hash()` of a `BasePromptNode` is also based on `.generate_identifier_lineage()`
+
+----
+
+eq
+
+<!-- TODO -->
 
 
 
+##### `[]` operator
 
 
+----
 
+getitem
 
-### Prompt Tree Nodes `BasePromptNode`
+###### parent
+
+To access node **parent**:
+
+```python
+node.parent  # or
+node[None]
+```
+
+The `.parent` of a root node is ``None``
+
+----
+
+tree preview __repr__ for root
+
+##### support `copy`
+
+copy & deepcopy
 
 
 
@@ -120,8 +210,6 @@ A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, whi
 
 
 
-<!-- FIXME rewrite python api doc -->
-
 ### Prompt Corpus Node `PromptCorpusNode`
 
 #### tree creation
@@ -148,31 +236,6 @@ tree_root = load_embedded_prompt_corpus()
 
 
 #### node properties
-
-###### name
-
-To access node **name**, i.e. **section heading**:
-
-```python
-node = ~~~
-assert node.name == "Introduction"
-assert node.identifier == "Introduction"
-```
-
-> [!NOTE]
-> `.name` and `.identifier` return identical result for `PromptCorpusNode`
-
-
-###### parent
-
-To access node **parent**:
-
-```python
-node.parent  # or
-node[None]
-```
-
-The `.parent` of a root node is ``None``
 
 ###### content
 

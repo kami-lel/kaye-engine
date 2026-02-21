@@ -120,7 +120,7 @@ class BasePromptNode(AnyTreeNode):
     def generate_identifier_lineage(self):
         """
         :return: a **lineage**
-                from root (exclusively) to current node (inclusively),
+                from root (exclusively) to current node (inclusively,)
                 represented as a ``list`` of node's ``.identifier``
         :rtype: list(str)
         :example:
@@ -229,9 +229,14 @@ class BasePromptNode(AnyTreeNode):
         """
         :return:
         :rtype: str
+
         :example:
-        >>> str(node)
+        >>> str(root)
+        "PromptCorpusNode()"
+        >>> str(corpus_node)
         "PromptCorpusNode(Introduction#Data#Advanced)"
+        >>> str(abbr_node)
+        "AbbrNode(Introduction#Data#{Abbreviations})"
         """
         lineage = "#".join(node.name for node in self.path[1:])
         return "{}({})".format(type(self).__name__, lineage)
