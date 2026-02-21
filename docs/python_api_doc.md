@@ -230,24 +230,28 @@ tree_root = load_embedded_prompt_corpus()
 
 ### Prompt Blueprint `PromptBlueprint`
 
-<!-- FIXME update on bp -->
-
 A **prompt blueprint** represents a configurable subset of *prompt corpus tree*, such that individual node are either **checkmarked** (i.e. enabled, turned on) or **uncheckmarked** (i.e. disabled, turned off.) Then one can generate a prompt as a subset of the tree.
 
 ----
 
-One might **create** a populated `PromptBlueprint` by **parsing** a preview-tree text (v.i.) (positional argument `blueprint_text`) by using *classmethod* `.parse()`, e.g.
+User always create a populated `PromptBlueprint` by **parsing** a blueprint text (as positional argument `blueprint_text`) by using *classmethod* `.parse()`, e.g.
 
 ```python
 prompt_corpus = ~
 blueprint_text = ~
-blueprint = PromptBlueprint.parse(prompt_corpus, blueprint_text)
+blueprint = PromptBlueprint.parse(blueprint_text)
 ```
+
+By default, this parse the blueprint text based on the *embedded prompt corpus text*. One might use an alternative corpus tree by providing keyword argument `corpus_override`, but this is often only used for testing purpose.
+
+----
 
 Additionally, one might create full/empty blueprints by *classmethod*:
 
 - ``Blueprint.create_full_blueprint()``, and
 - ``Blueprint.create_empty_blueprint()``
+
+These return blueprint objects those contain all nodes (of corpus tree), and also checkmark/uncheckmark all nodes.
 
 ----
 
@@ -255,7 +259,7 @@ Additionally, one might create full/empty blueprints by *classmethod*:
 
 A `PromptBlueprint` has 2 additional attributes:
 
-- `.corpus`: corresponding prompt corpus tree root (typed `PromptCorpusNode`)
+- `.corpus`: corresponding prompt corpus tree root (typed `BasePromptNode`)
 - `.display_name`: name of the blueprint, typed `str`, default to `''`
 
 Each entry in `PromptBlueprint` represents a node, with key being node `hash()` (typed `int`,) and value being if the node is *checkmarked*, (typed `bool`.) The *root node* is never included in blueprint, because one will assume root node is always enabled/checkmarked.
@@ -271,10 +275,12 @@ There are 2 types of relationships of a prompt corpus **node** and a **blueprint
 - if a node is **contained**/included as part of the blueprint
 - if a node is **checkmarked**/enabled in the blueprint
 
-| check for: | contains/inclusion | is checkmarked |
+| check by node' | contains/inclusion | is checkmarked |
 | ---- | ---- | ---- |
-| by node hash | `h in bp`, `h in bp.keys()` | `bp.is_checkmarked(h)`, `bp[h]` |
-| by node object | `node in bp` | `bp.is_checkmarked(node)` |
+| hash | `h in bp`, `h in bp.keys()` | `bp.is_checkmarked(h)`, `bp[h]` |
+| object | `node in bp` | `bp.is_checkmarked(node)` |
+| name | `name in bp` | `bp.is_checkmarked(name)` |
+| identifier | `id in bp` | `bp.is_checkmarked(id)` |
 
 (`h`: hash value, `node`: node object, `bp`: blueprint)
 
@@ -298,23 +304,26 @@ blueprint.uncheckmark(node)
 blueprint -= node  # identical
 ```
 
+`.checkmark()` and `.uncheckmark()` support keyword argument `recursively=` which allows user to (un)checkmark a node and all of its descendants.
 
+----
 
+Both operations allows user to provide node as node object, hash value, name, or identifier.
 
-#### merging
-
-Merge 2 blueprints (of the same corpus tree,) such that:
-
-- contains all nodes from both blueprints
-- node is checkmarked: they are checkmarked in either blueprint
+E.g.
 
 ```python
-left_bp = ~~~
-right_bp = ~~~
-
-merged_bp = left_bp.merge(right_bp)  # or identically
-left_bp *= right_bp
+bp.checkmark(bp.corpus[0][1])
+bp.checkmark(node_hash)
+bp.uncheckmark("Important Instruction")
+bp.uncheckmark("{Abbreviations}")
 ```
+
+However, when encounter a node findable in corpus tree, but not contained in the blueprint:
+
+- `.checkmark()` will automatically contain the node, and then mark it checkmarked
+- `.uncheckmark()` will raise a `KeyError`
+
 
 
 
@@ -328,7 +337,7 @@ Use `.generate_prompt()` to render the **concrete prompt** that can be used as L
 E.g.
 
 ```python
->>> tree = PromptBlueprint(...)
+>>> tree = PromptBlueprint(~)
 >>> tree.generate_prompt(hide_comment=True)
 # Main Title
 Overview of the methodologies used.
@@ -341,7 +350,9 @@ Summarizing the findings and implications.
 
 
 
-#### preview tree
+#### blueprint text
+
+<!-- FIXME -->
 
 Like `PromptCorpusNode`, one may use `.generate_preview_tree()` to show a human-readable presentation of `PromptBlueprint`; the tree contains:
 
