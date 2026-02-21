@@ -110,7 +110,8 @@ class BasePromptNode(AnyTreeNode):
 
     def __copy__(self):
         """
-        :return: a shallow copy **without** any children & no parent
+        :return: a shallow copied identical node,
+                but with no children and no parent (set to ``None``)
         :rtype: BasePromptNode
         """
         raise NotImplementedError
@@ -120,7 +121,7 @@ class BasePromptNode(AnyTreeNode):
     def generate_identifier_lineage(self):
         """
         :return: a **lineage**
-                from root (exclusively) to current node (inclusively),
+                from root (exclusively) to current node (inclusively,)
                 represented as a ``list`` of node's ``.identifier``
         :rtype: list(str)
         :example:
@@ -140,7 +141,7 @@ class BasePromptNode(AnyTreeNode):
 
     def __getitem__(self, key):
         """
-        :param key: index of child; `name` **or** `id` of child
+        :param key: index of child; `.name` **or** `.identifier` of child
         :type key: int or str
         :raises IndexError:
         :raises KeyError:
@@ -149,7 +150,7 @@ class BasePromptNode(AnyTreeNode):
         :rtype: BasePromptNode
         :example:
         >>> node[0]         # get first child
-        >>> node["Info"]    # get child with name or id of "Info"
+        >>> node["Info"]    # get child with name of "Info"
         """
         if isinstance(key, int):  # get by index
             try:
@@ -159,7 +160,7 @@ class BasePromptNode(AnyTreeNode):
                     "index out of range for {}: {}".format(str(self), key)
                 ) from err
 
-        elif isinstance(key, str):
+        elif isinstance(key, str):  # get by name/identifier
             for child in self.children:
                 if key in (child.name, child.identifier):
                     return child
@@ -184,10 +185,9 @@ class BasePromptNode(AnyTreeNode):
         :param other:
         :type other: BasePromptNode
         :return: whether 2 nodes has the same lineage;
-                if both compared noes are root,
+                if both nodes are roots,
                 test whether 2 trees are identical in node name structure
                 (node content is irrelevant)
-                when given root nodes
         :rtype: bool
         """
         if not isinstance(other, BasePromptNode):
@@ -229,9 +229,14 @@ class BasePromptNode(AnyTreeNode):
         """
         :return:
         :rtype: str
+
         :example:
-        >>> str(node)
+        >>> str(root)
+        "PromptCorpusNode()"
+        >>> str(corpus_node)
         "PromptCorpusNode(Introduction#Data#Advanced)"
+        >>> str(abbr_node)
+        "AbbrNode(Introduction#Data#{Abbreviations})"
         """
         lineage = "#".join(node.name for node in self.path[1:])
         return "{}({})".format(type(self).__name__, lineage)
