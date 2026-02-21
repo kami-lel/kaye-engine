@@ -859,7 +859,7 @@ select the single most appropriate label to describe the nature of the user's qu
 
 `role` and `llm` must be empty `""`
 
-#### plcs
+#### programming_langauges
 
 Return a string containing the abbreviations of the programming languages (as defined below) required by the user, separated by commas. For example, `'py,cpp'`. If the conversation does not mention any specific programming language, such as when discussing conceptual or general algorithms, return an empty string (`''`).
 
