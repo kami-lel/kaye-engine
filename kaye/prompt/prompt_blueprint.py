@@ -332,7 +332,8 @@ class PromptBlueprint(dict):
     def prune(self):
         """
         :return: a **pruned** blueprint (of ``self``)
-                which contains only branches with checkmarked nodes
+                which is a minimum version
+                that contains only branches with checkmarked nodes
         :rtype: PromptBlueprint
         """
         # create bp w/ nothing

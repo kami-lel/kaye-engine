@@ -3944,6 +3944,30 @@
       "wrap": "word"
     }
   },
+  "range;and the others": {
+    "...": {
+      "priority": 3,
+      "tags": [
+        "ascii_only",
+        "common"
+      ],
+      "wrap": "symbol"
+    },
+    "…": {
+      "priority": 2,
+      "tags": [
+        "common"
+      ],
+      "wrap": "symbol"
+    },
+    "~": {
+      "priority": 1,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "symbol"
+    }
+  },
   "rapid,fast": {
     "🚀": {
       "priority": 5,
@@ -4535,6 +4559,15 @@
       "wrap": "word"
     }
   },
+  "than": {
+    "T": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
   "that is,in other words": {
     "i.e.": {
       "priority": 5,
@@ -4561,15 +4594,6 @@
     }
   },
   "then": {
-    "T": {
-      "priority": 5,
-      "tags": [
-        "letters_only"
-      ],
-      "wrap": "word"
-    }
-  },
-  "than": {
     "T": {
       "priority": 5,
       "tags": [
