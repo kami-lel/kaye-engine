@@ -4,7 +4,7 @@ api_dify_kyc_test.py
 Unit Tests (using pytest) for: /kaye/dify-app/kyc/*
 """
 
-# Hack deprecations
+# HACK deprecations
 
 import json
 
