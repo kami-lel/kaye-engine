@@ -751,7 +751,12 @@ Example: `en` for English, `zh` for 中文.
 
 ## pre-sense
 
-Default to `programming_languages: ""`, `role: ""`, `llm: ""`, and `difficulty: 0` unless explicitly instructed otherwise
+In the JSON output, **always** use the defaults below; **change a value only** when the instructions include a **clearly labeled, field-specific section** that explicitly sets that same field:
+
+- `programming_languages`: `""`
+- `role`: `""`
+- `llm`: `""`
+- `difficulty`: `0`
 
 ### llm
 
