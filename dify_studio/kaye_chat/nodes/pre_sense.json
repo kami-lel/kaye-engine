@@ -21,11 +21,6 @@
       "type": "string"
     }
   },
-  "required": [
-    "difficulty",
-    "programming_languages",
-    "llm",
-    "role"
-  ],
+  "required": [],
   "type": "object"
 }
