@@ -751,6 +751,8 @@ Example: `en` for English, `zh` for 中文.
 
 ## pre-sense
 
+Default to `programming_languages: ""`, `role: ""`, `llm: ""`, and `difficulty: 0` unless explicitly instructed otherwise
+
 ### llm
 
 select the single most appropriate label to describe the nature of the user's query:
@@ -856,8 +858,6 @@ select the single most appropriate label to describe the nature of the user's qu
 
 
 ### for coder
-
-`role` and `llm` must be empty string
 
 #### programming_languages
 
