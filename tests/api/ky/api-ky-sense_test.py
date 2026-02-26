@@ -1,9 +1,9 @@
 """
-api-dify-ky-pre_sense_test.py
+api-dify-ky-sense_test.py
 
 Unit Tests (using pytest) for:
 
-/kaye/dify-app/ky/pre-sense
+/kaye/dify-app/ky/sense
 """
 
 import pytest
@@ -12,13 +12,13 @@ import pytest
 # pytest fixtures  #############################################################
 @pytest.fixture
 def local_endpoint(app_endpoint):
-    return app_endpoint + "/pre-sense"
+    return app_endpoint + "/sense"
 
 
 class TestNoRole:  #############################################################
 
     answer_start = """# Kaye Chat
-## pre-sense
+## sense
 ### llm
 select the single most appropriate label to describe the nature of the user's query:
 
@@ -64,7 +64,7 @@ class TestRoleCoder:  ##########################################################
 
         print(opt)
         assert opt.startswith("""# Kaye Chat
-## pre-sense
+## sense
 ### for coder
 `role` and `llm` must be empty""")
         assert opt.endswith("""
@@ -87,7 +87,7 @@ class TestOtherRole:  ##########################################################
         print(opt)
         assert opt.startswith(
             """# Kaye Chat
-## pre-sense
+## sense
 ### llm
 select the single most appropriate label to describe the nature of the user's query:"""
         )

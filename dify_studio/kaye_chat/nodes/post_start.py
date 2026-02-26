@@ -3,7 +3,7 @@
 
 # output keys  #################################################################
 OUTPUT_ROLE_KEY = "role"
-OUTPUT_SKIP_KEY = "skip_pre_sense"
+OUTPUT_SKIP_KEY = "skip_sense"
 
 
 # Entry Point  #################################################################
@@ -18,7 +18,7 @@ def main(
     # decide role  =============================================================
     role = current_role or role_override or ""
 
-    # decide if skip pre-sense  ================================================
+    # decide if skip sense  ====================================================
     skip_pre_sense = (
         role == "peer_coder" and (difficulty_override or llm_override)
     ) or (role and llm_override)

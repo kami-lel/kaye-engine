@@ -13,7 +13,7 @@ from kaye.prompt import PromptBlueprint
 # Blueprints  ##################################################################
 PRE_SENSE_PROMPT_BLUEPRINT = """ ○
 [x] └── Kaye Chat
-[x]     └── pre-sense
+[x]     └── sense
 [ ]         ├── llm
 [ ]         ├── role
 [ ]         ├── leave empty
@@ -64,15 +64,15 @@ TASK_PROMPT_BLUEPRINT = """    ○
 ky_bp = Blueprint("kaye-chat", PROGRAM_NAME, url_prefix="/ky")
 
 
-# /kaye/dify-app/ky/pre-sense  =================================================
-@ky_bp.route("/pre-sense", methods=["GET"])
-def kaye_chat_pre_sense():
+# /kaye/dify-app/ky/sense  =====================================================
+@ky_bp.route("/sense", methods=["GET"])
+def kaye_chat_sense():
     role = request.args.get("role")
 
     blueprint = PromptBlueprint.parse(
         PRE_SENSE_PROMPT_BLUEPRINT, disable_prune=True
     )
-    pre_sense_node = blueprint.corpus["Kaye Chat"]["pre-sense"]
+    pre_sense_node = blueprint.corpus["Kaye Chat"]["sense"]
 
     # on role  -----------------------------------------------------------------
     if role:

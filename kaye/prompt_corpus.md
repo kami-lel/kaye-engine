@@ -749,7 +749,7 @@ Example: `en` for English, `zh` for 中文.
 
 # Kaye Chat
 
-## pre-sense
+## sense
 
 In the JSON output, **always** use the defaults below; **change a value only** when the instructions include a **clearly labeled, field-specific section** that explicitly sets that same field:
 
