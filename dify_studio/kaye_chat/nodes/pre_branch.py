@@ -6,8 +6,6 @@ OUTPUT_LLM_KEY = "llm"
 
 
 # Entry Point  #################################################################
-
-
 def main(
     role: str,
     llm_override: str,
