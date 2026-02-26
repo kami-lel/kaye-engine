@@ -11,7 +11,7 @@ def main(
     role_override,
     role,
     llm_override,
-    llm_sensed,
+    llm_used,
     difficulty_override,
     difficulty_sensed,
     skip_sense,
@@ -25,20 +25,24 @@ def main(
 
     # create role line
     if role_override:
-        lines.append("Role Override: {}".format(role_override))
+        lines.append("Role (Override): {}".format(role_override))
     else:
         lines.append("Role: {}".format(role))
 
     # create llm line
     if llm_override:
-        lines.append("LLM Override: {}".format(_llm2display_name(llm_override)))
+        lines.append(
+            "LLM (Override): {}".format(_llm2display_name(llm_override))
+        )
     else:
-        lines.append("LLM: {}".format(_llm2display_name(llm_sensed)))
+        lines.append("LLM: {}".format(_llm2display_name(llm_used)))
 
     role_used = role_override or role
     if role_used == "peer_coder":
         if difficulty_override:
-            lines.append("Difficulty Override: {}".format(difficulty_override))
+            lines.append(
+                "Difficulty (Override): {}".format(difficulty_override)
+            )
         else:
             lines.append("Difficulty: {}".format(difficulty_sensed))
 
