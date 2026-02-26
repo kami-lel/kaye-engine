@@ -1,6 +1,6 @@
 # Kaye Flask HTTP API documentation
 
-## deployment as `systemd` on Ubuntu
+### deployment as `systemd` on Ubuntu
 
 Place the entire project folder at `/opt/kaye`.
 
@@ -79,9 +79,42 @@ systemctl restart kaye_http_api.service
 
 Port Number: `11255` (k=11, a=1, y=25, e=5)
 
-### Dify App Support
 
-#### Kaye Cash Tracker
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Dify App Support
+
+### Kaye Cash Tracker
 
 At `/kaye/dify-app/kaye-cash-tracker/extract`
 
@@ -93,7 +126,15 @@ At `/kaye/dify-app/kaye-cash-tracker/extract`
 
 
 
-#### Kaye Commit Sense
+
+
+
+
+
+
+
+
+### Kaye Commit Sense
 
 All endpoints below `/kaye/dify-app/kaye-commit-sense`
 
@@ -128,13 +169,23 @@ All endpoints below `/kaye/dify-app/kaye-commit-sense`
 
 
 
-#### Kaye Chat
+
+
+
+
+
+
+
+
+### Kaye Chat
 
 All endpoints below `/kaye/dify-app/ky`
 
 
 
-##### sense
+
+
+#### sense
 
 `/sense`
 
@@ -148,18 +199,13 @@ All endpoints below `/kaye/dify-app/ky`
 
 
 
-##### task
+
+#### task
 
 <!-- TODO TODO finish writing this -->
 
-`/task`
-
 - by `GET`
 - response type `text/plain`
-
-`/chat`
-
-- by `GET`
 
 - support param `languages`:
   provide a `,` separated list of language abbreviations
@@ -173,10 +219,6 @@ All endpoints below `/kaye/dify-app/ky`
   - key `"prompt"`: concrete task prompt
   - key `"flags"`: integer value representing the prompt
 
-
-
-##### role param
-
 - `peer_coder`
 - empty / absent
 
@@ -185,7 +227,14 @@ All endpoints below `/kaye/dify-app/ky`
 
 
 
-#### Kaye Event Radar
+
+
+
+
+
+
+
+### Kaye Event Radar
 
 All endpoints below `/kaye/dify-app/kaye-event-radar`
 
