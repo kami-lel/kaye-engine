@@ -17,7 +17,7 @@ DEBUG_PORT = 11256
 # argparse  ####################################################################
 parser = argparse.ArgumentParser(prog=PROGRAM_NAME)
 parser.add_argument(
-    "-x",
+    "-d",
     "--debug",
     action="store_true",
     help="enable debug, port changed to {}".format(DEBUG_PORT),
