@@ -24,39 +24,101 @@ PRE_SENSE_PROMPT_BLUEPRINT = """ ○
 """
 
 
-RAPID_PROMPT_BLUEPRINT = ""
+RAPID_PROMPT_BLUEPRINT = """"""
 
-CHAT_PROMPT_BLUEPRINT = ""
+CHAT_PROMPT_BLUEPRINT = """"""
 
-CODER_PROMPT_BLUEPRINT = """ ○
-[x] ├── Introduction
-[x] ├── Style
-[x] │   ├── Capitalization Style
-[x] │   │   └── Commentary Case
-[x] │   └── Briefness Style
-[x] ├── Format
-[x] └── Role
-[x]     └── Kaye Peer Coder
-[x]         └── chat
-"""
-
-
+# HACK rm these
 TASK_PROMPT_BLUEPRINT = """    ○
 [x] ├── Introduction
 [x] ├── Personality
-[x] ├── Language
-[x] ├── Elements
-[x] │   └── Date & Time Format
+[ ] ├── Language
+[ ] ├── Elements
+[ ] │   ├── Annotation Markers
+[ ] │   │   └── Meaning
+[ ] │   └── Date & Time Format
 [ ] ├── Style
-[x] │   └── Capitalization Style
-[x] │       ├── Title Case
-[x] │       └── Commentary Case
-[x] ├── Format
-[x] ├── Standards
-[x] │   ├── Numerical Values with Units:
-[x] │   ├── Language code
-[x] │   └── International Phonetic Alphabet
-[x] └── Role"""
+[ ] │   ├── Capitalization Style
+[ ] │   │   ├── Title Case
+[ ] │   │   └── Commentary Case
+[ ] │   └── Briefness Style
+[ ] ├── Format
+[ ] │   └── Header Separation
+[ ] │       ├── Long File
+[ ] │       └── Medium File
+[ ] ├── Standards
+[ ] │   ├── Numerical Values with Units:
+[ ] │   ├── Language code
+[ ] │   └── International Phonetic Alphabet
+[ ] ├── Kaye Chat
+[ ] │   └── sense
+[ ] │       ├── llm
+[ ] │       ├── role
+[ ] │       ├── leave empty
+[ ] │       └── for coder
+[ ] │           ├── programming_languages
+[ ] │           └── difficulty
+[ ] ├── Role
+[ ] │   ├── Art Tutor
+[ ] │   ├── Changelog Writer
+[ ] │   ├── Conversation Follow Up Generation
+[ ] │   ├── Conversation Tag Generation
+[ ] │   ├── Conversation Title Generation
+[ ] │   ├── Deutschlehrer
+[ ] │   ├── Editor
+[ ] │   ├── Email Secretary
+[ ] │   ├── Encyclopedic
+[ ] │   ├── Etiquette Coach
+[ ] │   ├── Grammar Checker
+[ ] │   ├── Kaye Peer Coder
+[ ] │   │   ├── chat
+[ ] │   │   ├── C
+[ ] │   │   ├── C++
+[ ] │   │   ├── Unreal Engine
+[ ] │   │   ├── C Sharp
+[ ] │   │   ├── Unity Engine
+[ ] │   │   ├── GDScript
+[ ] │   │   ├── HTML
+[ ] │   │   ├── JavaScript & TypeScript
+[ ] │   │   │   └── Documentation and Comments
+[ ] │   │   ├── Qt
+[ ] │   │   │   └── QML
+[ ] │   │   ├── Python
+[ ] │   │   └── Message Level
+[ ] │   ├── Librarian
+[ ] │   │   └── Bibliographer
+[ ] │   ├── Prompt Writer
+[ ] │   ├── Shelver
+[ ] │   │   ├── label
+[ ] │   │   │   ├── book title
+[ ] │   │   │   ├── publish year
+[ ] │   │   │   ├── authors, editors, translators
+[ ] │   │   │   ├── publisher
+[ ] │   │   │   ├── informational tags
+[ ] │   │   │   └── label examples
+[ ] │   │   ├── DDC part
+[ ] │   │   └── DDC justification
+[ ] │   ├── Chinese Shelver
+[ ] │   │   ├── DDC 部分
+[ ] │   │   └── DDC 說明
+[ ] │   ├── Tarot Reader
+[ ] │   │   ├── 1. Information Collection Stage
+[ ] │   │   ├── 2. Card Drawing Stage
+[ ] │   │   ├── 3. Interpretation Stage
+[ ] │   │   └── Tarot Card Reference
+[ ] │   └── Translator
+[ ] ├── Kaye Cash Tracker
+[ ] │   └── Extract
+[ ] ├── Kaye Commit Sense
+[ ] │   ├── no markdown syntax
+[ ] │   ├── Primary Message Task
+[ ] │   └── Per File Summary Task
+[ ] │       └── Prefix Symbol
+[ ] │           ├── Long
+[ ] │           └── Short
+[ ] └── Kaye Event Radar
+[ ]     ├── parse events
+[ ]     └── filter events"""
 
 
 # Flask Routing  ###############################################################

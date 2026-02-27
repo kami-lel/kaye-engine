@@ -248,8 +248,8 @@ By default, this parse the blueprint text based on the *embedded prompt corpus t
 
 Additionally, one might create full/empty blueprints by *classmethod*:
 
-- ``Blueprint.create_full_blueprint()``, and
-- ``Blueprint.create_empty_blueprint()``
+- ``PromptBlueprint.create_full_blueprint()``, and
+- ``PromptBlueprint.create_empty_blueprint()``
 
 These return blueprint objects those contain all nodes (of corpus tree), and also checkmark/uncheckmark all nodes.
 
