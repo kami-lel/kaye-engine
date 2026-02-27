@@ -95,10 +95,9 @@ def kaye_chat_sense():
 # /kaye/dify-app/ky/task  ======================================================
 @ky_bp.route("/task", methods=["GET"])
 def kaye_chat_task():
+    return ""  # HACK
     role = request.args.get("role")
     programming_languages = request.args.get("programming_languages")
-
-    # TODO TODO
 
     # create blueprint based on role
     if role == "rapid":
