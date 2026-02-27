@@ -329,6 +329,11 @@ However, when encounter a node findable in corpus tree, but not contained in the
 Use `bp.prune()` will create a minimum version that contains only branches with checkmarked nodes.
 
 
+##### merge
+
+<!-- TODO write merge doc -->
+
+
 
 ##### generate prompt
 

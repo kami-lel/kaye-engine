@@ -345,6 +345,9 @@ class PromptBlueprint(dict):
 
         return pruned_bp
 
+    def merge(self, other):
+        pass  # TODO implement merge
+
     # helpers  =================================================================
 
     HEADING_LINE_PATTERN = re.compile(r"\[([x ])\] (.*)[└├]── (.+)")
@@ -597,6 +600,9 @@ class PromptBlueprint(dict):
             return self.uncheckmark(other)
         else:
             return NotImplemented
+
+    def __add__(self, other):
+        pass  # TODO implement + operator
 
     # copy  --------------------------------------------------------------------
 
