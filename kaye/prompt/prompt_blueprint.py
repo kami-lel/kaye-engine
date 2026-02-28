@@ -70,7 +70,7 @@ class PromptBlueprint(dict):
                 instead of using ``load_prompt_corpus_tree`` by default;
                 defaults to None
         :type corpus_override: PromptCorpusNode, optional
-        :raise ValueError: bad formatted `blueprint_text`
+        :raise ValueError:
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
         """
@@ -163,12 +163,16 @@ class PromptBlueprint(dict):
     def __init__(self, *, display_name="", corpus_override=None):
         super().__init__()  # init as empty dict
 
-        corpus = (
-            load_prompt_corpus_tree()
-            if corpus_override is None
-            else corpus_override
-        )
-        self.corpus = copy.deepcopy(corpus)
+        if corpus_override is None:
+            self.corpus = load_prompt_corpus_tree()
+        else:
+            if not (isinstance(corpus_override, BasePromptNode)) and (
+                corpus_override.is_root
+            ):
+                # HACK write unit tests
+                raise ValueError("kwarg corpus_override must be a root node")
+
+            self.corpus = copy.deepcopy(corpus_override)
 
         self.display_name = display_name
 
