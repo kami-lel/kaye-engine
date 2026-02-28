@@ -20,7 +20,7 @@ from kaye.prompt.prompt_blueprint import PromptBlueprint
 # .merge()  ####################################################################
 
 
-class TestMergeErr:
+class TestMergeErr:  # =========================================================
 
     def test_mismatched_tree(_, bp_testee1full, bp_testee2full):
         bp = bp_testee1full
@@ -38,7 +38,7 @@ class TestMergeErr:
 # __or__  ######################################################################
 
 
-class TestOrErr:
+class TestOrErr:  # ============================================================
 
     def test_type1(_, bp_testee1full):
         bp = bp_testee1full
