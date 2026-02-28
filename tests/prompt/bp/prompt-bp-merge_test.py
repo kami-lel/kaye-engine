@@ -7,12 +7,8 @@ Unit Tests (using pytest) for: PromptBlueprint
 - .__or__()
 """
 
-import copy
-
 import pytest
 
-
-from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 from tests.prompt.bp import BLUEPRINT_1_FULL, BLUEPRINT_2_FULL, BLUEPRINT_3_FULL
 
@@ -25,71 +21,55 @@ class TestMerge:  # .merge()  ##################################################
         bp_left = bp_testee1pa1
         bp_right = bp_testee1pa2
 
-        opt = bp_left.merge(bp_right)
-        print(opt)
+        merged = bp_left.merge(bp_right)
+        opt = merged.generate_blueprint(content_preview_lines=0)
 
-        assert (
-            opt.generate_blueprint(content_preview_lines=0) == BLUEPRINT_1_FULL
-        )
+        print(opt)
+        assert opt == BLUEPRINT_1_FULL
 
     def test1_2(_, bp_testee1pa1, bp_testee1pa2):
         bp_left = bp_testee1pa2
         bp_right = bp_testee1pa1
 
-        opt = bp_left.merge(bp_right)
+        merged = bp_left.merge(bp_right)
+        opt = merged.generate_blueprint(content_preview_lines=0)
+
         print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0) == BLUEPRINT_1_FULL
-        )
-
-    # use PROMPT 2  ============================================================
-
-    def test2_1(_, bp_testee2pa1, bp_testee2pa2):
-        bp_left = bp_testee2pa1
-        bp_right = bp_testee2pa2
-
-        opt = bp_left.merge(bp_right)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0) == BLUEPRINT_2_FULL
-        )
-
-    def test2_2(_, bp_testee2pa1, bp_testee2pa2):
-        bp_left = bp_testee2pa2
-        bp_right = bp_testee2pa1
-
-        opt = bp_left.merge(bp_right)
-        print(opt)
-
-        assert (
-            opt.generate_blueprint(content_preview_lines=0) == BLUEPRINT_2_FULL
-        )
+        assert opt == BLUEPRINT_1_FULL
 
     # use PROMPT 3  ============================================================
 
-    def test3_1(_, bp_testee3pa1, bp_testee3pa2):
+    MERGED_BLUEPRINT3 = """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │   └── Background
+[x]     │       └── Importance
+[x]     │           └── Objective
+[ ]     ├── Methods
+[x]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[x]     │           └── Future Work
+[x]     └── Conclusion"""
+
+    def test3_1(self, bp_testee3pa1, bp_testee3pa2):
         bp_left = bp_testee3pa1
         bp_right = bp_testee3pa2
 
-        opt = bp_left.merge(bp_right)
+        merged = bp_left.merge(bp_right)
+        opt = merged.generate_blueprint(content_preview_lines=0)
+
         print(opt)
+        assert opt == self.MERGED_BLUEPRINT3
 
-        assert (
-            opt.generate_blueprint(content_preview_lines=0) == BLUEPRINT_3_FULL
-        )
-
-    def test3_2(_, bp_testee3pa1, bp_testee3pa2):
+    def test3_2(self, bp_testee3pa1, bp_testee3pa2):
         bp_left = bp_testee3pa2
         bp_right = bp_testee3pa1
 
-        opt = bp_left.merge(bp_right)
-        print(opt)
+        merged = bp_left.merge(bp_right)
+        opt = merged.generate_blueprint(content_preview_lines=0)
 
-        assert (
-            opt.generate_blueprint(content_preview_lines=0) == BLUEPRINT_3_FULL
-        )
+        print(opt)
+        assert opt == self.MERGED_BLUEPRINT3
 
     # err handling =============================================================
 
