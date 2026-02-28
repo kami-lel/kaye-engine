@@ -175,7 +175,6 @@ class PromptBlueprint(dict):
                         corpus_override
                     )
                 )
-
             self.corpus = copy.deepcopy(corpus_override)
 
         self.display_name = display_name
@@ -354,7 +353,35 @@ class PromptBlueprint(dict):
         return pruned_bp
 
     def merge(self, other):
-        pass  # TODO implement merge
+        """
+        create a new **merged** blueprint as union of checkmarked nodes
+
+
+        :param other:
+        :type other: PromptBlueprint
+        :raises ValueError:
+        :return: merged blueprint
+        :rtype: PromptBlueprint
+        """
+        if self.corpus != other.corpus:
+            raise ValueError("must merge blueprint of same corpus tree")
+
+        # create keys of resulted blueprint
+        keys = set(self.keys()) | set(other.keys())
+
+        # create display_name
+        display_name = "|".join(
+            name for name in (self.display_name, other.display_name) if name
+        )
+
+        merged = PromptBlueprint(
+            display_name=display_name, corpus_override=self.corpus
+        )
+
+        for k in keys:
+            merged[k] = self.is_checkmarked(k) or other.is_checkmarked(k)
+
+        return merged
 
     # helpers  =================================================================
 
@@ -610,8 +637,23 @@ class PromptBlueprint(dict):
         else:
             return NotImplemented
 
-    def __add__(self, other):
-        pass  # TODO implement + operator
+    def __or__(self, other):
+        """
+        create a merged blueprint
+
+        (wrapper of and identical to ``.merge()``)
+
+
+        :param other:
+        :type other: PromptBlueprint
+        :raises ValueError:
+        :return: merged blueprint
+        :rtype: PromptBlueprint
+        """
+        if not isinstance(other, PromptBlueprint):
+            return NotImplemented
+
+        return self.merge(other)
 
     # copy  --------------------------------------------------------------------
 
