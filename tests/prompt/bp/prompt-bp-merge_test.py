@@ -10,7 +10,20 @@ Unit Tests (using pytest) for: PromptBlueprint
 import pytest
 
 
-from tests.prompt.bp import BLUEPRINT_1_FULL, BLUEPRINT_2_FULL, BLUEPRINT_3_FULL
+from tests.prompt.bp import BLUEPRINT_1_FULL
+
+# constants  ###################################################################
+MERGED_BLUEPRINT3 = """    ○
+[x] └── Main Title
+[x]     ├── Introduction
+[x]     │   └── Background
+[x]     │       └── Importance
+[x]     │           └── Objective
+[ ]     ├── Methods
+[x]     │   └── Data Collection
+[ ]     │       └── Tools Used
+[x]     │           └── Future Work
+[x]     └── Conclusion"""
 
 
 class TestMerge:  # .merge()  ##################################################
@@ -39,19 +52,7 @@ class TestMerge:  # .merge()  ##################################################
 
     # use PROMPT 3  ============================================================
 
-    MERGED_BLUEPRINT3 = """    ○
-[x] └── Main Title
-[x]     ├── Introduction
-[x]     │   └── Background
-[x]     │       └── Importance
-[x]     │           └── Objective
-[ ]     ├── Methods
-[x]     │   └── Data Collection
-[ ]     │       └── Tools Used
-[x]     │           └── Future Work
-[x]     └── Conclusion"""
-
-    def test3_1(self, bp_testee3pa1, bp_testee3pa2):
+    def test3_1(_, bp_testee3pa1, bp_testee3pa2):
         bp_left = bp_testee3pa1
         bp_right = bp_testee3pa2
 
@@ -59,9 +60,9 @@ class TestMerge:  # .merge()  ##################################################
         opt = merged.generate_blueprint(content_preview_lines=0)
 
         print(opt)
-        assert opt == self.MERGED_BLUEPRINT3
+        assert opt == MERGED_BLUEPRINT3
 
-    def test3_2(self, bp_testee3pa1, bp_testee3pa2):
+    def test3_2(_, bp_testee3pa1, bp_testee3pa2):
         bp_left = bp_testee3pa2
         bp_right = bp_testee3pa1
 
@@ -69,7 +70,7 @@ class TestMerge:  # .merge()  ##################################################
         opt = merged.generate_blueprint(content_preview_lines=0)
 
         print(opt)
-        assert opt == self.MERGED_BLUEPRINT3
+        assert opt == MERGED_BLUEPRINT3
 
     # err handling =============================================================
 
@@ -88,7 +89,47 @@ class TestMerge:  # .merge()  ##################################################
 
 class TestOrErr:  # __or__  ####################################################
 
-    # TODO write tests for merge
+    def test1_1(_, bp_testee1pa1, bp_testee1pa2):
+        bp_left = bp_testee1pa1
+        bp_right = bp_testee1pa2
+
+        merged = bp_left | bp_right
+        opt = merged.generate_blueprint(content_preview_lines=0)
+
+        print(opt)
+        assert opt == BLUEPRINT_1_FULL
+
+    def test1_2(_, bp_testee1pa1, bp_testee1pa2):
+        bp_left = bp_testee1pa2
+        bp_right = bp_testee1pa1
+
+        merged = bp_left | bp_right
+        opt = merged.generate_blueprint(content_preview_lines=0)
+
+        print(opt)
+        assert opt == BLUEPRINT_1_FULL
+
+    # use PROMPT 3  ============================================================
+
+    def test3_1(_, bp_testee3pa1, bp_testee3pa2):
+        bp_left = bp_testee3pa1
+        bp_right = bp_testee3pa2
+
+        merged = bp_left | bp_right
+        opt = merged.generate_blueprint(content_preview_lines=0)
+
+        print(opt)
+        assert opt == MERGED_BLUEPRINT3
+
+    def test3_2(_, bp_testee3pa1, bp_testee3pa2):
+        bp_left = bp_testee3pa2
+        bp_right = bp_testee3pa1
+
+        merged = bp_left | bp_right
+        opt = merged.generate_blueprint(content_preview_lines=0)
+
+        print(opt)
+        assert opt == MERGED_BLUEPRINT3
 
     # err handling =============================================================
 
