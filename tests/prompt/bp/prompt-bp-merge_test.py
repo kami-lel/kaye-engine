@@ -14,15 +14,86 @@ import pytest
 
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 
-# TODO TODO write tests for merge
+from tests.prompt.bp import BLUEPRINT_1_FULL, BLUEPRINT_2_FULL, BLUEPRINT_3_FULL
 
 
-# .merge()  ####################################################################
+class TestMerge:  # .merge()  ##################################################
 
+    # use PROMPT 1  ============================================================
 
-class TestMergeErr:  # =========================================================
+    def test1_1(_, bp_testee1pa1, bp_testee1pa2):
+        bp_left = bp_testee1pa1
+        bp_right = bp_testee1pa2
 
-    def test_mismatched_tree(_, bp_testee1full, bp_testee2full):
+        opt = bp_left.merge(bp_right)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0) == BLUEPRINT_1_FULL
+        )
+
+    def test1_2(_, bp_testee1pa1, bp_testee1pa2):
+        bp_left = bp_testee1pa2
+        bp_right = bp_testee1pa1
+
+        opt = bp_left.merge(bp_right)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0) == BLUEPRINT_1_FULL
+        )
+
+    # use PROMPT 2  ============================================================
+
+    def test2_1(_, bp_testee2pa1, bp_testee2pa2):
+        bp_left = bp_testee2pa1
+        bp_right = bp_testee2pa2
+
+        opt = bp_left.merge(bp_right)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0) == BLUEPRINT_2_FULL
+        )
+
+    def test2_2(_, bp_testee2pa1, bp_testee2pa2):
+        bp_left = bp_testee2pa2
+        bp_right = bp_testee2pa1
+
+        opt = bp_left.merge(bp_right)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0) == BLUEPRINT_2_FULL
+        )
+
+    # use PROMPT 3  ============================================================
+
+    def test3_1(_, bp_testee3pa1, bp_testee3pa2):
+        bp_left = bp_testee3pa1
+        bp_right = bp_testee3pa2
+
+        opt = bp_left.merge(bp_right)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0) == BLUEPRINT_3_FULL
+        )
+
+    def test3_2(_, bp_testee3pa1, bp_testee3pa2):
+        bp_left = bp_testee3pa2
+        bp_right = bp_testee3pa1
+
+        opt = bp_left.merge(bp_right)
+        print(opt)
+
+        assert (
+            opt.generate_blueprint(content_preview_lines=0) == BLUEPRINT_3_FULL
+        )
+
+    # err handling =============================================================
+
+    def test_err_mismatched_tree(_, bp_testee1full, bp_testee2full):
         bp = bp_testee1full
         other = bp_testee2full
 
@@ -35,12 +106,13 @@ class TestMergeErr:  # =========================================================
         assert opt == "must merge blueprint of same prompt tree"
 
 
-# __or__  ######################################################################
+class TestOrErr:  # __or__  ####################################################
 
+    # TODO write tests for merge
 
-class TestOrErr:  # ============================================================
+    # err handling =============================================================
 
-    def test_type1(_, bp_testee1full):
+    def test_err_type1(_, bp_testee1full):
         bp = bp_testee1full
         other = 123
 
@@ -55,7 +127,7 @@ class TestOrErr:  # ============================================================
             == "unsupported operand type(s) for |: 'PromptBlueprint' and 'int'"
         )
 
-    def test_mismatched_tree(_, bp_testee1full, bp_testee2full):
+    def test_err_mismatched(_, bp_testee1full, bp_testee2full):
         bp = bp_testee1full
         other = bp_testee2full
 

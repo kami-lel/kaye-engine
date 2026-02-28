@@ -21,13 +21,13 @@ from tests.prompt.bp import (
 
 # pytest fixtures  #############################################################
 @pytest.fixture
-def local_testee11(bp_testee1pa1):
-    return copy.deepcopy(bp_testee1pa1), BLUEPRINT_1_FULL
+def local_testee11(bp_testee2pa1):
+    return copy.deepcopy(bp_testee2pa1), BLUEPRINT_1_FULL
 
 
 @pytest.fixture
-def local_testee12(bp_testee1pa2):
-    return copy.deepcopy(bp_testee1pa2), BLUEPRINT_1_FULL
+def local_testee12(bp_testee2pa2):
+    return copy.deepcopy(bp_testee2pa2), BLUEPRINT_1_FULL
 
 
 @pytest.fixture
