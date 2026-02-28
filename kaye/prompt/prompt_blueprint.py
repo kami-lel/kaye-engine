@@ -166,11 +166,15 @@ class PromptBlueprint(dict):
         if corpus_override is None:
             self.corpus = load_prompt_corpus_tree()
         else:
-            if not (isinstance(corpus_override, BasePromptNode)) and (
-                corpus_override.is_root
+            if not (
+                isinstance(corpus_override, BasePromptNode)
+                and (corpus_override.is_root)
             ):
-                # HACK write unit tests
-                raise ValueError("kwarg corpus_override must be a root node")
+                raise ValueError(
+                    "kwarg corpus_override must be a root node: {}".format(
+                        corpus_override
+                    )
+                )
 
             self.corpus = copy.deepcopy(corpus_override)
 
