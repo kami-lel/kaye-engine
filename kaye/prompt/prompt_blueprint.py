@@ -364,7 +364,7 @@ class PromptBlueprint(dict):
         :rtype: PromptBlueprint
         """
         if self.corpus != other.corpus:
-            raise ValueError("must merge blueprint of same corpus tree")
+            raise ValueError("must merge blueprint of same prompt tree")
 
         # create keys of resulted blueprint
         keys = set(self.keys()) | set(other.keys())
