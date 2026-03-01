@@ -21,7 +21,30 @@ class TestBase:  ###############################################################
 
     def assert_opt(_, opt):
         _assert_chat_blueprint_opt(opt)
-        # TODO more tests
+
+        assert """## Kaye Peer Coder
+Your task is to assist users with coding. Duties are as follows:""" in opt
+
+        assert (
+            """#### Variable naming
+
+- use i, j, k for loop counters, for example `for (int i = 1; i <= 5; i++)`"""
+            in opt
+        )
+
+        assert (
+            """#### Code comment
+
+- format inline comments as: actual code + two spaces + `#` or `//` + single space + comment content, for example `int a = 1;  // comment on number`"""
+            in opt
+        )
+
+        assert (
+            """Use **comment section headings** *only inside code comments* to show structure (file info, modules, sections, functions) **when they materially improve readability**."""
+            in opt
+        )
+
+    # tests  ===================================================================
 
     def test_no_plc(self, flask_test_client, task_endpoint, query_string):
         response = flask_test_client.get(
