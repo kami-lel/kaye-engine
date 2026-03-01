@@ -10,8 +10,19 @@ from flask import Blueprint, request, abort, Response
 from kaye import PROGRAM_NAME
 from kaye.prompt import PromptBlueprint
 
+# constants  ###################################################################
+PARAM_ROLE_KEY = "role"
+PARAM_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
+
+# roles  -----------------------------------------------------------------------
+ROLE_CHAT = "chat"
+ROLE_CODER = "peer_coder"
+
+
 # Blueprints  ##################################################################
-PRE_SENSE_PROMPT_BLUEPRINT = """ ○
+# sense blueprint  -------------------------------------------------------------
+
+SENSE_PROMPT_BLUEPRINT = """ ○
 [x] └── Kaye Chat
 [x]     └── sense
 [ ]         ├── llm
@@ -22,6 +33,9 @@ PRE_SENSE_PROMPT_BLUEPRINT = """ ○
 [ ]             │   └── {Programming Languages Code}
 [ ]             └── difficulty
 """
+
+
+# task blueprints  -------------------------------------------------------------
 
 
 RAPID_PROMPT_BLUEPRINT = """"""
@@ -129,16 +143,16 @@ ky_bp = Blueprint("kaye-chat", PROGRAM_NAME, url_prefix="/ky")
 # /kaye/dify-app/ky/sense  =====================================================
 @ky_bp.route("/sense", methods=["GET"])
 def kaye_chat_sense():
-    role = request.args.get("role")
+    role = request.args.get(PARAM_ROLE_KEY)
 
     blueprint = PromptBlueprint.parse(
-        PRE_SENSE_PROMPT_BLUEPRINT, disable_prune=True
+        SENSE_PROMPT_BLUEPRINT, disable_prune=True
     )
     pre_sense_node = blueprint.corpus["Kaye Chat"]["sense"]
 
     # on role  -----------------------------------------------------------------
     if role:
-        if role == "peer_coder":
+        if role == ROLE_CODER:
             blueprint.checkmark(pre_sense_node["for coder"], recursively=True)
         else:
             # other role
@@ -157,9 +171,11 @@ def kaye_chat_sense():
 # /kaye/dify-app/ky/task  ======================================================
 @ky_bp.route("/task", methods=["GET"])
 def kaye_chat_task():
+    role = request.args.get(PARAM_ROLE_KEY) or ROLE_CHAT  # default to chat
+
+    pls = request.args.get(PARAM_PROGRAMMING_LANGUAGES_KEY)
+
     return ""  # HACK
-    role = request.args.get("role")
-    programming_languages = request.args.get("programming_languages")
 
     # create blueprint based on role
     if role == "rapid":

@@ -202,25 +202,14 @@ All endpoints below `/kaye/dify-app/ky`
 
 #### task
 
-<!-- TODO finish writing api doc -->
+`/task`
 
 - by `GET`
 - response type `text/plain`
-
-- support param `languages`:
-  provide a `,` separated list of language abbreviations
+- param `role`
+- param `programming_languages`:
+  provide a `,`-separated list of language abbreviations
   (specified in prompt corpus.) E.g. `?languages=cpp,py`
-
-- support param `flags`: provide an integer flag value,
-  that will be merged into when creating prompts
-
-- response type `application/json`:
-
-  - key `"prompt"`: concrete task prompt
-  - key `"flags"`: integer value representing the prompt
-
-- `peer_coder`
-- empty / absent
 
 
 
