@@ -4,8 +4,6 @@ prompt-bp-is_checkmarked_test.py
 Unit Tests (using pytest) for: PromptBlueprint.is_checkmarked()
 """
 
-# BUG
-
 import copy
 
 
@@ -116,8 +114,8 @@ class Test1Full:  # ============================================================
 
 class Test1Pa1:  # =============================================================
 
-    def test_proj(_, corpus_testee1, bp_testee2pa1):
-        bp = bp_testee2pa1
+    def test_proj(_, corpus_testee1, bp_testee1pa1):
+        bp = bp_testee1pa1
         corpus = corpus_testee1
         proj_node = corpus.children[0]
 
@@ -125,8 +123,8 @@ class Test1Pa1:  # =============================================================
         print(repr(opt) + "\t" + repr(proj_node))
         assert not opt
 
-    def test_description(_, corpus_testee1, bp_testee2pa1):
-        bp = bp_testee2pa1
+    def test_description(_, corpus_testee1, bp_testee1pa1):
+        bp = bp_testee1pa1
         corpus = corpus_testee1
         node = corpus.children[0].children[0]
 
@@ -134,8 +132,8 @@ class Test1Pa1:  # =============================================================
         print(repr(opt) + "\t" + repr(node))
         assert opt
 
-    def test_installation(_, corpus_testee1, bp_testee2pa1):
-        bp = bp_testee2pa1
+    def test_installation(_, corpus_testee1, bp_testee1pa1):
+        bp = bp_testee1pa1
         corpus = corpus_testee1
         node = corpus.children[0].children[1]
 
@@ -143,8 +141,8 @@ class Test1Pa1:  # =============================================================
         print(repr(opt) + "\t" + repr(node))
         assert opt
 
-    def test_license(_, corpus_testee1, bp_testee2pa1):
-        bp = bp_testee2pa1
+    def test_license(_, corpus_testee1, bp_testee1pa1):
+        bp = bp_testee1pa1
         corpus = corpus_testee1
         node = corpus.children[0].children[2]
 
@@ -155,8 +153,8 @@ class Test1Pa1:  # =============================================================
 
 class Test1Pa2:  # =============================================================
 
-    def test_proj(_, corpus_testee1, bp_testee2pa2):
-        bp = bp_testee2pa2
+    def test_proj(_, corpus_testee1, bp_testee1pa2):
+        bp = bp_testee1pa2
         corpus = corpus_testee1
         proj_node = corpus.children[0]
 
@@ -164,8 +162,8 @@ class Test1Pa2:  # =============================================================
         print(repr(opt) + "\t" + repr(proj_node))
         assert opt
 
-    def test_description(_, corpus_testee1, bp_testee2pa2):
-        bp = bp_testee2pa2
+    def test_description(_, corpus_testee1, bp_testee1pa2):
+        bp = bp_testee1pa2
         corpus = corpus_testee1
         node = corpus.children[0].children[0]
 
@@ -173,8 +171,8 @@ class Test1Pa2:  # =============================================================
         print(repr(opt) + "\t" + repr(node))
         assert not opt
 
-    def test_installation(_, corpus_testee1, bp_testee2pa2):
-        bp = bp_testee2pa2
+    def test_installation(_, corpus_testee1, bp_testee1pa2):
+        bp = bp_testee1pa2
         corpus = corpus_testee1
         node = corpus.children[0].children[1]
 
@@ -182,8 +180,8 @@ class Test1Pa2:  # =============================================================
         print(repr(opt) + "\t" + repr(node))
         assert opt
 
-    def test_license(_, corpus_testee1, bp_testee2pa2):
-        bp = bp_testee2pa2
+    def test_license(_, corpus_testee1, bp_testee1pa2):
+        bp = bp_testee1pa2
         corpus = corpus_testee1
         node = corpus.children[0].children[2]
 

@@ -245,7 +245,7 @@ class TestDft3:  # use PROMPT3  ================================================
         opt = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
 
         print(repr(opt))
-        assert len(opt) == 6
+        assert len(opt) == 6  # BUG
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_3_PARTIAL_1_PRUNED
