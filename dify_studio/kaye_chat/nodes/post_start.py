@@ -7,8 +7,6 @@ OUTPUT_SKIP_KEY = "skip_sense"
 
 
 # Entry Point  #################################################################
-
-
 def main(
     role_override: str,
     llm_override: str,
