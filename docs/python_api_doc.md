@@ -1,6 +1,6 @@
-# Kaye Python API documentation
+# Kaye Python Package API documentation
 
-## `gen_prompt` module
+## `prompt` module
 
 The **core** module of *Kaye Python API*, implement a systematic, dynamic, and structured framework for **prompt management and manipulation**.
 
@@ -16,21 +16,20 @@ The **core** module of *Kaye Python API*, implement a systematic, dynamic, and s
 
 
 
-### Prompt Node `PromptCorpusNode`
 
-A `PromptCorpusNode` encapsule a single node in the *prompt corpus tree*.
+### Prompt Tree Nodes `BasePromptNode`
 
-The **prompt corpus tree** is the structured representation parsed from *prompt corpus text* . A **node** of tree is corresponding to a section heading in the text. E.g. text in such form:
+The **prompt tree** is the structured representation parsed from *prompt corpus text* . A **node** of tree is corresponding to a section heading in the text. E.g. text in such form:
 
 ```md
 # Introduction
-~~~
+~
 ## Basic
-~~~
+~
 ## Advanced
-~~~
+~
 # Usage
-~~~
+
 ```
 
 is equivalent to tree structure:
@@ -43,141 +42,112 @@ is equivalent to tree structure:
 └── Usage
 ```
 
-A *node* represent a branch of the tree. If the node is *root*, it represents an instance of entire prompt corpus tree.
+A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, which is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 
-The class `PromptCorpusNode` is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
+<!-- todo Python API more explanation on the functionalities of each node type -->
 
+nodes types:
 
+- Prompt Corpus Node `PromptCorpusNode`
+- dynamic nodes `DynamicNode`
 
-
-
-#### tree creation
-
-When deal with `PromptCorpusNode`, it is rare for end users to create individual instances, but to **create** an entire prompt corpus tree (i.e. get the root node.) This is possible by *classmethod* `.parse()`:
-
-```python
-from kaye.gen_prompt import PromptCorpusNode
-
-text = ~~~
-tree_root = PromptCorpusNode.parse(text)
-```
-
-Or to directly load a tree of the **embedded** *prompt corpus text* (defined in `prompt_corpus.md`.) `load_embedded_prompt_corpus()` method will load it from filesystem at runtime:
-
-```python
-from kaye.gen_prompt import load_embedded_prompt_corpus
-
-tree_root = load_embedded_prompt_corpus()
-```
+  - Today Node `TodayNode`
+  - Abbreviations Node `AbbrNode`
+  - Programming Languages Code Node `PLCNode`
+  - Usable Abbreviations Node `UsableAbbrNode`
 
 
 
+##### name & identifier
 
+Each node has `.name` and `.identifier`:
 
-#### node properties
+- `.name`: i.e. **section heading**, also what appears in *preview tree* (v.i.)
+- `.identifier`:
 
-###### name
+  - for `PromptCorpusNode`: this is identical to `.name`
+  - for `DynamicNode` instances: this is `.name` enclosed by `{}`.
 
-To access node **name**, i.e. **section heading**:
+E.g.
 
 ```python
-node = ~~~
-assert node.name == "Introduction"
+>>> corpus_node.name
+"Introduction"
+>>> corpus_node.identifier
+"Introduction"
+>>> dynamic_node.name
+"Abbreviations"
+>>> dynamic_node.identifier
+"{Abbreviations}"
 ```
 
-###### parent
+> [!NOTE]
+> `.name` is a property of `anytree.Node`
 
-To access node **parent**:
+
+
+##### content lines
+
+<!-- fixme Python API improve, explain kwargs, provide example -->
+
+To access node's textual **content lines**, use `.content_lines()` (typed `list`.)
+
+
+
+##### lineage
+
+Use `.generate_identifier_lineage()` to get a linage from root (exclusively) to current node (inclusively,) represented as a ``list`` of node's ``.identifier``.
+
+> [!TIP]
+> Since root is excluded from lineage, tree with different root nodes' names may produce identical lineage.
+
+----
+
+Use `str()` to produce a node's representation that contains the lineage.
+
+E.g.
 
 ```python
-node.parent  # or
-node[None]
-```
-
-The `.parent` of a root node is ``None``
-
-###### content
-
-To access node's textual **content lines**, use `.content` (typed `list`.) E.g. with prompt corpus text:
-
-```python
-prompt_corpus_text = """
-# Introduction
-~~~
-## Basic
-Hi, my name is Alice.
-It is nice to see you.
-
-What is your name?
-
-## Advanced
-~~~
-"""
-
-introduction_basic_node = ~~~
-introduction_basic_node.content == [
-    "Hi, my name is Alice.",
-    "It is nice to see you.",
-    "",
-    "What is your name?",
-]
-```
-
-
-
-
-#### node inspection
-
-###### path of names
-
-The node store a **path of names**, describing a path from root to this node, with node's ancestors and the parent in between.
-
-E.g. consider this tree:
-
-```
-○
-├── Introduction
-│   ├── Basic
-│   └── Advanced
-│       └── Additional Info
-└── Usage
-```
-
-`.path_of_names` store such path as a `tuple` of `str`.
-
-```python
-assert root_node.path_of_names == tuple()  # empty
-assert intro_node.path_of_names == "Introduction"
-assert basic_node.path_of_names == ("Introduction", "Basic")
-assert add_node.path_of_names == (
-    "Introduction",
-    "Advanced",
-    "Additional Info",
-)
+>>> str(root)
+"PromptCorpusNode()"
+>>> str(corpus_node)
+"PromptCorpusNode(Introduction#Data#Advanced)"
+>>> str(abbr_node)
+"AbbrNode(Introduction#Data#{Abbreviations})"
 ```
 
 ----
 
-Use `repr(node)` also yield similar result:
+`hash()` of a `BasePromptNode` is also based on `.generate_identifier_lineage()`
 
-```python
-assert repr(root_node) == "PromptCorpusNode()"
-assert repr(intro_node) == "PromptCorpusNode(Introduction)"
-assert repr(basic_node) == "PromptCorpusNode(Introduction#Basic)"
-assert (
-    repr(add_note)
-    == "PromptCorpusNode("
-    "Introduction#Advanced#Additional Info)"
-)
-```
+----
+
+`==` operator of nodes is also based on `.generate_identifier_lineage()`.
+I.e. `a == b` return whether two nodes has the same lineage.
+
+Additionally, if both nodes are roots, test whether 2 trees are identical in node name structure (node content is irrelevant)
 
 
 
+##### `[]` operator
+
+Use `[]` operator to access child of `node` by:
+
+- index (typed `int`) among all children,
+- child's name (typed `str`,) or
+- child's identifier (typed `str`)
+
+> [!NOTE]
+> When using `str` as key, it will return 1st node that has a name or identifier identical to the given value.
+
+> [!TIP]
+> Use `.parent` to access node's parent, and `.parent` of a root node is ``None``
 
 
-###### preview tree
 
-Use `.generate_preview_tree()` to show a human-readable representation which shows:
+##### tree preview
+
+Use `.generate_prompt_tree_preview()` on **root** instance to show a human-readable representation which shows:
 
 - tree structure
 - node name, i.e. section heading
@@ -205,10 +175,10 @@ E.g.
         This project is licensed under the MIT License.
 ```
 
-As shown above, it contains *content preview*, which can be customized by arguments `preview_line_count` and `preview_line_width`, e.g.
+As shown above, it contains *content preview*, which can be customized by arguments `content_preview_lines` and `content_preview_width`, e.g.
 
 ```python
->>> tree.generate_preview_tree(preview_line_count=0)
+>>> tree.generate_preview_tree(content_preview_lines=0)
 ○
 └── Project Title
     ├── Description
@@ -220,7 +190,31 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 ----
 
-`str(node)` is equivalent to ``node.generate_preview_tree()``
+`repr(node)` is equivalent to ``node.generate_preview_tree()``
+
+
+
+##### support `copy`
+
+`BasePromptNode` support Python `copy` operations.
+
+Use `copy.copy(node)` to create a shallow copied identical node, but with no children and no parent (set to `None`)
+
+Use `copy.deepcopy(root)` to copy a prompt tree.
+
+
+
+
+
+#### tree creation
+
+It is rare for end users to create individual instances, but to **create** an entire prompt tree (i.e. get the root node.) This is possible by load a tree of the **embedded** *prompt corpus text* (defined in `prompt_corpus.md`.) `load_embedded_prompt_corpus()` method will load it from filesystem at runtime:
+
+```python
+from kaye.gen_prompt import load_embedded_prompt_corpus
+
+tree_root = load_embedded_prompt_corpus()
+```
 
 
 
@@ -240,18 +234,24 @@ A **prompt blueprint** represents a configurable subset of *prompt corpus tree*,
 
 ----
 
-One might **create** a populated `PromptBlueprint` by **parsing** a preview-tree text (v.i.) (positional argument `blueprint_text`) by using *classmethod* `.parse()`, e.g.
+User always create a populated `PromptBlueprint` by **parsing** a blueprint text (as positional argument `blueprint_text`) by using *classmethod* `.parse()`, e.g.
 
 ```python
-prompt_corpus = ~~~
-blueprint_text = ~~~
-blueprint = Blueprint.parse(prompt_corpus, blueprint_text)
+prompt_corpus = ~
+blueprint_text = ~
+blueprint = PromptBlueprint.parse(blueprint_text)
 ```
 
-Additionally, one might create full/empty blueprints by *classmethods*:
+By default, this parse the blueprint text based on the *embedded prompt corpus text*. One might use an alternative corpus tree by providing keyword argument `corpus_override`, but this is often only used for testing purpose.
 
-- ``Blueprint.create_full_blueprint()``, and
-- ``Blueprint.create_empty_blueprint()``
+----
+
+Additionally, one might create full/empty blueprints by *classmethod*:
+
+- ``PromptBlueprint.create_full_blueprint()``, and
+- ``PromptBlueprint.create_empty_blueprint()``
+
+These return blueprint objects those contain all nodes (of corpus tree), and also checkmark/uncheckmark all nodes.
 
 ----
 
@@ -259,34 +259,32 @@ Additionally, one might create full/empty blueprints by *classmethods*:
 
 A `PromptBlueprint` has 2 additional attributes:
 
-- `.corpus`: corresponding prompt corpus tree root (typed `PromptCorpusNode`)
+- `.corpus`: corresponding prompt corpus tree root (typed `BasePromptNode`)
 - `.display_name`: name of the blueprint, typed `str`, default to `''`
 
 Each entry in `PromptBlueprint` represents a node, with key being node `hash()` (typed `int`,) and value being if the node is *checkmarked*, (typed `bool`.) The *root node* is never included in blueprint, because one will assume root node is always enabled/checkmarked.
 
 
 
-
-
-#### node membership
+#### per node operations
 
 There are 2 types of relationships of a prompt corpus **node** and a **blueprint**:
 
 - if a node is **contained**/included as part of the blueprint
 - if a node is **checkmarked**/enabled in the blueprint
 
-| check for: | contains/inclusion | is checkmarked |
+| check by node' | contains/inclusion | is checkmarked |
 | ---- | ---- | ---- |
-| by node hash | `h in bp`, `h in bp.keys()` | `bp.is_checkmarked(h)`, `bp[h]` |
-| by node object | `node in bp` | `bp.is_checkmarked(node)` |
+| hash | `h in bp`, `h in bp.keys()` | `bp.is_checkmarked(h)`, `bp[h]` |
+| object | `node in bp` | `bp.is_checkmarked(node)` |
+| name | `name in bp` | `bp.is_checkmarked(name)` |
+| identifier | `id in bp` | `bp.is_checkmarked(id)` |
 
 (`h`: hash value, `node`: node object, `bp`: blueprint)
 
 
 
-
-
-#### checkmarking & uncheckmarking
+##### checkmarking & uncheckmarking
 
 One might **checkmark** a node in a blueprint, and such node must be from blueprint's corpus tree:
 
@@ -302,19 +300,57 @@ blueprint.uncheckmark(node)
 blueprint -= node  # identical
 ```
 
+`.checkmark()` and `.uncheckmark()` support keyword argument `recursively=` which allows user to (un)checkmark a node and all of its descendants.
+
+----
+
+Both operations allows user to provide node as node object, hash value, name, or identifier.
+
+E.g.
+
+```python
+bp.checkmark(bp.corpus[0][1])
+bp.checkmark(node_hash)
+bp.uncheckmark("Important Instruction")
+bp.uncheckmark("{Abbreviations}")
+```
+
+However, when encounter a node findable in corpus tree, but not contained in the blueprint:
+
+- `.checkmark()` will automatically contain the node, and then mark it checkmarked
+- `.uncheckmark()` will raise a `KeyError`
 
 
 
+#### blueprint-level operations
+
+##### prune
+
+Use `bp.prune()` will create a minimum version that contains only branches with checkmarked nodes.
 
 
-#### generate prompt
+##### merge
+
+Use `.merge()` function to merge 2 blueprints as the union of checkmarked nodes of 2 blueprints.
+
+Operator `|` perform identical function.
+
+E.g.
+
+```python
+bp_left.merge(bp_right)  # or, identically
+bp_left | bp_right
+```
+
+
+##### generate prompt
 
 Use `.generate_prompt()` to render the **concrete prompt** that can be used as LLM system message with it content based on node's checkmarking status of this blueprint.
 
 E.g.
 
 ```python
->>> tree = PromptBlueprint(...)
+>>> tree = PromptBlueprint(~)
 >>> tree.generate_prompt(hide_comment=True)
 # Main Title
 Overview of the methodologies used.
@@ -326,10 +362,9 @@ Summarizing the findings and implications.
 
 
 
+##### generate blueprint text
 
-#### preview tree
-
-Like `PromptCorpusNode`, one may use `.generate_preview_tree()` to show a human-readable presentation of `PromptBlueprint`; the tree contains:
+User may use `.generate_blueprint()` to show a human-readable presentation of `PromptBlueprint`; the tree contains:
 
 - tree structure of corresponding *prompt corpus tree*
 - node name, i.e. section heading
@@ -341,8 +376,8 @@ By default, this print an **pruned** tree, showing only branches & nodes relevan
 E.g.
 
 ```python
->>> tree = PromptBlueprint(~~~)
->>> tree.generate_preview_tree()
+>>> tree = PromptBlueprint.parse(~)
+>>> tree.generate_blueprint()
     ○
 [x] └── Project Title
 [ ]     ├── Description
@@ -360,7 +395,7 @@ E.g.
 [x]     └── License
             This project is licensed under the MIT License.
 (blueprint:conversation; Kaye v1.2.3)
->>> tree.generate_preview_tree(preview_line_count=0, hide_comment=True)
+>>> tree.generate_blueprint(content_preview_lines=0, hide_comment=True)
     ○
 [x] └── Project Title
 [ ]     ├── Description
@@ -372,7 +407,7 @@ E.g.
 
 ----
 
-`str(blueprint)` is equivalent to `blueprint.generate_preview_tree()`
+`repr(blueprint)` is equivalent to `blueprint.generate_blueprint()`
 
 
 
@@ -382,14 +417,8 @@ E.g.
 **Embedded blueprints** are saved under `./kaye/kaye/gen_prompt/embedded_blueprints`. Programmatically, one might use these functions to load them from filesystem:
 
 ```python
-from kaye.gen_prompt import (
-    load_embedded_prompt_blueprint,
-    load_empty_prompt_blueprint,
-    load_full_prompt_blueprint,
-)
+from kaye.gen_prompt import load_embedded_prompt_blueprint
 
 
-empty_blueprint = load_embedded_prompt_blueprint()
-full_blueprint = load_full_prompt_blueprint()
 chat_blueprint = load_embedded_prompt_blueprint("chat")
 ```

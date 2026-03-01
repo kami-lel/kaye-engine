@@ -1,0 +1,26 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "run all Unit Tests",
+            "type": "shell",
+            "command": "${workspaceFolder}/venv/bin/python",
+            "windows": {
+                "command": "${workspaceFolder}\\venv\\Scripts\\python.exe"
+            },
+            "args": [
+                "-m",
+                "pytest",
+                "tests"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

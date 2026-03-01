@@ -1,7 +1,7 @@
 """list names of all available embedded blueprints"""
 
 from kaye import PROGRAM_NAME, kamilog
-from kaye.gen_prompt.prompt_blueprint_loader import (
+from kaye.prompt.prompt_blueprint_loader import (
     get_embedded_prompt_blueprints_names,
 )
 

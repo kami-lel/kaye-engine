@@ -1,7 +1,5 @@
 # Kaye CHANGELOG
 
-<!-- fixme merge role: Grammar Checker & Etiquette Coach -->
-
 [^format]
 
 
@@ -24,6 +22,54 @@
 ### Deprecated
 ### Removed
 ### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+## [5.0.0] - 2026-03-01
+
+### Added
+
+Dynamic Nodes:
+
+- `TodayNode`
+- `AbbrNode`
+- `PLCNode`
+
+Kaye Chat: Kaye Peer Coder role:
+
+- input field `difficulty_override`
+- anchor point tasks for sense prompt
+- additional information for *meta content*: times for pre-sense & task
+
+### Changed
+
+Kaye Commit Sense:
+
+- minor adjustment on change commit message format to utilize *Markdown*
+
+Kaye Chat:
+
+- merged functions of Kaye Peer Coder
+
+### Removed
+
+- Kaye Peer Coder
+- use of `kamilog`
+
+### Fixed
+
+Kaye Cash Tracker:
+
+- re-implement app using new HTTP API
 
 
 
@@ -1147,7 +1193,9 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.12.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v5.0.0...dev
+[5.0.0]: https://github.com/kami-lel/kaye/compare/v4.12.1...v5.0.0
+[4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1
 [4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1
 [4.12.0]: https://github.com/kami-lel/kaye/compare/v4.11.0...v4.12.0
 [4.11.0]: https://github.com/kami-lel/kaye/compare/v4.10.2...v4.11.0

@@ -1,0 +1,34 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "difficulty": {
+      "type": "number"
+    },
+    "llm": {
+      "enum": [
+        "rapid",
+        "chat",
+        "think",
+        "think-think",
+        ""
+      ],
+      "type": "string"
+    },
+    "programming_languages": {
+      "type": "string"
+    },
+    "role": {
+      "enum": [
+        "chat",
+        "coder"
+      ]
+    }
+  },
+  "required": [
+    "difficulty",
+    "programming_languages",
+    "llm",
+    "role"
+  ],
+  "type": "object"
+}
