@@ -161,14 +161,13 @@ class TestDft1:  # use PROMPT1  ================================================
     def test_part2(_, corpus_testee1):
         bp_text = BLUEPRINT_1_PARTIAL_2
 
-        opt = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
 
-        print(repr(opt))
-        assert len(opt) == 3
-        assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == BLUEPRINT_1_PARTIAL_2_PRUNED
-        )
+        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+        print(opt)
+
+        assert len(bp) == 3
+        assert opt == BLUEPRINT_1_PARTIAL_2_PRUNED
 
     def test_empty(_, corpus_testee1):
         bp_text = BLUEPRINT_1_EMPTY

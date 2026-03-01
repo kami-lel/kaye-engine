@@ -275,7 +275,7 @@ class PromptBlueprint(dict):
             # line for tree structure
             checkmark_prefix = (
                 CHECKMARKED_PREFIX
-                if self.is_checkmarked(node)
+                if self.is_checkmarked(hash(node))
                 else UNCHECKMARKED_PREFIX
             )
             if node.is_root:
@@ -560,7 +560,6 @@ class PromptBlueprint(dict):
         # node is already object  ----------------------------------------------
         elif isinstance(node_arg, BasePromptNode):
             if node_arg not in corpus_and_descendants:
-                # BUG real err
                 raise ValueError("node not in corpus: {}".format(node_arg))
 
             node_obj = node_arg
