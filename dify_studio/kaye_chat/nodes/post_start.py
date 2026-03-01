@@ -14,7 +14,7 @@ def main(
     current_role: str,
 ):
     # decide role  =============================================================
-    role = current_role or role_override or ""
+    role = role_override or current_role or ""
 
     # decide if skip sense  ====================================================
     skip_pre_sense = (
