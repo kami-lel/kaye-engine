@@ -6,6 +6,8 @@ define:
 - ``get_embedded_prompt_blueprints_names``
 """
 
+# fixme clean up embedded blueprints
+
 import os
 from pathlib import Path
 
