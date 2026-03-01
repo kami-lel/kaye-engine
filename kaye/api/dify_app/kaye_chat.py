@@ -132,31 +132,44 @@ def _create_peer_coder_blueprint(pls):
     for plc in pls.split(","):
         if plc == "c":
             bp.checkmark(kyc_node["C"])
+
         elif plc == "cpp":
+            bp.checkmark(kyc_node["C"])
             bp.checkmark(kyc_node["C++"])
+
         elif plc == "ue":
             bp.checkmark(kyc_node["C++"])
             bp.checkmark(kyc_node["Unreal Engine"])
+
         elif plc == "csharp":
             bp.checkmark(kyc_node["C Sharp"])
+
         elif plc == "u3d":
             bp.checkmark(kyc_node["C Sharp"])
             bp.checkmark(kyc_node["Unity Engine"])
+
         elif plc == "gdscript":
             bp.checkmark(kyc_node["GDScript"])
+
         elif plc == "html":
             bp.checkmark(kyc_node["HTML"])
+
         elif plc in ("js", "ts"):
             bp.checkmark(kyc_node["JavaScript & TypeScript"], recursively=True)
+
         elif plc == "qt":
             bp.checkmark(kyc_node["Qt"])
+
         elif plc == "qml":
             bp.checkmark(kyc_node["Qt"])
             bp.checkmark(kyc_node["QML"])
+
         elif plc == "py":
             bp.checkmark(kyc_node["Python"], recursively=True)
+
         elif plc == "console":
             bp.checkmark(kyc_node["Message Level"])
+
         elif plc != "":
             print(
                 "unrecognized PLC: {} in ?programming_languages={}".format(
