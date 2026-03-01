@@ -138,6 +138,7 @@ def _create_peer_coder_blueprint(pls):
             bp.checkmark(kyc_node["C++"])
 
         elif plc == "ue":
+            bp.checkmark(kyc_node["C"])
             bp.checkmark(kyc_node["C++"])
             bp.checkmark(kyc_node["Unreal Engine"])
 

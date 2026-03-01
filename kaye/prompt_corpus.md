@@ -1825,7 +1825,7 @@ use **C++17** standard
 
 ### JavaScript & TypeScript
 
-In this section, guidelines are provided specifically for JavaScript, which users may refer to as "JS," and TypeScript, which may be called "TS." These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard.
+These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard.
 
 
 

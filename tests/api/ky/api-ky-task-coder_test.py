@@ -46,6 +46,23 @@ Your task is to assist users with coding. Duties are as follows:""" in opt
     )
 
 
+def _assert_qt_opt(opt):
+    assert """### Qt
+This section is solely for Qt framework.
+""" in opt
+
+
+def _assert_qml_opt(opt):
+    assert """#### QML
+Declarations of items must follow this order:
+
+1. id""" in opt
+
+
+def _assert_py_opt(opt):
+    assert False
+
+
 class TestBase:  ###############################################################
 
     # tests  ===================================================================
@@ -58,6 +75,7 @@ class TestBase:  ###############################################################
         opt = response.get_data().decode("utf-8")
         print(opt)
 
+        _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
 
     def test_empty_plc1(_, flask_test_client, task_endpoint, query_string):
@@ -69,6 +87,7 @@ class TestBase:  ###############################################################
         opt = response.get_data().decode("utf-8")
         print(opt)
 
+        _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
 
     def test_empty_plc2(_, flask_test_client, task_endpoint, query_string):
@@ -80,6 +99,7 @@ class TestBase:  ###############################################################
         opt = response.get_data().decode("utf-8")
         print(opt)
 
+        _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
 
 
@@ -96,6 +116,7 @@ class TestIndv:  ###############################################################
         opt = response.get_data().decode("utf-8")
         print(opt)
 
+        _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
         assert """### C
 Use **C99** standard""" in opt
@@ -111,6 +132,7 @@ Use **C99** standard""" in opt
         opt = response.get_data().decode("utf-8")
         print(opt)
 
+        _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
         assert """### C
 Use **C99** standard""" in opt
@@ -119,10 +141,190 @@ Use **C99** standard""" in opt
 ### C++
 use **C++17** standard""" in opt
 
-    # TODO more single test
+    def test_ue(_, flask_test_client, task_endpoint, query_string):
+        pls = "ue"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+
+        assert """### C
+Use **C99** standard""" in opt
+
+        assert """
+### C++
+use **C++17** standard""" in opt
+
+        assert """### Unreal Engine
+- Version: Unreal Engine `5.6.0`""" in opt
+
+    def test_cs(_, flask_test_client, task_endpoint, query_string):
+        pls = "csharp"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+        assert False
+
+    def test_u3d(_, flask_test_client, task_endpoint, query_string):
+        pls = "u3d"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+        assert False
+
+    def test_gd(_, flask_test_client, task_endpoint, query_string):
+        pls = "gdscript"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+        assert False
+
+    def test_html(_, flask_test_client, task_endpoint, query_string):
+        pls = "html"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+        assert False
+
+    def test_js(_, flask_test_client, task_endpoint, query_string):
+        pls = "js"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+
+        assert (
+            """### JavaScript & TypeScript
+These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard."""
+            in opt
+        )
+
+    def test_ts(_, flask_test_client, task_endpoint, query_string):
+        pls = "ts"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+
+        assert (
+            """### JavaScript & TypeScript
+These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard."""
+            in opt
+        )
+
+    def test_qt(_, flask_test_client, task_endpoint, query_string):
+        pls = "qt"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+        _assert_qt_opt
+
+    def test_qml(_, flask_test_client, task_endpoint, query_string):
+        pls = "qml"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+        _assert_qt_opt
+        _assert_qml_opt
+
+    def test_py(_, flask_test_client, task_endpoint, query_string):
+        pls = "py"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+        _assert_py_opt(opt)
+
+    def test_console(_, flask_test_client, task_endpoint, query_string):
+        pls = "console"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+        assert False
 
 
 # TODO unit tests for combined
-
-
-# TODO more unit tests on indv function
