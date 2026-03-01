@@ -22,6 +22,8 @@ ROLE_RAPID = "rapid"
 
 # Blueprints  ##################################################################
 
+# sense blueprints  ============================================================
+
 SENSE_PROMPT_BLUEPRINT = """ ○
 [x] └── Kaye Chat
 [x]     └── sense
@@ -34,6 +36,8 @@ SENSE_PROMPT_BLUEPRINT = """ ○
 [ ]             └── difficulty
 """
 
+
+# task blueprints  =============================================================
 
 CHAT_PROMPT_BLUEPRINT = """    ○
 [x] ├── Introduction
