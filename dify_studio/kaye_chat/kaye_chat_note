@@ -13,9 +13,6 @@ todo utilize models from multiple provider, merge, when extremely difficult task
 todo add 5.1 codex llm
 
 
-TODO programming languages processed by code b/t pre-sense & branch
-
-
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
 bug kyc didn't include AMs definition currently, need to rewrite b/c commit sense also used it
 

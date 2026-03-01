@@ -94,10 +94,13 @@ def kaye_chat_task():
     role = request.args.get(PARAM_ROLE_KEY) or ROLE_CHAT  # default to chat
     pls = request.args.get(PARAM_PROGRAMMING_LANGUAGES_KEY)
 
-    if role == ROLE_RAPID:
+    if role == ROLE_CODER:
+        bp = _create_peer_coder_blueprint(pls)
+
+    elif role == ROLE_RAPID:
         bp = load_embedded_blueprint("rapid")
 
-    if role == ROLE_CHAT:
+    elif role == ROLE_CHAT:
         bp = PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT)
 
     else:
@@ -105,3 +108,7 @@ def kaye_chat_task():
 
     # TODO use AbbrNode for ky
     return bp.generate_prompt()
+
+
+def _create_peer_coder_blueprint(pls):
+    return ""  # TODO
