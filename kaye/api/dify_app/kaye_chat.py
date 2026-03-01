@@ -4,6 +4,9 @@ define API to specific work with Dify App: Kaye Chat
 
 # pylint: disable=missing-function-docstring
 
+
+from sys import stderr
+
 from flask import Blueprint, request, abort, Response
 
 
@@ -92,7 +95,7 @@ def kaye_chat_sense():
 @ky_bp.route("/task", methods=["GET"])
 def kaye_chat_task():
     role = request.args.get(PARAM_ROLE_KEY) or ROLE_CHAT  # default to chat
-    pls = request.args.get(PARAM_PROGRAMMING_LANGUAGES_KEY)
+    pls = request.args.get(PARAM_PROGRAMMING_LANGUAGES_KEY) or ""
 
     if role == ROLE_CODER:
         bp = _create_peer_coder_blueprint(pls)
@@ -106,7 +109,7 @@ def kaye_chat_task():
     else:
         return abort(Response("bad param: ?role={}".format(role), 422))
 
-    # TODO use AbbrNode for ky
+    # Todo use AbbrNode for ky
     return bp.generate_prompt()
 
 
@@ -125,10 +128,57 @@ def _create_peer_coder_blueprint(pls):
     kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]
     bp.checkmark(kyc_node)
 
-    # adds PL nodes
-    # TODO
+    # adds PL nodes  -----------------------------------------------------------
+    for plc in pls.split(","):
+        if plc == "c":
+            bp.checkmark(kyc_node["C"])
+        elif plc == "cpp":
+            bp.checkmark(kyc_node["C++"])
+        elif plc == "ue":
+            bp.checkmark(kyc_node["C++"])
+            bp.checkmark(kyc_node["Unreal Engine"])
+        elif plc == "csharp":
+            bp.checkmark(kyc_node["C Sharp"])
+        elif plc == "u3d":
+            bp.checkmark(kyc_node["C Sharp"])
+            bp.checkmark(kyc_node["Unity Engine"])
+        elif plc == "gdscript":
+            bp.checkmark(kyc_node["GDScript"])
+        elif plc == "html":
+            bp.checkmark(kyc_node["HTML"])
+        elif plc in ("js", "ts"):
+            bp.checkmark(kyc_node["JavaScript & TypeScript"], recursively=True)
+        elif plc == "qt":
+            bp.checkmark(kyc_node["Qt"])
+        elif plc == "qml":
+            bp.checkmark(kyc_node["Qt"])
+            bp.checkmark(kyc_node["QML"])
+        elif plc == "py":
+            bp.checkmark(kyc_node["Python"], recursively=True)
+        elif plc == "console":
+            bp.checkmark(kyc_node["Message Level"])
+        elif plc != "":
+            print(
+                "unrecognized PLC: {} in ?programming_languages={}".format(
+                    plc, pls
+                ),
+                file=stderr,
+            )
 
     return bp
 
 
-PLC2CORPUS_HEADING = {"cpp": "cpp"}
+PLC2CORPUS_HEADING = {
+    "c": ("C",),
+    "cpp": ("C++",),
+    "ue": ("Unreal Engine",),
+    "csharp": ("C Sharp",),
+    "u3d": ("C Sharp", "Unity Engine"),
+    "gdscript": ("GDSCript",),
+    "html": ("HTML",),
+    "js": ("JavaScript & TypeScript",),
+    "ts": ("JavaScript & TypeScript",),
+    "qt": ("Qt",),
+    "qml": ("Qt", "QML"),
+    "py": ("Python",),
+}

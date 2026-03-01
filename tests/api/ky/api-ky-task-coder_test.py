@@ -77,3 +77,6 @@ Your task is to assist users with coding. Duties are as follows:""" in opt
         print(opt)
 
         self.assert_opt(opt)
+
+
+# TODO more unit tests on indv function
