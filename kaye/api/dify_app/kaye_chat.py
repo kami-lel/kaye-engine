@@ -47,13 +47,13 @@ CHAT_PROMPT_BLUEPRINT = """    ○
 [x] ├── Language
 [x] ├── Elements
 [x] │   └── Date & Time Format
-[ ] ├── Style
+[x] ├── Style
 [x] │   └── Capitalization Style
 [x] │       ├── Title Case
 [x] │       └── Commentary Case
 [x] ├── Format
 [x] ├── Standards
-[x] │   ├── Numerical Values with Units:
+[x] │   ├── Numerical Values with Units
 [x] │   ├── Language code
 [x] │   └── International Phonetic Alphabet
 [x] └── Role"""

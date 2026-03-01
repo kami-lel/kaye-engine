@@ -584,7 +584,7 @@ Note: Do not include the text inside parentheses `()`, these are *instructions* 
 
 # Standards
 
-## Numerical Values with Units:
+## Numerical Values with Units
 
 - Dual Unit Systems: Present values using both the metric and US unit systems. For example:
   - Distance: `8 848m (29 029ft)`
