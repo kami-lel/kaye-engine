@@ -28,7 +28,7 @@ select the single most appropriate label to describe the nature of the user's qu
 
     def test1(self, flask_test_client, sense_endpoint):
         response = flask_test_client.get(sense_endpoint)
-        opt = response.data.decode("utf-8")
+        opt = response.get_data().decode("utf-8")
 
         print(opt)
         assert opt.startswith(self.answer_start)
@@ -38,7 +38,7 @@ select the single most appropriate label to describe the nature of the user's qu
         response = flask_test_client.get(
             sense_endpoint, query_string={"role": ""}
         )
-        opt = response.data.decode("utf-8")
+        opt = response.get_data().decode("utf-8")
 
         print(opt)
         assert opt.startswith(self.answer_start)
@@ -52,7 +52,7 @@ class TestRoleCoder:  ##########################################################
         response = flask_test_client.get(
             sense_endpoint, query_string={"role": "peer_coder"}
         )
-        opt = response.data.decode("utf-8")
+        opt = response.get_data().decode("utf-8")
 
         print(opt)
         assert opt.startswith("""# Kaye Chat
@@ -74,7 +74,7 @@ class TestOtherRole:  ##########################################################
         response = flask_test_client.get(
             sense_endpoint, query_string={"role": "aaa"}
         )
-        opt = response.data.decode("utf-8")
+        opt = response.get_data().decode("utf-8")
 
         print(opt)
         assert opt.startswith(
