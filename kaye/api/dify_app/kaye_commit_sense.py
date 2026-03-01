@@ -7,6 +7,7 @@ define API to specific work with Dify App: Kaye Commit Sense
 from flask import Blueprint, request, abort, Response
 
 from kaye import PROGRAM_NAME
+from kaye.prompt import PromptBlueprint
 
 # from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
 
@@ -86,14 +87,11 @@ commit_sense_bp = Blueprint(
     "kaye-commit-sense", PROGRAM_NAME, url_prefix="/kaye-commit-sense"
 )
 
-# BUG commit sense API
-
 
 # /kaye/dify-app/kaye-commit-sense/primary-message
 @commit_sense_bp.route("/primary-message", methods=["GET"])
 def kaye_commit_sense_primary_message():
     blueprint = PromptBlueprint.parse(
-        load_embedded_prompt_corpus(),
         PRIMARY_MESSAGE_PROMPT_BLUEPRINT,
     )
     _checkmark_md_related_node(blueprint)
@@ -104,7 +102,6 @@ def kaye_commit_sense_primary_message():
 @commit_sense_bp.route("/per-file-long", methods=["GET"])
 def kaye_commit_sense_per_file_long():
     blueprint = PromptBlueprint.parse(
-        load_embedded_prompt_corpus(),
         PER_FILE_LONG_PROMPT_BLUEPRINT,
     )
     _checkmark_md_related_node(blueprint)
@@ -115,7 +112,6 @@ def kaye_commit_sense_per_file_long():
 @commit_sense_bp.route("/per-file-short", methods=["GET"])
 def kaye_commit_sense_per_file_short():
     blueprint = PromptBlueprint.parse(
-        load_embedded_prompt_corpus(),
         PER_FILE_SHORT_PROMPT_BLUEPRINT,
     )
     _checkmark_md_related_node(blueprint)

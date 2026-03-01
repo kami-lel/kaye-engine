@@ -7,6 +7,7 @@ define API to specific work with Dify App: Kaye_Cash_Tracker
 from flask import Blueprint
 
 from kaye import PROGRAM_NAME
+from kaye.prompt import PromptBlueprint
 
 # from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
 
@@ -24,13 +25,9 @@ cash_tracker_bp = Blueprint(
     "kaye-cash-tracker", PROGRAM_NAME, url_prefix="/kaye-cash-tracker"
 )
 
-# BUG commit sense API
-
 
 # /kaye/dify-app/kaye-cash-tracker/extract
 @cash_tracker_bp.route("/extract", methods=["GET"])
 def kaye_cash_tracker_extract():
-    blueprint = PromptBlueprint.parse(
-        load_embedded_prompt_corpus(), EXTRACT_PROMPT_BLUEPRINT
-    )
+    blueprint = PromptBlueprint.parse(EXTRACT_PROMPT_BLUEPRINT)
     return blueprint.generate_prompt()

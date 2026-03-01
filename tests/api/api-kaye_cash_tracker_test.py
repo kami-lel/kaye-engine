@@ -10,6 +10,8 @@ from kaye.prompt import (
 )
 from api.dify_app.kaye_cash_tracker import EXTRACT_PROMPT_BLUEPRINT
 
+# BUG commit sense API
+
 
 def test_extract(flask_test_client):
     response = flask_test_client.get("/kaye/dify-app/kaye-cash-tracker/extract")
