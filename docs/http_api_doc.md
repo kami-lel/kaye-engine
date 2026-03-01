@@ -194,7 +194,7 @@ All endpoints below `/kaye/dify-app/ky`
 - param `role`, v.i.:
 
   - if provided, skip role-guessing instruction of the given prompt
-  - `peer_coder` will provide its related sense prompts
+  - `coder` will provide its related sense prompts
 
 
 

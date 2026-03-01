@@ -21,7 +21,7 @@ def main(
     combined_set = set(current_pls.split(SPLITTER)) | set(
         sensed_pls.split(SPLITTER)
     )
-    combined_pls = SPLITTER.join(combined_set)
+    combined_pls = SPLITTER.join(filter(bool, combined_set))
 
     # role  --------------------------------------------------------------------
     role = current_role or sensed_role or "chat"

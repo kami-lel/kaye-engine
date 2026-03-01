@@ -20,7 +20,7 @@
     "role": {
       "enum": [
         "chat",
-        "peer_coder"
+        "coder"
       ]
     }
   },

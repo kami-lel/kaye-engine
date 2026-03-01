@@ -15,7 +15,7 @@ def main(
     difficulty_thresholds: list[float],
 ):
 
-    if role == "peer_coder":
+    if role == "coder":
         difficulty = difficulty_override or difficulty_sensed
         if difficulty < difficulty_thresholds[0]:
             llm = "rapid"

@@ -19,7 +19,7 @@ PARAM_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
 
 # roles  -----------------------------------------------------------------------
 ROLE_CHAT = "chat"
-ROLE_CODER = "peer_coder"
+ROLE_CODER = "coder"
 ROLE_RAPID = "rapid"
 
 

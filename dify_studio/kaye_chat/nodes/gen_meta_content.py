@@ -8,15 +8,16 @@ OUTPUT_META_KEY = "meta_content"
 # Entry Point  #################################################################
 def main(
     show_meta_content,
-    role_override,
-    role,
-    llm_override,
-    llm_used,
-    difficulty_override,
-    difficulty_sensed,
+    role_override: str,
+    role: str,
+    llm_override: str,
+    llm_used: str,
+    difficulty_override: float,
+    difficulty_sensed: dict,
     skip_sense,
-    sense_usage,
-    task_usage,
+    programming_languages: str,
+    sense_usage: dict,
+    task_usage: dict,
 ):
     if not show_meta_content:
         return {OUTPUT_META_KEY: ""}
@@ -38,13 +39,15 @@ def main(
         lines.append("LLM: {}".format(_llm2display_name(llm_used)))
 
     role_used = role_override or role
-    if role_used == "peer_coder":
+    if role_used == "coder":
         if difficulty_override:
             lines.append(
                 "Difficulty (Override): {}".format(difficulty_override)
             )
         else:
             lines.append("Difficulty: {}".format(difficulty_sensed))
+
+        lines.append("PLs: {}".format(programming_languages))
 
     if not skip_sense:
         lines.append("Sense: {}s".format(sense_usage[USAGE_TIME_KEY]))

@@ -706,7 +706,7 @@ select the single most appropriate label to describe the nature of the user's qu
 ### role
 
 - `chat` for normal conversation
-- `peer_coder` if user ask code related questions
+- `coder` if user ask code related questions
 
 
 

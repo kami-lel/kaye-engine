@@ -3,7 +3,7 @@ api-ky-task-coder_test.py
 
 Unit Tests (using pytest) for:
 
-/kaye/dify-api/ky/task with ?role=peer_coder
+/kaye/dify-api/ky/task with ?role=coder
 """
 
 import pytest
@@ -14,7 +14,7 @@ from tests.api.ky import _assert_chat_blueprint_opt
 # pytest fixtures  #############################################################
 @pytest.fixture
 def query_string():
-    return {"role": "peer_coder"}
+    return {"role": "coder"}
 
 
 # helper  ######################################################################
