@@ -706,7 +706,8 @@ select the single most appropriate label to describe the nature of the user's qu
 ### role
 
 - `chat` for normal conversation
-- `coder` if user ask code related questions
+- `coder`: assist users with coding, such as code expansion, code adjustment, coding support, explanation & reasoning, & debug
+
 
 
 
@@ -1587,7 +1588,8 @@ Requirements:
 
 ## Kaye Peer Coder
 
-Your task is to assist users with coding. Duties are as follows:
+
+Duties are as follows:
 
 - provide code **expansion** per user instructions while maintaining formatting and naming consistency with provided examples and excluding those examples from your response
 
