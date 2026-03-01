@@ -20,7 +20,7 @@ Possible values:
 [
   "chat",
   "rapid",
-  "peer_coder"
+  "coder"
 ]
 ```
 
