@@ -17,26 +17,38 @@
 
 ## [Unreleased]
 
-TODO write changelog
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+## [5.0.0] - 2026-03-01
 
 ### Added
 
-- Dynamic Nodes:
+Dynamic Nodes:
 
-  - `TodayNode`
-  - `AbbrNode`
-  - `PLCNode`
+- `TodayNode`
+- `AbbrNode`
+- `PLCNode`
 
-`prompt_corpus.md`:
-
-- more abbreviations
-
-Kaye Peer Coder:
+Kaye Chat: Kaye Peer Coder role:
 
 - input field `difficulty_override`
-- anchor point tasks for pre-sense prompt
+- anchor point tasks for sense prompt
 - additional information for *meta content*: times for pre-sense & task
-
 
 ### Changed
 
@@ -44,19 +56,15 @@ Kaye Commit Sense:
 
 - minor adjustment on change commit message format to utilize *Markdown*
 
-Kaye Peer Coder:
+Kaye Chat:
 
-- move *meta content* from prefix to end of conversation
-- provide anchor point for difficulty evaluation in prompt
-- improve prompt for *chat* phase, allow it to use natural language chat more
-- more stricter rule on using *comment section headings*
-
-### Deprecated
-
-- Python CLI
-- use of `kamilog`
+- merged functions of Kaye Peer Coder
 
 ### Removed
+
+- Kaye Peer Coder
+- use of `kamilog`
+
 ### Fixed
 
 Kaye Cash Tracker:
@@ -1185,7 +1193,9 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v4.12.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v5.0.0...dev
+[5.0.0]: https://github.com/kami-lel/kaye/compare/v4.12.1...v5.0.0
+[4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1
 [4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1
 [4.12.0]: https://github.com/kami-lel/kaye/compare/v4.11.0...v4.12.0
 [4.11.0]: https://github.com/kami-lel/kaye/compare/v4.10.2...v4.11.0
