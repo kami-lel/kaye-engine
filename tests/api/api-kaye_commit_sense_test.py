@@ -9,7 +9,7 @@ from kaye.prompt import load_embedded_prompt_corpus, PromptBlueprint
 APP_PREFIX = "/kaye/dify-app/kaye-commit-sense"
 
 
-# BUG commit sense API unit tests
+# HACK rm
 
 # prompt parts  ################################################################
 
