@@ -17,8 +17,8 @@ class Test1:  ##################################################################
 
     # Project Title  ===========================================================
 
-    def test_by_name1(_, corpus_testee1, bp_testee1pa1):
-        bp = bp_testee1pa1
+    def test_by_name1(_, corpus_testee1, bp_testee2pa1):
+        bp = bp_testee2pa1
         node = corpus_testee1["Project Title"]
         node_arg = "Project Title"
 
@@ -30,8 +30,8 @@ class Test1:  ##################################################################
         )
         assert node_hash == hash(node)
 
-    def test_by_obj1(_, corpus_testee1, bp_testee1pa1):
-        bp = bp_testee1pa1
+    def test_by_obj1(_, corpus_testee1, bp_testee2pa1):
+        bp = bp_testee2pa1
         node = corpus_testee1["Project Title"]
         node_arg = node
 
@@ -43,8 +43,8 @@ class Test1:  ##################################################################
         )
         assert node_hash == hash(node)
 
-    def test_by_hash1(_, corpus_testee1, bp_testee1pa1):
-        bp = bp_testee1pa1
+    def test_by_hash1(_, corpus_testee1, bp_testee2pa1):
+        bp = bp_testee2pa1
         node = corpus_testee1["Project Title"]
         node_arg = hash(node)
 
@@ -58,8 +58,8 @@ class Test1:  ##################################################################
 
     # Description  =============================================================
 
-    def test_by_name2(_, corpus_testee1, bp_testee1pa1):
-        bp = bp_testee1pa1
+    def test_by_name2(_, corpus_testee1, bp_testee2pa1):
+        bp = bp_testee2pa1
         node = corpus_testee1["Project Title"]["Description"]
         node_arg = "Description"
 
@@ -71,8 +71,8 @@ class Test1:  ##################################################################
         )
         assert node_hash == hash(node)
 
-    def test_by_obj3(_, corpus_testee1, bp_testee1pa1):
-        bp = bp_testee1pa1
+    def test_by_obj3(_, corpus_testee1, bp_testee2pa1):
+        bp = bp_testee2pa1
         node = corpus_testee1["Project Title"]["Description"]
         node_arg = node
 
@@ -84,8 +84,8 @@ class Test1:  ##################################################################
         )
         assert node_hash == hash(node)
 
-    def test_by_hash2(_, corpus_testee1, bp_testee1pa1):
-        bp = bp_testee1pa1
+    def test_by_hash2(_, corpus_testee1, bp_testee2pa1):
+        bp = bp_testee2pa1
         node = corpus_testee1["Project Title"]["Description"]
         node_arg = hash(node)
 
@@ -101,8 +101,8 @@ class Test1:  ##################################################################
 
     # bad typed  ***************************************************************
 
-    def test_bad_type1(_, bp_testee1pa1):
-        bp = bp_testee1pa1
+    def test_bad_type1(_, bp_testee2pa1):
+        bp = bp_testee2pa1
         ipt = 12.5
 
         with pytest.raises(TypeError) as exec_info:
@@ -118,8 +118,8 @@ class Test1:  ##################################################################
             "12.5"
         )
 
-    def test_bad_type2(_, bp_testee1pa1):
-        bp = bp_testee1pa1
+    def test_bad_type2(_, bp_testee2pa1):
+        bp = bp_testee2pa1
         ipt = ["a", "b", "c"]
 
         with pytest.raises(TypeError) as exec_info:
@@ -137,8 +137,8 @@ class Test1:  ##################################################################
 
     # can't find  **************************************************************
 
-    def test_miss_node_by_name1(_, bp_testee1pa1):
-        bp = bp_testee1pa1
+    def test_miss_node_by_name1(_, bp_testee2pa1):
+        bp = bp_testee2pa1
         ipt = "AAAZZZ"
 
         with pytest.raises(ValueError) as exec_info:
@@ -149,8 +149,8 @@ class Test1:  ##################################################################
 
         assert opt == "no node in corpus with name/identifier: 'AAAZZZ'"
 
-    def test_miss_node_by_hash1(_, bp_testee1pa1):
-        bp = bp_testee1pa1
+    def test_miss_node_by_hash1(_, bp_testee2pa1):
+        bp = bp_testee2pa1
         ipt = hash(None)
 
         with pytest.raises(ValueError) as exec_info:
@@ -161,8 +161,8 @@ class Test1:  ##################################################################
 
         assert opt == "no node in corpus with hash value: 4238894112"
 
-    def test_miss_node_by_obj1(_, bp_testee1pa1):
-        bp = bp_testee1pa1
+    def test_miss_node_by_obj1(_, bp_testee2pa1):
+        bp = bp_testee2pa1
         root = PromptCorpusNode("", None, [])
         ipt = PromptCorpusNode("AAAZZZ", root, [])
 
