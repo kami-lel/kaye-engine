@@ -21,7 +21,6 @@ ROLE_RAPID = "rapid"
 
 
 # Blueprints  ##################################################################
-# sense blueprint  -------------------------------------------------------------
 
 SENSE_PROMPT_BLUEPRINT = """ ○
 [x] └── Kaye Chat
@@ -36,11 +35,6 @@ SENSE_PROMPT_BLUEPRINT = """ ○
 """
 
 
-# task blueprints  -------------------------------------------------------------
-
-
-# HACK rm these
-
 CHAT_PROMPT_BLUEPRINT = """    ○
 [x] ├── Introduction
 [x] ├── Personality
@@ -53,23 +47,8 @@ CHAT_PROMPT_BLUEPRINT = """    ○
 [x] │       └── Commentary Case
 [x] ├── Format
 [x] ├── Standards
-[x] │   ├── Numerical Values with Units
-[x] │   ├── Language code
-[x] │   └── International Phonetic Alphabet
+[x] │   └── Numerical Values with Units
 [x] └── Role"""
-
-
-""" ○
-[x] ├── Introduction
-[x] ├── Style
-[x] │   ├── Capitalization Style
-[x] │   │   └── Commentary Case
-[x] │   └── Briefness Style
-[x] ├── Format
-[x] └── Role
-[x]     └── Kaye Peer Coder
-[x]         └── chat
-"""
 
 
 # Flask Routing  ###############################################################

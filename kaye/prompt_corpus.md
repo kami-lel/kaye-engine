@@ -630,50 +630,6 @@ Note: Do not include the text inside parentheses `()`, these are *instructions* 
 
 
 
-
-## Language code
-
-User may use **ISO 639-1** (2 letter) codes to specify language.
-
-Example: `en` for English, `zh` for 中文.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## International Phonetic Alphabet
 
 - always use slashes ( / / ) to show IPA pronunciation—never use square brackets
