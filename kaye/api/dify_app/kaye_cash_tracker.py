@@ -24,7 +24,7 @@ cash_tracker_bp = Blueprint(
     "kaye-cash-tracker", PROGRAM_NAME, url_prefix="/kaye-cash-tracker"
 )
 
-# Bug commit sense API
+# BUG commit sense API
 
 
 # /kaye/dify-app/kaye-cash-tracker/extract
