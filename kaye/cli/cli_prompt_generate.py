@@ -6,7 +6,7 @@ from pathlib import Path
 from kaye import PROGRAM_NAME, kamilog
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 from kaye.prompt.prompt_blueprint_loader import (
-    load_embedded_prompt_blueprint,
+    load_embedded_blueprint,
 )
 from kaye.prompt.prompt_corpus_loader import load_embedded_prompt_corpus
 
@@ -84,7 +84,7 @@ def create_blueprint_from_generate_show(args):
 
     else:  # embedded blueprints
         try:
-            return load_embedded_prompt_blueprint(blueprint_arg)
+            return load_embedded_blueprint(blueprint_arg)
         except (FileNotFoundError, IOError, ValueError) as err:
             logger.error(err)
             raise

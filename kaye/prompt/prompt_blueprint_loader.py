@@ -16,9 +16,7 @@ TECHNICAL_BLUEPRINT = [EMPTY_BLUEPRINT_NAME, FULL_BLUEPRINT_NAME]
 __all__ = (
     "get_embedded_prompt_blueprints_folder_path",
     "get_embedded_prompt_blueprints_names",
-    "load_embedded_prompt_blueprint",
-    "load_empty_prompt_blueprint",
-    "load_full_prompt_blueprint",
+    "load_embedded_blueprint",
 )
 
 
@@ -61,7 +59,7 @@ def get_embedded_prompt_blueprints_names(
     return blueprints_names
 
 
-def load_embedded_prompt_blueprint(prompt_blueprint_name):
+def load_embedded_blueprint(prompt_blueprint_name):
     """
     Load one of the prompt blueprints embedded with this Python package
 
@@ -78,6 +76,7 @@ def load_embedded_prompt_blueprint(prompt_blueprint_name):
     :raises ValueError: prompt_name is
             not a recognized embedded prompt blueprint
     """
+    # FIXME FIXME update & write tests
     corpus = load_embedded_prompt_corpus()
 
     # deal with technical prompts
@@ -112,7 +111,7 @@ def load_empty_prompt_blueprint():
 
     Q.v. ``load_embedded_prompt_blueprint()``
     """
-    return load_embedded_prompt_blueprint(EMPTY_BLUEPRINT_NAME)
+    return load_embedded_blueprint(EMPTY_BLUEPRINT_NAME)
 
 
 def load_full_prompt_blueprint():
@@ -121,7 +120,7 @@ def load_full_prompt_blueprint():
 
     Q.v. ``load_embedded_prompt_blueprint()``
     """
-    return load_embedded_prompt_blueprint(FULL_BLUEPRINT_NAME)
+    return load_embedded_blueprint(FULL_BLUEPRINT_NAME)
 
 
 def _get_embedded_prompt_blueprints_names_and_paths():
