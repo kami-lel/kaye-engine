@@ -6,14 +6,6 @@ Unit Tests (using pytest) for:
 /kaye/dify-app/ky/sense
 """
 
-import pytest
-
-
-# pytest fixtures  #############################################################
-@pytest.fixture
-def local_endpoint(app_endpoint):
-    return app_endpoint + "/sense"
-
 
 class TestNoRole:  #############################################################
 
@@ -34,17 +26,17 @@ select the single most appropriate label to describe the nature of the user's qu
 
     # tests  ===================================================================
 
-    def test1(self, flask_test_client, local_endpoint):
-        response = flask_test_client.get(local_endpoint)
+    def test1(self, flask_test_client, sense_endpoint):
+        response = flask_test_client.get(sense_endpoint)
         opt = response.data.decode("utf-8")
 
         print(opt)
         assert opt.startswith(self.answer_start)
         assert opt.endswith(self.answer_end)
 
-    def test2(self, flask_test_client, local_endpoint):
+    def test2(self, flask_test_client, sense_endpoint):
         response = flask_test_client.get(
-            local_endpoint, query_string={"role": ""}
+            sense_endpoint, query_string={"role": ""}
         )
         opt = response.data.decode("utf-8")
 
@@ -56,9 +48,9 @@ select the single most appropriate label to describe the nature of the user's qu
 class TestRoleCoder:  ##########################################################
 
     # tests  ===================================================================
-    def test1(self, flask_test_client, local_endpoint):
+    def test1(self, flask_test_client, sense_endpoint):
         response = flask_test_client.get(
-            local_endpoint, query_string={"role": "peer_coder"}
+            sense_endpoint, query_string={"role": "peer_coder"}
         )
         opt = response.data.decode("utf-8")
 
@@ -78,9 +70,9 @@ class TestRoleCoder:  ##########################################################
 
 class TestOtherRole:  ##########################################################
 
-    def test_other_role(self, flask_test_client, local_endpoint):
+    def test_other_role(self, flask_test_client, sense_endpoint):
         response = flask_test_client.get(
-            local_endpoint, query_string={"role": "aaa"}
+            sense_endpoint, query_string={"role": "aaa"}
         )
         opt = response.data.decode("utf-8")
 
