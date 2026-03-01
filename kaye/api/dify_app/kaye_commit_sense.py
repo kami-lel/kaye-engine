@@ -55,7 +55,6 @@ def _checkmark_md_related_node(blueprint):
     """
     md_arg = request.args.get("allows_md")
 
-    # default to disable md
     node = blueprint.corpus["Kaye Commit Sense"]["no markdown syntax"]
 
     if md_arg:
@@ -69,7 +68,7 @@ def _checkmark_md_related_node(blueprint):
         elif md_value != 0:
             abort(
                 Response(
-                    "param ?allows_md must be 1/0, not {}".format(md_value),
+                    "param ?allows_md must be 1/0: {}".format(md_value),
                     422,
                 )
             )
