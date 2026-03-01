@@ -39,12 +39,27 @@ SENSE_PROMPT_BLUEPRINT = """ ○
 # task blueprints  -------------------------------------------------------------
 
 
-CHAT_PROMPT_BLUEPRINT = """"""
-
 # HACK rm these
 
+CHAT_PROMPT_BLUEPRINT = """    ○
+[x] ├── Introduction
+[x] ├── Personality
+[x] ├── Language
+[x] ├── Elements
+[x] │   └── Date & Time Format
+[ ] ├── Style
+[x] │   └── Capitalization Style
+[x] │       ├── Title Case
+[x] │       └── Commentary Case
+[x] ├── Format
+[x] ├── Standards
+[x] │   ├── Numerical Values with Units:
+[x] │   ├── Language code
+[x] │   └── International Phonetic Alphabet
+[x] └── Role"""
 
-CHAT_PROMPT_BASIC_BLUEPRINT = """ ○
+
+""" ○
 [x] ├── Introduction
 [x] ├── Style
 [x] │   ├── Capitalization Style
@@ -55,98 +70,6 @@ CHAT_PROMPT_BASIC_BLUEPRINT = """ ○
 [x]     └── Kaye Peer Coder
 [x]         └── chat
 """
-
-
-TASK_PROMPT_BLUEPRINT = """    ○
-[x] ├── Introduction
-[x] ├── Personality
-[ ] ├── Language
-[ ] ├── Elements
-[ ] │   ├── Annotation Markers
-[ ] │   │   └── Meaning
-[ ] │   └── Date & Time Format
-[ ] ├── Style
-[ ] │   ├── Capitalization Style
-[ ] │   │   ├── Title Case
-[ ] │   │   └── Commentary Case
-[ ] │   └── Briefness Style
-[ ] ├── Format
-[ ] │   └── Header Separation
-[ ] │       ├── Long File
-[ ] │       └── Medium File
-[ ] ├── Standards
-[ ] │   ├── Numerical Values with Units:
-[ ] │   ├── Language code
-[ ] │   └── International Phonetic Alphabet
-[ ] ├── Kaye Chat
-[ ] │   └── sense
-[ ] │       ├── llm
-[ ] │       ├── role
-[ ] │       ├── leave empty
-[ ] │       └── for coder
-[ ] │           ├── programming_languages
-[ ] │           └── difficulty
-[ ] ├── Role
-[ ] │   ├── Art Tutor
-[ ] │   ├── Changelog Writer
-[ ] │   ├── Conversation Follow Up Generation
-[ ] │   ├── Conversation Tag Generation
-[ ] │   ├── Conversation Title Generation
-[ ] │   ├── Deutschlehrer
-[ ] │   ├── Editor
-[ ] │   ├── Email Secretary
-[ ] │   ├── Encyclopedic
-[ ] │   ├── Etiquette Coach
-[ ] │   ├── Grammar Checker
-[ ] │   ├── Kaye Peer Coder
-[ ] │   │   ├── chat
-[ ] │   │   ├── C
-[ ] │   │   ├── C++
-[ ] │   │   ├── Unreal Engine
-[ ] │   │   ├── C Sharp
-[ ] │   │   ├── Unity Engine
-[ ] │   │   ├── GDScript
-[ ] │   │   ├── HTML
-[ ] │   │   ├── JavaScript & TypeScript
-[ ] │   │   │   └── Documentation and Comments
-[ ] │   │   ├── Qt
-[ ] │   │   │   └── QML
-[ ] │   │   ├── Python
-[ ] │   │   └── Message Level
-[ ] │   ├── Librarian
-[ ] │   │   └── Bibliographer
-[ ] │   ├── Prompt Writer
-[ ] │   ├── Shelver
-[ ] │   │   ├── label
-[ ] │   │   │   ├── book title
-[ ] │   │   │   ├── publish year
-[ ] │   │   │   ├── authors, editors, translators
-[ ] │   │   │   ├── publisher
-[ ] │   │   │   ├── informational tags
-[ ] │   │   │   └── label examples
-[ ] │   │   ├── DDC part
-[ ] │   │   └── DDC justification
-[ ] │   ├── Chinese Shelver
-[ ] │   │   ├── DDC 部分
-[ ] │   │   └── DDC 說明
-[ ] │   ├── Tarot Reader
-[ ] │   │   ├── 1. Information Collection Stage
-[ ] │   │   ├── 2. Card Drawing Stage
-[ ] │   │   ├── 3. Interpretation Stage
-[ ] │   │   └── Tarot Card Reference
-[ ] │   └── Translator
-[ ] ├── Kaye Cash Tracker
-[ ] │   └── Extract
-[ ] ├── Kaye Commit Sense
-[ ] │   ├── no markdown syntax
-[ ] │   ├── Primary Message Task
-[ ] │   └── Per File Summary Task
-[ ] │       └── Prefix Symbol
-[ ] │           ├── Long
-[ ] │           └── Short
-[ ] └── Kaye Event Radar
-[ ]     ├── parse events
-[ ]     └── filter events"""
 
 
 # Flask Routing  ###############################################################
@@ -190,6 +113,10 @@ def kaye_chat_task():
 
     if role == ROLE_RAPID:
         bp = load_embedded_blueprint("rapid")
+
+    if role == ROLE_CHAT:
+        bp = PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT)
+
     else:
         return abort(Response("bad param: ?role={}".format(role), 422))
 
