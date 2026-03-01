@@ -1,5 +1,7 @@
 # Kaye CHANGELOG
 
+FIXME organize all todos
+
 [^format]
 
 
@@ -16,6 +18,8 @@
 
 
 ## [Unreleased]
+
+TODO write changelog
 
 ### Added
 
