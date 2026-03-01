@@ -44,6 +44,21 @@ RAPID_PROMPT_BLUEPRINT = """"""
 CHAT_PROMPT_BLUEPRINT = """"""
 
 # HACK rm these
+
+
+CHAT_PROMPT_BASIC_BLUEPRINT = """ ○
+[x] ├── Introduction
+[x] ├── Style
+[x] │   ├── Capitalization Style
+[x] │   │   └── Commentary Case
+[x] │   └── Briefness Style
+[x] ├── Format
+[x] └── Role
+[x]     └── Kaye Peer Coder
+[x]         └── chat
+"""
+
+
 TASK_PROMPT_BLUEPRINT = """    ○
 [x] ├── Introduction
 [x] ├── Personality
