@@ -407,7 +407,7 @@ E.g.
 
 ----
 
-`str(blueprint)` is equivalent to `blueprint.generate_preview_tree()`
+`repr(blueprint)` is equivalent to `blueprint.generate_blueprint()`
 
 
 

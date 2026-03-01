@@ -688,6 +688,10 @@ class PromptBlueprint(dict):
     # str  ---------------------------------------------------------------------
 
     def __repr__(self):
+        """
+        :return: equivalent to ``self.generate_blueprint()``
+        :rtype: str
+        """
         return self.generate_blueprint()
 
     def __str__(self):
