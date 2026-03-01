@@ -1,24 +1,18 @@
 """
-api_dify_kaye_cash_tracker_test.py
+api-dify_kaye_cash_tracker_test.py
 
 Unit Tests (using pytest) for: /kaye/dify-app/kaye-cash-tracker/*
 """
 
-from kaye.prompt import (
-    PromptBlueprint,
-    load_embedded_prompt_corpus,
-)
-from api.dify_app.kaye_cash_tracker import EXTRACT_PROMPT_BLUEPRINT
 
-# BUG commit sense API
+def test_extract(flask_test_client, dify_app_endpoint):
+    extract_endpoint = dify_app_endpoint + "/kaye-cash-tracker/extract"
 
+    response = flask_test_client.get(extract_endpoint)
 
-def test_extract(flask_test_client):
-    response = flask_test_client.get("/kaye/dify-app/kaye-cash-tracker/extract")
-
-    opt = response.data.decode("utf-8")
+    opt = response.get_data().decode("utf-8")
     print(opt)
 
-    assert opt == PromptBlueprint.parse(
-        load_embedded_prompt_corpus(), EXTRACT_PROMPT_BLUEPRINT
-    ).generate_prompt(hide_comment=False)
+    assert False
+
+    # BUG commit sense API

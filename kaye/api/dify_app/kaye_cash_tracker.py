@@ -9,13 +9,10 @@ from flask import Blueprint
 from kaye import PROGRAM_NAME
 from kaye.prompt import PromptBlueprint
 
-# from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
-
 # Blueprints  ##################################################################
-EXTRACT_PROMPT_BLUEPRINT = """○
-[ ] └── Role
-[ ]     └── Kaye Cash Tracker
-[x]         └── Extract
+EXTRACT_PROMPT_BLUEPRINT = """    ○
+[ ] └── Kaye Cash Tracker
+[x]     └── Extract
 """
 
 
