@@ -28,11 +28,10 @@ PER_FILE_LONG_PROMPT_BLUEPRINT = """ ○
 [ ] │   ├── Capitalization Style
 [x] │   │   └── Commentary Case
 [x] │   └── Briefness Style
-[ ] └── Role
-[x]     └── Kaye Commit Sense
-[x]         └── Per File Summary Task
-[x]             └── Prefix Symbol
-[x]                 └── Long
+[x] └── Kaye Commit Sense
+[x]     └── Per File Summary Task
+[x]         └── Prefix Symbol
+[x]             └── Long
 """
 
 PER_FILE_SHORT_PROMPT_BLUEPRINT = """ ○
@@ -42,11 +41,10 @@ PER_FILE_SHORT_PROMPT_BLUEPRINT = """ ○
 [ ] │   ├── Capitalization Style
 [x] │   │   └── Commentary Case
 [x] │   └── Briefness Style
-[ ] └── Role
-[x]     └── Kaye Commit Sense
-[x]         └── Per File Summary Task
-[x]             └── Prefix Symbol
-[x]                 └── Short
+[x] └── Kaye Commit Sense
+[x]     └── Per File Summary Task
+[x]         └── Prefix Symbol
+[x]             └── Short
 """
 
 

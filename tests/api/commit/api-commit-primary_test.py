@@ -8,7 +8,11 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from tests.api.commit import assert_allows_md, assert_no_allows_md
+from tests.api.commit import (
+    assert_allows_md,
+    assert_no_allows_md,
+    assert_commit_sense_common,
+)
 
 
 # pytest fixtures  #############################################################
@@ -17,27 +21,10 @@ def endpoint(app_endpoint):
     return app_endpoint + "/primary-message"
 
 
-# helpers  #####################################################################
-
-
 class TestPrimary:  ############################################################
 
     # helpers  =================================================================
     def assert_common(_, opt):
-        opt.startswith("""### Commentary Case
-- begin 1st sentence with a lowercase letter; use standard sentence capitalization for the 2nd and subsequent sentences
-- use *Title Case* for **a few important words** within a sentence
-- the last sentence should not end with punctuation""")
-
-        assert """## Briefness Style
-- write in **newspaper headlinese**, prioritize brevity over grammar
-- use present for current, infinitive for planned
-- omit articles (a, an, the) and helper verbs, use strong nouns, verbs""" in opt
-
-        assert """# Kaye Commit Sense
-You are given the result of `git diff --cached`; interpret it as the changes ready to be committed for the file(s).
-
-- strictly use *Briefness Style* language""" in opt
 
         assert """## Primary Message Task
 Produce a concise summary of changes across **multiple** files.""" in opt
@@ -50,6 +37,7 @@ Produce a concise summary of changes across **multiple** files.""" in opt
         opt = response.get_data().decode("utf-8")
         print(opt)
 
+        assert_commit_sense_common(opt)
         self.assert_common(opt)
         assert_no_allows_md(opt)
 
@@ -60,6 +48,7 @@ Produce a concise summary of changes across **multiple** files.""" in opt
         opt = response.get_data().decode("utf-8")
         print(opt)
 
+        assert_commit_sense_common(opt)
         self.assert_common(opt)
         assert_no_allows_md(opt)
 
@@ -70,6 +59,7 @@ Produce a concise summary of changes across **multiple** files.""" in opt
         opt = response.get_data().decode("utf-8")
         print(opt)
 
+        assert_commit_sense_common(opt)
         self.assert_common(opt)
         assert_no_allows_md(opt)
 
@@ -82,5 +72,6 @@ Produce a concise summary of changes across **multiple** files.""" in opt
         opt = response.get_data().decode("utf-8")
         print(opt)
 
+        assert_commit_sense_common(opt)
         self.assert_common(opt)
         assert_allows_md(opt)
