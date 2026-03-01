@@ -1,7 +1,5 @@
 # Kaye CHANGELOG
 
-FIXME organize all todos
-
 [^format]
 
 
