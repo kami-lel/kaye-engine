@@ -86,6 +86,8 @@ commit_sense_bp = Blueprint(
     "kaye-commit-sense", PROGRAM_NAME, url_prefix="/kaye-commit-sense"
 )
 
+# Bug commit sense API
+
 
 # /kaye/dify-app/kaye-commit-sense/primary-message
 @commit_sense_bp.route("/primary-message", methods=["GET"])

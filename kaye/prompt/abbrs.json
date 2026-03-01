@@ -1222,14 +1222,16 @@
     "💥": {
       "priority": 3,
       "tags": [
-        "emoji"
+        "emoji",
+        "log_level"
       ],
       "wrap": "symbol"
     },
-    "crit": {
+    "CRIT ": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "log_level"
       ],
       "wrap": "word"
     }
@@ -1300,11 +1302,20 @@
   },
   "debug": {
     "🐞": {
-      "priority": 5,
+      "priority": 3,
       "tags": [
-        "emoji"
+        "emoji",
+        "log_level"
       ],
       "wrap": "symbol"
+    },
+    "DEBUG": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "log_level"
+      ],
+      "wrap": "word"
     }
   },
   "decrease,decrement": {
@@ -1400,6 +1411,15 @@
       "priority": 5,
       "tags": [
         "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "Deutsch": {
+    "de": {
+      "priority": 5,
+      "tags": [
+        "language_code"
       ],
       "wrap": "word"
     }
@@ -1609,6 +1629,15 @@
       "wrap": "word"
     }
   },
+  "English": {
+    "en": {
+      "priority": 5,
+      "tags": [
+        "language_code"
+      ],
+      "wrap": "word"
+    }
+  },
   "enough": {
     "egh": {
       "priority": 5,
@@ -1650,11 +1679,20 @@
   },
   "error": {
     "🛑": {
-      "priority": 5,
+      "priority": 3,
       "tags": [
-        "emoji"
+        "emoji",
+        "log_level"
       ],
       "wrap": "symbol"
+    },
+    "ERROR": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "log_level"
+      ],
+      "wrap": "word"
     }
   },
   "especially": {
@@ -2660,11 +2698,20 @@
     "💡": {
       "priority": 3,
       "tags": [
-        "emoji"
+        "emoji",
+        "log_level"
       ],
       "wrap": "symbol"
     },
     "info": {
+      "priority": 6,
+      "tags": [
+        "letters_only",
+        "log_level"
+      ],
+      "wrap": "word"
+    },
+    "INFO ": {
       "priority": 5,
       "tags": [
         "letters_only"
@@ -4932,14 +4979,16 @@
     "⚠️": {
       "priority": 5,
       "tags": [
-        "emoji"
+        "emoji",
+        "log_level"
       ],
       "wrap": "symbol"
     },
-    "warn": {
-      "priority": 6,
+    "WARN ": {
+      "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "log_level"
       ],
       "wrap": "word"
     }
@@ -5092,6 +5141,33 @@
       "priority": 5,
       "tags": [
         "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "中文": {
+    "zh": {
+      "priority": 5,
+      "tags": [
+        "language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "大陆简体中文": {
+    "zhs": {
+      "priority": 5,
+      "tags": [
+        "language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "香港繁體中文": {
+    "zht": {
+      "priority": 5,
+      "tags": [
+        "language_code"
       ],
       "wrap": "word"
     }

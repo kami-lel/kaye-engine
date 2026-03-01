@@ -6,7 +6,7 @@ After=network.target
 User=ubuntu
 Group=ubuntu
 WorkingDirectory=/opt/kaye
-ExecStart=/opt/kaye/venv/bin/python3 /opt/kaye/api/__init__.py
+ExecStart=/opt/kaye/venv/bin/python3 /opt/kaye/kaye/__main__.py
 Restart=on-failure
 RestartSec=5s
 Environment="ENV=production"
