@@ -12,24 +12,22 @@ from tests.api.commit import (
     assert_allows_md,
     assert_no_allows_md,
     assert_per_file_common,
+    assert_commit_sense_common,
 )
 
+
 # pytest fixtures  #############################################################
-
-
 @pytest.fixture
 def endpoint(app_endpoint):
     return app_endpoint + "/per-file-short"
 
 
-class TestLong:  ###############################################################
+class TestShort:  ##############################################################
 
     # helpers  =================================================================
     def assert_common(_, opt):
         assert """#### Short
-- predominantly addition: /
-- predominantly deletion: \
-- mixed modification: |""" in opt
+- predominantly addition: /""" in opt
 
     # no markdown  =============================================================
 
@@ -39,6 +37,7 @@ class TestLong:  ###############################################################
         opt = response.get_data().decode("utf-8")
         print(opt)
 
+        assert_commit_sense_common(opt)
         assert_per_file_common(opt)
         self.assert_common(opt)
         assert_no_allows_md(opt)
@@ -50,6 +49,7 @@ class TestLong:  ###############################################################
         opt = response.get_data().decode("utf-8")
         print(opt)
 
+        assert_commit_sense_common(opt)
         assert_per_file_common(opt)
         self.assert_common(opt)
         assert_no_allows_md(opt)
@@ -61,6 +61,7 @@ class TestLong:  ###############################################################
         opt = response.get_data().decode("utf-8")
         print(opt)
 
+        assert_commit_sense_common(opt)
         assert_per_file_common(opt)
         self.assert_common(opt)
         assert_no_allows_md(opt)
@@ -74,6 +75,7 @@ class TestLong:  ###############################################################
         opt = response.get_data().decode("utf-8")
         print(opt)
 
+        assert_commit_sense_common(opt)
         assert_per_file_common(opt)
         self.assert_common(opt)
         assert_allows_md(opt)
