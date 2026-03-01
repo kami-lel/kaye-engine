@@ -56,12 +56,33 @@ def _assert_cpp_opt(opt):
 use **C++17** standard""" in opt
 
 
+def _assert_u3d_opt(opt):
+    assert """### Unity Engine
+- Version: `6000.0.34f1`
+- Documentation: Employ XML documentation comments""" in opt
+
+
+def _assert_ue_opt(opt):
+    assert """### Unreal Engine
+- Version: Unreal Engine `5.6.0`""" in opt
+
+
 def _assert_cs_opt(opt):
     assert (
         """### C Sharp
 - Documentation: Use XML comments (`/// <summary>...</summary>`) to document functionality and provide examples wherever helpful."""
         in opt
     )
+
+
+def _assert_gd_opt(opt):
+    assert """### GDScript
+- Version: Godot 4""" in opt
+
+
+def _assert_html_opt(opt):
+    assert """### HTML
+- Version: **HTML5** standard""" in opt
 
 
 def _assert_qt_opt(opt):
@@ -86,7 +107,22 @@ Declarations of items must follow this order:
 
 
 def _assert_py_opt(opt):
-    assert False
+    assert """### Python
+Adhere to the **PEP8** style guide, ensuring clarity and consistency.""" in opt
+
+    assert (
+        """#### Docstring Style
+
+The docstrings must be written using the **Sphinx** style and employ **reStructuredText** as the markup language. Avoid using any other styles."""
+        in opt
+    )
+
+    assert (
+        """#### Testing Guidelines
+
+This section pertains specifically to Python test code. Tests should be compatible with the `pytest` module."""
+        in opt
+    )
 
 
 class TestBase:  ###############################################################
@@ -177,9 +213,7 @@ class TestIndv:  ###############################################################
         _assert_coder_basic_blueprint_opt(opt)
         _assert_c_opt(opt)
         _assert_cpp_opt(opt)
-
-        assert """### Unreal Engine
-- Version: Unreal Engine `5.6.0`""" in opt
+        _assert_ue_opt(opt)
 
     def test_cs(_, flask_test_client, task_endpoint, query_string):
         pls = "csharp"
@@ -210,9 +244,7 @@ class TestIndv:  ###############################################################
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
         _assert_cs_opt(opt)
-        assert """### Unity Engine
-- Version: `6000.0.34f1`
-- Documentation: Employ XML documentation comments""" in opt
+        _assert_u3d_opt(opt)
 
     def test_gd(_, flask_test_client, task_endpoint, query_string):
         pls = "gdscript"
@@ -227,8 +259,7 @@ class TestIndv:  ###############################################################
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
-        assert """### GDScript
-- Version: Godot 4""" in opt
+        _assert_gd_opt(opt)
 
     def test_html(_, flask_test_client, task_endpoint, query_string):
         pls = "html"
@@ -243,8 +274,7 @@ class TestIndv:  ###############################################################
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
-        assert """### HTML
-- Version: **HTML5** standard""" in opt
+        _assert_html_opt(opt)
 
     def test_js(_, flask_test_client, task_endpoint, query_string):
         pls = "js"
@@ -339,4 +369,57 @@ class TestIndv:  ###############################################################
 These keywords indicate the severity of a message:""" in opt
 
 
-# TODO unit tests for combined
+class TestMux:  ################################################################
+
+    def test1(_, flask_test_client, task_endpoint, query_string):
+        pls = "c,cpp,ue"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+        _assert_c_opt(opt)
+        _assert_cpp_opt(opt)
+        _assert_ue_opt(opt)
+
+    def test2(_, flask_test_client, task_endpoint, query_string):
+        pls = "gdscript,html,js,qt"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+        _assert_gd_opt(opt)
+        _assert_html_opt(opt)
+        _assert_js_ts_opt(opt)
+        _assert_qt_opt(opt)
+
+    def test3(_, flask_test_client, task_endpoint, query_string):
+        pls = "py,qt,u3d"
+
+        query_string["programming_languages"] = pls
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+        _assert_py_opt(opt)
+        _assert_qt_opt(opt)
+        _assert_cs_opt(opt)
+        _assert_u3d_opt(opt)

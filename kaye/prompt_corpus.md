@@ -1956,8 +1956,6 @@ Rectangle {
 
 ### Python
 
-(*py*)
-
 Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
 
