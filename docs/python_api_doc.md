@@ -414,7 +414,7 @@ E.g.
 
 #### embedded blueprints
 
-<!-- Hack deprecation? -->
+<!-- FIXME write embedded blueprints ? -->
 
 **Embedded blueprints** are saved under `./kaye/kaye/gen_prompt/embedded_blueprints`. Programmatically, one might use these functions to load them from filesystem:
 
