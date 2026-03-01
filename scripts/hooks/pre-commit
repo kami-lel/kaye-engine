@@ -45,6 +45,7 @@ hooks_utility_protect_branch
 if [[ "${commit_type}" == merge-binary* ]]; then
     pytest "$(dirname "${BASH_SOURCE[0]}")/../../tests"
 fi
+echo "Pytest Unit Tests" | hooks_utility_pass
 
 # finish pre-commit checks  ####################################################
 echo "pre-commit" | hooks_utility_pass
