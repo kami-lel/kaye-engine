@@ -70,7 +70,7 @@ class PromptBlueprint(dict):
                 instead of using ``load_prompt_corpus_tree`` by default;
                 defaults to None
         :type corpus_override: PromptCorpusNode, optional
-        :raise ValueError: bad formatted `blueprint_text`
+        :raise ValueError:
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
         """
@@ -163,12 +163,19 @@ class PromptBlueprint(dict):
     def __init__(self, *, display_name="", corpus_override=None):
         super().__init__()  # init as empty dict
 
-        corpus = (
-            load_prompt_corpus_tree()
-            if corpus_override is None
-            else corpus_override
-        )
-        self.corpus = copy.deepcopy(corpus)
+        if corpus_override is None:
+            self.corpus = load_prompt_corpus_tree()
+        else:
+            if not (
+                isinstance(corpus_override, BasePromptNode)
+                and (corpus_override.is_root)
+            ):
+                raise ValueError(
+                    "kwarg corpus_override must be a root node: {}".format(
+                        corpus_override
+                    )
+                )
+            self.corpus = copy.deepcopy(corpus_override)
 
         self.display_name = display_name
 
@@ -344,6 +351,37 @@ class PromptBlueprint(dict):
         _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
 
         return pruned_bp
+
+    def merge(self, other):
+        """
+        create a new **merged** blueprint as union of checkmarked nodes
+
+
+        :param other:
+        :type other: PromptBlueprint
+        :raises ValueError:
+        :return: merged blueprint
+        :rtype: PromptBlueprint
+        """
+        if self.corpus != other.corpus:
+            raise ValueError("must merge blueprint of same prompt tree")
+
+        # create keys of resulted blueprint
+        keys = set(self.keys()) | set(other.keys())
+
+        # create display_name
+        display_name = "|".join(
+            name for name in (self.display_name, other.display_name) if name
+        )
+
+        merged = PromptBlueprint(
+            display_name=display_name, corpus_override=self.corpus
+        )
+
+        for k in keys:
+            merged[k] = self.is_checkmarked(k) or other.is_checkmarked(k)
+
+        return merged
 
     # helpers  =================================================================
 
@@ -598,6 +636,24 @@ class PromptBlueprint(dict):
         else:
             return NotImplemented
 
+    def __or__(self, other):
+        """
+        create a merged blueprint
+
+        (wrapper of and identical to ``.merge()``)
+
+
+        :param other:
+        :type other: PromptBlueprint
+        :raises ValueError:
+        :return: merged blueprint
+        :rtype: PromptBlueprint
+        """
+        if not isinstance(other, PromptBlueprint):
+            return NotImplemented
+
+        return self.merge(other)
+
     # copy  --------------------------------------------------------------------
 
     def __copy__(self):
@@ -631,6 +687,10 @@ class PromptBlueprint(dict):
     # str  ---------------------------------------------------------------------
 
     def __repr__(self):
+        """
+        :return: equivalent to ``self.generate_blueprint()``
+        :rtype: str
+        """
         return self.generate_blueprint()
 
     def __str__(self):
