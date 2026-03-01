@@ -46,10 +46,36 @@ Your task is to assist users with coding. Duties are as follows:""" in opt
     )
 
 
+def _assert_c_opt(opt):
+    assert """### C
+Use **C99** standard""" in opt
+
+
+def _assert_cpp_opt(opt):
+    assert """### C++
+use **C++17** standard""" in opt
+
+
+def _assert_cs_opt(opt):
+    assert (
+        """### C Sharp
+- Documentation: Use XML comments (`/// <summary>...</summary>`) to document functionality and provide examples wherever helpful."""
+        in opt
+    )
+
+
 def _assert_qt_opt(opt):
     assert """### Qt
 This section is solely for Qt framework.
 """ in opt
+
+
+def _assert_js_ts_opt(opt):
+    assert (
+        """### JavaScript & TypeScript
+These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard."""
+        in opt
+    )
 
 
 def _assert_qml_opt(opt):
@@ -118,8 +144,7 @@ class TestIndv:  ###############################################################
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
-        assert """### C
-Use **C99** standard""" in opt
+        _assert_c_opt(opt)
 
     def test_cpp(_, flask_test_client, task_endpoint, query_string):
         pls = "cpp"
@@ -134,12 +159,8 @@ Use **C99** standard""" in opt
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
-        assert """### C
-Use **C99** standard""" in opt
-
-        assert """
-### C++
-use **C++17** standard""" in opt
+        _assert_c_opt(opt)
+        _assert_cpp_opt(opt)
 
     def test_ue(_, flask_test_client, task_endpoint, query_string):
         pls = "ue"
@@ -154,13 +175,8 @@ use **C++17** standard""" in opt
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
-
-        assert """### C
-Use **C99** standard""" in opt
-
-        assert """
-### C++
-use **C++17** standard""" in opt
+        _assert_c_opt(opt)
+        _assert_cpp_opt(opt)
 
         assert """### Unreal Engine
 - Version: Unreal Engine `5.6.0`""" in opt
@@ -178,7 +194,7 @@ use **C++17** standard""" in opt
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
-        assert False
+        _assert_cs_opt(opt)
 
     def test_u3d(_, flask_test_client, task_endpoint, query_string):
         pls = "u3d"
@@ -193,7 +209,10 @@ use **C++17** standard""" in opt
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
-        assert False
+        _assert_cs_opt(opt)
+        assert """### Unity Engine
+- Version: `6000.0.34f1`
+- Documentation: Employ XML documentation comments""" in opt
 
     def test_gd(_, flask_test_client, task_endpoint, query_string):
         pls = "gdscript"
@@ -208,7 +227,8 @@ use **C++17** standard""" in opt
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
-        assert False
+        assert """### GDScript
+- Version: Godot 4""" in opt
 
     def test_html(_, flask_test_client, task_endpoint, query_string):
         pls = "html"
@@ -223,7 +243,8 @@ use **C++17** standard""" in opt
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
-        assert False
+        assert """### HTML
+- Version: **HTML5** standard""" in opt
 
     def test_js(_, flask_test_client, task_endpoint, query_string):
         pls = "js"
@@ -238,12 +259,7 @@ use **C++17** standard""" in opt
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
-
-        assert (
-            """### JavaScript & TypeScript
-These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard."""
-            in opt
-        )
+        _assert_js_ts_opt(opt)
 
     def test_ts(_, flask_test_client, task_endpoint, query_string):
         pls = "ts"
@@ -258,12 +274,7 @@ These standards are applicable exclusively to JavaScript and TypeScript code, ad
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
-
-        assert (
-            """### JavaScript & TypeScript
-These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard."""
-            in opt
-        )
+        _assert_js_ts_opt(opt)
 
     def test_qt(_, flask_test_client, task_endpoint, query_string):
         pls = "qt"
