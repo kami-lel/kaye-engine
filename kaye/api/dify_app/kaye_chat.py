@@ -163,7 +163,7 @@ def _create_peer_coder_blueprint(pls):
 
         elif plc == "qml":
             bp.checkmark(kyc_node["Qt"])
-            bp.checkmark(kyc_node["QML"])
+            bp.checkmark(kyc_node["Qt"]["QML"])
 
         elif plc == "py":
             bp.checkmark(kyc_node["Python"], recursively=True)
