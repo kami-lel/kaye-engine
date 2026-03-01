@@ -65,6 +65,9 @@ class AbbrTags(Flag):  #########################################################
     usable = auto()
     programming_language_code = auto()
     language_code = auto()  # partial of and based on ISO 639-1 (2 letter)
+    log_level = auto()
+
+    # character set  -----------------------------------------------------------
 
     # contains only letter with no other types of characters
     letters_only = auto()

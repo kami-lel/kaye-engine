@@ -1222,14 +1222,16 @@
     "💥": {
       "priority": 3,
       "tags": [
-        "emoji"
+        "emoji",
+        "log_level"
       ],
       "wrap": "symbol"
     },
-    "crit": {
+    "CRIT ": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "log_level"
       ],
       "wrap": "word"
     }
@@ -1300,11 +1302,20 @@
   },
   "debug": {
     "🐞": {
-      "priority": 5,
+      "priority": 3,
       "tags": [
-        "emoji"
+        "emoji",
+        "log_level"
       ],
       "wrap": "symbol"
+    },
+    "DEBUG": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "log_level"
+      ],
+      "wrap": "word"
     }
   },
   "decrease,decrement": {
@@ -1668,11 +1679,20 @@
   },
   "error": {
     "🛑": {
-      "priority": 5,
+      "priority": 3,
       "tags": [
-        "emoji"
+        "emoji",
+        "log_level"
       ],
       "wrap": "symbol"
+    },
+    "ERROR": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "log_level"
+      ],
+      "wrap": "word"
     }
   },
   "especially": {
@@ -2678,11 +2698,20 @@
     "💡": {
       "priority": 3,
       "tags": [
-        "emoji"
+        "emoji",
+        "log_level"
       ],
       "wrap": "symbol"
     },
     "info": {
+      "priority": 6,
+      "tags": [
+        "letters_only",
+        "log_level"
+      ],
+      "wrap": "word"
+    },
+    "INFO ": {
       "priority": 5,
       "tags": [
         "letters_only"
@@ -4950,14 +4979,16 @@
     "⚠️": {
       "priority": 5,
       "tags": [
-        "emoji"
+        "emoji",
+        "log_level"
       ],
       "wrap": "symbol"
     },
-    "warn": {
-      "priority": 6,
+    "WARN ": {
+      "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "log_level"
       ],
       "wrap": "word"
     }
