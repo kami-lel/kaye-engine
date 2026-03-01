@@ -12,14 +12,13 @@ from kaye.prompt import PromptBlueprint
 # from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
 
 # Blueprints  ##################################################################
-PRIMARY_MESSAGE_PROMPT_BLUEPRINT = """ ○
+PRIMARY_MESSAGE_PROMPT_BLUEPRINT = """    ○
 [ ] ├── Style
 [ ] │   ├── Capitalization Style
 [x] │   │   └── Commentary Case
 [x] │   └── Briefness Style
-[ ] └── Role
-[x]     └── Kaye Commit Sense
-[x]         └── Primary Message Task
+[x] └── Kaye Commit Sense
+[x]     └── Primary Message Task
 """
 
 PER_FILE_LONG_PROMPT_BLUEPRINT = """ ○
@@ -58,8 +57,8 @@ def _checkmark_md_related_node(blueprint):
     """
     md_arg = request.args.get("allows_md")
 
-    # default to disable  md
-    node = blueprint.corpus["Role"]["Kaye Commit Sense"]["no markdown syntax"]
+    # default to disable md
+    node = blueprint.corpus["Kaye Commit Sense"]["no markdown syntax"]
 
     if md_arg:
         try:
