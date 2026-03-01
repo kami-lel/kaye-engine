@@ -10,6 +10,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../hooks_utility/hooks_utility.sh"
 # start pre-commit checks  #####################################################
 echo "pre-commit" | hooks_utility_enter
 
+commit_type="$(hooks_utility_get_commit_type)"
 hooks_utility_debug_commit_type
 
 # ensure file modification  ----------------------------------------------------
@@ -40,7 +41,10 @@ hooks_utility_ensure_version_updated
 # perform branch protection  ---------------------------------------------------
 hooks_utility_protect_branch
 
-# todo perform unit checks
+# unit tests  ------------------------------------------------------------------
+if [[ "${commit_type}" == merge-binary* ]]; then
+    pytest "$(dirname "${BASH_SOURCE[0]}")/../../tests"
+fi
 
 # finish pre-commit checks  ####################################################
 echo "pre-commit" | hooks_utility_pass
