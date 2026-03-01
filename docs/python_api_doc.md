@@ -329,6 +329,19 @@ However, when encounter a node findable in corpus tree, but not contained in the
 Use `bp.prune()` will create a minimum version that contains only branches with checkmarked nodes.
 
 
+##### merge
+
+Use `.merge()` function to merge 2 blueprints as the union of checkmarked nodes of 2 blueprints.
+
+Operator `|` perform identical function.
+
+E.g.
+
+```python
+bp_left.merge(bp_right)  # or, identically
+bp_left | bp_right
+```
+
 
 ##### generate prompt
 
@@ -394,7 +407,7 @@ E.g.
 
 ----
 
-`str(blueprint)` is equivalent to `blueprint.generate_preview_tree()`
+`repr(blueprint)` is equivalent to `blueprint.generate_blueprint()`
 
 
 
