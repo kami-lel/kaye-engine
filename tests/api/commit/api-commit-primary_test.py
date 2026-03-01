@@ -8,6 +8,8 @@ Unit Tests (using pytest) for:
 
 import pytest
 
+from tests.api.commit import assert_allows_md, assert_no_allows_md
+
 
 # pytest fixtures  #############################################################
 @pytest.fixture
@@ -31,13 +33,14 @@ class TestPrimary:  ############################################################
 - write in **newspaper headlinese**, prioritize brevity over grammar
 - use present for current, infinitive for planned
 - omit articles (a, an, the) and helper verbs, use strong nouns, verbs""" in opt
-        # TODO
 
-    def assert_allows_md(_, opt):
-        assert False  # TODO
+        assert """# Kaye Commit Sense
+You are given the result of `git diff --cached`; interpret it as the changes ready to be committed for the file(s).
 
-    def assert_no_md(_, opt):
-        assert False  # TODO
+- strictly use *Briefness Style* language""" in opt
+
+        assert """## Primary Message Task
+Produce a concise summary of changes across **multiple** files.""" in opt
 
     # no markdown  =============================================================
 
@@ -48,7 +51,7 @@ class TestPrimary:  ############################################################
         print(opt)
 
         self.assert_common(opt)
-        self.assert_no_md(opt)
+        assert_no_allows_md(opt)
 
     def test_empty_param(self, flask_test_client, endpoint):
         query_string = {"allows_md": ""}
@@ -58,7 +61,7 @@ class TestPrimary:  ############################################################
         print(opt)
 
         self.assert_common(opt)
-        self.assert_no_md(opt)
+        assert_no_allows_md(opt)
 
     def test_param0(self, flask_test_client, endpoint):
         query_string = {"allows_md": 0}
@@ -68,7 +71,7 @@ class TestPrimary:  ############################################################
         print(opt)
 
         self.assert_common(opt)
-        self.assert_no_md(opt)
+        assert_no_allows_md(opt)
 
     # w/ markdown  =============================================================
 
@@ -80,4 +83,4 @@ class TestPrimary:  ############################################################
         print(opt)
 
         self.assert_common(opt)
-        self.assert_allows_md(opt)
+        assert_allows_md(opt)
