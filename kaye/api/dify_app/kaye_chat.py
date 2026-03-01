@@ -8,7 +8,7 @@ from flask import Blueprint, request, abort, Response
 
 
 from kaye import PROGRAM_NAME
-from kaye.prompt import PromptBlueprint
+from kaye.prompt import PromptBlueprint, load_embedded_blueprint
 
 # constants  ###################################################################
 PARAM_ROLE_KEY = "role"
@@ -38,8 +38,6 @@ SENSE_PROMPT_BLUEPRINT = """ ○
 
 # task blueprints  -------------------------------------------------------------
 
-
-RAPID_PROMPT_BLUEPRINT = """"""
 
 CHAT_PROMPT_BLUEPRINT = """"""
 
@@ -188,35 +186,12 @@ def kaye_chat_sense():
 @ky_bp.route("/task", methods=["GET"])
 def kaye_chat_task():
     role = request.args.get(PARAM_ROLE_KEY) or ROLE_CHAT  # default to chat
-
     pls = request.args.get(PARAM_PROGRAMMING_LANGUAGES_KEY)
 
-    return ""  # HACK
-
-    # create blueprint based on role
-    if role == "rapid":
-        bp = _create_rapid_bp()
-
-    if role == "chat":
-        bp = _create_chat_bp()
-
-    if role == "peer_coder":
-        bp = PromptBlueprint.parse(CODER_PROMPT_BLUEPRINT, disable_prune=True)
-
+    if role == ROLE_RAPID:
+        bp = load_embedded_blueprint("rapid")
     else:
         return abort(Response("bad param: ?role={}".format(role), 422))
 
     # TODO use AbbrNode for ky
-
     return bp.generate_prompt()
-
-
-# helpers  #####################################################################
-
-
-def _create_rapid_bp():
-    return PromptBlueprint.parse(RAPID_PROMPT_BLUEPRINT, disable_prune=True)
-
-
-def _create_chat_bp():
-    return PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT, disable_prune=True)
