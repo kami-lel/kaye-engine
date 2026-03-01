@@ -414,19 +414,11 @@ E.g.
 
 #### embedded blueprints
 
-<!-- FIXME write embedded blueprints ? -->
-
 **Embedded blueprints** are saved under `./kaye/kaye/gen_prompt/embedded_blueprints`. Programmatically, one might use these functions to load them from filesystem:
 
 ```python
-from kaye.gen_prompt import (
-    load_embedded_prompt_blueprint,
-    load_empty_prompt_blueprint,
-    load_full_prompt_blueprint,
-)
+from kaye.gen_prompt import load_embedded_prompt_blueprint
 
 
-empty_blueprint = load_embedded_prompt_blueprint()
-full_blueprint = load_full_prompt_blueprint()
 chat_blueprint = load_embedded_prompt_blueprint("chat")
 ```
