@@ -7,7 +7,7 @@ Unit Tests (using pytest) for: /kaye/dify-app/ky/*
 from kaye.prompt import (
     PromptBlueprint,
     load_embedded_prompt_corpus,
-    load_embedded_prompt_blueprint,
+    load_embedded_blueprint,
 )
 from api.dify_app.kaye_chat import PRE_SENSE_PROMPT_BLUEPRINT
 
@@ -34,4 +34,4 @@ def test_task(flask_test_client):
     opt = response.data.decode("utf-8")
     print(opt)
 
-    assert opt == load_embedded_prompt_blueprint("chat").generate_prompt()
+    assert opt == load_embedded_blueprint("chat").generate_prompt()
