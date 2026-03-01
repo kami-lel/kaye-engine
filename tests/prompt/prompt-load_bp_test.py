@@ -1,13 +1,14 @@
 """
-test function ``load_embedded_prompt_blueprint()``
+prompt-load_bp_test.py
+
+Unit Tests (using pytest) for:
+
+- load_embedded_blueprint()
 """
 
-# FIXME
+from kaye.prompt.prompt_blueprint_loader import load_embedded_blueprint
 
-from kaye.prompt import (
-    load_embedded_blueprint,
-    PromptBlueprint,
-)
+# FIXME
 
 
 class XTestFull:  # special case "full"
