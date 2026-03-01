@@ -22,6 +22,7 @@ from tests.prompt.bp import (
     BLUEPRINT_2_PREVIEW,
     BLUEPRINT_2_PARTIAL_1_PREVIEW,
     BLUEPRINT_2_PARTIAL_1_PRUNED,
+    BLUEPRINT_2_PARTIAL_1,
     BLUEPRINT_2_EMPTY,
     BLUEPRINT_3_FULL,
     BLUEPRINT_3_FULL_PREVIEW,
@@ -199,13 +200,17 @@ class TestDft2:  # use PROMPT2  ================================================
             == bp_text
         )
 
-    def test_part1(_, corpus_testee2, bp_testee2pa1):
-        opt = bp_testee2pa1
+    def test_part1(_, corpus_testee2):
+        bp_text = BLUEPRINT_2_PARTIAL_1
+        bp = PromptBlueprint.parse(
+            bp_text,
+            corpus_override=corpus_testee2,
+        )
 
-        print(repr(opt))
-        assert len(opt) == 3
+        print(repr(bp))
+        assert len(bp) == 3
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_2_PARTIAL_1_PRUNED
         )
 
@@ -245,7 +250,7 @@ class TestDft3:  # use PROMPT3  ================================================
         opt = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
 
         print(repr(opt))
-        assert len(opt) == 6  # BUG
+        assert len(opt) == 6
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == BLUEPRINT_3_PARTIAL_1_PRUNED
