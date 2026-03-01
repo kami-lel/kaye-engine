@@ -101,3 +101,6 @@ class UsableAbbrNode(DynamicNode):  ############################################
 
     def __copy__(self):
         return UsableAbbrNode(None)
+
+
+# todo implement language code node
