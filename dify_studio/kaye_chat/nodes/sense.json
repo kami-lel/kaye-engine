@@ -18,7 +18,10 @@
       "type": "string"
     },
     "role": {
-      "type": "string"
+      "enum": [
+        "chat",
+        "peer_coder"
+      ]
     }
   },
   "required": [
