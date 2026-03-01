@@ -66,17 +66,20 @@ class Test11:  # ===============================================================
         bp, answer = local_testee11
 
         print(repr(bp))
+        print("#" * 80)
+
         node = corpus_testee1["Project Title"]
 
         bp.checkmark(node)
 
-        print("#" * 80)
-        print(repr(bp))
+        # BUG
+        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+        print(opt)
 
-        assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == answer
-        )
+        print("#" * 80)
+        print(answer)
+
+        assert opt == answer
 
     def test_checkmark_by_hash1(_, corpus_testee1, local_testee11):
         bp, answer = local_testee11
@@ -121,12 +124,14 @@ class Test11:  # ===============================================================
         bp += node
 
         print("#" * 80)
-        print(repr(bp))
 
-        assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
-            == answer
-        )
+        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+        print(opt)
+
+        print("#" * 80)
+        print(answer)
+
+        assert opt == answer
 
     def test_iadd_by_hash1(_, corpus_testee1, local_testee11):
         bp, answer = local_testee11
