@@ -679,6 +679,17 @@ In the JSON output, **always** use the defaults below; **change a value only** w
 - `llm`: `""`
 - `difficulty`: `0`
 
+
+
+
+
+
+
+
+
+
+
+
 ### llm
 
 select the single most appropriate label to describe the nature of the user's query:
@@ -720,57 +731,10 @@ select the single most appropriate label to describe the nature of the user's qu
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### leave empty
 
 `programming_languages` must be empty string
 `difficulty` must be `0`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -789,6 +753,9 @@ select the single most appropriate label to describe the nature of the user's qu
 #### programming_languages
 
 Return a string containing the abbreviations of the programming languages (as defined below) required by the user, separated by commas. For example, `'py,cpp'`. If the conversation does not mention any specific programming language, such as when discussing conceptual or general algorithms, return an empty string (`''`).
+
+
+
 
 #### difficulty
 
