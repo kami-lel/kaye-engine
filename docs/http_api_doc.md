@@ -1,6 +1,6 @@
-# Kaye HTTP API documentation
+# Kaye Flask HTTP API documentation
 
-## deployment as `systemd` on Ubuntu
+### deployment as `systemd` on Ubuntu
 
 Place the entire project folder at `/opt/kaye`.
 
@@ -20,7 +20,7 @@ pip install .
 Copy the `.service` file:
 
 ```bash
-cp /opt/kaye/api/kaye_http_api.service /etc/systemd/system
+cp /opt/kaye/scripts/kaye_http_api.service /etc/systemd/system
 ```
 
 ----
@@ -32,6 +32,15 @@ chmod 644 /etc/systemd/system/kaye_http_api.service
 systemctl daemon-reload
 systemctl enable kaye_http_api.service
 systemctl status kaye_http_api.service
+```
+
+----
+
+If resource under `/opt/kaye` is updated, restart service:
+
+```bash
+systemctl daemon-reload
+systemctl restart kaye_http_api.service
 ```
 
 
@@ -70,11 +79,44 @@ systemctl status kaye_http_api.service
 
 Port Number: `11255` (k=11, a=1, y=25, e=5)
 
-### Dify App Support
 
-#### Kaye Cash Tracker
 
-At `/kaye/dify-app/kaye-cash-tracker`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Dify App Support
+
+### Kaye Cash Tracker
+
+At `/kaye/dify-app/kaye-cash-tracker/extract`
 
 - generate prompt for: node Extract Info
 - by `GET`
@@ -84,7 +126,15 @@ At `/kaye/dify-app/kaye-cash-tracker`
 
 
 
-#### Kaye Commit Sense
+
+
+
+
+
+
+
+
+### Kaye Commit Sense
 
 All endpoints below `/kaye/dify-app/kaye-commit-sense`
 
@@ -119,34 +169,61 @@ All endpoints below `/kaye/dify-app/kaye-commit-sense`
 
 
 
-#### Kaye Chat
+
+
+
+
+
+
+
+
+### Kaye Chat
 
 All endpoints below `/kaye/dify-app/ky`
 
-----
 
-`/pre-sense`
 
-response type: `text/plain`
 
-- by `GET`
-- response type `text/plain`
 
-----
+#### sense
 
-`/chat`
-
-response type: `text/plain`
+`/sense`
 
 - by `GET`
 - response type `text/plain`
+- param `role`, v.i.:
+
+  - if provided, skip role-guessing instruction of the given prompt
+  - `coder` will provide its related sense prompts
+
+
+
+
+
+#### task
+
+`/task`
+
+- by `GET`
+- response type `text/plain`
+- param `role`
+- param `programming_languages`:
+  provide a `,`-separated list of language abbreviations
+  (specified in prompt corpus.) E.g. `?languages=cpp,py`
 
 
 
 
 
 
-#### Kaye Event Radar
+
+
+
+
+
+
+
+### Kaye Event Radar
 
 All endpoints below `/kaye/dify-app/kaye-event-radar`
 
@@ -163,40 +240,3 @@ All endpoints below `/kaye/dify-app/kaye-event-radar`
 
 - by `GET`
 - response type `text/plain`
-
-
-
-
-
-
-
-#### Kaye Peer Coder
-
-All endpoints below `/kaye/dify-app/kyc`
-
-----
-
-`/pre-sense`
-
-response type: `text/plain`
-
-- by `GET`
-- response type `text/plain`
-
-----
-
-`/chat`
-
-- by `GET`
-
-- support param `languages`:
-  provide a `,` separated list of language abbreviations
-  (specified in prompt corpus.) E.g. `?languages=cpp,py`
-
-- support param `flags`: provide an integer flag value,
-  that will be merged into when creating prompts
-
-- response type `application/json`:
-
-  - key `"prompt"`: concrete task prompt
-  - key `"flags"`: integer value representing the prompt
