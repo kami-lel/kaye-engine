@@ -9,18 +9,24 @@ Unit Tests (using pytest) for:
 
 class TestNoRole:  #############################################################
 
-    answer_start = """# Kaye Chat
+    answer_start ="""# Kaye Chat
 ## sense
-### llm
-select the single most appropriate label to describe the nature of the user's query:
+In the JSON output, **always** use the defaults below; **change a value only** when the instructions include a **clearly labeled, field-specific section** that explicitly sets that same field:
 
-- `rapid`: short, immediate, or highly repetitive tasks that require little or no reasoning;"""
+- `programming_languages`: `""`
+- `role`: `""`
+- `llm`: `""`
+- `difficulty`: `0`"""
 
-    answer_end = """
+
+    answer_end = """- `think-think`: queries that require deep, abstract, or prolonged reasoning, creative synthesis, designing solutions with trade-offs, or tasks that need many chained logical steps.
+
+### role
+- `chat` for normal conversation
 - `peer_coder` if user ask code related questions
 
 ### leave empty
-`programming_languages` must be empty
+`programming_languages` must be empty string
 `difficulty` must be `0`
 """
 
@@ -57,9 +63,14 @@ class TestRoleCoder:  ##########################################################
         print(opt)
         assert opt.startswith("""# Kaye Chat
 ## sense
-### for coder
-`role` and `llm` must be empty""")
-        assert opt.endswith("""
+In the JSON output, **always** use the defaults below; **change a value only** when the instructions include a **clearly labeled, field-specific section** that explicitly sets that same field:
+
+- `programming_languages`: `""`
+- `role`: `""`
+- `llm`: `""`
+- `difficulty`: `0`""")
+        assert opt.endswith("""- `0.90` Add observability (structured logs, metrics, tracing) with request IDs end-to-end.
+- `0.98` Implement an advanced distributed algorithm prototype (e.g., Raft leader election).
 - `0.99` Build a small interpreter/compiler (lexer → parser → AST → evaluator) with tests.
 - `1.00` Start a monolith→microservices migration: plan + implement first extraction safely.
 """)
@@ -77,17 +88,13 @@ class TestOtherRole:  ##########################################################
         opt = response.get_data().decode("utf-8")
 
         print(opt)
-        assert opt.startswith(
-            """# Kaye Chat
+        assert opt.startswith("""# Kaye Chat
 ## sense
-### llm
-select the single most appropriate label to describe the nature of the user's query:"""
-        )
-        assert opt.endswith(
-            """- `think-think`: queries that require deep, abstract, or prolonged reasoning, creative synthesis, designing solutions with trade-offs, or tasks that need many chained logical steps.
-
-### leave empty
-`programming_languages` must be empty
+In the JSON output, **always** use the defaults below;""")
+        assert opt.endswith("""### leave empty
+`programming_languages` must be empty string
 `difficulty` must be `0`
-"""
-        )
+""")
+        assert """### llm
+select the single most appropriate label to describe the nature of the user's query:""" \
+                in opt
