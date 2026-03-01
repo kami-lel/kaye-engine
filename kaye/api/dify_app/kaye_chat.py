@@ -101,7 +101,7 @@ def kaye_chat_task():
         bp = load_embedded_blueprint("rapid")
 
     elif role == ROLE_CHAT:
-        bp = PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT)
+        bp = _create_chat_blueprint()
 
     else:
         return abort(Response("bad param: ?role={}".format(role), 422))
@@ -110,6 +110,25 @@ def kaye_chat_task():
     return bp.generate_prompt()
 
 
-def _create_peer_coder_blueprint(pls):
+# helpers  *********************************************************************
 
-    return ""  # TODO
+
+def _create_chat_blueprint():
+    return PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT)
+
+
+def _create_peer_coder_blueprint(pls):
+    # create base bp from chat
+    bp = _create_chat_blueprint()
+
+    # add Kaye Peer Coder node
+    kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]
+    bp.checkmark(kyc_node)
+
+    # adds PL nodes
+    # TODO
+
+    return bp
+
+
+PLC2CORPUS_HEADING = {"cpp": "cpp"}
