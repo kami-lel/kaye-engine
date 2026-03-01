@@ -2,12 +2,36 @@
 
 ## Input Fields
 
+#### `show_meta_content`
+
+A `boolean` indicate whether to show meta content for debugging after main response content.
+
+
+
+
+
+#### `role_override`
+
 <!-- TODO write doc -->
 
-`show_meta_content`:
+Possible values:
 
-`role_override`:
+```json
+[
+  "chat",
+  "rapid",
+  "peer_coder"
+]
+```
 
-`llm_override`:
 
-`difficult_override`:
+
+
+
+#### `llm_override`:
+
+
+
+
+
+#### `difficult_override`:
