@@ -8,3 +8,8 @@ def flask_test_client():
     app = create_app()
     app.config["TESTING"] = True
     return app.test_client()
+
+
+@pytest.fixture
+def dify_app_endpoint():
+    return "/kaye/dify-app"

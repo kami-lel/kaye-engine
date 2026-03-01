@@ -2769,6 +2769,8 @@ Remarks on each Column:
 
 
 
+
+
 #### id
 
 required, numerical id, unique to each transaction entry
@@ -2777,11 +2779,15 @@ for new transactions, create a unique id. for updated transactions, use the id f
 
 
 
+
+
 #### date
 
 required, MM-dd format
 
 use the *notification* date (often shown in small font in the chat or notification); ignore other dates
+
+
 
 
 
@@ -2796,6 +2802,8 @@ required
 
 
 
+
+
 #### amount_out & amount_in
 
 - for a user expense: fill `amount_out` and leave `amount_in` empty
@@ -2807,7 +2815,9 @@ both must be **positive** numbers or empty
 
 
 
-##### party_from & party_to
+
+
+#### party_from & party_to
 
 both required
 
@@ -2836,7 +2846,9 @@ record service provider, do not give service name. for example use "Amazon", not
 
 
 
-##### categories
+
+
+#### categories
 
 required
 
@@ -2877,7 +2889,9 @@ select the most likely category abbreviation for each transaction based on its d
 
 
 
-##### remarks
+
+
+#### remarks
 
 - leave as an empty string unless the information is essential; avoid recording irrelevant details
 - use only short, specific phrases not duplicated in other fields
@@ -2885,10 +2899,13 @@ select the most likely category abbreviation for each transaction based on its d
 - if the user paid on behalf of someone else, note that in `remarks`. for example, if Alex Chen purchased McDonald's but paid from my BOA account, use `party_from`: "BOA", `party_to`: "McDonald's", `remarks`: "by Alex Chen"
 
 
-##### example
+
+
+
+#### example
 
 ```json
-{{
+{
   "rows": [
     [
       "1",
@@ -2924,7 +2941,7 @@ select the most likely category abbreviation for each transaction based on its d
       "Jan salary"
     ]
   ]
-}}
+}
 ```
 
 

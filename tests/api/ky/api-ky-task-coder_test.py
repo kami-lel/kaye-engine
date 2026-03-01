@@ -23,8 +23,13 @@ def query_string():
 def _assert_coder_basic_blueprint_opt(opt):
     _assert_chat_blueprint_opt(opt)
 
-    assert """## Kaye Peer Coder
-Your task is to assist users with coding. Duties are as follows:""" in opt
+    assert (
+        """## Kaye Peer Coder
+Duties are as follows:
+
+- provide code **expansion** per user instructions while maintaining formatting and naming consistency with provided examples and excluding those examples from your response"""
+        in opt
+    )
 
     assert (
         """#### Variable naming

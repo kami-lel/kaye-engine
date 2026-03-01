@@ -2,8 +2,8 @@ import pytest
 
 
 @pytest.fixture
-def app_endpoint():
-    return "/kaye/dify-app/ky"
+def app_endpoint(dify_app_endpoint):
+    return dify_app_endpoint + "/ky"
 
 
 @pytest.fixture
