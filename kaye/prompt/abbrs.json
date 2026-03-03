@@ -1323,6 +1323,20 @@
       "priority": 5,
       "tags": [],
       "wrap": "symbol"
+    },
+    "-=": {
+      "priority": 6,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "symbol"
+    },
+    "d.c": {
+      "priority": 7,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "word"
     }
   },
   "default": {
@@ -2633,6 +2647,20 @@
       "priority": 5,
       "tags": [],
       "wrap": "symbol"
+    },
+    "+=": {
+      "priority": 6,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "symbol"
+    },
+    "i.c": {
+      "priority": 7,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "word"
     }
   },
   "independent,independence": {
