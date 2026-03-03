@@ -1319,16 +1319,16 @@
     }
   },
   "decrease,decrement": {
-    "↓": {
-      "priority": 5,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "-=": {
       "priority": 6,
       "tags": [
         "ascii_only"
       ],
+      "wrap": "symbol"
+    },
+    "↓": {
+      "priority": 5,
+      "tags": [],
       "wrap": "symbol"
     },
     "d.c": {
