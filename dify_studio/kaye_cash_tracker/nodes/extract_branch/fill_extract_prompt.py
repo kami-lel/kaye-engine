@@ -28,8 +28,9 @@ def main(
 ):  # pylint: disable=missing-function-docstring
     today = datetime.today().strftime("%Y-%m-%d")
     concrete_prompt = prompt_template.format(
-        TODAY=today,
+        TODAY=today,  # HACK dont use TODAY
         USER_ACCOUNTS=user_accounts,
         COMMON_OTHER_PARTIES=common_other_parties,
     )
+    # BUG the prompt coantains {} which will have issue
     return {OUTPUT_PROMPT_KEY: concrete_prompt}
