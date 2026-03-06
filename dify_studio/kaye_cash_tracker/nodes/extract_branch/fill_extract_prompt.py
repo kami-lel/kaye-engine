@@ -32,5 +32,4 @@ def main(
         USER_ACCOUNTS=user_accounts,
         COMMON_OTHER_PARTIES=common_other_parties,
     )
-    # BUG the prompt coantains {} which will have issue
     return {OUTPUT_PROMPT_KEY: concrete_prompt}
