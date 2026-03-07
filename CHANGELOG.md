@@ -34,6 +34,33 @@
 
 
 
+
+## [5.0.1] - 2026-03-06
+
+### Changed
+
+*Kaye Cash Tracker* Dify App:
+
+- add environment variable `KAYE_API_PORT` to allow using debug port during development
+
+### Fixed
+
+Kaye HTTP API: Kaye Cash Tracker:
+
+- fix bug in `fill_extract_prompt.py`
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## [5.0.0] - 2026-03-01
 
 ### Added
@@ -1193,7 +1220,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v5.0.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v5.0.1...dev
+[5.0.1]: https://github.com/kami-lel/kaye/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/kami-lel/kaye/compare/v4.12.1...v5.0.0
 [4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1
 [4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1
