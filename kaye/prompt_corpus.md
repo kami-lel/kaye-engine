@@ -2763,8 +2763,6 @@ Rules:
 - for any missing or unclear required field, use `???`.
 - do not repeat any entry already present in the existing transactions; return only new or updated entries.
 
-today: {TODAY}
-
 Remarks on each Column:
 
 
