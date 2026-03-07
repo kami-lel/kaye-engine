@@ -66,19 +66,21 @@ select the most likely category abbreviation for each transaction based on its d
 - leave as an empty string unless the information is essential; avoid recording irrelevant details
 - use only short, specific phrases not duplicated in other fields""" in opt
 
-    assert """#### example
+    assert """#### example rows
 
 ```json
-{
-  "rows": [
-    [
-      "1",
-      "???",
-      "$",
-      "36.71",
-      "",
-      "???",
-      "Target",
-      "G",
-      ""
-    ],""" in opt
+[
+  [
+    "1",
+    "???",
+    "$",
+    "36.71",
+    "",
+    "???",
+    "Target",
+    "G",
+    ""
+  ],""" in opt
+
+    assert """### Today
+Today""" in opt
