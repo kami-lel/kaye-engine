@@ -16,8 +16,6 @@ EXTRACT_PROMPT_BLUEPRINT = """    ○
 [x]         └── {Today}
 """
 
-# TODO add today node
-
 
 # Flask Routing  ###############################################################
 # /kaye/dify-app/kaye-cash-tracker
