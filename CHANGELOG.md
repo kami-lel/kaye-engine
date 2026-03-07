@@ -19,14 +19,36 @@
 
 ### Added
 ### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [5.0.1] - 2026-03-06
+
+### Changed
 
 *Kaye Cash Tracker* Dify App:
 
 - add environment variable `KAYE_API_PORT` to allow using debug port during development
 
-### Deprecated
-### Removed
 ### Fixed
+
+Kaye HTTP API: Kaye Cash Tracker:
+
+- fix bug in `fill_extract_prompt.py`
+
 
 
 
