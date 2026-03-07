@@ -13,6 +13,7 @@ from kaye.prompt import PromptBlueprint
 EXTRACT_PROMPT_BLUEPRINT = """    ○
 [ ] └── Kaye Cash Tracker
 [x]     └── Extract
+[x]         └── {Today}
 """
 
 
