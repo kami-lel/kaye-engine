@@ -1220,7 +1220,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v5.0.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v5.0.1...dev
+[5.0.1]: https://github.com/kami-lel/kaye/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/kami-lel/kaye/compare/v4.12.1...v5.0.0
 [4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1
 [4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1
