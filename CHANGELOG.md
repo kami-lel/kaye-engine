@@ -22,6 +22,7 @@
 Kaye Chat *Dify App*:
 
 - *Assistant Barista* role
+- *Changelog Writer* role
 - function docstring for Dify App nodes
 
 ### Changed

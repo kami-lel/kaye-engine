@@ -46,8 +46,12 @@ def main(
             llm = "think-think"
 
     elif role == "barista":
-        # barista always use chat LLM
+        # Assistant Barista always use chat
         llm = "chat"
+
+    elif role == "changelog":
+        # Changelog writer always use think
+        llm = "think"
 
     else:
         llm = llm_override or llm_sensed

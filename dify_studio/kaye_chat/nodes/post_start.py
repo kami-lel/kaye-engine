@@ -29,7 +29,11 @@ def should_skip_sense(role, llm_override, difficulty_override):
         return bool(difficulty_override)
 
     elif role == "barista":
-        # skip for barista
+        # skip for Assistant Barista
+        return True
+
+    elif role == "changelog":
+        # skip for Changelog writer
         return True
 
     elif role:
