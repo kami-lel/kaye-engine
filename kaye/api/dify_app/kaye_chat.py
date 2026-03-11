@@ -21,6 +21,7 @@ PARAM_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
 ROLE_CHAT = "chat"
 ROLE_CODER = "coder"
 ROLE_RAPID = "rapid"
+ROLE_BARISTA = "barista"
 
 
 # Blueprints  ##################################################################
@@ -106,10 +107,13 @@ def kaye_chat_task():
     elif role == ROLE_CHAT:
         bp = _create_chat_blueprint()
 
+    elif role == ROLE_BARISTA:
+        bp = _create_barista_blueprint()
+
     else:
         return abort(Response("bad param: ?role={}".format(role), 422))
 
-    # todo ky: use AbbrNode
+    # Todo ky: use AbbrNode
     return bp.generate_prompt()
 
 
@@ -182,17 +186,7 @@ def _create_peer_coder_blueprint(pls):
     return bp
 
 
-PLC2CORPUS_HEADING = {
-    "c": ("C",),
-    "cpp": ("C++",),
-    "ue": ("Unreal Engine",),
-    "csharp": ("C Sharp",),
-    "u3d": ("C Sharp", "Unity Engine"),
-    "gdscript": ("GDSCript",),
-    "html": ("HTML",),
-    "js": ("JavaScript & TypeScript",),
-    "ts": ("JavaScript & TypeScript",),
-    "qt": ("Qt",),
-    "qml": ("Qt", "QML"),
-    "py": ("Python",),
-}
+def _create_barista_blueprint():
+    bp = load_embedded_blueprint("rapid")
+    # TODO
+    return bp
