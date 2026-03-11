@@ -25,10 +25,16 @@ def should_skip_sense(role, llm_override, difficulty_override):
     # Bug dont skip for coder, b/c still need to extract PLs during sensing
 
     if role == "coder":
-        return bool(
-            (difficulty_override or llm_override) or (role and llm_override)
-        )
-    # TODO for barista
+        # skip for kyc, when difficult is provided
+        return bool(difficulty_override)
+
+    elif role == "barista":
+        # skip for barista
+        return True
+
+    elif role:
+        # both both & LLM are provided
+        return bool(llm_override)
 
     return False
 
