@@ -8,18 +8,46 @@ OUTPUT_META_KEY = "meta_content"
 
 # Entry Point  #################################################################
 def main(
-    show_meta_content,
+    show_meta_content: bool,
     role_override: str,
     role: str,
     llm_override: str,
     llm_used: str,
     difficulty_override: float,
-    difficulty_sensed: dict,
-    skip_sense,
+    difficulty_sensed: float,
+    skip_sense: bool,
     programming_languages: str,
     sense_usage: dict,
     task_usage: dict,
 ):
+    """
+    generate **meta content**, information for debugging and testing
+
+
+    :param show_meta_content: whether to show meta content,
+            set as User Input Field
+    :type show_meta_content: bool
+    :param role_override:
+    :type role_override: str
+    :param role:
+    :type role: str
+    :param llm_override:
+    :type llm_override: str
+    :param llm_used:
+    :type llm_used: str
+    :param difficulty_override:
+    :type difficulty_override: float
+    :param difficulty_sensed:
+    :type difficulty_sensed: float
+    :param skip_sense:
+    :type skip_sense: bool
+    :param programming_languages:
+    :type programming_languages: str
+    :param sense_usage: usage object for information of sense node
+    :type sense_usage: dict
+    :param task_usage: usage object for information of task node
+    :type task_usage: dict
+    """
     if not show_meta_content:
         return {OUTPUT_META_KEY: ""}
 
