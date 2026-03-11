@@ -18,6 +18,11 @@
 ## [Unreleased]
 
 ### Added
+
+Kaye Chat:
+
+- *Assistant Barista* role
+
 ### Changed
 ### Deprecated
 ### Removed
