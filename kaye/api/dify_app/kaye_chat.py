@@ -17,12 +17,6 @@ from kaye.prompt import PromptBlueprint, load_embedded_blueprint
 PARAM_ROLE_KEY = "role"
 PARAM_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
 
-# roles  -----------------------------------------------------------------------
-ROLE_CHAT = "chat"
-ROLE_CODER = "coder"
-ROLE_RAPID = "rapid"
-ROLE_BARISTA = "barista"
-
 
 # Blueprints  ##################################################################
 
@@ -76,7 +70,7 @@ def kaye_chat_sense():
 
     # on role  -----------------------------------------------------------------
     if role:
-        if role == ROLE_CODER:
+        if role == "coder":
             blueprint.checkmark(pre_sense_node["for coder"], recursively=True)
         else:
             # other role
@@ -95,19 +89,19 @@ def kaye_chat_sense():
 # /kaye/dify-app/ky/task  ======================================================
 @ky_bp.route("/task", methods=["GET"])
 def kaye_chat_task():
-    role = request.args.get(PARAM_ROLE_KEY) or ROLE_CHAT  # default to chat
+    role = request.args.get(PARAM_ROLE_KEY) or "chat"  # default to chat
     pls = request.args.get(PARAM_PROGRAMMING_LANGUAGES_KEY) or ""
 
-    if role == ROLE_CODER:
+    if role == "role":
         bp = _create_peer_coder_blueprint(pls)
 
-    elif role == ROLE_RAPID:
+    elif role == "rapid":
         bp = load_embedded_blueprint("rapid")
 
-    elif role == ROLE_CHAT:
+    elif role == "chat":
         bp = _create_chat_blueprint()
 
-    elif role == ROLE_BARISTA:
+    elif role == "barista":
         bp = _create_barista_blueprint()
 
     else:
@@ -188,4 +182,10 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 def _create_barista_blueprint():  # ============================================
     bp = load_embedded_blueprint("rapid")
     # TODO
+    return bp
+
+
+def _create_changelog_blueprint():  # ==========================================
+    bp = _create_chat_blueprint()
+    bp.checkmark("Changelog Writer")
     return bp
