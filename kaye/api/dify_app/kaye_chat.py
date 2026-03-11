@@ -181,7 +181,7 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
 def _create_barista_blueprint():  # ============================================
     bp = load_embedded_blueprint("rapid")
-    # TODO
+    bp.checkmark("Assistant Barista")
     return bp
 
 
