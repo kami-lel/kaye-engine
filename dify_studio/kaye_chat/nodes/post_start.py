@@ -7,7 +7,22 @@ OUTPUT_SKIP_KEY = "skip_sense"
 
 
 # helpers  #####################################################################
-def should_skip_sense(role, difficulty_override, llm_override):
+def should_skip_sense(role, llm_override, difficulty_override):
+    """
+    decide whether should skip sense node for this round of conversation
+    based on combination of difficulty & LLM overrides given
+
+
+    :param role:
+    :type role: str
+    :param llm_override:
+    :type llm_override: str
+    :param difficulty_override:
+    :type difficulty_override: float
+    :return: whether should skip sense node
+    :rtype: bool
+    """
+
     # Bug dont skip for coder, b/c still need to extract PLs during sensing
     # TODO add for barista
     skip = (role == "coder" and (difficulty_override or llm_override)) or (
@@ -45,6 +60,6 @@ def main(
     # decide role  =============================================================
     role = role_override or current_role or ""
 
-    skip_sense = should_skip_sense(role, difficulty_override, llm_override)
+    skip_sense = should_skip_sense(role, llm_override, difficulty_override)
 
     return {OUTPUT_ROLE_KEY: role, OUTPUT_SKIP_KEY: skip_sense}
