@@ -43,6 +43,8 @@ def main(
         else:
             llm = "think-think"
 
+    # TODO barista auto get rapid/think
+
     else:
         llm = llm_override or llm_sensed
 
