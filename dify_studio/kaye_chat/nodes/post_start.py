@@ -28,7 +28,7 @@ def main(
             often decided on 1st round of conversation
     :type current_role: str
     :return: {
-            "role": role decided for this round,
+            "role": role to used for this round of conversation,
             "skip_sense": whether skip sense node in this round}
     :rtype: dict{"role": str, "skip_sense": bool}
     """
