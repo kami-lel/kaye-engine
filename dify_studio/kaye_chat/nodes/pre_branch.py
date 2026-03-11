@@ -14,6 +14,24 @@ def main(
     difficulty_sensed: dict,
     difficulty_thresholds: list[float],
 ):
+    """
+    TODO
+
+    :param role: _description_
+    :type role: str
+    :param llm_override: _description_
+    :type llm_override: str
+    :param llm_sensed: _description_
+    :type llm_sensed: dict
+    :param difficulty_override: _description_
+    :type difficulty_override: float
+    :param difficulty_sensed: _description_
+    :type difficulty_sensed: dict
+    :param difficulty_thresholds: _description_
+    :type difficulty_thresholds: list[float]
+    :return: _description_
+    :rtype: _type_
+    """
 
     if role == "coder":
         difficulty = difficulty_override or difficulty_sensed

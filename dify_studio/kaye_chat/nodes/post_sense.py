@@ -17,6 +17,20 @@ def main(
     current_role: str,
     sensed_role: dict,
 ):
+    """
+    TODO
+
+    :param current_pls: _description_
+    :type current_pls: str
+    :param sensed_pls: _description_
+    :type sensed_pls: dict
+    :param current_role: _description_
+    :type current_role: str
+    :param sensed_role: _description_
+    :type sensed_role: dict
+    :return: _description_
+    :rtype: _type_
+    """
     # pls  ---------------------------------------------------------------------
     combined_set = set(current_pls.split(SPLITTER)) | set(
         sensed_pls.split(SPLITTER)

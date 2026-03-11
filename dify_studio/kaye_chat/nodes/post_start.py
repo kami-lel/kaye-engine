@@ -13,6 +13,20 @@ def main(
     difficulty_override: float,
     current_role: str,
 ):
+    """
+    TODO
+
+    :param role_override: _description_
+    :type role_override: str
+    :param llm_override: _description_
+    :type llm_override: str
+    :param difficulty_override: _description_
+    :type difficulty_override: float
+    :param current_role: _description_
+    :type current_role: str
+    :return: _description_
+    :rtype: _type_
+    """
     # decide role  =============================================================
     role = role_override or current_role or ""
 
