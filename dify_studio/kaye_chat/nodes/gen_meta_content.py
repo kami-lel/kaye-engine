@@ -1,6 +1,6 @@
 # pylint: disable=missing-module-docstring
 
-# bug s/X replied 2 meta content
+# bug s/X replied 2 meta content during 2nd round conversation
 
 # output keys  #################################################################
 OUTPUT_META_KEY = "meta_content"

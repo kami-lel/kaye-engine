@@ -109,7 +109,7 @@ def kaye_chat_task():
     else:
         return abort(Response("bad param: ?role={}".format(role), 422))
 
-    # todo ky: use AbbrNode
+    # Todo ky: use AbbrNode
     return bp.generate_prompt()
 
 
