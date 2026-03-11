@@ -117,14 +117,12 @@ def kaye_chat_task():
     return bp.generate_prompt()
 
 
-# task blueprints  *************************************************************
-
-
-def _create_chat_blueprint():  # +++++++++++++++++++++++++++++++++++++++++++++++
+# task blueprints  #############################################################
+def _create_chat_blueprint():  # ===============================================
     return PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT)
 
 
-def _create_peer_coder_blueprint(pls):  # ++++++++++++++++++++++++++++++++++++++
+def _create_peer_coder_blueprint(pls):  # ======================================
     # pylint: disable=too-many-branches
     # create base bp from chat
     bp = _create_chat_blueprint()
@@ -187,7 +185,7 @@ def _create_peer_coder_blueprint(pls):  # ++++++++++++++++++++++++++++++++++++++
     return bp
 
 
-def _create_barista_blueprint():  # ++++++++++++++++++++++++++++++++++++++++++++
+def _create_barista_blueprint():  # ============================================
     bp = load_embedded_blueprint("rapid")
     # TODO
     return bp
