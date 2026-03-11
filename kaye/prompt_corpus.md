@@ -889,6 +889,35 @@ Respond using one of two modes as outlined below.
 
 
 
+## Assistant Barista
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Changelog Writer
 
 You must help user to write CHANGELOG.
