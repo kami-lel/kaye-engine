@@ -9,30 +9,31 @@ OUTPUT_LLM_KEY = "llm"
 def main(
     role: str,
     llm_override: str,
-    llm_sensed: dict,
+    llm_sensed: str,
     difficulty_override: float,
-    difficulty_sensed: dict,
+    difficulty_sensed: float,
     difficulty_thresholds: list[float],
 ):
     """
-    TODO
+    decide which LLM (branch) for this round of conversation
 
-    :param role: _description_
+
+    :param role:
     :type role: str
-    :param llm_override: _description_
+    :param llm_override:
     :type llm_override: str
-    :param llm_sensed: _description_
-    :type llm_sensed: dict
-    :param difficulty_override: _description_
+    :param llm_sensed:
+    :type llm_sensed: str
+    :param difficulty_override:
     :type difficulty_override: float
-    :param difficulty_sensed: _description_
-    :type difficulty_sensed: dict
-    :param difficulty_thresholds: _description_
+    :param difficulty_sensed:
+    :type difficulty_sensed: float
+    :param difficulty_thresholds:
+            difficulty thresholds given as environment variable
     :type difficulty_thresholds: list[float]
-    :return: _description_
-    :rtype: _type_
+    :return: {"llm": LLM to use for this round of conversation}
+    :rtype: dict{"llm": str}
     """
-
     if role == "coder":
         difficulty = difficulty_override or difficulty_sensed
         if difficulty < difficulty_thresholds[0]:
