@@ -20,6 +20,6 @@ def main(
     skip_pre_sense = (
         role == "coder" and (difficulty_override or llm_override)
     ) or (role and llm_override)
-    # bug dont skip for coder, b/c still need to extract PLs during sensing
+    # Bug dont skip for coder, b/c still need to extract PLs during sensing
 
     return {OUTPUT_ROLE_KEY: role, OUTPUT_SKIP_KEY: bool(skip_pre_sense)}
