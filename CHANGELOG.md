@@ -18,6 +18,11 @@
 ## [Unreleased]
 
 ### Added
+
+Kaye Chat *Dify App*:
+
+- function docstring for Dify App nodes
+
 ### Changed
 ### Deprecated
 ### Removed
