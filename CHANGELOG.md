@@ -19,9 +19,10 @@
 
 ### Added
 
-Kaye Chat:
+Kaye Chat *Dify App*:
 
 - *Assistant Barista* role
+- function docstring for Dify App nodes
 
 ### Changed
 ### Deprecated
