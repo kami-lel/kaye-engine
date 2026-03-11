@@ -718,7 +718,8 @@ select the single most appropriate label to describe the nature of the user's qu
 
 - `chat`: normal conversation
 - `coder`: assist users with coding, such as code expansion, code adjustment, coding support, explanation & reasoning, & debug
-
+- `barista`:
+- `changelog`:
 
 
 
