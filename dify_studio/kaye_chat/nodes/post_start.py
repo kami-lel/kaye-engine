@@ -22,13 +22,15 @@ def should_skip_sense(role, llm_override, difficulty_override):
     :return: whether should skip sense node
     :rtype: bool
     """
-
     # Bug dont skip for coder, b/c still need to extract PLs during sensing
-    # TODO add for barista
-    skip = (role == "coder" and (difficulty_override or llm_override)) or (
-        role and llm_override
-    )
-    return bool(skip)
+
+    if role == "coder":
+        return bool(
+            (difficulty_override or llm_override) or (role and llm_override)
+        )
+    # TODO for barista
+
+    return False
 
 
 # Entry Point  #################################################################
