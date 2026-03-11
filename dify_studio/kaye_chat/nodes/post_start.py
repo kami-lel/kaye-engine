@@ -14,18 +14,23 @@ def main(
     current_role: str,
 ):
     """
-    TODO
+    prepare parameters for **this round**
+    based on variables provided by *User Input Fields*
 
-    :param role_override: _description_
+
+    :param role_override:
     :type role_override: str
-    :param llm_override: _description_
+    :param llm_override:
     :type llm_override: str
-    :param difficulty_override: _description_
+    :param difficulty_override:
     :type difficulty_override: float
-    :param current_role: _description_
+    :param current_role: role saved in conversation variable,
+            often decided on 1st round of conversation
     :type current_role: str
-    :return: _description_
-    :rtype: _type_
+    :return: {
+            "role": role decided for this round,
+            "skip_sense": whether skip sense node in this round}
+    :rtype: dict{"role": str, "skip_sense": bool}
     """
     # decide role  =============================================================
     role = role_override or current_role or ""
