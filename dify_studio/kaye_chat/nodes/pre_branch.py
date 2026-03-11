@@ -43,7 +43,9 @@ def main(
         else:
             llm = "think-think"
 
-    # TODO barista auto get rapid/think
+    elif role == "barista":
+        # barista always use chat LLM
+        llm = "chat"
 
     else:
         llm = llm_override or llm_sensed
