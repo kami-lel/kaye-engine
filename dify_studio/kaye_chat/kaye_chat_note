@@ -1,9 +1,10 @@
-Todo ky: add role of editor/secretary
+Fixme ky merge role: Editor,Email Secretary,Etiquette Coach,Grammar Checker,
+Todo ky rm unused role: Encyclopedic
+Todo ky rm unused role: Translator
 bug ky: fail to follow language of user
 bug kyc: didn't include AMs definition currently
 Bug kyc: code commentaries s/X get double #
 fixme ky: allow sense early exit, i.e. provide an answer directly
-fixme ky: add rest roles
 Fixme ky: always yield a difficulty level too low
 todo ky: smart sense, take only part of the user's input as sense message:
 eg by taking first n lines + last n lines
@@ -12,3 +13,5 @@ todo ky:utilize models from multiple provider, merge, when extremely difficult t
 todo ky:add 5.1 codex llm
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
 todo consider usage case of "apply"
+todo ky role mpl: Art Tutor
+todo ky role mpl: Deutschlehrer
