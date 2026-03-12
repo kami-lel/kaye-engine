@@ -1035,248 +1035,6 @@ Example:
 
 
 
-
-## Conversation Follow Up Generation
-
-**Purpose & Guidance**
-
-- generate 2–4 relevant follow-up questions per turn to deepen or continue the discussion
-- focus on the latest messages in the chat context
-- if context is brief or unclear, go general but stay on topic
-- diversify to cover multiple angles
-
-**Generation Rules**
-
-- questions only
-- use short phrases only, never full sentences
-- use **Briefness Style** language
-- use **Title Case**
-- prefix each follow-up with one fitting emoji; place it first, followed by a single space
-
-**Prohibitions**
-
-- no repeats from the last output
-- no greetings, apologies, or off-topic content
-
-
-
-
-#### Output Format
-
-Return only the following JSON structure:
-
-<follow-up-example1>
-{
-  "follow_ups": [
-    "🌿 Key Experiments in Photosynthesis Research?",
-    "🧪 Role of Chlorophyll Molecules?",
-    "💡 How Does Light Intensity Affect Rate?",
-  ]
-}
-</follow-up-example1>
-
-<follow-up-example2>
-{
-  "follow_ups": [
-    "🏛️ Historical Context of the Renaissance?",
-    "👨‍🏫 Key Philosophers and Their Works?",
-    "📚 Major Themes in Humanist Literature?",
-    "🧠 Impact on Modern Political Thought?"
-  ]
-}
-</follow-up-example2>
-
-**Compliance**: strictly follow the grammar, style, pattern, and capitalization shown in the examples.
-
-
-
-
-
-#### Chat History:
-<follow-up-chat-history>
-{{MESSAGES:END:4}}
-</follow-up-chat-history>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Conversation Tag Generation
-
-Generate 1-3 broad tags categorizing the main themes of the chat history, along with 1-3 more specific subtopic tags.
-
-
-
-
-
-#### Guidelines
-
-- Start with high-level domains (e.g. Science, Technology, Philosophy, Arts, Politics, Business, Health, Sports, Entertainment, Education)
-- Consider including relevant subfields/subdomains if they are strongly represented throughout the conversation
-- If content is too short (less than 3 messages) or too diverse, use only ["General"]
-- Use the chat's primary language; default to English if multilingual
-- Prioritize accuracy over specificity
-
-
-
-
-#### Output
-
-JSON format: { "tags": ["tag1", "tag2", "tag3"] }
-
-
-
-
-
-#### Chat History
-
-<chat_history>
-{{MESSAGES:END:6}}
-</chat_history>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Conversation Title Generation
-
-Generate a concise, 3-5 word title prefixed 3 emoji summarizing the chat history.
-
-
-
-
-
-#### Guidelines
-
-- the title should clearly represent the main theme or subject of the conversation.
-- use **3 emojis **that enhance understanding of the topic, but avoid quotation marks or special formatting
-- use **Briefness Style** language
-- use **Title Case**
-- prioritize accuracy over excessive creativity
-
-
-
-
-
-#### Output
-
-JSON format: { "title": "your concise title here" }
-
-
-
-
-
-#### Examples
-
-- { "title": "📈💹📊Stock Market Trends" },
-- { "title": "🍪🍫🥛Perfect Chocolate Chip Recipe" },
-- { "title": "🎶📱💻Evolution of Music Streaming" },
-- { "title": "🏡💼📅Remote Work Productivity Tips" },
-- { "title": "🤖🏥🩺Artificial Intelligence in Healthcare" },
-- { "title": "🎮🛠️🖥️Video Game Development Insights" }
-
-
-
-
-
-#### Chat History
-
-<chat_history>
-{{MESSAGES:END:2}}
-</chat_history>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Deutschlehrer
 
 You perform **Deutschlehrer** role to assist the user in learning German. Your response must be German, then English in *blockquote* `>`. Always include **both** languages in every response. Offer explanations or tips, ensuring clarity and support.
@@ -3182,3 +2940,245 @@ Parse all events into the desired format, keep all information.
 
 {INTERESTED_TOPICS}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Utility Prompts
+
+## Conversation Follow Up Generation
+
+**Purpose & Guidance**
+
+- generate 2–4 relevant follow-up questions per turn to deepen or continue the discussion
+- focus on the latest messages in the chat context
+- if context is brief or unclear, go general but stay on topic
+- diversify to cover multiple angles
+
+**Generation Rules**
+
+- questions only
+- use short phrases only, never full sentences
+- use **Briefness Style** language
+- use **Title Case**
+- prefix each follow-up with one fitting emoji; place it first, followed by a single space
+
+**Prohibitions**
+
+- no repeats from the last output
+- no greetings, apologies, or off-topic content
+
+
+
+
+#### Output Format
+
+Return only the following JSON structure:
+
+<follow-up-example1>
+{
+  "follow_ups": [
+    "🌿 Key Experiments in Photosynthesis Research?",
+    "🧪 Role of Chlorophyll Molecules?",
+    "💡 How Does Light Intensity Affect Rate?",
+  ]
+}
+</follow-up-example1>
+
+<follow-up-example2>
+{
+  "follow_ups": [
+    "🏛️ Historical Context of the Renaissance?",
+    "👨‍🏫 Key Philosophers and Their Works?",
+    "📚 Major Themes in Humanist Literature?",
+    "🧠 Impact on Modern Political Thought?"
+  ]
+}
+</follow-up-example2>
+
+**Compliance**: strictly follow the grammar, style, pattern, and capitalization shown in the examples.
+
+
+
+
+
+#### Chat History:
+<follow-up-chat-history>
+{{MESSAGES:END:4}}
+</follow-up-chat-history>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Conversation Tag Generation
+
+Generate 1-3 broad tags categorizing the main themes of the chat history, along with 1-3 more specific subtopic tags.
+
+
+
+
+
+#### Guidelines
+
+- Start with high-level domains (e.g. Science, Technology, Philosophy, Arts, Politics, Business, Health, Sports, Entertainment, Education)
+- Consider including relevant subfields/subdomains if they are strongly represented throughout the conversation
+- If content is too short (less than 3 messages) or too diverse, use only ["General"]
+- Use the chat's primary language; default to English if multilingual
+- Prioritize accuracy over specificity
+
+
+
+
+#### Output
+
+JSON format: { "tags": ["tag1", "tag2", "tag3"] }
+
+
+
+
+
+#### Chat History
+
+<chat_history>
+{{MESSAGES:END:6}}
+</chat_history>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Conversation Title Generation
+
+Generate a concise, 3-5 word title prefixed 3 emoji summarizing the chat history.
+
+
+
+
+
+#### Guidelines
+
+- the title should clearly represent the main theme or subject of the conversation.
+- use **3 emojis **that enhance understanding of the topic, but avoid quotation marks or special formatting
+- use **Briefness Style** language
+- use **Title Case**
+- prioritize accuracy over excessive creativity
+
+
+
+
+
+#### Output
+
+JSON format: { "title": "your concise title here" }
+
+
+
+
+
+#### Examples
+
+- { "title": "📈💹📊Stock Market Trends" },
+- { "title": "🍪🍫🥛Perfect Chocolate Chip Recipe" },
+- { "title": "🎶📱💻Evolution of Music Streaming" },
+- { "title": "🏡💼📅Remote Work Productivity Tips" },
+- { "title": "🤖🏥🩺Artificial Intelligence in Healthcare" },
+- { "title": "🎮🛠️🖥️Video Game Development Insights" }
+
+
+
+
+
+#### Chat History
+
+<chat_history>
+{{MESSAGES:END:2}}
+</chat_history>
