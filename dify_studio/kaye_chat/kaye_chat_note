@@ -1,5 +1,5 @@
 Todo ky: add role of editor/secretary
-bug ky: fail to follow language of user
+Bug ky: fail to follow language of user
 bug kyc: didn't include AMs definition currently
 Bug kyc: code commentaries s/X get double #
 fixme ky: allow sense early exit, i.e. provide an answer directly
