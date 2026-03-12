@@ -30,6 +30,13 @@ Kaye Chat *Dify App*:
 ### Removed
 ### Fixed
 
+Kaye Chat *Dify App*:
+
+- for coder role, no longer skip sense node
+  when only provided `difficulty_override`,
+  (sense node is still required for sensing PLs)
+
+
 
 
 
