@@ -36,7 +36,10 @@ def main(
     :return: {"llm": LLM to use for this round of conversation}
     :rtype: dict{"llm": str}
     """
-    if role == "coder":
+    if llm_override:
+        llm = llm_override
+
+    elif role == "coder":
         difficulty = difficulty_override or difficulty_sensed
         if difficulty < difficulty_thresholds[0]:
             llm = "rapid"
@@ -54,6 +57,6 @@ def main(
         llm = "think"
 
     else:
-        llm = llm_override or llm_sensed
+        llm = llm_sensed
 
     return {OUTPUT_LLM_KEY: llm}
