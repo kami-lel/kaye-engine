@@ -3,9 +3,9 @@ fixme Role:Peer Coder:Message Level, more concise, no need per language eg
 Fixme kyc: improve comment section heading prompt, less wordy, make it used less often
 todo kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
 TODO write barista role
-FIXME changelog sensing
 TODO write barista sensing
-FIXME changelog role
+Fixme changelog sensing
+Fixme changelog role
 Todo utilize latex for math
 
 
