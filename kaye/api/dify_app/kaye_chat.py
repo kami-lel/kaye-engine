@@ -92,7 +92,7 @@ def kaye_chat_task():
     role = request.args.get(PARAM_ROLE_KEY) or "chat"  # default to chat
     pls = request.args.get(PARAM_PROGRAMMING_LANGUAGES_KEY) or ""
 
-    if role == "role":
+    if role == "coder":
         bp = _create_peer_coder_blueprint(pls)
 
     elif role == "rapid":

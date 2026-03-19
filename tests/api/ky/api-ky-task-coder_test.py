@@ -10,8 +10,6 @@ import pytest
 
 from tests.api.ky import _assert_chat_blueprint_opt
 
-# BUG BUG use blueprint
-
 
 # pytest fixtures  #############################################################
 @pytest.fixture
