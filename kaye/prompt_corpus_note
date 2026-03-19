@@ -4,6 +4,7 @@ Fixme kyc: improve comment section heading prompt, less wordy, make it used less
 todo kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
 TODO write barista role
 TODO write barista sensing
+FIXME better description re LLM & role
 Fixme changelog sensing
 Fixme changelog role
 Todo utilize latex for math

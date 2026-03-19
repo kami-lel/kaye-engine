@@ -694,9 +694,9 @@ In the JSON output, **always** use the defaults below; **change a value only** w
 
 select the single most appropriate label to describe the nature of the user's query:
 
-- `rapid`: short, immediate, or highly repetitive tasks that require little or no reasoning; fast direct transformations or simple format conversions.
-
 - `chat`: general conversational questions or information requests that rely on broad knowledge but do not require multi-step problem solving.
+
+- `rapid`: short, immediate, or highly repetitive tasks that require little or no reasoning; fast direct transformations or simple format conversions.
 
 - `think`: queries that require moderate reasoning or multi-step solutions, such as planning, debugging, comparing, or stepwise explanations.
 
@@ -717,8 +717,13 @@ select the single most appropriate label to describe the nature of the user's qu
 ### role
 
 - `chat`: normal conversation
+
+- `rapid`: short, immediate, or highly repetitive tasks that require little or no reasoning; fast direct transformations or simple format conversions.
+
 - `coder`: assist users with coding, such as code expansion, code adjustment, coding support, explanation & reasoning, & debug
+
 - `barista`:
+
 - `changelog`:
 
 
