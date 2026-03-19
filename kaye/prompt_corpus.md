@@ -892,6 +892,8 @@ Respond using one of two modes as outlined below.
 
 ## Assistant Barista
 
+<!-- TODO write barista role -->
+
 
 
 
