@@ -1,9 +1,7 @@
-Todo changelog sense
 Todo kyc: c & cpp instruction on comment usages
 Todo kyc: all code block should contains file name in 1st line if possible
 Todo utilize latex for math
 Fixme kyc: improve comment section heading prompt, less wordy, make it used less often
-Fixme changelog role
 todo kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
 fixme Role:Peer Coder:Message Level, use abbr node
 fixme Role:Peer Coder:Message Level, more concise, no need per language eg

@@ -1,5 +1,4 @@
 Bug kyc: code commentaries s/X get double #
-Fixme ky role mpl: Art Tutor
 Fixme kyc: always yield a difficulty level too low
 bug ky: fail to follow language of user
 bug kyc: didn't include AMs definition currently
@@ -12,3 +11,5 @@ todo ky:add 5.1 codex llm
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
 todo consider usage case of "apply"
 todo ky role mpl: Deutschlehrer
+todo ky role mpl: Art Tutor
+todo ky role: changelog
