@@ -1,24 +1,25 @@
 {
     "cSpell.words": [
+        "ahocorasick",
         "anytree",
         "checkmark",
         "checkmarked",
         "checkmarking",
         "checkmarks",
+        "corasick",
         "dify",
+        "Enclyelopic",
         "presense",
         "pushable",
         "subpsr",
         "uncheckmark",
         "uncheckmarked",
         "uncheckmarking",
-        "unprunable",
-        "ahocorasick",
-        "corasick"
+        "unprunable"
     ],
     "todo-tree.filtering.excludeGlobs": [
         "**/hooks_utility/*/**",
         "*.yml",
         "**/prompt_corpus.md"
-    ],
+    ]
 }

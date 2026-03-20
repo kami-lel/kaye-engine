@@ -30,7 +30,8 @@ Kaye Chat *Dify App*:
 
 Kaye Chat *Dify App*:
 
-- remaining prompt for *Translator* role
+- remaining prompt of *Translator* role
+- remaining prompt of *Enclyelopic* role
 
 ### Fixed
 
