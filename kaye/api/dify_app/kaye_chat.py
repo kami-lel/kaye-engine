@@ -179,7 +179,8 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
 
 def _create_barista_blueprint():  # ============================================
-    bp = _create_chat_blueprint()
+    bp = load_embedded_blueprint("rapid")
+    bp.checkmark("Date & Time Format")
     bp.checkmark("Assistant Barista", recursively=True)
     return bp
 
