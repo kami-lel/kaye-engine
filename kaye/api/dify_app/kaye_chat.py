@@ -100,6 +100,12 @@ def kaye_chat_task():
     elif role == "barista":
         bp = _create_barista_blueprint()
 
+    elif role == "editor":
+        bp = None  # TODO
+
+    elif role == "secretary":
+        bp = None  # TODO
+
     else:
         return abort(Response("bad param: ?role={}".format(role), 422))
 
