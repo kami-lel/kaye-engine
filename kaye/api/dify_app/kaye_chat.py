@@ -43,10 +43,6 @@ CHAT_PROMPT_BLUEPRINT = """    ○
 [x] ├── Language
 [x] ├── Elements
 [x] │   └── Date & Time Format
-[x] ├── Style
-[x] │   └── Capitalization Style
-[x] │       ├── Title Case
-[x] │       └── Commentary Case
 [x] ├── Format
 [x] ├── Standards
 [x] │   └── Numerical Values with Units
@@ -121,6 +117,8 @@ def _create_peer_coder_blueprint(pls):  # ======================================
     # create base bp from chat
     bp = _create_chat_blueprint()
 
+    # TODO need style?
+
     # add Kaye Peer Coder node
     kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]
     bp.checkmark(kyc_node)
@@ -181,7 +179,7 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
 def _create_barista_blueprint():  # ============================================
     bp = load_embedded_blueprint("rapid")
-    bp.checkmark("Assistant Barista")
+    bp.checkmark("Assistant Barista", recursively=True)
     return bp
 
 
