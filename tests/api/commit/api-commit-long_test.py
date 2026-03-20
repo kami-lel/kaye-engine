@@ -6,8 +6,6 @@ Unit Tests (using pytest) for:
 /kaye/dify-ap/kaye-commit-sense/per-file-long
 """
 
-# BUG
-
 import pytest
 
 from tests.api.commit import (
