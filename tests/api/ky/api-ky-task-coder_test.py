@@ -24,6 +24,22 @@ def _assert_coder_basic_blueprint_opt(opt):
     _assert_chat_blueprint_opt(opt)
 
     assert (
+        """# Style
+## Capitalization
+### Title Case
+Use *Chicago Manual of Style* headline case:
+
+- **capitalize major words**: nouns, pronouns, verbs, adjectives, adverbs, numerals"""
+        in opt
+    )
+
+    assert (
+        """### Commentary Case
+- begin 1st sentence with a lowercase letter; use standard sentence capitalization for the 2nd and subsequent sentences"""
+        in opt
+    )
+
+    assert (
         """## Kaye Peer Coder
 Duties are as follows:
 

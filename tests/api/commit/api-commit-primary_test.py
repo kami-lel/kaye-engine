@@ -6,8 +6,6 @@ Unit Tests (using pytest) for:
 /kaye/dify-ap/kaye-commit-sense/primary-message
 """
 
-import pytest
-
 from tests.api.commit import (
     assert_allows_md,
     assert_no_allows_md,

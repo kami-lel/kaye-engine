@@ -22,15 +22,12 @@ In the JSON output, **always** use the defaults below; **change a value only** w
 def _assert_llm_opt(opt):
     assert (
         """### llm
-select the single most appropriate label to describe the nature of the user's query:
+choose exactly one label that best matches the **difficulty and reasoning complexity** required to answer the user's request (not the topic or length). base your choice on how many dependent steps, judgments, or non-trivial inferences are needed to produce a correct answer.
 
-- `rapid`: short, immediate, or highly repetitive tasks that require little or no reasoning; fast direct transformations or simple format conversions.
-
-- `chat`: general conversational questions or information requests that rely on broad knowledge but do not require multi-step problem solving.
-
-- `think`: queries that require moderate reasoning or multi-step solutions, such as planning, debugging, comparing, or stepwise explanations.
-
-- `think-think`: queries that require deep, abstract, or prolonged reasoning, creative synthesis, designing solutions with trade-offs, or tasks that need many chained logical steps."""
+- `rapid`: least complex. highly mechanical, immediate tasks with virtually no reasoning or judgment (reformatting, converting, extracting, renaming, simple templating).
+- `chat`: low complexity. straightforward conversational answers from broad knowledge with minimal reasoning (definitions, simple explanations, basic factual Q&A).
+- `think`: medium complexity. requires multiple connected steps and some judgment (planning, troubleshooting, comparing options against criteria, structured step-by-step help).
+- `think-think`: highest complexity. requires deep/extended reasoning, creative synthesis, or balancing constraints and trade-offs across many steps (system design, novel strategies, complex multi-constraint problem solving)."""
         in opt
     )
 
@@ -38,8 +35,12 @@ select the single most appropriate label to describe the nature of the user's qu
 def _assert_role_opt(opt):
     assert (
         """### role
-- `chat`: normal conversation
-- `coder`: assist users with coding, such as code expansion, code adjustment, coding support, explanation & reasoning, & debug"""
+select exactly one role. pick the role that matches the **main type of work** the user wants.
+
+- `rapid`: do quick, repetitive, *mechanical* tasks with almost no reasoning (direct text transformations, simple conversions, basic reformatting)
+- `chat`: do general conversation and simple information Q&A (the request is not mainly a transformation and not mainly coding)
+- `coder`: help with programming tasks (write, expand, or edit code; debug; explain code; reason about implementation details)
+- `barista`: when the user shares any coffee-related info (beans, roast/batch, brew recipe, equipment, tasting notes, ratings, prices), or appended into a structured coffee brewing note"""
         in opt
     )
 

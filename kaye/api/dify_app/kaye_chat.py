@@ -17,11 +17,6 @@ from kaye.prompt import PromptBlueprint, load_embedded_blueprint
 PARAM_ROLE_KEY = "role"
 PARAM_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
 
-# roles  -----------------------------------------------------------------------
-ROLE_CHAT = "chat"
-ROLE_CODER = "coder"
-ROLE_RAPID = "rapid"
-
 
 # Blueprints  ##################################################################
 
@@ -48,12 +43,8 @@ CHAT_PROMPT_BLUEPRINT = """    ○
 [x] ├── Language
 [x] ├── Elements
 [x] │   └── Date & Time Format
-[x] ├── Style
-[x] │   └── Capitalization Style
-[x] │       ├── Title Case
-[x] │       └── Commentary Case
 [x] ├── Format
-[x] ├── Standards
+[x] ├── Elements
 [x] │   └── Numerical Values with Units
 [x] └── Role"""
 
@@ -75,7 +66,7 @@ def kaye_chat_sense():
 
     # on role  -----------------------------------------------------------------
     if role:
-        if role == ROLE_CODER:
+        if role == "coder":
             blueprint.checkmark(pre_sense_node["for coder"], recursively=True)
         else:
             # other role
@@ -94,17 +85,20 @@ def kaye_chat_sense():
 # /kaye/dify-app/ky/task  ======================================================
 @ky_bp.route("/task", methods=["GET"])
 def kaye_chat_task():
-    role = request.args.get(PARAM_ROLE_KEY) or ROLE_CHAT  # default to chat
+    role = request.args.get(PARAM_ROLE_KEY) or "chat"  # default to chat
     pls = request.args.get(PARAM_PROGRAMMING_LANGUAGES_KEY) or ""
 
-    if role == ROLE_CODER:
-        bp = _create_peer_coder_blueprint(pls)
+    if role == "chat":
+        bp = _create_chat_blueprint()
 
-    elif role == ROLE_RAPID:
+    elif role == "rapid":
         bp = load_embedded_blueprint("rapid")
 
-    elif role == ROLE_CHAT:
-        bp = _create_chat_blueprint()
+    elif role == "coder":
+        bp = _create_peer_coder_blueprint(pls)
+
+    elif role == "barista":
+        bp = _create_barista_blueprint()
 
     else:
         return abort(Response("bad param: ?role={}".format(role), 422))
@@ -113,16 +107,18 @@ def kaye_chat_task():
     return bp.generate_prompt()
 
 
-# helpers  *********************************************************************
-
-
-def _create_chat_blueprint():
+# task blueprints  #############################################################
+def _create_chat_blueprint():  # ===============================================
     return PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT)
 
 
-def _create_peer_coder_blueprint(pls):
+def _create_peer_coder_blueprint(pls):  # ======================================
+    # pylint: disable=too-many-branches
     # create base bp from chat
     bp = _create_chat_blueprint()
+
+    # add styles
+    bp.checkmark("Style", recursively=True)
 
     # add Kaye Peer Coder node
     kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]
@@ -182,17 +178,14 @@ def _create_peer_coder_blueprint(pls):
     return bp
 
 
-PLC2CORPUS_HEADING = {
-    "c": ("C",),
-    "cpp": ("C++",),
-    "ue": ("Unreal Engine",),
-    "csharp": ("C Sharp",),
-    "u3d": ("C Sharp", "Unity Engine"),
-    "gdscript": ("GDSCript",),
-    "html": ("HTML",),
-    "js": ("JavaScript & TypeScript",),
-    "ts": ("JavaScript & TypeScript",),
-    "qt": ("Qt",),
-    "qml": ("Qt", "QML"),
-    "py": ("Python",),
-}
+def _create_barista_blueprint():  # ============================================
+    bp = load_embedded_blueprint("rapid")
+    bp.checkmark("Date & Time Format")
+    bp.checkmark("Assistant Barista", recursively=True)
+    return bp
+
+
+def _create_changelog_blueprint():  # ==========================================
+    bp = _create_chat_blueprint()
+    bp.checkmark("Changelog Writer")
+    return bp

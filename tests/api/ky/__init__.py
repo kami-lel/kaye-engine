@@ -1,7 +1,5 @@
 def _assert_chat_blueprint_opt(opt):
-
-    assert opt.startswith("""# Introduction
-You are **Kaye**, an AI assisting *agent* to the *user*.""")
+    _assert_rapid_blueprint_opt(opt)
 
     assert (
         """# Personality
@@ -32,24 +30,8 @@ Conversation language consistency:
         in opt
     )
 
-    assert """# Style
-## Capitalization Style
-### Title Case
-Use *Chicago Manual of Style* headline case:""" in opt
-
     assert (
-        """### Commentary Case
-- begin 1st sentence with a lowercase letter; use standard sentence capitalization for the 2nd and subsequent sentences"""
-        in opt
-    )
-
-    assert """### List Format
-
-Use `-` (dash) for bullet point lists""" in opt
-
-    assert (
-        """# Standards
-## Numerical Values with Units
+        """## Numerical Values with Units
 - Dual Unit Systems: Present values using both the metric and US unit systems. For example:
   - Distance: `8 848m (29 029ft)`
   - Mass: `10.5kg (22 lb)`
@@ -60,3 +42,18 @@ Use `-` (dash) for bullet point lists""" in opt
     )
 
     assert "# Role" in opt
+
+
+def _assert_rapid_blueprint_opt(opt):
+    assert opt.startswith("""# Introduction
+You are **Kaye**, an AI assisting *agent* to the *user*.""")
+
+    assert """# Format
+Please style your responses using *Github Flavored Markdown*. Avoid mentioning markdown or styling in your response.
+
+Follow these guidelines in every conversation:
+""" in opt
+
+    assert """### List Format
+
+Use `-` (dash) for bullet point lists""" in opt

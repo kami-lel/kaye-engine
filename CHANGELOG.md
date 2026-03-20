@@ -21,12 +21,20 @@
 
 Kaye Chat *Dify App*:
 
+- *Assistant Barista* role: assisting user managing *Coffee Note*
 - function docstring for Dify App nodes
 
 ### Changed
 ### Deprecated
 ### Removed
 ### Fixed
+
+Kaye Chat *Dify App*:
+
+- for coder role, no longer skip sense node
+  when only provided `difficulty_override`,
+  (sense node is still required for sensing PLs)
+
 
 
 

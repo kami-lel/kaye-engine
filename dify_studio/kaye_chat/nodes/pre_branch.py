@@ -1,4 +1,6 @@
 # pylint: disable=missing-module-docstring
+# pylint: disable=too-many-arguments
+# pylint: disable=too-many-positional-arguments
 
 
 # output keys  #################################################################
@@ -34,7 +36,10 @@ def main(
     :return: {"llm": LLM to use for this round of conversation}
     :rtype: dict{"llm": str}
     """
-    if role == "coder":
+    if llm_override:
+        llm = llm_override
+
+    elif role == "coder":
         difficulty = difficulty_override or difficulty_sensed
         if difficulty < difficulty_thresholds[0]:
             llm = "rapid"
@@ -43,7 +48,15 @@ def main(
         else:
             llm = "think-think"
 
+    elif role == "barista":
+        # Assistant Barista always use chat
+        llm = "chat"
+
+    elif role == "changelog":
+        # Changelog writer always use think
+        llm = "think"
+
     else:
-        llm = llm_override or llm_sensed
+        llm = llm_sensed
 
     return {OUTPUT_LLM_KEY: llm}

@@ -14,7 +14,7 @@ from kaye.prompt import PromptBlueprint
 # Blueprints  ##################################################################
 PRIMARY_MESSAGE_PROMPT_BLUEPRINT = """    ○
 [ ] ├── Style
-[ ] │   ├── Capitalization Style
+[ ] │   ├── Capitalization
 [x] │   │   └── Commentary Case
 [x] │   └── Briefness Style
 [x] └── Kaye Commit Sense
@@ -25,7 +25,7 @@ PER_FILE_LONG_PROMPT_BLUEPRINT = """ ○
 [ ] ├── Elements
 [x] │   └── Annotation Markers
 [ ] ├── Style
-[ ] │   ├── Capitalization Style
+[ ] │   ├── Capitalization
 [x] │   │   └── Commentary Case
 [x] │   └── Briefness Style
 [x] └── Kaye Commit Sense
@@ -38,7 +38,7 @@ PER_FILE_SHORT_PROMPT_BLUEPRINT = """ ○
 [ ] ├── Elements
 [x] │   └── Annotation Markers
 [ ] ├── Style
-[ ] │   ├── Capitalization Style
+[ ] │   ├── Capitalization
 [x] │   │   └── Commentary Case
 [x] │   └── Briefness Style
 [x] └── Kaye Commit Sense
