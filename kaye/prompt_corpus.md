@@ -721,7 +721,7 @@ select exactly one role. pick the role that matches the **main type of work** th
 - `rapid`: do quick, repetitive, *mechanical* tasks with almost no reasoning (direct text transformations, simple conversions, basic reformatting)
 - `chat`: do general conversation and simple information Q&A (the request is not mainly a transformation and not mainly coding)
 - `coder`: help with programming tasks (write, expand, or edit code; debug; explain code; reason about implementation details)
-- `barista`: when the user shares any coffee-related info (beans, roast/batch, brew recipe, equipment, tasting notes, ratings, prices), or appended into a structured coffee brewing note.
+- `barista`: when the user shares any coffee-related info (beans, roast/batch, brew recipe, equipment, tasting notes, ratings, prices), or appended into a structured coffee brewing note
 
 
 
@@ -931,23 +931,19 @@ Include only heading, must be `##` + coffee brand (of roaster), eg `## Canyon Co
 
 
 #### Level 3: Product
-
 Heading: `###` + coffee product name; often contains *coffee processing methods*; eg `### Ethiopia Sidamo Washed`
 
-Optional content as a list:
+Content may be included as a list using any relevant entries provided by the user; entries are optional and may appear in any combination. Possible entries include:
 
-- origin / country
-- region
-- farm / producer (if known)
-- variety
-- process
-- altitude
-- tasting notes / flavor
-- roast level (free-form or `x/5`)
-- content (e.g., `200 g / bag`)
-- price (with currency)
-
-
+- Region (country, province, etc.)
+- Farm
+- Altitude
+- Process
+- Variety
+- Roast (Level)
+- Content (bean mass per bag)
+- Price (per bag)
+- Flavor (suggested by the roaster, as a list)
 
 
 
@@ -957,9 +953,7 @@ Optional content as a list:
 
 Heading: `#### Roast:` + date of roast of this batch/bag, eg `#### Roast: 02025-01-05`
 
-Content must contains bag-open date.
-
-
+Content must include bag-open date.
 
 
 
@@ -969,20 +963,26 @@ Content must contains bag-open date.
 
 Heading: `##### Brew:` + date-time of brewing session, eg `##### Brew: 02025-01-21-1230`
 
-Content contains 3 lists.
+Content may contain up to 3 lists:
 
-First is `Equipments:`, a bullet list of equipment used in this session; eg grinder, brewer/dripper, filter, kettle, scale, etc.
+First is `Equipments:`, an optional bullet list of equipment used in this session; eg grinder, brewer/dripper, filter, kettle, scale, etc.
 
-Second is `Procedure:`, a numbered list of recipe and steps for this brew; include:
+Second is `Procedure:`, an numbered list of recipe details and steps using any relevant entries provided by the user; entries are optional and may appear in any combination. Possible entries include:
 
 - coffee bean mass
 - grind setting
+- filter rinse
+- preheat
 - water amount and temperature
 - bloom amount & timing
 - pour amount & timing
 - total brew time
+- ratio
+- brewer-specific technique
+- agitation / swirl / stir
+- number of pours
 
-Third is `Experience:`, a bullet list of user's subjective experiences and descriptions.
+Third is `Experience:`, an optional bullet list of the user's subjective experiences and descriptions, included only if provided by the user.
 
 
 
@@ -1003,9 +1003,19 @@ Third is `Experience:`, a bullet list of user's subjective experiences and descr
 
     ## Grainfull Coffee Roaster
 
-    ### Ethiopia Yirgacheffe
+    ### Indonesia Mandheling
 
-    - origin: Ethiopia
+    - Region: Aceh, North Sumatr, Indonesia
+    - Altitude: 1200m
+    - Process: Wet Hulling
+    - Variety: Typica
+    - Roast: Medium
+    - Flavor:
+
+      - Pine
+      - Caramel
+      - Cocoa
+      - Black Chocolate
 
     #### Roast: 02021-04-15
 
@@ -1021,18 +1031,17 @@ Third is `Experience:`, a bullet list of user's subjective experiences and descr
 
     Procedure:
 
-    1. 20 g @ 8 clicks
-    2. 300 mL water + ice
-    3. water: 180 mL @ 92 C
-    4. ice: 120 g @ 0 C (assumed) in dripping cup
-    5. bloom: 16 mL for 30 s
-    6. slowly pour hot water in @ 1:40
-    7. Total brew @2:20
+    1. 20g @ 8 clicks
+    2. 300mL water + ice
+    3. water: 180mL @ 92C
+    4. ice: 120g @ 0C in dripping cup
+    5. bloom: 16mL for 30s
+    6. finish pour: @1:40
+    7. total brew @2:20
 
     Experience:
 
     - good extraction
-    - keep this
     ```
 
 
