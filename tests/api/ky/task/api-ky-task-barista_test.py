@@ -8,7 +8,7 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from tests.api.ky import _assert_rapid_blueprint_opt
+from tests.api.ky.task import _assert_rapid_blueprint_opt
 
 
 # pytest fixtures  #############################################################
