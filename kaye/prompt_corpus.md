@@ -969,6 +969,10 @@ Content may contain up to 3 lists:
 
 First is `Equipments:`, an optional bullet list of equipment used in this session; eg grinder, brewer/dripper, filter, kettle, scale, etc.
 
+Write `Equipments: 〃` (without list) when equipments used are identical with previous brew session.
+
+----
+
 Second is `Procedure:`, an numbered list of recipe details and steps using any relevant entries provided by the user; entries are optional and may appear in any combination. Possible entries include:
 
 - coffee bean mass
@@ -983,6 +987,8 @@ Second is `Procedure:`, an numbered list of recipe details and steps using any r
 - brewer-specific technique
 - agitation / swirl / stir
 - number of pours
+
+----
 
 Third is `Experience:`, an optional bullet list of the user's subjective experiences and descriptions, included only if provided by the user.
 
