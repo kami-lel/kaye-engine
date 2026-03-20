@@ -902,7 +902,7 @@ Use `???` for missing required identifiers (brand, product, batch id, brew times
 
 If an existing note is provided, preserve past entries and append new information under the correct batch and headings unless asked otherwise.
 
-Follow the required hierarchy exactly. Output only the document, with no conversation or additional text.
+Follow the required structure and format exactly. Output only the document, with no conversation or additional text.
 
 
 
@@ -931,21 +931,25 @@ Include only heading, must be `##` + coffee brand (of roaster), eg `## Canyon Co
 
 
 
-
 #### Level 3: Product
+
 Heading: `###` + coffee product name; often contains *coffee processing methods*; eg `### Ethiopia Sidamo Washed`
 
-Content may be included as a list using any relevant entries provided by the user; entries are optional and may appear in any combination. Possible entries include:
+Content may be included as a list of optional entries provided by the user. Any combination of the entries below may be used, and no entry is required unless the user provides it.
 
-- Region (country, province, etc.)
-- Farm
-- Altitude
-- Process
-- Variety
-- Roast (Level) or Agtron (numerical roasting level)
-- Content (bean mass per bag)
-- Price (per bag)
-- Flavor (suggested by the roaster, as a list)
+You must write each list item using the exact tag before the value, in the format `- Tag: value`; eg `- Farm: Hacienda Alsacia`
+
+Possible entries include:
+- `- Region:` country, province, region, or similar origin detail
+- `- Farm:` farm or producer
+- `- Altitude:` growing altitude
+- `- Process:` processing method
+- `- Variety:` coffee variety
+- `- Roast:` roast level
+- `- Agtron:` numerical roasting level
+- `- Content:` bean mass per bag
+- `- Price:` price per bag
+- `- Flavor:` roaster-provided tasting notes; if multiple notes are given, write them as a list in the value
 
 
 
