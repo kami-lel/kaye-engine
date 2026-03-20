@@ -901,7 +901,7 @@ Record and organize only user-provided information. Do not infer, invent, or cor
 
 If an existing note is provided, append new brews under the correct batch and do not change past entries unless asked. Keep formatting consistent.
 
-Output **only** the markdown document. do not add explanations, commentary, or extra sections outside the document
+Output **only** the markdown document. do not add explanations, commentary, or extra sections outside the document. Keep content under the correct heading, do not skip levels
 
 
 
@@ -914,12 +914,6 @@ Output **only** the markdown document. do not add explanations, commentary, or e
 
 
 ### document structure
-
-Keep content under the correct heading, do not skip levels
-
-
-
-
 
 #### Level 1: Document Title
 
@@ -939,7 +933,7 @@ Include only heading, must be `##` + coffee brand (of roaster), eg `## Canyon Co
 
 #### Level 3: Product
 
-Heading must be `###` + coffee product name; often contains *coffee processing methods*; eg `### Ethiopia Sidamo Washed`
+Heading: `###` + coffee product name; often contains *coffee processing methods*; eg `### Ethiopia Sidamo Washed`
 
 Optional content as a list:
 
@@ -962,9 +956,9 @@ Optional content as a list:
 
 #### Level 4: Batch/Bag
 
-Heading must be `#### Roast:` + date of roast of this batch/bag, eg `#### Roast: 02025-01-05`
+Heading: `#### Roast:` + date of roast of this batch/bag, eg `#### Roast: 02025-01-05`
 
-Content must contains open date
+Content must contains bag-open date.
 
 
 
@@ -974,26 +968,22 @@ Content must contains open date
 
 #### Level 5: Brew
 
-Heading must be `##### Brew:` + date-time of brewing session, eg `##### Brew: 02025-01-21-1230`
+Heading: `##### Brew:` + date-time of brewing session, eg `##### Brew: 02025-01-21-1230`
 
-- under each `##### brew: ...`, include these sections when relevant:
-  - `equipments:` followed by a bullet list (grinder, brewer/dripper, filter, kettle, scale, etc.)
-  - `procedure:` followed by a bullet list that captures the recipe and steps. include as many of these as the user provides:
-    - dose (g)
-    - grind setting (including grinder model context if given)
-    - water amount (mL) and temperature (C)
-    - ratio (if derivable)
-    - bloom amount and time
-    - pour schedule / timings
-    - total brew time
-  - `experience:` (optional but recommended) short bullets capturing user feedback:
-    - aroma
-    - sweetness / acidity / bitterness
-    - body / mouthfeel
-    - clarity
-    - finish
-    - defects (astringent, hollow, muddy, etc.)
-    - overall rating (optional)
+Content contains 3 lists.
+
+First is `Equipments:`, a bullet list of equipment used in this session; eg grinder, brewer/dripper, filter, kettle, scale, etc.
+
+Second is `Procedure:`, a numbered list of recipe and steps for this brew; include:
+
+- coffee bean mass
+- grind setting
+- water amount and temperature
+- bloom amount & timing
+- pour amount & timing
+- total brew time
+
+Third is `Experience:`, a bullet list of user's subjective experiences and descriptions.
 
 
 
@@ -1012,28 +1002,36 @@ Heading must be `##### Brew:` + date-time of brewing session, eg `##### Brew: 02
     ```md
     # Coffee Brewing Note
 
-    ## Ethiopia Yirgacheffe
+    ## Grainfull Coffee Roaster
 
-    ### <product>
+    ### Ethiopia Yirgacheffe
 
-    #### Roast: <roast date or batch id>
+    #### Roast: 02021-04-15
 
-    open: <date>
-    Details:
-    - <field>: <value>
-    - <field>: <value>
+    Open: 02021-04-28
 
-    ##### Brew: <timestamp>
+    ##### Brew: 02021-05-04-1216
 
-    equipments:
-    - <item>
-    - <item>
-    procedure:
-    - <step or parameter>
-    - <step or parameter>
-    experience:
-    - <note>
-    - <note>
+    Equipments:
+
+    - Chestnut X
+    - Timemore Crystal Eye Dripper #01
+    - Timemore Coffee Paper Filter V01
+
+    Procedure:
+
+    1. 20 g @ 8 clicks
+    2. 300 mL water + ice
+    3. water: 180 mL @ 92 C
+    4. ice: 120 g @ 0 C (assumed) in dripping cup
+    5. bloom: 16 mL for 30 s
+    6. slowly pour hot water in @ 1:40
+    7. Total brew @2:20
+
+    Experience:
+
+    - good extraction
+    - keep this
     ```
 
 
