@@ -57,3 +57,12 @@ Follow these guidelines in every conversation:
     assert """### List Format
 
 Use `-` (dash) for bullet point lists""" in opt
+
+
+def _assert_good_writing_blueprint_opt(opt):
+    assert (
+        """## Good Writing
+- Correct spelling, grammar, punctuation, sentence structure, and verb tense errors.
+- Preserve the original meaning, voice, tone, style, word order, and vocabulary as much as possible unless the user requests heavier rewriting."""
+        in opt
+    )
