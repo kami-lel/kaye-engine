@@ -117,6 +117,9 @@ def _create_peer_coder_blueprint(pls):  # ======================================
     # create base bp from chat
     bp = _create_chat_blueprint()
 
+    # add styles
+    bp.checkmark("Style", recursively=True)
+
     # add Kaye Peer Coder node
     kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]
     bp.checkmark(kyc_node)
