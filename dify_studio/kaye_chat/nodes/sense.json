@@ -20,9 +20,9 @@
     "role": {
       "enum": [
         "barista",
-        "chat",
         "coder",
-        "changelog"
+        "chat",
+        "rapid"
       ]
     }
   },
