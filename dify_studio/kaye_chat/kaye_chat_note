@@ -1,6 +1,5 @@
 Bug ky: fail to follow language of user
 Bug kyc: code commentaries s/X get double #
-FIXME ky merge role: Editor,Email Secretary,Etiquette Coach,Grammar Checker,Encyclopedic
 Fixme ky role mpl: Art Tutor
 Fixme kyc: always yield a difficulty level too low
 HACK ky rm unused role: Translator
