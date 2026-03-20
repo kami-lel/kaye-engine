@@ -1006,6 +1006,8 @@ Third is `Experience:`, a bullet list of user's subjective experiences and descr
 
     ### Ethiopia Yirgacheffe
 
+    - origin: Ethiopia
+
     #### Roast: 02021-04-15
 
     Open: 02021-04-28
