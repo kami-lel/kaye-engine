@@ -1,4 +1,5 @@
 Fixme ky merge role: Editor,Email Secretary,Etiquette Coach,Grammar Checker,
+Fixme ky role mpl: Art Tutor
 Hack ky rm unused role: Encyclopedic
 Hack ky rm unused role: Translator
 bug ky: fail to follow language of user
@@ -13,5 +14,4 @@ todo ky:utilize models from multiple provider, merge, when extremely difficult t
 todo ky:add 5.1 codex llm
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
 todo consider usage case of "apply"
-todo ky role mpl: Art Tutor
 todo ky role mpl: Deutschlehrer
