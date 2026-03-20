@@ -27,6 +27,12 @@ Kaye Chat *Dify App*:
 ### Changed
 ### Deprecated
 ### Removed
+
+Kaye Chat *Dify App*:
+
+- remaining prompt of *Translator* role
+- remaining prompt of *Enclyelopic* role
+
 ### Fixed
 
 Kaye Chat *Dify App*:

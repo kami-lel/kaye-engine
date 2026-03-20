@@ -100,6 +100,12 @@ def kaye_chat_task():
     elif role == "barista":
         bp = _create_barista_blueprint()
 
+    elif role == "editor":
+        bp = _create_editor_blueprint()
+
+    elif role == "secretary":
+        bp = _create_secretary_blueprint()
+
     else:
         return abort(Response("bad param: ?role={}".format(role), 422))
 
@@ -186,6 +192,21 @@ def _create_barista_blueprint():  # ============================================
 
 
 def _create_changelog_blueprint():  # ==========================================
+    # Fixme changelog blueprint not used
     bp = _create_chat_blueprint()
     bp.checkmark("Changelog Writer")
+    return bp
+
+
+def _create_editor_blueprint():  # =============================================
+    bp = _create_chat_blueprint()
+    bp.checkmark(bp.corpus["Style"]["Good Writing"])
+    bp.checkmark(bp.corpus["Role"]["Editor"], recursively=True)
+    return bp
+
+
+def _create_secretary_blueprint():  # =============================================
+    bp = _create_chat_blueprint()
+    bp.checkmark(bp.corpus["Style"]["Good Writing"])
+    bp.checkmark(bp.corpus["Role"]["Secretary"])
     return bp

@@ -8,7 +8,7 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from tests.api.ky import _assert_rapid_blueprint_opt
+from tests.api.ky.task import _assert_rapid_blueprint_opt
 
 
 # pytest fixtures  #############################################################
@@ -20,22 +20,37 @@ def query_string():
 # pytest  ######################################################################
 class TestBarista:
 
+    def test_rapid(_, flask_test_client, task_endpoint, query_string):
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_rapid_blueprint_opt(opt)
+
     def test1(_, flask_test_client, task_endpoint, query_string):
         response = flask_test_client.get(
             task_endpoint, query_string=query_string
         )
 
         opt = response.get_data().decode("utf-8")
-
         print(opt)
-
-        _assert_rapid_blueprint_opt(opt)
 
         assert (
             """## Date & Time Format
 - Full Date Example: For dates with a specific year, format them as: `Mon 02015-01-15` (Day of the week 0Year-Month-Day)."""
             in opt
         )
+
+    def test2(_, flask_test_client, task_endpoint, query_string):
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
 
         assert (
             """## Assistant Barista
@@ -45,6 +60,13 @@ Transform any user-provided input into the required document format using only p
             in opt
         )
 
+    def test3(_, flask_test_client, task_endpoint, query_string):
+        response = flask_test_client.get(
+            task_endpoint, query_string=query_string
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
         assert """### document structure
 #### Level 1: Document Title
 Include only heading, must be exactly: `# Coffee Brewing Note`""" in opt
