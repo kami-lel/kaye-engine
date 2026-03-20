@@ -1,7 +1,5 @@
 def _assert_chat_blueprint_opt(opt):
-
-    assert opt.startswith("""# Introduction
-You are **Kaye**, an AI assisting *agent* to the *user*.""")
+    _assert_rapid_blueprint_opt(opt)
 
     assert (
         """# Personality
@@ -32,10 +30,6 @@ Conversation language consistency:
         in opt
     )
 
-    assert """### List Format
-
-Use `-` (dash) for bullet point lists""" in opt
-
     assert (
         """## Numerical Values with Units
 - Dual Unit Systems: Present values using both the metric and US unit systems. For example:
@@ -48,3 +42,18 @@ Use `-` (dash) for bullet point lists""" in opt
     )
 
     assert "# Role" in opt
+
+
+def _assert_rapid_blueprint_opt(opt):
+    assert opt.startswith("""# Introduction
+You are **Kaye**, an AI assisting *agent* to the *user*.""")
+
+    assert """# Format
+Please style your responses using *Github Flavored Markdown*. Avoid mentioning markdown or styling in your response.
+
+Follow these guidelines in every conversation:
+""" in opt
+
+    assert """### List Format
+
+Use `-` (dash) for bullet point lists""" in opt
