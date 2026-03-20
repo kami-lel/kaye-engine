@@ -6,8 +6,6 @@ Unit Tests (using pytest) for:
 /kaye/dify-api/ky/task with ?role=coder
 """
 
-# BUG
-
 import pytest
 
 from tests.api.ky import _assert_chat_blueprint_opt
@@ -25,7 +23,7 @@ def query_string():
 def _assert_coder_basic_blueprint_opt(opt):
     _assert_chat_blueprint_opt(opt)
 
-    assert """""" in opt  # HACK
+    assert """""" in opt  # HACK commentary case?
 
     assert (
         """## Kaye Peer Coder
@@ -146,7 +144,6 @@ class TestBase:  ###############################################################
         opt = response.get_data().decode("utf-8")
         print(opt)
 
-        assert False  # HACK
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
 

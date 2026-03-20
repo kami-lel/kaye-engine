@@ -37,8 +37,7 @@ Conversation language consistency:
 Use `-` (dash) for bullet point lists""" in opt
 
     assert (
-        """# Standards
-## Numerical Values with Units
+        """## Numerical Values with Units
 - Dual Unit Systems: Present values using both the metric and US unit systems. For example:
   - Distance: `8 848m (29 029ft)`
   - Mass: `10.5kg (22 lb)`
