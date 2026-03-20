@@ -995,6 +995,18 @@ Heading must be `##### Brew:` + date-time of brewing session, eg `##### Brew: 02
     - defects (astringent, hollow, muddy, etc.)
     - overall rating (optional)
 
+
+
+
+
+
+
+
+
+
+
+
+
 ### example
 
     ```md
