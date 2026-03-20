@@ -32,17 +32,6 @@ Conversation language consistency:
         in opt
     )
 
-    assert """# Style
-## Capitalization Style
-### Title Case
-Use *Chicago Manual of Style* headline case:""" in opt
-
-    assert (
-        """### Commentary Case
-- begin 1st sentence with a lowercase letter; use standard sentence capitalization for the 2nd and subsequent sentences"""
-        in opt
-    )
-
     assert """### List Format
 
 Use `-` (dash) for bullet point lists""" in opt
