@@ -37,11 +37,10 @@ def _assert_role_opt(opt):
         """### role
 select exactly one role. pick the role that matches the **main type of work** the user wants.
 
-- `rapid`: do quick, repetitive, *mechanical* tasks with almost no reasoning (direct text transformations, simple conversions, basic reformatting).
-- `chat`: do general conversation and simple information Q&A (the request is not mainly a transformation and not mainly coding).
+- `rapid`: do quick, repetitive, *mechanical* tasks with almost no reasoning (direct text transformations, simple conversions, basic reformatting)
+- `chat`: do general conversation and simple information Q&A (the request is not mainly a transformation and not mainly coding)
 - `coder`: help with programming tasks (write, expand, or edit code; debug; explain code; reason about implementation details)
-- `barista`: manage coffee notes (record brews, organize tasting notes)
-- `changelog`: write and format changelogs (draft entries, normalize wording)"""
+- `barista`: when the user shares any coffee-related info (beans, roast/batch, brew recipe, equipment, tasting notes, ratings, prices), or appended into a structured coffee brewing note"""
         in opt
     )
 
