@@ -22,6 +22,7 @@
 Kaye Chat *Dify App*:
 
 - *Assistant Barista* role: assisting user managing *Coffee Note*
+- *Editor* & *Secretary* roles, as merging & combination of various roles
 - function docstring for Dify App nodes
 
 ### Changed
