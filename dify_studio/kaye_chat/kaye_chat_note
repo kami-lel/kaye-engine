@@ -1,6 +1,5 @@
 Bug kyc: code commentaries s/X get double #
 Bug kyc: didn't include AMs definition currently
-Todo ky role: librarian
 Fixme kyc: always yield a difficulty level too low
 fixme ky: allow sense early exit, i.e. provide an answer directly
 todo ky: smart sense, take only part of the user's input as sense message:
@@ -14,4 +13,5 @@ todo ky role mpl: Deutschlehrer
 todo ky role mpl: Art Tutor
 todo ky role: changelog
 todo ky role: shelver & Chinese Shelver
+todo ky role: librarian
 todo ky role: Tarot Reader
