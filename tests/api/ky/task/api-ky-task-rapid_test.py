@@ -6,15 +6,7 @@ Unit Tests (using pytest) for:
 /kaye/dify-api/ky/task with role=rapid
 """
 
-# BUG
-
-import pytest
-
-
-# pytest fixtures  #############################################################
-@pytest.fixture
-def query_string():
-    return {"role": "rapid"}
+import json
 
 
 class TestRapid:  ##############################################################
@@ -37,9 +29,13 @@ Please style your responses using *Github Flavored Markdown*. Avoid mentioning m
 
     # tests  ===================================================================
 
-    def test1(self, flask_test_client, task_endpoint, query_string):
+    def test1(self, flask_test_client, task_endpoint):
+        payload = json.dumps({"role": "rapid"})
+
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=payload,
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -48,12 +44,15 @@ Please style your responses using *Github Flavored Markdown*. Avoid mentioning m
         assert opt.startswith(self.answer_start)
         assert opt.endswith(self.answer_end)
 
-    def test_with_pls(self, flask_test_client, task_endpoint, query_string):
-        query_string["programming_languages"] = "abc"
+    def test_with_pls(self, flask_test_client, task_endpoint):
+        payload = json.dumps({"role": "rapid", "programming_languages": "abc"})
 
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=payload,
+            content_type="application/json",
         )
+
         opt = response.get_data().decode("utf-8")
 
         print(opt)
