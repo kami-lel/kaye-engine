@@ -24,11 +24,11 @@ def main(query: str, role: str, programming_languages: str):
     :rtype: dict{"body": str}
     """
 
-    body_content = {
+    body = {
         "query": query,
         "role": role,
         "programming_languages": programming_languages,
     }
-    body = json.dumps(body_content)
+    body_json_dumps = json.dumps(body)
 
-    return {OUTPUT_BODY_KEY: body}
+    return {OUTPUT_BODY_KEY: body_json_dumps}
