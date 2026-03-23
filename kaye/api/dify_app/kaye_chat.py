@@ -117,7 +117,6 @@ def kaye_chat_task():
             Response("bad value of 'role' in body: {}".format(role), 422)
         )
 
-    # TODO unit test
     # query and abbr  ----------------------------------------------------------
     kwargs = {"query": query}
 

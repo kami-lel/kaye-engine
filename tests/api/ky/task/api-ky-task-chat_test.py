@@ -3,7 +3,7 @@ api-ky-task-chat_test.py
 
 Unit Tests (using pytest) for:
 
-/kaye/dify-api/ky/task with ?role=chat
+/kaye/dify-api/ky/task with role=chat
 """
 
 import json
