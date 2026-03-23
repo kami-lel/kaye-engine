@@ -16,12 +16,14 @@ class TestChat:  ###############################################################
 
     # tests  ===================================================================
 
-    def test1(self, flask_test_client, task_endpoint):
+    def test1(self, flask_test_client, task_endpoint):  # BUG
         # should be ignored
         payload = {"role": "chat"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -34,7 +36,9 @@ class TestChat:  ###############################################################
         payload = {"role": "chat", "programming_languages": "abc"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -54,7 +58,9 @@ class TestChat:  ###############################################################
         payload = {"role": ""}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")

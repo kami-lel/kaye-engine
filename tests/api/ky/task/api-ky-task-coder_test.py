@@ -6,9 +6,6 @@ Unit Tests (using pytest) for:
 /kaye/dify-api/ky/task with role=coder
 """
 
-# BUG
-
-
 import json
 
 
@@ -151,7 +148,9 @@ class TestBase:  ###############################################################
         payload = {"role": "coder"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -164,7 +163,9 @@ class TestBase:  ###############################################################
         payload = {"role": "coder", "programming_languages": ""}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -177,7 +178,9 @@ class TestBase:  ###############################################################
         payload = {"role": "coder", "programming_languages": ","}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -193,7 +196,9 @@ class TestIndv:  ###############################################################
         payload = {"role": "coder", "programming_languages": "c"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -207,7 +212,9 @@ class TestIndv:  ###############################################################
         payload = {"role": "coder", "programming_languages": "cpp"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -221,7 +228,9 @@ class TestIndv:  ###############################################################
     def test_ue(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "ue"}
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -237,7 +246,9 @@ class TestIndv:  ###############################################################
         payload = {"role": "coder", "programming_languages": "csharp"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -251,7 +262,9 @@ class TestIndv:  ###############################################################
         payload = {"role": "coder", "programming_languages": "u3d"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -266,7 +279,9 @@ class TestIndv:  ###############################################################
         payload = {"role": "coder", "programming_languages": "gdscript"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -280,7 +295,9 @@ class TestIndv:  ###############################################################
         payload = {"role": "coder", "programming_languages": "html"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -294,7 +311,9 @@ class TestIndv:  ###############################################################
         payload = {"role": "coder", "programming_languages": "js"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -308,7 +327,9 @@ class TestIndv:  ###############################################################
         payload = {"role": "coder", "programming_languages": "ts"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -322,7 +343,9 @@ class TestIndv:  ###############################################################
         payload = {"role": "coder", "programming_languages": "qt"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -336,7 +359,9 @@ class TestIndv:  ###############################################################
         payload = {"role": "coder", "programming_languages": "qml"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -351,7 +376,9 @@ class TestIndv:  ###############################################################
         payload = {"role": "coder", "programming_languages": "py"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -365,7 +392,9 @@ class TestIndv:  ###############################################################
         payload = {"role": "coder", "programming_languages": "console"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -383,7 +412,9 @@ class TestMux:  ################################################################
         payload = {"role": "coder", "programming_languages": "c,cpp,ue"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -402,7 +433,9 @@ class TestMux:  ################################################################
         }
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -419,7 +452,9 @@ class TestMux:  ################################################################
         payload = {"role": "coder", "programming_languages": "py,qt,u3d"}
 
         response = flask_test_client.get(
-            task_endpoint, data=json.dumps(payload)
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
