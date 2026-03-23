@@ -89,9 +89,11 @@ def kaye_chat_task():
     body = request.get_json(silent=True) or {}
 
     # default to chat
-    role = body.get(BODY_ROLE_KEY, "chat")
-    pls = body.get(BODY_PROGRAMMING_LANGUAGES_KEY, "")
-    query = body.get(BODY_QUERY_KEY, "")
+    role = body.get(BODY_ROLE_KEY) or "chat"
+    pls = body.get(BODY_PROGRAMMING_LANGUAGES_KEY) or ""
+    query = body.get(BODY_QUERY_KEY) or ""
+
+    print(role)  # HACK
 
     # create bp  ---------------------------------------------------------------
     if role == "chat":

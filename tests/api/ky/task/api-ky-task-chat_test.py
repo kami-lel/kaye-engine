@@ -16,7 +16,7 @@ class TestChat:  ###############################################################
 
     # tests  ===================================================================
 
-    def test1(self, flask_test_client, task_endpoint):  # BUG
+    def test1(self, flask_test_client, task_endpoint):
         # should be ignored
         payload = {"role": "chat"}
 
