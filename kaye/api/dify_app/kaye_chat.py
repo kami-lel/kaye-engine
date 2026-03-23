@@ -205,7 +205,7 @@ def _create_editor_blueprint():  # =============================================
     return bp
 
 
-def _create_secretary_blueprint():  # =============================================
+def _create_secretary_blueprint():  # ==========================================
     bp = _create_chat_blueprint()
     bp.checkmark(bp.corpus["Style"]["Good Writing"])
     bp.checkmark(bp.corpus["Role"]["Secretary"])
