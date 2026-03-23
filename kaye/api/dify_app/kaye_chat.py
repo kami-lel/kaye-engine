@@ -14,8 +14,9 @@ from kaye import PROGRAM_NAME
 from kaye.prompt import PromptBlueprint, load_embedded_blueprint
 
 # constants  ###################################################################
-PARAM_ROLE_KEY = "role"
-PARAM_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
+BODY_ROLE_KEY = "role"
+BODY_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
+BODY_QUERY_KEY = "query"
 
 
 # Blueprints  ##################################################################
@@ -57,7 +58,7 @@ ky_bp = Blueprint("kaye-chat", PROGRAM_NAME, url_prefix="/ky")
 # /kaye/dify-app/ky/sense  =====================================================
 @ky_bp.route("/sense", methods=["GET"])
 def kaye_chat_sense():
-    role = request.args.get(PARAM_ROLE_KEY)
+    role = request.args.get(BODY_ROLE_KEY)
 
     blueprint = PromptBlueprint.parse(
         SENSE_PROMPT_BLUEPRINT, disable_prune=True
@@ -85,10 +86,15 @@ def kaye_chat_sense():
 # /kaye/dify-app/ky/task  ======================================================
 @ky_bp.route("/task", methods=["GET"])
 def kaye_chat_task():
+    body = request.get_json(silent=True) or {}
     # FIXME get from use json typed body
-    role = request.args.get(PARAM_ROLE_KEY) or "chat"  # default to chat
-    pls = request.args.get(PARAM_PROGRAMMING_LANGUAGES_KEY) or ""
 
+    # default to chat
+    role = body.get(BODY_ROLE_KEY, "chat")
+    pls = body.get(BODY_PROGRAMMING_LANGUAGES_KEY, "")
+    query = body.get(BODY_QUERY_KEY, "")
+
+    # create bp  ---------------------------------------------------------------
     if role == "chat":
         bp = _create_chat_blueprint()
 
@@ -110,6 +116,7 @@ def kaye_chat_task():
     else:
         return abort(Response("bad param: ?role={}".format(role), 422))
 
+    # query and abbr  ----------------------------------------------------------
     kwargs = {}  # TODO ky: use AbbrNode consider
 
     return bp.generate_prompt(**kwargs)
