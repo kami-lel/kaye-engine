@@ -3,8 +3,10 @@ api-ky-task-barista_test.py
 
 Unit Tests (using pytest) for:
 
-/kaye/dify-api/ky/task with ?role=barista
+/kaye/dify-api/ky/task with role=barista
 """
+
+import json
 
 import pytest
 
@@ -13,16 +15,19 @@ from tests.api.ky.task import _assert_rapid_blueprint_opt
 
 # pytest fixtures  #############################################################
 @pytest.fixture
-def query_string():
-    return {"role": "barista"}
+def payload_json_dumps():
+    payload = {"role": "barista"}
+    return json.dumps(payload)
 
 
 # pytest  ######################################################################
 class TestBarista:
 
-    def test_rapid(_, flask_test_client, task_endpoint, query_string):
+    def test_rapid(_, flask_test_client, task_endpoint, payload_json_dumps):
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=payload_json_dumps,
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -30,9 +35,11 @@ class TestBarista:
 
         _assert_rapid_blueprint_opt(opt)
 
-    def test1(_, flask_test_client, task_endpoint, query_string):
+    def test1(_, flask_test_client, task_endpoint, payload_json_dumps):
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=payload_json_dumps,
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -44,9 +51,11 @@ class TestBarista:
             in opt
         )
 
-    def test2(_, flask_test_client, task_endpoint, query_string):
+    def test2(_, flask_test_client, task_endpoint, payload_json_dumps):
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=payload_json_dumps,
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -60,9 +69,11 @@ Transform any user-provided input into the required document format using only p
             in opt
         )
 
-    def test3(_, flask_test_client, task_endpoint, query_string):
+    def test3(_, flask_test_client, task_endpoint, payload_json_dumps):
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=payload_json_dumps,
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
