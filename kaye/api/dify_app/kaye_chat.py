@@ -85,6 +85,7 @@ def kaye_chat_sense():
 # /kaye/dify-app/ky/task  ======================================================
 @ky_bp.route("/task", methods=["GET"])
 def kaye_chat_task():
+    # FIXME get from use json typed body
     role = request.args.get(PARAM_ROLE_KEY) or "chat"  # default to chat
     pls = request.args.get(PARAM_PROGRAMMING_LANGUAGES_KEY) or ""
 
