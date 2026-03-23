@@ -87,7 +87,6 @@ def kaye_chat_sense():
 @ky_bp.route("/task", methods=["GET"])
 def kaye_chat_task():
     body = request.get_json(silent=True) or {}
-    # FIXME get from use json typed body
 
     # default to chat
     role = body.get(BODY_ROLE_KEY, "chat")
