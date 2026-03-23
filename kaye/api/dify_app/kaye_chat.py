@@ -93,8 +93,6 @@ def kaye_chat_task():
     pls = body.get(BODY_PROGRAMMING_LANGUAGES_KEY) or ""
     query = body.get(BODY_QUERY_KEY) or ""
 
-    print(role)  # HACK
-
     # create bp  ---------------------------------------------------------------
     if role == "chat":
         bp = _create_chat_blueprint()
@@ -120,7 +118,7 @@ def kaye_chat_task():
         )
 
     # query and abbr  ----------------------------------------------------------
-    kwargs = {}  # TODO ky: use AbbrNode consider
+    kwargs = {"query": query}
 
     return bp.generate_prompt(**kwargs)
 
