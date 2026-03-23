@@ -13,7 +13,6 @@ from tests.api.ky.task import _assert_chat_blueprint_opt
 
 
 class TestChat:  ###############################################################
-    # FIXME unit test using json
 
     # tests  ===================================================================
 
