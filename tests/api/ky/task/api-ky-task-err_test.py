@@ -22,4 +22,4 @@ class TestErrRole:
         opt = response.get_data(as_text=True)
 
         assert response._status_code == 422
-        assert opt == "bad param: ?role=abc"  # BUG
+        assert opt == "bad value of 'role' in body: abc"

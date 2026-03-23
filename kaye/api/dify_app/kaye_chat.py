@@ -113,7 +113,9 @@ def kaye_chat_task():
         bp = _create_secretary_blueprint()
 
     else:
-        return abort(Response("bad param: ?role={}".format(role), 422))
+        return abort(
+            Response("bad value of 'role' in body: {}".format(role), 422)
+        )
 
     # query and abbr  ----------------------------------------------------------
     kwargs = {}  # TODO ky: use AbbrNode consider
