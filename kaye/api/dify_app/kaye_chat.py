@@ -109,8 +109,9 @@ def kaye_chat_task():
     else:
         return abort(Response("bad param: ?role={}".format(role), 422))
 
-    # TODO ky: use AbbrNode
-    return bp.generate_prompt()
+    kwargs = {}  # TODO ky: use AbbrNode consider
+
+    return bp.generate_prompt(**kwargs)
 
 
 # task blueprints  #############################################################
