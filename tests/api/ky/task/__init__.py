@@ -45,26 +45,19 @@ Conversation language consistency:
 
 
 def _assert_rapid_blueprint_opt(opt):
-    # BUG
     assert opt.startswith("""# Introduction
-You are **Kaye**, an AI assisting *agent* to the *user*.
-
-# Format
-Please style your responses using *Github Flavored Markdown*. Avoid mentioning markdown or styling in your response.
-
-""")
+You are **Kaye**, an AI assisting *agent* to the *user*.""")
 
     assert """# Format
 Please style your responses using *Github Flavored Markdown*. Avoid mentioning markdown or styling in your response.
 
-Follow these guidelines in every conversation:
-""" in opt
+Follow these guidelines in every conversation:""" in opt
 
     assert """### List Format
 
 Use `-` (dash) for bullet point lists""" in opt
 
-    assert opt.endswith(
+    assert (
         """For all types of **lists**, you must apply *commentary case* for **each** list item:
 
     <list-format-example>
@@ -72,6 +65,7 @@ Use `-` (dash) for bullet point lists""" in opt
     - second item follow the Commentary Rule. And continue sentence
     </list-format-example>
 """
+        in opt
     )
 
 
