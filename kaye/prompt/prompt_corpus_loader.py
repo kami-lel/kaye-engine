@@ -79,7 +79,7 @@ def load_prompt_corpus_tree():
         LanguageCodeNode,
         PLCNode,
     ):
-        pass  # TODO
+        node_type(prompt_corpus_tree)
 
     return prompt_corpus_tree
 
