@@ -8,6 +8,8 @@ Unit Tests (using pytest) for:
 
 import json
 
+from tests.api.ky.task import _assert_rapid_blueprint_opt
+
 # pytest  ######################################################################
 
 
@@ -26,6 +28,9 @@ class TestSingle:  # ===========================================================
         opt = response.get_data().decode("utf-8")
 
         print(opt)
+
+        _assert_rapid_blueprint_opt(opt)
+        assert "abc" in opt
 
     # TODO unit test
 
