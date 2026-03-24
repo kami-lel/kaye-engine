@@ -3,19 +3,13 @@ api-ky-task-coder_test.py
 
 Unit Tests (using pytest) for:
 
-/kaye/dify-api/ky/task with ?role=coder
+/kaye/dify-api/ky/task with role=coder
 """
 
-import pytest
+import json
+
 
 from tests.api.ky.task import _assert_chat_blueprint_opt
-
-
-# pytest fixtures  #############################################################
-@pytest.fixture
-def query_string():
-    return {"role": "coder"}
-
 
 # helper  ######################################################################
 
@@ -150,9 +144,13 @@ class TestBase:  ###############################################################
 
     # tests  ===================================================================
 
-    def test_no_plc(_, flask_test_client, task_endpoint, query_string):
+    def test_no_plc(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder"}
+
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -161,10 +159,13 @@ class TestBase:  ###############################################################
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
 
-    def test_empty_plc1(_, flask_test_client, task_endpoint, query_string):
-        query_string["programming_languages"] = ""
+    def test_empty_plc1(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": ""}
+
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -173,10 +174,13 @@ class TestBase:  ###############################################################
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
 
-    def test_empty_plc2(_, flask_test_client, task_endpoint, query_string):
-        query_string["programming_languages"] = ","
+    def test_empty_plc2(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": ","}
+
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -188,12 +192,13 @@ class TestBase:  ###############################################################
 
 class TestIndv:  ###############################################################
 
-    def test_c(_, flask_test_client, task_endpoint, query_string):
-        pls = "c"
+    def test_c(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "c"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -203,12 +208,13 @@ class TestIndv:  ###############################################################
         _assert_coder_basic_blueprint_opt(opt)
         _assert_c_opt(opt)
 
-    def test_cpp(_, flask_test_client, task_endpoint, query_string):
-        pls = "cpp"
+    def test_cpp(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "cpp"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -219,12 +225,12 @@ class TestIndv:  ###############################################################
         _assert_c_opt(opt)
         _assert_cpp_opt(opt)
 
-    def test_ue(_, flask_test_client, task_endpoint, query_string):
-        pls = "ue"
-
-        query_string["programming_languages"] = pls
+    def test_ue(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "ue"}
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -236,12 +242,13 @@ class TestIndv:  ###############################################################
         _assert_cpp_opt(opt)
         _assert_ue_opt(opt)
 
-    def test_cs(_, flask_test_client, task_endpoint, query_string):
-        pls = "csharp"
+    def test_cs(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "csharp"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -251,12 +258,13 @@ class TestIndv:  ###############################################################
         _assert_coder_basic_blueprint_opt(opt)
         _assert_cs_opt(opt)
 
-    def test_u3d(_, flask_test_client, task_endpoint, query_string):
-        pls = "u3d"
+    def test_u3d(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "u3d"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -267,12 +275,13 @@ class TestIndv:  ###############################################################
         _assert_cs_opt(opt)
         _assert_u3d_opt(opt)
 
-    def test_gd(_, flask_test_client, task_endpoint, query_string):
-        pls = "gdscript"
+    def test_gd(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "gdscript"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -282,12 +291,13 @@ class TestIndv:  ###############################################################
         _assert_coder_basic_blueprint_opt(opt)
         _assert_gd_opt(opt)
 
-    def test_html(_, flask_test_client, task_endpoint, query_string):
-        pls = "html"
+    def test_html(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "html"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -297,12 +307,13 @@ class TestIndv:  ###############################################################
         _assert_coder_basic_blueprint_opt(opt)
         _assert_html_opt(opt)
 
-    def test_js(_, flask_test_client, task_endpoint, query_string):
-        pls = "js"
+    def test_js(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "js"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -312,12 +323,13 @@ class TestIndv:  ###############################################################
         _assert_coder_basic_blueprint_opt(opt)
         _assert_js_ts_opt(opt)
 
-    def test_ts(_, flask_test_client, task_endpoint, query_string):
-        pls = "ts"
+    def test_ts(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "ts"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -327,12 +339,13 @@ class TestIndv:  ###############################################################
         _assert_coder_basic_blueprint_opt(opt)
         _assert_js_ts_opt(opt)
 
-    def test_qt(_, flask_test_client, task_endpoint, query_string):
-        pls = "qt"
+    def test_qt(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "qt"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -342,12 +355,13 @@ class TestIndv:  ###############################################################
         _assert_coder_basic_blueprint_opt(opt)
         _assert_qt_opt
 
-    def test_qml(_, flask_test_client, task_endpoint, query_string):
-        pls = "qml"
+    def test_qml(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "qml"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -358,12 +372,13 @@ class TestIndv:  ###############################################################
         _assert_qt_opt
         _assert_qml_opt
 
-    def test_py(_, flask_test_client, task_endpoint, query_string):
-        pls = "py"
+    def test_py(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "py"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -373,12 +388,13 @@ class TestIndv:  ###############################################################
         _assert_coder_basic_blueprint_opt(opt)
         _assert_py_opt(opt)
 
-    def test_console(_, flask_test_client, task_endpoint, query_string):
-        pls = "console"
+    def test_console(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "console"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -392,12 +408,13 @@ These keywords indicate the severity of a message:""" in opt
 
 class TestMux:  ################################################################
 
-    def test1(_, flask_test_client, task_endpoint, query_string):
-        pls = "c,cpp,ue"
+    def test1(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "c,cpp,ue"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -409,12 +426,16 @@ class TestMux:  ################################################################
         _assert_cpp_opt(opt)
         _assert_ue_opt(opt)
 
-    def test2(_, flask_test_client, task_endpoint, query_string):
-        pls = "gdscript,html,js,qt"
+    def test2(_, flask_test_client, task_endpoint):
+        payload = {
+            "role": "coder",
+            "programming_languages": "gdscript,html,js,qt",
+        }
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")
@@ -427,12 +448,13 @@ class TestMux:  ################################################################
         _assert_js_ts_opt(opt)
         _assert_qt_opt(opt)
 
-    def test3(_, flask_test_client, task_endpoint, query_string):
-        pls = "py,qt,u3d"
+    def test3(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "py,qt,u3d"}
 
-        query_string["programming_languages"] = pls
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
         )
 
         opt = response.get_data().decode("utf-8")

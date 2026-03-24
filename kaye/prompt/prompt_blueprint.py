@@ -300,7 +300,7 @@ class PromptBlueprint(dict):
 
         return "\n".join(lines)
 
-    def generate_prompt(self, *, show_comment=False):
+    def generate_prompt(self, *, show_comment=False, **kwargs):
         """
         render the **concrete prompt** that can be used as LLM system message
         with it content based on node's checkmarking status of this blueprint
@@ -323,7 +323,7 @@ class PromptBlueprint(dict):
                     HEADING_PREFIX_ELEMENT * node.depth + " " + node.name
                 )
                 # content lines
-                content_lines = node.content_lines()
+                content_lines = node.content_lines(**kwargs)
                 if content_lines:
                     lines.extend(content_lines)
                     if i != last_node_idx:
@@ -415,6 +415,7 @@ class PromptBlueprint(dict):
         return "{}Kaye v{}".format(name_part, kaye_version)
 
     def _parse_add_dynamic_node(self, heading, parent):
+        # Bug adds multiple nodes
         # early exit for non-dynamic node
         if not DynamicNode.ID_PATTERN.match(heading):
             return False

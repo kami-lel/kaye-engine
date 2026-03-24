@@ -11,11 +11,12 @@ from flask import Blueprint, request, abort, Response
 
 
 from kaye import PROGRAM_NAME
-from kaye.prompt import PromptBlueprint, load_embedded_blueprint
+from kaye.prompt import PromptBlueprint
 
 # constants  ###################################################################
-PARAM_ROLE_KEY = "role"
-PARAM_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
+BODY_ROLE_KEY = "role"
+BODY_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
+BODY_QUERY_KEY = "query"
 
 
 # Blueprints  ##################################################################
@@ -46,7 +47,14 @@ CHAT_PROMPT_BLUEPRINT = """    ○
 [x] ├── Format
 [x] ├── Elements
 [x] │   └── Numerical Values with Units
-[x] └── Role"""
+[x] ├── Role
+[x] └── {Abbreviations}"""
+
+
+RAPID_PROMPT_BLUEPRINT = """    ○
+[x] ├── Introduction
+[x] ├── Format
+[x] └── {Abbreviations}"""
 
 
 # Flask Routing  ###############################################################
@@ -57,7 +65,7 @@ ky_bp = Blueprint("kaye-chat", PROGRAM_NAME, url_prefix="/ky")
 # /kaye/dify-app/ky/sense  =====================================================
 @ky_bp.route("/sense", methods=["GET"])
 def kaye_chat_sense():
-    role = request.args.get(PARAM_ROLE_KEY)
+    role = request.args.get(BODY_ROLE_KEY)
 
     blueprint = PromptBlueprint.parse(
         SENSE_PROMPT_BLUEPRINT, disable_prune=True
@@ -85,14 +93,19 @@ def kaye_chat_sense():
 # /kaye/dify-app/ky/task  ======================================================
 @ky_bp.route("/task", methods=["GET"])
 def kaye_chat_task():
-    role = request.args.get(PARAM_ROLE_KEY) or "chat"  # default to chat
-    pls = request.args.get(PARAM_PROGRAMMING_LANGUAGES_KEY) or ""
+    body = request.get_json(silent=True) or {}
 
+    # default to chat
+    role = body.get(BODY_ROLE_KEY) or "chat"
+    pls = body.get(BODY_PROGRAMMING_LANGUAGES_KEY) or ""
+    query = body.get(BODY_QUERY_KEY) or ""
+
+    # create bp  ---------------------------------------------------------------
     if role == "chat":
         bp = _create_chat_blueprint()
 
     elif role == "rapid":
-        bp = load_embedded_blueprint("rapid")
+        bp = _create_rapid_blueprint()
 
     elif role == "coder":
         bp = _create_peer_coder_blueprint(pls)
@@ -107,13 +120,23 @@ def kaye_chat_task():
         bp = _create_secretary_blueprint()
 
     else:
-        return abort(Response("bad param: ?role={}".format(role), 422))
+        return abort(
+            Response("bad value of 'role' in body: {}".format(role), 422)
+        )
 
-    # Todo ky: use AbbrNode
-    return bp.generate_prompt()
+    # query and abbr  ----------------------------------------------------------
+    kwargs = {"query": query}
+
+    return bp.generate_prompt(**kwargs)
 
 
 # task blueprints  #############################################################
+
+
+def _create_rapid_blueprint():
+    return PromptBlueprint.parse(RAPID_PROMPT_BLUEPRINT)
+
+
 def _create_chat_blueprint():  # ===============================================
     return PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT)
 
@@ -185,7 +208,7 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
 
 def _create_barista_blueprint():  # ============================================
-    bp = load_embedded_blueprint("rapid")
+    bp = _create_rapid_blueprint()
     bp.checkmark("Date & Time Format")
     bp.checkmark("Assistant Barista", recursively=True)
     return bp
@@ -205,7 +228,7 @@ def _create_editor_blueprint():  # =============================================
     return bp
 
 
-def _create_secretary_blueprint():  # =============================================
+def _create_secretary_blueprint():  # ==========================================
     bp = _create_chat_blueprint()
     bp.checkmark(bp.corpus["Style"]["Good Writing"])
     bp.checkmark(bp.corpus["Role"]["Secretary"])
