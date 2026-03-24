@@ -11,7 +11,7 @@ from flask import Blueprint, request, abort, Response
 
 
 from kaye import PROGRAM_NAME
-from kaye.prompt import PromptBlueprint, load_embedded_blueprint
+from kaye.prompt import PromptBlueprint
 
 # constants  ###################################################################
 BODY_ROLE_KEY = "role"
@@ -127,6 +127,7 @@ def kaye_chat_task():
     # query and abbr  ----------------------------------------------------------
     kwargs = {"query": query}
 
+    # BUG mux insertion of abbrs
     return bp.generate_prompt(**kwargs)
 
 

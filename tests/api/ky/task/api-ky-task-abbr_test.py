@@ -133,5 +133,20 @@ class TestSingle:  # ===========================================================
 
 class TestMux:  # ==============================================================
 
-    def test1(_):
-        pass  # TODO more unit test
+    def test1(self, flask_test_client, task_endpoint):
+        query = "something achv aknlg w/ admin"
+        payload = {"role": "rapid", "query": query}
+
+        response = flask_test_client.get(
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
+        )
+
+        opt = response.get_data().decode("utf-8")
+
+        print(opt)
+
+        _assert_rapid_blueprint_opt(opt)
+        _assert_abbreviations_heading(opt)
+        assert False  # BUG mux insertion of abbrs
