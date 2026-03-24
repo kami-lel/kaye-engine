@@ -24,10 +24,7 @@ class Test1:  ##################################################################
 
         node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
-        assert (
-            node_obj.generate_identifier_lineage()
-            == node.generate_identifier_lineage()
-        )
+        assert node_obj.generate_lineage() == node.generate_lineage()
         assert node_hash == hash(node)
 
     def test_by_obj1(_, corpus_testee1, bp_testee2pa1):
@@ -37,10 +34,7 @@ class Test1:  ##################################################################
 
         node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
-        assert (
-            node_obj.generate_identifier_lineage()
-            == node.generate_identifier_lineage()
-        )
+        assert node_obj.generate_lineage() == node.generate_lineage()
         assert node_hash == hash(node)
 
     def test_by_hash1(_, corpus_testee1, bp_testee2pa1):
@@ -50,10 +44,7 @@ class Test1:  ##################################################################
 
         node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
-        assert (
-            node_obj.generate_identifier_lineage()
-            == node.generate_identifier_lineage()
-        )
+        assert node_obj.generate_lineage() == node.generate_lineage()
         assert node_hash == hash(node)
 
     # Description  =============================================================
@@ -65,10 +56,7 @@ class Test1:  ##################################################################
 
         node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
-        assert (
-            node_obj.generate_identifier_lineage()
-            == node.generate_identifier_lineage()
-        )
+        assert node_obj.generate_lineage() == node.generate_lineage()
         assert node_hash == hash(node)
 
     def test_by_obj3(_, corpus_testee1, bp_testee2pa1):
@@ -78,10 +66,7 @@ class Test1:  ##################################################################
 
         node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
-        assert (
-            node_obj.generate_identifier_lineage()
-            == node.generate_identifier_lineage()
-        )
+        assert node_obj.generate_lineage() == node.generate_lineage()
         assert node_hash == hash(node)
 
     def test_by_hash2(_, corpus_testee1, bp_testee2pa1):
@@ -91,10 +76,7 @@ class Test1:  ##################################################################
 
         node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
 
-        assert (
-            node_obj.generate_identifier_lineage()
-            == node.generate_identifier_lineage()
-        )
+        assert node_obj.generate_lineage() == node.generate_lineage()
         assert node_hash == hash(node)
 
     # err handling  ============================================================

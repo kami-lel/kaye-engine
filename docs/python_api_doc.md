@@ -96,7 +96,7 @@ To access node's textual **content lines**, use `.content_lines()` (typed `list`
 
 ##### lineage
 
-Use `.generate_identifier_lineage()` to get a linage from root (exclusively) to current node (inclusively,) represented as a ``list`` of node's ``.identifier``.
+Use `.generate_lineage()` to get a linage from root (exclusively) to current node (inclusively,) represented as a ``list`` of node's ``.identifier``.
 
 > [!TIP]
 > Since root is excluded from lineage, tree with different root nodes' names may produce identical lineage.
@@ -118,11 +118,11 @@ E.g.
 
 ----
 
-`hash()` of a `BasePromptNode` is also based on `.generate_identifier_lineage()`
+`hash()` of a `BasePromptNode` is also based on `.generate_lineage()`
 
 ----
 
-`==` operator of nodes is also based on `.generate_identifier_lineage()`.
+`==` operator of nodes is also based on `.generate_lineage()`.
 I.e. `a == b` return whether two nodes has the same lineage.
 
 Additionally, if both nodes are roots, test whether 2 trees are identical in node name structure (node content is irrelevant)

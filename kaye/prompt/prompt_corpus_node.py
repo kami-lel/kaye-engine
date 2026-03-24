@@ -59,7 +59,6 @@ class PromptCorpusNode(BasePromptNode):
 
     @property
     def identifier(self):  # FIXME rm identifier
-        raise NotImplementedError
         # for PromptCorpusNode, identical to heading
         return self.name
 
