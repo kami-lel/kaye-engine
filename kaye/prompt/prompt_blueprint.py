@@ -182,7 +182,7 @@ class PromptBlueprint(dict):
     # node operations  *********************************************************
     def is_checkmarked(self, node):
         """
-        :param key: node object; hash value; name or identifier
+        :param key: node object; hash value; name
         :type node: BasePromptNode or int or str
         :raises TypeError:
         :raise ValueError:
@@ -199,7 +199,7 @@ class PromptBlueprint(dict):
         (will add node into this blueprint if not, then checkmarked it)
 
 
-        :param key: node object; hash value; name or identifier
+        :param key: node object; hash value; name
         :type node: BasePromptNode or int or str
         :param recursively: allow checkmarks on node's descendants,
                 defaults to False
@@ -217,7 +217,7 @@ class PromptBlueprint(dict):
         (node must be contained in this blueprint)
 
 
-        :param key: node object; hash value; name or identifier
+        :param key: node object; hash value; name
         :type node: BasePromptNode or int or str
         :param recursively: allow checkmarks on node's descendants,
                 defaults to False
@@ -282,7 +282,7 @@ class PromptBlueprint(dict):
                 checkmark_prefix = EMPTY_PREFIX
 
             # e.g. "[x] │   └── Capitalization Style"
-            node_line = checkmark_prefix + pre + node.identifier
+            node_line = checkmark_prefix + pre + node.name
             lines.append(node_line)
 
             # lines for content preview part
@@ -512,7 +512,7 @@ class PromptBlueprint(dict):
         - ``.is_checkmarked()``
         - ``.__contains__()``
 
-        to search a node in corpus providing node object/name/identifier/hash
+        to search a node in corpus providing node object/name/hash
 
 
         :raises TypeError:
@@ -520,7 +520,7 @@ class PromptBlueprint(dict):
         """
         corpus_and_descendants = [self.corpus] + list(self.corpus.descendants)
 
-        # search by name/identifier  -------------------------------------------
+        # search by name   -----------------------------------------------------
         if isinstance(node_arg, str):
             node_obj = None
 
@@ -532,9 +532,7 @@ class PromptBlueprint(dict):
 
             if node_obj is None:
                 raise ValueError(
-                    "no node in corpus with name/identifier: {}".format(
-                        repr(node_arg)
-                    )
+                    "no node in corpus with name: {}".format(repr(node_arg))
                 )
 
             node_hash = hash(node_obj)
@@ -568,8 +566,9 @@ class PromptBlueprint(dict):
 
         else:
             raise TypeError(
-                "must be BasePromptNode/"
-                "int(hash value)/str(name/identifier): {}".format(node_arg)
+                "must be BasePromptNode/int(hash value)/str(name): {}".format(
+                    node_arg
+                )
             )
 
         return node_obj, node_hash
@@ -581,7 +580,7 @@ class PromptBlueprint(dict):
         allow ``PromptBlueprint`` to perform membership tests
 
 
-        :param key: node object; hash value; name or identifier
+        :param key: node object; hash value; name
         :type key: PromptCorpusNode or int or str
         :raises ValueError:
         :return: if blueprint contains the node
