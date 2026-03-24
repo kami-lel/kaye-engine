@@ -14,12 +14,9 @@ class AbbrNode(DynamicNode):  ##################################################
     based on a given ``query`` content
     """
 
+    # implement DynamicNode  ===================================================
+
     HEADING = "Abbreviations"
-
-    # constructor  =============================================================
-
-    def __init__(self, parent):
-        super().__init__(self.HEADING, parent)
 
     # implement BasePromptNode  ================================================
 
@@ -58,10 +55,9 @@ class UsableAbbrNode(DynamicNode):  ############################################
     dynamic node to provide **Usable Abbreviations**
     """
 
-    HEADING = "Usable Abbreviations"
+    # implement DynamicNode  ===================================================
 
-    def __init__(self, parent):
-        super().__init__(self.HEADING, parent)
+    HEADING = "Usable Abbreviations"
 
     # implement BasePromptNode  ================================================
 
@@ -82,12 +78,9 @@ class LanguageCodeNode(DynamicNode):  ##########################################
     dynamic node to provide **Languages Code**
     """
 
+    # implement DynamicNode  ===================================================
+
     HEADING = "Languages Code"
-
-    # constructor  =============================================================
-
-    def __init__(self, parent):
-        super().__init__(self.HEADING, parent)
 
     # implement BasePromptNode  ================================================
 
@@ -108,12 +101,9 @@ class PLCNode(DynamicNode):  ###################################################
     dynamic node to provide **Programming Languages Code**
     """
 
+    # implement DynamicNode  ===================================================
+
     HEADING = "Programming Languages Code"
-
-    # constructor  =============================================================
-
-    def __init__(self, parent):
-        super().__init__(self.HEADING, parent)
 
     # implement BasePromptNode  ================================================
 

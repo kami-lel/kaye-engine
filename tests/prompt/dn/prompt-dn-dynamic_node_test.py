@@ -12,6 +12,10 @@ from kaye.prompt.base_prompt_node import DynamicNode
 # helpers  #####################################################################
 class DynamicTestee(DynamicNode):
 
+    # implement DynamicNode  ===================================================
+
+    HEADING = "Testee Node"
+
     # implement BasePromptNode  ================================================
 
     def content_lines(self, **kwargs):
@@ -32,7 +36,7 @@ class DynamicTestee(DynamicNode):
 
 @pytest.fixture
 def testee1():
-    return DynamicTestee("Testee Node", None)
+    return DynamicTestee(None)
 
 
 class TestName:  #################################################################
@@ -47,7 +51,7 @@ class TestNoChild:  ############################################################
 
     def test1(_, testee1):
         with pytest.raises(TypeError) as exec_info:
-            DynamicTestee("Parent", None, children=[testee1])
+            DynamicTestee(None, children=[testee1])
 
         opt = exec_info.value.args[0]
         print(opt)
@@ -59,7 +63,7 @@ class TestNoChild:  ############################################################
 
     def test2(_, testee1):
         with pytest.raises(TypeError) as exec_info:
-            parent = DynamicTestee("Parent", None)
+            parent = DynamicTestee(None)
             parent.children = [testee1]
 
         opt = exec_info.value.args[0]

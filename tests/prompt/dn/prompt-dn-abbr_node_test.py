@@ -40,7 +40,7 @@ class TestInit:  ###############################################################
 │   ├── Description
 │   ├── Installation
 │   └── License
-└── Abbreviations"""
+└── {Abbreviations}"""
 
 
 class TestCopy:  ###############################################################
