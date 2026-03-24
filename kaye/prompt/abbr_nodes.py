@@ -5,7 +5,7 @@ define abbreviations-related node types
 from kaye.prompt.abbr_collection import AbbrData, AbbrTags
 from kaye.prompt.base_prompt_node import DynamicNode
 
-__all__ = ("AbbrNode", "PLCNode", "UsableAbbrNode")
+__all__ = ("AbbrNode", "PLCNode", "UsableAbbrNode", "LanguageCodeNode")
 
 
 class AbbrNode(DynamicNode):  ##################################################
@@ -79,6 +79,32 @@ class PLCNode(DynamicNode):  ###################################################
         return PLCNode(None)
 
 
+class LanguageCodeNode(DynamicNode):  ##########################################
+    """
+    dynamic node to provide **Languages Code**
+    """
+
+    HEADING = "Languages Code"
+
+    # constructor  =============================================================
+
+    def __init__(self, parent):
+        super().__init__(self.HEADING, parent)
+
+    # implement BasePromptNode  ================================================
+
+    def content_lines(self, **kwargs):
+        lines = []
+        for entry in AbbrData().abbrs:
+            if AbbrTags.language_code in entry.tags:
+                lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
+
+        return lines
+
+    def __copy__(self):
+        return LanguageCodeNode(None)
+
+
 class UsableAbbrNode(DynamicNode):  ############################################
     """
     dynamic node to provide **Usable Abbreviations**
@@ -101,6 +127,3 @@ class UsableAbbrNode(DynamicNode):  ############################################
 
     def __copy__(self):
         return UsableAbbrNode(None)
-
-
-# Todo implement language code node

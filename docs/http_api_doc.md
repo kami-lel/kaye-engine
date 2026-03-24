@@ -205,11 +205,14 @@ All endpoints below `/kaye/dify-app/ky`
 `/task`
 
 - by `GET`
-- response type `text/plain`
-- param `role`
-- param `programming_languages`:
-  provide a `,`-separated list of language abbreviations
-  (specified in prompt corpus.) E.g. `?languages=cpp,py`
+- response type `application/json`
+- entries of body:
+
+  - `"role"`
+  - `"programming_languages"`:
+    provide a `,`-separated list of language abbreviations
+    (specified in prompt corpus.) E.g. `?languages=cpp,py`
+  - `"query"`: content of user query
 
 
 
