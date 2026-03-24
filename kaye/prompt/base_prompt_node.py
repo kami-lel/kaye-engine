@@ -90,16 +90,6 @@ class BasePromptNode(AnyTreeNode):
 
     # abstract methods  ========================================================
 
-    @property  # FIXME rm identifier
-    def identifier(self):
-        """
-        :return: unique identifier of this node (among its siblings,)
-                may be different from ``.name``;
-                ``""`` for root node
-        :rtype: str
-        """
-        raise NotImplementedError
-
     def content_lines(self, **kwargs):
         """
         :return: content **lines** this node as appeared in concrete prompt;
