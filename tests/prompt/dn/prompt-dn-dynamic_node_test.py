@@ -35,11 +35,12 @@ def testee1():
     return DynamicTestee("Testee Node", None)
 
 
-class TestId:  #################################################################
+class TestName:  #################################################################
 
     def test1(_, testee1):
-        print(testee1.identifier)
-        assert testee1.identifier == "{Testee Node}"
+        opt = testee1.name
+        print(opt)
+        assert opt == "{Testee Node}"
 
 
 class TestNoChild:  ############################################################
