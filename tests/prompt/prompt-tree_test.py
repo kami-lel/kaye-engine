@@ -513,31 +513,34 @@ class TestEmptyLine:  # ========================================================
 class TestEdge:  # various edge cases
 
     def test_empty1(_):  # total empty
-        src = """"""
+        m = mock_open(read_data="")
 
-        tree = load_prompt_corpus_tree(prompt_corpus_text_override=src)
-        assert tree.depth == 0
-        assert tree.parent is None
+        with patch("builtins.open", m):
+            tree = load_prompt_corpus_tree()
+            assert tree.depth == 0
+            assert tree.parent is None
 
-        assert len(tree.children) == 0
+            assert len(tree.children) == 0
 
     def test_empty2(_):
-        src = "\n"
+        m = mock_open(read_data="\n")
 
-        tree = load_prompt_corpus_tree(prompt_corpus_text_override=src)
-        assert tree.depth == 0
-        assert tree.parent is None
+        with patch("builtins.open", m):
+            tree = load_prompt_corpus_tree()
+            assert tree.depth == 0
+            assert tree.parent is None
 
-        assert len(tree.children) == 0
+            assert len(tree.children) == 0
 
     def test_empty3(_):
-        src = "\n" * 10
+        m = mock_open(read_data="\n" * 10)
 
-        tree = load_prompt_corpus_tree(prompt_corpus_text_override=src)
-        assert tree.depth == 0
-        assert tree.parent is None
+        with patch("builtins.open", m):
+            tree = load_prompt_corpus_tree()
+            assert tree.depth == 0
+            assert tree.parent is None
 
-        assert len(tree.children) == 0
+            assert len(tree.children) == 0
 
 
 class TestForbiddenHeading:  ###################################################
