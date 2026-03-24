@@ -150,9 +150,8 @@ class TestMux:  # ==============================================================
         _assert_rapid_blueprint_opt(opt)
         _assert_abbreviations_heading(opt)
 
+        # BUG mux insertion of abbrs
         assert "- achv:achieve,achieved,achievement" in opt
         assert "- admin:administrate,administrator,administration" in opt
         assert "- w/:with" in opt
         assert "- aknlg:acknowledge" in opt
-
-        assert False  # BUG mux insertion of abbrs
