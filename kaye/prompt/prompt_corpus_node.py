@@ -2,8 +2,6 @@
 define ``PromptCorpusNode``
 """
 
-import re
-
 from .base_prompt_node import BasePromptNode, DynamicNode
 
 # section heading prefix used for parsing .md file of prompt corpus
