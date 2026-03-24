@@ -27,7 +27,7 @@ Licensed under the MIT License.
 """)
 
     with patch("builtins.open", m), patch(
-        "mymodule.prompt_corpus_tree", new=None
+        "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
     ):
         return load_prompt_corpus_tree()
 
@@ -57,7 +57,7 @@ This project is licensed under the MIT License.
 """)
 
     with patch("builtins.open", m), patch(
-        "mymodule.prompt_corpus_tree", new=None
+        "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
     ):
         return load_prompt_corpus_tree()
 
@@ -96,7 +96,7 @@ Summarizing the findings and implications.
 """)
 
     with patch("builtins.open", m), patch(
-        "mymodule.prompt_corpus_tree", new=None
+        "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
     ):
         return load_prompt_corpus_tree()
 
@@ -154,7 +154,7 @@ This project is licensed under the MIT License.
 """)
 
     with patch("builtins.open", m), patch(
-        "mymodule.prompt_corpus_tree", new=None
+        "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
     ):
         return load_prompt_corpus_tree()
 
@@ -524,7 +524,7 @@ class TestEdge:  # various edge cases
         m = mock_open(read_data="")
 
         with patch("builtins.open", m), patch(
-            "mymodule.prompt_corpus_tree", new=None
+            "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
         ):
             tree = load_prompt_corpus_tree()
             assert tree.depth == 0
@@ -536,7 +536,7 @@ class TestEdge:  # various edge cases
         m = mock_open(read_data="\n")
 
         with patch("builtins.open", m), patch(
-            "mymodule.prompt_corpus_tree", new=None
+            "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
         ):
             tree = load_prompt_corpus_tree()
             assert tree.depth == 0
@@ -548,7 +548,7 @@ class TestEdge:  # various edge cases
         m = mock_open(read_data="\n" * 10)
 
         with patch("builtins.open", m), patch(
-            "mymodule.prompt_corpus_tree", new=None
+            "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
         ):
             tree = load_prompt_corpus_tree()
             assert tree.depth == 0
@@ -563,7 +563,7 @@ class TestForbiddenHeading:  ###################################################
         m = mock_open(read_data="""# Title
 ## {Some}""")
         with patch("builtins.open", m), patch(
-            "mymodule.prompt_corpus_tree", new=None
+            "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
         ):
             with pytest.raises(ValueError) as exec_info:
                 load_prompt_corpus_tree()
