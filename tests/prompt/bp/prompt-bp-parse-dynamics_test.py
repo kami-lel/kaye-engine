@@ -53,7 +53,7 @@ class TestDynamics:
 
         node = dynamic_bp_testee1.corpus["Main Title"]["Introduction"][
             "Background"
-        ]["Importance"]["Abbreviations"]
+        ]["Importance"]["{Abbreviations}"]
 
         assert isinstance(node, AbbrNode)
 
@@ -61,7 +61,7 @@ class TestDynamics:
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
 
         node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
-            "Programming Languages Code"
+            "{Programming Languages Code}"
         ]
 
         assert isinstance(node, PLCNode)
@@ -71,7 +71,7 @@ class TestDynamics:
 
         node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
             "Data Collection"
-        ]["Tools Used"]["Future Work"]["Today"]
+        ]["Tools Used"]["Future Work"]["{Today}"]
 
         assert isinstance(node, TodayNode)
 
@@ -79,7 +79,7 @@ class TestDynamics:
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
 
         node = dynamic_bp_testee1.corpus["Main Title"]["Introduction"][
-            "Usable Abbreviations"
+            "{Usable Abbreviations}"
         ]
 
         assert isinstance(node, UsableAbbrNode)

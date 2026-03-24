@@ -260,6 +260,6 @@ Clone the repo and install dependencies.
 ## License
 Licensed under the MIT License.
 
-## Usable Abbreviations
+## {Usable Abbreviations}
 -`&`:and
 -`/`:or"""
