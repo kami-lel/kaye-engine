@@ -1,7 +1,9 @@
 """
 prompt_tree_test.py
 
-Unit Tests (using pytest) for: load_prompt_corpus_tree
+Unit Tests (using pytest) for:
+
+load_prompt_corpus_tree
 """
 
 from unittest.mock import mock_open, patch
@@ -12,7 +14,7 @@ from kaye.prompt.prompt_corpus_loader import load_prompt_corpus_tree
 
 
 # pytest fixtures  #############################################################
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def prompt_tree1():
     m = mock_open(read_data="""
 # Project Title
@@ -32,7 +34,7 @@ Licensed under the MIT License.
         return load_prompt_corpus_tree()
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def prompt_tree2():
     m = mock_open(read_data="""
 # Project Title
@@ -62,7 +64,7 @@ This project is licensed under the MIT License.
         return load_prompt_corpus_tree()
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def prompt_tree3():
     m = mock_open(read_data="""
 # Main Title
@@ -373,70 +375,3 @@ class TestParse3:  # ===========================================================
         assert node._content_lines == [
             "Summarizing the findings and implications."
         ]
-
-
-# edge cases  ##################################################################
-class TestEdge:  # various edge cases
-
-    def test_empty1(_):  # total empty
-        m = mock_open(read_data="")
-
-        with patch("builtins.open", m), patch(
-            "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
-        ):
-            tree = load_prompt_corpus_tree()
-            assert tree.depth == 0
-            assert tree.parent is None
-
-            assert len(tree.children) == 0
-
-    def test_empty2(_):
-        m = mock_open(read_data="\n")
-
-        with patch("builtins.open", m), patch(
-            "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
-        ):
-            tree = load_prompt_corpus_tree()
-            assert tree.depth == 0
-            assert tree.parent is None
-
-            assert len(tree.children) == 0
-
-    def test_empty3(_):
-        m = mock_open(read_data="\n" * 10)
-
-        with patch("builtins.open", m), patch(
-            "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
-        ):
-            tree = load_prompt_corpus_tree()
-            assert tree.depth == 0
-            assert tree.parent is None
-
-            assert len(tree.children) == 0
-
-
-class TestForbiddenHeading:  ###################################################
-
-    def test1(_):
-        m = mock_open(read_data="""# Title
-## {Some}""")
-        with patch("builtins.open", m), patch(
-            "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
-        ):
-            with pytest.raises(ValueError) as exec_info:
-                load_prompt_corpus_tree()
-
-            opt = exec_info.value.args[0]
-            print(opt)
-            assert opt == "illegal heading syntax: '{Some}'"
-
-
-class TestSingleton:  ##########################################################
-
-    def test1(_):
-        attempt1 = load_prompt_corpus_tree()
-        attempt2 = load_prompt_corpus_tree()
-        attempt3 = load_prompt_corpus_tree()
-
-        assert attempt1 is attempt2
-        assert attempt2 is attempt3

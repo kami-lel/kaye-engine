@@ -6,8 +6,6 @@ Unit Tests (using pytest) for:
 load_prompt_corpus_tree
 """
 
-# FIXME improve scope
-
 from unittest.mock import mock_open, patch
 
 import pytest
@@ -17,7 +15,7 @@ from kaye.prompt.prompt_corpus_loader import load_prompt_corpus_tree
 # pytest fixtures  #############################################################
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def prompt_tree_empty():
     m = mock_open(read_data="""
 
