@@ -245,7 +245,17 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
     abstract class for all *dynamic node*
     """
 
-    ID_PATTERN = re.compile(r"^{.+}$")
+    @classmethod
+    def is_valid_dynamic_node_heading(cls, heading):
+        """
+        :param heading:
+        :type heading: str
+        :return: whether a node's heading fits dynamic node's heading syntax
+        :rtype: bool
+        """
+        return cls._ID_PATTERN.match(heading)
+
+    _ID_PATTERN = re.compile(r"^{.+}$")
 
     # implement BasePromptNode  ================================================
 
