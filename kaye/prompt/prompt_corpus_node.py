@@ -52,6 +52,7 @@ class PromptCorpusNode(BasePromptNode):
 
         (helper method used in ``__init__()``)
         """
+        # TODO check non-dynamic node
         if cls.HEADING_FORBIDDEN.fullmatch(name):
             raise ValueError("illegal heading syntax: {}".format(repr(name)))
 
