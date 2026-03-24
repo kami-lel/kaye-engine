@@ -8,6 +8,8 @@ from datetime import datetime
 
 from .base_prompt_node import DynamicNode
 
+__all__ = ("TodayNode",)
+
 
 class TodayNode(DynamicNode):
     """
