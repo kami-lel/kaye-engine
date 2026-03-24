@@ -4,15 +4,17 @@ prompt_tree_test.py
 Unit Tests (using pytest) for: load_prompt_corpus_tree
 """
 
+from unittest.mock import mock_open, patch
+
 import pytest
 
 from kaye.prompt.prompt_corpus_loader import load_prompt_corpus_tree
 
 
-# test using PROMPT1  ##########################################################
+# pytest fixtures  #############################################################
 @pytest.fixture()
 def prompt_tree1():
-    return load_prompt_corpus_tree(prompt_corpus_text_override="""
+    m = mock_open(read_data="""
 # Project Title
 ## Description
 Brief overview of the project and its purpose.
@@ -24,8 +26,135 @@ Clone the repo and install dependencies.
 Licensed under the MIT License.
 """)
 
+    with patch("builtins.open", m):
+        return load_prompt_corpus_tree()
 
-class TestParse1:
+
+@pytest.fixture()
+def prompt_tree2():
+    m = mock_open(read_data="""
+# Project Title
+## Description
+A brief overview of the project, its purpose, and goals.
+
+## Installation
+1. Clone the repo
+2. Install dependencies
+3. Run the application
+
+## Usage
+Provide instructions on how to use the application.
+
+## Contributing
+1. Fork the repo
+2. Create a new branch
+3. Submit a pull request
+
+## License
+This project is licensed under the MIT License.
+""")
+
+    with patch("builtins.open", m):
+        return load_prompt_corpus_tree()
+
+
+@pytest.fixture()
+def prompt_tree3():
+    m = mock_open(read_data="""
+# Main Title
+
+## Introduction
+Brief introduction to the topic.
+
+### Background
+Context or history relevant to the topic.
+
+#### Importance
+Why this topic matters in the current scenario.
+
+##### Objective
+The primary goal of this document.
+
+## Methods
+Overview of the methodologies used.
+
+### Data Collection
+How data was gathered for analysis.
+
+#### Tools Used
+List of tools utilized during the project.
+
+##### Future Work
+Suggestions for future research or tasks.
+
+## Conclusion
+Summarizing the findings and implications.
+""")
+
+    with patch("builtins.open", m):
+        return load_prompt_corpus_tree()
+
+
+@pytest.fixture()
+def prompt_tree_empty():
+    m = mock_open(read_data="""
+
+# Project Title
+
+
+
+
+
+## Description
+A brief overview of the project, its purpose, and goals.
+
+
+
+
+
+
+## Installation
+1. Clone the repo
+2. Install dependencies
+3. Run the application
+
+## Usage
+
+Provide instructions on how to use the application.
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Contributing
+1. Fork the repo
+2. Create a new branch
+3. Submit a pull request
+
+
+
+
+
+## License
+This project is licensed under the MIT License.
+""")
+
+    with patch("builtins.open", m):
+        return load_prompt_corpus_tree()
+
+
+# pytest #######################################################################
+
+
+class TestParse1:  # ===========================================================
 
     def test_root(self, prompt_tree1):
 
@@ -82,33 +211,7 @@ class TestParse1:
         assert sub._content_lines == ["Licensed under the MIT License."]
 
 
-# test using PROMPT2  ##########################################################
-@pytest.fixture()
-def prompt_tree2():
-    return load_prompt_corpus_tree(prompt_corpus_text_override="""
-# Project Title
-## Description
-A brief overview of the project, its purpose, and goals.
-
-## Installation
-1. Clone the repo
-2. Install dependencies
-3. Run the application
-
-## Usage
-Provide instructions on how to use the application.
-
-## Contributing
-1. Fork the repo
-2. Create a new branch
-3. Submit a pull request
-
-## License
-This project is licensed under the MIT License.
-""")
-
-
-class TestParse2:
+class TestParse2:  # ===========================================================
 
     def test_root(self, prompt_tree2):
 
@@ -190,42 +293,7 @@ class TestParse2:
         ]
 
 
-# test using PROMPT3  ##########################################################
-@pytest.fixture()
-def prompt_tree3():
-    return load_prompt_corpus_tree(prompt_corpus_text_override="""
-# Main Title
-
-## Introduction
-Brief introduction to the topic.
-
-### Background
-Context or history relevant to the topic.
-
-#### Importance
-Why this topic matters in the current scenario.
-
-##### Objective
-The primary goal of this document.
-
-## Methods
-Overview of the methodologies used.
-
-### Data Collection
-How data was gathered for analysis.
-
-#### Tools Used
-List of tools utilized during the project.
-
-##### Future Work
-Suggestions for future research or tasks.
-
-## Conclusion
-Summarizing the findings and implications.
-""")
-
-
-class TestParse3:
+class TestParse3:  # ===========================================================
 
     def test_root(self, prompt_tree3):
         assert prompt_tree3.depth == 0
@@ -357,61 +425,9 @@ class TestParse3:
         ]
 
 
-# empty lines tests  ###########################################################
-@pytest.fixture()
-def prompt_tree_empty():
-    return load_prompt_corpus_tree(prompt_corpus_text_override="""
+class TestEmptyLine:  # ========================================================
 
-# Project Title
-
-
-
-
-
-## Description
-A brief overview of the project, its purpose, and goals.
-
-
-
-
-
-
-## Installation
-1. Clone the repo
-2. Install dependencies
-3. Run the application
-
-## Usage
-
-Provide instructions on how to use the application.
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Contributing
-1. Fork the repo
-2. Create a new branch
-3. Submit a pull request
-
-
-
-
-
-## License
-This project is licensed under the MIT License.
-""")
-
-
-class TestEmptyLine:  # source material contains various empty lines
+    # source material contains various empty lines
 
     def test_root(self, prompt_tree_empty):
         assert prompt_tree_empty.depth == 0

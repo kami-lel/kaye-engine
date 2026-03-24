@@ -28,7 +28,7 @@ def get_embedded_prompt_corpus_file_path():
 prompt_corpus_tree = None  # pylint: disable=invalid-name
 
 
-def load_prompt_corpus_tree(*, prompt_corpus_text_override=None):
+def load_prompt_corpus_tree():
     """
     get the **prompt corpus tree** *singleton*, which is created by:
 
@@ -46,20 +46,16 @@ def load_prompt_corpus_tree(*, prompt_corpus_text_override=None):
     # prompt corpus tree singleton
     global prompt_corpus_tree  # pylint: disable=global-statement
 
-    if prompt_corpus_text_override is not None:
-        prompt_corpus_text = prompt_corpus_text_override
+    if prompt_corpus_tree is not None:
+        # early exit from stored singleton
+        return prompt_corpus_tree
 
-    else:
-        if prompt_corpus_tree is not None:
-            # early exit from stored singleton
-            return prompt_corpus_tree
-
-        # read corpus from file  -----------------------------------------------
-        prompt_corpus_file_path = get_embedded_prompt_corpus_file_path()
-        with open(
-            prompt_corpus_file_path, "r", encoding="utf-8", newline=""
-        ) as file:
-            prompt_corpus_text = file.read()
+    # read corpus from file  -----------------------------------------------
+    prompt_corpus_file_path = get_embedded_prompt_corpus_file_path()
+    with open(
+        prompt_corpus_file_path, "r", encoding="utf-8", newline=""
+    ) as file:
+        prompt_corpus_text = file.read()
 
     # text split & clean up  ---------------------------------------------------
     # reduce 2+ empty lines into single empty line
@@ -72,8 +68,7 @@ def load_prompt_corpus_tree(*, prompt_corpus_text_override=None):
         ROOT_NODE_NAME, None, text_lines
     )
 
-    if prompt_corpus_text_override is None:
-        prompt_corpus_tree = root
+    # BUG singleton assignment
 
     return root
 
