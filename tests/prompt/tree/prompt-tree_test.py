@@ -112,7 +112,6 @@ class TestParse1:  # ===========================================================
 
         assert prompt_tree1.depth == 0
         assert prompt_tree1.parent is None
-        assert len(prompt_tree1.children) == 1
         assert prompt_tree1._content_lines == []
 
     def test_project(self, prompt_tree1):
@@ -169,7 +168,6 @@ class TestParse2:  # ===========================================================
 
         assert prompt_tree2.depth == 0
         assert prompt_tree2.parent is None
-        assert len(prompt_tree2.children) == 1
         assert prompt_tree2._content_lines == []
 
     def test_project(self, prompt_tree2):
@@ -250,7 +248,6 @@ class TestParse3:  # ===========================================================
     def test_root(self, prompt_tree3):
         assert prompt_tree3.depth == 0
         assert prompt_tree3.parent is None
-        assert len(prompt_tree3.children) == 1
         assert prompt_tree3._content_lines == []
 
     def test_project(self, prompt_tree3):

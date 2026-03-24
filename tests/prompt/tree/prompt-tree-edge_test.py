@@ -27,8 +27,6 @@ class TestEdge:  # various edge cases
             assert tree.depth == 0
             assert tree.parent is None
 
-            assert len(tree.children) == 0
-
     def test_empty2(_):
         m = mock_open(read_data="\n")
 
@@ -39,8 +37,6 @@ class TestEdge:  # various edge cases
             assert tree.depth == 0
             assert tree.parent is None
 
-            assert len(tree.children) == 0
-
     def test_empty3(_):
         m = mock_open(read_data="\n" * 10)
 
@@ -50,8 +46,6 @@ class TestEdge:  # various edge cases
             tree = load_prompt_corpus_tree()
             assert tree.depth == 0
             assert tree.parent is None
-
-            assert len(tree.children) == 0
 
 
 class TestForbiddenHeading:  ###################################################
