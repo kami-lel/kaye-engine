@@ -65,11 +65,11 @@ def load_prompt_corpus_tree():
     text_lines = list(text_cleanup.split("\n"))
 
     # create prompt corpus nodes
-    root = _create_prompt_corpus_node_from_text_lines_recursively(
+    prompt_corpus_tree = _create_prompt_corpus_node_from_text_lines_recursively(
         ROOT_NODE_NAME, None, text_lines
     )
 
-    return root
+    return prompt_corpus_tree
 
 
 # helpers  #####################################################################
