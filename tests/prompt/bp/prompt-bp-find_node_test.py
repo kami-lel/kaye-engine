@@ -93,12 +93,7 @@ class Test1:  ##################################################################
 
         print(opt)
 
-        assert (
-            opt
-            == "must be "
-            "BasePromptNode/int(hash value)/str(name/identifier): "
-            "12.5"
-        )
+        assert opt == "must be BasePromptNode/int(hash value)/str(name): 12.5"
 
     def test_bad_type2(_, bp_testee2pa1):
         bp = bp_testee2pa1
@@ -113,7 +108,7 @@ class Test1:  ##################################################################
         assert (
             opt
             == "must be "
-            "BasePromptNode/int(hash value)/str(name/identifier): "
+            "BasePromptNode/int(hash value)/str(name): "
             "['a', 'b', 'c']"
         )
 
@@ -129,7 +124,7 @@ class Test1:  ##################################################################
 
         print(opt)
 
-        assert opt == "no node in corpus with name/identifier: 'AAAZZZ'"
+        assert opt == "no node in corpus with name: 'AAAZZZ'"
 
     def test_miss_node_by_hash1(_, bp_testee2pa1):
         bp = bp_testee2pa1

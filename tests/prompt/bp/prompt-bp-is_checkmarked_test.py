@@ -663,7 +663,7 @@ class TestDynamicNodes:  #######################################################
 
         node = dynamic_bp_testee1.corpus["Main Title"]["Introduction"][
             "Background"
-        ]["Importance"]["Abbreviations"]
+        ]["Importance"]["{Abbreviations}"]
 
         assert bp.is_checkmarked(node)
 
@@ -671,7 +671,7 @@ class TestDynamicNodes:  #######################################################
         bp = copy.deepcopy(dynamic_bp_testee1)
 
         node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
-            "Programming Languages Code"
+            "{Programming Languages Code}"
         ]
 
         assert not bp.is_checkmarked(node)
