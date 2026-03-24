@@ -3,7 +3,7 @@ from kaye.prompt.base_prompt_node import BasePromptNode
 
 class UnitTestNode(BasePromptNode):
 
-    @property
+    @property  # FIXME rm identifier
     def identifier(self):
         return self.name.upper()
 
