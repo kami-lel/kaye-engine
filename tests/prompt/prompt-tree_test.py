@@ -26,7 +26,9 @@ Clone the repo and install dependencies.
 Licensed under the MIT License.
 """)
 
-    with patch("builtins.open", m):
+    with patch("builtins.open", m), patch(
+        "mymodule.prompt_corpus_tree", new=None
+    ):
         return load_prompt_corpus_tree()
 
 
@@ -54,7 +56,9 @@ Provide instructions on how to use the application.
 This project is licensed under the MIT License.
 """)
 
-    with patch("builtins.open", m):
+    with patch("builtins.open", m), patch(
+        "mymodule.prompt_corpus_tree", new=None
+    ):
         return load_prompt_corpus_tree()
 
 
@@ -91,7 +95,9 @@ Suggestions for future research or tasks.
 Summarizing the findings and implications.
 """)
 
-    with patch("builtins.open", m):
+    with patch("builtins.open", m), patch(
+        "mymodule.prompt_corpus_tree", new=None
+    ):
         return load_prompt_corpus_tree()
 
 
@@ -147,7 +153,9 @@ Provide instructions on how to use the application.
 This project is licensed under the MIT License.
 """)
 
-    with patch("builtins.open", m):
+    with patch("builtins.open", m), patch(
+        "mymodule.prompt_corpus_tree", new=None
+    ):
         return load_prompt_corpus_tree()
 
 
@@ -515,7 +523,9 @@ class TestEdge:  # various edge cases
     def test_empty1(_):  # total empty
         m = mock_open(read_data="")
 
-        with patch("builtins.open", m):
+        with patch("builtins.open", m), patch(
+            "mymodule.prompt_corpus_tree", new=None
+        ):
             tree = load_prompt_corpus_tree()
             assert tree.depth == 0
             assert tree.parent is None
@@ -525,7 +535,9 @@ class TestEdge:  # various edge cases
     def test_empty2(_):
         m = mock_open(read_data="\n")
 
-        with patch("builtins.open", m):
+        with patch("builtins.open", m), patch(
+            "mymodule.prompt_corpus_tree", new=None
+        ):
             tree = load_prompt_corpus_tree()
             assert tree.depth == 0
             assert tree.parent is None
@@ -535,7 +547,9 @@ class TestEdge:  # various edge cases
     def test_empty3(_):
         m = mock_open(read_data="\n" * 10)
 
-        with patch("builtins.open", m):
+        with patch("builtins.open", m), patch(
+            "mymodule.prompt_corpus_tree", new=None
+        ):
             tree = load_prompt_corpus_tree()
             assert tree.depth == 0
             assert tree.parent is None
@@ -546,13 +560,17 @@ class TestEdge:  # various edge cases
 class TestForbiddenHeading:  ###################################################
 
     def test1(_):
-        with pytest.raises(ValueError) as exec_info:
-            load_prompt_corpus_tree(prompt_corpus_text_override="""# Title
+        m = mock_open(read_data="""# Title
 ## {Some}""")
+        with patch("builtins.open", m), patch(
+            "mymodule.prompt_corpus_tree", new=None
+        ):
+            with pytest.raises(ValueError) as exec_info:
+                load_prompt_corpus_tree()
 
-        opt = exec_info.value.args[0]
-        print(opt)
-        assert opt == "illegal heading syntax: '{Some}'"
+            opt = exec_info.value.args[0]
+            print(opt)
+            assert opt == "illegal heading syntax: '{Some}'"
 
 
 class TestSingleton:  ##########################################################
