@@ -415,7 +415,7 @@ class PromptBlueprint(dict):
         return "{}Kaye v{}".format(name_part, kaye_version)
 
     def _parse_add_dynamic_node(self, heading, parent):
-        # Bug adds multiple nodes
+        # BUG adds multiple nodes
         # early exit for non-dynamic node
         if not DynamicNode.ID_PATTERN.match(heading):
             return False
