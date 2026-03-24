@@ -51,6 +51,12 @@ CHAT_PROMPT_BLUEPRINT = """    ○
 [x] └── {Abbreviations}"""
 
 
+RAPID_PROMPT_BLUEPRINT = """    ○
+[x] ├── Introduction
+[x] ├── Format
+[x] └── {Abbreviations}"""
+
+
 # Flask Routing  ###############################################################
 # /kaye/dify-app/ky
 ky_bp = Blueprint("kaye-chat", PROGRAM_NAME, url_prefix="/ky")
@@ -99,7 +105,7 @@ def kaye_chat_task():
         bp = _create_chat_blueprint()
 
     elif role == "rapid":
-        bp = load_embedded_blueprint("rapid")
+        bp = _create_rapid_blueprint()
 
     elif role == "coder":
         bp = _create_peer_coder_blueprint(pls)
@@ -125,6 +131,12 @@ def kaye_chat_task():
 
 
 # task blueprints  #############################################################
+
+
+def _create_rapid_blueprint():
+    return PromptBlueprint.parse(RAPID_PROMPT_BLUEPRINT)
+
+
 def _create_chat_blueprint():  # ===============================================
     return PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT)
 
@@ -196,7 +208,7 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
 
 def _create_barista_blueprint():  # ============================================
-    bp = load_embedded_blueprint("rapid")
+    bp = _create_rapid_blueprint()
     bp.checkmark("Date & Time Format")
     bp.checkmark("Assistant Barista", recursively=True)
     return bp
