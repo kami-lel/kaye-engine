@@ -6,4 +6,18 @@ Unit Tests (using pytest) for:
 /kaye/dify-api/ky/task with abbreviations
 """
 
-# TODO unit test
+# pytest  ######################################################################
+
+
+class TestSingle:  # ===========================================================
+
+    # TODO unit test
+
+    def test1(_):
+        pass
+
+
+class TestMux:  # ==============================================================
+
+    def test1(_):
+        pass
