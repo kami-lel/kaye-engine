@@ -46,11 +46,11 @@ def load_prompt_corpus_tree():
     # prompt corpus tree singleton
     global prompt_corpus_tree  # pylint: disable=global-statement
 
-    # early exit for singleton  ------------------------------------------------
+    # early exit for singleton  ++++++++++++++++++++++++++++++++++++++++++++++++
     if prompt_corpus_tree is not None:
         return prompt_corpus_tree
 
-    # create singleton  --------------------------------------------------------
+    # create singleton  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     # read corpus content from file
     prompt_corpus_file_path = get_embedded_prompt_corpus_file_path()
     with open(
@@ -58,16 +58,20 @@ def load_prompt_corpus_tree():
     ) as file:
         prompt_corpus_text = file.read()
 
-    # text split & clean up
+    # text split & clean up  ---------------------------------------------------
     # reduce 2+ empty lines into single empty line
     text_cleanup = re.sub(r"\n{3,}", "\n\n", prompt_corpus_text)
     # split to lines
     text_lines = list(text_cleanup.split("\n"))
 
-    # create prompt corpus nodes
+    # create prompt corpus nodes  ----------------------------------------------
     prompt_corpus_tree = _create_prompt_corpus_node_from_text_lines_recursively(
         ROOT_NODE_NAME, None, text_lines
     )
+
+    # add dynamic nodes  -------------------------------------------------------
+    for v in ():
+        pass
 
     return prompt_corpus_tree
 
