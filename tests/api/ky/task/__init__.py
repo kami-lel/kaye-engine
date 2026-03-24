@@ -45,6 +45,7 @@ Conversation language consistency:
 
 
 def _assert_rapid_blueprint_opt(opt):
+    # BUG
     assert opt.startswith("""# Introduction
 You are **Kaye**, an AI assisting *agent* to the *user*.
 
