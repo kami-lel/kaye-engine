@@ -47,7 +47,8 @@ CHAT_PROMPT_BLUEPRINT = """    ○
 [x] ├── Format
 [x] ├── Elements
 [x] │   └── Numerical Values with Units
-[x] └── Role"""
+[x] ├── Role
+[x] └── {Abbreviations}"""
 
 
 # Flask Routing  ###############################################################

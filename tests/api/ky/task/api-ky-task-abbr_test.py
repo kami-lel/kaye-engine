@@ -10,14 +10,21 @@ import json
 
 from tests.api.ky.task import _assert_rapid_blueprint_opt
 
+# helpers  #####################################################################
+
+
+def _assert_abbreviations_heading(opt):
+    assert """# Abbreviations""" in opt
+
+
 # pytest  ######################################################################
 
 
 class TestSingle:  # ===========================================================
 
     def test1(self, flask_test_client, task_endpoint):
-        query = "abc def"
-        payload = {"role": "rapid", "query": query}
+        query = "afx"
+        payload = {"role": "chat", "query": query}
 
         response = flask_test_client.get(
             task_endpoint,
@@ -30,9 +37,10 @@ class TestSingle:  # ===========================================================
         print(opt)
 
         _assert_rapid_blueprint_opt(opt)
-        assert "abc" in opt
+        _assert_abbreviations_heading(opt)
+        assert "- afx:affect,affected,affectedly,affectation" in opt
 
-    # TODO unit test
+    # TODO more unit test
 
 
 class TestMux:  # ==============================================================
