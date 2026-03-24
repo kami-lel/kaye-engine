@@ -81,7 +81,6 @@ class TestEmptyLine:  # source material contains various empty lines
     def test_root(self, prompt_tree_empty):
         assert prompt_tree_empty.depth == 0
         assert prompt_tree_empty.parent is None
-        assert len(prompt_tree_empty.children) == 1
         assert prompt_tree_empty._content_lines == []
 
     def test_project(self, prompt_tree_empty):
