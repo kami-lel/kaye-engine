@@ -43,6 +43,7 @@ def load_prompt_corpus_tree(*, prompt_corpus_text_override=None):
     :return: **root** node of *prompt corpus tree*
     :rtype: PromptCorpusNode
     """
+    # prompt corpus tree singleton
     global prompt_corpus_tree  # pylint: disable=global-statement
 
     if prompt_corpus_text_override is not None:
