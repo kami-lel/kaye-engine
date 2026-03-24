@@ -20,14 +20,12 @@ class TodayNode(DynamicNode):
     :type parent: BasePromptNode
     """
 
+    # implement DynamicNode  ===================================================
+
     HEADING = "Today"
 
-    # constructor  =============================================================
-
-    def __init__(self, parent):
-        super().__init__(self.HEADING, parent)
-
     # implement BasePromptNode  ================================================
+
     def content_lines(self, **kwargs):
         now = datetime.now()
         date = now.strftime("%Y-%m-%d")
