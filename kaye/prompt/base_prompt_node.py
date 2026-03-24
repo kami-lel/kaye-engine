@@ -122,7 +122,7 @@ class BasePromptNode(AnyTreeNode):
         """
         :return: a **lineage**
                 from root (exclusively) to current node (inclusively,)
-                represented as a ``list`` of node's ``.identifier``
+                represented as a ``list`` of node's ``.name``
         :rtype: list(str)
         :example:
         >>> root.generate_lineage()
