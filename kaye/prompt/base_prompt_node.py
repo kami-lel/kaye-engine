@@ -256,9 +256,9 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
         return cls._ID_PATTERN.match(heading)
 
     # constructor  =============================================================
-    def __init__(self, parent):
+    def __init__(self, parent=None, **kwargs):
         heading = "{" + self.HEADING + "}"
-        super().__init__(heading, parent=parent)
+        super().__init__(heading, parent=parent, **kwargs)
 
     _ID_PATTERN = re.compile(r"^{.+}$")
 
