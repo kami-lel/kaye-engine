@@ -58,7 +58,7 @@ class PromptCorpusNode(BasePromptNode):
     # implement BasePromptNode  ================================================
 
     @property
-    def identifier(self):
+    def identifier(self):  # FIXME rm identifier
         # for PromptCorpusNode, identical to heading
         return self.name
 
