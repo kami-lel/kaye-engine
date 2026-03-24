@@ -90,7 +90,7 @@ class BasePromptNode(AnyTreeNode):
 
     # abstract methods  ========================================================
 
-    @property
+    @property  # FIXME rm identifier
     def identifier(self):
         """
         :return: unique identifier of this node (among its siblings,)
