@@ -14,7 +14,7 @@ from tests.api.ky.task import _assert_rapid_blueprint_opt
 
 
 def _assert_abbreviations_heading(opt):
-    assert """# Abbreviations""" in opt
+    assert """# {Abbreviations}""" in opt
 
 
 # pytest  ######################################################################

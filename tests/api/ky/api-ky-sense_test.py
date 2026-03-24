@@ -99,7 +99,7 @@ class TestRoleCoder:  ##########################################################
 """
         )
         assert "#### programming_languages" in opt
-        assert "##### Programming Languages Code" in opt
+        assert "##### {Programming Languages Code}" in opt
         assert "#### difficulty" in opt
 
 

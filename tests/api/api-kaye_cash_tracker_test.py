@@ -82,5 +82,5 @@ select the most likely category abbreviation for each transaction based on its d
     ""
   ],""" in opt
 
-    assert """### Today
+    assert """### {Today}
 Today""" in opt
