@@ -127,7 +127,6 @@ def kaye_chat_task():
     # query and abbr  ----------------------------------------------------------
     kwargs = {"query": query}
 
-    # BUG mux insertion of abbrs
     return bp.generate_prompt(**kwargs)
 
 
