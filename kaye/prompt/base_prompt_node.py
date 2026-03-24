@@ -118,22 +118,22 @@ class BasePromptNode(AnyTreeNode):
 
     # instance methods  ========================================================
 
-    def generate_identifier_lineage(self):
+    def generate_lineage(self):
         """
         :return: a **lineage**
                 from root (exclusively) to current node (inclusively,)
                 represented as a ``list`` of node's ``.identifier``
         :rtype: list(str)
         :example:
-        >>> root.generate_identifier_lineage()
+        >>> root.generate_lineage()
         []
-        >>> node.generate_identifier_lineage()
+        >>> node.generate_lineage()
         ["My Parent", "Myself"]
         """
         if self.is_root:
             return []
 
-        ancestry_path = self.parent.generate_identifier_lineage()
+        ancestry_path = self.parent.generate_lineage()
         ancestry_path.append(self.identifier)
         return ancestry_path
 
@@ -178,7 +178,7 @@ class BasePromptNode(AnyTreeNode):
             )
 
     def __hash__(self):
-        return hash(tuple(self.generate_identifier_lineage()))
+        return hash(tuple(self.generate_lineage()))
 
     def __eq__(self, other):
         """
