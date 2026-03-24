@@ -51,9 +51,7 @@ class TestRoot:
             node["???"]
 
         opt = exec_info.value.args[0]
-        expected = (
-            f"{str(node)} contains no child with name/identifier of '???'"
-        )
+        expected = f"{str(node)} contains no child with name of '???'"
         assert opt == expected
 
     def test_bad_type(_, corpus_testee3):
@@ -139,9 +137,7 @@ class TestMain:
             node["???"]
 
         opt = exec_info.value.args[0]
-        expected = (
-            f"{str(node)} contains no child with name/identifier of '???'"
-        )
+        expected = f"{str(node)} contains no child with name of '???'"
         assert opt == expected
 
     def test_bad_type(_, corpus_testee3):

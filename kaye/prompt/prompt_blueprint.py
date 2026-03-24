@@ -524,7 +524,7 @@ class PromptBlueprint(dict):
         if isinstance(node_arg, str):
             node_obj = None
 
-            # search all descendants with name/identifier of node
+            # search all descendants with name of node
             for n in corpus_and_descendants:
                 if node_arg in (n.name, n.identifier):
                     node_obj = n
