@@ -175,11 +175,7 @@ class Test11:  # ===============================================================
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert (
-            opt
-            == "must be BasePromptNode/"
-            "int(hash value)/str(name/identifier): 12.5"
-        )
+        assert opt == "must be BasePromptNode/int(hash value)/str(name): 12.5"
 
     def test_bad_type2(_, local_testee11):
         bp, _ = local_testee11
@@ -194,7 +190,7 @@ class Test11:  # ===============================================================
         assert (
             opt
             == "must be BasePromptNode/"
-            "int(hash value)/str(name/identifier): ['a', 'b', 'c']"
+            "int(hash value)/str(name): ['a', 'b', 'c']"
         )
 
     def test_bad_str_no_found1(_, local_testee11):
@@ -207,7 +203,7 @@ class Test11:  # ===============================================================
         opt = exec_info.value.args[0]
         print(opt)
 
-        assert opt == "no node in corpus with name/identifier: 'AAAZZZ'"
+        assert opt == "no node in corpus with name: 'AAAZZZ'"
 
     def test_bad_hash(self, local_testee11):
         bp, _ = local_testee11
@@ -486,7 +482,7 @@ class TestDynamicNodes:
         node = bp.corpus["Main Title"]["Introduction"]["Background"][
             "Importance"
         ]["Abbreviations"]
-        ipt = "Abbreviations"
+        ipt = "{Abbreviations}"
 
         assert bp.checkmark(ipt)
 

@@ -70,11 +70,7 @@ class Test1Full:  # ============================================================
         opt = exec_info.value.args[0]
 
         print(opt)
-        assert (
-            opt
-            == "must be "
-            "BasePromptNode/int(hash value)/str(name/identifier): 12.5"
-        )
+        assert opt == "must be BasePromptNode/int(hash value)/str(name): 12.5"
 
     def test_miss_node(self, bp_testee1full):
         bp = bp_testee1full
