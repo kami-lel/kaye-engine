@@ -248,9 +248,6 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
     ID_PATTERN = re.compile(r"^{.+}$")
 
     # implement BasePromptNode  ================================================
-    @property
-    def identifier(self):  # FIXME rm .identifier
-        return "{" + self.name + "}"
 
     def _pre_attach_children(self, children):
         # dynamic node must be leaf node
