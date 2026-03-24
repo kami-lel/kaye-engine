@@ -460,7 +460,7 @@ class TestDynamicNodes:
 
         node = bp.corpus["Main Title"]["Introduction"]["Background"][
             "Importance"
-        ]["Abbreviations"]
+        ]["{Abbreviations}"]
 
         assert bp.checkmark(node)
         assert bp.is_checkmarked(node)
@@ -470,7 +470,7 @@ class TestDynamicNodes:
 
         node = bp.corpus["Main Title"]["Introduction"]["Background"][
             "Importance"
-        ]["Abbreviations"]
+        ]["{Abbreviations}"]
         node_hash = hash(node)
 
         assert bp.checkmark(node_hash)
@@ -481,7 +481,7 @@ class TestDynamicNodes:
         bp = local_dynamic_testee1
         node = bp.corpus["Main Title"]["Introduction"]["Background"][
             "Importance"
-        ]["Abbreviations"]
+        ]["{Abbreviations}"]
         ipt = "{Abbreviations}"
 
         assert bp.checkmark(ipt)
@@ -492,7 +492,7 @@ class TestDynamicNodes:
         bp = local_dynamic_testee1
         node = bp.corpus["Main Title"]["Introduction"]["Background"][
             "Importance"
-        ]["Abbreviations"]
+        ]["{Abbreviations}"]
         ipt = "{Abbreviations}"
 
         assert bp.checkmark(ipt)
@@ -504,7 +504,9 @@ class TestDynamicNodes:
     def test_checkmark_by_obj2(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
 
-        node = bp.corpus["Main Title"]["Methods"]["Programming Languages Code"]
+        node = bp.corpus["Main Title"]["Methods"][
+            "{Programming Languages Code}"
+        ]
 
         assert bp.checkmark(node)
         assert bp.is_checkmarked(node)
@@ -512,7 +514,9 @@ class TestDynamicNodes:
     def test_checkmark_by_hash2(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
 
-        node = bp.corpus["Main Title"]["Methods"]["Programming Languages Code"]
+        node = bp.corpus["Main Title"]["Methods"][
+            "{Programming Languages Code}"
+        ]
         node_hash = hash(node)
 
         assert bp.checkmark(node_hash)
@@ -522,8 +526,10 @@ class TestDynamicNodes:
     def test_checkmark_by_name2(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
 
-        node = bp.corpus["Main Title"]["Methods"]["Programming Languages Code"]
-        ipt = "Programming Languages Code"
+        node = bp.corpus["Main Title"]["Methods"][
+            "{Programming Languages Code}"
+        ]
+        ipt = "{Programming Languages Code}"
 
         assert bp.checkmark(ipt)
 
@@ -531,7 +537,9 @@ class TestDynamicNodes:
 
     def test_checkmark_by_identifier2(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
-        node = bp.corpus["Main Title"]["Methods"]["Programming Languages Code"]
+        node = bp.corpus["Main Title"]["Methods"][
+            "{Programming Languages Code}"
+        ]
         ipt = "{Programming Languages Code}"
 
         bp.checkmark(ipt)
