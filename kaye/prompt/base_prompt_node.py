@@ -134,14 +134,14 @@ class BasePromptNode(AnyTreeNode):
             return []
 
         ancestry_path = self.parent.generate_lineage()
-        ancestry_path.append(self.identifier)
+        ancestry_path.append(self.name)
         return ancestry_path
 
     # magic methods  ===========================================================
 
     def __getitem__(self, key):
         """
-        :param key: index of child; `.name` **or** `.identifier` of child
+        :param key: index of child; `.name` of child
         :type key: int or str
         :raises IndexError:
         :raises KeyError:
@@ -160,14 +160,12 @@ class BasePromptNode(AnyTreeNode):
                     "index out of range for {}: {}".format(str(self), key)
                 ) from err
 
-        elif isinstance(key, str):  # get by name/identifier
+        elif isinstance(key, str):  # get by name
             for child in self.children:
-                if key in (child.name, child.identifier):
+                if key == child.name:
                     return child
             raise KeyError(
-                "{} contains no child with name/identifier of {}".format(
-                    self, repr(key)
-                )
+                "{} contains no child with name of {}".format(self, repr(key))
             )
 
         else:
