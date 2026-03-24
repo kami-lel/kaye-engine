@@ -4,7 +4,7 @@ define ``PromptCorpusNode``
 
 import re
 
-from .base_prompt_node import BasePromptNode
+from .base_prompt_node import BasePromptNode, DynamicNode
 
 # section heading prefix used for parsing .md file of prompt corpus
 
@@ -29,7 +29,9 @@ class PromptCorpusNode(BasePromptNode):
 
     # constructor  =============================================================
     def __init__(self, heading, parent, content_lines):
-        self._init_check_name(heading)
+        # check valid name
+        if DynamicNode.is_valid_dynamic_node_heading(heading):
+            raise ValueError("illegal heading syntax: {}".format(repr(heading)))
 
         super().__init__(heading, parent)
 
@@ -41,20 +43,6 @@ class PromptCorpusNode(BasePromptNode):
             end -= 1
 
         self._content_lines = content_lines[start:end]
-
-    # constructor helpers  *****************************************************
-    HEADING_FORBIDDEN = re.compile(r"{.*}")
-
-    @classmethod
-    def _init_check_name(cls, name):
-        """
-        test name to be a legal heading
-
-        (helper method used in ``__init__()``)
-        """
-        # TODO check non-dynamic node
-        if cls.HEADING_FORBIDDEN.fullmatch(name):
-            raise ValueError("illegal heading syntax: {}".format(repr(name)))
 
     # implement BasePromptNode  ================================================
 
