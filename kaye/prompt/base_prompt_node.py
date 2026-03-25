@@ -90,16 +90,6 @@ class BasePromptNode(AnyTreeNode):
 
     # abstract methods  ========================================================
 
-    @property
-    def identifier(self):
-        """
-        :return: unique identifier of this node (among its siblings,)
-                may be different from ``.name``;
-                ``""`` for root node
-        :rtype: str
-        """
-        raise NotImplementedError
-
     def content_lines(self, **kwargs):
         """
         :return: content **lines** this node as appeared in concrete prompt;
@@ -118,30 +108,30 @@ class BasePromptNode(AnyTreeNode):
 
     # instance methods  ========================================================
 
-    def generate_identifier_lineage(self):
+    def generate_lineage(self):
         """
         :return: a **lineage**
                 from root (exclusively) to current node (inclusively,)
-                represented as a ``list`` of node's ``.identifier``
+                represented as a ``list`` of node's ``.name``
         :rtype: list(str)
         :example:
-        >>> root.generate_identifier_lineage()
+        >>> root.generate_lineage()
         []
-        >>> node.generate_identifier_lineage()
+        >>> node.generate_lineage()
         ["My Parent", "Myself"]
         """
         if self.is_root:
             return []
 
-        ancestry_path = self.parent.generate_identifier_lineage()
-        ancestry_path.append(self.identifier)
+        ancestry_path = self.parent.generate_lineage()
+        ancestry_path.append(self.name)
         return ancestry_path
 
     # magic methods  ===========================================================
 
     def __getitem__(self, key):
         """
-        :param key: index of child; `.name` **or** `.identifier` of child
+        :param key: index of child; `.name` of child
         :type key: int or str
         :raises IndexError:
         :raises KeyError:
@@ -160,14 +150,12 @@ class BasePromptNode(AnyTreeNode):
                     "index out of range for {}: {}".format(str(self), key)
                 ) from err
 
-        elif isinstance(key, str):  # get by name/identifier
+        elif isinstance(key, str):  # get by name
             for child in self.children:
-                if key in (child.name, child.identifier):
+                if key == child.name:
                     return child
             raise KeyError(
-                "{} contains no child with name/identifier of {}".format(
-                    self, repr(key)
-                )
+                "{} contains no child with name of {}".format(self, repr(key))
             )
 
         else:
@@ -178,7 +166,7 @@ class BasePromptNode(AnyTreeNode):
             )
 
     def __hash__(self):
-        return hash(tuple(self.generate_identifier_lineage()))
+        return hash(tuple(self.generate_lineage()))
 
     def __eq__(self, other):
         """
@@ -247,12 +235,26 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
     abstract class for all *dynamic node*
     """
 
-    ID_PATTERN = re.compile(r"^{.+}$")
+    @classmethod
+    def is_valid_dynamic_node_heading(cls, heading):
+        """
+        :param heading:
+        :type heading: str
+        :return: whether a node's heading fits dynamic node's heading syntax
+        :rtype: bool
+        """
+        return cls._ID_PATTERN.match(heading)
+
+    # constructor  =============================================================
+    def __init__(self, parent=None, **kwargs):
+        heading = "{" + self.HEADING + "}"
+        super().__init__(heading, parent=parent, **kwargs)
+
+    _ID_PATTERN = re.compile(r"^{.+}$")
+
+    HEADING = None
 
     # implement BasePromptNode  ================================================
-    @property
-    def identifier(self):
-        return "{" + self.name + "}"
 
     def _pre_attach_children(self, children):
         # dynamic node must be leaf node

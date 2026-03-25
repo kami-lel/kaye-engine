@@ -70,11 +70,7 @@ class Test1Full:  # ============================================================
         opt = exec_info.value.args[0]
 
         print(opt)
-        assert (
-            opt
-            == "must be "
-            "BasePromptNode/int(hash value)/str(name/identifier): 12.5"
-        )
+        assert opt == "must be BasePromptNode/int(hash value)/str(name): 12.5"
 
     def test_miss_node(self, bp_testee1full):
         bp = bp_testee1full
@@ -665,17 +661,13 @@ class TestDynamicNodes:  #######################################################
     def test_abbr(_, dynamic_bp_testee1):
         bp = copy.deepcopy(dynamic_bp_testee1)
 
-        node = dynamic_bp_testee1.corpus["Main Title"]["Introduction"][
-            "Background"
-        ]["Importance"]["Abbreviations"]
+        node = dynamic_bp_testee1.corpus["{Abbreviations}"]
 
         assert bp.is_checkmarked(node)
 
     def test_plc(_, dynamic_bp_testee1):
         bp = copy.deepcopy(dynamic_bp_testee1)
 
-        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
-            "Programming Languages Code"
-        ]
+        node = dynamic_bp_testee1.corpus["{Programming Languages Code}"]
 
         assert not bp.is_checkmarked(node)

@@ -682,17 +682,18 @@ class TestDynamicNodes:  #######################################################
         print(opt)
 
         assert opt == """    ○
-[x] └── Main Title
-[x]     ├── Introduction
-[x]     │   ├── Background
-[x]     │   │   └── Importance
-[x]     │   │       ├── Objective
-[x]     │   │       └── {Abbreviations}
-[x]     │   └── {Usable Abbreviations}
-[x]     ├── Methods
-[x]     │   ├── Data Collection
-[x]     │   │   └── Tools Used
-[x]     │   │       └── Future Work
-[x]     │   │           └── {Today}
-[ ]     │   └── {Programming Languages Code}
-[x]     └── Conclusion"""
+[x] ├── Main Title
+[x] │   ├── Introduction
+[x] │   │   └── Background
+[x] │   │       └── Importance
+[x] │   │           └── Objective
+[x] │   ├── Methods
+[x] │   │   └── Data Collection
+[x] │   │       └── Tools Used
+[x] │   │           └── Future Work
+[x] │   └── Conclusion
+[x] ├── {Today}
+[x] ├── {Abbreviations}
+[x] ├── {Usable Abbreviations}
+[x] ├── {Languages Code}
+[ ] └── {Programming Languages Code}"""

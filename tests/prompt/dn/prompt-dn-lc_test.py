@@ -1,9 +1,9 @@
 """
-prompt-usable_test.py
+prompt-lc_test.py
 
 Unit Tests (using pytest) for:
 
-- UsableAbbrNode
+LanguageCodeNode
 """
 
 import copy
@@ -12,7 +12,7 @@ import copy
 import pytest
 
 
-from kaye.prompt.abbr_nodes import UsableAbbrNode
+from kaye.prompt.abbr_nodes import LanguageCodeNode
 
 
 # pytest fixtures  #############################################################
@@ -23,15 +23,17 @@ def local_corpus_testee1(corpus_testee1):
 
 @pytest.fixture(scope="session")
 def testee1(local_corpus_testee1):
-    return UsableAbbrNode(local_corpus_testee1)
+    return LanguageCodeNode(local_corpus_testee1)
 
 
-class TestInit:  ###############################################################
+# pytest  ######################################################################
+
+
+class TestInit:  # =============================================================
 
     def test1(_, testee1, local_corpus_testee1):
         assert testee1.parent is local_corpus_testee1
-        assert testee1.name == "Usable Abbreviations"
-        assert testee1.identifier == "{Usable Abbreviations}"
+        assert testee1.name == "{Languages Code}"
 
     def test_preview1(_, local_corpus_testee1):
         opt = local_corpus_testee1.generate_prompt_tree_preview(
@@ -43,29 +45,35 @@ class TestInit:  ###############################################################
 │   ├── Description
 │   ├── Installation
 │   └── License
-└── Usable Abbreviations"""
+└── {Languages Code}"""
 
 
-class TestCopy:  ###############################################################
+class TestCopy:  # =============================================================
 
     def test_copy1(_, testee1):
         copied = copy.copy(testee1)
 
-        assert isinstance(copied, UsableAbbrNode)
-        assert copied.name == "Usable Abbreviations"
+        assert isinstance(copied, LanguageCodeNode)
+        assert copied.name == "{Languages Code}"
         assert copied.parent is None
 
     def test_deep_copy1(_, testee1):
         copied = copy.deepcopy(testee1)
 
-        assert isinstance(copied, UsableAbbrNode)
-        assert copied.name == "Usable Abbreviations"
+        assert isinstance(copied, LanguageCodeNode)
+        assert copied.name == "{Languages Code}"
         assert copied.parent is None
 
 
-class TestContentLines:  #######################################################
+class TestContentLines:  # =====================================================
 
     def test1(_, testee1):
         opt = testee1.content_lines()
         print(opt)
-        assert opt == ["-`&`:and", "-`/`:or"]
+        assert opt == [
+            "-`de`:Deutsch",
+            "-`en`:English",
+            "-`zh`:中文",
+            "-`zhs`:大陆简体中文",
+            "-`zht`:香港繁體中文",
+        ]

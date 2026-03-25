@@ -27,6 +27,16 @@ Kaye Chat *Dify App*:
 - utilize `AbbrNode` for creating abbreviations node  from **query**
 
 ### Changed
+
+Kaye *Python* Package:
+
+- prompt corpus tree singleton (from `load_prompt_corpus_tree()`) always contains all dynamic nodes under root
+- remove `.identifier` property from `BasePromptNode`
+
+  - rename function `.generate_lineage()` (from `.generate_identifier_lineage()`)
+
+- unit tests related to above changes
+
 ### Deprecated
 ### Removed
 
