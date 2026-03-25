@@ -65,6 +65,7 @@ Kaye Chat *Dify App*:
   (sense node is still required for sensing PLs)
 
 - include Annotation Markers for coder
+- Input Field `difficulty_override` defaults to `-1`
 
 
 
