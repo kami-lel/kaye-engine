@@ -43,10 +43,11 @@ CHAT_PROMPT_BLUEPRINT = """    ○
 [x] ├── Personality
 [x] ├── Language
 [x] ├── Elements
-[x] │   └── Date & Time Format
+[x] │   ├── Date & Time Format
+[x] │   ├── Numerical Values with Units
+[ ] │   └── Annotation Markers
+[ ] │       └── Meaning
 [x] ├── Format
-[x] ├── Elements
-[x] │   └── Numerical Values with Units
 [x] ├── Role
 [x] └── {Abbreviations}"""
 
@@ -151,7 +152,9 @@ def _create_peer_coder_blueprint(pls):  # ======================================
     bp.checkmark("Style", recursively=True)
 
     # add ams
-    bp.checkmark("Annotation Markers", recursively=True)
+    bp.checkmark(
+        bp.corpus["Elements"]["Annotation Markers"], recursively=True
+    )  # BUG
 
     # add Kaye Peer Coder node
     kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]

@@ -13,7 +13,6 @@ def assert_briefness_style(opt):
 def assert_annotation_markers(opt):
     assert (
         """## Annotation Markers
-
 Used to label defects and related notes across code and documentation. You must refer them as *annotation markers* or *AM*:"""
         in opt
     )
