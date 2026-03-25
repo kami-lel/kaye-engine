@@ -52,3 +52,9 @@ class TestDynamic:
 
         print(opt)
         assert "── {Programming Languages Code}" in opt
+
+    def test_u3d(_, prompt_corpus_tree_preview):
+        opt = prompt_corpus_tree_preview
+
+        print(opt)
+        assert "── {Unity Engine Abbreviations}" in opt
