@@ -453,16 +453,12 @@ class Test3Recursive:  # ======================================================
 # corpus w/ dynamic nodes  #####################################################
 class TestDynamicNodes:
 
-    # BUG
-
     # abbr  ====================================================================
 
     def test_checkmark_by_obj1(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
 
-        node = bp.corpus["Main Title"]["Introduction"]["Background"][
-            "Importance"
-        ]["{Abbreviations}"]
+        node = bp.corpus["{Abbreviations}"]
 
         assert bp.checkmark(node)
         assert bp.is_checkmarked(node)
@@ -470,9 +466,7 @@ class TestDynamicNodes:
     def test_checkmark_by_hash1(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
 
-        node = bp.corpus["Main Title"]["Introduction"]["Background"][
-            "Importance"
-        ]["{Abbreviations}"]
+        node = bp.corpus["{Abbreviations}"]
         node_hash = hash(node)
 
         assert bp.checkmark(node_hash)
@@ -481,9 +475,7 @@ class TestDynamicNodes:
 
     def test_checkmark_by_name1(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
-        node = bp.corpus["Main Title"]["Introduction"]["Background"][
-            "Importance"
-        ]["{Abbreviations}"]
+        node = bp.corpus["{Abbreviations}"]
         ipt = "{Abbreviations}"
 
         assert bp.checkmark(ipt)
@@ -492,9 +484,7 @@ class TestDynamicNodes:
 
     def test_checkmark_by_identifier1(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
-        node = bp.corpus["Main Title"]["Introduction"]["Background"][
-            "Importance"
-        ]["{Abbreviations}"]
+        node = bp.corpus["{Abbreviations}"]
         ipt = "{Abbreviations}"
 
         assert bp.checkmark(ipt)
@@ -506,9 +496,7 @@ class TestDynamicNodes:
     def test_checkmark_by_obj2(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
 
-        node = bp.corpus["Main Title"]["Methods"][
-            "{Programming Languages Code}"
-        ]
+        node = bp.corpus["{Programming Languages Code}"]
 
         assert bp.checkmark(node)
         assert bp.is_checkmarked(node)
@@ -516,9 +504,7 @@ class TestDynamicNodes:
     def test_checkmark_by_hash2(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
 
-        node = bp.corpus["Main Title"]["Methods"][
-            "{Programming Languages Code}"
-        ]
+        node = bp.corpus["{Programming Languages Code}"]
         node_hash = hash(node)
 
         assert bp.checkmark(node_hash)
@@ -528,9 +514,7 @@ class TestDynamicNodes:
     def test_checkmark_by_name2(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
 
-        node = bp.corpus["Main Title"]["Methods"][
-            "{Programming Languages Code}"
-        ]
+        node = bp.corpus["{Programming Languages Code}"]
         ipt = "{Programming Languages Code}"
 
         assert bp.checkmark(ipt)
@@ -539,9 +523,7 @@ class TestDynamicNodes:
 
     def test_checkmark_by_identifier2(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
-        node = bp.corpus["Main Title"]["Methods"][
-            "{Programming Languages Code}"
-        ]
+        node = bp.corpus["{Programming Languages Code}"]
         ipt = "{Programming Languages Code}"
 
         bp.checkmark(ipt)
@@ -553,20 +535,21 @@ class TestDynamicNodes:
     def test_recursive1(_, dynamic_bp_testee_empty):
         bp = dynamic_bp_testee_empty
         answer = """    ○
-[x] └── Main Title
-[x]     ├── Introduction
-[x]     │   ├── Background
-[x]     │   │   └── Importance
-[x]     │   │       ├── Objective
-[x]     │   │       └── {Abbreviations}
-[x]     │   └── {Usable Abbreviations}
-[x]     ├── Methods
-[x]     │   ├── Data Collection
-[x]     │   │   └── Tools Used
-[x]     │   │       └── Future Work
-[x]     │   │           └── {Today}
-[x]     │   └── {Programming Languages Code}
-[x]     └── Conclusion"""
+[x] ├── Main Title
+[x] │   ├── Introduction
+[x] │   │   └── Background
+[x] │   │       └── Importance
+[x] │   │           └── Objective
+[x] │   ├── Methods
+[x] │   │   └── Data Collection
+[x] │   │       └── Tools Used
+[x] │   │           └── Future Work
+[x] │   └── Conclusion
+[ ] ├── {Today}
+[ ] ├── {Abbreviations}
+[ ] ├── {Usable Abbreviations}
+[ ] ├── {Languages Code}
+[ ] └── {Programming Languages Code}"""
 
         bp.checkmark("Main Title", recursively=True)
 
@@ -578,21 +561,23 @@ class TestDynamicNodes:
 
     def test_recursive2(_, dynamic_bp_testee_empty):
         bp = dynamic_bp_testee_empty
+
         answer = """    ○
-[ ] └── Main Title
-[x]     ├── Introduction
-[x]     │   ├── Background
-[x]     │   │   └── Importance
-[x]     │   │       ├── Objective
-[x]     │   │       └── {Abbreviations}
-[x]     │   └── {Usable Abbreviations}
-[ ]     ├── Methods
-[ ]     │   ├── Data Collection
-[ ]     │   │   └── Tools Used
-[ ]     │   │       └── Future Work
-[ ]     │   │           └── {Today}
-[ ]     │   └── {Programming Languages Code}
-[ ]     └── Conclusion"""
+[ ] ├── Main Title
+[x] │   ├── Introduction
+[x] │   │   └── Background
+[x] │   │       └── Importance
+[x] │   │           └── Objective
+[ ] │   ├── Methods
+[ ] │   │   └── Data Collection
+[ ] │   │       └── Tools Used
+[ ] │   │           └── Future Work
+[ ] │   └── Conclusion
+[ ] ├── {Today}
+[ ] ├── {Abbreviations}
+[ ] ├── {Usable Abbreviations}
+[ ] ├── {Languages Code}
+[ ] └── {Programming Languages Code}"""
 
         bp.checkmark("Introduction", recursively=True)
 
