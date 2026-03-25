@@ -71,12 +71,12 @@ def main(
 
     role_used = role_override or role
     if role_used == "coder":
-        if difficulty_override:
+        if difficulty_override == -1:
+            lines.append("Difficulty: {}".format(difficulty_sensed))
+        else:
             lines.append(
                 "Difficulty (Override): {}".format(difficulty_override)
             )
-        else:
-            lines.append("Difficulty: {}".format(difficulty_sensed))
 
         lines.append("PLs: {}".format(programming_languages))
 
