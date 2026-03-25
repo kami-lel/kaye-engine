@@ -122,8 +122,23 @@ def corpus_testee3():
 
 @pytest.fixture(scope="session")
 def corpus_dynamic_testee(corpus_testee3):
-    # BUG not used
     tree = deepcopy(corpus_testee3)
+
+    for node_type in (
+        TodayNode,
+        AbbrNode,
+        UsableAbbrNode,
+        LanguageCodeNode,
+        PLCNode,
+    ):
+        node_type(tree)
+
+    return tree
+
+
+@pytest.fixture(scope="session")
+def corpus_dynamic_testee2(corpus_testee1):
+    tree = deepcopy(corpus_testee1)
 
     for node_type in (
         TodayNode,

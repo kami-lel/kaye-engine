@@ -453,6 +453,8 @@ class Test3Recursive:  # ======================================================
 # corpus w/ dynamic nodes  #####################################################
 class TestDynamicNodes:
 
+    # BUG
+
     # abbr  ====================================================================
 
     def test_checkmark_by_obj1(_, local_dynamic_testee1):

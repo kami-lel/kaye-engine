@@ -238,15 +238,17 @@ Suggestions for future research or tasks.
 
 class TestDynamicNodes:  #######################################################
 
-    def test1(_, corpus_testee1):
+    def test1(_, corpus_dynamic_testee2):
+        corpus = corpus_dynamic_testee2
+
         bp_text = """    ○
 [ ] └── Project Title
-[x]     ├── Description
-[x]     ├── Installation
-[x]     ├── License
-[x]     └── {Usable Abbreviations}"""
+[x] │   ├── Description
+[x] │   ├── Installation
+[x] │   └── License
+[x] └── {Usable Abbreviations}"""
 
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -260,6 +262,7 @@ Clone the repo and install dependencies.
 ## License
 Licensed under the MIT License.
 
-## {Usable Abbreviations}
+# {Usable Abbreviations}
 -`&`:and
--`/`:or"""
+-`/`:or
+"""

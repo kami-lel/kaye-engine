@@ -51,6 +51,9 @@ def _assert_empty_opt(opt):
 `difficulty` must be `0`""" in opt
 
 
+# BUG
+
+
 class TestNoRole:  #############################################################
 
     def test1(self, flask_test_client, sense_endpoint):
