@@ -37,6 +37,10 @@ Kaye *Python* Package:
 
 - unit tests related to above changes
 
+Kaye Commit Sense *Dify App*:
+
+- update used OpenAI LLM models
+
 ### Deprecated
 ### Removed
 
