@@ -138,6 +138,12 @@ This section pertains specifically to Python test code. Tests should be compatib
     )
 
 
+def assert_bash(opt):
+    """### Bash
+
+You write command lines for Debian GNU/Linux only.""" in opt
+
+
 class TestBase:  ###############################################################
 
     # tests  ===================================================================
@@ -387,6 +393,7 @@ class TestIndv:  ###############################################################
         _assert_py_opt(opt)
 
     def test_console(_, flask_test_client, task_endpoint):
+        # HACK rm all console related
         payload = {"role": "coder", "programming_languages": "console"}
 
         response = flask_test_client.get(
@@ -400,6 +407,22 @@ class TestIndv:  ###############################################################
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
+
+    def test_bash(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "bash"}
+
+        response = flask_test_client.get(
+            task_endpoint,
+            data=json.dumps(payload),
+            content_type="application/json",
+        )
+
+        opt = response.get_data().decode("utf-8")
+        print(opt)
+
+        _assert_chat_blueprint_opt(opt)
+        _assert_coder_basic_blueprint_opt(opt)
+        assert_bash(opt)
 
 
 class TestMux:  ################################################################

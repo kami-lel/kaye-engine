@@ -1488,6 +1488,14 @@ Example (Python):
 
 ### Bash
 
+You write command lines for Debian GNU/Linux only.
+Use standard GNU and Debian tools only.
+Return only the command or commands, with no explanation.
+Use sudo when needed.
+Destructive commands are allowed if they match the user's request.
+Multi-line commands are allowed.
+If the request is ambiguous, ask one short clarifying question instead of guessing.
+
 
 
 
