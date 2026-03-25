@@ -368,18 +368,14 @@ class TestDynamicNodes:  #######################################################
     def test_obj1(_, dynamic_bp_testee1):
         bp = copy.deepcopy(dynamic_bp_testee1)
 
-        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
-            "{Programming Languages Code}"
-        ]
+        node = dynamic_bp_testee1.corpus["{Programming Languages Code}"]
 
         assert node in bp
 
     def test_hash1(_, dynamic_bp_testee1):
         bp = copy.deepcopy(dynamic_bp_testee1)
 
-        node = dynamic_bp_testee1.corpus["Main Title"]["Methods"][
-            "{Programming Languages Code}"
-        ]
+        node = dynamic_bp_testee1.corpus["{Programming Languages Code}"]
 
         assert hash(node) in bp
 
