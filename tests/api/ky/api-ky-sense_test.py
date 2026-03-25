@@ -92,13 +92,13 @@ class TestRoleCoder:  ##########################################################
         _assert_start_opt(opt)
 
         assert (
-            """- `0.90` Add observability (structured logs, metrics, tracing) with request IDs end-to-end.
-- `0.98` Implement an advanced distributed algorithm prototype (e.g., Raft leader election).
-- `0.99` Build a small interpreter/compiler (lexer → parser → AST → evaluator) with tests.
-- `1.00` Start a monolith→microservices migration: plan + implement first extraction safely.
-"""
+            """- `0.93` Optimize a slow loop by reducing nested iterations or caching loop variables.
+- `0.96` Integrate a standard third-party SDK for a straightforward feature; mock in tests.
+- `0.98` Convert a sync flow to async/await (or equivalent) without behavior changes.
+- `1.00` Refactor a messy module into smaller units without changing behavior; update tests."""
             in opt
         )
+
         assert "#### programming_languages" in opt
         assert "#### difficulty" in opt
         assert "# {Programming Languages Code}" in opt

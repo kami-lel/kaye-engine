@@ -813,6 +813,16 @@
       "wrap": "word"
     }
   },
+  "GNU Bash": {
+    "bash": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
+    }
+  },
   "calculate,calculation": {
     "calc": {
       "priority": 5,
