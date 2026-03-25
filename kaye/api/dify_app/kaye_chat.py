@@ -194,8 +194,11 @@ def _create_peer_coder_blueprint(pls):  # ======================================
         elif plc == "py":
             bp.checkmark(kyc_node["Python"], recursively=True)
 
+        # FIXME rm console?
         elif plc == "console":
             bp.checkmark(kyc_node["Message Level"])
+
+        # TODO bash
 
         elif plc != "":
             print(
