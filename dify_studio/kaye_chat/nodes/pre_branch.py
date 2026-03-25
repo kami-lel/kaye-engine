@@ -40,7 +40,13 @@ def main(
         llm = llm_override
 
     elif role == "coder":
-        difficulty = difficulty_override or difficulty_sensed
+
+        difficulty = (
+            difficulty_sensed
+            if (difficulty_override == -1)
+            else difficulty_override
+        )
+
         if difficulty < difficulty_thresholds[0]:
             llm = "rapid"
         elif difficulty < difficulty_thresholds[1]:
