@@ -808,7 +808,7 @@ select exactly one role. pick the role that matches the **main type of work** th
 
 #### programming_languages
 
-Return a string containing the abbreviations of the programming languages (as defined below) required by the user, separated by commas. For example, `'py,cpp'`. If the conversation does not mention any specific programming language, such as when discussing conceptual or general algorithms, return an empty string (`''`).
+Return a string containing the abbreviations of the programming languages (defined below) required by the user, separated by commas. For example, `'py,cpp'`. If the conversation does not mention any specific programming language, such as when discussing conceptual or general algorithms, return an empty string (`''`).
 
 
 
