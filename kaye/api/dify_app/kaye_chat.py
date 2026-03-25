@@ -152,9 +152,7 @@ def _create_peer_coder_blueprint(pls):  # ======================================
     bp.checkmark("Style", recursively=True)
 
     # add ams
-    bp.checkmark(
-        bp.corpus["Elements"]["Annotation Markers"], recursively=True
-    )  # BUG
+    bp.checkmark(bp.corpus["Elements"]["Annotation Markers"], recursively=True)
 
     # add Kaye Peer Coder node
     kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]
