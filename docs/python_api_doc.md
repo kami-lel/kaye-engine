@@ -1,7 +1,5 @@
 # Kaye Python Package API documentation
 
-<!-- Todo update package doc -->
-
 ## `prompt` module
 
 The **core** module of *Kaye Python API*, implement a systematic, dynamic, and structured framework for **prompt management and manipulation**.
