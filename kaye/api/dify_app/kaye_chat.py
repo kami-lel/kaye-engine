@@ -157,10 +157,10 @@ def _create_peer_coder_blueprint(pls):  # ======================================
     # adds PL nodes  -----------------------------------------------------------
     for plc in pls.split(","):
         if plc == "bash":
-            bp.checkmark(kyc_node["C"])
+            bp.checkmark(kyc_node["Bash"])
 
         elif plc == "c":
-            bp.checkmark(kyc_node["Bash"])
+            bp.checkmark(kyc_node["C"])
 
         elif plc == "cpp":
             bp.checkmark(kyc_node["C"])
@@ -196,10 +196,6 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
         elif plc == "py":
             bp.checkmark(kyc_node["Python"], recursively=True)
-
-        # FIXME rm console?
-        elif plc == "console":
-            bp.checkmark(kyc_node["Message Level"])
 
         elif plc != "":
             print(

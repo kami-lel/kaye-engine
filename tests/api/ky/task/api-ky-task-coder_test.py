@@ -400,8 +400,6 @@ class TestIndv:  ###############################################################
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
-        assert """### Message Level
-These keywords indicate the severity of a message:""" in opt
 
 
 class TestMux:  ################################################################

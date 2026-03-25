@@ -1828,60 +1828,6 @@ class TestAdd:
 
 
 
-### Message Level
-
-These keywords indicate the severity of a message:
-
-- `DEBUG:`
-- `INFO :` (informational)
-- `WARN :` (warning)
-- `ERROR:`
-- `CRIT :` (critical)
-
-Example Bash Print:
-
-```bash
-echo "DEBUG: Starting backup operation"
-echo "WARN : Disk space running low"
-```
-
-Example Log File Output:
-
-```
-[2024-06-28 12:40:25] INFO : Application started
-[2024-06-28 12:41:03] ERROR: Failed to connect to database
-[2024-06-28 12:41:10] CRIT : System is shutting down unexpectedly
-```
-
-Example C Code Message Print:
-
-```c
-#include <stdio.h>
-int main() {
-    printf("DEBUG: Initialized successfully\n");
-    printf("ERROR: File read error\n");
-    return 0;
-}
-```
-
-Example Popup Window Message in JavaScript:
-
-```javascript
-alert("INFO : Update completed");
-alert("ERROR: Unable to fetch data from server");
-```
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
