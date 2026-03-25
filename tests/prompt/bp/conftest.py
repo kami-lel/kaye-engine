@@ -1,6 +1,3 @@
-import copy
-
-
 import pytest
 
 
@@ -46,8 +43,8 @@ def dynamic_bp_testee1(corpus_dynamic_testee):
 
 
 @pytest.fixture
-def dynamic_bp_testee_full(corpus_testee3):
-    corpus = corpus_testee3
+def dynamic_bp_testee_full(corpus_dynamic_testee):
+    corpus = corpus_dynamic_testee
 
     text = """    ○
 [x] ├── Main Title
@@ -72,8 +69,8 @@ def dynamic_bp_testee_full(corpus_testee3):
 
 
 @pytest.fixture
-def dynamic_bp_testee_empty(corpus_testee3):
-    corpus = corpus_testee3
+def dynamic_bp_testee_empty(corpus_dynamic_testee):
+    corpus = corpus_dynamic_testee
 
     text = """    ○
 [ ] ├── Main Title
