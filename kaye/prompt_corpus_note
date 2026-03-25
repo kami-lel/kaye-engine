@@ -2,7 +2,6 @@ TODO kyc: c & cpp instruction on comment usages
 TODO kyc: all code block should contains file name in 1st line if possible
 TODO kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
 FIXME kyc: improve comment section heading prompt, less wordy, make it used less often
-TODO write bash prompt
 
 todo utilize latex for math
 

@@ -1,4 +1,3 @@
-TODO kyc: bash/command line writer
 BUG kyc: code commentaries s/X get double #
 BUG kyc: didn't include AMs definition currently
 fixme ky: allow sense early exit, i.e. provide an answer directly
