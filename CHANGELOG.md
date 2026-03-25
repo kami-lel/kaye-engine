@@ -40,6 +40,7 @@ Kaye *Python* Package:
 Kaye Chat *Dify App*:
 
 - update prompt related to difficulty, using another set of *anchor points* examples that will normally yield a higher value of difficult
+- update used OpenAI LLM models
 
 ### Deprecated
 ### Removed
