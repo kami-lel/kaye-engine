@@ -9,7 +9,7 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/openai:0.2.5@373362a028986aae53a7baf73a7f11991ba3c22c69eaf97d6cde048cfd4a9f98
+    marketplace_plugin_unique_identifier: langgenius/openai:0.3.3@cfb7804d9acf3e0f24b33e97e22c2600249c471f33428efa33597959b513ad2d
     version: null
 kind: app
 version: 0.5.0
@@ -31,6 +31,7 @@ workflow:
     - difficulty_thresholds
     value:
     - 0.2
+    - 0.5
     - 0.9
     value_type: array[number]
   - description: ''
@@ -414,11 +415,24 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: assigner
-        targetType: http-request
-      id: 1772345067762-source-17714285892740-target
+        sourceType: if-else
+        targetType: code
+      id: 1771427941644-true-1774290156027-target
       selected: false
-      source: '1772345067762'
+      source: '1771427941644'
+      sourceHandle: 'true'
+      target: '1774290156027'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: http-request
+      id: 1774290156027-source-17714285892740-target
+      selected: false
+      source: '1774290156027'
       sourceHandle: source
       target: '17714285892740'
       targetHandle: target
@@ -426,13 +440,13 @@ workflow:
       zIndex: 0
     - data:
         isInLoop: false
-        sourceType: if-else
-        targetType: http-request
-      id: 1771427941644-true-17714285892740-target
+        sourceType: assigner
+        targetType: code
+      id: 1772345067762-source-1774290156027-target
       selected: false
-      source: '1771427941644'
-      sourceHandle: 'true'
-      target: '17714285892740'
+      source: '1772345067762'
+      sourceHandle: source
+      target: '1774290156027'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -442,7 +456,7 @@ workflow:
         title: User Input
         type: start
         variables:
-        - default: false
+        - default: true
           hint: ''
           label: show_meta_content
           max_length: 48
@@ -451,17 +465,18 @@ workflow:
           required: false
           type: checkbox
           variable: show_meta_content
-        - default: ''
-          hint: ''
+        - hint: ''
           label: role_override
           max_length: 48
-          options: []
+          options:
+          - rapid
+          - coder
+          - barista
           placeholder: ''
           required: false
           type: text-input
           variable: role_override
-        - default: ''
-          hint: ''
+        - hint: ''
           label: llm_override
           max_length: 48
           options: []
@@ -469,7 +484,7 @@ workflow:
           required: false
           type: text-input
           variable: llm_override
-        - default: '0.0'
+        - default: '-1'
           hint: ''
           label: difficulty_override
           max_length: 48
@@ -486,7 +501,7 @@ workflow:
       positionAbsolute:
         x: -867.6996580590874
         y: 288.0984533980636
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -518,11 +533,11 @@ workflow:
       height: 160
       id: '1768126033433'
       position:
-        x: 106.08145220761406
-        y: 142.15478025324344
+        x: 74.08145220761412
+        y: 154.15478025324344
       positionAbsolute:
-        x: 106.08145220761406
-        y: 142.15478025324344
+        x: 74.08145220761412
+        y: 154.15478025324344
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -541,8 +556,7 @@ workflow:
             enabled: false
             size: 50
         model:
-          completion_params:
-            temperature: 0.7
+          completion_params: {}
           mode: chat
           name: gpt-4.1-nano
           provider: langgenius/openai/openai
@@ -569,8 +583,12 @@ workflow:
                 type: string
               role:
                 enum:
-                - chat
+                - barista
                 - coder
+                - chat
+                - rapid
+                - editor
+                - secretary
             required:
             - difficulty
             - programming_languages
@@ -585,11 +603,11 @@ workflow:
       height: 88
       id: '1771241815334'
       position:
-        x: 106.08145220761406
-        y: 298.8001362401752
+        x: 74.08145220761412
+        y: 310.8001362401752
       positionAbsolute:
-        x: 106.08145220761406
-        y: 298.8001362401752
+        x: 74.08145220761412
+        y: 310.8001362401752
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -597,15 +615,31 @@ workflow:
       width: 242
     - data:
         code: "# pylint: disable=missing-module-docstring\n\n\n# output keys  #################################################################\n\
-          OUTPUT_ROLE_KEY = \"role\"\nOUTPUT_SKIP_KEY = \"skip_sense\"\n\n\n# Entry\
-          \ Point  #################################################################\n\
-          def main(\n    role_override: str,\n    llm_override: str,\n    difficulty_override:\
-          \ float,\n    current_role: str,\n):\n    # decide role  =============================================================\n\
-          \    role = role_override or current_role or \"\"\n\n    # decide if skip\
-          \ sense  ====================================================\n    skip_pre_sense\
-          \ = (\n        role == \"coder\" and (difficulty_override or llm_override)\n\
-          \    ) or (role and llm_override)\n\n    return {OUTPUT_ROLE_KEY: role,\
-          \ OUTPUT_SKIP_KEY: bool(skip_pre_sense)}\n\n"
+          OUTPUT_ROLE_KEY = \"role\"\nOUTPUT_SKIP_KEY = \"skip_sense\"\n\n\n# helpers\
+          \  #####################################################################\n\
+          def should_skip_sense(role, llm_override):\n    \"\"\"\n    decide whether\
+          \ should skip sense node for this round of conversation\n    based on combination\
+          \ of difficulty & LLM overrides given\n\n\n    :param role:\n    :type role:\
+          \ str\n    :param llm_override:\n    :type llm_override: str\n    :return:\
+          \ whether should skip sense node\n    :rtype: bool\n    \"\"\"\n    if role\
+          \ == \"barista\":\n        # skip for Assistant Barista\n        return\
+          \ True\n\n    elif role == \"changelog\":\n        # skip for Changelog\
+          \ writer\n        return True\n\n    elif role:\n        # both both & LLM\
+          \ are provided\n        return bool(llm_override)\n\n    return False\n\n\
+          \n# Entry Point  #################################################################\n\
+          def main(\n    role_override: str,\n    llm_override: str,\n    current_role:\
+          \ str,\n):\n    \"\"\"\n    prepare parameters for **this round**\n    based\
+          \ on variables provided by *User Input Fields*\n\n\n    :param role_override:\n\
+          \    :type role_override: str\n    :param llm_override:\n    :type llm_override:\
+          \ str\n    :param current_role: role saved in conversation variable,\n \
+          \           often decided on 1st round of conversation\n    :type current_role:\
+          \ str\n    :return: {\n            \"role\": role to used for this round\
+          \ of conversation,\n            \"skip_sense\": whether skip sense node\
+          \ in this round}\n    :rtype: dict{\"role\": str, \"skip_sense\": bool}\n\
+          \    \"\"\"\n    # decide role  =============================================================\n\
+          \    role = role_override or current_role or \"\"\n\n    skip_sense = should_skip_sense(role,\
+          \ llm_override)\n\n    return {OUTPUT_ROLE_KEY: role, OUTPUT_SKIP_KEY: skip_sense}\n\
+          \n"
         code_language: python3
         outputs:
           role:
@@ -628,11 +662,6 @@ workflow:
           - llm_override
           value_type: string
           variable: llm_override
-        - value_selector:
-          - '1768125126392'
-          - difficulty_override
-          value_type: number
-          variable: difficulty_override
         - value_selector:
           - conversation
           - role
@@ -663,7 +692,7 @@ workflow:
           - role
           write_mode: over-write
         selected: false
-        title: role setter
+        title: post start setter
         type: assigner
         version: '2'
       height: 84
@@ -698,11 +727,11 @@ workflow:
       height: 124
       id: '1771427941644'
       position:
-        x: 106.08145220761406
-        y: 20.222974733409444
+        x: 74.08145220761412
+        y: 32.222974733409444
       positionAbsolute:
-        x: 106.08145220761406
-        y: 20.222974733409444
+        x: 74.08145220761412
+        y: 32.222974733409444
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -713,13 +742,15 @@ workflow:
           config: null
           type: no-auth
         body:
-          data: []
-          type: none
+          data:
+          - id: key-value-53
+            key: ''
+            type: text
+            value: '{{#1774290156027.body#}}'
+          type: json
         headers: ''
         method: get
-        params: 'role:{{#conversation.role#}}
-
-          programming_languages:{{#conversation.programming_languages#}}'
+        params: ''
         retry_config:
           max_retries: 3
           retry_enabled: true
@@ -737,11 +768,11 @@ workflow:
       height: 160
       id: '17714285892740'
       position:
-        x: 645.8934561170636
-        y: 121.6701083659259
+        x: 525.8934561170636
+        y: 140.10431686693488
       positionAbsolute:
-        x: 645.8934561170636
-        y: 121.6701083659259
+        x: 525.8934561170636
+        y: 140.10431686693488
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -765,11 +796,11 @@ workflow:
       height: 84
       id: '1771428724194'
       position:
-        x: 645.8934561170636
-        y: 281.4419478747335
+        x: 525.8934561170636
+        y: 301.4419478747335
       positionAbsolute:
-        x: 645.8934561170636
-        y: 281.4419478747335
+        x: 525.8934561170636
+        y: 301.4419478747335
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -784,27 +815,43 @@ workflow:
       height: 102
       id: '1771842506356'
       position:
-        x: 2280.603782535578
-        y: 312.39688055315526
+        x: 2004.603782535578
+        y: 352.39688055315526
       positionAbsolute:
-        x: 2280.603782535578
-        y: 312.39688055315526
+        x: 2004.603782535578
+        y: 352.39688055315526
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        code: "# pylint: disable=missing-module-docstring\n\n\n# output keys  #################################################################\n\
+        code: "# pylint: disable=missing-module-docstring\n# pylint: disable=too-many-arguments\n\
+          # pylint: disable=too-many-positional-arguments\n\n\n# output keys  #################################################################\n\
           OUTPUT_LLM_KEY = \"llm\"\n\n\n# Entry Point  #################################################################\n\
-          def main(\n    role: str,\n    llm_override: str,\n    llm_sensed: dict,\n\
-          \    difficulty_override: float,\n    difficulty_sensed: dict,\n    difficulty_thresholds:\
-          \ list[float],\n):\n\n    if role == \"coder\":\n        difficulty = difficulty_override\
-          \ or difficulty_sensed\n        if difficulty < difficulty_thresholds[0]:\n\
-          \            llm = \"rapid\"\n        elif difficulty < difficulty_thresholds[1]:\n\
-          \            llm = \"think\"\n        else:\n            llm = \"think-think\"\
-          \n\n    else:\n        llm = llm_override or llm_sensed\n\n    return {OUTPUT_LLM_KEY:\
-          \ llm}\n\n"
+          def main(\n    role: str,\n    llm_override: str,\n    llm_sensed: str,\n\
+          \    difficulty_override: float,\n    difficulty_sensed: float,\n    difficulty_thresholds:\
+          \ list[float],\n):\n    \"\"\"\n    decide which LLM (branch) for this round\
+          \ of conversation\n\n\n    :param role:\n    :type role: str\n    :param\
+          \ llm_override:\n    :type llm_override: str\n    :param llm_sensed:\n \
+          \   :type llm_sensed: str\n    :param difficulty_override:\n    :type difficulty_override:\
+          \ float\n    :param difficulty_sensed:\n    :type difficulty_sensed: float\n\
+          \    :param difficulty_thresholds:\n            difficulty thresholds given\
+          \ as environment variable\n    :type difficulty_thresholds: list[float]\n\
+          \    :return: {\"llm\": LLM to use for this round of conversation}\n   \
+          \ :rtype: dict{\"llm\": str}\n    \"\"\"\n    if llm_override:\n       \
+          \ llm = llm_override\n\n    elif role == \"coder\":\n\n        difficulty\
+          \ = (\n            difficulty_sensed\n            if (difficulty_override\
+          \ == -1)\n            else difficulty_override\n        )\n\n        if\
+          \ difficulty < difficulty_thresholds[0]:\n            llm = \"rapid\"\n\
+          \        elif difficulty < difficulty_thresholds[1]:\n            llm =\
+          \ \"chat\"\n        elif difficulty < difficulty_thresholds[2]:\n      \
+          \      llm = \"think\"\n        else:\n            llm = \"think-think\"\
+          \n\n    elif role == \"barista\":\n        # Assistant Barista always use\
+          \ chat\n        llm = \"chat\"\n\n    elif role == \"changelog\":\n    \
+          \    # Changelog writer always use think\n        llm = \"think\"\n\n  \
+          \  else:\n        llm = llm_sensed\n\n    return {OUTPUT_LLM_KEY: llm}\n\
+          \n"
         code_language: python3
         outputs:
           llm:
@@ -849,11 +896,11 @@ workflow:
       height: 52
       id: '1772079097352'
       position:
-        x: 1219.430503763221
-        y: 28.143128305489427
+        x: 943.4305037632209
+        y: 68.14312830548943
       positionAbsolute:
-        x: 1219.430503763221
-        y: 28.143128305489427
+        x: 943.4305037632209
+        y: 68.14312830548943
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -900,11 +947,11 @@ workflow:
       height: 220
       id: '1772079133588'
       position:
-        x: 1219.430503763221
-        y: 80.88175899936255
+        x: 943.4305037632209
+        y: 120.88175899936255
       positionAbsolute:
-        x: 1219.430503763221
-        y: 80.88175899936255
+        x: 943.4305037632209
+        y: 120.88175899936255
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -926,8 +973,7 @@ workflow:
             enabled: false
             size: 50
         model:
-          completion_params:
-            temperature: 0.7
+          completion_params: {}
           mode: chat
           name: gpt-4.1-nano
           provider: langgenius/openai/openai
@@ -943,11 +989,11 @@ workflow:
       height: 88
       id: '1772079364492'
       position:
-        x: 1609.666289731816
-        y: 28.143128305489427
+        x: 1333.666289731816
+        y: 68.14312830548943
       positionAbsolute:
-        x: 1609.666289731816
-        y: 28.143128305489427
+        x: 1333.666289731816
+        y: 68.14312830548943
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -962,11 +1008,11 @@ workflow:
       height: 102
       id: '1772079372195'
       position:
-        x: 1920.7941296596018
-        y: 28.143128305489427
+        x: 1644.7941296596018
+        y: 68.14312830548943
       positionAbsolute:
-        x: 1920.7941296596018
-        y: 28.143128305489427
+        x: 1644.7941296596018
+        y: 68.14312830548943
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -990,7 +1036,7 @@ workflow:
         model:
           completion_params: {}
           mode: chat
-          name: gpt-5-mini
+          name: gpt-5.4-mini
           provider: langgenius/openai/openai
         prompt_template:
         - id: 8da671f8-a7f8-4760-bbc3-0341caf028ea
@@ -1004,11 +1050,11 @@ workflow:
       height: 88
       id: '17720794245330'
       position:
-        x: 1609.666289731816
-        y: 149.12154768161292
+        x: 1333.666289731816
+        y: 189.12154768161292
       positionAbsolute:
-        x: 1609.666289731816
-        y: 149.12154768161292
+        x: 1333.666289731816
+        y: 189.12154768161292
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1023,11 +1069,11 @@ workflow:
       height: 102
       id: '17720794245331'
       position:
-        x: 1920.7941296596018
-        y: 149.12154768161292
+        x: 1644.7941296596018
+        y: 189.12154768161292
       positionAbsolute:
-        x: 1920.7941296596018
-        y: 149.12154768161292
+        x: 1644.7941296596018
+        y: 189.12154768161292
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1051,7 +1097,7 @@ workflow:
         model:
           completion_params: {}
           mode: chat
-          name: gpt-5
+          name: gpt-5.4
           provider: langgenius/openai/openai
         prompt_template:
         - id: 8da671f8-a7f8-4760-bbc3-0341caf028ea
@@ -1065,11 +1111,11 @@ workflow:
       height: 88
       id: '17720794553410'
       position:
-        x: 1609.666289731816
-        y: 268.7976711792479
+        x: 1333.666289731816
+        y: 308.7976711792479
       positionAbsolute:
-        x: 1609.666289731816
-        y: 268.7976711792479
+        x: 1333.666289731816
+        y: 308.7976711792479
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1084,11 +1130,11 @@ workflow:
       height: 102
       id: '17720794553411'
       position:
-        x: 1920.7941296596018
-        y: 268.7976711792479
+        x: 1644.7941296596018
+        y: 308.7976711792479
       positionAbsolute:
-        x: 1920.7941296596018
-        y: 268.7976711792479
+        x: 1644.7941296596018
+        y: 308.7976711792479
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1126,12 +1172,12 @@ workflow:
       height: 88
       id: '17720794978780'
       position:
-        x: 1609.666289731816
-        y: 390.5022035497241
+        x: 1333.666289731816
+        y: 430.5022035497241
       positionAbsolute:
-        x: 1609.666289731816
-        y: 390.5022035497241
-      selected: false
+        x: 1333.666289731816
+        y: 430.5022035497241
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1145,11 +1191,11 @@ workflow:
       height: 102
       id: '17720794978781'
       position:
-        x: 1920.7941296596018
-        y: 390.5022035497241
+        x: 1644.7941296596018
+        y: 430.5022035497241
       positionAbsolute:
-        x: 1920.7941296596018
-        y: 390.5022035497241
+        x: 1644.7941296596018
+        y: 430.5022035497241
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1172,23 +1218,37 @@ workflow:
       height: 186
       id: '1772079551868'
       position:
-        x: 2280.603782535578
-        y: 80.88175899936255
+        x: 2004.603782535578
+        y: 120.88175899936255
       positionAbsolute:
-        x: 2280.603782535578
-        y: 80.88175899936255
+        x: 2004.603782535578
+        y: 120.88175899936255
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        code: "# pylint: disable=missing-module-docstring\n\n\n# output keys  #################################################################\n\
+        code: "# pylint: disable=missing-module-docstring\n# pylint: disable=too-many-arguments\n\
+          # pylint: disable=too-many-positional-arguments\n\n# bug s/X replied 2 meta\
+          \ content during 2nd round conversation\n\n# output keys  #################################################################\n\
           OUTPUT_META_KEY = \"meta_content\"\n\n\n# Entry Point  #################################################################\n\
-          def main(\n    show_meta_content,\n    role_override: str,\n    role: str,\n\
-          \    llm_override: str,\n    llm_used: str,\n    difficulty_override: float,\n\
-          \    difficulty_sensed: dict,\n    skip_sense,\n    programming_languages:\
-          \ str,\n    sense_usage: dict,\n    task_usage: dict,\n):\n    if not show_meta_content:\n\
+          def main(\n    show_meta_content: bool,\n    role_override: str,\n    role:\
+          \ str,\n    llm_override: str,\n    llm_used: str,\n    difficulty_override:\
+          \ float,\n    difficulty_sensed: float,\n    skip_sense: bool,\n    programming_languages:\
+          \ str,\n    sense_usage: dict,\n    task_usage: dict,\n):\n    \"\"\"\n\
+          \    generate **meta content**, information for debugging and testing\n\n\
+          \n    :param show_meta_content: whether to show meta content,\n        \
+          \    set as User Input Field\n    :type show_meta_content: bool\n    :param\
+          \ role_override:\n    :type role_override: str\n    :param role:\n    :type\
+          \ role: str\n    :param llm_override:\n    :type llm_override: str\n   \
+          \ :param llm_used:\n    :type llm_used: str\n    :param difficulty_override:\n\
+          \    :type difficulty_override: float\n    :param difficulty_sensed:\n \
+          \   :type difficulty_sensed: float\n    :param skip_sense:\n    :type skip_sense:\
+          \ bool\n    :param programming_languages:\n    :type programming_languages:\
+          \ str\n    :param sense_usage: usage object for information of sense node\n\
+          \    :type sense_usage: dict\n    :param task_usage: usage object for information\
+          \ of task node\n    :type task_usage: dict\n    \"\"\"\n    if not show_meta_content:\n\
           \        return {OUTPUT_META_KEY: \"\"}\n\n    lines = []\n\n    # create\
           \ role line\n    if role_override:\n        lines.append(\"Role (Override):\
           \ {}\".format(role_override))\n    else:\n        lines.append(\"Role: {}\"\
@@ -1196,11 +1256,11 @@ workflow:
           \            \"LLM (Override): {}\".format(_llm2display_name(llm_override))\n\
           \        )\n    else:\n        lines.append(\"LLM: {}\".format(_llm2display_name(llm_used)))\n\
           \n    role_used = role_override or role\n    if role_used == \"coder\":\n\
-          \        if difficulty_override:\n            lines.append(\n          \
-          \      \"Difficulty (Override): {}\".format(difficulty_override)\n     \
-          \       )\n        else:\n            lines.append(\"Difficulty: {}\".format(difficulty_sensed))\n\
-          \n        lines.append(\"PLs: {}\".format(programming_languages))\n\n  \
-          \  if not skip_sense:\n        lines.append(\"Sense: {}s\".format(sense_usage[USAGE_TIME_KEY]))\n\
+          \        if difficulty_override == -1:\n            lines.append(\"Difficulty:\
+          \ {}\".format(difficulty_sensed))\n        else:\n            lines.append(\n\
+          \                \"Difficulty (Override): {}\".format(difficulty_override)\n\
+          \            )\n\n        lines.append(\"PLs: {}\".format(programming_languages))\n\
+          \n    if not skip_sense:\n        lines.append(\"Sense: {}s\".format(sense_usage[USAGE_TIME_KEY]))\n\
           \n    lines.append(\"Task: {}s\".format(task_usage[USAGE_TIME_KEY]))\n\n\
           \    # create final content form\n    meta_content = \"\"\"\n\n> [!TIP]\n\
           \"\"\" + \"\\n\".join(\"> \" + line for line in lines)\n    return {OUTPUT_META_KEY:\
@@ -1278,11 +1338,11 @@ workflow:
       height: 52
       id: '1772079582563'
       position:
-        x: 2280.603782535578
-        y: 263.43855755507695
+        x: 2004.603782535578
+        y: 303.43855755507695
       positionAbsolute:
-        x: 2280.603782535578
-        y: 263.43855755507695
+        x: 2004.603782535578
+        y: 303.43855755507695
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1294,7 +1354,16 @@ workflow:
           # constant  ####################################################################\n\
           SPLITTER = \",\"\n\n\n# Entry Point  #################################################################\n\
           def main(\n    current_pls: str,\n    sensed_pls: dict,\n    current_role:\
-          \ str,\n    sensed_role: dict,\n):\n    # pls  ---------------------------------------------------------------------\n\
+          \ str,\n    sensed_role: dict,\n):\n    \"\"\"\n    collect & organize information\
+          \ from sense code\n\n\n    :param current_pls:\n    :type current_pls: str\n\
+          \    :param sensed_pls:\n    :type sensed_pls: dict\n    :param current_role:\n\
+          \    :type current_role: str\n    :param sensed_role: role saved in conversation\
+          \ variable\n    :type sensed_role: str\n    :return: {\n            \"combined_pls\"\
+          : combined PLs saved in conversation variable\n            (PLs from last\
+          \ rounds of this conversations)\n            with new PLs from sense node\
+          \ in this round\n            \"role\": role to used for this round of conversation}\n\
+          \    :rtype: dict{\"combined_pls\": str \"role\": str}\n    \"\"\"\n   \
+          \ # pls  ---------------------------------------------------------------------\n\
           \    combined_set = set(current_pls.split(SPLITTER)) | set(\n        sensed_pls.split(SPLITTER)\n\
           \    )\n    combined_pls = SPLITTER.join(filter(bool, combined_set))\n\n\
           \    # role  --------------------------------------------------------------------\n\
@@ -1337,11 +1406,11 @@ workflow:
       height: 52
       id: '1772344988925'
       position:
-        x: 106.08145220761406
-        y: 384.67857373983213
+        x: 74.08145220761412
+        y: 397.6037475741774
       positionAbsolute:
-        x: 106.08145220761406
-        y: 384.67857373983213
+        x: 74.08145220761412
+        y: 397.6037475741774
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1374,18 +1443,68 @@ workflow:
       height: 110
       id: '1772345067762'
       position:
-        x: 106.08145220761406
-        y: 433.75383758082853
+        x: 74.08145220761412
+        y: 446.4536170059066
       positionAbsolute:
-        x: 106.08145220761406
-        y: 433.75383758082853
+        x: 74.08145220761412
+        y: 446.4536170059066
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "# pylint: disable=missing-module-docstring\n# pylint: disable=too-many-arguments\n\
+          \n\nimport json\n\n# output keys  #################################################################\n\
+          OUTPUT_BODY_KEY = \"body\"\n\n\n# Entry Point  #################################################################\n\
+          def main(query: str, role: str, programming_languages: str):\n    \"\"\"\
+          \n    create a json-typed GET body for task prompt getter\n\n\n    :param\
+          \ query:\n    :type query: str\n    :param role:\n    :type role: str\n\
+          \    :param programming_languages:\n    :type programming_languages: str\n\
+          \    :return: {\"body\": generated JSON GET body}\n    :rtype: dict{\"body\"\
+          : str}\n    \"\"\"\n\n    body_content = {\n        \"query\": query,\n\
+          \        \"role\": role,\n        \"programming_languages\": programming_languages,\n\
+          \    }\n    body = json.dumps(body_content)\n\n    return {OUTPUT_BODY_KEY:\
+          \ body}\n\n"
+        code_language: python3
+        outputs:
+          body:
+            children: null
+            type: string
+        selected: false
+        title: pre_task_prompt_getter
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+        - value_selector:
+          - conversation
+          - role
+          value_type: string
+          variable: role
+        - value_selector:
+          - conversation
+          - programming_languages
+          value_type: string
+          variable: programming_languages
+      height: 52
+      id: '1774290156027'
+      position:
+        x: 525.8934561170636
+        y: 92.92002194852341
+      positionAbsolute:
+        x: 525.8934561170636
+        y: 92.92002194852341
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -87.49937580483174
-      y: 302.05227042827573
-      zoom: 0.7676117889265199
+      x: -1055.905086440607
+      y: 262.14436855574934
+      zoom: 0.9540372025597222
   rag_pipeline_variables: []
