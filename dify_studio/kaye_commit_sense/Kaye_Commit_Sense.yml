@@ -9,7 +9,7 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
+    marketplace_plugin_unique_identifier: langgenius/openai:0.3.3@cfb7804d9acf3e0f24b33e97e22c2600249c471f33428efa33597959b513ad2d
     version: null
 kind: app
 version: 0.5.0
@@ -195,6 +195,7 @@ workflow:
         sourceType: code
         targetType: if-else
       id: 1759196271769-source-1759184659338-target
+      selected: false
       source: '1759196271769'
       sourceHandle: source
       target: '1759184659338'
@@ -216,22 +217,12 @@ workflow:
       type: custom
       zIndex: 1002
     - data:
-        isInLoop: false
-        sourceType: start
-        targetType: code
-      id: 1756587193642-source-1759196271769-target
-      source: '1756587193642'
-      sourceHandle: source
-      target: '1759196271769'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInIteration: false
         isInLoop: false
         sourceType: if-else
         targetType: http-request
       id: 1759184659338-false-1767896024342-target
+      selected: false
       source: '1759184659338'
       sourceHandle: 'false'
       target: '1767896024342'
@@ -244,6 +235,7 @@ workflow:
         sourceType: http-request
         targetType: llm
       id: 1767896024342-source-1757066198191-target
+      selected: false
       source: '1767896024342'
       sourceHandle: source
       target: '1757066198191'
@@ -299,6 +291,18 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1756587193642-source-1759196271769-target
+      selected: false
+      source: '1756587193642'
+      sourceHandle: source
+      target: '1759196271769'
+      targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
         desc: ''
@@ -318,14 +322,23 @@ workflow:
           required: true
           type: paragraph
           variable: input
-      height: 109
+        - default: true
+          hint: ''
+          label: allows_md
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: false
+          type: checkbox
+          variable: allows_md
+      height: 135
       id: '1756587193642'
       position:
-        x: -319.5069034866185
-        y: 197.5580330664843
+        x: 264.10370630559356
+        y: 180.68254555442036
       positionAbsolute:
-        x: -319.5069034866185
-        y: 197.5580330664843
+        x: 264.10370630559356
+        y: 180.68254555442036
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -345,10 +358,10 @@ workflow:
       height: 88
       id: '1756587276076'
       position:
-        x: 3251.1643678119594
+        x: 3551.1643678119594
         y: 104.10767532202507
       positionAbsolute:
-        x: 3251.1643678119594
+        x: 3551.1643678119594
         y: 104.10767532202507
       selected: false
       sourcePosition: right
@@ -377,10 +390,10 @@ workflow:
       height: 190
       id: '1757062707114'
       position:
-        x: 913.9496010640391
+        x: 1213.9496010640391
         y: 683.4274179884233
       positionAbsolute:
-        x: 913.9496010640391
+        x: 1213.9496010640391
         y: 683.4274179884233
       selected: false
       sourcePosition: right
@@ -402,7 +415,7 @@ workflow:
         x: 24
         y: 68
       positionAbsolute:
-        x: 937.9496010640391
+        x: 1237.9496010640391
         y: 751.4274179884233
       selectable: false
       selected: false
@@ -429,7 +442,7 @@ workflow:
         - id: 4b837ba6-5d1b-402f-9690-a901e0679e98
           role: user
           text: '{{#1756587193642.input#}}'
-        selected: false
+        selected: true
         title: primary message
         type: llm
         variables: []
@@ -438,26 +451,33 @@ workflow:
       height: 88
       id: '1757066198191'
       position:
-        x: 1200.9404752677885
+        x: 1500.9404752677885
         y: 259.4935371753846
       positionAbsolute:
-        x: 1200.9404752677885
+        x: 1500.9404752677885
         y: 259.4935371753846
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        code: "def main(filenames_list: list[str], per_file_extracts: list[dict]):\n\
-          \    filename = filenames_list[0]\n\n    file_extract = per_file_extracts[0]\n\
-          \n    symbol = file_extract[\"symbol\"]\n    summary = file_extract[\"summary\"\
-          ]\n\n    opt = \"\"\"{}\n\n[{}]{}\"\"\".format(summary, symbol, filename)\n\
-          \n    return {\"result\": opt}\n\n"
+        code: "\"\"\"\nmerge to produce final output,\nwhen only single file is involved\n\
+          \n\n:param allows_md: whether utilize md format in final result\n:type allows_md:\
+          \ bool\n:param primary_message:\n:type primary_message: str\n:param filenames_list:\n\
+          :type filenames_list: list[str]\n:param per_file_extracts:\n:type per_file_extracts:\
+          \ list[dict]\n:return: {\"result\": merged output}\n:rtype: dict{\"result\"\
+          : str}\n\"\"\"\n\n# config  ######################################################################\n\
+          OUTPUT_RESULT_KEY = \"result\"\n\n\n# Entry Point  #################################################################\n\
+          def main(\n    allows_md: bool, filenames_list: list[str], per_file_extracts:\
+          \ list[dict]\n):  # pylint: disable=missing-function-docstring\n    filename\
+          \ = filenames_list[0]\n    file_extract = per_file_extracts[0]\n    symbol\
+          \ = file_extract[\"symbol\"]\n\n    filename_line = (\"{}`{}`\" if allows_md\
+          \ else \"{}[{}]\").format(\n        symbol, filename\n    )\n\n    summary\
+          \ = file_extract[\"summary\"]\n\n    opt = \"\"\"{}\n\n{}\"\"\".format(summary,\
+          \ filename_line)\n\n    return {OUTPUT_RESULT_KEY: opt}\n\n"
         code_language: python3
-        desc: 'merge to produce final output,
-
-          when only single file is involved'
+        desc: ''
         outputs:
           result:
             children: null
@@ -466,6 +486,11 @@ workflow:
         title: merge final single
         type: code
         variables:
+        - value_selector:
+          - '1756587193642'
+          - allows_md
+          value_type: boolean
+          variable: allows_md
         - value_selector:
           - '1759196271769'
           - filenames_list
@@ -476,14 +501,14 @@ workflow:
           - output
           value_type: array[object]
           variable: per_file_extracts
-      height: 96
+      height: 52
       id: '1758835564168'
       position:
-        x: 2283.7240562940433
-        y: 26.998532518386696
+        x: 2583.7240562940433
+        y: 25.592241892381367
       positionAbsolute:
-        x: 2283.7240562940433
-        y: 26.998532518386696
+        x: 2583.7240562940433
+        y: 25.592241892381367
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -509,10 +534,10 @@ workflow:
       height: 152
       id: '1759184659338'
       position:
-        x: 710.7003269084153
+        x: 1010.7003269084153
         y: -12.64594783956423
       positionAbsolute:
-        x: 710.7003269084153
+        x: 1010.7003269084153
         y: -12.64594783956423
       selected: false
       sourcePosition: right
@@ -520,18 +545,24 @@ workflow:
       type: custom
       width: 242
     - data:
-        code: "def main(\n    primary_message: str,\n    filenames_list: list[str],\n\
-          \    per_file_extracts: list[dict],\n):\n    # create line per file\n  \
-          \  lines = []\n    for filename, file_extract in zip(filenames_list, per_file_extracts):\n\
-          \        symbol = file_extract[\"symbol\"]\n        summary = file_extract[\"\
-          summary\"]\n        line = \"[{}]{}: {}\".format(symbol, filename, summary)\n\
-          \        lines.append(line)\n\n    # combines\n    opt = \"\"\"{}\n\n{}\"\
-          \"\".format(primary_message, \"\\n\".join(lines))\n\n    return {\"result\"\
-          : opt}\n\n"
+        code: "\"\"\"\nmerge to produce final output,\nwhen multiple files are involved\n\
+          \n\n:param allows_md: whether utilize md format in final result\n:type allows_md:\
+          \ bool\n:param primary_message:\n:type primary_message: str\n:param filenames_list:\n\
+          :type filenames_list: list[str]\n:param per_file_extracts:\n:type per_file_extracts:\
+          \ list[dict]\n:return: {\"result\": merged output}\n:rtype: dict{\"result\"\
+          : str}\n\"\"\"\n\n# config  ######################################################################\n\
+          OUTPUT_RESULT_KEY = \"result\"\n\n\n# Entry Point  #################################################################\n\
+          def main(\n    allows_md: bool,\n    primary_message: str,\n    filenames_list:\
+          \ list[str],\n    per_file_extracts: list[dict],\n):  # pylint: disable=missing-function-docstring\n\
+          \    line_pattern = \"{}`{}` {}\" if allows_md else \"{}[{}] {}\"\n\n  \
+          \  # create line per file\n    lines = []\n    for filename, file_extract\
+          \ in zip(filenames_list, per_file_extracts):\n        symbol = file_extract[\"\
+          symbol\"]\n        summary = file_extract[\"summary\"]\n        line = line_pattern.format(symbol,\
+          \ filename, summary)\n        lines.append(line)\n\n    # combines\n   \
+          \ opt = \"\"\"{}\n\n{}\"\"\".format(primary_message, \"\\n\".join(lines))\n\
+          \n    return {OUTPUT_RESULT_KEY: opt}\n\n"
         code_language: python3
-        desc: 'merge to produce final output,
-
-          when multiple files are involved'
+        desc: ''
         outputs:
           result:
             children: null
@@ -540,6 +571,11 @@ workflow:
         title: merge final multiple
         type: code
         variables:
+        - value_selector:
+          - '1756587193642'
+          - allows_md
+          value_type: boolean
+          variable: allows_md
         - value_selector:
           - '1757066198191'
           - text
@@ -555,14 +591,14 @@ workflow:
           - output
           value_type: array[object]
           variable: per_file_extracts
-      height: 96
+      height: 52
       id: '17591850851050'
       position:
-        x: 2583.7240562940433
-        y: 186.19160153234975
+        x: 2728.102523027789
+        y: 201.68254555442036
       positionAbsolute:
-        x: 2583.7240562940433
-        y: 186.19160153234975
+        x: 2728.102523027789
+        y: 201.68254555442036
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -581,10 +617,10 @@ workflow:
       height: 134
       id: '1759185130596'
       position:
-        x: 2949.362149211071
+        x: 3249.362149211071
         y: 104.10767532202507
       positionAbsolute:
-        x: 2949.362149211071
+        x: 3249.362149211071
         y: 104.10767532202507
       selected: false
       sourcePosition: right
@@ -611,10 +647,10 @@ workflow:
       height: 152
       id: '17591852274600'
       position:
-        x: 1598.181453998329
+        x: 1898.181453998329
         y: 683.4274179884233
       positionAbsolute:
-        x: 1598.181453998329
+        x: 1898.181453998329
         y: 683.4274179884233
       selected: false
       sourcePosition: right
@@ -623,7 +659,11 @@ workflow:
       width: 242
     - data:
         code: "\"\"\"\ncount number of lines, and decide to use either long/short\
-          \ prompts\n\"\"\"\n\n# constants  ###################################################################\n\
+          \ prompts\n\n\n:param item:\n:type item: str\n:param prompt_per_file_extract_long:\n\
+          :type prompt_per_file_extract_long: str\n:param prompt_per_file_extract_short:\n\
+          :type prompt_per_file_extract_short: str\n:return: {\"extract_prompt\":\
+          \ prompt to use}\n:rtype: dict{\"extract_prompt\": str}\n\"\"\"\n\n# constants\
+          \  ###################################################################\n\
           OUTPUT_PROMPT_KEY = \"extract_prompt\"\nLONG_SHORT_THRESHOLD = 100\n\n\n\
           # entry point  #################################################################\n\
           def main(\n    item: str,\n    prompt_per_file_extract_long: str,\n    prompt_per_file_extract_short:\
@@ -667,7 +707,7 @@ workflow:
         x: 118.71047911714686
         y: 66.35093182882474
       positionAbsolute:
-        x: 1032.660080181186
+        x: 1332.660080181186
         y: 749.778349817248
       selected: false
       sourcePosition: right
@@ -676,17 +716,37 @@ workflow:
       width: 242
       zIndex: 1002
     - data:
-        code: "import re\n\nDIFF_GIT = \"diff --git\"\nREGEX_PATTERN = r\".+\\/(.+)\"\
-          \n\n\ndef main(input: str):\n    filenames_list = []\n    per_file_list\
-          \ = []\n\n    for segment in input.split(DIFF_GIT)[1:]:\n        filename\
-          \ = re.match(REGEX_PATTERN, segment).group(1)\n        filenames_list.append(filename)\n\
+        code: "\"\"\"\nprocess the full diff content by split content per file,\n\
+          and get various information from it\n\n\n:param content:\n:type content:\
+          \ str\n:param allows_md:\n:type allows_md: bool\n:return: {\n    \"filename_list\"\
+          : a list of all files' name\n    \"per_file_list\": a list of all files'\
+          \ diff content\n    \"is_single_file\": if the given content contains only\
+          \ single file\n}\n:rtype: dict{\n    \"filename_list\": list[str]\n    \"\
+          per_file_list\": list[str]\n    \"is_single_file\": bool\n}\n\"\"\"\n\n\
+          import re\n\n# config  #####################################################################\n\
+          OUTPUT_FILENAME_LIST_KEY = \"filenames_list\"\nOUTPUT_PER_FILE_LIST_KEY\
+          \ = \"per_file_list\"\nOUTPUT_IS_SINGLE_FILE_KEY = \"is_single_file\"\n\
+          OUTPUT_ALLOWS_MD_KEY = \"allows_md\"\nOUTPUT_ALLOWS_MD_NUMBER_KEY = \"allows_md_number\"\
+          \n\n# constants  ###################################################################\n\
+          DIFF_GIT = \"diff --git\"\nREGEX_PATTERN = r\".+\\/(.+)\"\n\n\ndef main(\n\
+          \    content: str, allows_md: bool\n):  # pylint: disable=missing-function-docstring\n\
+          \    filenames_list = []\n    per_file_list = []\n\n    for segment in content.split(DIFF_GIT)[1:]:\n\
+          \        filename = re.match(REGEX_PATTERN, segment).group(1)\n        filenames_list.append(filename)\n\
           \n        per_line = DIFF_GIT + segment\n        per_file_list.append(per_line)\n\
           \n    is_single_file = len(filenames_list) == 1\n\n    return {\n      \
-          \  \"filenames_list\": filenames_list,\n        \"per_file_list\": per_file_list,\n\
-          \        \"is_single_file\": is_single_file,\n    }"
+          \  OUTPUT_FILENAME_LIST_KEY: filenames_list,\n        OUTPUT_PER_FILE_LIST_KEY:\
+          \ per_file_list,\n        OUTPUT_IS_SINGLE_FILE_KEY: is_single_file,\n \
+          \       OUTPUT_ALLOWS_MD_KEY: allows_md,\n        OUTPUT_ALLOWS_MD_NUMBER_KEY:\
+          \ 1 if allows_md else 0,\n    }\n\n"
         code_language: python3
-        desc: process the full diff content
+        desc: ''
         outputs:
+          allows_md:
+            children: null
+            type: boolean
+          allows_md_number:
+            children: null
+            type: number
           filenames_list:
             children: null
             type: array[string]
@@ -697,22 +757,27 @@ workflow:
             children: null
             type: array[string]
         selected: false
-        title: full process
+        title: input process
         type: code
         variables:
         - value_selector:
           - '1756587193642'
           - input
           value_type: string
-          variable: input
-      height: 80
+          variable: content
+        - value_selector:
+          - '1756587193642'
+          - allows_md
+          value_type: boolean
+          variable: allows_md
+      height: 52
       id: '1759196271769'
       position:
-        x: 398.15531216582525
-        y: 218.5580330664843
+        x: 587.058352711404
+        y: 201.68254555442036
       positionAbsolute:
-        x: 398.15531216582525
-        y: 218.5580330664843
+        x: 587.058352711404
+        y: 201.68254555442036
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -726,10 +791,9 @@ workflow:
         isInLoop: false
         iteration_id: '1757062707114'
         model:
-          completion_params:
-            temperature: 0.7
+          completion_params: {}
           mode: chat
-          name: gpt-4.1-mini
+          name: gpt-5.4-mini
           provider: langgenius/openai/openai
         prompt_template:
         - id: eab3bd9e-9f56-473f-b7fb-9ee451604606
@@ -766,7 +830,7 @@ workflow:
         x: 402.1872252944104
         y: 66.19445340548612
       positionAbsolute:
-        x: 1316.1368263584495
+        x: 1616.1368263584495
         y: 749.6218713939094
       selected: false
       sourcePosition: right
@@ -783,7 +847,7 @@ workflow:
           type: none
         headers: ''
         method: get
-        params: ''
+        params: allows_md:{{#1759196271769.allows_md_number#}}
         retry_config:
           max_retries: 3
           retry_enabled: true
@@ -801,12 +865,12 @@ workflow:
       height: 157
       id: '1767896024342'
       position:
-        x: 1200.9404752677885
+        x: 1500.9404752677885
         y: 104.10767532202507
       positionAbsolute:
-        x: 1200.9404752677885
+        x: 1500.9404752677885
         y: 104.10767532202507
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -820,7 +884,7 @@ workflow:
           type: none
         headers: ''
         method: get
-        params: ''
+        params: allows_md:{{#1759196271769.allows_md_number#}}
         retry_config:
           max_retries: 3
           retry_enabled: true
@@ -838,10 +902,10 @@ workflow:
       height: 157
       id: '1767896528468'
       position:
-        x: 672.6700131558421
+        x: 972.6700131558421
         y: 837.5119072961335
       positionAbsolute:
-        x: 672.6700131558421
+        x: 972.6700131558421
         y: 837.5119072961335
       selected: false
       sourcePosition: right
@@ -857,7 +921,7 @@ workflow:
           type: none
         headers: ''
         method: get
-        params: ''
+        params: allows_md:{{#1759196271769.allows_md_number#}}
         retry_config:
           max_retries: 3
           retry_enabled: true
@@ -875,10 +939,10 @@ workflow:
       height: 157
       id: '17678966066030'
       position:
-        x: 672.6700131558421
+        x: 972.6700131558421
         y: 683.4274179884233
       positionAbsolute:
-        x: 672.6700131558421
+        x: 972.6700131558421
         y: 683.4274179884233
       selected: false
       sourcePosition: right
@@ -886,7 +950,7 @@ workflow:
       type: custom
       width: 242
     viewport:
-      x: -487.7987798771811
-      y: 146.7853753832021
-      zoom: 0.659753955386448
+      x: -2321.544339339484
+      y: 241.14040863060052
+      zoom: 0.8194358292750573
   rag_pipeline_variables: []
