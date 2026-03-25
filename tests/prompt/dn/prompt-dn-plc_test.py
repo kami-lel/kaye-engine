@@ -68,10 +68,10 @@ class TestContentLines:  #######################################################
         opt = testee1.content_lines()
         print(opt)
         assert opt == [
-            "-`console`:any types of terminal console & log message",
             "-`c`:C language",
             "-`csharp`:C Sharp",
             "-`cpp`:C++",
+            "-`bash`:Bash",
             "-`css`:CSS",
             "-`gdscript`:GDScript used by Godot Engine",
             "-`html`:HTML",

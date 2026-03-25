@@ -37,6 +37,11 @@ Kaye *Python* Package:
 
 - unit tests related to above changes
 
+Kaye Chat *Dify App*:
+
+- update prompt related to difficulty, using another set of *anchor points* examples that will normally yield a higher value of difficult
+- update used OpenAI LLM models
+
 Kaye Commit Sense *Dify App*:
 
 - update used OpenAI LLM models
@@ -48,6 +53,7 @@ Kaye Chat *Dify App*:
 
 - remaining prompt of *Translator* role
 - remaining prompt of *Enclyelopic* role
+- *Message Level* section of coder role
 
 ### Fixed
 
@@ -56,6 +62,8 @@ Kaye Chat *Dify App*:
 - for coder role, no longer skip sense node
   when only provided `difficulty_override`,
   (sense node is still required for sensing PLs)
+
+- include Annotation Markers for coder
 
 
 

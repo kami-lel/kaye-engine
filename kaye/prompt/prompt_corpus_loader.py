@@ -8,11 +8,26 @@ from pathlib import Path
 
 from .prompt_corpus_node import PromptCorpusNode
 from .today_node import TodayNode
-from .abbr_nodes import AbbrNode, UsableAbbrNode, LanguageCodeNode, PLCNode
+from .abbr_nodes import (
+    AbbrNode,
+    UsableAbbrNode,
+    LanguageCodeNode,
+    PLCNode,
+    UnityEngineAbbrNode,
+)
 
 __all__ = (
     "get_embedded_prompt_corpus_file_path",
     "load_prompt_corpus_tree",
+)
+
+DYNAMIC_NODE_TYPES = (
+    TodayNode,
+    AbbrNode,
+    UsableAbbrNode,
+    LanguageCodeNode,
+    PLCNode,
+    UnityEngineAbbrNode,
 )
 
 
@@ -72,13 +87,7 @@ def load_prompt_corpus_tree():
     )
 
     # add dynamic nodes  -------------------------------------------------------
-    for node_type in (
-        TodayNode,
-        AbbrNode,
-        UsableAbbrNode,
-        LanguageCodeNode,
-        PLCNode,
-    ):
+    for node_type in DYNAMIC_NODE_TYPES:
         node_type(prompt_corpus_tree)
 
     return prompt_corpus_tree
