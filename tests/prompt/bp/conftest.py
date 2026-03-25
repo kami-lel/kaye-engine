@@ -21,8 +21,8 @@ from tests.prompt.bp import (
 
 
 @pytest.fixture
-def dynamic_bp_testee1(corpus_testee3):
-    corpus = corpus_testee3
+def dynamic_bp_testee1(corpus_dynamic_testee):
+    corpus = corpus_dynamic_testee
     text = """    ○
 [x] ├── Main Title
 [x] │   ├── Introduction
@@ -98,42 +98,42 @@ def dynamic_bp_testee_empty(corpus_testee3):
 
 
 @pytest.fixture(scope="session")
-def dynamic_bp_testee2(corpus_testee1):
+def dynamic_bp_testee2(corpus_dynamic_testee):
     bp_text = """ ○
 [x] └── {Today}"""
 
     return PromptBlueprint.parse(
-        bp_text, corpus_override=corpus_testee1, disable_prune=True
+        bp_text, corpus_override=corpus_dynamic_testee, disable_prune=True
     )
 
 
 @pytest.fixture(scope="session")
-def dynamic_bp_testee3(corpus_testee1):
+def dynamic_bp_testee3(corpus_dynamic_testee):
     bp_text = """ ○
 [x] └── {Abbreviations}"""
 
     return PromptBlueprint.parse(
-        bp_text, corpus_override=corpus_testee1, disable_prune=True
+        bp_text, corpus_override=corpus_dynamic_testee, disable_prune=True
     )
 
 
 @pytest.fixture(scope="session")
-def dynamic_bp_testee4(corpus_testee1):
+def dynamic_bp_testee4(corpus_dynamic_testee):
     bp_text = """ ○
 [x] └── {Programming Languages Code}"""
 
     return PromptBlueprint.parse(
-        bp_text, corpus_override=corpus_testee1, disable_prune=True
+        bp_text, corpus_override=corpus_dynamic_testee, disable_prune=True
     )
 
 
 @pytest.fixture(scope="session")
-def dynamic_bp_testee5(corpus_testee1):
+def dynamic_bp_testee5(corpus_dynamic_testee):
     bp_text = """ ○
 [x] └── {Usable Abbreviations}"""
 
     return PromptBlueprint.parse(
-        bp_text, corpus_override=corpus_testee1, disable_prune=True
+        bp_text, corpus_override=corpus_dynamic_testee, disable_prune=True
     )
 
 

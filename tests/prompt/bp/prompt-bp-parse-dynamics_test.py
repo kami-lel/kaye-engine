@@ -10,6 +10,8 @@ from kaye.prompt.abbr_nodes import AbbrNode, PLCNode, UsableAbbrNode
 
 class TestDynamics:
 
+    # BUG
+
     def test_today(_, dynamic_bp_testee2):
         bp = dynamic_bp_testee2
         print(bp.generate_blueprint(content_preview_lines=0))
@@ -47,6 +49,8 @@ class TestDynamics:
         assert bp.is_checkmarked(node)
 
     # use dynamic_bp_testee1  --------------------------------------------------
+
+    # BUG
 
     def test_mux_abbr(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))

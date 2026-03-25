@@ -132,7 +132,7 @@ def corpus_dynamic_testee(corpus_testee3):
         LanguageCodeNode,
         PLCNode,
     ):
-        node_type(prompt_corpus_tree)
+        node_type(tree)
 
     return tree
 
