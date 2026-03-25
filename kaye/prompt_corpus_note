@@ -1,8 +1,7 @@
-TODO kyc: all code block should contains file name in 1st line if possible
-TODO kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
 FIXME kyc: improve comment section heading prompt, less wordy, make it used less often
-BUG kyc: code commentaries s/X get double #
-
+todo kyc: all code block should contains file name in 1st line if possible
 todo kyc: c & cpp instruction on comment usages
 todo utilize latex for math
-
+todo kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
+todo unity specific prompt, eg mb structure
+bug kyc: code commentaries s/X get double #
