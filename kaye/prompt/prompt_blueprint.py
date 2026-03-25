@@ -107,9 +107,7 @@ class PromptBlueprint(dict):
                 parent = prev_node.ancestors[level - 1]
 
             # create/add node
-            node = bp._parse_add_dynamic_node(
-                heading, parent
-            ) or bp._parse_add_corpus_node(parent, heading, line)
+            node = bp._parse_add_corpus_node(parent, heading, line)
 
             # include node in the blueprint
             bp[hash(node)] = is_checkmarked
@@ -413,26 +411,6 @@ class PromptBlueprint(dict):
         )
 
         return "{}Kaye v{}".format(name_part, kaye_version)
-
-    def _parse_add_dynamic_node(self, heading, parent):
-        return False  # HACK rm this function
-        # early exit for non-dynamic node
-        if not DynamicNode._ID_PATTERN.match(heading):
-            return False
-
-        name = heading[1:-1]
-
-        # decide type of dynamic node by name's pattern
-        if name == TodayNode.HEADING:
-            return TodayNode(parent)
-        elif name == AbbrNode.HEADING:
-            return AbbrNode(parent)
-        elif name == PLCNode.HEADING:
-            return PLCNode(parent)
-        elif name == UsableAbbrNode.HEADING:
-            return UsableAbbrNode(parent)
-        else:
-            return False
 
     def _parse_add_corpus_node(self, parent, heading, line):
         """
