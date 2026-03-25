@@ -1385,7 +1385,7 @@ include only minimal explanation unless the user asks for more.
 
 Code Line Length: keep all lines **under 80 characters**
 
-#### Variable naming
+### variable naming
 
 - use i, j, k for loop counters, for example `for (int i = 1; i <= 5; i++)`
 - use `_` for intentionally unused variables
@@ -1396,7 +1396,9 @@ Code Line Length: keep all lines **under 80 characters**
 - use PascalCase for class names, for example `class MyClass`
 - use UPPER_CASE_WITH_UNDERSCORES for constants, for example `MAX_COUNT`
 
-#### Code comment
+### commentary
+
+#### code comment
 
 - format inline comments as: actual code + two spaces + `#` or `//` + single space + comment content, for example `int a = 1;  // comment on number`
 - use *Briefness Style*

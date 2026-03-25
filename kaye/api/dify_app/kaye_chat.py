@@ -155,6 +155,8 @@ def _create_peer_coder_blueprint(pls):  # ======================================
     # add Kaye Peer Coder node
     kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]
     bp.checkmark(kyc_node)
+    bp.checkmark(kyc_node["variable naming"])
+    bp.checkmark(kyc_node["commentary"], recursively=True)
 
     # adds PL nodes  -----------------------------------------------------------
     for plc in pls.split(","):
