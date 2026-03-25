@@ -53,31 +53,25 @@ nodes types:
 
   - Today Node `TodayNode`
   - Abbreviations Node `AbbrNode`
+  - Languages Code Node `LanguageCodeNode`
   - Programming Languages Code Node `PLCNode`
   - Usable Abbreviations Node `UsableAbbrNode`
+  - Unity Engine Abbreviations Node `UnityEngineAbbrNode`
 
 
 
-##### name & identifier
+##### name
 
-Each node has `.name` and `.identifier`:
+Each node has `.name`, i.e. **section heading** which appears in *preview tree* (v.i.):
 
-- `.name`: i.e. **section heading**, also what appears in *preview tree* (v.i.)
-- `.identifier`:
-
-  - for `PromptCorpusNode`: this is identical to `.name`
-  - for `DynamicNode` instances: this is `.name` enclosed by `{}`.
+  - for `DynamicNode` instances: it must be enclosed by `{}`.
 
 E.g.
 
 ```python
 >>> corpus_node.name
 "Introduction"
->>> corpus_node.identifier
-"Introduction"
 >>> dynamic_node.name
-"Abbreviations"
->>> dynamic_node.identifier
 "{Abbreviations}"
 ```
 
@@ -86,17 +80,9 @@ E.g.
 
 
 
-##### content lines
-
-<!-- fixme Python API improve, explain kwargs, provide example -->
-
-To access node's textual **content lines**, use `.content_lines()` (typed `list`.)
-
-
-
 ##### lineage
 
-Use `.generate_identifier_lineage()` to get a linage from root (exclusively) to current node (inclusively,) represented as a ``list`` of node's ``.identifier``.
+Use `.generate_lineage()` to get a linage from root (exclusively) to current node (inclusively,) represented as a ``list`` of node's ``.name``.
 
 > [!TIP]
 > Since root is excluded from lineage, tree with different root nodes' names may produce identical lineage.
@@ -118,14 +104,23 @@ E.g.
 
 ----
 
-`hash()` of a `BasePromptNode` is also based on `.generate_identifier_lineage()`
+`hash()` of a `BasePromptNode` is also based on `.generate_lineage()`
 
 ----
 
-`==` operator of nodes is also based on `.generate_identifier_lineage()`.
+`==` operator of nodes is also based on `.generate_lineage()`.
 I.e. `a == b` return whether two nodes has the same lineage.
 
-Additionally, if both nodes are roots, test whether 2 trees are identical in node name structure (node content is irrelevant)
+Additionally, if both nodes are roots, test whether 2 trees are identical in node name structure (node content is irrelevant.)
+
+
+
+
+##### content lines
+
+<!-- fixme Python API improve, explain kwargs, provide example -->
+
+To access node's textual **content lines**, use `.content_lines()` (typed `list`.)
 
 
 
@@ -133,12 +128,11 @@ Additionally, if both nodes are roots, test whether 2 trees are identical in nod
 
 Use `[]` operator to access child of `node` by:
 
-- index (typed `int`) among all children,
-- child's name (typed `str`,) or
-- child's identifier (typed `str`)
+- index (typed `int`) among all children, or
+- child's name (typed `str`)
 
 > [!NOTE]
-> When using `str` as key, it will return 1st node that has a name or identifier identical to the given value.
+> When using `str` as key, it will return 1st node that has a name identical to the given value.
 
 > [!TIP]
 > Use `.parent` to access node's parent, and `.parent` of a root node is ``None``
@@ -278,7 +272,6 @@ There are 2 types of relationships of a prompt corpus **node** and a **blueprint
 | hash | `h in bp`, `h in bp.keys()` | `bp.is_checkmarked(h)`, `bp[h]` |
 | object | `node in bp` | `bp.is_checkmarked(node)` |
 | name | `name in bp` | `bp.is_checkmarked(name)` |
-| identifier | `id in bp` | `bp.is_checkmarked(id)` |
 
 (`h`: hash value, `node`: node object, `bp`: blueprint)
 
@@ -304,7 +297,7 @@ blueprint -= node  # identical
 
 ----
 
-Both operations allows user to provide node as node object, hash value, name, or identifier.
+Both operations allows user to provide node as node object, hash value, name.
 
 E.g.
 

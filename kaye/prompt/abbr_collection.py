@@ -65,6 +65,7 @@ class AbbrTags(Flag):  #########################################################
     usable = auto()
     programming_language_code = auto()
     language_code = auto()  # partial of and based on ISO 639-1 (2 letter)
+    unity_engine_abbr = auto()
     log_level = auto()
 
     # character set  -----------------------------------------------------------
@@ -145,7 +146,7 @@ class AbbrData:  ###############################################################
     # singleton pattern  =======================================================
 
     def __init__(self, *, abbrs_json_override=None):
-        # todo optimize as singleton
+        # fixme optimize as singleton
         self._load_abbrs_json(abbrs_json_override=abbrs_json_override)
 
     # load from abbrs.json  ====================================================

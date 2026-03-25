@@ -11,9 +11,9 @@ from kaye.prompt import PromptBlueprint
 
 # Blueprints  ##################################################################
 EXTRACT_PROMPT_BLUEPRINT = """    ○
-[ ] └── Kaye Cash Tracker
-[x]     └── Extract
-[x]         └── {Today}
+[ ] ├── Kaye Cash Tracker
+[x] │    └── Extract
+[x] └── {Today}
 """
 
 

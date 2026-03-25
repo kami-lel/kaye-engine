@@ -183,38 +183,8 @@ class TestByName:  #############################################################
         assert (
             opt
             == "UnitTestNode(Mountain Range) "
-            "contains no child with name/identifier of 'aaa'"
+            "contains no child with name of 'aaa'"
         )
-
-
-class TestById:  ###############################################################
-
-    def test1(_, world_testee, mountain_testee):
-        src = world_testee
-        key = "MOUNTAIN RANGE"
-
-        opt = src[key]
-
-        print(opt)
-        assert opt is mountain_testee
-
-    def test2(_, mountain_testee, peak_testee):
-        src = mountain_testee
-        key = "HIGH PEAK!"
-
-        opt = src[key]
-
-        print(opt)
-        assert opt is peak_testee
-
-    def test3(_, peak_testee, cave_testee):
-        src = peak_testee
-        key = "DARK CAVE"
-
-        opt = src[key]
-
-        print(opt)
-        assert opt is cave_testee
 
 
 # bad type  ####################################################################

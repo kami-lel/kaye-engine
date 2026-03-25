@@ -21,31 +21,54 @@ version: 0.5.0
 workflow:
   conversation_variables:
   - description: ''
-    id: ff716330-cdad-4df4-9ed1-bac6272e1688
-    name: prompt_template_cache
+    id: 1312caa2-a7c3-45cf-9ae5-9aa0b5047992
+    name: extract_answer
     selector:
     - conversation
-    - prompt_template_cache
+    - extract_answer
     value: ''
     value_type: string
-  - description: transaction_array converted to a md table for print
-    id: 307f3081-49b8-4a68-9c88-1bcba75b1d0b
-    name: transactions_array_md
+  - description: whether content stored in `transcations` if pushable
+    id: b9da77d9-9153-4ce3-aa88-df83ac5f99b2
+    name: is_pushable
     selector:
     - conversation
-    - transactions_array_md
+    - is_pushable
+    value: false
+    value_type: boolean
+  - description: identical content with transactions, but in MD (human-readable) format
+    id: 73eb8f1b-2761-44db-8728-b6a8abc28217
+    name: transactions_table
+    selector:
+    - conversation
+    - transactions_table
     value: ''
     value_type: string
-  - description: transactions maintained over rounds
-    id: cfeb9259-a48c-457a-9c6a-bd89ace48670
-    name: transactions_array
+  - description: 'local cache of system prompt for node: Extract'
+    id: 9756fcff-31ee-4a40-bfc9-967909787e03
+    name: extract_prompt_cache
     selector:
     - conversation
-    - transactions_array
-    value:
-      rows: []
-    value_type: object
+    - extract_prompt_cache
+    value: ''
+    value_type: string
+  - description: ''
+    id: 0007452f-e181-4c1a-9581-8a9a774fbf76
+    name: transactions
+    selector:
+    - conversation
+    - transactions
+    value: '[]'
+    value_type: string
   environment_variables:
+  - description: ''
+    id: c015df97-54b3-4d44-a1a4-54253bd42fa0
+    name: KAYE_API_PORT
+    selector:
+    - env
+    - KAYE_API_PORT
+    value: 11255
+    value_type: integer
   - description: ''
     id: 989d76f6-11d0-439d-8e72-6cd0167f415f
     name: DOCKER_HOST_IP
@@ -63,58 +86,67 @@ workflow:
     value: '|'
     value_type: string
   - description: ''
-    id: 3fd0f101-c81b-4d37-ba3b-b281d2b6a408
-    name: prompt_extract_info
-    selector:
-    - env
-    - prompt_extract_info
-    value: "# Introduction\nYou are **Kaye**, an AI assisting *agent* to the *user*.\n\
-      \n### Extract Info\nYou are a personal finance assistant. Extract all transaction\
-      \ details from user messages or images and compile them into a JSON two-dimensional\
-      \ array, in increasing date order (newest at the bottom). Use provided Existing\
-      \ Transactions as a baseline, merging with new data into a single, updated table.\n\
-      \nRules:\n- record each transaction as a separate entry, using the correct category\
-      \ codes and required format\n- for missing or unclear required fields, enter\
-      \ ???; for empty optional fields, use an empty string\n- after any update, always\
-      \ display the full, updated table for review\n- use the *notification* date\
-      \ (often seen in small font in chat window,) ignore other dates\n\nAlways maintain\
-      \ accurate, complete, and clear transaction records.\n\ntoday: {TODAY}\n\n#####\
-      \ Existing Transactions\n\n{TRANSACTIONS}\n\n##### Currency Symbol\n\n- $: USD\n\
-      - ¥: RMB/Chinese Yuan\n- HK$\n- €\n\n##### Party From & To\n\nUser Accounts:\n\
-      \n{USER_ACCOUNTS}\n\nCommon Other Parties:\n\n{COMMON_OTHER_PARTIES}\n\nWhen\
-      \ transaction type is:\n\n- Income:\n\n  - party_from: payer (e.g., employer\
-      \ for salary, bank for investment)\n  - party_to: often User Account\n\n- Expense:\n\
-      \  - party_from: often User Account\n  - party_to: recipient (e.g., restaurant,\
-      \ grocery)\n\nFor payer and recipient, attempt to find in the “User Accounts”\
-      \ and “Common Other Parties” sections. If no match exists, extract and fill\
-      \ the fields with the most commonly known names, using clear capitalization.\n\
-      \nNo need to record specific store number, e.g., use \"CVS\" instead of \"CVS\
-      \ Store #12345\".\n\n##### Categories\n\nSelect the most likely category abbreviation\
-      \ for each transaction based on its details.\n\n- A: Salary\n- B: Balance\n\
-      \  - BT: Account transfer\n  - BI: Investment principal\n  - BC: Currency exchange\n\
-      \  - BR: Yearly carryover\n- C: Clothing\n- D: Dining\n  - DB: Coffee/bar\n\
-      - E: Electronics/Device\n- F: Gift\n  - FO: Offering/church\n- G: Grocery\n\
-      \  - GB: Alcohol, coffee, beverages\n- H: Housing\n- I: Investment/Finance\n\
-      \  - IP: Profit\n  - IF: Fee\n- M: Medical/Insurance\n- N: Education\n- O: Online\n\
-      \  - OG: Online Game\n- P: Personal\n- R: Recreation\n  - RE: Event\n- S: Supplies\n\
-      - T: Transportation\n- U: Utilities\n- V: Vacation\n- X: Tax\n- Y: Payback from\
-      \ individuals\n- Z: Miscellaneous\n\n##### Remarks\n\n- leave empty unless essential,\
-      \ no record irrelevant details\n- use only short, specific phrases not found\
-      \ in other fields\n\n- if a *platform* party is involved, record in remarks.\n\
-      \  E.g. if a purchase from McDonald's via DoorDash,\n  record \"McDonald's\"\
-      \ in `party_to` and record \"via DoorDash\" in `remarks`\n\n- if the transaction\
-      \ is made on behalf of others, record it in remarks.\n  E.g. if Alex Chen purchases\
-      \ McDonald's, but paid from my account BOA\n  `party_from`: \"BOA\", `party_to`:\
-      \ \"McDonald's\", `remarks`: \"by Alex Chen\"\n"
-    value_type: string
-  - description: ''
     id: f5b8e763-1977-40f5-a8a0-460a7598f697
     name: common_other_parties
     selector:
     - env
     - common_other_parties
-    value: ''
-    value_type: secret
+    value: 'Ray傅旭庆
+
+      Joshua卢建恩
+
+      Luke蔡露佳
+
+      Alan俞哲维
+
+      Rapunzel陈谦与
+
+      Amazon
+
+      CVS
+
+      Uber
+
+      Lyft
+
+      Trader Joe''s
+
+      OpenAI
+
+      AT&T
+
+      eBay
+
+      Weee!
+
+      Yami
+
+      Pho Gyu
+
+      Apple Inc.
+
+      DoorDash
+
+      Poke Me
+
+      Target
+
+      Burger King
+
+      Kyochen Chicken
+
+      Tasty Wok Express
+
+      腾讯云
+
+      spider.cloud
+
+      Waymo
+
+      2W Rice Bowl
+
+      '
+    value_type: string
   - description: ''
     id: 7153dfd2-95c7-4722-a07a-c852f66e0fd4
     name: user_accounts
@@ -187,19 +219,6 @@ workflow:
   graph:
     edges:
     - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: tool
-        targetType: code
-      id: 1757355389668-source-1757356715142-target
-      selected: false
-      source: '1757355389668'
-      sourceHandle: source
-      target: '1757356715142'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInLoop: false
         sourceType: tool
         targetType: answer
@@ -224,200 +243,38 @@ workflow:
       type: custom
       zIndex: 0
     - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: tool
-        targetType: answer
-      id: 1757358619560-fail-branch-1758157796312-target
-      selected: false
-      source: '1757358619560'
-      sourceHandle: fail-branch
-      target: '1758157796312'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: tool
-      id: 1758838128097-source-1757355389668-target
-      selected: false
-      source: '1758838128097'
-      sourceHandle: source
-      target: '1757355389668'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: code
-      id: 1759202724150-true-1758838128097-target
-      selected: false
-      source: '1759202724150'
-      sourceHandle: 'true'
-      target: '1758838128097'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: code
-        targetType: code
-      id: 1757356715142-source-1759203319094-target
-      selected: false
-      source: '1757356715142'
-      sourceHandle: source
-      target: '1759203319094'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: tool
-      id: 1759203319094-source-1757358619560-target
-      selected: false
-      source: '1759203319094'
-      sourceHandle: source
-      target: '1757358619560'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: answer
-      id: 1757100234840-source-answer-target
-      selected: false
-      source: '1757100234840'
-      sourceHandle: source
-      target: answer
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: assigner
-      id: 1757203447144-source-1757199830234-target
-      selected: false
-      source: '1757203447144'
-      sourceHandle: source
-      target: '1757199830234'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: code
-      id: 1757203447144-source-1757100234840-target
-      selected: false
-      source: '1757203447144'
-      sourceHandle: source
-      target: '1757100234840'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: llm
-      id: 1759204166762-source-1757203447144-target
-      selected: false
-      source: '1759204166762'
-      sourceHandle: source
-      target: '1757203447144'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: if-else
-        targetType: answer
-      id: 1759202724150-false-1765220654106-target
-      selected: false
-      source: '1759202724150'
-      sourceHandle: 'false'
-      target: '1765220654106'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: if-else
-        targetType: code
-      id: 1765220564255-true-1765220701964-target
-      selected: false
-      source: '1765220564255'
-      sourceHandle: 'true'
-      target: '1765220701964'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: if-else
-      id: 1765220701964-source-1759202724150-target
-      selected: false
-      source: '1765220701964'
-      sourceHandle: source
-      target: '1759202724150'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: code
-        targetType: assigner
-      id: 1757100234840-source-1765221338317-target
-      selected: false
-      source: '1757100234840'
-      sourceHandle: source
-      target: '1765221338317'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: start
-        targetType: if-else
-      id: 1757003052142-source-1767892972487-target
-      selected: false
-      source: '1757003052142'
-      sourceHandle: source
-      target: '1767892972487'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInLoop: false
         sourceType: if-else
         targetType: http-request
-      id: 1767892972487-true-1767892467608-target
+      id: 1767892972487-false-1767892467608-target
       selected: false
       source: '1767892972487'
-      sourceHandle: 'true'
+      sourceHandle: 'false'
       target: '1767892467608'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1757003052142-source-1765220564255-target
+      selected: false
+      source: '1757003052142'
+      sourceHandle: source
+      target: '1765220564255'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
         sourceType: if-else
         targetType: if-else
-      id: 1767892972487-false-1765220564255-target
+      id: 1765220564255-false-1767892972487-target
       selected: false
-      source: '1767892972487'
+      source: '1765220564255'
       sourceHandle: 'false'
-      target: '1765220564255'
+      target: '1767892972487'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -425,9 +282,23 @@ workflow:
         isInIteration: false
         isInLoop: false
         sourceType: http-request
-        targetType: assigner
-      id: 1767892467608-source-1767893047416-target
+        targetType: code
+      id: 1767892467608-source-1768934633665-target
+      selected: false
       source: '1767892467608'
+      sourceHandle: source
+      target: '1768934633665'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1768934633665-source-1767893047416-target
+      selected: false
+      source: '1768934633665'
       sourceHandle: source
       target: '1767893047416'
       targetHandle: target
@@ -435,23 +306,134 @@ workflow:
       zIndex: 0
     - data:
         isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1767892972487-true-1768934206487-target
+      selected: false
+      source: '1767892972487'
+      sourceHandle: 'true'
+      target: '1768934206487'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
         sourceType: assigner
-        targetType: if-else
-      id: 1767893047416-source-1765220564255-target
+        targetType: code
+      id: 1767893047416-source-1768934206487-target
+      selected: false
       source: '1767893047416'
       sourceHandle: source
-      target: '1765220564255'
+      target: '1768934206487'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1768934206487-source-1757203447144-target
+      selected: false
+      source: '1768934206487'
+      sourceHandle: source
+      target: '1757203447144'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1757203447144-source-1768936298770-target
+      selected: false
+      source: '1757203447144'
+      sourceHandle: source
+      target: '1768936298770'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1768936298770-source-1768936930427-target
+      selected: false
+      source: '1768936298770'
+      sourceHandle: source
+      target: '1768936930427'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: answer
+      id: 1768936298770-source-1768974410544-target
+      selected: false
+      source: '1768936298770'
+      sourceHandle: source
+      target: '1768974410544'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: if-else
+      id: 1765220564255-true-1768975619272-target
+      selected: false
+      source: '1765220564255'
+      sourceHandle: 'true'
+      target: '1768975619272'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInLoop: false
         sourceType: if-else
-        targetType: code
-      id: 1765220564255-false-1759204166762-target
-      source: '1765220564255'
+        targetType: answer
+      id: 1768975619272-false-1768847213767-target
+      selected: false
+      source: '1768975619272'
       sourceHandle: 'false'
-      target: '1759204166762'
+      target: '1768847213767'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1768975619272-true-1768976440166-target
+      source: '1768975619272'
+      sourceHandle: 'true'
+      target: '1768976440166'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: code
+      id: 1768976440166-source-1768976719413-target
+      source: '1768976440166'
+      sourceHandle: source
+      target: '1768976719413'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: tool
+      id: 1768976719413-source-1757358619560-target
+      source: '1768976719413'
+      sourceHandle: source
+      target: '1757358619560'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -476,116 +458,23 @@ workflow:
       type: custom
       width: 242
     - data:
-        answer: 'fill missing info ???, provide new info, or push changes by replying
-          `{{#env.PUSH_TRIGGER#}}`
-
-
-          {{#1757100234840.result#}}'
-        desc: ''
-        selected: false
-        title: Answer
-        type: answer
-        variables: []
-      height: 153
-      id: answer
-      position:
-        x: 4253.269239901843
-        y: 656.9337074112309
-      positionAbsolute:
-        x: 4253.269239901843
-        y: 656.9337074112309
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "def main(transactions):\n    # Generate header row with updated headers\n\
-          \    header = [\"\", \"¤\", \"Out\", \"In\", \"From\", \"To\", \"\", \"\
-          Remarks\"]\n    # Separator line for markdown table formatting\n    separator\
-          \ = [\"---\"] * 8\n    # Initialize list for markdown lines including header\n\
-          \    md_lines = []\n    md_lines.append(\"| \" + \" | \".join(header) +\
-          \ \" |\")\n    md_lines.append(\"| \" + \" | \".join(separator) + \" |\"\
-          )\n\n    # Fill in data rows from spreadsheet\n    for row in transactions.get(\"\
-          rows\", []):\n        # Replace None entries with empty string\n       \
-          \ row_processed = [entry if entry is not None else \"\" for entry in row]\n\
-          \        md_lines.append(\"| \" + \" | \".join(row_processed) + \" |\")\n\
-          \    md_table = \"\\n\".join(md_lines)\n    return {\"result\": md_table}"
-        code_language: python3
-        desc: ''
-        outputs:
-          result:
-            children: null
-            type: string
-        selected: false
-        title: 'transactions array to md '
-        type: code
-        variables:
-        - value_selector:
-          - '1757203447144'
-          - structured_output
-          value_type: object
-          variable: transactions
-      height: 52
-      id: '1757100234840'
-      position:
-        x: 3671.926979944084
-        y: 784.787142817307
-      positionAbsolute:
-        x: 3671.926979944084
-        y: 784.787142817307
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        answer: 'All Transactions is PUSHED
+        answer: 'All Transactions are **pushed**.
 
 
           [Google Sheets](https://docs.google.com/spreadsheets/d/{{#env.google_sheet_id#}}/edit)'
         desc: ''
         selected: false
-        title: Push Failed
+        title: Push Answer
         type: answer
         variables: []
-      height: 135
+      height: 151
       id: '1757199641292'
       position:
-        x: 3916.6965011201078
-        y: -513.9352729776037
+        x: 2209.1508293092566
+        y: -337.02329826348114
       positionAbsolute:
-        x: 3916.6965011201078
-        y: -513.9352729776037
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        desc: ''
-        items:
-        - input_type: variable
-          operation: over-write
-          value:
-          - '1757203447144'
-          - structured_output
-          variable_selector:
-          - conversation
-          - transactions_array
-          write_mode: over-write
-        selected: false
-        title: Variable Assigner
-        type: assigner
-        version: '2'
-      height: 84
-      id: '1757199830234'
-      position:
-        x: 3671.926979944084
-        y: 1094.9356986665055
-      positionAbsolute:
-        x: 3671.926979944084
-        y: 1094.9356986665055
+        x: 2209.1508293092566
+        y: -337.02329826348114
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -599,20 +488,27 @@ workflow:
           value: ''
           variable_selector:
           - conversation
-          - transactions_array
+          - transactions
+          write_mode: over-write
+        - input_type: variable
+          operation: clear
+          value: ''
+          variable_selector:
+          - conversation
+          - is_pushable
           write_mode: over-write
         selected: false
-        title: 'Empty Transactions '
+        title: reset conversatoin
         type: assigner
         version: '2'
-      height: 84
+      height: 110
       id: '1757200011862'
       position:
-        x: 4158.158330258897
-        y: -513.9352729776037
+        x: 2209.1508293092566
+        y: -187.7925812142416
       positionAbsolute:
-        x: 4158.158330258897
-        y: -513.9352729776037
+        x: 2209.1508293092566
+        y: -187.7925812142416
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -631,80 +527,44 @@ workflow:
         prompt_template:
         - id: 3f516f34-fc6f-4832-8ecf-a0e66a3de8cb
           role: system
-          text: '{{#1759204166762.concrete_prompt#}}'
+          text: '{{#conversation.extract_prompt_cache#}}'
         - id: cc14240e-2962-48d9-bff6-0b88c66a41ba
           role: user
-          text: '{{#sys.query#}}'
+          text: '{{#1768934206487.user_msg#}}'
         retry_config:
           max_retries: 3
           retry_enabled: false
           retry_interval: 1000
-        selected: false
+        selected: true
         structured_output:
           schema:
             $defs:
               row:
                 items:
                   type: string
-                maxItems: 8
-                minItems: 8
+                maxItems: 9
+                minItems: 9
                 prefixItems:
-                - description: MM-dd format, required, ??? when missing
-                  title: date
+                - title: id
                   type: string
-                - description: required, see Currency Symbol
-                  title: currency_symbol
+                - title: date
                   type: string
-                - description: expense with exactly 2 decimal places, optional
-                  title: amount_out
+                - title: currency_symbol
                   type: string
-                - description: income with exactly 2 decimal places, optional
-                  title: amount_in
+                - title: amount_out
                   type: string
-                - description: see Party From&To; required
-                  title: party_from
+                - title: amount_in
                   type: string
-                - description: see Party From&To; required
-                  title: party_to
+                - title: party_from
                   type: string
-                - description: see Categories
-                  title: category
+                - title: party_to
                   type: string
-                - description: optional; leave empty unless essential, no record irrelevant
-                    details; use only short, specific phrases not found in other fields
-                  title: remarks
+                - title: category
+                  type: string
+                - title: remarks
                   type: string
                 type: array
             additionalProperties: false
-            description: For required field of missing or unclear information, enter
-              ??? in cell. Use empty string for empty optional field. Increasing date
-              order, row with newer date at bottom
-            examples:
-            - rows:
-              - - ???
-                - $
-                - '36.71'
-                - ''
-                - ???
-                - Target
-                - G
-                - ''
-              - - 04-12
-                - HK$
-                - '240.35'
-                - ''
-                - ABC
-                - Amazon
-                - E
-                - buy Rode NT5
-              - - 05-10
-                - ¥
-                - ''
-                - '3000.00'
-                - Amazon
-                - BOC
-                - A
-                - Jan salary
             properties:
               rows:
                 items:
@@ -714,12 +574,12 @@ workflow:
             - rows
             type: object
         structured_output_enabled: true
-        title: extract info
+        title: extract
         type: llm
         variables: []
         vision:
           configs:
-            detail: high
+            detail: low
             variable_selector:
             - sys
             - files
@@ -727,266 +587,18 @@ workflow:
       height: 88
       id: '1757203447144'
       position:
-        x: 2628.332293172978
-        y: 773.8383717445046
+        x: 1585.850986163117
+        y: 742.5799852800645
       positionAbsolute:
-        x: 2628.332293172978
-        y: 773.8383717445046
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        desc: ''
-        is_team_authorization: true
-        output_schema: null
-        paramSchemas:
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: The ID of the Google Sheet (found in the URL)
-            ja_JP: The ID of the Google Sheet (found in the URL)
-            pt_BR: O ID da planilha Google (encontrado na URL)
-            zh_Hans: Google 表格的 ID（在 URL 中）
-          label:
-            en_US: Spreadsheet ID
-            ja_JP: Spreadsheet ID
-            pt_BR: ID da Planilha
-            zh_Hans: 表格 ID
-          llm_description: The ID of the Google Sheet, which can be found in the sheet's
-            URL
-          max: null
-          min: null
-          name: spreadsheet_id
-          options: []
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: string
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: List of ranges to retrieve (e.g. ["Sheet1!A1:C3", "Sheet2!B2:D4"])
-            ja_JP: List of ranges to retrieve (e.g. ["Sheet1!A1:C3", "Sheet2!B2:D4"])
-            pt_BR: Lista de intervalos para recuperar (ex. ["Sheet1!A1:C3", "Sheet2!B2:D4"])
-            zh_Hans: 要检索的范围列表（例如 ["Sheet1!A1:C3", "Sheet2!B2:D4"]）
-          label:
-            en_US: Ranges
-            ja_JP: Ranges
-            pt_BR: Intervalos
-            zh_Hans: 范围列表
-          llm_description: An array of range strings to retrieve in A1 notation or
-            R1C1 notation (e.g. ["Sheet1!A1:C3", "Sheet2!B2:D4"])
-          max: null
-          min: null
-          name: ranges
-          options: []
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: string
-        - auto_generate: null
-          default: SERIAL_NUMBER
-          form: form
-          human_description:
-            en_US: How dates, times, and durations should be represented in the output
-            ja_JP: How dates, times, and durations should be represented in the output
-            pt_BR: Como datas, horários e durações devem ser representados na saída
-            zh_Hans: 日期、时间和持续时间在输出中的表示方式
-          label:
-            en_US: Date Time Render Option
-            ja_JP: Date Time Render Option
-            pt_BR: Opção de Renderização de Data e Hora
-            zh_Hans: 日期时间渲染选项
-          llm_description: How dates, times, and durations should be represented in
-            the output
-          max: null
-          min: null
-          name: date_time_render_option
-          options:
-          - icon: ''
-            label:
-              en_US: SERIAL_NUMBER
-              ja_JP: SERIAL_NUMBER
-              pt_BR: NÚMERO DE SÉRIE
-              zh_Hans: 序列号
-            value: SERIAL_NUMBER
-          - icon: ''
-            label:
-              en_US: FORMATTED_STRING
-              ja_JP: FORMATTED_STRING
-              pt_BR: STRING FORMATADA
-              zh_Hans: 格式化字符串
-            value: FORMATTED_STRING
-          placeholder: null
-          precision: null
-          required: false
-          scope: null
-          template: null
-          type: select
-        - auto_generate: null
-          default: null
-          form: form
-          human_description:
-            en_US: The major dimension that results should use
-            ja_JP: The major dimension that results should use
-            pt_BR: A dimensão principal que os resultados devem usar
-            zh_Hans: 结果应使用的主要维度
-          label:
-            en_US: Major Dimension
-            ja_JP: Major Dimension
-            pt_BR: Dimensão Principal
-            zh_Hans: 主要维度
-          llm_description: The major dimension that results should use (ROWS or COLUMNS)
-          max: null
-          min: null
-          name: major_dimension
-          options:
-          - icon: ''
-            label:
-              en_US: ROWS
-              ja_JP: ROWS
-              pt_BR: LINHAS
-              zh_Hans: 行
-            value: ROWS
-          - icon: ''
-            label:
-              en_US: COLUMNS
-              ja_JP: COLUMNS
-              pt_BR: COLUNAS
-              zh_Hans: 列
-            value: COLUMNS
-          placeholder: null
-          precision: null
-          required: false
-          scope: null
-          template: null
-          type: select
-        - auto_generate: null
-          default: null
-          form: form
-          human_description:
-            en_US: How values should be represented in the output
-            ja_JP: How values should be represented in the output
-            pt_BR: Como os valores devem ser representados na saída
-            zh_Hans: 值在输出中的表示方式
-          label:
-            en_US: Value Render Option
-            ja_JP: Value Render Option
-            pt_BR: Opção de Renderização de Valor
-            zh_Hans: 值渲染选项
-          llm_description: How values should be represented in the output
-          max: null
-          min: null
-          name: value_render_option
-          options:
-          - icon: ''
-            label:
-              en_US: FORMATTED_VALUE
-              ja_JP: FORMATTED_VALUE
-              pt_BR: VALOR FORMATADO
-              zh_Hans: 格式化值
-            value: FORMATTED_VALUE
-          - icon: ''
-            label:
-              en_US: FORMULA
-              ja_JP: FORMULA
-              pt_BR: FÓRMULA
-              zh_Hans: 公式
-            value: FORMULA
-          placeholder: null
-          precision: null
-          required: false
-          scope: null
-          template: null
-          type: select
-        params:
-          date_time_render_option: ''
-          major_dimension: ''
-          ranges: ''
-          spreadsheet_id: ''
-          value_render_option: ''
-        provider_id: omluc/google_sheets/google_sheets
-        provider_name: omluc/google_sheets/google_sheets
-        provider_type: builtin
-        selected: false
-        title: find empty row
-        tool_configurations:
-          date_time_render_option:
-            type: constant
-            value: SERIAL_NUMBER
-          major_dimension:
-            type: constant
-            value: null
-          value_render_option:
-            type: constant
-            value: null
-        tool_description: Retrieve data from multiple ranges in a Google Sheet
-        tool_label: Batch Get
-        tool_name: batch_get
-        tool_node_version: '2'
-        tool_parameters:
-          ranges:
-            type: mixed
-            value: '{{#1758838128097.result#}}'
-          spreadsheet_id:
-            type: mixed
-            value: '{{#env.google_sheet_id#}}'
-        type: tool
-      height: 140
-      id: '1757355389668'
-      position:
-        x: 2585.705751300015
-        y: -324.5615483606622
-      positionAbsolute:
-        x: 2585.705751300015
-        y: -324.5615483606622
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "def main(current_sheet: list[dict]):\n    result = len(current_sheet[0][\"\
-          valueRanges\"][0][\"values\"]) + 1\n    return {\"result\": result}\n\n"
-        code_language: python3
-        desc: find empty row in current sheet to insert new data
-        outputs:
-          result:
-            children: null
-            type: number
-        selected: false
-        title: find empty row number
-        type: code
-        variables:
-        - value_selector:
-          - '1757355389668'
-          - json
-          value_type: array[object]
-          variable: current_sheet
-      height: 96
-      id: '1757356715142'
-      position:
-        x: 2585.705751300015
-        y: -186.4913285340507
-      positionAbsolute:
-        x: 2585.705751300015
-        y: -186.4913285340507
-      selected: false
+        x: 1585.850986163117
+        y: 742.5799852800645
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
         desc: '                           '
-        error_strategy: fail-branch
         is_team_authorization: true
         output_schema: null
         paramSchemas:
@@ -1201,8 +813,12 @@ workflow:
         provider_id: omluc/google_sheets/google_sheets
         provider_name: omluc/google_sheets/google_sheets
         provider_type: builtin
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 1000
         selected: false
-        title: Append Transactions
+        title: push
         tool_configurations:
           include_values_in_response:
             type: constant
@@ -1223,202 +839,19 @@ workflow:
         tool_parameters:
           data:
             type: mixed
-            value: '{{#1759203319094.result#}}'
+            value: '{{#1768976719413.data#}}'
           spreadsheet_id:
             type: mixed
             value: '{{#env.google_sheet_id#}}'
         type: tool
-      height: 214
+      height: 178
       id: '1757358619560'
       position:
-        x: 3353.551820301327
-        y: -312.1040849176597
+        x: 1885.2036754009807
+        y: -287.49420538839377
       positionAbsolute:
-        x: 3353.551820301327
-        y: -312.1040849176597
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        answer: FAILED to PUSH
-        selected: false
-        title: Answer Failed
-        type: answer
-        variables: []
-      height: 100
-      id: '1758157796312'
-      position:
-        x: 3916.6965011201078
-        y: -173.7350566177393
-      positionAbsolute:
-        x: 3916.6965011201078
-        y: -173.7350566177393
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "def main(google_sheet_name: str):\n    result = '[\"{}!A:A\"]'.format(google_sheet_name)\n\
-          \    return {\"result\": result}\n\n"
-        code_language: python3
-        outputs:
-          result:
-            children: null
-            type: string
-        selected: false
-        title: find empty row get range
-        type: code
-        variables:
-        - value_selector:
-          - env
-          - google_sheet_name
-          value_type: string
-          variable: google_sheet_name
-      height: 52
-      id: '1758838128097'
-      position:
-        x: 2585.705751300015
-        y: -374.3914021326723
-      positionAbsolute:
-        x: 2585.705751300015
-        y: -374.3914021326723
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        cases:
-        - case_id: 'true'
-          conditions:
-          - comparison_operator: is
-            id: 9086d9d3-0264-41e0-aa6e-e2787d6d8c9e
-            value: true
-            varType: boolean
-            variable_selector:
-            - '1765220701964'
-            - is_push_legal
-          id: 'true'
-          logical_operator: and
-        selected: false
-        title: pushable branch
-        type: if-else
-      height: 124
-      id: '1759202724150'
-      position:
-        x: 2198.8153784504198
-        y: -89.85647825387464
-      positionAbsolute:
-        x: 2198.8153784504198
-        y: -89.85647825387464
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "def main(\n    transactions_array: dict, google_sheet_name: str, empty_row_number:\
-          \ float\n):\n    rows_from = transactions_array[\"rows\"]\n\n    end_range_row\
-          \ = empty_row_number + len(rows_from) - 1\n\n    # generate range\n    sheet_range\
-          \ = \"{}!A{}:H{}\".format(\n        google_sheet_name, empty_row_number,\
-          \ end_range_row\n    )\n\n    # generate values\n    rows_to = []\n    for\
-          \ row in rows_from:\n        current_row = []\n        for i, col in enumerate(row):\n\
-          \            if i in (2, 3) and col:  # amount in/out\n                #\
-          \ convert to number for amount in/out col, when not empty\n            \
-          \    current_row.append(col)\n            else:  # string entry\n      \
-          \          current_row.append('\"{}\"'.format(col))\n\n        row_content\
-          \ = \",\".join(current_row)\n        rows_to.append(row_content)\n\n   \
-          \ values = \"[{}]\".format(\",\".join(\"[{}]\".format(row) for row in rows_to))\n\
-          \n    result = '[{{\"range\": \"{}\", \"values\": {}}}]'.format(sheet_range,\
-          \ values)\n\n    return {\"result\": result}\n"
-        code_language: python3
-        desc: adapt transactions_array to format for google sheet
-        outputs:
-          result:
-            children: null
-            type: string
-        selected: false
-        title: transactions array to sheet
-        type: code
-        variables:
-        - value_selector:
-          - conversation
-          - transactions_array
-          value_type: object
-          variable: transactions_array
-        - value_selector:
-          - env
-          - google_sheet_name
-          value_type: string
-          variable: google_sheet_name
-        - value_selector:
-          - '1757356715142'
-          - result
-          value_type: number
-          variable: empty_row_number
-      height: 96
-      id: '1759203319094'
-      position:
-        x: 3353.551820301327
-        y: -405.5350607401787
-      positionAbsolute:
-        x: 3353.551820301327
-        y: -405.5350607401787
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "\"\"\"\nfill the prompt template with runtime info to produce the concrete\
-          \ prompt\n\"\"\"\n\nfrom datetime import datetime\n\n# constants  ###################################################################\n\
-          OUTPUT_PROMPT_KEY = \"concrete_prompt\"\n\n\n# entry point  #################################################################\n\
-          \n\ndef main(\n    prompt_template_cache: str,\n    transactions_array:\
-          \ dict,\n    user_accounts,\n    common_other_parties,\n):  # pylint: disable=missing-function-docstring\n\
-          \n    prompt = prompt_template_cache.format(\n        TODAY=datetime.today().strftime(\"\
-          %Y-%m-%d\"),\n        TRANSACTIONS=transactions_array,\n        USER_ACCOUNTS=user_accounts,\n\
-          \        COMMON_OTHER_PARTIES=common_other_parties,\n    )\n\n    return\
-          \ {\n        OUTPUT_PROMPT_KEY: prompt,\n    }\n\n"
-        code_language: python3
-        outputs:
-          concrete_prompt:
-            children: null
-            type: string
-        selected: false
-        title: fill prompt
-        type: code
-        variables:
-        - value_selector:
-          - conversation
-          - prompt_template_cache
-          value_type: string
-          variable: prompt_template_cache
-        - value_selector:
-          - conversation
-          - transactions_array
-          value_type: object
-          variable: transactions_array
-        - value_selector:
-          - env
-          - user_accounts
-          value_type: secret
-          variable: user_accounts
-        - value_selector:
-          - env
-          - common_other_parties
-          value_type: secret
-          variable: common_other_parties
-      height: 52
-      id: '1759204166762'
-      position:
-        x: 2628.332293172978
-        y: 724.2837264941842
-      positionAbsolute:
-        x: 2628.332293172978
-        y: 724.2837264941842
+        x: 1885.2036754009807
+        y: -287.49420538839377
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1444,103 +877,11 @@ workflow:
       height: 152
       id: '1765220564255'
       position:
-        x: 1420.1008344046716
+        x: 722.4434074464727
         y: 113.45301183784369
       positionAbsolute:
-        x: 1420.1008344046716
+        x: 722.4434074464727
         y: 113.45301183784369
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        answer: 'can not push because containing `???`
-
-
-          {{#conversation.transactions_array_md#}}'
-        selected: false
-        title: not legal pushable
-        type: answer
-        variables: []
-      height: 119
-      id: '1765220654106'
-      position:
-        x: 2585.705751300015
-        y: 102.31064607599205
-      positionAbsolute:
-        x: 2585.705751300015
-        y: 102.31064607599205
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "OUTPUT_KEY = \"is_push_legal\"\n\n\ndef main(input: str, transactions_array:\
-          \ dict):\n    \"\"\"\n    decide whetehr if making a push with current `transactions_array`\
-          \ is legal\n\n\n    :param input:\n    :type input: str\n    :param transactions_array:\n\
-          \    :type transactions_array: dict\n    :return: value of entry `is_push_legal`\
-          \ is a `bool`\n    :rtype: dict\n    \"\"\"\n\n    rows = transactions_array.get(\"\
-          rows\", [])\n\n    for row in rows:\n        for cell in row:\n        \
-          \    if str(cell) == \"???\":  # match exact triple question marks\n   \
-          \             return {OUTPUT_KEY: False}\n\n    return {OUTPUT_KEY: True}\
-          \  # return dict with success code\n\n"
-        code_language: python3
-        outputs:
-          is_push_legal:
-            children: null
-            type: boolean
-        selected: false
-        title: is push legal
-        type: code
-        variables:
-        - value_selector:
-          - sys
-          - query
-          value_type: string
-          variable: input
-        - value_selector:
-          - conversation
-          - transactions_array
-          value_type: object
-          variable: transactions_array
-      height: 52
-      id: '1765220701964'
-      position:
-        x: 2198.8153784504198
-        y: -140.51664292535835
-      positionAbsolute:
-        x: 2198.8153784504198
-        y: -140.51664292535835
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        items:
-        - input_type: variable
-          operation: over-write
-          value:
-          - '1757100234840'
-          - result
-          variable_selector:
-          - conversation
-          - transactions_array_md
-          write_mode: over-write
-        selected: false
-        title: save transaction array md
-        type: assigner
-        version: '2'
-      height: 84
-      id: '1765221338317'
-      position:
-        x: 4253.269239901843
-        y: 840.1915921697898
-      positionAbsolute:
-        x: 4253.269239901843
-        y: 840.1915921697898
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1568,17 +909,17 @@ workflow:
           max_write_timeout: 0
         title: HTTP Request
         type: http-request
-        url: http://{{#env.DOCKER_HOST_IP#}}:11255/kaye/dify-app/kaye-cash-tracker
+        url: http://{{#env.DOCKER_HOST_IP#}}:{{#env.KAYE_API_PORT#}}/kaye/dify-app/kaye-cash-tracker/extract
         variables: []
-      height: 157
+      height: 160
       id: '1767892467608'
       position:
-        x: 824.5310623915436
-        y: 98.31875211701706
+        x: 1204.451021533001
+        y: 814.3742142434671
       positionAbsolute:
-        x: 824.5310623915436
-        y: 98.31875211701706
-      selected: true
+        x: 1204.451021533001
+        y: 814.3742142434671
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1587,26 +928,26 @@ workflow:
         cases:
         - case_id: 'true'
           conditions:
-          - comparison_operator: empty
+          - comparison_operator: not empty
             id: c954a19b-560c-44a7-8c13-b056576b42da
             value: ''
             varType: string
             variable_selector:
             - conversation
-            - prompt_template_cache
+            - extract_prompt_cache
           id: 'true'
           logical_operator: and
         selected: false
-        title: init prompt_template_cache
+        title: init extract_prompt_cache
         type: if-else
       height: 124
       id: '1767892972487'
       position:
-        x: 824.5310623915436
-        y: -24.36211335820562
+        x: 1204.451021533001
+        y: 693.5456811113445
       positionAbsolute:
-        x: 824.5310623915436
-        y: -24.36211335820562
+        x: 1204.451021533001
+        y: 693.5456811113445
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1617,31 +958,621 @@ workflow:
         - input_type: variable
           operation: over-write
           value:
-          - '1767892467608'
-          - body
+          - '1768934633665'
+          - concrete_prompt
           variable_selector:
           - conversation
-          - prompt_template_cache
+          - extract_prompt_cache
           write_mode: over-write
         selected: false
-        title: set prompt_template_cache
+        title: set extract_prompt_cache
         type: assigner
         version: '2'
       height: 84
       id: '1767893047416'
       position:
-        x: 824.5310623915436
-        y: 252.7011776774455
+        x: 1204.451021533001
+        y: 1018.516110040548
       positionAbsolute:
-        x: 824.5310623915436
-        y: 252.7011776774455
+        x: 1204.451021533001
+        y: 1018.516110040548
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#conversation.extract_answer#}}'
+        selected: false
+        title: illegal push answer
+        type: answer
+        variables: []
+      height: 103
+      id: '1768847213767'
+      position:
+        x: 1204.451021533001
+        y: -187.7925812142416
+      positionAbsolute:
+        x: 1204.451021533001
+        y: -187.7925812142416
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\"\"\"\ncreate *User Message* part for Extract Node\n\n\n:param transactions:\n\
+          :type transactions: str\n:param user_accounts:\n:type user_accounts: str\n\
+          :param common_other_parties:\n:type common_other_parties: str\n:param query:\n\
+          :type query: str\n:return: {\n    \"user_msg\": content used for User Account\n\
+          }\n:rtype: dict{\n    \"user_msg\": str\n}\n\"\"\"\n\nimport json\n\n# constants\
+          \  ###################################################################\n\
+          OUTPUT_USER_MSG_KEY = \"user_msg\"\n\n\n# entry point  #################################################################\n\
+          def main(\n    transactions: str,\n    query: str,\n):  # pylint: disable=missing-function-docstring\n\
+          \n    current_transactions = json.loads(transactions)\n\n    user_msg =\
+          \ \"\"\"{}\n\n\n## Existing Transactions\n\n```json\n{}\n```\"\"\".format(query,\
+          \ current_transactions)\n\n    return {OUTPUT_USER_MSG_KEY: user_msg}\n\n"
+        code_language: python3
+        outputs:
+          user_msg:
+            children: null
+            type: string
+        selected: false
+        title: pre extract
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - transactions
+          value_type: object
+          variable: transactions
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+      height: 52
+      id: '1768934206487'
+      position:
+        x: 1585.850986163117
+        y: 693.5456811113445
+      positionAbsolute:
+        x: 1585.850986163117
+        y: 693.5456811113445
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\"\"\"\nfill the prompt with ``user_accounts`` and ``common_other_parties``\n\
+          \n\n:param prompt_template: prompt template, returned by HTTP request node\n\
+          :type prompt_template: str\n:param user_accounts:\n:type user_accounts:\
+          \ str\n:param common_other_parties:\n:type common_other_parties: str\n:return:\
+          \ {\n    \"concrete_prompt\": content of the system prompt used by Extract\
+          \ Node\n}\n:rtype: dict{\n    \"concrete_prompt\": str\n}\n\"\"\"\n\nOUTPUT_PROMPT_KEY\
+          \ = \"concrete_prompt\"\n\n\ndef main(\n    prompt_template: str,\n    user_accounts:\
+          \ str,\n    common_other_parties: str,\n):  # pylint: disable=missing-function-docstring\n\
+          \    concrete_prompt = prompt_template.format(\n        USER_ACCOUNTS=user_accounts,\n\
+          \        COMMON_OTHER_PARTIES=common_other_parties,\n    )\n    return {OUTPUT_PROMPT_KEY:\
+          \ concrete_prompt}\n\n"
+        code_language: python3
+        outputs:
+          concrete_prompt:
+            children: null
+            type: string
+        selected: false
+        title: fill extract prompt
+        type: code
+        variables:
+        - value_selector:
+          - '1767892467608'
+          - body
+          value_type: string
+          variable: prompt_template
+        - value_selector:
+          - env
+          - user_accounts
+          value_type: secret
+          variable: user_accounts
+        - value_selector:
+          - env
+          - common_other_parties
+          value_type: secret
+          variable: common_other_parties
+      height: 52
+      id: '1768934633665'
+      position:
+        x: 1204.451021533001
+        y: 967.9733824206787
+      positionAbsolute:
+        x: 1204.451021533001
+        y: 967.9733824206787
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\"\"\"\npost extract node, perform:\n\n- merge extracted transactions\
+          \ (``extract_obj``)\n  with existing transactions (``current_transactions``)\n\
+          \n- create a MD-formatted table\n\n\n:param current_transactions:\n:type\
+          \ current_transactions: dict\n:param extract_obj:\n:type extract_obj: dict\n\
+          :return: {\n    \"transactions\": merged transactions, serialized as json\n\
+          \    \"transactions_table\": md formatted transaction\n    \"is_pushable\"\
+          : whether ``transactions`` is directly pushable\n    \"answer\": full answer\
+          \ to be printed for extract branch\n}\n:rtype: dict{\n    \"transactions\"\
+          : str\n    \"transactions_table\": str\n    \"is_pushable\": bool\n    \"\
+          answer\": str\n}\n\"\"\"\n\nimport json\n\n# output keys  #################################################################\n\
+          OUTPUT_TRANSACTIONS_KEY = \"transactions\"\nOUTPUT_TABLE_KEY = \"transactions_table\"\
+          \nOUTPUT_PUSHABLE_KEY = \"is_pushable\"\nOUTPUT_ANSWER_KEY = \"answer\"\n\
+          \n# constants  ###################################################################\n\
+          ROWS_KEY = \"rows\"\n\n\n# Entry Point  #################################################################\n\
+          def main(\n    current_transactions: str,\n    extracted_rows: list,\n \
+          \   push_trigger: str,\n):  # pylint: disable=missing-function-docstring\n\
+          \n    # merge 2 transactions  ====================================================\n\
+          \    # merge 2 transactions as a 2D array\n    rows_array = []\n    # add\
+          \ current transactions\n    rows_array.extend(json.loads(current_transactions))\n\
+          \    # add updated transactions\n    rows_array.extend(extracted_rows)\n\
+          \n    rows_dict = {}  # use dict to merge by id/keys\n    for row in rows_array:\n\
+          \        tid = row[0]\n        rows_dict[tid] = row\n\n    # convert dict\
+          \ to list\n    transactions = sorted(\n        rows_dict.values(),\n   \
+          \     key=lambda transaction: transaction[1],  # sort by date\n        reverse=False,\
+          \  # newest at bottom\n    )\n\n    # serialize as json string to store\n\
+          \    transactions_obj = json.dumps(transactions)\n\n    # create MD table\
+          \  =========================================================\n    # generate\
+          \ header row with updated headers\n    header = [\"\", \"¤\", \"Out\", \"\
+          In\", \"From\", \"To\", \"\", \"Remarks\"]\n    # Separator line for markdown\
+          \ table formatting\n    separator = [\"---\"] * 8\n    # Initialize list\
+          \ for markdown lines including header\n    md_lines = []\n    md_lines.append(\"\
+          | \" + \" | \".join(header) + \" |\")\n    md_lines.append(\"| \" + \" |\
+          \ \".join(separator) + \" |\")\n\n    # Fill in data rows from spreadsheet\n\
+          \    for row in transactions:\n        # make sure None -> '', and skip\
+          \ id field\n        entries = [entry if entry is not None else \"\" for\
+          \ entry in row[1:]]\n        line = \"| \" + \" | \".join(entries) + \"\
+          \ |\"\n        md_lines.append(line)\n\n    transactions_table = \"\\n\"\
+          .join(md_lines)\n\n    # calc is_pushable  ========================================================\n\
+          \    is_pushable = \"???\" not in transactions_obj\n\n    # create answer\
+          \  ===========================================================\n    if is_pushable:\n\
+          \        answer = \"\"\"You may:\n- provide more **new** transactions,\n\
+          - make **correction** on existing transactions, or\n- **push** by replying\
+          \ `{}`\n\n{}\"\"\".format(push_trigger, transactions_table)\n    else:\n\
+          \        answer = \"\"\"Please provide **additional information** for cells\
+          \ with `???`\n\nYou also may:\n\n- provide more **new** transactions, or\n\
+          - make **correction** on existing transactions\n\n{}\"\"\".format(\n   \
+          \         transactions_table\n        )\n\n    # returns ==================================================================\n\
+          \    return {\n        OUTPUT_TRANSACTIONS_KEY: transactions_obj,\n    \
+          \    OUTPUT_TABLE_KEY: transactions_table,\n        OUTPUT_PUSHABLE_KEY:\
+          \ is_pushable,\n        OUTPUT_ANSWER_KEY: answer,\n    }\n\n"
+        code_language: python3
+        outputs:
+          answer:
+            children: null
+            type: string
+          is_pushable:
+            children: null
+            type: boolean
+          transactions:
+            children: null
+            type: string
+          transactions_table:
+            children: null
+            type: string
+        selected: false
+        title: post extract
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - transactions
+          value_type: object
+          variable: current_transactions
+        - value_selector:
+          - '1757203447144'
+          - structured_output
+          - rows
+          value_type: object
+          variable: extracted_rows
+        - value_selector:
+          - env
+          - PUSH_TRIGGER
+          value_type: string
+          variable: push_trigger
+      height: 52
+      id: '1768936298770'
+      position:
+        x: 1585.850986163117
+        y: 829.8843271244309
+      positionAbsolute:
+        x: 1585.850986163117
+        y: 829.8843271244309
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1768936298770'
+          - transactions
+          variable_selector:
+          - conversation
+          - transactions
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1768936298770'
+          - transactions_table
+          variable_selector:
+          - conversation
+          - transactions_table
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1768936298770'
+          - is_pushable
+          variable_selector:
+          - conversation
+          - is_pushable
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1768936298770'
+          - answer
+          variable_selector:
+          - conversation
+          - extract_answer
+          write_mode: over-write
+        selected: false
+        title: post extract setter
+        type: assigner
+        version: '2'
+      height: 162
+      id: '1768936930427'
+      position:
+        x: 1585.850986163117
+        y: 880.4347779192937
+      positionAbsolute:
+        x: 1585.850986163117
+        y: 880.4347779192937
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1768936298770.answer#}}'
+        selected: false
+        title: Extract Answer
+        type: answer
+        variables: []
+      height: 102
+      id: '1768974410544'
+      position:
+        x: 1951.579018474321
+        y: 693.5456811113445
+      positionAbsolute:
+        x: 1951.579018474321
+        y: 693.5456811113445
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 206260e2-94bb-4fcc-b5d8-419162329dd1
+            value: true
+            varType: boolean
+            variable_selector:
+            - conversation
+            - is_pushable
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: Check Push Legality
+        type: if-else
+      height: 124
+      id: '1768975619272'
+      position:
+        x: 1204.451021533001
+        y: -310.2546844375679
+      positionAbsolute:
+        x: 1204.451021533001
+        y: -310.2546844375679
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The ID of the Google Sheet (found in the URL)
+            ja_JP: The ID of the Google Sheet (found in the URL)
+            pt_BR: O ID da planilha Google (encontrado na URL)
+            zh_Hans: Google 表格的 ID（在 URL 中）
+          label:
+            en_US: Spreadsheet ID
+            ja_JP: Spreadsheet ID
+            pt_BR: ID da Planilha
+            zh_Hans: 表格 ID
+          llm_description: The ID of the Google Sheet, which can be found in the sheet's
+            URL
+          max: null
+          min: null
+          name: spreadsheet_id
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: List of ranges to retrieve (e.g. ["Sheet1!A1:C3", "Sheet2!B2:D4"])
+            ja_JP: List of ranges to retrieve (e.g. ["Sheet1!A1:C3", "Sheet2!B2:D4"])
+            pt_BR: Lista de intervalos para recuperar (ex. ["Sheet1!A1:C3", "Sheet2!B2:D4"])
+            zh_Hans: 要检索的范围列表（例如 ["Sheet1!A1:C3", "Sheet2!B2:D4"]）
+          label:
+            en_US: Ranges
+            ja_JP: Ranges
+            pt_BR: Intervalos
+            zh_Hans: 范围列表
+          llm_description: An array of range strings to retrieve in A1 notation or
+            R1C1 notation (e.g. ["Sheet1!A1:C3", "Sheet2!B2:D4"])
+          max: null
+          min: null
+          name: ranges
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: SERIAL_NUMBER
+          form: form
+          human_description:
+            en_US: How dates, times, and durations should be represented in the output
+            ja_JP: How dates, times, and durations should be represented in the output
+            pt_BR: Como datas, horários e durações devem ser representados na saída
+            zh_Hans: 日期、时间和持续时间在输出中的表示方式
+          label:
+            en_US: Date Time Render Option
+            ja_JP: Date Time Render Option
+            pt_BR: Opção de Renderização de Data e Hora
+            zh_Hans: 日期时间渲染选项
+          llm_description: How dates, times, and durations should be represented in
+            the output
+          max: null
+          min: null
+          name: date_time_render_option
+          options:
+          - icon: ''
+            label:
+              en_US: SERIAL_NUMBER
+              ja_JP: SERIAL_NUMBER
+              pt_BR: NÚMERO DE SÉRIE
+              zh_Hans: 序列号
+            value: SERIAL_NUMBER
+          - icon: ''
+            label:
+              en_US: FORMATTED_STRING
+              ja_JP: FORMATTED_STRING
+              pt_BR: STRING FORMATADA
+              zh_Hans: 格式化字符串
+            value: FORMATTED_STRING
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: The major dimension that results should use
+            ja_JP: The major dimension that results should use
+            pt_BR: A dimensão principal que os resultados devem usar
+            zh_Hans: 结果应使用的主要维度
+          label:
+            en_US: Major Dimension
+            ja_JP: Major Dimension
+            pt_BR: Dimensão Principal
+            zh_Hans: 主要维度
+          llm_description: The major dimension that results should use (ROWS or COLUMNS)
+          max: null
+          min: null
+          name: major_dimension
+          options:
+          - icon: ''
+            label:
+              en_US: ROWS
+              ja_JP: ROWS
+              pt_BR: LINHAS
+              zh_Hans: 行
+            value: ROWS
+          - icon: ''
+            label:
+              en_US: COLUMNS
+              ja_JP: COLUMNS
+              pt_BR: COLUNAS
+              zh_Hans: 列
+            value: COLUMNS
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: How values should be represented in the output
+            ja_JP: How values should be represented in the output
+            pt_BR: Como os valores devem ser representados na saída
+            zh_Hans: 值在输出中的表示方式
+          label:
+            en_US: Value Render Option
+            ja_JP: Value Render Option
+            pt_BR: Opção de Renderização de Valor
+            zh_Hans: 值渲染选项
+          llm_description: How values should be represented in the output
+          max: null
+          min: null
+          name: value_render_option
+          options:
+          - icon: ''
+            label:
+              en_US: FORMATTED_VALUE
+              ja_JP: FORMATTED_VALUE
+              pt_BR: VALOR FORMATADO
+              zh_Hans: 格式化值
+            value: FORMATTED_VALUE
+          - icon: ''
+            label:
+              en_US: FORMULA
+              ja_JP: FORMULA
+              pt_BR: FÓRMULA
+              zh_Hans: 公式
+            value: FORMULA
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        params:
+          date_time_render_option: ''
+          major_dimension: ''
+          ranges: ''
+          spreadsheet_id: ''
+          value_render_option: ''
+        plugin_id: omluc/google_sheets
+        plugin_unique_identifier: omluc/google_sheets:0.0.2@17f06eaa1d905595e1a76460e7249707a722142353d551cf14aed3d8517c134f
+        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=d167e184-a7d7-444b-9f56-a46f414051e4&filename=34925a568cd7d4ffd9fd783616ac381ad6abf61462e263bf46fbdf7c254ecaf1.svg
+        provider_id: omluc/google_sheets/google_sheets
+        provider_name: omluc/google_sheets/google_sheets
+        provider_type: builtin
+        selected: false
+        title: Fetch Column A
+        tool_configurations:
+          date_time_render_option:
+            type: constant
+            value: SERIAL_NUMBER
+          major_dimension:
+            type: constant
+            value: null
+          value_render_option:
+            type: constant
+            value: null
+        tool_description: Retrieve data from multiple ranges in a Google Sheet
+        tool_label: Batch Get
+        tool_name: batch_get
+        tool_node_version: '2'
+        tool_parameters:
+          ranges:
+            type: mixed
+            value: '["{{#env.google_sheet_name#}}!A:A"]'
+          spreadsheet_id:
+            type: mixed
+            value: '{{#env.google_sheet_id#}}'
+        type: tool
+      height: 140
+      id: '1768976440166'
+      position:
+        x: 1574.2481687507968
+        y: -337.02329826348114
+      positionAbsolute:
+        x: 1574.2481687507968
+        y: -337.02329826348114
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\"\"\"\ncreate ``data`` for push node\n\n\n:param transactions:\n:type\
+          \ transactions: str\n:param column_a:\n:type column_a: list[dict]\n:param\
+          \ google_sheet_name:\n:type google_sheet_name: str\n:return: first empty\
+          \ row (first available row) in current sheet\n:rtype: int\n\"\"\"\n\nimport\
+          \ json\n\nOUTPUT_DATA_KEY = \"data\"\n\n\ndef main(\n    transactions: str,\n\
+          \    column_a: list[dict],\n    google_sheet_name: str,\n):  # pylint: disable=missing-function-docstring\n\
+          \    transactions_array = json.loads(transactions)\n    # create ranges\
+          \  ===========================================================\n    # find\
+          \ range's row start, i.e. first empty row\n    range_row_start = len(column_a[0][\"\
+          valueRanges\"][0][\"values\"]) + 1\n    range_row_end = range_row_start\
+          \ + len(transactions_array) - 1\n    ranges = \"{}!A{}:H{}\".format(\n \
+          \       google_sheet_name, range_row_start, range_row_end\n    )\n\n   \
+          \ # create values  ===========================================================\n\
+          \    rows = []\n    for row in transactions_array:\n        current_row\
+          \ = []\n        for i, v in enumerate(row):\n            if i == 0:\n  \
+          \              continue  # skip id\n            elif i in (3, 4):  # amount\
+          \ in/out\n                # enter as number or empty str\n             \
+          \   value = float(v) if v else \"\"\n                current_row.append(value)\n\
+          \            else:\n                # enter as str\n                current_row.append(v)\n\
+          \n        rows.append(current_row)\n\n    # create data  =============================================================\n\
+          \    data = [{\"range\": ranges, \"values\": rows}]\n    data_json = json.dumps(data)\n\
+          \    return {OUTPUT_DATA_KEY: data_json}\n\n"
+        code_language: python3
+        outputs:
+          data:
+            children: null
+            type: string
+        selected: false
+        title: pre push
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - transactions
+          value_type: string
+          variable: transactions
+        - value_selector:
+          - '1768976440166'
+          - json
+          value_type: array[object]
+          variable: column_a
+        - value_selector:
+          - env
+          - google_sheet_name
+          value_type: string
+          variable: google_sheet_name
+      height: 52
+      id: '1768976719413'
+      position:
+        x: 1885.2036754009807
+        y: -337.02329826348114
+      positionAbsolute:
+        x: 1885.2036754009807
+        y: -337.02329826348114
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -2730.5761766480364
-      y: -21.07620554396783
-      zoom: 0.7578582832551992
+      x: -395.205210954485
+      y: 155.8502170795768
+      zoom: 0.6596637323680523
   rag_pipeline_variables: []

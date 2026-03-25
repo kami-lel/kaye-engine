@@ -19,8 +19,12 @@
     },
     "role": {
       "enum": [
+        "barista",
+        "coder",
         "chat",
-        "coder"
+        "rapid",
+        "editor",
+        "secretary"
       ]
     }
   },

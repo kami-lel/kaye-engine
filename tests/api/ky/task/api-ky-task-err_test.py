@@ -6,16 +6,20 @@ Unit Tests (using pytest) for:
 errors of /kaye/dify-api/ky/task
 """
 
+import json
+
 
 class TestErrRole:
 
     def test1(self, flask_test_client, task_endpoint):
-        query_string = {"role": "abc"}
+        payload = json.dumps({"role": "abc"})
         response = flask_test_client.get(
-            task_endpoint, query_string=query_string
+            task_endpoint,
+            data=payload,
+            content_type="application/json",
         )
 
         opt = response.get_data(as_text=True)
 
         assert response._status_code == 422
-        assert opt == "bad param: ?role=abc"
+        assert opt == "bad value of 'role' in body: abc"
