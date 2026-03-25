@@ -68,17 +68,17 @@ class TestContentLines:  #######################################################
         opt = testee1.content_lines()
         print(opt)
         assert opt == [
-            "-`c`:C language",
-            "-`csharp`:C Sharp",
-            "-`cpp`:C++",
             "-`bash`:Bash",
+            "-`csharp`:C Sharp",
+            "-`c`:C language",
+            "-`cpp`:C++",
             "-`css`:CSS",
             "-`gdscript`:GDScript used by Godot Engine",
             "-`html`:HTML",
             "-`js`:JavaScript",
             "-`py`:Python",
-            "-`qt`:Qt framework",
             "-`qml`:QT Meta-object Language",
+            "-`qt`:Qt framework",
             "-`ts`:TypeScript",
             "-`u3d`:Unity Engine code using C#",
             "-`ue`:Unreal Engine code using C++",
