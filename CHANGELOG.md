@@ -36,6 +36,7 @@ Kaye *Python* Package:
   - rename function `.generate_lineage()` (from `.generate_identifier_lineage()`)
 
 - unit tests related to above changes
+- update *Kaye Python Package API documentation*
 
 Kaye Chat *Dify App*:
 
