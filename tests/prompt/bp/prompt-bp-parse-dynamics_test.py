@@ -10,8 +10,6 @@ from kaye.prompt.abbr_nodes import AbbrNode, PLCNode, UsableAbbrNode
 
 class TestDynamics:
 
-    # BUG
-
     def test_today(_, dynamic_bp_testee2):
         bp = dynamic_bp_testee2
         print(bp.generate_blueprint(content_preview_lines=0))
