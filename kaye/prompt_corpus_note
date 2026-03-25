@@ -1,9 +1,9 @@
-Todo kyc: c & cpp instruction on comment usages
-Todo kyc: all code block should contains file name in 1st line if possible
-Todo kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
-Fixme kyc: improve comment section heading prompt, less wordy, make it used less often
-Fixme Role:Peer Coder:Message Level, more concise, no need per language eg
-Fixme Role:Peer Coder:Message Level, use abbr node
+TODO kyc: c & cpp instruction on comment usages
+TODO kyc: all code block should contains file name in 1st line if possible
+TODO kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
+FIXME kyc: improve comment section heading prompt, less wordy, make it used less often
+FIXME Role:Peer Coder:Message Level, more concise, no need per language eg
+FIXME Role:Peer Coder:Message Level, use abbr node
 
 todo utilize latex for math
 

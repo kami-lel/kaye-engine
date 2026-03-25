@@ -1,7 +1,7 @@
-Todo kyc: bash/command line writer
-Bug kyc: code commentaries s/X get double #
-Bug kyc: didn't include AMs definition currently
-Fixme kyc: always yield a difficulty level too low
+TODO kyc: bash/command line writer
+BUG kyc: code commentaries s/X get double #
+BUG kyc: didn't include AMs definition currently
+FIXME kyc: always yield a difficulty level too low
 fixme ky: allow sense early exit, i.e. provide an answer directly
 todo ky: smart sense, take only part of the user's input as sense message:
 eg by taking first n lines + last n lines
