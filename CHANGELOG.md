@@ -18,6 +18,27 @@
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [5.1.0] - 2026-03-25
+
+### Added
 
 Kaye Chat *Dify App*:
 
@@ -47,7 +68,6 @@ Kaye Commit Sense *Dify App*:
 
 - update used OpenAI LLM models
 
-### Deprecated
 ### Removed
 
 Kaye Chat *Dify App*:
@@ -1265,7 +1285,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v5.0.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v5.1.0...dev
+[5.1.0]: https://github.com/kami-lel/kaye/compare/v5.0.1...v5.1.0
 [5.0.1]: https://github.com/kami-lel/kaye/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/kami-lel/kaye/compare/v4.12.1...v5.0.0
 [4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1
