@@ -49,6 +49,7 @@ Kaye Chat *Dify App*:
 
 - remaining prompt of *Translator* role
 - remaining prompt of *Enclyelopic* role
+- *Message Level* section of coder role
 
 ### Fixed
 
