@@ -60,32 +60,29 @@ nodes types:
 
 
 
-##### name & lineage
+##### name
 
-<!-- TODO working here -->
+Each node has `.name`, i.e. **section heading** which appears in *preview tree* (v.i.):
 
-Each node has `.name`:
-
-- `.name`: i.e. **section heading**, also what appears in *preview tree* (v.i.)
-- `.identifier`:
-
-  - for `PromptCorpusNode`: this is identical to `.name`
-  - for `DynamicNode` instances: this is `.name` enclosed by `{}`.
+  - for `DynamicNode` instances: it must be enclosed by `{}`.
 
 E.g.
 
 ```python
 >>> corpus_node.name
 "Introduction"
->>> corpus_node.identifier
-"Introduction"
 >>> dynamic_node.name
-"Abbreviations"
->>> dynamic_node.identifier
 "{Abbreviations}"
 ```
 
-Use `.generate_lineage()` to get a linage from root (exclusively) to current node (inclusively,) represented as a ``list`` of node's ``.identifier``.
+> [!NOTE]
+> `.name` is a property of `anytree.Node`
+
+
+
+##### lineage
+
+Use `.generate_lineage()` to get a linage from root (exclusively) to current node (inclusively,) represented as a ``list`` of node's ``.name``.
 
 > [!TIP]
 > Since root is excluded from lineage, tree with different root nodes' names may produce identical lineage.
@@ -114,10 +111,7 @@ E.g.
 `==` operator of nodes is also based on `.generate_lineage()`.
 I.e. `a == b` return whether two nodes has the same lineage.
 
-Additionally, if both nodes are roots, test whether 2 trees are identical in node name structure (node content is irrelevant)
-
-> [!NOTE]
-> `.name` is a property of `anytree.Node`
+Additionally, if both nodes are roots, test whether 2 trees are identical in node name structure (node content is irrelevant.)
 
 
 
