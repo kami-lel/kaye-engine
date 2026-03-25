@@ -1486,6 +1486,20 @@ Example (Python):
 
 
 
+### Bash
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### C
 
 Use **C99** standard

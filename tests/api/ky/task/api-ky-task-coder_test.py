@@ -12,6 +12,8 @@ import json
 from tests.api.ky.task import _assert_chat_blueprint_opt
 from tests.api import assert_briefness_style
 
+# TODO unit test for bash
+
 # helper  ######################################################################
 
 

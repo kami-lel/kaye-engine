@@ -4,6 +4,7 @@ TODO kyc fuller C# prompt q.v. https://learn.microsoft.com/en-us/dotnet/csharp/l
 FIXME kyc: improve comment section heading prompt, less wordy, make it used less often
 FIXME Role:Peer Coder:Message Level, more concise, no need per language eg
 FIXME Role:Peer Coder:Message Level, use abbr node
+TODO write bash prompt
 
 todo utilize latex for math
 
