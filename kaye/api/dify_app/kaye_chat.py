@@ -24,15 +24,15 @@ BODY_QUERY_KEY = "query"
 # sense blueprints  ============================================================
 
 SENSE_PROMPT_BLUEPRINT = """ ○
-[x] └── Kaye Chat
-[x]     └── sense
-[ ]         ├── llm
-[ ]         ├── role
-[ ]         ├── leave empty
-[ ]         └── for coder
-[ ]             ├── programming_languages
-[ ]             │   └── {Programming Languages Code}
-[ ]             └── difficulty
+[x] ├── Kaye Chat
+[x] │   └── sense
+[ ] │       ├── llm
+[ ] │       ├── role
+[ ] │       ├── leave empty
+[ ] │       └── for coder
+[ ] │           ├── programming_languages
+[ ] │           └── difficulty
+[ ] └── {Programming Languages Code}
 """
 
 
@@ -76,6 +76,7 @@ def kaye_chat_sense():
     if role:
         if role == "coder":
             blueprint.checkmark(pre_sense_node["for coder"], recursively=True)
+            blueprint.checkmark("{Programming Languages Code}")
         else:
             # other role
             blueprint.checkmark(pre_sense_node["llm"])

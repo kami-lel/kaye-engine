@@ -5,7 +5,7 @@ define abbreviations-related node types
 from kaye.prompt.abbr_collection import AbbrData, AbbrTags
 from kaye.prompt.base_prompt_node import DynamicNode
 
-__all__ = ("AbbrNode", "PLCNode", "UsableAbbrNode", "LanguageCodeNode")
+__all__ = ("AbbrNode", "UsableAbbrNode", "LanguageCodeNode", "PLCNode")
 
 
 class AbbrNode(DynamicNode):  ##################################################
@@ -14,12 +14,9 @@ class AbbrNode(DynamicNode):  ##################################################
     based on a given ``query`` content
     """
 
+    # implement DynamicNode  ===================================================
+
     HEADING = "Abbreviations"
-
-    # constructor  =============================================================
-
-    def __init__(self, parent):
-        super().__init__(self.HEADING, parent)
 
     # implement BasePromptNode  ================================================
 
@@ -53,30 +50,27 @@ class AbbrNode(DynamicNode):  ##################################################
         return AbbrNode(None)
 
 
-class PLCNode(DynamicNode):  ###################################################
+class UsableAbbrNode(DynamicNode):  ############################################
     """
-    dynamic node to provide **Programming Languages Code**
+    dynamic node to provide **Usable Abbreviations**
     """
 
-    HEADING = "Programming Languages Code"
+    # implement DynamicNode  ===================================================
 
-    # constructor  =============================================================
-
-    def __init__(self, parent):
-        super().__init__(self.HEADING, parent)
+    HEADING = "Usable Abbreviations"
 
     # implement BasePromptNode  ================================================
 
     def content_lines(self, **kwargs):
         lines = []
         for entry in AbbrData().abbrs:
-            if AbbrTags.programming_language_code in entry.tags:
+            if AbbrTags.usable in entry.tags:
                 lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
 
         return lines
 
     def __copy__(self):
-        return PLCNode(None)
+        return UsableAbbrNode(None)
 
 
 class LanguageCodeNode(DynamicNode):  ##########################################
@@ -84,12 +78,9 @@ class LanguageCodeNode(DynamicNode):  ##########################################
     dynamic node to provide **Languages Code**
     """
 
+    # implement DynamicNode  ===================================================
+
     HEADING = "Languages Code"
-
-    # constructor  =============================================================
-
-    def __init__(self, parent):
-        super().__init__(self.HEADING, parent)
 
     # implement BasePromptNode  ================================================
 
@@ -105,25 +96,24 @@ class LanguageCodeNode(DynamicNode):  ##########################################
         return LanguageCodeNode(None)
 
 
-class UsableAbbrNode(DynamicNode):  ############################################
+class PLCNode(DynamicNode):  ###################################################
     """
-    dynamic node to provide **Usable Abbreviations**
+    dynamic node to provide **Programming Languages Code**
     """
 
-    HEADING = "Usable Abbreviations"
+    # implement DynamicNode  ===================================================
 
-    def __init__(self, parent):
-        super().__init__(self.HEADING, parent)
+    HEADING = "Programming Languages Code"
 
     # implement BasePromptNode  ================================================
 
     def content_lines(self, **kwargs):
         lines = []
         for entry in AbbrData().abbrs:
-            if AbbrTags.usable in entry.tags:
+            if AbbrTags.programming_language_code in entry.tags:
                 lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
 
         return lines
 
     def __copy__(self):
-        return UsableAbbrNode(None)
+        return PLCNode(None)

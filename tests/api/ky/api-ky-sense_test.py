@@ -91,16 +91,17 @@ class TestRoleCoder:  ##########################################################
 
         _assert_start_opt(opt)
 
-        assert opt.endswith(
+        assert (
             """- `0.90` Add observability (structured logs, metrics, tracing) with request IDs end-to-end.
 - `0.98` Implement an advanced distributed algorithm prototype (e.g., Raft leader election).
 - `0.99` Build a small interpreter/compiler (lexer → parser → AST → evaluator) with tests.
 - `1.00` Start a monolith→microservices migration: plan + implement first extraction safely.
 """
+            in opt
         )
         assert "#### programming_languages" in opt
-        assert "##### Programming Languages Code" in opt
         assert "#### difficulty" in opt
+        assert "# {Programming Languages Code}" in opt
 
 
 class TestOtherRole:  ##########################################################

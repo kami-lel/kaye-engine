@@ -1,8 +1,19 @@
 import pytest
 
 
+from copy import deepcopy
+
+
 from kaye.prompt.prompt_corpus_node import PromptCorpusNode
 from kaye.prompt.prompt_corpus_loader import load_prompt_corpus_tree
+
+from kaye.prompt import (
+    TodayNode,
+    AbbrNode,
+    UsableAbbrNode,
+    LanguageCodeNode,
+    PLCNode,
+)
 
 
 @pytest.fixture(scope="session")
@@ -107,6 +118,38 @@ def corpus_testee3():
     )
 
     return root
+
+
+@pytest.fixture(scope="session")
+def corpus_dynamic_testee(corpus_testee3):
+    tree = deepcopy(corpus_testee3)
+
+    for node_type in (
+        TodayNode,
+        AbbrNode,
+        UsableAbbrNode,
+        LanguageCodeNode,
+        PLCNode,
+    ):
+        node_type(tree)
+
+    return tree
+
+
+@pytest.fixture(scope="session")
+def corpus_dynamic_testee2(corpus_testee1):
+    tree = deepcopy(corpus_testee1)
+
+    for node_type in (
+        TodayNode,
+        AbbrNode,
+        UsableAbbrNode,
+        LanguageCodeNode,
+        PLCNode,
+    ):
+        node_type(tree)
+
+    return tree
 
 
 @pytest.fixture()

@@ -3,7 +3,7 @@ prompt_node_lineage_test.py
 
 Unit Tests (using pytest) for:
 
-- PromptCorpusNode.generate_identifier_lineage()
+- PromptCorpusNode.generate_lineage()
 """
 
 
@@ -12,7 +12,7 @@ class TestPrompt1:  ############################################################
     def test_root(_, corpus_testee1):
         node = corpus_testee1
 
-        lineage = node.generate_identifier_lineage()
+        lineage = node.generate_lineage()
 
         print(lineage)
         assert isinstance(lineage, list)
@@ -21,7 +21,7 @@ class TestPrompt1:  ############################################################
     def test_project(_, corpus_testee1):
         project = corpus_testee1.children[0]
 
-        lineage = project.generate_identifier_lineage()
+        lineage = project.generate_lineage()
 
         print(lineage)
         assert lineage == ["Project Title"]
@@ -30,7 +30,7 @@ class TestPrompt1:  ############################################################
         project = corpus_testee1.children[0]
         sub = project.children[0]
 
-        lineage = sub.generate_identifier_lineage()
+        lineage = sub.generate_lineage()
 
         print(lineage)
         assert lineage == ["Project Title", "Description"]
@@ -39,7 +39,7 @@ class TestPrompt1:  ############################################################
         project = corpus_testee1.children[0]
         sub = project.children[1]
 
-        lineage = sub.generate_identifier_lineage()
+        lineage = sub.generate_lineage()
 
         print(lineage)
         assert lineage == ["Project Title", "Installation"]
@@ -48,7 +48,7 @@ class TestPrompt1:  ############################################################
         project = corpus_testee1.children[0]
         sub = project.children[2]
 
-        lineage = sub.generate_identifier_lineage()
+        lineage = sub.generate_lineage()
 
         print(lineage)
         assert lineage == ["Project Title", "License"]
@@ -60,7 +60,7 @@ class TestPrompt3:  ############################################################
         project = corpus_testee3.children[0]
         node = project.children[0]
 
-        lineage = node.generate_identifier_lineage()
+        lineage = node.generate_lineage()
 
         print(lineage)
         assert lineage == ["Main Title", "Introduction"]
@@ -70,7 +70,7 @@ class TestPrompt3:  ############################################################
         parent = project.children[0]
         node = parent.children[0]
 
-        lineage = node.generate_identifier_lineage()
+        lineage = node.generate_lineage()
 
         print(lineage)
         assert lineage == ["Main Title", "Introduction", "Background"]
@@ -80,7 +80,7 @@ class TestPrompt3:  ############################################################
         parent = project.children[0].children[0]
         node = parent.children[0]
 
-        lineage = node.generate_identifier_lineage()
+        lineage = node.generate_lineage()
 
         print(lineage)
         assert lineage == [
@@ -95,7 +95,7 @@ class TestPrompt3:  ############################################################
         parent = project.children[0].children[0].children[0]
         node = parent.children[0]
 
-        lineage = node.generate_identifier_lineage()
+        lineage = node.generate_lineage()
 
         print(lineage)
         assert lineage == [
@@ -110,7 +110,7 @@ class TestPrompt3:  ############################################################
         project = corpus_testee3.children[0]
         node = project.children[1]
 
-        lineage = node.generate_identifier_lineage()
+        lineage = node.generate_lineage()
 
         print(lineage)
         assert lineage == ["Main Title", "Methods"]
@@ -120,7 +120,7 @@ class TestPrompt3:  ############################################################
         parent = project.children[1]
         node = parent.children[0]
 
-        lineage = node.generate_identifier_lineage()
+        lineage = node.generate_lineage()
 
         print(lineage)
         assert lineage == [
@@ -134,7 +134,7 @@ class TestPrompt3:  ############################################################
         parent = project.children[1].children[0]
         node = parent.children[0]
 
-        lineage = node.generate_identifier_lineage()
+        lineage = node.generate_lineage()
 
         print(lineage)
         assert lineage == [
@@ -149,7 +149,7 @@ class TestPrompt3:  ############################################################
         parent = project.children[1].children[0].children[0]
         node = parent.children[0]
 
-        lineage = node.generate_identifier_lineage()
+        lineage = node.generate_lineage()
 
         print(lineage)
         assert lineage == [
@@ -164,7 +164,7 @@ class TestPrompt3:  ############################################################
         project = corpus_testee3.children[0]
         node = project.children[2]
 
-        lineage = node.generate_identifier_lineage()
+        lineage = node.generate_lineage()
 
         print(lineage)
         assert lineage == ["Main Title", "Conclusion"]
