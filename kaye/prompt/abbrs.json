@@ -823,7 +823,7 @@
       "wrap": "word"
     }
   },
-  "GNU Bash": {
+  "Bash": {
     "bash": {
       "priority": 5,
       "tags": [
