@@ -68,7 +68,6 @@ class TestContentLines:  #######################################################
         opt = testee1.content_lines()
         print(opt)
         assert opt == [
-            "-`console`:any types of terminal console & log message",
             "-`c`:C language",
             "-`csharp`:C Sharp",
             "-`cpp`:C++",
