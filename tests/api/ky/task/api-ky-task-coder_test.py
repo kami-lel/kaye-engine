@@ -12,8 +12,6 @@ import json
 from tests.api.ky.task import _assert_chat_blueprint_opt
 from tests.api import assert_briefness_style
 
-# TODO unit test for bash
-
 # helper  ######################################################################
 
 
@@ -391,22 +389,6 @@ class TestIndv:  ###############################################################
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
         _assert_py_opt(opt)
-
-    def test_console(_, flask_test_client, task_endpoint):
-        # HACK rm all console related
-        payload = {"role": "coder", "programming_languages": "console"}
-
-        response = flask_test_client.get(
-            task_endpoint,
-            data=json.dumps(payload),
-            content_type="application/json",
-        )
-
-        opt = response.get_data().decode("utf-8")
-        print(opt)
-
-        _assert_chat_blueprint_opt(opt)
-        _assert_coder_basic_blueprint_opt(opt)
 
     def test_bash(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "bash"}
