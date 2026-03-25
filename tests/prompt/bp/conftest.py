@@ -47,23 +47,24 @@ def dynamic_bp_testee1(corpus_testee3):
 
 @pytest.fixture
 def dynamic_bp_testee_full(corpus_testee3):
-    # BUG
     corpus = corpus_testee3
+
     text = """    ○
-[x] └── Main Title
-[x]     ├── Introduction
-[x]     │   ├── {Usable Abbreviations}
-[x]     │   └── Background
-[x]     │       └── Importance
-[x]     │           ├── Objective
-[x]     │           └── {Abbreviations}
-[x]     ├── Methods
-[x]     │   ├── {Programming Languages Code}
-[x]     │   └── Data Collection
-[x]     │       └── Tools Used
-[x]     │           └── Future Work
-[x]     │               └── {Today}
-[x]     └── Conclusion"""
+[x] ├── Main Title
+[x] │   ├── Introduction
+[x] │   │   └── Background
+[x] │   │       └── Importance
+[x] │   │           └── Objective
+[x] │   ├── Methods
+[x] │   │   └── Data Collection
+[x] │   │       └── Tools Used
+[x] │   │           └── Future Work
+[x] │   └── Conclusion
+[x] ├── {Today}
+[x] ├── {Abbreviations}
+[x] ├── {Usable Abbreviations}
+[x] ├── {Languages Code}
+[x] └── {Programming Languages Code}"""
 
     return PromptBlueprint.parse(
         text, corpus_override=corpus, disable_prune=True
@@ -72,23 +73,24 @@ def dynamic_bp_testee_full(corpus_testee3):
 
 @pytest.fixture
 def dynamic_bp_testee_empty(corpus_testee3):
-    # BUG
     corpus = corpus_testee3
+
     text = """    ○
-[ ] └── Main Title
-[ ]     ├── Introduction
-[ ]     │   ├── {Usable Abbreviations}
-[ ]     │   └── Background
-[ ]     │       └── Importance
-[ ]     │           ├── Objective
-[ ]     │           └── {Abbreviations}
-[ ]     ├── Methods
-[ ]     │   ├── {Programming Languages Code}
-[ ]     │   └── Data Collection
-[ ]     │       └── Tools Used
-[ ]     │           └── Future Work
-[ ]     │               └── {Today}
-[ ]     └── Conclusion"""
+[ ] ├── Main Title
+[ ] │   ├── Introduction
+[ ] │   │   └── Background
+[ ] │   │       └── Importance
+[ ] │   │           └── Objective
+[ ] │   ├── Methods
+[ ] │   │   └── Data Collection
+[ ] │   │       └── Tools Used
+[ ] │   │           └── Future Work
+[ ] │   └── Conclusion
+[ ] ├── {Today}
+[ ] ├── {Abbreviations}
+[ ] ├── {Usable Abbreviations}
+[ ] ├── {Languages Code}
+[ ] └── {Programming Languages Code}"""
 
     return PromptBlueprint.parse(
         text, corpus_override=corpus, disable_prune=True
