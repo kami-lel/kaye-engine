@@ -44,6 +44,8 @@ def main(
         if difficulty < difficulty_thresholds[0]:
             llm = "rapid"
         elif difficulty < difficulty_thresholds[1]:
+            llm = "chat"
+        elif difficulty < difficulty_thresholds[2]:
             llm = "think"
         else:
             llm = "think-think"
