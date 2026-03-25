@@ -243,8 +243,8 @@ class TestDynamicNodes:  #######################################################
 [ ] └── Project Title
 [x]     ├── Description
 [x]     ├── Installation
-[x]     ├── {Usable Abbreviations}
-[x]     └── License"""
+[x]     ├── License
+[x]     └── {Usable Abbreviations}"""
 
         bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
 
