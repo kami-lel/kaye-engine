@@ -72,6 +72,7 @@ class TestContentLines:  #######################################################
             "-`c`:C language",
             "-`csharp`:C Sharp",
             "-`cpp`:C++",
+            "-`bash`:GNU Bash",
             "-`css`:CSS",
             "-`gdscript`:GDScript used by Godot Engine",
             "-`html`:HTML",
