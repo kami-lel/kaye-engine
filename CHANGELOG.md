@@ -37,6 +37,10 @@ Kaye *Python* Package:
 
 - unit tests related to above changes
 
+Kaye Chat *Dify App*:
+
+- update prompt related to difficulty, using another set of *anchor points* examples that will normally yield a higher value of difficult
+
 ### Deprecated
 ### Removed
 
