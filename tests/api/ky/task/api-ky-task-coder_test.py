@@ -10,12 +10,15 @@ import json
 
 
 from tests.api.ky.task import _assert_chat_blueprint_opt
+from tests.api import assert_briefness_style, assert_annotation_markers
 
 # helper  ######################################################################
 
 
 def _assert_coder_basic_blueprint_opt(opt):
     _assert_chat_blueprint_opt(opt)
+    assert_briefness_style(opt)
+    assert_annotation_markers(opt)
 
     assert (
         """# Style
@@ -28,12 +31,6 @@ Use *Chicago Manual of Style* headline case:
     )
 
     assert (
-        """### Commentary Case
-- begin 1st sentence with a lowercase letter; use standard sentence capitalization for the 2nd and subsequent sentences"""
-        in opt
-    )
-
-    assert (
         """## Kaye Peer Coder
 Duties are as follows:
 
@@ -42,15 +39,15 @@ Duties are as follows:
     )
 
     assert (
-        """#### Variable naming
-
+        """### variable naming
 - use i, j, k for loop counters, for example `for (int i = 1; i <= 5; i++)`"""
         in opt
     )
 
-    assert (
-        """#### Code comment
+    assert """### commentary""" in opt
 
+    assert (
+        """#### code comment
 - format inline comments as: actual code + two spaces + `#` or `//` + single space + comment content, for example `int a = 1;  // comment on number`"""
         in opt
     )
@@ -138,6 +135,12 @@ The docstrings must be written using the **Sphinx** style and employ **reStructu
 This section pertains specifically to Python test code. Tests should be compatible with the `pytest` module."""
         in opt
     )
+
+
+def assert_bash(opt):
+    """### Bash
+
+You write command lines for Debian GNU/Linux only.""" in opt
 
 
 class TestBase:  ###############################################################
@@ -388,8 +391,8 @@ class TestIndv:  ###############################################################
         _assert_coder_basic_blueprint_opt(opt)
         _assert_py_opt(opt)
 
-    def test_console(_, flask_test_client, task_endpoint):
-        payload = {"role": "coder", "programming_languages": "console"}
+    def test_bash(_, flask_test_client, task_endpoint):
+        payload = {"role": "coder", "programming_languages": "bash"}
 
         response = flask_test_client.get(
             task_endpoint,
@@ -402,8 +405,7 @@ class TestIndv:  ###############################################################
 
         _assert_chat_blueprint_opt(opt)
         _assert_coder_basic_blueprint_opt(opt)
-        assert """### Message Level
-These keywords indicate the severity of a message:""" in opt
+        assert_bash(opt)
 
 
 class TestMux:  ################################################################

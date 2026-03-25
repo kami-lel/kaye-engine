@@ -5,7 +5,13 @@ define abbreviations-related node types
 from kaye.prompt.abbr_collection import AbbrData, AbbrTags
 from kaye.prompt.base_prompt_node import DynamicNode
 
-__all__ = ("AbbrNode", "UsableAbbrNode", "LanguageCodeNode", "PLCNode")
+__all__ = (
+    "AbbrNode",
+    "UsableAbbrNode",
+    "LanguageCodeNode",
+    "PLCNode",
+    "UnityEngineAbbrNode",
+)
 
 
 class AbbrNode(DynamicNode):  ##################################################
@@ -46,9 +52,6 @@ class AbbrNode(DynamicNode):  ##################################################
         lines = ["- {}:{}".format(e.abbr, e.mean) for e in entries]
         return lines
 
-    def __copy__(self):
-        return AbbrNode(None)
-
 
 class UsableAbbrNode(DynamicNode):  ############################################
     """
@@ -68,9 +71,6 @@ class UsableAbbrNode(DynamicNode):  ############################################
                 lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
 
         return lines
-
-    def __copy__(self):
-        return UsableAbbrNode(None)
 
 
 class LanguageCodeNode(DynamicNode):  ##########################################
@@ -92,9 +92,6 @@ class LanguageCodeNode(DynamicNode):  ##########################################
 
         return lines
 
-    def __copy__(self):
-        return LanguageCodeNode(None)
-
 
 class PLCNode(DynamicNode):  ###################################################
     """
@@ -115,5 +112,22 @@ class PLCNode(DynamicNode):  ###################################################
 
         return lines
 
-    def __copy__(self):
-        return PLCNode(None)
+
+class UnityEngineAbbrNode(DynamicNode):  #######################################
+    """
+    dynamic node to provide **Unity Engine Abbreviations**
+    """
+
+    # implement DynamicNode  ===================================================
+
+    HEADING = "Unity Engine Abbreviations"
+
+    # implement BasePromptNode  ================================================
+
+    def content_lines(self, **kwargs):
+        lines = []
+        for entry in AbbrData().abbrs:
+            if AbbrTags.unity_engine_abbr in entry.tags:
+                lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
+
+        return lines

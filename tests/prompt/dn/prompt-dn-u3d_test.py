@@ -1,9 +1,9 @@
 """
-prompt-plc-test.py
+prompt-dn-u3d_test.py
 
 Unit Tests (using pytest) for:
 
-PLCNode
+UnityEngineAbbrNode
 """
 
 import copy
@@ -12,7 +12,7 @@ import copy
 import pytest
 
 
-from kaye.prompt.abbr_nodes import PLCNode
+from kaye.prompt.abbr_nodes import UnityEngineAbbrNode
 
 
 # pytest fixtures  #############################################################
@@ -23,14 +23,14 @@ def local_corpus_testee1(corpus_testee1):
 
 @pytest.fixture(scope="session")
 def testee1(local_corpus_testee1):
-    return PLCNode(local_corpus_testee1)
+    return UnityEngineAbbrNode(local_corpus_testee1)
 
 
 class TestInit:  ###############################################################
 
     def test1(_, testee1, local_corpus_testee1):
         assert testee1.parent is local_corpus_testee1
-        assert testee1.name == "{Programming Languages Code}"
+        assert testee1.name == "{Unity Engine Abbreviations}"
 
     def test_preview1(_, local_corpus_testee1):
         opt = local_corpus_testee1.generate_prompt_tree_preview(
@@ -42,7 +42,7 @@ class TestInit:  ###############################################################
 │   ├── Description
 │   ├── Installation
 │   └── License
-└── {Programming Languages Code}"""
+└── {Unity Engine Abbreviations}"""
 
 
 class TestCopy:  ###############################################################
@@ -50,15 +50,15 @@ class TestCopy:  ###############################################################
     def test_copy1(_, testee1):
         copied = copy.copy(testee1)
 
-        assert isinstance(copied, PLCNode)
-        assert copied.name == "{Programming Languages Code}"
+        assert isinstance(copied, UnityEngineAbbrNode)
+        assert copied.name == "{Unity Engine Abbreviations}"
         assert copied.parent is None
 
     def test_deep_copy1(_, testee1):
         copied = copy.deepcopy(testee1)
 
-        assert isinstance(copied, PLCNode)
-        assert copied.name == "{Programming Languages Code}"
+        assert isinstance(copied, UnityEngineAbbrNode)
+        assert copied.name == "{Unity Engine Abbreviations}"
         assert copied.parent is None
 
 
@@ -67,19 +67,4 @@ class TestContentLines:  #######################################################
     def test1(_, testee1):
         opt = testee1.content_lines()
         print(opt)
-        assert opt == [
-            "-`c`:C language",
-            "-`csharp`:C Sharp",
-            "-`cpp`:C++",
-            "-`bash`:Bash",
-            "-`css`:CSS",
-            "-`gdscript`:GDScript used by Godot Engine",
-            "-`html`:HTML",
-            "-`js`:JavaScript",
-            "-`py`:Python",
-            "-`qt`:Qt framework",
-            "-`qml`:QT Meta-object Language",
-            "-`ts`:TypeScript",
-            "-`u3d`:Unity Engine code using C#",
-            "-`ue`:Unreal Engine code using C++",
-        ]
+        assert opt == ["-`mb`:MonoBehavior"]

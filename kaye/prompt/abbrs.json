@@ -455,16 +455,6 @@
       "wrap": "symbol"
     }
   },
-  "any types of terminal console & log message": {
-    "console": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
-      ],
-      "wrap": "word"
-    }
-  },
   "anyone": {
     "a/o": {
       "priority": 5,
@@ -765,6 +755,16 @@
       "wrap": "word"
     }
   },
+  "MonoBehavior": {
+    "mb": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "unity_engine_abbr"
+      ],
+      "wrap": "word"
+    }
+  },
   "C Sharp": {
     "c#": {
       "priority": 4,
@@ -809,6 +809,16 @@
       "priority": 6,
       "tags": [
         "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "Bash": {
+    "bash": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
       ],
       "wrap": "word"
     }

@@ -43,10 +43,9 @@ CHAT_PROMPT_BLUEPRINT = """    ○
 [x] ├── Personality
 [x] ├── Language
 [x] ├── Elements
-[x] │   └── Date & Time Format
-[x] ├── Format
-[x] ├── Elements
+[x] │   ├── Date & Time Format
 [x] │   └── Numerical Values with Units
+[x] ├── Format
 [x] ├── Role
 [x] └── {Abbreviations}"""
 
@@ -150,13 +149,21 @@ def _create_peer_coder_blueprint(pls):  # ======================================
     # add styles
     bp.checkmark("Style", recursively=True)
 
+    # add ams
+    bp.checkmark(bp.corpus["Elements"]["Annotation Markers"], recursively=True)
+
     # add Kaye Peer Coder node
     kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]
     bp.checkmark(kyc_node)
+    bp.checkmark(kyc_node["variable naming"])
+    bp.checkmark(kyc_node["commentary"], recursively=True)
 
     # adds PL nodes  -----------------------------------------------------------
     for plc in pls.split(","):
-        if plc == "c":
+        if plc == "bash":
+            bp.checkmark(kyc_node["Bash"])
+
+        elif plc == "c":
             bp.checkmark(kyc_node["C"])
 
         elif plc == "cpp":
@@ -193,9 +200,6 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
         elif plc == "py":
             bp.checkmark(kyc_node["Python"], recursively=True)
-
-        elif plc == "console":
-            bp.checkmark(kyc_node["Message Level"])
 
         elif plc != "":
             print(
