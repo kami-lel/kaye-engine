@@ -765,6 +765,16 @@
       "wrap": "word"
     }
   },
+  "MonoBehavior": {
+    "mb": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "unity_engine_abbr"
+      ],
+      "wrap": "word"
+    }
+  },
   "C Sharp": {
     "c#": {
       "priority": 4,

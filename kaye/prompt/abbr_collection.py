@@ -65,6 +65,7 @@ class AbbrTags(Flag):  #########################################################
     usable = auto()
     programming_language_code = auto()
     language_code = auto()  # partial of and based on ISO 639-1 (2 letter)
+    unity_engine_abbr = auto()
     log_level = auto()
 
     # character set  -----------------------------------------------------------
