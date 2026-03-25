@@ -10,7 +10,7 @@ import json
 
 
 from tests.api.ky.task import _assert_chat_blueprint_opt
-from tests.api import assert_briefness_style
+from tests.api import assert_briefness_style, assert_annotation_markers
 
 # helper  ######################################################################
 
@@ -18,6 +18,7 @@ from tests.api import assert_briefness_style
 def _assert_coder_basic_blueprint_opt(opt):
     _assert_chat_blueprint_opt(opt)
     assert_briefness_style(opt)
+    assert_annotation_markers(opt)
 
     assert (
         """# Style

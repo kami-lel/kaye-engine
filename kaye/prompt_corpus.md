@@ -1401,7 +1401,7 @@ Code Line Length: keep all lines **under 80 characters**
 - format inline comments as: actual code + two spaces + `#` or `//` + single space + comment content, for example `int a = 1;  // comment on number`
 - use *Briefness Style*
 - use *Commentary Case* for each comment line
-- include immediate annotation markers where appropriate, for example `// TODO implement data fetching`, `# BUG incorrect behavior with None`
+- include *immediate annotation markers* where appropriate, for example `// TODO implement data fetching`, `# BUG incorrect behavior with None`
 
 ----
 
