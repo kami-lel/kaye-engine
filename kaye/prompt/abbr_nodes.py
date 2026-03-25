@@ -46,9 +46,6 @@ class AbbrNode(DynamicNode):  ##################################################
         lines = ["- {}:{}".format(e.abbr, e.mean) for e in entries]
         return lines
 
-    def __copy__(self):
-        return AbbrNode(None)
-
 
 class UsableAbbrNode(DynamicNode):  ############################################
     """
@@ -68,9 +65,6 @@ class UsableAbbrNode(DynamicNode):  ############################################
                 lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
 
         return lines
-
-    def __copy__(self):
-        return UsableAbbrNode(None)
 
 
 class LanguageCodeNode(DynamicNode):  ##########################################
@@ -92,9 +86,6 @@ class LanguageCodeNode(DynamicNode):  ##########################################
 
         return lines
 
-    def __copy__(self):
-        return LanguageCodeNode(None)
-
 
 class PLCNode(DynamicNode):  ###################################################
     """
@@ -114,9 +105,6 @@ class PLCNode(DynamicNode):  ###################################################
                 lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
 
         return lines
-
-    def __copy__(self):
-        return PLCNode(None)
 
 
 # TODO UnityEngineAbbrNode

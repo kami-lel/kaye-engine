@@ -260,3 +260,6 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
         # dynamic node must be leaf node
         if len(children) != 0:
             raise TypeError("{} must be leaf node".format(type(self)))
+
+    def __copy__(self):
+        return type(self)(None)
