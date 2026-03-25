@@ -44,9 +44,7 @@ CHAT_PROMPT_BLUEPRINT = """    ○
 [x] ├── Language
 [x] ├── Elements
 [x] │   ├── Date & Time Format
-[x] │   ├── Numerical Values with Units
-[ ] │   └── Annotation Markers
-[ ] │       └── Meaning
+[x] │   └── Numerical Values with Units
 [x] ├── Format
 [x] ├── Role
 [x] └── {Abbreviations}"""
