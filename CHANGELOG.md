@@ -35,6 +35,71 @@
 
 
 
+
+## [5.1.0] - 2026-03-25
+
+### Added
+
+Kaye Chat *Dify App*:
+
+- *Assistant Barista* role: assisting user managing *Coffee Note*
+- *Editor* & *Secretary* roles, as merging & combination of various roles
+- function docstring for Dify App nodes
+- utilize `AbbrNode` for creating abbreviations node  from **query**
+
+### Changed
+
+Kaye *Python* Package:
+
+- prompt corpus tree singleton (from `load_prompt_corpus_tree()`) always contains all dynamic nodes under root
+- remove `.identifier` property from `BasePromptNode`
+
+  - rename function `.generate_lineage()` (from `.generate_identifier_lineage()`)
+
+- unit tests related to above changes
+- update *Kaye Python Package API documentation*
+
+Kaye Chat *Dify App*:
+
+- update prompt related to difficulty, using another set of *anchor points* examples that will normally yield a higher value of difficult
+- update used OpenAI LLM models
+
+Kaye Commit Sense *Dify App*:
+
+- update used OpenAI LLM models
+
+### Removed
+
+Kaye Chat *Dify App*:
+
+- remaining prompt of *Translator* role
+- remaining prompt of *Enclyelopic* role
+- *Message Level* section of coder role
+
+### Fixed
+
+Kaye Chat *Dify App*:
+
+- for coder role, no longer skip sense node
+  when only provided `difficulty_override`,
+  (sense node is still required for sensing PLs)
+
+- include Annotation Markers for coder
+- Input Field `difficulty_override` defaults to `-1`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## [5.0.1] - 2026-03-06
 
 ### Changed
@@ -1220,7 +1285,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v5.0.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v5.1.0...dev
+[5.1.0]: https://github.com/kami-lel/kaye/compare/v5.0.1...v5.1.0
 [5.0.1]: https://github.com/kami-lel/kaye/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/kami-lel/kaye/compare/v4.12.1...v5.0.0
 [4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1

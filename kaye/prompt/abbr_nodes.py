@@ -5,7 +5,13 @@ define abbreviations-related node types
 from kaye.prompt.abbr_collection import AbbrData, AbbrTags
 from kaye.prompt.base_prompt_node import DynamicNode
 
-__all__ = ("AbbrNode", "PLCNode", "UsableAbbrNode")
+__all__ = (
+    "AbbrNode",
+    "UsableAbbrNode",
+    "LanguageCodeNode",
+    "PLCNode",
+    "UnityEngineAbbrNode",
+)
 
 
 class AbbrNode(DynamicNode):  ##################################################
@@ -14,12 +20,9 @@ class AbbrNode(DynamicNode):  ##################################################
     based on a given ``query`` content
     """
 
+    # implement DynamicNode  ===================================================
+
     HEADING = "Abbreviations"
-
-    # constructor  =============================================================
-
-    def __init__(self, parent):
-        super().__init__(self.HEADING, parent)
 
     # implement BasePromptNode  ================================================
 
@@ -49,45 +52,15 @@ class AbbrNode(DynamicNode):  ##################################################
         lines = ["- {}:{}".format(e.abbr, e.mean) for e in entries]
         return lines
 
-    def __copy__(self):
-        return AbbrNode(None)
-
-
-class PLCNode(DynamicNode):  ###################################################
-    """
-    dynamic node to provide **Programming Languages Code**
-    """
-
-    HEADING = "Programming Languages Code"
-
-    # constructor  =============================================================
-
-    def __init__(self, parent):
-        super().__init__(self.HEADING, parent)
-
-    # implement BasePromptNode  ================================================
-
-    def content_lines(self, **kwargs):
-        lines = []
-        for entry in AbbrData().abbrs:
-            if AbbrTags.programming_language_code in entry.tags:
-                lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
-
-        return lines
-
-    def __copy__(self):
-        return PLCNode(None)
-
 
 class UsableAbbrNode(DynamicNode):  ############################################
     """
     dynamic node to provide **Usable Abbreviations**
     """
 
-    HEADING = "Usable Abbreviations"
+    # implement DynamicNode  ===================================================
 
-    def __init__(self, parent):
-        super().__init__(self.HEADING, parent)
+    HEADING = "Usable Abbreviations"
 
     # implement BasePromptNode  ================================================
 
@@ -99,8 +72,62 @@ class UsableAbbrNode(DynamicNode):  ############################################
 
         return lines
 
-    def __copy__(self):
-        return UsableAbbrNode(None)
+
+class LanguageCodeNode(DynamicNode):  ##########################################
+    """
+    dynamic node to provide **Languages Code**
+    """
+
+    # implement DynamicNode  ===================================================
+
+    HEADING = "Languages Code"
+
+    # implement BasePromptNode  ================================================
+
+    def content_lines(self, **kwargs):
+        lines = []
+        for entry in AbbrData().abbrs:
+            if AbbrTags.language_code in entry.tags:
+                lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
+
+        return lines
 
 
-# todo implement language code node
+class PLCNode(DynamicNode):  ###################################################
+    """
+    dynamic node to provide **Programming Languages Code**
+    """
+
+    # implement DynamicNode  ===================================================
+
+    HEADING = "Programming Languages Code"
+
+    # implement BasePromptNode  ================================================
+
+    def content_lines(self, **kwargs):
+        lines = []
+        for entry in AbbrData().abbrs:
+            if AbbrTags.programming_language_code in entry.tags:
+                lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
+
+        return lines
+
+
+class UnityEngineAbbrNode(DynamicNode):  #######################################
+    """
+    dynamic node to provide **Unity Engine Abbreviations**
+    """
+
+    # implement DynamicNode  ===================================================
+
+    HEADING = "Unity Engine Abbreviations"
+
+    # implement BasePromptNode  ================================================
+
+    def content_lines(self, **kwargs):
+        lines = []
+        for entry in AbbrData().abbrs:
+            if AbbrTags.unity_engine_abbr in entry.tags:
+                lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
+
+        return lines

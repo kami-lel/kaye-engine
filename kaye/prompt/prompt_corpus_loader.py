@@ -7,10 +7,27 @@ import re
 from pathlib import Path
 
 from .prompt_corpus_node import PromptCorpusNode
+from .today_node import TodayNode
+from .abbr_nodes import (
+    AbbrNode,
+    UsableAbbrNode,
+    LanguageCodeNode,
+    PLCNode,
+    UnityEngineAbbrNode,
+)
 
 __all__ = (
     "get_embedded_prompt_corpus_file_path",
     "load_prompt_corpus_tree",
+)
+
+DYNAMIC_NODE_TYPES = (
+    TodayNode,
+    AbbrNode,
+    UsableAbbrNode,
+    LanguageCodeNode,
+    PLCNode,
+    UnityEngineAbbrNode,
 )
 
 
@@ -28,7 +45,7 @@ def get_embedded_prompt_corpus_file_path():
 prompt_corpus_tree = None  # pylint: disable=invalid-name
 
 
-def load_prompt_corpus_tree(*, prompt_corpus_text_override=None):
+def load_prompt_corpus_tree():
     """
     get the **prompt corpus tree** *singleton*, which is created by:
 
@@ -43,22 +60,20 @@ def load_prompt_corpus_tree(*, prompt_corpus_text_override=None):
     :return: **root** node of *prompt corpus tree*
     :rtype: PromptCorpusNode
     """
+    # prompt corpus tree singleton
     global prompt_corpus_tree  # pylint: disable=global-statement
 
-    if prompt_corpus_text_override is not None:
-        prompt_corpus_text = prompt_corpus_text_override
+    # early exit for singleton  ++++++++++++++++++++++++++++++++++++++++++++++++
+    if prompt_corpus_tree is not None:
+        return prompt_corpus_tree
 
-    else:
-        if prompt_corpus_tree is not None:
-            # early exit from stored singleton
-            return prompt_corpus_tree
-
-        # read corpus from file  -----------------------------------------------
-        prompt_corpus_file_path = get_embedded_prompt_corpus_file_path()
-        with open(
-            prompt_corpus_file_path, "r", encoding="utf-8", newline=""
-        ) as file:
-            prompt_corpus_text = file.read()
+    # create singleton  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # read corpus content from file
+    prompt_corpus_file_path = get_embedded_prompt_corpus_file_path()
+    with open(
+        prompt_corpus_file_path, "r", encoding="utf-8", newline=""
+    ) as file:
+        prompt_corpus_text = file.read()
 
     # text split & clean up  ---------------------------------------------------
     # reduce 2+ empty lines into single empty line
@@ -67,14 +82,15 @@ def load_prompt_corpus_tree(*, prompt_corpus_text_override=None):
     text_lines = list(text_cleanup.split("\n"))
 
     # create prompt corpus nodes  ----------------------------------------------
-    root = _create_prompt_corpus_node_from_text_lines_recursively(
+    prompt_corpus_tree = _create_prompt_corpus_node_from_text_lines_recursively(
         ROOT_NODE_NAME, None, text_lines
     )
 
-    if prompt_corpus_text_override is None:
-        prompt_corpus_tree = root
+    # add dynamic nodes  -------------------------------------------------------
+    for node_type in DYNAMIC_NODE_TYPES:
+        node_type(prompt_corpus_tree)
 
-    return root
+    return prompt_corpus_tree
 
 
 # helpers  #####################################################################

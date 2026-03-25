@@ -1,9 +1,9 @@
 """
-prompt-plc-test.py
+prompt-usable_test.py
 
 Unit Tests (using pytest) for:
 
-PLCNode
+- UsableAbbrNode
 """
 
 import copy
@@ -12,7 +12,7 @@ import copy
 import pytest
 
 
-from kaye.prompt.abbr_nodes import PLCNode
+from kaye.prompt.abbr_nodes import UsableAbbrNode
 
 
 # pytest fixtures  #############################################################
@@ -23,15 +23,14 @@ def local_corpus_testee1(corpus_testee1):
 
 @pytest.fixture(scope="session")
 def testee1(local_corpus_testee1):
-    return PLCNode(local_corpus_testee1)
+    return UsableAbbrNode(local_corpus_testee1)
 
 
 class TestInit:  ###############################################################
 
     def test1(_, testee1, local_corpus_testee1):
         assert testee1.parent is local_corpus_testee1
-        assert testee1.name == "Programming Languages Code"
-        assert testee1.identifier == "{Programming Languages Code}"
+        assert testee1.name == "{Usable Abbreviations}"
 
     def test_preview1(_, local_corpus_testee1):
         opt = local_corpus_testee1.generate_prompt_tree_preview(
@@ -43,7 +42,7 @@ class TestInit:  ###############################################################
 │   ├── Description
 │   ├── Installation
 │   └── License
-└── Programming Languages Code"""
+└── {Usable Abbreviations}"""
 
 
 class TestCopy:  ###############################################################
@@ -51,15 +50,15 @@ class TestCopy:  ###############################################################
     def test_copy1(_, testee1):
         copied = copy.copy(testee1)
 
-        assert isinstance(copied, PLCNode)
-        assert copied.name == "Programming Languages Code"
+        assert isinstance(copied, UsableAbbrNode)
+        assert copied.name == "{Usable Abbreviations}"
         assert copied.parent is None
 
     def test_deep_copy1(_, testee1):
         copied = copy.deepcopy(testee1)
 
-        assert isinstance(copied, PLCNode)
-        assert copied.name == "Programming Languages Code"
+        assert isinstance(copied, UsableAbbrNode)
+        assert copied.name == "{Usable Abbreviations}"
         assert copied.parent is None
 
 
@@ -68,19 +67,4 @@ class TestContentLines:  #######################################################
     def test1(_, testee1):
         opt = testee1.content_lines()
         print(opt)
-        assert opt == [
-            "-`console`:any types of terminal console & log message",
-            "-`c`:C language",
-            "-`csharp`:C Sharp",
-            "-`cpp`:C++",
-            "-`css`:CSS",
-            "-`gdscript`:GDScript used by Godot Engine",
-            "-`html`:HTML",
-            "-`js`:JavaScript",
-            "-`py`:Python",
-            "-`qt`:Qt framework",
-            "-`qml`:QT Meta-object Language",
-            "-`ts`:TypeScript",
-            "-`u3d`:Unity Engine code using C#",
-            "-`ue`:Unreal Engine code using C++",
-        ]
+        assert opt == ["-`&`:and", "-`/`:or"]
