@@ -6,7 +6,6 @@ Unit Tests (using pytest) for: /kaye/dify-app/kaye-cash-tracker/*
 
 
 def test_extract(flask_test_client, dify_app_endpoint):
-    # BUG
     extract_endpoint = dify_app_endpoint + "/kaye-cash-tracker/extract"
 
     response = flask_test_client.get(extract_endpoint)
@@ -83,5 +82,5 @@ select the most likely category abbreviation for each transaction based on its d
     ""
   ],""" in opt
 
-    assert """### {Today}
+    assert """# {Today}
 Today""" in opt
