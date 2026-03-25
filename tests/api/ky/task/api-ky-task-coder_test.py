@@ -10,12 +10,14 @@ import json
 
 
 from tests.api.ky.task import _assert_chat_blueprint_opt
+from tests.api import assert_briefness_style
 
 # helper  ######################################################################
 
 
 def _assert_coder_basic_blueprint_opt(opt):
     _assert_chat_blueprint_opt(opt)
+    assert_briefness_style(opt)
 
     assert (
         """# Style
@@ -24,12 +26,6 @@ def _assert_coder_basic_blueprint_opt(opt):
 Use *Chicago Manual of Style* headline case:
 
 - **capitalize major words**: nouns, pronouns, verbs, adjectives, adverbs, numerals"""
-        in opt
-    )
-
-    assert (
-        """### Commentary Case
-- begin 1st sentence with a lowercase letter; use standard sentence capitalization for the 2nd and subsequent sentences"""
         in opt
     )
 
