@@ -118,8 +118,6 @@ Additionally, if both nodes are roots, test whether 2 trees are identical in nod
 
 ##### content lines
 
-<!-- fixme Python API improve, explain kwargs, provide example -->
-
 To access node's textual **content lines**, use `.content_lines()` (typed `list`.)
 
 

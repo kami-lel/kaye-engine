@@ -27,8 +27,6 @@ class AbbrNode(DynamicNode):  ##################################################
     # implement BasePromptNode  ================================================
 
     def content_lines(self, *, query=""):  # pylint: disable=arguments-differ
-        # todo contextual abbrs eg: mb only applies when role kyc
-
         # find abbr occurrences  -----------------------------------------------
         query_lower = query.lower()  # provide lower case to automation
         query_len = len(query)
