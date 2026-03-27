@@ -2,7 +2,7 @@
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-positional-arguments
 
-# bug s/X replied 2 meta content during 2nd round conversation
+# Bug s/X replied 2 meta content during 2nd round conversation
 
 # output keys  #################################################################
 OUTPUT_META_KEY = "meta_content"

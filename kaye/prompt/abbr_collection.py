@@ -146,7 +146,7 @@ class AbbrData:  ###############################################################
     # singleton pattern  =======================================================
 
     def __init__(self, *, abbrs_json_override=None):
-        # fixme optimize as singleton
+        # Fixme optimize as singleton
         self._load_abbrs_json(abbrs_json_override=abbrs_json_override)
 
     # load from abbrs.json  ====================================================
