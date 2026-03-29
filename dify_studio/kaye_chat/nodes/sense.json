@@ -19,12 +19,15 @@
     },
     "role": {
       "enum": [
+        "art",
         "barista",
-        "coder",
         "chat",
-        "rapid",
+        "coder",
+        "Deutschlehrer",
         "editor",
-        "secretary"
+        "rapid",
+        "secretary",
+        "tarot"
       ]
     }
   },
