@@ -6,6 +6,15 @@ OUTPUT_ROLE_KEY = "role"
 OUTPUT_SKIP_KEY = "skip_sense"
 
 
+# constants  ###################################################################
+
+SKIP_SENSE_ROLES = [
+    "barista",
+    "Deutschlehrer",
+    "tarot",
+]
+
+
 # helpers  #####################################################################
 def should_skip_sense(role, llm_override):
     """
@@ -20,14 +29,12 @@ def should_skip_sense(role, llm_override):
     :return: whether should skip sense node
     :rtype: bool
     """
-    if role == "barista":
-        # skip for Assistant Barista
+    # these roles should skip sense node
+    # for having a fixed LLM associated
+    if role in SKIP_SENSE_ROLES:
         return True
 
-    elif role == "changelog":
-        # skip for Changelog writer
-        return True
-
+    # Bug coder should skip if provided LLM or difficulty
     elif role:
         # both both & LLM are provided
         return bool(llm_override)
