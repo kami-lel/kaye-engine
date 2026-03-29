@@ -57,12 +57,13 @@ def main(
             llm = "think-think"
 
     elif role == "barista":
-        # Assistant Barista always use chat
         llm = "chat"
 
-    elif role == "changelog":
-        # Changelog writer always use think
+    elif role == "deutschlehrer":
         llm = "think"
+
+    elif role == "tarot":
+        llm = "chat"
 
     else:
         llm = llm_sensed

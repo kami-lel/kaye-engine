@@ -10,7 +10,7 @@ OUTPUT_SKIP_KEY = "skip_sense"
 
 SKIP_SENSE_ROLES = [
     "barista",
-    "Deutschlehrer",
+    "deutschlehrer",
     "tarot",
 ]
 
