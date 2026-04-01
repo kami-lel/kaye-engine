@@ -34,10 +34,11 @@ def main(
         skip = True
 
     elif role:
-        # both both & LLM are provided
-        skip = bool(difficulty_override)
+        # if difficulty is provided, skip sense given role
+        skip = difficulty_override != 0
 
     else:
+        # both role and difficulty role are unknown, thus require sense
         skip = False
 
     return {OUTPUT_ROLE_KEY: role, OUTPUT_SKIP_KEY: skip}
