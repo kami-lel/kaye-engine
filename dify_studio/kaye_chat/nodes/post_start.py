@@ -4,6 +4,8 @@
 # output keys  #################################################################
 OUTPUT_ROLE_KEY = "pre_sense_role"
 OUTPUT_SKIP_KEY = "should_skip_sense"
+OUTPUT_SENSE_ROLE_KEY = "should_sense_role"
+OUTPUT_SENSE_DIFF_KEY = "sense_difficulty_select"
 
 
 # constants  ###################################################################
@@ -44,16 +46,29 @@ def main(
     # empty indicates sense node to decide it during 1st round
     role = role_override or current_role or ""
 
+    # TODO determine sense
+
     # decide skip  -------------------------------------------------------------
     if role in SKIP_SENSE_ROLES:  # skip b/c roles
         skip = True
+        sense_role = True
+        sense_diff = "default"
 
     elif role:
         # if difficulty is provided, skip sense given role
         skip = difficulty_override != 0
+        sense_role = True
+        sense_diff = "default"
 
     else:
         # both role and difficulty role are unknown, thus require sense
         skip = False
+        sense_role = True
+        sense_diff = "default"
 
-    return {OUTPUT_ROLE_KEY: role, OUTPUT_SKIP_KEY: skip}
+    return {
+        OUTPUT_ROLE_KEY: role,
+        OUTPUT_SKIP_KEY: skip,
+        OUTPUT_SENSE_ROLE_KEY: sense_role,
+        OUTPUT_SENSE_DIFF_KEY: sense_diff,
+    }
