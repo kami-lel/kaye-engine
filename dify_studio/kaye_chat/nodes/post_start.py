@@ -8,6 +8,7 @@ OUTPUT_SKIP_KEY = "should_skip_sense"
 
 # constants  ###################################################################
 
+# roles w/ static difficulty associated with it, thus should skip sense
 SKIP_SENSE_ROLES = [
     "barista",
     "deutschlehrer",
@@ -21,12 +22,15 @@ def main(
     difficulty_override: float,
     current_role: str,
 ):
-    # BUG write codes
+    # TODO write docstring
+
     # decide role  -------------------------------------------------------------
+    # pre-sense role should be empty during 1st round
+    # and not provided by role_override
     role = role_override or current_role or ""
 
     # decide skip  -------------------------------------------------------------
-    if role in SKIP_SENSE_ROLES:
+    if role in SKIP_SENSE_ROLES:  # skip b/c roles
         skip = True
 
     elif role:
