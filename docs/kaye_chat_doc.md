@@ -20,4 +20,16 @@ flowchart TD
     tpg[Task Prompt Getter] --> tps
     tps[Task Prompt Setter]
     end
+
+    tps-->idr
+    idr{Is Direct Respond?} --1-->dr
+    idr --0--> cr
+
+    subgraph Combined Respond
+    cr
+    end
+
+    subgraph Direct Respond
+    dr
+    end
 ```
