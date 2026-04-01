@@ -1,3 +1,7 @@
+Todo ky role mpl: Deutschlehrer
+Todo ky role mpl: Art Tutor
+Todo ky role: Tarot Reader
+
 Todo using models other than OpenAI
 fixme ky: allow sense early exit, i.e. provide an answer directly
 todo ky: smart sense, take only part of the user's input as sense message:
@@ -7,9 +11,6 @@ todo ky:utilize models from multiple provider, merge, when extremely difficult t
 todo ky:add 5.1 codex llm
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
 todo consider usage case of "apply"
-Todo ky role mpl: Deutschlehrer
-Todo ky role mpl: Art Tutor
 todo ky role: changelog
 todo ky role: shelver & Chinese Shelver
 todo ky role: librarian
-todo ky role: Tarot Reader

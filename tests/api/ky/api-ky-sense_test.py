@@ -35,12 +35,12 @@ choose exactly one label that best matches the **difficulty and reasoning comple
 def _assert_role_opt(opt):
     assert (
         """### role
-select exactly one role. pick the role that matches the **main type of work** the user wants.
+select exactly one role. choose the role that best matches the *kind of input* the user gives you. prefer the **most specific** matching role.
 
-- `rapid`: do quick, repetitive, *mechanical* tasks with almost no reasoning (direct text transformations, simple conversions, basic reformatting)
-- `chat`: do general conversation and simple information Q&A (the request is not mainly a transformation and not mainly coding)
-- `coder`: help with programming tasks (write, expand, or edit code; debug; explain code; reason about implementation details)
-- `barista`: when the user shares any coffee-related info (beans, roast/batch, brew recipe, equipment, tasting notes, ratings, prices), or appended into a structured coffee brewing note"""
+- `rapid`: when the user gives you content that needs a **simple mechanical change** with little judgment, such as reformatting, extracting, sorting, converting, cleaning, splitting, merging, or applying a narrow rule to existing text or data
+- `chat`: when the user gives you a **general question or everyday request** and no more specific role clearly applies
+- `coder`: when the user gives you **code or software-related material**, such as source code, error messages, technical requirements, scripts, configuration, debugging questions, or implementation problems
+- `barista`: when the user gives you **coffee-related information**, such as beans, origins, roast details, brew methods, ratios, grind settings, equipment, tasting notes, drink results, prices, or brewing logs"""
         in opt
     )
 
