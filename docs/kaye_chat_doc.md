@@ -34,9 +34,9 @@ flowchart TD
     end
 ```
 
-Sense related logic:
+based on provided difficulty (`difficulty_override` >0) or default/not provided difficulty (`difficulty_override` =0.)
 
-| `role_override` | `difficulty_override` >0 | `difficulty_override` =0 |
+|           | provided          | default                       |
 |-----------|-------------------|-------------------------------|
 | static difficulty roles | skip sense | skip sense             |
 | `coder`   | skip sense        | sense difficulty for coder    |
