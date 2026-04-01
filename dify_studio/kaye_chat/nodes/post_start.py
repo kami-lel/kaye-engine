@@ -22,7 +22,19 @@ def main(
     difficulty_override: float,
     current_role: str,
 ):
-    # TODO write docstring
+    """
+    TODO
+
+
+    :param role_override: _description_
+    :type role_override: str
+    :param difficulty_override: _description_
+    :type difficulty_override: float
+    :param current_role: _description_
+    :type current_role: str
+    :return: _description_
+    :rtype: _type_
+    """
 
     # decide role  -------------------------------------------------------------
     # pre-sense role should be empty during 1st round
