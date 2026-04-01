@@ -23,22 +23,21 @@ def main(
     current_role: str,
 ):
     """
-    TODO
-
-
-    :param role_override: _description_
+    :param role_override:
     :type role_override: str
-    :param difficulty_override: _description_
+    :param difficulty_override:
     :type difficulty_override: float
-    :param current_role: _description_
+    :param current_role:
     :type current_role: str
-    :return: _description_
-    :rtype: _type_
+    :return: {"pre_sense_role": role for this conversation
+            "should_skip_sense": whether should skip sense node in this round
+            }
+    :rtype: dict{"pre_sense_role": str, "should_skip_sense": bool}
     """
 
     # decide role  -------------------------------------------------------------
-    # pre-sense role should be empty during 1st round
-    # and not provided by role_override
+    # role_override take priority
+    # empty indicates sense node to decide it during 1st round
     role = role_override or current_role or ""
 
     # decide skip  -------------------------------------------------------------
