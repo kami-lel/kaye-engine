@@ -4,14 +4,20 @@
 ```mermaid
 flowchart TD
     start(Round Start) --> pre_start
-    pre_start[Post Start] --> skip
-    skip{Skip Sense?} --1--> a
+    pre_start[post_start] --> skip
+    skip{Skip Sense?} --1--> ptpg
     skip --0--> sg
 
     subgraph Sense
     sg[Sense Prompt Getter] --> sense
-    sense["`**Sense**`"] --> post_sense
+    sense[Sense] --> ps
+    ps[post_sense] --> psa
     end
+    psa[Post Sense Assigner] --> ptpg
 
-    post_sense[Post Sense] --> a
+    subgraph Get Task Prompt
+    ptpg[pre_task_prompt_getter] --> tpg
+    tpg[Task Prompt Getter] --> tps
+    tps[Task Prompt Setter]
+    end
 ```
