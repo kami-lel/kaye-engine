@@ -34,14 +34,12 @@ flowchart TD
     end
 ```
 
-
 Sense related logic:
-
 
 | `role_override` | `difficulty_override` >0 | `difficulty_override` =0 |
 |-----------|-------------------|-------------------------------|
-| `coder`   | skip sense        | sense difficulty for coder    |
 | static difficulty roles | skip sense | skip sense             |
+| `coder`   | skip sense        | sense difficulty for coder    |
 | others    | skip sense        | sense for difficulty          |
 | default   | sense for role    | sense for role & difficulty   |
 
