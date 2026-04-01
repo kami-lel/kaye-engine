@@ -69,22 +69,22 @@ def kaye_chat_sense():
     blueprint = PromptBlueprint.parse(
         SENSE_PROMPT_BLUEPRINT, disable_prune=True
     )
-    pre_sense_node = blueprint.corpus["Kaye Chat"]["sense"]
+    sense_node = blueprint.corpus["Kaye Chat"]["sense"]
 
     # on role  -----------------------------------------------------------------
     if role:
         if role == "coder":
-            blueprint.checkmark(pre_sense_node["for coder"], recursively=True)
+            blueprint.checkmark(sense_node["for coder"], recursively=True)
             blueprint.checkmark("{Programming Languages Code}")
         else:
             # other role
-            blueprint.checkmark(pre_sense_node["llm"])
-            blueprint.checkmark(pre_sense_node["leave empty"])
+            blueprint.checkmark(sense_node["llm"])
+            blueprint.checkmark(sense_node["leave empty"])
 
     else:
-        blueprint.checkmark(pre_sense_node["leave empty"])
-        blueprint.checkmark(pre_sense_node["llm"])
-        blueprint.checkmark(pre_sense_node["role"])
+        blueprint.checkmark(sense_node["leave empty"])
+        blueprint.checkmark(sense_node["llm"])
+        blueprint.checkmark(sense_node["role"])
 
     # create concrete prompt  --------------------------------------------------
     return blueprint.generate_prompt()

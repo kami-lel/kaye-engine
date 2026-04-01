@@ -23,6 +23,10 @@ def main(
     current_role: str,
 ):
     """
+    parsing *User Input* nodes' settings
+    directly after *Start* and before *Sense* node
+
+
     :param role_override:
     :type role_override: str
     :param difficulty_override:
