@@ -22,6 +22,9 @@
 
 ### Added
 ### Changed
+
+- make *Prompt Writer* part of the utility prompts
+
 ### Deprecated
 ### Removed
 ### Fixed
