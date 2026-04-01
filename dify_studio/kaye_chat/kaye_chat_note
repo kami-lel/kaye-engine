@@ -1,6 +1,6 @@
-TODO ky role mpl: Deutschlehrer
-TODO ky role mpl: Art Tutor
-TODO ky role: Tarot Reader
+Todo ky role mpl: Deutschlehrer
+Todo ky role mpl: Art Tutor
+Todo ky role: Tarot Reader
 
 Todo using models other than OpenAI
 fixme ky: allow sense early exit, i.e. provide an answer directly
