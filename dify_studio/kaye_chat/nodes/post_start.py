@@ -44,6 +44,8 @@ def should_skip_sense(role, llm_override):
 
 # Entry Point  #################################################################
 def main(role_override: str, difficulty_override: float, current_role: str):
+    # BUG BUG rewrite
+
     """
     prepare parameters for **this round**
     based on variables provided by *User Input Fields*
