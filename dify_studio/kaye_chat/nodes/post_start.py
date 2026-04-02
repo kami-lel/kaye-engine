@@ -1,13 +1,6 @@
 # pylint: disable=missing-module-docstring
 
 
-# output keys  #################################################################
-OUTPUT_ROLE_KEY = "pre_sense_role"
-OUTPUT_SKIP_KEY = "should_skip_sense"
-OUTPUT_SENSE_ROLE_KEY = "should_sense_role"
-OUTPUT_SENSE_DIFF_KEY = "sense_difficulty_select"
-
-
 # constants  ###################################################################
 
 # roles w/ static difficulty associated with it, thus should skip sense
@@ -67,8 +60,8 @@ def main(
         sense_diff = "default"
 
     return {
-        OUTPUT_ROLE_KEY: role,
-        OUTPUT_SKIP_KEY: skip,
-        OUTPUT_SENSE_ROLE_KEY: sense_role,
-        OUTPUT_SENSE_DIFF_KEY: sense_diff,
+        "pre_sense_role": role,
+        "should_skip_sense": skip,
+        "should_sense_role": sense_role,
+        "sense_difficulty_select": sense_diff,
     }
