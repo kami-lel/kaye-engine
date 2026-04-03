@@ -14,7 +14,6 @@ from kaye import PROGRAM_NAME
 from kaye.prompt import PromptBlueprint
 
 # constants  ###################################################################
-BODY_ROLE_KEY = "role"
 BODY_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
 BODY_QUERY_KEY = "query"
 
@@ -64,7 +63,12 @@ ky_bp = Blueprint("kaye-chat", PROGRAM_NAME, url_prefix="/ky")
 # /kaye/dify-app/ky/sense  =====================================================
 @ky_bp.route("/sense", methods=["GET"])
 def kaye_chat_sense():
-    role = request.args.get(BODY_ROLE_KEY)
+    body = request.get_json(silent=True) or {}
+
+    role = body.get("contains_role_prompt") or False
+    diff = body.get("difficulty_prompt") or "default"
+
+    # TODO TODO use role & diff
 
     blueprint = PromptBlueprint.parse(
         SENSE_PROMPT_BLUEPRINT, disable_prune=True
@@ -96,7 +100,7 @@ def kaye_chat_task():
     body = request.get_json(silent=True) or {}
 
     # default to chat
-    role = body.get(BODY_ROLE_KEY) or "chat"
+    role = body.get("role") or "chat"
     pls = body.get(BODY_PROGRAMMING_LANGUAGES_KEY) or ""
     query = body.get(BODY_QUERY_KEY) or ""
 
