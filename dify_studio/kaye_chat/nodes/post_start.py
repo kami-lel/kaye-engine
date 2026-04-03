@@ -47,21 +47,22 @@ def main(
 
     # skip sense logic  --------------------------------------------------------
 
-    # TODO determine sense
+    diff_provided = difficulty_override != 0
+
+    # default values
+    sense_role = False
+    sense_diff = "default"
 
     if role in STATIC_DIFFICULTY_ROLES:  # skip b/c roles
         skip = True
-        sense_role = True
-        sense_diff = "default"
 
     elif role:
-        # if difficulty is provided, skip sense given role
-        skip = difficulty_override != 0
-        sense_role = True
-        sense_diff = "default"
+        skip = diff_provided
 
-    else:
-        # both role and difficulty role are unknown, thus require sense
+        if role == "coder":
+            sense_diff = "coder"
+
+    else:  # unknown role
         skip = False
         sense_role = True
         sense_diff = "default"
