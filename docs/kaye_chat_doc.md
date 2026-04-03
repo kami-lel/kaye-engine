@@ -1,27 +1,17 @@
 # Dify App Kaye Chat Documentation
 
+## Round Flow Logic
 
 ```mermaid
 flowchart TD
     start(Round Start) --> pre_start
     pre_start[post_start] --> skip
-    skip{Skip Sense?} --1--> ptpg
-    skip --0--> sg
+    skip{Skip Sense?} --1--> tp
+    skip --0--> sense
 
-    subgraph Sense
-    sg[Sense Prompt Getter] --> sense
-    sense[Sense] --> ps
-    ps[post_sense] --> psa
-    end
-    psa[Post Sense Assigner] --> ptpg
+    sense[Sense] --> tp
+    tp[Get Task Prompt]-->idr
 
-    subgraph Get Task Prompt
-    ptpg[pre_task_prompt_getter] --> tpg
-    tpg[Task Prompt Getter] --> tps
-    tps[Task Prompt Setter]
-    end
-
-    tps-->idr
     idr{Is Direct Respond?} --1-->dr
     idr --0--> cr
 
@@ -34,7 +24,12 @@ flowchart TD
     end
 ```
 
-based on provided difficulty (`difficulty_override` >0) or default/not provided difficulty (`difficulty_override` =0.)
+#### skip sense logic
+
+Behavior of whether **Skip Sense** and content of prompt for **Sense** are determined by:
+
+- whether *provided* difficulty (`difficulty_override` >0) or *default* (not provided, `difficulty_override` =0.)
+- **roles** provided by `role_override`
 
 |           | provided          | default                       |
 |-----------|-------------------|-------------------------------|

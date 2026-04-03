@@ -4,7 +4,7 @@
 # constants  ###################################################################
 
 # roles w/ static difficulty associated with it, thus should skip sense
-SKIP_SENSE_ROLES = [
+STATIC_DIFFICULTY_ROLES = [
     "barista",
     "deutschlehrer",
     "tarot",
@@ -42,7 +42,7 @@ def main(
     # TODO determine sense
 
     # decide skip  -------------------------------------------------------------
-    if role in SKIP_SENSE_ROLES:  # skip b/c roles
+    if role in STATIC_DIFFICULTY_ROLES:  # skip b/c roles
         skip = True
         sense_role = True
         sense_diff = "default"
