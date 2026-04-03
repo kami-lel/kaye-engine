@@ -67,9 +67,8 @@ def main(
         sense_role = True
         sense_diff = "default"
 
-    # FIXME FIXME use good name
     body = json.dumps(
-        {"has_role_prompt": sense_role, "difficulty_role": sense_diff}
+        {"contains_role_prompt": sense_role, "difficulty_prompt": sense_diff}
     )
 
     return {
