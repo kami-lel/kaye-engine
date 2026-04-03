@@ -30,8 +30,14 @@ def main(
     :type current_role: str
     :return: {"pre_sense_role": role for this conversation
             "should_skip_sense": whether should skip sense node in this round
+            "should_sense_role": whether to sense for role in Sense node
+            "sense_difficulty_select": difficult prompt to use in Sense node
             }
-    :rtype: dict{"pre_sense_role": str, "should_skip_sense": bool}
+    :rtype: dict{"pre_sense_role": str,
+            "should_skip_sense": bool,
+            "should_sense_role": bool,
+            "sense_difficulty_select": str,
+            }
     """
 
     # decide role  -------------------------------------------------------------
@@ -39,9 +45,10 @@ def main(
     # empty indicates sense node to decide it during 1st round
     role = role_override or current_role or ""
 
+    # skip sense logic  --------------------------------------------------------
+
     # TODO determine sense
 
-    # decide skip  -------------------------------------------------------------
     if role in STATIC_DIFFICULTY_ROLES:  # skip b/c roles
         skip = True
         sense_role = True
