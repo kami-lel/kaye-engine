@@ -1,5 +1,6 @@
 # pylint: disable=missing-module-docstring
 
+import json
 
 # constants  ###################################################################
 
@@ -30,13 +31,12 @@ def main(
     :type current_role: str
     :return: {"pre_sense_role": role for this conversation
             "should_skip_sense": whether should skip sense node in this round
-            "should_sense_role": whether to sense for role in Sense node
-            "sense_difficulty_select": difficult prompt to use in Sense node
+            "sense_prompt_getter_body": body sent to ``/sense`` endpoint
             }
     :rtype: dict{"pre_sense_role": str,
             "should_skip_sense": bool,
             "should_sense_role": bool,
-            "sense_difficulty_select": str,
+            "sense_prompt_getter_body": str
             }
     """
 
@@ -67,9 +67,13 @@ def main(
         sense_role = True
         sense_diff = "default"
 
+    # FIXME FIXME use good name
+    body = json.dumps(
+        {"has_role_prompt": sense_role, "difficulty_role": sense_diff}
+    )
+
     return {
         "pre_sense_role": role,
         "should_skip_sense": skip,
-        "should_sense_role": sense_role,
-        "sense_difficulty_select": sense_diff,
+        "sense_prompt_getter_body": body,
     }
