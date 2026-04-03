@@ -191,7 +191,7 @@ All endpoints below `/kaye/dify-app/ky`
 
 - by `GET`
 - response type `text/plain`
-- param `role`, v.i.:
+- param `role`: Boolean,
 
   - if provided, skip role-guessing instruction of the given prompt
   - `coder` will provide its related sense prompts
