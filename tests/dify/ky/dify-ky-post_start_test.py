@@ -28,12 +28,10 @@ DEFAULT_CURRENT_ROLE = ""
 # Pytest unit tests  ###########################################################
 
 
-# FIXME FIXME finish unit tests
-
-
 class TestCombined:
 
     def test1(_):
+        # BUG BUG
         role_override = DEFAULT_ROLE_OVERRIDE
         difficulty_override = DEFAULT_DIFFICULTY_OVERRIDE
         current_role = DEFAULT_CURRENT_ROLE
