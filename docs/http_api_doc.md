@@ -193,16 +193,8 @@ All endpoints below `/kaye/dify-app/ky`
 - response type `application/json`
 - entries of body:
 
-  - `"contains_role_prompt"`: whether contains role-sensing prompt
-  - `"difficulty_prompt"`:
-
-    - `"coder"`: difficult sensing prompt for **coder** role
-    - `"default"`: difficult sensing prompt for the rest roles
-
-- param `role`: Boolean,
-
-  - if provided, skip role-guessing instruction of the given prompt
-  - `coder` will provide its related sense prompts
+  - `"pre_sense_role"`
+  - `"difficulty_override"`
 
 
 
