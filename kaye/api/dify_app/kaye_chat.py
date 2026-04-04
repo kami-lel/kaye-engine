@@ -68,17 +68,17 @@ def kaye_chat_sense():
     role = body.get("pre_sense_role") or ""
     diff = body.get("difficulty_override") or 0
 
-    # TODO TODO use role & diff
-
     blueprint = PromptBlueprint.parse(
         SENSE_PROMPT_BLUEPRINT, disable_prune=True
     )
     sense_node = blueprint.corpus["Kaye Chat"]["sense"]
 
     # on role  -----------------------------------------------------------------
+    # FIXME todo
     if role:
         if role == "coder":
             blueprint.checkmark(sense_node["for coder"], recursively=True)
+            blueprint.checkmark(sense_node["empty role"])
             blueprint.checkmark("{Programming Languages Code}")
         else:
             # other role

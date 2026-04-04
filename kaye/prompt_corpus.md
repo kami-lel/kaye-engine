@@ -829,9 +829,35 @@ Use these tasks as your **anchor point** when evaluate difficulty:
 
 ### empty role
 
+`role` must be empty string
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### zero difficulty
 
 `difficulty` must be `0`
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### empty programming_languages
 
