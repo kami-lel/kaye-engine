@@ -273,4 +273,33 @@ class TestOthers:  # ===========================================================
 class TestCurrent:  # ==========================================================
 
     def test1(_):
-        pass  # TODO
+        role_override = DEFAULT_ROLE_OVERRIDE
+        difficulty_override = DEFAULT_DIFFICULTY_OVERRIDE
+        current_role = "art"
+
+        opt = post_start.main(
+            role_override=role_override,
+            difficulty_override=difficulty_override,
+            current_role=current_role,
+        )
+
+        print(opt)
+
+        assert opt[OUTPUT_ROLE_KEY] == "art"
+        assert not opt[OUTPUT_SKIP_KEY]
+
+    def test_override(_):
+        role_override = "secretary"
+        difficulty_override = DEFAULT_DIFFICULTY_OVERRIDE
+        current_role = "art"
+
+        opt = post_start.main(
+            role_override=role_override,
+            difficulty_override=difficulty_override,
+            current_role=current_role,
+        )
+
+        print(opt)
+
+        assert opt[OUTPUT_ROLE_KEY] == "secretary"
+        assert not opt[OUTPUT_SKIP_KEY]
