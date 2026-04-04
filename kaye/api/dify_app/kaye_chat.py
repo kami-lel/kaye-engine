@@ -25,12 +25,14 @@ BODY_QUERY_KEY = "query"
 SENSE_PROMPT_BLUEPRINT = """ ○
 [x] ├── Kaye Chat
 [x] │   └── sense
-[ ] │       ├── llm
-[ ] │       ├── role
-[ ] │       ├── leave empty
-[ ] │       └── for coder
-[ ] │           ├── programming_languages
-[ ] │           └── difficulty
+[ ] │       ├── sense role
+[ ] │       ├── sense difficulty
+[ ] │       ├── for coder
+[ ] │       │   ├── programming_languages
+[ ] │       │   └── difficulty
+[ ] │       ├── empty role
+[ ] │       ├── zero difficulty
+[ ] │       └── empty programming_languages
 [ ] └── {Programming Languages Code}
 """
 
@@ -74,21 +76,25 @@ def kaye_chat_sense():
     sense_node = blueprint.corpus["Kaye Chat"]["sense"]
 
     # on role  -----------------------------------------------------------------
-    # FIXME todo
-    if role:
-        if role == "coder":
-            blueprint.checkmark(sense_node["for coder"], recursively=True)
-            blueprint.checkmark(sense_node["empty role"])
-            blueprint.checkmark("{Programming Languages Code}")
-        else:
-            # other role
-            blueprint.checkmark(sense_node["llm"])
-            blueprint.checkmark(sense_node["leave empty"])
+    if role == "coder":
+        blueprint.checkmark(sense_node["for coder"], recursively=True)
+        blueprint.checkmark(sense_node["empty role"])
+        blueprint.checkmark("{Programming Languages Code}")
 
-    else:
+    elif role:  # other role
+        # sense for difficult only
+        blueprint.checkmark(sense_node["llm"])
+        blueprint.checkmark(sense_node["leave empty"])
+
+    elif diff != 0:  # default role w/ provided difficult override
+        # sense for role only
         blueprint.checkmark(sense_node["leave empty"])
         blueprint.checkmark(sense_node["llm"])
         blueprint.checkmark(sense_node["role"])
+
+    else:  # default role w/o provided difficult override
+        # sense for both role & difficulty
+        pass
 
     # create concrete prompt  --------------------------------------------------
     return blueprint.generate_prompt()

@@ -10,6 +10,6 @@ def flask_test_client():
     return app.test_client()
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def dify_app_endpoint():
     return "/kaye/dify-app"

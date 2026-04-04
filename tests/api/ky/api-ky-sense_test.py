@@ -6,7 +6,32 @@ Unit Tests (using pytest) for:
 /kaye/dify-app/ky/sense
 """
 
+import pytest
+
 # helpers  #####################################################################
+
+
+def _assert_start(opt):
+    assert opt.startswith("# Kaye Chat")
+    assert "## sense" in opt
+
+
+def _assert_empty_role(opt):
+    assert """### empty role
+`role` must be empty string""" in opt
+
+
+# Pytest fixtures  #############################################################
+
+
+@pytest.fixture(scope="class")
+def testee_coder(flask_test_client, sense_endpoint):
+    response = flask_test_client.post(
+        sense_endpoint, json={"pre_sense_role": "coder"}
+    )
+    opt = response.get_data().decode("utf-8")
+
+    return opt
 
 
 # Pytest unit tests  ###########################################################
@@ -14,32 +39,70 @@ Unit Tests (using pytest) for:
 
 class TestDefault:  # ==========================================================
 
-    def test_both_default(_, flask_test_client, sense_endpoint):
-        pass
+    pass
 
-    def test_both_empty(_, flask_test_client, sense_endpoint):
-        pass
 
-    def test_both_missing(_, flask_test_client, sense_endpoint):
-        response = flask_test_client.post(sense_endpoint)
-        opt = response.get_data().decode("utf-8")
+class TestCoder:  # ============================================================
 
+    def test_start(_, testee_coder):
+        opt = testee_coder
         print(opt)
-        assert False  # HACK HACK
+        _assert_start(opt)
+
+    def test1(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert "### for coder" in opt
+
+    def test2(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert (
+            """#### programming_languages
+Return a string containing the abbreviations of the programming languages"""
+            in opt
+        )
+
+    def test3(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert """#### difficulty
+Provide a number between `0.0` (very easy)""" in opt
+
+    def test4(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert (
+            """Use these tasks as your **anchor point** when evaluate difficulty:
+
+- `0.03` Rename a local variable for clarity; ensure no typos.
+- `0.07` Change a single hardcoded configuration value or string."""
+            in opt
+        )
+
+    def test_empty_role(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        _assert_empty_role(opt)
+
+    def test_plc(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert "# {Programming Languages Code}" in opt
+        assert "-`cpp`:C++" in opt
 
 
 # HACK #####################################################################
 
 
 def _assert_start_opt(opt):
-    assert opt.startswith("""# Kaye Chat
-## sense
-In the JSON output, **always** use the defaults below; **change a value only** when the instructions include a **clearly labeled, field-specific section** that explicitly sets that same field:
-
-- `programming_languages`: `""`
-- `role`: `""`
-- `llm`: `""`
-- `difficulty`: `0`""")
+    pass
 
 
 def _assert_llm_opt(opt):
