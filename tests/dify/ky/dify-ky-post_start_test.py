@@ -14,7 +14,7 @@ from dify_studio.kaye_chat.nodes.post_start import (
     OUTPUT_ROLE_KEY,
     OUTPUT_SKIP_KEY,
     OUTPUT_SENSE_BODY_KEY,
-    BODY_SENSE_KEY,
+    BODY_ROLE_KEY,
     BODY_DIFF_KEY,
 )
 
@@ -31,6 +31,8 @@ DEFAULT_CURRENT_ROLE = ""
 class TestCombined:
 
     def test1(_):
+        role_answer = ""
+
         # BUG BUG
         role_override = DEFAULT_ROLE_OVERRIDE
         difficulty_override = DEFAULT_DIFFICULTY_OVERRIDE
@@ -43,13 +45,14 @@ class TestCombined:
         )
 
         print(opt)
-        assert opt == {
-            OUTPUT_ROLE_KEY: "",
-            OUTPUT_SKIP_KEY: True,
-            OUTPUT_SENSE_BODY_KEY: json.dumps(
-                {BODY_SENSE_KEY: "", BODY_DIFF_KEY: ""}
-            ),
-        }
+
+        assert opt[OUTPUT_ROLE_KEY] == role_answer
+        assert opt[OUTPUT_SKIP_KEY]
+
+        body = json.load(opt[OUTPUT_SENSE_BODY_KEY]) == {}
+        print(body)
+        assert body[BODY_ROLE_KEY] == role_answer
+        assert body[BODY_DIFF_KEY] == ""
 
 
 class TestCurrent:

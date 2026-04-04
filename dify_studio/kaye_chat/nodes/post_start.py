@@ -10,7 +10,7 @@ OUTPUT_SENSE_BODY_KEY = "sense_prompt_getter_body"
 
 
 # Body Key  ####################################################################
-BODY_SENSE_KEY = "pre_sense_role"
+BODY_ROLE_KEY = "pre_sense_role"
 BODY_DIFF_KEY = "difficulty_override"
 
 
@@ -68,9 +68,7 @@ def main(
     else:  # unknown role
         skip = False
 
-    body = json.dumps(
-        {BODY_SENSE_KEY: role, BODY_DIFF_KEY: difficulty_override}
-    )
+    body = json.dumps({BODY_ROLE_KEY: role, BODY_DIFF_KEY: difficulty_override})
 
     return {
         OUTPUT_ROLE_KEY: role,
