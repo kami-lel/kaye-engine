@@ -726,46 +726,7 @@ change from higher to lower AM, call it **demote**.
 
 ## sense
 
-In the JSON output, **always** use the defaults below; **change a value only** when the instructions include a **clearly labeled, field-specific section** that explicitly sets that same field:
-
-- `programming_languages`: `""`
-- `role`: `""`
-- `llm`: `""`
-- `difficulty`: `0`
-
-
-
-
-
-
-
-
-
-
-
-
-### llm
-
-choose exactly one label that best matches the **difficulty and reasoning complexity** required to answer the user's request (not the topic or length). base your choice on how many dependent steps, judgments, or non-trivial inferences are needed to produce a correct answer.
-
-- `rapid`: least complex. highly mechanical, immediate tasks with virtually no reasoning or judgment (reformatting, converting, extracting, renaming, simple templating).
-- `chat`: low complexity. straightforward conversational answers from broad knowledge with minimal reasoning (definitions, simple explanations, basic factual Q&A).
-- `think`: medium complexity. requires multiple connected steps and some judgment (planning, troubleshooting, comparing options against criteria, structured step-by-step help).
-- `think-think`: highest complexity. requires deep/extended reasoning, creative synthesis, or balancing constraints and trade-offs across many steps (system design, novel strategies, complex multi-constraint problem solving).
-
-
-
-
-
-
-
-
-
-
-
-
-
-### role
+### sense role
 
 select exactly one role. choose the role that best matches the *kind of input* the user gives you. prefer the **most specific** matching role.
 
@@ -789,10 +750,11 @@ select exactly one role. choose the role that best matches the *kind of input* t
 
 
 
-### leave empty
 
-`programming_languages` must be empty string
-`difficulty` must be `0`
+
+### sense difficulty
+
+choose exactly one label that best matches the **difficulty and reasoning complexity** required to answer the user's request (not the topic or length). base your choice on how many dependent steps, judgments, or non-trivial inferences are needed to produce a correct answer.
 
 
 
@@ -851,6 +813,29 @@ Use these tasks as your **anchor point** when evaluate difficulty:
 - `0.96` Integrate a standard third-party SDK for a straightforward feature; mock in tests.
 - `0.98` Convert a sync flow to async/await (or equivalent) without behavior changes.
 - `1.00` Refactor a messy module into smaller units without changing behavior; update tests.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### empty role
+
+### zero difficulty
+
+`difficulty` must be `0`
+
+### empty programming_languages
+
+`programming_languages` must be empty string
 
 
 
