@@ -41,16 +41,30 @@ def _assert_role2(opt):
 
 def _assert_role3(opt):
     assert (
-        """- `rapid`: when the user gives you content that needs a **simple mechanical change** with little judgment, such as reformatting, extracting, sorting, converting, cleaning, splitting, merging, or applying a narrow rule to existing text or data
-- `chat`: when the user gives you a **general question or everyday request** and no more specific role clearly applies"""
+        "- `art`: when the user gives you **a visual idea for image"
+        " generation**, such as a scene description, subject concept, style"
+        " reference, composition idea, aesthetic direction, character design,"
+        " or AI image prompt draft"
         in opt
     )
 
 
 def _assert_role4(opt):
     assert (
-        """- `secretary`: when the user gives you **person-to-person communication**, or text clearly meant to be sent to someone, such as an email, reply, direct message, follow-up, request, apology, invitation, reminder, complaint, or outreach message
-- `art`: when the user gives you **a visual idea for image generation**, such as a scene description, subject concept, style reference, composition idea, aesthetic direction, character design, or AI image prompt draft"""
+        "- `coder`: when the user gives you **code or software-related"
+        " material**, such as source code, error messages, technical"
+        " requirements, scripts, configuration, debugging questions, or"
+        " implementation problems"
+        in opt
+    )
+
+
+def _assert_role5(opt):
+    assert (
+        "- `secretary`: when the user gives you **person-to-person"
+        " communication**, or text clearly meant to be sent to someone, such as"
+        " an email, reply, direct message, follow-up, request, apology,"
+        " invitation, reminder, complaint, or outreach message"
         in opt
     )
 
@@ -270,6 +284,11 @@ class TestNoRoleProvided:  # ===================================================
         print(opt)
         _assert_role4(opt)
 
+    def test_role5(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_role5(opt)
+
     def test_zero_diff(_, testee_no_role_provided):
         opt = testee_no_role_provided
         print(opt)
@@ -307,6 +326,11 @@ class TestNoRoleDft:  # ========================================================
         opt = testee_no_role_dft
         print(opt)
         _assert_role4(opt)
+
+    def test_role5(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_role5(opt)
 
     def test_diff1(_, testee_no_role_dft):
         opt = testee_no_role_dft
