@@ -28,7 +28,7 @@ def payload_json_dumps():
 class TestEditor:
 
     def test_rapid(_, flask_test_client, task_endpoint, payload_json_dumps):
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=payload_json_dumps,
             content_type="application/json",
@@ -42,7 +42,7 @@ class TestEditor:
     def test_good_writing(
         _, flask_test_client, task_endpoint, payload_json_dumps
     ):
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=payload_json_dumps,
             content_type="application/json",
@@ -53,7 +53,7 @@ class TestEditor:
         _assert_good_writing_blueprint_opt(opt)
 
     def test1(_, flask_test_client, task_endpoint, payload_json_dumps):
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=payload_json_dumps,
             content_type="application/json",
@@ -69,7 +69,7 @@ Your task is to revise the provided text while preserving the user's original in
         )
 
     def test2(_, flask_test_client, task_endpoint, payload_json_dumps):
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=payload_json_dumps,
             content_type="application/json",
