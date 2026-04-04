@@ -2,6 +2,18 @@
 
 import json
 
+# Output Keys  #################################################################
+
+OUTPUT_ROLE_KEY = "pre_sense_role"
+OUTPUT_SKIP_KEY = "should_skip_sense"
+OUTPUT_SENSE_BODY_KEY = "sense_prompt_getter_body"
+
+
+# Body Key  ####################################################################
+BODY_SENSE_KEY = "pre_sense_role"
+BODY_DIFF_KEY = "difficulty_override"
+
+
 # constants  ###################################################################
 
 # roles w/ static difficulty associated with it, thus should skip sense
@@ -57,11 +69,11 @@ def main(
         skip = False
 
     body = json.dumps(
-        {"pre_sense_role": role, "difficulty_override": difficulty_override}
+        {BODY_SENSE_KEY: role, BODY_DIFF_KEY: difficulty_override}
     )
 
     return {
-        "pre_sense_role": role,
-        "should_skip_sense": skip,
-        "sense_prompt_getter_body": body,
+        OUTPUT_ROLE_KEY: role,
+        OUTPUT_SKIP_KEY: skip,
+        OUTPUT_SENSE_BODY_KEY: body,
     }
