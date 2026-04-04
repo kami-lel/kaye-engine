@@ -6,6 +6,8 @@ Unit Tests (using pytest) for:
 /kaye/dify-app/ky/sense
 """
 
+# FIXME update unit test for sense
+
 
 # helpers  #####################################################################
 def _assert_start_opt(opt):

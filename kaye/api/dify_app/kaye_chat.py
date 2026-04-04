@@ -61,7 +61,7 @@ ky_bp = Blueprint("kaye-chat", PROGRAM_NAME, url_prefix="/ky")
 
 
 # /kaye/dify-app/ky/sense  =====================================================
-@ky_bp.route("/sense", methods=["GET"])
+@ky_bp.route("/sense", methods=["POST"])
 def kaye_chat_sense():
     body = request.get_json(silent=True) or {}
 
@@ -95,7 +95,7 @@ def kaye_chat_sense():
 
 
 # /kaye/dify-app/ky/task  ======================================================
-@ky_bp.route("/task", methods=["GET"])
+@ky_bp.route("/task", methods=["POST"])
 def kaye_chat_task():
     body = request.get_json(silent=True) or {}
 
