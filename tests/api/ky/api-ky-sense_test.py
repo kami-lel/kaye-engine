@@ -288,6 +288,46 @@ class TestNoRoleDft:  # ========================================================
         print(opt)
         _assert_start(opt)
 
+    def test_role1(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_role1(opt)
+
+    def test_role2(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_role2(opt)
+
+    def test_role3(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_role3(opt)
+
+    def test_role4(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_role4(opt)
+
+    def test_diff1(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_sense_diff1(opt)
+
+    def test_diff2(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_sense_diff2(opt)
+
+    def test_diff3(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_sense_diff3(opt)
+
+    def test_diff4(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_sense_diff4(opt)
+
     def test_empty_pl(_, testee_no_role_dft):
         opt = testee_no_role_dft
         print(opt)
@@ -295,4 +335,4 @@ class TestNoRoleDft:  # ========================================================
 
 
 class TestDefault:  # ==========================================================
-    pass  # TODO
+    pass  # TODO TODO
