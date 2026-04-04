@@ -87,15 +87,17 @@ def kaye_chat_sense():
         blueprint.checkmark(sense_node["empty role"])
         blueprint.checkmark(sense_node["empty programming_languages"])
 
-    elif diff != 0:  # default role w/ provided difficult override
+    elif diff != 0:  # default role w/ provided difficulty override
         # sense for role only
-        blueprint.checkmark(sense_node["leave empty"])
-        blueprint.checkmark(sense_node["llm"])
-        blueprint.checkmark(sense_node["role"])
+        blueprint.checkmark(sense_node["sense role"])
+        blueprint.checkmark(sense_node["zero difficulty"])
+        blueprint.checkmark(sense_node["empty programming_languages"])
 
-    else:  # default role w/o provided difficult override
-        # sense for both role & difficulty
-        pass
+    else:  # default role w/o difficulty override
+        # sense for role and difficulty
+        blueprint.checkmark(sense_node["sense difficulty"])
+        blueprint.checkmark(sense_node["empty role"])
+        blueprint.checkmark(sense_node["empty programming_languages"])
 
     # create concrete prompt  --------------------------------------------------
     return blueprint.generate_prompt()

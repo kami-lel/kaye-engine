@@ -26,6 +26,35 @@ def _assert_empty_pl(opt):
 `programming_languages` must be empty string""" in opt
 
 
+def _assert_zero_diff(opt):
+    assert """### zero difficulty
+`difficulty` must be `0`""" in opt
+
+
+def _assert_role1(opt):
+    assert "### sense role" in opt
+
+
+def _assert_role2(opt):
+    assert "select exactly one role" in opt
+
+
+def _assert_role3(opt):
+    assert (
+        """- `rapid`: when the user gives you content that needs a **simple mechanical change** with little judgment, such as reformatting, extracting, sorting, converting, cleaning, splitting, merging, or applying a narrow rule to existing text or data
+- `chat`: when the user gives you a **general question or everyday request** and no more specific role clearly applies"""
+        in opt
+    )
+
+
+def _assert_role4(opt):
+    assert (
+        """- `secretary`: when the user gives you **person-to-person communication**, or text clearly meant to be sent to someone, such as an email, reply, direct message, follow-up, request, apology, invitation, reminder, complaint, or outreach message
+- `art`: when the user gives you **a visual idea for image generation**, such as a scene description, subject concept, style reference, composition idea, aesthetic direction, character design, or AI image prompt draft"""
+        in opt
+    )
+
+
 # Pytest fixtures  #############################################################
 
 
@@ -199,120 +228,46 @@ class TestOthers:  # ===========================================================
 
 
 class TestNoRoleProvided:  # ===================================================
-    pass
+
+    def test_start(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_start(opt)
+
+    def test_role1(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_role1(opt)
+
+    def test_role2(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_role2(opt)
+
+    def test_role3(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_role3(opt)
+
+    def test_role4(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_role4(opt)
+
+    def test_zero_diff(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_zero_diff(opt)
+
+    def test_empty_pl(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_empty_pl(opt)
 
 
 class TestNoRoleDft:  # ========================================================
-    pass
+    pass  # TODO
 
 
 class TestDefault:  # ==========================================================
-
-    pass
-
-
-# HACK #####################################################################
-
-
-def _assert_start_opt(opt):
-    pass
-
-
-def _assert_llm_opt(opt):
-    assert (
-        """### llm
-choose exactly one label that best matches the **difficulty and reasoning complexity** required to answer the user's request (not the topic or length). base your choice on how many dependent steps, judgments, or non-trivial inferences are needed to produce a correct answer.
-
-- `rapid`: least complex. highly mechanical, immediate tasks with virtually no reasoning or judgment (reformatting, converting, extracting, renaming, simple templating).
-- `chat`: low complexity. straightforward conversational answers from broad knowledge with minimal reasoning (definitions, simple explanations, basic factual Q&A).
-- `think`: medium complexity. requires multiple connected steps and some judgment (planning, troubleshooting, comparing options against criteria, structured step-by-step help).
-- `think-think`: highest complexity. requires deep/extended reasoning, creative synthesis, or balancing constraints and trade-offs across many steps (system design, novel strategies, complex multi-constraint problem solving)."""
-        in opt
-    )
-
-
-def _assert_role_opt(opt):
-    assert (
-        """### role
-select exactly one role. choose the role that best matches the *kind of input* the user gives you. prefer the **most specific** matching role.
-
-- `rapid`: when the user gives you content that needs a **simple mechanical change** with little judgment, such as reformatting, extracting, sorting, converting, cleaning, splitting, merging, or applying a narrow rule to existing text or data
-- `chat`: when the user gives you a **general question or everyday request** and no more specific role clearly applies
-- `coder`: when the user gives you **code or software-related material**, such as source code, error messages, technical requirements, scripts, configuration, debugging questions, or implementation problems
-- `barista`: when the user gives you **coffee-related information**, such as beans, origins, roast details, brew methods, ratios, grind settings, equipment, tasting notes, drink results, prices, or brewing logs"""
-        in opt
-    )
-
-
-def _assert_empty_opt(opt):
-    assert """### leave empty
-`programming_languages` must be empty string
-`difficulty` must be `0`""" in opt
-
-
-class TestNoRole:  #############################################################
-
-    def test1(self, flask_test_client, sense_endpoint):
-        response = flask_test_client.get(sense_endpoint)
-        opt = response.get_data().decode("utf-8")
-
-        print(opt)
-
-        _assert_start_opt(opt)
-        _assert_llm_opt(opt)
-        _assert_role_opt(opt)
-        _assert_empty_opt(opt)
-
-    def test2(self, flask_test_client, sense_endpoint):
-        response = flask_test_client.get(
-            sense_endpoint, query_string={"role": ""}
-        )
-        opt = response.get_data().decode("utf-8")
-
-        print(opt)
-
-        _assert_start_opt(opt)
-        _assert_llm_opt(opt)
-        _assert_role_opt(opt)
-        _assert_empty_opt(opt)
-
-
-class TestRoleCoder:  ##########################################################
-
-    # tests  ===================================================================
-    def test1(self, flask_test_client, sense_endpoint):
-        response = flask_test_client.get(
-            sense_endpoint, query_string={"role": "coder"}
-        )
-        opt = response.get_data().decode("utf-8")
-
-        print(opt)
-
-        _assert_start_opt(opt)
-
-        assert (
-            """- `0.93` Optimize a slow loop by reducing nested iterations or caching loop variables.
-- `0.96` Integrate a standard third-party SDK for a straightforward feature; mock in tests.
-- `0.98` Convert a sync flow to async/await (or equivalent) without behavior changes.
-- `1.00` Refactor a messy module into smaller units without changing behavior; update tests."""
-            in opt
-        )
-
-        assert "#### programming_languages" in opt
-        assert "#### difficulty" in opt
-        assert "# {Programming Languages Code}" in opt
-
-
-class TestOtherRole:  ##########################################################
-
-    def test_other_role(self, flask_test_client, sense_endpoint):
-        response = flask_test_client.get(
-            sense_endpoint, query_string={"role": "aaa"}
-        )
-        opt = response.get_data().decode("utf-8")
-
-        print(opt)
-
-        _assert_start_opt(opt)
-        _assert_llm_opt(opt)
-        _assert_empty_opt(opt)
+    pass  # TODO
