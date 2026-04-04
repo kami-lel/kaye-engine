@@ -55,6 +55,31 @@ def _assert_role4(opt):
     )
 
 
+def _assert_sense_diff1(opt):
+    assert "### sense difficulty" in opt
+
+
+def _assert_sense_diff2(opt):
+    assert "Provide a number between `0.01` (very easy)" in opt
+
+
+def _assert_sense_diff3(opt):
+    assert (
+        """- `0.03` Correct a single typo or awkward word choice in a short piece of text.
+- `0.13` Fix basic grammar, punctuation, formatting, or style issues in a short passage.
+- `0.25` Look up how to complete a common task and provide brief step-by-step instructions."""
+        in opt
+    )
+
+
+def _assert_sense_diff4(opt):
+    assert (
+        """- `0.75` Choose and apply an appropriate common reasoning framework to organize, filter, or prioritize information.
+- `0.88` Design a basic end-to-end workflow connecting user input, intermediate processing, and final output."""
+        in opt
+    )
+
+
 # Pytest fixtures  #############################################################
 
 
@@ -190,31 +215,22 @@ class TestOthers:  # ===========================================================
     def test_diff1(_, testee_others):
         opt = testee_others
         print(opt)
-        assert "### sense difficulty" in opt
+        _assert_sense_diff1(opt)
 
     def test_diff2(_, testee_others):
         opt = testee_others
         print(opt)
-        assert "Provide a number between `0.01` (very easy)" in opt
+        _assert_sense_diff2(opt)
 
     def test_diff3(_, testee_others):
         opt = testee_others
         print(opt)
-        assert (
-            """- `0.03` Correct a single typo or awkward word choice in a short piece of text.
-- `0.13` Fix basic grammar, punctuation, formatting, or style issues in a short passage.
-- `0.25` Look up how to complete a common task and provide brief step-by-step instructions."""
-            in opt
-        )
+        _assert_sense_diff3(opt)
 
     def test_diff4(_, testee_others):
         opt = testee_others
         print(opt)
-        assert (
-            """- `0.75` Choose and apply an appropriate common reasoning framework to organize, filter, or prioritize information.
-- `0.88` Design a basic end-to-end workflow connecting user input, intermediate processing, and final output."""
-            in opt
-        )
+        _assert_sense_diff4(opt)
 
     def test_empty_role(_, testee_others):
         opt = testee_others
