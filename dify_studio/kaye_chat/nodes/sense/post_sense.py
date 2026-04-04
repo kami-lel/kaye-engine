@@ -4,7 +4,7 @@
 # output keys  #################################################################
 OUTPUT_ROLE_KEY = "role"
 OUTPUT_DIFF_KEY = "difficulty"
-OUTPUT_COMBINED_KEY = "combined_pls"
+OUTPUT_PLS_KEY = "combined_pls"
 
 
 # constant  ####################################################################
@@ -17,7 +17,7 @@ def main(
     sensed_difficulty: float,
     sensed_pls: str,
     current_role: str,
-    current_difficulty: float,
+    difficulty_override: float,
     current_pls: str,
 ):
     """
@@ -32,8 +32,8 @@ def main(
     :type sensed_pls: str
     :param current_role:
     :type current_role: str
-    :param current_difficulty:
-    :type current_difficulty: float
+    :param difficulty_override:
+    :type difficulty_override: float
     :param current_pls:
     :type current_pls: str
     :return:
@@ -45,6 +45,7 @@ def main(
     role = current_role or sensed_role or "chat"
 
     # difficulty  --------------------------------------------------------------
+    difficulty = difficulty_override or sensed_difficulty or 0
 
     # pls  ---------------------------------------------------------------------
     combined_set = set(current_pls.split(SPLITTER)) | set(
@@ -52,4 +53,8 @@ def main(
     )
     combined_pls = SPLITTER.join(filter(bool, combined_set))
 
-    return {OUTPUT_COMBINED_KEY: combined_pls, OUTPUT_ROLE_KEY: role}
+    return {
+        OUTPUT_ROLE_KEY: role,
+        OUTPUT_DIFF_KEY: difficulty,
+        OUTPUT_PLS_KEY: "",
+    }
