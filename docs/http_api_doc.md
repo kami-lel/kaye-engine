@@ -190,11 +190,13 @@ All endpoints below `/kaye/dify-app/ky`
 `/sense`
 
 - by `GET`
-- response type `application/json`
-- entries of body:
+- request body type: `application/json`
+- request body entries:
 
   - `"pre_sense_role"`
   - `"difficulty_override"`
+
+- response type `text/plain`
 
 
 
@@ -205,8 +207,8 @@ All endpoints below `/kaye/dify-app/ky`
 `/task`
 
 - by `GET`
-- response type `application/json`
-- entries of body:
+- request body type: `application/json`
+- request body entries:
 
   - `"role"`
   - `"programming_languages"`:
@@ -214,6 +216,7 @@ All endpoints below `/kaye/dify-app/ky`
     (specified in prompt corpus.) E.g. `?languages=cpp,py`
   - `"query"`: content of user query
 
+- response type `text/plain`
 
 
 
