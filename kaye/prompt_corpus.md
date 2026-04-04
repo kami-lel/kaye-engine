@@ -754,7 +754,20 @@ select exactly one role. choose the role that best matches the *kind of input* t
 
 ### sense difficulty
 
-choose exactly one label that best matches the **difficulty and reasoning complexity** required to answer the user's request (not the topic or length). base your choice on how many dependent steps, judgments, or non-trivial inferences are needed to produce a correct answer.
+Provide a number between `0.01` (very easy) and `1.00` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
+
+Use these tasks as your **anchor point** when evaluating difficulty:
+
+- `0.03` Correct a single typo or awkward word choice in a short piece of text.
+- `0.13` Fix basic grammar, punctuation, formatting, or style issues in a short passage.
+- `0.25` Look up how to complete a common task and provide brief step-by-step instructions.
+- `0.38` Create a simple example set to verify that a straightforward rule or instruction works in the normal case.
+- `0.50` Fix a misunderstanding caused by missing context or ambiguity and provide the corrected interpretation.
+- `0.61` Add a new field, requirement, or category to an existing template or process and update related parts consistently.
+- `0.75` Choose and apply an appropriate common reasoning framework to organize, filter, or prioritize information.
+- `0.88` Design a basic end-to-end workflow connecting user input, intermediate processing, and final output.
+- `0.96` Integrate a standard external source, service, or policy into a straightforward workflow and include verification.
+- `1.00` Refactor a messy, ambiguous, multi-part set of instructions into smaller clear units without changing intent, while updating examples and edge cases consistently.
 
 
 
@@ -779,7 +792,7 @@ Return a string containing the abbreviations of the programming languages (defin
 
 #### difficulty
 
-Provide a number between `0.0` (very easy) and `1.0` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
+Provide a number between `0.01` (very easy) and `1.00` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
 
 Use these tasks as your **anchor point** when evaluate difficulty:
 
