@@ -99,22 +99,41 @@ Return a string containing the abbreviations of the programming languages"""
             in opt
         )
 
-    def test3(_, testee_coder):
+    def test_diff1(_, testee_coder):
         opt = testee_coder
         print(opt)
 
-        assert """#### difficulty
-Provide a number between `0.0` (very easy)""" in opt
+        assert "#### difficulty" in opt
 
-    def test4(_, testee_coder):
+    def test_diff2(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert """Provide a number between `0.01` (very easy)""" in opt
+
+    def test_diff3(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert """- `0.03` Rename a local variable for clarity; ensure no typos.
+- `0.07` Change a single hardcoded configuration value or string.""" in opt
+
+    def test_diff4(_, testee_coder):
         opt = testee_coder
         print(opt)
 
         assert (
-            """Use these tasks as your **anchor point** when evaluate difficulty:
+            "Use these tasks as your **anchor point** when evaluate difficulty:"
+            in opt
+        )
 
-- `0.03` Rename a local variable for clarity; ensure no typos.
-- `0.07` Change a single hardcoded configuration value or string."""
+    def test_diff5(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert (
+            """- `0.96` Integrate a standard third-party SDK for a straightforward feature; mock in tests.
+- `0.98` Convert a sync flow to async/await (or equivalent) without behavior changes."""
             in opt
         )
 
@@ -139,15 +158,34 @@ class TestOthers:  # ===========================================================
         print(opt)
         _assert_start(opt)
 
-    def test1(_, testee_others):
+    def test_diff1(_, testee_others):
         opt = testee_others
         print(opt)
         assert "### sense difficulty" in opt
 
-    def test2(_, testee_others):
+    def test_diff2(_, testee_others):
         opt = testee_others
         print(opt)
-        assert "aabbcc" in opt  # HACK
+        assert "Provide a number between `0.01` (very easy)" in opt
+
+    def test_diff3(_, testee_others):
+        opt = testee_others
+        print(opt)
+        assert (
+            """- `0.03` Correct a single typo or awkward word choice in a short piece of text.
+- `0.13` Fix basic grammar, punctuation, formatting, or style issues in a short passage.
+- `0.25` Look up how to complete a common task and provide brief step-by-step instructions."""
+            in opt
+        )
+
+    def test_diff4(_, testee_others):
+        opt = testee_others
+        print(opt)
+        assert (
+            """- `0.75` Choose and apply an appropriate common reasoning framework to organize, filter, or prioritize information.
+- `0.88` Design a basic end-to-end workflow connecting user input, intermediate processing, and final output."""
+            in opt
+        )
 
     def test_empty_role(_, testee_others):
         opt = testee_others
