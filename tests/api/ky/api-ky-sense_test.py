@@ -6,10 +6,30 @@ Unit Tests (using pytest) for:
 /kaye/dify-app/ky/sense
 """
 
-# FIXME update unit test for sense
-
-
 # helpers  #####################################################################
+
+# Pytest unit tests  ###########################################################
+
+
+class TestDefault:  # ==========================================================
+
+    def test_both_default(_, flask_test_client, sense_endpoint):
+        pass
+
+    def test_both_empty(_, flask_test_client, sense_endpoint):
+        pass
+
+    def test_both_missing(_, flask_test_client, sense_endpoint):
+        response = flask_test_client.post(sense_endpoint)
+        opt = response.get_data().decode("utf-8")
+
+        print(opt)
+        assert False  # HACK HACK
+
+
+# HACK #####################################################################
+
+
 def _assert_start_opt(opt):
     assert opt.startswith("""# Kaye Chat
 ## sense
