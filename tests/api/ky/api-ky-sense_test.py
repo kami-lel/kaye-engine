@@ -332,7 +332,3 @@ class TestNoRoleDft:  # ========================================================
         opt = testee_no_role_dft
         print(opt)
         _assert_empty_pl(opt)
-
-
-class TestDefault:  # ==========================================================
-    pass  # TODO TODO
