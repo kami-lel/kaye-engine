@@ -102,5 +102,99 @@ class TestDiff:  # =============================================================
 
 class TestPLs:  # ==============================================================
 
-    def test1(_):
-        pass  # TODO
+    def test_empty(_, kwargs_default):
+        opt = post_sense.main(**kwargs_default)
+
+        _assert_structure(opt)
+
+        assert opt[OUTPUT_PLS_KEY] == ""
+
+    # only sensed  *************************************************************
+
+    def test_only_sensed1(_, kwargs_default):
+        pls = "cpp"
+        kwargs_default["sensed_pls"] = pls
+
+        opt = post_sense.main(**kwargs_default)
+
+        _assert_structure(opt)
+        assert opt[OUTPUT_PLS_KEY] == pls
+
+    def test_only_sensed2(_, kwargs_default):
+        kwargs_default["sensed_pls"] = "cpp,py"
+
+        opt = post_sense.main(**kwargs_default)
+
+        _assert_structure(opt)
+        as_set = set(opt[OUTPUT_PLS_KEY].split(","))
+        assert as_set == set(["cpp", "py"])
+
+    def test_only_sensed3(_, kwargs_default):
+        kwargs_default["sensed_pls"] = "ts,cpp,py"
+
+        opt = post_sense.main(**kwargs_default)
+
+        _assert_structure(opt)
+        as_set = set(opt[OUTPUT_PLS_KEY].split(","))
+        assert as_set == set(["cpp", "ts", "py"])
+
+    # only current  ************************************************************
+
+    def test_only_current1(_, kwargs_default):
+        pls = "cpp"
+        kwargs_default["current_pls"] = pls
+
+        opt = post_sense.main(**kwargs_default)
+
+        _assert_structure(opt)
+        assert opt[OUTPUT_PLS_KEY] == pls
+
+    def test_only_current2(_, kwargs_default):
+        kwargs_default["current_pls"] = "cpp,py"
+
+        opt = post_sense.main(**kwargs_default)
+
+        _assert_structure(opt)
+        as_set = set(opt[OUTPUT_PLS_KEY].split(","))
+        assert as_set == set(["cpp", "py"])
+
+    def test_only_current3(_, kwargs_default):
+        kwargs_default["current_pls"] = "ts,cpp,py"
+
+        opt = post_sense.main(**kwargs_default)
+
+        _assert_structure(opt)
+        as_set = set(opt[OUTPUT_PLS_KEY].split(","))
+        assert as_set == set(["cpp", "ts", "py"])
+
+    # combine  *****************************************************************
+
+    def test_combined1(_, kwargs_default):
+        kwargs_default["sensed_pls"] = "ts,cpp,py"
+        kwargs_default["current_pls"] = "ts,cpp,py"
+
+        opt = post_sense.main(**kwargs_default)
+
+        _assert_structure(opt)
+        as_set = set(opt[OUTPUT_PLS_KEY].split(","))
+        assert as_set == set(["cpp", "ts", "py"])
+
+    def test_combined2(_, kwargs_default):
+        kwargs_default["sensed_pls"] = "ts"
+        kwargs_default["current_pls"] = "cpp,py"
+
+        opt = post_sense.main(**kwargs_default)
+
+        _assert_structure(opt)
+        as_set = set(opt[OUTPUT_PLS_KEY].split(","))
+        assert as_set == set(["cpp", "ts", "py"])
+
+    def test_combined3(_, kwargs_default):
+        kwargs_default["sensed_pls"] = "ts,c,rust"
+        kwargs_default["current_pls"] = "cpp,py"
+
+        opt = post_sense.main(**kwargs_default)
+
+        _assert_structure(opt)
+        as_set = set(opt[OUTPUT_PLS_KEY].split(","))
+        assert as_set == set(["cpp", "ts", "py", "c", "rust"])

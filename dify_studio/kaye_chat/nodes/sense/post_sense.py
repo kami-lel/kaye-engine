@@ -56,5 +56,5 @@ def main(
     return {
         OUTPUT_ROLE_KEY: role,
         OUTPUT_DIFF_KEY: difficulty,
-        OUTPUT_PLS_KEY: "",
+        OUTPUT_PLS_KEY: combined_pls,
     }
