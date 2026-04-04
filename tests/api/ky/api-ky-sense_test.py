@@ -282,7 +282,16 @@ class TestNoRoleProvided:  # ===================================================
 
 
 class TestNoRoleDft:  # ========================================================
-    pass  # TODO
+
+    def test_start(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_start(opt)
+
+    def test_empty_pl(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_empty_pl(opt)
 
 
 class TestDefault:  # ==========================================================
