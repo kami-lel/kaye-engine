@@ -35,12 +35,40 @@ def testee_coder(flask_test_client, sense_endpoint):
     return opt
 
 
+@pytest.fixture(scope="class")
+def testee_others(flask_test_client, sense_endpoint):
+    response = flask_test_client.post(
+        sense_endpoint,
+        json={"pre_sense_role": "secretary", "difficulty_override": 0.0},
+    )
+    opt = response.get_data().decode("utf-8")
+
+    return opt
+
+
+@pytest.fixture(scope="class")
+def testee_no_role_provided(flask_test_client, sense_endpoint):
+    response = flask_test_client.post(
+        sense_endpoint,
+        json={"pre_sense_role": "", "difficulty_override": 0.5},
+    )
+    opt = response.get_data().decode("utf-8")
+
+    return opt
+
+
+@pytest.fixture(scope="class")
+def testee_no_role_dft(flask_test_client, sense_endpoint):
+    response = flask_test_client.post(
+        sense_endpoint,
+        json={"pre_sense_role": "", "difficulty_override": 0.0},
+    )
+    opt = response.get_data().decode("utf-8")
+
+    return opt
+
+
 # Pytest unit tests  ###########################################################
-
-
-class TestDefault:  # ==========================================================
-
-    pass
 
 
 class TestCoder:  # ============================================================
@@ -97,6 +125,23 @@ Provide a number between `0.0` (very easy)""" in opt
 
         assert "# {Programming Languages Code}" in opt
         assert "-`cpp`:C++" in opt
+
+
+class TestOthers:  # ===========================================================
+    pass
+
+
+class TestNoRoleProvided:  # ===================================================
+    pass
+
+
+class TestNoRoleDft:  # ========================================================
+    pass
+
+
+class TestDefault:  # ==========================================================
+
+    pass
 
 
 # HACK #####################################################################
