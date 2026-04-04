@@ -65,8 +65,8 @@ ky_bp = Blueprint("kaye-chat", PROGRAM_NAME, url_prefix="/ky")
 def kaye_chat_sense():
     body = request.get_json(silent=True) or {}
 
-    role = body.get("contains_role_prompt") or False
-    diff = body.get("difficulty_prompt") or "default"
+    role = body.get("pre_sense_role") or ""
+    diff = body.get("difficulty_override") or 0
 
     # TODO TODO use role & diff
 

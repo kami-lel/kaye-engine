@@ -47,28 +47,17 @@ def main(
 
     # skip sense logic  --------------------------------------------------------
 
-    diff_provided = difficulty_override != 0
-
-    # default values
-    sense_role = False
-    sense_diff = "default"
-
     if role in STATIC_DIFFICULTY_ROLES:  # skip b/c roles
         skip = True
 
     elif role:
-        skip = diff_provided
-
-        if role == "coder":
-            sense_diff = "coder"
+        skip = difficulty_override != 0
 
     else:  # unknown role
         skip = False
-        sense_role = True
-        sense_diff = "default"
 
     body = json.dumps(
-        {"contains_role_prompt": sense_role, "difficulty_prompt": sense_diff}
+        {"pre_sense_role": role, "difficulty_override": difficulty_override}
     )
 
     return {
