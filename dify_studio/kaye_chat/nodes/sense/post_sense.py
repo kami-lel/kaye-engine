@@ -37,8 +37,7 @@ def main(
     :param current_pls:
     :type current_pls: str
     :return:
-    :rtype: dict{}
-    TODO write docstring
+    :rtype: dict{"role": str, "difficulty": float, "combined_pls": str}
     """
     # role  --------------------------------------------------------------------
     # role default to chat
