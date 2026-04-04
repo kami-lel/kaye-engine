@@ -21,6 +21,11 @@ def _assert_empty_role(opt):
 `role` must be empty string""" in opt
 
 
+def _assert_empty_pl(opt):
+    assert """### empty programming_languages
+`programming_languages` must be empty string""" in opt
+
+
 # Pytest fixtures  #############################################################
 
 
@@ -128,7 +133,31 @@ Provide a number between `0.0` (very easy)""" in opt
 
 
 class TestOthers:  # ===========================================================
-    pass
+
+    def test_start(_, testee_others):
+        opt = testee_others
+        print(opt)
+        _assert_start(opt)
+
+    def test1(_, testee_others):
+        opt = testee_others
+        print(opt)
+        assert "### sense difficulty" in opt
+
+    def test2(_, testee_others):
+        opt = testee_others
+        print(opt)
+        assert "aabbcc" in opt  # HACK
+
+    def test_empty_role(_, testee_others):
+        opt = testee_others
+        print(opt)
+        _assert_empty_role(opt)
+
+    def test_empty_pl(_, testee_others):
+        opt = testee_others
+        print(opt)
+        _assert_empty_pl(opt)
 
 
 class TestNoRoleProvided:  # ===================================================
