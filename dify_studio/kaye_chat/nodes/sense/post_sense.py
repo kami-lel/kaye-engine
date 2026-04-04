@@ -2,8 +2,9 @@
 
 
 # output keys  #################################################################
-OUTPUT_COMBINED_KEY = "combined_pls"
 OUTPUT_ROLE_KEY = "role"
+OUTPUT_DIFF_KEY = "difficulty"
+OUTPUT_COMBINED_KEY = "combined_pls"
 
 
 # constant  ####################################################################
@@ -12,38 +13,43 @@ SPLITTER = ","
 
 # Entry Point  #################################################################
 def main(
-    current_pls: str,
-    sensed_pls: dict,
+    sensed_role: str,
+    sensed_difficulty: float,
+    sensed_pls: str,
     current_role: str,
-    sensed_role: dict,
+    current_difficulty: float,
+    current_pls: str,
 ):
     """
     collect & organize information from sense code
 
 
-    :param current_pls:
-    :type current_pls: str
+    :param sensed_role:
+    :type sensed_role: str
+    :param sensed_difficulty:
+    :type sensed_difficulty: float
     :param sensed_pls:
-    :type sensed_pls: dict
+    :type sensed_pls: str
     :param current_role:
     :type current_role: str
-    :param sensed_role: role saved in conversation variable
-    :type sensed_role: str
-    :return: {
-            "combined_pls": combined PLs saved in conversation variable
-            (PLs from last rounds of this conversations)
-            with new PLs from sense node in this round
-            "role": role to used for this round of conversation}
-    :rtype: dict{"combined_pls": str "role": str}
+    :param current_difficulty:
+    :type current_difficulty: float
+    :param current_pls:
+    :type current_pls: str
+    :return:
+    :rtype: dict{}
+    TODO write docstring
     """
-    # TODO update
+    # role  --------------------------------------------------------------------
+    # role default to chat
+    role = current_role or sensed_role or "chat"
+
+    # difficulty  --------------------------------------------------------------
+
     # pls  ---------------------------------------------------------------------
     combined_set = set(current_pls.split(SPLITTER)) | set(
         sensed_pls.split(SPLITTER)
     )
     combined_pls = SPLITTER.join(filter(bool, combined_set))
-
-    # role  --------------------------------------------------------------------
-    role = current_role or sensed_role or "chat"
 
     return {OUTPUT_COMBINED_KEY: combined_pls, OUTPUT_ROLE_KEY: role}
