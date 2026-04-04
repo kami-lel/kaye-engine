@@ -27,7 +27,8 @@ def _assert_empty_role(opt):
 @pytest.fixture(scope="class")
 def testee_coder(flask_test_client, sense_endpoint):
     response = flask_test_client.post(
-        sense_endpoint, json={"pre_sense_role": "coder"}
+        sense_endpoint,
+        json={"pre_sense_role": "coder", "difficulty_override": 0.0},
     )
     opt = response.get_data().decode("utf-8")
 
