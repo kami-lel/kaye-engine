@@ -189,7 +189,7 @@ All endpoints below `/kaye/dify-app/ky`
 
 `/sense`
 
-- by `GET`
+- by `POST`
 - request body type: `application/json`
 - request body entries:
 
@@ -206,7 +206,7 @@ All endpoints below `/kaye/dify-app/ky`
 
 `/task`
 
-- by `GET`
+- by `POST`
 - request body type: `application/json`
 - request body entries:
 
