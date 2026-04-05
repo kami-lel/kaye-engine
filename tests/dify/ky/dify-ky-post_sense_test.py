@@ -6,8 +6,6 @@ Unit Tests (using pytest) for:
 ``post_sense`` node of Kaye Chat Dify App
 """
 
-# BUG
-
 import pytest
 
 
