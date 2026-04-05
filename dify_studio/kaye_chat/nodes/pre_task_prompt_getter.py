@@ -9,25 +9,25 @@ OUTPUT_BODY_KEY = "body"
 
 
 # Entry Point  #################################################################
-def main(query: str, role: str, programming_languages: str):
+def main(query: str, current_role: str, current_pls: str):
     """
     create a json-typed GET body for task prompt getter
 
 
     :param query:
     :type query: str
-    :param role:
-    :type role: str
-    :param programming_languages:
-    :type programming_languages: str
+    :param current_role:
+    :type current_role: str
+    :param current_pls:
+    :type current_pls: str
     :return: {"body": generated JSON GET body}
     :rtype: dict{"body": str}
     """
 
     body = {
         "query": query,
-        "role": role,
-        "programming_languages": programming_languages,
+        "role": current_role,
+        "programming_languages": current_pls,
     }
     body_json_dumps = json.dumps(body)
 
