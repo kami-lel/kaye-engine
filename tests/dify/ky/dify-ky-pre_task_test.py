@@ -6,4 +6,29 @@ Unit Tests (using pytest) for:
 ``pre_task`` node of Kaye Chat Dify App
 """
 
-# TODO
+import json
+
+
+from dify_studio.kaye_chat.nodes import pre_task
+from dify_studio.kaye_chat.nodes.pre_task import (
+    OUTPUT_BODY_KEY,
+    OUTPUT_DIRECT_KEY,
+    OUTPUT_LLMS_KEY,
+)
+
+# helpers  #####################################################################
+
+
+def _assert_structure(opt):
+    assert OUTPUT_BODY_KEY in opt
+    assert OUTPUT_LLMS_KEY in opt
+    assert OUTPUT_DIRECT_KEY in opt
+
+
+# Pytest unit tests  ###########################################################
+
+
+class TestBody:  # =============================================================
+
+    def test1(_):
+        pass  # TODO
