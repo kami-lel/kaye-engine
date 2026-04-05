@@ -27,6 +27,8 @@ DEFAULT_CURRENT_ROLE = ""
 
 # Pytest unit tests  ###########################################################
 
+# TODO check structure & type
+
 
 class TestDft:  # ==============================================================
 

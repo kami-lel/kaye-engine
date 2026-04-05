@@ -46,4 +46,8 @@ def main(
     # gen LLMs  ================================================================
     # TODO
 
-    return {OUTPUT_BODY_KEY: body_json_dumps}
+    return {
+        OUTPUT_BODY_KEY: body_json_dumps,
+        OUTPUT_LLMS_KEY: None,
+        OUTPUT_DIRECT_KEY: None,
+    }

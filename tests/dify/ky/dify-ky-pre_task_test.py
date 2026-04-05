@@ -20,6 +20,7 @@ from dify_studio.kaye_chat.nodes.pre_task import (
 
 
 def _assert_structure(opt):
+    # TODO check type
     assert OUTPUT_BODY_KEY in opt
     assert OUTPUT_LLMS_KEY in opt
     assert OUTPUT_DIRECT_KEY in opt

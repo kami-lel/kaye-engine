@@ -19,6 +19,7 @@ from dify_studio.kaye_chat.nodes.sense.post_sense import (
 
 # helpers  #####################################################################
 def _assert_structure(opt):
+    # TODO check type
     assert OUTPUT_ROLE_KEY in opt
     assert OUTPUT_DIFF_KEY in opt
     assert OUTPUT_PLS_KEY in opt
