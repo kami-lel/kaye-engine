@@ -40,8 +40,7 @@ def main(
     :param difficulty:
     :type difficulty: float
     :return:
-    :rtype:
-    TODO write docstring
+    :rtype: dict{"body": str, "llms": list[str], "is_direct_response": bool}
     """
     # gen body  ================================================================
     # used for Task Prompt Getter node
