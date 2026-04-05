@@ -6,6 +6,8 @@ Unit Tests (using pytest) for:
 ``post_start`` node of Kaye Chat Dify App
 """
 
+# BUG
+
 import json
 
 
@@ -27,7 +29,14 @@ DEFAULT_CURRENT_ROLE = ""
 
 # Pytest unit tests  ###########################################################
 
-# TODO check structure & type
+
+def _assert_structure(opt):
+    assert OUTPUT_ROLE_KEY in opt
+    assert isinstance(opt[OUTPUT_ROLE_KEY], str)
+    assert OUTPUT_SKIP_KEY in opt
+    assert isinstance(opt[OUTPUT_SKIP_KEY], bool)
+    assert OUTPUT_SENSE_BODY_KEY in opt
+    assert isinstance(opt[OUTPUT_SENSE_BODY_KEY], str)
 
 
 class TestDft:  # ==============================================================
@@ -47,6 +56,7 @@ class TestDft:  # ==============================================================
 
         print(opt)
 
+        _assert_structure(opt)
         assert opt[OUTPUT_ROLE_KEY] == role_answer
         assert not opt[OUTPUT_SKIP_KEY]
 
@@ -70,6 +80,7 @@ class TestDft:  # ==============================================================
 
         print(opt)
 
+        _assert_structure(opt)
         assert opt[OUTPUT_ROLE_KEY] == role_answer
         assert not opt[OUTPUT_SKIP_KEY]
 
@@ -96,6 +107,7 @@ class TestStatic:  # ===========================================================
 
         print(opt)
 
+        _assert_structure(opt)
         assert opt[OUTPUT_ROLE_KEY] == role_answer
         assert opt[OUTPUT_SKIP_KEY]
 
@@ -119,6 +131,7 @@ class TestStatic:  # ===========================================================
 
         print(opt)
 
+        _assert_structure(opt)
         assert opt[OUTPUT_ROLE_KEY] == role_answer
         assert opt[OUTPUT_SKIP_KEY]
 
@@ -142,6 +155,7 @@ class TestStatic:  # ===========================================================
 
         print(opt)
 
+        _assert_structure(opt)
         assert opt[OUTPUT_ROLE_KEY] == role_answer
         assert opt[OUTPUT_SKIP_KEY]
 
@@ -157,6 +171,7 @@ class TestStatic:  # ===========================================================
 
         role_answer = role_override
 
+        _assert_structure(opt)
         opt = post_start.main(
             role_override=role_override,
             difficulty_override=difficulty_override,
@@ -191,6 +206,7 @@ class TestCoder:  # ============================================================
 
         print(opt)
 
+        _assert_structure(opt)
         assert opt[OUTPUT_ROLE_KEY] == role_answer
         assert opt[OUTPUT_SKIP_KEY]
 
@@ -214,6 +230,7 @@ class TestCoder:  # ============================================================
 
         print(opt)
 
+        _assert_structure(opt)
         assert opt[OUTPUT_ROLE_KEY] == role_answer
         assert not opt[OUTPUT_SKIP_KEY]
 
@@ -240,6 +257,7 @@ class TestOthers:  # ===========================================================
 
         print(opt)
 
+        _assert_structure(opt)
         assert opt[OUTPUT_ROLE_KEY] == role_answer
         assert opt[OUTPUT_SKIP_KEY]
 
@@ -263,6 +281,7 @@ class TestOthers:  # ===========================================================
 
         print(opt)
 
+        _assert_structure(opt)
         assert opt[OUTPUT_ROLE_KEY] == role_answer
         assert not opt[OUTPUT_SKIP_KEY]
 
@@ -287,6 +306,7 @@ class TestCurrent:  # ==========================================================
 
         print(opt)
 
+        _assert_structure(opt)
         assert opt[OUTPUT_ROLE_KEY] == "art"
         assert not opt[OUTPUT_SKIP_KEY]
 
@@ -303,5 +323,6 @@ class TestCurrent:  # ==========================================================
 
         print(opt)
 
+        _assert_structure(opt)
         assert opt[OUTPUT_ROLE_KEY] == "secretary"
         assert not opt[OUTPUT_SKIP_KEY]

@@ -47,7 +47,6 @@ def main(
             }
     :rtype: dict{"pre_sense_role": str,
             "should_skip_sense": bool,
-            "should_sense_role": bool,
             "sense_prompt_getter_body": str
             }
     """

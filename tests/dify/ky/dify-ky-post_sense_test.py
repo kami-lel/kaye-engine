@@ -6,6 +6,8 @@ Unit Tests (using pytest) for:
 ``post_sense`` node of Kaye Chat Dify App
 """
 
+# BUG
+
 import pytest
 
 
@@ -19,10 +21,12 @@ from dify_studio.kaye_chat.nodes.sense.post_sense import (
 
 # helpers  #####################################################################
 def _assert_structure(opt):
-    # TODO check type
     assert OUTPUT_ROLE_KEY in opt
+    assert isinstance(opt[OUTPUT_ROLE_KEY], str)
     assert OUTPUT_DIFF_KEY in opt
+    assert isinstance(opt[OUTPUT_DIFF_KEY], float)
     assert OUTPUT_PLS_KEY in opt
+    assert isinstance(opt[OUTPUT_PLS_KEY], str)
 
 
 # Pytest fixtures  #############################################################
