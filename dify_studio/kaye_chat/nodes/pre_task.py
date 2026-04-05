@@ -3,9 +3,15 @@
 
 # Output Key ###################################################################
 OUTPUT_BODY_KEY = "body"
+OUTPUT_LLMS_KEY = "llms"
+OUTPUT_DIRECT_KEY = "is_direct_response"
 
 
 # Entry Point  #################################################################
-def main(query: str, current_role: str, current_pls: str):
-    # TODO
-    pass
+def main(
+    query: str,
+    current_role: str,
+    current_pls: str,
+    difficulty: float,
+):
+    pass  # TODO
