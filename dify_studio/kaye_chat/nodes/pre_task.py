@@ -10,6 +10,16 @@ OUTPUT_LLMS_KEY = "llms"
 OUTPUT_DIRECT_KEY = "is_direct_response"
 
 
+# constants  ###################################################################
+THRESHOLDS = [
+    (0.0, ["gpt-5-nano"]),
+    (0.2, ["claude-sonnet-4.6"]),
+    (0.6, ["claude-sonnet-4.6", "gpt-5-mini"]),
+    (0.9, ["claude-opus-4.6", "gpt-5"]),
+]
+# lower bounds: LLMs to use
+
+
 # Entry Point  #################################################################
 def main(
     query: str,
@@ -44,10 +54,17 @@ def main(
     body_json_dumps = json.dumps(body)
 
     # gen LLMs  ================================================================
-    # TODO
+    llms = THRESHOLDS[0][1]
+    for threshold, value in THRESHOLDS:
+        if difficulty >= threshold:
+            llms = value
 
+    # is direct  ===============================================================
+    is_direct_response = len(llms) == 1
+
+    # returns  =================================================================
     return {
         OUTPUT_BODY_KEY: body_json_dumps,
-        OUTPUT_LLMS_KEY: ["", ""],
-        OUTPUT_DIRECT_KEY: True,
+        OUTPUT_LLMS_KEY: llms,
+        OUTPUT_DIRECT_KEY: is_direct_response,
     }

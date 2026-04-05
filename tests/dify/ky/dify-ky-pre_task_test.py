@@ -35,7 +35,7 @@ def _assert_structure(opt):
 
 
 @pytest.fixture
-def default_kwargs():
+def kwargs():
     return {
         "query": "",
         "current_role": "",
@@ -49,12 +49,12 @@ def default_kwargs():
 
 class TestBody:  # =============================================================
 
-    def test1(_, default_kwargs):
-        default_kwargs["query"] = "AABBCC"
-        default_kwargs["current_role"] = "chat"
-        default_kwargs["current_pls"] = "cpp,py"
+    def test1(_, kwargs):
+        kwargs["query"] = "AABBCC"
+        kwargs["current_role"] = "chat"
+        kwargs["current_pls"] = "cpp,py"
 
-        opt = pre_task.main(**default_kwargs)
+        opt = pre_task.main(**kwargs)
 
         print(opt)
 
@@ -67,12 +67,12 @@ class TestBody:  # =============================================================
             "programming_languages": "cpp,py",
         }
 
-    def test2(_, default_kwargs):
-        default_kwargs["query"] = "AABBCC"
-        default_kwargs["current_role"] = "chat"
-        default_kwargs["current_pls"] = ""
+    def test2(_, kwargs):
+        kwargs["query"] = "AABBCC"
+        kwargs["current_role"] = "chat"
+        kwargs["current_pls"] = ""
 
-        opt = pre_task.main(**default_kwargs)
+        opt = pre_task.main(**kwargs)
 
         print(opt)
 
@@ -86,7 +86,52 @@ class TestBody:  # =============================================================
         }
 
 
-class TestLLM:
+class TestLLM:  # ==============================================================
 
-    def test1(_):
-        pass  # TODO
+    def test1(_, kwargs):
+        kwargs["difficulty"] = 0.01
+
+        opt = pre_task.main(**kwargs)
+        print(opt)
+
+        llms = opt[OUTPUT_LLMS_KEY]
+        direct = opt[OUTPUT_DIRECT_KEY]
+
+        assert llms == ["gpt-5-nano"]
+        assert direct
+
+    def test2(_, kwargs):
+        kwargs["difficulty"] = 0.21
+
+        opt = pre_task.main(**kwargs)
+        print(opt)
+
+        llms = opt[OUTPUT_LLMS_KEY]
+        direct = opt[OUTPUT_DIRECT_KEY]
+
+        assert llms == ["claude-sonnet-4.6"]
+        assert direct
+
+    def test3(_, kwargs):
+        kwargs["difficulty"] = 0.65
+
+        opt = pre_task.main(**kwargs)
+        print(opt)
+
+        llms = opt[OUTPUT_LLMS_KEY]
+        direct = opt[OUTPUT_DIRECT_KEY]
+
+        assert llms == ["claude-sonnet-4.6", "gpt-5-mini"]
+        assert not direct
+
+    def test4(_, kwargs):
+        kwargs["difficulty"] = 0.99
+
+        opt = pre_task.main(**kwargs)
+        print(opt)
+
+        llms = opt[OUTPUT_LLMS_KEY]
+        direct = opt[OUTPUT_DIRECT_KEY]
+
+        assert llms == ["claude-opus-4.6", "gpt-5"]
+        assert not direct
