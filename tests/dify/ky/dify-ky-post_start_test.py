@@ -6,8 +6,6 @@ Unit Tests (using pytest) for:
 ``post_start`` node of Kaye Chat Dify App
 """
 
-# BUG
-
 import json
 
 
@@ -171,7 +169,6 @@ class TestStatic:  # ===========================================================
 
         role_answer = role_override
 
-        _assert_structure(opt)
         opt = post_start.main(
             role_override=role_override,
             difficulty_override=difficulty_override,
@@ -180,6 +177,7 @@ class TestStatic:  # ===========================================================
 
         print(opt)
 
+        _assert_structure(opt)
         assert opt[OUTPUT_ROLE_KEY] == role_answer
         assert opt[OUTPUT_SKIP_KEY]
 
