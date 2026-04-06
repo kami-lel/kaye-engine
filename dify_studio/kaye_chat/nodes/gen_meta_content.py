@@ -9,6 +9,7 @@ OUTPUT_META_KEY = "meta_content"
 
 # constants  ###################################################################
 USAGE_TIME_KEY = "time_to_generate"
+USAGE_TOKEN_KEY = "total_tokens"
 
 
 # helpers  #####################################################################
@@ -35,7 +36,9 @@ def main(
     lines = []
 
     # sense-related  -----------------------------------------------------------
-    if not should_skip_sense:
+    if should_skip_sense:
+        lines.append("(Sense Skipped)")
+    else:
         lines.append("Sensed")
         lines.extend(_generate_usage_lines(sense_usage))
 
