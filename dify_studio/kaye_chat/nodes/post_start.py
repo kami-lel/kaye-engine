@@ -17,13 +17,6 @@ BODY_DIFF_KEY = "difficulty_override"
 
 # constants  ###################################################################
 
-# roles w/ static difficulty associated with it, thus should skip sense
-STATIC_DIFFICULTY_ROLES = [
-    "barista",
-    "deutschlehrer",
-    "tarot",
-]
-
 
 # Entry Point  #################################################################
 def main(
