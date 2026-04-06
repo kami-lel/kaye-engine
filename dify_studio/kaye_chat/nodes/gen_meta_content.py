@@ -23,7 +23,7 @@ def main(
     show_meta_content,
     should_skip_sense,
     current_role: str,
-    difficulty: dict,
+    current_difficulty: float,
     current_llms: list[str],
     current_pls: str,
     sense_usage: dict,
@@ -41,7 +41,7 @@ def main(
 
     # task parameters  ---------------------------------------------------------
     lines.append("role:\t{}".format(current_role))
-    lines.append("difficulty:\t{}".format(difficulty))
+    lines.append("difficulty:\t{}".format(current_difficulty))
     lines.append("LLMs:\t{}".format(",".join(current_llms)))
 
     if current_role == "coder":
