@@ -1,5 +1,6 @@
 # pylint: disable=missing-module-docstring
 
+# HACK rm
 
 # Output Keys  #################################################################
 
@@ -17,7 +18,11 @@ STATIC_DIFFICULTY_ROLES = [
 
 
 # Entry Point  #################################################################
-def main(role_override: str, difficulty_override: float, current_role: str):
+def main(
+    role_override: str,
+    difficulty_override: float,
+    current_role: str,
+):
     """
     :param role_override:
     :type role_override: str
