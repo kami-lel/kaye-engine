@@ -6,8 +6,6 @@ Unit Tests (using pytest) for:
 ``post_start`` node of Kaye Chat Dify App
 """
 
-# BUG BUG
-
 import json
 
 
@@ -20,6 +18,7 @@ from dify_studio.kaye_chat.nodes.sense.post_start import (
     OUTPUT_ROLE_KEY,
     OUTPUT_DIFF_KEY,
     OUTPUT_SENSE_BODY_KEY,
+    STATIC_DIFFICULTY_ROLES,
 )
 
 # helpers  #####################################################################
@@ -102,7 +101,6 @@ def opt_coder_provided(kwargs):
 @pytest.fixture(scope="class")
 def opt_coder_dft(kwargs):
     kwargs["role_override"] = "coder"
-    kwargs["difficulty_override"] = 0.0
 
     return post_start.main(**kwargs)
 
@@ -133,8 +131,16 @@ def opt_current_art(kwargs):
 
 
 @pytest.fixture(scope="class")
-def opt_current_secretary(kwargs):
+def opt_current_override(kwargs):
+    kwargs["role_override"] = "chat"
     kwargs["current_role"] = "secretary"
+
+    return post_start.main(**kwargs)
+
+
+@pytest.fixture(scope="class")
+def opt_current_barista(kwargs):
+    kwargs["current_role"] = "barista"
 
     return post_start.main(**kwargs)
 
@@ -353,7 +359,7 @@ class TestStaticDft:  # --------------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.0
+        assert diff == STATIC_DIFFICULTY_ROLES["barista"]
 
     def test_body(_, opt_static_provided):
         opt = opt_static_provided
@@ -435,7 +441,7 @@ class TestCoderDft:  # ---------------------------------------------------------
         body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
         print(body)
 
-        assert body == {"pre_sense_role": "", "difficulty_override": 0.0}
+        assert body == {"pre_sense_role": "coder", "difficulty_override": 0.0}
 
 
 # others  ======================================================================
@@ -540,51 +546,87 @@ class TestCurrentArt:  # -------------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.5
+        assert diff == 0.0
 
     def test_body(_, opt_current_art):
         opt = opt_current_art
         body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
         print(body)
 
-        assert body == {"pre_sense_role": "art", "difficulty_override": 0.5}
+        assert body == {"pre_sense_role": "art", "difficulty_override": 0.0}
 
 
-class TestCurrentSecretary:  # -------------------------------------------------
+class TestCurrentOverride:  # --------------------------------------------------
 
-    def test_structure(_, opt_current_secretary):
-        opt = opt_current_secretary
+    def test_structure(_, opt_current_override):
+        opt = opt_current_override
         print(opt)
 
         _assert_structure(opt)
 
-    def test_role(_, opt_current_secretary):
-        opt = opt_current_secretary
+    def test_role(_, opt_current_override):
+        opt = opt_current_override
         role = opt[OUTPUT_ROLE_KEY]
         print(role)
 
-        assert role == "secretary"
+        assert role == "chat"
 
-    def test_skip(_, opt_current_secretary):
-        opt = opt_current_secretary
+    def test_skip(_, opt_current_override):
+        opt = opt_current_override
         skip = opt[OUTPUT_SKIP_KEY]
         print(skip)
 
         assert not skip
 
-    def test_diff(_, opt_current_secretary):
-        opt = opt_current_secretary
+    def test_diff(_, opt_current_override):
+        opt = opt_current_override
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.5
+        assert diff == 0.0
 
-    def test_body(_, opt_current_secretary):
-        opt = opt_current_secretary
+    def test_body(_, opt_current_override):
+        opt = opt_current_override
         body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
         print(body)
 
         assert body == {
-            "pre_sense_role": "secretary",
-            "difficulty_override": 0.5,
+            "pre_sense_role": "chat",
+            "difficulty_override": 0.0,
         }
+
+
+class TestCurrentBarista:  # ---------------------------------------------------
+
+    def test_structure(_, opt_current_barista):
+        opt = opt_current_barista
+        print(opt)
+
+        _assert_structure(opt)
+
+    def test_role(_, opt_current_barista):
+        opt = opt_current_barista
+        role = opt[OUTPUT_ROLE_KEY]
+        print(role)
+
+        assert role == "barista"
+
+    def test_skip(_, opt_current_barista):
+        opt = opt_current_barista
+        skip = opt[OUTPUT_SKIP_KEY]
+        print(skip)
+
+        assert skip
+
+    def test_diff(_, opt_current_barista):
+        opt = opt_current_barista
+        diff = opt[OUTPUT_DIFF_KEY]
+        print(diff)
+
+        assert diff == STATIC_DIFFICULTY_ROLES["barista"]
+
+    def test_body(_, opt_static_provided):
+        opt = opt_static_provided
+        body = opt[OUTPUT_SENSE_BODY_KEY]
+        print(body)
+        assert body == ""
