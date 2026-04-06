@@ -182,7 +182,40 @@ class TestDftAll:  # -----------------------------------------------------------
 
 
 class TestDftRole:  # ----------------------------------------------------------
-    pass
+
+    def test_structure(_, opt_dft_role):
+        opt = opt_dft_role
+        print(opt)
+
+        _assert_structure(opt)
+
+    def test_role(_, opt_dft_role):
+        opt = opt_dft_role
+        role = opt[OUTPUT_ROLE_KEY]
+        print(role)
+
+        assert role == ""
+
+    def test_skip(_, opt_dft_role):
+        opt = opt_dft_role
+        skip = opt[OUTPUT_SKIP_KEY]
+        print(skip)
+
+        assert not skip
+
+    def test_diff(_, opt_dft_role):
+        opt = opt_dft_role
+        diff = opt[OUTPUT_DIFF_KEY]
+        print(diff)
+
+        assert diff == 0.5
+
+    def test_body(_, opt_dft_role):
+        opt = opt_dft_role
+        body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
+        print(body)
+
+        assert body == {"pre_sense_role": "", "difficulty_override": 0.5}
 
 
 # static  ======================================================================
@@ -232,33 +265,6 @@ class TestCurrentSecretary:  # -------------------------------------------------
 
 
 # TODO TODO
-
-
-# class TestDft:  # ==============================================================
-
-#     def test_dft_role(_):
-#         role_answer = ""
-
-#         role_override = DEFAULT_ROLE_OVERRIDE
-#         difficulty_override = 0.5
-#         current_role = DEFAULT_CURRENT_ROLE
-
-#         opt = post_start.main(
-#             role_override=role_override,
-#             difficulty_override=difficulty_override,
-#             current_role=current_role,
-#         )
-
-#         print(opt)
-
-#         _assert_structure(opt)
-#         assert opt[OUTPUT_ROLE_KEY] == role_answer
-#         assert not opt[OUTPUT_SKIP_KEY]
-
-#         body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
-#         print(body)
-#         assert body[BODY_ROLE_KEY] == role_answer
-#         assert body[BODY_DIFF_KEY] == 0.5
 
 
 # class TestStatic:  # ==============================================================
