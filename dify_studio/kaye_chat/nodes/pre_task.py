@@ -18,7 +18,7 @@ THRESHOLDS = [
     (0.6, ["claude-sonnet-4", "gpt-5-mini"]),
     (0.9, ["claude-opus-4", "gpt-5", "gemini-3-pro"]),
 ]
-# lower bounds: LLMs to use
+# (lower bounds, LLMs to use)
 
 
 # Entry Point  #################################################################
@@ -41,9 +41,10 @@ def main(
     :param difficulty:
     :type difficulty: float
     :return:
+    TODO docstring
     :rtype: dict{"body": str, "llms": list[str], "is_direct_response": bool}
     """
-    # gen body  ================================================================
+    # gen body  ----------------------------------------------------------------
     # used for Task Prompt Getter node
 
     body = {
@@ -53,16 +54,16 @@ def main(
     }
     body_json_dumps = json.dumps(body)
 
-    # gen LLMs  ================================================================
+    # gen LLMs  ----------------------------------------------------------------
     llms = THRESHOLDS[0][1]
     for threshold, value in THRESHOLDS:
         if difficulty >= threshold:
             llms = value
 
-    # is direct  ===============================================================
+    # is direct  ---------------------------------------------------------------
     is_direct_response = len(llms) == 1
 
-    # returns  =================================================================
+    # Output Variables  --------------------------------------------------------
     return {
         OUTPUT_BODY_KEY: body_json_dumps,
         OUTPUT_LLMS_KEY: llms,
