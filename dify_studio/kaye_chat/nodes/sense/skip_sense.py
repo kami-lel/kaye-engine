@@ -2,7 +2,8 @@
 
 
 # output keys  #################################################################
-OUTPUT_META_KEY = "difficulty"
+OUTPUT_ROLE_KEY = "role"
+OUTPUT_DIFF_KEY = "difficulty"
 
 # constants  ###################################################################
 
@@ -26,4 +27,4 @@ def main(
         else:
             diff = 0.01
 
-    return {OUTPUT_META_KEY: diff}
+    return {OUTPUT_DIFF_KEY: diff}
