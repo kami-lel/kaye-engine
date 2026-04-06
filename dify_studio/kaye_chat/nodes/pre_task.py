@@ -14,7 +14,7 @@ OUTPUT_DIRECT_KEY = "is_direct_response"
 THRESHOLDS = [
     (0.0, ["gpt-4-nano"]),
     (0.1, ["gpt-5-nano"]),
-    (0.2, ["claude-sonnet-4"]),
+    (0.3, ["claude-sonnet-4"]),
     (0.6, ["claude-sonnet-4", "gpt-5-mini"]),
     (0.9, ["claude-opus-4", "gpt-5", "gemini-3-pro"]),
 ]
