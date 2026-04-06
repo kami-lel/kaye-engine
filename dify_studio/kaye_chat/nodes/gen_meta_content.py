@@ -49,11 +49,13 @@ def main(
         lines.append("PLs:\t{}".format(current_pls))
 
     # task ---------------------------------------------------------------------
+    lines.append("Task:")
+
     # FIXME task LLMs make difference
-    lines.append("LLM(s):\t{}".format(",".join(current_llms)))
-    lines.append("Task Usage(s):")
-    for usage in task_usages:
-        lines.extend(_generate_usage_line(usage))
+    # lines.append("LLM(s):\t{}".format(",".join(current_llms)))
+    # lines.append("Task Usage(s):")
+    # for usage in task_usages:
+    #     lines.extend(_generate_usage_line(usage))
 
     # final content form  ------------------------------------------------------
 
