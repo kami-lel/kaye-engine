@@ -11,32 +11,140 @@ Unit Tests (using pytest) for:
 import json
 
 
-from dify_studio.kaye_chat.nodes import post_start
-from dify_studio.kaye_chat.nodes.post_start import (
-    OUTPUT_ROLE_KEY,
+import pytest
+
+
+from dify_studio.kaye_chat.nodes.sense import post_start
+from dify_studio.kaye_chat.nodes.sense.post_start import (
     OUTPUT_SKIP_KEY,
+    OUTPUT_ROLE_KEY,
+    OUTPUT_DIFF_KEY,
     OUTPUT_SENSE_BODY_KEY,
     BODY_ROLE_KEY,
     BODY_DIFF_KEY,
 )
 
-# constants  ###################################################################
+# helpers  #####################################################################
 
-DEFAULT_ROLE_OVERRIDE = ""
-DEFAULT_DIFFICULTY_OVERRIDE = 0
-DEFAULT_CURRENT_ROLE = ""
+
+def _assert_structure(opt):
+    assert OUTPUT_SKIP_KEY in opt
+    assert isinstance(opt[OUTPUT_SKIP_KEY], bool)
+    assert OUTPUT_ROLE_KEY in opt
+    assert isinstance(opt[BODY_ROLE_KEY], str)
+    assert OUTPUT_DIFF_KEY in opt
+    assert isinstance(opt[BODY_DIFF_KEY], float)
+    assert OUTPUT_SENSE_BODY_KEY in opt
+    assert isinstance(opt[OUTPUT_SENSE_BODY_KEY], str)
+
+
+# Pytest fixtures  #############################################################
+
+
+@pytest.fixture
+def kwargs():
+    return {"role_override": "", "difficulty_override": 0, "current_role": ""}
+
+
+# opts  ========================================================================
+# defaults  --------------------------------------------------------------------
+@pytest.fixture(scope="class")
+def opt_dft_all(kwargs):
+    return post_start.main(**kwargs)
+
+
+@pytest.fixture(scope="class")
+def opt_dft_role(kwargs):
+    kwargs["difficulty_override"] = 0.5
+
+    return post_start.main(**kwargs)
+
+
+# static  ----------------------------------------------------------------------
+@pytest.fixture(scope="class")
+def opt_static_provided(kwargs):
+    kwargs["role_override"] = "barista"
+    kwargs["difficulty_override"] = 0.5
+
+    return post_start.main(**kwargs)
+
+
+@pytest.fixture(scope="class")
+def opt_static_de(kwargs):
+    kwargs["role_override"] = "deutschlehrer"
+    kwargs["difficulty_override"] = 0.5
+
+    return post_start.main(**kwargs)
+
+
+@pytest.fixture(scope="class")
+def opt_static_tarot(kwargs):
+    kwargs["role_override"] = "tarot"
+    kwargs["difficulty_override"] = 0.5
+
+    return post_start.main(**kwargs)
+
+
+@pytest.fixture(scope="class")
+def opt_static_barista(kwargs):
+    kwargs["role_override"] = "barista"
+    kwargs["difficulty_override"] = 0.5
+
+    return post_start.main(**kwargs)
+
+
+# coder  -----------------------------------------------------------------------
+@pytest.fixture(scope="class")
+def opt_coder_provided(kwargs):
+    kwargs["role_override"] = "coder"
+    kwargs["difficulty_override"] = 0.5
+
+    return post_start.main(**kwargs)
+
+
+@pytest.fixture(scope="class")
+def opt_coder_dft(kwargs):
+    kwargs["role_override"] = "coder"
+    kwargs["difficulty_override"] = 0.0
+
+    return post_start.main(**kwargs)
+
+
+# others  ----------------------------------------------------------------------
+@pytest.fixture(scope="class")
+def opt_others_provided(kwargs):
+    kwargs["role_override"] = "art"
+    kwargs["difficulty_override"] = 0.5
+
+    return post_start.main(**kwargs)
+
+
+@pytest.fixture(scope="class")
+def opt_others_default(kwargs):
+    kwargs["role_override"] = "art"
+    kwargs["difficulty_override"] = 0.0
+
+    return post_start.main(**kwargs)
+
+
+# current  ---------------------------------------------------------------------
+@pytest.fixture(scope="class")
+def opt_current_art(kwargs):
+    kwargs["current_role"] = "art"
+
+    return post_start.main(**kwargs)
+
+
+@pytest.fixture(scope="class")
+def opt_current_secretary(kwargs):
+    kwargs["current_role"] = "secretary"
+
+    return post_start.main(**kwargs)
 
 
 # Pytest unit tests  ###########################################################
 
-
-def _assert_structure(opt):
-    assert OUTPUT_ROLE_KEY in opt
-    assert isinstance(opt[OUTPUT_ROLE_KEY], str)
-    assert OUTPUT_SKIP_KEY in opt
-    assert isinstance(opt[OUTPUT_SKIP_KEY], bool)
-    assert OUTPUT_SENSE_BODY_KEY in opt
-    assert isinstance(opt[OUTPUT_SENSE_BODY_KEY], str)
+# TODO TODO
 
 
 class TestDft:  # ==============================================================
