@@ -6,8 +6,6 @@ Unit Tests (using pytest) for:
 ``post_start`` node of Kaye Chat Dify App
 """
 
-# FIXME FIXME update
-
 import json
 
 
@@ -41,7 +39,7 @@ def _assert_structure(opt):
 
 @pytest.fixture(scope="class")
 def kwargs():
-    return {"role_override": "", "difficulty_override": 0, "current_role": ""}
+    return {"role_override": "", "difficulty_override": 0.0, "current_role": ""}
 
 
 # opts  ========================================================================
