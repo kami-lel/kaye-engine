@@ -4,13 +4,26 @@
 # output keys  #################################################################
 OUTPUT_META_KEY = "difficulty"
 
+# constants  ###################################################################
+
 
 # Entry Point  #################################################################
 def main(
-    role_override: str,
+    role: str,
     difficulty_override: float,
-    current_role: str,
 ):
-    diff = 0.0
-    # TODO
+    if difficulty_override:
+        diff = difficulty_override
+
+    else:
+
+        if role == "barista":
+            diff = 0.2
+        elif role == "deutschlehrer":
+            diff = 0.35
+        elif role == "tarot":
+            diff = 0.3
+        else:
+            diff = 0.01
+
     return {OUTPUT_META_KEY: diff}
