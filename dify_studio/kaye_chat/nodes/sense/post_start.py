@@ -9,6 +9,16 @@ OUTPUT_ROLE_KEY = "role"
 OUTPUT_DIFF_KEY = "difficulty"
 OUTPUT_SENSE_BODY_KEY = "sense_prompt_getter_body"
 
+# constants  ###################################################################
+
+# roles w/ static difficulty associated with it, thus should skip sense
+STATIC_DIFFICULTY_ROLES = [
+    "barista",
+    "deutschlehrer",
+    "tarot",
+]
+
+
 # Body Key  ####################################################################
 BODY_ROLE_KEY = "pre_sense_role"
 BODY_DIFF_KEY = "difficulty_override"
@@ -28,6 +38,8 @@ def main(
     # decide skip & diff  ------------------------------------------------------
     skip = False
     diff = 0.0
+
+    # TODO TODO
 
     # body  --------------------------------------------------------------------
     if skip:
