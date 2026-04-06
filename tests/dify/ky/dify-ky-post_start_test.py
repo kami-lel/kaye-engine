@@ -46,6 +46,13 @@ def kwargs():
 # opts  ========================================================================
 # defaults  --------------------------------------------------------------------
 @pytest.fixture(scope="class")
+def opt_all_override(kwargs):
+    kwargs["role_override"] = "chat"
+    kwargs["difficulty_override"] = 0.01
+    return post_start.main(**kwargs)
+
+
+@pytest.fixture(scope="class")
 def opt_dft_all(kwargs):
     return post_start.main(**kwargs)
 
@@ -149,6 +156,42 @@ def opt_current_barista(kwargs):
 
 
 # defaults  ====================================================================
+class TestAllOverride:  # -----------------------------------------------------------
+
+    def test_structure(_, opt_all_override):
+        opt = opt_all_override
+        print(opt)
+
+        _assert_structure(opt)
+
+    def test_role(_, opt_all_override):
+        opt = opt_all_override
+        role = opt[OUTPUT_ROLE_KEY]
+        print(role)
+
+        assert role == "chat"
+
+    def test_skip(_, opt_all_override):
+        opt = opt_all_override
+        skip = opt[OUTPUT_SKIP_KEY]
+        print(skip)
+
+        assert skip
+
+    def test_diff(_, opt_all_override):
+        opt = opt_all_override
+        diff = opt[OUTPUT_DIFF_KEY]
+        print(diff)
+
+        assert diff == 0.01
+
+    def test_body(_, opt_static_provided):
+        opt = opt_static_provided
+        body = opt[OUTPUT_SENSE_BODY_KEY]
+        print(body)
+        assert body == ""
+
+
 class TestDftAll:  # -----------------------------------------------------------
 
     def test_structure(_, opt_dft_all):
