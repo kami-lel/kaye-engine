@@ -13,8 +13,8 @@ USAGE_TOKEN_KEY = "total_tokens"
 
 
 # helpers  #####################################################################
-def _generate_usage_lines(usage):
-    return ["%%%"]  # TODO
+def _generate_usage_line(usage):
+    return "{}s\t{}t".format(usage[USAGE_TIME_KEY], usage[USAGE_TOKEN_KEY])
 
 
 # Entry Point  #################################################################
@@ -39,22 +39,21 @@ def main(
     if should_skip_sense:
         lines.append("(Sense Skipped)")
     else:
-        lines.append("Sensed")
-        lines.extend(_generate_usage_lines(sense_usage))
+        lines.append("Sensed:\t" + _generate_usage_line(sense_usage))
 
     # task parameters  ---------------------------------------------------------
     lines.append("Role:\t{}".format(current_role))
     lines.append("Difficulty:\t{}".format(current_difficulty))
-    # HACK task LLMs make difference
-    lines.append("LLM(s):\t{}".format(",".join(current_llms)))
 
     if current_role == "coder":
         lines.append("PLs:\t{}".format(current_pls))
 
-    # task usages  -------------------------------------------------------------
+    # task ---------------------------------------------------------------------
+    # FIXME task LLMs make difference
+    lines.append("LLM(s):\t{}".format(",".join(current_llms)))
     lines.append("Task Usage(s):")
     for usage in task_usages:
-        lines.extend(_generate_usage_lines(usage))
+        lines.extend(_generate_usage_line(usage))
 
     # final content form  ------------------------------------------------------
 
@@ -64,69 +63,3 @@ def main(
 > [!TIP]
 """ + "\n".join("> " + line for line in lines)
     return {OUTPUT_META_KEY: meta_content}
-
-
-# HACK rm
-
-#     """
-#     generate **meta content**, information for debugging and testing
-
-
-#     :param show_meta_content: whether to show meta content,
-#             set as User Input Field
-#     :type show_meta_content: bool
-#     :param role_override:
-#     :type role_override: str
-#     :param role:
-#     :type role: str
-#     :param llm_override:
-#     :type llm_override: str
-#     :param llm_used:
-#     :type llm_used: str
-#     :param difficulty_override:
-#     :type difficulty_override: float
-#     :param difficulty_sensed:
-#     :type difficulty_sensed: float
-#     :param skip_sense:
-#     :type skip_sense: bool
-#     :param programming_languages:
-#     :type programming_languages: str
-#     :param sense_usage: usage object for information of sense node
-#     :type sense_usage: dict
-#     :param task_usage: usage object for information of task node
-#     :type task_usage: dict
-#     """
-#     if not show_meta_content:
-#         return {OUTPUT_META_KEY: ""}
-
-#     lines = []
-
-#     # create role line
-#     if role_override:
-#         lines.append("Role (Override): {}".format(role_override))
-#     else:
-#         lines.append("Role: {}".format(role))
-
-#     # create llm line
-#     if llm_override:
-#         lines.append(
-#             "LLM (Override): {}".format(_llm2display_name(llm_override))
-#         )
-#     else:
-#         lines.append("LLM: {}".format(_llm2display_name(llm_used)))
-
-#     role_used = role_override or role
-#     if role_used == "coder":
-#         if difficulty_override == -1:
-#             lines.append("Difficulty: {}".format(difficulty_sensed))
-#         else:
-#             lines.append(
-#                 "Difficulty (Override): {}".format(difficulty_override)
-#             )
-
-#         lines.append("PLs: {}".format(programming_languages))
-
-#     if not skip_sense:
-#         lines.append("Sense: {}s".format(sense_usage[USAGE_TIME_KEY]))
-
-#     lines.append("Task: {}s".format(task_usage[USAGE_TIME_KEY]))
