@@ -5,7 +5,7 @@
 import json
 
 # Output Key ###################################################################
-OUTPUT_BODY_KEY = "body"
+OUTPUT_BODY_KEY = "task_prompt_getter_body"
 OUTPUT_LLMS_KEY = "llms"
 OUTPUT_DIRECT_KEY = "is_direct_response"
 
@@ -25,8 +25,8 @@ THRESHOLDS = [
 def main(
     query: str,
     current_role: str,
+    current_difficulty: float,
     current_pls: str,
-    difficulty: float,
 ):
     """
     create a json-typed GET body for task prompt getter
@@ -40,9 +40,17 @@ def main(
     :type current_pls: str
     :param difficulty:
     :type difficulty: float
-    :return:
-    TODO docstring
-    :rtype: dict{"body": str, "llms": list[str], "is_direct_response": bool}
+    :return: {
+        "task_prompt_getter_body":  body sent to /task
+        "llms":                     LLMs to use during tasks
+        "is_direct_response":       whether use direct response mode during task
+    }
+
+    :rtype: dict{
+        "task_prompt_getter_body":  str,
+        "llms":                     list[str],
+        "is_direct_response":       bool,
+    }
     """
     # gen body  ----------------------------------------------------------------
     # used for Task Prompt Getter node
@@ -57,7 +65,7 @@ def main(
     # gen LLMs  ----------------------------------------------------------------
     llms = THRESHOLDS[0][1]
     for threshold, value in THRESHOLDS:
-        if difficulty >= threshold:
+        if current_difficulty >= threshold:
             llms = value
 
     # is direct  ---------------------------------------------------------------
