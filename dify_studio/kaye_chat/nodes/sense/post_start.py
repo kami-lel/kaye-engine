@@ -37,7 +37,7 @@ def main(
 
     # decide skip & diff  ------------------------------------------------------
     skip = False
-    diff = difficulty_override
+    diff = 0.0
 
     if role in STATIC_DIFFICULTY_ROLES:
         skip = True
@@ -45,6 +45,9 @@ def main(
 
     elif role:
         skip = difficulty_override != 0.0
+
+    if difficulty_override != 0.0:
+        diff = difficulty_override
 
     # body  --------------------------------------------------------------------
     if skip:

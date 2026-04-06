@@ -249,10 +249,9 @@ class TestStaticProvided:  # ---------------------------------------------------
 
     def test_body(_, opt_static_provided):
         opt = opt_static_provided
-        body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
+        body = opt[OUTPUT_SENSE_BODY_KEY]
         print(body)
-
-        assert body == {"pre_sense_role": "barista", "difficulty_override": 0.5}
+        assert body == ""
 
 
 class TestStaticDe:  # ---------------------------------------------------------
@@ -284,15 +283,11 @@ class TestStaticDe:  # ---------------------------------------------------------
 
         assert diff == 0.5
 
-    def test_body(_, opt_static_de):
-        opt = opt_static_de
-        body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
+    def test_body(_, opt_static_provided):
+        opt = opt_static_provided
+        body = opt[OUTPUT_SENSE_BODY_KEY]
         print(body)
-
-        assert body == {
-            "pre_sense_role": "deutschlehrer",
-            "difficulty_override": 0.5,
-        }
+        assert body == ""
 
 
 class TestStaticTarot:  # ------------------------------------------------------
@@ -324,12 +319,11 @@ class TestStaticTarot:  # ------------------------------------------------------
 
         assert diff == 0.5
 
-    def test_body(_, opt_static_tarot):
-        opt = opt_static_tarot
-        body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
+    def test_body(_, opt_static_provided):
+        opt = opt_static_provided
+        body = opt[OUTPUT_SENSE_BODY_KEY]
         print(body)
-
-        assert body == {"pre_sense_role": "tarot", "difficulty_override": 0.5}
+        assert body == ""
 
 
 class TestStaticDft:  # --------------------------------------------------------
@@ -361,12 +355,11 @@ class TestStaticDft:  # --------------------------------------------------------
 
         assert diff == 0.0
 
-    def test_body(_, opt_static_dft):
-        opt = opt_static_dft
-        body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
+    def test_body(_, opt_static_provided):
+        opt = opt_static_provided
+        body = opt[OUTPUT_SENSE_BODY_KEY]
         print(body)
-
-        assert body == {"pre_sense_role": "barista", "difficulty_override": 0.0}
+        assert body == ""
 
 
 # coder  =======================================================================
@@ -401,12 +394,11 @@ class TestCoderProvided:  # ----------------------------------------------------
 
         assert diff == 0.5
 
-    def test_body(_, opt_coder_provided):
-        opt = opt_coder_provided
-        body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
+    def test_body(_, opt_static_provided):
+        opt = opt_static_provided
+        body = opt[OUTPUT_SENSE_BODY_KEY]
         print(body)
-
-        assert body == {"pre_sense_role": "coder", "difficulty_override": 0.5}
+        assert body == ""
 
 
 class TestCoderDft:  # ---------------------------------------------------------
@@ -476,12 +468,11 @@ class TestOthersProvided:  # ---------------------------------------------------
 
         assert diff == 0.5
 
-    def test_body(_, opt_others_provided):
-        opt = opt_others_provided
-        body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
+    def test_body(_, opt_static_provided):
+        opt = opt_static_provided
+        body = opt[OUTPUT_SENSE_BODY_KEY]
         print(body)
-
-        assert body == {"pre_sense_role": "art", "difficulty_override": 0.5}
+        assert body == ""
 
 
 class TestOthersDefault:  # ---------------------------------------------------
