@@ -21,8 +21,8 @@ def _generate_usage_lines(usage):
 
 
 def main(
-    show_meta_content,
-    should_skip_sense,
+    show_meta_content: bool,
+    should_skip_sense: bool,
     current_role: str,
     current_difficulty: float,
     current_llms: list[str],
@@ -43,9 +43,10 @@ def main(
         lines.extend(_generate_usage_lines(sense_usage))
 
     # task parameters  ---------------------------------------------------------
-    lines.append("role:\t{}".format(current_role))
-    lines.append("difficulty:\t{}".format(current_difficulty))
-    lines.append("LLMs:\t{}".format(",".join(current_llms)))
+    lines.append("Role:\t{}".format(current_role))
+    lines.append("Difficulty:\t{}".format(current_difficulty))
+    # HACK task LLMs make difference
+    lines.append("LLM(s):\t{}".format(",".join(current_llms)))
 
     if current_role == "coder":
         lines.append("PLs:\t{}".format(current_pls))
