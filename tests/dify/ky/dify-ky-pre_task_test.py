@@ -6,6 +6,8 @@ Unit Tests (using pytest) for:
 ``pre_task`` node of Kaye Chat Dify App
 """
 
+# BUG update
+
 import json
 
 import pytest
@@ -109,7 +111,7 @@ class TestLLM:  # ==============================================================
         llms = opt[OUTPUT_LLMS_KEY]
         direct = opt[OUTPUT_DIRECT_KEY]
 
-        assert llms == ["claude-sonnet-4.6"]
+        assert llms == ["claude-sonnet-4"]
         assert direct
 
     def test3(_, kwargs):
@@ -121,7 +123,7 @@ class TestLLM:  # ==============================================================
         llms = opt[OUTPUT_LLMS_KEY]
         direct = opt[OUTPUT_DIRECT_KEY]
 
-        assert llms == ["claude-sonnet-4.6", "gpt-5-mini"]
+        assert llms == ["claude-sonnet-4", "gpt-5-mini"]
         assert not direct
 
     def test4(_, kwargs):
@@ -133,5 +135,5 @@ class TestLLM:  # ==============================================================
         llms = opt[OUTPUT_LLMS_KEY]
         direct = opt[OUTPUT_DIRECT_KEY]
 
-        assert llms == ["claude-opus-4.6", "gpt-5"]
+        assert llms == ["claude-opus-4", "gpt-5"]
         assert not direct
