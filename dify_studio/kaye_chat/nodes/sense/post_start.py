@@ -30,6 +30,26 @@ def main(
     difficulty_override: float,
     current_role: str,
 ):
+    """
+    :param role_override:
+    :type role_override: str
+    :param difficulty_override:
+    :type difficulty_override: float
+    :param current_role:
+    :type current_role: str
+    :return: dict{
+        "should_skip_sense":        whether should skip sense node in this round
+        "role":                     current round role (so far)
+        "difficulty":               current round difficulty (so far)
+        "sense_prompt_getter_body": body sent to ``/sense`` endpoint
+    }
+    :rtype: dict{
+        "should_skip_sense":        bool
+        "role":                     str
+        "difficulty":               float
+        "sense_prompt_getter_body": str
+    }
+    """
     # decide role  -------------------------------------------------------------
     # role_override take priority
     # empty indicates sense node to decide it during 1st round
