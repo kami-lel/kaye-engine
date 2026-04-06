@@ -8,43 +8,49 @@ OUTPUT_META_KEY = "meta_content"
 
 
 # constants  ###################################################################
-
-
-LLM2DISPLAY_NAME = {
-    "rapid": "⚡Rapid",
-    "chat": "💬Chat",
-    "think": "🤔Think",
-    "think-think": "🧠Think Think",
-}
-
-
 USAGE_TIME_KEY = "time_to_generate"
 
+
 # helpers  #####################################################################
-
-
-def _llm2display_name(llm):
-    if llm in LLM2DISPLAY_NAME:
-        return LLM2DISPLAY_NAME[llm]
-    else:
-        return llm  # fall back
+def _generate_usage_lines(usage):
+    return ["%%%"]  # TODO
 
 
 # Entry Point  #################################################################
 
 
 def main(
-    show_meta_content: bool,
-    role_override: str,
-    difficulty_override: float,
-    should_skip_sense: bool,
+    show_meta_content,
+    should_skip_sense,
     current_role: str,
-    difficulty: float,
-    task_usages: list[str],
+    difficulty: dict,
+    current_llms: list[str],
+    current_pls: str,
+    sense_usage: dict,
+    task_usages: list[dict],
 ):
+    if not show_meta_content:
+        return {OUTPUT_META_KEY: ""}
+
     lines = []
 
-    # TODO
+    # sense-related  -----------------------------------------------------------
+    if not should_skip_sense:
+        lines.append("Sensed")
+        lines.extend(_generate_usage_lines(sense_usage))
+
+    # task parameters  ---------------------------------------------------------
+    lines.append("role:\t{}".format(current_role))
+    lines.append("difficulty:\t{}".format(difficulty))
+    lines.append("LLMs:\t{}".format(",".join(current_llms)))
+
+    if current_role == "coder":
+        lines.append("PLs:\t{}".format(current_pls))
+
+    # task usages  -------------------------------------------------------------
+    lines.append("Task Usage(s):")
+    for usage in task_usages:
+        lines.extend(_generate_usage_lines(usage))
 
     # final content form  ------------------------------------------------------
 
