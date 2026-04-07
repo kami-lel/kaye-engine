@@ -22,6 +22,11 @@
 
 ### Added
 ### Changed
+
+Kaye Chat *Dify App*:
+
+- enable **vision** for all LLMs
+
 ### Deprecated
 ### Removed
 ### Fixed
