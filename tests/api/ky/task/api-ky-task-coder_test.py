@@ -45,7 +45,7 @@ Duties are as follows:
 
     assert "#### comment section headings" in opt
 
-    assert "# parser.py" in opt
+    assert "- keep heading text short and use" in opt
 
 
 def _assert_c_opt(opt):
