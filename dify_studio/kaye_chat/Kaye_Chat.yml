@@ -9,62 +9,85 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
+    marketplace_plugin_unique_identifier: langgenius/anthropic:0.3.8@6706e34565fb2c560cc3641c888b7f4e34288928df913e92241bd6d4f830a0cf
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/gemini:0.7.20@de0063a630a6d1b2c025fb84f3462ba5151fb60618309cd595c3f4711b1df847
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
     marketplace_plugin_unique_identifier: langgenius/openai:0.3.3@cfb7804d9acf3e0f24b33e97e22c2600249c471f33428efa33597959b513ad2d
     version: null
 kind: app
 version: 0.5.0
 workflow:
   conversation_variables:
-  - description: ''
-    id: 748b6197-8384-405b-ab3f-b1ed34b41595
-    name: programming_languages
+  - description: difficulty used in current round
+    id: 878026cb-1d0e-4e68-b30b-e0246871644a
+    name: current_difficulty
     selector:
     - conversation
-    - programming_languages
-    value: ''
-    value_type: string
-  - description: ''
-    id: 8259b75c-d977-4b54-bc84-55c9c4fa818b
-    name: difficulty_thresholds
+    - current_difficulty
+    value: 0
+    value_type: integer
+  - description: usages data of task LLM nodes
+    id: 1131a781-78d0-4ff1-b0d2-955f817187d2
+    name: task_usages
     selector:
     - conversation
-    - difficulty_thresholds
-    value:
-    - 0.2
-    - 0.5
-    - 0.9
-    value_type: array[number]
-  - description: ''
-    id: ecf67eda-f18a-49df-b978-4201d32c481a
+    - task_usages
+    value: {}
+    value_type: object
+  - description: LLMs used in current round
+    id: bbb31147-b512-4af8-8850-42c4d78beaba
+    name: current_llms
+    selector:
+    - conversation
+    - current_llms
+    value: []
+    value_type: array[string]
+  - description: prompt used during task nodes
+    id: bf733c0a-ea00-40c8-9297-89294adf149c
     name: task_prompt
     selector:
     - conversation
     - task_prompt
     value: ''
     value_type: string
-  - description: ''
-    id: 09680c96-a686-4725-860d-b6954cb138ac
-    name: role
+  - description: programming langauges used for current round if coder
+    id: ef0e3e77-5565-4bdb-abd4-ecd48ad1768a
+    name: current_pls
     selector:
     - conversation
-    - role
+    - current_pls
+    value: ''
+    value_type: string
+  - description: role for current round
+    id: d60b9a69-4ecb-432d-98c7-f225bab21243
+    name: current_role
+    selector:
+    - conversation
+    - current_role
     value: ''
     value_type: string
   environment_variables:
-  - description: ''
-    id: 19bc4348-878d-43ab-a4f0-8d8c167789b9
-    name: FLASK_PORT
+  - description: Kaye Flask API's Port Number; default is "11255", debug is "11256"
+    id: b388f1c7-41bc-45c7-b45f-97dbc96ebd42
+    name: FLASK_API_PORT
     selector:
     - env
-    - FLASK_PORT
+    - FLASK_API_PORT
     value: '11255'
     value_type: string
-  - description: IP of Docker Host (i.e. outside container), e.g. "12.34.56.78"
-    id: c2f3a7b5-4886-4640-bd78-9f62fc9c604e
-    name: DOCKER_HOST_IP
+  - description: Kaye Flask API's URL accessible to this Dify App, e.g. "http://11.22.33.44"
+    id: 97ae005c-5fd3-4092-a255-07b2fd514b55
+    name: FLASK_API_URL
     selector:
     - env
-    - DOCKER_HOST_IP
+    - FLASK_API_URL
     value: ''
     value_type: secret
   features:
@@ -79,9 +102,9 @@ workflow:
       allowed_file_types:
       - image
       allowed_file_upload_methods:
-      - remote_url
       - local_file
-      enabled: true
+      - remote_url
+      enabled: false
       fileUploadConfig:
         audio_file_size_limit: 50
         batch_count_limit: 5
@@ -115,77 +138,486 @@ workflow:
   graph:
     edges:
     - data:
-        isInLoop: false
-        sourceType: http-request
-        targetType: llm
-      id: 1768126033433-source-1771241815334-target
-      selected: false
-      source: '1768126033433'
-      sourceHandle: source
-      target: '1771241815334'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInIteration: false
-        isInLoop: false
-        sourceType: start
-        targetType: code
-      id: 1768125126392-source-1771244532406-target
-      selected: false
-      source: '1768125126392'
-      sourceHandle: source
-      target: '1771244532406'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: code
-        targetType: assigner
-      id: 1771244532406-source-1771244565877-target
-      selected: false
-      source: '1771244532406'
-      sourceHandle: source
-      target: '1771244565877'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: assigner
-        targetType: if-else
-      id: 1771244565877-source-1771427941644-target
-      selected: false
-      source: '1771244565877'
-      sourceHandle: source
-      target: '1771427941644'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInLoop: false
         sourceType: if-else
         targetType: http-request
-      id: 1771427941644-false-1768126033433-target
+      id: 1775035745434-false-1775035851875-target
       selected: false
-      source: '1771427941644'
+      source: '1775035745434'
       sourceHandle: 'false'
-      target: '1768126033433'
+      target: '1775035851875'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: llm
+      id: 1775035851875-source-1775035866799-target
+      selected: false
+      source: '1775035851875'
+      sourceHandle: source
+      target: '1775035866799'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1775035866799-source-1775035912243-target
+      selected: false
+      source: '1775035866799'
+      sourceHandle: source
+      target: '1775035912243'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: http-request
+      id: 1775069406582-source-17753489683040-target
+      selected: false
+      source: '1775069406582'
+      sourceHandle: source
+      target: '17753489683040'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: assigner
+      id: 17753489683040-source-1775349016947-target
+      selected: false
+      source: '17753489683040'
+      sourceHandle: source
+      target: '1775349016947'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: assigner
+        targetType: if-else
+      id: 1775349016947-source-1775423653375-target
+      selected: false
+      source: '1775349016947'
+      sourceHandle: source
+      target: '1775423653375'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: if-else
+      id: 1775423653375-true-1775496202817-target
+      selected: false
+      source: '1775423653375'
+      sourceHandle: 'true'
+      target: '1775496202817'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1775496202817-true-1775496256481-target
+      selected: false
+      source: '1775496202817'
+      sourceHandle: 'true'
+      target: '1775496256481'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1775496256481-source-1775496295691-target
+      selected: false
+      source: '1775496256481'
+      sourceHandle: source
+      target: '1775496295691'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: answer
+        targetType: variable-aggregator
+      id: 1775496295691-source-1775496518314-target
+      selected: false
+      source: '1775496295691'
+      sourceHandle: source
+      target: '1775496518314'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1775496202817-false-17754967343630-target
+      selected: false
+      source: '1775496202817'
+      sourceHandle: 'false'
+      target: '17754967343630'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 17754967343630-source-1775496531215-target
+      selected: false
+      source: '17754967343630'
+      sourceHandle: source
+      target: '1775496531215'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: answer
+        targetType: variable-aggregator
+      id: 1775496531215-source-1775496518314-target
+      selected: false
+      source: '1775496531215'
+      sourceHandle: source
+      target: '1775496518314'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1775496202817-b83b5378-f68c-444f-ad5c-3eacda111a73-17754967343630-target
+      selected: false
+      source: '1775496202817'
+      sourceHandle: b83b5378-f68c-444f-ad5c-3eacda111a73
+      target: '17754967343630'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1775496202817-93bd0011-71f5-4807-9385-ed467e226a7d-17754968420260-target
+      selected: false
+      source: '1775496202817'
+      sourceHandle: 93bd0011-71f5-4807-9385-ed467e226a7d
+      target: '17754968420260'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 17754968420260-source-1775496863219-target
+      selected: false
+      source: '17754968420260'
+      sourceHandle: source
+      target: '1775496863219'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: answer
+        targetType: variable-aggregator
+      id: 1775496863219-source-1775496518314-target
+      selected: false
+      source: '1775496863219'
+      sourceHandle: source
+      target: '1775496518314'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: iteration-start
+        targetType: if-else
+      id: 1775496965074start-source-1775497060954-target
+      selected: false
+      source: 1775496965074start
+      sourceHandle: source
+      target: '1775497060954'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: if-else
+        targetType: llm
+      id: 1775497060954-true-1775497093635-target
+      selected: false
+      source: '1775497060954'
+      sourceHandle: 'true'
+      target: '1775497093635'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: if-else
+        targetType: llm
+      id: 1775497060954-737f042e-9027-4e7c-914a-2560bcc559b3-1775497429483-target
+      selected: false
+      source: '1775497060954'
+      sourceHandle: 737f042e-9027-4e7c-914a-2560bcc559b3
+      target: '1775497429483'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: if-else
+        targetType: llm
+      id: 1775497060954-7b140524-35c8-4cac-b265-8b5d254c8ff7-1775497481178-target
+      selected: false
+      source: '1775497060954'
+      sourceHandle: 7b140524-35c8-4cac-b265-8b5d254c8ff7
+      target: '1775497481178'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: if-else
+        targetType: llm
+      id: 1775497060954-false-1775497481178-target
+      selected: false
+      source: '1775497060954'
+      sourceHandle: 'false'
+      target: '1775497481178'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: if-else
+        targetType: llm
+      id: 1775497060954-d9485700-09de-4d84-af81-6996637bcafa-1775497532392-target
+      selected: false
+      source: '1775497060954'
+      sourceHandle: d9485700-09de-4d84-af81-6996637bcafa
+      target: '1775497532392'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: if-else
+        targetType: llm
+      id: 1775497060954-7d2b3eea-c2d5-4c07-95a2-6268270db876-1775497617058-target
+      selected: false
+      source: '1775497060954'
+      sourceHandle: 7d2b3eea-c2d5-4c07-95a2-6268270db876
+      target: '1775497617058'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1775497093635-source-1775497736904-target
+      selected: false
+      source: '1775497093635'
+      sourceHandle: source
+      target: '1775497736904'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1775497429483-source-1775497736904-target
+      selected: false
+      source: '1775497429483'
+      sourceHandle: source
+      target: '1775497736904'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1775497481178-source-1775497736904-target
+      selected: false
+      source: '1775497481178'
+      sourceHandle: source
+      target: '1775497736904'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1775497532392-source-1775497736904-target
+      selected: false
+      source: '1775497532392'
+      sourceHandle: source
+      target: '1775497736904'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1775497617058-source-1775497736904-target
+      selected: false
+      source: '1775497617058'
+      sourceHandle: source
+      target: '1775497736904'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: http-request
+      id: 1775423653375-false-1775498021349-target
+      selected: false
+      source: '1775423653375'
+      sourceHandle: 'false'
+      target: '1775498021349'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInLoop: false
         sourceType: http-request
-        targetType: assigner
-      id: 17714285892740-source-1771428724194-target
+        targetType: llm
+      id: 1775498021349-source-1775497969183-target
       selected: false
-      source: '17714285892740'
+      source: '1775498021349'
       sourceHandle: source
-      target: '1771428724194'
+      target: '1775497969183'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: iteration
+      id: 1775423653375-false-1775496965074-target
+      selected: false
+      source: '1775423653375'
+      sourceHandle: 'false'
+      target: '1775496965074'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: code
+      id: 1775496965074-source-1775498259638-target
+      selected: false
+      source: '1775496965074'
+      sourceHandle: source
+      target: '1775498259638'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1775498259638-source-1775497969183-target
+      selected: false
+      source: '1775498259638'
+      sourceHandle: source
+      target: '1775497969183'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1775497969183-source-1775498682381-target
+      selected: false
+      source: '1775497969183'
+      sourceHandle: source
+      target: '1775498682381'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: answer
+      id: 1775498700677-source-1775498707591-target
+      selected: false
+      source: '1775498700677'
+      sourceHandle: source
+      target: '1775498707591'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1775035912243-source-1775500362830-target
+      selected: false
+      source: '1775035912243'
+      sourceHandle: source
+      target: '1775500362830'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -194,11 +626,23 @@ workflow:
         isInLoop: false
         sourceType: assigner
         targetType: code
-      id: 1771428724194-source-1772079097352-target
+      id: 1775500362830-source-1775069406582-target
       selected: false
-      source: '1771428724194'
+      source: '1775500362830'
       sourceHandle: source
-      target: '1772079097352'
+      target: '1775069406582'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1775035745434-true-1775069406582-target
+      selected: false
+      source: '1775035745434'
+      sourceHandle: 'true'
+      target: '1775069406582'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -206,159 +650,25 @@ workflow:
         isInIteration: false
         isInLoop: false
         sourceType: code
+        targetType: assigner
+      id: 1775509712136-source-1775513925673-target
+      selected: false
+      source: '1775509712136'
+      sourceHandle: source
+      target: '1775513925673'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: assigner
         targetType: if-else
-      id: 1772079097352-source-1772079133588-target
+      id: 1775513925673-source-1775035745434-target
       selected: false
-      source: '1772079097352'
+      source: '1775513925673'
       sourceHandle: source
-      target: '1772079133588'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: if-else
-        targetType: llm
-      id: 1772079133588-true-1772079364492-target
-      selected: false
-      source: '1772079133588'
-      sourceHandle: 'true'
-      target: '1772079364492'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: llm
-        targetType: answer
-      id: 1772079364492-source-1772079372195-target
-      selected: false
-      source: '1772079364492'
-      sourceHandle: source
-      target: '1772079372195'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: answer
-      id: 17720794245330-source-17720794245331-target
-      selected: false
-      source: '17720794245330'
-      sourceHandle: source
-      target: '17720794245331'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: llm
-      id: 1772079133588-2a61cef3-5ddc-4f21-94b1-bff975dc6963-17720794245330-target
-      selected: false
-      source: '1772079133588'
-      sourceHandle: 2a61cef3-5ddc-4f21-94b1-bff975dc6963
-      target: '17720794245330'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: llm
-      id: 1772079133588-4ce4f105-6df6-4582-883c-bd7abc51862a-17720794553410-target
-      selected: false
-      source: '1772079133588'
-      sourceHandle: 4ce4f105-6df6-4582-883c-bd7abc51862a
-      target: '17720794553410'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: answer
-      id: 17720794553410-source-17720794553411-target
-      selected: false
-      source: '17720794553410'
-      sourceHandle: source
-      target: '17720794553411'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: answer
-      id: 17720794978780-source-17720794978781-target
-      selected: false
-      source: '17720794978780'
-      sourceHandle: source
-      target: '17720794978781'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: llm
-      id: 1772079133588-false-17720794978780-target
-      selected: false
-      source: '1772079133588'
-      sourceHandle: 'false'
-      target: '17720794978780'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: answer
-        targetType: variable-aggregator
-      id: 1772079372195-source-1772079551868-target
-      selected: false
-      source: '1772079372195'
-      sourceHandle: source
-      target: '1772079551868'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: answer
-        targetType: variable-aggregator
-      id: 17720794245331-source-1772079551868-target
-      selected: false
-      source: '17720794245331'
-      sourceHandle: source
-      target: '1772079551868'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: answer
-        targetType: variable-aggregator
-      id: 17720794553411-source-1772079551868-target
-      selected: false
-      source: '17720794553411'
-      sourceHandle: source
-      target: '1772079551868'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: answer
-        targetType: variable-aggregator
-      id: 17720794978781-source-1772079551868-target
-      selected: false
-      source: '17720794978781'
-      sourceHandle: source
-      target: '1772079551868'
+      target: '1775035745434'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -367,92 +677,87 @@ workflow:
         isInLoop: false
         sourceType: variable-aggregator
         targetType: code
-      id: 1772079551868-source-1772079582563-target
-      selected: false
-      source: '1772079551868'
+      id: 1775496518314-source-1775519581253-target
+      source: '1775496518314'
       sourceHandle: source
-      target: '1772079582563'
+      target: '1775519581253'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInLoop: false
-        sourceType: code
-        targetType: answer
-      id: 1772079582563-source-1771842506356-target
-      selected: false
-      source: '1772079582563'
-      sourceHandle: source
-      target: '1771842506356'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
+        sourceType: start
         targetType: code
-      id: 1771241815334-source-1772344988925-target
-      selected: false
-      source: '1771241815334'
+      id: 1775033936697-source-1775509712136-target
+      source: '1775033936697'
       sourceHandle: source
-      target: '1772344988925'
+      target: '1775509712136'
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: variable-aggregator
+        targetType: code
+      id: 1775497736904-source-1775522381938-target
+      source: '1775497736904'
+      sourceHandle: source
+      target: '1775522381938'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
     - data:
         isInIteration: false
         isInLoop: false
         sourceType: code
-        targetType: assigner
-      id: 1772344988925-source-1772345067762-target
-      selected: false
-      source: '1772344988925'
+        targetType: variable-aggregator
+      id: 1775519581253-source-1775525053768-target
+      source: '1775519581253'
       sourceHandle: source
-      target: '1772345067762'
+      target: '1775525053768'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
-        isInIteration: false
         isInLoop: false
-        sourceType: if-else
+        sourceType: variable-aggregator
         targetType: code
-      id: 1771427941644-true-1774290156027-target
-      selected: false
-      source: '1771427941644'
-      sourceHandle: 'true'
-      target: '1774290156027'
+      id: 1775525053768-source-1775498700677-target
+      source: '1775525053768'
+      sourceHandle: source
+      target: '1775498700677'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
-        isInIteration: false
+        isInIteration: true
         isInLoop: false
+        iteration_id: '1775496965074'
         sourceType: code
-        targetType: http-request
-      id: 1774290156027-source-17714285892740-target
-      selected: false
-      source: '1774290156027'
+        targetType: loop-end
+      id: 1775522381938-source-1775497932390-target
+      source: '1775522381938'
       sourceHandle: source
-      target: '17714285892740'
+      target: '1775497932390'
       targetHandle: target
       type: custom
-      zIndex: 0
+      zIndex: 1002
     - data:
         isInLoop: false
-        sourceType: assigner
-        targetType: code
-      id: 1772345067762-source-1774290156027-target
-      selected: false
-      source: '1772345067762'
+        sourceType: answer
+        targetType: variable-aggregator
+      id: 1775498682381-source-1775525053768-target
+      source: '1775498682381'
       sourceHandle: source
-      target: '1774290156027'
+      target: '1775525053768'
       targetHandle: target
       type: custom
       zIndex: 0
     nodes:
     - data:
-        selected: false
+        selected: true
         title: User Input
         type: start
         variables:
@@ -465,26 +770,17 @@ workflow:
           required: false
           type: checkbox
           variable: show_meta_content
-        - hint: ''
+        - default: ''
+          hint: ''
           label: role_override
-          max_length: 48
+          max_length: 80
           options:
-          - rapid
-          - coder
-          - barista
+          - ''
           placeholder: ''
           required: false
           type: text-input
           variable: role_override
-        - hint: ''
-          label: llm_override
-          max_length: 48
-          options: []
-          placeholder: ''
-          required: false
-          type: text-input
-          variable: llm_override
-        - default: '-1'
+        - default: '0'
           hint: ''
           label: difficulty_override
           max_length: 48
@@ -493,217 +789,15 @@ workflow:
           required: false
           type: number
           variable: difficulty_override
-      height: 187
-      id: '1768125126392'
+      height: 161
+      id: '1775033936697'
       position:
-        x: -867.6996580590874
-        y: 288.0984533980636
+        x: 383.011510910825
+        y: 282
       positionAbsolute:
-        x: -867.6996580590874
-        y: 288.0984533980636
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        authorization:
-          config: null
-          type: no-auth
-        body:
-          data: []
-          type: none
-        headers: ''
-        method: get
-        params: role:{{#conversation.role#}}
-        retry_config:
-          max_retries: 3
-          retry_enabled: true
-          retry_interval: 100
-        selected: false
-        ssl_verify: true
-        timeout:
-          max_connect_timeout: 0
-          max_read_timeout: 0
-          max_write_timeout: 0
-        title: sense prompt getter
-        type: http-request
-        url: http://{{#env.DOCKER_HOST_IP#}}:{{#env.FLASK_PORT#}}/kaye/dify-app/ky/sense
-        variables: []
-      height: 160
-      id: '1768126033433'
-      position:
-        x: 74.08145220761412
-        y: 154.15478025324344
-      positionAbsolute:
-        x: 74.08145220761412
-        y: 154.15478025324344
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        context:
-          enabled: false
-          variable_selector: []
-        memory:
-          query_prompt_template: '{{#sys.query#}}'
-          role_prefix:
-            assistant: ''
-            user: ''
-          window:
-            enabled: false
-            size: 50
-        model:
-          completion_params: {}
-          mode: chat
-          name: gpt-4.1-nano
-          provider: langgenius/openai/openai
-        prompt_template:
-        - id: 82836f13-3055-4190-b6a6-dbddfa944b0d
-          role: system
-          text: '{{#1768126033433.body#}}'
-        selected: false
-        structured_output:
-          schema:
-            additionalProperties: false
-            properties:
-              difficulty:
-                type: number
-              llm:
-                enum:
-                - rapid
-                - chat
-                - think
-                - think-think
-                - ''
-                type: string
-              programming_languages:
-                type: string
-              role:
-                enum:
-                - barista
-                - coder
-                - chat
-                - rapid
-                - editor
-                - secretary
-            required:
-            - difficulty
-            - programming_languages
-            - llm
-            - role
-            type: object
-        structured_output_enabled: true
-        title: sense
-        type: llm
-        vision:
-          enabled: false
-      height: 88
-      id: '1771241815334'
-      position:
-        x: 74.08145220761412
-        y: 310.8001362401752
-      positionAbsolute:
-        x: 74.08145220761412
-        y: 310.8001362401752
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "# pylint: disable=missing-module-docstring\n\n\n# output keys  #################################################################\n\
-          OUTPUT_ROLE_KEY = \"role\"\nOUTPUT_SKIP_KEY = \"skip_sense\"\n\n\n# helpers\
-          \  #####################################################################\n\
-          def should_skip_sense(role, llm_override):\n    \"\"\"\n    decide whether\
-          \ should skip sense node for this round of conversation\n    based on combination\
-          \ of difficulty & LLM overrides given\n\n\n    :param role:\n    :type role:\
-          \ str\n    :param llm_override:\n    :type llm_override: str\n    :return:\
-          \ whether should skip sense node\n    :rtype: bool\n    \"\"\"\n    if role\
-          \ == \"barista\":\n        # skip for Assistant Barista\n        return\
-          \ True\n\n    elif role == \"changelog\":\n        # skip for Changelog\
-          \ writer\n        return True\n\n    elif role:\n        # both both & LLM\
-          \ are provided\n        return bool(llm_override)\n\n    return False\n\n\
-          \n# Entry Point  #################################################################\n\
-          def main(\n    role_override: str,\n    llm_override: str,\n    current_role:\
-          \ str,\n):\n    \"\"\"\n    prepare parameters for **this round**\n    based\
-          \ on variables provided by *User Input Fields*\n\n\n    :param role_override:\n\
-          \    :type role_override: str\n    :param llm_override:\n    :type llm_override:\
-          \ str\n    :param current_role: role saved in conversation variable,\n \
-          \           often decided on 1st round of conversation\n    :type current_role:\
-          \ str\n    :return: {\n            \"role\": role to used for this round\
-          \ of conversation,\n            \"skip_sense\": whether skip sense node\
-          \ in this round}\n    :rtype: dict{\"role\": str, \"skip_sense\": bool}\n\
-          \    \"\"\"\n    # decide role  =============================================================\n\
-          \    role = role_override or current_role or \"\"\n\n    skip_sense = should_skip_sense(role,\
-          \ llm_override)\n\n    return {OUTPUT_ROLE_KEY: role, OUTPUT_SKIP_KEY: skip_sense}\n\
-          \n"
-        code_language: python3
-        outputs:
-          role:
-            children: null
-            type: string
-          skip_sense:
-            children: null
-            type: boolean
-        selected: false
-        title: post_start
-        type: code
-        variables:
-        - value_selector:
-          - '1768125126392'
-          - role_override
-          value_type: string
-          variable: role_override
-        - value_selector:
-          - '1768125126392'
-          - llm_override
-          value_type: string
-          variable: llm_override
-        - value_selector:
-          - conversation
-          - role
-          value_type: string
-          variable: current_role
-      height: 52
-      id: '1771244532406'
-      position:
-        x: -433.66579582960475
-        y: 309.0984533980636
-      positionAbsolute:
-        x: -433.66579582960475
-        y: 309.0984533980636
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        items:
-        - input_type: variable
-          operation: over-write
-          value:
-          - '1771244532406'
-          - role
-          variable_selector:
-          - conversation
-          - role
-          write_mode: over-write
-        selected: false
-        title: post start setter
-        type: assigner
-        version: '2'
-      height: 84
-      id: '1771244565877'
-      position:
-        x: -433.66579582960475
-        y: 360.85142251861555
-      positionAbsolute:
-        x: -433.66579582960475
-        y: 360.85142251861555
-      selected: false
+        x: 383.011510910825
+        y: 282
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -713,25 +807,25 @@ workflow:
         - case_id: 'true'
           conditions:
           - comparison_operator: is
-            id: 1a703f6d-18d3-4338-a9de-f2c137c45ea8
+            id: 45b0cb04-2803-4944-b01f-bf8241856949
             value: true
             varType: boolean
             variable_selector:
-            - '1771244532406'
-            - skip_sense
+            - '1775509712136'
+            - should_skip_sense
           id: 'true'
           logical_operator: and
         selected: false
-        title: skip sense
+        title: skip sense branch
         type: if-else
       height: 124
-      id: '1771427941644'
+      id: '1775035745434'
       position:
-        x: 74.08145220761412
-        y: 32.222974733409444
+        x: 1152.2377649505997
+        y: 303
       positionAbsolute:
-        x: 74.08145220761412
-        y: 32.222974733409444
+        x: 1152.2377649505997
+        y: 303
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -743,13 +837,13 @@ workflow:
           type: no-auth
         body:
           data:
-          - id: key-value-53
+          - id: key-value-23
             key: ''
             type: text
-            value: '{{#1774290156027.body#}}'
+            value: '{{#1775509712136.sense_prompt_getter_body#}}'
           type: json
         headers: ''
-        method: get
+        method: post
         params: ''
         retry_config:
           max_retries: 3
@@ -761,18 +855,284 @@ workflow:
           max_connect_timeout: 0
           max_read_timeout: 0
           max_write_timeout: 0
-        title: task prompt getter
+        title: Sense Prompt Getter
         type: http-request
-        url: http://{{#env.DOCKER_HOST_IP#}}:{{#env.FLASK_PORT#}}/kaye/dify-app/ky/task
+        url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/ky/sense'
         variables: []
       height: 160
-      id: '17714285892740'
+      id: '1775035851875'
       position:
-        x: 525.8934561170636
-        y: 140.10431686693488
+        x: 1546.451436512359
+        y: 512
       positionAbsolute:
-        x: 525.8934561170636
-        y: 140.10431686693488
+        x: 1546.451436512359
+        y: 512
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4.1-nano
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 5a8a1e66-4e85-4a5c-83a0-1a120eba7407
+          role: system
+          text: '{{#1775035851875.body#}}'
+        - id: 8e711921-cb10-4a9f-ae77-cefbffb557ec
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              difficulty:
+                type: number
+              programming_languages:
+                type: string
+              role:
+                enum:
+                - art
+                - barista
+                - chat
+                - coder
+                - deutschlehrer
+                - editor
+                - rapid
+                - secretary
+                - tarot
+            required:
+            - difficulty
+            - programming_languages
+            - role
+            type: object
+        structured_output_enabled: true
+        title: Sense
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1775035866799'
+      position:
+        x: 1546.451436512359
+        y: 669.524255680551
+      positionAbsolute:
+        x: 1546.451436512359
+        y: 669.524255680551
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "# pylint: disable=missing-module-docstring\n# pylint: disable=too-many-arguments\n\
+          # pylint: disable=too-many-positional-arguments\n\n\n# output keys  #################################################################\n\
+          OUTPUT_ROLE_KEY = \"role\"\nOUTPUT_DIFF_KEY = \"difficulty\"\nOUTPUT_PLS_KEY\
+          \ = \"combined_pls\"\n\n\n# constant  ####################################################################\n\
+          SPLITTER = \",\"\n\n\n# Entry Point  #################################################################\n\
+          def main(\n    sensed_role: str,\n    sensed_difficulty: int,\n    sensed_pls:\
+          \ str,\n    current_role: str,\n    difficulty_override: int,\n    current_pls:\
+          \ str,\n):\n    \"\"\"\n    collect & organize information from sense code\n\
+          \n\n    :param sensed_role:\n    :type sensed_role: str\n    :param sensed_difficulty:\n\
+          \    :type sensed_difficulty: int\n    :param sensed_pls:\n    :type sensed_pls:\
+          \ str\n    :param current_role:\n    :type current_role: str\n    :param\
+          \ difficulty_override:\n    :type difficulty_override: int\n    :param current_pls:\n\
+          \    :type current_pls: str\n    :return: {\n        \"role\":         final/post-sense\
+          \ role for current round\n        \"difficulty\":   final/post-sense difficulty\
+          \ for current round\n        \"combined_pls\": combined PLs\n    }\n   \
+          \ :rtype: dict{\"role\": str, \"difficulty\": int, \"combined_pls\": str}\n\
+          \    \"\"\"\n    # role  --------------------------------------------------------------------\n\
+          \    # role default to chat\n    role = current_role or sensed_role or \"\
+          chat\"\n\n    # difficulty  --------------------------------------------------------------\n\
+          \    difficulty = difficulty_override or sensed_difficulty or 0\n\n    #\
+          \ pls  ---------------------------------------------------------------------\n\
+          \    combined_set = set(current_pls.split(SPLITTER)) | set(\n        sensed_pls.split(SPLITTER)\n\
+          \    )\n    combined_pls = SPLITTER.join(filter(bool, combined_set))\n\n\
+          \    return {\n        OUTPUT_ROLE_KEY: str(role),\n        OUTPUT_DIFF_KEY:\
+          \ int(difficulty),\n        OUTPUT_PLS_KEY: str(combined_pls),\n    }\n\n"
+        code_language: python3
+        outputs:
+          combined_pls:
+            children: null
+            type: string
+          difficulty:
+            children: null
+            type: number
+          role:
+            children: null
+            type: string
+        selected: false
+        title: post_sense
+        type: code
+        variables:
+        - value_selector:
+          - '1775035866799'
+          - structured_output
+          - role
+          value_type: object
+          variable: sensed_role
+        - value_selector:
+          - '1775035866799'
+          - structured_output
+          - difficulty
+          value_type: object
+          variable: sensed_difficulty
+        - value_selector:
+          - '1775035866799'
+          - structured_output
+          - programming_languages
+          value_type: object
+          variable: sensed_pls
+        - value_selector:
+          - conversation
+          - current_role
+          value_type: string
+          variable: current_role
+        - value_selector:
+          - '1775033936697'
+          - difficulty_override
+          value_type: number
+          variable: difficulty_override
+        - value_selector:
+          - conversation
+          - current_pls
+          value_type: string
+          variable: current_pls
+      height: 52
+      id: '1775035912243'
+      position:
+        x: 1546.451436512359
+        y: 754.7270039413393
+      positionAbsolute:
+        x: 1546.451436512359
+        y: 754.7270039413393
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "# pylint: disable=missing-module-docstring\n# pylint: disable=too-many-arguments\n\
+          \n\nimport json\n\n# Output Key ###################################################################\n\
+          OUTPUT_BODY_KEY = \"task_prompt_getter_body\"\nOUTPUT_LLMS_KEY = \"llms\"\
+          \nOUTPUT_DIRECT_KEY = \"is_direct_response\"\n\n\n# constants  ###################################################################\n\
+          THRESHOLDS = [\n    (0, [\"gpt-4-nano\"]),\n    (10, [\"gpt-5-nano\"]),\n\
+          \    (30, [\"claude-sonnet-4\"]),\n    (60, [\"claude-sonnet-4\", \"gpt-5-mini\"\
+          ]),\n    (90, [\"claude-opus-4\", \"gpt-5\", \"gemini-3-pro\"]),\n]\n# (lower\
+          \ bounds, LLMs to use)\n\n\n# Entry Point  #################################################################\n\
+          def main(\n    query: str,\n    current_role: str,\n    current_difficulty:\
+          \ float,\n    current_pls: str,\n):\n    \"\"\"\n    create a json-typed\
+          \ GET body for task prompt getter\n\n\n    :param query:\n    :type query:\
+          \ str\n    :param current_role:\n    :type current_role: str\n    :param\
+          \ current_pls:\n    :type current_pls: str\n    :param difficulty:\n   \
+          \ :type difficulty: int\n    :return: {\n        \"task_prompt_getter_body\"\
+          :  body sent to /task\n        \"llms\":                     LLMs to use\
+          \ during tasks\n        \"is_direct_response\":       whether use direct\
+          \ response mode during task\n    }\n\n    :rtype: dict{\n        \"task_prompt_getter_body\"\
+          :  str,\n        \"llms\":                     list[str],\n        \"is_direct_response\"\
+          :       bool,\n    }\n    \"\"\"\n    # gen body  ----------------------------------------------------------------\n\
+          \    # used for Task Prompt Getter node\n\n    body = {\n        \"query\"\
+          : query,\n        \"role\": current_role,\n        \"programming_languages\"\
+          : current_pls,\n    }\n    body_json_dumps = json.dumps(body)\n\n    # gen\
+          \ LLMs  ----------------------------------------------------------------\n\
+          \    llms = THRESHOLDS[0][1]\n    for threshold, value in THRESHOLDS:\n\
+          \        if current_difficulty >= threshold:\n            llms = value\n\
+          \n    # is direct  ---------------------------------------------------------------\n\
+          \    is_direct_response = len(llms) == 1\n\n    # Output Variables  --------------------------------------------------------\n\
+          \    return {\n        OUTPUT_BODY_KEY: str(body_json_dumps),\n        OUTPUT_LLMS_KEY:\
+          \ llms,\n        OUTPUT_DIRECT_KEY: bool(is_direct_response),\n    }\n\n"
+        code_language: python3
+        outputs:
+          is_direct_response:
+            children: null
+            type: boolean
+          llms:
+            children: null
+            type: array[string]
+          task_prompt_getter_body:
+            children: null
+            type: string
+        selected: false
+        title: pre_task
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+        - value_selector:
+          - conversation
+          - current_role
+          value_type: string
+          variable: current_role
+        - value_selector:
+          - conversation
+          - current_difficulty
+          value_type: number
+          variable: current_difficulty
+        - value_selector:
+          - conversation
+          - current_pls
+          value_type: string
+          variable: current_pls
+      height: 52
+      id: '1775069406582'
+      position:
+        x: 2032.8951908221875
+        y: 303
+      positionAbsolute:
+        x: 2032.8951908221875
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-23
+            key: ''
+            type: text
+            value: '{{#1775069406582.task_prompt_getter_body#}}'
+          type: json
+        headers: ''
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: Task Prompt Getter
+        type: http-request
+        url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/ky/task'
+        variables: []
+      height: 160
+      id: '17753489683040'
+      position:
+        x: 2032.8951908221875
+        y: 354
+      positionAbsolute:
+        x: 2032.8951908221875
+        y: 354
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -783,124 +1143,40 @@ workflow:
         - input_type: variable
           operation: over-write
           value:
-          - '17714285892740'
+          - '17753489683040'
           - body
           variable_selector:
           - conversation
           - task_prompt
           write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1775069406582'
+          - llms
+          variable_selector:
+          - conversation
+          - current_llms
+          write_mode: over-write
+        - input_type: variable
+          operation: clear
+          value: ''
+          variable_selector:
+          - conversation
+          - task_usages
+          write_mode: over-write
         selected: false
-        title: task_prompt setter
+        title: Task Prompt Setter
         type: assigner
         version: '2'
-      height: 84
-      id: '1771428724194'
+      height: 136
+      id: '1775349016947'
       position:
-        x: 525.8934561170636
-        y: 301.4419478747335
+        x: 2032.8951908221875
+        y: 512
       positionAbsolute:
-        x: 525.8934561170636
-        y: 301.4419478747335
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        answer: '{{#1772079582563.meta_content#}}'
-        selected: false
-        title: meta content answer
-        type: answer
-        variables: []
-      height: 102
-      id: '1771842506356'
-      position:
-        x: 2004.603782535578
-        y: 352.39688055315526
-      positionAbsolute:
-        x: 2004.603782535578
-        y: 352.39688055315526
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "# pylint: disable=missing-module-docstring\n# pylint: disable=too-many-arguments\n\
-          # pylint: disable=too-many-positional-arguments\n\n\n# output keys  #################################################################\n\
-          OUTPUT_LLM_KEY = \"llm\"\n\n\n# Entry Point  #################################################################\n\
-          def main(\n    role: str,\n    llm_override: str,\n    llm_sensed: str,\n\
-          \    difficulty_override: float,\n    difficulty_sensed: float,\n    difficulty_thresholds:\
-          \ list[float],\n):\n    \"\"\"\n    decide which LLM (branch) for this round\
-          \ of conversation\n\n\n    :param role:\n    :type role: str\n    :param\
-          \ llm_override:\n    :type llm_override: str\n    :param llm_sensed:\n \
-          \   :type llm_sensed: str\n    :param difficulty_override:\n    :type difficulty_override:\
-          \ float\n    :param difficulty_sensed:\n    :type difficulty_sensed: float\n\
-          \    :param difficulty_thresholds:\n            difficulty thresholds given\
-          \ as environment variable\n    :type difficulty_thresholds: list[float]\n\
-          \    :return: {\"llm\": LLM to use for this round of conversation}\n   \
-          \ :rtype: dict{\"llm\": str}\n    \"\"\"\n    if llm_override:\n       \
-          \ llm = llm_override\n\n    elif role == \"coder\":\n\n        difficulty\
-          \ = (\n            difficulty_sensed\n            if (difficulty_override\
-          \ == -1)\n            else difficulty_override\n        )\n\n        if\
-          \ difficulty < difficulty_thresholds[0]:\n            llm = \"rapid\"\n\
-          \        elif difficulty < difficulty_thresholds[1]:\n            llm =\
-          \ \"chat\"\n        elif difficulty < difficulty_thresholds[2]:\n      \
-          \      llm = \"think\"\n        else:\n            llm = \"think-think\"\
-          \n\n    elif role == \"barista\":\n        # Assistant Barista always use\
-          \ chat\n        llm = \"chat\"\n\n    elif role == \"changelog\":\n    \
-          \    # Changelog writer always use think\n        llm = \"think\"\n\n  \
-          \  else:\n        llm = llm_sensed\n\n    return {OUTPUT_LLM_KEY: llm}\n\
-          \n"
-        code_language: python3
-        outputs:
-          llm:
-            children: null
-            type: string
-        selected: false
-        title: pre branch
-        type: code
-        variables:
-        - value_selector:
-          - '1771244532406'
-          - role
-          value_type: string
-          variable: role
-        - value_selector:
-          - '1768125126392'
-          - llm_override
-          value_type: string
-          variable: llm_override
-        - value_selector:
-          - '1771241815334'
-          - structured_output
-          - llm
-          value_type: object
-          variable: llm_sensed
-        - value_selector:
-          - '1768125126392'
-          - difficulty_override
-          value_type: number
-          variable: difficulty_override
-        - value_selector:
-          - '1771241815334'
-          - structured_output
-          - difficulty
-          value_type: object
-          variable: difficulty_sensed
-        - value_selector:
-          - conversation
-          - difficulty_thresholds
-          value_type: array[number]
-          variable: difficulty_thresholds
-      height: 52
-      id: '1772079097352'
-      position:
-        x: 943.4305037632209
-        y: 68.14312830548943
-      positionAbsolute:
-        x: 943.4305037632209
-        y: 68.14312830548943
+        x: 2032.8951908221875
+        y: 512
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -911,47 +1187,76 @@ workflow:
         - case_id: 'true'
           conditions:
           - comparison_operator: is
-            id: c7354a6a-64e1-45e5-9fd1-5f7c5e9af82a
-            value: rapid
-            varType: string
+            id: 668b7432-e45a-44bb-a905-cef19d38030d
+            value: true
+            varType: boolean
             variable_selector:
-            - '1772079097352'
-            - llm
+            - '1775069406582'
+            - is_direct_response
           id: 'true'
           logical_operator: and
-        - case_id: 2a61cef3-5ddc-4f21-94b1-bff975dc6963
-          conditions:
-          - comparison_operator: is
-            id: 30ba7eb0-3d19-45a0-9fdd-4ef9e3f4722a
-            value: think
-            varType: string
-            variable_selector:
-            - '1772079097352'
-            - llm
-          id: 2a61cef3-5ddc-4f21-94b1-bff975dc6963
-          logical_operator: and
-        - case_id: 4ce4f105-6df6-4582-883c-bd7abc51862a
+        selected: false
+        title: is direct response
+        type: if-else
+      height: 124
+      id: '1775423653375'
+      position:
+        x: 2522.9008739516225
+        y: 303
+      positionAbsolute:
+        x: 2522.9008739516225
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
           conditions:
           - comparison_operator: contains
-            id: d2e22420-271e-4367-9ab8-3d27ddbc9c27
-            value: think-think
-            varType: string
+            id: 057c2626-342a-45c7-99af-e3dafcea1d38
+            value: gpt-4-nano
+            varType: array[string]
             variable_selector:
-            - '1772079097352'
-            - llm
-          id: 4ce4f105-6df6-4582-883c-bd7abc51862a
+            - conversation
+            - current_llms
+          id: 'true'
+          logical_operator: and
+        - case_id: 93bd0011-71f5-4807-9385-ed467e226a7d
+          conditions:
+          - comparison_operator: contains
+            id: 1d926b79-99c7-4903-aeeb-01b691951a4b
+            value: gpt-5-nano
+            varType: array[string]
+            variable_selector:
+            - conversation
+            - current_llms
+          id: 93bd0011-71f5-4807-9385-ed467e226a7d
+          logical_operator: and
+        - case_id: b83b5378-f68c-444f-ad5c-3eacda111a73
+          conditions:
+          - comparison_operator: contains
+            id: 64fa7435-2703-49b1-9a39-278325d38c8d
+            value: claude-sonnet-4
+            varType: array[string]
+            variable_selector:
+            - conversation
+            - current_llms
+          id: b83b5378-f68c-444f-ad5c-3eacda111a73
           logical_operator: and
         selected: false
-        title: branch
+        title: Direct Response Branch
         type: if-else
       height: 220
-      id: '1772079133588'
+      id: '1775496202817'
       position:
-        x: 943.4305037632209
-        y: 120.88175899936255
+        x: 3010.0267507983162
+        y: -186.615387204721
       positionAbsolute:
-        x: 943.4305037632209
-        y: 120.88175899936255
+        x: 3010.0267507983162
+        y: -186.615387204721
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -978,41 +1283,85 @@ workflow:
           name: gpt-4.1-nano
           provider: langgenius/openai/openai
         prompt_template:
-        - id: 8da671f8-a7f8-4760-bbc3-0341caf028ea
+        - id: ee3a3fac-2f3a-4b4d-85d9-a3873cafec1d
           role: system
           text: '{{#conversation.task_prompt#}}'
         selected: false
-        title: rapid
+        title: gpt-4-nano
         type: llm
         vision:
           enabled: false
       height: 88
-      id: '1772079364492'
+      id: '1775496256481'
       position:
-        x: 1333.666289731816
-        y: 68.14312830548943
+        x: 3384.0030614997727
+        y: -186.615387204721
       positionAbsolute:
-        x: 1333.666289731816
-        y: 68.14312830548943
+        x: 3384.0030614997727
+        y: -186.615387204721
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: '{{#1772079364492.text#}}'
+        answer: '{{#1775496256481.text#}}'
         selected: false
-        title: Rapid Answer
+        title: gpt-4-nano answer
         type: answer
         variables: []
       height: 102
-      id: '1772079372195'
+      id: '1775496295691'
       position:
-        x: 1644.7941296596018
-        y: 68.14312830548943
+        x: 3675.6168683345372
+        y: -186.615387204721
       positionAbsolute:
-        x: 1644.7941296596018
-        y: 68.14312830548943
+        x: 3675.6168683345372
+        y: -186.615387204721
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        output_type: object
+        selected: false
+        title: Task Usage Aggregator
+        type: variable-aggregator
+        variables:
+        - - '17754967343630'
+          - usage
+        - - '1775496256481'
+          - usage
+        - - '17754968420260'
+          - usage
+      height: 160
+      id: '1775496518314'
+      position:
+        x: 4064.8672308219952
+        y: -186.615387204721
+      positionAbsolute:
+        x: 4064.8672308219952
+        y: -186.615387204721
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#17754967343630.text#}}'
+        selected: false
+        title: claude-sonnet-4 Answer
+        type: answer
+        variables: []
+      height: 102
+      id: '1775496531215'
+      position:
+        x: 3675.6168683345372
+        y: 13.315658706650026
+      positionAbsolute:
+        x: 3675.6168683345372
+        y: 13.315658706650026
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1022,6 +1371,245 @@ workflow:
         context:
           enabled: false
           variable_selector: []
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params: {}
+          mode: chat
+          name: claude-sonnet-4-6
+          provider: langgenius/anthropic/anthropic
+        prompt_template:
+        - id: ee3a3fac-2f3a-4b4d-85d9-a3873cafec1d
+          role: system
+          text: '{{#conversation.task_prompt#}}'
+        selected: false
+        title: claude-sonnet-4
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '17754967343630'
+      position:
+        x: 3384.0030614997727
+        y: 13.315658706650026
+      positionAbsolute:
+        x: 3384.0030614997727
+        y: 13.315658706650026
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5.4-nano
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: ee3a3fac-2f3a-4b4d-85d9-a3873cafec1d
+          role: system
+          text: '{{#conversation.task_prompt#}}'
+        selected: false
+        title: gpt-5-nano
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '17754968420260'
+      position:
+        x: 3384.0030614997727
+        y: -86.35277283755437
+      positionAbsolute:
+        x: 3384.0030614997727
+        y: -86.35277283755437
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#17754968420260.text#}}'
+        selected: false
+        title: gpt-5-nano Answer
+        type: answer
+        variables: []
+      height: 102
+      id: '1775496863219'
+      position:
+        x: 3675.6168683345372
+        y: -86.35277283755437
+      positionAbsolute:
+        x: 3675.6168683345372
+        y: -86.35277283755437
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        error_handle_mode: terminated
+        flatten_output: false
+        height: 533
+        is_parallel: true
+        iterator_input_type: array[string]
+        iterator_selector:
+        - '1775069406582'
+        - llms
+        output_selector:
+        - '1775522381938'
+        - iteration_output
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1775496965074start
+        title: Iteration
+        type: iteration
+        width: 1275
+      height: 533
+      id: '1775496965074'
+      position:
+        x: 3029.85201954326
+        y: 871.5424082454699
+      positionAbsolute:
+        x: 3029.85201954326
+        y: 871.5424082454699
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 1275
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1775496965074start
+      parentId: '1775496965074'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 3053.85201954326
+        y: 939.5424082454699
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 545c0644-d88d-4006-b1d5-13f7209af9c0
+            value: gpt-5-mini
+            varType: string
+            variable_selector:
+            - '1775496965074'
+            - item
+          id: 'true'
+          logical_operator: and
+        - case_id: 737f042e-9027-4e7c-914a-2560bcc559b3
+          conditions:
+          - comparison_operator: is
+            id: 24cf4c62-f575-4ff6-8147-51a65f9cd7e8
+            value: gpt-5
+            varType: string
+            variable_selector:
+            - '1775496965074'
+            - item
+          id: 737f042e-9027-4e7c-914a-2560bcc559b3
+          logical_operator: and
+        - case_id: 7b140524-35c8-4cac-b265-8b5d254c8ff7
+          conditions:
+          - comparison_operator: is
+            id: 1feab1ea-0b07-4771-9d55-5ac7ad828ae3
+            value: claude-sonnet-4
+            varType: string
+            variable_selector:
+            - '1775496965074'
+            - item
+          id: 7b140524-35c8-4cac-b265-8b5d254c8ff7
+          logical_operator: and
+        - case_id: d9485700-09de-4d84-af81-6996637bcafa
+          conditions:
+          - comparison_operator: is
+            id: c8647ccf-e577-42d9-ae47-b21d6af9c7d2
+            value: claude-opus-4
+            varType: string
+            variable_selector:
+            - '1775496965074'
+            - item
+          id: d9485700-09de-4d84-af81-6996637bcafa
+          logical_operator: and
+        - case_id: 7d2b3eea-c2d5-4c07-95a2-6268270db876
+          conditions:
+          - comparison_operator: is
+            id: 4e99b6cd-9b16-4c0b-900d-9be94c657043
+            value: gemini-3-pro
+            varType: string
+            variable_selector:
+            - '1775496965074'
+            - item
+          id: 7d2b3eea-c2d5-4c07-95a2-6268270db876
+          logical_operator: and
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        selected: false
+        title: merge response branch
+        type: if-else
+      height: 316
+      id: '1775497060954'
+      parentId: '1775496965074'
+      position:
+        x: 94.35924878840524
+        y: 65.98220225318437
+      positionAbsolute:
+        x: 3124.2112683316655
+        y: 937.5246104986543
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
         memory:
           query_prompt_template: '{{#sys.query#}}
 
@@ -1039,50 +1627,36 @@ workflow:
           name: gpt-5.4-mini
           provider: langgenius/openai/openai
         prompt_template:
-        - id: 8da671f8-a7f8-4760-bbc3-0341caf028ea
+        - id: cefb62cc-ae1e-49d0-908d-c864a986f120
           role: system
           text: '{{#conversation.task_prompt#}}'
         selected: false
-        title: think
+        title: gpt-5-mini
         type: llm
         vision:
           enabled: false
       height: 88
-      id: '17720794245330'
+      id: '1775497093635'
+      parentId: '1775496965074'
       position:
-        x: 1333.666289731816
-        y: 189.12154768161292
+        x: 430.8184765780279
+        y: 69.32686849324114
       positionAbsolute:
-        x: 1333.666289731816
-        y: 189.12154768161292
+        x: 3460.670496121288
+        y: 940.869276738711
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
-    - data:
-        answer: '{{#17720794245330.text#}}'
-        selected: false
-        title: Think Answer
-        type: answer
-        variables: []
-      height: 102
-      id: '17720794245331'
-      position:
-        x: 1644.7941296596018
-        y: 189.12154768161292
-      positionAbsolute:
-        x: 1644.7941296596018
-        y: 189.12154768161292
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
+      zIndex: 1002
     - data:
         context:
           enabled: false
           variable_selector: []
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
         memory:
           query_prompt_template: '{{#sys.query#}}
 
@@ -1100,50 +1674,36 @@ workflow:
           name: gpt-5.4
           provider: langgenius/openai/openai
         prompt_template:
-        - id: 8da671f8-a7f8-4760-bbc3-0341caf028ea
+        - id: ceb38933-638e-462f-9708-092f1f048d59
           role: system
           text: '{{#conversation.task_prompt#}}'
         selected: false
-        title: think-think
+        title: gpt-5
         type: llm
         vision:
           enabled: false
       height: 88
-      id: '17720794553410'
+      id: '1775497429483'
+      parentId: '1775496965074'
       position:
-        x: 1333.666289731816
-        y: 308.7976711792479
+        x: 429.8184765780279
+        y: 155.32686849324114
       positionAbsolute:
-        x: 1333.666289731816
-        y: 308.7976711792479
+        x: 3459.670496121288
+        y: 1026.869276738711
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
-    - data:
-        answer: '{{#17720794553410.text#}}'
-        selected: false
-        title: think-think answer
-        type: answer
-        variables: []
-      height: 102
-      id: '17720794553411'
-      position:
-        x: 1644.7941296596018
-        y: 308.7976711792479
-      positionAbsolute:
-        x: 1644.7941296596018
-        y: 308.7976711792479
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
+      zIndex: 1002
     - data:
         context:
           enabled: false
           variable_selector: []
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
         memory:
           query_prompt_template: '{{#sys.query#}}
 
@@ -1156,73 +1716,341 @@ workflow:
             enabled: false
             size: 50
         model:
-          completion_params: {}
+          completion_params:
+            temperature: 0.7
           mode: chat
-          name: gpt-4.1-mini
-          provider: langgenius/openai/openai
+          name: claude-sonnet-4-6
+          provider: langgenius/anthropic/anthropic
         prompt_template:
-        - id: 8da671f8-a7f8-4760-bbc3-0341caf028ea
+        - id: 5040ea6d-122c-4a79-b61e-8d9d3bf2315a
           role: system
           text: '{{#conversation.task_prompt#}}'
         selected: false
-        title: chat
+        title: claude-sonnet-4
         type: llm
         vision:
           enabled: false
       height: 88
-      id: '17720794978780'
+      id: '1775497481178'
+      parentId: '1775496965074'
       position:
-        x: 1333.666289731816
-        y: 430.5022035497241
+        x: 426.52107986803367
+        y: 241.32686849324114
       positionAbsolute:
-        x: 1333.666289731816
-        y: 430.5022035497241
-      selected: true
+        x: 3456.373099411294
+        y: 1112.869276738711
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
+      zIndex: 1002
     - data:
-        answer: '{{#17720794978780.text#}}'
+        context:
+          enabled: false
+          variable_selector: []
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: claude-opus-4-6
+          provider: langgenius/anthropic/anthropic
+        prompt_template:
+        - id: 9855bab8-bcca-47fe-8861-808ffe7c01d6
+          role: system
+          text: '{{#conversation.task_prompt#}}'
         selected: false
-        title: chat answer
-        type: answer
-        variables: []
-      height: 102
-      id: '17720794978781'
+        title: claude-opus-4
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1775497532392'
+      parentId: '1775496965074'
       position:
-        x: 1644.7941296596018
-        y: 430.5022035497241
+        x: 426.6697782230308
+        y: 326.32686849324114
       positionAbsolute:
-        x: 1644.7941296596018
-        y: 430.5022035497241
+        x: 3456.521797766291
+        y: 1197.869276738711
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gemini-3.1-pro-preview
+          provider: langgenius/gemini/google
+        prompt_template:
+        - id: 56f18286-926a-4181-b3ce-e9316283d1e7
+          role: system
+          text: '{{#conversation.task_prompt#}}'
+        selected: false
+        title: gemini-3-pro
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1775497617058'
+      parentId: '1775496965074'
+      position:
+        x: 426.8184765780279
+        y: 413.32686849324114
+      positionAbsolute:
+        x: 3456.670496121288
+        y: 1284.869276738711
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        advanced_settings:
+          group_enabled: true
+          groups:
+          - groupId: 48692987-07b3-4e38-aa2b-55ff93ce629c
+            group_name: Answers
+            output_type: string
+            variables:
+            - - '1775497093635'
+              - text
+            - - '1775497429483'
+              - text
+            - - '1775497532392'
+              - text
+            - - '1775497481178'
+              - text
+            - - '1775497617058'
+              - text
+          - groupId: 0e930bc5-4f39-4349-92c4-18b687faaae5
+            group_name: Usages
+            output_type: object
+            variables:
+            - - '1775497093635'
+              - usage
+            - - '1775497429483'
+              - usage
+            - - '1775497481178'
+              - usage
+            - - '1775497532392'
+              - usage
+            - - '1775497617058'
+              - usage
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        output_type: any
+        selected: false
+        title: Merged Response Aggregator
+        type: variable-aggregator
+        variables: []
+      height: 370
+      id: '1775497736904'
+      parentId: '1775496965074'
+      position:
+        x: 725.9479758377547
+        y: 67.91096080058549
+      positionAbsolute:
+        x: 3755.799995381015
+        y: 939.4533690460554
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        selected: false
+        title: Exit Loop
+        type: loop-end
+      height: 54
+      id: '1775497932390'
+      parentId: '1775496965074'
+      position:
+        x: 1012.3222280828522
+        y: 119.32568112800959
+      positionAbsolute:
+        x: 4042.1742476261124
+        y: 990.8680893734795
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-simple
+      width: 244
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: claude-sonnet-4-6
+          provider: langgenius/anthropic/anthropic
+        prompt_template:
+        - id: 7ec54008-fc0e-4295-80e9-781ec66ab6e0
+          role: system
+          text: '{{#1775498021349.body#}}'
+        - id: 5465a890-9643-42ef-a994-ce44f8b5427f
+          role: user
+          text: '{{#1775498259638.flattened_answers#}}'
+        selected: false
+        title: merger LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1775497969183'
+      position:
+        x: 4683.086625743714
+        y: 699.5561222343598
+      positionAbsolute:
+        x: 4683.086625743714
+        y: 699.5561222343598
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        output_type: object
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        method: get
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
         selected: false
-        title: Usage Aggregator
-        type: variable-aggregator
-        variables:
-        - - '1772079364492'
-          - usage
-        - - '17720794245330'
-          - usage
-        - - '17720794553410'
-          - usage
-        - - '17720794978780'
-          - usage
-      height: 186
-      id: '1772079551868'
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: Merge Prompt Getter
+        type: http-request
+        url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/ky/merge'
+        variables: []
+      height: 160
+      id: '1775498021349'
       position:
-        x: 2004.603782535578
-        y: 120.88175899936255
+        x: 4064.8672308219952
+        y: 690.6363822529173
       positionAbsolute:
-        x: 2004.603782535578
-        y: 120.88175899936255
+        x: 4064.8672308219952
+        y: 690.6363822529173
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "# pylint: disable=missing-module-docstring\n\n\n# Output Keys  #################################################################\n\
+          \nOUTPUT_ANSWER_KEY = \"flattened_answers\"\nOUTPUT_TASK_KEY = \"task_usages\"\
+          \n\n\n# Entry Point  #################################################################\n\
+          def main(iteration_output: list[dict]):\n    \"\"\"\n    :param iteration_output:\n\
+          \    :type iteration_output: list[list]\n    :return: {\n        \"flattened_answers\"\
+          :    all LLMs' answer flattened as single md document\n        \"task_usages\"\
+          :          task usages of all LLMs\n    }\n    :rtype: dict{\n        \"\
+          flattened_answers\":    str\n        \"task_usages\":          dict\n  \
+          \  }\n    \"\"\"\n\n    answer_parts = []\n    task_usages = {}\n\n    for\
+          \ i, iteration_result in enumerate(iteration_output, 1):\n        llm =\
+          \ iteration_result[\"llm\"]\n        usage = iteration_result[\"usage\"\
+          ]\n        answer = iteration_result[\"answer\"]\n\n        answer_parts.append(\"\
+          # Answer {}\\n{}\".format(i, answer))\n        task_usages[llm] = usage\n\
+          \n    answers = \"\\n----\\n\".join(answer_parts)\n\n    # Output Variables\
+          \  --------------------------------------------------------\n    return\
+          \ {OUTPUT_ANSWER_KEY: str(answers), OUTPUT_TASK_KEY: task_usages}\n\n"
+        code_language: python3
+        outputs:
+          flattened_answers:
+            children: null
+            type: string
+          task_usages:
+            children: null
+            type: object
+        selected: false
+        title: post_iteration
+        type: code
+        variables:
+        - value_selector:
+          - '1775496965074'
+          - output
+          value_type: array[object]
+          variable: iteration_output
+      height: 52
+      id: '1775498259638'
+      position:
+        x: 4056.440500823907
+        y: 1401.0931889372077
+      positionAbsolute:
+        x: 4056.440500823907
+        y: 1401.0931889372077
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1775497969183.text#}}'
+        selected: false
+        title: Merged Response
+        type: answer
+        variables: []
+      height: 102
+      id: '1775498682381'
+      position:
+        x: 4683.086625743714
+        y: 785.2366143235869
+      positionAbsolute:
+        x: 4683.086625743714
+        y: 785.2366143235869
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1230,187 +2058,126 @@ workflow:
       width: 242
     - data:
         code: "# pylint: disable=missing-module-docstring\n# pylint: disable=too-many-arguments\n\
-          # pylint: disable=too-many-positional-arguments\n\n# bug s/X replied 2 meta\
-          \ content during 2nd round conversation\n\n# output keys  #################################################################\n\
-          OUTPUT_META_KEY = \"meta_content\"\n\n\n# Entry Point  #################################################################\n\
-          def main(\n    show_meta_content: bool,\n    role_override: str,\n    role:\
-          \ str,\n    llm_override: str,\n    llm_used: str,\n    difficulty_override:\
-          \ float,\n    difficulty_sensed: float,\n    skip_sense: bool,\n    programming_languages:\
-          \ str,\n    sense_usage: dict,\n    task_usage: dict,\n):\n    \"\"\"\n\
-          \    generate **meta content**, information for debugging and testing\n\n\
-          \n    :param show_meta_content: whether to show meta content,\n        \
-          \    set as User Input Field\n    :type show_meta_content: bool\n    :param\
-          \ role_override:\n    :type role_override: str\n    :param role:\n    :type\
-          \ role: str\n    :param llm_override:\n    :type llm_override: str\n   \
-          \ :param llm_used:\n    :type llm_used: str\n    :param difficulty_override:\n\
-          \    :type difficulty_override: float\n    :param difficulty_sensed:\n \
-          \   :type difficulty_sensed: float\n    :param skip_sense:\n    :type skip_sense:\
-          \ bool\n    :param programming_languages:\n    :type programming_languages:\
-          \ str\n    :param sense_usage: usage object for information of sense node\n\
-          \    :type sense_usage: dict\n    :param task_usage: usage object for information\
-          \ of task node\n    :type task_usage: dict\n    \"\"\"\n    if not show_meta_content:\n\
-          \        return {OUTPUT_META_KEY: \"\"}\n\n    lines = []\n\n    # create\
-          \ role line\n    if role_override:\n        lines.append(\"Role (Override):\
-          \ {}\".format(role_override))\n    else:\n        lines.append(\"Role: {}\"\
-          .format(role))\n\n    # create llm line\n    if llm_override:\n        lines.append(\n\
-          \            \"LLM (Override): {}\".format(_llm2display_name(llm_override))\n\
-          \        )\n    else:\n        lines.append(\"LLM: {}\".format(_llm2display_name(llm_used)))\n\
-          \n    role_used = role_override or role\n    if role_used == \"coder\":\n\
-          \        if difficulty_override == -1:\n            lines.append(\"Difficulty:\
-          \ {}\".format(difficulty_sensed))\n        else:\n            lines.append(\n\
-          \                \"Difficulty (Override): {}\".format(difficulty_override)\n\
-          \            )\n\n        lines.append(\"PLs: {}\".format(programming_languages))\n\
-          \n    if not skip_sense:\n        lines.append(\"Sense: {}s\".format(sense_usage[USAGE_TIME_KEY]))\n\
-          \n    lines.append(\"Task: {}s\".format(task_usage[USAGE_TIME_KEY]))\n\n\
-          \    # create final content form\n    meta_content = \"\"\"\n\n> [!TIP]\n\
-          \"\"\" + \"\\n\".join(\"> \" + line for line in lines)\n    return {OUTPUT_META_KEY:\
-          \ meta_content}\n\n\n# helpers  #####################################################################\n\
-          \nLLM2DISPLAY_NAME = {\n    \"rapid\": \"⚡Rapid\",\n    \"chat\": \"\U0001F4AC\
-          Chat\",\n    \"think\": \"\U0001F914Think\",\n    \"think-think\": \"\U0001F9E0\
-          Think Think\",\n}\n\n\nUSAGE_TIME_KEY = \"time_to_generate\"\n\n\ndef _llm2display_name(llm):\n\
-          \    if llm in LLM2DISPLAY_NAME:\n        return LLM2DISPLAY_NAME[llm]\n\
-          \    else:\n        return llm  # fall back\n\n"
+          # pylint: disable=too-many-positional-arguments\n\n\n# Bug meta content\
+          \ answer always twice since 2nd round\n\n# output keys  #################################################################\n\
+          OUTPUT_META_KEY = \"meta_content\"\n\n\n# constants  ###################################################################\n\
+          USAGE_TIME_KEY = \"time_to_generate\"\nUSAGE_TOKEN_KEY = \"total_tokens\"\
+          \n\n\n# helpers  #####################################################################\n\
+          def _generate_usage_line(usage):\n    return \"`{}`s\\t`{}`t\".format(usage[USAGE_TIME_KEY],\
+          \ usage[USAGE_TOKEN_KEY])\n\n\ndef _generate_llm_usage_line(llm, usage):\n\
+          \    return \"*{}*\\t{}\".format(llm, _generate_usage_line(usage))\n\n\n\
+          # Entry Point  #################################################################\n\
+          def main(\n    show_meta_content: bool,\n    should_skip_sense: bool,\n\
+          \    current_role: str,\n    current_difficulty: int,\n    current_pls:\
+          \ str,\n    sense_usage: dict,\n    is_direct_response,\n    task_usages:\
+          \ dict,\n    merger_usage: dict,\n):\n    \"\"\"\n    generate meta content\
+          \ for debug\n\n\n    :param show_meta_content:\n    :type show_meta_content:\
+          \ bool\n    :param should_skip_sense:\n    :type should_skip_sense: bool\n\
+          \    :param current_role:\n    :type current_role: str\n    :param current_difficulty:\n\
+          \    :type current_difficulty: int\n    :param current_pls:\n    :type current_pls:\
+          \ str\n    :param sense_usage:\n    :type sense_usage: dict\n    :param\
+          \ is_direct_response:\n    :type is_direct_response: bool\n    :param task_usages:\n\
+          \    :type task_usages: dict\n    :param merger_usage:\n    :type merger_usage:\
+          \ dict\n    :return: {\"meta_content\": meta content for debug}\n    :rtype:\
+          \ dict{\"meta_content\": str}\n    \"\"\"\n    if not show_meta_content:\n\
+          \        return {OUTPUT_META_KEY: \"\"}\n\n    lines = []\n\n    # sense-related\
+          \  -----------------------------------------------------------\n    if not\
+          \ should_skip_sense:\n        lines.append(\"Sensed:\\t\" + _generate_usage_line(sense_usage))\n\
+          \n    # task parameters  ---------------------------------------------------------\n\
+          \    lines.append(\"Role:\\t{}\".format(current_role))\n    lines.append(\"\
+          Difficulty:\\t{}\".format(current_difficulty))\n\n    if current_role ==\
+          \ \"coder\":\n        lines.append(\"PLs:\\t{}\".format(current_pls))\n\n\
+          \    # task ---------------------------------------------------------------------\n\
+          \    if is_direct_response:\n        ((llm, usage),) = task_usages.items()\n\
+          \        lines.append(\"Task:\\t\" + _generate_llm_usage_line(llm, usage))\n\
+          \    else:\n        lines.append(\"Task:\")\n        for llm, usage in task_usages.items():\n\
+          \            lines.append(_generate_llm_usage_line(llm, usage))\n\n    \
+          \    lines.append(\"Merger:\\t\" + _generate_usage_line(merger_usage))\n\
+          \n    # final content form  ------------------------------------------------------\n\
+          \    meta_content = \"\"\"\n\n> [!TIP]\n\"\"\" + \"\\n\".join(\"> \" + line\
+          \ for line in lines)\n\n    return {OUTPUT_META_KEY: str(meta_content)}\n\
+          \n"
         code_language: python3
         outputs:
           meta_content:
             children: null
             type: string
         selected: false
-        title: 'gen_meta_content            '
+        title: gen_meta_content
         type: code
         variables:
         - value_selector:
-          - '1768125126392'
+          - '1775033936697'
           - show_meta_content
           value_type: boolean
           variable: show_meta_content
         - value_selector:
-          - '1768125126392'
-          - role_override
-          value_type: string
-          variable: role_override
-        - value_selector:
-          - conversation
-          - role
-          value_type: string
-          variable: role
-        - value_selector:
-          - '1768125126392'
-          - llm_override
-          value_type: string
-          variable: llm_override
-        - value_selector:
-          - '1772079097352'
-          - llm
-          value_type: string
-          variable: llm_used
-        - value_selector:
-          - '1768125126392'
-          - difficulty_override
-          value_type: number
-          variable: difficulty_override
-        - value_selector:
-          - '1771241815334'
-          - structured_output
-          - difficulty
-          value_type: object
-          variable: difficulty_sensed
-        - value_selector:
-          - '1771244532406'
-          - skip_sense
+          - '1775509712136'
+          - should_skip_sense
           value_type: boolean
-          variable: skip_sense
+          variable: should_skip_sense
         - value_selector:
           - conversation
-          - programming_languages
+          - current_role
           value_type: string
-          variable: programming_languages
+          variable: current_role
         - value_selector:
-          - '1771241815334'
+          - conversation
+          - current_difficulty
+          value_type: number
+          variable: current_difficulty
+        - value_selector:
+          - conversation
+          - current_pls
+          value_type: string
+          variable: current_pls
+        - value_selector:
+          - '1775035866799'
           - usage
           value_type: object
           variable: sense_usage
         - value_selector:
-          - '1772079551868'
+          - '1775069406582'
+          - is_direct_response
+          value_type: boolean
+          variable: is_direct_response
+        - value_selector:
+          - '1775525053768'
           - output
           value_type: object
-          variable: task_usage
+          variable: task_usages
+        - value_selector:
+          - '1775497969183'
+          - usage
+          value_type: object
+          variable: merger_usage
       height: 52
-      id: '1772079582563'
+      id: '1775498700677'
       position:
-        x: 2004.603782535578
-        y: 303.43855755507695
+        x: 5468.797957384823
+        y: 391.09276150546384
       positionAbsolute:
-        x: 2004.603782535578
-        y: 303.43855755507695
+        x: 5468.797957384823
+        y: 391.09276150546384
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        code: "# pylint: disable=missing-module-docstring\n\n\n# output keys  #################################################################\n\
-          OUTPUT_COMBINED_KEY = \"combined_pls\"\nOUTPUT_ROLE_KEY = \"role\"\n\n\n\
-          # constant  ####################################################################\n\
-          SPLITTER = \",\"\n\n\n# Entry Point  #################################################################\n\
-          def main(\n    current_pls: str,\n    sensed_pls: dict,\n    current_role:\
-          \ str,\n    sensed_role: dict,\n):\n    \"\"\"\n    collect & organize information\
-          \ from sense code\n\n\n    :param current_pls:\n    :type current_pls: str\n\
-          \    :param sensed_pls:\n    :type sensed_pls: dict\n    :param current_role:\n\
-          \    :type current_role: str\n    :param sensed_role: role saved in conversation\
-          \ variable\n    :type sensed_role: str\n    :return: {\n            \"combined_pls\"\
-          : combined PLs saved in conversation variable\n            (PLs from last\
-          \ rounds of this conversations)\n            with new PLs from sense node\
-          \ in this round\n            \"role\": role to used for this round of conversation}\n\
-          \    :rtype: dict{\"combined_pls\": str \"role\": str}\n    \"\"\"\n   \
-          \ # pls  ---------------------------------------------------------------------\n\
-          \    combined_set = set(current_pls.split(SPLITTER)) | set(\n        sensed_pls.split(SPLITTER)\n\
-          \    )\n    combined_pls = SPLITTER.join(filter(bool, combined_set))\n\n\
-          \    # role  --------------------------------------------------------------------\n\
-          \    role = current_role or sensed_role or \"chat\"\n\n    return {OUTPUT_COMBINED_KEY:\
-          \ combined_pls, OUTPUT_ROLE_KEY: role}\n\n"
-        code_language: python3
-        outputs:
-          combined_pls:
-            children: null
-            type: string
-          role:
-            children: null
-            type: string
+        answer: '{{#1775498700677.meta_content#}}'
         selected: false
-        title: post_sense
-        type: code
-        variables:
-        - value_selector:
-          - conversation
-          - programming_languages
-          value_type: string
-          variable: current_pls
-        - value_selector:
-          - '1771241815334'
-          - structured_output
-          - programming_languages
-          value_type: object
-          variable: sensed_pls
-        - value_selector:
-          - conversation
-          - role
-          value_type: string
-          variable: current_role
-        - value_selector:
-          - '1771241815334'
-          - structured_output
-          - role
-          value_type: object
-          variable: sensed_role
-      height: 52
-      id: '1772344988925'
+        title: Meta Content Answer
+        type: answer
+        variables: []
+      height: 102
+      id: '1775498707591'
       position:
-        x: 74.08145220761412
-        y: 397.6037475741774
+        x: 5468.797957384823
+        y: 442.09276150546384
       positionAbsolute:
-        x: 74.08145220761412
-        y: 397.6037475741774
+        x: 5468.797957384823
+        y: 442.09276150546384
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1421,90 +2188,287 @@ workflow:
         - input_type: variable
           operation: over-write
           value:
-          - '1772344988925'
-          - combined_pls
+          - '1775035912243'
+          - role
           variable_selector:
           - conversation
-          - programming_languages
+          - current_role
           write_mode: over-write
         - input_type: variable
           operation: over-write
           value:
-          - '1772344988925'
-          - role
+          - '1775035912243'
+          - combined_pls
           variable_selector:
           - conversation
-          - role
+          - current_pls
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1775035912243'
+          - difficulty
+          variable_selector:
+          - conversation
+          - current_difficulty
           write_mode: over-write
         selected: false
         title: post sense assigner
         type: assigner
         version: '2'
-      height: 110
-      id: '1772345067762'
+      height: 136
+      id: '1775500362830'
       position:
-        x: 74.08145220761412
-        y: 446.4536170059066
+        x: 1546.451436512359
+        y: 804.3264397505314
       positionAbsolute:
-        x: 74.08145220761412
-        y: 446.4536170059066
+        x: 1546.451436512359
+        y: 804.3264397505314
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        code: "# pylint: disable=missing-module-docstring\n# pylint: disable=too-many-arguments\n\
-          \n\nimport json\n\n# output keys  #################################################################\n\
-          OUTPUT_BODY_KEY = \"body\"\n\n\n# Entry Point  #################################################################\n\
-          def main(query: str, role: str, programming_languages: str):\n    \"\"\"\
-          \n    create a json-typed GET body for task prompt getter\n\n\n    :param\
-          \ query:\n    :type query: str\n    :param role:\n    :type role: str\n\
-          \    :param programming_languages:\n    :type programming_languages: str\n\
-          \    :return: {\"body\": generated JSON GET body}\n    :rtype: dict{\"body\"\
-          : str}\n    \"\"\"\n\n    body_content = {\n        \"query\": query,\n\
-          \        \"role\": role,\n        \"programming_languages\": programming_languages,\n\
-          \    }\n    body = json.dumps(body_content)\n\n    return {OUTPUT_BODY_KEY:\
-          \ body}\n\n"
+        code: "# pylint: disable=missing-module-docstring\n\nimport json\n\n# Output\
+          \ Keys  #################################################################\n\
+          \nOUTPUT_SKIP_KEY = \"should_skip_sense\"\nOUTPUT_ROLE_KEY = \"role\"\n\
+          OUTPUT_DIFF_KEY = \"difficulty\"\nOUTPUT_SENSE_BODY_KEY = \"sense_prompt_getter_body\"\
+          \n\n# constants  ###################################################################\n\
+          \n# roles w/ static difficulty associated with it, thus should skip sense\n\
+          STATIC_DIFFICULTY_ROLES = {\n    \"art\": 52,\n    \"barista\": 40,\n  \
+          \  \"deutschlehrer\": 55,\n    \"tarot\": 46,\n    \"editor\": 47,\n   \
+          \ \"rapid\": 1,\n}\n\n\n# Body Key  ####################################################################\n\
+          BODY_ROLE_KEY = \"pre_sense_role\"\nBODY_DIFF_KEY = \"difficulty_override\"\
+          \n\n\n# Entry Point  #################################################################\n\
+          def main(\n    role_override: str,\n    difficulty_override: int,\n    current_role:\
+          \ str,\n):\n    \"\"\"\n    :param role_override:\n    :type role_override:\
+          \ str\n    :param difficulty_override:\n    :type difficulty_override: int\n\
+          \    :param current_role:\n    :type current_role: str\n    :return: dict{\n\
+          \        \"should_skip_sense\":        whether should skip sense node in\
+          \ this round\n        \"role\":                     current round role (so\
+          \ far)\n        \"difficulty\":               current round difficulty (so\
+          \ far)\n        \"sense_prompt_getter_body\": body sent to ``/sense`` endpoint\n\
+          \    }\n    :rtype: dict{\n        \"should_skip_sense\":        bool\n\
+          \        \"role\":                     str\n        \"difficulty\":    \
+          \           int\n        \"sense_prompt_getter_body\": str\n    }\n    \"\
+          \"\"\n    # decide role  -------------------------------------------------------------\n\
+          \    # role_override take priority\n    # empty indicates sense node to\
+          \ decide it during 1st round\n    role = role_override or current_role or\
+          \ \"\"\n\n    # decide skip & diff  ------------------------------------------------------\n\
+          \    skip = False\n    diff = 0\n\n    if role in STATIC_DIFFICULTY_ROLES:\n\
+          \        skip = True\n        diff = STATIC_DIFFICULTY_ROLES[role]\n\n \
+          \   elif role:\n        skip = difficulty_override != 0\n\n    if difficulty_override\
+          \ != 0:\n        diff = difficulty_override\n\n    # body  --------------------------------------------------------------------\n\
+          \    if skip:\n        body = \"\"\n    else:\n        body = json.dumps(\n\
+          \            {BODY_ROLE_KEY: role, BODY_DIFF_KEY: difficulty_override}\n\
+          \        )\n\n    # Output Variables  --------------------------------------------------------\n\
+          \    return {\n        OUTPUT_SKIP_KEY: bool(skip),\n        OUTPUT_ROLE_KEY:\
+          \ str(role),\n        OUTPUT_DIFF_KEY: int(diff),\n        OUTPUT_SENSE_BODY_KEY:\
+          \ str(body),\n    }\n\n"
         code_language: python3
         outputs:
-          body:
+          difficulty:
+            children: null
+            type: number
+          role:
             children: null
             type: string
+          sense_prompt_getter_body:
+            children: null
+            type: string
+          should_skip_sense:
+            children: null
+            type: boolean
         selected: false
-        title: pre_task_prompt_getter
+        title: post_start
         type: code
         variables:
         - value_selector:
-          - sys
-          - query
+          - '1775033936697'
+          - role_override
           value_type: string
-          variable: query
+          variable: role_override
+        - value_selector:
+          - '1775033936697'
+          - difficulty_override
+          value_type: number
+          variable: difficulty_override
         - value_selector:
           - conversation
-          - role
+          - current_role
           value_type: string
-          variable: role
-        - value_selector:
-          - conversation
-          - programming_languages
-          value_type: string
-          variable: programming_languages
+          variable: current_role
       height: 52
-      id: '1774290156027'
+      id: '1775509712136'
       position:
-        x: 525.8934561170636
-        y: 92.92002194852341
+        x: 751.3526862862343
+        y: 303
       positionAbsolute:
-        x: 525.8934561170636
-        y: 92.92002194852341
+        x: 751.3526862862343
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1775509712136'
+          - role
+          variable_selector:
+          - conversation
+          - current_role
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1775509712136'
+          - difficulty
+          variable_selector:
+          - conversation
+          - current_difficulty
+          write_mode: over-write
+        selected: false
+        title: post start Assigner
+        type: assigner
+        version: '2'
+      height: 110
+      id: '1775513925673'
+      position:
+        x: 751.3526862862343
+        y: 354
+      positionAbsolute:
+        x: 751.3526862862343
+        y: 354
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "# pylint: disable=missing-module-docstring\n\n\n# Output Keys  #################################################################\n\
+          \nOUTPUT_TASK_KEY = \"task_usages\"\n\n\n# Entry Point  #################################################################\n\
+          def main(current_llms: list[str], usage: dict):\n    \"\"\"\n    :param\
+          \ current_llms:\n    :type current_llms: list[str]\n    :param usage:\n\
+          \    :type usage: dict\n    :return: {\"task_usages\": created new ``task_usages``}\n\
+          \    :rtype: dict{\"task_usages\": dict}\n    \"\"\"\n\n    task_llm = current_llms[0]\n\
+          \    task_usages = {task_llm: usage}\n\n    # Output Variables  --------------------------------------------------------\n\
+          \    return {OUTPUT_TASK_KEY: task_usages}\n\n"
+        code_language: python3
+        outputs:
+          task_usages:
+            children: null
+            type: object
+        selected: false
+        title: direct_response_create_usage
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - current_llms
+          value_type: array[string]
+          variable: current_llms
+        - value_selector:
+          - '1775496518314'
+          - output
+          value_type: object
+          variable: usage
+      height: 52
+      id: '1775519581253'
+      position:
+        x: 4064.8672308219952
+        y: -27.835642698191066
+      positionAbsolute:
+        x: 4064.8672308219952
+        y: -27.835642698191066
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "# pylint: disable=missing-module-docstring\n\n\n# Output Keys  #################################################################\n\
+          \nOUTPUT_OUTPUT_KEY = \"iteration_output\"\n\n\n# Entry Point  #################################################################\n\
+          def main(llm: str, usage: dict, answer: str):\n    \"\"\"\n    :param llm:\n\
+          \    :type llm: str\n    :param usage:\n    :type usage: dict\n    :param\
+          \ answer:\n    :type answer: str\n    :return: {\"iteration_output\": all\
+          \ outputs of current iteration}\n    :rtype: {\"iteration_output\": dict}\n\
+          \    \"\"\"\n\n    output = {\"llm\": llm, \"usage\": usage, \"answer\"\
+          : answer}\n\n    # Output Variables  --------------------------------------------------------\n\
+          \    return {OUTPUT_OUTPUT_KEY: output}\n\n"
+        code_language: python3
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        outputs:
+          iteration_output:
+            children: null
+            type: object
+        selected: false
+        title: prepare_iteration_output
+        type: code
+        variables:
+        - value_selector:
+          - '1775496965074'
+          - item
+          value_type: string
+          variable: llm
+        - value_selector:
+          - '1775497736904'
+          - Usages
+          - output
+          value_type: object
+          variable: usage
+        - value_selector:
+          - '1775497736904'
+          - Answers
+          - output
+          value_type: object
+          variable: answer
+      height: 52
+      id: '1775522381938'
+      parentId: '1775496965074'
+      position:
+        x: 1010.7300052682667
+        y: 69.59303182523945
+      positionAbsolute:
+        x: 4040.582024811527
+        y: 941.1354400707094
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        output_type: object
+        selected: false
+        title: Task Usages Aggregator
+        type: variable-aggregator
+        variables:
+        - - '1775519581253'
+          - task_usages
+        - - '1775498259638'
+          - task_usages
+      height: 134
+      id: '1775525053768'
+      position:
+        x: 5468.797957384823
+        y: 258.1902476960702
+      positionAbsolute:
+        x: 5468.797957384823
+        y: 258.1902476960702
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -1055.905086440607
-      y: 262.14436855574934
-      zoom: 0.9540372025597222
+      x: 68.108687804272
+      y: 396.1801002243435
+      zoom: 0.6597539553864485
   rag_pipeline_variables: []
