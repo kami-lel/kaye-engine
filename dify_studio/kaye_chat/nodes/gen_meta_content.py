@@ -25,10 +25,9 @@ def main(
     should_skip_sense: bool,
     current_role: str,
     current_difficulty: float,
-    current_llms: list[str],
     current_pls: str,
     sense_usage: dict,
-    task_usages: list[dict],
+    task_usages: dict,
 ):
     if not show_meta_content:
         return {OUTPUT_META_KEY: ""}
@@ -50,18 +49,13 @@ def main(
 
     # task ---------------------------------------------------------------------
     lines.append("Task:")
-
-    # FIXME task LLMs make difference
-    # lines.append("LLM(s):\t{}".format(",".join(current_llms)))
-    # lines.append("Task Usage(s):")
-    # for usage in task_usages:
-    #     lines.extend(_generate_usage_line(usage))
+    for llm, usage in task_usages.items():
+        lines.append("{}:\t{}".format(llm, _generate_usage_line(usage)))
 
     # final content form  ------------------------------------------------------
-
-    # create final content form
     meta_content = """
 
 > [!TIP]
 """ + "\n".join("> " + line for line in lines)
+
     return {OUTPUT_META_KEY: meta_content}
