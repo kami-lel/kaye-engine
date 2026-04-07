@@ -24,6 +24,11 @@ Kaye Chat *Dify App*:
 
 - enable **vision** for all LLMs
 
+Kaye Commit Sense *Dify App*:
+
+- re-implement as a **Chatflow** such that it can utilize:
+  *OpenAI Compatible Dify App* Plugin
+
 ### Deprecated
 ### Removed
 ### Fixed
