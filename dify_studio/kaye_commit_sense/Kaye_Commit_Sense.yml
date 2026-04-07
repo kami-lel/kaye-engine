@@ -470,11 +470,13 @@ workflow:
           name: claude-sonnet-4-6
           provider: langgenius/anthropic/anthropic
         prompt_template:
-        - role: system
+        - id: 0344bd5f-e1f6-4116-99f6-c9a84a7e1dad
+          role: system
           text: '{{#1775587581098.body#}}'
-        - role: user
+        - id: 441c17f9-228c-48fb-89c4-2256e27979ba
+          role: user
           text: '{{#sys.query#}}'
-        selected: false
+        selected: true
         title: primary message
         type: llm
         vision:
@@ -487,7 +489,7 @@ workflow:
       positionAbsolute:
         x: 1210.7481151599698
         y: 556.5417275241331
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -912,13 +914,13 @@ workflow:
       positionAbsolute:
         x: 3159.1927751959192
         y: 335
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -610.9880112351792
-      y: 536.6506087427861
-      zoom: 0.28717458874925916
+      x: -463.27713144704103
+      y: -40.002161790854984
+      zoom: 0.7578582832552008
   rag_pipeline_variables: []
