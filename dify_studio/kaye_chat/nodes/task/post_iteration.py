@@ -7,13 +7,14 @@ OUTPUT_ANSWER_KEY = "flattened_answers"
 
 
 # Entry Point  #################################################################
-def main(task_answers: list[str]):
+def main(iteration_output: list[list]):
     """
-    :param task_answers:
-    :type task_answers: list[str]
-    :return: {"flattened_answers": answers of different LLMs flattened}
-    :rtype: dict{"flattened_answers": str}
+    :param iteration_output:
+    :type iteration_output: list[list]
     """
+
+    for i, (llm, usage, answer) in enumerate(iteration_output, 1):
+        pass  # TODO
 
     answers = "\n----\n".join(
         "# Answer {}\n{}".format(i, answer)
