@@ -1,8 +1,6 @@
 # pylint: disable=missing-module-docstring
 
 
-# TODO unit test
-
 # Output Keys  #################################################################
 
 OUTPUT_TASK_KEY = "task_usages"
