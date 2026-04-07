@@ -2,9 +2,6 @@
 
 [^format]
 
-<!-- todo implement for ks op worker -->
-<!-- todo implement resume writer? -->
-
 
 
 
