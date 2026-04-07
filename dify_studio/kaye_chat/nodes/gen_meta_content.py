@@ -14,7 +14,7 @@ USAGE_TOKEN_KEY = "total_tokens"
 
 # helpers  #####################################################################
 def _generate_usage_line(usage):
-    return "{}s\t{}t".format(usage[USAGE_TIME_KEY], usage[USAGE_TOKEN_KEY])
+    return "[{}]s\t[{}]t".format(usage[USAGE_TIME_KEY], usage[USAGE_TOKEN_KEY])
 
 
 # Entry Point  #################################################################
