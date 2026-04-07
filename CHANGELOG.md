@@ -18,6 +18,10 @@
 ## [Unreleased]
 
 ### Added
+
+- instruction on formatting **LaTeX**
+- instruction on formatting **mermaid** graph
+
 ### Changed
 
 Kaye Chat *Dify App*:
