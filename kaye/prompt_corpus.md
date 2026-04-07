@@ -1612,6 +1612,25 @@ Eg
 
 
 
+### Brace Style
+
+- opening `{` on the **same line** as the declaration
+- closing `}` on its **own line**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Bash
 
 You write command lines for Debian GNU/Linux only.
