@@ -13,9 +13,9 @@ OUTPUT_SENSE_BODY_KEY = "sense_prompt_getter_body"
 
 # roles w/ static difficulty associated with it, thus should skip sense
 STATIC_DIFFICULTY_ROLES = {
-    "barista": 0.3,
-    "deutschlehrer": 0.4,
-    "tarot": 0.5,
+    "barista": 30,
+    "deutschlehrer": 40,
+    "tarot": 50,
 }
 
 
@@ -27,14 +27,14 @@ BODY_DIFF_KEY = "difficulty_override"
 # Entry Point  #################################################################
 def main(
     role_override: str,
-    difficulty_override: float,
+    difficulty_override: int,
     current_role: str,
 ):
     """
     :param role_override:
     :type role_override: str
     :param difficulty_override:
-    :type difficulty_override: float
+    :type difficulty_override: int
     :param current_role:
     :type current_role: str
     :return: dict{
@@ -46,7 +46,7 @@ def main(
     :rtype: dict{
         "should_skip_sense":        bool
         "role":                     str
-        "difficulty":               float
+        "difficulty":               int
         "sense_prompt_getter_body": str
     }
     """
@@ -57,16 +57,16 @@ def main(
 
     # decide skip & diff  ------------------------------------------------------
     skip = False
-    diff = 0.0
+    diff = 0
 
     if role in STATIC_DIFFICULTY_ROLES:
         skip = True
         diff = STATIC_DIFFICULTY_ROLES[role]
 
     elif role:
-        skip = difficulty_override != 0.0
+        skip = difficulty_override != 0
 
-    if difficulty_override != 0.0:
+    if difficulty_override != 0:
         diff = difficulty_override
 
     # body  --------------------------------------------------------------------

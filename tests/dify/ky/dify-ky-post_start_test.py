@@ -30,7 +30,7 @@ def _assert_structure(opt):
     assert OUTPUT_ROLE_KEY in opt
     assert isinstance(opt[OUTPUT_SENSE_BODY_KEY], str)
     assert OUTPUT_DIFF_KEY in opt
-    assert isinstance(opt[OUTPUT_DIFF_KEY], float)
+    assert isinstance(opt[OUTPUT_DIFF_KEY], int)
     assert OUTPUT_SENSE_BODY_KEY in opt
     assert isinstance(opt[OUTPUT_SENSE_BODY_KEY], str)
 
@@ -40,7 +40,7 @@ def _assert_structure(opt):
 
 @pytest.fixture(scope="class")
 def kwargs():
-    return {"role_override": "", "difficulty_override": 0.0, "current_role": ""}
+    return {"role_override": "", "difficulty_override": 0, "current_role": ""}
 
 
 # opts  ========================================================================
@@ -48,7 +48,7 @@ def kwargs():
 @pytest.fixture(scope="class")
 def opt_all_override(kwargs):
     kwargs["role_override"] = "chat"
-    kwargs["difficulty_override"] = 0.01
+    kwargs["difficulty_override"] = 1
     return post_start.main(**kwargs)
 
 
@@ -59,7 +59,7 @@ def opt_dft_all(kwargs):
 
 @pytest.fixture(scope="class")
 def opt_dft_role(kwargs):
-    kwargs["difficulty_override"] = 0.5
+    kwargs["difficulty_override"] = 50
 
     return post_start.main(**kwargs)
 
@@ -68,7 +68,7 @@ def opt_dft_role(kwargs):
 @pytest.fixture(scope="class")
 def opt_static_provided(kwargs):
     kwargs["role_override"] = "barista"
-    kwargs["difficulty_override"] = 0.5
+    kwargs["difficulty_override"] = 50
 
     return post_start.main(**kwargs)
 
@@ -76,7 +76,7 @@ def opt_static_provided(kwargs):
 @pytest.fixture(scope="class")
 def opt_static_de(kwargs):
     kwargs["role_override"] = "deutschlehrer"
-    kwargs["difficulty_override"] = 0.5
+    kwargs["difficulty_override"] = 50
 
     return post_start.main(**kwargs)
 
@@ -84,7 +84,7 @@ def opt_static_de(kwargs):
 @pytest.fixture(scope="class")
 def opt_static_tarot(kwargs):
     kwargs["role_override"] = "tarot"
-    kwargs["difficulty_override"] = 0.5
+    kwargs["difficulty_override"] = 50
 
     return post_start.main(**kwargs)
 
@@ -100,7 +100,7 @@ def opt_static_dft(kwargs):
 @pytest.fixture(scope="class")
 def opt_coder_provided(kwargs):
     kwargs["role_override"] = "coder"
-    kwargs["difficulty_override"] = 0.5
+    kwargs["difficulty_override"] = 50
 
     return post_start.main(**kwargs)
 
@@ -116,7 +116,7 @@ def opt_coder_dft(kwargs):
 @pytest.fixture(scope="class")
 def opt_others_provided(kwargs):
     kwargs["role_override"] = "art"
-    kwargs["difficulty_override"] = 0.5
+    kwargs["difficulty_override"] = 50
 
     return post_start.main(**kwargs)
 
@@ -124,7 +124,7 @@ def opt_others_provided(kwargs):
 @pytest.fixture(scope="class")
 def opt_others_dft(kwargs):
     kwargs["role_override"] = "art"
-    kwargs["difficulty_override"] = 0.0
+    kwargs["difficulty_override"] = 0
 
     return post_start.main(**kwargs)
 
@@ -183,7 +183,7 @@ class TestAllOverride:  # ------------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.01
+        assert diff == 1
 
     def test_body(_, opt_static_provided):
         opt = opt_static_provided
@@ -219,7 +219,7 @@ class TestDftAll:  # -----------------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.0
+        assert diff == 0
 
     def test_body(_, opt_dft_all):
         opt = opt_dft_all
@@ -256,14 +256,14 @@ class TestDftRole:  # ----------------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.5
+        assert diff == 50
 
     def test_body(_, opt_dft_role):
         opt = opt_dft_role
         body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
         print(body)
 
-        assert body == {"pre_sense_role": "", "difficulty_override": 0.5}
+        assert body == {"pre_sense_role": "", "difficulty_override": 50}
 
 
 # static  ======================================================================
@@ -294,7 +294,7 @@ class TestStaticProvided:  # ---------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.5
+        assert diff == 50
 
     def test_body(_, opt_static_provided):
         opt = opt_static_provided
@@ -330,7 +330,7 @@ class TestStaticDe:  # ---------------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.5
+        assert diff == 50
 
     def test_body(_, opt_static_provided):
         opt = opt_static_provided
@@ -366,7 +366,7 @@ class TestStaticTarot:  # ------------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.5
+        assert diff == 50
 
     def test_body(_, opt_static_provided):
         opt = opt_static_provided
@@ -441,7 +441,7 @@ class TestCoderProvided:  # ----------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.5
+        assert diff == 50
 
     def test_body(_, opt_static_provided):
         opt = opt_static_provided
@@ -477,14 +477,14 @@ class TestCoderDft:  # ---------------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.0
+        assert diff == 0
 
     def test_body(_, opt_coder_dft):
         opt = opt_coder_dft
         body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
         print(body)
 
-        assert body == {"pre_sense_role": "coder", "difficulty_override": 0.0}
+        assert body == {"pre_sense_role": "coder", "difficulty_override": 0}
 
 
 # others  ======================================================================
@@ -515,7 +515,7 @@ class TestOthersProvided:  # ---------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.5
+        assert diff == 50
 
     def test_body(_, opt_static_provided):
         opt = opt_static_provided
@@ -551,14 +551,14 @@ class TestOthersDefault:  # ---------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.0
+        assert diff == 0
 
     def test_body(_, opt_others_dft):
         opt = opt_others_dft
         body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
         print(body)
 
-        assert body == {"pre_sense_role": "art", "difficulty_override": 0.0}
+        assert body == {"pre_sense_role": "art", "difficulty_override": 0}
 
 
 # current  =====================================================================
@@ -589,14 +589,14 @@ class TestCurrentArt:  # -------------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.0
+        assert diff == 0
 
     def test_body(_, opt_current_art):
         opt = opt_current_art
         body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
         print(body)
 
-        assert body == {"pre_sense_role": "art", "difficulty_override": 0.0}
+        assert body == {"pre_sense_role": "art", "difficulty_override": 0}
 
 
 class TestCurrentOverride:  # --------------------------------------------------
@@ -626,7 +626,7 @@ class TestCurrentOverride:  # --------------------------------------------------
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
-        assert diff == 0.0
+        assert diff == 0
 
     def test_body(_, opt_current_override):
         opt = opt_current_override
@@ -635,7 +635,7 @@ class TestCurrentOverride:  # --------------------------------------------------
 
         assert body == {
             "pre_sense_role": "chat",
-            "difficulty_override": 0.0,
+            "difficulty_override": 0,
         }
 
 
