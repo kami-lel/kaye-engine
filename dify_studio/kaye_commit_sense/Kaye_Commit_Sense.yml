@@ -2,36 +2,41 @@ app:
   description: ''
   icon: 🤖
   icon_background: '#FFEAD5'
-  mode: workflow
+  mode: advanced-chat
   name: Kaye_Commit_Sense
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/openai:0.3.3@cfb7804d9acf3e0f24b33e97e22c2600249c471f33428efa33597959b513ad2d
+    marketplace_plugin_unique_identifier: langgenius/anthropic:0.3.8@6706e34565fb2c560cc3641c888b7f4e34288928df913e92241bd6d4f830a0cf
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.3.4@3345b596ee5117d9304097feaee866f05ffaf0d76a790fb07acd8b99f6c87cb3
     version: null
 kind: app
 version: 0.5.0
 workflow:
   conversation_variables: []
   environment_variables:
-  - description: ''
-    id: 282b3d38-6713-424d-82ce-e676a7544b68
-    name: DOCKER_HOST_IP
+  - description: Kaye Flask API's Port Number; default is "11255", debug is "11256"
+    id: 9a2a3f53-e9ba-4ee8-8331-6f0dd0127571
+    name: FLASK_API_PORT
     selector:
     - env
-    - DOCKER_HOST_IP
+    - FLASK_API_PORT
+    value: '11255'
+    value_type: string
+  - description: Kaye Flask API's URL accessible to this Dify App, e.g. "http://11.22.33.44"
+    id: a4e4119d-414f-42c6-b1f8-24ce7399b8ba
+    name: FLASK_API_URL
+    selector:
+    - env
+    - FLASK_API_URL
     value: ''
     value_type: secret
-  - description: number of line chagned to consider a file a large/small change
-    id: 63216ae0-bcfa-4f3a-93b5-d8891630e0db
-    name: long_short_threshold
-    selector:
-    - env
-    - long_short_threshold
-    value: 100
-    value_type: integer
   features:
     file_upload:
       allowed_file_extensions:
@@ -82,37 +87,153 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: code
-        targetType: variable-aggregator
-      id: 1758835564168-source-1759185130596-target
-      selected: false
-      source: '1758835564168'
+        sourceType: start
+        targetType: code
+      id: 1775587230054-source-1775587265168-target
+      source: '1775587230054'
       sourceHandle: source
-      target: '1759185130596'
+      target: '1775587265168'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1775587265168-source-1775587559076-target
+      source: '1775587265168'
+      sourceHandle: source
+      target: '1775587559076'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: http-request
+      id: 1775587559076-false-1775587581098-target
+      selected: false
+      source: '1775587559076'
+      sourceHandle: 'false'
+      target: '1775587581098'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: llm
+      id: 1775587581098-source-1775587792914-target
+      selected: false
+      source: '1775587581098'
+      sourceHandle: source
+      target: '1775587792914'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1775587559076-true-1775587847434-target
+      source: '1775587559076'
+      sourceHandle: 'true'
+      target: '1775587847434'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: http-request
+        targetType: iteration
+      id: 17755879408110-source-1775587914644-target
+      source: '17755879408110'
+      sourceHandle: source
+      target: '1775587914644'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInLoop: false
         sourceType: code
-        targetType: variable-aggregator
-      id: 17591850851050-source-1759185130596-target
-      selected: false
-      source: '17591850851050'
+        targetType: http-request
+      id: 1775587265168-source-17755879408110-target
+      source: '1775587265168'
       sourceHandle: source
-      target: '1759185130596'
+      target: '17755879408110'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInLoop: false
-        sourceType: variable-aggregator
-        targetType: end
-      id: 1759185130596-source-1756587276076-target
-      selected: false
-      source: '1759185130596'
+        sourceType: code
+        targetType: http-request
+      id: 1775587265168-source-17755879849770-target
+      source: '1775587265168'
       sourceHandle: source
-      target: '1756587276076'
+      target: '17755879849770'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: http-request
+        targetType: iteration
+      id: 17755879849770-source-1775587914644-target
+      source: '17755879849770'
+      sourceHandle: source
+      target: '1775587914644'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775587914644'
+        sourceType: iteration-start
+        targetType: code
+      id: 1775587914644start-source-1775588043314-target
+      source: 1775587914644start
+      sourceHandle: source
+      target: '1775588043314'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775587914644'
+        sourceType: code
+        targetType: llm
+      id: 1775588043314-source-1775588142285-target
+      source: '1775588043314'
+      sourceHandle: source
+      target: '1775588142285'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: if-else
+      id: 1775587914644-source-17755882039760-target
+      source: '1775587914644'
+      sourceHandle: source
+      target: '17755882039760'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 17755882039760-true-1775587847434-target
+      source: '17755882039760'
+      sourceHandle: 'true'
+      target: '1775587847434'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -120,11 +241,10 @@ workflow:
         isInLoop: false
         sourceType: llm
         targetType: code
-      id: 1757066198191-source-17591850851050-target
-      selected: false
-      source: '1757066198191'
+      id: 1775587792914-source-17755883562550-target
+      source: '1775587792914'
       sourceHandle: source
-      target: '17591850851050'
+      target: '17755883562550'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -132,196 +252,54 @@ workflow:
         isInLoop: false
         sourceType: if-else
         targetType: code
-      id: 1759184659338-true-1758835564168-target
-      selected: false
-      source: '1759184659338'
-      sourceHandle: 'true'
-      target: '1758835564168'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: iteration
-        targetType: if-else
-      id: 1757062707114-source-17591852274600-target
-      selected: false
-      source: '1757062707114'
-      sourceHandle: source
-      target: '17591852274600'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: code
-      id: 17591852274600-true-1758835564168-target
-      selected: false
-      source: '17591852274600'
-      sourceHandle: 'true'
-      target: '1758835564168'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: if-else
-        targetType: code
-      id: 17591852274600-false-17591850851050-target
-      selected: false
-      source: '17591852274600'
+      id: 17755882039760-false-17755883562550-target
+      source: '17755882039760'
       sourceHandle: 'false'
-      target: '17591850851050'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: true
-        isInLoop: false
-        iteration_id: '1757062707114'
-        sourceType: iteration-start
-        targetType: code
-      id: 1757062707114start-source-1759187229908-target
-      selected: false
-      source: 1757062707114start
-      sourceHandle: source
-      target: '1759187229908'
-      targetHandle: target
-      type: custom
-      zIndex: 1002
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: if-else
-      id: 1759196271769-source-1759184659338-target
-      selected: false
-      source: '1759196271769'
-      sourceHandle: source
-      target: '1759184659338'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: true
-        isInLoop: false
-        iteration_id: '1757062707114'
-        sourceType: code
-        targetType: llm
-      id: 1759187229908-source-1759198352429-target
-      selected: false
-      source: '1759187229908'
-      sourceHandle: source
-      target: '1759198352429'
-      targetHandle: target
-      type: custom
-      zIndex: 1002
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: if-else
-        targetType: http-request
-      id: 1759184659338-false-1767896024342-target
-      selected: false
-      source: '1759184659338'
-      sourceHandle: 'false'
-      target: '1767896024342'
+      target: '17755883562550'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: http-request
-        targetType: llm
-      id: 1767896024342-source-1757066198191-target
-      selected: false
-      source: '1767896024342'
+        sourceType: code
+        targetType: variable-aggregator
+      id: 1775587847434-source-1775588436884-target
+      source: '1775587847434'
       sourceHandle: source
-      target: '1757066198191'
+      target: '1775588436884'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: variable-aggregator
+      id: 17755883562550-source-1775588436884-target
+      source: '17755883562550'
+      sourceHandle: source
+      target: '1775588436884'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: http-request
-        targetType: iteration
-      id: 1767896528468-source-1757062707114-target
-      selected: false
-      source: '1767896528468'
+        sourceType: variable-aggregator
+        targetType: answer
+      id: 1775588436884-source-1775588454795-target
+      source: '1775588436884'
       sourceHandle: source
-      target: '1757062707114'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: http-request
-      id: 1759196271769-source-1767896528468-target
-      selected: false
-      source: '1759196271769'
-      sourceHandle: source
-      target: '1767896528468'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: http-request
-      id: 1759196271769-source-17678966066030-target
-      selected: false
-      source: '1759196271769'
-      sourceHandle: source
-      target: '17678966066030'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: http-request
-        targetType: iteration
-      id: 17678966066030-source-1757062707114-target
-      selected: false
-      source: '17678966066030'
-      sourceHandle: source
-      target: '1757062707114'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: start
-        targetType: code
-      id: 1756587193642-source-1759196271769-target
-      selected: false
-      source: '1756587193642'
-      sourceHandle: source
-      target: '1759196271769'
+      target: '1775588454795'
       targetHandle: target
       type: custom
       zIndex: 0
     nodes:
     - data:
-        desc: ''
         selected: false
-        title: Start
+        title: User Input
         type: start
         variables:
-        - allowed_file_extensions: []
-          allowed_file_types:
-          - image
-          allowed_file_upload_methods:
-          - local_file
-          - remote_url
-          label: input
-          max_length: 10000000000
-          options: []
-          required: true
-          type: paragraph
-          variable: input
         - default: true
           hint: ''
           label: allows_md
@@ -331,406 +309,39 @@ workflow:
           required: false
           type: checkbox
           variable: allows_md
-      height: 135
-      id: '1756587193642'
+      height: 109
+      id: '1775587230054'
       position:
-        x: 264.10370630559356
-        y: 180.68254555442036
+        x: 80
+        y: 282
       positionAbsolute:
-        x: 264.10370630559356
-        y: 180.68254555442036
+        x: 80
+        y: 282
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        desc: ''
-        outputs:
-        - value_selector:
-          - '1759185130596'
-          - output
-          value_type: string
-          variable: output
-        selected: false
-        title: End
-        type: end
-      height: 88
-      id: '1756587276076'
-      position:
-        x: 3551.1643678119594
-        y: 104.10767532202507
-      positionAbsolute:
-        x: 3551.1643678119594
-        y: 104.10767532202507
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        desc: ''
-        error_handle_mode: terminated
-        height: 190
-        is_parallel: true
-        iterator_input_type: array[string]
-        iterator_selector:
-        - '1759196271769'
-        - per_file_list
-        output_selector:
-        - '1759198352429'
-        - structured_output
-        output_type: array[object]
-        parallel_nums: 10
-        selected: false
-        start_node_id: 1757062707114start
-        title: Iteration
-        type: iteration
-        width: 683
-      height: 190
-      id: '1757062707114'
-      position:
-        x: 1213.9496010640391
-        y: 683.4274179884233
-      positionAbsolute:
-        x: 1213.9496010640391
-        y: 683.4274179884233
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 683
-      zIndex: 1
-    - data:
-        desc: ''
-        isInIteration: true
-        selected: false
-        title: ''
-        type: iteration-start
-      draggable: false
-      height: 48
-      id: 1757062707114start
-      parentId: '1757062707114'
-      position:
-        x: 24
-        y: 68
-      positionAbsolute:
-        x: 1237.9496010640391
-        y: 751.4274179884233
-      selectable: false
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom-iteration-start
-      width: 44
-      zIndex: 1002
-    - data:
-        context:
-          enabled: false
-          variable_selector: []
-        desc: ''
-        model:
-          completion_params:
-            temperature: 0.7
-          mode: chat
-          name: gpt-4.1
-          provider: langgenius/openai/openai
-        prompt_template:
-        - id: 4f613349-2048-4ff0-959f-c0415b5db69e
-          role: system
-          text: '{{#1767896024342.body#}}'
-        - id: 4b837ba6-5d1b-402f-9690-a901e0679e98
-          role: user
-          text: '{{#1756587193642.input#}}'
-        selected: true
-        title: primary message
-        type: llm
-        variables: []
-        vision:
-          enabled: false
-      height: 88
-      id: '1757066198191'
-      position:
-        x: 1500.9404752677885
-        y: 259.4935371753846
-      positionAbsolute:
-        x: 1500.9404752677885
-        y: 259.4935371753846
-      selected: true
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "\"\"\"\nmerge to produce final output,\nwhen only single file is involved\n\
-          \n\n:param allows_md: whether utilize md format in final result\n:type allows_md:\
-          \ bool\n:param primary_message:\n:type primary_message: str\n:param filenames_list:\n\
-          :type filenames_list: list[str]\n:param per_file_extracts:\n:type per_file_extracts:\
-          \ list[dict]\n:return: {\"result\": merged output}\n:rtype: dict{\"result\"\
-          : str}\n\"\"\"\n\n# config  ######################################################################\n\
-          OUTPUT_RESULT_KEY = \"result\"\n\n\n# Entry Point  #################################################################\n\
-          def main(\n    allows_md: bool, filenames_list: list[str], per_file_extracts:\
-          \ list[dict]\n):  # pylint: disable=missing-function-docstring\n    filename\
-          \ = filenames_list[0]\n    file_extract = per_file_extracts[0]\n    symbol\
-          \ = file_extract[\"symbol\"]\n\n    filename_line = (\"{}`{}`\" if allows_md\
-          \ else \"{}[{}]\").format(\n        symbol, filename\n    )\n\n    summary\
-          \ = file_extract[\"summary\"]\n\n    opt = \"\"\"{}\n\n{}\"\"\".format(summary,\
-          \ filename_line)\n\n    return {OUTPUT_RESULT_KEY: opt}\n\n"
-        code_language: python3
-        desc: ''
-        outputs:
-          result:
-            children: null
-            type: string
-        selected: false
-        title: merge final single
-        type: code
-        variables:
-        - value_selector:
-          - '1756587193642'
-          - allows_md
-          value_type: boolean
-          variable: allows_md
-        - value_selector:
-          - '1759196271769'
-          - filenames_list
-          value_type: array[string]
-          variable: filenames_list
-        - value_selector:
-          - '1757062707114'
-          - output
-          value_type: array[object]
-          variable: per_file_extracts
-      height: 52
-      id: '1758835564168'
-      position:
-        x: 2583.7240562940433
-        y: 25.592241892381367
-      positionAbsolute:
-        x: 2583.7240562940433
-        y: 25.592241892381367
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        cases:
-        - case_id: 'true'
-          conditions:
-          - comparison_operator: is
-            id: 58066f70-304a-4400-9278-7942e1299964
-            value: true
-            varType: boolean
-            variable_selector:
-            - '1759196271769'
-            - is_single_file
-          id: 'true'
-          logical_operator: and
-        desc: single/multiple file(s) branch
-        selected: false
-        title: single multiple branch
-        type: if-else
-      height: 152
-      id: '1759184659338'
-      position:
-        x: 1010.7003269084153
-        y: -12.64594783956423
-      positionAbsolute:
-        x: 1010.7003269084153
-        y: -12.64594783956423
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "\"\"\"\nmerge to produce final output,\nwhen multiple files are involved\n\
-          \n\n:param allows_md: whether utilize md format in final result\n:type allows_md:\
-          \ bool\n:param primary_message:\n:type primary_message: str\n:param filenames_list:\n\
-          :type filenames_list: list[str]\n:param per_file_extracts:\n:type per_file_extracts:\
-          \ list[dict]\n:return: {\"result\": merged output}\n:rtype: dict{\"result\"\
-          : str}\n\"\"\"\n\n# config  ######################################################################\n\
-          OUTPUT_RESULT_KEY = \"result\"\n\n\n# Entry Point  #################################################################\n\
-          def main(\n    allows_md: bool,\n    primary_message: str,\n    filenames_list:\
-          \ list[str],\n    per_file_extracts: list[dict],\n):  # pylint: disable=missing-function-docstring\n\
-          \    line_pattern = \"{}`{}` {}\" if allows_md else \"{}[{}] {}\"\n\n  \
-          \  # create line per file\n    lines = []\n    for filename, file_extract\
-          \ in zip(filenames_list, per_file_extracts):\n        symbol = file_extract[\"\
-          symbol\"]\n        summary = file_extract[\"summary\"]\n        line = line_pattern.format(symbol,\
-          \ filename, summary)\n        lines.append(line)\n\n    # combines\n   \
-          \ opt = \"\"\"{}\n\n{}\"\"\".format(primary_message, \"\\n\".join(lines))\n\
-          \n    return {OUTPUT_RESULT_KEY: opt}\n\n"
-        code_language: python3
-        desc: ''
-        outputs:
-          result:
-            children: null
-            type: string
-        selected: false
-        title: merge final multiple
-        type: code
-        variables:
-        - value_selector:
-          - '1756587193642'
-          - allows_md
-          value_type: boolean
-          variable: allows_md
-        - value_selector:
-          - '1757066198191'
-          - text
-          value_type: string
-          variable: primary_message
-        - value_selector:
-          - '1759196271769'
-          - filenames_list
-          value_type: array[string]
-          variable: filenames_list
-        - value_selector:
-          - '1757062707114'
-          - output
-          value_type: array[object]
-          variable: per_file_extracts
-      height: 52
-      id: '17591850851050'
-      position:
-        x: 2728.102523027789
-        y: 201.68254555442036
-      positionAbsolute:
-        x: 2728.102523027789
-        y: 201.68254555442036
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        output_type: string
-        selected: false
-        title: Final Aggregator
-        type: variable-aggregator
-        variables:
-        - - '17591850851050'
-          - result
-        - - '1758835564168'
-          - result
-      height: 134
-      id: '1759185130596'
-      position:
-        x: 3249.362149211071
-        y: 104.10767532202507
-      positionAbsolute:
-        x: 3249.362149211071
-        y: 104.10767532202507
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        cases:
-        - case_id: 'true'
-          conditions:
-          - comparison_operator: is
-            id: 58066f70-304a-4400-9278-7942e1299964
-            value: true
-            varType: boolean
-            variable_selector:
-            - '1759196271769'
-            - is_single_file
-          id: 'true'
-          logical_operator: and
-        desc: single/multiple file(s) branch
-        selected: false
-        title: single multiple branch
-        type: if-else
-      height: 152
-      id: '17591852274600'
-      position:
-        x: 1898.181453998329
-        y: 683.4274179884233
-      positionAbsolute:
-        x: 1898.181453998329
-        y: 683.4274179884233
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        code: "\"\"\"\ncount number of lines, and decide to use either long/short\
-          \ prompts\n\n\n:param item:\n:type item: str\n:param prompt_per_file_extract_long:\n\
-          :type prompt_per_file_extract_long: str\n:param prompt_per_file_extract_short:\n\
-          :type prompt_per_file_extract_short: str\n:return: {\"extract_prompt\":\
-          \ prompt to use}\n:rtype: dict{\"extract_prompt\": str}\n\"\"\"\n\n# constants\
-          \  ###################################################################\n\
-          OUTPUT_PROMPT_KEY = \"extract_prompt\"\nLONG_SHORT_THRESHOLD = 100\n\n\n\
-          # entry point  #################################################################\n\
-          def main(\n    item: str,\n    prompt_per_file_extract_long: str,\n    prompt_per_file_extract_short:\
-          \ str,\n):  # pylint: disable=missing-function-docstring\n    newline_cnt\
-          \ = item.count(\"\\n\")\n    is_long = newline_cnt > LONG_SHORT_THRESHOLD\n\
-          \n    return {\n        OUTPUT_PROMPT_KEY: (\n            prompt_per_file_extract_long\n\
-          \            if is_long\n            else prompt_per_file_extract_short\n\
-          \        )\n    }\n\n"
-        code_language: python3
-        desc: ''
-        isInIteration: true
-        isInLoop: false
-        iteration_id: '1757062707114'
-        outputs:
-          extract_prompt:
-            children: null
-            type: string
-        selected: false
-        title: decide per file extract prompt
-        type: code
-        variables:
-        - value_selector:
-          - '1757062707114'
-          - item
-          value_type: string
-          variable: item
-        - value_selector:
-          - '1767896528468'
-          - body
-          value_type: string
-          variable: prompt_per_file_extract_long
-        - value_selector:
-          - '17678966066030'
-          - body
-          value_type: string
-          variable: prompt_per_file_extract_short
-      height: 52
-      id: '1759187229908'
-      parentId: '1757062707114'
-      position:
-        x: 118.71047911714686
-        y: 66.35093182882474
-      positionAbsolute:
-        x: 1332.660080181186
-        y: 749.778349817248
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-      zIndex: 1002
-    - data:
-        code: "\"\"\"\nprocess the full diff content by split content per file,\n\
-          and get various information from it\n\n\n:param content:\n:type content:\
-          \ str\n:param allows_md:\n:type allows_md: bool\n:return: {\n    \"filename_list\"\
-          : a list of all files' name\n    \"per_file_list\": a list of all files'\
-          \ diff content\n    \"is_single_file\": if the given content contains only\
-          \ single file\n}\n:rtype: dict{\n    \"filename_list\": list[str]\n    \"\
-          per_file_list\": list[str]\n    \"is_single_file\": bool\n}\n\"\"\"\n\n\
-          import re\n\n# config  #####################################################################\n\
+        code: "# pylint: disable=missing-module-docstring\n\n\nimport re\n\n# output\
+          \ keys  #################################################################\n\
           OUTPUT_FILENAME_LIST_KEY = \"filenames_list\"\nOUTPUT_PER_FILE_LIST_KEY\
           \ = \"per_file_list\"\nOUTPUT_IS_SINGLE_FILE_KEY = \"is_single_file\"\n\
           OUTPUT_ALLOWS_MD_KEY = \"allows_md\"\nOUTPUT_ALLOWS_MD_NUMBER_KEY = \"allows_md_number\"\
           \n\n# constants  ###################################################################\n\
-          DIFF_GIT = \"diff --git\"\nREGEX_PATTERN = r\".+\\/(.+)\"\n\n\ndef main(\n\
-          \    content: str, allows_md: bool\n):  # pylint: disable=missing-function-docstring\n\
-          \    filenames_list = []\n    per_file_list = []\n\n    for segment in content.split(DIFF_GIT)[1:]:\n\
+          DIFF_GIT = \"diff --git\"\nREGEX_PATTERN = r\".+\\/(.+)\"\n\n\n# Entry Point\
+          \  #################################################################\ndef\
+          \ main(content: str, allows_md: bool):\n    \"\"\"\n    perform pre-process\
+          \ directly on inputs:\n\n    - split the full diff content per file\n  \
+          \  - decide if there is only one file change\n    - pass through ``allows_md``\
+          \ as both Boolean and number\n\n\n    :param content:\n    :type content:\
+          \ str\n    :param allows_md:\n    :type allows_md: bool\n    :return: {\n\
+          \        \"filename_list\": a list of all files' name\n        \"per_file_list\"\
+          : a list of all files' diff content\n        \"is_single_file\": if the\
+          \ given content contains only single file\n    }\n    :rtype: dict{\n  \
+          \      \"filename_list\": list[str]\n        \"per_file_list\": list[str]\n\
+          \        \"is_single_file\": bool\n    }\n    \"\"\"\n    filenames_list\
+          \ = []\n    per_file_list = []\n\n    for segment in content.split(DIFF_GIT)[1:]:\n\
           \        filename = re.match(REGEX_PATTERN, segment).group(1)\n        filenames_list.append(filename)\n\
           \n        per_line = DIFF_GIT + segment\n        per_file_list.append(per_line)\n\
           \n    is_single_file = len(filenames_list) == 1\n\n    return {\n      \
@@ -739,7 +350,6 @@ workflow:
           \       OUTPUT_ALLOWS_MD_KEY: allows_md,\n        OUTPUT_ALLOWS_MD_NUMBER_KEY:\
           \ 1 if allows_md else 0,\n    }\n\n"
         code_language: python3
-        desc: ''
         outputs:
           allows_md:
             children: null
@@ -757,27 +367,93 @@ workflow:
             children: null
             type: array[string]
         selected: false
-        title: input process
+        title: input_process
         type: code
         variables:
         - value_selector:
-          - '1756587193642'
-          - input
+          - sys
+          - query
           value_type: string
           variable: content
         - value_selector:
-          - '1756587193642'
+          - '1775587230054'
           - allows_md
           value_type: boolean
           variable: allows_md
       height: 52
-      id: '1759196271769'
+      id: '1775587265168'
       position:
-        x: 587.058352711404
-        y: 201.68254555442036
+        x: 446.6804920892271
+        y: 303
       positionAbsolute:
-        x: 587.058352711404
-        y: 201.68254555442036
+        x: 446.6804920892271
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: a64c48ea-eadc-4b10-8af0-796d1c87755f
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1775587265168'
+            - is_single_file
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: single multiple branch
+        type: if-else
+      height: 124
+      id: '1775587559076'
+      position:
+        x: 808.0583480740074
+        y: 303
+      positionAbsolute:
+        x: 808.0583480740074
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        method: get
+        params: allows_md:{{#1775587265168.allows_md_number#}}
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: GET primary message prompt
+        type: http-request
+        url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/primary-message'
+        variables: []
+      height: 176
+      id: '1775587581098'
+      position:
+        x: 1210.7481151599698
+        y: 383.68619121288395
+      positionAbsolute:
+        x: 1210.7481151599698
+        y: 383.68619121288395
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -787,21 +463,296 @@ workflow:
         context:
           enabled: false
           variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: claude-sonnet-4-6
+          provider: langgenius/anthropic/anthropic
+        prompt_template:
+        - id: 0344bd5f-e1f6-4116-99f6-c9a84a7e1dad
+          role: system
+          text: '{{#1775587581098.body#}}'
+        - id: 441c17f9-228c-48fb-89c4-2256e27979ba
+          role: user
+          text: '{{#sys.query#}}'
+        selected: true
+        title: primary message
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1775587792914'
+      position:
+        x: 1210.7481151599698
+        y: 556.5417275241331
+      positionAbsolute:
+        x: 1210.7481151599698
+        y: 556.5417275241331
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "# pylint: disable=missing-module-docstring\n\n\n# output keys  #################################################################\n\
+          OUTPUT_RESULT_KEY = \"result\"\n\n\n# Entry Point  #################################################################\n\
+          def main(\n    allows_md: bool, filenames_list: list[str], per_file_extracts:\
+          \ list[dict]\n):\n    \"\"\"\n    merge to produce final output,\n    when\
+          \ only single file is involved\n\n\n    :param allows_md: whether utilize\
+          \ md format in final result\n    :type allows_md: bool\n    :param primary_message:\n\
+          \    :type primary_message: str\n    :param filenames_list:\n    :type filenames_list:\
+          \ list[str]\n    :param per_file_extracts:\n    :type per_file_extracts:\
+          \ list[dict]\n    :return: {\"result\": merged output}\n    :rtype: dict{\"\
+          result\": str}\n    \"\"\"\n    filename = filenames_list[0]\n    file_extract\
+          \ = per_file_extracts[0]\n    symbol = file_extract[\"symbol\"]\n\n    filename_line\
+          \ = (\"{}`{}`\" if allows_md else \"{}[{}]\").format(\n        symbol, filename\n\
+          \    )\n\n    summary = file_extract[\"summary\"]\n\n    opt = \"\"\"{}\n\
+          \n{}\"\"\".format(summary, filename_line)\n\n    return {OUTPUT_RESULT_KEY:\
+          \ opt}\n\n"
+        code_language: python3
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: merge final single
+        type: code
+        variables:
+        - value_selector:
+          - '1775587265168'
+          - allows_md
+          value_type: boolean
+          variable: allows_md
+        - value_selector:
+          - '1775587265168'
+          - filenames_list
+          value_type: array[string]
+          variable: filenames_list
+        - value_selector:
+          - '1775587914644'
+          - output
+          value_type: array[object]
+          variable: per_file_extracts
+      height: 52
+      id: '1775587847434'
+      position:
+        x: 2457.1927751959192
+        y: 303
+      positionAbsolute:
+        x: 2457.1927751959192
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        error_handle_mode: terminated
+        flatten_output: false
+        height: 174
+        is_parallel: true
+        iterator_input_type: array[string]
+        iterator_selector:
+        - '1775587265168'
+        - per_file_list
+        output_selector:
+        - '1775588142285'
+        - structured_output
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1775587914644start
+        title: Iteration
+        type: iteration
+        width: 662.0000000000002
+      height: 174
+      id: '1775587914644'
+      position:
+        x: 1104.915794783297
+        y: 860.987496760723
+      positionAbsolute:
+        x: 1104.915794783297
+        y: 860.987496760723
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 662
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1775587914644start
+      parentId: '1775587914644'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1128.915794783297
+        y: 928.987496760723
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        method: get
+        params: allows_md:{{#1775587265168.allows_md_number#}}
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: Per File Short Getter
+        type: http-request
+        url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/per-file-short'
+        variables: []
+      height: 176
+      id: '17755879408110'
+      position:
+        x: 808.0583480740074
+        y: 860.987496760723
+      positionAbsolute:
+        x: 808.0583480740074
+        y: 860.987496760723
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        method: get
+        params: allows_md:{{#1775587265168.allows_md_number#}}
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: Per File Long Getter
+        type: http-request
+        url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/per-file-long'
+        variables: []
+      height: 176
+      id: '17755879849770'
+      position:
+        x: 808.0583480740074
+        y: 1037.8870434302662
+      positionAbsolute:
+        x: 808.0583480740074
+        y: 1037.8870434302662
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "# pylint: disable=missing-module-docstring\n\n# output keys  #################################################################\n\
+          OUTPUT_PROMPT_KEY = \"extract_prompt\"\n\n\n# constants  ###################################################################\n\
+          LONG_SHORT_THRESHOLD = 100\n\n\n# entry point  #################################################################\n\
+          def main(\n    item: str,\n    prompt_per_file_extract_long: str,\n    prompt_per_file_extract_short:\
+          \ str,\n):\n    \"\"\"\n    count number of lines, and decide to use either\
+          \ long/short prompts\n\n\n    :param item:\n    :type item: str\n    :param\
+          \ prompt_per_file_extract_long:\n    :type prompt_per_file_extract_long:\
+          \ str\n    :param prompt_per_file_extract_short:\n    :type prompt_per_file_extract_short:\
+          \ str\n    :return: {\"extract_prompt\": prompt to use}\n    :rtype: dict{\"\
+          extract_prompt\": str}\n    \"\"\"\n    newline_cnt = item.count(\"\\n\"\
+          )\n    is_long = newline_cnt > LONG_SHORT_THRESHOLD\n\n    return {\n  \
+          \      OUTPUT_PROMPT_KEY: (\n            prompt_per_file_extract_long\n\
+          \            if is_long\n            else prompt_per_file_extract_short\n\
+          \        )\n    }\n\n"
+        code_language: python3
         isInIteration: true
         isInLoop: false
-        iteration_id: '1757062707114'
+        iteration_id: '1775587914644'
+        outputs:
+          extract_prompt:
+            children: null
+            type: string
+        selected: false
+        title: decide_per_file_extract_prompt
+        type: code
+        variables:
+        - value_selector:
+          - '1775587914644'
+          - item
+          value_type: string
+          variable: item
+        - value_selector:
+          - '17755879849770'
+          - body
+          value_type: string
+          variable: prompt_per_file_extract_long
+        - value_selector:
+          - '17755879408110'
+          - body
+          value_type: string
+          variable: prompt_per_file_extract_short
+      height: 52
+      id: '1775588043314'
+      parentId: '1775587914644'
+      position:
+        x: 102.00000000000023
+        y: 66
+      positionAbsolute:
+        x: 1206.9157947832973
+        y: 926.987496760723
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775587914644'
         model:
-          completion_params: {}
+          completion_params:
+            temperature: 0.7
           mode: chat
-          name: gpt-5.4-mini
+          name: gpt-4.1-nano
           provider: langgenius/openai/openai
         prompt_template:
-        - id: eab3bd9e-9f56-473f-b7fb-9ee451604606
+        - id: a87f8dc3-7905-4404-8f50-caad9bc26354
           role: system
-          text: '{{#1759187229908.extract_prompt#}}'
-        - id: 6ba4831d-96dc-406b-9cf7-a33957d458ec
+          text: '{{#1775588043314.extract_prompt#}}'
+        - id: f409b96e-6edf-40b8-9aa7-b8ddf8f8aed9
           role: user
-          text: '{{#1757062707114.item#}}'
+          text: '{{#1775587914644.item#}}'
         selected: false
         structured_output:
           schema:
@@ -824,133 +775,152 @@ workflow:
         vision:
           enabled: false
       height: 88
-      id: '1759198352429'
-      parentId: '1757062707114'
+      id: '1775588142285'
+      parentId: '1775587914644'
       position:
-        x: 402.1872252944104
-        y: 66.19445340548612
+        x: 404.0000000000002
+        y: 66
       positionAbsolute:
-        x: 1616.1368263584495
-        y: 749.6218713939094
-      selected: false
+        x: 1508.9157947832973
+        y: 926.987496760723
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
       zIndex: 1002
     - data:
-        authorization:
-          config: null
-          type: no-auth
-        body:
-          data: []
-          type: none
-        headers: ''
-        method: get
-        params: allows_md:{{#1759196271769.allows_md_number#}}
-        retry_config:
-          max_retries: 3
-          retry_enabled: true
-          retry_interval: 100
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: a64c48ea-eadc-4b10-8af0-796d1c87755f
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1775587265168'
+            - is_single_file
+          id: 'true'
+          logical_operator: and
         selected: false
-        ssl_verify: true
-        timeout:
-          max_connect_timeout: 0
-          max_read_timeout: 0
-          max_write_timeout: 0
-        title: GET primary message prompt
-        type: http-request
-        url: http://{{#env.DOCKER_HOST_IP#}}:11255/kaye/dify-app/kaye-commit-sense/primary-message
-        variables: []
-      height: 157
-      id: '1767896024342'
+        title: single multiple branch (1)
+        type: if-else
+      height: 124
+      id: '17755882039760'
       position:
-        x: 1500.9404752677885
-        y: 104.10767532202507
+        x: 1829.1240610632974
+        y: 860.987496760723
       positionAbsolute:
-        x: 1500.9404752677885
-        y: 104.10767532202507
+        x: 1829.1240610632974
+        y: 860.987496760723
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        authorization:
-          config: null
-          type: no-auth
-        body:
-          data: []
-          type: none
-        headers: ''
-        method: get
-        params: allows_md:{{#1759196271769.allows_md_number#}}
-        retry_config:
-          max_retries: 3
-          retry_enabled: true
-          retry_interval: 100
+        code: "# pylint: disable=missing-module-docstring\n\n# output keys  #################################################################\n\
+          OUTPUT_RESULT_KEY = \"result\"\n\n\n# Entry Point  #################################################################\n\
+          def main(\n    allows_md: bool,\n    filenames_list: list[str],\n    per_file_extracts:\
+          \ list[dict],\n    primary_message: str,\n):\n    \"\"\"\n    merge to produce\
+          \ final output,\n    when multiple files are involved\n\n\n    :param allows_md:\
+          \ whether utilize md format in final result\n    :type allows_md: bool\n\
+          \    :param filenames_list:\n    :type filenames_list: list[str]\n    :param\
+          \ per_file_extracts:\n    :type per_file_extracts: list[dict]\n    :param\
+          \ primary_message:\n    :type primary_message: str\n    :return: {\"result\"\
+          : merged output}\n    :rtype: dict{\"result\": str}\n    \"\"\"\n    line_pattern\
+          \ = \"{}`{}` {}\" if allows_md else \"{}[{}] {}\"\n\n    # create line per\
+          \ file\n    lines = []\n    for filename, file_extract in zip(filenames_list,\
+          \ per_file_extracts):\n        symbol = file_extract[\"symbol\"]\n     \
+          \   summary = file_extract[\"summary\"]\n        line = line_pattern.format(symbol,\
+          \ filename, summary)\n        lines.append(line)\n\n    # combines\n   \
+          \ opt = \"\"\"{}\n\n{}\"\"\".format(primary_message, \"\\n\".join(lines))\n\
+          \n    return {OUTPUT_RESULT_KEY: opt}\n\n"
+        code_language: python3
+        outputs:
+          result:
+            children: null
+            type: string
         selected: false
-        ssl_verify: true
-        timeout:
-          max_connect_timeout: 0
-          max_read_timeout: 0
-          max_write_timeout: 0
-        title: Per File Long Getter
-        type: http-request
-        url: http://{{#env.DOCKER_HOST_IP#}}:11255/kaye/dify-app/kaye-commit-sense/per-file-long
-        variables: []
-      height: 157
-      id: '1767896528468'
+        title: merge final multiple
+        type: code
+        variables:
+        - value_selector:
+          - '1775587265168'
+          - allows_md
+          value_type: boolean
+          variable: allows_md
+        - value_selector:
+          - '1775587265168'
+          - filenames_list
+          value_type: array[string]
+          variable: filenames_list
+        - value_selector:
+          - '1775587914644'
+          - output
+          value_type: array[object]
+          variable: per_file_extracts
+        - value_selector:
+          - '1775587792914'
+          - text
+          value_type: string
+          variable: primary_message
+      height: 52
+      id: '17755883562550'
       position:
-        x: 972.6700131558421
-        y: 837.5119072961335
+        x: 2457.1927751959192
+        y: 443.1649923447007
       positionAbsolute:
-        x: 972.6700131558421
-        y: 837.5119072961335
+        x: 2457.1927751959192
+        y: 443.1649923447007
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        authorization:
-          config: null
-          type: no-auth
-        body:
-          data: []
-          type: none
-        headers: ''
-        method: get
-        params: allows_md:{{#1759196271769.allows_md_number#}}
-        retry_config:
-          max_retries: 3
-          retry_enabled: true
-          retry_interval: 100
+        output_type: string
         selected: false
-        ssl_verify: true
-        timeout:
-          max_connect_timeout: 0
-          max_read_timeout: 0
-          max_write_timeout: 0
-        title: Per File Short Getter
-        type: http-request
-        url: http://{{#env.DOCKER_HOST_IP#}}:11255/kaye/dify-app/kaye-commit-sense/per-file-short
-        variables: []
-      height: 157
-      id: '17678966066030'
+        title: Final Aggregator
+        type: variable-aggregator
+        variables:
+        - - '17755883562550'
+          - result
+        - - '1775587847434'
+          - result
+      height: 134
+      id: '1775588436884'
       position:
-        x: 972.6700131558421
-        y: 683.4274179884233
+        x: 2839.1927751959192
+        y: 335
       positionAbsolute:
-        x: 972.6700131558421
-        y: 683.4274179884233
+        x: 2839.1927751959192
+        y: 335
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1775588436884.output#}}'
+        selected: false
+        title: Answer
+        type: answer
+        variables: []
+      height: 102
+      id: '1775588454795'
+      position:
+        x: 3159.1927751959192
+        y: 335
+      positionAbsolute:
+        x: 3159.1927751959192
+        y: 335
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -2321.544339339484
-      y: 241.14040863060052
-      zoom: 0.8194358292750573
+      x: -463.27713144704103
+      y: -40.002161790854984
+      zoom: 0.7578582832552008
   rag_pipeline_variables: []

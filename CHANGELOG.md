@@ -2,9 +2,6 @@
 
 [^format]
 
-<!-- todo implement for ks op worker -->
-<!-- todo implement resume writer? -->
-
 
 
 
@@ -26,6 +23,42 @@
 ### Removed
 ### Fixed
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [5.2.2] - 2026-04-06
+
+### Added
+
+- instruction on formatting **LaTeX**
+- instruction on formatting **mermaid** graph
+
+Kaye Chat *Dify App*, Kaye Peer Coder:
+
+- code format instruction, especially on file name
+- instruction on brace style
+
+### Changed
+
+Kaye Chat *Dify App*:
+
+- enable **vision** for all LLMs
+- use more readable role tags with Emoji in *meta content*
+
+Kaye Commit Sense *Dify App*:
+
+- re-implement as a **Chatflow** such that it can utilize:
+  *OpenAI Compatible Dify App* Plugin
 
 
 
@@ -1354,8 +1387,9 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v5.2.1...dev
-[5.2.1]: https://github.com/kami-lel/kaye/compare/v5.2.0...v5.2.1
+[unreleased]: https://github.com/kami-lel/kaye/compare/v5.2.2...dev
+[5.2.2]: https://github.com/kami-lel/kaye/compare/v5.2.1...v5.2.2
+[5.2.1]: https://github.com/kami-lel/kaye/compare/v5.2.0...v5.2.2
 [5.2.0]: https://github.com/kami-lel/kaye/compare/v5.1.0...v5.2.0
 [5.1.0]: https://github.com/kami-lel/kaye/compare/v5.0.1...v5.1.0
 [5.0.1]: https://github.com/kami-lel/kaye/compare/v5.0.0...v5.0.1

@@ -2,10 +2,10 @@ fixme ky: allow sense early exit, i.e. provide an answer directly
 todo ky: smart sense, take only part of the user's input as sense message:
 eg by taking first n lines + last n lines
 eg by removing all codes block out
-todo ky:utilize models from multiple provider, merge, when extremely difficult task
-todo ky:add 5.1 codex llm
 todo kyc: difficulty cool down, keep a array of difficult of recent rounds
 todo consider usage case of "apply"
 todo ky role: changelog
 todo ky role: shelver & Chinese Shelver
 todo ky role: librarian
+todo ky role: ks op worker
+todo ky role: resume writer

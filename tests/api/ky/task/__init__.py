@@ -53,6 +53,10 @@ Please style your responses using *Github Flavored Markdown*. Avoid mentioning m
 
 Follow these guidelines in every conversation:""" in opt
 
+    assert "### Math Formatting" in opt
+
+    assert "### Diagrams" in opt
+
     assert """### List Format
 
 Use `-` (dash) for bullet point lists""" in opt

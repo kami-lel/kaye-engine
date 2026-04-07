@@ -19,7 +19,7 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/openai:0.3.3@cfb7804d9acf3e0f24b33e97e22c2600249c471f33428efa33597959b513ad2d
+    marketplace_plugin_unique_identifier: langgenius/openai:0.3.4@3345b596ee5117d9304097feaee866f05ffaf0d76a790fb07acd8b99f6c87cb3
     version: null
 kind: app
 version: 0.5.0
@@ -757,7 +757,7 @@ workflow:
       zIndex: 0
     nodes:
     - data:
-        selected: true
+        selected: false
         title: User Input
         type: start
         variables:
@@ -797,7 +797,7 @@ workflow:
       positionAbsolute:
         x: 383.011510910825
         y: 282
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1290,7 +1290,12 @@ workflow:
         title: gpt-4-nano
         type: llm
         vision:
-          enabled: false
+          configs:
+            detail: high
+            variable_selector:
+            - sys
+            - files
+          enabled: true
       height: 88
       id: '1775496256481'
       position:
@@ -1395,7 +1400,12 @@ workflow:
         title: claude-sonnet-4
         type: llm
         vision:
-          enabled: false
+          configs:
+            detail: high
+            variable_selector:
+            - sys
+            - files
+          enabled: true
       height: 88
       id: '17754967343630'
       position:
@@ -1437,7 +1447,12 @@ workflow:
         title: gpt-5-nano
         type: llm
         vision:
-          enabled: false
+          configs:
+            detail: high
+            variable_selector:
+            - sys
+            - files
+          enabled: true
       height: 88
       id: '17754968420260'
       position:
@@ -1634,7 +1649,12 @@ workflow:
         title: gpt-5-mini
         type: llm
         vision:
-          enabled: false
+          configs:
+            detail: high
+            variable_selector:
+            - sys
+            - files
+          enabled: true
       height: 88
       id: '1775497093635'
       parentId: '1775496965074'
@@ -1681,7 +1701,12 @@ workflow:
         title: gpt-5
         type: llm
         vision:
-          enabled: false
+          configs:
+            detail: high
+            variable_selector:
+            - sys
+            - files
+          enabled: true
       height: 88
       id: '1775497429483'
       parentId: '1775496965074'
@@ -1729,7 +1754,12 @@ workflow:
         title: claude-sonnet-4
         type: llm
         vision:
-          enabled: false
+          configs:
+            detail: high
+            variable_selector:
+            - sys
+            - files
+          enabled: true
       height: 88
       id: '1775497481178'
       parentId: '1775496965074'
@@ -1777,15 +1807,20 @@ workflow:
         title: claude-opus-4
         type: llm
         vision:
-          enabled: false
+          configs:
+            detail: high
+            variable_selector:
+            - sys
+            - files
+          enabled: true
       height: 88
       id: '1775497532392'
       parentId: '1775496965074'
       position:
-        x: 426.6697782230308
+        x: 426.11076447350024
         y: 326.32686849324114
       positionAbsolute:
-        x: 3456.521797766291
+        x: 3455.9627840167605
         y: 1197.869276738711
       selected: false
       sourcePosition: right
@@ -1825,16 +1860,21 @@ workflow:
         title: gemini-3-pro
         type: llm
         vision:
-          enabled: false
+          configs:
+            detail: high
+            variable_selector:
+            - sys
+            - files
+          enabled: true
       height: 88
       id: '1775497617058'
       parentId: '1775496965074'
       position:
-        x: 426.8184765780279
-        y: 413.32686849324114
+        x: 426.25946282849736
+        y: 413.8858822427717
       positionAbsolute:
-        x: 3456.670496121288
-        y: 1284.869276738711
+        x: 3456.1114823717576
+        y: 1285.4282904882416
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -2058,11 +2098,16 @@ workflow:
       width: 242
     - data:
         code: "# pylint: disable=missing-module-docstring\n# pylint: disable=too-many-arguments\n\
-          # pylint: disable=too-many-positional-arguments\n\n\n# Bug meta content\
+          # pylint: disable=too-many-positional-arguments\n\n\n# bug meta content\
           \ answer always twice since 2nd round\n\n# output keys  #################################################################\n\
           OUTPUT_META_KEY = \"meta_content\"\n\n\n# constants  ###################################################################\n\
           USAGE_TIME_KEY = \"time_to_generate\"\nUSAGE_TOKEN_KEY = \"total_tokens\"\
-          \n\n\n# helpers  #####################################################################\n\
+          \n\nROLE2PRINTABLE_NAME = {\n    \"art\": \"\U0001F3A8Art Tutor\",\n   \
+          \ \"barista\": \"☕️Barista\",\n    \"chat\": \"\U0001F4ACChat\",\n    \"\
+          coder\": \"\U0001F4BBPeer Coder\",\n    \"deutschlehrer\": \"\U0001F1E9\U0001F1EA\
+          Deutschlehrer\",\n    \"editor\": \"✍️Editor\",\n    \"rapid\": \"⚡️Rapid\"\
+          ,\n    \"secretary\": \"\U0001F5C2️Secretary\",\n    \"tarot\": \"\U0001F52E\
+          Tarot Reader\",\n}\n\n\n# helpers  #####################################################################\n\
           def _generate_usage_line(usage):\n    return \"`{}`s\\t`{}`t\".format(usage[USAGE_TIME_KEY],\
           \ usage[USAGE_TOKEN_KEY])\n\n\ndef _generate_llm_usage_line(llm, usage):\n\
           \    return \"*{}*\\t{}\".format(llm, _generate_usage_line(usage))\n\n\n\
@@ -2084,10 +2129,11 @@ workflow:
           \  -----------------------------------------------------------\n    if not\
           \ should_skip_sense:\n        lines.append(\"Sensed:\\t\" + _generate_usage_line(sense_usage))\n\
           \n    # task parameters  ---------------------------------------------------------\n\
-          \    lines.append(\"Role:\\t{}\".format(current_role))\n    lines.append(\"\
-          Difficulty:\\t{}\".format(current_difficulty))\n\n    if current_role ==\
-          \ \"coder\":\n        lines.append(\"PLs:\\t{}\".format(current_pls))\n\n\
-          \    # task ---------------------------------------------------------------------\n\
+          \    lines.append(\n        \"Role:\\t{}\".format(\n            ROLE2PRINTABLE_NAME[current_role]\n\
+          \            if current_role in ROLE2PRINTABLE_NAME\n            else current_role\n\
+          \        )\n    )\n    lines.append(\"Difficulty:\\t{}\".format(current_difficulty))\n\
+          \n    if current_role == \"coder\":\n        lines.append(\"PLs:\\t{}\"\
+          .format(current_pls))\n\n    # task ---------------------------------------------------------------------\n\
           \    if is_direct_response:\n        ((llm, usage),) = task_usages.items()\n\
           \        lines.append(\"Task:\\t\" + _generate_llm_usage_line(llm, usage))\n\
           \    else:\n        lines.append(\"Task:\")\n        for llm, usage in task_usages.items():\n\
@@ -2102,7 +2148,7 @@ workflow:
           meta_content:
             children: null
             type: string
-        selected: false
+        selected: true
         title: gen_meta_content
         type: code
         variables:
@@ -2159,7 +2205,7 @@ workflow:
       positionAbsolute:
         x: 5468.797957384823
         y: 391.09276150546384
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2468,7 +2514,7 @@ workflow:
       type: custom
       width: 242
     viewport:
-      x: 68.108687804272
-      y: 396.1801002243435
-      zoom: 0.6597539553864485
+      x: -3416.5506844571137
+      y: 74.74107740888735
+      zoom: 0.7578582832551995
   rag_pipeline_variables: []

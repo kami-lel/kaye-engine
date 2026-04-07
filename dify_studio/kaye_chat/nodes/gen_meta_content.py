@@ -13,6 +13,18 @@ OUTPUT_META_KEY = "meta_content"
 USAGE_TIME_KEY = "time_to_generate"
 USAGE_TOKEN_KEY = "total_tokens"
 
+ROLE2PRINTABLE_NAME = {
+    "art": "🎨Art Tutor",
+    "barista": "☕️Barista",
+    "chat": "💬Chat",
+    "coder": "💻Peer Coder",
+    "deutschlehrer": "🇩🇪Deutschlehrer",
+    "editor": "✍️Editor",
+    "rapid": "⚡️Rapid",
+    "secretary": "🗂️Secretary",
+    "tarot": "🔮Tarot Reader",
+}
+
 
 # helpers  #####################################################################
 def _generate_usage_line(usage):
@@ -70,7 +82,13 @@ def main(
         lines.append("Sensed:\t" + _generate_usage_line(sense_usage))
 
     # task parameters  ---------------------------------------------------------
-    lines.append("Role:\t{}".format(current_role))
+    lines.append(
+        "Role:\t{}".format(
+            ROLE2PRINTABLE_NAME[current_role]
+            if current_role in ROLE2PRINTABLE_NAME
+            else current_role
+        )
+    )
     lines.append("Difficulty:\t{}".format(current_difficulty))
 
     if current_role == "coder":

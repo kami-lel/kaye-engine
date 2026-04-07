@@ -15,6 +15,10 @@ from tests.api import assert_briefness_style, assert_annotation_markers
 # helper  ######################################################################
 
 
+def _assert_brace_style(opt):
+    assert "### Brace Style" in opt
+
+
 def _assert_coder_basic_blueprint_opt(opt):
     _assert_chat_blueprint_opt(opt)
     assert_briefness_style(opt)
@@ -37,6 +41,7 @@ Duties are as follows:
 - provide code **expansion** per user instructions while maintaining formatting and naming consistency with provided examples and excluding those examples from your response"""
         in opt
     )
+    assert "#### code format" in opt
 
     assert "#### variable naming" in opt
 
@@ -44,17 +49,20 @@ Duties are as follows:
 
     assert "#### comment section headings" in opt
 
-    assert "# parser.py" in opt
+    assert "- keep heading text short and use" in opt
 
 
 def _assert_c_opt(opt):
+
     assert """### C
 Use **C99** standard""" in opt
+    _assert_brace_style(opt)
 
 
 def _assert_cpp_opt(opt):
     assert """### C++
 use **C++17** standard""" in opt
+    _assert_brace_style(opt)
 
 
 def _assert_u3d_opt(opt):
@@ -62,11 +70,13 @@ def _assert_u3d_opt(opt):
     assert "Unity **6**" in opt
     assert "#### MonoBehaviour" in opt
     assert "never mixed into *Private Methods*" in opt
+    _assert_brace_style(opt)
 
 
 def _assert_ue_opt(opt):
     assert """### Unreal Engine
 - Version: Unreal Engine `5.6.0`""" in opt
+    _assert_brace_style(opt)
 
 
 def _assert_cs_opt(opt):
@@ -75,6 +85,7 @@ def _assert_cs_opt(opt):
 - Documentation: Use XML comments (`/// <summary>...</summary>`) to document functionality and provide examples wherever helpful."""
         in opt
     )
+    _assert_brace_style(opt)
 
 
 def _assert_gd_opt(opt):
@@ -99,6 +110,7 @@ def _assert_js_ts_opt(opt):
 These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard."""
         in opt
     )
+    _assert_brace_style(opt)
 
 
 def _assert_qml_opt(opt):
