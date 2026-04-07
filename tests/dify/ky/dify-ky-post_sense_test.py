@@ -22,7 +22,7 @@ def _assert_structure(opt):
     assert OUTPUT_ROLE_KEY in opt
     assert isinstance(opt[OUTPUT_ROLE_KEY], str)
     assert OUTPUT_DIFF_KEY in opt
-    assert isinstance(opt[OUTPUT_DIFF_KEY], float)
+    assert isinstance(opt[OUTPUT_DIFF_KEY], int)
     assert OUTPUT_PLS_KEY in opt
     assert isinstance(opt[OUTPUT_PLS_KEY], str)
 
@@ -75,32 +75,32 @@ class TestRole:  # =============================================================
 class TestDiff:  # =============================================================
 
     def test1(_, kwargs_default):
-        kwargs_default["difficulty_override"] = 0.3
+        kwargs_default["difficulty_override"] = 30
 
         opt = post_sense.main(**kwargs_default)
 
         _assert_structure(opt)
 
-        assert opt[OUTPUT_DIFF_KEY] == 0.3
+        assert opt[OUTPUT_DIFF_KEY] == 30
 
     def test2(_, kwargs_default):
-        kwargs_default["sensed_difficulty"] = 0.6
+        kwargs_default["sensed_difficulty"] = 60
 
         opt = post_sense.main(**kwargs_default)
 
         _assert_structure(opt)
 
-        assert opt[OUTPUT_DIFF_KEY] == 0.6
+        assert opt[OUTPUT_DIFF_KEY] == 60
 
     def test3(_, kwargs_default):
-        kwargs_default["difficulty_override"] = 0.3
-        kwargs_default["sensed_difficulty"] = 0.6
+        kwargs_default["difficulty_override"] = 30
+        kwargs_default["sensed_difficulty"] = 60
 
         opt = post_sense.main(**kwargs_default)
 
         _assert_structure(opt)
 
-        assert opt[OUTPUT_DIFF_KEY] == 0.3
+        assert opt[OUTPUT_DIFF_KEY] == 30
 
 
 class TestPLs:  # ==============================================================

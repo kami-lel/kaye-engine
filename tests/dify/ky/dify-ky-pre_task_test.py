@@ -40,7 +40,7 @@ def kwargs():
         "query": "",
         "current_role": "",
         "current_pls": "",
-        "current_difficulty": 0.0,
+        "current_difficulty": 0,
     }
 
 
@@ -89,7 +89,7 @@ class TestBody:  # =============================================================
 class TestLLM:  # ==============================================================
 
     def test1(_, kwargs):
-        diff = 0.01
+        diff = 1
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -102,7 +102,7 @@ class TestLLM:  # ==============================================================
         assert direct
 
     def test2(_, kwargs):
-        diff = 0.05
+        diff = 5
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -115,7 +115,7 @@ class TestLLM:  # ==============================================================
         assert direct
 
     def test3(_, kwargs):
-        diff = 0.11
+        diff = 11
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -128,7 +128,7 @@ class TestLLM:  # ==============================================================
         assert direct
 
     def test4(_, kwargs):
-        diff = 0.15
+        diff = 15
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -141,7 +141,7 @@ class TestLLM:  # ==============================================================
         assert direct
 
     def test5(_, kwargs):
-        diff = 0.21
+        diff = 21
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -154,7 +154,7 @@ class TestLLM:  # ==============================================================
         assert direct
 
     def test6(_, kwargs):
-        diff = 0.25
+        diff = 25
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -167,7 +167,7 @@ class TestLLM:  # ==============================================================
         assert direct
 
     def test7(_, kwargs):
-        diff = 0.31
+        diff = 31
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -180,7 +180,7 @@ class TestLLM:  # ==============================================================
         assert direct
 
     def test8(_, kwargs):
-        diff = 0.35
+        diff = 35
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -193,7 +193,7 @@ class TestLLM:  # ==============================================================
         assert direct
 
     def test9(_, kwargs):
-        diff = 0.41
+        diff = 41
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -206,7 +206,7 @@ class TestLLM:  # ==============================================================
         assert direct
 
     def test10(_, kwargs):
-        diff = 0.51
+        diff = 51
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -219,7 +219,7 @@ class TestLLM:  # ==============================================================
         assert direct
 
     def test11(_, kwargs):
-        diff = 0.61
+        diff = 61
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -232,7 +232,7 @@ class TestLLM:  # ==============================================================
         assert not direct
 
     def test12(_, kwargs):
-        diff = 0.71
+        diff = 71
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -245,7 +245,7 @@ class TestLLM:  # ==============================================================
         assert not direct
 
     def test13(_, kwargs):
-        diff = 0.81
+        diff = 81
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -258,7 +258,7 @@ class TestLLM:  # ==============================================================
         assert not direct
 
     def test14(_, kwargs):
-        diff = 0.91
+        diff = 91
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
@@ -271,7 +271,7 @@ class TestLLM:  # ==============================================================
         assert not direct
 
     def test15(_, kwargs):
-        diff = 0.99
+        diff = 99
         kwargs["current_difficulty"] = diff
 
         opt = pre_task.main(**kwargs)
