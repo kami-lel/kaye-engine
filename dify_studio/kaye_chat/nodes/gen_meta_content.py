@@ -24,7 +24,7 @@ def main(
     show_meta_content: bool,
     should_skip_sense: bool,
     current_role: str,
-    current_difficulty: float,
+    current_difficulty: int,
     current_pls: str,
     sense_usage: dict,
     task_usages: dict,
@@ -40,7 +40,7 @@ def main(
     :param current_role:
     :type current_role: str
     :param current_difficulty:
-    :type current_difficulty: float
+    :type current_difficulty: int
     :param current_pls:
     :type current_pls: str
     :param sense_usage:
@@ -77,4 +77,4 @@ def main(
 > [!TIP]
 """ + "\n".join("> " + line for line in lines)
 
-    return {OUTPUT_META_KEY: meta_content}
+    return {OUTPUT_META_KEY: str(meta_content)}
