@@ -200,22 +200,27 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
         elif plc == "c":
             bp.checkmark(kyc_node["C"])
+            bp.checkmark(kyc_node["Brace Style"])
 
         elif plc == "cpp":
             bp.checkmark(kyc_node["C"])
             bp.checkmark(kyc_node["C++"])
+            bp.checkmark(kyc_node["Brace Style"])
 
         elif plc == "ue":
             bp.checkmark(kyc_node["C"])
             bp.checkmark(kyc_node["C++"])
             bp.checkmark(kyc_node["Unreal Engine"])
+            bp.checkmark(kyc_node["Brace Style"])
 
         elif plc == "csharp":
             bp.checkmark(kyc_node["C Sharp"])
+            bp.checkmark(kyc_node["Brace Style"])
 
         elif plc == "u3d":
             bp.checkmark(kyc_node["C Sharp"])
             bp.checkmark(kyc_node["Unity Engine"], recursively=True)
+            bp.checkmark(kyc_node["Brace Style"])
 
         elif plc == "gdscript":
             bp.checkmark(kyc_node["GDScript"])
@@ -225,6 +230,7 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
         elif plc in ("js", "ts"):
             bp.checkmark(kyc_node["JavaScript & TypeScript"], recursively=True)
+            bp.checkmark(kyc_node["Brace Style"])
 
         elif plc == "qt":
             bp.checkmark(kyc_node["Qt"])

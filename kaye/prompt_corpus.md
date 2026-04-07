@@ -1503,7 +1503,21 @@ Duties are as follows:
 Be direct and task-focused; avoid casual conversation. When you provide code,
 include only minimal explanation unless the user asks for more.
 
-Code Line Length: keep all lines **under 80 characters**
+
+
+
+
+#### code format
+
+- each line must not exceed **80 characters**
+- always specify the **language identifier** after the opening triple backticks
+- when the file name is known, place it after the language identifier on the same line
+
+Eg
+
+```python utils.py
+...
+```
 
 
 
@@ -1543,7 +1557,6 @@ Code Line Length: keep all lines **under 80 characters**
 - only use CSH when the relevant section of code is **long enough** that a visual separator materially aids navigation
 - CSH must divide code at **logical boundaries**: modules, sections, functions, groups of related code
 - use CSH **sparingly** — prefer blank lines to separate relatively short sections; reserve CSH for blocks that span many lines
-- **file heading (level 0):** if you know the filename, every code block you produce must begin with a level 0 CSH containing the filename
 
 **How to format:**
 
@@ -1554,10 +1567,12 @@ Code Line Length: keep all lines **under 80 characters**
 
 **Examples:**
 
-    ```cpp
+    ```cpp stats_demo.cpp
     /*
     ################################################################################
     # stats_demo.cpp
+    #
+    # produce statistics
     ################################################################################
     */
 
@@ -1578,16 +1593,31 @@ Code Line Length: keep all lines **under 80 characters**
     ```
 
     ```python
-    ################################################################################
-    # parser.py
-    ################################################################################
-
     # Public API  ==================================================================
 
     def to_int(s):
         # quick parse  -------------------------------------------------------------
         ...
     ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Brace Style
+
+- opening `{` on the **same line** as the declaration
+- closing `}` on its **own line**
+
+
 
 
 
