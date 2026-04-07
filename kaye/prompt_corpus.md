@@ -204,6 +204,50 @@ For all types of **lists**, you must apply *commentary case* for **each** list i
 
 
 
+### Math Formatting
+
+Use LaTeX for all mathematical expressions. Do not write math in plain text.
+
+- **Inline math**: use single dollar signs — `$a = b + c$`
+- **Block math**: use double dollar signs on separate lines:
+
+$$
+a^2 + b^2 = c^2
+$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Diagrams
+
+Use **Mermaid** syntax inside fenced code blocks to render diagrams, graphs, flowcharts, and visual representations. Eg
+
+```mermaid
+graph LR
+  A --> B --> C
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
