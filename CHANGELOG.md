@@ -2,7 +2,6 @@
 
 [^format]
 
-<!-- Fixme move abbrs.json one level up -->
 <!-- todo implement for ks op worker -->
 <!-- todo implement resume writer? -->
 
@@ -25,6 +24,7 @@
 ### Changed
 
 - make *Prompt Writer* part of the utility prompts
+- move `abbrs.json` level up, to be in the same folder as `prompt_corpus.md`
 
 Kaye Chat *Dify App*:
 
