@@ -115,7 +115,7 @@ def opt_coder_dft(kwargs):
 # others  ----------------------------------------------------------------------
 @pytest.fixture(scope="class")
 def opt_others_provided(kwargs):
-    kwargs["role_override"] = "art"
+    kwargs["role_override"] = "chat"
     kwargs["difficulty_override"] = 50
 
     return post_start.main(**kwargs)
@@ -123,7 +123,7 @@ def opt_others_provided(kwargs):
 
 @pytest.fixture(scope="class")
 def opt_others_dft(kwargs):
-    kwargs["role_override"] = "art"
+    kwargs["role_override"] = "chat"
     kwargs["difficulty_override"] = 0
 
     return post_start.main(**kwargs)
@@ -131,8 +131,8 @@ def opt_others_dft(kwargs):
 
 # current  ---------------------------------------------------------------------
 @pytest.fixture(scope="class")
-def opt_current_art(kwargs):
-    kwargs["current_role"] = "art"
+def opt_current_chat(kwargs):
+    kwargs["current_role"] = "chat"
 
     return post_start.main(**kwargs)
 
@@ -501,7 +501,7 @@ class TestOthersProvided:  # ---------------------------------------------------
         role = opt[OUTPUT_ROLE_KEY]
         print(role)
 
-        assert role == "art"
+        assert role == "chat"
 
     def test_skip(_, opt_others_provided):
         opt = opt_others_provided
@@ -537,7 +537,7 @@ class TestOthersDefault:  # ---------------------------------------------------
         role = opt[OUTPUT_ROLE_KEY]
         print(role)
 
-        assert role == "art"
+        assert role == "chat"
 
     def test_skip(_, opt_others_dft):
         opt = opt_others_dft
@@ -558,45 +558,45 @@ class TestOthersDefault:  # ---------------------------------------------------
         body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
         print(body)
 
-        assert body == {"pre_sense_role": "art", "difficulty_override": 0}
+        assert body == {"pre_sense_role": "chat", "difficulty_override": 0}
 
 
 # current  =====================================================================
-class TestCurrentArt:  # -------------------------------------------------------
+class TestCurrentChat:  # -------------------------------------------------------
 
-    def test_structure(_, opt_current_art):
-        opt = opt_current_art
+    def test_structure(_, opt_current_chat):
+        opt = opt_current_chat
         print(opt)
 
         _assert_structure(opt)
 
-    def test_role(_, opt_current_art):
-        opt = opt_current_art
+    def test_role(_, opt_current_chat):
+        opt = opt_current_chat
         role = opt[OUTPUT_ROLE_KEY]
         print(role)
 
-        assert role == "art"
+        assert role == "chat"
 
-    def test_skip(_, opt_current_art):
-        opt = opt_current_art
+    def test_skip(_, opt_current_chat):
+        opt = opt_current_chat
         skip = opt[OUTPUT_SKIP_KEY]
         print(skip)
 
         assert not skip
 
-    def test_diff(_, opt_current_art):
-        opt = opt_current_art
+    def test_diff(_, opt_current_chat):
+        opt = opt_current_chat
         diff = opt[OUTPUT_DIFF_KEY]
         print(diff)
 
         assert diff == 0
 
-    def test_body(_, opt_current_art):
-        opt = opt_current_art
+    def test_body(_, opt_current_chat):
+        opt = opt_current_chat
         body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
         print(body)
 
-        assert body == {"pre_sense_role": "art", "difficulty_override": 0}
+        assert body == {"pre_sense_role": "chat", "difficulty_override": 0}
 
 
 class TestCurrentOverride:  # --------------------------------------------------
