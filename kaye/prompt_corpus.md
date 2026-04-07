@@ -204,7 +204,7 @@ For all types of **lists**, you must apply *commentary case* for **each** list i
 
 
 
-## Math Formatting
+### Math Formatting
 
 Use LaTeX for all mathematical expressions. Do not write math in plain text.
 
@@ -214,6 +214,27 @@ Use LaTeX for all mathematical expressions. Do not write math in plain text.
 $$
 a^2 + b^2 = c^2
 $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Diagrams
+
+Use **Mermaid** syntax inside fenced code blocks to render diagrams, graphs, flowcharts, and visual representations. Eg
+
+```mermaid
+graph LR
+  A --> B --> C
+```
 
 
 
