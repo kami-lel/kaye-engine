@@ -12,11 +12,11 @@ OUTPUT_DIRECT_KEY = "is_direct_response"
 
 # constants  ###################################################################
 THRESHOLDS = [
-    (0.0, ["gpt-4-nano"]),
-    (0.1, ["gpt-5-nano"]),
-    (0.3, ["claude-sonnet-4"]),
-    (0.6, ["claude-sonnet-4", "gpt-5-mini"]),
-    (0.9, ["claude-opus-4", "gpt-5", "gemini-3-pro"]),
+    (0, ["gpt-4-nano"]),
+    (10, ["gpt-5-nano"]),
+    (30, ["claude-sonnet-4"]),
+    (60, ["claude-sonnet-4", "gpt-5-mini"]),
+    (90, ["claude-opus-4", "gpt-5", "gemini-3-pro"]),
 ]
 # (lower bounds, LLMs to use)
 
@@ -39,7 +39,7 @@ def main(
     :param current_pls:
     :type current_pls: str
     :param difficulty:
-    :type difficulty: float
+    :type difficulty: int
     :return: {
         "task_prompt_getter_body":  body sent to /task
         "llms":                     LLMs to use during tasks
@@ -73,7 +73,7 @@ def main(
 
     # Output Variables  --------------------------------------------------------
     return {
-        OUTPUT_BODY_KEY: body_json_dumps,
+        OUTPUT_BODY_KEY: str(body_json_dumps),
         OUTPUT_LLMS_KEY: llms,
-        OUTPUT_DIRECT_KEY: is_direct_response,
+        OUTPUT_DIRECT_KEY: bool(is_direct_response),
     }

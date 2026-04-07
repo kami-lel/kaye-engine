@@ -11,8 +11,8 @@ import json
 import pytest
 
 
-from dify_studio.kaye_chat.nodes import pre_task
-from dify_studio.kaye_chat.nodes.pre_task import (
+from dify_studio.kaye_chat.nodes.task import pre_task
+from dify_studio.kaye_chat.nodes.task.pre_task import (
     OUTPUT_BODY_KEY,
     OUTPUT_DIRECT_KEY,
     OUTPUT_LLMS_KEY,
