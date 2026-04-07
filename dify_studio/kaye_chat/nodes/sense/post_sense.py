@@ -59,7 +59,7 @@ def main(
     combined_pls = SPLITTER.join(filter(bool, combined_set))
 
     return {
-        OUTPUT_ROLE_KEY: role,
+        OUTPUT_ROLE_KEY: str(role),
         OUTPUT_DIFF_KEY: int(difficulty),
-        OUTPUT_PLS_KEY: combined_pls,
+        OUTPUT_PLS_KEY: str(combined_pls),
     }
