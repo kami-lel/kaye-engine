@@ -7,9 +7,9 @@ OUTPUT_RESULT_KEY = "result"
 # Entry Point  #################################################################
 def main(
     allows_md: bool,
-    primary_message: str,
     filenames_list: list[str],
     per_file_extracts: list[dict],
+    primary_message: str,
 ):
     """
     merge to produce final output,
@@ -18,12 +18,12 @@ def main(
 
     :param allows_md: whether utilize md format in final result
     :type allows_md: bool
-    :param primary_message:
-    :type primary_message: str
     :param filenames_list:
     :type filenames_list: list[str]
     :param per_file_extracts:
     :type per_file_extracts: list[dict]
+    :param primary_message:
+    :type primary_message: str
     :return: {"result": merged output}
     :rtype: dict{"result": str}
     """
