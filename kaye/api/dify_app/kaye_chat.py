@@ -150,7 +150,7 @@ def kaye_chat_task():
 
 
 # /kaye/dify-app/ky/merge  =====================================================
-@ky_bp.route("/sense", methods=["GET"])
+@ky_bp.route("/merge", methods=["GET"])
 def kaye_chat_merge():
     blueprint = PromptBlueprint.parse(MERGE_PROMPT_BLUEPRINT)
 

@@ -15,4 +15,7 @@ def test_merge(flask_test_client, app_endpoint):
     response = flask_test_client.get(merge_endpoint)
     opt = response.get_data().decode("utf-8")
 
-    # TODO unit test
+    print(opt)
+    assert "# Kaye Chat" in opt
+    assert "## merge" in opt
+    assert opt == ""  # FIXME
