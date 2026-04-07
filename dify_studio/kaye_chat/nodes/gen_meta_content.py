@@ -20,8 +20,6 @@ def _generate_usage_line(usage):
 
 
 # Entry Point  #################################################################
-
-
 def main(
     show_meta_content: bool,
     should_skip_sense: bool,
@@ -29,7 +27,9 @@ def main(
     current_difficulty: int,
     current_pls: str,
     sense_usage: dict,
+    is_direct_response,
     task_usages: dict,
+    merger_usage: dict,
 ):
     """
     generate meta content for debug
@@ -47,8 +47,12 @@ def main(
     :type current_pls: str
     :param sense_usage:
     :type sense_usage: dict
+    :param is_direct_response:
+    :type is_direct_response: bool
     :param task_usages:
     :type task_usages: dict
+    :param merger_usage:
+    :type merger_usage: dict
     :return: {"meta_content": meta content for debug}
     :rtype: dict{"meta_content": str}
     """
@@ -69,9 +73,14 @@ def main(
         lines.append("PLs:\t{}".format(current_pls))
 
     # task ---------------------------------------------------------------------
-    lines.append("Task:")
-    for llm, usage in task_usages.items():
-        lines.append("{}:\t{}".format(llm, _generate_usage_line(usage)))
+    if is_direct_response:
+        ((llm, usage),) = task_usages.items()
+        lines.append("Task:\t{}\t{}".format(llm, _generate_usage_line(usage)))
+    else:
+        lines.append("Task:")
+        for llm, usage in task_usages.items():
+            lines.append("{}:\t{}".format(llm, _generate_usage_line(usage)))
+        lines.append("Merger:\t" + _generate_usage_line(merger_usage))
 
     # final content form  ------------------------------------------------------
     meta_content = """
