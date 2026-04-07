@@ -16,7 +16,11 @@ USAGE_TOKEN_KEY = "total_tokens"
 
 # helpers  #####################################################################
 def _generate_usage_line(usage):
-    return "[{}]s\t[{}]t".format(usage[USAGE_TIME_KEY], usage[USAGE_TOKEN_KEY])
+    return "`{}`s\t`{}`t".format(usage[USAGE_TIME_KEY], usage[USAGE_TOKEN_KEY])
+
+
+def _generate_llm_usage_line(llm, usage):
+    return "*{}*\t{}".format(llm, _generate_usage_line(usage))
 
 
 # Entry Point  #################################################################
@@ -75,11 +79,12 @@ def main(
     # task ---------------------------------------------------------------------
     if is_direct_response:
         ((llm, usage),) = task_usages.items()
-        lines.append("Task:\t{}\t{}".format(llm, _generate_usage_line(usage)))
+        lines.append("Task:\t" + _generate_llm_usage_line(llm, usage))
     else:
         lines.append("Task:")
         for llm, usage in task_usages.items():
-            lines.append("{}:\t{}".format(llm, _generate_usage_line(usage)))
+            lines.append(_generate_llm_usage_line(llm, usage))
+
         lines.append("Merger:\t" + _generate_usage_line(merger_usage))
 
     # final content form  ------------------------------------------------------
