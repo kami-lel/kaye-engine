@@ -1,8 +1,3 @@
-
-TODO kyc: all code block should contains file name in 1st line if possible
-
-FIXME kyc: improve comment section heading prompt, less wordy, make it used less often
-
 bug kyc: code commentaries s/X get double #
 todo utilize latex for math
 todo kyc: c & cpp instruction on comment usages

@@ -43,6 +43,11 @@ Kaye Chat *Dify App*:
     - instead of specific version, simplify ask Kaye to use Unity 6
     - give specific structure for writing MonoBehaviour script
 
+  - Comment Section Heading:
+
+    - rewrite CSH prompt to tighten usage
+    - require filename as Level 0 CSH
+
 
 ### Deprecated
 ### Removed
