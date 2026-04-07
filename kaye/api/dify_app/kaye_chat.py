@@ -291,5 +291,5 @@ def _create_secretary_blueprint():  # ==========================================
 
 def _create_tarot_blueprint():  # ==========================================
     bp = _create_rapid_blueprint()
-    # TODO
+    bp.checkmark("Tarot Reader", recursively=True)
     return bp
