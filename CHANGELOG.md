@@ -21,6 +21,13 @@
 ## [Unreleased]
 
 ### Added
+
+Kaye Chat *Dify App* Roles:
+
+- Art Tutor
+- Deutschlehrer
+- Tarot Reader
+
 ### Changed
 
 - make *Prompt Writer* part of the utility prompts
