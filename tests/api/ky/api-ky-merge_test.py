@@ -9,8 +9,10 @@ Unit Tests (using pytest) for:
 # Pytest unit tests  ###########################################################
 
 
-def test_merge(flask_test_client, sense_endpoint):
-    response = flask_test_client.get()
+def test_merge(flask_test_client, app_endpoint):
+    merge_endpoint = app_endpoint + "/merge"
+
+    response = flask_test_client.get(merge_endpoint)
     opt = response.get_data().decode("utf-8")
 
     # TODO unit test
