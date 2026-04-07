@@ -39,6 +39,26 @@
 
 
 
+## [5.2.1] - 2026-04-06
+
+### Fixed
+
+- handle case where unknown PLC is given
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## [5.2.0] - 2026-04-06
 
 ### Added
