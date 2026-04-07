@@ -79,8 +79,8 @@ def main(
 
     # Output Variables  --------------------------------------------------------
     return {
-        OUTPUT_SKIP_KEY: skip,
-        OUTPUT_ROLE_KEY: role,
+        OUTPUT_SKIP_KEY: bool(skip),
+        OUTPUT_ROLE_KEY: str(role),
         OUTPUT_DIFF_KEY: int(diff),
-        OUTPUT_SENSE_BODY_KEY: body,
+        OUTPUT_SENSE_BODY_KEY: str(body),
     }
