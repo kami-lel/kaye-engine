@@ -3,23 +3,21 @@
 
 # Output Keys  #################################################################
 
-OUTPUT_TASK_KEY = "task_usages"
+OUTPUT_OUTPUT_KEY = "iteration_output"
 
 
 # Entry Point  #################################################################
-def main(task_usages: dict, llm: str, usage: dict):
+def main(llm: str, usage: dict, answer: str):
     """
-    :param task_usages:
-    :type task_usages: dict
     :param llm:
     :type llm: str
     :param usage:
     :type usage: dict
-    :return: {"task_usages": created new ``task_usages``}
-    :rtype: dict{"task_usages": dict}
+    :param answer:
+    :type answer: str
     """
 
-    task_usages[llm] = usage
+    output = [llm, usage, answer]
 
     # Output Variables  --------------------------------------------------------
-    return {OUTPUT_TASK_KEY: task_usages}
+    return {OUTPUT_OUTPUT_KEY: output}
