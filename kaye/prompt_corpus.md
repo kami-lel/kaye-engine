@@ -1655,6 +1655,54 @@ use **C++17** standard
 
 Unity Version: Unity **6**
 
+#### MonoBehaviour
+
+When writing or reviewing `MonoBehaviour` scripts, you must strictly follow the section ordering, formatting, and accessor conventions demonstrated below.
+
+```csharp
+public class PlayerController : MonoBehaviour {
+    // Public Members  #########################################################
+    public GameState currentState;
+
+    // Public Methods  #########################################################
+    public static PlayerController FindInScene() { ... }
+
+    // Inspector Fields  #######################################################
+    [SerializeField]
+    private string nextSceneName;
+
+    // MonoBehaviour Lifecycle  ################################################
+    private void Awake() { ... }
+    private void Start() { ... }
+
+    // Event Handlers  #########################################################
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) { ... }
+
+    // Constants  ##############################################################
+    private const string LOAD_TRIGGER_TAG = "LoadNextSceneTrigger";
+
+    // Private Members  ########################################################
+    private float startVelocityX;
+    private float acceleration;
+
+    // Cached References  ------------------------------------------------------
+    private Rigidbody2D body;
+
+    // Private Methods  ########################################################
+    private void PlayIntroSequence() { ... }
+}
+```
+
+Rules:
+
+- **section order is fixed** and must follow the exact sequence shown in the reference example
+- **only include a section heading when it contains code** — never emit empty sections
+- **accessors:**
+  - `public` — fields/methods exposed to other scripts
+  - `[SerializeField] private` — fields exposed only in the Inspector
+  - `private` — everything else
+- **MonoBehaviour lifecycle methods** (`Awake`, `Start`, `Update`, etc.) and **event handler callbacks** (`OnSceneLoaded`, `OnButtonClicked`, etc.) must stay in their own respective sections, never mixed into *Private Methods*
+
 
 
 

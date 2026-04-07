@@ -69,9 +69,10 @@ use **C++17** standard""" in opt
 
 
 def _assert_u3d_opt(opt):
-    assert """### Unity Engine
-- Version: `6000.0.34f1`
-- Documentation: Employ XML documentation comments""" in opt
+    assert "### Unity Engine" in opt
+    assert "Unity **6**" in opt
+    assert "#### MonoBehaviour" in opt
+    assert "never mixed into *Private Methods*" in opt
 
 
 def _assert_ue_opt(opt):

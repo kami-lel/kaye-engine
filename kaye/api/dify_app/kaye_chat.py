@@ -217,7 +217,7 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
         elif plc == "u3d":
             bp.checkmark(kyc_node["C Sharp"])
-            bp.checkmark(kyc_node["Unity Engine"])
+            bp.checkmark(kyc_node["Unity Engine"], recursively=True)
 
         elif plc == "gdscript":
             bp.checkmark(kyc_node["GDScript"])
