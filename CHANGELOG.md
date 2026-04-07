@@ -36,6 +36,12 @@ Kaye Chat *Dify App* Roles:
 Kaye Chat *Dify App*:
 
 - re-implement in Dify to support **merged response**
+- Kaye Peer Coder Role:
+
+  - Unity Engine:
+
+    - instead of specific version, simplify ask Kaye to use Unity 6
+
 
 ### Deprecated
 ### Removed
