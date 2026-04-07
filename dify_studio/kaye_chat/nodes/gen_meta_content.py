@@ -56,9 +56,7 @@ def main(
     lines = []
 
     # sense-related  -----------------------------------------------------------
-    if should_skip_sense:
-        lines.append("(Sense Skipped)")
-    else:
+    if not should_skip_sense:
         lines.append("Sensed:\t" + _generate_usage_line(sense_usage))
 
     # task parameters  ---------------------------------------------------------
