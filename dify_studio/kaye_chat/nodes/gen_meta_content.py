@@ -3,7 +3,7 @@
 # pylint: disable=too-many-positional-arguments
 
 
-# Bug meta content answer always twice since 2nd round
+# bug meta content answer always twice since 2nd round
 
 # output keys  #################################################################
 OUTPUT_META_KEY = "meta_content"
