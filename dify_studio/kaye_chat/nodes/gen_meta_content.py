@@ -13,6 +13,18 @@ OUTPUT_META_KEY = "meta_content"
 USAGE_TIME_KEY = "time_to_generate"
 USAGE_TOKEN_KEY = "total_tokens"
 
+ROLE2PRINTABLE_NAME = {
+    "art": "🎨Art Tutor",
+    "barista": "☕️Barista",
+    "chat": "💬Chat",
+    "coder": "💻Peer Coder",
+    "deutschlehrer": "🇩🇪Deutschlehrer",
+    "editor": "✍️Editor",
+    "rapid": "⚡️Rapid",
+    "secretary": "🗂️Secretary",
+    "tarot": "🔮Tarot Reader",
+}
+
 
 # helpers  #####################################################################
 def _generate_usage_line(usage):
