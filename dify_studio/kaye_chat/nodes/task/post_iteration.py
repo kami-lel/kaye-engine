@@ -8,7 +8,7 @@ OUTPUT_TASK_KEY = "task_usages"
 
 
 # Entry Point  #################################################################
-def main(iteration_output: list[list]):
+def main(iteration_output: list[dict]):
     """
     :param iteration_output:
     :type iteration_output: list[list]
@@ -25,7 +25,11 @@ def main(iteration_output: list[list]):
     answer_parts = []
     task_usages = {}
 
-    for i, (llm, usage, answer) in enumerate(iteration_output, 1):
+    for i, iteration_result in enumerate(iteration_output, 1):
+        llm = iteration_result["llm"]
+        usage = iteration_result["usage"]
+        answer = iteration_result["answer"]
+
         answer_parts.append("# Answer {}\n{}".format(i, answer))
         task_usages[llm] = usage
 

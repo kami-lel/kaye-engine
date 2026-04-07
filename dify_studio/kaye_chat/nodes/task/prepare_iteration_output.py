@@ -15,9 +15,11 @@ def main(llm: str, usage: dict, answer: str):
     :type usage: dict
     :param answer:
     :type answer: str
+    :return: {"iteration_output": all outputs of current iteration}
+    :rtype: {"iteration_output": dict}
     """
 
-    output = [llm, usage, answer]
+    output = {"llm": llm, "usage": usage, "answer": answer}
 
     # Output Variables  --------------------------------------------------------
     return {OUTPUT_OUTPUT_KEY: output}
