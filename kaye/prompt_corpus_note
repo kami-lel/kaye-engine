@@ -1,9 +1,8 @@
-bug ky often fail to sense PLs
-bug kyc c# (and other C-like) braces style
-bug difficulty never get updated
-fixme kyc use ```py abc.py``` style
+Bug ky often fail to sense PLs
+Bug difficulty never get updated
+Fixme kyc use ```py abc.py``` style
 
 
-todo utilize latex for math
-todo utilize mermaid
-todo kyc: c & cpp instruction on comment usages
+Todo utilize latex for math
+Todo utilize mermaid
+Bug kyc c# (and other C-like) braces style
