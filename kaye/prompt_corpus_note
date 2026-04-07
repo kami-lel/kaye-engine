@@ -1,6 +1,5 @@
 Bug ky often fail to sense PLs
 Bug difficulty never get updated
-Fixme kyc use ```py abc.py``` style
 
-
-Bug kyc c# (and other C-like) braces style
+FIXME kyc use ```py abc.py``` style
+BUG kyc c# (and other C-like) braces style
