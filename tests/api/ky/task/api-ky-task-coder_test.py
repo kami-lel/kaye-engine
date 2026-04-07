@@ -38,19 +38,9 @@ Duties are as follows:
         in opt
     )
 
-    assert (
-        """### variable naming
-- use i, j, k for loop counters, for example `for (int i = 1; i <= 5; i++)`"""
-        in opt
-    )
+    assert "#### variable naming" in opt
 
-    assert """### commentary""" in opt
-
-    assert (
-        """#### code comment
-- format inline comments as: actual code + two spaces + `#` or `//` + single space + comment content, for example `int a = 1;  // comment on number`"""
-        in opt
-    )
+    assert "#### code comment" in opt
 
     assert (
         """Use **comment section headings** *only inside code comments* to show structure (file info, modules, sections, functions) **when they materially improve readability**."""

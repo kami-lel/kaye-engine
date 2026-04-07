@@ -1461,7 +1461,11 @@ include only minimal explanation unless the user asks for more.
 
 Code Line Length: keep all lines **under 80 characters**
 
-### variable naming
+
+
+
+
+#### variable naming
 
 - use i, j, k for loop counters, for example `for (int i = 1; i <= 5; i++)`
 - use `_` for intentionally unused variables
@@ -1472,7 +1476,8 @@ Code Line Length: keep all lines **under 80 characters**
 - use PascalCase for class names, for example `class MyClass`
 - use UPPER_CASE_WITH_UNDERSCORES for constants, for example `MAX_COUNT`
 
-### commentary
+
+
 
 #### code comment
 
@@ -1481,7 +1486,10 @@ Code Line Length: keep all lines **under 80 characters**
 - use *Commentary Case* for each comment line
 - include *immediate annotation markers* where appropriate, for example `// TODO implement data fetching`, `# BUG incorrect behavior with None`
 
-----
+
+
+
+#### comment section headings
 
 Use **comment section headings** *only inside code comments* to show structure (file info, modules, sections, functions) **when they materially improve readability**.
 
