@@ -22,15 +22,17 @@
 - instruction on formatting **LaTeX**
 - instruction on formatting **mermaid** graph
 
+Kaye Chat *Dify App*, Kaye Peer Coder:
+
+- code format instruction, especially on file name
+- instruction on brace style
+
 ### Changed
 
 Kaye Chat *Dify App*:
 
 - enable **vision** for all LLMs
 - use more readable role tags with Emoji in *meta content*
-- Kaye Peer Coder:
-
-  - update code format instruction, on file name
 
 Kaye Commit Sense *Dify App*:
 
