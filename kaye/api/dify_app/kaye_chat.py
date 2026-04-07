@@ -271,7 +271,7 @@ def _create_changelog_blueprint():  # ==========================================
 
 def _create_deutschlehrer_blueprint():  # ======================================
     bp = _create_rapid_blueprint()
-    # TODO
+    bp.checkmark("Deutschlehrer")
     return bp
 
 
