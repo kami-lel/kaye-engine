@@ -37,6 +37,7 @@ Duties are as follows:
 - provide code **expansion** per user instructions while maintaining formatting and naming consistency with provided examples and excluding those examples from your response"""
         in opt
     )
+    assert "#### code format" in opt
 
     assert "#### variable naming" in opt
 
