@@ -27,6 +27,7 @@
 Kaye Chat *Dify App*:
 
 - enable **vision** for all LLMs
+- use more readable role tags with Emoji in *meta content*
 
 Kaye Commit Sense *Dify App*:
 
