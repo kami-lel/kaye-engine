@@ -123,7 +123,7 @@ def kaye_chat_task():
     if role == "art":
         bp = _create_art_blueprint()
 
-    if role == "chat":
+    elif role == "chat":
         bp = _create_chat_blueprint()
 
     elif role == "rapid":
@@ -251,7 +251,7 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
 def _create_art_blueprint():  # ============================================
     bp = _create_rapid_blueprint()
-    # TODO
+    bp.checkmark("Art Tutor", recursively=True)
     return bp
 
 
