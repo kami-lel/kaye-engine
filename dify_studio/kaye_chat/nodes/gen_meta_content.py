@@ -29,6 +29,27 @@ def main(
     sense_usage: dict,
     task_usages: dict,
 ):
+    """
+    generate meta content for debug
+
+
+    :param show_meta_content:
+    :type show_meta_content: bool
+    :param should_skip_sense:
+    :type should_skip_sense: bool
+    :param current_role:
+    :type current_role: str
+    :param current_difficulty:
+    :type current_difficulty: float
+    :param current_pls:
+    :type current_pls: str
+    :param sense_usage:
+    :type sense_usage: dict
+    :param task_usages:
+    :type task_usages: dict
+    :return: {"meta_content": meta content for debug}
+    :rtype: dict{"meta_content": str}
+    """
     if not show_meta_content:
         return {OUTPUT_META_KEY: ""}
 
