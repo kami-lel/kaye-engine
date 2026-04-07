@@ -41,6 +41,7 @@ Kaye Chat *Dify App*:
   - Unity Engine:
 
     - instead of specific version, simplify ask Kaye to use Unity 6
+    - give specific structure for writing MonoBehaviour script
 
 
 ### Deprecated
