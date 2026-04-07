@@ -26,6 +26,10 @@
 
 - make *Prompt Writer* part of the utility prompts
 
+Kaye Chat *Dify App*:
+
+- re-implement in Dify to support **merged response**
+
 ### Deprecated
 ### Removed
 ### Fixed
