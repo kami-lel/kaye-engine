@@ -26,7 +26,7 @@ class TestSingle:  # ===========================================================
         query = "afx"
         payload = {"role": "chat", "query": query}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -44,7 +44,7 @@ class TestSingle:  # ===========================================================
         query = "afx"
         payload = {"role": "rapid", "query": query}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -62,7 +62,7 @@ class TestSingle:  # ===========================================================
         query = "afx"
         payload = {"role": "coder", "query": query}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -80,7 +80,7 @@ class TestSingle:  # ===========================================================
         query = "afx"
         payload = {"role": "barista", "query": query}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -98,7 +98,7 @@ class TestSingle:  # ===========================================================
         query = "afx"
         payload = {"role": "editor", "query": query}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -116,7 +116,7 @@ class TestSingle:  # ===========================================================
         query = "afx"
         payload = {"role": "secretary", "query": query}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -137,7 +137,7 @@ class TestMux:  # ==============================================================
         query = "something achv aknlg w/ admin"
         payload = {"role": "rapid", "query": query}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",

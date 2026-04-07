@@ -4,34 +4,26 @@
     "difficulty": {
       "type": "number"
     },
-    "llm": {
-      "enum": [
-        "rapid",
-        "chat",
-        "think",
-        "think-think",
-        ""
-      ],
-      "type": "string"
-    },
     "programming_languages": {
       "type": "string"
     },
     "role": {
       "enum": [
+        "art",
         "barista",
-        "coder",
         "chat",
-        "rapid",
+        "coder",
+        "deutschlehrer",
         "editor",
-        "secretary"
+        "rapid",
+        "secretary",
+        "tarot"
       ]
     }
   },
   "required": [
     "difficulty",
     "programming_languages",
-    "llm",
     "role"
   ],
   "type": "object"

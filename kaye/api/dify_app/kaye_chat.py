@@ -14,7 +14,6 @@ from kaye import PROGRAM_NAME
 from kaye.prompt import PromptBlueprint
 
 # constants  ###################################################################
-BODY_ROLE_KEY = "role"
 BODY_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
 BODY_QUERY_KEY = "query"
 
@@ -26,13 +25,21 @@ BODY_QUERY_KEY = "query"
 SENSE_PROMPT_BLUEPRINT = """ ○
 [x] ├── Kaye Chat
 [x] │   └── sense
-[ ] │       ├── llm
-[ ] │       ├── role
-[ ] │       ├── leave empty
-[ ] │       └── for coder
-[ ] │           ├── programming_languages
-[ ] │           └── difficulty
+[ ] │       ├── sense role
+[ ] │       ├── sense difficulty
+[ ] │       ├── for coder
+[ ] │       │   ├── programming_languages
+[ ] │       │   └── difficulty
+[ ] │       ├── empty role
+[ ] │       ├── zero difficulty
+[ ] │       └── empty programming_languages
 [ ] └── {Programming Languages Code}
+"""
+
+
+MERGE_PROMPT_BLUEPRINT = """ ○
+[x] ├── Kaye Chat
+[x] │   └── merge
 """
 
 
@@ -62,46 +69,61 @@ ky_bp = Blueprint("kaye-chat", PROGRAM_NAME, url_prefix="/ky")
 
 
 # /kaye/dify-app/ky/sense  =====================================================
-@ky_bp.route("/sense", methods=["GET"])
+@ky_bp.route("/sense", methods=["POST"])
 def kaye_chat_sense():
-    role = request.args.get(BODY_ROLE_KEY)
+    body = request.get_json(silent=True) or {}
+
+    role = body.get("pre_sense_role") or ""
+    diff = body.get("difficulty_override") or 0
 
     blueprint = PromptBlueprint.parse(
         SENSE_PROMPT_BLUEPRINT, disable_prune=True
     )
-    pre_sense_node = blueprint.corpus["Kaye Chat"]["sense"]
+    sense_node = blueprint.corpus["Kaye Chat"]["sense"]
 
     # on role  -----------------------------------------------------------------
-    if role:
-        if role == "coder":
-            blueprint.checkmark(pre_sense_node["for coder"], recursively=True)
-            blueprint.checkmark("{Programming Languages Code}")
-        else:
-            # other role
-            blueprint.checkmark(pre_sense_node["llm"])
-            blueprint.checkmark(pre_sense_node["leave empty"])
+    if role == "coder":
+        blueprint.checkmark(sense_node["for coder"], recursively=True)
+        blueprint.checkmark(sense_node["empty role"])
+        blueprint.checkmark("{Programming Languages Code}")
 
-    else:
-        blueprint.checkmark(pre_sense_node["leave empty"])
-        blueprint.checkmark(pre_sense_node["llm"])
-        blueprint.checkmark(pre_sense_node["role"])
+    elif role:  # other role
+        # sense for difficult only
+        blueprint.checkmark(sense_node["sense difficulty"])
+        blueprint.checkmark(sense_node["empty role"])
+        blueprint.checkmark(sense_node["empty programming_languages"])
+
+    elif diff != 0:  # default role w/ provided difficulty override
+        # sense for role only
+        blueprint.checkmark(sense_node["sense role"])
+        blueprint.checkmark(sense_node["zero difficulty"])
+        blueprint.checkmark(sense_node["empty programming_languages"])
+
+    else:  # default role w/o difficulty override
+        # sense for role and difficulty
+        blueprint.checkmark(sense_node["sense role"])
+        blueprint.checkmark(sense_node["sense difficulty"])
+        blueprint.checkmark(sense_node["empty programming_languages"])
 
     # create concrete prompt  --------------------------------------------------
     return blueprint.generate_prompt()
 
 
 # /kaye/dify-app/ky/task  ======================================================
-@ky_bp.route("/task", methods=["GET"])
+@ky_bp.route("/task", methods=["POST"])
 def kaye_chat_task():
     body = request.get_json(silent=True) or {}
 
     # default to chat
-    role = body.get(BODY_ROLE_KEY) or "chat"
+    role = body.get("role") or "chat"
     pls = body.get(BODY_PROGRAMMING_LANGUAGES_KEY) or ""
     query = body.get(BODY_QUERY_KEY) or ""
 
     # create bp  ---------------------------------------------------------------
-    if role == "chat":
+    if role == "art":
+        bp = _create_art_blueprint()
+
+    elif role == "chat":
         bp = _create_chat_blueprint()
 
     elif role == "rapid":
@@ -109,6 +131,9 @@ def kaye_chat_task():
 
     elif role == "coder":
         bp = _create_peer_coder_blueprint(pls)
+
+    elif role == "deutschlehrer":
+        bp = _create_deutschlehrer_blueprint()
 
     elif role == "barista":
         bp = _create_barista_blueprint()
@@ -119,6 +144,9 @@ def kaye_chat_task():
     elif role == "secretary":
         bp = _create_secretary_blueprint()
 
+    elif role == "tarot":
+        bp = _create_tarot_blueprint()
+
     else:
         return abort(
             Response("bad value of 'role' in body: {}".format(role), 422)
@@ -128,6 +156,15 @@ def kaye_chat_task():
     kwargs = {"query": query}
 
     return bp.generate_prompt(**kwargs)
+
+
+# /kaye/dify-app/ky/merge  =====================================================
+@ky_bp.route("/merge", methods=["GET"])
+def kaye_chat_merge():
+    blueprint = PromptBlueprint.parse(MERGE_PROMPT_BLUEPRINT)
+
+    # create concrete prompt  --------------------------------------------------
+    return blueprint.generate_prompt()
 
 
 # task blueprints  #############################################################
@@ -155,8 +192,6 @@ def _create_peer_coder_blueprint(pls):  # ======================================
     # add Kaye Peer Coder node
     kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]
     bp.checkmark(kyc_node)
-    bp.checkmark(kyc_node["variable naming"])
-    bp.checkmark(kyc_node["commentary"], recursively=True)
 
     # adds PL nodes  -----------------------------------------------------------
     for plc in pls.split(","):
@@ -180,7 +215,7 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
         elif plc == "u3d":
             bp.checkmark(kyc_node["C Sharp"])
-            bp.checkmark(kyc_node["Unity Engine"])
+            bp.checkmark(kyc_node["Unity Engine"], recursively=True)
 
         elif plc == "gdscript":
             bp.checkmark(kyc_node["GDScript"])
@@ -212,6 +247,12 @@ def _create_peer_coder_blueprint(pls):  # ======================================
     return bp
 
 
+def _create_art_blueprint():  # ============================================
+    bp = _create_rapid_blueprint()
+    bp.checkmark("Art Tutor", recursively=True)
+    return bp
+
+
 def _create_barista_blueprint():  # ============================================
     bp = _create_rapid_blueprint()
     bp.checkmark("Date & Time Format")
@@ -226,6 +267,12 @@ def _create_changelog_blueprint():  # ==========================================
     return bp
 
 
+def _create_deutschlehrer_blueprint():  # ======================================
+    bp = _create_rapid_blueprint()
+    bp.checkmark("Deutschlehrer")
+    return bp
+
+
 def _create_editor_blueprint():  # =============================================
     bp = _create_chat_blueprint()
     bp.checkmark(bp.corpus["Style"]["Good Writing"])
@@ -237,4 +284,10 @@ def _create_secretary_blueprint():  # ==========================================
     bp = _create_chat_blueprint()
     bp.checkmark(bp.corpus["Style"]["Good Writing"])
     bp.checkmark(bp.corpus["Role"]["Secretary"])
+    return bp
+
+
+def _create_tarot_blueprint():  # ==========================================
+    bp = _create_rapid_blueprint()
+    bp.checkmark("Tarot Reader", recursively=True)
     return bp

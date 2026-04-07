@@ -20,7 +20,7 @@ class TestChat:  ###############################################################
         # should be ignored
         payload = {"role": "chat"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -35,7 +35,7 @@ class TestChat:  ###############################################################
         # should be ignored
         payload = {"role": "chat", "programming_languages": "abc"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -47,7 +47,7 @@ class TestChat:  ###############################################################
         _assert_chat_blueprint_opt(opt)
 
     def test_no_role(self, flask_test_client, task_endpoint):
-        response = flask_test_client.get(task_endpoint)
+        response = flask_test_client.post(task_endpoint)
 
         opt = response.get_data().decode("utf-8")
 
@@ -57,7 +57,7 @@ class TestChat:  ###############################################################
     def test_empty_role(self, flask_test_client, task_endpoint):
         payload = {"role": ""}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",

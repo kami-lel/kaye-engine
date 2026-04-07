@@ -38,24 +38,13 @@ Duties are as follows:
         in opt
     )
 
-    assert (
-        """### variable naming
-- use i, j, k for loop counters, for example `for (int i = 1; i <= 5; i++)`"""
-        in opt
-    )
+    assert "#### variable naming" in opt
 
-    assert """### commentary""" in opt
+    assert "#### code comment" in opt
 
-    assert (
-        """#### code comment
-- format inline comments as: actual code + two spaces + `#` or `//` + single space + comment content, for example `int a = 1;  // comment on number`"""
-        in opt
-    )
+    assert "#### comment section headings" in opt
 
-    assert (
-        """Use **comment section headings** *only inside code comments* to show structure (file info, modules, sections, functions) **when they materially improve readability**."""
-        in opt
-    )
+    assert "# parser.py" in opt
 
 
 def _assert_c_opt(opt):
@@ -69,9 +58,10 @@ use **C++17** standard""" in opt
 
 
 def _assert_u3d_opt(opt):
-    assert """### Unity Engine
-- Version: `6000.0.34f1`
-- Documentation: Employ XML documentation comments""" in opt
+    assert "### Unity Engine" in opt
+    assert "Unity **6**" in opt
+    assert "#### MonoBehaviour" in opt
+    assert "never mixed into *Private Methods*" in opt
 
 
 def _assert_ue_opt(opt):
@@ -150,7 +140,7 @@ class TestBase:  ###############################################################
     def test_no_plc(_, flask_test_client, task_endpoint):
         payload = {"role": "coder"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -165,7 +155,7 @@ class TestBase:  ###############################################################
     def test_empty_plc1(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": ""}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -180,7 +170,7 @@ class TestBase:  ###############################################################
     def test_empty_plc2(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": ","}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -198,7 +188,7 @@ class TestIndv:  ###############################################################
     def test_c(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "c"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -214,7 +204,7 @@ class TestIndv:  ###############################################################
     def test_cpp(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "cpp"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -230,7 +220,7 @@ class TestIndv:  ###############################################################
 
     def test_ue(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "ue"}
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -248,7 +238,7 @@ class TestIndv:  ###############################################################
     def test_cs(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "csharp"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -264,7 +254,7 @@ class TestIndv:  ###############################################################
     def test_u3d(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "u3d"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -281,7 +271,7 @@ class TestIndv:  ###############################################################
     def test_gd(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "gdscript"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -297,7 +287,7 @@ class TestIndv:  ###############################################################
     def test_html(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "html"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -313,7 +303,7 @@ class TestIndv:  ###############################################################
     def test_js(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "js"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -329,7 +319,7 @@ class TestIndv:  ###############################################################
     def test_ts(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "ts"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -345,7 +335,7 @@ class TestIndv:  ###############################################################
     def test_qt(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "qt"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -361,7 +351,7 @@ class TestIndv:  ###############################################################
     def test_qml(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "qml"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -378,7 +368,7 @@ class TestIndv:  ###############################################################
     def test_py(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "py"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -394,7 +384,7 @@ class TestIndv:  ###############################################################
     def test_bash(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "bash"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -413,7 +403,7 @@ class TestMux:  ################################################################
     def test1(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "c,cpp,ue"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -434,7 +424,7 @@ class TestMux:  ################################################################
             "programming_languages": "gdscript,html,js,qt",
         }
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
@@ -453,7 +443,7 @@ class TestMux:  ################################################################
     def test3(_, flask_test_client, task_endpoint):
         payload = {"role": "coder", "programming_languages": "py,qt,u3d"}
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=json.dumps(payload),
             content_type="application/json",
