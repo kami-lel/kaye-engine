@@ -13,11 +13,11 @@ OUTPUT_SENSE_BODY_KEY = "sense_prompt_getter_body"
 
 # roles w/ static difficulty associated with it, thus should skip sense
 STATIC_DIFFICULTY_ROLES = {
-    "art": 15,
-    "barista": 30,
-    "deutschlehrer": 40,
-    "tarot": 50,
-    "editor": 15,
+    "art": 52,
+    "barista": 40,
+    "deutschlehrer": 55,
+    "tarot": 46,
+    "editor": 47,
     "rapid": 1,
 }
 
