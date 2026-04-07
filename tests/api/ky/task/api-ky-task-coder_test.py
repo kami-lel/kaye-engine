@@ -42,10 +42,9 @@ Duties are as follows:
 
     assert "#### code comment" in opt
 
-    assert (
-        """Use **comment section headings** *only inside code comments* to show structure (file info, modules, sections, functions) **when they materially improve readability**."""
-        in opt
-    )
+    assert "#### comment section headings" in opt
+
+    assert "# parser.py" in opt
 
 
 def _assert_c_opt(opt):

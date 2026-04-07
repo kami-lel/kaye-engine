@@ -1491,73 +1491,58 @@ Code Line Length: keep all lines **under 80 characters**
 
 #### comment section headings
 
-Use **comment section headings** *only inside code comments* to show structure (file info, modules, sections, functions) **when they materially improve readability**.
+**Comment section headings** (CSH) are visual separators written inside code comments to show structure in long code.
 
-Rules:
-- Use headings **sparingly**. Add them only when:
-  - the file is long, or
-  - a specific block (module/section/function) is **many lines long** and a visual separator helps navigation.
-- Do **not** add headings in short files or short functions. Do not place headings every few lines.
-- Do **not** use section headings in conversation; **code only**.
-- Use symbol order for descending levels: **#, =, *, +, -**.
-- Repeat symbols as visual rulers to match the line width.
-- `-` may be used freely for small local labels; it does not have to follow the hierarchy.
-- Keep headings short and use the comment style appropriate to the language.
+**When to use:**
 
-Examples after this prompt are **only** to show formatting and hierarchy. In real use, apply headings **far less frequently**.
+- CSH must live **inside code comments only** — never as raw code (which would break syntax), never in conversation text
+- only use CSH when the relevant section of code is **long enough** that a visual separator materially aids navigation
+- CSH must divide code at **logical boundaries**: modules, sections, functions, groups of related code
+- use CSH **sparingly** — prefer blank lines to separate relatively short sections; reserve CSH for blocks that span many lines
+- **file heading (level 0):** if you know the filename, every code block you produce must begin with a level 0 CSH containing the filename
+
+**How to format:**
+
+- symbol order for descending levels: `#`, `=`, `*`, `+`, `-`
+- repeat the symbol to fill a visual ruler up to **80 characters** line width
+- `-` may be used freely for small local labels; it does not need to follow the hierarchy
+- keep heading text short and use the comment syntax appropriate to the language
+
+**Examples:**
 
     ```cpp
     /*
     ################################################################################
     # stats_demo.cpp
-    #
-    # compute simple statistics
     ################################################################################
     */
 
-    #include <cstdio>
-    // Globals  ====================================================================
+    // constants ===================================================================
+
     const int kValues[] = {10, 20, 30};
-    const int kCount = sizeof(kValues) / sizeof(kValues[0]);
 
-    // Public API  =================================================================
-    // Utility functions  **********************************************************
-    double compute_average(const int* values, int count) {
-        // Sum values  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        int sum = 0;
+    // helpers  ********************************************************************
+
+    double compute_average(const int* v, int n) {
         // accumulate  -------------------------------------------------------------
-        for (int i = 0; i < count; ++i) {
-            sum += values[i];
-        }
-        // Sum values  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         ...
-        // Compute average  --------------------------------------------------------
-        return (count > 0) ? static_cast<double>(sum) / count : 0.0;
     }
-
-    // Data Analysis  **************************************************************
-    ...
 
     // Entry Point  ================================================================
-    int main() {
-        double average = compute_average(kValues, kCount);
-        // print result  -----------------------------------------------------------
-        std::printf("Average: %.2f\n", average);
-        ...
-        return 0;
-    }
+
+    int main() { ... }
     ```
 
-Example (Python):
-
     ```python
-    ...
-    # Public Parser  ###############################################################
+    ################################################################################
+    # parser.py
+    ################################################################################
+
+    # Public API  ==================================================================
+
     def to_int(s):
-        s = s.strip()
-        # Quick parse  -------------------------------------------------------------
+        # quick parse  -------------------------------------------------------------
         ...
-        return int(s) if s.isdigit() else None
     ```
 
 
