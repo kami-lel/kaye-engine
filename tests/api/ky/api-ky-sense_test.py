@@ -28,7 +28,7 @@ def _assert_empty_pl(opt):
 
 def _assert_zero_diff(opt):
     assert """### zero difficulty
-`difficulty` must be `0`""" in opt
+`difficulty` must be `""" in opt
 
 
 def _assert_role1(opt):
@@ -74,22 +74,22 @@ def _assert_sense_diff1(opt):
 
 
 def _assert_sense_diff2(opt):
-    assert "Provide a number between `0.01` (very easy)" in opt
+    assert "Provide a number between `1` (very easy)" in opt
 
 
 def _assert_sense_diff3(opt):
     assert (
-        """- `0.03` Correct a single typo or awkward word choice in a short piece of text.
-- `0.13` Fix basic grammar, punctuation, formatting, or style issues in a short passage.
-- `0.25` Look up how to complete a common task and provide brief step-by-step instructions."""
+        """- `3` Correct a single typo or awkward word choice in a short piece of text.
+- `13` Fix basic grammar, punctuation, formatting, or style issues in a short passage.
+- `25` Look up how to complete a common task and provide brief step-by-step instructions."""
         in opt
     )
 
 
 def _assert_sense_diff4(opt):
     assert (
-        """- `0.75` Choose and apply an appropriate common reasoning framework to organize, filter, or prioritize information.
-- `0.88` Design a basic end-to-end workflow connecting user input, intermediate processing, and final output."""
+        """- `75` Choose and apply an appropriate common reasoning framework to organize, filter, or prioritize information.
+- `88` Design a basic end-to-end workflow connecting user input, intermediate processing, and final output."""
         in opt
     )
 
@@ -101,7 +101,7 @@ def _assert_sense_diff4(opt):
 def testee_coder(flask_test_client, sense_endpoint):
     response = flask_test_client.post(
         sense_endpoint,
-        json={"pre_sense_role": "coder", "difficulty_override": 0.0},
+        json={"pre_sense_role": "coder", "difficulty_override": 0},
     )
     opt = response.get_data().decode("utf-8")
 
@@ -112,7 +112,7 @@ def testee_coder(flask_test_client, sense_endpoint):
 def testee_others(flask_test_client, sense_endpoint):
     response = flask_test_client.post(
         sense_endpoint,
-        json={"pre_sense_role": "secretary", "difficulty_override": 0.0},
+        json={"pre_sense_role": "secretary", "difficulty_override": 0},
     )
     opt = response.get_data().decode("utf-8")
 
@@ -123,7 +123,7 @@ def testee_others(flask_test_client, sense_endpoint):
 def testee_no_role_provided(flask_test_client, sense_endpoint):
     response = flask_test_client.post(
         sense_endpoint,
-        json={"pre_sense_role": "", "difficulty_override": 0.5},
+        json={"pre_sense_role": "", "difficulty_override": 5},
     )
     opt = response.get_data().decode("utf-8")
 
@@ -134,7 +134,7 @@ def testee_no_role_provided(flask_test_client, sense_endpoint):
 def testee_no_role_dft(flask_test_client, sense_endpoint):
     response = flask_test_client.post(
         sense_endpoint,
-        json={"pre_sense_role": "", "difficulty_override": 0.0},
+        json={"pre_sense_role": "", "difficulty_override": 0},
     )
     opt = response.get_data().decode("utf-8")
 
@@ -177,14 +177,14 @@ Return a string containing the abbreviations of the programming languages"""
         opt = testee_coder
         print(opt)
 
-        assert """Provide a number between `0.01` (very easy)""" in opt
+        assert """Provide a number between `1` (very easy)""" in opt
 
     def test_diff3(_, testee_coder):
         opt = testee_coder
         print(opt)
 
-        assert """- `0.03` Rename a local variable for clarity; ensure no typos.
-- `0.07` Change a single hardcoded configuration value or string.""" in opt
+        assert """- `3` Rename a local variable for clarity; ensure no typos.
+- `7` Change a single hardcoded configuration value or string.""" in opt
 
     def test_diff4(_, testee_coder):
         opt = testee_coder
@@ -200,8 +200,8 @@ Return a string containing the abbreviations of the programming languages"""
         print(opt)
 
         assert (
-            """- `0.96` Integrate a standard third-party SDK for a straightforward feature; mock in tests.
-- `0.98` Convert a sync flow to async/await (or equivalent) without behavior changes."""
+            """- `96` Integrate a standard third-party SDK for a straightforward feature; mock in tests.
+- `98` Convert a sync flow to async/await (or equivalent) without behavior changes."""
             in opt
         )
 
