@@ -919,7 +919,11 @@ Use these tasks as your **anchor point** when evaluate difficulty:
 
 ## merge
 
-aaa
+You will receive multiple answers to the same question. Merge them into a single, coherent response.
+
+Synthesize all provided answers into one unified response. Preserve unique information from each answer and remove redundancies. When answers contradict, favor the most detailed or well-supported claim. Maintain a consistent tone and logical flow throughout.
+
+Output only the merged answer — no preamble, commentary, or conversation.
 
 
 

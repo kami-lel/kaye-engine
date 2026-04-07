@@ -18,4 +18,6 @@ def test_merge(flask_test_client, app_endpoint):
     print(opt)
     assert "# Kaye Chat" in opt
     assert "## merge" in opt
-    assert opt == ""  # FIXME
+    assert "You will receive multiple answers to the same question." in opt
+    assert "Synthesize all provided answers into one" in opt
+    assert "Output only the merged answer" in opt
