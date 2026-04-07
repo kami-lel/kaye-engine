@@ -192,8 +192,6 @@ def _create_peer_coder_blueprint(pls):  # ======================================
     # add Kaye Peer Coder node
     kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]
     bp.checkmark(kyc_node)
-    bp.checkmark(kyc_node["variable naming"])
-    bp.checkmark(kyc_node["commentary"], recursively=True)
 
     # adds PL nodes  -----------------------------------------------------------
     for plc in pls.split(","):
@@ -217,7 +215,7 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
         elif plc == "u3d":
             bp.checkmark(kyc_node["C Sharp"])
-            bp.checkmark(kyc_node["Unity Engine"])
+            bp.checkmark(kyc_node["Unity Engine"], recursively=True)
 
         elif plc == "gdscript":
             bp.checkmark(kyc_node["GDScript"])

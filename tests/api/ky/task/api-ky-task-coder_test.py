@@ -38,24 +38,13 @@ Duties are as follows:
         in opt
     )
 
-    assert (
-        """### variable naming
-- use i, j, k for loop counters, for example `for (int i = 1; i <= 5; i++)`"""
-        in opt
-    )
+    assert "#### variable naming" in opt
 
-    assert """### commentary""" in opt
+    assert "#### code comment" in opt
 
-    assert (
-        """#### code comment
-- format inline comments as: actual code + two spaces + `#` or `//` + single space + comment content, for example `int a = 1;  // comment on number`"""
-        in opt
-    )
+    assert "#### comment section headings" in opt
 
-    assert (
-        """Use **comment section headings** *only inside code comments* to show structure (file info, modules, sections, functions) **when they materially improve readability**."""
-        in opt
-    )
+    assert "# parser.py" in opt
 
 
 def _assert_c_opt(opt):
@@ -69,9 +58,10 @@ use **C++17** standard""" in opt
 
 
 def _assert_u3d_opt(opt):
-    assert """### Unity Engine
-- Version: `6000.0.34f1`
-- Documentation: Employ XML documentation comments""" in opt
+    assert "### Unity Engine" in opt
+    assert "Unity **6**" in opt
+    assert "#### MonoBehaviour" in opt
+    assert "never mixed into *Private Methods*" in opt
 
 
 def _assert_ue_opt(opt):

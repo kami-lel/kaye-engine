@@ -1461,7 +1461,11 @@ include only minimal explanation unless the user asks for more.
 
 Code Line Length: keep all lines **under 80 characters**
 
-### variable naming
+
+
+
+
+#### variable naming
 
 - use i, j, k for loop counters, for example `for (int i = 1; i <= 5; i++)`
 - use `_` for intentionally unused variables
@@ -1472,7 +1476,8 @@ Code Line Length: keep all lines **under 80 characters**
 - use PascalCase for class names, for example `class MyClass`
 - use UPPER_CASE_WITH_UNDERSCORES for constants, for example `MAX_COUNT`
 
-### commentary
+
+
 
 #### code comment
 
@@ -1481,75 +1486,63 @@ Code Line Length: keep all lines **under 80 characters**
 - use *Commentary Case* for each comment line
 - include *immediate annotation markers* where appropriate, for example `// TODO implement data fetching`, `# BUG incorrect behavior with None`
 
-----
 
-Use **comment section headings** *only inside code comments* to show structure (file info, modules, sections, functions) **when they materially improve readability**.
 
-Rules:
-- Use headings **sparingly**. Add them only when:
-  - the file is long, or
-  - a specific block (module/section/function) is **many lines long** and a visual separator helps navigation.
-- Do **not** add headings in short files or short functions. Do not place headings every few lines.
-- Do **not** use section headings in conversation; **code only**.
-- Use symbol order for descending levels: **#, =, *, +, -**.
-- Repeat symbols as visual rulers to match the line width.
-- `-` may be used freely for small local labels; it does not have to follow the hierarchy.
-- Keep headings short and use the comment style appropriate to the language.
 
-Examples after this prompt are **only** to show formatting and hierarchy. In real use, apply headings **far less frequently**.
+#### comment section headings
+
+**Comment section headings** (CSH) are visual separators written inside code comments to show structure in long code.
+
+**When to use:**
+
+- CSH must live **inside code comments only** — never as raw code (which would break syntax), never in conversation text
+- only use CSH when the relevant section of code is **long enough** that a visual separator materially aids navigation
+- CSH must divide code at **logical boundaries**: modules, sections, functions, groups of related code
+- use CSH **sparingly** — prefer blank lines to separate relatively short sections; reserve CSH for blocks that span many lines
+- **file heading (level 0):** if you know the filename, every code block you produce must begin with a level 0 CSH containing the filename
+
+**How to format:**
+
+- symbol order for descending levels: `#`, `=`, `*`, `+`, `-`
+- repeat the symbol to fill a visual ruler up to **80 characters** line width
+- `-` may be used freely for small local labels; it does not need to follow the hierarchy
+- keep heading text short and use the comment syntax appropriate to the language
+
+**Examples:**
 
     ```cpp
     /*
     ################################################################################
     # stats_demo.cpp
-    #
-    # compute simple statistics
     ################################################################################
     */
 
-    #include <cstdio>
-    // Globals  ====================================================================
+    // constants ===================================================================
+
     const int kValues[] = {10, 20, 30};
-    const int kCount = sizeof(kValues) / sizeof(kValues[0]);
 
-    // Public API  =================================================================
-    // Utility functions  **********************************************************
-    double compute_average(const int* values, int count) {
-        // Sum values  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        int sum = 0;
+    // helpers  ********************************************************************
+
+    double compute_average(const int* v, int n) {
         // accumulate  -------------------------------------------------------------
-        for (int i = 0; i < count; ++i) {
-            sum += values[i];
-        }
-        // Sum values  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         ...
-        // Compute average  --------------------------------------------------------
-        return (count > 0) ? static_cast<double>(sum) / count : 0.0;
     }
-
-    // Data Analysis  **************************************************************
-    ...
 
     // Entry Point  ================================================================
-    int main() {
-        double average = compute_average(kValues, kCount);
-        // print result  -----------------------------------------------------------
-        std::printf("Average: %.2f\n", average);
-        ...
-        return 0;
-    }
+
+    int main() { ... }
     ```
 
-Example (Python):
-
     ```python
-    ...
-    # Public Parser  ###############################################################
+    ################################################################################
+    # parser.py
+    ################################################################################
+
+    # Public API  ==================================================================
+
     def to_int(s):
-        s = s.strip()
-        # Quick parse  -------------------------------------------------------------
+        # quick parse  -------------------------------------------------------------
         ...
-        return int(s) if s.isdigit() else None
     ```
 
 
@@ -1653,8 +1646,59 @@ use **C++17** standard
 
 ### Unity Engine
 
-- Version: `6000.0.34f1`
-- Documentation: Employ XML documentation comments
+Unity Version: Unity **6**
+
+
+
+
+
+#### MonoBehaviour
+
+When writing or reviewing `MonoBehaviour` scripts, you must strictly follow the section ordering, formatting, and accessor conventions demonstrated below.
+
+```csharp
+public class PlayerController : MonoBehaviour {
+    // Public Members  #########################################################
+    public GameState currentState;
+
+    // Public Methods  #########################################################
+    public static PlayerController FindInScene() { ... }
+
+    // Inspector Fields  #######################################################
+    [SerializeField]
+    private string nextSceneName;
+
+    // MonoBehaviour Lifecycle  ################################################
+    private void Awake() { ... }
+    private void Start() { ... }
+
+    // Event Handlers  #########################################################
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) { ... }
+
+    // Constants  ##############################################################
+    private const string LOAD_TRIGGER_TAG = "LoadNextSceneTrigger";
+
+    // Private Members  ########################################################
+    private float startVelocityX;
+    private float acceleration;
+
+    // Cached References  ------------------------------------------------------
+    private Rigidbody2D body;
+
+    // Private Methods  ########################################################
+    private void PlayIntroSequence() { ... }
+}
+```
+
+Rules:
+
+- **section order is fixed** and must follow the exact sequence shown in the reference example
+- **only include a section heading when it contains code** — never emit empty sections
+- **accessors:**
+  - `public` — fields/methods exposed to other scripts
+  - `[SerializeField] private` — fields exposed only in the Inspector
+  - `private` — everything else
+- **MonoBehaviour lifecycle methods** (`Awake`, `Start`, `Update`, etc.) and **event handler callbacks** (`OnSceneLoaded`, `OnButtonClicked`, etc.) must stay in their own respective sections, never mixed into *Private Methods*
 
 
 
