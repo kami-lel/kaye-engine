@@ -6,114 +6,353 @@ Unit Tests (using pytest) for:
 /kaye/dify-app/ky/sense
 """
 
+import pytest
 
 # helpers  #####################################################################
-def _assert_start_opt(opt):
-    assert opt.startswith("""# Kaye Chat
-## sense
-In the JSON output, **always** use the defaults below; **change a value only** when the instructions include a **clearly labeled, field-specific section** that explicitly sets that same field:
-
-- `programming_languages`: `""`
-- `role`: `""`
-- `llm`: `""`
-- `difficulty`: `0`""")
 
 
-def _assert_llm_opt(opt):
+def _assert_start(opt):
+    assert opt.startswith("# Kaye Chat")
+    assert "## sense" in opt
+
+
+def _assert_empty_role(opt):
+    assert """### empty role
+`role` must be empty string""" in opt
+
+
+def _assert_empty_pl(opt):
+    assert """### empty programming_languages
+`programming_languages` must be empty string""" in opt
+
+
+def _assert_zero_diff(opt):
+    assert """### zero difficulty
+`difficulty` must be `""" in opt
+
+
+def _assert_role1(opt):
+    assert "### sense role" in opt
+
+
+def _assert_role2(opt):
+    assert "select exactly one role" in opt
+
+
+def _assert_role3(opt):
     assert (
-        """### llm
-choose exactly one label that best matches the **difficulty and reasoning complexity** required to answer the user's request (not the topic or length). base your choice on how many dependent steps, judgments, or non-trivial inferences are needed to produce a correct answer.
-
-- `rapid`: least complex. highly mechanical, immediate tasks with virtually no reasoning or judgment (reformatting, converting, extracting, renaming, simple templating).
-- `chat`: low complexity. straightforward conversational answers from broad knowledge with minimal reasoning (definitions, simple explanations, basic factual Q&A).
-- `think`: medium complexity. requires multiple connected steps and some judgment (planning, troubleshooting, comparing options against criteria, structured step-by-step help).
-- `think-think`: highest complexity. requires deep/extended reasoning, creative synthesis, or balancing constraints and trade-offs across many steps (system design, novel strategies, complex multi-constraint problem solving)."""
+        "- `art`: when the user gives you **a visual idea for image"
+        " generation**, such as a scene description, subject concept, style"
+        " reference, composition idea, aesthetic direction, character design,"
+        " or AI image prompt draft"
         in opt
     )
 
 
-def _assert_role_opt(opt):
+def _assert_role4(opt):
     assert (
-        """### role
-select exactly one role. choose the role that best matches the *kind of input* the user gives you. prefer the **most specific** matching role.
-
-- `rapid`: when the user gives you content that needs a **simple mechanical change** with little judgment, such as reformatting, extracting, sorting, converting, cleaning, splitting, merging, or applying a narrow rule to existing text or data
-- `chat`: when the user gives you a **general question or everyday request** and no more specific role clearly applies
-- `coder`: when the user gives you **code or software-related material**, such as source code, error messages, technical requirements, scripts, configuration, debugging questions, or implementation problems
-- `barista`: when the user gives you **coffee-related information**, such as beans, origins, roast details, brew methods, ratios, grind settings, equipment, tasting notes, drink results, prices, or brewing logs"""
+        "- `coder`: when the user gives you **code or software-related"
+        " material**, such as source code, error messages, technical"
+        " requirements, scripts, configuration, debugging questions, or"
+        " implementation problems"
         in opt
     )
 
 
-def _assert_empty_opt(opt):
-    assert """### leave empty
-`programming_languages` must be empty string
-`difficulty` must be `0`""" in opt
+def _assert_role5(opt):
+    assert (
+        "- `secretary`: when the user gives you **person-to-person"
+        " communication**, or text clearly meant to be sent to someone, such as"
+        " an email, reply, direct message, follow-up, request, apology,"
+        " invitation, reminder, complaint, or outreach message"
+        in opt
+    )
 
 
-class TestNoRole:  #############################################################
+def _assert_sense_diff1(opt):
+    assert "### sense difficulty" in opt
 
-    def test1(self, flask_test_client, sense_endpoint):
-        response = flask_test_client.get(sense_endpoint)
-        opt = response.get_data().decode("utf-8")
 
+def _assert_sense_diff2(opt):
+    assert "Provide a number between `1` (very easy)" in opt
+
+
+def _assert_sense_diff3(opt):
+    assert (
+        """- `3` Correct a single typo or awkward word choice in a short piece of text.
+- `13` Fix basic grammar, punctuation, formatting, or style issues in a short passage.
+- `25` Look up how to complete a common task and provide brief step-by-step instructions."""
+        in opt
+    )
+
+
+def _assert_sense_diff4(opt):
+    assert (
+        """- `75` Choose and apply an appropriate common reasoning framework to organize, filter, or prioritize information.
+- `88` Design a basic end-to-end workflow connecting user input, intermediate processing, and final output."""
+        in opt
+    )
+
+
+# Pytest fixtures  #############################################################
+
+
+@pytest.fixture(scope="class")
+def testee_coder(flask_test_client, sense_endpoint):
+    response = flask_test_client.post(
+        sense_endpoint,
+        json={"pre_sense_role": "coder", "difficulty_override": 0},
+    )
+    opt = response.get_data().decode("utf-8")
+
+    return opt
+
+
+@pytest.fixture(scope="class")
+def testee_others(flask_test_client, sense_endpoint):
+    response = flask_test_client.post(
+        sense_endpoint,
+        json={"pre_sense_role": "secretary", "difficulty_override": 0},
+    )
+    opt = response.get_data().decode("utf-8")
+
+    return opt
+
+
+@pytest.fixture(scope="class")
+def testee_no_role_provided(flask_test_client, sense_endpoint):
+    response = flask_test_client.post(
+        sense_endpoint,
+        json={"pre_sense_role": "", "difficulty_override": 5},
+    )
+    opt = response.get_data().decode("utf-8")
+
+    return opt
+
+
+@pytest.fixture(scope="class")
+def testee_no_role_dft(flask_test_client, sense_endpoint):
+    response = flask_test_client.post(
+        sense_endpoint,
+        json={"pre_sense_role": "", "difficulty_override": 0},
+    )
+    opt = response.get_data().decode("utf-8")
+
+    return opt
+
+
+# Pytest unit tests  ###########################################################
+
+
+class TestCoder:  # ============================================================
+
+    def test_start(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+        _assert_start(opt)
+
+    def test1(_, testee_coder):
+        opt = testee_coder
         print(opt)
 
-        _assert_start_opt(opt)
-        _assert_llm_opt(opt)
-        _assert_role_opt(opt)
-        _assert_empty_opt(opt)
+        assert "### for coder" in opt
 
-    def test2(self, flask_test_client, sense_endpoint):
-        response = flask_test_client.get(
-            sense_endpoint, query_string={"role": ""}
-        )
-        opt = response.get_data().decode("utf-8")
-
+    def test2(_, testee_coder):
+        opt = testee_coder
         print(opt)
-
-        _assert_start_opt(opt)
-        _assert_llm_opt(opt)
-        _assert_role_opt(opt)
-        _assert_empty_opt(opt)
-
-
-class TestRoleCoder:  ##########################################################
-
-    # tests  ===================================================================
-    def test1(self, flask_test_client, sense_endpoint):
-        response = flask_test_client.get(
-            sense_endpoint, query_string={"role": "coder"}
-        )
-        opt = response.get_data().decode("utf-8")
-
-        print(opt)
-
-        _assert_start_opt(opt)
 
         assert (
-            """- `0.93` Optimize a slow loop by reducing nested iterations or caching loop variables.
-- `0.96` Integrate a standard third-party SDK for a straightforward feature; mock in tests.
-- `0.98` Convert a sync flow to async/await (or equivalent) without behavior changes.
-- `1.00` Refactor a messy module into smaller units without changing behavior; update tests."""
+            """#### programming_languages
+Return a string containing the abbreviations of the programming languages"""
             in opt
         )
 
-        assert "#### programming_languages" in opt
-        assert "#### difficulty" in opt
-        assert "# {Programming Languages Code}" in opt
-
-
-class TestOtherRole:  ##########################################################
-
-    def test_other_role(self, flask_test_client, sense_endpoint):
-        response = flask_test_client.get(
-            sense_endpoint, query_string={"role": "aaa"}
-        )
-        opt = response.get_data().decode("utf-8")
-
+    def test_diff1(_, testee_coder):
+        opt = testee_coder
         print(opt)
 
-        _assert_start_opt(opt)
-        _assert_llm_opt(opt)
-        _assert_empty_opt(opt)
+        assert "#### difficulty" in opt
+
+    def test_diff2(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert """Provide a number between `1` (very easy)""" in opt
+
+    def test_diff3(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert """- `3` Rename a local variable for clarity; ensure no typos.
+- `7` Change a single hardcoded configuration value or string.""" in opt
+
+    def test_diff4(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert (
+            "Use these tasks as your **anchor point** when evaluate difficulty:"
+            in opt
+        )
+
+    def test_diff5(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert (
+            """- `96` Integrate a standard third-party SDK for a straightforward feature; mock in tests.
+- `98` Convert a sync flow to async/await (or equivalent) without behavior changes."""
+            in opt
+        )
+
+    def test_empty_role(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        _assert_empty_role(opt)
+
+    def test_plc(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert "# {Programming Languages Code}" in opt
+        assert "-`cpp`:C++" in opt
+
+
+class TestOthers:  # ===========================================================
+
+    def test_start(_, testee_others):
+        opt = testee_others
+        print(opt)
+        _assert_start(opt)
+
+    def test_diff1(_, testee_others):
+        opt = testee_others
+        print(opt)
+        _assert_sense_diff1(opt)
+
+    def test_diff2(_, testee_others):
+        opt = testee_others
+        print(opt)
+        _assert_sense_diff2(opt)
+
+    def test_diff3(_, testee_others):
+        opt = testee_others
+        print(opt)
+        _assert_sense_diff3(opt)
+
+    def test_diff4(_, testee_others):
+        opt = testee_others
+        print(opt)
+        _assert_sense_diff4(opt)
+
+    def test_empty_role(_, testee_others):
+        opt = testee_others
+        print(opt)
+        _assert_empty_role(opt)
+
+    def test_empty_pl(_, testee_others):
+        opt = testee_others
+        print(opt)
+        _assert_empty_pl(opt)
+
+
+class TestNoRoleProvided:  # ===================================================
+
+    def test_start(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_start(opt)
+
+    def test_role1(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_role1(opt)
+
+    def test_role2(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_role2(opt)
+
+    def test_role3(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_role3(opt)
+
+    def test_role4(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_role4(opt)
+
+    def test_role5(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_role5(opt)
+
+    def test_zero_diff(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_zero_diff(opt)
+
+    def test_empty_pl(_, testee_no_role_provided):
+        opt = testee_no_role_provided
+        print(opt)
+        _assert_empty_pl(opt)
+
+
+class TestNoRoleDft:  # ========================================================
+
+    def test_start(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_start(opt)
+
+    def test_role1(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_role1(opt)
+
+    def test_role2(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_role2(opt)
+
+    def test_role3(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_role3(opt)
+
+    def test_role4(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_role4(opt)
+
+    def test_role5(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_role5(opt)
+
+    def test_diff1(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_sense_diff1(opt)
+
+    def test_diff2(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_sense_diff2(opt)
+
+    def test_diff3(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_sense_diff3(opt)
+
+    def test_diff4(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_sense_diff4(opt)
+
+    def test_empty_pl(_, testee_no_role_dft):
+        opt = testee_no_role_dft
+        print(opt)
+        _assert_empty_pl(opt)

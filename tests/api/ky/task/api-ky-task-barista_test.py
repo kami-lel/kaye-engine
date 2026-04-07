@@ -24,7 +24,7 @@ def payload_json_dumps():
 class TestBarista:
 
     def test_rapid(_, flask_test_client, task_endpoint, payload_json_dumps):
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=payload_json_dumps,
             content_type="application/json",
@@ -36,7 +36,7 @@ class TestBarista:
         _assert_rapid_blueprint_opt(opt)
 
     def test1(_, flask_test_client, task_endpoint, payload_json_dumps):
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=payload_json_dumps,
             content_type="application/json",
@@ -52,7 +52,7 @@ class TestBarista:
         )
 
     def test2(_, flask_test_client, task_endpoint, payload_json_dumps):
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=payload_json_dumps,
             content_type="application/json",
@@ -70,7 +70,7 @@ Transform any user-provided input into the required document format using only p
         )
 
     def test3(_, flask_test_client, task_endpoint, payload_json_dumps):
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=payload_json_dumps,
             content_type="application/json",

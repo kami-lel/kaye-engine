@@ -2,112 +2,95 @@
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-positional-arguments
 
-# Bug s/X replied 2 meta content during 2nd round conversation
+
+# Bug meta content answer always twice since 2nd round
 
 # output keys  #################################################################
 OUTPUT_META_KEY = "meta_content"
 
 
+# constants  ###################################################################
+USAGE_TIME_KEY = "time_to_generate"
+USAGE_TOKEN_KEY = "total_tokens"
+
+
+# helpers  #####################################################################
+def _generate_usage_line(usage):
+    return "`{}`s\t`{}`t".format(usage[USAGE_TIME_KEY], usage[USAGE_TOKEN_KEY])
+
+
+def _generate_llm_usage_line(llm, usage):
+    return "*{}*\t{}".format(llm, _generate_usage_line(usage))
+
+
 # Entry Point  #################################################################
 def main(
     show_meta_content: bool,
-    role_override: str,
-    role: str,
-    llm_override: str,
-    llm_used: str,
-    difficulty_override: float,
-    difficulty_sensed: float,
-    skip_sense: bool,
-    programming_languages: str,
+    should_skip_sense: bool,
+    current_role: str,
+    current_difficulty: int,
+    current_pls: str,
     sense_usage: dict,
-    task_usage: dict,
+    is_direct_response,
+    task_usages: dict,
+    merger_usage: dict,
 ):
     """
-    generate **meta content**, information for debugging and testing
+    generate meta content for debug
 
 
-    :param show_meta_content: whether to show meta content,
-            set as User Input Field
+    :param show_meta_content:
     :type show_meta_content: bool
-    :param role_override:
-    :type role_override: str
-    :param role:
-    :type role: str
-    :param llm_override:
-    :type llm_override: str
-    :param llm_used:
-    :type llm_used: str
-    :param difficulty_override:
-    :type difficulty_override: float
-    :param difficulty_sensed:
-    :type difficulty_sensed: float
-    :param skip_sense:
-    :type skip_sense: bool
-    :param programming_languages:
-    :type programming_languages: str
-    :param sense_usage: usage object for information of sense node
+    :param should_skip_sense:
+    :type should_skip_sense: bool
+    :param current_role:
+    :type current_role: str
+    :param current_difficulty:
+    :type current_difficulty: int
+    :param current_pls:
+    :type current_pls: str
+    :param sense_usage:
     :type sense_usage: dict
-    :param task_usage: usage object for information of task node
-    :type task_usage: dict
+    :param is_direct_response:
+    :type is_direct_response: bool
+    :param task_usages:
+    :type task_usages: dict
+    :param merger_usage:
+    :type merger_usage: dict
+    :return: {"meta_content": meta content for debug}
+    :rtype: dict{"meta_content": str}
     """
     if not show_meta_content:
         return {OUTPUT_META_KEY: ""}
 
     lines = []
 
-    # create role line
-    if role_override:
-        lines.append("Role (Override): {}".format(role_override))
+    # sense-related  -----------------------------------------------------------
+    if not should_skip_sense:
+        lines.append("Sensed:\t" + _generate_usage_line(sense_usage))
+
+    # task parameters  ---------------------------------------------------------
+    lines.append("Role:\t{}".format(current_role))
+    lines.append("Difficulty:\t{}".format(current_difficulty))
+
+    if current_role == "coder":
+        lines.append("PLs:\t{}".format(current_pls))
+
+    # task ---------------------------------------------------------------------
+    if is_direct_response:
+        ((llm, usage),) = task_usages.items()
+        lines.append("Task:\t" + _generate_llm_usage_line(llm, usage))
     else:
-        lines.append("Role: {}".format(role))
+        lines.append("Task:")
+        for llm, usage in task_usages.items():
+            lines.append(_generate_llm_usage_line(llm, usage))
 
-    # create llm line
-    if llm_override:
-        lines.append(
-            "LLM (Override): {}".format(_llm2display_name(llm_override))
-        )
-    else:
-        lines.append("LLM: {}".format(_llm2display_name(llm_used)))
+        lines.append("Merger:\t" + _generate_usage_line(merger_usage))
 
-    role_used = role_override or role
-    if role_used == "coder":
-        if difficulty_override == -1:
-            lines.append("Difficulty: {}".format(difficulty_sensed))
-        else:
-            lines.append(
-                "Difficulty (Override): {}".format(difficulty_override)
-            )
-
-        lines.append("PLs: {}".format(programming_languages))
-
-    if not skip_sense:
-        lines.append("Sense: {}s".format(sense_usage[USAGE_TIME_KEY]))
-
-    lines.append("Task: {}s".format(task_usage[USAGE_TIME_KEY]))
-
-    # create final content form
+    # final content form  ------------------------------------------------------
     meta_content = """
 
 > [!TIP]
 """ + "\n".join("> " + line for line in lines)
-    return {OUTPUT_META_KEY: meta_content}
 
-
-# helpers  #####################################################################
-
-LLM2DISPLAY_NAME = {
-    "rapid": "⚡Rapid",
-    "chat": "💬Chat",
-    "think": "🤔Think",
-    "think-think": "🧠Think Think",
-}
-
-
-USAGE_TIME_KEY = "time_to_generate"
-
-
-def _llm2display_name(llm):
-    if llm in LLM2DISPLAY_NAME:
-        return LLM2DISPLAY_NAME[llm]
-    else:
-        return llm  # fall back
+    return {OUTPUT_META_KEY: str(meta_content)}

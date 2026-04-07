@@ -13,7 +13,7 @@ class TestErrRole:
 
     def test1(self, flask_test_client, task_endpoint):
         payload = json.dumps({"role": "abc"})
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=payload,
             content_type="application/json",

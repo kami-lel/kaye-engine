@@ -19,7 +19,7 @@ class TestRapid:  ##############################################################
     def test1(self, flask_test_client, task_endpoint):
         payload = json.dumps({"role": "rapid"})
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=payload,
             content_type="application/json",
@@ -33,7 +33,7 @@ class TestRapid:  ##############################################################
     def test_with_pls(self, flask_test_client, task_endpoint):
         payload = json.dumps({"role": "rapid", "programming_languages": "abc"})
 
-        response = flask_test_client.get(
+        response = flask_test_client.post(
             task_endpoint,
             data=payload,
             content_type="application/json",

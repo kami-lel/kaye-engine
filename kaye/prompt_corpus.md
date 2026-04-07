@@ -726,57 +726,26 @@ change from higher to lower AM, call it **demote**.
 
 ## sense
 
-In the JSON output, **always** use the defaults below; **change a value only** when the instructions include a **clearly labeled, field-specific section** that explicitly sets that same field:
-
-- `programming_languages`: `""`
-- `role`: `""`
-- `llm`: `""`
-- `difficulty`: `0`
-
-
-
-
-
-
-
-
-
-
-
-
-### llm
-
-choose exactly one label that best matches the **difficulty and reasoning complexity** required to answer the user's request (not the topic or length). base your choice on how many dependent steps, judgments, or non-trivial inferences are needed to produce a correct answer.
-
-- `rapid`: least complex. highly mechanical, immediate tasks with virtually no reasoning or judgment (reformatting, converting, extracting, renaming, simple templating).
-- `chat`: low complexity. straightforward conversational answers from broad knowledge with minimal reasoning (definitions, simple explanations, basic factual Q&A).
-- `think`: medium complexity. requires multiple connected steps and some judgment (planning, troubleshooting, comparing options against criteria, structured step-by-step help).
-- `think-think`: highest complexity. requires deep/extended reasoning, creative synthesis, or balancing constraints and trade-offs across many steps (system design, novel strategies, complex multi-constraint problem solving).
-
-
-
-
-
-
-
-
-
-
-
-
-
-### role
+### sense role
 
 select exactly one role. choose the role that best matches the *kind of input* the user gives you. prefer the **most specific** matching role.
 
-- `rapid`: when the user gives you content that needs a **simple mechanical change** with little judgment, such as reformatting, extracting, sorting, converting, cleaning, splitting, merging, or applying a narrow rule to existing text or data
-- `chat`: when the user gives you a **general question or everyday request** and no more specific role clearly applies
-- `coder`: when the user gives you **code or software-related material**, such as source code, error messages, technical requirements, scripts, configuration, debugging questions, or implementation problems
-- `barista`: when the user gives you **coffee-related information**, such as beans, origins, roast details, brew methods, ratios, grind settings, equipment, tasting notes, drink results, prices, or brewing logs
-- `editor`: when the user gives you **standalone written content** to improve, and the text is not primarily meant to be sent to another person, such as a paragraph, essay excerpt, caption, post, note, bio, review, or description
-- `secretary`: when the user gives you **person-to-person communication**, or text clearly meant to be sent to someone, such as an email, reply, direct message, follow-up, request, apology, invitation, reminder, complaint, or outreach message
 - `art`: when the user gives you **a visual idea for image generation**, such as a scene description, subject concept, style reference, composition idea, aesthetic direction, character design, or AI image prompt draft
+
+- `barista`: when the user gives you **coffee-related information**, such as beans, origins, roast details, brew methods, ratios, grind settings, equipment, tasting notes, drink results, prices, or brewing logs
+
+- `chat`: when the user gives you a **general question or everyday request** and no more specific role clearly applies
+
+- `coder`: when the user gives you **code or software-related material**, such as source code, error messages, technical requirements, scripts, configuration, debugging questions, or implementation problems
+
 - `deutschlehrer`: when the user gives you **German-related learning content or questions**, such as German words, sentence meanings, grammar rules, conjugation questions, article or case questions, translation-for-learning requests, usage questions, correction requests, pronunciation questions, exercise help, or other content meant to help them understand or learn German
+
+- `editor`: when the user gives you **standalone written content** to improve, and the text is not primarily meant to be sent to another person, such as a paragraph, essay excerpt, caption, post, note, bio, review, or description
+
+- `rapid`: when the user gives you content that needs a **simple mechanical change** with little judgment, such as reformatting, extracting, sorting, converting, cleaning, splitting, merging, or applying a narrow rule to existing text or data
+
+- `secretary`: when the user gives you **person-to-person communication**, or text clearly meant to be sent to someone, such as an email, reply, direct message, follow-up, request, apology, invitation, reminder, complaint, or outreach message
+
 - `tarot`: when the user **explicitly asks for tarot guidance or a tarot reading**, such as asking for a card reading, card interpretation, spread, or tarot-based insight about a situation
 
 
@@ -789,10 +758,24 @@ select exactly one role. choose the role that best matches the *kind of input* t
 
 
 
-### leave empty
 
-`programming_languages` must be empty string
-`difficulty` must be `0`
+
+### sense difficulty
+
+Provide a number between `1` (very easy) and `100` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
+
+Use these tasks as your **anchor point** when evaluating difficulty:
+
+- `3` Correct a single typo or awkward word choice in a short piece of text.
+- `13` Fix basic grammar, punctuation, formatting, or style issues in a short passage.
+- `25` Look up how to complete a common task and provide brief step-by-step instructions.
+- `38` Create a simple example set to verify that a straightforward rule or instruction works in the normal case.
+- `50` Fix a misunderstanding caused by missing context or ambiguity and provide the corrected interpretation.
+- `61` Add a new field, requirement, or category to an existing template or process and update related parts consistently.
+- `75` Choose and apply an appropriate common reasoning framework to organize, filter, or prioritize information.
+- `88` Design a basic end-to-end workflow connecting user input, intermediate processing, and final output.
+- `96` Integrate a standard external source, service, or policy into a straightforward workflow and include verification.
+- `100` Refactor a messy, ambiguous, multi-part set of instructions into smaller clear units without changing intent, while updating examples and edge cases consistently.
 
 
 
@@ -817,40 +800,131 @@ Return a string containing the abbreviations of the programming languages (defin
 
 #### difficulty
 
-Provide a number between `0.0` (very easy) and `1.0` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
+Provide a number between `1` (very easy) and `100` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
 
 Use these tasks as your **anchor point** when evaluate difficulty:
 
-- `0.03` Rename a local variable for clarity; ensure no typos.
-- `0.07` Change a single hardcoded configuration value or string.
-- `0.10` Add standard boilerplate comments/docstrings to an existing function.
-- `0.13` Fix basic formatting/indentation or resolve a simple linting warning.
-- `0.17` Update a package dependency version; ensure the lockfile is synced.
-- `0.20` Generate an empty boilerplate class/struct based on a given interface.
-- `0.23` Find the correct syntax for a language feature; provide a minimal snippet.
-- `0.25` Look up how to use a library/API call; provide a minimal working example.
-- `0.28` Write/fix a simple regex; include a few test cases.
-- `0.32` Extract a magic number/string into a shared constant file.
-- `0.35` Add an optional parameter to a function signature; handle the default state.
-- `0.38` Write a simple unit test for a pure function; cover the happy path.
-- `0.42` Extract an inline code block into a private helper method.
-- `0.45` Wrap a risky block in try-catch/error-handling; log the exception.
-- `0.48` Implement a small utility function + edge-case tests (e.g., slugify/rounding/URL encode).
-- `0.50` Fix a null/undefined crash from a stack trace; add correct guards.
-- `0.53` Add basic input validation (formats/required fields) with clear error messages.
-- `0.57` Write a short shell script to automate a trivial build or file-copy task.
-- `0.61` Add a new field to a data model; update serialization and constructors.
-- `0.65` Mock a standard external dependency in a test suite; assert call counts.
-- `0.69` Implement basic state transition logic (e.g., enum-based status checks).
-- `0.73` Replace recursion with an iterative approach; state complexity.
-- `0.75` Pick and implement the right common algorithm/data structure (dedupe, top‑k, sliding window).
-- `0.78` Fix a type-system error (generics/constraints/lifetimes) idiomatically.
-- `0.83` Write a custom hook (React) or decorator (Python) to wrap common logic.
-- `0.88` Set up a basic CRUD API endpoint mapping a controller to a database layer.
-- `0.93` Optimize a slow loop by reducing nested iterations or caching loop variables.
-- `0.96` Integrate a standard third-party SDK for a straightforward feature; mock in tests.
-- `0.98` Convert a sync flow to async/await (or equivalent) without behavior changes.
-- `1.00` Refactor a messy module into smaller units without changing behavior; update tests.
+- `3` Rename a local variable for clarity; ensure no typos.
+- `7` Change a single hardcoded configuration value or string.
+- `10` Add standard boilerplate comments/docstrings to an existing function.
+- `13` Fix basic formatting/indentation or resolve a simple linting warning.
+- `17` Update a package dependency version; ensure the lockfile is synced.
+- `20` Generate an empty boilerplate class/struct based on a given interface.
+- `23` Find the correct syntax for a language feature; provide a minimal snippet.
+- `25` Look up how to use a library/API call; provide a minimal working example.
+- `28` Write/fix a simple regex; include a few test cases.
+- `32` Extract a magic number/string into a shared constant file.
+- `35` Add an optional parameter to a function signature; handle the default state.
+- `38` Write a simple unit test for a pure function; cover the happy path.
+- `42` Extract an inline code block into a private helper method.
+- `45` Wrap a risky block in try-catch/error-handling; log the exception.
+- `48` Implement a small utility function + edge-case tests (e.g., slugify/rounding/URL encode).
+- `50` Fix a null/undefined crash from a stack trace; add correct guards.
+- `53` Add basic input validation (formats/required fields) with clear error messages.
+- `57` Write a short shell script to automate a trivial build or file-copy task.
+- `61` Add a new field to a data model; update serialization and constructors.
+- `65` Mock a standard external dependency in a test suite; assert call counts.
+- `69` Implement basic state transition logic (e.g., enum-based status checks).
+- `73` Replace recursion with an iterative approach; state complexity.
+- `75` Pick and implement the right common algorithm/data structure (dedupe, top‑k, sliding window).
+- `78` Fix a type-system error (generics/constraints/lifetimes) idiomatically.
+- `83` Write a custom hook (React) or decorator (Python) to wrap common logic.
+- `88` Set up a basic CRUD API endpoint mapping a controller to a database layer.
+- `93` Optimize a slow loop by reducing nested iterations or caching loop variables.
+- `96` Integrate a standard third-party SDK for a straightforward feature; mock in tests.
+- `98` Convert a sync flow to async/await (or equivalent) without behavior changes.
+- `100` Refactor a messy module into smaller units without changing behavior; update tests.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### empty role
+
+`role` must be empty string
+
+
+
+
+
+
+
+
+
+
+
+
+
+### zero difficulty
+
+`difficulty` must be `0`
+
+
+
+
+
+
+
+
+
+
+
+
+
+### empty programming_languages
+
+`programming_languages` must be empty string
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## merge
+
+You will receive multiple answers to the same question. Merge them into a single, coherent response.
+
+Synthesize all provided answers into one unified response. Preserve unique information from each answer and remove redundancies. When answers contradict, favor the most detailed or well-supported claim. Maintain a consistent tone and logical flow throughout.
+
+Output only the merged answer — no preamble, commentary, or conversation.
+
 
 
 
