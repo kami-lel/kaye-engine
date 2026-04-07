@@ -1,4 +1,6 @@
 # pylint: disable=missing-module-docstring
+# pylint: disable=too-many-arguments
+# pylint: disable=too-many-positional-arguments
 
 
 # output keys  #################################################################
@@ -14,10 +16,10 @@ SPLITTER = ","
 # Entry Point  #################################################################
 def main(
     sensed_role: str,
-    sensed_difficulty: float,
+    sensed_difficulty: int,
     sensed_pls: str,
     current_role: str,
-    difficulty_override: float,
+    difficulty_override: int,
     current_pls: str,
 ):
     """
@@ -27,24 +29,28 @@ def main(
     :param sensed_role:
     :type sensed_role: str
     :param sensed_difficulty:
-    :type sensed_difficulty: float
+    :type sensed_difficulty: int
     :param sensed_pls:
     :type sensed_pls: str
     :param current_role:
     :type current_role: str
     :param difficulty_override:
-    :type difficulty_override: float
+    :type difficulty_override: int
     :param current_pls:
     :type current_pls: str
-    :return:
-    :rtype: dict{"role": str, "difficulty": float, "combined_pls": str}
+    :return: {
+        "role":         final/post-sense role for current round
+        "difficulty":   final/post-sense difficulty for current round
+        "combined_pls": combined PLs
+    }
+    :rtype: dict{"role": str, "difficulty": int, "combined_pls": str}
     """
     # role  --------------------------------------------------------------------
     # role default to chat
     role = current_role or sensed_role or "chat"
 
     # difficulty  --------------------------------------------------------------
-    difficulty = float(difficulty_override) or float(sensed_difficulty) or 0.0
+    difficulty = difficulty_override or sensed_difficulty or 0
 
     # pls  ---------------------------------------------------------------------
     combined_set = set(current_pls.split(SPLITTER)) | set(
@@ -54,6 +60,6 @@ def main(
 
     return {
         OUTPUT_ROLE_KEY: role,
-        OUTPUT_DIFF_KEY: difficulty,
+        OUTPUT_DIFF_KEY: int(difficulty),
         OUTPUT_PLS_KEY: combined_pls,
     }

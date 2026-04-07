@@ -81,6 +81,6 @@ def main(
     return {
         OUTPUT_SKIP_KEY: skip,
         OUTPUT_ROLE_KEY: role,
-        OUTPUT_DIFF_KEY: diff,
+        OUTPUT_DIFF_KEY: int(diff),
         OUTPUT_SENSE_BODY_KEY: body,
     }
