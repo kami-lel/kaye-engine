@@ -120,6 +120,9 @@ def kaye_chat_task():
     query = body.get(BODY_QUERY_KEY) or ""
 
     # create bp  ---------------------------------------------------------------
+    if role == "art":
+        bp = _create_art_blueprint()
+
     if role == "chat":
         bp = _create_chat_blueprint()
 
@@ -129,6 +132,9 @@ def kaye_chat_task():
     elif role == "coder":
         bp = _create_peer_coder_blueprint(pls)
 
+    elif role == "deutschlehrer":
+        bp = _create_deutschlehrer_blueprint()
+
     elif role == "barista":
         bp = _create_barista_blueprint()
 
@@ -137,6 +143,9 @@ def kaye_chat_task():
 
     elif role == "secretary":
         bp = _create_secretary_blueprint()
+
+    elif role == "tarot":
+        bp = _create_tarot_blueprint()
 
     else:
         return abort(
@@ -240,6 +249,12 @@ def _create_peer_coder_blueprint(pls):  # ======================================
     return bp
 
 
+def _create_art_blueprint():  # ============================================
+    bp = _create_rapid_blueprint()
+    # TODO
+    return bp
+
+
 def _create_barista_blueprint():  # ============================================
     bp = _create_rapid_blueprint()
     bp.checkmark("Date & Time Format")
@@ -254,6 +269,12 @@ def _create_changelog_blueprint():  # ==========================================
     return bp
 
 
+def _create_deutschlehrer_blueprint():  # ======================================
+    bp = _create_rapid_blueprint()
+    # TODO
+    return bp
+
+
 def _create_editor_blueprint():  # =============================================
     bp = _create_chat_blueprint()
     bp.checkmark(bp.corpus["Style"]["Good Writing"])
@@ -265,4 +286,10 @@ def _create_secretary_blueprint():  # ==========================================
     bp = _create_chat_blueprint()
     bp.checkmark(bp.corpus["Style"]["Good Writing"])
     bp.checkmark(bp.corpus["Role"]["Secretary"])
+    return bp
+
+
+def _create_tarot_blueprint():  # ==========================================
+    bp = _create_rapid_blueprint()
+    # TODO
     return bp
