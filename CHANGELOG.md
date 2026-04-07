@@ -4,7 +4,6 @@
 
 <!-- todo implement for ks op worker -->
 <!-- todo implement resume writer? -->
-<!-- Bug often fail to sense PLs  -->
 
 
 
