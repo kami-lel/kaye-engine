@@ -236,14 +236,6 @@ def _create_peer_coder_blueprint(pls):  # ======================================
         elif plc == "py":
             bp.checkmark(kyc_node["Python"], recursively=True)
 
-        elif plc != "":
-            print(
-                "unrecognized PLC: {} in ?programming_languages={}".format(
-                    plc, pls
-                ),
-                file=stderr,
-            )
-
     return bp
 
 
