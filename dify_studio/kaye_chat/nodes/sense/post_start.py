@@ -17,6 +17,8 @@ STATIC_DIFFICULTY_ROLES = {
     "barista": 30,
     "deutschlehrer": 40,
     "tarot": 50,
+    "editor": 15,
+    "rapid": 1,
 }
 
 

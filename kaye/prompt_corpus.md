@@ -762,7 +762,7 @@ select exactly one role. choose the role that best matches the *kind of input* t
 
 ### sense difficulty
 
-Provide a number between `1` (very easy) and `100` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
+Provide a number between `1` (very easy) and `100` (very hard) that represents the assumed difficulty of the user's proposed task
 
 Use these tasks as your **anchor point** when evaluating difficulty:
 
@@ -800,7 +800,7 @@ Return a string containing the abbreviations of the programming languages (defin
 
 #### difficulty
 
-Provide a number between `1` (very easy) and `100` (very hard) that represents the assumed difficulty of the user's proposed task. You may use as many decimal places as necessary for appropriate precision.
+Provide a number between `1` (very easy) and `100` (very hard) that represents the assumed difficulty of the user's proposed task
 
 Use these tasks as your **anchor point** when evaluate difficulty:
 
