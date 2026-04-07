@@ -37,6 +37,12 @@ SENSE_PROMPT_BLUEPRINT = """ ○
 """
 
 
+MERGE_PROMPT_BLUEPRINT = """ ○
+[x] ├── Kaye Chat
+[x] │   └── merge
+"""
+
+
 # task blueprints  =============================================================
 
 CHAT_PROMPT_BLUEPRINT = """    ○
@@ -141,6 +147,15 @@ def kaye_chat_task():
     kwargs = {"query": query}
 
     return bp.generate_prompt(**kwargs)
+
+
+# /kaye/dify-app/ky/merge  =====================================================
+@ky_bp.route("/sense", methods=["GET"])
+def kaye_chat_merge():
+    blueprint = PromptBlueprint.parse(MERGE_PROMPT_BLUEPRINT)
+
+    # create concrete prompt  --------------------------------------------------
+    return blueprint.generate_prompt()
 
 
 # task blueprints  #############################################################
