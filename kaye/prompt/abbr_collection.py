@@ -13,7 +13,7 @@ __all__ = ("AbbrTags", "AbbrWrap", "AbbrData")
 
 
 # abbrs.json constants  ########################################################
-ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent / "abbrs.json"
+ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent.parent / "abbrs.json"
 ABBRS_JSON_PRIORITY_KEY = "priority"
 ABBRS_JSON_TAGS_KEY = "tags"
 ABBRS_JSON_WRAP_KEY = "wrap"

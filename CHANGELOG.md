@@ -2,6 +2,9 @@
 
 [^format]
 
+<!-- todo implement for ks op worker -->
+<!-- todo implement resume writer? -->
+
 
 
 
@@ -22,6 +25,52 @@
 ### Deprecated
 ### Removed
 ### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [5.2.0] - 2026-04-06
+
+### Added
+
+Kaye Chat *Dify App* Roles:
+
+- Art Tutor
+- Deutschlehrer
+- Tarot Reader
+
+### Changed
+
+- make *Prompt Writer* part of the utility prompts
+- move `abbrs.json` level up, to be in the same folder as `prompt_corpus.md`
+
+Kaye Chat *Dify App*:
+
+- re-implement in Dify to support **merged response**
+- Kaye Peer Coder Role:
+
+  - Unity Engine:
+
+    - instead of specific version, simplify ask Kaye to use Unity 6
+    - give specific structure for writing MonoBehaviour script
+
+  - Comment Section Heading:
+
+    - rewrite CSH prompt to tighten usage
+    - require filename as Level 0 CSH
+
+
+
 
 
 
@@ -1285,7 +1334,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v5.1.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v5.2.0...dev
+[5.2.0]: https://github.com/kami-lel/kaye/compare/v5.1.0...v5.2.0
 [5.1.0]: https://github.com/kami-lel/kaye/compare/v5.0.1...v5.1.0
 [5.0.1]: https://github.com/kami-lel/kaye/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/kami-lel/kaye/compare/v4.12.1...v5.0.0
