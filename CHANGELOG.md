@@ -21,6 +21,27 @@
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [5.2.0] - 2026-04-06
+
+### Added
 
 Kaye Chat *Dify App* Roles:
 
@@ -49,9 +70,7 @@ Kaye Chat *Dify App*:
     - require filename as Level 0 CSH
 
 
-### Deprecated
-### Removed
-### Fixed
+
 
 
 
@@ -1315,7 +1334,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v5.1.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v5.2.0...dev
+[5.2.0]: https://github.com/kami-lel/kaye/compare/v5.1.0...v5.2.0
 [5.1.0]: https://github.com/kami-lel/kaye/compare/v5.0.1...v5.1.0
 [5.0.1]: https://github.com/kami-lel/kaye/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/kami-lel/kaye/compare/v4.12.1...v5.0.0
