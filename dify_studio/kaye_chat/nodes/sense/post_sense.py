@@ -44,7 +44,7 @@ def main(
     role = current_role or sensed_role or "chat"
 
     # difficulty  --------------------------------------------------------------
-    difficulty = difficulty_override or sensed_difficulty or 0.0
+    difficulty = float(difficulty_override) or float(sensed_difficulty) or 0.0
 
     # pls  ---------------------------------------------------------------------
     combined_set = set(current_pls.split(SPLITTER)) | set(
