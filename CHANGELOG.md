@@ -35,6 +35,66 @@
 
 
 
+## [5.3.0] - 2026-04-08
+
+### Added
+
+`abbrs.json` & related:
+
+- new wrap: `currency` and `unit`
+- new tags: `unit_of_measure` and `currency_symbol`
+- new abbrs: *b* (bit,) *B* (byte,) *d* (dimension,) & *phy* (physics)
+
+Kaye Chat *Dify App* roles:
+
+- Changelog Writer
+- Prompt Writer
+- Librarian
+
+### Changed
+
+`abbrs.json` & related:
+
+- `mpl` (implement, from `mpmt`)
+- update abbrs entries with new wraps & tags
+- unit tests for aforementioned above
+- documentation for aforementioned above
+
+Kaye Chat *Dify App*:
+
+- update difficulty and LLMs conversion with one more case
+
+  - related unit test
+
+- for *coder* role, improve sensing PLs' prompt
+- turn `show_meta_content` to off by default
+- refactoring `kaye_chat.py` (Flask API)
+- refactoring unit tests
+
+### Removed
+
+Kaye Chat *Dify App* **Kaye Peer Coder**:
+
+- support for QML and Qt
+
+### Fixed
+
+Kaye Chat *Dify App*:
+
+- *coder* role should never skip sense
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## [5.2.2] - 2026-04-06
 
@@ -1387,7 +1447,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v5.2.2...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v5.3.0...dev
+[5.3.0]: https://github.com/kami-lel/kaye/compare/v5.2.2...v5.3.0
 [5.2.2]: https://github.com/kami-lel/kaye/compare/v5.2.1...v5.2.2
 [5.2.1]: https://github.com/kami-lel/kaye/compare/v5.2.0...v5.2.2
 [5.2.0]: https://github.com/kami-lel/kaye/compare/v5.1.0...v5.2.0
