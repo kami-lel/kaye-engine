@@ -68,6 +68,7 @@ class AbbrTags(Flag):  #########################################################
     unity_engine_abbr = auto()
     log_level = auto()
     unit_of_measure = auto()
+    currency_symbol = auto()
 
     # character set  -----------------------------------------------------------
 
@@ -96,7 +97,8 @@ class AbbrWrap(Enum):  #########################################################
     PREFIX = "prefix"
     SUFFIX = "suffix"
     SYMBOL = "symbol"
-    UNIT = "unit"  # TODO mpl unit wrapping
+    UNIT = "unit"
+    BEFORE_NUMBER = "before_number"
 
     # instance methods  ========================================================
 
@@ -109,6 +111,9 @@ class AbbrWrap(Enum):  #########################################################
                 `""` if end of text
         :type char_after: str
         """
+
+        # TODO take few characters
+        # TODO mpl unit and before number (also work as symbol?)
 
         if self == AbbrWrap.WORD:
             return WORD_BOUNDARY_PATTERN.fullmatch(

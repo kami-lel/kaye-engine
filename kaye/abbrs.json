@@ -147,7 +147,8 @@
     "¥": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "currency_symbol"
       ],
       "wrap": "symbol"
     }
@@ -156,7 +157,8 @@
     "¢": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "unit_of_measure"
       ],
       "wrap": "symbol"
     }
@@ -166,7 +168,8 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "common"
+        "common",
+        "unit_of_measure"
       ],
       "wrap": "symbol"
     }
@@ -391,7 +394,7 @@
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "another": {
@@ -418,14 +421,14 @@
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     },
     "AM": {
       "priority": 6,
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "anti-": {
@@ -889,21 +892,21 @@
       "tags": [
         "common"
       ],
-      "wrap": "symbol"
+      "wrap": "before_number"
     },
     "C.": {
       "priority": 6,
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "before_number"
     },
     "Cap.": {
       "priority": 5,
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "before_number"
     }
   },
   "character,characterize,characterization,characteristic": {
@@ -1363,7 +1366,7 @@
       "tags": [
         "common"
       ],
-      "wrap": "symbol"
+      "wrap": "unit"
     }
   },
   "degree Celsius": {
@@ -1372,7 +1375,7 @@
       "tags": [
         "common"
       ],
-      "wrap": "symbol"
+      "wrap": "unit"
     }
   },
   "degree Fahrenheit": {
@@ -1381,7 +1384,7 @@
       "tags": [
         "common"
       ],
-      "wrap": "symbol"
+      "wrap": "unit"
     }
   },
   "delete,deleted,deletion": {
@@ -3084,9 +3087,10 @@
     "mi": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "military": {
@@ -3275,9 +3279,10 @@
     "nmi": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "necessary": {
@@ -3298,7 +3303,7 @@
       "wrap": "word"
     }
   },
-  "night,informal": {
+  "night(informal)": {
     "p.p.m.": {
       "priority": 5,
       "tags": [
@@ -3621,7 +3626,7 @@
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "before_number"
     }
   },
   "pages": {
@@ -3630,7 +3635,7 @@
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "before_number"
     }
   },
   "paragraph": {
@@ -3696,16 +3701,18 @@
     "pt": {
       "priority": 6,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     },
     "pt.": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "place,placement": {
@@ -3788,14 +3795,14 @@
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     },
     "PM": {
       "priority": 6,
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "post scriptum,after what has been written,post script": {
@@ -3818,16 +3825,18 @@
     "lb": {
       "priority": 6,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     },
     "lb.": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "previous": {
