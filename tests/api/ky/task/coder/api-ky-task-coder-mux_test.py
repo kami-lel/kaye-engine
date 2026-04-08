@@ -1,12 +1,12 @@
 """
-api-ky-task-coder-py.py
+api-ky-task-coder-mux.py
 
 Unit Tests (using pytest) for:
 
 /kaye/dify-api/ky/task with:
 
 - role=coder
-- PLs=py
+- PLs=cpp,py,ts
 """
 
 import json
@@ -22,7 +22,7 @@ from tests.api.ky.task.coder import *
 
 @pytest.fixture(scope="class")
 def opt(flask_test_client, task_endpoint):
-    payload = {"role": "coder", "programming_languages": "py"}
+    payload = {"role": "coder", "programming_languages": "cpp,py,ts"}
 
     response = flask_test_client.post(
         task_endpoint,
@@ -40,26 +40,58 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
-    def test_py_title(_, opt):
-        assert "### Python" in opt
+    # C++  *********************************************************************
 
-    def test_py_intro(_, opt):
-        assert "Adhere to the **PEP8** style guide," in opt
+    def test_cpp0(_, opt):
+        assert_coder_cpp_title(opt)
 
-    def test_py_doc0(_, opt):
-        assert "##### Docstring Style" in opt
+    def test_cpp1(_, opt):
+        assert_coder_cpp1(opt)
 
-    def test_py_doc1(_, opt):
-        assert "The docstrings must be written using the" in opt
+    # C  ***********************************************************************
 
-    def test_py_pytest0(_, opt):
-        assert "##### Testing Guidelines" in opt
+    def test_c0(_, opt):
+        assert_coder_c_title(opt)
 
-    def test_py_pytest1(_, opt):
-        assert "This section pertains specifically to Python test code" in opt
+    def test_c1(_, opt):
+        assert_coder_c1(opt)
 
-    def test_py_pytest2(_, opt):
-        assert "*Example of tests for the `add` function:*" in opt
+    # TS  **********************************************************************
+
+    def test_ts_00(_, opt):
+        assert_js_ts00(opt)
+
+    def test_ts_01(_, opt):
+        assert_js_ts01(opt)
+
+    def test_ts_11(_, opt):
+        assert_js_ts11(opt)
+
+    def test_ts_12(_, opt):
+        assert_js_ts12(opt)
+
+    def test_ts_21(_, opt):
+        assert_js_ts21(opt)
+
+    def test_ts_22(_, opt):
+        assert_js_ts22(opt)
+
+    def test_ts_23(_, opt):
+        assert_js_ts23(opt)
+
+    def test_ts_24(_, opt):
+        assert_js_ts24(opt)
+
+    # braces  ******************************************************************
+
+    def test_brace_title(_, opt):
+        assert_brace_title(opt)
+
+    def test_brace1(_, opt):
+        assert_brace1(opt)
+
+    def test_brace2(_, opt):
+        assert_brace2(opt)
 
     # coder shared  ************************************************************
 

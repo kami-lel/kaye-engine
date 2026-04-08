@@ -40,33 +40,33 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
-    def assert_00(_, opt):
+    def test_ts_00(_, opt):
         assert_js_ts00(opt)
 
-    def assert_01(_, opt):
+    def test_ts_01(_, opt):
         assert_js_ts01(opt)
 
-    def assert_11(_, opt):
+    def test_ts_11(_, opt):
         assert_js_ts11(opt)
 
-    def assert_12(_, opt):
+    def test_ts_12(_, opt):
         assert_js_ts12(opt)
 
-    def assert_21(_, opt):
+    def test_ts_21(_, opt):
         assert_js_ts21(opt)
 
-    def assert_22(_, opt):
+    def test_ts_22(_, opt):
         assert_js_ts22(opt)
 
-    def assert_23(_, opt):
+    def test_ts_23(_, opt):
         assert_js_ts23(opt)
 
-    def assert_24(_, opt):
+    def test_ts_24(_, opt):
         assert_js_ts24(opt)
 
     # braces  ******************************************************************
 
-    def assert_brace_title(_, opt):
+    def test_brace_title(_, opt):
         assert_brace_title(opt)
 
     def test_brace1(_, opt):

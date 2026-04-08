@@ -58,7 +58,7 @@ class TestCoder:  # ============================================================
 
     # braces  ******************************************************************
 
-    def assert_brace_title(_, opt):
+    def test_brace_title(_, opt):
         assert_brace_title(opt)
 
     def test_brace1(_, opt):
