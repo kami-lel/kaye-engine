@@ -131,16 +131,21 @@ class AbbrWrap(Enum):  #########################################################
             return True
 
         elif self == AbbrWrap.UNIT:
-            return False  # TODO
+            return NUMBER_OR_BOUNDARY_PATTERN.fullmatch(
+                char_before
+            ) and WORD_BOUNDARY_PATTERN.fullmatch(char_after)
 
         elif self == AbbrWrap.CURRENCY:
-            return False  # TODO
+            return WORD_BOUNDARY_PATTERN.fullmatch(
+                char_before
+            ) and NUMBER_OR_BOUNDARY_PATTERN.fullmatch(char_after)
 
         raise NotImplementedError
 
 
 # patterns  --------------------------------------------------------------------
 WORD_BOUNDARY_PATTERN = re.compile(r"\s|[^\w]?")
+NUMBER_OR_BOUNDARY_PATTERN = re.compile(r"\s|[0-9]?")
 WORD_PATTERN = re.compile(r"\w")
 
 
