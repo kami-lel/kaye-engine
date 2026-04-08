@@ -40,6 +40,7 @@ Kaye Chat *Dify App*:
 
   - related unit test
 
+- for *coder* role, improve sensing PLs' prompt
 - turn `show_meta_content` to off by default
 
 ### Deprecated
