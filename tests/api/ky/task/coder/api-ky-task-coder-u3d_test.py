@@ -40,13 +40,32 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
-    # TODO
-
-    def test0(_, opt):
+    def test_u3d_title(_, opt):
         assert "### Unity Engine" in opt
+
+    def test_u3d_ver(_, opt):
         assert "Unity **6**" in opt
+
+    def test_mb_title(_, opt):
         assert "#### MonoBehaviour" in opt
-        assert "never mixed into *Private Methods*" in opt
+
+    def test_mb0(_, opt):
+        assert "When writing or reviewing `MonoBehaviour`" in opt
+
+    def test_mb1(_, opt):
+        assert "public class PlayerController : MonoBehaviour" in opt
+
+    def test_mb2(_, opt):
+        assert "public static PlayerController FindInScene()" in opt
+
+    def test_mb3(_, opt):
+        assert "private const string LOAD_TRIGGER_TAG" in opt
+
+    def test_mb4(_, opt):
+        assert "- **section order is fixed** and must" in opt
+
+    def test_mb5(_, opt):
+        assert "- **MonoBehaviour lifecycle methods**" in opt
 
     # c#  **********************************************************************
 
