@@ -213,7 +213,6 @@ All endpoints below `/kaye/dify-app/ky`
   - `"role"`
   - `"programming_languages"`:
     provide a `,`-separated list of language abbreviations
-    (specified in prompt corpus.) E.g. `?languages=cpp,py`
   - `"query"`: content of user query
 
 - response type `text/plain`
