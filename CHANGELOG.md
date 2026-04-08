@@ -29,6 +29,7 @@
 
 `abbrs.json` & related:
 
+- `mpl` (implement, from `mpmt`)
 - update abbrs entries with new wraps & tags
 - unit tests for aforementioned above
 - documentation for aforementioned above
@@ -38,6 +39,9 @@ Kaye Chat *Dify App*:
 - update difficulty and LLMs conversion with one more case
 
   - related unit test
+
+- for *coder* role, improve sensing PLs' prompt
+- turn `show_meta_content` to off by default
 
 ### Deprecated
 ### Removed
