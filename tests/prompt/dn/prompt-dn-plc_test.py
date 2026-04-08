@@ -80,6 +80,6 @@ class TestContentLines:  #######################################################
             "-`qml`:QT Meta-object Language",
             "-`qt`:Qt framework",
             "-`ts`:TypeScript",
-            "-`u3d`:Unity Engine code using C#",
-            "-`ue`:Unreal Engine code using C++",
+            "-`u3d`:Unity Engine code",
+            "-`ue`:Unreal Engine code",
         ]
