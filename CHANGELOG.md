@@ -48,10 +48,22 @@ Kaye Chat *Dify App*:
 
 - for *coder* role, improve sensing PLs' prompt
 - turn `show_meta_content` to off by default
+- refactoring `kaye_chat.py` (Flask API)
+- refactoring unit tests
 
 ### Deprecated
 ### Removed
+
+Kaye Chat *Dify App* **Kaye Peer Coder**:
+
+- support for QML and Qt
+
 ### Fixed
+
+
+Kaye Chat *Dify App*:
+
+- *coder* role should never skip sense
 
 
 
