@@ -48,6 +48,14 @@ class TestCoder:  # ============================================================
         assert "#### MonoBehaviour" in opt
         assert "never mixed into *Private Methods*" in opt
 
+    # c#  **********************************************************************
+
+    def assert_cs0(_, opt):
+        assert_cs0(opt)
+
+    def assert_cs1(_, opt):
+        assert_cs1(opt)
+
     # braces  ******************************************************************
 
     def assert_brace_title(_, opt):

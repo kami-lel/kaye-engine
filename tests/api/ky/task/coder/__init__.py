@@ -42,6 +42,8 @@ __all__ = [
     "assert_js_ts22",
     "assert_js_ts23",
     "assert_js_ts24",
+    "assert_cs0",
+    "assert_cs1",
 ]
 
 # TODO mux lang test
@@ -243,3 +245,14 @@ def assert_js_ts23(opt):
 
 def assert_js_ts24(opt):
     assert "globalNS.method1 = function (a, b)" in opt
+
+
+# c#  **************************************************************************
+
+
+def assert_cs0(opt):
+    assert "### C Sharp" in opt
+
+
+def assert_cs1(opt):
+    assert "- Documentation: Use XML comments" in opt

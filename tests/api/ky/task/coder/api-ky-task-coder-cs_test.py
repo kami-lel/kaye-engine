@@ -40,14 +40,11 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
-    # TODO
+    def assert_0(_, opt):
+        assert_cs0(opt)
 
-    def test0(_, opt):
-        assert (
-            """### C Sharp
-- Documentation: Use XML comments (`/// <summary>...</summary>`) to document functionality and provide examples wherever helpful."""
-            in opt
-        )
+    def assert_1(_, opt):
+        assert_cs1(opt)
 
     # braces  ******************************************************************
 
