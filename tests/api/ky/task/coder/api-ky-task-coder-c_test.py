@@ -40,7 +40,7 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
-    # coder base  **************************************************************
+    # coder shared  ************************************************************
 
     def test_coder_title(_, opt):
         print(opt)
@@ -62,23 +62,21 @@ class TestCoder:  # ============================================================
         print(opt)
         assert_coder_csh_title(opt)
 
+    def test_style_title(_, opt):
+        assert_style_title(opt)
+
+    def test_am_title(_, opt):
+        assert_am_title(opt)
+
     # chat blueprint  **********************************************************
 
     def test_intro1(_, opt):
         print(opt)
         assert_intro1(opt)
 
-    def test_format_title(_, opt):
-        print(opt)
-        assert_format_title(opt)
-
     def test_format5(_, opt):
         print(opt)
         assert_format5(opt)
-
-    def test_format_diagrams1(_, opt):
-        print(opt)
-        assert_format_diagrams1(opt)
 
     def test_personality01(_, opt):
         print(opt)
