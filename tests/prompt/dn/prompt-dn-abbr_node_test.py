@@ -101,6 +101,9 @@ class TestContentLines:  #######################################################
             "- est.:estimate,estimation,estimated,estimating,estimatingly",
         }
 
+    def test_fx3(_, testee1):
+        pass  # TODO test currency
+
     def test_start(_, testee1):
         query = "cf and other"
 
