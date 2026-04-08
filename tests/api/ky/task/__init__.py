@@ -166,7 +166,7 @@ def assert_role(opt):
     assert "# Role" in opt
 
 
-# FIXME FIXME refactorization unit tests
+# HACK rm below
 
 
 def _assert_chat_blueprint_opt(opt):
