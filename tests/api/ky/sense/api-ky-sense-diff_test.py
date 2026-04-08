@@ -21,6 +21,7 @@ from tests.api.ky.sense import (
 @pytest.fixture(scope="class")
 def opt(flask_test_client, sense_endpoint):
     request_body = {"pre_sense_role": "chat", "difficulty_override": 0}
+
     response = flask_test_client.post(sense_endpoint, json=request_body)
     return response.get_data().decode("utf-8")
 
