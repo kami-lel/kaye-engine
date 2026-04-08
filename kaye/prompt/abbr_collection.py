@@ -98,7 +98,7 @@ class AbbrWrap(Enum):  #########################################################
     SUFFIX = "suffix"
     SYMBOL = "symbol"
     UNIT = "unit"
-    BEFORE_NUMBER = "before_number"
+    CURRENCY = "currency"
 
     # instance methods  ========================================================
 

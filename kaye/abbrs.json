@@ -413,6 +413,13 @@
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "A": {
+      "priority": 7,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "currency"
     }
   },
   "ante meridiem,before midday": {
@@ -892,21 +899,21 @@
       "tags": [
         "common"
       ],
-      "wrap": "before_number"
+      "wrap": "currency"
     },
     "C.": {
       "priority": 6,
       "tags": [
         "ascii_only"
       ],
-      "wrap": "before_number"
+      "wrap": "currency"
     },
     "Cap.": {
       "priority": 5,
       "tags": [
         "ascii_only"
       ],
-      "wrap": "before_number"
+      "wrap": "currency"
     }
   },
   "character,characterize,characterization,characteristic": {
@@ -1762,9 +1769,10 @@
     "€": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "currency_symbol"
       ],
-      "wrap": "symbol"
+      "wrap": "currency"
     }
   },
   "evaluate,evaluable": {
@@ -1986,9 +1994,10 @@
     "ft": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "footnote": {
@@ -2278,9 +2287,10 @@
     "gal": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "GDScript used by Godot Engine": {
@@ -2476,9 +2486,10 @@
     "hr": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "HTML": {
@@ -2495,9 +2506,10 @@
     "cwt": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "ibidem,in the same place (book,etc.)": {
@@ -3115,9 +3127,10 @@
     "min": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "mis-": {
@@ -3170,9 +3183,10 @@
     "mo": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "more": {
@@ -3626,7 +3640,7 @@
       "tags": [
         "ascii_only"
       ],
-      "wrap": "before_number"
+      "wrap": "currency"
     }
   },
   "pages": {
@@ -3635,21 +3649,21 @@
       "tags": [
         "ascii_only"
       ],
-      "wrap": "before_number"
+      "wrap": "currency"
     }
   },
   "paragraph": {
     "¶": {
       "priority": 5,
       "tags": [],
-      "wrap": "symbol"
+      "wrap": "currency"
     },
     "para": {
       "priority": 6,
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
     }
   },
   "part,partial": {
@@ -4029,6 +4043,13 @@
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "Q": {
+      "priority": 7,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "currency"
     }
   },
   "radical,racialist": {
@@ -5057,7 +5078,7 @@
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
     }
   },
   "west": {
@@ -5189,9 +5210,10 @@
     "yd": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "year": {
