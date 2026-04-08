@@ -4346,9 +4346,18 @@
     "sec": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
+    },
+    "s": {
+      "priority": 7,
+      "tags": [
+        "letters_only",
+        "unit_of_measure"
+      ],
+      "wrap": "unit"
     }
   },
   "selected": {
