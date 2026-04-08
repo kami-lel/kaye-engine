@@ -112,8 +112,6 @@ class AbbrWrap(Enum):  #########################################################
         :type char_after: str
         """
 
-        # TODO mpl unit and before number (also work as symbol?)
-
         if self == AbbrWrap.WORD:
             return WORD_BOUNDARY_PATTERN.fullmatch(
                 char_before
@@ -131,6 +129,12 @@ class AbbrWrap(Enum):  #########################################################
 
         elif self == AbbrWrap.SYMBOL:
             return True
+
+        elif self == AbbrWrap.UNIT:
+            return False  # TODO
+
+        elif self == AbbrWrap.CURRENCY:
+            return False  # TODO
 
         raise NotImplementedError
 
