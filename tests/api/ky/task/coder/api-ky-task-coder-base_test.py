@@ -37,25 +37,50 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
+    # coder intro  *************************************************************
+
     def test_coder_title(_, opt):
         print(opt)
         assert_coder_title(opt)
+
+    def test_coder1(_, opt):
+        print(opt)
+
+    # code format  *************************************************************
 
     def test_coder_code_format_title(_, opt):
         print(opt)
         assert_coder_code_format_title(opt)
 
+    def test_coder_code_format1(_, opt):
+        print(opt)
+
+    # variable naming  *********************************************************
+
     def test_coder_variable_naming_title(_, opt):
         print(opt)
         assert_coder_variable_naming_title(opt)
+
+    def test_coder_variable_naming1(_, opt):
+        print(opt)
+
+    # code comment  ************************************************************
 
     def test_coder_code_comment_title(_, opt):
         print(opt)
         assert_coder_code_comment_title(opt)
 
+    def test_coder_code_comment1(_, opt):
+        print(opt)
+
+    # csh  *********************************************************************
+
     def test_coder_csh_title(_, opt):
         print(opt)
         assert_coder_csh_title(opt)
+
+    def test_coder_csh1(_, opt):
+        print(opt)
 
     # chat blueprint  **********************************************************
 
