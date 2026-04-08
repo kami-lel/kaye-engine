@@ -18,6 +18,26 @@
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [5.3.0] - 2026-04-08
+
+### Added
 
 `abbrs.json` & related:
 
@@ -51,7 +71,6 @@ Kaye Chat *Dify App*:
 - refactoring `kaye_chat.py` (Flask API)
 - refactoring unit tests
 
-### Deprecated
 ### Removed
 
 Kaye Chat *Dify App* **Kaye Peer Coder**:
@@ -59,7 +78,6 @@ Kaye Chat *Dify App* **Kaye Peer Coder**:
 - support for QML and Qt
 
 ### Fixed
-
 
 Kaye Chat *Dify App*:
 
@@ -1429,7 +1447,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v5.2.2...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v5.3.0...dev
+[5.3.0]: https://github.com/kami-lel/kaye/compare/v5.2.2...v5.3.0
 [5.2.2]: https://github.com/kami-lel/kaye/compare/v5.2.1...v5.2.2
 [5.2.1]: https://github.com/kami-lel/kaye/compare/v5.2.0...v5.2.2
 [5.2.0]: https://github.com/kami-lel/kaye/compare/v5.1.0...v5.2.0
