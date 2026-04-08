@@ -61,6 +61,7 @@ def main(
     role = role_override or current_role or ""
 
     # decide skip & diff  ------------------------------------------------------
+    # BUG skip logic wrong: coder never skip
     skip = False
     diff = 0
 
