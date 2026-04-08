@@ -259,7 +259,7 @@ def _create_barista_blueprint():  # ============================================
 
 
 def _create_changelog_blueprint():  # ==========================================
-    # fixme changelog blueprint not used
+    # Fixme changelog blueprint not used
     bp = _create_chat_blueprint()
     bp.checkmark("Changelog Writer")
     return bp
