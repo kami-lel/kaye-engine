@@ -11,10 +11,13 @@
       "enum": [
         "art",
         "barista",
+        "changelog",
         "chat",
         "coder",
         "deutschlehrer",
         "editor",
+        "librarian",
+        "prompt",
         "rapid",
         "secretary",
         "tarot"
