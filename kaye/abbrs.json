@@ -2621,16 +2621,18 @@
     "in": {
       "priority": 6,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     },
     "in.": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "include,inclusion": {
