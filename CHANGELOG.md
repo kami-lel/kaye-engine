@@ -31,6 +31,7 @@
 
 - update abbrs entries with new wraps & tags
 - unit tests for aforementioned above
+- documentation for aforementioned above
 
 ### Deprecated
 ### Removed

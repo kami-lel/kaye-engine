@@ -1,7 +1,5 @@
 # `abbrs.json` documentation
 
-<!-- TODO record new wrap & tags -->
-
 Explain format of `kaye/gen_prompt/abbrs.json`
 
 Top level structure:
