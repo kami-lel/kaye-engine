@@ -77,7 +77,7 @@ systemctl restart kaye_http_api.service
 
 ## Endpoints
 
-Port Number: `11255` (k=11, a=1, y=25, e=5)
+Port Number: `11255` (k=11, a=1, y=25, e=5) or `11256` for debugging.
 
 
 
