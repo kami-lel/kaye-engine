@@ -123,11 +123,14 @@ def kaye_chat_task():
     if role == "art":
         bp = _create_art_blueprint()
 
+    elif role == "barista":
+        bp = _create_barista_blueprint()
+
+    elif role == "changelog":
+        bp = _create_changelog_blueprint()
+
     elif role == "chat":
         bp = _create_chat_blueprint()
-
-    elif role == "rapid":
-        bp = _create_rapid_blueprint()
 
     elif role == "coder":
         bp = _create_peer_coder_blueprint(pls)
@@ -135,11 +138,17 @@ def kaye_chat_task():
     elif role == "deutschlehrer":
         bp = _create_deutschlehrer_blueprint()
 
-    elif role == "barista":
-        bp = _create_barista_blueprint()
-
     elif role == "editor":
         bp = _create_editor_blueprint()
+
+    elif role == "librarian":
+        bp = _create_librarian_blueprint()
+
+    elif role == "prompt":
+        bp = _create_prompt_blueprint()
+
+    elif role == "rapid":
+        bp = _create_rapid_blueprint()
 
     elif role == "secretary":
         bp = _create_secretary_blueprint()
@@ -170,7 +179,7 @@ def kaye_chat_merge():
 # task blueprints  #############################################################
 
 
-def _create_rapid_blueprint():
+def _create_rapid_blueprint():  # ==============================================
     return PromptBlueprint.parse(RAPID_PROMPT_BLUEPRINT)
 
 
@@ -259,9 +268,20 @@ def _create_barista_blueprint():  # ============================================
 
 
 def _create_changelog_blueprint():  # ==========================================
-    # FIXME changelog blueprint not used
-    bp = _create_chat_blueprint()
-    bp.checkmark("Changelog Writer")
+    bp = _create_rapid_blueprint()
+    bp.checkmark("Changelog Writer")  # TODO
+    return bp
+
+
+def _create_librarian_blueprint():  # ==========================================
+    bp = _create_rapid_blueprint()
+    # TODO
+    return bp
+
+
+def _create_prompt_blueprint():  # ==========================================
+    bp = _create_rapid_blueprint()
+    # TODO
     return bp
 
 
