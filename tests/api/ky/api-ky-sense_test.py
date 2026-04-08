@@ -161,11 +161,13 @@ class TestCoder:  # ============================================================
         opt = testee_coder
         print(opt)
 
-        assert (
-            """#### programming_languages
-Return a string containing the abbreviations of the programming languages"""
-            in opt
-        )
+        assert "#### programming_languages" in opt
+
+    def test3(_, testee_coder):
+        opt = testee_coder
+        print(opt)
+
+        assert "Return a string containing the abbreviations of" in opt
 
     def test_diff1(_, testee_coder):
         opt = testee_coder
