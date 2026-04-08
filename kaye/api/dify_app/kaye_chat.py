@@ -245,13 +245,6 @@ def _create_peer_coder_blueprint(pls):  # ======================================
             bp.checkmark(kyc_node["JavaScript & TypeScript"], recursively=True)
             bp.checkmark(kyc_node["Brace Style"])
 
-        elif plc == "qt":
-            bp.checkmark(kyc_node["Qt"])
-
-        elif plc == "qml":
-            bp.checkmark(kyc_node["Qt"])
-            bp.checkmark(kyc_node["Qt"]["QML"])
-
         elif plc == "py":
             bp.checkmark(kyc_node["Python"], recursively=True)
 

@@ -77,8 +77,6 @@ class TestContentLines:  #######################################################
             "-`html`:HTML",
             "-`js`:JavaScript",
             "-`py`:Python",
-            "-`qml`:QT Meta-object Language",
-            "-`qt`:Qt framework",
             "-`ts`:TypeScript",
             "-`u3d`:Unity Engine code",
             "-`ue`:Unreal Engine code",

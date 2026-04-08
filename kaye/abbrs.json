@@ -346,26 +346,6 @@
       "wrap": "word"
     }
   },
-  "QT Meta-object Language": {
-    "qml": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
-      ],
-      "wrap": "word"
-    }
-  },
-  "Qt framework": {
-    "qt": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
-      ],
-      "wrap": "word"
-    }
-  },
   "TypeScript": {
     "ts": {
       "priority": 5,
