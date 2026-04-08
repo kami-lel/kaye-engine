@@ -1,12 +1,12 @@
 """
-api-ky-task-rapid1_test.py
+api-ky-task-rapid2_test.py
 
 Unit Tests (using pytest) for:
 
 /kaye/dify-api/ky/task with:
 
 - role=rapid
-- PLs not provided
+- Pls provided
 """
 
 import json
@@ -39,7 +39,7 @@ from tests.api.ky.task import (
 
 @pytest.fixture
 def opt(flask_test_client, task_endpoint):
-    payload = json.dumps({"role": "rapid"})
+    payload = json.dumps({"role": "rapid", "programming_languages": "abc"})
 
     response = flask_test_client.post(
         task_endpoint,
@@ -53,7 +53,7 @@ def opt(flask_test_client, task_endpoint):
 # Pytest unit tests  ###########################################################
 
 
-class TestNoPls:  # ============================================================
+class TestWithPls:  # ==========================================================
 
     def test_intro1(_, opt):
         print(opt)
