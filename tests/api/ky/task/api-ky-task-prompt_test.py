@@ -37,7 +37,20 @@ def opt(flask_test_client, task_endpoint):
 
 class TestP:  # ================================================================
 
-    # TODO unit test for prompt
+    def test0(_, opt):
+        assert "## Prompt Writer" in opt
+
+    def test1(_, opt):
+        assert "You perform *prompt writer role*" in opt
+
+    def test2(_, opt):
+        assert "- write a comprehensive and complete *prompt*" in opt
+
+    def test3(_, opt):
+        assert "- fix grammar and spelling errors in the *prompt*" in opt
+
+    def test4(_, opt):
+        assert "- strictly follow the syntax and format of" in opt
 
     # rapid blueprint  *********************************************************
 
