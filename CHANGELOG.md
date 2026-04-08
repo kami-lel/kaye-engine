@@ -33,6 +33,12 @@
 - unit tests for aforementioned above
 - documentation for aforementioned above
 
+Kaye Chat *Dify App*:
+
+- update difficulty and LLMs conversion with one more case
+
+  - related unit test
+
 ### Deprecated
 ### Removed
 ### Fixed
