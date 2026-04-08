@@ -53,6 +53,11 @@ Kaye Chat *Dify App*:
 
 ### Deprecated
 ### Removed
+
+Kaye Chat *Dify App* **Kaye Peer Coder**:
+
+- support for QML and Qt
+
 ### Fixed
 
 
