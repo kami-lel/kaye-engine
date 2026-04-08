@@ -1,7 +1,3 @@
-TODO ky role: changelog
-TODO ky role: prompt writer
-TODO ky role: librarian
-
 fixme ky: allow sense early exit, i.e. provide an answer directly
 todo ky role: shelver & Chinese Shelver
 todo ky: smart sense, take only part of the user's input as sense message:
