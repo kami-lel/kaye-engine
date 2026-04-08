@@ -12,6 +12,8 @@ import pytest
 from tests.api.ky.sense import (
     _assert_sense_title1,
     _assert_sense_title2,
+    _assert_empty_role1,
+    _assert_empty_role2,
 )
 
 
@@ -51,6 +53,18 @@ class TestDiffOverride:  # =====================================================
 
     # TODO
 
+    # empty role  --------------------------------------------------------------
+
+    def test_empty_role1(_, opt_diff_override):
+        opt = opt_diff_override
+        print(opt)
+        _assert_empty_role1(opt)
+
+    def test_empty_role2(_, opt_diff_override):
+        opt = opt_diff_override
+        print(opt)
+        _assert_empty_role2(opt)
+
 
 class TestNoDiff:  # ===========================================================
 
@@ -67,3 +81,15 @@ class TestNoDiff:  # ===========================================================
         _assert_sense_title2(opt)
 
     # TODO
+
+    # empty role  --------------------------------------------------------------
+
+    def test_empty_role1(_, opt_no_diff):
+        opt = opt_no_diff
+        print(opt)
+        _assert_empty_role1(opt)
+
+    def test_empty_role2(_, opt_no_diff):
+        opt = opt_no_diff
+        print(opt)
+        _assert_empty_role2(opt)
