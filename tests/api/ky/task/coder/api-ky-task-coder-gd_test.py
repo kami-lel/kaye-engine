@@ -40,11 +40,11 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
-    # TODO
-
     def test0(_, opt):
-        assert """### GDScript
-    - Version: Godot 4""" in opt
+        assert "### GDScript" in opt
+
+    def test1(_, opt):
+        assert "- Version: Godot 4" in opt
 
     # coder shared  ************************************************************
 

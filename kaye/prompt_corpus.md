@@ -1891,82 +1891,6 @@ globalNS.method1 = function (a, b) {
 
 
 
-### Qt
-
-This section is solely for Qt framework.
-
-Use:
-
-- Qt version 6
-- **Qt Quick**
-- programming languages: QML and C++
-- **cmake**
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### QML
-
-Declarations of items must follow this order:
-
-1. id
-2. property declaration
-3. signal
-4. js function
-5. object property
-6. child objects
-
-Also, group related properties together, and name these groups.
-
-Example:
-
-```qml
-Rectangle {
-    id: photo
-
-    property bool thumbnail: false
-    readonly property int size: 100
-
-    signal clicked
-
-    function doSomething(x)
-    {
-        return x + photoImage.width;
-    }
-
-    color: "gray"
-
-    // initial point location
-    x: 20
-    y: 20
-
-    Rectangle {
-        ...
-    }
-}
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### Python
 
 Adhere to the **PEP8** style guide, ensuring clarity and consistency.
@@ -2017,8 +1941,6 @@ class TestAdd:
     def test_addition_with_different_operands(_):
         assert add(1, 2) == 3
         assert add(2, 1) == 3
-        assert add(2, 2) == 4
-        assert add(2, 3) == 5
 
     def test_negative_value_error(_):
         with pytest.raises(ValueError) as ei:

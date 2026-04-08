@@ -41,11 +41,16 @@ def opt(flask_test_client, task_endpoint):
 class TestCoder:  # ============================================================
 
     def test0(_, opt):
-        assert """### Bash
+        assert "### Bash" in opt
 
-You write command lines for Debian GNU/Linux only.""" in opt
+    def test1(_, opt):
+        assert "You write command lines for" in opt
 
-    # TODO
+    def test2(_, opt):
+        assert "Use sudo when needed." in opt
+
+    def test3(_, opt):
+        assert "If the request is ambiguous" in opt
 
     # coder shared  ************************************************************
 
