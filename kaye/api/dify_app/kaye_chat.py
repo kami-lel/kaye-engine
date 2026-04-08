@@ -274,7 +274,7 @@ def _create_changelog_blueprint():  # ==========================================
 
 
 def _create_librarian_blueprint():  # ==========================================
-    bp = _create_rapid_blueprint()
+    bp = _create_chat_blueprint()
     # TODO
     return bp
 
