@@ -424,7 +424,7 @@ class TestCoderProvided:  # ----------------------------------------------------
         skip = opt[OUTPUT_SKIP_KEY]
         print(skip)
 
-        assert skip
+        assert not skip
 
     def test_diff(_, opt_coder_provided):
         opt = opt_coder_provided
