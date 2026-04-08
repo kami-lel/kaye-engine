@@ -61,7 +61,6 @@ def main(
     role = role_override or current_role or ""
 
     # decide skip & diff  ------------------------------------------------------
-    # BUG skip logic wrong: coder never skip
     skip = False
     diff = 0
 
@@ -69,9 +68,13 @@ def main(
         skip = True
         diff = STATIC_DIFFICULTY_ROLES[role]
 
+    elif role == "coder":
+        pass  # coder never skip
+
     elif role:
         skip = difficulty_override != 0
 
+    # override difficulty from input
     if difficulty_override != 0:
         diff = difficulty_override
 

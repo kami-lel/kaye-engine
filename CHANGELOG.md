@@ -56,6 +56,11 @@ Kaye Chat *Dify App*:
 ### Fixed
 
 
+Kaye Chat *Dify App*:
+
+- *coder* role should never skip sense
+
+
 
 
 
