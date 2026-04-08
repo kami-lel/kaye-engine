@@ -39,6 +39,7 @@ __all__ = [
     "assert_element22",
     "assert_element23",
     "assert_role",
+    "assert_abbr_heading",
 ]
 
 # helpers  #####################################################################
@@ -206,3 +207,7 @@ def assert_element23(opt):
 
 def assert_role(opt):
     assert "# Role" in opt
+
+
+def assert_abbr_heading(opt):
+    assert "# {Abbreviations}" in opt

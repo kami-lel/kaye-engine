@@ -187,3 +187,8 @@ class TestChat:  # =============================================================
     def test_role(_, opt):
         print(opt)
         assert_role(opt)
+
+    # abbr *********************************************************************
+
+    def test_abbr_heading(_, opt):
+        assert_abbr_heading(opt)

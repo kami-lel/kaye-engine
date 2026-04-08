@@ -140,3 +140,8 @@ class TestArt:  # ==============================================================
     def test_format_diagrams3(_, opt):
         print(opt)
         assert_format_diagrams3(opt)
+
+    # abbr *********************************************************************
+
+    def test_abbr_heading(_, opt):
+        assert_abbr_heading(opt)
