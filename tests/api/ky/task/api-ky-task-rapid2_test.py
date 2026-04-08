@@ -1,83 +1,40 @@
 """
-api-ky-task-tarot_test.py
+api-ky-task-rapid2_test.py
 
 Unit Tests (using pytest) for:
 
-/kaye/dify-api/ky/task with role=tarot
+/kaye/dify-api/ky/task with:
+
+- role=rapid
+- Pls provided
 """
 
 import json
 
-
 import pytest
-
 
 from tests.api.ky.task import *
 
-# pytest fixtures  #############################################################
+# Pytest fixtures  #############################################################
 
 
 @pytest.fixture(scope="class")
 def opt(flask_test_client, task_endpoint):
-    role = "tarot"
+    payload = json.dumps({"role": "rapid", "programming_languages": "abc"})
 
     response = flask_test_client.post(
         task_endpoint,
-        data=json.dumps({"role": role}),
+        data=payload,
         content_type="application/json",
     )
 
-    opt = response.get_data().decode("utf-8")
-
-    return opt
+    return response.get_data().decode("utf-8")
 
 
 # Pytest unit tests  ###########################################################
 
 
-class TestTarot:  # ============================================================
-
-    def test_title(_, opt):
-        print(opt)
-        assert "## Tarot Reader" in opt
-
-    def test1(_, opt):
-        print(opt)
-        assert "### 1. Information Collection Stage" in opt
-
-    def test2(_, opt):
-        print(opt)
-        assert "- Begin with a casual conversation to" in opt
-
-    def test3(_, opt):
-        print(opt)
-        assert "### 2. Card Drawing Stage" in opt
-
-    def test4(_, opt):
-        print(opt)
-        assert "- Randomly select 3 **unique** cards from" in opt
-
-    def test5(_, opt):
-        print(opt)
-        assert "and explain how each card might answer" in opt
-
-    def test6(_, opt):
-        print(opt)
-        assert "### 3. Interpretation Stage" in opt
-
-    def test7(_, opt):
-        print(opt)
-        assert "In this ongoing conversation" in opt
-
-    def test8(_, opt):
-        print(opt)
-        assert "### Tarot Card Reference" in opt
-
-    def test9(_, opt):
-        print(opt)
-        assert "67. Three of Pentacles" in opt
-
-    # rapid blueprint  *********************************************************
+class TestWithPls:  # ==========================================================
 
     def test_intro1(_, opt):
         print(opt)
