@@ -40,6 +40,19 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
+    # TODO
+
+    # braces  ******************************************************************
+
+    def assert_brace_title(_, opt):
+        assert_brace_title(opt)
+
+    def test_brace1(_, opt):
+        assert_brace1(opt)
+
+    def test_brace2(_, opt):
+        assert_brace2(opt)
+
     # coder shared  ************************************************************
 
     def test_coder_title(_, opt):
