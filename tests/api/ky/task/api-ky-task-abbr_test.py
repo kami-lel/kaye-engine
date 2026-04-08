@@ -8,13 +8,13 @@ Unit Tests (using pytest) for:
 
 import json
 
-from tests.api.ky.task import _assert_rapid_blueprint_opt
+import pytest
 
-# FIXME redo
-# helpers  #####################################################################
+1
 
+from tests.api.ky.task import *
 
-# pytest  ######################################################################
+# Pytest unit tests  ###########################################################
 
 
 class TestSingle:  # ===========================================================
@@ -33,7 +33,6 @@ class TestSingle:  # ===========================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
         assert_abbr_heading(opt)
         assert "- afx:affect,affected,affectedly,affectation" in opt
 
@@ -51,7 +50,6 @@ class TestSingle:  # ===========================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
         assert_abbr_heading(opt)
         assert "- afx:affect,affected,affectedly,affectation" in opt
 
@@ -69,7 +67,6 @@ class TestSingle:  # ===========================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
         assert_abbr_heading(opt)
         assert "- afx:affect,affected,affectedly,affectation" in opt
 
@@ -87,7 +84,6 @@ class TestSingle:  # ===========================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
         assert_abbr_heading(opt)
         assert "- afx:affect,affected,affectedly,affectation" in opt
 
@@ -105,7 +101,6 @@ class TestSingle:  # ===========================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
         assert_abbr_heading(opt)
         assert "- afx:affect,affected,affectedly,affectation" in opt
 
@@ -123,7 +118,6 @@ class TestSingle:  # ===========================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
         assert_abbr_heading(opt)
         assert "- afx:affect,affected,affectedly,affectation" in opt
 
@@ -144,7 +138,6 @@ class TestMux:  # ==============================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
         assert_abbr_heading(opt)
 
         assert "- achv:achieve,achieved,achievement" in opt

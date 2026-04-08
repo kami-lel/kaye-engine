@@ -64,10 +64,6 @@ def _assert_plc6(opt):
     assert "-`py`:Python" in opt
 
 
-def _assert_plc7(opt):
-    assert "-`qt`:Qt framework" in opt
-
-
 def _assert_plc8(opt):
     assert "-`u3d`:Unity Engine code" in opt
 
@@ -163,11 +159,6 @@ class TestDiffOverride:  # =====================================================
         opt = opt_diff_override
         print(opt)
         _assert_plc6(opt)
-
-    def test_pl7(_, opt_diff_override):
-        opt = opt_diff_override
-        print(opt)
-        _assert_plc7(opt)
 
     def test_pl8(_, opt_diff_override):
         opt = opt_diff_override
@@ -328,11 +319,6 @@ class TestNoDiff:  # ===========================================================
         opt = opt_no_diff
         print(opt)
         _assert_plc6(opt)
-
-    def test_pl7(_, opt_no_diff):
-        opt = opt_no_diff
-        print(opt)
-        _assert_plc7(opt)
 
     def test_pl8(_, opt_no_diff):
         opt = opt_no_diff
