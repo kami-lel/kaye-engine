@@ -4,8 +4,8 @@ define API to specific work with Dify App: Kaye Chat
 
 # pylint: disable=missing-function-docstring
 
+# FIXME refactor api
 
-from sys import stderr
 
 from flask import Blueprint, request, abort, Response
 

@@ -1,3 +1,6 @@
+# FIXME refactorization unit tests
+
+
 def _assert_chat_blueprint_opt(opt):
     _assert_rapid_blueprint_opt(opt)
 
