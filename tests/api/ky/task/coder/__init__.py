@@ -34,6 +34,14 @@ __all__ = [
     "assert_coder_c1",
     "assert_coder_cpp_title",
     "assert_coder_cpp1",
+    "assert_js_ts00",
+    "assert_js_ts01",
+    "assert_js_ts11",
+    "assert_js_ts12",
+    "assert_js_ts21",
+    "assert_js_ts22",
+    "assert_js_ts23",
+    "assert_js_ts24",
 ]
 
 # TODO mux lang test
@@ -200,3 +208,38 @@ def assert_coder_cpp_title(opt):
 
 def assert_coder_cpp1(opt):
     assert "Use **C++17** standard" in opt
+
+
+# ts & js  *********************************************************************
+
+
+def assert_js_ts00(opt):
+    assert "### JavaScript & TypeScript" in opt
+
+
+def assert_js_ts01(opt):
+    assert "These standards are applicable exclusively" in opt
+
+
+def assert_js_ts11(opt):
+    assert "##### Naming Conventions" in opt
+
+
+def assert_js_ts12(opt):
+    assert "- Use **camelCase** for naming variables" in opt
+
+
+def assert_js_ts21(opt):
+    assert "#### Documentation and Comments" in opt
+
+
+def assert_js_ts22(opt):
+    assert "- Ensure the code is accompanied by" in opt
+
+
+def assert_js_ts23(opt):
+    assert "*Example of JSDoc documentation:*" in opt
+
+
+def assert_js_ts24(opt):
+    assert "globalNS.method1 = function (a, b)" in opt

@@ -40,14 +40,29 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
-    # TODO
+    def assert_00(_, opt):
+        assert_js_ts00(opt)
 
-    def test0(_, opt):
-        assert (
-            """### JavaScript & TypeScript
-    These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard."""
-            in opt
-        )
+    def assert_01(_, opt):
+        assert_js_ts01(opt)
+
+    def assert_11(_, opt):
+        assert_js_ts11(opt)
+
+    def assert_12(_, opt):
+        assert_js_ts12(opt)
+
+    def assert_21(_, opt):
+        assert_js_ts21(opt)
+
+    def assert_22(_, opt):
+        assert_js_ts22(opt)
+
+    def assert_23(_, opt):
+        assert_js_ts23(opt)
+
+    def assert_24(_, opt):
+        assert_js_ts24(opt)
 
     # braces  ******************************************************************
 
