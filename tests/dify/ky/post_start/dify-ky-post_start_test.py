@@ -156,7 +156,7 @@ def opt_current_barista(kwargs):
 
 
 # defaults  ====================================================================
-class TestAllOverride:  # -----------------------------------------------------------
+class TestAllOverride:  # ------------------------------------------------------
 
     def test_structure(_, opt_all_override):
         opt = opt_all_override
