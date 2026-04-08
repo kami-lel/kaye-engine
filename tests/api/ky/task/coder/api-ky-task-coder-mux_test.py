@@ -82,6 +82,32 @@ class TestCoder:  # ============================================================
     def test_ts_24(_, opt):
         assert_js_ts24(opt)
 
+    # py  **********************************************************************
+
+    def test_py_title(_, opt):
+        assert_py_title(opt)
+
+    def test_py_intro(_, opt):
+        assert_py_intro(opt)
+
+    def test_py_doc0(_, opt):
+        assert_py_doc0(opt)
+
+    def test_py_doc1(_, opt):
+        assert_py_doc1(opt)
+
+    def test_py_pytest0(_, opt):
+        print(opt)
+        assert_py_pytest0(opt)
+
+    def test_py_pytest1(_, opt):
+        print(opt)
+        assert_py_pytest1(opt)
+
+    def test_py_pytest2(_, opt):
+        print(opt)
+        assert_py_pytest2(opt)
+
     # braces  ******************************************************************
 
     def test_brace_title(_, opt):
