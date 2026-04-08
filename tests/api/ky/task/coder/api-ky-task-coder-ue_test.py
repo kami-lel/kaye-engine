@@ -42,6 +42,10 @@ class TestCoder:  # ============================================================
 
     # TODO
 
+    def test0(_, opt):
+        assert """### Unreal Engine
+- Version: Unreal Engine `5.6.0`""" in opt
+
     # braces  ******************************************************************
 
     def assert_brace_title(_, opt):

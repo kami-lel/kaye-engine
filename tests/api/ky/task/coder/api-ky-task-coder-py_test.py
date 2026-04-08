@@ -42,6 +42,24 @@ class TestCoder:  # ============================================================
 
     # TODO
 
+    def test0(_, opt):
+        assert """### Python
+Adhere to the **PEP8** style guide, ensuring clarity and consistency.""" in opt
+
+        assert (
+            """#### Docstring Style
+
+The docstrings must be written using the **Sphinx** style and employ **reStructuredText** as the markup language. Avoid using any other styles."""
+            in opt
+        )
+
+        assert (
+            """#### Testing Guidelines
+
+This section pertains specifically to Python test code. Tests should be compatible with the `pytest` module."""
+            in opt
+        )
+
     # coder shared  ************************************************************
 
     def test_coder_title(_, opt):

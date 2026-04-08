@@ -42,6 +42,12 @@ class TestCoder:  # ============================================================
 
     # TODO
 
+    def test0(_, opt):
+        assert """#### QML
+Declarations of items must follow this order:
+
+1. id""" in opt
+
     # coder shared  ************************************************************
 
     def test_coder_title(_, opt):

@@ -42,6 +42,10 @@ class TestCoder:  # ============================================================
 
     # TODO
 
+    def test0(_, opt):
+        assert """### GDScript
+    - Version: Godot 4""" in opt
+
     # coder shared  ************************************************************
 
     def test_coder_title(_, opt):

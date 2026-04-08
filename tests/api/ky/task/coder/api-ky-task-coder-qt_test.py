@@ -41,6 +41,10 @@ def opt(flask_test_client, task_endpoint):
 class TestCoder:  # ============================================================
 
     # TODO
+    def test0(_, opt):
+        assert """### Qt
+This section is solely for Qt framework.
+""" in opt
 
     # coder shared  ************************************************************
 

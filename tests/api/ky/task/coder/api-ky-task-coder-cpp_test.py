@@ -42,6 +42,10 @@ class TestCoder:  # ============================================================
 
     # TODO
 
+    def test0(_, opt):
+        assert """### C++
+    use **C++17** standard""" in opt
+
     # braces  ******************************************************************
 
     def assert_brace_title(_, opt):

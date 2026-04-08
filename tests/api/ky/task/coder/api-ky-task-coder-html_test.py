@@ -42,6 +42,10 @@ class TestCoder:  # ============================================================
 
     # TODO
 
+    def test0(_, opt):
+        assert """### HTML
+- Version: **HTML5** standard""" in opt
+
     # coder shared  ************************************************************
 
     def test_coder_title(_, opt):

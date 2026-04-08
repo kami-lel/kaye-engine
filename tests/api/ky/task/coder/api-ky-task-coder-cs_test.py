@@ -42,6 +42,13 @@ class TestCoder:  # ============================================================
 
     # TODO
 
+    def test0(_, opt):
+        assert (
+            """### C Sharp
+- Documentation: Use XML comments (`/// <summary>...</summary>`) to document functionality and provide examples wherever helpful."""
+            in opt
+        )
+
     # braces  ******************************************************************
 
     def assert_brace_title(_, opt):

@@ -42,6 +42,13 @@ class TestCoder:  # ============================================================
 
     # TODO
 
+    def test0(_, opt):
+        assert (
+            """### JavaScript & TypeScript
+    These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard."""
+            in opt
+        )
+
     # braces  ******************************************************************
 
     def assert_brace_title(_, opt):

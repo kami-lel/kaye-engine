@@ -42,6 +42,12 @@ class TestCoder:  # ============================================================
 
     # TODO
 
+    def test0(_, opt):
+        assert "### Unity Engine" in opt
+        assert "Unity **6**" in opt
+        assert "#### MonoBehaviour" in opt
+        assert "never mixed into *Private Methods*" in opt
+
     # braces  ******************************************************************
 
     def assert_brace_title(_, opt):
