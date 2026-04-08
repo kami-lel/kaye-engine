@@ -8,6 +8,13 @@ Unit Tests (using pytest) for:
 
 import pytest
 
+from tests.api.ky.sense import (
+    _assert_empty_role1,
+    _assert_empty_role2,
+    _assert_empty_pls1,
+    _assert_empty_pls2,
+)
+
 # Pytest fixtures  #############################################################
 
 
@@ -47,5 +54,8 @@ class TestDiff:
     def test7(_, opt):
         assert "- `100` Refactor a messy, ambiguous" in opt
 
+    def test_empty_role1(_, opt):
+        _assert_empty_role1(opt)
 
-# TODO
+    def test_empty_role2(_, opt):
+        _assert_empty_role2(opt)
