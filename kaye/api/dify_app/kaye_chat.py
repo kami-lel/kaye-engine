@@ -12,6 +12,7 @@ from flask import Blueprint, request, abort, Response
 
 from kaye import PROGRAM_NAME
 from kaye.prompt import PromptBlueprint
+from kaye.api.dify_app.kaye_chat_merge import kaye_chat_merge
 
 # constants  ###################################################################
 BODY_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
@@ -34,13 +35,6 @@ SENSE_PROMPT_BLUEPRINT = """ ○
 [ ] │       └── empty programming_languages
 [ ] └── {Programming Languages Code}
 """
-
-
-MERGE_PROMPT_BLUEPRINT = """ ○
-[x] ├── Kaye Chat
-[x] │   └── merge
-"""
-
 
 # task blueprints  =============================================================
 
@@ -171,13 +165,10 @@ def kaye_chat_task():
     return bp.generate_prompt(**kwargs)
 
 
-# /kaye/dify-app/ky/merge  =====================================================
+# /kaye/dify-app/ky/merge
 @ky_bp.route("/merge", methods=["GET"])
-def kaye_chat_merge():
-    blueprint = PromptBlueprint.parse(MERGE_PROMPT_BLUEPRINT)
-
-    # create concrete prompt  --------------------------------------------------
-    return blueprint.generate_prompt()
+def kaye_chat_merge_endpoint():
+    return kaye_chat_merge()
 
 
 # task blueprints  #############################################################
