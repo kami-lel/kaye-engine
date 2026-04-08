@@ -2679,7 +2679,7 @@
     }
   },
   "implement": {
-    "mpmt": {
+    "mpl": {
       "priority": 5,
       "tags": [
         "letters_only"
