@@ -3,9 +3,6 @@
 # pylint: disable=too-many-positional-arguments
 
 
-# FIXME more info: specify whether role & diff are sensed
-
-
 # output keys  #################################################################
 OUTPUT_META_KEY = "meta_content"
 
