@@ -1,3 +1,38 @@
+__all__ = [
+    "assert_style_title",
+    "assert_style_caps",
+    "assert_style_caps_tc0",
+    "assert_style_caps_tc1",
+    "assert_style_caps_tc2",
+    "assert_style_caps_tc3",
+    "assert_style_caps_tc4",
+    "assert_style_caps_cc0",
+    "assert_style_caps_cc1",
+    "assert_style_caps_cc2",
+    "assert_style_caps_cc3",
+    "assert_style_caps_bs0",
+    "assert_style_caps_bs1",
+    "assert_style_caps_bs2",
+    "assert_style_caps_bs3",
+    "assert_style_caps_gw0",
+    "assert_style_caps_gw1",
+    "assert_style_caps_gw2",
+    "assert_style_caps_gw3",
+    "assert_am_title",
+    "assert_am1",
+    "assert_am2",
+    "assert_am3",
+    "assert_coder_title",
+    "assert_coder_code_format_title",
+    "assert_coder_variable_naming_title",
+    "assert_coder_code_comment_title",
+    "assert_coder_csh_title",
+    "assert_brace_title",
+    "assert_brace1",
+    "assert_brace2",
+]
+
+
 # helpers  #####################################################################
 
 # style  =======================================================================
@@ -121,3 +156,18 @@ def assert_coder_code_comment_title(opt):
 
 def assert_coder_csh_title(opt):
     assert "#### comment section headings" in opt
+
+
+# brace  =======================================================================
+
+
+def assert_brace_title(opt):
+    assert "### Brace Style" in opt
+
+
+def assert_brace1(opt):
+    assert "- opening `{` on the **same line**" in opt
+
+
+def assert_brace2(opt):
+    assert "- closing `}` on its **own line**" in opt
