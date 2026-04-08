@@ -16,13 +16,13 @@ ROLE2PRINTABLE_NAME = {
     "barista": "☕️Barista",
     "changelog": "🔄Changelog Writer",
     "chat": "💬Chat",
-    "coder": "💻Peer Coder",
+    "coder": "🤖Peer Coder",
     "deutschlehrer": "🇩🇪Deutschlehrer",
     "editor": "✍️Editor",
     "librarian": "🏛️Librarian",
     "prompt": "🖊️Prompt Writer",
     "rapid": "⚡️Rapid",
-    "secretary": "🗂️Secretary",
+    "secretary": "💼Secretary",
     "tarot": "🔮Tarot Reader",
 }
 
