@@ -5,8 +5,6 @@
 
 # FIXME more info: specify whether role & diff are sensed
 
-# bug meta content answer always twice since 2nd round
-
 
 # output keys  #################################################################
 OUTPUT_META_KEY = "meta_content"
