@@ -40,6 +40,8 @@ Kaye Chat *Dify App*:
 
   - related unit test
 
+- turn `show_meta_content` to off by default
+
 ### Deprecated
 ### Removed
 ### Fixed
