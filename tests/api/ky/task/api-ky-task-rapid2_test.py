@@ -37,7 +37,7 @@ from tests.api.ky.task import (
 # Pytest fixtures  #############################################################
 
 
-@pytest.fixture
+@pytest.fixtur(scope='class')e
 def opt(flask_test_client, task_endpoint):
     payload = json.dumps({"role": "rapid", "programming_languages": "abc"})
 
