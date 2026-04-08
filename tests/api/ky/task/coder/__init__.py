@@ -44,9 +44,15 @@ __all__ = [
     "assert_js_ts24",
     "assert_cs0",
     "assert_cs1",
+    "assert_py_title",
+    "assert_py_intro",
+    "assert_py_doc0",
+    "assert_py_doc1",
+    "assert_py_pytest0",
+    "assert_py_pytest1",
+    "assert_py_pytest2",
 ]
 
-# TODO mux lang test
 
 # helpers  #####################################################################
 
@@ -256,3 +262,34 @@ def assert_cs0(opt):
 
 def assert_cs1(opt):
     assert "- Documentation: Use XML comments" in opt
+
+
+# python  **********************************************************************
+
+
+def assert_py_title(opt):
+    assert "### Python" in opt
+
+
+def assert_py_intro(opt):
+    assert "Adhere to the **PEP8** style guide," in opt
+
+
+def assert_py_doc0(opt):
+    assert "##### Docstring Style" in opt
+
+
+def assert_py_doc1(opt):
+    assert "The docstrings must be written using the" in opt
+
+
+def assert_py_pytest0(opt):
+    assert "##### Testing Guidelines" in opt
+
+
+def assert_py_pytest1(opt):
+    assert "This section pertains specifically to Python test code" in opt
+
+
+def assert_py_pytest2(opt):
+    assert "*Example of tests for the `add` function:*" in opt

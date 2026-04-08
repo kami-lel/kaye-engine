@@ -41,25 +41,28 @@ def opt(flask_test_client, task_endpoint):
 class TestCoder:  # ============================================================
 
     def test_py_title(_, opt):
-        assert "### Python" in opt
+        assert_py_title(opt)
 
     def test_py_intro(_, opt):
-        assert "Adhere to the **PEP8** style guide," in opt
+        assert_py_intro(opt)
 
     def test_py_doc0(_, opt):
-        assert "##### Docstring Style" in opt
+        assert_py_doc0(opt)
 
     def test_py_doc1(_, opt):
-        assert "The docstrings must be written using the" in opt
+        assert_py_doc1(opt)
 
     def test_py_pytest0(_, opt):
-        assert "##### Testing Guidelines" in opt
+        print(opt)
+        assert_py_pytest0(opt)
 
     def test_py_pytest1(_, opt):
-        assert "This section pertains specifically to Python test code" in opt
+        print(opt)
+        assert_py_pytest1(opt)
 
     def test_py_pytest2(_, opt):
-        assert "*Example of tests for the `add` function:*" in opt
+        print(opt)
+        assert_py_pytest2(opt)
 
     # coder shared  ************************************************************
 
