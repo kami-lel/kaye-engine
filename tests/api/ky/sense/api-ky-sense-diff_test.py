@@ -9,6 +9,8 @@ Unit Tests (using pytest) for:
 import pytest
 
 from tests.api.ky.sense import (
+    _assert_sense_title1,
+    _assert_sense_title2,
     _assert_empty_role1,
     _assert_empty_role2,
     _assert_empty_pls1,
@@ -30,6 +32,14 @@ def opt(flask_test_client, sense_endpoint):
 
 
 class TestDiff:
+
+    def test_sense_title1(_, opt):
+        print(opt)
+        _assert_sense_title1(opt)
+
+    def test_sense_title2(_, opt):
+        print(opt)
+        _assert_sense_title2(opt)
 
     def test_title1(_, opt):
         print(opt)

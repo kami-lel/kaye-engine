@@ -9,6 +9,8 @@ Unit Tests (using pytest) for:
 import pytest
 
 from tests.api.ky.sense import (
+    _assert_sense_title1,
+    _assert_sense_title2,
     _assert_zero_diff1,
     _assert_zero_diff2,
     _assert_empty_pls1,

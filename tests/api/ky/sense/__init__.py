@@ -1,6 +1,14 @@
 # helpers  #####################################################################
 
 
+def _assert_sense_title1(opt):
+    assert opt.startswith("# Kaye Chat")
+
+
+def _assert_sense_title2(opt):
+    assert "## sense" in opt
+
+
 def _assert_empty_role1(opt):
     assert "### empty role" in opt
 
