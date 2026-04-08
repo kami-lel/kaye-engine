@@ -18,6 +18,14 @@
 ## [Unreleased]
 
 ### Added
+
+`abbrs.json` & related:
+
+- new wrap: `currency` and `unit`
+- new tags: `unit_of_measure` and `currency_symbol`
+- new abbrs: *b* (bit,) *B* (byte,) *d* (dimension,) & *phy* (physics)
+- update abbrs with new wraps & tags
+
 ### Changed
 ### Deprecated
 ### Removed
