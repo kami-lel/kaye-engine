@@ -269,19 +269,19 @@ def _create_barista_blueprint():  # ============================================
 
 def _create_changelog_blueprint():  # ==========================================
     bp = _create_chat_blueprint()
-    bp.checkmark("Changelog Writer")
+    bp.checkmark("Changelog Writer", recursively=True)
     return bp
 
 
 def _create_librarian_blueprint():  # ==========================================
     bp = _create_chat_blueprint()
-    # TODO
+    bp.checkmark("Librarian", recursively=True)
     return bp
 
 
 def _create_prompt_blueprint():  # ==========================================
     bp = _create_rapid_blueprint()
-    # TODO
+    bp.checkmark("Prompt Writer")
     return bp
 
 
