@@ -1685,7 +1685,7 @@ Use **C99** standard
 
 ### C++
 
-use **C++17** standard
+Use **C++17** standard
 
 
 

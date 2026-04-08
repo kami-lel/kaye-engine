@@ -30,6 +30,10 @@ __all__ = [
     "assert_brace_title",
     "assert_brace1",
     "assert_brace2",
+    "assert_coder_c_title",
+    "assert_coder_c1",
+    "assert_coder_cpp_title",
+    "assert_coder_cpp1",
 ]
 
 # TODO mux lang test
@@ -174,4 +178,25 @@ def assert_brace2(opt):
     assert "- closing `}` on its **own line**" in opt
 
 
-# coder:lang  ==================================================================
+# PLs  =========================================================================
+
+# C  ***************************************************************************
+
+
+def assert_coder_c_title(opt):
+    assert "### C" in opt
+
+
+def assert_coder_c1(opt):
+    assert "Use **C99** standard" in opt
+
+
+# C++  *************************************************************************
+
+
+def assert_coder_cpp_title(opt):
+    assert "### C++" in opt
+
+
+def assert_coder_cpp1(opt):
+    assert "Use **C++17** standard" in opt

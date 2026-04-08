@@ -40,11 +40,21 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
-    # TODO
+    # C++  *********************************************************************
 
-    def test0(_, opt):
-        assert """### C++
-    use **C++17** standard""" in opt
+    def test_cpp0(_, opt):
+        assert_coder_cpp_title(opt)
+
+    def test_cpp1(_, opt):
+        assert_coder_cpp1(opt)
+
+    # C  ***********************************************************************
+
+    def test_c0(_, opt):
+        assert_coder_c_title(opt)
+
+    def test_c1(_, opt):
+        assert_coder_c1(opt)
 
     # braces  ******************************************************************
 

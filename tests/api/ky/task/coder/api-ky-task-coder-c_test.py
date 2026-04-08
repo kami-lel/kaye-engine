@@ -40,11 +40,11 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
-    # TODO
+    def test_c0(_, opt):
+        assert_coder_c_title(opt)
 
-    def test0(_, opt):
-        assert """### C
-    Use **C99** standard""" in opt
+    def test_c1(_, opt):
+        assert_coder_c1(opt)
 
     # braces  ******************************************************************
 

@@ -40,11 +40,27 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
-    # TODO
+    def test_ue0(_, opt):
+        assert "### Unreal Engine" in opt
 
-    def test0(_, opt):
-        assert """### Unreal Engine
-- Version: Unreal Engine `5.6.0`""" in opt
+    def test_ue1(_, opt):
+        assert "- Version: Unreal Engine `5.6.0`" in opt
+
+    # C++  *********************************************************************
+
+    def test_cpp0(_, opt):
+        assert_coder_cpp_title(opt)
+
+    def test_cpp1(_, opt):
+        assert_coder_cpp1(opt)
+
+    # C  ***********************************************************************
+
+    def test_c0(_, opt):
+        assert_coder_c_title(opt)
+
+    def test_c1(_, opt):
+        assert_coder_c1(opt)
 
     # braces  ******************************************************************
 
