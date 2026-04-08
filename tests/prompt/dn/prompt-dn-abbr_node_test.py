@@ -102,7 +102,21 @@ class TestContentLines:  #######################################################
         }
 
     def test_fx3(_, testee1):
-        pass  # TODO test currency
+        query = (
+            "This is some 5PM time and it was 5 a.m. "
+            "But i spent $5 to buy a book to read para 5."
+        )
+
+        lines = testee1.content_lines(query=query)
+
+        print(lines)
+
+        assert set(lines) == {
+            "- $:(default)US Dollar",
+            "- a.m.:ante meridiem,before midday",
+            "- para:paragraph",
+            "- PM:post meridiem,after midday",
+        }
 
     def test_start(_, testee1):
         query = "cf and other"
