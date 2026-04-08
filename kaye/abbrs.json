@@ -376,7 +376,7 @@
       "wrap": "word"
     }
   },
-  "Unity Engine code using C#": {
+  "Unity Engine code": {
     "u3d": {
       "priority": 5,
       "tags": [
@@ -386,7 +386,7 @@
       "wrap": "word"
     }
   },
-  "Unreal Engine code using C++": {
+  "Unreal Engine code": {
     "ue": {
       "priority": 5,
       "tags": [
