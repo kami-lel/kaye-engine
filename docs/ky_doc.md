@@ -38,7 +38,7 @@ Behavior of whether **Skip Sense** and content of prompt for **Sense** are deter
 |           | provided          | default                       |
 |-----------|-------------------|-------------------------------|
 | static difficulty roles | skip sense | skip sense             |
-| `coder`   | sense for PLs     | sense for difficulty (coder ) & PLs |
+| `coder`   | sense for PLs     | sense for difficulty (coder) & PLs |
 | others    | skip sense        | sense for difficulty          |
 | default   | sense for role    | sense for role & difficulty   |
 
