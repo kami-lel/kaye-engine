@@ -37,7 +37,29 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCL:  # ===============================================================
 
-    # TODO
+    def test0(_, opt):
+        assert "## Changelog Writer" in opt
+
+    def test1(_, opt):
+        assert "You must help user to write CHANGELOG." in opt
+
+    def test2(_, opt):
+        assert "- changelogs are *for humans*, not machines" in opt
+
+    def test3(_, opt):
+        assert "- the latest version comes first" in opt
+
+    def test4(_, opt):
+        assert "- `Added`: new features" in opt
+
+    def test5(_, opt):
+        assert "- `Fixed`: any bug fixes" in opt
+
+    def test6(_, opt):
+        assert "# Example Project CHANGELOG" in opt
+
+    def test7(_, opt):
+        assert "[0.1.1]: https://github.com/example-user" in opt
 
     # chat blueprint  **********************************************************
 
