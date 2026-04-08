@@ -25,6 +25,12 @@
 - new tags: `unit_of_measure` and `currency_symbol`
 - new abbrs: *b* (bit,) *B* (byte,) *d* (dimension,) & *phy* (physics)
 
+Kaye Chat *Dify App* roles:
+
+- Changelog Writer
+- Prompt Writer
+- Librarian
+
 ### Changed
 
 `abbrs.json` & related:
