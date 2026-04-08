@@ -112,7 +112,6 @@ class AbbrWrap(Enum):  #########################################################
         :type char_after: str
         """
 
-        # TODO take few characters
         # TODO mpl unit and before number (also work as symbol?)
 
         if self == AbbrWrap.WORD:
