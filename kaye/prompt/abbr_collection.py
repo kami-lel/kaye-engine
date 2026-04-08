@@ -67,6 +67,7 @@ class AbbrTags(Flag):  #########################################################
     language_code = auto()  # partial of and based on ISO 639-1 (2 letter)
     unity_engine_abbr = auto()
     log_level = auto()
+    unit_of_measure = auto()
 
     # character set  -----------------------------------------------------------
 
@@ -95,6 +96,7 @@ class AbbrWrap(Enum):  #########################################################
     PREFIX = "prefix"
     SUFFIX = "suffix"
     SYMBOL = "symbol"
+    UNIT = "unit"  # TODO mpl unit wrapping
 
     # instance methods  ========================================================
 
