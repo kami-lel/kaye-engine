@@ -140,7 +140,7 @@ class AbbrWrap(Enum):  #########################################################
 
 
 # patterns  --------------------------------------------------------------------
-WORD_BOUNDARY_PATTERN = re.compile(r"\s|[^\w\s]?")
+WORD_BOUNDARY_PATTERN = re.compile(r"\s|[^\w]?")
 WORD_PATTERN = re.compile(r"\w")
 
 
