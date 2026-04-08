@@ -64,9 +64,11 @@ class AbbrTags(Flag):  #########################################################
     common = auto()
     usable = auto()
     programming_language_code = auto()
-    language_code = auto()  # partial of and based on ISO 639-1 (2 letter)
+    language_code = auto()
     unity_engine_abbr = auto()
     log_level = auto()
+    unit_of_measure = auto()
+    currency_symbol = auto()
 
     # character set  -----------------------------------------------------------
 
@@ -95,6 +97,8 @@ class AbbrWrap(Enum):  #########################################################
     PREFIX = "prefix"
     SUFFIX = "suffix"
     SYMBOL = "symbol"
+    UNIT = "unit"
+    CURRENCY = "currency"
 
     # instance methods  ========================================================
 
@@ -126,11 +130,22 @@ class AbbrWrap(Enum):  #########################################################
         elif self == AbbrWrap.SYMBOL:
             return True
 
+        elif self == AbbrWrap.UNIT:
+            return NUMBER_OR_BOUNDARY_PATTERN.fullmatch(
+                char_before
+            ) and WORD_BOUNDARY_PATTERN.fullmatch(char_after)
+
+        elif self == AbbrWrap.CURRENCY:
+            return WORD_BOUNDARY_PATTERN.fullmatch(
+                char_before
+            ) and NUMBER_OR_BOUNDARY_PATTERN.fullmatch(char_after)
+
         raise NotImplementedError
 
 
 # patterns  --------------------------------------------------------------------
-WORD_BOUNDARY_PATTERN = re.compile(r"\s|[^\w\s]?")
+WORD_BOUNDARY_PATTERN = re.compile(r"\s|[^\w]?")
+NUMBER_OR_BOUNDARY_PATTERN = re.compile(r"\s|[0-9]?")
 WORD_PATTERN = re.compile(r"\w")
 
 

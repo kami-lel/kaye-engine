@@ -1,4 +1,35 @@
 {
+  "(default)Chinese Yuan,RMB": {
+    "¥": {
+      "priority": 5,
+      "tags": [
+        "common",
+        "currency_symbol"
+      ],
+      "wrap": "symbol"
+    }
+  },
+  "(default)US Dollar": {
+    "$": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "common",
+        "unit_of_measure"
+      ],
+      "wrap": "symbol"
+    }
+  },
+  "(default)US cent": {
+    "¢": {
+      "priority": 5,
+      "tags": [
+        "common",
+        "unit_of_measure"
+      ],
+      "wrap": "symbol"
+    }
+  },
   "-able,-ble,-le": {
     ".e": {
       "priority": 5,
@@ -143,32 +174,226 @@
       "wrap": "suffix"
     }
   },
-  "(default)Chinese Yuan,RMB": {
-    "¥": {
-      "priority": 5,
-      "tags": [
-        "common"
-      ],
-      "wrap": "symbol"
-    }
-  },
-  "(default)US cent": {
-    "¢": {
-      "priority": 5,
-      "tags": [
-        "common"
-      ],
-      "wrap": "symbol"
-    }
-  },
-  "(default)US Dollar": {
-    "$": {
+  "Bash": {
+    "bash": {
       "priority": 5,
       "tags": [
         "letters_only",
-        "common"
+        "programming_language_code"
       ],
-      "wrap": "symbol"
+      "wrap": "word"
+    }
+  },
+  "C Sharp": {
+    "c#": {
+      "priority": 4,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "word"
+    },
+    "cs": {
+      "priority": 6,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    },
+    "csharp": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "C language": {
+    "c": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "C++": {
+    "c++": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "word"
+    },
+    "cpp": {
+      "priority": 7,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
+    },
+    "cxx": {
+      "priority": 6,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "CSS": {
+    "css": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "Christian,Christianity": {
+    "Xn": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    }
+  },
+  "Deutsch": {
+    "de": {
+      "priority": 5,
+      "tags": [
+        "language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "English": {
+    "en": {
+      "priority": 5,
+      "tags": [
+        "language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "Euro": {
+    "€": {
+      "priority": 5,
+      "tags": [
+        "common",
+        "currency_symbol"
+      ],
+      "wrap": "currency"
+    }
+  },
+  "GDScript used by Godot Engine": {
+    "gd": {
+      "priority": 6,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    },
+    "gdscript": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "HTML": {
+    "html": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "JavaScript": {
+    "js": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "MonoBehavior": {
+    "mb": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "unity_engine_abbr"
+      ],
+      "wrap": "word"
+    }
+  },
+  "Python": {
+    "py": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "QT Meta-object Language": {
+    "qml": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "Qt framework": {
+    "qt": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "TypeScript": {
+    "ts": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "Unity Engine code using C#": {
+    "u3d": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "Unreal Engine code using C++": {
+    "ue": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "programming_language_code"
+      ],
+      "wrap": "word"
     }
   },
   "abbreviation": {
@@ -391,7 +616,7 @@
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "another": {
@@ -404,6 +629,13 @@
     }
   },
   "answer": {
+    "A": {
+      "priority": 7,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "currency"
+    },
     "answ": {
       "priority": 5,
       "tags": [
@@ -413,19 +645,19 @@
     }
   },
   "ante meridiem,before midday": {
-    "a.m.": {
-      "priority": 5,
-      "tags": [
-        "ascii_only"
-      ],
-      "wrap": "word"
-    },
     "AM": {
       "priority": 6,
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "unit"
+    },
+    "a.m.": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "unit"
     }
   },
   "anti-": {
@@ -474,15 +706,15 @@
     }
   },
   "anytime": {
-    "a/x": {
-      "priority": 6,
+    "a/X": {
+      "priority": 5,
       "tags": [
         "ascii_only"
       ],
       "wrap": "word"
     },
-    "a/X": {
-      "priority": 5,
+    "a/x": {
+      "priority": 6,
       "tags": [
         "ascii_only"
       ],
@@ -615,33 +847,11 @@
       "wrap": "word"
     }
   },
-  "Bash": {
-    "bash": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
-      ],
-      "wrap": "word"
-    }
-  },
   "because,caused by,result of": {
-    "⇐": {
-      "priority": 3,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "<=": {
       "priority": 6,
       "tags": [
         "ascii_only"
-      ],
-      "wrap": "symbol"
-    },
-    "∵": {
-      "priority": 2,
-      "tags": [
-        "common"
       ],
       "wrap": "symbol"
     },
@@ -652,19 +862,31 @@
         "common"
       ],
       "wrap": "word"
-    }
-  },
-  "become/change/transform from": {
-    "←": {
-      "priority": 5,
+    },
+    "⇐": {
+      "priority": 3,
       "tags": [],
       "wrap": "symbol"
     },
+    "∵": {
+      "priority": 2,
+      "tags": [
+        "common"
+      ],
+      "wrap": "symbol"
+    }
+  },
+  "become/change/transform from": {
     "<-": {
       "priority": 6,
       "tags": [
         "ascii_only"
       ],
+      "wrap": "symbol"
+    },
+    "←": {
+      "priority": 5,
+      "tags": [],
       "wrap": "symbol"
     }
   },
@@ -737,6 +959,16 @@
       "wrap": "word"
     }
   },
+  "bit": {
+    "b": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "unit_of_measure"
+      ],
+      "wrap": "unit"
+    }
+  },
   "book": {
     "bk": {
       "priority": 5,
@@ -755,62 +987,14 @@
       "wrap": "word"
     }
   },
-  "C language": {
-    "c": {
+  "byte": {
+    "B": {
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language_code"
+        "unit_of_measure"
       ],
-      "wrap": "word"
-    }
-  },
-  "C Sharp": {
-    "c#": {
-      "priority": 4,
-      "tags": [
-        "ascii_only"
-      ],
-      "wrap": "word"
-    },
-    "cs": {
-      "priority": 6,
-      "tags": [
-        "letters_only"
-      ],
-      "wrap": "word"
-    },
-    "csharp": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
-      ],
-      "wrap": "word"
-    }
-  },
-  "C++": {
-    "c++": {
-      "priority": 5,
-      "tags": [
-        "ascii_only"
-      ],
-      "wrap": "word"
-    },
-    "cpp": {
-      "priority": 7,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
-      ],
-      "wrap": "word"
-    },
-    "cxx": {
-      "priority": 6,
-      "tags": [
-        "letters_only"
-      ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "calculate,calculation": {
@@ -868,42 +1052,42 @@
     }
   },
   "change": {
-    "±": {
-      "priority": 3,
-      "tags": [
-        "common"
-      ],
-      "wrap": "symbol"
-    },
     "chg": {
       "priority": 5,
       "tags": [
         "letters_only"
       ],
       "wrap": "word"
-    }
-  },
-  "chapter": {
-    "§": {
+    },
+    "±": {
       "priority": 3,
       "tags": [
         "common"
       ],
       "wrap": "symbol"
-    },
+    }
+  },
+  "chapter": {
     "C.": {
       "priority": 6,
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
     },
     "Cap.": {
       "priority": 5,
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
+    },
+    "§": {
+      "priority": 3,
+      "tags": [
+        "common"
+      ],
+      "wrap": "currency"
     }
   },
   "character,characterize,characterization,characteristic": {
@@ -922,15 +1106,6 @@
         "emoji"
       ],
       "wrap": "symbol"
-    }
-  },
-  "Christian,Christianity": {
-    "Xn": {
-      "priority": 5,
-      "tags": [
-        "letters_only"
-      ],
-      "wrap": "word"
     }
   },
   "class,classic,classicism,classify,classical": {
@@ -952,17 +1127,17 @@
     }
   },
   "co-relationship": {
-    "∝": {
-      "priority": 3,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "crl": {
       "priority": 5,
       "tags": [
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "∝": {
+      "priority": 3,
+      "tags": [],
+      "wrap": "symbol"
     }
   },
   "column": {
@@ -1180,6 +1355,13 @@
     }
   },
   "correct,correction": {
+    "cor": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    },
     "✓": {
       "priority": 3,
       "tags": [],
@@ -1191,13 +1373,6 @@
         "emoji"
       ],
       "wrap": "symbol"
-    },
-    "cor": {
-      "priority": 5,
-      "tags": [
-        "letters_only"
-      ],
-      "wrap": "word"
     }
   },
   "count,counting": {
@@ -1219,14 +1394,6 @@
     }
   },
   "critical": {
-    "💥": {
-      "priority": 3,
-      "tags": [
-        "emoji",
-        "log_level"
-      ],
-      "wrap": "symbol"
-    },
     "CRIT ": {
       "priority": 5,
       "tags": [
@@ -1234,16 +1401,14 @@
         "log_level"
       ],
       "wrap": "word"
-    }
-  },
-  "CSS": {
-    "css": {
-      "priority": 5,
+    },
+    "💥": {
+      "priority": 3,
       "tags": [
-        "letters_only",
-        "programming_language_code"
+        "emoji",
+        "log_level"
       ],
-      "wrap": "word"
+      "wrap": "symbol"
     }
   },
   "cubic": {
@@ -1301,14 +1466,6 @@
     }
   },
   "debug": {
-    "🐞": {
-      "priority": 3,
-      "tags": [
-        "emoji",
-        "log_level"
-      ],
-      "wrap": "symbol"
-    },
     "DEBUG": {
       "priority": 5,
       "tags": [
@@ -1316,6 +1473,14 @@
         "log_level"
       ],
       "wrap": "word"
+    },
+    "🐞": {
+      "priority": 3,
+      "tags": [
+        "emoji",
+        "log_level"
+      ],
+      "wrap": "symbol"
     }
   },
   "decrease,decrement": {
@@ -1326,17 +1491,17 @@
       ],
       "wrap": "symbol"
     },
-    "↓": {
-      "priority": 5,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "d.c": {
       "priority": 7,
       "tags": [
         "ascii_only"
       ],
       "wrap": "word"
+    },
+    "↓": {
+      "priority": 5,
+      "tags": [],
+      "wrap": "symbol"
     }
   },
   "default": {
@@ -1363,7 +1528,7 @@
       "tags": [
         "common"
       ],
-      "wrap": "symbol"
+      "wrap": "unit"
     }
   },
   "degree Celsius": {
@@ -1372,7 +1537,7 @@
       "tags": [
         "common"
       ],
-      "wrap": "symbol"
+      "wrap": "unit"
     }
   },
   "degree Fahrenheit": {
@@ -1381,7 +1546,7 @@
       "tags": [
         "common"
       ],
-      "wrap": "symbol"
+      "wrap": "unit"
     }
   },
   "delete,deleted,deletion": {
@@ -1429,15 +1594,6 @@
       "wrap": "word"
     }
   },
-  "Deutsch": {
-    "de": {
-      "priority": 5,
-      "tags": [
-        "language_code"
-      ],
-      "wrap": "word"
-    }
-  },
   "develop,development": {
     "dev": {
       "priority": 5,
@@ -1463,6 +1619,15 @@
         "letters_only"
       ],
       "wrap": "word"
+    }
+  },
+  "dimension": {
+    "d": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "unit"
     }
   },
   "diminish": {
@@ -1493,19 +1658,19 @@
     }
   },
   "ditto,repetitive as above": {
-    "〃": {
-      "priority": 3,
-      "tags": [
-        "common"
-      ],
-      "wrap": "symbol"
-    },
     "do.": {
       "priority": 5,
       "tags": [
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "〃": {
+      "priority": 3,
+      "tags": [
+        "common"
+      ],
+      "wrap": "symbol"
     }
   },
   "diverse,diversity": {
@@ -1643,15 +1808,6 @@
       "wrap": "word"
     }
   },
-  "English": {
-    "en": {
-      "priority": 5,
-      "tags": [
-        "language_code"
-      ],
-      "wrap": "word"
-    }
-  },
   "enough": {
     "egh": {
       "priority": 5,
@@ -1678,28 +1834,20 @@
       ],
       "wrap": "symbol"
     },
-    "≡": {
-      "priority": 4,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "eq": {
       "priority": 6,
       "tags": [
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "≡": {
+      "priority": 4,
+      "tags": [],
+      "wrap": "symbol"
     }
   },
   "error": {
-    "🛑": {
-      "priority": 3,
-      "tags": [
-        "emoji",
-        "log_level"
-      ],
-      "wrap": "symbol"
-    },
     "ERROR": {
       "priority": 5,
       "tags": [
@@ -1707,6 +1855,14 @@
         "log_level"
       ],
       "wrap": "word"
+    },
+    "🛑": {
+      "priority": 3,
+      "tags": [
+        "emoji",
+        "log_level"
+      ],
+      "wrap": "symbol"
     }
   },
   "especially": {
@@ -1755,15 +1911,6 @@
       "wrap": "word"
     }
   },
-  "Euro": {
-    "€": {
-      "priority": 5,
-      "tags": [
-        "common"
-      ],
-      "wrap": "symbol"
-    }
-  },
   "evaluate,evaluable": {
     "eval": {
       "priority": 5,
@@ -1810,15 +1957,15 @@
     }
   },
   "everytime": {
-    "e/x": {
-      "priority": 6,
+    "e/X": {
+      "priority": 5,
       "tags": [
         "ascii_only"
       ],
       "wrap": "word"
     },
-    "e/X": {
-      "priority": 5,
+    "e/x": {
+      "priority": 6,
       "tags": [
         "ascii_only"
       ],
@@ -1844,17 +1991,17 @@
     }
   },
   "excess": {
-    "∹": {
-      "priority": 3,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "xcs": {
       "priority": 5,
       "tags": [
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "∹": {
+      "priority": 3,
+      "tags": [],
+      "wrap": "symbol"
     }
   },
   "exclude,exclusion": {
@@ -1867,17 +2014,17 @@
     }
   },
   "exist,existence,there exists,existing": {
-    "∃": {
-      "priority": 3,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "xsi": {
       "priority": 5,
       "tags": [
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "∃": {
+      "priority": 3,
+      "tags": [],
+      "wrap": "symbol"
     }
   },
   "expect,expectation,expected": {
@@ -1983,9 +2130,10 @@
     "ft": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "footnote": {
@@ -2275,26 +2423,10 @@
     "gal": {
       "priority": 5,
       "tags": [
-        "letters_only"
-      ],
-      "wrap": "word"
-    }
-  },
-  "GDScript used by Godot Engine": {
-    "gd": {
-      "priority": 6,
-      "tags": [
-        "letters_only"
-      ],
-      "wrap": "word"
-    },
-    "gdscript": {
-      "priority": 5,
-      "tags": [
         "letters_only",
-        "programming_language_code"
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "general,generalization": {
@@ -2350,17 +2482,17 @@
       ],
       "wrap": "symbol"
     },
-    "≥": {
-      "priority": 4,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "ge": {
       "priority": 6,
       "tags": [
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "≥": {
+      "priority": 4,
+      "tags": [],
+      "wrap": "symbol"
     }
   },
   "great": {
@@ -2473,28 +2605,20 @@
     "hr": {
       "priority": 5,
       "tags": [
-        "letters_only"
-      ],
-      "wrap": "word"
-    }
-  },
-  "HTML": {
-    "html": {
-      "priority": 5,
-      "tags": [
         "letters_only",
-        "programming_language_code"
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "hundredweight": {
     "cwt": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "ibidem,in the same place (book,etc.)": {
@@ -2525,11 +2649,6 @@
     }
   },
   "if and only if": {
-    "⇔": {
-      "priority": 3,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "<=>": {
       "priority": 6,
       "tags": [
@@ -2543,6 +2662,11 @@
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "⇔": {
+      "priority": 3,
+      "tags": [],
+      "wrap": "symbol"
     }
   },
   "im-": {
@@ -2621,16 +2745,18 @@
     "in": {
       "priority": 6,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     },
     "in.": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "include,inclusion": {
@@ -2643,11 +2769,6 @@
     }
   },
   "increase,increment": {
-    "↑": {
-      "priority": 5,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "+=": {
       "priority": 6,
       "tags": [
@@ -2661,6 +2782,11 @@
         "ascii_only"
       ],
       "wrap": "word"
+    },
+    "↑": {
+      "priority": 5,
+      "tags": [],
+      "wrap": "symbol"
     }
   },
   "independent,independence": {
@@ -2700,17 +2826,17 @@
     }
   },
   "infinite": {
-    "∞": {
-      "priority": 3,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "inf": {
       "priority": 5,
       "tags": [
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "∞": {
+      "priority": 3,
+      "tags": [],
+      "wrap": "symbol"
     }
   },
   "influence": {
@@ -2723,13 +2849,12 @@
     }
   },
   "information,informational": {
-    "💡": {
-      "priority": 3,
+    "INFO ": {
+      "priority": 5,
       "tags": [
-        "emoji",
-        "log_level"
+        "letters_only"
       ],
-      "wrap": "symbol"
+      "wrap": "word"
     },
     "info": {
       "priority": 6,
@@ -2739,12 +2864,13 @@
       ],
       "wrap": "word"
     },
-    "INFO ": {
-      "priority": 5,
+    "💡": {
+      "priority": 3,
       "tags": [
-        "letters_only"
+        "emoji",
+        "log_level"
       ],
-      "wrap": "word"
+      "wrap": "symbol"
     }
   },
   "input": {
@@ -2766,16 +2892,16 @@
     }
   },
   "interchanges": {
-    "↔": {
-      "priority": 3,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "<->": {
       "priority": 6,
       "tags": [
         "ascii_only"
       ],
+      "wrap": "symbol"
+    },
+    "↔": {
+      "priority": 3,
+      "tags": [],
       "wrap": "symbol"
     }
   },
@@ -2802,16 +2928,6 @@
       "priority": 5,
       "tags": [
         "letters_only"
-      ],
-      "wrap": "word"
-    }
-  },
-  "JavaScript": {
-    "js": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -2921,17 +3037,17 @@
       ],
       "wrap": "symbol"
     },
-    "≤": {
-      "priority": 4,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "le": {
       "priority": 6,
       "tags": [
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "≤": {
+      "priority": 4,
+      "tags": [],
+      "wrap": "symbol"
     }
   },
   "less,fewer": {
@@ -3082,9 +3198,10 @@
     "mi": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "military": {
@@ -3109,9 +3226,10 @@
     "min": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "mis-": {
@@ -3150,23 +3268,14 @@
       "wrap": "word"
     }
   },
-  "MonoBehavior": {
-    "mb": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "unity_engine_abbr"
-      ],
-      "wrap": "word"
-    }
-  },
   "month": {
     "mo": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "more": {
@@ -3220,17 +3329,17 @@
     }
   },
   "multiply,multiplication,multiplier": {
-    "×": {
-      "priority": 3,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "mux": {
       "priority": 5,
       "tags": [
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "×": {
+      "priority": 3,
+      "tags": [],
+      "wrap": "symbol"
     }
   },
   "must": {
@@ -3273,9 +3382,10 @@
     "nmi": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "necessary": {
@@ -3296,7 +3406,7 @@
       "wrap": "word"
     }
   },
-  "night,informal": {
+  "night(informal)": {
     "p.p.m.": {
       "priority": 5,
       "tags": [
@@ -3320,6 +3430,13 @@
       ],
       "wrap": "symbol"
     },
+    "x": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "word"
+    },
     "¬": {
       "priority": 3,
       "tags": [],
@@ -3336,13 +3453,6 @@
         "emoji"
       ],
       "wrap": "symbol"
-    },
-    "x": {
-      "priority": 5,
-      "tags": [
-        "letters_only"
-      ],
-      "wrap": "word"
     }
   },
   "nomen nescio,I do not know the name": {
@@ -3406,17 +3516,17 @@
       ],
       "wrap": "symbol"
     },
-    "≠": {
-      "priority": 4,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "ne": {
       "priority": 6,
       "tags": [
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "≠": {
+      "priority": 4,
+      "tags": [],
+      "wrap": "symbol"
     }
   },
   "nothing": {
@@ -3445,19 +3555,19 @@
       ],
       "wrap": "word"
     },
-    "№": {
-      "priority": 3,
-      "tags": [
-        "common"
-      ],
-      "wrap": "symbol"
-    },
     "No.": {
       "priority": 5,
       "tags": [
         "ascii_only"
       ],
       "wrap": "word"
+    },
+    "№": {
+      "priority": 3,
+      "tags": [
+        "common"
+      ],
+      "wrap": "symbol"
     }
   },
   "object": {
@@ -3619,7 +3729,7 @@
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
     }
   },
   "pages": {
@@ -3628,21 +3738,21 @@
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
     }
   },
   "paragraph": {
-    "¶": {
-      "priority": 5,
-      "tags": [],
-      "wrap": "symbol"
-    },
     "para": {
       "priority": 6,
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
+    },
+    "¶": {
+      "priority": 5,
+      "tags": [],
+      "wrap": "currency"
     }
   },
   "part,partial": {
@@ -3694,16 +3804,18 @@
     "pt": {
       "priority": 6,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     },
     "pt.": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "place,placement": {
@@ -3781,19 +3893,19 @@
     }
   },
   "post meridiem,after midday": {
-    "p.m.": {
-      "priority": 5,
-      "tags": [
-        "ascii_only"
-      ],
-      "wrap": "word"
-    },
     "PM": {
       "priority": 6,
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "unit"
+    },
+    "p.m.": {
+      "priority": 5,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "unit"
     }
   },
   "post scriptum,after what has been written,post script": {
@@ -3816,16 +3928,18 @@
     "lb": {
       "priority": 6,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     },
     "lb.": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "previous": {
@@ -3945,36 +4059,6 @@
       "wrap": "word"
     }
   },
-  "Python": {
-    "py": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
-      ],
-      "wrap": "word"
-    }
-  },
-  "Qt framework": {
-    "qt": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
-      ],
-      "wrap": "word"
-    }
-  },
-  "QT Meta-object Language": {
-    "qml": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
-      ],
-      "wrap": "word"
-    }
-  },
   "qualify,qualification": {
     "qlf": {
       "priority": 5,
@@ -4012,6 +4096,13 @@
     }
   },
   "question": {
+    "Q": {
+      "priority": 7,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "currency"
+    },
     "ques": {
       "priority": 5,
       "tags": [
@@ -4047,17 +4138,17 @@
       ],
       "wrap": "symbol"
     },
-    "…": {
-      "priority": 2,
-      "tags": [
-        "common"
-      ],
-      "wrap": "symbol"
-    },
     "~": {
       "priority": 1,
       "tags": [
         "ascii_only"
+      ],
+      "wrap": "symbol"
+    },
+    "…": {
+      "priority": 2,
+      "tags": [
+        "common"
       ],
       "wrap": "symbol"
     }
@@ -4444,15 +4535,15 @@
     }
   },
   "sometime": {
-    "s/x": {
-      "priority": 6,
+    "s/X": {
+      "priority": 5,
       "tags": [
         "ascii_only"
       ],
       "wrap": "word"
     },
-    "s/X": {
-      "priority": 5,
+    "s/x": {
+      "priority": 6,
       "tags": [
         "ascii_only"
       ],
@@ -4706,22 +4797,8 @@
     }
   },
   "therefore,causing,resulting": {
-    "⇒": {
-      "priority": 3,
-      "tags": [
-        "common"
-      ],
-      "wrap": "symbol"
-    },
     "=>": {
       "priority": 6,
-      "tags": [
-        "common"
-      ],
-      "wrap": "symbol"
-    },
-    "∴": {
-      "priority": 2,
       "tags": [
         "common"
       ],
@@ -4733,6 +4810,20 @@
         "letters_only"
       ],
       "wrap": "word"
+    },
+    "⇒": {
+      "priority": 3,
+      "tags": [
+        "common"
+      ],
+      "wrap": "symbol"
+    },
+    "∴": {
+      "priority": 2,
+      "tags": [
+        "common"
+      ],
+      "wrap": "symbol"
     }
   },
   "think": {
@@ -4825,16 +4916,6 @@
       "wrap": "word"
     }
   },
-  "TypeScript": {
-    "ts": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
-      ],
-      "wrap": "word"
-    }
-  },
   "un-": {
     "u.": {
       "priority": 5,
@@ -4862,31 +4943,11 @@
       "wrap": "word"
     }
   },
-  "Unity Engine code using C#": {
-    "u3d": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
-      ],
-      "wrap": "word"
-    }
-  },
   "unless": {
     "U": {
       "priority": 5,
       "tags": [
         "letters_only"
-      ],
-      "wrap": "word"
-    }
-  },
-  "Unreal Engine code using C++": {
-    "ue": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
       ],
       "wrap": "word"
     }
@@ -5023,14 +5084,6 @@
     }
   },
   "warning": {
-    "⚠️": {
-      "priority": 5,
-      "tags": [
-        "emoji",
-        "log_level"
-      ],
-      "wrap": "symbol"
-    },
     "WARN ": {
       "priority": 5,
       "tags": [
@@ -5038,6 +5091,14 @@
         "log_level"
       ],
       "wrap": "word"
+    },
+    "⚠️": {
+      "priority": 5,
+      "tags": [
+        "emoji",
+        "log_level"
+      ],
+      "wrap": "symbol"
     }
   },
   "week": {
@@ -5046,7 +5107,7 @@
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
     }
   },
   "west": {
@@ -5059,13 +5120,6 @@
     }
   },
   "which see,reference to": {
-    "※": {
-      "priority": 3,
-      "tags": [
-        "common"
-      ],
-      "wrap": "symbol"
-    },
     "q.v.": {
       "priority": 5,
       "tags": [
@@ -5079,6 +5133,13 @@
         "ascii_only"
       ],
       "wrap": "word"
+    },
+    "※": {
+      "priority": 3,
+      "tags": [
+        "common"
+      ],
+      "wrap": "symbol"
     }
   },
   "while,when": {
@@ -5178,9 +5239,10 @@
     "yd": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "year": {

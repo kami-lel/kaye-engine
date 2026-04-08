@@ -55,10 +55,21 @@ must be an *array* of *string* of these selected values:
 - `"common"`: common abbreviations that any person might understand,
   thus LLM may utilize this abbreviation in conversation
 
-- `"programming_language"`: it is an abbreviation of a programming language
+- `"usable"`: abbreviations which can be used by the agent
+
+- `"programming_language_code"`: it is an abbreviation of a programming language
   e.g. `cpp` for C++ programming language
 
-- `"usable"`
+- `"language_code"`: abbreviation for natural languages;
+  partial of and based on ISO 639-1 (2 letter)
+
+- `"unity_engine_abbr"`: abbreviations specific to Unity Engine
+
+- `"log_level"`
+
+- `"unit_of_measure"`: scientific units for measurement
+
+- `"currency_symbol"`: monetary currency symbol
 
 Character set:
 
@@ -81,3 +92,5 @@ Must be a *string* of these selected values:
 - `"prefix"`
 - `"suffix"`
 - `"symbol"`
+- `"unit"`: unit-like abbreviation after a number
+- `"currency"`: currency-like abbreviation before a number
