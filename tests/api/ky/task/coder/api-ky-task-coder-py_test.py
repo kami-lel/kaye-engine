@@ -40,25 +40,26 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
-    # TODO
+    def test_title(_, opt):
+        assert "### Python" in opt
 
-    def test0(_, opt):
-        assert """### Python
-Adhere to the **PEP8** style guide, ensuring clarity and consistency.""" in opt
+    def test_intro(_, opt):
+        assert "Adhere to the **PEP8** style guide," in opt
 
-        assert (
-            """#### Docstring Style
+    def test_doc0(_, opt):
+        assert "##### Docstring Style" in opt
 
-The docstrings must be written using the **Sphinx** style and employ **reStructuredText** as the markup language. Avoid using any other styles."""
-            in opt
-        )
+    def test_doc1(_, opt):
+        assert "The docstrings must be written using the" in opt
 
-        assert (
-            """#### Testing Guidelines
+    def test_pytest0(_, opt):
+        assert "##### Testing Guidelines" in opt
 
-This section pertains specifically to Python test code. Tests should be compatible with the `pytest` module."""
-            in opt
-        )
+    def test_pytest1(_, opt):
+        assert "This section pertains specifically to Python test code" in opt
+
+    def test_pytest2(_, opt):
+        assert "*Example of tests for the `add` function:*" in opt
 
     # coder shared  ************************************************************
 
