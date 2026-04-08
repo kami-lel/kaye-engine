@@ -48,6 +48,8 @@ Kaye Chat *Dify App*:
 
 - for *coder* role, improve sensing PLs' prompt
 - turn `show_meta_content` to off by default
+- refactoring `kaye_chat.py` (API)
+- refactoring unit tests
 
 ### Deprecated
 ### Removed
