@@ -1,15 +1,10 @@
 """
-api-ky-task-chat2_test.py
+api-ky-task-chat3_test.py
 
 Unit Tests (using pytest) for:
 
-/kaye/dify-api/ky/task with:
-
-- role=chat
-- PLs=abc
+/kaye/dify-api/ky/task with: no provided request body
 """
-
-import json
 
 import pytest
 
@@ -20,11 +15,8 @@ from tests.api.ky.task import *
 
 @pytest.fixture(scope="class")
 def opt(flask_test_client, task_endpoint):
-    payload = {"role": "chat", "programming_languages": "abc"}
-
     response = flask_test_client.post(
         task_endpoint,
-        data=json.dumps(payload),
         content_type="application/json",
     )
 
