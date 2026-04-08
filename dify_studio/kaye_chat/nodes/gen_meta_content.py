@@ -14,10 +14,13 @@ USAGE_TOKEN_KEY = "total_tokens"
 ROLE2PRINTABLE_NAME = {
     "art": "🎨Art Tutor",
     "barista": "☕️Barista",
+    "changelog": "🔄Changelog Writer",
     "chat": "💬Chat",
     "coder": "💻Peer Coder",
     "deutschlehrer": "🇩🇪Deutschlehrer",
     "editor": "✍️Editor",
+    "librarian": "🏛️Librarian",
+    "prompt": "🖊️Prompt Writer",
     "rapid": "⚡️Rapid",
     "secretary": "🗂️Secretary",
     "tarot": "🔮Tarot Reader",
