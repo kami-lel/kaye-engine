@@ -3,7 +3,7 @@
 # pylint: disable=too-many-positional-arguments
 
 
-# Fixme more info: specify whether role & diff are sensed
+# FIXME more info: specify whether role & diff are sensed
 
 # bug meta content answer always twice since 2nd round
 
