@@ -80,7 +80,7 @@ workflow:
     selector:
     - env
     - FLASK_API_PORT
-    value: '11255'
+    value: '11256'
     value_type: string
   - description: Kaye Flask API's URL accessible to this Dify App, e.g. "http://11.22.33.44"
     id: 97ae005c-5fd3-4092-a255-07b2fd514b55
@@ -761,7 +761,7 @@ workflow:
         title: User Input
         type: start
         variables:
-        - default: true
+        - default: false
           hint: ''
           label: show_meta_content
           max_length: 48
@@ -889,7 +889,7 @@ workflow:
         - id: 8e711921-cb10-4a9f-ae77-cefbffb557ec
           role: user
           text: '{{#sys.query#}}'
-        selected: false
+        selected: true
         structured_output:
           schema:
             additionalProperties: false
@@ -902,10 +902,13 @@ workflow:
                 enum:
                 - art
                 - barista
+                - changelog
                 - chat
                 - coder
                 - deutschlehrer
                 - editor
+                - librarian
+                - prompt
                 - rapid
                 - secretary
                 - tarot
@@ -923,11 +926,11 @@ workflow:
       id: '1775035866799'
       position:
         x: 1546.451436512359
-        y: 669.524255680551
+        y: 670.6544855459484
       positionAbsolute:
         x: 1546.451436512359
-        y: 669.524255680551
-      selected: false
+        y: 670.6544855459484
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1010,10 +1013,10 @@ workflow:
       id: '1775035912243'
       position:
         x: 1546.451436512359
-        y: 754.7270039413393
+        y: 753.8564533780432
       positionAbsolute:
         x: 1546.451436512359
-        y: 754.7270039413393
+        y: 753.8564533780432
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1026,8 +1029,9 @@ workflow:
           \nOUTPUT_DIRECT_KEY = \"is_direct_response\"\n\n\n# constants  ###################################################################\n\
           THRESHOLDS = [\n    (0, [\"gpt-4-nano\"]),\n    (10, [\"gpt-5-nano\"]),\n\
           \    (30, [\"claude-sonnet-4\"]),\n    (60, [\"claude-sonnet-4\", \"gpt-5-mini\"\
-          ]),\n    (90, [\"claude-opus-4\", \"gpt-5\", \"gemini-3-pro\"]),\n]\n# (lower\
-          \ bounds, LLMs to use)\n\n\n# Entry Point  #################################################################\n\
+          ]),\n    (80, [\"claude-opus-4\", \"gpt-5\"]),\n    (90, [\"claude-opus-4\"\
+          , \"gpt-5\", \"gemini-3-pro\"]),\n]\n# (lower bounds, LLMs to use)\n\n\n\
+          # Entry Point  #################################################################\n\
           def main(\n    query: str,\n    current_role: str,\n    current_difficulty:\
           \ float,\n    current_pls: str,\n):\n    \"\"\"\n    create a json-typed\
           \ GET body for task prompt getter\n\n\n    :param query:\n    :type query:\
@@ -2098,14 +2102,15 @@ workflow:
       width: 242
     - data:
         code: "# pylint: disable=missing-module-docstring\n# pylint: disable=too-many-arguments\n\
-          # pylint: disable=too-many-positional-arguments\n\n\n# bug meta content\
-          \ answer always twice since 2nd round\n\n# output keys  #################################################################\n\
+          # pylint: disable=too-many-positional-arguments\n\n\n# output keys  #################################################################\n\
           OUTPUT_META_KEY = \"meta_content\"\n\n\n# constants  ###################################################################\n\
           USAGE_TIME_KEY = \"time_to_generate\"\nUSAGE_TOKEN_KEY = \"total_tokens\"\
           \n\nROLE2PRINTABLE_NAME = {\n    \"art\": \"\U0001F3A8Art Tutor\",\n   \
-          \ \"barista\": \"☕️Barista\",\n    \"chat\": \"\U0001F4ACChat\",\n    \"\
-          coder\": \"\U0001F4BBPeer Coder\",\n    \"deutschlehrer\": \"\U0001F1E9\U0001F1EA\
-          Deutschlehrer\",\n    \"editor\": \"✍️Editor\",\n    \"rapid\": \"⚡️Rapid\"\
+          \ \"barista\": \"☕️Barista\",\n    \"changelog\": \"\U0001F504Changelog\
+          \ Writer\",\n    \"chat\": \"\U0001F4ACChat\",\n    \"coder\": \"\U0001F4BB\
+          Peer Coder\",\n    \"deutschlehrer\": \"\U0001F1E9\U0001F1EADeutschlehrer\"\
+          ,\n    \"editor\": \"✍️Editor\",\n    \"librarian\": \"\U0001F3DB️Librarian\"\
+          ,\n    \"prompt\": \"\U0001F58A️Prompt Writer\",\n    \"rapid\": \"⚡️Rapid\"\
           ,\n    \"secretary\": \"\U0001F5C2️Secretary\",\n    \"tarot\": \"\U0001F52E\
           Tarot Reader\",\n}\n\n\n# helpers  #####################################################################\n\
           def _generate_usage_line(usage):\n    return \"`{}`s\\t`{}`t\".format(usage[USAGE_TIME_KEY],\
@@ -2148,7 +2153,7 @@ workflow:
           meta_content:
             children: null
             type: string
-        selected: true
+        selected: false
         title: gen_meta_content
         type: code
         variables:
@@ -2205,7 +2210,7 @@ workflow:
       positionAbsolute:
         x: 5468.797957384823
         y: 391.09276150546384
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2283,8 +2288,9 @@ workflow:
           \n\n# constants  ###################################################################\n\
           \n# roles w/ static difficulty associated with it, thus should skip sense\n\
           STATIC_DIFFICULTY_ROLES = {\n    \"art\": 52,\n    \"barista\": 40,\n  \
-          \  \"deutschlehrer\": 55,\n    \"tarot\": 46,\n    \"editor\": 47,\n   \
-          \ \"rapid\": 1,\n}\n\n\n# Body Key  ####################################################################\n\
+          \  \"changelog\": 35,\n    \"deutschlehrer\": 55,\n    \"editor\": 47,\n\
+          \    \"prompt\": 85,\n    \"rapid\": 1,\n    \"tarot\": 46,\n}\n\n\n# Body\
+          \ Key  ####################################################################\n\
           BODY_ROLE_KEY = \"pre_sense_role\"\nBODY_DIFF_KEY = \"difficulty_override\"\
           \n\n\n# Entry Point  #################################################################\n\
           def main(\n    role_override: str,\n    difficulty_override: int,\n    current_role:\
@@ -2304,8 +2310,10 @@ workflow:
           \ \"\"\n\n    # decide skip & diff  ------------------------------------------------------\n\
           \    skip = False\n    diff = 0\n\n    if role in STATIC_DIFFICULTY_ROLES:\n\
           \        skip = True\n        diff = STATIC_DIFFICULTY_ROLES[role]\n\n \
-          \   elif role:\n        skip = difficulty_override != 0\n\n    if difficulty_override\
-          \ != 0:\n        diff = difficulty_override\n\n    # body  --------------------------------------------------------------------\n\
+          \   elif role == \"coder\":\n        pass  # coder never skip\n\n    elif\
+          \ role:\n        skip = difficulty_override != 0\n\n    # override difficulty\
+          \ from input\n    if difficulty_override != 0:\n        diff = difficulty_override\n\
+          \n    # body  --------------------------------------------------------------------\n\
           \    if skip:\n        body = \"\"\n    else:\n        body = json.dumps(\n\
           \            {BODY_ROLE_KEY: role, BODY_DIFF_KEY: difficulty_override}\n\
           \        )\n\n    # Output Variables  --------------------------------------------------------\n\
@@ -2514,7 +2522,7 @@ workflow:
       type: custom
       width: 242
     viewport:
-      x: -3416.5506844571137
-      y: 74.74107740888735
-      zoom: 0.7578582832551995
+      x: -706.701760512882
+      y: 32.23781871417714
+      zoom: 0.8705505632961242
   rag_pipeline_variables: []
