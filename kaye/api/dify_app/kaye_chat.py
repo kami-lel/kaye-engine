@@ -268,8 +268,8 @@ def _create_barista_blueprint():  # ============================================
 
 
 def _create_changelog_blueprint():  # ==========================================
-    bp = _create_rapid_blueprint()
-    bp.checkmark("Changelog Writer")  # TODO
+    bp = _create_chat_blueprint()
+    bp.checkmark("Changelog Writer")
     return bp
 
 
@@ -286,7 +286,7 @@ def _create_prompt_blueprint():  # ==========================================
 
 
 def _create_deutschlehrer_blueprint():  # ======================================
-    bp = _create_rapid_blueprint()
+    bp = _create_chat_blueprint()
     bp.checkmark("Deutschlehrer")
     return bp
 
