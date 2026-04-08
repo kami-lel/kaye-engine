@@ -6,6 +6,8 @@ Unit Tests (using pytest) for:
 ``post_start`` node of Kaye Chat Dify App
 """
 
+# todo unit test refactorization
+
 import json
 
 
@@ -21,19 +23,7 @@ from dify_studio.kaye_chat.nodes.sense.post_start import (
     STATIC_DIFFICULTY_ROLES,
 )
 
-# helpers  #####################################################################
-
-
-def _assert_structure(opt):
-    assert OUTPUT_SKIP_KEY in opt
-    assert isinstance(opt[OUTPUT_SKIP_KEY], bool)
-    assert OUTPUT_ROLE_KEY in opt
-    assert isinstance(opt[OUTPUT_SENSE_BODY_KEY], str)
-    assert OUTPUT_DIFF_KEY in opt
-    assert isinstance(opt[OUTPUT_DIFF_KEY], int)
-    assert OUTPUT_SENSE_BODY_KEY in opt
-    assert isinstance(opt[OUTPUT_SENSE_BODY_KEY], str)
-
+from tests.dify.ky.post_start import _assert_structure
 
 # Pytest fixtures  #############################################################
 
