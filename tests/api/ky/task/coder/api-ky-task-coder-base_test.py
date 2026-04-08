@@ -147,6 +147,79 @@ class TestCoder:  # ============================================================
         print(opt)
         assert "def to_int(s):" in opt
 
+    # style  *******************************************************************
+
+    def test_style_title(_, opt):
+        assert_style_title(opt)
+
+    def test_style_caps(_, opt):
+        assert_style_caps(opt)
+
+    def test_style_caps_tc0(_, opt):
+        assert_style_caps_tc0(opt)
+
+    def test_style_caps_tc1(_, opt):
+        assert_style_caps_tc1(opt)
+
+    def test_style_caps_tc2(_, opt):
+        assert_style_caps_tc2(opt)
+
+    def test_style_caps_tc3(_, opt):
+        assert_style_caps_tc3(opt)
+
+    def test_style_caps_tc4(_, opt):
+        assert_style_caps_tc4(opt)
+
+    def test_style_caps_cc0(_, opt):
+        assert_style_caps_cc0(opt)
+
+    def test_style_caps_cc1(_, opt):
+        assert_style_caps_cc1(opt)
+
+    def test_style_caps_cc2(_, opt):
+        assert_style_caps_cc2(opt)
+
+    def test_style_caps_cc3(_, opt):
+        assert_style_caps_cc3(opt)
+
+    def test_style_caps_bs0(_, opt):
+        assert_style_caps_bs0(opt)
+
+    def test_style_caps_bs1(_, opt):
+        assert_style_caps_bs1(opt)
+
+    def test_style_caps_bs2(_, opt):
+        assert_style_caps_bs2(opt)
+
+    def test_style_caps_bs3(_, opt):
+        assert_style_caps_bs3(opt)
+
+    def test_style_caps_gw0(_, opt):
+        assert_style_caps_gw0(opt)
+
+    def test_style_caps_gw1(_, opt):
+        assert_style_caps_gw1(opt)
+
+    def test_style_caps_gw2(_, opt):
+        assert_style_caps_gw2(opt)
+
+    def test_style_caps_gw3(_, opt):
+        assert_style_caps_gw3(opt)
+
+    # AMs  *********************************************************************
+
+    def test_am_title(_, opt):
+        assert_am_title(opt)
+
+    def test_am1(_, opt):
+        assert_am1(opt)
+
+    def test_am2(_, opt):
+        assert_am2(opt)
+
+    def test_am3(_, opt):
+        assert_am3(opt)
+
     # chat blueprint  **********************************************************
 
     def test_intro1(_, opt):
