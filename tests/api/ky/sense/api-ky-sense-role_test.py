@@ -39,7 +39,9 @@ def opt(flask_test_client, sense_endpoint):
 # Pytest unit tests  ###########################################################
 
 
-class TestRole:
+class TestRole:  # =============================================================
+
+    # title  -------------------------------------------------------------------
 
     def test_sense_title1(_, opt):
         print(opt)
@@ -48,6 +50,8 @@ class TestRole:
     def test_sense_title2(_, opt):
         print(opt)
         _assert_sense_title2(opt)
+
+    # role  --------------------------------------------------------------------
 
     def test_sense_role_title1(_, opt):
         print(opt)
@@ -81,6 +85,8 @@ class TestRole:
         print(opt)
         _assert_role7(opt)
 
+    # zero diff  ---------------------------------------------------------------
+
     def test_zero_diff1(_, opt):
         print(opt)
         _assert_zero_diff1(opt)
@@ -88,6 +94,8 @@ class TestRole:
     def test_zero_diff2(_, opt):
         print(opt)
         _assert_zero_diff2(opt)
+
+    # empty PLs  ---------------------------------------------------------------
 
     def test_empty_pls1(_, opt):
         print(opt)
