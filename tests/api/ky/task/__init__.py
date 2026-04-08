@@ -1,5 +1,47 @@
-# helpers  #####################################################################
+__all__ = [
+    "assert_intro1",
+    "assert_intro2",
+    "assert_format_title",
+    "assert_format1",
+    "assert_format2",
+    "assert_format3",
+    "assert_format4",
+    "assert_format5",
+    "assert_format_list1",
+    "assert_format_list2",
+    "assert_format_list3",
+    "assert_format_math1",
+    "assert_format_math2",
+    "assert_format_math3",
+    "assert_format_diagrams1",
+    "assert_format_diagrams2",
+    "assert_format_diagrams3",
+    "assert_personality_title",
+    "assert_personality01",
+    "assert_personality02",
+    "assert_personality03",
+    "assert_personality11",
+    "assert_personality12",
+    "assert_personality21",
+    "assert_personality22",
+    "assert_personality23",
+    "assert_personality31",
+    "assert_personality32",
+    "assert_personality33",
+    "assert_lang_title",
+    "assert_lang1",
+    "assert_lang2",
+    "assert_element_title",
+    "assert_element11",
+    "assert_element12",
+    "assert_element13",
+    "assert_element21",
+    "assert_element22",
+    "assert_element23",
+    "assert_role",
+]
 
+# helpers  #####################################################################
 # rapid  =======================================================================
 
 

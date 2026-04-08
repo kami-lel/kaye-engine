@@ -13,31 +13,12 @@ import json
 
 import pytest
 
-
-from tests.api.ky.task import (
-    assert_intro1,
-    assert_intro2,
-    assert_format_title,
-    assert_format1,
-    assert_format2,
-    assert_format3,
-    assert_format4,
-    assert_format5,
-    assert_format_list1,
-    assert_format_list2,
-    assert_format_list3,
-    assert_format_math1,
-    assert_format_math2,
-    assert_format_math3,
-    assert_format_diagrams1,
-    assert_format_diagrams2,
-    assert_format_diagrams3,
-)
+from tests.api.ky.task import *
 
 # Pytest fixtures  #############################################################
 
 
-@pytest.fixtur(scope='class')e
+@pytest.fixture(scope="class")
 def opt(flask_test_client, task_endpoint):
     payload = json.dumps({"role": "rapid", "programming_languages": "abc"})
 
