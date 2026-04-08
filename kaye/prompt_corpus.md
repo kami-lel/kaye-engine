@@ -837,7 +837,7 @@ Use these tasks as your **anchor point** when evaluating difficulty:
 
 #### programming_languages
 
-Return a string containing the abbreviations of the programming languages (defined below) required by the user, separated by commas. For example, `'py,cpp'`. If the conversation does not mention any specific programming language, such as when discussing conceptual or general algorithms, return an empty string (`''`).
+Return a string containing the abbreviations of the relevant programming languages, frameworks, engines, libraries, and platforms (as defined in the list below), separated by commas. For example, `"py,cpp,ue"`. Include all items from the list that are explicitly mentioned or strongly implied by the user's request. If the conversation does not reference any specific technology, return an empty string (`""`).
 
 
 
