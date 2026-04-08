@@ -29,6 +29,7 @@
 
 `abbrs.json` & related:
 
+- `mpl` (implement, from `mpmt`)
 - update abbrs entries with new wraps & tags
 - unit tests for aforementioned above
 - documentation for aforementioned above
