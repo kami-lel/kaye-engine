@@ -83,3 +83,4 @@ Must be a *string* of these selected values:
 - `"prefix"`
 - `"suffix"`
 - `"symbol"`
+- `"currency"`
