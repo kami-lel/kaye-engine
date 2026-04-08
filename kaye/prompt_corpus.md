@@ -840,16 +840,23 @@ Use these tasks as your **anchor point** when evaluating difficulty:
 
 
 
-### for coder
-
-#### programming_languages
+### programming_languages
 
 Return a string containing the abbreviations of the relevant programming languages, frameworks, engines, libraries, and platforms (as defined in the list below), separated by commas. For example, `"py,cpp,ue"`. Include all items from the list that are explicitly mentioned or strongly implied by the user's request. If the conversation does not reference any specific technology, return an empty string (`""`).
 
 
 
 
-#### difficulty
+
+
+
+
+
+
+
+
+
+### sense coder difficulty
 
 Provide a number between `1` (very easy) and `100` (very hard) that represents the assumed difficulty of the user's proposed task
 

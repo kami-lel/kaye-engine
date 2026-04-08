@@ -21,12 +21,8 @@ from tests.api.ky.sense import (
 # helpers  #####################################################################
 
 
-def _assert_coder_title(opt):
-    assert "### for coder" in opt
-
-
 def _assert_pl_instruction_title(opt):
-    assert "#### programming_languages" in opt
+    assert "### programming_languages" in opt
 
 
 def _assert_pl_instruction1(opt):
@@ -113,11 +109,6 @@ class TestDiffOverride:  # =====================================================
         opt = opt_diff_override
         print(opt)
         _assert_sense_title2(opt)
-
-    def test_coder_title(_, opt_diff_override):
-        opt = opt_diff_override
-        print(opt)
-        _assert_coder_title(opt)
 
     # pl -----------------------------------------------------------------------
 
@@ -227,17 +218,12 @@ class TestNoDiff:  # ===========================================================
         print(opt)
         _assert_sense_title2(opt)
 
-    def test_coder_title(_, opt_no_diff):
-        opt = opt_no_diff
-        print(opt)
-        _assert_coder_title(opt)
-
     # diff  --------------------------------------------------------------------
 
     def test_diff_title(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        assert "#### difficulty" in opt
+        assert "### sense coder difficulty" in opt
 
     def test_diff1(_, opt_no_diff):
         opt = opt_no_diff
