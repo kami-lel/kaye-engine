@@ -1,4 +1,5 @@
 Todo ky role: changelog
+Todo ky role: prompt writer
 
 fixme ky: allow sense early exit, i.e. provide an answer directly
 todo ky: smart sense, take only part of the user's input as sense message:
