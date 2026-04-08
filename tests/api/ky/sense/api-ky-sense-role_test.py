@@ -15,6 +15,14 @@ from tests.api.ky.sense import (
     _assert_zero_diff2,
     _assert_empty_pls1,
     _assert_empty_pls2,
+    _assert_role_title,
+    _assert_role1,
+    _assert_role2,
+    _assert_role3,
+    _assert_role4,
+    _assert_role5,
+    _assert_role6,
+    _assert_role7,
 )
 
 # Pytest fixtures  #############################################################
@@ -43,35 +51,35 @@ class TestRole:
 
     def test_sense_role_title1(_, opt):
         print(opt)
-        assert "### sense role" in opt
+        _assert_role_title(opt)
 
     def test1(_, opt):
         print(opt)
-        assert "select exactly one role. choose the" in opt
+        _assert_role1(opt)
 
     def test2(_, opt):
         print(opt)
-        assert "- `art`: when the user gives you **a visual idea for" in opt
+        _assert_role2(opt)
 
     def test3(_, opt):
         print(opt)
-        assert "- `changelog`: when the user gives you **changelog or" in opt
+        _assert_role3(opt)
 
     def test4(_, opt):
         print(opt)
-        assert "- `chat`: when the user gives you a **general question" in opt
+        _assert_role4(opt)
 
     def test5(_, opt):
         print(opt)
-        assert "- `coder`: when the user gives you **code or" in opt
+        _assert_role5(opt)
 
     def test6(_, opt):
         print(opt)
-        assert "- `librarian`: when the user gives you **a text to read" in opt
+        _assert_role6(opt)
 
     def test7(_, opt):
         print(opt)
-        assert "- `secretary`: when the user gives you" in opt
+        _assert_role7(opt)
 
     def test_zero_diff1(_, opt):
         print(opt)

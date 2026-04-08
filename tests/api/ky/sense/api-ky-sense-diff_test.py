@@ -15,6 +15,14 @@ from tests.api.ky.sense import (
     _assert_empty_role2,
     _assert_empty_pls1,
     _assert_empty_pls2,
+    _assert_diff_title,
+    _assert_diff1,
+    _assert_diff2,
+    _assert_diff3,
+    _assert_diff4,
+    _assert_diff5,
+    _assert_diff6,
+    _assert_diff7,
 )
 
 # Pytest fixtures  #############################################################
@@ -43,35 +51,35 @@ class TestDiff:
 
     def test_title1(_, opt):
         print(opt)
-        assert "### sense difficulty" in opt
+        _assert_diff_title(opt)
 
     def test1(_, opt):
         print(opt)
-        assert "Provide a number between `1` (very easy)" in opt
+        _assert_diff1(opt)
 
     def test2(_, opt):
         print(opt)
-        assert "Use these tasks as your **anchor point**" in opt
+        _assert_diff2(opt)
 
     def test3(_, opt):
         print(opt)
-        assert "- `3` Correct a single typo or awkward word " in opt
+        _assert_diff3(opt)
 
     def test4(_, opt):
         print(opt)
-        assert "- `50` Fix a misunderstanding caused by missing" in opt
+        _assert_diff4(opt)
 
     def test5(_, opt):
         print(opt)
-        assert "- `75` Choose and apply an appropriate common" in opt
+        _assert_diff5(opt)
 
     def test6(_, opt):
         print(opt)
-        assert "- `96` Integrate a standard external source" in opt
+        _assert_diff6(opt)
 
     def test7(_, opt):
         print(opt)
-        assert "- `100` Refactor a messy, ambiguous" in opt
+        _assert_diff7(opt)
 
     def test_empty_role1(_, opt):
         print(opt)
