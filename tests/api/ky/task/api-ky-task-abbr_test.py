@@ -8,16 +8,13 @@ Unit Tests (using pytest) for:
 
 import json
 
-from tests.api.ky.task import _assert_rapid_blueprint_opt
+import pytest
 
-# helpers  #####################################################################
+1
 
+from tests.api.ky.task import *
 
-def _assert_abbreviations_heading(opt):
-    assert """# {Abbreviations}""" in opt
-
-
-# pytest  ######################################################################
+# Pytest unit tests  ###########################################################
 
 
 class TestSingle:  # ===========================================================
@@ -36,8 +33,7 @@ class TestSingle:  # ===========================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
-        _assert_abbreviations_heading(opt)
+        assert_abbr_heading(opt)
         assert "- afx:affect,affected,affectedly,affectation" in opt
 
     def test_rapid(self, flask_test_client, task_endpoint):
@@ -54,8 +50,7 @@ class TestSingle:  # ===========================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
-        _assert_abbreviations_heading(opt)
+        assert_abbr_heading(opt)
         assert "- afx:affect,affected,affectedly,affectation" in opt
 
     def test_coder(self, flask_test_client, task_endpoint):
@@ -72,8 +67,7 @@ class TestSingle:  # ===========================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
-        _assert_abbreviations_heading(opt)
+        assert_abbr_heading(opt)
         assert "- afx:affect,affected,affectedly,affectation" in opt
 
     def test_barista(self, flask_test_client, task_endpoint):
@@ -90,8 +84,7 @@ class TestSingle:  # ===========================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
-        _assert_abbreviations_heading(opt)
+        assert_abbr_heading(opt)
         assert "- afx:affect,affected,affectedly,affectation" in opt
 
     def test_editor(self, flask_test_client, task_endpoint):
@@ -108,8 +101,7 @@ class TestSingle:  # ===========================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
-        _assert_abbreviations_heading(opt)
+        assert_abbr_heading(opt)
         assert "- afx:affect,affected,affectedly,affectation" in opt
 
     def test_secretary(self, flask_test_client, task_endpoint):
@@ -126,8 +118,7 @@ class TestSingle:  # ===========================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
-        _assert_abbreviations_heading(opt)
+        assert_abbr_heading(opt)
         assert "- afx:affect,affected,affectedly,affectation" in opt
 
 
@@ -147,8 +138,7 @@ class TestMux:  # ==============================================================
 
         print(opt)
 
-        _assert_rapid_blueprint_opt(opt)
-        _assert_abbreviations_heading(opt)
+        assert_abbr_heading(opt)
 
         assert "- achv:achieve,achieved,achievement" in opt
         assert "- admin:administrate,administrator,administration" in opt

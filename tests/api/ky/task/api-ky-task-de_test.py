@@ -12,18 +12,18 @@ import json
 import pytest
 
 
-from tests.api.ky.task import _assert_rapid_blueprint_opt
+from tests.api.ky.task import *
 
 # pytest fixtures  #############################################################
 
 
 @pytest.fixture(scope="class")
-def post_result(flask_test_client, task_endpoint):
-    payload_json_dumps = json.dumps({"role": "deutschlehrer"})
+def opt(flask_test_client, task_endpoint):
+    role = "deutschlehrer"
 
     response = flask_test_client.post(
         task_endpoint,
-        data=payload_json_dumps,
+        data=json.dumps({"role": role}),
         content_type="application/json",
     )
 
@@ -33,33 +33,194 @@ def post_result(flask_test_client, task_endpoint):
 
 
 # Pytest unit tests  ###########################################################
-class TestArt:
 
-    def test_rapid(_, post_result):
-        opt = post_result
-        print(opt)
-        _assert_rapid_blueprint_opt(opt)
 
-    def test_title(_, post_result):
-        opt = post_result
-        print(opt)
+class TestDe:  # ===============================================================
 
+    def test_title(_, opt):
         assert "## Deutschlehrer" in opt
 
-    def test2(_, post_result):
-        opt = post_result
-        print(opt)
-
+    def test1(_, opt):
         assert "You perform **Deutschlehrer** role to assist" in opt
 
-    def test3(_, post_result):
-        opt = post_result
-        print(opt)
+    def test2(_, opt):
+        assert "<example-response1>" in opt
 
-        assert "Die Atmosphäre ist lebhaft und bunt" in opt
+    def test3(_, opt):
+        assert "Morgen gehe ich zum Markt." in opt
 
-    def test4(_, post_result):
-        opt = post_result
-        print(opt)
+    def test4(_, opt):
+        assert "Es gibt viele verschiedene Stände und" in opt
 
+    def test5(_, opt):
+        assert "Was ist das wichtigste **Feste** für die Deutschen?" in opt
+
+    def test6(_, opt):
         assert "</example-response3>" in opt
+
+    # chat blueprint  **********************************************************
+
+    def test_intro1(_, opt):
+        print(opt)
+        assert_intro1(opt)
+
+    def test_intro2(_, opt):
+        print(opt)
+        assert_intro2(opt)
+
+    def test_format_title(_, opt):
+        print(opt)
+        assert_format_title(opt)
+
+    def test_format1(_, opt):
+        print(opt)
+        assert_format1(opt)
+
+    def test_format2(_, opt):
+        print(opt)
+        assert_format2(opt)
+
+    def test_format3(_, opt):
+        print(opt)
+        assert_format3(opt)
+
+    def test_format4(_, opt):
+        print(opt)
+        assert_format4(opt)
+
+    def test_format5(_, opt):
+        print(opt)
+        assert_format5(opt)
+
+    def test_format_list1(_, opt):
+        print(opt)
+        assert_format_list1(opt)
+
+    def test_format_list2(_, opt):
+        print(opt)
+        assert_format_list2(opt)
+
+    def test_format_list3(_, opt):
+        print(opt)
+        assert_format_list3(opt)
+
+    def test_format_math1(_, opt):
+        print(opt)
+        assert_format_math1(opt)
+
+    def test_format_math2(_, opt):
+        print(opt)
+        assert_format_math2(opt)
+
+    def test_format_math3(_, opt):
+        print(opt)
+        assert_format_math3(opt)
+
+    def test_format_diagrams1(_, opt):
+        print(opt)
+        assert_format_diagrams1(opt)
+
+    def test_format_diagrams2(_, opt):
+        print(opt)
+        assert_format_diagrams2(opt)
+
+    def test_format_diagrams3(_, opt):
+        print(opt)
+        assert_format_diagrams3(opt)
+
+    def test_personality_title(_, opt):
+        print(opt)
+        assert_personality_title(opt)
+
+    def test_personality01(_, opt):
+        print(opt)
+        assert_personality01(opt)
+
+    def test_personality02(_, opt):
+        print(opt)
+        assert_personality02(opt)
+
+    def test_personality03(_, opt):
+        print(opt)
+        assert_personality03(opt)
+
+    def test_personality11(_, opt):
+        print(opt)
+        assert_personality11(opt)
+
+    def test_personality12(_, opt):
+        print(opt)
+        assert_personality12(opt)
+
+    def test_personality21(_, opt):
+        print(opt)
+        assert_personality21(opt)
+
+    def test_personality22(_, opt):
+        print(opt)
+        assert_personality22(opt)
+
+    def test_personality23(_, opt):
+        print(opt)
+        assert_personality23(opt)
+
+    def test_personality31(_, opt):
+        print(opt)
+        assert_personality31(opt)
+
+    def test_personality32(_, opt):
+        print(opt)
+        assert_personality32(opt)
+
+    def test_personality33(_, opt):
+        print(opt)
+        assert_personality33(opt)
+
+    def test_lang_title(_, opt):
+        print(opt)
+        assert_lang_title(opt)
+
+    def test_lang1(_, opt):
+        print(opt)
+        assert_lang1(opt)
+
+    def test_lang2(_, opt):
+        print(opt)
+        assert_lang2(opt)
+
+    def test_element_title(_, opt):
+        print(opt)
+        assert_element_title(opt)
+
+    def test_element11(_, opt):
+        print(opt)
+        assert_element11(opt)
+
+    def test_element12(_, opt):
+        print(opt)
+        assert_element12(opt)
+
+    def test_element13(_, opt):
+        print(opt)
+        assert_element13(opt)
+
+    def test_element21(_, opt):
+        print(opt)
+        assert_element21(opt)
+
+    def test_element22(_, opt):
+        print(opt)
+        assert_element22(opt)
+
+    def test_element23(_, opt):
+        print(opt)
+        assert_element23(opt)
+
+    def test_role(_, opt):
+        print(opt)
+        assert_role(opt)
+
+    # abbr *********************************************************************
+
+    def test_abbr_heading(_, opt):
+        assert_abbr_heading(opt)

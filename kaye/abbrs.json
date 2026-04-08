@@ -3,7 +3,8 @@
     "¥": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "currency_symbol"
       ],
       "wrap": "symbol"
     }
@@ -13,7 +14,8 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "common"
+        "common",
+        "unit_of_measure"
       ],
       "wrap": "symbol"
     }
@@ -22,7 +24,8 @@
     "¢": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "unit_of_measure"
       ],
       "wrap": "symbol"
     }
@@ -280,9 +283,10 @@
     "€": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "currency_symbol"
       ],
-      "wrap": "symbol"
+      "wrap": "currency"
     }
   },
   "GDScript used by Godot Engine": {
@@ -342,26 +346,6 @@
       "wrap": "word"
     }
   },
-  "QT Meta-object Language": {
-    "qml": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
-      ],
-      "wrap": "word"
-    }
-  },
-  "Qt framework": {
-    "qt": {
-      "priority": 5,
-      "tags": [
-        "letters_only",
-        "programming_language_code"
-      ],
-      "wrap": "word"
-    }
-  },
   "TypeScript": {
     "ts": {
       "priority": 5,
@@ -372,7 +356,7 @@
       "wrap": "word"
     }
   },
-  "Unity Engine code using C#": {
+  "Unity Engine code": {
     "u3d": {
       "priority": 5,
       "tags": [
@@ -382,7 +366,7 @@
       "wrap": "word"
     }
   },
-  "Unreal Engine code using C++": {
+  "Unreal Engine code": {
     "ue": {
       "priority": 5,
       "tags": [
@@ -612,7 +596,7 @@
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "another": {
@@ -625,6 +609,13 @@
     }
   },
   "answer": {
+    "A": {
+      "priority": 7,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "currency"
+    },
     "answ": {
       "priority": 5,
       "tags": [
@@ -639,14 +630,14 @@
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     },
     "a.m.": {
       "priority": 5,
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "anti-": {
@@ -948,6 +939,16 @@
       "wrap": "word"
     }
   },
+  "bit": {
+    "b": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "unit_of_measure"
+      ],
+      "wrap": "unit"
+    }
+  },
   "book": {
     "bk": {
       "priority": 5,
@@ -964,6 +965,16 @@
         "letters_only"
       ],
       "wrap": "word"
+    }
+  },
+  "byte": {
+    "B": {
+      "priority": 5,
+      "tags": [
+        "letters_only",
+        "unit_of_measure"
+      ],
+      "wrap": "unit"
     }
   },
   "calculate,calculation": {
@@ -1042,21 +1053,21 @@
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
     },
     "Cap.": {
       "priority": 5,
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
     },
     "§": {
       "priority": 3,
       "tags": [
         "common"
       ],
-      "wrap": "symbol"
+      "wrap": "currency"
     }
   },
   "character,characterize,characterization,characteristic": {
@@ -1497,7 +1508,7 @@
       "tags": [
         "common"
       ],
-      "wrap": "symbol"
+      "wrap": "unit"
     }
   },
   "degree Celsius": {
@@ -1506,7 +1517,7 @@
       "tags": [
         "common"
       ],
-      "wrap": "symbol"
+      "wrap": "unit"
     }
   },
   "degree Fahrenheit": {
@@ -1515,7 +1526,7 @@
       "tags": [
         "common"
       ],
-      "wrap": "symbol"
+      "wrap": "unit"
     }
   },
   "delete,deleted,deletion": {
@@ -1588,6 +1599,15 @@
         "letters_only"
       ],
       "wrap": "word"
+    }
+  },
+  "dimension": {
+    "d": {
+      "priority": 5,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "unit"
     }
   },
   "diminish": {
@@ -2090,9 +2110,10 @@
     "ft": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "footnote": {
@@ -2382,9 +2403,10 @@
     "gal": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "general,generalization": {
@@ -2563,18 +2585,20 @@
     "hr": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "hundredweight": {
     "cwt": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "ibidem,in the same place (book,etc.)": {
@@ -2635,7 +2659,7 @@
     }
   },
   "implement": {
-    "mpmt": {
+    "mpl": {
       "priority": 5,
       "tags": [
         "letters_only"
@@ -2701,16 +2725,18 @@
     "in": {
       "priority": 6,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     },
     "in.": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "include,inclusion": {
@@ -3152,9 +3178,10 @@
     "mi": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "military": {
@@ -3179,9 +3206,10 @@
     "min": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "mis-": {
@@ -3224,9 +3252,10 @@
     "mo": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "more": {
@@ -3333,9 +3362,10 @@
     "nmi": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "necessary": {
@@ -3356,7 +3386,7 @@
       "wrap": "word"
     }
   },
-  "night,informal": {
+  "night(informal)": {
     "p.p.m.": {
       "priority": 5,
       "tags": [
@@ -3679,7 +3709,7 @@
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
     }
   },
   "pages": {
@@ -3688,7 +3718,7 @@
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
     }
   },
   "paragraph": {
@@ -3697,12 +3727,12 @@
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
     },
     "¶": {
       "priority": 5,
       "tags": [],
-      "wrap": "symbol"
+      "wrap": "currency"
     }
   },
   "part,partial": {
@@ -3741,20 +3771,31 @@
       "wrap": "word"
     }
   },
-  "pint": {
-    "pt": {
-      "priority": 6,
+  "physics": {
+    "phy": {
+      "priority": 5,
       "tags": [
         "letters_only"
       ],
       "wrap": "word"
+    }
+  },
+  "pint": {
+    "pt": {
+      "priority": 6,
+      "tags": [
+        "letters_only",
+        "unit_of_measure"
+      ],
+      "wrap": "unit"
     },
     "pt.": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "place,placement": {
@@ -3837,14 +3878,14 @@
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     },
     "p.m.": {
       "priority": 5,
       "tags": [
         "ascii_only"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "post scriptum,after what has been written,post script": {
@@ -3867,16 +3908,18 @@
     "lb": {
       "priority": 6,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     },
     "lb.": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "previous": {
@@ -4033,6 +4076,13 @@
     }
   },
   "question": {
+    "Q": {
+      "priority": 7,
+      "tags": [
+        "letters_only"
+      ],
+      "wrap": "currency"
+    },
     "ques": {
       "priority": 5,
       "tags": [
@@ -4276,9 +4326,18 @@
     "sec": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
+    },
+    "s": {
+      "priority": 7,
+      "tags": [
+        "letters_only",
+        "unit_of_measure"
+      ],
+      "wrap": "unit"
     }
   },
   "selected": {
@@ -5037,7 +5096,7 @@
       "tags": [
         "letters_only"
       ],
-      "wrap": "word"
+      "wrap": "currency"
     }
   },
   "west": {
@@ -5169,9 +5228,10 @@
     "yd": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "unit_of_measure"
       ],
-      "wrap": "word"
+      "wrap": "unit"
     }
   },
   "year": {

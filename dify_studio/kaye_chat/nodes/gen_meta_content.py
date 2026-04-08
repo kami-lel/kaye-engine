@@ -3,8 +3,6 @@
 # pylint: disable=too-many-positional-arguments
 
 
-# bug meta content answer always twice since 2nd round
-
 # output keys  #################################################################
 OUTPUT_META_KEY = "meta_content"
 
@@ -16,12 +14,15 @@ USAGE_TOKEN_KEY = "total_tokens"
 ROLE2PRINTABLE_NAME = {
     "art": "🎨Art Tutor",
     "barista": "☕️Barista",
+    "changelog": "🔄Changelog Writer",
     "chat": "💬Chat",
-    "coder": "💻Peer Coder",
+    "coder": "🤖Peer Coder",
     "deutschlehrer": "🇩🇪Deutschlehrer",
     "editor": "✍️Editor",
+    "librarian": "🏛️Librarian",
+    "prompt": "🖊️Prompt Writer",
     "rapid": "⚡️Rapid",
-    "secretary": "🗂️Secretary",
+    "secretary": "💼Secretary",
     "tarot": "🔮Tarot Reader",
 }
 

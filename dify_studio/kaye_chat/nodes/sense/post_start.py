@@ -15,10 +15,12 @@ OUTPUT_SENSE_BODY_KEY = "sense_prompt_getter_body"
 STATIC_DIFFICULTY_ROLES = {
     "art": 52,
     "barista": 40,
+    "changelog": 35,
     "deutschlehrer": 55,
-    "tarot": 46,
     "editor": 47,
+    "prompt": 85,
     "rapid": 1,
+    "tarot": 46,
 }
 
 
@@ -66,9 +68,13 @@ def main(
         skip = True
         diff = STATIC_DIFFICULTY_ROLES[role]
 
+    elif role == "coder":
+        pass  # coder never skip
+
     elif role:
         skip = difficulty_override != 0
 
+    # override difficulty from input
     if difficulty_override != 0:
         diff = difficulty_override
 

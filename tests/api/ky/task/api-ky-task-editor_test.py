@@ -11,74 +11,212 @@ import json
 
 import pytest
 
-from tests.api.ky.task import (
-    _assert_rapid_blueprint_opt,
-    _assert_good_writing_blueprint_opt,
-)
-
+from tests.api.ky.task import *
 
 # pytest fixtures  #############################################################
-@pytest.fixture
-def payload_json_dumps():
-    payload = {"role": "editor"}
-    return json.dumps(payload)
 
 
-# pytest  ######################################################################
-class TestEditor:
+@pytest.fixture(scope="class")
+def opt(flask_test_client, task_endpoint):
+    role = "editor"
 
-    def test_rapid(_, flask_test_client, task_endpoint, payload_json_dumps):
-        response = flask_test_client.post(
-            task_endpoint,
-            data=payload_json_dumps,
-            content_type="application/json",
-        )
+    response = flask_test_client.post(
+        task_endpoint,
+        data=json.dumps({"role": role}),
+        content_type="application/json",
+    )
 
-        opt = response.get_data().decode("utf-8")
+    opt = response.get_data().decode("utf-8")
+
+    return opt
+
+
+# Pytest unit tests  ###########################################################
+
+
+class TestEd:  # ===============================================================
+
+    def test_title(_, opt):
+        assert "## Editor" in opt
+
+    def test0(_, opt):
+        assert "Your task is to revise the provided text" in opt
+
+    def test1(_, opt):
+        assert "#### Interaction" in opt
+
+    def test2(_, opt):
+        assert "- Focus only on revising the provided text" in opt
+
+    def test3(_, opt):
+        assert "- Provide feedback, revision notes," in opt
+
+    def test4(_, opt):
+        assert "- Accept user feedback and revise again as needed" in opt
+
+    # chat blueprint  **********************************************************
+
+    def test_intro1(_, opt):
         print(opt)
+        assert_intro1(opt)
 
-        _assert_rapid_blueprint_opt(opt)
-
-    def test_good_writing(
-        _, flask_test_client, task_endpoint, payload_json_dumps
-    ):
-        response = flask_test_client.post(
-            task_endpoint,
-            data=payload_json_dumps,
-            content_type="application/json",
-        )
-
-        opt = response.get_data().decode("utf-8")
+    def test_intro2(_, opt):
         print(opt)
-        _assert_good_writing_blueprint_opt(opt)
+        assert_intro2(opt)
 
-    def test1(_, flask_test_client, task_endpoint, payload_json_dumps):
-        response = flask_test_client.post(
-            task_endpoint,
-            data=payload_json_dumps,
-            content_type="application/json",
-        )
-
-        opt = response.get_data().decode("utf-8")
+    def test_format_title(_, opt):
         print(opt)
+        assert_format_title(opt)
 
-        assert (
-            """## Editor
-Your task is to revise the provided text while preserving the user's original intent and style."""
-            in opt
-        )
-
-    def test2(_, flask_test_client, task_endpoint, payload_json_dumps):
-        response = flask_test_client.post(
-            task_endpoint,
-            data=payload_json_dumps,
-            content_type="application/json",
-        )
-
-        opt = response.get_data().decode("utf-8")
+    def test_format1(_, opt):
         print(opt)
+        assert_format1(opt)
 
-        assert """#### Interaction
+    def test_format2(_, opt):
+        print(opt)
+        assert_format2(opt)
 
-- Focus only on revising the provided text
-- Return the revised text by default""" in opt
+    def test_format3(_, opt):
+        print(opt)
+        assert_format3(opt)
+
+    def test_format4(_, opt):
+        print(opt)
+        assert_format4(opt)
+
+    def test_format5(_, opt):
+        print(opt)
+        assert_format5(opt)
+
+    def test_format_list1(_, opt):
+        print(opt)
+        assert_format_list1(opt)
+
+    def test_format_list2(_, opt):
+        print(opt)
+        assert_format_list2(opt)
+
+    def test_format_list3(_, opt):
+        print(opt)
+        assert_format_list3(opt)
+
+    def test_format_math1(_, opt):
+        print(opt)
+        assert_format_math1(opt)
+
+    def test_format_math2(_, opt):
+        print(opt)
+        assert_format_math2(opt)
+
+    def test_format_math3(_, opt):
+        print(opt)
+        assert_format_math3(opt)
+
+    def test_format_diagrams1(_, opt):
+        print(opt)
+        assert_format_diagrams1(opt)
+
+    def test_format_diagrams2(_, opt):
+        print(opt)
+        assert_format_diagrams2(opt)
+
+    def test_format_diagrams3(_, opt):
+        print(opt)
+        assert_format_diagrams3(opt)
+
+    def test_personality_title(_, opt):
+        print(opt)
+        assert_personality_title(opt)
+
+    def test_personality01(_, opt):
+        print(opt)
+        assert_personality01(opt)
+
+    def test_personality02(_, opt):
+        print(opt)
+        assert_personality02(opt)
+
+    def test_personality03(_, opt):
+        print(opt)
+        assert_personality03(opt)
+
+    def test_personality11(_, opt):
+        print(opt)
+        assert_personality11(opt)
+
+    def test_personality12(_, opt):
+        print(opt)
+        assert_personality12(opt)
+
+    def test_personality21(_, opt):
+        print(opt)
+        assert_personality21(opt)
+
+    def test_personality22(_, opt):
+        print(opt)
+        assert_personality22(opt)
+
+    def test_personality23(_, opt):
+        print(opt)
+        assert_personality23(opt)
+
+    def test_personality31(_, opt):
+        print(opt)
+        assert_personality31(opt)
+
+    def test_personality32(_, opt):
+        print(opt)
+        assert_personality32(opt)
+
+    def test_personality33(_, opt):
+        print(opt)
+        assert_personality33(opt)
+
+    def test_lang_title(_, opt):
+        print(opt)
+        assert_lang_title(opt)
+
+    def test_lang1(_, opt):
+        print(opt)
+        assert_lang1(opt)
+
+    def test_lang2(_, opt):
+        print(opt)
+        assert_lang2(opt)
+
+    def test_element_title(_, opt):
+        print(opt)
+        assert_element_title(opt)
+
+    def test_element11(_, opt):
+        print(opt)
+        assert_element11(opt)
+
+    def test_element12(_, opt):
+        print(opt)
+        assert_element12(opt)
+
+    def test_element13(_, opt):
+        print(opt)
+        assert_element13(opt)
+
+    def test_element21(_, opt):
+        print(opt)
+        assert_element21(opt)
+
+    def test_element22(_, opt):
+        print(opt)
+        assert_element22(opt)
+
+    def test_element23(_, opt):
+        print(opt)
+        assert_element23(opt)
+
+    def test_role(_, opt):
+        print(opt)
+        assert_role(opt)
+
+    # abbr *********************************************************************
+
+    def test_abbr_heading(_, opt):
+        assert_abbr_heading(opt)

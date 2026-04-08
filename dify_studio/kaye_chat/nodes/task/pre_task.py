@@ -16,6 +16,7 @@ THRESHOLDS = [
     (10, ["gpt-5-nano"]),
     (30, ["claude-sonnet-4"]),
     (60, ["claude-sonnet-4", "gpt-5-mini"]),
+    (80, ["claude-opus-4", "gpt-5"]),
     (90, ["claude-opus-4", "gpt-5", "gemini-3-pro"]),
 ]
 # (lower bounds, LLMs to use)
