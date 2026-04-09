@@ -58,8 +58,6 @@ __all__ = [
 
 # style  =======================================================================
 
-# todo utilize these unit tests in other roles
-
 
 def assert_style_title(opt):
     assert "# Style" in opt

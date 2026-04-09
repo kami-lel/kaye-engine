@@ -6,8 +6,6 @@ Unit Tests (using pytest) for:
 ``post_start`` node of Kaye Chat Dify App
 """
 
-# todo unit test refactorization
-
 import json
 
 
