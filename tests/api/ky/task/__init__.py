@@ -1,5 +1,3 @@
-# HACK rm print opt
-
 __all__ = [
     "assert_intro1",
     "assert_intro2",
