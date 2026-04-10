@@ -30,6 +30,8 @@ Kaye Chat *Dify App*:
 
 ### Changed
 
+- refactorize unit tests, defining and using helper functions
+
 Kaye Chat *Dify App*:
 
 - connect *Fail Branch* of LLMs for **fail gracefully** design
