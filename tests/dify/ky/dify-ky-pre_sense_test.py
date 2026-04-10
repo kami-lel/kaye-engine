@@ -74,4 +74,7 @@ class TestBody:  # =============================================================
         assert body == {"pre_sense_role": "coder", "difficulty_override": 0}
 
 
-# TODO unit test for pre_sense
+class TestFilteredQuery:  # ====================================================
+
+    def test1(_):
+        pass  # TODO unit test for pre_sense
