@@ -1,6 +1,5 @@
 # pylint: disable=missing-module-docstring
 
-import json
 
 # Output Keys  #################################################################
 
@@ -45,13 +44,11 @@ def main(
         "should_skip_sense":        whether should skip sense node in this round
         "role":                     current round role (so far)
         "difficulty":               current round difficulty (so far)
-        "sense_prompt_getter_body": body sent to ``/sense`` endpoint
     }
     :rtype: dict{
         "should_skip_sense":        bool
         "role":                     str
         "difficulty":               int
-        "sense_prompt_getter_body": str
     }
     """
     # decide role  -------------------------------------------------------------

@@ -74,7 +74,7 @@ class TestBody:  # =============================================================
         assert body == {"pre_sense_role": "coder", "difficulty_override": 0}
 
 
-class TestFilteredQuery:  # ====================================================
+class TestTruncQuery:  # =======================================================
 
     def test1(_, kwargs):
         query = "AAA\n" * 50 + "ZZZ\n" * 51
