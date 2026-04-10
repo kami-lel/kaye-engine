@@ -20,7 +20,6 @@ from tests.api.ky.task import *
 
 @pytest.fixture(scope="class")
 def opt(flask_test_client, task_endpoint):
-    # TODO need update
     payload = json.dumps({"role": "rapid", "programming_languages": "abc"})
 
     response = flask_test_client.post(
