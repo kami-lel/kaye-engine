@@ -14,7 +14,6 @@
 
 
 
-
 ## [Unreleased]
 
 ### Added
@@ -22,6 +21,40 @@
 ### Deprecated
 ### Removed
 ### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [5.4.0] - 2026-04-10
+
+### Added
+
+Kaye Chat *Dify App*:
+
+- **decaying difficulty**: a sequence of difficulty is saved to create a *Exponential Moving Average* `decayed_difficulty`
+
+- *Kaye Peer Coder* role: MonoBehaviour:
+  prompt for Inspector Field Null Guard
+
+- *Shelver* role
+
+### Changed
+
+- refactorize unit tests, defining and using helper functions
+
+Kaye Chat *Dify App*:
+
+- connect *Fail Branch* of LLMs for **fail gracefully** design
+- pre-process user query for sense node (and sense node only) by truncating and keep constant amount of lines
 
 
 
@@ -1447,7 +1480,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v5.3.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v5.4.0...dev
+[5.4.0]: https://github.com/kami-lel/kaye/compare/v5.3.0...v5.4.0
 [5.3.0]: https://github.com/kami-lel/kaye/compare/v5.2.2...v5.3.0
 [5.2.2]: https://github.com/kami-lel/kaye/compare/v5.2.1...v5.2.2
 [5.2.1]: https://github.com/kami-lel/kaye/compare/v5.2.0...v5.2.2

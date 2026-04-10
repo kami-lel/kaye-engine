@@ -25,6 +25,14 @@ kind: app
 version: 0.5.0
 workflow:
   conversation_variables:
+  - description: a sequence (memory) of difficulty values of recent rounds
+    id: 25015b77-07a1-4439-9701-2ac22c38579e
+    name: difficulties_memory
+    selector:
+    - conversation
+    - difficulties_memory
+    value: []
+    value_type: array[number]
   - description: difficulty used in current round
     id: 878026cb-1d0e-4e68-b30b-e0246871644a
     name: current_difficulty
@@ -80,7 +88,7 @@ workflow:
     selector:
     - env
     - FLASK_API_PORT
-    value: '11256'
+    value: '11255'
     value_type: string
   - description: Kaye Flask API's URL accessible to this Dify App, e.g. "http://11.22.33.44"
     id: 97ae005c-5fd3-4092-a255-07b2fd514b55
@@ -101,10 +109,11 @@ workflow:
       - .SVG
       allowed_file_types:
       - image
+      - document
       allowed_file_upload_methods:
-      - local_file
       - remote_url
-      enabled: false
+      - local_file
+      enabled: true
       fileUploadConfig:
         audio_file_size_limit: 50
         batch_count_limit: 5
@@ -120,7 +129,7 @@ workflow:
         transfer_methods:
         - local_file
         - remote_url
-      number_limits: 3
+      number_limits: 10
     opening_statement: ''
     retriever_resource:
       enabled: true
@@ -137,19 +146,6 @@ workflow:
       voice: ''
   graph:
     edges:
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: if-else
-        targetType: http-request
-      id: 1775035745434-false-1775035851875-target
-      selected: false
-      source: '1775035745434'
-      sourceHandle: 'false'
-      target: '1775035851875'
-      targetHandle: target
-      type: custom
-      zIndex: 0
     - data:
         isInIteration: false
         isInLoop: false
@@ -678,6 +674,7 @@ workflow:
         sourceType: variable-aggregator
         targetType: code
       id: 1775496518314-source-1775519581253-target
+      selected: false
       source: '1775496518314'
       sourceHandle: source
       target: '1775519581253'
@@ -689,6 +686,7 @@ workflow:
         sourceType: start
         targetType: code
       id: 1775033936697-source-1775509712136-target
+      selected: false
       source: '1775033936697'
       sourceHandle: source
       target: '1775509712136'
@@ -702,6 +700,7 @@ workflow:
         sourceType: variable-aggregator
         targetType: code
       id: 1775497736904-source-1775522381938-target
+      selected: false
       source: '1775497736904'
       sourceHandle: source
       target: '1775522381938'
@@ -714,6 +713,7 @@ workflow:
         sourceType: code
         targetType: variable-aggregator
       id: 1775519581253-source-1775525053768-target
+      selected: false
       source: '1775519581253'
       sourceHandle: source
       target: '1775525053768'
@@ -725,6 +725,7 @@ workflow:
         sourceType: variable-aggregator
         targetType: code
       id: 1775525053768-source-1775498700677-target
+      selected: false
       source: '1775525053768'
       sourceHandle: source
       target: '1775498700677'
@@ -738,6 +739,7 @@ workflow:
         sourceType: code
         targetType: loop-end
       id: 1775522381938-source-1775497932390-target
+      selected: false
       source: '1775522381938'
       sourceHandle: source
       target: '1775497932390'
@@ -749,9 +751,111 @@ workflow:
         sourceType: answer
         targetType: variable-aggregator
       id: 1775498682381-source-1775525053768-target
+      selected: false
       source: '1775498682381'
       sourceHandle: source
       target: '1775525053768'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 17754967343630-fail-branch-17754968420260-target
+      selected: false
+      source: '17754967343630'
+      sourceHandle: fail-branch
+      target: '17754968420260'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 17754968420260-fail-branch-1775496256481-target
+      source: '17754968420260'
+      sourceHandle: fail-branch
+      target: '1775496256481'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: llm
+        targetType: llm
+      id: 1775497429483-fail-branch-1775497093635-target
+      source: '1775497429483'
+      sourceHandle: fail-branch
+      target: '1775497093635'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: llm
+        targetType: llm
+      id: 1775497532392-fail-branch-1775497481178-target
+      source: '1775497532392'
+      sourceHandle: fail-branch
+      target: '1775497481178'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: llm
+        targetType: llm
+      id: 1775497617058-fail-branch-1775497093635-target
+      source: '1775497617058'
+      sourceHandle: fail-branch
+      target: '1775497093635'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1775496965074'
+        sourceType: llm
+        targetType: llm
+      id: 1775497481178-fail-branch-1775497093635-target
+      source: '1775497481178'
+      sourceHandle: fail-branch
+      target: '1775497093635'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1775035745434-false-1775809556147-target
+      selected: false
+      source: '1775035745434'
+      sourceHandle: 'false'
+      target: '1775809556147'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: http-request
+      id: 1775809556147-source-1775035851875-target
+      selected: false
+      source: '1775809556147'
+      sourceHandle: source
+      target: '1775035851875'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -840,7 +944,7 @@ workflow:
           - id: key-value-23
             key: ''
             type: text
-            value: '{{#1775509712136.sense_prompt_getter_body#}}'
+            value: '{{#1775809556147.getter_request_body#}}'
           type: json
         headers: ''
         method: post
@@ -862,11 +966,11 @@ workflow:
       height: 160
       id: '1775035851875'
       position:
-        x: 1546.451436512359
-        y: 512
+        x: 1729.2842043026617
+        y: 537.2713638099348
       positionAbsolute:
-        x: 1546.451436512359
-        y: 512
+        x: 1729.2842043026617
+        y: 537.2713638099348
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -888,8 +992,8 @@ workflow:
           text: '{{#1775035851875.body#}}'
         - id: 8e711921-cb10-4a9f-ae77-cefbffb557ec
           role: user
-          text: '{{#sys.query#}}'
-        selected: true
+          text: '{{#1775809556147.truncated_query#}}'
+        selected: false
         structured_output:
           schema:
             additionalProperties: false
@@ -911,6 +1015,7 @@ workflow:
                 - prompt
                 - rapid
                 - secretary
+                - shelver
                 - tarot
             required:
             - difficulty
@@ -925,12 +1030,12 @@ workflow:
       height: 88
       id: '1775035866799'
       position:
-        x: 1546.451436512359
-        y: 670.6544855459484
+        x: 1729.2842043026617
+        y: 695.9258493558832
       positionAbsolute:
-        x: 1546.451436512359
-        y: 670.6544855459484
-      selected: true
+        x: 1729.2842043026617
+        y: 695.9258493558832
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1012,11 +1117,11 @@ workflow:
       height: 52
       id: '1775035912243'
       position:
-        x: 1546.451436512359
-        y: 753.8564533780432
+        x: 1729.2842043026617
+        y: 779.1278171879779
       positionAbsolute:
-        x: 1546.451436512359
-        y: 753.8564533780432
+        x: 1729.2842043026617
+        y: 779.1278171879779
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1026,35 +1131,54 @@ workflow:
         code: "# pylint: disable=missing-module-docstring\n# pylint: disable=too-many-arguments\n\
           \n\nimport json\n\n# Output Key ###################################################################\n\
           OUTPUT_BODY_KEY = \"task_prompt_getter_body\"\nOUTPUT_LLMS_KEY = \"llms\"\
+          \nOUTPUT_MEMORY_KEY = \"difficulties_memory\"\nOUTPUT_DIFF_KEY = \"decayed_difficulty\"\
           \nOUTPUT_DIRECT_KEY = \"is_direct_response\"\n\n\n# constants  ###################################################################\n\
           THRESHOLDS = [\n    (0, [\"gpt-4-nano\"]),\n    (10, [\"gpt-5-nano\"]),\n\
           \    (30, [\"claude-sonnet-4\"]),\n    (60, [\"claude-sonnet-4\", \"gpt-5-mini\"\
           ]),\n    (80, [\"claude-opus-4\", \"gpt-5\"]),\n    (90, [\"claude-opus-4\"\
           , \"gpt-5\", \"gemini-3-pro\"]),\n]\n# (lower bounds, LLMs to use)\n\n\n\
-          # Entry Point  #################################################################\n\
-          def main(\n    query: str,\n    current_role: str,\n    current_difficulty:\
-          \ float,\n    current_pls: str,\n):\n    \"\"\"\n    create a json-typed\
-          \ GET body for task prompt getter\n\n\n    :param query:\n    :type query:\
-          \ str\n    :param current_role:\n    :type current_role: str\n    :param\
-          \ current_pls:\n    :type current_pls: str\n    :param difficulty:\n   \
-          \ :type difficulty: int\n    :return: {\n        \"task_prompt_getter_body\"\
-          :  body sent to /task\n        \"llms\":                     LLMs to use\
-          \ during tasks\n        \"is_direct_response\":       whether use direct\
-          \ response mode during task\n    }\n\n    :rtype: dict{\n        \"task_prompt_getter_body\"\
-          :  str,\n        \"llms\":                     list[str],\n        \"is_direct_response\"\
-          :       bool,\n    }\n    \"\"\"\n    # gen body  ----------------------------------------------------------------\n\
+          # number of rounds to remember difficulties\nDIFFICULTY_MEMORY_CNT = 8\n\
+          \n# Exponential Moving Average: Alpha, smoothing factor\nEMA_ALPHA = 0.6\n\
+          \n\n# Entry Point  #################################################################\n\
+          def main(\n    query: str,\n    current_role: str,\n    current_pls: str,\n\
+          \    difficulties_memory: list[int],\n    current_difficulty: int,\n):\n\
+          \    \"\"\"\n    create a json-typed GET body for task prompt getter\n\n\
+          \n    :param query:\n    :type query: str\n    :param current_role:\n  \
+          \  :type current_role: str\n    :param current_pls:\n    :type current_pls:\
+          \ str\n    :param difficulty:\n    :type difficulty: int\n    :return: {\n\
+          \        \"task_prompt_getter_body\":  body sent to /task\n        \"llms\"\
+          :                     LLMs to use during tasks\n        \"difficulties_memory\"\
+          \n        \"is_direct_response\":       whether use direct response mode\
+          \ during task\n    }\n\n    :rtype: dict{\n        \"task_prompt_getter_body\"\
+          :  str,\n        \"llms\":                     list[str],\n        \"difficulties_memory\"\
+          :      list[int],\n        \"is_direct_response\":       bool,\n    }\n\
+          \    \"\"\"\n\n    # gen body  ----------------------------------------------------------------\n\
           \    # used for Task Prompt Getter node\n\n    body = {\n        \"query\"\
           : query,\n        \"role\": current_role,\n        \"programming_languages\"\
-          : current_pls,\n    }\n    body_json_dumps = json.dumps(body)\n\n    # gen\
-          \ LLMs  ----------------------------------------------------------------\n\
+          : current_pls,\n    }\n    body_json_dumps = json.dumps(body)\n\n    # decaying\
+          \ difficulty  -----------------------------------------------------\n  \
+          \  difficulties_memory.append(int(current_difficulty))\n    # keep only\
+          \ recent (last) rounds\n    difficulties_memory = difficulties_memory[-DIFFICULTY_MEMORY_CNT:]\n\
+          \n    # calc decaying difficulty\n    ema = float(difficulties_memory[0])\
+          \ if difficulties_memory else 0.0\n    for d in difficulties_memory[1:]:\n\
+          \        ema = EMA_ALPHA * d + (1.0 - EMA_ALPHA) * ema\n    decayed_difficulty\
+          \ = max(1, min(100, round(ema)))\n\n    # decide LLMs to use  ------------------------------------------------------\n\
           \    llms = THRESHOLDS[0][1]\n    for threshold, value in THRESHOLDS:\n\
-          \        if current_difficulty >= threshold:\n            llms = value\n\
+          \        if decayed_difficulty >= threshold:\n            llms = value\n\
           \n    # is direct  ---------------------------------------------------------------\n\
           \    is_direct_response = len(llms) == 1\n\n    # Output Variables  --------------------------------------------------------\n\
           \    return {\n        OUTPUT_BODY_KEY: str(body_json_dumps),\n        OUTPUT_LLMS_KEY:\
-          \ llms,\n        OUTPUT_DIRECT_KEY: bool(is_direct_response),\n    }\n\n"
+          \ llms,\n        OUTPUT_MEMORY_KEY: difficulties_memory,\n        OUTPUT_DIRECT_KEY:\
+          \ bool(is_direct_response),\n        OUTPUT_DIFF_KEY: decayed_difficulty,\n\
+          \    }\n\n"
         code_language: python3
         outputs:
+          decayed_difficulty:
+            children: null
+            type: number
+          difficulties_memory:
+            children: null
+            type: array[number]
           is_direct_response:
             children: null
             type: boolean
@@ -1080,21 +1204,26 @@ workflow:
           variable: current_role
         - value_selector:
           - conversation
-          - current_difficulty
-          value_type: number
-          variable: current_difficulty
-        - value_selector:
-          - conversation
           - current_pls
           value_type: string
           variable: current_pls
+        - value_selector:
+          - conversation
+          - difficulties_memory
+          value_type: array[number]
+          variable: difficulties_memory
+        - value_selector:
+          - conversation
+          - current_difficulty
+          value_type: number
+          variable: current_difficulty
       height: 52
       id: '1775069406582'
       position:
-        x: 2032.8951908221875
+        x: 2332.8951908221875
         y: 303
       positionAbsolute:
-        x: 2032.8951908221875
+        x: 2332.8951908221875
         y: 303
       selected: false
       sourcePosition: right
@@ -1132,10 +1261,10 @@ workflow:
       height: 160
       id: '17753489683040'
       position:
-        x: 2032.8951908221875
+        x: 2332.8951908221875
         y: 354
       positionAbsolute:
-        x: 2032.8951908221875
+        x: 2332.8951908221875
         y: 354
       selected: false
       sourcePosition: right
@@ -1169,17 +1298,26 @@ workflow:
           - conversation
           - task_usages
           write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1775069406582'
+          - difficulties_memory
+          variable_selector:
+          - conversation
+          - difficulties_memory
+          write_mode: over-write
         selected: false
         title: Task Prompt Setter
         type: assigner
         version: '2'
-      height: 136
+      height: 162
       id: '1775349016947'
       position:
-        x: 2032.8951908221875
+        x: 2332.8951908221875
         y: 512
       positionAbsolute:
-        x: 2032.8951908221875
+        x: 2332.8951908221875
         y: 512
       selected: false
       sourcePosition: right
@@ -1205,10 +1343,10 @@ workflow:
       height: 124
       id: '1775423653375'
       position:
-        x: 2522.9008739516225
+        x: 2822.9008739516225
         y: 303
       positionAbsolute:
-        x: 2522.9008739516225
+        x: 2822.9008739516225
         y: 303
       selected: false
       sourcePosition: right
@@ -1256,10 +1394,10 @@ workflow:
       height: 220
       id: '1775496202817'
       position:
-        x: 3010.0267507983162
+        x: 3310.0267507983162
         y: -186.615387204721
       positionAbsolute:
-        x: 3010.0267507983162
+        x: 3310.0267507983162
         y: -186.615387204721
       selected: false
       sourcePosition: right
@@ -1270,6 +1408,11 @@ workflow:
         context:
           enabled: false
           variable_selector: []
+        default_value:
+        - key: text
+          type: string
+          value: ''
+        error_strategy: default-value
         memory:
           query_prompt_template: '{{#sys.query#}}
 
@@ -1300,14 +1443,14 @@ workflow:
             - sys
             - files
           enabled: true
-      height: 88
+      height: 124
       id: '1775496256481'
       position:
-        x: 3384.0030614997727
-        y: -186.615387204721
+        x: 3684.0030614997727
+        y: -220.61538720472092
       positionAbsolute:
-        x: 3384.0030614997727
-        y: -186.615387204721
+        x: 3684.0030614997727
+        y: -220.61538720472092
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1322,10 +1465,10 @@ workflow:
       height: 102
       id: '1775496295691'
       position:
-        x: 3675.6168683345372
+        x: 3975.6168683345372
         y: -186.615387204721
       positionAbsolute:
-        x: 3675.6168683345372
+        x: 3975.6168683345372
         y: -186.615387204721
       selected: false
       sourcePosition: right
@@ -1347,10 +1490,10 @@ workflow:
       height: 160
       id: '1775496518314'
       position:
-        x: 4064.8672308219952
+        x: 4364.867230821996
         y: -186.615387204721
       positionAbsolute:
-        x: 4064.8672308219952
+        x: 4364.867230821996
         y: -186.615387204721
       selected: false
       sourcePosition: right
@@ -1366,10 +1509,10 @@ workflow:
       height: 102
       id: '1775496531215'
       position:
-        x: 3675.6168683345372
+        x: 3975.6168683345372
         y: 13.315658706650026
       positionAbsolute:
-        x: 3675.6168683345372
+        x: 3975.6168683345372
         y: 13.315658706650026
       selected: false
       sourcePosition: right
@@ -1380,6 +1523,7 @@ workflow:
         context:
           enabled: false
           variable_selector: []
+        error_strategy: fail-branch
         memory:
           query_prompt_template: '{{#sys.query#}}
 
@@ -1410,14 +1554,14 @@ workflow:
             - sys
             - files
           enabled: true
-      height: 88
+      height: 124
       id: '17754967343630'
       position:
-        x: 3384.0030614997727
-        y: 13.315658706650026
+        x: 3684.0030614997727
+        y: 66.38630901133482
       positionAbsolute:
-        x: 3384.0030614997727
-        y: 13.315658706650026
+        x: 3684.0030614997727
+        y: 66.38630901133482
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1427,6 +1571,7 @@ workflow:
         context:
           enabled: false
           variable_selector: []
+        error_strategy: fail-branch
         memory:
           query_prompt_template: '{{#sys.query#}}
 
@@ -1457,14 +1602,14 @@ workflow:
             - sys
             - files
           enabled: true
-      height: 88
+      height: 124
       id: '17754968420260'
       position:
-        x: 3384.0030614997727
-        y: -86.35277283755437
+        x: 3684.0030614997727
+        y: -77.56517480962091
       positionAbsolute:
-        x: 3384.0030614997727
-        y: -86.35277283755437
+        x: 3684.0030614997727
+        y: -77.56517480962091
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1479,10 +1624,10 @@ workflow:
       height: 102
       id: '1775496863219'
       position:
-        x: 3675.6168683345372
+        x: 3975.6168683345372
         y: -86.35277283755437
       positionAbsolute:
-        x: 3675.6168683345372
+        x: 3975.6168683345372
         y: -86.35277283755437
       selected: false
       sourcePosition: right
@@ -1492,7 +1637,7 @@ workflow:
     - data:
         error_handle_mode: terminated
         flatten_output: false
-        height: 533
+        height: 739
         is_parallel: true
         iterator_input_type: array[string]
         iterator_selector:
@@ -1507,20 +1652,20 @@ workflow:
         start_node_id: 1775496965074start
         title: Iteration
         type: iteration
-        width: 1275
-      height: 533
+        width: 1278
+      height: 739
       id: '1775496965074'
       position:
-        x: 3029.85201954326
+        x: 3329.85201954326
         y: 871.5424082454699
       positionAbsolute:
-        x: 3029.85201954326
+        x: 3329.85201954326
         y: 871.5424082454699
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 1275
+      width: 1278
       zIndex: 1
     - data:
         desc: ''
@@ -1536,7 +1681,7 @@ workflow:
         x: 24
         y: 68
       positionAbsolute:
-        x: 3053.85201954326
+        x: 3353.85201954326
         y: 939.5424082454699
       selectable: false
       sourcePosition: right
@@ -1614,7 +1759,7 @@ workflow:
         x: 94.35924878840524
         y: 65.98220225318437
       positionAbsolute:
-        x: 3124.2112683316655
+        x: 3424.2112683316655
         y: 937.5246104986543
       selected: false
       sourcePosition: right
@@ -1626,6 +1771,11 @@ workflow:
         context:
           enabled: false
           variable_selector: []
+        default_value:
+        - key: text
+          type: string
+          value: ''
+        error_strategy: default-value
         isInIteration: true
         isInLoop: false
         iteration_id: '1775496965074'
@@ -1659,14 +1809,14 @@ workflow:
             - sys
             - files
           enabled: true
-      height: 88
+      height: 124
       id: '1775497093635'
       parentId: '1775496965074'
       position:
         x: 430.8184765780279
         y: 69.32686849324114
       positionAbsolute:
-        x: 3460.670496121288
+        x: 3760.670496121288
         y: 940.869276738711
       selected: false
       sourcePosition: right
@@ -1678,6 +1828,7 @@ workflow:
         context:
           enabled: false
           variable_selector: []
+        error_strategy: fail-branch
         isInIteration: true
         isInLoop: false
         iteration_id: '1775496965074'
@@ -1701,6 +1852,10 @@ workflow:
         - id: ceb38933-638e-462f-9708-092f1f048d59
           role: system
           text: '{{#conversation.task_prompt#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 1000
         selected: false
         title: gpt-5
         type: llm
@@ -1711,15 +1866,15 @@ workflow:
             - sys
             - files
           enabled: true
-      height: 88
+      height: 124
       id: '1775497429483'
       parentId: '1775496965074'
       position:
-        x: 429.8184765780279
-        y: 155.32686849324114
+        x: 430.8184765780279
+        y: 192.32686849324114
       positionAbsolute:
-        x: 3459.670496121288
-        y: 1026.869276738711
+        x: 3760.670496121288
+        y: 1063.869276738711
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1730,6 +1885,7 @@ workflow:
         context:
           enabled: false
           variable_selector: []
+        error_strategy: fail-branch
         isInIteration: true
         isInLoop: false
         iteration_id: '1775496965074'
@@ -1764,15 +1920,15 @@ workflow:
             - sys
             - files
           enabled: true
-      height: 88
+      height: 124
       id: '1775497481178'
       parentId: '1775496965074'
       position:
-        x: 426.52107986803367
-        y: 241.32686849324114
+        x: 430.52107986803367
+        y: 316.3268684932409
       positionAbsolute:
-        x: 3456.373099411294
-        y: 1112.869276738711
+        x: 3760.373099411294
+        y: 1187.8692767387108
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1783,6 +1939,7 @@ workflow:
         context:
           enabled: false
           variable_selector: []
+        error_strategy: fail-branch
         isInIteration: true
         isInLoop: false
         iteration_id: '1775496965074'
@@ -1817,15 +1974,15 @@ workflow:
             - sys
             - files
           enabled: true
-      height: 88
+      height: 124
       id: '1775497532392'
       parentId: '1775496965074'
       position:
-        x: 426.11076447350024
-        y: 326.32686849324114
+        x: 433.11076447350024
+        y: 437.3268684932407
       positionAbsolute:
-        x: 3455.9627840167605
-        y: 1197.869276738711
+        x: 3762.9627840167605
+        y: 1308.8692767387106
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1836,6 +1993,7 @@ workflow:
         context:
           enabled: false
           variable_selector: []
+        error_strategy: fail-branch
         isInIteration: true
         isInLoop: false
         iteration_id: '1775496965074'
@@ -1870,15 +2028,15 @@ workflow:
             - sys
             - files
           enabled: true
-      height: 88
+      height: 124
       id: '1775497617058'
       parentId: '1775496965074'
       position:
-        x: 426.25946282849736
-        y: 413.8858822427717
+        x: 432.25946282849736
+        y: 560.8858822427717
       positionAbsolute:
-        x: 3456.1114823717576
-        y: 1285.4282904882416
+        x: 3762.1114823717576
+        y: 1432.4282904882416
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1932,7 +2090,7 @@ workflow:
         x: 725.9479758377547
         y: 67.91096080058549
       positionAbsolute:
-        x: 3755.799995381015
+        x: 4055.799995381015
         y: 939.4533690460554
       selected: false
       sourcePosition: right
@@ -1954,7 +2112,7 @@ workflow:
         x: 1012.3222280828522
         y: 119.32568112800959
       positionAbsolute:
-        x: 4042.1742476261124
+        x: 4342.174247626112
         y: 990.8680893734795
       selected: false
       sourcePosition: right
@@ -1987,10 +2145,10 @@ workflow:
       height: 88
       id: '1775497969183'
       position:
-        x: 4683.086625743714
+        x: 4983.086625743714
         y: 699.5561222343598
       positionAbsolute:
-        x: 4683.086625743714
+        x: 4983.086625743714
         y: 699.5561222343598
       selected: false
       sourcePosition: right
@@ -2024,10 +2182,10 @@ workflow:
       height: 160
       id: '1775498021349'
       position:
-        x: 4064.8672308219952
+        x: 4364.867230821996
         y: 690.6363822529173
       positionAbsolute:
-        x: 4064.8672308219952
+        x: 4364.867230821996
         y: 690.6363822529173
       selected: false
       sourcePosition: right
@@ -2071,11 +2229,11 @@ workflow:
       height: 52
       id: '1775498259638'
       position:
-        x: 4056.440500823907
-        y: 1401.0931889372077
+        x: 4364.867230821996
+        y: 1609.0931889372073
       positionAbsolute:
-        x: 4056.440500823907
-        y: 1401.0931889372077
+        x: 4364.867230821996
+        y: 1609.0931889372073
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -2090,10 +2248,10 @@ workflow:
       height: 102
       id: '1775498682381'
       position:
-        x: 4683.086625743714
+        x: 4983.086625743714
         y: 785.2366143235869
       positionAbsolute:
-        x: 4683.086625743714
+        x: 4983.086625743714
         y: 785.2366143235869
       selected: false
       sourcePosition: right
@@ -2107,38 +2265,40 @@ workflow:
           USAGE_TIME_KEY = \"time_to_generate\"\nUSAGE_TOKEN_KEY = \"total_tokens\"\
           \n\nROLE2PRINTABLE_NAME = {\n    \"art\": \"\U0001F3A8Art Tutor\",\n   \
           \ \"barista\": \"☕️Barista\",\n    \"changelog\": \"\U0001F504Changelog\
-          \ Writer\",\n    \"chat\": \"\U0001F4ACChat\",\n    \"coder\": \"\U0001F4BB\
-          Peer Coder\",\n    \"deutschlehrer\": \"\U0001F1E9\U0001F1EADeutschlehrer\"\
+          \ Writer\",\n    \"chat\": \"\U0001F4ACChat\",\n    \"coder\": \"\U0001F9EC\
+          Kaye Peer Coder\",\n    \"deutschlehrer\": \"\U0001F1E9\U0001F1EADeutschlehrer\"\
           ,\n    \"editor\": \"✍️Editor\",\n    \"librarian\": \"\U0001F3DB️Librarian\"\
           ,\n    \"prompt\": \"\U0001F58A️Prompt Writer\",\n    \"rapid\": \"⚡️Rapid\"\
-          ,\n    \"secretary\": \"\U0001F5C2️Secretary\",\n    \"tarot\": \"\U0001F52E\
+          ,\n    \"secretary\": \"\U0001F4BCSecretary\",\n    \"tarot\": \"\U0001F52E\
           Tarot Reader\",\n}\n\n\n# helpers  #####################################################################\n\
           def _generate_usage_line(usage):\n    return \"`{}`s\\t`{}`t\".format(usage[USAGE_TIME_KEY],\
           \ usage[USAGE_TOKEN_KEY])\n\n\ndef _generate_llm_usage_line(llm, usage):\n\
           \    return \"*{}*\\t{}\".format(llm, _generate_usage_line(usage))\n\n\n\
           # Entry Point  #################################################################\n\
           def main(\n    show_meta_content: bool,\n    should_skip_sense: bool,\n\
-          \    current_role: str,\n    current_difficulty: int,\n    current_pls:\
-          \ str,\n    sense_usage: dict,\n    is_direct_response,\n    task_usages:\
-          \ dict,\n    merger_usage: dict,\n):\n    \"\"\"\n    generate meta content\
-          \ for debug\n\n\n    :param show_meta_content:\n    :type show_meta_content:\
-          \ bool\n    :param should_skip_sense:\n    :type should_skip_sense: bool\n\
-          \    :param current_role:\n    :type current_role: str\n    :param current_difficulty:\n\
-          \    :type current_difficulty: int\n    :param current_pls:\n    :type current_pls:\
-          \ str\n    :param sense_usage:\n    :type sense_usage: dict\n    :param\
-          \ is_direct_response:\n    :type is_direct_response: bool\n    :param task_usages:\n\
-          \    :type task_usages: dict\n    :param merger_usage:\n    :type merger_usage:\
-          \ dict\n    :return: {\"meta_content\": meta content for debug}\n    :rtype:\
-          \ dict{\"meta_content\": str}\n    \"\"\"\n    if not show_meta_content:\n\
-          \        return {OUTPUT_META_KEY: \"\"}\n\n    lines = []\n\n    # sense-related\
-          \  -----------------------------------------------------------\n    if not\
-          \ should_skip_sense:\n        lines.append(\"Sensed:\\t\" + _generate_usage_line(sense_usage))\n\
+          \    current_role: str,\n    current_pls: str,\n    sense_usage: dict,\n\
+          \    is_direct_response,\n    task_usages: dict,\n    merger_usage: dict,\n\
+          \    difficulties_memory: list[int],\n    decayed_difficulty: int,\n):\n\
+          \    \"\"\"\n    generate meta content for debug\n\n\n    :param show_meta_content:\n\
+          \    :type show_meta_content: bool\n    :param should_skip_sense:\n    :type\
+          \ should_skip_sense: bool\n    :param current_role:\n    :type current_role:\
+          \ str\n    :param current_pls:\n    :type current_pls: str\n    :param sense_usage:\n\
+          \    :type sense_usage: dict\n    :param is_direct_response:\n    :type\
+          \ is_direct_response: bool\n    :param task_usages:\n    :type task_usages:\
+          \ dict\n    :param merger_usage:\n    :type merger_usage: dict\n    :param\
+          \ difficulties_memory:\n    :type difficulties_memory: list[int]\n    :param\
+          \ decayed_difficulty:\n    :type decayed_difficulty: int\n    :return: {\"\
+          meta_content\": meta content for debug}\n    :rtype: dict{\"meta_content\"\
+          : str}\n    \"\"\"\n    if not show_meta_content:\n        return {OUTPUT_META_KEY:\
+          \ \"\"}\n\n    lines = []\n\n    # sense-related  -----------------------------------------------------------\n\
+          \    if not should_skip_sense:\n        lines.append(\"Sensed:\\t\" + _generate_usage_line(sense_usage))\n\
           \n    # task parameters  ---------------------------------------------------------\n\
           \    lines.append(\n        \"Role:\\t{}\".format(\n            ROLE2PRINTABLE_NAME[current_role]\n\
           \            if current_role in ROLE2PRINTABLE_NAME\n            else current_role\n\
-          \        )\n    )\n    lines.append(\"Difficulty:\\t{}\".format(current_difficulty))\n\
-          \n    if current_role == \"coder\":\n        lines.append(\"PLs:\\t{}\"\
-          .format(current_pls))\n\n    # task ---------------------------------------------------------------------\n\
+          \        )\n    )\n    lines.append(\n        \"Difficulty:\\t{} <-`{}`\"\
+          .format(\n            decayed_difficulty, str(difficulties_memory)\n   \
+          \     )\n    )\n\n    if current_role == \"coder\":\n        lines.append(\"\
+          PLs:\\t{}\".format(current_pls))\n\n    # task ---------------------------------------------------------------------\n\
           \    if is_direct_response:\n        ((llm, usage),) = task_usages.items()\n\
           \        lines.append(\"Task:\\t\" + _generate_llm_usage_line(llm, usage))\n\
           \    else:\n        lines.append(\"Task:\")\n        for llm, usage in task_usages.items():\n\
@@ -2174,11 +2334,6 @@ workflow:
           variable: current_role
         - value_selector:
           - conversation
-          - current_difficulty
-          value_type: number
-          variable: current_difficulty
-        - value_selector:
-          - conversation
           - current_pls
           value_type: string
           variable: current_pls
@@ -2202,13 +2357,23 @@ workflow:
           - usage
           value_type: object
           variable: merger_usage
+        - value_selector:
+          - conversation
+          - difficulties_memory
+          value_type: array[number]
+          variable: difficulties_memory
+        - value_selector:
+          - '1775069406582'
+          - decayed_difficulty
+          value_type: number
+          variable: decayed_difficulty
       height: 52
       id: '1775498700677'
       position:
-        x: 5468.797957384823
+        x: 5768.797957384823
         y: 391.09276150546384
       positionAbsolute:
-        x: 5468.797957384823
+        x: 5768.797957384823
         y: 391.09276150546384
       selected: false
       sourcePosition: right
@@ -2224,10 +2389,10 @@ workflow:
       height: 102
       id: '1775498707591'
       position:
-        x: 5468.797957384823
+        x: 5768.797957384823
         y: 442.09276150546384
       positionAbsolute:
-        x: 5468.797957384823
+        x: 5768.797957384823
         y: 442.09276150546384
       selected: false
       sourcePosition: right
@@ -2270,27 +2435,25 @@ workflow:
       height: 136
       id: '1775500362830'
       position:
-        x: 1546.451436512359
-        y: 804.3264397505314
+        x: 1729.2842043026617
+        y: 829.5978035604662
       positionAbsolute:
-        x: 1546.451436512359
-        y: 804.3264397505314
+        x: 1729.2842043026617
+        y: 829.5978035604662
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        code: "# pylint: disable=missing-module-docstring\n\nimport json\n\n# Output\
-          \ Keys  #################################################################\n\
+        code: "# pylint: disable=missing-module-docstring\n\n\n# Output Keys  #################################################################\n\
           \nOUTPUT_SKIP_KEY = \"should_skip_sense\"\nOUTPUT_ROLE_KEY = \"role\"\n\
-          OUTPUT_DIFF_KEY = \"difficulty\"\nOUTPUT_SENSE_BODY_KEY = \"sense_prompt_getter_body\"\
-          \n\n# constants  ###################################################################\n\
+          OUTPUT_DIFF_KEY = \"difficulty\"\n\n# constants  ###################################################################\n\
           \n# roles w/ static difficulty associated with it, thus should skip sense\n\
           STATIC_DIFFICULTY_ROLES = {\n    \"art\": 52,\n    \"barista\": 40,\n  \
           \  \"changelog\": 35,\n    \"deutschlehrer\": 55,\n    \"editor\": 47,\n\
-          \    \"prompt\": 85,\n    \"rapid\": 1,\n    \"tarot\": 46,\n}\n\n\n# Body\
-          \ Key  ####################################################################\n\
+          \    \"prompt\": 85,\n    \"rapid\": 1,\n    \"tarot\": 46,\n    \"shelver\"\
+          : 35,\n}\n\n\n# Body Key  ####################################################################\n\
           BODY_ROLE_KEY = \"pre_sense_role\"\nBODY_DIFF_KEY = \"difficulty_override\"\
           \n\n\n# Entry Point  #################################################################\n\
           def main(\n    role_override: str,\n    difficulty_override: int,\n    current_role:\
@@ -2300,11 +2463,9 @@ workflow:
           \        \"should_skip_sense\":        whether should skip sense node in\
           \ this round\n        \"role\":                     current round role (so\
           \ far)\n        \"difficulty\":               current round difficulty (so\
-          \ far)\n        \"sense_prompt_getter_body\": body sent to ``/sense`` endpoint\n\
-          \    }\n    :rtype: dict{\n        \"should_skip_sense\":        bool\n\
-          \        \"role\":                     str\n        \"difficulty\":    \
-          \           int\n        \"sense_prompt_getter_body\": str\n    }\n    \"\
-          \"\"\n    # decide role  -------------------------------------------------------------\n\
+          \ far)\n    }\n    :rtype: dict{\n        \"should_skip_sense\":       \
+          \ bool\n        \"role\":                     str\n        \"difficulty\"\
+          :               int\n    }\n    \"\"\"\n    # decide role  -------------------------------------------------------------\n\
           \    # role_override take priority\n    # empty indicates sense node to\
           \ decide it during 1st round\n    role = role_override or current_role or\
           \ \"\"\n\n    # decide skip & diff  ------------------------------------------------------\n\
@@ -2313,22 +2474,15 @@ workflow:
           \   elif role == \"coder\":\n        pass  # coder never skip\n\n    elif\
           \ role:\n        skip = difficulty_override != 0\n\n    # override difficulty\
           \ from input\n    if difficulty_override != 0:\n        diff = difficulty_override\n\
-          \n    # body  --------------------------------------------------------------------\n\
-          \    if skip:\n        body = \"\"\n    else:\n        body = json.dumps(\n\
-          \            {BODY_ROLE_KEY: role, BODY_DIFF_KEY: difficulty_override}\n\
-          \        )\n\n    # Output Variables  --------------------------------------------------------\n\
+          \n    # Output Variables  --------------------------------------------------------\n\
           \    return {\n        OUTPUT_SKIP_KEY: bool(skip),\n        OUTPUT_ROLE_KEY:\
-          \ str(role),\n        OUTPUT_DIFF_KEY: int(diff),\n        OUTPUT_SENSE_BODY_KEY:\
-          \ str(body),\n    }\n\n"
+          \ str(role),\n        OUTPUT_DIFF_KEY: int(diff),\n    }\n\n"
         code_language: python3
         outputs:
           difficulty:
             children: null
             type: number
           role:
-            children: null
-            type: string
-          sense_prompt_getter_body:
             children: null
             type: string
           should_skip_sense:
@@ -2361,7 +2515,7 @@ workflow:
       positionAbsolute:
         x: 751.3526862862343
         y: 303
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2434,10 +2588,10 @@ workflow:
       height: 52
       id: '1775519581253'
       position:
-        x: 4064.8672308219952
+        x: 4364.867230821996
         y: -27.835642698191066
       positionAbsolute:
-        x: 4064.8672308219952
+        x: 4364.867230821996
         y: -27.835642698191066
       selected: false
       sourcePosition: right
@@ -2490,7 +2644,7 @@ workflow:
         x: 1010.7300052682667
         y: 69.59303182523945
       positionAbsolute:
-        x: 4040.582024811527
+        x: 4340.582024811527
         y: 941.1354400707094
       selected: false
       sourcePosition: right
@@ -2511,18 +2665,83 @@ workflow:
       height: 134
       id: '1775525053768'
       position:
-        x: 5468.797957384823
+        x: 5768.797957384823
         y: 258.1902476960702
       positionAbsolute:
-        x: 5468.797957384823
+        x: 5768.797957384823
         y: 258.1902476960702
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
+    - data:
+        code: "# pylint: disable=missing-module-docstring\n\nimport json\n\n# Output\
+          \ Keys  #################################################################\n\
+          \nOUTPUT_BODY_KEY = \"getter_request_body\"\nOUTPUT_QUERY_KEY = \"truncated_query\"\
+          \n\n\n# Body Key  ####################################################################\n\
+          BODY_ROLE_KEY = \"pre_sense_role\"\nBODY_DIFF_KEY = \"difficulty_override\"\
+          \n\n\n# constants  ###################################################################\n\
+          QUERY_LINE_LIMIT = 100\n\n\n# Entry Point  #################################################################\n\
+          def main(current_role: str, difficulty_override: int, query: str):\n   \
+          \ \"\"\"\n    :param current_role:\n    :type current_role: str\n    :param\
+          \ difficulty_override:\n    :type difficulty_override: int\n    :param query:\n\
+          \    :type query: str\n    :return: {\n            \"getter_request_body\"\
+          :  body sent to ``/sense`` endpoint\n            \"truncated_query\":  \
+          \    query truncated for sense node\n    }\n    :rtype: dict{\n        \
+          \    \"getter_request_body\":  str\n            \"truncated_query\":   \
+          \    str\n    }\n    \"\"\"\n    # body  --------------------------------------------------------------------\n\
+          \    getter_body = json.dumps(\n        {BODY_ROLE_KEY: current_role, BODY_DIFF_KEY:\
+          \ difficulty_override}\n    )\n\n    # truncate query  ----------------------------------------------------------\n\
+          \    # split as lines and remove empty lines\n    lines = [line for line\
+          \ in query.splitlines() if line.strip()]\n\n    if len(lines) > QUERY_LINE_LIMIT:\n\
+          \        n = QUERY_LINE_LIMIT // 2\n        head = lines[:n]\n        tail\
+          \ = lines[-n:]\n        truncated_query = \"\\n\".join(head + tail)\n\n\
+          \    else:  # short, no no op\n        truncated_query = query\n\n    return\
+          \ {\n        OUTPUT_BODY_KEY: str(getter_body),\n        OUTPUT_QUERY_KEY:\
+          \ str(truncated_query),\n    }\n\n"
+        code_language: python3
+        outputs:
+          getter_request_body:
+            children: null
+            type: string
+          truncated_query:
+            children: null
+            type: string
+        selected: false
+        title: pre_sense
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - current_role
+          value_type: string
+          variable: current_role
+        - value_selector:
+          - '1775033936697'
+          - difficulty_override
+          value_type: number
+          variable: difficulty_override
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+      height: 52
+      id: '1775809556147'
+      position:
+        x: 1729.2842043026617
+        y: 486.72863619006546
+      positionAbsolute:
+        x: 1729.2842043026617
+        y: 486.72863619006546
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
     viewport:
-      x: -706.701760512882
-      y: 32.23781871417714
-      zoom: 0.8705505632961242
+      x: -2559.132168703645
+      y: 202.80556627990336
+      zoom: 0.7578582832552
   rag_pipeline_variables: []

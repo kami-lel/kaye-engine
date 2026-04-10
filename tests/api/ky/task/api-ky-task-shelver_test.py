@@ -1,9 +1,9 @@
 """
-api-ky-task-secretary_test.py
+api-ky-task-shelver_test.py
 
 Unit Tests (using pytest) for:
 
-/kaye/dify-api/ky/task with role=secretary
+/kaye/dify-api/ky/task with role=shelver
 """
 
 import pytest
@@ -11,34 +11,73 @@ import pytest
 
 from tests.api.ky.task import *
 
-# pytest fixtures  #############################################################
+# Pytest fixtures  #############################################################
 
 
 @pytest.fixture(scope="class")
 def opt(flask_test_client, task_endpoint):
-    role = "secretary"
+    role = "shelver"
     return create_opt_from_role(flask_test_client, task_endpoint, role)
 
 
 # Pytest unit tests  ###########################################################
 
 
-class TestEd:  # ===============================================================
+class TestShelver:  # ==========================================================
 
     def test0(_, opt):
-        assert "## Secretary" in opt
+        assert "## Shelver" in opt
 
     def test1(_, opt):
-        assert "Assist with message-based communication" in opt
+        assert "In both cases, you must give a updated response" in opt
 
     def test2(_, opt):
-        assert "- Draft and compose emails or other messages." in opt
+        assert "### label" in opt
 
     def test3(_, opt):
-        assert "- Use direct, concise, and clear language." in opt
+        assert "### label" in opt
 
     def test4(_, opt):
-        assert "- Provide feedback, revision notes, or " in opt
+        assert "The *label* will contains different parts" in opt
+
+    def test5(_, opt):
+        assert "#### book title" in opt
+
+    def test6(_, opt):
+        assert "- replace period `.`, exclamation mark `!`" in opt
+
+    def test7(_, opt):
+        assert "#### publish year" in opt
+
+    def test8(_, opt):
+        assert "- contained in `[]`" in opt
+
+    def test9(_, opt):
+        assert "#### authors, editors, translators" in opt
+
+    def test10(_, opt):
+        assert "- no use `.` in name abbreviation" in opt
+
+    def test11(_, opt):
+        assert "This part is formatted as a list separated" in opt
+
+    def test12(_, opt):
+        assert "#### publisher" in opt
+
+    def test13(_, opt):
+        assert "- for well-known publisher, use the" in opt
+
+    def test14(_, opt):
+        assert "#### informational tags" in opt
+
+    def test15(_, opt):
+        assert "List of possible tags, all informational" in opt
+
+    def test16(_, opt):
+        assert "- e.g. DDC tag is `dd[940]` when DDC" in opt
+
+    def test17(_, opt):
+        assert "#### label examples" in opt
 
     # chat blueprint  **********************************************************
 

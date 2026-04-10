@@ -78,6 +78,9 @@ def kaye_chat_task():
     elif role == "secretary":
         bp = _create_secretary_blueprint()
 
+    elif role == "shelver":
+        bp = _create_shelver_blueprint()
+
     elif role == "tarot":
         bp = _create_tarot_blueprint()
 
@@ -211,6 +214,12 @@ def _create_secretary_blueprint():  # ==========================================
     bp = _create_chat_blueprint()
     bp.checkmark(bp.corpus["Style"]["Good Writing"])
     bp.checkmark(bp.corpus["Role"]["Secretary"])
+    return bp
+
+
+def _create_shelver_blueprint():  # ============================================
+    bp = _create_chat_blueprint()
+    bp.checkmark(bp.corpus["Role"]["Shelver"], recursively=True)
     return bp
 
 

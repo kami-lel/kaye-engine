@@ -7,6 +7,8 @@ import json
 # Output Key ###################################################################
 OUTPUT_BODY_KEY = "task_prompt_getter_body"
 OUTPUT_LLMS_KEY = "llms"
+OUTPUT_MEMORY_KEY = "difficulties_memory"
+OUTPUT_DIFF_KEY = "decayed_difficulty"
 OUTPUT_DIRECT_KEY = "is_direct_response"
 
 
@@ -22,12 +24,20 @@ THRESHOLDS = [
 # (lower bounds, LLMs to use)
 
 
+# number of rounds to remember difficulties
+DIFFICULTY_MEMORY_CNT = 8
+
+# Exponential Moving Average: Alpha, smoothing factor
+EMA_ALPHA = 0.6
+
+
 # Entry Point  #################################################################
 def main(
     query: str,
     current_role: str,
-    current_difficulty: float,
     current_pls: str,
+    difficulties_memory: list[int],
+    current_difficulty: int,
 ):
     """
     create a json-typed GET body for task prompt getter
@@ -44,15 +54,18 @@ def main(
     :return: {
         "task_prompt_getter_body":  body sent to /task
         "llms":                     LLMs to use during tasks
+        "difficulties_memory"
         "is_direct_response":       whether use direct response mode during task
     }
 
     :rtype: dict{
         "task_prompt_getter_body":  str,
         "llms":                     list[str],
+        "difficulties_memory":      list[int],
         "is_direct_response":       bool,
     }
     """
+
     # gen body  ----------------------------------------------------------------
     # used for Task Prompt Getter node
 
@@ -63,10 +76,21 @@ def main(
     }
     body_json_dumps = json.dumps(body)
 
-    # gen LLMs  ----------------------------------------------------------------
+    # decaying difficulty  -----------------------------------------------------
+    difficulties_memory.append(int(current_difficulty))
+    # keep only recent (last) rounds
+    difficulties_memory = difficulties_memory[-DIFFICULTY_MEMORY_CNT:]
+
+    # calc decaying difficulty
+    ema = float(difficulties_memory[0]) if difficulties_memory else 0.0
+    for d in difficulties_memory[1:]:
+        ema = EMA_ALPHA * d + (1.0 - EMA_ALPHA) * ema
+    decayed_difficulty = max(1, min(100, round(ema)))
+
+    # decide LLMs to use  ------------------------------------------------------
     llms = THRESHOLDS[0][1]
     for threshold, value in THRESHOLDS:
-        if current_difficulty >= threshold:
+        if decayed_difficulty >= threshold:
             llms = value
 
     # is direct  ---------------------------------------------------------------
@@ -76,5 +100,7 @@ def main(
     return {
         OUTPUT_BODY_KEY: str(body_json_dumps),
         OUTPUT_LLMS_KEY: llms,
+        OUTPUT_MEMORY_KEY: difficulties_memory,
         OUTPUT_DIRECT_KEY: bool(is_direct_response),
+        OUTPUT_DIFF_KEY: decayed_difficulty,
     }
