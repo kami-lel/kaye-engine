@@ -21,14 +21,7 @@ from tests.api.ky.task import *
 @pytest.fixture(scope="class")
 def opt(flask_test_client, task_endpoint):
     payload = {"role": "chat", "programming_languages": "abc"}
-
-    response = flask_test_client.post(
-        task_endpoint,
-        data=json.dumps(payload),
-        content_type="application/json",
-    )
-
-    return response.get_data().decode("utf-8")
+    return create_opt_from_payload(flask_test_client, task_endpoint, payload)
 
 
 # Pytest unit tests  ###########################################################

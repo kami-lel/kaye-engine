@@ -43,11 +43,10 @@ __all__ = [
     "assert_role",
     "assert_abbr_heading",
     "create_opt_from_role",
+    "create_opt_from_payload",
 ]
 
 # helpers  #####################################################################
-
-# TODO opt creator help fx
 
 
 def create_opt_from_payload(flask_test_client, task_endpoint, payload):

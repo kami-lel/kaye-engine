@@ -8,9 +8,6 @@ Unit Tests (using pytest) for:
 
 import json
 
-import pytest
-
-1
 
 from tests.api.ky.task import *
 
@@ -23,13 +20,7 @@ class TestSingle:  # ===========================================================
         query = "afx"
         payload = {"role": "chat", "query": query}
 
-        response = flask_test_client.post(
-            task_endpoint,
-            data=json.dumps(payload),
-            content_type="application/json",
-        )
-
-        opt = response.get_data().decode("utf-8")
+        opt = create_opt_from_payload(flask_test_client, task_endpoint, payload)
 
         print(opt)
 
@@ -40,13 +31,7 @@ class TestSingle:  # ===========================================================
         query = "afx"
         payload = {"role": "rapid", "query": query}
 
-        response = flask_test_client.post(
-            task_endpoint,
-            data=json.dumps(payload),
-            content_type="application/json",
-        )
-
-        opt = response.get_data().decode("utf-8")
+        opt = create_opt_from_payload(flask_test_client, task_endpoint, payload)
 
         print(opt)
 
@@ -57,13 +42,7 @@ class TestSingle:  # ===========================================================
         query = "afx"
         payload = {"role": "coder", "query": query}
 
-        response = flask_test_client.post(
-            task_endpoint,
-            data=json.dumps(payload),
-            content_type="application/json",
-        )
-
-        opt = response.get_data().decode("utf-8")
+        opt = create_opt_from_payload(flask_test_client, task_endpoint, payload)
 
         print(opt)
 
@@ -74,13 +53,7 @@ class TestSingle:  # ===========================================================
         query = "afx"
         payload = {"role": "barista", "query": query}
 
-        response = flask_test_client.post(
-            task_endpoint,
-            data=json.dumps(payload),
-            content_type="application/json",
-        )
-
-        opt = response.get_data().decode("utf-8")
+        opt = create_opt_from_payload(flask_test_client, task_endpoint, payload)
 
         print(opt)
 
@@ -91,13 +64,7 @@ class TestSingle:  # ===========================================================
         query = "afx"
         payload = {"role": "editor", "query": query}
 
-        response = flask_test_client.post(
-            task_endpoint,
-            data=json.dumps(payload),
-            content_type="application/json",
-        )
-
-        opt = response.get_data().decode("utf-8")
+        opt = create_opt_from_payload(flask_test_client, task_endpoint, payload)
 
         print(opt)
 
@@ -108,13 +75,7 @@ class TestSingle:  # ===========================================================
         query = "afx"
         payload = {"role": "secretary", "query": query}
 
-        response = flask_test_client.post(
-            task_endpoint,
-            data=json.dumps(payload),
-            content_type="application/json",
-        )
-
-        opt = response.get_data().decode("utf-8")
+        opt = create_opt_from_payload(flask_test_client, task_endpoint, payload)
 
         print(opt)
 
@@ -128,13 +89,7 @@ class TestMux:  # ==============================================================
         query = "something achv aknlg w/ admin"
         payload = {"role": "rapid", "query": query}
 
-        response = flask_test_client.post(
-            task_endpoint,
-            data=json.dumps(payload),
-            content_type="application/json",
-        )
-
-        opt = response.get_data().decode("utf-8")
+        opt = create_opt_from_payload(flask_test_client, task_endpoint, payload)
 
         print(opt)
 
