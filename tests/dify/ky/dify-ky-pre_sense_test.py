@@ -17,6 +17,8 @@ from dify_studio.kaye_chat.nodes.sense.pre_sense import OUTPUT_BODY_KEY
 
 # helpers  #####################################################################
 
+# TODO assert structure
+
 
 # Pytest fixtures  #############################################################
 @pytest.fixture
@@ -27,13 +29,9 @@ def kwargs():
 # Pytest unit tests  ###########################################################
 
 
-# TODO unit test for pre_sense
-
-
-class TestBody:
+class TestBody:  # =============================================================
 
     def test1(_, kwargs):
-
         opt = pre_sense.main(**kwargs)
         print(opt)
 
@@ -43,6 +41,7 @@ class TestBody:
         assert body == {"pre_sense_role": "", "difficulty_override": 0}
 
     def test2(_, kwargs):
+        kwargs["difficulty_override"] = 50
 
         opt = pre_sense.main(**kwargs)
         print(opt)
@@ -52,13 +51,16 @@ class TestBody:
 
         assert body == {"pre_sense_role": "", "difficulty_override": 50}
 
-    def test4(_, opt_coder_dft):
+    def test3(_, kwargs):
+        kwargs["current_role"] = "coder"
 
         opt = pre_sense.main(**kwargs)
         print(opt)
 
-        opt = opt_coder_dft
         body = json.loads(opt[OUTPUT_BODY_KEY])
         print(body)
 
         assert body == {"pre_sense_role": "coder", "difficulty_override": 0}
+
+
+# TODO unit test for pre_sense
