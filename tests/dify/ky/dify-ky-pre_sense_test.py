@@ -37,7 +37,7 @@ class TestBody:
         opt = pre_sense.main(**kwargs)
         print(opt)
 
-        body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
+        body = json.loads(opt[OUTPUT_BODY_KEY])
         print(body)
 
         assert body == {"pre_sense_role": "", "difficulty_override": 0}
@@ -47,7 +47,7 @@ class TestBody:
         opt = pre_sense.main(**kwargs)
         print(opt)
 
-        body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
+        body = json.loads(opt[OUTPUT_BODY_KEY])
         print(body)
 
         assert body == {"pre_sense_role": "", "difficulty_override": 50}
@@ -58,7 +58,7 @@ class TestBody:
         print(opt)
 
         opt = opt_coder_dft
-        body = json.loads(opt[OUTPUT_SENSE_BODY_KEY])
+        body = json.loads(opt[OUTPUT_BODY_KEY])
         print(body)
 
         assert body == {"pre_sense_role": "coder", "difficulty_override": 0}
