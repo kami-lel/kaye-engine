@@ -20,7 +20,12 @@ from dify_studio.kaye_chat.nodes.sense.pre_sense import (
 
 # helpers  #####################################################################
 
-# TODO assert structure
+
+def _assert_structure(opt):
+    assert OUTPUT_BODY_KEY in opt
+    assert isinstance(opt[OUTPUT_BODY_KEY], str)
+    assert OUTPUT_QUERY_KEY in opt
+    assert isinstance(opt[OUTPUT_QUERY_KEY], str)
 
 
 # Pytest fixtures  #############################################################
@@ -30,11 +35,6 @@ def kwargs():
 
 
 # Pytest unit tests  ###########################################################
-def _assert_structure(opt):
-    assert OUTPUT_BODY_KEY in opt
-    assert isinstance(opt[OUTPUT_BODY_KEY], str)
-    assert OUTPUT_QUERY_KEY in opt
-    assert isinstance(opt[OUTPUT_QUERY_KEY], str)
 
 
 class TestBody:  # =============================================================
