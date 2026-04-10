@@ -27,6 +27,11 @@ Kaye Chat *Dify App*:
   prompt for Inspector Field Null Guard
 
 ### Changed
+
+Kaye Chat *Dify App*:
+
+- connect *Fail Branch* of LLMs for **fail gracefully** design
+
 ### Deprecated
 ### Removed
 ### Fixed
