@@ -26,6 +26,8 @@ Kaye Chat *Dify App*:
 - *Kaye Peer Coder* role: MonoBehaviour:
   prompt for Inspector Field Null Guard
 
+- *Shelver* role
+
 ### Changed
 
 Kaye Chat *Dify App*:
