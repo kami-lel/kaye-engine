@@ -1,3 +1,5 @@
+import json
+
 __all__ = [
     "assert_intro1",
     "assert_intro2",
@@ -40,11 +42,28 @@ __all__ = [
     "assert_element23",
     "assert_role",
     "assert_abbr_heading",
+    "create_role_opt",
 ]
 
 # helpers  #####################################################################
 
 # TODO opt creator help fx
+
+
+def create_role_opt(flask_test_client, task_endpoint, role):
+    payload = {"role": role}
+    payload_json_dumps = json.dumps(payload)
+
+    response = flask_test_client.post(
+        task_endpoint,
+        data=payload_json_dumps,
+        content_type="application/json",
+    )
+
+    opt = response.get_data().decode("utf-8")
+
+    return opt
+
 
 # common opt asserts  ==========================================================
 

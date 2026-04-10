@@ -19,17 +19,8 @@ from tests.api.ky.task import *
 
 @pytest.fixture(scope="class")
 def opt(flask_test_client, task_endpoint):
-    payload_json_dumps = json.dumps({"role": "art"})
-
-    response = flask_test_client.post(
-        task_endpoint,
-        data=payload_json_dumps,
-        content_type="application/json",
-    )
-
-    opt = response.get_data().decode("utf-8")
-
-    return opt
+    role = "art"
+    return create_role_opt(flask_test_client, task_endpoint, role)
 
 
 # Pytest unit tests  ###########################################################
