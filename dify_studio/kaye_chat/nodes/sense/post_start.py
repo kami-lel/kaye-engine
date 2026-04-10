@@ -78,6 +78,7 @@ def main(
     if difficulty_override != 0:
         diff = difficulty_override
 
+    # HACK rm body function to pre_sense
     # body  --------------------------------------------------------------------
     if skip:
         body = ""
