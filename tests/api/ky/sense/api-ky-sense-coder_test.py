@@ -9,66 +9,59 @@ Unit Tests (using pytest) for:
 import pytest
 
 
-from tests.api.ky.sense import (
-    _assert_sense_title1,
-    _assert_sense_title2,
-    _assert_zero_diff1,
-    _assert_zero_diff2,
-    _assert_empty_role1,
-    _assert_empty_role2,
-)
+from tests.api.ky.sense import *
 
 # helpers  #####################################################################
 
 
-def _assert_pl_instruction_title(opt):
+def assert_pl_instruction_title(opt):
     assert "### programming_languages" in opt
 
 
-def _assert_pl_instruction1(opt):
+def assert_pl_instruction1(opt):
     assert "Return a string containing the abbreviations" in opt
 
 
-def _assert_pl_instruction2(opt):
+def assert_pl_instruction2(opt):
     assert 'For example, `"py,cpp,ue"`.' in opt
 
 
 # PLCs  ------------------------------------------------------------------------
 
 
-def _assert_plc_title(opt):
+def assert_plc_title(opt):
     assert "# {Programming Languages Code}" in opt
 
 
-def _assert_plc1(opt):
+def assert_plc1(opt):
     assert "-`bash`:Bash" in opt
 
 
-def _assert_plc2(opt):
+def assert_plc2(opt):
     assert "-`csharp`:C Sharp" in opt
 
 
-def _assert_plc3(opt):
+def assert_plc3(opt):
     assert "-`c`:C language" in opt
 
 
-def _assert_plc4(opt):
+def assert_plc4(opt):
     assert "-`cpp`:C++" in opt
 
 
-def _assert_plc5(opt):
+def assert_plc5(opt):
     assert "-`html`:HTML" in opt
 
 
-def _assert_plc6(opt):
+def assert_plc6(opt):
     assert "-`py`:Python" in opt
 
 
-def _assert_plc8(opt):
+def assert_plc8(opt):
     assert "-`u3d`:Unity Engine code" in opt
 
 
-def _assert_plc9(opt):
+def assert_plc9(opt):
     assert "-`ue`:Unreal Engine code" in opt
 
 
@@ -99,100 +92,100 @@ class TestDiffOverride:  # =====================================================
     def test_sense_title1(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_sense_title1(opt)
+        assert_sense_title1(opt)
 
     def test_sense_title2(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_sense_title2(opt)
+        assert_sense_title2(opt)
 
     # pl -----------------------------------------------------------------------
 
     def test_pl_instruction_title(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_pl_instruction_title(opt)
+        assert_pl_instruction_title(opt)
 
     def test_pl_instruction1(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_pl_instruction1(opt)
+        assert_pl_instruction1(opt)
 
     def test_pl_instruction2(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_pl_instruction2(opt)
+        assert_pl_instruction2(opt)
 
     # plc  ---------------------------------------------------------------------
 
     def test_plc_title(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_plc_title(opt)
+        assert_plc_title(opt)
 
     def test_pl1(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_plc1(opt)
+        assert_plc1(opt)
 
     def test_pl2(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_plc2(opt)
+        assert_plc2(opt)
 
     def test_pl3(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_plc3(opt)
+        assert_plc3(opt)
 
     def test_pl4(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_plc4(opt)
+        assert_plc4(opt)
 
     def test_pl5(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_plc5(opt)
+        assert_plc5(opt)
 
     def test_pl6(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_plc6(opt)
+        assert_plc6(opt)
 
     def test_pl8(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_plc8(opt)
+        assert_plc8(opt)
 
     def test_pl9(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_plc9(opt)
+        assert_plc9(opt)
 
     # zero diff  ---------------------------------------------------------------
 
     def test_zero_diff1(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_zero_diff1(opt)
+        assert_zero_diff1(opt)
 
     def test_zero_diff2(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_zero_diff2(opt)
+        assert_zero_diff2(opt)
 
     # empty role  --------------------------------------------------------------
 
     def test_empty_role1(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_empty_role1(opt)
+        assert_empty_role1(opt)
 
     def test_empty_role2(_, opt_diff_override):
         opt = opt_diff_override
         print(opt)
-        _assert_empty_role2(opt)
+        assert_empty_role2(opt)
 
 
 class TestNoDiff:  # ===========================================================
@@ -202,12 +195,12 @@ class TestNoDiff:  # ===========================================================
     def test_sense_title1(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_sense_title1(opt)
+        assert_sense_title1(opt)
 
     def test_sense_title2(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_sense_title2(opt)
+        assert_sense_title2(opt)
 
     # diff  --------------------------------------------------------------------
 
@@ -271,73 +264,73 @@ class TestNoDiff:  # ===========================================================
     def test_pl_instruction_title(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_pl_instruction_title(opt)
+        assert_pl_instruction_title(opt)
 
     def test_pl_instruction1(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_pl_instruction1(opt)
+        assert_pl_instruction1(opt)
 
     def test_pl_instruction2(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_pl_instruction2(opt)
+        assert_pl_instruction2(opt)
 
     # plc  ---------------------------------------------------------------------
 
     def test_plc_title(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_plc_title(opt)
+        assert_plc_title(opt)
 
     def test_pl1(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_plc1(opt)
+        assert_plc1(opt)
 
     def test_pl2(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_plc2(opt)
+        assert_plc2(opt)
 
     def test_pl3(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_plc3(opt)
+        assert_plc3(opt)
 
     def test_pl4(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_plc4(opt)
+        assert_plc4(opt)
 
     def test_pl5(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_plc5(opt)
+        assert_plc5(opt)
 
     def test_pl6(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_plc6(opt)
+        assert_plc6(opt)
 
     def test_pl8(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_plc8(opt)
+        assert_plc8(opt)
 
     def test_pl9(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_plc9(opt)
+        assert_plc9(opt)
 
     # empty role  --------------------------------------------------------------
 
     def test_empty_role1(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_empty_role1(opt)
+        assert_empty_role1(opt)
 
     def test_empty_role2(_, opt_no_diff):
         opt = opt_no_diff
         print(opt)
-        _assert_empty_role2(opt)
+        assert_empty_role2(opt)
