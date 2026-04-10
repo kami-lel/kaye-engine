@@ -23,6 +23,9 @@ Kaye Chat *Dify App*:
 
 - **decaying difficulty**: a sequence of difficulty is saved to create a *Exponential Moving Average* `decayed_difficulty`
 
+- *Kaye Peer Coder* role: MonoBehaviour:
+  prompt for Inspector Field Null Guard
+
 ### Changed
 ### Deprecated
 ### Removed
