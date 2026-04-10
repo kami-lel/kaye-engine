@@ -23,6 +23,8 @@ from dify_studio.kaye_chat.nodes.sense.post_start import (
 
 from tests.dify.ky.post_start import _assert_structure
 
+# FIXME rm reference to body
+
 # Pytest fixtures  #############################################################
 
 

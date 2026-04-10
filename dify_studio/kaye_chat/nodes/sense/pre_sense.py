@@ -14,7 +14,7 @@ BODY_DIFF_KEY = "difficulty_override"
 
 
 # Entry Point  #################################################################
-def main(current_role: str, difficulty_override: float, query: str):
+def main(current_role: str, difficulty_override: int, query: str):
     # body  --------------------------------------------------------------------
     getter_body = json.dumps(
         {BODY_ROLE_KEY: current_role, BODY_DIFF_KEY: difficulty_override}
