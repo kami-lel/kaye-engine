@@ -1,5 +1,7 @@
 # helpers  #####################################################################
 
+# FIXME write all
+
 
 def _assert_sense_title1(opt):
     assert opt.startswith("# Kaye Chat")
@@ -89,6 +91,8 @@ def _assert_role6(opt):
 def _assert_role7(opt):
     assert "- `secretary`: when the user gives you" in opt
 
+
+# TODO assert all roles
 
 # empty role  ==================================================================
 
