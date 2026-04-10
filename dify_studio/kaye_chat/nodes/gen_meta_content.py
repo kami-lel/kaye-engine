@@ -2,7 +2,6 @@
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-positional-arguments
 
-# FIXME update difficulty to print
 
 # output keys  #################################################################
 OUTPUT_META_KEY = "meta_content"
@@ -42,12 +41,13 @@ def main(
     show_meta_content: bool,
     should_skip_sense: bool,
     current_role: str,
-    current_difficulty: int,
     current_pls: str,
     sense_usage: dict,
     is_direct_response,
     task_usages: dict,
     merger_usage: dict,
+    difficulties_memory: list[int],
+    decayed_difficulty: int,
 ):
     """
     generate meta content for debug
@@ -59,8 +59,6 @@ def main(
     :type should_skip_sense: bool
     :param current_role:
     :type current_role: str
-    :param current_difficulty:
-    :type current_difficulty: int
     :param current_pls:
     :type current_pls: str
     :param sense_usage:
@@ -71,6 +69,10 @@ def main(
     :type task_usages: dict
     :param merger_usage:
     :type merger_usage: dict
+    :param difficulties_memory:
+    :type difficulties_memory: list[int]
+    :param decayed_difficulty:
+    :type decayed_difficulty: int
     :return: {"meta_content": meta content for debug}
     :rtype: dict{"meta_content": str}
     """
@@ -91,7 +93,11 @@ def main(
             else current_role
         )
     )
-    lines.append("Difficulty:\t{}".format(current_difficulty))
+    lines.append(
+        "Difficulty:\t{} <-`{}`".format(
+            decayed_difficulty, str(difficulties_memory)
+        )
+    )
 
     if current_role == "coder":
         lines.append("PLs:\t{}".format(current_pls))
