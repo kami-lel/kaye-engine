@@ -1790,6 +1790,26 @@ Rules:
 
 
 
+##### Inspector Assignment Guard
+
+Rules:
+
+- **write a guard** for every `[SerializeField] private` field lacking a declaration default value (e.g. `private string label = "default";`), omitting is not allowed
+- **place the guard block at the top** of `Awake()`, preceded by exactly one `// Inspector Assignment Guard` comment line — never scattered, never repeated
+
+Example Format:
+
+```csharp
+private void Awake() {
+    // Inspector Assignment Guard ----------------------------------------------
+    if (nextSceneName == null) {
+        Debug.LogWarning($"must assign: nextSceneName}", this);
+    }
+    ...  // other guards, then other code
+}
+```
+
+
 
 
 
