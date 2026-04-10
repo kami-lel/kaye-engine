@@ -2,15 +2,13 @@
 # pylint: disable=too-many-arguments
 
 
-# TODO kyc: difficulty cool down, keep a array of difficult of recent rounds
-
-
 import json
 
 # Output Key ###################################################################
 OUTPUT_BODY_KEY = "task_prompt_getter_body"
 OUTPUT_LLMS_KEY = "llms"
 OUTPUT_MEMORY_KEY = "difficulties_memory"
+OUTPUT_DIFF_KEY = "decayed_difficulty"
 OUTPUT_DIRECT_KEY = "is_direct_response"
 
 
@@ -39,7 +37,7 @@ def main(
     current_role: str,
     current_pls: str,
     difficulties_memory: list[int],
-    current_difficulty: float,
+    current_difficulty: int,
 ):
     """
     create a json-typed GET body for task prompt getter
@@ -82,9 +80,6 @@ def main(
     difficulties_memory.append(int(current_difficulty))
     # keep only recent (last) rounds
     difficulties_memory = difficulties_memory[-DIFFICULTY_MEMORY_CNT:]
-    # HACK
-    if not all(isinstance(v, int) for v in difficulties_memory):
-        raise Exception
 
     # calc decaying difficulty
     ema = float(difficulties_memory[0]) if difficulties_memory else 0.0
@@ -107,4 +102,5 @@ def main(
         OUTPUT_LLMS_KEY: llms,
         OUTPUT_MEMORY_KEY: difficulties_memory,
         OUTPUT_DIRECT_KEY: bool(is_direct_response),
+        OUTPUT_DIFF_KEY: decayed_difficulty,
     }
