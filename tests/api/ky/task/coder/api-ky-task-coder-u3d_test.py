@@ -67,6 +67,15 @@ class TestCoder:  # ============================================================
     def test_mb5(_, opt):
         assert "- **MonoBehaviour lifecycle methods**" in opt
 
+    def test_mb_guard1(_, opt):
+        assert "##### Inspector Assignment Guard" in opt
+
+    def test_mb_guard2(_, opt):
+        assert "place the guard block at the top" in opt
+
+    def test_mb_guard3(_, opt):
+        assert 'Debug.LogWarning($"must assign: nextSceneName}", this);' in opt
+
     # c#  **********************************************************************
 
     def assert_cs0(_, opt):
