@@ -13,6 +13,10 @@ BODY_ROLE_KEY = "pre_sense_role"
 BODY_DIFF_KEY = "difficulty_override"
 
 
+# constants  ###################################################################
+QUERY_LINE_LIMIT = 100
+
+
 # Entry Point  #################################################################
 def main(current_role: str, difficulty_override: int, query: str):
     # body  --------------------------------------------------------------------
@@ -21,11 +25,17 @@ def main(current_role: str, difficulty_override: int, query: str):
     )
 
     # filter query  ------------------------------------------------------------
+    # split as lines and remove empty lines
+    lines = [line for line in query.splitlines if line.strip()]
 
-    filtered_query = ""
-    # TODO ky: smart sense, take only part of the user's input as sense message:
-    # eg by taking first n lines + last n lines
-    # eg by removing all codes block out
+    if len(lines) > QUERY_LINE_LIMIT:
+        n = QUERY_LINE_LIMIT / 2
+        head = lines[:n]
+        tail = lines[-n:]
+        filtered_query = "\n".join(head + tail)
+
+    else:  # short, no no op
+        filtered_query = query
 
     return {
         OUTPUT_BODY_KEY: str(getter_body),
