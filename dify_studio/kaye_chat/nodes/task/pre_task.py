@@ -28,7 +28,7 @@ THRESHOLDS = [
 DIFFICULTY_MEMORY_CNT = 8
 
 # Exponential Moving Average: Alpha, smoothing factor
-EMA_ALPHA = 0.8
+EMA_ALPHA = 0.6
 
 
 # Entry Point  #################################################################
