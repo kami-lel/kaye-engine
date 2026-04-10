@@ -1,13 +1,11 @@
 # pylint: disable=missing-module-docstring
 
-import json
 
 # Output Keys  #################################################################
 
 OUTPUT_SKIP_KEY = "should_skip_sense"
 OUTPUT_ROLE_KEY = "role"
 OUTPUT_DIFF_KEY = "difficulty"
-OUTPUT_SENSE_BODY_KEY = "sense_prompt_getter_body"
 
 # constants  ###################################################################
 
@@ -46,13 +44,11 @@ def main(
         "should_skip_sense":        whether should skip sense node in this round
         "role":                     current round role (so far)
         "difficulty":               current round difficulty (so far)
-        "sense_prompt_getter_body": body sent to ``/sense`` endpoint
     }
     :rtype: dict{
         "should_skip_sense":        bool
         "role":                     str
         "difficulty":               int
-        "sense_prompt_getter_body": str
     }
     """
     # decide role  -------------------------------------------------------------
@@ -78,18 +74,9 @@ def main(
     if difficulty_override != 0:
         diff = difficulty_override
 
-    # body  --------------------------------------------------------------------
-    if skip:
-        body = ""
-    else:
-        body = json.dumps(
-            {BODY_ROLE_KEY: role, BODY_DIFF_KEY: difficulty_override}
-        )
-
     # Output Variables  --------------------------------------------------------
     return {
         OUTPUT_SKIP_KEY: bool(skip),
         OUTPUT_ROLE_KEY: str(role),
         OUTPUT_DIFF_KEY: int(diff),
-        OUTPUT_SENSE_BODY_KEY: str(body),
     }

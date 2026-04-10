@@ -1,5 +1,2 @@
-Todo ky: smart sense, take only part of the user's input as sense message:
-eg by taking first n lines + last n lines
-eg by removing all codes block out
-
 fixme ky: allow sense early exit, i.e. provide an answer directly
+
