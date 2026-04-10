@@ -23,6 +23,7 @@ __all__ = [
     "assert_empty_role2",
     "assert_empty_pls1",
     "assert_empty_pls2",
+    "assert_all_roles",
 ]
 
 # helpers  #####################################################################
@@ -84,6 +85,8 @@ def assert_zero_diff2(opt):
 
 # role  ========================================================================
 
+ALL_ROLE_NAMES = []
+
 
 def assert_role_title(opt):
     assert "### sense role" in opt
@@ -117,7 +120,11 @@ def assert_role7(opt):
     assert "- `secretary`: when the user gives you" in opt
 
 
-# TODO assert all roles
+def assert_all_roles(opt):
+    for role in ALL_ROLE_NAMES:
+        testee = "- `{}`:".format(role)
+        assert testee in opt
+
 
 # empty role  ==================================================================
 
