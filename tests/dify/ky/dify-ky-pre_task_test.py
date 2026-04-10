@@ -307,11 +307,11 @@ class TestDecaying:  # =========================================================
         llms = opt[OUTPUT_LLMS_KEY]
 
         assert memories == [99, 1]
-        assert diff == 70
-        assert llms == ["claude-sonnet-4", "gpt-5-mini"]
+        assert diff == 40
+        assert llms == ["claude-sonnet-4"]
 
     def test2(_, kwargs):
-        kwargs["difficulties_memory"] = [99, 1, 2, 3, 4, 5]
+        kwargs["difficulties_memory"] = [99, 1, 2, 3, 4, 5, 6, 7]
         kwargs["current_difficulty"] = 1
 
         opt = pre_task.main(**kwargs)
@@ -321,6 +321,6 @@ class TestDecaying:  # =========================================================
         diff = opt[OUTPUT_DIFF_KEY]
         llms = opt[OUTPUT_LLMS_KEY]
 
-        assert memories == [2, 3, 4, 5, 1]
+        assert memories == [1, 2, 3, 4, 5, 6, 7, 1]
         assert diff == 3
         assert llms == ["gpt-4-nano"]
