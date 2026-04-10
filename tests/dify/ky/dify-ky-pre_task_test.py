@@ -6,6 +6,8 @@ Unit Tests (using pytest) for:
 ``pre_task`` node of Kaye Chat Dify App
 """
 
+# TODO unit test for decaying
+
 import json
 
 import pytest
@@ -41,6 +43,7 @@ def kwargs():
         "current_role": "",
         "current_pls": "",
         "current_difficulty": 0,
+        "difficulties_memory": [],
     }
 
 
