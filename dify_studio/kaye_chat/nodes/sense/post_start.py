@@ -7,7 +7,6 @@ import json
 OUTPUT_SKIP_KEY = "should_skip_sense"
 OUTPUT_ROLE_KEY = "role"
 OUTPUT_DIFF_KEY = "difficulty"
-OUTPUT_SENSE_BODY_KEY = "sense_prompt_getter_body"
 
 # constants  ###################################################################
 
@@ -78,19 +77,9 @@ def main(
     if difficulty_override != 0:
         diff = difficulty_override
 
-    # HACK rm body function to pre_sense
-    # body  --------------------------------------------------------------------
-    if skip:
-        body = ""
-    else:
-        body = json.dumps(
-            {BODY_ROLE_KEY: role, BODY_DIFF_KEY: difficulty_override}
-        )
-
     # Output Variables  --------------------------------------------------------
     return {
         OUTPUT_SKIP_KEY: bool(skip),
         OUTPUT_ROLE_KEY: str(role),
         OUTPUT_DIFF_KEY: int(diff),
-        OUTPUT_SENSE_BODY_KEY: str(body),
     }

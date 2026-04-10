@@ -27,4 +27,7 @@ def main(current_role: str, difficulty_override: int, query: str):
     # eg by taking first n lines + last n lines
     # eg by removing all codes block out
 
-    return {OUTPUT_BODY_KEY: getter_body, OUTPUT_QUERY_KEY: filtered_query}
+    return {
+        OUTPUT_BODY_KEY: str(getter_body),
+        OUTPUT_QUERY_KEY: str(filtered_query),
+    }
