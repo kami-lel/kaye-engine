@@ -31,6 +31,8 @@ Kaye Chat *Dify App*:
 Kaye Chat *Dify App*:
 
 - connect *Fail Branch* of LLMs for **fail gracefully** design
+- pre-process user query for sense node (and sense node only) by truncating and keep constant amount of lines
+
 
 ### Deprecated
 ### Removed
