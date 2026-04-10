@@ -18,6 +18,11 @@
 ## [Unreleased]
 
 ### Added
+
+Kaye Chat *Dify App*:
+
+- **decaying difficulty**: a sequence of difficulty is saved to create a *Exponential Moving Average* `decayed_difficulty`
+
 ### Changed
 ### Deprecated
 ### Removed
