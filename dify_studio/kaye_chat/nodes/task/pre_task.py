@@ -25,12 +25,17 @@ THRESHOLDS = [
 # (lower bounds, LLMs to use)
 
 
+# number of rounds to remember difficulties
+DIFFICULTY_MEMORY_CNT = 10
+
+
 # Entry Point  #################################################################
 def main(
     query: str,
     current_role: str,
     current_difficulty: float,
     current_pls: str,
+    difficulties_memory: list[int],
 ):
     """
     create a json-typed GET body for task prompt getter
@@ -56,6 +61,7 @@ def main(
         "is_direct_response":       bool,
     }
     """
+
     # gen body  ----------------------------------------------------------------
     # used for Task Prompt Getter node
 
@@ -66,7 +72,9 @@ def main(
     }
     body_json_dumps = json.dumps(body)
 
-    # gen LLMs  ----------------------------------------------------------------
+    # difficulty  --------------------------------------------------------------
+
+    # decide LLMs to use  ------------------------------------------------------
     llms = THRESHOLDS[0][1]
     for threshold, value in THRESHOLDS:
         if current_difficulty >= threshold:
