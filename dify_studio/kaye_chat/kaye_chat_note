@@ -1,4 +1,3 @@
-TODO kyc: difficulty cool down, keep a array of difficult of recent rounds
 Bug should fail gracefully when LLM fail to fetch (due to rate limiting/can't process files etc.)
 Todo ky: smart sense, take only part of the user's input as sense message:
 eg by taking first n lines + last n lines

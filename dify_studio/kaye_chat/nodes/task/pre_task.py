@@ -2,6 +2,9 @@
 # pylint: disable=too-many-arguments
 
 
+# TODO kyc: difficulty cool down, keep a array of difficult of recent rounds
+
+
 import json
 
 # Output Key ###################################################################
