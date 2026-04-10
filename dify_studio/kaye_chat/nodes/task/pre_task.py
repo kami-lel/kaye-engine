@@ -25,7 +25,7 @@ THRESHOLDS = [
 
 
 # number of rounds to remember difficulties
-DIFFICULTY_MEMORY_CNT = 10
+DIFFICULTY_MEMORY_CNT = 5
 
 # Exponential Moving Average: Alpha, smoothing factor
 EMA_ALPHA = 0.3
