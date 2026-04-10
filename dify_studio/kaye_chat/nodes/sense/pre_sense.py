@@ -32,7 +32,7 @@ def main(current_role: str, difficulty_override: int, query: str):
     }
     :rtype: dict{
             "getter_request_body":  str
-            "truncated_query":       str
+            "truncated_query":      str
     }
     """
     # body  --------------------------------------------------------------------
