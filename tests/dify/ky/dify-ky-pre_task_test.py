@@ -6,8 +6,6 @@ Unit Tests (using pytest) for:
 ``pre_task`` node of Kaye Chat Dify App
 """
 
-# TODO unit test for decaying
-
 import json
 
 import pytest
@@ -18,6 +16,8 @@ from dify_studio.kaye_chat.nodes.task.pre_task import (
     OUTPUT_BODY_KEY,
     OUTPUT_DIRECT_KEY,
     OUTPUT_LLMS_KEY,
+    OUTPUT_DIFF_KEY,
+    OUTPUT_MEMORY_KEY,
 )
 
 # helpers  #####################################################################
@@ -31,6 +31,12 @@ def _assert_structure(opt):
     assert all(isinstance(e, str) for e in opt)
     assert OUTPUT_DIRECT_KEY in opt
     assert isinstance(opt[OUTPUT_DIRECT_KEY], bool)
+    assert OUTPUT_MEMORY_KEY in opt
+    memories = opt[OUTPUT_MEMORY_KEY]
+    assert isinstance(memories, list)
+    assert all(isinstance(v, int) for v in memories)
+    assert OUTPUT_DIFF_KEY in opt
+    assert isinstance(opt[OUTPUT_DIFF_KEY], int)
 
 
 # Pytest fixtures  #############################################################
@@ -285,3 +291,36 @@ class TestLLM:  # ==============================================================
 
         assert llms == ["claude-opus-4", "gpt-5", "gemini-3-pro"]
         assert not direct
+
+
+class TestDecaying:  # =========================================================
+
+    def test1(_, kwargs):
+        kwargs["difficulties_memory"] = [99]
+        kwargs["current_difficulty"] = 1
+
+        opt = pre_task.main(**kwargs)
+        print(opt)
+
+        memories = opt[OUTPUT_MEMORY_KEY]
+        diff = opt[OUTPUT_DIFF_KEY]
+        llms = opt[OUTPUT_LLMS_KEY]
+
+        assert memories == [99, 1]
+        assert diff == 70
+        assert llms == ["claude-sonnet-4", "gpt-5-mini"]
+
+    def test2(_, kwargs):
+        kwargs["difficulties_memory"] = [99, 1, 2, 3, 4, 5]
+        kwargs["current_difficulty"] = 1
+
+        opt = pre_task.main(**kwargs)
+        print(opt)
+
+        memories = opt[OUTPUT_MEMORY_KEY]
+        diff = opt[OUTPUT_DIFF_KEY]
+        llms = opt[OUTPUT_LLMS_KEY]
+
+        assert memories == [2, 3, 4, 5, 1]
+        assert diff == 3
+        assert llms == ["gpt-4-nano"]
