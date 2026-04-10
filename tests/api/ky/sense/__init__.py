@@ -85,7 +85,21 @@ def assert_zero_diff2(opt):
 
 # role  ========================================================================
 
-ALL_ROLE_NAMES = []
+ALL_ROLE_NAMES = [
+    "art",
+    "barista",
+    "changelog",
+    "chat",
+    "coder",
+    "deutschlehrer",
+    "editor",
+    "librarian",
+    "prompt",
+    "rapid",
+    "secretary",
+    "shelver",
+    "tarot",
+]
 
 
 def assert_role_title(opt):
