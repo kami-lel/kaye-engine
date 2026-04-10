@@ -26,7 +26,11 @@ Kaye Chat *Dify App*:
 - *Kaye Peer Coder* role: MonoBehaviour:
   prompt for Inspector Field Null Guard
 
+- *Shelver* role
+
 ### Changed
+
+- refactorize unit tests, defining and using helper functions
 
 Kaye Chat *Dify App*:
 
