@@ -37,9 +37,9 @@ EMA_ALPHA = 0.3
 def main(
     query: str,
     current_role: str,
-    current_difficulty: float,
     current_pls: str,
     difficulties_memory: list[int],
+    current_difficulty: float,
 ):
     """
     create a json-typed GET body for task prompt getter
