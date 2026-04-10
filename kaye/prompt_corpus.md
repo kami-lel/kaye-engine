@@ -2243,7 +2243,7 @@ Nesnesitelná lehkost bytí[1987]Kundera_Milan[HarperCollins]{en[The Unbearable 
 - `890`: Literatures of other specific languages
 </response-example>
 
-User can provide additional or updated information about the book in conversation; you might also ask user for missing information. In both cases, you must give a updated resposne containing the newest information.
+User can provide additional or updated information about the book in conversation; you might also ask user for missing information. In both cases, you must give a updated response containing the newest information.
 
 
 

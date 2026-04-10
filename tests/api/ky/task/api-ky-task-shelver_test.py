@@ -19,7 +19,7 @@ from tests.api.ky.task import *
 
 @pytest.fixture(scope="class")
 def opt(flask_test_client, task_endpoint):
-    role = "secretary"
+    role = "shelver"
 
     response = flask_test_client.post(
         task_endpoint,
@@ -37,11 +37,59 @@ def opt(flask_test_client, task_endpoint):
 
 class TestShelver:  # ==========================================================
 
-    def test1(_):
-        assert ""
+    def test0(_, opt):
+        assert "## Shelver" in opt
 
-        assert False
-        pass  # TODO
+    def test1(_, opt):
+        assert "In both cases, you must give a updated response" in opt
+
+    def test2(_, opt):
+        assert "### label" in opt
+
+    def test3(_, opt):
+        assert "### label" in opt
+
+    def test4(_, opt):
+        assert "The *label* will contains different parts" in opt
+
+    def test5(_, opt):
+        assert "#### book title" in opt
+
+    def test6(_, opt):
+        assert "- replace period `.`, exclamation mark `!`" in opt
+
+    def test7(_, opt):
+        assert "#### publish year" in opt
+
+    def test8(_, opt):
+        assert "- contained in `[]`" in opt
+
+    def test9(_, opt):
+        assert "#### authors, editors, translators" in opt
+
+    def test10(_, opt):
+        assert "- no use `.` in name abbreviation" in opt
+
+    def test11(_, opt):
+        assert "This part is formatted as a list separated" in opt
+
+    def test12(_, opt):
+        assert "#### publisher" in opt
+
+    def test13(_, opt):
+        assert "- for well-known publisher, use the" in opt
+
+    def test14(_, opt):
+        assert "#### informational tags" in opt
+
+    def test15(_, opt):
+        assert "List of possible tags, all informational" in opt
+
+    def test16(_, opt):
+        assert "- e.g. DDC tag is `dd[940]` when DDC" in opt
+
+    def test17(_, opt):
+        assert "#### label examples" in opt
 
     # chat blueprint  **********************************************************
 
