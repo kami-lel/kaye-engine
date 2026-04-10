@@ -1,3 +1,5 @@
+import json
+
 __all__ = [
     "assert_intro1",
     "assert_intro2",
@@ -40,10 +42,35 @@ __all__ = [
     "assert_element23",
     "assert_role",
     "assert_abbr_heading",
+    "create_opt_from_role",
+    "create_opt_from_payload",
 ]
 
 # helpers  #####################################################################
-# rapid  =======================================================================
+
+
+def create_opt_from_payload(flask_test_client, task_endpoint, payload):
+    payload_json_dumps = json.dumps(payload)
+
+    response = flask_test_client.post(
+        task_endpoint,
+        data=payload_json_dumps,
+        content_type="application/json",
+    )
+
+    opt = response.get_data().decode("utf-8")
+
+    return opt
+
+
+def create_opt_from_role(flask_test_client, task_endpoint, role):
+    payload = {"role": role}
+    return create_opt_from_payload(flask_test_client, task_endpoint, payload)
+
+
+# common opt asserts  ==========================================================
+
+# rapid  -----------------------------------------------------------------------
 
 
 def assert_intro1(opt):
@@ -114,7 +141,7 @@ def assert_format_diagrams3(opt):
     assert "```mermaid" in opt
 
 
-# chat  ========================================================================
+# chat  ------------------------------------------------------------------------
 
 
 def assert_personality_title(opt):
