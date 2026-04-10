@@ -13,7 +13,10 @@ import pytest
 
 
 from dify_studio.kaye_chat.nodes.sense import pre_sense
-from dify_studio.kaye_chat.nodes.sense.pre_sense import OUTPUT_BODY_KEY
+from dify_studio.kaye_chat.nodes.sense.pre_sense import (
+    OUTPUT_BODY_KEY,
+    OUTPUT_QUERY_KEY,
+)
 
 # helpers  #####################################################################
 
@@ -27,12 +30,18 @@ def kwargs():
 
 
 # Pytest unit tests  ###########################################################
+def _assert_structure(opt):
+    assert OUTPUT_BODY_KEY in opt
+    assert isinstance(opt[OUTPUT_BODY_KEY], str)
+    assert OUTPUT_QUERY_KEY in opt
+    assert isinstance(opt[OUTPUT_QUERY_KEY], str)
 
 
 class TestBody:  # =============================================================
 
     def test1(_, kwargs):
         opt = pre_sense.main(**kwargs)
+        _assert_structure(opt)
         print(opt)
 
         body = json.loads(opt[OUTPUT_BODY_KEY])
@@ -44,6 +53,7 @@ class TestBody:  # =============================================================
         kwargs["difficulty_override"] = 50
 
         opt = pre_sense.main(**kwargs)
+        _assert_structure(opt)
         print(opt)
 
         body = json.loads(opt[OUTPUT_BODY_KEY])
@@ -55,6 +65,7 @@ class TestBody:  # =============================================================
         kwargs["current_role"] = "coder"
 
         opt = pre_sense.main(**kwargs)
+        _assert_structure(opt)
         print(opt)
 
         body = json.loads(opt[OUTPUT_BODY_KEY])
