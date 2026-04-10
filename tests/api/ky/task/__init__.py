@@ -42,7 +42,7 @@ __all__ = [
     "assert_element23",
     "assert_role",
     "assert_abbr_heading",
-    "create_role_opt",
+    "create_opt_from_role",
 ]
 
 # helpers  #####################################################################
@@ -50,8 +50,7 @@ __all__ = [
 # TODO opt creator help fx
 
 
-def create_role_opt(flask_test_client, task_endpoint, role):
-    payload = {"role": role}
+def create_opt_from_payload(flask_test_client, task_endpoint, payload):
     payload_json_dumps = json.dumps(payload)
 
     response = flask_test_client.post(
@@ -63,6 +62,11 @@ def create_role_opt(flask_test_client, task_endpoint, role):
     opt = response.get_data().decode("utf-8")
 
     return opt
+
+
+def create_opt_from_role(flask_test_client, task_endpoint, role):
+    payload = {"role": role}
+    return create_opt_from_payload(flask_test_client, task_endpoint, payload)
 
 
 # common opt asserts  ==========================================================

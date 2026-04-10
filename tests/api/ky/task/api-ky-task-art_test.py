@@ -20,7 +20,7 @@ from tests.api.ky.task import *
 @pytest.fixture(scope="class")
 def opt(flask_test_client, task_endpoint):
     role = "art"
-    return create_role_opt(flask_test_client, task_endpoint, role)
+    return create_opt_from_role(flask_test_client, task_endpoint, role)
 
 
 # Pytest unit tests  ###########################################################
