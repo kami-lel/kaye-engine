@@ -9,8 +9,6 @@ Unit Tests (using pytest) for:
 - PLs not provided
 """
 
-import json
-
 import pytest
 
 from tests.api.ky.task import *
@@ -20,15 +18,8 @@ from tests.api.ky.task import *
 
 @pytest.fixture(scope="class")
 def opt(flask_test_client, task_endpoint):
-    payload = json.dumps({"role": "rapid"})
-
-    response = flask_test_client.post(
-        task_endpoint,
-        data=payload,
-        content_type="application/json",
-    )
-
-    return response.get_data().decode("utf-8")
+    role = "rapid"
+    return create_role_opt(flask_test_client, task_endpoint, role)
 
 
 # Pytest unit tests  ###########################################################

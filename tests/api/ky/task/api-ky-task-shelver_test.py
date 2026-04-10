@@ -6,9 +6,6 @@ Unit Tests (using pytest) for:
 /kaye/dify-api/ky/task with role=shelver
 """
 
-import json
-
-
 import pytest
 
 
@@ -20,16 +17,7 @@ from tests.api.ky.task import *
 @pytest.fixture(scope="class")
 def opt(flask_test_client, task_endpoint):
     role = "shelver"
-
-    response = flask_test_client.post(
-        task_endpoint,
-        data=json.dumps({"role": role}),
-        content_type="application/json",
-    )
-
-    opt = response.get_data().decode("utf-8")
-
-    return opt
+    return create_role_opt(flask_test_client, task_endpoint, role)
 
 
 # Pytest unit tests  ###########################################################
