@@ -86,6 +86,7 @@ def main(
     for d in difficulties_memory[1:]:
         ema = EMA_ALPHA * d + (1.0 - EMA_ALPHA) * ema
     decayed_difficulty = max(1, min(100, round(ema)))
+    # Todo always use max of current/decayed difficulty
 
     # decide LLMs to use  ------------------------------------------------------
     llms = THRESHOLDS[0][1]
