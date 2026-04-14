@@ -98,6 +98,7 @@ def main(
             decayed_difficulty, str(difficulties_memory)
         )
     )
+    # Fixme update difficulty display
 
     if current_role == "coder":
         lines.append("PLs:\t{}".format(current_pls))
