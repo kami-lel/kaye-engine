@@ -43,6 +43,8 @@ Kaye Chat *Dify App*:
 - always use the higher value of `current_difficulty` and `decayed_difficulty`
   to ensure prefer more intelligent LLM(s) for each round
 
+- update *meta content* format
+
 
 
 
