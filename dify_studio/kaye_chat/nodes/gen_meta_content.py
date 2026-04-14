@@ -48,6 +48,8 @@ def main(
     merger_usage: dict,
     difficulties_memory: list[int],
     decayed_difficulty: int,
+    used_difficulty: int,
+    current_difficulty: int,
 ):
     """
     generate meta content for debug
@@ -73,6 +75,10 @@ def main(
     :type difficulties_memory: list[int]
     :param decayed_difficulty:
     :type decayed_difficulty: int
+    :param used_difficulty:
+    :type used_difficulty: int
+    :param current_difficulty:
+    :type current_difficulty: int
     :return: {"meta_content": meta content for debug}
     :rtype: dict{"meta_content": str}
     """
@@ -93,12 +99,14 @@ def main(
             else current_role
         )
     )
+    lines.append("**Difficulty** Used:\t{}".format(decayed_difficulty))
     lines.append(
-        "Difficulty:\t{} <-`{}`".format(
-            decayed_difficulty, str(difficulties_memory)
+        "{}:\t{}".format(
+            ("Pre-Determined" if is_direct_response else "Sensed"),
+            current_difficulty,
         )
     )
-    # Fixme update difficulty display
+    lines.append("{}<-`{}`".format(decayed_difficulty, difficulties_memory))
 
     if current_role == "coder":
         lines.append("PLs:\t{}".format(current_pls))
