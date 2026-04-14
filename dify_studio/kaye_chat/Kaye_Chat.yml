@@ -33,7 +33,7 @@ workflow:
     - difficulties_memory
     value: []
     value_type: array[number]
-  - description: difficulty used in current round
+  - description: difficulty assumed for current round
     id: 878026cb-1d0e-4e68-b30b-e0246871644a
     name: current_difficulty
     selector:
@@ -1131,8 +1131,9 @@ workflow:
         code: "# pylint: disable=missing-module-docstring\n# pylint: disable=too-many-arguments\n\
           \n\nimport json\n\n# Output Key ###################################################################\n\
           OUTPUT_BODY_KEY = \"task_prompt_getter_body\"\nOUTPUT_LLMS_KEY = \"llms\"\
-          \nOUTPUT_MEMORY_KEY = \"difficulties_memory\"\nOUTPUT_DIFF_KEY = \"decayed_difficulty\"\
-          \nOUTPUT_DIRECT_KEY = \"is_direct_response\"\n\n\n# constants  ###################################################################\n\
+          \nOUTPUT_MEMORY_KEY = \"difficulties_memory\"\nOUTPUT_DECAYED_KEY = \"decayed_difficulty\"\
+          \nOUTPUT_USED_KEY = \"used_difficulty\"\nOUTPUT_DIRECT_KEY = \"is_direct_response\"\
+          \n\n\n# constants  ###################################################################\n\
           THRESHOLDS = [\n    (0, [\"gpt-4-nano\"]),\n    (10, [\"gpt-5-nano\"]),\n\
           \    (30, [\"claude-sonnet-4\"]),\n    (60, [\"claude-sonnet-4\", \"gpt-5-mini\"\
           ]),\n    (80, [\"claude-opus-4\", \"gpt-5\"]),\n    (90, [\"claude-opus-4\"\
@@ -1142,9 +1143,8 @@ workflow:
           \n\n# Entry Point  #################################################################\n\
           def main(\n    query: str,\n    current_role: str,\n    current_pls: str,\n\
           \    difficulties_memory: list[int],\n    current_difficulty: int,\n):\n\
-          \    \"\"\"\n    create a json-typed GET body for task prompt getter\n\n\
-          \n    :param query:\n    :type query: str\n    :param current_role:\n  \
-          \  :type current_role: str\n    :param current_pls:\n    :type current_pls:\
+          \    \"\"\"\n    :param query:\n    :type query: str\n    :param current_role:\n\
+          \    :type current_role: str\n    :param current_pls:\n    :type current_pls:\
           \ str\n    :param difficulty:\n    :type difficulty: int\n    :return: {\n\
           \        \"task_prompt_getter_body\":  body sent to /task\n        \"llms\"\
           :                     LLMs to use during tasks\n        \"difficulties_memory\"\
@@ -1162,15 +1162,17 @@ workflow:
           \n    # calc decaying difficulty\n    ema = float(difficulties_memory[0])\
           \ if difficulties_memory else 0.0\n    for d in difficulties_memory[1:]:\n\
           \        ema = EMA_ALPHA * d + (1.0 - EMA_ALPHA) * ema\n    decayed_difficulty\
-          \ = max(1, min(100, round(ema)))\n\n    # decide LLMs to use  ------------------------------------------------------\n\
+          \ = max(1, min(100, round(ema)))\n\n    # always use higher value of two\n\
+          \    used_difficulty = max(current_difficulty, decayed_difficulty)\n\n \
+          \   # decide LLMs to use  ------------------------------------------------------\n\
           \    llms = THRESHOLDS[0][1]\n    for threshold, value in THRESHOLDS:\n\
-          \        if decayed_difficulty >= threshold:\n            llms = value\n\
-          \n    # is direct  ---------------------------------------------------------------\n\
+          \        if used_difficulty >= threshold:\n            llms = value\n\n\
+          \    # is direct  ---------------------------------------------------------------\n\
           \    is_direct_response = len(llms) == 1\n\n    # Output Variables  --------------------------------------------------------\n\
           \    return {\n        OUTPUT_BODY_KEY: str(body_json_dumps),\n        OUTPUT_LLMS_KEY:\
           \ llms,\n        OUTPUT_MEMORY_KEY: difficulties_memory,\n        OUTPUT_DIRECT_KEY:\
-          \ bool(is_direct_response),\n        OUTPUT_DIFF_KEY: decayed_difficulty,\n\
-          \    }\n\n"
+          \ bool(is_direct_response),\n        OUTPUT_DECAYED_KEY: decayed_difficulty,\n\
+          \        OUTPUT_USED_KEY: used_difficulty,\n    }\n\n"
         code_language: python3
         outputs:
           decayed_difficulty:
@@ -1188,6 +1190,9 @@ workflow:
           task_prompt_getter_body:
             children: null
             type: string
+          used_difficulty:
+            children: null
+            type: number
         selected: false
         title: pre_task
         type: code
@@ -2278,8 +2283,9 @@ workflow:
           def main(\n    show_meta_content: bool,\n    should_skip_sense: bool,\n\
           \    current_role: str,\n    current_pls: str,\n    sense_usage: dict,\n\
           \    is_direct_response,\n    task_usages: dict,\n    merger_usage: dict,\n\
-          \    difficulties_memory: list[int],\n    decayed_difficulty: int,\n):\n\
-          \    \"\"\"\n    generate meta content for debug\n\n\n    :param show_meta_content:\n\
+          \    difficulties_memory: list[int],\n    decayed_difficulty: int,\n   \
+          \ used_difficulty: int,\n    current_difficulty: int,\n):\n    \"\"\"\n\
+          \    generate meta content for debug\n\n\n    :param show_meta_content:\n\
           \    :type show_meta_content: bool\n    :param should_skip_sense:\n    :type\
           \ should_skip_sense: bool\n    :param current_role:\n    :type current_role:\
           \ str\n    :param current_pls:\n    :type current_pls: str\n    :param sense_usage:\n\
@@ -2287,18 +2293,22 @@ workflow:
           \ is_direct_response: bool\n    :param task_usages:\n    :type task_usages:\
           \ dict\n    :param merger_usage:\n    :type merger_usage: dict\n    :param\
           \ difficulties_memory:\n    :type difficulties_memory: list[int]\n    :param\
-          \ decayed_difficulty:\n    :type decayed_difficulty: int\n    :return: {\"\
-          meta_content\": meta content for debug}\n    :rtype: dict{\"meta_content\"\
-          : str}\n    \"\"\"\n    if not show_meta_content:\n        return {OUTPUT_META_KEY:\
-          \ \"\"}\n\n    lines = []\n\n    # sense-related  -----------------------------------------------------------\n\
+          \ decayed_difficulty:\n    :type decayed_difficulty: int\n    :param used_difficulty:\n\
+          \    :type used_difficulty: int\n    :param current_difficulty:\n    :type\
+          \ current_difficulty: int\n    :return: {\"meta_content\": meta content\
+          \ for debug}\n    :rtype: dict{\"meta_content\": str}\n    \"\"\"\n    if\
+          \ not show_meta_content:\n        return {OUTPUT_META_KEY: \"\"}\n\n   \
+          \ lines = []\n\n    # sense-related  -----------------------------------------------------------\n\
           \    if not should_skip_sense:\n        lines.append(\"Sensed:\\t\" + _generate_usage_line(sense_usage))\n\
           \n    # task parameters  ---------------------------------------------------------\n\
           \    lines.append(\n        \"Role:\\t{}\".format(\n            ROLE2PRINTABLE_NAME[current_role]\n\
           \            if current_role in ROLE2PRINTABLE_NAME\n            else current_role\n\
-          \        )\n    )\n    lines.append(\n        \"Difficulty:\\t{} <-`{}`\"\
-          .format(\n            decayed_difficulty, str(difficulties_memory)\n   \
-          \     )\n    )\n\n    if current_role == \"coder\":\n        lines.append(\"\
-          PLs:\\t{}\".format(current_pls))\n\n    # task ---------------------------------------------------------------------\n\
+          \        )\n    )\n    lines.append(\"**Difficulty** Used:\\t{}\".format(used_difficulty))\n\
+          \    lines.append(\n        \"{}:\\t{}\".format(\n            (\"Pre-Determined\"\
+          \ if should_skip_sense else \"Sensed\"),\n            current_difficulty,\n\
+          \        )\n    )\n    lines.append(\n        \"Decayed:\\t{}<-`{}`\".format(decayed_difficulty,\
+          \ difficulties_memory)\n    )\n\n    if current_role == \"coder\":\n   \
+          \     lines.append(\"PLs:\\t{}\".format(current_pls))\n\n    # task ---------------------------------------------------------------------\n\
           \    if is_direct_response:\n        ((llm, usage),) = task_usages.items()\n\
           \        lines.append(\"Task:\\t\" + _generate_llm_usage_line(llm, usage))\n\
           \    else:\n        lines.append(\"Task:\")\n        for llm, usage in task_usages.items():\n\
@@ -2367,15 +2377,25 @@ workflow:
           - decayed_difficulty
           value_type: number
           variable: decayed_difficulty
+        - value_selector:
+          - '1775069406582'
+          - used_difficulty
+          value_type: number
+          variable: used_difficulty
+        - value_selector:
+          - conversation
+          - current_difficulty
+          value_type: number
+          variable: current_difficulty
       height: 52
       id: '1775498700677'
       position:
         x: 5768.797957384823
-        y: 391.09276150546384
+        y: 389.09276150546384
       positionAbsolute:
         x: 5768.797957384823
-        y: 391.09276150546384
-      selected: false
+        y: 389.09276150546384
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2515,7 +2535,7 @@ workflow:
       positionAbsolute:
         x: 751.3526862862343
         y: 303
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2741,7 +2761,7 @@ workflow:
       type: custom
       width: 242
     viewport:
-      x: -2559.132168703645
-      y: 202.80556627990336
-      zoom: 0.7578582832552
+      x: -2533.8989786924185
+      y: 400.9536192472674
+      zoom: 0.5000000000000012
   rag_pipeline_variables: []

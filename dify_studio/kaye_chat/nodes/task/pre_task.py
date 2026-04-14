@@ -8,7 +8,8 @@ import json
 OUTPUT_BODY_KEY = "task_prompt_getter_body"
 OUTPUT_LLMS_KEY = "llms"
 OUTPUT_MEMORY_KEY = "difficulties_memory"
-OUTPUT_DIFF_KEY = "decayed_difficulty"
+OUTPUT_DECAYED_KEY = "decayed_difficulty"
+OUTPUT_USED_KEY = "used_difficulty"
 OUTPUT_DIRECT_KEY = "is_direct_response"
 
 
@@ -40,9 +41,6 @@ def main(
     current_difficulty: int,
 ):
     """
-    create a json-typed GET body for task prompt getter
-
-
     :param query:
     :type query: str
     :param current_role:
@@ -87,10 +85,13 @@ def main(
         ema = EMA_ALPHA * d + (1.0 - EMA_ALPHA) * ema
     decayed_difficulty = max(1, min(100, round(ema)))
 
+    # always use higher value of two
+    used_difficulty = max(current_difficulty, decayed_difficulty)
+
     # decide LLMs to use  ------------------------------------------------------
     llms = THRESHOLDS[0][1]
     for threshold, value in THRESHOLDS:
-        if decayed_difficulty >= threshold:
+        if used_difficulty >= threshold:
             llms = value
 
     # is direct  ---------------------------------------------------------------
@@ -102,5 +103,6 @@ def main(
         OUTPUT_LLMS_KEY: llms,
         OUTPUT_MEMORY_KEY: difficulties_memory,
         OUTPUT_DIRECT_KEY: bool(is_direct_response),
-        OUTPUT_DIFF_KEY: decayed_difficulty,
+        OUTPUT_DECAYED_KEY: decayed_difficulty,
+        OUTPUT_USED_KEY: used_difficulty,
     }
