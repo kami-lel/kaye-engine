@@ -99,14 +99,16 @@ def main(
             else current_role
         )
     )
-    lines.append("**Difficulty** Used:\t{}".format(decayed_difficulty))
+    lines.append("**Difficulty** Used:\t{}".format(used_difficulty))
     lines.append(
         "{}:\t{}".format(
-            ("Pre-Determined" if is_direct_response else "Sensed"),
+            ("Determined" if should_skip_sense else "Sensed"),
             current_difficulty,
         )
     )
-    lines.append("{}<-`{}`".format(decayed_difficulty, difficulties_memory))
+    lines.append(
+        "Decayed:\t{}<-`{}`".format(decayed_difficulty, difficulties_memory)
+    )
 
     if current_role == "coder":
         lines.append("PLs:\t{}".format(current_pls))
