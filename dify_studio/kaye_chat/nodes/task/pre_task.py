@@ -40,9 +40,6 @@ def main(
     current_difficulty: int,
 ):
     """
-    create a json-typed GET body for task prompt getter
-
-
     :param query:
     :type query: str
     :param current_role:
@@ -86,12 +83,14 @@ def main(
     for d in difficulties_memory[1:]:
         ema = EMA_ALPHA * d + (1.0 - EMA_ALPHA) * ema
     decayed_difficulty = max(1, min(100, round(ema)))
-    # Todo always use max of current/decayed difficulty
+
+    # always use higher value of two
+    used_difficulty = max(current_difficulty, decayed_difficulty)
 
     # decide LLMs to use  ------------------------------------------------------
     llms = THRESHOLDS[0][1]
     for threshold, value in THRESHOLDS:
-        if decayed_difficulty >= threshold:
+        if used_difficulty >= threshold:
             llms = value
 
     # is direct  ---------------------------------------------------------------
