@@ -16,7 +16,7 @@ from dify_studio.kaye_chat.nodes.task.pre_task import (
     OUTPUT_BODY_KEY,
     OUTPUT_DIRECT_KEY,
     OUTPUT_LLMS_KEY,
-    OUTPUT_DIFF_KEY,
+    OUTPUT_DECAYED_KEY,
     OUTPUT_MEMORY_KEY,
 )
 
@@ -35,8 +35,8 @@ def _assert_structure(opt):
     memories = opt[OUTPUT_MEMORY_KEY]
     assert isinstance(memories, list)
     assert all(isinstance(v, int) for v in memories)
-    assert OUTPUT_DIFF_KEY in opt
-    assert isinstance(opt[OUTPUT_DIFF_KEY], int)
+    assert OUTPUT_DECAYED_KEY in opt
+    assert isinstance(opt[OUTPUT_DECAYED_KEY], int)
 
 
 # Pytest fixtures  #############################################################
@@ -303,7 +303,7 @@ class TestDecaying:  # =========================================================
         print(opt)
 
         memories = opt[OUTPUT_MEMORY_KEY]
-        diff = opt[OUTPUT_DIFF_KEY]
+        diff = opt[OUTPUT_DECAYED_KEY]
         llms = opt[OUTPUT_LLMS_KEY]
 
         assert memories == [99, 1]
@@ -318,7 +318,7 @@ class TestDecaying:  # =========================================================
         print(opt)
 
         memories = opt[OUTPUT_MEMORY_KEY]
-        diff = opt[OUTPUT_DIFF_KEY]
+        diff = opt[OUTPUT_DECAYED_KEY]
         llms = opt[OUTPUT_LLMS_KEY]
 
         assert memories == [1, 2, 3, 4, 5, 6, 7, 1]

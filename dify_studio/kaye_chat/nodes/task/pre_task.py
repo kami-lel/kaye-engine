@@ -8,7 +8,8 @@ import json
 OUTPUT_BODY_KEY = "task_prompt_getter_body"
 OUTPUT_LLMS_KEY = "llms"
 OUTPUT_MEMORY_KEY = "difficulties_memory"
-OUTPUT_DIFF_KEY = "decayed_difficulty"
+OUTPUT_DECAYED_KEY = "decayed_difficulty"
+OUTPUT_USED_KEY = "used_difficulty"
 OUTPUT_DIRECT_KEY = "is_direct_response"
 
 
@@ -102,5 +103,6 @@ def main(
         OUTPUT_LLMS_KEY: llms,
         OUTPUT_MEMORY_KEY: difficulties_memory,
         OUTPUT_DIRECT_KEY: bool(is_direct_response),
-        OUTPUT_DIFF_KEY: decayed_difficulty,
+        OUTPUT_DECAYED_KEY: decayed_difficulty,
+        OUTPUT_USED_KEY: used_difficulty,
     }
