@@ -3070,7 +3070,7 @@ Extract the work's **original title** as it would appear on its official cover, 
 
 
 
-## Release Year
+## release year
 
 The year this exact media version, edition, release, or remaster was released. Use a four-digit year format, e.g. `2015`.
 
