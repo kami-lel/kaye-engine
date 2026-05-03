@@ -23,14 +23,32 @@ def opt(flask_test_client, dify_app_endpoint):
 
 class TestOpus:
 
-    # TODO unit test for tag smith extract prompt
-
-    def test_title0(_, opt, main0):
-        print(opt)
+    def test_main0(_, opt, main0):
         assert main0 in opt
 
-    def test_extract0(_, opt, title0):
+    def test_main1(_, opt, main1):
+        assert main1 in opt
+
+    def test_main2(_, opt, main2):
+        assert main2 in opt
+
+    def test_main3(_, opt, main3):
+        assert main3 in opt
+
+    def test_title0(_, opt, title0):
         assert title0 in opt
+
+    def test_title1(_, opt, title1):
+        assert title1 in opt
+
+    def test_title2(_, opt, title2):
+        assert title2 in opt
+
+    def test_title3(_, opt, title3):
+        assert title3 in opt
+
+    def test_title4(_, opt, title4):
+        assert title4 in opt
 
     def test_tags0(_, opt, tags0):
         print(opt)
