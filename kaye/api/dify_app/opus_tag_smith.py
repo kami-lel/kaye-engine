@@ -25,9 +25,9 @@ renamer_bp = Blueprint(
 )
 
 
-# /kaye/dify-app/opus-tag-smith/extract
-@renamer_bp.route("/extract", methods=["GET"])
-def kaye_event_radar_filter():
+# /kaye/dify-app/opus-tag-smith/opus
+@renamer_bp.route("/opus", methods=["GET"])
+def opus_tag_smith_opus():
     blueprint = PromptBlueprint.parse(
         EXTRACT_PROMPT_BLUEPRINT,
     )

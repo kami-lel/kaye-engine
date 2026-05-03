@@ -3047,6 +3047,16 @@ Parse all events into the desired format, keep all information.
 
 # Opus Tag Smith
 
+## Extract for Opus
+
+## Extract for Athenaeum
+
+## Tags
+
+### More Tags for Opus
+
+### More Tags for Athenaeum
+
 
 
 
