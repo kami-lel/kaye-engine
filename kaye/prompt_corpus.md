@@ -3051,7 +3051,6 @@ You are a **media information extraction agent** for a given media item, often a
 
 - Identify the work and its media type
 - Extract relevant metadata and technical details
-- Describe the content when useful
 
 
 

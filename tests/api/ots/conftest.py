@@ -18,7 +18,7 @@ def main2():
 
 @pytest.fixture(scope="session")
 def main3():
-    return "- Describe the content when useful"
+    return "- Extract relevant metadata and technical details"
 
 
 @pytest.fixture(scope="session")
