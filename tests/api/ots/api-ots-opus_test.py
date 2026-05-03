@@ -12,7 +12,7 @@ import pytest
 
 
 @pytest.fixture(scope="class")
-def decoded_response(flask_test_client, dify_app_endpoint):
+def opt(flask_test_client, dify_app_endpoint):
     endpoint = dify_app_endpoint + "/opus-tag-smith/opus"
     response = flask_test_client.get(endpoint)
     return response.get_data().decode("utf-8")
@@ -23,6 +23,16 @@ def decoded_response(flask_test_client, dify_app_endpoint):
 
 class TestOpus:
 
-    def test1(_):
-        assert False
-        pass  # TODO unit test for tag smith extract prompt
+    # TODO unit test for tag smith extract prompt
+
+    def test_title0(_, opt):
+        print(opt)
+        assert "# Opus Tag Smith" in opt
+
+    def test_extract0(_, opt):
+        print(opt)
+        assert "## Extract for Opus" in opt
+
+    def test_tags0(_, opt):
+        print(opt)
+        assert "## Tags" in opt
