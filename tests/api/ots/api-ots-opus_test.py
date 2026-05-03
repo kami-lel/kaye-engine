@@ -53,3 +53,27 @@ class TestOpus:
     def test_tags0(_, opt, tags0):
         print(opt)
         assert tags0 in opt
+
+    def test_tag_instruction1(_, opt, tag_instruction1):
+        print(opt)
+        assert tag_instruction1 in opt
+
+    def test_tag_instruction2(_, opt, tag_instruction2):
+        print(opt)
+        assert tag_instruction2 in opt
+
+    def test_tag_instruction3(_, opt, tag_instruction3):
+        print(opt)
+        assert tag_instruction3 in opt
+
+    def test_tag_instruction4(_, opt, tag_instruction4):
+        print(opt)
+        assert tag_instruction4 in opt
+
+    def test_tags1(_, opt, tags1):
+        print(opt)
+        assert tags1 in opt
+
+    def test_tags2(_, opt, tags2):
+        print(opt)
+        assert tags2 in opt

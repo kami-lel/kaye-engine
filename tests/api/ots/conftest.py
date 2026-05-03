@@ -64,3 +64,38 @@ def year2():
 @pytest.fixture(scope="session")
 def tags0():
     return "## tags"
+
+
+@pytest.fixture(scope="session")
+def tag_instruction1():
+    return "Extract **as many tags as possible**"
+
+
+@pytest.fixture(scope="session")
+def tag_instruction2():
+    return "- Every tag must be directly grounded"
+
+
+@pytest.fixture(scope="session")
+def tag_instruction3():
+    return "- When information is uncertain or partially"
+
+
+@pytest.fixture(scope="session")
+def tag_instruction4():
+    return "When the provided data contains information"
+
+
+@pytest.fixture(scope="session")
+def tag_instruction5():
+    return "A list of standard tags is provided below as reference"
+
+
+@pytest.fixture(scope="session")
+def tags1():
+    return "- `zh[娛樂至死]`: title translation"
+
+
+@pytest.fixture(scope="session")
+def tags2():
+    return "- `en[War and Peace]`"
