@@ -15,6 +15,7 @@ from kaye.prompt import PromptBlueprint
 OPUS_PROMPT_BLUEPRINT = """    ○
 [x] └── Opus Tag Smith
 [x]     └── tags
+[x]         └── tags for Opus
 """
 
 

@@ -3070,7 +3070,7 @@ Extract the work's **original title** as it would appear on its official cover, 
 
 
 
-## release year
+### release year
 
 The year this exact media version, edition, release, or remaster was released. Use a four-digit year format, e.g. `2015`.
 
@@ -3087,6 +3087,54 @@ The year this exact media version, edition, release, or remaster was released. U
 
 
 ## tags
+
+Extract **as many tags as possible** from **user-provided data only**:
+
+- Every tag must be directly grounded in the user's input
+- Do **not** infer or guess **technical/media details** (resolution, bitrate, codec, etc.) — these must come directly from user-provided data
+- You may use **outside knowledge** for **general work metadata** (author, series, publisher, etc.) when the work is confidently identified
+- When information is uncertain or partially legible, only tag what is actually supported
+
+When the provided data contains information that does not fit a standard tag, create a unique tag following the same naming style and format.
+
+A list of standard tags is provided below as reference:
+
+- `zh[娛樂至死]`: title translation in Chinese (in this case, `娛樂至死`)
+- `en[War and Peace]`: title translation in English
+
+### tags for Opus
+
+- `2160p` (include 4K), `1080p`, `720p`, `480p`: video-type media's resolution
+- `Web`: include WEB-DL, WEBRip
+- `BD`: Blue-ray, BRRip
+- `DVD`: DVD-Rip, DVDMux, DVDR, etc.
+- `Amzn`: from Amazon Prime Video
+- `NF`: from Netflix
+- `ReMa`: remastered
+- `DCut`: Director's Cut
+- `ECut`: Extended Cut
+- `ECut`: Extended Cut
+- `UCut`: Ultimate Cut
+- `unrated`: unrated release
+- `H_264`: H.264, x264, MPEG-4 Part 10, Advanced Video Coding, AVC
+- `H_265`: H.265, x265, MPEG-h Part2, High Efficiency Video Coding, HEVC
+- `H_266`: H.266, x266, MPEG-I Part 3, Versatile Video Coding, VVC
+- `Xvid`
+- `AAC`: Advanced Audio Coding
+- `HDR10`: HDR standard with bit depth of 10 bit
+- `HDR10Plus`: HDR10+
+- `Atmos`: audio encoding by Dolby Atmos
+
+  - `Atoms[7.1.2]`, `Atoms[5.1]`: specify channels
+
+- `AC-3`: audio encoding Dolby AC-3
+- `DTS`: audio encodings by DTS
+
+  - `DTS[7.1]`, `DTS[2.1]`: specify channels
+
+- `IMAX`
+
+
 
 
 
