@@ -1,7 +1,7 @@
 """
-ks_op_renamer.py
+opus_tag_smith.py
 
-define API to specific work with Dify App: ks-op-renamer
+define API to specific work with Dify App: Opus Tag Smith
 """
 
 # pylint: disable=missing-function-docstring
@@ -16,13 +16,13 @@ EXTRACT_PROMPT_BLUEPRINT = """"""  # TODO
 
 # Flask Routing  ###############################################################
 
-# /kaye/dify-app/ks-op-renamer
+# /kaye/dify-app/opus-tag-smith
 renamer_bp = Blueprint(
-    "ks-op-renamer", PROGRAM_NAME, url_prefix="/ks-op-renamer"
+    "opus-tag-smith", PROGRAM_NAME, url_prefix="/opus-tag-smith"
 )
 
 
-# /kaye/dify-app/ks-op-renamer/extract
+# /kaye/dify-app/opus-tag-smith/extract
 @renamer_bp.route("/extract", methods=["GET"])
 def kaye_event_radar_filter():
     blueprint = PromptBlueprint.parse(
