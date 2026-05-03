@@ -3049,13 +3049,8 @@ Parse all events into the desired format, keep all information.
 
 ## Extract for Opus
 
-## Extract for Athenaeum
-
 ## Tags
 
-### More Tags for Opus
-
-### More Tags for Athenaeum
 
 
 

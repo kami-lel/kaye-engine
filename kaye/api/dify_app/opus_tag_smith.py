@@ -12,23 +12,25 @@ from kaye import PROGRAM_NAME
 from kaye.prompt import PromptBlueprint
 
 # Blueprints  ##################################################################
-EXTRACT_PROMPT_BLUEPRINT = """    ○
+OPUS_PROMPT_BLUEPRINT = """    ○
 [x] └── Opus Tag Smith
+[x]     ├── Extract for Opus
+[x]     └── Tags
 """
 
 
 # Flask Routing  ###############################################################
 
 # /kaye/dify-app/opus-tag-smith
-renamer_bp = Blueprint(
+tag_smith_bp = Blueprint(
     "opus-tag-smith", PROGRAM_NAME, url_prefix="/opus-tag-smith"
 )
 
 
 # /kaye/dify-app/opus-tag-smith/opus
-@renamer_bp.route("/opus", methods=["GET"])
+@tag_smith_bp.route("/opus", methods=["GET"])
 def opus_tag_smith_opus():
     blueprint = PromptBlueprint.parse(
-        EXTRACT_PROMPT_BLUEPRINT,
+        OPUS_PROMPT_BLUEPRINT,
     )
     return blueprint.generate_prompt()
