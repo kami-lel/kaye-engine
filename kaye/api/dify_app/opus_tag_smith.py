@@ -12,7 +12,10 @@ from kaye import PROGRAM_NAME
 from kaye.prompt import PromptBlueprint
 
 # Blueprints  ##################################################################
-EXTRACT_PROMPT_BLUEPRINT = """"""  # TODO
+EXTRACT_PROMPT_BLUEPRINT = """    ○
+[x] └── Opus Tag Smith
+"""
+
 
 # Flask Routing  ###############################################################
 
