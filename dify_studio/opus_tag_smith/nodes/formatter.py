@@ -9,6 +9,9 @@ import re
 EXTRACT_TITLE_KEY = "title"
 EXTRACT_YEAR_KEY = "release_year"
 EXTRACT_TAGS_KEY = "tags"
+EXTRACT_SEASON_KEY = "season_number"
+EXTRACT_EPISODE_KEY = "episode_number"
+EXTRACT_EPISODE_NAME_KEY = "episode_name"
 
 
 # Output Keys  #################################################################
@@ -32,8 +35,29 @@ def main(extract: dict, target: str):
     year = extract[EXTRACT_YEAR_KEY]
     tags = extract[EXTRACT_TAGS_KEY]
 
-    safe_title = re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", title)
+    # season & episode  --------------------------------------------------------
+    season_and_episode = ["."]
+    season_number = extract.get(EXTRACT_SEASON_KEY)
+    if season_number:
+        season_and_episode.append("S{}".format(season_number))
 
+    episode_number = extract.get(EXTRACT_EPISODE_KEY)
+    if episode_number:
+        if season_number:
+            season_and_episode.append(".")
+
+        season_and_episode.append("E{}".format(episode_number))
+
+        episode_name = extract.get(EXTRACT_EPISODE_NAME_KEY)
+        if episode_name:
+            season_and_episode.append("-")
+            season_and_episode.append(episode_name)
+
+    if len(season_and_episode) > 1:
+        title = title + "".join(season_and_episode)
+
+    # title names  -------------------------------------------------------------
+    safe_title = re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", title)
     folder_name = "[{year}]{title}".format(year=year, title=safe_title)
     resource_name = folder_name + "{" + ",".join(tags) + "}"
 
