@@ -78,7 +78,7 @@ def tag_instruction2():
 
 @pytest.fixture(scope="session")
 def tag_instruction3():
-    return "- When information is uncertain or partially"
+    return "when a specific tag is present"
 
 
 @pytest.fixture(scope="session")
@@ -93,7 +93,7 @@ def tag_instruction5():
 
 @pytest.fixture(scope="session")
 def tags1():
-    return "- `zh[娛樂至死]`: title translation"
+    return "- `zh[娛樂至死]`: title in Chinese"
 
 
 @pytest.fixture(scope="session")
