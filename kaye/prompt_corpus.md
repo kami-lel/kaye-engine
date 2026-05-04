@@ -3064,11 +3064,7 @@ Extract the work's **original title** as it would appear on its official cover, 
 - Use normal capitalization, spacing, grammar, and punctuation appropriate to the original language
 - Recover human-readable title formatting from filenames, slugs, broken encoding, or truncated text when possible
 - Do not output filename-style or machine-formatted titles or variants; preserve natural whitespace and punctuation instead of underscores, hyphens, or other separators
-- series work format
-
-  - `E##`: a single episode, when no season number is used (eg, `Chernobyl-E01`)
-  - `S##`: complete season (eg, `Downton Abbey-S03`)
-  - `S##E##`: a specific episode within a specific season (eg, `House-S02E05` or `House-S02E05 Damned If You Do`)
+- Do not include episode name
 
 
 

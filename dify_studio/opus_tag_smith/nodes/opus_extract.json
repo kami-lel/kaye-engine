@@ -2,7 +2,8 @@
   "type": "object",
   "properties": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "description": "work's original title"
     },
     "release_year": {
       "type": "string"
@@ -12,6 +13,18 @@
       "items": {
         "type": "string"
       }
+    },
+    "season_number": {
+      "type": "number",
+      "description": "extract season number. 0 if unknown"
+    },
+    "episode_number": {
+      "type": "number",
+      "description": "extract episode number. 0 if unknown"
+    },
+    "episode_name": {
+      "type": "string",
+      "description": "name of the episode. Leave empty if unknown"
     }
   },
   "required": [
