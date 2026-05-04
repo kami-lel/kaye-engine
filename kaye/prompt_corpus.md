@@ -3106,16 +3106,16 @@ A list of standard tags is provided below as reference:
 
 ### tags for Opus
 
-- `2160p`, `4K`, `1080p`, `720p`, `480p`: video-type media's resolution
-- `Web`: include WEB-DL, WEBRip
+- `2160p`, `4K`, `UHD`, `1080p`, `720p`, `HD`, `480p`: video-type media's resolution
+- `web`: include WEB-DL, WEBRip
 - `BD`: Blue-ray, BRRip
 - `DVD`: DVD-Rip, DVDMux, DVDR, etc.
 - `Amzn`: from Amazon Prime Video
+- `DsnP`: Disney+
 - `NF`: from Netflix
-- `ReMa`: remastered
+- `RM`: remastered
 - `DCut`: Director's Cut
-- `ECut`: Extended Cut
-- `ECut`: Extended Cut
+- `ECut`: Extended Cut, when EXTENDED
 - `UCut`: Ultimate Cut
 - `unrated`: unrated release
 - video encoding:
@@ -3129,7 +3129,7 @@ A list of standard tags is provided below as reference:
 - `HDR`
 
   - `HDR10`: 10-bit
-  - `HDR10Plus`: HDR10+
+  - `HDR10P`: HDR10+
 
 - audio encoding:
 
@@ -3139,8 +3139,13 @@ A list of standard tags is provided below as reference:
   - `DDP`, `DDP[5.1]`: Dolby Digital Plus, Enhanced AC-3, DD+, E-AC-3, EC-3
   - `DTS`, `DTS[7.1]`
   - `Opus`: libopus
+  - `TrueHD`
 
 - `IMAX`
+- `MAL`: multiple audio languages, use when: MULTi
+- `MSL`: multiple subtitles languages, use when: MULTiSUBS, Multi-Subs
+- `Prp`: PROPER
+- `repack`: REPACK
 - `YTS`: YIFY Torrents, YTS.MX
 - `RARBG`
 
