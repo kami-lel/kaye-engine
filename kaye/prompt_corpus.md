@@ -3143,8 +3143,8 @@ A list of standard tags is provided below as reference:
 - `IMAX`
 - `MAL`: multiple audio languages, use when: MULTi
 - `MSL`: multiple subtitles languages, use when: MULTiSUBS, Multi-Subs
-- `Prp`: proper
-- `repack`: repack
+- `Prp`: PROPER
+- `repack`: REPACK
 - `YTS`: YIFY Torrents, YTS.MX
 - `RARBG`
 
