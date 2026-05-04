@@ -34,6 +34,26 @@
 
 
 
+## [5.5.0] - 2026-05-04
+
+### Added
+
+- *Opus Tag Smith* Dify App
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## [5.4.1] - 2026-04-14
 
 ### Changed
@@ -1505,7 +1525,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v5.4.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v5.5.0...dev
+[5.5.0]: https://github.com/kami-lel/kaye/compare/v5.4.1...v5.5.50
 [5.4.1]: https://github.com/kami-lel/kaye/compare/v5.4.0...v5.4.1
 [5.4.0]: https://github.com/kami-lel/kaye/compare/v5.3.0...v5.4.0
 [5.3.0]: https://github.com/kami-lel/kaye/compare/v5.2.2...v5.3.0
