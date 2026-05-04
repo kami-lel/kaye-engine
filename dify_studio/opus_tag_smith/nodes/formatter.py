@@ -32,14 +32,23 @@ def main(extract: dict, target: str):
     year = extract[EXTRACT_YEAR_KEY]
     tags = extract[EXTRACT_TAGS_KEY]
 
-    filename = "[{year}]{title}{{{tags}}}".format(
-        year=year, title=title, tags=",".join(tags)
-    )
-    safe_filename = re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", filename)
+    safe_title = re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", title)
 
-    response = """```
+    resource_name = "[{year}]{title}{{{tags}}}".format(
+        year=year, title=safe_title, tags=",".join(tags)
+    )
+
+    response = """Title:
+
+```
 {}
 ```
-""".format(safe_filename)
+
+Resource Name:
+
+```
+{}
+```
+""".format(safe_title, resource_name)
 
     return {OUTPUT_RESPONSE_KEY: response}
