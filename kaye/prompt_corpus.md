@@ -3142,8 +3142,8 @@ A list of standard tags is provided below as reference:
   - `Opus`: libopus
 
 - `IMAX`
-- `MAL`: multiple audio languages, MULTi
-- `MSL`: multiple subtitles languages, MULTiSUBS, Multi-Subs
+- `MAL`: multiple audio languages, use when: MULTi
+- `MSL`: multiple subtitles languages, use when: MULTiSUBS, Multi-Subs
 - `Prp`: proper
 - `repack`: repack
 - `YTS`: YIFY Torrents, YTS.MX
