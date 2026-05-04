@@ -3098,12 +3098,14 @@ When the provided data contains information that does not fit a standard tag, cr
 
 A list of standard tags is provided below as reference:
 
-- `zh[娛樂至死]`: title translation in Chinese (in this case, `娛樂至死`)
-- `en[War and Peace]`: title translation in English
+- translateed title, do **not** use unless work is a translation
+
+  - `zh[娛樂至死]`: titled in Chinese (in this case, `娛樂至死`)
+  - `en[War and Peace]`: title in English
 
 ### tags for Opus
 
-- `2160p` (include 4K), `1080p`, `720p`, `480p`: video-type media's resolution
+- `2160p`, `4K`, `1080p`, `720p`, `480p`: video-type media's resolution
 - `Web`: include WEB-DL, WEBRip
 - `BD`: Blue-ray, BRRip
 - `DVD`: DVD-Rip, DVDMux, DVDR, etc.
@@ -3115,26 +3117,27 @@ A list of standard tags is provided below as reference:
 - `ECut`: Extended Cut
 - `UCut`: Ultimate Cut
 - `unrated`: unrated release
-- `H_264`: H.264, x264, MPEG-4 Part 10, Advanced Video Coding, AVC
-- `H_265`: H.265, x265, MPEG-h Part2, High Efficiency Video Coding, HEVC
-- `H_266`: H.266, x266, MPEG-I Part 3, Versatile Video Coding, VVC
+- `H264`: H.264, x264, MPEG-4 Part 10, Advanced Video Coding, AVC
+- `H265`: H.265, x265, MPEG-h Part2, High Efficiency Video Coding, HEVC
+- `H266`: H.266, x266, MPEG-I Part 3, Versatile Video Coding, VVC
 - `Xvid`
 - `AAC`: Advanced Audio Coding
 
-  - `AAC[5.1]`: specify channels
+  - `AAC[5.1]`: use when specify channels
 
-- `HDR10`: HDR standard with bit depth of 10 bit
+- `HDR10`: HDR standard, 10-bit
 - `HDR10Plus`: HDR10+
 - `Atmos`: audio encoding by Dolby Atmos
 
-  - `Atoms[7.1.2]`, `Atoms[5.1]`: specify channels
+  - `Atoms[7.1.2]`, `Atoms[5.1]`: use when specify channels
 
 - `AC-3`: audio encoding Dolby AC-3
 - `DTS`: audio encodings by DTS
 
-  - `DTS[7.1]`, `DTS[2.1]`: specify channels
+  - `DTS[7.1]`, `DTS[2.1]`: use when specify channels
 
 - `IMAX`
+- `YTS`: YIFY Torrents, YTS.MX
 
 
 
