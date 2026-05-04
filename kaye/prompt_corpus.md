@@ -3141,6 +3141,7 @@ A list of standard tags is provided below as reference:
 
 - `IMAX`
 - `YTS`: YIFY Torrents, YTS.MX
+- `RARBG`
 
 
 
