@@ -3139,6 +3139,7 @@ A list of standard tags is provided below as reference:
   - `DDP`, `DDP[5.1]`: Dolby Digital Plus, Enhanced AC-3, DD+, E-AC-3, EC-3
   - `DTS`, `DTS[7.1]`
   - `Opus`: libopus
+  - `TrueHD`
 
 - `IMAX`
 - `MAL`: multiple audio languages, use when: MULTi
