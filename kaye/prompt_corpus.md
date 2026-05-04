@@ -3141,7 +3141,7 @@ A list of standard tags is provided below as reference:
   - `Atmos`, `Atoms[7.1.2]`: audio encoding by Dolby Atmos
   - `AC-3`: Dolby AC-3
   - `DDP`, `DDP[5.1]`: Dolby Digital Plus, Enhanced AC-3, DD+, E-AC-3, EC-3
-  - `DTS`, `DTS[7.1]`: audio encodings by DTS
+  - `DTS`, `DTS[7.1]`
   - `Opus`: libopus
 
 - `IMAX`
