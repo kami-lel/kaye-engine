@@ -35,7 +35,7 @@ def main(extract: dict, target: str):
     safe_title = re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", title)
 
     folder_name = "[{year}]{title}".format(year=year, title=safe_title)
-    resource_name = "{" + folder_name + "}" + ",".join(tags)
+    resource_name = folder_name + "{" + ",".join(tags) + "}"
 
     # create response  ---------------------------------------------------------
     if title == safe_title:
