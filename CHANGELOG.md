@@ -17,6 +17,10 @@
 ## [Unreleased]
 
 ### Added
+
+- *Opus Tag Smith* Dify App
+
+
 ### Changed
 ### Deprecated
 ### Removed
