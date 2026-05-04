@@ -3106,7 +3106,7 @@ A list of standard tags is provided below as reference:
 
 ### tags for Opus
 
-- `2160p`, `4K`, `UHD`, `1080p`, `720p`, `480p`: video-type media's resolution
+- `2160p`, `4K`, `UHD`, `1080p`, `720p`, `HD`, `480p`: video-type media's resolution
 - `Web`: include WEB-DL, WEBRip
 - `BD`: Blue-ray, BRRip
 - `DVD`: DVD-Rip, DVDMux, DVDR, etc.
@@ -3142,6 +3142,10 @@ A list of standard tags is provided below as reference:
   - `Opus`: libopus
 
 - `IMAX`
+- `MAL`: multiple audio languages, MULTi
+- `MSL`: multiple subtitles languages, MULTiSUBS, Multi-Subs
+- `Prp`: proper
+- `repack`: repack
 - `YTS`: YIFY Torrents, YTS.MX
 - `RARBG`
 
