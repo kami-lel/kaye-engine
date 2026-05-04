@@ -3120,6 +3120,9 @@ A list of standard tags is provided below as reference:
 - `H_266`: H.266, x266, MPEG-I Part 3, Versatile Video Coding, VVC
 - `Xvid`
 - `AAC`: Advanced Audio Coding
+
+  - `AAC[5.1]`: specify channels
+
 - `HDR10`: HDR standard with bit depth of 10 bit
 - `HDR10Plus`: HDR10+
 - `Atmos`: audio encoding by Dolby Atmos
