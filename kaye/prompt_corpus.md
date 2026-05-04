@@ -3113,7 +3113,7 @@ A list of standard tags is provided below as reference:
 - `Amzn`: from Amazon Prime Video
 - `DsnP`: Disney+
 - `NF`: from Netflix
-- `ReMa`: remastered
+- `RM`: remastered
 - `DCut`: Director's Cut
 - `ECut`: Extended Cut
 - `ECut`: Extended Cut
