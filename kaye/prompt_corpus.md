@@ -3129,7 +3129,7 @@ A list of standard tags is provided below as reference:
   - `H266`: H.266, x266, MPEG-I Part 3, Versatile Video Coding, VVC
   - `Xvid`
   - `AV1`: AOMedia Video 1
-  
+
 - `HDR`
 
   - `HDR10`: 10-bit

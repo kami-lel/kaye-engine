@@ -34,11 +34,21 @@ def main(extract: dict, target: str):
 
     safe_title = re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", title)
 
-    resource_name = "[{year}]{title}{{{tags}}}".format(
-        year=year, title=safe_title, tags=",".join(tags)
-    )
+    folder_name = "[{year}]{title}".format(year=year, title=safe_title)
+    resource_name = "{" + folder_name + "}" + ",".join(tags)
 
-    response = """Title:
+    # create response  ---------------------------------------------------------
+    if title == safe_title:
+        title_part = "Title:\n```\n{}\n```\n".format(title)
+    else:
+        title_part = (
+            "Title:\n```\n{}\n```\nTitle (Safe):\n```\n{}\n```\n".format(
+                title, safe_title
+            )
+        )
+
+    response = title_part + """
+Folder Name:
 
 ```
 {}
@@ -49,6 +59,6 @@ Resource Name:
 ```
 {}
 ```
-""".format(safe_title, resource_name)
+""".format(folder_name, resource_name)
 
     return {OUTPUT_RESPONSE_KEY: response}
