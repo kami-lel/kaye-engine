@@ -1,6 +1,16 @@
 # pylint: disable=missing-module-docstring
 
 
+import re
+
+# constants  ###################################################################
+
+
+EXTRACT_TITLE_KEY = "title"
+EXTRACT_YEAR_KEY = "release_year"
+EXTRACT_TAGS_KEY = "tags"
+
+
 # Output Keys  #################################################################
 OUTPUT_RESPONSE_KEY = "response"
 
@@ -17,6 +27,23 @@ def main(extract: dict, target: str):
     }
     :rtype: dict{"response": str}
     """
-    # TODO
-    response = ""
+
+    title = extract[EXTRACT_TITLE_KEY]
+    year = extract[EXTRACT_YEAR_KEY]
+    tags = extract[EXTRACT_TAGS_KEY]
+
+    year_tag = "rls[0{}]".format(year)
+    if year_tag not in tags:
+        tags.append(year_tag)
+
+    filename = "({year}){title}{{{tags}}}".format(
+        year=year, title=title, tags=",".join(tags)
+    )
+    safe_filename = re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", filename)
+
+    response = """```
+{}
+```
+""".format(safe_filename)
+
     return {OUTPUT_RESPONSE_KEY: response}
