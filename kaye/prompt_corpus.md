@@ -3111,6 +3111,7 @@ A list of standard tags is provided below as reference:
 - `BD`: Blue-ray, BRRip
 - `DVD`: DVD-Rip, DVDMux, DVDR, etc.
 - `Amzn`: from Amazon Prime Video
+- `DsnP`: Disney+
 - `NF`: from Netflix
 - `ReMa`: remastered
 - `DCut`: Director's Cut
@@ -3129,7 +3130,7 @@ A list of standard tags is provided below as reference:
 - `HDR`
 
   - `HDR10`: 10-bit
-  - `HDR10Plus`: HDR10+
+  - `HDR10P`: HDR10+
 
 - audio encoding:
 
