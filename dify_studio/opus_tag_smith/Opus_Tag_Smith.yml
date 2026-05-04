@@ -1,0 +1,451 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: Opus_Tag_Smith
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.3.8@592c8252795b5f75807de2d609a03196ed02596b409f7642b4a07548c7ff57ef
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables:
+  - description: Kaye Flask API's URL accessible to this Dify App, e.g. "http://11.22.33.44"
+    id: 5c9a7562-23ef-4d26-a8c3-72ec2791215e
+    name: FLASK_API_URL
+    selector:
+    - env
+    - FLASK_API_URL
+    value: ''
+    value_type: secret
+  - description: Kaye Flask API's Port Number; default is "11255", debug is "11256"
+    id: 22642304-75b7-4b1c-95f4-4890690439b3
+    name: FLASK_API_PORT
+    selector:
+    - env
+    - FLASK_API_PORT
+    value: 11255
+    value_type: integer
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1777425504155-source-1777795130201-target
+      selected: false
+      source: '1777425504155'
+      sourceHandle: source
+      target: '1777795130201'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: http-request
+      id: 1777795130201-true-1777792451946-target
+      selected: false
+      source: '1777795130201'
+      sourceHandle: 'true'
+      target: '1777792451946'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: end
+      id: 1777795130201-false-1777841906201-target
+      source: '1777795130201'
+      sourceHandle: 'false'
+      target: '1777841906201'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: llm
+      id: 1777792451946-source-1777849955165-target
+      source: '1777792451946'
+      sourceHandle: source
+      target: '1777849955165'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1777849955165-source-1777425543754-target
+      source: '1777849955165'
+      sourceHandle: source
+      target: '1777425543754'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: end
+      id: 1777425543754-source-1777425551330-target
+      source: '1777425543754'
+      sourceHandle: source
+      target: '1777425551330'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: User Input
+        type: start
+        variables:
+        - default: ''
+          hint: ''
+          label: target
+          max_length: 48
+          options:
+          - Opus
+          - Athenaeum
+          placeholder: ''
+          required: true
+          type: select
+          variable: target
+        - default: ''
+          hint: ''
+          label: query
+          max_length: 99999
+          options: []
+          placeholder: ''
+          required: true
+          type: paragraph
+          variable: query
+      height: 135
+      id: '1777425504155'
+      position:
+        x: 81.51642453623947
+        y: 282
+      positionAbsolute:
+        x: 81.51642453623947
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "# pylint: disable=missing-module-docstring\n\n\nimport re\n\n# constants\
+          \  ###################################################################\n\
+          \n\nEXTRACT_TITLE_KEY = \"title\"\nEXTRACT_YEAR_KEY = \"release_year\"\n\
+          EXTRACT_TAGS_KEY = \"tags\"\nEXTRACT_SEASON_KEY = \"season_number\"\nEXTRACT_EPISODE_KEY\
+          \ = \"episode_number\"\nEXTRACT_EPISODE_NAME_KEY = \"episode_name\"\n\n\n\
+          # Output Keys  #################################################################\n\
+          OUTPUT_RESPONSE_KEY = \"response\"\n\n\n# Entry Point  #################################################################\n\
+          def main(extract: dict, target: str):\n    \"\"\"\n    :param extract:\n\
+          \    :type extract: dict\n    :param target: target/mode of operation, \"\
+          Opus\" or \"Athenaeum\"\n    :type target: str\n    :return: {\n       \
+          \ \"response\": response formatted in md\n    }\n    :rtype: dict{\"response\"\
+          : str}\n    \"\"\"\n\n    title = extract[EXTRACT_TITLE_KEY]\n    year =\
+          \ extract[EXTRACT_YEAR_KEY]\n    tags = extract[EXTRACT_TAGS_KEY]\n\n  \
+          \  # season & episode  --------------------------------------------------------\n\
+          \    season_and_episode = []\n    season_number = extract.get(EXTRACT_SEASON_KEY)\n\
+          \    if season_number:\n        season_and_episode.append(\"S{}\".format(season_number))\n\
+          \n    episode_number = extract.get(EXTRACT_EPISODE_KEY)\n    if episode_number:\n\
+          \        if season_number:\n            season_and_episode.append(\".\"\
+          )\n\n        season_and_episode.append(\"E{}\".format(episode_number))\n\
+          \n        episode_name = extract.get(EXTRACT_EPISODE_NAME_KEY)\n       \
+          \ if episode_name:\n            season_and_episode.append(\"-\")\n     \
+          \       season_and_episode.append(episode_name)\n\n    season_and_episode_content\
+          \ = \"\"\n    if len(season_and_episode) > 0:\n        season_and_episode_content\
+          \ = \"\".join(season_and_episode)\n        title = title + \".\" + season_and_episode_content\n\
+          \n    # title names  -------------------------------------------------------------\n\
+          \    safe_title = re.sub(r'[\\\\/:*?\"<>|\\x00-\\x1f]', \"_\", title)\n\
+          \    folder_name = \"[{year}]{title}\".format(year=year, title=safe_title)\n\
+          \    resource_name = folder_name + \"{\" + \",\".join(tags) + \"}\"\n\n\
+          \    # create response  ---------------------------------------------------------\n\
+          \    if title == safe_title:\n        title_part = \"Title:\\n```\\n{}\\\
+          n```\\n\".format(title)\n    else:\n        title_part = (\n           \
+          \ \"Title:\\n```\\n{}\\n```\\nTitle (Safe):\\n```\\n{}\\n```\\n\".format(\n\
+          \                title, safe_title\n            )\n        )\n\n    sne_part\
+          \ = \"\"\n    if season_and_episode_content:\n        sne_part = \"\"\"\
+          Episode Name:\n\n```\n{}\n```\n\"\"\".format(season_and_episode_content)\n\
+          \n    response = title_part + sne_part + \"\"\"\nFolder Name:\n\n```\n{}\n\
+          ```\n\nResource Name:\n\n```\n{}\n```\n\"\"\".format(folder_name, resource_name)\n\
+          \n    return {OUTPUT_RESPONSE_KEY: response}\n\n"
+        code_language: python3
+        outputs:
+          response:
+            children: null
+            type: string
+        selected: true
+        title: formatter
+        type: code
+        variables:
+        - value_selector:
+          - '1777849955165'
+          - structured_output
+          value_type: object
+          variable: extract
+        - value_selector:
+          - '1777425504155'
+          - target
+          value_type: string
+          variable: target
+      height: 52
+      id: '1777425543754'
+      position:
+        x: 1595.8098469161207
+        y: 56.61015026926901
+      positionAbsolute:
+        x: 1595.8098469161207
+        y: 56.61015026926901
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1777425543754'
+          - response
+          value_type: string
+          variable: response
+        selected: false
+        title: Output
+        type: end
+      height: 88
+      id: '1777425551330'
+      position:
+        x: 2072.840233699164
+        y: 56.61015026926901
+      positionAbsolute:
+        x: 2072.840233699164
+        y: 56.61015026926901
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        method: get
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: Get for Opus
+        type: http-request
+        url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/opus-tag-smith/opus'
+        variables: []
+      height: 160
+      id: '1777792451946'
+      position:
+        x: 868.2612778068474
+        y: 56.61015026926901
+      positionAbsolute:
+        x: 868.2612778068474
+        y: 56.61015026926901
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 6a48ebbc-d9a2-475a-8dab-6982ac68b94f
+            value: Opus
+            varType: string
+            variable_selector:
+            - '1777425504155'
+            - target
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: target branch
+        type: if-else
+      height: 124
+      id: '1777795130201'
+      position:
+        x: 446.2237966443031
+        y: 303
+      positionAbsolute:
+        x: 446.2237966443031
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: to be implemented
+        outputs:
+        - value_selector:
+          - '1777425504155'
+          - query
+          value_type: string
+          variable: response
+        selected: false
+        title: '%%%'
+        type: end
+      height: 116
+      id: '1777841906201'
+      position:
+        x: 868.2612778068474
+        y: 498.54820361305985
+      positionAbsolute:
+        x: 868.2612778068474
+        y: 498.54820361305985
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5.4-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 42200952-ebc7-4396-bd28-41bfb0e56cfe
+          role: system
+          text: '{{#1777792451946.body#}}'
+        - id: 01061b37-bc0d-425e-a5f7-0ae8b5fbfa81
+          role: user
+          text: '{{#1777425504155.query#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 1000
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              episode_name:
+                description: name of the episode. Leave empty if unknown
+                type: string
+              episode_number:
+                description: extract episode number. 0 if unknown
+                type: number
+              release_year:
+                type: string
+              season_number:
+                description: extract season number. 0 if unknown
+                type: number
+              tags:
+                items:
+                  type: string
+                type: array
+              title:
+                description: work's original title
+                type: string
+            required:
+            - tags
+            - release_year
+            - title
+            type: object
+        structured_output_enabled: true
+        title: Opus Extract
+        type: llm
+        vision:
+          configs:
+            detail: high
+            variable_selector:
+            - sys
+            - files
+          enabled: true
+      height: 88
+      id: '1777849955165'
+      position:
+        x: 1234.513468905124
+        y: 56.61015026926901
+      positionAbsolute:
+        x: 1234.513468905124
+        y: 56.61015026926901
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -636.922026121925
+      y: 412.3385598938045
+      zoom: 0.7470562354298889
+  rag_pipeline_variables: []
