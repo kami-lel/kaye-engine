@@ -3115,8 +3115,7 @@ A list of standard tags is provided below as reference:
 - `NF`: from Netflix
 - `RM`: remastered
 - `DCut`: Director's Cut
-- `ECut`: Extended Cut
-- `ECut`: Extended Cut
+- `ECut`: Extended Cut, when EXTENDED
 - `UCut`: Ultimate Cut
 - `unrated`: unrated release
 - video encoding:
