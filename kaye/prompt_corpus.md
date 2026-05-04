@@ -3064,6 +3064,7 @@ Extract the work's **original title** as it would appear on its official cover, 
 - Use normal capitalization, spacing, grammar, and punctuation appropriate to the original language
 - Recover human-readable title formatting from filenames, slugs, broken encoding, or truncated text when possible
 - Do not output filename-style or machine-formatted titles or variants; preserve natural whitespace and punctuation instead of underscores, hyphens, or other separators
+- Series work format: `Downtown Abbey-S01` (season 1)
 
 
 
