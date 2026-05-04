@@ -3093,7 +3093,7 @@ Extract **as many tags as possible** from **user-provided data only**:
 - Every tag must be directly grounded in the user's input
 - Do **not** infer or guess **technical/media details** (resolution, bitrate, codec, etc.) — these must come directly from user-provided data
 - You may use **outside knowledge** for **general work metadata** (author, series, publisher, etc.) when the work is confidently identified
-- Do not include redundant parent/general tags when a child/specific tag is present (e.g., if use `AAC[5.1]`, do not include `AAC`)
+- Do not include redundant general tags when a specific tag is present (eg, if use `AAC[5.1]`, do not include another `AAC`)
 
 When the provided data contains information that does not fit a standard tag, create a unique tag following the same naming style and format.
 
@@ -3118,27 +3118,27 @@ A list of standard tags is provided below as reference:
 - `ECut`: Extended Cut
 - `UCut`: Ultimate Cut
 - `unrated`: unrated release
-- `H264`: H.264, x264, MPEG-4 Part 10, Advanced Video Coding, AVC
-- `H265`: H.265, x265, MPEG-h Part2, High Efficiency Video Coding, HEVC
-- `H266`: H.266, x266, MPEG-I Part 3, Versatile Video Coding, VVC
-- `Xvid`
-- `AAC`: Advanced Audio Coding
+- video encoding:
 
-  - `AAC[5.1]`: specify channels
-
+  - `H264`: H.264, x264, MPEG-4 Part 10, Advanced Video Coding, AVC
+  - `H265`: H.265, x265, MPEG-h Part2, High Efficiency Video Coding, HEVC
+  - `H266`: H.266, x266, MPEG-I Part 3, Versatile Video Coding, VVC
+  - `Xvid`
+  - `AV1`: AOMedia Video 1
+  
 - `HDR`
 
   - `HDR10`: 10-bit
   - `HDR10Plus`: HDR10+
 
-- `Atmos`: audio encoding by Dolby Atmos
+- audio encoding:
 
-  - `Atoms[7.1.2]`, `Atoms[5.1]`: specify channels
-
-- `AC-3`: audio encoding Dolby AC-3
-- `DTS`: audio encodings by DTS
-
-  - `DTS[7.1]`, `DTS[2.1]`: specify channels
+  - `AAC`, `AAC[5.1]`: Advanced Audio Coding
+  - `Atmos`, `Atoms[7.1.2]`: audio encoding by Dolby Atmos
+  - `AC-3`: Dolby AC-3
+  - `DDP`, `DDP[5.1]`: Dolby Digital Plus, Enhanced AC-3, DD+, E-AC-3, EC-3
+  - `DTS`, `DTS[7.1]`: audio encodings by DTS
+  - `Opus`: libopus
 
 - `IMAX`
 - `YTS`: YIFY Torrents, YTS.MX
