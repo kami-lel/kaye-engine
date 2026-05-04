@@ -36,7 +36,7 @@ def main(extract: dict, target: str):
     tags = extract[EXTRACT_TAGS_KEY]
 
     # season & episode  --------------------------------------------------------
-    season_and_episode = ["."]
+    season_and_episode = []
     season_number = extract.get(EXTRACT_SEASON_KEY)
     if season_number:
         season_and_episode.append("S{}".format(season_number))
@@ -53,8 +53,10 @@ def main(extract: dict, target: str):
             season_and_episode.append("-")
             season_and_episode.append(episode_name)
 
-    if len(season_and_episode) > 1:
-        title = title + "".join(season_and_episode)
+    season_and_episode_content = ""
+    if len(season_and_episode) > 0:
+        season_and_episode_content = "".join(season_and_episode)
+        title = title + "." + season_and_episode_content
 
     # title names  -------------------------------------------------------------
     safe_title = re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", title)
@@ -71,7 +73,16 @@ def main(extract: dict, target: str):
             )
         )
 
-    response = title_part + """
+    sne_part = ""
+    if season_and_episode_content:
+        sne_part = """Episode Name:
+
+```
+{}
+```
+""".format(season_and_episode_content)
+
+    response = title_part + sne_part + """
 Folder Name:
 
 ```
