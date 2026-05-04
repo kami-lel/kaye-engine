@@ -3125,8 +3125,11 @@ A list of standard tags is provided below as reference:
 
   - `AAC[5.1]`: specify channels
 
-- `HDR10`: HDR standard, 10-bit
-- `HDR10Plus`: HDR10+
+- `HDR`
+
+  - `HDR10`: 10-bit
+  - `HDR10Plus`: HDR10+
+
 - `Atmos`: audio encoding by Dolby Atmos
 
   - `Atoms[7.1.2]`, `Atoms[5.1]`: specify channels
