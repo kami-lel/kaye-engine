@@ -9,8 +9,6 @@ from flask import Blueprint, request, abort, Response
 from kaye import PROGRAM_NAME
 from kaye.prompt import PromptBlueprint
 
-# from kaye.gen_prompt import PromptBlueprint, load_embedded_prompt_corpus
-
 # Blueprints  ##################################################################
 PRIMARY_MESSAGE_PROMPT_BLUEPRINT = """    ○
 [ ] ├── Style
