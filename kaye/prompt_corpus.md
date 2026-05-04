@@ -3107,7 +3107,7 @@ A list of standard tags is provided below as reference:
 ### tags for Opus
 
 - `2160p`, `4K`, `UHD`, `1080p`, `720p`, `HD`, `480p`: video-type media's resolution
-- `Web`: include WEB-DL, WEBRip
+- `web`: include WEB-DL, WEBRip
 - `BD`: Blue-ray, BRRip
 - `DVD`: DVD-Rip, DVDMux, DVDR, etc.
 - `Amzn`: from Amazon Prime Video
