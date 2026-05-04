@@ -32,11 +32,7 @@ def main(extract: dict, target: str):
     year = extract[EXTRACT_YEAR_KEY]
     tags = extract[EXTRACT_TAGS_KEY]
 
-    year_tag = "rls[0{}]".format(year)
-    if year_tag not in tags:
-        tags.append(year_tag)
-
-    filename = "({year}){title}{{{tags}}}".format(
+    filename = "[{year}]{title}{{{tags}}}".format(
         year=year, title=title, tags=",".join(tags)
     )
     safe_filename = re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", filename)

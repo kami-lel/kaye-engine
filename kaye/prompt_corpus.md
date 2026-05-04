@@ -3092,13 +3092,13 @@ Extract **as many tags as possible** from **user-provided data only**:
 - Every tag must be directly grounded in the user's input
 - Do **not** infer or guess **technical/media details** (resolution, bitrate, codec, etc.) — these must come directly from user-provided data
 - You may use **outside knowledge** for **general work metadata** (author, series, publisher, etc.) when the work is confidently identified
-- When information is uncertain or partially legible, only tag what is actually supported
+- Do not include redundant parent/general tags when a child/specific tag is present (e.g., if use `AAC[5.1]`, do not include `AAC`)
 
 When the provided data contains information that does not fit a standard tag, create a unique tag following the same naming style and format.
 
 A list of standard tags is provided below as reference:
 
-- translateed title, do **not** use unless work is a translation
+- translated title, do **not** use unless work is a translation
 
   - `zh[娛樂至死]`: titled in Chinese (in this case, `娛樂至死`)
   - `en[War and Peace]`: title in English
@@ -3123,18 +3123,18 @@ A list of standard tags is provided below as reference:
 - `Xvid`
 - `AAC`: Advanced Audio Coding
 
-  - `AAC[5.1]`: use when specify channels
+  - `AAC[5.1]`: specify channels
 
 - `HDR10`: HDR standard, 10-bit
 - `HDR10Plus`: HDR10+
 - `Atmos`: audio encoding by Dolby Atmos
 
-  - `Atoms[7.1.2]`, `Atoms[5.1]`: use when specify channels
+  - `Atoms[7.1.2]`, `Atoms[5.1]`: specify channels
 
 - `AC-3`: audio encoding Dolby AC-3
 - `DTS`: audio encodings by DTS
 
-  - `DTS[7.1]`, `DTS[2.1]`: use when specify channels
+  - `DTS[7.1]`, `DTS[2.1]`: specify channels
 
 - `IMAX`
 - `YTS`: YIFY Torrents, YTS.MX
