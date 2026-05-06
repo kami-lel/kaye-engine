@@ -21,9 +21,7 @@ OUTPUT_RESPONSE_KEY = "response"
 # helpers  #####################################################################
 
 
-def _format_opus(extract):  # ==================================================
-    title = extract[EXTRACT_TITLE_KEY]
-    year = extract[EXTRACT_YEAR_KEY]
+def _format_opus(extract, title, safe_title, year):  # =========================
     tags = extract[EXTRACT_TAGS_KEY]
 
     # season & episode  --------------------------------------------------------
@@ -50,7 +48,6 @@ def _format_opus(extract):  # ==================================================
         title = title + "." + season_and_episode_content
 
     # title names  -------------------------------------------------------------
-    safe_title = re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", title)
     folder_name = "[{year}]{title}".format(year=year, title=safe_title)
     resource_name = folder_name + "{" + ",".join(tags) + "}"
 
@@ -90,7 +87,7 @@ Resource Name:
     return {OUTPUT_RESPONSE_KEY: response}
 
 
-def _format_athe(extract):  # ==================================================
+def _format_athe(extract, title, safe_title, year):  # =========================
     pass  # TODO
 
 
@@ -107,7 +104,11 @@ def main(extract: dict, target: str):
     :rtype: dict{"response": str}
     """
 
+    title = extract[EXTRACT_TITLE_KEY]
+    safe_title = re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", title)
+    year = extract[EXTRACT_YEAR_KEY]
+
     if target == "Opus":
-        return _format_opus(extract)
+        return _format_opus(extract, title, safe_title, year)
     else:
-        return _format_athe(extract)
+        return _format_athe(extract, title, safe_title, year)
