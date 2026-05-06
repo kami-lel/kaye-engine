@@ -18,19 +18,10 @@ EXTRACT_EPISODE_NAME_KEY = "episode_name"
 OUTPUT_RESPONSE_KEY = "response"
 
 
-# Entry Point  #################################################################
-def main(extract: dict, target: str):
-    """
-    :param extract:
-    :type extract: dict
-    :param target: target/mode of operation, "Opus" or "Athenaeum"
-    :type target: str
-    :return: {
-        "response": response formatted in md
-    }
-    :rtype: dict{"response": str}
-    """
+# helpers  #####################################################################
 
+
+def _format_opus(extract):  # ==================================================
     title = extract[EXTRACT_TITLE_KEY]
     year = extract[EXTRACT_YEAR_KEY]
     tags = extract[EXTRACT_TAGS_KEY]
@@ -97,3 +88,21 @@ Resource Name:
 """.format(folder_name, resource_name)
 
     return {OUTPUT_RESPONSE_KEY: response}
+
+
+def _format_athe(extract):  # ==================================================
+    pass
+
+
+# Entry Point  #################################################################
+def main(extract: dict, target: str):
+    """
+    :param extract:
+    :type extract: dict
+    :param target: target/mode of operation, "Opus" or "Athenaeum"
+    :type target: str
+    :return: {
+        "response": response formatted in md
+    }
+    :rtype: dict{"response": str}
+    """
