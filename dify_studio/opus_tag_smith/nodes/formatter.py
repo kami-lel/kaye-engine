@@ -91,7 +91,7 @@ Resource Name:
 
 
 def _format_athe(extract):  # ==================================================
-    pass
+    pass  # TODO
 
 
 # Entry Point  #################################################################
@@ -106,3 +106,8 @@ def main(extract: dict, target: str):
     }
     :rtype: dict{"response": str}
     """
+
+    if target == "Opus":
+        return _format_opus(extract)
+    else:
+        return _format_athe(extract)
