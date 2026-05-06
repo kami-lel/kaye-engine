@@ -77,3 +77,5 @@ class TestOpus:
     def test_tags2(_, opt, tags2):
         print(opt)
         assert tags2 in opt
+
+    # TODO a complete set of tests including actual tags
