@@ -31,6 +31,12 @@
       "items": {
         "type": "string"
       }
+    },
+    "ddc_code": {
+      "type": "string"
+    },
+    "ddc_justification": {
+      "type": "string"
     }
   },
   "required": [
@@ -39,7 +45,9 @@
     "title",
     "authors",
     "editors",
-    "translators"
+    "translators",
+    "ddc_code",
+    "ddc_justification"
   ],
   "type": "object"
 }

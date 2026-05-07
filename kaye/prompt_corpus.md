@@ -2936,15 +2936,24 @@ If no author, editor, or translator is present, return an empty list for that fi
 
 
 
+#### ddc_code
 
-#### Dewey Decimal Classification
+Use Edition 23 of Dewey Decimal Classification fit for the book, eg:
 
-- use Edition 23 of Dewey Decimal Classification
-- as shelver, DDC is used in 2 places: as a required *DDC tag* in the label, and in **DDC justification*
+```
+'330.1'
+'428.0071'
+'813.54'
+'210'
+```
 
-In DDC justification part of the response, you explain the meaning of DDC of the book.
 
-1st line of this part must state the meaning of the exact DDC number, e.g. `741.66`
+
+#### ddc_justification
+
+This is a multiple line paragraph to explain the meaning of DDC of the book.
+
+1st line of this part must state the meaning of the exact DDC number.
 
 Then a **list** of DDC number's parent levels:
 
@@ -2968,23 +2977,6 @@ DDC of `302.23` is **Mass media**:
 - `302.2`: Communication within groups
 - `302`: Social interaction
 </ddc-justification-example2>
-
-Use your knowledge and collect additional information to generate a response in two parts: a book **label** in markdown and **DDC justification**
-
-<response-example>
-```
-Nesnesitelná lehkost bytí[1987]Kundera_Milan[HarperCollins]{en[The Unbearable Lightness of Being],[891.8654]dd}
-```
-
-`891.8654` in DDC is **Czech literature during 1945-1989**:
-
-- `891.86`: Czech literature
-- `891.8`: Slavic literatures
-- `891`: East Indo-European and Celtic literatures
-- `890`: Literatures of other specific languages
-</response-example>
-
-User can provide additional or updated information about the book in conversation; you might also ask user for missing information. In both cases, you must give a updated response containing the newest information.
 
 
 
