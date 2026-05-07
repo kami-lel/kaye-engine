@@ -2908,12 +2908,17 @@ The year of exact version, edition, release, remaster, or reprint. Use a four-di
 
 #### authors, editors, translators
 
-For *name* of author, editor, or translator:
+For names in `authors`, `editors`, and `translators`:
 
-- use first name + last name, or first name + middle name + last name order
-- no use `.` in name abbreviation
-- if an author's is known by name with abbreviations, use it instead of full name. E.g. use `F A Hayek`, not `Friedrich August von Hayek`
-- use `et_el` for *other authors*
+- each string must represent exactly one person or party
+- use `FirstName LastName` or `FirstName MiddleName LastName` order
+- do not use `.` in abbreviated names
+- if a person is commonly known in abbreviated form, use that form instead of the full name — e.g., use `F A Hayek`, not `Friedrich August von Hayek`
+- do not combine multiple people in one string, do not split one person across multiple strings
+- if additional people exist but are not individually listed, use `et_al` as the last entry
+- use the same formatting rules consistently across all three fields
+
+If no author, editor, or translator is present, return an empty list for that field.
 
 
 

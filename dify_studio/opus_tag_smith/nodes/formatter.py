@@ -115,7 +115,7 @@ def main(extract: dict, target: str):
     """
     :param extract:
     :type extract: dict
-    :param target: target/mode of operation, "Opus" or "Athenaeum"
+    :param target: target/mode of operation, "Opus" or "Shelver"
     :type target: str
     :return: {
         "response": response formatted in md
