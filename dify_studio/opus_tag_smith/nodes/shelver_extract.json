@@ -1,0 +1,45 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "release_year": {
+      "type": "string"
+    },
+    "tags": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "title": {
+      "description": "work's original title",
+      "type": "string"
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "editors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "translators": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "tags",
+    "release_year",
+    "title",
+    "authors",
+    "editors",
+    "translators"
+  ],
+  "type": "object"
+}

@@ -97,7 +97,7 @@ Resource Name:
     return {OUTPUT_RESPONSE_KEY: response}
 
 
-def _format_athe(extract, title, year):  # =====================================
+def _format_shelver(extract, title, year):  # ==================================
     pass  # TODO
 
 
@@ -120,4 +120,4 @@ def main(extract: dict, target: str):
     if target == "Opus":
         return _format_opus(extract, title, year)
     else:
-        return _format_athe(extract, title, year)
+        return _format_shelver(extract, title, year)

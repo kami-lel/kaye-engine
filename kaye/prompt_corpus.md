@@ -2937,7 +2937,6 @@ For *name* of author, editor, or translator:
 - use Edition 23 of Dewey Decimal Classification
 - as shelver, DDC is used in 2 places: as a required *DDC tag* in the label, and in **DDC justification*
 
-### DDC justification
 In DDC justification part of the response, you explain the meaning of DDC of the book.
 
 1st line of this part must state the meaning of the exact DDC number, e.g. `741.66`
@@ -2964,9 +2963,6 @@ DDC of `302.23` is **Mass media**:
 - `302.2`: Communication within groups
 - `302`: Social interaction
 </ddc-justification-example2>
-
-
-#### DDC
 
 Use your knowledge and collect additional information to generate a response in two parts: a book **label** in markdown and **DDC justification**
 
