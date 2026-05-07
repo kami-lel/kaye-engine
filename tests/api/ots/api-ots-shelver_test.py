@@ -59,19 +59,44 @@ class TestOpus:
     def test_extract_for(_, opt):
         assert "## extract for Shelver" in opt
 
-        # authors  -----------------------------------------------------------------
+    # authors  -----------------------------------------------------------------
 
     def test_authors0(_, opt):
         assert "#### authors, editors, translators" in opt
 
     def test_authors1(_, opt):
-        assert "For *name* of author, editor, or translator:" in opt
+        assert "For names in `authors`, `editors`, and `translators`:" in opt
 
     def test_authors2(_, opt):
-        assert "- no use `.` in name abbreviation" in opt
+        assert (
+            "- use `FirstName LastName` or "
+            "`FirstName MiddleName LastName` order"
+            in opt
+        )
 
     def test_authors3(_, opt):
-        assert "- use `et_el` for *other authors*" in opt
+        assert (
+            "- if a person is commonly known in abbreviated form, "
+            "use that form instead of the full name"
+            in opt
+        )
+
+    def test_authors4(_, opt):
+        assert "e.g., use `F A Hayek`, not `Friedrich August von Hayek`" in opt
+
+    def test_authors5(_, opt):
+        assert (
+            "- if additional people exist but are not individually listed, "
+            "use `et_al` as the last entry"
+            in opt
+        )
+
+    def test_authors6(_, opt):
+        assert (
+            "If no author, editor, or translator is present, "
+            "return an empty list for that field."
+            in opt
+        )
 
     # publisher  ---------------------------------------------------------------
 
