@@ -21,6 +21,7 @@ OPUS_PROMPT_BLUEPRINT = """    ○
 
 SHELVER_PROMPT_BLUEPRINT = """    ○
 [x] └── Opus Tag Smith
+[x]     ├── extract for Shelver
 [x]     └── tags
 [x]         └── tags for Shelver
 """

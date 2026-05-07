@@ -9,9 +9,16 @@ import re
 EXTRACT_TITLE_KEY = "title"
 EXTRACT_YEAR_KEY = "release_year"
 EXTRACT_TAGS_KEY = "tags"
+
+# opus extract
 EXTRACT_SEASON_KEY = "season_number"
 EXTRACT_EPISODE_KEY = "episode_number"
 EXTRACT_EPISODE_NAME_KEY = "episode_name"
+
+# shelver extract
+EXTRACT_AUTHOR_KEY = "authors"
+EXTRACT_EDITOR_KEY = "editors"
+EXTRACT_TRANSLATOR_KEY = "translators"
 
 
 # Output Keys  #################################################################
@@ -30,9 +37,7 @@ def _create_keyword(original):
     return re.sub(r"[ \.]", "_", filename_safe)
 
 
-def _format_opus(extract, title, year):  # =====================================
-    tags = extract[EXTRACT_TAGS_KEY]
-
+def _format_opus(extract, title, year, tags):  # ===============================
     # season & episode  --------------------------------------------------------
     season_and_episode = []
     season_number = extract.get(EXTRACT_SEASON_KEY)
@@ -97,8 +102,12 @@ Resource Name:
     return {OUTPUT_RESPONSE_KEY: response}
 
 
-def _format_shelver(extract, title, year):  # ==================================
-    pass  # TODO
+def _format_shelver(extract, title, year, tags):  # ============================
+    authors = extract[EXTRACT_AUTHOR_KEY]
+    editors = extract[EXTRACT_EDITOR_KEY]
+    translators = extract[EXTRACT_TRANSLATOR_KEY]
+
+    # TODO
 
 
 # Entry Point  #################################################################
@@ -116,8 +125,9 @@ def main(extract: dict, target: str):
 
     title = extract[EXTRACT_TITLE_KEY]
     year = extract[EXTRACT_YEAR_KEY]
+    tags = extract[EXTRACT_TAGS_KEY]
 
     if target == "Opus":
-        return _format_opus(extract, title, year)
+        return _format_opus(extract, title, year, tags)
     else:
-        return _format_shelver(extract, title, year)
+        return _format_shelver(extract, title, year, tags)
