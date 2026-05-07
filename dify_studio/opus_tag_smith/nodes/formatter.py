@@ -21,7 +21,16 @@ OUTPUT_RESPONSE_KEY = "response"
 # helpers  #####################################################################
 
 
-def _format_opus(extract, title, safe_title, year):  # =========================
+def _create_filename_safe(original):
+    return re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", original)
+
+
+def _create_keyword(original):
+    filename_safe = _create_filename_safe(original)
+    return re.sub(r"[ \.]", "_", filename_safe)
+
+
+def _format_opus(extract, title, year):  # =====================================
     tags = extract[EXTRACT_TAGS_KEY]
 
     # season & episode  --------------------------------------------------------
@@ -48,6 +57,7 @@ def _format_opus(extract, title, safe_title, year):  # =========================
         title = title + "." + season_and_episode_content
 
     # title names  -------------------------------------------------------------
+    safe_title = _create_filename_safe(title)
     folder_name = "[{year}]{title}".format(year=year, title=safe_title)
     resource_name = folder_name + "{" + ",".join(tags) + "}"
 
@@ -87,7 +97,7 @@ Resource Name:
     return {OUTPUT_RESPONSE_KEY: response}
 
 
-def _format_athe(extract, title, safe_title, year):  # =========================
+def _format_athe(extract, title, year):  # =====================================
     pass  # TODO
 
 
@@ -105,10 +115,9 @@ def main(extract: dict, target: str):
     """
 
     title = extract[EXTRACT_TITLE_KEY]
-    safe_title = re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", title)
     year = extract[EXTRACT_YEAR_KEY]
 
     if target == "Opus":
-        return _format_opus(extract, title, safe_title, year)
+        return _format_opus(extract, title, year)
     else:
-        return _format_athe(extract, title, safe_title, year)
+        return _format_athe(extract, title, year)

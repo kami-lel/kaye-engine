@@ -2934,7 +2934,6 @@ For *name* of author, editor, or translator:
 
 #### Dewey Decimal Classification
 
-- , abbr is DDC
 - use Edition 23 of Dewey Decimal Classification
 - as shelver, DDC is used in 2 places: as a required *DDC tag* in the label, and in **DDC justification*
 
