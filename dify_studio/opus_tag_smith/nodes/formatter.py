@@ -25,6 +25,8 @@ EXTRACT_AUTHOR_KEY = "authors"
 EXTRACT_EDITOR_KEY = "editors"
 EXTRACT_TRANSLATOR_KEY = "translators"
 EXTRACT_PUBLISHER_KEY = "publisher"
+EXTRACT_DDC_CODE_KEY = "ddc_code"
+EXTRACT_DDC_JUST_KEY = "ddc_justification"
 
 
 # Output Keys  #################################################################
@@ -146,8 +148,11 @@ def _format_shelver(extract, title, year, tags):  # ============================
     publisher = extract[EXTRACT_PUBLISHER_KEY]
 
     # on tags  -----------------------------------------------------------------
+    ddc_tag = "[{}]dd".format(extract[EXTRACT_DDC_CODE_KEY])
+    tags.append(ddc_tag)
 
     # format as response  ------------------------------------------------------
+    ddc_just = extract[EXTRACT_DDC_JUST_KEY]
 
     response = """
 Title Only:
@@ -176,12 +181,15 @@ Multiple Lines:
     {tags}
 }}
 ```
+
+{ddc_just}
 """.format(
         title=_convert_filename_safe(title),
         year=year,
         parties=SEP.join(parties),
         publisher=publisher,
         tags=SEP.join(tags),
+        ddc_just=ddc_just,
     )
     return response
 
