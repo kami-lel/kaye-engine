@@ -210,7 +210,10 @@ class TestOpus:
         assert "### tags for Shelver" in opt
 
     def test_tags_shelver1(_, opt):
-        assert "- edition or version (not year)" in opt
+        assert (
+            "- edition or version (not year, only when exact edition is known)"
+            in opt
+        )
 
     def test_tags_shelver2(_, opt):
         assert (
