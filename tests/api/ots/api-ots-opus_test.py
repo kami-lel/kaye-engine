@@ -23,17 +23,21 @@ def opt(flask_test_client, dify_app_endpoint):
 
 class TestOpus:
 
-    def test_main0(_, opt, main0):
-        assert main0 in opt
+    # main instruction  --------------------------------------------------------
 
-    def test_main1(_, opt, main1):
-        assert main1 in opt
+    def test_ots0(_, opt, ots0):
+        assert ots0 in opt
 
-    def test_main2(_, opt, main2):
-        assert main2 in opt
+    def test_ots1(_, opt, ots1):
+        assert ots1 in opt
 
-    def test_main3(_, opt, main3):
-        assert main3 in opt
+    def test_ots2(_, opt, ots2):
+        assert ots2 in opt
+
+    def test_ots3(_, opt, ots3):
+        assert ots3 in opt
+
+    # title  -------------------------------------------------------------------
 
     def test_title0(_, opt, title0):
         assert title0 in opt
@@ -50,30 +54,83 @@ class TestOpus:
     def test_title4(_, opt, title4):
         assert title4 in opt
 
-    def test_tags0(_, opt, tags0):
-        print(opt)
-        assert tags0 in opt
+    # tags  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    # tag instruction  ---------------------------------------------------------
+
+    def test_tag_instruction0(_, opt, tag_instruction0):
+        assert tag_instruction0 in opt
 
     def test_tag_instruction1(_, opt, tag_instruction1):
-        print(opt)
         assert tag_instruction1 in opt
 
     def test_tag_instruction2(_, opt, tag_instruction2):
-        print(opt)
         assert tag_instruction2 in opt
 
     def test_tag_instruction3(_, opt, tag_instruction3):
-        print(opt)
         assert tag_instruction3 in opt
 
     def test_tag_instruction4(_, opt, tag_instruction4):
-        print(opt)
         assert tag_instruction4 in opt
 
-    def test_tags1(_, opt, tags1):
-        print(opt)
-        assert tags1 in opt
+    # common tags  -------------------------------------------------------------
 
-    def test_tags2(_, opt, tags2):
-        print(opt)
-        assert tags2 in opt
+    def test_tags_cm1(_, opt, tags_cm1):
+        assert tags_cm1 in opt
+
+    def test_tags_cm2(_, opt, tags_cm2):
+        assert tags_cm2 in opt
+
+    def test_tags_cm3(_, opt, tags_cm3):
+        assert tags_cm3 in opt
+
+    def test_tags_cm4(_, opt, tags_cm4):
+        assert tags_cm4 in opt
+
+    # tags unique  -------------------------------------------------------------
+
+    def test_tags0(_, opt):
+        assert "### tags for Opus" in opt
+
+    def test_tags1(_, opt):
+        assert "- `web`: include WEB-DL, WEBRip" in opt
+
+    def test_tags2(_, opt):
+        assert "- `Amzn`: from Amazon Prime Video" in opt
+
+    def test_tags3(_, opt):
+        assert "- `RM`: remastered" in opt
+
+    def test_tags4(_, opt):
+        assert "- `UCut`: Ultimate Cut" in opt
+
+    def test_tags5(_, opt):
+        assert (
+            "  - `H264`: H.264, x264, MPEG-4 Part 10, "
+            "Advanced Video Coding, AVC"
+            in opt
+        )
+
+    def test_tags6(_, opt):
+        assert "  - `Xvid`" in opt
+
+    def test_tags7(_, opt):
+        assert "  - `HDR10`: 10-bit" in opt
+
+    def test_tags8(_, opt):
+        assert "- audio encoding:" in opt
+
+    def test_tags9(_, opt):
+        assert "  - `AC-3`: Dolby AC-3" in opt
+
+    def test_tags10(_, opt):
+        assert "  - `Opus`: libopus" in opt
+
+    def test_tags11(_, opt):
+        assert "- `MAL`: multiple audio languages, use when: MULTi" in opt
+
+    def test_tags12(_, opt):
+        assert "- `repack`: REPACK" in opt
+
+    def test_tags13(_, opt):
+        assert "- `RARBG`" in opt

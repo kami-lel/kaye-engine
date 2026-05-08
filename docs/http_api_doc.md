@@ -245,3 +245,33 @@ All endpoints below `/kaye/dify-app/kaye-event-radar`
 
 - by `GET`
 - response type `text/plain`
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Opus Tag Smith
+
+All endpoints below `/kaye/dify-app/opus-tag-smith`
+
+----
+
+`/opus`
+
+- by `GET`
+- response type `text/plain`
+
+----
+
+`/shelver`
+
+- by `GET`
+- response type `text/plain`

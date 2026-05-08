@@ -97,7 +97,6 @@ ALL_ROLE_NAMES = [
     "prompt",
     "rapid",
     "secretary",
-    "shelver",
     "tarot",
 ]
 

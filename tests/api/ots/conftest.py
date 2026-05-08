@@ -2,28 +2,28 @@ import pytest
 
 
 @pytest.fixture(scope="session")
-def main0():
+def ots0():
     return "# Opus Tag Smith"
 
 
 @pytest.fixture(scope="session")
-def main1():
+def ots1():
     return "You are a **media information extraction agent**"
 
 
 @pytest.fixture(scope="session")
-def main2():
+def ots2():
     return "- Identify the work and its media type"
 
 
 @pytest.fixture(scope="session")
-def main3():
+def ots3():
     return "- Extract relevant metadata and technical details"
 
 
 @pytest.fixture(scope="session")
 def title0():
-    return "## title"
+    return "### title"
 
 
 @pytest.fixture(scope="session")
@@ -62,7 +62,7 @@ def year2():
 
 
 @pytest.fixture(scope="session")
-def tags0():
+def tag_instruction0():
     return "## tags"
 
 
@@ -92,10 +92,23 @@ def tag_instruction5():
 
 
 @pytest.fixture(scope="session")
-def tags1():
-    return "- `zh[娛樂至死]`: title in Chinese"
+def tags_cm1():
+    return (
+        "- **Translated title**: Include **only** when the translated title"
+        " differs from the `title` field."
+    )
 
 
 @pytest.fixture(scope="session")
-def tags2():
-    return "- `en[War and Peace]`"
+def tags_cm2():
+    return "  - Format: `lang[Translated Title]`"
+
+
+@pytest.fixture(scope="session")
+def tags_cm3():
+    return "    - `zh[娛樂至死]` (when title = `Amusing Ourselves to Death`)"
+
+
+@pytest.fixture(scope="session")
+def tags_cm4():
+    return "    - `en[The Stranger]` (when title = `L'Étranger`)"
