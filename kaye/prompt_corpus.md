@@ -3075,7 +3075,7 @@ A list of standard tags is provided below as reference:
 
 ### tags for Shelver
 
-- edition or version (not year)
+- edition or version (not year, only when exact edition is known)
 
   - use `ed[1]` for 1st edition, use `ed[2]` for 2nd edition, etc.
   - `ed[Rev]`: revised edition
