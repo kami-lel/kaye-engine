@@ -19,7 +19,6 @@ STATIC_DIFFICULTY_ROLES = {
     "prompt": 85,
     "rapid": 1,
     "tarot": 46,
-    "shelver": 35,
 }
 
 
