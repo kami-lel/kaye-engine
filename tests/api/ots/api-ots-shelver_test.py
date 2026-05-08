@@ -120,6 +120,59 @@ class TestOpus:
             in opt
         )
 
+    # ddc code  ----------------------------------------------------------------
+
+    def test_ddc_code0(_, opt):
+        assert "#### ddc_code" in opt
+
+    def test_ddc_code1(_, opt):
+        assert (
+            "Use Edition 23 of Dewey Decimal Classification "
+            "fit for the book, eg:"
+            in opt
+        )
+
+    def test_ddc_code2(_, opt):
+        assert "'330.1'" in opt
+
+    def test_ddc_code3(_, opt):
+        assert "'210'" in opt
+
+    def test_ddc_just0(_, opt):
+        assert "#### ddc_justification" in opt
+
+    def test_ddc_just1(_, opt):
+        assert (
+            "A **multi-line string** explaining "
+            "the DDC classification of the book."
+            in opt
+        )
+
+    def test_ddc_just2(_, opt):
+        assert (
+            "- **First line** must state the meaning of the exact DDC number"
+            in opt
+        )
+
+    def test_ddc_just3(_, opt):
+        assert (
+            "  - first item must be the direct parent "
+            "of the exact DDC number (e.g. `741.6` for DDC `741.66`)"
+            in opt
+        )
+
+    def test_ddc_just4(_, opt):
+        assert "  - do not include `?00`-level DDCs (e.g. `100`, `500`)" in opt
+
+    def test_ddc_just5(_, opt):
+        assert "<ddc-justification-example1>" in opt
+
+    def test_ddc_just6(_, opt):
+        assert "</ddc-justification-example1>" in opt
+
+    def test_ddc_just7(_, opt):
+        assert "DDC of `302.23` is **Mass media**:" in opt
+
     # tags  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     # tag instruction  ---------------------------------------------------------

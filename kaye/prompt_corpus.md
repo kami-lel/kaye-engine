@@ -2951,16 +2951,14 @@ Use Edition 23 of Dewey Decimal Classification fit for the book, eg:
 
 #### ddc_justification
 
-This is a multiple line paragraph to explain the meaning of DDC of the book.
+A **multi-line string** explaining the DDC classification of the book.
 
-1st line of this part must state the meaning of the exact DDC number.
-
-Then a **list** of DDC number's parent levels:
-
-- order of the list goes from: narrower and more specific category -> broader and most general category
-- 1st item in the list must be direct parent of the exact DDC number. E.g. direct parent is `741.6` for DDC number `741.66`
-- each item must be *1 level broader* than previous item in the list
-- last item must be a DDC of `??0` (e.g. `120`, `810`) or `?0?` (e.g. `101`, `506`.) Do not include the item with DDC of `?00` (e.g. `100`, `500`)
+- **First line** must state the meaning of the exact DDC number
+- **Followed by a list** of the DDC number's parent levels, ordered from narrowest to broadest:
+  - first item must be the direct parent of the exact DDC number (e.g. `741.6` for DDC `741.66`)
+  - each subsequent item must be exactly *1 level broader* than the previous item
+  - last item must be a DDC of the form `??0` (e.g. `120`, `810`) or `?0?` (e.g. `101`, `506`)
+  - do not include `?00`-level DDCs (e.g. `100`, `500`)
 
 <ddc-justification-example1>
 DDC of `511.2` is **Logic**:
