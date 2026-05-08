@@ -177,9 +177,12 @@ Multiple Lines:
 
 ```
 {title}
-[{year}]{parties}[{publisher}]{{
-    {tags}
-}}
+    [{year}]
+    {parties}
+    [{publisher}]
+    {{
+        {tags}
+    }}
 ```
 
 {ddc_just}
