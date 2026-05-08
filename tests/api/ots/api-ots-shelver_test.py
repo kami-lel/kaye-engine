@@ -211,14 +211,14 @@ class TestOpus:
 
     def test_tags_shelver1(_, opt):
         assert (
-            "- edition or version (not year, only when exact edition is known)"
+            "- **Edition** — Add only if the user explicitly states an edition "
+            "(do not infer from year, ISBN, or other metadata)."
             in opt
         )
 
     def test_tags_shelver2(_, opt):
         assert (
-            "  - use `ed[1]` for 1st edition, use `ed[2]` for 2nd edition, etc."
-            in opt
+            "- Numbered: `ed[1]` (1st edition), `ed[2]`, `ed[3]`, etc." in opt
         )
 
     def test_tags_shelver3(_, opt):

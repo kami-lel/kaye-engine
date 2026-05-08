@@ -3073,12 +3073,21 @@ A list of standard tags is provided below as reference:
 
 ### tags for Shelver
 
-- edition or version (not year, only when exact edition is known)
+- **Edition** — Add only if the user explicitly states an edition (do not infer from year, ISBN, or other metadata).
 
-  - use `ed[1]` for 1st edition, use `ed[2]` for 2nd edition, etc.
-  - `ed[Rev]`: revised edition
-  - `ed[new]`: new edition
-  - `ed[Global]` (global edition,) `ed[Special Illustrated]`, etc.
+  - Numbered: `ed[1]` (1st edition), `ed[2]`, `ed[3]`, etc.
+  - Named:
+
+    - `ed[Rev]`: revised edition
+    - `ed[new]`: new edition
+    - `ed[Global]`:global edition
+    - `ed[Special Illustrated]`, etc.
+
+- **Book series** — Use a keyword-style tag, e.g.:
+
+  - `Oxford_Philosophical_Texts`
+  - `Penguin_Classics`
+  - `Schaum_s_Outlines` (Schaum's OutlinesSchaum's Outlines)
 
 
 
