@@ -37,6 +37,9 @@
     },
     "ddc_justification": {
       "type": "string"
+    },
+    "publisher": {
+      "type": "string"
     }
   },
   "required": [
@@ -47,7 +50,8 @@
     "editors",
     "translators",
     "ddc_code",
-    "ddc_justification"
+    "ddc_justification",
+    "publisher"
   ],
   "type": "object"
 }

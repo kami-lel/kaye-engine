@@ -2914,6 +2914,7 @@ For names in `authors`, `editors`, and `translators`:
 - use `FirstName LastName` or `FirstName MiddleName LastName` order
 - do not use `.` in abbreviated names
 - if a person is commonly known in abbreviated form, use that form instead of the full name — e.g., use `F A Hayek`, not `Friedrich August von Hayek`
+- preserver proper form of the names, eg `Jean-Pierre Siméon`, `Flannery O’Connor`
 - do not combine multiple people in one string, do not split one person across multiple strings
 - if additional people exist but are not individually listed, use `et_al` as the last entry
 - use the same formatting rules consistently across all three fields
