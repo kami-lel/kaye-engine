@@ -161,6 +161,12 @@ Title Only:
 {title}
 ```
 
+Exact Print:
+
+```
+{title}[{year}]
+```
+
 Basic Info:
 
 ```
