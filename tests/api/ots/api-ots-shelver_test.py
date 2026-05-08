@@ -204,6 +204,12 @@ class TestOpus:
     def test_tags_cm2(_, opt, tags_cm2):
         assert tags_cm2 in opt
 
+    def test_tags_cm3(_, opt, tags_cm3):
+        assert tags_cm3 in opt
+
+    def test_tags_cm4(_, opt, tags_cm4):
+        assert tags_cm4 in opt
+
     # tags unique  -------------------------------------------------------------
 
     def test_tags_shelver0(_, opt):

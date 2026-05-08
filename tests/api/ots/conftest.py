@@ -93,9 +93,22 @@ def tag_instruction5():
 
 @pytest.fixture(scope="session")
 def tags_cm1():
-    return "- `zh[娛樂至死]`: title in Chinese"
+    return (
+        "- **Translated title**: Include **only** when the translated title"
+        " differs from the `title` field."
+    )
 
 
 @pytest.fixture(scope="session")
 def tags_cm2():
-    return "- `en[The Stranger]`: title in English"
+    return "  - Format: `lang[Translated Title]`"
+
+
+@pytest.fixture(scope="session")
+def tags_cm3():
+    return "    - `zh[娛樂至死]` (when title = `Amusing Ourselves to Death`)"
+
+
+@pytest.fixture(scope="session")
+def tags_cm4():
+    return "    - `en[The Stranger]` (when title = `L'Étranger`)"

@@ -3013,10 +3013,16 @@ When the provided data contains information that does not fit a standard tag, cr
 
 A list of standard tags is provided below as reference:
 
-- translated **title**, only include when the translated title differs from the original title
+- **Translated title**: Include **only** when the translated title differs from the `title` field.
 
-  - `zh[娛樂至死]`: title in Chinese (when *title* field is `Amusing Ourselves to Death`)
-  - `en[The Stranger]`: title in English (when *title* field is `L'Étranger`)
+  - when present, it **must be the first entry** in the `tags` field.
+  - Format: `lang[Translated Title]`
+  - Examples:
+
+    - `zh[娛樂至死]` (when title = `Amusing Ourselves to Death`)
+    - `en[The Stranger]` (when title = `L'Étranger`)
+
+  - If the `title` field is already in the target language, **do not** add a translated title tag.
 
 
 
