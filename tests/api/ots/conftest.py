@@ -98,4 +98,4 @@ def tags_cm1():
 
 @pytest.fixture(scope="session")
 def tags_cm2():
-    return "- `en[War and Peace]`"
+    return "- `en[The Stranger]`: title in English"

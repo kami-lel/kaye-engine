@@ -104,21 +104,25 @@ class TestOpus:
         assert "#### publisher" in opt
 
     def test_publisher1(_, opt):
-        assert "- the publisher of the book" in opt
+        assert "A string indicating the publisher of the book." in opt
 
     def test_publisher2(_, opt):
-        assert (
-            "- for well-known publisher, "
-            "use the most relevant part of the name. E.g.:"
-            in opt
-        )
+        assert "Use the most relevant part of the name. E.g.:" in opt
 
     def test_publisher3(_, opt):
-        assert (
-            "  - use `University of Minnesota`, "
-            "not `University of Minnesota Press`"
-            in opt
-        )
+        assert "- `Harvard`, not `Harvard University Press`" in opt
+
+    def test_publisher4(_, opt):
+        assert "- `Yale`" in opt
+
+    def test_publisher5(_, opt):
+        assert "- `Macmillan`" in opt
+
+    def test_publisher6(_, opt):
+        assert "- `Allyn&Bacon`" in opt
+
+    def test_publisher7(_, opt):
+        assert "- `S.F.Masterworks`" in opt
 
     # ddc code  ----------------------------------------------------------------
 
@@ -201,3 +205,18 @@ class TestOpus:
         assert tags_cm2 in opt
 
     # tags unique  -------------------------------------------------------------
+
+    def test_tags_shelver0(_, opt):
+        assert "### tags for Shelver" in opt
+
+    def test_tags_shelver1(_, opt):
+        assert "- edition or version (not year)" in opt
+
+    def test_tags_shelver2(_, opt):
+        assert (
+            "  - use `ed[1]` for 1st edition, use `ed[2]` for 2nd edition, etc."
+            in opt
+        )
+
+    def test_tags_shelver3(_, opt):
+        assert "  - `ed[new]`: new edition" in opt

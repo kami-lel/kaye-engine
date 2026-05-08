@@ -2927,12 +2927,20 @@ If no author, editor, or translator is present, return an empty list for that fi
 
 #### publisher
 
-- the publisher of the book
-- for well-known publisher, use the most relevant part of the name. E.g.:
+A string indicating the publisher of the book.
 
-  - use `Harvard`, not `Harvard University Press`
-  - use `Penguin`, not `Penguin Books Limited`
-  - use `University of Minnesota`, not `University of Minnesota Press`
+Use the most relevant part of the name. E.g.:
+
+- `Harvard`, not `Harvard University Press`
+- `Penguin`, not `Penguin Books Limited`
+- `Yale`
+- `University of Minnesota`, not `University of Minnesota Press`
+- `Macmillan`
+- `Routledge`
+- `Allyn&Bacon`
+- `S.F.Masterworks`
+
+
 
 
 
@@ -3007,10 +3015,10 @@ When the provided data contains information that does not fit a standard tag, cr
 
 A list of standard tags is provided below as reference:
 
-- translated title, only include when the translated title differs from the original title
+- translated **title**, only include when the translated title differs from the original title
 
-  - `zh[娛樂至死]`: title in Chinese (in this case, `娛樂至死`)
-  - `en[War and Peace]`: title in English
+  - `zh[娛樂至死]`: title in Chinese (when *title* field is `Amusing Ourselves to Death`)
+  - `en[The Stranger]`: title in English (when *title* field is `L'Étranger`)
 
 
 
@@ -3067,36 +3075,12 @@ A list of standard tags is provided below as reference:
 
 ### tags for Shelver
 
-These are examples of legal book labels:
+- edition or version (not year)
 
-```
-The Communist Manifesto[2018]Karl_Marx,Friedrich_Engels,edr=John_E_Toews[Macmillan]{[335.422]dd}
-The Fatal Conceit_The Errors of Socialism[2011]F_A_Hayek[Routledge]{[330.1]dd}
-The Elements of Style[2000]William_Strunk_Jr,E_B_White[Allyn&Bacon]{ed[4],[428.0071]dd}
-Do Androids Dream of Electric Sheep_[1999]Philip_K_Dick[S.F.Masterworks]{[813.54]dd}
-Imagined Communities_Reflections on the Origin and Spread of Nationalism[2006]Benedict_Anderson[Verso]{ed[rev],[320,5401]dd}
-On Heroes,Hero-Worship,and the Heroic in History[2013]Thomas_Carlyle,edr{David_R_Sorensen,Brent_E_Kinser}[Yale]{[824.8]dd}
-What Life Could Mean to You[2012]Alfred_Adler,tr=李青霞[沈阳出版社]{zh[自卑与超越],[155.2]dd}
-L'Étranger[1993]Albert_Camus[Everyman's Library]{en[The Stanger],[843.912]dd}
-The Postmodern Condition_A Report on Knowledge[1984]Jean-Francois_Lyotard[University of Minnesota]{[121.68]dd}
-```
-
-
-- additional information about the book
-- contained in `{}`
-- use `,` to separate each tag
-
-List of possible tags, all informational tags (except DDC tag) is optional. You should keep similar order in the generated label:
-
-- translation title: the book title in the translated language. 1st part is *ISO 639-1 Language Code* (2 letter) to indicate the language. 2nd part is the translation title. E.g. `zh[自卑与超越]`, `en[The Stanger]`
-- edition or version
   - use `ed[1]` for 1st edition, use `ed[2]` for 2nd edition, etc.
-  - edition can be `ed[rev]` (revised edition,) `ed[new]` (new edition,) `ed[Global]` (global edition,) `ed[Special Illustrated]`, etc.
-  - use `ed[1]` for 1st version, etc.
-- DDC tag:
-  - DDC tag is **required** as the **last tag** in *tag* part
-  - prefix with `[`, suffix with `]dd`
-  - e.g. DDC tag is `dd[940]` when DDC is 940 (History of Europe); DDC tag is `[005.44]dd` when DDC is 005.44 (Operating system for specfic types of computers)
+  - `ed[Rev]`: revised edition
+  - `ed[new]`: new edition
+  - `ed[Global]` (global edition,) `ed[Special Illustrated]`, etc.
 
 
 
