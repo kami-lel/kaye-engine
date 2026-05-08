@@ -260,4 +260,18 @@ All endpoints below `/kaye/dify-app/kaye-event-radar`
 
 ### Opus Tag Smith
 
-<!-- TODO write doc for OTS -->
+All endpoints below `/kaye/dify-app/opus-tag-smith`
+
+----
+
+`/opus`
+
+- by `GET`
+- response type `text/plain`
+
+----
+
+`/shelver`
+
+- by `GET`
+- response type `text/plain`
