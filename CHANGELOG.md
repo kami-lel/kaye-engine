@@ -17,9 +17,26 @@
 ## [Unreleased]
 
 ### Added
+
+Dify App *Opus Tag Smith*:
+
+- `Shelver` mode to work with books, replace *shelver role* of Kaye Chat
+- documentation of Flask HTTP API serving this app
+
 ### Changed
+
+Dify App *Opus Tag Smith*:
+
+- improve title and translated title prompt extract logic
+
 ### Deprecated
+
 ### Removed
+
+Kaye Chat *Dify Chat*:
+
+- *shelver* role
+
 ### Fixed
 
 
