@@ -993,7 +993,7 @@ workflow:
         - id: 8e711921-cb10-4a9f-ae77-cefbffb557ec
           role: user
           text: '{{#1775809556147.truncated_query#}}'
-        selected: true
+        selected: false
         structured_output:
           schema:
             additionalProperties: false
@@ -1135,11 +1135,11 @@ workflow:
           \n\n\n# constants  ###################################################################\n\
           THRESHOLDS = [\n    (0, [\"gpt-4-nano\"]),\n    (10, [\"gpt-5-nano\"]),\n\
           \    (30, [\"claude-sonnet-4\"]),\n    (60, [\"claude-sonnet-4\", \"gpt-5-mini\"\
-          ]),\n    (80, [\"claude-opus-4\", \"gpt-5\"]),\n    (90, [\"claude-opus-4\"\
-          , \"gpt-5\", \"gemini-3-pro\"]),\n]\n# (lower bounds, LLMs to use)\n\n\n\
-          # number of rounds to remember difficulties\nDIFFICULTY_MEMORY_CNT = 8\n\
-          \n# Exponential Moving Average: Alpha, smoothing factor\nEMA_ALPHA = 0.6\n\
-          \n\n# Entry Point  #################################################################\n\
+          ]),\n    (70, [\"claude-opus-4\"]),\n    (80, [\"claude-opus-4\", \"gpt-5\"\
+          ]),\n    (90, [\"claude-opus-4\", \"gpt-5\", \"gemini-3-pro\"]),\n]\n# (lower\
+          \ bounds, LLMs to use)\n\n\n# number of rounds to remember difficulties\n\
+          DIFFICULTY_MEMORY_CNT = 8\n\n# Exponential Moving Average: Alpha, smoothing\
+          \ factor\nEMA_ALPHA = 0.6\n\n\n# Entry Point  #################################################################\n\
           def main(\n    query: str,\n    current_role: str,\n    current_pls: str,\n\
           \    difficulties_memory: list[int],\n    current_difficulty: int,\n):\n\
           \    \"\"\"\n    :param query:\n    :type query: str\n    :param current_role:\n\
@@ -1229,7 +1229,7 @@ workflow:
       positionAbsolute:
         x: 2332.8951908221875
         y: 303
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2473,8 +2473,8 @@ workflow:
           \n# roles w/ static difficulty associated with it, thus should skip sense\n\
           STATIC_DIFFICULTY_ROLES = {\n    \"art\": 52,\n    \"barista\": 40,\n  \
           \  \"changelog\": 35,\n    \"deutschlehrer\": 55,\n    \"editor\": 47,\n\
-          \    \"prompt\": 85,\n    \"rapid\": 1,\n    \"tarot\": 46,\n    \"shelver\"\
-          : 35,\n}\n\n\n# Body Key  ####################################################################\n\
+          \    \"prompt\": 71,\n    \"rapid\": 1,\n    \"tarot\": 46,\n}\n\n\n# Body\
+          \ Key  ####################################################################\n\
           BODY_ROLE_KEY = \"pre_sense_role\"\nBODY_DIFF_KEY = \"difficulty_override\"\
           \n\n\n# Entry Point  #################################################################\n\
           def main(\n    role_override: str,\n    difficulty_override: int,\n    current_role:\
@@ -2509,7 +2509,7 @@ workflow:
           should_skip_sense:
             children: null
             type: boolean
-        selected: false
+        selected: true
         title: post_start
         type: code
         variables:
@@ -2536,7 +2536,7 @@ workflow:
       positionAbsolute:
         x: 751.3526862862343
         y: 303
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2762,7 +2762,7 @@ workflow:
       type: custom
       width: 242
     viewport:
-      x: -2632.024910795652
-      y: 101.55292814438076
+      x: -451.0249107956523
+      y: -51.44707185561924
       zoom: 0.659753955386447
   rag_pipeline_variables: []

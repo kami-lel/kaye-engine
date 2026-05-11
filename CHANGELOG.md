@@ -29,6 +29,11 @@ Dify App *Opus Tag Smith*:
 
 - improve title and translated title prompt extract logic
 
+Kaye Chat *Dify Chat*:
+
+- difficulty to model thresholds (in `pre_task.py`)
+- static difficulty value of **prompt** (in `post_start.py`)
+
 ### Deprecated
 
 ### Removed

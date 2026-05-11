@@ -16,7 +16,7 @@ STATIC_DIFFICULTY_ROLES = {
     "changelog": 35,
     "deutschlehrer": 55,
     "editor": 47,
-    "prompt": 85,
+    "prompt": 71,
     "rapid": 1,
     "tarot": 46,
 }
