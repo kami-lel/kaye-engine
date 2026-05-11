@@ -54,6 +54,33 @@ class TestOpus:
     def test_title4(_, opt, title4):
         assert title4 in opt
 
+    def test_title5(_, opt, title5):
+        assert title5 in opt
+
+    def test_title6(_, opt, title6):
+        assert title6 in opt
+
+    def test_title7(_, opt, title7):
+        assert title7 in opt
+
+    def test_title8(_, opt, title8):
+        assert title8 in opt
+
+    def test_title9(_, opt, title9):
+        assert title9 in opt
+
+    def test_title10(_, opt, title10):
+        assert title10 in opt
+
+    def test_title11(_, opt, title11):
+        assert title11 in opt
+
+    def test_title12(_, opt, title12):
+        assert title12 in opt
+
+    def test_title13(_, opt, title13):
+        assert title13 in opt
+
     # tags  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     # tag instruction  ---------------------------------------------------------
