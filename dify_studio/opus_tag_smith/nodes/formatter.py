@@ -11,8 +11,9 @@ SEP = ","
 # extract keys  ################################################################
 
 
-EXTRACT_TITLE_KEY = "title"
 EXTRACT_YEAR_KEY = "release_year"
+EXTRACT_TITLE_KEY = "title"
+EXTRACT_SUBTITLE_KEY = "subtitle"
 EXTRACT_TAGS_KEY = "tags"
 
 # opus extract
@@ -64,7 +65,14 @@ def _add_party_entries(parties, prefix):
 # formatter  ###################################################################
 
 
-def _format_opus(extract, title, year, tags):  # ===============================
+def _format_opus(extract):  # ==================================================
+    year = extract[EXTRACT_YEAR_KEY]
+
+    # title  -------------------------------------------------------------------
+    title = _convert_filename_safe(extract[EXTRACT_TITLE_KEY])
+    subtitle = _convert_filename_safe(extract[EXTRACT_SUBTITLE_KEY])
+
+    # FIXME
 
     # season & episode  --------------------------------------------------------
     season_and_episode = []
@@ -88,6 +96,8 @@ def _format_opus(extract, title, year, tags):  # ===============================
     if len(season_and_episode) > 0:
         season_and_episode_content = "".join(season_and_episode)
         title = title + "." + season_and_episode_content
+
+    tags = extract[EXTRACT_TAGS_KEY]
 
     # title names  -------------------------------------------------------------
     safe_title = _convert_filename_safe(title)
@@ -221,7 +231,7 @@ def main(extract: dict, target: str):
     tags = extract[EXTRACT_TAGS_KEY]
 
     response = (
-        _format_opus(extract, title, year, tags)
+        _format_opus(extract)
         if target == "Opus"
         else _format_shelver(extract, title, year, tags)
     )
