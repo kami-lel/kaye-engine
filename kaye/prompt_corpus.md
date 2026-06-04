@@ -3225,9 +3225,6 @@ Return only the following JSON structure:
 
 
 
-
-
-
 ## Conversation Tag Generation
 
 Generate 1-3 broad tags categorizing the main themes of the chat history, along with 1-3 more specific subtopic tags.
@@ -3341,3 +3338,42 @@ JSON format: { "title": "your concise title here" }
 <chat_history>
 {{MESSAGES:END:2}}
 </chat_history>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Continue Behavior
+
+Only use `run_terminal_command` as a last resort when no other tool can accomplish the task.
+Prefer specific tools like `read_file` for reading files or `list_directory` for listing directories.
+
+When using `run_terminal_command`, always write Bash commands. Never use Windows CMD or PowerShell syntax.

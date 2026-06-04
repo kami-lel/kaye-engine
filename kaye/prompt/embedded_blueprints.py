@@ -25,6 +25,7 @@ __all__ = (
     "coder_py_blueprint",
     "coder_py_docstring_blueprint",
     "coder_py_test_blueprint",
+    "continue_behavior_blueprint",
 )
 
 
@@ -86,6 +87,14 @@ annotation_marker_blueprint.display_name = "Annotation Markers"
 annotation_marker_blueprint.description = (
     "add-on when working with BUG, FIXME, TODO, or HACK markers in code or docs"
 )
+
+
+continue_behavior_blueprint = PromptBlueprint.create_empty_blueprint()
+continue_behavior_blueprint.checkmark(
+    continue_behavior_blueprint.corpus["Continue Behavior"]
+)
+continue_behavior_blueprint.display_name = "Continue Behavior"
+
 
 # coder  =======================================================================
 
