@@ -8,6 +8,8 @@ from kaye import PROGRAM_NAME
 
 from kaye.api import create_app
 
+from kaye.cli.cli_main import cli_parser
+
 # constants  ###################################################################
 HOST = "0.0.0.0"
 PORT = 11255
@@ -26,9 +28,13 @@ parser.add_argument(
 
 # Entry Point  #################################################################
 if __name__ == "__main__":
-    args = parser.parse_args()
+    # Fixme make sub parser: kaye api
+    # args = parser.parse_args()
 
-    app = create_app()
-    app.run(
-        host=HOST, port=DEBUG_PORT if args.debug else PORT, debug=args.debug
-    )
+    # app = create_app()
+    # app.run(
+    #     host=HOST, port=DEBUG_PORT if args.debug else PORT, debug=args.debug
+    # )
+
+    parsed_args = cli_parser.parse_args()
+    parsed_args.func(parsed_args)  # call respective main function

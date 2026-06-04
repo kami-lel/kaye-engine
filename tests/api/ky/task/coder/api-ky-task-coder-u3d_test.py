@@ -41,13 +41,13 @@ def opt(flask_test_client, task_endpoint):
 class TestCoder:  # ============================================================
 
     def test_u3d_title(_, opt):
-        assert "### Unity Engine" in opt
+        assert "## Unity Engine" in opt
 
     def test_u3d_ver(_, opt):
         assert "Unity **6**" in opt
 
     def test_mb_title(_, opt):
-        assert "#### MonoBehaviour" in opt
+        assert "### MonoBehaviour" in opt
 
     def test_mb0(_, opt):
         assert "When writing or reviewing `MonoBehaviour`" in opt
@@ -68,7 +68,7 @@ class TestCoder:  # ============================================================
         assert "- **MonoBehaviour lifecycle methods**" in opt
 
     def test_mb_guard1(_, opt):
-        assert "##### Inspector Assignment Guard" in opt
+        assert "#### Inspector Assignment Guard" in opt
 
     def test_mb_guard2(_, opt):
         assert "place the guard block at the top" in opt

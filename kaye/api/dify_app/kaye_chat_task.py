@@ -8,31 +8,30 @@ define endpoint behavior of: /kaye/dify-app/ky/task
 from flask import request, abort, Response
 
 
-from kaye.prompt import PromptBlueprint
+from kaye.prompt import (
+    rapid_blueprint,
+    chat_blueprint,
+    date_time_blueprint,
+    number_unit_blueprint,
+    style_blueprint,
+    annotation_marker_blueprint,
+    coder_bash_blueprint,
+    coder_c_blueprint,
+    coder_cpp_blueprint,
+    coder_ue_blueprint,
+    coder_csharp_blueprint,
+    coder_u3d_blueprint,
+    coder_gdscript_blueprint,
+    coder_html_blueprint,
+    coder_js_ts_blueprint,
+    coder_py_blueprint,
+    coder_py_docstring_blueprint,
+    coder_py_test_blueprint,
+)
 
 # constant  ####################################################################
 BODY_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
 BODY_QUERY_KEY = "query"
-
-
-# blueprints  ==================================================================
-
-CHAT_PROMPT_BLUEPRINT = """    ○
-[x] ├── Introduction
-[x] ├── Personality
-[x] ├── Language
-[x] ├── Elements
-[x] │   ├── Date & Time Format
-[x] │   └── Numerical Values with Units
-[x] ├── Format
-[x] ├── Role
-[x] └── {Abbreviations}"""
-
-
-RAPID_PROMPT_BLUEPRINT = """    ○
-[x] ├── Introduction
-[x] ├── Format
-[x] └── {Abbreviations}"""
 
 
 # Entry Point  #################################################################
@@ -41,7 +40,7 @@ def kaye_chat_task():
 
     # default to chat
     role = body.get("role") or "chat"
-    pls = body.get(BODY_PROGRAMMING_LANGUAGES_KEY) or ""
+    plcs = body.get(BODY_PROGRAMMING_LANGUAGES_KEY) or ""
     query = body.get(BODY_QUERY_KEY) or ""
 
     # create bp  ---------------------------------------------------------------
@@ -58,7 +57,7 @@ def kaye_chat_task():
         bp = _create_chat_blueprint()
 
     elif role == "coder":
-        bp = _create_peer_coder_blueprint(pls)
+        bp = _create_coder_blueprint(plcs)
 
     elif role == "deutschlehrer":
         bp = _create_deutschlehrer_blueprint()
@@ -73,7 +72,7 @@ def kaye_chat_task():
         bp = _create_prompt_blueprint()
 
     elif role == "rapid":
-        bp = _create_rapid_blueprint()
+        bp = rapid_blueprint
 
     elif role == "secretary":
         bp = _create_secretary_blueprint()
@@ -98,132 +97,118 @@ def kaye_chat_task():
 # task blueprints  #############################################################
 
 
-def _create_rapid_blueprint():  # ==============================================
-    return PromptBlueprint.parse(RAPID_PROMPT_BLUEPRINT)
+def _create_chat_blueprint():
+    bp = chat_blueprint | date_time_blueprint | number_unit_blueprint
+    return bp
 
 
-def _create_chat_blueprint():  # ===============================================
-    return PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT)
+def _create_coder_blueprint(plcs):
+    bp = (
+        chat_blueprint
+        | date_time_blueprint
+        | number_unit_blueprint
+        | style_blueprint
+        | annotation_marker_blueprint
+    )
+    bp.checkmark("Kaye Peer Coder")
+
+    for plc in plcs.split(","):
+        if plc == "bash":
+            bp = bp | coder_bash_blueprint
+
+        elif plc == "c":
+            bp = bp | coder_c_blueprint
+
+        elif plc == "cpp":
+            bp = bp | coder_cpp_blueprint
+
+        elif plc == "ue":
+            bp = bp | coder_ue_blueprint
+
+        elif plc == "csharp":
+            bp = bp | coder_csharp_blueprint
+
+        elif plc == "u3d":
+            bp = bp | coder_u3d_blueprint
+
+        elif plc == "gdscript":
+            bp = bp | coder_gdscript_blueprint
+
+        elif plc == "html":
+            bp = bp | coder_html_blueprint
+
+        elif plc in ("js", "ts"):
+            bp = bp | coder_js_ts_blueprint
+
+        elif plc == "py":
+            bp = (
+                bp
+                | coder_py_blueprint
+                | coder_py_docstring_blueprint
+                | coder_py_test_blueprint
+            )
+
+    return bp
 
 
-def _create_art_blueprint():  # ================================================
-    bp = _create_rapid_blueprint()
+def _create_art_blueprint():
+    bp = rapid_blueprint
     bp.checkmark("Art Tutor", recursively=True)
     return bp
 
 
-def _create_barista_blueprint():  # ============================================
-    bp = _create_rapid_blueprint()
+def _create_barista_blueprint():
+    bp = rapid_blueprint
     bp.checkmark("Date & Time Format")
     bp.checkmark("Assistant Barista", recursively=True)
     return bp
 
 
-def _create_changelog_blueprint():  # ==========================================
+def _create_changelog_blueprint():
     bp = _create_chat_blueprint()
     bp.checkmark("Changelog Writer", recursively=True)
     return bp
 
 
-def _create_peer_coder_blueprint(pls):  # ======================================
-    # pylint: disable=too-many-branches
-    # create base bp from chat
-    bp = _create_chat_blueprint()
-
-    # add styles
-    bp.checkmark("Style", recursively=True)
-
-    # add ams
-    bp.checkmark(bp.corpus["Elements"]["Annotation Markers"], recursively=True)
-
-    # add Kaye Peer Coder node
-    kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]
-    bp.checkmark(kyc_node)
-
-    # adds PL nodes  -----------------------------------------------------------
-    for plc in pls.split(","):
-        if plc == "bash":
-            bp.checkmark(kyc_node["Bash"])
-
-        elif plc == "c":
-            bp.checkmark(kyc_node["C"])
-            bp.checkmark(kyc_node["Brace Style"])
-
-        elif plc == "cpp":
-            bp.checkmark(kyc_node["C"])
-            bp.checkmark(kyc_node["C++"])
-            bp.checkmark(kyc_node["Brace Style"])
-
-        elif plc == "ue":
-            bp.checkmark(kyc_node["C"])
-            bp.checkmark(kyc_node["C++"])
-            bp.checkmark(kyc_node["Unreal Engine"])
-            bp.checkmark(kyc_node["Brace Style"])
-
-        elif plc == "csharp":
-            bp.checkmark(kyc_node["C Sharp"])
-            bp.checkmark(kyc_node["Brace Style"])
-
-        elif plc == "u3d":
-            bp.checkmark(kyc_node["C Sharp"])
-            bp.checkmark(kyc_node["Unity Engine"], recursively=True)
-            bp.checkmark(kyc_node["Brace Style"])
-
-        elif plc == "gdscript":
-            bp.checkmark(kyc_node["GDScript"])
-
-        elif plc == "html":
-            bp.checkmark(kyc_node["HTML"])
-
-        elif plc in ("js", "ts"):
-            bp.checkmark(kyc_node["JavaScript & TypeScript"], recursively=True)
-            bp.checkmark(kyc_node["Brace Style"])
-
-        elif plc == "py":
-            bp.checkmark(kyc_node["Python"], recursively=True)
-
-    return bp
-
-
-def _create_deutschlehrer_blueprint():  # ======================================
+def _create_deutschlehrer_blueprint():
     bp = _create_chat_blueprint()
     bp.checkmark("Deutschlehrer")
     return bp
 
 
-def _create_editor_blueprint():  # =============================================
+def _create_editor_blueprint():
     bp = _create_chat_blueprint()
     bp.checkmark(bp.corpus["Style"]["Good Writing"])
     bp.checkmark(bp.corpus["Role"]["Editor"], recursively=True)
     return bp
 
 
-def _create_librarian_blueprint():  # ==========================================
+def _create_librarian_blueprint():
     bp = _create_chat_blueprint()
     bp.checkmark("Librarian", recursively=True)
     return bp
 
 
-def _create_prompt_blueprint():  # =============================================
-    bp = _create_rapid_blueprint()
+def _create_prompt_blueprint():
+    bp = rapid_blueprint
     bp.checkmark("Prompt Writer")
     return bp
 
 
-def _create_secretary_blueprint():  # ==========================================
+def _create_secretary_blueprint():
     bp = _create_chat_blueprint()
     bp.checkmark(bp.corpus["Style"]["Good Writing"])
     bp.checkmark(bp.corpus["Role"]["Secretary"])
     return bp
 
 
-def _create_shelver_blueprint():  # ============================================
+def _create_shelver_blueprint():
     bp = _create_chat_blueprint()
     bp.checkmark(bp.corpus["Role"]["Shelver"], recursively=True)
     return bp
 
 
-def _create_tarot_blueprint():  # ==============================================
-    bp = _create_rapid_blueprint()
+def _create_tarot_blueprint():
+    bp = rapid_blueprint
     bp.checkmark("Tarot Reader", recursively=True)
     return bp
