@@ -19,7 +19,8 @@
         "uncheckmark",
         "uncheckmarked",
         "uncheckmarking",
-        "unprunable"
+        "unprunable",
+        "plcs"
     ],
     "todo-tree.filtering.excludeGlobs": [
         "**/hooks_utility/*/**",
