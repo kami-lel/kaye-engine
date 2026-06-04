@@ -4,6 +4,10 @@ define ``update_continue_local_config_folder``
 
 from pathlib import Path
 
+from kaye.prompt import embedded_blueprints
+from kaye.prompt.embedded_blueprints import __all__ as BLUEPRINT_NAMES
+from kaye.continue_support.rule_file import RuleFile
+
 
 def update_continue_local_config_folder(continue_local_config_folder):
     """
@@ -18,7 +22,16 @@ def update_continue_local_config_folder(continue_local_config_folder):
     """
     folder = Path(continue_local_config_folder)
     rules_folder = (folder / "rules").resolve()
+    rules_folder.mkdir(parents=True, exist_ok=True)
 
-    print(rules_folder)  # TODO actually mpl rule update logic
+    for name in BLUEPRINT_NAMES:
+        bp = getattr(embedded_blueprints, name)
+        file_path = rules_folder / "{}.md".format(name)
+
+        with RuleFile(file_path, encoding="utf-8") as rule:
+            rule.name = bp.display_name
+            rule.description = bp.description
+            rule.write_prefix()
+            rule.write(bp.generate_prompt())
 
     # todo support *prompts*
