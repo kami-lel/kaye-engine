@@ -21,7 +21,7 @@ CODER_BLUEPRINT_GLOBS = {
     "Coder JavaScript and TypeScript": ["**/*.{js,ts,jsx,tsx,mjs,cjs}"],
     "Coder Python": ["**/*.py"],
     "Coder Python Docstring": ["**/*.py"],
-    "Coder Python Testing": ["**/test_*.py"],
+    "Coder Python Testing": ["**/test_*.py", "**/*_test.py"],
 }
 
 ALWAYS_APPLY_BLUEPRINT = ["chat_blueprint", "continue_behavior_blueprint"]
