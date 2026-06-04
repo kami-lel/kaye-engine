@@ -24,7 +24,11 @@ CODER_BLUEPRINT_GLOBS = {
     "Coder Python Testing": ["**/test_*.py", "**/*_test.py"],
 }
 
-ALWAYS_APPLY_BLUEPRINT = ["chat_blueprint", "continue_behavior_blueprint"]
+ALWAYS_APPLY_BLUEPRINT = [
+    "chat_blueprint",
+    "coder_blueprint",
+    "continue_behavior_blueprint",
+]
 
 
 # Entry Point  #################################################################
