@@ -13,6 +13,8 @@ __all__ = (
 )
 
 
+# HACK better docstring: 3 functions & module
+
 # Blueprints  ##################################################################
 
 
