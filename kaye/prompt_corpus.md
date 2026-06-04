@@ -2732,7 +2732,7 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
 
 
-#### Docstring Style
+### Docstring Style
 
 The docstrings must be written using the **Sphinx** style and employ **reStructuredText** as the markup language. Avoid using any other styles.
 
@@ -2757,7 +2757,7 @@ def calc_square(number):
 
 
 
-#### Testing Guidelines
+### Testing Guidelines
 
 This section pertains specifically to Python test code. Tests should be compatible with the `pytest` module.
 

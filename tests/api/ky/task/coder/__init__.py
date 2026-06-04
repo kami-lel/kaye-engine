@@ -274,7 +274,7 @@ def assert_py_intro(opt):
 
 
 def assert_py_doc0(opt):
-    assert "#### Docstring Style" in opt
+    assert "### Docstring Style" in opt
 
 
 def assert_py_doc1(opt):
@@ -282,7 +282,7 @@ def assert_py_doc1(opt):
 
 
 def assert_py_pytest0(opt):
-    assert "#### Testing Guidelines" in opt
+    assert "### Testing Guidelines" in opt
 
 
 def assert_py_pytest1(opt):
