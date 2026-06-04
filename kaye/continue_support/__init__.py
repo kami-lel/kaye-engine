@@ -7,7 +7,7 @@ from pathlib import Path
 
 def update_continue_local_config_folder(continue_local_config_folder):
     """
-    HACK write docstring
+    HACK HACK write docstring
 
 
     :param continue_local_config_folder: path to folder containing
