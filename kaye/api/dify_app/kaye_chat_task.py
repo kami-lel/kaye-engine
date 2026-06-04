@@ -13,6 +13,18 @@ from kaye.prompt import (
     chat_blueprint,
     date_time_blueprint,
     number_unit_blueprint,
+    style_blueprint,
+    annotation_marker_blueprint,
+    coder_bash_blueprint,
+    coder_c_blueprint,
+    coder_cpp_blueprint,
+    coder_ue_blueprint,
+    coder_csharp_blueprint,
+    coder_u3d_blueprint,
+    coder_gdscript_blueprint,
+    coder_html_blueprint,
+    coder_js_ts_blueprint,
+    coder_py_blueprint,
 )
 
 # constant  ####################################################################
@@ -89,62 +101,45 @@ def _create_chat_blueprint():
 
 
 def _create_coder_blueprint(plcs):
-    # create base bp from chat
-    bp = _create_chat_blueprint()
+    bp = (
+        chat_blueprint
+        | date_time_blueprint
+        | number_unit_blueprint
+        | style_blueprint
+        | annotation_marker_blueprint
+    )
+    bp.checkmark("Kaye Peer Coder")
 
-    # TODO mpl as individual skills
-
-    # add styles
-    bp.checkmark("Style", recursively=True)
-
-    # add ams
-    bp.checkmark(bp.corpus["Elements"]["Annotation Markers"], recursively=True)
-
-    # add Kaye Peer Coder node
-    kyc_node = bp.corpus["Kaye Peer Coder"]
-    bp.checkmark(kyc_node)
-
-    # adds PL nodes  -----------------------------------------------------------
     for plc in plcs.split(","):
         if plc == "bash":
-            bp.checkmark(kyc_node["Bash"])
+            bp = bp | coder_bash_blueprint
 
         elif plc == "c":
-            bp.checkmark(kyc_node["C"])
-            bp.checkmark(kyc_node["Brace Style"])
+            bp = bp | coder_c_blueprint
 
         elif plc == "cpp":
-            bp.checkmark(kyc_node["C"])
-            bp.checkmark(kyc_node["C++"])
-            bp.checkmark(kyc_node["Brace Style"])
+            bp = bp | coder_cpp_blueprint
 
         elif plc == "ue":
-            bp.checkmark(kyc_node["C"])
-            bp.checkmark(kyc_node["C++"])
-            bp.checkmark(kyc_node["Unreal Engine"])
-            bp.checkmark(kyc_node["Brace Style"])
+            bp = bp | coder_ue_blueprint
 
         elif plc == "csharp":
-            bp.checkmark(kyc_node["C Sharp"])
-            bp.checkmark(kyc_node["Brace Style"])
+            bp = bp | coder_csharp_blueprint
 
         elif plc == "u3d":
-            bp.checkmark(kyc_node["C Sharp"])
-            bp.checkmark(kyc_node["Unity Engine"], recursively=True)
-            bp.checkmark(kyc_node["Brace Style"])
+            bp = bp | coder_u3d_blueprint
 
         elif plc == "gdscript":
-            bp.checkmark(kyc_node["GDScript"])
+            bp = bp | coder_gdscript_blueprint
 
         elif plc == "html":
-            bp.checkmark(kyc_node["HTML"])
+            bp = bp | coder_html_blueprint
 
         elif plc in ("js", "ts"):
-            bp.checkmark(kyc_node["JavaScript & TypeScript"], recursively=True)
-            bp.checkmark(kyc_node["Brace Style"])
+            bp = bp | coder_js_ts_blueprint
 
         elif plc == "py":
-            bp.checkmark(kyc_node["Python"], recursively=True)
+            bp = bp | coder_py_blueprint
 
     return bp
 
