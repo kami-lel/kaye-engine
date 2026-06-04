@@ -86,6 +86,8 @@ annotation_marker_blueprint.description = (
     "add-on when working with BUG, FIXME, TODO, or HACK markers in code or docs"
 )
 
+# coder  =======================================================================
+
 
 coder_bash_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_bash_blueprint.checkmark(
@@ -169,12 +171,14 @@ coder_js_ts_blueprint.display_name = "Coder JavaScript and TypeScript"
 coder_js_ts_blueprint.description = "JavaScript or TypeScript code"
 
 
+# Python  ----------------------------------------------------------------------
 coder_py_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_py_blueprint.checkmark(
     coder_py_blueprint.corpus["Kaye Peer Coder"]["Python"]
 )
 coder_py_blueprint.display_name = "Coder Python"
 coder_py_blueprint.description = "Python code"
+
 
 coder_py_docstring_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_py_docstring_blueprint.checkmark(
@@ -183,10 +187,10 @@ coder_py_docstring_blueprint.checkmark(
     ]
 )
 coder_py_docstring_blueprint.display_name = "Coder Python Docstring"
-
 coder_py_docstring_blueprint.description = (
     "Python docstrings in Sphinx/reStructuredText style"
 )
+
 
 coder_py_test_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_py_test_blueprint.checkmark(
