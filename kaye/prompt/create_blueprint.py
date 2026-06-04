@@ -13,7 +13,7 @@ __all__ = (
 )
 
 
-# Hack better docstring: 3 functions & module, also write readme
+# HACK better docstring: 3 functions & module, also write readme
 
 # Blueprints  ##################################################################
 
