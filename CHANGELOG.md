@@ -18,12 +18,38 @@
 
 ### Added
 
+**Continue support**:
+
+- `continue_support` package: generate **Continue** rule files (`.md`) from embedded blueprints
+- `RuleFile`: context manager that writes a rule's YAML front matter (`name`, `description`, `globs`, `alwaysApply`) and rendered prompt body
+- `update_continue_local_config_folder()`: (re)create `<config>/rules/` and write one rule file per blueprint
+- CLI subcommand `kaye continue [LOCAL_CONFIG_FOLDER]` (alias `c`), defaulting to `~/.continue`
+
+`prompt_corpus.md`:
+
+- section `Continue Behavior` and related `continue_behavior_blueprint`
+
+Embedded blueprints:
+
+- `display_name` and `description` attributes for blueprint files
+- split Python coder blueprints for docstrings and tests
+
 Dify App *Opus Tag Smith*:
 
 - `Shelver` mode to work with books, replace *shelver role* of Kaye Chat
 - documentation of Flask HTTP API serving this app
 
 ### Changed
+
+Embedded blueprints:
+
+- migrate embedded blueprints from prompt files into Python modules
+- extract and share `rapid`, `chat`, and coder blueprint factories across roles
+- generate Continue rule files from the embedded blueprints
+
+CLI:
+
+- route entrypoint through subcommands
 
 `prompt_corpus.md`:
 
@@ -43,6 +69,10 @@ Kaye Chat *Dify Chat*:
 ### Deprecated
 
 ### Removed
+
+Embedded blueprints:
+
+- `create_blueprint` wrappers and embedded blueprint prompt files
 
 Kaye Chat *Dify Chat*:
 
