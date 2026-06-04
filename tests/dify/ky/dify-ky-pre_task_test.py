@@ -251,7 +251,7 @@ class TestLLM:  # ==============================================================
         direct = opt[OUTPUT_DIRECT_KEY]
 
         assert llms == ["claude-opus-4"]
-        assert not direct
+        assert direct
 
     def test13(_, kwargs):
         diff = 81
