@@ -16,4 +16,4 @@ from .abbr_nodes import *
 from .today_node import *
 from .embedded_blueprints import *
 
-# FIXME cleanup embedded blueprints
+# fixme cleanup embedded blueprints
