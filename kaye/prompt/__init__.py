@@ -14,6 +14,6 @@ from .prompt_blueprint_loader import *
 from .abbr_collection import *
 from .abbr_nodes import *
 from .today_node import *
-from .create_blueprint import *
+from .embedded_blueprints import *
 
 # FIXME cleanup embedded blueprints

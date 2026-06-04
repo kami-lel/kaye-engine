@@ -1,13 +1,37 @@
 """
 embedded_blueprints.py
 
-create common embedded blueprints
+common blueprints creations
 """
 
-__all__ = ("embedded_blueprints",)
+from kaye.prompt.prompt_blueprint import PromptBlueprint
 
+__all__ = (
+    "rapid_blueprint",
+    "chat_blueprint",
+    "date_time_blueprint",
+    "number_unit_blueprint",
+)
 
-embedded_blueprints = {}
+# blueprints  ##################################################################
 
+rapid_blueprint = PromptBlueprint.parse("""    ○
+[x] ├── Introduction
+[x] ├── Format
+[x] └── {Abbreviations}""")
 
-# TODO
+chat_blueprint = PromptBlueprint.parse("""    ○
+[x] ├── Introduction
+[x] ├── Personality
+[x] ├── Language
+[x] ├── Format
+[x] ├── Role
+[x] └── {Abbreviations}""")
+
+date_time_blueprint = PromptBlueprint.parse("""    ○
+[x] └── Elements
+[x]     └── Date & Time Format""")
+
+number_unit_blueprint = PromptBlueprint.parse("""    ○
+[x] └── Elements
+[x]     └── Numerical Values with Units""")
