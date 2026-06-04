@@ -24,7 +24,7 @@ __all__ = (
     "coder_js_ts_blueprint",
     "coder_py_blueprint",
     "coder_py_docstring_blueprint",
-    "coder_py_test_blueprint",
+    "coder_py_testing_blueprint",
     "continue_behavior_blueprint",
 )
 
@@ -203,13 +203,13 @@ coder_py_docstring_blueprint.description = (
 )
 
 
-coder_py_test_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_py_test_blueprint.checkmark(
-    coder_py_test_blueprint.corpus["Kaye Peer Coder"]["Python"][
+coder_py_testing_blueprint = PromptBlueprint.create_empty_blueprint()
+coder_py_testing_blueprint.checkmark(
+    coder_py_testing_blueprint.corpus["Kaye Peer Coder"]["Python"][
         "Testing Guidelines"
     ]
 )
-coder_py_test_blueprint.display_name = "Coder Python Testing"
-coder_py_test_blueprint.description = (
+coder_py_testing_blueprint.display_name = "Coder Python Testing"
+coder_py_testing_blueprint.description = (
     "Python tests using pytest with Test classes and test_ functions"
 )
