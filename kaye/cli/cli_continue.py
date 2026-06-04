@@ -1,4 +1,4 @@
-"""update the Continue local config folder"""
+"""update the Continue local config folder with the updated kaye prompts"""
 
 from pathlib import Path
 
