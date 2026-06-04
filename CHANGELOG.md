@@ -60,6 +60,7 @@ CLI:
 Dify App *Opus Tag Smith*:
 
 - improve title and translated title prompt extract logic
+- split title and subtitle extraction in prompt & in code
 
 Kaye Chat *Dify Chat*:
 

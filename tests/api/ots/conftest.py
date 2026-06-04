@@ -23,27 +23,83 @@ def ots3():
 
 @pytest.fixture(scope="session")
 def title0():
-    return "### title"
+    return "### title & subtitle"
 
 
 @pytest.fixture(scope="session")
 def title1():
-    return "Extract the work's **original title**"
+    return (
+        "Extract the work's **title** and **subtitle** as two separate fields"
+    )
 
 
 @pytest.fixture(scope="session")
 def title2():
-    return "- Preserve the title in its **original language**"
+    return "- **title**: the primary title of the work"
 
 
 @pytest.fixture(scope="session")
 def title3():
-    return "- Recover human-readable title formatting from filenames"
+    return (
+        "- **subtitle**: the secondary title of the work; "
+        "can be **empty** if the work has no subtitle"
+    )
 
 
 @pytest.fixture(scope="session")
 def title4():
-    return "hyphens, or other separators"
+    return (
+        "- Preserve the text in its **original language**, "
+        "even if the user provides it in another language"
+    )
+
+
+@pytest.fixture(scope="session")
+def title5():
+    return (
+        "- Recover human-readable formatting from "
+        "filenames, slugs, broken encoding, or truncated text when possible"
+    )
+
+
+@pytest.fixture(scope="session")
+def title6():
+    return "- Do not include episode name"
+
+
+@pytest.fixture(scope="session")
+def title7():
+    return "> *Dune: Part Two*"
+
+
+@pytest.fixture(scope="session")
+def title8():
+    return "- title: Dune"
+
+
+@pytest.fixture(scope="session")
+def title9():
+    return "- subtitle: Part Two"
+
+
+@pytest.fixture(scope="session")
+def title10():
+    return "> *Inception*"
+
+
+@pytest.fixture(scope="session")
+def title11():
+    return "Extract as:"
+
+
+@pytest.fixture(scope="session")
+def title12():
+    return "- title: Inception"
+
+
+@pytest.fixture(scope="session")
+def title13():
+    return "- subtitle: *(empty)*"
 
 
 @pytest.fixture(scope="session")

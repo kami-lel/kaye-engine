@@ -107,18 +107,6 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: if-else
-        targetType: end
-      id: 1777795130201-false-1777841906201-target
-      source: '1777795130201'
-      sourceHandle: 'false'
-      target: '1777841906201'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
         sourceType: http-request
         targetType: llm
       id: 1777792451946-source-1777849955165-target
@@ -130,23 +118,68 @@ workflow:
       zIndex: 0
     - data:
         isInLoop: false
-        sourceType: llm
-        targetType: code
-      id: 1777849955165-source-1777425543754-target
-      source: '1777849955165'
-      sourceHandle: source
-      target: '1777425543754'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
         sourceType: code
         targetType: end
       id: 1777425543754-source-1777425551330-target
       source: '1777425543754'
       sourceHandle: source
       target: '1777425551330'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: http-request
+      id: 1777795130201-false-17781071076930-target
+      source: '1777795130201'
+      sourceHandle: 'false'
+      target: '17781071076930'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: http-request
+        targetType: llm
+      id: 17781071076930-source-17781071416570-target
+      source: '17781071076930'
+      sourceHandle: source
+      target: '17781071416570'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1777849955165-source-1778258352731-target
+      source: '1777849955165'
+      sourceHandle: source
+      target: '1778258352731'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 17781071416570-source-1778258352731-target
+      source: '17781071416570'
+      sourceHandle: source
+      target: '1778258352731'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: variable-aggregator
+        targetType: code
+      id: 1778258352731-source-1777425543754-target
+      source: '1778258352731'
+      sourceHandle: source
+      target: '1777425543754'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -162,7 +195,7 @@ workflow:
           max_length: 48
           options:
           - Opus
-          - Athenaeum
+          - Shelver
           placeholder: ''
           required: true
           type: select
@@ -192,18 +225,26 @@ workflow:
     - data:
         code: "# pylint: disable=missing-module-docstring\n\n\nimport re\n\n# constants\
           \  ###################################################################\n\
+          \nSEP = \",\"\n\n\n# extract keys  ################################################################\n\
           \n\nEXTRACT_TITLE_KEY = \"title\"\nEXTRACT_YEAR_KEY = \"release_year\"\n\
-          EXTRACT_TAGS_KEY = \"tags\"\nEXTRACT_SEASON_KEY = \"season_number\"\nEXTRACT_EPISODE_KEY\
-          \ = \"episode_number\"\nEXTRACT_EPISODE_NAME_KEY = \"episode_name\"\n\n\n\
-          # Output Keys  #################################################################\n\
-          OUTPUT_RESPONSE_KEY = \"response\"\n\n\n# Entry Point  #################################################################\n\
-          def main(extract: dict, target: str):\n    \"\"\"\n    :param extract:\n\
-          \    :type extract: dict\n    :param target: target/mode of operation, \"\
-          Opus\" or \"Athenaeum\"\n    :type target: str\n    :return: {\n       \
-          \ \"response\": response formatted in md\n    }\n    :rtype: dict{\"response\"\
-          : str}\n    \"\"\"\n\n    title = extract[EXTRACT_TITLE_KEY]\n    year =\
-          \ extract[EXTRACT_YEAR_KEY]\n    tags = extract[EXTRACT_TAGS_KEY]\n\n  \
-          \  # season & episode  --------------------------------------------------------\n\
+          EXTRACT_TAGS_KEY = \"tags\"\n\n# opus extract\nEXTRACT_SEASON_KEY = \"season_number\"\
+          \nEXTRACT_EPISODE_KEY = \"episode_number\"\nEXTRACT_EPISODE_NAME_KEY = \"\
+          episode_name\"\n\n# shelver extract\nEXTRACT_AUTHOR_KEY = \"authors\"\n\
+          EXTRACT_EDITOR_KEY = \"editors\"\nEXTRACT_TRANSLATOR_KEY = \"translators\"\
+          \nEXTRACT_PUBLISHER_KEY = \"publisher\"\nEXTRACT_DDC_CODE_KEY = \"ddc_code\"\
+          \nEXTRACT_DDC_JUST_KEY = \"ddc_justification\"\n\n\n# Output Keys  #################################################################\n\
+          OUTPUT_RESPONSE_KEY = \"response\"\n\n\n# helpers  #####################################################################\n\
+          \n\ndef _convert_filename_safe(original):\n    return re.sub(r'[\\\\/:*?\"\
+          <>|\\x00-\\x1f]', \"_\", original)\n\n\ndef _convert_keywords(entries):\n\
+          \    opt = []\n    for e in entries:\n        filename_safe = _convert_filename_safe(e)\n\
+          \        opt.append(re.sub(r\"[ \\.]\", \"_\", filename_safe))\n\n    return\
+          \ opt\n\n\ndef _add_party_entries(parties, prefix):\n    cnt = len(parties)\n\
+          \    if cnt == 0:\n        return []\n    elif cnt == 1:\n        entry\
+          \ = prefix + \"=\" + parties[0]\n        return [entry]\n    else:\n   \
+          \     entry = prefix + \"{\" + SEP.join(parties) + \"}\"\n        return\
+          \ [entry]\n\n\n# formatter  ###################################################################\n\
+          \n\ndef _format_opus(extract, title, year, tags):  # ===============================\n\
+          \n    # season & episode  --------------------------------------------------------\n\
           \    season_and_episode = []\n    season_number = extract.get(EXTRACT_SEASON_KEY)\n\
           \    if season_number:\n        season_and_episode.append(\"S{}\".format(season_number))\n\
           \n    episode_number = extract.get(EXTRACT_EPISODE_KEY)\n    if episode_number:\n\
@@ -215,10 +256,9 @@ workflow:
           \ = \"\"\n    if len(season_and_episode) > 0:\n        season_and_episode_content\
           \ = \"\".join(season_and_episode)\n        title = title + \".\" + season_and_episode_content\n\
           \n    # title names  -------------------------------------------------------------\n\
-          \    safe_title = re.sub(r'[\\\\/:*?\"<>|\\x00-\\x1f]', \"_\", title)\n\
-          \    folder_name = \"[{year}]{title}\".format(year=year, title=safe_title)\n\
-          \    resource_name = folder_name + \"{\" + \",\".join(tags) + \"}\"\n\n\
-          \    # create response  ---------------------------------------------------------\n\
+          \    safe_title = _convert_filename_safe(title)\n    folder_name = \"[{year}]{title}\"\
+          .format(year=year, title=safe_title)\n    resource_name = folder_name +\
+          \ \"{\" + SEP.join(tags) + \"}\"\n\n    # create response  ---------------------------------------------------------\n\
           \    if title == safe_title:\n        title_part = \"Title:\\n```\\n{}\\\
           n```\\n\".format(title)\n    else:\n        title_part = (\n           \
           \ \"Title:\\n```\\n{}\\n```\\nTitle (Safe):\\n```\\n{}\\n```\\n\".format(\n\
@@ -227,19 +267,48 @@ workflow:
           Episode Name:\n\n```\n{}\n```\n\"\"\".format(season_and_episode_content)\n\
           \n    response = title_part + sne_part + \"\"\"\nFolder Name:\n\n```\n{}\n\
           ```\n\nResource Name:\n\n```\n{}\n```\n\"\"\".format(folder_name, resource_name)\n\
-          \n    return {OUTPUT_RESPONSE_KEY: response}\n\n"
+          \n    return response\n\n\ndef _format_shelver(extract, title, year, tags):\
+          \  # ============================\n\n    # on parties  --------------------------------------------------------------\n\
+          \    # add authors\n    parties = _convert_keywords(extract[EXTRACT_AUTHOR_KEY])\n\
+          \n    # add editors\n    editors = _convert_keywords(extract[EXTRACT_EDITOR_KEY])\n\
+          \    parties.extend(_add_party_entries(editors, \"edr\"))\n\n    # add translators\n\
+          \    translators = _convert_keywords(extract[EXTRACT_TRANSLATOR_KEY])\n\
+          \    parties.extend(_add_party_entries(translators, \"tr\"))\n\n    # on\
+          \ publisher  ------------------------------------------------------------\n\
+          \    publisher = extract[EXTRACT_PUBLISHER_KEY]\n\n    # on tags  -----------------------------------------------------------------\n\
+          \    ddc_tag = \"[{}]dd\".format(extract[EXTRACT_DDC_CODE_KEY])\n    tags.append(ddc_tag)\n\
+          \n    # format as response  ------------------------------------------------------\n\
+          \    ddc_just = extract[EXTRACT_DDC_JUST_KEY]\n\n    response = \"\"\"\n\
+          Title Only:\n\n```\n{title}\n```\n\nExact Print:\n\n```\n{title}[{year}]\n\
+          ```\n\nBasic Info:\n\n```\n{title}[{year}]{parties}[{publisher}]\n```\n\n\
+          Full Info:\n\n```\n{title}[{year}]{parties}[{publisher}]{{{tags}}}\n```\n\
+          \nMultiple Lines:\n\n```\n{title}\n    [{year}]\n    {parties}\n    [{publisher}]\n\
+          \    {{\n        {tags}\n    }}\n```\n\n{ddc_just}\n\"\"\".format(\n   \
+          \     title=_convert_filename_safe(title),\n        year=year,\n       \
+          \ parties=SEP.join(parties),\n        publisher=publisher,\n        tags=SEP.join(tags),\n\
+          \        ddc_just=ddc_just,\n    )\n    return response\n\n\n# Entry Point\
+          \  #################################################################\ndef\
+          \ main(extract: dict, target: str):\n    \"\"\"\n    :param extract:\n \
+          \   :type extract: dict\n    :param target: target/mode of operation, \"\
+          Opus\" or \"Shelver\"\n    :type target: str\n    :return: {\n        \"\
+          response\": response formatted in md\n    }\n    :rtype: dict{\"response\"\
+          : str}\n    \"\"\"\n\n    title = extract[EXTRACT_TITLE_KEY]\n    year =\
+          \ extract[EXTRACT_YEAR_KEY]\n    tags = extract[EXTRACT_TAGS_KEY]\n\n  \
+          \  response = (\n        _format_opus(extract, title, year, tags)\n    \
+          \    if target == \"Opus\"\n        else _format_shelver(extract, title,\
+          \ year, tags)\n    )\n    return {OUTPUT_RESPONSE_KEY: response}\n\n"
         code_language: python3
         outputs:
           response:
             children: null
             type: string
-        selected: true
+        selected: false
         title: formatter
         type: code
         variables:
         - value_selector:
-          - '1777849955165'
-          - structured_output
+          - '1778258352731'
+          - output
           value_type: object
           variable: extract
         - value_selector:
@@ -250,12 +319,12 @@ workflow:
       height: 52
       id: '1777425543754'
       position:
-        x: 1595.8098469161207
-        y: 56.61015026926901
+        x: 1955.6980037814856
+        y: 289.38282027095204
       positionAbsolute:
-        x: 1595.8098469161207
-        y: 56.61015026926901
-      selected: true
+        x: 1955.6980037814856
+        y: 289.38282027095204
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -273,11 +342,11 @@ workflow:
       height: 88
       id: '1777425551330'
       position:
-        x: 2072.840233699164
-        y: 56.61015026926901
+        x: 2328.1620923785176
+        y: 289.38282027095204
       positionAbsolute:
-        x: 2072.840233699164
-        y: 56.61015026926901
+        x: 2328.1620923785176
+        y: 289.38282027095204
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -310,11 +379,11 @@ workflow:
       height: 160
       id: '1777792451946'
       position:
-        x: 868.2612778068474
-        y: 56.61015026926901
+        x: 877.5952933995972
+        y: 154.1118133584349
       positionAbsolute:
-        x: 868.2612778068474
-        y: 56.61015026926901
+        x: 877.5952933995972
+        y: 154.1118133584349
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -339,35 +408,11 @@ workflow:
       height: 124
       id: '1777795130201'
       position:
-        x: 446.2237966443031
+        x: 451.4471000240799
         y: 303
       positionAbsolute:
-        x: 446.2237966443031
+        x: 451.4471000240799
         y: 303
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        desc: to be implemented
-        outputs:
-        - value_selector:
-          - '1777425504155'
-          - query
-          value_type: string
-          variable: response
-        selected: false
-        title: '%%%'
-        type: end
-      height: 116
-      id: '1777841906201'
-      position:
-        x: 868.2612778068474
-        y: 498.54820361305985
-      positionAbsolute:
-        x: 868.2612778068474
-        y: 498.54820361305985
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -393,7 +438,7 @@ workflow:
           max_retries: 3
           retry_enabled: false
           retry_interval: 1000
-        selected: false
+        selected: true
         structured_output:
           schema:
             additionalProperties: false
@@ -409,17 +454,19 @@ workflow:
               season_number:
                 description: extract season number. 0 if unknown
                 type: number
+              subtitle:
+                type: string
               tags:
                 items:
                   type: string
                 type: array
               title:
-                description: work's original title
                 type: string
             required:
             - tags
             - release_year
             - title
+            - subtitle
             type: object
         structured_output_enabled: true
         title: Opus Extract
@@ -434,18 +481,164 @@ workflow:
       height: 88
       id: '1777849955165'
       position:
-        x: 1234.513468905124
-        y: 56.61015026926901
+        x: 1188.5802340448547
+        y: 154.1118133584349
       positionAbsolute:
-        x: 1234.513468905124
-        y: 56.61015026926901
+        x: 1188.5802340448547
+        y: 154.1118133584349
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        method: get
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: Get for Shelver
+        type: http-request
+        url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/opus-tag-smith/shelver'
+        variables: []
+      height: 160
+      id: '17781071076930'
+      position:
+        x: 882.1900868195853
+        y: 470.36453363680977
+      positionAbsolute:
+        x: 882.1900868195853
+        y: 470.36453363680977
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5.4-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 42200952-ebc7-4396-bd28-41bfb0e56cfe
+          role: system
+          text: '{{#17781071076930.body#}}'
+        - id: 01061b37-bc0d-425e-a5f7-0ae8b5fbfa81
+          role: user
+          text: '{{#1777425504155.query#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 1000
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              authors:
+                items:
+                  type: string
+                type: array
+              ddc_code:
+                type: string
+              ddc_justification:
+                type: string
+              editors:
+                items:
+                  type: string
+                type: array
+              publisher:
+                type: string
+              release_year:
+                type: string
+              tags:
+                items:
+                  type: string
+                type: array
+              title:
+                description: work's original title
+                type: string
+              translators:
+                items:
+                  type: string
+                type: array
+            required:
+            - tags
+            - release_year
+            - title
+            - authors
+            - editors
+            - translators
+            - ddc_code
+            - ddc_justification
+            - publisher
+            type: object
+        structured_output_enabled: true
+        title: Shelver Extract
+        type: llm
+        vision:
+          configs:
+            detail: high
+            variable_selector:
+            - sys
+            - files
+          enabled: true
+      height: 88
+      id: '17781071416570'
+      position:
+        x: 1188.5802340448547
+        y: 470.36453363680977
+      positionAbsolute:
+        x: 1188.5802340448547
+        y: 470.36453363680977
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        output_type: object
+        selected: false
+        title: Extact Aggregator
+        type: variable-aggregator
+        variables:
+        - - '1777849955165'
+          - structured_output
+        - - '17781071416570'
+          - structured_output
+      height: 134
+      id: '1778258352731'
+      position:
+        x: 1538.027807566778
+        y: 289.38282027095204
+      positionAbsolute:
+        x: 1538.027807566778
+        y: 289.38282027095204
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: -636.922026121925
-      y: 412.3385598938045
-      zoom: 0.7470562354298889
+      x: -1121.8297336812357
+      y: 100.87782616901472
+      zoom: 0.870550563296124
   rag_pipeline_variables: []
