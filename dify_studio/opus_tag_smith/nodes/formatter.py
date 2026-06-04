@@ -1,5 +1,6 @@
 # pylint: disable=missing-module-docstring
 
+# todo write unit test for OTS formatter
 
 import re
 
@@ -72,7 +73,7 @@ def _format_opus(extract):  # ==================================================
     title = _convert_filename_safe(extract[EXTRACT_TITLE_KEY])
     subtitle = _convert_filename_safe(extract[EXTRACT_SUBTITLE_KEY])
 
-    # FIXME
+    # fixme utilize subtitle for OTS Opus
 
     # season & episode  --------------------------------------------------------
     season_and_episode = []
