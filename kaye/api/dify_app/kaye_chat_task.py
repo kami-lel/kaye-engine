@@ -142,6 +142,7 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
     # adds PL nodes  -----------------------------------------------------------
     for plc in pls.split(","):
+        # FIXME use blueprint, instead of programmatically
         if plc == "bash":
             bp.checkmark(kyc_node["Bash"])
 
