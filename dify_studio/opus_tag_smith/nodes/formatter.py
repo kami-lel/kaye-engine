@@ -105,37 +105,43 @@ def _format_opus(extract):  # ==================================================
     resource_name = folder_name + "{" + SEP.join(tags) + "}"
 
     # create response  ---------------------------------------------------------
-    if title == safe_title:
-        title_part = "Title:\n```\n{}\n```\n".format(title)
-    else:
-        title_part = (
-            "Title:\n```\n{}\n```\nTitle (Safe):\n```\n{}\n```\n".format(
-                title, safe_title
-            )
-        )
-
-    sne_part = ""
-    if season_and_episode_content:
-        sne_part = """Episode Name:
+    response = """
+Title:
 
 ```
-{}
+{title}
 ```
-""".format(season_and_episode_content)
 
-    response = title_part + sne_part + """
+Title (Safe):
+
+```
+{safe_title}
+```
+
+Episode Name:
+
+```
+{sne}
+```
+
 Folder Name:
 
 ```
-{}
+{folder_name}
 ```
 
 Resource Name:
 
 ```
-{}
+{resource_name}
 ```
-""".format(folder_name, resource_name)
+""".format(
+        title=title,
+        safe_title=safe_title,
+        sne=season_and_episode_content,
+        folder_name=folder_name,
+        resource_name=resource_name,
+    )
 
     return response
 
