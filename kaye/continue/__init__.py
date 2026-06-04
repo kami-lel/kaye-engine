@@ -1,5 +1,17 @@
-# TODO mpl continue folder related
+"""
+define ``update_continue_local_config_folder``
+"""
 
 
-if __name__ == "__main__":
-    pass
+def update_continue_local_config_folder(continue_local_config_folder):
+    """
+    HACK write docstring
+
+
+    :param continue_local_config_folder: path to folder containing
+            continue local configs,
+            i.e. the ``.continue/`` folder containing
+            ``config.yaml``, ``sessions/``, ``rules/``
+    :type continue_local_config_folder: Path-like
+    """
+    pass  # TODO
