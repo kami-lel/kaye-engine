@@ -106,6 +106,7 @@ coder_blueprint.checkmark("Kaye Peer Coder")
 coder_blueprint.display_name = "Coder"
 coder_blueprint.description = "instruction for coding and programming"
 
+
 coder_bash_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_bash_blueprint.checkmark(
     coder_bash_blueprint.corpus["Kaye Peer Coder"]["Bash"]
