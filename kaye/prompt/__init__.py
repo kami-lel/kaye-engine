@@ -15,5 +15,3 @@ from .abbr_collection import *
 from .abbr_nodes import *
 from .today_node import *
 from .embedded_blueprints import *
-
-# fixme cleanup embedded blueprints
