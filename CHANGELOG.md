@@ -25,6 +25,12 @@ Dify App *Opus Tag Smith*:
 
 ### Changed
 
+`prompt_corpus.md`:
+
+- lift *Kaye Peer Coder* one level up
+
+  - update related tests
+
 Dify App *Opus Tag Smith*:
 
 - improve title and translated title prompt extract logic
