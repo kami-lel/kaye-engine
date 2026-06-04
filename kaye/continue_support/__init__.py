@@ -19,7 +19,7 @@ def update_continue_local_config_folder(continue_local_config_folder):
     folder = Path(continue_local_config_folder)
     rules_folder = (folder / "rules").resolve()
 
-    pass  # TODO
+    print(rules_folder)  # HACK
 
 
 class RuleFile:
