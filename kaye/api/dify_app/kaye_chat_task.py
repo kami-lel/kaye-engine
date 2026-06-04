@@ -8,25 +8,14 @@ define endpoint behavior of: /kaye/dify-app/ky/task
 from flask import request, abort, Response
 
 
-from kaye.prompt import PromptBlueprint, create_rapid_blueprint
+from kaye.prompt import (
+    create_rapid_blueprint,
+    create_chat_blueprint,
+)
 
 # constant  ####################################################################
 BODY_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
 BODY_QUERY_KEY = "query"
-
-
-# blueprints  ==================================================================
-
-CHAT_PROMPT_BLUEPRINT = """    ○
-[x] ├── Introduction
-[x] ├── Personality
-[x] ├── Language
-[x] ├── Elements
-[x] │   ├── Date & Time Format
-[x] │   └── Numerical Values with Units
-[x] ├── Format
-[x] ├── Role
-[x] └── {Abbreviations}"""
 
 
 # Entry Point  #################################################################
@@ -49,7 +38,7 @@ def kaye_chat_task():
         bp = _create_changelog_blueprint()
 
     elif role == "chat":
-        bp = _create_chat_blueprint()
+        bp = create_chat_blueprint()
 
     elif role == "coder":
         bp = _create_peer_coder_blueprint(pls)
@@ -92,10 +81,6 @@ def kaye_chat_task():
 # task blueprints  #############################################################
 
 
-def _create_chat_blueprint():  # ===============================================
-    return PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT)
-
-
 def _create_art_blueprint():  # ================================================
     bp = create_rapid_blueprint()
     bp.checkmark("Art Tutor", recursively=True)
@@ -110,7 +95,7 @@ def _create_barista_blueprint():  # ============================================
 
 
 def _create_changelog_blueprint():  # ==========================================
-    bp = _create_chat_blueprint()
+    bp = create_chat_blueprint()
     bp.checkmark("Changelog Writer", recursively=True)
     return bp
 
@@ -118,7 +103,7 @@ def _create_changelog_blueprint():  # ==========================================
 def _create_peer_coder_blueprint(pls):  # ======================================
     # pylint: disable=too-many-branches
     # create base bp from chat
-    bp = _create_chat_blueprint()
+    bp = create_chat_blueprint()
 
     # add styles
     bp.checkmark("Style", recursively=True)
@@ -177,20 +162,20 @@ def _create_peer_coder_blueprint(pls):  # ======================================
 
 
 def _create_deutschlehrer_blueprint():  # ======================================
-    bp = _create_chat_blueprint()
+    bp = create_chat_blueprint()
     bp.checkmark("Deutschlehrer")
     return bp
 
 
 def _create_editor_blueprint():  # =============================================
-    bp = _create_chat_blueprint()
+    bp = create_chat_blueprint()
     bp.checkmark(bp.corpus["Style"]["Good Writing"])
     bp.checkmark(bp.corpus["Role"]["Editor"], recursively=True)
     return bp
 
 
 def _create_librarian_blueprint():  # ==========================================
-    bp = _create_chat_blueprint()
+    bp = create_chat_blueprint()
     bp.checkmark("Librarian", recursively=True)
     return bp
 
@@ -202,14 +187,14 @@ def _create_prompt_blueprint():  # =============================================
 
 
 def _create_secretary_blueprint():  # ==========================================
-    bp = _create_chat_blueprint()
+    bp = create_chat_blueprint()
     bp.checkmark(bp.corpus["Style"]["Good Writing"])
     bp.checkmark(bp.corpus["Role"]["Secretary"])
     return bp
 
 
 def _create_shelver_blueprint():  # ============================================
-    bp = _create_chat_blueprint()
+    bp = create_chat_blueprint()
     bp.checkmark(bp.corpus["Role"]["Shelver"], recursively=True)
     return bp
 
