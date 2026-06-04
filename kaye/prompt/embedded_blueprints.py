@@ -13,6 +13,7 @@ __all__ = (
     "number_unit_blueprint",
     "style_blueprint",
     "annotation_marker_blueprint",
+    "coder_blueprint",
     "coder_bash_blueprint",
     "coder_c_blueprint",
     "coder_cpp_blueprint",
@@ -30,6 +31,7 @@ __all__ = (
 
 
 # blueprints  ##################################################################
+# todo save description as part of prompt_corpus.md
 
 rapid_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Introduction
@@ -99,6 +101,10 @@ continue_behavior_blueprint.display_name = "Continue Behavior"
 
 # coder  =======================================================================
 
+coder_blueprint = PromptBlueprint.create_empty_blueprint()
+coder_blueprint.checkmark("Kaye Peer Coder")
+coder_blueprint.display_name = "Coder"
+coder_blueprint.description = "instruction for coding and programming"
 
 coder_bash_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_bash_blueprint.checkmark(
@@ -106,7 +112,7 @@ coder_bash_blueprint.checkmark(
 )
 coder_bash_blueprint.display_name = "Coder Bash"
 coder_bash_blueprint.description = (
-    "Debian GNU/Linux shell commands; ready-to-run output, no explanation"
+    "Debian GNU/Linux shell commands; ready-to-run output"
 )
 
 
