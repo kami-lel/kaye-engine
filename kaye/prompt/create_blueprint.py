@@ -47,7 +47,7 @@ def create_chat_blueprint():
     return PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT)
 
 
-def create_coder_blueprint(plcs):
+def create_coder_blueprint(plcs):  # TODO split various blueprints
     # create base bp from chat
     bp = create_chat_blueprint()
 
