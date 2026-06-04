@@ -19,6 +19,6 @@ def update_continue_local_config_folder(continue_local_config_folder):
     folder = Path(continue_local_config_folder)
     rules_folder = (folder / "rules").resolve()
 
-    print(rules_folder)  # HACK
+    print(rules_folder)  # TODO actually mpl rule update logic
 
-    # todo support prompts updating
+    # todo support *prompts*
