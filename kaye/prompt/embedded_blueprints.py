@@ -23,6 +23,8 @@ __all__ = (
     "coder_html_blueprint",
     "coder_js_ts_blueprint",
     "coder_py_blueprint",
+    "coder_py_docstring_blueprint",
+    "coder_py_test_blueprint",
 )
 
 # blueprints  ##################################################################
@@ -169,9 +171,30 @@ coder_js_ts_blueprint.description = "JavaScript or TypeScript code"
 
 coder_py_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_py_blueprint.checkmark(
-    coder_py_blueprint.corpus["Kaye Peer Coder"]["Python"], recursively=True
+    coder_py_blueprint.corpus["Kaye Peer Coder"]["Python"]
 )
 coder_py_blueprint.display_name = "Coder Python"
-coder_py_blueprint.description = "Python code (PEP8, Sphinx docstrings, pytest)"
+coder_py_blueprint.description = "Python code"
 
-# FIXME split to different blueprint
+coder_py_docstring_blueprint = PromptBlueprint.create_empty_blueprint()
+coder_py_docstring_blueprint.checkmark(
+    coder_py_docstring_blueprint.corpus["Kaye Peer Coder"]["Python"][
+        "Docstring Style"
+    ]
+)
+coder_py_docstring_blueprint.display_name = "Coder Python Docstring"
+
+coder_py_docstring_blueprint.description = (
+    "Python docstrings in Sphinx/reStructuredText style"
+)
+
+coder_py_test_blueprint = PromptBlueprint.create_empty_blueprint()
+coder_py_test_blueprint.checkmark(
+    coder_py_test_blueprint.corpus["Kaye Peer Coder"]["Python"][
+        "Testing Guidelines"
+    ]
+)
+coder_py_test_blueprint.display_name = "Coder Python Testing"
+coder_py_test_blueprint.description = (
+    "Python tests using pytest with Test classes and test_ functions"
+)
