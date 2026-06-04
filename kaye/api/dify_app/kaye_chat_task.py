@@ -8,7 +8,7 @@ define endpoint behavior of: /kaye/dify-app/ky/task
 from flask import request, abort, Response
 
 
-from kaye.prompt import PromptBlueprint
+from kaye.prompt import PromptBlueprint, create_rapid_blueprint
 
 # constant  ####################################################################
 BODY_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
@@ -26,12 +26,6 @@ CHAT_PROMPT_BLUEPRINT = """    ○
 [x] │   └── Numerical Values with Units
 [x] ├── Format
 [x] ├── Role
-[x] └── {Abbreviations}"""
-
-
-RAPID_PROMPT_BLUEPRINT = """    ○
-[x] ├── Introduction
-[x] ├── Format
 [x] └── {Abbreviations}"""
 
 
@@ -73,7 +67,7 @@ def kaye_chat_task():
         bp = _create_prompt_blueprint()
 
     elif role == "rapid":
-        bp = _create_rapid_blueprint()
+        bp = create_rapid_blueprint()
 
     elif role == "secretary":
         bp = _create_secretary_blueprint()
@@ -98,22 +92,18 @@ def kaye_chat_task():
 # task blueprints  #############################################################
 
 
-def _create_rapid_blueprint():  # ==============================================
-    return PromptBlueprint.parse(RAPID_PROMPT_BLUEPRINT)
-
-
 def _create_chat_blueprint():  # ===============================================
     return PromptBlueprint.parse(CHAT_PROMPT_BLUEPRINT)
 
 
 def _create_art_blueprint():  # ================================================
-    bp = _create_rapid_blueprint()
+    bp = create_rapid_blueprint()
     bp.checkmark("Art Tutor", recursively=True)
     return bp
 
 
 def _create_barista_blueprint():  # ============================================
-    bp = _create_rapid_blueprint()
+    bp = create_rapid_blueprint()
     bp.checkmark("Date & Time Format")
     bp.checkmark("Assistant Barista", recursively=True)
     return bp
@@ -206,7 +196,7 @@ def _create_librarian_blueprint():  # ==========================================
 
 
 def _create_prompt_blueprint():  # =============================================
-    bp = _create_rapid_blueprint()
+    bp = create_rapid_blueprint()
     bp.checkmark("Prompt Writer")
     return bp
 
@@ -225,6 +215,6 @@ def _create_shelver_blueprint():  # ============================================
 
 
 def _create_tarot_blueprint():  # ==============================================
-    bp = _create_rapid_blueprint()
+    bp = create_rapid_blueprint()
     bp.checkmark("Tarot Reader", recursively=True)
     return bp
