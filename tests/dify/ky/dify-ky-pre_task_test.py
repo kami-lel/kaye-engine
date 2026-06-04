@@ -250,7 +250,7 @@ class TestLLM:  # ==============================================================
         llms = opt[OUTPUT_LLMS_KEY]
         direct = opt[OUTPUT_DIRECT_KEY]
 
-        assert llms == ["claude-sonnet-4", "gpt-5-mini"]
+        assert llms == ["claude-opus-4"]
         assert not direct
 
     def test13(_, kwargs):
