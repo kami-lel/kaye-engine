@@ -27,6 +27,7 @@ __all__ = (
     "coder_py_test_blueprint",
 )
 
+
 # blueprints  ##################################################################
 
 rapid_blueprint = PromptBlueprint.parse("""    ○

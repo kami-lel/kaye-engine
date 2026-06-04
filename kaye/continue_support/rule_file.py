@@ -19,7 +19,7 @@ class RuleFile:
     >>> with RuleFile("my-rule.mdc") as rule:
     ...     rule.name = "My Rule"
     ...     rule.description = "does something useful"
-    ...     rule.globs = "**/*.py"
+    ...     rule.globs = ["**/*.py"]
     ...     rule.write_prefix()
     ...     rule.write("always do this\n")
     """
@@ -31,8 +31,8 @@ class RuleFile:
 
         self.name = ""
         self.description = ""
-        self.globs = ""
-        self.always_apply = ""
+        self.globs = []
+        self.always_apply = False
 
         self.file = None
 
@@ -55,10 +55,12 @@ class RuleFile:
             self.file.write("description: {}\n".format(self.description))
 
         if self.globs:
-            self.file.write("globs: {}\n".format(self.globs))
+            globs_str = ", ".join('"{}"'.format(g) for g in self.globs)
+            self.file.write("globs: [{}]\n".format(globs_str))
 
-        if self.always_apply:
-            self.file.write("alwaysApply: {}\n".format(self.always_apply))
+        self.file.write(
+            "alwaysApply: {}\n".format(str(self.always_apply).lower())
+        )
 
         self.file.write("---\n\n")
 
