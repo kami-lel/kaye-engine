@@ -22,4 +22,4 @@ cli_subparser = cli_parser.add_subparsers(title="subcommands")
 register_cli_prompt_parser(cli_subparser)
 
 # Fixme make cli functional again
-# Todo add continue cli
+# TODO add continue cli
