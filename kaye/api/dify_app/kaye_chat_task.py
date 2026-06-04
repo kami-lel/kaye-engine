@@ -15,6 +15,7 @@ from kaye.prompt import (
     number_unit_blueprint,
     style_blueprint,
     annotation_marker_blueprint,
+    coder_blueprint,
     coder_bash_blueprint,
     coder_c_blueprint,
     coder_cpp_blueprint,
@@ -105,6 +106,7 @@ def _create_chat_blueprint():
 def _create_coder_blueprint(plcs):
     bp = (
         chat_blueprint
+        | coder_blueprint
         | date_time_blueprint
         | number_unit_blueprint
         | style_blueprint
