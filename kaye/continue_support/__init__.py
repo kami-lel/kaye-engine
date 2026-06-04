@@ -7,7 +7,7 @@ from pathlib import Path
 
 def update_continue_local_config_folder(continue_local_config_folder):
     """
-    HACK HACK write docstring
+    update the Continue local config folder with the updated kaye prompts
 
 
     :param continue_local_config_folder: path to folder containing
