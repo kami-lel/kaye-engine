@@ -24,28 +24,36 @@ def update_continue_local_config_folder(continue_local_config_folder):
 
 class RuleFile:
 
-    def __init__(self, path, is_invokable, mode="w", encoding=None):
-        self._is_invokable = is_invokable
+    def __init__(self, path, mode="w", encoding=None):
         self._path = path
         self._mode = mode
         self._encoding = encoding
 
-        self._file = None
+        self.name = ""
+        self.description = ""
+        self.globs = ""
+        self.always_apply = ""
+
+        self.f = None
 
     def __enter__(self):
-        self._file = open(self._path, self._mode, encoding=self._encoding)
+        self.f = open(self._path, self._mode, encoding=self._encoding)
         return self
 
     def __exit__(self, *args):
-        self._file.close()
+        self.f.close()
 
-    def write(self, name, content):
-        f = self._file
+    def write_prefix(self):
+        self.f.write("---\n")
+        self.f.write("name: {}\n".format(self.name))
 
-        f.write("---")
-        f.write("name: {}".format(name))
-        if self._is_invokable:
-            f.write("invokable: true")
-        f.write("---")
+        if self.description:
+            self.f.write("description: {}\n".format(self.description))
 
-        f.write(content)
+        if self.globs:
+            self.f.write("globs: {}\n".format(self.globs))
+
+        if self.always_apply:
+            self.f.write("alwaysApply: {}\n".format(self.always_apply))
+
+        self.f.write("---\n\n")
