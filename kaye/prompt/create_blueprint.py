@@ -58,7 +58,7 @@ def create_coder_blueprint(plcs):
     bp.checkmark(bp.corpus["Elements"]["Annotation Markers"], recursively=True)
 
     # add Kaye Peer Coder node
-    kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]  # TODO one level up
+    kyc_node = bp.corpus["Kaye Peer Coder"]
     bp.checkmark(kyc_node)
 
     # adds PL nodes  -----------------------------------------------------------
