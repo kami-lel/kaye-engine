@@ -11,6 +11,7 @@ from flask import request, abort, Response
 from kaye.prompt import (
     create_rapid_blueprint,
     create_chat_blueprint,
+    create_coder_blueprint,
 )
 
 # constant  ####################################################################
@@ -24,7 +25,7 @@ def kaye_chat_task():
 
     # default to chat
     role = body.get("role") or "chat"
-    pls = body.get(BODY_PROGRAMMING_LANGUAGES_KEY) or ""
+    plcs = body.get(BODY_PROGRAMMING_LANGUAGES_KEY) or ""
     query = body.get(BODY_QUERY_KEY) or ""
 
     # create bp  ---------------------------------------------------------------
@@ -41,7 +42,7 @@ def kaye_chat_task():
         bp = create_chat_blueprint()
 
     elif role == "coder":
-        bp = _create_peer_coder_blueprint(pls)
+        bp = create_coder_blueprint(plcs)
 
     elif role == "deutschlehrer":
         bp = _create_deutschlehrer_blueprint()
@@ -97,67 +98,6 @@ def _create_barista_blueprint():  # ============================================
 def _create_changelog_blueprint():  # ==========================================
     bp = create_chat_blueprint()
     bp.checkmark("Changelog Writer", recursively=True)
-    return bp
-
-
-def _create_peer_coder_blueprint(pls):  # ======================================
-    # pylint: disable=too-many-branches
-    # create base bp from chat
-    bp = create_chat_blueprint()
-
-    # add styles
-    bp.checkmark("Style", recursively=True)
-
-    # add ams
-    bp.checkmark(bp.corpus["Elements"]["Annotation Markers"], recursively=True)
-
-    # add Kaye Peer Coder node
-    kyc_node = bp.corpus["Role"]["Kaye Peer Coder"]
-    bp.checkmark(kyc_node)
-
-    # adds PL nodes  -----------------------------------------------------------
-    for plc in pls.split(","):
-        # FIXME use blueprint, instead of programmatically
-        if plc == "bash":
-            bp.checkmark(kyc_node["Bash"])
-
-        elif plc == "c":
-            bp.checkmark(kyc_node["C"])
-            bp.checkmark(kyc_node["Brace Style"])
-
-        elif plc == "cpp":
-            bp.checkmark(kyc_node["C"])
-            bp.checkmark(kyc_node["C++"])
-            bp.checkmark(kyc_node["Brace Style"])
-
-        elif plc == "ue":
-            bp.checkmark(kyc_node["C"])
-            bp.checkmark(kyc_node["C++"])
-            bp.checkmark(kyc_node["Unreal Engine"])
-            bp.checkmark(kyc_node["Brace Style"])
-
-        elif plc == "csharp":
-            bp.checkmark(kyc_node["C Sharp"])
-            bp.checkmark(kyc_node["Brace Style"])
-
-        elif plc == "u3d":
-            bp.checkmark(kyc_node["C Sharp"])
-            bp.checkmark(kyc_node["Unity Engine"], recursively=True)
-            bp.checkmark(kyc_node["Brace Style"])
-
-        elif plc == "gdscript":
-            bp.checkmark(kyc_node["GDScript"])
-
-        elif plc == "html":
-            bp.checkmark(kyc_node["HTML"])
-
-        elif plc in ("js", "ts"):
-            bp.checkmark(kyc_node["JavaScript & TypeScript"], recursively=True)
-            bp.checkmark(kyc_node["Brace Style"])
-
-        elif plc == "py":
-            bp.checkmark(kyc_node["Python"], recursively=True)
-
     return bp
 
 
