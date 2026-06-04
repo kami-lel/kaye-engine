@@ -28,10 +28,12 @@ def update_continue_local_config_folder(continue_local_config_folder):
         bp = getattr(embedded_blueprints, name)
         file_path = rules_folder / "{}.md".format(name)
 
+        print("update rule: {}".format(file_path))
         with RuleFile(file_path, encoding="utf-8") as rule:
             rule.name = bp.display_name
             rule.description = bp.description
             rule.write_prefix()
             rule.write(bp.generate_prompt())
+            # TODO glob
 
     # todo support *prompts*
