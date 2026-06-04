@@ -9,10 +9,10 @@ from flask import request, abort, Response
 
 
 from kaye.prompt import (
-    create_rapid_blueprint,
-    create_chat_blueprint,
-    create_date_time_blueprint,
-    create_number_unit_blueprint,
+    rapid_blueprint,
+    chat_blueprint,
+    date_time_blueprint,
+    number_unit_blueprint,
 )
 
 # constant  ####################################################################
@@ -58,7 +58,7 @@ def kaye_chat_task():
         bp = _create_prompt_blueprint()
 
     elif role == "rapid":
-        bp = create_rapid_blueprint()
+        bp = rapid_blueprint
 
     elif role == "secretary":
         bp = _create_secretary_blueprint()
@@ -84,17 +84,15 @@ def kaye_chat_task():
 
 
 def _create_chat_blueprint():
-    bp = (
-        create_chat_blueprint()
-        | create_date_time_blueprint()
-        | create_number_unit_blueprint()
-    )
+    bp = chat_blueprint | date_time_blueprint | number_unit_blueprint
     return bp
 
 
 def _create_coder_blueprint(plcs):
     # create base bp from chat
     bp = _create_chat_blueprint()
+
+    # TODO mpl as individual skills
 
     # add styles
     bp.checkmark("Style", recursively=True)
@@ -152,13 +150,13 @@ def _create_coder_blueprint(plcs):
 
 
 def _create_art_blueprint():
-    bp = create_rapid_blueprint()
+    bp = rapid_blueprint
     bp.checkmark("Art Tutor", recursively=True)
     return bp
 
 
 def _create_barista_blueprint():
-    bp = create_rapid_blueprint()
+    bp = rapid_blueprint
     bp.checkmark("Date & Time Format")
     bp.checkmark("Assistant Barista", recursively=True)
     return bp
@@ -190,7 +188,7 @@ def _create_librarian_blueprint():
 
 
 def _create_prompt_blueprint():
-    bp = create_rapid_blueprint()
+    bp = rapid_blueprint
     bp.checkmark("Prompt Writer")
     return bp
 
@@ -209,6 +207,6 @@ def _create_shelver_blueprint():
 
 
 def _create_tarot_blueprint():
-    bp = create_rapid_blueprint()
+    bp = rapid_blueprint
     bp.checkmark("Tarot Reader", recursively=True)
     return bp
