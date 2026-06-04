@@ -13,7 +13,8 @@ __all__ = (
 )
 
 
-# HACK better docstring: 3 functions & module, also write readme
+# pylint: disable=missing-function-docstring
+
 
 # Blueprints  ##################################################################
 
