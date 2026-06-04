@@ -26,7 +26,7 @@ from kaye.prompt import (
     coder_js_ts_blueprint,
     coder_py_blueprint,
     coder_py_docstring_blueprint,
-    coder_py_test_blueprint,
+    coder_py_testing_blueprint,
 )
 
 # constant  ####################################################################
@@ -145,7 +145,7 @@ def _create_coder_blueprint(plcs):
                 bp
                 | coder_py_blueprint
                 | coder_py_docstring_blueprint
-                | coder_py_test_blueprint
+                | coder_py_testing_blueprint
             )
 
     return bp
