@@ -18,6 +18,8 @@
 
 ### Added
 
+- comprehensive unit tests for Python CLI: continue support
+
 ### Changed
 
 ### Deprecated
