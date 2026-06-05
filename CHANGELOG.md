@@ -51,6 +51,7 @@ CLI:
 
 - route entrypoint through subcommands
 - HTTP API server moved from `python -m kaye` to `python -m kaye http` (alias `h`)
+- disable `prompt` subcommand entirely need rework
 
 `prompt_corpus.md`:
 
