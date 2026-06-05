@@ -50,6 +50,7 @@ Embedded blueprints:
 CLI:
 
 - route entrypoint through subcommands
+- HTTP API server moved from `python -m kaye` to `python -m kaye http` (alias `h`)
 
 `prompt_corpus.md`:
 
