@@ -84,7 +84,7 @@ def _export_blueprint_rule(name, bp, path):
         rule.write(bp.generate_prompt())
 
 
-def export_all_blueprint_rules(rules_folder):
+def export_blueprint_rules(rules_folder):
     """
     export all blueprints in ``EXPORT_BLUEPRINTS`` as Continue AI rule files
 
@@ -101,5 +101,5 @@ def export_all_blueprint_rules(rules_folder):
         bp = getattr(embedded_blueprints, name)
         file_path = folder / "{}.md".format(name)
 
-        print("update rule: {}".format(file_path))
+        print("update blueprint rule:\t{}".format(file_path))
         _export_blueprint_rule(name, bp, file_path)
