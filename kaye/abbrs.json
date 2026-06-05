@@ -6,7 +6,7 @@
         "common",
         "currency_symbol"
       ],
-      "wrap": "symbol"
+      "wrap": "currency"
     }
   },
   "(default)US Dollar": {
@@ -15,9 +15,9 @@
       "tags": [
         "letters_only",
         "common",
-        "unit_of_measure"
+        "currency_symbol"
       ],
-      "wrap": "symbol"
+      "wrap": "currency"
     }
   },
   "(default)US cent": {
@@ -25,9 +25,9 @@
       "priority": 5,
       "tags": [
         "common",
-        "unit_of_measure"
+        "currency_symbol"
       ],
-      "wrap": "symbol"
+      "wrap": "currency"
     }
   },
   "-able,-ble,-le": {
@@ -662,7 +662,8 @@
     "¤": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "currency_symbol"
       ],
       "wrap": "symbol"
     }

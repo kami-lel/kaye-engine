@@ -21,25 +21,21 @@ _TAG_GROUPS = [
         AbbrTags.programming_language_code,
         "abbr-programming_language_code.md",
         "Abbreviations: Programming Language Codes",
-        "programming language code abbreviations and their meanings",
     ),
     (
         AbbrTags.language_code,
         "abbr-language_code.md",
         "Abbreviations: Natural Language Codes",
-        "natural language code abbreviations and their meanings",
     ),
     (
         AbbrTags.unit_of_measure,
         "abbr-unit_of_measure.md",
         "Abbreviations: Units of Measure",
-        "unit-of-measure abbreviations and their meanings",
     ),
     (
         AbbrTags.currency_symbol,
         "abbr-currency_symbol.md",
         "Abbreviations: Currency Symbols",
-        "currency symbol abbreviations and their meanings",
     ),
 ]
 
@@ -56,7 +52,7 @@ def _generate_abbr_content(entries):
     return "\n".join(lines) + "\n"
 
 
-def _write_rule_file(file_path, name, description, entries):
+def _write_rule_file(file_path, name, entries, description=""):
     """
     write a single rule file for ``entries`` when non-empty
 
@@ -64,10 +60,10 @@ def _write_rule_file(file_path, name, description, entries):
     :type file_path: Path
     :param name: rule name
     :type name: str
-    :param description: rule description
-    :type description: str
     :param entries: abbreviation entries to write
     :type entries: list[AbbrEntry]
+    :param description: optional rule description
+    :type description: str
     :return: ``True`` if the file was written, ``False`` if skipped
     :rtype: bool
     """
@@ -97,28 +93,30 @@ def _build_groups(abbr_data):
     2. tag: ``language_code``
     3. tag: ``unit_of_measure``
     4. tag: ``currency_symbol``
-    5. wrap: ``AbbrWrap.SUFFIX``
-    6. wrap: ``AbbrWrap.PREFIX``
-    7. first char is 0–9
-    8. first char is A–Z
-    9. misc — everything else
+    5. wrap: ``AbbrWrap.SYMBOL``
+    6. wrap: ``AbbrWrap.SUFFIX``
+    7. wrap: ``AbbrWrap.PREFIX``
+    8. first char is 0–9
+    9. first char is A–Z
+    10. other — everything else
 
 
     :param abbr_data: loaded abbreviation data
     :type abbr_data: AbbrData
-    :return: ``(plc, lc, unit, currency, suffix, prefix, digits,
-             letters, misc)``
+    :return: ``(plc, lc, unit, currency, symbol, suffix, prefix,
+             digits, letters, other)``
     :rtype: tuple
     """
     plc = []
     lc = []
     unit = []
     currency = []
+    symbol = []
     suffix = []
     prefix = []
     digits = []
     letters = {ch: [] for ch in _LETTERS}
-    misc = []
+    other = []
 
     for entry in abbr_data.abbrs:
         tags = entry.tags
@@ -131,6 +129,8 @@ def _build_groups(abbr_data):
             unit.append(entry)
         elif AbbrTags.currency_symbol in tags:
             currency.append(entry)
+        elif entry.wrap == AbbrWrap.SYMBOL:
+            symbol.append(entry)
         elif entry.wrap == AbbrWrap.SUFFIX:
             suffix.append(entry)
         elif entry.wrap == AbbrWrap.PREFIX:
@@ -140,13 +140,14 @@ def _build_groups(abbr_data):
         elif entry.abbr[0].upper() in letters:
             letters[entry.abbr[0].upper()].append(entry)
         else:
-            misc.append(entry)
+            other.append(entry)
 
     # sort all buckets  --------------------------------------------------------
     plc = _sort_entries(plc)
     lc = _sort_entries(lc)
     unit = _sort_entries(unit)
     currency = _sort_entries(currency)
+    symbol = _sort_entries(symbol)
     suffix = _sort_entries(suffix)
     prefix = _sort_entries(prefix)
     digits = _sort_entries(digits)
@@ -154,9 +155,20 @@ def _build_groups(abbr_data):
     for ch in _LETTERS:
         letters[ch] = _sort_entries(letters[ch])
 
-    misc = _sort_entries(misc)
+    other = _sort_entries(other)
 
-    return plc, lc, unit, currency, suffix, prefix, digits, letters, misc
+    return (
+        plc,
+        lc,
+        unit,
+        currency,
+        symbol,
+        suffix,
+        prefix,
+        digits,
+        letters,
+        other,
+    )
 
 
 # export  ######################################################################
@@ -165,38 +177,30 @@ def _build_groups(abbr_data):
 def export_abbr_rules(rules_folder):
     """
     export rule files into ``rules_folder``
-
-    groups exported, in order:
-
-    - one file per tag group (plc, lc, unit_of_measure, currency_symbol)
-    - ``abbr-suffix.md``
-    - ``abbr-prefix.md``
-    - ``abbr-digits.md``
-    - ``abbr-{letter}.md`` for each A–Z letter with entries
-    - ``abbr-misc.md`` for anything remaining
-
-    :param rules_folder: destination folder for rule files
-    :type rules_folder: Path-like
     """
     folder = Path(rules_folder).resolve()
     folder.mkdir(parents=True, exist_ok=True)
 
-    plc, lc, unit, currency, suffix, prefix, digits, letters, misc = (
+    plc, lc, unit, currency, symbol, suffix, prefix, digits, letters, other = (
         _build_groups(AbbrData())
     )
 
     # tag-based files  ---------------------------------------------------------
     tag_entries = [plc, lc, unit, currency]
-    for (_, filename, name, description), entries in zip(
-        _TAG_GROUPS, tag_entries
-    ):
-        _write_rule_file(folder / filename, name, description, entries)
+    for (_, filename, name), entries in zip(_TAG_GROUPS, tag_entries):
+        _write_rule_file(folder / filename, name, entries)
+
+    # symbol  ------------------------------------------------------------------
+    _write_rule_file(
+        folder / "abbr-symbol.md",
+        "Abbreviations: Symbols",
+        symbol,
+    )
 
     # suffix  ------------------------------------------------------------------
     _write_rule_file(
         folder / "abbr-suffix.md",
         "Abbreviations: Suffixes",
-        "suffix-style abbreviations and their meanings",
         suffix,
     )
 
@@ -204,7 +208,6 @@ def export_abbr_rules(rules_folder):
     _write_rule_file(
         folder / "abbr-prefix.md",
         "Abbreviations: Prefixes",
-        "prefix-style abbreviations and their meanings",
         prefix,
     )
 
@@ -212,24 +215,20 @@ def export_abbr_rules(rules_folder):
     _write_rule_file(
         folder / "abbr-starts_with-digits.md",
         "Abbreviations: Starts with Digits (0–9)",
-        "abbreviations starting with a digit and their meanings",
         digits,
     )
 
     # letter groups  -----------------------------------------------------------
     for letter in _LETTERS:
-        entries = letters[letter]
         _write_rule_file(
             folder / "abbr-starts_with-{}.md".format(letter.lower()),
             "Abbreviations: Starts with {}".format(letter),
-            "abbreviations starting with {} and their meanings".format(letter),
-            entries,
+            letters[letter],
         )
 
-    # misc  --------------------------------------------------------------------
+    # other  -------------------------------------------------------------------
     _write_rule_file(
-        folder / "abbr-misc.md",
-        "Abbreviations: Miscellaneous",
-        "miscellaneous abbreviations and their meanings",
-        misc,
+        folder / "abbr-starts_with-other.md",
+        "Abbreviations: Starts with Other",
+        other,
     )
