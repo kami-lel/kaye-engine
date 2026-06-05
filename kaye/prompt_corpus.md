@@ -2846,12 +2846,23 @@ def calc_square(number):
 
 This section pertains specifically to Python test code. Tests should be compatible with the `pytest` module.
 
-- Test class names should start with `Test`, and test function names should begin with `test_`.
-- Strive to create as many separate test functions as possible, with each test case in individual functions.
-- Group related test cases under a single test class for organization.
+- test class names should start with `Test`, and test function names should begin with `test_`
+- strive to create as many separate test functions as possible, with each test case in individual functions
+- group related test cases under a single test class for organization
+- test classes and test functions do **not** require docstrings — the class and function names should be descriptive enough to convey their purpose
+
+**Each test file** must begin with a module-level docstring that briefly describes what unit or component is being tested.
 
 *Example of tests for the `add` function:*
-```python
+
+```python math_utils_test.py
+"""
+math_utils_test.py
+
+tests for the `add` function in `math_utils.py`
+"""
+
+
 class TestAdd:
     def test_addition_of_integers(_):
         assert add(1, 1) == 2
