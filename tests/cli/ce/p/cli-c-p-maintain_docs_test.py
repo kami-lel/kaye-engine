@@ -68,20 +68,22 @@ class TestContent:  # ==========================================================
     def test_docs_folder(_, testee_content):
         assert "files in `docs/`" in testee_content
 
+    def test_update_or_create_agents_md(_, testee_content):
+        assert "and `AGENTS.md`" in testee_content
+
     def test_reflect_changes(_, testee_content):
         assert "to reflect them" in testee_content
 
     def test_readme_focused_on_human_contributors(_, testee_content):
         assert (
-            "Keep `README.md` focused on human contributors"
-            in testee_content
+            "Keep `README.md` focused on human contributors" in testee_content
         )
 
-    def test_move_agent_context_to_agents_md(_, testee_content):
-        assert (
-            "move agent-specific context to `AGENTS.md`"
-            in testee_content
-        )
+    def test_agents_md_writer_rule(_, testee_content):
+        assert "Follow the *AGENTS.md Writer* rule" in testee_content
+
+    def test_agents_md_structure_content_style(_, testee_content):
+        assert "structure, content, and style" in testee_content
 
     def test_ensure_accuracy_remove_stale(_, testee_content):
         assert "Ensure accuracy, remove stale content" in testee_content
