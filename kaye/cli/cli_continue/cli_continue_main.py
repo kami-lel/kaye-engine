@@ -2,7 +2,10 @@
 
 from pathlib import Path
 
-from kaye.continue_export import export_abbr_rules, export_blueprint_rules
+from kaye.continue_export import (
+    export_abbr_rules,
+    export_blueprint_rules,
+)
 
 _DEFAULT_CONTINUE_FOLDER = Path.home() / ".continue"
 
