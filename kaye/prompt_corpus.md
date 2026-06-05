@@ -2360,6 +2360,54 @@ Eg
 
 
 
+
+
+
+
+## Project Structure
+
+Place the following files and folders at the **top level** of the repository and project when applicable. Use these naming conventions consistently across projects:
+
+- `README.md`: project overview, purpose, and quick-start instructions
+- `CHANGELOG.md`: full version history; each release is documented here
+- `CREDITS.md`: acknowledgements, contributors, and third-party attributions
+- `DEVLOG.md`: development journal, decisions, and progress notes
+- `AGENTS.md`: agent-facing instructions covering build steps, conventions, and project context for AI coding tools
+- `src/` or package-name: primary source code folder
+- `bin/`: compiled binaries or executable entry-point scripts
+- `docs/`: in-depth documentation beyond what fits in `README.md`
+- `examples/`: standalone usage examples and demos
+- `scripts/`: utility and maintenance scripts not part of the main codebase
+- `tests/`: test suite, kept separate from source code
+- `tools/`: project-specific developer tooling, distinct from `scripts/`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Changelog Writer
 
 You must help user to write CHANGELOG.
@@ -2450,54 +2498,6 @@ You must help user to write CHANGELOG.
     [2.1.0]: https://github.com/example-user/example-project/compare/v2.0.0...v2.1.0
     [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
     ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Project Structure
-
-Place the following files and folders at the **top level** of the repository and project when applicable. Use these naming conventions consistently across projects:
-
-- `README.md`: project overview, purpose, and quick-start instructions
-- `CHANGELOG.md`: full version history; each release is documented here
-- `CREDITS.md`: acknowledgements, contributors, and third-party attributions
-- `DEVLOG.md`: development journal, decisions, and progress notes
-- `AGENTS.md`: agent-facing instructions covering build steps, conventions, and project context for AI coding tools
-- `src/` or package-name: primary source code folder
-- `bin/`: compiled binaries or executable entry-point scripts
-- `docs/`: in-depth documentation beyond what fits in `README.md`
-- `examples/`: standalone usage examples and demos
-- `scripts/`: utility and maintenance scripts not part of the main codebase
-- `tests/`: test suite, kept separate from source code
-- `tools/`: project-specific developer tooling, distinct from `scripts/`
 
 
 
