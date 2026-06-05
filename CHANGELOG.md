@@ -20,21 +20,16 @@
 
 Programmatic API: 
 
-- `continue_export` package:
+- split into `continue_export` package from `continue_support.py`
+- `abbr_collection.py`: `AbbrEntry`: add `as_md_list_entry()`, renders an entry as a markdown list item
 
-  - `RuleFile`: context manager for writing Continue AI rule files (`.mdc`) with YAML front matter
-  - `export_all_blueprint_rules(rules_folder)`: exports all listed embedded blueprints as rule files; `rapid_blueprint` intentionally excluded
-  - `export_abbr_rules(rules_folder)`: exports one rule file per letter (A–Z), each listing abbreviations from `abbrs.json` whose first character matches that letter
-  - `kaye continue` CLI command now delegates entirely to `continue_export`
-
-- `abbr_collection.py`: `AbbrEntry`:
-
-  - `as_md_list_entry()`: renders an abbreviation entry as a markdown list item in the form `` -`abbr`:meaning ``; used consistently across `abbr_nodes.py` and `continue_export`
-  
 ### Changed
 
-- `abbr_nodes.py`: all node classes (`AbbrNode`, `UsableAbbrNode`, `LanguageCodeNode`, `PLCNode`, `UnityEngineAbbrNode`) now call `entry.as_md_list_entry()` instead of inlining the format string
+- `kaye continue` CLI command now delegates entirely to `continue_export`
+- `abbr_nodes.py`: all node classes now call `entry.as_md_list_entry()` instead of inlining the format string
+
 - updated *Kaye Programmatic API documentation* with `continue_export` package and `AbbrEntry.as_md_list_entry()`
+- `prompt_corpus.md`: update instruction on *Continue Behavior*
 
 ### Deprecated
 
