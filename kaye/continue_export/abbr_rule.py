@@ -20,22 +20,22 @@ _TAG_GROUPS = [
     (
         AbbrTags.programming_language_code,
         "abbr-programming_language_code.md",
-        "Abbreviations: Programming Language Codes",
+        "Abbreviations Programming Language Codes",
     ),
     (
         AbbrTags.language_code,
         "abbr-language_code.md",
-        "Abbreviations: Natural Language Codes",
+        "Abbreviations Natural Language Codes",
     ),
     (
         AbbrTags.unit_of_measure,
         "abbr-unit_of_measure.md",
-        "Abbreviations: Units of Measure",
+        "Abbreviations Units of Measure",
     ),
     (
         AbbrTags.currency_symbol,
         "abbr-currency_symbol.md",
-        "Abbreviations: Currency Symbols",
+        "Abbreviations Currency Symbols",
     ),
 ]
 
@@ -70,7 +70,7 @@ def _write_rule_file(file_path, name, entries, description=""):
     if not entries:
         return False  # skip empty groups
 
-    print("update rule: {}".format(file_path))
+    print("update abbr rule: {}".format(file_path))
     with RuleFile(file_path, encoding="utf-8") as rule:
         rule.name = name
         rule.description = description
@@ -193,28 +193,28 @@ def export_abbr_rules(rules_folder):
     # symbol  ------------------------------------------------------------------
     _write_rule_file(
         folder / "abbr-symbol.md",
-        "Abbreviations: Symbols",
+        "Abbreviations Symbols",
         symbol,
     )
 
     # suffix  ------------------------------------------------------------------
     _write_rule_file(
         folder / "abbr-suffix.md",
-        "Abbreviations: Suffixes",
+        "Abbreviations Suffixes",
         suffix,
     )
 
     # prefix  ------------------------------------------------------------------
     _write_rule_file(
         folder / "abbr-prefix.md",
-        "Abbreviations: Prefixes",
+        "Abbreviations Prefixes",
         prefix,
     )
 
     # digits  ------------------------------------------------------------------
     _write_rule_file(
         folder / "abbr-starts_with-digits.md",
-        "Abbreviations: Starts with Digits (0–9)",
+        "Abbreviations Starts with Digits (0–9)",
         digits,
     )
 
@@ -222,13 +222,13 @@ def export_abbr_rules(rules_folder):
     for letter in _LETTERS:
         _write_rule_file(
             folder / "abbr-starts_with-{}.md".format(letter.lower()),
-            "Abbreviations: Starts with {}".format(letter),
+            "Abbreviations Starts with {}".format(letter),
             letters[letter],
         )
 
     # other  -------------------------------------------------------------------
     _write_rule_file(
         folder / "abbr-starts_with-other.md",
-        "Abbreviations: Starts with Other",
+        "Abbreviations Starts with Other",
         other,
     )
