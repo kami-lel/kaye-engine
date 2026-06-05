@@ -1,13 +1,8 @@
-"""update Continue local config folder by exporting all current Kaye prompts/blueprints"""
+"""utilities for the Continue AI code editor integration"""
 
-from pathlib import Path
-
-from kaye.continue_export import (
-    export_abbr_rules,
-    export_blueprint_rules,
+from kaye.cli.cli_continue.cli_continue_config import (
+    register_cli_continue_config_parser,
 )
-
-_DEFAULT_CONTINUE_FOLDER = Path.home() / ".continue"
 
 
 def register_cli_continue_parser(  #############################################
@@ -17,18 +12,13 @@ def register_cli_continue_parser(  #############################################
         "continue", help=__doc__, description=__doc__, aliases=["c"]
     )
 
-    continue_parser.add_argument(
-        "local_config_folder",
-        metavar="LOCAL_CONFIG_FOLDER",
-        nargs="?",
-        type=Path,
-        default=_DEFAULT_CONTINUE_FOLDER,
-        help="path to local config folder, default: ~/.continue",
+    def _continue_parser_main(_):
+        continue_parser.print_help()
+
+    continue_parser.set_defaults(func=_continue_parser_main)
+
+    continue_subparser = continue_parser.add_subparsers(
+        description="utility functions for the Continue integration"
     )
 
-    def _continue_main(args):
-        rules_folder = args.local_config_folder / "rules"
-        export_blueprint_rules(rules_folder)
-        export_abbr_rules(rules_folder)
-
-    continue_parser.set_defaults(func=_continue_main)
+    register_cli_continue_config_parser(continue_subparser)
