@@ -63,7 +63,7 @@ class RuleFile:
         )
 
         if self.invokable:
-            self.file.write("invokable: true")
+            self.file.write("invokable: true\n")
 
         self.file.write("---\n\n")
 
