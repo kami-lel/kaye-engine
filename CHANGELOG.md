@@ -18,6 +18,30 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+
+
+
+
+
+
+
+
+
+
+## [6.2.0] - 2026-06-06
+
+### Added
+
 - comprehensive unit tests for Python CLI: continue support
 - Python CLI: subcommand `continue prompt` to support exporting **Continue Prompts**
 
@@ -25,7 +49,6 @@
 
 - *Continue Prompts*:
 
-  - Maintain Agents
   - Maintain Changelog
   - Maintain Docs
   - Resolve Annotation Markers
@@ -43,14 +66,6 @@
 - Coder: Python: *TestingGuidelines*: more comprehensive instruction 
 - Coder: Project Structure: include `AGENTS.md`
 - rename section **Style Guide** (from Style)
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 
 
@@ -1647,7 +1662,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.1.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.2.0...dev
+[6.2.0]: https://github.com/kami-lel/kaye/compare/v6.1.0...v6.2.0
 [6.1.0]: https://github.com/kami-lel/kaye/compare/v6.0.0...v6.1.0
 [6.0.0]: https://github.com/kami-lel/kaye/compare/v5.5.0...v6.0.0
 [5.5.0]: https://github.com/kami-lel/kaye/compare/v5.4.1...v5.5.50
