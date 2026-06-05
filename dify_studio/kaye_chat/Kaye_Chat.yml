@@ -9,7 +9,7 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/anthropic:0.3.8@6706e34565fb2c560cc3641c888b7f4e34288928df913e92241bd6d4f830a0cf
+    marketplace_plugin_unique_identifier: langgenius/anthropic:0.3.12@c01af3d595a1da1cf8875c9b5d71a5fc91413b6113ab1f08e9f8c4afad62bdc7
     version: null
 - current_identifier: null
   type: marketplace
@@ -19,7 +19,7 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/openai:0.3.4@3345b596ee5117d9304097feaee866f05ffaf0d76a790fb07acd8b99f6c87cb3
+    marketplace_plugin_unique_identifier: langgenius/openai:0.3.8@592c8252795b5f75807de2d609a03196ed02596b409f7642b4a07548c7ff57ef
     version: null
 kind: app
 version: 0.5.0
@@ -1015,7 +1015,6 @@ workflow:
                 - prompt
                 - rapid
                 - secretary
-                - shelver
                 - tarot
             required:
             - difficulty
@@ -1136,11 +1135,11 @@ workflow:
           \n\n\n# constants  ###################################################################\n\
           THRESHOLDS = [\n    (0, [\"gpt-4-nano\"]),\n    (10, [\"gpt-5-nano\"]),\n\
           \    (30, [\"claude-sonnet-4\"]),\n    (60, [\"claude-sonnet-4\", \"gpt-5-mini\"\
-          ]),\n    (80, [\"claude-opus-4\", \"gpt-5\"]),\n    (90, [\"claude-opus-4\"\
-          , \"gpt-5\", \"gemini-3-pro\"]),\n]\n# (lower bounds, LLMs to use)\n\n\n\
-          # number of rounds to remember difficulties\nDIFFICULTY_MEMORY_CNT = 8\n\
-          \n# Exponential Moving Average: Alpha, smoothing factor\nEMA_ALPHA = 0.6\n\
-          \n\n# Entry Point  #################################################################\n\
+          ]),\n    (70, [\"claude-opus-4\"]),\n    (80, [\"claude-opus-4\", \"gpt-5\"\
+          ]),\n    (90, [\"claude-opus-4\", \"gpt-5\", \"gemini-3-pro\"]),\n]\n# (lower\
+          \ bounds, LLMs to use)\n\n\n# number of rounds to remember difficulties\n\
+          DIFFICULTY_MEMORY_CNT = 8\n\n# Exponential Moving Average: Alpha, smoothing\
+          \ factor\nEMA_ALPHA = 0.6\n\n\n# Entry Point  #################################################################\n\
           def main(\n    query: str,\n    current_role: str,\n    current_pls: str,\n\
           \    difficulties_memory: list[int],\n    current_difficulty: int,\n):\n\
           \    \"\"\"\n    :param query:\n    :type query: str\n    :param current_role:\n\
@@ -1541,7 +1540,8 @@ workflow:
             enabled: false
             size: 50
         model:
-          completion_params: {}
+          completion_params:
+            thinking: true
           mode: chat
           name: claude-sonnet-4-6
           provider: langgenius/anthropic/anthropic
@@ -1563,10 +1563,10 @@ workflow:
       id: '17754967343630'
       position:
         x: 3684.0030614997727
-        y: 66.38630901133482
+        y: 67.04606296672127
       positionAbsolute:
         x: 3684.0030614997727
-        y: 66.38630901133482
+        y: 67.04606296672127
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1661,11 +1661,11 @@ workflow:
       height: 739
       id: '1775496965074'
       position:
-        x: 3329.85201954326
-        y: 871.5424082454699
+        x: 3326.4059244782693
+        y: 878.434598375452
       positionAbsolute:
-        x: 3329.85201954326
-        y: 871.5424082454699
+        x: 3326.4059244782693
+        y: 878.434598375452
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1686,9 +1686,10 @@ workflow:
         x: 24
         y: 68
       positionAbsolute:
-        x: 3353.85201954326
-        y: 939.5424082454699
+        x: 3350.4059244782693
+        y: 946.434598375452
       selectable: false
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom-iteration-start
@@ -1764,8 +1765,8 @@ workflow:
         x: 94.35924878840524
         y: 65.98220225318437
       positionAbsolute:
-        x: 3424.2112683316655
-        y: 937.5246104986543
+        x: 3420.7651732666745
+        y: 944.4168006286363
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1821,8 +1822,8 @@ workflow:
         x: 430.8184765780279
         y: 69.32686849324114
       positionAbsolute:
-        x: 3760.670496121288
-        y: 940.869276738711
+        x: 3757.224401056297
+        y: 947.7614668686931
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1878,8 +1879,8 @@ workflow:
         x: 430.8184765780279
         y: 192.32686849324114
       positionAbsolute:
-        x: 3760.670496121288
-        y: 1063.869276738711
+        x: 3757.224401056297
+        y: 1070.761466868693
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1907,7 +1908,7 @@ workflow:
             size: 50
         model:
           completion_params:
-            temperature: 0.7
+            thinking: true
           mode: chat
           name: claude-sonnet-4-6
           provider: langgenius/anthropic/anthropic
@@ -1929,11 +1930,11 @@ workflow:
       id: '1775497481178'
       parentId: '1775496965074'
       position:
-        x: 430.52107986803367
+        x: 429.8613259126473
         y: 316.3268684932409
       positionAbsolute:
-        x: 3760.373099411294
-        y: 1187.8692767387108
+        x: 3756.2672503909166
+        y: 1194.7614668686929
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1961,7 +1962,7 @@ workflow:
             size: 50
         model:
           completion_params:
-            temperature: 0.7
+            thinking: true
           mode: chat
           name: claude-opus-4-6
           provider: langgenius/anthropic/anthropic
@@ -1986,8 +1987,8 @@ workflow:
         x: 433.11076447350024
         y: 437.3268684932407
       positionAbsolute:
-        x: 3762.9627840167605
-        y: 1308.8692767387106
+        x: 3759.5166889517695
+        y: 1315.7614668686927
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -2040,8 +2041,8 @@ workflow:
         x: 432.25946282849736
         y: 560.8858822427717
       positionAbsolute:
-        x: 3762.1114823717576
-        y: 1432.4282904882416
+        x: 3758.6653873067667
+        y: 1439.3204806182237
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -2095,8 +2096,8 @@ workflow:
         x: 725.9479758377547
         y: 67.91096080058549
       positionAbsolute:
-        x: 4055.799995381015
-        y: 939.4533690460554
+        x: 4052.353900316024
+        y: 946.3455591760375
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -2117,8 +2118,8 @@ workflow:
         x: 1012.3222280828522
         y: 119.32568112800959
       positionAbsolute:
-        x: 4342.174247626112
-        y: 990.8680893734795
+        x: 4338.7281525611215
+        y: 997.7602795034616
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -2395,7 +2396,7 @@ workflow:
       positionAbsolute:
         x: 5768.797957384823
         y: 389.09276150546384
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2472,8 +2473,8 @@ workflow:
           \n# roles w/ static difficulty associated with it, thus should skip sense\n\
           STATIC_DIFFICULTY_ROLES = {\n    \"art\": 52,\n    \"barista\": 40,\n  \
           \  \"changelog\": 35,\n    \"deutschlehrer\": 55,\n    \"editor\": 47,\n\
-          \    \"prompt\": 85,\n    \"rapid\": 1,\n    \"tarot\": 46,\n    \"shelver\"\
-          : 35,\n}\n\n\n# Body Key  ####################################################################\n\
+          \    \"prompt\": 71,\n    \"rapid\": 1,\n    \"tarot\": 46,\n}\n\n\n# Body\
+          \ Key  ####################################################################\n\
           BODY_ROLE_KEY = \"pre_sense_role\"\nBODY_DIFF_KEY = \"difficulty_override\"\
           \n\n\n# Entry Point  #################################################################\n\
           def main(\n    role_override: str,\n    difficulty_override: int,\n    current_role:\
@@ -2508,7 +2509,7 @@ workflow:
           should_skip_sense:
             children: null
             type: boolean
-        selected: false
+        selected: true
         title: post_start
         type: code
         variables:
@@ -2535,7 +2536,7 @@ workflow:
       positionAbsolute:
         x: 751.3526862862343
         y: 303
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2664,8 +2665,8 @@ workflow:
         x: 1010.7300052682667
         y: 69.59303182523945
       positionAbsolute:
-        x: 4340.582024811527
-        y: 941.1354400707094
+        x: 4337.135929746536
+        y: 948.0276302006914
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -2761,7 +2762,7 @@ workflow:
       type: custom
       width: 242
     viewport:
-      x: -2533.8989786924185
-      y: 400.9536192472674
-      zoom: 0.5000000000000012
+      x: -451.0249107956523
+      y: -51.44707185561924
+      zoom: 0.659753955386447
   rag_pipeline_variables: []

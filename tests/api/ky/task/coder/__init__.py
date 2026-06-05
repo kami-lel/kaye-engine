@@ -158,30 +158,30 @@ def assert_am3(opt):
 
 
 def assert_coder_title(opt):
-    assert "## Kaye Peer Coder" in opt
+    assert "# Kaye Peer Coder" in opt
 
 
 def assert_coder_code_format_title(opt):
-    assert "#### code format" in opt
+    assert "### code format" in opt
 
 
 def assert_coder_variable_naming_title(opt):
-    assert "#### variable naming" in opt
+    assert "### variable naming" in opt
 
 
 def assert_coder_code_comment_title(opt):
-    assert "#### code comment" in opt
+    assert "### code comment" in opt
 
 
 def assert_coder_csh_title(opt):
-    assert "#### comment section headings" in opt
+    assert "### comment section headings" in opt
 
 
 # brace  =======================================================================
 
 
 def assert_brace_title(opt):
-    assert "### Brace Style" in opt
+    assert "## Brace Style" in opt
 
 
 def assert_brace1(opt):
@@ -198,7 +198,7 @@ def assert_brace2(opt):
 
 
 def assert_coder_c_title(opt):
-    assert "### C" in opt
+    assert "## C" in opt
 
 
 def assert_coder_c1(opt):
@@ -209,7 +209,7 @@ def assert_coder_c1(opt):
 
 
 def assert_coder_cpp_title(opt):
-    assert "### C++" in opt
+    assert "## C++" in opt
 
 
 def assert_coder_cpp1(opt):
@@ -220,7 +220,7 @@ def assert_coder_cpp1(opt):
 
 
 def assert_js_ts00(opt):
-    assert "### JavaScript & TypeScript" in opt
+    assert "## JavaScript & TypeScript" in opt
 
 
 def assert_js_ts01(opt):
@@ -228,7 +228,7 @@ def assert_js_ts01(opt):
 
 
 def assert_js_ts11(opt):
-    assert "##### Naming Conventions" in opt
+    assert "#### Naming Conventions" in opt
 
 
 def assert_js_ts12(opt):
@@ -236,7 +236,7 @@ def assert_js_ts12(opt):
 
 
 def assert_js_ts21(opt):
-    assert "#### Documentation and Comments" in opt
+    assert "### Documentation and Comments" in opt
 
 
 def assert_js_ts22(opt):
@@ -255,7 +255,7 @@ def assert_js_ts24(opt):
 
 
 def assert_cs0(opt):
-    assert "### C Sharp" in opt
+    assert "## C Sharp" in opt
 
 
 def assert_cs1(opt):
@@ -266,7 +266,7 @@ def assert_cs1(opt):
 
 
 def assert_py_title(opt):
-    assert "### Python" in opt
+    assert "## Python" in opt
 
 
 def assert_py_intro(opt):
@@ -274,7 +274,7 @@ def assert_py_intro(opt):
 
 
 def assert_py_doc0(opt):
-    assert "##### Docstring Style" in opt
+    assert "### Docstring Style" in opt
 
 
 def assert_py_doc1(opt):
@@ -282,7 +282,7 @@ def assert_py_doc1(opt):
 
 
 def assert_py_pytest0(opt):
-    assert "##### Testing Guidelines" in opt
+    assert "### Testing Guidelines" in opt
 
 
 def assert_py_pytest1(opt):

@@ -1,4 +1,23 @@
-# Kaye Flask HTTP API documentation
+# Kaye HTTP API documentation
+
+Implemented in `~~/kaye/api/`
+
+Run the Flask App thru *Python CLI* by:
+
+```bash
+python -m kaye http
+```
+
+
+
+
+
+
+
+
+
+
+
 
 ### deployment as `systemd` on Ubuntu
 
@@ -242,6 +261,36 @@ All endpoints below `/kaye/dify-app/kaye-event-radar`
 ----
 
 `/parse-events`
+
+- by `GET`
+- response type `text/plain`
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Opus Tag Smith
+
+All endpoints below `/kaye/dify-app/opus-tag-smith`
+
+----
+
+`/opus`
+
+- by `GET`
+- response type `text/plain`
+
+----
+
+`/shelver`
 
 - by `GET`
 - response type `text/plain`

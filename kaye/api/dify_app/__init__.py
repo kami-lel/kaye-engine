@@ -1,5 +1,7 @@
 """
-define API to specific work with Dify Apps,
+Kaye HTTP API: Dify App Support, endpoints /kaye/dify-app/*
+
+specific work with Dify Apps,
 such that they can use Http Request Node to dynamically get newest prompt
 """
 

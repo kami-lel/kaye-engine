@@ -1,39 +1,79 @@
 # pylint: disable=missing-module-docstring
 
+# todo write unit test for OTS formatter
 
 import re
 
 # constants  ###################################################################
 
+SEP = ","
 
-EXTRACT_TITLE_KEY = "title"
+
+# extract keys  ################################################################
+
+
 EXTRACT_YEAR_KEY = "release_year"
+EXTRACT_TITLE_KEY = "title"
+EXTRACT_SUBTITLE_KEY = "subtitle"
 EXTRACT_TAGS_KEY = "tags"
+
+# opus extract
 EXTRACT_SEASON_KEY = "season_number"
 EXTRACT_EPISODE_KEY = "episode_number"
 EXTRACT_EPISODE_NAME_KEY = "episode_name"
+
+# shelver extract
+EXTRACT_AUTHOR_KEY = "authors"
+EXTRACT_EDITOR_KEY = "editors"
+EXTRACT_TRANSLATOR_KEY = "translators"
+EXTRACT_PUBLISHER_KEY = "publisher"
+EXTRACT_DDC_CODE_KEY = "ddc_code"
+EXTRACT_DDC_JUST_KEY = "ddc_justification"
 
 
 # Output Keys  #################################################################
 OUTPUT_RESPONSE_KEY = "response"
 
 
-# Entry Point  #################################################################
-def main(extract: dict, target: str):
-    """
-    :param extract:
-    :type extract: dict
-    :param target: target/mode of operation, "Opus" or "Athenaeum"
-    :type target: str
-    :return: {
-        "response": response formatted in md
-    }
-    :rtype: dict{"response": str}
-    """
+# helpers  #####################################################################
 
-    title = extract[EXTRACT_TITLE_KEY]
+
+def _convert_filename_safe(original):
+    return re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", original)
+
+
+def _convert_keywords(entries):
+    opt = []
+    for e in entries:
+        filename_safe = _convert_filename_safe(e)
+        opt.append(re.sub(r"[ \.]", "_", filename_safe))
+
+    return opt
+
+
+def _add_party_entries(parties, prefix):
+    cnt = len(parties)
+    if cnt == 0:
+        return []
+    elif cnt == 1:
+        entry = prefix + "=" + parties[0]
+        return [entry]
+    else:
+        entry = prefix + "{" + SEP.join(parties) + "}"
+        return [entry]
+
+
+# formatter  ###################################################################
+
+
+def _format_opus(extract):  # ==================================================
     year = extract[EXTRACT_YEAR_KEY]
-    tags = extract[EXTRACT_TAGS_KEY]
+
+    # title  -------------------------------------------------------------------
+    title = _convert_filename_safe(extract[EXTRACT_TITLE_KEY])
+    subtitle = _convert_filename_safe(extract[EXTRACT_SUBTITLE_KEY])
+
+    # fixme utilize subtitle for OTS Opus
 
     # season & episode  --------------------------------------------------------
     season_and_episode = []
@@ -58,42 +98,148 @@ def main(extract: dict, target: str):
         season_and_episode_content = "".join(season_and_episode)
         title = title + "." + season_and_episode_content
 
+    tags = extract[EXTRACT_TAGS_KEY]
+
     # title names  -------------------------------------------------------------
-    safe_title = re.sub(r'[\\/:*?"<>|\x00-\x1f]', "_", title)
+    safe_title = _convert_filename_safe(title)
     folder_name = "[{year}]{title}".format(year=year, title=safe_title)
-    resource_name = folder_name + "{" + ",".join(tags) + "}"
+    resource_name = folder_name + "{" + SEP.join(tags) + "}"
 
     # create response  ---------------------------------------------------------
-    if title == safe_title:
-        title_part = "Title:\n```\n{}\n```\n".format(title)
-    else:
-        title_part = (
-            "Title:\n```\n{}\n```\nTitle (Safe):\n```\n{}\n```\n".format(
-                title, safe_title
-            )
-        )
-
-    sne_part = ""
-    if season_and_episode_content:
-        sne_part = """Episode Name:
+    response = """
+Title:
 
 ```
-{}
+{title}
 ```
-""".format(season_and_episode_content)
 
-    response = title_part + sne_part + """
+Title (Safe):
+
+```
+{safe_title}
+```
+
+Episode Name:
+
+```
+{sne}
+```
+
 Folder Name:
 
 ```
-{}
+{folder_name}
 ```
 
 Resource Name:
 
 ```
-{}
+{resource_name}
 ```
-""".format(folder_name, resource_name)
+""".format(
+        title=title,
+        safe_title=safe_title,
+        sne=season_and_episode_content,
+        folder_name=folder_name,
+        resource_name=resource_name,
+    )
 
+    return response
+
+
+def _format_shelver(extract, title, year, tags):  # ============================
+
+    # on parties  --------------------------------------------------------------
+    # add authors
+    parties = _convert_keywords(extract[EXTRACT_AUTHOR_KEY])
+
+    # add editors
+    editors = _convert_keywords(extract[EXTRACT_EDITOR_KEY])
+    parties.extend(_add_party_entries(editors, "edr"))
+
+    # add translators
+    translators = _convert_keywords(extract[EXTRACT_TRANSLATOR_KEY])
+    parties.extend(_add_party_entries(translators, "tr"))
+
+    # on publisher  ------------------------------------------------------------
+    publisher = extract[EXTRACT_PUBLISHER_KEY]
+
+    # on tags  -----------------------------------------------------------------
+    ddc_tag = "[{}]dd".format(extract[EXTRACT_DDC_CODE_KEY])
+    tags.append(ddc_tag)
+
+    # format as response  ------------------------------------------------------
+    ddc_just = extract[EXTRACT_DDC_JUST_KEY]
+
+    response = """
+Title Only:
+
+```
+{title}
+```
+
+Exact Print:
+
+```
+{title}[{year}]
+```
+
+Basic Info:
+
+```
+{title}[{year}]{parties}[{publisher}]
+```
+
+Full Info:
+
+```
+{title}[{year}]{parties}[{publisher}]{{{tags}}}
+```
+
+Multiple Lines:
+
+```
+{title}
+    [{year}]
+    {parties}
+    [{publisher}]
+    {{
+        {tags}
+    }}
+```
+
+{ddc_just}
+""".format(
+        title=_convert_filename_safe(title),
+        year=year,
+        parties=SEP.join(parties),
+        publisher=publisher,
+        tags=SEP.join(tags),
+        ddc_just=ddc_just,
+    )
+    return response
+
+
+# Entry Point  #################################################################
+def main(extract: dict, target: str):
+    """
+    :param extract:
+    :type extract: dict
+    :param target: target/mode of operation, "Opus" or "Shelver"
+    :type target: str
+    :return: {
+        "response": response formatted in md
+    }
+    :rtype: dict{"response": str}
+    """
+
+    title = extract[EXTRACT_TITLE_KEY]
+    year = extract[EXTRACT_YEAR_KEY]
+    tags = extract[EXTRACT_TAGS_KEY]
+
+    response = (
+        _format_opus(extract)
+        if target == "Opus"
+        else _format_shelver(extract, title, year, tags)
+    )
     return {OUTPUT_RESPONSE_KEY: response}

@@ -1,12 +1,12 @@
 """
+prompt_blueprint_loader.py
+
 define:
 
 - ``load_embedded_blueprint``,
 - ``get_embedded_prompt_blueprints_folder_path``, &
 - ``get_embedded_prompt_blueprints_names``
 """
-
-# fixme clean up embedded blueprints
 
 import os
 from pathlib import Path

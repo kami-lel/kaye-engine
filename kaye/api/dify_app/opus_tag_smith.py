@@ -19,6 +19,14 @@ OPUS_PROMPT_BLUEPRINT = """    ○
 """
 
 
+SHELVER_PROMPT_BLUEPRINT = """    ○
+[x] └── Opus Tag Smith
+[x]     ├── extract for Shelver
+[x]     └── tags
+[x]         └── tags for Shelver
+"""
+
+
 # Flask Routing  ###############################################################
 
 # /kaye/dify-app/opus-tag-smith
@@ -33,4 +41,11 @@ def opus_tag_smith_opus():
     blueprint = PromptBlueprint.parse(
         OPUS_PROMPT_BLUEPRINT,
     )
+    return blueprint.generate_prompt()
+
+
+# /kaye/dify-app/opus-tag-smith/shelver
+@tag_smith_bp.route("/shelver", methods=["GET"])
+def opus_tag_smith_shelver():
+    blueprint = PromptBlueprint.parse(SHELVER_PROMPT_BLUEPRINT)
     return blueprint.generate_prompt()

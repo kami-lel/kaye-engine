@@ -1,36 +1,39 @@
 {
-  "type": "object",
+  "additionalProperties": false,
   "properties": {
-    "title": {
-      "type": "string",
-      "description": "work's original title"
+    "episode_name": {
+      "description": "name of the episode. Leave empty if unknown",
+      "type": "string"
+    },
+    "episode_number": {
+      "description": "extract episode number. 0 if unknown",
+      "type": "number"
     },
     "release_year": {
       "type": "string"
     },
+    "season_number": {
+      "description": "extract season number. 0 if unknown",
+      "type": "number"
+    },
     "tags": {
-      "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "type": "array"
     },
-    "season_number": {
-      "type": "number",
-      "description": "extract season number. 0 if unknown"
+    "title": {
+      "type": "string"
     },
-    "episode_number": {
-      "type": "number",
-      "description": "extract episode number. 0 if unknown"
-    },
-    "episode_name": {
-      "type": "string",
-      "description": "name of the episode. Leave empty if unknown"
+    "subtitle": {
+      "type": "string"
     }
   },
   "required": [
     "tags",
     "release_year",
-    "title"
+    "title",
+    "subtitle"
   ],
-  "additionalProperties": false
+  "type": "object"
 }

@@ -1,4 +1,6 @@
 """
+prompt_blueprint.py
+
 define `PromptBlueprint`
 """
 
@@ -176,6 +178,7 @@ class PromptBlueprint(dict):
             self.corpus = copy.deepcopy(corpus_override)
 
         self.display_name = display_name
+        self.description = ""
 
     # node operations  *********************************************************
     def is_checkmarked(self, node):

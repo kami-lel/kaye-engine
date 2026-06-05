@@ -1,5 +1,5 @@
 """
-define Kaye Flask HTTP API
+Kaye HTTP API
 """
 
 from flask import Flask, Blueprint
