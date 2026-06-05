@@ -98,7 +98,8 @@ continue_behavior_blueprint.checkmark(
 )
 continue_behavior_blueprint.display_name = "Continue Behavior"
 
-# todo writer for: readme,changelog,docs
+# TODO blueprint for CHANGELOG
+# TODO project structure blueprint: readme,changelog,docs locations
 
 # coder  =======================================================================
 
