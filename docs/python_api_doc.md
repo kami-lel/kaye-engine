@@ -1,5 +1,7 @@
 # Kaye Python Package API documentation
 
+<!-- Fixme rework Kaye HTTP API documentation -->
+
 ## `prompt` module
 
 The **core** module of *Kaye Python API*, implement a systematic, dynamic, and structured framework for **prompt management and manipulation**.
@@ -44,7 +46,7 @@ is equivalent to tree structure:
 
 A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, which is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 
-<!-- todo Python API more explanation on the functionalities of each node type -->
+<!-- Todo Python API more explanation on the functionalities of each node type -->
 
 nodes types:
 

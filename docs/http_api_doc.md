@@ -1,5 +1,7 @@
 # Kaye Flask HTTP API documentation
 
+<!-- Fixme rework Kaye HTTP API documentation -->
+
 ### deployment as `systemd` on Ubuntu
 
 Place the entire project folder at `/opt/kaye`.

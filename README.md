@@ -1,5 +1,7 @@
 # Kaye README
 
+<!-- Todo re-organize README, docs, & standardize each components names -->
+
 > Consistent AI Agent Persona **Kaye**, powered by rigorous prompt engineering
 
 Kaye is a toolkit for maintaining a consistent AI agent persona from a single, structured source of truth. The project focuses on producing scenario-ready prompts from a central Markdown corpus using blueprints, a `gen_prompt` module, and a lightweight CLI for reproducible outputs.
@@ -95,4 +97,4 @@ A simple CLI is provided to list, show, and generate prompts from the terminal:
 python -m kaye --help
 ```
 
-<!-- todo CLI: write write doc
+<!-- Todo CLI: write write doc -->
