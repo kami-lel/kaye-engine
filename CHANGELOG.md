@@ -29,7 +29,8 @@
   - Maintain Changelog
   - Maintain Docs
   - Resolve Annotation Markers
-  
+  - Prepare for Release
+
 - Coder: AGENTS.md Writer: instruction for **writing proper** `AGENTS.md`
 
 ### Changed
