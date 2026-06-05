@@ -23,6 +23,7 @@
 `prompt_corpus.md`:
 
 - update instruction on *Continue Behavior*
+- more comprehensive instruction on Python *Docstring Style*
 
 ### Deprecated
 

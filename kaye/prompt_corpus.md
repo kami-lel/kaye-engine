@@ -2790,19 +2790,50 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
 The docstrings must be written using the **Sphinx** style and employ **reStructuredText** as the markup language. Avoid using any other styles.
 
-*Example of a function's docstring:*
+Docstring requirements by method visibility:
+
+- **public methods** must always include a docstring
+- **private methods** (prefixed with `_`) may include a docstring, such as when method name alone does not clearly convey its purpose
+
+A docstring must follow one of two accepted **forms**:
+
+- *Form 1* — summary line, followed by a multi-line description, followed by **two empty lines**, then the parameter fields
+- *Form 2* — summary line only, followed by **two empty lines**, then the parameter fields
+
+*Example of Form 1:*
+
 ```python
 def calc_square(number):
     """
     calculate the square of a number
+
+    performs a simple exponential operation, returning
+    the result of multiplying ``number`` by itself
+
 
     :param number: number to be squared
     :type number: int
     :return: square of ``number``
     :rtype: int
     :example:
-    >>> square(3)
+    >>> calc_square(3)
     9
+    """
+    return number ** 2
+```
+
+*Example of Form 2:*
+
+```python
+def calc_square(number):
+    """
+    calculate the square of a number
+
+
+    :param number: number to be squared
+    :type number: int
+    :return: square of ``number``
+    :rtype: int
     """
     return number ** 2
 ```
