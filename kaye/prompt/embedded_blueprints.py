@@ -15,6 +15,7 @@ __all__ = (
     "annotation_marker_blueprint",
     "coder_blueprint",
     "coder_bash_blueprint",
+    "coder_changelog_blueprint",
     "coder_c_blueprint",
     "coder_cpp_blueprint",
     "coder_ue_blueprint",
@@ -34,6 +35,7 @@ __all__ = (
 # todo save description as part of prompt_corpus.md
 # (in corpus, but not as part of the content lines)
 
+# Rapid
 rapid_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Introduction
 [x] ├── Format
@@ -44,6 +46,7 @@ rapid_blueprint.description = (
 )
 
 
+# Chat
 chat_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Introduction
 [x] ├── Personality
@@ -57,6 +60,7 @@ chat_blueprint.description = (
 )
 
 
+# Date and Time Format
 date_time_blueprint = PromptBlueprint.parse("""    ○
 [x] └── Elements
 [x]     └── Date & Time Format""")
@@ -64,6 +68,7 @@ date_time_blueprint.display_name = "Date and Time Format"
 date_time_blueprint.description = "add-on when dates or times appear in output"
 
 
+# Numerical Values with Units
 number_unit_blueprint = PromptBlueprint.parse("""    ○
 [x] └── Elements
 [x]     └── Numerical Values with Units""")
@@ -73,6 +78,7 @@ number_unit_blueprint.description = (
 )
 
 
+# Style
 style_blueprint = PromptBlueprint.create_empty_blueprint()
 style_blueprint.checkmark("Style", recursively=True)
 style_blueprint.display_name = "Style"
@@ -81,6 +87,7 @@ style_blueprint.description = (
 )
 
 
+# Annotation Markers
 annotation_marker_blueprint = PromptBlueprint.create_empty_blueprint()
 annotation_marker_blueprint.checkmark(
     annotation_marker_blueprint.corpus["Elements"]["Annotation Markers"],
@@ -92,23 +99,25 @@ annotation_marker_blueprint.description = (
 )
 
 
+# Continue Behavior
 continue_behavior_blueprint = PromptBlueprint.create_empty_blueprint()
 continue_behavior_blueprint.checkmark(
     continue_behavior_blueprint.corpus["Continue Behavior"]
 )
 continue_behavior_blueprint.display_name = "Continue Behavior"
 
-# TODO blueprint for CHANGELOG
 # TODO project structure blueprint: readme,changelog,docs locations
 
 # coder  =======================================================================
 
+# Coder
 coder_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_blueprint.checkmark("Kaye Peer Coder")
 coder_blueprint.display_name = "Coder"
 coder_blueprint.description = "instruction for coding and programming"
 
 
+# Coder Bash
 coder_bash_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_bash_blueprint.checkmark(
     coder_bash_blueprint.corpus["Kaye Peer Coder"]["Bash"]
@@ -119,6 +128,17 @@ coder_bash_blueprint.description = (
 )
 
 
+# Coder Changelog
+coder_changelog_blueprint = PromptBlueprint.create_empty_blueprint()
+_kyc_node = coder_changelog_blueprint.corpus["Kaye Peer Coder"]
+coder_changelog_blueprint.checkmark(
+    _kyc_node["Changelog Writer"], recursively=True
+)
+coder_changelog_blueprint.display_name = "Coder Changelog"
+coder_changelog_blueprint.description = "format for CHANGELOG.md"
+
+
+# Coder C
 coder_c_blueprint = PromptBlueprint.create_empty_blueprint()
 _kyc_node = coder_c_blueprint.corpus["Kaye Peer Coder"]
 coder_c_blueprint.checkmark(_kyc_node["C"])
@@ -127,6 +147,7 @@ coder_c_blueprint.display_name = "Coder C"
 coder_c_blueprint.description = "C code (C99)"
 
 
+# Coder C++
 coder_cpp_blueprint = PromptBlueprint.create_empty_blueprint()
 _kyc_node = coder_cpp_blueprint.corpus["Kaye Peer Coder"]
 coder_cpp_blueprint.checkmark(_kyc_node["C"])
@@ -136,6 +157,7 @@ coder_cpp_blueprint.display_name = "Coder CPP"
 coder_cpp_blueprint.description = "C++ code (C++17)"
 
 
+# Coder Unreal Engine
 coder_ue_blueprint = PromptBlueprint.create_empty_blueprint()
 _kyc_node = coder_ue_blueprint.corpus["Kaye Peer Coder"]
 coder_ue_blueprint.checkmark(_kyc_node["C"])
@@ -146,6 +168,7 @@ coder_ue_blueprint.display_name = "Coder Unreal Engine"
 coder_ue_blueprint.description = "C++ code for Unreal Engine"
 
 
+# Coder C Sharp
 coder_csharp_blueprint = PromptBlueprint.create_empty_blueprint()
 _kyc_node = coder_csharp_blueprint.corpus["Kaye Peer Coder"]
 coder_csharp_blueprint.checkmark(_kyc_node["C Sharp"])
@@ -154,6 +177,7 @@ coder_csharp_blueprint.display_name = "Coder C Sharp"
 coder_csharp_blueprint.description = "C# code"
 
 
+# Coder Unity
 coder_u3d_blueprint = PromptBlueprint.create_empty_blueprint()
 _kyc_node = coder_u3d_blueprint.corpus["Kaye Peer Coder"]
 coder_u3d_blueprint.checkmark(_kyc_node["C Sharp"])
@@ -165,6 +189,7 @@ coder_u3d_blueprint.description = (
 )
 
 
+# Coder GDScript
 coder_gdscript_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_gdscript_blueprint.checkmark(
     coder_gdscript_blueprint.corpus["Kaye Peer Coder"]["GDScript"]
@@ -173,6 +198,7 @@ coder_gdscript_blueprint.display_name = "Coder GDScript"
 coder_gdscript_blueprint.description = "GDScript code for Godot 4"
 
 
+# Coder HTML
 coder_html_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_html_blueprint.checkmark(
     coder_html_blueprint.corpus["Kaye Peer Coder"]["HTML"]
@@ -181,6 +207,7 @@ coder_html_blueprint.display_name = "Coder HTML"
 coder_html_blueprint.description = "HTML5 markup"
 
 
+# Coder JavaScript and TypeScript
 coder_js_ts_blueprint = PromptBlueprint.create_empty_blueprint()
 _kyc_node = coder_js_ts_blueprint.corpus["Kaye Peer Coder"]
 coder_js_ts_blueprint.checkmark(
@@ -192,6 +219,7 @@ coder_js_ts_blueprint.description = "JavaScript or TypeScript code"
 
 
 # Python  ----------------------------------------------------------------------
+# Coder Python
 coder_py_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_py_blueprint.checkmark(
     coder_py_blueprint.corpus["Kaye Peer Coder"]["Python"]
@@ -200,6 +228,7 @@ coder_py_blueprint.display_name = "Coder Python"
 coder_py_blueprint.description = "Python code"
 
 
+# Coder Python Docstring
 coder_py_docstring_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_py_docstring_blueprint.checkmark(
     coder_py_docstring_blueprint.corpus["Kaye Peer Coder"]["Python"][
@@ -212,6 +241,7 @@ coder_py_docstring_blueprint.description = (
 )
 
 
+# Coder Python Testing
 coder_py_testing_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_py_testing_blueprint.checkmark(
     coder_py_testing_blueprint.corpus["Kaye Peer Coder"]["Python"][

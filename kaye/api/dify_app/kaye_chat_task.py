@@ -167,7 +167,7 @@ def _create_barista_blueprint():
 
 
 def _create_changelog_blueprint():
-    bp = _create_chat_blueprint()
+    bp = _create_chat_blueprint()  # FIXME use changelog blueprint
     bp.checkmark("Changelog Writer", recursively=True)
     return bp
 
