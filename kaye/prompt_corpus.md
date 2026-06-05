@@ -3536,5 +3536,10 @@ Use when need to remove/delete file/folder.
 
 ## Continue Prompts
 
+### maintain CHANGELOG
+
+create or modify `CHANGELOG.md` according to rule: Coder Changelog Writer
+
+
 
 

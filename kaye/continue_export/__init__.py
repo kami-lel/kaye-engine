@@ -18,8 +18,3 @@ __all__ = [
     "export_abbr_rules",
     "export_prompts",
 ]
-
-# Todo continue: prompt: look into AMs & try to help
-# Todo continue: prompt: update changelog
-# Todo continue: prompt: update docs
-# Todo continue: prompt: create AGENTS.md
