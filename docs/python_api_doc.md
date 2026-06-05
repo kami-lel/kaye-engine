@@ -44,7 +44,7 @@ is equivalent to tree structure:
 
 A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, which is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 
-<!-- todo Python API more explanation on the functionalities of each node type -->
+<!-- Todo Python API more explanation on the functionalities of each node type -->
 
 nodes types:
 

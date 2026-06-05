@@ -32,6 +32,7 @@ __all__ = (
 
 # blueprints  ##################################################################
 # todo save description as part of prompt_corpus.md
+# (in corpus, but not as part of the content lines)
 
 rapid_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Introduction

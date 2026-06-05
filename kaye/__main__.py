@@ -28,7 +28,7 @@ parser.add_argument(
 
 # Entry Point  #################################################################
 if __name__ == "__main__":
-    # Fixme make sub parser: kaye api
+    # FIXME make sub parser: kaye api
     # args = parser.parse_args()
 
     # app = create_app()

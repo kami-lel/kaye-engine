@@ -21,6 +21,6 @@ cli_parser = ArgumentParser(prog=PROGRAM_NAME, description=__doc__)
 cli_parser.set_defaults(func=_cli_main)
 cli_subparser = cli_parser.add_subparsers(title="subcommands")
 
-# Fixme make cli functional again for prompt
+# FIXME make cli functional again for prompt
 # register_cli_prompt_parser(cli_subparser)
 register_cli_continue_parser(cli_subparser)
