@@ -49,7 +49,7 @@ class AbbrNode(DynamicNode):  ##################################################
                     entries.add(m)
 
         # convert to md lines  -------------------------------------------------
-        lines = ["- {}:{}".format(e.abbr, e.mean) for e in entries]
+        lines = [e.as_md_list_entry() for e in entries]
         return lines
 
 
@@ -68,7 +68,7 @@ class UsableAbbrNode(DynamicNode):  ############################################
         lines = []
         for entry in AbbrData().abbrs:
             if AbbrTags.usable in entry.tags:
-                lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
+                lines.append(entry.as_md_list_entry())
 
         return lines
 
@@ -88,7 +88,7 @@ class LanguageCodeNode(DynamicNode):  ##########################################
         lines = []
         for entry in AbbrData().abbrs:
             if AbbrTags.language_code in entry.tags:
-                lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
+                lines.append(entry.as_md_list_entry())
 
         return lines
 
@@ -108,7 +108,7 @@ class PLCNode(DynamicNode):  ###################################################
         lines = []
         for entry in AbbrData().abbrs:
             if AbbrTags.programming_language_code in entry.tags:
-                lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
+                lines.append(entry.as_md_list_entry())
 
         return lines
 
@@ -128,6 +128,6 @@ class UnityEngineAbbrNode(DynamicNode):  #######################################
         lines = []
         for entry in AbbrData().abbrs:
             if AbbrTags.unity_engine_abbr in entry.tags:
-                lines.append("-`{}`:{}".format(entry.abbr, entry.mean))
+                lines.append(entry.as_md_list_entry())
 
         return lines

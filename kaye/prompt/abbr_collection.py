@@ -316,7 +316,17 @@ class AbbrEntry:  ##############################################################
         # may raise ValueError
         self.wrap = AbbrWrap(abbr_obj[ABBRS_JSON_WRAP_KEY])
 
-    # instance method  *********************************************************
+    # instance methods  ********************************************************
+
+    def as_md_list_entry(self):
+        """
+        render this entry as a markdown list item
+
+        :return: a single markdown list item in the form
+                ``-`abbr`:meaning``
+        :rtype: str
+        """
+        return "-{}:{}".format(self.abbr, self.mean)
 
     def verify_found(self, found, char_before, char_after):
         """
