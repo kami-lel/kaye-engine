@@ -8,7 +8,7 @@ define ``export_abbr_rules``, which reads all abbreviations from
 from pathlib import Path
 
 from kaye.continue_export.rule_file import RuleFile
-from kaye.prompt.abbr_collection import AbbrData
+from kaye.abbr_collection import AbbrData
 
 _LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 

@@ -4,8 +4,8 @@ abbr_entry.py
 define ``AbbrEntry``
 """
 
-from kaye.prompt.abbr_collection.abbr_tags import AbbrTags
-from kaye.prompt.abbr_collection.abbr_wrap import AbbrWrap
+from kaye.abbr_collection.abbr_tags import AbbrTags
+from kaye.abbr_collection.abbr_wrap import AbbrWrap
 
 # abbrs.json key constants  ####################################################
 
