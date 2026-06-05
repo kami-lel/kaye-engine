@@ -3605,10 +3605,38 @@ Use when need to remove/delete file/folder.
 
 ## Continue Prompts
 
+### maintain docs
+
+modify (or create) `README.md` and files in `docs/` and reflect recent changes
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### maintain CHANGELOG
 
-create or modify `CHANGELOG.md` according to rule: Coder Changelog Writer
+modify (or create) `CHANGELOG.md` to reflect recent changes, according to rule: Coder Changelog Writer
 
 
 
 
+
+
+
+
+
+
+
+
+
+### maintain AGENTS
+
+modify (or create) `AGENTS.md` to reflect recent changes, according to rule: AGENTS.md Writer
