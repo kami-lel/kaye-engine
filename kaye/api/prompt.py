@@ -1,5 +1,5 @@
 """
-define API to work with prompts
+Kaye HTTP API: endpoints /kaye/prompts/
 """
 
 # pylint: disable=missing-function-docstring

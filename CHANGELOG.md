@@ -72,11 +72,14 @@ Kaye Chat *Dify Chat*:
 
 ### Deprecated
 
+- `kaye.gen_prompt.load_embedded_prompt_blueprint()`: replaced by direct import from `kaye.prompt.embedded_blueprints`
+
 ### Removed
 
 Embedded blueprints:
 
 - `create_blueprint` wrappers and embedded blueprint prompt files
+- `./kaye/gen_prompt/embedded_blueprints/` folder: blueprints migrated into `kaye/prompt/embedded_blueprints.py`
 
 Kaye Chat *Dify Chat*:
 

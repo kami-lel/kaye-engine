@@ -1,4 +1,6 @@
 """
+prompt_blueprint_loader.py
+
 define:
 
 - ``load_embedded_blueprint``,

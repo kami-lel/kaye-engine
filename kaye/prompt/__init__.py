@@ -1,5 +1,5 @@
 """
-Kaye Python API: Prompt Generation
+Kaye Programmatic API: Prompt Generation
 
 The **core** module of *Kaye Python API*,
 implement a systematic, dynamic, and structured framework
