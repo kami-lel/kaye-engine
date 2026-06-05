@@ -15,7 +15,7 @@ def testee_prepared_local_config_folder(tmp_path_factory, ce_c_command):
     return prepare_local_config_folder(
         tmp_path_factory=tmp_path_factory,
         command=ce_c_command,
-        folder_name="testee_local_config_folder",
+        folder_name="local_config_folder",
     )
 
 
