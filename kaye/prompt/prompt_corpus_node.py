@@ -51,6 +51,3 @@ class PromptCorpusNode(BasePromptNode):
         copied = type(self)(self.name, None, [])
         copied._content_lines = self._content_lines
         return copied
-
-
-# todo node description (in corpus, but not as part of the content lines)
