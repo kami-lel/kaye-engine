@@ -47,7 +47,11 @@ class TestCL:  # ===============================================================
         assert "# Example Project CHANGELOG" in opt
 
     def test7(_, opt):
-        assert "[0.1.1]: https://github.com/example-user" in opt
+        assert (
+            "[2.0.0]: https://github.com/example-user/"
+            "example-project/releases/tag/v2.0.0"
+            in opt
+        )
 
     # chat blueprint  **********************************************************
 
