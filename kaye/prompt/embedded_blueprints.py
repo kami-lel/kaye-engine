@@ -110,6 +110,8 @@ continue_behavior_blueprint.display_name = "Continue Behavior"
 
 # coder  =======================================================================
 
+# TODO only single kyc_node
+
 # Coder
 coder_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_blueprint.checkmark("Kaye Peer Coder")
@@ -123,7 +125,7 @@ _kyc_node = coder_changelog_blueprint.corpus["Kaye Peer Coder"]
 coder_changelog_blueprint.checkmark(
     _kyc_node["Changelog Writer"], recursively=True
 )
-coder_changelog_blueprint.display_name = "Coder Changelog"
+coder_changelog_blueprint.display_name = "Coder Changelog Writer"
 coder_changelog_blueprint.description = "format for CHANGELOG.md"
 
 
