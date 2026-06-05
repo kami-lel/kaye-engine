@@ -22,6 +22,10 @@
 
 ### Changed
 
+`prompt_corpus.md`:
+
+- more comprehensive instruction on Python: *TestingGuidelines*
+
 ### Deprecated
 
 ### Removed
