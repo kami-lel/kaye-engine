@@ -31,9 +31,9 @@ class RuleFile:
 
         self.name = ""
         self.description = ""
-        self.invokable = False
         self.globs = []
         self.always_apply = False
+        self.invokable = False
 
         self.file = None
 
