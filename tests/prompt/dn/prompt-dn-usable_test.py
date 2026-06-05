@@ -67,4 +67,4 @@ class TestContentLines:  #######################################################
     def test1(_, testee1):
         opt = testee1.content_lines()
         print(opt)
-        assert opt == ["-`&`:and", "-`/`:or"]
+        assert opt == ["-&:and", "-/:or"]

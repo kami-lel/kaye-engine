@@ -68,7 +68,7 @@ class TestContentLines:  #######################################################
         lines = testee1.content_lines(query=query)
 
         print(lines)
-        assert set(lines) == {"- op:operate,operation,operator", "- .g:-ing"}
+        assert set(lines) == {"-op:operate,operation,operator", "-.g:-ing"}
 
     def test_fx2(_, testee1):
         query = (
@@ -84,21 +84,21 @@ class TestContentLines:  #######################################################
         print(lines)
 
         assert set(lines) == {
-            "- modn:modern,modernization",
-            "- &:and",
-            "- pol:politic,politics,political",
-            "- repr:representation",
-            "- soc:society",
-            "- cul:culture,cultural",
-            "- rev:revolution",
-            "- fr:from",
-            "- cls:class,classic,classicism,classify,classical",
-            "- pub:public",
-            "- pub:publish",
-            "- ind:industry,industrial",
-            "- in:inch",
-            "- o.:over-",
-            "- est.:estimate,estimation,estimated,estimating,estimatingly",
+            "-modn:modern,modernization",
+            "-&:and",
+            "-pol:politic,politics,political",
+            "-repr:representation",
+            "-soc:society",
+            "-cul:culture,cultural",
+            "-rev:revolution",
+            "-fr:from",
+            "-cls:class,classic,classicism,classify,classical",
+            "-pub:public",
+            "-pub:publish",
+            "-ind:industry,industrial",
+            "-in:inch",
+            "-o.:over-",
+            "-est.:estimate,estimation,estimated,estimating,estimatingly",
         }
 
     def test_fx3(_, testee1):
@@ -112,10 +112,10 @@ class TestContentLines:  #######################################################
         print(lines)
 
         assert set(lines) == {
-            "- $:(default)US Dollar",
-            "- a.m.:ante meridiem,before midday",
-            "- para:paragraph",
-            "- PM:post meridiem,after midday",
+            "-$:(default)US Dollar",
+            "-a.m.:ante meridiem,before midday",
+            "-para:paragraph",
+            "-PM:post meridiem,after midday",
         }
 
     def test_start(_, testee1):
@@ -124,7 +124,7 @@ class TestContentLines:  #######################################################
         lines = testee1.content_lines(query=query)
 
         print(lines)
-        assert set(lines) == {"- cf:confer,compare"}
+        assert set(lines) == {"-cf:confer,compare"}
 
     def test_end(_, testee1):
         query = "other and cf"
@@ -132,7 +132,7 @@ class TestContentLines:  #######################################################
         lines = testee1.content_lines(query=query)
 
         print(lines)
-        assert set(lines) == {"- cf:confer,compare"}
+        assert set(lines) == {"-cf:confer,compare"}
 
     def test_caps1(_, testee1):
         query = "W it happens but mx and also AM"
@@ -141,11 +141,11 @@ class TestContentLines:  #######################################################
 
         print(lines)
         assert set(lines) == {
-            "- W:west",
-            "- W:winter",
-            "- W:while,when",
-            "- mx:most",
-            "- AM:ante meridiem,before midday",
+            "-W:west",
+            "-W:winter",
+            "-W:while,when",
+            "-mx:most",
+            "-AM:ante meridiem,before midday",
         }
 
     def test_caps2(_, testee1):
@@ -155,8 +155,8 @@ class TestContentLines:  #######################################################
 
         print(lines)
         assert set(lines) == {
-            "- mx:most",
-            "- Mx:must not",
+            "-mx:most",
+            "-Mx:must not",
         }
 
     def test_emoji1(_, testee1):
@@ -178,15 +178,15 @@ class TestContentLines:  #######################################################
 
         print(lines)
         assert set(lines) == {
-            "- ⚙️:settings,preferences",
-            "- 🚀:rapid,fast",
-            "- ⚠️:warning",
-            "- 🐞:debug",
-            "- 🛑:error",
-            "- ☝:points/notice up,upward",
-            "- 🛠️:tools",
-            "- ☜:points/notice left,left direction",
-            "- 🏁:finish",
+            "-⚙️:settings,preferences",
+            "-🚀:rapid,fast",
+            "-⚠️:warning",
+            "-🐞:debug",
+            "-🛑:error",
+            "-☝:points/notice up,upward",
+            "-🛠️:tools",
+            "-☜:points/notice left,left direction",
+            "-🏁:finish",
         }
 
     def test_unicode1(_, testee1):
@@ -204,11 +204,11 @@ class TestContentLines:  #######################################################
 
         print(lines)
         assert set(lines) == {
-            "- ℃:degree Celsius",
-            "- ☒:selected with a cross",
-            "- ↓:decrease,decrement",
-            "- ¼:fraction one quarter",
-            "- in:inch",
+            "-℃:degree Celsius",
+            "-☒:selected with a cross",
+            "-↓:decrease,decrement",
+            "-¼:fraction one quarter",
+            "-in:inch",
         }
 
     def test_empty1(_, testee1):

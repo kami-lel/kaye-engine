@@ -71,9 +71,9 @@ class TestContentLines:  # =====================================================
         opt = testee1.content_lines()
         print(opt)
         assert opt == [
-            "-`de`:Deutsch",
-            "-`en`:English",
-            "-`zh`:中文",
-            "-`zhs`:大陆简体中文",
-            "-`zht`:香港繁體中文",
+            "-de:Deutsch",
+            "-en:English",
+            "-zh:中文",
+            "-zhs:大陆简体中文",
+            "-zht:香港繁體中文",
         ]
