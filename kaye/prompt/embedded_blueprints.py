@@ -14,8 +14,9 @@ __all__ = (
     "style_blueprint",
     "annotation_marker_blueprint",
     "coder_blueprint",
-    "coder_bash_blueprint",
     "coder_changelog_blueprint",
+    "coder_project_blueprint",
+    "coder_bash_blueprint",
     "coder_c_blueprint",
     "coder_cpp_blueprint",
     "coder_ue_blueprint",
@@ -106,7 +107,6 @@ continue_behavior_blueprint.checkmark(
 )
 continue_behavior_blueprint.display_name = "Continue Behavior"
 
-# TODO project structure blueprint: readme,changelog,docs locations
 
 # coder  =======================================================================
 
@@ -115,6 +115,26 @@ coder_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_blueprint.checkmark("Kaye Peer Coder")
 coder_blueprint.display_name = "Coder"
 coder_blueprint.description = "instruction for coding and programming"
+
+
+# Coder Changelog
+coder_changelog_blueprint = PromptBlueprint.create_empty_blueprint()
+_kyc_node = coder_changelog_blueprint.corpus["Kaye Peer Coder"]
+coder_changelog_blueprint.checkmark(
+    _kyc_node["Changelog Writer"], recursively=True
+)
+coder_changelog_blueprint.display_name = "Coder Changelog"
+coder_changelog_blueprint.description = "format for CHANGELOG.md"
+
+
+# Coder Project
+coder_project_blueprint = PromptBlueprint.create_empty_blueprint()
+_kyc_node = coder_project_blueprint.corpus["Kaye Peer Coder"]
+coder_project_blueprint.checkmark(_kyc_node["Project Structure"])
+coder_project_blueprint.display_name = "Project Structure"
+coder_project_blueprint.description = (
+    "generic Project/Repository structure for all programming languages"
+)
 
 
 # Coder Bash
@@ -126,16 +146,6 @@ coder_bash_blueprint.display_name = "Coder Bash"
 coder_bash_blueprint.description = (
     "Debian GNU/Linux shell commands; ready-to-run output"
 )
-
-
-# Coder Changelog
-coder_changelog_blueprint = PromptBlueprint.create_empty_blueprint()
-_kyc_node = coder_changelog_blueprint.corpus["Kaye Peer Coder"]
-coder_changelog_blueprint.checkmark(
-    _kyc_node["Changelog Writer"], recursively=True
-)
-coder_changelog_blueprint.display_name = "Coder Changelog"
-coder_changelog_blueprint.description = "format for CHANGELOG.md"
 
 
 # Coder C
