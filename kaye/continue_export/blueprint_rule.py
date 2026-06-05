@@ -1,8 +1,7 @@
 """
 blueprint_rule.py
 
-define ``EXPORT_BLUEPRINTS``, ``export_blueprint_rule``, and
-``export_all_blueprint_rules``, the full pipeline for writing
+define ``export_all_blueprint_rules``, the full pipeline for writing
 blueprints as Continue AI rule files via ``RuleFile``
 """
 
@@ -13,7 +12,7 @@ from kaye.prompt import embedded_blueprints
 
 # constants  ###################################################################
 
-CODER_BLUEPRINT_GLOBS = {
+_CODER_BLUEPRINT_GLOBS = {
     "coder_c_blueprint": ["**/*.{c,h}"],
     "coder_cpp_blueprint": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
     "coder_ue_blueprint": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
@@ -30,13 +29,13 @@ CODER_BLUEPRINT_GLOBS = {
     ],
 }
 
-ALWAYS_APPLY_BLUEPRINT = [
+_ALWAYS_APPLY_BLUEPRINT = [
     "chat_blueprint",
     "coder_blueprint",
     "continue_behavior_blueprint",
 ]
 
-EXPORT_BLUEPRINTS = [
+_EXPORT_BLUEPRINTS = [
     "chat_blueprint",
     "date_time_blueprint",
     "number_unit_blueprint",
@@ -61,10 +60,7 @@ EXPORT_BLUEPRINTS = [
 ]
 
 
-# export_blueprint_rule  ######################################################
-
-
-def export_blueprint_rule(name, bp, path):
+def _export_blueprint_rule(name, bp, path):
     """
     write a single blueprint as a Continue AI rule file
 
@@ -82,8 +78,8 @@ def export_blueprint_rule(name, bp, path):
     with RuleFile(path, encoding="utf-8") as rule:
         rule.name = bp.display_name
         rule.description = bp.description
-        rule.globs = CODER_BLUEPRINT_GLOBS.get(name, [])
-        rule.always_apply = name in ALWAYS_APPLY_BLUEPRINT
+        rule.globs = _CODER_BLUEPRINT_GLOBS.get(name, [])
+        rule.always_apply = name in _ALWAYS_APPLY_BLUEPRINT
         rule.write_prefix()
         rule.write(bp.generate_prompt())
 
@@ -101,9 +97,9 @@ def export_all_blueprint_rules(rules_folder):
     folder = Path(rules_folder).resolve()
     folder.mkdir(parents=True, exist_ok=True)
 
-    for name in EXPORT_BLUEPRINTS:
+    for name in _EXPORT_BLUEPRINTS:
         bp = getattr(embedded_blueprints, name)
         file_path = folder / "{}.md".format(name)
 
         print("update rule: {}".format(file_path))
-        export_blueprint_rule(name, bp, file_path)
+        _export_blueprint_rule(name, bp, file_path)
