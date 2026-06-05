@@ -18,6 +18,30 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.0.0] - 2026-06-05
+
+### Added
+
 - **Continue support**: generate **Continue** rule files for `~/.continue` via the `continue_support` package and the `kaye continue` CLI command
 - **Changelog Writer** role
 - new `Continue Behavior` section in `prompt_corpus.md`
@@ -50,10 +74,6 @@ Dify App *Kaye Chat*:
 - **old embedded blueprint files** (`./kaye/gen_prompt/embedded_blueprints/` and its `.kaye_blueprint` files) and `create_blueprint` wrappers
 - the `prompt` CLI subcommand (disabled, pending rework)
 - Kaye Chat's *shelver* role
-
-### Fixed
-
-- module docstrings and stale `TODO`/`FIXME` markers
 
 
 
@@ -1558,7 +1578,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v5.5.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.0.0...dev
+[6.0.0]: https://github.com/kami-lel/kaye/compare/v5.5.0...v6.0.0
 [5.5.0]: https://github.com/kami-lel/kaye/compare/v5.4.1...v5.5.50
 [5.4.1]: https://github.com/kami-lel/kaye/compare/v5.4.0...v5.4.1
 [5.4.0]: https://github.com/kami-lel/kaye/compare/v5.3.0...v5.4.0
