@@ -1,6 +1,6 @@
 # Kaye README
 
-<!-- Todo re-organize README, docs, & standardize each components names -->
+<!-- TODO re-organize README, docs, & standardize each components names -->
 
 > Consistent AI Agent Persona **Kaye**, powered by rigorous prompt engineering
 
@@ -97,4 +97,4 @@ A simple CLI is provided to list, show, and generate prompts from the terminal:
 python -m kaye --help
 ```
 
-<!-- Todo CLI: write write doc -->
+<!-- TODO CLI: write write doc -->

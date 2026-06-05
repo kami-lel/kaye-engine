@@ -2,7 +2,7 @@
 CLI for Python module ``kaye``
 """
 
-# Fixme unify python module docstring & command help
+# FIXME unify python module docstring & command help
 
 from argparse import ArgumentParser
 
