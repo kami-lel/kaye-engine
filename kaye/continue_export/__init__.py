@@ -17,4 +17,7 @@ __all__ = [
     "export_abbr_rules",
 ]
 
-# todo continue support *prompts*
+# todo continue: support prompt
+# todo continue: prompt: look into AMs & try to help
+# todo continue: prompt: update changelog
+# todo continue: prompt: create project rule
