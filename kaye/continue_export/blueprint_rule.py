@@ -9,6 +9,7 @@ from pathlib import Path
 
 from kaye.continue_export.rule_file import RuleFile
 from kaye.prompt import embedded_blueprints
+from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 # constants  ###################################################################
 
@@ -60,6 +61,9 @@ _EXPORT_BLUEPRINTS = [
 ]
 
 
+# helpers  #####################################################################
+
+
 def _export_blueprint_rule(name, bp, path):
     """
     write a single blueprint as a Continue AI rule file
@@ -84,6 +88,16 @@ def _export_blueprint_rule(name, bp, path):
         rule.write(bp.generate_prompt())
 
 
+# continue behavior blueprint  ------------------------------------------------
+
+_continue_behavior_blueprint = PromptBlueprint.create_empty_blueprint()
+_continue_behavior_blueprint.checkmark(
+    _continue_behavior_blueprint.corpus["Continue Behavior"]
+)
+_continue_behavior_blueprint.display_name = "Continue Behavior"
+
+
+# Entry Point  #################################################################
 def export_blueprint_rules(rules_folder):
     """
     export all blueprints in ``EXPORT_BLUEPRINTS`` as Continue AI rule files
@@ -97,8 +111,12 @@ def export_blueprint_rules(rules_folder):
     folder = Path(rules_folder).resolve()
     folder.mkdir(parents=True, exist_ok=True)
 
+    _local = {
+        "continue_behavior_blueprint": _continue_behavior_blueprint,
+    }
+
     for name in _EXPORT_BLUEPRINTS:
-        bp = getattr(embedded_blueprints, name)
+        bp = _local.get(name) or getattr(embedded_blueprints, name)
         file_path = folder / "{}.md".format(name)
 
         print("update blueprint rule:\t{}".format(file_path))
