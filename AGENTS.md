@@ -3,7 +3,7 @@ name: kaye AGENTS.md
 alwaysApply: true
 ----
 
-# AGENTS.md
+# kaye AGENTS.md
 
 Guidance for AI coding agents working in the **Kaye** repository. This file is
 agent-readable context: read it before making changes, and follow the exact
