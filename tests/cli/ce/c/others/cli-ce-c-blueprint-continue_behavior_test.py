@@ -54,7 +54,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "# Continue Behavior" in testee_content
+        assert "## Continue Behavior" in testee_content
 
     def test_file_consistency_rule(_, testee_content):
         assert (
@@ -63,17 +63,14 @@ class TestContent:  # ==========================================================
         )
 
     def test_intentional_edits_rule(_, testee_content):
-        assert (
-            "treat them as intentional user edits" in testee_content
-        )
+        assert "treat them as intentional user edits" in testee_content
 
     def test_run_terminal_command_heading(_, testee_content):
-        assert "### `run_terminal_command`" in testee_content
+        assert "#### `run_terminal_command`" in testee_content
 
     def test_last_resort_rule(_, testee_content):
         assert (
-            "Only use `run_terminal_command` as a last resort"
-            in testee_content
+            "Only use `run_terminal_command` as a last resort" in testee_content
         )
 
     def test_delete_use_case(_, testee_content):

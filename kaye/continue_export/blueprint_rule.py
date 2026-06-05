@@ -92,7 +92,7 @@ def _export_blueprint_rule(name, bp, path):
 
 _continue_behavior_blueprint = PromptBlueprint.create_empty_blueprint()
 _continue_behavior_blueprint.checkmark(
-    _continue_behavior_blueprint.corpus["Continue Behavior"]
+    _continue_behavior_blueprint.corpus["Continue"]["Continue Behavior"]
 )
 _continue_behavior_blueprint.display_name = "Continue Behavior"
 
