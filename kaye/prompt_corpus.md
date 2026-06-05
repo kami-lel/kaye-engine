@@ -3683,7 +3683,7 @@ Use when need to remove/delete file/folder.
 
 ### Maintain Docs
 
-review recent changes — update or create `README.md`, files in `docs/`, and `AGENTS.md` to reflect them. Keep `README.md` focused on human contributors. Follow the *AGENTS.md Writer* rule for `AGENTS.md` structure, content, and style. Ensure accuracy, remove stale content
+review recent changes — update or create `README.md`, files in `docs/`, and `AGENTS.md` to reflect them. Keep `README.md` focused on human contributors. Follow the *Coder AGENTS.md Writer* rule for `AGENTS.md` structure, content, and style. Ensure accuracy, remove stale content
 
 
 
