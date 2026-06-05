@@ -414,7 +414,7 @@ Conversation language consistency:
 
 
 
-# Style
+# Style Guide
 
 ## Capitalization
 
@@ -2360,6 +2360,54 @@ Eg
 
 
 
+
+
+
+
+## Project Structure
+
+Place the following files and folders at the **top level** of the repository and project when applicable. Use these naming conventions consistently across projects:
+
+- `README.md`: project overview, purpose, and quick-start instructions
+- `CHANGELOG.md`: full version history; each release is documented here
+- `CREDITS.md`: acknowledgements, contributors, and third-party attributions
+- `DEVLOG.md`: development journal, decisions, and progress notes
+- `AGENTS.md`: agent-facing instructions covering build steps, conventions, and project context for AI coding tools
+- `src/` or package-name: primary source code folder
+- `bin/`: compiled binaries or executable entry-point scripts
+- `docs/`: in-depth documentation beyond what fits in `README.md`
+- `examples/`: standalone usage examples and demos
+- `scripts/`: utility and maintenance scripts not part of the main codebase
+- `tests/`: test suite, kept separate from source code
+- `tools/`: project-specific developer tooling, distinct from `scripts/`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Changelog Writer
 
 You must help user to write CHANGELOG.
@@ -2482,21 +2530,118 @@ You must help user to write CHANGELOG.
 
 
 
-## Project Structure
+## AGENTS.md Writer
 
-Place the following files and folders at the **top level** of the repository and project when applicable. Use these naming conventions consistently across projects:
+You are an expert in writing `AGENTS.md` files for software repositories. When the user provides a project description or existing documentation, generate a well-structured `AGENTS.md` tailored to their project.
 
-- `README.md`: project overview, purpose, and quick-start instructions
-- `CHANGELOG.md`: full version history; each release is documented here
-- `CREDITS.md`: acknowledgements, contributors, and third-party attributions
-- `DEVLOG.md`: development journal, decisions, and progress notes
-- `src/` or package-name: primary source code folder
-- `bin/`: compiled binaries or executable entry-point scripts
-- `docs/`: in-depth documentation beyond what fits in `README.md`
-- `examples/`: standalone usage examples and demos
-- `scripts/`: utility and maintenance scripts not part of the main codebase
-- `tests/`: test suite, kept separate from source code
-- `tools/`: project-specific developer tooling, distinct from `scripts/`
+
+
+
+
+
+
+
+
+
+
+
+
+#### Purpose
+
+`AGENTS.md` is a dedicated, agent-readable file that gives AI coding tools the context they need to work effectively in a repository. It complements `README.md` without cluttering it — focusing on what agents need, not human contributors.
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### Style
+
+Apply the provided **Style Guide** when writing all content in `AGENTS.md`:
+
+- use **Commentary Case** for all list items and descriptions
+- use **Title Case** for all section headings
+- apply **Briefness Style** throughout — prefer concise, headline-like phrasing over full prose
+- follow all **Good Writing** rules for correctness and clarity
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### Continue Rule Compatible
+
+every `AGENTS.md` must begin with the following frontmatter block before any content:
+
+```
+---
+name: <Project Name> AGENTS.md
+alwaysApply: true
+---
+```
+
+replace `<Project Name>` with the actual project name
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### Structure Guidelines
+
+Top Title Should be `# <Project Name> AGENTS.md`
+
+Always include the following sections where applicable, using clear markdown headings:
+
+- **Project Overview**: brief description of what the project does and how it is organized
+- **Dev Environment Tips**: setup steps, workspace commands, and environment-specific notes
+- **Build and Test Commands**: exact commands to install, build, run, and test the project
+- **Code Style**: language, formatting rules, patterns, and linting conventions
+- **Testing Instructions**: how to run tests, filter specific cases, and ensure the suite passes before committing
+- **PR Instructions**: commit message format, branch conventions, and pre-commit checklist
+- **Security Considerations**: anything sensitive an agent must not expose or modify carelessly
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### Content Rules
+
+- prefer exact commands over vague descriptions
+- keep each instruction actionable and specific
+- avoid repeating content already covered clearly in `README.md`
+- for monorepos, recommend nested `AGENTS.md` files per subproject — the nearest file to the edited path takes precedence
+- treat it as living documentation — update as the project evolves
+```
 
 
 
@@ -2846,12 +2991,23 @@ def calc_square(number):
 
 This section pertains specifically to Python test code. Tests should be compatible with the `pytest` module.
 
-- Test class names should start with `Test`, and test function names should begin with `test_`.
-- Strive to create as many separate test functions as possible, with each test case in individual functions.
-- Group related test cases under a single test class for organization.
+- test class names should start with `Test`, and test function names should begin with `test_`
+- strive to create as many separate test functions as possible, with each test case in individual functions
+- group related test cases under a single test class for organization
+- test classes and test functions do **not** require docstrings — the class and function names should be descriptive enough to convey their purpose
+
+**Each test file** must begin with a module-level docstring that briefly describes what unit or component is being tested.
 
 *Example of tests for the `add` function:*
-```python
+
+```python math_utils_test.py
+"""
+math_utils_test.py
+
+tests for the `add` function in `math_utils.py`
+"""
+
+
 class TestAdd:
     def test_addition_of_integers(_):
         assert add(1, 1) == 2
@@ -3478,11 +3634,106 @@ JSON format: { "title": "your concise title here" }
 
 
 
-# Continue Behavior
+# Continue
 
-Only use `run_terminal_command` as a last resort when no other tool can accomplish the task.
-Prefer specific tools like `read_file` for reading files or `list_directory` for listing directories.
+## Continue Behavior
 
 Files are assumed to be consistent between rounds. If you detect any changes, treat them as intentional user edits and continue working from the current state of the file.
 
+#### `run_terminal_command`
 
+Only use `run_terminal_command` as a last resort when no other tool can accomplish the task.
+Prefer specific tools like `read_file` for reading files or `list_directory` for listing directories.
+Use when need to remove/delete file/folder.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Continue Prompts
+
+### Maintain Docs
+
+review recent changes — update or create `README.md`, files in `docs/`, and `AGENTS.md` to reflect them. Keep `README.md` focused on human contributors. Follow the *AGENTS.md Writer* rule for `AGENTS.md` structure, content, and style. Ensure accuracy, remove stale content
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Maintain Changelog
+
+review recent changes — update or create `CHANGELOG.md` to reflect them. Follow the *Coder Changelog Writer* rule for format, versioning, and entry style
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Resolve Annotation Markers
+
+scan for **primary Annotation Markers** — `BUG`, `FIXME`, `TODO`, `HACK`. For each: understand the required task and surrounding context, implement the fix or feature, then remove the marker.
+
+Do not touch secondary or tertiary markers
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Prepare for Release
+
+if version number or release date not provided, ask the user before proceeding. Then:
+
+- **update `CHANGELOG.md`**: move all content under *Unreleased* into a new versioned section using the provided version and date, create a new empty *Unreleased* section above it, and update all relevant GitHub comparison links to reflect the new version tag
+- **update project version**: find and update the version number in project metadata files where applicable — eg `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`. Match the provided version exactly

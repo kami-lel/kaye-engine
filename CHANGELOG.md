@@ -38,6 +38,46 @@
 
 
 
+## [6.2.0] - 2026-06-06
+
+### Added
+
+- Python CLI: subcommand `continue prompt` to support exporting **Continue Prompts**
+
+  - comprehensive unit tests for this
+
+`prompt_corpus.md`: 
+
+- **Continue Prompts**:
+
+  - Maintain Changelog
+  - Maintain Docs
+  - Resolve Annotation Markers
+  - Prepare for Release
+
+- Coder: AGENTS.md Writer: instruction for **writing proper** `AGENTS.md`
+- `AGENTS.md` for this project
+
+### Changed
+
+- Python CLI: subcommand `continue` moved to `continue config`
+
+`prompt_corpus.md`
+
+- Coder: Python: *TestingGuidelines*: more comprehensive instruction 
+- Coder: Project Structure: include `AGENTS.md`
+- rename section **Style Guide** (from Style)
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## [6.1.0] - 2026-06-18
@@ -1623,7 +1663,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.1.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.2.0...dev
+[6.2.0]: https://github.com/kami-lel/kaye/compare/v6.1.0...v6.2.0
 [6.1.0]: https://github.com/kami-lel/kaye/compare/v6.0.0...v6.1.0
 [6.0.0]: https://github.com/kami-lel/kaye/compare/v5.5.0...v6.0.0
 [5.5.0]: https://github.com/kami-lel/kaye/compare/v5.4.1...v5.5.50
