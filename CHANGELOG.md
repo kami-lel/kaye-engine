@@ -18,6 +18,32 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.1.0] - 2026-06-18
+
+### Added
+
 `abbrs.json`:
 
 - add `HK$`, `JP¥`, `JP`
@@ -44,12 +70,6 @@ Programmatic API:
 
 - update instruction on *Continue Behavior*
 - more comprehensive instruction on Python *Docstring Style*
-
-### Deprecated
-
-### Removed
-
-### Fixed
 
 
 
@@ -1603,7 +1623,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.0.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.1.0...dev
+[6.1.0]: https://github.com/kami-lel/kaye/compare/v6.0.0...v6.1.0
 [6.0.0]: https://github.com/kami-lel/kaye/compare/v5.5.0...v6.0.0
 [5.5.0]: https://github.com/kami-lel/kaye/compare/v5.4.1...v5.5.50
 [5.4.1]: https://github.com/kami-lel/kaye/compare/v5.4.0...v5.4.1
