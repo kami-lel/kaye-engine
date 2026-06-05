@@ -9,7 +9,10 @@ from pathlib import Path
 from kaye.prompt import embedded_blueprints
 from kaye.prompt.embedded_blueprints import __all__ as BLUEPRINT_NAMES
 
-# todo support *prompts*
+# todo continue support *prompts*
+# Fixme split as package
+# Todo abbreviations
+# Todo add blueprint rule file
 
 
 # constants  ###################################################################
