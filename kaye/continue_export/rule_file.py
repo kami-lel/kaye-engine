@@ -4,8 +4,6 @@ rule_file.py
 define ``RuleFile``, a context manager for writing Continue AI rule files
 """
 
-# RuleFile  ####################################################################
-
 
 class RuleFile:
     """
@@ -35,6 +33,7 @@ class RuleFile:
         self.description = ""
         self.globs = []
         self.always_apply = False
+        self.invokable = False
 
         self.file = None
 
@@ -62,6 +61,9 @@ class RuleFile:
         self.file.write(
             "alwaysApply: {}\n".format(str(self.always_apply).lower())
         )
+
+        if self.invokable:
+            self.file.write("invokable: true\n")
 
         self.file.write("---\n\n")
 

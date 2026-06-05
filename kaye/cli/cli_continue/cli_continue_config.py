@@ -2,19 +2,22 @@
 
 from pathlib import Path
 
-from kaye.continue_export import export_abbr_rules, export_blueprint_rules
+from kaye.continue_export import (
+    export_abbr_rules,
+    export_blueprint_rules,
+)
 
 _DEFAULT_CONTINUE_FOLDER = Path.home() / ".continue"
 
 
-def register_cli_continue_parser(  #############################################
+def register_cli_continue_config_parser(  ######################################
     cli_subparser,
 ):  # pylint: disable=missing-function-docstring
-    continue_parser = cli_subparser.add_parser(
-        "continue", help=__doc__, description=__doc__, aliases=["c"]
+    config_parser = cli_subparser.add_parser(
+        "config", help=__doc__, description=__doc__, aliases=["c"]
     )
 
-    continue_parser.add_argument(
+    config_parser.add_argument(
         "local_config_folder",
         metavar="LOCAL_CONFIG_FOLDER",
         nargs="?",
@@ -23,9 +26,9 @@ def register_cli_continue_parser(  #############################################
         help="path to local config folder, default: ~/.continue",
     )
 
-    def _continue_main(args):
+    def _config_main(args):
         rules_folder = args.local_config_folder / "rules"
         export_blueprint_rules(rules_folder)
         export_abbr_rules(rules_folder)
 
-    continue_parser.set_defaults(func=_continue_main)
+    config_parser.set_defaults(func=_config_main)
