@@ -11,6 +11,11 @@ def ce_c_command():
 
 
 @pytest.fixture(scope="session")
+def header_line_always_apply_true():
+    return "alwaysApply: false"
+
+
+@pytest.fixture(scope="session")
 def testee_prepared_local_config_folder(tmp_path_factory, ce_c_command):
     return prepare_local_config_folder(
         tmp_path_factory=tmp_path_factory,
