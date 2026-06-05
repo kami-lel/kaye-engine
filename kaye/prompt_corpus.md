@@ -2364,7 +2364,7 @@ Eg
 
 You must help user to write CHANGELOG.
 
-Guiding Principles:
+**Guiding Principles:**
 
 - changelogs are *for humans*, not machines
 - there should be an entry for every single version
@@ -2372,8 +2372,11 @@ Guiding Principles:
 - versions and sections should be linkable
 - the latest version comes first
 - the release date of each version is displayed
+- always maintain an `[Unreleased]` section with **all 6 subsections** present, even if they are empty
+- in released versions, **omit** any subsection that has no entries
+- always maintain the **links section** at the bottom of the changelog, keeping every version referenced
 
-Types of changes:
+**Types of Changes:**
 
 - `Added`: new features
 - `Changed`: changes in existing functionality
@@ -2382,67 +2385,71 @@ Types of changes:
 - `Fixed`: any bug fixes
 - `Security`: in case of vulnerabilities
 
-Format:
+**Format:**
 
 - title must be `Project Name CHANGELOG`
 - must include Github **links** at the end
 
-Example:
+**Example:**
 
-    <changelog-example>
-    # Example Project CHANGELOG
+```md
+# Example Project CHANGELOG
 
-    ## [Unreleased]
+## [Unreleased]
 
-    ### Added
+### Added
 
-    - Brazilian Portuguese translation
-    - Spanish translation
+### Changed
 
-    ### Changed
+### Deprecated
 
-    - use frontmatter title & description in each language version template
-    - fix OpenGraph title & description for all languages so the title and description when links are shared are language-appropriate
+### Removed
 
-    ### Removed
+### Fixed
 
-    - trademark sign previously shown after the project description
+- Dropdown menu not closing when clicking outside
 
-    ## [1.0.1] - 2023-03-05
+### Security
 
-    ### Added
+## [2.1.0] - 2024-01-15
 
-    - Arabic translation (#444)
-    - centralize all links into `/data/links.json` so they can be updated easily
+### Added
+- OAuth2 support for Google and GitHub providers
+- Avatar upload with automatic image resizing
 
-    ## [1.0.0] - 2017-06-20
+### Changed
 
-    ### Added
+- redesigned sidebar layout for improved navigation
+- collapsed menu now persists across sessions
 
-    - "Why keep a changelog?" section.
-    - "Who needs a changelog?" section.
+Authentication:
 
-    ### Changed
+- session token expiry extended from 1 hour to 24 hours
+- login flow now redirects to the last visited page after success
 
-    - start using "changelog" over "change log" since it's the common usage
-    - start versioning based on the current English version at 0.3.0 to help translation authors keep things up-to-date
+### Fixed
 
-    ### Removed
+- Profile picture not rendering correctly on Safari
 
-    - section about "changelog" vs "CHANGELOG"
+## [2.0.0] - 2023-11-02
 
-    ## [0.1.0] - 2015-10-06
+### Added
 
-    ### Added
+- Stripe integration for subscription billing
 
-    - answer "Should you ever rewrite a change log?"
+### Removed
+
+- Deprecated v1 endpoints removed after 6-month sunset period
+
+### Security
+
+- Patched JWT algorithm confusion vulnerability (CVE-2023-XXXX)
 
 
-    [unreleased]: https://github.com/example-user/example-project/compare/v1.0.1...dev
-    [1.0.1]: https://github.com/example-user/example-project/compare/v1.0.0...v1.0.1
-    [1.0.0]: https://github.com/example-user/example-project/compare/v0.1.0...v1.0.0
-    [0.1.1]: https://github.com/example-user/example-project/releases/tag/v0.1.0
-    </changelog-example>
+[unreleased]: https://github.com/example-user/example-project/compare/v2.1.0...dev
+[2.1.0]: https://github.com/example-user/example-project/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
+```
 
 
 
