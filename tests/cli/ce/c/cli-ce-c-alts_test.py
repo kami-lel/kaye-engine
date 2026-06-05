@@ -15,11 +15,29 @@ from tests.cli.ce.c import RULE_FILES, prepare_local_config_folder
 
 
 @pytest.fixture(scope="class")
-def testee_alt1(tmp_path_factory):
+def testee_alt1(tmp_path_factory, cli_command):
     return prepare_local_config_folder(
         tmp_path_factory=tmp_path_factory,
-        command="python3 -m kaye c ",
+        command=cli_command + "continue c ",
         folder_name="local_config_folder_alt1",
+    )
+
+
+@pytest.fixture(scope="class")
+def testee_alt2(tmp_path_factory, cli_command):
+    return prepare_local_config_folder(
+        tmp_path_factory=tmp_path_factory,
+        command=cli_command + "c config ",
+        folder_name="local_config_folder_alt2",
+    )
+
+
+@pytest.fixture(scope="class")
+def testee_alt3(tmp_path_factory, cli_command):
+    return prepare_local_config_folder(
+        tmp_path_factory=tmp_path_factory,
+        command=cli_command + "c c ",
+        folder_name="local_config_folder_alt3",
     )
 
 
@@ -42,4 +60,33 @@ class TestAlt1:  # =============================================================
             assert (rules_folder / v).exists()
 
 
-# TODO more alternative commands form
+class TestAlt2:  # =============================================================
+
+    def test_rules_exist(_, testee_alt2):
+        _, rules_folder = testee_alt2
+        assert rules_folder.exists()
+
+    def test_rules_is_dir(_, testee_alt2):
+        _, rules_folder = testee_alt2
+        assert rules_folder.is_dir()
+
+    def test_entries(_, testee_alt2):
+        _, rules_folder = testee_alt2
+        for v in RULE_FILES:
+            assert (rules_folder / v).exists()
+
+
+class TestAlt3:  # =============================================================
+
+    def test_rules_exist(_, testee_alt3):
+        _, rules_folder = testee_alt3
+        assert rules_folder.exists()
+
+    def test_rules_is_dir(_, testee_alt3):
+        _, rules_folder = testee_alt3
+        assert rules_folder.is_dir()
+
+    def test_entries(_, testee_alt3):
+        _, rules_folder = testee_alt3
+        for v in RULE_FILES:
+            assert (rules_folder / v).exists()

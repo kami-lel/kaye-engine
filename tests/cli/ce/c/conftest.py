@@ -6,8 +6,8 @@ from tests.cli.ce.c import prepare_local_config_folder
 
 
 @pytest.fixture(scope="session")
-def ce_c_command():
-    return "python3 -m kaye continue "
+def ce_c_command(cli_command):
+    return cli_command + "continue config "
 
 
 @pytest.fixture(scope="session")
