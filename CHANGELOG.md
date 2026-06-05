@@ -26,6 +26,8 @@
 
 ### Fixed
 
+- `prompt_corpus.md`: Continue Prompts: Maintain Docs: fix rule name
+
 ### Security
 
 
