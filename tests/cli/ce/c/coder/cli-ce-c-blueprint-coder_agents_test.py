@@ -97,3 +97,6 @@ class TestContent:  # ==========================================================
             "for monorepos, recommend nested `AGENTS.md` files per subproject"
             in testee_content
         )
+
+    def test_continue(_, testee_content):
+        assert "#### Continue Rule Compatible" in testee_content
