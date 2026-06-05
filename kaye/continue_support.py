@@ -15,25 +15,21 @@ from kaye.prompt.embedded_blueprints import __all__ as BLUEPRINT_NAMES
 # constants  ###################################################################
 
 CODER_BLUEPRINT_GLOBS = {
-    "Coder C": ["**/*.{c,h}"],
-    "Coder CPP": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
-    "Coder Unreal Engine": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
-    "Coder C Sharp": ["**/*.cs"],
-    "Coder Unity": ["**/*.cs"],
-    "Coder GDScript": ["**/*.gd"],
-    "Coder HTML": ["**/*.{html,htm}"],
-    "Coder JavaScript and TypeScript": [
-        "**/*.{js,ts,jsx,tsx,mjs,cjs}",
-    ],
-    "Coder Python": ["**/*.py"],
-    "Coder Python Docstring": ["**/*.py"],
-    "Coder Python Testing": ["**/test_*.py", "**/*_test.py"],
-    "Coder Changelog Writer": [
+    "coder_c_blueprint": ["**/*.{c,h}"],
+    "coder_cpp_blueprint": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
+    "coder_ue_blueprint": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
+    "coder_csharp_blueprint": ["**/*.cs"],
+    "coder_u3d_blueprint": ["**/*.cs"],
+    "coder_gdscript_blueprint": ["**/*.gd"],
+    "coder_html_blueprint": ["**/*.{html,htm}"],
+    "coder_js_ts_blueprint": ["**/*.{js,ts,jsx,tsx,mjs,cjs}"],
+    "coder_py_blueprint": ["**/*.py"],
+    "coder_py_docstring_blueprint": ["**/*.py"],
+    "coder_py_testing_blueprint": ["**/test_*.py", "**/*_test.py"],
+    "coder_changelog_blueprint": [
         "**/{CHANGELOG,Changelog,changelog}{,.md,.txt}",
     ],
 }
-
-# TODO changelog use attr name, not display name
 
 
 ALWAYS_APPLY_BLUEPRINT = [
@@ -139,7 +135,7 @@ def update_continue_local_config_folder(continue_local_config_folder):
         with RuleFile(file_path, encoding="utf-8") as rule:
             rule.name = bp.display_name
             rule.description = bp.description
-            rule.globs = CODER_BLUEPRINT_GLOBS.get(bp.display_name, [])
+            rule.globs = CODER_BLUEPRINT_GLOBS.get(name, [])
             rule.always_apply = name in ALWAYS_APPLY_BLUEPRINT
             rule.write_prefix()
             rule.write(bp.generate_prompt())
