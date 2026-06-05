@@ -3489,14 +3489,57 @@ JSON format: { "title": "your concise title here" }
 
 
 
-# Continue Behavior
+# Continue
+
+## Continue Behavior
 
 Files are assumed to be consistent between rounds. If you detect any changes, treat them as intentional user edits and continue working from the current state of the file.
 
-### `run_terminal_command`
+#### `run_terminal_command`
 
 Only use `run_terminal_command` as a last resort when no other tool can accomplish the task.
 Prefer specific tools like `read_file` for reading files or `list_directory` for listing directories.
 Use when need to remove/delete file/folder.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Continue Prompts
+
+### maintain CHANGELOG
+
+create or modify `CHANGELOG.md` according to rule: Coder Changelog Writer
+
+
 
 

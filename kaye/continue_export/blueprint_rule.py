@@ -9,6 +9,7 @@ from pathlib import Path
 
 from kaye.continue_export.rule_file import RuleFile
 from kaye.prompt import embedded_blueprints
+from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 # constants  ###################################################################
 
@@ -60,30 +61,16 @@ _EXPORT_BLUEPRINTS = [
 ]
 
 
-def _export_blueprint_rule(name, bp, path):
-    """
-    write a single blueprint as a Continue AI rule file
+# continue behavior blueprint  ------------------------------------------------
 
-    resolves globs and always-apply status from ``name``, then
-    delegates all file writing to ``RuleFile``
-
-    :param name: blueprint registry name, used to look up globs
-            and always-apply status
-    :type name: str
-    :param bp: blueprint object exposing ``display_name``,
-            ``description``, and ``generate_prompt()``
-    :param path: destination path for the rule file
-    :type path: Path-like
-    """
-    with RuleFile(path, encoding="utf-8") as rule:
-        rule.name = bp.display_name
-        rule.description = bp.description
-        rule.globs = _CODER_BLUEPRINT_GLOBS.get(name, [])
-        rule.always_apply = name in _ALWAYS_APPLY_BLUEPRINT
-        rule.write_prefix()
-        rule.write(bp.generate_prompt())
+_continue_behavior_blueprint = PromptBlueprint.create_empty_blueprint()
+_continue_behavior_blueprint.checkmark(
+    _continue_behavior_blueprint.corpus["Continue"]["Continue Behavior"]
+)
+_continue_behavior_blueprint.display_name = "Continue Behavior"
 
 
+# Entry Point  #################################################################
 def export_blueprint_rules(rules_folder):
     """
     export all blueprints in ``EXPORT_BLUEPRINTS`` as Continue AI rule files
@@ -97,9 +84,20 @@ def export_blueprint_rules(rules_folder):
     folder = Path(rules_folder).resolve()
     folder.mkdir(parents=True, exist_ok=True)
 
+    _local = {
+        "continue_behavior_blueprint": _continue_behavior_blueprint,
+    }
+
     for name in _EXPORT_BLUEPRINTS:
-        bp = getattr(embedded_blueprints, name)
+        bp = _local.get(name) or getattr(embedded_blueprints, name)
         file_path = folder / "{}.md".format(name)
 
         print("update blueprint rule:\t{}".format(file_path))
-        _export_blueprint_rule(name, bp, file_path)
+
+        with RuleFile(file_path, encoding="utf-8") as rule:
+            rule.name = bp.display_name
+            rule.description = bp.description
+            rule.globs = _CODER_BLUEPRINT_GLOBS.get(name, [])
+            rule.always_apply = name in _ALWAYS_APPLY_BLUEPRINT
+            rule.write_prefix()
+            rule.write(bp.generate_prompt())
