@@ -13,7 +13,7 @@ from kaye.prompt import PromptBlueprint
 
 # Blueprints  ##################################################################
 PRIMARY_MESSAGE_PROMPT_BLUEPRINT = """    ○
-[ ] ├── Style
+[ ] ├── Style Guide
 [ ] │   ├── Capitalization
 [x] │   │   └── Commentary Case
 [x] │   └── Briefness Style
@@ -24,7 +24,7 @@ PRIMARY_MESSAGE_PROMPT_BLUEPRINT = """    ○
 PER_FILE_LONG_PROMPT_BLUEPRINT = """ ○
 [ ] ├── Elements
 [x] │   └── Annotation Markers
-[ ] ├── Style
+[ ] ├── Style Guide
 [ ] │   ├── Capitalization
 [x] │   │   └── Commentary Case
 [x] │   └── Briefness Style
@@ -37,7 +37,7 @@ PER_FILE_LONG_PROMPT_BLUEPRINT = """ ○
 PER_FILE_SHORT_PROMPT_BLUEPRINT = """ ○
 [ ] ├── Elements
 [x] │   └── Annotation Markers
-[ ] ├── Style
+[ ] ├── Style Guide
 [ ] │   ├── Capitalization
 [x] │   │   └── Commentary Case
 [x] │   └── Briefness Style

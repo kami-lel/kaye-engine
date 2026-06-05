@@ -28,6 +28,7 @@ __all__ = (
     "coder_py_blueprint",
     "coder_py_docstring_blueprint",
     "coder_py_testing_blueprint",
+    "coder_agents_blueprint",
 )
 
 
@@ -80,10 +81,10 @@ number_unit_blueprint.description = (
 
 # Style
 style_blueprint = PromptBlueprint.create_empty_blueprint()
-style_blueprint.checkmark("Style", recursively=True)
+style_blueprint.checkmark("Style Guide", recursively=True)
 style_blueprint.display_name = "Style"
 style_blueprint.description = (
-    "add-on for writing tasks requiring house style and capitalization rules"
+    "writing tasks requiring house style and capitalization rules"
 )
 
 
@@ -110,6 +111,14 @@ coder_blueprint.display_name = "Coder"
 coder_blueprint.description = "instruction for coding and programming"
 
 
+# Coder Project
+coder_project_blueprint = PromptBlueprint.create_empty_blueprint()
+coder_project_blueprint.checkmark(_kyc_node["Project Structure"])
+coder_project_blueprint.display_name = "Project Structure"
+coder_project_blueprint.description = (
+    "generic Project/Repository structure for all programming languages"
+)
+
 # Coder Changelog
 coder_changelog_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_changelog_blueprint.checkmark(
@@ -119,13 +128,11 @@ coder_changelog_blueprint.display_name = "Coder Changelog Writer"
 coder_changelog_blueprint.description = "format for CHANGELOG.md"
 
 
-# Coder Project
-coder_project_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_project_blueprint.checkmark(_kyc_node["Project Structure"])
-coder_project_blueprint.display_name = "Project Structure"
-coder_project_blueprint.description = (
-    "generic Project/Repository structure for all programming languages"
-)
+# Coder AGENTS.md Writer
+coder_agents_blueprint = PromptBlueprint.create_empty_blueprint()
+coder_agents_blueprint.checkmark(_kyc_node["AGENTS.md Writer"])
+coder_agents_blueprint.display_name = "Coder AGENTS.md Writer"
+coder_agents_blueprint.description = "format for AGENTS.md documentation"
 
 
 # Coder Bash

@@ -57,6 +57,7 @@ _EXPORT_BLUEPRINTS = [
     "coder_py_blueprint",
     "coder_py_docstring_blueprint",
     "coder_py_testing_blueprint",
+    "coder_agents_blueprint",
     "continue_behavior_blueprint",
 ]
 
