@@ -2,6 +2,8 @@
 CLI for Python module ``kaye``
 """
 
+# Fixme unify python module docstring & command help
+
 from argparse import ArgumentParser
 
 from kaye import PROGRAM_NAME
