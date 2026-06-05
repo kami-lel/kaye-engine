@@ -83,3 +83,6 @@ def export_abbr_rules(rules_folder):
             )
             rule.write_prefix()
             rule.write(_generate_abbr_content(entries))
+
+
+# TODO split as grouping, not just letters
