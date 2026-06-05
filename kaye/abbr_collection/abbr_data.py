@@ -9,14 +9,12 @@ from pathlib import Path
 
 import ahocorasick
 
-from kaye.prompt.abbr_collection.abbr_entry import AbbrEntry
-from kaye.prompt.abbr_collection.abbr_meaning import AbbrMeaning
+from kaye.abbr_collection.abbr_entry import AbbrEntry
+from kaye.abbr_collection.abbr_meaning import AbbrMeaning
 
 # abbrs.json path  #############################################################
 
-ABBRS_JSON_FILE_PATH = (
-    Path(__file__).resolve().parent.parent.parent / "abbrs.json"
-)
+ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent.parent / "abbrs.json"
 
 
 # AbbrData  ####################################################################

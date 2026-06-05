@@ -4,7 +4,7 @@ abbr_nodes.py
 define abbreviations-related node types
 """
 
-from kaye.prompt.abbr_collection import AbbrData, AbbrTags
+from kaye.abbr_collection import AbbrData, AbbrTags
 from kaye.prompt.base_prompt_node import DynamicNode
 
 __all__ = (
