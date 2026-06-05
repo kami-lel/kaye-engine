@@ -6,6 +6,8 @@ Unit Tests (using pytest) for:
 Python CLI command ``continue`` with creating correct structure
 """
 
+from tests.cli.ce.c import RULE_FILES
+
 # Pytest unit tests  ###########################################################
 
 
@@ -19,6 +21,10 @@ class TestMain:  # =============================================================
 
 
 class TestPresent:  # ==========================================================
+
+    def test_by_loop(_, testee_rules_folder):
+        for v in RULE_FILES:
+            assert (testee_rules_folder / v).exists()
 
     def test_abbr_currency_symbol(_, testee_rules_folder):
         assert (testee_rules_folder / "abbr-currency_symbol.md").exists()
