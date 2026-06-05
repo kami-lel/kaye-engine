@@ -1,4 +1,6 @@
 """
+abbr_collection.py
+
 define various data structure supporting **abbreviation nodes**
 """
 
