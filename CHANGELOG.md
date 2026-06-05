@@ -27,8 +27,13 @@
 
 ### Changed
 
-- `prompt_corpus.md`: more comprehensive instruction on Python: *TestingGuidelines*
 - Python CLI: subcommand `continue` moved to `continue config`
+
+`prompt_corpus.md`
+
+- Coder: Python: *TestingGuidelines*: more comprehensive instruction 
+- Coder: Project Structure: include `AGENTS.md`
+
 
 
 
