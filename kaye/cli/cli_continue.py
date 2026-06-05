@@ -1,4 +1,4 @@
-"""update the Continue local config folder with the updated kaye prompts"""
+"""update Continue local config folder by exporting all current Kaye prompts/blueprints"""
 
 from pathlib import Path
 
@@ -7,7 +7,7 @@ from kaye.continue_support import update_continue_local_config_folder
 _DEFAULT_CONTINUE_FOLDER = Path.home() / ".continue"
 
 
-def register_cli_continue_parser(
+def register_cli_continue_parser(  #############################################
     cli_subparser,
 ):  # pylint: disable=missing-function-docstring
     continue_parser = cli_subparser.add_parser(
@@ -20,7 +20,7 @@ def register_cli_continue_parser(
         nargs="?",
         type=Path,
         default=_DEFAULT_CONTINUE_FOLDER,
-        help="path to the local config folder (default: ~/.continue)",
+        help="path to local config folder, default: ~/.continue",
     )
 
     def _continue_main(args):
