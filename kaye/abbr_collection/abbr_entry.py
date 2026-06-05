@@ -78,10 +78,10 @@ class AbbrEntry:
         render this entry as a markdown list item
 
         :return: a single markdown list item in the form
-                ``-`abbr`:meaning``
+                ``- abbr:meaning``
         :rtype: str
         """
-        return "-{}:{}".format(self.abbr, self.mean)
+        return "- {}:{}".format(self.abbr, self.mean)
 
     def verify_found(self, found, char_before, char_after):
         """
