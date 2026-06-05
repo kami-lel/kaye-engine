@@ -3480,9 +3480,12 @@ JSON format: { "title": "your concise title here" }
 
 # Continue Behavior
 
+Files are assumed to be consistent between rounds. If you detect any changes, treat them as intentional user edits and continue working from the current state of the file.
+
+### `run_terminal_command`
+
 Only use `run_terminal_command` as a last resort when no other tool can accomplish the task.
 Prefer specific tools like `read_file` for reading files or `list_directory` for listing directories.
-
-Files are assumed to be consistent between rounds. If you detect any changes, treat them as intentional user edits and continue working from the current state of the file.
+Use when need to remove/delete file/folder.
 
 
