@@ -49,7 +49,7 @@ class TestHeader:  # ===========================================================
 
     def test_description(_, testee_header):
         assert (
-            "description: add-on for writing tasks requiring house style and"
+            "description: writing tasks requiring house style and"
             " capitalization rules"
             in testee_header
         )
