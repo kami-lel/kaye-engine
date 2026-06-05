@@ -37,6 +37,7 @@
 
 - Coder: Python: *TestingGuidelines*: more comprehensive instruction 
 - Coder: Project Structure: include `AGENTS.md`
+- rename section **Style Guide** (from Style)
 
 
 
