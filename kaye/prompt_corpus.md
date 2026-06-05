@@ -3681,7 +3681,7 @@ Use when need to remove/delete file/folder.
 
 ### Maintain Docs
 
-review recent changes — update or create `README.md` and files in `docs/` to reflect them. Keep `README.md` focused on human contributors; move agent-specific context to `AGENTS.md`. Ensure accuracy, remove stale content
+review recent changes — update or create `README.md`, files in `docs/`, and `AGENTS.md` to reflect them. Keep `README.md` focused on human contributors. Follow the *AGENTS.md Writer* rule for `AGENTS.md` structure, content, and style. Ensure accuracy, remove stale content
 
 
 
@@ -3698,22 +3698,6 @@ review recent changes — update or create `README.md` and files in `docs/` to r
 ### Maintain Changelog
 
 review recent changes — update or create `CHANGELOG.md` to reflect them. Follow the *Coder Changelog Writer* rule for format, versioning, and entry style
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Maintain Agents
-
-review recent changes — update or create `AGENTS.md` to reflect them. Follow the *AGENTS.md Writer* rule for structure, content, and style
 
 
 

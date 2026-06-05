@@ -28,11 +28,6 @@ maintain_changelog_blueprint = PromptBlueprint.create_empty_blueprint()
 maintain_changelog_blueprint.checkmark(_prompt_node["Maintain Changelog"])
 maintain_changelog_blueprint.display_name = "Maintain Changelog"
 
-# maintain agents
-maintain_agents_blueprint = PromptBlueprint.create_empty_blueprint()
-maintain_agents_blueprint.checkmark(_prompt_node["Maintain Agents"])
-maintain_agents_blueprint.display_name = "Maintain Agents"
-
 # resolve annotation markers
 resolve_markers_blueprint = PromptBlueprint.create_empty_blueprint()
 resolve_markers_blueprint.checkmark(_prompt_node["Resolve Annotation Markers"])
@@ -50,7 +45,6 @@ prepare_for_release_blueprint.display_name = "Prepare for Release"
 FILENAME2BLUEPRINT = {
     "maintain_docs": maintain_docs_blueprint,
     "maintain_changelog": maintain_changelog_blueprint,
-    "maintain_agents": maintain_agents_blueprint,
     "resolve_annotation_markers": resolve_markers_blueprint,
     "prepare_for_release": prepare_for_release_blueprint,
 }
