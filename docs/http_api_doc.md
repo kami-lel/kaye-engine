@@ -1,6 +1,6 @@
 # Kaye Flask HTTP API documentation
 
-<!-- Fixme rework Kaye HTTP API documentation -->
+<!-- FIXME rework Kaye HTTP API documentation -->
 
 ### deployment as `systemd` on Ubuntu
 
