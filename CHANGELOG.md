@@ -18,6 +18,10 @@
 
 ### Added
 
+`abbrs.json`:
+
+- add `HK$`, `JP¥`, `JP`
+
 Programmatic API: 
 
 - split into `continue_export` package from `continue_support.py`
