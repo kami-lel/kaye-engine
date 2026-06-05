@@ -4,8 +4,10 @@ abbr_collection
 define various data structures supporting **abbreviation nodes**
 """
 
-from kaye.abbr_collection.abbr_tags import AbbrTags
-from kaye.abbr_collection.abbr_wrap import AbbrWrap
-from kaye.abbr_collection.abbr_data import AbbrData
+from .abbr_tags import AbbrTags
+from .abbr_wrap import AbbrWrap
+from .abbr_data import AbbrData
+from .abbr_meaning import AbbrMeaning
+from .abbr_entry import AbbrEntry
 
-__all__ = ("AbbrTags", "AbbrWrap", "AbbrData")
+__all__ = ("AbbrTags", "AbbrWrap", "AbbrData", "AbbrMeaning", "AbbrEntry")
