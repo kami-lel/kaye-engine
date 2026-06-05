@@ -6,8 +6,6 @@ define ``AbbrEntry``
 
 from kaye.prompt.abbr_collection.abbr_tags import AbbrTags
 from kaye.prompt.abbr_collection.abbr_wrap import AbbrWrap
-from kaye.prompt.abbr_collection.abbr_meaning import AbbrMeaning
-
 
 # abbrs.json key constants  ####################################################
 
@@ -36,9 +34,7 @@ class AbbrEntry:
 
         # set .abbr  -----------------------------------------------------------
         if not isinstance(abbr, str):
-            raise ValueError(
-                "abbr key must be String: {}".format(repr(abbr))
-            )
+            raise ValueError("abbr key must be String: {}".format(repr(abbr)))
         self.abbr = abbr
 
         # test abbr_obj shapes  ------------------------------------------------

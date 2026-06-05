@@ -29,10 +29,7 @@ class AbbrMeaning:
         return hash(self.mean)
 
     def __eq__(self, other):
-        # local import to avoid circular dependency with abbr_entry
-        from kaye.prompt.abbr_collection.abbr_entry import AbbrEntry
-
-        if not isinstance(other, AbbrEntry):
+        if not isinstance(other, AbbrMeaning):
             return NotImplemented
 
         return self.mean == other.mean
