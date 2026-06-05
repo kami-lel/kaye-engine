@@ -3453,3 +3453,5 @@ Only use `run_terminal_command` as a last resort when no other tool can accompli
 Prefer specific tools like `read_file` for reading files or `list_directory` for listing directories.
 
 When using `run_terminal_command`, always write Bash commands. Never use Windows CMD or PowerShell syntax.
+
+Files are assumed to be consistent between rounds. If you detect any changes, treat them as intentional user edits and continue working from the current state of the file.
