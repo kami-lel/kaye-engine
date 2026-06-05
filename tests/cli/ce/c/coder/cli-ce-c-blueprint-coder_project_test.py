@@ -69,6 +69,9 @@ class TestContent:  # ==========================================================
     def test_changelog(_, testee_content):
         assert "- `CHANGELOG.md`:" in testee_content
 
+    def test_agents(_, testee_content):
+        assert "- `AGENTS.md`:" in testee_content
+
     def test_src(_, testee_content):
         assert "- `src/` or package-name:" in testee_content
 
