@@ -42,12 +42,13 @@
 
 ### Added
 
-- comprehensive unit tests for Python CLI: continue support
 - Python CLI: subcommand `continue prompt` to support exporting **Continue Prompts**
+
+  - comprehensive unit tests for this
 
 `prompt_corpus.md`: 
 
-- *Continue Prompts*:
+- **Continue Prompts**:
 
   - Maintain Changelog
   - Maintain Docs
