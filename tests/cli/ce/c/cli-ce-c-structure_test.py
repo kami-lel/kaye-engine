@@ -1,7 +1,9 @@
 """
 cli-ce-c-structure_test.py
 
-tests for the Python CLI command ``continue`` with creating correct structure
+Unit Tests (using pytest) for:
+
+Python CLI command ``continue`` with creating correct structure
 """
 
 # Pytest unit tests  ###########################################################
