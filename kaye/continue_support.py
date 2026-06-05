@@ -33,6 +33,9 @@ CODER_BLUEPRINT_GLOBS = {
     ],
 }
 
+# TODO changelog use attr name, not display name
+
+
 ALWAYS_APPLY_BLUEPRINT = [
     "chat_blueprint",
     "coder_blueprint",
