@@ -34,35 +34,35 @@ def assert_plc_title(opt):
 
 
 def assert_plc1(opt):
-    assert "-`bash`:Bash" in opt
+    assert "- bash:Bash" in opt
 
 
 def assert_plc2(opt):
-    assert "-`csharp`:C Sharp" in opt
+    assert "- csharp:C Sharp" in opt
 
 
 def assert_plc3(opt):
-    assert "-`c`:C language" in opt
+    assert "- c:C language" in opt
 
 
 def assert_plc4(opt):
-    assert "-`cpp`:C++" in opt
+    assert "- cpp:C++" in opt
 
 
 def assert_plc5(opt):
-    assert "-`html`:HTML" in opt
+    assert "- html:HTML" in opt
 
 
 def assert_plc6(opt):
-    assert "-`py`:Python" in opt
+    assert "- py:Python" in opt
 
 
 def assert_plc8(opt):
-    assert "-`u3d`:Unity Engine code" in opt
+    assert "- u3d:Unity Engine code" in opt
 
 
 def assert_plc9(opt):
-    assert "-`ue`:Unreal Engine code" in opt
+    assert "- ue:Unreal Engine code" in opt
 
 
 # Pytest fixtures  #############################################################

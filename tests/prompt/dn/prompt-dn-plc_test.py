@@ -68,16 +68,16 @@ class TestContentLines:  #######################################################
         opt = testee1.content_lines()
         print(opt)
         assert opt == [
-            "-`bash`:Bash",
-            "-`csharp`:C Sharp",
-            "-`c`:C language",
-            "-`cpp`:C++",
-            "-`css`:CSS",
-            "-`gdscript`:GDScript used by Godot Engine",
-            "-`html`:HTML",
-            "-`js`:JavaScript",
-            "-`py`:Python",
-            "-`ts`:TypeScript",
-            "-`u3d`:Unity Engine code",
-            "-`ue`:Unreal Engine code",
+            "- bash:Bash",
+            "- csharp:C Sharp",
+            "- c:C language",
+            "- cpp:C++",
+            "- css:CSS",
+            "- gdscript:GDScript used by Godot Engine",
+            "- html:HTML",
+            "- js:JavaScript",
+            "- py:Python",
+            "- ts:TypeScript",
+            "- u3d:Unity Engine code",
+            "- ue:Unreal Engine code",
         ]

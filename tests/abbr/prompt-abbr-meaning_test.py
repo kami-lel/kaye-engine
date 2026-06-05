@@ -8,7 +8,7 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from kaye.prompt.abbr_collection import AbbrMeaning
+from kaye.abbr_collection import AbbrMeaning
 
 
 class TestMeaning:

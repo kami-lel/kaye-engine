@@ -26,6 +26,51 @@
 
 ### Fixed
 
+### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.1.0] - 2026-06-18
+
+### Added
+
+`abbrs.json`:
+
+- add `HK$`, `JP¥`, `JP`
+
+Programmatic API: 
+
+- `continue_export`: 
+
+  - split into `continue_export` package from `continue_support.py`
+  - `abbr_rule.py`: export rule files split by tag, wrap type (symbol, suffix, prefix), digits, letters, and other
+
+- `abbr_collection`: 
+
+  - split from `abbr_collection.py`
+  - `AbbrEntry`: add `as_md_list_entry()`, abbreviation list item format normalized
+
+    - update usages & unit tests to utilize this
+
+### Changed
+
+- `kaye continue` CLI now delegates entirely to `continue_export`
+
+`prompt_corpus.md`:
+
+- update instruction on *Continue Behavior*
+- more comprehensive instruction on Python *Docstring Style*
+
 
 
 
@@ -1578,7 +1623,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.0.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.1.0...dev
+[6.1.0]: https://github.com/kami-lel/kaye/compare/v6.0.0...v6.1.0
 [6.0.0]: https://github.com/kami-lel/kaye/compare/v5.5.0...v6.0.0
 [5.5.0]: https://github.com/kami-lel/kaye/compare/v5.4.1...v5.5.50
 [5.4.1]: https://github.com/kami-lel/kaye/compare/v5.4.0...v5.4.1

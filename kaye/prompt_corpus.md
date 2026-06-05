@@ -2790,19 +2790,50 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
 The docstrings must be written using the **Sphinx** style and employ **reStructuredText** as the markup language. Avoid using any other styles.
 
-*Example of a function's docstring:*
+Docstring requirements by method visibility:
+
+- **public methods** must always include a docstring
+- **private methods** (prefixed with `_`) may include a docstring, such as when method name alone does not clearly convey its purpose
+
+A docstring must follow one of two accepted **forms**:
+
+- *Form 1* — summary line, followed by a multi-line description, followed by **two empty lines**, then the parameter fields
+- *Form 2* — summary line only, followed by **two empty lines**, then the parameter fields
+
+*Example of Form 1:*
+
 ```python
 def calc_square(number):
     """
     calculate the square of a number
+
+    performs a simple exponential operation, returning
+    the result of multiplying ``number`` by itself
+
 
     :param number: number to be squared
     :type number: int
     :return: square of ``number``
     :rtype: int
     :example:
-    >>> square(3)
+    >>> calc_square(3)
     9
+    """
+    return number ** 2
+```
+
+*Example of Form 2:*
+
+```python
+def calc_square(number):
+    """
+    calculate the square of a number
+
+
+    :param number: number to be squared
+    :type number: int
+    :return: square of ``number``
+    :rtype: int
     """
     return number ** 2
 ```
@@ -3452,4 +3483,6 @@ JSON format: { "title": "your concise title here" }
 Only use `run_terminal_command` as a last resort when no other tool can accomplish the task.
 Prefer specific tools like `read_file` for reading files or `list_directory` for listing directories.
 
-When using `run_terminal_command`, always write Bash commands. Never use Windows CMD or PowerShell syntax.
+Files are assumed to be consistent between rounds. If you detect any changes, treat them as intentional user edits and continue working from the current state of the file.
+
+

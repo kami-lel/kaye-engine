@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from kaye.continue_support import update_continue_local_config_folder
+from kaye.continue_export import export_abbr_rules, export_blueprint_rules
 
 _DEFAULT_CONTINUE_FOLDER = Path.home() / ".continue"
 
@@ -24,6 +24,8 @@ def register_cli_continue_parser(  #############################################
     )
 
     def _continue_main(args):
-        update_continue_local_config_folder(args.local_config_folder)
+        rules_folder = args.local_config_folder / "rules"
+        export_blueprint_rules(rules_folder)
+        export_abbr_rules(rules_folder)
 
     continue_parser.set_defaults(func=_continue_main)
