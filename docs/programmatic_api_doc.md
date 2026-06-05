@@ -1,4 +1,4 @@
-# Kaye Python Package API documentation
+# Kaye Programmatic API documentation
 
 ## `prompt` module
 
@@ -43,8 +43,6 @@ is equivalent to tree structure:
 ```
 
 A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, which is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
-
-<!-- todo Python API more explanation on the functionalities of each node type -->
 
 nodes types:
 
@@ -249,10 +247,11 @@ These return blueprint objects those contain all nodes (of corpus tree), and als
 
 `PromptBlueprint` is a data structured based on Python `dict`.
 
-A `PromptBlueprint` has 2 additional attributes:
+A `PromptBlueprint` has 3 additional attributes:
 
 - `.corpus`: corresponding prompt corpus tree root (typed `BasePromptNode`)
 - `.display_name`: name of the blueprint, typed `str`, default to `''`
+- `.description`: short description of the blueprint's purpose, typed `str`, default to `''`
 
 Each entry in `PromptBlueprint` represents a node, with key being node `hash()` (typed `int`,) and value being if the node is *checkmarked*, (typed `bool`.) The *root node* is never included in blueprint, because one will assume root node is always enabled/checkmarked.
 
@@ -405,11 +404,14 @@ E.g.
 
 #### embedded blueprints
 
-**Embedded blueprints** are saved under `./kaye/kaye/gen_prompt/embedded_blueprints`. Programmatically, one might use these functions to load them from filesystem:
+**Embedded blueprints** are defined as module-level variables in `kaye.prompt.embedded_blueprints`. Import them directly by name:
 
 ```python
-from kaye.gen_prompt import load_embedded_prompt_blueprint
-
-
-chat_blueprint = load_embedded_prompt_blueprint("chat")
+from kaye.prompt.embedded_blueprints import (
+    chat_blueprint,
+    coder_py_blueprint,
+    coder_changelog_blueprint,
+)
 ```
+
+All available blueprint names are listed in `__all__` of that module. Each blueprint is a `PromptBlueprint` instance with `.display_name` and `.description` already set.

@@ -17,10 +17,63 @@
 ## [Unreleased]
 
 ### Added
+
 ### Changed
+
 ### Deprecated
+
 ### Removed
+
 ### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.0.0] - 2026-06-05
+
+### Added
+
+- **Continue support**: generate **Continue** rule files for `~/.continue` via the `continue_support` package and the `kaye continue` CLI command
+- **Changelog Writer** role
+- new `Continue Behavior` section in `prompt_corpus.md`
+
+Dify App *Opus Tag Smith*:
+
+- **`Shelver` mode** for books, replacing Kaye Chat's *shelver* role
+- subtitle extraction, and Flask HTTP API documentation
+
+### Changed
+
+- **embedded blueprints are now Python modules** (in `embedded_blueprints.py`), with shared `rapid`/`chat`/coder factories and per-blueprint `display_name`/`description`
+- **CLI restructured around subcommands**: the HTTP API moved to `python -m kaye http` (alias `h`)
+- in `prompt_corpus.md`, lift *Kaye Peer Coder* up one level
+
+Dify App *Opus Tag Smith*:
+
+- split title, subtitle, and translated-title extraction
+
+Dify App *Kaye Chat*:
+
+- tune difficulty-to-model thresholds
+
+### Deprecated
+
+- `kaye.gen_prompt` blueprint loading: replaced by direct imports from `kaye.prompt.embedded_blueprints`
+
+### Removed
+
+- **old embedded blueprint files** (`./kaye/gen_prompt/embedded_blueprints/` and its `.kaye_blueprint` files) and `create_blueprint` wrappers
+- the `prompt` CLI subcommand (disabled, pending rework)
+- Kaye Chat's *shelver* role
 
 
 
@@ -1525,7 +1578,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v5.5.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.0.0...dev
+[6.0.0]: https://github.com/kami-lel/kaye/compare/v5.5.0...v6.0.0
 [5.5.0]: https://github.com/kami-lel/kaye/compare/v5.4.1...v5.5.50
 [5.4.1]: https://github.com/kami-lel/kaye/compare/v5.4.0...v5.4.1
 [5.4.0]: https://github.com/kami-lel/kaye/compare/v5.3.0...v5.4.0
