@@ -6,34 +6,40 @@ Unit Tests (using pytest) for:
 Python CLI command ``continue`` create alternatives commands
 """
 
-import subprocess
-
 import pytest
+
+
+from tests.cli.ce.c import RULE_FILES, prepare_local_config_folder
 
 # Pytest fixtures  #############################################################
 
 
-@pytest.fixture(scope="session")
-def testee_local_config_folder_alt(tmp_path_factory, ce_c_command):
-    folder = tmp_path_factory.mktemp("testee_local_config_folder")
-
-    # Execute continue export command with folder path
-    cmd = ce_c_command + str(folder)
-    subprocess.run(cmd, shell=True, check=True)
-
-    return folder
+@pytest.fixture(scope="class")
+def testee_alt1(tmp_path_factory):
+    return prepare_local_config_folder(
+        tmp_path_factory=tmp_path_factory,
+        command="python3 -m kaye c ",
+        folder_name="local_config_folder_alt1",
+    )
 
 
-@pytest.fixture(scope="session")
-def testee_rules_folder_alt(testee_local_config_folder_alt):
-    rules_folder = testee_local_config_folder_alt / "rules"
-    return rules_folder
+# Pytest unit tests  ###########################################################
 
 
-class TestAlt:
+class TestAlt1:  # =============================================================
 
-    def test_exits(_, testee_rules_folder_alt):
-        assert testee_rules_folder_alt.exists()
+    def test_rules_exist(_, testee_alt1):
+        _, rules_folder = testee_alt1
+        assert rules_folder.exists()
 
-    def test_is_dir(_, testee_rules_folder_alt):
-        assert testee_rules_folder_alt.is_dir()
+    def test_rules_is_dir(_, testee_alt1):
+        _, rules_folder = testee_alt1
+        assert rules_folder.is_dir()
+
+    def test_entries(_, testee_alt1):
+        _, rules_folder = testee_alt1
+        for v in RULE_FILES:
+            assert (rules_folder / v).exists()
+
+
+# TODO more alternative commands form
