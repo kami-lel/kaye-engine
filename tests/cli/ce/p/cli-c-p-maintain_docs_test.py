@@ -80,7 +80,7 @@ class TestContent:  # ==========================================================
         )
 
     def test_agents_md_writer_rule(_, testee_content):
-        assert "Follow the *AGENTS.md Writer* rule" in testee_content
+        assert "Follow the *Coder AGENTS.md Writer* rule" in testee_content
 
     def test_agents_md_structure_content_style(_, testee_content):
         assert "structure, content, and style" in testee_content
