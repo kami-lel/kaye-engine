@@ -25,7 +25,10 @@
 
 - *Continue Prompts*:
 
-  - maintain CHANGELOG
+  - Maintain Agents
+  - Maintain Changelog
+  - Maintain Docs
+  - Resolve Annotation Markers
   
 - Coder: AGENTS.md Writer: instruction for **writing proper** `AGENTS.md`
 
