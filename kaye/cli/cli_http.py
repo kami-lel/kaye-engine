@@ -1,4 +1,4 @@
-"""start the Kaye Flask HTTP API server"""
+"""Kaye HTTP API: start Flask server/app"""
 
 from kaye.api import create_app
 

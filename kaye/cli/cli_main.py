@@ -2,7 +2,6 @@
 main parser for Kaye Python CLI
 """
 
-# FIXME unify python module docstring & command help
 # todo CLI to import/export w/ OpenWebUI
 # fixme make cli functional again for prompt
 
