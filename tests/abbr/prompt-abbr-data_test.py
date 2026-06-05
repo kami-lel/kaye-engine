@@ -8,8 +8,13 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from kaye.prompt import AbbrData, AbbrTags
-from kaye.prompt.abbr_collection import AbbrMeaning, AbbrEntry, AbbrWrap
+from kaye.abbr_collection import (
+    AbbrMeaning,
+    AbbrEntry,
+    AbbrWrap,
+    AbbrData,
+    AbbrTags,
+)
 
 
 # data validate  ###############################################################
