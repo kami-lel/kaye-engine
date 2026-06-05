@@ -26,9 +26,23 @@
 
 ### Fixed
 
-- `prompt_corpus.md`: Continue Prompts: Maintain Docs: fix rule name
-
 ### Security
+
+
+
+
+
+
+
+
+
+
+
+## [6.2.1] - 2026-06-06
+
+### Fixed
+
+- `prompt_corpus.md`: Continue Prompts: Maintain Docs: fix rule name
 
 
 
@@ -1665,7 +1679,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.2.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.2.1...dev
+[6.2.1]: https://github.com/kami-lel/kaye/compare/v6.2.0...v6.2.1
 [6.2.0]: https://github.com/kami-lel/kaye/compare/v6.1.0...v6.2.0
 [6.1.0]: https://github.com/kami-lel/kaye/compare/v6.0.0...v6.1.0
 [6.0.0]: https://github.com/kami-lel/kaye/compare/v5.5.0...v6.0.0
