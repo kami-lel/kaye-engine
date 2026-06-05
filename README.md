@@ -97,4 +97,4 @@ A simple CLI is provided to list, show, and generate prompts from the terminal:
 python -m kaye --help
 ```
 
-<!-- TODO CLI: write write doc
+<!-- Todo CLI: write write doc -->
