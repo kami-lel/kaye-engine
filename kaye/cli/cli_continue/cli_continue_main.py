@@ -3,6 +3,9 @@
 from kaye.cli.cli_continue.cli_continue_config import (
     register_cli_continue_config_parser,
 )
+from kaye.cli.cli_continue.cli_continue_prompt import (
+    register_cli_continue_prompt_parser,
+)
 
 
 def register_cli_continue_parser(  #############################################
@@ -22,3 +25,4 @@ def register_cli_continue_parser(  #############################################
     )
 
     register_cli_continue_config_parser(continue_subparser)
+    register_cli_continue_prompt_parser(continue_subparser)
