@@ -414,7 +414,7 @@ Conversation language consistency:
 
 
 
-# Style
+# Style Guide
 
 ## Capitalization
 
