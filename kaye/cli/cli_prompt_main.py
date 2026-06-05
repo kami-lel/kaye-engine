@@ -1,9 +1,11 @@
 """dynamically generate system prompt with a prompt blueprint
 as a subset of the prompt corpus"""
 
-# from kaye.cli.cli_prompt_ls import register_cli_prompt_ls_parser
-# from kaye.cli.cli_prompt_show import register_cli_prompt_show_parser
-# from kaye.cli.cli_prompt_generate import register_cli_prompt_generate_parser
+# fixme standardize module docstring & help & description
+
+from kaye.cli.cli_prompt_ls import register_cli_prompt_ls_parser
+from kaye.cli.cli_prompt_show import register_cli_prompt_show_parser
+from kaye.cli.cli_prompt_generate import register_cli_prompt_generate_parser
 
 
 def register_cli_prompt_parser(cli_subparser):
@@ -28,6 +30,6 @@ def register_cli_prompt_parser(cli_subparser):
         description="utility functions related to prompt generation"
     )
 
-    # register_cli_prompt_ls_parser(cli_prompt_subparser)
-    # register_cli_prompt_show_parser(cli_prompt_subparser)
-    # register_cli_prompt_generate_parser(cli_prompt_subparser)
+    register_cli_prompt_ls_parser(cli_prompt_subparser)
+    register_cli_prompt_show_parser(cli_prompt_subparser)
+    register_cli_prompt_generate_parser(cli_prompt_subparser)
