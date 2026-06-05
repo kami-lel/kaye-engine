@@ -2,7 +2,13 @@
 
 from pathlib import Path
 
-from kaye.continue_support import update_continue_local_config_folder
+from kaye.continue_export import (
+    ALWAYS_APPLY_BLUEPRINT,
+    CODER_BLUEPRINT_GLOBS,
+    RuleFile,
+)
+from kaye.prompt import embedded_blueprints
+from kaye.prompt.embedded_blueprints import __all__ as BLUEPRINT_NAMES
 
 _DEFAULT_CONTINUE_FOLDER = Path.home() / ".continue"
 
@@ -24,6 +30,21 @@ def register_cli_continue_parser(  #############################################
     )
 
     def _continue_main(args):
-        update_continue_local_config_folder(args.local_config_folder)
+        folder = Path(args.local_config_folder)
+        rules_folder = (folder / "rules").resolve()
+        rules_folder.mkdir(parents=True, exist_ok=True)
+
+        for name in BLUEPRINT_NAMES:
+            bp = getattr(embedded_blueprints, name)
+            file_path = rules_folder / "{}.md".format(name)
+
+            print("update rule: {}".format(file_path))
+            with RuleFile(file_path, encoding="utf-8") as rule:
+                rule.name = bp.display_name
+                rule.description = bp.description
+                rule.globs = CODER_BLUEPRINT_GLOBS.get(name, [])
+                rule.always_apply = name in ALWAYS_APPLY_BLUEPRINT
+                rule.write_prefix()
+                rule.write(bp.generate_prompt())
 
     continue_parser.set_defaults(func=_continue_main)
