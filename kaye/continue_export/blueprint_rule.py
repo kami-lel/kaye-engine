@@ -61,33 +61,6 @@ _EXPORT_BLUEPRINTS = [
 ]
 
 
-# helpers  #####################################################################
-
-
-def _export_blueprint_rule(name, bp, path):
-    """
-    write a single blueprint as a Continue AI rule file
-
-    resolves globs and always-apply status from ``name``, then
-    delegates all file writing to ``RuleFile``
-
-    :param name: blueprint registry name, used to look up globs
-            and always-apply status
-    :type name: str
-    :param bp: blueprint object exposing ``display_name``,
-            ``description``, and ``generate_prompt()``
-    :param path: destination path for the rule file
-    :type path: Path-like
-    """
-    with RuleFile(path, encoding="utf-8") as rule:
-        rule.name = bp.display_name
-        rule.description = bp.description
-        rule.globs = _CODER_BLUEPRINT_GLOBS.get(name, [])
-        rule.always_apply = name in _ALWAYS_APPLY_BLUEPRINT
-        rule.write_prefix()
-        rule.write(bp.generate_prompt())
-
-
 # continue behavior blueprint  ------------------------------------------------
 
 _continue_behavior_blueprint = PromptBlueprint.create_empty_blueprint()
@@ -120,4 +93,11 @@ def export_blueprint_rules(rules_folder):
         file_path = folder / "{}.md".format(name)
 
         print("update blueprint rule:\t{}".format(file_path))
-        _export_blueprint_rule(name, bp, file_path)
+
+        with RuleFile(file_path, encoding="utf-8") as rule:
+            rule.name = bp.display_name
+            rule.description = bp.description
+            rule.globs = _CODER_BLUEPRINT_GLOBS.get(name, [])
+            rule.always_apply = name in _ALWAYS_APPLY_BLUEPRINT
+            rule.write_prefix()
+            rule.write(bp.generate_prompt())
