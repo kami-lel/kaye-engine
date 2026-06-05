@@ -20,6 +20,10 @@
 
 ### Changed
 
+`prompt_corpus.md`:
+
+- update instruction on *Continue Behavior*
+
 ### Deprecated
 
 ### Removed
