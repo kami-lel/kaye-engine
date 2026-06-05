@@ -2392,64 +2392,64 @@ You must help user to write CHANGELOG.
 
 **Example:**
 
-```md
-# Example Project CHANGELOG
+    ```md
+    # Example Project CHANGELOG
 
-## [Unreleased]
+    ## [Unreleased]
 
-### Added
+    ### Added
 
-### Changed
+    ### Changed
 
-### Deprecated
+    ### Deprecated
 
-### Removed
+    ### Removed
 
-### Fixed
+    ### Fixed
 
-- Dropdown menu not closing when clicking outside
+    - Dropdown menu not closing when clicking outside
 
-### Security
+    ### Security
 
-## [2.1.0] - 2024-01-15
+    ## [2.1.0] - 2024-01-15
 
-### Added
-- OAuth2 support for Google and GitHub providers
-- Avatar upload with automatic image resizing
+    ### Added
+    - OAuth2 support for Google and GitHub providers
+    - Avatar upload with automatic image resizing
 
-### Changed
+    ### Changed
 
-- redesigned sidebar layout for improved navigation
-- collapsed menu now persists across sessions
+    - redesigned sidebar layout for improved navigation
+    - collapsed menu now persists across sessions
 
-Authentication:
+    Authentication:
 
-- session token expiry extended from 1 hour to 24 hours
-- login flow now redirects to the last visited page after success
+    - session token expiry extended from 1 hour to 24 hours
+    - login flow now redirects to the last visited page after success
 
-### Fixed
+    ### Fixed
 
-- Profile picture not rendering correctly on Safari
+    - Profile picture not rendering correctly on Safari
 
-## [2.0.0] - 2023-11-02
+    ## [2.0.0] - 2023-11-02
 
-### Added
+    ### Added
 
-- Stripe integration for subscription billing
+    - Stripe integration for subscription billing
 
-### Removed
+    ### Removed
 
-- Deprecated v1 endpoints removed after 6-month sunset period
+    - Deprecated v1 endpoints removed after 6-month sunset period
 
-### Security
+    ### Security
 
-- Patched JWT algorithm confusion vulnerability (CVE-2023-XXXX)
+    - Patched JWT algorithm confusion vulnerability (CVE-2023-XXXX)
 
 
-[unreleased]: https://github.com/example-user/example-project/compare/v2.1.0...dev
-[2.1.0]: https://github.com/example-user/example-project/compare/v2.0.0...v2.1.0
-[2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
-```
+    [unreleased]: https://github.com/example-user/example-project/compare/v2.1.0...dev
+    [2.1.0]: https://github.com/example-user/example-project/compare/v2.0.0...v2.1.0
+    [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
+    ```
 
 
 
