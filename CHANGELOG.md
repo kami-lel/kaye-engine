@@ -18,74 +18,42 @@
 
 ### Added
 
-**Continue support**:
-
-- `continue_support` package: generate **Continue** rule files (`.md`) from embedded blueprints
-- `RuleFile`: context manager that writes a rule's YAML front matter (`name`, `description`, `globs`, `alwaysApply`) and rendered prompt body
-- `update_continue_local_config_folder()`: (re)create `<config>/rules/` and write one rule file per blueprint
-- CLI subcommand `kaye continue [LOCAL_CONFIG_FOLDER]` (alias `c`), defaulting to `~/.continue`
-- support Changelog Writer
-
-`prompt_corpus.md`:
-
-- section `Continue Behavior` and related `continue_behavior_blueprint`
-
-Embedded blueprints:
-
-- `display_name` and `description` attributes for blueprint files
-- split Python coder blueprints for docstrings and tests
+- **Continue support**: generate **Continue** rule files for `~/.continue` via the `continue_support` package and the `kaye continue` CLI command
+- **Changelog Writer** role
+- new `Continue Behavior` section in `prompt_corpus.md`
 
 Dify App *Opus Tag Smith*:
 
-- `Shelver` mode to work with books, replace *shelver role* of Kaye Chat
-- documentation of Flask HTTP API serving this app
+- **`Shelver` mode** for books, replacing Kaye Chat's *shelver* role
+- subtitle extraction, and Flask HTTP API documentation
 
 ### Changed
 
-Embedded blueprints:
-
-- migrate embedded blueprints from prompt files into Python modules
-- extract and share `rapid`, `chat`, and coder blueprint factories across roles
-- generate Continue rule files from the embedded blueprints
-
-CLI:
-
-- route entrypoint through subcommands
-- HTTP API server moved from `python -m kaye` to `python -m kaye http` (alias `h`)
-- disable `prompt` subcommand entirely need rework
-
-`prompt_corpus.md`:
-
-- lift *Kaye Peer Coder* one level up
-
-  - update related tests
+- **embedded blueprints are now Python modules** (in `embedded_blueprints.py`), with shared `rapid`/`chat`/coder factories and per-blueprint `display_name`/`description`
+- **CLI restructured around subcommands**: the HTTP API moved to `python -m kaye http` (alias `h`)
+- in `prompt_corpus.md`, lift *Kaye Peer Coder* up one level
 
 Dify App *Opus Tag Smith*:
 
-- improve title and translated title prompt extract logic
-- split title and subtitle extraction in prompt & in code
+- split title, subtitle, and translated-title extraction
 
-Kaye Chat *Dify Chat*:
+Dify App *Kaye Chat*:
 
-- difficulty to model thresholds (in `pre_task.py`)
-- static difficulty value of **prompt** (in `post_start.py`)
+- tune difficulty-to-model thresholds
 
 ### Deprecated
 
-- `kaye.gen_prompt.load_embedded_prompt_blueprint()`: replaced by direct import from `kaye.prompt.embedded_blueprints`
+- `kaye.gen_prompt` blueprint loading: replaced by direct imports from `kaye.prompt.embedded_blueprints`
 
 ### Removed
 
-Embedded blueprints:
-
-- `create_blueprint` wrappers and embedded blueprint prompt files
-- `./kaye/gen_prompt/embedded_blueprints/` folder: blueprints migrated into `kaye/prompt/embedded_blueprints.py`
-
-Kaye Chat *Dify Chat*:
-
-- *shelver* role
+- **old embedded blueprint files** (`./kaye/gen_prompt/embedded_blueprints/` and its `.kaye_blueprint` files) and `create_blueprint` wrappers
+- the `prompt` CLI subcommand (disabled, pending rework)
+- Kaye Chat's *shelver* role
 
 ### Fixed
+
+- module docstrings and stale `TODO`/`FIXME` markers
 
 
 
