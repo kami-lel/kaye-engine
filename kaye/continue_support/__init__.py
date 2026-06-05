@@ -22,6 +22,9 @@ CODER_BLUEPRINT_GLOBS = {
     "Coder Python": ["**/*.py"],
     "Coder Python Docstring": ["**/*.py"],
     "Coder Python Testing": ["**/test_*.py", "**/*_test.py"],
+    "Coder Changelog Writer": [
+        "**/{CHANGELOG,Changelog,changelog}{,.md,.txt}",
+    ],
 }
 
 ALWAYS_APPLY_BLUEPRINT = [
