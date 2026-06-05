@@ -9,7 +9,7 @@ digits, letters (A–Z), and a misc catch-all
 from pathlib import Path
 
 from kaye.continue_export.rule_file import RuleFile
-from kaye.abbr_collection import AbbrData, AbbrTags
+from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
 
 _LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 _DIGITS = "0123456789"
@@ -26,8 +26,8 @@ _TAG_GROUPS = [
     (
         AbbrTags.language_code,
         "abbr-language_code.md",
-        "Abbreviations: Language Codes",
-        "language code abbreviations and their meanings",
+        "Abbreviations: Natural Language Codes",
+        "natural language code abbreviations and their meanings",
     ),
     (
         AbbrTags.unit_of_measure,
@@ -47,51 +47,11 @@ _TAG_GROUPS = [
 # helpers  #####################################################################
 
 
-def _is_suffix(abbr):
-    """
-    return ``True`` when ``abbr`` starts with a non-alphanumeric character,
-    indicating a suffix-style abbreviation (e.g. ``.g``, ``'s``)
-
-    :param abbr: abbreviation string
-    :type abbr: str
-    :rtype: bool
-    """
-    return len(abbr) > 0 and not abbr[0].isalnum()
-
-
-def _is_prefix(abbr):
-    """
-    return ``True`` when ``abbr`` ends with a non-alphanumeric character
-    and starts with an alphanumeric character,
-    indicating a prefix-style abbreviation (e.g. ``o.``)
-
-    :param abbr: abbreviation string
-    :type abbr: str
-    :rtype: bool
-    """
-    return len(abbr) > 0 and abbr[0].isalnum() and not abbr[-1].isalnum()
-
-
 def _sort_entries(entries):
-    """
-    return ``entries`` sorted case-insensitively by abbreviation
-
-    :param entries: abbreviation entries
-    :type entries: list[AbbrEntry]
-    :rtype: list[AbbrEntry]
-    """
     return sorted(entries, key=lambda e: e.abbr.lower())
 
 
 def _generate_abbr_content(entries):
-    """
-    render ``entries`` as a markdown list of ``abbr:meaning`` pairs
-
-    :param entries: abbreviation entries for a single group
-    :type entries: list[AbbrEntry]
-    :return: rendered markdown content
-    :rtype: str
-    """
     lines = [entry.as_md_list_entry() for entry in entries]
     return "\n".join(lines) + "\n"
 
@@ -133,68 +93,60 @@ def _build_groups(abbr_data):
 
     priority order (first match wins):
 
-    1. tag-based groups (plc, lc, unit_of_measure, currency_symbol)
-    2. suffix abbreviations  (first char is non-alphanumeric)
-    3. prefix abbreviations  (last char is non-alphanumeric)
-    4. digit group           (first char is 0–9)
-    5. letter groups         (first char is A–Z, case-insensitive)
-    6. misc                  (everything else)
+    1. tag: ``programming_language_code``
+    2. tag: ``language_code``
+    3. tag: ``unit_of_measure``
+    4. tag: ``currency_symbol``
+    5. wrap: ``AbbrWrap.SUFFIX``
+    6. wrap: ``AbbrWrap.PREFIX``
+    7. first char is 0–9
+    8. first char is A–Z
+    9. misc — everything else
+
 
     :param abbr_data: loaded abbreviation data
     :type abbr_data: AbbrData
-    :return: tuple of
-             ``(tag_buckets, suffix, prefix, digits, letters, misc)``
-
-             - ``tag_buckets``: list parallel to ``_TAG_GROUPS``,
-               each element is a ``list[AbbrEntry]``
-             - ``suffix``: list[AbbrEntry]
-             - ``prefix``: list[AbbrEntry]
-             - ``digits``:  list[AbbrEntry]
-             - ``letters``: dict[str, list[AbbrEntry]]  (keys A–Z)
-             - ``misc``:    list[AbbrEntry]
+    :return: ``(plc, lc, unit, currency, suffix, prefix, digits,
+             letters, misc)``
     :rtype: tuple
     """
-    tag_buckets = [[] for _ in _TAG_GROUPS]
+    plc = []
+    lc = []
+    unit = []
+    currency = []
     suffix = []
     prefix = []
     digits = []
     letters = {ch: [] for ch in _LETTERS}
     misc = []
 
-    claimed = set()  # track entry ids already placed
-
-    # pass 1: tag-based groups  ------------------------------------------------
-    for i, (tag, *_) in enumerate(_TAG_GROUPS):
-        for entry in abbr_data.abbrs:
-            if entry in claimed:
-                continue
-            if tag in entry.tags:
-                tag_buckets[i].append(entry)
-                claimed.add(entry)
-
-    # pass 2: suffix / prefix / digit / letter / misc  -------------------------
     for entry in abbr_data.abbrs:
-        if entry in claimed:
-            continue
+        tags = entry.tags
 
-        abbr = entry.abbr
-        first = abbr[0]
-
-        if _is_suffix(abbr):
+        if AbbrTags.programming_language_code in tags:
+            plc.append(entry)
+        elif AbbrTags.language_code in tags:
+            lc.append(entry)
+        elif AbbrTags.unit_of_measure in tags:
+            unit.append(entry)
+        elif AbbrTags.currency_symbol in tags:
+            currency.append(entry)
+        elif entry.wrap == AbbrWrap.SUFFIX:
             suffix.append(entry)
-        elif _is_prefix(abbr):
+        elif entry.wrap == AbbrWrap.PREFIX:
             prefix.append(entry)
-        elif first in _DIGITS:
+        elif entry.abbr[0] in _DIGITS:
             digits.append(entry)
-        elif first.upper() in letters:
-            letters[first.upper()].append(entry)
+        elif entry.abbr[0].upper() in letters:
+            letters[entry.abbr[0].upper()].append(entry)
         else:
             misc.append(entry)
 
     # sort all buckets  --------------------------------------------------------
-    for i in range(len(tag_buckets)):
-        tag_buckets[i] = _sort_entries(tag_buckets[i])
-
+    plc = _sort_entries(plc)
+    lc = _sort_entries(lc)
+    unit = _sort_entries(unit)
+    currency = _sort_entries(currency)
     suffix = _sort_entries(suffix)
     prefix = _sort_entries(prefix)
     digits = _sort_entries(digits)
@@ -204,7 +156,7 @@ def _build_groups(abbr_data):
 
     misc = _sort_entries(misc)
 
-    return tag_buckets, suffix, prefix, digits, letters, misc
+    return plc, lc, unit, currency, suffix, prefix, digits, letters, misc
 
 
 # export  ######################################################################
@@ -229,13 +181,14 @@ def export_abbr_rules(rules_folder):
     folder = Path(rules_folder).resolve()
     folder.mkdir(parents=True, exist_ok=True)
 
-    tag_buckets, suffix, prefix, digits, letters, misc = _build_groups(
-        AbbrData()
+    plc, lc, unit, currency, suffix, prefix, digits, letters, misc = (
+        _build_groups(AbbrData())
     )
 
     # tag-based files  ---------------------------------------------------------
+    tag_entries = [plc, lc, unit, currency]
     for (_, filename, name, description), entries in zip(
-        _TAG_GROUPS, tag_buckets
+        _TAG_GROUPS, tag_entries
     ):
         _write_rule_file(folder / filename, name, description, entries)
 
@@ -257,8 +210,8 @@ def export_abbr_rules(rules_folder):
 
     # digits  ------------------------------------------------------------------
     _write_rule_file(
-        folder / "abbr-digits.md",
-        "Abbreviations: Starting with Digits (0–9)",
+        folder / "abbr-starts_with-digits.md",
+        "Abbreviations: Starts with Digits (0–9)",
         "abbreviations starting with a digit and their meanings",
         digits,
     )
@@ -267,8 +220,8 @@ def export_abbr_rules(rules_folder):
     for letter in _LETTERS:
         entries = letters[letter]
         _write_rule_file(
-            folder / "abbr-{}.md".format(letter),
-            "Abbreviations: {}".format(letter),
+            folder / "abbr-starts_with-{}.md".format(letter.lower()),
+            "Abbreviations: Starts with {}".format(letter),
             "abbreviations starting with {} and their meanings".format(letter),
             entries,
         )
