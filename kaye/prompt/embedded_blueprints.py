@@ -82,7 +82,7 @@ number_unit_blueprint.description = (
 # Style
 style_blueprint = PromptBlueprint.create_empty_blueprint()
 style_blueprint.checkmark("Style Guide", recursively=True)
-style_blueprint.display_name = "Style"
+style_blueprint.display_name = "Style Guide"
 style_blueprint.description = (
     "writing tasks requiring house style and capitalization rules"
 )

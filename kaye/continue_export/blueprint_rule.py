@@ -28,6 +28,9 @@ _CODER_BLUEPRINT_GLOBS = {
     "coder_changelog_blueprint": [
         "**/{CHANGELOG,Changelog,changelog}{,.md,.txt}",
     ],
+    "coder_agents_blueprint": [
+        "**/{AGENTS,Agents,agents}{,.md}",
+    ],
 }
 
 _ALWAYS_APPLY_BLUEPRINT = [
