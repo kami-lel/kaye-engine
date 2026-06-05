@@ -18,7 +18,27 @@
 
 ### Added
 
+`abbrs.json`:
+
+- add `HK$`, `JP¥`, `JP`
+
+Programmatic API: 
+
+- `continue_export`: 
+
+  - split into `continue_export` package from `continue_support.py`
+  - `abbr_rule.py`: export rule files split by tag, wrap type (symbol, suffix, prefix), digits, letters, and other
+
+- `abbr_collection`: 
+
+  - split from `abbr_collection.py`
+  - `AbbrEntry`: add `as_md_list_entry()`, abbreviation list item format normalized
+
+    - update usages & unit tests to utilize this
+
 ### Changed
+
+- `kaye continue` CLI now delegates entirely to `continue_export`
 
 `prompt_corpus.md`:
 
