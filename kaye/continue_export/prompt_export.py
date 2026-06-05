@@ -18,26 +18,42 @@ _prompt_node = PromptBlueprint.create_empty_blueprint().corpus["Continue"][
 ]
 
 
+# maintain docs
+maintain_docs_blueprint = PromptBlueprint.create_empty_blueprint()
+maintain_docs_blueprint.checkmark(_prompt_node["Maintain Docs"])
+maintain_docs_blueprint.display_name = "Maintain Docs"
+
 # maintain changelog
-changelog_blueprint = PromptBlueprint.create_empty_blueprint()
-changelog_blueprint.checkmark(_prompt_node["maintain CHANGELOG"])
-changelog_blueprint.display_name = "maintain CHANGELOG"
+maintain_changelog_blueprint = PromptBlueprint.create_empty_blueprint()
+maintain_changelog_blueprint.checkmark(_prompt_node["Maintain Changelog"])
+maintain_changelog_blueprint.display_name = "Maintain Changelog"
+
+# maintain agents
+maintain_agents_blueprint = PromptBlueprint.create_empty_blueprint()
+maintain_agents_blueprint.checkmark(_prompt_node["Maintain Agents"])
+maintain_agents_blueprint.display_name = "Maintain Agents"
+
+# resolve annotation markers
+resolve_markers_blueprint = PromptBlueprint.create_empty_blueprint()
+resolve_markers_blueprint.checkmark(_prompt_node["Resolve Annotation Markers"])
+resolve_markers_blueprint.display_name = "Resolve Annotation Markers"
 
 
 # constants  ###################################################################
 
 
-FILENAME2BLUEPRINT = {"maintain_changelog": changelog_blueprint}
+FILENAME2BLUEPRINT = {
+    "maintain_docs": maintain_docs_blueprint,
+    "maintain_changelog": maintain_changelog_blueprint,
+    "maintain_agents": maintain_agents_blueprint,
+    "resolve_annotation_markers": resolve_markers_blueprint,
+}
 
 
 # Entry Point  #################################################################
 def export_prompts(prompts_folder):
     """
-    export all prompts as Continue AI rule files
-
-    iterates through ``FILENAME2BLUEPRINT`` and writes each prompt
-    to a rule file in the destination folder, setting ``always_apply``
-    to ``False`` and ``invokable`` to ``True`` for prompt invocation
+    export all prompts as Continue Prompts files
 
 
     :param prompts_folder: destination folder for prompt rule files
