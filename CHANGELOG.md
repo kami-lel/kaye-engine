@@ -24,16 +24,21 @@
 
 Programmatic API: 
 
-- split into `continue_export` package from `continue_support.py`
-- `abbr_collection.py`: `AbbrEntry`: add `as_md_list_entry()`, renders an entry as a markdown list item
+- `continue_export`: split into `continue_export` package from `continue_support.py`
+
+  - `abbr_rule.py`: export rule files split by tag, wrap type (symbol, suffix, prefix), digits, letters, and other
+
+- `abbr_collection`: 
+
+  - split from `abbr_collection.py`
+  - `AbbrEntry`: add `as_md_list_entry()`, abbreviation list item format normalized
+
+    - update usages & unit tests to utilize this
 
 ### Changed
 
-- `kaye continue` CLI command now delegates entirely to `continue_export`
-- `abbr_nodes.py`: all node classes now call `entry.as_md_list_entry()` instead of inlining the format string
-
-- updated *Kaye Programmatic API documentation* with `continue_export` package and `AbbrEntry.as_md_list_entry()`
-- `prompt_corpus.md`: update instruction on *Continue Behavior*
+- `kaye continue` CLI now delegates entirely to `continue_export`
+- `prompt_corpus.md`: update *Continue Behavior* instructions
 
 ### Deprecated
 
