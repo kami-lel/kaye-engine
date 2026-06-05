@@ -21,9 +21,13 @@
 - comprehensive unit tests for Python CLI: continue support
 - Python CLI: subcommand `continue prompt` to support exporting **Continue Prompts**
 
-`prompt_corpus.md`: *Continue Prompts*:
+`prompt_corpus.md`: 
 
-- maintain CHANGELOG
+- *Continue Prompts*:
+
+  - maintain CHANGELOG
+  
+- Coder: AGENTS.md Writer: instruction for **writing proper** `AGENTS.md`
 
 ### Changed
 
