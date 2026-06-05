@@ -38,8 +38,6 @@ def testee_content(testee):
 
 class TestStructure:  # ========================================================
 
-    # TODO test existence
-
     def test_structure(_, testee):
         assert assert_rule_file_basic_format(testee)
 
