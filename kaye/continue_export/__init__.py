@@ -20,4 +20,4 @@ __all__ = [
 # todo continue: support prompt
 # todo continue: prompt: look into AMs & try to help
 # todo continue: prompt: update changelog
-# todo continue: prompt: create project rule
+# todo continue: prompt: create AGENTS.md
