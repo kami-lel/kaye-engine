@@ -3658,3 +3658,22 @@ review recent changes — update or create `AGENTS.md` to reflect them. Follow t
 scan for **primary Annotation Markers** — `BUG`, `FIXME`, `TODO`, `HACK`. For each: understand the required task and surrounding context, implement the fix or feature, then remove the marker.
 
 Do not touch secondary or tertiary markers
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Prepare for Release
+
+if version number or release date not provided, ask the user before proceeding. Then:
+
+- **update `CHANGELOG.md`**: move all content under *Unreleased* into a new versioned section using the provided version and date, create a new empty *Unreleased* section above it, and update all relevant GitHub comparison links to reflect the new version tag
+- **update project version**: find and update the version number in project metadata files where applicable — eg `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`. Match the provided version exactly

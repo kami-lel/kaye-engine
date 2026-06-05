@@ -1,9 +1,9 @@
 """
-cli-c-p-maintain_agents_test.py
+cli-c-p-pfr_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``maintain_agents.md``
+creation of ``prepare_for_release.md``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_prompts_folder):
-    with open(testee_prompts_folder / "maintain_agents.md") as f:
+    with open(testee_prompts_folder / "prepare_for_release.md") as f:
         return f.read()
 
 
@@ -38,8 +38,6 @@ def testee_content(testee):
 
 class TestStructure:  # ========================================================
 
-    # TODO test existence
-
     def test_structure(_, testee):
         assert assert_rule_file_basic_format(testee)
 
@@ -47,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Maintain Agents" in testee_header
+        assert "name: Prepare for Release" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -59,19 +57,30 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_maintain_agents_heading(_, testee_content):
-        assert "### Maintain Agents" in testee_content
+        assert "### Prepare for Release" in testee_content
 
-    def test_review_recent_changes(_, testee_content):
-        assert "review recent changes" in testee_content
+    def test1(_, testee_content):
+        assert "version number or release date not provided" in testee_content
 
-    def test_update_or_create_agents_md(_, testee_content):
-        assert "update or create `AGENTS.md`" in testee_content
+    def test2(_, testee_content):
+        assert " **update `CHANGELOG.md`**:" in testee_content
 
-    def test_reflect_changes(_, testee_content):
-        assert "to reflect them" in testee_content
+    def test3(_, testee_content):
+        assert "ove all content under *Unreleased* into a new" in testee_content
 
-    def test_agents_md_writer_rule(_, testee_content):
-        assert "Follow the *AGENTS.md Writer* rule" in testee_content
+    def test4(_, testee_content):
+        assert (
+            "reate a new empty *Unreleased* section above it" in testee_content
+        )
 
-    def test_structure_content_style(_, testee_content):
-        assert "structure, content, and style" in testee_content
+    def test5(_, testee_content):
+        assert " **update project version**:" in testee_content
+
+    def test6(_, testee_content):
+        assert "ind and update the version number in project" in testee_content
+
+    def test7(_, testee_content):
+        assert (
+            "g `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`"
+            in testee_content
+        )

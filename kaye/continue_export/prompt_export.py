@@ -38,6 +38,11 @@ resolve_markers_blueprint = PromptBlueprint.create_empty_blueprint()
 resolve_markers_blueprint.checkmark(_prompt_node["Resolve Annotation Markers"])
 resolve_markers_blueprint.display_name = "Resolve Annotation Markers"
 
+# resolve annotation markers
+prepare_for_release_blueprint = PromptBlueprint.create_empty_blueprint()
+prepare_for_release_blueprint.checkmark(_prompt_node["Prepare for Release"])
+prepare_for_release_blueprint.display_name = "Prepare for Release"
+
 
 # constants  ###################################################################
 
@@ -47,6 +52,7 @@ FILENAME2BLUEPRINT = {
     "maintain_changelog": maintain_changelog_blueprint,
     "maintain_agents": maintain_agents_blueprint,
     "resolve_annotation_markers": resolve_markers_blueprint,
+    "prepare_for_release": prepare_for_release_blueprint,
 }
 
 
