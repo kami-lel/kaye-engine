@@ -36,13 +36,13 @@ through a Python API, an HTTP API, and a CLI.
   - `kaye/prompt/` — prompt tree, nodes, blueprints, loaders
   - `kaye/api/` — Flask HTTP API and Dify app endpoints
   - `kaye/cli/` — argparse-based CLI subcommands
-  - `kaye/continue_export/` — exporters for the Continue AI editor
+  - `kaye/continue_export/` — exports blueprint rules and abbreviation
+    rules to `~/.continue`
   - `kaye/prompt_corpus.md`, `kaye/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
 - `docs/` — in-depth documentation (API, HTTP, CLI, abbreviations)
 - `tests/` — `pytest` suite, mirrors the package structure
 - `scripts/` — Git hooks and the `systemd` service file
-- `prompts/` — Continue prompt definitions
 
 ## Build and Test
 
@@ -73,8 +73,13 @@ Run the CLI and HTTP API locally:
 ```bash
 python -m kaye --help          # show CLI usage
 python -m kaye http            # start Flask HTTP API (port 11255)
+python -m kaye continue config                  # export rules to ~/.continue
+python -m kaye continue config LOCAL_CONFIG_FOLDER  # export to custom path
 python -m kaye continue prompt PROMPTS_FOLDER   # export Continue prompts
 ```
+
+CLI subcommand aliases: `http` → `h`; `continue` → `c`;
+`continue config` → `c c`; `continue prompt` → `c p`.
 
 ## Code Conventions
 
