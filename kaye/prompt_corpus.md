@@ -3605,10 +3605,56 @@ Use when need to remove/delete file/folder.
 
 ## Continue Prompts
 
-### maintain CHANGELOG
+### Maintain Docs
 
-create or modify `CHANGELOG.md` according to rule: Coder Changelog Writer
-
-
+review recent changes — update or create `README.md` and files in `docs/` to reflect them. Keep `README.md` focused on human contributors; move agent-specific context to `AGENTS.md`. Ensure accuracy, remove stale content
 
 
+
+
+
+
+
+
+
+
+
+
+
+### Maintain Changelog
+
+review recent changes — update or create `CHANGELOG.md` to reflect them. Follow the *Coder Changelog Writer* rule for format, versioning, and entry style
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Maintain Agents
+
+review recent changes — update or create `AGENTS.md` to reflect them. Follow the *AGENTS.md Writer* rule for structure, content, and style
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Resolve Annotation Markers
+
+scan for **primary Annotation Markers** — `BUG`, `FIXME`, `TODO`, `HACK`. For each: understand the required task and surrounding context, implement the fix or feature, then remove the marker.
+
+Do not touch secondary or tertiary markers
