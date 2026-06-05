@@ -1,5 +1,3 @@
-import subprocess
-
 import pytest
 
 from tests.cli.ce.c import prepare_local_config_folder
