@@ -13,7 +13,7 @@
     "$": {
       "priority": 5,
       "tags": [
-        "letters_only",
+        "ascii_only",
         "common",
         "currency_symbol"
       ],
@@ -5269,6 +5269,36 @@
         "language_code"
       ],
       "wrap": "word"
+    }
+  },
+  "日本語": {
+    "jp": {
+      "priority": 5,
+      "tags": [
+        "language_code"
+      ],
+      "wrap": "word"
+    }
+  },
+  "港元 Hong Kong Dollar": {
+    "HK$": {
+      "priority": 5,
+      "tags": [
+        "ascii_only",
+        "common",
+        "currency_symbol"
+      ],
+      "wrap": "currency"
+    }
+  },
+  "円 Japanese Yen": {
+    "JP¥": {
+      "priority": 5,
+      "tags": [
+        "common",
+        "currency_symbol"
+      ],
+      "wrap": "currency"
     }
   }
 }
