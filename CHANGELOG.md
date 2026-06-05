@@ -32,6 +32,7 @@
   - Prepare for Release
 
 - Coder: AGENTS.md Writer: instruction for **writing proper** `AGENTS.md`
+- `AGENTS.md` for this project
 
 ### Changed
 
@@ -42,9 +43,6 @@
 - Coder: Python: *TestingGuidelines*: more comprehensive instruction 
 - Coder: Project Structure: include `AGENTS.md`
 - rename section **Style Guide** (from Style)
-
-
-
 
 ### Deprecated
 
