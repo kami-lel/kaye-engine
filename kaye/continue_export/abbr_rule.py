@@ -46,10 +46,7 @@ def _generate_abbr_content(entries):
     :return: rendered markdown content
     :rtype: str
     """
-    lines = [
-        "- **{}** — {}".format(entry.abbr, entry.mean.mean)
-        for entry in entries
-    ]
+    lines = [entry.as_md_list_entry() for entry in entries]
     return "\n".join(lines) + "\n"
 
 
@@ -74,16 +71,15 @@ def export_abbr_rules(rules_folder):
         if not entries:
             continue  # skip empty letters
 
-        file_path = (
-            folder / "abbreviation starting with {}.md".format(letter)
-        )
+        file_path = folder / "abbreviation starting with {}.md".format(letter)
         print("update rule: {}".format(file_path))
 
         with RuleFile(file_path, encoding="utf-8") as rule:
             rule.name = "Abbreviations: {}".format(letter)
             rule.description = (
-                "abbreviations and their meanings starting with {}"
-                .format(letter)
+                "abbreviations and their meanings starting with {}".format(
+                    letter
+                )
             )
             rule.write_prefix()
             rule.write(_generate_abbr_content(entries))
