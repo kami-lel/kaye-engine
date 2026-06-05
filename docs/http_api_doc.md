@@ -1,6 +1,23 @@
-# Kaye Flask HTTP API documentation
+# Kaye HTTP API documentation
 
-<!-- FIXME rework Kaye HTTP API documentation -->
+Implemented in `~~/kaye/api/`
+
+Run the Flask App thru *Python CLI* by:
+
+```bash
+python -m kaye http
+```
+
+
+
+
+
+
+
+
+
+
+
 
 ### deployment as `systemd` on Ubuntu
 
