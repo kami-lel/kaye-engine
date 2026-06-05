@@ -1,5 +1,7 @@
 # Kaye Python Package API documentation
 
+<!-- Fixme rework Kaye HTTP API documentation -->
+
 ## `prompt` module
 
 The **core** module of *Kaye Python API*, implement a systematic, dynamic, and structured framework for **prompt management and manipulation**.
