@@ -1,10 +1,8 @@
 # Kaye README
 
-<!-- TODO re-organize README, docs, & standardize each components names -->
-
 > Consistent AI Agent Persona **Kaye**, powered by rigorous prompt engineering
 
-Kaye is a toolkit for maintaining a consistent AI agent persona from a single, structured source of truth. The project focuses on producing scenario-ready prompts from a central Markdown corpus using blueprints, a `gen_prompt` module, and a lightweight CLI for reproducible outputs.
+Kaye is a toolkit for maintaining a consistent AI agent persona from a single, structured source of truth. The project focuses on producing scenario-ready prompts from a central Markdown corpus using blueprints with APIs and CLI.
 
 #### ✨ Features
 
@@ -49,39 +47,21 @@ Other core concepts:
 
 
 
+## Usage
 
+### Programmatic API
 
-##  Install
-Install the Kaye Python package/API for all usages:
+The **Kaye Programmatic API** provides *Python programmatic access* to list corpus entries, preview sections, and generate concrete prompts.
 
-```bash
-pip install .
-```
-
-
+Q.v. [Kaye Programmatic API documentation](docs/programmatic_api_doc.md)
 
 
 
 
 
+### HTTP API
 
-
-
-
-## 🐍 Usage
-
-### 📖 Python API
-The **Kaye Python API** provides programmatic access to list corpus entries, preview sections, and generate concrete prompts.
-
-Q.v. [Kaye Python API documentation](docs/python_api_doc.md)
-
-
-
-
-
-### 🌐 HTTP API
-
-The **Kaye HTTP API** uses Flask to provide endpoints for requesting rendered prompts and previews dynamically.
+The **Kaye HTTP API** uses *Flask* to provide endpoints for requesting rendered prompts and previews dynamically.
 
 Q.v. [Kaye HTTP API documentation](docs/http_api_doc.md)
 
@@ -89,12 +69,10 @@ Q.v. [Kaye HTTP API documentation](docs/http_api_doc.md)
 
 
 
-### 💻 Python CLI
+### Python CLI
 
-A simple CLI is provided to list, show, and generate prompts from the terminal:
+A simple **Kaye Python CLI** is provided:
 
 ```bash
 python -m kaye --help
 ```
-
-<!-- TODO CLI: write write doc -->
