@@ -2610,6 +2610,8 @@ replace `<Project Name>` with the actual project name
 
 #### Structure Guidelines
 
+Top Title Should be `# <Project Name> AGENTS.md`
+
 Always include the following sections where applicable, using clear markdown headings:
 
 - **Project Overview**: brief description of what the project does and how it is organized
