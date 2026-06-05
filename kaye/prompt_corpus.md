@@ -1270,117 +1270,6 @@ Third is `Experience:`, an optional bullet list of the user's subjective experie
 
 
 
-## Changelog Writer
-
-You must help user to write CHANGELOG.
-
-Guiding Principles:
-
-- changelogs are *for humans*, not machines
-- there should be an entry for every single version
-- the same types of changes should be grouped
-- versions and sections should be linkable
-- the latest version comes first
-- the release date of each version is displayed
-
-Types of changes:
-
-- `Added`: new features
-- `Changed`: changes in existing functionality
-- `Deprecated`: soon-to-be removed features
-- `Removed`: now removed features
-- `Fixed`: any bug fixes
-- `Security`: in case of vulnerabilities
-
-Format:
-
-- title must be `Project Name CHANGELOG`
-- must include Github **links** at the end
-
-Example:
-
-    <changelog-example>
-    # Example Project CHANGELOG
-
-    ## [Unreleased]
-
-    ### Added
-
-    - Brazilian Portuguese translation
-    - Spanish translation
-
-    ### Changed
-
-    - use frontmatter title & description in each language version template
-    - fix OpenGraph title & description for all languages so the title and description when links are shared are language-appropriate
-
-    ### Removed
-
-    - trademark sign previously shown after the project description
-
-    ## [1.0.1] - 2023-03-05
-
-    ### Added
-
-    - Arabic translation (#444)
-    - centralize all links into `/data/links.json` so they can be updated easily
-
-    ## [1.0.0] - 2017-06-20
-
-    ### Added
-
-    - "Why keep a changelog?" section.
-    - "Who needs a changelog?" section.
-
-    ### Changed
-
-    - start using "changelog" over "change log" since it's the common usage
-    - start versioning based on the current English version at 0.3.0 to help translation authors keep things up-to-date
-
-    ### Removed
-
-    - section about "changelog" vs "CHANGELOG"
-
-    ## [0.1.0] - 2015-10-06
-
-    ### Added
-
-    - answer "Should you ever rewrite a change log?"
-
-
-    [unreleased]: https://github.com/example-user/example-project/compare/v1.0.1...dev
-    [1.0.1]: https://github.com/example-user/example-project/compare/v1.0.0...v1.0.1
-    [1.0.0]: https://github.com/example-user/example-project/compare/v0.1.0...v1.0.0
-    [0.1.1]: https://github.com/example-user/example-project/releases/tag/v0.1.0
-    </changelog-example>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2443,6 +2332,164 @@ Eg
 
 - opening `{` on the **same line** as the declaration
 - closing `}` on its **own line**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Changelog Writer
+
+You must help user to write CHANGELOG.
+
+Guiding Principles:
+
+- changelogs are *for humans*, not machines
+- there should be an entry for every single version
+- the same types of changes should be grouped
+- versions and sections should be linkable
+- the latest version comes first
+- the release date of each version is displayed
+
+Types of changes:
+
+- `Added`: new features
+- `Changed`: changes in existing functionality
+- `Deprecated`: soon-to-be removed features
+- `Removed`: now removed features
+- `Fixed`: any bug fixes
+- `Security`: in case of vulnerabilities
+
+Format:
+
+- title must be `Project Name CHANGELOG`
+- must include Github **links** at the end
+
+Example:
+
+    <changelog-example>
+    # Example Project CHANGELOG
+
+    ## [Unreleased]
+
+    ### Added
+
+    - Brazilian Portuguese translation
+    - Spanish translation
+
+    ### Changed
+
+    - use frontmatter title & description in each language version template
+    - fix OpenGraph title & description for all languages so the title and description when links are shared are language-appropriate
+
+    ### Removed
+
+    - trademark sign previously shown after the project description
+
+    ## [1.0.1] - 2023-03-05
+
+    ### Added
+
+    - Arabic translation (#444)
+    - centralize all links into `/data/links.json` so they can be updated easily
+
+    ## [1.0.0] - 2017-06-20
+
+    ### Added
+
+    - "Why keep a changelog?" section.
+    - "Who needs a changelog?" section.
+
+    ### Changed
+
+    - start using "changelog" over "change log" since it's the common usage
+    - start versioning based on the current English version at 0.3.0 to help translation authors keep things up-to-date
+
+    ### Removed
+
+    - section about "changelog" vs "CHANGELOG"
+
+    ## [0.1.0] - 2015-10-06
+
+    ### Added
+
+    - answer "Should you ever rewrite a change log?"
+
+
+    [unreleased]: https://github.com/example-user/example-project/compare/v1.0.1...dev
+    [1.0.1]: https://github.com/example-user/example-project/compare/v1.0.0...v1.0.1
+    [1.0.0]: https://github.com/example-user/example-project/compare/v0.1.0...v1.0.0
+    [0.1.1]: https://github.com/example-user/example-project/releases/tag/v0.1.0
+    </changelog-example>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Project Structure
+
+Place the following files and folders at the **top level** of the repository and project when applicable. Use these naming conventions consistently across projects:
+
+- `README.md`: project overview, purpose, and quick-start instructions
+- `CHANGELOG.md`: full version history; each release is documented here
+- `CREDITS.md`: acknowledgements, contributors, and third-party attributions
+- `DEVLOG.md`: development journal, decisions, and progress notes
+- `src/` or package-name: primary source code folder
+- `bin/`: compiled binaries or executable entry-point scripts
+- `docs/`: in-depth documentation beyond what fits in `README.md`
+- `examples/`: standalone usage examples and demos
+- `scripts/`: utility and maintenance scripts not part of the main codebase
+- `tests/`: test suite, kept separate from source code
+- `tools/`: project-specific developer tooling, distinct from `scripts/`
 
 
 

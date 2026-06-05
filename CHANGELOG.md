@@ -24,6 +24,7 @@
 - `RuleFile`: context manager that writes a rule's YAML front matter (`name`, `description`, `globs`, `alwaysApply`) and rendered prompt body
 - `update_continue_local_config_folder()`: (re)create `<config>/rules/` and write one rule file per blueprint
 - CLI subcommand `kaye continue [LOCAL_CONFIG_FOLDER]` (alias `c`), defaulting to `~/.continue`
+- support Changelog Writer
 
 `prompt_corpus.md`:
 

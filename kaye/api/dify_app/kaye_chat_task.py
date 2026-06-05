@@ -17,6 +17,7 @@ from kaye.prompt import (
     annotation_marker_blueprint,
     coder_blueprint,
     coder_bash_blueprint,
+    coder_changelog_blueprint,
     coder_c_blueprint,
     coder_cpp_blueprint,
     coder_ue_blueprint,
@@ -167,8 +168,7 @@ def _create_barista_blueprint():
 
 
 def _create_changelog_blueprint():
-    bp = _create_chat_blueprint()
-    bp.checkmark("Changelog Writer", recursively=True)
+    bp = _create_chat_blueprint() | coder_changelog_blueprint
     return bp
 
 
