@@ -263,6 +263,6 @@ Clone the repo and install dependencies.
 Licensed under the MIT License.
 
 # {Usable Abbreviations}
--`&`:and
--`/`:or
+- &:and
+- /:or
 """

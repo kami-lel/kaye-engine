@@ -5,7 +5,7 @@ Unit Tests (using pytest) for: AbbrEntry
 """
 
 import pytest
-from kaye.prompt.abbr_collection import (
+from kaye.abbr_collection import (
     AbbrEntry,
     AbbrWrap,
     AbbrTags,
