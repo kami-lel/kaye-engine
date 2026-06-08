@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_prompts_folder):
-    with open(testee_prompts_folder / "prepare_feature_branch_finish.md") as f:
+    with open(testee_prompts_folder / "prepare_for_feature_finish.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Prepare for Feature Branch Finish" in testee_header
+        assert "name: Prepare for Feature Finish" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -57,7 +57,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "### Prepare for Feature Branch Finish" in testee_content
+        assert "### Prepare for Feature Finish" in testee_content
 
     def test_intro_update_changelog(_, testee_content):
         assert "update `CHANGELOG.md`" in testee_content

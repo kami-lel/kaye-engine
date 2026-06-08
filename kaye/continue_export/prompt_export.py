@@ -68,7 +68,7 @@ FILENAME2BLUEPRINT = {
     "resolve_annotation_markers": resolve_markers_blueprint,
     "create_readme": create_readme_blueprint,
     "create_agents": create_agents_blueprint,
-    "prepare_for_feature": prepare_for_release_blueprint,
+    "prepare_for_release": prepare_for_release_blueprint,
     "prepare_for_feature_finish": prepare_for_feature_blueprint,
 }
 
