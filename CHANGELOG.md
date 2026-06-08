@@ -19,6 +19,9 @@
 ### Added
 
 - `abbrs.json`: add two abbrs of `~` and `~~`
+- embedded blueprint `coder_readme_agent`
+
+  - usage in Python CLI: Continue Export
 
 ### Changed
 
