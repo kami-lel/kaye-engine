@@ -159,6 +159,10 @@ class PromptBlueprint(dict):
             False, display_name, corpus_override
         )
 
+    @classmethod
+    def create_from_node(self, node, *, recursive=False):
+        pass  # TODO create from node
+
     # instance methods  ========================================================
     def __init__(self, *, display_name="", corpus_override=None):
         super().__init__()  # init as empty dict
@@ -474,6 +478,7 @@ class PromptBlueprint(dict):
 
         # actual perform checking/unchecking
         self[node_hash] = is_checkmark
+        # TODO TODO do not check mark tech nodes
 
         # add all descendants too
         if recursively:
