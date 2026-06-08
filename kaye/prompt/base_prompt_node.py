@@ -130,7 +130,7 @@ class BasePromptNode(AnyTreeNode):
         return ancestry_path
 
     @property
-    def is_description_node(self):  # HACK implement unit test
+    def is_description_node(self):
         """
         :return: whether this node is *description* subnode
                 i.e. name is: ``description``
@@ -139,7 +139,7 @@ class BasePromptNode(AnyTreeNode):
         return self.name == self._DESCRIPTION_SUBNODE_NAME
 
     @property
-    def description_subnode(self):  # HACK implement unit test
+    def description_subnode(self):
         """
         :return: *description* subnode of ``self``;
                 ``None`` if ``self`` doesn't have a description subnode
