@@ -130,19 +130,10 @@ class BasePromptNode(AnyTreeNode):
         return ancestry_path
 
     @property
-    def is_technical_node(self):  # HACK implement unit test
-        """
-        :return: whether this node is technical & special
-                i.e. name in pattern of: ``{name}``
-        :rtype: bool
-        """
-        return bool(self._TECHNICAL_NAME_PATTERN.match(self.name))
-
-    @property
     def is_description_node(self):  # HACK implement unit test
         """
         :return: whether this node is *description* subnode
-                i.e. name is: ``{description}``
+                i.e. name is: ``description``
         :rtype: bool
         """
         return self.name == self._DESCRIPTION_SUBNODE_NAME
@@ -154,16 +145,12 @@ class BasePromptNode(AnyTreeNode):
                 ``None`` if ``self`` doesn't have a description subnode
         :rtype: BasePromptNode
         """
-        for d in self.descendants:
-            if d.name == "{description}":
-                return d
-
-        return None
+        finds = [n for n in self.descendants if n.is_description_node]
+        return finds[0] if finds else None
 
     # private constants  =======================================================
 
-    _TECHNICAL_NAME_PATTERN = re.compile(r"^{.+}$")
-    _DESCRIPTION_SUBNODE_NAME = "{description}"
+    _DESCRIPTION_SUBNODE_NAME = "description"
 
     # magic methods  ===========================================================
 
@@ -274,7 +261,7 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
     """
 
     @classmethod
-    def is_valid_dynamic_node_heading(cls, heading):  # HACK rm
+    def is_valid_dynamic_node_heading(cls, heading):
         """
         :param heading:
         :type heading: str
