@@ -8,7 +8,7 @@ from pathlib import Path
 
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 
-from kaye.continue_export.rule_file import RuleFile
+from .rule_file import RuleFile
 
 # blueprints  ##################################################################
 
