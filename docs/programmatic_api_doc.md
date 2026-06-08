@@ -76,6 +76,19 @@ E.g.
 > [!NOTE]
 > `.name` is a property of `anytree.Node`
 
+----
+
+Use `.is_technical_node` property to check if a node name matches the **technical node** pattern `{name}` (e.g., dynamic nodes):
+
+```python
+>>> corpus_node.is_technical_node
+False
+>>> dynamic_node.is_technical_node
+True
+```
+
+Technical nodes are special nodes identified by names enclosed in curly braces, such as `{Abbreviations}`, `{Today}`, etc.
+
 
 
 ##### lineage
@@ -110,7 +123,6 @@ E.g.
 I.e. `a == b` return whether two nodes has the same lineage.
 
 Additionally, if both nodes are roots, test whether 2 trees are identical in node name structure (node content is irrelevant.)
-
 
 
 

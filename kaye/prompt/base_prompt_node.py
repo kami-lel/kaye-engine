@@ -129,6 +129,15 @@ class BasePromptNode(AnyTreeNode):
         ancestry_path.append(self.name)
         return ancestry_path
 
+    @property
+    def is_technical_node(self):
+        """
+        :return: whether this node is technical & special
+                i.e. name in pattern of: {name}
+        :rtype: bool
+        """
+        return bool(re.fullmatch(r"\{.+\}", self.name))
+
     # magic methods  ===========================================================
 
     def __getitem__(self, key):
