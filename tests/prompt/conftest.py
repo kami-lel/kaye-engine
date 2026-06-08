@@ -72,7 +72,7 @@ def corpus_testee2():
     )
 
     PromptCorpusNode(
-        "{description}",
+        "description",
         contributing,
         ["A step-by-step guide of how to contribute"],
     )
