@@ -16,6 +16,8 @@ __all__ = (
     "coder_blueprint",
     "coder_changelog_blueprint",
     "coder_project_blueprint",
+    "coder_agents_blueprint",
+    "coder_readme_blueprint",
     "coder_bash_blueprint",
     "coder_c_blueprint",
     "coder_cpp_blueprint",
@@ -28,7 +30,6 @@ __all__ = (
     "coder_py_blueprint",
     "coder_py_docstring_blueprint",
     "coder_py_testing_blueprint",
-    "coder_agents_blueprint",
 )
 
 
