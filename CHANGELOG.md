@@ -22,6 +22,8 @@
 
 ### Changed
 
+- normalize usage of `AGENTS` in headings etc. (from `AGENTS.md`)
+
 ### Deprecated
 
 ### Removed

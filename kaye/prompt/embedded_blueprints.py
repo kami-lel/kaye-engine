@@ -128,11 +128,10 @@ coder_changelog_blueprint.display_name = "Coder Changelog Writer"
 coder_changelog_blueprint.description = "format for CHANGELOG.md"
 
 
-# FIXME change various mention of AGENTS.md to just AGENTS
 # Coder AGENTS.md Writer
 coder_agents_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_agents_blueprint.checkmark(_kyc_node["AGENTS.md Writer"])
-coder_agents_blueprint.display_name = "Coder AGENTS.md Writer"
+coder_agents_blueprint.checkmark(_kyc_node["AGENTS Writer"])
+coder_agents_blueprint.display_name = "Coder AGENTS Writer"
 coder_agents_blueprint.description = "format for AGENTS.md documentation"
 
 
