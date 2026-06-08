@@ -61,7 +61,7 @@ def corpus_testee2():
         "Usage", proj, ["Provide instructions on how to use the application."]
     )
 
-    PromptCorpusNode(
+    contributing = PromptCorpusNode(
         "Contributing",
         proj,
         [
@@ -69,6 +69,12 @@ def corpus_testee2():
             "2. Create a new branch",
             "3. Submit a pull request",
         ],
+    )
+
+    PromptCorpusNode(
+        "{description}",
+        contributing,
+        ["A step-by-step guide of how to contribute"],
     )
 
     PromptCorpusNode(

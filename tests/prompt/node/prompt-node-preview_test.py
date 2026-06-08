@@ -71,6 +71,8 @@ class TestPrompt2:  ############################################################
     │   1. Fork the repo
     │   2. Create a new branch
     │   3. Submit a pull request
+    │   └── {description}
+    │       A step-by-step guide of how to contribute
     └── License
         This project is licensed under the MIT License."""
 
@@ -90,6 +92,7 @@ class TestPrompt2:  ############################################################
     ├── Installation
     ├── Usage
     ├── Contributing
+    │   └── {description}
     └── License"""
 
     def test_limited_line_count(self, corpus_testee2):
@@ -107,6 +110,8 @@ class TestPrompt2:  ############################################################
     │   Provide instructions on how to use the application.
     ├── Contributing
     │   1. Fork the repo
+    │   └── {description}
+    │       A step-by-step guide of how to contribute
     └── License
         This project is licensed under the MIT License."""
 
@@ -129,6 +134,8 @@ class TestPrompt2:  ############################################################
     │   1. Fork
     │   2. Crea
     │   3. Subm
+    │   └── {description}
+    │       A s
     └── License
         This pr"""
 
