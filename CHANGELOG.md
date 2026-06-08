@@ -18,52 +18,74 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [6.3.0] - 2026-06-09
+
+### Added
+
 - `BasePromptNode`: new properties
 
   - `.is_technical_node` — check if node name matches pattern `{name}`, identifying
     technical and special nodes (e.g., dynamic nodes)
-  - `.description_subnode` — retrieve child node with heading `{description}` if present,
-    supporting nodes that contain description subnodes in `prompt_corpus.md`
-  - `.is_description_node` — check if node name is exactly `{description}`, identifying
-    whether the node itself is a description node
+  - `.description_subnode` — retrieve child node with heading `{description}` if
+    present, supporting nodes that contain description subnodes in `prompt_corpus.md`
+  - `.is_description_node` — check if node name is exactly `{description}`,
+    identifying whether the node itself is a description node
 
 - `PromptBlueprint`: new classmethod and parameter
 
   - `.create_from_node()` — create a blueprint from a specific node, automatically
     extracting description subnode content as blueprint description for LLM task
     relevance assessment
-  - `.generate_prompt()`: new `disable_first_heading` parameter to suppress rendering
-    the top-level heading, useful when embedding prompts in larger contexts
+  - `.generate_prompt()` — new `disable_first_heading` parameter to suppress
+    rendering the top-level heading when embedding prompts in larger contexts
 
-- **Continue Export**: new prompt blueprints for documentation workflows
+- **Continue Export**: documentation workflow blueprints and Continue export refactor
 
-  - `prepare_for_feature_finish` — prepare feature branch for final submission; generates prompts to update `CHANGELOG.md` and documentation files
-  - `prepare_for_release` — prepare release branch with comprehensive documentation updates
+  - `prepare_for_feature_finish` — prepare feature branch for final submission;
+    generates prompts to update `CHANGELOG.md` and documentation files
+  - `prepare_for_release` — prepare release branch with comprehensive documentation
+    updates
   - `create_readme` — create a new `README.md` tailored to the repository
   - `create_agents` — create a new `AGENTS.md` tailored to the repository
   - `maintain_docs` — maintain and update existing `README.md` and `AGENTS.md` files
   - `maintain_changelog` — update `CHANGELOG.md` with structured entries
+  - move Continue export under the CLI package and keep it out of the programmatic API
 
 - `abbrs.json`: add two abbrs of `~` and `~~`
 - embedded blueprints for documentation writing:
 
-  - `coder_readme_blueprint` (`Coder README Writer`) — format and style guidance for `README.md`
-  - `coder_agents_blueprint` (`Coder AGENTS Writer`) — format and style guidance for `AGENTS.md`
+  - `coder_readme_blueprint` (`Coder README Writer`) — format and style guidance for
+    `README.md`
+  - `coder_agents_blueprint` (`Coder AGENTS Writer`) — format and style guidance for
+    `AGENTS.md`
 
 - prompt_corpus.md: **README/AGENTS Writer** role with comprehensive guidance:
 
-  - **create README/AGENTS** — structured instructions for authoring new documentation files
+  - **create README/AGENTS** — structured instructions for authoring new
+    documentation files
   - **maintain README/AGENTS** — guidelines for updating existing documentation
   - **Changelog Writer** — format, versioning, and entry style standards
 
-- prompt_corpus.md: **Maintain Changelog** — explicit guidance for CHANGELOG updates including:
+- prompt_corpus.md: **Maintain Changelog** — explicit guidance for CHANGELOG
+  updates including:
 
   - feature branch change identification
   - existing entry preservation and deduplication
   - recursive blueprint handling
   - changelog structure standards
 
-- unit tests for `continue prompt` subcommand with documentation maintenance scenarios
+- unit tests for `continue prompt` subcommand with documentation maintenance
+  scenarios
 
 ### Changed
 
@@ -96,8 +118,7 @@
   - refactored rule text for consistency
   - improved changelog export with feature-specific guidance
 
-- prompt_corpus.md: code block formatting standardized with proper
-  indentation
+- prompt_corpus.md: code block formatting standardized with proper indentation
 
 ### Deprecated
 
@@ -105,7 +126,8 @@
 
 ### Fixed
 
-- prompt_corpus.md: **Kaye Peer Coder**: comment section headings — corrected wrong example of top-level heading
+- prompt_corpus.md: **Kaye Peer Coder**: comment section headings — corrected wrong
+  example of top-level heading
 
 ### Security
 
@@ -1760,7 +1782,8 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.2.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.3.0...dev
+[6.3.0]: https://github.com/kami-lel/kaye/compare/v6.2.1...v6.3.0
 [6.2.1]: https://github.com/kami-lel/kaye/compare/v6.2.0...v6.2.1
 [6.2.0]: https://github.com/kami-lel/kaye/compare/v6.1.0...v6.2.0
 [6.1.0]: https://github.com/kami-lel/kaye/compare/v6.0.0...v6.1.0
