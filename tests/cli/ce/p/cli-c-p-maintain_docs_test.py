@@ -56,34 +56,52 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_maintain_docs_heading(_, testee_content):
+    def test_heading(_, testee_content):
         assert "### Maintain Docs" in testee_content
 
-    def test_review_recent_changes(_, testee_content):
-        assert "review recent changes" in testee_content
-
-    def test_update_or_create_readme(_, testee_content):
-        assert "update or create `README.md`" in testee_content
-
-    def test_docs_folder(_, testee_content):
-        assert "files in `docs/`" in testee_content
-
-    def test_update_or_create_agents_md(_, testee_content):
-        assert "and `AGENTS.md`" in testee_content
-
-    def test_reflect_changes(_, testee_content):
-        assert "to reflect them" in testee_content
-
-    def test_readme_focused_on_human_contributors(_, testee_content):
+    def test_intro_readme_agents_docs(_, testee_content):
         assert (
-            "Keep `README.md` focused on human contributors" in testee_content
+            "Update README-style files, AGENTS-style files, and files under "
+            "`docs/` to reflect the current project state"
+            in testee_content
         )
 
-    def test_agents_md_writer_rule(_, testee_content):
-        assert "Follow the *Coder AGENTS.md Writer* rule" in testee_content
+    def test_instructions_section(_, testee_content):
+        assert "##### Instructions" in testee_content
 
-    def test_agents_md_structure_content_style(_, testee_content):
-        assert "structure, content, and style" in testee_content
+    def test_instructions_review_changes(_, testee_content):
+        assert "review recent repository changes" in testee_content
 
-    def test_ensure_accuracy_remove_stale(_, testee_content):
-        assert "Ensure accuracy, remove stale content" in testee_content
+    def test_instructions_edit_in_place(_, testee_content):
+        assert (
+            "edit existing documentation in place whenever possible"
+            in testee_content
+        )
+
+    def test_readme_style_section(_, testee_content):
+        assert "##### README-Style Files" in testee_content
+
+    def test_readme_writer_reference(_, testee_content):
+        assert (
+            "follow **README Writer** for structure, content, and style"
+            in testee_content
+        )
+
+    def test_agents_style_section(_, testee_content):
+        assert "##### AGENTS-Style Files" in testee_content
+
+    def test_agents_writer_reference(_, testee_content):
+        assert (
+            "follow **AGENTS Writer** for structure, content, and style"
+            in testee_content
+        )
+
+    def test_docs_files_section(_, testee_content):
+        assert "##### Docs Files" in testee_content
+
+    def test_remove_stale_content(_, testee_content):
+        assert (
+            "remove stale, misleading, duplicated, obsolete, or unsupported "
+            "content"
+            in testee_content
+        )
