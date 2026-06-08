@@ -72,36 +72,49 @@ class TestContent:  # ==========================================================
     def test_instructions_review_changes(_, testee_content):
         assert "review recent repository changes" in testee_content
 
-    def test_instructions_edit_in_place(_, testee_content):
+    def test_instructions_create_only_when_missing(_, testee_content):
         assert (
-            "edit existing documentation in place whenever possible"
+            "create new documentation only when an important expected file "
+            "is missing or repository changes require it"
             in testee_content
         )
 
-    def test_readme_style_section(_, testee_content):
-        assert "##### README-Style Files" in testee_content
-
-    def test_readme_writer_reference(_, testee_content):
+    def test_instructions_readme_style_definition(_, testee_content):
         assert (
-            "follow **README Writer** for structure, content, and style"
+            "treat README-style files as files named `README`, `Readme`, or "
+            "`readme`, with no extension, `.md`, or `.txt`"
             in testee_content
         )
 
-    def test_agents_style_section(_, testee_content):
-        assert "##### AGENTS-Style Files" in testee_content
-
-    def test_agents_writer_reference(_, testee_content):
+    def test_instructions_agents_style_definition(_, testee_content):
         assert (
-            "follow **AGENTS Writer** for structure, content, and style"
+            "treat AGENTS-style files as files named `AGENTS`, `Agents`, or "
+            "`agents`, with no extension or `.md`"
+            in testee_content
+        )
+
+    def test_instructions_verify_content(_, testee_content):
+        assert (
+            "verify links, file paths, commands, configuration names, "
+            "examples, and references where possible"
             in testee_content
         )
 
     def test_docs_files_section(_, testee_content):
         assert "##### Docs Files" in testee_content
 
-    def test_remove_stale_content(_, testee_content):
+    def test_docs_files_update_affected(_, testee_content):
         assert (
-            "remove stale, misleading, duplicated, obsolete, or unsupported "
-            "content"
+            "update affected APIs, commands, architecture notes, configuration "
+            "details, examples, workflows, and troubleshooting guidance"
             in testee_content
         )
+
+    def test_docs_files_cross_link(_, testee_content):
+        assert (
+            "cross-link related docs when it improves navigation"
+            in testee_content
+        )
+
+    def test_output_section(_, testee_content):
+        assert "##### Output" in testee_content

@@ -3785,24 +3785,6 @@ Update README-style files, AGENTS-style files, and files under `docs/` to reflec
 
 
 
-##### README-Style Files
-
-- follow **README Writer** for structure, content, and style
-- update applicable overview, features, setup, usage, configuration, commands, contribution notes, security notes, and license details
-- prioritize the root README when multiple README-style files exist
-- keep secondary README files focused on their local directory, package, or feature area
-
-
-
-##### AGENTS-Style Files
-
-- follow **AGENTS Writer** for structure, content, and style
-- preserve or add required frontmatter when applicable to the project’s AGENTS format
-- update applicable project name, setup notes, build commands, test commands, code style, testing instructions, PR instructions, and security considerations
-- avoid moving human-facing content from README files into AGENTS files unless it is useful for coding agents
-
-
-
 ##### Docs Files
 
 - update affected APIs, commands, architecture notes, configuration details, examples, workflows, and troubleshooting guidance
@@ -3818,6 +3800,30 @@ Update README-style files, AGENTS-style files, and files under `docs/` to reflec
 Update the relevant documentation files in place.
 
 Return a brief summary listing changed files and the documentation updates made.
+
+
+
+
+
+#### edit README
+
+- edit `README.md` or README-Style File
+- follow **README Writer** for structure, content, and style
+- update applicable overview, features, setup, usage, configuration, commands, contribution notes, security notes, and license details
+- prioritize the root README when multiple README-style files exist
+- keep secondary README files focused on their local directory, package, or feature area
+
+
+
+
+
+#### edit AGENTS
+
+- edit `AGENTS.md` or AGENTS-Style File
+- follow **AGENTS Writer** for structure, content, and style
+- preserve or add required frontmatter when applicable to the project’s AGENTS format
+- update applicable project name, setup notes, build commands, test commands, code style, testing instructions, PR instructions, and security considerations
+- avoid moving human-facing content from README files into AGENTS files unless it is useful for coding agents
 
 
 
