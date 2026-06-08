@@ -130,22 +130,27 @@ class BasePromptNode(AnyTreeNode):
         return ancestry_path
 
     @property
-    def is_technical_node(self):  # HACK unit test
+    def is_technical_node(self):  # HACK implement unit test
         """
         :return: whether this node is technical & special
                 i.e. name in pattern of: ``{name}``
         :rtype: bool
         """
-        return bool(re.fullmatch(r"\{.+\}", self.name))
+        return bool(self._TECHNICAL_NAME_PATTERN.match(self.name))
 
     @property
-    def description_subnode(self):  # HACK unit test
+    def is_description_node(self):  # HACK implement unit test
         """
-        in `prompt_corpus.md`, some nodes contains child node
-        with exact heading of ``{description}``
+        :return: whether this node is *description* subnode
+                i.e. name is: ``{description}``
+        :rtype: bool
+        """
+        return self.name == self._DESCRIPTION_SUBNODE_NAME
 
-
-        :return: a *description* subnode of ``self``;
+    @property
+    def description_subnode(self):  # HACK implement unit test
+        """
+        :return: *description* subnode of ``self``;
                 ``None`` if ``self`` doesn't have a description subnode
         :rtype: BasePromptNode
         """
@@ -154,6 +159,11 @@ class BasePromptNode(AnyTreeNode):
                 return d
 
         return None
+
+    # private constants  =======================================================
+
+    _TECHNICAL_NAME_PATTERN = re.compile(r"^{.+}$")
+    _DESCRIPTION_SUBNODE_NAME = "{description}"
 
     # magic methods  ===========================================================
 
@@ -264,7 +274,7 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
     """
 
     @classmethod
-    def is_valid_dynamic_node_heading(cls, heading):
+    def is_valid_dynamic_node_heading(cls, heading):  # HACK rm
         """
         :param heading:
         :type heading: str
