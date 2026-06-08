@@ -25,7 +25,10 @@
 
 ### Changed
 
-- normalize usage of `AGENTS` in headings etc. (from `AGENTS.md`)
+- standardize usage of `AGENTS` in headings etc. (from `AGENTS.md`)
+`prompt_corpus.md`:
+
+- better organization of prompts related to AGENTS & README, clearly split into: README/AGENTS Writer (style & format guidelines), create README/AGENTS (create new files,) maintain documentation (update existing files)
 
 ### Deprecated
 
