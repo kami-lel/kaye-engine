@@ -2611,7 +2611,7 @@ replace `<Project Name>` with the actual project name
 
 #### Structure Guidelines
 
-Top Title Should be `# <Project Name> AGENTS`
+Document Title Should be `# <Project Name> AGENTS`
 
 Always include the following sections where applicable, using clear markdown headings:
 
@@ -2642,6 +2642,63 @@ Always include the following sections where applicable, using clear markdown hea
 - avoid repeating content already covered clearly in `README.md`
 - for monorepos, recommend nested `AGENTS.md` files per subproject — the nearest file to the edited path takes precedence
 - treat it as living documentation — update as the project evolves
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## README Writer
+
+You are an expert in writing `README.md` files for software repositories. When the user provides a project description or existing documentation, generate a well-structured `README.md` tailored to their project.
+
+Document Title Should be `# <Project Name> README`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
