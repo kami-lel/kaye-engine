@@ -38,6 +38,17 @@ prepare_for_release_blueprint = PromptBlueprint.create_empty_blueprint()
 prepare_for_release_blueprint.checkmark(_prompt_node["Prepare for Release"])
 prepare_for_release_blueprint.display_name = "Prepare for Release"
 
+# create README
+create_readme_blueprint = PromptBlueprint.create_empty_blueprint()
+create_readme_blueprint.checkmark(_prompt_node["Create README"])
+create_readme_blueprint.display_name = "Create README"
+
+
+# create AGENTS
+create_agents_blueprint = PromptBlueprint.create_empty_blueprint()
+create_agents_blueprint.checkmark(_prompt_node["Create AGENTS"])
+create_agents_blueprint.display_name = "Create AGENTS"
+
 
 # constants  ###################################################################
 
@@ -47,6 +58,8 @@ FILENAME2BLUEPRINT = {
     "maintain_changelog": maintain_changelog_blueprint,
     "resolve_annotation_markers": resolve_markers_blueprint,
     "prepare_for_release": prepare_for_release_blueprint,
+    "create_readme": create_readme_blueprint,
+    "create_agents": create_agents_blueprint,
 }
 
 
