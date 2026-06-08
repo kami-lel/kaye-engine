@@ -12,13 +12,11 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
 
-from .base_prompt_node import BasePromptNode, DynamicNode
+from .base_prompt_node import BasePromptNode
 from .prompt_corpus_loader import (
     load_prompt_corpus_tree,
     HEADING_PREFIX_ELEMENT,
 )
-from .today_node import TodayNode
-from .abbr_nodes import AbbrNode, PLCNode, UsableAbbrNode
 
 __all__ = ("PromptBlueprint",)
 
@@ -27,8 +25,6 @@ __all__ = ("PromptBlueprint",)
 CHECKMARKED_PREFIX = "[x] "
 UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
-
-# Todo add class method parse to work w/ .description
 
 
 class PromptBlueprint(dict):
@@ -161,6 +157,42 @@ class PromptBlueprint(dict):
             False, display_name, corpus_override
         )
 
+    @classmethod
+    def create_from_node(self, node, *, recursively=False):
+        """
+        create a **blueprint** from a specific node and its content
+
+        generates a blueprint containing only the specified node
+        (and optionally all its descendants). automatically extracts
+        the node's description subnode content (if present) and includes
+        it as the blueprint's description, enabling LLM task relevance
+        assessment. useful for creating focused prompts from individual
+        corpus sections.
+
+
+        :param node: node object; hash value; name
+        :type node: BasePromptNode or int or str
+        :param recursively: allow checkmarks on node's descendants,
+                defaults to False
+        :type recursively: bool, optional
+        :raise TypeError:
+        :raise ValueError:
+        """
+        bp = PromptBlueprint.create_empty_blueprint()
+        node_obj, _ = bp._find_node_in_corpus_and_blueprint(node)
+        bp.checkmark(node_obj, recursively=recursively)
+
+        bp.display_name = node_obj.name
+
+        description_node = node_obj.description_subnode
+        if description_node:
+            description_bp = PromptBlueprint.create_from_node(description_node)
+            bp.description = description_bp.generate_prompt(
+                disable_first_heading=True
+            )
+
+        return bp
+
     # instance methods  ========================================================
     def __init__(self, *, display_name="", corpus_override=None):
         super().__init__()  # init as empty dict
@@ -202,7 +234,7 @@ class PromptBlueprint(dict):
         (will add node into this blueprint if not, then checkmarked it)
 
 
-        :param key: node object; hash value; name
+        :param node: node object; hash value; name
         :type node: BasePromptNode or int or str
         :param recursively: allow checkmarks on node's descendants,
                 defaults to False
@@ -303,7 +335,9 @@ class PromptBlueprint(dict):
 
         return "\n".join(lines)
 
-    def generate_prompt(self, *, show_comment=False, **kwargs):
+    def generate_prompt(
+        self, *, show_comment=False, disable_first_heading=False, **kwargs
+    ):
         """
         render the **concrete prompt** that can be used as LLM system message
         with it content based on node's checkmarking status of this blueprint
@@ -312,19 +346,28 @@ class PromptBlueprint(dict):
         :param show_comment: show comment part after last line;
                 defaults to False
         :type show_comment: bool, optional
+        :param disable_first_heading: whether disable showing top heading;
+                defaults to False
+        :type disable_first_heading: bool, optional
         :return: generated prompt
         :rtype: str
         """
         # todo compact render & other types
         lines = []
 
+        should_skip_heading = disable_first_heading
+
         last_node_idx = self.corpus.size - 1
         for i, node in enumerate(PreOrderIter(self.corpus)):
             if self.is_checkmarked(node):
-                # heading line
-                lines.append(
-                    HEADING_PREFIX_ELEMENT * node.depth + " " + node.name
-                )
+                if should_skip_heading:
+                    should_skip_heading = False
+                else:
+                    # heading line
+                    lines.append(
+                        HEADING_PREFIX_ELEMENT * node.depth + " " + node.name
+                    )
+
                 # content lines
                 content_lines = node.content_lines(**kwargs)
                 if content_lines:

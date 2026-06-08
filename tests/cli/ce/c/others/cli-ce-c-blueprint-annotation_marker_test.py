@@ -49,7 +49,7 @@ class TestHeader:  # ===========================================================
 
     def test_description(_, testee_header):
         assert (
-            "description: add-on when working with BUG, FIXME, TODO,"
+            "description: when working with BUG, FIXME, TODO,"
             " or HACK markers in code or docs"
             in testee_header
         )
@@ -85,6 +85,4 @@ class TestContent:  # ==========================================================
         assert "- todo/..." in testee_content
 
     def test_no_modify_rule(_, testee_content):
-        assert (
-            "- do not modify or remove any markers unless" in testee_content
-        )
+        assert "- do not modify or remove any markers unless" in testee_content

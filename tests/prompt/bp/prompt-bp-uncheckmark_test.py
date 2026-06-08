@@ -15,7 +15,6 @@ import pytest
 from tests.prompt.bp import (
     BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_1_PARTIAL_2,
-    BLUEPRINT_2_PARTIAL_1,
     BLUEPRINT_3_PARTIAL_1,
     BLUEPRINT_3_PARTIAL_2,
 )
@@ -39,7 +38,17 @@ def local_testee12pruned(bp_testee1pa2pruned):
 
 @pytest.fixture
 def local_testee2(bp_testee2full):
-    return copy.deepcopy(bp_testee2full), BLUEPRINT_2_PARTIAL_1
+    return (
+        copy.deepcopy(bp_testee2full),
+        """    ○
+[x] └── Project Title
+[ ]     ├── Description
+[x]     ├── Installation
+[ ]     ├── Usage
+[x]     ├── Contributing
+[x]     │   └── description
+[ ]     └── License""",
+    )
 
 
 @pytest.fixture

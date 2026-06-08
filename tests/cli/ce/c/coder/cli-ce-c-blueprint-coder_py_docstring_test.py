@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder Python Docstring" in testee_header
+        assert "name: Coder Python Docstring Style" in testee_header
 
     def test_description(_, testee_header):
         assert (
@@ -63,7 +63,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_docstring_style_heading(_, testee_content):
-        assert "### Docstring Style" in testee_content
+        assert "### Coder Python Docstring Style" in testee_content
 
     def test_sphinx_style(_, testee_content):
         assert "**Sphinx** style" in testee_content

@@ -49,7 +49,7 @@ class TestHeader:  # ===========================================================
 
     def test_description(_, testee_header):
         assert (
-            "description: add-on when physical quantities appear in output"
+            "description: when physical quantities appear in output"
             in testee_header
         )
 
@@ -58,9 +58,6 @@ class TestHeader:  # ===========================================================
 
 
 class TestContent:  # ==========================================================
-
-    def test_elements_heading(_, testee_content):
-        assert "# Elements" in testee_content
 
     def test_numerical_values_heading(_, testee_content):
         assert "## Numerical Values with Units" in testee_content
@@ -78,5 +75,6 @@ class TestContent:  # ==========================================================
         assert "- Thousands Separator:" in testee_content
 
     def test_space_separator(_, testee_content):
-        assert "Use a space character as the thousands separator" \
-            in testee_content
+        assert (
+            "Use a space character as the thousands separator" in testee_content
+        )

@@ -68,6 +68,7 @@ BLUEPRINT_2_FULL = """    ○
 [x]     ├── Installation
 [x]     ├── Usage
 [x]     ├── Contributing
+[x]     │   └── description
 [x]     └── License"""
 
 
@@ -85,6 +86,8 @@ BLUEPRINT_2_PREVIEW = """    ○
         │   1. Fork the repo
         │   2. Create a new branch
         │   3. Submit a pull request
+[x]     │   └── description
+        │       A step-by-step guide of how to contribute
 [x]     └── License
             This project is licensed under the MIT License."""
 
@@ -95,6 +98,7 @@ BLUEPRINT_2_PARTIAL_1 = """    ○
 [x]     ├── Installation
 [ ]     ├── Usage
 [x]     ├── Contributing
+[ ]     │   └── description
 [ ]     └── License"""
 
 
@@ -112,6 +116,8 @@ BLUEPRINT_2_PARTIAL_1_PREVIEW = """    ○
         │   1. Fork the repo
         │   2. Create a new branch
         │   3. Submit a pull request
+[ ]     │   └── description
+        │       A step-by-step guide of how to contribute
 [ ]     └── License
             This project is licensed under the MIT License."""
 
@@ -128,6 +134,7 @@ BLUEPRINT_2_EMPTY = """    ○
 [ ]     ├── Installation
 [ ]     ├── Usage
 [ ]     ├── Contributing
+[ ]     │   └── description
 [ ]     └── License"""
 
 

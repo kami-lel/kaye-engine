@@ -60,7 +60,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## Bash" in testee_content
+        assert "## Coder Bash" in testee_content
 
     def test_debian_only(_, testee_content):
         assert "Debian GNU/Linux only" in testee_content
