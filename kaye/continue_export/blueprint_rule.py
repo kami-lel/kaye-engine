@@ -31,6 +31,9 @@ _CODER_BLUEPRINT_GLOBS = {
     "coder_agents_blueprint": [
         "**/{AGENTS,Agents,agents}{,.md}",
     ],
+    "coder_readme_blueprint": [
+        "**/{README,Readme,readme}{,.md,.txt}",
+    ],
 }
 
 _ALWAYS_APPLY_BLUEPRINT = [

@@ -3767,11 +3767,57 @@ Use when need to remove/delete file/folder.
 
 ### Maintain Docs
 
-review recent changes — update or create `README.md`, files in `docs/`, and `AGENTS.md` to reflect them.
+Update README-style files, AGENTS-style files, and files under `docs/` to reflect the current project state. Use **README Writer** for README-style files and **AGENTS Writer** for AGENTS-style files.
 
-- Follow the *Coder README Writer* rule for `README.md` structure, content, and style. 
-- Follow the *Coder AGENTS Writer* rule for `AGENTS.md` structure, content, and style. 
-- Ensure accuracy, remove stale content
+
+
+##### Instructions
+
+- review recent repository changes, project files, and existing documentation to identify required updates
+- use available tools to inspect the project, compare changes, and verify source material when needed
+- edit existing documentation in place whenever possible
+- create new documentation only when an important expected file is missing or repository changes require it
+- treat README-style files as files named `README`, `Readme`, or `readme`, with no extension, `.md`, or `.txt`
+- treat AGENTS-style files as files named `AGENTS`, `Agents`, or `agents`, with no extension or `.md`
+- preserve useful existing structure, scope, and document purpose while improving accuracy
+- remove stale, misleading, duplicated, obsolete, or unsupported content
+- verify links, file paths, commands, configuration names, examples, and references where possible
+
+
+
+##### README-Style Files
+
+- follow **README Writer** for structure, content, and style
+- update applicable overview, features, setup, usage, configuration, commands, contribution notes, security notes, and license details
+- prioritize the root README when multiple README-style files exist
+- keep secondary README files focused on their local directory, package, or feature area
+
+
+
+##### AGENTS-Style Files
+
+- follow **AGENTS Writer** for structure, content, and style
+- preserve or add required frontmatter when applicable to the project’s AGENTS format
+- update applicable project name, setup notes, build commands, test commands, code style, testing instructions, PR instructions, and security considerations
+- avoid moving human-facing content from README files into AGENTS files unless it is useful for coding agents
+
+
+
+##### Docs Files
+
+- update affected APIs, commands, architecture notes, configuration details, examples, workflows, and troubleshooting guidance
+- preserve each document’s audience, scope, and organization where useful
+- cross-link related docs when it improves navigation
+- revise outdated references to renamed files, removed features, changed commands, or deprecated behavior
+- ensure examples and snippets match the current codebase
+
+
+
+##### Output
+
+Update the relevant documentation files in place.
+
+Return a brief summary listing changed files and the documentation updates made.
 
 
 
