@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from kaye.continue_export import export_prompts
+from .prompt_export import export_prompts
 
 
 def register_cli_continue_prompt_parser(  ######################################

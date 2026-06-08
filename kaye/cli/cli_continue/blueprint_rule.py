@@ -7,9 +7,11 @@ blueprints as Continue AI rule files via ``RuleFile``
 
 from pathlib import Path
 
-from kaye.continue_export.rule_file import RuleFile
 from kaye.prompt import embedded_blueprints
 from kaye.prompt.prompt_blueprint import PromptBlueprint
+
+
+from .rule_file import RuleFile
 
 # constants  ###################################################################
 
