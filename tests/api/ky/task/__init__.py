@@ -209,7 +209,7 @@ def assert_element_title(opt):
 
 
 def assert_element11(opt):
-    assert "## Date & Time Format" in opt
+    assert "## Date and Time Format" in opt
 
 
 def assert_element12(opt):

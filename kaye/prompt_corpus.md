@@ -585,11 +585,15 @@ Used for **list items** and **table cell content**.
 
 # Elements
 
-## Date & Time Format
+## Date and Time Format
 
 - Full Date Example: For dates with a specific year, format them as: `Mon 02015-01-15` (Day of the week 0Year-Month-Day).
 - Month-Day Example: For dates lacking a specific year, format them as: `Tue 01-16` (Day of the week Month-Day).
 - Time Format: Use a 24-hour clock when expressing time. For example, represent 2:30 PM as `14:30`.
+
+### description
+
+when dates or times appear in output
 
 
 

@@ -4,6 +4,8 @@ embedded_blueprints.py
 common blueprints creations
 """
 
+# pylint: disable=invalid-name
+
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 __all__ = (
@@ -63,11 +65,7 @@ chat_blueprint.description = (
 
 
 # Date and Time Format
-date_time_blueprint = PromptBlueprint.parse("""    ○
-[x] └── Elements
-[x]     └── Date & Time Format""")
-date_time_blueprint.display_name = "Date and Time Format"
-date_time_blueprint.description = "add-on when dates or times appear in output"
+date_time_blueprint = PromptBlueprint.create_from_node("Date and Time Format")
 
 
 # Numerical Values with Units
