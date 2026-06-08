@@ -23,7 +23,6 @@ from tests.prompt.bp import (
     BLUEPRINT_2_PARTIAL_1,
     BLUEPRINT_2_PARTIAL_1_PREVIEW,
     BLUEPRINT_2_PARTIAL_1_PRUNED,
-    BLUEPRINT_2_PARTIAL_1,
     BLUEPRINT_2_EMPTY,
     BLUEPRINT_3_FULL,
     BLUEPRINT_3_FULL_PREVIEW,
@@ -193,7 +192,7 @@ class TestDft2:  # use PROMPT2  ================================================
 
         print(repr(opt))
         assert isinstance(opt, PromptBlueprint)
-        assert len(opt) == 6
+        assert len(opt) == 7
         assert opt.corpus == corpus_testee2
         assert opt.display_name == ""
         assert (
