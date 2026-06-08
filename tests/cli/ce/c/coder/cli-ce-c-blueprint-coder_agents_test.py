@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder AGENTS.md Writer" in testee_header
+        assert "name: Coder AGENTS Writer" in testee_header
 
     def test_description(_, testee_header):
         assert (
@@ -59,7 +59,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## AGENTS.md Writer" in testee_content
+        assert "## AGENTS Writer" in testee_content
 
     def test_intro_expert(_, testee_content):
         assert (
