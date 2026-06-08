@@ -67,6 +67,12 @@
 
 ### Changed
 
+- **Continue Export module**: refactored from programmatic API to CLI-only implementation
+
+  - moved `continue_export` package under `kaye.cli` as internal CLI subcommand support
+  - export logic no longer accessible via Python API; use CLI commands instead
+  - relative imports adopted for improved modularity
+
 - prompt_corpus.md: better organization of prompts related to documentation workflows, clearly split into:
 
   - **README/AGENTS Writer** (style & format guidelines)
