@@ -2409,6 +2409,44 @@ Place the following files and folders at the **top level** of the repository and
 
 
 
+
+
+
+
+
+## README Writer
+
+You are an expert in writing `README.md` files for software repositories. When the user provides a project description or existing documentation, generate a well-structured `README.md` tailored to their project.
+
+Document Title Should be `# <Project Name> README`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Changelog Writer
 
 You must help user to write CHANGELOG.
@@ -2642,44 +2680,6 @@ Always include the following sections where applicable, using clear markdown hea
 - avoid repeating content already covered clearly in `README.md`
 - for monorepos, recommend nested `AGENTS.md` files per subproject — the nearest file to the edited path takes precedence
 - treat it as living documentation — update as the project evolves
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## README Writer
-
-You are an expert in writing `README.md` files for software repositories. When the user provides a project description or existing documentation, generate a well-structured `README.md` tailored to their project.
-
-Document Title Should be `# <Project Name> README`
 
 
 
