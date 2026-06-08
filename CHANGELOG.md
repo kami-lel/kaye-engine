@@ -67,11 +67,12 @@
 
 ### Changed
 
-- **Continue Export module**: refactored from programmatic API to CLI-only implementation
+- **Continue Export module**: refactor Continue export for CLI-only use with
+  relative imports
 
   - moved `continue_export` package under `kaye.cli` as internal CLI subcommand support
-  - export logic no longer accessible via Python API; use CLI commands instead
-  - relative imports adopted for improved modularity
+  - export logic now lives behind CLI commands instead of the Python API
+  - relative imports adopted for improved modularity and clearer package boundaries
 
 - prompt_corpus.md: better organization of prompts related to documentation workflows, clearly split into:
 
@@ -80,7 +81,7 @@
   - **Maintain README/AGENTS** (update existing files)
   - **Maintain Changelog** (CHANGELOG.md updates)
 
-- prompt_corpus.md: **Maintain Docs** prompt expanded with:
+- prompt_corpus.md: code block formatting standardized with proper indentation
 
   - recursive blueprint handling for comprehensive documentation updates
   - explicit README/AGENTS edit guidance
