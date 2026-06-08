@@ -20,4 +20,4 @@ __all__ = [
 ]
 
 
-# Fixme move all rules under CLI
+# FIXME move all rules under CLI
