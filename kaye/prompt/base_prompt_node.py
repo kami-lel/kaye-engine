@@ -130,13 +130,30 @@ class BasePromptNode(AnyTreeNode):
         return ancestry_path
 
     @property
-    def is_technical_node(self):
+    def is_technical_node(self):  # HACK unit test
         """
         :return: whether this node is technical & special
-                i.e. name in pattern of: {name}
+                i.e. name in pattern of: ``{name}``
         :rtype: bool
         """
         return bool(re.fullmatch(r"\{.+\}", self.name))
+
+    @property
+    def description_subnode(self):  # HACK unit test
+        """
+        in `prompt_corpus.md`, some nodes contains child node
+        with exact heading of ``{description}``
+
+
+        :return: a *description* subnode of ``self``;
+                ``None`` if ``self`` doesn't have a description subnode
+        :rtype: BasePromptNode
+        """
+        for d in self.descendants:
+            if d.name == "{description}":
+                return d
+
+        return None
 
     # magic methods  ===========================================================
 
