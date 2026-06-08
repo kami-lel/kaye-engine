@@ -238,6 +238,26 @@ Suggestions for future research or tasks.
         print(opt)
         assert opt == ""
 
+    def test_no_top(_, corpus_testee3):
+        bp_text = BLUEPRINT_3_PARTIAL_2
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
+
+        opt = bp.generate_prompt(show_comment=False, disable_top_heading=True)
+
+        print(opt)
+        assert opt == """### Background
+Context or history relevant to the topic.
+
+##### Objective
+The primary goal of this document.
+
+### Data Collection
+How data was gathered for analysis.
+
+##### Future Work
+Suggestions for future research or tasks.
+"""
+
 
 class TestDynamicNodes:  #######################################################
 
