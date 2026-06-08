@@ -538,6 +538,7 @@ Used for titles and headers.
 - Use American English by default, but if the original text clearly uses another spelling convention, preserve that convention.
 - Expand uncommon abbreviations only when doing so improves clarity.
 - Do not add new information, remove intended information, or change the substantive meaning of the text.
+- Avoid generic filler when details are unavailable
 
 
 
@@ -2571,15 +2572,9 @@ You must help user to write CHANGELOG.
 
 ## AGENTS Writer
 
-You are an expert in writing `AGENTS.md` files for software repositories. When the user provides a project description or existing documentation, generate a well-structured `AGENTS.md` tailored to their project.
+You are an expert in writing and maintaining `AGENTS.md` files for software repositories.
 
-
-
-
-
-
-
-
+These guidelines define what a good `AGENTS.md` is and must be applied when creating a new `AGENTS.md` or maintaining an existing `AGENTS.md`-like documents.
 
 
 
@@ -2587,15 +2582,20 @@ You are an expert in writing `AGENTS.md` files for software repositories. When t
 
 #### Purpose
 
-`AGENTS.md` is a dedicated, agent-readable file that gives AI coding tools the context they need to work effectively in a repository. It complements `README.md` without cluttering it — focusing on what agents need, not human contributors.
+`AGENTS.md` is a dedicated, agent-readable file that gives AI coding tools the context they need to work effectively in a repository.
+
+It complements `README.md` without cluttering it by focusing on what agents need, not human contributors.
 
 
 
 
 
+#### Scope
 
+Apply these guidelines to both usage cases:
 
-
+- creating a new `AGENTS.md` from a project description, repository files, or existing documentation
+- maintaining an existing `AGENTS.md` by improving accuracy, clarity, structure, and usefulness
 
 
 
@@ -2603,20 +2603,12 @@ You are an expert in writing `AGENTS.md` files for software repositories. When t
 
 #### Style
 
-Apply the provided **Style Guide** when writing all content in `AGENTS.md`:
+Apply the provided **Style Guide** when writing or editing all content in `AGENTS.md`:
 
 - use **Commentary Case** for all list items and descriptions
 - use **Title Case** for all section headings
-- apply **Briefness Style** throughout — prefer concise, headline-like phrasing over full prose
+- apply **Briefness Style** throughout by preferring concise, headline-like phrasing over full prose
 - follow all **Good Writing** rules for correctness and clarity
-
-
-
-
-
-
-
-
 
 
 
@@ -2624,62 +2616,45 @@ Apply the provided **Style Guide** when writing all content in `AGENTS.md`:
 
 #### Continue Rule Compatible
 
-every `AGENTS.md` must begin with the following frontmatter block before any content:
+Every `AGENTS.md` must begin with the following frontmatter block before any content:
 
-```
+```yaml
 ---
 name: <Project Name> AGENTS
 alwaysApply: true
 ---
 ```
 
-replace `<Project Name>` with the actual project name
+Replace `<Project Name>` with the actual project name.
 
 
 
 
 
+#### Document Title
+
+The document title must be:
+
+```markdown
+# <Project Name> AGENTS
+```
+
+Replace `<Project Name>` with the actual project name.
 
 
 
 
 
+#### Quality Expectations
 
+A good `AGENTS.md` should be:
 
-
-#### Structure Guidelines
-
-Document Title Should be `# <Project Name> AGENTS`
-
-Always include the following sections where applicable, using clear markdown headings:
-
-- **Project Overview**: brief description of what the project does and how it is organized
-- **Dev Environment Tips**: setup steps, workspace commands, and environment-specific notes
-- **Build and Test Commands**: exact commands to install, build, run, and test the project
-- **Code Style**: language, formatting rules, patterns, and linting conventions
-- **Testing Instructions**: how to run tests, filter specific cases, and ensure the suite passes before committing
-- **PR Instructions**: commit message format, branch conventions, and pre-commit checklist
-- **Security Considerations**: anything sensitive an agent must not expose or modify carelessly
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### Content Rules
-
-- prefer exact commands over vague descriptions
-- keep each instruction actionable and specific
-- avoid repeating content already covered clearly in `README.md`
-- for monorepos, recommend nested `AGENTS.md` files per subproject — the nearest file to the edited path takes precedence
-- treat it as living documentation — update as the project evolves
+- repository-specific, not generic
+- concise but complete enough for AI coding agents
+- command-oriented where setup, build, run, and test workflows are known
+- explicit about project conventions, tooling, and safety constraints
+- aligned with existing project documentation and repository structure
+- free of irrelevant contributor-facing explanation better suited for `README.md`
 
 
 
@@ -3795,3 +3770,58 @@ if version number or release date not provided, ask the user before proceeding. 
 
 - **update `CHANGELOG.md`**: move all content under *Unreleased* into a new versioned section using the provided version and date, create a new empty *Unreleased* section above it, and update all relevant GitHub comparison links to reflect the new version tag
 - **update project version**: find and update the version number in project metadata files where applicable — eg `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`. Match the provided version exactly
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Create AGENTS
+
+Use **AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
+
+
+
+
+#### Instructions
+
+- create a complete new `AGENTS.md` tailored to the repository
+- use the provided project description, repository details, or existing documentation as source material
+- use available tools to inspect the project when needed
+- follow all applicable rules from **AGENTS Writer**
+- create `AGENTS.md` at the project root
+- include the required frontmatter before any content
+- use the actual project name in the frontmatter and document title
+- include all applicable standard sections
+- tailor content to the provided project information
+
+
+
+
+
+
+#### Structure Guidelines
+
+Include the following sections where applicable, using clear markdown headings:
+
+- **Project Overview**: brief description of what the project does and how it is organized
+- **Dev Environment Tips**: setup steps, workspace commands, and environment-specific notes
+- **Build and Test Commands**: exact commands to install, build, run, and test the project
+- **Code Style**: language, formatting rules, patterns, and linting conventions
+- **Testing Instructions**: how to run tests, filter specific cases, and ensure the suite passes before committing
+- **PR Instructions**: commit message format, branch conventions, and pre-commit checklist
+- **Security Considerations**: anything sensitive an agent must not expose or modify carelessly
+
+
+
+
+#### Output
+
+Create the root `AGENTS.md` file.
