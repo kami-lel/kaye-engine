@@ -112,6 +112,7 @@ coder_blueprint.display_name = "Coder"
 coder_blueprint.description = "instruction for coding and programming"
 
 
+# Fixme change to "Repo Project Structure" "Repo README Writer" etc.
 # Coder Project
 coder_project_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_project_blueprint.checkmark(_kyc_node["Project Structure"])
@@ -120,6 +121,7 @@ coder_project_blueprint.description = (
     "generic Project/Repository structure for all programming languages"
 )
 
+# Fixme changelog -> CHANGELOG
 # Coder Changelog
 coder_changelog_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_changelog_blueprint.checkmark(

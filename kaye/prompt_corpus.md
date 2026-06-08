@@ -3865,25 +3865,6 @@ Do not touch secondary or tertiary markers
 
 
 
-### Prepare for Release
-
-if version number or release date not provided, ask the user before proceeding. Then:
-
-- **update `CHANGELOG.md`**: move all content under *Unreleased* into a new versioned section using the provided version and date, create a new empty *Unreleased* section above it, and update all relevant GitHub comparison links to reflect the new version tag
-- **update project version**: find and update the version number in project metadata files where applicable — eg `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`. Match the provided version exactly
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### Create README
 
 Use **README Writer** as the guideline for what makes a good `README.md`.
@@ -3975,3 +3956,26 @@ Include the following sections where applicable, using clear markdown headings:
 ##### Output
 
 Create the `AGENTS.md` file at the project root
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Prepare for Feature Branch Finish
+
+**update `CHANGELOG.md`**: 
+
+- add all relevant changes made by the current feature branch to the *Unreleased* section
+- **identify feature branch changes**: determine the changes by using available git tools, information provided by the user in chat, and any existing entries already present in `CHANGELOG.md` under the *Unreleased* section
+- **preserve existing changelog entries**: do not remove or overwrite existing entries in the *Unreleased* section, since they may belong to other feature branches
+- **avoid duplicate entries**: if some feature branch changes are already mentioned in the *Unreleased* section, update, refine, or reorganize them as needed instead of duplicating them
+- **reorganize when helpful**: feel free to reorganize the *Unreleased* section for clarity, consistency, and proper changelog structure while preserving all existing information
+- **only modify `CHANGELOG.md`**: the only allowed file modification is `CHANGELOG.md`, and within that file, the only allowed content modification is inside the *Unreleased* section
