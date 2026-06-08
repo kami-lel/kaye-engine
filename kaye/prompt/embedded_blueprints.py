@@ -97,7 +97,7 @@ _kyc_node = _corpus["Kaye Peer Coder"]
 coder_blueprint = PromptBlueprint.create_from_node(_kyc_node)
 
 
-# Fixme change to "Repo Project Structure" "Repo README Writer" etc.
+# FIXME change to "Repo Project Structure" "Repo README Writer" etc.
 # Coder Project
 coder_project_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_project_blueprint.checkmark(_kyc_node["Project Structure"])
@@ -130,105 +130,73 @@ coder_readme_blueprint.description = "format for README documentation"
 
 
 # Coder Bash
-coder_bash_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_bash_blueprint.checkmark(_kyc_node["Bash"])
-coder_bash_blueprint.display_name = "Coder Bash"
-coder_bash_blueprint.description = (
-    "Debian GNU/Linux shell commands; ready-to-run output"
-)
+coder_bash_blueprint = PromptBlueprint.create_from_node(_kyc_node["Coder Bash"])
 
 
 # Coder C
-coder_c_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_c_blueprint.checkmark(_kyc_node["C"])
+coder_c_blueprint = PromptBlueprint.create_from_node(_kyc_node["Coder C"])
 coder_c_blueprint.checkmark(_kyc_node["Brace Style"])
-coder_c_blueprint.display_name = "Coder C"
-coder_c_blueprint.description = "C code (C99)"
 
 
 # Coder C++
-coder_cpp_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_cpp_blueprint.checkmark(_kyc_node["C"])
-coder_cpp_blueprint.checkmark(_kyc_node["C++"])
+coder_cpp_blueprint = PromptBlueprint.create_from_node(_kyc_node["Coder CPP"])
+PromptBlueprint.create_empty_blueprint()
+coder_cpp_blueprint.checkmark(_kyc_node["Coder C"])
 coder_cpp_blueprint.checkmark(_kyc_node["Brace Style"])
-coder_cpp_blueprint.display_name = "Coder CPP"
-coder_cpp_blueprint.description = "C++ code (C++17)"
 
 
 # Coder Unreal Engine
-coder_ue_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_ue_blueprint.checkmark(_kyc_node["C"])
-coder_ue_blueprint.checkmark(_kyc_node["C++"])
-coder_ue_blueprint.checkmark(_kyc_node["Unreal Engine"])
+coder_ue_blueprint = PromptBlueprint.create_from_node(
+    _kyc_node["Coder Unreal Engine"]
+)
+coder_ue_blueprint.checkmark(_kyc_node["Coder C"])
+coder_ue_blueprint.checkmark(_kyc_node["Coder CPP"])
 coder_ue_blueprint.checkmark(_kyc_node["Brace Style"])
-coder_ue_blueprint.display_name = "Coder Unreal Engine"
-coder_ue_blueprint.description = "C++ code for Unreal Engine"
 
 
 # Coder C Sharp
-coder_csharp_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_csharp_blueprint.checkmark(_kyc_node["C Sharp"])
+coder_csharp_blueprint = PromptBlueprint.create_from_node(
+    _kyc_node["Coder C Sharp"]
+)
 coder_csharp_blueprint.checkmark(_kyc_node["Brace Style"])
-coder_csharp_blueprint.display_name = "Coder C Sharp"
-coder_csharp_blueprint.description = "C# code"
 
 
 # Coder Unity
-coder_u3d_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_u3d_blueprint.checkmark(_kyc_node["C Sharp"])
-coder_u3d_blueprint.checkmark(_kyc_node["Unity Engine"], recursively=True)
-coder_u3d_blueprint.checkmark(_kyc_node["Brace Style"])
-coder_u3d_blueprint.display_name = "Coder Unity"
-coder_u3d_blueprint.description = (
-    "C# code for Unity 6 (MonoBehaviour scripts, components, Inspector fields)"
+coder_u3d_blueprint = PromptBlueprint.create_from_node(
+    _kyc_node["Coder Unity Engine"], recursively=True
 )
+coder_u3d_blueprint.checkmark(_kyc_node["Coder C Sharp"])
+coder_u3d_blueprint.checkmark(_kyc_node["Brace Style"])
 
 
 # Coder GDScript
-coder_gdscript_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_gdscript_blueprint.checkmark(_kyc_node["GDScript"])
-coder_gdscript_blueprint.display_name = "Coder GDScript"
-coder_gdscript_blueprint.description = "GDScript code for Godot 4"
+coder_gdscript_blueprint = PromptBlueprint.create_from_node(
+    _kyc_node["Coder GDScript"]
+)
 
 
 # Coder HTML
-coder_html_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_html_blueprint.checkmark(_kyc_node["HTML"])
-coder_html_blueprint.display_name = "Coder HTML"
-coder_html_blueprint.description = "HTML5 markup"
+coder_html_blueprint = PromptBlueprint.create_from_node(_kyc_node["Coder HTML"])
 
 
 # Coder JavaScript and TypeScript
-coder_js_ts_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_js_ts_blueprint.checkmark(
-    _kyc_node["JavaScript & TypeScript"], recursively=True
+coder_js_ts_blueprint = PromptBlueprint.create_from_node(
+    _kyc_node["Coder JavaScript & TypeScript"], recursively=True
 )
 coder_js_ts_blueprint.checkmark(_kyc_node["Brace Style"])
-coder_js_ts_blueprint.display_name = "Coder JavaScript and TypeScript"
-coder_js_ts_blueprint.description = "JavaScript or TypeScript code"
 
 
 # Python  ----------------------------------------------------------------------
 # Coder Python
-coder_py_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_py_blueprint.checkmark(_kyc_node["Python"])
-coder_py_blueprint.display_name = "Coder Python"
-coder_py_blueprint.description = "Python code"
-
+coder_py_blueprint = PromptBlueprint.create_from_node(_kyc_node["Coder Python"])
 
 # Coder Python Docstring
-coder_py_docstring_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_py_docstring_blueprint.checkmark(_kyc_node["Python"]["Docstring Style"])
-coder_py_docstring_blueprint.display_name = "Coder Python Docstring"
-coder_py_docstring_blueprint.description = (
-    "Python docstrings in Sphinx/reStructuredText style"
+coder_py_docstring_blueprint = PromptBlueprint.create_from_node(
+    _kyc_node["Coder Python"]["Coder Python Docstring Style"]
 )
 
 
 # Coder Python Testing
-coder_py_testing_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_py_testing_blueprint.checkmark(_kyc_node["Python"]["Testing Guidelines"])
-coder_py_testing_blueprint.display_name = "Coder Python Testing"
-coder_py_testing_blueprint.description = (
-    "Python tests using pytest with Test classes and test_ functions"
+coder_py_testing_blueprint = PromptBlueprint.create_from_node(
+    _kyc_node["Coder Python"]["Coder Python Testing Guidelines"]
 )
