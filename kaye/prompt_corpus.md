@@ -426,7 +426,7 @@ Use *Chicago Manual of Style* headline case:
 - **lowercase minor words**: articles (a, an, the), coordinating conjunctions (and, but, or, nor, for, so, yet), prepositions (of, in, on, with, etc.), and the infinitive to
 - keep proper nouns, acronyms, and brand styling as written (New York, NASA, iPhone)
 
-Used for titles and headers.
+Used for **document title** and **section headings**.
 
 
 
@@ -450,6 +450,8 @@ Used for titles and headers.
     # this initializes the Variable
     # check the Config. Validate the Filepath with the Tool. Process final result
     </commentary-case-code-example>
+    
+Used for **list items** and **table cell content**.
 
 
 
@@ -539,6 +541,7 @@ Used for titles and headers.
 - Expand uncommon abbreviations only when doing so improves clarity.
 - Do not add new information, remove intended information, or change the substantive meaning of the text.
 - Avoid generic filler when details are unavailable
+- Avoid dense prose, generic filler, and unnecessary complexity
 
 
 
@@ -2417,9 +2420,71 @@ Place the following files and folders at the **top level** of the repository and
 
 ## README Writer
 
-You are an expert in writing `README.md` files for software repositories. When the user provides a project description or existing documentation, generate a well-structured `README.md` tailored to their project.
+You are an expert in writing and maintaining `README.md` files for software repositories.
 
-Document Title Should be `# <Project Name> README`
+These guidelines define what a good `README.md` is and must be applied when creating a new `README.md` or maintaining an existing `README.md`-like document.
+
+
+
+
+
+#### Purpose
+
+`README.md` is a human-oriented landing page that helps developers, users, and contributors quickly understand, use, and trust a repository.
+
+It should explain what the project is, why it matters, how to get started, and where to find key information.
+
+
+
+
+
+#### Style
+
+- Apply the provided **Style Guide** when writing or editing all content
+- Apply **Briefness Style** throughout by preferring concise, headline-like phrasing over full prose
+- Follow all **Good Writing** rules for correctness and clarity
+- write for humans first, not AI agents
+- prioritize visual clarity, readability, and quick scanning
+- use clear headings, short sections, lists, tables, code blocks, links, and callouts where useful
+- encourage tasteful emoji use to improve navigation and visual appeal
+- use badges, screenshots, diagrams, examples, and feature highlights when supported by project information
+- keep content concise, friendly, and practical
+
+
+
+
+
+#### Document Title
+
+The document title should be:
+
+```markdown
+# <Project Name> README
+```
+
+Replace `<Project Name>` with the actual project name.
+
+
+
+
+
+#### Quality Expectations
+
+A good `README.md` should be:
+
+- human-friendly, visually clear, and easy to scan
+- attractive enough to make the project approachable
+- specific to the repository, not generic
+- useful for first-time visitors and returning contributors
+- clear about project purpose, features, setup, usage, and contribution flow
+- command-oriented where installation, build, run, and test workflows are known
+- honest about project status, limitations, and requirements
+- aligned with existing project documentation and repository structure
+
+
+
+
+
 
 
 
@@ -2590,25 +2655,11 @@ It complements `README.md` without cluttering it by focusing on what agents need
 
 
 
-#### Scope
-
-Apply these guidelines to both usage cases:
-
-- creating a new `AGENTS.md` from a project description, repository files, or existing documentation
-- maintaining an existing `AGENTS.md` by improving accuracy, clarity, structure, and usefulness
-
-
-
-
-
 #### Style
 
-Apply the provided **Style Guide** when writing or editing all content in `AGENTS.md`:
-
-- use **Commentary Case** for all list items and descriptions
-- use **Title Case** for all section headings
-- apply **Briefness Style** throughout by preferring concise, headline-like phrasing over full prose
-- follow all **Good Writing** rules for correctness and clarity
+- Apply the provided **Style Guide** when writing or editing all content
+- Apply **Briefness Style** throughout by preferring concise, headline-like phrasing over full prose
+- follow All **Good Writing** rules for correctness and clarity
 
 
 
@@ -3716,7 +3767,11 @@ Use when need to remove/delete file/folder.
 
 ### Maintain Docs
 
-review recent changes — update or create `README.md`, files in `docs/`, and `AGENTS.md` to reflect them. Keep `README.md` focused on human contributors. Follow the *Coder AGENTS.md Writer* rule for `AGENTS.md` structure, content, and style. Ensure accuracy, remove stale content
+review recent changes — update or create `README.md`, files in `docs/`, and `AGENTS.md` to reflect them.
+
+- Follow the *Coder README Writer* rule for `README.md` structure, content, and style. 
+- Follow the *Coder AGENTS Writer* rule for `AGENTS.md` structure, content, and style. 
+- Ensure accuracy, remove stale content
 
 
 
@@ -3783,31 +3838,81 @@ if version number or release date not provided, ask the user before proceeding. 
 
 
 
+### Create README
+
+Use **README Writer** as the guideline for what makes a good `README.md`.
+
+
+
+##### Instructions
+
+- create a complete new `README.md` tailored to the repository
+- use the provided project description, repository details, or existing documentation as source material
+- use available tools to inspect the project when needed
+- use the actual project name in the document title
+- make the README human-oriented, visually clear, and easy to scan
+- use tasteful emoji and markdown features to improve visual quality when appropriate
+- include examples, tables, badges, screenshots, diagrams, or links only when supported by project information
+- tailor content to the provided project information
+
+
+
+##### Structure Guidelines
+
+Include the following sections where applicable, using clear markdown headings:
+
+- **Project Overview**: what the project does, who it is for, and why it is useful
+- **Features**: key capabilities, benefits, and highlights
+- **Demo or Screenshots**: visuals, links, previews, or usage examples when available
+- **Tech Stack**: main languages, frameworks, libraries, tools, and platforms
+- **Getting Started**: prerequisites and quick setup path
+- **Installation**: exact commands to install dependencies or set up the project
+- **Usage**: common commands, examples, workflows, or API usage
+- **Configuration**: environment variables, settings, secrets, and configuration files
+- **Project Structure**: important directories and files
+- **Build and Test Commands**: exact commands to build, run, lint, and test
+- **Contributing**: contribution flow, development expectations, and useful links
+- **Security**: responsible disclosure notes and sensitive-data warnings
+- **License**: project license information
+- **Acknowledgments**: credits, references, sponsors, or related projects
+
+
+
+###### Output
+
+Create the `README.md` file at the project root
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Create AGENTS
 
 Use **AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
 
 
 
-
-#### Instructions
+##### Instructions
 
 - create a complete new `AGENTS.md` tailored to the repository
 - use the provided project description, repository details, or existing documentation as source material
 - use available tools to inspect the project when needed
-- follow all applicable rules from **AGENTS Writer**
-- create `AGENTS.md` at the project root
 - include the required frontmatter before any content
 - use the actual project name in the frontmatter and document title
-- include all applicable standard sections
+- include all applicable sections of *Structure Guidelines*
 - tailor content to the provided project information
 
 
 
-
-
-
-#### Structure Guidelines
+##### Structure Guidelines
 
 Include the following sections where applicable, using clear markdown headings:
 
@@ -3821,7 +3926,6 @@ Include the following sections where applicable, using clear markdown headings:
 
 
 
+##### Output
 
-#### Output
-
-Create the root `AGENTS.md` file.
+Create the `AGENTS.md` file at the project root
