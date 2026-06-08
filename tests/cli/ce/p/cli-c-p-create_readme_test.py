@@ -61,8 +61,8 @@ class TestContent:  # ==========================================================
 
     def test_intro_readme_writer(_, testee_content):
         assert (
-            "Use **README Writer** as the guideline for what makes a good "
-            "`README.md`"
+            "Use **Coder README Writer** as the guideline for what makes a good"
+            " `README.md`"
             in testee_content
         )
 
@@ -115,5 +115,6 @@ class TestContent:  # ==========================================================
         assert "###### Output" in testee_content
 
     def test_output_file_location(_, testee_content):
-        assert "Create the `README.md` file at the project root" \
-            in testee_content
+        assert (
+            "Create the `README.md` file at the project root" in testee_content
+        )

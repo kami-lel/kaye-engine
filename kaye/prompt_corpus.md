@@ -2481,7 +2481,7 @@ instruction for coding and programming
 
 
 
-## Project Structure
+## Coder Project Structure
 
 Place the following files and folders at the **top level** of the repository and project when applicable. Use these naming conventions consistently across projects:
 
@@ -2498,6 +2498,8 @@ Place the following files and folders at the **top level** of the repository and
 - `tests/`: test suite, kept separate from source code
 - `tools/`: project-specific developer tooling, distinct from `scripts/`
 
+### description
+generic Project/Repository structure for all programming languages
 
 
 
@@ -2530,7 +2532,8 @@ Place the following files and folders at the **top level** of the repository and
 
 
 
-## README Writer
+
+## Coder README Writer
 
 You are an expert in writing and maintaining `README.md` files for software repositories.
 
@@ -2604,6 +2607,8 @@ A good `README.md` should be:
 
 
 
+### description
+format for README documentation
 
 
 
@@ -2625,7 +2630,19 @@ A good `README.md` should be:
 
 
 
-## CHANGELOG Writer
+
+
+
+
+
+
+
+
+
+
+
+
+## Coder CHANGELOG Writer
 
 You must help user to write CHANGELOG.
 
@@ -2716,6 +2733,8 @@ You must help user to write CHANGELOG.
     [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
     ```
 
+### description
+format for CHANGELOG.md
 
 
 
@@ -2747,7 +2766,8 @@ You must help user to write CHANGELOG.
 
 
 
-## AGENTS Writer
+
+## Coder AGENTS Writer
 
 You are an expert in writing and maintaining `AGENTS.md` files for software repositories.
 
@@ -2818,6 +2838,21 @@ A good `AGENTS.md` should be:
 - explicit about project conventions, tooling, and safety constraints
 - aligned with existing project documentation and repository structure
 - free of irrelevant contributor-facing explanation better suited for `README.md`
+
+
+
+
+
+
+
+
+
+
+
+
+
+### description
+format for AGENTS.md documentation
 
 
 
@@ -3964,7 +3999,7 @@ Return a brief summary listing changed files and the documentation updates made.
 #### edit README
 
 - edit `README.md` or README-Style File to reflect the current project state
-- follow **README Writer** for structure, content, and style
+- follow **Coder README Writer** for structure, content, and style
 - update applicable overview, features, setup, usage, configuration, commands, contribution notes, security notes, and license details
 - prioritize the root README when multiple README-style files exist
 - keep secondary README files focused on their local directory, package, or feature area
@@ -3976,7 +4011,7 @@ Return a brief summary listing changed files and the documentation updates made.
 #### edit AGENTS
 
 - edit `AGENTS.md` or AGENTS-Style File to reflect the current project state
-- follow **AGENTS Writer** for structure, content, and style
+- follow **Coder AGENTS Writer** for structure, content, and style
 - preserve or add required frontmatter when applicable to the project’s AGENTS format
 - update applicable project name, setup notes, build commands, test commands, code style, testing instructions, PR instructions, and security considerations
 - avoid moving human-facing content from README files into AGENTS files unless it is useful for coding agents
@@ -4038,7 +4073,7 @@ Do not touch secondary or tertiary markers
 
 ### Create README
 
-Use **README Writer** as the guideline for what makes a good `README.md`.
+Use **Coder README Writer** as the guideline for what makes a good `README.md`.
 
 
 
@@ -4094,7 +4129,7 @@ Create the `README.md` file at the project root
 
 ### Create AGENTS
 
-Use **AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
+Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
 
 
 

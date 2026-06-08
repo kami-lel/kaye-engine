@@ -63,7 +63,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## CHANGELOG Writer" in testee_content
+        assert "## Coder CHANGELOG Writer" in testee_content
 
     def test_for_humans(_, testee_content):
         assert "- changelogs are *for humans*, not machines" in testee_content
