@@ -575,6 +575,42 @@ Used for **list items** and **table cell content**.
 
 
 
+## description
+
+writing tasks requiring house style and capitalization rules
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -706,6 +742,23 @@ change from higher to lower AM, call it **demote**.
 - hack/...: indicate temporary workarounds or rationale expected to be removed before release
 - prefer *primary AM* for newly added urgent items
 - do not modify or remove any markers unless the user explicitly asks you to do so
+
+
+
+
+
+
+
+
+
+
+
+
+
+### description
+
+when working with BUG, FIXME, TODO, or HACK markers in code or docs
+
 
 
 
@@ -2328,6 +2381,62 @@ Eg
         # quick parse  -------------------------------------------------------------
         ~~
     ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## description
+
+instruction for coding and programming
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

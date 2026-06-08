@@ -67,6 +67,8 @@ chat_blueprint.description = (
 # Date and Time Format
 date_time_blueprint = PromptBlueprint.create_from_node("Date and Time Format")
 
+_corpus = date_time_blueprint.corpus
+
 
 # Numerical Values with Units
 number_unit_blueprint = PromptBlueprint.create_from_node(
@@ -74,36 +76,25 @@ number_unit_blueprint = PromptBlueprint.create_from_node(
 )
 
 
-# Style
-style_blueprint = PromptBlueprint.create_empty_blueprint()
-style_blueprint.checkmark("Style Guide", recursively=True)
-style_blueprint.display_name = "Style Guide"
-style_blueprint.description = (
-    "writing tasks requiring house style and capitalization rules"
+# Style Guide
+style_blueprint = PromptBlueprint.create_from_node(
+    "Style Guide", recursively=True
 )
 
 
 # Annotation Markers
-annotation_marker_blueprint = PromptBlueprint.create_empty_blueprint()
-annotation_marker_blueprint.checkmark(
-    annotation_marker_blueprint.corpus["Elements"]["Annotation Markers"],
+annotation_marker_blueprint = PromptBlueprint.create_from_node(
+    _corpus["Elements"]["Annotation Markers"],
     recursively=True,
-)
-annotation_marker_blueprint.display_name = "Annotation Markers"
-annotation_marker_blueprint.description = (
-    "add-on when working with BUG, FIXME, TODO, or HACK markers in code or docs"
 )
 
 
 # coder  =======================================================================
 
-_kyc_node = PromptBlueprint.create_empty_blueprint().corpus["Kaye Peer Coder"]
+_kyc_node = _corpus["Kaye Peer Coder"]
 
 # Coder
-coder_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_blueprint.checkmark("Kaye Peer Coder")
-coder_blueprint.display_name = "Coder"
-coder_blueprint.description = "instruction for coding and programming"
+coder_blueprint = PromptBlueprint.create_from_node(_kyc_node)
 
 
 # Fixme change to "Repo Project Structure" "Repo README Writer" etc.

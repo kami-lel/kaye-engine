@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder" in testee_header
+        assert "name: Kaye Peer Coder" in testee_header
 
     def test_description(_, testee_header):
         assert (
