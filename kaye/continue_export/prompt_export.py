@@ -10,8 +10,6 @@ from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 from kaye.continue_export.rule_file import RuleFile
 
-# FIXME use create_from_node
-
 # blueprints  ##################################################################
 
 
