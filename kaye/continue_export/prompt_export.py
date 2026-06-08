@@ -20,7 +20,9 @@ _prompt_node = PromptBlueprint.create_empty_blueprint().corpus["Continue"][
 
 # maintain docs
 maintain_docs_blueprint = PromptBlueprint.create_empty_blueprint()
-maintain_docs_blueprint.checkmark(_prompt_node["Maintain Docs"])
+maintain_docs_blueprint.checkmark(
+    _prompt_node["Maintain Docs"], recursively=True
+)
 maintain_docs_blueprint.display_name = "Maintain Docs"
 
 # maintain changelog

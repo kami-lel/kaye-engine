@@ -118,3 +118,52 @@ class TestContent:  # ==========================================================
 
     def test_output_section(_, testee_content):
         assert "##### Output" in testee_content
+
+    # edit README  -------------------------------------------------------------
+
+    def test_edit_readme_section(_, testee_content):
+        assert "#### edit README" in testee_content
+
+    def test_edit_readme_follow_writer(_, testee_content):
+        assert (
+            "follow **README Writer** for structure, content, and style"
+            in testee_content
+        )
+
+    def test_edit_readme_update_applicable(_, testee_content):
+        assert (
+            "update applicable overview, features, setup, usage, "
+            "configuration, commands, contribution notes, security notes, and "
+            "license details"
+            in testee_content
+        )
+
+    def test_edit_readme_prioritize_root(_, testee_content):
+        assert (
+            "prioritize the root README when multiple README-style files exist"
+            in testee_content
+        )
+
+    # edit AGENTS  -------------------------------------------------------------
+
+    def test_edit_agents_section(_, testee_content):
+        assert "#### edit AGENTS" in testee_content
+
+    def test_edit_agents_follow_writer(_, testee_content):
+        assert (
+            "follow **AGENTS Writer** for structure, content, and style"
+            in testee_content
+        )
+
+    def test_edit_agents_preserve_frontmatter(_, testee_content):
+        assert (
+            "preserve or add required frontmatter when applicable"
+            in testee_content
+        )
+
+    def test_edit_agents_avoid_moving_content(_, testee_content):
+        assert (
+            "avoid moving human-facing content from README files into AGENTS "
+            "files unless it is useful for coding agents"
+            in testee_content
+        )
