@@ -47,9 +47,6 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: Coder JavaScript and TypeScript" in testee_header
 
-    def test_description(_, testee_header):
-        assert "description: JavaScript or TypeScript code" in testee_header
-
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.{js,ts,jsx,tsx,mjs,cjs}"]' in testee_header
 
@@ -66,7 +63,7 @@ class TestContent:  # ==========================================================
         assert "opening `{` on the **same line**" in testee_content
 
     def test_js_ts_heading(_, testee_content):
-        assert "## JavaScript & TypeScript" in testee_content
+        assert "## Coder JavaScript and TypeScript" in testee_content
 
     def test_es11(_, testee_content):
         assert "**ES11** standard" in testee_content

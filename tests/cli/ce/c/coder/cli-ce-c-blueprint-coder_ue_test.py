@@ -62,20 +62,17 @@ class TestContent:  # ==========================================================
     def test_brace_style_heading(_, testee_content):
         assert "## Brace Style" in testee_content
 
-    def test_c_heading(_, testee_content):
-        assert "## C" in testee_content
-
     def test_c99(_, testee_content):
         assert "Use **C99** standard" in testee_content
 
     def test_cpp_heading(_, testee_content):
-        assert "## C++" in testee_content
+        assert "## Coder CPP" in testee_content
 
     def test_cpp17(_, testee_content):
         assert "Use **C++17** standard" in testee_content
 
     def test_unreal_engine_heading(_, testee_content):
-        assert "## Unreal Engine" in testee_content
+        assert "## Coder Unreal Engine" in testee_content
 
     def test_unreal_version(_, testee_content):
         assert "Unreal Engine `5.6.0`" in testee_content

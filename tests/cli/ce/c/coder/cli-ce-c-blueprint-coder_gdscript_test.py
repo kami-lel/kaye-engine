@@ -60,7 +60,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_gdscript_heading(_, testee_content):
-        assert "## GDScript" in testee_content
+        assert "## Coder GDScript" in testee_content
 
     def test_godot_version(_, testee_content):
         assert "- Version: Godot 4" in testee_content

@@ -146,6 +146,7 @@ coder_cpp_blueprint.checkmark(_kyc_node["Brace Style"])
 
 
 # Coder Unreal Engine
+coder_ue_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_ue_blueprint = PromptBlueprint.create_from_node(
     _kyc_node["Coder Unreal Engine"]
 )
@@ -181,7 +182,7 @@ coder_html_blueprint = PromptBlueprint.create_from_node(_kyc_node["Coder HTML"])
 
 # Coder JavaScript and TypeScript
 coder_js_ts_blueprint = PromptBlueprint.create_from_node(
-    _kyc_node["Coder JavaScript & TypeScript"], recursively=True
+    _kyc_node["Coder JavaScript and TypeScript"], recursively=True
 )
 coder_js_ts_blueprint.checkmark(_kyc_node["Brace Style"])
 
