@@ -88,3 +88,6 @@ def export_prompts(prompts_folder):
             rule.invokable = True
             rule.write_prefix()
             rule.write(bp.generate_prompt())
+
+
+# TODO make prepare for release/feature use part of maintain docs
