@@ -390,6 +390,12 @@ Overview of the methodologies used.
 How data was gathered for analysis.
 ## Conclusion
 Summarizing the findings and implications.
+>>> tree.generate_prompt(disable_first_heading=True)
+Overview of the methodologies used.
+### Data Collection
+How data was gathered for analysis.
+## Conclusion
+Summarizing the findings and implications.
 ```
 
 
