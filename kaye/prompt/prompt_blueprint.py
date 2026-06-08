@@ -183,7 +183,7 @@ class PromptBlueprint(dict):
         if description_node:
             description_bp = PromptBlueprint.create_from_node(description_node)
             bp.description = description_bp.generate_prompt(
-                disable_top_heading=True
+                disable_first_heading=True
             )
 
         return bp
@@ -331,7 +331,7 @@ class PromptBlueprint(dict):
         return "\n".join(lines)
 
     def generate_prompt(
-        self, *, show_comment=False, disable_top_heading=False, **kwargs
+        self, *, show_comment=False, disable_first_heading=False, **kwargs
     ):
         """
         render the **concrete prompt** that can be used as LLM system message
@@ -341,20 +341,23 @@ class PromptBlueprint(dict):
         :param show_comment: show comment part after last line;
                 defaults to False
         :type show_comment: bool, optional
-        :param disable_top_heading: whether disable showing top heading
+        :param disable_first_heading: whether disable showing top heading;
                 defaults to False
-        :type disable_top_heading: bool, optional
+        :type disable_first_heading: bool, optional
         :return: generated prompt
         :rtype: str
         """
         # todo compact render & other types
         lines = []
 
+        should_skip_heading = disable_first_heading
+
         last_node_idx = self.corpus.size - 1
         for i, node in enumerate(PreOrderIter(self.corpus)):
             if self.is_checkmarked(node):
-
-                if not (i == 1 and disable_top_heading):
+                if should_skip_heading:
+                    should_skip_heading = False
+                else:
                     # heading line
                     lines.append(
                         HEADING_PREFIX_ELEMENT * node.depth + " " + node.name
