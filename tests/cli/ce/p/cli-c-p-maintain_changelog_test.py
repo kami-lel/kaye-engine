@@ -75,10 +75,10 @@ class TestContent:  # ==========================================================
     # edit CHANGELOG  ----------------------------------------------------------
 
     def test_edit_changelog0(_, testee_content):
-        assert assert_edit_changelog0
+        assert assert_edit_changelog0(testee_content)
 
     def test_edit_changelog1(_, testee_content):
-        assert assert_edit_changelog1
+        assert assert_edit_changelog1(testee_content)
 
     def test_edit_changelog2(_, testee_content):
-        assert assert_edit_changelog2
+        assert assert_edit_changelog2(testee_content)

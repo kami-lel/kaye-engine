@@ -49,18 +49,24 @@ create_agents_blueprint.checkmark(_prompt_node["Create AGENTS"])
 create_agents_blueprint.display_name = "Create AGENTS"
 
 
-# Prepare for Release
-prepare_for_release_blueprint = PromptBlueprint.create_empty_blueprint()
-prepare_for_release_blueprint.checkmark(_prompt_node["Prepare for Release"])
-prepare_for_release_blueprint.display_name = "Prepare for Release"
-
-
 # Prepare for Feature Finish
 prepare_for_feature_blueprint = PromptBlueprint.create_empty_blueprint()
 prepare_for_feature_blueprint.checkmark(
     _prompt_node["Prepare for Feature Finish"]
 )
+prepare_for_feature_blueprint.checkmark(
+    _maintain_changelog_node["edit CHANGELOG"]
+)
 prepare_for_feature_blueprint.display_name = "Prepare for Feature Finish"
+
+
+# Prepare for Release
+prepare_for_release_blueprint = PromptBlueprint.create_empty_blueprint()
+prepare_for_release_blueprint.checkmark(_prompt_node["Prepare for Release"])
+prepare_for_release_blueprint.checkmark(
+    _maintain_changelog_node["edit CHANGELOG"]
+)
+prepare_for_release_blueprint.display_name = "Prepare for Release"
 
 
 # constants  ###################################################################
@@ -102,6 +108,3 @@ def export_prompts(prompts_folder):
             rule.invokable = True
             rule.write_prefix()
             rule.write(bp.generate_prompt())
-
-
-# TODO make prepare for release/feature use part of maintain docs
