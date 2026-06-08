@@ -3969,9 +3969,9 @@ Create the `AGENTS.md` file at the project root
 
 
 
-### Prepare for Feature Branch Finish
+### Prepare for Feature Finish
 
-**update `CHANGELOG.md`**: 
+update `CHANGELOG.md`: 
 
 - add all relevant changes made by the current feature branch to the *Unreleased* section
 - **identify feature branch changes**: determine the changes by using available git tools, information provided by the user in chat, and any existing entries already present in `CHANGELOG.md` under the *Unreleased* section

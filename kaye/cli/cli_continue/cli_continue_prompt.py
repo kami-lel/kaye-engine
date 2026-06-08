@@ -4,8 +4,6 @@ from pathlib import Path
 
 from kaye.continue_export import export_prompts
 
-# TODO prepare for feature finish
-
 
 def register_cli_continue_prompt_parser(  ######################################
     cli_subparser,
