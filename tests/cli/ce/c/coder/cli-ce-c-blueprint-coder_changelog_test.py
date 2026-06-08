@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder Changelog Writer" in testee_header
+        assert "name: Coder CHANGELOG Writer" in testee_header
 
     def test_description(_, testee_header):
         assert "description: format for CHANGELOG.md" in testee_header
@@ -63,7 +63,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## Changelog Writer" in testee_content
+        assert "## CHANGELOG Writer" in testee_content
 
     def test_for_humans(_, testee_content):
         assert "- changelogs are *for humans*, not machines" in testee_content

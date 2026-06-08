@@ -121,13 +121,12 @@ coder_project_blueprint.description = (
     "generic Project/Repository structure for all programming languages"
 )
 
-# Fixme changelog -> CHANGELOG
 # Coder Changelog
 coder_changelog_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_changelog_blueprint.checkmark(
-    _kyc_node["Changelog Writer"], recursively=True
+    _kyc_node["CHANGELOG Writer"], recursively=True
 )
-coder_changelog_blueprint.display_name = "Coder Changelog Writer"
+coder_changelog_blueprint.display_name = "Coder CHANGELOG Writer"
 coder_changelog_blueprint.description = "format for CHANGELOG.md"
 
 

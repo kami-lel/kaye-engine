@@ -2513,7 +2513,7 @@ A good `README.md` should be:
 
 
 
-## Changelog Writer
+## CHANGELOG Writer
 
 You must help user to write CHANGELOG.
 
@@ -3837,7 +3837,7 @@ Return a brief summary listing changed files and the documentation updates made.
 
 
 
-### Maintain Changelog
+### Maintain CHANGELOG
 
 review recent changes — update or create `CHANGELOG.md` to reflect them. 
 
@@ -3848,7 +3848,7 @@ review recent changes — update or create `CHANGELOG.md` to reflect them.
 #### edit CHANGELOG
 
 - edit `CHANGELOG.md` or CHANGELOG-Style File to reflect the current project state
-- Follow the **Changelog Writer** rule for format, versioning, and entry style
+- Follow the **CHANGELOG Writer** rule for format, versioning, and entry style
 
 
 

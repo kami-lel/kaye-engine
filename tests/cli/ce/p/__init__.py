@@ -13,7 +13,7 @@ def assert_edit_changelog1(testee_content):
 
 def assert_edit_changelog2(testee_content):
     return (
-        "- Follow the **Changelog Writer** rule for format, versioning, "
+        "- Follow the **CHANGELOG Writer** rule for format, versioning, "
         "and entry style"
         in testee_content
     )
