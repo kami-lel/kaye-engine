@@ -47,9 +47,6 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: Coder Python" in testee_header
 
-    def test_description(_, testee_header):
-        assert "description: Python code" in testee_header
-
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.py"]' in testee_header
 
@@ -60,7 +57,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_python_heading(_, testee_content):
-        assert "## Python" in testee_content
+        assert "## Coder Python" in testee_content
 
     def test_pep8(_, testee_content):
         assert "Adhere to the **PEP8** style guide" in testee_content

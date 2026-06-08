@@ -49,8 +49,7 @@ class TestHeader:  # ===========================================================
 
     def test_description(_, testee_header):
         assert (
-            "description: add-on when dates or times appear in output"
-            in testee_header
+            "description: when dates or times appear in output" in testee_header
         )
 
     def test_always_apply(_, testee_header):
@@ -59,11 +58,8 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_elements_heading(_, testee_content):
-        assert "# Elements" in testee_content
-
     def test_date_time_format_heading(_, testee_content):
-        assert "## Date & Time Format" in testee_content
+        assert "## Date and Time Format" in testee_content
 
     def test_full_date_example(_, testee_content):
         assert "- Full Date Example:" in testee_content

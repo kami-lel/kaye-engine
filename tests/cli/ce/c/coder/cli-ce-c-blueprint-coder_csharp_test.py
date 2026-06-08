@@ -48,7 +48,7 @@ class TestHeader:  # ===========================================================
         assert "name: Coder C Sharp" in testee_header
 
     def test_description(_, testee_header):
-        assert "description: C# code" in testee_header
+        assert "description: `C#` code" in testee_header
 
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.cs"]' in testee_header
@@ -58,6 +58,9 @@ class TestHeader:  # ===========================================================
 
 
 class TestContent:  # ==========================================================
+
+    def test_heading(_, testee_content):
+        assert "## Coder C Sharp" in testee_content
 
     def test_brace_style_heading(_, testee_content):
         assert "## Brace Style" in testee_content
@@ -69,7 +72,7 @@ class TestContent:  # ==========================================================
         assert "closing `}` on its **own line**" in testee_content
 
     def test_csharp_heading(_, testee_content):
-        assert "## C Sharp" in testee_content
+        assert "## Coder C Sharp" in testee_content
 
     def test_xml_comments(_, testee_content):
         assert "/// <summary>" in testee_content

@@ -19,39 +19,38 @@ _prompt_node = PromptBlueprint.create_empty_blueprint().corpus["Continue"][
 
 
 # maintain docs
-maintain_docs_blueprint = PromptBlueprint.create_empty_blueprint()
 _maintain_docs_node = _prompt_node["Maintain Docs"]
-maintain_docs_blueprint.checkmark(_maintain_docs_node, recursively=True)
-maintain_docs_blueprint.display_name = "Maintain Docs"
+maintain_docs_blueprint = PromptBlueprint.create_from_node(
+    _maintain_docs_node, recursively=True
+)
 
 # maintain changelog
-maintain_changelog_blueprint = PromptBlueprint.create_empty_blueprint()
 _maintain_changelog_node = _prompt_node["Maintain CHANGELOG"]
-maintain_changelog_blueprint.checkmark(
+maintain_changelog_blueprint = PromptBlueprint.create_from_node(
     _maintain_changelog_node, recursively=True
 )
-maintain_changelog_blueprint.display_name = "Maintain CHANGELOG"
 
 # resolve annotation markers
-resolve_markers_blueprint = PromptBlueprint.create_empty_blueprint()
-resolve_markers_blueprint.checkmark(_prompt_node["Resolve Annotation Markers"])
-resolve_markers_blueprint.display_name = "Resolve Annotation Markers"
+resolve_markers_blueprint = PromptBlueprint.create_from_node(
+    _prompt_node["Resolve Annotation Markers"]
+)
+PromptBlueprint.create_empty_blueprint()
+
 
 # create README
-create_readme_blueprint = PromptBlueprint.create_empty_blueprint()
-create_readme_blueprint.checkmark(_prompt_node["Create README"])
-create_readme_blueprint.display_name = "Create README"
+create_readme_blueprint = PromptBlueprint.create_from_node(
+    _prompt_node["Create README"]
+)
 
 
 # create AGENTS
-create_agents_blueprint = PromptBlueprint.create_empty_blueprint()
-create_agents_blueprint.checkmark(_prompt_node["Create AGENTS"])
-create_agents_blueprint.display_name = "Create AGENTS"
+create_agents_blueprint = PromptBlueprint.create_from_node(
+    _prompt_node["Create AGENTS"]
+)
 
 
 # Prepare for Feature Finish
-prepare_for_feature_blueprint = PromptBlueprint.create_empty_blueprint()
-prepare_for_feature_blueprint.checkmark(
+prepare_for_feature_blueprint = PromptBlueprint.create_from_node(
     _prompt_node["Prepare for Feature Finish"]
 )
 prepare_for_feature_blueprint.checkmark(
@@ -61,8 +60,9 @@ prepare_for_feature_blueprint.display_name = "Prepare for Feature Finish"
 
 
 # Prepare for Release
-prepare_for_release_blueprint = PromptBlueprint.create_empty_blueprint()
-prepare_for_release_blueprint.checkmark(_prompt_node["Prepare for Release"])
+prepare_for_release_blueprint = PromptBlueprint.create_from_node(
+    _prompt_node["Prepare for Release"]
+)
 prepare_for_release_blueprint.checkmark(
     _maintain_changelog_node["edit CHANGELOG"]
 )

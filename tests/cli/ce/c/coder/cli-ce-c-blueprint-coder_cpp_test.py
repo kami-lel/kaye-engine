@@ -69,13 +69,13 @@ class TestContent:  # ==========================================================
         assert "closing `}` on its **own line**" in testee_content
 
     def test_c_heading(_, testee_content):
-        assert "## C" in testee_content
+        assert "## Coder C" in testee_content
 
     def test_c99(_, testee_content):
         assert "Use **C99** standard" in testee_content
 
     def test_cpp_heading(_, testee_content):
-        assert "## C++" in testee_content
+        assert "## Coder CPP" in testee_content
 
     def test_cpp17(_, testee_content):
         assert "Use **C++17** standard" in testee_content

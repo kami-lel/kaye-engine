@@ -18,6 +18,23 @@
 
 ### Added
 
+- `BasePromptNode`: new properties
+
+  - `.is_technical_node` — check if node name matches pattern `{name}`, identifying
+    technical and special nodes (e.g., dynamic nodes)
+  - `.description_subnode` — retrieve child node with heading `{description}` if present,
+    supporting nodes that contain description subnodes in `prompt_corpus.md`
+  - `.is_description_node` — check if node name is exactly `{description}`, identifying
+    whether the node itself is a description node
+
+- `PromptBlueprint`: new classmethod and parameter
+
+  - `.create_from_node()` — create a blueprint from a specific node, automatically
+    extracting description subnode content as blueprint description for LLM task
+    relevance assessment
+  - `.generate_prompt()`: new `disable_first_heading` parameter to suppress rendering
+    the top-level heading, useful when embedding prompts in larger contexts
+
 - **Continue Export**: new prompt blueprints for documentation workflows
 
   - `prepare_for_feature_finish` — prepare feature branch for final submission; generates prompts to update `CHANGELOG.md` and documentation files
@@ -1807,5 +1824,7 @@ re `dify_studio/`:
 
 
 
+
+[^format]: CHANGELOG format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); Version scheme adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 [^format]: CHANGELOG format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); Version scheme adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).

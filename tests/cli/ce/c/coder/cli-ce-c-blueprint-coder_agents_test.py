@@ -59,7 +59,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## AGENTS Writer" in testee_content
+        assert "## Coder AGENTS Writer" in testee_content
 
     def test_intro_expert(_, testee_content):
         assert (
