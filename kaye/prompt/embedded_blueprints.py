@@ -34,7 +34,7 @@ __all__ = (
 
 
 # blueprints  ##################################################################
-# Todo save description as part of prompt_corpus.md
+# TODO save description as part of prompt_corpus.md
 # (in corpus, but not as part of the content lines)
 
 # Rapid
