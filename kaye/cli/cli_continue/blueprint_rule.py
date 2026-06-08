@@ -98,16 +98,16 @@ def export_blueprint_rules(rules_folder):
         "continue_behavior_blueprint": _continue_behavior_blueprint,
     }
 
-    for name in _EXPORT_BLUEPRINTS:
-        bp = _local.get(name) or getattr(embedded_blueprints, name)
-        file_path = folder / "{}.md".format(name)
+    for bp_id in _EXPORT_BLUEPRINTS:
+        bp = _local.get(bp_id) or getattr(embedded_blueprints, bp_id)
+        file_path = folder / "{}.md".format(bp.display_name)
 
         print("update blueprint rule:\t{}".format(file_path))
 
         with RuleFile(file_path, encoding="utf-8") as rule:
             rule.name = bp.display_name
             rule.description = bp.description
-            rule.globs = _CODER_BLUEPRINT_GLOBS.get(name, [])
-            rule.always_apply = name in _ALWAYS_APPLY_BLUEPRINT
+            rule.globs = _CODER_BLUEPRINT_GLOBS.get(bp_id, [])
+            rule.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
             rule.write_prefix()
             rule.write(bp.generate_prompt())
