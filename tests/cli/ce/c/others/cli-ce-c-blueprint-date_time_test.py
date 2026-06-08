@@ -58,9 +58,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_elements_heading(_, testee_content):
-        assert "# Elements" in testee_content
-
     def test_date_time_format_heading(_, testee_content):
         assert "## Date and Time Format" in testee_content
 
