@@ -22,8 +22,18 @@
 
   - `.is_technical_node` — check if node name matches pattern `{name}`, identifying
     technical and special nodes (e.g., dynamic nodes)
-  - `.description_subnode` — retrieve child node with heading `description` if present,
+  - `.description_subnode` — retrieve child node with heading `{description}` if present,
     supporting nodes that contain description subnodes in `prompt_corpus.md`
+  - `.is_description_node` — check if node name is exactly `{description}`, identifying
+    whether the node itself is a description node
+
+- `PromptBlueprint`: new classmethod and parameter
+
+  - `.create_from_node()` — create a blueprint from a specific node, automatically
+    extracting description subnode content as blueprint description for LLM task
+    relevance assessment
+  - `.generate_prompt()`: new `disable_first_heading` parameter to suppress rendering
+    the top-level heading, useful when embedding prompts in larger contexts
 
 - **Continue Export**: new prompt blueprints for documentation workflows
 
