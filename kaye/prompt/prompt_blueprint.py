@@ -28,6 +28,8 @@ CHECKMARKED_PREFIX = "[x] "
 UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
 
+# Todo add class method parse to work w/ .description
+
 
 class PromptBlueprint(dict):
     """

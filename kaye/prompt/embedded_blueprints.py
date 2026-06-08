@@ -14,8 +14,10 @@ __all__ = (
     "style_blueprint",
     "annotation_marker_blueprint",
     "coder_blueprint",
-    "coder_changelog_blueprint",
     "coder_project_blueprint",
+    "coder_readme_blueprint",
+    "coder_changelog_blueprint",
+    "coder_agents_blueprint",
     "coder_bash_blueprint",
     "coder_c_blueprint",
     "coder_cpp_blueprint",
@@ -28,12 +30,11 @@ __all__ = (
     "coder_py_blueprint",
     "coder_py_docstring_blueprint",
     "coder_py_testing_blueprint",
-    "coder_agents_blueprint",
 )
 
 
 # blueprints  ##################################################################
-# todo save description as part of prompt_corpus.md
+# Todo save description as part of prompt_corpus.md
 # (in corpus, but not as part of the content lines)
 
 # Rapid
@@ -111,6 +112,7 @@ coder_blueprint.display_name = "Coder"
 coder_blueprint.description = "instruction for coding and programming"
 
 
+# Fixme change to "Repo Project Structure" "Repo README Writer" etc.
 # Coder Project
 coder_project_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_project_blueprint.checkmark(_kyc_node["Project Structure"])
@@ -119,6 +121,7 @@ coder_project_blueprint.description = (
     "generic Project/Repository structure for all programming languages"
 )
 
+# Fixme changelog -> CHANGELOG
 # Coder Changelog
 coder_changelog_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_changelog_blueprint.checkmark(
@@ -128,12 +131,18 @@ coder_changelog_blueprint.display_name = "Coder Changelog Writer"
 coder_changelog_blueprint.description = "format for CHANGELOG.md"
 
 
-# Fixme change various mention of AGENTS.md to just AGENTS
-# Coder AGENTS.md Writer
+# Coder AGENTS Writer
 coder_agents_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_agents_blueprint.checkmark(_kyc_node["AGENTS.md Writer"])
-coder_agents_blueprint.display_name = "Coder AGENTS.md Writer"
+coder_agents_blueprint.checkmark(_kyc_node["AGENTS Writer"])
+coder_agents_blueprint.display_name = "Coder AGENTS Writer"
 coder_agents_blueprint.description = "format for AGENTS.md documentation"
+
+
+# Coder README Writer
+coder_readme_blueprint = PromptBlueprint.create_empty_blueprint()
+coder_readme_blueprint.checkmark(_kyc_node["README Writer"])
+coder_readme_blueprint.display_name = "Coder README Writer"
+coder_readme_blueprint.description = "format for README documentation"
 
 
 # Coder Bash
