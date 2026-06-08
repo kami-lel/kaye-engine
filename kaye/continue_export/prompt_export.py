@@ -33,11 +33,6 @@ resolve_markers_blueprint = PromptBlueprint.create_empty_blueprint()
 resolve_markers_blueprint.checkmark(_prompt_node["Resolve Annotation Markers"])
 resolve_markers_blueprint.display_name = "Resolve Annotation Markers"
 
-# resolve annotation markers
-prepare_for_release_blueprint = PromptBlueprint.create_empty_blueprint()
-prepare_for_release_blueprint.checkmark(_prompt_node["Prepare for Release"])
-prepare_for_release_blueprint.display_name = "Prepare for Release"
-
 # create README
 create_readme_blueprint = PromptBlueprint.create_empty_blueprint()
 create_readme_blueprint.checkmark(_prompt_node["Create README"])
@@ -50,6 +45,20 @@ create_agents_blueprint.checkmark(_prompt_node["Create AGENTS"])
 create_agents_blueprint.display_name = "Create AGENTS"
 
 
+# Prepare for Release
+prepare_for_release_blueprint = PromptBlueprint.create_empty_blueprint()
+prepare_for_release_blueprint.checkmark(_prompt_node["Prepare for Release"])
+prepare_for_release_blueprint.display_name = "Prepare for Release"
+
+
+# Prepare for Feature Finish
+prepare_for_feature_blueprint = PromptBlueprint.create_empty_blueprint()
+prepare_for_feature_blueprint.checkmark(
+    _prompt_node["Prepare for Feature Finish"]
+)
+prepare_for_feature_blueprint.display_name = "Prepare for Feature Finish"
+
+
 # constants  ###################################################################
 
 
@@ -57,9 +66,10 @@ FILENAME2BLUEPRINT = {
     "maintain_docs": maintain_docs_blueprint,
     "maintain_changelog": maintain_changelog_blueprint,
     "resolve_annotation_markers": resolve_markers_blueprint,
-    "prepare_for_release": prepare_for_release_blueprint,
     "create_readme": create_readme_blueprint,
     "create_agents": create_agents_blueprint,
+    "prepare_for_feature": prepare_for_release_blueprint,
+    "prepare_for_feature_finish": prepare_for_feature_blueprint,
 }
 
 
