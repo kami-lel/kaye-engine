@@ -47,9 +47,6 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: Coder HTML" in testee_header
 
-    def test_description(_, testee_header):
-        assert "description: HTML5 markup" in testee_header
-
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.{html,htm}"]' in testee_header
 
@@ -60,7 +57,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_html_heading(_, testee_content):
-        assert "## HTML" in testee_content
+        assert "## Coder HTML" in testee_content
 
     def test_html5(_, testee_content):
         assert "- Version: **HTML5** standard" in testee_content

@@ -41,7 +41,7 @@ def opt(flask_test_client, task_endpoint):
 class TestCoder:  # ============================================================
 
     def test0(_, opt):
-        assert "## HTML" in opt
+        assert "## Coder HTML" in opt
 
     def test1(_, opt):
         assert "- Version: **HTML5** standard" in opt

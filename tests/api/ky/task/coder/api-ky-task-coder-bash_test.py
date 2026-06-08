@@ -41,7 +41,7 @@ def opt(flask_test_client, task_endpoint):
 class TestCoder:  # ============================================================
 
     def test0(_, opt):
-        assert "## Bash" in opt
+        assert "## Coder Bash" in opt
 
     def test1(_, opt):
         assert "You write command lines for" in opt

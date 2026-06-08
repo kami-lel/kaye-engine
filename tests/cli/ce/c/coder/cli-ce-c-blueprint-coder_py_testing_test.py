@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder Python Testing" in testee_header
+        assert "name: Coder Python Testing Guidelines" in testee_header
 
     def test_description(_, testee_header):
         assert (
@@ -64,7 +64,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_testing_guidelines_heading(_, testee_content):
-        assert "### Testing Guidelines" in testee_content
+        assert "### Coder Python Testing Guidelines" in testee_content
 
     def test_pytest_mention(_, testee_content):
         assert "`pytest` module" in testee_content

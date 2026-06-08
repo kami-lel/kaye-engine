@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder Unity" in testee_header
+        assert "name: Coder Unity Engine" in testee_header
 
     def test_description(_, testee_header):
         assert (
@@ -67,10 +67,10 @@ class TestContent:  # ==========================================================
         assert "## Brace Style" in testee_content
 
     def test_csharp_heading(_, testee_content):
-        assert "## C Sharp" in testee_content
+        assert "## Coder C Sharp" in testee_content
 
     def test_unity_engine_heading(_, testee_content):
-        assert "## Unity Engine" in testee_content
+        assert "## Coder Unity Engine" in testee_content
 
     def test_unity_version(_, testee_content):
         assert "Unity **6**" in testee_content
