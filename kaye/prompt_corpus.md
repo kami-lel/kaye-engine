@@ -3767,7 +3767,7 @@ Use when need to remove/delete file/folder.
 
 ### Maintain Docs
 
-Update README-style files, AGENTS-style files, and files under `docs/` to reflect the current project state. Use **README Writer** for README-style files and **AGENTS Writer** for AGENTS-style files.
+Update README-style files, AGENTS-style files, and files under `docs/`.
 
 
 
@@ -3807,7 +3807,7 @@ Return a brief summary listing changed files and the documentation updates made.
 
 #### edit README
 
-- edit `README.md` or README-Style File
+- edit `README.md` or README-Style File to reflect the current project state
 - follow **README Writer** for structure, content, and style
 - update applicable overview, features, setup, usage, configuration, commands, contribution notes, security notes, and license details
 - prioritize the root README when multiple README-style files exist
@@ -3819,7 +3819,7 @@ Return a brief summary listing changed files and the documentation updates made.
 
 #### edit AGENTS
 
-- edit `AGENTS.md` or AGENTS-Style File
+- edit `AGENTS.md` or AGENTS-Style File to reflect the current project state
 - follow **AGENTS Writer** for structure, content, and style
 - preserve or add required frontmatter when applicable to the project’s AGENTS format
 - update applicable project name, setup notes, build commands, test commands, code style, testing instructions, PR instructions, and security considerations

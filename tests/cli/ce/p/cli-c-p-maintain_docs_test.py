@@ -61,8 +61,8 @@ class TestContent:  # ==========================================================
 
     def test_intro_readme_agents_docs(_, testee_content):
         assert (
-            "Update README-style files, AGENTS-style files, and files under "
-            "`docs/` to reflect the current project state"
+            "Update README-style files, AGENTS-style files, "
+            "and files under `docs/`"
             in testee_content
         )
 
