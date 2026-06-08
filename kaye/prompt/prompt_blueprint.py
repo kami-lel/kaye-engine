@@ -26,8 +26,6 @@ CHECKMARKED_PREFIX = "[x] "
 UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
 
-# TODO add class method parse to work w/ .description
-
 
 class PromptBlueprint(dict):
     """
@@ -162,7 +160,14 @@ class PromptBlueprint(dict):
     @classmethod
     def create_from_node(self, node, *, recursively=False):
         """
-        TODO docstring & docs
+        create a **blueprint** from a specific node and its content
+
+        generates a blueprint containing only the specified node
+        (and optionally all its descendants). automatically extracts
+        the node's description subnode content (if present) and includes
+        it as the blueprint's description, enabling LLM task relevance
+        assessment. useful for creating focused prompts from individual
+        corpus sections.
 
 
         :param node: node object; hash value; name
