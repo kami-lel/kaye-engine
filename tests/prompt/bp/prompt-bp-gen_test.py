@@ -202,6 +202,8 @@ class TestAllArgs2:  # =========================================================
         │   1. Fork the repo
         │   2. Create a new branch
         │   3. Submit a pull request
+[ ]     │   └── description
+        │       A step-by-step guide of how to contribute
 [ ]     └── License
             This project is licensed under the MIT License."""
 
