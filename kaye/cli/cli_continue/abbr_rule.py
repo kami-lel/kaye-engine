@@ -8,8 +8,11 @@ digits, letters (A–Z), and a misc catch-all
 
 from pathlib import Path
 
-from kaye.continue_export.rule_file import RuleFile
+
 from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
+
+
+from .rule_file import RuleFile
 
 _LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 _DIGITS = "0123456789"
