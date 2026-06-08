@@ -18,8 +18,12 @@
 
 ### Added
 
-- `BasePromptNode`: new property `.is_technical_node` — check if node name matches
-  pattern `{name}`, identifying technical and special nodes (e.g., dynamic nodes)
+- `BasePromptNode`: new properties
+
+  - `.is_technical_node` — check if node name matches pattern `{name}`, identifying
+    technical and special nodes (e.g., dynamic nodes)
+  - `.description_subnode` — retrieve child node with heading `{description}` if present,
+    supporting nodes that contain description subnodes in `prompt_corpus.md`
 
 - **Continue Export**: new prompt blueprints for documentation workflows
 
