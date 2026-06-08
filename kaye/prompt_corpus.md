@@ -638,6 +638,10 @@ when dates or times appear in output
 - Unit Abbreviations: Always use the correct abbreviations for units to ensure clarity and precision.
 - Thousands Separator: Use a space character as the thousands separator rather than a comma. For instance, express large numbers as `29 029` instead of `29,029`.
 
+### description
+
+when physical quantities appear in output
+
 
 
 

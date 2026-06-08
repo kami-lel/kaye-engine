@@ -69,13 +69,13 @@ date_time_blueprint = PromptBlueprint.create_from_node("Date and Time Format")
 
 
 # Numerical Values with Units
-number_unit_blueprint = PromptBlueprint.parse("""    ○
+number_unit_blueprint = PromptBlueprint.create_from_node(
+    "Numerical Values with Units"
+)
+
+PromptBlueprint.parse("""    ○
 [x] └── Elements
 [x]     └── Numerical Values with Units""")
-number_unit_blueprint.display_name = "Numerical Values with Units"
-number_unit_blueprint.description = (
-    "add-on when physical quantities appear in output"
-)
 
 
 # Style
