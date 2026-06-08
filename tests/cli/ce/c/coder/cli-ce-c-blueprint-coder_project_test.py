@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Project Structure" in testee_header
+        assert "name: Coder Project Structure" in testee_header
 
     def test_description(_, testee_header):
         assert (
@@ -61,7 +61,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## Project Structure" in testee_content
+        assert "## Coder Project Structure" in testee_content
 
     def test_readme(_, testee_content):
         assert "- `README.md`:" in testee_content

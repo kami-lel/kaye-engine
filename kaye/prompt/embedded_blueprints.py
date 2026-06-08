@@ -96,38 +96,6 @@ _kyc_node = _corpus["Kaye Peer Coder"]
 coder_blueprint = PromptBlueprint.create_from_node(_kyc_node)
 
 
-# FIXME change to "Repo Project Structure" "Repo README Writer" etc.
-# Coder Project
-coder_project_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_project_blueprint.checkmark(_kyc_node["Project Structure"])
-coder_project_blueprint.display_name = "Project Structure"
-coder_project_blueprint.description = (
-    "generic Project/Repository structure for all programming languages"
-)
-
-# Coder Changelog
-coder_changelog_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_changelog_blueprint.checkmark(
-    _kyc_node["CHANGELOG Writer"], recursively=True
-)
-coder_changelog_blueprint.display_name = "Coder CHANGELOG Writer"
-coder_changelog_blueprint.description = "format for CHANGELOG.md"
-
-
-# Coder AGENTS Writer
-coder_agents_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_agents_blueprint.checkmark(_kyc_node["AGENTS Writer"])
-coder_agents_blueprint.display_name = "Coder AGENTS Writer"
-coder_agents_blueprint.description = "format for AGENTS.md documentation"
-
-
-# Coder README Writer
-coder_readme_blueprint = PromptBlueprint.create_empty_blueprint()
-coder_readme_blueprint.checkmark(_kyc_node["README Writer"])
-coder_readme_blueprint.display_name = "Coder README Writer"
-coder_readme_blueprint.description = "format for README documentation"
-
-
 # Coder Bash
 coder_bash_blueprint = PromptBlueprint.create_from_node(_kyc_node["Coder Bash"])
 
@@ -199,4 +167,27 @@ coder_py_docstring_blueprint = PromptBlueprint.create_from_node(
 # Coder Python Testing
 coder_py_testing_blueprint = PromptBlueprint.create_from_node(
     _kyc_node["Coder Python"]["Coder Python Testing Guidelines"]
+)
+
+
+# Repo  ------------------------------------------------------------------------
+
+coder_project_blueprint = PromptBlueprint.create_from_node(
+    _kyc_node["Coder Project Structure"]
+)
+
+# Coder README Writer
+coder_readme_blueprint = PromptBlueprint.create_from_node(
+    _kyc_node["Coder README Writer"]
+)
+
+# Coder Changelog
+coder_changelog_blueprint = PromptBlueprint.create_from_node(
+    _kyc_node["Coder CHANGELOG Writer"], recursively=True
+)
+
+
+# Coder AGENTS Writer
+coder_agents_blueprint = PromptBlueprint.create_from_node(
+    _kyc_node["Coder AGENTS Writer"]
 )

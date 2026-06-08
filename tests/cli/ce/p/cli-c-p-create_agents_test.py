@@ -61,8 +61,8 @@ class TestContent:  # ==========================================================
 
     def test_intro_agents_writer(_, testee_content):
         assert (
-            "Use **AGENTS Writer** as the guideline for what makes a good "
-            "`AGENTS.md`"
+            "Use **Coder AGENTS Writer** as the guideline for what makes a good"
+            " `AGENTS.md`"
             in testee_content
         )
 
@@ -70,12 +70,16 @@ class TestContent:  # ==========================================================
         assert "##### Instructions" in testee_content
 
     def test_instructions_create_complete(_, testee_content):
-        assert "create a complete new `AGENTS.md` tailored to the repository" \
+        assert (
+            "create a complete new `AGENTS.md` tailored to the repository"
             in testee_content
+        )
 
     def test_instructions_frontmatter(_, testee_content):
-        assert "include the required frontmatter before any content" \
+        assert (
+            "include the required frontmatter before any content"
             in testee_content
+        )
 
     def test_structure_guidelines_section(_, testee_content):
         assert "##### Structure Guidelines" in testee_content
@@ -93,5 +97,6 @@ class TestContent:  # ==========================================================
         assert "##### Output" in testee_content
 
     def test_output_file_location(_, testee_content):
-        assert "Create the `AGENTS.md` file at the project root" \
-            in testee_content
+        assert (
+            "Create the `AGENTS.md` file at the project root" in testee_content
+        )
