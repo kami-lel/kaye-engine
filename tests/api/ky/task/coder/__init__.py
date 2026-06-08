@@ -84,7 +84,7 @@ def assert_style_caps_tc3(opt):
 
 
 def assert_style_caps_tc4(opt):
-    assert "Used for titles and headers." in opt
+    assert "Used for **document title** and **section headings**." in opt
 
 
 def assert_style_caps_cc0(opt):
