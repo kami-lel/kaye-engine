@@ -160,8 +160,30 @@ class PromptBlueprint(dict):
         )
 
     @classmethod
-    def create_from_node(self, node, *, recursive=False):
-        pass  # TODO create from node
+    def create_from_node(self, node, *, recursively=False):
+        """
+        TODO docstring & docs
+
+
+        :param node: node object; hash value; name
+        :type node: BasePromptNode or int or str
+        :param recursively: allow checkmarks on node's descendants,
+                defaults to False
+        :type recursively: bool, optional
+        :raise TypeError:
+        :raise ValueError:
+        """
+        bp = PromptBlueprint.create_empty_blueprint()
+        node_obj, _ = bp._find_node_in_corpus_and_blueprint(node)
+        bp.checkmark(node_obj, recursively=recursively)
+
+        bp.display_name = node_obj.name
+
+        description_node = node_obj.description_subnode
+        if description_node:  # fixme better description generation logic
+            bp.description = "\n".join(description_node.content_lines())
+
+        return bp
 
     # instance methods  ========================================================
     def __init__(self, *, display_name="", corpus_override=None):
@@ -204,7 +226,7 @@ class PromptBlueprint(dict):
         (will add node into this blueprint if not, then checkmarked it)
 
 
-        :param key: node object; hash value; name
+        :param node: node object; hash value; name
         :type node: BasePromptNode or int or str
         :param recursively: allow checkmarks on node's descendants,
                 defaults to False
