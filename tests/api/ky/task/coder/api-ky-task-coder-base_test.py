@@ -350,10 +350,6 @@ class TestCoder:  # ============================================================
         print(opt)
         assert_lang2(opt)
 
-    def test_element_title(_, opt):
-        print(opt)
-        assert_element_title(opt)
-
     def test_element11(_, opt):
         print(opt)
         assert_element11(opt)

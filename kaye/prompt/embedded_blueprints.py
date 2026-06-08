@@ -73,10 +73,6 @@ number_unit_blueprint = PromptBlueprint.create_from_node(
     "Numerical Values with Units"
 )
 
-PromptBlueprint.parse("""    ○
-[x] └── Elements
-[x]     └── Numerical Values with Units""")
-
 
 # Style
 style_blueprint = PromptBlueprint.create_empty_blueprint()
