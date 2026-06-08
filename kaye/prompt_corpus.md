@@ -3839,7 +3839,12 @@ Return a brief summary listing changed files and the documentation updates made.
 
 ### Maintain Changelog
 
-review recent changes — update or create `CHANGELOG.md` to reflect them. Follow the *Coder Changelog Writer* rule for format, versioning, and entry style
+review recent changes — update or create `CHANGELOG.md` to reflect them. 
+
+#### edit CHANGELOG
+
+- edit `CHANGELOG.md` or CHANGELOG-Style File to reflect the current project state
+- Follow the *Coder Changelog Writer* rule for format, versioning, and entry style
 
 
 
