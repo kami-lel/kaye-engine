@@ -46,12 +46,10 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder README.md Writer" in testee_header
+        assert "name: Coder README Writer" in testee_header
 
     def test_description(_, testee_header):
-        assert (
-            "description: format for README.md documentation" in testee_header
-        )
+        assert "description: format for README documentation" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -60,44 +58,15 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## README.md Writer" in testee_content
+        assert "## README Writer" in testee_content
 
     def test_intro_expert(_, testee_content):
         assert (
             "You are an expert in writing `README.md` files" in testee_content
         )
 
-    def test_purpose_agent_readable(_, testee_content):
-        assert (
-            "`README.md` is a dedicated, agent-readable file" in testee_content
-        )
-
-    def test_style_commentary_case(_, testee_content):
-        assert (
-            "use **Commentary Case** for all list items and descriptions"
-            in testee_content
-        )
-
-    def test_style_briefness(_, testee_content):
-        assert "apply **Briefness Style** throughout" in testee_content
-
-    def test_structure_project_overview(_, testee_content):
-        assert "**Project Overview**" in testee_content
-
-    def test_structure_build_and_test(_, testee_content):
-        assert "**Build and Test Commands**" in testee_content
-
-    def test_structure_security(_, testee_content):
-        assert "**Security Considerations**" in testee_content
-
-    def test_content_rules_exact_commands(_, testee_content):
-        assert "prefer exact commands over vague descriptions" in testee_content
-
-    def test_content_rules_monorepos(_, testee_content):
-        assert (
-            "for monorepos, recommend nested `README.md` files per subproject"
-            in testee_content
-        )
-
     def test_continue(_, testee_content):
-        assert "#### Continue Rule Compatible" in testee_content
+        assert (
+            "Document Title Should be `# <Project Name> README`"
+            in testee_content
+        )
