@@ -18,6 +18,8 @@
 
 ### Added
 
+- `abbrs.json`: add two abbrs of `~` and `~~`
+
 ### Changed
 
 ### Deprecated
