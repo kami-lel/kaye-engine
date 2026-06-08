@@ -63,40 +63,37 @@ class TestContent:  # ==========================================================
 
     def test_intro_expert(_, testee_content):
         assert (
-            "You are an expert in writing `AGENTS.md` files" in testee_content
+            "You are an expert in writing and maintaining `AGENTS.md` files"
+            in testee_content
         )
+
+    def test_purpose_section(_, testee_content):
+        assert "#### Purpose" in testee_content
 
     def test_purpose_agent_readable(_, testee_content):
         assert (
-            "`AGENTS.md` is a dedicated, agent-readable file" in testee_content
-        )
-
-    def test_style_commentary_case(_, testee_content):
-        assert (
-            "use **Commentary Case** for all list items and descriptions"
+            "`AGENTS.md` is a dedicated, agent-readable file that gives AI "
+            "coding tools the context they need"
             in testee_content
         )
+
+    def test_style_section(_, testee_content):
+        assert "#### Style" in testee_content
+
+    def test_style_guide_reference(_, testee_content):
+        assert "Apply the provided **Style Guide**" in testee_content
 
     def test_style_briefness(_, testee_content):
-        assert "apply **Briefness Style** throughout" in testee_content
+        assert "Apply **Briefness Style** throughout" in testee_content
 
-    def test_structure_project_overview(_, testee_content):
-        assert "**Project Overview**" in testee_content
-
-    def test_structure_build_and_test(_, testee_content):
-        assert "**Build and Test Commands**" in testee_content
-
-    def test_structure_security(_, testee_content):
-        assert "**Security Considerations**" in testee_content
-
-    def test_content_rules_exact_commands(_, testee_content):
-        assert "prefer exact commands over vague descriptions" in testee_content
-
-    def test_content_rules_monorepos(_, testee_content):
-        assert (
-            "for monorepos, recommend nested `AGENTS.md` files per subproject"
-            in testee_content
-        )
-
-    def test_continue(_, testee_content):
+    def test_continue_rule_section(_, testee_content):
         assert "#### Continue Rule Compatible" in testee_content
+
+    def test_document_title_section(_, testee_content):
+        assert "#### Document Title" in testee_content
+
+    def test_document_title_format(_, testee_content):
+        assert "# <Project Name> AGENTS" in testee_content
+
+    def test_quality_expectations_section(_, testee_content):
+        assert "#### Quality Expectations" in testee_content
