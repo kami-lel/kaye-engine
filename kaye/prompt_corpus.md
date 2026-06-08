@@ -2458,9 +2458,9 @@ It should explain what the project is, why it matters, how to get started, and w
 
 The document title should be:
 
-```markdown
-# <Project Name> README
-```
+    ```markdown
+    # <Project Name> README
+    ```
 
 Replace `<Project Name>` with the actual project name.
 
@@ -2686,9 +2686,9 @@ Replace `<Project Name>` with the actual project name.
 
 The document title must be:
 
-```markdown
-# <Project Name> AGENTS
-```
+    ```markdown
+    # <Project Name> AGENTS
+    ```
 
 Replace `<Project Name>` with the actual project name.
 
