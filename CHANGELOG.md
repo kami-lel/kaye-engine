@@ -18,6 +18,9 @@
 
 ### Added
 
+- `BasePromptNode`: new property `.is_technical_node` — check if node name matches
+  pattern `{name}`, identifying technical and special nodes (e.g., dynamic nodes)
+
 - **Continue Export**: new prompt blueprints for documentation workflows
 
   - `prepare_for_feature_finish` — prepare feature branch for final submission; generates prompts to update `CHANGELOG.md` and documentation files
