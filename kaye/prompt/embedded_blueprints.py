@@ -33,7 +33,7 @@ __all__ = (
 
 
 # blueprints  ##################################################################
-# todo save description as part of prompt_corpus.md
+# Todo save description as part of prompt_corpus.md
 # (in corpus, but not as part of the content lines)
 
 # Rapid
@@ -128,11 +128,18 @@ coder_changelog_blueprint.display_name = "Coder Changelog Writer"
 coder_changelog_blueprint.description = "format for CHANGELOG.md"
 
 
-# Coder AGENTS.md Writer
+# Coder AGENTS Writer
 coder_agents_blueprint = PromptBlueprint.create_empty_blueprint()
 coder_agents_blueprint.checkmark(_kyc_node["AGENTS Writer"])
 coder_agents_blueprint.display_name = "Coder AGENTS Writer"
-coder_agents_blueprint.description = "format for AGENTS.md documentation"
+coder_agents_blueprint.description = "format for AGENTS documentation"
+
+
+# Coder README Writer
+coder_readme_blueprint = PromptBlueprint.create_empty_blueprint()
+coder_readme_blueprint.checkmark(_kyc_node["README Writer"])
+coder_readme_blueprint.display_name = "Coder README Writer"
+coder_readme_blueprint.description = "format for README documentation"
 
 
 # Coder Bash
