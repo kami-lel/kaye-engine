@@ -18,9 +18,56 @@
 
 ### Added
 
+- **Continue Export**: new prompt blueprints for documentation workflows
+
+  - `prepare_for_feature_finish` — prepare feature branch for final submission; generates prompts to update `CHANGELOG.md` and documentation files
+  - `prepare_for_release` — prepare release branch with comprehensive documentation updates
+  - `create_readme_agent` — create new `README.md` or `AGENTS.md` files
+  - `maintain_docs` — maintain and update existing `README.md` and `AGENTS.md` files
+  - `maintain_changelog` — update `CHANGELOG.md` with structured entries
+
 - `abbrs.json`: add two abbrs of `~` and `~~`
+- embedded blueprint `coder_readme_agent`
+
+  - usage in Python CLI: Continue Export
+
+- prompt_corpus.md: **README/AGENTS Writer** role with comprehensive guidance:
+
+  - **create README/AGENTS** — structured instructions for authoring new documentation files
+  - **maintain README/AGENTS** — guidelines for updating existing documentation
+  - **Changelog Writer** — format, versioning, and entry style standards
+
+- prompt_corpus.md: **Maintain Changelog** — explicit guidance for CHANGELOG updates including:
+
+  - feature branch change identification
+  - existing entry preservation and deduplication
+  - recursive blueprint handling
+  - changelog structure standards
+
+- unit tests for `continue prompt` subcommand with documentation maintenance scenarios
 
 ### Changed
+
+- prompt_corpus.md: better organization of prompts related to documentation workflows, clearly split into:
+
+  - **README/AGENTS Writer** (style & format guidelines)
+  - **Create README/AGENTS** (create new files)
+  - **Maintain README/AGENTS** (update existing files)
+  - **Maintain Changelog** (CHANGELOG.md updates)
+
+- prompt_corpus.md: **Maintain Docs** prompt expanded with:
+
+  - recursive blueprint handling for comprehensive documentation updates
+  - explicit README/AGENTS edit guidance
+  - content assertion rules
+
+- Continue Export: blueprints refactored for clarity:
+
+  - renamed `prepare_feature` to `prepare_for_release`
+  - refactored rule text for consistency
+  - improved changelog export with feature-specific guidance
+
+- prompt_corpus.md: code block formatting standardized with proper indentation
 
 ### Deprecated
 
@@ -28,8 +75,7 @@
 
 ### Fixed
 
-- `prompt_corpus.md`: Kaye Peer Coder: comment section headings:
-  wrong example of top level heading
+- prompt_corpus.md: **Kaye Peer Coder**: comment section headings — corrected wrong example of top-level heading
 
 ### Security
 

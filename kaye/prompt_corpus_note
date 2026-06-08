@@ -1,2 +1,1 @@
-Fixme allow AGENTS writer to follow current project structure; or split into prompt
-Todo add README writer
+todo corpus: for prepare_for_feature_finish/_release, utilize tools to fetch `git log`
