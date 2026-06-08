@@ -478,11 +478,14 @@ class PromptBlueprint(dict):
 
         # actual perform checking/unchecking
         self[node_hash] = is_checkmark
-        # TODO TODO do not check mark tech nodes
 
         # add all descendants too
         if recursively:
             for d in node_obj.descendants:
+                # do not checkmark tech nodes
+                if d.is_technical_node:
+                    continue
+
                 d_hash = hash(d)
                 if d_hash in self or is_checkmark:
                     self[d_hash] = is_checkmark
