@@ -22,14 +22,16 @@
 
   - `prepare_for_feature_finish` — prepare feature branch for final submission; generates prompts to update `CHANGELOG.md` and documentation files
   - `prepare_for_release` — prepare release branch with comprehensive documentation updates
-  - `create_readme_agent` — create new `README.md` or `AGENTS.md` files
+  - `create_readme` — create a new `README.md` tailored to the repository
+  - `create_agents` — create a new `AGENTS.md` tailored to the repository
   - `maintain_docs` — maintain and update existing `README.md` and `AGENTS.md` files
   - `maintain_changelog` — update `CHANGELOG.md` with structured entries
 
 - `abbrs.json`: add two abbrs of `~` and `~~`
-- embedded blueprint `coder_readme_agent`
+- embedded blueprints for documentation writing:
 
-  - usage in Python CLI: Continue Export
+  - `coder_readme_blueprint` (`Coder README Writer`) — format and style guidance for `README.md`
+  - `coder_agents_blueprint` (`Coder AGENTS Writer`) — format and style guidance for `AGENTS.md`
 
 - prompt_corpus.md: **README/AGENTS Writer** role with comprehensive guidance:
 

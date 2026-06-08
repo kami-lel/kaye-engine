@@ -51,7 +51,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Maintain Changelog" in testee_header
+        assert "name: Maintain CHANGELOG" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -63,7 +63,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_maintain_changelog_heading(_, testee_content):
-        assert "### Maintain Changelog" in testee_content
+        assert "### Maintain CHANGELOG" in testee_content
 
     def test_review_recent_changes(_, testee_content):
         assert (
