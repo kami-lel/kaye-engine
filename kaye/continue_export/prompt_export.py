@@ -26,7 +26,10 @@ maintain_docs_blueprint.display_name = "Maintain Docs"
 
 # maintain changelog
 maintain_changelog_blueprint = PromptBlueprint.create_empty_blueprint()
-maintain_changelog_blueprint.checkmark(_prompt_node["Maintain Changelog"])
+_maintain_changelog_node = _prompt_node["Maintain Changelog"]
+maintain_changelog_blueprint.checkmark(
+    _maintain_changelog_node, recursively=True
+)
 maintain_changelog_blueprint.display_name = "Maintain Changelog"
 
 # resolve annotation markers

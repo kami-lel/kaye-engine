@@ -3841,10 +3841,14 @@ Return a brief summary listing changed files and the documentation updates made.
 
 review recent changes — update or create `CHANGELOG.md` to reflect them. 
 
+
+
+
+
 #### edit CHANGELOG
 
 - edit `CHANGELOG.md` or CHANGELOG-Style File to reflect the current project state
-- Follow the *Coder Changelog Writer* rule for format, versioning, and entry style
+- Follow the **Changelog Writer** rule for format, versioning, and entry style
 
 
 
