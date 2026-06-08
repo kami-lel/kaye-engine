@@ -3940,7 +3940,7 @@ Create the `README.md` file at the project root
 
 
 
-## Create AGENTS
+### Create AGENTS
 
 Use **AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
 
