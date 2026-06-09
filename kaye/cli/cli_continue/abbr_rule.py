@@ -36,8 +36,8 @@ _TAG_NAMES = {
 }
 
 _WRAP_NAMES = {
-    AbbrWrap.PREFIX: "Prefix",
-    AbbrWrap.SUFFIX: "Suffix",
+    AbbrWrap.PREFIX: "Prefixes",
+    AbbrWrap.SUFFIX: "Suffixes",
     AbbrWrap.SYMBOL: "Symbols",
 }
 
