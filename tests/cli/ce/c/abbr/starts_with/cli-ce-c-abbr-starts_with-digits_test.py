@@ -46,7 +46,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Abbreviations Starts with Digits 0~9" in testee_header
+        assert "name: Abbr Starts with Digits 0~9" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
