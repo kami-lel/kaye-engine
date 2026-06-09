@@ -49,11 +49,6 @@ def _sort_entries(entries):
     return sorted(entries, key=lambda e: e.abbr.lower())
 
 
-def _generate_abbr_content(entries):
-    lines = [entry.as_md_list_entry() for entry in entries]
-    return "\n".join(lines) + "\n"
-
-
 def _write_rule_file(file_path, name, entries, description=""):
     if not entries:
         return  # skip empty groups
