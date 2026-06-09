@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "coder_js_ts_blueprint.md") as f:
+    with open(testee_rules_folder / "Coder JavaScript and TypeScript.md") as f:
         return f.read()
 
 

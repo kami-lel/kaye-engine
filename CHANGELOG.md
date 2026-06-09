@@ -28,6 +28,18 @@
 
 ### Security
 
+
+
+
+
+
+
+
+
+
+
+
+
 ## [6.3.0] - 2026-06-09
 
 ### Added
@@ -97,6 +109,7 @@
   - export logic now lives behind CLI commands instead of the Python API
   - relative imports adopted for improved modularity and clearer package
     boundaries
+  - standardize blueprint exported rule file names
 
 - prompt_corpus.md: better organization of prompts related to documentation
   workflows, clearly split into:

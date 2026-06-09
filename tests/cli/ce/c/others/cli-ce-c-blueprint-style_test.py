@@ -3,7 +3,7 @@ cli-ce-c-blueprint-style_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``style_blueprint.md``
+creation of ``Style Guide.md``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "style_blueprint.md") as f:
+    with open(testee_rules_folder / "Style Guide.md") as f:
         return f.read()
 
 
