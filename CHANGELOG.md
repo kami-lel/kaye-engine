@@ -133,10 +133,6 @@
 
 - prompt_corpus.md: code block formatting standardized with proper indentation
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - `PromptBlueprint.generate_prompt()`: trim leading and trailing empty lines
@@ -144,7 +140,6 @@
 - prompt_corpus.md: **Kaye Peer Coder**: comment section headings — corrected
   wrong example of top-level heading
 
-### Security
 
 
 
