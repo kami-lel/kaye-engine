@@ -57,6 +57,7 @@ class AbbrTags(Flag):
     log_level = auto()
     unit_of_measure = auto()
     currency_symbol = auto()
+    single_character = auto()
 
     # character set  -----------------------------------------------------------
 
