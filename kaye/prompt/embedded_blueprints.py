@@ -193,3 +193,6 @@ project_changelog_blueprint = PromptBlueprint.create_from_node(
 project_agents_blueprint = PromptBlueprint.create_from_node(
     _proj_node["Project AGENTS Writer"]
 )
+
+
+# TODO version blueprint
