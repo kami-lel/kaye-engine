@@ -12,9 +12,6 @@ from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
 
 from .rule_file import RuleFile
 
-# TODO standardize file name
-
-
 # constants  ###################################################################
 
 _LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -22,45 +19,30 @@ _DIGITS = "0123456789"
 _LETTERS_SET = frozenset(_LETTERS)
 _DIGITS_SET = frozenset(_DIGITS)
 
+# file name component maps: tag/wrap enum -> (file component, display name)
+_TAG_NAMES = {
+    AbbrTags.programming_language_code: (
+        "programming_language_code",
+        "Programming Language Codes",
+    ),
+    AbbrTags.language_code: ("language_code", "Natural Language Codes"),
+    AbbrTags.unit_of_measure: ("unit_of_measure", "Units of Measure"),
+    AbbrTags.currency_symbol: ("currency_symbol", "Currency Symbols"),
+    AbbrTags.single_character: ("single_character", "Single Character"),
+    AbbrTags.emoji: ("emoji", "Emoji"),
+}
 
-_TAG_GROUPS = [
-    (
-        AbbrTags.programming_language_code,
-        "abbr-programming_language_code.md",
-        "Abbreviations Programming Language Codes",
-    ),
-    (
-        AbbrTags.language_code,
-        "abbr-language_code.md",
-        "Abbreviations Natural Language Codes",
-    ),
-    (
-        AbbrTags.unit_of_measure,
-        "abbr-unit_of_measure.md",
-        "Abbreviations Units of Measure",
-    ),
-    (
-        AbbrTags.currency_symbol,
-        "abbr-currency_symbol.md",
-        "Abbreviations Currency Symbols",
-    ),
-    (
-        AbbrTags.single_character,
-        "abbr-single_character.md",
-        "Abbreviations Single Character",
-    ),
-    (
-        AbbrTags.emoji,
-        "abbr-emoji.md",
-        "Abbreviations Emoji",
-    ),
-]
+_WRAP_NAMES = {
+    AbbrWrap.PREFIX: ("prefix", "Prefix"),
+    AbbrWrap.SUFFIX: ("suffix", "Suffix"),
+    AbbrWrap.SYMBOL: ("symbol", "Symbols"),
+}
 
-_WRAP_GROUPS = [
-    (AbbrWrap.SYMBOL, "abbr-symbol.md", "Abbreviations Symbols"),
-    (AbbrWrap.SUFFIX, "abbr-suffix.md", "Abbreviations Suffixes"),
-    (AbbrWrap.PREFIX, "abbr-prefix.md", "Abbreviations Prefixes"),
-]
+_FIRST_CHAR_NAMES = {
+    "digits": ("digits", "Digits (0–9)"),
+    "letters": ("letter", None),  # per-letter name generated
+    "other": ("other", "Non-Alphanumeric"),
+}
 
 
 # helpers  #####################################################################
@@ -95,18 +77,28 @@ def _export_by_tags(folder, abbrs):
     """
     export one rule file per tag group into ``folder``
     """
-    for tag, filename, name in _TAG_GROUPS:
+    for tag, (file_comp, display_name) in _TAG_NAMES.items():
         entries = _sort_entries([e for e in abbrs if tag in e.tags])
-        _write_rule_file(folder / filename, name, entries)
+        filename = "abbr-{}.md".format(file_comp)
+        _write_rule_file(
+            folder / filename,
+            "Abbreviations {}".format(display_name),
+            entries,
+        )
 
 
 def _export_by_wrap(folder, abbrs):
     """
     export one rule file per wrap type into ``folder``
     """
-    for wrap, filename, name in _WRAP_GROUPS:
+    for wrap, (file_comp, display_name) in _WRAP_NAMES.items():
         entries = _sort_entries([e for e in abbrs if e.wrap == wrap])
-        _write_rule_file(folder / filename, name, entries)
+        filename = "abbr-{}.md".format(file_comp)
+        _write_rule_file(
+            folder / filename,
+            "Abbreviations {}".format(display_name),
+            entries,
+        )
 
 
 def _export_by_first_char(folder, abbrs):
@@ -131,9 +123,10 @@ def _export_by_first_char(folder, abbrs):
             other.append(entry)
 
     # digits  ------------------------------------------------------------------
+    digits_comp, digits_name = _FIRST_CHAR_NAMES["digits"]
     _write_rule_file(
-        folder / "abbr-starts_with-digits.md",
-        "Abbreviations Starts with Digits (0–9)",
+        folder / "abbr-starts_with-{}.md".format(digits_comp),
+        "Abbreviations Starts with {}".format(digits_name),
         _sort_entries(digits),
     )
 
@@ -146,9 +139,10 @@ def _export_by_first_char(folder, abbrs):
         )
 
     # other  -------------------------------------------------------------------
+    other_comp, other_name = _FIRST_CHAR_NAMES["other"]
     _write_rule_file(
-        folder / "abbr-starts_with-other.md",
-        "Abbreviations Starts with Other",
+        folder / "abbr-starts_with-{}.md".format(other_comp),
+        "Abbreviations Starts with {}".format(other_name),
         _sort_entries(other),
     )
 
