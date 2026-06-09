@@ -2670,7 +2670,7 @@ You must help user to write CHANGELOG.
 **Format:**
 
 - title must be `Project Name CHANGELOG`
-- must include Github **links** at the end
+- must include Github **links** at each section's end
 
 **Example:**
 
@@ -2693,6 +2693,8 @@ You must help user to write CHANGELOG.
 
     ### Security
 
+    [unreleased]: https://github.com/example-user/example-project/compare/v2.1.0...dev
+
     ## [2.1.0] - 2024-01-15
 
     ### Added
@@ -2713,6 +2715,8 @@ You must help user to write CHANGELOG.
 
     - Profile picture not rendering correctly on Safari
 
+    [2.1.0]: https://github.com/example-user/example-project/compare/v2.0.0...v2.1.0
+
     ## [2.0.0] - 2023-11-02
 
     ### Added
@@ -2727,9 +2731,6 @@ You must help user to write CHANGELOG.
 
     - Patched JWT algorithm confusion vulnerability (CVE-2023-XXXX)
 
-
-    [unreleased]: https://github.com/example-user/example-project/compare/v2.1.0...dev
-    [2.1.0]: https://github.com/example-user/example-project/compare/v2.0.0...v2.1.0
     [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
     ```
 
