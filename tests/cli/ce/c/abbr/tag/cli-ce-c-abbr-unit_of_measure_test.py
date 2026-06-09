@@ -1,9 +1,9 @@
 """
-cli-ce-c-abbr-currency_symbol_test.py
+cli-ce-c-abbr-unit_of_measure_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``abbr-currency_symbol``
+creation of ``abbr-unit_of_measure``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "abbr-currency_symbol.md") as f:
+    with open(testee_rules_folder / "Abbr Units of Measure.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Abbreviations Currency Symbols" in testee_header
+        assert "name: Abbr Units of Measure" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -53,23 +53,32 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test1(_, testee_content):
-        assert "- $:(default)US Dollar" in testee_content
+    def test_b_bit(_, testee_content):
+        assert "- b:bit" in testee_content
 
-    def test2(_, testee_content):
-        assert "- HK$:港元 Hong Kong Dollar" in testee_content
+    def test_B_byte(_, testee_content):
+        assert "- B:byte" in testee_content
 
-    def test3(_, testee_content):
-        assert "- JP¥:円 Japanese Yen" in testee_content
+    def test_ft(_, testee_content):
+        assert "- ft:foot" in testee_content
 
-    def test4(_, testee_content):
-        assert "- ¢:(default)US cent" in testee_content
+    def test_hr(_, testee_content):
+        assert "- hr:hour" in testee_content
 
-    def test5(_, testee_content):
-        assert "- ¤:any non-specific currency" in testee_content
+    def test_lb(_, testee_content):
+        assert "- lb:pound" in testee_content
 
-    def test6(_, testee_content):
-        assert "- ¥:(default)Chinese Yuan,RMB" in testee_content
+    def test_mi(_, testee_content):
+        assert "- mi:mile" in testee_content
 
-    def test7(_, testee_content):
-        assert "- €:Euro" in testee_content
+    def test_min(_, testee_content):
+        assert "- min:minute" in testee_content
+
+    def test_s(_, testee_content):
+        assert "- s:second" in testee_content
+
+    def test_yd(_, testee_content):
+        assert "- yd:yard" in testee_content
+
+    def test_nmi(_, testee_content):
+        assert "- nmi:nautical mile" in testee_content

@@ -1,9 +1,9 @@
 """
-cli-ce-c-abbr-prefix_test.py
+cli-ce-c-abbr-symbol_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``abbr-prefix``
+creation of ``abbr-symbol``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "abbr-prefix.md") as f:
+    with open(testee_rules_folder / "Abbr Symbols.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Abbreviations Prefixes" in testee_header
+        assert "name: Abbr Symbols" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -53,32 +53,32 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_a_an(_, testee_content):
-        assert "- a.:an-" in testee_content
+    def test_exclamation(_, testee_content):
+        assert "- !:no,not,incorrect" in testee_content
 
-    def test_a_anti(_, testee_content):
-        assert "- a.:anti-" in testee_content
+    def test_not_equal(_, testee_content):
+        assert "- !=:not equal" in testee_content
 
-    def test_c_co(_, testee_content):
-        assert "- c.:co-" in testee_content
+    def test_ampersand(_, testee_content):
+        assert "- &:and" in testee_content
 
-    def test_d_de(_, testee_content):
-        assert "- d.:de-" in testee_content
+    def test_arrow_right(_, testee_content):
+        assert "- ->:become/change/transform into" in testee_content
 
-    def test_i(_, testee_content):
-        assert "- i.:in-,inter-" in testee_content
+    def test_arrow_left(_, testee_content):
+        assert "- <-:become/change/transform from" in testee_content
 
-    def test_m(_, testee_content):
-        assert "- m.:mal-" in testee_content
+    def test_therefore(_, testee_content):
+        assert "- =>:therefore,causing,resulting" in testee_content
 
-    def test_n(_, testee_content):
-        assert "- n.:non-" in testee_content
+    def test_sqrt(_, testee_content):
+        assert "- √:square root" in testee_content
 
-    def test_o(_, testee_content):
-        assert "- o.:over-" in testee_content
+    def test_infinite(_, testee_content):
+        assert "- ∞:infinite" in testee_content
 
-    def test_p(_, testee_content):
-        assert "- p.:pro-" in testee_content
+    def test_warning(_, testee_content):
+        assert "- ⚠️:warning" in testee_content
 
-    def test_u(_, testee_content):
-        assert "- u.:un-" in testee_content
+    def test_checkmark(_, testee_content):
+        assert "- ✓:correct,correction" in testee_content

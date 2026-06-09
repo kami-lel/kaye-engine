@@ -1,9 +1,9 @@
 """
-cli-ce-c-abbr-unit_of_measure_test.py
+cli-ce-c-abbr-language_code_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``abbr-unit_of_measure``
+creation of ``abbr-language_code``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "abbr-unit_of_measure.md") as f:
+    with open(testee_rules_folder / "Abbr Natural Language Codes.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Abbreviations Units of Measure" in testee_header
+        assert "name: Abbr Natural Language Codes" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -53,32 +53,20 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_b_bit(_, testee_content):
-        assert "- b:bit" in testee_content
+    def test_de(_, testee_content):
+        assert "- de:Deutsch" in testee_content
 
-    def test_B_byte(_, testee_content):
-        assert "- B:byte" in testee_content
+    def test_en(_, testee_content):
+        assert "- en:English" in testee_content
 
-    def test_ft(_, testee_content):
-        assert "- ft:foot" in testee_content
+    def test_jp(_, testee_content):
+        assert "- jp:日本語" in testee_content
 
-    def test_hr(_, testee_content):
-        assert "- hr:hour" in testee_content
+    def test_zh(_, testee_content):
+        assert "- zh:中文" in testee_content
 
-    def test_lb(_, testee_content):
-        assert "- lb:pound" in testee_content
+    def test_zhs(_, testee_content):
+        assert "- zhs:大陆简体中文" in testee_content
 
-    def test_mi(_, testee_content):
-        assert "- mi:mile" in testee_content
-
-    def test_min(_, testee_content):
-        assert "- min:minute" in testee_content
-
-    def test_s(_, testee_content):
-        assert "- s:second" in testee_content
-
-    def test_yd(_, testee_content):
-        assert "- yd:yard" in testee_content
-
-    def test_nmi(_, testee_content):
-        assert "- nmi:nautical mile" in testee_content
+    def test_zht(_, testee_content):
+        assert "- zht:香港繁體中文" in testee_content

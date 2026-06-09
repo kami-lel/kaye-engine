@@ -1,9 +1,9 @@
 """
-cli-ce-c-abbr-symbol_test.py
+cli-ce-c-abbr-single_character_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``abbr-symbol``
+creation of ``abbr-single_character``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "abbr-symbol.md") as f:
+    with open(testee_rules_folder / "Abbr Single Character.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Abbreviations Symbols" in testee_header
+        assert "name: Abbr Single Character" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -53,32 +53,32 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_exclamation(_, testee_content):
-        assert "- !:no,not,incorrect" in testee_content
-
-    def test_not_equal(_, testee_content):
-        assert "- !=:not equal" in testee_content
+    def test_dollar(_, testee_content):
+        assert "- $:(default)US Dollar" in testee_content
 
     def test_ampersand(_, testee_content):
         assert "- &:and" in testee_content
 
-    def test_arrow_right(_, testee_content):
-        assert "- ->:become/change/transform into" in testee_content
+    def test_greater_than(_, testee_content):
+        assert "- >:greater than" in testee_content
 
-    def test_arrow_left(_, testee_content):
-        assert "- <-:become/change/transform from" in testee_content
+    def test_b_bit(_, testee_content):
+        assert "- b:bit" in testee_content
 
-    def test_therefore(_, testee_content):
-        assert "- =>:therefore,causing,resulting" in testee_content
+    def test_C_can(_, testee_content):
+        assert "- C:can,could" in testee_content
 
-    def test_sqrt(_, testee_content):
-        assert "- √:square root" in testee_content
+    def test_degree(_, testee_content):
+        assert "- °:degree" in testee_content
 
-    def test_infinite(_, testee_content):
-        assert "- ∞:infinite" in testee_content
+    def test_section(_, testee_content):
+        assert "- §:chapter" in testee_content
 
-    def test_warning(_, testee_content):
-        assert "- ⚠️:warning" in testee_content
+    def test_multiply(_, testee_content):
+        assert "- ×:multiply,multiplication,multiplier" in testee_content
 
-    def test_checkmark(_, testee_content):
-        assert "- ✓:correct,correction" in testee_content
+    def test_rightwards_double_arrow(_, testee_content):
+        assert "- ⇒:therefore,causing,resulting" in testee_content
+
+    def test_ditto(_, testee_content):
+        assert "- 〃:ditto,repetitive as above" in testee_content
