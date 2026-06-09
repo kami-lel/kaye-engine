@@ -176,8 +176,9 @@ def _build_groups(abbr_data):
 
 # export  ######################################################################
 
-# Fixme combine range: eg start w/ a~c
-# Fixme allow single abbreviation appears in different rules
+# FIXME combine range: eg start w/ a~c
+# FIXME allow single abbreviation appears in different rules
+# TODO Single Letter
 
 
 def export_abbr_rules(rules_folder):
