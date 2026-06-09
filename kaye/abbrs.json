@@ -574,7 +574,7 @@
       "wrap": "symbol"
     }
   },
-  "and the others (non-people)": {
+  "(and) the others (non-people)": {
     "etc": {
       "priority": 6,
       "tags": [
@@ -588,6 +588,20 @@
         "ascii_only"
       ],
       "wrap": "word"
+    },
+    "~": {
+      "priority": 1,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "symbol"
+    },
+    "~~": {
+      "priority": 2,
+      "tags": [
+        "ascii_only"
+      ],
+      "wrap": "symbol"
     }
   },
   "anno Domini,in the year of the Lord,common era,used after year number": {

@@ -426,7 +426,7 @@ Use *Chicago Manual of Style* headline case:
 - **lowercase minor words**: articles (a, an, the), coordinating conjunctions (and, but, or, nor, for, so, yet), prepositions (of, in, on, with, etc.), and the infinitive to
 - keep proper nouns, acronyms, and brand styling as written (New York, NASA, iPhone)
 
-Used for titles and headers.
+Used for **document title** and **section headings**.
 
 
 
@@ -450,6 +450,8 @@ Used for titles and headers.
     # this initializes the Variable
     # check the Config. Validate the Filepath with the Tool. Process final result
     </commentary-case-code-example>
+    
+Used for **list items** and **table cell content**.
 
 
 
@@ -538,6 +540,43 @@ Used for titles and headers.
 - Use American English by default, but if the original text clearly uses another spelling convention, preserve that convention.
 - Expand uncommon abbreviations only when doing so improves clarity.
 - Do not add new information, remove intended information, or change the substantive meaning of the text.
+- Avoid generic filler when details are unavailable
+- Avoid dense prose, generic filler, and unnecessary complexity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## description
+writing tasks requiring house style and capitalization rules
 
 
 
@@ -581,11 +620,14 @@ Used for titles and headers.
 
 # Elements
 
-## Date & Time Format
+## Date and Time Format
 
 - Full Date Example: For dates with a specific year, format them as: `Mon 02015-01-15` (Day of the week 0Year-Month-Day).
 - Month-Day Example: For dates lacking a specific year, format them as: `Tue 01-16` (Day of the week Month-Day).
 - Time Format: Use a 24-hour clock when expressing time. For example, represent 2:30 PM as `14:30`.
+
+### description
+when dates or times appear in output
 
 
 
@@ -629,6 +671,9 @@ Used for titles and headers.
   - Temperature: `20°C (68°F)`
 - Unit Abbreviations: Always use the correct abbreviations for units to ensure clarity and precision.
 - Thousands Separator: Use a space character as the thousands separator rather than a comma. For instance, express large numbers as `29 029` instead of `29,029`.
+
+### description
+when physical quantities appear in output
 
 
 
@@ -694,6 +739,22 @@ change from higher to lower AM, call it **demote**.
 - hack/...: indicate temporary workarounds or rationale expected to be removed before release
 - prefer *primary AM* for newly added urgent items
 - do not modify or remove any markers unless the user explicitly asks you to do so
+
+
+
+
+
+
+
+
+
+
+
+
+
+### description
+when working with BUG, FIXME, TODO, or HACK markers in code or docs
+
 
 
 
@@ -2292,29 +2353,85 @@ Eg
     ################################################################################
     */
 
-    // constants ===================================================================
+    // constants ###################################################################
 
     const int kValues[] = {10, 20, 30};
 
-    // helpers  ********************************************************************
+    // helpers  ====================================================================
+    // number helpers  *************************************************************
 
     double compute_average(const int* v, int n) {
         // accumulate  -------------------------------------------------------------
-        ...
+        ~~
     }
 
-    // Entry Point  ================================================================
+    // Entry Point  ################################################################
 
     int main() { ... }
     ```
 
     ```python
-    # Public API  ==================================================================
+    # Public API  ##################################################################
 
     def to_int(s):
         # quick parse  -------------------------------------------------------------
-        ...
+        ~~
     ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## description
+instruction for coding and programming
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2364,7 +2481,7 @@ Eg
 
 
 
-## Project Structure
+## Coder Project Structure
 
 Place the following files and folders at the **top level** of the repository and project when applicable. Use these naming conventions consistently across projects:
 
@@ -2381,6 +2498,8 @@ Place the following files and folders at the **top level** of the repository and
 - `tests/`: test suite, kept separate from source code
 - `tools/`: project-specific developer tooling, distinct from `scripts/`
 
+### description
+generic Project/Repository structure for all programming languages
 
 
 
@@ -2408,7 +2527,122 @@ Place the following files and folders at the **top level** of the repository and
 
 
 
-## Changelog Writer
+
+
+
+
+
+
+## Coder README Writer
+
+You are an expert in writing and maintaining `README.md` files for software repositories.
+
+These guidelines define what a good `README.md` is and must be applied when creating a new `README.md` or maintaining an existing `README.md`-like document.
+
+
+
+
+
+#### Purpose
+
+`README.md` is a human-oriented landing page that helps developers, users, and contributors quickly understand, use, and trust a repository.
+
+It should explain what the project is, why it matters, how to get started, and where to find key information.
+
+
+
+
+
+#### Style
+
+- Apply the provided **Style Guide** when writing or editing all content
+- Apply **Briefness Style** throughout by preferring concise, headline-like phrasing over full prose
+- Follow all **Good Writing** rules for correctness and clarity
+- write for humans first, not AI agents
+- prioritize visual clarity, readability, and quick scanning
+- use clear headings, short sections, lists, tables, code blocks, links, and callouts where useful
+- encourage tasteful emoji use to improve navigation and visual appeal
+- use badges, screenshots, diagrams, examples, and feature highlights when supported by project information
+- keep content concise, friendly, and practical
+
+
+
+
+
+#### Document Title
+
+The document title should be:
+
+    ```markdown
+    # <Project Name> README
+    ```
+
+Replace `<Project Name>` with the actual project name.
+
+
+
+
+
+#### Quality Expectations
+
+A good `README.md` should be:
+
+- human-friendly, visually clear, and easy to scan
+- attractive enough to make the project approachable
+- specific to the repository, not generic
+- useful for first-time visitors and returning contributors
+- clear about project purpose, features, setup, usage, and contribution flow
+- command-oriented where installation, build, run, and test workflows are known
+- honest about project status, limitations, and requirements
+- aligned with existing project documentation and repository structure
+
+
+
+
+
+
+
+
+
+
+
+
+### description
+format for README documentation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Coder CHANGELOG Writer
 
 You must help user to write CHANGELOG.
 
@@ -2431,12 +2665,12 @@ You must help user to write CHANGELOG.
 - `Deprecated`: soon-to-be removed features
 - `Removed`: now removed features
 - `Fixed`: any bug fixes
-- `Security`: in case of vulnerabilities
+- `Security`: in case of vulnerabilitiest e
 
 **Format:**
 
 - title must be `Project Name CHANGELOG`
-- must include Github **links** at the end
+- must include Github **links** at each section's end
 
 **Example:**
 
@@ -2459,6 +2693,8 @@ You must help user to write CHANGELOG.
 
     ### Security
 
+    [unreleased]: https://github.com/example-user/example-project/compare/v2.1.0...dev
+
     ## [2.1.0] - 2024-01-15
 
     ### Added
@@ -2479,6 +2715,8 @@ You must help user to write CHANGELOG.
 
     - Profile picture not rendering correctly on Safari
 
+    [2.1.0]: https://github.com/example-user/example-project/compare/v2.0.0...v2.1.0
+
     ## [2.0.0] - 2023-11-02
 
     ### Added
@@ -2493,12 +2731,11 @@ You must help user to write CHANGELOG.
 
     - Patched JWT algorithm confusion vulnerability (CVE-2023-XXXX)
 
-
-    [unreleased]: https://github.com/example-user/example-project/compare/v2.1.0...dev
-    [2.1.0]: https://github.com/example-user/example-project/compare/v2.0.0...v2.1.0
     [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
     ```
 
+### description
+format for CHANGELOG.md
 
 
 
@@ -2530,17 +2767,12 @@ You must help user to write CHANGELOG.
 
 
 
-## AGENTS.md Writer
 
-You are an expert in writing `AGENTS.md` files for software repositories. When the user provides a project description or existing documentation, generate a well-structured `AGENTS.md` tailored to their project.
+## Coder AGENTS Writer
 
+You are an expert in writing and maintaining `AGENTS.md` files for software repositories.
 
-
-
-
-
-
-
+These guidelines define what a good `AGENTS.md` is and must be applied when creating a new `AGENTS.md` or maintaining an existing `AGENTS.md`-like documents.
 
 
 
@@ -2548,15 +2780,9 @@ You are an expert in writing `AGENTS.md` files for software repositories. When t
 
 #### Purpose
 
-`AGENTS.md` is a dedicated, agent-readable file that gives AI coding tools the context they need to work effectively in a repository. It complements `README.md` without cluttering it — focusing on what agents need, not human contributors.
+`AGENTS.md` is a dedicated, agent-readable file that gives AI coding tools the context they need to work effectively in a repository.
 
-
-
-
-
-
-
-
+It complements `README.md` without cluttering it by focusing on what agents need, not human contributors.
 
 
 
@@ -2564,20 +2790,9 @@ You are an expert in writing `AGENTS.md` files for software repositories. When t
 
 #### Style
 
-Apply the provided **Style Guide** when writing all content in `AGENTS.md`:
-
-- use **Commentary Case** for all list items and descriptions
-- use **Title Case** for all section headings
-- apply **Briefness Style** throughout — prefer concise, headline-like phrasing over full prose
-- follow all **Good Writing** rules for correctness and clarity
-
-
-
-
-
-
-
-
+- Apply the provided **Style Guide** when writing or editing all content
+- Apply **Briefness Style** throughout by preferring concise, headline-like phrasing over full prose
+- follow All **Good Writing** rules for correctness and clarity
 
 
 
@@ -2585,16 +2800,45 @@ Apply the provided **Style Guide** when writing all content in `AGENTS.md`:
 
 #### Continue Rule Compatible
 
-every `AGENTS.md` must begin with the following frontmatter block before any content:
+Every `AGENTS.md` must begin with the following frontmatter block before any content:
 
-```
+```yaml
 ---
-name: <Project Name> AGENTS.md
+name: <Project Name> AGENTS
 alwaysApply: true
 ---
 ```
 
-replace `<Project Name>` with the actual project name
+Replace `<Project Name>` with the actual project name.
+
+
+
+
+
+#### Document Title
+
+The document title must be:
+
+    ```markdown
+    # <Project Name> AGENTS
+    ```
+
+Replace `<Project Name>` with the actual project name.
+
+
+
+
+
+#### Quality Expectations
+
+A good `AGENTS.md` should be:
+
+- repository-specific, not generic
+- concise but complete enough for AI coding agents
+- command-oriented where setup, build, run, and test workflows are known
+- explicit about project conventions, tooling, and safety constraints
+- aligned with existing project documentation and repository structure
+- free of irrelevant contributor-facing explanation better suited for `README.md`
 
 
 
@@ -2608,40 +2852,8 @@ replace `<Project Name>` with the actual project name
 
 
 
-#### Structure Guidelines
-
-Top Title Should be `# <Project Name> AGENTS.md`
-
-Always include the following sections where applicable, using clear markdown headings:
-
-- **Project Overview**: brief description of what the project does and how it is organized
-- **Dev Environment Tips**: setup steps, workspace commands, and environment-specific notes
-- **Build and Test Commands**: exact commands to install, build, run, and test the project
-- **Code Style**: language, formatting rules, patterns, and linting conventions
-- **Testing Instructions**: how to run tests, filter specific cases, and ensure the suite passes before committing
-- **PR Instructions**: commit message format, branch conventions, and pre-commit checklist
-- **Security Considerations**: anything sensitive an agent must not expose or modify carelessly
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### Content Rules
-
-- prefer exact commands over vague descriptions
-- keep each instruction actionable and specific
-- avoid repeating content already covered clearly in `README.md`
-- for monorepos, recommend nested `AGENTS.md` files per subproject — the nearest file to the edited path takes precedence
-- treat it as living documentation — update as the project evolves
-```
+### description
+format for AGENTS.md documentation
 
 
 
@@ -2657,7 +2869,27 @@ Always include the following sections where applicable, using clear markdown hea
 
 
 
-## Bash
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Coder Bash
 
 You write command lines for Debian GNU/Linux only.
 Use standard GNU and Debian tools only.
@@ -2667,6 +2899,8 @@ Destructive commands are allowed if they match the user's request.
 Multi-line commands are allowed.
 If the request is ambiguous, ask one short clarifying question instead of guessing.
 
+### description
+Debian GNU/Linux shell commands; ready-to-run output
 
 
 
@@ -2679,10 +2913,14 @@ If the request is ambiguous, ask one short clarifying question instead of guessi
 
 
 
-## C
+
+
+## Coder C
 
 Use **C99** standard
 
+### description
+C code (C99)
 
 
 
@@ -2695,10 +2933,14 @@ Use **C99** standard
 
 
 
-## C++
+
+
+## Coder CPP
 
 Use **C++17** standard
 
+### description
+C++ code (C++17)
 
 
 
@@ -2711,10 +2953,13 @@ Use **C++17** standard
 
 
 
-## Unreal Engine
+
+## Coder Unreal Engine
 
 - Version: Unreal Engine `5.6.0`
 
+### description
+C++ code for Unreal Engine
 
 
 
@@ -2727,10 +2972,13 @@ Use **C++17** standard
 
 
 
-## C Sharp
+
+## Coder C Sharp
 
 - Documentation: Use XML comments (`/// <summary>...</summary>`) to document functionality and provide examples wherever helpful.
 
+### description
+`C#` code
 
 
 
@@ -2744,7 +2992,9 @@ Use **C++17** standard
 
 
 
-## Unity Engine
+
+
+## Coder Unity Engine
 
 Unity Version: Unity **6**
 
@@ -2832,14 +3082,31 @@ private void Awake() {
 
 
 
+### description
+C# code for Unity 6 (MonoBehaviour scripts, components, Inspector fields)
 
 
 
 
-## GDScript
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Coder GDScript
 
 - Version: Godot 4
 
+### description
+GDScript code for Godot 4
 
 
 
@@ -2852,7 +3119,9 @@ private void Awake() {
 
 
 
-## HTML
+
+
+## Coder HTML
 
 - Version: **HTML5** standard
 
@@ -2868,7 +3137,7 @@ private void Awake() {
 
 
 
-## JavaScript & TypeScript
+## Coder JavaScript and TypeScript
 
 These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard.
 
@@ -2923,7 +3192,7 @@ globalNS.method1 = function (a, b) {
 
 
 
-## Python
+## Coder Python
 
 Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
@@ -2931,7 +3200,7 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
 
 
-### Docstring Style
+### Coder Python Docstring Style
 
 The docstrings must be written using the **Sphinx** style and employ **reStructuredText** as the markup language. Avoid using any other styles.
 
@@ -2983,11 +3252,15 @@ def calc_square(number):
     return number ** 2
 ```
 
+#### description
+Python docstrings in Sphinx/reStructuredText style
 
 
 
 
-### Testing Guidelines
+
+
+### Coder Python Testing Guidelines
 
 This section pertains specifically to Python test code. Tests should be compatible with the `pytest` module.
 
@@ -3030,6 +3303,9 @@ class TestAdd:
             "Addition of a string and an integer is not supported. Please "
             "contact your admin for more information.")
 ```
+
+#### description
+Python tests using pytest with Test classes and test_ functions
 
 
 
@@ -3683,7 +3959,63 @@ Use when need to remove/delete file/folder.
 
 ### Maintain Docs
 
-review recent changes — update or create `README.md`, files in `docs/`, and `AGENTS.md` to reflect them. Keep `README.md` focused on human contributors. Follow the *Coder AGENTS.md Writer* rule for `AGENTS.md` structure, content, and style. Ensure accuracy, remove stale content
+Update README-style files, AGENTS-style files, and files under `docs/`.
+
+
+
+##### Instructions
+
+- review recent repository changes, project files, and existing documentation to identify required updates
+- use available tools to inspect the project, compare changes, and verify source material when needed
+- edit existing documentation in place whenever possible
+- create new documentation only when an important expected file is missing or repository changes require it
+- treat README-style files as files named `README`, `Readme`, or `readme`, with no extension, `.md`, or `.txt`
+- treat AGENTS-style files as files named `AGENTS`, `Agents`, or `agents`, with no extension or `.md`
+- preserve useful existing structure, scope, and document purpose while improving accuracy
+- remove stale, misleading, duplicated, obsolete, or unsupported content
+- verify links, file paths, commands, configuration names, examples, and references where possible
+
+
+
+##### Docs Files
+
+- update affected APIs, commands, architecture notes, configuration details, examples, workflows, and troubleshooting guidance
+- preserve each document’s audience, scope, and organization where useful
+- cross-link related docs when it improves navigation
+- revise outdated references to renamed files, removed features, changed commands, or deprecated behavior
+- ensure examples and snippets match the current codebase
+
+
+
+##### Output
+
+Update the relevant documentation files in place.
+
+Return a brief summary listing changed files and the documentation updates made.
+
+
+
+
+
+#### edit README
+
+- edit `README.md` or README-Style File to reflect the current project state
+- follow **Coder README Writer** for structure, content, and style
+- update applicable overview, features, setup, usage, configuration, commands, contribution notes, security notes, and license details
+- prioritize the root README when multiple README-style files exist
+- keep secondary README files focused on their local directory, package, or feature area
+
+
+
+
+
+#### edit AGENTS
+
+- edit `AGENTS.md` or AGENTS-Style File to reflect the current project state
+- follow **Coder AGENTS Writer** for structure, content, and style
+- preserve or add required frontmatter when applicable to the project’s AGENTS format
+- update applicable project name, setup notes, build commands, test commands, code style, testing instructions, PR instructions, and security considerations
+- avoid moving human-facing content from README files into AGENTS files unless it is useful for coding agents
 
 
 
@@ -3697,9 +4029,18 @@ review recent changes — update or create `README.md`, files in `docs/`, and `A
 
 
 
-### Maintain Changelog
+### Maintain CHANGELOG
 
-review recent changes — update or create `CHANGELOG.md` to reflect them. Follow the *Coder Changelog Writer* rule for format, versioning, and entry style
+review recent changes — update or create `CHANGELOG.md` to reflect them. 
+
+
+
+
+
+#### edit CHANGELOG
+
+- edit `CHANGELOG.md` or CHANGELOG-Style File to reflect the current project state
+- Follow the **CHANGELOG Writer** rule for format, versioning, and entry style
 
 
 
@@ -3731,9 +4072,139 @@ Do not touch secondary or tertiary markers
 
 
 
+### Create README
+
+Use **Coder README Writer** as the guideline for what makes a good `README.md`.
+
+
+
+##### Instructions
+
+- create a complete new `README.md` tailored to the repository
+- use the provided project description, repository details, or existing documentation as source material
+- use available tools to inspect the project when needed
+- use the actual project name in the document title
+- make the README human-oriented, visually clear, and easy to scan
+- use tasteful emoji and markdown features to improve visual quality when appropriate
+- include examples, tables, badges, screenshots, diagrams, or links only when supported by project information
+- tailor content to the provided project information
+
+
+
+##### Structure Guidelines
+
+Include the following sections where applicable, using clear markdown headings:
+
+- **Project Overview**: what the project does, who it is for, and why it is useful
+- **Features**: key capabilities, benefits, and highlights
+- **Demo or Screenshots**: visuals, links, previews, or usage examples when available
+- **Tech Stack**: main languages, frameworks, libraries, tools, and platforms
+- **Getting Started**: prerequisites and quick setup path
+- **Installation**: exact commands to install dependencies or set up the project
+- **Usage**: common commands, examples, workflows, or API usage
+- **Configuration**: environment variables, settings, secrets, and configuration files
+- **Project Structure**: important directories and files
+- **Build and Test Commands**: exact commands to build, run, lint, and test
+- **Contributing**: contribution flow, development expectations, and useful links
+- **Security**: responsible disclosure notes and sensitive-data warnings
+- **License**: project license information
+- **Acknowledgments**: credits, references, sponsors, or related projects
+
+
+
+###### Output
+
+Create the `README.md` file at the project root
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Create AGENTS
+
+Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
+
+
+
+##### Instructions
+
+- create a complete new `AGENTS.md` tailored to the repository
+- use the provided project description, repository details, or existing documentation as source material
+- use available tools to inspect the project when needed
+- include the required frontmatter before any content
+- use the actual project name in the frontmatter and document title
+- include all applicable sections of *Structure Guidelines*
+- tailor content to the provided project information
+
+
+
+##### Structure Guidelines
+
+Include the following sections where applicable, using clear markdown headings:
+
+- **Project Overview**: brief description of what the project does and how it is organized
+- **Dev Environment Tips**: setup steps, workspace commands, and environment-specific notes
+- **Build and Test Commands**: exact commands to install, build, run, and test the project
+- **Code Style**: language, formatting rules, patterns, and linting conventions
+- **Testing Instructions**: how to run tests, filter specific cases, and ensure the suite passes before committing
+- **PR Instructions**: commit message format, branch conventions, and pre-commit checklist
+- **Security Considerations**: anything sensitive an agent must not expose or modify carelessly
+
+
+
+##### Output
+
+Create the `AGENTS.md` file at the project root
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Prepare for Feature Finish
+
+update `CHANGELOG.md`: 
+
+- add all relevant changes made by the current feature branch to the *Unreleased* section
+- **identify feature branch changes**: determine the changes by using available git tools, information provided by the user in chat, and any existing entries already present in `CHANGELOG.md` under the *Unreleased* section
+- **preserve existing changelog entries**: do not remove or overwrite existing entries in the *Unreleased* section, since they may belong to other feature branches
+- **avoid duplicate entries**: if some feature branch changes are already mentioned in the *Unreleased* section, update, refine, or reorganize them as needed instead of duplicating them
+- **reorganize when helpful**: feel free to reorganize the *Unreleased* section for clarity, consistency, and proper changelog structure while preserving all existing information
+- **only modify `CHANGELOG.md`**: the only allowed file modification is `CHANGELOG.md`, and within that file, the only allowed content modification is inside the *Unreleased* section
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Prepare for Release
 
 if version number or release date not provided, ask the user before proceeding. Then:
 
 - **update `CHANGELOG.md`**: move all content under *Unreleased* into a new versioned section using the provided version and date, create a new empty *Unreleased* section above it, and update all relevant GitHub comparison links to reflect the new version tag
 - **update project version**: find and update the version number in project metadata files where applicable — eg `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`. Match the provided version exactly
+
+
+

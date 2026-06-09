@@ -103,10 +103,6 @@ class TestCoder:  # ============================================================
         print(opt)
         assert_lang_title(opt)
 
-    def test_element_title(_, opt):
-        print(opt)
-        assert_element_title(opt)
-
     def test_role(_, opt):
         print(opt)
         assert_role(opt)

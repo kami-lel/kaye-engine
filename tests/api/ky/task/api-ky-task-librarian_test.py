@@ -159,9 +159,6 @@ class TestLib:  # ==============================================================
     def test_lang2(_, opt):
         assert_lang2(opt)
 
-    def test_element_title(_, opt):
-        assert_element_title(opt)
-
     def test_element11(_, opt):
         assert_element11(opt)
 

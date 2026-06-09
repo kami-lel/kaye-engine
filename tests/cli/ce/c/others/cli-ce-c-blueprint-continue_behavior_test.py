@@ -3,7 +3,7 @@ cli-ce-c-blueprint-continue_behavior_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``continue_behavior_blueprint.md``
+creation of ``Continue Behavior.md``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "continue_behavior_blueprint.md") as f:
+    with open(testee_rules_folder / "Continue Behavior.md") as f:
         return f.read()
 
 

@@ -114,6 +114,9 @@ Provide instructions on how to use the application.
 2. Create a new branch
 3. Submit a pull request
 
+### description
+A step-by-step guide of how to contribute
+
 ## License
 This project is licensed under the MIT License."""
 
@@ -132,8 +135,7 @@ This project is licensed under the MIT License."""
 ## Contributing
 1. Fork the repo
 2. Create a new branch
-3. Submit a pull request
-"""
+3. Submit a pull request"""
 
     def test_empty(_, corpus_testee2):
         bp_text = BLUEPRINT_2_EMPTY
@@ -223,8 +225,7 @@ The primary goal of this document.
 How data was gathered for analysis.
 
 ##### Future Work
-Suggestions for future research or tasks.
-"""
+Suggestions for future research or tasks."""
 
     def test_empty(_, corpus_testee3):
         bp_text = BLUEPRINT_3_EMPTY
@@ -234,6 +235,25 @@ Suggestions for future research or tasks.
 
         print(opt)
         assert opt == ""
+
+    def test_no_top(_, corpus_testee3):
+        bp_text = BLUEPRINT_3_PARTIAL_2
+        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
+
+        opt = bp.generate_prompt(show_comment=False, disable_first_heading=True)
+
+        print(opt)
+        assert opt == """### Background
+Context or history relevant to the topic.
+
+##### Objective
+The primary goal of this document.
+
+### Data Collection
+How data was gathered for analysis.
+
+##### Future Work
+Suggestions for future research or tasks."""
 
 
 class TestDynamicNodes:  #######################################################
@@ -264,5 +284,4 @@ Licensed under the MIT License.
 
 # {Usable Abbreviations}
 - &:and
-- /:or
-"""
+- /:or"""

@@ -84,7 +84,7 @@ def assert_style_caps_tc3(opt):
 
 
 def assert_style_caps_tc4(opt):
-    assert "Used for titles and headers." in opt
+    assert "Used for **document title** and **section headings**." in opt
 
 
 def assert_style_caps_cc0(opt):
@@ -198,7 +198,7 @@ def assert_brace2(opt):
 
 
 def assert_coder_c_title(opt):
-    assert "## C" in opt
+    assert "## Coder C" in opt
 
 
 def assert_coder_c1(opt):
@@ -209,7 +209,7 @@ def assert_coder_c1(opt):
 
 
 def assert_coder_cpp_title(opt):
-    assert "## C++" in opt
+    assert "## Coder CPP" in opt
 
 
 def assert_coder_cpp1(opt):
@@ -220,7 +220,7 @@ def assert_coder_cpp1(opt):
 
 
 def assert_js_ts00(opt):
-    assert "## JavaScript & TypeScript" in opt
+    assert "## Coder JavaScript and TypeScript" in opt
 
 
 def assert_js_ts01(opt):
@@ -255,7 +255,7 @@ def assert_js_ts24(opt):
 
 
 def assert_cs0(opt):
-    assert "## C Sharp" in opt
+    assert "## Coder C Sharp" in opt
 
 
 def assert_cs1(opt):
@@ -266,7 +266,7 @@ def assert_cs1(opt):
 
 
 def assert_py_title(opt):
-    assert "## Python" in opt
+    assert "## Coder Python" in opt
 
 
 def assert_py_intro(opt):
@@ -274,7 +274,7 @@ def assert_py_intro(opt):
 
 
 def assert_py_doc0(opt):
-    assert "### Docstring Style" in opt
+    assert "### Coder Python Docstring Style" in opt
 
 
 def assert_py_doc1(opt):
@@ -282,7 +282,7 @@ def assert_py_doc1(opt):
 
 
 def assert_py_pytest0(opt):
-    assert "### Testing Guidelines" in opt
+    assert "### Coder Python Testing Guidelines" in opt
 
 
 def assert_py_pytest1(opt):

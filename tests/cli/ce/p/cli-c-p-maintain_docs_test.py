@@ -13,6 +13,16 @@ from tests.cli.ce.c import (
     split_rule_file_basic_format,
     assert_header_line_always_apply,
 )
+from tests.cli.ce.p import (
+    assert_edit_readme0,
+    assert_edit_readme1,
+    assert_edit_readme2,
+    assert_edit_readme3,
+    assert_edit_agents0,
+    assert_edit_agents1,
+    assert_edit_agents2,
+    assert_edit_agents3,
+)
 
 # Pytest fixtures  #############################################################
 
@@ -56,34 +66,93 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_maintain_docs_heading(_, testee_content):
+    def test_heading(_, testee_content):
         assert "### Maintain Docs" in testee_content
 
-    def test_review_recent_changes(_, testee_content):
-        assert "review recent changes" in testee_content
-
-    def test_update_or_create_readme(_, testee_content):
-        assert "update or create `README.md`" in testee_content
-
-    def test_docs_folder(_, testee_content):
-        assert "files in `docs/`" in testee_content
-
-    def test_update_or_create_agents_md(_, testee_content):
-        assert "and `AGENTS.md`" in testee_content
-
-    def test_reflect_changes(_, testee_content):
-        assert "to reflect them" in testee_content
-
-    def test_readme_focused_on_human_contributors(_, testee_content):
+    def test_intro_readme_agents_docs(_, testee_content):
         assert (
-            "Keep `README.md` focused on human contributors" in testee_content
+            "Update README-style files, AGENTS-style files, "
+            "and files under `docs/`"
+            in testee_content
         )
 
-    def test_agents_md_writer_rule(_, testee_content):
-        assert "Follow the *Coder AGENTS.md Writer* rule" in testee_content
+    def test_instructions_section(_, testee_content):
+        assert "##### Instructions" in testee_content
 
-    def test_agents_md_structure_content_style(_, testee_content):
-        assert "structure, content, and style" in testee_content
+    def test_instructions_review_changes(_, testee_content):
+        assert "review recent repository changes" in testee_content
 
-    def test_ensure_accuracy_remove_stale(_, testee_content):
-        assert "Ensure accuracy, remove stale content" in testee_content
+    def test_instructions_create_only_when_missing(_, testee_content):
+        assert (
+            "create new documentation only when an important expected file "
+            "is missing or repository changes require it"
+            in testee_content
+        )
+
+    def test_instructions_readme_style_definition(_, testee_content):
+        assert (
+            "treat README-style files as files named `README`, `Readme`, or "
+            "`readme`, with no extension, `.md`, or `.txt`"
+            in testee_content
+        )
+
+    def test_instructions_agents_style_definition(_, testee_content):
+        assert (
+            "treat AGENTS-style files as files named `AGENTS`, `Agents`, or "
+            "`agents`, with no extension or `.md`"
+            in testee_content
+        )
+
+    def test_instructions_verify_content(_, testee_content):
+        assert (
+            "verify links, file paths, commands, configuration names, "
+            "examples, and references where possible"
+            in testee_content
+        )
+
+    def test_docs_files_section(_, testee_content):
+        assert "##### Docs Files" in testee_content
+
+    def test_docs_files_update_affected(_, testee_content):
+        assert (
+            "update affected APIs, commands, architecture notes, configuration "
+            "details, examples, workflows, and troubleshooting guidance"
+            in testee_content
+        )
+
+    def test_docs_files_cross_link(_, testee_content):
+        assert (
+            "cross-link related docs when it improves navigation"
+            in testee_content
+        )
+
+    def test_output_section(_, testee_content):
+        assert "##### Output" in testee_content
+
+    # edit README  -------------------------------------------------------------
+
+    def test_edit_readme_section(_, testee_content):
+        assert assert_edit_readme0(testee_content)
+
+    def test_edit_readme_follow_writer(_, testee_content):
+        assert assert_edit_readme1(testee_content)
+
+    def test_edit_readme_update_applicable(_, testee_content):
+        assert assert_edit_readme2(testee_content)
+
+    def test_edit_readme_prioritize_root(_, testee_content):
+        assert assert_edit_readme3(testee_content)
+
+    # edit AGENTS  -------------------------------------------------------------
+
+    def test_edit_agents_section(_, testee_content):
+        assert assert_edit_agents0(testee_content)
+
+    def test_edit_agents_follow_writer(_, testee_content):
+        assert assert_edit_agents1(testee_content)
+
+    def test_edit_agents_preserve_frontmatter(_, testee_content):
+        assert assert_edit_agents2(testee_content)
+
+    def test_edit_agents_avoid_moving_content(_, testee_content):
+        assert assert_edit_agents3(testee_content)

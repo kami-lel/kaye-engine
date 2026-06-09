@@ -164,7 +164,7 @@ def _create_art_blueprint():
 
 def _create_barista_blueprint():
     bp = rapid_blueprint
-    bp.checkmark("Date & Time Format")
+    bp.checkmark("Date and Time Format")
     bp.checkmark("Assistant Barista", recursively=True)
     return bp
 

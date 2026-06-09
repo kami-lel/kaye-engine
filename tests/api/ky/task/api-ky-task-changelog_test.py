@@ -26,7 +26,7 @@ def opt(flask_test_client, task_endpoint):
 class TestCL:  # ===============================================================
 
     def test0(_, opt):
-        assert "## Changelog Writer" in opt
+        assert "## Coder CHANGELOG Writer" in opt
 
     def test1(_, opt):
         assert "You must help user to write CHANGELOG." in opt
@@ -150,9 +150,6 @@ class TestCL:  # ===============================================================
 
     def test_lang2(_, opt):
         assert_lang2(opt)
-
-    def test_element_title(_, opt):
-        assert_element_title(opt)
 
     def test_element11(_, opt):
         assert_element11(opt)

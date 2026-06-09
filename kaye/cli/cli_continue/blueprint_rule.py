@@ -7,9 +7,11 @@ blueprints as Continue AI rule files via ``RuleFile``
 
 from pathlib import Path
 
-from kaye.continue_export.rule_file import RuleFile
 from kaye.prompt import embedded_blueprints
 from kaye.prompt.prompt_blueprint import PromptBlueprint
+
+
+from .rule_file import RuleFile
 
 # constants  ###################################################################
 
@@ -31,6 +33,9 @@ _CODER_BLUEPRINT_GLOBS = {
     "coder_agents_blueprint": [
         "**/{AGENTS,Agents,agents}{,.md}",
     ],
+    "coder_readme_blueprint": [
+        "**/{README,Readme,readme}{,.md,.txt}",
+    ],
 }
 
 _ALWAYS_APPLY_BLUEPRINT = [
@@ -46,8 +51,10 @@ _EXPORT_BLUEPRINTS = [
     "style_blueprint",
     "annotation_marker_blueprint",
     "coder_blueprint",
-    "coder_changelog_blueprint",
     "coder_project_blueprint",
+    "coder_readme_blueprint",
+    "coder_changelog_blueprint",
+    "coder_agents_blueprint",
     "coder_bash_blueprint",
     "coder_c_blueprint",
     "coder_cpp_blueprint",
@@ -60,7 +67,6 @@ _EXPORT_BLUEPRINTS = [
     "coder_py_blueprint",
     "coder_py_docstring_blueprint",
     "coder_py_testing_blueprint",
-    "coder_agents_blueprint",
     "continue_behavior_blueprint",
 ]
 
@@ -92,16 +98,16 @@ def export_blueprint_rules(rules_folder):
         "continue_behavior_blueprint": _continue_behavior_blueprint,
     }
 
-    for name in _EXPORT_BLUEPRINTS:
-        bp = _local.get(name) or getattr(embedded_blueprints, name)
-        file_path = folder / "{}.md".format(name)
+    for bp_id in _EXPORT_BLUEPRINTS:
+        bp = _local.get(bp_id) or getattr(embedded_blueprints, bp_id)
+        file_path = folder / "{}.md".format(bp.display_name)
 
         print("update blueprint rule:\t{}".format(file_path))
 
         with RuleFile(file_path, encoding="utf-8") as rule:
             rule.name = bp.display_name
             rule.description = bp.description
-            rule.globs = _CODER_BLUEPRINT_GLOBS.get(name, [])
-            rule.always_apply = name in _ALWAYS_APPLY_BLUEPRINT
+            rule.globs = _CODER_BLUEPRINT_GLOBS.get(bp_id, [])
+            rule.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
             rule.write_prefix()
             rule.write(bp.generate_prompt())

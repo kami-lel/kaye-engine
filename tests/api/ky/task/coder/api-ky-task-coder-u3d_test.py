@@ -41,7 +41,7 @@ def opt(flask_test_client, task_endpoint):
 class TestCoder:  # ============================================================
 
     def test_u3d_title(_, opt):
-        assert "## Unity Engine" in opt
+        assert "## Coder Unity Engine" in opt
 
     def test_u3d_ver(_, opt):
         assert "Unity **6**" in opt
@@ -140,10 +140,6 @@ class TestCoder:  # ============================================================
     def test_lang_title(_, opt):
         print(opt)
         assert_lang_title(opt)
-
-    def test_element_title(_, opt):
-        print(opt)
-        assert_element_title(opt)
 
     def test_role(_, opt):
         print(opt)

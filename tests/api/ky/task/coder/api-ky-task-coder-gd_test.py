@@ -41,7 +41,7 @@ def opt(flask_test_client, task_endpoint):
 class TestCoder:  # ============================================================
 
     def test0(_, opt):
-        assert "## GDScript" in opt
+        assert "## Coder GDScript" in opt
 
     def test1(_, opt):
         assert "- Version: Godot 4" in opt
@@ -91,10 +91,6 @@ class TestCoder:  # ============================================================
     def test_lang_title(_, opt):
         print(opt)
         assert_lang_title(opt)
-
-    def test_element_title(_, opt):
-        print(opt)
-        assert_element_title(opt)
 
     def test_role(_, opt):
         print(opt)

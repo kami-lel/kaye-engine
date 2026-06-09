@@ -76,6 +76,19 @@ E.g.
 > [!NOTE]
 > `.name` is a property of `anytree.Node`
 
+----
+
+Use `.is_technical_node` property to check if a node name matches the **technical node** pattern `{name}` (e.g., dynamic nodes):
+
+```python
+>>> corpus_node.is_technical_node
+False
+>>> dynamic_node.is_technical_node
+True
+```
+
+Technical nodes are special nodes identified by names enclosed in curly braces, such as `{Abbreviations}`, `{Today}`, etc.
+
 
 
 ##### lineage
@@ -110,7 +123,6 @@ E.g.
 I.e. `a == b` return whether two nodes has the same lineage.
 
 Additionally, if both nodes are roots, test whether 2 trees are identical in node name structure (node content is irrelevant.)
-
 
 
 
@@ -181,6 +193,36 @@ As shown above, it contains *content preview*, which can be customized by argume
 ----
 
 `repr(node)` is equivalent to ``node.generate_preview_tree()``
+
+
+
+##### description subnode
+
+In `prompt_corpus.md`, some nodes contain a child node with the heading `description`. This property searches the node's descendants and returns the first node with name `description`, or ``None`` if no such subnode exists.
+
+Description subnodes provide **brief, contextual descriptions** that explain the nature and purpose of the parent node. This is particularly useful when rendering prompts for LLMs, as these descriptions enable intelligent **automatic task relevance assessment** — allowing LLMs to self-determine whether a node's content is applicable to their current task. Rather than treating all nodes as equally important, the LLM can read the description subnode and make informed decisions about node inclusion.
+
+----
+
+Use `.description_subnode` property to access a node's **description** subnode, if it exists:
+
+```python
+>>> node.description_subnode
+BasePromptNode(...description...)
+>>> other_node.description_subnode is None
+True
+```
+
+----
+
+Use `.is_description_node` property to check if a node **is** a description node (i.e., has the name `description`):
+
+```python
+>>> node.is_description_node
+True
+>>> regular_node.is_description_node
+False
+```
 
 
 
@@ -343,6 +385,12 @@ E.g.
 >>> tree = PromptBlueprint(~)
 >>> tree.generate_prompt(hide_comment=True)
 # Main Title
+Overview of the methodologies used.
+### Data Collection
+How data was gathered for analysis.
+## Conclusion
+Summarizing the findings and implications.
+>>> tree.generate_prompt(disable_first_heading=True)
 Overview of the methodologies used.
 ### Data Collection
 How data was gathered for analysis.

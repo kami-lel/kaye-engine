@@ -1,12 +1,13 @@
 """
-cli-ce-c-blueprint-coder_agents_test.py
+cli-ce-c-blueprint-coder_readme_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder_agents_blueprint.md``
+creation of ``Coder README Writer.md``
 """
 
 import pytest
+
 
 from tests.cli.ce.c import (
     assert_rule_file_basic_format,
@@ -19,7 +20,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "Coder AGENTS Writer.md") as f:
+    with open(testee_rules_folder / "Coder README Writer.md") as f:
         return f.read()
 
 
@@ -45,12 +46,10 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder AGENTS Writer" in testee_header
+        assert "name: Coder README Writer" in testee_header
 
     def test_description(_, testee_header):
-        assert (
-            "description: format for AGENTS.md documentation" in testee_header
-        )
+        assert "description: format for README documentation" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -59,21 +58,20 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## Coder AGENTS Writer" in testee_content
+        assert "## Coder README Writer" in testee_content
 
     def test_intro_expert(_, testee_content):
         assert (
-            "You are an expert in writing and maintaining `AGENTS.md` files"
+            "You are an expert in writing and maintaining `README.md` files"
             in testee_content
         )
 
     def test_purpose_section(_, testee_content):
         assert "#### Purpose" in testee_content
 
-    def test_purpose_agent_readable(_, testee_content):
+    def test_purpose_landing_page(_, testee_content):
         assert (
-            "`AGENTS.md` is a dedicated, agent-readable file that gives AI "
-            "coding tools the context they need"
+            "`README.md` is a human-oriented landing page that helps developers"
             in testee_content
         )
 
@@ -84,16 +82,18 @@ class TestContent:  # ==========================================================
         assert "Apply the provided **Style Guide**" in testee_content
 
     def test_style_briefness(_, testee_content):
-        assert "Apply **Briefness Style** throughout" in testee_content
-
-    def test_continue_rule_section(_, testee_content):
-        assert "#### Continue Rule Compatible" in testee_content
+        assert "Apply **Briefness Style**" in testee_content
 
     def test_document_title_section(_, testee_content):
         assert "#### Document Title" in testee_content
 
     def test_document_title_format(_, testee_content):
-        assert "# <Project Name> AGENTS" in testee_content
+        assert "# <Project Name> README" in testee_content
 
     def test_quality_expectations_section(_, testee_content):
         assert "#### Quality Expectations" in testee_content
+
+    def test_quality_human_friendly(_, testee_content):
+        assert (
+            "human-friendly, visually clear, and easy to scan" in testee_content
+        )

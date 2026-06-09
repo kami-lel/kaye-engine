@@ -3,7 +3,7 @@ cli-ce-c-blueprint-coder_u3d_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder_u3d_blueprint.md``
+creation of ``Coder Unity Engine.md``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "coder_u3d_blueprint.md") as f:
+    with open(testee_rules_folder / "Coder Unity Engine.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder Unity" in testee_header
+        assert "name: Coder Unity Engine" in testee_header
 
     def test_description(_, testee_header):
         assert (
@@ -67,10 +67,10 @@ class TestContent:  # ==========================================================
         assert "## Brace Style" in testee_content
 
     def test_csharp_heading(_, testee_content):
-        assert "## C Sharp" in testee_content
+        assert "## Coder C Sharp" in testee_content
 
     def test_unity_engine_heading(_, testee_content):
-        assert "## Unity Engine" in testee_content
+        assert "## Coder Unity Engine" in testee_content
 
     def test_unity_version(_, testee_content):
         assert "Unity **6**" in testee_content
