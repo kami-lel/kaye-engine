@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "abbr-starts_with-f.md") as f:
+    with open(testee_rules_folder / "Abbr Starts with F.md") as f:
         return f.read()
 
 
