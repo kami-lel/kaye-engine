@@ -378,6 +378,13 @@ class PromptBlueprint(dict):
         if show_comment:
             lines.append("<!-- " + self._generate_comment_content() + " -->")
 
+        # trim empty lines
+        while lines and lines[0] == "":
+            lines.pop(0)
+
+        while lines and lines[-1] == "":
+            lines.pop()
+
         return "\n".join(lines)
 
     # Blueprint operation  *****************************************************
