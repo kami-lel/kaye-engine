@@ -14,10 +14,16 @@ from .rule_file import RuleFile
 
 # constants  ###################################################################
 
+_ABBR_TEMPLATE = "Abbr "
+_START_WITH_TEMPLATE = _ABBR_TEMPLATE + "Starts with "
+_START_WITH_DIGIT = _START_WITH_TEMPLATE + "Digits 0~9"
+_START_WITH_OTHER = _START_WITH_TEMPLATE + "Non-Alphanumeric"
+
+
 _LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-_DIGITS = "0123456789"
 _LETTERS_SET = frozenset(_LETTERS)
-_DIGITS_SET = frozenset(_DIGITS)
+_DIGITS_SET = frozenset("0123456789")
+
 
 # display names for rule generation: enum/key -> display name
 _TAG_NAMES = {
@@ -33,11 +39,6 @@ _WRAP_NAMES = {
     AbbrWrap.PREFIX: "Prefix",
     AbbrWrap.SUFFIX: "Suffix",
     AbbrWrap.SYMBOL: "Symbols",
-}
-
-_FIRST_CHAR_NAMES = {
-    "digits": "Digits 0~9",
-    "other": "Non-Alphanumeric",
 }
 
 
@@ -58,7 +59,7 @@ def _write_rule_file(file_path, name, entries, description=""):
         return  # skip empty groups
 
     print("update abbr rule: {}".format(file_path))
-    with RuleFile(file_path, encoding="utf-8") as rule:
+    with RuleFile(file_path) as rule:
         rule.name = name
         rule.description = description
         rule.write_prefix()
@@ -75,7 +76,7 @@ def _export_by_tags(folder, abbrs):
     """
     for tag, display_name in _TAG_NAMES.items():
         entries = _sort_entries([e for e in abbrs if tag in e.tags])
-        rule_name = "Abbr {}".format(display_name)
+        rule_name = _ABBR_TEMPLATE + display_name
         _write_rule_file(folder / "{}.md".format(rule_name), rule_name, entries)
 
 
@@ -85,7 +86,7 @@ def _export_by_wrap(folder, abbrs):
     """
     for wrap, display_name in _WRAP_NAMES.items():
         entries = _sort_entries([e for e in abbrs if e.wrap == wrap])
-        rule_name = "Abbr {}".format(display_name)
+        rule_name = _ABBR_TEMPLATE + display_name
         _write_rule_file(folder / "{}.md".format(rule_name), rule_name, entries)
 
 
@@ -111,8 +112,7 @@ def _export_by_first_char(folder, abbrs):
             other.append(entry)
 
     # digits  ------------------------------------------------------------------
-    digits_name = _FIRST_CHAR_NAMES["digits"]
-    rule_name = "Abbr Starts with {}".format(digits_name)
+    rule_name = _START_WITH_DIGIT
     _write_rule_file(
         folder / "{}.md".format(rule_name),
         rule_name,
@@ -121,7 +121,7 @@ def _export_by_first_char(folder, abbrs):
 
     # letters  -----------------------------------------------------------------
     for letter in _LETTERS:
-        rule_name = "Abbr Starts with {}".format(letter)
+        rule_name = _START_WITH_TEMPLATE + letter
         _write_rule_file(
             folder / "{}.md".format(rule_name),
             rule_name,
@@ -129,8 +129,7 @@ def _export_by_first_char(folder, abbrs):
         )
 
     # other  -------------------------------------------------------------------
-    other_name = _FIRST_CHAR_NAMES["other"]
-    rule_name = "Abbr Starts with {}".format(other_name)
+    rule_name = _START_WITH_OTHER
     _write_rule_file(
         folder / "{}.md".format(rule_name),
         rule_name,
