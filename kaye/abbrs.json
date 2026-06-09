@@ -500,8 +500,7 @@
     "🤖": {
       "priority": 5,
       "tags": [
-        "emoji",
-        "single_character"
+        "emoji"
       ],
       "wrap": "symbol"
     }
@@ -944,8 +943,7 @@
     "🔰": {
       "priority": 5,
       "tags": [
-        "emoji",
-        "single_character"
+        "emoji"
       ],
       "wrap": "symbol"
     }
@@ -1128,8 +1126,7 @@
     "💬": {
       "priority": 5,
       "tags": [
-        "emoji",
-        "single_character"
+        "emoji"
       ],
       "wrap": "symbol"
     }
@@ -1436,8 +1433,7 @@
       "priority": 3,
       "tags": [
         "emoji",
-        "log_level",
-        "single_character"
+        "log_level"
       ],
       "wrap": "symbol"
     }
@@ -1509,8 +1505,7 @@
       "priority": 3,
       "tags": [
         "emoji",
-        "log_level",
-        "single_character"
+        "log_level"
       ],
       "wrap": "symbol"
     }
@@ -1903,8 +1898,7 @@
       "priority": 3,
       "tags": [
         "emoji",
-        "log_level",
-        "single_character"
+        "log_level"
       ],
       "wrap": "symbol"
     }
@@ -2163,8 +2157,7 @@
     "🏁": {
       "priority": 5,
       "tags": [
-        "emoji",
-        "single_character"
+        "emoji"
       ],
       "wrap": "symbol"
     }
@@ -2953,8 +2946,7 @@
       "priority": 3,
       "tags": [
         "emoji",
-        "log_level",
-        "single_character"
+        "log_level"
       ],
       "wrap": "symbol"
     }
@@ -3555,8 +3547,7 @@
     "❌": {
       "priority": 1,
       "tags": [
-        "emoji",
-        "single_character"
+        "emoji"
       ],
       "wrap": "symbol"
     }
@@ -4286,8 +4277,7 @@
     "🚀": {
       "priority": 5,
       "tags": [
-        "emoji",
-        "single_character"
+        "emoji"
       ],
       "wrap": "symbol"
     }
@@ -4502,8 +4492,7 @@
     "✅": {
       "priority": 2,
       "tags": [
-        "emoji",
-        "single_character"
+        "emoji"
       ],
       "wrap": "symbol"
     }
