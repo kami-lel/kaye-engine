@@ -876,13 +876,16 @@
     },
     "⇐": {
       "priority": 3,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     },
     "∵": {
       "priority": 2,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -897,7 +900,9 @@
     },
     "←": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -911,7 +916,9 @@
     },
     "→": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -937,7 +944,8 @@
     "🔰": {
       "priority": 5,
       "tags": [
-        "emoji"
+        "emoji",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -975,7 +983,8 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "unit_of_measure"
+        "unit_of_measure",
+        "single_character"
       ],
       "wrap": "unit"
     }
@@ -993,7 +1002,8 @@
     "B": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -1003,7 +1013,8 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "unit_of_measure"
+        "unit_of_measure",
+        "single_character"
       ],
       "wrap": "unit"
     }
@@ -1030,7 +1041,8 @@
     "C": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -1073,7 +1085,8 @@
     "±": {
       "priority": 3,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -1096,7 +1109,8 @@
     "§": {
       "priority": 3,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "currency"
     }
@@ -1114,7 +1128,8 @@
     "💬": {
       "priority": 5,
       "tags": [
-        "emoji"
+        "emoji",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -1147,7 +1162,9 @@
     },
     "∝": {
       "priority": 3,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -1375,7 +1392,9 @@
     },
     "✓": {
       "priority": 3,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     },
     "✔️": {
@@ -1417,7 +1436,8 @@
       "priority": 3,
       "tags": [
         "emoji",
-        "log_level"
+        "log_level",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -1489,7 +1509,8 @@
       "priority": 3,
       "tags": [
         "emoji",
-        "log_level"
+        "log_level",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -1511,7 +1532,9 @@
     },
     "↓": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -1537,7 +1560,8 @@
     "°": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "unit"
     }
@@ -1546,7 +1570,8 @@
     "℃": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "unit"
     }
@@ -1555,7 +1580,8 @@
     "℉": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "unit"
     }
@@ -1636,7 +1662,8 @@
     "d": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "unit"
     }
@@ -1679,7 +1706,8 @@
     "〃": {
       "priority": 3,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -1724,7 +1752,8 @@
     "E": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -1841,7 +1870,8 @@
     "=": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "single_character"
       ],
       "wrap": "symbol"
     },
@@ -1854,7 +1884,9 @@
     },
     "≡": {
       "priority": 4,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -1871,7 +1903,8 @@
       "priority": 3,
       "tags": [
         "emoji",
-        "log_level"
+        "log_level",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -1935,7 +1968,8 @@
     "E": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -2011,7 +2045,9 @@
     },
     "∹": {
       "priority": 3,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -2034,7 +2070,9 @@
     },
     "∃": {
       "priority": 3,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -2096,7 +2134,8 @@
     "F": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -2105,7 +2144,8 @@
     "F": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -2123,7 +2163,8 @@
     "🏁": {
       "priority": 5,
       "tags": [
-        "emoji"
+        "emoji",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2151,14 +2192,16 @@
     "†": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     },
     "‡": {
       "priority": 6,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2167,7 +2210,8 @@
     "4": {
       "priority": 5,
       "tags": [
-        "word_character_only"
+        "word_character_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -2175,7 +2219,9 @@
   "for all": {
     "∀": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -2227,7 +2273,8 @@
     "⅝": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2236,7 +2283,8 @@
     "⅚": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2245,7 +2293,8 @@
     "⅘": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2254,7 +2303,8 @@
     "⅟": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2263,7 +2313,8 @@
     "⅛": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2272,7 +2323,8 @@
     "⅕": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2281,7 +2333,8 @@
     "½": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2290,7 +2343,8 @@
     "⅑": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2299,7 +2353,8 @@
     "¼": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2308,7 +2363,8 @@
     "⅐": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2317,7 +2373,8 @@
     "⅙": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2326,7 +2383,8 @@
     "⅒": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2335,7 +2393,8 @@
     "⅓": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2344,7 +2403,8 @@
     "⅞": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2353,7 +2413,8 @@
     "⅜": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2362,7 +2423,8 @@
     "⅗": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2371,7 +2433,8 @@
     "¾": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2380,7 +2443,8 @@
     "⅖": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2389,7 +2453,8 @@
     "⅔": {
       "priority": 5,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2502,7 +2567,9 @@
     },
     "≥": {
       "priority": 4,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -2519,7 +2586,8 @@
     ">": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "single_character"
       ],
       "wrap": "symbol"
     },
@@ -2676,7 +2744,9 @@
     },
     "⇔": {
       "priority": 3,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -2796,7 +2866,9 @@
     },
     "↑": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -2846,7 +2918,9 @@
     },
     "∞": {
       "priority": 3,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -2879,7 +2953,8 @@
       "priority": 3,
       "tags": [
         "emoji",
-        "log_level"
+        "log_level",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -2912,7 +2987,9 @@
     },
     "↔": {
       "priority": 3,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -3028,7 +3105,8 @@
     "<": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "single_character"
       ],
       "wrap": "symbol"
     },
@@ -3057,7 +3135,9 @@
     },
     "≤": {
       "priority": 4,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -3083,7 +3163,8 @@
     "L": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -3328,14 +3409,18 @@
   "much greater than": {
     "≫": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
   "much less than": {
     "≪": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -3349,7 +3434,9 @@
     },
     "×": {
       "priority": 3,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -3357,7 +3444,8 @@
     "M": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -3437,31 +3525,38 @@
     "!": {
       "priority": 6,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "symbol"
     },
     "x": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     },
     "¬": {
       "priority": 3,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     },
     "✗": {
       "priority": 2,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     },
     "❌": {
       "priority": 1,
       "tags": [
-        "emoji"
+        "emoji",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -3504,7 +3599,8 @@
     "N": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -3536,7 +3632,9 @@
     },
     "≠": {
       "priority": 4,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -3576,7 +3674,8 @@
     "№": {
       "priority": 3,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -3603,7 +3702,8 @@
     "O": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -3668,7 +3768,8 @@
       "tags": [
         "ascii_only",
         "common",
-        "usable"
+        "usable",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -3762,7 +3863,9 @@
     },
     "¶": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "currency"
     }
   },
@@ -3850,38 +3953,50 @@
   "points/notice down,downward": {
     "☟": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
   "points/notice left,left direction": {
     "☚": {
       "priority": 6,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     },
     "☜": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
   "points/notice right,right direction": {
     "☛": {
       "priority": 6,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     },
     "☞": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
   "points/notice up,upward": {
     "☝": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -4110,7 +4225,8 @@
     "Q": {
       "priority": 7,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "currency"
     },
@@ -4152,14 +4268,16 @@
     "~": {
       "priority": 1,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "single_character"
       ],
       "wrap": "symbol"
     },
     "…": {
       "priority": 2,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -4168,7 +4286,8 @@
     "🚀": {
       "priority": 5,
       "tags": [
-        "emoji"
+        "emoji",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -4366,7 +4485,8 @@
       "priority": 7,
       "tags": [
         "letters_only",
-        "unit_of_measure"
+        "unit_of_measure",
+        "single_character"
       ],
       "wrap": "unit"
     }
@@ -4374,13 +4494,16 @@
   "selected": {
     "☑": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     },
     "✅": {
       "priority": 2,
       "tags": [
-        "emoji"
+        "emoji",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -4388,7 +4511,9 @@
   "selected with a cross": {
     "☒": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -4592,7 +4717,8 @@
     "S": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -4601,7 +4727,8 @@
     "S": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -4609,7 +4736,9 @@
   "square root": {
     "√": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -4689,7 +4818,8 @@
     "|": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -4697,7 +4827,9 @@
   "sum,summation,total": {
     "Σ": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -4705,7 +4837,8 @@
     "U": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -4768,7 +4901,8 @@
     "T": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -4802,7 +4936,8 @@
     "T": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -4834,14 +4969,16 @@
     "⇒": {
       "priority": 3,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     },
     "∴": {
       "priority": 2,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -4877,7 +5014,8 @@
     "X": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -4886,7 +5024,8 @@
     "2": {
       "priority": 5,
       "tags": [
-        "word_character_only"
+        "word_character_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -4895,7 +5034,8 @@
     "2": {
       "priority": 5,
       "tags": [
-        "word_character_only"
+        "word_character_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -4931,7 +5071,8 @@
     "T": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -4967,7 +5108,8 @@
     "U": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -4975,7 +5117,9 @@
   "unselected": {
     "☐": {
       "priority": 5,
-      "tags": [],
+      "tags": [
+        "single_character"
+      ],
       "wrap": "symbol"
     }
   },
@@ -4983,7 +5127,8 @@
     "U": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -5134,7 +5279,8 @@
     "W": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -5157,7 +5303,8 @@
     "※": {
       "priority": 3,
       "tags": [
-        "common"
+        "common",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -5166,7 +5313,8 @@
     "W": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -5184,7 +5332,8 @@
     "W": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
