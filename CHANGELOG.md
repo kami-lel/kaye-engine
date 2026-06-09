@@ -139,8 +139,10 @@
 
 ### Fixed
 
-- prompt_corpus.md: **Kaye Peer Coder**: comment section headings — corrected wrong
-  example of top-level heading
+- `PromptBlueprint.generate_prompt()`: trim leading and trailing empty lines
+  before joining rendered lines
+- prompt_corpus.md: **Kaye Peer Coder**: comment section headings — corrected
+  wrong example of top-level heading
 
 ### Security
 
