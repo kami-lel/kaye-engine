@@ -143,13 +143,13 @@ class TestPresent:  # ==========================================================
         assert (testee_rules_folder / "Coder C.md").exists()
 
     def test_coder_changelog_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "Coder CHANGELOG Writer.md").exists()
+        assert (testee_rules_folder / "Project CHANGELOG Writer.md").exists()
 
     def test_coder_agents_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "Coder AGENTS Writer.md").exists()
+        assert (testee_rules_folder / "Project AGENTS Writer.md").exists()
 
     def test_coder_readme_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "Coder README Writer.md").exists()
+        assert (testee_rules_folder / "Project README Writer.md").exists()
 
     def test_coder_cpp_blueprint(_, testee_rules_folder):
         assert (testee_rules_folder / "Coder CPP.md").exists()
@@ -169,7 +169,7 @@ class TestPresent:  # ==========================================================
         ).exists()
 
     def test_coder_project_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "Coder Project Structure.md").exists()
+        assert (testee_rules_folder / "Project Structure.md").exists()
 
     def test_coder_py_blueprint(_, testee_rules_folder):
         assert (testee_rules_folder / "Coder Python.md").exists()
