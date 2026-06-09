@@ -90,4 +90,7 @@ class TestContent:  # ==========================================================
         assert "- title must be `Project Name CHANGELOG`" in testee_content
 
     def test_format_links(_, testee_content):
-        assert "- must include Github **links** at the end" in testee_content
+        assert (
+            "- must include Github **links** at each section's end"
+            in testee_content
+        )

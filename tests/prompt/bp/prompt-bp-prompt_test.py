@@ -135,8 +135,7 @@ This project is licensed under the MIT License."""
 ## Contributing
 1. Fork the repo
 2. Create a new branch
-3. Submit a pull request
-"""
+3. Submit a pull request"""
 
     def test_empty(_, corpus_testee2):
         bp_text = BLUEPRINT_2_EMPTY
@@ -226,8 +225,7 @@ The primary goal of this document.
 How data was gathered for analysis.
 
 ##### Future Work
-Suggestions for future research or tasks.
-"""
+Suggestions for future research or tasks."""
 
     def test_empty(_, corpus_testee3):
         bp_text = BLUEPRINT_3_EMPTY
@@ -255,8 +253,7 @@ The primary goal of this document.
 How data was gathered for analysis.
 
 ##### Future Work
-Suggestions for future research or tasks.
-"""
+Suggestions for future research or tasks."""
 
 
 class TestDynamicNodes:  #######################################################
@@ -287,5 +284,4 @@ Licensed under the MIT License.
 
 # {Usable Abbreviations}
 - &:and
-- /:or
-"""
+- /:or"""
