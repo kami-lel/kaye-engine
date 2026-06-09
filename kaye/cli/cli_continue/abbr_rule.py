@@ -13,6 +13,7 @@ from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
 from .rule_file import RuleFile
 
 # TODO Single Letter abbr
+# TODO support emoji
 # TODO standardize file name
 
 

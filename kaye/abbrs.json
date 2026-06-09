@@ -4,7 +4,8 @@
       "priority": 5,
       "tags": [
         "common",
-        "currency_symbol"
+        "currency_symbol",
+        "single_character"
       ],
       "wrap": "currency"
     }
@@ -15,7 +16,8 @@
       "tags": [
         "ascii_only",
         "common",
-        "currency_symbol"
+        "currency_symbol",
+        "single_character"
       ],
       "wrap": "currency"
     }
@@ -25,7 +27,8 @@
       "priority": 5,
       "tags": [
         "common",
-        "currency_symbol"
+        "currency_symbol",
+        "single_character"
       ],
       "wrap": "currency"
     }
@@ -213,7 +216,8 @@
       "priority": 5,
       "tags": [
         "letters_only",
-        "programming_language_code"
+        "programming_language_code",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -284,7 +288,8 @@
       "priority": 5,
       "tags": [
         "common",
-        "currency_symbol"
+        "currency_symbol",
+        "single_character"
       ],
       "wrap": "currency"
     }
@@ -495,7 +500,8 @@
     "🤖": {
       "priority": 5,
       "tags": [
-        "emoji"
+        "emoji",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -522,7 +528,8 @@
     "A": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -558,7 +565,8 @@
     "a.": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "single_character"
       ],
       "wrap": "prefix"
     }
@@ -569,7 +577,8 @@
       "tags": [
         "ascii_only",
         "common",
-        "usable"
+        "usable",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -592,7 +601,8 @@
     "~": {
       "priority": 1,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "single_character"
       ],
       "wrap": "symbol"
     },
@@ -626,7 +636,8 @@
     "A": {
       "priority": 7,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "currency"
     },
@@ -658,7 +669,8 @@
     "a.": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "single_character"
       ],
       "wrap": "prefix"
     }
@@ -667,7 +679,8 @@
     "a/": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -677,7 +690,8 @@
       "priority": 5,
       "tags": [
         "common",
-        "currency_symbol"
+        "currency_symbol",
+        "single_character"
       ],
       "wrap": "symbol"
     }
@@ -738,7 +752,8 @@
     "R": {
       "priority": 5,
       "tags": [
-        "letters_only"
+        "letters_only",
+        "single_character"
       ],
       "wrap": "word"
     }
@@ -837,7 +852,8 @@
     "b.": {
       "priority": 5,
       "tags": [
-        "ascii_only"
+        "ascii_only",
+        "single_character"
       ],
       "wrap": "word"
     }
