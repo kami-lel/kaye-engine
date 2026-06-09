@@ -27,13 +27,13 @@ _CODER_BLUEPRINT_GLOBS = {
     "coder_py_blueprint": ["**/*.py"],
     "coder_py_docstring_blueprint": ["**/*.py"],
     "coder_py_testing_blueprint": ["**/test_*.py", "**/*_test.py"],
-    "coder_changelog_blueprint": [
+    "project_changelog_blueprint": [
         "**/{CHANGELOG,Changelog,changelog}{,.md,.txt}",
     ],
-    "coder_agents_blueprint": [
+    "project_agents_blueprint": [
         "**/{AGENTS,Agents,agents}{,.md}",
     ],
-    "coder_readme_blueprint": [
+    "project_readme_blueprint": [
         "**/{README,Readme,readme}{,.md,.txt}",
     ],
 }
@@ -51,10 +51,10 @@ _EXPORT_BLUEPRINTS = [
     "style_blueprint",
     "annotation_marker_blueprint",
     "coder_blueprint",
-    "coder_project_blueprint",
-    "coder_readme_blueprint",
-    "coder_changelog_blueprint",
-    "coder_agents_blueprint",
+    "project_structure_blueprint",
+    "project_readme_blueprint",
+    "project_changelog_blueprint",
+    "project_agents_blueprint",
     "coder_bash_blueprint",
     "coder_c_blueprint",
     "coder_cpp_blueprint",
