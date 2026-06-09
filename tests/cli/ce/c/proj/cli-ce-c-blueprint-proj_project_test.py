@@ -1,9 +1,9 @@
 """
-cli-ce-c-blueprint-coder_project_test.py
+cli-ce-c-blueprint-proj_project_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``Coder Project Structure.md``
+creation of ``Project Structure.md``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "Coder Project Structure.md") as f:
+    with open(testee_rules_folder / "Project Structure.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder Project Structure" in testee_header
+        assert "name: Project Structure" in testee_header
 
     def test_description(_, testee_header):
         assert (
@@ -61,7 +61,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## Coder Project Structure" in testee_content
+        assert "## Project Structure" in testee_content
 
     def test_readme(_, testee_content):
         assert "- `README.md`:" in testee_content
