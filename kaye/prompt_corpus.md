@@ -2481,7 +2481,7 @@ instruction for coding and programming
 
 
 
-## Coder Project Structure
+## Project Structure
 
 Place the following files and folders at the **top level** of the repository and project when applicable. Use these naming conventions consistently across projects:
 
@@ -2533,7 +2533,7 @@ generic Project/Repository structure for all programming languages
 
 
 
-## Coder README Writer
+## Project README Writer
 
 You are an expert in writing and maintaining `README.md` files for software repositories.
 
@@ -2642,7 +2642,7 @@ format for README documentation
 
 
 
-## Coder CHANGELOG Writer
+## Project CHANGELOG Writer
 
 You must help user to write CHANGELOG.
 
@@ -2768,7 +2768,7 @@ format for CHANGELOG.md
 
 
 
-## Coder AGENTS Writer
+## Project AGENTS Writer
 
 You are an expert in writing and maintaining `AGENTS.md` files for software repositories.
 
