@@ -19,6 +19,8 @@ from .rule_file import RuleFile
 
 _LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 _DIGITS = "0123456789"
+_LETTERS_SET = frozenset(_LETTERS)
+_DIGITS_SET = frozenset(_DIGITS)
 
 
 _TAG_GROUPS = [
@@ -111,37 +113,43 @@ def _export_by_first_char(folder, abbrs):
     """
     export rule files grouped by first character of each abbreviation
     into ``folder``: one file per letter (A–Z), one for digits (0–9),
-    and one catch-all for everything else
+    and one catch-all for everything else;
+    builds all buckets in a single pass over ``abbrs``
     """
+    # single pass  -------------------------------------------------------------
+    letter_buckets = {letter: [] for letter in _LETTERS}
+    digits = []
+    other = []
+
+    for entry in abbrs:
+        first = entry.abbr[0].upper()
+        if first in _LETTERS_SET:
+            letter_buckets[first].append(entry)
+        elif entry.abbr[0] in _DIGITS_SET:
+            digits.append(entry)
+        else:
+            other.append(entry)
+
     # digits  ------------------------------------------------------------------
-    digits = _sort_entries([e for e in abbrs if e.abbr[0] in _DIGITS])
     _write_rule_file(
         folder / "abbr-starts_with-digits.md",
         "Abbreviations Starts with Digits (0–9)",
-        digits,
+        _sort_entries(digits),
     )
 
     # letters  -----------------------------------------------------------------
     for letter in _LETTERS:
-        entries = _sort_entries(
-            [e for e in abbrs if e.abbr[0].upper() == letter]
-        )
         _write_rule_file(
             folder / "abbr-starts_with-{}.md".format(letter.lower()),
             "Abbreviations Starts with {}".format(letter),
-            entries,
+            _sort_entries(letter_buckets[letter]),
         )
 
     # other  -------------------------------------------------------------------
-    other = _sort_entries([
-        e
-        for e in abbrs
-        if e.abbr[0] not in _DIGITS and e.abbr[0].upper() not in _LETTERS
-    ])
     _write_rule_file(
         folder / "abbr-starts_with-other.md",
         "Abbreviations Starts with Other",
-        other,
+        _sort_entries(other),
     )
 
 
