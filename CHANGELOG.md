@@ -16,6 +16,8 @@
 
 ## [Unreleased]
 
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.3.0...dev
+
 ### Added
 
 ### Changed
@@ -140,6 +142,7 @@
 - prompt_corpus.md: **Kaye Peer Coder**: comment section headings — corrected
   wrong example of top-level heading
 
+### Security
 
 
 
@@ -1792,7 +1795,6 @@ re `dify_studio/`:
 
 
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.3.0...dev
 [6.3.0]: https://github.com/kami-lel/kaye/compare/v6.2.1...v6.3.0
 [6.2.1]: https://github.com/kami-lel/kaye/compare/v6.2.0...v6.2.1
 [6.2.0]: https://github.com/kami-lel/kaye/compare/v6.1.0...v6.2.0
