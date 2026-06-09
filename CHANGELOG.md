@@ -34,9 +34,14 @@
   - `Coder CHANGELOG Writer` → `Project CHANGELOG Writer`
   - `Coder AGENTS Writer` → `Project AGENTS Writer`
 
-- **Continue Export**: update blueprint rule exports to reflect renamed project documentation blueprints
 - **Dify App**: update blueprint imports in `kaye_chat_task.py` for `project_changelog_blueprint`
 - **Annotation Markers**: refactor comment section heading examples for improved clarity
+
+Continue Export: 
+
+- update blueprint rule exports to reflect renamed project documentation blueprints
+- rewrite `abbr_rule.py` logic to allow duplicate abbreviations occurring in different files
+
 
 ### Deprecated
 
