@@ -18,6 +18,8 @@
 
 ### Added
 
+- `abbrs.json`: add `"single_character"` tag to all single-character abbreviations
+
 ### Changed
 
 - **embedded blueprints**: rename blueprint variables for better semantic alignment with corpus node structure
@@ -34,9 +36,18 @@
   - `Coder CHANGELOG Writer` → `Project CHANGELOG Writer`
   - `Coder AGENTS Writer` → `Project AGENTS Writer`
 
-- **Continue Export**: update blueprint rule exports to reflect renamed project documentation blueprints
 - **Dify App**: update blueprint imports in `kaye_chat_task.py` for `project_changelog_blueprint`
 - **Annotation Markers**: refactor comment section heading examples for improved clarity
+
+Continue Export: 
+
+- update blueprint rule exports to reflect renamed project documentation blueprints
+- rewrite `abbr_rule.py` logic to allow duplicate abbreviations occurring in different files
+- add `AbbrTags.single_character` and `AbbrTags.emoji` to tag-based rule file exports
+- refactor `abbr_rule.py` with data-driven naming dictionaries (`_TAG_NAMES`, `_WRAP_NAMES`) for
+  standardized file naming following `{rule_name}.md` pattern
+- optimize `_export_by_first_char()` for single-pass bucket grouping with frozensets for O(1) lookups
+  instead of 28 separate list iterations
 
 ### Deprecated
 

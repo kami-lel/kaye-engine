@@ -1,9 +1,9 @@
 """
-cli-ce-c-abbr-suffix_test.py
+cli-ce-c-abbr-currency_symbol_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``abbr-suffix``
+creation of ``abbr-currency_symbol``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "abbr-suffix.md") as f:
+    with open(testee_rules_folder / "Abbr Currency Symbols.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Abbreviations Suffixes" in testee_header
+        assert "name: Abbr Currency Symbols" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -53,32 +53,23 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_d(_, testee_content):
-        assert "- .d:-ed" in testee_content
+    def test1(_, testee_content):
+        assert "- $:(default)US Dollar" in testee_content
 
-    def test_e(_, testee_content):
-        assert "- .e:-able,-ble,-le" in testee_content
+    def test2(_, testee_content):
+        assert "- HK$:港元 Hong Kong Dollar" in testee_content
 
-    def test_g(_, testee_content):
-        assert "- .g:-ing" in testee_content
+    def test3(_, testee_content):
+        assert "- JP¥:円 Japanese Yen" in testee_content
 
-    def test_l(_, testee_content):
-        assert "- .l:-al" in testee_content
+    def test4(_, testee_content):
+        assert "- ¢:(default)US cent" in testee_content
 
-    def test_m(_, testee_content):
-        assert "- .m:-ism" in testee_content
+    def test5(_, testee_content):
+        assert "- ¤:any non-specific currency" in testee_content
 
-    def test_mt(_, testee_content):
-        assert "- .mt:-ment" in testee_content
+    def test6(_, testee_content):
+        assert "- ¥:(default)Chinese Yuan,RMB" in testee_content
 
-    def test_r(_, testee_content):
-        assert "- .r:-er,-or" in testee_content
-
-    def test_sn(_, testee_content):
-        assert "- .sn:-sion" in testee_content
-
-    def test_tn(_, testee_content):
-        assert "- .tn:-tion" in testee_content
-
-    def test_y_ly(_, testee_content):
-        assert "- .y:-ly" in testee_content
+    def test7(_, testee_content):
+        assert "- €:Euro" in testee_content

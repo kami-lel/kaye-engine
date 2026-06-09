@@ -71,6 +71,8 @@ must be an *array* of *string* of these selected values:
 
 - `"currency_symbol"`: monetary currency symbol
 
+- `"single_character"`: single letter/character abbreviations
+
 Character set:
 
 - `"letters_only"`

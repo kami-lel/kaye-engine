@@ -1,3 +1,5 @@
 todo: for prepare_for_feature_finish/_release, utilize tools to fetch `git log`
 Todo project version blueprints
 Fixme split style into different blueprints
+Bug continue is really wordy in sense of summary/repeating itself after performing
+

@@ -1,9 +1,9 @@
 """
-cli-ce-c-abbr-starts_with-t_test.py
+cli-ce-c-abbr-suffix_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``abbr-starts_with-t``
+creation of ``abbr-suffix``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "Abbr Starts with T.md") as f:
+    with open(testee_rules_folder / "Abbr Suffixes.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Abbr Starts with T" in testee_header
+        assert "name: Abbr Suffixes" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -53,32 +53,32 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_T_than(_, testee_content):
-        assert "- T:than" in testee_content
+    def test_d(_, testee_content):
+        assert "- .d:-ed" in testee_content
 
-    def test_T_true(_, testee_content):
-        assert "- T:true" in testee_content
+    def test_e(_, testee_content):
+        assert "- .e:-able,-ble,-le" in testee_content
 
-    def test_tech(_, testee_content):
-        assert "- tech:technology" in testee_content
+    def test_g(_, testee_content):
+        assert "- .g:-ing" in testee_content
 
-    def test_tf(_, testee_content):
-        assert "- tf:therefore,causing,resulting" in testee_content
+    def test_l(_, testee_content):
+        assert "- .l:-al" in testee_content
 
-    def test_tho(_, testee_content):
-        assert "- tho:though" in testee_content
+    def test_m(_, testee_content):
+        assert "- .m:-ism" in testee_content
 
-    def test_thru(_, testee_content):
-        assert "- thru:through" in testee_content
+    def test_mt(_, testee_content):
+        assert "- .mt:-ment" in testee_content
 
-    def test_tmp(_, testee_content):
-        assert "- tmp:temporary" in testee_content
+    def test_r(_, testee_content):
+        assert "- .r:-er,-or" in testee_content
 
-    def test_tr(_, testee_content):
-        assert "- tr:translate" in testee_content
+    def test_sn(_, testee_content):
+        assert "- .sn:-sion" in testee_content
 
-    def test_tt(_, testee_content):
-        assert "- tt:that,those" in testee_content
+    def test_tn(_, testee_content):
+        assert "- .tn:-tion" in testee_content
 
-    def test_txt(_, testee_content):
-        assert "- txt:text" in testee_content
+    def test_y_ly(_, testee_content):
+        assert "- .y:-ly" in testee_content
