@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "coder_py_testing_blueprint.md") as f:
+    with open(testee_rules_folder / "Coder Python Testing Guidelines.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder Python Testing" in testee_header
+        assert "name: Coder Python Testing Guidelines" in testee_header
 
     def test_description(_, testee_header):
         assert (
@@ -64,7 +64,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_testing_guidelines_heading(_, testee_content):
-        assert "### Testing Guidelines" in testee_content
+        assert "### Coder Python Testing Guidelines" in testee_content
 
     def test_pytest_mention(_, testee_content):
         assert "`pytest` module" in testee_content

@@ -8,8 +8,11 @@ digits, letters (A–Z), and a misc catch-all
 
 from pathlib import Path
 
-from kaye.continue_export.rule_file import RuleFile
+
 from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
+
+
+from .rule_file import RuleFile
 
 _LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 _DIGITS = "0123456789"
@@ -172,6 +175,9 @@ def _build_groups(abbr_data):
 
 
 # export  ######################################################################
+
+# fixme combine range: eg start w/ a~c
+# fixme allow single abbreviation appears in different rules
 
 
 def export_abbr_rules(rules_folder):

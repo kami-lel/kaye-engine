@@ -14,6 +14,12 @@ from tests.cli.ce.c import (
     assert_header_line_always_apply,
 )
 
+from tests.cli.ce.p import (
+    assert_edit_changelog0,
+    assert_edit_changelog1,
+    assert_edit_changelog2,
+)
+
 # Pytest fixtures  #############################################################
 
 
@@ -45,7 +51,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Maintain Changelog" in testee_header
+        assert "name: Maintain CHANGELOG" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -57,19 +63,22 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_maintain_changelog_heading(_, testee_content):
-        assert "### Maintain Changelog" in testee_content
+        assert "### Maintain CHANGELOG" in testee_content
 
     def test_review_recent_changes(_, testee_content):
-        assert "review recent changes" in testee_content
+        assert (
+            "review recent changes — "
+            "update or create `CHANGELOG.md` to reflect them."
+            in testee_content
+        )
 
-    def test_update_or_create_changelog(_, testee_content):
-        assert "update or create `CHANGELOG.md`" in testee_content
+    # edit CHANGELOG  ----------------------------------------------------------
 
-    def test_reflect_changes(_, testee_content):
-        assert "to reflect them" in testee_content
+    def test_edit_changelog0(_, testee_content):
+        assert assert_edit_changelog0(testee_content)
 
-    def test_coder_changelog_writer_rule(_, testee_content):
-        assert "Follow the *Coder Changelog Writer* rule" in testee_content
+    def test_edit_changelog1(_, testee_content):
+        assert assert_edit_changelog1(testee_content)
 
-    def test_format_versioning_entry_style(_, testee_content):
-        assert "format, versioning, and entry style" in testee_content
+    def test_edit_changelog2(_, testee_content):
+        assert assert_edit_changelog2(testee_content)

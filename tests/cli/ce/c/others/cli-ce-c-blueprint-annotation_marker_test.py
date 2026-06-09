@@ -3,7 +3,7 @@ cli-ce-c-blueprint-annotation_marker_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``annotation_marker_blueprint.md``
+creation of ``Annotation Markers.md``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "annotation_marker_blueprint.md") as f:
+    with open(testee_rules_folder / "Annotation Markers.md") as f:
         return f.read()
 
 
@@ -49,7 +49,7 @@ class TestHeader:  # ===========================================================
 
     def test_description(_, testee_header):
         assert (
-            "description: add-on when working with BUG, FIXME, TODO,"
+            "description: when working with BUG, FIXME, TODO,"
             " or HACK markers in code or docs"
             in testee_header
         )
@@ -85,6 +85,4 @@ class TestContent:  # ==========================================================
         assert "- todo/..." in testee_content
 
     def test_no_modify_rule(_, testee_content):
-        assert (
-            "- do not modify or remove any markers unless" in testee_content
-        )
+        assert "- do not modify or remove any markers unless" in testee_content

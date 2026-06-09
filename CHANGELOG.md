@@ -28,6 +28,122 @@
 
 ### Security
 
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.3.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.3.0] - 2026-06-09
+
+### Added
+
+- `BasePromptNode`: new properties
+
+  - `.is_technical_node` — check if node name matches pattern `{name}`, identifying
+    technical and special nodes (e.g., dynamic nodes)
+  - `.description_subnode` — retrieve child node with heading `{description}` if
+    present, supporting nodes that contain description subnodes in `prompt_corpus.md`
+  - `.is_description_node` — check if node name is exactly `{description}`,
+    identifying whether the node itself is a description node
+
+- `PromptBlueprint`: new classmethod and parameter
+
+  - `.create_from_node()` — create a blueprint from a specific node, automatically
+    extracting description subnode content as blueprint description for LLM task
+    relevance assessment
+  - `.generate_prompt()` — new `disable_first_heading` parameter to suppress
+    rendering the top-level heading when embedding prompts in larger contexts
+
+- **Continue Export**: documentation workflow blueprints and Continue export refactor
+
+  - `prepare_for_feature_finish` — prepare feature branch for final submission;
+    generates prompts to update `CHANGELOG.md` and documentation files
+  - `prepare_for_release` — prepare release branch with comprehensive documentation
+    updates
+  - `create_readme` — create a new `README.md` tailored to the repository
+  - `create_agents` — create a new `AGENTS.md` tailored to the repository
+  - `maintain_docs` — maintain and update existing `README.md` and `AGENTS.md` files
+  - `maintain_changelog` — update `CHANGELOG.md` with structured entries
+  - move Continue export under the CLI package and keep it out of the programmatic API
+
+- `abbrs.json`: add two abbrs of `~` and `~~`
+- embedded blueprints for documentation writing:
+
+  - `coder_readme_blueprint` (`Coder README Writer`) — format and style guidance for
+    `README.md`
+  - `coder_agents_blueprint` (`Coder AGENTS Writer`) — format and style guidance for
+    `AGENTS.md`
+
+- prompt_corpus.md: **README/AGENTS Writer** role with comprehensive guidance:
+
+  - **create README/AGENTS** — structured instructions for authoring new
+    documentation files
+  - **maintain README/AGENTS** — guidelines for updating existing documentation
+  - **Changelog Writer** — format, versioning, and entry style standards
+
+- prompt_corpus.md: **Maintain Changelog** — explicit guidance for CHANGELOG
+  updates including:
+
+  - feature branch change identification
+  - existing entry preservation and deduplication
+  - recursive blueprint handling
+  - changelog structure standards
+
+- unit tests for `continue prompt` subcommand with documentation maintenance
+  scenarios
+
+### Changed
+
+- **Continue Export module**: refactor Continue export for CLI-only use with
+  relative imports
+
+  - moved `continue_export` package under `kaye.cli` as internal CLI subcommand
+    support
+  - export logic now lives behind CLI commands instead of the Python API
+  - relative imports adopted for improved modularity and clearer package
+    boundaries
+  - standardize blueprint exported rule file names
+
+- prompt_corpus.md: better organization of prompts related to documentation
+  workflows, clearly split into:
+
+  - **README/AGENTS Writer** (style & format guidelines)
+  - **Create README/AGENTS** (create new files)
+  - **Maintain README/AGENTS** (update existing files)
+  - **Maintain Changelog** (CHANGELOG.md updates)
+
+- prompt_corpus.md: **Maintain Docs** prompt expanded with:
+
+  - recursive blueprint handling for comprehensive documentation updates
+  - explicit README/AGENTS edit guidance
+  - content assertion rules
+
+- Continue Export: blueprints refactored for clarity:
+
+  - renamed `prepare_feature` to `prepare_for_release`
+  - refactored rule text for consistency
+  - improved changelog export with feature-specific guidance
+
+- prompt_corpus.md: code block formatting standardized with proper indentation
+
+### Fixed
+
+- `PromptBlueprint.generate_prompt()`: trim leading and trailing empty lines
+  before joining rendered lines
+- prompt_corpus.md: **Kaye Peer Coder**: comment section headings — corrected
+  wrong example of top-level heading
+
+[6.3.0]: https://github.com/kami-lel/kaye/compare/v6.2.1...v6.3.0
+
 
 
 
@@ -43,6 +159,8 @@
 ### Fixed
 
 - `prompt_corpus.md`: Continue Prompts: Maintain Docs: fix rule name
+
+[6.2.1]: https://github.com/kami-lel/kaye/compare/v6.2.0...v6.2.1
 
 
 
@@ -83,6 +201,8 @@
 - Coder: Python: *TestingGuidelines*: more comprehensive instruction 
 - Coder: Project Structure: include `AGENTS.md`
 - rename section **Style Guide** (from Style)
+
+[6.2.0]: https://github.com/kami-lel/kaye/compare/v6.1.0...v6.2.0
 
 
 
@@ -126,6 +246,8 @@ Programmatic API:
 
 - update instruction on *Continue Behavior*
 - more comprehensive instruction on Python *Docstring Style*
+
+[6.1.0]: https://github.com/kami-lel/kaye/compare/v6.0.0...v6.1.0
 
 
 
@@ -176,6 +298,8 @@ Dify App *Kaye Chat*:
 - the `prompt` CLI subcommand (disabled, pending rework)
 - Kaye Chat's *shelver* role
 
+[6.0.0]: https://github.com/kami-lel/kaye/compare/v5.5.0...v6.0.0
+
 
 
 
@@ -193,6 +317,8 @@ Dify App *Kaye Chat*:
 ### Added
 
 - *Opus Tag Smith* Dify App
+
+[5.5.0]: https://github.com/kami-lel/kaye/compare/v5.4.1...v5.5.50
 
 
 
@@ -218,6 +344,8 @@ Kaye Chat *Dify App*:
   to ensure prefer more intelligent LLM(s) for each round
 
 - update *meta content* format
+
+[5.4.1]: https://github.com/kami-lel/kaye/compare/v5.4.0...v5.4.1
 
 
 
@@ -254,6 +382,8 @@ Kaye Chat *Dify App*:
 
 - connect *Fail Branch* of LLMs for **fail gracefully** design
 - pre-process user query for sense node (and sense node only) by truncating and keep constant amount of lines
+
+[5.4.0]: https://github.com/kami-lel/kaye/compare/v5.3.0...v5.4.0
 
 
 
@@ -315,6 +445,8 @@ Kaye Chat *Dify App*:
 
 - *coder* role should never skip sense
 
+[5.3.0]: https://github.com/kami-lel/kaye/compare/v5.2.2...v5.3.0
+
 
 
 
@@ -352,6 +484,8 @@ Kaye Commit Sense *Dify App*:
 - re-implement as a **Chatflow** such that it can utilize:
   *OpenAI Compatible Dify App* Plugin
 
+[5.2.2]: https://github.com/kami-lel/kaye/compare/v5.2.1...v5.2.2
+
 
 
 
@@ -369,6 +503,8 @@ Kaye Commit Sense *Dify App*:
 ### Fixed
 
 - handle case where unknown PLC is given
+
+[5.2.1]: https://github.com/kami-lel/kaye/compare/v5.2.0...v5.2.2
 
 
 
@@ -413,6 +549,8 @@ Kaye Chat *Dify App*:
 
     - rewrite CSH prompt to tighten usage
     - require filename as Level 0 CSH
+
+[5.2.0]: https://github.com/kami-lel/kaye/compare/v5.1.0...v5.2.0
 
 
 
@@ -481,6 +619,8 @@ Kaye Chat *Dify App*:
 - include Annotation Markers for coder
 - Input Field `difficulty_override` defaults to `-1`
 
+[5.1.0]: https://github.com/kami-lel/kaye/compare/v5.0.1...v5.1.0
+
 
 
 
@@ -507,6 +647,8 @@ Kaye Chat *Dify App*:
 Kaye HTTP API: Kaye Cash Tracker:
 
 - fix bug in `fill_extract_prompt.py`
+
+[5.0.1]: https://github.com/kami-lel/kaye/compare/v5.0.0...v5.0.1
 
 
 
@@ -557,6 +699,8 @@ Kaye Cash Tracker:
 
 - re-implement app using new HTTP API
 
+[5.0.0]: https://github.com/kami-lel/kaye/compare/v4.12.1...v5.0.0
+
 
 
 
@@ -589,6 +733,8 @@ Kaye Peer Coder:
 - improve prompt
 - allows *prefix meta content*
 - utilize *memory* build-in, v.s.
+
+[4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1
 
 
 
@@ -624,6 +770,8 @@ Kaye Peer Coder:
 - update Dify App *Kaye Peer Coder* structure such that it support text streaming
 - complete HTTP API support for Dify App *Kaye Peer Coder*
 - complete `python_api_doc.md`
+
+[4.12.0]: https://github.com/kami-lel/kaye/compare/v4.11.0...v4.12.0
 
 
 
@@ -665,6 +813,8 @@ re `prompt_corpus.md`:
 - rm 2D data declaration for role *Kaye Peer Coder*
 - *Peer Coder* role (adapted into a dify App)
 
+[4.11.0]: https://github.com/kami-lel/kaye/compare/v4.10.2...v4.11.0
+
 
 
 
@@ -688,6 +838,8 @@ dify app `kaye_cash_tracker`:
 - improve push branching logic, add a fail answer node
 - improve party_from and party_to extraction in prompt to prefer using given entries
 
+[4.10.2]: https://github.com/kami-lel/kaye/compare/v4.10.1...v4.10.2
+
 
 
 
@@ -709,6 +861,8 @@ dify app `kaye_cash_tracker`:
 - dify app `kaye_cash_tracker`: use `|` for push trigger
 - dify app `kaye_event_radar`: generate URLs of various websites for better interactions
 
+[4.10.1]: https://github.com/kami-lel/kaye/compare/v4.10.0...v4.10.1
+
 
 
 
@@ -727,6 +881,8 @@ dify app `kaye_cash_tracker`:
 ### Added
 
 - dify app `kaye_event_radar`, based on previous prompt-based role *Event Search*
+
+[4.10.0]: https://github.com/kami-lel/kaye/compare/v4.9.1...v4.10.0
 
 
 
@@ -765,6 +921,8 @@ Python CLI, change args:
 - change to `-f` (from `-s`)
 - change to `-F` (from `-f`)
 - change to `--target-file` (from `--destination-file`)
+
+[4.9.1]: https://github.com/kami-lel/kaye/compare/v4.9.0...v4.9.1
 
 
 
@@ -818,6 +976,8 @@ CLI:
 
 - functions of cli `kaye generate_vsc_continue_prompts`
 
+[4.9.0]: https://github.com/kami-lel/kaye/compare/v4.8.1...v4.9.0
+
 
 
 
@@ -850,6 +1010,8 @@ re `dify_studio/`:
 - select emojis for each app
 - use only Python code node instead of Jinja2 template node
 
+[4.8.1]: https://github.com/kami-lel/kaye/compare/v4.8.0...v4.8.1
+
 
 
 
@@ -881,6 +1043,8 @@ re `dify_studio/`:
 ### Changed
 
 - abbreviations in `prompt_corpus.md`
+
+[4.8.0]: https://github.com/kami-lel/kaye/compare/v4.7.6...v4.8.0
 
 
 
@@ -915,6 +1079,8 @@ re `dify_studio/`:
 
 - update abbreviations in `prompt_corpus.md`
 
+[4.7.6]: https://github.com/kami-lel/kaye/compare/v4.7.5...v4.7.6
+
 
 
 
@@ -932,6 +1098,8 @@ re `dify_studio/`:
 ### Changed
 
 - improve role `git commit message`
+
+[4.7.5]: https://github.com/kami-lel/kaye/compare/v4.7.4...v4.7.5
 
 
 
@@ -956,6 +1124,8 @@ re `dify_studio/`:
 
 - update blueprints `librarian` & `librarian_bibliographer` to be used as prompt during chat
 - blueprint `kyc` for missing sections
+
+[4.7.4]: https://github.com/kami-lel/kaye/compare/v4.7.3...v4.7.4
 
 
 
@@ -995,6 +1165,8 @@ re `dify_studio/`:
 - restore section `Introduction` which was accidentally deleted
 - stronger tone in paragraph preceding Understandable Abbreviations, forbid agent use these abbrs
 
+[4.7.3]: https://github.com/kami-lel/kaye/compare/v4.7.2...v4.7.3
+
 
 
 
@@ -1020,6 +1192,8 @@ re `dify_studio/`:
 - split the single abbreviation table into 3 sub-lists. Utilize these abbrs in various prompts
 - improve role `git_commit_message` to avoid generated output being wordy
 
+[4.7.2]: https://github.com/kami-lel/kaye/compare/v4.7.1...v4.7.2
+
 
 
 
@@ -1042,6 +1216,8 @@ re `dify_studio/`:
 
 - more clearly define `Title Case`
 - blueprint settings of `conversation_title_generation` and `conversation_follow_up_generation`
+
+[4.7.1]: https://github.com/kami-lel/kaye/compare/v4.7.0...v4.7.1
 
 
 
@@ -1068,6 +1244,8 @@ re `dify_studio/`:
 - consolidate content related to *capitalization* under section `Capitalization Style`
 - content of `Comment Section Headings` to be 3-level systems
 
+[4.7.0]: https://github.com/kami-lel/kaye/compare/v4.6.2...v4.7.0
+
 
 
 
@@ -1083,6 +1261,8 @@ re `dify_studio/`:
 ### Added
 
 - blueprint `rapid`
+
+[4.6.2]: https://github.com/kami-lel/kaye/compare/v4.6.1...v4.6.2
 
 
 
@@ -1112,6 +1292,8 @@ re `dify_studio/`:
 
 - re-organize & simplify all tests
 - add section divider in `__main__.py` for better visual clarity
+
+[4.6.1]: https://github.com/kami-lel/kaye/compare/v4.6.0...v4.6.1
 
 
 
@@ -1148,6 +1330,8 @@ re `dify_studio/`:
 - corpus parsing will now keep empty lines
 - ensure consistent empty lines before section header
 
+[4.6.0]: https://github.com/kami-lel/kaye/compare/v4.5.2...v4.6.0
+
 
 
 
@@ -1175,6 +1359,7 @@ re `dify_studio/`:
 
 - update tests criteria to accommodate new features
 
+[4.5.2]: https://github.com/kami-lel/kaye/compare/v4.5.1...v4.5.2
 
 
 
@@ -1192,6 +1377,8 @@ re `dify_studio/`:
 ### Changed
 
 - improve *Conversation Follow Up Generation* role (in `prompt_corpus.md`) to generate answers as follow-ups
+
+[4.5.1]: https://github.com/kami-lel/kaye/compare/v4.5.0...v4.5.1
 
 
 
@@ -1219,6 +1406,8 @@ re `dify_studio/`:
 - include more sections & improve in `prompt_writer` blueprint
 - minor language fix in `prompt_corpus.md`
 
+[4.5.0]: https://github.com/kami-lel/kaye/compare/v4.4.1...v4.5.0
+
 
 
 
@@ -1236,6 +1425,8 @@ re `dify_studio/`:
 - rename prompt blueprint `kyc` (abbr Kaye Code) from `code`
 - create Commentary Language section in `prompt_corpus.md` for comment writing style
 - update various tests
+
+[4.4.1]: https://github.com/kami-lel/kaye/compare/v4.4...v4.4.1
 
 
 
@@ -1257,6 +1448,8 @@ re `dify_studio/`:
   - reorder Peer Coder role alphabetically
   - improve Art Tutor role with image orientation, paragraph prompts
 
+[4.4]: https://github.com/kami-lel/kaye/compare/v4.3.1...v4.4
+
 
 
 
@@ -1276,6 +1469,8 @@ re `dify_studio/`:
 - prompt_corpus.md:
   - improve Conversation section for language consistency
   - improve Art Tutor role for better interaction
+
+[4.3.1]: https://github.com/kami-lel/kaye/compare/v4.3...v4.3.1
 
 
 
@@ -1299,6 +1494,8 @@ re `dify_studio/`:
     - add 2d data declarations section
   - add new Art Tutor role
 
+[4.3]: https://github.com/kami-lel/kaye/compare/v4.2.2...v4.3
+
 
 
 
@@ -1318,6 +1515,8 @@ re `dify_studio/`:
 - improve git commit message role for shorter results
 - fix bibliographer typo across project
 
+[4.2.2]: https://github.com/kami-lel/kaye/compare/v4.2.1...v4.2.2
+
 
 
 
@@ -1333,6 +1532,8 @@ re `dify_studio/`:
 ## [4.2.1] - 2025-05-31
 ### Changed
 - add language switch in title generation role
+
+[4.2.1]: https://github.com/kami-lel/kaye/compare/v4.2...v4.2.1
 
 
 
@@ -1352,6 +1553,8 @@ re `dify_studio/`:
 ### Changed
 - reorganize Kaye personality prompts; move "Sir" mentions to Character section
 
+[4.2]: https://github.com/kami-lel/kaye/compare/v4.1...v4.2
+
 
 
 
@@ -1369,6 +1572,8 @@ re `dify_studio/`:
 - prompt comments include blueprint name info
 - improve CLI `kaye prompt ls` printout layout
 
+[4.1]: https://github.com/kami-lel/kaye/compare/v4.0.2...v4.1
+
 
 
 
@@ -1384,6 +1589,8 @@ re `dify_studio/`:
 ## [4.0.2] - 2025-05-24
 ### Fixed
 - include non-Python files (.md) in Python package
+
+[4.0.2]: https://github.com/kami-lel/kaye/compare/v4.0.1...v4.0.2
 
 
 
@@ -1403,6 +1610,8 @@ re `dify_studio/`:
 ### Fixed
 - fix CLI `kaye prompt show` blueprint retrieval bug
 - fix conflicting `-f` CLI flag issue
+
+[4.0.1]: https://github.com/kami-lel/kaye/compare/v4.0...v4.0.1
 
 
 
@@ -1426,6 +1635,8 @@ re `dify_studio/`:
   - `python -m kaye prompt show`
 - implement technical blueprints in `prompt_blueprint_loader.py`
 
+[4.0]: https://github.com/kami-lel/kaye/compare/v3.3...v4.0
+
 
 
 
@@ -1446,6 +1657,8 @@ re `dify_studio/`:
 - reorganize tests
 - append kaye version at end of rendered prompt
 
+[3.3]: https://github.com/kami-lel/kaye/compare/v3.2...v3.3
+
 
 
 
@@ -1462,6 +1675,8 @@ re `dify_studio/`:
 ### Changed
 - merge dev branch
 
+[3.2]: https://github.com/kami-lel/kaye/compare/v3.1...v3.2
+
 
 
 
@@ -1477,6 +1692,8 @@ re `dify_studio/`:
 ## [3.1] - 2025-03-19
 ### Added
 - implement `PromptTemplate` and tests
+
+[3.1]: https://github.com/kami-lel/kaye/compare/v3.0...v3.1
 
 
 
@@ -1496,6 +1713,8 @@ re `dify_studio/`:
 - remove vscode plugin-related module
 - update full prompt
 
+[3.0]: https://github.com/kami-lel/kaye/compare/v2.2.1...v3.0
+
 
 
 
@@ -1513,6 +1732,8 @@ re `dify_studio/`:
 - add prompt for C#
 ### Changed
 - apply minor adjustments
+
+[2.2.1]: https://github.com/kami-lel/kaye/compare/v2.2...v2.2.1
 
 
 
@@ -1535,6 +1756,8 @@ re `dify_studio/`:
 - update DDC tag format in librarian role
 - apply minor format adjustments
 
+[2.2]: https://github.com/kami-lel/kaye/compare/v2.1...v2.2
+
 
 
 
@@ -1554,6 +1777,8 @@ re `dify_studio/`:
 - split git-related prompts in `prompt_full.md`
 - rename commit message writer role to git commit message writer
 - update other files to accommodate renaming
+
+[2.1]: https://github.com/kami-lel/kaye/compare/v2.0...v2.1
 
 
 
@@ -1575,6 +1800,8 @@ re `dify_studio/`:
 - create `static_prompts` directory with `generate_static_prompts.py` script
 - add initial tests
 
+[2.0]: https://github.com/kami-lel/kaye/compare/v1.4...v2.0
+
 
 
 
@@ -1595,6 +1822,8 @@ re `dify_studio/`:
 - use ISO 639-1 language codes in prompts
 - apply other prompt adjustments
 
+[1.4]: https://github.com/kami-lel/kaye/compare/v1.3...v1.4
+
 
 
 
@@ -1613,6 +1842,8 @@ re `dify_studio/`:
 - add encyclopedia role source citation
 - add python docstring example for boolean-returning functions
 
+[1.3]: https://github.com/kami-lel/kaye/compare/v1.2...v1.3
+
 
 
 
@@ -1630,6 +1861,8 @@ re `dify_studio/`:
 - add abbreviation list for roles
 ### Changed
 - reorganize prompt around role concept
+
+[1.2]: https://github.com/kami-lel/kaye/compare/v1.1...v1.2
 
 
 
@@ -1651,6 +1884,8 @@ re `dify_studio/`:
 - capitalize Sir reference in `system_message.md`
 - rename section mission to task in `system_message.md`
 
+[1.1]: https://github.com/kami-lel/kaye/compare/v1.0...v1.1
+
 
 
 
@@ -1667,81 +1902,20 @@ re `dify_studio/`:
 ### Added
 - initial prompt for Kaye with mission adapted from ChatGPT - Genie AI extension
 
-
-
-
-
-
-
-
-
-
-
-
-
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.2.1...dev
-[6.2.1]: https://github.com/kami-lel/kaye/compare/v6.2.0...v6.2.1
-[6.2.0]: https://github.com/kami-lel/kaye/compare/v6.1.0...v6.2.0
-[6.1.0]: https://github.com/kami-lel/kaye/compare/v6.0.0...v6.1.0
-[6.0.0]: https://github.com/kami-lel/kaye/compare/v5.5.0...v6.0.0
-[5.5.0]: https://github.com/kami-lel/kaye/compare/v5.4.1...v5.5.50
-[5.4.1]: https://github.com/kami-lel/kaye/compare/v5.4.0...v5.4.1
-[5.4.0]: https://github.com/kami-lel/kaye/compare/v5.3.0...v5.4.0
-[5.3.0]: https://github.com/kami-lel/kaye/compare/v5.2.2...v5.3.0
-[5.2.2]: https://github.com/kami-lel/kaye/compare/v5.2.1...v5.2.2
-[5.2.1]: https://github.com/kami-lel/kaye/compare/v5.2.0...v5.2.2
-[5.2.0]: https://github.com/kami-lel/kaye/compare/v5.1.0...v5.2.0
-[5.1.0]: https://github.com/kami-lel/kaye/compare/v5.0.1...v5.1.0
-[5.0.1]: https://github.com/kami-lel/kaye/compare/v5.0.0...v5.0.1
-[5.0.0]: https://github.com/kami-lel/kaye/compare/v4.12.1...v5.0.0
-[4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1
-[4.12.1]: https://github.com/kami-lel/kaye/compare/v4.12.0...v4.12.1
-[4.12.0]: https://github.com/kami-lel/kaye/compare/v4.11.0...v4.12.0
-[4.11.0]: https://github.com/kami-lel/kaye/compare/v4.10.2...v4.11.0
-[4.10.2]: https://github.com/kami-lel/kaye/compare/v4.10.1...v4.10.2
-[4.10.1]: https://github.com/kami-lel/kaye/compare/v4.10.0...v4.10.1
-[4.10.0]: https://github.com/kami-lel/kaye/compare/v4.9.1...v4.10.0
-[4.9.1]: https://github.com/kami-lel/kaye/compare/v4.9.0...v4.9.1
-[4.9.0]: https://github.com/kami-lel/kaye/compare/v4.8.1...v4.9.0
-[4.8.1]: https://github.com/kami-lel/kaye/compare/v4.8.0...v4.8.1
-[4.8.0]: https://github.com/kami-lel/kaye/compare/v4.7.6...v4.8.0
-[4.7.6]: https://github.com/kami-lel/kaye/compare/v4.7.5...v4.7.6
-[4.7.5]: https://github.com/kami-lel/kaye/compare/v4.7.4...v4.7.5
-[4.7.4]: https://github.com/kami-lel/kaye/compare/v4.7.3...v4.7.4
-[4.7.3]: https://github.com/kami-lel/kaye/compare/v4.7.2...v4.7.3
-[4.7.2]: https://github.com/kami-lel/kaye/compare/v4.7.1...v4.7.2
-[4.7.1]: https://github.com/kami-lel/kaye/compare/v4.7.0...v4.7.1
-[4.7.0]: https://github.com/kami-lel/kaye/compare/v4.6.2...v4.7.0
-[4.6.2]: https://github.com/kami-lel/kaye/compare/v4.6.1...v4.6.2
-[4.6.1]: https://github.com/kami-lel/kaye/compare/v4.6.0...v4.6.1
-[4.6.0]: https://github.com/kami-lel/kaye/compare/v4.5.2...v4.6.0
-[4.5.2]: https://github.com/kami-lel/kaye/compare/v4.5.1...v4.5.2
-[4.5.1]: https://github.com/kami-lel/kaye/compare/v4.5.0...v4.5.1
-[4.5.0]: https://github.com/kami-lel/kaye/compare/v4.4.1...v4.5.0
-[4.4.1]: https://github.com/kami-lel/kaye/compare/v4.4...v4.4.1
-[4.4]: https://github.com/kami-lel/kaye/compare/v4.3.1...v4.4
-[4.3.1]: https://github.com/kami-lel/kaye/compare/v4.3...v4.3.1
-[4.3]: https://github.com/kami-lel/kaye/compare/v4.2.2...v4.3
-[4.2.2]: https://github.com/kami-lel/kaye/compare/v4.2.1...v4.2.2
-[4.2.1]: https://github.com/kami-lel/kaye/compare/v4.2...v4.2.1
-[4.2]: https://github.com/kami-lel/kaye/compare/v4.1...v4.2
-[4.1]: https://github.com/kami-lel/kaye/compare/v4.0.2...v4.1
-[4.0.2]: https://github.com/kami-lel/kaye/compare/v4.0.1...v4.0.2
-[4.0.1]: https://github.com/kami-lel/kaye/compare/v4.0...v4.0.1
-[4.0]: https://github.com/kami-lel/kaye/compare/v3.3...v4.0
-[3.3]: https://github.com/kami-lel/kaye/compare/v3.2...v3.3
-[3.2]: https://github.com/kami-lel/kaye/compare/v3.1...v3.2
-[3.1]: https://github.com/kami-lel/kaye/compare/v3.0...v3.1
-[3.0]: https://github.com/kami-lel/kaye/compare/v2.2.1...v3.0
-[2.2.1]: https://github.com/kami-lel/kaye/compare/v2.2...v2.2.1
-[2.2]: https://github.com/kami-lel/kaye/compare/v2.1...v2.2
-[2.1]: https://github.com/kami-lel/kaye/compare/v2.0...v2.1
-[2.0]: https://github.com/kami-lel/kaye/compare/v1.4...v2.0
-[1.4]: https://github.com/kami-lel/kaye/compare/v1.3...v1.4
-[1.3]: https://github.com/kami-lel/kaye/compare/v1.2...v1.3
-[1.2]: https://github.com/kami-lel/kaye/compare/v1.1...v1.2
-[1.1]: https://github.com/kami-lel/kaye/compare/v1.0...v1.1
 [1.0]: https://github.com/kami-lel/kaye/releases/tag/v1.0
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

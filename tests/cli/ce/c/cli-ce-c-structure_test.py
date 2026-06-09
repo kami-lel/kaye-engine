@@ -128,66 +128,76 @@ class TestPresent:  # ==========================================================
         assert (testee_rules_folder / "abbr-unit_of_measure.md").exists()
 
     def test_annotation_marker_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "annotation_marker_blueprint.md").exists()
+        assert (testee_rules_folder / "Annotation Markers.md").exists()
 
     def test_chat_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "chat_blueprint.md").exists()
+        assert (testee_rules_folder / "Chat.md").exists()
 
     def test_coder_bash_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_bash_blueprint.md").exists()
+        assert (testee_rules_folder / "Coder Bash.md").exists()
 
     def test_coder_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_blueprint.md").exists()
+        assert (testee_rules_folder / "Kaye Peer Coder.md").exists()
 
     def test_coder_c_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_c_blueprint.md").exists()
+        assert (testee_rules_folder / "Coder C.md").exists()
 
     def test_coder_changelog_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_changelog_blueprint.md").exists()
+        assert (testee_rules_folder / "Coder CHANGELOG Writer.md").exists()
+
+    def test_coder_agents_blueprint(_, testee_rules_folder):
+        assert (testee_rules_folder / "Coder AGENTS Writer.md").exists()
+
+    def test_coder_readme_blueprint(_, testee_rules_folder):
+        assert (testee_rules_folder / "Coder README Writer.md").exists()
 
     def test_coder_cpp_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_cpp_blueprint.md").exists()
+        assert (testee_rules_folder / "Coder CPP.md").exists()
 
     def test_coder_csharp_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_csharp_blueprint.md").exists()
+        assert (testee_rules_folder / "Coder C Sharp.md").exists()
 
     def test_coder_gdscript_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_gdscript_blueprint.md").exists()
+        assert (testee_rules_folder / "Coder GDScript.md").exists()
 
     def test_coder_html_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_html_blueprint.md").exists()
+        assert (testee_rules_folder / "Coder HTML.md").exists()
 
     def test_coder_js_ts_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_js_ts_blueprint.md").exists()
+        assert (
+            testee_rules_folder / "Coder JavaScript and TypeScript.md"
+        ).exists()
 
     def test_coder_project_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_project_blueprint.md").exists()
+        assert (testee_rules_folder / "Coder Project Structure.md").exists()
 
     def test_coder_py_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_py_blueprint.md").exists()
+        assert (testee_rules_folder / "Coder Python.md").exists()
 
     def test_coder_py_docstring_blueprint(_, testee_rules_folder):
         assert (
-            testee_rules_folder / "coder_py_docstring_blueprint.md"
+            testee_rules_folder / "Coder Python Docstring Style.md"
         ).exists()
 
     def test_coder_py_testing_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_py_testing_blueprint.md").exists()
+        assert (
+            testee_rules_folder / "Coder Python Testing Guidelines.md"
+        ).exists()
 
     def test_coder_u3d_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_u3d_blueprint.md").exists()
+        assert (testee_rules_folder / "Coder Unity Engine.md").exists()
 
     def test_coder_ue_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "coder_ue_blueprint.md").exists()
+        assert (testee_rules_folder / "Coder Unreal Engine.md").exists()
 
     def test_continue_behavior_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "continue_behavior_blueprint.md").exists()
+        assert (testee_rules_folder / "Continue Behavior.md").exists()
 
     def test_date_time_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "date_time_blueprint.md").exists()
+        assert (testee_rules_folder / "Date and Time Format.md").exists()
 
     def test_number_unit_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "number_unit_blueprint.md").exists()
+        assert (testee_rules_folder / "Numerical Values with Units.md").exists()
 
     def test_style_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "style_blueprint.md").exists()
+        assert (testee_rules_folder / "Style Guide.md").exists()

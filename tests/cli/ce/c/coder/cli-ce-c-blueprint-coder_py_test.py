@@ -1,9 +1,9 @@
 """
-cli-ce-c-blueprint-coder_py_test.py
+cli-ce-c-blueprint-coder_js_ts_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder_py_blueprint.md``
+creation of ``coder_js_ts_blueprint.md``
 """
 
 import pytest
@@ -19,7 +19,8 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "coder_py_blueprint.md") as f:
+
+    with open(testee_rules_folder / "Coder JavaScript and TypeScript.md") as f:
         return f.read()
 
 
@@ -45,13 +46,10 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder Python" in testee_header
-
-    def test_description(_, testee_header):
-        assert "description: Python code" in testee_header
+        assert "name: Coder JavaScript and TypeScript" in testee_header
 
     def test_globs(_, testee_header):
-        assert 'globs: ["**/*.py"]' in testee_header
+        assert 'globs: ["**/*.{js,ts,jsx,tsx,mjs,cjs}"]' in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -59,8 +57,20 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_python_heading(_, testee_content):
-        assert "## Python" in testee_content
+    def test_brace_style_heading(_, testee_content):
+        assert "## Brace Style" in testee_content
 
-    def test_pep8(_, testee_content):
-        assert "Adhere to the **PEP8** style guide" in testee_content
+    def test_brace_open(_, testee_content):
+        assert "opening `{` on the **same line**" in testee_content
+
+    def test_js_ts_heading(_, testee_content):
+        assert "## Coder JavaScript and TypeScript" in testee_content
+
+    def test_es11(_, testee_content):
+        assert "**ES11** standard" in testee_content
+
+    def test_naming_camelcase(_, testee_content):
+        assert "Use **camelCase**" in testee_content
+
+    def test_jsdoc(_, testee_content):
+        assert "Use **JSDoc**" in testee_content

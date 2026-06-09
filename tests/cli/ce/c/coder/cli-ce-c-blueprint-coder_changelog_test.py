@@ -3,7 +3,7 @@ cli-ce-c-blueprint-coder_changelog_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder_changelog_blueprint.md``
+creation of ``Coder CHANGELOG Writer.md``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "coder_changelog_blueprint.md") as f:
+    with open(testee_rules_folder / "Coder CHANGELOG Writer.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder Changelog Writer" in testee_header
+        assert "name: Coder CHANGELOG Writer" in testee_header
 
     def test_description(_, testee_header):
         assert "description: format for CHANGELOG.md" in testee_header
@@ -63,7 +63,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## Changelog Writer" in testee_content
+        assert "## Coder CHANGELOG Writer" in testee_content
 
     def test_for_humans(_, testee_content):
         assert "- changelogs are *for humans*, not machines" in testee_content
@@ -90,4 +90,7 @@ class TestContent:  # ==========================================================
         assert "- title must be `Project Name CHANGELOG`" in testee_content
 
     def test_format_links(_, testee_content):
-        assert "- must include Github **links** at the end" in testee_content
+        assert (
+            "- must include Github **links** at each section's end"
+            in testee_content
+        )

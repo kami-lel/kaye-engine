@@ -19,7 +19,8 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "coder_bash_blueprint.md") as f:
+
+    with open(testee_rules_folder / "Coder Bash.md") as f:
         return f.read()
 
 
@@ -60,7 +61,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## Bash" in testee_content
+        assert "## Coder Bash" in testee_content
 
     def test_debian_only(_, testee_content):
         assert "Debian GNU/Linux only" in testee_content

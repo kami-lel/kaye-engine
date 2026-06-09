@@ -1,5 +1,5 @@
 """
-cli-c-p-pfr_test.py
+cli-c-p-prepare_release_test.py
 
 Unit Tests (using pytest) for:
 
