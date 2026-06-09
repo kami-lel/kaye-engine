@@ -77,7 +77,7 @@ def _write_rule_file(file_path, name, entries, description=""):
         rule.write(lines)
 
 
-# export  ######################################################################
+# export  ======================================================================
 
 
 def _export_by_tags(folder, abbrs):
