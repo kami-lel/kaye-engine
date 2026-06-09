@@ -170,24 +170,26 @@ coder_py_testing_blueprint = PromptBlueprint.create_from_node(
 )
 
 
-# Repo  ------------------------------------------------------------------------
+# Project  =====================================================================
+
+_proj_node = _corpus["Projects"]
 
 project_structure_blueprint = PromptBlueprint.create_from_node(
-    _kyc_node["Project Structure"]
+    _proj_node["Project Structure"]
 )
 
 # Project README Writer
 project_readme_blueprint = PromptBlueprint.create_from_node(
-    _kyc_node["Project README Writer"]
+    _proj_node["Project README Writer"]
 )
 
 # Project CHANGELOG Writer
 project_changelog_blueprint = PromptBlueprint.create_from_node(
-    _kyc_node["Project CHANGELOG Writer"], recursively=True
+    _proj_node["Project CHANGELOG Writer"], recursively=True
 )
 
 
 # Project AGENTS Writer
 project_agents_blueprint = PromptBlueprint.create_from_node(
-    _kyc_node["Project AGENTS Writer"]
+    _proj_node["Project AGENTS Writer"]
 )

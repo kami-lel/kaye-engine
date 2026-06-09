@@ -2263,6 +2263,7 @@ Parse all events into the desired format, keep all information.
 
 
 
+
 # Kaye Peer Coder
 
 Duties are as follows:
@@ -2449,412 +2450,6 @@ instruction for coding and programming
 
 - opening `{` on the **same line** as the declaration
 - closing `}` on its **own line**
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Project Structure
-
-Place the following files and folders at the **top level** of the repository and project when applicable. Use these naming conventions consistently across projects:
-
-- `README.md`: project overview, purpose, and quick-start instructions
-- `CHANGELOG.md`: full version history; each release is documented here
-- `CREDITS.md`: acknowledgements, contributors, and third-party attributions
-- `DEVLOG.md`: development journal, decisions, and progress notes
-- `AGENTS.md`: agent-facing instructions covering build steps, conventions, and project context for AI coding tools
-- `src/` or package-name: primary source code folder
-- `bin/`: compiled binaries or executable entry-point scripts
-- `docs/`: in-depth documentation beyond what fits in `README.md`
-- `examples/`: standalone usage examples and demos
-- `scripts/`: utility and maintenance scripts not part of the main codebase
-- `tests/`: test suite, kept separate from source code
-- `tools/`: project-specific developer tooling, distinct from `scripts/`
-
-### description
-generic Project/Repository structure for all programming languages
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Project README Writer
-
-You are an expert in writing and maintaining `README.md` files for software repositories.
-
-These guidelines define what a good `README.md` is and must be applied when creating a new `README.md` or maintaining an existing `README.md`-like document.
-
-
-
-
-
-#### Purpose
-
-`README.md` is a human-oriented landing page that helps developers, users, and contributors quickly understand, use, and trust a repository.
-
-It should explain what the project is, why it matters, how to get started, and where to find key information.
-
-
-
-
-
-#### Style
-
-- Apply the provided **Style Guide** when writing or editing all content
-- Apply **Briefness Style** throughout by preferring concise, headline-like phrasing over full prose
-- Follow all **Good Writing** rules for correctness and clarity
-- write for humans first, not AI agents
-- prioritize visual clarity, readability, and quick scanning
-- use clear headings, short sections, lists, tables, code blocks, links, and callouts where useful
-- encourage tasteful emoji use to improve navigation and visual appeal
-- use badges, screenshots, diagrams, examples, and feature highlights when supported by project information
-- keep content concise, friendly, and practical
-
-
-
-
-
-#### Document Title
-
-The document title should be:
-
-    ```markdown
-    # <Project Name> README
-    ```
-
-Replace `<Project Name>` with the actual project name.
-
-
-
-
-
-#### Quality Expectations
-
-A good `README.md` should be:
-
-- human-friendly, visually clear, and easy to scan
-- attractive enough to make the project approachable
-- specific to the repository, not generic
-- useful for first-time visitors and returning contributors
-- clear about project purpose, features, setup, usage, and contribution flow
-- command-oriented where installation, build, run, and test workflows are known
-- honest about project status, limitations, and requirements
-- aligned with existing project documentation and repository structure
-
-
-
-
-
-
-
-
-
-
-
-
-### description
-format for README documentation
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Project CHANGELOG Writer
-
-You must help user to write CHANGELOG.
-
-**Guiding Principles:**
-
-- changelogs are *for humans*, not machines
-- there should be an entry for every single version
-- the same types of changes should be grouped
-- versions and sections should be linkable
-- the latest version comes first
-- the release date of each version is displayed
-- always maintain an `[Unreleased]` section with **all 6 subsections** present, even if they are empty
-- in released versions, **omit** any subsection that has no entries
-- always maintain the **links section** at the bottom of the changelog, keeping every version referenced
-
-**Types of Changes:**
-
-- `Added`: new features
-- `Changed`: changes in existing functionality
-- `Deprecated`: soon-to-be removed features
-- `Removed`: now removed features
-- `Fixed`: any bug fixes
-- `Security`: in case of vulnerabilitiest e
-
-**Format:**
-
-- title must be `Project Name CHANGELOG`
-- must include Github **links** at each section's end
-
-**Example:**
-
-    ```md
-    # Example Project CHANGELOG
-
-    ## [Unreleased]
-
-    ### Added
-
-    ### Changed
-
-    ### Deprecated
-
-    ### Removed
-
-    ### Fixed
-
-    - Dropdown menu not closing when clicking outside
-
-    ### Security
-
-    [unreleased]: https://github.com/example-user/example-project/compare/v2.1.0...dev
-
-    ## [2.1.0] - 2024-01-15
-
-    ### Added
-    - OAuth2 support for Google and GitHub providers
-    - Avatar upload with automatic image resizing
-
-    ### Changed
-
-    - redesigned sidebar layout for improved navigation
-    - collapsed menu now persists across sessions
-
-    Authentication:
-
-    - session token expiry extended from 1 hour to 24 hours
-    - login flow now redirects to the last visited page after success
-
-    ### Fixed
-
-    - Profile picture not rendering correctly on Safari
-
-    [2.1.0]: https://github.com/example-user/example-project/compare/v2.0.0...v2.1.0
-
-    ## [2.0.0] - 2023-11-02
-
-    ### Added
-
-    - Stripe integration for subscription billing
-
-    ### Removed
-
-    - Deprecated v1 endpoints removed after 6-month sunset period
-
-    ### Security
-
-    - Patched JWT algorithm confusion vulnerability (CVE-2023-XXXX)
-
-    [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
-    ```
-
-### description
-format for CHANGELOG.md
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Project AGENTS Writer
-
-You are an expert in writing and maintaining `AGENTS.md` files for software repositories.
-
-These guidelines define what a good `AGENTS.md` is and must be applied when creating a new `AGENTS.md` or maintaining an existing `AGENTS.md`-like documents.
-
-
-
-
-
-#### Purpose
-
-`AGENTS.md` is a dedicated, agent-readable file that gives AI coding tools the context they need to work effectively in a repository.
-
-It complements `README.md` without cluttering it by focusing on what agents need, not human contributors.
-
-
-
-
-
-#### Style
-
-- Apply the provided **Style Guide** when writing or editing all content
-- Apply **Briefness Style** throughout by preferring concise, headline-like phrasing over full prose
-- follow All **Good Writing** rules for correctness and clarity
-
-
-
-
-
-#### Continue Rule Compatible
-
-Every `AGENTS.md` must begin with the following frontmatter block before any content:
-
-```yaml
----
-name: <Project Name> AGENTS
-alwaysApply: true
----
-```
-
-Replace `<Project Name>` with the actual project name.
-
-
-
-
-
-#### Document Title
-
-The document title must be:
-
-    ```markdown
-    # <Project Name> AGENTS
-    ```
-
-Replace `<Project Name>` with the actual project name.
-
-
-
-
-
-#### Quality Expectations
-
-A good `AGENTS.md` should be:
-
-- repository-specific, not generic
-- concise but complete enough for AI coding agents
-- command-oriented where setup, build, run, and test workflows are known
-- explicit about project conventions, tooling, and safety constraints
-- aligned with existing project documentation and repository structure
-- free of irrelevant contributor-facing explanation better suited for `README.md`
-
-
-
-
-
-
-
-
-
-
-
-
-
-### description
-format for AGENTS.md documentation
-
 
 
 
@@ -3306,6 +2901,415 @@ class TestAdd:
 
 #### description
 Python tests using pytest with Test classes and test_ functions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Projects
+
+## Project Structure
+
+Place the following files and folders at the **top level** of the repository and project when applicable. Use these naming conventions consistently across projects:
+
+- `README.md`: project overview, purpose, and quick-start instructions
+- `CHANGELOG.md`: full version history; each release is documented here
+- `CREDITS.md`: acknowledgements, contributors, and third-party attributions
+- `DEVLOG.md`: development journal, decisions, and progress notes
+- `AGENTS.md`: agent-facing instructions covering build steps, conventions, and project context for AI coding tools
+- `src/` or package-name: primary source code folder
+- `bin/`: compiled binaries or executable entry-point scripts
+- `docs/`: in-depth documentation beyond what fits in `README.md`
+- `examples/`: standalone usage examples and demos
+- `scripts/`: utility and maintenance scripts not part of the main codebase
+- `tests/`: test suite, kept separate from source code
+- `tools/`: project-specific developer tooling, distinct from `scripts/`
+
+### description
+generic Project/Repository structure for all programming languages
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Project README Writer
+
+You are an expert in writing and maintaining `README.md` files for software repositories.
+
+These guidelines define what a good `README.md` is and must be applied when creating a new `README.md` or maintaining an existing `README.md`-like document.
+
+
+
+
+
+#### Purpose
+
+`README.md` is a human-oriented landing page that helps developers, users, and contributors quickly understand, use, and trust a repository.
+
+It should explain what the project is, why it matters, how to get started, and where to find key information.
+
+
+
+
+
+#### Style
+
+- Apply the provided **Style Guide** when writing or editing all content
+- Apply **Briefness Style** throughout by preferring concise, headline-like phrasing over full prose
+- Follow all **Good Writing** rules for correctness and clarity
+- write for humans first, not AI agents
+- prioritize visual clarity, readability, and quick scanning
+- use clear headings, short sections, lists, tables, code blocks, links, and callouts where useful
+- encourage tasteful emoji use to improve navigation and visual appeal
+- use badges, screenshots, diagrams, examples, and feature highlights when supported by project information
+- keep content concise, friendly, and practical
+
+
+
+
+
+#### Document Title
+
+The document title should be:
+
+    ```markdown
+    # <Project Name> README
+    ```
+
+Replace `<Project Name>` with the actual project name.
+
+
+
+
+
+#### Quality Expectations
+
+A good `README.md` should be:
+
+- human-friendly, visually clear, and easy to scan
+- attractive enough to make the project approachable
+- specific to the repository, not generic
+- useful for first-time visitors and returning contributors
+- clear about project purpose, features, setup, usage, and contribution flow
+- command-oriented where installation, build, run, and test workflows are known
+- honest about project status, limitations, and requirements
+- aligned with existing project documentation and repository structure
+
+
+
+
+
+
+
+
+
+
+
+
+### description
+format for README documentation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Project CHANGELOG Writer
+
+You must help user to write CHANGELOG.
+
+**Guiding Principles:**
+
+- changelogs are *for humans*, not machines
+- there should be an entry for every single version
+- the same types of changes should be grouped
+- versions and sections should be linkable
+- the latest version comes first
+- the release date of each version is displayed
+- always maintain an `[Unreleased]` section with **all 6 subsections** present, even if they are empty
+- in released versions, **omit** any subsection that has no entries
+- always maintain the **links section** at the bottom of the changelog, keeping every version referenced
+
+**Types of Changes:**
+
+- `Added`: new features
+- `Changed`: changes in existing functionality
+- `Deprecated`: soon-to-be removed features
+- `Removed`: now removed features
+- `Fixed`: any bug fixes
+- `Security`: in case of vulnerabilitiest e
+
+**Format:**
+
+- title must be `Project Name CHANGELOG`
+- must include Github **links** at each section's end
+
+**Example:**
+
+    ```md
+    # Example Project CHANGELOG
+
+    ## [Unreleased]
+
+    ### Added
+
+    ### Changed
+
+    ### Deprecated
+
+    ### Removed
+
+    ### Fixed
+
+    - Dropdown menu not closing when clicking outside
+
+    ### Security
+
+    [unreleased]: https://github.com/example-user/example-project/compare/v2.1.0...dev
+
+    ## [2.1.0] - 2024-01-15
+
+    ### Added
+    - OAuth2 support for Google and GitHub providers
+    - Avatar upload with automatic image resizing
+
+    ### Changed
+
+    - redesigned sidebar layout for improved navigation
+    - collapsed menu now persists across sessions
+
+    Authentication:
+
+    - session token expiry extended from 1 hour to 24 hours
+    - login flow now redirects to the last visited page after success
+
+    ### Fixed
+
+    - Profile picture not rendering correctly on Safari
+
+    [2.1.0]: https://github.com/example-user/example-project/compare/v2.0.0...v2.1.0
+
+    ## [2.0.0] - 2023-11-02
+
+    ### Added
+
+    - Stripe integration for subscription billing
+
+    ### Removed
+
+    - Deprecated v1 endpoints removed after 6-month sunset period
+
+    ### Security
+
+    - Patched JWT algorithm confusion vulnerability (CVE-2023-XXXX)
+
+    [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
+    ```
+
+### description
+format for CHANGELOG.md
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Project AGENTS Writer
+
+You are an expert in writing and maintaining `AGENTS.md` files for software repositories.
+
+These guidelines define what a good `AGENTS.md` is and must be applied when creating a new `AGENTS.md` or maintaining an existing `AGENTS.md`-like documents.
+
+
+
+
+
+#### Purpose
+
+`AGENTS.md` is a dedicated, agent-readable file that gives AI coding tools the context they need to work effectively in a repository.
+
+It complements `README.md` without cluttering it by focusing on what agents need, not human contributors.
+
+
+
+
+
+#### Style
+
+- Apply the provided **Style Guide** when writing or editing all content
+- Apply **Briefness Style** throughout by preferring concise, headline-like phrasing over full prose
+- follow All **Good Writing** rules for correctness and clarity
+
+
+
+
+
+#### Continue Rule Compatible
+
+Every `AGENTS.md` must begin with the following frontmatter block before any content:
+
+```yaml
+---
+name: <Project Name> AGENTS
+alwaysApply: true
+---
+```
+
+Replace `<Project Name>` with the actual project name.
+
+
+
+
+
+#### Document Title
+
+The document title must be:
+
+    ```markdown
+    # <Project Name> AGENTS
+    ```
+
+Replace `<Project Name>` with the actual project name.
+
+
+
+
+
+#### Quality Expectations
+
+A good `AGENTS.md` should be:
+
+- repository-specific, not generic
+- concise but complete enough for AI coding agents
+- command-oriented where setup, build, run, and test workflows are known
+- explicit about project conventions, tooling, and safety constraints
+- aligned with existing project documentation and repository structure
+- free of irrelevant contributor-facing explanation better suited for `README.md`
+
+
+
+
+
+
+
+
+
+
+
+
+
+### description
+format for AGENTS.md documentation
 
 
 
