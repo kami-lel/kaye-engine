@@ -2665,7 +2665,7 @@ You must help user to write CHANGELOG.
 - `Deprecated`: soon-to-be removed features
 - `Removed`: now removed features
 - `Fixed`: any bug fixes
-- `Security`: in case of vulnerabilities
+- `Security`: in case of vulnerabilitiest e
 
 **Format:**
 
