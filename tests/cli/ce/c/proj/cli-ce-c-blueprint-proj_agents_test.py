@@ -1,9 +1,9 @@
 """
-cli-ce-c-blueprint-coder_agents_test.py
+cli-ce-c-blueprint-proj_agents_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder_agents_blueprint.md``
+creation of ``Project AGENTS Writer.md``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "Coder AGENTS Writer.md") as f:
+    with open(testee_rules_folder / "Project AGENTS Writer.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder AGENTS Writer" in testee_header
+        assert "name: Project AGENTS Writer" in testee_header
 
     def test_description(_, testee_header):
         assert (
@@ -59,7 +59,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## Coder AGENTS Writer" in testee_content
+        assert "## Project AGENTS Writer" in testee_content
 
     def test_intro_expert(_, testee_content):
         assert (

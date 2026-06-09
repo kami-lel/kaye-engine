@@ -1,9 +1,9 @@
 """
-cli-ce-c-blueprint-coder_readme_test.py
+cli-ce-c-blueprint-proj_readme_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``Coder README Writer.md``
+creation of ``Project README Writer.md``
 """
 
 import pytest
@@ -20,7 +20,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "Coder README Writer.md") as f:
+    with open(testee_rules_folder / "Project README Writer.md") as f:
         return f.read()
 
 
@@ -46,7 +46,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder README Writer" in testee_header
+        assert "name: Project README Writer" in testee_header
 
     def test_description(_, testee_header):
         assert "description: format for README documentation" in testee_header
@@ -58,7 +58,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## Coder README Writer" in testee_content
+        assert "## Project README Writer" in testee_content
 
     def test_intro_expert(_, testee_content):
         assert (
