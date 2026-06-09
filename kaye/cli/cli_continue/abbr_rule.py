@@ -48,7 +48,7 @@ _TAG_GROUPS = [
         "Abbreviations Single Character",
     ),
     (
-        "emoji",
+        AbbrTags.emoji,
         "abbr-emoji.md",
         "Abbreviations Emoji",
     ),
@@ -152,10 +152,11 @@ def export_abbr_rules(folder):
     """
     export rule files into ``folder``
 
-    which reads all abbreviations from
-    ``AbbrData`` and exports rule files grouped by tag, wrap
-    (prefix, suffix, symbol), and first character (0–9, A–Z, other);
-    an abbreviation may appear in multiple rule files
+    which reads all abbreviations from ``AbbrData`` and exports rule files
+    grouped by: tag (programming language, natural language, unit, currency,
+    single-character, emoji), wrap (prefix, suffix, symbol), and first
+    character (0–9, A–Z, other); an abbreviation may appear in multiple
+    rule files
 
 
     :param folder: destination folder for rule files
