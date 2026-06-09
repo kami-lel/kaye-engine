@@ -18,6 +18,8 @@
 
 ### Added
 
+- `abbrs.json`: add `"single_character"` tag to all single-character abbreviations
+
 ### Changed
 
 - **embedded blueprints**: rename blueprint variables for better semantic alignment with corpus node structure
