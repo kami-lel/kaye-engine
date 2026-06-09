@@ -23,18 +23,10 @@
 ### Changed
 
 - **embedded blueprints**: rename blueprint variables for better semantic alignment with corpus node structure
+- `prompt_corpus.md`
 
-  - `coder_project_blueprint` → `project_structure_blueprint`
-  - `coder_readme_blueprint` → `project_readme_blueprint`
-  - `coder_changelog_blueprint` → `project_changelog_blueprint`
-  - `coder_agents_blueprint` → `project_agents_blueprint`
-
-- **prompt_corpus.md**: rename Coder docs roles to Project docs for clarity
-
-  - `Coder Project Structure` → `Project Structure`
-  - `Coder README Writer` → `Project README Writer`
-  - `Coder CHANGELOG Writer` → `Project CHANGELOG Writer`
-  - `Coder AGENTS Writer` → `Project AGENTS Writer`
+  - rename Coder docs roles to Project docs for clarity
+  - Continue Behavior: avoid unnecessary closing statement
 
 - **Dify App**: update blueprint imports in `kaye_chat_task.py` for `project_changelog_blueprint`
 - **Annotation Markers**: refactor comment section heading examples for improved clarity
