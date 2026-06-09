@@ -12,8 +12,6 @@ from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
 
 from .rule_file import RuleFile
 
-# TODO Single Letter abbr
-# TODO support emoji
 # TODO standardize file name
 
 
@@ -43,6 +41,16 @@ _TAG_GROUPS = [
         AbbrTags.currency_symbol,
         "abbr-currency_symbol.md",
         "Abbreviations Currency Symbols",
+    ),
+    (
+        AbbrTags.single_character,
+        "abbr-single_character.md",
+        "Abbreviations Single Character",
+    ),
+    (
+        "emoji",
+        "abbr-emoji.md",
+        "Abbreviations Emoji",
     ),
 ]
 
