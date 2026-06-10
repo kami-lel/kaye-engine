@@ -48,6 +48,13 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: Project Semantic Versioning" in testee_header
 
+    def test_description(_, testee_header):
+        assert (
+            "description: semantic Versioning basics Major.Minor.Patch/x.y.z, "
+            "pre-release identifiers, build metadata, and version examples"
+            in testee_header
+        )
+
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
 
