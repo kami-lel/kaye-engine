@@ -2967,7 +2967,8 @@ Place the following files and folders at the **top level** of the repository and
 - `tools/`: project-specific developer tooling, distinct from `scripts/`
 
 ### description
- generic Project/Repository structure for all programming languages
+
+generic Project/Repository structure for all programming languages
 
 
 
