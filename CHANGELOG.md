@@ -18,6 +18,34 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.4.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.4.0] - 2026-06-10
+
+### Added
+
 - `abbrs.json`: add `"single_character"` tag to all single-character abbreviations
 
 ### Changed
@@ -49,15 +77,8 @@ Continue Export:
   instead of 28 separate list iterations
 - standardize abbreviation rule file naming convention: `abbr-*.md` → `Abbr *.md` (filename matches rule name)
 
-### Deprecated
+[6.4.0]: https://github.com/kami-lel/kaye/compare/v6.3.0...v6.4.0
 
-### Removed
-
-### Fixed
-
-### Security
-
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.3.0...dev
 
 
 
