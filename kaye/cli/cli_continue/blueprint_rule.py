@@ -55,6 +55,7 @@ _EXPORT_BLUEPRINTS = [
     "project_readme_blueprint",
     "project_changelog_blueprint",
     "project_agents_blueprint",
+    "project_semantic_versioning_blueprint",
     "coder_bash_blueprint",
     "coder_c_blueprint",
     "coder_cpp_blueprint",
