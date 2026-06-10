@@ -2989,6 +2989,57 @@ generic Project/Repository structure for all programming languages
 
 
 
+
+## Project Semantic Versioning
+
+game dev to version
+
+toy/prototypes:
+
+0.1.0~0.4.x
+
+vertical slice: 0.5.x
+
+pre-alpha: 0.9.x
+
+alpha: 1.0.0-alpha
+beta: 1.0.0-beta
+
+release: 1.0.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Project README Writer
 
 You are an expert in writing and maintaining `README.md` files for software repositories.
