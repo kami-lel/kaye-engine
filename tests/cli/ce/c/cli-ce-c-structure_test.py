@@ -27,105 +27,113 @@ class TestPresent:  # ==========================================================
             assert (testee_rules_folder / v).exists()
 
     def test_abbr_currency_symbol(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-currency_symbol.md").exists()
+        assert (testee_rules_folder / "Abbr Currency Symbols.md").exists()
 
     def test_abbr_language_code(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-language_code.md").exists()
+        assert (testee_rules_folder / "Abbr Natural Language Codes.md").exists()
 
     def test_abbr_prefix(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-prefix.md").exists()
+        assert (testee_rules_folder / "Abbr Prefixes.md").exists()
 
     def test_abbr_programming_language_code(_, testee_rules_folder):
         assert (
-            testee_rules_folder / "abbr-programming_language_code.md"
+            testee_rules_folder / "Abbr Programming Language Codes.md"
         ).exists()
 
+    def test_abbr_single_character(_, testee_rules_folder):
+        assert (testee_rules_folder / "Abbr Single Character.md").exists()
+
+    def test_abbr_emoji(_, testee_rules_folder):
+        assert (testee_rules_folder / "Abbr Emoji.md").exists()
+
     def test_abbr_starts_with_a(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-a.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with A.md").exists()
 
     def test_abbr_starts_with_b(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-b.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with B.md").exists()
 
     def test_abbr_starts_with_c(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-c.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with C.md").exists()
 
     def test_abbr_starts_with_d(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-d.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with D.md").exists()
 
     def test_abbr_starts_with_digits(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-digits.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with Digits 0~9.md").exists()
 
     def test_abbr_starts_with_e(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-e.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with E.md").exists()
 
     def test_abbr_starts_with_f(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-f.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with F.md").exists()
 
     def test_abbr_starts_with_g(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-g.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with G.md").exists()
 
     def test_abbr_starts_with_h(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-h.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with H.md").exists()
 
     def test_abbr_starts_with_i(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-i.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with I.md").exists()
 
     def test_abbr_starts_with_k(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-k.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with K.md").exists()
 
     def test_abbr_starts_with_l(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-l.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with L.md").exists()
 
     def test_abbr_starts_with_m(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-m.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with M.md").exists()
 
     def test_abbr_starts_with_n(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-n.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with N.md").exists()
 
     def test_abbr_starts_with_o(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-o.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with O.md").exists()
 
     def test_abbr_starts_with_other(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-other.md").exists()
+        assert (
+            testee_rules_folder / "Abbr Starts with Non-Alphanumeric.md"
+        ).exists()
 
     def test_abbr_starts_with_p(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-p.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with P.md").exists()
 
     def test_abbr_starts_with_q(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-q.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with Q.md").exists()
 
     def test_abbr_starts_with_r(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-r.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with R.md").exists()
 
     def test_abbr_starts_with_s(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-s.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with S.md").exists()
 
     def test_abbr_starts_with_t(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-t.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with T.md").exists()
 
     def test_abbr_starts_with_u(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-u.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with U.md").exists()
 
     def test_abbr_starts_with_v(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-v.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with V.md").exists()
 
     def test_abbr_starts_with_w(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-w.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with W.md").exists()
 
     def test_abbr_starts_with_x(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-x.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with X.md").exists()
 
     def test_abbr_starts_with_y(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-starts_with-y.md").exists()
+        assert (testee_rules_folder / "Abbr Starts with Y.md").exists()
 
     def test_abbr_suffix(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-suffix.md").exists()
+        assert (testee_rules_folder / "Abbr Suffixes.md").exists()
 
     def test_abbr_symbol(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-symbol.md").exists()
+        assert (testee_rules_folder / "Abbr Symbols.md").exists()
 
     def test_abbr_unit_of_measure(_, testee_rules_folder):
-        assert (testee_rules_folder / "abbr-unit_of_measure.md").exists()
+        assert (testee_rules_folder / "Abbr Units of Measure.md").exists()
 
     def test_annotation_marker_blueprint(_, testee_rules_folder):
         assert (testee_rules_folder / "Annotation Markers.md").exists()
@@ -143,13 +151,13 @@ class TestPresent:  # ==========================================================
         assert (testee_rules_folder / "Coder C.md").exists()
 
     def test_coder_changelog_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "Coder CHANGELOG Writer.md").exists()
+        assert (testee_rules_folder / "Project CHANGELOG Writer.md").exists()
 
     def test_coder_agents_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "Coder AGENTS Writer.md").exists()
+        assert (testee_rules_folder / "Project AGENTS Writer.md").exists()
 
     def test_coder_readme_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "Coder README Writer.md").exists()
+        assert (testee_rules_folder / "Project README Writer.md").exists()
 
     def test_coder_cpp_blueprint(_, testee_rules_folder):
         assert (testee_rules_folder / "Coder CPP.md").exists()
@@ -169,7 +177,7 @@ class TestPresent:  # ==========================================================
         ).exists()
 
     def test_coder_project_blueprint(_, testee_rules_folder):
-        assert (testee_rules_folder / "Coder Project Structure.md").exists()
+        assert (testee_rules_folder / "Project Structure.md").exists()
 
     def test_coder_py_blueprint(_, testee_rules_folder):
         assert (testee_rules_folder / "Coder Python.md").exists()

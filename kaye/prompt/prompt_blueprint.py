@@ -21,6 +21,9 @@ from .prompt_corpus_loader import (
 __all__ = ("PromptBlueprint",)
 
 
+# fixme better description handling: use {description} & not rendered in prompt;
+# fixme split style guide or merge abbrs start with *
+
 # constants  ###################################################################
 CHECKMARKED_PREFIX = "[x] "
 UNCHECKMARKED_PREFIX = "[ ] "

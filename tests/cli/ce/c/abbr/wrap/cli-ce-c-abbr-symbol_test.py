@@ -1,9 +1,9 @@
 """
-cli-ce-c-blueprint-coder_project_test.py
+cli-ce-c-abbr-symbol_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``Coder Project Structure.md``
+creation of ``abbr-symbol``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "Coder Project Structure.md") as f:
+    with open(testee_rules_folder / "Abbr Symbols.md") as f:
         return f.read()
 
 
@@ -45,14 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder Project Structure" in testee_header
-
-    def test_description(_, testee_header):
-        assert (
-            "description: generic Project/Repository structure for all"
-            " programming languages"
-            in testee_header
-        )
+        assert "name: Abbr Symbols" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -60,26 +53,32 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Coder Project Structure" in testee_content
+    def test_exclamation(_, testee_content):
+        assert "- !:no,not,incorrect" in testee_content
 
-    def test_readme(_, testee_content):
-        assert "- `README.md`:" in testee_content
+    def test_not_equal(_, testee_content):
+        assert "- !=:not equal" in testee_content
 
-    def test_changelog(_, testee_content):
-        assert "- `CHANGELOG.md`:" in testee_content
+    def test_ampersand(_, testee_content):
+        assert "- &:and" in testee_content
 
-    def test_agents(_, testee_content):
-        assert "- `AGENTS.md`:" in testee_content
+    def test_arrow_right(_, testee_content):
+        assert "- ->:become/change/transform into" in testee_content
 
-    def test_src(_, testee_content):
-        assert "- `src/` or package-name:" in testee_content
+    def test_arrow_left(_, testee_content):
+        assert "- <-:become/change/transform from" in testee_content
 
-    def test_tests(_, testee_content):
-        assert "- `tests/`:" in testee_content
+    def test_therefore(_, testee_content):
+        assert "- =>:therefore,causing,resulting" in testee_content
 
-    def test_docs(_, testee_content):
-        assert "- `docs/`:" in testee_content
+    def test_sqrt(_, testee_content):
+        assert "- √:square root" in testee_content
 
-    def test_scripts(_, testee_content):
-        assert "- `scripts/`:" in testee_content
+    def test_infinite(_, testee_content):
+        assert "- ∞:infinite" in testee_content
+
+    def test_warning(_, testee_content):
+        assert "- ⚠️:warning" in testee_content
+
+    def test_checkmark(_, testee_content):
+        assert "- ✓:correct,correction" in testee_content

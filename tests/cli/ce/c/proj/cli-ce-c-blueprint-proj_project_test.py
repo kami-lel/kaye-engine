@@ -1,9 +1,9 @@
 """
-cli-ce-c-abbr-programming_language_code_test.py
+cli-ce-c-blueprint-proj_project_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``abbr-programming_language_code``
+creation of ``Project Structure.md``
 """
 
 import pytest
@@ -19,9 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(
-        testee_rules_folder / "abbr-programming_language_code.md"
-    ) as f:
+    with open(testee_rules_folder / "Project Structure.md") as f:
         return f.read()
 
 
@@ -47,8 +45,12 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
+        assert "name: Project Structure" in testee_header
+
+    def test_description(_, testee_header):
         assert (
-            "name: Abbreviations Programming Language Codes"
+            "description: generic Project/Repository structure for all"
+            " programming languages"
             in testee_header
         )
 
@@ -58,32 +60,26 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_bash(_, testee_content):
-        assert "- bash:Bash" in testee_content
+    def test_heading(_, testee_content):
+        assert "## Project Structure" in testee_content
 
-    def test_c(_, testee_content):
-        assert "- c:C language" in testee_content
+    def test_readme(_, testee_content):
+        assert "- `README.md`:" in testee_content
 
-    def test_cpp(_, testee_content):
-        assert "- cpp:C++" in testee_content
+    def test_changelog(_, testee_content):
+        assert "- `CHANGELOG.md`:" in testee_content
 
-    def test_csharp(_, testee_content):
-        assert "- csharp:C Sharp" in testee_content
+    def test_agents(_, testee_content):
+        assert "- `AGENTS.md`:" in testee_content
 
-    def test_gdscript(_, testee_content):
-        assert "- gdscript:GDScript used by Godot Engine" in testee_content
+    def test_src(_, testee_content):
+        assert "- `src/` or package-name:" in testee_content
 
-    def test_js(_, testee_content):
-        assert "- js:JavaScript" in testee_content
+    def test_tests(_, testee_content):
+        assert "- `tests/`:" in testee_content
 
-    def test_py(_, testee_content):
-        assert "- py:Python" in testee_content
+    def test_docs(_, testee_content):
+        assert "- `docs/`:" in testee_content
 
-    def test_ts(_, testee_content):
-        assert "- ts:TypeScript" in testee_content
-
-    def test_u3d(_, testee_content):
-        assert "- u3d:Unity Engine code" in testee_content
-
-    def test_ue(_, testee_content):
-        assert "- ue:Unreal Engine code" in testee_content
+    def test_scripts(_, testee_content):
+        assert "- `scripts/`:" in testee_content
