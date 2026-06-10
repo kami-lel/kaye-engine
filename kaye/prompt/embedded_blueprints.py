@@ -16,10 +16,11 @@ __all__ = (
     "style_blueprint",
     "annotation_marker_blueprint",
     "coder_blueprint",
-    "coder_project_blueprint",
-    "coder_readme_blueprint",
-    "coder_changelog_blueprint",
-    "coder_agents_blueprint",
+    "project_structure_blueprint",
+    "project_readme_blueprint",
+    "project_changelog_blueprint",
+    "project_agents_blueprint",
+    "project_semantic_versioning_blueprint",
     "coder_bash_blueprint",
     "coder_c_blueprint",
     "coder_cpp_blueprint",
@@ -170,24 +171,31 @@ coder_py_testing_blueprint = PromptBlueprint.create_from_node(
 )
 
 
-# Repo  ------------------------------------------------------------------------
+# Project  =====================================================================
 
-coder_project_blueprint = PromptBlueprint.create_from_node(
-    _kyc_node["Coder Project Structure"]
+_proj_node = _corpus["Projects"]
+
+project_structure_blueprint = PromptBlueprint.create_from_node(
+    _proj_node["Project Structure"]
 )
 
-# Coder README Writer
-coder_readme_blueprint = PromptBlueprint.create_from_node(
-    _kyc_node["Coder README Writer"]
+# Project README Writer
+project_readme_blueprint = PromptBlueprint.create_from_node(
+    _proj_node["Project README Writer"]
 )
 
-# Coder Changelog
-coder_changelog_blueprint = PromptBlueprint.create_from_node(
-    _kyc_node["Coder CHANGELOG Writer"], recursively=True
+# Project CHANGELOG Writer
+project_changelog_blueprint = PromptBlueprint.create_from_node(
+    _proj_node["Project CHANGELOG Writer"], recursively=True
 )
 
 
-# Coder AGENTS Writer
-coder_agents_blueprint = PromptBlueprint.create_from_node(
-    _kyc_node["Coder AGENTS Writer"]
+# Project AGENTS Writer
+project_agents_blueprint = PromptBlueprint.create_from_node(
+    _proj_node["Project AGENTS Writer"]
+)
+
+# Project Semantic Versioning
+project_semantic_versioning_blueprint = PromptBlueprint.create_from_node(
+    _proj_node["Project Semantic Versioning"]
 )

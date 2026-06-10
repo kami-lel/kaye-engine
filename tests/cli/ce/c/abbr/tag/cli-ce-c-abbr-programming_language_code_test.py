@@ -1,9 +1,9 @@
 """
-cli-ce-c-abbr-suffix_test.py
+cli-ce-c-abbr-programming_language_code_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``abbr-suffix``
+creation of ``abbr-programming_language_code``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "abbr-suffix.md") as f:
+    with open(testee_rules_folder / "Abbr Programming Language Codes.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Abbreviations Suffixes" in testee_header
+        assert "name: Abbr Programming Language Codes" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -53,32 +53,32 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_d(_, testee_content):
-        assert "- .d:-ed" in testee_content
+    def test_bash(_, testee_content):
+        assert "- bash:Bash" in testee_content
 
-    def test_e(_, testee_content):
-        assert "- .e:-able,-ble,-le" in testee_content
+    def test_c(_, testee_content):
+        assert "- c:C language" in testee_content
 
-    def test_g(_, testee_content):
-        assert "- .g:-ing" in testee_content
+    def test_cpp(_, testee_content):
+        assert "- cpp:C++" in testee_content
 
-    def test_l(_, testee_content):
-        assert "- .l:-al" in testee_content
+    def test_csharp(_, testee_content):
+        assert "- csharp:C Sharp" in testee_content
 
-    def test_m(_, testee_content):
-        assert "- .m:-ism" in testee_content
+    def test_gdscript(_, testee_content):
+        assert "- gdscript:GDScript used by Godot Engine" in testee_content
 
-    def test_mt(_, testee_content):
-        assert "- .mt:-ment" in testee_content
+    def test_js(_, testee_content):
+        assert "- js:JavaScript" in testee_content
 
-    def test_r(_, testee_content):
-        assert "- .r:-er,-or" in testee_content
+    def test_py(_, testee_content):
+        assert "- py:Python" in testee_content
 
-    def test_sn(_, testee_content):
-        assert "- .sn:-sion" in testee_content
+    def test_ts(_, testee_content):
+        assert "- ts:TypeScript" in testee_content
 
-    def test_tn(_, testee_content):
-        assert "- .tn:-tion" in testee_content
+    def test_u3d(_, testee_content):
+        assert "- u3d:Unity Engine code" in testee_content
 
-    def test_y_ly(_, testee_content):
-        assert "- .y:-ly" in testee_content
+    def test_ue(_, testee_content):
+        assert "- ue:Unreal Engine code" in testee_content

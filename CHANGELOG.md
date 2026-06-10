@@ -28,7 +28,57 @@
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.3.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.4.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.4.0] - 2026-06-10
+
+### Added
+
+- `abbrs.json`: add `"single_character"` tag to all single-character abbreviations
+
+### Changed
+
+- `prompt_corpus.md`
+
+  - rename Coder docs roles to Project docs for clarity
+  - Continue Behavior: avoid unnecessary closing statement
+
+- **Dify App**: update blueprint imports in `kaye_chat_task.py` for `project_changelog_blueprint`
+- **Annotation Markers**: refactor comment section heading examples for improved clarity
+
+Programmatic API:
+
+- rewrite `abbr_rule.py` logic to allow duplicate abbreviations occurring in different files
+- refactor `abbr_rule.py` with data-driven naming dictionaries (`_TAG_NAMES`, `_WRAP_NAMES`) for
+- add `AbbrTags.single_character` and `AbbrTags.emoji` to tag-based rule file exports
+
+embedded blueprints
+
+- rename blueprint variables for better semantic alignment with corpus node structure
+- add `project_semantic_versioning_blueprint` to `embedded_blueprints.py` for Semantic Versioning documentation
+
+Continue Export: 
+
+- update blueprint rule exports to reflect renamed project documentation blueprints
+  standardized file naming following `{rule_name}.md` pattern
+- optimize `_export_by_first_char()` for single-pass bucket grouping with frozensets for O(1) lookups
+  instead of 28 separate list iterations
+- standardize abbreviation rule file naming convention: `abbr-*.md` → `Abbr *.md` (filename matches rule name)
+
+[6.4.0]: https://github.com/kami-lel/kaye/compare/v6.3.0...v6.4.0
+
 
 
 

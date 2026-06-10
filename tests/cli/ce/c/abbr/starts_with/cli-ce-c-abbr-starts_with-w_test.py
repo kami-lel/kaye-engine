@@ -1,5 +1,5 @@
 """
-cli-ce-c-abbr-starts_with-w_test.py
+cli-ce-c-abbr-starts_with-w_test.pw
 
 Unit Tests (using pytest) for:
 
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "abbr-starts_with-w.md") as f:
+    with open(testee_rules_folder / "Abbr Starts with W.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Abbreviations Starts with W" in testee_header
+        assert "name: Abbr Starts with W" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)

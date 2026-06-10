@@ -1,9 +1,9 @@
 """
-cli-ce-c-abbr-prefix_test.py
+cli-ce-c-abbr-language_code_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``abbr-prefix``
+creation of ``abbr-language_code``
 """
 
 import pytest
@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "abbr-prefix.md") as f:
+    with open(testee_rules_folder / "Abbr Natural Language Codes.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Abbreviations Prefixes" in testee_header
+        assert "name: Abbr Natural Language Codes" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -53,32 +53,20 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_a_an(_, testee_content):
-        assert "- a.:an-" in testee_content
+    def test_de(_, testee_content):
+        assert "- de:Deutsch" in testee_content
 
-    def test_a_anti(_, testee_content):
-        assert "- a.:anti-" in testee_content
+    def test_en(_, testee_content):
+        assert "- en:English" in testee_content
 
-    def test_c_co(_, testee_content):
-        assert "- c.:co-" in testee_content
+    def test_jp(_, testee_content):
+        assert "- jp:日本語" in testee_content
 
-    def test_d_de(_, testee_content):
-        assert "- d.:de-" in testee_content
+    def test_zh(_, testee_content):
+        assert "- zh:中文" in testee_content
 
-    def test_i(_, testee_content):
-        assert "- i.:in-,inter-" in testee_content
+    def test_zhs(_, testee_content):
+        assert "- zhs:大陆简体中文" in testee_content
 
-    def test_m(_, testee_content):
-        assert "- m.:mal-" in testee_content
-
-    def test_n(_, testee_content):
-        assert "- n.:non-" in testee_content
-
-    def test_o(_, testee_content):
-        assert "- o.:over-" in testee_content
-
-    def test_p(_, testee_content):
-        assert "- p.:pro-" in testee_content
-
-    def test_u(_, testee_content):
-        assert "- u.:un-" in testee_content
+    def test_zht(_, testee_content):
+        assert "- zht:香港繁體中文" in testee_content

@@ -19,7 +19,7 @@ from tests.cli.ce.c import (
 
 @pytest.fixture(scope="session")
 def testee(testee_rules_folder):
-    with open(testee_rules_folder / "abbr-starts_with-b.md") as f:
+    with open(testee_rules_folder / "Abbr Starts with B.md") as f:
         return f.read()
 
 
@@ -45,7 +45,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Abbreviations Starts with B" in testee_header
+        assert "name: Abbr Starts with B" in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -69,8 +69,10 @@ class TestContent:  # ==========================================================
         assert "- b4:before" in testee_content
 
     def test_bc(_, testee_content):
-        assert "- BC:before Christ,before common era,used after year number" \
+        assert (
+            "- BC:before Christ,before common era,used after year number"
             in testee_content
+        )
 
     def test_bg(_, testee_content):
         assert "- bg:background" in testee_content
