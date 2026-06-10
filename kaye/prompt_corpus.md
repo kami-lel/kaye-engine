@@ -2954,8 +2954,7 @@ Place the following files and folders at the **top level** of the repository and
 - `tests/`: test suite, kept separate from source code
 - `tools/`: project-specific developer tooling, distinct from `scripts/`
 
-### description
-generic Project/Repository structure for all programming languages
+### description generic Project/Repository structure for all programming languages
 
 
 
@@ -2992,20 +2991,43 @@ generic Project/Repository structure for all programming languages
 
 ## Project Semantic Versioning
 
-game dev to version
+- **core:** `major.minor.patch` / `x.y.z`
+- pre-release: append `-` plus dot-separated identifiers, e.g. `x.y.z-alpha`, `x.y.z-alpha.2`. identifiers must use `[0-9a-z-]` only; no uppercase, no empty identifiers.
+- build: append `+` plus dot-separated identifiers, e.g. `x.y.z+build.1`, `x.y.z-alpha+build.1`; identifiers must use `[0-9A-Za-z-]` only
 
-toy/prototypes:
 
-0.1.0~0.4.x
 
-vertical slice: 0.5.x
 
-pre-alpha: 0.9.x
 
-alpha: 1.0.0-alpha
-beta: 1.0.0-beta
+#### common pre-releases
 
-release: 1.0.0
+- pre-releases types: `alpha`, `beta`, `rc`
+- first pre-release: use unnumbered form, e.g. `1.0.0-alpha`.
+- next pre-releases: start at `.2`, e.g. `1.0.0-alpha.2`, `1.0.0-alpha.3`, **do not use:** `1.0.0-alpha.1`
+- pre-release patch: e.g. `1.0.0-alpha.2.1`
+
+
+
+
+
+#### common build metadata
+
+- `1.0.0+Win`, `1.0.0+mac`, `1.0.0+linux`: builds for different OS
+- `0.5.0+2026-01-01-1234`, `1.0.0-alpha.2+2026-01-01`: date / date-time builds
+
+
+
+
+
+#### development stage examples
+
+- toy/prototypes: `0.1.z`~`0.4.z`
+- vertical slice (VS): `0.5.z`~`0.8.z`
+- pre-alpha: `0.9.z`
+- alpha: `1.0.0-alpha`, `1.0.0-alpha.2`, ~~
+- beta: `1.0.0-beta`, `1.0.0-beta.2`, ~~
+- release candidate (RC): `1.0.0-rc`, `1.0.0-rc.2`
+- first release: `1.0.0`
 
 
 
