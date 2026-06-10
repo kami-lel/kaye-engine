@@ -627,6 +627,7 @@ writing tasks requiring house style and capitalization rules
 - Time Format: Use a 24-hour clock when expressing time. For example, represent 2:30 PM as `14:30`.
 
 ### description
+
 when dates or times appear in output
 
 
@@ -673,6 +674,7 @@ when dates or times appear in output
 - Thousands Separator: Use a space character as the thousands separator rather than a comma. For instance, express large numbers as `29 029` instead of `29,029`.
 
 ### description
+
 when physical quantities appear in output
 
 
@@ -753,6 +755,7 @@ change from higher to lower AM, call it **demote**.
 
 
 ### description
+
 when working with BUG, FIXME, TODO, or HACK markers in code or docs
 
 
@@ -2495,6 +2498,7 @@ Multi-line commands are allowed.
 If the request is ambiguous, ask one short clarifying question instead of guessing.
 
 ### description
+
 Debian GNU/Linux shell commands; ready-to-run output
 
 
@@ -2515,6 +2519,7 @@ Debian GNU/Linux shell commands; ready-to-run output
 Use **C99** standard
 
 ### description
+
 C code (C99)
 
 
@@ -2535,6 +2540,7 @@ C code (C99)
 Use **C++17** standard
 
 ### description
+
 C++ code (C++17)
 
 
@@ -2554,6 +2560,7 @@ C++ code (C++17)
 - Version: Unreal Engine `5.6.0`
 
 ### description
+
 C++ code for Unreal Engine
 
 
@@ -2573,6 +2580,7 @@ C++ code for Unreal Engine
 - Documentation: Use XML comments (`/// <summary>...</summary>`) to document functionality and provide examples wherever helpful.
 
 ### description
+
 `C#` code
 
 
@@ -2678,6 +2686,7 @@ private void Awake() {
 
 
 ### description
+
 C# code for Unity 6 (MonoBehaviour scripts, components, Inspector fields)
 
 
@@ -2701,6 +2710,7 @@ C# code for Unity 6 (MonoBehaviour scripts, components, Inspector fields)
 - Version: Godot 4
 
 ### description
+
 GDScript code for Godot 4
 
 
@@ -2848,6 +2858,7 @@ def calc_square(number):
 ```
 
 #### description
+
 Python docstrings in Sphinx/reStructuredText style
 
 
@@ -2900,6 +2911,7 @@ class TestAdd:
 ```
 
 #### description
+
 Python tests using pytest with Test classes and test_ functions
 
 
@@ -2955,7 +2967,99 @@ Place the following files and folders at the **top level** of the repository and
 - `tools/`: project-specific developer tooling, distinct from `scripts/`
 
 ### description
+
 generic Project/Repository structure for all programming languages
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Project Semantic Versioning
+
+- **core:** `major.minor.patch` / `x.y.z`
+- pre-release: append `-` plus dot-separated identifiers, e.g. `x.y.z-alpha`, `x.y.z-alpha.2`. identifiers must use `[0-9a-z-]` only; no uppercase, no empty identifiers.
+- build: append `+` plus dot-separated identifiers, e.g. `x.y.z+build.1`, `x.y.z-alpha+build.1`; identifiers must use `[0-9A-Za-z-]` only
+
+
+
+
+
+#### common pre-releases
+
+- pre-releases types: `alpha`, `beta`, `rc`
+- first pre-release: use unnumbered form, e.g. `1.0.0-alpha`.
+- next pre-releases: start at `.2`, e.g. `1.0.0-alpha.2`, `1.0.0-alpha.3`, **do not use:** `1.0.0-alpha.1`
+- pre-release patch: e.g. `1.0.0-alpha.2.1`
+
+
+
+
+
+#### common build metadata
+
+- `1.0.0+Win`, `1.0.0+mac`, `1.0.0+linux`: builds for different OS
+- `0.5.0+2026-01-01-1234`, `1.0.0-alpha.2+2026-01-01`: date / date-time builds
+
+
+
+
+
+#### development stage examples
+
+- toy/prototypes: `0.1.z`~`0.4.z`
+- vertical slice (VS): `0.5.z`~`0.8.z`
+- pre-alpha: `0.9.z`
+- alpha: `1.0.0-alpha`, `1.0.0-alpha.2`, ~~
+- beta: `1.0.0-beta`, `1.0.0-beta.2`, ~~
+- release candidate (RC): `1.0.0-rc`, `1.0.0-rc.2`
+- first release: `1.0.0`
+
+
+
+
+
+
+
+
+
+
+
+
+
+### description
+
+
+semantic Versioning basics Major.Minor.Patch/x.y.z, pre-release identifiers, build metadata, and version examples
+
 
 
 
@@ -3064,6 +3168,7 @@ A good `README.md` should be:
 
 
 ### description
+
 format for README documentation
 
 
@@ -3191,6 +3296,7 @@ You must help user to write CHANGELOG.
     ```
 
 ### description
+
 format for CHANGELOG.md
 
 
@@ -3309,6 +3415,7 @@ A good `AGENTS.md` should be:
 
 
 ### description
+
 format for AGENTS.md documentation
 
 
