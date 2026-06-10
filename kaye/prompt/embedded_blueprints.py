@@ -20,6 +20,7 @@ __all__ = (
     "project_readme_blueprint",
     "project_changelog_blueprint",
     "project_agents_blueprint",
+    "project_semantic_versioning_blueprint",
     "coder_bash_blueprint",
     "coder_c_blueprint",
     "coder_cpp_blueprint",
@@ -194,5 +195,7 @@ project_agents_blueprint = PromptBlueprint.create_from_node(
     _proj_node["Project AGENTS Writer"]
 )
 
-
-# TODO version blueprint
+# Project Semantic Versioning
+project_semantic_versioning_blueprint = PromptBlueprint.create_from_node(
+    _proj_node["Project Semantic Versioning"]
+)
