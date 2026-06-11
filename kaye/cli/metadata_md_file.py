@@ -4,6 +4,7 @@ metadata_md_file.py
 define ``MetadataMDFile``
 """
 
+import io
 import yaml
 
 # Hack re-write docstring
@@ -33,15 +34,20 @@ class MetadataMDFile:  #########################################################
         if self.description:
             metadata["description"] = self.description
 
-        if self.globs:
-            metadata["globs"] = self.globs
-
         metadata["alwaysApply"] = self.always_apply
 
         if self.invokable:
             metadata["invokable"] = self.invokable
 
-        yaml.dump(metadata, self.file, default_flow_style=False, sort_keys=False)
+        yaml_buffer = io.StringIO()
+        yaml.dump(metadata, yaml_buffer, default_flow_style=False, sort_keys=False)
+        yaml_str = yaml_buffer.getvalue()
+        yaml_str = yaml_str.replace("description: '", "description: ").replace("'\n", "\n")
+        self.file.write(yaml_str)
+
+        if self.globs:
+            globs_str = ", ".join('"{}"'.format(g) for g in self.globs)
+            self.file.write("globs: [{}]\n".format(globs_str))
 
         self.file.write("---\n\n")
 
