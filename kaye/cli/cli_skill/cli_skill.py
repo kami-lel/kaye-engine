@@ -26,3 +26,5 @@ def register_cli_skill_parser(  ################################################
         create_skill(args.folder)
 
     parser.set_defaults(func=_parser_main)
+
+    # TODO 2 subcommands
