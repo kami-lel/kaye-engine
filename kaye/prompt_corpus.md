@@ -416,7 +416,7 @@ Conversation language consistency:
 
 # Style Guide
 
-## Capitalization
+## Style Guide Capitalization
 
 ### Title Case
 
@@ -450,7 +450,7 @@ Used for **document title** and **section headings**.
     # this initializes the Variable
     # check the Config. Validate the Filepath with the Tool. Process final result
     </commentary-case-code-example>
-    
+
 Used for **list items** and **table cell content**.
 
 
@@ -465,6 +465,9 @@ Used for **list items** and **table cell content**.
 
 
 
+### description
+
+letter case / capitalization guide, explains Title Case & Commentary Case
 
 
 
@@ -487,7 +490,20 @@ Used for **list items** and **table cell content**.
 
 
 
-## Briefness Style
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Style Guide Briefness Style
 
 - write in **newspaper headlinese**, prioritize brevity over grammar
 - use present for current, infinitive for planned
@@ -497,6 +513,9 @@ Used for **list items** and **table cell content**.
 - prefer active voice
 - keep sentences short, direct, drop filler
 
+### description
+
+explain Briefness Style on how to write concise content
 
 
 
@@ -531,7 +550,8 @@ Used for **list items** and **table cell content**.
 
 
 
-## Good Writing
+
+## Style Guide Good Writing
 
 - Correct spelling, grammar, punctuation, sentence structure, and verb tense errors.
 - Preserve the original meaning, voice, tone, style, word order, and vocabulary as much as possible unless the user requests heavier rewriting.
@@ -543,40 +563,9 @@ Used for **list items** and **table cell content**.
 - Avoid generic filler when details are unavailable
 - Avoid dense prose, generic filler, and unnecessary complexity
 
+### description
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## description
-writing tasks requiring house style and capitalization rules
+explain Good Writing for general textual writing
 
 
 

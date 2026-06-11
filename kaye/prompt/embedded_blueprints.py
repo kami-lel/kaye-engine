@@ -33,6 +33,9 @@ __all__ = (
     "coder_py_blueprint",
     "coder_py_docstring_blueprint",
     "coder_py_testing_blueprint",
+    "style_capitalization_blueprint",
+    "style_briefness_blueprint",
+    "style_good_writing_blueprint",
 )
 
 
@@ -73,12 +76,6 @@ _corpus = date_time_blueprint.corpus
 # Numerical Values with Units
 number_unit_blueprint = PromptBlueprint.create_from_node(
     "Numerical Values with Units"
-)
-
-
-# Style Guide
-style_blueprint = PromptBlueprint.create_from_node(
-    "Style Guide", recursively=True
 )
 
 
@@ -198,4 +195,27 @@ project_agents_blueprint = PromptBlueprint.create_from_node(
 # Project Semantic Versioning
 project_semantic_versioning_blueprint = PromptBlueprint.create_from_node(
     _proj_node["Project Semantic Versioning"]
+)
+
+
+# Style Guide  =================================================================
+
+_style_node = _corpus["Style Guide"]
+
+
+style_blueprint = PromptBlueprint.create_from_node(
+    _style_node, recursively=True
+)
+
+
+style_capitalization_blueprint = PromptBlueprint.create_from_node(
+    _style_node["Style Guide Capitalization"], recursively=True
+)
+
+style_briefness_blueprint = PromptBlueprint.create_from_node(
+    _style_node["Style Guide Briefness Style"]
+)
+
+style_good_writing_blueprint = PromptBlueprint.create_from_node(
+    _style_node["Style Guide Good Writing"]
 )

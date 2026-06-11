@@ -64,7 +64,7 @@ def assert_style_title(opt):
 
 
 def assert_style_caps(opt):
-    assert "## Capitalization" in opt
+    assert "## Style Guide Capitalization" in opt
 
 
 def assert_style_caps_tc0(opt):
@@ -104,7 +104,7 @@ def assert_style_caps_cc3(opt):
 
 
 def assert_style_caps_bs0(opt):
-    assert "## Briefness Style" in opt
+    assert "## Style Guide Briefness Style" in opt
 
 
 def assert_style_caps_bs1(opt):
@@ -120,7 +120,7 @@ def assert_style_caps_bs3(opt):
 
 
 def assert_style_caps_gw0(opt):
-    assert "## Good Writing" in opt
+    assert "## Style Guide Good Writing" in opt
 
 
 def assert_style_caps_gw1(opt):

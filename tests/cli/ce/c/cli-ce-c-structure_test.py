@@ -20,6 +20,9 @@ class TestMain:  # =============================================================
         assert testee_rules_folder.is_dir()
 
 
+# Hack rm, test present in actual unit test files instead
+
+
 class TestPresent:  # ==========================================================
 
     def test_by_loop(_, testee_rules_folder):
