@@ -12,8 +12,8 @@ MD_FILENAMES = [
 MD_FILENAME2SKILL_NAME = {
     "annotation-markers": "Annotation Markers",
     "chat": "Chat",
-    "date-and-time-format": "Date and Time Format.md",
-    "numerical-values-with-units": "Numerical Values with Units.md",
+    "date-and-time-format": "Date and Time Format",
+    "numerical-values-with-units": "Numerical Values with Units",
     "style-guide-capitalization": "Style Guide Capitalization",
     "style-guide-briefness-style": "Style Guide Briefness Style",
     "style-guide-good-writing": "Style Guide Good Writing",
