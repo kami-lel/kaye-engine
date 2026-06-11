@@ -16,7 +16,7 @@ from tests.cli.ce.c import (
 )
 
 # constants  ###################################################################
-MD_FILENAME = "numerical-values-with-Units"
+MD_FILENAME = "numerical-values-with-units"
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 
