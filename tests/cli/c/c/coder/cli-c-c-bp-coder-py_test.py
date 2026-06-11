@@ -1,26 +1,35 @@
 """
-cli-c-c-bp-coder-js-ts_test.py
+cli-c-c-bp-coder-py_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder_js_ts_blueprint.md``
+creation of ``Coder Python.md``
 """
 
 import pytest
 
+from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli.c.c import (
     assert_rule_file_basic_format,
     split_rule_file_basic_format,
     assert_header_line_always_apply,
 )
 
+# constants  ###################################################################
+MD_FILENAME = "coder-python"
+_SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
+
 # Pytest fixtures  #############################################################
 
 
 @pytest.fixture(scope="session")
-def testee(testee_rules_folder):
+def testee_path(testee_rules_folder):
+    return testee_rules_folder / (_SKILL_NAME + ".md")
 
-    with open(testee_rules_folder / "Coder JavaScript and TypeScript.md") as f:
+
+@pytest.fixture(scope="session")
+def testee(testee_path):
+    with open(testee_path) as f:
         return f.read()
 
 
@@ -46,10 +55,10 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder JavaScript and TypeScript" in testee_header
+        assert "name: Coder Python" in testee_header
 
     def test_globs(_, testee_header):
-        assert 'globs: ["**/*.{js,ts,jsx,tsx,mjs,cjs}"]' in testee_header
+        assert 'globs: ["**/*.py"]' in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -57,20 +66,5 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_brace_style_heading(_, testee_content):
-        assert "## Brace Style" in testee_content
-
-    def test_brace_open(_, testee_content):
-        assert "opening `{` on the **same line**" in testee_content
-
-    def test_js_ts_heading(_, testee_content):
-        assert "## Coder JavaScript and TypeScript" in testee_content
-
-    def test_es11(_, testee_content):
-        assert "**ES11** standard" in testee_content
-
-    def test_naming_camelcase(_, testee_content):
-        assert "Use **camelCase**" in testee_content
-
-    def test_jsdoc(_, testee_content):
-        assert "Use **JSDoc**" in testee_content
+    def test_structure(_, testee):
+        assert assert_rule_file_basic_format(testee)
