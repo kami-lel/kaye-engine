@@ -4,6 +4,8 @@ rule_file.py
 define ``RuleFile``, a context manager for writing Continue AI rule files
 """
 
+# HACK rm rule file
+
 
 class RuleFile:
     """

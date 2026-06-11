@@ -1,7 +1,7 @@
 import re
 import subprocess
 
-# Hack replaced with use all_md_filenames
+# HACK replaced with use all_md_filenames
 RULE_FILES = [
     "Abbr Currency Symbols.md",
     "Abbr Natural Language Codes.md",

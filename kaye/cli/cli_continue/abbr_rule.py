@@ -12,7 +12,7 @@ from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
 
 from .rule_file import RuleFile
 
-# Todo integrate to MetadataMDFile
+# TODO integrate to MetadataMDFile
 
 # constants  ###################################################################
 
