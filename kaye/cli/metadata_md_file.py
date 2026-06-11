@@ -7,10 +7,8 @@ define ``MetadataMDFile``
 import io
 import yaml
 
-# HACK re-write docstring
 
-
-# FIXME update to continue specific
+# FIXME update to continue specific: rule file
 class MetadataMDFile:  #########################################################
     """
     manage metadata and content writing for markdown file with metadata fields
@@ -120,5 +118,5 @@ class MetadataMDFile:  #########################################################
         )
         return self
 
-    def __exit__(self, *args):
+    def __exit__(self, *_):
         self.file.close()
