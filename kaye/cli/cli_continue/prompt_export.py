@@ -28,12 +28,6 @@ maintain_changelog_blueprint = PromptBlueprint.create_from_node(
     _maintain_changelog_node, recursively=True
 )
 
-# resolve annotation markers
-resolve_markers_blueprint = PromptBlueprint.create_from_node(
-    _prompt_node["Resolve Annotation Markers"]
-)
-PromptBlueprint.create_empty_blueprint()
-
 
 # create README
 create_readme_blueprint = PromptBlueprint.create_from_node(
@@ -73,7 +67,6 @@ prepare_for_release_blueprint.display_name = "Prepare for Release"
 FILENAME2BLUEPRINT = {
     "maintain_docs": maintain_docs_blueprint,
     "maintain_changelog": maintain_changelog_blueprint,
-    "resolve_annotation_markers": resolve_markers_blueprint,
     "create_readme": create_readme_blueprint,
     "create_agents": create_agents_blueprint,
     "prepare_for_release": prepare_for_release_blueprint,

@@ -19,7 +19,7 @@ _BLUEPRINT_NAME2GLOBS = {
     "Coder C": ["**/*.{c,h}"],
     "Coder CPP": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
     "Coder Unreal Engine": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
-    "Coder CSharp": ["**/*.cs"],
+    "Coder C Sharp": ["**/*.cs"],
     "Coder Unity Engine": ["**/*.cs"],
     "Coder GDScript": ["**/*.gd"],
     "Coder HTML": ["**/*.{html,htm}"],
