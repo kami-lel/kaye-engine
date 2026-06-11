@@ -41,13 +41,6 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
         self.file.write("---\n\n")
 
-    # properties  ==============================================================
-
-    def _set_version(self, value):
-        self.frontmatter.setdefault("metadata", {})["version"] = value
-
-    version = property(fset=_set_version)
-
     # constants  ===============================================================
 
     _FILENAME = "SKILL.md"
