@@ -7,7 +7,7 @@ define ``export_abbr_rules``
 from pathlib import Path
 
 from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
-from kaye.cli.metadata_md_file import MetadataMDFile
+from kaye.cli.cli_continue.rule_file import RuleFile
 
 # constants  ###################################################################
 
@@ -51,12 +51,13 @@ def _write_rule_file(file_path, name, entries, description=""):
         return  # skip empty groups
 
     print("update abbr rule: {}".format(file_path))
-    with MetadataMDFile(file_path) as md_file:
-        md_file.name = name
-        md_file.description = description
-        md_file.write_continue_frontmatter()
+    with RuleFile(file_path) as rule:
+        rule.name = name
+        rule.description = description
+        rule.write_frontmatter()
+        # TODO TODO use .writelines() of FrontmatterMDFile
         lines = "\n".join(entry.as_md_list_entry() for entry in entries) + "\n"
-        md_file.write(lines)
+        rule.write(lines)
 
 
 # export  ======================================================================

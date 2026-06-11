@@ -2,7 +2,7 @@
 blueprint_rule.py
 
 define ``export_all_blueprint_rules``, the full pipeline for writing
-blueprints as Continue AI rule files via ``MetadataMDFile``
+blueprints as Continue AI rule files via ``RuleFile``
 """
 
 from pathlib import Path
@@ -10,7 +10,7 @@ from pathlib import Path
 from kaye.prompt import embedded_blueprints
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 
-from kaye.cli.metadata_md_file import MetadataMDFile
+from kaye.cli.cli_continue.rule_file import RuleFile
 
 # constants  ###################################################################
 
@@ -106,24 +106,25 @@ def export_blueprint_rules(rules_folder):
     folder_path = Path(rules_folder).resolve()
     folder_path.mkdir(parents=True, exist_ok=True)
 
+    # FIXME FIXME remove
     for bp_id in _OLD_EXPORT_BLUEPRINTS:
         bp = _local_bp.get(bp_id) or getattr(embedded_blueprints, bp_id)
         file_path = folder_path / "{}.md".format(bp.display_name)
 
         print("update blueprint rule:\t{}".format(file_path))
 
-        with MetadataMDFile(file_path, blueprint=bp) as md_file:
-            md_file.globs = _BLUEPRINT_NAME2GLOBS.get(bp_id, [])
-            md_file.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
-            md_file.write_continue_frontmatter_and_content()
+        with RuleFile(file_path, blueprint=bp) as rule:
+            rule.globs = _BLUEPRINT_NAME2GLOBS.get(bp_id, [])
+            rule.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
+            rule.write_frontmatter_and_content()
 
     for bp_id in _EXPORT_BLUEPRINTS:
         bp = _local_bp.get(bp_id) or getattr(embedded_blueprints, bp_id)
         file_path = folder_path / "{}.md".format(bp.display_name)
 
-        with MetadataMDFile(file_path, blueprint=bp) as md_file:
-            md_file.globs = _BLUEPRINT_NAME2GLOBS.get(bp_id, [])
-            md_file.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
-            md_file.write_continue_frontmatter_and_content()
+        with RuleFile(file_path, blueprint=bp) as rule:
+            rule.globs = _BLUEPRINT_NAME2GLOBS.get(bp_id, [])
+            rule.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
+            rule.write_frontmatter_and_content()
 
         print("update blueprint rule:\t{}".format(file_path))

@@ -49,7 +49,7 @@ class FrontmatterMDFile:  ######################################################
     _FILE_MODE = "w"
     _FILE_ENCODING = "utf-8"
 
-    def __init__(self, path, blueprint):
+    def __init__(self, path, blueprint=None):
         self._path = path
         self._blueprint = blueprint
 
