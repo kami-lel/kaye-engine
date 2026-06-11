@@ -12,6 +12,8 @@ from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
 
 from .rule_file import RuleFile
 
+# Todo integrate to MetadataMDFile
+
 # constants  ###################################################################
 
 _ABBR_TEMPLATE = "Abbr "
