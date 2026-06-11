@@ -6,72 +6,8 @@ define ``export_prompts``
 
 from pathlib import Path
 
-from kaye.prompt import load_prompt_corpus_tree
-from kaye.prompt.prompt_blueprint import PromptBlueprint
+from kaye.cli.prompts_blueprints import PROMPTS_BLUEPRINTS
 from kaye.cli.cli_continue.rule_file import RuleFile
-
-# blueprints  ##################################################################
-
-
-_prompt_node = load_prompt_corpus_tree()["Projects"]["project prompts"]
-
-
-# maintain docs
-_maintain_docs_node = _prompt_node["Maintain Docs"]
-maintain_docs_blueprint = PromptBlueprint.create_from_node(
-    _maintain_docs_node, recursively=True
-)
-
-# maintain changelog
-_maintain_changelog_node = _prompt_node["Maintain CHANGELOG"]
-maintain_changelog_blueprint = PromptBlueprint.create_from_node(
-    _maintain_changelog_node, recursively=True
-)
-
-
-# create README
-create_readme_blueprint = PromptBlueprint.create_from_node(
-    _prompt_node["Create README"]
-)
-
-
-# create AGENTS
-create_agents_blueprint = PromptBlueprint.create_from_node(
-    _prompt_node["Create AGENTS"]
-)
-
-
-# Prepare for Feature Finish
-prepare_for_feature_blueprint = PromptBlueprint.create_from_node(
-    _prompt_node["Prepare for Feature Finish"]
-)
-prepare_for_feature_blueprint.checkmark(
-    _maintain_changelog_node["edit CHANGELOG"]
-)
-prepare_for_feature_blueprint.display_name = "Prepare for Feature Finish"
-
-
-# Prepare for Release
-prepare_for_release_blueprint = PromptBlueprint.create_from_node(
-    _prompt_node["Prepare for Release"]
-)
-prepare_for_release_blueprint.checkmark(
-    _maintain_changelog_node["edit CHANGELOG"]
-)
-prepare_for_release_blueprint.display_name = "Prepare for Release"
-
-
-# constants  ###################################################################
-
-
-FILENAME2BLUEPRINT = {
-    "maintain_docs": maintain_docs_blueprint,
-    "maintain_changelog": maintain_changelog_blueprint,
-    "create_readme": create_readme_blueprint,
-    "create_agents": create_agents_blueprint,
-    "prepare_for_release": prepare_for_release_blueprint,
-    "prepare_for_feature_finish": prepare_for_feature_blueprint,
-}
 
 
 # Entry Point  #################################################################
@@ -86,8 +22,8 @@ def export_prompts(prompts_folder):
     folder = Path(prompts_folder).resolve()
     folder.mkdir(parents=True, exist_ok=True)
 
-    for k, bp in FILENAME2BLUEPRINT.items():
-        filename = k + ".md"
+    for bp in PROMPTS_BLUEPRINTS:
+        filename = bp.display_name + ".md"
         file_path = prompts_folder / filename
 
         print("update prompt:\t{}".format(filename))
