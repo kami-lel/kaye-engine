@@ -21,10 +21,7 @@ class MetadataMDFile:  #########################################################
     ...     md_file.write_continue_metafield_and_content()
     """
 
-    def write_continue_metafield_and_content(self):
-        """
-        write metadata fields and prompt content, in **Continue** style
-        """
+    def write_continue_frontmatter(self):
         # metadata  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # FIXME utilize yaml
         self.file.write("---\n")
@@ -44,7 +41,13 @@ class MetadataMDFile:  #########################################################
 
         self.file.write("---\n\n")
 
-        # content  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    def write_continue_frontmatter_and_content(self):
+        """
+        write metadata fields and prompt content, in **Continue** style
+        """
+        self.write_continue_frontmatter()
+
+        # content
         self.file.write(self._blueprint.generate_prompt())
 
     # file operation wrapper  ==================================================
