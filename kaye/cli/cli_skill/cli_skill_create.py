@@ -16,10 +16,13 @@ def register_cli_skill_create_parser(  #########################################
         metavar="FOLDER",
         type=Path,
         default=Path.cwd(),
-        help="folder path to place created Skill .zip files, default: current directory",
+        help=(
+            "folder path to place created Skill .zip files, "
+            "default: current directory"
+        ),
     )
 
     def _create_main(args):
-        pass  # TODO
+        pass  # TODO write skill create
 
     create_parser.set_defaults(func=_create_main)

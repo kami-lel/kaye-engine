@@ -18,10 +18,10 @@ def register_cli_skill_update_parser(  #########################################
         metavar="FOLDER",
         type=Path,
         default=_DEFAULT_SKILLS_FOLDER,
-        help="skill folder path, default: ~/.claude/skills",
+        help="skill folder path, default: ~/.claude/skills/",
     )
 
     def _update_main(args):
-        pass  # TODO
+        pass  # TODO write skill update
 
     update_parser.set_defaults(func=_update_main)
