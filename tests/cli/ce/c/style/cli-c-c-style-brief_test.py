@@ -71,3 +71,33 @@ class TestHeader:  # ===========================================================
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
+
+
+class TestContent:  # ==========================================================
+
+    def test_heading(_, testee):
+        assert "## Style Guide Briefness Style" in testee
+
+    def test1(_, testee):
+        assert (
+            "- write in **newspaper headlinese**, "
+            "prioritize brevity over grammar"
+            in testee
+        )
+
+    def test2(_, testee):
+        assert (
+            "- omit articles (a, an, the) and helper verbs, "
+            "use strong nouns, verbs"
+            in testee
+        )
+
+    def test3(_, testee):
+        assert (
+            "- use numerals (use 2, not two), symbols, "
+            "**Usable Abbrs** when unambiguous"
+            in testee
+        )
+
+    def test4(_, testee):
+        assert "- keep sentences short, direct, drop filler" in testee
