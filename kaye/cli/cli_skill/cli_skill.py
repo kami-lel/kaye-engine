@@ -1,4 +1,4 @@
-"""TODO cli skill docstring write"""
+"""export Kaye blueprints as agentskills.io-standard Skills (for Anthropic Claude)"""
 
 from pathlib import Path
 
@@ -19,7 +19,7 @@ def register_cli_skill_parser(  ################################################
         metavar="FOLDER",
         type=Path,
         default=Path.cwd(),
-        help="folder path to place all generated skills",
+        help="folder path to place Skills",
     )
 
     def _parser_main(args):
