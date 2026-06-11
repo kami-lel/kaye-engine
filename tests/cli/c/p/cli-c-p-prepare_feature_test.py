@@ -8,18 +8,28 @@ creation of ``prepare_feature_branch_finish.md``
 
 import pytest
 
+from tests.cli import PROMPT_FILENAME2NAME
 from tests.cli.c.c import (
     assert_rule_file_basic_format,
     split_rule_file_basic_format,
     assert_header_line_always_apply,
 )
 
+# constants  ###################################################################
+PROMPT_FILENAME = "prepare-for-feature"
+_PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
+
 # Pytest fixtures  #############################################################
 
 
 @pytest.fixture(scope="session")
-def testee(testee_prompts_folder):
-    with open(testee_prompts_folder / "prepare_for_feature_finish.md") as f:
+def testee_path(testee_prompts_folder):
+    return testee_prompts_folder / _PROMPT_FILE
+
+
+@pytest.fixture(scope="session")
+def testee(testee_path):
+    with open(testee_path) as f:
         return f.read()
 
 
