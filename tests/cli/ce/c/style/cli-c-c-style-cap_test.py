@@ -79,4 +79,39 @@ class TestContent:  # ==========================================================
     def test_heading(_, testee):
         assert "## Style Guide Capitalization" in testee
 
-    # TODO unit tests
+    def test_title0(_, testee):
+        assert "### Title Case" in testee
+
+    def test_title1(_, testee):
+        assert "Use *Chicago Manual of Style* headline case:" in testee
+
+    def test_title2(_, testee):
+        assert (
+            "- **lowercase minor words**: articles (a, an, the), coordinating"
+            " conjunctions (and, but, or, nor, for, so, yet), prepositions (of,"
+            " in, on, with, etc.), and the infinitive to"
+            in testee
+        )
+
+    def test_title3(_, testee):
+        assert "Used for **document title** and **section headings**." in testee
+
+    def test_commentary0(_, testee):
+        assert "### Commentary Case" in testee
+
+    def test_commentary1(_, testee):
+        assert (
+            "- begin 1st sentence with a lowercase letter; use standard"
+            " sentence capitalization for the 2nd and subsequent sentences"
+            in testee
+        )
+
+    def test_commentary2(_, testee):
+        assert (
+            "    # check the Config. Validate the Filepath with the Tool."
+            " Process final result"
+            in testee
+        )
+
+    def test_commentary3(_, testee):
+        assert "Used for **list items** and **table cell content**." in testee

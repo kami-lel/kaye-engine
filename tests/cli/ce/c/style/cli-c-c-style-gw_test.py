@@ -77,4 +77,33 @@ class TestContent:  # ==========================================================
     def test_heading(_, testee):
         assert "## Style Guide Good Writing" in testee
 
-    # TODO unit tests
+    def test_content0(_, testee):
+        assert (
+            "- Correct spelling, grammar, punctuation, sentence structure, and"
+            " verb tense errors."
+            in testee
+        )
+
+    def test_content1(_, testee):
+        assert (
+            "- Make only the minimum changes needed to improve correctness,"
+            " readability, and clarity."
+            in testee
+        )
+
+    def test_content2(_, testee):
+        assert (
+            "- Use American English by default, but if the original text"
+            " clearly uses another spelling convention, preserve that"
+            " convention."
+            in testee
+        )
+
+    def test_content3(_, testee):
+        assert "- Avoid generic filler when details are unavailable" in testee
+
+    def test_content4(_, testee):
+        assert (
+            "- Avoid dense prose, generic filler, and unnecessary complexity"
+            in testee
+        )
