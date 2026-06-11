@@ -20,20 +20,27 @@ class RuleFile(FrontmatterMDFile):  ############################################
     :param blueprint: optional blueprint object
     :type blueprint: PromptBlueprint or None
     :example:
+    >>> # blueprint rule file
     >>> with RuleFile(path, blueprint=bp) as rule:
     ...     rule.globs = ["**/*.py"]
     ...     rule.always_apply = False
+    ...     rule.write_frontmatter_and_content()
+
+    >>> # abbreviation rule file
+    >>> with RuleFile(path) as rule:
+    ...     rule.name = "Abbr Prefixes"
     ...     rule.write_frontmatter()
-    ...     rule.write_content()
+    ...     rule.write(entries)
     """
 
     def write_frontmatter(self):
         self.file.write("---\n")
 
-        metadata = {"name": self.name}
+        metadata = {"name": self.frontmatter.get("name", "")}
 
-        if self.description:
-            metadata["description"] = self.description
+        description = self.frontmatter.get("description", "")
+        if description:
+            metadata["description"] = description
 
         metadata["alwaysApply"] = self.always_apply
 
@@ -56,11 +63,16 @@ class RuleFile(FrontmatterMDFile):  ############################################
 
         self.file.write("---\n\n")
 
-    def __init__(self, path, blueprint):
+    def write_frontmatter_and_content(self):
+        self.write_frontmatter()
+        self.write_blueprint_content()
+
+    def __init__(self, path, blueprint=None):
         super().__init__(path, blueprint)
 
-        self.name = blueprint.display_name if blueprint else ""
-        self.description = blueprint.description if blueprint else ""
+        if blueprint:
+            self.name = blueprint.display_name
+            self.description = blueprint.description
 
         # continue fields
         self.globs = []

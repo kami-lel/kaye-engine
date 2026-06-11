@@ -8,7 +8,7 @@ import io
 import yaml
 
 
-# FIXME update to continue specific: rule file
+# FIXME FIXME remove this script
 class MetadataMDFile:  #########################################################
     """
     manage metadata and content writing for markdown file with metadata fields
