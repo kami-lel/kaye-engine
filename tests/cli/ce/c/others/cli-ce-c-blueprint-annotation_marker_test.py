@@ -8,18 +8,28 @@ creation of ``Annotation Markers.md``
 
 import pytest
 
+from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli.ce.c import (
     assert_rule_file_basic_format,
     split_rule_file_basic_format,
     assert_header_line_always_apply,
 )
 
+# constants  ###################################################################
+MD_FILENAME = "annotation-markers"
+_SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
+
 # Pytest fixtures  #############################################################
 
 
 @pytest.fixture(scope="session")
-def testee(testee_rules_folder):
-    with open(testee_rules_folder / "Annotation Markers.md") as f:
+def testee_path(testee_rules_folder):
+    return testee_rules_folder / (_SKILL_NAME + ".md")
+
+
+@pytest.fixture(scope="session")
+def testee(testee_path):
+    with open(testee_path) as f:
         return f.read()
 
 
@@ -36,7 +46,13 @@ def testee_content(testee):
 # Pytest unit tests  ###########################################################
 
 
-class TestStructure:  # ========================================================
+class TestBasic:  # ============================================================
+
+    def test_existence(_, testee_path):
+        assert testee_path.exists()
+
+    def test_is_file(_, testee_path):
+        assert testee_path.is_file()
 
     def test_structure(_, testee):
         assert assert_rule_file_basic_format(testee)

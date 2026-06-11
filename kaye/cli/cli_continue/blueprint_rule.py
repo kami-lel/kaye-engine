@@ -49,10 +49,8 @@ _ALWAYS_APPLY_BLUEPRINT = [
 ]
 
 _OLD_EXPORT_BLUEPRINTS = [
-    "chat_blueprint",
     "date_time_blueprint",
     "number_unit_blueprint",
-    "style_blueprint",
     "annotation_marker_blueprint",
     "coder_blueprint",
     "project_structure_blueprint",
@@ -79,6 +77,7 @@ _OLD_EXPORT_BLUEPRINTS = [
 ]
 
 _EXPORT_BLUEPRINTS = [
+    "chat_blueprint",
     "style_capitalization_blueprint",
     "style_briefness_blueprint",
     "style_good_writing_blueprint",
