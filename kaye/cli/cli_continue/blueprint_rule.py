@@ -2,7 +2,7 @@
 blueprint_rule.py
 
 define ``export_all_blueprint_rules``, the full pipeline for writing
-blueprints as Continue AI rule files via ``RuleFile``
+blueprints as Continue AI rule files via ``MetadataMDFile``
 """
 
 from pathlib import Path
@@ -11,11 +11,6 @@ from kaye.prompt import embedded_blueprints
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 from kaye.cli.metadata_md_file import MetadataMDFile
-
-
-from .rule_file import RuleFile
-
-# Todo integrate to MetadataMDFile
 
 # constants  ###################################################################
 
@@ -49,10 +44,8 @@ _ALWAYS_APPLY_BLUEPRINT = [
 ]
 
 _OLD_EXPORT_BLUEPRINTS = [
-    "chat_blueprint",
     "date_time_blueprint",
     "number_unit_blueprint",
-    "style_blueprint",
     "annotation_marker_blueprint",
     "coder_blueprint",
     "project_structure_blueprint",
@@ -79,6 +72,7 @@ _OLD_EXPORT_BLUEPRINTS = [
 ]
 
 _EXPORT_BLUEPRINTS = [
+    "chat_blueprint",
     "style_capitalization_blueprint",
     "style_briefness_blueprint",
     "style_good_writing_blueprint",
@@ -112,20 +106,16 @@ def export_blueprint_rules(rules_folder):
     folder_path = Path(rules_folder).resolve()
     folder_path.mkdir(parents=True, exist_ok=True)
 
-    # Hack rm this below loop
     for bp_id in _OLD_EXPORT_BLUEPRINTS:
         bp = _local_bp.get(bp_id) or getattr(embedded_blueprints, bp_id)
         file_path = folder_path / "{}.md".format(bp.display_name)
 
         print("update blueprint rule:\t{}".format(file_path))
 
-        with RuleFile(file_path, encoding="utf-8") as rule:
-            rule.name = bp.display_name
-            rule.description = bp.description
-            rule.globs = _BLUEPRINT_NAME2GLOBS.get(bp_id, [])
-            rule.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
-            rule.write_prefix()
-            rule.write(bp.generate_prompt())
+        with MetadataMDFile(file_path, blueprint=bp) as md_file:
+            md_file.globs = _BLUEPRINT_NAME2GLOBS.get(bp_id, [])
+            md_file.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
+            md_file.write_continue_frontmatter_and_content()
 
     for bp_id in _EXPORT_BLUEPRINTS:
         bp = _local_bp.get(bp_id) or getattr(embedded_blueprints, bp_id)
@@ -134,6 +124,6 @@ def export_blueprint_rules(rules_folder):
         with MetadataMDFile(file_path, blueprint=bp) as md_file:
             md_file.globs = _BLUEPRINT_NAME2GLOBS.get(bp_id, [])
             md_file.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
-            md_file.write_continue_metafield_and_content()
+            md_file.write_continue_frontmatter_and_content()
 
         print("update blueprint rule:\t{}".format(file_path))
