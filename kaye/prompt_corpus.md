@@ -416,7 +416,7 @@ Conversation language consistency:
 
 # Style Guide
 
-## Capitalization
+## Style Guide Capitalization
 
 ### Title Case
 
@@ -487,7 +487,7 @@ Used for **list items** and **table cell content**.
 
 
 
-## Briefness Style
+## Style Guide Briefness Style
 
 - write in **newspaper headlinese**, prioritize brevity over grammar
 - use present for current, infinitive for planned
@@ -531,7 +531,7 @@ Used for **list items** and **table cell content**.
 
 
 
-## Good Writing
+## Style Guide Good Writing
 
 - Correct spelling, grammar, punctuation, sentence structure, and verb tense errors.
 - Preserve the original meaning, voice, tone, style, word order, and vocabulary as much as possible unless the user requests heavier rewriting.

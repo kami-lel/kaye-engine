@@ -22,7 +22,7 @@ __all__ = ("PromptBlueprint",)
 
 
 # Fixme better description handling: use {description} & not rendered in prompt;
-# Fixme split style guide
+# FIXME split style guide
 
 # constants  ###################################################################
 CHECKMARKED_PREFIX = "[x] "
