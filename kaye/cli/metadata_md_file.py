@@ -4,12 +4,29 @@ metadata_md_file.py
 define ``MetadataMDFile``
 """
 
-# TODO docstrings
-
 
 class MetadataMDFile:  #########################################################
+    """
+    manage metadata and content writing for Continue rule markdown files
+
+    handles file I/O operations and metadata field assembly for exporting
+    rule blueprints to ``.continue`` configuration files
+
+
+    :param path: filesystem path for the output file
+    :type path: str
+    :param blueprint: optional blueprint object to populate metadata
+    :type blueprint: PromptBlueprint or None
+    """
 
     def write_continue_metafield_and_content(self):
+        """
+        write YAML metadata and rule content to file
+
+        writes the metadata header (``---`` delimited YAML), including name,
+        description, globs, alwaysApply, and optional invokable flag,
+        followed by the rule content generated from the blueprint
+        """
         # metadata  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         self.file.write("---\n")
 
@@ -34,9 +51,23 @@ class MetadataMDFile:  #########################################################
     # file operation wrapper  ==================================================
 
     def write(self, content):
+        """
+        write string content to the file
+
+
+        :param content: text to write
+        :type content: str
+        """
         self.file.write(content)
 
     def writelines(self, lines):
+        """
+        write multiple lines to the file
+
+
+        :param lines: sequence of strings to write
+        :type lines: iterable[str]
+        """
         self.file.writelines(lines)
 
     # constants  ===============================================================
