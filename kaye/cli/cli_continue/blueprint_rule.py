@@ -112,7 +112,7 @@ def export_blueprint_rules(rules_folder):
     folder_path = Path(rules_folder).resolve()
     folder_path.mkdir(parents=True, exist_ok=True)
 
-    # HACK rm this below loop
+    # Hack rm this below loop
     for bp_id in _OLD_EXPORT_BLUEPRINTS:
         bp = _local_bp.get(bp_id) or getattr(embedded_blueprints, bp_id)
         file_path = folder_path / "{}.md".format(bp.display_name)
