@@ -450,7 +450,7 @@ Used for **document title** and **section headings**.
     # this initializes the Variable
     # check the Config. Validate the Filepath with the Tool. Process final result
     </commentary-case-code-example>
-    
+
 Used for **list items** and **table cell content**.
 
 

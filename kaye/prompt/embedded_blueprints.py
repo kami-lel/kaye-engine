@@ -202,6 +202,12 @@ project_semantic_versioning_blueprint = PromptBlueprint.create_from_node(
 
 _style_node = _corpus["Style Guide"]
 
+
+style_blueprint = PromptBlueprint.create_from_node(
+    _style_node, recursively=True
+)
+
+
 style_capitalization_blueprint = PromptBlueprint.create_from_node(
     _style_node["Style Guide Capitalization"], recursively=True
 )
@@ -212,10 +218,4 @@ style_briefness_blueprint = PromptBlueprint.create_from_node(
 
 style_good_writing_blueprint = PromptBlueprint.create_from_node(
     _style_node["Style Guide Good Writing"]
-)
-
-
-# HACK rm
-style_blueprint = PromptBlueprint.create_from_node(
-    "Style Guide", recursively=True
 )
