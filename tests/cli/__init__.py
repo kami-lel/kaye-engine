@@ -60,6 +60,7 @@ MD_FILENAMES = [
     "style-guide-briefness-style",
     "style-guide-good-writing",
     "continue-behavior",
+    "agent-behavior",
 ]
 
 
@@ -125,6 +126,7 @@ MD_FILENAME2SKILL_NAME = {
     "style-guide-briefness-style": "Style Guide Briefness Style",
     "style-guide-good-writing": "Style Guide Good Writing",
     "continue-behavior": "Continue Behavior",
+    "agent-behavior": "Agent Behavior",
 }
 
 

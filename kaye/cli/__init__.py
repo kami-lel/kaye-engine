@@ -2,9 +2,12 @@
 Kaye Python CLI
 """
 
+from kaye.prompt import PromptBlueprint, load_prompt_corpus_tree
 from kaye.prompt.embedded_blueprints import *
 
-# TODO add agent blueprint
+agent_blueprint = PromptBlueprint.create_from_node(
+    load_prompt_corpus_tree()["Agent Behavior"]
+)
 
 
 # blueprints exported by continue export & skill export
@@ -34,4 +37,5 @@ EXPORTABLE_BLUEPRINTS = [
     style_capitalization_blueprint,
     style_briefness_blueprint,
     style_good_writing_blueprint,
+    agent_blueprint,
 ]
