@@ -7,10 +7,7 @@ define ``export_prompts``
 from pathlib import Path
 
 from kaye.prompt.prompt_blueprint import PromptBlueprint
-
-from .rule_file import RuleFile
-
-# TODO integrate to MetadataMDFile
+from kaye.cli.metadata_md_file import MetadataMDFile
 
 # blueprints  ##################################################################
 
@@ -103,10 +100,7 @@ def export_prompts(prompts_folder):
 
         print("update prompt:\t{}".format(filename))
 
-        with RuleFile(file_path, encoding="utf-8") as rule:
-            rule.name = bp.display_name
-            rule.description = bp.description
-            rule.always_apply = False
-            rule.invokable = True
-            rule.write_prefix()
-            rule.write(bp.generate_prompt())
+        with MetadataMDFile(file_path, blueprint=bp) as md_file:
+            md_file.always_apply = False
+            md_file.invokable = True
+            md_file.write_continue_metafield_and_content()
