@@ -465,6 +465,22 @@ Used for **list items** and **table cell content**.
 
 
 
+### description
+
+letter case / capitalization guide, explains Title Case & Commentary Case
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -496,6 +512,10 @@ Used for **list items** and **table cell content**.
 - use numerals (use 2, not two), symbols, **Usable Abbrs** when unambiguous
 - prefer active voice
 - keep sentences short, direct, drop filler
+
+### description
+
+explain Briefness Style on how to write concise content
 
 
 
@@ -543,40 +563,9 @@ Used for **list items** and **table cell content**.
 - Avoid generic filler when details are unavailable
 - Avoid dense prose, generic filler, and unnecessary complexity
 
+### description
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## description
-writing tasks requiring house style and capitalization rules
+explain Good Writing for general textual writing
 
 
 
