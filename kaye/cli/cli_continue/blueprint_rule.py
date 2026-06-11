@@ -10,12 +10,14 @@ from pathlib import Path
 from kaye.prompt import embedded_blueprints
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 
+from kaye.cli.metadata_md_file import MetadataMDFile
+
 
 from .rule_file import RuleFile
 
 # constants  ###################################################################
 
-_CODER_BLUEPRINT_GLOBS = {
+_BLUEPRINT_NAME2GLOBS = {
     "coder_c_blueprint": ["**/*.{c,h}"],
     "coder_cpp_blueprint": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
     "coder_ue_blueprint": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
@@ -44,7 +46,7 @@ _ALWAYS_APPLY_BLUEPRINT = [
     "continue_behavior_blueprint",
 ]
 
-_EXPORT_BLUEPRINTS = [
+_OLD_EXPORT_BLUEPRINTS = [
     "chat_blueprint",
     "date_time_blueprint",
     "number_unit_blueprint",
@@ -69,6 +71,15 @@ _EXPORT_BLUEPRINTS = [
     "coder_py_docstring_blueprint",
     "coder_py_testing_blueprint",
     "continue_behavior_blueprint",
+    "style_capitalization_blueprint",
+    "style_briefness_blueprint",
+    "style_good_writing_blueprint",
+]
+
+_EXPORT_BLUEPRINTS = [
+    "style_capitalization_blueprint",
+    "style_briefness_blueprint",
+    "style_good_writing_blueprint",
 ]
 
 
@@ -79,6 +90,10 @@ _continue_behavior_blueprint.checkmark(
     _continue_behavior_blueprint.corpus["Continue"]["Continue Behavior"]
 )
 _continue_behavior_blueprint.display_name = "Continue Behavior"
+
+_local_bp = {
+    "continue_behavior_blueprint": _continue_behavior_blueprint,
+}
 
 
 # Entry Point  #################################################################
@@ -92,23 +107,31 @@ def export_blueprint_rules(rules_folder):
     :param rules_folder: destination folder for rule files
     :type rules_folder: Path-like
     """
-    folder = Path(rules_folder).resolve()
-    folder.mkdir(parents=True, exist_ok=True)
+    folder_path = Path(rules_folder).resolve()
+    folder_path.mkdir(parents=True, exist_ok=True)
 
-    _local = {
-        "continue_behavior_blueprint": _continue_behavior_blueprint,
-    }
-
-    for bp_id in _EXPORT_BLUEPRINTS:
-        bp = _local.get(bp_id) or getattr(embedded_blueprints, bp_id)
-        file_path = folder / "{}.md".format(bp.display_name)
+    # HACK rm this below loop
+    for bp_id in _OLD_EXPORT_BLUEPRINTS:
+        bp = _local_bp.get(bp_id) or getattr(embedded_blueprints, bp_id)
+        file_path = folder_path / "{}.md".format(bp.display_name)
 
         print("update blueprint rule:\t{}".format(file_path))
 
         with RuleFile(file_path, encoding="utf-8") as rule:
             rule.name = bp.display_name
             rule.description = bp.description
-            rule.globs = _CODER_BLUEPRINT_GLOBS.get(bp_id, [])
+            rule.globs = _BLUEPRINT_NAME2GLOBS.get(bp_id, [])
             rule.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
             rule.write_prefix()
             rule.write(bp.generate_prompt())
+
+    for bp_id in _EXPORT_BLUEPRINTS:
+        bp = _local_bp.get(bp_id) or getattr(embedded_blueprints, bp_id)
+        file_path = folder_path / "{}.md".format(bp.display_name)
+
+        with MetadataMDFile(file_path, blueprint=bp) as md_file:
+            md_file.globs = _BLUEPRINT_NAME2GLOBS.get(bp_id, [])
+            md_file.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
+            md_file.write_continue_metafield_and_content()
+
+        print("update blueprint rule:\t{}".format(file_path))
