@@ -7,9 +7,10 @@ define ``MetadataMDFile``
 import io
 import yaml
 
-# Hack re-write docstring
+# HACK re-write docstring
 
 
+# FIXME update to continue specific
 class MetadataMDFile:  #########################################################
     """
     manage metadata and content writing for markdown file with metadata fields
@@ -40,7 +41,13 @@ class MetadataMDFile:  #########################################################
             metadata["invokable"] = self.invokable
 
         yaml_buffer = io.StringIO()
-        yaml.dump(metadata, yaml_buffer, default_flow_style=False, sort_keys=False, width=float("inf"))
+        yaml.dump(
+            metadata,
+            yaml_buffer,
+            default_flow_style=False,
+            sort_keys=False,
+            width=float("inf"),
+        )
         self.file.write(yaml_buffer.getvalue())
 
         if self.globs:
