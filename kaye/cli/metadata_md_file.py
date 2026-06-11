@@ -4,6 +4,10 @@ metadata_md_file.py
 define ``MetadataMDFile``
 """
 
+import yaml
+
+# Hack re-write docstring
+
 
 class MetadataMDFile:  #########################################################
     """
@@ -22,22 +26,22 @@ class MetadataMDFile:  #########################################################
     """
 
     def write_continue_frontmatter(self):
-        # metadata  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        # FIXME utilize yaml
         self.file.write("---\n")
 
-        self._write_name_and_description_fields()
+        metadata = {"name": self.name}
+
+        if self.description:
+            metadata["description"] = self.description
 
         if self.globs:
-            globs_str = ", ".join('"{}"'.format(g) for g in self.globs)
-            self.file.write("globs: [{}]\n".format(globs_str))
+            metadata["globs"] = self.globs
 
-        self.file.write(
-            "alwaysApply: {}\n".format(str(self.always_apply).lower())
-        )
+        metadata["alwaysApply"] = self.always_apply
 
         if self.invokable:
-            self.file.write("invokable: true\n")
+            metadata["invokable"] = self.invokable
+
+        yaml.dump(metadata, self.file, default_flow_style=False, sort_keys=False)
 
         self.file.write("---\n\n")
 
@@ -96,13 +100,6 @@ class MetadataMDFile:  #########################################################
         if blueprint:
             self.name = blueprint.display_name
             self.description = blueprint.description
-
-    # helpers  =================================================================
-    def _write_name_and_description_fields(self):
-        self.file.write("name: {}\n".format(self.name))
-
-        if self.description:
-            self.file.write("description: {}\n".format(self.description))
 
     # support context manager  =================================================
 
