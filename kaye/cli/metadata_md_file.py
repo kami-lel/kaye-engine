@@ -26,6 +26,7 @@ class MetadataMDFile:  #########################################################
         write metadata fields and prompt content, in **Continue** style
         """
         # metadata  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        # FIXME utilize yaml
         self.file.write("---\n")
 
         self._write_name_and_description_fields()
