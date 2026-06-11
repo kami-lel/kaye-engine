@@ -22,6 +22,20 @@ class FrontmatterMDFile:  ######################################################
     def write_blueprint_content(self):
         self.file.write(self._blueprint.generate_prompt())
 
+    # properties  ==============================================================
+
+    name = property()
+
+    @name.setter
+    def name(self, value):
+        self.frontmatter["name"] = value
+
+    description = property()
+
+    @description.setter
+    def description(self, value):
+        self.frontmatter["description"] = value
+
     # file operation wrapper  ==================================================
 
     def write(self, content):
