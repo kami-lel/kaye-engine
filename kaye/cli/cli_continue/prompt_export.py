@@ -10,7 +10,7 @@ from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 from .rule_file import RuleFile
 
-# Todo integrate to MetadataMDFile
+# TODO integrate to MetadataMDFile
 
 # blueprints  ##################################################################
 

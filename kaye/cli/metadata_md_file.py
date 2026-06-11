@@ -14,6 +14,11 @@ class MetadataMDFile:  #########################################################
     :type path: Path-like
     :param blueprint: optional blueprint object to populate metadata
     :type blueprint: PromptBlueprint or None
+    :example:
+    >>> with MetadataMDFile("my_md_file.md", blueprint=bp) as md_file:
+    ...     md_file.globs = ~~
+    ...     md_file.always_apply = ~~
+    ...     md_file.write_continue_metafield_and_content()
     """
 
     def write_continue_metafield_and_content(self):
