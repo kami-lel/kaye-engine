@@ -7,18 +7,20 @@ define ``SkillMDFile``
 import io
 import yaml
 
+from kaye.cli.frontmatter_md_file import FrontmatterMDFile
 
-class SkillMDFile:  ############################################################
+
+class SkillMDFile(FrontmatterMDFile):  #########################################
     """
     manage metadata and content writing for an agent skill markdown file
 
 
-    :param path:
-    :type path: Path-like
+    :param folder_path: folder to write SKILL.md into
+    :type folder_path: Path-like
     :param blueprint: blueprint object
     :type blueprint: PromptBlueprint
     :example:
-    >>> with SkillMDFile("my_skill.md", blueprint) as md_file:
+    >>> with SkillMDFile(folder, blueprint) as md_file:
     ...     md_file.version = "v1.0.0"
     ...     md_file.write_frontmatter()
     ...     md_file.write_content()
@@ -39,9 +41,6 @@ class SkillMDFile:  ############################################################
 
         self.file.write("---\n\n")
 
-    def write_content(self):
-        self.file.write(self._blueprint.generate_prompt())
-
     # properties  ==============================================================
 
     def _set_version(self, value):
@@ -51,17 +50,11 @@ class SkillMDFile:  ############################################################
 
     # constants  ===============================================================
 
-    _FILE_MODE = "w"
-    _FILE_ENCODING = "utf-8"
     _FILENAME = "SKILL.md"
 
     def __init__(self, folder_path, blueprint):
-        self._folder_path = folder_path
-        self._blueprint = blueprint
+        super().__init__(folder_path, blueprint)
 
-        self.file = None
-
-        # frontmatter  ---------------------------------------------------------
         self.frontmatter = {
             "name": blueprint.display_name if blueprint else "",
             "description": blueprint.description if blueprint else "",
@@ -75,13 +68,8 @@ class SkillMDFile:  ############################################################
 
     def __enter__(self):
         self.file = open(
-            self._folder_path / self._FILENAME,
+            self._path / self._FILENAME,
             self._FILE_MODE,
             encoding=self._FILE_ENCODING,
         )
         return self
-
-    def __exit__(self, *_):
-        self.file.close()
-
-    # TODO version auto read
