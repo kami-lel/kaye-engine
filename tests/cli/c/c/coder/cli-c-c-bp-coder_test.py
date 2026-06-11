@@ -46,6 +46,15 @@ def testee_content(testee):
 # Pytest unit tests  ###########################################################
 
 
+class TestBasic:  # ============================================================
+
+    def test_existence(_, testee_path):
+        assert testee_path.exists()
+
+    def test_is_file(_, testee_path):
+        assert testee_path.is_file()
+
+
 class TestStructure:  # ========================================================
 
     def test_structure(_, testee):
