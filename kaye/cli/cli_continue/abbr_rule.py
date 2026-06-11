@@ -55,9 +55,7 @@ def _write_rule_file(file_path, name, entries, description=""):
         rule.name = name
         rule.description = description
         rule.write_frontmatter()
-        # TODO TODO use .writelines() of FrontmatterMDFile
-        lines = "\n".join(entry.as_md_list_entry() for entry in entries) + "\n"
-        rule.write(lines)
+        rule.writelines(entry.as_md_list_entry() for entry in entries)
 
 
 # export  ======================================================================
