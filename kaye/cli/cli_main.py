@@ -11,8 +11,9 @@ from argparse import ArgumentParser
 
 from kaye import PROGRAM_NAME
 
-from kaye.cli.cli_continue import register_cli_continue_parser
 from kaye.cli.cli_http import register_cli_http_parser
+from kaye.cli.cli_continue import register_cli_continue_parser
+from kaye.cli.cli_skill.cli_skill import register_cli_skill_parser
 
 __all__ = ("cli_parser", "cli_subparser")
 
@@ -30,3 +31,4 @@ cli_subparser = cli_parser.add_subparsers(title="subcommands")
 # register subcommands parsers
 register_cli_continue_parser(cli_subparser)
 register_cli_http_parser(cli_subparser)
+register_cli_skill_parser(cli_subparser)
