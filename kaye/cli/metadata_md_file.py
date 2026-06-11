@@ -4,6 +4,11 @@ metadata_md_file.py
 define ``MetadataMDFile``
 """
 
+import io
+import yaml
+
+# Hack re-write docstring
+
 
 class MetadataMDFile:  #########################################################
     """
@@ -14,31 +19,43 @@ class MetadataMDFile:  #########################################################
     :type path: Path-like
     :param blueprint: optional blueprint object to populate metadata
     :type blueprint: PromptBlueprint or None
+    :example:
+    >>> with MetadataMDFile("my_md_file.md", blueprint=bp) as md_file:
+    ...     md_file.globs = ~~
+    ...     md_file.always_apply = ~~
+    ...     md_file.write_continue_metafield_and_content()
     """
 
-    def write_continue_metafield_and_content(self):
-        """
-        write metadata fields and prompt content, in **Continue** style
-        """
-        # metadata  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    def write_continue_frontmatter(self):
         self.file.write("---\n")
 
-        self._write_name_and_description_fields()
+        metadata = {"name": self.name}
+
+        if self.description:
+            metadata["description"] = self.description
+
+        metadata["alwaysApply"] = self.always_apply
+
+        if self.invokable:
+            metadata["invokable"] = self.invokable
+
+        yaml_buffer = io.StringIO()
+        yaml.dump(metadata, yaml_buffer, default_flow_style=False, sort_keys=False, width=float("inf"))
+        self.file.write(yaml_buffer.getvalue())
 
         if self.globs:
             globs_str = ", ".join('"{}"'.format(g) for g in self.globs)
             self.file.write("globs: [{}]\n".format(globs_str))
 
-        self.file.write(
-            "alwaysApply: {}\n".format(str(self.always_apply).lower())
-        )
-
-        if self.invokable:
-            self.file.write("invokable: true\n")
-
         self.file.write("---\n\n")
 
-        # content  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    def write_continue_frontmatter_and_content(self):
+        """
+        write metadata fields and prompt content, in **Continue** style
+        """
+        self.write_continue_frontmatter()
+
+        # content
         self.file.write(self._blueprint.generate_prompt())
 
     # file operation wrapper  ==================================================
@@ -87,13 +104,6 @@ class MetadataMDFile:  #########################################################
         if blueprint:
             self.name = blueprint.display_name
             self.description = blueprint.description
-
-    # helpers  =================================================================
-    def _write_name_and_description_fields(self):
-        self.file.write("name: {}\n".format(self.name))
-
-        if self.description:
-            self.file.write("description: {}\n".format(self.description))
 
     # support context manager  =================================================
 

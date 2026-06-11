@@ -18,7 +18,7 @@
 
 ### Added
 
-- `MetadataMDFile` (`metadata_md_file.py`): 
+- `MetadataMDFile` (`metadata_md_file.py`): a more generic version of `RuleFile`
 
 ### Changed
 
@@ -27,6 +27,8 @@
 ### Deprecated
 
 ### Removed
+
+- `RuleFile`
 
 ### Fixed
 
