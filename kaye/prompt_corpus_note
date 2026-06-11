@@ -1,5 +1,5 @@
 todo: for prepare_for_feature_finish/_release, utilize tools to fetch `git log`
 
-Todo make generic *agents* sections
+TODO make generic *agents* sections
 
 Bug py docstring: no :return: ``None``, and no __init__ docstring
