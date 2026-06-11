@@ -67,7 +67,7 @@ class TestHeader:  # ===========================================================
         assert "name: Coder C Sharp" in testee_header
 
     def test_description(_, testee_header):
-        assert "description: `C#` code" in testee_header
+        assert "description: C# code" in testee_header
 
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.cs"]' in testee_header

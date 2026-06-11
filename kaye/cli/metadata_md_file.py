@@ -40,10 +40,8 @@ class MetadataMDFile:  #########################################################
             metadata["invokable"] = self.invokable
 
         yaml_buffer = io.StringIO()
-        yaml.dump(metadata, yaml_buffer, default_flow_style=False, sort_keys=False)
-        yaml_str = yaml_buffer.getvalue()
-        yaml_str = yaml_str.replace("description: '", "description: ").replace("'\n", "\n")
-        self.file.write(yaml_str)
+        yaml.dump(metadata, yaml_buffer, default_flow_style=False, sort_keys=False, width=float("inf"))
+        self.file.write(yaml_buffer.getvalue())
 
         if self.globs:
             globs_str = ", ".join('"{}"'.format(g) for g in self.globs)
