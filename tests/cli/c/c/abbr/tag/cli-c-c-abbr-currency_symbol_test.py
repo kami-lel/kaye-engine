@@ -8,18 +8,28 @@ creation of ``abbr-currency_symbol``
 
 import pytest
 
+from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli.c.c import (
     assert_rule_file_basic_format,
     split_rule_file_basic_format,
     assert_header_line_always_apply,
 )
 
+# constants  ###################################################################
+MD_FILENAME = "abbr-currency-symbols"
+_SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
+
 # Pytest fixtures  #############################################################
 
 
 @pytest.fixture(scope="session")
-def testee(testee_rules_folder):
-    with open(testee_rules_folder / "Abbr Currency Symbols.md") as f:
+def testee_path(testee_rules_folder):
+    return testee_rules_folder / (_SKILL_NAME + ".md")
+
+
+@pytest.fixture(scope="session")
+def testee(testee_path):
+    with open(testee_path) as f:
         return f.read()
 
 

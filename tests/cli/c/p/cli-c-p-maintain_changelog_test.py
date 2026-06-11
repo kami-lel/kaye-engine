@@ -8,6 +8,7 @@ creation of ``maintain_changelog.md``
 
 import pytest
 
+from tests.cli import PROMPT_FILENAME2NAME
 from tests.cli.c.c import (
     assert_rule_file_basic_format,
     split_rule_file_basic_format,
@@ -20,12 +21,21 @@ from tests.cli.c.p import (
     assert_edit_changelog2,
 )
 
+# constants  ###################################################################
+PROMPT_FILENAME = "maintain-changelog"
+_PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
+
 # Pytest fixtures  #############################################################
 
 
 @pytest.fixture(scope="session")
-def testee(testee_prompts_folder):
-    with open(testee_prompts_folder / "maintain_changelog.md") as f:
+def testee_path(testee_prompts_folder):
+    return testee_prompts_folder / _PROMPT_FILE
+
+
+@pytest.fixture(scope="session")
+def testee(testee_path):
+    with open(testee_path) as f:
         return f.read()
 
 
