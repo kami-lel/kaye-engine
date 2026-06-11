@@ -15,6 +15,8 @@ from kaye.cli.metadata_md_file import MetadataMDFile
 
 from .rule_file import RuleFile
 
+# Todo integrate to MetadataMDFile
+
 # constants  ###################################################################
 
 _BLUEPRINT_NAME2GLOBS = {
