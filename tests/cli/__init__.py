@@ -142,11 +142,10 @@ PROMPT_FILENAMES = [
 
 
 PROMPT_FILENAME2NAME = {
-    "create-agents": "create_agents.md",
-    "create-readme": "create_readme.md",
-    "maintain-changelog": "maintain_changelog.md",
-    "maintain-docs": "maintain_docs.md",
-    "prepare-for-feature": "prepare_for_feature_finish.md",
-    "prepare-for-release": "prepare_for_release.md",
-    "resolve-annotation-markers": "resolve_annotation_markers.md",
+    "create-agents": "Create AGENTS",
+    "create-readme": "Create README",
+    "maintain-changelog": "Maintain CHANGELOG",
+    "maintain-docs": "Maintain Docs",
+    "prepare-for-feature": "Prepare for Feature Finish",
+    "prepare-for-release": "Prepare for Release",
 }

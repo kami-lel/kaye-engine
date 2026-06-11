@@ -30,7 +30,7 @@ _PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
 
 @pytest.fixture(scope="session")
 def testee_path(testee_prompts_folder):
-    return testee_prompts_folder / _PROMPT_FILE
+    return testee_prompts_folder / (_PROMPT_FILE + ".md")
 
 
 @pytest.fixture(scope="session")
@@ -52,7 +52,13 @@ def testee_content(testee):
 # Pytest unit tests  ###########################################################
 
 
-class TestStructure:  # ========================================================
+class TestBasic:  # ============================================================
+
+    def test_existence(_, testee_path):
+        assert testee_path.exists()
+
+    def test_is_file(_, testee_path):
+        assert testee_path.is_file()
 
     def test_structure(_, testee):
         assert assert_rule_file_basic_format(testee)

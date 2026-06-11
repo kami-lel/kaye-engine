@@ -4,7 +4,7 @@ exportable_abbr.py
 group abbreviations for export
 """
 
-from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
+from kaye.abbr_collection import AbbrTags, AbbrWrap
 
 # constants  ###################################################################
 
@@ -100,7 +100,10 @@ def get_abbrs_by_first_char(abbrs):
     result = [(_START_WITH_DIGIT, _sort_entries(digits))]
 
     for letter in _LETTERS:
-        result.append((_START_WITH_TEMPLATE + letter, _sort_entries(letter_buckets[letter])))
+        result.append((
+            _START_WITH_TEMPLATE + letter,
+            _sort_entries(letter_buckets[letter]),
+        ))
 
     result.append((_START_WITH_OTHER, _sort_entries(other)))
 
