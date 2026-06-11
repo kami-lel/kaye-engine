@@ -6,6 +6,8 @@ Unit Tests (using pytest) for:
 creation of ``Style Guide.md``
 """
 
+# HACK rm
+
 import pytest
 
 from tests.cli.ce.c import (
