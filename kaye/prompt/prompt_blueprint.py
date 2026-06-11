@@ -318,7 +318,7 @@ class PromptBlueprint(dict):
             if node.is_root:
                 checkmark_prefix = EMPTY_PREFIX
 
-            # e.g. "[x] │   └── Capitalization Style"
+            # e.g. "[x] │   └── Style Guide Capitalization Style"
             node_line = checkmark_prefix + pre + node.name
             lines.append(node_line)
 
