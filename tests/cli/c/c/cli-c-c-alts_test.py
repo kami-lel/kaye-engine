@@ -9,7 +9,8 @@ Python CLI command ``continue`` create alternatives commands
 import pytest
 
 
-from tests.cli.c.c import RULE_FILES, prepare_local_config_folder
+from tests.cli.c.c import prepare_local_config_folder
+from tests.cli import MD_FILENAME2SKILL_NAME
 
 # Pytest fixtures  #############################################################
 
@@ -56,8 +57,8 @@ class TestAlt1:  # =============================================================
 
     def test_entries(_, testee_alt1):
         _, rules_folder = testee_alt1
-        for v in RULE_FILES:
-            assert (rules_folder / v).exists()
+        for v in MD_FILENAME2SKILL_NAME.values():
+            assert (rules_folder / f"{v}.md").exists()
 
 
 class TestAlt2:  # =============================================================
@@ -72,8 +73,8 @@ class TestAlt2:  # =============================================================
 
     def test_entries(_, testee_alt2):
         _, rules_folder = testee_alt2
-        for v in RULE_FILES:
-            assert (rules_folder / v).exists()
+        for v in MD_FILENAME2SKILL_NAME.values():
+            assert (rules_folder / f"{v}.md").exists()
 
 
 class TestAlt3:  # =============================================================
@@ -88,5 +89,5 @@ class TestAlt3:  # =============================================================
 
     def test_entries(_, testee_alt3):
         _, rules_folder = testee_alt3
-        for v in RULE_FILES:
-            assert (rules_folder / v).exists()
+        for v in MD_FILENAME2SKILL_NAME.values():
+            assert (rules_folder / f"{v}.md").exists()
