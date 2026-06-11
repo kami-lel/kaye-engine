@@ -103,4 +103,4 @@ def export_prompts(prompts_folder):
         with MetadataMDFile(file_path, blueprint=bp) as md_file:
             md_file.always_apply = False
             md_file.invokable = True
-            md_file.write_continue_metafield_and_content()
+            md_file.write_continue_frontmatter_and_content()

@@ -115,7 +115,7 @@ def export_blueprint_rules(rules_folder):
         with MetadataMDFile(file_path, blueprint=bp) as md_file:
             md_file.globs = _BLUEPRINT_NAME2GLOBS.get(bp_id, [])
             md_file.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
-            md_file.write_continue_metafield_and_content()
+            md_file.write_continue_frontmatter_and_content()
 
     for bp_id in _EXPORT_BLUEPRINTS:
         bp = _local_bp.get(bp_id) or getattr(embedded_blueprints, bp_id)
@@ -124,6 +124,6 @@ def export_blueprint_rules(rules_folder):
         with MetadataMDFile(file_path, blueprint=bp) as md_file:
             md_file.globs = _BLUEPRINT_NAME2GLOBS.get(bp_id, [])
             md_file.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
-            md_file.write_continue_metafield_and_content()
+            md_file.write_continue_frontmatter_and_content()
 
         print("update blueprint rule:\t{}".format(file_path))
