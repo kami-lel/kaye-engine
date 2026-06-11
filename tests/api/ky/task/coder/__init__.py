@@ -120,7 +120,7 @@ def assert_style_caps_bs3(opt):
 
 
 def assert_style_caps_gw0(opt):
-    assert "## Good Writing" in opt
+    assert "## Style Guide Good Writing" in opt
 
 
 def assert_style_caps_gw1(opt):
