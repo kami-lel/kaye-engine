@@ -18,7 +18,11 @@
 
 ### Added
 
+- `MetadataMDFile` (`metadata_md_file.py`): 
+
 ### Changed
+
+- split Style Guide blueprints
 
 ### Deprecated
 

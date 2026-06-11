@@ -7,25 +7,18 @@ define ``MetadataMDFile``
 
 class MetadataMDFile:  #########################################################
     """
-    manage metadata and content writing for Continue rule markdown files
-
-    handles file I/O operations and metadata field assembly for exporting
-    rule blueprints to ``.continue`` configuration files
+    manage metadata and content writing for markdown file with metadata fields
 
 
-    :param path: filesystem path for the output file
-    :type path: str
+    :param path:
+    :type path: Path-like
     :param blueprint: optional blueprint object to populate metadata
     :type blueprint: PromptBlueprint or None
     """
 
     def write_continue_metafield_and_content(self):
         """
-        write YAML metadata and rule content to file
-
-        writes the metadata header (``---`` delimited YAML), including name,
-        description, globs, alwaysApply, and optional invokable flag,
-        followed by the rule content generated from the blueprint
+        write metadata fields and prompt content, in **Continue** style
         """
         # metadata  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         self.file.write("---\n")
