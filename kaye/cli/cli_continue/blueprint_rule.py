@@ -43,7 +43,8 @@ _ALWAYS_APPLY_BLUEPRINT = [
     "continue_behavior_blueprint",
 ]
 
-_OLD_EXPORT_BLUEPRINTS = [
+_EXPORT_BLUEPRINTS = [
+    "chat_blueprint",
     "date_time_blueprint",
     "number_unit_blueprint",
     "annotation_marker_blueprint",
@@ -69,10 +70,6 @@ _OLD_EXPORT_BLUEPRINTS = [
     "style_capitalization_blueprint",
     "style_briefness_blueprint",
     "style_good_writing_blueprint",
-]
-
-_EXPORT_BLUEPRINTS = [
-    "chat_blueprint",
     "style_capitalization_blueprint",
     "style_briefness_blueprint",
     "style_good_writing_blueprint",
@@ -105,18 +102,6 @@ def export_blueprint_rules(rules_folder):
     """
     folder_path = Path(rules_folder).resolve()
     folder_path.mkdir(parents=True, exist_ok=True)
-
-    # FIXME FIXME remove
-    for bp_id in _OLD_EXPORT_BLUEPRINTS:
-        bp = _local_bp.get(bp_id) or getattr(embedded_blueprints, bp_id)
-        file_path = folder_path / "{}.md".format(bp.display_name)
-
-        print("update blueprint rule:\t{}".format(file_path))
-
-        with RuleFile(file_path, blueprint=bp) as rule:
-            rule.globs = _BLUEPRINT_NAME2GLOBS.get(bp_id, [])
-            rule.always_apply = bp_id in _ALWAYS_APPLY_BLUEPRINT
-            rule.write_frontmatter_and_content()
 
     for bp_id in _EXPORT_BLUEPRINTS:
         bp = _local_bp.get(bp_id) or getattr(embedded_blueprints, bp_id)
