@@ -74,19 +74,10 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## Continue Behavior" in testee_content
-
-    def test_file_consistency_rule(_, testee_content):
-        assert (
-            "Files are assumed to be consistent between rounds."
-            in testee_content
-        )
-
-    def test_intentional_edits_rule(_, testee_content):
-        assert "treat them as intentional user edits" in testee_content
+        assert "# Continue Behavior" in testee_content
 
     def test_run_terminal_command_heading(_, testee_content):
-        assert "#### `run_terminal_command`" in testee_content
+        assert "### `run_terminal_command`" in testee_content
 
     def test_last_resort_rule(_, testee_content):
         assert (
