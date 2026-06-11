@@ -2,4 +2,4 @@
 Kaye Python CLI
 """
 
-# todo support Claude Desktop
+# Todo support Claude Desktop
