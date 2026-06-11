@@ -6,15 +6,14 @@ define ``export_prompts``
 
 from pathlib import Path
 
+from kaye.prompt import load_prompt_corpus_tree
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 from kaye.cli.cli_continue.rule_file import RuleFile
 
 # blueprints  ##################################################################
 
 
-_prompt_node = PromptBlueprint.create_empty_blueprint().corpus["Continue"][
-    "Continue Prompts"
-]
+_prompt_node = load_prompt_corpus_tree()["Projects"]["project prompts"]
 
 
 # maintain docs
