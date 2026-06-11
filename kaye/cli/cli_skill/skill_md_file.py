@@ -53,9 +53,10 @@ class SkillMDFile:  ############################################################
 
     _FILE_MODE = "w"
     _FILE_ENCODING = "utf-8"
+    _FILENAME = "SKILL.md"
 
-    def __init__(self, path, blueprint):
-        self._path = path
+    def __init__(self, folder_path, blueprint):
+        self._folder_path = folder_path
         self._blueprint = blueprint
 
         self.file = None
@@ -74,9 +75,13 @@ class SkillMDFile:  ############################################################
 
     def __enter__(self):
         self.file = open(
-            self._path, self._FILE_MODE, encoding=self._FILE_ENCODING
+            self._folder_path / self._FILENAME,
+            self._FILE_MODE,
+            encoding=self._FILE_ENCODING,
         )
         return self
 
     def __exit__(self, *_):
         self.file.close()
+
+    # TODO version auto read
