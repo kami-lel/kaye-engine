@@ -54,7 +54,14 @@ class FrontmatterMDFile:  ######################################################
         self._blueprint = blueprint
 
         self.file = None
-        self.frontmatter = {}
+        self.frontmatter = {
+            "name": blueprint.display_name if blueprint else "",
+            "description": blueprint.description if blueprint else "",
+            "license": "",
+            "compatibility": "",
+            "metadata": {},
+            "allowed-tools": [],
+        }
 
     # support context manager  =================================================
 
