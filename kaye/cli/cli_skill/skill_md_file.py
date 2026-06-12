@@ -45,24 +45,6 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
     _FILENAME = "SKILL.md"
 
-    def __init__(self, folder_path, blueprint):
-        super().__init__(folder_path, blueprint)
-
-        self.frontmatter = {
-            "name": blueprint.display_name if blueprint else "",
-            "description": blueprint.description if blueprint else "",
-            "license": "",
-            "compatibility": "",
-            "metadata": {},
-            "allowed-tools": [],
-        }
-
-    # support context manager  =================================================
-
-    def __enter__(self):
-        self.file = open(
-            self._path / self._FILENAME,
-            self._FILE_MODE,
-            encoding=self._FILE_ENCODING,
-        )
-        return self
+    def __init__(self, folder_path, blueprint=None):
+        file_name = folder_path / self._FILENAME
+        super().__init__(file_name, blueprint)
