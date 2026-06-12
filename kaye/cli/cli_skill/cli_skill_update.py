@@ -2,6 +2,10 @@
 
 from pathlib import Path
 
+from kaye.cli.cli_skill.export_skill import export_skills_as_folders
+
+# constants  ===================================================================
+
 _DEFAULT_SKILLS_FOLDER = Path.home() / ".claude" / "skills"
 
 
@@ -22,6 +26,6 @@ def register_cli_skill_update_parser(  #########################################
     )
 
     def _update_main(args):
-        pass  # TODO write skill update
+        export_skills_as_folders(args.folder)
 
     update_parser.set_defaults(func=_update_main)
