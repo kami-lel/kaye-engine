@@ -2,6 +2,9 @@ from pydantic import BaseModel, Field
 
 from kaye.cli.cli_skill import convert_display_name2skill_name
 
+# TODO content test
+# FIXME move below class down one level
+
 
 class SkillMDFileFrontmatterValidator(BaseModel):
     """
