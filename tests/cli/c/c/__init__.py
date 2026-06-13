@@ -1,7 +1,14 @@
-import re
 import subprocess
 
-_BASIC_FORMAT_RE = re.compile(r"^---\n(.+?)---\n(.+)", re.DOTALL)
+from tests.cli import (
+    split_frontmatter_md_file,
+    assert_frontmatter_md_file_basic_structure,
+    assert_header_line_always_apply,
+)
+
+# Aliases for backward compatibility
+split_rule_file_basic_format = split_frontmatter_md_file
+assert_rule_file_basic_format = assert_frontmatter_md_file_basic_structure
 
 
 def prepare_local_config_folder(tmp_path_factory, command, folder_name):
@@ -16,22 +23,12 @@ def prepare_local_config_folder(tmp_path_factory, command, folder_name):
     return config_folder, rules_folder
 
 
-def split_rule_file_basic_format(content):
-    parts = content.split("---", 2)
-    frontmatter = parts[1].strip("\n").splitlines()
-    body = parts[2].strip("\n")
-    return frontmatter, body
-
-
-def assert_rule_file_basic_format(content):
-    match = _BASIC_FORMAT_RE.match(content)
-    if not match:
-        return False
-    frontmatter = match.group(1).strip()
-    body = match.group(2).strip()
-    return bool(frontmatter) and bool(body)
-
-
-def assert_header_line_always_apply(lines, value):
-    expected = "true" if value else "false"
-    return "alwaysApply: {}".format(expected) in lines
+# Re-export for backward compatibility
+__all__ = [
+    "split_frontmatter_md_file",
+    "assert_frontmatter_md_file_basic_structure",
+    "split_rule_file_basic_format",
+    "assert_rule_file_basic_format",
+    "assert_header_line_always_apply",
+    "prepare_local_config_folder",
+]

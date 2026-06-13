@@ -2719,6 +2719,10 @@ GDScript code for Godot 4
 
 - Version: **HTML5** standard
 
+### description
+
+Use this skill when writing or generating HTML — apply HTML5 standards for structure, semantics, and markup. Trigger for any task that produces or edits .html files or embedded HTML content.
+
 
 
 
@@ -2734,6 +2738,8 @@ GDScript code for Godot 4
 ## Coder JavaScript and TypeScript
 
 These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard.
+
+
 
 
 
@@ -2773,6 +2779,42 @@ globalNS.method1 = function (a, b) {
     return b / a;
 };
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+### description
+
+Use this skill when writing or generating JavaScript or TypeScript code — apply ES11 standards, camelCase naming, and JSDoc comments. Trigger for any task that produces or edits `.js` or `.ts` files, or inline JS/TS code blocks.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3439,6 +3481,373 @@ format for AGENTS.md documentation
 
 
 
+## project prompts
+
+### Maintain Docs
+
+Update README-style files, AGENTS-style files, and files under `docs/`.
+
+
+
+##### Instructions
+
+- review recent repository changes, project files, and existing documentation to identify required updates
+- use available tools to inspect the project, compare changes, and verify source material when needed
+- edit existing documentation in place whenever possible
+- create new documentation only when an important expected file is missing or repository changes require it
+- treat README-style files as files named `README`, `Readme`, or `readme`, with no extension, `.md`, or `.txt`
+- treat AGENTS-style files as files named `AGENTS`, `Agents`, or `agents`, with no extension or `.md`
+- preserve useful existing structure, scope, and document purpose while improving accuracy
+- remove stale, misleading, duplicated, obsolete, or unsupported content
+- verify links, file paths, commands, configuration names, examples, and references where possible
+
+
+
+##### Docs Files
+
+- update affected APIs, commands, architecture notes, configuration details, examples, workflows, and troubleshooting guidance
+- preserve each document’s audience, scope, and organization where useful
+- cross-link related docs when it improves navigation
+- revise outdated references to renamed files, removed features, changed commands, or deprecated behavior
+- ensure examples and snippets match the current codebase
+
+
+
+##### Output
+
+Update the relevant documentation files in place.
+
+Return a brief summary listing changed files and the documentation updates made.
+
+
+
+
+
+#### edit README
+
+- edit `README.md` or README-Style File to reflect the current project state
+- follow **Coder README Writer** for structure, content, and style
+- update applicable overview, features, setup, usage, configuration, commands, contribution notes, security notes, and license details
+- prioritize the root README when multiple README-style files exist
+- keep secondary README files focused on their local directory, package, or feature area
+
+
+
+
+
+#### edit AGENTS
+
+- edit `AGENTS.md` or AGENTS-Style File to reflect the current project state
+- follow **Coder AGENTS Writer** for structure, content, and style
+- preserve or add required frontmatter when applicable to the project’s AGENTS format
+- update applicable project name, setup notes, build commands, test commands, code style, testing instructions, PR instructions, and security considerations
+- avoid moving human-facing content from README files into AGENTS files unless it is useful for coding agents
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### description
+
+Use this skill when the user wants to update existing README, AGENTS, or `docs/` files to reflect recent project changes — fixing stale commands, broken links, outdated examples, or renamed references. Trigger even for casual requests like "update the docs" or "fix the readme."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Maintain CHANGELOG
+
+review recent changes — update or create `CHANGELOG.md` to reflect them. 
+
+
+
+
+
+#### edit CHANGELOG
+
+- edit `CHANGELOG.md` or CHANGELOG-Style File to reflect the current project state
+- Follow the **CHANGELOG Writer** rule for format, versioning, and entry style
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### description
+
+Use this skill when the user wants to add, fix, or reorganize entries in an existing `CHANGELOG.md` — logging new features, bug fixes, or breaking changes without overwriting existing content. Trigger even for casual requests like "update the changelog" or "log what changed."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Create README
+
+Use **Coder README Writer** as the guideline for what makes a good `README.md`.
+
+
+
+##### Instructions
+
+- create a complete new `README.md` tailored to the repository
+- use the provided project description, repository details, or existing documentation as source material
+- use available tools to inspect the project when needed
+- use the actual project name in the document title
+- make the README human-oriented, visually clear, and easy to scan
+- use tasteful emoji and markdown features to improve visual quality when appropriate
+- include examples, tables, badges, screenshots, diagrams, or links only when supported by project information
+- tailor content to the provided project information
+
+
+
+##### Structure Guidelines
+
+Include the following sections where applicable, using clear markdown headings:
+
+- **Project Overview**: what the project does, who it is for, and why it is useful
+- **Features**: key capabilities, benefits, and highlights
+- **Demo or Screenshots**: visuals, links, previews, or usage examples when available
+- **Tech Stack**: main languages, frameworks, libraries, tools, and platforms
+- **Getting Started**: prerequisites and quick setup path
+- **Installation**: exact commands to install dependencies or set up the project
+- **Usage**: common commands, examples, workflows, or API usage
+- **Configuration**: environment variables, settings, secrets, and configuration files
+- **Project Structure**: important directories and files
+- **Build and Test Commands**: exact commands to build, run, lint, and test
+- **Contributing**: contribution flow, development expectations, and useful links
+- **Security**: responsible disclosure notes and sensitive-data warnings
+- **License**: project license information
+- **Acknowledgments**: credits, references, sponsors, or related projects
+
+
+
+###### Output
+
+Create the `README.md` file at the project root
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### description
+
+Use this skill when the user wants to create a new `README.md` from scratch — covering project overview, setup, usage, configuration, and contributing guidelines. Trigger even for casual requests like "write a readme" or "document this project."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Create AGENTS
+
+Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
+
+
+
+##### Instructions
+
+- create a complete new `AGENTS.md` tailored to the repository
+- use the provided project description, repository details, or existing documentation as source material
+- use available tools to inspect the project when needed
+- include the required frontmatter before any content
+- use the actual project name in the frontmatter and document title
+- include all applicable sections of *Structure Guidelines*
+- tailor content to the provided project information
+
+
+
+##### Structure Guidelines
+
+Include the following sections where applicable, using clear markdown headings:
+
+- **Project Overview**: brief description of what the project does and how it is organized
+- **Dev Environment Tips**: setup steps, workspace commands, and environment-specific notes
+- **Build and Test Commands**: exact commands to install, build, run, and test the project
+- **Code Style**: language, formatting rules, patterns, and linting conventions
+- **Testing Instructions**: how to run tests, filter specific cases, and ensure the suite passes before committing
+- **PR Instructions**: commit message format, branch conventions, and pre-commit checklist
+- **Security Considerations**: anything sensitive an agent must not expose or modify carelessly
+
+
+
+##### Output
+
+Create the `AGENTS.md` file at the project root
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### description
+
+Use this skill when the user wants to create a new `AGENTS.md` from scratch — covering project setup, build and test commands, code style, and PR conventions formatted for coding agents. Trigger even for casual requests like "add agent instructions" or "make an agents file."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Prepare for Feature Finish
+
+update `CHANGELOG.md`: 
+
+- add all relevant changes made by the current feature branch to the *Unreleased* section
+- **identify feature branch changes**: determine the changes by using available git tools, information provided by the user in chat, and any existing entries already present in `CHANGELOG.md` under the *Unreleased* section
+- **preserve existing changelog entries**: do not remove or overwrite existing entries in the *Unreleased* section, since they may belong to other feature branches
+- **avoid duplicate entries**: if some feature branch changes are already mentioned in the *Unreleased* section, update, refine, or reorganize them as needed instead of duplicating them
+- **reorganize when helpful**: feel free to reorganize the *Unreleased* section for clarity, consistency, and proper changelog structure while preserving all existing information
+- **only modify `CHANGELOG.md`**: the only allowed file modification is `CHANGELOG.md`, and within that file, the only allowed content modification is inside the *Unreleased* section
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### description
+
+Use this skill when the user wants to record feature branch changes into the *Unreleased* section of `CHANGELOG.md` before merging — adding, updating, or reorganizing entries without duplicating or overwriting existing ones. Trigger for requests like "prep the changelog" or "document what I changed."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Prepare for Release
+
+if version number or release date not provided, ask the user before proceeding. Then:
+
+- **update `CHANGELOG.md`**: move all content under *Unreleased* into a new versioned section using the provided version and date, create a new empty *Unreleased* section above it, and update all relevant GitHub comparison links to reflect the new version tag
+- **update project version**: find and update the version number in project metadata files where applicable — eg `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`. Match the provided version exactly
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### description
+
+Use this skill when the user wants to cut a release — moving *Unreleased* changelog entries into a new versioned section and bumping the version in metadata files like `package.json`, `pyproject.toml`, or `Cargo.toml`. Trigger for requests like "ship v1.2.3" or "bump the version."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Opus Tag Smith
 
@@ -3771,6 +4180,90 @@ A list of standard tags is provided below as reference:
 
 
 
+# Agent Behavior
+
+Files are assumed to be consistent between rounds. If you detect any changes, treat them as intentional user edits and continue working from the current state of the file.
+
+After completing **all tasks requested by the user**, including **editing**, **discovery**, **analysis**, or any other work, **do not provide a recap or summary** of what you did unless the user **explicitly asks** for one. Avoid **repeating the completed actions**, **restating the user’s request**, or adding **unnecessary closing commentary**.
+
+## description
+
+Use this skill on every task. It governs how the agent handles file state between rounds and when to withhold summaries — treat all file changes as intentional, and never recap completed work unless the user explicitly asks.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Continue Behavior
+
+### `run_terminal_command`
+
+Use when need to remove/delete file/folder.
+
+Only use `run_terminal_command` as a last resort when no other tool can accomplish the task.
+Prefer specific tools like `read_file` for reading files or `list_directory` for listing directories.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Utility Prompts
 
 ## Conversation Follow Up Generation
@@ -3977,336 +4470,3 @@ JSON format: { "title": "your concise title here" }
 <chat_history>
 {{MESSAGES:END:2}}
 </chat_history>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Continue
-
-## Continue Behavior
-
-Files are assumed to be consistent between rounds. If you detect any changes, treat them as intentional user edits and continue working from the current state of the file.
-
-After completing **all tasks requested by the user**, including **editing**, **discovery**, **analysis**, or any other work, **do not provide a recap or summary** of what you did unless the user **explicitly asks** for one. Avoid **repeating the completed actions**, **restating the user’s request**, or adding **unnecessary closing commentary**.
-
-#### `run_terminal_command`
-
-Only use `run_terminal_command` as a last resort when no other tool can accomplish the task.
-Prefer specific tools like `read_file` for reading files or `list_directory` for listing directories.
-Use when need to remove/delete file/folder.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Continue Prompts
-
-### Maintain Docs
-
-Update README-style files, AGENTS-style files, and files under `docs/`.
-
-
-
-##### Instructions
-
-- review recent repository changes, project files, and existing documentation to identify required updates
-- use available tools to inspect the project, compare changes, and verify source material when needed
-- edit existing documentation in place whenever possible
-- create new documentation only when an important expected file is missing or repository changes require it
-- treat README-style files as files named `README`, `Readme`, or `readme`, with no extension, `.md`, or `.txt`
-- treat AGENTS-style files as files named `AGENTS`, `Agents`, or `agents`, with no extension or `.md`
-- preserve useful existing structure, scope, and document purpose while improving accuracy
-- remove stale, misleading, duplicated, obsolete, or unsupported content
-- verify links, file paths, commands, configuration names, examples, and references where possible
-
-
-
-##### Docs Files
-
-- update affected APIs, commands, architecture notes, configuration details, examples, workflows, and troubleshooting guidance
-- preserve each document’s audience, scope, and organization where useful
-- cross-link related docs when it improves navigation
-- revise outdated references to renamed files, removed features, changed commands, or deprecated behavior
-- ensure examples and snippets match the current codebase
-
-
-
-##### Output
-
-Update the relevant documentation files in place.
-
-Return a brief summary listing changed files and the documentation updates made.
-
-
-
-
-
-#### edit README
-
-- edit `README.md` or README-Style File to reflect the current project state
-- follow **Coder README Writer** for structure, content, and style
-- update applicable overview, features, setup, usage, configuration, commands, contribution notes, security notes, and license details
-- prioritize the root README when multiple README-style files exist
-- keep secondary README files focused on their local directory, package, or feature area
-
-
-
-
-
-#### edit AGENTS
-
-- edit `AGENTS.md` or AGENTS-Style File to reflect the current project state
-- follow **Coder AGENTS Writer** for structure, content, and style
-- preserve or add required frontmatter when applicable to the project’s AGENTS format
-- update applicable project name, setup notes, build commands, test commands, code style, testing instructions, PR instructions, and security considerations
-- avoid moving human-facing content from README files into AGENTS files unless it is useful for coding agents
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Maintain CHANGELOG
-
-review recent changes — update or create `CHANGELOG.md` to reflect them. 
-
-
-
-
-
-#### edit CHANGELOG
-
-- edit `CHANGELOG.md` or CHANGELOG-Style File to reflect the current project state
-- Follow the **CHANGELOG Writer** rule for format, versioning, and entry style
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Resolve Annotation Markers
-
-scan for **primary Annotation Markers** — `BUG`, `FIXME`, `TODO`, `HACK`. For each: understand the required task and surrounding context, implement the fix or feature, then remove the marker.
-
-Do not touch secondary or tertiary markers
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Create README
-
-Use **Coder README Writer** as the guideline for what makes a good `README.md`.
-
-
-
-##### Instructions
-
-- create a complete new `README.md` tailored to the repository
-- use the provided project description, repository details, or existing documentation as source material
-- use available tools to inspect the project when needed
-- use the actual project name in the document title
-- make the README human-oriented, visually clear, and easy to scan
-- use tasteful emoji and markdown features to improve visual quality when appropriate
-- include examples, tables, badges, screenshots, diagrams, or links only when supported by project information
-- tailor content to the provided project information
-
-
-
-##### Structure Guidelines
-
-Include the following sections where applicable, using clear markdown headings:
-
-- **Project Overview**: what the project does, who it is for, and why it is useful
-- **Features**: key capabilities, benefits, and highlights
-- **Demo or Screenshots**: visuals, links, previews, or usage examples when available
-- **Tech Stack**: main languages, frameworks, libraries, tools, and platforms
-- **Getting Started**: prerequisites and quick setup path
-- **Installation**: exact commands to install dependencies or set up the project
-- **Usage**: common commands, examples, workflows, or API usage
-- **Configuration**: environment variables, settings, secrets, and configuration files
-- **Project Structure**: important directories and files
-- **Build and Test Commands**: exact commands to build, run, lint, and test
-- **Contributing**: contribution flow, development expectations, and useful links
-- **Security**: responsible disclosure notes and sensitive-data warnings
-- **License**: project license information
-- **Acknowledgments**: credits, references, sponsors, or related projects
-
-
-
-###### Output
-
-Create the `README.md` file at the project root
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Create AGENTS
-
-Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
-
-
-
-##### Instructions
-
-- create a complete new `AGENTS.md` tailored to the repository
-- use the provided project description, repository details, or existing documentation as source material
-- use available tools to inspect the project when needed
-- include the required frontmatter before any content
-- use the actual project name in the frontmatter and document title
-- include all applicable sections of *Structure Guidelines*
-- tailor content to the provided project information
-
-
-
-##### Structure Guidelines
-
-Include the following sections where applicable, using clear markdown headings:
-
-- **Project Overview**: brief description of what the project does and how it is organized
-- **Dev Environment Tips**: setup steps, workspace commands, and environment-specific notes
-- **Build and Test Commands**: exact commands to install, build, run, and test the project
-- **Code Style**: language, formatting rules, patterns, and linting conventions
-- **Testing Instructions**: how to run tests, filter specific cases, and ensure the suite passes before committing
-- **PR Instructions**: commit message format, branch conventions, and pre-commit checklist
-- **Security Considerations**: anything sensitive an agent must not expose or modify carelessly
-
-
-
-##### Output
-
-Create the `AGENTS.md` file at the project root
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Prepare for Feature Finish
-
-update `CHANGELOG.md`: 
-
-- add all relevant changes made by the current feature branch to the *Unreleased* section
-- **identify feature branch changes**: determine the changes by using available git tools, information provided by the user in chat, and any existing entries already present in `CHANGELOG.md` under the *Unreleased* section
-- **preserve existing changelog entries**: do not remove or overwrite existing entries in the *Unreleased* section, since they may belong to other feature branches
-- **avoid duplicate entries**: if some feature branch changes are already mentioned in the *Unreleased* section, update, refine, or reorganize them as needed instead of duplicating them
-- **reorganize when helpful**: feel free to reorganize the *Unreleased* section for clarity, consistency, and proper changelog structure while preserving all existing information
-- **only modify `CHANGELOG.md`**: the only allowed file modification is `CHANGELOG.md`, and within that file, the only allowed content modification is inside the *Unreleased* section
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Prepare for Release
-
-if version number or release date not provided, ask the user before proceeding. Then:
-
-- **update `CHANGELOG.md`**: move all content under *Unreleased* into a new versioned section using the provided version and date, create a new empty *Unreleased* section above it, and update all relevant GitHub comparison links to reflect the new version tag
-- **update project version**: find and update the version number in project metadata files where applicable — eg `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`. Match the provided version exactly
-
-
-

@@ -1,66 +1,57 @@
-MD_FILENAMES = [
-    "abbr-currency-symbols",
-    "abbr-emoji",
-    "abbr-natural-language-codes",
-    "abbr-prefixes",
-    "abbr-programming-language-codes",
-    "abbr-single-character",
-    "abbr-starts-with-a",
-    "abbr-starts-with-b",
-    "abbr-starts-with-c",
-    "abbr-starts-with-d",
-    "abbr-starts-with-digits",
-    "abbr-starts-with-e",
-    "abbr-starts-with-f",
-    "abbr-starts-with-g",
-    "abbr-starts-with-h",
-    "abbr-starts-with-i",
-    "abbr-starts-with-k",
-    "abbr-starts-with-l",
-    "abbr-starts-with-m",
-    "abbr-starts-with-n",
-    "abbr-starts-with-non-alphanumeric",
-    "abbr-starts-with-o",
-    "abbr-starts-with-p",
-    "abbr-starts-with-q",
-    "abbr-starts-with-r",
-    "abbr-starts-with-s",
-    "abbr-starts-with-t",
-    "abbr-starts-with-u",
-    "abbr-starts-with-v",
-    "abbr-starts-with-w",
-    "abbr-starts-with-x",
-    "abbr-starts-with-y",
-    "abbr-suffixes",
-    "abbr-symbols",
-    "abbr-units-of-measure",
-    "annotation-markers",
-    "chat",
-    "coder-bash",
-    "coder-c",
-    "coder-c-sharp",
-    "coder-cpp",
-    "coder-gdscript",
-    "coder-html",
-    "coder-javascript-and-typescript",
-    "coder-python",
-    "coder-python-docstring-style",
-    "coder-python-testing-guidelines",
-    "coder-unity-engine",
-    "coder-unreal-engine",
-    "date-and-time-format",
-    "kaye-peer-coder",
-    "numerical-values-with-units",
-    "project-agents-writer",
-    "project-changelog-writer",
-    "project-readme-writer",
-    "project-semantic-versioning",
-    "project-structure",
-    "style-guide-capitalization",
-    "style-guide-briefness-style",
-    "style-guide-good-writing",
-    "continue-behavior",
-]
+import re
+
+_BASIC_FORMAT_RE = re.compile(r"^---\n(.+?)---\n(.+)", re.DOTALL)
+
+
+def split_frontmatter_md_file(content):
+    """
+    split a markdown file with YAML frontmatter into frontmatter and body
+
+    :param content: full markdown file content
+    :type content: str
+    :return: tuple of (frontmatter_lines, body_text)
+    :rtype: tuple[list[str], str]
+    """
+    parts = content.split("---", 2)
+    frontmatter = parts[1].strip("\n").splitlines()
+    body = parts[2].strip("\n")
+    return frontmatter, body
+
+
+def assert_frontmatter_md_file_basic_structure(content):
+    """
+    validate that content has basic frontmatter-markdown file structure
+
+    checks that content matches ``---\\nfrontmatter\\n---\\nbody``
+    pattern with non-empty frontmatter and body sections
+
+
+    :param content: full markdown file content
+    :type content: str
+    :return: whether the structure is valid
+    :rtype: bool
+    """
+    match = _BASIC_FORMAT_RE.match(content)
+    if not match:
+        return False
+    frontmatter = match.group(1).strip()
+    body = match.group(2).strip()
+    return bool(frontmatter) and bool(body)
+
+
+def assert_header_line_always_apply(lines, value):
+    """
+    check if alwaysApply header line has expected value
+
+    :param lines: list of frontmatter lines
+    :type lines: list[str]
+    :param value: expected boolean value for alwaysApply
+    :type value: bool
+    :return: whether the header line matches expectations
+    :rtype: bool
+    """
+    expected = "true" if value else "false"
+    return "alwaysApply: {}".format(expected) in lines
 
 
 MD_FILENAME2SKILL_NAME = {
@@ -125,26 +116,16 @@ MD_FILENAME2SKILL_NAME = {
     "style-guide-briefness-style": "Style Guide Briefness Style",
     "style-guide-good-writing": "Style Guide Good Writing",
     "continue-behavior": "Continue Behavior",
+    "agent-behavior": "Agent Behavior",
 }
 
 
-PROMPT_FILENAMES = [
-    "create-agents",
-    "create-readme",
-    "maintain-changelog",
-    "maintain-docs",
-    "prepare-for-feature",
-    "prepare-for-release",
-    "resolve-annotation-markers",
-]
-
-
 PROMPT_FILENAME2NAME = {
-    "create-agents": "create_agents.md",
-    "create-readme": "create_readme.md",
-    "maintain-changelog": "maintain_changelog.md",
-    "maintain-docs": "maintain_docs.md",
-    "prepare-for-feature": "prepare_for_feature_finish.md",
-    "prepare-for-release": "prepare_for_release.md",
-    "resolve-annotation-markers": "resolve_annotation_markers.md",
+    "create-agents": "Create AGENTS",
+    "create-readme": "Create README",
+    "maintain-changelog": "Maintain CHANGELOG",
+    "maintain-docs": "Maintain Docs",
+    "prepare-for-feature": "Prepare for Feature Finish",
+    "prepare-for-release": "Prepare for Release",
+    "resolve-annotation-markers": "Resolve Annotation Markers",
 }

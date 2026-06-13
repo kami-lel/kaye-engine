@@ -9,9 +9,9 @@ creation of ``Coder Python.md``
 import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
-from tests.cli.c.c import (
-    assert_rule_file_basic_format,
-    split_rule_file_basic_format,
+from tests.cli import (
+    assert_frontmatter_md_file_basic_structure,
+    split_frontmatter_md_file,
     assert_header_line_always_apply,
 )
 
@@ -35,12 +35,12 @@ def testee(testee_path):
 
 @pytest.fixture(scope="session")
 def testee_header(testee):
-    return split_rule_file_basic_format(testee)[0]
+    return split_frontmatter_md_file(testee)[0]
 
 
 @pytest.fixture(scope="session")
 def testee_content(testee):
-    return split_rule_file_basic_format(testee)[1]
+    return split_frontmatter_md_file(testee)[1]
 
 
 # Pytest unit tests  ###########################################################
@@ -58,13 +58,19 @@ class TestBasic:  # ============================================================
 class TestStructure:  # ========================================================
 
     def test_structure(_, testee):
-        assert assert_rule_file_basic_format(testee)
+        assert assert_frontmatter_md_file_basic_structure(testee)
 
 
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
         assert "name: Coder Python" in testee_header
+
+    def test_description(_, testee_header):
+        assert (
+            "description: Python docstrings in Sphinx/reStructuredText style"
+            in testee_header
+        )
 
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.py"]' in testee_header
@@ -75,5 +81,12 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_structure(_, testee):
-        assert assert_rule_file_basic_format(testee)
+    def test_heading(_, testee_content):
+        assert "## Coder Python" in testee_content
+
+    def test_content(_, testee_content):
+        assert (
+            "Adhere to the **PEP8** style guide, "
+            "ensuring clarity and consistency."
+            in testee_content
+        )
