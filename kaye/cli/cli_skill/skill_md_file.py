@@ -22,6 +22,8 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
     :type folder_path: Path-like
     :param blueprint: blueprint object
     :type blueprint: PromptBlueprint
+    :param includes_version: whether to embed the package version in metadata
+    :type includes_version: bool
     :example:
     >>> # blueprint-based skills
     ... with SkillMDFile(parent_folder, blueprint=bp) as skill:

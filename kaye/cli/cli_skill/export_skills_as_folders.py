@@ -16,11 +16,16 @@ from kaye.cli.prompts_blueprints import PROMPTS_BLUEPRINTS
 
 def export_skills_as_folders(parent_folder, *, includes_version=False):
     """
-    TODO write docstring
+    export all blueprints, prompts, and abbreviation groups as skill folders
 
-    :param parent_folder: _description_
-    :type parent_folder: _type_
-    :param includes_version: _description_, defaults to False
+    writes one subfolder per blueprint and per abbreviation group under
+    ``parent_folder``; abbreviation skills are marked as non-user-invocable
+
+
+    :param parent_folder: destination directory to write skill folders into
+    :type parent_folder: Path-like
+    :param includes_version: embed the package version in abbreviation skill
+        metadata, defaults to False
     :type includes_version: bool, optional
     """
 
