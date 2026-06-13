@@ -17,11 +17,10 @@ class RuleFile(FrontmatterMDFile):  ############################################
 
     :param path:
     :type path: Path-like
-    :param blueprint: optional blueprint object
-    :type blueprint: PromptBlueprint or None
     :example:
     >>> # blueprint rule file
-    >>> with RuleFile(path, blueprint=bp) as rule:
+    >>> with RuleFile(path) as rule:
+    ...     rule.blueprint = bp
     ...     rule.globs = ["**/*.py"]
     ...     rule.always_apply = False
 
@@ -31,6 +30,8 @@ class RuleFile(FrontmatterMDFile):  ############################################
     ...     rule.write_frontmatter()
     ...     rule.write(entries)
     """
+
+    # implement FrontmatterMDFile  =============================================
 
     def write_frontmatter(self):
         self.file.write("---\n")
@@ -62,14 +63,11 @@ class RuleFile(FrontmatterMDFile):  ############################################
 
         self.file.write("---\n\n")
 
-    def __init__(self, path, blueprint=None):
-        super().__init__(path, blueprint)
+    # constructor  =============================================================
 
-        if blueprint:
-            self.name = blueprint.display_name
-            self.description = blueprint.description
+    def __init__(self, path):
+        super().__init__(path)
 
-        # continue fields
         self.globs = []
         self.always_apply = False
         self.invokable = False

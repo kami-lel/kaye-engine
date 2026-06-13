@@ -12,14 +12,23 @@ class FrontmatterMDFile:  ######################################################
 
     :param path:
     :type path: Path-like
-    :param blueprint: blueprint object
-    :type blueprint: PromptBlueprint
     """
 
     def write_frontmatter(self):
         raise NotImplementedError
 
     # properties  ==============================================================
+
+    @property
+    def blueprint(self):
+        return self._blueprint
+
+    @blueprint.setter
+    def blueprint(self, value):
+        self._blueprint = value
+        if value:
+            self.frontmatter["name"] = value.display_name
+            self.frontmatter["description"] = value.description
 
     name = property()
 
@@ -46,19 +55,20 @@ class FrontmatterMDFile:  ######################################################
     _FILE_MODE = "w"
     _FILE_ENCODING = "utf-8"
 
-    def __init__(self, path, blueprint=None):
+    def __init__(self, path):
         self._path = path
-        self._blueprint = blueprint
 
         self.file = None
         self.frontmatter = {
-            "name": blueprint.display_name if blueprint else "",
-            "description": blueprint.description if blueprint else "",
+            "name": "",
+            "description": "",
             "license": "",
             "compatibility": "",
             "metadata": {},
             "allowed-tools": [],
         }
+
+        self._blueprint = None
 
     # support context manager  =================================================
 
@@ -69,7 +79,7 @@ class FrontmatterMDFile:  ######################################################
         return self
 
     def __exit__(self, *_):
-        if self._blueprint:
+        if self.blueprint:
             self.write_frontmatter()
-            self.file.write(self._blueprint.generate_prompt())
+            self.file.write(self.blueprint.generate_prompt())
         self.file.close()
