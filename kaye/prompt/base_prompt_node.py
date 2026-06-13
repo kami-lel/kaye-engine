@@ -129,6 +129,8 @@ class BasePromptNode(AnyTreeNode):
         ancestry_path.append(self.name)
         return ancestry_path
 
+    # HACK remove description node logic
+
     @property
     def is_description_node(self):
         """
