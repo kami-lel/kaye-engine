@@ -15,6 +15,7 @@ from kaye.cli.prompts_blueprints import PROMPTS_BLUEPRINTS
 def export_skills_as_folders(parent_folder):
     # export embedded_blueprints and prompts
     for blueprint in EXPORTABLE_BLUEPRINTS + PROMPTS_BLUEPRINTS:
+        print("export skill:\t" + blueprint.skill_name)
         with AgentSkillFolder(parent_folder, blueprint=blueprint):
             pass
 

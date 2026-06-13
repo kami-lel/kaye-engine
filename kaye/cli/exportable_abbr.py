@@ -4,7 +4,7 @@ exportable_abbr.py
 group abbreviations for export
 """
 
-from kaye.abbr_collection import AbbrTags, AbbrWrap
+from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
 
 # constants  ###################################################################
 
@@ -36,54 +36,52 @@ _WRAP_NAMES = {
 # helpers  #####################################################################
 
 
+class ExportableAbbr(list):  ###################################################
+    """
+    a named, iterable group of abbreviation entries
+
+
+    :param entries: abbreviation entries for this group
+    """
+
+    def __init__(self, entries=()):
+        super().__init__(entries)
+
+        self.display_name = ""
+        self.description = ""
+
+
 def _sort_entries(entries):
     return sorted(entries, key=lambda e: e.abbr.lower())
 
 
-# public  ######################################################################
+def _make_group(display_name, entries):
+    group = ExportableAbbr(entries)
+    group.display_name = display_name
+    return group
 
 
-def get_abbrs_by_tags(abbrs):
-    """
-    group abbreviations by tag
-
-    :param abbrs: abbreviation entries
-    :returns: list of ``(rule_name, entries)`` pairs, one per tag group
-    :rtype: list[tuple[str, list]]
-    """
-    result = []
-    for tag, display_name in _TAG_NAMES.items():
-        entries = _sort_entries([e for e in abbrs if tag in e.tags])
-        result.append((_ABBR_TEMPLATE + display_name, entries))
-    return result
+def _get_abbrs_by_tags(abbrs):
+    return [
+        _make_group(
+            _ABBR_TEMPLATE + name,
+            _sort_entries([e for e in abbrs if tag in e.tags]),
+        )
+        for tag, name in _TAG_NAMES.items()
+    ]
 
 
-def get_abbrs_by_wrap(abbrs):
-    """
-    group abbreviations by wrap type
-
-    :param abbrs: abbreviation entries
-    :returns: list of ``(rule_name, entries)`` pairs, one per wrap type
-    :rtype: list[tuple[str, list]]
-    """
-    result = []
-    for wrap, display_name in _WRAP_NAMES.items():
-        entries = _sort_entries([e for e in abbrs if e.wrap == wrap])
-        result.append((_ABBR_TEMPLATE + display_name, entries))
-    return result
+def _get_abbrs_by_wrap(abbrs):
+    return [
+        _make_group(
+            _ABBR_TEMPLATE + name,
+            _sort_entries([e for e in abbrs if e.wrap == wrap]),
+        )
+        for wrap, name in _WRAP_NAMES.items()
+    ]
 
 
-def get_abbrs_by_first_char(abbrs):
-    """
-    group abbreviations by first character
-
-    one group per letter (A–Z), one for digits (0–9), one catch-all for
-    everything else; builds all buckets in a single pass over ``abbrs``
-
-    :param abbrs: abbreviation entries
-    :returns: list of ``(rule_name, entries)`` pairs
-    :rtype: list[tuple[str, list]]
-    """
+def _get_abbrs_by_first_char(abbrs):
     letter_buckets = {letter: [] for letter in _LETTERS}
     digits = []
     other = []
@@ -97,14 +95,27 @@ def get_abbrs_by_first_char(abbrs):
         else:
             other.append(entry)
 
-    result = [(_START_WITH_DIGIT, _sort_entries(digits))]
+    result = [_make_group(_START_WITH_DIGIT, _sort_entries(digits))]
 
     for letter in _LETTERS:
-        result.append((
-            _START_WITH_TEMPLATE + letter,
-            _sort_entries(letter_buckets[letter]),
-        ))
+        result.append(
+            _make_group(
+                _START_WITH_TEMPLATE + letter,
+                _sort_entries(letter_buckets[letter]),
+            )
+        )
 
-    result.append((_START_WITH_OTHER, _sort_entries(other)))
+    result.append(_make_group(_START_WITH_OTHER, _sort_entries(other)))
 
     return result
+
+
+# module-level export  #########################################################
+
+_abbrs = AbbrData().abbrs
+
+EXPORTABLE_ABBRS = (
+    _get_abbrs_by_tags(_abbrs)
+    + _get_abbrs_by_wrap(_abbrs)
+    + _get_abbrs_by_first_char(_abbrs)
+)
