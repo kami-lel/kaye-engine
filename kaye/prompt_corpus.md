@@ -2952,7 +2952,7 @@ def calc_square(number):
 
 Python docstrings in Sphinx/reStructuredText style
 
-### {globs}
+#### {globs}
 
 ```glob
 **/*.py
