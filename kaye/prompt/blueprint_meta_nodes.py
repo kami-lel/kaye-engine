@@ -25,18 +25,19 @@ class BlueprintMetaNodes:
     def globs(self):
         return []
 
-    def __init__(self, main_node=None):
+    def __init__(self, *, main_node=None):
         self.description_node = None
         self.when_to_use_node = None
         self.globs_node = None
 
         if main_node:
-            pass  # TODO
+            pass  # TODO search & find nodes
 
     @staticmethod
     def _convert_node2content(node):
         if not node:
             return ""
 
+        # TODO convert into single line
         bp = PromptBlueprint.create_from_node(node)
         return bp.generate_prompt(disable_first_heading=True)

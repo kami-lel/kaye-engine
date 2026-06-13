@@ -337,9 +337,7 @@ class PromptBlueprint(dict):
 
         return "\n".join(lines)
 
-    def generate_prompt(
-        self, *, show_comment=False, disable_first_heading=False, **kwargs
-    ):
+    def generate_prompt(self, *args, **kwargs):
         """
         render the **concrete prompt** that can be used as LLM system message
         with it content based on node's checkmarking status of this blueprint
@@ -353,6 +351,18 @@ class PromptBlueprint(dict):
         :type disable_first_heading: bool, optional
         :return: generated prompt
         :rtype: str
+        """
+        return "\n".join(self.generate_prompt_lines(*args, **kwargs))
+
+    def generate_prompt_lines(
+        self, *, show_comment=False, disable_first_heading=False, **kwargs
+    ):
+        """
+        like ``.generate_blueprint()``, but as list of lines
+
+
+        :return:
+        :rtype: list[str]
         """
         # todo compact render & other types
         lines = []
@@ -387,7 +397,7 @@ class PromptBlueprint(dict):
         while lines and lines[-1] == "":
             lines.pop()
 
-        return "\n".join(lines)
+        return lines
 
     # Blueprint operation  *****************************************************
 
