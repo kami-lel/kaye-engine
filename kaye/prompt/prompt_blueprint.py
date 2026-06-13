@@ -21,7 +21,7 @@ from .prompt_corpus_loader import (
 __all__ = ("PromptBlueprint",)
 
 
-# fixme better description handling: use {description} & not rendered in prompt;
+# FIXME FIXME better description handling: use {description} & not rendered in prompt;
 
 # constants  ###################################################################
 CHECKMARKED_PREFIX = "[x] "
