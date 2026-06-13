@@ -39,16 +39,14 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
     # implement FrontmatterMDFile  =============================================
 
+    _EMPTY_VALUES = ("", {}, [], None)
+
     def _write_frontmatter_content(self):
         d = {
-            "name": self.frontmatter["name"],
-            "description": self.frontmatter["description"],
+            key: value
+            for key, value in self.frontmatter.items()
+            if value not in self._EMPTY_VALUES
         }
-
-        for key in ("license", "compatibility", "metadata", "allowed-tools"):
-            value = self.frontmatter.get(key)
-            if value:
-                d[key] = value
 
         yaml_buffer = io.StringIO()
         yaml.dump(

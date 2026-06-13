@@ -15,6 +15,16 @@ from kaye.cli.prompts_blueprints import PROMPTS_BLUEPRINTS
 
 
 def export_skills_as_folders(parent_folder, *, includes_version=False):
+    """
+    TODO write docstring
+
+    :param parent_folder: _description_
+    :type parent_folder: _type_
+    :param includes_version: _description_, defaults to False
+    :type includes_version: bool, optional
+    """
+
+    # TODO globs in context/files
     # export embedded_blueprints and prompts
     for blueprint in EXPORTABLE_BLUEPRINTS + PROMPTS_BLUEPRINTS:
         with AgentSkillFolder(parent_folder, blueprint=blueprint, verbose=True):
@@ -31,5 +41,6 @@ def export_skills_as_folders(parent_folder, *, includes_version=False):
             includes_version=includes_version,
         ) as skill:
             skill.skill_md.description = group.description
+            skill.skill_md.frontmatter["user-invocable"] = False
             skill.skill_md.write_frontmatter_part()
             skill.skill_md.write(group.as_md_list())
