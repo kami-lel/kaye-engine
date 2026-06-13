@@ -27,6 +27,7 @@ class AgentSkillFolder:  #######################################################
 
     def __enter__(self):
         self._path.mkdir(parents=True, exist_ok=True)
+
         skill_md = SkillMDFile(self._path, self._blueprint)
         self.skill_md = skill_md.__enter__()
         return self
@@ -34,8 +35,8 @@ class AgentSkillFolder:  #######################################################
     def __exit__(self, *args):
         self.skill_md.__exit__(*args)
 
-    def __init__(self, path, blueprint=None):
-        self._path = Path(path)
+    def __init__(self, parent_folder_path, blueprint=None):
+        self._path = Path(parent_folder_path)  # TODO
 
         self._blueprint = blueprint
         self.skill_md = None
