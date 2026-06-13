@@ -1,4 +1,4 @@
-# TODO content test
+# TODO content test for zips
 
 
 import subprocess
