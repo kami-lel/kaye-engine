@@ -17,10 +17,11 @@ class RuleFile(FrontmatterMDFile):  ############################################
 
     :param path:
     :type path: Path-like
+    :param blueprint: optional blueprint object
+    :type blueprint: PromptBlueprint or None
     :example:
     >>> # blueprint rule file
-    >>> with RuleFile(path) as rule:
-    ...     rule.blueprint = bp
+    >>> with RuleFile(path, blueprint=bp) as rule:
     ...     rule.globs = ["**/*.py"]
     ...     rule.always_apply = False
 
@@ -65,8 +66,8 @@ class RuleFile(FrontmatterMDFile):  ############################################
 
     # constructor  =============================================================
 
-    def __init__(self, path):
-        super().__init__(path)
+    def __init__(self, path, blueprint=None):
+        super().__init__(path, blueprint)
 
         self.globs = []
         self.always_apply = False

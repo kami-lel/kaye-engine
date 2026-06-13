@@ -28,7 +28,6 @@ def export_prompts(prompts_folder):
 
         print("update prompt:\t{}".format(filename))
 
-        with RuleFile(file_path) as rule:
-            rule.blueprint = bp
+        with RuleFile(file_path, blueprint=bp) as rule:
             rule.always_apply = False
             rule.invokable = True

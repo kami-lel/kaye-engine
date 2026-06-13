@@ -69,8 +69,7 @@ def export_blueprint_rules(rules_folder):
         name = bp.display_name
         file_path = folder_path / "{}.md".format(bp.display_name)
 
-        with RuleFile(file_path) as rule:
-            rule.blueprint = bp
+        with RuleFile(file_path, blueprint=bp) as rule:
             rule.globs = _BLUEPRINT_NAME2GLOBS.get(name, [])
             rule.always_apply = name in _ALWAYS_APPLY_BLUEPRINT
 
