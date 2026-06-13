@@ -26,6 +26,9 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
     ...     md_file.write_content()
     """
 
+    def write_content(self):
+        self.write_blueprint_content()
+
     def write_frontmatter(self):
         self.file.write("---\n")
 
