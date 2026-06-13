@@ -6,6 +6,7 @@ define ``AgentSkillFolder``
 
 from pathlib import Path
 
+from kaye.cli.cli_skill import convert_display_name2skill_name
 from kaye.cli.cli_skill.skill_md_file import SkillMDFile
 
 
@@ -36,8 +37,9 @@ class AgentSkillFolder:  #######################################################
         self.skill_md.__exit__(*args)
 
     def __init__(self, parent_folder_path, blueprint=None):
-        # TODO make this also work for abbr
-        self._path = Path(parent_folder_path) / blueprint.skill_name
+        self._path = Path(parent_folder_path) / convert_display_name2skill_name(
+            blueprint.display_name
+        )
 
         self._blueprint = blueprint
         self.skill_md = None

@@ -8,6 +8,7 @@ import io
 
 import yaml
 
+from kaye.cli.cli_skill import convert_display_name2skill_name
 from kaye.cli.frontmatter_md_file import FrontmatterMDFile
 
 
@@ -57,4 +58,4 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
         super().__init__(file_name, blueprint)
 
         if blueprint:
-            self.name = blueprint.skill_name
+            self.name = convert_display_name2skill_name(blueprint.display_name)

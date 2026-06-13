@@ -195,12 +195,6 @@ class PromptBlueprint(dict):
 
         return bp
 
-    # properties  ==============================================================
-
-    @property
-    def skill_name(self):
-        return self.display_name.replace(" ", "-").lower()
-
     # instance methods  ========================================================
     def __init__(self, *, display_name="", corpus_override=None):
         super().__init__()  # init as empty dict
