@@ -1,8 +1,8 @@
 todo: for prepare_for_feature_finish/_release, utilize tools to fetch `git log`
 
-BUG py docstring: no :return: ``None``, and no __init__ docstring
+Bug py docstring: no :return: ``None``, and no __init__ docstring
 
 
-TODO update coder description to include describe "when to use", especially globs
+Todo update coder description to include describe "when to use", especially globs
 
-TODO prompt writer + description writer
+Todo prompt writer + description writer

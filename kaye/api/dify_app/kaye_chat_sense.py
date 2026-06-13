@@ -23,7 +23,7 @@ SENSE_PROMPT_BLUEPRINT = """ ○
 [ ] │       ├── empty role
 [ ] │       ├── zero difficulty
 [ ] │       └── empty programming_languages
-[ ] └── {Programming Languages Code}
+[ ] └── (Programming Languages Code)
 """
 
 
@@ -43,7 +43,7 @@ def kaye_chat_sense():
     if role == "coder":
         blueprint.checkmark(sense_node["programming_languages"])
         blueprint.checkmark(sense_node["empty role"])
-        blueprint.checkmark("{Programming Languages Code}")
+        blueprint.checkmark("(Programming Languages Code)")
 
         if diff == 0:
             blueprint.checkmark(sense_node["sense coder difficulty"])

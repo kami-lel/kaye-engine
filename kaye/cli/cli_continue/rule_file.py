@@ -22,7 +22,6 @@ class RuleFile(FrontmatterMDFile):  ############################################
     :example:
     >>> # blueprint rule file
     ... with RuleFile(path, blueprint=bp) as rule:
-    ...     rule.globs = ["**/*.py"]
     ...     rule.always_apply = False
 
     >>> # abbreviation rule file
@@ -59,8 +58,9 @@ class RuleFile(FrontmatterMDFile):  ############################################
         )
         self.file.write(yaml_buffer.getvalue())
 
-        if self.globs:
-            globs_str = ", ".join('"{}"'.format(g) for g in self.globs)
+        paths = self.frontmatter["paths"]
+        if paths:
+            globs_str = ", ".join('"{}"'.format(g) for g in paths)
             self.file.write("globs: [{}]\n".format(globs_str))
 
     # constructor  =============================================================
@@ -68,9 +68,9 @@ class RuleFile(FrontmatterMDFile):  ############################################
     def __init__(self, path, blueprint=None):
         super().__init__(path, blueprint)
 
-        self.globs = []
         self.always_apply = False
         self.invokable = False
 
         if blueprint:
             self.name = blueprint.display_name
+            self.description = blueprint.meta.description_and_when_to_use

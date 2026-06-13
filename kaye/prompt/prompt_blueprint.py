@@ -11,6 +11,8 @@ import copy
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
+from kaye.prompt.blueprint_meta_nodes import BlueprintMetaNodes
+
 
 from .base_prompt_node import BasePromptNode
 from .prompt_corpus_loader import (
@@ -20,8 +22,6 @@ from .prompt_corpus_loader import (
 
 __all__ = ("PromptBlueprint",)
 
-
-# fixme better description handling: use {description} & not rendered in prompt;
 
 # constants  ###################################################################
 CHECKMARKED_PREFIX = "[x] "
@@ -186,12 +186,7 @@ class PromptBlueprint(dict):
 
         bp.display_name = node_obj.name
 
-        description_node = node_obj.description_subnode
-        if description_node:
-            description_bp = cls.create_from_node(description_node)
-            bp.description = description_bp.generate_prompt(
-                disable_first_heading=True
-            )
+        bp.meta = BlueprintMetaNodes(main_node=node_obj)
 
         return bp
 
@@ -214,7 +209,7 @@ class PromptBlueprint(dict):
             self.corpus = copy.deepcopy(corpus_override)
 
         self.display_name = display_name
-        self.description = ""
+        self.meta = BlueprintMetaNodes()
 
     # node operations  *********************************************************
     def is_checkmarked(self, node):
@@ -337,9 +332,7 @@ class PromptBlueprint(dict):
 
         return "\n".join(lines)
 
-    def generate_prompt(
-        self, *, show_comment=False, disable_first_heading=False, **kwargs
-    ):
+    def generate_prompt(self, *args, **kwargs):
         """
         render the **concrete prompt** that can be used as LLM system message
         with it content based on node's checkmarking status of this blueprint
@@ -353,6 +346,18 @@ class PromptBlueprint(dict):
         :type disable_first_heading: bool, optional
         :return: generated prompt
         :rtype: str
+        """
+        return "\n".join(self.generate_prompt_lines(*args, **kwargs))
+
+    def generate_prompt_lines(
+        self, *, show_comment=False, disable_first_heading=False, **kwargs
+    ):
+        """
+        like ``.generate_blueprint()``, but as list of lines
+
+
+        :return:
+        :rtype: list[str]
         """
         # todo compact render & other types
         lines = []
@@ -387,7 +392,7 @@ class PromptBlueprint(dict):
         while lines and lines[-1] == "":
             lines.pop()
 
-        return "\n".join(lines)
+        return lines
 
     # Blueprint operation  *****************************************************
 

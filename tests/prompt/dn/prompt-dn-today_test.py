@@ -29,7 +29,7 @@ class TestToday:  ##############################################################
 
     def test_init(_, local_corpus_testee1, testee1):
         assert testee1.parent is local_corpus_testee1
-        assert testee1.name == "{Today}"
+        assert testee1.name == "(Today)"
 
     def test_preview(_, local_corpus_testee1):
         opt = local_corpus_testee1.generate_prompt_tree_preview(
@@ -41,7 +41,7 @@ class TestToday:  ##############################################################
 │   ├── Description
 │   ├── Installation
 │   └── License
-└── {Today}"""
+└── (Today)"""
 
     def test_content_lines(_, local_corpus_testee1, testee1):
         testee1 = TodayNode(local_corpus_testee1)
@@ -56,12 +56,12 @@ class TestCopy:  ###############################################################
         copied = copy.copy(testee1)
 
         assert isinstance(copied, TodayNode)
-        assert copied.name == "{Today}"
+        assert copied.name == "(Today)"
         assert copied.parent is None
 
     def test_deep_copy1(_, testee1):
         copied = copy.deepcopy(testee1)
 
         assert isinstance(copied, TodayNode)
-        assert copied.name == "{Today}"
+        assert copied.name == "(Today)"
         assert copied.parent is None

@@ -30,7 +30,7 @@ class TestInit:  ###############################################################
 
     def test1(_, testee1, local_corpus_testee1):
         assert testee1.parent is local_corpus_testee1
-        assert testee1.name == "{Unity Engine Abbreviations}"
+        assert testee1.name == "(Unity Engine Abbreviations)"
 
     def test_preview1(_, local_corpus_testee1):
         opt = local_corpus_testee1.generate_prompt_tree_preview(
@@ -42,7 +42,7 @@ class TestInit:  ###############################################################
 │   ├── Description
 │   ├── Installation
 │   └── License
-└── {Unity Engine Abbreviations}"""
+└── (Unity Engine Abbreviations)"""
 
 
 class TestCopy:  ###############################################################
@@ -51,14 +51,14 @@ class TestCopy:  ###############################################################
         copied = copy.copy(testee1)
 
         assert isinstance(copied, UnityEngineAbbrNode)
-        assert copied.name == "{Unity Engine Abbreviations}"
+        assert copied.name == "(Unity Engine Abbreviations)"
         assert copied.parent is None
 
     def test_deep_copy1(_, testee1):
         copied = copy.deepcopy(testee1)
 
         assert isinstance(copied, UnityEngineAbbrNode)
-        assert copied.name == "{Unity Engine Abbreviations}"
+        assert copied.name == "(Unity Engine Abbreviations)"
         assert copied.parent is None
 
 
