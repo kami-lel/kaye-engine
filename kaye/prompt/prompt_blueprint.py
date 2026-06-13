@@ -11,6 +11,8 @@ import copy
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
+from kaye.prompt.blueprint_meta_nodes import BlueprintMetaNodes
+
 
 from .base_prompt_node import BasePromptNode
 from .prompt_corpus_loader import (
@@ -186,12 +188,15 @@ class PromptBlueprint(dict):
 
         bp.display_name = node_obj.name
 
+        # TODO rm blueprint .description
         description_node = node_obj.description_subnode
         if description_node:
             description_bp = cls.create_from_node(description_node)
             bp.description = description_bp.generate_prompt(
                 disable_first_heading=True
             )
+
+        bp.meta = BlueprintMetaNodes(main_node=node)
 
         return bp
 
@@ -215,6 +220,7 @@ class PromptBlueprint(dict):
 
         self.display_name = display_name
         self.description = ""
+        self.meta = None
 
     # node operations  *********************************************************
     def is_checkmarked(self, node):

@@ -6,24 +6,49 @@ define ``BlueprintMetaFields``
 
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 
+# TODO docstrings
+
 
 class BlueprintMetaNodes:  #####################################################
 
     @property
     def description(self):
-        return self._convert_node2content(self.description_node)
+        return self._NEWLINE_SYMBOL.join(
+            self._convert_node2content_lines(self.description_node)
+        )
 
     @property
     def when_to_use(self):
-        return self._convert_node2content(self.when_to_use_node)
+        return self._NEWLINE_SYMBOL.join(
+            self._convert_node2content_lines(self.when_to_use_node)
+        )
 
     @property
     def description_and_when_to_use(self):
-        return self.description + self._NEWLINE_SYMBOL + self.when_to_use
+        return self._NEWLINE_SYMBOL.join(
+            self._convert_node2content_lines(self.description_node)
+            + self._convert_node2content_lines(self.when_to_use_node)
+        )
 
     @property
     def globs(self):
-        return []  # TODO extract globs out
+        lines = self._convert_node2content_lines(self.globs_node)
+
+        results = []
+        in_block = False
+
+        for line in lines:
+            if line == "```glob":
+                in_block = True
+                continue
+
+            if line == "```" and in_block:
+                break
+
+            if in_block:
+                results.append(line)
+
+        return results
 
     # constructor  =============================================================
 
@@ -52,12 +77,10 @@ class BlueprintMetaNodes:  #####################################################
 
     _NEWLINE_SYMBOL = "↵"
 
-    @classmethod
-    def _convert_node2content(cls, node):
+    @staticmethod
+    def _convert_node2content_lines(node):
         if not node:
-            return ""
+            return []
 
         bp = PromptBlueprint.create_from_node(node)
-        return cls._NEWLINE_SYMBOL.join(
-            bp.generate_prompt_lines(disable_first_heading=True)
-        )
+        return bp.generate_prompt_lines(disable_first_heading=True)
