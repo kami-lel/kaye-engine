@@ -58,17 +58,6 @@ E.g.
 > [!NOTE]
 > `.name` is a property of `anytree.Node`
 
-----
-
-Use `.is_technical_node` property to check if a node name matches the **meta node** pattern `{name}`:
-
-```python
->>> corpus_node.is_technical_node
-False
->>> meta_node.is_technical_node
-True
-```
-
 Meta nodes are corpus nodes identified by names enclosed in curly braces, such as `{description}`. They appear in the blueprint preview tree but are **not** included in the rendered prompt output.
 
 Dynamic nodes are identified by names enclosed in parentheses, such as `(Today)`, `(Abbreviations)`. Unlike meta nodes, dynamic nodes are not parsed from the corpus — they are injected at render time and **are** included in the rendered prompt output.
@@ -180,33 +169,7 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 
 
-##### description subnode
-
-In `prompt_corpus.md`, some nodes contain a child node with the heading `{description}`. This is a **meta node** — it uses the `{…}` pattern, so it appears in the blueprint preview but is not rendered into the generated prompt. This property searches the node's descendants and returns the first node matching the description pattern, or ``None`` if no such subnode exists.
-
-Description subnodes provide **brief, contextual descriptions** that explain the nature and purpose of the parent node. This is particularly useful when rendering prompts for LLMs, as these descriptions enable intelligent **automatic task relevance assessment** — allowing LLMs to self-determine whether a node's content is applicable to their current task. Rather than treating all nodes as equally important, the LLM can read the description subnode and make informed decisions about node inclusion.
-
-----
-
-Use `.description_subnode` property to access a node's **description** subnode, if it exists:
-
-```python
->>> node.description_subnode
-BasePromptNode(...description...)
->>> other_node.description_subnode is None
-True
-```
-
-----
-
-Use `.is_description_node` property to check if a node **is** a description node (i.e., has the name `description`):
-
-```python
->>> node.is_description_node
-True
->>> regular_node.is_description_node
-False
-```
+<!-- TODO: document description subnode API (.description_subnode, .is_description_node) once meta node implementation is complete -->
 
 
 
