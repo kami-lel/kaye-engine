@@ -52,7 +52,7 @@ class TestForbiddenHeading:  ###################################################
 
     def test1(_):
         m = mock_open(read_data="""# Title
-## {Some}""")
+## (Some)""")
         with patch("builtins.open", m), patch(
             "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
         ):
@@ -61,4 +61,4 @@ class TestForbiddenHeading:  ###################################################
 
             opt = exec_info.value.args[0]
             print(opt)
-            assert opt == "illegal heading syntax: '{Some}'"
+            assert opt == "illegal heading syntax: '(Some)'"

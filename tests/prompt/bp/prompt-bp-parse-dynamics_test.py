@@ -14,7 +14,7 @@ class TestDynamics:
         bp = dynamic_bp_testee2
         print(bp.generate_blueprint(content_preview_lines=0))
 
-        node = bp.corpus["{Today}"]
+        node = bp.corpus["(Today)"]
         assert isinstance(node, TodayNode)
         assert node in bp
         assert bp.is_checkmarked(node)
@@ -23,7 +23,7 @@ class TestDynamics:
         bp = dynamic_bp_testee3
         print(bp.generate_blueprint(content_preview_lines=0))
 
-        node = bp.corpus["{Abbreviations}"]
+        node = bp.corpus["(Abbreviations)"]
         assert isinstance(node, AbbrNode)
         assert node in bp
         assert bp.is_checkmarked(node)
@@ -32,7 +32,7 @@ class TestDynamics:
         bp = dynamic_bp_testee4
         print(bp.generate_blueprint(content_preview_lines=0))
 
-        node = bp.corpus["{Programming Languages Code}"]
+        node = bp.corpus["(Programming Languages Code)"]
         assert isinstance(node, PLCNode)
         assert node in bp
         assert bp.is_checkmarked(node)
@@ -41,7 +41,7 @@ class TestDynamics:
         bp = dynamic_bp_testee5
         print(bp.generate_blueprint(content_preview_lines=0))
 
-        node = bp.corpus["{Usable Abbreviations}"]
+        node = bp.corpus["(Usable Abbreviations)"]
         assert isinstance(node, UsableAbbrNode)
         assert node in bp
         assert bp.is_checkmarked(node)
@@ -51,27 +51,27 @@ class TestDynamics:
     def test_mux_abbr(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
 
-        node = dynamic_bp_testee1.corpus["{Abbreviations}"]
+        node = dynamic_bp_testee1.corpus["(Abbreviations)"]
 
         assert isinstance(node, AbbrNode)
 
     def test_mux_plc(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
 
-        node = dynamic_bp_testee1.corpus["{Programming Languages Code}"]
+        node = dynamic_bp_testee1.corpus["(Programming Languages Code)"]
 
         assert isinstance(node, PLCNode)
 
     def test_mux_today(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
 
-        node = dynamic_bp_testee1.corpus["{Today}"]
+        node = dynamic_bp_testee1.corpus["(Today)"]
 
         assert isinstance(node, TodayNode)
 
     def test_mux_usable(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
 
-        node = dynamic_bp_testee1.corpus["{Usable Abbreviations}"]
+        node = dynamic_bp_testee1.corpus["(Usable Abbreviations)"]
 
         assert isinstance(node, UsableAbbrNode)
