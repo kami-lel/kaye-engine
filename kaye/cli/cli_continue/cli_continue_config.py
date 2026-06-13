@@ -3,8 +3,8 @@
 from pathlib import Path
 
 
-from .abbr_rule import export_abbr_rules
-from .blueprint_rule import export_blueprint_rules
+from .export_abbr_rules import export_abbr_rules
+from .export_blueprint_rules import export_blueprint_rules
 
 _DEFAULT_CONTINUE_FOLDER = Path.home() / ".continue"
 

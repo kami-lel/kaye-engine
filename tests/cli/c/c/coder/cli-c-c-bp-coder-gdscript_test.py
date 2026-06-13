@@ -9,9 +9,9 @@ creation of ``Coder GDScript.md``
 import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
-from tests.cli.c.c import (
-    assert_rule_file_basic_format,
-    split_rule_file_basic_format,
+from tests.cli import (
+    assert_frontmatter_md_file_basic_structure,
+    split_frontmatter_md_file,
     assert_header_line_always_apply,
 )
 
@@ -35,12 +35,12 @@ def testee(testee_path):
 
 @pytest.fixture(scope="session")
 def testee_header(testee):
-    return split_rule_file_basic_format(testee)[0]
+    return split_frontmatter_md_file(testee)[0]
 
 
 @pytest.fixture(scope="session")
 def testee_content(testee):
-    return split_rule_file_basic_format(testee)[1]
+    return split_frontmatter_md_file(testee)[1]
 
 
 # Pytest unit tests  ###########################################################
@@ -58,7 +58,7 @@ class TestBasic:  # ============================================================
 class TestStructure:  # ========================================================
 
     def test_structure(_, testee):
-        assert assert_rule_file_basic_format(testee)
+        assert assert_frontmatter_md_file_basic_structure(testee)
 
 
 class TestHeader:  # ===========================================================
@@ -79,4 +79,4 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_structure(_, testee):
-        assert assert_rule_file_basic_format(testee)
+        assert assert_frontmatter_md_file_basic_structure(testee)

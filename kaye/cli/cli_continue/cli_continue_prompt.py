@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from .prompt_export import export_prompts
+from .export_prompt_rules import export_prompt_rules
 
 
 def register_cli_continue_prompt_parser(  ######################################
@@ -20,6 +20,6 @@ def register_cli_continue_prompt_parser(  ######################################
     )
 
     def _prompt_main(args):
-        export_prompts(args.prompts_folder)
+        export_prompt_rules(args.prompts_folder)
 
     prompt_parser.set_defaults(func=_prompt_main)
