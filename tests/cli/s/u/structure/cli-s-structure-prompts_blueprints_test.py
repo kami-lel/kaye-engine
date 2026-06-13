@@ -14,8 +14,6 @@ from kaye.cli.prompts_blueprints import (
     prepare_for_release_blueprint,
 )
 
-# BUG fail to satisfy these
-
 
 def test_maintain_docs():
     r = validate_blueprint(maintain_docs_blueprint)
