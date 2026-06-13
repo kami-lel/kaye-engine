@@ -4,20 +4,18 @@ export_skill.py
 define ``export_skills_as_folders``
 """
 
+from kaye.cli import EXPORTABLE_BLUEPRINTS
+
 from kaye.cli.cli_skill.agent_skill_folder import AgentSkillFolder
 from kaye.cli.prompts_blueprints import PROMPTS_BLUEPRINTS
 
-
-def _convert_display_name2skill_name(display_name):
-    pass
+# entry point  #################################################################
 
 
 def export_skills_as_folders(parent_folder):
-    # TODO export embedded blueprints
-
-    for blueprint in PROMPTS_BLUEPRINTS:
-        with AgentSkillFolder(parent_folder, blueprint=blueprint) as skill:
+    # export embedded_blueprints and prompts
+    for blueprint in EXPORTABLE_BLUEPRINTS + PROMPTS_BLUEPRINTS:
+        with AgentSkillFolder(parent_folder, blueprint=blueprint):
             pass
 
     # TODO export abbrs
-    pass
