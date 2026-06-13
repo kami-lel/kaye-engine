@@ -71,9 +71,6 @@ def export_blueprint_rules(rules_folder):
         file_path = folder_path / "{}.md".format(bp.display_name)
 
         with RuleFile(file_path, blueprint=bp) as rule:
-            rule.globs = _BLUEPRINT_NAME2GLOBS.get(
-                name, []
-            )  # FIXME FIXME globs from blueprint
             rule.always_apply = name in _ALWAYS_APPLY_BLUEPRINT
 
         print("update blueprint rule:\t{}".format(file_path))

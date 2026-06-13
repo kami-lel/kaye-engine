@@ -130,6 +130,7 @@ class FrontmatterMDFile:  ######################################################
         "metadata": {},
         "allowed-tools": [],
         "user-invocable": True,
+        "paths": [],
     }
 
     def __init__(self, path, blueprint=None):
@@ -142,6 +143,7 @@ class FrontmatterMDFile:  ######################################################
             self._blueprint = blueprint
             self.description = blueprint.meta.description
             self.when_to_use = blueprint.meta.when_to_use
+            self.frontmatter["paths"] = blueprint.meta.globs
 
     # support context manager  =================================================
 
