@@ -19,28 +19,7 @@ The **core** module of *Kaye Python API*, implement a systematic, dynamic, and s
 
 ### Prompt Tree Nodes `BasePromptNode`
 
-The **prompt tree** is the structured representation parsed from *prompt corpus text* . A **node** of tree is corresponding to a section heading in the text. E.g. text in such form:
-
-```md
-# Introduction
-~
-## Basic
-~
-## Advanced
-~
-# Usage
-
-```
-
-is equivalent to tree structure:
-
-```
-○
-├── Introduction
-│   ├── Basic
-│   └── Advanced
-└── Usage
-```
+The **prompt tree** is the structured representation parsed from *prompt corpus text* — see [`corpus_doc.md`](corpus_doc.md) for the format specification. Each section heading in the corpus becomes a node; the text between headings is that node's content.
 
 A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, which is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 
@@ -62,7 +41,8 @@ nodes types:
 
 Each node has `.name`, i.e. **section heading** which appears in *preview tree* (v.i.):
 
-  - for `DynamicNode` instances: it must be enclosed by `{}`.
+  - for `DynamicNode` instances: it must be enclosed by `()`.
+  - for *meta nodes*: it must be enclosed by `{}`.
 
 E.g.
 
@@ -70,7 +50,9 @@ E.g.
 >>> corpus_node.name
 "Introduction"
 >>> dynamic_node.name
-"{Abbreviations}"
+"(Abbreviations)"
+>>> meta_node.name
+"{description}"
 ```
 
 > [!NOTE]
@@ -78,16 +60,18 @@ E.g.
 
 ----
 
-Use `.is_technical_node` property to check if a node name matches the **technical node** pattern `{name}` (e.g., dynamic nodes):
+Use `.is_technical_node` property to check if a node name matches the **meta node** pattern `{name}`:
 
 ```python
 >>> corpus_node.is_technical_node
 False
->>> dynamic_node.is_technical_node
+>>> meta_node.is_technical_node
 True
 ```
 
-Technical nodes are special nodes identified by names enclosed in curly braces, such as `{Abbreviations}`, `{Today}`, etc.
+Meta nodes are corpus nodes identified by names enclosed in curly braces, such as `{description}`. They appear in the blueprint preview tree but are **not** included in the rendered prompt output.
+
+Dynamic nodes are identified by names enclosed in parentheses, such as `(Today)`, `(Abbreviations)`. Unlike meta nodes, dynamic nodes are not parsed from the corpus — they are injected at render time and **are** included in the rendered prompt output.
 
 
 
@@ -110,7 +94,7 @@ E.g.
 >>> str(corpus_node)
 "PromptCorpusNode(Introduction#Data#Advanced)"
 >>> str(abbr_node)
-"AbbrNode(Introduction#Data#{Abbreviations})"
+"AbbrNode(Introduction#Data#(Abbreviations))"
 ```
 
 ----
@@ -198,7 +182,7 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 ##### description subnode
 
-In `prompt_corpus.md`, some nodes contain a child node with the heading `description`. This property searches the node's descendants and returns the first node with name `description`, or ``None`` if no such subnode exists.
+In `prompt_corpus.md`, some nodes contain a child node with the heading `{description}`. This is a **meta node** — it uses the `{…}` pattern, so it appears in the blueprint preview but is not rendered into the generated prompt. This property searches the node's descendants and returns the first node matching the description pattern, or ``None`` if no such subnode exists.
 
 Description subnodes provide **brief, contextual descriptions** that explain the nature and purpose of the parent node. This is particularly useful when rendering prompts for LLMs, as these descriptions enable intelligent **automatic task relevance assessment** — allowing LLMs to self-determine whether a node's content is applicable to their current task. Rather than treating all nodes as equally important, the LLM can read the description subnode and make informed decisions about node inclusion.
 
@@ -344,7 +328,7 @@ E.g.
 bp.checkmark(bp.corpus[0][1])
 bp.checkmark(node_hash)
 bp.uncheckmark("Important Instruction")
-bp.uncheckmark("{Abbreviations}")
+bp.uncheckmark("(Abbreviations)")
 ```
 
 However, when encounter a node findable in corpus tree, but not contained in the blueprint:
