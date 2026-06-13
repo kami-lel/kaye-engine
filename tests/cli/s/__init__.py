@@ -3,7 +3,6 @@ from pydantic import BaseModel, Field
 from kaye.cli.cli_skill import convert_display_name2skill_name
 
 
-# TODO TODO unit tests on skill rule
 class SkillMDFileFrontmatterValidator(BaseModel):
     """
     validated frontmatter model for an agent skill SKILL.md file
