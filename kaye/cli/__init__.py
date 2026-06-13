@@ -38,4 +38,6 @@ EXPORTABLE_BLUEPRINTS = [
     style_briefness_blueprint,
     style_good_writing_blueprint,
     agent_blueprint,
+    prompt_writer_blueprint,
+    description_writer_blueprint,
 ]

@@ -36,8 +36,9 @@ through a Python API, an HTTP API, and a CLI.
   - `kaye/prompt/` — prompt tree, nodes, blueprints, loaders
   - `kaye/api/` — Flask HTTP API and Dify app endpoints
   - `kaye/cli/` — argparse-based CLI subcommands
-  - `kaye/continue_export/` — exports blueprint rules and abbreviation
-    rules to `~/.continue`
+    - `kaye/cli/cli_continue/` — exports blueprint/abbreviation rules to `~/.continue`
+    - `kaye/cli/cli_skill/` — exports blueprints as agentskills.io Skill folders/zips
+    - `kaye/cli/cli_prompt/` — prompt generation CLI subcommands
   - `kaye/prompt_corpus.md`, `kaye/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
 - `docs/` — in-depth documentation (API, HTTP, CLI, abbreviations)
@@ -64,8 +65,8 @@ pytest
 Run a single test file or test:
 
 ```bash
-pytest tests/cli/ce/p/cli-c-p-maintain_changelog_test.py
-pytest tests/cli/ce/p/cli-c-p-maintain_changelog_test.py::TestHeader::test_name
+pytest tests/cli/c/p/cli-c-p-maintain_changelog_test.py
+pytest tests/cli/c/p/cli-c-p-maintain_changelog_test.py::TestHeader::test_name
 ```
 
 Run the CLI and HTTP API locally:
@@ -76,10 +77,13 @@ python -m kaye http            # start Flask HTTP API (port 11255)
 python -m kaye continue config                  # export rules to ~/.continue
 python -m kaye continue config LOCAL_CONFIG_FOLDER  # export to custom path
 python -m kaye continue prompt PROMPTS_FOLDER   # export Continue prompts
+python -m kaye skill update SKILLS_FOLDER       # export blueprints as Skill folders
+python -m kaye skill create ZIPS_FOLDER         # create .zip Skill packages
 ```
 
 CLI subcommand aliases: `http` → `h`; `continue` → `c`;
-`continue config` → `c c`; `continue prompt` → `c p`.
+`continue config` → `c c`; `continue prompt` → `c p`;
+`skill` → `s`; `skill update` → `s u`; `skill create` → `s c`.
 
 ## Code Conventions
 

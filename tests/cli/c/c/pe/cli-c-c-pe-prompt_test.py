@@ -1,9 +1,9 @@
 """
-cli-c-c-bp-coder-py-docstring_test.py
+cli-c-c-pe-prompt_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``Coder Python Docstring Style.md``
+creation of ``Prompt Writer.md``
 """
 
 import pytest
@@ -16,7 +16,7 @@ from tests.cli import (
 )
 
 # constants  ###################################################################
-MD_FILENAME = "coder-python-docstring-style"
+MD_FILENAME = "prompt-writer"
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -54,9 +54,6 @@ class TestBasic:  # ============================================================
     def test_is_file(_, testee_path):
         assert testee_path.is_file()
 
-
-class TestStructure:  # ========================================================
-
     def test_structure(_, testee):
         assert assert_frontmatter_md_file_basic_structure(testee)
 
@@ -64,16 +61,8 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder Python Docstring Style" in testee_header
-
-    def test_description(_, testee_header):
-        assert (
-            "Enforces a specific Python docstring convention: Sphinx style with reStructuredText markup"
-            in testee_header[1]
-        )
-
-    def test_globs(_, testee_header):
-        assert 'globs: ["**/*.py"]' in testee_header
+        name_line = "name: " + _SKILL_NAME
+        assert name_line in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -81,32 +70,35 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_docstring_style_heading(_, testee_content):
-        assert "### Coder Python Docstring Style" in testee_content
+    def test_heading(_, testee):
+        assert "## Prompt Writer" in testee
 
-    def test_sphinx_style(_, testee_content):
-        assert "**Sphinx** style" in testee_content
-
-    def test_restructuredtext(_, testee_content):
-        assert "**reStructuredText**" in testee_content
-
-    def test_public_methods(_, testee_content):
+    def test1(_, testee):
         assert (
-            "- **public methods** must always include a docstring"
-            in testee_content
+            "You perform *prompt writer role* to help user "
+            "create or improve a **system message**"
+            in testee
         )
 
-    def test_private_methods(_, testee_content):
-        assert "- **private methods**" in testee_content
+    def test2(_, testee):
+        assert (
+            "in the context of **prompt engineering**"
+            in testee
+        )
 
-    def test_form_1(_, testee_content):
-        assert "- *Form 1*" in testee_content
+    def test3(_, testee):
+        assert (
+            "write a comprehensive and complete *prompt* "
+            "when user give you a short description"
+            in testee
+        )
 
-    def test_form_2(_, testee_content):
-        assert "- *Form 2*" in testee_content
+    def test4(_, testee):
+        assert "fix grammar and spelling errors in the *prompt*" in testee
 
-    def test_calc_square_example(_, testee_content):
-        assert "def calc_square(number):" in testee_content
-
-    def test_param_field(_, testee_content):
-        assert ":param" in testee_content
+    def test5(_, testee):
+        assert (
+            "strictly follow the syntax and format of the original prompt, "
+            "such as JSON schema"
+            in testee
+        )
