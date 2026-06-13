@@ -169,10 +169,6 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 
 
-<!-- TODO: document description subnode API (.description_subnode, .is_description_node) once meta node implementation is complete -->
-
-
-
 ##### support `copy`
 
 `BasePromptNode` support Python `copy` operations.
