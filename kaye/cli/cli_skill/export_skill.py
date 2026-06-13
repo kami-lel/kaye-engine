@@ -16,8 +16,8 @@ def export_skills_as_folders(parent_folder):
     # TODO export embedded blueprints
 
     for blueprint in PROMPTS_BLUEPRINTS:
-        with AgentSkillFolder(parent_folder) as skill:
-            skill.skill_md.blueprint = blueprint
+        with AgentSkillFolder(parent_folder, blueprint=blueprint) as skill:
+            pass
 
     # TODO export abbrs
     pass
