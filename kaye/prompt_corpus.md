@@ -465,7 +465,7 @@ Used for **list items** and **table cell content**.
 
 
 
-### description
+### {description}
 
 letter case / capitalization guide, explains Title Case & Commentary Case
 
@@ -513,7 +513,7 @@ letter case / capitalization guide, explains Title Case & Commentary Case
 - prefer active voice
 - keep sentences short, direct, drop filler
 
-### description
+### {description}
 
 explain Briefness Style on how to write concise content
 
@@ -563,7 +563,7 @@ explain Briefness Style on how to write concise content
 - Avoid generic filler when details are unavailable
 - Avoid dense prose, generic filler, and unnecessary complexity
 
-### description
+### {description}
 
 explain Good Writing for general textual writing
 
@@ -615,7 +615,7 @@ explain Good Writing for general textual writing
 - Month-Day Example: For dates lacking a specific year, format them as: `Tue 01-16` (Day of the week Month-Day).
 - Time Format: Use a 24-hour clock when expressing time. For example, represent 2:30 PM as `14:30`.
 
-### description
+### {description}
 
 when dates or times appear in output
 
@@ -662,7 +662,7 @@ when dates or times appear in output
 - Unit Abbreviations: Always use the correct abbreviations for units to ensure clarity and precision.
 - Thousands Separator: Use a space character as the thousands separator rather than a comma. For instance, express large numbers as `29 029` instead of `29,029`.
 
-### description
+### {description}
 
 when physical quantities appear in output
 
@@ -743,7 +743,7 @@ change from higher to lower AM, call it **demote**.
 
 
 
-### description
+### {description}
 
 when working with BUG, FIXME, TODO, or HACK markers in code or docs
 
@@ -2403,7 +2403,7 @@ Eg
 
 
 
-## description
+## {description}
 instruction for coding and programming
 
 
@@ -2486,7 +2486,7 @@ Destructive commands are allowed if they match the user's request.
 Multi-line commands are allowed.
 If the request is ambiguous, ask one short clarifying question instead of guessing.
 
-### description
+### {description}
 
 Debian GNU/Linux shell commands; ready-to-run output
 
@@ -2507,7 +2507,7 @@ Debian GNU/Linux shell commands; ready-to-run output
 
 Use **C99** standard
 
-### description
+### {description}
 
 C code (C99)
 
@@ -2528,7 +2528,7 @@ C code (C99)
 
 Use **C++17** standard
 
-### description
+### {description}
 
 C++ code (C++17)
 
@@ -2548,7 +2548,7 @@ C++ code (C++17)
 
 - Version: Unreal Engine `5.6.0`
 
-### description
+### {description}
 
 C++ code for Unreal Engine
 
@@ -2568,7 +2568,7 @@ C++ code for Unreal Engine
 
 - Documentation: Use XML comments (`/// <summary>...</summary>`) to document functionality and provide examples wherever helpful.
 
-### description
+### {description}
 
 C# code
 
@@ -2674,7 +2674,7 @@ private void Awake() {
 
 
 
-### description
+### {description}
 
 C# code for Unity 6 (MonoBehaviour scripts, components, Inspector fields)
 
@@ -2698,7 +2698,7 @@ C# code for Unity 6 (MonoBehaviour scripts, components, Inspector fields)
 
 - Version: Godot 4
 
-### description
+### {description}
 
 GDScript code for Godot 4
 
@@ -2719,7 +2719,7 @@ GDScript code for Godot 4
 
 - Version: **HTML5** standard
 
-### description
+### {description}
 
 Use this skill when writing or generating HTML — apply HTML5 standards for structure, semantics, and markup. Trigger for any task that produces or edits .html files or embedded HTML content.
 
@@ -2792,7 +2792,7 @@ globalNS.method1 = function (a, b) {
 
 
 
-### description
+### {description}
 
 Use this skill when writing or generating JavaScript or TypeScript code — apply ES11 standards, camelCase naming, and JSDoc comments. Trigger for any task that produces or edits `.js` or `.ts` files, or inline JS/TS code blocks.
 
@@ -2831,6 +2831,12 @@ Use this skill when writing or generating JavaScript or TypeScript code — appl
 ## Coder Python
 
 Adhere to the **PEP8** style guide, ensuring clarity and consistency.
+
+
+### {description}
+
+To use for python
+
 
 
 
@@ -2888,7 +2894,7 @@ def calc_square(number):
     return number ** 2
 ```
 
-#### description
+#### {description}
 
 Python docstrings in Sphinx/reStructuredText style
 
@@ -2941,7 +2947,7 @@ class TestAdd:
             "contact your admin for more information.")
 ```
 
-#### description
+#### {description}
 
 Python tests using pytest with Test classes and test_ functions
 
@@ -2997,7 +3003,7 @@ Place the following files and folders at the **top level** of the repository and
 - `tests/`: test suite, kept separate from source code
 - `tools/`: project-specific developer tooling, distinct from `scripts/`
 
-### description
+### {description}
 
 generic Project/Repository structure for all programming languages
 
@@ -3086,7 +3092,7 @@ generic Project/Repository structure for all programming languages
 
 
 
-### description
+### {description}
 
 
 semantic Versioning basics Major.Minor.Patch/x.y.z, pre-release identifiers, build metadata, and version examples
@@ -3198,7 +3204,7 @@ A good `README.md` should be:
 
 
 
-### description
+### {description}
 
 format for README documentation
 
@@ -3326,7 +3332,7 @@ You must help user to write CHANGELOG.
     [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
     ```
 
-### description
+### {description}
 
 format for CHANGELOG.md
 
@@ -3445,7 +3451,7 @@ A good `AGENTS.md` should be:
 
 
 
-### description
+### {description}
 
 format for AGENTS.md documentation
 
@@ -3555,7 +3561,7 @@ Return a brief summary listing changed files and the documentation updates made.
 
 
 
-#### description
+#### {description}
 
 Use this skill when the user wants to update existing README, AGENTS, or `docs/` files to reflect recent project changes — fixing stale commands, broken links, outdated examples, or renamed references. Trigger even for casual requests like "update the docs" or "fix the readme."
 
@@ -3597,7 +3603,7 @@ review recent changes — update or create `CHANGELOG.md` to reflect them.
 
 
 
-#### description
+#### {description}
 
 Use this skill when the user wants to add, fix, or reorganize entries in an existing `CHANGELOG.md` — logging new features, bug fixes, or breaking changes without overwriting existing content. Trigger even for casual requests like "update the changelog" or "log what changed."
 
@@ -3670,7 +3676,7 @@ Create the `README.md` file at the project root
 
 
 
-#### description
+#### {description}
 
 Use this skill when the user wants to create a new `README.md` from scratch — covering project overview, setup, usage, configuration, and contributing guidelines. Trigger even for casual requests like "write a readme" or "document this project."
 
@@ -3735,7 +3741,7 @@ Create the `AGENTS.md` file at the project root
 
 
 
-#### description
+#### {description}
 
 Use this skill when the user wants to create a new `AGENTS.md` from scratch — covering project setup, build and test commands, code style, and PR conventions formatted for coding agents. Trigger even for casual requests like "add agent instructions" or "make an agents file."
 
@@ -3775,7 +3781,7 @@ update `CHANGELOG.md`:
 
 
 
-#### description
+#### {description}
 
 Use this skill when the user wants to record feature branch changes into the *Unreleased* section of `CHANGELOG.md` before merging — adding, updating, or reorganizing entries without duplicating or overwriting existing ones. Trigger for requests like "prep the changelog" or "document what I changed."
 
@@ -3811,7 +3817,7 @@ if version number or release date not provided, ask the user before proceeding. 
 
 
 
-#### description
+#### {description}
 
 Use this skill when the user wants to cut a release — moving *Unreleased* changelog entries into a new versioned section and bumping the version in metadata files like `package.json`, `pyproject.toml`, or `Cargo.toml`. Trigger for requests like "ship v1.2.3" or "bump the version."
 
@@ -4186,7 +4192,7 @@ Files are assumed to be consistent between rounds. If you detect any changes, tr
 
 After completing **all tasks requested by the user**, including **editing**, **discovery**, **analysis**, or any other work, **do not provide a recap or summary** of what you did unless the user **explicitly asks** for one. Avoid **repeating the completed actions**, **restating the user’s request**, or adding **unnecessary closing commentary**.
 
-## description
+## {description}
 
 Use this skill on every task. It governs how the agent handles file state between rounds and when to withhold summaries — treat all file changes as intentional, and never recap completed work unless the user explicitly asks.
 
