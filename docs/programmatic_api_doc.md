@@ -2,7 +2,23 @@
 
 ## `prompt` module
 
-The **core** module of *Kaye Python API*, implement a systematic, dynamic, and structured framework for **prompt management and manipulation**.
+The public programmatic API lives in `kaye.prompt`.
+It re-exports the prompt tree nodes, blueprint type, corpus loader,
+blueprint loader, and embedded blueprints.
+
+Example imports:
+
+```python
+from kaye.prompt import (
+    BasePromptNode,
+    DynamicNode,
+    PromptCorpusNode,
+    PromptBlueprint,
+    load_prompt_corpus_tree,
+    load_embedded_blueprint,
+    get_embedded_prompt_blueprints_names,
+)
+```
 
 
 
@@ -183,12 +199,15 @@ Use `copy.deepcopy(root)` to copy a prompt tree.
 
 #### tree creation
 
-It is rare for end users to create individual instances, but to **create** an entire prompt tree (i.e. get the root node.) This is possible by load a tree of the **embedded** *prompt corpus text* (defined in `prompt_corpus.md`.) `load_embedded_prompt_corpus()` method will load it from filesystem at runtime:
+It is rare for end users to create individual instances, but to **create**
+an entire prompt tree, use `load_prompt_corpus_tree()`.
+It loads the embedded `prompt_corpus.md` file, parses it, and attaches the
+runtime dynamic nodes once:
 
 ```python
-from kaye.gen_prompt import load_embedded_prompt_corpus
+from kaye.prompt import load_prompt_corpus_tree
 
-tree_root = load_embedded_prompt_corpus()
+tree_root = load_prompt_corpus_tree()
 ```
 
 
@@ -320,25 +339,33 @@ bp_left | bp_right
 
 ##### generate prompt
 
-Use `.generate_prompt()` to render the **concrete prompt** that can be used as LLM system message with it content based on node's checkmarking status of this blueprint.
+Use `.generate_prompt()` to render the concrete prompt as a single string.
+Use `.generate_prompt_lines()` when you want the rendered prompt as a list of
+lines instead.
+
+Both methods support `disable_first_heading=` and `show_comment=`.
+Any extra keyword arguments are passed through to node `content_lines()`
+implementations, which is how dynamic nodes receive values such as `query=`.
 
 E.g.
 
 ```python
->>> tree = PromptBlueprint(~)
->>> tree.generate_prompt(hide_comment=True)
+>>> tree = PromptBlueprint.parse(...)
+>>> tree.generate_prompt_lines(disable_first_heading=True)
+['Overview of the methodologies used.',
+ '### Data Collection',
+ 'How data was gathered for analysis.',
+ '',
+ '## Conclusion',
+ 'Summarizing the findings and implications.']
+>>> tree.generate_prompt(show_comment=True)
 # Main Title
 Overview of the methodologies used.
 ### Data Collection
 How data was gathered for analysis.
 ## Conclusion
 Summarizing the findings and implications.
->>> tree.generate_prompt(disable_first_heading=True)
-Overview of the methodologies used.
-### Data Collection
-How data was gathered for analysis.
-## Conclusion
-Summarizing the findings and implications.
+<!-- blueprint: conversation; Kaye v1.2.3 -->
 ```
 
 
@@ -352,12 +379,14 @@ User may use `.generate_blueprint()` to show a human-readable presentation of `P
 - node content preview
 - **checkmark status** of the node, shown with either `[x]` or `[ ]` as prefix
 
-By default, this print an **pruned** tree, showing only branches & nodes relevant to this blueprint. By using keyword argument `show_full_tree=`, user may force it to show the full prompt corpus tree.
+By default, this prints a **pruned** tree, showing only branches and nodes
+relevant to this blueprint. Use `show_full_tree=True` to show the full prompt
+corpus tree.
 
 E.g.
 
 ```python
->>> tree = PromptBlueprint.parse(~)
+>>> tree = PromptBlueprint.parse(...)
 >>> tree.generate_blueprint()
     ○
 [x] └── Project Title
@@ -375,8 +404,8 @@ E.g.
         │   3. Submit a pull request
 [x]     └── License
             This project is licensed under the MIT License.
-(blueprint:conversation; Kaye v1.2.3)
->>> tree.generate_blueprint(content_preview_lines=0, hide_comment=True)
+(blueprint: conversation; Kaye v1.2.3)
+>>> tree.generate_blueprint(content_preview_lines=0, show_comment=True)
     ○
 [x] └── Project Title
 [ ]     ├── Description
@@ -384,6 +413,7 @@ E.g.
 [ ]     ├── Usage
 [ ]     ├── Contributing
 [x]     └── License
+<!-- blueprint: conversation; Kaye v1.2.3 -->
 ```
 
 ----
@@ -395,7 +425,9 @@ E.g.
 
 #### embedded blueprints
 
-**Embedded blueprints** are defined as module-level variables in `kaye.prompt.embedded_blueprints`. Import them directly by name:
+**Embedded blueprints** are defined as module-level variables in
+`kaye.prompt.embedded_blueprints`. Import them directly by name when you want a
+ready-made blueprint object:
 
 ```python
 from kaye.prompt.embedded_blueprints import (
@@ -405,4 +437,8 @@ from kaye.prompt.embedded_blueprints import (
 )
 ```
 
-All available blueprint names are listed in `__all__` of that module. Each blueprint is a `PromptBlueprint` instance with `.display_name` and `.description` already set.
+If you need to load a blueprint from the embedded blueprint files at runtime,
+use `load_embedded_blueprint(name)`. To list available names, use
+`get_embedded_prompt_blueprints_names()`.
+Each embedded blueprint is a `PromptBlueprint` instance with
+`.display_name` and `.description` already set.
