@@ -4,6 +4,18 @@
 roles, rules, styles, and references. It is a single continuous Markdown file
 parsed at runtime into a **prompt tree**.
 
+
+
+
+
+
+
+
+
+
+
+
+
 ## Format
 
 The file is plain Markdown. Each section heading becomes a node in the prompt
@@ -40,4 +52,56 @@ The root node `○` is synthetic — it is never written in the file.
 Consecutive empty lines are collapsed to a single empty line during parsing.
 Leading and trailing empty lines within a node's content are trimmed.
 
+
+
+
+
+
+
+
+
+
+
+
+
 ## Meta Nodes
+
+**Meta nodes** are corpus nodes whose names are enclosed in curly braces, e.g. `{description}`. They can be attached to any node in the prompt tree and hold structured metadata about their parent. Meta nodes appear in the blueprint preview tree but are **not** included in the rendered prompt output.
+
+Three meta node types are defined:
+
+
+
+
+
+### `{description}`
+
+Describes the parent node's functionality — what the node represents or what it instructs.
+
+
+
+
+
+
+### `{when_to_use}`
+
+Indicates when the parent node should be enabled — the conditions or contexts that make the node relevant.
+
+
+
+
+
+### `{globs}`
+
+Lists file glob patterns that indicate which file types or paths make the parent node relevant. Each line is treated as a separate pattern — multiple patterns are supported.
+
+E.g.:
+
+    ### Python Files
+
+    #### {globs}
+
+    ```glob
+    **/*.py
+    **/*.pyi
+    ```
