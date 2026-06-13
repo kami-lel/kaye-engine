@@ -16,6 +16,7 @@ def prepare_local_config_folder(tmp_path_factory, command, folder_name):
     return config_folder, rules_folder
 
 
+# TODO move up & rename
 def split_rule_file_basic_format(content):
     parts = content.split("---", 2)
     frontmatter = parts[1].strip("\n").splitlines()
@@ -23,6 +24,7 @@ def split_rule_file_basic_format(content):
     return frontmatter, body
 
 
+# TODO move up & rename
 def assert_rule_file_basic_format(content):
     match = _BASIC_FORMAT_RE.match(content)
     if not match:

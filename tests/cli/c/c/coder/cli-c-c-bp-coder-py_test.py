@@ -66,6 +66,12 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: Coder Python" in testee_header
 
+    def test_description(_, testee_header):
+        assert (
+            "description: Python docstrings in Sphinx/reStructuredText style"
+            in testee_header
+        )
+
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.py"]' in testee_header
 
@@ -75,5 +81,12 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_structure(_, testee):
-        assert assert_rule_file_basic_format(testee)
+    def test_heading(_, testee_content):
+        assert "## Coder Python" in testee_content
+
+    def test_content(_, testee_content):
+        assert (
+            "Adhere to the **PEP8** style guide, "
+            "ensuring clarity and consistency."
+            in testee_content
+        )
