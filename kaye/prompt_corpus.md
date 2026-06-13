@@ -3513,6 +3513,23 @@ Return a brief summary listing changed files and the documentation updates made.
 
 
 
+#### description
+
+Use this skill when the user wants to update existing README, AGENTS, or `docs/` files to reflect recent project changes — fixing stale commands, broken links, outdated examples, or renamed references. Trigger even for casual requests like "update the docs" or "fix the readme."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Maintain CHANGELOG
 
 review recent changes — update or create `CHANGELOG.md` to reflect them. 
@@ -3525,6 +3542,23 @@ review recent changes — update or create `CHANGELOG.md` to reflect them.
 
 - edit `CHANGELOG.md` or CHANGELOG-Style File to reflect the current project state
 - Follow the **CHANGELOG Writer** rule for format, versioning, and entry style
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### description
+
+Use this skill when the user wants to add, fix, or reorganize entries in an existing `CHANGELOG.md` — logging new features, bug fixes, or breaking changes without overwriting existing content. Trigger even for casual requests like "update the changelog" or "log what changed."
+
 
 
 
@@ -3594,6 +3628,23 @@ Create the `README.md` file at the project root
 
 
 
+#### description
+
+Use this skill when the user wants to create a new `README.md` from scratch — covering project overview, setup, usage, configuration, and contributing guidelines. Trigger even for casual requests like "write a readme" or "document this project."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Create AGENTS
 
 Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
@@ -3642,6 +3693,23 @@ Create the `AGENTS.md` file at the project root
 
 
 
+#### description
+
+Use this skill when the user wants to create a new `AGENTS.md` from scratch — covering project setup, build and test commands, code style, and PR conventions formatted for coding agents. Trigger even for casual requests like "add agent instructions" or "make an agents file."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Prepare for Feature Finish
 
 update `CHANGELOG.md`: 
@@ -3665,12 +3733,46 @@ update `CHANGELOG.md`:
 
 
 
+#### description
+
+Use this skill when the user wants to record feature branch changes into the *Unreleased* section of `CHANGELOG.md` before merging — adding, updating, or reorganizing entries without duplicating or overwriting existing ones. Trigger for requests like "prep the changelog" or "document what I changed."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Prepare for Release
 
 if version number or release date not provided, ask the user before proceeding. Then:
 
 - **update `CHANGELOG.md`**: move all content under *Unreleased* into a new versioned section using the provided version and date, create a new empty *Unreleased* section above it, and update all relevant GitHub comparison links to reflect the new version tag
 - **update project version**: find and update the version number in project metadata files where applicable — eg `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`. Match the provided version exactly
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### description
+
+Use this skill when the user wants to cut a release — moving *Unreleased* changelog entries into a new versioned section and bumping the version in metadata files like `package.json`, `pyproject.toml`, or `Cargo.toml`. Trigger for requests like "ship v1.2.3" or "bump the version."
+
 
 
 

@@ -112,3 +112,6 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
     def __init__(self, folder_path, blueprint=None):
         file_name = folder_path / self._FILENAME
         super().__init__(file_name, blueprint)
+
+        if blueprint:
+            self.name = blueprint.skill_name

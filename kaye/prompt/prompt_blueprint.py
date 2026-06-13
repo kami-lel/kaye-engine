@@ -160,7 +160,7 @@ class PromptBlueprint(dict):
         )
 
     @classmethod
-    def create_from_node(self, node, *, recursively=False):
+    def create_from_node(cls, node, *, recursively=False):
         """
         create a **blueprint** from a specific node and its content
 
@@ -180,7 +180,7 @@ class PromptBlueprint(dict):
         :raise TypeError:
         :raise ValueError:
         """
-        bp = PromptBlueprint.create_empty_blueprint()
+        bp = cls.create_empty_blueprint()
         node_obj, _ = bp._find_node_in_corpus_and_blueprint(node)
         bp.checkmark(node_obj, recursively=recursively)
 
@@ -188,12 +188,18 @@ class PromptBlueprint(dict):
 
         description_node = node_obj.description_subnode
         if description_node:
-            description_bp = PromptBlueprint.create_from_node(description_node)
+            description_bp = cls.create_from_node(description_node)
             bp.description = description_bp.generate_prompt(
                 disable_first_heading=True
             )
 
         return bp
+
+    # properties  ==============================================================
+
+    @property
+    def skill_name(self):
+        return self.display_name.replace(" ", "-").lower()
 
     # instance methods  ========================================================
     def __init__(self, *, display_name="", corpus_override=None):
