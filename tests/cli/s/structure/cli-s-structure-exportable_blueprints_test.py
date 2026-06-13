@@ -4,9 +4,6 @@ cli-s-structure-exportable_blueprints_test.py
 Unit tests for EXPORTABLE_BLUEPRINTS using SkillMDFileFrontmatterValidator.
 """
 
-import pytest
-from pydantic import ValidationError
-
 from tests.cli.s import validate_blueprint
 from kaye.cli import agent_blueprint
 from kaye.prompt.embedded_blueprints import (
@@ -155,19 +152,16 @@ def test_style_guide_good_writing():
     assert r.name == "style-guide-good-writing"
 
 
-# invalid – empty description  #################################################
-
-
 def test_coder_html():
-    with pytest.raises(ValidationError):
-        validate_blueprint(coder_html_blueprint)
+    r = validate_blueprint(coder_html_blueprint)
+    assert r.name == "coder-html"
 
 
 def test_coder_javascript_and_typescript():
-    with pytest.raises(ValidationError):
-        validate_blueprint(coder_js_ts_blueprint)
+    r = validate_blueprint(coder_js_ts_blueprint)
+    assert r.name == "coder-javascript-and-typescript"
 
 
 def test_agent_behavior():
-    with pytest.raises(ValidationError):
-        validate_blueprint(agent_blueprint)
+    r = validate_blueprint(agent_blueprint)
+    assert r.name == "agent-behavior"
