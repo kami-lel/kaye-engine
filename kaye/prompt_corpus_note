@@ -6,6 +6,3 @@ BUG py docstring: no :return: ``None``, and no __init__ docstring
 TODO update coder description to include describe "when to use", especially globs
 
 Todo add {prerequisite}
-
-TODO unit test on prompt writer
-TODO unit test on description writer

@@ -117,6 +117,8 @@ MD_FILENAME2SKILL_NAME = {
     "style-guide-good-writing": "Style Guide Good Writing",
     "continue-behavior": "Continue Behavior",
     "agent-behavior": "Agent Behavior",
+    "prompt-writer": "Prompt Writer",
+    "skill-description-writer": "Skill Description Writer",
 }
 
 
