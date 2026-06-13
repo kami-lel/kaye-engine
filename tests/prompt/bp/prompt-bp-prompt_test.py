@@ -266,7 +266,7 @@ class TestDynamicNodes:  #######################################################
 [x] │   ├── Description
 [x] │   ├── Installation
 [x] │   └── License
-[x] └── {Usable Abbreviations}"""
+[x] └── (Usable Abbreviations)"""
 
         bp = PromptBlueprint.parse(bp_text, corpus_override=corpus)
 
@@ -282,6 +282,6 @@ Clone the repo and install dependencies.
 ## License
 Licensed under the MIT License.
 
-# {Usable Abbreviations}
+# (Usable Abbreviations)
 - &:and
 - /:or"""

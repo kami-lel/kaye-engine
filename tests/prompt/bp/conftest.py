@@ -31,11 +31,11 @@ def dynamic_bp_testee1(corpus_dynamic_testee):
 [x] │   │       └── Tools Used
 [x] │   │           └── Future Work
 [x] │   └── Conclusion
-[x] ├── {Today}
-[x] ├── {Abbreviations}
-[x] ├── {Usable Abbreviations}
-[x] ├── {Languages Code}
-[ ] └── {Programming Languages Code}"""
+[x] ├── (Today)
+[x] ├── (Abbreviations)
+[x] ├── (Usable Abbreviations)
+[x] ├── (Languages Code)
+[ ] └── (Programming Languages Code)"""
 
     return PromptBlueprint.parse(
         text, corpus_override=corpus, disable_prune=True
@@ -57,11 +57,11 @@ def dynamic_bp_testee_full(corpus_dynamic_testee):
 [x] │   │       └── Tools Used
 [x] │   │           └── Future Work
 [x] │   └── Conclusion
-[x] ├── {Today}
-[x] ├── {Abbreviations}
-[x] ├── {Usable Abbreviations}
-[x] ├── {Languages Code}
-[x] └── {Programming Languages Code}"""
+[x] ├── (Today)
+[x] ├── (Abbreviations)
+[x] ├── (Usable Abbreviations)
+[x] ├── (Languages Code)
+[x] └── (Programming Languages Code)"""
 
     return PromptBlueprint.parse(
         text, corpus_override=corpus, disable_prune=True
@@ -83,11 +83,11 @@ def dynamic_bp_testee_empty(corpus_dynamic_testee):
 [ ] │   │       └── Tools Used
 [ ] │   │           └── Future Work
 [ ] │   └── Conclusion
-[ ] ├── {Today}
-[ ] ├── {Abbreviations}
-[ ] ├── {Usable Abbreviations}
-[ ] ├── {Languages Code}
-[ ] └── {Programming Languages Code}"""
+[ ] ├── (Today)
+[ ] ├── (Abbreviations)
+[ ] ├── (Usable Abbreviations)
+[ ] ├── (Languages Code)
+[ ] └── (Programming Languages Code)"""
 
     return PromptBlueprint.parse(
         text, corpus_override=corpus, disable_prune=True
@@ -97,7 +97,7 @@ def dynamic_bp_testee_empty(corpus_dynamic_testee):
 @pytest.fixture(scope="session")
 def dynamic_bp_testee2(corpus_dynamic_testee):
     bp_text = """ ○
-[x] └── {Today}"""
+[x] └── (Today)"""
 
     return PromptBlueprint.parse(
         bp_text, corpus_override=corpus_dynamic_testee, disable_prune=True
@@ -107,7 +107,7 @@ def dynamic_bp_testee2(corpus_dynamic_testee):
 @pytest.fixture(scope="session")
 def dynamic_bp_testee3(corpus_dynamic_testee):
     bp_text = """ ○
-[x] └── {Abbreviations}"""
+[x] └── (Abbreviations)"""
 
     return PromptBlueprint.parse(
         bp_text, corpus_override=corpus_dynamic_testee, disable_prune=True
@@ -117,7 +117,7 @@ def dynamic_bp_testee3(corpus_dynamic_testee):
 @pytest.fixture(scope="session")
 def dynamic_bp_testee4(corpus_dynamic_testee):
     bp_text = """ ○
-[x] └── {Programming Languages Code}"""
+[x] └── (Programming Languages Code)"""
 
     return PromptBlueprint.parse(
         bp_text, corpus_override=corpus_dynamic_testee, disable_prune=True
@@ -127,7 +127,7 @@ def dynamic_bp_testee4(corpus_dynamic_testee):
 @pytest.fixture(scope="session")
 def dynamic_bp_testee5(corpus_dynamic_testee):
     bp_text = """ ○
-[x] └── {Usable Abbreviations}"""
+[x] └── (Usable Abbreviations)"""
 
     return PromptBlueprint.parse(
         bp_text, corpus_override=corpus_dynamic_testee, disable_prune=True

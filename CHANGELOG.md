@@ -28,7 +28,60 @@
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.4.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.5.0...dev
+
+
+
+
+## [6.5.0] - 2026-06-14
+
+### Added
+
+- `MetadataMDFile` (`metadata_md_file.py`): a more generic version of `RuleFile`
+
+- **`skill` CLI subcommand** with two subcommands (aliases: `s`):
+
+  - `skill update FOLDER` (aliases: `skill u`, `s update`, `s u`) — exports all
+    blueprints, prompts, and abbreviation groups as skill folders containing
+    `SKILL.md` files into FOLDER
+  - `skill create FOLDER` (aliases: `skill c`, `skill z`, `s c`, `s z`) —
+    creates `.zip` archives of all skill folders and places them in FOLDER
+
+- `SKILL.md` frontmatter: `user-invocable` field — abbreviation skills are
+  exported with `user-invocable: false` to suppress them from slash-command
+  listings
+
+- `export_skills_as_folders`: optional `includes_version` parameter to embed
+  the package version in abbreviation skill frontmatter metadata
+
+### Changed
+
+- split Style Guide blueprints
+
+- **Prompt Corpus**: refactored "Coder Python Docstring Style" meta nodes
+  (`{description}`, `{when_to_use}`, `{globs}`) to proper heading level 4
+  nesting so they are correctly parsed as child nodes of the section
+
+- CLI test helpers renamed for generality:
+
+  - `split_rule_file_basic_format` → `split_frontmatter_md_file`
+  - `assert_rule_file_basic_format` → `assert_frontmatter_md_file_basic_structure`
+  - backward-compatibility aliases retained in `tests.cli.c.c`
+
+- CLI test constants: removed redundant `MD_FILENAMES` and `PROMPT_FILENAMES`
+  lists; callers now use `MD_FILENAME2SKILL_NAME.keys()` and
+  `PROMPT_FILENAME2NAME.keys()` directly
+
+
+### Fixed
+
+- **RuleFile**: fixed blueprint rule export to use `blueprint.meta.description`
+  instead of `blueprint.meta.description_and_when_to_use` — ensures only the
+  description is written to the frontmatter, not both description and when_to_use
+
+### Security
+
+[6.5.0]: https://github.com/kami-lel/kaye/compare/v6.4.0...v6.5.0
 
 
 

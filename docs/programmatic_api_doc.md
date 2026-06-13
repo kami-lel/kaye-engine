@@ -2,7 +2,23 @@
 
 ## `prompt` module
 
-The **core** module of *Kaye Python API*, implement a systematic, dynamic, and structured framework for **prompt management and manipulation**.
+The public programmatic API lives in `kaye.prompt`.
+It re-exports the prompt tree nodes, blueprint type, corpus loader,
+blueprint loader, and embedded blueprints.
+
+Example imports:
+
+```python
+from kaye.prompt import (
+    BasePromptNode,
+    DynamicNode,
+    PromptCorpusNode,
+    PromptBlueprint,
+    load_prompt_corpus_tree,
+    load_embedded_blueprint,
+    get_embedded_prompt_blueprints_names,
+)
+```
 
 
 
@@ -19,28 +35,7 @@ The **core** module of *Kaye Python API*, implement a systematic, dynamic, and s
 
 ### Prompt Tree Nodes `BasePromptNode`
 
-The **prompt tree** is the structured representation parsed from *prompt corpus text* . A **node** of tree is corresponding to a section heading in the text. E.g. text in such form:
-
-```md
-# Introduction
-~
-## Basic
-~
-## Advanced
-~
-# Usage
-
-```
-
-is equivalent to tree structure:
-
-```
-○
-├── Introduction
-│   ├── Basic
-│   └── Advanced
-└── Usage
-```
+The **prompt tree** is the structured representation parsed from *prompt corpus text* — see [`corpus_doc.md`](corpus_doc.md) for the format specification. Each section heading in the corpus becomes a node; the text between headings is that node's content.
 
 A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, which is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 
@@ -62,7 +57,8 @@ nodes types:
 
 Each node has `.name`, i.e. **section heading** which appears in *preview tree* (v.i.):
 
-  - for `DynamicNode` instances: it must be enclosed by `{}`.
+  - for `DynamicNode` instances: it must be enclosed by `()`.
+  - for *meta nodes*: it must be enclosed by `{}`.
 
 E.g.
 
@@ -70,24 +66,17 @@ E.g.
 >>> corpus_node.name
 "Introduction"
 >>> dynamic_node.name
-"{Abbreviations}"
+"(Abbreviations)"
+>>> meta_node.name
+"{description}"
 ```
 
 > [!NOTE]
 > `.name` is a property of `anytree.Node`
 
-----
+Meta nodes are corpus nodes identified by names enclosed in curly braces, such as `{description}`. They appear in the blueprint preview tree but are **not** included in the rendered prompt output.
 
-Use `.is_technical_node` property to check if a node name matches the **technical node** pattern `{name}` (e.g., dynamic nodes):
-
-```python
->>> corpus_node.is_technical_node
-False
->>> dynamic_node.is_technical_node
-True
-```
-
-Technical nodes are special nodes identified by names enclosed in curly braces, such as `{Abbreviations}`, `{Today}`, etc.
+Dynamic nodes are identified by names enclosed in parentheses, such as `(Today)`, `(Abbreviations)`. Unlike meta nodes, dynamic nodes are not parsed from the corpus — they are injected at render time and **are** included in the rendered prompt output.
 
 
 
@@ -110,7 +99,7 @@ E.g.
 >>> str(corpus_node)
 "PromptCorpusNode(Introduction#Data#Advanced)"
 >>> str(abbr_node)
-"AbbrNode(Introduction#Data#{Abbreviations})"
+"AbbrNode(Introduction#Data#(Abbreviations))"
 ```
 
 ----
@@ -196,36 +185,6 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 
 
-##### description subnode
-
-In `prompt_corpus.md`, some nodes contain a child node with the heading `description`. This property searches the node's descendants and returns the first node with name `description`, or ``None`` if no such subnode exists.
-
-Description subnodes provide **brief, contextual descriptions** that explain the nature and purpose of the parent node. This is particularly useful when rendering prompts for LLMs, as these descriptions enable intelligent **automatic task relevance assessment** — allowing LLMs to self-determine whether a node's content is applicable to their current task. Rather than treating all nodes as equally important, the LLM can read the description subnode and make informed decisions about node inclusion.
-
-----
-
-Use `.description_subnode` property to access a node's **description** subnode, if it exists:
-
-```python
->>> node.description_subnode
-BasePromptNode(...description...)
->>> other_node.description_subnode is None
-True
-```
-
-----
-
-Use `.is_description_node` property to check if a node **is** a description node (i.e., has the name `description`):
-
-```python
->>> node.is_description_node
-True
->>> regular_node.is_description_node
-False
-```
-
-
-
 ##### support `copy`
 
 `BasePromptNode` support Python `copy` operations.
@@ -240,12 +199,15 @@ Use `copy.deepcopy(root)` to copy a prompt tree.
 
 #### tree creation
 
-It is rare for end users to create individual instances, but to **create** an entire prompt tree (i.e. get the root node.) This is possible by load a tree of the **embedded** *prompt corpus text* (defined in `prompt_corpus.md`.) `load_embedded_prompt_corpus()` method will load it from filesystem at runtime:
+It is rare for end users to create individual instances, but to **create**
+an entire prompt tree, use `load_prompt_corpus_tree()`.
+It loads the embedded `prompt_corpus.md` file, parses it, and attaches the
+runtime dynamic nodes once:
 
 ```python
-from kaye.gen_prompt import load_embedded_prompt_corpus
+from kaye.prompt import load_prompt_corpus_tree
 
-tree_root = load_embedded_prompt_corpus()
+tree_root = load_prompt_corpus_tree()
 ```
 
 
@@ -293,7 +255,9 @@ A `PromptBlueprint` has 3 additional attributes:
 
 - `.corpus`: corresponding prompt corpus tree root (typed `BasePromptNode`)
 - `.display_name`: name of the blueprint, typed `str`, default to `''`
-- `.description`: short description of the blueprint's purpose, typed `str`, default to `''`
+- `.meta`: a `BlueprintMetaNodes` instance exposing structured metadata derived
+  from meta nodes in the corpus — including `.meta.description`,
+  `.meta.when_to_use`, and `.meta.globs`
 
 Each entry in `PromptBlueprint` represents a node, with key being node `hash()` (typed `int`,) and value being if the node is *checkmarked*, (typed `bool`.) The *root node* is never included in blueprint, because one will assume root node is always enabled/checkmarked.
 
@@ -344,7 +308,7 @@ E.g.
 bp.checkmark(bp.corpus[0][1])
 bp.checkmark(node_hash)
 bp.uncheckmark("Important Instruction")
-bp.uncheckmark("{Abbreviations}")
+bp.uncheckmark("(Abbreviations)")
 ```
 
 However, when encounter a node findable in corpus tree, but not contained in the blueprint:
@@ -377,25 +341,33 @@ bp_left | bp_right
 
 ##### generate prompt
 
-Use `.generate_prompt()` to render the **concrete prompt** that can be used as LLM system message with it content based on node's checkmarking status of this blueprint.
+Use `.generate_prompt()` to render the concrete prompt as a single string.
+Use `.generate_prompt_lines()` when you want the rendered prompt as a list of
+lines instead.
+
+Both methods support `disable_first_heading=` and `show_comment=`.
+Any extra keyword arguments are passed through to node `content_lines()`
+implementations, which is how dynamic nodes receive values such as `query=`.
 
 E.g.
 
 ```python
->>> tree = PromptBlueprint(~)
->>> tree.generate_prompt(hide_comment=True)
+>>> tree = PromptBlueprint.parse(...)
+>>> tree.generate_prompt_lines(disable_first_heading=True)
+['Overview of the methodologies used.',
+ '### Data Collection',
+ 'How data was gathered for analysis.',
+ '',
+ '## Conclusion',
+ 'Summarizing the findings and implications.']
+>>> tree.generate_prompt(show_comment=True)
 # Main Title
 Overview of the methodologies used.
 ### Data Collection
 How data was gathered for analysis.
 ## Conclusion
 Summarizing the findings and implications.
->>> tree.generate_prompt(disable_first_heading=True)
-Overview of the methodologies used.
-### Data Collection
-How data was gathered for analysis.
-## Conclusion
-Summarizing the findings and implications.
+<!-- blueprint: conversation; Kaye v1.2.3 -->
 ```
 
 
@@ -409,12 +381,14 @@ User may use `.generate_blueprint()` to show a human-readable presentation of `P
 - node content preview
 - **checkmark status** of the node, shown with either `[x]` or `[ ]` as prefix
 
-By default, this print an **pruned** tree, showing only branches & nodes relevant to this blueprint. By using keyword argument `show_full_tree=`, user may force it to show the full prompt corpus tree.
+By default, this prints a **pruned** tree, showing only branches and nodes
+relevant to this blueprint. Use `show_full_tree=True` to show the full prompt
+corpus tree.
 
 E.g.
 
 ```python
->>> tree = PromptBlueprint.parse(~)
+>>> tree = PromptBlueprint.parse(...)
 >>> tree.generate_blueprint()
     ○
 [x] └── Project Title
@@ -432,8 +406,8 @@ E.g.
         │   3. Submit a pull request
 [x]     └── License
             This project is licensed under the MIT License.
-(blueprint:conversation; Kaye v1.2.3)
->>> tree.generate_blueprint(content_preview_lines=0, hide_comment=True)
+(blueprint: conversation; Kaye v1.2.3)
+>>> tree.generate_blueprint(content_preview_lines=0, show_comment=True)
     ○
 [x] └── Project Title
 [ ]     ├── Description
@@ -441,6 +415,7 @@ E.g.
 [ ]     ├── Usage
 [ ]     ├── Contributing
 [x]     └── License
+<!-- blueprint: conversation; Kaye v1.2.3 -->
 ```
 
 ----
@@ -452,14 +427,20 @@ E.g.
 
 #### embedded blueprints
 
-**Embedded blueprints** are defined as module-level variables in `kaye.prompt.embedded_blueprints`. Import them directly by name:
+**Embedded blueprints** are defined as module-level variables in
+`kaye.prompt.embedded_blueprints`. Import them directly by name when you want a
+ready-made blueprint object:
 
 ```python
 from kaye.prompt.embedded_blueprints import (
     chat_blueprint,
     coder_py_blueprint,
-    coder_changelog_blueprint,
+    project_changelog_blueprint,
 )
 ```
 
-All available blueprint names are listed in `__all__` of that module. Each blueprint is a `PromptBlueprint` instance with `.display_name` and `.description` already set.
+If you need to load a blueprint from the embedded blueprint files at runtime,
+use `load_embedded_blueprint(name)`. To list available names, use
+`get_embedded_prompt_blueprints_names()`.
+Each embedded blueprint is a `PromptBlueprint` instance with
+`.display_name` and `.meta.description` already set.

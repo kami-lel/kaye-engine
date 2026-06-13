@@ -1,77 +1,76 @@
 """
 rule_file.py
 
-define ``RuleFile``, a context manager for writing Continue AI rule files
+define ``RuleFile``
 """
 
+import io
+import yaml
 
-class RuleFile:
+from kaye.cli.frontmatter_md_file import FrontmatterMDFile
+
+
+class RuleFile(FrontmatterMDFile):  ############################################
     """
-    context manager for writing a Continue AI rule file (``.mdc``)
+    manage metadata and content writing for a Continue AI rule file
 
-    :param path: path to the rule file to write
+
+    :param path:
     :type path: Path-like
-    :param mode: file open mode, defaults to ``"w"``
-    :type mode: str, optional
-    :param encoding: file encoding, defaults to ``None``
-    :type encoding: str, optional
+    :param blueprint: optional blueprint object
+    :type blueprint: PromptBlueprint or None
     :example:
-    >>> with RuleFile("my-rule.mdc") as rule:
-    ...     rule.name = "My Rule"
-    ...     rule.description = "does something useful"
-    ...     rule.globs = ["**/*.py"]
-    ...     rule.write_prefix()
-    ...     rule.write("always do this\n")
+    >>> # blueprint rule file
+    ... with RuleFile(path, blueprint=bp) as rule:
+    ...     rule.always_apply = False
+
+    >>> # abbreviation rule file
+    ... with RuleFile(path) as rule:
+    ...     rule.name = ~~
+    ...     rule.description = ~~
+    ...     rule.write_frontmatter_part()
+    ...     rule.write(~~)
+    ...     rule.writelines(~~)
+    ...     ~~
     """
 
-    def __init__(self, path, mode="w", encoding=None):
-        self._path = path
-        self._mode = mode
-        self._encoding = encoding
+    # implement FrontmatterMDFile  =============================================
 
-        self.name = ""
-        self.description = ""
-        self.globs = []
+    def _write_frontmatter_content(self):
+        metadata = {"name": self.frontmatter.get("name", "")}
+
+        description = self.frontmatter.get("description", "")
+        if description:
+            metadata["description"] = description
+
+        metadata["alwaysApply"] = self.always_apply
+
+        if self.invokable:
+            metadata["invokable"] = self.invokable
+
+        yaml_buffer = io.StringIO()
+        yaml.dump(
+            metadata,
+            yaml_buffer,
+            default_flow_style=False,
+            sort_keys=False,
+            width=float("inf"),
+        )
+        self.file.write(yaml_buffer.getvalue())
+
+        paths = self.frontmatter["paths"]
+        if paths:
+            globs_str = ", ".join('"{}"'.format(g) for g in paths)
+            self.file.write("globs: [{}]\n".format(globs_str))
+
+    # constructor  =============================================================
+
+    def __init__(self, path, blueprint=None):
+        super().__init__(path, blueprint)
+
         self.always_apply = False
         self.invokable = False
 
-        self.file = None
-
-    def __enter__(self):
-        self.file = open(self._path, self._mode, encoding=self._encoding)
-        return self
-
-    def __exit__(self, *args):
-        self.file.close()
-
-    def write_prefix(self):
-        """
-        write the YAML front matter block using the current attribute values
-        """
-        self.file.write("---\n")
-        self.file.write("name: {}\n".format(self.name))
-
-        if self.description:
-            self.file.write("description: {}\n".format(self.description))
-
-        if self.globs:
-            globs_str = ", ".join('"{}"'.format(g) for g in self.globs)
-            self.file.write("globs: [{}]\n".format(globs_str))
-
-        self.file.write(
-            "alwaysApply: {}\n".format(str(self.always_apply).lower())
-        )
-
-        if self.invokable:
-            self.file.write("invokable: true\n")
-
-        self.file.write("---\n\n")
-
-    def write(self, content):
-        """
-        write ``content`` directly to the rule file
-
-        :param content: text to write
-        :type content: str
-        """
-        self.file.write(content)
+        if blueprint:
+            self.name = blueprint.display_name
+            self.description = blueprint.meta.description_and_when_to_use
