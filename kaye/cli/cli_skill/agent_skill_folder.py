@@ -24,7 +24,14 @@ class AgentSkillFolder:  #######################################################
 
     # constructor  =============================================================
 
-    def __init__(self, parent_folder_path, *, blueprint=None, skill_name=None):
+    def __init__(
+        self,
+        parent_folder_path,
+        *,
+        blueprint=None,
+        skill_name=None,
+        verbose=False
+    ):
         if blueprint:
             self._path = parent_folder_path / convert_display_name2skill_name(
                 blueprint.display_name
@@ -34,6 +41,7 @@ class AgentSkillFolder:  #######################################################
 
         self._blueprint = blueprint
         self._skill_name = skill_name
+        self._verbose = verbose
         self.skill_md = None
 
     # support context manager  =================================================
@@ -52,3 +60,6 @@ class AgentSkillFolder:  #######################################################
     def __exit__(self, *args):
         if self.skill_md:
             self.skill_md.__exit__(*args)
+
+        if self._verbose:
+            print("export skill:\t" + str(self._path))
