@@ -194,12 +194,6 @@ def _create_librarian_blueprint():
     return bp
 
 
-def _create_prompt_blueprint():
-    bp = rapid_blueprint
-    bp.checkmark("Prompt Writer")  # FIXME FIXME use imported bp
-    return bp
-
-
 def _create_secretary_blueprint():
     bp = _create_chat_blueprint()
     bp.checkmark(bp.corpus["Style Guide"]["Style Guide Good Writing"])

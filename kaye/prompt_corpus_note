@@ -5,8 +5,10 @@ Bug py docstring: no :return: ``None``, and no __init__ docstring
 
 Todo update coder description to include describe "when to use", especially globs
 
-TODO create various writer
 Todo add {prerequisite}
 
 TODO write Skill Description Writer
 TODO Skill When to Use Writer
+TODO unit test on prompt writer
+TODO unit test on description writer
+TODO unit test on when to use writer
