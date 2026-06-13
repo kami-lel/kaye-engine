@@ -6,35 +6,8 @@ define ``export_abbr_rules``
 
 from pathlib import Path
 
-from kaye.abbr_collection import AbbrData
 from kaye.cli.cli_continue.rule_file import RuleFile
-from kaye.cli.exportable_abbr import (
-    get_abbrs_by_tags,
-    get_abbrs_by_wrap,
-    get_abbrs_by_first_char,
-)
-
-# helpers  #####################################################################
-
-
-def _write_rule_file(file_path, name, entries, description=""):
-    if not entries:
-        return  # skip empty groups
-
-    print("update abbr rule: {}".format(file_path))
-    with RuleFile(file_path) as rule:
-        rule.name = name
-        rule.description = description
-        rule.write_frontmatter_part()
-        rule.writelines(entry.as_md_list_entry() for entry in entries)
-
-
-# export  ======================================================================
-
-
-def _export_groups(folder, groups):
-    for name, entries in groups:
-        _write_rule_file(folder / "{}.md".format(name), name, entries)
+from kaye.cli.exportable_abbr import EXPORTABLE_ABBRS
 
 
 # Entry Point  #################################################################
@@ -57,8 +30,14 @@ def export_abbr_rules(folder):
     folder = Path(folder).resolve()
     folder.mkdir(parents=True, exist_ok=True)
 
-    abbrs = AbbrData().abbrs
+    for group in EXPORTABLE_ABBRS:
+        if not group:
+            continue
 
-    _export_groups(folder, get_abbrs_by_tags(abbrs))
-    _export_groups(folder, get_abbrs_by_wrap(abbrs))
-    _export_groups(folder, get_abbrs_by_first_char(abbrs))
+        file_path = folder / "{}.md".format(group.display_name)
+        print("update abbr rule: {}".format(file_path))
+        with RuleFile(file_path) as rule:
+            rule.name = group.display_name
+            rule.description = group.description
+            rule.write_frontmatter_part()
+            rule.writelines(entry.as_md_list_entry() for entry in group)
