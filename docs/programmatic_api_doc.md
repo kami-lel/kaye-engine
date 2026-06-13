@@ -255,7 +255,9 @@ A `PromptBlueprint` has 3 additional attributes:
 
 - `.corpus`: corresponding prompt corpus tree root (typed `BasePromptNode`)
 - `.display_name`: name of the blueprint, typed `str`, default to `''`
-- `.description`: short description of the blueprint's purpose, typed `str`, default to `''`
+- `.meta`: a `BlueprintMetaNodes` instance exposing structured metadata derived
+  from meta nodes in the corpus — including `.meta.description`,
+  `.meta.when_to_use`, and `.meta.globs`
 
 Each entry in `PromptBlueprint` represents a node, with key being node `hash()` (typed `int`,) and value being if the node is *checkmarked*, (typed `bool`.) The *root node* is never included in blueprint, because one will assume root node is always enabled/checkmarked.
 
@@ -433,7 +435,7 @@ ready-made blueprint object:
 from kaye.prompt.embedded_blueprints import (
     chat_blueprint,
     coder_py_blueprint,
-    coder_changelog_blueprint,
+    project_changelog_blueprint,
 )
 ```
 
@@ -441,4 +443,4 @@ If you need to load a blueprint from the embedded blueprint files at runtime,
 use `load_embedded_blueprint(name)`. To list available names, use
 `get_embedded_prompt_blueprints_names()`.
 Each embedded blueprint is a `PromptBlueprint` instance with
-`.display_name` and `.description` already set.
+`.display_name` and `.meta.description` already set.
