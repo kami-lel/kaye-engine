@@ -5,6 +5,8 @@ Bug py docstring: no :return: ``None``, and no __init__ docstring
 
 Todo update coder description to include describe "when to use", especially globs
 
-FIXME move prompt writer to Prompt Engineering
 TODO create various writer
-TODO add {prerequisite}
+Todo add {prerequisite}
+
+TODO write Skill Description Writer
+TODO Skill When to Use Writer

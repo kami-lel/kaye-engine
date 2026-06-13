@@ -31,6 +31,7 @@ from kaye.prompt import (
     coder_py_blueprint,
     coder_py_docstring_blueprint,
     coder_py_testing_blueprint,
+    prompt_writer_blueprint,
 )
 
 # constant  ####################################################################
@@ -73,7 +74,7 @@ def kaye_chat_task():
         bp = _create_librarian_blueprint()
 
     elif role == "prompt":
-        bp = _create_prompt_blueprint()
+        bp = rapid_blueprint | prompt_writer_blueprint
 
     elif role == "rapid":
         bp = rapid_blueprint
@@ -195,7 +196,7 @@ def _create_librarian_blueprint():
 
 def _create_prompt_blueprint():
     bp = rapid_blueprint
-    bp.checkmark("Prompt Writer")
+    bp.checkmark("Prompt Writer")  # FIXME FIXME use imported bp
     return bp
 
 
