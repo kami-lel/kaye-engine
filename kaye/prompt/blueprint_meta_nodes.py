@@ -4,8 +4,6 @@ blueprint_meta_fields.py
 define ``BlueprintMetaFields``
 """
 
-from kaye.prompt.prompt_blueprint import PromptBlueprint
-
 # TODO docstrings
 
 
@@ -13,9 +11,13 @@ class BlueprintMetaNodes:  #####################################################
 
     @property
     def description(self):
-        return self._NEWLINE_SYMBOL.join(
+        return self._description or self._NEWLINE_SYMBOL.join(
             self._convert_node2content_lines(self.description_node)
         )
+
+    @description.setter
+    def description(self, value):
+        self._description = value
 
     @property
     def when_to_use(self):
@@ -53,6 +55,7 @@ class BlueprintMetaNodes:  #####################################################
     # constructor  =============================================================
 
     def __init__(self, *, main_node=None):
+        self._description = None
         self.description_node = None
         self.when_to_use_node = None
         self.globs_node = None
@@ -81,6 +84,8 @@ class BlueprintMetaNodes:  #####################################################
     def _convert_node2content_lines(node):
         if not node:
             return []
+
+        from kaye.prompt.prompt_blueprint import PromptBlueprint
 
         bp = PromptBlueprint.create_from_node(node)
         return bp.generate_prompt_lines(disable_first_heading=True)

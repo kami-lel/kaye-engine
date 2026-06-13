@@ -23,8 +23,6 @@ from .prompt_corpus_loader import (
 __all__ = ("PromptBlueprint",)
 
 
-# FIXME FIXME better description handling: use {description} & not rendered in prompt;
-
 # constants  ###################################################################
 CHECKMARKED_PREFIX = "[x] "
 UNCHECKMARKED_PREFIX = "[ ] "
@@ -188,15 +186,7 @@ class PromptBlueprint(dict):
 
         bp.display_name = node_obj.name
 
-        # TODO rm blueprint .description
-        description_node = node_obj.description_subnode
-        if description_node:
-            description_bp = cls.create_from_node(description_node)
-            bp.description = description_bp.generate_prompt(
-                disable_first_heading=True
-            )
-
-        bp.meta = BlueprintMetaNodes(main_node=node)
+        bp.meta = BlueprintMetaNodes(main_node=node_obj)
 
         return bp
 
@@ -219,8 +209,7 @@ class PromptBlueprint(dict):
             self.corpus = copy.deepcopy(corpus_override)
 
         self.display_name = display_name
-        self.description = ""
-        self.meta = None
+        self.meta = BlueprintMetaNodes()
 
     # node operations  *********************************************************
     def is_checkmarked(self, node):

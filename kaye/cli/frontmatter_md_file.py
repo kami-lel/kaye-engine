@@ -117,7 +117,7 @@ class FrontmatterMDFile:  ######################################################
 
         if blueprint:
             self._blueprint = blueprint
-            self.description = blueprint.description
+            self.description = blueprint.meta.description
 
     # support context manager  =================================================
 
