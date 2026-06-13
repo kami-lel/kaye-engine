@@ -18,6 +18,25 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.5.0...dev
+
+
+
+
+## [6.5.0] - 2026-06-14
+
+### Added
+
 - `MetadataMDFile` (`metadata_md_file.py`): a more generic version of `RuleFile`
 
 - **`skill` CLI subcommand** with two subcommands (aliases: `s`):
@@ -53,11 +72,6 @@
   lists; callers now use `MD_FILENAME2SKILL_NAME.keys()` and
   `PROMPT_FILENAME2NAME.keys()` directly
 
-### Deprecated
-
-### Removed
-
-- `RuleFile`
 
 ### Fixed
 
@@ -67,7 +81,7 @@
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.4.0...dev
+[6.5.0]: https://github.com/kami-lel/kaye/compare/v6.4.0...v6.5.0
 
 
 
