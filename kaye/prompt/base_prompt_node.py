@@ -129,31 +129,6 @@ class BasePromptNode(AnyTreeNode):
         ancestry_path.append(self.name)
         return ancestry_path
 
-    # HACK remove description node logic
-
-    @property
-    def is_description_node(self):
-        """
-        :return: whether this node is *description* subnode
-                i.e. name is: ``description``
-        :rtype: bool
-        """
-        return self.name == self._DESCRIPTION_SUBNODE_NAME
-
-    @property
-    def description_subnode(self):
-        """
-        :return: *description* subnode of ``self``;
-                ``None`` if ``self`` doesn't have a description subnode
-        :rtype: BasePromptNode
-        """
-        finds = [n for n in self.descendants if n.is_description_node]
-        return finds[0] if finds else None
-
-    # private constants  =======================================================
-
-    _DESCRIPTION_SUBNODE_NAME = "description"
-
     # magic methods  ===========================================================
 
     def __getitem__(self, key):
