@@ -1,7 +1,9 @@
 from pydantic import BaseModel, Field
 
+from kaye.cli.cli_skill import convert_display_name2skill_name
 
-# TODO unit tests on skill rule
+
+# TODO TODO unit tests on skill rule
 class SkillMDFileFrontmatterValidator(BaseModel):
     """
     validated frontmatter model for an agent skill SKILL.md file
@@ -60,3 +62,22 @@ class SkillMDFileFrontmatterValidator(BaseModel):
         if self.allowed_tools:
             d["allowed-tools"] = self.allowed_tools
         return d
+
+
+# helpers  #####################################################################
+
+
+def validate_blueprint(bp):
+    """Validate frontmatter derived from a PromptBlueprint."""
+    return SkillMDFileFrontmatterValidator.from_frontmatter({
+        "name": convert_display_name2skill_name(bp.display_name),
+        "description": bp.description,
+    })
+
+
+def validate_abbr_group(group):
+    """Validate frontmatter derived from an ExportableAbbr group."""
+    return SkillMDFileFrontmatterValidator.from_frontmatter({
+        "name": convert_display_name2skill_name(group.display_name),
+        "description": group.description,
+    })
