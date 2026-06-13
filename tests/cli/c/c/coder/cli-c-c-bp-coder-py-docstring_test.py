@@ -68,8 +68,8 @@ class TestHeader:  # ===========================================================
 
     def test_description(_, testee_header):
         assert (
-            "description: Python docstrings in Sphinx/reStructuredText style"
-            in testee_header
+            "Enforces a specific Python docstring convention: Sphinx style with reStructuredText markup"
+            in testee_header[1]
         )
 
     def test_globs(_, testee_header):
