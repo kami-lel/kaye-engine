@@ -37,7 +37,7 @@ from kaye.prompt.embedded_blueprints import (
 # valid  #######################################################################
 
 
-# BUG failed these unit tests
+# Bug failed these unit tests
 
 
 def otest_chat():
