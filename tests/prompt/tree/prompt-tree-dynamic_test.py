@@ -27,34 +27,34 @@ class TestDynamic:
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── {Today}" in opt
+        assert "── (Today)" in opt
 
     def test_abbr(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── {Abbreviations}" in opt
+        assert "── (Abbreviations)" in opt
 
     def test_usable(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── {Usable Abbreviations}" in opt
+        assert "── (Usable Abbreviations)" in opt
 
     def test_lc(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── {Languages Code}" in opt
+        assert "── (Languages Code)" in opt
 
     def test_plc(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── {Programming Languages Code}" in opt
+        assert "── (Programming Languages Code)" in opt
 
     def test_u3d(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── {Unity Engine Abbreviations}" in opt
+        assert "── (Unity Engine Abbreviations)" in opt

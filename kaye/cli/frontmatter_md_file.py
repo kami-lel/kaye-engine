@@ -83,6 +83,28 @@ class FrontmatterMDFile:  ######################################################
         """
         self.frontmatter["description"] = value
 
+    @property
+    def when_to_use(self):
+        """
+        retrieve the frontmatter ``when_to_use`` field
+
+
+        :return: value of the frontmatter ``when_to_use`` field
+        :rtype: str
+        """
+        return self.frontmatter["when_to_use"]
+
+    @when_to_use.setter
+    def when_to_use(self, value):
+        """
+        set the frontmatter ``when_to_use`` field
+
+
+        :param value: new value for the frontmatter ``when_to_use`` field
+        :type value: str
+        """
+        self.frontmatter["when_to_use"] = value
+
     # file operation wrapper  ==================================================
 
     def write(self, content):
@@ -102,11 +124,13 @@ class FrontmatterMDFile:  ######################################################
     _DEFAULT_FRONTMATTER = {
         "name": "",
         "description": "",
+        "when_to_use": "",
         "license": "",
         "compatibility": "",
         "metadata": {},
         "allowed-tools": [],
         "user-invocable": True,
+        "paths": [],
     }
 
     def __init__(self, path, blueprint=None):
@@ -117,7 +141,9 @@ class FrontmatterMDFile:  ######################################################
 
         if blueprint:
             self._blueprint = blueprint
-            self.description = blueprint.description
+            self.description = blueprint.meta.description
+            self.when_to_use = blueprint.meta.when_to_use
+            self.frontmatter["paths"] = blueprint.meta.globs
 
     # support context manager  =================================================
 

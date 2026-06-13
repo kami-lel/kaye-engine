@@ -129,29 +129,6 @@ class BasePromptNode(AnyTreeNode):
         ancestry_path.append(self.name)
         return ancestry_path
 
-    @property
-    def is_description_node(self):
-        """
-        :return: whether this node is *description* subnode
-                i.e. name is: ``description``
-        :rtype: bool
-        """
-        return self.name == self._DESCRIPTION_SUBNODE_NAME
-
-    @property
-    def description_subnode(self):
-        """
-        :return: *description* subnode of ``self``;
-                ``None`` if ``self`` doesn't have a description subnode
-        :rtype: BasePromptNode
-        """
-        finds = [n for n in self.descendants if n.is_description_node]
-        return finds[0] if finds else None
-
-    # private constants  =======================================================
-
-    _DESCRIPTION_SUBNODE_NAME = "description"
-
     # magic methods  ===========================================================
 
     def __getitem__(self, key):
@@ -249,7 +226,7 @@ class BasePromptNode(AnyTreeNode):
         >>> str(corpus_node)
         "PromptCorpusNode(Introduction#Data#Advanced)"
         >>> str(abbr_node)
-        "AbbrNode(Introduction#Data#{Abbreviations})"
+        "AbbrNode(Introduction#Data#(Abbreviations))"
         """
         lineage = "#".join(node.name for node in self.path[1:])
         return "{}({})".format(type(self).__name__, lineage)
@@ -272,10 +249,10 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
 
     # constructor  =============================================================
     def __init__(self, parent=None, **kwargs):
-        heading = "{" + self.HEADING + "}"
+        heading = "(" + self.HEADING + ")"
         super().__init__(heading, parent=parent, **kwargs)
 
-    _ID_PATTERN = re.compile(r"^{.+}$")
+    _ID_PATTERN = re.compile(r"^\(.+\)$")
 
     HEADING = None
 

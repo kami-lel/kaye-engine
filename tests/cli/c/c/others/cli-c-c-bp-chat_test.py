@@ -30,7 +30,8 @@ def testee_path(testee_rules_folder):
 @pytest.fixture(scope="session")
 def testee(testee_path):
     with open(testee_path) as f:
-        return f.read()
+        content = f.read()
+        return content
 
 
 @pytest.fixture(scope="session")
