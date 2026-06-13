@@ -11,7 +11,7 @@ class FrontmatterMDFile:  ######################################################
     base class for writing a markdown file with a YAML frontmatter block
 
 
-    :param path:
+    :param path: output path for the file to write
     :type path: Path-like
     :param blueprint: blueprint object
     :type blueprint: PromptBlueprint
@@ -20,10 +20,8 @@ class FrontmatterMDFile:  ######################################################
     # abstract method  =========================================================
 
     def _write_frontmatter_content(self):
-        """
-        write ``.frontmatter`` content into ``self.file``
-        in the specific format required
-        """
+        """write ``.frontmatter`` content into ``self.file``
+        in the specific format required"""
         raise NotImplementedError
 
     # public methods  ==========================================================
@@ -38,22 +36,46 @@ class FrontmatterMDFile:  ######################################################
 
     @property
     def name(self):
-        """:return: frontmatter ``name`` field"""
+        """
+        retrieve the frontmatter ``name`` field
+
+
+        :return: value of the frontmatter ``name`` field
+        :rtype: str
+        """
         return self.frontmatter["name"]
 
     @name.setter
     def name(self, value):
-        """:param value: new value for the frontmatter ``name`` field"""
+        """
+        set the frontmatter ``name`` field
+
+
+        :param value: new value for the frontmatter ``name`` field
+        :type value: str
+        """
         self.frontmatter["name"] = value
 
     @property
     def description(self):
-        """:return: frontmatter ``description`` field"""
+        """
+        retrieve the frontmatter ``description`` field
+
+
+        :return: value of the frontmatter ``description`` field
+        :rtype: str
+        """
         return self.frontmatter["description"]
 
     @description.setter
     def description(self, value):
-        """:param value: new value for the frontmatter ``description`` field"""
+        """
+        set the frontmatter ``description`` field
+
+
+        :param value: new value for the frontmatter ``description`` field
+        :type value: str
+        """
         self.frontmatter["description"] = value
 
     # file operation wrapper  ==================================================
@@ -61,6 +83,10 @@ class FrontmatterMDFile:  ######################################################
     def write(self, content):
         """
         thin wrapper for ``self.file.write()``
+
+
+        :param content: content to write to the file
+        :type content: str
         """
         self.file.write(content)
 
@@ -89,17 +115,12 @@ class FrontmatterMDFile:  ######################################################
     # support context manager  =================================================
 
     def __enter__(self):
-        """open the output file and return ``self``"""
         self.file = open(
             self._path, self._FILE_MODE, encoding=self._FILE_ENCODING
         )
         return self
 
     def __exit__(self, *_):
-        """
-        if a blueprint is set, write frontmatter then generated prompt;
-        close the file in all cases
-        """
         if self._blueprint:
             self.write_frontmatter_part()
             self.file.write(self._blueprint.generate_prompt())
