@@ -36,7 +36,8 @@ class AgentSkillFolder:  #######################################################
         self.skill_md.__exit__(*args)
 
     def __init__(self, parent_folder_path, blueprint=None):
-        self._path = Path(parent_folder_path)  # TODO
+        # TODO make this also work for abbr
+        self._path = Path(parent_folder_path) / blueprint.skill_name
 
         self._blueprint = blueprint
         self.skill_md = None
