@@ -2719,6 +2719,10 @@ GDScript code for Godot 4
 
 - Version: **HTML5** standard
 
+### description
+
+Use this skill when writing or generating HTML — apply HTML5 standards for structure, semantics, and markup. Trigger for any task that produces or edits .html files or embedded HTML content.
+
 
 
 
@@ -2734,6 +2738,8 @@ GDScript code for Godot 4
 ## Coder JavaScript and TypeScript
 
 These standards are applicable exclusively to JavaScript and TypeScript code, adhering to the **ES11** standard.
+
+
 
 
 
@@ -2773,6 +2779,42 @@ globalNS.method1 = function (a, b) {
     return b / a;
 };
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+### description
+
+Use this skill when writing or generating JavaScript or TypeScript code — apply ES11 standards, camelCase naming, and JSDoc comments. Trigger for any task that produces or edits `.js` or `.ts` files, or inline JS/TS code blocks.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4143,6 +4185,10 @@ A list of standard tags is provided below as reference:
 Files are assumed to be consistent between rounds. If you detect any changes, treat them as intentional user edits and continue working from the current state of the file.
 
 After completing **all tasks requested by the user**, including **editing**, **discovery**, **analysis**, or any other work, **do not provide a recap or summary** of what you did unless the user **explicitly asks** for one. Avoid **repeating the completed actions**, **restating the user’s request**, or adding **unnecessary closing commentary**.
+
+## description
+
+Use this skill on every task. It governs how the agent handles file state between rounds and when to withhold summaries — treat all file changes as intentional, and never recap completed work unless the user explicitly asks.
 
 
 
