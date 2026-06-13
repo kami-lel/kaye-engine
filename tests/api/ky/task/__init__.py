@@ -237,4 +237,4 @@ def assert_role(opt):
 
 
 def assert_abbr_heading(opt):
-    assert "# {Abbreviations}" in opt
+    assert "# (Abbreviations)" in opt

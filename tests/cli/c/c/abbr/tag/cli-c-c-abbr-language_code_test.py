@@ -1,0 +1,91 @@
+"""
+cli-c-c-abbr-language_code_test.py
+
+Unit Tests (using pytest) for:
+
+creation of ``abbr-language_code``
+"""
+
+import pytest
+
+from tests.cli import MD_FILENAME2SKILL_NAME
+from tests.cli import (
+    assert_frontmatter_md_file_basic_structure,
+    split_frontmatter_md_file,
+    assert_header_line_always_apply,
+)
+
+# constants  ###################################################################
+MD_FILENAME = "abbr-natural-language-codes"
+_SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
+
+# Pytest fixtures  #############################################################
+
+
+@pytest.fixture(scope="session")
+def testee_path(testee_rules_folder):
+    return testee_rules_folder / (_SKILL_NAME + ".md")
+
+
+@pytest.fixture(scope="session")
+def testee(testee_path):
+    with open(testee_path) as f:
+        return f.read()
+
+
+@pytest.fixture(scope="session")
+def testee_header(testee):
+    return split_frontmatter_md_file(testee)[0]
+
+
+@pytest.fixture(scope="session")
+def testee_content(testee):
+    return split_frontmatter_md_file(testee)[1]
+
+
+# Pytest unit tests  ###########################################################
+
+
+class TestBasic:  # ============================================================
+
+    def test_existence(_, testee_path):
+        assert testee_path.exists()
+
+    def test_is_file(_, testee_path):
+        assert testee_path.is_file()
+
+
+class TestStructure:  # ========================================================
+
+    def test_structure(_, testee):
+        assert assert_frontmatter_md_file_basic_structure(testee)
+
+
+class TestHeader:  # ===========================================================
+
+    def test_name(_, testee_header):
+        assert "name: Abbr Natural Language Codes" in testee_header
+
+    def test_always_apply(_, testee_header):
+        assert_header_line_always_apply(testee_header, False)
+
+
+class TestContent:  # ==========================================================
+
+    def test_de(_, testee_content):
+        assert "- de:Deutsch" in testee_content
+
+    def test_en(_, testee_content):
+        assert "- en:English" in testee_content
+
+    def test_jp(_, testee_content):
+        assert "- jp:日本語" in testee_content
+
+    def test_zh(_, testee_content):
+        assert "- zh:中文" in testee_content
+
+    def test_zhs(_, testee_content):
+        assert "- zhs:大陆简体中文" in testee_content
+
+    def test_zht(_, testee_content):
+        assert "- zht:香港繁體中文" in testee_content

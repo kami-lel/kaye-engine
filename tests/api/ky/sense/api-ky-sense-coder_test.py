@@ -30,7 +30,7 @@ def assert_pl_instruction2(opt):
 
 
 def assert_plc_title(opt):
-    assert "# {Programming Languages Code}" in opt
+    assert "# (Programming Languages Code)" in opt
 
 
 def assert_plc1(opt):

@@ -31,6 +31,7 @@ from kaye.prompt import (
     coder_py_blueprint,
     coder_py_docstring_blueprint,
     coder_py_testing_blueprint,
+    prompt_writer_blueprint,
 )
 
 # constant  ####################################################################
@@ -73,7 +74,7 @@ def kaye_chat_task():
         bp = _create_librarian_blueprint()
 
     elif role == "prompt":
-        bp = _create_prompt_blueprint()
+        bp = rapid_blueprint | prompt_writer_blueprint
 
     elif role == "rapid":
         bp = rapid_blueprint
@@ -182,7 +183,7 @@ def _create_deutschlehrer_blueprint():
 
 def _create_editor_blueprint():
     bp = _create_chat_blueprint()
-    bp.checkmark(bp.corpus["Style Guide"]["Good Writing"])
+    bp.checkmark(bp.corpus["Style Guide"]["Style Guide Good Writing"])
     bp.checkmark(bp.corpus["Role"]["Editor"], recursively=True)
     return bp
 
@@ -193,15 +194,9 @@ def _create_librarian_blueprint():
     return bp
 
 
-def _create_prompt_blueprint():
-    bp = rapid_blueprint
-    bp.checkmark("Prompt Writer")
-    return bp
-
-
 def _create_secretary_blueprint():
     bp = _create_chat_blueprint()
-    bp.checkmark(bp.corpus["Style Guide"]["Good Writing"])
+    bp.checkmark(bp.corpus["Style Guide"]["Style Guide Good Writing"])
     bp.checkmark(bp.corpus["Role"]["Secretary"])
     return bp
 

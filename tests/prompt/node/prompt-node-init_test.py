@@ -198,19 +198,19 @@ class TestInit:  ###############################################################
 class TestCheckName:  ##########################################################
 
     def test_fail1(_):
-        ipt = "{Abc Def}"
+        ipt = "(Abc Def)"
         with pytest.raises(ValueError) as exec_info:
             PromptCorpusNode(ipt, None, [])
 
         opt = exec_info.value.args[0]
         print(opt)
-        assert opt == "illegal heading syntax: '{Abc Def}'"
+        assert opt == "illegal heading syntax: '(Abc Def)'"
 
     def test_fail2(_):
-        ipt = "{Some Content ZZZ}"
+        ipt = "(Some Content ZZZ)"
         with pytest.raises(ValueError) as exec_info:
             PromptCorpusNode(ipt, None, [])
 
         opt = exec_info.value.args[0]
         print(opt)
-        assert opt == "illegal heading syntax: '{Some Content ZZZ}'"
+        assert opt == "illegal heading syntax: '(Some Content ZZZ)'"
