@@ -7,7 +7,7 @@ define ``BlueprintMetaFields``
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 
-class BlueprintMetaFields:
+class BlueprintMetaNodes:
 
     @property
     def description(self):
@@ -25,11 +25,13 @@ class BlueprintMetaFields:
     def globs(self):
         return []
 
-    def __init__(self, main_node):
+    def __init__(self, main_node=None):
         self.description_node = None
         self.when_to_use_node = None
         self.globs_node = None
-        super().__init__(main_node)
+
+        if main_node:
+            pass  # TODO
 
     @staticmethod
     def _convert_node2content(node):
