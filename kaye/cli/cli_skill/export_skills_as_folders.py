@@ -17,19 +17,16 @@ from kaye.cli.prompts_blueprints import PROMPTS_BLUEPRINTS
 def export_skills_as_folders(parent_folder):
     # export embedded_blueprints and prompts
     for blueprint in EXPORTABLE_BLUEPRINTS + PROMPTS_BLUEPRINTS:
-        print(
-            "export skill:\t"
-            + convert_display_name2skill_name(blueprint.display_name)
-        )
-        with AgentSkillFolder(parent_folder, blueprint=blueprint):
+        with AgentSkillFolder(parent_folder, blueprint=blueprint, verbose=True):
             pass
 
     # export abbrs
     for group in EXPORTABLE_ABBRS:
         skill_name = convert_display_name2skill_name(group.display_name)
-        print("export abbr skill: {}".format(skill_name))
 
-        with AgentSkillFolder(parent_folder, skill_name=skill_name) as skill:
+        with AgentSkillFolder(
+            parent_folder, skill_name=skill_name, verbose=True
+        ) as skill:
             skill.skill_md.description = group.description
             skill.skill_md.write_frontmatter_part()
             skill.skill_md.write(group.as_md_list())
