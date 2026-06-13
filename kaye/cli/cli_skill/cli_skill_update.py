@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from kaye.cli.cli_skill.export_skill import export_skills_as_folders
+from kaye.cli.cli_skill.export_skills_as_folders import export_skills_as_folders
 
 # constants  ===================================================================
 

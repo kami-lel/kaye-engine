@@ -11,7 +11,7 @@ from kaye.cli.cli_continue.rule_file import RuleFile
 
 
 # Entry Point  #################################################################
-def export_prompts(prompts_folder):
+def export_prompt_rules(prompts_folder):
     """
     export all prompts as Continue Prompts files
 
