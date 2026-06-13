@@ -103,6 +103,7 @@ class FrontmatterMDFile:  ######################################################
             "compatibility": "",
             "metadata": {},
             "allowed-tools": [],
+            "user-invocable": True,
         }
         self._path = path
         self._blueprint = None
