@@ -24,7 +24,6 @@ class RuleFile(FrontmatterMDFile):  ############################################
     >>> with RuleFile(path, blueprint=bp) as rule:
     ...     rule.globs = ["**/*.py"]
     ...     rule.always_apply = False
-    ...     rule.write_frontmatter_and_content()
 
     >>> # abbreviation rule file
     >>> with RuleFile(path) as rule:
@@ -62,10 +61,6 @@ class RuleFile(FrontmatterMDFile):  ############################################
             self.file.write("globs: [{}]\n".format(globs_str))
 
         self.file.write("---\n\n")
-
-    def write_frontmatter_and_content(self):
-        self.write_frontmatter()
-        self.write_blueprint_content()
 
     def __init__(self, path, blueprint=None):
         super().__init__(path, blueprint)

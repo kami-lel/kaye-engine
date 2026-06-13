@@ -20,8 +20,7 @@ class AgentSkillFolder:  #######################################################
     :type blueprint: PromptBlueprint
     :example:
     >>> with AgentSkillFolder(path, blueprint) as agent:
-    ...     agent.skill_md.write_frontmatter()
-    ...     agent.skill_md.write_content()
+    ...     pass
     """
 
     # support context manager  =================================================
