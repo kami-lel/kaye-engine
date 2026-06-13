@@ -5,7 +5,6 @@ define ``FrontmatterMDFile``
 """
 
 
-# TODO version
 class FrontmatterMDFile:  ######################################################
     """
     base class for writing a markdown file with a YAML frontmatter block

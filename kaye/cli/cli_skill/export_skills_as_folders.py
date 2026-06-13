@@ -14,7 +14,7 @@ from kaye.cli.prompts_blueprints import PROMPTS_BLUEPRINTS
 # entry point  #################################################################
 
 
-def export_skills_as_folders(parent_folder):
+def export_skills_as_folders(parent_folder, *, includes_version=False):
     # export embedded_blueprints and prompts
     for blueprint in EXPORTABLE_BLUEPRINTS + PROMPTS_BLUEPRINTS:
         with AgentSkillFolder(parent_folder, blueprint=blueprint, verbose=True):
@@ -25,7 +25,10 @@ def export_skills_as_folders(parent_folder):
         skill_name = convert_display_name2skill_name(group.display_name)
 
         with AgentSkillFolder(
-            parent_folder, skill_name=skill_name, verbose=True
+            parent_folder,
+            skill_name=skill_name,
+            verbose=True,
+            includes_version=includes_version,
         ) as skill:
             skill.skill_md.description = group.description
             skill.skill_md.write_frontmatter_part()
