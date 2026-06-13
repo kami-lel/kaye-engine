@@ -16,8 +16,6 @@ class SkillMDFileFrontmatterValidator(BaseModel):
     ``compatibility``, ``metadata``, ``allowed_tools``
     """
 
-    model_config = {"populate_by_name": True}
-
     # required  ================================================================
 
     name: str = Field(
@@ -52,34 +50,16 @@ class SkillMDFileFrontmatterValidator(BaseModel):
             "allowed-tools": allowed,
         })
 
-    def to_dict(self) -> dict:
-        """ordered dict for YAML output; optional fields omitted when empty"""
-        d = {"name": self.name, "description": self.description}
-        if self.license:
-            d["license"] = self.license
-        if self.compatibility:
-            d["compatibility"] = self.compatibility
-        if self.metadata:
-            d["metadata"] = self.metadata
-        if self.allowed_tools:
-            d["allowed-tools"] = self.allowed_tools
-        return d
-
 
 # helpers  #####################################################################
 
 
-def validate_blueprint(bp):
-    """Validate frontmatter derived from a PromptBlueprint."""
+def _validate_exportable(obj):
     return SkillMDFileFrontmatterValidator.from_frontmatter({
-        "name": convert_display_name2skill_name(bp.display_name),
-        "description": bp.description,
+        "name": convert_display_name2skill_name(obj.display_name),
+        "description": obj.description,
     })
 
 
-def validate_abbr_group(group):
-    """Validate frontmatter derived from an ExportableAbbr group."""
-    return SkillMDFileFrontmatterValidator.from_frontmatter({
-        "name": convert_display_name2skill_name(group.display_name),
-        "description": group.description,
-    })
+validate_blueprint = _validate_exportable
+validate_abbr_group = _validate_exportable
