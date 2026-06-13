@@ -2,8 +2,6 @@ import pytest
 
 from tests.cli.s import prepare_root_folder
 
-# TODO TODO alts tests
-
 # Pytest fixtures  #############################################################
 
 
