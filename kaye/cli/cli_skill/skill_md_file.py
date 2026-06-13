@@ -39,13 +39,11 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
     # implement FrontmatterMDFile  =============================================
 
-    _EMPTY_VALUES = ("", {}, [], None)
-
     def _write_frontmatter_content(self):
         d = {
             key: value
             for key, value in self.frontmatter.items()
-            if value not in self._EMPTY_VALUES
+            if value != self._DEFAULT_FRONTMATTER.get(key)
         }
 
         yaml_buffer = io.StringIO()

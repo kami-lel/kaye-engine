@@ -4,6 +4,8 @@ frontmatter_md_file.py
 define ``FrontmatterMDFile``
 """
 
+import copy
+
 
 class FrontmatterMDFile:  ######################################################
     """
@@ -93,18 +95,19 @@ class FrontmatterMDFile:  ######################################################
 
     _FILE_MODE = "w"
     _FILE_ENCODING = "utf-8"
+    _DEFAULT_FRONTMATTER = {
+        "name": "",
+        "description": "",
+        "license": "",
+        "compatibility": "",
+        "metadata": {},
+        "allowed-tools": [],
+        "user-invocable": True,
+    }
 
     def __init__(self, path, blueprint=None):
         self.file = None
-        self.frontmatter = {
-            "name": "",
-            "description": "",
-            "license": "",
-            "compatibility": "",
-            "metadata": {},
-            "allowed-tools": [],
-            "user-invocable": True,
-        }
+        self.frontmatter = copy.deepcopy(self._DEFAULT_FRONTMATTER)
         self._path = path
         self._blueprint = None
 
