@@ -6,6 +6,10 @@ from tests.cli import (
     assert_header_line_always_apply,
 )
 
+# Aliases for backward compatibility
+split_rule_file_basic_format = split_frontmatter_md_file
+assert_rule_file_basic_format = assert_frontmatter_md_file_basic_structure
+
 
 def prepare_local_config_folder(tmp_path_factory, command, folder_name):
     config_folder = tmp_path_factory.mktemp(folder_name)
@@ -23,6 +27,8 @@ def prepare_local_config_folder(tmp_path_factory, command, folder_name):
 __all__ = [
     "split_frontmatter_md_file",
     "assert_frontmatter_md_file_basic_structure",
+    "split_rule_file_basic_format",
+    "assert_rule_file_basic_format",
     "assert_header_line_always_apply",
     "prepare_local_config_folder",
 ]

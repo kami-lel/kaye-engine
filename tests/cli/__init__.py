@@ -54,74 +54,6 @@ def assert_header_line_always_apply(lines, value):
     return "alwaysApply: {}".format(expected) in lines
 
 
-# FIXME FIXME opmz
-
-MD_FILENAMES = [
-    "abbr-currency-symbols",
-    "abbr-emoji",
-    "abbr-natural-language-codes",
-    "abbr-prefixes",
-    "abbr-programming-language-codes",
-    "abbr-single-character",
-    "abbr-starts-with-a",
-    "abbr-starts-with-b",
-    "abbr-starts-with-c",
-    "abbr-starts-with-d",
-    "abbr-starts-with-digits",
-    "abbr-starts-with-e",
-    "abbr-starts-with-f",
-    "abbr-starts-with-g",
-    "abbr-starts-with-h",
-    "abbr-starts-with-i",
-    "abbr-starts-with-k",
-    "abbr-starts-with-l",
-    "abbr-starts-with-m",
-    "abbr-starts-with-n",
-    "abbr-starts-with-non-alphanumeric",
-    "abbr-starts-with-o",
-    "abbr-starts-with-p",
-    "abbr-starts-with-q",
-    "abbr-starts-with-r",
-    "abbr-starts-with-s",
-    "abbr-starts-with-t",
-    "abbr-starts-with-u",
-    "abbr-starts-with-v",
-    "abbr-starts-with-w",
-    "abbr-starts-with-x",
-    "abbr-starts-with-y",
-    "abbr-suffixes",
-    "abbr-symbols",
-    "abbr-units-of-measure",
-    "annotation-markers",
-    "chat",
-    "coder-bash",
-    "coder-c",
-    "coder-c-sharp",
-    "coder-cpp",
-    "coder-gdscript",
-    "coder-html",
-    "coder-javascript-and-typescript",
-    "coder-python",
-    "coder-python-docstring-style",
-    "coder-python-testing-guidelines",
-    "coder-unity-engine",
-    "coder-unreal-engine",
-    "date-and-time-format",
-    "kaye-peer-coder",
-    "numerical-values-with-units",
-    "project-agents-writer",
-    "project-changelog-writer",
-    "project-readme-writer",
-    "project-semantic-versioning",
-    "project-structure",
-    "style-guide-capitalization",
-    "style-guide-briefness-style",
-    "style-guide-good-writing",
-    "continue-behavior",
-    "agent-behavior",
-]
-
-
 MD_FILENAME2SKILL_NAME = {
     "abbr-currency-symbols": "Abbr Currency Symbols",
     "abbr-emoji": "Abbr Emoji",
@@ -188,17 +120,6 @@ MD_FILENAME2SKILL_NAME = {
 }
 
 
-PROMPT_FILENAMES = [
-    "create-agents",
-    "create-readme",
-    "maintain-changelog",
-    "maintain-docs",
-    "prepare-for-feature",
-    "prepare-for-release",
-    "resolve-annotation-markers",
-]
-
-
 PROMPT_FILENAME2NAME = {
     "create-agents": "Create AGENTS",
     "create-readme": "Create README",
@@ -206,4 +127,5 @@ PROMPT_FILENAME2NAME = {
     "maintain-docs": "Maintain Docs",
     "prepare-for-feature": "Prepare for Feature Finish",
     "prepare-for-release": "Prepare for Release",
+    "resolve-annotation-markers": "Resolve Annotation Markers",
 }
