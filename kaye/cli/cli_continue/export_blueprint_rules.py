@@ -15,29 +15,6 @@ from kaye.cli.cli_continue.rule_file import RuleFile
 
 # constants  ###################################################################
 
-# HACK HACK rm
-_BLUEPRINT_NAME2GLOBS = {
-    "Coder C": ["**/*.{c,h}"],
-    "Coder CPP": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
-    "Coder Unreal Engine": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
-    "Coder C Sharp": ["**/*.cs"],
-    "Coder Unity Engine": ["**/*.cs"],
-    "Coder GDScript": ["**/*.gd"],
-    "Coder HTML": ["**/*.{html,htm}"],
-    "Coder JavaScript and TypeScript": ["**/*.{js,ts,jsx,tsx,mjs,cjs}"],
-    "Coder Python": ["**/*.py"],
-    "Coder Python Docstring Style": ["**/*.py"],
-    "Coder Python Testing Guidelines": ["**/test_*.py", "**/*_test.py"],
-    "Project CHANGELOG Writer": [
-        "**/{CHANGELOG,Changelog,changelog}{,.md,.txt}",
-    ],
-    "Project AGENTS Writer": [
-        "**/{AGENTS,Agents,agents}{,.md}",
-    ],
-    "Project README Writer": [
-        "**/{README,Readme,readme}{,.md,.txt}",
-    ],
-}
 
 _ALWAYS_APPLY_BLUEPRINT = [
     "Chat",
