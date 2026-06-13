@@ -58,12 +58,6 @@ class FrontmatterMDFile:  ######################################################
         """
         self.file.write(content)
 
-    def writelines(self, lines):
-        """
-        thin wrapper for ``self.file.writelines()``
-        """
-        self.file.writelines(line + "\n" for line in lines)
-
     # constants  ===============================================================
 
     _FILE_MODE = "w"

@@ -21,15 +21,18 @@ class RuleFile(FrontmatterMDFile):  ############################################
     :type blueprint: PromptBlueprint or None
     :example:
     >>> # blueprint rule file
-    >>> with RuleFile(path, blueprint=bp) as rule:
+    ... with RuleFile(path, blueprint=bp) as rule:
     ...     rule.globs = ["**/*.py"]
     ...     rule.always_apply = False
 
     >>> # abbreviation rule file
-    >>> with RuleFile(path) as rule:
-    ...     rule.name = "Abbr Prefixes"
-    ...     rule.write_frontmatter()
-    ...     rule.write(entries)
+    ... with RuleFile(path) as rule:
+    ...     rule.name = ~~
+    ...     rule.description = ~~
+    ...     rule.write_frontmatter_part()
+    ...     rule.write(~~)
+    ...     rule.writelines(~~)
+    ...     ~~
     """
 
     # implement FrontmatterMDFile  =============================================
