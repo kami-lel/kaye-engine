@@ -3852,27 +3852,32 @@ To use for python
 
 The docstrings must be written using the **Sphinx** style and employ **reStructuredText** as the markup language. Avoid using any other styles.
 
-Docstring requirements by method visibility:
-
+Docstring requirements by visibility:
 - **public methods** must always include a docstring
-- **private methods** (prefixed with `_`) may include a docstring, such as when method name alone does not clearly convey its purpose
+- **private methods** (prefixed with `_`) may include a docstring, such as when the method name alone does not clearly convey its purpose
+- **dunder methods** (e.g. `__eq__`, `__repr__`, `__len__`) need no docstring in most cases, as their behaviour follows well-known Python conventions; add one only when the behaviour is non-obvious
+- **classes** must always include a docstring, placed directly under the `class` statement; this same docstring also documents the constructor, so its parameter fields describe the `__init__` arguments
+- **the `__init__` method** must *never* include a docstring; it is documented entirely by the class docstring
 
-A docstring must follow one of two accepted **forms**:
+A docstring must follow one of two accepted **forms** (applicable to both methods and classes):
+- *Form 1* — summary line, one empty line, a multi-line description, then **two empty lines**, then the parameter fields
+- *Form 2* — summary line, then **two empty lines**, then the parameter fields
 
-- *Form 1* — summary line, followed by a multi-line description, followed by **two empty lines**, then the parameter fields
-- *Form 2* — summary line only, followed by **two empty lines**, then the parameter fields
+Order the fields as follows: `:param:` / `:type:` for each argument, then `:raises:`, then `:return:` / `:rtype:` (when the method returns a value), then `:example:`.
 
-*Example of Form 1:*
+In the examples below, every blank line is annotated with a marker — `(ONE EMPTY LINE)`, `(FIRST EMPTY LINE)`, `(SECOND EMPTY LINE)` — to show exactly where empty lines belong. The markers are not part of the actual docstring; only the empty lines they denote are.
+
+*Example of Form 1 (a method):*
 
 ```python
 def calc_square(number):
     """
     calculate the square of a number
-
+    (ONE EMPTY LINE)
     performs a simple exponential operation, returning
     the result of multiplying ``number`` by itself
-
-
+    (FIRST EMPTY LINE)
+    (SECOND EMPTY LINE)
     :param number: number to be squared
     :type number: int
     :return: square of ``number``
@@ -3884,31 +3889,51 @@ def calc_square(number):
     return number ** 2
 ```
 
-*Example of Form 2:*
+*Example of Form 2 (a class — note `__init__` carries no docstring):*
 
 ```python
-def calc_square(number):
+class Rectangle:
     """
-    calculate the square of a number
-
-
-    :param number: number to be squared
-    :type number: int
-    :return: square of ``number``
-    :rtype: int
+    A `Rectangle` represents an axis-aligned rectangle defined by its size.
+    (FIRST EMPTY LINE)
+    (SECOND EMPTY LINE)
+    :param width: width of the rectangle;
+            must be a positive number
+    :type width: float
+    :param height: height of the rectangle;
+            must be a positive number
+    :type height: float
+    :raises ValueError: if ``width`` or ``height`` is not positive
+    :example:
+    >>> rect = Rectangle(3.0, 4.0)
     """
-    return number ** 2
+    def __init__(self, width, height):
+        if width <= 0 or height <= 0:
+            raise ValueError("width and height must be positive")
+        self._width = width
+        self._height = height
 ```
 
 #### {description}
 
-Python docstrings in Sphinx/reStructuredText style
+Enforces a specific Python docstring convention: Sphinx style with reStructuredText markup. Writes and formats docstrings to two approved forms with strict rules for the summary line, empty-line placement, field ordering (`:param:`/`:type:`/`:raises:`/`:return:`/`:rtype:`/`:example:`), and visibility — mandatory for public methods and classes, omitted on `__init__` and most dunder methods, with constructor arguments documented in the class docstring rather than on `__init__`.
+
+#### {when_to_use}
+
+Trigger whenever writing, generating, or editing Python source where a function, method, or class needs a docstring — including when the user only says "add a docstring," "document this," or "write the function" without naming a style. Recognize cues like docstring, Sphinx, reStructuredText, reST, `:param:`, `:type:`, `:raises:`, `:rtype:`, `:return:`, `:example:`, class docstring, constructor documentation, public vs. private method, or dunder method. Apply it to keep docstring style consistent across a Python codebase.
 
 #### {globs}
 
 ```glob
 **/*.py
 ```
+
+
+
+
+
+
+
 
 
 

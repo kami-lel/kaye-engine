@@ -67,9 +67,10 @@ class TestHeader:  # ===========================================================
         assert "name: coder-python-docstring-style" in testee_header
 
     def test_description(_, testee_header):
-        assert (
-            "description: Python docstrings in Sphinx/reStructuredText style"
-            in testee_header
+        assert any(
+            'description: "Enforces a specific Python docstring convention:'
+            in line
+            for line in testee_header
         )
 
 
