@@ -65,6 +65,7 @@ def _sort_entries(entries):
 def _make_group(display_name, entries):
     group = ExportableAbbr(entries)
     group.display_name = display_name
+    group.description = display_name
     return group
 
 
