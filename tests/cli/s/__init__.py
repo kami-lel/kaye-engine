@@ -1,6 +1,3 @@
-# TODO content test for cli-s-c
-
-
 import subprocess
 
 

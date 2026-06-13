@@ -11,7 +11,7 @@ def register_cli_skill_create_parser(  #########################################
     cli_subparser,
 ):  # pylint: disable=missing-function-docstring
     create_parser = cli_subparser.add_parser(
-        "create", help=__doc__, description=__doc__, aliases=["c"]
+        "create", help=__doc__, description=__doc__, aliases=["c", "z"]
     )
 
     create_parser.add_argument(
