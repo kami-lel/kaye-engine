@@ -8,9 +8,9 @@ creation of ``coder-py``
 
 import pytest
 
-from tests.cli.c.c import (
-    assert_rule_file_basic_format,
-    split_rule_file_basic_format,
+from tests.cli import (
+    assert_frontmatter_md_file_basic_structure,
+    split_frontmatter_md_file,
 )
 from tests.cli.s import convert_folder_path2skill_file_path
 
@@ -41,12 +41,12 @@ def testee_skill_file(testee_skill_file_path):
 
 @pytest.fixture(scope="session")
 def testee_header(testee_skill_file):
-    return split_rule_file_basic_format(testee_skill_file)[0]
+    return split_frontmatter_md_file(testee_skill_file)[0]
 
 
 @pytest.fixture(scope="session")
 def testee_content(testee_skill_file):
-    return split_rule_file_basic_format(testee_skill_file)[1]
+    return split_frontmatter_md_file(testee_skill_file)[1]
 
 
 # Pytest unit tests  ###########################################################
@@ -76,7 +76,7 @@ class TestHeader:  # ===========================================================
 class TestStructure:  # ========================================================
 
     def test_structure(_, testee_skill_file):
-        assert assert_rule_file_basic_format(testee_skill_file)
+        assert assert_frontmatter_md_file_basic_structure(testee_skill_file)
 
 
 class TestContent:  # ==========================================================
