@@ -54,6 +54,8 @@ def assert_header_line_always_apply(lines, value):
     return "alwaysApply: {}".format(expected) in lines
 
 
+# FIXME opmz
+
 MD_FILENAMES = [
     "abbr-currency-symbols",
     "abbr-emoji",

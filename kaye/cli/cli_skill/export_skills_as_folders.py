@@ -29,7 +29,6 @@ def export_skills_as_folders(parent_folder, *, includes_version=False):
     :type includes_version: bool, optional
     """
 
-    # TODO globs in context/files
     # export embedded_blueprints and prompts
     for blueprint in EXPORTABLE_BLUEPRINTS + PROMPTS_BLUEPRINTS:
         with AgentSkillFolder(parent_folder, blueprint=blueprint, verbose=True):
