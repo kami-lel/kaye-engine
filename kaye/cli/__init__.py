@@ -40,5 +40,4 @@ EXPORTABLE_BLUEPRINTS = [
     agent_blueprint,
     prompt_writer_blueprint,
     description_writer_blueprint,
-    when_to_writer_blueprint,
 ]
