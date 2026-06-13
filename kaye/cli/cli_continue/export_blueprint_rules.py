@@ -15,6 +15,7 @@ from kaye.cli.cli_continue.rule_file import RuleFile
 
 # constants  ###################################################################
 
+# Todo globs saved in corpus
 _BLUEPRINT_NAME2GLOBS = {
     "Coder C": ["**/*.{c,h}"],
     "Coder CPP": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
