@@ -67,10 +67,7 @@ class TestHeader:  # ===========================================================
         assert "name: coder-python" in testee_header
 
     def test_description(_, testee_header):
-        assert (
-            "description: Python docstrings in Sphinx/reStructuredText style"
-            in testee_header
-        )
+        assert "description: To use for python" in testee_header
 
 
 class TestStructure:  # ========================================================

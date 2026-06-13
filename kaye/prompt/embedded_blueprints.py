@@ -48,7 +48,7 @@ rapid_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Format
 [x] └── (Abbreviations)""")
 rapid_blueprint.display_name = "Rapid"
-rapid_blueprint.description = (
+rapid_blueprint.meta.description = (
     "quick, mechanical text or data tasks with no persona or role"
 )
 
@@ -62,7 +62,7 @@ chat_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Role
 [x] └── (Abbreviations)""")
 chat_blueprint.display_name = "Chat"
-chat_blueprint.description = (
+chat_blueprint.meta.description = (
     "default for general conversation with full Kaye persona and role"
 )
 
