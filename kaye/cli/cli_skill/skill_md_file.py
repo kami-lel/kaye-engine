@@ -14,6 +14,7 @@ from kaye.cli.frontmatter_md_file import FrontmatterMDFile
 # helper  ######################################################################
 
 
+# HACK make it only part of UNIT TESTS
 class _SkillFrontmatter(BaseModel):  ###########################################
     """
     validated frontmatter model for an agent skill SKILL.md file
