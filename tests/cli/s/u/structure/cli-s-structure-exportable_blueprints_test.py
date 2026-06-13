@@ -4,7 +4,7 @@ cli-s-structure-exportable_blueprints_test.py
 Unit tests for EXPORTABLE_BLUEPRINTS using SkillMDFileFrontmatterValidator.
 """
 
-from tests.cli.s.structure import validate_blueprint
+from tests.cli.s.u.structure import validate_blueprint
 from kaye.cli import agent_blueprint
 from kaye.prompt.embedded_blueprints import (
     annotation_marker_blueprint,

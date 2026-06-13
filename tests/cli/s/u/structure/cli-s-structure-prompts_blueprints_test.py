@@ -4,7 +4,7 @@ cli-s-structure-prompts_blueprints_test.py
 Unit tests for PROMPTS_BLUEPRINTS using SkillMDFileFrontmatterValidator.
 """
 
-from tests.cli.s.structure import validate_blueprint
+from tests.cli.s.u.structure import validate_blueprint
 from kaye.cli.prompts_blueprints import (
     create_agents_blueprint,
     create_readme_blueprint,
