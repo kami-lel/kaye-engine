@@ -36,6 +36,9 @@ __all__ = (
     "style_capitalization_blueprint",
     "style_briefness_blueprint",
     "style_good_writing_blueprint",
+    "prompt_writer_blueprint",
+    "description_writer_blueprint",
+    "when_to_writer_blueprint",
 )
 
 
@@ -218,4 +221,21 @@ style_briefness_blueprint = PromptBlueprint.create_from_node(
 
 style_good_writing_blueprint = PromptBlueprint.create_from_node(
     _style_node["Style Guide Good Writing"]
+)
+
+
+# Prompt Engineering  ==========================================================
+
+_prompt_engineer_node = _corpus["Prompt Engineering"]
+
+prompt_writer_blueprint = PromptBlueprint.create_from_node(
+    _prompt_engineer_node["Prompt Writer"], recursively=True
+)
+
+description_writer_blueprint = PromptBlueprint.create_from_node(
+    _prompt_engineer_node["Skill Description Writer"], recursively=True
+)
+
+when_to_writer_blueprint = PromptBlueprint.create_from_node(
+    _prompt_engineer_node["Skill When to Use Writer"], recursively=True
 )
