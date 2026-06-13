@@ -38,7 +38,6 @@ __all__ = (
     "style_good_writing_blueprint",
     "prompt_writer_blueprint",
     "description_writer_blueprint",
-    "when_to_writer_blueprint",
 )
 
 
@@ -234,8 +233,4 @@ prompt_writer_blueprint = PromptBlueprint.create_from_node(
 
 description_writer_blueprint = PromptBlueprint.create_from_node(
     _prompt_engineer_node["Skill Description Writer"], recursively=True
-)
-
-when_to_writer_blueprint = PromptBlueprint.create_from_node(
-    _prompt_engineer_node["Skill When to Use Writer"], recursively=True
 )

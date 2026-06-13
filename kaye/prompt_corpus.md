@@ -2711,40 +2711,34 @@ You can:
 
 ## Skill Description Writer
 
+You are writing metadata for an agent "skill" — a reusable capability an LLM can choose to invoke. I will describe a skill, and you will produce two distinct fields: a `description` and a `when_to_use`. These fields are shown to the model in a skill listing so it can decide whether to apply the skill. The `description` decides whether the skill even gets selected, so treat it as the highest-stakes text.
 
+**Rules for both fields**
 
+- Keep both **concise and brief.** Every word competes for the model's attention; cut filler, hedging, and marketing tone.
+- **Always write in the third person, as a declarative statement of capability.** Write "Extracts text from PDFs" — never "I can help you with PDFs" or "You can use this to..." Inconsistent point-of-view hurts skill discovery.
+- Be specific and load in the **key terms, domain keywords, file types, and formats** a user would actually mention. These are what the model matches against.
+- Lean slightly assertive rather than timid. Models tend to under-trigger skills, so it's fine to be a little "pushy" about when the skill applies (e.g. "...even when the user does not explicitly ask for X").
 
+**What each field is for — keep these clearly separate:**
 
+`description` answers **"What does this skill do?"** It is a tight, self-contained statement of the skill's core capability and primary purpose. Lead with the main action verb and outcome, then the scope or domain. It should stand on its own even if `when_to_use` were deleted. Think: *identity and function.* Do not pile example phrases or trigger lists here.
 
+`when_to_use` answers **"When should the model reach for this, and how does it recognize the moment?"** It is the triggering layer: concrete user requests, trigger phrases, keywords, file extensions, and situational cues that should activate the skill — plus, where helpful, a short boundary note on when NOT to use it (to disambiguate from similar skills and prevent over-triggering). Think: *invocation cues and disambiguation,* not an explanation of what the skill does.
 
+Quick test: a sentence describing the skill's capability belongs in `description`; a sentence that helps the model match a user's message to this skill belongs in `when_to_use`.
 
+**Output format** — respond with exactly these two labeled parts and nothing else:
 
+<skill-description-writer-output-format>
+    ```md
+    ### {description}
+    <your description text>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Skill When to Use Writer
+    ### {when_to_use}
+    <your when_to_use text>
+    ```
+</skill-description-writer-output-format>
 
 
 
