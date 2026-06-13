@@ -7,7 +7,7 @@ define ``BlueprintMetaFields``
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 
-class BlueprintMetaNodes:
+class BlueprintMetaNodes:  #####################################################
 
     @property
     def description(self):
@@ -19,11 +19,13 @@ class BlueprintMetaNodes:
 
     @property
     def description_and_when_to_use(self):
-        return self.description + " " + self.when_to_use
+        return self.description + self._NEWLINE_SYMBOL + self.when_to_use
 
     @property
     def globs(self):
-        return []
+        return []  # TODO extract globs out
+
+    # constructor  =============================================================
 
     def __init__(self, *, main_node=None):
         self.description_node = None
@@ -31,13 +33,31 @@ class BlueprintMetaNodes:
         self.globs_node = None
 
         if main_node:
-            pass  # TODO search & find nodes
+            try:
+                self.description_node = main_node["{description}"]
+            except KeyError:
+                pass
 
-    @staticmethod
-    def _convert_node2content(node):
+            try:
+                self.when_to_use_node = main_node["{when_to_use}"]
+            except KeyError:
+                pass
+
+            try:
+                self.globs_node = main_node["{globs}"]
+            except KeyError:
+                pass
+
+    # helpers  =================================================================
+
+    _NEWLINE_SYMBOL = "↵"
+
+    @classmethod
+    def _convert_node2content(cls, node):
         if not node:
             return ""
 
-        # TODO convert into single line
         bp = PromptBlueprint.create_from_node(node)
-        return bp.generate_prompt(disable_first_heading=True)
+        return cls._NEWLINE_SYMBOL.join(
+            bp.generate_prompt_lines(disable_first_heading=True)
+        )
