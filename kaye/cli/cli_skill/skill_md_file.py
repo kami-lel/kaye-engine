@@ -27,8 +27,7 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
     # implement FrontmatterMDFile  =============================================
 
     def _write_frontmatter_content(self):
-        self.file.write("---\n")
-
+        # BUG remove empty entries
         yaml_buffer = io.StringIO()
         yaml.dump(
             self.frontmatter,
@@ -38,8 +37,6 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
             width=float("inf"),
         )
         self.file.write(yaml_buffer.getvalue())
-
-        self.file.write("---\n\n")
 
     # constants  ===============================================================
 
