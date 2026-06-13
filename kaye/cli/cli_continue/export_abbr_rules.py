@@ -9,7 +9,6 @@ from pathlib import Path
 from kaye.cli.cli_continue.rule_file import RuleFile
 from kaye.cli.exportable_abbr import EXPORTABLE_ABBRS
 
-
 # Entry Point  #################################################################
 
 
@@ -31,13 +30,10 @@ def export_abbr_rules(folder):
     folder.mkdir(parents=True, exist_ok=True)
 
     for group in EXPORTABLE_ABBRS:
-        if not group:
-            continue
-
         file_path = folder / "{}.md".format(group.display_name)
         print("update abbr rule: {}".format(file_path))
         with RuleFile(file_path) as rule:
             rule.name = group.display_name
             rule.description = group.description
             rule.write_frontmatter_part()
-            rule.writelines(entry.as_md_list_entry() for entry in group)
+            rule.write(group.as_md_list())

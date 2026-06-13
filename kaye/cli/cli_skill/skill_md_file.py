@@ -22,8 +22,18 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
     :param blueprint: blueprint object
     :type blueprint: PromptBlueprint
     :example:
-    >>> with SkillMDFile(folder, blueprint) as md_file:
-    ...     md_file.version = "v1.0.0"
+    >>> # blueprint-based skills
+    ... with SkillMDFile(parent_folder, blueprint=bp) as skill:
+    ...     pass
+
+    >>> # abbreviation skills
+    ... with SkillMDFile(parent_folder, blueprint=bp) as skill:
+    ...     skill.name = ~~
+    ...     skill.description = ~~
+    ...     skill.write_frontmatter_part()
+    ...     skill.write(~~)
+    ...     skill.writelines(~~)
+    ...     ~~
     """
 
     # implement FrontmatterMDFile  =============================================

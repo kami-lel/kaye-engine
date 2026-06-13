@@ -50,6 +50,13 @@ class ExportableAbbr(list):  ###################################################
         self.display_name = ""
         self.description = ""
 
+    def as_md_list(self):
+        """
+        :return: a markdown list of all abbrs
+        :rtype: str
+        """
+        return "\n".join(entry.as_md_list_entry() for entry in self)
+
 
 def _sort_entries(entries):
     return sorted(entries, key=lambda e: e.abbr.lower())

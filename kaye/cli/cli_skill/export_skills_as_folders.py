@@ -22,3 +22,6 @@ def export_skills_as_folders(parent_folder):
         )
         with AgentSkillFolder(parent_folder, blueprint=blueprint):
             pass
+
+    # export abbrs
+    # TODO export abbrs
