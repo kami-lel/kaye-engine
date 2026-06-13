@@ -39,6 +39,10 @@
 
 - split Style Guide blueprints
 
+- **Prompt Corpus**: refactored "Coder Python Docstring Style" meta nodes
+  (`{description}`, `{when_to_use}`, `{globs}`) to proper heading level 4
+  nesting so they are correctly parsed as child nodes of the section
+
 - CLI test helpers renamed for generality:
 
   - `split_rule_file_basic_format` → `split_frontmatter_md_file`
@@ -56,6 +60,10 @@
 - `RuleFile`
 
 ### Fixed
+
+- **RuleFile**: fixed blueprint rule export to use `blueprint.meta.description`
+  instead of `blueprint.meta.description_and_when_to_use` — ensures only the
+  description is written to the frontmatter, not both description and when_to_use
 
 ### Security
 
