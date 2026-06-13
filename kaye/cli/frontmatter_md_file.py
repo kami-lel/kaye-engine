@@ -21,14 +21,18 @@ class FrontmatterMDFile:  ######################################################
     # abstract method  =========================================================
 
     def _write_frontmatter_content(self):
-        """write ``.frontmatter`` content into ``self.file``
-        in the specific format required"""
+        """
+        write ``.frontmatter`` content into ``self.file``
+        in the specific format required
+        """
         raise NotImplementedError
 
     # public methods  ==========================================================
 
     def write_frontmatter_part(self):
-        """write the YAML frontmatter block fenced with ``---`` delimiters"""
+        """
+        write the YAML frontmatter block fenced with ``---`` delimiters
+        """
         self.file.write("---\n")
         self._write_frontmatter_content()
         self.file.write("---\n\n")
