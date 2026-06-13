@@ -14,7 +14,6 @@ from kaye.cli.exportable_abbr import (
     get_abbrs_by_first_char,
 )
 
-
 # helpers  #####################################################################
 
 
@@ -26,7 +25,7 @@ def _write_rule_file(file_path, name, entries, description=""):
     with RuleFile(file_path) as rule:
         rule.name = name
         rule.description = description
-        rule.write_frontmatter()
+        rule.write_frontmatter_part()
         rule.writelines(entry.as_md_list_entry() for entry in entries)
 
 

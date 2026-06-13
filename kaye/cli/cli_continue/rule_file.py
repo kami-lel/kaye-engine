@@ -34,9 +34,7 @@ class RuleFile(FrontmatterMDFile):  ############################################
 
     # implement FrontmatterMDFile  =============================================
 
-    def write_frontmatter(self):
-        self.file.write("---\n")
-
+    def _write_frontmatter_content(self):
         metadata = {"name": self.frontmatter.get("name", "")}
 
         description = self.frontmatter.get("description", "")
@@ -62,8 +60,6 @@ class RuleFile(FrontmatterMDFile):  ############################################
             globs_str = ", ".join('"{}"'.format(g) for g in self.globs)
             self.file.write("globs: [{}]\n".format(globs_str))
 
-        self.file.write("---\n\n")
-
     # constructor  =============================================================
 
     def __init__(self, path, blueprint=None):
@@ -72,3 +68,6 @@ class RuleFile(FrontmatterMDFile):  ############################################
         self.globs = []
         self.always_apply = False
         self.invokable = False
+
+        if blueprint:
+            self.name = blueprint.display_name

@@ -16,18 +16,35 @@ class FrontmatterMDFile:  ######################################################
     :type blueprint: PromptBlueprint
     """
 
-    def write_frontmatter(self):
+    # abstract method  =========================================================
+
+    def _write_frontmatter_content(self):
+        """
+        write ``.frontmatter`` content into ``self.file``
+        in the specific format required
+        """
         raise NotImplementedError
+
+    # public methods  ==========================================================
+
+    def write_frontmatter_part(self):
+        self.file.write("---\n")
+        self._write_frontmatter_content()
+        self.file.write("---\n\n")
 
     # properties  ==============================================================
 
-    name = property()
+    @property
+    def name(self):
+        return self.frontmatter["name"]
 
     @name.setter
     def name(self, value):
         self.frontmatter["name"] = value
 
-    description = property()
+    @property
+    def description(self):
+        return self.frontmatter["description"]
 
     @description.setter
     def description(self, value):
@@ -45,7 +62,7 @@ class FrontmatterMDFile:  ######################################################
         """
         thin wrapper for ``self.file.writelines()``
         """
-        self.file.writelines(lines)
+        self.file.writelines(line + "\n" for line in lines)
 
     # constants  ===============================================================
 
@@ -53,8 +70,6 @@ class FrontmatterMDFile:  ######################################################
     _FILE_ENCODING = "utf-8"
 
     def __init__(self, path, blueprint=None):
-        self._path = path
-
         self.file = None
         self.frontmatter = {
             "name": "",
@@ -64,8 +79,12 @@ class FrontmatterMDFile:  ######################################################
             "metadata": {},
             "allowed-tools": [],
         }
+        self._path = path
+        self._blueprint = None
 
-        self._blueprint = blueprint
+        if blueprint:
+            self._blueprint = blueprint
+            self.description = blueprint.description
 
     # support context manager  =================================================
 
@@ -77,7 +96,7 @@ class FrontmatterMDFile:  ######################################################
 
     def __exit__(self, *_):
         if self._blueprint:
-            self.write_frontmatter()
-            # write blueprint prompt content to file
+            self.write_frontmatter_part()
             self.file.write(self._blueprint.generate_prompt())
+
         self.file.close()
