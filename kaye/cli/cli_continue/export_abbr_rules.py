@@ -35,6 +35,5 @@ def export_abbr_rules(folder):
         with RuleFile(file_path) as rule:
             rule.name = group.display_name
             rule.description = group.description
-            # TODO use .description_and_when_to_use
             rule.write_frontmatter_part()
             rule.write(group.as_md_list())
