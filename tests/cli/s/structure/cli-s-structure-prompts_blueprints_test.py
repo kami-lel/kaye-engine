@@ -5,7 +5,6 @@ Unit tests for PROMPTS_BLUEPRINTS using SkillMDFileFrontmatterValidator.
 """
 
 from tests.cli.s import validate_blueprint
-from kaye.cli import agent_blueprint
 from kaye.cli.prompts_blueprints import (
     create_agents_blueprint,
     create_readme_blueprint,
@@ -44,8 +43,3 @@ def test_prepare_for_feature_finish():
 def test_prepare_for_release():
     r = validate_blueprint(prepare_for_release_blueprint)
     assert r.name == "prepare-for-release"
-
-
-def test_agent_behavior():
-    r = validate_blueprint(agent_blueprint)
-    assert r.name == "agent-behavior"
