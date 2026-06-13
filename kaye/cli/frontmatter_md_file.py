@@ -19,9 +19,6 @@ class FrontmatterMDFile:  ######################################################
     def write_frontmatter(self):
         raise NotImplementedError
 
-    def write_blueprint_content(self):
-        self.file.write(self._blueprint.generate_prompt())
-
     # properties  ==============================================================
 
     name = property()
@@ -72,4 +69,7 @@ class FrontmatterMDFile:  ######################################################
         return self
 
     def __exit__(self, *_):
+        if self._blueprint:
+            self.write_frontmatter()
+            self.file.write(self._blueprint.generate_prompt())
         self.file.close()

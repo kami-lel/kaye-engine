@@ -7,7 +7,7 @@ blueprints as Continue AI rule files via ``RuleFile``
 
 from pathlib import Path
 
-from kaye.prompt import embedded_blueprints, load_prompt_corpus_tree
+from kaye.prompt import load_prompt_corpus_tree
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 from kaye.cli import EXPORTABLE_BLUEPRINTS
@@ -72,6 +72,5 @@ def export_blueprint_rules(rules_folder):
         with RuleFile(file_path, blueprint=bp) as rule:
             rule.globs = _BLUEPRINT_NAME2GLOBS.get(name, [])
             rule.always_apply = name in _ALWAYS_APPLY_BLUEPRINT
-            rule.write_frontmatter_and_content()
 
         print("update blueprint rule:\t{}".format(file_path))

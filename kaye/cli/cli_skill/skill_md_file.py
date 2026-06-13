@@ -22,12 +22,7 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
     :example:
     >>> with SkillMDFile(folder, blueprint) as md_file:
     ...     md_file.version = "v1.0.0"
-    ...     md_file.write_frontmatter()
-    ...     md_file.write_content()
     """
-
-    def write_content(self):
-        self.write_blueprint_content()
 
     def write_frontmatter(self):
         self.file.write("---\n")

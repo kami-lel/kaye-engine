@@ -31,4 +31,3 @@ def export_prompts(prompts_folder):
         with RuleFile(file_path, blueprint=bp) as rule:
             rule.always_apply = False
             rule.invokable = True
-            rule.write_frontmatter_and_content()
