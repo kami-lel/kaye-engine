@@ -1,9 +1,9 @@
 """
-cli-s-u-coder-py_test.py
+cli-s-u-coder-py-testing_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder-py``
+creation of ``coder-python-testing-guidelines``
 """
 
 import pytest
@@ -17,7 +17,7 @@ from tests.cli.s import convert_folder_path2skill_file_path
 # constants  ###################################################################
 
 
-SKILL_NAME = "coder-python"
+SKILL_NAME = "coder-python-testing-guidelines"
 
 
 # Pytest fixtures  #############################################################
@@ -64,11 +64,12 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-python" in testee_header
+        assert "name: coder-python-testing-guidelines" in testee_header
 
     def test_description(_, testee_header):
         assert (
-            "description: Python docstrings in Sphinx/reStructuredText style"
+            "description: Python tests using pytest with Test classes and"
+            " test_ functions"
             in testee_header
         )
 
@@ -81,12 +82,31 @@ class TestStructure:  # ========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Coder Python" in testee_content
+    def test_testing_guidelines_heading(_, testee_content):
+        assert "### Coder Python Testing Guidelines" in testee_content
 
-    def test_content(_, testee_content):
+    def test_pytest_mention(_, testee_content):
+        assert "`pytest` module" in testee_content
+
+    def test_test_class_names(_, testee_content):
+        assert "test class names should start with `Test`" in testee_content
+
+    def test_test_function_names(_, testee_content):
+        assert "test function names should begin with `test_`" in testee_content
+
+    def test_separate_test_functions(_, testee_content):
         assert (
-            "Adhere to the **PEP8** style guide, "
-            "ensuring clarity and consistency."
-            in testee_content
+            "strive to create as many separate test functions" in testee_content
         )
+
+    def test_no_docstrings(_, testee_content):
+        assert "do **not** require docstrings" in testee_content
+
+    def test_module_docstring(_, testee_content):
+        assert "**Each test file**" in testee_content
+
+    def test_math_utils_example(_, testee_content):
+        assert "TestAdd" in testee_content
+
+    def test_test_add_class(_, testee_content):
+        assert "class TestAdd:" in testee_content

@@ -1,9 +1,9 @@
 """
-cli-s-u-coder-py_test.py
+cli-s-u-coder-html_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder-py``
+creation of ``coder-html``
 """
 
 import pytest
@@ -17,7 +17,7 @@ from tests.cli.s import convert_folder_path2skill_file_path
 # constants  ###################################################################
 
 
-SKILL_NAME = "coder-python"
+SKILL_NAME = "coder-html"
 
 
 # Pytest fixtures  #############################################################
@@ -64,13 +64,7 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-python" in testee_header
-
-    def test_description(_, testee_header):
-        assert (
-            "description: Python docstrings in Sphinx/reStructuredText style"
-            in testee_header
-        )
+        assert "name: coder-html" in testee_header
 
 
 class TestStructure:  # ========================================================
@@ -81,12 +75,8 @@ class TestStructure:  # ========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Coder Python" in testee_content
+    def test_html_heading(_, testee_content):
+        assert "## Coder HTML" in testee_content
 
-    def test_content(_, testee_content):
-        assert (
-            "Adhere to the **PEP8** style guide, "
-            "ensuring clarity and consistency."
-            in testee_content
-        )
+    def test_html5(_, testee_content):
+        assert "- Version: **HTML5** standard" in testee_content

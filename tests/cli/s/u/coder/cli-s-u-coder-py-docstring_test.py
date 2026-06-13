@@ -1,9 +1,9 @@
 """
-cli-s-u-coder-py_test.py
+cli-s-u-coder-py-docstring_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder-py``
+creation of ``coder-python-docstring-style``
 """
 
 import pytest
@@ -17,7 +17,7 @@ from tests.cli.s import convert_folder_path2skill_file_path
 # constants  ###################################################################
 
 
-SKILL_NAME = "coder-python"
+SKILL_NAME = "coder-python-docstring-style"
 
 
 # Pytest fixtures  #############################################################
@@ -64,7 +64,7 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-python" in testee_header
+        assert "name: coder-python-docstring-style" in testee_header
 
     def test_description(_, testee_header):
         assert (
@@ -81,12 +81,32 @@ class TestStructure:  # ========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Coder Python" in testee_content
+    def test_docstring_style_heading(_, testee_content):
+        assert "### Coder Python Docstring Style" in testee_content
 
-    def test_content(_, testee_content):
+    def test_sphinx_style(_, testee_content):
+        assert "**Sphinx** style" in testee_content
+
+    def test_restructuredtext(_, testee_content):
+        assert "**reStructuredText**" in testee_content
+
+    def test_public_methods(_, testee_content):
         assert (
-            "Adhere to the **PEP8** style guide, "
-            "ensuring clarity and consistency."
+            "- **public methods** must always include a docstring"
             in testee_content
         )
+
+    def test_private_methods(_, testee_content):
+        assert "- **private methods**" in testee_content
+
+    def test_form_1(_, testee_content):
+        assert "- *Form 1*" in testee_content
+
+    def test_form_2(_, testee_content):
+        assert "- *Form 2*" in testee_content
+
+    def test_calc_square_example(_, testee_content):
+        assert "def calc_square(number):" in testee_content
+
+    def test_param_field(_, testee_content):
+        assert ":param" in testee_content

@@ -1,9 +1,9 @@
 """
-cli-s-u-coder-py_test.py
+cli-s-u-coder-gdscript_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder-py``
+creation of ``coder-gdscript``
 """
 
 import pytest
@@ -17,7 +17,7 @@ from tests.cli.s import convert_folder_path2skill_file_path
 # constants  ###################################################################
 
 
-SKILL_NAME = "coder-python"
+SKILL_NAME = "coder-gdscript"
 
 
 # Pytest fixtures  #############################################################
@@ -64,12 +64,11 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-python" in testee_header
+        assert "name: coder-gdscript" in testee_header
 
     def test_description(_, testee_header):
         assert (
-            "description: Python docstrings in Sphinx/reStructuredText style"
-            in testee_header
+            "description: GDScript code for Godot 4" in testee_header
         )
 
 
@@ -81,12 +80,5 @@ class TestStructure:  # ========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Coder Python" in testee_content
-
-    def test_content(_, testee_content):
-        assert (
-            "Adhere to the **PEP8** style guide, "
-            "ensuring clarity and consistency."
-            in testee_content
-        )
+    def test_structure(_, testee_skill_file):
+        assert assert_frontmatter_md_file_basic_structure(testee_skill_file)

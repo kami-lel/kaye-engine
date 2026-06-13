@@ -1,9 +1,9 @@
 """
-cli-s-u-coder-py_test.py
+cli-s-u-coder-c_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder-py``
+creation of ``coder-c``
 """
 
 import pytest
@@ -17,7 +17,7 @@ from tests.cli.s import convert_folder_path2skill_file_path
 # constants  ###################################################################
 
 
-SKILL_NAME = "coder-python"
+SKILL_NAME = "coder-c"
 
 
 # Pytest fixtures  #############################################################
@@ -64,13 +64,10 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-python" in testee_header
+        assert "name: coder-c" in testee_header
 
     def test_description(_, testee_header):
-        assert (
-            "description: Python docstrings in Sphinx/reStructuredText style"
-            in testee_header
-        )
+        assert "description: C code (C99)" in testee_header
 
 
 class TestStructure:  # ========================================================
@@ -81,12 +78,17 @@ class TestStructure:  # ========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Coder Python" in testee_content
+    def test_brace_style_heading(_, testee_content):
+        assert "## Brace Style" in testee_content
 
-    def test_content(_, testee_content):
-        assert (
-            "Adhere to the **PEP8** style guide, "
-            "ensuring clarity and consistency."
-            in testee_content
-        )
+    def test_brace_open(_, testee_content):
+        assert "opening `{` on the **same line**" in testee_content
+
+    def test_brace_close(_, testee_content):
+        assert "closing `}` on its **own line**" in testee_content
+
+    def test_c_heading(_, testee_content):
+        assert "## Coder C" in testee_content
+
+    def test_c99(_, testee_content):
+        assert "Use **C99** standard" in testee_content

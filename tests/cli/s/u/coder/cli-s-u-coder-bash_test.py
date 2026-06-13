@@ -1,9 +1,9 @@
 """
-cli-s-u-coder-py_test.py
+cli-s-u-coder-bash_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder-py``
+creation of ``coder-bash``
 """
 
 import pytest
@@ -17,7 +17,7 @@ from tests.cli.s import convert_folder_path2skill_file_path
 # constants  ###################################################################
 
 
-SKILL_NAME = "coder-python"
+SKILL_NAME = "coder-bash"
 
 
 # Pytest fixtures  #############################################################
@@ -64,11 +64,11 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-python" in testee_header
+        assert "name: coder-bash" in testee_header
 
     def test_description(_, testee_header):
         assert (
-            "description: Python docstrings in Sphinx/reStructuredText style"
+            "description: Debian GNU/Linux shell commands; ready-to-run output"
             in testee_header
         )
 
@@ -82,11 +82,22 @@ class TestStructure:  # ========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "## Coder Python" in testee_content
+        assert "## Coder Bash" in testee_content
 
-    def test_content(_, testee_content):
+    def test_debian_only(_, testee_content):
+        assert "Debian GNU/Linux only" in testee_content
+
+    def test_gnu_tools(_, testee_content):
+        assert "Use standard GNU and Debian tools only." in testee_content
+
+    def test_no_explanation(_, testee_content):
         assert (
-            "Adhere to the **PEP8** style guide, "
-            "ensuring clarity and consistency."
+            "Return only the command or commands, with no explanation."
             in testee_content
         )
+
+    def test_sudo(_, testee_content):
+        assert "Use sudo when needed." in testee_content
+
+    def test_clarifying_question(_, testee_content):
+        assert "ask one short clarifying question" in testee_content
