@@ -26,7 +26,7 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
     # implement FrontmatterMDFile  =============================================
 
-    def write_frontmatter(self):
+    def _write_frontmatter_content(self):
         self.file.write("---\n")
 
         yaml_buffer = io.StringIO()
