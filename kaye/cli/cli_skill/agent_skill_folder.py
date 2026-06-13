@@ -16,23 +16,26 @@ class AgentSkillFolder:  #######################################################
 
     :param path: folder path
     :type path: Path-like
+    :param blueprint: blueprint object
+    :type blueprint: PromptBlueprint
     :example:
-    >>> with AgentSkillFolder(path) as skill:
-    ...     skill.skill_md.blueprint = ~~
+    >>> with AgentSkillFolder(path, blueprint) as agent:
+    ...     pass
     """
 
     # support context manager  =================================================
 
     def __enter__(self):
         self._path.mkdir(parents=True, exist_ok=True)
-        skill_md = SkillMDFile(self._path)
+        skill_md = SkillMDFile(self._path, self._blueprint)
         self.skill_md = skill_md.__enter__()
         return self
 
     def __exit__(self, *args):
         self.skill_md.__exit__(*args)
 
-    def __init__(self, path):
+    def __init__(self, path, blueprint=None):
         self._path = Path(path)
 
+        self._blueprint = blueprint
         self.skill_md = None

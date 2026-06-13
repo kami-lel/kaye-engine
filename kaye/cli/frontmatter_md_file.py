@@ -12,23 +12,14 @@ class FrontmatterMDFile:  ######################################################
 
     :param path:
     :type path: Path-like
+    :param blueprint: blueprint object
+    :type blueprint: PromptBlueprint
     """
 
     def write_frontmatter(self):
         raise NotImplementedError
 
     # properties  ==============================================================
-
-    @property
-    def blueprint(self):
-        return self._blueprint
-
-    @blueprint.setter
-    def blueprint(self, value):
-        self._blueprint = value
-        if value:
-            self.frontmatter["name"] = value.display_name
-            self.frontmatter["description"] = value.description
 
     name = property()
 
@@ -45,9 +36,15 @@ class FrontmatterMDFile:  ######################################################
     # file operation wrapper  ==================================================
 
     def write(self, content):
+        """
+        thin wrapper for ``self.file.write()``
+        """
         self.file.write(content)
 
     def writelines(self, lines):
+        """
+        thin wrapper for ``self.file.writelines()``
+        """
         self.file.writelines(lines)
 
     # constants  ===============================================================
@@ -55,7 +52,7 @@ class FrontmatterMDFile:  ######################################################
     _FILE_MODE = "w"
     _FILE_ENCODING = "utf-8"
 
-    def __init__(self, path):
+    def __init__(self, path, blueprint=None):
         self._path = path
 
         self.file = None
@@ -68,7 +65,7 @@ class FrontmatterMDFile:  ######################################################
             "allowed-tools": [],
         }
 
-        self._blueprint = None
+        self._blueprint = blueprint
 
     # support context manager  =================================================
 
@@ -79,7 +76,8 @@ class FrontmatterMDFile:  ######################################################
         return self
 
     def __exit__(self, *_):
-        if self.blueprint:
+        if self._blueprint:
             self.write_frontmatter()
-            self.file.write(self.blueprint.generate_prompt())
+            # write blueprint prompt content to file
+            self.file.write(self._blueprint.generate_prompt())
         self.file.close()
