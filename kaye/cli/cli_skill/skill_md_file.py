@@ -17,12 +17,13 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
     :param folder_path: folder to write SKILL.md into
     :type folder_path: Path-like
-    :param blueprint: blueprint object
-    :type blueprint: PromptBlueprint
     :example:
-    >>> with SkillMDFile(folder, blueprint) as md_file:
+    >>> with SkillMDFile(folder) as md_file:
+    ...     md_file.blueprint = blueprint
     ...     md_file.version = "v1.0.0"
     """
+
+    # implement FrontmatterMDFile  =============================================
 
     def write_frontmatter(self):
         self.file.write("---\n")
@@ -43,6 +44,6 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
     _FILENAME = "SKILL.md"
 
-    def __init__(self, folder_path, blueprint=None):
+    def __init__(self, folder_path):
         file_name = folder_path / self._FILENAME
-        super().__init__(file_name, blueprint)
+        super().__init__(file_name)
