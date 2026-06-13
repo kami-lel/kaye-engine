@@ -1,5 +1,5 @@
 """
-s-prompts-blueprints_test.py
+cli-s-structure-prompts_blueprints_test.py
 
 Unit tests for PROMPTS_BLUEPRINTS using SkillMDFileFrontmatterValidator.
 """

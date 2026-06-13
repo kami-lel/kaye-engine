@@ -1,5 +1,5 @@
 """
-s-exportable-blueprints_test.py
+cli-s-structure-exportable_blueprints_test.py
 
 Unit tests for EXPORTABLE_BLUEPRINTS using SkillMDFileFrontmatterValidator.
 """
