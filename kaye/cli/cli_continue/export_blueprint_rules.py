@@ -15,7 +15,7 @@ from kaye.cli.cli_continue.rule_file import RuleFile
 
 # constants  ###################################################################
 
-# TODO globs saved in corpus
+# HACK HACK rm
 _BLUEPRINT_NAME2GLOBS = {
     "Coder C": ["**/*.{c,h}"],
     "Coder CPP": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
@@ -71,10 +71,9 @@ def export_blueprint_rules(rules_folder):
         file_path = folder_path / "{}.md".format(bp.display_name)
 
         with RuleFile(file_path, blueprint=bp) as rule:
-            # TODO use .description_and_when_to_use
             rule.globs = _BLUEPRINT_NAME2GLOBS.get(
                 name, []
-            )  # FIXME globs from blueprint
+            )  # FIXME FIXME globs from blueprint
             rule.always_apply = name in _ALWAYS_APPLY_BLUEPRINT
 
         print("update blueprint rule:\t{}".format(file_path))

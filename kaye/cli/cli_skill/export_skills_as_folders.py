@@ -49,7 +49,6 @@ def export_skills_as_folders(
             includes_version=includes_version,
         ) as skill:
             skill.skill_md.description = group.description
-            # TODO use when to use
             skill.skill_md.frontmatter["user-invocable"] = False
             skill.skill_md.write_frontmatter_part()
             skill.skill_md.write(group.as_md_list())

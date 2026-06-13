@@ -27,7 +27,7 @@ class BlueprintMetaNodes:  #####################################################
 
     @property
     def description_and_when_to_use(self):
-        return self._NEWLINE_SYMBOL.join(
+        return self._description or self._NEWLINE_SYMBOL.join(
             self._convert_node2content_lines(self.description_node)
             + self._convert_node2content_lines(self.when_to_use_node)
         )

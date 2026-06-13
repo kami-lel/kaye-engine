@@ -2511,6 +2511,13 @@ Use **C99** standard
 
 C code (C99)
 
+### {globs}
+
+```glob
+**/*.{c,h}
+```
+
+
 
 
 
@@ -2532,6 +2539,12 @@ Use **C++17** standard
 
 C++ code (C++17)
 
+### {globs}
+
+```glob
+**/*.{cpp,cc,cxx,hpp,hh,hxx}
+```
+
 
 
 
@@ -2551,6 +2564,12 @@ C++ code (C++17)
 ### {description}
 
 C++ code for Unreal Engine
+
+### {globs}
+
+```glob
+**/*.{cpp,cc,cxx,hpp,hh,hxx}
+```
 
 
 
@@ -2572,6 +2591,11 @@ C++ code for Unreal Engine
 
 C# code
 
+### {globs}
+
+```glob
+**/*.cs
+```
 
 
 
@@ -2678,6 +2702,12 @@ private void Awake() {
 
 C# code for Unity 6 (MonoBehaviour scripts, components, Inspector fields)
 
+### {globs}
+
+```glob
+**/*.cs
+```
+
 
 
 
@@ -2702,6 +2732,12 @@ C# code for Unity 6 (MonoBehaviour scripts, components, Inspector fields)
 
 GDScript code for Godot 4
 
+### {globs}
+
+```glob
+**/*.gd
+```
+
 
 
 
@@ -2722,6 +2758,12 @@ GDScript code for Godot 4
 ### {description}
 
 Use this skill when writing or generating HTML — apply HTML5 standards for structure, semantics, and markup. Trigger for any task that produces or edits .html files or embedded HTML content.
+
+### {globs}
+
+```glob
+**/*.{html,htm}
+```
 
 
 
@@ -2796,6 +2838,12 @@ globalNS.method1 = function (a, b) {
 
 Use this skill when writing or generating JavaScript or TypeScript code — apply ES11 standards, camelCase naming, and JSDoc comments. Trigger for any task that produces or edits `.js` or `.ts` files, or inline JS/TS code blocks.
 
+### {globs}
+
+```glob
+**/*.{js,ts,jsx,tsx,mjs,cjs}
+```
+
 
 
 
@@ -2836,6 +2884,12 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 ### {description}
 
 To use for python
+
+### {globs}
+
+```glob
+**/*.py
+```
 
 
 
@@ -2898,6 +2952,12 @@ def calc_square(number):
 
 Python docstrings in Sphinx/reStructuredText style
 
+### {globs}
+
+```glob
+**/*.py
+```
+
 
 
 
@@ -2950,6 +3010,13 @@ class TestAdd:
 #### {description}
 
 Python tests using pytest with Test classes and test_ functions
+
+#### {globs}
+
+```glob
+**/test_*.py
+**/*_test.py
+```
 
 
 
@@ -3094,7 +3161,6 @@ generic Project/Repository structure for all programming languages
 
 ### {description}
 
-
 semantic Versioning basics Major.Minor.Patch/x.y.z, pre-release identifiers, build metadata, and version examples
 
 
@@ -3207,6 +3273,12 @@ A good `README.md` should be:
 ### {description}
 
 format for README documentation
+
+### {globs}
+
+```glob
+**/{README,Readme,readme}{,.md,.txt}
+```
 
 
 
@@ -3336,6 +3408,12 @@ You must help user to write CHANGELOG.
 
 format for CHANGELOG.md
 
+### {globs}
+
+```glob
+**/{CHANGELOG,Changelog,changelog}{,.md,.txt}
+```
+
 
 
 
@@ -3454,6 +3532,12 @@ A good `AGENTS.md` should be:
 ### {description}
 
 format for AGENTS.md documentation
+
+### {globs}
+
+```glob
+**/{AGENTS,Agents,agents}{,.md}
+```
 
 
 
