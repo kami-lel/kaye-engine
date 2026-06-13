@@ -37,9 +37,6 @@ from kaye.prompt.embedded_blueprints import (
 # valid  #######################################################################
 
 
-# BUG failed these unit tests
-
-
 def test_chat():
     r = validate_blueprint(chat_blueprint)
     assert r.name == "chat"
