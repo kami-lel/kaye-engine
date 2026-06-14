@@ -67,7 +67,19 @@ class TestHeader:  # ===========================================================
         assert "name: Project README Writer" in testee_header
 
     def test_description(_, testee_header):
-        assert "description: format for README documentation" in testee_header
+        assert any(
+            line.startswith("description: ")
+            and "Writes and maintains human-friendly `README.md` files" in line
+            for line in testee_header
+        )
+
+    def test_description_when_to_use(_, testee_header):
+        assert any(
+            line.startswith("description: ")
+            and "Use when creating, updating, or reviewing a `README.md`"
+            in line
+            for line in testee_header
+        )
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)

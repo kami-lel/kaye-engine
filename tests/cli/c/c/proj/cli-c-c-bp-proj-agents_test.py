@@ -67,8 +67,18 @@ class TestHeader:  # ===========================================================
         assert "name: Project AGENTS Writer" in testee_header
 
     def test_description(_, testee_header):
-        assert (
-            "description: format for AGENTS.md documentation" in testee_header
+        assert any(
+            line.startswith("description: ")
+            and "Writes and maintains `AGENTS.md` files" in line
+            for line in testee_header
+        )
+
+    def test_description_when_to_use(_, testee_header):
+        assert any(
+            line.startswith("description: ")
+            and "Use when creating, updating, or reviewing an `AGENTS.md`"
+            in line
+            for line in testee_header
         )
 
     def test_always_apply(_, testee_header):
