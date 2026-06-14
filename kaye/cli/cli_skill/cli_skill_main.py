@@ -8,7 +8,7 @@ def register_cli_skill_parser(  ################################################
     cli_subparser,
 ):  # pylint: disable=missing-function-docstring
     skill_parser = cli_subparser.add_parser(
-        "skill", help=__doc__, description=__doc__, aliases=["s", "a"]
+        "skill", help=__doc__, description=__doc__, aliases=["s"]
     )
 
     def _skill_parser_main(_):
