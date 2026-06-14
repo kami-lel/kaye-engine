@@ -6,6 +6,8 @@ from pathlib import Path
 
 from kaye.cli.cli_skill.export_skills_as_folders import export_skills_as_folders
 
+# Bug no version in some skill, print version in ALL skills print mode
+
 
 def register_cli_skill_create_parser(  #########################################
     cli_subparser,
