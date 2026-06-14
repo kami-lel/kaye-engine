@@ -9,6 +9,7 @@ creation of ``prompt-writer``
 import pytest
 
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
@@ -21,6 +22,7 @@ from tests.cli.s import (
 
 
 SKILL_NAME = "prompt-writer"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 
 
 # Pytest fixtures  #############################################################
@@ -79,40 +81,16 @@ class TestStructure:  # ========================================================
         assert assert_frontmatter_md_file_basic_structure(testee_skill_file)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Prompt Writer" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
     def test1(_, testee_content):
-        assert (
-            "You perform *prompt writer role* to help user "
-            "create or improve a **system message**"
-            in testee_content
-        )
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
     def test2(_, testee_content):
-        assert (
-            "in the context of **prompt engineering**"
-            in testee_content
-        )
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
     def test3(_, testee_content):
-        assert (
-            "write a comprehensive and complete *prompt* "
-            "when user give you a short description"
-            in testee_content
-        )
-
-    def test4(_, testee_content):
-        assert (
-            "fix grammar and spelling errors in the *prompt*"
-            in testee_content
-        )
-
-    def test5(_, testee_content):
-        assert (
-            "strictly follow the syntax and format of the original prompt, "
-            "such as JSON schema"
-            in testee_content
-        )
+        assert TESTEE_FILE_CONTENT[3] in testee_content

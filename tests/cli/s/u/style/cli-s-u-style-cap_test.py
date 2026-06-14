@@ -9,6 +9,7 @@ creation of ``style-guide-capitalization``
 import pytest
 
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
@@ -21,6 +22,7 @@ from tests.cli.s import (
 
 
 SKILL_NAME = "style-guide-capitalization"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 
 
 # Pytest fixtures  #############################################################
@@ -98,7 +100,7 @@ class TestStructure:  # ========================================================
         assert assert_frontmatter_md_file_basic_structure(testee_skill_file)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Style Guide Capitalization" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content

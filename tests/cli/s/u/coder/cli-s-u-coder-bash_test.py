@@ -9,6 +9,7 @@ creation of ``coder-bash``
 import pytest
 
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
@@ -21,6 +22,7 @@ from tests.cli.s import (
 
 
 SKILL_NAME = "coder-bash"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 
 
 # Pytest fixtures  #############################################################
@@ -97,25 +99,22 @@ class TestStructure:  # ========================================================
         assert assert_frontmatter_md_file_basic_structure(testee_skill_file)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Coder Bash" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_debian_only(_, testee_content):
-        assert "Debian GNU/Linux only" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_gnu_tools(_, testee_content):
-        assert "Use standard GNU and Debian tools only." in testee_content
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_no_explanation(_, testee_content):
-        assert (
-            "Return only the command or commands, with no explanation."
-            in testee_content
-        )
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_sudo(_, testee_content):
-        assert "Use sudo when needed." in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_clarifying_question(_, testee_content):
-        assert "ask one short clarifying question" in testee_content
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
