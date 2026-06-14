@@ -20,6 +20,31 @@
 
 ### Changed
 
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.5.1...dev
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.5.1] - 2026-06-14
+
+### Changed
+
 **Prompt Corpus**:
 
 - coder blueprint metadata expanded:
@@ -45,9 +70,14 @@ standardized description headers and expanded usage triggers
   `SKILL.md` files; `includes_version` parameter removed from export functions
   (version stamping is no longer optional)
 
-### Deprecated
+- **Unit tests**:
 
-### Removed
+  - `s/u` and `c/c` header tests updated across all coder, proj, style, and
+    others test files to assert corpus-derived `description` and `when_to_use`
+    YAML values
+  - `test_version()` added to all 27 skill header tests in `s/u` directory
+  - VERSION_LINE_PATTERN now matches any version string (lowercase letters,
+    digits, `.`, `-`) instead of hardcoded version
 
 ### Fixed
 
@@ -56,7 +86,15 @@ standardized description headers and expanded usage triggers
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.5.0...dev
+[6.5.1]: https://github.com/kami-lel/kaye/compare/v6.5.0...v6.5.1
+
+
+
+
+
+
+
+
 
 
 
