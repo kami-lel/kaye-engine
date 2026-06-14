@@ -41,6 +41,10 @@
   - Project blueprints (Agents, Changelog, Project, Readme, Semantic Versioning):
 standardized description headers and expanded usage triggers
 
+- **Skill version metadata**: version field now always included in exported
+  `SKILL.md` files; `includes_version` parameter removed from export functions
+  (version stamping is no longer optional)
+
 ### Deprecated
 
 ### Removed

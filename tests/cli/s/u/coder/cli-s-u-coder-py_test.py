@@ -12,7 +12,10 @@ from tests.cli import (
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
-from tests.cli.s import convert_folder_path2skill_file_path
+from tests.cli.s import (
+    VERSION_LINE_PATTERN,
+    convert_folder_path2skill_file_path,
+)
 
 # constants  ###################################################################
 
@@ -81,6 +84,9 @@ class TestHeader:  # ===========================================================
             " scripts, modules, or packages.'"
             in testee_header
         )
+
+    def test_version(self, testee_header):
+        assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
 
 
 class TestStructure:  # ========================================================

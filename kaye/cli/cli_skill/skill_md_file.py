@@ -22,8 +22,6 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
     :type folder_path: Path-like
     :param blueprint: blueprint object
     :type blueprint: PromptBlueprint
-    :param includes_version: whether to embed the package version in metadata
-    :type includes_version: bool
     :example:
     >>> # blueprint-based skills
     ... with SkillMDFile(parent_folder, blueprint=bp) as skill:
@@ -62,12 +60,11 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
     _FILENAME = "SKILL.md"
 
-    def __init__(self, folder_path, *, blueprint=None, includes_version=False):
+    def __init__(self, folder_path, *, blueprint=None):
         file_name = folder_path / self._FILENAME
         super().__init__(file_name, blueprint)
 
-        if includes_version:
-            self.frontmatter["metadata"]["version"] = version("kaye")
+        self.frontmatter["metadata"]["version"] = version("kaye")
 
         if blueprint:
             self.name = convert_display_name2skill_name(blueprint.display_name)

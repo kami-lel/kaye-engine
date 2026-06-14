@@ -12,7 +12,10 @@ from tests.cli import (
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
-from tests.cli.s import convert_folder_path2skill_file_path
+from tests.cli.s import (
+    VERSION_LINE_PATTERN,
+    convert_folder_path2skill_file_path,
+)
 
 # constants  ###################################################################
 
@@ -65,6 +68,9 @@ class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
         assert "name: numerical-values-with-units" in testee_header
+
+    def test_version(self, testee_header):
+        assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
 
 
 class TestStructure:  # ========================================================
