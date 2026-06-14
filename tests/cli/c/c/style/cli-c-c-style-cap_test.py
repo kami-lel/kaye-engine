@@ -65,18 +65,13 @@ class TestHeader:  # ===========================================================
     def test_description(_, testee_header):
         print(testee_header)
         assert (
-            'description: "Applies capitalization rules to text, covering Title'
-            " Case (headline-style major-word capitalization for titles and"
-            " section headings) and Commentary Case (lowercase-leading"
-            " sentences with selective Title Case emphasis and no terminal"
-            " punctuation, for list items and table cells).\\u21B5Use when"
-            " capitalizing or formatting document titles, section headings,"
-            " list items, or table cell content, or when a user mentions title"
-            " case, headline case, sentence case, Chicago Manual of Style, or"
-            " asks how to capitalize headings vs. body/list text. Triggers on"
-            " requests to fix, standardize, or check letter casing in"
-            " structured documents. Not for grammar, punctuation, or prose"
-            ' style beyond capitalization."'
+            'description: "Applies Chicago Manual of Style capitalization:'
+            " Title Case for titles and headings, Commentary Case"
+            " (lowercase-leading, selective emphasis, no end punctuation) for"
+            " list items and table cells.\\u21B5Use when capitalizing titles,"
+            " headings, list items, or table cells, or when a user mentions"
+            " title case, headline case, or Chicago Manual of Style. Not for"
+            ' grammar, punctuation, or prose style."'
             in testee_header
         )
 
