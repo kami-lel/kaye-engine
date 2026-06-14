@@ -1,3 +1,7 @@
-todo for prepare_for_feature_finish/_release, utilize tools to fetch `git log`
+Todo for prepare_for_feature_finish/_release, utilize tools to fetch `git log`
 
-todo add {prerequisite} meta node
+Todo add {prerequisite} meta node, or standardize calling tools etc.
+
+Bug prepare to release failed to remove empty section
+
+todo resume role
