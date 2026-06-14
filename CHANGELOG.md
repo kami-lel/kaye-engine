@@ -20,6 +20,31 @@
 
 ### Changed
 
+**Unit Tests**:
+
+- **Test content centralization**: Consolidated all `TestContent` class assertions
+  across `tests/cli/c/c/` and `tests/cli/s/u/` directories into a shared
+  `TESTEE_FILE_CONTENT_ALL` dictionary in `tests/cli/__init__.py`
+
+  - Expanded dictionary from 6 keys (chat, agent-behavior, continue-behavior,
+    annotation-markers, date-and-time-format, numerical-values-with-units) to
+    **46 keys** covering all skills and blueprints
+
+  - Refactored **60 test files** to use indexed test methods (`test0`, `test1`,
+    etc.) that reference `TESTEE_FILE_CONTENT_ALL[key]` instead of hardcoded
+    assertion strings
+
+  - Eliminated hundreds of duplicated assertion strings across:
+    - Abbreviation skills (19 types)
+    - Coder skills (11 types)
+    - Style guide skills (3 types)
+    - Project writer skills (5 types)
+    - Prompt engine descriptions (2 types)
+    - Core behavior skills (4 types)
+
+  - All 1065 tests passing; single source of truth for test assertions improves
+    maintainability and reduces duplication
+
 ### Deprecated
 
 ### Removed
