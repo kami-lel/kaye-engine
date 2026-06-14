@@ -66,6 +66,17 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: Coder JavaScript and TypeScript" in testee_header
 
+    def test_description(_, testee_header):
+        print(testee_header)
+        assert (
+            'description: "Use this skill when writing or generating'
+            " JavaScript or TypeScript code \\u2014 apply ES11 standards,"
+            " camelCase naming, and JSDoc comments. Trigger for any task"
+            " that produces or edits `.js` or `.ts` files, or inline"
+            ' JS/TS code blocks."'
+            in testee_header
+        )
+
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.{js,ts,jsx,tsx,mjs,cjs}"]' in testee_header
 

@@ -67,9 +67,28 @@ class TestHeader:  # ===========================================================
         assert "name: Coder Python Docstring Style" in testee_header
 
     def test_description(_, testee_header):
+        print(testee_header)
         assert (
-            "Enforces a specific Python docstring convention: Sphinx style with reStructuredText markup"
-            in testee_header[1]
+            'description: "Enforces a specific Python docstring convention:'
+            " Sphinx style with reStructuredText markup. Writes and"
+            " formats docstrings to two approved forms with strict rules"
+            " for the summary line, empty-line placement, field ordering"
+            " (`:param:`/`:type:`/`:raises:`/`:return:`/`:rtype:`"
+            "/`:example:`), and visibility \\u2014 mandatory for public"
+            " methods and classes, omitted on `__init__` and most dunder"
+            " methods, with constructor arguments documented in the class"
+            " docstring rather than on `__init__`.\\u21B5Trigger whenever"
+            " writing, generating, or editing Python source where a"
+            " function, method, or class needs a docstring \\u2014"
+            ' including when the user only says \\"add a docstring,\\"'
+            ' \\"document this,\\" or \\"write the function\\" without'
+            " naming a style. Recognize cues like docstring, Sphinx,"
+            " reStructuredText, reST, `:param:`, `:type:`, `:raises:`,"
+            " `:rtype:`, `:return:`, `:example:`, class docstring,"
+            " constructor documentation, public vs. private method, or"
+            " dunder method. Apply it to keep docstring style consistent"
+            ' across a Python codebase."'
+            in testee_header
         )
 
     def test_globs(_, testee_header):
