@@ -67,18 +67,24 @@ class TestHeader:  # ===========================================================
         assert "name: project-structure" in testee_header
 
     def test_description(_, testee_header):
-        assert any(
-            line.startswith("description: ")
-            and "Defines a standard, language-agnostic project/repository"
-            " layout" in line
-            for line in testee_header
+        print(testee_header)
+        assert (
+            'description: "Defines a standard, language-agnostic'
+            " project/repository layout \\u2014 naming conventions and"
+            " placement for top-level documentation files and source,"
+            ' build, docs, test, and tooling folders."'
+            in testee_header
         )
 
     def test_when_to_use(_, testee_header):
-        assert any(
-            line.startswith("when_to_use: ")
-            and "Use when scaffolding a new repo" in line
-            for line in testee_header
+        print(testee_header)
+        assert (
+            "when_to_use: 'Use when scaffolding a new repo, organizing"
+            " an existing one, or deciding where a file or folder"
+            " belongs. Triggers: \"set up project structure,\""
+            " \"where should this go,\" naming a standard doc or"
+            " directory.'"
+            in testee_header
         )
 
 
