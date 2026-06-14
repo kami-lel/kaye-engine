@@ -66,8 +66,8 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
         file_name = folder_path / self._FILENAME
         super().__init__(file_name, blueprint)
 
-        if includes_version:
-            self.frontmatter["metadata"]["version"] = version("kaye")
+        # HACK remove all includes_version
+        self.frontmatter["metadata"]["version"] = version("kaye")
 
         if blueprint:
             self.name = convert_display_name2skill_name(blueprint.display_name)
