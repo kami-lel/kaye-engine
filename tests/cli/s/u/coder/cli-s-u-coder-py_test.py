@@ -67,7 +67,20 @@ class TestHeader:  # ===========================================================
         assert "name: coder-python" in testee_header
 
     def test_description(_, testee_header):
-        assert "description: To use for python" in testee_header
+        print(testee_header)
+        assert (
+            "description: Writes, edits, and reviews all Python code"
+            in testee_header
+        )
+
+    def test_when_to_use(_, testee_header):
+        print(testee_header)
+        assert (
+            "when_to_use: 'Use for any Python work. Triggers: `.py`"
+            " files, inline Python code blocks, requests for Python"
+            " scripts, modules, or packages.'"
+            in testee_header
+        )
 
 
 class TestStructure:  # ========================================================

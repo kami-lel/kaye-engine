@@ -67,7 +67,13 @@ class TestHeader:  # ===========================================================
         assert "name: Coder C Sharp" in testee_header
 
     def test_description(_, testee_header):
-        assert "description: C# code" in testee_header
+        print(testee_header)
+        assert (
+            'description: "Writes, edits, and reviews all C# code.'
+            '\\u21B5Use for any C# code work. Triggers: `.cs` files,'
+            ' requests for C#, mentions of .NET."'
+            in testee_header
+        )
 
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.cs"]' in testee_header
