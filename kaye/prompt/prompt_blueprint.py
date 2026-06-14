@@ -29,7 +29,7 @@ UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
 
 
-# Todo make sure meta nodes dont get auto added
+# TODO make sure meta nodes NOT get auto added
 
 
 class PromptBlueprint(dict):
