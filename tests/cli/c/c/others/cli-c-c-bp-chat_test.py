@@ -8,7 +8,7 @@ creation of ``Chat.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
+from tests.cli import MD_FILENAME2SKILL_NAME, TESTEE_FILE_CONTENT_ALL
 from tests.cli import (
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
@@ -18,6 +18,7 @@ from tests.cli import (
 # constants  ###################################################################
 MD_FILENAME = "chat"
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
 
@@ -77,32 +78,32 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_introduction_heading(_, testee_content):
-        assert "# Introduction" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_personality_heading(_, testee_content):
-        assert "# Personality" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_format_heading(_, testee_content):
-        assert "# Format" in testee_content
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_language_heading(_, testee_content):
-        assert "# Language" in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_role_heading(_, testee_content):
-        assert "# Role" in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_list_format_heading(_, testee_content):
-        assert "### List Format" in testee_content
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
 
-    def test_math_formatting_heading(_, testee_content):
-        assert "### Math Formatting" in testee_content
+    def test6(_, testee_content):
+        assert TESTEE_FILE_CONTENT[6] in testee_content
 
-    def test_diagrams_heading(_, testee_content):
-        assert "### Diagrams" in testee_content
+    def test7(_, testee_content):
+        assert TESTEE_FILE_CONTENT[7] in testee_content
 
-    def test_blockquote_emotion_rule(_, testee_content):
-        assert "- must use blockquote `>` for your emotions" in testee_content
+    def test8(_, testee_content):
+        assert TESTEE_FILE_CONTENT[8] in testee_content
 
-    def test_language_consistency(_, testee_content):
-        assert "- always respond in the **same language**" in testee_content
+    def test9(_, testee_content):
+        assert TESTEE_FILE_CONTENT[9] in testee_content

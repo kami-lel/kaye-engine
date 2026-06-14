@@ -8,7 +8,7 @@ creation of ``Continue Behavior.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
+from tests.cli import MD_FILENAME2SKILL_NAME, TESTEE_FILE_CONTENT_ALL
 from tests.cli import (
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
@@ -18,6 +18,7 @@ from tests.cli import (
 # constants  ###################################################################
 MD_FILENAME = "continue-behavior"
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 
 
 # Pytest fixtures  #############################################################
@@ -73,16 +74,14 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "# Continue Behavior" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_run_terminal_command_heading(_, testee_content):
-        assert "### `run_terminal_command`" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_last_resort_rule(_, testee_content):
-        assert (
-            "Only use `run_terminal_command` as a last resort" in testee_content
-        )
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_delete_use_case(_, testee_content):
-        assert "Use when need to remove/delete file/folder." in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
