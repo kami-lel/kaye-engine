@@ -12,7 +12,10 @@ from tests.cli import (
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
-from tests.cli.s import convert_folder_path2skill_file_path
+from tests.cli.s import (
+    VERSION_LINE_PATTERN,
+    convert_folder_path2skill_file_path,
+)
 
 # constants  ###################################################################
 
@@ -67,7 +70,23 @@ class TestHeader:  # ===========================================================
         assert "name: coder-python" in testee_header
 
     def test_description(_, testee_header):
-        assert "description: To use for python" in testee_header
+        print(testee_header)
+        assert (
+            "description: Writes, edits, and reviews all Python code"
+            in testee_header
+        )
+
+    def test_when_to_use(_, testee_header):
+        print(testee_header)
+        assert (
+            "when_to_use: 'Use for any Python work. Triggers: `.py`"
+            " files, inline Python code blocks, requests for Python"
+            " scripts, modules, or packages.'"
+            in testee_header
+        )
+
+    def test_version(self, testee_header):
+        assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
 
 
 class TestStructure:  # ========================================================

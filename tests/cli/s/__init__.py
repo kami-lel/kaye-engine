@@ -1,3 +1,4 @@
+import re
 import subprocess
 
 
@@ -13,3 +14,6 @@ def prepare_root_folder(tmp_path_factory, command, folder_name):
     subprocess.run(cmd, shell=True, check=True)
 
     return skills_folder
+
+
+VERSION_LINE_PATTERN = re.compile(r"^  version: [a-z0-9.\-]+$")

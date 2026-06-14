@@ -12,7 +12,10 @@ from tests.cli import (
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
-from tests.cli.s import convert_folder_path2skill_file_path
+from tests.cli.s import (
+    VERSION_LINE_PATTERN,
+    convert_folder_path2skill_file_path,
+)
 
 # constants  ###################################################################
 
@@ -65,6 +68,30 @@ class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
         assert "name: project-agents-writer" in testee_header
+
+    def test_description(_, testee_header):
+        print(testee_header)
+        assert (
+            'description: "Writes and maintains `AGENTS.md` files \\u2014'
+            " concise, agent-readable repository context for AI coding"
+            " tools covering setup, build, run, and test commands,"
+            " conventions, tooling, and safety constraints, with required"
+            ' frontmatter and a standard title."'
+            in testee_header
+        )
+
+    def test_when_to_use(_, testee_header):
+        print(testee_header)
+        assert (
+            "when_to_use: 'Use when creating, updating, or reviewing an"
+            " `AGENTS.md` or equivalent agent-instruction file."
+            ' Triggers: "write an AGENTS.md," "add agent instructions,"'
+            " documenting repo context for AI coding tools.'"
+            in testee_header
+        )
+
+    def test_version(self, testee_header):
+        assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
 
 
 class TestStructure:  # ========================================================

@@ -12,7 +12,10 @@ from tests.cli import (
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
-from tests.cli.s import convert_folder_path2skill_file_path
+from tests.cli.s import (
+    VERSION_LINE_PATTERN,
+    convert_folder_path2skill_file_path,
+)
 
 # constants  ###################################################################
 
@@ -66,6 +69,9 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: " + SKILL_NAME in testee_header
 
+    def test_version(self, testee_header):
+        assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
+
 
 class TestStructure:  # ========================================================
 
@@ -85,7 +91,7 @@ class TestContent:  # ==========================================================
         assert "a `description` and a `when_to_use`" in testee_content
 
     def test3(_, testee_content):
-        assert "Keep both **concise and brief.**" in testee_content
+        assert "Keep both **extremely concise and brief**" in testee_content
 
     def test4(_, testee_content):
         assert (

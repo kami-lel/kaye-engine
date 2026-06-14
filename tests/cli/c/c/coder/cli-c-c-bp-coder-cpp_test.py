@@ -67,7 +67,13 @@ class TestHeader:  # ===========================================================
         assert "name: Coder CPP" in testee_header
 
     def test_description(_, testee_header):
-        assert "description: C++ code (C++17)" in testee_header
+        print(testee_header)
+        assert (
+            'description: "Writes, edits, and reviews all C++ code.'
+            '\\u21B5Use for any C++ code work. Triggers: `.cpp`/`.hpp`'
+            '/`.cc` files, requests for C++."'
+            in testee_header
+        )
 
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"]' in testee_header
