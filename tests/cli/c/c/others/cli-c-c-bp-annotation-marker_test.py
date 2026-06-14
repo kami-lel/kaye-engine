@@ -8,7 +8,7 @@ creation of ``Annotation Markers.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
+from tests.cli import MD_FILENAME2SKILL_NAME, TESTEE_FILE_CONTENT_ALL
 from tests.cli import (
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
@@ -18,6 +18,7 @@ from tests.cli import (
 # constants  ###################################################################
 MD_FILENAME = "annotation-markers"
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
 
@@ -76,29 +77,29 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Annotation Markers" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_primary_am(_, testee_content):
-        assert "- primary AM: BUG, FIXME, TODO, HACK" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_secondary_am(_, testee_content):
-        assert "- secondary AM: Bug, Fixme, Todo, Hack" in testee_content
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_tertiary_am(_, testee_content):
-        assert "- tertiary AM: bug, fixme, todo, hack" in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_promote_demote(_, testee_content):
-        assert "call it **promote**" in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_meaning_heading(_, testee_content):
-        assert "### Meaning" in testee_content
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
 
-    def test_meaning_bug(_, testee_content):
-        assert "- BUG/Bug/bug:" in testee_content
+    def test6(_, testee_content):
+        assert TESTEE_FILE_CONTENT[6] in testee_content
 
-    def test_meaning_todo(_, testee_content):
-        assert "- todo/..." in testee_content
+    def test7(_, testee_content):
+        assert TESTEE_FILE_CONTENT[7] in testee_content
 
-    def test_no_modify_rule(_, testee_content):
-        assert "- do not modify or remove any markers unless" in testee_content
+    def test8(_, testee_content):
+        assert TESTEE_FILE_CONTENT[8] in testee_content
