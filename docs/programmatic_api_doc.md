@@ -74,6 +74,8 @@ E.g.
 > [!NOTE]
 > `.name` is a property of `anytree.Node`
 
+<!-- Todo meta nodes can appear -->
+
 Meta nodes are corpus nodes identified by names enclosed in curly braces, such as `{description}`. They appear in the blueprint preview tree but are **not** included in the rendered prompt output.
 
 Dynamic nodes are identified by names enclosed in parentheses, such as `(Today)`, `(Abbreviations)`. Unlike meta nodes, dynamic nodes are not parsed from the corpus — they are injected at render time and **are** included in the rendered prompt output.
