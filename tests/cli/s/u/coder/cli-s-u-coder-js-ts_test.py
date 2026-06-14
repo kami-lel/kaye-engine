@@ -67,7 +67,22 @@ class TestHeader:  # ===========================================================
         assert "name: coder-javascript-and-typescript" in testee_header
 
     def test_description(_, testee_header):
-        assert any("description:" in line for line in testee_header)
+        print(testee_header)
+        assert (
+            "description: Writes, edits, and reviews all JavaScript and"
+            " TypeScript code, targeting the ES11 standard with camelCase"
+            " naming and JSDoc documentation conventions."
+            in testee_header
+        )
+
+    def test_when_to_use(_, testee_header):
+        print(testee_header)
+        assert (
+            "when_to_use: 'Use for any JavaScript or TypeScript work."
+            " Triggers: `.js`/`.ts`/`.jsx`/`.tsx` files, inline JS/TS"
+            " code blocks, requests for JavaScript, TypeScript, or Node.'"
+            in testee_header
+        )
 
 
 class TestStructure:  # ========================================================

@@ -66,6 +66,26 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: project-semantic-versioning" in testee_header
 
+    def test_description(_, testee_header):
+        print(testee_header)
+        assert (
+            "description: \"Defines the project's semantic versioning"
+            " scheme \\u2014 `major.minor.patch` core, pre-release"
+            " tags (`alpha`/`beta`/`rc`), build metadata, and versions"
+            ' mapped to development stages."'
+            in testee_header
+        )
+
+    def test_when_to_use(_, testee_header):
+        print(testee_header)
+        assert (
+            "when_to_use: 'Use when assigning, bumping, or formatting"
+            " a version, or choosing a pre-release/build tag."
+            " Triggers: \"what version,\" \"tag a release,\" semver,"
+            " alpha/beta/rc.'"
+            in testee_header
+        )
+
 
 class TestStructure:  # ========================================================
 

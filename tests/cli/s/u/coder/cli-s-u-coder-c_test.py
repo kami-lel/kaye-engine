@@ -67,7 +67,19 @@ class TestHeader:  # ===========================================================
         assert "name: coder-c" in testee_header
 
     def test_description(_, testee_header):
-        assert "description: C code (C99)" in testee_header
+        print(testee_header)
+        assert (
+            "description: Writes, edits, and reviews all C code."
+            in testee_header
+        )
+
+    def test_when_to_use(_, testee_header):
+        print(testee_header)
+        assert (
+            "when_to_use: 'Use for any C code work. Triggers:"
+            " `.c`/`.h` files, requests for C.'"
+            in testee_header
+        )
 
 
 class TestStructure:  # ========================================================

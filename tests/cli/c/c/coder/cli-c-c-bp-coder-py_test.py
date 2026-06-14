@@ -67,7 +67,14 @@ class TestHeader:  # ===========================================================
         assert "name: Coder Python" in testee_header
 
     def test_description(_, testee_header):
-        assert "description: To use for python" in testee_header
+        print(testee_header)
+        assert (
+            'description: "Writes, edits, and reviews all Python code'
+            '\\u21B5Use for any Python work. Triggers: `.py` files, inline'
+            ' Python code blocks, requests for Python scripts, modules,'
+            ' or packages."'
+            in testee_header
+        )
 
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.py"]' in testee_header

@@ -67,9 +67,16 @@ class TestHeader:  # ===========================================================
         assert "name: Project Structure" in testee_header
 
     def test_description(_, testee_header):
+        print(testee_header)
         assert (
-            "description: generic Project/Repository structure for all"
-            " programming languages"
+            'description: "Defines a standard, language-agnostic'
+            " project/repository layout \\u2014 naming conventions and"
+            " placement for top-level documentation files and source,"
+            " build, docs, test, and tooling folders.\\u21B5Use when"
+            " scaffolding a new repo, organizing an existing one, or"
+            " deciding where a file or folder belongs. Triggers:"
+            ' \\"set up project structure,\\" \\"where should this go,\\"'
+            ' naming a standard doc or directory."'
             in testee_header
         )
 

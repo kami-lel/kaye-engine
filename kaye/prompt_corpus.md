@@ -467,7 +467,12 @@ Used for **list items** and **table cell content**.
 
 ### {description}
 
-letter case / capitalization guide, explains Title Case & Commentary Case
+Applies Chicago Manual of Style capitalization: Title Case for titles and headings, Commentary Case (lowercase-leading, selective emphasis, no end punctuation) for list items and table cells.
+
+### {when_to_use}
+
+Use when capitalizing titles, headings, list items, or table cells, or when a user mentions title case, headline case, or Chicago Manual of Style. Not for grammar, punctuation, or prose style.
+
 
 
 
@@ -515,7 +520,11 @@ letter case / capitalization guide, explains Title Case & Commentary Case
 
 ### {description}
 
-explain Briefness Style on how to write concise content
+Rewrites content in "Briefness Style" — terse, newspaper-headline prose that maximizes brevity: dropped articles and helper verbs, strong nouns and verbs, active voice, numerals and abbreviations, punctuation-compressed phrasing, no terminal periods.
+
+### {when_to_use}
+
+Use when the user asks for headlinese, telegraphic, or ultra-condensed text — notes, headlines, summaries, bullets, status lines, captions — or says "make it brief/terse/punchy," "cut words," or "headline style." Not for prose needing full grammar, formal tone, or complete sentences.
 
 
 
@@ -565,7 +574,10 @@ explain Briefness Style on how to write concise content
 
 ### {description}
 
-explain Good Writing for general textual writing
+Proofreads and polishes text with minimal edits — fixing spelling, grammar, punctuation, and clarity while preserving the original meaning, voice, and wording.
+
+### {when_to_use}
+Use to proofread, copyedit, or correct writing without rewriting. Not for heavy rewrites, summarizing, or tone changes.
 
 
 
@@ -1795,7 +1807,11 @@ Place the following files and folders at the **top level** of the repository and
 
 ### {description}
 
-generic Project/Repository structure for all programming languages
+Defines a standard, language-agnostic project/repository layout — naming conventions and placement for top-level documentation files and source, build, docs, test, and tooling folders.
+
+### {when_to_use}
+
+Use when scaffolding a new repo, organizing an existing one, or deciding where a file or folder belongs. Triggers: "set up project structure," "where should this go," naming a standard doc or directory.
 
 
 
@@ -1884,7 +1900,11 @@ generic Project/Repository structure for all programming languages
 
 ### {description}
 
-semantic Versioning basics Major.Minor.Patch/x.y.z, pre-release identifiers, build metadata, and version examples
+Defines the project's semantic versioning scheme — `major.minor.patch` core, pre-release tags (`alpha`/`beta`/`rc`), build metadata, and versions mapped to development stages.
+
+### {when_to_use}
+
+Use when assigning, bumping, or formatting a version, or choosing a pre-release/build tag. Triggers: "what version," "tag a release," semver, alpha/beta/rc.
 
 
 
@@ -1995,7 +2015,11 @@ A good `README.md` should be:
 
 ### {description}
 
-format for README documentation
+Writes and maintains human-friendly `README.md` files — scannable, visually clear landing pages covering a project's purpose, features, setup, usage, and contribution flow, with a standard title format and tasteful use of headings, lists, badges, and emoji.
+
+### {when_to_use}
+
+Use when creating, updating, or reviewing a `README.md` or similar project landing page. Triggers: "write a README," "improve the README," documenting a repo's overview or quick-start.
 
 ### {globs}
 
@@ -2127,9 +2151,25 @@ You must help user to write CHANGELOG.
     [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
     ```
 
+
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
 
-format for CHANGELOG.md
+Writes and maintains `CHANGELOG.md` files per Keep a Changelog conventions — dated version entries newest-first, grouped change types, a persistent `[Unreleased]` section, and linkable version references.
+
+### {when_to_use}
+
+Use when creating, updating, or adding entries to a `CHANGELOG.md`, or recording changes for a release. Triggers: "update the changelog," "log this change," "document the release."
 
 ### {globs}
 
@@ -2254,7 +2294,11 @@ A good `AGENTS.md` should be:
 
 ### {description}
 
-format for AGENTS.md documentation
+Writes and maintains `AGENTS.md` files — concise, agent-readable repository context for AI coding tools covering setup, build, run, and test commands, conventions, tooling, and safety constraints, with required frontmatter and a standard title.
+
+### {when_to_use}
+
+Use when creating, updating, or reviewing an `AGENTS.md` or equivalent agent-instruction file. Triggers: "write an AGENTS.md," "add agent instructions," documenting repo context for AI coding tools.
 
 ### {globs}
 
@@ -2714,8 +2758,8 @@ You can:
 You are writing metadata for an agent "skill" — a reusable capability an LLM can choose to invoke. I will describe a skill, and you will produce two distinct fields: a `description` and a `when_to_use`. These fields are shown to the model in a skill listing so it can decide whether to apply the skill. The `description` decides whether the skill even gets selected, so treat it as the highest-stakes text.
 
 **Rules for both fields**
-
-- Keep both **concise and brief.** Every word competes for the model's attention; cut filler, hedging, and marketing tone.
+- Keep both **extremely concise and brief** — a sentence or two each. Capture the **high-level purpose**, not implementation details, internal steps, or mechanics. If a detail describes *how* the skill works rather than *what* it is for or *when* to use it, leave it out.
+- **Write the two fields so they never repeat each other.** They are read together, so any word that appears in both is wasted. `description` states the capability once; `when_to_use` adds only the triggering cues — it must not restate what the skill does.
 - **Always write in the third person, as a declarative statement of capability.** Write "Extracts text from PDFs" — never "I can help you with PDFs" or "You can use this to..." Inconsistent point-of-view hurts skill discovery.
 - Be specific and load in the **key terms, domain keywords, file types, and formats** a user would actually mention. These are what the model matches against.
 - Lean slightly assertive rather than timid. Models tend to under-trigger skills, so it's fine to be a little "pushy" about when the skill applies (e.g. "...even when the user does not explicitly ask for X").
@@ -2728,13 +2772,12 @@ You are writing metadata for an agent "skill" — a reusable capability an LLM c
 
 Quick test: a sentence describing the skill's capability belongs in `description`; a sentence that helps the model match a user's message to this skill belongs in `when_to_use`.
 
-**Output format** — respond with exactly these two labeled parts and nothing else:
+**Output format** — respond with exactly these two labeled parts and nothing else. In the format below, the curly braces `{...}` mark the field name for each section heading — keep the heading as a literal label and write your content on the lines beneath it:
 
 <skill-description-writer-output-format>
     ```md
     ### {description}
     <your description text>
-
     ### {when_to_use}
     <your when_to_use text>
     ```
@@ -3438,9 +3481,44 @@ Destructive commands are allowed if they match the user's request.
 Multi-line commands are allowed.
 If the request is ambiguous, ask one short clarifying question instead of guessing.
 
+
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
 
-Debian GNU/Linux shell commands; ready-to-run output
+Generates ready-to-run Debian GNU/Linux shell commands — command-only output, sudo and destructive commands when requested.
+
+### {when_to_use}
+
+Use for terminal commands or shell one-liners on Debian/Ubuntu. Triggers: "command to...," "bash for...," CLI tasks.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3459,9 +3537,24 @@ Debian GNU/Linux shell commands; ready-to-run output
 
 Use **C99** standard
 
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
 
-C code (C99)
+Writes, edits, and reviews all C code.
+
+### {when_to_use}
+
+Use for any C code work. Triggers: `.c`/`.h` files, requests for C.
 
 ### {globs}
 
@@ -3483,19 +3576,75 @@ C code (C99)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Coder CPP
 
 Use **C++17** standard
 
+
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
 
-C++ code (C++17)
+Writes, edits, and reviews all C++ code.
+
+### {when_to_use}
+
+Use for any C++ code work. Triggers: `.cpp`/`.hpp`/`.cc` files, requests for C++.
 
 ### {globs}
 
 ```glob
 **/*.{cpp,cc,cxx,hpp,hh,hxx}
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3541,7 +3690,11 @@ C++ code for Unreal Engine
 
 ### {description}
 
-C# code
+Writes, edits, and reviews all C# code.
+
+### {when_to_use}
+
+Use for any C# code work. Triggers: `.cs` files, requests for C#, mentions of .NET.
 
 ### {globs}
 
@@ -3562,9 +3715,36 @@ C# code
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Coder Unity Engine
 
 Unity Version: Unity **6**
+
+
+
+
+
+
+
 
 
 
@@ -3652,13 +3832,34 @@ private void Awake() {
 
 ### {description}
 
-C# code for Unity 6 (MonoBehaviour scripts, components, Inspector fields)
+Writes, edits, and reviews all Unity 6 C# code, applying the project's Unity conventions, structure, and coding standards.
+
+### {when_to_use}
+
+ALWAYS apply for any Unity work — scripts, components, ScriptableObjects, editor tools, gameplay systems, UI, shaders, asset and scene logic. Triggers: `MonoBehaviour`, `[SerializeField]`, any mention of Unity.
 
 ### {globs}
 
 ```glob
 **/*.cs
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3788,7 +3989,11 @@ globalNS.method1 = function (a, b) {
 
 ### {description}
 
-Use this skill when writing or generating JavaScript or TypeScript code — apply ES11 standards, camelCase naming, and JSDoc comments. Trigger for any task that produces or edits `.js` or `.ts` files, or inline JS/TS code blocks.
+Writes, edits, and reviews all JavaScript and TypeScript code, targeting the ES11 standard with camelCase naming and JSDoc documentation conventions.
+
+### {when_to_use}
+
+Use for any JavaScript or TypeScript work. Triggers: `.js`/`.ts`/`.jsx`/`.tsx` files, inline JS/TS code blocks, requests for JavaScript, TypeScript, or Node.
 
 ### {globs}
 
@@ -3835,7 +4040,11 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
 ### {description}
 
-To use for python
+Writes, edits, and reviews all Python code
+
+### {when_to_use}
+
+Use for any Python work. Triggers: `.py` files, inline Python code blocks, requests for Python scripts, modules, or packages.
 
 ### {globs}
 
@@ -3914,15 +4123,19 @@ class Rectangle:
         self._height = height
 ```
 
+
+
+
+
 #### {description}
 
-Enforces a specific Python docstring convention: Sphinx style with reStructuredText markup. Writes and formats docstrings to two approved forms with strict rules for the summary line, empty-line placement, field ordering (`:param:`/`:type:`/`:raises:`/`:return:`/`:rtype:`/`:example:`), and visibility — mandatory for public methods and classes, omitted on `__init__` and most dunder methods, with constructor arguments documented in the class docstring rather than on `__init__`.
+Writes and formats Python docstrings in Sphinx/reStructuredText style, enforcing the project's docstring forms, field ordering, and visibility rules.
 
 #### {when_to_use}
 
-Trigger whenever writing, generating, or editing Python source where a function, method, or class needs a docstring — including when the user only says "add a docstring," "document this," or "write the function" without naming a style. Recognize cues like docstring, Sphinx, reStructuredText, reST, `:param:`, `:type:`, `:raises:`, `:rtype:`, `:return:`, `:example:`, class docstring, constructor documentation, public vs. private method, or dunder method. Apply it to keep docstring style consistent across a Python codebase.
+Use whenever Python code needs docstrings — including "add a docstring," "document this," or "write the function." Triggers: docstring, Sphinx, reST, `:param:`.
 
-#### {globs}
+##### {globs}
 
 ```glob
 **/*.py
@@ -3984,9 +4197,17 @@ class TestAdd:
             "contact your admin for more information.")
 ```
 
+
+
+
+
 #### {description}
 
-Python tests using pytest with Test classes and test_ functions
+Writes and reviews Python `pytest` test code following the project's testing conventions.
+
+#### {when_to_use}
+
+Use whenever Python tests are written, run, fixed, or discussed. Triggers: `test_`/`_test.py` files, `pytest`, "add tests," "write a unit test," "test this function."
 
 #### {globs}
 
@@ -4367,9 +4588,11 @@ After completing **all tasks requested by the user**, including **editing**, **d
 
 ## {description}
 
-Use this skill on every task. It governs how the agent handles file state between rounds and when to withhold summaries — treat all file changes as intentional, and never recap completed work unless the user explicitly asks.
+Baseline agent behavior, treats between-round file changes as intentional edits.
 
+## {when_to_use}
 
+ALWAYS apply — every task, every turn, no exceptions. Not situational: this defines default agent conduct at all times, regardless of the request or whether files or summaries are involved.
 
 
 

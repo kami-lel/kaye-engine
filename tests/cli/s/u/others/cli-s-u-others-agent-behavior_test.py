@@ -66,6 +66,23 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: agent-behavior" in testee_header
 
+    def test_description(_, testee_header):
+        print(testee_header)
+        assert (
+            "description: Baseline agent behavior, treats between-round file"
+            " changes as intentional edits."
+            in testee_header
+        )
+
+    def test_when(_, testee_header):
+        assert (
+            'when_to_use: "ALWAYS apply \\u2014 every task, every turn, no'
+            " exceptions. Not situational: this defines default agent conduct"
+            " at all times, regardless of the request or whether files or"
+            ' summaries are involved."'
+            in testee_header
+        )
+
 
 class TestStructure:  # ========================================================
 

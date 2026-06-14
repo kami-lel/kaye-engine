@@ -67,8 +67,18 @@ class TestHeader:  # ===========================================================
         assert "name: Project AGENTS Writer" in testee_header
 
     def test_description(_, testee_header):
+        print(testee_header)
         assert (
-            "description: format for AGENTS.md documentation" in testee_header
+            'description: "Writes and maintains `AGENTS.md` files \\u2014'
+            " concise, agent-readable repository context for AI coding"
+            " tools covering setup, build, run, and test commands,"
+            " conventions, tooling, and safety constraints, with required"
+            " frontmatter and a standard title.\\u21B5Use when creating,"
+            " updating, or reviewing an `AGENTS.md` or equivalent"
+            ' agent-instruction file. Triggers: \\"write an AGENTS.md,\\"'
+            ' \\"add agent instructions,\\" documenting repo context for'
+            ' AI coding tools."'
+            in testee_header
         )
 
     def test_always_apply(_, testee_header):

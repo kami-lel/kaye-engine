@@ -67,13 +67,17 @@ class TestHeader:  # ===========================================================
         assert "name: Coder Python Docstring Style" in testee_header
 
     def test_description(_, testee_header):
+        print(testee_header)
         assert (
-            "Enforces a specific Python docstring convention: Sphinx style with reStructuredText markup"
-            in testee_header[1]
+            'description: "Writes and formats Python docstrings in'
+            " Sphinx/reStructuredText style, enforcing the project's"
+            " docstring forms, field ordering, and visibility"
+            " rules.\\u21B5Use whenever Python code needs docstrings"
+            ' \\u2014 including \\"add a docstring,\\" \\"document'
+            ' this,\\" or \\"write the function.\\" Triggers: docstring,'
+            ' Sphinx, reST, `:param:`."'
+            in testee_header
         )
-
-    def test_globs(_, testee_header):
-        assert 'globs: ["**/*.py"]' in testee_header
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)

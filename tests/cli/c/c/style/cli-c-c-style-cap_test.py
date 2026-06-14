@@ -63,10 +63,15 @@ class TestHeader:  # ===========================================================
         assert name_line in testee_header
 
     def test_description(_, testee_header):
+        print(testee_header)
         assert (
-            "description: "
-            "letter case / capitalization guide, "
-            "explains Title Case & Commentary Case"
+            'description: "Applies Chicago Manual of Style capitalization:'
+            " Title Case for titles and headings, Commentary Case"
+            " (lowercase-leading, selective emphasis, no end punctuation) for"
+            " list items and table cells.\\u21B5Use when capitalizing titles,"
+            " headings, list items, or table cells, or when a user mentions"
+            " title case, headline case, or Chicago Manual of Style. Not for"
+            ' grammar, punctuation, or prose style."'
             in testee_header
         )
 
