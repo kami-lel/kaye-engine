@@ -66,6 +66,29 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: style-guide-capitalization" in testee_header
 
+    def test_description(_, testee_header):
+        print(testee_header)
+        assert (
+            "description: Applies capitalization rules to text, covering Title"
+            " Case (headline-style major-word capitalization for titles and"
+            " section headings) and Commentary Case (lowercase-leading"
+            " sentences with selective Title Case emphasis and no terminal"
+            " punctuation, for list items and table cells)."
+            in testee_header
+        )
+
+    def test_when(_, testee_header):
+        assert (
+            "when_to_use: Use when capitalizing or formatting document titles,"
+            " section headings, list items, or table cell content, or when a"
+            " user mentions title case, headline case, sentence case, Chicago"
+            " Manual of Style, or asks how to capitalize headings vs. body/list"
+            " text. Triggers on requests to fix, standardize, or check letter"
+            " casing in structured documents. Not for grammar, punctuation, or"
+            " prose style beyond capitalization."
+            in testee_header
+        )
+
 
 class TestStructure:  # ========================================================
 
