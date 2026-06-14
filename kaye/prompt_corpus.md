@@ -1807,7 +1807,11 @@ Place the following files and folders at the **top level** of the repository and
 
 ### {description}
 
-generic Project/Repository structure for all programming languages
+Defines a standard, language-agnostic project/repository layout — naming conventions and placement for top-level documentation files and source, build, docs, test, and tooling folders.
+
+### {when_to_use}
+
+Use when scaffolding a new repo, organizing an existing one, or deciding where a file or folder belongs. Triggers: "set up project structure," "where should this go," naming a standard doc or directory.
 
 
 
@@ -1896,7 +1900,11 @@ generic Project/Repository structure for all programming languages
 
 ### {description}
 
-semantic Versioning basics Major.Minor.Patch/x.y.z, pre-release identifiers, build metadata, and version examples
+Defines the project's semantic versioning scheme — `major.minor.patch` core, pre-release tags (`alpha`/`beta`/`rc`), build metadata, and versions mapped to development stages.
+
+### {when_to_use}
+
+Use when assigning, bumping, or formatting a version, or choosing a pre-release/build tag. Triggers: "what version," "tag a release," semver, alpha/beta/rc.
 
 
 
@@ -2007,7 +2015,11 @@ A good `README.md` should be:
 
 ### {description}
 
-format for README documentation
+Writes and maintains human-friendly `README.md` files — scannable, visually clear landing pages covering a project's purpose, features, setup, usage, and contribution flow, with a standard title format and tasteful use of headings, lists, badges, and emoji.
+
+### {when_to_use}
+
+Use when creating, updating, or reviewing a `README.md` or similar project landing page. Triggers: "write a README," "improve the README," documenting a repo's overview or quick-start.
 
 ### {globs}
 
@@ -2139,9 +2151,25 @@ You must help user to write CHANGELOG.
     [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
     ```
 
+
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
 
-format for CHANGELOG.md
+Writes and maintains `CHANGELOG.md` files per Keep a Changelog conventions — dated version entries newest-first, grouped change types, a persistent `[Unreleased]` section, and linkable version references.
+
+### {when_to_use}
+
+Use when creating, updating, or adding entries to a `CHANGELOG.md`, or recording changes for a release. Triggers: "update the changelog," "log this change," "document the release."
 
 ### {globs}
 
@@ -2266,7 +2294,11 @@ A good `AGENTS.md` should be:
 
 ### {description}
 
-format for AGENTS.md documentation
+Writes and maintains `AGENTS.md` files — concise, agent-readable repository context for AI coding tools covering setup, build, run, and test commands, conventions, tooling, and safety constraints, with required frontmatter and a standard title.
+
+### {when_to_use}
+
+Use when creating, updating, or reviewing an `AGENTS.md` or equivalent agent-instruction file. Triggers: "write an AGENTS.md," "add agent instructions," documenting repo context for AI coding tools.
 
 ### {globs}
 
@@ -4378,9 +4410,11 @@ After completing **all tasks requested by the user**, including **editing**, **d
 
 ## {description}
 
-Use this skill on every task. It governs how the agent handles file state between rounds and when to withhold summaries — treat all file changes as intentional, and never recap completed work unless the user explicitly asks.
+Baseline agent behavior, treats between-round file changes as intentional edits.
 
+## {when_to_use}
 
+ALWAYS apply — every task, every turn, no exceptions. Not situational: this defines default agent conduct at all times, regardless of the request or whether files or summaries are involved.
 
 
 

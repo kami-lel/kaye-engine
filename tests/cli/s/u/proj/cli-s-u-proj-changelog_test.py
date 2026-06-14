@@ -66,6 +66,22 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: project-changelog-writer" in testee_header
 
+    def test_description(_, testee_header):
+        assert any(
+            line.startswith("description: ")
+            and "Writes and maintains `CHANGELOG.md` files per Keep a"
+            " Changelog" in line
+            for line in testee_header
+        )
+
+    def test_when_to_use(_, testee_header):
+        assert any(
+            line.startswith("when_to_use: ")
+            and "Use when creating, updating, or adding entries to a"
+            " `CHANGELOG.md`" in line
+            for line in testee_header
+        )
+
 
 class TestStructure:  # ========================================================
 

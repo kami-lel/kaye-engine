@@ -65,6 +65,17 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: Agent Behavior" in testee_header
 
+    def test_description(_, testee_header):
+        print(testee_header)
+        assert (
+            'description: "Baseline agent behavior, treats between-round file'
+            " changes as intentional edits.\\u21B5ALWAYS apply \\u2014 every"
+            " task, every turn, no exceptions. Not situational: this defines"
+            " default agent conduct at all times, regardless of the request or"
+            ' whether files or summaries are involved."'
+            in testee_header
+        )
+
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, True)
 
