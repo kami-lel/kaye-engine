@@ -34,9 +34,7 @@ def register_cli_skill_create_parser(  #########################################
             tempfile.TemporaryDirectory() as skills_temp,
             tempfile.TemporaryDirectory() as zips_temp,
         ):
-            export_skills_as_folders(
-                Path(skills_temp), verbose=False, includes_version=True
-            )
+            export_skills_as_folders(Path(skills_temp), verbose=False)
 
             for skill_folder in Path(skills_temp).iterdir():
                 zip_base = Path(zips_temp) / skill_folder.name

@@ -31,7 +31,6 @@ class AgentSkillFolder:  #######################################################
         blueprint=None,
         skill_name=None,
         verbose=False,
-        includes_version=False
     ):
         if blueprint:
             self._path = parent_folder_path / convert_display_name2skill_name(
@@ -43,7 +42,6 @@ class AgentSkillFolder:  #######################################################
         self._blueprint = blueprint
         self._skill_name = skill_name
         self._verbose = verbose
-        self._includes_version = includes_version
         self.skill_md = None
 
     # support context manager  =================================================
@@ -54,7 +52,6 @@ class AgentSkillFolder:  #######################################################
         skill_md = SkillMDFile(
             self._path,
             blueprint=self._blueprint,
-            includes_version=self._includes_version,
         )
         self.skill_md = skill_md.__enter__()
 

@@ -14,9 +14,7 @@ from kaye.cli.prompts_blueprints import PROMPTS_BLUEPRINTS
 # entry point  #################################################################
 
 
-def export_skills_as_folders(
-    parent_folder, *, verbose=True, includes_version=False
-):
+def export_skills_as_folders(parent_folder, *, verbose=True):
     """
     export all blueprints, prompts, and abbreviation groups as skill folders
 
@@ -26,9 +24,6 @@ def export_skills_as_folders(
 
     :param parent_folder: destination directory to write skill folders into
     :type parent_folder: Path-like
-    :param includes_version: embed the package version in abbreviation skill
-        metadata, defaults to False
-    :type includes_version: bool, optional
     """
 
     # export embedded_blueprints and prompts
@@ -46,7 +41,6 @@ def export_skills_as_folders(
             parent_folder,
             skill_name=skill_name,
             verbose=verbose,
-            includes_version=includes_version,
         ) as skill:
             skill.skill_md.description = group.description
             skill.skill_md.frontmatter["user-invocable"] = False
