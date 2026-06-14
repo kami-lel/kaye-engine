@@ -69,31 +69,19 @@ class TestHeader:  # ===========================================================
     def test_description(_, testee_header):
         print(testee_header)
         assert (
-            'description: "Enforces a specific Python docstring convention:'
-            " Sphinx style with reStructuredText markup. Writes and"
-            " formats docstrings to two approved forms with strict rules"
-            " for the summary line, empty-line placement, field ordering"
-            " (`:param:`/`:type:`/`:raises:`/`:return:`/`:rtype:`"
-            "/`:example:`), and visibility \\u2014 mandatory for public"
-            " methods and classes, omitted on `__init__` and most dunder"
-            " methods, with constructor arguments documented in the class"
-            ' docstring rather than on `__init__`."'
+            "description: Writes and formats Python docstrings in"
+            " Sphinx/reStructuredText style, enforcing the project's"
+            " docstring forms, field ordering, and visibility rules."
             in testee_header
         )
 
     def test_when_to_use(_, testee_header):
         print(testee_header)
         assert (
-            'when_to_use: "Trigger whenever writing, generating, or'
-            " editing Python source where a function, method, or class"
-            " needs a docstring \\u2014 including when the user only says"
-            ' \\"add a docstring,\\" \\"document this,\\" or'
-            ' \\"write the function\\" without naming a style. Recognize'
-            " cues like docstring, Sphinx, reStructuredText, reST,"
-            " `:param:`, `:type:`, `:raises:`, `:rtype:`, `:return:`,"
-            " `:example:`, class docstring, constructor documentation,"
-            " public vs. private method, or dunder method. Apply it to"
-            ' keep docstring style consistent across a Python codebase."'
+            'when_to_use: "Use whenever Python code needs docstrings'
+            ' \\u2014 including \\"add a docstring,\\" \\"document'
+            ' this,\\" or \\"write the function.\\" Triggers: docstring,'
+            ' Sphinx, reST, `:param:`."'
             in testee_header
         )
 

@@ -69,11 +69,18 @@ class TestHeader:  # ===========================================================
     def test_description(_, testee_header):
         print(testee_header)
         assert (
-            'description: "Use this skill when writing or generating'
-            " JavaScript or TypeScript code \\u2014 apply ES11 standards,"
-            " camelCase naming, and JSDoc comments. Trigger for any task"
-            " that produces or edits `.js` or `.ts` files, or inline"
-            ' JS/TS code blocks."'
+            "description: Writes, edits, and reviews all JavaScript and"
+            " TypeScript code, targeting the ES11 standard with camelCase"
+            " naming and JSDoc documentation conventions."
+            in testee_header
+        )
+
+    def test_when_to_use(_, testee_header):
+        print(testee_header)
+        assert (
+            "when_to_use: 'Use for any JavaScript or TypeScript work."
+            " Triggers: `.js`/`.ts`/`.jsx`/`.tsx` files, inline JS/TS"
+            " code blocks, requests for JavaScript, TypeScript, or Node.'"
             in testee_header
         )
 

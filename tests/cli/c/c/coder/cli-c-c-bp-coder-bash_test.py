@@ -67,8 +67,13 @@ class TestHeader:  # ===========================================================
         assert "name: Coder Bash" in testee_header
 
     def test_description(_, testee_header):
+        print(testee_header)
         assert (
-            "description: Debian GNU/Linux shell commands; ready-to-run output"
+            'description: "Generates ready-to-run Debian GNU/Linux shell'
+            ' commands \\u2014 command-only output, sudo and destructive'
+            ' commands when requested.\\u21B5Use for terminal commands or'
+            ' shell one-liners on Debian/Ubuntu. Triggers: \\"command'
+            ' to...,\\" \\"bash for...,\\" CLI tasks."'
             in testee_header
         )
 
