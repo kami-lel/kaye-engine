@@ -67,18 +67,24 @@ class TestHeader:  # ===========================================================
         assert "name: project-agents-writer" in testee_header
 
     def test_description(_, testee_header):
-        assert any(
-            line.startswith("description: ")
-            and "Writes and maintains `AGENTS.md` files" in line
-            for line in testee_header
+        print(testee_header)
+        assert (
+            'description: "Writes and maintains `AGENTS.md` files \\u2014'
+            " concise, agent-readable repository context for AI coding"
+            " tools covering setup, build, run, and test commands,"
+            " conventions, tooling, and safety constraints, with required"
+            ' frontmatter and a standard title."'
+            in testee_header
         )
 
     def test_when_to_use(_, testee_header):
-        assert any(
-            line.startswith("when_to_use: ")
-            and "Use when creating, updating, or reviewing an `AGENTS.md`"
-            in line
-            for line in testee_header
+        print(testee_header)
+        assert (
+            "when_to_use: 'Use when creating, updating, or reviewing an"
+            " `AGENTS.md` or equivalent agent-instruction file."
+            ' Triggers: "write an AGENTS.md," "add agent instructions,"'
+            " documenting repo context for AI coding tools.'"
+            in testee_header
         )
 
 

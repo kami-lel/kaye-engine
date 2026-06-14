@@ -67,19 +67,23 @@ class TestHeader:  # ===========================================================
         assert "name: project-changelog-writer" in testee_header
 
     def test_description(_, testee_header):
-        assert any(
-            line.startswith("description: ")
-            and "Writes and maintains `CHANGELOG.md` files per Keep a"
-            " Changelog" in line
-            for line in testee_header
+        print(testee_header)
+        assert (
+            'description: "Writes and maintains `CHANGELOG.md` files per'
+            " Keep a Changelog conventions \\u2014 dated version entries"
+            " newest-first, grouped change types, a persistent"
+            ' `[Unreleased]` section, and linkable version references."'
+            in testee_header
         )
 
     def test_when_to_use(_, testee_header):
-        assert any(
-            line.startswith("when_to_use: ")
-            and "Use when creating, updating, or adding entries to a"
-            " `CHANGELOG.md`" in line
-            for line in testee_header
+        print(testee_header)
+        assert (
+            "when_to_use: 'Use when creating, updating, or adding entries"
+            " to a `CHANGELOG.md`, or recording changes for a release."
+            " Triggers: \"update the changelog,\" \"log this change,\""
+            " \"document the release.\"'"
+            in testee_header
         )
 
 
