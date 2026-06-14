@@ -3481,9 +3481,44 @@ Destructive commands are allowed if they match the user's request.
 Multi-line commands are allowed.
 If the request is ambiguous, ask one short clarifying question instead of guessing.
 
+
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
 
-Debian GNU/Linux shell commands; ready-to-run output
+Generates ready-to-run Debian GNU/Linux shell commands — command-only output, sudo and destructive commands when requested.
+
+### {when_to_use}
+
+Use for terminal commands or shell one-liners on Debian/Ubuntu. Triggers: "command to...," "bash for...," CLI tasks.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3502,9 +3537,24 @@ Debian GNU/Linux shell commands; ready-to-run output
 
 Use **C99** standard
 
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
 
-C code (C99)
+Writes, edits, and reviews all C code.
+
+### {when_to_use}
+
+Use for any C code work. Triggers: `.c`/`.h` files, requests for C.
 
 ### {globs}
 
@@ -3526,19 +3576,75 @@ C code (C99)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Coder CPP
 
 Use **C++17** standard
 
+
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
 
-C++ code (C++17)
+Writes, edits, and reviews all C++ code.
+
+### {when_to_use}
+
+Use for any C++ code work. Triggers: `.cpp`/`.hpp`/`.cc` files, requests for C++.
 
 ### {globs}
 
 ```glob
 **/*.{cpp,cc,cxx,hpp,hh,hxx}
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3584,7 +3690,11 @@ C++ code for Unreal Engine
 
 ### {description}
 
-C# code
+Writes, edits, and reviews all C# code.
+
+### {when_to_use}
+
+Use for any C# code work. Triggers: `.cs` files, requests for C#, mentions of .NET.
 
 ### {globs}
 
@@ -3605,9 +3715,36 @@ C# code
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Coder Unity Engine
 
 Unity Version: Unity **6**
+
+
+
+
+
+
+
 
 
 
@@ -3695,13 +3832,34 @@ private void Awake() {
 
 ### {description}
 
-C# code for Unity 6 (MonoBehaviour scripts, components, Inspector fields)
+Writes, edits, and reviews all Unity 6 C# code, applying the project's Unity conventions, structure, and coding standards.
+
+### {when_to_use}
+
+ALWAYS apply for any Unity work — scripts, components, ScriptableObjects, editor tools, gameplay systems, UI, shaders, asset and scene logic. Triggers: `MonoBehaviour`, `[SerializeField]`, any mention of Unity.
 
 ### {globs}
 
 ```glob
 **/*.cs
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3831,7 +3989,11 @@ globalNS.method1 = function (a, b) {
 
 ### {description}
 
-Use this skill when writing or generating JavaScript or TypeScript code — apply ES11 standards, camelCase naming, and JSDoc comments. Trigger for any task that produces or edits `.js` or `.ts` files, or inline JS/TS code blocks.
+Writes, edits, and reviews all JavaScript and TypeScript code, targeting the ES11 standard with camelCase naming and JSDoc documentation conventions.
+
+### {when_to_use}
+
+Use for any JavaScript or TypeScript work. Triggers: `.js`/`.ts`/`.jsx`/`.tsx` files, inline JS/TS code blocks, requests for JavaScript, TypeScript, or Node.
 
 ### {globs}
 
@@ -3878,7 +4040,11 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
 ### {description}
 
-To use for python
+Writes, edits, and reviews all Python code
+
+### {when_to_use}
+
+Use for any Python work. Triggers: `.py` files, inline Python code blocks, requests for Python scripts, modules, or packages.
 
 ### {globs}
 
@@ -3957,15 +4123,19 @@ class Rectangle:
         self._height = height
 ```
 
+
+
+
+
 #### {description}
 
-Enforces a specific Python docstring convention: Sphinx style with reStructuredText markup. Writes and formats docstrings to two approved forms with strict rules for the summary line, empty-line placement, field ordering (`:param:`/`:type:`/`:raises:`/`:return:`/`:rtype:`/`:example:`), and visibility — mandatory for public methods and classes, omitted on `__init__` and most dunder methods, with constructor arguments documented in the class docstring rather than on `__init__`.
+Writes and formats Python docstrings in Sphinx/reStructuredText style, enforcing the project's docstring forms, field ordering, and visibility rules.
 
 #### {when_to_use}
 
-Trigger whenever writing, generating, or editing Python source where a function, method, or class needs a docstring — including when the user only says "add a docstring," "document this," or "write the function" without naming a style. Recognize cues like docstring, Sphinx, reStructuredText, reST, `:param:`, `:type:`, `:raises:`, `:rtype:`, `:return:`, `:example:`, class docstring, constructor documentation, public vs. private method, or dunder method. Apply it to keep docstring style consistent across a Python codebase.
+Use whenever Python code needs docstrings — including "add a docstring," "document this," or "write the function." Triggers: docstring, Sphinx, reST, `:param:`.
 
-#### {globs}
+##### {globs}
 
 ```glob
 **/*.py
@@ -4027,9 +4197,17 @@ class TestAdd:
             "contact your admin for more information.")
 ```
 
+
+
+
+
 #### {description}
 
-Python tests using pytest with Test classes and test_ functions
+Writes and reviews Python `pytest` test code following the project's testing conventions.
+
+#### {when_to_use}
+
+Use whenever Python tests are written, run, fixed, or discussed. Triggers: `test_`/`_test.py` files, `pytest`, "add tests," "write a unit test," "test this function."
 
 #### {globs}
 
