@@ -131,3 +131,19 @@ PROMPT_FILENAME2NAME = {
     "prepare-for-release": "Prepare for Release",
     "resolve-annotation-markers": "Resolve Annotation Markers",
 }
+
+
+TESTEE_FILE_CONTENT_ALL = {
+    "chat": [
+        "# Introduction",
+        "# Personality",
+        "# Format",
+        "# Language",
+        "# Role",
+        "### List Format",
+        "### Math Formatting",
+        "### Diagrams",
+        "- must use blockquote `>` for your emotions",
+        "- always respond in the **same language**",
+    ]
+}

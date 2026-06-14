@@ -9,6 +9,7 @@ creation of ``chat``
 import pytest
 
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
@@ -21,6 +22,7 @@ from tests.cli.s import (
 
 
 SKILL_NAME = "chat"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 
 
 # Pytest fixtures  #############################################################
@@ -81,5 +83,32 @@ class TestStructure:  # ========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "# Introduction" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
+
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
+
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
+
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
+
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
+
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
+
+    def test6(_, testee_content):
+        assert TESTEE_FILE_CONTENT[6] in testee_content
+
+    def test7(_, testee_content):
+        assert TESTEE_FILE_CONTENT[7] in testee_content
+
+    def test8(_, testee_content):
+        assert TESTEE_FILE_CONTENT[8] in testee_content
+
+    def test9(_, testee_content):
+        assert TESTEE_FILE_CONTENT[9] in testee_content
