@@ -12,7 +12,10 @@ from tests.cli import (
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
-from tests.cli.s import convert_folder_path2skill_file_path
+from tests.cli.s import (
+    VERSION_LINE_PATTERN,
+    convert_folder_path2skill_file_path,
+)
 
 # constants  ###################################################################
 
@@ -67,11 +70,26 @@ class TestHeader:  # ===========================================================
         assert "name: coder-python-docstring-style" in testee_header
 
     def test_description(_, testee_header):
-        assert any(
-            'description: "Enforces a specific Python docstring convention:'
-            in line
-            for line in testee_header
+        print(testee_header)
+        assert (
+            "description: Writes and formats Python docstrings in"
+            " Sphinx/reStructuredText style, enforcing the project's"
+            " docstring forms, field ordering, and visibility rules."
+            in testee_header
         )
+
+    def test_when_to_use(_, testee_header):
+        print(testee_header)
+        assert (
+            'when_to_use: "Use whenever Python code needs docstrings'
+            ' \\u2014 including \\"add a docstring,\\" \\"document'
+            ' this,\\" or \\"write the function.\\" Triggers: docstring,'
+            ' Sphinx, reST, `:param:`."'
+            in testee_header
+        )
+
+    def test_version(self, testee_header):
+        assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
 
 
 class TestStructure:  # ========================================================

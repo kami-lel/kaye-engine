@@ -12,7 +12,10 @@ from tests.cli import (
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
-from tests.cli.s import convert_folder_path2skill_file_path
+from tests.cli.s import (
+    VERSION_LINE_PATTERN,
+    convert_folder_path2skill_file_path,
+)
 
 # constants  ###################################################################
 
@@ -65,6 +68,26 @@ class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
         assert "name: style-guide-good-writing" in testee_header
+
+    def test_description(_, testee_header):
+        print(testee_header)
+        assert (
+            'description: "Proofreads and polishes text with minimal edits'
+            " \\u2014 fixing spelling, grammar, punctuation, and clarity while"
+            ' preserving the original meaning, voice, and wording."'
+            in testee_header
+        )
+
+    def test_when(_, testee_header):
+        assert (
+            "when_to_use: Use to proofread, copyedit, or correct writing"
+            " without rewriting. Not for heavy rewrites, summarizing, or tone"
+            " changes."
+            in testee_header
+        )
+
+    def test_version(self, testee_header):
+        assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
 
 
 class TestStructure:  # ========================================================

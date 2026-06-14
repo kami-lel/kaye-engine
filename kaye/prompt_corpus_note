@@ -1,5 +1,3 @@
-todo: for prepare_for_feature_finish/_release, utilize tools to fetch `git log`
-
-todo update various blueprints for description & when_to_use
+todo for prepare_for_feature_finish/_release, utilize tools to fetch `git log`
 
 todo add {prerequisite} meta node

@@ -28,7 +28,73 @@
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.5.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.5.1...dev
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.5.1] - 2026-06-14
+
+### Changed
+
+**Prompt Corpus**:
+
+- coder blueprint metadata expanded:
+
+  - All coder blueprints (Bash, C, C++, C#, Unity Engine, GDScript, HTML,
+    JavaScript/TypeScript, Python, Python Docstring Style, Python Testing
+    Guidelines) now carry richer `{description}` text and a dedicated
+    `{when_to_use}` sub-node with trigger examples
+
+  - Unreal Engine description unchanged; no `{when_to_use}` node added
+
+- style and project blueprint metadata refined:
+
+  - Good Writing, Briefness Style, Capitalization: descriptions tightened and
+  `{when_to_use}` guidance added with trigger phrases
+
+  - Skill Metadata: enforce non-repeating, concise fields; usage guidance added
+
+  - Project blueprints (Agents, Changelog, Project, Readme, Semantic Versioning):
+standardized description headers and expanded usage triggers
+
+- **Skill version metadata**: version field now always included in exported
+  `SKILL.md` files; `includes_version` parameter removed from export functions
+  (version stamping is no longer optional)
+
+- **Unit tests**:
+
+  - `s/u` and `c/c` header tests updated across all coder, proj, style, and
+    others test files to assert corpus-derived `description` and `when_to_use`
+    YAML values
+  - `test_version()` added to all 27 skill header tests in `s/u` directory
+  - VERSION_LINE_PATTERN now matches any version string (lowercase letters,
+    digits, `.`, `-`) instead of hardcoded version
+
+### Fixed
+
+- **`skill print`**: version is now printed correctly for skills that have no
+  version field across all print modes
+
+### Security
+
+[6.5.1]: https://github.com/kami-lel/kaye/compare/v6.5.0...v6.5.1
+
+
+
+
+
+
+
+
 
 
 
