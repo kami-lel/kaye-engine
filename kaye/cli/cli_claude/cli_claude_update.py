@@ -20,10 +20,10 @@ def register_cli_claude_update_parser(  ########################################
         metavar="FOLDER",
         type=Path,
         default=_DEFAULT_CLAUDE_PLUGINS_FOLDER,
-        help="plugin folder path, default: ~/.claude/plugins/",
+        help="plugins-containing folder path, default: ~/.claude/plugins/",
     )
 
     def _update_main(args):
-        pass  # TODO
+        pass  # TODO command: kaye claude update
 
     update_parser.set_defaults(func=_update_main)

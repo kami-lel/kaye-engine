@@ -17,12 +17,12 @@ def register_cli_claude_create_parser(  ########################################
         type=Path,
         default=Path.cwd(),
         help=(
-            "folder path to place created .plugin files, "
+            "folder path to place created kaye.plugin files, "
             "default: current directory"
         ),
     )
 
     def _create_main(args):
-        pass  # TODO
+        pass  # TODO command: kaye claude create
 
     create_parser.set_defaults(func=_create_main)
