@@ -9,6 +9,7 @@ creation of ``skill-description-writer``
 import pytest
 
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
@@ -21,6 +22,7 @@ from tests.cli.s import (
 
 
 SKILL_NAME = "skill-description-writer"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 
 
 # Pytest fixtures  #############################################################
@@ -79,30 +81,16 @@ class TestStructure:  # ========================================================
         assert assert_frontmatter_md_file_basic_structure(testee_skill_file)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Skill Description Writer" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
     def test1(_, testee_content):
-        assert 'You are writing metadata for an agent "skill"' in testee_content
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
     def test2(_, testee_content):
-        assert "a `description` and a `when_to_use`" in testee_content
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
     def test3(_, testee_content):
-        assert "Keep both **extremely concise and brief**" in testee_content
-
-    def test4(_, testee_content):
-        assert (
-            "**Always write in the third person, "
-            "as a declarative statement of capability.**"
-            in testee_content
-        )
-
-    def test5(_, testee_content):
-        assert (
-            "Quick test: a sentence describing the skill's capability"
-            " belongs in `description`"
-            in testee_content
-        )
+        assert TESTEE_FILE_CONTENT[3] in testee_content
