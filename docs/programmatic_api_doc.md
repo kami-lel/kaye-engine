@@ -74,7 +74,7 @@ E.g.
 > [!NOTE]
 > `.name` is a property of `anytree.Node`
 
-<!-- Todo meta nodes can appear -->
+<!-- TODO meta nodes can appear -->
 
 Meta nodes are corpus nodes identified by names enclosed in curly braces, such as `{description}`. They appear in the blueprint preview tree but are **not** included in the rendered prompt output.
 
