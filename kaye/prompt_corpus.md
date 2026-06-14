@@ -574,7 +574,10 @@ Use when the user asks for headlinese, telegraphic, or ultra-condensed text — 
 
 ### {description}
 
-explain Good Writing for general textual writing
+Proofreads and polishes text with minimal edits — fixing spelling, grammar, punctuation, and clarity while preserving the original meaning, voice, and wording.
+
+### {when_to_use}
+Use to proofread, copyedit, or correct writing without rewriting. Not for heavy rewrites, summarizing, or tone changes.
 
 
 
