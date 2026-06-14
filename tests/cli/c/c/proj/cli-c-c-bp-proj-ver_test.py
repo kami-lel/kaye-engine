@@ -10,6 +10,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -17,6 +18,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "project-semantic-versioning"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -83,43 +85,40 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Project Semantic Versioning" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_core_version_format(_, testee_content):
-        assert "major.minor.patch" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_core_version_notation(_, testee_content):
-        assert "x.y.z" in testee_content
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_prerelease_format(_, testee_content):
-        assert "`x.y.z-alpha`, `x.y.z-alpha.2`" in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_prerelease_character_set(_, testee_content):
-        assert "[0-9a-z-]" in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_build_metadata_example(_, testee_content):
-        assert "`x.y.z+build.1`" in testee_content
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
 
-    def test_build_character_set(_, testee_content):
-        assert "[0-9A-Za-z-]" in testee_content
+    def test6(_, testee_content):
+        assert TESTEE_FILE_CONTENT[6] in testee_content
 
-    def test_prerelease_types(_, testee_content):
-        assert "pre-releases types: `alpha`, `beta`, `rc`" in testee_content
+    def test7(_, testee_content):
+        assert TESTEE_FILE_CONTENT[7] in testee_content
 
-    def test_prerelease_numbering(_, testee_content):
-        assert (
-            "start at `.2`, e.g. `1.0.0-alpha.2`, `1.0.0-alpha.3`"
-            in testee_content
-        )
+    def test8(_, testee_content):
+        assert TESTEE_FILE_CONTENT[8] in testee_content
 
-    def test_os_build_metadata(_, testee_content):
-        assert "`1.0.0+Win`, `1.0.0+mac`, `1.0.0+linux`" in testee_content
+    def test9(_, testee_content):
+        assert TESTEE_FILE_CONTENT[9] in testee_content
 
-    def test_development_stage_vertical_slice(_, testee_content):
-        assert "vertical slice (VS): `0.5.z`~`0.8.z`" in testee_content
+    def test10(_, testee_content):
+        assert TESTEE_FILE_CONTENT[10] in testee_content
 
-    def test_release_candidate_example(_, testee_content):
-        assert "release candidate (RC): `1.0.0-rc`" in testee_content
+    def test11(_, testee_content):
+        assert TESTEE_FILE_CONTENT[11] in testee_content

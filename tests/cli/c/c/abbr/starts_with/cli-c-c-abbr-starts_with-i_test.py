@@ -10,6 +10,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -17,6 +18,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "abbr-starts-with-i"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -70,34 +72,34 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_i_e(_, testee_content):
-        assert "- i.e.:that is,in other words" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_id(_, testee_content):
-        assert "- id:identity,identification" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_ie(_, testee_content):
-        assert "- ie:that is,in other words" in testee_content
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_iff(_, testee_content):
-        assert "- iff:if and only if" in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_info(_, testee_content):
-        assert "- info:information,informational" in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_int_integer(_, testee_content):
-        assert "- int:integer" in testee_content
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
 
-    def test_ipt(_, testee_content):
-        assert "- ipt:input" in testee_content
+    def test6(_, testee_content):
+        assert TESTEE_FILE_CONTENT[6] in testee_content
 
-    def test_iss(_, testee_content):
-        assert "- iss:issue" in testee_content
+    def test7(_, testee_content):
+        assert TESTEE_FILE_CONTENT[7] in testee_content
 
-    def test_icl(_, testee_content):
-        assert "- icl:include,inclusion" in testee_content
+    def test8(_, testee_content):
+        assert TESTEE_FILE_CONTENT[8] in testee_content
 
-    def test_inf(_, testee_content):
-        assert "- inf:infinite" in testee_content
+    def test9(_, testee_content):
+        assert TESTEE_FILE_CONTENT[9] in testee_content

@@ -8,6 +8,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -15,6 +16,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "style-guide-capitalization"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -79,44 +81,22 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_heading(_, testee):
-        assert "## Style Guide Capitalization" in testee
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_title0(_, testee):
-        assert "### Title Case" in testee
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_title1(_, testee):
-        assert "Use *Chicago Manual of Style* headline case:" in testee
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_title2(_, testee):
-        assert (
-            "- **lowercase minor words**: articles (a, an, the), coordinating"
-            " conjunctions (and, but, or, nor, for, so, yet), prepositions (of,"
-            " in, on, with, etc.), and the infinitive to"
-            in testee
-        )
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_title3(_, testee):
-        assert "Used for **document title** and **section headings**." in testee
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_commentary0(_, testee):
-        assert "### Commentary Case" in testee
-
-    def test_commentary1(_, testee):
-        assert (
-            "- begin 1st sentence with a lowercase letter; use standard"
-            " sentence capitalization for the 2nd and subsequent sentences"
-            in testee
-        )
-
-    def test_commentary2(_, testee):
-        assert (
-            "    # check the Config. Validate the Filepath with the Tool."
-            " Process final result"
-            in testee
-        )
-
-    def test_commentary3(_, testee):
-        assert "Used for **list items** and **table cell content**." in testee
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content

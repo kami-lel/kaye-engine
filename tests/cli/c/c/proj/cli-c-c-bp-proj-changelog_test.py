@@ -10,6 +10,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -17,6 +18,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "project-changelog-writer"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -90,37 +92,31 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Project CHANGELOG Writer" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_for_humans(_, testee_content):
-        assert "- changelogs are *for humans*, not machines" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_every_version(_, testee_content):
-        assert (
-            "- there should be an entry for every single version"
-            in testee_content
-        )
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_unreleased_section(_, testee_content):
-        assert "always maintain an `[Unreleased]` section" in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_types_of_changes(_, testee_content):
-        assert "**Types of Changes:**" in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_type_added(_, testee_content):
-        assert "- `Added`: new features" in testee_content
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
 
-    def test_type_fixed(_, testee_content):
-        assert "- `Fixed`: any bug fixes" in testee_content
+    def test6(_, testee_content):
+        assert TESTEE_FILE_CONTENT[6] in testee_content
 
-    def test_format_title(_, testee_content):
-        assert "- title must be `Project Name CHANGELOG`" in testee_content
+    def test7(_, testee_content):
+        assert TESTEE_FILE_CONTENT[7] in testee_content
 
-    def test_format_links(_, testee_content):
-        assert (
-            "- must include Github **links** at each section's end"
-            in testee_content
-        )
+    def test8(_, testee_content):
+        assert TESTEE_FILE_CONTENT[8] in testee_content

@@ -9,6 +9,7 @@ creation of ``coder-py``
 import pytest
 
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
@@ -21,6 +22,7 @@ from tests.cli.s import (
 
 
 SKILL_NAME = "coder-python"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 
 
 # Pytest fixtures  #############################################################
@@ -95,14 +97,7 @@ class TestStructure:  # ========================================================
         assert assert_frontmatter_md_file_basic_structure(testee_skill_file)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Coder Python" in testee_content
-
-    def test_content(_, testee_content):
-        assert (
-            "Adhere to the **PEP8** style guide, "
-            "ensuring clarity and consistency."
-            in testee_content
-        )
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content

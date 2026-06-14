@@ -8,6 +8,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -15,6 +16,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "style-guide-briefness-style"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -82,31 +84,13 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_heading(_, testee):
-        assert "## Style Guide Briefness Style" in testee
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test1(_, testee):
-        assert (
-            "- write in **newspaper headlinese**, "
-            "prioritize brevity over grammar"
-            in testee
-        )
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test2(_, testee):
-        assert (
-            "- omit articles (a, an, the) and helper verbs, "
-            "use strong nouns, verbs"
-            in testee
-        )
-
-    def test3(_, testee):
-        assert (
-            "- use numerals (use 2, not two), symbols, "
-            "**Usable Abbrs** when unambiguous"
-            in testee
-        )
-
-    def test4(_, testee):
-        assert "- keep sentences short, direct, drop filler" in testee
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content

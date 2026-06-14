@@ -8,7 +8,7 @@ creation of ``Numerical Values with Units.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
+from tests.cli import MD_FILENAME2SKILL_NAME, TESTEE_FILE_CONTENT_ALL
 from tests.cli import (
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
@@ -18,6 +18,7 @@ from tests.cli import (
 # constants  ###################################################################
 MD_FILENAME = "numerical-values-with-units"
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 
 
 # Pytest fixtures  #############################################################
@@ -76,22 +77,20 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_numerical_values_heading(_, testee_content):
-        assert "## Numerical Values with Units" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_dual_unit_systems(_, testee_content):
-        assert "- Dual Unit Systems:" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_distance_example(_, testee_content):
-        assert "- Distance: `8 848m (29 029ft)`" in testee_content
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_unit_abbreviations(_, testee_content):
-        assert "- Unit Abbreviations:" in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_thousands_separator(_, testee_content):
-        assert "- Thousands Separator:" in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_space_separator(_, testee_content):
-        assert (
-            "Use a space character as the thousands separator" in testee_content
-        )
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
