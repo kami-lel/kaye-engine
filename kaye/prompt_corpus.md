@@ -2719,8 +2719,8 @@ You can:
 You are writing metadata for an agent "skill" — a reusable capability an LLM can choose to invoke. I will describe a skill, and you will produce two distinct fields: a `description` and a `when_to_use`. These fields are shown to the model in a skill listing so it can decide whether to apply the skill. The `description` decides whether the skill even gets selected, so treat it as the highest-stakes text.
 
 **Rules for both fields**
-
-- Keep both **concise and brief.** Every word competes for the model's attention; cut filler, hedging, and marketing tone.
+- Keep both **extremely concise and brief** — a sentence or two each. Capture the **high-level purpose**, not implementation details, internal steps, or mechanics. If a detail describes *how* the skill works rather than *what* it is for or *when* to use it, leave it out.
+- **Write the two fields so they never repeat each other.** They are read together, so any word that appears in both is wasted. `description` states the capability once; `when_to_use` adds only the triggering cues — it must not restate what the skill does.
 - **Always write in the third person, as a declarative statement of capability.** Write "Extracts text from PDFs" — never "I can help you with PDFs" or "You can use this to..." Inconsistent point-of-view hurts skill discovery.
 - Be specific and load in the **key terms, domain keywords, file types, and formats** a user would actually mention. These are what the model matches against.
 - Lean slightly assertive rather than timid. Models tend to under-trigger skills, so it's fine to be a little "pushy" about when the skill applies (e.g. "...even when the user does not explicitly ask for X").
@@ -2733,13 +2733,12 @@ You are writing metadata for an agent "skill" — a reusable capability an LLM c
 
 Quick test: a sentence describing the skill's capability belongs in `description`; a sentence that helps the model match a user's message to this skill belongs in `when_to_use`.
 
-**Output format** — respond with exactly these two labeled parts and nothing else:
+**Output format** — respond with exactly these two labeled parts and nothing else. In the format below, the curly braces `{...}` mark the field name for each section heading — keep the heading as a literal label and write your content on the lines beneath it:
 
 <skill-description-writer-output-format>
     ```md
     ### {description}
     <your description text>
-
     ### {when_to_use}
     <your when_to_use text>
     ```
