@@ -66,6 +66,16 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: coder-html" in testee_header
 
+    def test_description(_, testee_header):
+        print(testee_header)
+        assert (
+            'description: "Use this skill when writing or generating HTML'
+            " \\u2014 apply HTML5 standards for structure, semantics, and"
+            " markup. Trigger for any task that produces or edits .html"
+            ' files or embedded HTML content."'
+            in testee_header
+        )
+
 
 class TestStructure:  # ========================================================
 

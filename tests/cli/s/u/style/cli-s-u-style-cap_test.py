@@ -66,6 +66,25 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: style-guide-capitalization" in testee_header
 
+    def test_description(_, testee_header):
+        print(testee_header)
+        assert (
+            "description: 'Applies Chicago Manual of Style capitalization:"
+            " Title Case for titles and headings, Commentary Case"
+            " (lowercase-leading, selective emphasis, no end punctuation) for"
+            " list items and table cells.'"
+            in testee_header
+        )
+
+    def test_when(_, testee_header):
+        assert (
+            "when_to_use: Use when capitalizing titles, headings, list items,"
+            " or table cells, or when a user mentions title case, headline"
+            " case, or Chicago Manual of Style. Not for grammar, punctuation,"
+            " or prose style."
+            in testee_header
+        )
+
 
 class TestStructure:  # ========================================================
 

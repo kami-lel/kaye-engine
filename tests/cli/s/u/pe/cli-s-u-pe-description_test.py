@@ -85,7 +85,7 @@ class TestContent:  # ==========================================================
         assert "a `description` and a `when_to_use`" in testee_content
 
     def test3(_, testee_content):
-        assert "Keep both **concise and brief.**" in testee_content
+        assert "Keep both **extremely concise and brief**" in testee_content
 
     def test4(_, testee_content):
         assert (

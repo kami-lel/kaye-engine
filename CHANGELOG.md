@@ -20,11 +20,35 @@
 
 ### Changed
 
+**Prompt Corpus**:
+
+- coder blueprint metadata expanded:
+
+  - All coder blueprints (Bash, C, C++, C#, Unity Engine, GDScript, HTML,
+    JavaScript/TypeScript, Python, Python Docstring Style, Python Testing
+    Guidelines) now carry richer `{description}` text and a dedicated
+    `{when_to_use}` sub-node with trigger examples
+
+  - Unreal Engine description unchanged; no `{when_to_use}` node added
+
+- style and project blueprint metadata refined:
+
+  - Good Writing, Briefness Style, Capitalization: descriptions tightened and
+  `{when_to_use}` guidance added with trigger phrases
+
+  - Skill Metadata: enforce non-repeating, concise fields; usage guidance added
+
+  - Project blueprints (Agents, Changelog, Project, Readme, Semantic Versioning):
+standardized description headers and expanded usage triggers
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- **`skill print`**: version is now printed correctly for skills that have no
+  version field across all print modes
 
 ### Security
 

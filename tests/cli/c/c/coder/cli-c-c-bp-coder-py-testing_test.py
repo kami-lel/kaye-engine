@@ -67,9 +67,13 @@ class TestHeader:  # ===========================================================
         assert "name: Coder Python Testing Guidelines" in testee_header
 
     def test_description(_, testee_header):
+        print(testee_header)
         assert (
-            "description: Python tests using pytest with Test classes and"
-            " test_ functions"
+            'description: "Writes and reviews Python `pytest` test code'
+            " following the project's testing conventions.\\u21B5Use whenever"
+            " Python tests are written, run, fixed, or discussed. Triggers:"
+            ' `test_`/`_test.py` files, `pytest`, \\"add tests,\\"'
+            ' \\"write a unit test,\\" \\"test this function.\\""'
             in testee_header
         )
 

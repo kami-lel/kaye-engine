@@ -66,6 +66,23 @@ class TestHeader:  # ===========================================================
     def test_name(_, testee_header):
         assert "name: style-guide-good-writing" in testee_header
 
+    def test_description(_, testee_header):
+        print(testee_header)
+        assert (
+            'description: "Proofreads and polishes text with minimal edits'
+            " \\u2014 fixing spelling, grammar, punctuation, and clarity while"
+            ' preserving the original meaning, voice, and wording."'
+            in testee_header
+        )
+
+    def test_when(_, testee_header):
+        assert (
+            "when_to_use: Use to proofread, copyedit, or correct writing"
+            " without rewriting. Not for heavy rewrites, summarizing, or tone"
+            " changes."
+            in testee_header
+        )
+
 
 class TestStructure:  # ========================================================
 
