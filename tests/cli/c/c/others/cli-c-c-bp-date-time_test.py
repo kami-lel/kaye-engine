@@ -8,7 +8,7 @@ creation of ``Date and Time Format.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
+from tests.cli import MD_FILENAME2SKILL_NAME, TESTEE_FILE_CONTENT_ALL
 from tests.cli import (
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
@@ -18,6 +18,7 @@ from tests.cli import (
 # constants  ###################################################################
 MD_FILENAME = "date-and-time-format"
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
 
@@ -74,23 +75,23 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_date_time_format_heading(_, testee_content):
-        assert "## Date and Time Format" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_full_date_example(_, testee_content):
-        assert "- Full Date Example:" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_full_date_format(_, testee_content):
-        assert "`Mon 02015-01-15`" in testee_content
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_month_day_example(_, testee_content):
-        assert "- Month-Day Example:" in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_month_day_format(_, testee_content):
-        assert "`Tue 01-16`" in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_time_format(_, testee_content):
-        assert "- Time Format:" in testee_content
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
 
-    def test_24_hour_clock(_, testee_content):
-        assert "24-hour clock" in testee_content
+    def test6(_, testee_content):
+        assert TESTEE_FILE_CONTENT[6] in testee_content
