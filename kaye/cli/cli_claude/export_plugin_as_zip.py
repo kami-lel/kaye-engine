@@ -40,11 +40,14 @@ def export_plugin_as_zip(parent_folder, *, verbose=True):
         tempfile.TemporaryDirectory() as plugin_temp,
         tempfile.TemporaryDirectory() as zip_temp,
     ):
+        logger.debug("building plugin folder in temporary directory")
         plugin_root = export_plugin_as_folder(Path(plugin_temp), verbose=False)
 
+        logger.debug("archiving plugin to .zip package")
         zip_base = Path(zip_temp) / plugin_root.name
         shutil.make_archive(str(zip_base), "zip", root_dir=plugin_root)
 
+        logger.debug("moving archived plugin to destination folder")
         dest = parent_folder / (plugin_root.name + ".zip")
         shutil.move(str(zip_base.with_suffix(".zip")), str(dest))
 

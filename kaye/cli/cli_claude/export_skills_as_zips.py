@@ -39,9 +39,12 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
         tempfile.TemporaryDirectory() as skills_temp,
         tempfile.TemporaryDirectory() as zips_temp,
     ):
+        logger.debug("building skill folders in temporary directory")
         export_skills_as_folders(Path(skills_temp), verbose=False)
 
+        logger.debug("archiving skills to .zip packages")
         for skill_folder in Path(skills_temp).iterdir():
+            logger.debug("archiving skill:\t{}".format(skill_folder.name))
             zip_base = Path(zips_temp) / skill_folder.name
             shutil.make_archive(
                 str(zip_base),
@@ -50,8 +53,9 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
                 base_dir=skill_folder.name,
             )
 
+        logger.debug("moving archived skills to destination folder")
         for zip_file in Path(zips_temp).iterdir():
             dest = parent_folder / zip_file.name
             shutil.move(str(zip_file), str(dest))
 
-            logger.succ("export plugin:\t{}".format(dest))
+            logger.succ("export skill:\t{}".format(dest))
