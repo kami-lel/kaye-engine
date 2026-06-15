@@ -7,7 +7,7 @@ Representative unit tests for EXPORTABLE_ABBRS using SkillMDFileFrontmatterValid
 import pytest
 from pydantic import ValidationError
 
-from tests.cli.a.s.u.structure import validate_abbr_group
+from tests.cli.a.s.structure import validate_abbr_group
 from kaye.cli.exportable_abbr import EXPORTABLE_ABBRS
 
 _g = {group.display_name: group for group in EXPORTABLE_ABBRS}
