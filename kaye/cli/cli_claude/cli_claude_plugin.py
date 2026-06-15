@@ -2,6 +2,9 @@
 
 from pathlib import Path
 
+
+from kaye import logger, kamilog
+
 from kaye.cli.cli_claude.export_plugin_as_folder import export_plugin_as_folder
 from kaye.cli.cli_claude.export_plugin_as_zip import export_plugin_as_zip
 
@@ -39,6 +42,8 @@ def register_cli_claude_plugin_parser(  ########################################
             "FOLDER default: current directory"
         ),
     )
+
+    kamilog.add_verbose_arguments(plugin_parser)
 
     def _plugin_main(args):
         folder = args.folder

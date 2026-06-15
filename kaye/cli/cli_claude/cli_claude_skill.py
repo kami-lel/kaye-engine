@@ -2,7 +2,13 @@
 
 from pathlib import Path
 
-from kaye.cli.cli_claude.export_skills_as_folders import export_skills_as_folders
+
+from kaye import logger, kamilog
+
+
+from kaye.cli.cli_claude.export_skills_as_folders import (
+    export_skills_as_folders,
+)
 from kaye.cli.cli_claude.export_skills_as_zips import export_skills_as_zips
 
 # constants  ===================================================================
@@ -36,6 +42,8 @@ def register_cli_claude_skill_parser(  #########################################
         dest="zip",
         help="create .zip Skill packages; FOLDER default: current directory",
     )
+
+    kamilog.add_verbose_arguments(skill_parser)
 
     def _skill_main(args):
         folder = args.folder
