@@ -29,9 +29,6 @@ UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
 
 
-# TODO make sure meta nodes NOT get auto added
-
-
 class PromptBlueprint(dict):
     """
     `PromptBlueprint` represents a configurable subset of *prompt corpus tree*
@@ -505,12 +502,11 @@ class PromptBlueprint(dict):
             corpus_override=corpus_override,
         )
 
-        # include all nodes
+        # include all nodes; meta nodes are never auto-checkmarked
         for node in PreOrderIter(bp.corpus):
             if not node.is_root:  # skip root node
                 key = hash(node)
-                # add all nodes
-                bp[key] = is_full
+                bp[key] = is_full and not node.is_meta_node
 
         return bp
 
@@ -537,9 +533,11 @@ class PromptBlueprint(dict):
         # actual perform checking/unchecking
         self[node_hash] = is_checkmark
 
-        # add all descendants too
+        # add all descendants too; skip meta nodes when auto-checkmarking
         if recursively:
             for d in node_obj.descendants:
+                if is_checkmark and d.is_meta_node:
+                    continue
                 d_hash = hash(d)
                 if d_hash in self or is_checkmark:
                     self[d_hash] = is_checkmark
