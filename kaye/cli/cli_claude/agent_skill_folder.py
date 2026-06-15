@@ -4,8 +4,8 @@ agent_skill_wrapper.py
 define ``AgentSkillFolder``
 """
 
-from kaye.cli.cli_skill import convert_display_name2skill_name
-from kaye.cli.cli_skill.skill_md_file import SkillMDFile
+from kaye.cli.cli_claude import convert_display_name2skill_name
+from kaye.cli.cli_claude.skill_md_file import SkillMDFile
 
 
 class AgentSkillFolder:  ########################################################
