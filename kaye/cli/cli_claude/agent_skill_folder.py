@@ -4,6 +4,8 @@ agent_skill_wrapper.py
 define ``AgentSkillFolder``
 """
 
+from kaye import logger
+
 from kaye.cli.cli_claude import convert_display_name2skill_name
 from kaye.cli.cli_claude.skill_md_file import SkillMDFile
 
@@ -64,5 +66,4 @@ class AgentSkillFolder:  #######################################################
         if self.skill_md:
             self.skill_md.__exit__(*args)
 
-        if self._verbose:
-            print("export skill:\t" + str(self._path))
+        logger.pass_("export skill:\t" + str(self._path))
