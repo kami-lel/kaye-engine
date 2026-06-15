@@ -6,6 +6,7 @@ define ``export_prompts``
 
 from pathlib import Path
 
+from kaye import logger
 from kaye.cli.prompts_blueprints import PROMPTS_BLUEPRINTS
 from kaye.cli.cli_continue.rule_file import RuleFile
 
@@ -26,8 +27,8 @@ def export_prompt_rules(prompts_folder):
         filename = bp.display_name + ".md"
         file_path = prompts_folder / filename
 
-        print("update prompt:\t{}".format(filename))
-
         with RuleFile(file_path, blueprint=bp) as rule:
             rule.always_apply = False
             rule.invokable = True
+
+        logger.pass_("prompt:\t{}".format(file_path))
