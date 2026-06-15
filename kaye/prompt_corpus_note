@@ -6,4 +6,6 @@ Bug prepare to release failed to remove empty section
 
 Bug python wants to include type hint
 
+Bug python prefers .format instead of f""
+
 todo resume role
