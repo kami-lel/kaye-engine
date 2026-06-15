@@ -2,12 +2,4 @@ Todo for prepare_for_feature_finish/_release, utilize tools to fetch `git log`
 
 Todo add {prerequisite} meta node, or standardize calling tools etc.
 
-Bug prepare to release failed to remove empty section
-
-Bug python wants to include type hint
-
-Bug python prefers .format instead of f""
-
-Bug python module docstring & pytest module docstring
-
 todo resume role

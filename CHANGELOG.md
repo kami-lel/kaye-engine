@@ -74,6 +74,22 @@
 
 ### Fixed
 
+- `prompt_corpus.md` **Coder Python**: added explicit rules prohibiting type hints and
+  requiring `str.format()` over f-strings; corrects agent behavior that previously
+  generated non-compliant Python
+- `prompt_corpus.md` **Coder Python Docstring Style**: added module-level docstring
+  rule — every module begins with a docstring whose first line is the filename followed
+  by a brief description of what it defines
+- `prompt_corpus.md` **Prepare for Release**: release changelog cleanup now drops empty
+  subsections when promoting *Unreleased* content into a new versioned section
+
+**Unit Tests**:
+
+- **Coder Python content tests**: added `test1`–`test3` to `TestContent` in both
+  `tests/cli/a/s/coder/cli-a-s-coder-py_test.py` and
+  `tests/cli/c/c/coder/cli-c-c-bp-coder-py_test.py`; expanded shared assertions in
+  `tests/cli/__init__.py` to cover the new Python rules
+
 ### Security
 
 [unreleased]: https://github.com/kami-lel/kaye/compare/v6.5.1...dev
