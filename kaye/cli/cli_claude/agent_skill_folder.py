@@ -66,4 +66,4 @@ class AgentSkillFolder:  #######################################################
         if self.skill_md:
             self.skill_md.__exit__(*args)
 
-        logger.pass_("export skill:\t" + str(self._path))
+        logger.succ("export skill:\t" + str(self._path))

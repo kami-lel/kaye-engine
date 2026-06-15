@@ -48,4 +48,4 @@ def export_plugin_as_zip(parent_folder, *, verbose=True):
         dest = parent_folder / (plugin_root.name + ".zip")
         shutil.move(str(zip_base.with_suffix(".zip")), str(dest))
 
-        logger.pass_("export plugin:\t{}".format(dest))
+        logger.succ("export plugin:\t{}".format(dest))
