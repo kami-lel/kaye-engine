@@ -17,4 +17,4 @@ def convert_display_name2skill_name(display_name):
 
 
 # Todo use kamilog for printing
-# TODO write unit tests for all cases
+# Todo write unit tests for all cases
