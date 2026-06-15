@@ -4037,6 +4037,20 @@ Use for any JavaScript or TypeScript work. Triggers: `.js`/`.ts`/`.jsx`/`.tsx` f
 
 Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
+- do **not** use type hints anywhere (no variable annotations, no function parameter or return type annotations).
+- prefer `str.format()` for string formatting, dont use f-strings (`f""`).
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### {description}
 
@@ -4051,6 +4065,13 @@ Use for any Python work. Triggers: `.py` files, inline Python code blocks, reque
 ```glob
 **/*.py
 ```
+
+
+
+
+
+
+
 
 
 
