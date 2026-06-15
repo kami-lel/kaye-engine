@@ -437,6 +437,9 @@ TESTEE_FILE_CONTENT_ALL = {
     ],
     "coder-python": [
         "## Coder Python",
+        "Adhere to the **PEP8** style guide, ensuring clarity and consistency.",
+        "- do **not** use type hints anywhere (no variable annotations,",
+        "- prefer `str.format()` for string formatting, dont use",
     ],
     "coder-python-docstring-style": [
         "### Coder Python Docstring Style",
@@ -553,7 +556,7 @@ TESTEE_FILE_CONTENT_ALL = {
         "## Skill Description Writer",
         "a `description` and a `when_to_use`",
         "Keep both **extremely concise and brief**",
-        "You are writing metadata for an agent \"skill\"",
+        'You are writing metadata for an agent "skill"',
     ],
     "style-guide-briefness-style": [
         "## Style Guide Briefness Style",

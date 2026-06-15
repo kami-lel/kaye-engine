@@ -3,6 +3,4 @@ TODO for prepare_for_feature_finish/_release, utilize tools to fetch `git log`
 TODO add {prerequisite} meta node, or standardize calling tools etc.
 TODO update all blueprints on pre-requisite content
 
-Bug prepare to release failed to remove empty section
-
 todo resume role
