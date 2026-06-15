@@ -18,12 +18,29 @@
 
 ### Added
 
+- `kaye claude plugin` (`p`) subcommand: export blueprints as a Claude plugin
+  folder; `-z` flag creates a compressed `.plugin` file instead
+- `kaye claude skill` (`s`) subcommand: export blueprints as agentskills.io
+  Skill folders; `-z` flag creates `.zip` packages instead
+- `kaye claude` aliases `anthropic` and `a` now cover all Skill & Plugin export
+  operations
+- `kamilog` utility module (`kaye/kamilog.py`, `v1.3.0`) re-introduced into the
+  package
+
 ### Changed
+
+- `PROGRAM_NAME` changed from `Kaye` to lowercase `kaye`
+
 
 **Unit Tests**:
 
+- **Skill test suite relocated**: tests moved from `tests/cli/s/u/` to
+  `tests/cli/a/s/` to mirror the new `claude skill` (`a s`) command path;
+  `cli-a-s-pe-description_test.py` added and the obsolete
+  `cli-s-u-pe-prompt_test.py` removed
+
 - **Test content centralization**: Consolidated all `TestContent` class assertions
-  across `tests/cli/c/c/` and `tests/cli/s/u/` directories into a shared
+  across `tests/cli/c/c/` and `tests/cli/a/s/` directories into a shared
   `TESTEE_FILE_CONTENT_ALL` dictionary in `tests/cli/__init__.py`
 
   - Expanded dictionary from 6 keys (chat, agent-behavior, continue-behavior,
@@ -49,7 +66,29 @@
 
 ### Removed
 
+- `kaye skill` (`s`) top-level subcommand; superseded by `kaye claude skill`
+- `kaye claude update` and `kaye claude create` stubs; replaced by
+  `kaye claude plugin` with `-z` flag
+- `kaye/cli/cli_skill/` package; all contents relocated to
+  `kaye/cli/cli_claude/`
+
 ### Fixed
+
+- `prompt_corpus.md` **Coder Python**: added explicit rules prohibiting type hints and
+  requiring `str.format()` over f-strings; corrects agent behavior that previously
+  generated non-compliant Python
+- `prompt_corpus.md` **Coder Python Docstring Style**: added module-level docstring
+  rule — every module begins with a docstring whose first line is the filename followed
+  by a brief description of what it defines
+- `prompt_corpus.md` **Prepare for Release**: release changelog cleanup now drops empty
+  subsections when promoting *Unreleased* content into a new versioned section
+
+**Unit Tests**:
+
+- **Coder Python content tests**: added `test1`–`test3` to `TestContent` in both
+  `tests/cli/a/s/coder/cli-a-s-coder-py_test.py` and
+  `tests/cli/c/c/coder/cli-c-c-bp-coder-py_test.py`; expanded shared assertions in
+  `tests/cli/__init__.py` to cover the new Python rules
 
 ### Security
 

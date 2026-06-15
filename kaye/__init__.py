@@ -2,4 +2,12 @@
 Kaye Python Package API
 """
 
-PROGRAM_NAME = "Kaye"
+
+
+from kaye import kamilog
+
+
+PROGRAM_NAME = "kaye"
+
+
+logger = kamilog.getLogger(PROGRAM_NAME)

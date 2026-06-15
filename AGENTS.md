@@ -37,7 +37,7 @@ through a Python API, an HTTP API, and a CLI.
   - `kaye/api/` — Flask HTTP API and Dify app endpoints
   - `kaye/cli/` — argparse-based CLI subcommands
     - `kaye/cli/cli_continue/` — exports blueprint/abbreviation rules to `~/.continue`
-    - `kaye/cli/cli_skill/` — exports blueprints as agentskills.io Skill folders/zips
+    - `kaye/cli/cli_claude/` — exports blueprints as Claude plugins and agentskills.io Skills
     - `kaye/cli/cli_prompt/` — prompt generation CLI subcommands
   - `kaye/prompt_corpus.md`, `kaye/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
@@ -76,14 +76,17 @@ python -m kaye --help          # show CLI usage
 python -m kaye http            # start Flask HTTP API (port 11255)
 python -m kaye continue config                  # export rules to ~/.continue
 python -m kaye continue config LOCAL_CONFIG_FOLDER  # export to custom path
-python -m kaye continue prompt PROMPTS_FOLDER   # export Continue prompts
-python -m kaye skill update SKILLS_FOLDER       # export blueprints as Skill folders
-python -m kaye skill create ZIPS_FOLDER         # create .zip Skill packages
+python -m kaye continue prompt PROMPTS_FOLDER        # export Continue prompts
+python -m kaye claude skill SKILLS_FOLDER            # export blueprints as Skill folders
+python -m kaye claude skill -z ZIPS_FOLDER           # create .zip Skill packages
+python -m kaye claude plugin PLUGINS_FOLDER          # export blueprints as plugin folder
+python -m kaye claude plugin -z PLUGINS_FOLDER       # create .plugin file
 ```
 
 CLI subcommand aliases: `http` → `h`; `continue` → `c`;
 `continue config` → `c c`; `continue prompt` → `c p`;
-`skill` → `s`; `skill update` → `s u`; `skill create` → `s c`.
+`claude` → `anthropic`, `a`; `claude plugin` → `claude p`;
+`claude skill` → `claude s`.
 
 ## Code Conventions
 
