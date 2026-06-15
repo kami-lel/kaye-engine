@@ -4,4 +4,6 @@ Todo add {prerequisite} meta node, or standardize calling tools etc.
 
 Bug prepare to release failed to remove empty section
 
+Bug python wants to include type hint
+
 todo resume role
