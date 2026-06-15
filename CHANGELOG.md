@@ -18,6 +18,13 @@
 
 ### Added
 
+- `kaye claude plugin` (`p`) subcommand: export blueprints as a Claude plugin
+  folder; `-z` flag creates a compressed `.plugin` file instead
+- `kaye claude skill` (`s`) subcommand: export blueprints as agentskills.io
+  Skill folders; `-z` flag creates `.zip` packages instead
+- `kaye claude` aliases `anthropic` and `a` now cover all Skill & Plugin export
+  operations
+
 ### Changed
 
 **Unit Tests**:
@@ -48,6 +55,12 @@
 ### Deprecated
 
 ### Removed
+
+- `kaye skill` (`s`) top-level subcommand; superseded by `kaye claude skill`
+- `kaye claude update` and `kaye claude create` stubs; replaced by
+  `kaye claude plugin` with `-z` flag
+- `kaye/cli/cli_skill/` package; all contents relocated to
+  `kaye/cli/cli_claude/`
 
 ### Fixed
 
