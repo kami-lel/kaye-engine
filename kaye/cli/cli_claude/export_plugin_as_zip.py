@@ -8,6 +8,9 @@ import shutil
 import tempfile
 from pathlib import Path
 
+from kaye import logger
+
+
 from kaye.cli.cli_claude.export_plugin_as_folder import (
     export_plugin_as_folder,
 )
@@ -37,9 +40,7 @@ def export_plugin_as_zip(parent_folder, *, verbose=True):
         tempfile.TemporaryDirectory() as plugin_temp,
         tempfile.TemporaryDirectory() as zip_temp,
     ):
-        plugin_root = export_plugin_as_folder(
-            Path(plugin_temp), verbose=False
-        )
+        plugin_root = export_plugin_as_folder(Path(plugin_temp), verbose=False)
 
         zip_base = Path(zip_temp) / plugin_root.name
         shutil.make_archive(str(zip_base), "zip", root_dir=plugin_root)
@@ -47,5 +48,4 @@ def export_plugin_as_zip(parent_folder, *, verbose=True):
         dest = parent_folder / (plugin_root.name + ".zip")
         shutil.move(str(zip_base.with_suffix(".zip")), str(dest))
 
-        if verbose:
-            print(f"export plugin:\t{dest}")
+        logger.pass_("export plugin:\t{}".format(dest))

@@ -7,6 +7,8 @@ define ``export_plugin_as_folder``
 import json
 from importlib.metadata import metadata, version
 
+from kaye import logger
+
 from kaye import PROGRAM_NAME
 from kaye.cli.cli_claude.export_skills_as_folders import (
     export_skills_as_folders,
@@ -51,8 +53,7 @@ def export_plugin_as_folder(parent_folder, *, verbose=True):
 
     export_skills_as_folders(plugin_root / _SKILLS_DIR, verbose=verbose)
 
-    if verbose:
-        print("export plugin:\t" + str(plugin_root))
+    logger.pass_("export plugin:\t" + str(plugin_root))
 
     return plugin_root
 

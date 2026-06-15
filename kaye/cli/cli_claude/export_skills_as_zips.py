@@ -8,6 +8,9 @@ import shutil
 import tempfile
 from pathlib import Path
 
+from kaye import logger
+
+
 from kaye.cli.cli_claude.export_skills_as_folders import (
     export_skills_as_folders,
 )
@@ -50,5 +53,5 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
         for zip_file in Path(zips_temp).iterdir():
             dest = parent_folder / zip_file.name
             shutil.move(str(zip_file), str(dest))
-            if verbose:
-                print(f"export skill:\t{dest}")
+
+            logger.pass_("export plugin:\t{}".format(dest))
