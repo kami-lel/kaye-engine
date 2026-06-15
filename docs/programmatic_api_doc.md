@@ -74,9 +74,12 @@ E.g.
 > [!NOTE]
 > `.name` is a property of `anytree.Node`
 
-<!-- TODO meta nodes can appear -->
-
 Meta nodes are corpus nodes identified by names enclosed in curly braces, such as `{description}`. They appear in the blueprint preview tree but are **not** included in the rendered prompt output.
+
+Use `.is_meta_node` to check if a node is a meta node.
+
+> [!NOTE]
+> Meta nodes are **not** auto-checkmarked by `create_full_blueprint()` or by `checkmark()` with `recursively=True`. They can still be checkmarked explicitly with a direct `checkmark(meta_node)` call.
 
 Dynamic nodes are identified by names enclosed in parentheses, such as `(Today)`, `(Abbreviations)`. Unlike meta nodes, dynamic nodes are not parsed from the corpus — they are injected at render time and **are** included in the rendered prompt output.
 
@@ -149,7 +152,7 @@ Use `.generate_prompt_tree_preview()` on **root** instance to show a human-reada
 E.g.
 
 ```python
->>> tree.generate_preview_tree()
+>>> tree.generate_prompt_tree_preview()
 ○
 └── Project Title
     ├── Description
@@ -171,7 +174,7 @@ E.g.
 As shown above, it contains *content preview*, which can be customized by arguments `content_preview_lines` and `content_preview_width`, e.g.
 
 ```python
->>> tree.generate_preview_tree(content_preview_lines=0)
+>>> tree.generate_prompt_tree_preview(content_preview_lines=0)
 ○
 └── Project Title
     ├── Description
@@ -183,7 +186,7 @@ As shown above, it contains *content preview*, which can be customized by argume
 
 ----
 
-`repr(node)` is equivalent to ``node.generate_preview_tree()``
+`repr(node)` is equivalent to ``node.generate_prompt_tree_preview()``
 
 
 
@@ -247,7 +250,7 @@ Additionally, one might create full/empty blueprints by *classmethod*:
 - ``PromptBlueprint.create_full_blueprint()``, and
 - ``PromptBlueprint.create_empty_blueprint()``
 
-These return blueprint objects those contain all nodes (of corpus tree), and also checkmark/uncheckmark all nodes.
+These return blueprint objects that contain all nodes of the corpus tree, with all nodes checkmarked or uncheckmarked. Note that `create_full_blueprint()` does **not** auto-checkmark meta nodes.
 
 ----
 
@@ -299,6 +302,9 @@ blueprint -= node  # identical
 ```
 
 `.checkmark()` and `.uncheckmark()` support keyword argument `recursively=` which allows user to (un)checkmark a node and all of its descendants.
+
+> [!NOTE]
+> When `recursively=True`, `.checkmark()` **skips meta node descendants**. Use a direct `.checkmark(meta_node)` call to explicitly checkmark a meta node.
 
 ----
 
