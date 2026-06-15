@@ -8,4 +8,6 @@ Bug python wants to include type hint
 
 Bug python prefers .format instead of f""
 
+Bug python module docstring & pytest module docstring
+
 todo resume role
