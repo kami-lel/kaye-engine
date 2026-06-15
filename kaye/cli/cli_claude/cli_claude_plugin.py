@@ -2,6 +2,9 @@
 
 from pathlib import Path
 
+from kaye.cli.cli_claude.export_plugin_as_folder import export_plugin_as_folder
+from kaye.cli.cli_claude.export_plugin_as_zip import export_plugin_as_zip
+
 # constants  ===================================================================
 
 _DEFAULT_PLUGINS_FOLDER = Path.home() / ".claude" / "plugins"
@@ -31,13 +34,20 @@ def register_cli_claude_plugin_parser(  ########################################
         "--zip",
         action="store_true",
         dest="zip",
-        help="create .plugin file; FOLDER default: current directory",
+        help=(
+            "create an upload-ready .zip plugin (for Claude Desktop); "
+            "FOLDER default: current directory"
+        ),
     )
 
     def _plugin_main(args):
         folder = args.folder
         if folder is None:
             folder = Path.cwd() if args.zip else _DEFAULT_PLUGINS_FOLDER
-        pass  # TODO command: kaye claude plugin
+
+        if args.zip:
+            export_plugin_as_zip(folder)
+        else:
+            export_plugin_as_folder(folder)
 
     plugin_parser.set_defaults(func=_plugin_main)
