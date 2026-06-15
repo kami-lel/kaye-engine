@@ -54,4 +54,4 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
             dest = parent_folder / zip_file.name
             shutil.move(str(zip_file), str(dest))
 
-            logger.pass_("export plugin:\t{}".format(dest))
+            logger.succ("export plugin:\t{}".format(dest))

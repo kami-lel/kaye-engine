@@ -1,4 +1,4 @@
-"""export Kaye blueprints as agentskills.io-standard Skills for Anthropic Claude"""
+"""export as agentskills.io-standard Skills for Anthropic Claude"""
 
 from pathlib import Path
 

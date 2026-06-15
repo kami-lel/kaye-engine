@@ -53,7 +53,7 @@ def export_plugin_as_folder(parent_folder, *, verbose=True):
 
     export_skills_as_folders(plugin_root / _SKILLS_DIR, verbose=verbose)
 
-    logger.pass_("export plugin:\t" + str(plugin_root))
+    logger.succ("export plugin:\t" + str(plugin_root))
 
     return plugin_root
 

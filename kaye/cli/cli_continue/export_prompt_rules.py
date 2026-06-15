@@ -31,4 +31,4 @@ def export_prompt_rules(prompts_folder):
             rule.always_apply = False
             rule.invokable = True
 
-        logger.pass_("prompt:\t{}".format(file_path))
+        logger.succ("prompt:\t{}".format(file_path))

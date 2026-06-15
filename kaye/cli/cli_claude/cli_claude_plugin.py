@@ -1,4 +1,4 @@
-"""export Kaye blueprints as an Anthropic Claude plugin"""
+"""export as an Anthropic Claude plugin"""
 
 from pathlib import Path
 
@@ -47,16 +47,21 @@ def register_cli_claude_plugin_parser(  ########################################
 
     def _plugin_main(args):
         kamilog.set_logging_level_by_verbosity(args, logger=logger)
-
-        logger.debug("parsed: kaye claude plugin")
+        logger.enter("kaye claude plugin")
 
         folder = args.folder
         if folder is None:
             folder = Path.cwd() if args.zip else _DEFAULT_PLUGINS_FOLDER
 
         if args.zip:
+            logger.debug("export plugin as zip")
             export_plugin_as_zip(folder)
+            done_msg = "export plugin as zip"
         else:
+            logger.debug("export plugin as folder")
             export_plugin_as_folder(folder)
+            done_msg = "export plugin as folder"
+
+        logger.done(done_msg + "\t" + str(folder))
 
     plugin_parser.set_defaults(func=_plugin_main)
