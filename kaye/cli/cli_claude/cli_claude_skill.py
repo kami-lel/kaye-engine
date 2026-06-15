@@ -1,12 +1,9 @@
 """export Kaye blueprints as agentskills.io-standard Skills for Anthropic Claude"""
 
-import shutil
-import tempfile
 from pathlib import Path
 
-from kaye.cli.cli_claude.export_skills_as_folders import (
-    export_skills_as_folders,
-)
+from kaye.cli.cli_claude.export_skills_as_folders import export_skills_as_folders
+from kaye.cli.cli_claude.export_skills_as_zips import export_skills_as_zips
 
 # constants  ===================================================================
 
@@ -46,26 +43,7 @@ def register_cli_claude_skill_parser(  #########################################
             folder = Path.cwd() if args.zip else _DEFAULT_SKILLS_FOLDER
 
         if args.zip:
-            folder.mkdir(parents=True, exist_ok=True)
-            with (
-                tempfile.TemporaryDirectory() as skills_temp,
-                tempfile.TemporaryDirectory() as zips_temp,
-            ):
-                export_skills_as_folders(Path(skills_temp), verbose=False)
-
-                for skill_folder in Path(skills_temp).iterdir():
-                    zip_base = Path(zips_temp) / skill_folder.name
-                    shutil.make_archive(
-                        str(zip_base),
-                        "zip",
-                        root_dir=skill_folder.parent,
-                        base_dir=skill_folder.name,
-                    )
-
-                for zip_file in Path(zips_temp).iterdir():
-                    dest = folder / zip_file.name
-                    shutil.move(str(zip_file), str(dest))
-                    print(f"export skill:\t{dest}")
+            export_skills_as_zips(folder)
         else:
             export_skills_as_folders(folder)
 
