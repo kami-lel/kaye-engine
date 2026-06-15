@@ -25,7 +25,9 @@ def register_cli_continue_prompt_parser(  ######################################
     kamilog.add_verbose_arguments(prompt_parser)
 
     def _prompt_main(args):
+        kamilog.set_logging_level_by_verbosity(args, logger=logger)
         logger.enter("export prompts to folder")
+
         folder = args.prompts_folder
         kamilog.set_logging_level_by_verbosity(args, logger=logger)
 
