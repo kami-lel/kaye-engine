@@ -9,7 +9,7 @@ from importlib.metadata import version
 
 import yaml
 
-from kaye.cli.cli_skill import convert_display_name2skill_name
+from kaye.cli.cli_claude import convert_display_name2skill_name
 from kaye.cli.frontmatter_md_file import FrontmatterMDFile
 
 
