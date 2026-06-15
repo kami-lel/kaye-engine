@@ -2653,7 +2653,13 @@ Use this skill when the user wants to record feature branch changes into the *Un
 
 if version number or release date not provided, ask the user before proceeding. Then:
 
-- **update `CHANGELOG.md`**: move all content under *Unreleased* into a new versioned section using the provided version and date, create a new empty *Unreleased* section above it, and update all relevant GitHub comparison links to reflect the new version tag
+- **update `CHANGELOG.md`**:
+
+  - move all content under *Unreleased* into a new versioned section using the provided version and date
+  - keep only non-empty subsections in the new versioned section (drop any subsection that has no entries)
+  - create a new empty *Unreleased* section above it
+  - update all relevant GitHub comparison links to reflect the new version tag
+
 - **update project version**: find and update the version number in project metadata files where applicable — eg `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`. Match the provided version exactly
 
 
@@ -4142,6 +4148,16 @@ class Rectangle:
             raise ValueError("width and height must be positive")
         self._width = width
         self._height = height
+```
+
+Begin every module/script with a docstring whose first line is the **filename**, followed by a brief description of what it defines. For example:
+
+```python
+"""
+email_validator.py
+(SINGLE EMPTY LINE)
+define ``EmailValidator`` and ``validate_address``
+"""
 ```
 
 
