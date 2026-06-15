@@ -46,6 +46,10 @@ def register_cli_claude_plugin_parser(  ########################################
     kamilog.add_verbose_arguments(plugin_parser)
 
     def _plugin_main(args):
+        kamilog.set_logging_level_by_verbosity(args, logger=logger)
+
+        logger.debug("parsed: kaye claude plugin")
+
         folder = args.folder
         if folder is None:
             folder = Path.cwd() if args.zip else _DEFAULT_PLUGINS_FOLDER

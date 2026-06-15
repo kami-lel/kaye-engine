@@ -18,4 +18,5 @@ def convert_display_name2skill_name(display_name):
 
 # Todo write unit tests for all cases
 
-# TODO use kamilog
+# TODO use kamilog in claude
+# FIXME use newer version
