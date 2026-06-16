@@ -30,15 +30,19 @@ through a Python API, an HTTP API, and a CLI.
   corpus parts render into a concrete prompt
 - **Role** — task-specific behavior profile inside the corpus
 - **Meta Node** — `{name}`-bracketed subnode holding structured metadata for
-  its parent (e.g. `{description}`, `{when_to_use}`, `{globs}`); detected via
-  `BasePromptNode.is_meta_node` (regex `^\{.+\}$`); looked up and rendered by
-  `kaye/prompt/blueprint_meta_nodes.py::BlueprintMetaNodes`. To add a new meta
-  node type: add a property + `_node` lookup in `BlueprintMetaNodes`, add
-  `### {name}` examples to `kaye/prompt_corpus.md`, document it in
-  `docs/corpus_doc.md` and `docs/programmatic_api_doc.md`, wire CLI export
-  consumers (`kaye/cli/frontmatter_md_file.py`,
+  its parent (e.g. `{description}`, `{when_to_use}`, `{globs}`, `{prerequisite}`);
+  detected via `BasePromptNode.is_meta_node` (regex `^\{.+\}$`); looked up and
+  rendered by `kaye/prompt/blueprint_meta_nodes.py::BlueprintMetaNodes`. To add
+  a new meta node type: add a property + `_node` lookup in
+  `BlueprintMetaNodes`, add `### {name}` examples to `kaye/prompt_corpus.md`,
+  document it in `docs/corpus_doc.md` and `docs/programmatic_api_doc.md`, wire
+  CLI export consumers (`kaye/cli/frontmatter_md_file.py`,
   `kaye/cli/cli_continue/rule_file.py`) if the type should surface in exports,
-  and mirror tests under `tests/prompt/bp/`.
+  and mirror tests under `tests/prompt/bp/` and `tests/prompt/node/`.
+- **Prerequisite Node** — `{prerequisite}` meta node; `BasePromptNode
+  .is_prerequisite_node` checks `self.name == "{prerequisite}"`;
+  `PromptBlueprint.checkmark_prerequisite_nodes()` recursively checkmarks
+  every `{prerequisite}` node whose parent is already checkmarked.
 
 ### Repository Layout
 
