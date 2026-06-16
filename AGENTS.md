@@ -30,11 +30,14 @@ through a Python API, an HTTP API, and a CLI.
   corpus parts render into a concrete prompt
 - **Role** — task-specific behavior profile inside the corpus
 - **Meta Node** — `{name}`-bracketed subnode holding structured metadata for
-  its parent (e.g. `{description}`, `{when_to_use}`, `{globs}`, `{prerequisite}`);
-  detected via `BasePromptNode.is_meta_node` (regex `^\{.+\}$`); looked up and
-  rendered by `kaye/prompt/blueprint_meta_nodes.py::BlueprintMetaNodes`. To add
-  a new meta node type: add a property + `_node` lookup in
-  `BlueprintMetaNodes`, add `### {name}` examples to `kaye/prompt_corpus.md`,
+  its parent (members of `kaye/prompt/meta_node_type.py::MetaNodeType`:
+  `DESCRIPTION`, `WHEN_TO_USE`, `GLOBS`, `PREREQUISITE`; `.as_node_heading`
+  renders e.g. `{description}`); detected via `BasePromptNode.is_meta_node`
+  (regex `^\{.+\}$`); looked up and rendered by
+  `kaye/prompt/blueprint_meta_nodes.py::BlueprintMetaNodes`. To add a new meta
+  node type: add a member to `MetaNodeType`, add a property + `_node` lookup
+  (via `MetaNodeType.<NAME>.as_node_heading`) in `BlueprintMetaNodes`, add
+  `### {name}` examples to `kaye/prompt_corpus.md`,
   document it in `docs/corpus_doc.md` and `docs/programmatic_api_doc.md`, wire
   CLI export consumers (`kaye/cli/frontmatter_md_file.py`,
   `kaye/cli/cli_continue/rule_file.py`) if the type should surface in exports,

@@ -4,6 +4,8 @@ blueprint_meta_fields.py
 define ``BlueprintMetaFields``
 """
 
+from kaye.prompt.meta_node_type import MetaNodeType
+
 
 class BlueprintMetaNodes:  #####################################################
     """
@@ -94,20 +96,32 @@ class BlueprintMetaNodes:  #####################################################
         self.description_node = None
         self.when_to_use_node = None
         self.globs_node = None
+        self.prerequisite_node = None
 
         if main_node:
             try:
-                self.description_node = main_node["{description}"]
+                self.description_node = main_node[
+                    MetaNodeType.DESCRIPTION.as_node_heading
+                ]
             except KeyError:
                 pass
 
             try:
-                self.when_to_use_node = main_node["{when_to_use}"]
+                self.when_to_use_node = main_node[
+                    MetaNodeType.WHEN_TO_USE.as_node_heading
+                ]
             except KeyError:
                 pass
 
             try:
-                self.globs_node = main_node["{globs}"]
+                self.globs_node = main_node[MetaNodeType.GLOBS.as_node_heading]
+            except KeyError:
+                pass
+
+            try:
+                self.prerequisite_node = main_node[
+                    MetaNodeType.PREREQUISITE.as_node_heading
+                ]
             except KeyError:
                 pass
 
