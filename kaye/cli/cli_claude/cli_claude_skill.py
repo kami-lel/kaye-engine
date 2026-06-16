@@ -1,8 +1,14 @@
-"""export Kaye blueprints as agentskills.io-standard Skills for Anthropic Claude"""
+"""export as agentskills.io-standard Skills for Anthropic Claude"""
 
 from pathlib import Path
 
-from kaye.cli.cli_claude.export_skills_as_folders import export_skills_as_folders
+
+from kaye import logger, kamilog
+
+
+from kaye.cli.cli_claude.export_skills_as_folders import (
+    export_skills_as_folders,
+)
 from kaye.cli.cli_claude.export_skills_as_zips import export_skills_as_zips
 
 # constants  ===================================================================
@@ -37,14 +43,25 @@ def register_cli_claude_skill_parser(  #########################################
         help="create .zip Skill packages; FOLDER default: current directory",
     )
 
+    kamilog.add_verbose_arguments(skill_parser)
+
     def _skill_main(args):
+        kamilog.set_logging_level_by_verbosity(args, logger=logger)
+        logger.enter("kaye claude skill")
+
         folder = args.folder
         if folder is None:
             folder = Path.cwd() if args.zip else _DEFAULT_SKILLS_FOLDER
 
         if args.zip:
+            logger.debug("export skills as zip packages")
             export_skills_as_zips(folder)
+            done_msg = "export skills as zip packages"
         else:
+            logger.debug("export skills as folders")
             export_skills_as_folders(folder)
+            done_msg = "export skills as folders"
+
+        logger.done(done_msg + "\t" + str(folder))
 
     skill_parser.set_defaults(func=_skill_main)

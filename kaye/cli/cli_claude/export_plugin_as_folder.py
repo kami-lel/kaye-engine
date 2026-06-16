@@ -7,6 +7,8 @@ define ``export_plugin_as_folder``
 import json
 from importlib.metadata import metadata, version
 
+from kaye import logger
+
 from kaye import PROGRAM_NAME
 from kaye.cli.cli_claude.export_skills_as_folders import (
     export_skills_as_folders,
@@ -40,19 +42,21 @@ def export_plugin_as_folder(parent_folder, *, verbose=True):
     """
     plugin_root = parent_folder / PROGRAM_NAME
 
+    logger.debug("creating plugin manifest directory")
     manifest_dir = plugin_root / _MANIFEST_DIR
     manifest_dir.mkdir(parents=True, exist_ok=True)
 
+    logger.debug("writing plugin manifest")
     manifest_path = manifest_dir / _MANIFEST_FILE
     manifest_path.write_text(
         json.dumps(_build_manifest(), indent=2) + "\n",
         encoding="utf-8",
     )
 
+    logger.debug("exporting blueprints as plugin skills")
     export_skills_as_folders(plugin_root / _SKILLS_DIR, verbose=verbose)
 
-    if verbose:
-        print("export plugin:\t" + str(plugin_root))
+    logger.succ("export plugin:\t" + str(plugin_root))
 
     return plugin_root
 

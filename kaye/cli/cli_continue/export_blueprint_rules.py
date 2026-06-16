@@ -51,4 +51,4 @@ def export_blueprint_rules(rules_folder):
         with RuleFile(file_path, blueprint=bp) as rule:
             rule.always_apply = name in _ALWAYS_APPLY_BLUEPRINT
 
-        logger.pass_("blueprint rule:\t{}".format(file_path))
+        logger.succ("blueprint rule:\t{}".format(file_path))

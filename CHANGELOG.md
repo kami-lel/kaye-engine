@@ -30,6 +30,13 @@
 ### Changed
 
 - `PROGRAM_NAME` changed from `Kaye` to lowercase `kaye`
+- **Claude CLI Logging**: `kaye claude skill` and `kaye claude plugin` commands now
+  extensively use `kamilog` logger for visibility into export operations:
+  - `--verbose` (`-v`) and `--debug` (`-vv`) flags enable progressively detailed logging
+  - `logger.enter()` marks task start, `logger.debug()` shows operation progress,
+    `logger.done()` confirms completion
+  - Export modules (skills, plugins, zips) now log each step: manifest creation,
+    skill folder building, archiving, and file movement
 
 
 **Unit Tests**:
@@ -82,6 +89,8 @@
   by a brief description of what it defines
 - `prompt_corpus.md` **Prepare for Release**: release changelog cleanup now drops empty
   subsections when promoting *Unreleased* content into a new versioned section
+- **CLI logging**: corrected verbosity logging order in `continue` commands to ensure
+  proper trace level initialization
 
 **Unit Tests**:
 

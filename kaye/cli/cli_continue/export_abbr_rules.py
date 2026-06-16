@@ -39,4 +39,4 @@ def export_abbr_rules(folder):
             rule.write_frontmatter_part()
             rule.write(group.as_md_list())
 
-        logger.pass_("abbr rule:\t{}".format(file_path))
+        logger.succ("abbr rule:\t{}".format(file_path))

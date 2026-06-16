@@ -17,5 +17,3 @@ def convert_display_name2skill_name(display_name):
 
 
 # todo write unit tests for all subcommands
-
-# Todo use kamilog
