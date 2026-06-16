@@ -24,19 +24,39 @@
   Skill folders; `-z` flag creates `.zip` packages instead
 - `kaye claude` aliases `anthropic` and `a` now cover all Skill & Plugin export
   operations
-- `kamilog` utility module (`kaye/kamilog.py`, `v1.3.0`) re-introduced into the
+- `kamilog` utility module (`kaye/kamilog.py`, `v1.4.1`) re-introduced into the
   package
+
+  - `SUCC` (22) and `DONE` (25) logging levels: `SUCC` marks an individual
+    operation succeeding, `DONE` marks an overall task completing
 
 ### Changed
 
 - `PROGRAM_NAME` changed from `Kaye` to lowercase `kaye`
 - **Claude CLI Logging**: `kaye claude skill` and `kaye claude plugin` commands now
   extensively use `kamilog` logger for visibility into export operations:
-  - `--verbose` (`-v`) and `--debug` (`-vv`) flags enable progressively detailed logging
+  - `--verbose` (`-v`) and `--quiet` (`-q`) flags enable progressively
+    detailed/quiet logging
   - `logger.enter()` marks task start, `logger.debug()` shows operation progress,
     `logger.done()` confirms completion
   - Export modules (skills, plugins, zips) now log each step: manifest creation,
     skill folder building, archiving, and file movement
+- **`kamilog` logging output format**: timestamps are omitted by default;
+  level names are printed without surrounding brackets (e.g. `DONE` instead
+  of `[DONE ]`)
+- `kamilog.PASS` level renumbered from `25` to `21` to make room for `SUCC`
+  (22) and `DONE` (25); `set_logging_level_by_verbosity()` default level (no
+  `-v`/`-q` flags) changed from `WARNING` to `DONE`, and `-q`/`-qq`/`-qqq` now
+  map to `WARNING`/`ERROR`/`CRITICAL` instead of suppressing all output
+- Claude skill/plugin export functions (`export_plugin_as_folder`,
+  `export_plugin_as_zip`, `export_skills_as_folders`,
+  `export_skills_as_zips`, `AgentSkillFolder`) now route progress and
+  completion messages through `kaye.logger` instead of `print()`; calls that
+  previously used `logger.pass_()` to report a single export's success now
+  use `logger.succ()`
+- `kaye continue config` and `kaye continue prompt`: `logger.enter()` now
+  fires before the export starts and `logger.done()` after it finishes,
+  instead of a single combined message logged up front
 
 
 **Unit Tests**:
