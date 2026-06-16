@@ -16,4 +16,6 @@ def convert_display_name2skill_name(display_name):
     return display_name.replace(" ", "-").lower()
 
 
-# todo write unit tests for all subcommands
+# Todo write unit tests for all subcommands
+
+# TODO utilize prerequisite node
