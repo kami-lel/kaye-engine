@@ -262,6 +262,21 @@ class PromptBlueprint(dict):
         """
         return self._checkmark_or_uncheckmark_generic(node, recursively, False)
 
+    def checkmark_prerequisite_nodes(self):
+        """
+        recursively checkmark every ``{prerequisite}`` meta node
+        whose parent node is checkmarked
+
+
+        :return: self
+        :rtype: PromptBlueprint
+        """
+        for node in PreOrderIter(self.corpus):
+            if node.is_prerequisite_node and self.is_checkmarked(node.parent):
+                self.checkmark(node)
+
+        return self
+
     def generate_blueprint(
         self,
         *,

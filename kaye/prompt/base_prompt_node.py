@@ -119,6 +119,15 @@ class BasePromptNode(AnyTreeNode):
         """
         return bool(re.match(r"^\{.+\}$", self.name))
 
+    @property
+    def is_prerequisite_node(self):
+        """
+        :return: whether this node is a **prerequisite meta node**,
+                i.e. its name is ``{prerequisite}``
+        :rtype: bool
+        """
+        return self.name == "{prerequisite}"
+
     # instance methods  ========================================================
 
     def generate_lineage(self):
