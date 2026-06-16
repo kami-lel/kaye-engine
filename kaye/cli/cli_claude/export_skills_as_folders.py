@@ -25,22 +25,20 @@ def export_skills_as_folders(parent_folder, *, verbose=True):
     :param parent_folder: destination directory to write skill folders into
     :type parent_folder: Path-like
     """
-    logger.debug("exporting blueprints and prompts as skills")
+    logger.enter("exporting blueprints and prompts as skills")
 
     # export embedded_blueprints and prompts
     for blueprint in EXPORTABLE_BLUEPRINTS + PROMPTS_BLUEPRINTS:
-        logger.debug("export skill:\t{}".format(blueprint.display_name))
         with AgentSkillFolder(
             parent_folder, blueprint=blueprint, verbose=verbose
         ):
             pass
 
-    logger.debug("exporting abbreviation groups as skills")
+    logger.enter("exporting abbreviation groups as skills")
 
     # export abbrs
     for group in EXPORTABLE_ABBRS:
         skill_name = convert_display_name2skill_name(group.display_name)
-        logger.debug("export skill:\t{}".format(group.display_name))
 
         with AgentSkillFolder(
             parent_folder,
