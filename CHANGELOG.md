@@ -89,6 +89,8 @@
   by a brief description of what it defines
 - `prompt_corpus.md` **Prepare for Release**: release changelog cleanup now drops empty
   subsections when promoting *Unreleased* content into a new versioned section
+- **CLI logging**: corrected verbosity logging order in `continue` commands to ensure
+  proper trace level initialization
 
 **Unit Tests**:
 
