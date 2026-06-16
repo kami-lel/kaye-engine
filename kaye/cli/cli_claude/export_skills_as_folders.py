@@ -4,6 +4,7 @@ export_skills_as_folders.py
 define ``export_skills_as_folders``
 """
 
+from kaye import logger
 from kaye.cli import EXPORTABLE_BLUEPRINTS
 from kaye.cli.cli_claude import convert_display_name2skill_name
 from kaye.cli.cli_claude.agent_skill_folder import AgentSkillFolder
@@ -24,6 +25,7 @@ def export_skills_as_folders(parent_folder, *, verbose=True):
     :param parent_folder: destination directory to write skill folders into
     :type parent_folder: Path-like
     """
+    logger.enter("exporting blueprints and prompts as skills")
 
     # export embedded_blueprints and prompts
     for blueprint in EXPORTABLE_BLUEPRINTS + PROMPTS_BLUEPRINTS:
@@ -31,6 +33,8 @@ def export_skills_as_folders(parent_folder, *, verbose=True):
             parent_folder, blueprint=blueprint, verbose=verbose
         ):
             pass
+
+    logger.enter("exporting abbreviation groups as skills")
 
     # export abbrs
     for group in EXPORTABLE_ABBRS:
