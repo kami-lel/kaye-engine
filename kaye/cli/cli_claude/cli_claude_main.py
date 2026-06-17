@@ -1,10 +1,16 @@
 """export Kaye blueprints as Anthropic Claude Skill / Plugin"""
 
+from kaye.cli.cli_claude.claude_code.cli_claude_code import (
+    register_cli_claude_code_parser,
+)
 from kaye.cli.cli_claude.claude_plugin.cli_claude_plugin import (
     register_cli_claude_plugin_parser,
 )
 from kaye.cli.cli_claude.claude_skill.cli_claude_skill import (
     register_cli_claude_skill_parser,
+)
+from kaye.cli.cli_claude.user_prompt.cli_claude_user_prompt import (
+    register_cli_claude_user_prompt_parser,
 )
 
 
@@ -27,5 +33,7 @@ def register_cli_claude_parser(  ###############################################
         description="utility functions for the Claude plugin integration"
     )
 
+    register_cli_claude_code_parser(claude_subparser)
     register_cli_claude_plugin_parser(claude_subparser)
     register_cli_claude_skill_parser(claude_subparser)
+    register_cli_claude_user_prompt_parser(claude_subparser)
