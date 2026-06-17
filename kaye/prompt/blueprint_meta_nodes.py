@@ -1,10 +1,21 @@
 """
 blueprint_meta_fields.py
 
-define ``BlueprintMetaFields``
+define ``BlueprintMetaNodes`` and ``collapse_lines_into_single_line``
 """
 
-from kaye.prompt import collapse_lines_into_single_line
+
+def collapse_lines_into_single_line(lines):
+    """
+    collapse an iterable of text lines into one single-line string
+
+
+    :param lines: the text lines to collapse onto a single line
+    :type lines: Iterable[str]
+    :return: the lines joined into one string by the line-break glyph
+    :rtype: str
+    """
+    return "↵".join(lines)
 
 
 class BlueprintMetaNodes:  #####################################################
