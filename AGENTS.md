@@ -44,8 +44,9 @@ through a Python API, an HTTP API, and a CLI.
   and mirror tests under `tests/prompt/bp/` and `tests/prompt/node/`.
 - **Prerequisite Node** — `{prerequisite}` meta node; `BasePromptNode
   .is_prerequisite_node` checks `self.name == "{prerequisite}"`;
-  `PromptBlueprint.checkmark_prerequisite_nodes()` recursively checkmarks
-  every `{prerequisite}` node whose parent is already checkmarked.
+  pass `contains_prerequisite_nodes=True` to `generate_prompt()` /
+  `generate_prompt_lines()` to auto-checkmark every `{prerequisite}` node
+  whose parent is already checkmarked before rendering.
 
 ### Repository Layout
 

@@ -353,7 +353,10 @@ Use `.generate_prompt()` to render the concrete prompt as a single string.
 Use `.generate_prompt_lines()` when you want the rendered prompt as a list of
 lines instead.
 
-Both methods support `disable_first_heading=` and `show_comment=`.
+Both methods support `disable_first_heading=`, `show_comment=`, and
+`contains_prerequisite_nodes=`. When `contains_prerequisite_nodes=True`, all
+`{prerequisite}` meta nodes whose parents are checkmarked are automatically
+checkmarked before rendering.
 Any extra keyword arguments are passed through to node `content_lines()`
 implementations, which is how dynamic nodes receive values such as `query=`.
 
