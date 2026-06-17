@@ -47,6 +47,14 @@ def register_cli_claude_plugin_parser(  ########################################
         ),
     )
 
+    plugin_parser.add_argument(
+        "-n",
+        "--no-version",
+        action="store_false",
+        dest="includes_version",
+        help="omit the current version from the .zip filename (zip only)",
+    )
+
     kamilog.add_verbose_arguments(plugin_parser)
 
     def _plugin_main(args):
@@ -59,7 +67,9 @@ def register_cli_claude_plugin_parser(  ########################################
 
         if args.zip:
             logger.debug("export plugin as zip")
-            export_plugin_as_zip(folder)
+            export_plugin_as_zip(
+                folder, includes_version=args.includes_version
+            )
             done_msg = "export plugin as zip"
         else:
             logger.debug("export plugin as folder")
@@ -69,6 +79,3 @@ def register_cli_claude_plugin_parser(  ########################################
         logger.done(done_msg + "\t" + str(folder))
 
     plugin_parser.set_defaults(func=_plugin_main)
-
-
-# TODO created zip has version
