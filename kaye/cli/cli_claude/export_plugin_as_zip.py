@@ -43,7 +43,7 @@ def export_plugin_as_zip(parent_folder):
         tempfile.TemporaryDirectory() as zip_temp,
     ):
         logger.debug("building plugin folder in temporary directory")
-        plugin_root = export_plugin_as_folder(Path(plugin_temp), verbose=False)
+        plugin_root = export_plugin_as_folder(Path(plugin_temp))
 
         logger.debug("archiving plugin to .zip package")
         zip_base = Path(zip_temp) / plugin_root.name
