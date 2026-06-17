@@ -11,6 +11,7 @@ import yaml
 
 from kaye.cli.cli_claude import convert_display_name2skill_name
 from kaye.cli.frontmatter_md_file import FrontmatterMDFile
+from kaye.prompt import collapse_lines_into_single_line
 
 
 class SkillMDFile(FrontmatterMDFile):  #########################################
@@ -80,9 +81,7 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
             self.name = convert_display_name2skill_name(blueprint.display_name)
             globs = blueprint.meta.globs
             if globs:
-                suffix = "↵".join(globs)
-                self.when_to_use = (
-                    self.when_to_use + "↵" + suffix
-                    if self.when_to_use
-                    else suffix
-                )
+                parts = list(globs)
+                if self.when_to_use:
+                    parts.insert(0, self.when_to_use)
+                self.when_to_use = collapse_lines_into_single_line(parts)
