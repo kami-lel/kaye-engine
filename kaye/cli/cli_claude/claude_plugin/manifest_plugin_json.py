@@ -18,9 +18,9 @@ class ManifestPluginJson:  #####################################################
     :example:
     >>> with ManifestPluginJson(plugin_folder) as manifest:
     ...     manifest.name = "kaye"
-    ...     manifest.displayName = "Kaye"
     ...     manifest.version = "1.0.0"
     ...     manifest.description = "Prompt engineering toolkit"
+    ...     ~~
     """
 
     # constants  ===============================================================
