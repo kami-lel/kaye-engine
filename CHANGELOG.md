@@ -18,6 +18,33 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.6.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.6.0] - 2026-06-18
+
+### Added
+
 - `kaye claude` command suite (aliases `anthropic`, `a`) — exports blueprints
   for Anthropic Claude:
 
@@ -65,8 +92,6 @@ Exports:
   their parent
 - marketplace plugin placed under `plugins/<name>/`
 
-### Deprecated
-
 ### Removed
 
 - `BasePromptNode.is_prerequisite_node` — use `MetaNodeType.is_prerequisite()`
@@ -88,9 +113,7 @@ Exports:
   *Unreleased*
 - `continue` CLI — corrected verbosity init order
 
-### Security
-
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.5.1...dev
+[6.6.0]: https://github.com/kami-lel/kaye/compare/v6.5.1...v6.6.0
 
 
 
