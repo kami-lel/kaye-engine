@@ -21,7 +21,7 @@ _MANIFEST_FILE = "plugin.json"
 _SKILLS_DIR = "skills"
 
 
-# Bug plugin no version
+# BUG plugin no version
 
 
 # entry point  #################################################################
@@ -38,9 +38,7 @@ def export_plugin_as_folder(parent_folder):
 
     :param parent_folder: destination directory to write the plugin into
     :type parent_folder: Path-like
-    :param verbose: print exported skill and plugin paths when ``True``
-    :type verbose: bool
-    :returns: path to the created plugin directory
+    :return: path to the created plugin directory
     :rtype: Path
     """
     plugin_root = parent_folder / PROGRAM_NAME
@@ -68,7 +66,8 @@ def _build_manifest():
     """
     build the ``plugin.json`` manifest dict from packaged metadata
 
-    :returns: manifest mapping ready for JSON serialization
+
+    :return: manifest mapping ready for JSON serialization
     :rtype: dict
     """
     meta = metadata(PROGRAM_NAME)
