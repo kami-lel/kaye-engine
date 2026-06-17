@@ -9,6 +9,9 @@ from pathlib import Path
 
 from kaye import logger
 from kaye import PROGRAM_NAME
+from kaye.cli.cli_claude.claude_plugin.export_plugin_as_folder import (
+    export_plugin_as_folder,
+)
 
 from .marketplace_json import MarketplaceJson
 
@@ -22,18 +25,23 @@ _PLUGIN_CATEGORY = "productivity"
 
 def export_marketplace(marketplace_folder):
     """
-    write a Claude plugin marketplace manifest for the Kaye plugin
+    export the Kaye plugin and write a marketplace manifest for it
 
-    writes ``.claude-plugin/marketplace.json`` at ``marketplace_folder``,
-    listing the Kaye plugin with source ``"./<PROGRAM_NAME>"``
+    calls ``export_plugin_as_folder`` to write the plugin into
+    ``<marketplace_folder>/<PROGRAM_NAME>/``, then writes
+    ``.claude-plugin/marketplace.json`` at ``marketplace_folder`` listing
+    the plugin with source ``"./<PROGRAM_NAME>"``
 
 
-    :param marketplace_folder: directory to write the marketplace manifest into
+    :param marketplace_folder: directory to write the marketplace into
     :type marketplace_folder: Path-like
     :return: path to the written marketplace.json
     :rtype: Path
     """
     marketplace_folder = Path(marketplace_folder)
+
+    logger.debug("exporting plugin into marketplace folder")
+    export_plugin_as_folder(marketplace_folder)
 
     meta = metadata(PROGRAM_NAME)
     pkg_version = version(PROGRAM_NAME)
