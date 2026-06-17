@@ -11,7 +11,7 @@ from pathlib import Path
 
 from kaye import logger
 
-from kaye import PROGRAM_NAME, DIST_NAME
+from kaye import PROGRAM_NAME
 from .export_plugin_as_folder import (
     export_plugin_as_folder,
 )
@@ -52,7 +52,7 @@ def export_plugin_as_zip(parent_folder, *, includes_version=True):
         logger.debug("moving archived plugin to destination folder")
         file_name = plugin_root.name
         if includes_version:
-            file_name = "{}-{}".format(file_name, version(DIST_NAME))
+            file_name = "{}-{}".format(file_name, version(PROGRAM_NAME))
         dest = parent_folder / (file_name + ".zip")
         shutil.move(str(zip_base.with_suffix(".zip")), str(dest))
 
