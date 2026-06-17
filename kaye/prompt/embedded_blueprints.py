@@ -38,9 +38,15 @@ __all__ = (
     "style_good_writing_blueprint",
     "prompt_writer_blueprint",
     "description_writer_blueprint",
+    "ipa_blueprint",
+    "role_art_tutor_blueprint",
+    "role_assistant_barista_blueprint",
+    "role_deutschlehrer_blueprint",
+    "role_editor_blueprint",
+    "role_librarian_blueprint",
+    "role_secretary_blueprint",
+    "role_tarot_reader_blueprint",
 )
-
-# Todo expose IPA + roles as exportable
 
 
 # blueprints  ##################################################################
@@ -263,9 +269,7 @@ role_deutschlehrer_blueprint = PromptBlueprint.create_from_node(
     _role_node["Deutschlehrer"]
 )
 
-role_editor_blueprint = PromptBlueprint.create_from_node(
-    _role_node["Editor"]
-)
+role_editor_blueprint = PromptBlueprint.create_from_node(_role_node["Editor"])
 
 role_librarian_blueprint = PromptBlueprint.create_from_node(
     _role_node["Librarian"], recursively=True
