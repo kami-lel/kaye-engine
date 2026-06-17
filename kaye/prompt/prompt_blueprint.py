@@ -12,7 +12,7 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
 from kaye.prompt.blueprint_meta_nodes import BlueprintMetaNodes
-
+from kaye.prompt.meta_node_type import MetaNodeType
 
 from .base_prompt_node import BasePromptNode
 from .prompt_corpus_loader import (
@@ -27,9 +27,6 @@ __all__ = ("PromptBlueprint",)
 CHECKMARKED_PREFIX = "[x] "
 UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
-
-
-# Todo make sure meta nodes dont get auto added
 
 
 class PromptBlueprint(dict):
@@ -338,7 +335,37 @@ class PromptBlueprint(dict):
     def generate_prompt(self, *args, **kwargs):
         """
         render the **concrete prompt** that can be used as LLM system message
-        with it content based on node's checkmarking status of this blueprint
+        from this blueprint's node checkmarking status
+
+        optionally auto-checkmarks all prerequisite nodes before rendering.
+
+        :param show_comment: show comment part after last line;
+                defaults to False
+        :type show_comment: bool, optional
+        :param disable_first_heading: whether disable showing top heading;
+                defaults to False
+        :type disable_first_heading: bool, optional
+        :param contains_prerequisite_nodes: whether to auto-checkmark all
+                ``{prerequisite}`` meta nodes whose parents are checkmarked
+                before rendering; defaults to False
+        :type contains_prerequisite_nodes: bool, optional
+        :return: generated prompt
+        :rtype: str
+        """
+        return "\n".join(self.generate_prompt_lines(*args, **kwargs))
+
+    def generate_prompt_lines(
+        self,
+        *,
+        show_comment=False,
+        disable_first_heading=False,
+        contains_prerequisite_nodes=False,
+        **kwargs,
+    ):
+        """
+        generate prompt as a list of lines from this blueprint
+
+        optionally auto-checkmarks all prerequisite nodes before rendering.
 
 
         :param show_comment: show comment part after last line;
@@ -347,29 +374,31 @@ class PromptBlueprint(dict):
         :param disable_first_heading: whether disable showing top heading;
                 defaults to False
         :type disable_first_heading: bool, optional
-        :return: generated prompt
-        :rtype: str
-        """
-        return "\n".join(self.generate_prompt_lines(*args, **kwargs))
-
-    def generate_prompt_lines(
-        self, *, show_comment=False, disable_first_heading=False, **kwargs
-    ):
-        """
-        like ``.generate_blueprint()``, but as list of lines
-
-
-        :return:
+        :param contains_prerequisite_nodes: whether to auto-checkmark all
+                ``{prerequisite}`` meta nodes whose parents are checkmarked
+                before rendering; defaults to False
+        :type contains_prerequisite_nodes: bool, optional
+        :return: list of prompt lines
         :rtype: list[str]
         """
+        if contains_prerequisite_nodes:
+            working_bp = copy.copy(self)
+            for node in PreOrderIter(working_bp.corpus):
+                if MetaNodeType.is_prerequisite(node) and working_bp.is_checkmarked(
+                    node.parent
+                ):
+                    working_bp.checkmark(node)
+        else:
+            working_bp = self
+
         # todo compact render & other types
         lines = []
 
         should_skip_heading = disable_first_heading
 
-        last_node_idx = self.corpus.size - 1
-        for i, node in enumerate(PreOrderIter(self.corpus)):
-            if self.is_checkmarked(node):
+        last_node_idx = working_bp.corpus.size - 1
+        for i, node in enumerate(PreOrderIter(working_bp.corpus)):
+            if working_bp.is_checkmarked(node):
                 if should_skip_heading:
                     should_skip_heading = False
                 else:
@@ -386,7 +415,9 @@ class PromptBlueprint(dict):
                         lines.append("")  # add an empty line
 
         if show_comment:
-            lines.append("<!-- " + self._generate_comment_content() + " -->")
+            lines.append(
+                "<!-- " + working_bp._generate_comment_content() + " -->"
+            )
 
         # trim empty lines
         while lines and lines[0] == "":
@@ -505,12 +536,11 @@ class PromptBlueprint(dict):
             corpus_override=corpus_override,
         )
 
-        # include all nodes
+        # include all nodes; meta nodes are never auto-checkmarked
         for node in PreOrderIter(bp.corpus):
             if not node.is_root:  # skip root node
                 key = hash(node)
-                # add all nodes
-                bp[key] = is_full
+                bp[key] = is_full and not node.is_meta_node
 
         return bp
 
@@ -537,9 +567,11 @@ class PromptBlueprint(dict):
         # actual perform checking/unchecking
         self[node_hash] = is_checkmark
 
-        # add all descendants too
+        # add all descendants too; skip meta nodes when auto-checkmarking
         if recursively:
             for d in node_obj.descendants:
+                if is_checkmark and d.is_meta_node:
+                    continue
                 d_hash = hash(d)
                 if d_hash in self or is_checkmark:
                     self[d_hash] = is_checkmark
