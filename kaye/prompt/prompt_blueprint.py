@@ -11,6 +11,7 @@ import copy
 import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
+from kaye import DIST_NAME
 from kaye.prompt.blueprint_meta_nodes import BlueprintMetaNodes
 from kaye.prompt.meta_node_type import MetaNodeType
 
@@ -494,7 +495,7 @@ class PromptBlueprint(dict):
         >>> print(tree._generate_prompt_comment_content())
         'blueprint: chat; Kaye v1.2.3'
         """
-        kaye_version = importlib.metadata.version("kaye")
+        kaye_version = importlib.metadata.version(DIST_NAME)
 
         # append render date-time in version for alpha releases
         if "a" in kaye_version:
