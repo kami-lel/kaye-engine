@@ -88,3 +88,9 @@ class TestContent:  # ==========================================================
 
     def test_structure(_, testee_skill_file):
         assert assert_frontmatter_md_file_basic_structure(testee_skill_file)
+
+
+class TestPrerequisite:  # ====================================================
+
+    def test_heading(_, testee_content):
+        assert "### {prerequisite}" in testee_content or "#### {prerequisite}" in testee_content
