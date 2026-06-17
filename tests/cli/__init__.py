@@ -627,3 +627,57 @@ TESTEE_FILE_CONTENT_ALL = {
         "### 1. Information Collection Stage",
     ],
 }
+
+
+TESTEE_PREREQUISITE_CONTENT_ALL = {
+    "coder-bash": [
+        "follow `Kaye Peer Coder`",
+    ],
+    "coder-c": [
+        "follow `Kaye Peer Coder`",
+    ],
+    "coder-c-sharp": [
+        "follow `Kaye Peer Coder`",
+    ],
+    "coder-cpp": [
+        "follow `Kaye Peer Coder`",
+    ],
+    "coder-gdscript": [
+        "follow `Kaye Peer Coder`",
+    ],
+    "coder-html": [
+        "follow `Kaye Peer Coder`",
+    ],
+    "coder-javascript-and-typescript": [
+        "follow `Kaye Peer Coder`",
+    ],
+    "coder-python": [
+        "follow `Kaye Peer Coder`",
+        "follow `Coder Python`",
+    ],
+    "coder-unity-engine": [
+        "follow `Kaye Peer Coder`",
+    ],
+    "coder-unreal-engine": [
+        "follow `Kaye Peer Coder`",
+    ],
+    "project-agents-writer": [
+        "use `Style Guide Markdown Format`",
+    ],
+    "project-changelog-writer": [
+        "use `Project Semantic Versioning`",
+        "use `Style Guide Markdown Format`",
+    ],
+    "project-readme-writer": [
+        "use `Style Guide Markdown Format`",
+        "use `Style Guide Briefness Style`",
+    ],
+    "prompt-writer": [
+        "use `Style Guide Markdown Format`",
+        "follow `Style Guide Good Writing`",
+    ],
+    "skill-description-writer": [
+        "use `Style Guide Markdown Format`",
+        "use `Style Guide Briefness Style`",
+    ],
+}
