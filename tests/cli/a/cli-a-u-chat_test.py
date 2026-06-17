@@ -3,8 +3,10 @@ cli-a-u-chat_test.py
 
 Unit Tests (using pytest) for:
 
-kaye claude user
+kaye claude user-system-prompt
 """
+
+import subprocess
 
 import pytest
 
@@ -31,9 +33,14 @@ TESTEE_FILE_CONTENT = [
 
 
 @pytest.fixture(scope="session")
-def testee_claude_md_file_path(tmp_path_factory):
-    # BUG add update
-    return None
+def testee_claude_md_file_path(tmp_path_factory, cli_claude_command):
+    tmp_folder = tmp_path_factory.mktemp("claude_user_prompt")
+    claude_md_path = tmp_folder / "CLAUDE.md"
+
+    cmd = cli_claude_command + "user-system-prompt " + str(claude_md_path)
+    subprocess.run(cmd, shell=True, check=True)
+
+    return claude_md_path
 
 
 @pytest.fixture(scope="session")
