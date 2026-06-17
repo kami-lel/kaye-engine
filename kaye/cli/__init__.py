@@ -12,7 +12,6 @@ agent_blueprint = PromptBlueprint.create_from_node(
 
 # blueprints exported by continue export & skill export
 EXPORTABLE_BLUEPRINTS = [
-    chat_blueprint,
     date_time_blueprint,
     number_unit_blueprint,
     annotation_marker_blueprint,
@@ -40,4 +39,12 @@ EXPORTABLE_BLUEPRINTS = [
     agent_blueprint,
     prompt_writer_blueprint,
     description_writer_blueprint,
+    ipa_blueprint,
+    role_art_tutor_blueprint,
+    role_assistant_barista_blueprint,
+    role_deutschlehrer_blueprint,
+    role_editor_blueprint,
+    role_librarian_blueprint,
+    role_secretary_blueprint,
+    role_tarot_reader_blueprint,
 ]

@@ -10,6 +10,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -17,6 +18,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "coder-python"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -70,8 +72,8 @@ class TestHeader:  # ===========================================================
         print(testee_header)
         assert (
             'description: "Writes, edits, and reviews all Python code'
-            '\\u21B5Use for any Python work. Triggers: `.py` files, inline'
-            ' Python code blocks, requests for Python scripts, modules,'
+            "\\u21B5Use for any Python work, inline"
+            " Python code blocks, requests for Python scripts, modules,"
             ' or packages."'
             in testee_header
         )
@@ -83,14 +85,16 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Coder Python" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_content(_, testee_content):
-        assert (
-            "Adhere to the **PEP8** style guide, "
-            "ensuring clarity and consistency."
-            in testee_content
-        )
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
+
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
+
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content

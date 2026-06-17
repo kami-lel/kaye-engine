@@ -10,6 +10,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -17,6 +18,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "abbr-starts-with-y"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -70,7 +72,7 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_yr(_, testee_content):
-        assert "- yr:year" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content

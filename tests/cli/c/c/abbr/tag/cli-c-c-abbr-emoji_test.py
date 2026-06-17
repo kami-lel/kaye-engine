@@ -10,6 +10,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -17,6 +18,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "abbr-emoji"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -70,49 +72,49 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_settings(_, testee_content):
-        assert "- ⚙️:settings,preferences" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_warning(_, testee_content):
-        assert "- ⚠️:warning" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_checkmark(_, testee_content):
-        assert "- ✅:selected" in testee_content
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_correct(_, testee_content):
-        assert "- ✔️:correct,correction" in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_x_mark(_, testee_content):
-        assert "- ❌:no,not,incorrect" in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_finish(_, testee_content):
-        assert "- 🏁:finish" in testee_content
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
 
-    def test_bug(_, testee_content):
-        assert "- 🐞:debug" in testee_content
+    def test6(_, testee_content):
+        assert TESTEE_FILE_CONTENT[6] in testee_content
 
-    def test_lightbulb(_, testee_content):
-        assert "- 💡:information,informational" in testee_content
+    def test7(_, testee_content):
+        assert TESTEE_FILE_CONTENT[7] in testee_content
 
-    def test_explosion(_, testee_content):
-        assert "- 💥:critical" in testee_content
+    def test8(_, testee_content):
+        assert TESTEE_FILE_CONTENT[8] in testee_content
 
-    def test_chat(_, testee_content):
-        assert "- 💬:chat,conversation" in testee_content
+    def test9(_, testee_content):
+        assert TESTEE_FILE_CONTENT[9] in testee_content
 
-    def test_beginner(_, testee_content):
-        assert "- 🔰:beginning,prototype" in testee_content
+    def test10(_, testee_content):
+        assert TESTEE_FILE_CONTENT[10] in testee_content
 
-    def test_rocket(_, testee_content):
-        assert "- 🚀:rapid,fast" in testee_content
+    def test11(_, testee_content):
+        assert TESTEE_FILE_CONTENT[11] in testee_content
 
-    def test_stop(_, testee_content):
-        assert "- 🛑:error" in testee_content
+    def test12(_, testee_content):
+        assert TESTEE_FILE_CONTENT[12] in testee_content
 
-    def test_tools(_, testee_content):
-        assert "- 🛠️:tools" in testee_content
+    def test13(_, testee_content):
+        assert TESTEE_FILE_CONTENT[13] in testee_content
 
-    def test_robot(_, testee_content):
-        assert "- 🤖:agent,AI" in testee_content
+    def test14(_, testee_content):
+        assert TESTEE_FILE_CONTENT[14] in testee_content

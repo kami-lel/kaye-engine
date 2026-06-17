@@ -125,12 +125,7 @@ class FrontmatterMDFile:  ######################################################
         "name": "",
         "description": "",
         "when_to_use": "",
-        "license": "",
-        "compatibility": "",
-        "metadata": {},
-        "allowed-tools": [],
-        "user-invocable": True,
-        "paths": [],
+        "globs": [],
     }
 
     def __init__(self, path, blueprint=None):
@@ -143,7 +138,6 @@ class FrontmatterMDFile:  ######################################################
             self._blueprint = blueprint
             self.description = blueprint.meta.description
             self.when_to_use = blueprint.meta.when_to_use
-            self.frontmatter["paths"] = blueprint.meta.globs
 
     # support context manager  =================================================
 
@@ -156,6 +150,10 @@ class FrontmatterMDFile:  ######################################################
     def __exit__(self, *_):
         if self._blueprint:
             self.write_frontmatter_part()
-            self.file.write(self._blueprint.generate_prompt())
+            self.file.write(
+                self._blueprint.generate_prompt(
+                    contains_prerequisite_nodes=True
+                )
+            )
 
         self.file.close()

@@ -240,6 +240,18 @@ All endpoints below `/kaye/dify-app/ky`
 
 
 
+#### merge
+
+`/merge`
+
+- by `GET`
+- response type `text/plain`
+- renders the *merge* prompt for the Kaye Chat round flow
+
+
+
+
+
 
 
 

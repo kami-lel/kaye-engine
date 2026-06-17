@@ -10,6 +10,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -17,6 +18,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "abbr-natural-language-codes"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -70,22 +72,22 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_de(_, testee_content):
-        assert "- de:Deutsch" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_en(_, testee_content):
-        assert "- en:English" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_jp(_, testee_content):
-        assert "- jp:日本語" in testee_content
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_zh(_, testee_content):
-        assert "- zh:中文" in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_zhs(_, testee_content):
-        assert "- zhs:大陆简体中文" in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_zht(_, testee_content):
-        assert "- zht:香港繁體中文" in testee_content
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content

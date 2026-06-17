@@ -10,6 +10,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -17,6 +18,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "coder-c-sharp"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -70,7 +72,7 @@ class TestHeader:  # ===========================================================
         print(testee_header)
         assert (
             'description: "Writes, edits, and reviews all C# code.'
-            '\\u21B5Use for any C# code work. Triggers: `.cs` files,'
+            '\\u21B5Use for any C# code work,'
             ' requests for C#, mentions of .NET."'
             in testee_header
         )
@@ -82,22 +84,19 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Coder C Sharp" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_brace_style_heading(_, testee_content):
-        assert "## Brace Style" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_brace_open(_, testee_content):
-        assert "opening `{` on the **same line**" in testee_content
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_brace_close(_, testee_content):
-        assert "closing `}` on its **own line**" in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_csharp_heading(_, testee_content):
-        assert "## Coder C Sharp" in testee_content
-
-    def test_xml_comments(_, testee_content):
-        assert "/// <summary>" in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content

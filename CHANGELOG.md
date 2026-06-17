@@ -28,7 +28,92 @@
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.5.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.6.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.6.0] - 2026-06-18
+
+### Added
+
+- `kaye claude` command suite (aliases `anthropic`, `a`) — exports blueprints
+  for Anthropic Claude:
+
+  - `plugin` (`p`) — plugin folder; `-z` builds compressed `.plugin`, `-n`
+    drops version from filename
+  - `skill` (`s`) — agentskills.io Skill folders; `-z` builds `.zip` packages
+  - `marketplace` (`m`) — marketplace folder; `marketplace.json` at root,
+    plugin under `plugins/`
+
+- `kamilog` logging module re-introduced (`v1.4.1`); adds `SUCC` and `DONE`
+  levels
+- `MetaNodeType` checkers — `is_meta_node`, `is_description`, `is_when_to_use`,
+  `is_globs`, `is_prerequisite`
+- `ManifestPluginJson` and `MarketplaceJson` helpers — build plugin and
+  marketplace JSON manifests
+- `DISPLAY_NAME` constant `"Prompt Engineering Project Kaye"` — plugin
+  `displayName`, separate from `PROGRAM_NAME`
+
+### Changed
+
+- Claude CLI split into `claude_plugin/` and `claude_skill/` subpackages
+- `AGENTS.md` expanded — meta nodes, corpus structure, layout, build/test,
+  conventions
+
+Package metadata:
+
+- `PROGRAM_NAME` lowercased to `kaye`; `DIST_NAME` removed — single
+  distribution name for all `importlib.metadata` lookups
+- `setup.cfg` gains author email, homepage, repository; plugin and skill
+  version derive from this source
+
+Logging:
+
+- Claude CLI export routes through `kamilog`, not `print()`; `-v`/`-q` set
+  verbosity
+- output drops timestamps and bracket framing (e.g. `DONE`, not `[DONE ]`)
+- `PASS` renumbered `25` → `21`; default level now `DONE`; `-q`/`-qq`/`-qqq`
+  map to `WARNING`/`ERROR`/`CRITICAL`
+
+Exports:
+
+- skill `SKILL.md` glob patterns moved to native `paths` frontmatter for
+  path-scoped activation
+- corpus blueprints carry `{prerequisite}` meta nodes, auto-checkmarked with
+  their parent
+- marketplace plugin placed under `plugins/<name>/`
+
+### Removed
+
+- `BasePromptNode.is_prerequisite_node` — use `MetaNodeType.is_prerequisite()`
+- `kaye skill` top-level subcommand — superseded by `kaye claude skill`
+- `kaye claude update` and `kaye claude create` stubs — superseded by
+  `kaye claude plugin -z`
+- `kaye/cli/cli_skill/` package — relocated to `kaye/cli/cli_claude/`
+
+### Fixed
+
+- `plugin.json` fields (`displayName`, `author.email`, `homepage`,
+  `repository`) now populated; were blank from stale dist-info and wrong
+  metadata key casing
+- corpus Coder Python — prohibit type hints, require `str.format()` over
+  f-strings
+- corpus Coder Python Docstring — module docstring first line is filename plus
+  description
+- corpus Prepare for Release — drop empty subsections when promoting
+  *Unreleased*
+- `continue` CLI — corrected verbosity init order
+
+[6.6.0]: https://github.com/kami-lel/kaye/compare/v6.5.1...v6.6.0
 
 
 

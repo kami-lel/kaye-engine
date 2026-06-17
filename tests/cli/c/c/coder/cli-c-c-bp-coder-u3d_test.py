@@ -10,6 +10,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -17,6 +18,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "coder-unity-engine"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -85,31 +87,31 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_brace_style_heading(_, testee_content):
-        assert "## Brace Style" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_csharp_heading(_, testee_content):
-        assert "## Coder C Sharp" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_unity_engine_heading(_, testee_content):
-        assert "## Coder Unity Engine" in testee_content
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_unity_version(_, testee_content):
-        assert "Unity **6**" in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_monobehaviour_heading(_, testee_content):
-        assert "### MonoBehaviour" in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_section_ordering(_, testee_content):
-        assert "- **section order is fixed**" in testee_content
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
 
-    def test_public_members(_, testee_content):
-        assert "// Public Members" in testee_content
+    def test6(_, testee_content):
+        assert TESTEE_FILE_CONTENT[6] in testee_content
 
-    def test_inspector_fields(_, testee_content):
-        assert "// Inspector Fields" in testee_content
+    def test7(_, testee_content):
+        assert TESTEE_FILE_CONTENT[7] in testee_content
 
-    def test_inspector_guard_heading(_, testee_content):
-        assert "#### Inspector Assignment Guard" in testee_content
+    def test8(_, testee_content):
+        assert TESTEE_FILE_CONTENT[8] in testee_content

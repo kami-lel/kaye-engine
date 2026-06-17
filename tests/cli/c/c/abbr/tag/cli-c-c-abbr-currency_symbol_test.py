@@ -10,6 +10,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -17,6 +18,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "abbr-currency-symbols"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -70,25 +72,25 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
+
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
     def test1(_, testee_content):
-        assert "- $:(default)US Dollar" in testee_content
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
     def test2(_, testee_content):
-        assert "- HK$:港元 Hong Kong Dollar" in testee_content
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
     def test3(_, testee_content):
-        assert "- JP¥:円 Japanese Yen" in testee_content
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
     def test4(_, testee_content):
-        assert "- ¢:(default)US cent" in testee_content
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
     def test5(_, testee_content):
-        assert "- ¤:any non-specific currency" in testee_content
+        assert TESTEE_FILE_CONTENT[5] in testee_content
 
     def test6(_, testee_content):
-        assert "- ¥:(default)Chinese Yuan,RMB" in testee_content
-
-    def test7(_, testee_content):
-        assert "- €:Euro" in testee_content
+        assert TESTEE_FILE_CONTENT[6] in testee_content

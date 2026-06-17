@@ -8,6 +8,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -15,6 +16,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "style-guide-good-writing"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -77,38 +79,16 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_heading(_, testee):
-        assert "## Style Guide Good Writing" in testee
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_content0(_, testee):
-        assert (
-            "- Correct spelling, grammar, punctuation, sentence structure, and"
-            " verb tense errors."
-            in testee
-        )
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_content1(_, testee):
-        assert (
-            "- Make only the minimum changes needed to improve correctness,"
-            " readability, and clarity."
-            in testee
-        )
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_content2(_, testee):
-        assert (
-            "- Use American English by default, but if the original text"
-            " clearly uses another spelling convention, preserve that"
-            " convention."
-            in testee
-        )
-
-    def test_content3(_, testee):
-        assert "- Avoid generic filler when details are unavailable" in testee
-
-    def test_content4(_, testee):
-        assert (
-            "- Avoid dense prose, generic filler, and unnecessary complexity"
-            in testee
-        )
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
