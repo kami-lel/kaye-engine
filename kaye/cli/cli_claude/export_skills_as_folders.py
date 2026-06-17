@@ -36,6 +36,8 @@ def export_skills_as_folders(parent_folder, *, verbose=True):
 
     logger.enter("exporting abbreviation groups as skills")
 
+    # Bug paths meta prevent general usable & discover, make it part to use when to use instead
+
     # export abbrs
     for group in EXPORTABLE_ABBRS:
         skill_name = convert_display_name2skill_name(group.display_name)
