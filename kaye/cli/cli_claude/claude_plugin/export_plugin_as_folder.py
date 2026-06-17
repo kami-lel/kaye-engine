@@ -18,7 +18,7 @@ from .manifest_plugin_json import ManifestPluginJson
 
 _SKILLS_DIR = "skills"
 
-# BUG export plugin as folder is not correct way to install plugins for code
+# BUG need marketplace.json
 
 # entry point  #################################################################
 
