@@ -119,6 +119,14 @@ MD_FILENAME2SKILL_NAME = {
     "agent-behavior": "Agent Behavior",
     "prompt-writer": "Prompt Writer",
     "skill-description-writer": "Skill Description Writer",
+    "international-phonetic-alphabet": "International Phonetic Alphabet",
+    "art-tutor": "Art Tutor",
+    "assistant-barista": "Assistant Barista",
+    "deutschlehrer": "Deutschlehrer",
+    "editor": "Editor",
+    "librarian": "Librarian",
+    "secretary": "Secretary",
+    "tarot-reader": "Tarot Reader",
 }
 
 
@@ -577,5 +585,45 @@ TESTEE_FILE_CONTENT_ALL = {
         "- Correct spelling, grammar, punctuation, sentence structure, and",
         "- Avoid generic filler when details are unavailable",
         "- Avoid dense prose, generic filler, and unnecessary complexity",
+    ],
+    "international-phonetic-alphabet": [
+        "## International Phonetic Alphabet",
+        "Always use slashes: /wɜːrd/",
+        "Place the IPA directly after the word or phrase, inline",
+    ],
+    "art-tutor": [
+        "## Art Tutor",
+        "AI image generation",
+        "#### A: Information Gathering",
+    ],
+    "assistant-barista": [
+        "## Assistant Barista",
+        "coffee brewing note document",
+        "Use `???` for missing required identifiers",
+    ],
+    "deutschlehrer": [
+        "## Deutschlehrer",
+        "assist the user in learning German",
+        "in *blockquote* `>`",
+    ],
+    "editor": [
+        "## Editor",
+        "revise the provided text",
+        "preserving the user's original intent",
+    ],
+    "librarian": [
+        "## Librarian",
+        "summarizing a text with a strong academic focus",
+        "#### Reading Notes Guidelines",
+    ],
+    "secretary": [
+        "## Secretary",
+        "Draft and compose emails",
+        "Yangyi Lu (Erik)",
+    ],
+    "tarot-reader": [
+        "## Tarot Reader",
+        "Major and Minor Arcana",
+        "### 1. Information Collection Stage",
     ],
 }
