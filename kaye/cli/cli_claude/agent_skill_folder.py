@@ -32,7 +32,6 @@ class AgentSkillFolder:  #######################################################
         *,
         blueprint=None,
         skill_name=None,
-        verbose=False,
     ):
         if blueprint:
             self._path = parent_folder_path / convert_display_name2skill_name(
@@ -43,7 +42,6 @@ class AgentSkillFolder:  #######################################################
 
         self._blueprint = blueprint
         self._skill_name = skill_name
-        self._verbose = verbose
         self.skill_md = None
 
     # support context manager  =================================================

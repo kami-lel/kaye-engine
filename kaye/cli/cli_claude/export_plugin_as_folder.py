@@ -24,7 +24,7 @@ _SKILLS_DIR = "skills"
 # entry point  #################################################################
 
 
-def export_plugin_as_folder(parent_folder, *, verbose=True):
+def export_plugin_as_folder(parent_folder):
     """
     export all Kaye blueprints as a single Anthropic Claude plugin folder
 
@@ -54,7 +54,7 @@ def export_plugin_as_folder(parent_folder, *, verbose=True):
     )
 
     logger.debug("exporting blueprints as plugin skills")
-    export_skills_as_folders(plugin_root / _SKILLS_DIR, verbose=verbose)
+    export_skills_as_folders(plugin_root / _SKILLS_DIR)
 
     logger.succ("export plugin:\t" + str(plugin_root))
 

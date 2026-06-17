@@ -20,7 +20,7 @@ from kaye.cli.cli_claude.export_plugin_as_folder import (
 # Bug Claude Desktop does not support this format
 
 
-def export_plugin_as_zip(parent_folder, *, verbose=True):
+def export_plugin_as_zip(parent_folder):
     """
     export all Kaye blueprints as an upload-ready ``.zip`` Claude plugin
 
