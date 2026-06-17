@@ -3,6 +3,7 @@ TODO unit tests for prereq lines
 
 todo resume role
 
-Todo split AGENTS & CONTEXT
+todo split AGENTS & CONTEXT & CONTEXT.local.md
+todo init project prompt
 
-Todo init project prompt
+Todo coder dev phases logic: important, working on a single phase at the same time
