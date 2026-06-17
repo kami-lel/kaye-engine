@@ -4,8 +4,6 @@ agent_skill_folder.py
 define ``AgentSkillFolder``
 """
 
-"""export as agentskills.io-standard Skills for Anthropic Claude"""
-
 from kaye import logger
 
 from kaye.cli.cli_claude import convert_display_name2skill_name
