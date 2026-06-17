@@ -44,8 +44,8 @@ through a Python API, an HTTP API, and a CLI.
   CLI export consumers (`kaye/cli/frontmatter_md_file.py`,
   `kaye/cli/cli_continue/rule_file.py`) if the type should surface in exports,
   and mirror tests under `tests/prompt/bp/` and `tests/prompt/node/`.
-- **Prerequisite Node** — `{prerequisite}` meta node; `BasePromptNode
-  .is_prerequisite_node` checks `self.name == "{prerequisite}"`;
+- **Prerequisite Node** — `{prerequisite}` meta node; `MetaNodeType
+  .is_prerequisite(node)` checks `node.name == "{prerequisite}"`;
   pass `contains_prerequisite_nodes=True` to `generate_prompt()` /
   `generate_prompt_lines()` to auto-checkmark every `{prerequisite}` node
   whose parent is already checkmarked before rendering.
