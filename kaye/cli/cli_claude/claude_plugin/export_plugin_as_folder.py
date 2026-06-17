@@ -18,6 +18,7 @@ from .manifest_plugin_json import ManifestPluginJson
 
 _SKILLS_DIR = "skills"
 
+# BUG export plugin as folder is not correct way to install plugins for code
 
 # entry point  #################################################################
 
@@ -48,8 +49,17 @@ def export_plugin_as_folder(parent_folder):
         manifest.author_name = meta["Author"]
         manifest.author_email = meta.get("Author-Email", "")
         manifest.homepage = meta.get("Home-Page", "")
-        manifest.repository = meta.get("Project-URL", "").split(", ")[-1] if meta.get("Project-URL") else ""
-        manifest.keywords = ["prompt-engineering", "persona", "agent", PROGRAM_NAME]
+        manifest.repository = (
+            meta.get("Project-URL", "").split(", ")[-1]
+            if meta.get("Project-URL")
+            else ""
+        )
+        manifest.keywords = [
+            "prompt-engineering",
+            "persona",
+            "agent",
+            PROGRAM_NAME,
+        ]
 
     logger.debug("exporting blueprints as plugin skills")
     export_skills_as_folders(plugin_root / _SKILLS_DIR)
