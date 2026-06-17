@@ -41,6 +41,17 @@
   manifest now carries `author.email`, `homepage`, and `repository` fields in
   addition to `name`, `displayName`, `version`, `description`, author name, and
   `keywords`
+- `kaye claude marketplace` (`m`) subcommand: exports all blueprints as a Claude
+  marketplace folder; writes `.claude-plugin/marketplace.json` at the root and
+  places the plugin under a `plugins/` subdirectory
+- `MarketplaceJson` (`claude_marketplace/marketplace_json.py`): context-manager
+  helper that builds `.claude-plugin/marketplace.json`; supports marketplace-level
+  fields (`name`, `description`, `version`, `owner`) and a single plugin entry
+  with `source`, `displayName`, `author`, `homepage`, `repository`, `license`,
+  `keywords`, `category`, and `tags`; optional fields are omitted when empty
+- `DISPLAY_NAME` constant (`kaye/__init__.py`, `"Prompt Engineering Project Kaye"`):
+  used as the `displayName` in the plugin manifest, kept separate from
+  `PROGRAM_NAME` (`"kaye"`) which remains the import and distribution name
 
 ### Changed
 
@@ -85,6 +96,12 @@
   `home_page`, and `repository` URLs and a clearer project description; the
   plugin manifest and skill `SKILL.md` version now derive from this single
   package-metadata source
+- **Marketplace plugin placement**: `export_marketplace` places the plugin under
+  `plugins/<name>/` within the marketplace root; the `source` field in
+  `marketplace.json` is set to `./plugins/<name>` accordingly
+- **Package name standardized**: `setup.cfg` `name` reverted to `kaye`; the
+  `DIST_NAME` constant removed — `PROGRAM_NAME` is now the single distribution
+  name used for all `importlib.metadata` lookups
 - **AGENTS.md documentation**: expanded with detailed sections on Meta Nodes,
   Prompt Corpus Structure, Repository Layout, Build/Test commands, and
   comprehensive code conventions for future agent development
@@ -103,6 +120,11 @@
 
 ### Fixed
 
+- **`plugin.json` fields** (`displayName`, `author.email`, `homepage`,
+  `repository`): previously blank or incorrect due to a stale dist-info
+  shadowing the updated package metadata and wrong `importlib.metadata` key
+  casing (`Author-Email` → `Author-email`, `Home-Page` → `Home-page`); all
+  fields now correctly populated from `setup.cfg`
 - `prompt_corpus.md` **Coder Python**: added explicit rules prohibiting type hints and
   requiring `str.format()` over f-strings; corrects agent behavior that previously
   generated non-compliant Python
