@@ -81,9 +81,8 @@ class TestHeader:  # ===========================================================
     def test_when_to_use(_, testee_header):
         print(testee_header)
         assert (
-            'when_to_use: "Use for any C++ code work.'
-            " Triggers: `.cpp`/`.hpp`/`.cc` files, requests for C++."
-            '\\u21B5**/*.{cpp,cc,cxx,hpp,hh,hxx}"'
+            'when_to_use: "Use for any C++ code work, requests for C++.'
+            '\\u21B5File globs: **/*.{cpp,cc,cxx,hpp,hh,hxx}"'
             in testee_header
         )
 

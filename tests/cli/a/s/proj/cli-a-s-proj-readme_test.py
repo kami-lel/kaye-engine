@@ -90,7 +90,7 @@ class TestHeader:  # ===========================================================
             " a `README.md` or similar project landing page."
             ' Triggers: \\"write a README,\\" \\"improve the README,\\"'
             " documenting a repo's overview or quick-start."
-            '\\u21B5**/{README,Readme,readme}{,.md,.txt}"'
+            '\\u21B5File globs: **/{README,Readme,readme}{,.md,.txt}"'
             in testee_header
         )
 

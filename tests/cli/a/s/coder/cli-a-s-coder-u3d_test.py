@@ -87,7 +87,7 @@ class TestHeader:  # ===========================================================
             " scripts, components, ScriptableObjects, editor tools,"
             " gameplay systems, UI, shaders, asset and scene logic."
             " Triggers: `MonoBehaviour`, `[SerializeField]`,"
-            ' any mention of Unity.\\u21B5**/*.cs"'
+            ' any mention of Unity.\\u21B5File globs: **/*.cs"'
             in testee_header
         )
 

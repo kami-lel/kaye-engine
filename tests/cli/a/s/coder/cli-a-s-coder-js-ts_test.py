@@ -83,10 +83,10 @@ class TestHeader:  # ===========================================================
     def test_when_to_use(_, testee_header):
         print(testee_header)
         assert (
-            'when_to_use: "Use for any JavaScript or TypeScript work.'
-            " Triggers: `.js`/`.ts`/`.jsx`/`.tsx` files, inline JS/TS"
-            " code blocks, requests for JavaScript, TypeScript, or Node."
-            '\\u21B5**/*.{js,ts,jsx,tsx,mjs,cjs}"'
+            'when_to_use: "Use for any JavaScript or TypeScript work,'
+            " inline JS/TS code blocks, requests for JavaScript,"
+            " TypeScript, or Node."
+            '\\u21B5File globs: **/*.{js,ts,jsx,tsx,mjs,cjs}"'
             in testee_header
         )
 

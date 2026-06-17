@@ -3560,7 +3560,7 @@ Writes, edits, and reviews all C code.
 
 ### {when_to_use}
 
-Use for any C code work. Triggers: `.c`/`.h` files, requests for C.
+Use for any C code work, requests for C.
 
 ### {globs}
 
@@ -3623,7 +3623,7 @@ Writes, edits, and reviews all C++ code.
 
 ### {when_to_use}
 
-Use for any C++ code work. Triggers: `.cpp`/`.hpp`/`.cc` files, requests for C++.
+Use for any C++ code work, requests for C++.
 
 ### {globs}
 
@@ -3700,7 +3700,7 @@ Writes, edits, and reviews all C# code.
 
 ### {when_to_use}
 
-Use for any C# code work. Triggers: `.cs` files, requests for C#, mentions of .NET.
+Use for any C# code work, requests for C#, mentions of .NET.
 
 ### {globs}
 
@@ -3999,7 +3999,7 @@ Writes, edits, and reviews all JavaScript and TypeScript code, targeting the ES1
 
 ### {when_to_use}
 
-Use for any JavaScript or TypeScript work. Triggers: `.js`/`.ts`/`.jsx`/`.tsx` files, inline JS/TS code blocks, requests for JavaScript, TypeScript, or Node.
+Use for any JavaScript or TypeScript work, inline JS/TS code blocks, requests for JavaScript, TypeScript, or Node.
 
 ### {globs}
 
@@ -4064,7 +4064,7 @@ Writes, edits, and reviews all Python code
 
 ### {when_to_use}
 
-Use for any Python work. Triggers: `.py` files, inline Python code blocks, requests for Python scripts, modules, or packages.
+Use for any Python work, inline Python code blocks, requests for Python scripts, modules, or packages.
 
 ### {globs}
 
