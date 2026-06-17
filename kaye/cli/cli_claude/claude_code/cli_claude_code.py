@@ -15,6 +15,8 @@ from kaye.cli.cli_claude.user_prompt.export_user_file import (
     export_user_system_prompt_file,
 )
 
+# HACK rm this
+
 
 def register_cli_claude_code_parser(  ##########################################
     cli_subparser,
