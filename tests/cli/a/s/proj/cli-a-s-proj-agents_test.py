@@ -85,10 +85,11 @@ class TestHeader:  # ===========================================================
     def test_when_to_use(_, testee_header):
         print(testee_header)
         assert (
-            "when_to_use: 'Use when creating, updating, or reviewing an"
-            " `AGENTS.md` or equivalent agent-instruction file."
-            ' Triggers: "write an AGENTS.md," "add agent instructions,"'
-            " documenting repo context for AI coding tools.'"
+            'when_to_use: "Use when creating, updating, or reviewing an'
+            ' `AGENTS.md` or equivalent agent-instruction file.'
+            ' Triggers: \\"write an AGENTS.md,\\" \\"add agent'
+            ' instructions,\\" documenting repo context for AI coding'
+            ' tools.\\u21B5**/{AGENTS,Agents,agents}{,.md}"'
             in testee_header
         )
 

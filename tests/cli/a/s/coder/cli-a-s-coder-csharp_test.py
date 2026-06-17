@@ -81,8 +81,9 @@ class TestHeader:  # ===========================================================
     def test_when_to_use(_, testee_header):
         print(testee_header)
         assert (
-            "when_to_use: 'Use for any C# code work. Triggers: `.cs`"
-            " files, requests for C#, mentions of .NET.'"
+            'when_to_use: "Use for any C# code work.'
+            " Triggers: `.cs` files, requests for C#, mentions of .NET."
+            '\\u21B5**/*.cs"'
             in testee_header
         )
 

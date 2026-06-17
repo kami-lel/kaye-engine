@@ -86,8 +86,8 @@ class TestHeader:  # ===========================================================
             'when_to_use: "ALWAYS apply for any Unity work \\u2014'
             " scripts, components, ScriptableObjects, editor tools,"
             " gameplay systems, UI, shaders, asset and scene logic."
-            ' Triggers: `MonoBehaviour`, `[SerializeField]`,'
-            ' any mention of Unity."'
+            " Triggers: `MonoBehaviour`, `[SerializeField]`,"
+            ' any mention of Unity.\\u21B5**/*.cs"'
             in testee_header
         )
 

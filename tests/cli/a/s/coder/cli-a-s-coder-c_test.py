@@ -81,8 +81,9 @@ class TestHeader:  # ===========================================================
     def test_when_to_use(_, testee_header):
         print(testee_header)
         assert (
-            "when_to_use: 'Use for any C code work. Triggers:"
-            " `.c`/`.h` files, requests for C.'"
+            'when_to_use: "Use for any C code work.'
+            " Triggers: `.c`/`.h` files, requests for C."
+            '\\u21B5**/*.{c,h}"'
             in testee_header
         )
 

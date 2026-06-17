@@ -82,10 +82,11 @@ class TestHeader:  # ===========================================================
     def test_when_to_use(_, testee_header):
         print(testee_header)
         assert (
-            "when_to_use: 'Use whenever Python tests are written, run,"
-            " fixed, or discussed. Triggers: `test_`/`_test.py` files,"
-            " `pytest`, \"add tests,\" \"write a unit test,\""
-            " \"test this function.\"'"
+            'when_to_use: "Use whenever Python tests are written, run,'
+            ' fixed, or discussed. Triggers: `test_`/`_test.py` files,'
+            ' `pytest`, \\"add tests,\\" \\"write a unit test,\\"'
+            ' \\"test this function.\\"'
+            '\\u21B5**/test_*.py\\u21B5**/*_test.py"'
             in testee_header
         )
 

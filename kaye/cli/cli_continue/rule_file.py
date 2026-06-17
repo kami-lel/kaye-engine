@@ -57,9 +57,9 @@ class RuleFile(FrontmatterMDFile):  ############################################
         )
         self.file.write(yaml_buffer.getvalue())
 
-        paths = self.frontmatter["paths"]
-        if paths:
-            globs_str = ", ".join('"{}"'.format(g) for g in paths)
+        globs = self.frontmatter["globs"]
+        if globs:
+            globs_str = ", ".join('"{}"'.format(g) for g in globs)
             self.file.write("globs: [{}]\n".format(globs_str))
 
     # constructor  =============================================================
@@ -73,3 +73,4 @@ class RuleFile(FrontmatterMDFile):  ############################################
         if blueprint:
             self.name = blueprint.display_name
             self.description = blueprint.meta.description_and_when_to_use
+            self.frontmatter["globs"] = blueprint.meta.globs
