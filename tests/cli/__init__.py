@@ -498,14 +498,14 @@ TESTEE_FILE_CONTENT_ALL = {
     "project-agents-writer": [
         "## Project AGENTS Writer",
         "You are an expert in writing and maintaining `AGENTS.md` files",
+        "These guidelines define what a good `AGENTS.md` is",
         "#### Purpose",
-        "#### Style",
-        "Apply the provided **Style Guide**",
-        "Apply **Briefness Style** throughout",
+        "`AGENTS.md` is a dedicated, agent-readable file",
         "#### Continue Rule Compatible",
         "#### Document Title",
         "# <Project Name> AGENTS",
         "#### Quality Expectations",
+        "- repository-specific, not generic",
     ],
     "project-changelog-writer": [
         "## Project CHANGELOG Writer",
