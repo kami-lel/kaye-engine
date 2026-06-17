@@ -10,6 +10,7 @@ from kaye.cli.cli_claude import convert_display_name2skill_name
 from kaye.cli.cli_claude.skill_md_file import SkillMDFile
 
 
+# BUG paths meta prevent general usable & discover, make it part to use when to use instead
 class AgentSkillFolder:  ########################################################
     """
     represents a folder that wraps an agent skill
