@@ -1,4 +1,8 @@
-"""export as agentskills.io-standard Skills for Anthropic Claude"""
+"""
+cli_claude_skill.py
+
+define ``register_cli_claude_skill_parser``
+"""
 
 from pathlib import Path
 
@@ -6,10 +10,10 @@ from pathlib import Path
 from kaye import logger, kamilog
 
 
-from kaye.cli.cli_claude.export_skills_as_folders import (
+from .export_skills_as_folders import (
     export_skills_as_folders,
 )
-from kaye.cli.cli_claude.export_skills_as_zips import export_skills_as_zips
+from .export_skills_as_zips import export_skills_as_zips
 
 # constants  ===================================================================
 

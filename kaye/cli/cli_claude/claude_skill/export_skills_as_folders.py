@@ -7,7 +7,7 @@ define ``export_skills_as_folders``
 from kaye import logger
 from kaye.cli import EXPORTABLE_BLUEPRINTS
 from kaye.cli.cli_claude import convert_display_name2skill_name
-from kaye.cli.cli_claude.agent_skill_folder import AgentSkillFolder
+from .agent_skill_folder import AgentSkillFolder
 from kaye.cli.exportable_abbr import EXPORTABLE_ABBRS
 from kaye.cli.prompts_blueprints import PROMPTS_BLUEPRINTS
 
