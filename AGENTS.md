@@ -138,6 +138,48 @@ CLI subcommand aliases: `http` → `h`; `continue` → `c`;
 - test classes are grouped as `TestStructure`, `TestHeader`, `TestContent`
 - use comment section headings (`#`, `=`, `*`, `+`, `-`) only for long files
 
+## Adding an Exportable Blueprint
+
+To add a blueprint that appears in both `claude skill` and `continue config`
+exports, touch these locations in order:
+
+1. **`kaye/prompt/embedded_blueprints.py`** — define the variable and add its
+   name to `__all__` (controls the `*` import into `kaye/cli/__init__.py`)
+2. **`kaye/cli/__init__.py` → `EXPORTABLE_BLUEPRINTS`** — append the blueprint
+   object; this is the actual gate for CLI export; omitting it causes "file not
+   found" in tests even though import works
+3. **`tests/cli/__init__.py`** — add entries to both:
+   - `MD_FILENAME2SKILL_NAME`: `"kebab-slug": "Display Name"`
+   - `TESTEE_FILE_CONTENT_ALL`: `"kebab-slug": ["string1", "string2", ...]`
+4. **`tests/cli/a/s/structure/cli-a-s-structure-exportable_blueprints_test.py`**
+   — add a `test_<name>()` calling `validate_blueprint(bp)`
+5. **`tests/cli/a/s/<group>/cli-a-s-<group>-<slug>_test.py`** — per-skill
+   content test (classes `TestBasic`, `TestHeader`, `TestStructure`,
+   `TestContent`); group folders: `coder/`, `proj/`, `style/`, `pe/`,
+   `others/` (catch-all incl. Elements nodes), `role/` (Role section)
+6. **`tests/cli/c/c/<group>/cli-c-c-bp-<slug>_test.py`** — continue config
+   content test; fixture is `testee_rules_folder / (display_name + ".md")`
+   (file named by display name, not kebab slug)
+
+### YAML-quoting gotcha in `c/c` `test_description`
+
+Descriptions that contain `/`, `—`, or `↵` (U+21B5, the separator between
+`{description}` and `{when_to_use}`) are double-quoted by PyYAML with unicode
+escapes. The resulting header line is too long to match exactly. Use:
+
+```python
+def test_description(_, testee_header):
+    assert any("distinctive keyword" in line for line in testee_header)
+```
+
+instead of `"description: X" in testee_header` (exact list-membership check).
+
+### `always_apply` for new blueprints
+
+Defaults to `False`. Only `"Chat"`, `"Coder"`, `"Agent Behavior"`,
+`"Continue Behavior"` are in `_ALWAYS_APPLY_BLUEPRINT`
+(`kaye/cli/cli_continue/export_blueprint_rules.py`).
+
 ## Annotation Markers
 
 The codebase uses `TODO`, `FIXME`, `BUG`, and `HACK` markers. When resolving a
