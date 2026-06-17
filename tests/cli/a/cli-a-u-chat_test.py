@@ -1,10 +1,12 @@
 """
-cli-a-s-others-chat_test.py
+cli-a-u-chat_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``chat``
+kaye claude user
 """
+
+# BUG fix this
 
 import pytest
 
