@@ -2,6 +2,10 @@
 
 from pathlib import Path
 
+from kaye import logger, kamilog
+
+from .export_user_file import export_user_system_prompt_file
+
 # helper  ######################################################################
 
 DEFAULT_CLAUDE_FOLDER = Path.home() / ".claude"
@@ -36,8 +40,16 @@ def register_cli_claude_user_prompt_parser(  ###################################
         help="path to CLAUDE.md file; default: ~/.claude/CLAUDE.md",
     )
 
+    kamilog.add_verbose_arguments(user_prompt_parser)
+
     def _user_prompt_main(args):
+        kamilog.set_logging_level_by_verbosity(args, logger=logger)
+        logger.enter("kaye claude user-system-prompt")
+
         prompt_file = args.prompt_file
-        pass  # TODO mpl claude
+
+        export_user_system_prompt_file(prompt_file)
+
+        logger.done("export user system prompt" + "\t" + str(prompt_file))
 
     user_prompt_parser.set_defaults(func=_user_prompt_main)

@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+from kaye import logger, kamilog
+
 from kaye.cli.cli_claude.claude_plugin.export_plugin_as_folder import (
     export_plugin_as_folder,
 )
@@ -33,9 +35,20 @@ def register_cli_claude_code_parser(  ##########################################
         help="path to local .claude/ folder; default: ~/.claude",
     )
 
+    kamilog.add_verbose_arguments(code_parser)
+
     def _code_main(args):
+        kamilog.set_logging_level_by_verbosity(args, logger=logger)
+        logger.enter("kaye claude code")
+
         folder = args.folder
+
+        logger.debug("export plugin as folder")
         export_plugin_as_folder(folder)
+
+        logger.debug("export user system prompt file")
         export_user_system_prompt_file(find_user_system_prompt_file(folder))
+
+        logger.done("export Claude Code folder:" + "\t" + str(folder))
 
     code_parser.set_defaults(func=_code_main)
