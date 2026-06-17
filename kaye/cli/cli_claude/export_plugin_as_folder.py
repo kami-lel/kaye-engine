@@ -21,6 +21,9 @@ _MANIFEST_FILE = "plugin.json"
 _SKILLS_DIR = "skills"
 
 
+# Bug plugin no version
+
+
 # entry point  #################################################################
 
 
