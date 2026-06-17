@@ -9,7 +9,7 @@ from importlib.metadata import version
 
 import yaml
 
-from kaye import PROGRAM_NAME
+from kaye import PROGRAM_NAME, DIST_NAME
 from kaye.cli.cli_claude import convert_display_name2skill_name
 from kaye.cli.frontmatter_md_file import FrontmatterMDFile
 
@@ -76,7 +76,7 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
         file_name = folder_path / self._FILENAME
         super().__init__(file_name, blueprint)
 
-        self.frontmatter["metadata"]["version"] = version(PROGRAM_NAME)
+        self.frontmatter["metadata"]["version"] = version(DIST_NAME)
 
         if blueprint:
             self.name = convert_display_name2skill_name(blueprint.display_name)
