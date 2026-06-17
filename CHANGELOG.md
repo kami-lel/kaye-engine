@@ -20,6 +20,9 @@
 
 - `kaye claude plugin` (`p`) subcommand: export blueprints as a Claude plugin
   folder; `-z` flag creates a compressed `.plugin` file instead
+
+  - `-n` / `--no-version` flag: omit the current version from the `.zip`
+    filename; by default the version is appended (e.g. `kaye-6.5.2a0.zip`)
 - `kaye claude skill` (`s`) subcommand: export blueprints as agentskills.io
   Skill folders; `-z` flag creates `.zip` packages instead
 - `kaye claude` aliases `anthropic` and `a` now cover all Skill & Plugin export
