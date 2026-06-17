@@ -57,6 +57,18 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
     # constants  ===============================================================
 
+    _DEFAULT_FRONTMATTER = {
+        "name": "",
+        "description": "",
+        "when_to_use": "",
+        "paths": [],
+        "license": "",
+        "compatibility": "",
+        "metadata": {},
+        "allowed-tools": [],
+        "user-invocable": True,
+    }
+
     _FILENAME = "SKILL.md"
 
     def __init__(self, folder_path, *, blueprint=None):

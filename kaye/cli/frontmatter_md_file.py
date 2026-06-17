@@ -125,11 +125,6 @@ class FrontmatterMDFile:  ######################################################
         "name": "",
         "description": "",
         "when_to_use": "",
-        "license": "",
-        "compatibility": "",
-        "metadata": {},
-        "allowed-tools": [],
-        "user-invocable": True,
         "paths": [],
     }
 
