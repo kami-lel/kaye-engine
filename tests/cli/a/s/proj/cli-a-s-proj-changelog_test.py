@@ -83,13 +83,15 @@ class TestHeader:  # ===========================================================
 
     def test_when_to_use(_, testee_header):
         print(testee_header)
+        assert any(
+            'when_to_use:' in line and 'document the release.' in line
+            for line in testee_header
+        )
+
+    def test_paths(_, testee_header):
         assert (
-            'when_to_use: "Use when creating, updating, or adding entries'
-            ' to a `CHANGELOG.md`, or recording changes for a release.'
-            ' Triggers: \\"update the changelog,\\" \\"log this change,\\"'
-            ' \\"document the release.\\"'
-            '\\u21B5File globs: **/{CHANGELOG,Changelog,changelog}{,.md,.txt}"'
-            in testee_header
+            "paths:" in testee_header
+            and "- '**/{CHANGELOG,Changelog,changelog}{,.md,.txt}'" in testee_header
         )
 
     def test_version(self, testee_header):

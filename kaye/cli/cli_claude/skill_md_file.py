@@ -11,7 +11,6 @@ import yaml
 
 from kaye.cli.cli_claude import convert_display_name2skill_name
 from kaye.cli.frontmatter_md_file import FrontmatterMDFile
-from kaye.prompt.blueprint_meta_nodes import collapse_lines_into_single_line
 
 
 class SkillMDFile(FrontmatterMDFile):  #########################################
@@ -67,14 +66,10 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
         "metadata": {},
         "allowed-tools": [],
         "user-invocable": True,
+        "paths": [],
     }
 
     _FILENAME = "SKILL.md"
-
-    #: phrase prefixed to the comma-separated glob patterns when they are
-    #: appended to ``when_to_use``, so the model reads them as guidance on
-    #: which files the skill applies to
-    _GLOB_HINT_PREFIX = "File globs: "
 
     def __init__(self, folder_path, *, blueprint=None):
         file_name = folder_path / self._FILENAME
@@ -86,8 +81,4 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
             self.name = convert_display_name2skill_name(blueprint.display_name)
             globs = blueprint.meta.globs
             if globs:
-                glob_hint = self._GLOB_HINT_PREFIX + ", ".join(globs)
-                parts = [glob_hint]
-                if self.when_to_use:
-                    parts.insert(0, self.when_to_use)
-                self.when_to_use = collapse_lines_into_single_line(parts)
+                self.frontmatter["paths"] = list(globs)
