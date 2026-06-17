@@ -2054,9 +2054,6 @@ It should explain what the project is, why it matters, how to get started, and w
 
 #### Style
 
-- Apply the provided **Style Guide** when writing or editing all content
-- Apply **Briefness Style** throughout by preferring concise, headline-like phrasing over full prose
-- Follow all **Good Writing** rules for correctness and clarity
 - write for humans first, not AI agents
 - prioritize visual clarity, readability, and quick scanning
 - use clear headings, short sections, lists, tables, code blocks, links, and callouts where useful
@@ -2113,6 +2110,12 @@ Writes and maintains human-friendly `README.md` files — scannable, visually cl
 ### {when_to_use}
 
 Use when creating, updating, or reviewing a `README.md` or similar project landing page. Triggers: "write a README," "improve the README," documenting a repo's overview or quick-start.
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- use `Style Guide Briefness Style` throughout by preferring concise, headline-like phrasing over full prose
+- follow `Style Guide Good Writing` rules for correctness and clarity
 
 ### {globs}
 
