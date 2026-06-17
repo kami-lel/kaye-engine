@@ -1,5 +1,11 @@
 """export for Claude Code as a plugin and User System Prompt file"""
 
+from pathlib import Path
+
+# constants  ===================================================================
+
+_DEFAULT_CLAUDE_FOLDER = Path.home() / ".claude"
+
 
 def register_cli_claude_code_parser(  ##########################################
     cli_subparser,
@@ -11,7 +17,17 @@ def register_cli_claude_code_parser(  ##########################################
         aliases=["c"],
     )
 
-    def _code_main(_):
+    code_parser.add_argument(
+        "folder",
+        nargs="?",
+        metavar="FOLDER",
+        type=Path,
+        default=_DEFAULT_CLAUDE_FOLDER,
+        help="path to local .claude/ folder; default: ~/.claude",
+    )
+
+    def _code_main(args):
+        folder = args.folder
         pass  # TODO
 
     code_parser.set_defaults(func=_code_main)
