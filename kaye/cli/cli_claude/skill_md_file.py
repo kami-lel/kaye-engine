@@ -11,7 +11,7 @@ import yaml
 
 from kaye.cli.cli_claude import convert_display_name2skill_name
 from kaye.cli.frontmatter_md_file import FrontmatterMDFile
-from kaye.prompt import collapse_lines_into_single_line
+from kaye.prompt.blueprint_meta_nodes import collapse_lines_into_single_line
 
 
 class SkillMDFile(FrontmatterMDFile):  #########################################
