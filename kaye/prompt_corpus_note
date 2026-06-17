@@ -1,5 +1,4 @@
-Todo for prepare_for_feature_finish/_release, utilize tools to fetch `git log`
 
-Todo add {prerequisite} meta node, or standardize calling tools etc.
+Todo unit tests for prereq lines
 
 todo resume role

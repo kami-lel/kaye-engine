@@ -29,6 +29,24 @@ through a Python API, an HTTP API, and a CLI.
 - **Blueprint** — a `PromptBlueprint` tree selection spec controlling which
   corpus parts render into a concrete prompt
 - **Role** — task-specific behavior profile inside the corpus
+- **Meta Node** — `{name}`-bracketed subnode holding structured metadata for
+  its parent (members of `kaye/prompt/meta_node_type.py::MetaNodeType`:
+  `DESCRIPTION`, `WHEN_TO_USE`, `GLOBS`, `PREREQUISITE`; `.as_node_heading`
+  renders e.g. `{description}`); detected via `BasePromptNode.is_meta_node`
+  (regex `^\{.+\}$`); looked up and rendered by
+  `kaye/prompt/blueprint_meta_nodes.py::BlueprintMetaNodes`. To add a new meta
+  node type: add a member to `MetaNodeType`, add a property + `_node` lookup
+  (via `MetaNodeType.<NAME>.as_node_heading`) in `BlueprintMetaNodes`, add
+  `### {name}` examples to `kaye/prompt_corpus.md`,
+  document it in `docs/corpus_doc.md` and `docs/programmatic_api_doc.md`, wire
+  CLI export consumers (`kaye/cli/frontmatter_md_file.py`,
+  `kaye/cli/cli_continue/rule_file.py`) if the type should surface in exports,
+  and mirror tests under `tests/prompt/bp/` and `tests/prompt/node/`.
+- **Prerequisite Node** — `{prerequisite}` meta node; `BasePromptNode
+  .is_prerequisite_node` checks `self.name == "{prerequisite}"`;
+  pass `contains_prerequisite_nodes=True` to `generate_prompt()` /
+  `generate_prompt_lines()` to auto-checkmark every `{prerequisite}` node
+  whose parent is already checkmarked before rendering.
 
 ### Repository Layout
 
@@ -43,6 +61,28 @@ through a Python API, an HTTP API, and a CLI.
 - `dify_studio/` — Dify workflow node sources (not part of the package)
 - `docs/` — in-depth documentation (API, HTTP, CLI, abbreviations)
 - `tests/` — `pytest` suite, mirrors the package structure
+  - `tests/prompt/` — unit tests for the prompt engine (nodes, blueprints)
+    - `tests/prompt/bp/` — `PromptBlueprint` tests
+    - `tests/prompt/node/` — `PromptCorpusNode` / `BasePromptNode` tests
+  - `tests/api/` — HTTP API and Dify app endpoint tests
+  - `tests/cli/` — CLI integration tests; `tests/cli/__init__.py` holds
+    `MD_FILENAME2SKILL_NAME` (skill slug → display name) and
+    `TESTEE_FILE_CONTENT_ALL` (skill slug → expected content strings)
+    - `tests/cli/a/` — `claude` subcommand tests
+      - `tests/cli/a/s/` — `claude skill` export tests
+        - `tests/cli/a/s/structure/` — structure/exportability tests for every
+          blueprint in `__all__` (`cli-a-s-structure-exportable_blueprints_test.py`)
+          and prompt blueprints
+        - `tests/cli/a/s/coder/` — per-skill content tests for coder blueprints
+        - `tests/cli/a/s/others/` — per-skill content tests for miscellaneous
+          blueprints (chat, annotation-markers, date-time, IPA, etc.)
+        - `tests/cli/a/s/proj/` — per-skill content tests for project blueprints
+        - `tests/cli/a/s/role/` — per-skill content tests for role blueprints
+        - `tests/cli/a/s/style/` — per-skill content tests for style blueprints
+        - `tests/cli/a/s/pe/` — per-skill content tests for prompt-engineering
+          blueprints
+    - `tests/cli/c/` — `continue` subcommand tests
+  - `tests/abbr/` — abbreviation collection tests
 - `scripts/` — Git hooks and the `systemd` service file
 
 ## Build and Test
@@ -97,6 +137,48 @@ CLI subcommand aliases: `http` → `h`; `continue` → `c`;
 - test files end with `_test.py` and mirror the source tree under `tests/`
 - test classes are grouped as `TestStructure`, `TestHeader`, `TestContent`
 - use comment section headings (`#`, `=`, `*`, `+`, `-`) only for long files
+
+## Adding an Exportable Blueprint
+
+To add a blueprint that appears in both `claude skill` and `continue config`
+exports, touch these locations in order:
+
+1. **`kaye/prompt/embedded_blueprints.py`** — define the variable and add its
+   name to `__all__` (controls the `*` import into `kaye/cli/__init__.py`)
+2. **`kaye/cli/__init__.py` → `EXPORTABLE_BLUEPRINTS`** — append the blueprint
+   object; this is the actual gate for CLI export; omitting it causes "file not
+   found" in tests even though import works
+3. **`tests/cli/__init__.py`** — add entries to both:
+   - `MD_FILENAME2SKILL_NAME`: `"kebab-slug": "Display Name"`
+   - `TESTEE_FILE_CONTENT_ALL`: `"kebab-slug": ["string1", "string2", ...]`
+4. **`tests/cli/a/s/structure/cli-a-s-structure-exportable_blueprints_test.py`**
+   — add a `test_<name>()` calling `validate_blueprint(bp)`
+5. **`tests/cli/a/s/<group>/cli-a-s-<group>-<slug>_test.py`** — per-skill
+   content test (classes `TestBasic`, `TestHeader`, `TestStructure`,
+   `TestContent`); group folders: `coder/`, `proj/`, `style/`, `pe/`,
+   `others/` (catch-all incl. Elements nodes), `role/` (Role section)
+6. **`tests/cli/c/c/<group>/cli-c-c-bp-<slug>_test.py`** — continue config
+   content test; fixture is `testee_rules_folder / (display_name + ".md")`
+   (file named by display name, not kebab slug)
+
+### YAML-quoting gotcha in `c/c` `test_description`
+
+Descriptions that contain `/`, `—`, or `↵` (U+21B5, the separator between
+`{description}` and `{when_to_use}`) are double-quoted by PyYAML with unicode
+escapes. The resulting header line is too long to match exactly. Use:
+
+```python
+def test_description(_, testee_header):
+    assert any("distinctive keyword" in line for line in testee_header)
+```
+
+instead of `"description: X" in testee_header` (exact list-membership check).
+
+### `always_apply` for new blueprints
+
+Defaults to `False`. Only `"Chat"`, `"Coder"`, `"Agent Behavior"`,
+`"Continue Behavior"` are in `_ALWAYS_APPLY_BLUEPRINT`
+(`kaye/cli/cli_continue/export_blueprint_rules.py`).
 
 ## Annotation Markers
 

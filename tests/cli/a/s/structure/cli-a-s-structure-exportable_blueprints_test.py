@@ -23,12 +23,20 @@ from kaye.prompt.embedded_blueprints import (
     coder_u3d_blueprint,
     coder_ue_blueprint,
     date_time_blueprint,
+    ipa_blueprint,
     number_unit_blueprint,
     project_agents_blueprint,
     project_changelog_blueprint,
     project_readme_blueprint,
     project_semantic_versioning_blueprint,
     project_structure_blueprint,
+    role_art_tutor_blueprint,
+    role_assistant_barista_blueprint,
+    role_deutschlehrer_blueprint,
+    role_editor_blueprint,
+    role_librarian_blueprint,
+    role_secretary_blueprint,
+    role_tarot_reader_blueprint,
     style_briefness_blueprint,
     style_capitalization_blueprint,
     style_good_writing_blueprint,
@@ -165,3 +173,43 @@ def test_coder_javascript_and_typescript():
 def test_agent_behavior():
     r = validate_blueprint(agent_blueprint)
     assert r.name == "agent-behavior"
+
+
+def test_international_phonetic_alphabet():
+    r = validate_blueprint(ipa_blueprint)
+    assert r.name == "international-phonetic-alphabet"
+
+
+def test_art_tutor():
+    r = validate_blueprint(role_art_tutor_blueprint)
+    assert r.name == "art-tutor"
+
+
+def test_assistant_barista():
+    r = validate_blueprint(role_assistant_barista_blueprint)
+    assert r.name == "assistant-barista"
+
+
+def test_deutschlehrer():
+    r = validate_blueprint(role_deutschlehrer_blueprint)
+    assert r.name == "deutschlehrer"
+
+
+def test_editor():
+    r = validate_blueprint(role_editor_blueprint)
+    assert r.name == "editor"
+
+
+def test_librarian():
+    r = validate_blueprint(role_librarian_blueprint)
+    assert r.name == "librarian"
+
+
+def test_secretary():
+    r = validate_blueprint(role_secretary_blueprint)
+    assert r.name == "secretary"
+
+
+def test_tarot_reader():
+    r = validate_blueprint(role_tarot_reader_blueprint)
+    assert r.name == "tarot-reader"

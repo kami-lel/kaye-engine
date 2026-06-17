@@ -24,10 +24,7 @@ def assert_edit_readme0(testee_content):
 
 
 def assert_edit_readme1(testee_content):
-    return (
-        "follow **Coder README Writer** for structure, content, and style"
-        in testee_content
-    )
+    return "follow `Coder README Writer`" in testee_content
 
 
 def assert_edit_readme2(testee_content):
@@ -51,10 +48,7 @@ def assert_edit_agents0(testee_content):
 
 
 def assert_edit_agents1(testee_content):
-    return (
-        "follow **Coder AGENTS Writer** for structure, content, and style"
-        in testee_content
-    )
+    return "follow `Coder AGENTS Writer`" in testee_content
 
 
 def assert_edit_agents2(testee_content):

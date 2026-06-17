@@ -108,6 +108,17 @@ class BasePromptNode(AnyTreeNode):
         """
         raise NotImplementedError
 
+    # properties  ==============================================================
+
+    @property
+    def is_meta_node(self):
+        """
+        :return: whether this node is a **meta node**,
+                i.e. its name matches the ``{name}`` pattern
+        :rtype: bool
+        """
+        return bool(re.match(r"^\{.+\}$", self.name))
+
     # instance methods  ========================================================
 
     def generate_lineage(self):
