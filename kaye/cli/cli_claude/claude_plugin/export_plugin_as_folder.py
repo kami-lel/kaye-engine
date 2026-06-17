@@ -4,24 +4,19 @@ export_plugin_as_folder.py
 define ``export_plugin_as_folder``
 """
 
-import json
 from importlib.metadata import metadata, version
 
 from kaye import logger
 
 from kaye import PROGRAM_NAME
-from kaye.cli.cli_claude.export_skills_as_folders import (
+from kaye.cli.cli_claude.claude_skill.export_skills_as_folders import (
     export_skills_as_folders,
 )
+from .manifest_plugin_json import ManifestPluginJson
 
 # constants  ===================================================================
 
-_MANIFEST_DIR = ".claude-plugin"
-_MANIFEST_FILE = "plugin.json"
 _SKILLS_DIR = "skills"
-
-
-# Bug plugin no version
 
 
 # entry point  #################################################################
@@ -38,23 +33,23 @@ def export_plugin_as_folder(parent_folder):
 
     :param parent_folder: destination directory to write the plugin into
     :type parent_folder: Path-like
-    :param verbose: print exported skill and plugin paths when ``True``
-    :type verbose: bool
-    :returns: path to the created plugin directory
+    :return: path to the created plugin directory
     :rtype: Path
     """
     plugin_root = parent_folder / PROGRAM_NAME
 
-    logger.debug("creating plugin manifest directory")
-    manifest_dir = plugin_root / _MANIFEST_DIR
-    manifest_dir.mkdir(parents=True, exist_ok=True)
-
     logger.debug("writing plugin manifest")
-    manifest_path = manifest_dir / _MANIFEST_FILE
-    manifest_path.write_text(
-        json.dumps(_build_manifest(), indent=2) + "\n",
-        encoding="utf-8",
-    )
+    meta = metadata(PROGRAM_NAME)
+    with ManifestPluginJson(plugin_root) as manifest:
+        manifest.name = PROGRAM_NAME
+        manifest.display_name = meta["Name"]
+        manifest.version = version(PROGRAM_NAME)
+        manifest.description = meta["Summary"]
+        manifest.author_name = meta["Author"]
+        manifest.author_email = meta.get("Author-Email", "")
+        manifest.homepage = meta.get("Home-Page", "")
+        manifest.repository = meta.get("Project-URL", "").split(", ")[-1] if meta.get("Project-URL") else ""
+        manifest.keywords = ["prompt-engineering", "persona", "agent", PROGRAM_NAME]
 
     logger.debug("exporting blueprints as plugin skills")
     export_skills_as_folders(plugin_root / _SKILLS_DIR)
@@ -62,22 +57,3 @@ def export_plugin_as_folder(parent_folder):
     logger.succ("export plugin:\t" + str(plugin_root))
 
     return plugin_root
-
-
-def _build_manifest():
-    """
-    build the ``plugin.json`` manifest dict from packaged metadata
-
-    :returns: manifest mapping ready for JSON serialization
-    :rtype: dict
-    """
-    meta = metadata(PROGRAM_NAME)
-
-    return {
-        "name": PROGRAM_NAME,
-        "displayName": meta["Name"],
-        "version": version(PROGRAM_NAME),
-        "description": meta["Summary"],
-        "author": {"name": meta["Author"]},
-        "keywords": ["prompt-engineering", "persona", "agent", PROGRAM_NAME],
-    }
