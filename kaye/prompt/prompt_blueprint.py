@@ -12,7 +12,7 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
 from kaye.prompt.blueprint_meta_nodes import BlueprintMetaNodes
-
+from kaye.prompt.meta_node_type import MetaNodeType
 
 from .base_prompt_node import BasePromptNode
 from .prompt_corpus_loader import (
@@ -384,7 +384,7 @@ class PromptBlueprint(dict):
         if contains_prerequisite_nodes:
             working_bp = copy.copy(self)
             for node in PreOrderIter(working_bp.corpus):
-                if node.is_prerequisite_node and working_bp.is_checkmarked(
+                if MetaNodeType.is_prerequisite(node) and working_bp.is_checkmarked(
                     node.parent
                 ):
                     working_bp.checkmark(node)

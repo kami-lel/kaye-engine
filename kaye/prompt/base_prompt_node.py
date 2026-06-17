@@ -10,8 +10,6 @@ import re
 
 from anytree import Node as AnyTreeNode, RenderTree, PreOrderIter
 
-from kaye.prompt.meta_node_type import MetaNodeType
-
 __all__ = ("BasePromptNode",)
 
 
@@ -120,15 +118,6 @@ class BasePromptNode(AnyTreeNode):
         :rtype: bool
         """
         return bool(re.match(r"^\{.+\}$", self.name))
-
-    @property
-    def is_prerequisite_node(self):
-        """
-        :return: whether this node is a **prerequisite meta node**,
-                i.e. its name is ``{prerequisite}``
-        :rtype: bool
-        """
-        return self.name == MetaNodeType.PREREQUISITE.as_node_heading
 
     # instance methods  ========================================================
 
