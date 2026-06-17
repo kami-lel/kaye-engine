@@ -62,7 +62,7 @@ def export_plugin_as_folder(parent_folder):
         manifest.homepage = pkg_homepage
         manifest.repository = pkg_repository
         manifest.keywords = _PLUGIN_KEYWORDS
-        logger.succ("write plugin manifest:\t" + str(manifest))
+        logger.succ("write plugin manifest:\t" + str(manifest.path))
 
     with MarketplaceJson(parent_folder) as market:
         market.name = PROGRAM_NAME
@@ -81,7 +81,7 @@ def export_plugin_as_folder(parent_folder):
         market.plugin_repository = pkg_repository
         market.plugin_keywords = _PLUGIN_KEYWORDS
         market.plugin_category = _PLUGIN_CATEGORY
-        logger.debug("write marketplace manifest:\t" + str(market))
+        logger.succ("write marketplace manifest:\t" + str(market.path))
 
     logger.debug("exporting blueprints as plugin skills")
     export_skills_as_folders(plugin_root / _SKILLS_DIR)
