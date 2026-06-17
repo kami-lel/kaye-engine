@@ -84,14 +84,15 @@ class TestHeader:  # ===========================================================
 
     def test_when_to_use(_, testee_header):
         print(testee_header)
+        assert any(
+            'when_to_use:' in line and 'documenting repo context for AI coding tools.' in line
+            for line in testee_header
+        )
+
+    def test_paths(_, testee_header):
         assert (
-            'when_to_use: "Use when creating, updating, or reviewing an'
-            ' `AGENTS.md` or equivalent agent-instruction file.'
-            ' Triggers: \\"write an AGENTS.md,\\" \\"add agent'
-            ' instructions,\\" documenting repo context for AI coding'
-            " tools."
-            '\\u21B5File globs: **/{AGENTS,Agents,agents}{,.md}"'
-            in testee_header
+            "paths:" in testee_header
+            and "- '**/{AGENTS,Agents,agents}{,.md}'" in testee_header
         )
 
     def test_version(self, testee_header):

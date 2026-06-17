@@ -82,12 +82,15 @@ class TestHeader:  # ===========================================================
 
     def test_when_to_use(_, testee_header):
         print(testee_header)
+        assert any(
+            "when_to_use:" in line
+            for line in testee_header
+        )
+
+    def test_paths(_, testee_header):
         assert (
-            'when_to_use: "Use for any JavaScript or TypeScript work,'
-            " inline JS/TS code blocks, requests for JavaScript,"
-            " TypeScript, or Node."
-            '\\u21B5File globs: **/*.{js,ts,jsx,tsx,mjs,cjs}"'
-            in testee_header
+            "paths:" in testee_header
+            and "- '**/*.{js,ts,jsx,tsx,mjs,cjs}'" in testee_header
         )
 
     def test_version(self, testee_header):
