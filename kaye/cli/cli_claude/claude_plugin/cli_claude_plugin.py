@@ -4,6 +4,8 @@ cli_claude_plugin.py
 define ``register_cli_claude_plugin_parser``
 """
 
+# FIXME revert this docstring
+
 from pathlib import Path
 
 
@@ -67,9 +69,7 @@ def register_cli_claude_plugin_parser(  ########################################
 
         if args.zip:
             logger.debug("export plugin as zip")
-            export_plugin_as_zip(
-                folder, includes_version=args.includes_version
-            )
+            export_plugin_as_zip(folder, includes_version=args.includes_version)
             done_msg = "export plugin as zip"
         else:
             logger.debug("export plugin as folder")
