@@ -33,7 +33,7 @@ class ManifestPluginJson:  #####################################################
     def __init__(self, folder_path):
         self._folder_path = Path(folder_path)
         self._manifest_dir = self._folder_path / self._MANIFEST_DIR
-        self._manifest_path = self._manifest_dir / self._MANIFEST_FILE
+        self.path = self._manifest_dir / self._MANIFEST_FILE
 
         self.name = ""
         self.display_name = ""
@@ -68,7 +68,7 @@ class ManifestPluginJson:  #####################################################
         }
 
         self._manifest_dir.mkdir(parents=True, exist_ok=True)
-        self._manifest_path.write_text(
+        self.path.write_text(
             json.dumps(manifest_data, indent=2) + "\n",
             encoding="utf-8",
         )
