@@ -44,11 +44,13 @@ def register_cli_claude_code_parser(  ##########################################
         folder = args.folder
 
         logger.debug("export plugin as folder")
-        export_plugin_as_folder(folder)
+        plugin_folder = folder / "plugins"
+        export_plugin_as_folder(plugin_folder)
 
         logger.debug("export user system prompt file")
-        export_user_system_prompt_file(find_user_system_prompt_file(folder))
-        logger.succ("export user system prompt file")
+        prompt_file = find_user_system_prompt_file(folder)
+        export_user_system_prompt_file(prompt_file)
+        logger.succ("export user system prompt file:\t" + str(prompt_file))
 
         logger.done("export Claude Code folder:" + "\t" + str(folder))
 
