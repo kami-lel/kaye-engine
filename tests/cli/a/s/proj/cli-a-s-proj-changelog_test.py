@@ -108,3 +108,8 @@ class TestContent:  # =========================================================
 
     def test0(_, testee_content):
         assert TESTEE_FILE_CONTENT[0] in testee_content
+
+class TestPrerequisite:  # ====================================================
+
+    def test_heading(_, testee_content):
+        assert "### {prerequisite}" in testee_content or "#### {prerequisite}" in testee_content

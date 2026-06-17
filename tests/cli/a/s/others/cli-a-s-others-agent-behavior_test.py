@@ -102,3 +102,4 @@ class TestContent:  # ==========================================================
 
     def test0(_, testee_content):
         assert TESTEE_FILE_CONTENT[0] in testee_content
+
