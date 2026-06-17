@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 
 
+# BUG create a marketplace subcommand
 class MarketplaceJson:  #########################################################
     """
     manage metadata and content writing for a Claude plugin marketplace file
