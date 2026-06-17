@@ -33,7 +33,6 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
     ...     skill.description = ~~
     ...     skill.write_frontmatter_part()
     ...     skill.write(~~)
-    ...     skill.writelines(~~)
     ...     ~~
     """
 
@@ -58,6 +57,18 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
     # constants  ===============================================================
 
+    _DEFAULT_FRONTMATTER = {
+        "name": "",
+        "description": "",
+        "when_to_use": "",
+        "license": "",
+        "compatibility": "",
+        "metadata": {},
+        "allowed-tools": [],
+        "user-invocable": True,
+        "paths": [],
+    }
+
     _FILENAME = "SKILL.md"
 
     def __init__(self, folder_path, *, blueprint=None):
@@ -68,3 +79,6 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
         if blueprint:
             self.name = convert_display_name2skill_name(blueprint.display_name)
+            globs = blueprint.meta.globs
+            if globs:
+                self.frontmatter["paths"] = list(globs)

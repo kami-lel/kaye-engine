@@ -72,7 +72,7 @@ class TestHeader:  # ===========================================================
         print(testee_header)
         assert (
             'description: "Writes, edits, and reviews all Python code'
-            "\\u21B5Use for any Python work. Triggers: `.py` files, inline"
+            "\\u21B5Use for any Python work, inline"
             " Python code blocks, requests for Python scripts, modules,"
             ' or packages."'
             in testee_header
