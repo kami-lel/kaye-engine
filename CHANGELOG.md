@@ -34,6 +34,22 @@
   - `is_description()`, `is_when_to_use()`, `is_globs()`, `is_prerequisite()`:
     type-specific convenience checkers that delegate to `is_meta_node()`
 
+**Unit Tests**:
+
+- **Prerequisite test content dictionary**: `TESTEE_PREREQUISITE_CONTENT_ALL` in
+  `tests/cli/__init__.py` centralizes prerequisite content assertions for 15
+  blueprints with `{prerequisite}` meta nodes:
+
+  - **Coder blueprints** (10): bash, c, c-sharp, cpp, gdscript, html,
+    javascript-and-typescript, python, unity-engine, unreal-engine
+  - **Project writers** (3): agents-writer, changelog-writer, readme-writer
+  - **Prompt engineers** (2): prompt-writer, skill-description-writer
+
+  - **Enhanced TestPrerequisite classes**: 15 a/s test files updated with
+    `TestPrerequisite.test0()`, `test1()`, etc. that verify each prerequisite
+    content entry; mirrors the pattern used by `TestContent` for content
+    assertions; all 438 a/s tests passing
+
 ### Changed
 
 - `PROGRAM_NAME` changed from `Kaye` to lowercase `kaye`

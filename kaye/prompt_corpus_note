@@ -6,3 +6,6 @@ todo split AGENTS & CONTEXT & CONTEXT.local.md, context should include project r
 todo init project prompt
 
 todo coder dev phases logic: mpt: working on a single phase at the same time
+
+Todo export chat/rapid as single file, for system prompt
+
