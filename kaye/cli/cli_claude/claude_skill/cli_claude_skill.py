@@ -1,8 +1,4 @@
-"""
-cli_claude_skill.py
-
-define ``register_cli_claude_skill_parser``
-"""
+"""export as agentskills.io-standard Skills for Anthropic Claude"""
 
 from pathlib import Path
 

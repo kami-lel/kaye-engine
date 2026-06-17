@@ -1,10 +1,4 @@
-"""
-cli_claude_plugin.py
-
-define ``register_cli_claude_plugin_parser``
-"""
-
-# FIXME revert this docstring
+"""export as an Anthropic Claude plugin"""
 
 from pathlib import Path
 
