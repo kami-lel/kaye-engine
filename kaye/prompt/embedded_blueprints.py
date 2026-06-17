@@ -40,7 +40,7 @@ __all__ = (
     "description_writer_blueprint",
 )
 
-# Todo expose roles as blueprint & as exportable
+# Todo expose IPA + roles as blueprint & as exportable
 
 
 # blueprints  ##################################################################
@@ -49,7 +49,8 @@ __all__ = (
 # Rapid
 rapid_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Introduction
-[x] ├── Format
+[x] ├── Style Guide
+[x] │   └── Style Guide Markdown Format
 [x] └── (Abbreviations)""")
 rapid_blueprint.display_name = "Rapid"
 rapid_blueprint.meta.description = (
@@ -62,7 +63,8 @@ chat_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Introduction
 [x] ├── Personality
 [x] ├── Language
-[x] ├── Format
+[x] ├── Style Guide
+[x] │   └── Style Guide Markdown Format
 [x] ├── Role
 [x] └── (Abbreviations)""")
 chat_blueprint.display_name = "Chat"

@@ -82,7 +82,7 @@ def assert_intro2(opt):
 
 
 def assert_format_title(opt):
-    assert "# Format" in opt
+    assert "## Style Guide Markdown Format" in opt
 
 
 def assert_format1(opt):

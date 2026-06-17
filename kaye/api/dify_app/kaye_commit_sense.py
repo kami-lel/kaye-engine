@@ -64,7 +64,7 @@ def _checkmark_md_related_node(blueprint):
             abort(Response("bad param: ?allows_md={}".format(md_arg), 422))
 
         if md_value == 1:
-            node = blueprint.corpus["Format"]
+            node = blueprint.corpus["Style Guide"]["Style Guide Markdown Format"]
         elif md_value != 0:
             abort(
                 Response(
