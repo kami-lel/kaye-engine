@@ -1,5 +1,5 @@
 """
-agent_skill_wrapper.py
+agent_skill_folder.py
 
 define ``AgentSkillFolder``
 """
@@ -7,7 +7,7 @@ define ``AgentSkillFolder``
 from kaye import logger
 
 from kaye.cli.cli_claude import convert_display_name2skill_name
-from kaye.cli.cli_claude.skill_md_file import SkillMDFile
+from .skill_md_file import SkillMDFile
 
 
 class AgentSkillFolder:  ########################################################
