@@ -2111,17 +2111,17 @@ Writes and maintains human-friendly `README.md` files — scannable, visually cl
 
 Use when creating, updating, or reviewing a `README.md` or similar project landing page. Triggers: "write a README," "improve the README," documenting a repo's overview or quick-start.
 
-### {prerequisite}
-
-- use `Style Guide Markdown Format`
-- use `Style Guide Briefness Style` throughout by preferring concise, headline-like phrasing over full prose
-- follow `Style Guide Good Writing` rules for correctness and clarity
-
 ### {globs}
 
 ```glob
 **/{README,Readme,readme}{,.md,.txt}
 ```
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- use `Style Guide Briefness Style` in list
+- follow `Style Guide Good Writing` rules for correctness and clarity
 
 
 
@@ -2273,6 +2273,13 @@ Use when creating, updating, or adding entries to a `CHANGELOG.md`, or recording
 **/{CHANGELOG,Changelog,changelog}{,.md,.txt}
 ```
 
+### {prerequisite}
+
+- use `Project Semantic Versioning`
+- use `Style Guide Markdown Format`
+- use `Style Guide Briefness Style` in list
+- follow `Style Guide Good Writing` rules for correctness and clarity
+
 
 
 
@@ -2319,16 +2326,6 @@ These guidelines define what a good `AGENTS.md` is and must be applied when crea
 `AGENTS.md` is a dedicated, agent-readable file that gives AI coding tools the context they need to work effectively in a repository.
 
 It complements `README.md` without cluttering it by focusing on what agents need, not human contributors.
-
-
-
-
-
-#### Style
-
-- Apply the provided **Style Guide** when writing or editing all content
-- Apply **Briefness Style** throughout by preferring concise, headline-like phrasing over full prose
-- follow All **Good Writing** rules for correctness and clarity
 
 
 
@@ -2401,6 +2398,10 @@ Use when creating, updating, or reviewing an `AGENTS.md` or equivalent agent-ins
 ```glob
 **/{AGENTS,Agents,agents}{,.md}
 ```
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
 
 
 
@@ -2479,7 +2480,6 @@ Return a brief summary listing changed files and the documentation updates made.
 #### edit README
 
 - edit `README.md` or README-Style File to reflect the current project state
-- follow **Coder README Writer** for structure, content, and style
 - update applicable overview, features, setup, usage, configuration, commands, contribution notes, security notes, and license details
 - prioritize the root README when multiple README-style files exist
 - keep secondary README files focused on their local directory, package, or feature area
@@ -2491,7 +2491,6 @@ Return a brief summary listing changed files and the documentation updates made.
 #### edit AGENTS
 
 - edit `AGENTS.md` or AGENTS-Style File to reflect the current project state
-- follow **Coder AGENTS Writer** for structure, content, and style
 - preserve or add required frontmatter when applicable to the project’s AGENTS format
 - update applicable project name, setup notes, build commands, test commands, code style, testing instructions, PR instructions, and security considerations
 - avoid moving human-facing content from README files into AGENTS files unless it is useful for coding agents
@@ -2511,6 +2510,13 @@ Return a brief summary listing changed files and the documentation updates made.
 #### {description}
 
 Use this skill when the user wants to update existing README, AGENTS, or `docs/` files to reflect recent project changes — fixing stale commands, broken links, outdated examples, or renamed references. Trigger even for casual requests like "update the docs" or "fix the readme."
+
+#### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+- follow `Coder README Writer`
+- follow `Coder AGENTS Writer`
 
 
 
@@ -2553,6 +2559,12 @@ review recent changes — update or create `CHANGELOG.md` to reflect them.
 #### {description}
 
 Use this skill when the user wants to add, fix, or reorganize entries in an existing `CHANGELOG.md` — logging new features, bug fixes, or breaking changes without overwriting existing content. Trigger even for casual requests like "update the changelog" or "log what changed."
+
+#### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+- follow `Project CHANGELOG Writer`
 
 
 
@@ -2627,6 +2639,12 @@ Create the `README.md` file at the project root
 
 Use this skill when the user wants to create a new `README.md` from scratch — covering project overview, setup, usage, configuration, and contributing guidelines. Trigger even for casual requests like "write a readme" or "document this project."
 
+#### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+- follow `Coder README Writer`
+
 
 
 
@@ -2692,6 +2710,11 @@ Create the `AGENTS.md` file at the project root
 
 Use this skill when the user wants to create a new `AGENTS.md` from scratch — covering project setup, build and test commands, code style, and PR conventions formatted for coding agents. Trigger even for casual requests like "add agent instructions" or "make an agents file."
 
+#### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Coder AGENTS Writer`
+
 
 
 
@@ -2731,6 +2754,12 @@ update `CHANGELOG.md`:
 #### {description}
 
 Use this skill when the user wants to record feature branch changes into the *Unreleased* section of `CHANGELOG.md` before merging — adding, updating, or reorganizing entries without duplicating or overwriting existing ones. Trigger for requests like "prep the changelog" or "document what I changed."
+
+#### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+- follow `Project CHANGELOG Writer`
 
 
 
@@ -2773,6 +2802,13 @@ if version number or release date not provided, ask the user before proceeding. 
 #### {description}
 
 Use this skill when the user wants to cut a release — moving *Unreleased* changelog entries into a new versioned section and bumping the version in metadata files like `package.json`, `pyproject.toml`, or `Cargo.toml`. Trigger for requests like "ship v1.2.3" or "bump the version."
+
+#### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+- follow `Project CHANGELOG Writer`
+- follow `Project Semantic Versioning`
 
 
 
@@ -2821,6 +2857,23 @@ You can:
 - provide suggestions of how to improve the prompt based on your knowledge in prompt engineering.
 - fix grammar and spelling errors in the *prompt*
 - strictly follow the syntax and format of the original prompt, such as JSON schema
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
 
 
 
@@ -2884,6 +2937,24 @@ Quick test: a sentence describing the skill's capability belongs in `description
     <your when_to_use text>
     ```
 </skill-description-writer-output-format>
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- use `Style Guide Briefness Style`
+- follow `Style Guide Good Writing` rules for correctness and clarity
 
 
 
@@ -3500,9 +3571,19 @@ Eg
 
 
 
-## {description}
-instruction for coding and programming
+### {description}
+Handles coding tasks — expansion, adjustment, debugging, and support — following strict formatting, naming, and comment conventions.
 
+### {when_to_use}
+Trigger on any code writing, editing, debugging, or programming question.
+
+## {prerequisite}
+
+- use `Style Guide Markdown Format`
+- use `Style Guide Capitalization` for all comments
+- use `Style Guide Briefness Style`'s Commentary Case for all comments
+- use `Annotation Markers`
+- follow `Style Guide Good Writing` rules for correctness and clarity
 
 
 
@@ -3603,6 +3684,11 @@ Generates ready-to-run Debian GNU/Linux shell commands — command-only output, 
 
 Use for terminal commands or shell one-liners on Debian/Ubuntu. Triggers: "command to...," "bash for...," CLI tasks.
 
+### {prerequisite}
+
+- follow `Kaye Peer Coder`
+
+
 
 
 
@@ -3663,6 +3749,10 @@ Use for any C code work, requests for C.
 ```glob
 **/*.{c,h}
 ```
+
+### {prerequisite}
+
+- follow `Kaye Peer Coder`
 
 
 
@@ -3727,6 +3817,11 @@ Use for any C++ code work, requests for C++.
 **/*.{cpp,cc,cxx,hpp,hh,hxx}
 ```
 
+### {prerequisite}
+
+- follow `Kaye Peer Coder`
+- references `Coder C`
+
 
 
 
@@ -3774,6 +3869,12 @@ C++ code for Unreal Engine
 **/*.{cpp,cc,cxx,hpp,hh,hxx}
 ```
 
+### {prerequisite}
+
+- follow `Kaye Peer Coder`
+- references `Coder C`
+- references `Coder CPP`
+
 
 
 
@@ -3803,6 +3904,10 @@ Use for any C# code work, requests for C#, mentions of .NET.
 ```glob
 **/*.cs
 ```
+
+### {prerequisite}
+
+- follow `Kaye Peer Coder`
 
 
 
@@ -3946,6 +4051,11 @@ ALWAYS apply for any Unity work — scripts, components, ScriptableObjects, edit
 **/*.cs
 ```
 
+### {prerequisite}
+
+- follow `Kaye Peer Coder`
+- references `Coder C Sharp`
+
 
 
 
@@ -3993,6 +4103,10 @@ GDScript code for Godot 4
 **/*.gd
 ```
 
+### {prerequisite}
+
+- follow `Kaye Peer Coder`
+
 
 
 
@@ -4019,6 +4133,10 @@ Use this skill when writing or generating HTML — apply HTML5 standards for str
 ```glob
 **/*.{html,htm}
 ```
+
+### {prerequisite}
+
+- follow `Kaye Peer Coder`
 
 
 
@@ -4103,6 +4221,10 @@ Use for any JavaScript or TypeScript work, inline JS/TS code blocks, requests fo
 **/*.{js,ts,jsx,tsx,mjs,cjs}
 ```
 
+### {prerequisite}
+
+- follow `Kaye Peer Coder`
+
 
 
 
@@ -4167,6 +4289,10 @@ Use for any Python work, inline Python code blocks, requests for Python scripts,
 ```glob
 **/*.py
 ```
+
+### {prerequisite}
+
+- follow `Kaye Peer Coder`
 
 
 
@@ -4274,6 +4400,11 @@ Use whenever Python code needs docstrings — including "add a docstring," "docu
 **/*.py
 ```
 
+### {prerequisite}
+
+- follow `Kaye Peer Coder`
+- follow `Coder Python`
+
 
 
 
@@ -4348,6 +4479,11 @@ Use whenever Python tests are written, run, fixed, or discussed. Triggers: `test
 **/test_*.py
 **/*_test.py
 ```
+
+### {prerequisite}
+
+- follow `Kaye Peer Coder`
+- follow `Coder Python`
 
 
 
