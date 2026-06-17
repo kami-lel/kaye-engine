@@ -84,10 +84,11 @@ class TestHeader:  # ===========================================================
     def test_when_to_use(_, testee_header):
         print(testee_header)
         assert (
-            "when_to_use: 'Use when creating, updating, or adding entries"
-            " to a `CHANGELOG.md`, or recording changes for a release."
-            " Triggers: \"update the changelog,\" \"log this change,\""
-            " \"document the release.\"'"
+            'when_to_use: "Use when creating, updating, or adding entries'
+            ' to a `CHANGELOG.md`, or recording changes for a release.'
+            ' Triggers: \\"update the changelog,\\" \\"log this change,\\"'
+            ' \\"document the release.\\"'
+            '\\u21B5**/{CHANGELOG,Changelog,changelog}{,.md,.txt}"'
             in testee_header
         )
 

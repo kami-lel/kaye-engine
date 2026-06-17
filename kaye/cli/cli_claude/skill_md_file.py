@@ -61,7 +61,6 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
         "name": "",
         "description": "",
         "when_to_use": "",
-        "paths": [],
         "license": "",
         "compatibility": "",
         "metadata": {},
@@ -79,3 +78,11 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
         if blueprint:
             self.name = convert_display_name2skill_name(blueprint.display_name)
+            globs = blueprint.meta.globs
+            if globs:
+                suffix = "↵".join(globs)
+                self.when_to_use = (
+                    self.when_to_use + "↵" + suffix
+                    if self.when_to_use
+                    else suffix
+                )

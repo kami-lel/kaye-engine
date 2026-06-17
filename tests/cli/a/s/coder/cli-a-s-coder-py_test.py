@@ -81,9 +81,10 @@ class TestHeader:  # ===========================================================
     def test_when_to_use(_, testee_header):
         print(testee_header)
         assert (
-            "when_to_use: 'Use for any Python work. Triggers: `.py`"
-            " files, inline Python code blocks, requests for Python"
-            " scripts, modules, or packages.'"
+            'when_to_use: "Use for any Python work.'
+            " Triggers: `.py` files, inline Python code blocks,"
+            " requests for Python scripts, modules, or packages."
+            '\\u21B5**/*.py"'
             in testee_header
         )
 

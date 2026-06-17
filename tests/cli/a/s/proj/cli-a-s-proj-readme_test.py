@@ -86,10 +86,11 @@ class TestHeader:  # ===========================================================
     def test_when_to_use(_, testee_header):
         print(testee_header)
         assert (
-            "when_to_use: 'Use when creating, updating, or reviewing"
+            'when_to_use: "Use when creating, updating, or reviewing'
             " a `README.md` or similar project landing page."
-            " Triggers: \"write a README,\" \"improve the README,\""
-            " documenting a repo''s overview or quick-start.'"
+            ' Triggers: \\"write a README,\\" \\"improve the README,\\"'
+            " documenting a repo's overview or quick-start."
+            '\\u21B5**/{README,Readme,readme}{,.md,.txt}"'
             in testee_header
         )
 
