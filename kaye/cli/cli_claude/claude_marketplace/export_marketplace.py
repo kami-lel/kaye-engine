@@ -28,9 +28,9 @@ def export_marketplace(marketplace_folder):
     export the Kaye plugin and write a marketplace manifest for it
 
     calls ``export_plugin_as_folder`` to write the plugin into
-    ``<marketplace_folder>/<PROGRAM_NAME>/``, then writes
+    ``<marketplace_folder>/plugins/<PROGRAM_NAME>/``, then writes
     ``.claude-plugin/marketplace.json`` at ``marketplace_folder`` listing
-    the plugin with source ``"./<PROGRAM_NAME>"``
+    the plugin with source ``"./plugins/<PROGRAM_NAME>"``
 
 
     :param marketplace_folder: directory to write the marketplace into
@@ -41,7 +41,7 @@ def export_marketplace(marketplace_folder):
     marketplace_folder = Path(marketplace_folder)
 
     logger.debug("exporting plugin into marketplace folder")
-    export_plugin_as_folder(marketplace_folder)
+    export_plugin_as_folder(marketplace_folder / "plugins")
 
     meta = metadata(PROGRAM_NAME)
     pkg_version = version(PROGRAM_NAME)
@@ -61,7 +61,7 @@ def export_marketplace(marketplace_folder):
         market.owner_name = pkg_author
         market.owner_email = pkg_author_email
         market.plugin_name = PROGRAM_NAME
-        market.plugin_source = "./" + PROGRAM_NAME
+        market.plugin_source = "./plugins/" + PROGRAM_NAME
         market.plugin_display_name = meta["Name"]
         market.plugin_description = meta["Summary"]
         market.plugin_version = pkg_version
