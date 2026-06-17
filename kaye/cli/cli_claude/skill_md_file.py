@@ -33,7 +33,6 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
     ...     skill.description = ~~
     ...     skill.write_frontmatter_part()
     ...     skill.write(~~)
-    ...     skill.writelines(~~)
     ...     ~~
     """
 
