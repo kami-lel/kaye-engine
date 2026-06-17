@@ -2760,6 +2760,7 @@ Use this skill when the user wants to record feature branch changes into the *Un
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
 - follow `Project CHANGELOG Writer`
+- use **git** tools to learn difference from `dev` branch
 
 
 
@@ -2809,6 +2810,7 @@ Use this skill when the user wants to cut a release — moving *Unreleased* chan
 - follow `Style Guide Good Writing` rules for correctness and clarity
 - follow `Project CHANGELOG Writer`
 - follow `Project Semantic Versioning`
+- use **git** tools to learn difference from last version / `main` branch
 
 
 
