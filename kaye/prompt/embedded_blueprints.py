@@ -40,6 +40,8 @@ __all__ = (
     "description_writer_blueprint",
 )
 
+# Todo expose roles as blueprint & as exportable
+
 
 # blueprints  ##################################################################
 # (in corpus, but not as part of the content lines)
