@@ -82,13 +82,15 @@ class TestHeader:  # ===========================================================
 
     def test_when_to_use(_, testee_header):
         print(testee_header)
+        assert any(
+            "when_to_use:" in line
+            for line in testee_header
+        )
+
+    def test_paths(_, testee_header):
         assert (
-            'when_to_use: "ALWAYS apply for any Unity work \\u2014'
-            " scripts, components, ScriptableObjects, editor tools,"
-            " gameplay systems, UI, shaders, asset and scene logic."
-            ' Triggers: `MonoBehaviour`, `[SerializeField]`,'
-            ' any mention of Unity."'
-            in testee_header
+            "paths:" in testee_header
+            and "- '**/*.cs'" in testee_header
         )
 
     def test_version(self, testee_header):

@@ -72,7 +72,7 @@ class TestHeader:  # ===========================================================
         print(testee_header)
         assert (
             'description: "Writes, edits, and reviews all C# code.'
-            '\\u21B5Use for any C# code work. Triggers: `.cs` files,'
+            '\\u21B5Use for any C# code work,'
             ' requests for C#, mentions of .NET."'
             in testee_header
         )
