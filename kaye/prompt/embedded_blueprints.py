@@ -40,7 +40,7 @@ __all__ = (
     "description_writer_blueprint",
 )
 
-# Todo expose IPA + roles as blueprint & as exportable
+# Todo expose IPA + roles as exportable
 
 
 # blueprints  ##################################################################
@@ -237,4 +237,44 @@ prompt_writer_blueprint = PromptBlueprint.create_from_node(
 
 description_writer_blueprint = PromptBlueprint.create_from_node(
     _prompt_engineer_node["Skill Description Writer"], recursively=True
+)
+
+
+# International Phonetic Alphabet  ============================================
+
+ipa_blueprint = PromptBlueprint.create_from_node(
+    _corpus["Elements"]["International Phonetic Alphabet"]
+)
+
+
+# Roles  =======================================================================
+
+_role_node = _corpus["Role"]
+
+role_art_tutor_blueprint = PromptBlueprint.create_from_node(
+    _role_node["Art Tutor"]
+)
+
+role_assistant_barista_blueprint = PromptBlueprint.create_from_node(
+    _role_node["Assistant Barista"], recursively=True
+)
+
+role_deutschlehrer_blueprint = PromptBlueprint.create_from_node(
+    _role_node["Deutschlehrer"]
+)
+
+role_editor_blueprint = PromptBlueprint.create_from_node(
+    _role_node["Editor"]
+)
+
+role_librarian_blueprint = PromptBlueprint.create_from_node(
+    _role_node["Librarian"], recursively=True
+)
+
+role_secretary_blueprint = PromptBlueprint.create_from_node(
+    _role_node["Secretary"]
+)
+
+role_tarot_reader_blueprint = PromptBlueprint.create_from_node(
+    _role_node["Tarot Reader"], recursively=True
 )

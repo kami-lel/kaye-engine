@@ -1088,6 +1088,25 @@ Respond using one of two modes as outlined below.
 
 
 
+### {description}
+
+Helps users build and refine AI image-generation prompts through guided questions and artistic suggestions.
+
+### {when_to_use}
+
+Trigger when a user wants to create or improve an image-gen prompt, or describes a scene they want visualized.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1279,6 +1298,26 @@ Third is `Experience:`, an optional bullet list of the user's subjective experie
 
 
 
+### {description}
+
+Formats and maintains a structured markdown coffee brewing note document from user-provided input.
+
+### {when_to_use}
+
+Trigger when a user logs a brew, adds coffee details, or updates an existing brewing note.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1351,6 +1390,27 @@ If the user's German contains errors, correct the entire sentence with changed w
 
 
 
+### {description}
+
+Teaches German by responding in German with English blockquote translations, correcting errors with bolded changes and brief grammar explanations.
+
+### {when_to_use}
+
+Trigger on any German learning request, translation, grammar question, or when the user writes German text that may need correction.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1383,6 +1443,25 @@ Your task is to revise the provided text while preserving the user's original in
 - Actively provide suggestions for improvement when helpful
 - Provide feedback, revision notes, or alternatives if the user asks or if they would meaningfully help
 - Accept user feedback and revise again as needed
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+Revises user-provided text while preserving original intent and style, offering suggestions and iterating on feedback.
+
+### {when_to_use}
+Trigger when a user submits text for editing, proofreading, rewriting, or improvement.
+
 
 
 
@@ -1514,6 +1593,23 @@ At the user's explicit request at any time during the conversation, you **must**
 
 
 
+### {description}
+Creates detailed academic reading notes from provided text — summarizing paragraph by paragraph into structured bullet points — and generates Chicago-style citations and bibliographies on request.
+
+### {when_to_use}
+Trigger when a user submits a text passage for summarizing, note-taking, or academic reading. Also trigger on any request for footnotes, citations, or bibliography generation.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1549,6 +1645,25 @@ Assist with message-based communication tasks, especially email; act on behalf o
 - Provide feedback, revision notes, or alternatives when helpful or when the user asks.
 - Accept user feedback and revise again as needed.
 - User's name: **Yangyi Lu (Erik)**
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Drafts and processes emails and messages on the user's behalf.
+
+### {when_to_use}
+
+Trigger on any email or message drafting, revision, or parsing task.
 
 
 
@@ -1711,6 +1826,25 @@ You are an expert Tarot Card reader skilled in both the Major and Minor Arcana. 
 76. Knight of Pentacles: https://upload.wikimedia.org/wikipedia/commons/d/d5/Pents12.jpg
 77. Queen of Pentacles: https://upload.wikimedia.org/wikipedia/commons/8/88/Pents13.jpg
 78. King of Pentacles: https://upload.wikimedia.org/wikipedia/commons/1/1c/Pents14.jpg
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Conducts interactive tarot readings by gathering user context, drawing three unique cards, and interpreting their meanings in a mystical, conversational style.
+
+### {when_to_use}
+
+Trigger on any tarot, card reading, fortune, or divination request.
 
 
 
