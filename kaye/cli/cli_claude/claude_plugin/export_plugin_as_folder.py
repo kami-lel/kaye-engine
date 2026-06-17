@@ -13,13 +13,11 @@ from kaye.cli.cli_claude.claude_skill.export_skills_as_folders import (
     export_skills_as_folders,
 )
 from .manifest_plugin_json import ManifestPluginJson
-from .marketplace_json import MarketplaceJson
 
 # constants  ===================================================================
 
 _SKILLS_DIR = "skills"
 _PLUGIN_KEYWORDS = ["prompt-engineering", "persona", "agent", PROGRAM_NAME]
-_PLUGIN_CATEGORY = "productivity"
 
 # entry point  #################################################################
 
@@ -30,8 +28,7 @@ def export_plugin_as_folder(parent_folder):
 
     writes a ``<parent_folder>/<PROGRAM_NAME>/`` plugin directory containing
     a ``.claude-plugin/plugin.json`` manifest and a ``skills/`` directory
-    with one skill folder per blueprint, prompt, and abbreviation group;
-    also writes a ``.claude-plugin/marketplace.json`` at ``parent_folder``
+    with one skill folder per blueprint, prompt, and abbreviation group
 
 
     :param parent_folder: destination directory to write the plugin into
@@ -63,25 +60,6 @@ def export_plugin_as_folder(parent_folder):
         manifest.repository = pkg_repository
         manifest.keywords = _PLUGIN_KEYWORDS
         logger.succ("write plugin manifest:\t" + str(manifest.path))
-
-    with MarketplaceJson(parent_folder) as market:
-        market.name = PROGRAM_NAME
-        market.description = meta["Summary"]
-        market.version = pkg_version
-        market.owner_name = pkg_author
-        market.owner_email = pkg_author_email
-        market.plugin_name = PROGRAM_NAME
-        market.plugin_source = "./" + PROGRAM_NAME
-        market.plugin_display_name = meta["Name"]
-        market.plugin_description = meta["Summary"]
-        market.plugin_version = pkg_version
-        market.plugin_author_name = pkg_author
-        market.plugin_author_email = pkg_author_email
-        market.plugin_homepage = pkg_homepage
-        market.plugin_repository = pkg_repository
-        market.plugin_keywords = _PLUGIN_KEYWORDS
-        market.plugin_category = _PLUGIN_CATEGORY
-        logger.succ("write marketplace manifest:\t" + str(market.path))
 
     logger.debug("exporting blueprints as plugin skills")
     export_skills_as_folders(plugin_root / _SKILLS_DIR)
