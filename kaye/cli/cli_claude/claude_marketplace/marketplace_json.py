@@ -115,3 +115,6 @@ class MarketplaceJson:  ########################################################
             json.dumps(marketplace_data, indent=2) + "\n",
             encoding="utf-8",
         )
+
+
+# BUG field content is wrong
