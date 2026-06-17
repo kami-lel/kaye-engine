@@ -25,3 +25,5 @@ class MetaNodeType(Enum):
         :rtype: str
         """
         return "{{{}}}".format(self.value)
+
+    # FIXME add is ... functions here

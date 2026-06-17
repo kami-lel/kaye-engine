@@ -262,7 +262,6 @@ class PromptBlueprint(dict):
         """
         return self._checkmark_or_uncheckmark_generic(node, recursively, False)
 
-
     def generate_blueprint(
         self,
         *,
@@ -361,7 +360,7 @@ class PromptBlueprint(dict):
         show_comment=False,
         disable_first_heading=False,
         contains_prerequisite_nodes=False,
-        **kwargs
+        **kwargs,
     ):
         """
         generate prompt as a list of lines from this blueprint
@@ -382,12 +381,12 @@ class PromptBlueprint(dict):
         :return: list of prompt lines
         :rtype: list[str]
         """
-        # If contains_prerequisite_nodes, create a copy and checkmark
-        # all prerequisite nodes whose parents are checkmarked
         if contains_prerequisite_nodes:
             working_bp = copy.copy(self)
             for node in PreOrderIter(working_bp.corpus):
-                if node.is_prerequisite_node and working_bp.is_checkmarked(node.parent):
+                if node.is_prerequisite_node and working_bp.is_checkmarked(
+                    node.parent
+                ):
                     working_bp.checkmark(node)
         else:
             working_bp = self
@@ -416,7 +415,9 @@ class PromptBlueprint(dict):
                         lines.append("")  # add an empty line
 
         if show_comment:
-            lines.append("<!-- " + working_bp._generate_comment_content() + " -->")
+            lines.append(
+                "<!-- " + working_bp._generate_comment_content() + " -->"
+            )
 
         # trim empty lines
         while lines and lines[0] == "":
