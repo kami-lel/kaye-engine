@@ -4,6 +4,8 @@ export_skills_as_folders.py
 define ``export_skills_as_folders``
 """
 
+# FIXME revert this docstring
+
 from kaye import logger
 from kaye.cli import EXPORTABLE_BLUEPRINTS
 from kaye.cli.cli_claude import convert_display_name2skill_name
