@@ -262,20 +262,6 @@ class PromptBlueprint(dict):
         """
         return self._checkmark_or_uncheckmark_generic(node, recursively, False)
 
-    def checkmark_prerequisite_nodes(self):
-        """
-        recursively checkmark every ``{prerequisite}`` meta node
-        whose parent node is checkmarked
-
-
-        :return: self
-        :rtype: PromptBlueprint
-        """
-        for node in PreOrderIter(self.corpus):
-            if node.is_prerequisite_node and self.is_checkmarked(node.parent):
-                self.checkmark(node)
-
-        return self
 
     def generate_blueprint(
         self,
@@ -350,7 +336,37 @@ class PromptBlueprint(dict):
     def generate_prompt(self, *args, **kwargs):
         """
         render the **concrete prompt** that can be used as LLM system message
-        with it content based on node's checkmarking status of this blueprint
+        from this blueprint's node checkmarking status
+
+        optionally auto-checkmarks all prerequisite nodes before rendering.
+
+        :param show_comment: show comment part after last line;
+                defaults to False
+        :type show_comment: bool, optional
+        :param disable_first_heading: whether disable showing top heading;
+                defaults to False
+        :type disable_first_heading: bool, optional
+        :param contains_prerequisite_nodes: whether to auto-checkmark all
+                ``{prerequisite}`` meta nodes whose parents are checkmarked
+                before rendering; defaults to False
+        :type contains_prerequisite_nodes: bool, optional
+        :return: generated prompt
+        :rtype: str
+        """
+        return "\n".join(self.generate_prompt_lines(*args, **kwargs))
+
+    def generate_prompt_lines(
+        self,
+        *,
+        show_comment=False,
+        disable_first_heading=False,
+        contains_prerequisite_nodes=False,
+        **kwargs
+    ):
+        """
+        generate prompt as a list of lines from this blueprint
+
+        optionally auto-checkmarks all prerequisite nodes before rendering.
 
 
         :param show_comment: show comment part after last line;
@@ -359,29 +375,31 @@ class PromptBlueprint(dict):
         :param disable_first_heading: whether disable showing top heading;
                 defaults to False
         :type disable_first_heading: bool, optional
-        :return: generated prompt
-        :rtype: str
-        """
-        return "\n".join(self.generate_prompt_lines(*args, **kwargs))
-
-    def generate_prompt_lines(
-        self, *, show_comment=False, disable_first_heading=False, **kwargs
-    ):
-        """
-        like ``.generate_blueprint()``, but as list of lines
-
-
-        :return:
+        :param contains_prerequisite_nodes: whether to auto-checkmark all
+                ``{prerequisite}`` meta nodes whose parents are checkmarked
+                before rendering; defaults to False
+        :type contains_prerequisite_nodes: bool, optional
+        :return: list of prompt lines
         :rtype: list[str]
         """
+        # If contains_prerequisite_nodes, create a copy and checkmark
+        # all prerequisite nodes whose parents are checkmarked
+        if contains_prerequisite_nodes:
+            working_bp = copy.copy(self)
+            for node in PreOrderIter(working_bp.corpus):
+                if node.is_prerequisite_node and working_bp.is_checkmarked(node.parent):
+                    working_bp.checkmark(node)
+        else:
+            working_bp = self
+
         # todo compact render & other types
         lines = []
 
         should_skip_heading = disable_first_heading
 
-        last_node_idx = self.corpus.size - 1
-        for i, node in enumerate(PreOrderIter(self.corpus)):
-            if self.is_checkmarked(node):
+        last_node_idx = working_bp.corpus.size - 1
+        for i, node in enumerate(PreOrderIter(working_bp.corpus)):
+            if working_bp.is_checkmarked(node):
                 if should_skip_heading:
                     should_skip_heading = False
                 else:
@@ -398,7 +416,7 @@ class PromptBlueprint(dict):
                         lines.append("")  # add an empty line
 
         if show_comment:
-            lines.append("<!-- " + self._generate_comment_content() + " -->")
+            lines.append("<!-- " + working_bp._generate_comment_content() + " -->")
 
         # trim empty lines
         while lines and lines[0] == "":
