@@ -8,7 +8,7 @@ from importlib.metadata import metadata, version
 from pathlib import Path
 
 from kaye import logger
-from kaye import PROGRAM_NAME, DIST_NAME
+from kaye import PROGRAM_NAME
 from kaye.cli.cli_claude.claude_plugin.export_plugin_as_folder import (
     export_plugin_as_folder,
 )
@@ -43,8 +43,8 @@ def export_marketplace(marketplace_folder):
     logger.debug("exporting plugin into marketplace folder")
     export_plugin_as_folder(marketplace_folder)
 
-    meta = metadata(DIST_NAME)
-    pkg_version = version(DIST_NAME)
+    meta = metadata(PROGRAM_NAME)
+    pkg_version = version(PROGRAM_NAME)
     pkg_author = meta["Author"] or ""
     pkg_author_email = meta.get("Author-email") or ""
     pkg_homepage = meta.get("Home-page") or ""
