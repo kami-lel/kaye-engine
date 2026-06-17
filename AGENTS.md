@@ -48,6 +48,50 @@ through a Python API, an HTTP API, and a CLI.
   `generate_prompt_lines()` to auto-checkmark every `{prerequisite}` node
   whose parent is already checkmarked before rendering.
 
+### Prompt Corpus Structure
+
+`kaye/prompt_corpus.md` is one large Markdown document parsed into the prompt
+tree. Each `#`/`##`/`###` heading becomes a node; `{name}` headings are meta
+nodes (see above). Blank "spacer" lines between sections are intentional —
+preserve them. The top-level (`#`) sections, in order:
+
+- **Introduction** — defines Kaye as an AI agent serving the user
+- **Personality** — the Kaye persona: submissive/deferential voice, emotion
+  expression rules (blockquote `>` for emotions, `----` separators between
+  explanation and emotion)
+- **Language** — respond in the user's language; never mix languages in one
+  reply
+- **Style Guide** — `Markdown Format`, `Capitalization` (Title Case /
+  Commentary Case), `Briefness Style`, `Good Writing` — the *style* blueprints
+- **Elements** — reusable formatting fragments: `Date and Time Format`,
+  `Numerical Values with Units`, `Annotation Markers`, `International Phonetic
+  Alphabet`
+- **Kaye Chat** — `sense`/`merge` selection logic driving role, difficulty,
+  and `programming_languages` resolution for the `Chat` blueprint
+- **Role** — task personas: `Art Tutor`, `Assistant Barista`, `Deutschlehrer`,
+  `Editor`, `Librarian`, `Secretary`, `Tarot Reader`
+- **Projects** — `Project Structure`, `Project Semantic Versioning`, and the
+  `README`/`CHANGELOG`/`AGENTS` writers, plus `project prompts` (Maintain Docs,
+  Maintain CHANGELOG, Create README, Create AGENTS, Prepare for Feature Finish,
+  Prepare for Release)
+- **Prompt Engineering** — `Prompt Writer`, `Skill Description Writer`
+- **Kaye Cash Tracker** / **Kaye Commit Sense** / **Kaye Event Radar** —
+  standalone task prompts (expense extraction, commit-message generation,
+  event parsing/filtering)
+- **Kaye Peer Coder** — shared coder rules (`code format`, `variable naming`,
+  `code comment`, `Brace Style`) plus per-language coder profiles: `Bash`,
+  `C`, `CPP`, `Unreal Engine`, `C Sharp`, `Unity Engine`, `GDScript`, `HTML`,
+  `JavaScript and TypeScript`, `Python` (with `Docstring Style` and `Testing
+  Guidelines` sub-profiles)
+- **Opus Tag Smith** — media tagging (title/subtitle, release year, tags)
+- **Agent Behavior** / **Continue Behavior** — baseline agent conduct and
+  Continue-specific behavior (e.g. `run_terminal_command`)
+- **Utility Prompts** — Conversation Follow Up / Tag / Title generation
+
+Most leaf sections that back an exportable blueprint carry `{description}` and
+`{when_to_use}` meta nodes; coder and writer sections add `{globs}` and
+`{prerequisite}`.
+
 ### Repository Layout
 
 - `kaye/` — main package (API, CLI, prompt engine, abbreviation collection)
