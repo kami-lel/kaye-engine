@@ -3,6 +3,9 @@
 from kaye.cli.cli_claude.claude_code.cli_claude_code import (
     register_cli_claude_code_parser,
 )
+from kaye.cli.cli_claude.claude_marketplace.cli_claude_marketplace import (
+    register_cli_claude_marketplace_parser,
+)
 from kaye.cli.cli_claude.claude_plugin.cli_claude_plugin import (
     register_cli_claude_plugin_parser,
 )
@@ -34,6 +37,7 @@ def register_cli_claude_parser(  ###############################################
     )
 
     register_cli_claude_code_parser(claude_subparser)
+    register_cli_claude_marketplace_parser(claude_subparser)
     register_cli_claude_plugin_parser(claude_subparser)
     register_cli_claude_skill_parser(claude_subparser)
     register_cli_claude_user_prompt_parser(claude_subparser)
