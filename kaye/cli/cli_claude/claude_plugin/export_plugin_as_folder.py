@@ -8,7 +8,7 @@ from importlib.metadata import metadata, version
 
 from kaye import logger
 
-from kaye import PROGRAM_NAME
+from kaye import PROGRAM_NAME, DIST_NAME
 from kaye.cli.cli_claude.claude_skill.export_skills_as_folders import (
     export_skills_as_folders,
 )
@@ -38,11 +38,11 @@ def export_plugin_as_folder(parent_folder):
     """
     plugin_root = parent_folder / PROGRAM_NAME
 
-    meta = metadata(PROGRAM_NAME)
-    pkg_version = version(PROGRAM_NAME)
+    meta = metadata(DIST_NAME)
+    pkg_version = version(DIST_NAME)
     pkg_author = meta["Author"] or ""
-    pkg_author_email = meta.get("Author-Email") or ""
-    pkg_homepage = meta.get("Home-Page") or ""
+    pkg_author_email = meta.get("Author-email") or ""
+    pkg_homepage = meta.get("Home-page") or ""
     pkg_repository = (
         meta.get("Project-URL", "").split(", ")[-1]
         if meta.get("Project-URL")
@@ -51,7 +51,7 @@ def export_plugin_as_folder(parent_folder):
 
     with ManifestPluginJson(plugin_root) as manifest:
         manifest.name = PROGRAM_NAME
-        manifest.display_name = meta["Name"]
+        manifest.display_name = meta["Name"].replace("-", " ")
         manifest.version = pkg_version
         manifest.description = meta["Summary"]
         manifest.author_name = pkg_author

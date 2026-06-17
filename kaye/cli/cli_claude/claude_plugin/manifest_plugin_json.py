@@ -73,5 +73,3 @@ class ManifestPluginJson:  #####################################################
             encoding="utf-8",
         )
 
-
-# BUG fields content are wrong
