@@ -4,9 +4,6 @@ cli-a-s-structure-exportable_abbrs_test.py
 Representative unit tests for EXPORTABLE_ABBRS using SkillMDFileFrontmatterValidator.
 """
 
-import pytest
-from pydantic import ValidationError
-
 from tests.cli.a.s.structure import validate_abbr_group
 from kaye.cli.exportable_abbr import EXPORTABLE_ABBRS
 
@@ -69,5 +66,5 @@ def test_abbr_starts_with_j():
 
 
 def test_abbr_starts_with_digits():
-    with pytest.raises(ValidationError):
-        validate_abbr_group(_g["Abbr Starts with Digits 0~9"])
+    r = validate_abbr_group(_g["Abbr Starts with Digits 0~9"])
+    assert r.name == "abbr-starts-with-digits-0-9"
