@@ -33,6 +33,11 @@
   - `is_meta_node(node, meta_node_type)`: generic check for any meta node type
   - `is_description()`, `is_when_to_use()`, `is_globs()`, `is_prerequisite()`:
     type-specific convenience checkers that delegate to `is_meta_node()`
+- `ManifestPluginJson` (`claude_plugin/manifest_plugin_json.py`): context-manager
+  helper that builds the plugin `.claude-plugin/plugin.json`; the exported
+  manifest now carries `author.email`, `homepage`, and `repository` fields in
+  addition to `name`, `displayName`, `version`, `description`, author name, and
+  `keywords`
 
 ### Changed
 
@@ -69,6 +74,14 @@
   include `{prerequisite}` meta nodes listing required style guides and rules
   for consistency and quality; prerequisites are auto-checkmarked when their
   parent node is selected during prompt generation
+- **Claude CLI code reorganized into subpackages**: plugin export code moved to
+  `kaye/cli/cli_claude/claude_plugin/` and skill export code to
+  `kaye/cli/cli_claude/claude_skill/`, with internal imports switched to the
+  relative form
+- **Unified package metadata**: `setup.cfg` expanded with `author_email`,
+  `home_page`, and `repository` URLs and a clearer project description; the
+  plugin manifest and skill `SKILL.md` version now derive from this single
+  package-metadata source
 
 ### Removed
 

@@ -69,3 +69,6 @@ def register_cli_claude_plugin_parser(  ########################################
         logger.done(done_msg + "\t" + str(folder))
 
     plugin_parser.set_defaults(func=_plugin_main)
+
+
+# Todo created zip has version
