@@ -38,6 +38,14 @@ __all__ = (
     "style_good_writing_blueprint",
     "prompt_writer_blueprint",
     "description_writer_blueprint",
+    "ipa_blueprint",
+    "role_art_tutor_blueprint",
+    "role_assistant_barista_blueprint",
+    "role_deutschlehrer_blueprint",
+    "role_editor_blueprint",
+    "role_librarian_blueprint",
+    "role_secretary_blueprint",
+    "role_tarot_reader_blueprint",
 )
 
 
@@ -47,7 +55,8 @@ __all__ = (
 # Rapid
 rapid_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Introduction
-[x] ├── Format
+[x] ├── Style Guide
+[x] │   └── Style Guide Markdown Format
 [x] └── (Abbreviations)""")
 rapid_blueprint.display_name = "Rapid"
 rapid_blueprint.meta.description = (
@@ -60,7 +69,8 @@ chat_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Introduction
 [x] ├── Personality
 [x] ├── Language
-[x] ├── Format
+[x] ├── Style Guide
+[x] │   └── Style Guide Markdown Format
 [x] ├── Role
 [x] └── (Abbreviations)""")
 chat_blueprint.display_name = "Chat"
@@ -233,4 +243,42 @@ prompt_writer_blueprint = PromptBlueprint.create_from_node(
 
 description_writer_blueprint = PromptBlueprint.create_from_node(
     _prompt_engineer_node["Skill Description Writer"], recursively=True
+)
+
+
+# International Phonetic Alphabet  ============================================
+
+ipa_blueprint = PromptBlueprint.create_from_node(
+    _corpus["Elements"]["International Phonetic Alphabet"]
+)
+
+
+# Roles  =======================================================================
+
+_role_node = _corpus["Role"]
+
+role_art_tutor_blueprint = PromptBlueprint.create_from_node(
+    _role_node["Art Tutor"]
+)
+
+role_assistant_barista_blueprint = PromptBlueprint.create_from_node(
+    _role_node["Assistant Barista"], recursively=True
+)
+
+role_deutschlehrer_blueprint = PromptBlueprint.create_from_node(
+    _role_node["Deutschlehrer"]
+)
+
+role_editor_blueprint = PromptBlueprint.create_from_node(_role_node["Editor"])
+
+role_librarian_blueprint = PromptBlueprint.create_from_node(
+    _role_node["Librarian"], recursively=True
+)
+
+role_secretary_blueprint = PromptBlueprint.create_from_node(
+    _role_node["Secretary"]
+)
+
+role_tarot_reader_blueprint = PromptBlueprint.create_from_node(
+    _role_node["Tarot Reader"], recursively=True
 )

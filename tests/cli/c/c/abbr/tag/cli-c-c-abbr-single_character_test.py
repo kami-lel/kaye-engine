@@ -10,6 +10,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -17,6 +18,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "abbr-single-character"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -70,34 +72,34 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_dollar(_, testee_content):
-        assert "- $:(default)US Dollar" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_ampersand(_, testee_content):
-        assert "- &:and" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_greater_than(_, testee_content):
-        assert "- >:greater than" in testee_content
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_b_bit(_, testee_content):
-        assert "- b:bit" in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_C_can(_, testee_content):
-        assert "- C:can,could" in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_degree(_, testee_content):
-        assert "- °:degree" in testee_content
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
 
-    def test_section(_, testee_content):
-        assert "- §:chapter" in testee_content
+    def test6(_, testee_content):
+        assert TESTEE_FILE_CONTENT[6] in testee_content
 
-    def test_multiply(_, testee_content):
-        assert "- ×:multiply,multiplication,multiplier" in testee_content
+    def test7(_, testee_content):
+        assert TESTEE_FILE_CONTENT[7] in testee_content
 
-    def test_rightwards_double_arrow(_, testee_content):
-        assert "- ⇒:therefore,causing,resulting" in testee_content
+    def test8(_, testee_content):
+        assert TESTEE_FILE_CONTENT[8] in testee_content
 
-    def test_ditto(_, testee_content):
-        assert "- 〃:ditto,repetitive as above" in testee_content
+    def test9(_, testee_content):
+        assert TESTEE_FILE_CONTENT[9] in testee_content

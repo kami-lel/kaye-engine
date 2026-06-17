@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+from kaye import logger, kamilog
 
 from .export_abbr_rules import export_abbr_rules
 from .export_blueprint_rules import export_blueprint_rules
@@ -25,9 +26,16 @@ def register_cli_continue_config_parser(  ######################################
         help="path to local config folder, default: ~/.continue",
     )
 
+    kamilog.add_verbose_arguments(config_parser)
+
     def _config_main(args):
-        rules_folder = args.local_config_folder / "rules"
+        kamilog.set_logging_level_by_verbosity(args, logger=logger)
+        logger.enter("update Continue local config folder")
+
+        folder = args.local_config_folder
+        rules_folder = folder / "rules"
         export_blueprint_rules(rules_folder)
         export_abbr_rules(rules_folder)
+        logger.done("update Continue local config folder:\t" + str(folder))
 
     config_parser.set_defaults(func=_config_main)

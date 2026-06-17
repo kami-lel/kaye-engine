@@ -1,3 +1,11 @@
-todo for prepare_for_feature_finish/_release, utilize tools to fetch `git log`
 
-todo add {prerequisite} meta node
+todo resume role
+
+todo split AGENTS & CONTEXT & CONTEXT.local.md, context should include project research content too
+
+todo init project prompt
+
+todo coder dev phases logic: mpt: working on a single phase at the same time
+
+todo add section of claude behavior, ask it to use agents.md instead of claude.md
+

@@ -10,6 +10,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -17,6 +18,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "prompt-writer"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -68,37 +70,16 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_heading(_, testee):
-        assert "## Prompt Writer" in testee
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test1(_, testee):
-        assert (
-            "You perform *prompt writer role* to help user "
-            "create or improve a **system message**"
-            in testee
-        )
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test2(_, testee):
-        assert (
-            "in the context of **prompt engineering**"
-            in testee
-        )
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test3(_, testee):
-        assert (
-            "write a comprehensive and complete *prompt* "
-            "when user give you a short description"
-            in testee
-        )
-
-    def test4(_, testee):
-        assert "fix grammar and spelling errors in the *prompt*" in testee
-
-    def test5(_, testee):
-        assert (
-            "strictly follow the syntax and format of the original prompt, "
-            "such as JSON schema"
-            in testee
-        )
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content

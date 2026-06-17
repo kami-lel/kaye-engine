@@ -2,6 +2,9 @@
 
 from pathlib import Path
 
+
+from kaye import logger, kamilog
+
 from .export_prompt_rules import export_prompt_rules
 
 
@@ -19,7 +22,16 @@ def register_cli_continue_prompt_parser(  ######################################
         help="path to prompts folder",
     )
 
+    kamilog.add_verbose_arguments(prompt_parser)
+
     def _prompt_main(args):
-        export_prompt_rules(args.prompts_folder)
+        kamilog.set_logging_level_by_verbosity(args, logger=logger)
+        logger.enter("export prompts to folder")
+
+        folder = args.prompts_folder
+        kamilog.set_logging_level_by_verbosity(args, logger=logger)
+
+        export_prompt_rules(folder)
+        logger.done("export prompts to folder:\t" + str(folder))
 
     prompt_parser.set_defaults(func=_prompt_main)

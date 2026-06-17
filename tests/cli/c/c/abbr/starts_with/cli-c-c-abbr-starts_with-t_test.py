@@ -10,6 +10,7 @@ import pytest
 
 from tests.cli import MD_FILENAME2SKILL_NAME
 from tests.cli import (
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
     assert_header_line_always_apply,
@@ -17,6 +18,7 @@ from tests.cli import (
 
 # constants  ###################################################################
 MD_FILENAME = "abbr-starts-with-t"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -70,34 +72,34 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 
 
-class TestContent:  # ==========================================================
+class TestContent:  # =========================================================
 
-    def test_T_than(_, testee_content):
-        assert "- T:than" in testee_content
+    def test0(_, testee_content):
+        assert TESTEE_FILE_CONTENT[0] in testee_content
 
-    def test_T_true(_, testee_content):
-        assert "- T:true" in testee_content
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
 
-    def test_tech(_, testee_content):
-        assert "- tech:technology" in testee_content
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
 
-    def test_tf(_, testee_content):
-        assert "- tf:therefore,causing,resulting" in testee_content
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
 
-    def test_tho(_, testee_content):
-        assert "- tho:though" in testee_content
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
 
-    def test_thru(_, testee_content):
-        assert "- thru:through" in testee_content
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
 
-    def test_tmp(_, testee_content):
-        assert "- tmp:temporary" in testee_content
+    def test6(_, testee_content):
+        assert TESTEE_FILE_CONTENT[6] in testee_content
 
-    def test_tr(_, testee_content):
-        assert "- tr:translate" in testee_content
+    def test7(_, testee_content):
+        assert TESTEE_FILE_CONTENT[7] in testee_content
 
-    def test_tt(_, testee_content):
-        assert "- tt:that,those" in testee_content
+    def test8(_, testee_content):
+        assert TESTEE_FILE_CONTENT[8] in testee_content
 
-    def test_txt(_, testee_content):
-        assert "- txt:text" in testee_content
+    def test9(_, testee_content):
+        assert TESTEE_FILE_CONTENT[9] in testee_content
