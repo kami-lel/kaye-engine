@@ -15,7 +15,7 @@ from kaye.cli.cli_claude.user_prompt.export_user_file import (
     export_user_system_prompt_file,
 )
 
-# HACK rm this
+# hack user scope plugin is untested
 
 
 def register_cli_claude_code_parser(  ##########################################
