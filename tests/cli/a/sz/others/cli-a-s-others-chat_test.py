@@ -1,15 +1,15 @@
 """
-cli-a-s-coder-gdscript_test.py
+cli-a-s-others-chat_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder-gdscript``
+creation of ``chat``
 """
 
 import pytest
 
 from tests.cli import (
-    TESTEE_PREREQUISITE_CONTENT_ALL,
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
@@ -21,8 +21,8 @@ from tests.cli.a.s import (
 # constants  ###################################################################
 
 
-SKILL_NAME = "coder-gdscript"
-TESTEE_PREREQUISITE_CONTENT = TESTEE_PREREQUISITE_CONTENT_ALL[SKILL_NAME]
+SKILL_NAME = "chat"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 
 
 # Pytest fixtures  #############################################################
@@ -69,12 +69,7 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-gdscript" in testee_header
-
-    def test_description(_, testee_header):
-        assert (
-            "description: GDScript code for Godot 4" in testee_header
-        )
+        assert "name: chat" in testee_header
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
@@ -88,14 +83,32 @@ class TestStructure:  # ========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_structure(_, testee_skill_file):
-        assert assert_frontmatter_md_file_basic_structure(testee_skill_file)
-
-
-class TestPrerequisite:  # ====================================================
-
-    def test_heading(_, testee_content):
-        assert "### {prerequisite}" in testee_content or "#### {prerequisite}" in testee_content
-
     def test0(_, testee_content):
-        assert TESTEE_PREREQUISITE_CONTENT[0] in testee_content
+        assert TESTEE_FILE_CONTENT[0] in testee_content
+
+    def test1(_, testee_content):
+        assert TESTEE_FILE_CONTENT[1] in testee_content
+
+    def test2(_, testee_content):
+        assert TESTEE_FILE_CONTENT[2] in testee_content
+
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
+
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
+
+    def test5(_, testee_content):
+        assert TESTEE_FILE_CONTENT[5] in testee_content
+
+    def test6(_, testee_content):
+        assert TESTEE_FILE_CONTENT[6] in testee_content
+
+    def test7(_, testee_content):
+        assert TESTEE_FILE_CONTENT[7] in testee_content
+
+    def test8(_, testee_content):
+        assert TESTEE_FILE_CONTENT[8] in testee_content
+
+    def test9(_, testee_content):
+        assert TESTEE_FILE_CONTENT[9] in testee_content

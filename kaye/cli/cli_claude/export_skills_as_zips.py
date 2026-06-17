@@ -40,7 +40,7 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
         tempfile.TemporaryDirectory() as zips_temp,
     ):
         logger.debug("building skill folders in temporary directory")
-        export_skills_as_folders(Path(skills_temp), verbose=False)
+        export_skills_as_folders(Path(skills_temp))
 
         logger.debug("archiving skills to .zip packages")
         for skill_folder in Path(skills_temp).iterdir():

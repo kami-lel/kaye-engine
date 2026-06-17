@@ -1,15 +1,15 @@
 """
-cli-a-s-coder-gdscript_test.py
+cli-a-s-proj-ver_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder-gdscript``
+creation of ``project-semantic-versioning``
 """
 
 import pytest
 
 from tests.cli import (
-    TESTEE_PREREQUISITE_CONTENT_ALL,
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
@@ -21,8 +21,8 @@ from tests.cli.a.s import (
 # constants  ###################################################################
 
 
-SKILL_NAME = "coder-gdscript"
-TESTEE_PREREQUISITE_CONTENT = TESTEE_PREREQUISITE_CONTENT_ALL[SKILL_NAME]
+SKILL_NAME = "project-semantic-versioning"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 
 
 # Pytest fixtures  #############################################################
@@ -69,11 +69,26 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-gdscript" in testee_header
+        assert "name: project-semantic-versioning" in testee_header
 
     def test_description(_, testee_header):
+        print(testee_header)
         assert (
-            "description: GDScript code for Godot 4" in testee_header
+            "description: \"Defines the project's semantic versioning"
+            " scheme \\u2014 `major.minor.patch` core, pre-release"
+            " tags (`alpha`/`beta`/`rc`), build metadata, and versions"
+            ' mapped to development stages."'
+            in testee_header
+        )
+
+    def test_when_to_use(_, testee_header):
+        print(testee_header)
+        assert (
+            "when_to_use: 'Use when assigning, bumping, or formatting"
+            " a version, or choosing a pre-release/build tag."
+            " Triggers: \"what version,\" \"tag a release,\" semver,"
+            " alpha/beta/rc.'"
+            in testee_header
         )
 
     def test_version(self, testee_header):
@@ -86,16 +101,7 @@ class TestStructure:  # ========================================================
         assert assert_frontmatter_md_file_basic_structure(testee_skill_file)
 
 
-class TestContent:  # ==========================================================
-
-    def test_structure(_, testee_skill_file):
-        assert assert_frontmatter_md_file_basic_structure(testee_skill_file)
-
-
-class TestPrerequisite:  # ====================================================
-
-    def test_heading(_, testee_content):
-        assert "### {prerequisite}" in testee_content or "#### {prerequisite}" in testee_content
+class TestContent:  # =========================================================
 
     def test0(_, testee_content):
-        assert TESTEE_PREREQUISITE_CONTENT[0] in testee_content
+        assert TESTEE_FILE_CONTENT[0] in testee_content

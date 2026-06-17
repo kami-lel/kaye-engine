@@ -1,15 +1,15 @@
 """
-cli-a-s-coder-gdscript_test.py
+cli-a-s-style-cap_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``coder-gdscript``
+creation of ``style-guide-capitalization``
 """
 
 import pytest
 
 from tests.cli import (
-    TESTEE_PREREQUISITE_CONTENT_ALL,
+    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
@@ -21,8 +21,8 @@ from tests.cli.a.s import (
 # constants  ###################################################################
 
 
-SKILL_NAME = "coder-gdscript"
-TESTEE_PREREQUISITE_CONTENT = TESTEE_PREREQUISITE_CONTENT_ALL[SKILL_NAME]
+SKILL_NAME = "style-guide-capitalization"
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 
 
 # Pytest fixtures  #############################################################
@@ -69,11 +69,25 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-gdscript" in testee_header
+        assert "name: style-guide-capitalization" in testee_header
 
     def test_description(_, testee_header):
+        print(testee_header)
         assert (
-            "description: GDScript code for Godot 4" in testee_header
+            "description: 'Applies Chicago Manual of Style capitalization:"
+            " Title Case for titles and headings, Commentary Case"
+            " (lowercase-leading, selective emphasis, no end punctuation) for"
+            " list items and table cells.'"
+            in testee_header
+        )
+
+    def test_when(_, testee_header):
+        assert (
+            "when_to_use: Use when capitalizing titles, headings, list items,"
+            " or table cells, or when a user mentions title case, headline"
+            " case, or Chicago Manual of Style. Not for grammar, punctuation,"
+            " or prose style."
+            in testee_header
         )
 
     def test_version(self, testee_header):
@@ -86,16 +100,7 @@ class TestStructure:  # ========================================================
         assert assert_frontmatter_md_file_basic_structure(testee_skill_file)
 
 
-class TestContent:  # ==========================================================
-
-    def test_structure(_, testee_skill_file):
-        assert assert_frontmatter_md_file_basic_structure(testee_skill_file)
-
-
-class TestPrerequisite:  # ====================================================
-
-    def test_heading(_, testee_content):
-        assert "### {prerequisite}" in testee_content or "#### {prerequisite}" in testee_content
+class TestContent:  # =========================================================
 
     def test0(_, testee_content):
-        assert TESTEE_PREREQUISITE_CONTENT[0] in testee_content
+        assert TESTEE_FILE_CONTENT[0] in testee_content

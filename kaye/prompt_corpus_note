@@ -1,4 +1,11 @@
 
-Todo unit tests for prereq lines
-
 todo resume role
+
+todo split AGENTS & CONTEXT & CONTEXT.local.md, context should include project research content too
+
+todo init project prompt
+
+todo coder dev phases logic: mpt: working on a single phase at the same time
+
+Todo export chat/rapid as single file (CLAUDE.md) for system prompt
+

@@ -76,9 +76,32 @@
   `MetaNodeType.is_prerequisite()` class method for centralized meta node type
   checking; all internal usages refactored to use the `MetaNodeType` methods
   instead of per-node properties
+- `kaye skill` (`s`) top-level subcommand; superseded by `kaye claude skill`
+- `kaye claude update` and `kaye claude create` stubs; replaced by
+  `kaye claude plugin` with `-z` flag
+- `kaye/cli/cli_skill/` package; all contents relocated to
+  `kaye/cli/cli_claude/`
 
+### Deprecated
 
-**Unit Tests**:
+### Fixed
+
+- `prompt_corpus.md` **Coder Python**: added explicit rules prohibiting type hints and
+  requiring `str.format()` over f-strings; corrects agent behavior that previously
+  generated non-compliant Python
+- `prompt_corpus.md` **Coder Python Docstring Style**: added module-level docstring
+  rule — every module begins with a docstring whose first line is the filename followed
+  by a brief description of what it defines
+- `prompt_corpus.md` **Prepare for Release**: release changelog cleanup now drops empty
+  subsections when promoting *Unreleased* content into a new versioned section
+- **CLI logging**: corrected verbosity logging order in `continue` commands to ensure
+  proper trace level initialization
+- **Coder Python content tests**: added `test1`–`test3` to `TestContent` in both
+  `tests/cli/a/s/coder/cli-a-s-coder-py_test.py` and
+  `tests/cli/c/c/coder/cli-c-c-bp-coder-py_test.py`; expanded shared assertions in
+  `tests/cli/__init__.py` to cover the new Python rules
+
+### Unit Tests
 
 - **Skill test suite relocated**: tests moved from `tests/cli/s/u/` to
   `tests/cli/a/s/` to mirror the new `claude skill` (`a s`) command path;
@@ -105,35 +128,23 @@
     - Prompt engine descriptions (2 types)
     - Core behavior skills (4 types)
 
-### Deprecated
+- **Prerequisite test content dictionary**: `TESTEE_PREREQUISITE_CONTENT_ALL` in
+  `tests/cli/__init__.py` centralizes prerequisite content assertions for 15
+  blueprints with `{prerequisite}` meta nodes
 
-### Removed
+  - **Coder blueprints** (10): bash, c, c-sharp, cpp, gdscript, html,
+    javascript-and-typescript, python, unity-engine, unreal-engine
+  - **Project writers** (3): agents-writer, changelog-writer, readme-writer
+  - **Prompt engineers** (2): prompt-writer, skill-description-writer
 
-- `kaye skill` (`s`) top-level subcommand; superseded by `kaye claude skill`
-- `kaye claude update` and `kaye claude create` stubs; replaced by
-  `kaye claude plugin` with `-z` flag
-- `kaye/cli/cli_skill/` package; all contents relocated to
-  `kaye/cli/cli_claude/`
+  - **Enhanced TestPrerequisite classes**: 15 a/s test files updated with
+    `TestPrerequisite.test0()`, `test1()`, etc. that verify each prerequisite
+    content entry; mirrors the pattern used by `TestContent` for content
+    assertions; all 438 a/s tests passing
 
-### Fixed
-
-- `prompt_corpus.md` **Coder Python**: added explicit rules prohibiting type hints and
-  requiring `str.format()` over f-strings; corrects agent behavior that previously
-  generated non-compliant Python
-- `prompt_corpus.md` **Coder Python Docstring Style**: added module-level docstring
-  rule — every module begins with a docstring whose first line is the filename followed
-  by a brief description of what it defines
-- `prompt_corpus.md` **Prepare for Release**: release changelog cleanup now drops empty
-  subsections when promoting *Unreleased* content into a new versioned section
-- **CLI logging**: corrected verbosity logging order in `continue` commands to ensure
-  proper trace level initialization
-
-**Unit Tests**:
-
-- **Coder Python content tests**: added `test1`–`test3` to `TestContent` in both
-  `tests/cli/a/s/coder/cli-a-s-coder-py_test.py` and
-  `tests/cli/c/c/coder/cli-c-c-bp-coder-py_test.py`; expanded shared assertions in
-  `tests/cli/__init__.py` to cover the new Python rules
+- **Zip skill test fixture**: `tests/cli/a/sz/conftest.py` added with
+  `testee_skills_folder` fixture that extracts all `.zip` skill packages into
+  a test directory for validation
 
 ### Security
 
