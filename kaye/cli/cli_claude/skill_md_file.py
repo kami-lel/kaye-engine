@@ -71,6 +71,11 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
     _FILENAME = "SKILL.md"
 
+    #: phrase prefixed to the comma-separated glob patterns when they are
+    #: appended to ``when_to_use``, so the model reads them as guidance on
+    #: which files the skill applies to
+    _GLOB_HINT_PREFIX = "File globs: "
+
     def __init__(self, folder_path, *, blueprint=None):
         file_name = folder_path / self._FILENAME
         super().__init__(file_name, blueprint)
@@ -81,7 +86,8 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
             self.name = convert_display_name2skill_name(blueprint.display_name)
             globs = blueprint.meta.globs
             if globs:
-                parts = list(globs)
+                glob_hint = self._GLOB_HINT_PREFIX + ", ".join(globs)
+                parts = [glob_hint]
                 if self.when_to_use:
                     parts.insert(0, self.when_to_use)
                 self.when_to_use = collapse_lines_into_single_line(parts)

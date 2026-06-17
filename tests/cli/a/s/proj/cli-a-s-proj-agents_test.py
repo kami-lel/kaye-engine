@@ -89,7 +89,8 @@ class TestHeader:  # ===========================================================
             ' `AGENTS.md` or equivalent agent-instruction file.'
             ' Triggers: \\"write an AGENTS.md,\\" \\"add agent'
             ' instructions,\\" documenting repo context for AI coding'
-            ' tools.\\u21B5**/{AGENTS,Agents,agents}{,.md}"'
+            " tools."
+            '\\u21B5File globs: **/{AGENTS,Agents,agents}{,.md}"'
             in testee_header
         )
 

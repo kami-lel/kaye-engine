@@ -88,7 +88,7 @@ class TestHeader:  # ===========================================================
             ' to a `CHANGELOG.md`, or recording changes for a release.'
             ' Triggers: \\"update the changelog,\\" \\"log this change,\\"'
             ' \\"document the release.\\"'
-            '\\u21B5**/{CHANGELOG,Changelog,changelog}{,.md,.txt}"'
+            '\\u21B5File globs: **/{CHANGELOG,Changelog,changelog}{,.md,.txt}"'
             in testee_header
         )
 

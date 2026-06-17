@@ -86,7 +86,7 @@ class TestHeader:  # ===========================================================
             ' fixed, or discussed. Triggers: `test_`/`_test.py` files,'
             ' `pytest`, \\"add tests,\\" \\"write a unit test,\\"'
             ' \\"test this function.\\"'
-            '\\u21B5**/test_*.py\\u21B5**/*_test.py"'
+            '\\u21B5File globs: **/test_*.py, **/*_test.py"'
             in testee_header
         )
 
