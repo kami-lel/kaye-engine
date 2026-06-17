@@ -68,7 +68,7 @@ Leading and trailing empty lines within a node's content are trimmed.
 
 **Meta nodes** are corpus nodes whose names are enclosed in curly braces, e.g. `{description}`. They can be attached to any node in the prompt tree and hold structured metadata about their parent. Meta nodes appear in the blueprint preview tree but are **not** included in the rendered prompt output.
 
-Three meta node types are defined:
+Four meta node types are defined:
 
 
 
@@ -105,3 +105,15 @@ E.g.:
     **/*.py
     **/*.pyi
     ```
+
+
+
+
+
+### `{prerequisite}`
+
+Lists prerequisite instructions that apply whenever the parent node is enabled.
+Pass `contains_prerequisite_nodes=True` to `generate_prompt()` or
+`generate_prompt_lines()` to auto-checkmark every `{prerequisite}` node whose
+parent is already checkmarked before rendering. A node is recognized via
+`BasePromptNode.is_prerequisite_node` (it checks `self.name == "{prerequisite}"`).

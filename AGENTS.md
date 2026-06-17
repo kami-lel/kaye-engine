@@ -17,8 +17,10 @@ prompts from a central Markdown corpus using tree-based blueprints, exposed
 through a Python API, an HTTP API, and a CLI.
 
 - language: Python (`>=3.11`)
-- package name: `Kaye` (import as `kaye`)
-- core dependencies: `anytree`, `flask`, `pyahocorasick`
+- package name: `kaye` (distribution and import name; `PROGRAM_NAME` in
+  `kaye/__init__.py`, paired with `DISPLAY_NAME` = `"Prompt Engineering Project
+  Kaye"` used as the Claude plugin `displayName`)
+- core dependencies: `anytree`, `flask`, `pyahocorasick`, `pyyaml`
 - entry point: `python -m kaye` (CLI; `http` subcommand starts the Flask app)
 
 ### Key Concepts
@@ -99,7 +101,9 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
   - `kaye/api/` — Flask HTTP API and Dify app endpoints
   - `kaye/cli/` — argparse-based CLI subcommands
     - `kaye/cli/cli_continue/` — exports blueprint/abbreviation rules to `~/.continue`
-    - `kaye/cli/cli_claude/` — exports blueprints as Claude plugins and agentskills.io Skills
+    - `kaye/cli/cli_claude/` — exports blueprints as Claude plugins,
+      marketplaces, agentskills.io Skills, a Claude Code `.claude/` folder, and
+      the user system prompt `CLAUDE.md`
     - `kaye/cli/cli_prompt/` — prompt generation CLI subcommands
   - `kaye/prompt_corpus.md`, `kaye/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
@@ -164,13 +168,17 @@ python -m kaye continue prompt PROMPTS_FOLDER        # export Continue prompts
 python -m kaye claude skill SKILLS_FOLDER            # export blueprints as Skill folders
 python -m kaye claude skill -z ZIPS_FOLDER           # create .zip Skill packages
 python -m kaye claude plugin PLUGINS_FOLDER          # export blueprints as plugin folder
-python -m kaye claude plugin -z PLUGINS_FOLDER       # create .plugin file
+python -m kaye claude plugin -z PLUGINS_FOLDER       # create .plugin file (-n omits version)
+python -m kaye claude marketplace MARKETPLACE        # export a marketplace folder (plugin under plugins/)
+python -m kaye claude code                           # export plugin + CLAUDE.md into ~/.claude
+python -m kaye claude user-system-prompt             # export Chat blueprint to ~/.claude/CLAUDE.md
 ```
 
 CLI subcommand aliases: `http` → `h`; `continue` → `c`;
 `continue config` → `c c`; `continue prompt` → `c p`;
 `claude` → `anthropic`, `a`; `claude plugin` → `claude p`;
-`claude skill` → `claude s`.
+`claude skill` → `claude s`; `claude marketplace` → `claude m`;
+`claude code` → `claude c`; `claude user-system-prompt` → `claude u`.
 
 ## Code Conventions
 
