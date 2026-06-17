@@ -18,172 +18,75 @@
 
 ### Added
 
-- `kaye claude plugin` (`p`) subcommand: export blueprints as a Claude plugin
-  folder; `-z` flag creates a compressed `.plugin` file instead
+- `kaye claude` command suite (aliases `anthropic`, `a`) — exports blueprints
+  for Anthropic Claude:
 
-  - `-n` / `--no-version` flag: omit the current version from the `.zip`
-    filename; by default the version is appended (e.g. `kaye-6.5.2a0.zip`)
-- `kaye claude skill` (`s`) subcommand: export blueprints as agentskills.io
-  Skill folders; `-z` flag creates `.zip` packages instead
-- `kaye claude` aliases `anthropic` and `a` now cover all Skill & Plugin export
-  operations
-- `kamilog` utility module (`kaye/kamilog.py`, `v1.4.1`) re-introduced into the
-  package
+  - `plugin` (`p`) — plugin folder; `-z` builds compressed `.plugin`, `-n`
+    drops version from filename
+  - `skill` (`s`) — agentskills.io Skill folders; `-z` builds `.zip` packages
+  - `marketplace` (`m`) — marketplace folder; `marketplace.json` at root,
+    plugin under `plugins/`
 
-  - `SUCC` (22) and `DONE` (25) logging levels: `SUCC` marks an individual
-    operation succeeding, `DONE` marks an overall task completing
-- **MetaNodeType class methods** for checking meta node types:
-  - `is_meta_node(node, meta_node_type)`: generic check for any meta node type
-  - `is_description()`, `is_when_to_use()`, `is_globs()`, `is_prerequisite()`:
-    type-specific convenience checkers that delegate to `is_meta_node()`
-- `ManifestPluginJson` (`claude_plugin/manifest_plugin_json.py`): context-manager
-  helper that builds the plugin `.claude-plugin/plugin.json`; the exported
-  manifest now carries `author.email`, `homepage`, and `repository` fields in
-  addition to `name`, `displayName`, `version`, `description`, author name, and
-  `keywords`
-- `kaye claude marketplace` (`m`) subcommand: exports all blueprints as a Claude
-  marketplace folder; writes `.claude-plugin/marketplace.json` at the root and
-  places the plugin under a `plugins/` subdirectory
-- `MarketplaceJson` (`claude_marketplace/marketplace_json.py`): context-manager
-  helper that builds `.claude-plugin/marketplace.json`; supports marketplace-level
-  fields (`name`, `description`, `version`, `owner`) and a single plugin entry
-  with `source`, `displayName`, `author`, `homepage`, `repository`, `license`,
-  `keywords`, `category`, and `tags`; optional fields are omitted when empty
-- `DISPLAY_NAME` constant (`kaye/__init__.py`, `"Prompt Engineering Project Kaye"`):
-  used as the `displayName` in the plugin manifest, kept separate from
-  `PROGRAM_NAME` (`"kaye"`) which remains the import and distribution name
+- `kamilog` logging module re-introduced (`v1.4.1`); adds `SUCC` and `DONE`
+  levels
+- `MetaNodeType` checkers — `is_meta_node`, `is_description`, `is_when_to_use`,
+  `is_globs`, `is_prerequisite`
+- `ManifestPluginJson` and `MarketplaceJson` helpers — build plugin and
+  marketplace JSON manifests
+- `DISPLAY_NAME` constant `"Prompt Engineering Project Kaye"` — plugin
+  `displayName`, separate from `PROGRAM_NAME`
 
 ### Changed
 
-- `PROGRAM_NAME` changed from `Kaye` to lowercase `kaye`
-- **Claude CLI Logging**: `kaye claude skill` and `kaye claude plugin` commands now
-  extensively use `kamilog` logger for visibility into export operations:
-  - `--verbose` (`-v`) and `--quiet` (`-q`) flags enable progressively
-    detailed/quiet logging
-  - `logger.enter()` marks task start, `logger.debug()` shows operation progress,
-    `logger.done()` confirms completion
-  - Export modules (skills, plugins, zips) now log each step: manifest creation,
-    skill folder building, archiving, and file movement
-- **`kamilog` logging output format**: timestamps are omitted by default;
-  level names are printed without surrounding brackets (e.g. `DONE` instead
-  of `[DONE ]`)
-- `kamilog.PASS` level renumbered from `25` to `21` to make room for `SUCC`
-  (22) and `DONE` (25); `set_logging_level_by_verbosity()` default level (no
-  `-v`/`-q` flags) changed from `WARNING` to `DONE`, and `-q`/`-qq`/`-qqq` now
-  map to `WARNING`/`ERROR`/`CRITICAL` instead of suppressing all output
-- Claude skill/plugin export functions (`export_plugin_as_folder`,
-  `export_plugin_as_zip`, `export_skills_as_folders`,
-  `export_skills_as_zips`, `AgentSkillFolder`) now route progress and
-  completion messages through `kaye.logger` instead of `print()`; calls that
-  previously used `logger.pass_()` to report a single export's success now
-  use `logger.succ()`
-- `kaye continue config` and `kaye continue prompt`: `logger.enter()` now
-  fires before the export starts and `logger.done()` after it finishes,
-  instead of a single combined message logged up front
-- **Skill SKILL.md generation**: glob patterns from `{globs}` meta nodes are now
-  placed in the native Claude Code `paths` frontmatter field instead of being
-  appended to the `when_to_use` field text; enables proper path-scoped auto-activation
-  for skills and improves SKILL.md clarity
-- **Prompt corpus prerequisites**: README Writer and other skill blueprints now
-  include `{prerequisite}` meta nodes listing required style guides and rules
-  for consistency and quality; prerequisites are auto-checkmarked when their
-  parent node is selected during prompt generation
-- **Claude CLI code reorganized into subpackages**: plugin export code moved to
-  `kaye/cli/cli_claude/claude_plugin/` and skill export code to
-  `kaye/cli/cli_claude/claude_skill/`, with internal imports switched to the
-  relative form
-- **Unified package metadata**: `setup.cfg` expanded with `author_email`,
-  `home_page`, and `repository` URLs and a clearer project description; the
-  plugin manifest and skill `SKILL.md` version now derive from this single
-  package-metadata source
-- **Marketplace plugin placement**: `export_marketplace` places the plugin under
-  `plugins/<name>/` within the marketplace root; the `source` field in
-  `marketplace.json` is set to `./plugins/<name>` accordingly
-- **Package name standardized**: `setup.cfg` `name` reverted to `kaye`; the
-  `DIST_NAME` constant removed — `PROGRAM_NAME` is now the single distribution
-  name used for all `importlib.metadata` lookups
-- **AGENTS.md documentation**: expanded with detailed sections on Meta Nodes,
-  Prompt Corpus Structure, Repository Layout, Build/Test commands, and
-  comprehensive code conventions for future agent development
+- Claude CLI split into `claude_plugin/` and `claude_skill/` subpackages
+- `AGENTS.md` expanded — meta nodes, corpus structure, layout, build/test,
+  conventions
+
+Package metadata:
+
+- `PROGRAM_NAME` lowercased to `kaye`; `DIST_NAME` removed — single
+  distribution name for all `importlib.metadata` lookups
+- `setup.cfg` gains author email, homepage, repository; plugin and skill
+  version derive from this source
+
+Logging:
+
+- Claude CLI export routes through `kamilog`, not `print()`; `-v`/`-q` set
+  verbosity
+- output drops timestamps and bracket framing (e.g. `DONE`, not `[DONE ]`)
+- `PASS` renumbered `25` → `21`; default level now `DONE`; `-q`/`-qq`/`-qqq`
+  map to `WARNING`/`ERROR`/`CRITICAL`
+
+Exports:
+
+- skill `SKILL.md` glob patterns moved to native `paths` frontmatter for
+  path-scoped activation
+- corpus blueprints carry `{prerequisite}` meta nodes, auto-checkmarked with
+  their parent
+- marketplace plugin placed under `plugins/<name>/`
+
+### Deprecated
 
 ### Removed
 
-- `BasePromptNode.is_prerequisite_node` property: replaced by
-  `MetaNodeType.is_prerequisite()` class method for centralized meta node type
-  checking; all internal usages refactored to use the `MetaNodeType` methods
-  instead of per-node properties
-- `kaye skill` (`s`) top-level subcommand; superseded by `kaye claude skill`
-- `kaye claude update` and `kaye claude create` stubs; replaced by
-  `kaye claude plugin` with `-z` flag
-- `kaye/cli/cli_skill/` package; all contents relocated to
-  `kaye/cli/cli_claude/`
+- `BasePromptNode.is_prerequisite_node` — use `MetaNodeType.is_prerequisite()`
+- `kaye skill` top-level subcommand — superseded by `kaye claude skill`
+- `kaye claude update` and `kaye claude create` stubs — superseded by
+  `kaye claude plugin -z`
+- `kaye/cli/cli_skill/` package — relocated to `kaye/cli/cli_claude/`
 
 ### Fixed
 
-- **`plugin.json` fields** (`displayName`, `author.email`, `homepage`,
-  `repository`): previously blank or incorrect due to a stale dist-info
-  shadowing the updated package metadata and wrong `importlib.metadata` key
-  casing (`Author-Email` → `Author-email`, `Home-Page` → `Home-page`); all
-  fields now correctly populated from `setup.cfg`
-- `prompt_corpus.md` **Coder Python**: added explicit rules prohibiting type hints and
-  requiring `str.format()` over f-strings; corrects agent behavior that previously
-  generated non-compliant Python
-- `prompt_corpus.md` **Coder Python Docstring Style**: added module-level docstring
-  rule — every module begins with a docstring whose first line is the filename followed
-  by a brief description of what it defines
-- `prompt_corpus.md` **Prepare for Release**: release changelog cleanup now drops empty
-  subsections when promoting *Unreleased* content into a new versioned section
-- **CLI logging**: corrected verbosity logging order in `continue` commands to ensure
-  proper trace level initialization
-- **Coder Python content tests**: added `test1`–`test3` to `TestContent` in both
-  `tests/cli/a/s/coder/cli-a-s-coder-py_test.py` and
-  `tests/cli/c/c/coder/cli-c-c-bp-coder-py_test.py`; expanded shared assertions in
-  `tests/cli/__init__.py` to cover the new Python rules
-
-### Unit Tests
-
-- **Skill test suite relocated**: tests moved from `tests/cli/s/u/` to
-  `tests/cli/a/s/` to mirror the new `claude skill` (`a s`) command path;
-  `cli-a-s-pe-description_test.py` added and the obsolete
-  `cli-s-u-pe-prompt_test.py` removed
-
-- **Test content centralization**: Consolidated all `TestContent` class assertions
-  across `tests/cli/c/c/` and `tests/cli/a/s/` directories into a shared
-  `TESTEE_FILE_CONTENT_ALL` dictionary in `tests/cli/__init__.py`
-
-  - Expanded dictionary from 6 keys (chat, agent-behavior, continue-behavior,
-    annotation-markers, date-and-time-format, numerical-values-with-units) to
-    **46 keys** covering all skills and blueprints
-
-  - Refactored **60 test files** to use indexed test methods (`test0`, `test1`,
-    etc.) that reference `TESTEE_FILE_CONTENT_ALL[key]` instead of hardcoded
-    assertion strings
-
-  - Eliminated hundreds of duplicated assertion strings across:
-    - Abbreviation skills (19 types)
-    - Coder skills (11 types)
-    - Style guide skills (3 types)
-    - Project writer skills (5 types)
-    - Prompt engine descriptions (2 types)
-    - Core behavior skills (4 types)
-
-- **Prerequisite test content dictionary**: `TESTEE_PREREQUISITE_CONTENT_ALL` in
-  `tests/cli/__init__.py` centralizes prerequisite content assertions for 15
-  blueprints with `{prerequisite}` meta nodes
-
-  - **Coder blueprints** (10): bash, c, c-sharp, cpp, gdscript, html,
-    javascript-and-typescript, python, unity-engine, unreal-engine
-  - **Project writers** (3): agents-writer, changelog-writer, readme-writer
-  - **Prompt engineers** (2): prompt-writer, skill-description-writer
-
-  - **Enhanced TestPrerequisite classes**: 15 a/s test files updated with
-    `TestPrerequisite.test0()`, `test1()`, etc. that verify each prerequisite
-    content entry; mirrors the pattern used by `TestContent` for content
-    assertions; all 438 a/s tests passing
-
-- **Zip skill test fixture**: `tests/cli/a/sz/conftest.py` added with
-  `testee_skills_folder` fixture that extracts all `.zip` skill packages into
-  a test directory for validation
+- `plugin.json` fields (`displayName`, `author.email`, `homepage`,
+  `repository`) now populated; were blank from stale dist-info and wrong
+  metadata key casing
+- corpus Coder Python — prohibit type hints, require `str.format()` over
+  f-strings
+- corpus Coder Python Docstring — module docstring first line is filename plus
+  description
+- corpus Prepare for Release — drop empty subsections when promoting
+  *Unreleased*
+- `continue` CLI — corrected verbosity init order
 
 ### Security
 

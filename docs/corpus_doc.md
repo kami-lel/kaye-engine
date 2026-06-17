@@ -116,4 +116,4 @@ Lists prerequisite instructions that apply whenever the parent node is enabled.
 Pass `contains_prerequisite_nodes=True` to `generate_prompt()` or
 `generate_prompt_lines()` to auto-checkmark every `{prerequisite}` node whose
 parent is already checkmarked before rendering. A node is recognized via
-`BasePromptNode.is_prerequisite_node` (it checks `self.name == "{prerequisite}"`).
+`MetaNodeType.is_prerequisite(node)`.
