@@ -2,9 +2,15 @@
 
 from pathlib import Path
 
+from kaye.cli.cli_claude.claude_plugin.export_plugin_as_folder import (
+    export_plugin_as_folder,
+)
 from kaye.cli.cli_claude.user_prompt.cli_claude_user_prompt import (
     DEFAULT_CLAUDE_FOLDER,
     find_user_system_prompt_file,
+)
+from kaye.cli.cli_claude.user_prompt.export_user_file import (
+    export_user_system_prompt_file,
 )
 
 
@@ -29,6 +35,7 @@ def register_cli_claude_code_parser(  ##########################################
 
     def _code_main(args):
         folder = args.folder
-        pass  # TODO mpl code
+        export_plugin_as_folder(folder)
+        export_user_system_prompt_file(find_user_system_prompt_file(folder))
 
     code_parser.set_defaults(func=_code_main)
