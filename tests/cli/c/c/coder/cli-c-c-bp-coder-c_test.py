@@ -72,8 +72,7 @@ class TestHeader:  # ===========================================================
         print(testee_header)
         assert (
             'description: "Writes, edits, and reviews all C code.'
-            '\\u21B5Use for any C code work. Triggers: `.c`/`.h`'
-            ' files, requests for C."'
+            '\\u21B5Use for any C code work, requests for C."'
             in testee_header
         )
 

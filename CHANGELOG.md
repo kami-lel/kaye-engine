@@ -57,6 +57,10 @@
 - `kaye continue config` and `kaye continue prompt`: `logger.enter()` now
   fires before the export starts and `logger.done()` after it finishes,
   instead of a single combined message logged up front
+- **Skill SKILL.md generation**: glob patterns from `{globs}` meta nodes are now
+  placed in the native Claude Code `paths` frontmatter field instead of being
+  appended to the `when_to_use` field text; enables proper path-scoped auto-activation
+  for skills and improves SKILL.md clarity
 
 
 **Unit Tests**:
@@ -85,9 +89,6 @@
     - Project writer skills (5 types)
     - Prompt engine descriptions (2 types)
     - Core behavior skills (4 types)
-
-  - All 1065 tests passing; single source of truth for test assertions improves
-    maintainability and reduces duplication
 
 ### Deprecated
 

@@ -74,9 +74,8 @@ class TestHeader:  # ===========================================================
             'description: "Writes, edits, and reviews all JavaScript and'
             " TypeScript code, targeting the ES11 standard with camelCase"
             " naming and JSDoc documentation conventions.\\u21B5Use for any"
-            " JavaScript or TypeScript work. Triggers: `.js`/`.ts`/`.jsx`"
-            '/`.tsx` files, inline JS/TS code blocks, requests for'
-            ' JavaScript, TypeScript, or Node."'
+            " JavaScript or TypeScript work, inline JS/TS code blocks,"
+            ' requests for JavaScript, TypeScript, or Node."'
             in testee_header
         )
 
