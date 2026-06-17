@@ -6,11 +6,12 @@ define ``export_plugin_as_zip``
 
 import shutil
 import tempfile
+from importlib.metadata import version
 from pathlib import Path
 
 from kaye import logger
 
-
+from kaye import PROGRAM_NAME
 from .export_plugin_as_folder import (
     export_plugin_as_folder,
 )
@@ -18,7 +19,7 @@ from .export_plugin_as_folder import (
 # entry point  #################################################################
 
 
-def export_plugin_as_zip(parent_folder):
+def export_plugin_as_zip(parent_folder, *, includes_version=True):
     """
     export all Kaye blueprints as an upload-ready ``.zip`` Claude plugin
 
@@ -30,6 +31,9 @@ def export_plugin_as_zip(parent_folder):
 
     :param parent_folder: destination directory to write the ``.zip`` into
     :type parent_folder: Path-like
+    :param includes_version: append the current package version to the
+            ``.zip`` filename when ``True``
+    :type includes_version: bool
     """
     parent_folder = Path(parent_folder)
     parent_folder.mkdir(parents=True, exist_ok=True)
@@ -46,7 +50,10 @@ def export_plugin_as_zip(parent_folder):
         shutil.make_archive(str(zip_base), "zip", root_dir=plugin_root)
 
         logger.debug("moving archived plugin to destination folder")
-        dest = parent_folder / (plugin_root.name + ".zip")
+        file_name = plugin_root.name
+        if includes_version:
+            file_name = "{}-{}".format(file_name, version(PROGRAM_NAME))
+        dest = parent_folder / (file_name + ".zip")
         shutil.move(str(zip_base.with_suffix(".zip")), str(dest))
 
         logger.succ("export plugin:\t{}".format(dest))
