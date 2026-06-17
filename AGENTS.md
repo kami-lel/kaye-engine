@@ -61,6 +61,28 @@ through a Python API, an HTTP API, and a CLI.
 - `dify_studio/` — Dify workflow node sources (not part of the package)
 - `docs/` — in-depth documentation (API, HTTP, CLI, abbreviations)
 - `tests/` — `pytest` suite, mirrors the package structure
+  - `tests/prompt/` — unit tests for the prompt engine (nodes, blueprints)
+    - `tests/prompt/bp/` — `PromptBlueprint` tests
+    - `tests/prompt/node/` — `PromptCorpusNode` / `BasePromptNode` tests
+  - `tests/api/` — HTTP API and Dify app endpoint tests
+  - `tests/cli/` — CLI integration tests; `tests/cli/__init__.py` holds
+    `MD_FILENAME2SKILL_NAME` (skill slug → display name) and
+    `TESTEE_FILE_CONTENT_ALL` (skill slug → expected content strings)
+    - `tests/cli/a/` — `claude` subcommand tests
+      - `tests/cli/a/s/` — `claude skill` export tests
+        - `tests/cli/a/s/structure/` — structure/exportability tests for every
+          blueprint in `__all__` (`cli-a-s-structure-exportable_blueprints_test.py`)
+          and prompt blueprints
+        - `tests/cli/a/s/coder/` — per-skill content tests for coder blueprints
+        - `tests/cli/a/s/others/` — per-skill content tests for miscellaneous
+          blueprints (chat, annotation-markers, date-time, IPA, etc.)
+        - `tests/cli/a/s/proj/` — per-skill content tests for project blueprints
+        - `tests/cli/a/s/role/` — per-skill content tests for role blueprints
+        - `tests/cli/a/s/style/` — per-skill content tests for style blueprints
+        - `tests/cli/a/s/pe/` — per-skill content tests for prompt-engineering
+          blueprints
+    - `tests/cli/c/` — `continue` subcommand tests
+  - `tests/abbr/` — abbreviation collection tests
 - `scripts/` — Git hooks and the `systemd` service file
 
 ## Build and Test
