@@ -2,9 +2,10 @@
 
 from pathlib import Path
 
-# constants  ===================================================================
-
-_DEFAULT_CLAUDE_FOLDER = Path.home() / ".claude"
+from kaye.cli.cli_claude.user_prompt.cli_claude_user_prompt import (
+    DEFAULT_CLAUDE_FOLDER,
+    find_user_system_prompt_file,
+)
 
 
 def register_cli_claude_code_parser(  ##########################################
@@ -22,12 +23,12 @@ def register_cli_claude_code_parser(  ##########################################
         nargs="?",
         metavar="FOLDER",
         type=Path,
-        default=_DEFAULT_CLAUDE_FOLDER,
+        default=DEFAULT_CLAUDE_FOLDER,
         help="path to local .claude/ folder; default: ~/.claude",
     )
 
     def _code_main(args):
         folder = args.folder
-        pass  # TODO
+        pass  # TODO mpl code
 
     code_parser.set_defaults(func=_code_main)
