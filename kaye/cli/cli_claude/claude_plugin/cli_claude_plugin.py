@@ -1,12 +1,16 @@
-"""export as an Anthropic Claude plugin"""
+"""
+cli_claude_plugin.py
+
+define ``register_cli_claude_plugin_parser``
+"""
 
 from pathlib import Path
 
 
 from kaye import logger, kamilog
 
-from kaye.cli.cli_claude.export_plugin_as_folder import export_plugin_as_folder
-from kaye.cli.cli_claude.export_plugin_as_zip import export_plugin_as_zip
+from .export_plugin_as_folder import export_plugin_as_folder
+from .export_plugin_as_zip import export_plugin_as_zip
 
 # constants  ===================================================================
 

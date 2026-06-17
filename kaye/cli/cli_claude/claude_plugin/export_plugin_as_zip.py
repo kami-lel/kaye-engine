@@ -11,7 +11,7 @@ from pathlib import Path
 from kaye import logger
 
 
-from kaye.cli.cli_claude.export_plugin_as_folder import (
+from .export_plugin_as_folder import (
     export_plugin_as_folder,
 )
 
@@ -30,8 +30,6 @@ def export_plugin_as_zip(parent_folder):
 
     :param parent_folder: destination directory to write the ``.zip`` into
     :type parent_folder: Path-like
-    :param verbose: print the exported path when ``True``
-    :type verbose: bool
     """
     parent_folder = Path(parent_folder)
     parent_folder.mkdir(parents=True, exist_ok=True)
