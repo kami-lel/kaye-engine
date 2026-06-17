@@ -30,7 +30,6 @@ class RuleFile(FrontmatterMDFile):  ############################################
     ...     rule.description = ~~
     ...     rule.write_frontmatter_part()
     ...     rule.write(~~)
-    ...     rule.writelines(~~)
     ...     ~~
     """
 
