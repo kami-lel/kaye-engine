@@ -29,6 +29,10 @@
 
   - `SUCC` (22) and `DONE` (25) logging levels: `SUCC` marks an individual
     operation succeeding, `DONE` marks an overall task completing
+- **MetaNodeType class methods** for checking meta node types:
+  - `is_meta_node(node, meta_node_type)`: generic check for any meta node type
+  - `is_description()`, `is_when_to_use()`, `is_globs()`, `is_prerequisite()`:
+    type-specific convenience checkers that delegate to `is_meta_node()`
 
 ### Changed
 
@@ -61,6 +65,17 @@
   placed in the native Claude Code `paths` frontmatter field instead of being
   appended to the `when_to_use` field text; enables proper path-scoped auto-activation
   for skills and improves SKILL.md clarity
+- **Prompt corpus prerequisites**: README Writer and other skill blueprints now
+  include `{prerequisite}` meta nodes listing required style guides and rules
+  for consistency and quality; prerequisites are auto-checkmarked when their
+  parent node is selected during prompt generation
+
+### Removed
+
+- `BasePromptNode.is_prerequisite_node` property: replaced by
+  `MetaNodeType.is_prerequisite()` class method for centralized meta node type
+  checking; all internal usages refactored to use the `MetaNodeType` methods
+  instead of per-node properties
 
 
 **Unit Tests**:
