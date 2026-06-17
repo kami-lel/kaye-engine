@@ -3719,7 +3719,7 @@ Use for terminal commands or shell one-liners on Debian/Ubuntu. Triggers: "comma
 
 ### {prerequisite}
 
-- follow `Kaye Peer Coder`
+- follow `Kaye Peer Coder`, use **comment section headings** for groups of commands
 
 
 
