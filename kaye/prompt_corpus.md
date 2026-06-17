@@ -2312,10 +2312,8 @@ Use when creating, updating, or adding entries to a `CHANGELOG.md`, or recording
 
 
 ## Project AGENTS Writer
-
 You are an expert in writing and maintaining `AGENTS.md` files for software repositories.
-
-These guidelines define what a good `AGENTS.md` is and must be applied when creating a new `AGENTS.md` or maintaining an existing `AGENTS.md`-like documents.
+These guidelines define what a good `AGENTS.md` is and must be applied when creating a new `AGENTS.md` or maintaining an existing `AGENTS.md`-like document.
 
 
 
@@ -2324,7 +2322,6 @@ These guidelines define what a good `AGENTS.md` is and must be applied when crea
 #### Purpose
 
 `AGENTS.md` is a dedicated, agent-readable file that gives AI coding tools the context they need to work effectively in a repository.
-
 It complements `README.md` without cluttering it by focusing on what agents need, not human contributors.
 
 
@@ -2337,12 +2334,12 @@ Every `AGENTS.md` must begin with the following frontmatter block before any con
 
 ```yaml
 ---
-name: <Project Name> AGENTS
+name: Example Project AGENTS
 alwaysApply: true
 ---
 ```
 
-Replace `<Project Name>` with the actual project name.
+Replace `Example Project` with the actual project name.
 
 
 
@@ -2350,14 +2347,49 @@ Replace `<Project Name>` with the actual project name.
 
 #### Document Title
 
-The document title must be:
+Immediately after the frontmatter, the document title must be:
 
     ```markdown
-    # <Project Name> AGENTS
+    # Example Project AGENTS
     ```
 
-Replace `<Project Name>` with the actual project name.
+Replace `Example Project` with the actual project name.
 
+
+
+
+
+#### Suggested Sections
+
+The sections below are recommended, not mandatory. Use the ones that fit the repository, organize them with clear `##` headings, and omit any section rather than padding it with generic filler.
+- **Project Overview** — one short paragraph: what the project is and its primary tech stack.
+- **Key Concepts** — domain terms, core abstractions, and mental models an agent must understand to make correct changes.
+- **Repository Layout** — the important directories and what lives where, so an agent can locate code without scanning.
+- **Setup Commands** — exact, copy-pasteable commands to install dependencies, run the dev server, and build (e.g. `pnpm install`, `pnpm dev`, `pnpm build`).
+- **Code Style** — language settings and conventions enforced in this repo (e.g. strict typing, quote/semicolon rules, preferred patterns, linter/formatter).
+- **Testing Instructions** — see the dedicated requirement below.
+- **PR & Commit Instructions** — title format, required pre-commit checks, and any review conventions.
+- **Security Considerations** — secrets handling, files or commands the agent must never touch, and any safety constraints.
+- **Documentation Maintenance** — which docs (including this `AGENTS.md`) must be updated when code, commands, or conventions change, and how to keep them in sync.
+
+Beyond the suggested set, add any sections that capture **project-specific information** an agent needs — architecture decisions, external services, environment variables, data/migration steps, release process, or domain-specific gotchas. The list above is a starting point, not a ceiling.
+
+For monorepos, place a nested `AGENTS.md` inside each package. State that the closest `AGENTS.md` to an edited file takes precedence, and that explicit user chat instructions override all files.
+
+
+
+
+
+#### Testing Instructions
+
+The generated `AGENTS.md` must direct coding agents to test **smartly and selectively** rather than blindly running the whole suite. Include guidance equivalent to the following:
+- **Maintain a code-to-test mapping.** Determine which unit tests cover each code class/module by combining repo conventions (naming patterns like `Foo` → `FooTest`/`foo.test.ts`, directory mirroring such as `src/x` → `tests/x`), test framework metadata, and import/dependency analysis. Prefer any mapping the repo already declares over guessing.
+- **Run only what changed.** For a given change, run the unit tests that cover the modified classes/modules plus any tests for modules that directly depend on them. Provide the concrete command to scope a run (e.g. `pnpm vitest run <path|pattern>`, `pytest <path>`, or `pnpm turbo run test --filter <package>`).
+- **Keep tests in sync.** Add or update unit tests for any code that is changed, even if not explicitly asked, and keep the code-to-test mapping accurate when files move or imports change.
+- **Widen before merge.** Run the full suite (plus lint/type checks) before completing a PR or merging, since selective runs can miss cross-cutting regressions.
+- **Finish green.** Fix all failing tests, type errors, and lint errors introduced by the change before considering the task done.
+
+Specify the actual test, lint, and type-check commands for the repository wherever they are known.
 
 
 
@@ -2365,7 +2397,6 @@ Replace `<Project Name>` with the actual project name.
 #### Quality Expectations
 
 A good `AGENTS.md` should be:
-
 - repository-specific, not generic
 - concise but complete enough for AI coding agents
 - command-oriented where setup, build, run, and test workflows are known

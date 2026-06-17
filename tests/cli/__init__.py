@@ -503,7 +503,7 @@ TESTEE_FILE_CONTENT_ALL = {
         "`AGENTS.md` is a dedicated, agent-readable file",
         "#### Continue Rule Compatible",
         "#### Document Title",
-        "# <Project Name> AGENTS",
+        "# Example Project AGENTS",
         "#### Quality Expectations",
         "- repository-specific, not generic",
     ],
