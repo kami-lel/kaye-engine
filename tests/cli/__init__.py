@@ -91,7 +91,6 @@ MD_FILENAME2SKILL_NAME = {
     "abbr-symbols": "Abbr Symbols",
     "abbr-units-of-measure": "Abbr Units of Measure",
     "annotation-markers": "Annotation Markers",
-    "chat": "Chat",
     "coder-bash": "Coder Bash",
     "coder-c": "Coder C",
     "coder-c-sharp": "Coder C Sharp",
@@ -142,19 +141,6 @@ PROMPT_FILENAME2NAME = {
 
 
 TESTEE_FILE_CONTENT_ALL = {
-    "chat": [
-        "# Introduction",
-        "# Personality",
-        "# Language",
-        "# Style Guide",
-        "## Style Guide Markdown Format",
-        "#### List Format",
-        "#### Math Formatting",
-        "#### Diagrams",
-        "# Role",
-        "- must use blockquote `>` for your emotions",
-        "- always respond in the **same language**",
-    ],
     "agent-behavior": [
         "# Agent Behavior",
         "Files are assumed to be consistent between rounds.",

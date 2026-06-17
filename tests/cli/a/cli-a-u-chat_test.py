@@ -11,7 +11,6 @@ kaye claude user
 import pytest
 
 from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
     assert_frontmatter_md_file_basic_structure,
     split_frontmatter_md_file,
 )
@@ -24,7 +23,19 @@ from tests.cli.a.s import (
 
 
 SKILL_NAME = "chat"
-TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
+TESTEE_FILE_CONTENT = [
+    "# Introduction",
+    "# Personality",
+    "# Language",
+    "# Style Guide",
+    "## Style Guide Markdown Format",
+    "#### List Format",
+    "#### Math Formatting",
+    "#### Diagrams",
+    "# Role",
+    "- must use blockquote `>` for your emotions",
+    "- always respond in the **same language**",
+]
 
 
 # Pytest fixtures  #############################################################
