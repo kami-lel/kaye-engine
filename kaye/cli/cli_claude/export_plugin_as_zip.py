@@ -17,8 +17,6 @@ from kaye.cli.cli_claude.export_plugin_as_folder import (
 
 # entry point  #################################################################
 
-# Bug Claude Desktop does not support this format
-
 
 def export_plugin_as_zip(parent_folder):
     """
