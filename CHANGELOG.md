@@ -85,6 +85,9 @@
   `home_page`, and `repository` URLs and a clearer project description; the
   plugin manifest and skill `SKILL.md` version now derive from this single
   package-metadata source
+- **AGENTS.md documentation**: expanded with detailed sections on Meta Nodes,
+  Prompt Corpus Structure, Repository Layout, Build/Test commands, and
+  comprehensive code conventions for future agent development
 
 ### Removed
 
@@ -97,8 +100,6 @@
   `kaye claude plugin` with `-z` flag
 - `kaye/cli/cli_skill/` package; all contents relocated to
   `kaye/cli/cli_claude/`
-
-### Deprecated
 
 ### Fixed
 
