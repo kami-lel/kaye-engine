@@ -23,7 +23,3 @@ def convert_display_name2skill_name(display_name):
     :rtype: str
     """
     return re.sub(r"[^a-z0-9]+", "-", display_name.lower()).strip("-")
-
-
-
-# Todo use __doc__ + ~ pattern

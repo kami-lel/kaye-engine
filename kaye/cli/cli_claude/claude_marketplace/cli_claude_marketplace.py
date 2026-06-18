@@ -1,5 +1,6 @@
 """export as Claude Marketplace including a kaye plugin"""
 
+from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye import logger, kamilog
@@ -13,7 +14,10 @@ def register_cli_claude_marketplace_parser(  ###################################
     marketplace_parser = cli_subparser.add_parser(
         "marketplace",
         help=__doc__,
-        description=__doc__,
+        description=__doc__ + """
+
+more more""",  # TODO pattern
+        formatter_class=RawDescriptionHelpFormatter,
         aliases=["m"],
     )
 

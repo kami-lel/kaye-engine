@@ -1,5 +1,6 @@
 """export for Claude Code as a plugin and User System Prompt file"""
 
+from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye import logger, kamilog
@@ -24,7 +25,10 @@ def register_cli_claude_code_parser(  ##########################################
     code_parser = cli_subparser.add_parser(
         "code",
         help=__doc__,
-        description=__doc__,
+        description=__doc__ + """
+
+more more""",  # TODO pattern
+        formatter_class=RawDescriptionHelpFormatter,
         aliases=["c"],
     )
 
