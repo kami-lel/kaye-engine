@@ -13,6 +13,22 @@ from .export_plugin_as_zip import export_plugin_as_zip
 
 _DEFAULT_PLUGINS_FOLDER = Path.home() / ".claude" / "plugins"
 
+_DESCRIPTION = """
+
+bundle every blueprint, prompt, and abbreviation group into a single Claude
+plugin folder (a plugin.json manifest plus one skills/ subfolder); with -z,
+pack it as an upload-ready .zip plugin instead.
+
+FOLDER/  (default: ~/.claude/plugins/)
+└── kaye/  (plugin root)
+    ├── .claude-plugin/
+    │   └── plugin.json
+    └── skills/
+        ├── coder-python/
+        │   └── SKILL.md
+        └── ~~  (one folder per remaining skill)
+"""
+
 
 def register_cli_claude_plugin_parser(  ########################################
     cli_subparser,
@@ -20,9 +36,7 @@ def register_cli_claude_plugin_parser(  ########################################
     plugin_parser = cli_subparser.add_parser(
         "plugin",
         help=__doc__,
-        description=__doc__ + """
-
-more more""",  # TODO pattern
+        description=__doc__ + _DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["p"],
     )
