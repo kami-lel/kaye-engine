@@ -2,8 +2,8 @@ import re
 
 _BASIC_FORMAT_RE = re.compile(r"^---\n(.+?)---\n(.+)", re.DOTALL)
 
-# todo unit test for kaye claude plugin (plugin.json)
-# todo unit test for kaye claude marketplace (marketplace.json)
+# Todo unit test for kaye claude plugin (plugin.json)
+# Todo unit test for kaye claude marketplace (marketplace.json)
 
 
 def split_frontmatter_md_file(content):
