@@ -1,5 +1,6 @@
 """export as an Anthropic Claude plugin"""
 
+from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 
@@ -19,7 +20,10 @@ def register_cli_claude_plugin_parser(  ########################################
     plugin_parser = cli_subparser.add_parser(
         "plugin",
         help=__doc__,
-        description=__doc__,
+        description=__doc__ + """
+
+more more""",  # TODO pattern
+        formatter_class=RawDescriptionHelpFormatter,
         aliases=["p"],
     )
 

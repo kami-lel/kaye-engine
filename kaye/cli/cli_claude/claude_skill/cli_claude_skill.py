@@ -22,7 +22,10 @@ def register_cli_claude_skill_parser(  #########################################
     skill_parser = cli_subparser.add_parser(
         "skill",
         help=__doc__,
-        description=__doc__,
+        description=__doc__ + """
+
+more more""",  # TODO pattern
+        formatter_class=RawDescriptionHelpFormatter,
         aliases=["s"],
     )
 
