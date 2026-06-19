@@ -73,7 +73,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "### Create README" in testee_content
+        assert "## Create README" in testee_content
 
     def test_intro_readme_writer(_, testee_content):
         assert (
@@ -83,7 +83,7 @@ class TestContent:  # ==========================================================
         )
 
     def test_instructions_section(_, testee_content):
-        assert "##### Instructions" in testee_content
+        assert "#### Instructions" in testee_content
 
     def test_instructions_create_complete(_, testee_content):
         assert (
@@ -98,7 +98,7 @@ class TestContent:  # ==========================================================
         )
 
     def test_structure_guidelines_section(_, testee_content):
-        assert "##### Structure Guidelines" in testee_content
+        assert "#### Structure Guidelines" in testee_content
 
     def test_project_overview_guideline(_, testee_content):
         assert "**Project Overview**" in testee_content
@@ -128,7 +128,7 @@ class TestContent:  # ==========================================================
         assert "**Build and Test Commands**" in testee_content
 
     def test_output_section(_, testee_content):
-        assert "###### Output" in testee_content
+        assert "#### Output" in testee_content
 
     def test_output_file_location(_, testee_content):
         assert (

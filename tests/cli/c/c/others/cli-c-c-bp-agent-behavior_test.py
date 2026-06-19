@@ -91,3 +91,9 @@ class TestContent:  # ==========================================================
 
     def test2(_, testee_content):
         assert TESTEE_FILE_CONTENT[2] in testee_content
+
+    def test3(_, testee_content):
+        assert TESTEE_FILE_CONTENT[3] in testee_content
+
+    def test4(_, testee_content):
+        assert TESTEE_FILE_CONTENT[4] in testee_content
