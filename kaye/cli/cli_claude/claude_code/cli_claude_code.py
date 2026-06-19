@@ -1,5 +1,3 @@
-"""export for Claude Code as a plugin and User System Prompt file"""
-
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
@@ -16,7 +14,7 @@ from kaye.cli.cli_claude.user_prompt.export_user_file import (
     export_user_system_prompt_file,
 )
 
-# Hack user scope plugin is untested
+# HACK user scope plugin is untested
 
 # constants  ===================================================================
 
