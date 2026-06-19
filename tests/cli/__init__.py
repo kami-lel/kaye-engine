@@ -1,60 +1,10 @@
 import re
 
-_BASIC_FORMAT_RE = re.compile(r"^---\n(.+?)---\n(.+)", re.DOTALL)
-
 # TODO unit test for kaye claude plugin (plugin.json)
 # TODO unit test for kaye claude marketplace (marketplace.json)
 
 
-def split_frontmatter_md_file(content):
-    """
-    split a markdown file with YAML frontmatter into frontmatter and body
-
-    :param content: full markdown file content
-    :type content: str
-    :return: tuple of (frontmatter_lines, body_text)
-    :rtype: tuple[list[str], str]
-    """
-    parts = content.split("---", 2)
-    frontmatter = parts[1].strip("\n").splitlines()
-    body = parts[2].strip("\n")
-    return frontmatter, body
-
-
-def assert_frontmatter_md_file_basic_structure(content):
-    """
-    validate that content has basic frontmatter-markdown file structure
-
-    checks that content matches ``---\\nfrontmatter\\n---\\nbody``
-    pattern with non-empty frontmatter and body sections
-
-
-    :param content: full markdown file content
-    :type content: str
-    :return: whether the structure is valid
-    :rtype: bool
-    """
-    match = _BASIC_FORMAT_RE.match(content)
-    if not match:
-        return False
-    frontmatter = match.group(1).strip()
-    body = match.group(2).strip()
-    return bool(frontmatter) and bool(body)
-
-
-def assert_header_line_always_apply(lines, value):
-    """
-    check if alwaysApply header line has expected value
-
-    :param lines: list of frontmatter lines
-    :type lines: list[str]
-    :param value: expected boolean value for alwaysApply
-    :type value: bool
-    :return: whether the header line matches expectations
-    :rtype: bool
-    """
-    expected = "true" if value else "false"
-    return "alwaysApply: {}".format(expected) in lines
+# constants  ###################################################################
 
 
 MD_FILENAME2SKILL_NAME = {
@@ -677,6 +627,12 @@ TESTEE_FILE_CONTENT_ALL = {
 }
 
 
+TESTEE_DESCRIPTION_CONTENT_ALL = {}
+
+
+TESTEE_HOW_TO_USE_CONTENT_ALL = {}
+
+
 TESTEE_PREREQUISITE_CONTENT_ALL = {
     "coder-bash": [
         "follow `Kaye Peer Coder`",
@@ -731,5 +687,79 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
 }
 
 
-# FIXME organize this file
-# TODO description etc. centralized test method
+# helpers  #####################################################################
+
+
+def split_frontmatter_md_file(content):
+    """
+    split a markdown file with YAML frontmatter into frontmatter and body
+
+    :param content: full markdown file content
+    :type content: str
+    :return: tuple of (frontmatter_lines, body_text)
+    :rtype: tuple[list[str], str]
+    """
+    parts = content.split("---", 2)
+    frontmatter = parts[1].strip("\n").splitlines()
+    body = parts[2].strip("\n")
+    return frontmatter, body
+
+
+# assert methods  ==============================================================
+
+_BASIC_FORMAT_RE = re.compile(r"^---\n(.+?)---\n(.+)", re.DOTALL)
+
+
+def assert_frontmatter_md_file_basic_structure(content):
+    """
+    validate that content has basic frontmatter-markdown file structure
+
+    checks that content matches ``---\\nfrontmatter\\n---\\nbody``
+    pattern with non-empty frontmatter and body sections
+
+
+    :param content: full markdown file content
+    :type content: str
+    :return: whether the structure is valid
+    :rtype: bool
+    """
+    match = _BASIC_FORMAT_RE.match(content)
+    if not match:
+        return False
+    frontmatter = match.group(1).strip()
+    body = match.group(2).strip()
+    return bool(frontmatter) and bool(body)
+
+
+def assert_header_line_always_apply(lines, value):
+    """
+    check if alwaysApply header line has expected value
+
+    :param lines: list of frontmatter lines
+    :type lines: list[str]
+    :param value: expected boolean value for alwaysApply
+    :type value: bool
+    :return: whether the header line matches expectations
+    :rtype: bool
+    """
+    expected = "true" if value else "false"
+    return "alwaysApply: {}".format(expected) in lines
+
+
+# TODO TODO description etc. centralized test method
+
+
+def assert_claude_header_line_description(skill_id, testee_header):
+    return False
+
+
+def assert_claude_header_line_how_to_use(skill_id, testee_header):
+    return False
+
+
+def assert_continue_header_line_description(prompt_id, testee_header):
+    return False
+
+
+def assert_header_line_prerequisite(skill_id, testee_header):
+    return False
