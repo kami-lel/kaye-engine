@@ -2320,32 +2320,33 @@ Apply these rules when writing or updating the content of an `AGENTS.md` (or a p
 
 
 
-#### Continue Rule Compatible
+#### Frontmatter & Title
 
-Begin the file with this frontmatter block before any content:
+Begin the file with this Continue-compatible frontmatter block, then the document title immediately after it:
 
-```yaml
----
-name: Example Project AGENTS
-alwaysApply: true
----
-```
-
-Replace `Example Project` with the actual project name.
-
-
-
-
-
-#### Document Title
-
-Immediately after the frontmatter, write the title:
+    ```yaml
+    ---
+    name: Example Project AGENTS
+    alwaysApply: true
+    ---
+    ```
 
     ```markdown
     # Example Project AGENTS
     ```
 
-Replace `Example Project` with the actual project name.
+Replace `Example Project` with the actual project name. `AGENTS.local.md` follows the same shape, with a distinct `name` and a title marking it as the personal layer:
+
+    ```yaml
+    ---
+    name: Example Project local AGENTS
+    alwaysApply: true
+    ---
+    ```
+
+    ```markdown
+    # Example Project local AGENTS
+    ```
 
 
 
@@ -2487,7 +2488,11 @@ Open with the title:
     # Example Project CONTEXT
     ```
 
-Replace `Example Project` with the project name. Add a `Last updated` line beneath it.
+Replace `Example Project` with the project name. Add a `Last updated` line beneath it. For `CONTEXT.local.md`, mark it as the personal layer:
+
+    ```markdown
+    # Example Project local CONTEXT
+    ```
 
 
 
