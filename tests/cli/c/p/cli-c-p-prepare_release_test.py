@@ -73,7 +73,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_maintain_agents_heading(_, testee_content):
-        assert "### Prepare for Release" in testee_content
+        assert "## Prepare for Release" in testee_content
 
     def test1(_, testee_content):
         assert "version number or release date not provided" in testee_content

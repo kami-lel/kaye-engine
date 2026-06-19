@@ -148,10 +148,12 @@ TESTEE_FILE_CONTENT_ALL = {
         "# Agent Behavior",
         "Files are assumed to be consistent between rounds.",
         "After completing **all tasks requested by the user**,",
+        "### Git Command Safety Policy",
+        "Never run these git commands, any flags: reset,",
     ],
     "continue-behavior": [
-        "# Continue Behavior",
-        "### `run_terminal_command`",
+        "## Continue Behavior",
+        "#### `run_terminal_command`",
         "Only use `run_terminal_command` as a last resort",
         "Use when need to remove/delete file/folder.",
     ],
@@ -486,15 +488,39 @@ TESTEE_FILE_CONTENT_ALL = {
     ],
     "project-agents-writer": [
         "## Project AGENTS Writer",
-        "You are an expert in writing and maintaining `AGENTS.md` files",
-        "These guidelines define what a good `AGENTS.md` is",
-        "#### Purpose",
-        "`AGENTS.md` is a dedicated, agent-readable file",
-        "#### Continue Rule Compatible",
-        "#### Document Title",
-        "# Example Project AGENTS",
+        (
+            "You are an expert in writing and maintaining `AGENTS.md` files for"
+            " software repositories."
+        ),
+        (
+            "Apply these rules when writing or updating the content of an"
+            " `AGENTS.md` (or a personal `AGENTS.local.md`)."
+        ),
+        "#### Frontmatter & Title",
+        (
+            "Begin the file with this Continue-compatible frontmatter block,"
+            " then the document title immediately after it:"
+        ),
+        "Replace `Example Project` with the actual project name.",
+        "`AGENTS.local.md` follows the same shape",
+        "#### Suggested Sections",
+        "The sections below are recommended, not mandatory.",
+        "#### What to Include (and What to Leave Out)",
+        (
+            "Instruction budget is finite, and a wrong instruction is worse"
+            " than no instruction."
+        ),
+        "#### Testing Instructions",
+        (
+            "Direct coding agents to test **smartly and selectively** rather"
+            " than blindly running the whole suite."
+        ),
         "#### Quality Expectations",
         "- repository-specific, not generic",
+        (
+            "- behavioral and command-oriented — rules, commands, and"
+            " constraints, not architecture narration"
+        ),
     ],
     "project-changelog-writer": [
         "## Project CHANGELOG Writer",
@@ -536,13 +562,46 @@ TESTEE_FILE_CONTENT_ALL = {
     ],
     "project-structure": [
         "## Project Structure",
-        "- `README.md`:",
-        "- `CHANGELOG.md`:",
-        "- `AGENTS.md`:",
-        "- `src/` or package-name:",
-        "- `tests/`:",
-        "- `docs/`:",
-        "- `scripts/`:",
+        (
+            "Place the following files and folders at the **top level** of the"
+            " repository and project when applicable."
+        ),
+        (
+            "- `README.md`: project overview, purpose, and quick-start"
+            " instructions"
+        ),
+        (
+            "- `CHANGELOG.md`: full version history; each release is documented"
+            " here"
+        ),
+        (
+            "- `CREDITS.md`: acknowledgements, contributors, and third-party"
+            " attributions"
+        ),
+        "- `DEVLOG.md`: development journal, decisions, and progress notes",
+        "- `AGENTS.md`: agent-facing behavioral instructions",
+        (
+            "- `AGENTS.local.md`: personal, machine-specific agent rules that"
+            " override `AGENTS.md`"
+        ),
+        "- `CONTEXT.md`: descriptive codebase knowledge for humans and AI",
+        (
+            "- `CONTEXT.local.md`: personal, machine-specific context notes"
+            " that augment `CONTEXT.md`"
+        ),
+        "- `src/` or package-name: primary source code folder",
+        "- `bin/`: compiled binaries or executable entry-point scripts",
+        "- `docs/`: in-depth documentation beyond what fits in `README.md`",
+        "- `examples/`: standalone usage examples and demos",
+        (
+            "- `scripts/`: utility and maintenance scripts not part of the main"
+            " codebase"
+        ),
+        "- `tests/`: test suite, kept separate from source code",
+        (
+            "- `tools/`: project-specific developer tooling, distinct from"
+            " `scripts/`"
+        ),
     ],
     "prompt-writer": [
         "## Prompt Writer",
@@ -670,3 +729,7 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
         "use `Style Guide Briefness Style`",
     ],
 }
+
+
+# Fixme organize this file
+# Todo description etc. centralized test method

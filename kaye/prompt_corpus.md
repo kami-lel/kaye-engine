@@ -1889,7 +1889,10 @@ Place the following files and folders at the **top level** of the repository and
 - `CHANGELOG.md`: full version history; each release is documented here
 - `CREDITS.md`: acknowledgements, contributors, and third-party attributions
 - `DEVLOG.md`: development journal, decisions, and progress notes
-- `AGENTS.md`: agent-facing instructions covering build steps, conventions, and project context for AI coding tools
+- `AGENTS.md`: agent-facing behavioral instructions — build/test commands, conventions, and constraints for AI coding tools
+- `AGENTS.local.md`: personal, machine-specific agent rules that override `AGENTS.md`; gitignored, never committed
+- `CONTEXT.md`: descriptive codebase knowledge for humans and AI — architecture, domain model, patterns, and known gaps
+- `CONTEXT.local.md`: personal, machine-specific context notes that augment `CONTEXT.md`; gitignored, never committed
 - `src/` or package-name: primary source code folder
 - `bin/`: compiled binaries or executable entry-point scripts
 - `docs/`: in-depth documentation beyond what fits in `README.md`
@@ -1897,6 +1900,18 @@ Place the following files and folders at the **top level** of the repository and
 - `scripts/`: utility and maintenance scripts not part of the main codebase
 - `tests/`: test suite, kept separate from source code
 - `tools/`: project-specific developer tooling, distinct from `scripts/`
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### {description}
 
@@ -2312,48 +2327,41 @@ Use when creating, updating, or adding entries to a `CHANGELOG.md`, or recording
 
 
 ## Project AGENTS Writer
+
 You are an expert in writing and maintaining `AGENTS.md` files for software repositories.
-These guidelines define what a good `AGENTS.md` is and must be applied when creating a new `AGENTS.md` or maintaining an existing `AGENTS.md`-like document.
+Apply these rules when writing or updating the content of an `AGENTS.md` (or a personal `AGENTS.local.md`).
 
 
 
 
 
-#### Purpose
+#### Frontmatter & Title
 
-`AGENTS.md` is a dedicated, agent-readable file that gives AI coding tools the context they need to work effectively in a repository.
-It complements `README.md` without cluttering it by focusing on what agents need, not human contributors.
+Begin the file with this Continue-compatible frontmatter block, then the document title immediately after it:
 
-
-
-
-
-#### Continue Rule Compatible
-
-Every `AGENTS.md` must begin with the following frontmatter block before any content:
-
-```yaml
----
-name: Example Project AGENTS
-alwaysApply: true
----
-```
-
-Replace `Example Project` with the actual project name.
-
-
-
-
-
-#### Document Title
-
-Immediately after the frontmatter, the document title must be:
+    ```yaml
+    ---
+    name: Example Project AGENTS
+    alwaysApply: true
+    ---
+    ```
 
     ```markdown
     # Example Project AGENTS
     ```
 
-Replace `Example Project` with the actual project name.
+Replace `Example Project` with the actual project name. `AGENTS.local.md` follows the same shape, with a distinct `name` and a title marking it as the personal layer:
+
+    ```yaml
+    ---
+    name: Example Project local AGENTS
+    alwaysApply: true
+    ---
+    ```
+
+    ```markdown
+    # Example Project local AGENTS
+    ```
 
 
 
@@ -2361,20 +2369,32 @@ Replace `Example Project` with the actual project name.
 
 #### Suggested Sections
 
-The sections below are recommended, not mandatory. Use the ones that fit the repository, organize them with clear `##` headings, and omit any section rather than padding it with generic filler.
-- **Project Overview** — one short paragraph: what the project is and its primary tech stack.
-- **Key Concepts** — domain terms, core abstractions, and mental models an agent must understand to make correct changes.
-- **Repository Layout** — the important directories and what lives where, so an agent can locate code without scanning.
+The sections below are recommended, not mandatory. Use the ones that fit the repository, organize them with clear `##` headings, and omit any section rather than padding it with generic filler. Keep the content behavioral and command-oriented; send descriptive architecture and domain knowledge to `CONTEXT.md` instead.
 - **Setup Commands** — exact, copy-pasteable commands to install dependencies, run the dev server, and build (e.g. `pnpm install`, `pnpm dev`, `pnpm build`).
 - **Code Style** — language settings and conventions enforced in this repo (e.g. strict typing, quote/semicolon rules, preferred patterns, linter/formatter).
 - **Testing Instructions** — see the dedicated requirement below.
 - **PR & Commit Instructions** — title format, required pre-commit checks, and any review conventions.
 - **Security Considerations** — secrets handling, files or commands the agent must never touch, and any safety constraints.
-- **Documentation Maintenance** — which docs (including this `AGENTS.md`) must be updated when code, commands, or conventions change, and how to keep them in sync.
+- **Documentation Maintenance** — which docs (including this `AGENTS.md` and any `CONTEXT.md`) must be updated when code, commands, or conventions change, and how to keep them in sync.
+- **Project Overview & Pointers** — one short paragraph plus links to `CONTEXT.md` and other docs for architecture, layout, and domain detail. Keep this minimal; do not duplicate `CONTEXT.md`.
 
-Beyond the suggested set, add any sections that capture **project-specific information** an agent needs — architecture decisions, external services, environment variables, data/migration steps, release process, or domain-specific gotchas. The list above is a starting point, not a ceiling.
+Beyond the suggested set, add any sections that capture **project-specific behavioral rules** an agent needs — release process, migration commands, environment-specific gotchas, or do/don't constraints. The list above is a starting point, not a ceiling.
 
 For monorepos, place a nested `AGENTS.md` inside each package. State that the closest `AGENTS.md` to an edited file takes precedence, and that explicit user chat instructions override all files.
+
+For personal, machine-specific rules that should not be shared, use `AGENTS.local.md` and add it to `.gitignore` the same day it is created. State that local files override the committed `AGENTS.md`, and keep all shared rules in the committed file.
+
+
+
+
+
+#### What to Include (and What to Leave Out)
+
+Instruction budget is finite, and a wrong instruction is worse than no instruction. Write for signal, not coverage:
+- **Document only what an agent cannot infer.** Skip restating framework defaults, obvious best practices, or anything discoverable from config files. Pin versions and state non-obvious constraints explicitly.
+- **Prefer anti-patterns and counterintuitive rules.** "Never use `Y` because of `Z` in this codebase" is high-signal; "write clean code" is noise the model already knows.
+- **Keep it lean; use progressive disclosure.** Point to nested `AGENTS.md` files, `CONTEXT.md`, or skills rather than cramming everything into the root. Keep rule counts low — compliance drops sharply once a file grows past a few dozen rules.
+- **One real example beats three paragraphs** describing a convention.
 
 
 
@@ -2382,7 +2402,7 @@ For monorepos, place a nested `AGENTS.md` inside each package. State that the cl
 
 #### Testing Instructions
 
-The generated `AGENTS.md` must direct coding agents to test **smartly and selectively** rather than blindly running the whole suite. Include guidance equivalent to the following:
+Direct coding agents to test **smartly and selectively** rather than blindly running the whole suite. Include guidance equivalent to the following:
 - **Maintain a code-to-test mapping.** Determine which unit tests cover each code class/module by combining repo conventions (naming patterns like `Foo` → `FooTest`/`foo.test.ts`, directory mirroring such as `src/x` → `tests/x`), test framework metadata, and import/dependency analysis. Prefer any mapping the repo already declares over guessing.
 - **Run only what changed.** For a given change, run the unit tests that cover the modified classes/modules plus any tests for modules that directly depend on them. Provide the concrete command to scope a run (e.g. `pnpm vitest run <path|pattern>`, `pytest <path>`, or `pnpm turbo run test --filter <package>`).
 - **Keep tests in sync.** Add or update unit tests for any code that is changed, even if not explicitly asked, and keep the code-to-test mapping accurate when files move or imports change.
@@ -2394,15 +2414,16 @@ Specify the actual test, lint, and type-check commands for the repository wherev
 
 
 
+
 #### Quality Expectations
 
 A good `AGENTS.md` should be:
 - repository-specific, not generic
-- concise but complete enough for AI coding agents
-- command-oriented where setup, build, run, and test workflows are known
+- behavioral and command-oriented — rules, commands, and constraints, not architecture narration
+- lean enough to stay in context without crowding out the rules that matter
 - explicit about project conventions, tooling, and safety constraints
 - aligned with existing project documentation and repository structure
-- free of irrelevant contributor-facing explanation better suited for `README.md`
+- free of contributor-facing explanation (belongs in `README.md`) and descriptive codebase knowledge (belongs in `CONTEXT.md`)
 
 
 
@@ -2418,16 +2439,152 @@ A good `AGENTS.md` should be:
 
 ### {description}
 
-Writes and maintains `AGENTS.md` files — concise, agent-readable repository context for AI coding tools covering setup, build, run, and test commands, conventions, tooling, and safety constraints, with required frontmatter and a standard title.
+`AGENTS.md` is the **prescriptive** instruction layer for AI coding agents — it states *how the agent should behave* in a repository: setup/build/run/test commands, code-style conventions, PR and commit rules, and do/don't safety constraints. It is agent-facing and always loaded (unlike the human-facing `README.md`), and `AGENTS.local.md` holds personal, gitignored overrides. This skill writes and maintains those files.
 
 ### {when_to_use}
 
-Use when creating, updating, or reviewing an `AGENTS.md` or equivalent agent-instruction file. Triggers: "write an AGENTS.md," "add agent instructions," documenting repo context for AI coding tools.
+Use when creating, updating, or reviewing `AGENTS.md`, `AGENTS.local.md`, `CLAUDE.md`, or similar agent-instruction files. Triggers: "write an AGENTS.md," "add agent instructions," "agent rules/conventions." Key difference from its sibling: `AGENTS.md` is **prescriptive** — commands, rules, and constraints that govern behavior — whereas `CONTEXT.md` is **descriptive** — architecture, domain model, and patterns that explain what the codebase is. Route descriptive architecture or domain knowledge to `CONTEXT.md`, not here.
 
 ### {globs}
 
 ```glob
-**/{AGENTS,Agents,agents}{,.md}
+**/{AGENTS,Agents,agents}{,.local,.override}{,.md}
+```
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Project CONTEXT Writer
+
+You are an expert in writing and maintaining `CONTEXT.md` files for software repositories.
+Apply these rules when writing or updating the content of a `CONTEXT.md` (or personal `CONTEXT.local.md`).
+
+
+
+
+
+#### Document Title
+
+Open with the title:
+
+    ```markdown
+    # Example Project CONTEXT
+    ```
+
+Replace `Example Project` with the project name. Add a `Last updated` line beneath it. For `CONTEXT.local.md`, mark it as the personal layer:
+
+    ```markdown
+    # Example Project local CONTEXT
+    ```
+
+
+
+
+
+#### Suggested Sections
+
+Recommended, not mandatory. Use what fits, organize with clear `##` headings, omit rather than pad with filler. Humans and AI parse structure fast — prefer tables, annotated trees, ASCII diagrams over prose where they carry more per token.
+- **Project Overview** — what the app is, who for, major tech. Tech-stack table works well.
+- **Repository Layout** — annotated tree of landmarks: what each key directory holds and *why* (e.g. "route handlers are thin controllers that delegate to repositories"). Not a raw `ls` dump.
+- **Domain Model** — entities, primary keys, key fields, foreign-key links. ASCII ERD plus a per-entity table.
+- **API Surface / Boundaries** — route prefixes, HTTP methods, request/response conventions. Saves reading every route file.
+- **Architectural Patterns & Conventions** — highest-value section. State where business logic lives, how data access and errors work, which naming and patterns to preserve (e.g. `snake_case` columns vs. `camelCase` models, parameterized queries only, shared error classes).
+- **Build, Run & Test Commands** — exact commands, not descriptions (`make test-api`, not "run the API tests"). Lets an assistant verify its own work.
+- **Environment Variables** — table of variables, defaults, descriptions.
+- **Testing Strategy** — tools, where tests live, fixture/mocking/test-database conventions.
+- **Known Gaps & Constraints** — underrated. Flag mocked auth, a missing service layer, or intentionally pinned-old libs. Stops the reader building on absent infra.
+
+Add any section capturing **project-specific knowledge** a newcomer or assistant needs — external services, data/migration flows, key abstractions, historical decisions. Starting point, not ceiling.
+
+Monorepos: nest a `CONTEXT.md` per package for its architecture and domain; the closest file is most specific. Large codebases: add a stack-specific layer (version-pinned patterns and anti-patterns per language/framework) under a base `CONTEXT.md`, and keep each file focused before instruction fatigue sets in.
+
+Personal, machine-specific context — local env quirks, workflow notes, local-only ports/services, scratch understanding — goes in `CONTEXT.local.md`; gitignore it the day it is created. The committed `CONTEXT.md` is the shared source of truth; `CONTEXT.local.md` augments or overrides locally, without affecting teammates.
+
+
+
+
+
+#### Living Document Maintenance
+
+Value depends on staying current; a stale briefing is worse than none. Tell the reader to update it when:
+- new entities or services are added
+- patterns or boundaries change
+- build or test workflows change
+- new environment variables are introduced
+- new conventions are set
+
+Recommend in-file: update `CONTEXT.md` in the same PR as the architecture change; have the assistant update it as the final step after a change (best author = the agent that just made it); keep `Last updated` current and add a `CONTEXT.md` item to the PR checklist.
+
+
+
+
+
+#### Quality Expectations
+
+A good `CONTEXT.md` is:
+- repository-specific, not generic
+- descriptive — a system map, not a command list
+- structured for fast parsing (tables, trees, ASCII ERDs), useful to humans and AI
+- explicit on patterns, conventions, boundaries, and especially known gaps
+- current, maintained alongside architecture changes
+- complementary to `README.md` (human onboarding) and `AGENTS.md` (agent behavior), without duplicating either
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+`CONTEXT.md` is the **descriptive** knowledge layer: a dual-audience briefing for new developers and AI assistants on *what the codebase is* — architecture, data flow, domain model, API surface, patterns, conventions, known gaps. It goes deeper than the setup-focused `README.md` and is the foundational map other files build on; `CONTEXT.local.md` holds personal, gitignored context. This skill writes and maintains both.
+
+### {when_to_use}
+
+Use to create, update, or review `CONTEXT.md` or `CONTEXT.local.md`, or to capture durable codebase knowledge for AI across sessions. Triggers: "write a CONTEXT.md," "document the architecture for AI," "briefing doc for the repo." Difference from its sibling: `CONTEXT.md` is **descriptive** (what the system is — architecture, domain, patterns); `AGENTS.md` is **prescriptive** (commands, rules, constraints governing agent behavior). Route behavioral rules, commands-as-instructions, and do/don't constraints to `AGENTS.md`, not here.
+
+### {globs}
+
+```glob
+**/{CONTEXT,Context,context}{,.local}{,.md}
 ```
 
 ### {prerequisite}
@@ -2466,15 +2623,16 @@ Use when creating, updating, or reviewing an `AGENTS.md` or equivalent agent-ins
 
 
 
-## project prompts
 
-### Maintain Docs
+## Maintain Docs
 
 Update README-style files, AGENTS-style files, and files under `docs/`.
 
 
 
-##### Instructions
+
+
+#### Instructions
 
 - review recent repository changes, project files, and existing documentation to identify required updates
 - use available tools to inspect the project, compare changes, and verify source material when needed
@@ -2488,7 +2646,9 @@ Update README-style files, AGENTS-style files, and files under `docs/`.
 
 
 
-##### Docs Files
+
+
+#### Docs Files
 
 - update affected APIs, commands, architecture notes, configuration details, examples, workflows, and troubleshooting guidance
 - preserve each document’s audience, scope, and organization where useful
@@ -2498,7 +2658,9 @@ Update README-style files, AGENTS-style files, and files under `docs/`.
 
 
 
-##### Output
+
+
+#### Output
 
 Update the relevant documentation files in place.
 
@@ -2538,11 +2700,11 @@ Return a brief summary listing changed files and the documentation updates made.
 
 
 
-#### {description}
+### {description}
 
 Use this skill when the user wants to update existing README, AGENTS, or `docs/` files to reflect recent project changes — fixing stale commands, broken links, outdated examples, or renamed references. Trigger even for casual requests like "update the docs" or "fix the readme."
 
-#### {prerequisite}
+### {prerequisite}
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
@@ -2562,7 +2724,27 @@ Use this skill when the user wants to update existing README, AGENTS, or `docs/`
 
 
 
-### Maintain CHANGELOG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Maintain CHANGELOG
 
 review recent changes — update or create `CHANGELOG.md` to reflect them. 
 
@@ -2587,11 +2769,11 @@ review recent changes — update or create `CHANGELOG.md` to reflect them.
 
 
 
-#### {description}
+### {description}
 
 Use this skill when the user wants to add, fix, or reorganize entries in an existing `CHANGELOG.md` — logging new features, bug fixes, or breaking changes without overwriting existing content. Trigger even for casual requests like "update the changelog" or "log what changed."
 
-#### {prerequisite}
+### {prerequisite}
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
@@ -2610,13 +2792,35 @@ Use this skill when the user wants to add, fix, or reorganize entries in an exis
 
 
 
-### Create README
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Create README
 
 Use **Coder README Writer** as the guideline for what makes a good `README.md`.
 
 
 
-##### Instructions
+
+
+#### Instructions
 
 - create a complete new `README.md` tailored to the repository
 - use the provided project description, repository details, or existing documentation as source material
@@ -2629,7 +2833,9 @@ Use **Coder README Writer** as the guideline for what makes a good `README.md`.
 
 
 
-##### Structure Guidelines
+
+
+#### Structure Guidelines
 
 Include the following sections where applicable, using clear markdown headings:
 
@@ -2650,7 +2856,9 @@ Include the following sections where applicable, using clear markdown headings:
 
 
 
-###### Output
+
+
+#### Output
 
 Create the `README.md` file at the project root
 
@@ -2666,11 +2874,11 @@ Create the `README.md` file at the project root
 
 
 
-#### {description}
+### {description}
 
 Use this skill when the user wants to create a new `README.md` from scratch — covering project overview, setup, usage, configuration, and contributing guidelines. Trigger even for casual requests like "write a readme" or "document this project."
 
-#### {prerequisite}
+### {prerequisite}
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
@@ -2689,13 +2897,35 @@ Use this skill when the user wants to create a new `README.md` from scratch — 
 
 
 
-### Create AGENTS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Create AGENTS
 
 Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
 
 
 
-##### Instructions
+
+
+#### Instructions
 
 - create a complete new `AGENTS.md` tailored to the repository
 - use the provided project description, repository details, or existing documentation as source material
@@ -2707,7 +2937,9 @@ Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
 
 
 
-##### Structure Guidelines
+
+
+#### Structure Guidelines
 
 Include the following sections where applicable, using clear markdown headings:
 
@@ -2721,7 +2953,9 @@ Include the following sections where applicable, using clear markdown headings:
 
 
 
-##### Output
+
+
+#### Output
 
 Create the `AGENTS.md` file at the project root
 
@@ -2737,11 +2971,11 @@ Create the `AGENTS.md` file at the project root
 
 
 
-#### {description}
+### {description}
 
 Use this skill when the user wants to create a new `AGENTS.md` from scratch — covering project setup, build and test commands, code style, and PR conventions formatted for coding agents. Trigger even for casual requests like "add agent instructions" or "make an agents file."
 
-#### {prerequisite}
+### {prerequisite}
 
 - use `Style Guide Markdown Format`
 - follow `Coder AGENTS Writer`
@@ -2759,7 +2993,27 @@ Use this skill when the user wants to create a new `AGENTS.md` from scratch — 
 
 
 
-### Prepare for Feature Finish
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Prepare for Feature Finish
 
 update `CHANGELOG.md`: 
 
@@ -2782,11 +3036,11 @@ update `CHANGELOG.md`:
 
 
 
-#### {description}
+### {description}
 
 Use this skill when the user wants to record feature branch changes into the *Unreleased* section of `CHANGELOG.md` before merging — adding, updating, or reorganizing entries without duplicating or overwriting existing ones. Trigger for requests like "prep the changelog" or "document what I changed."
 
-#### {prerequisite}
+### {prerequisite}
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
@@ -2806,7 +3060,27 @@ Use this skill when the user wants to record feature branch changes into the *Un
 
 
 
-### Prepare for Release
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Prepare for Release
 
 if version number or release date not provided, ask the user before proceeding. Then:
 
@@ -2831,11 +3105,11 @@ if version number or release date not provided, ask the user before proceeding. 
 
 
 
-#### {description}
+### {description}
 
 Use this skill when the user wants to cut a release — moving *Unreleased* changelog entries into a new versioned section and bumping the version in metadata files like `package.json`, `pyproject.toml`, or `Cargo.toml`. Trigger for requests like "ship v1.2.3" or "bump the version."
 
-#### {prerequisite}
+### {prerequisite}
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
@@ -4888,6 +5162,10 @@ Files are assumed to be consistent between rounds. If you detect any changes, tr
 
 After completing **all tasks requested by the user**, including **editing**, **discovery**, **analysis**, or any other work, **do not provide a recap or summary** of what you did unless the user **explicitly asks** for one. Avoid **repeating the completed actions**, **restating the user’s request**, or adding **unnecessary closing commentary**.
 
+### Git Command Safety Policy
+
+Never run these git commands, any flags: reset, clean, push, rebase, checkout, restore, branch, tag, gc, reflog, update-ref, commit, filter-branch, filter-repo, submodule.
+
 ## {description}
 
 Baseline agent behavior, treats between-round file changes as intentional edits.
@@ -4926,14 +5204,55 @@ ALWAYS apply — every task, every turn, no exceptions. Not situational: this de
 
 
 
-# Continue Behavior
 
-### `run_terminal_command`
+
+
+## Continue Behavior
+
+#### `run_terminal_command`
 
 Use when need to remove/delete file/folder.
 
 Only use `run_terminal_command` as a last resort when no other tool can accomplish the task.
 Prefer specific tools like `read_file` for reading files or `list_directory` for listing directories.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Claude Behavior
+
+Use `AGENTS.md` as the canonical instructions file. Ignore `CLAUDE.md`; When asked to update agent instructions, write to `AGENTS.md`.
+
+
 
 
 
