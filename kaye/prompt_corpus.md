@@ -4970,6 +4970,44 @@ Prefer specific tools like `read_file` for reading files or `list_directory` for
 
 
 
+## Claude Behavior
+
+Use `AGENTS.md` as the canonical instructions file. Ignore `CLAUDE.md`; When asked to update agent instructions, write to `AGENTS.md`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Utility Prompts
 

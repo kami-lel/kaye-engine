@@ -7,5 +7,5 @@ TODO init project prompt
 
 Todo coder dev phases logic: mpt: working on a single phase at the same time
 
-TODO add section of claude behavior, ask it to use agents.md instead of claude.md
+Todo unit test & make sure agent & claude behavior is added
 
