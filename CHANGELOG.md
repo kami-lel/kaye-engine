@@ -20,6 +20,11 @@
 
 ### Changed
 
+- `kaye claude` subcommands (`code`, `marketplace`, `plugin`, `skill`,
+  `user-system-prompt`) — `--help` now prints a detailed description with an
+  output-folder tree diagram, rendered verbatim via
+  `RawDescriptionHelpFormatter`
+
 ### Deprecated
 
 ### Removed

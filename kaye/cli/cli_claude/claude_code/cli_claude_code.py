@@ -1,5 +1,6 @@
 """export for Claude Code as a plugin and User System Prompt file"""
 
+from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye import logger, kamilog
@@ -17,6 +18,25 @@ from kaye.cli.cli_claude.user_prompt.export_user_file import (
 
 # Hack user scope plugin is untested
 
+# constants  ===================================================================
+
+_DESCRIPTION = """
+
+install kaye into a local .claude/ folder: write the kaye plugin under
+plugins/ and the Chat blueprint as the User System Prompt CLAUDE.md.
+
+FOLDER/  (default: ~/.claude)
+├── CLAUDE.md  (User System Prompt)
+└── plugins/
+    └── kaye/
+        ├── .claude-plugin/
+        │   └── plugin.json
+        └── skills/
+            ├── coder-python/
+            │   └── SKILL.md
+            └── ~~  (one folder per remaining skill)
+"""
+
 
 def register_cli_claude_code_parser(  ##########################################
     cli_subparser,
@@ -24,7 +44,8 @@ def register_cli_claude_code_parser(  ##########################################
     code_parser = cli_subparser.add_parser(
         "code",
         help=__doc__,
-        description=__doc__,
+        description=__doc__ + _DESCRIPTION,
+        formatter_class=RawDescriptionHelpFormatter,
         aliases=["c"],
     )
 

@@ -1,10 +1,31 @@
 """export as Claude Marketplace including a kaye plugin"""
 
+from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye import logger, kamilog
 
 from .export_marketplace import export_marketplace
+
+# constants  ===================================================================
+
+_DESCRIPTION = """
+
+wrap the kaye plugin in a Claude marketplace: a marketplace.json manifest
+alongside the full plugin nested under plugins/, ready to add and install.
+
+MARKETPLACE/  (default: current directory)
+├── .claude-plugin/
+│   └── marketplace.json
+└── plugins/
+    └── kaye/
+        ├── .claude-plugin/
+        │   └── plugin.json
+        └── skills/
+            ├── coder-python/
+            │   └── SKILL.md
+            └── ~~  (one folder per remaining skill)
+"""
 
 
 def register_cli_claude_marketplace_parser(  ####################################
@@ -13,7 +34,8 @@ def register_cli_claude_marketplace_parser(  ###################################
     marketplace_parser = cli_subparser.add_parser(
         "marketplace",
         help=__doc__,
-        description=__doc__,
+        description=__doc__ + _DESCRIPTION,
+        formatter_class=RawDescriptionHelpFormatter,
         aliases=["m"],
     )
 

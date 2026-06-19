@@ -1,5 +1,6 @@
 """export as agentskills.io-standard Skills for Anthropic Claude"""
 
+from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 
@@ -15,6 +16,18 @@ from .export_skills_as_zips import export_skills_as_zips
 
 _DEFAULT_SKILLS_FOLDER = Path.home() / ".claude" / "skills"
 
+_DESCRIPTION = """
+
+export every blueprint, project prompt, and abbreviation group as its own
+agentskills.io-standard Skill folder (one SKILL.md each); with -z, pack each
+Skill into its own .zip instead.
+
+FOLDER/  (default: ~/.claude/skills/)
+├── coder-python/
+│   └── SKILL.md
+└── ~~  (one folder per remaining blueprint, prompt, and abbr group)
+"""
+
 
 def register_cli_claude_skill_parser(  #########################################
     cli_subparser,
@@ -22,7 +35,8 @@ def register_cli_claude_skill_parser(  #########################################
     skill_parser = cli_subparser.add_parser(
         "skill",
         help=__doc__,
-        description=__doc__,
+        description=__doc__ + _DESCRIPTION,
+        formatter_class=RawDescriptionHelpFormatter,
         aliases=["s"],
     )
 
