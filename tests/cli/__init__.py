@@ -778,13 +778,16 @@ def assert_continue_header_line_description(prompt_id, testee_header):
     return False
 
 
-# TODO TODO apply prerequisite across
-
-
-def assert_prerequisite_heading_line(testee_content, line_cnt):
-    return "#" * line_cnt + " {prerequisite}" in testee_content
+def assert_prerequisite_heading_line(testee_content, hash_symbol_cnt):
+    """
+    check if a {prerequisite} heading exists at a specific heading level
+    """
+    return "#" * hash_symbol_cnt + " {prerequisite}" in testee_content
 
 
 def assert_prerequisite_content_line(skill_id, testee_content, i):
+    """
+    check if a specific prerequisite content line exists in content
+    """
     line = TESTEE_PREREQUISITE_CONTENT_ALL[skill_id][i]
     return line in testee_content

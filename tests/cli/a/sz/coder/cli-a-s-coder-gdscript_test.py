@@ -8,11 +8,7 @@ creation of ``coder-gdscript``
 
 import pytest
 
-from tests.cli import (
-    TESTEE_PREREQUISITE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-)
+from tests.cli import *  # noqa: F401, F403
 from tests.cli.a.s import (
     VERSION_LINE_PATTERN,
     convert_folder_path2skill_file_path,
@@ -22,7 +18,6 @@ from tests.cli.a.s import (
 
 
 SKILL_NAME = "coder-gdscript"
-TESTEE_PREREQUISITE_CONTENT = TESTEE_PREREQUISITE_CONTENT_ALL[SKILL_NAME]
 
 
 # Pytest fixtures  #############################################################
@@ -95,7 +90,7 @@ class TestContent:  # ==========================================================
 class TestPrerequisite:  # ====================================================
 
     def test_heading(_, testee_content):
-        assert "### {prerequisite}" in testee_content or "#### {prerequisite}" in testee_content
+        assert assert_prerequisite_heading_line(testee_content, 3)
 
     def test0(_, testee_content):
-        assert TESTEE_PREREQUISITE_CONTENT[0] in testee_content
+        assert assert_prerequisite_content_line(SKILL_NAME, testee_content, 0)
