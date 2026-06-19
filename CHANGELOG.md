@@ -24,6 +24,12 @@
   `user-system-prompt`) — `--help` now prints a detailed description with an
   output-folder tree diagram, rendered verbatim via
   `RawDescriptionHelpFormatter`
+- **Project AGENTS Writer** — expanded and clarified guidance: new sections
+  covering Continue Rule compatibility, frontmatter format, suggested sections,
+  what to include/exclude, testing instructions, and quality expectations;
+  updated glob pattern to include `.local` and `.override` file variants;
+  unit tests enhanced with comprehensive content assertions for description
+  and when_to_use metadata
 
 ### Deprecated
 
