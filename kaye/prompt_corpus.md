@@ -2470,11 +2470,10 @@ Use when creating, updating, or reviewing `AGENTS.md`, `AGENTS.local.md`, `CLAUD
 
 
 
-
 ## Project CONTEXT Writer
 
 You are an expert in writing and maintaining `CONTEXT.md` files for software repositories.
-Apply these rules when writing or updating the content of a `CONTEXT.md` (or a personal `CONTEXT.local.md`).
+Apply these rules when writing or updating the content of a `CONTEXT.md` (or personal `CONTEXT.local.md`).
 
 
 
@@ -2482,13 +2481,13 @@ Apply these rules when writing or updating the content of a `CONTEXT.md` (or a p
 
 #### Document Title
 
-Open the file with the title:
+Open with the title:
 
     ```markdown
     # Example Project CONTEXT
     ```
 
-Replace `Example Project` with the actual project name. A `Last updated` line directly beneath the title is encouraged.
+Replace `Example Project` with the project name. Add a `Last updated` line beneath it.
 
 
 
@@ -2496,22 +2495,22 @@ Replace `Example Project` with the actual project name. A `Last updated` line di
 
 #### Suggested Sections
 
-The sections below are recommended, not mandatory. Use the ones that fit the repository, organize them with clear `##` headings, and omit any section rather than padding it with generic filler. Both humans and AI assistants parse structured data efficiently, so prefer tables, annotated trees, and ASCII diagrams over prose wherever they carry more information per token.
-- **Project Overview** — what the application is, who it is for, and the major technologies. A tech-stack table works well.
-- **Repository Layout** — an annotated directory tree of the structural landmarks, with a brief note on what each important directory contains and *why* (e.g. "route handlers are thin controllers that delegate to repositories"). Not a raw `ls` dump.
-- **Domain Model** — core entities with primary keys, key fields, and foreign-key relationships. An ASCII ERD packs a lot of information into a few lines and parses well for both humans and AI; pair it with a per-entity table.
-- **API Surface / Application Boundaries** — route prefixes, HTTP methods, and request/response conventions, so the reader need not read every route file to learn the API shape.
-- **Architectural Patterns & Conventions** — consistently the highest-value section. Be explicit about where business logic lives, how data access works, how errors are handled, and which naming conventions and patterns must be preserved (e.g. `snake_case` columns vs. `camelCase` models, parameterized queries only, shared error classes).
-- **Build, Run & Test Commands** — the actual commands, not descriptions of them (`make test-api`, not "run the API tests"), so an assistant can validate its own work.
-- **Environment Variables** — a table of variables, defaults, and descriptions, for configuration-aware code.
-- **Testing Strategy** — which tools are used, where test files live, and the fixture, mocking, and test-database conventions.
-- **Known Gaps & Constraints** — one of the most underrated sections. If auth is mocked, a service layer does not yet exist, or a library is intentionally pinned to an older version, say so, to stop the reader building on infrastructure that is not there.
+Recommended, not mandatory. Use what fits, organize with clear `##` headings, omit rather than pad with filler. Humans and AI parse structure fast — prefer tables, annotated trees, ASCII diagrams over prose where they carry more per token.
+- **Project Overview** — what the app is, who for, major tech. Tech-stack table works well.
+- **Repository Layout** — annotated tree of landmarks: what each key directory holds and *why* (e.g. "route handlers are thin controllers that delegate to repositories"). Not a raw `ls` dump.
+- **Domain Model** — entities, primary keys, key fields, foreign-key links. ASCII ERD plus a per-entity table.
+- **API Surface / Boundaries** — route prefixes, HTTP methods, request/response conventions. Saves reading every route file.
+- **Architectural Patterns & Conventions** — highest-value section. State where business logic lives, how data access and errors work, which naming and patterns to preserve (e.g. `snake_case` columns vs. `camelCase` models, parameterized queries only, shared error classes).
+- **Build, Run & Test Commands** — exact commands, not descriptions (`make test-api`, not "run the API tests"). Lets an assistant verify its own work.
+- **Environment Variables** — table of variables, defaults, descriptions.
+- **Testing Strategy** — tools, where tests live, fixture/mocking/test-database conventions.
+- **Known Gaps & Constraints** — underrated. Flag mocked auth, a missing service layer, or intentionally pinned-old libs. Stops the reader building on absent infra.
 
-Beyond the suggested set, add any sections that capture **project-specific knowledge** a newcomer or assistant needs — external services, data/migration flows, key abstractions, or historical decisions. The list above is a starting point, not a ceiling.
+Add any section capturing **project-specific knowledge** a newcomer or assistant needs — external services, data/migration flows, key abstractions, historical decisions. Starting point, not ceiling.
 
-For monorepos, place a nested `CONTEXT.md` inside each package describing that package's architecture and domain, and state that the closest `CONTEXT.md` to a file is the most specific. For large codebases, consider a stack-specific layer (version-pinned patterns and anti-patterns per language/framework) beneath a base `CONTEXT.md`, and keep each file focused rather than letting one file grow until instruction fatigue sets in.
+Monorepos: nest a `CONTEXT.md` per package for its architecture and domain; the closest file is most specific. Large codebases: add a stack-specific layer (version-pinned patterns and anti-patterns per language/framework) under a base `CONTEXT.md`, and keep each file focused before instruction fatigue sets in.
 
-For personal, machine-specific context that should not be shared — local environment quirks, individual workflow notes, local-only ports or services, or scratch understanding — use `CONTEXT.local.md` and add it to `.gitignore` the same day it is created. State that the committed `CONTEXT.md` is the shared source of truth and that `CONTEXT.local.md` augments or overrides it locally without affecting teammates.
+Personal, machine-specific context — local env quirks, workflow notes, local-only ports/services, scratch understanding — goes in `CONTEXT.local.md`; gitignore it the day it is created. The committed `CONTEXT.md` is the shared source of truth; `CONTEXT.local.md` augments or overrides locally, without affecting teammates.
 
 
 
@@ -2519,14 +2518,14 @@ For personal, machine-specific context that should not be shared — local envir
 
 #### Living Document Maintenance
 
-A `CONTEXT.md` earns its value only by staying current; a stale briefing is worse than none. Instruct the reader to update it when:
-- new entities or services are added,
-- architectural patterns or boundaries change,
-- build or test workflows change,
-- new environment variables are introduced, or
-- new conventions are established.
+Value depends on staying current; a stale briefing is worse than none. Tell the reader to update it when:
+- new entities or services are added
+- patterns or boundaries change
+- build or test workflows change
+- new environment variables are introduced
+- new conventions are set
 
-Recommend practical patterns in the file: update `CONTEXT.md` in the same pull request that changes the architecture; ask the coding assistant to update it as the final step after a substantial change, since the agent that just made the change is the best author for documenting it; and keep the `Last updated` line current, with a `CONTEXT.md` entry in the PR checklist for architectural changes.
+Recommend in-file: update `CONTEXT.md` in the same PR as the architecture change; have the assistant update it as the final step after a change (best author = the agent that just made it); keep `Last updated` current and add a `CONTEXT.md` item to the PR checklist.
 
 
 
@@ -2534,12 +2533,12 @@ Recommend practical patterns in the file: update `CONTEXT.md` in the same pull r
 
 #### Quality Expectations
 
-A good `CONTEXT.md` should be:
+A good `CONTEXT.md` is:
 - repository-specific, not generic
-- descriptive and explanatory — the map of the system, not a list of commands-as-orders
-- structured for fast parsing (tables, annotated trees, ASCII ERDs) and useful to both humans and AI
-- explicit about patterns, conventions, boundaries, and especially known gaps and constraints
-- current with the codebase and maintained alongside architectural changes
+- descriptive — a system map, not a command list
+- structured for fast parsing (tables, trees, ASCII ERDs), useful to humans and AI
+- explicit on patterns, conventions, boundaries, and especially known gaps
+- current, maintained alongside architecture changes
 - complementary to `README.md` (human onboarding) and `AGENTS.md` (agent behavior), without duplicating either
 
 
@@ -2556,11 +2555,11 @@ A good `CONTEXT.md` should be:
 
 ### {description}
 
-`CONTEXT.md` is the **descriptive** knowledge layer for a repository — a dual-audience briefing for new human developers and AI coding assistants that explains *what the codebase is*: architecture, data flow, domain model, API surface, patterns and conventions, and known gaps. It goes deeper than the setup-focused `README.md` and serves as the foundational map other files build on; `CONTEXT.local.md` holds personal, gitignored context. This skill writes and maintains those files.
+`CONTEXT.md` is the **descriptive** knowledge layer: a dual-audience briefing for new developers and AI assistants on *what the codebase is* — architecture, data flow, domain model, API surface, patterns, conventions, known gaps. It goes deeper than the setup-focused `README.md` and is the foundational map other files build on; `CONTEXT.local.md` holds personal, gitignored context. This skill writes and maintains both.
 
 ### {when_to_use}
 
-Use when creating, updating, or reviewing `CONTEXT.md` or `CONTEXT.local.md`, or capturing durable codebase knowledge for AI assistants across sessions. Triggers: "write a CONTEXT.md," "document the architecture for AI," "briefing doc for the repo." Key difference from its sibling: `CONTEXT.md` is **descriptive** — it explains what the system is (architecture, domain model, patterns) — whereas `AGENTS.md` is **prescriptive** — commands, rules, and constraints that govern how an agent should behave. Route behavioral rules, commands-as-instructions, or do/don't constraints to `AGENTS.md`, not here.
+Use to create, update, or review `CONTEXT.md` or `CONTEXT.local.md`, or to capture durable codebase knowledge for AI across sessions. Triggers: "write a CONTEXT.md," "document the architecture for AI," "briefing doc for the repo." Difference from its sibling: `CONTEXT.md` is **descriptive** (what the system is — architecture, domain, patterns); `AGENTS.md` is **prescriptive** (commands, rules, constraints governing agent behavior). Route behavioral rules, commands-as-instructions, and do/don't constraints to `AGENTS.md`, not here.
 
 ### {globs}
 
@@ -2571,6 +2570,7 @@ Use when creating, updating, or reviewing `CONTEXT.md` or `CONTEXT.local.md`, or
 ### {prerequisite}
 
 - use `Style Guide Markdown Format`
+
 
 
 

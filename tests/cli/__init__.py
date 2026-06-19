@@ -486,8 +486,14 @@ TESTEE_FILE_CONTENT_ALL = {
     ],
     "project-agents-writer": [
         "## Project AGENTS Writer",
-        "You are an expert in writing and maintaining `AGENTS.md` files for software repositories.",
-        "Apply these rules when writing or updating the content of an `AGENTS.md` (or a personal `AGENTS.local.md`).",
+        (
+            "You are an expert in writing and maintaining `AGENTS.md` files for"
+            " software repositories."
+        ),
+        (
+            "Apply these rules when writing or updating the content of an"
+            " `AGENTS.md` (or a personal `AGENTS.local.md`)."
+        ),
         "#### Continue Rule Compatible",
         "Begin the file with this frontmatter block before any content:",
         "#### Document Title",
@@ -495,12 +501,21 @@ TESTEE_FILE_CONTENT_ALL = {
         "#### Suggested Sections",
         "The sections below are recommended, not mandatory.",
         "#### What to Include (and What to Leave Out)",
-        "Instruction budget is finite, and a wrong instruction is worse than no instruction.",
+        (
+            "Instruction budget is finite, and a wrong instruction is worse"
+            " than no instruction."
+        ),
         "#### Testing Instructions",
-        "Direct coding agents to test **smartly and selectively** rather than blindly running the whole suite.",
+        (
+            "Direct coding agents to test **smartly and selectively** rather"
+            " than blindly running the whole suite."
+        ),
         "#### Quality Expectations",
         "- repository-specific, not generic",
-        "- behavioral and command-oriented — rules, commands, and constraints, not architecture narration",
+        (
+            "- behavioral and command-oriented — rules, commands, and"
+            " constraints, not architecture narration"
+        ),
     ],
     "project-changelog-writer": [
         "## Project CHANGELOG Writer",
@@ -676,3 +691,7 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
         "use `Style Guide Briefness Style`",
     ],
 }
+
+
+# Fixme organize this file
+# Todo description etc. centralized test method
