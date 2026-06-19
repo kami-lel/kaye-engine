@@ -7,7 +7,7 @@ define ``PROMPTS_BLUEPRINTS``
 from kaye.prompt import load_prompt_corpus_tree
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 
-_prompt_node = load_prompt_corpus_tree()["Projects"]["project prompts"]
+_prompt_node = load_prompt_corpus_tree()["Projects"]
 # blueprints  ##################################################################
 
 
@@ -18,9 +18,8 @@ maintain_docs_blueprint = PromptBlueprint.create_from_node(
 )
 
 # maintain changelog
-_maintain_changelog_node = _prompt_node["Maintain CHANGELOG"]
 maintain_changelog_blueprint = PromptBlueprint.create_from_node(
-    _maintain_changelog_node, recursively=True
+    _prompt_node["Maintain CHANGELOG"], recursively=True
 )
 
 
@@ -40,18 +39,12 @@ create_agents_blueprint = PromptBlueprint.create_from_node(
 prepare_for_feature_blueprint = PromptBlueprint.create_from_node(
     _prompt_node["Prepare for Feature Finish"]
 )
-prepare_for_feature_blueprint.checkmark(
-    _maintain_changelog_node["edit CHANGELOG"]
-)
 prepare_for_feature_blueprint.display_name = "Prepare for Feature Finish"
 
 
 # Prepare for Release
 prepare_for_release_blueprint = PromptBlueprint.create_from_node(
     _prompt_node["Prepare for Release"]
-)
-prepare_for_release_blueprint.checkmark(
-    _maintain_changelog_node["edit CHANGELOG"]
 )
 prepare_for_release_blueprint.display_name = "Prepare for Release"
 

@@ -73,7 +73,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_heading(_, testee_content):
-        assert "### Prepare for Feature Finish" in testee_content
+        assert "## Prepare for Feature Finish" in testee_content
 
     def test_intro_update_changelog(_, testee_content):
         assert "update `CHANGELOG.md`" in testee_content
