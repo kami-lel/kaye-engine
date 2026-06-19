@@ -150,8 +150,8 @@ TESTEE_FILE_CONTENT_ALL = {
         "After completing **all tasks requested by the user**,",
     ],
     "continue-behavior": [
-        "# Continue Behavior",
-        "### `run_terminal_command`",
+        "## Continue Behavior",
+        "#### `run_terminal_command`",
         "Only use `run_terminal_command` as a last resort",
         "Use when need to remove/delete file/folder.",
     ],

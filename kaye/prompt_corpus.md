@@ -4926,9 +4926,12 @@ ALWAYS apply — every task, every turn, no exceptions. Not situational: this de
 
 
 
-# Continue Behavior
 
-### `run_terminal_command`
+
+
+## Continue Behavior
+
+#### `run_terminal_command`
 
 Use when need to remove/delete file/folder.
 
