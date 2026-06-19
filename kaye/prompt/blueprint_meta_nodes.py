@@ -6,6 +6,8 @@ define ``BlueprintMetaNodes`` and ``collapse_lines_into_single_line``
 
 from kaye.prompt.meta_node_type import MetaNodeType
 
+REPLACEMENT_NEWLINE_SYMBOL = "↵"  # HACK replace
+
 
 def collapse_lines_into_single_line(lines):
     """
@@ -17,7 +19,7 @@ def collapse_lines_into_single_line(lines):
     :return: the lines joined into one string by the line-break glyph
     :rtype: str
     """
-    return "↵".join(lines)
+    return REPLACEMENT_NEWLINE_SYMBOL.join(lines)
 
 
 class BlueprintMetaNodes:  #####################################################
