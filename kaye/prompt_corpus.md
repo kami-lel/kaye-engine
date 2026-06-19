@@ -2624,15 +2624,15 @@ Use to create, update, or review `CONTEXT.md` or `CONTEXT.local.md`, or to captu
 
 
 
-## project prompts
-
-### Maintain Docs
+## Maintain Docs
 
 Update README-style files, AGENTS-style files, and files under `docs/`.
 
 
 
-##### Instructions
+
+
+#### Instructions
 
 - review recent repository changes, project files, and existing documentation to identify required updates
 - use available tools to inspect the project, compare changes, and verify source material when needed
@@ -2646,7 +2646,9 @@ Update README-style files, AGENTS-style files, and files under `docs/`.
 
 
 
-##### Docs Files
+
+
+#### Docs Files
 
 - update affected APIs, commands, architecture notes, configuration details, examples, workflows, and troubleshooting guidance
 - preserve each document’s audience, scope, and organization where useful
@@ -2656,7 +2658,9 @@ Update README-style files, AGENTS-style files, and files under `docs/`.
 
 
 
-##### Output
+
+
+#### Output
 
 Update the relevant documentation files in place.
 
@@ -2696,11 +2700,11 @@ Return a brief summary listing changed files and the documentation updates made.
 
 
 
-#### {description}
+### {description}
 
 Use this skill when the user wants to update existing README, AGENTS, or `docs/` files to reflect recent project changes — fixing stale commands, broken links, outdated examples, or renamed references. Trigger even for casual requests like "update the docs" or "fix the readme."
 
-#### {prerequisite}
+### {prerequisite}
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
@@ -2720,7 +2724,27 @@ Use this skill when the user wants to update existing README, AGENTS, or `docs/`
 
 
 
-### Maintain CHANGELOG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Maintain CHANGELOG
 
 review recent changes — update or create `CHANGELOG.md` to reflect them. 
 
@@ -2745,11 +2769,11 @@ review recent changes — update or create `CHANGELOG.md` to reflect them.
 
 
 
-#### {description}
+### {description}
 
 Use this skill when the user wants to add, fix, or reorganize entries in an existing `CHANGELOG.md` — logging new features, bug fixes, or breaking changes without overwriting existing content. Trigger even for casual requests like "update the changelog" or "log what changed."
 
-#### {prerequisite}
+### {prerequisite}
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
@@ -2768,13 +2792,35 @@ Use this skill when the user wants to add, fix, or reorganize entries in an exis
 
 
 
-### Create README
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Create README
 
 Use **Coder README Writer** as the guideline for what makes a good `README.md`.
 
 
 
-##### Instructions
+
+
+#### Instructions
 
 - create a complete new `README.md` tailored to the repository
 - use the provided project description, repository details, or existing documentation as source material
@@ -2787,7 +2833,9 @@ Use **Coder README Writer** as the guideline for what makes a good `README.md`.
 
 
 
-##### Structure Guidelines
+
+
+#### Structure Guidelines
 
 Include the following sections where applicable, using clear markdown headings:
 
@@ -2808,7 +2856,9 @@ Include the following sections where applicable, using clear markdown headings:
 
 
 
-###### Output
+
+
+#### Output
 
 Create the `README.md` file at the project root
 
@@ -2824,11 +2874,11 @@ Create the `README.md` file at the project root
 
 
 
-#### {description}
+### {description}
 
 Use this skill when the user wants to create a new `README.md` from scratch — covering project overview, setup, usage, configuration, and contributing guidelines. Trigger even for casual requests like "write a readme" or "document this project."
 
-#### {prerequisite}
+### {prerequisite}
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
@@ -2847,13 +2897,35 @@ Use this skill when the user wants to create a new `README.md` from scratch — 
 
 
 
-### Create AGENTS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Create AGENTS
 
 Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
 
 
 
-##### Instructions
+
+
+#### Instructions
 
 - create a complete new `AGENTS.md` tailored to the repository
 - use the provided project description, repository details, or existing documentation as source material
@@ -2865,7 +2937,9 @@ Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
 
 
 
-##### Structure Guidelines
+
+
+#### Structure Guidelines
 
 Include the following sections where applicable, using clear markdown headings:
 
@@ -2879,7 +2953,9 @@ Include the following sections where applicable, using clear markdown headings:
 
 
 
-##### Output
+
+
+#### Output
 
 Create the `AGENTS.md` file at the project root
 
@@ -2895,11 +2971,11 @@ Create the `AGENTS.md` file at the project root
 
 
 
-#### {description}
+### {description}
 
 Use this skill when the user wants to create a new `AGENTS.md` from scratch — covering project setup, build and test commands, code style, and PR conventions formatted for coding agents. Trigger even for casual requests like "add agent instructions" or "make an agents file."
 
-#### {prerequisite}
+### {prerequisite}
 
 - use `Style Guide Markdown Format`
 - follow `Coder AGENTS Writer`
@@ -2917,7 +2993,27 @@ Use this skill when the user wants to create a new `AGENTS.md` from scratch — 
 
 
 
-### Prepare for Feature Finish
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Prepare for Feature Finish
 
 update `CHANGELOG.md`: 
 
@@ -2940,11 +3036,11 @@ update `CHANGELOG.md`:
 
 
 
-#### {description}
+### {description}
 
 Use this skill when the user wants to record feature branch changes into the *Unreleased* section of `CHANGELOG.md` before merging — adding, updating, or reorganizing entries without duplicating or overwriting existing ones. Trigger for requests like "prep the changelog" or "document what I changed."
 
-#### {prerequisite}
+### {prerequisite}
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
@@ -2964,7 +3060,27 @@ Use this skill when the user wants to record feature branch changes into the *Un
 
 
 
-### Prepare for Release
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Prepare for Release
 
 if version number or release date not provided, ask the user before proceeding. Then:
 
@@ -2989,11 +3105,11 @@ if version number or release date not provided, ask the user before proceeding. 
 
 
 
-#### {description}
+### {description}
 
 Use this skill when the user wants to cut a release — moving *Unreleased* changelog entries into a new versioned section and bumping the version in metadata files like `package.json`, `pyproject.toml`, or `Cargo.toml`. Trigger for requests like "ship v1.2.3" or "bump the version."
 
-#### {prerequisite}
+### {prerequisite}
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity

@@ -79,7 +79,7 @@ class TestHeader:  # ===========================================================
 class TestContent:  # ==========================================================
 
     def test_maintain_changelog_heading(_, testee_content):
-        assert "### Maintain CHANGELOG" in testee_content
+        assert "## Maintain CHANGELOG" in testee_content
 
     def test_review_recent_changes(_, testee_content):
         assert (

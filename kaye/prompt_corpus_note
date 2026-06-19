@@ -1,11 +1,18 @@
 
 todo resume role
 
-TODO init project prompt
-
-TODO reorganize various project related prompts
-
-TODO make compact command part of the project related prompts
+Fixme create README
+Fixme maintain README
+Todo create CHANGELOG
+Fixme maintain CHANGELOG
+Todo create AGENTS & CONTEXT
+Todo maintain AGENTS & CONTEXT
+Todo create docs
+Fixme maintain docs
+Todo initialization project: README/CHANGELOG/AGENTS/CONTEXT/docs
+Todo compact-with-update: CHANGELOG/AGENTS/CONTEXT
+Fixme PFF: CHANGELOG/AGENTS/CONTEXT
+Fixme README/CHANGELOG/AGENTS/CONTEXT/docs
 
 Todo coder dev phases logic: mpt: working on a single phase at the same time
 
