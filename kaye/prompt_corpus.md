@@ -2312,17 +2312,9 @@ Use when creating, updating, or adding entries to a `CHANGELOG.md`, or recording
 
 
 ## Project AGENTS Writer
+
 You are an expert in writing and maintaining `AGENTS.md` files for software repositories.
-These guidelines define what a good `AGENTS.md` is and must be applied when creating a new `AGENTS.md` or maintaining an existing `AGENTS.md`-like document.
-
-
-
-
-
-#### Purpose
-
-`AGENTS.md` is a dedicated, agent-readable file that gives AI coding tools the context they need to work effectively in a repository.
-It complements `README.md` without cluttering it by focusing on what agents need, not human contributors.
+Apply these rules when writing or updating the content of an `AGENTS.md` (or a personal `AGENTS.local.md`).
 
 
 
@@ -2330,7 +2322,7 @@ It complements `README.md` without cluttering it by focusing on what agents need
 
 #### Continue Rule Compatible
 
-Every `AGENTS.md` must begin with the following frontmatter block before any content:
+Begin the file with this frontmatter block before any content:
 
 ```yaml
 ---
@@ -2347,7 +2339,7 @@ Replace `Example Project` with the actual project name.
 
 #### Document Title
 
-Immediately after the frontmatter, the document title must be:
+Immediately after the frontmatter, write the title:
 
     ```markdown
     # Example Project AGENTS
@@ -2361,20 +2353,32 @@ Replace `Example Project` with the actual project name.
 
 #### Suggested Sections
 
-The sections below are recommended, not mandatory. Use the ones that fit the repository, organize them with clear `##` headings, and omit any section rather than padding it with generic filler.
-- **Project Overview** — one short paragraph: what the project is and its primary tech stack.
-- **Key Concepts** — domain terms, core abstractions, and mental models an agent must understand to make correct changes.
-- **Repository Layout** — the important directories and what lives where, so an agent can locate code without scanning.
+The sections below are recommended, not mandatory. Use the ones that fit the repository, organize them with clear `##` headings, and omit any section rather than padding it with generic filler. Keep the content behavioral and command-oriented; send descriptive architecture and domain knowledge to `CONTEXT.md` instead.
 - **Setup Commands** — exact, copy-pasteable commands to install dependencies, run the dev server, and build (e.g. `pnpm install`, `pnpm dev`, `pnpm build`).
 - **Code Style** — language settings and conventions enforced in this repo (e.g. strict typing, quote/semicolon rules, preferred patterns, linter/formatter).
 - **Testing Instructions** — see the dedicated requirement below.
 - **PR & Commit Instructions** — title format, required pre-commit checks, and any review conventions.
 - **Security Considerations** — secrets handling, files or commands the agent must never touch, and any safety constraints.
-- **Documentation Maintenance** — which docs (including this `AGENTS.md`) must be updated when code, commands, or conventions change, and how to keep them in sync.
+- **Documentation Maintenance** — which docs (including this `AGENTS.md` and any `CONTEXT.md`) must be updated when code, commands, or conventions change, and how to keep them in sync.
+- **Project Overview & Pointers** — one short paragraph plus links to `CONTEXT.md` and other docs for architecture, layout, and domain detail. Keep this minimal; do not duplicate `CONTEXT.md`.
 
-Beyond the suggested set, add any sections that capture **project-specific information** an agent needs — architecture decisions, external services, environment variables, data/migration steps, release process, or domain-specific gotchas. The list above is a starting point, not a ceiling.
+Beyond the suggested set, add any sections that capture **project-specific behavioral rules** an agent needs — release process, migration commands, environment-specific gotchas, or do/don't constraints. The list above is a starting point, not a ceiling.
 
 For monorepos, place a nested `AGENTS.md` inside each package. State that the closest `AGENTS.md` to an edited file takes precedence, and that explicit user chat instructions override all files.
+
+For personal, machine-specific rules that should not be shared, use `AGENTS.local.md` and add it to `.gitignore` the same day it is created. State that local files override the committed `AGENTS.md`, and keep all shared rules in the committed file.
+
+
+
+
+
+#### What to Include (and What to Leave Out)
+
+Instruction budget is finite, and a wrong instruction is worse than no instruction. Write for signal, not coverage:
+- **Document only what an agent cannot infer.** Skip restating framework defaults, obvious best practices, or anything discoverable from config files. Pin versions and state non-obvious constraints explicitly.
+- **Prefer anti-patterns and counterintuitive rules.** "Never use `Y` because of `Z` in this codebase" is high-signal; "write clean code" is noise the model already knows.
+- **Keep it lean; use progressive disclosure.** Point to nested `AGENTS.md` files, `CONTEXT.md`, or skills rather than cramming everything into the root. Keep rule counts low — compliance drops sharply once a file grows past a few dozen rules.
+- **One real example beats three paragraphs** describing a convention.
 
 
 
@@ -2382,7 +2386,7 @@ For monorepos, place a nested `AGENTS.md` inside each package. State that the cl
 
 #### Testing Instructions
 
-The generated `AGENTS.md` must direct coding agents to test **smartly and selectively** rather than blindly running the whole suite. Include guidance equivalent to the following:
+Direct coding agents to test **smartly and selectively** rather than blindly running the whole suite. Include guidance equivalent to the following:
 - **Maintain a code-to-test mapping.** Determine which unit tests cover each code class/module by combining repo conventions (naming patterns like `Foo` → `FooTest`/`foo.test.ts`, directory mirroring such as `src/x` → `tests/x`), test framework metadata, and import/dependency analysis. Prefer any mapping the repo already declares over guessing.
 - **Run only what changed.** For a given change, run the unit tests that cover the modified classes/modules plus any tests for modules that directly depend on them. Provide the concrete command to scope a run (e.g. `pnpm vitest run <path|pattern>`, `pytest <path>`, or `pnpm turbo run test --filter <package>`).
 - **Keep tests in sync.** Add or update unit tests for any code that is changed, even if not explicitly asked, and keep the code-to-test mapping accurate when files move or imports change.
@@ -2394,15 +2398,16 @@ Specify the actual test, lint, and type-check commands for the repository wherev
 
 
 
+
 #### Quality Expectations
 
 A good `AGENTS.md` should be:
 - repository-specific, not generic
-- concise but complete enough for AI coding agents
-- command-oriented where setup, build, run, and test workflows are known
+- behavioral and command-oriented — rules, commands, and constraints, not architecture narration
+- lean enough to stay in context without crowding out the rules that matter
 - explicit about project conventions, tooling, and safety constraints
 - aligned with existing project documentation and repository structure
-- free of irrelevant contributor-facing explanation better suited for `README.md`
+- free of contributor-facing explanation (belongs in `README.md`) and descriptive codebase knowledge (belongs in `CONTEXT.md`)
 
 
 
@@ -2418,16 +2423,16 @@ A good `AGENTS.md` should be:
 
 ### {description}
 
-Writes and maintains `AGENTS.md` files — concise, agent-readable repository context for AI coding tools covering setup, build, run, and test commands, conventions, tooling, and safety constraints, with required frontmatter and a standard title.
+`AGENTS.md` is the **prescriptive** instruction layer for AI coding agents — it states *how the agent should behave* in a repository: setup/build/run/test commands, code-style conventions, PR and commit rules, and do/don't safety constraints. It is agent-facing and always loaded (unlike the human-facing `README.md`), and `AGENTS.local.md` holds personal, gitignored overrides. This skill writes and maintains those files.
 
 ### {when_to_use}
 
-Use when creating, updating, or reviewing an `AGENTS.md` or equivalent agent-instruction file. Triggers: "write an AGENTS.md," "add agent instructions," documenting repo context for AI coding tools.
+Use when creating, updating, or reviewing `AGENTS.md`, `AGENTS.local.md`, `CLAUDE.md`, or similar agent-instruction files. Triggers: "write an AGENTS.md," "add agent instructions," "agent rules/conventions." Key difference from its sibling: `AGENTS.md` is **prescriptive** — commands, rules, and constraints that govern behavior — whereas `CONTEXT.md` is **descriptive** — architecture, domain model, and patterns that explain what the codebase is. Route descriptive architecture or domain knowledge to `CONTEXT.md`, not here.
 
 ### {globs}
 
 ```glob
-**/{AGENTS,Agents,agents}{,.md}
+**/{AGENTS,Agents,agents}{,.local,.override}{,.md}
 ```
 
 ### {prerequisite}
