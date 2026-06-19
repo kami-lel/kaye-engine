@@ -74,7 +74,7 @@ class TestHeader:  # ===========================================================
         assert "name: project-agents-writer" in testee_header
 
     def test_description(_, testee_header):
-        return  # Hack update unit test format
+        return  # HACK update unit test format
         print(testee_header)
         assert (
             'description: "Writes and maintains `AGENTS.md` files \\u2014'
@@ -86,7 +86,7 @@ class TestHeader:  # ===========================================================
         )
 
     def test_when_to_use(_, testee_header):
-        return  # Hack update unit test format
+        return  # HACK update unit test format
         print(testee_header)
         assert any(
             "when_to_use:" in line
@@ -95,7 +95,7 @@ class TestHeader:  # ===========================================================
         )
 
     def test_paths(_, testee_header):
-        return  # Hack update unit test format
+        return  # HACK update unit test format
         assert (
             "paths:" in testee_header
             and "- '**/{AGENTS,Agents,agents}{,.md}'" in testee_header
