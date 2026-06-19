@@ -18,8 +18,26 @@
 
 ### Added
 
+- **Project CONTEXT Writer** — new corpus section for creating and maintaining
+  `CONTEXT.md` and `CONTEXT.local.md` files; covers document title, suggested
+  sections, living document maintenance, and quality expectations
+
 ### Changed
 
+- **Continue Behavior** — rehomed from a standalone top-level `# Continue
+  Behavior` section to a `## ` subsection under `# Agent Behavior`; corpus
+  path updated in `export_blueprint_rules.py`; `run_terminal_command`
+  subsection normalized from `### ` to `#### `; Continue config test
+  expectations updated to reflect new heading levels
+- **Prompt corpus — project prompts** — removed the `## project prompts`
+  container; `Maintain Docs`, `Maintain CHANGELOG`, `Create README`, `Create
+  AGENTS`, `Prepare for Feature Finish`, and `Prepare for Release` promoted
+  from `### ` to `## ` level as direct children of `# Projects`; internal
+  subsections normalized from `#####`/`######` to `#### `; `{description}`
+  and `{prerequisite}` meta nodes normalized from `#### ` to `### `;
+  `prompts_blueprints.py` path updated to remove `["project prompts"]` lookup,
+  orphaned `checkmark()` calls on the removed `edit CHANGELOG` node removed;
+  Continue prompt tests updated for new heading levels
 - `kaye claude` subcommands (`code`, `marketplace`, `plugin`, `skill`,
   `user-system-prompt`) — `--help` now prints a detailed description with an
   output-folder tree diagram, rendered verbatim via
