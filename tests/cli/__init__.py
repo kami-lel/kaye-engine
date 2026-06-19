@@ -763,7 +763,8 @@ def assert_header_line_always_apply(lines, value):
     return "alwaysApply: {}".format(expected) in lines
 
 
-# TODO TODO description etc. centralized test method
+# TODO TODO add path testing assert
+# FIXME FIXME replace all unit test functions with belows
 
 
 def assert_claude_header_line_description(skill_id, testee_header):
