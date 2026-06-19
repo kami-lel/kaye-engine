@@ -1,10 +1,19 @@
 """export Kaye's Chat blueprint to User System Prompt file CLAUDE.md"""
 
+from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye import logger, kamilog
 
 from .export_user_file import export_user_system_prompt_file
+
+# constants  ===================================================================
+
+_DESCRIPTION = """
+
+render Kaye's Chat blueprint and write it as the User System Prompt file,
+overwriting any existing one at PROMPT_FILE.
+"""
 
 # helper  ######################################################################
 
@@ -27,7 +36,8 @@ def register_cli_claude_user_prompt_parser(  ###################################
     user_prompt_parser = cli_subparser.add_parser(
         "user-system-prompt",
         help=__doc__,
-        description=__doc__,
+        description=__doc__ + _DESCRIPTION,
+        formatter_class=RawDescriptionHelpFormatter,
         aliases=["u"],
     )
 
