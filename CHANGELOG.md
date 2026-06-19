@@ -29,7 +29,14 @@
   what to include/exclude, testing instructions, and quality expectations;
   updated glob pattern to include `.local` and `.override` file variants;
   unit tests enhanced with comprehensive content assertions for description
-  and when_to_use metadata
+  and when_to_use metadata; Continue config tests updated to match reformatted
+  export output
+- **Project Structure** — unit tests updated to reflect new file and folder
+  entries: `CREDITS.md`, `DEVLOG.md`, `AGENTS.local.md`, `CONTEXT.md`,
+  `CONTEXT.local.md`, `bin/`, `examples/`, and `tools/`
+- **Agent Behavior** — content expanded with new Git Command Safety Policy
+  guidance; unit tests added for all 5 content entries across Claude skill
+  and Continue config exports
 
 ### Deprecated
 
