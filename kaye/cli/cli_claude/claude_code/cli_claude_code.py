@@ -1,3 +1,5 @@
+"""export for Claude Code as a plugin and User System Prompt file"""
+
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 

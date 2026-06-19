@@ -1,5 +1,22 @@
 import re
 
+__all__ = (
+    "MD_FILENAME2SKILL_NAME",
+    "PROMPT_FILENAME2NAME",
+    "TESTEE_FILE_CONTENT_ALL",
+    "TESTEE_DESCRIPTION_CONTENT_ALL",
+    "TESTEE_HOW_TO_USE_CONTENT_ALL",
+    "TESTEE_PREREQUISITE_CONTENT_ALL",
+    "split_frontmatter_md_file",
+    "assert_frontmatter_md_file_basic_structure",
+    "assert_header_line_always_apply",
+    "assert_claude_header_line_description",
+    "assert_claude_header_line_how_to_use",
+    "assert_continue_header_line_description",
+    "assert_prerequisite_heading_line",
+    "assert_prerequisite_content_line",
+)
+
 # TODO unit test for kaye claude plugin (plugin.json)
 # TODO unit test for kaye claude marketplace (marketplace.json)
 
@@ -761,5 +778,13 @@ def assert_continue_header_line_description(prompt_id, testee_header):
     return False
 
 
-def assert_header_line_prerequisite(skill_id, testee_header):
-    return False
+# TODO TODO apply prerequisite across
+
+
+def assert_prerequisite_heading_line(testee_content, line_cnt):
+    return "#" * line_cnt + " {prerequisite}" in testee_content
+
+
+def assert_prerequisite_content_line(skill_id, testee_content, i):
+    line = TESTEE_PREREQUISITE_CONTENT_ALL[skill_id][i]
+    return line in testee_content
