@@ -1889,7 +1889,10 @@ Place the following files and folders at the **top level** of the repository and
 - `CHANGELOG.md`: full version history; each release is documented here
 - `CREDITS.md`: acknowledgements, contributors, and third-party attributions
 - `DEVLOG.md`: development journal, decisions, and progress notes
-- `AGENTS.md`: agent-facing instructions covering build steps, conventions, and project context for AI coding tools
+- `AGENTS.md`: agent-facing behavioral instructions — build/test commands, conventions, and constraints for AI coding tools
+- `AGENTS.local.md`: personal, machine-specific agent rules that override `AGENTS.md`; gitignored, never committed
+- `CONTEXT.md`: descriptive codebase knowledge for humans and AI — architecture, domain model, patterns, and known gaps
+- `CONTEXT.local.md`: personal, machine-specific context notes that augment `CONTEXT.md`; gitignored, never committed
 - `src/` or package-name: primary source code folder
 - `bin/`: compiled binaries or executable entry-point scripts
 - `docs/`: in-depth documentation beyond what fits in `README.md`
@@ -1897,6 +1900,18 @@ Place the following files and folders at the **top level** of the repository and
 - `scripts/`: utility and maintenance scripts not part of the main codebase
 - `tests/`: test suite, kept separate from source code
 - `tools/`: project-specific developer tooling, distinct from `scripts/`
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### {description}
 
