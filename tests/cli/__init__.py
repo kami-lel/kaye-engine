@@ -767,15 +767,31 @@ def assert_header_line_always_apply(lines, value):
 
 
 def assert_claude_header_line_description(skill_id, testee_header):
-    return False
+    """
+    check if a Claude skill description header line exists
+    """
+    description = TESTEE_DESCRIPTION_CONTENT_ALL[skill_id]
+    line = "description: " + description
+    return line in testee_header
 
 
 def assert_claude_header_line_how_to_use(skill_id, testee_header):
-    return False
+    """
+    check if a Claude skill how_to_use header line exists
+    """
+    how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[skill_id]
+    line = "how_to_use: " + how_to_use
+    return line in testee_header
 
 
 def assert_continue_header_line_description(prompt_id, testee_header):
-    return False
+    """
+    check if a Continue prompt description+when_to_use combined header line exists
+    """
+    description = TESTEE_DESCRIPTION_CONTENT_ALL[prompt_id]
+    how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[prompt_id]
+    line = "description: " + description + how_to_use
+    return line in testee_header
 
 
 def assert_prerequisite_heading_line(testee_content, hash_symbol_cnt):
