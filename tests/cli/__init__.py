@@ -649,6 +649,8 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {}
 
 TESTEE_HOW_TO_USE_CONTENT_ALL = {}
 
+TESTEE_PATHS_CONTENT_ALL = {}
+
 
 TESTEE_PREREQUISITE_CONTENT_ALL = {
     "coder-bash": [
@@ -792,6 +794,20 @@ def assert_continue_header_line_description(prompt_id, testee_header):
     description = TESTEE_DESCRIPTION_CONTENT_ALL[prompt_id]
     how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[prompt_id]
     line = "description: " + description + how_to_use
+    return line in testee_header
+
+
+def assert_header_line_paths_header(testee_header):
+    """
+    check if a paths header line exists
+    """
+    line = "paths: "
+    return line in testee_header
+
+
+def assert_header_line_paths_content(prompt_id, testee_header, i):
+    content = TESTEE_PATHS_CONTENT_ALL[prompt_id][i]
+    line = "- '{}'".format(content)
     return line in testee_header
 
 
