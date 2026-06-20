@@ -650,6 +650,48 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         " \\u2014 command-only output, sudo and destructive commands"
         ' when requested."'
     ),
+    "coder-python-docstring-style": (
+        "Writes and formats Python docstrings in"
+        " Sphinx/reStructuredText style, enforcing the project's"
+        " docstring forms, field ordering, and visibility rules."
+    ),
+    "agent-behavior": (
+        "Baseline agent behavior, treats between-round file"
+        " changes as intentional edits."
+    ),
+    "project-structure": (
+        '"Defines a standard, language-agnostic'
+        ' project/repository layout \\u2014 naming conventions and'
+        ' placement for top-level documentation files and source,'
+        ' build, docs, test, and tooling folders."'
+    ),
+    "project-semantic-versioning": (
+        '"Defines the project\'s semantic versioning'
+        ' scheme \\u2014 `major.minor.patch` core, pre-release'
+        ' tags (`alpha`/`beta`/`rc`), build metadata, and versions'
+        ' mapped to development stages."'
+    ),
+    "style-guide-briefness-style": (
+        '"Rewrites content in \\"Briefness Style\\" \\u2014'
+        ' terse, newspaper-headline prose that maximizes brevity: dropped'
+        ' articles and helper verbs, strong nouns and verbs, active voice,'
+        ' numerals and abbreviations, punctuation-compressed phrasing, no'
+        ' terminal periods."'
+    ),
+    "style-guide-capitalization": (
+        '\'Applies Chicago Manual of Style capitalization:'
+        ' Title Case for titles and headings, Commentary Case'
+        ' (lowercase-leading, selective emphasis, no end punctuation) for'
+        ' list items and table cells.\''
+    ),
+    "style-guide-good-writing": (
+        '"Proofreads and polishes text with minimal edits'
+        ' \\u2014 fixing spelling, grammar, punctuation, and clarity while'
+        ' preserving the original meaning, voice, and wording."'
+    ),
+    "coder-gdscript": "GDScript code for Godot 4",
+    "coder-unreal-engine": "C++ code for Unreal Engine",
+    "date-and-time-format": "when dates or times appear in output",
 }
 
 
@@ -658,6 +700,50 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
         "'Use for terminal commands or shell one-liners on"
         " Debian/Ubuntu. Triggers: \"command to...,\""
         " \"bash for...,\" CLI tasks.'"
+    ),
+    "coder-python-docstring-style": (
+        '"Use whenever Python code needs docstrings'
+        ' \\u2014 including \\"add a docstring,\\" \\"document'
+        ' this,\\" or \\"write the function.\\" Triggers: docstring,'
+        ' Sphinx, reST, `:param:`."'
+    ),
+    "agent-behavior": (
+        '"ALWAYS apply \\u2014 every task, every turn, no'
+        " exceptions. Not situational: this defines default agent conduct"
+        " at all times, regardless of the request or whether files or"
+        ' summaries are involved."'
+    ),
+    "project-structure": (
+        "'Use when scaffolding a new repo, organizing"
+        ' an existing one, or deciding where a file or folder'
+        ' belongs. Triggers: "set up project structure,"'
+        ' "where should this go," naming a standard doc or'
+        ' directory.\''
+    ),
+    "project-semantic-versioning": (
+        "'Use when assigning, bumping, or formatting"
+        ' a version, or choosing a pre-release/build tag.'
+        ' Triggers: "what version," "tag a release," semver,'
+        ' alpha/beta/rc.\''
+    ),
+    "style-guide-briefness-style": (
+        '"Use when the user asks for headlinese, telegraphic,'
+        " or ultra-condensed text \\u2014 notes, headlines, summaries,"
+        ' bullets, status lines, captions \\u2014 or says \\"make it'
+        ' brief/terse/punchy,\\" \\"cut words,\\" or \\"headline style.\\"'
+        " Not for prose needing full grammar, formal tone, or complete"
+        ' sentences."'
+    ),
+    "style-guide-capitalization": (
+        "Use when capitalizing titles, headings, list items,"
+        " or table cells, or when a user mentions title case, headline"
+        " case, or Chicago Manual of Style. Not for grammar, punctuation,"
+        " or prose style."
+    ),
+    "style-guide-good-writing": (
+        "Use to proofread, copyedit, or correct writing"
+        " without rewriting. Not for heavy rewrites, summarizing, or tone"
+        " changes."
     ),
 }
 
