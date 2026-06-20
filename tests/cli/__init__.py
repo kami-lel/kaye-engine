@@ -644,10 +644,22 @@ TESTEE_FILE_CONTENT_ALL = {
 }
 
 
-TESTEE_DESCRIPTION_CONTENT_ALL = {}
+TESTEE_DESCRIPTION_CONTENT_ALL = {
+    "coder-bash": (
+        '"Generates ready-to-run Debian GNU/Linux shell commands'
+        " \\u2014 command-only output, sudo and destructive commands"
+        ' when requested."'
+    ),
+}
 
 
-TESTEE_HOW_TO_USE_CONTENT_ALL = {}
+TESTEE_HOW_TO_USE_CONTENT_ALL = {
+    "coder-bash": (
+        "'Use for terminal commands or shell one-liners on"
+        " Debian/Ubuntu. Triggers: \"command to...,\""
+        " \"bash for...,\" CLI tasks.'"
+    ),
+}
 
 TESTEE_PATHS_CONTENT_ALL = {}
 
@@ -765,7 +777,6 @@ def assert_header_line_always_apply(lines, value):
     return "alwaysApply: {}".format(expected) in lines
 
 
-# TODO TODO add path testing assert
 # FIXME FIXME replace all unit test functions with belows
 
 
@@ -780,10 +791,10 @@ def assert_claude_header_line_description(skill_id, testee_header):
 
 def assert_claude_header_line_how_to_use(skill_id, testee_header):
     """
-    check if a Claude skill how_to_use header line exists
+    check if a Claude skill when_to_use header line exists
     """
     how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[skill_id]
-    line = "how_to_use: " + how_to_use
+    line = "when_to_use: " + how_to_use
     return line in testee_header
 
 

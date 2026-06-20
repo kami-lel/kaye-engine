@@ -68,22 +68,10 @@ class TestHeader:  # ===========================================================
         assert "name: coder-bash" in testee_header
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            'description: "Generates ready-to-run Debian GNU/Linux shell'
-            " commands \\u2014 command-only output, sudo and destructive"
-            ' commands when requested."'
-            in testee_header
-        )
+        assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_when_to_use(_, testee_header):
-        print(testee_header)
-        assert (
-            "when_to_use: 'Use for terminal commands or shell one-liners on"
-            ' Debian/Ubuntu. Triggers: "command to...,"'
-            ' "bash for...," CLI tasks.\''
-            in testee_header
-        )
+        assert assert_claude_header_line_how_to_use(SKILL_NAME, testee_header)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
@@ -114,6 +102,7 @@ class TestContent:  # =========================================================
 
     def test5(_, testee_content):
         assert TESTEE_FILE_CONTENT[5] in testee_content
+
 
 class TestPrerequisite:  # ====================================================
 
