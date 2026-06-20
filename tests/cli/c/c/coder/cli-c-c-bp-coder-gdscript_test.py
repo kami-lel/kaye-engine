@@ -8,12 +8,7 @@ creation of ``Coder GDScript.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
-from tests.cli import (
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-    assert_header_line_always_apply,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "coder-gdscript"
@@ -67,7 +62,7 @@ class TestHeader:  # ===========================================================
         assert "name: Coder GDScript" in testee_header
 
     def test_description(_, testee_header):
-        assert "description: GDScript code for Godot 4" in testee_header
+        assert assert_continue_blueprint_header_line_description(MD_FILENAME, testee_header)
 
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.gd"]' in testee_header

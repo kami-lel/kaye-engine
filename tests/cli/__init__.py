@@ -13,6 +13,7 @@ __all__ = (
     "assert_claude_header_line_description",
     "assert_claude_header_line_how_to_use",
     "assert_continue_header_line_description",
+    "assert_continue_blueprint_header_line_description",
     "assert_prerequisite_heading_line",
     "assert_prerequisite_content_line",
 )
@@ -891,6 +892,15 @@ def assert_continue_header_line_description(prompt_id, testee_header):
     description = TESTEE_DESCRIPTION_CONTENT_ALL[prompt_id]
     how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[prompt_id]
     line = "description: " + description + how_to_use
+    return line in testee_header
+
+
+def assert_continue_blueprint_header_line_description(blueprint_id, testee_header):
+    """
+    check if a Continue blueprint description header line exists
+    """
+    description = TESTEE_DESCRIPTION_CONTENT_ALL[blueprint_id]
+    line = "description: " + description
     return line in testee_header
 
 
