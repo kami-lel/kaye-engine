@@ -8,12 +8,7 @@ creation of ``Date and Time Format.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME, TESTEE_FILE_CONTENT_ALL
-from tests.cli import (
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-    assert_header_line_always_apply,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "date-and-time-format"
@@ -65,9 +60,7 @@ class TestHeader:  # ===========================================================
         assert "name: Date and Time Format" in testee_header
 
     def test_description(_, testee_header):
-        assert (
-            "description: when dates or times appear in output" in testee_header
-        )
+        assert assert_continue_blueprint_header_line_description(MD_FILENAME, testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
