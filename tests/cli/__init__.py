@@ -10,10 +10,15 @@ __all__ = (
     "split_frontmatter_md_file",
     "assert_frontmatter_md_file_basic_structure",
     "assert_header_line_always_apply",
+    "assert_claude_header_line_name",
     "assert_claude_header_line_description",
     "assert_claude_header_line_how_to_use",
-    "assert_continue_header_line_description",
+    "assert_continue_blueprint_header_line_name",
     "assert_continue_blueprint_header_line_description",
+    "assert_continue_header_line_description",
+    "assert_continue_prompt_header_line_name",
+    "assert_header_line_paths_header",
+    "assert_header_line_paths_content",
     "assert_prerequisite_heading_line",
     "assert_prerequisite_content_line",
 )
@@ -662,45 +667,49 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     ),
     "project-structure": (
         '"Defines a standard, language-agnostic'
-        ' project/repository layout \\u2014 naming conventions and'
-        ' placement for top-level documentation files and source,'
+        " project/repository layout \\u2014 naming conventions and"
+        " placement for top-level documentation files and source,"
         ' build, docs, test, and tooling folders."'
     ),
     "project-semantic-versioning": (
-        '"Defines the project\'s semantic versioning'
-        ' scheme \\u2014 `major.minor.patch` core, pre-release'
-        ' tags (`alpha`/`beta`/`rc`), build metadata, and versions'
+        "\"Defines the project's semantic versioning"
+        " scheme \\u2014 `major.minor.patch` core, pre-release"
+        " tags (`alpha`/`beta`/`rc`), build metadata, and versions"
         ' mapped to development stages."'
     ),
     "style-guide-briefness-style": (
         '"Rewrites content in \\"Briefness Style\\" \\u2014'
-        ' terse, newspaper-headline prose that maximizes brevity: dropped'
-        ' articles and helper verbs, strong nouns and verbs, active voice,'
-        ' numerals and abbreviations, punctuation-compressed phrasing, no'
+        " terse, newspaper-headline prose that maximizes brevity: dropped"
+        " articles and helper verbs, strong nouns and verbs, active voice,"
+        " numerals and abbreviations, punctuation-compressed phrasing, no"
         ' terminal periods."'
     ),
     "style-guide-capitalization": (
-        '\'Applies Chicago Manual of Style capitalization:'
-        ' Title Case for titles and headings, Commentary Case'
-        ' (lowercase-leading, selective emphasis, no end punctuation) for'
-        ' list items and table cells.\''
+        "'Applies Chicago Manual of Style capitalization:"
+        " Title Case for titles and headings, Commentary Case"
+        " (lowercase-leading, selective emphasis, no end punctuation) for"
+        " list items and table cells.'"
     ),
     "style-guide-good-writing": (
         '"Proofreads and polishes text with minimal edits'
-        ' \\u2014 fixing spelling, grammar, punctuation, and clarity while'
+        " \\u2014 fixing spelling, grammar, punctuation, and clarity while"
         ' preserving the original meaning, voice, and wording."'
     ),
     "coder-gdscript": "GDScript code for Godot 4",
     "coder-unreal-engine": "C++ code for Unreal Engine",
     "date-and-time-format": "when dates or times appear in output",
+    "annotation-markers": (
+        "when working with BUG, FIXME, TODO, or HACK markers in code or docs"
+    ),
+    "numerical-values-with-units": "when physical quantities appear in output",
 }
 
 
 TESTEE_HOW_TO_USE_CONTENT_ALL = {
     "coder-bash": (
         "'Use for terminal commands or shell one-liners on"
-        " Debian/Ubuntu. Triggers: \"command to...,\""
-        " \"bash for...,\" CLI tasks.'"
+        ' Debian/Ubuntu. Triggers: "command to...,"'
+        ' "bash for...," CLI tasks.\''
     ),
     "coder-python-docstring-style": (
         '"Use whenever Python code needs docstrings'
@@ -716,16 +725,16 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
     ),
     "project-structure": (
         "'Use when scaffolding a new repo, organizing"
-        ' an existing one, or deciding where a file or folder'
+        " an existing one, or deciding where a file or folder"
         ' belongs. Triggers: "set up project structure,"'
         ' "where should this go," naming a standard doc or'
-        ' directory.\''
+        " directory.'"
     ),
     "project-semantic-versioning": (
         "'Use when assigning, bumping, or formatting"
-        ' a version, or choosing a pre-release/build tag.'
+        " a version, or choosing a pre-release/build tag."
         ' Triggers: "what version," "tag a release," semver,'
-        ' alpha/beta/rc.\''
+        " alpha/beta/rc.'"
     ),
     "style-guide-briefness-style": (
         '"Use when the user asks for headlinese, telegraphic,'
@@ -864,7 +873,25 @@ def assert_header_line_always_apply(lines, value):
     return "alwaysApply: {}".format(expected) in lines
 
 
-# FIXME FIXME replace all unit test functions with belows
+def assert_claude_header_line_name(skill_id, testee_header):
+    """
+    check if a Claude skill name header line exists
+    """
+    return "name: " + skill_id in testee_header
+
+
+def assert_continue_blueprint_header_line_name(md_filename, testee_header):
+    """
+    check if a Continue blueprint name header line exists
+    """
+    return "name: " + MD_FILENAME2SKILL_NAME[md_filename] in testee_header
+
+
+def assert_continue_prompt_header_line_name(prompt_filename, testee_header):
+    """
+    check if a Continue prompt name header line exists
+    """
+    return "name: " + PROMPT_FILENAME2NAME[prompt_filename] in testee_header
 
 
 def assert_claude_header_line_description(skill_id, testee_header):
@@ -887,7 +914,8 @@ def assert_claude_header_line_how_to_use(skill_id, testee_header):
 
 def assert_continue_header_line_description(prompt_id, testee_header):
     """
-    check if a Continue prompt description+when_to_use combined header line exists
+    check if a Continue prompt description+when_to_use combined header line
+    exists
     """
     description = TESTEE_DESCRIPTION_CONTENT_ALL[prompt_id]
     how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[prompt_id]
@@ -895,7 +923,9 @@ def assert_continue_header_line_description(prompt_id, testee_header):
     return line in testee_header
 
 
-def assert_continue_blueprint_header_line_description(blueprint_id, testee_header):
+def assert_continue_blueprint_header_line_description(
+    blueprint_id, testee_header
+):
     """
     check if a Continue blueprint description header line exists
     """
