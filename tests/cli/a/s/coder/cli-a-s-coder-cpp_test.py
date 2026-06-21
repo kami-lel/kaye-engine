@@ -68,17 +68,10 @@ class TestHeader:  # ===========================================================
         assert assert_claude_header_line_name(SKILL_NAME, testee_header)
 
     def test_description(_, testee_header):
-        assert any(
-            "description:" in line
-            and "Writes, edits, and reviews all C++ code." in line
-            for line in testee_header
-        )
+        assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_when_to_use(_, testee_header):
-        assert any(
-            "when_to_use:" in line
-            for line in testee_header
-        )
+        assert assert_claude_header_line_how_to_use(SKILL_NAME, testee_header)
 
     def test_paths(_, testee_header):
         assert assert_header_line_paths_header(testee_header)

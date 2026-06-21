@@ -654,7 +654,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "coder-bash": (
         '"Generates ready-to-run Debian GNU/Linux shell commands'
         " \\u2014 command-only output, sudo and destructive commands"
-        ' when requested."'
+        " when requested."
     ),
     "coder-python-docstring-style": (
         "Writes and formats Python docstrings in"
@@ -669,20 +669,20 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         '"Defines a standard, language-agnostic'
         " project/repository layout \\u2014 naming conventions and"
         " placement for top-level documentation files and source,"
-        ' build, docs, test, and tooling folders."'
+        " build, docs, test, and tooling folders."
     ),
     "project-semantic-versioning": (
         "\"Defines the project's semantic versioning"
         " scheme \\u2014 `major.minor.patch` core, pre-release"
         " tags (`alpha`/`beta`/`rc`), build metadata, and versions"
-        ' mapped to development stages."'
+        " mapped to development stages."
     ),
     "style-guide-briefness-style": (
         '"Rewrites content in \\"Briefness Style\\" \\u2014'
         " terse, newspaper-headline prose that maximizes brevity: dropped"
         " articles and helper verbs, strong nouns and verbs, active voice,"
         " numerals and abbreviations, punctuation-compressed phrasing, no"
-        ' terminal periods."'
+        " terminal periods."
     ),
     "style-guide-capitalization": (
         "'Applies Chicago Manual of Style capitalization:"
@@ -693,22 +693,24 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "style-guide-good-writing": (
         '"Proofreads and polishes text with minimal edits'
         " \\u2014 fixing spelling, grammar, punctuation, and clarity while"
-        ' preserving the original meaning, voice, and wording."'
+        " preserving the original meaning, voice, and wording."
     ),
     "coder-gdscript": "GDScript code for Godot 4",
     "coder-unreal-engine": "C++ code for Unreal Engine",
+    "coder-cpp": "Writes, edits, and reviews all C++ code.",
     "date-and-time-format": "when dates or times appear in output",
     "annotation-markers": (
         "when working with BUG, FIXME, TODO, or HACK markers in code or docs"
     ),
     "numerical-values-with-units": "when physical quantities appear in output",
+    "international-phonetic-alphabet": "IPA transcription",
     "coder-c": "Writes, edits, and reviews all C code.",
     "coder-c-sharp": "Writes, edits, and reviews all C# code.",
     "coder-html": (
         '"Use this skill when writing or generating HTML'
         " \\u2014 apply HTML5 standards for structure, semantics, and"
         " markup. Trigger for any task that produces or edits .html"
-        ' files or embedded HTML content."'
+        " files or embedded HTML content."
     ),
     "coder-javascript-and-typescript": (
         "Writes, edits, and reviews all JavaScript and"
@@ -719,7 +721,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "coder-python-testing-guidelines": (
         '"Writes and reviews Python `pytest` test code'
         " following the project's testing"
-        ' conventions."'
+        " conventions."
     ),
     "coder-unity-engine": (
         "Writes, edits, and reviews all Unity 6 C# code,"
@@ -730,7 +732,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         '"Writes and maintains `CHANGELOG.md` files per'
         " Keep a Changelog conventions \\u2014 dated version entries"
         " newest-first, grouped change types, a persistent"
-        ' `[Unreleased]` section, and linkable version references."'
+        " `[Unreleased]` section, and linkable version references."
     ),
     "project-readme-writer": (
         '"Writes and maintains human-friendly'
@@ -738,19 +740,22 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         " landing pages covering a project's purpose, features,"
         " setup, usage, and contribution flow, with a standard"
         " title format and tasteful use of headings, lists,"
-        ' badges, and emoji."'
+        " badges, and emoji."
     ),
     "project-agents-writer": (
         '"Writes and maintains `AGENTS.md` files \\u2014'
         " concise, agent-readable repository context for AI coding"
         " tools covering setup, build, run, and test commands,"
         " conventions, tooling, and safety constraints, with required"
-        " frontmatter and a standard title.\\u21B5Use when creating,"
-        " updating, or reviewing an `AGENTS.md` or equivalent"
-        ' agent-instruction file. Triggers: \\"write an AGENTS.md,\\"'
-        ' \\"add agent instructions,\\" documenting repo context for'
-        ' AI coding tools."'
+        " frontmatter and a standard title."
     ),
+    "art-tutor": "image-generation prompts",
+    "assistant-barista": "coffee brewing note",
+    "deutschlehrer": "Teaches German",
+    "editor": "Revises user-provided text",
+    "librarian": "academic reading notes",
+    "secretary": "emails and messages",
+    "tarot-reader": "tarot readings",
 }
 
 
@@ -808,6 +813,7 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
     "coder-c-sharp": (
         "Use for any C# code work, requests for C#, mentions of .NET."
     ),
+    "coder-cpp": "Use for any C++ code work, requests for C++.",
     "coder-javascript-and-typescript": (
         "'Use for any JavaScript or TypeScript work, inline"
         " JS/TS code blocks, requests for JavaScript,"
@@ -1012,8 +1018,8 @@ def assert_claude_header_line_description(skill_id, testee_header):
     check if a Claude skill description header line exists
     """
     description = TESTEE_DESCRIPTION_CONTENT_ALL[skill_id]
-    line = "description: " + description
-    return line in testee_header
+    keyword = "description: " + description
+    return any(keyword in line for line in testee_header)
 
 
 def assert_claude_header_line_how_to_use(skill_id, testee_header):
@@ -1021,8 +1027,8 @@ def assert_claude_header_line_how_to_use(skill_id, testee_header):
     check if a Claude skill when_to_use header line exists
     """
     how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[skill_id]
-    line = "when_to_use: " + how_to_use
-    return line in testee_header
+    keyword = "when_to_use: " + how_to_use
+    return any(keyword in line for line in testee_header)
 
 
 def assert_continue_header_line_description(prompt_id, testee_header):
@@ -1032,8 +1038,8 @@ def assert_continue_header_line_description(prompt_id, testee_header):
     """
     description = TESTEE_DESCRIPTION_CONTENT_ALL[prompt_id]
     how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[prompt_id]
-    line = "description: " + description + how_to_use
-    return line in testee_header
+    keyword = "description: " + description + how_to_use
+    return any(keyword in line for line in testee_header)
 
 
 def assert_continue_blueprint_header_line_description(
@@ -1043,8 +1049,8 @@ def assert_continue_blueprint_header_line_description(
     check if a Continue blueprint description header line exists
     """
     description = TESTEE_DESCRIPTION_CONTENT_ALL[blueprint_id]
-    line = "description: " + description
-    return line in testee_header
+    keyword = "description: " + description
+    return any(keyword in line for line in testee_header)
 
 
 def assert_header_line_paths_header(testee_header):

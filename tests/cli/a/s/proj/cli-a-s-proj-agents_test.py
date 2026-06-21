@@ -70,7 +70,7 @@ class TestHeader:  # ===========================================================
         assert assert_claude_header_line_name(SKILL_NAME, testee_header)
 
     def test_description(_, testee_header):
-        assert any("Writes and maintains" in line for line in testee_header)
+        assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_when_to_use(_, testee_header):
         assert assert_claude_header_line_how_to_use(SKILL_NAME, testee_header)
