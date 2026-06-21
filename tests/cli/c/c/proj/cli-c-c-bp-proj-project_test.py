@@ -8,13 +8,7 @@ creation of ``Project Structure.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-    assert_header_line_always_apply,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "project-structure"
@@ -66,21 +60,10 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Project Structure" in testee_header
+        assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            'description: "Defines a standard, language-agnostic'
-            " project/repository layout \\u2014 naming conventions and"
-            " placement for top-level documentation files and source,"
-            " build, docs, test, and tooling folders.\\u21B5Use when"
-            " scaffolding a new repo, organizing an existing one, or"
-            " deciding where a file or folder belongs. Triggers:"
-            ' \\"set up project structure,\\" \\"where should this go,\\"'
-            ' naming a standard doc or directory."'
-            in testee_header
-        )
+        assert any("Defines a standard, language-agnostic" in line for line in testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)

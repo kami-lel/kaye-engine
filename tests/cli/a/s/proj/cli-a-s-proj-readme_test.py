@@ -65,32 +65,17 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: project-readme-writer" in testee_header
+        assert assert_claude_header_line_name(SKILL_NAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            'description: "Writes and maintains human-friendly'
-            " `README.md` files \\u2014 scannable, visually clear"
-            " landing pages covering a project's purpose, features,"
-            " setup, usage, and contribution flow, with a standard"
-            " title format and tasteful use of headings, lists,"
-            ' badges, and emoji."'
-            in testee_header
-        )
+        assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_when_to_use(_, testee_header):
-        print(testee_header)
-        assert any(
-            'when_to_use:' in line and "overview or quick-start." in line
-            for line in testee_header
-        )
+        assert assert_claude_header_line_how_to_use(SKILL_NAME, testee_header)
 
     def test_paths(_, testee_header):
-        assert (
-            "paths:" in testee_header
-            and "- '**/{README,Readme,readme}{,.md,.txt}'" in testee_header
-        )
+        assert assert_header_line_paths_header(testee_header)
+        assert assert_header_line_paths_content(SKILL_NAME, testee_header, 0)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)

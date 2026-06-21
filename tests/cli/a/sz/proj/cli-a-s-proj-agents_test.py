@@ -65,7 +65,7 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: project-agents-writer" in testee_header
+        assert assert_claude_header_line_name(SKILL_NAME, testee_header)
 
     def test_description(_, testee_header):
         return  # HACK update unit test format

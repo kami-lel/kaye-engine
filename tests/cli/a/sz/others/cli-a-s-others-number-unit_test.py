@@ -8,11 +8,7 @@ creation of ``numerical-values-with-units``
 
 import pytest
 
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-)
+from tests.cli import *  # noqa: F401, F403
 from tests.cli.a.s import (
     VERSION_LINE_PATTERN,
     convert_folder_path2skill_file_path,
@@ -69,7 +65,7 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: numerical-values-with-units" in testee_header
+        assert assert_claude_header_line_name(SKILL_NAME, testee_header)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)

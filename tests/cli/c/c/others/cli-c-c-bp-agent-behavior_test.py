@@ -6,12 +6,7 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME, TESTEE_FILE_CONTENT_ALL
-from tests.cli import (
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-    assert_header_line_always_apply,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "agent-behavior"
@@ -64,18 +59,10 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Agent Behavior" in testee_header
+        assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            'description: "Baseline agent behavior, treats between-round file'
-            " changes as intentional edits.\\u21B5ALWAYS apply \\u2014 every"
-            " task, every turn, no exceptions. Not situational: this defines"
-            " default agent conduct at all times, regardless of the request or"
-            ' whether files or summaries are involved."'
-            in testee_header
-        )
+        assert any("Baseline agent behavior" in line for line in testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, True)

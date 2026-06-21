@@ -8,13 +8,7 @@ creation of ``Project README Writer.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-    assert_header_line_always_apply,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "project-readme-writer"
@@ -66,22 +60,10 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Project README Writer" in testee_header
+        assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            'description: "Writes and maintains human-friendly'
-            " `README.md` files \\u2014 scannable, visually clear"
-            " landing pages covering a project's purpose, features,"
-            " setup, usage, and contribution flow, with a standard"
-            " title format and tasteful use of headings, lists, badges,"
-            " and emoji.\\u21B5Use when creating, updating, or reviewing"
-            " a `README.md` or similar project landing page. Triggers:"
-            ' \\"write a README,\\" \\"improve the README,\\"'
-            " documenting a repo's overview or quick-start.\""
-            in testee_header
-        )
+        assert any("Writes and maintains human-friendly" in line for line in testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)

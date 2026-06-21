@@ -71,17 +71,12 @@ class TestHeader:  # ===========================================================
         assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_when_to_use(_, testee_header):
-        assert any(
-            "when_to_use:" in line and "test this function." in line
-            for line in testee_header
-        )
+        assert assert_claude_header_line_how_to_use(SKILL_NAME, testee_header)
 
     def test_paths(_, testee_header):
-        assert (
-            "paths:" in testee_header
-            and "- '**/test_*.py'" in testee_header
-            and "- '**/*_test.py'" in testee_header
-        )
+        assert assert_header_line_paths_header(testee_header)
+        assert assert_header_line_paths_content(SKILL_NAME, testee_header, 0)
+        assert assert_header_line_paths_content(SKILL_NAME, testee_header, 1)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)

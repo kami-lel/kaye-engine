@@ -8,13 +8,7 @@ creation of ``abbr-suffix``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-    assert_header_line_always_apply,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "abbr-suffixes"
@@ -66,7 +60,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Abbr Suffixes" in testee_header
+        assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
