@@ -16,7 +16,5 @@ Fixme README/CHANGELOG/AGENTS/CONTEXT/docs
 
 Todo coder dev phases logic: mpt: working on a single phase at the same time
 
-TODO unit test & make sure agent & claude behavior is added
-
-TODO unit test for context writer
+Todo unit test & make sure agent & claude behavior is added
 
