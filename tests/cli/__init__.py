@@ -740,6 +740,17 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         " title format and tasteful use of headings, lists,"
         ' badges, and emoji."'
     ),
+    "project-agents-writer": (
+        '"Writes and maintains `AGENTS.md` files \\u2014'
+        " concise, agent-readable repository context for AI coding"
+        " tools covering setup, build, run, and test commands,"
+        " conventions, tooling, and safety constraints, with required"
+        " frontmatter and a standard title.\\u21B5Use when creating,"
+        " updating, or reviewing an `AGENTS.md` or equivalent"
+        ' agent-instruction file. Triggers: \\"write an AGENTS.md,\\"'
+        ' \\"add agent instructions,\\" documenting repo context for'
+        ' AI coding tools."'
+    ),
 }
 
 
@@ -795,8 +806,7 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
     ),
     "coder-c": "Use for any C code work, requests for C.",
     "coder-c-sharp": (
-        "Use for any C# code work,"
-        " requests for C#, mentions of .NET."
+        "Use for any C# code work, requests for C#, mentions of .NET."
     ),
     "coder-javascript-and-typescript": (
         "'Use for any JavaScript or TypeScript work, inline"
@@ -809,7 +819,7 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
     ),
     "coder-python-testing-guidelines": (
         '"Use whenever Python tests are written, run, fixed,'
-        ' or discussed. Triggers: `test_`/`_test.py` files,'
+        " or discussed. Triggers: `test_`/`_test.py` files,"
         ' `pytest`, \\"add tests,\\" \\"write a unit test,\\"'
         ' \\"test this function.\\""'
     ),
@@ -832,6 +842,12 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
         ' \\"write a README,\\" \\"improve the README,\\"'
         " documenting a repo's overview or quick-start.\""
     ),
+    "project-agents-writer": (
+        "'Use when creating, updating, or reviewing an `AGENTS.md`"
+        ' or equivalent agent-instruction file. Triggers: "write an'
+        ' AGENTS.md," "add agent instructions," documenting repo'
+        " context for AI coding tools.'"
+    ),
 }
 
 TESTEE_PATHS_CONTENT_ALL = {
@@ -850,6 +866,9 @@ TESTEE_PATHS_CONTENT_ALL = {
     ],
     "project-readme-writer": [
         "**/{README,Readme,readme}{,.md,.txt}",
+    ],
+    "project-agents-writer": [
+        "**/{AGENTS,Agents,agents}{,.md}",
     ],
 }
 

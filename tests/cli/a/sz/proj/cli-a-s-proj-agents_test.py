@@ -68,32 +68,14 @@ class TestHeader:  # ===========================================================
         assert assert_claude_header_line_name(SKILL_NAME, testee_header)
 
     def test_description(_, testee_header):
-        return  # HACK update unit test format
-        print(testee_header)
-        assert (
-            'description: "Writes and maintains `AGENTS.md` files \\u2014'
-            " concise, agent-readable repository context for AI coding"
-            " tools covering setup, build, run, and test commands,"
-            " conventions, tooling, and safety constraints, with required"
-            ' frontmatter and a standard title."'
-            in testee_header
-        )
+        assert any("Writes and maintains" in line for line in testee_header)
 
     def test_when_to_use(_, testee_header):
-        return  # HACK update unit test format
-        print(testee_header)
-        assert any(
-            "when_to_use:" in line
-            and "documenting repo context for AI coding tools." in line
-            for line in testee_header
-        )
+        assert assert_claude_header_line_how_to_use(SKILL_NAME, testee_header)
 
     def test_paths(_, testee_header):
-        return  # HACK update unit test format
-        assert (
-            "paths:" in testee_header
-            and "- '**/{AGENTS,Agents,agents}{,.md}'" in testee_header
-        )
+        assert assert_header_line_paths_header(testee_header)
+        assert assert_header_line_paths_content(SKILL_NAME, testee_header, 0)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
