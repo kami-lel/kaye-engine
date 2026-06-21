@@ -67,9 +67,7 @@ class TestHeader:  # ===========================================================
         assert "name: coder-gdscript" in testee_header
 
     def test_description(_, testee_header):
-        assert (
-            "description: GDScript code for Godot 4" in testee_header
-        )
+        assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
