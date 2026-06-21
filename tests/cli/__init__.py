@@ -702,6 +702,44 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         "when working with BUG, FIXME, TODO, or HACK markers in code or docs"
     ),
     "numerical-values-with-units": "when physical quantities appear in output",
+    "coder-c": "Writes, edits, and reviews all C code.",
+    "coder-c-sharp": "Writes, edits, and reviews all C# code.",
+    "coder-html": (
+        '"Use this skill when writing or generating HTML'
+        " \\u2014 apply HTML5 standards for structure, semantics, and"
+        " markup. Trigger for any task that produces or edits .html"
+        ' files or embedded HTML content."'
+    ),
+    "coder-javascript-and-typescript": (
+        "Writes, edits, and reviews all JavaScript and"
+        " TypeScript code, targeting the ES11 standard with"
+        " camelCase naming and JSDoc documentation conventions."
+    ),
+    "coder-python": "Writes, edits, and reviews all Python code",
+    "coder-python-testing-guidelines": (
+        '"Writes and reviews Python `pytest` test code'
+        " following the project's testing"
+        ' conventions."'
+    ),
+    "coder-unity-engine": (
+        "Writes, edits, and reviews all Unity 6 C# code,"
+        " applying the project's Unity conventions, structure,"
+        " and coding standards."
+    ),
+    "project-changelog-writer": (
+        '"Writes and maintains `CHANGELOG.md` files per'
+        " Keep a Changelog conventions \\u2014 dated version entries"
+        " newest-first, grouped change types, a persistent"
+        ' `[Unreleased]` section, and linkable version references."'
+    ),
+    "project-readme-writer": (
+        '"Writes and maintains human-friendly'
+        " `README.md` files \\u2014 scannable, visually clear"
+        " landing pages covering a project's purpose, features,"
+        " setup, usage, and contribution flow, with a standard"
+        " title format and tasteful use of headings, lists,"
+        ' badges, and emoji."'
+    ),
 }
 
 
@@ -755,9 +793,65 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
         " without rewriting. Not for heavy rewrites, summarizing, or tone"
         " changes."
     ),
+    "coder-c": "Use for any C code work, requests for C.",
+    "coder-c-sharp": (
+        "Use for any C# code work,"
+        " requests for C#, mentions of .NET."
+    ),
+    "coder-javascript-and-typescript": (
+        "'Use for any JavaScript or TypeScript work, inline"
+        " JS/TS code blocks, requests for JavaScript,"
+        " TypeScript, or Node.'"
+    ),
+    "coder-python": (
+        "'Use for any Python work, inline Python code blocks,"
+        " requests for Python scripts, modules, or packages.'"
+    ),
+    "coder-python-testing-guidelines": (
+        '"Use whenever Python tests are written, run, fixed,'
+        ' or discussed. Triggers: `test_`/`_test.py` files,'
+        ' `pytest`, \\"add tests,\\" \\"write a unit test,\\"'
+        ' \\"test this function.\\""'
+    ),
+    "coder-unity-engine": (
+        '"ALWAYS apply for any Unity work \\u2014 scripts,'
+        " components, ScriptableObjects, editor tools, gameplay"
+        " systems, UI, shaders, asset and scene logic. Triggers:"
+        " `MonoBehaviour`, `[SerializeField]`, any mention"
+        ' of Unity."'
+    ),
+    "project-changelog-writer": (
+        '"Use when creating, updating, or adding entries to a'
+        " `CHANGELOG.md`, or recording changes for a release."
+        ' Triggers: \\"update the changelog,\\" \\"log this'
+        ' change,\\" \\"document the release.\\""'
+    ),
+    "project-readme-writer": (
+        '"Use when creating, updating, or reviewing a'
+        " `README.md` or similar project landing page. Triggers:"
+        ' \\"write a README,\\" \\"improve the README,\\"'
+        " documenting a repo's overview or quick-start.\""
+    ),
 }
 
-TESTEE_PATHS_CONTENT_ALL = {}
+TESTEE_PATHS_CONTENT_ALL = {
+    "coder-c": ["**/*.{c,h}"],
+    "coder-c-sharp": ["**/*.cs"],
+    "coder-cpp": ["**/*.{cpp,cc,cxx,hpp,hh,hxx}"],
+    "coder-javascript-and-typescript": ["**/*.{js,ts,jsx,tsx,mjs,cjs}"],
+    "coder-python": ["**/*.py"],
+    "coder-python-testing-guidelines": [
+        "**/test_*.py",
+        "**/*_test.py",
+    ],
+    "coder-unity-engine": ["**/*.cs"],
+    "project-changelog-writer": [
+        "**/{CHANGELOG,Changelog,changelog}{,.md,.txt}",
+    ],
+    "project-readme-writer": [
+        "**/{README,Readme,readme}{,.md,.txt}",
+    ],
+}
 
 
 TESTEE_PREREQUISITE_CONTENT_ALL = {

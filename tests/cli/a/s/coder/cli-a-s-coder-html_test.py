@@ -65,17 +65,10 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-html" in testee_header
+        assert assert_claude_header_line_name(SKILL_NAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            'description: "Use this skill when writing or generating HTML'
-            " \\u2014 apply HTML5 standards for structure, semantics, and"
-            " markup. Trigger for any task that produces or edits .html"
-            ' files or embedded HTML content."'
-            in testee_header
-        )
+        assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)

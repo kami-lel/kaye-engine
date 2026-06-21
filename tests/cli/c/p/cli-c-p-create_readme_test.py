@@ -8,12 +8,7 @@ creation of ``create_readme.md``
 
 import pytest
 
-from tests.cli import PROMPT_FILENAME2NAME
-from tests.cli.c.c import (
-    assert_rule_file_basic_format,
-    split_rule_file_basic_format,
-    assert_header_line_always_apply,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 PROMPT_FILENAME = "create-readme"
@@ -35,12 +30,12 @@ def testee(testee_path):
 
 @pytest.fixture(scope="session")
 def testee_header(testee):
-    return split_rule_file_basic_format(testee)[0]
+    return split_frontmatter_md_file(testee)[0]
 
 
 @pytest.fixture(scope="session")
 def testee_content(testee):
-    return split_rule_file_basic_format(testee)[1]
+    return split_frontmatter_md_file(testee)[1]
 
 
 # Pytest unit tests  ###########################################################
@@ -55,13 +50,13 @@ class TestBasic:  # ============================================================
         assert testee_path.is_file()
 
     def test_structure(_, testee):
-        assert assert_rule_file_basic_format(testee)
+        assert assert_frontmatter_md_file_basic_structure(testee)
 
 
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Create README" in testee_header
+        assert assert_continue_prompt_header_line_name(PROMPT_FILENAME, testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)

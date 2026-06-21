@@ -65,27 +65,24 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-cpp" in testee_header
+        assert assert_claude_header_line_name(SKILL_NAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            "description: Writes, edits, and reviews all C++ code."
-            in testee_header
+        assert any(
+            "description:" in line
+            and "Writes, edits, and reviews all C++ code." in line
+            for line in testee_header
         )
 
     def test_when_to_use(_, testee_header):
-        print(testee_header)
         assert any(
             "when_to_use:" in line
             for line in testee_header
         )
 
     def test_paths(_, testee_header):
-        assert (
-            "paths:" in testee_header
-            and "- '**/*.{cpp,cc,cxx,hpp,hh,hxx}'" in testee_header
-        )
+        assert assert_header_line_paths_header(testee_header)
+        assert assert_header_line_paths_content(SKILL_NAME, testee_header, 0)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
