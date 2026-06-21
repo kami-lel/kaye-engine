@@ -60,10 +60,8 @@ class TestHeader:  # ===========================================================
         assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        assert (
-            "description: when working with BUG, FIXME, TODO,"
-            " or HACK markers in code or docs"
-            in testee_header
+        assert assert_continue_blueprint_header_line_description(
+            MD_FILENAME, testee_header
         )
 
     def test_always_apply(_, testee_header):
