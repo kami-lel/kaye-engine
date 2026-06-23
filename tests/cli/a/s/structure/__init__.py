@@ -2,6 +2,8 @@ from pydantic import BaseModel, Field
 
 from kaye.cli.cli_claude import convert_display_name2skill_name
 
+# FIXME FIXME move validator to corpus test
+
 
 class SkillMDFileFrontmatterValidator(BaseModel):
     """
