@@ -2624,6 +2624,491 @@ Use to create, update, or review `CONTEXT.md` or `CONTEXT.local.md`, or to captu
 
 
 
+## Create README
+
+Use **Coder README Writer** as the guideline for what makes a good `README.md`.
+
+
+
+
+
+#### Instructions
+
+- create a complete new `README.md` tailored to the repository
+- use the provided project description, repository details, or existing documentation as source material
+- use available tools to inspect the project when needed
+- use the actual project name in the document title
+- make the README human-oriented, visually clear, and easy to scan
+- use tasteful emoji and markdown features to improve visual quality when appropriate
+- include examples, tables, badges, screenshots, diagrams, or links only when supported by project information
+- tailor content to the provided project information
+
+
+
+
+
+#### Structure Guidelines
+
+Include the following sections where applicable, using clear markdown headings:
+
+- **Project Overview**: what the project does, who it is for, and why it is useful
+- **Features**: key capabilities, benefits, and highlights
+- **Demo or Screenshots**: visuals, links, previews, or usage examples when available
+- **Tech Stack**: main languages, frameworks, libraries, tools, and platforms
+- **Getting Started**: prerequisites and quick setup path
+- **Installation**: exact commands to install dependencies or set up the project
+- **Usage**: common commands, examples, workflows, or API usage
+- **Configuration**: environment variables, settings, secrets, and configuration files
+- **Project Structure**: important directories and files
+- **Build and Test Commands**: exact commands to build, run, lint, and test
+- **Contributing**: contribution flow, development expectations, and useful links
+- **Security**: responsible disclosure notes and sensitive-data warnings
+- **License**: project license information
+- **Acknowledgments**: credits, references, sponsors, or related projects
+
+
+
+
+
+#### Output
+
+Create the `README.md` file at the project root
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Use this skill when the user wants to create a new `README.md` from scratch — covering project overview, setup, usage, configuration, and contributing guidelines. Trigger even for casual requests like "write a readme" or "document this project."
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+- follow `Coder README Writer`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Maintain README
+
+### {description}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Create CHANGELOG
+
+### {description}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Maintain CHANGELOG
+
+review recent changes — update or create `CHANGELOG.md` to reflect them.
+
+
+
+
+
+#### edit CHANGELOG
+
+- edit `CHANGELOG.md` or CHANGELOG-Style File to reflect the current project state
+- Follow the **CHANGELOG Writer** rule for format, versioning, and entry style
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Use this skill when the user wants to add, fix, or reorganize entries in an existing `CHANGELOG.md` — logging new features, bug fixes, or breaking changes without overwriting existing content. Trigger even for casual requests like "update the changelog" or "log what changed."
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+- follow `Project CHANGELOG Writer`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Create AGENTS and CONTEXT
+
+Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
+
+
+
+
+
+#### Instructions
+
+- create a complete new `AGENTS.md` tailored to the repository
+- use the provided project description, repository details, or existing documentation as source material
+- use available tools to inspect the project when needed
+- include the required frontmatter before any content
+- use the actual project name in the frontmatter and document title
+- include all applicable sections of *Structure Guidelines*
+- tailor content to the provided project information
+
+
+
+
+
+#### Structure Guidelines
+
+Include the following sections where applicable, using clear markdown headings:
+
+- **Project Overview**: brief description of what the project does and how it is organized
+- **Dev Environment Tips**: setup steps, workspace commands, and environment-specific notes
+- **Build and Test Commands**: exact commands to install, build, run, and test the project
+- **Code Style**: language, formatting rules, patterns, and linting conventions
+- **Testing Instructions**: how to run tests, filter specific cases, and ensure the suite passes before committing
+- **PR Instructions**: commit message format, branch conventions, and pre-commit checklist
+- **Security Considerations**: anything sensitive an agent must not expose or modify carelessly
+
+
+
+
+
+#### Output
+
+Create the `AGENTS.md` file at the project root
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Use this skill when the user wants to create a new `AGENTS.md` from scratch — covering project setup, build and test commands, code style, and PR conventions formatted for coding agents. Trigger even for casual requests like "add agent instructions" or "make an agents file."
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Coder AGENTS Writer`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Maintain AGENTS and CONTEXT
+
+### {description}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Create Docs
+
+### {description}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Maintain Docs
 
 Update README-style files, AGENTS-style files, and files under `docs/`.
@@ -2743,41 +3228,12 @@ Use this skill when the user wants to update existing README, AGENTS, or `docs/`
 
 
 
-
-## Maintain CHANGELOG
-
-review recent changes — update or create `CHANGELOG.md` to reflect them. 
-
-
-
-
-
-#### edit CHANGELOG
-
-- edit `CHANGELOG.md` or CHANGELOG-Style File to reflect the current project state
-- Follow the **CHANGELOG Writer** rule for format, versioning, and entry style
-
-
-
-
-
-
-
-
-
-
-
-
+## Initialize Project
 
 ### {description}
 
-Use this skill when the user wants to add, fix, or reorganize entries in an existing `CHANGELOG.md` — logging new features, bug fixes, or breaking changes without overwriting existing content. Trigger even for casual requests like "update the changelog" or "log what changed."
 
-### {prerequisite}
 
-- use `Style Guide Markdown Format`
-- follow `Style Guide Good Writing` rules for correctness and clarity
-- follow `Project CHANGELOG Writer`
 
 
 
@@ -2808,177 +3264,9 @@ Use this skill when the user wants to add, fix, or reorganize entries in an exis
 
 
 
-
-
-
-
-## Create README
-
-Use **Coder README Writer** as the guideline for what makes a good `README.md`.
-
-
-
-
-
-#### Instructions
-
-- create a complete new `README.md` tailored to the repository
-- use the provided project description, repository details, or existing documentation as source material
-- use available tools to inspect the project when needed
-- use the actual project name in the document title
-- make the README human-oriented, visually clear, and easy to scan
-- use tasteful emoji and markdown features to improve visual quality when appropriate
-- include examples, tables, badges, screenshots, diagrams, or links only when supported by project information
-- tailor content to the provided project information
-
-
-
-
-
-#### Structure Guidelines
-
-Include the following sections where applicable, using clear markdown headings:
-
-- **Project Overview**: what the project does, who it is for, and why it is useful
-- **Features**: key capabilities, benefits, and highlights
-- **Demo or Screenshots**: visuals, links, previews, or usage examples when available
-- **Tech Stack**: main languages, frameworks, libraries, tools, and platforms
-- **Getting Started**: prerequisites and quick setup path
-- **Installation**: exact commands to install dependencies or set up the project
-- **Usage**: common commands, examples, workflows, or API usage
-- **Configuration**: environment variables, settings, secrets, and configuration files
-- **Project Structure**: important directories and files
-- **Build and Test Commands**: exact commands to build, run, lint, and test
-- **Contributing**: contribution flow, development expectations, and useful links
-- **Security**: responsible disclosure notes and sensitive-data warnings
-- **License**: project license information
-- **Acknowledgments**: credits, references, sponsors, or related projects
-
-
-
-
-
-#### Output
-
-Create the `README.md` file at the project root
-
-
-
-
-
-
-
-
-
-
-
-
+## Compact with Maintenance
 
 ### {description}
-
-Use this skill when the user wants to create a new `README.md` from scratch — covering project overview, setup, usage, configuration, and contributing guidelines. Trigger even for casual requests like "write a readme" or "document this project."
-
-### {prerequisite}
-
-- use `Style Guide Markdown Format`
-- follow `Style Guide Good Writing` rules for correctness and clarity
-- follow `Coder README Writer`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Create AGENTS
-
-Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
-
-
-
-
-
-#### Instructions
-
-- create a complete new `AGENTS.md` tailored to the repository
-- use the provided project description, repository details, or existing documentation as source material
-- use available tools to inspect the project when needed
-- include the required frontmatter before any content
-- use the actual project name in the frontmatter and document title
-- include all applicable sections of *Structure Guidelines*
-- tailor content to the provided project information
-
-
-
-
-
-#### Structure Guidelines
-
-Include the following sections where applicable, using clear markdown headings:
-
-- **Project Overview**: brief description of what the project does and how it is organized
-- **Dev Environment Tips**: setup steps, workspace commands, and environment-specific notes
-- **Build and Test Commands**: exact commands to install, build, run, and test the project
-- **Code Style**: language, formatting rules, patterns, and linting conventions
-- **Testing Instructions**: how to run tests, filter specific cases, and ensure the suite passes before committing
-- **PR Instructions**: commit message format, branch conventions, and pre-commit checklist
-- **Security Considerations**: anything sensitive an agent must not expose or modify carelessly
-
-
-
-
-
-#### Output
-
-Create the `AGENTS.md` file at the project root
-
-
-
-
-
-
-
-
-
-
-
-
-
-### {description}
-
-Use this skill when the user wants to create a new `AGENTS.md` from scratch — covering project setup, build and test commands, code style, and PR conventions formatted for coding agents. Trigger even for casual requests like "add agent instructions" or "make an agents file."
-
-### {prerequisite}
-
-- use `Style Guide Markdown Format`
-- follow `Coder AGENTS Writer`
 
 
 
@@ -3015,7 +3303,7 @@ Use this skill when the user wants to create a new `AGENTS.md` from scratch — 
 
 ## Prepare for Feature Finish
 
-update `CHANGELOG.md`: 
+update `CHANGELOG.md`:
 
 - add all relevant changes made by the current feature branch to the *Unreleased* section
 - **identify feature branch changes**: determine the changes by using available git tools, information provided by the user in chat, and any existing entries already present in `CHANGELOG.md` under the *Unreleased* section
