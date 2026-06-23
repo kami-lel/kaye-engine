@@ -836,6 +836,56 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "abbr-starts-with-digits-0-9": "Abbr Starts with Digits 0~9",
     "abbr-suffixes": "Abbr Suffixes",
     "abbr-symbols": "Abbr Symbols",
+    "maintain-docs": (
+        '"Use this skill when the user wants to update existing README,'
+        " AGENTS, or `docs/` files to reflect recent project changes"
+        ' \\u2014 fixing stale commands, broken links, outdated examples,'
+        ' or renamed references. Trigger even for casual requests like'
+        ' \\"update the docs\\" or \\"fix the readme.\\"'
+        '"'
+    ),
+    "maintain-changelog": (
+        '"Use this skill when the user wants to add, fix, or reorganize'
+        " entries in an existing `CHANGELOG.md` \\u2014 logging new"
+        " features, bug fixes, or breaking changes without overwriting"
+        ' existing content. Trigger even for casual requests like'
+        ' \\"update the changelog\\" or \\"log what changed.\\"'
+        '"'
+    ),
+    "create-readme": (
+        '"Use this skill when the user wants to create a new'
+        " `README.md` from scratch \\u2014 covering project overview,"
+        " setup, usage, configuration, and contributing guidelines."
+        ' Trigger even for casual requests like \\"write a readme\\"'
+        ' or \\"document this project.\\"'
+        '"'
+    ),
+    "create-agents": (
+        '"Use this skill when the user wants to create a new'
+        " `AGENTS.md` from scratch \\u2014 covering project setup, build"
+        " and test commands, code style, and PR conventions formatted"
+        " for coding agents. Trigger even for casual requests like"
+        ' \\"add agent instructions\\" or \\"make an agents file.\\"'
+        '"'
+    ),
+    "prepare-for-feature-finish": (
+        '"Use this skill when the user wants to record feature branch'
+        " changes into the *Unreleased* section of `CHANGELOG.md` before"
+        " merging \\u2014 adding, updating, or reorganizing entries"
+        " without duplicating or overwriting existing ones. Trigger for"
+        ' requests like \\"prep the changelog\\" or \\"document what'
+        ' I changed.\\"'
+        '"'
+    ),
+    "prepare-for-release": (
+        '"Use this skill when the user wants to cut a release \\u2014'
+        " moving *Unreleased* changelog entries into a new versioned"
+        " section and bumping the version in metadata files like"
+        " `package.json`, `pyproject.toml`, or `Cargo.toml`. Trigger"
+        ' for requests like \\"ship v1.2.3\\" or \\"bump the'
+        ' version.\\"'
+        '"'
+    ),
 }
 
 
