@@ -10,7 +10,7 @@ import pytest
 
 
 from tests.cli.c.c import prepare_local_config_folder
-from tests.cli import MD_FILENAME2SKILL_NAME
+from tests.cli import *  # noqa: F401, F403
 
 # Pytest fixtures  #############################################################
 

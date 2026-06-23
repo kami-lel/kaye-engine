@@ -8,13 +8,7 @@ creation of ``coder_py_testing_blueprint.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-    assert_header_line_always_apply,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "coder-python-testing-guidelines"
@@ -66,18 +60,10 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder Python Testing Guidelines" in testee_header
+        assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            'description: "Writes and reviews Python `pytest` test code'
-            " following the project's testing conventions.\\u21B5Use whenever"
-            " Python tests are written, run, fixed, or discussed. Triggers:"
-            ' `test_`/`_test.py` files, `pytest`, \\"add tests,\\"'
-            ' \\"write a unit test,\\" \\"test this function.\\""'
-            in testee_header
-        )
+        assert assert_continue_blueprint_header_line_description(MD_FILENAME, testee_header)
 
     def test_globs(_, testee_header):
         assert 'globs: ["**/test_*.py", "**/*_test.py"]' in testee_header

@@ -21,6 +21,21 @@
 - **Project CONTEXT Writer** — new corpus section for creating and maintaining
   `CONTEXT.md` and `CONTEXT.local.md` files; covers document title, suggested
   sections, living document maintenance, and quality expectations
+- **`tests/cli/a/p/`** — new test suite for `kaye claude plugin`: skill file
+  existence across all 78 exported skills, `plugin.json` content validation
+  (`name`, `displayName`, `version`, `description`, `author`), and mock-based
+  command and alias tests (`claude plugin`, `claude p`, `a plugin`, `a p`)
+- **`tests/cli/a/cz/`** — new test suite for `kaye claude plugin -z`: mirrors
+  `tests/cli/a/p/` with zip extraction via `zipfile.ZipFile.extractall()`
+  before path assertions
+- **`tests/cli/a/m/`** — new test suite for `kaye claude marketplace`: file
+  existence for all skill files, `plugin.json`, and `marketplace.json`;
+  `marketplace.json` content validation (`$schema`, `name`, `version`,
+  `description`, `owner.name`, `plugins` list, `plugins[0].source`);
+  mock-based command and alias tests (`claude marketplace`, `claude m`, `a m`,
+  `a marketplace`)
+- **`tests/cli/a/sz/alts/`** — new mock-based alias tests for
+  `kaye claude skill -z` (`claude s -z`, `a skill -z`, `a s -z`)
 
 ### Changed
 
@@ -55,10 +70,22 @@
 - **Agent Behavior** — content expanded with new Git Command Safety Policy
   guidance; unit tests added for all 5 content entries across Claude skill
   and Continue config exports
+- **`tests/cli/a/s/` and `tests/cli/a/sz/`** — all `TestContent` and
+  `TestPrerequisite` classes refactored: manually-numbered `test0`, `test1`,
+  ... methods replaced with a single `@pytest.mark.parametrize` method;
+  `tests/cli/a/s/alts/` and `tests/cli/a/sz/alts/` refactored to mock-based
+  tests (no file I/O) using shared fixtures from `tests/cli/a/conftest.py`
+  (`mock_run`, `mock_tmp_path`, `mock_tmp_path_factory`)
+- **`blueprint_meta_nodes.py`** — removed `collapse_lines_into_single_line()`
+  helper function; replaced with module-level `REPLACEMENT_NEWLINE_SYMBOL`
+  constant (`"↵"`) used inline with `.join()`
 
 ### Deprecated
 
 ### Removed
+
+- **`collapse_lines_into_single_line()`** in `blueprint_meta_nodes.py` —
+  removed in favor of `REPLACEMENT_NEWLINE_SYMBOL.join(...)` at call sites
 
 ### Fixed
 

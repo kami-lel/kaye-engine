@@ -1,12 +1,10 @@
 from pydantic import BaseModel, Field
 
-from kaye.cli.cli_claude import convert_display_name2skill_name
-
 
 class SkillMDFileFrontmatterValidator(BaseModel):
     """
-    validated frontmatter model for an agent skill SKILL.md file
-
+    Validated frontmatter model for an agent skill SKILL.md file per the
+    agentskills.io specification (https://agentskills.io/specification).
 
     required fields: ``name``
     optional fields omitted from output when empty: ``description``,
@@ -37,7 +35,7 @@ class SkillMDFileFrontmatterValidator(BaseModel):
 
     @classmethod
     def from_frontmatter(cls, d: dict):
-        """construct and validate from a ``FrontmatterMDFile.frontmatter`` dict"""
+        """construct and validate from a frontmatter dict"""
         allowed = d.get("allowed-tools")
         if isinstance(allowed, list):
             allowed = " ".join(allowed) if allowed else None
@@ -50,20 +48,3 @@ class SkillMDFileFrontmatterValidator(BaseModel):
             "metadata": d.get("metadata") or None,
             "allowed-tools": allowed,
         })
-
-
-# helpers  #####################################################################
-
-
-def validate_blueprint(obj):
-    return SkillMDFileFrontmatterValidator.from_frontmatter({
-        "name": convert_display_name2skill_name(obj.display_name),
-        "description": obj.meta.description or None,
-    })
-
-
-def validate_abbr_group(obj):
-    return SkillMDFileFrontmatterValidator.from_frontmatter({
-        "name": convert_display_name2skill_name(obj.display_name),
-        "description": obj.description or None,
-    })
