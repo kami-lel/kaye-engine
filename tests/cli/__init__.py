@@ -656,6 +656,44 @@ TESTEE_FILE_CONTENT_ALL = {
         ),
         "### 1. Information Collection Stage",
     ],
+    "maintain-docs": [
+        "## Maintain Docs",
+        "Update README-style files, AGENTS-style files, and files under `docs/`.",
+        "- edit existing documentation in place whenever possible",
+        "#### edit README",
+        "#### edit AGENTS",
+    ],
+    "maintain-changelog": [
+        "## Maintain CHANGELOG",
+        "#### edit CHANGELOG",
+        "Follow the **CHANGELOG Writer** rule for format, versioning, and entry style",
+    ],
+    "create-readme": [
+        "## Create README",
+        "Use **Coder README Writer** as the guideline for what makes a good `README.md`.",
+        "- **Project Overview**: what the project does, who it is for, and why it is useful",
+        "- **Getting Started**: prerequisites and quick setup path",
+        "Create the `README.md` file at the project root",
+    ],
+    "create-agents": [
+        "## Create AGENTS",
+        "Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.",
+        "- **Project Overview**: brief description of what the project does",
+        "- **Security Considerations**: anything sensitive an agent must not expose",
+        "Create the `AGENTS.md` file at the project root",
+    ],
+    "prepare-for-feature-finish": [
+        "## Prepare for Feature Finish",
+        "- **preserve existing changelog entries**: do not remove or overwrite",
+        "- **avoid duplicate entries**:",
+        "- **only modify `CHANGELOG.md`**:",
+    ],
+    "prepare-for-release": [
+        "## Prepare for Release",
+        "if version number or release date not provided, ask the user before proceeding.",
+        "- **update `CHANGELOG.md`**:",
+        "- **update project version**: find and update the version number",
+    ],
 }
 
 
@@ -790,6 +828,14 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         " context, drawing three unique cards, and interpreting their"
         " meanings in a mystical, conversational style."
     ),
+    "abbr-currency-symbols": "Abbr Currency Symbols",
+    "abbr-emoji": "Abbr Emoji",
+    "abbr-natural-language-codes": "Abbr Natural Language Codes",
+    "abbr-programming-language-codes": "Abbr Programming Language Codes",
+    "abbr-starts-with-b": "Abbr Starts with B",
+    "abbr-starts-with-digits-0-9": "Abbr Starts with Digits 0~9",
+    "abbr-suffixes": "Abbr Suffixes",
+    "abbr-symbols": "Abbr Symbols",
 }
 
 
@@ -1166,6 +1212,38 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
     "skill-description-writer": [
         "use `Style Guide Markdown Format`",
         "use `Style Guide Briefness Style`",
+    ],
+    "maintain-docs": [
+        "use `Style Guide Markdown Format`",
+        "follow `Style Guide Good Writing` rules for correctness and clarity",
+        "follow `Coder README Writer`",
+        "follow `Coder AGENTS Writer`",
+    ],
+    "maintain-changelog": [
+        "use `Style Guide Markdown Format`",
+        "follow `Style Guide Good Writing` rules for correctness and clarity",
+        "follow `Project CHANGELOG Writer`",
+    ],
+    "create-readme": [
+        "use `Style Guide Markdown Format`",
+        "follow `Style Guide Good Writing` rules for correctness and clarity",
+        "follow `Coder README Writer`",
+    ],
+    "create-agents": [
+        "use `Style Guide Markdown Format`",
+        "follow `Coder AGENTS Writer`",
+    ],
+    "prepare-for-feature-finish": [
+        "use `Style Guide Markdown Format`",
+        "follow `Style Guide Good Writing` rules for correctness and clarity",
+        "follow `Project CHANGELOG Writer`",
+        "use **git** tools to learn difference from `dev` branch",
+    ],
+    "prepare-for-release": [
+        "use `Style Guide Markdown Format`",
+        "follow `Style Guide Good Writing` rules for correctness and clarity",
+        "follow `Project CHANGELOG Writer`",
+        "follow `Project Semantic Versioning`",
     ],
 }
 
