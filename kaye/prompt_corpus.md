@@ -3368,7 +3368,7 @@ Use this skill when the user wants to record feature branch changes into the *Un
 
 
 
-## Prepare for Release
+## Prepare for Version Release
 
 if version number or release date not provided, ask the user before proceeding. Then:
 
