@@ -24,7 +24,6 @@ __all__ = (
     "assert_prerequisite_content_line",
 )
 
-# TODO unit test for kaye claude plugin
 # TODO unit test for kaye claude plugin -z
 # TODO unit test for kaye claude marketplace (marketplace.json)
 
@@ -658,7 +657,10 @@ TESTEE_FILE_CONTENT_ALL = {
     ],
     "maintain-docs": [
         "## Maintain Docs",
-        "Update README-style files, AGENTS-style files, and files under `docs/`.",
+        (
+            "Update README-style files, AGENTS-style files, and files under"
+            " `docs/`."
+        ),
         "- edit existing documentation in place whenever possible",
         "#### edit README",
         "#### edit AGENTS",
@@ -666,20 +668,35 @@ TESTEE_FILE_CONTENT_ALL = {
     "maintain-changelog": [
         "## Maintain CHANGELOG",
         "#### edit CHANGELOG",
-        "Follow the **CHANGELOG Writer** rule for format, versioning, and entry style",
+        (
+            "Follow the **CHANGELOG Writer** rule for format, versioning, and"
+            " entry style"
+        ),
     ],
     "create-readme": [
         "## Create README",
-        "Use **Coder README Writer** as the guideline for what makes a good `README.md`.",
-        "- **Project Overview**: what the project does, who it is for, and why it is useful",
+        (
+            "Use **Coder README Writer** as the guideline for what makes a good"
+            " `README.md`."
+        ),
+        (
+            "- **Project Overview**: what the project does, who it is for, and"
+            " why it is useful"
+        ),
         "- **Getting Started**: prerequisites and quick setup path",
         "Create the `README.md` file at the project root",
     ],
     "create-agents": [
         "## Create AGENTS",
-        "Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.",
+        (
+            "Use **Coder AGENTS Writer** as the guideline for what makes a good"
+            " `AGENTS.md`."
+        ),
         "- **Project Overview**: brief description of what the project does",
-        "- **Security Considerations**: anything sensitive an agent must not expose",
+        (
+            "- **Security Considerations**: anything sensitive an agent must"
+            " not expose"
+        ),
         "Create the `AGENTS.md` file at the project root",
     ],
     "prepare-for-feature-finish": [
@@ -690,7 +707,10 @@ TESTEE_FILE_CONTENT_ALL = {
     ],
     "prepare-for-release": [
         "## Prepare for Release",
-        "if version number or release date not provided, ask the user before proceeding.",
+        (
+            "if version number or release date not provided, ask the user"
+            " before proceeding."
+        ),
         "- **update `CHANGELOG.md`**:",
         "- **update project version**: find and update the version number",
     ],
@@ -839,8 +859,8 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "maintain-docs": (
         '"Use this skill when the user wants to update existing README,'
         " AGENTS, or `docs/` files to reflect recent project changes"
-        ' \\u2014 fixing stale commands, broken links, outdated examples,'
-        ' or renamed references. Trigger even for casual requests like'
+        " \\u2014 fixing stale commands, broken links, outdated examples,"
+        " or renamed references. Trigger even for casual requests like"
         ' \\"update the docs\\" or \\"fix the readme.\\"'
         '"'
     ),
@@ -848,7 +868,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         '"Use this skill when the user wants to add, fix, or reorganize'
         " entries in an existing `CHANGELOG.md` \\u2014 logging new"
         " features, bug fixes, or breaking changes without overwriting"
-        ' existing content. Trigger even for casual requests like'
+        " existing content. Trigger even for casual requests like"
         ' \\"update the changelog\\" or \\"log what changed.\\"'
         '"'
     ),
