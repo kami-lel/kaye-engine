@@ -24,8 +24,6 @@ __all__ = (
     "assert_prerequisite_content_line",
 )
 
-# TODO unit test for kaye claude marketplace (marketplace.json)
-
 
 # constants  ###################################################################
 
