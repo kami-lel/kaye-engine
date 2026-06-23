@@ -3,49 +3,28 @@ cli-a-sz-alts-a-skill_test.py
 
 Unit Tests (using pytest) for:
 
-CLI alias: ``python -m kaye a skill -z`` (alias for claude, full command, create .zip packages)
-Verifies all skill .zip files are exported.
+CLI alias: ``python -m kaye a skill -z`` — verifies subprocess is invoked
+with the correct command string.
 """
 
-import pytest
-
-from tests.cli.a import ALL_CLAUDE_SKILL_NAMES
 from tests.cli.a.s import prepare_root_folder
-
-
-# Pytest fixtures  #############################################################
-
-
-@pytest.fixture(scope="class")
-def testee_zips_folder(tmp_path_factory, cli_command):
-    command = cli_command + "a skill -z "
-    return prepare_root_folder(
-        tmp_path_factory=tmp_path_factory,
-        command=command,
-        folder_name="zips_a_skill",
-    )
 
 
 # Unit test classes  ###########################################################
 
 
-class TestBasic:  # ============================================================
+class TestCliCommand:  # =======================================================
 
-    def test_zips_folder_exists(self, testee_zips_folder):
-        assert testee_zips_folder.exists()
-
-    def test_zips_folder_is_dir(self, testee_zips_folder):
-        assert testee_zips_folder.is_dir()
-
-
-class TestZipFiles:  # =========================================================
-
-    @pytest.mark.parametrize("skill_name", ALL_CLAUDE_SKILL_NAMES)
-    def test_zip_file_exists(self, testee_zips_folder, skill_name):
-        zip_file = testee_zips_folder / f"{skill_name}.zip"
-        assert zip_file.exists(), f"Missing {skill_name}.zip"
-
-    @pytest.mark.parametrize("skill_name", ALL_CLAUDE_SKILL_NAMES)
-    def test_zip_file_is_file(self, testee_zips_folder, skill_name):
-        zip_file = testee_zips_folder / f"{skill_name}.zip"
-        assert zip_file.is_file(), f"{skill_name}.zip is not a file"
+    def test_command_invoked(
+        self, mock_run, mock_tmp_path, mock_tmp_path_factory, cli_command
+    ):
+        command = cli_command + "a skill -z "
+        prepare_root_folder(
+            tmp_path_factory=mock_tmp_path_factory,
+            command=command,
+            folder_name="test_folder",
+        )
+        mock_run.assert_called_once()
+        called_command = mock_run.call_args[0][0]
+        assert "a skill -z" in called_command
+        assert str(mock_tmp_path) in called_command

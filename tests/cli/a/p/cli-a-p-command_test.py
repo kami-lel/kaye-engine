@@ -1,9 +1,9 @@
 """
-cli-a-p-alts-a-p_test.py
+cli-a-p-command_test.py
 
 Unit Tests (using pytest) for:
 
-CLI alias: ``python -m kaye a p`` — verifies subprocess is invoked with the
+``python -m kaye claude plugin`` — verifies subprocess is invoked with the
 correct command string.
 """
 
@@ -16,9 +16,9 @@ from tests.cli.a.s import prepare_root_folder
 class TestCliCommand:  # =======================================================
 
     def test_command_invoked(
-        self, mock_run, mock_tmp_path, mock_tmp_path_factory, cli_command
+        self, mock_run, mock_tmp_path, mock_tmp_path_factory, cli_claude_command
     ):
-        command = cli_command + "a p "
+        command = cli_claude_command + "plugin "
         prepare_root_folder(
             tmp_path_factory=mock_tmp_path_factory,
             command=command,
@@ -26,5 +26,5 @@ class TestCliCommand:  # =======================================================
         )
         mock_run.assert_called_once()
         called_command = mock_run.call_args[0][0]
-        assert "a p" in called_command
+        assert "claude plugin" in called_command
         assert str(mock_tmp_path) in called_command
