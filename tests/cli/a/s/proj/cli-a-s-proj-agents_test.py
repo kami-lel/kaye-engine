@@ -91,8 +91,9 @@ class TestStructure:  # ========================================================
 
 class TestContent:  # =========================================================
 
-    def test0(_, testee_content):
-        assert TESTEE_FILE_CONTENT[0] in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content
 
 
 class TestPrerequisite:  # ====================================================
@@ -100,5 +101,6 @@ class TestPrerequisite:  # ====================================================
     def test_heading(_, testee_content):
         assert assert_prerequisite_heading_line(testee_content, 2)
 
-    def test0(_, testee_content):
-        assert assert_prerequisite_content_line(SKILL_NAME, testee_content, 0)
+    @pytest.mark.parametrize("i", range(len(TESTEE_PREREQUISITE_CONTENT)))
+    def test_prerequisite(_, testee_content, i):
+        assert assert_prerequisite_content_line(SKILL_NAME, testee_content, i)

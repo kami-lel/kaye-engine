@@ -18,6 +18,7 @@ from tests.cli.a.s import (
 
 
 SKILL_NAME = "coder-unreal-engine"
+TESTEE_PREREQUISITE_CONTENT = TESTEE_PREREQUISITE_CONTENT_ALL[SKILL_NAME]
 
 
 # Pytest fixtures  #############################################################
@@ -90,5 +91,6 @@ class TestPrerequisite:  # ====================================================
     def test_heading(_, testee_content):
         assert assert_prerequisite_heading_line(testee_content, 3)
 
-    def test0(_, testee_content):
-        assert assert_prerequisite_content_line(SKILL_NAME, testee_content, 0)
+    @pytest.mark.parametrize("i", range(len(TESTEE_PREREQUISITE_CONTENT)))
+    def test_prerequisite(_, testee_content, i):
+        assert assert_prerequisite_content_line(SKILL_NAME, testee_content, i)
