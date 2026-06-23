@@ -1,21 +1,21 @@
 
 todo resume role
 
-Fixme create README
-Fixme maintain README
-Todo create CHANGELOG
-Fixme maintain CHANGELOG
-Todo create AGENTS & CONTEXT
-Todo maintain AGENTS & CONTEXT
-Todo create docs
-Fixme maintain docs
-Todo initialization project: README/CHANGELOG/AGENTS/CONTEXT/docs
-Todo compact-with-maintenance: CHANGELOG/AGENTS/CONTEXT
-Fixme PFF: CHANGELOG/AGENTS/CONTEXT
-Fixme README/CHANGELOG/AGENTS/CONTEXT/docs
+FIXME create README
+FIXME maintain README
+TODO create CHANGELOG
+FIXME maintain CHANGELOG
+TODO create AGENTS & CONTEXT
+TODO maintain AGENTS & CONTEXT
+TODO create docs
+FIXME maintain docs
+TODO initialization project: README/CHANGELOG/AGENTS/CONTEXT/docs
+TODO compact-with-maintenance: CHANGELOG/AGENTS/CONTEXT
+FIXME PFF: CHANGELOG/AGENTS/CONTEXT
+FIXME PVR: README/CHANGELOG/AGENTS/CONTEXT/docs
+
 Todo agent behavior add use todo for long task & long task only
 
 Todo coder dev phases logic: mpt: working on a single phase at the same time
 
 Todo unit test & make sure agent & claude behavior is added
-
