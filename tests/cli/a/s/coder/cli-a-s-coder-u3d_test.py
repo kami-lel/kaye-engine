@@ -19,6 +19,7 @@ from tests.cli.a.s import (
 
 SKILL_NAME = "coder-unity-engine"
 TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
+TESTEE_PREREQUISITE_CONTENT = TESTEE_PREREQUISITE_CONTENT_ALL[SKILL_NAME]
 
 
 # Pytest fixtures  #############################################################
@@ -89,37 +90,15 @@ class TestStructure:  # ========================================================
 
 class TestContent:  # =========================================================
 
-    def test0(_, testee_content):
-        assert TESTEE_FILE_CONTENT[0] in testee_content
-
-    def test1(_, testee_content):
-        assert TESTEE_FILE_CONTENT[1] in testee_content
-
-    def test2(_, testee_content):
-        assert TESTEE_FILE_CONTENT[2] in testee_content
-
-    def test3(_, testee_content):
-        assert TESTEE_FILE_CONTENT[3] in testee_content
-
-    def test4(_, testee_content):
-        assert TESTEE_FILE_CONTENT[4] in testee_content
-
-    def test5(_, testee_content):
-        assert TESTEE_FILE_CONTENT[5] in testee_content
-
-    def test6(_, testee_content):
-        assert TESTEE_FILE_CONTENT[6] in testee_content
-
-    def test7(_, testee_content):
-        assert TESTEE_FILE_CONTENT[7] in testee_content
-
-    def test8(_, testee_content):
-        assert TESTEE_FILE_CONTENT[8] in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content
 
 class TestPrerequisite:  # ====================================================
 
     def test_heading(_, testee_content):
         assert assert_prerequisite_heading_line(testee_content, 3)
 
-    def test0(_, testee_content):
-        assert assert_prerequisite_content_line(SKILL_NAME, testee_content, 0)
+    @pytest.mark.parametrize("i", range(len(TESTEE_PREREQUISITE_CONTENT)))
+    def test_prerequisite(_, testee_content, i):
+        assert assert_prerequisite_content_line(SKILL_NAME, testee_content, i)
