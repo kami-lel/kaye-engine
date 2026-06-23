@@ -2,6 +2,9 @@
 
 from kaye.api import create_app
 
+# todo unit test for CLI HTTP
+
+
 # constants  ###################################################################
 _HOST = "0.0.0.0"
 _PORT = 11255
