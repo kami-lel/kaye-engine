@@ -8,11 +8,7 @@ creation of ``coder-gdscript``
 
 import pytest
 
-from tests.cli import (
-    TESTEE_PREREQUISITE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-)
+from tests.cli import *  # noqa: F401, F403
 from tests.cli.a.s import (
     VERSION_LINE_PATTERN,
     convert_folder_path2skill_file_path,
@@ -69,12 +65,10 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-gdscript" in testee_header
+        assert assert_claude_header_line_name(SKILL_NAME, testee_header)
 
     def test_description(_, testee_header):
-        assert (
-            "description: GDScript code for Godot 4" in testee_header
-        )
+        assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
@@ -95,7 +89,8 @@ class TestContent:  # ==========================================================
 class TestPrerequisite:  # ====================================================
 
     def test_heading(_, testee_content):
-        assert "### {prerequisite}" in testee_content or "#### {prerequisite}" in testee_content
+        assert assert_prerequisite_heading_line(testee_content, 3)
 
-    def test0(_, testee_content):
-        assert TESTEE_PREREQUISITE_CONTENT[0] in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_PREREQUISITE_CONTENT)))
+    def test_prerequisite(_, testee_content, i):
+        assert assert_prerequisite_content_line(SKILL_NAME, testee_content, i)

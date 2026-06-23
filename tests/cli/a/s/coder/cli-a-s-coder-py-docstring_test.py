@@ -8,11 +8,7 @@ creation of ``coder-python-docstring-style``
 
 import pytest
 
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-)
+from tests.cli import *  # noqa: F401, F403
 from tests.cli.a.s import (
     VERSION_LINE_PATTERN,
     convert_folder_path2skill_file_path,
@@ -69,26 +65,13 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-python-docstring-style" in testee_header
+        assert assert_claude_header_line_name(SKILL_NAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            "description: Writes and formats Python docstrings in"
-            " Sphinx/reStructuredText style, enforcing the project's"
-            " docstring forms, field ordering, and visibility rules."
-            in testee_header
-        )
+        assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_when_to_use(_, testee_header):
-        print(testee_header)
-        assert (
-            'when_to_use: "Use whenever Python code needs docstrings'
-            ' \\u2014 including \\"add a docstring,\\" \\"document'
-            ' this,\\" or \\"write the function.\\" Triggers: docstring,'
-            ' Sphinx, reST, `:param:`."'
-            in testee_header
-        )
+        assert assert_claude_header_line_how_to_use(SKILL_NAME, testee_header)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
@@ -102,29 +85,6 @@ class TestStructure:  # ========================================================
 
 class TestContent:  # =========================================================
 
-    def test0(_, testee_content):
-        assert TESTEE_FILE_CONTENT[0] in testee_content
-
-    def test1(_, testee_content):
-        assert TESTEE_FILE_CONTENT[1] in testee_content
-
-    def test2(_, testee_content):
-        assert TESTEE_FILE_CONTENT[2] in testee_content
-
-    def test3(_, testee_content):
-        assert TESTEE_FILE_CONTENT[3] in testee_content
-
-    def test4(_, testee_content):
-        assert TESTEE_FILE_CONTENT[4] in testee_content
-
-    def test5(_, testee_content):
-        assert TESTEE_FILE_CONTENT[5] in testee_content
-
-    def test6(_, testee_content):
-        assert TESTEE_FILE_CONTENT[6] in testee_content
-
-    def test7(_, testee_content):
-        assert TESTEE_FILE_CONTENT[7] in testee_content
-
-    def test8(_, testee_content):
-        assert TESTEE_FILE_CONTENT[8] in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content

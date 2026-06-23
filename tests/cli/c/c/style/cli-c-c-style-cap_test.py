@@ -6,13 +6,7 @@ Unit Tests (using pytest) for
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-    assert_header_line_always_apply,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "style-guide-capitalization"
@@ -61,21 +55,10 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        name_line = "name: " + _SKILL_NAME
-        assert name_line in testee_header
+        assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            'description: "Applies Chicago Manual of Style capitalization:'
-            " Title Case for titles and headings, Commentary Case"
-            " (lowercase-leading, selective emphasis, no end punctuation) for"
-            " list items and table cells.\\u21B5Use when capitalizing titles,"
-            " headings, list items, or table cells, or when a user mentions"
-            " title case, headline case, or Chicago Manual of Style. Not for"
-            ' grammar, punctuation, or prose style."'
-            in testee_header
-        )
+        assert assert_continue_blueprint_header_line_description(MD_FILENAME, testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)

@@ -8,13 +8,7 @@ creation of ``Project Semantic Versioning.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-    assert_header_line_always_apply,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "project-semantic-versioning"
@@ -66,20 +60,10 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Project Semantic Versioning" in testee_header
+        assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            "description: \"Defines the project's semantic versioning"
-            " scheme \\u2014 `major.minor.patch` core, pre-release tags"
-            " (`alpha`/`beta`/`rc`), build metadata, and versions mapped"
-            " to development stages.\\u21B5Use when assigning, bumping,"
-            " or formatting a version, or choosing a pre-release/build"
-            ' tag. Triggers: \\"what version,\\" \\"tag a release,\\"'
-            ' semver, alpha/beta/rc."'
-            in testee_header
-        )
+        assert assert_continue_blueprint_header_line_description(MD_FILENAME, testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)

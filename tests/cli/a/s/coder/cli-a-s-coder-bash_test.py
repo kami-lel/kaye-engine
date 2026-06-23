@@ -8,12 +8,7 @@ creation of ``coder-bash``
 
 import pytest
 
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    TESTEE_PREREQUISITE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-)
+from tests.cli import *  # noqa: F401, F403
 from tests.cli.a.s import (
     VERSION_LINE_PATTERN,
     convert_folder_path2skill_file_path,
@@ -71,25 +66,13 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: coder-bash" in testee_header
+        assert assert_claude_header_line_name(SKILL_NAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            'description: "Generates ready-to-run Debian GNU/Linux shell'
-            " commands \\u2014 command-only output, sudo and destructive"
-            ' commands when requested."'
-            in testee_header
-        )
+        assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_when_to_use(_, testee_header):
-        print(testee_header)
-        assert (
-            "when_to_use: 'Use for terminal commands or shell one-liners on"
-            ' Debian/Ubuntu. Triggers: "command to...,"'
-            ' "bash for...," CLI tasks.\''
-            in testee_header
-        )
+        assert assert_claude_header_line_how_to_use(SKILL_NAME, testee_header)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
@@ -103,28 +86,16 @@ class TestStructure:  # ========================================================
 
 class TestContent:  # =========================================================
 
-    def test0(_, testee_content):
-        assert TESTEE_FILE_CONTENT[0] in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content
 
-    def test1(_, testee_content):
-        assert TESTEE_FILE_CONTENT[1] in testee_content
-
-    def test2(_, testee_content):
-        assert TESTEE_FILE_CONTENT[2] in testee_content
-
-    def test3(_, testee_content):
-        assert TESTEE_FILE_CONTENT[3] in testee_content
-
-    def test4(_, testee_content):
-        assert TESTEE_FILE_CONTENT[4] in testee_content
-
-    def test5(_, testee_content):
-        assert TESTEE_FILE_CONTENT[5] in testee_content
 
 class TestPrerequisite:  # ====================================================
 
     def test_heading(_, testee_content):
-        assert "### {prerequisite}" in testee_content or "#### {prerequisite}" in testee_content
+        assert assert_prerequisite_heading_line(testee_content, 3)
 
-    def test0(_, testee_content):
-        assert TESTEE_PREREQUISITE_CONTENT[0] in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_PREREQUISITE_CONTENT)))
+    def test_prerequisite(_, testee_content, i):
+        assert assert_prerequisite_content_line(SKILL_NAME, testee_content, i)

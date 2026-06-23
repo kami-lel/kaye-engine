@@ -8,13 +8,7 @@ creation of ``Project CHANGELOG Writer.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-    assert_header_line_always_apply,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "project-changelog-writer"
@@ -66,21 +60,10 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Project CHANGELOG Writer" in testee_header
+        assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            'description: "Writes and maintains `CHANGELOG.md` files per'
-            " Keep a Changelog conventions \\u2014 dated version entries"
-            " newest-first, grouped change types, a persistent"
-            " `[Unreleased]` section, and linkable version"
-            " references.\\u21B5Use when creating, updating, or adding"
-            " entries to a `CHANGELOG.md`, or recording changes for a"
-            ' release. Triggers: \\"update the changelog,\\" \\"log this'
-            ' change,\\" \\"document the release.\\""'
-            in testee_header
-        )
+        assert assert_continue_blueprint_header_line_description(MD_FILENAME, testee_header)
 
     def test_globs(_, testee_header):
         assert (
