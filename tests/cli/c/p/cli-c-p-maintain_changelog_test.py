@@ -9,11 +9,6 @@ creation of ``maintain_changelog.md``
 import pytest
 
 from tests.cli import *  # noqa: F401, F403
-from tests.cli.c.p import (
-    assert_edit_changelog0,
-    assert_edit_changelog1,
-    assert_edit_changelog2,
-)
 
 # constants  ###################################################################
 PROMPT_FILENAME = "maintain-changelog"
@@ -75,20 +70,30 @@ class TestContent:  # ==========================================================
     def test_maintain_changelog_heading(_, testee_content):
         assert "## Maintain CHANGELOG" in testee_content
 
-    def test_review_recent_changes(_, testee_content):
+    def test_intro_update_existing(_, testee_content):
         assert (
-            "review recent changes — "
-            "update or create `CHANGELOG.md` to reflect them."
+            "Update an existing CHANGELOG so it reflects recent changes."
             in testee_content
         )
 
-    # edit CHANGELOG  ----------------------------------------------------------
+    def test_instructions_section(_, testee_content):
+        assert "#### Instructions" in testee_content
 
-    def test_edit_changelog0(_, testee_content):
-        assert assert_edit_changelog0(testee_content)
+    def test_instructions_add_to_unreleased(_, testee_content):
+        assert (
+            "add each change under the correct subsection of `[Unreleased]`"
+            in testee_content
+        )
 
-    def test_edit_changelog1(_, testee_content):
-        assert assert_edit_changelog1(testee_content)
+    def test_instructions_preserve_entries(_, testee_content):
+        assert (
+            "preserve existing entries; refine or reorganize instead of"
+            " duplicating them"
+            in testee_content
+        )
 
-    def test_edit_changelog2(_, testee_content):
-        assert assert_edit_changelog2(testee_content)
+    def test_output_section(_, testee_content):
+        assert "#### Output" in testee_content
+
+    def test_output_update_in_place(_, testee_content):
+        assert "Update CHANGELOG in place" in testee_content

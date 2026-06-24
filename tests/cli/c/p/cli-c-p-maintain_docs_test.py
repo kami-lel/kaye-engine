@@ -9,16 +9,6 @@ creation of ``maintain_docs.md``
 import pytest
 
 from tests.cli import *  # noqa: F401, F403
-from tests.cli.c.p import (
-    assert_edit_readme0,
-    assert_edit_readme1,
-    assert_edit_readme2,
-    assert_edit_readme3,
-    assert_edit_agents0,
-    assert_edit_agents1,
-    assert_edit_agents2,
-    assert_edit_agents3,
-)
 
 # constants  ###################################################################
 PROMPT_FILENAME = "maintain-docs"
@@ -80,12 +70,8 @@ class TestContent:  # ==========================================================
     def test_heading(_, testee_content):
         assert "## Maintain Docs" in testee_content
 
-    def test_intro_readme_agents_docs(_, testee_content):
-        assert (
-            "Update README-style files, AGENTS-style files, "
-            "and files under `docs/`"
-            in testee_content
-        )
+    def test_intro_docs_only(_, testee_content):
+        assert "Update files under `docs/`." in testee_content
 
     def test_instructions_section(_, testee_content):
         assert "#### Instructions" in testee_content
@@ -97,20 +83,6 @@ class TestContent:  # ==========================================================
         assert (
             "create new documentation only when an important expected file "
             "is missing or repository changes require it"
-            in testee_content
-        )
-
-    def test_instructions_readme_style_definition(_, testee_content):
-        assert (
-            "treat README-style files as files named `README`, `Readme`, or "
-            "`readme`, with no extension, `.md`, or `.txt`"
-            in testee_content
-        )
-
-    def test_instructions_agents_style_definition(_, testee_content):
-        assert (
-            "treat AGENTS-style files as files named `AGENTS`, `Agents`, or "
-            "`agents`, with no extension or `.md`"
             in testee_content
         )
 
@@ -139,31 +111,3 @@ class TestContent:  # ==========================================================
 
     def test_output_section(_, testee_content):
         assert "#### Output" in testee_content
-
-    # edit README  -------------------------------------------------------------
-
-    def test_edit_readme_section(_, testee_content):
-        assert assert_edit_readme0(testee_content)
-
-    def test_edit_readme_follow_writer(_, testee_content):
-        assert assert_edit_readme1(testee_content)
-
-    def test_edit_readme_update_applicable(_, testee_content):
-        assert assert_edit_readme2(testee_content)
-
-    def test_edit_readme_prioritize_root(_, testee_content):
-        assert assert_edit_readme3(testee_content)
-
-    # edit AGENTS  -------------------------------------------------------------
-
-    def test_edit_agents_section(_, testee_content):
-        assert assert_edit_agents0(testee_content)
-
-    def test_edit_agents_follow_writer(_, testee_content):
-        assert assert_edit_agents1(testee_content)
-
-    def test_edit_agents_preserve_frontmatter(_, testee_content):
-        assert assert_edit_agents2(testee_content)
-
-    def test_edit_agents_avoid_moving_content(_, testee_content):
-        assert assert_edit_agents3(testee_content)

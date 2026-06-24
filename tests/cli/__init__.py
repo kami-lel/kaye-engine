@@ -104,12 +104,12 @@ MD_FILENAME2SKILL_NAME = {
 
 
 PROMPT_FILENAME2NAME = {
-    "create-agents": "Create AGENTS",
+    "create-agents-and-context": "Create AGENTS and CONTEXT",
     "create-readme": "Create README",
     "maintain-changelog": "Maintain CHANGELOG",
     "maintain-docs": "Maintain Docs",
     "prepare-for-feature": "Prepare for Feature Finish",
-    "prepare-for-release": "Prepare for Release",
+    "prepare-for-version-release": "Prepare for Version Release",
     "resolve-annotation-markers": "Resolve Annotation Markers",
 }
 
@@ -654,62 +654,51 @@ TESTEE_FILE_CONTENT_ALL = {
     ],
     "maintain-docs": [
         "## Maintain Docs",
-        (
-            "Update README-style files, AGENTS-style files, and files under"
-            " `docs/`."
-        ),
+        "Update files under `docs/`.",
         "- edit existing documentation in place whenever possible",
-        "#### edit README",
-        "#### edit AGENTS",
+        "#### Docs Files",
+        "Return a brief summary listing changed files",
     ],
     "maintain-changelog": [
         "## Maintain CHANGELOG",
-        "#### edit CHANGELOG",
-        (
-            "Follow the **CHANGELOG Writer** rule for format, versioning, and"
-            " entry style"
-        ),
+        "Update an existing CHANGELOG so it reflects recent changes.",
+        "- add each change under the correct subsection of `[Unreleased]`",
+        "- preserve existing entries; refine or reorganize instead of duplicating",
+        "Update CHANGELOG in place",
     ],
     "create-readme": [
         "## Create README",
         (
-            "Use **Coder README Writer** as the guideline for what makes a good"
-            " `README.md`."
+            "Write a brand-new `README.md` for a repository that has none."
+            " Follow **Project README Writer**"
         ),
-        (
-            "- **Project Overview**: what the project does, who it is for, and"
-            " why it is useful"
-        ),
-        "- **Getting Started**: prerequisites and quick setup path",
-        "Create the `README.md` file at the project root",
+        "- discover the project structure by inspecting the repository",
+        "- draw source material from existing docs, config, manifests",
+        "Create `README.md` at the project root.",
     ],
-    "create-agents": [
-        "## Create AGENTS",
+    "create-agents-and-context": [
+        "## Create AGENTS and CONTEXT",
         (
-            "Use **Coder AGENTS Writer** as the guideline for what makes a good"
-            " `AGENTS.md`."
+            "Write brand-new `AGENTS.md` and `CONTEXT.md` for a repository"
+            " that has neither."
         ),
-        "- **Project Overview**: brief description of what the project does",
-        (
-            "- **Security Considerations**: anything sensitive an agent must"
-            " not expose"
-        ),
-        "Create the `AGENTS.md` file at the project root",
+        "- inspect the repository with available tools",
+        "- split content by purpose",
+        "Create `AGENTS.md` and `CONTEXT.md` at the project root.",
     ],
     "prepare-for-feature-finish": [
         "## Prepare for Feature Finish",
-        "- **preserve existing changelog entries**: do not remove or overwrite",
-        "- **avoid duplicate entries**:",
-        "- **only modify `CHANGELOG.md`**:",
+        "Before merging the current feature branch",
+        "- **Maintain CHANGELOG** → record the branch's changes",
+        "- **Maintain AGENTS and CONTEXT** → update them for any",
     ],
-    "prepare-for-release": [
-        "## Prepare for Release",
-        (
-            "if version number or release date not provided, ask the user"
-            " before proceeding."
-        ),
-        "- **update `CHANGELOG.md`**:",
-        "- **update project version**: find and update the version number",
+    "prepare-for-version-release": [
+        "## Prepare for Version Release",
+        "Cut a new release: bring all docs current",
+        "- require both a version number and a release date; if either is missing",
+        "1. **Sync the docs** to the state being released",
+        "2. **Close out the changelog**",
+        "3. **Bump the project version**",
     ],
 }
 
@@ -863,7 +852,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     ),
     "maintain-changelog": (
         '"Use this skill when the user wants to add, fix, or reorganize'
-        " entries in an existing `CHANGELOG.md` \\u2014 logging new"
+        " entries in an existing CHANGELOG \\u2014 logging new"
         " features, bug fixes, or breaking changes without overwriting"
         " existing content. Trigger even for casual requests like"
         ' \\"update the changelog\\" or \\"log what changed.\\"'
@@ -877,7 +866,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         ' or \\"document this project.\\"'
         '"'
     ),
-    "create-agents": (
+    "create-agents-and-context": (
         '"Use this skill when the user wants to create a new'
         " `AGENTS.md` from scratch \\u2014 covering project setup, build"
         " and test commands, code style, and PR conventions formatted"
@@ -885,24 +874,8 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         ' \\"add agent instructions\\" or \\"make an agents file.\\"'
         '"'
     ),
-    "prepare-for-feature-finish": (
-        '"Use this skill when the user wants to record feature branch'
-        " changes into the *Unreleased* section of `CHANGELOG.md` before"
-        " merging \\u2014 adding, updating, or reorganizing entries"
-        " without duplicating or overwriting existing ones. Trigger for"
-        ' requests like \\"prep the changelog\\" or \\"document what'
-        ' I changed.\\"'
-        '"'
-    ),
-    "prepare-for-release": (
-        '"Use this skill when the user wants to cut a release \\u2014'
-        " moving *Unreleased* changelog entries into a new versioned"
-        " section and bumping the version in metadata files like"
-        " `package.json`, `pyproject.toml`, or `Cargo.toml`. Trigger"
-        ' for requests like \\"ship v1.2.3\\" or \\"bump the'
-        ' version.\\"'
-        '"'
-    ),
+    "prepare-for-feature-finish": "Records a feature branch",
+    "prepare-for-version-release": "Cuts a project release",
 }
 
 
@@ -1283,8 +1256,6 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
     "maintain-docs": [
         "use `Style Guide Markdown Format`",
         "follow `Style Guide Good Writing` rules for correctness and clarity",
-        "follow `Coder README Writer`",
-        "follow `Coder AGENTS Writer`",
     ],
     "maintain-changelog": [
         "use `Style Guide Markdown Format`",
@@ -1294,23 +1265,29 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
     "create-readme": [
         "use `Style Guide Markdown Format`",
         "follow `Style Guide Good Writing` rules for correctness and clarity",
-        "follow `Coder README Writer`",
+        "follow `Project README Writer`",
     ],
-    "create-agents": [
-        "use `Style Guide Markdown Format`",
+    "create-agents-and-context": [
         "follow `Coder AGENTS Writer`",
+        "follow `Coder CONTEXT Writer`",
+        "use `Style Guide Markdown Format`",
     ],
     "prepare-for-feature-finish": [
+        "follow `Maintain CHANGELOG`",
+        "follow `Maintain AGENTS and CONTEXT`",
         "use `Style Guide Markdown Format`",
         "follow `Style Guide Good Writing` rules for correctness and clarity",
-        "follow `Project CHANGELOG Writer`",
         "use **git** tools to learn difference from `dev` branch",
     ],
-    "prepare-for-release": [
+    "prepare-for-version-release": [
+        "follow `Maintain README`",
+        "follow `Maintain CHANGELOG`",
+        "follow `Maintain AGENTS and CONTEXT`",
+        "follow `Maintain Docs`",
+        "follow `Project Semantic Versioning`",
         "use `Style Guide Markdown Format`",
         "follow `Style Guide Good Writing` rules for correctness and clarity",
-        "follow `Project CHANGELOG Writer`",
-        "follow `Project Semantic Versioning`",
+        "use **git** tools to learn difference from last version",
     ],
 }
 

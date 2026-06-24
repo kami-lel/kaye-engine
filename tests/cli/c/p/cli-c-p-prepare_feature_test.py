@@ -70,55 +70,22 @@ class TestContent:  # ==========================================================
     def test_heading(_, testee_content):
         assert "## Prepare for Feature Finish" in testee_content
 
-    def test_intro_update_changelog(_, testee_content):
-        assert "update `CHANGELOG.md`" in testee_content
+    def test_intro_sync_docs(_, testee_content):
+        assert "Before merging the current feature branch" in testee_content
 
-    def test_add_relevant_changes(_, testee_content):
+    def test_instructions_section(_, testee_content):
+        assert "#### Instructions" in testee_content
+
+    def test_instructions_identify_changes(_, testee_content):
         assert (
-            "add all relevant changes made by the current feature branch to "
-            "the *Unreleased* section"
-            in testee_content
+            "identify this branch's changes once" in testee_content
         )
 
-    def test_identify_feature_branch_changes(_, testee_content):
-        assert "**identify feature branch changes**" in testee_content
+    def test_instructions_maintain_changelog(_, testee_content):
+        assert "**Maintain CHANGELOG** → record the branch's changes" in testee_content
 
-    def test_identify_using_git_tools(_, testee_content):
-        assert (
-            "determine the changes by using available git tools"
-            in testee_content
-        )
+    def test_instructions_maintain_agents(_, testee_content):
+        assert "**Maintain AGENTS and CONTEXT** → update them for any" in testee_content
 
-    def test_preserve_existing_entries(_, testee_content):
-        assert "**preserve existing changelog entries**" in testee_content
-
-    def test_preserve_do_not_remove(_, testee_content):
-        assert (
-            "do not remove or overwrite existing entries in the "
-            "*Unreleased* section"
-            in testee_content
-        )
-
-    def test_avoid_duplicate_entries(_, testee_content):
-        assert "**avoid duplicate entries**" in testee_content
-
-    def test_avoid_duplicates_update_refine(_, testee_content):
-        assert (
-            "if some feature branch changes are already mentioned in the "
-            "*Unreleased* section, update, refine, or reorganize them"
-            in testee_content
-        )
-
-    def test_reorganize_when_helpful(_, testee_content):
-        assert "**reorganize when helpful**" in testee_content
-
-    def test_only_modify_changelog(_, testee_content):
-        assert "**only modify `CHANGELOG.md`**" in testee_content
-
-    def test_only_changelog_modification(_, testee_content):
-        assert (
-            "the only allowed file modification is `CHANGELOG.md`, and within "
-            "that file, the only allowed content modification is inside the "
-            "*Unreleased* section"
-            in testee_content
-        )
+    def test_output_section(_, testee_content):
+        assert "#### Output" in testee_content

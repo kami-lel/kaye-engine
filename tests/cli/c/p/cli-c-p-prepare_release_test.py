@@ -11,7 +11,7 @@ import pytest
 from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
-PROMPT_FILENAME = "prepare-for-release"
+PROMPT_FILENAME = "prepare-for-version-release"
 _PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -67,31 +67,33 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_maintain_agents_heading(_, testee_content):
-        assert "## Prepare for Release" in testee_content
+    def test_heading(_, testee_content):
+        assert "## Prepare for Version Release" in testee_content
 
-    def test1(_, testee_content):
-        assert "version number or release date not provided" in testee_content
+    def test_intro_cut_release(_, testee_content):
+        assert "Cut a new release: bring all docs current" in testee_content
 
-    def test2(_, testee_content):
-        assert " **update `CHANGELOG.md`**:" in testee_content
+    def test_preconditions_section(_, testee_content):
+        assert "#### Preconditions" in testee_content
 
-    def test3(_, testee_content):
-        assert "ove all content under *Unreleased* into a new" in testee_content
-
-    def test4(_, testee_content):
+    def test_preconditions_require_version_and_date(_, testee_content):
         assert (
-            "reate a new empty *Unreleased* section above it" in testee_content
-        )
-
-    def test5(_, testee_content):
-        assert " **update project version**:" in testee_content
-
-    def test6(_, testee_content):
-        assert "ind and update the version number in project" in testee_content
-
-    def test7(_, testee_content):
-        assert (
-            "g `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`"
+            "require both a version number and a release date; if either is"
+            " missing"
             in testee_content
         )
+
+    def test_steps_section(_, testee_content):
+        assert "#### Steps" in testee_content
+
+    def test_steps_sync_docs(_, testee_content):
+        assert "**Sync the docs** to the state being released" in testee_content
+
+    def test_steps_close_changelog(_, testee_content):
+        assert "**Close out the changelog**" in testee_content
+
+    def test_steps_bump_version(_, testee_content):
+        assert "**Bump the project version**" in testee_content
+
+    def test_output_section(_, testee_content):
+        assert "#### Output" in testee_content
