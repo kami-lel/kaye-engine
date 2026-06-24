@@ -460,8 +460,8 @@ TESTEE_FILE_CONTENT_ALL = {
     "project-agents-writer": [
         "## Project AGENTS Writer",
         (
-            "You are an expert in writing and maintaining `AGENTS.md` files for"
-            " software repositories."
+            "You are an expert in writing and maintaining `AGENTS.md`"
+            " (or AGENTS-style file) files for software repositories."
         ),
         (
             "Apply these rules when writing or updating the content of an"
@@ -498,24 +498,30 @@ TESTEE_FILE_CONTENT_ALL = {
         "- changelogs are *for humans*, not machines",
         "- there should be an entry for every single version",
         "always maintain an `[Unreleased]` section",
-        "**Types of Changes:**",
+        "#### Types of Changes",
         "- `Added`: new features",
         "- `Fixed`: any bug fixes",
-        "- title must be `Project Name CHANGELOG`",
-        "- must include Github **links** at each section's end",
+        "#### CHANGELOG Example",
+        "- must include GitHub **links** at each section's end",
     ],
     "project-readme-writer": [
         "## Project README Writer",
-        "You are an expert in writing and maintaining `README.md` files",
-        "#### Purpose",
-        "`README.md` is a human-oriented landing page that helps developers",
+        (
+            "These guidelines define what a good `README.md`"
+            " (or README-style files) is."
+        ),
+        "A README is a human-oriented landing page that helps developers",
         "#### Style",
         "- write for humans first, not AI agents",
         "- prioritize visual clarity, readability, and quick scanning",
-        "#### Document Title",
-        "# <Project Name> README",
-        "#### Quality Expectations",
-        "- human-friendly, visually clear, and easy to scan",
+        "#### Sections",
+        (
+            "**Project Overview** — what it does, who it is for,"
+            " why it is useful"
+        ),
+        "#### Quality",
+        "- specific to the repository, not generic",
+        "- useful for first-time visitors and returning contributors",
     ],
     "project-semantic-versioning": [
         "## Project Semantic Versioning",
@@ -815,13 +821,13 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         " standards."
     ),
     "project-changelog-writer": (
-        '"Writes and maintains `CHANGELOG.md` files per Keep a Changelog'
+        '"Writes and maintains CHANGELOG files per Keep a Changelog'
         " conventions \\u2014 dated version entries newest-first, grouped"
         " change types, a persistent `[Unreleased]` section, and linkable"
         ' version references."'
     ),
     "project-readme-writer": (
-        '"Writes and maintains human-friendly `README.md` files'
+        '"Writes and maintains human-friendly README files'
         " \\u2014 scannable, visually clear landing pages covering a"
         " project's purpose, features, setup, usage, and contribution"
         " flow, with a standard title format and tasteful use of headings,"
@@ -1064,21 +1070,21 @@ TESTEE_CONTINUE_BLUEPRINT_DESCRIPTION_CONTENT_ALL = {
         ' version,\\" \\"tag a release,\\" semver, alpha/beta/rc."'
     ),
     "project-changelog-writer": (
-        '"Writes and maintains `CHANGELOG.md` files per Keep a Changelog'
+        '"Writes and maintains CHANGELOG files per Keep a Changelog'
         " conventions \\u2014 dated version entries newest-first, grouped"
         " change types, a persistent `[Unreleased]` section, and linkable"
         " version references.\\u21B5Use when creating, updating, or adding"
-        " entries to a `CHANGELOG.md`, or recording changes for a release."
+        " entries to a CHANGELOG, or recording changes for a release."
         ' Triggers: \\"update the changelog,\\" \\"log this change,\\"'
         ' \\"document the release.\\""'
     ),
     "project-readme-writer": (
-        '"Writes and maintains human-friendly `README.md` files'
+        '"Writes and maintains human-friendly README files'
         " \\u2014 scannable, visually clear landing pages covering a"
         " project's purpose, features, setup, usage, and contribution"
         " flow, with a standard title format and tasteful use of headings,"
         " lists, badges, and emoji.\\u21B5Use when creating, updating, or"
-        " reviewing a `README.md` or similar project landing page. Triggers:"
+        " reviewing a README or similar project landing page. Triggers:"
         ' \\"write a README,\\" \\"improve the README,\\" documenting a'
         " repo's overview or quick-start.\""
     ),
@@ -1189,12 +1195,12 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
     ),
     "project-changelog-writer": (
         "'Use when creating, updating, or adding entries to a"
-        " `CHANGELOG.md`, or recording changes for a release."
+        " CHANGELOG, or recording changes for a release."
         ' Triggers: "update the changelog," "log this change,"'
         ' "document the release."\''
     ),
     "project-readme-writer": (
-        "'Use when creating, updating, or reviewing a `README.md` or"
+        "'Use when creating, updating, or reviewing a README or"
         ' similar project landing page. Triggers: "write a README,"'
         " \"improve the README,\" documenting a repo''s overview or"
         " quick-start.'"
