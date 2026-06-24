@@ -73,6 +73,8 @@ def register_cli_claude_code_parser(  ##########################################
         export_user_system_prompt_file(prompt_file)
         logger.succ("export user system prompt file:\t" + str(prompt_file))
 
+        # Todo CLI claude code update setting for pre compact hooks
+
         logger.done("export Claude Code folder:" + "\t" + str(folder))
 
     code_parser.set_defaults(func=_code_main)

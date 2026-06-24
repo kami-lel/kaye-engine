@@ -1,7 +1,7 @@
 
 todo resume role
 
-todo write maintain before compact, then use hooks.PreCompact to call maintain
+Todo write maintain before compact, then use hooks.PreCompact to call maintain
 
 Todo agent behavior add use todo for long task & long task only
 
