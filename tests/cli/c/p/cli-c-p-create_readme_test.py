@@ -72,60 +72,28 @@ class TestContent:  # ==========================================================
 
     def test_intro_readme_writer(_, testee_content):
         assert (
-            "Use **Coder README Writer** as the guideline for what makes a good"
-            " `README.md`"
+            "Write a brand-new `README.md` for a repository that has none."
+            " Follow **Project README Writer**"
             in testee_content
         )
 
     def test_instructions_section(_, testee_content):
         assert "#### Instructions" in testee_content
 
-    def test_instructions_create_complete(_, testee_content):
+    def test_instructions_discover_structure(_, testee_content):
         assert (
-            "create a complete new `README.md` tailored to the repository"
+            "discover the project structure by inspecting the repository"
             in testee_content
         )
 
-    def test_instructions_human_oriented(_, testee_content):
+    def test_instructions_draw_source_material(_, testee_content):
         assert (
-            "make the README human-oriented, visually clear, and easy to scan"
+            "draw source material from existing docs, config, manifests"
             in testee_content
         )
-
-    def test_structure_guidelines_section(_, testee_content):
-        assert "#### Structure Guidelines" in testee_content
-
-    def test_project_overview_guideline(_, testee_content):
-        assert "**Project Overview**" in testee_content
-
-    def test_features_guideline(_, testee_content):
-        assert "**Features**" in testee_content
-
-    def test_getting_started_guideline(_, testee_content):
-        assert "**Getting Started**" in testee_content
-
-    def test_installation_guideline(_, testee_content):
-        assert "**Installation**" in testee_content
-
-    def test_usage_guideline(_, testee_content):
-        assert "**Usage**" in testee_content
-
-    def test_contributing_guideline(_, testee_content):
-        assert "**Contributing**" in testee_content
-
-    def test_security_guideline(_, testee_content):
-        assert "**Security**" in testee_content
-
-    def test_license_guideline(_, testee_content):
-        assert "**License**" in testee_content
-
-    def test_build_test_commands_guideline(_, testee_content):
-        assert "**Build and Test Commands**" in testee_content
 
     def test_output_section(_, testee_content):
         assert "#### Output" in testee_content
 
     def test_output_file_location(_, testee_content):
-        assert (
-            "Create the `README.md` file at the project root" in testee_content
-        )
+        assert "Create `README.md` at the project root." in testee_content
