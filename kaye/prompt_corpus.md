@@ -2049,7 +2049,7 @@ Use when assigning, bumping, or formatting a version, or choosing a pre-release/
 
 ## Project README Writer
 
-These guidelines define what a good `README.md` is. A `README.md` is a human-oriented landing page that helps developers, users, and contributors quickly understand, use, and trust a repository — explaining what the project is, why it matters, how to start, and where to find key information.
+These guidelines define what a good README is. A README is a human-oriented landing page that helps developers, users, and contributors quickly understand, use, and trust a repository — explaining what the project is, why it matters, how to start, and where to find key information.
 
 
 
@@ -2063,17 +2063,6 @@ These guidelines define what a good `README.md` is. A `README.md` is a human-ori
 - use tasteful emoji to aid navigation and visual appeal
 - use badges, screenshots, diagrams, examples, and feature highlights when supported by project information
 - keep content concise, friendly, and practical
-
-
-
-
-
-#### Title
-
-```markdown
-    # <Project Name> README
-```
-Replace `<Project Name>` with the actual project name.
 
 
 
@@ -2103,7 +2092,7 @@ A complete README covers these where applicable:
 
 #### Quality
 
-A good `README.md` is:
+A good README is:
 - specific to the repository, not generic
 - useful for first-time visitors and returning contributors
 - command-oriented where install, build, run, and test workflows are known
@@ -2123,11 +2112,11 @@ A good `README.md` is:
 
 ### {description}
 
-Writes and maintains human-friendly `README.md` files — scannable, visually clear landing pages covering a project's purpose, features, setup, usage, and contribution flow, with a standard title format and tasteful use of headings, lists, badges, and emoji.
+Writes and maintains human-friendly README files — scannable, visually clear landing pages covering a project's purpose, features, setup, usage, and contribution flow, with a standard title format and tasteful use of headings, lists, badges, and emoji.
 
 ### {when_to_use}
 
-Use when creating, updating, or reviewing a `README.md` or similar project landing page. Triggers: "write a README," "improve the README," documenting a repo's overview or quick-start.
+Use when creating, updating, or reviewing a README or similar project landing page. Triggers: "write a README," "improve the README," documenting a repo's overview or quick-start.
 
 ### {globs}
 
@@ -2191,6 +2180,7 @@ These guidelines define what a good `CHANGELOG.md` is.
 - always maintain an `[Unreleased]` section with **all 6 subsections** present, even if they are empty
 - in released versions, **omit** any subsection that has no entries
 - always maintain the **links section** at the bottom of the changelog, keeping every version referenced
+- must include GitHub **links** at each section's end
 
 
 
@@ -2204,15 +2194,6 @@ These guidelines define what a good `CHANGELOG.md` is.
 - `Removed`: now removed features
 - `Fixed`: any bug fixes
 - `Security`: in case of vulnerabilities
-
-
-
-
-
-#### Format
-
-- title must be `Project Name CHANGELOG`
-- must include GitHub **links** at each section's end
 
 
 
@@ -2660,6 +2641,17 @@ Write a brand-new `README.md` for a repository that has none. Follow **Project R
 
 
 
+#### Title
+
+```markdown
+    # <Project Name> README
+```
+Replace `<Project Name>` with the actual project name.
+
+
+
+
+
 #### Output
 
 Create `README.md` at the project root.
@@ -2721,7 +2713,7 @@ Use this skill when the user wants to create a new `README.md` from scratch — 
 
 ## Maintain README
 
-Update an existing `README.md` so it matches the current project state. Follow **Project README Writer** for style, title, sections, and quality.
+Update an existing README.md` so it matches the current project state. Follow **Project README Writer** for style, title, sections, and quality.
 
 
 
@@ -2814,6 +2806,17 @@ Write a brand-new `CHANGELOG.md` for a repository that has none.
 - reconstruct one versioned section per existing release, newest first, each with its date
 - add an empty `[Unreleased]` section at the top with all 6 subsections present
 - build the links section at the bottom, referencing every version
+
+
+
+
+
+#### Title
+
+```markdown
+    # <Project Name> CHANGELOG
+```
+Replace `<Project Name>` with the actual project name.
 
 
 
