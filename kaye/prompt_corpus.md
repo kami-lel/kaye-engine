@@ -3308,7 +3308,63 @@ Use this skill when the user wants to update existing README, AGENTS, or `docs/`
 
 ## Initialize Project
 
+Bootstrap a repository's baseline documentation from nothing, in one pass.
+
+
+
+
+
+#### Instructions
+
+- inspect the repository once with available tools — layout, configs, manifests, scripts, tests — and learn remaining context from the conversation; reuse these findings across every step below
+- run each create skill in order, skipping any whose target file already exists:
+
+  1. **Create README** → `README.md`
+  2. **Create CHANGELOG** → `CHANGELOG.md`
+  3. **Create AGENTS and CONTEXT** → `AGENTS.md` + `CONTEXT.md`
+  4. **Create Docs** → files under `docs/`
+
+- split content by purpose: human onboarding → README; release history → CHANGELOG; agent behavior → AGENTS; system knowledge → CONTEXT; topic deep-dives → `docs/`; never duplicate across files
+- write a file or section only when project information supports it
+
+
+
+
+
+#### Output
+
+Create the documentation files at their standard locations.
+Return a brief summary listing every file created.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
+
+Bootstraps a repository's entire baseline documentation set in one pass — `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CONTEXT.md`, and `docs/` — from a single repository inspection, splitting content by purpose with no duplication and skipping files that already exist.
+
+### {when_to_use}
+
+When a bare repo needs its documentation scaffolded all at once — "set up docs," "set up this project/repo," "document this project," "create the docs from scratch." Not for updating or fixing existing docs.
+
+### {prerequisite}
+
+- follow `Create README`
+- follow `Create CHANGELOG`
+- follow `Create AGENTS and CONTEXT`
+- follow `Create Docs`
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
 
 
 
@@ -3381,14 +3437,26 @@ Use this skill when the user wants to update existing README, AGENTS, or `docs/`
 
 ## Prepare for Feature Finish
 
-update `CHANGELOG.md`:
+Before merging the current feature branch, sync the docs it affects: log its changes and update the agent-facing docs.
 
-- add all relevant changes made by the current feature branch to the *Unreleased* section
-- **identify feature branch changes**: determine the changes by using available git tools, information provided by the user in chat, and any existing entries already present in `CHANGELOG.md` under the *Unreleased* section
-- **preserve existing changelog entries**: do not remove or overwrite existing entries in the *Unreleased* section, since they may belong to other feature branches
-- **avoid duplicate entries**: if some feature branch changes are already mentioned in the *Unreleased* section, update, refine, or reorganize them as needed instead of duplicating them
-- **reorganize when helpful**: feel free to reorganize the *Unreleased* section for clarity, consistency, and proper changelog structure while preserving all existing information
-- **only modify `CHANGELOG.md`**: the only allowed file modification is `CHANGELOG.md`, and within that file, the only allowed content modification is inside the *Unreleased* section
+
+
+
+#### Instructions
+
+- identify this branch's changes once — using available git tools (diff from `dev`), the conversation, and existing `[Unreleased]` entries — then reuse that set across the steps below
+- **Maintain CHANGELOG** → record the branch's changes; the unreleased-only and dedup rules come from that skill
+- **Maintain AGENTS and CONTEXT** → update them for any commands, conventions, constraints, or architecture this branch changed
+- skip a step when the branch introduces nothing relevant to it
+
+
+
+
+
+#### Output
+
+Update the affected files in place; leave unrelated files untouched.
+Return a brief summary listing changed files and what changed.
 
 
 
@@ -3404,13 +3472,17 @@ update `CHANGELOG.md`:
 
 ### {description}
 
-Use this skill when the user wants to record feature branch changes into the *Unreleased* section of `CHANGELOG.md` before merging — adding, updating, or reorganizing entries without duplicating or overwriting existing ones. Trigger for requests like "prep the changelog" or "document what I changed."
+Records a feature branch's changes into `CHANGELOG.md` and updates `AGENTS.md` and `CONTEXT.md` to match, syncing all affected docs in one pass before a merge.
+
+### {when_to_use}
+
+Reach for this when wrapping up or merging a feature branch — "prep for merge," "finish this feature," "document what I changed," "update docs before merging." Not for cutting a versioned release (use the release skill) or general doc edits unrelated to a branch.
 
 ### {prerequisite}
-
+- follow `Maintain CHANGELOG`
+- follow `Maintain AGENTS and CONTEXT`
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
-- follow `Project CHANGELOG Writer`
 - use **git** tools to learn difference from `dev` branch
 
 
@@ -3448,16 +3520,43 @@ Use this skill when the user wants to record feature branch changes into the *Un
 
 ## Prepare for Version Release
 
-if version number or release date not provided, ask the user before proceeding. Then:
+Cut a new release: bring all docs current, finalize the changelog, and bump the project version.
 
-- **update `CHANGELOG.md`**:
 
-  - move all content under *Unreleased* into a new versioned section using the provided version and date
-  - keep only non-empty subsections in the new versioned section (drop any subsection that has no entries)
-  - create a new empty *Unreleased* section above it
-  - update all relevant GitHub comparison links to reflect the new version tag
 
-- **update project version**: find and update the version number in project metadata files where applicable — eg `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`. Match the provided version exactly
+
+
+#### Preconditions
+
+- require both a version number and a release date; if either is missing, ask the user before proceeding
+- the version must match `Project Semantic Versioning`
+
+
+
+
+
+#### Steps
+
+1. **Sync the docs** to the state being released, via the maintain skills:
+   - **Maintain README** → overview, features, setup, usage, version-dependent details
+   - **Maintain AGENTS and CONTEXT** → changed commands, conventions, constraints, architecture
+   - **Maintain Docs** → affected files under `docs/`
+   - skip any whose content the release does not touch
+2. **Close out the changelog** in `CHANGELOG.md`, via **Maintain CHANGELOG**:
+   - move every entry under `[Unreleased]` into a new versioned section headed with the given version and date
+   - in that new section, keep only non-empty subsections — drop any with no entries
+   - leave a fresh, empty `[Unreleased]` section above it
+   - update the GitHub comparison links so each version, including the new tag, stays referenced
+3. **Bump the project version** to match exactly, in whichever metadata files apply — e.g. `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`
+
+
+
+
+
+#### Output
+
+Update the affected docs, `CHANGELOG.md`, and the version metadata files in place.
+Return a brief summary listing changed files and the released version.
 
 
 
@@ -3473,14 +3572,21 @@ if version number or release date not provided, ask the user before proceeding. 
 
 ### {description}
 
-Use this skill when the user wants to cut a release — moving *Unreleased* changelog entries into a new versioned section and bumping the version in metadata files like `package.json`, `pyproject.toml`, or `Cargo.toml`. Trigger for requests like "ship v1.2.3" or "bump the version."
+Cuts a project release: brings `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CONTEXT.md`, and `docs/` current, moves `[Unreleased]` changelog entries into a dated versioned section, and bumps the version across metadata files like `package.json`, `pyproject.toml`, `Cargo.toml`, or `setup.cfg`.
+
+### {when_to_use}
+
+Reach for this on release requests — "ship v1.2.3," "cut a release," "tag a version," "bump the version," "prep the release." Not for logging a single in-progress change (use the changelog-maintain skill) or finishing a feature branch before merge (use the feature-finish skill).
 
 ### {prerequisite}
 
+- follow `Maintain README`
+- follow `Maintain CHANGELOG`
+- follow `Maintain AGENTS and CONTEXT`
+- follow `Maintain Docs`
+- follow `Project Semantic Versioning`
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
-- follow `Project CHANGELOG Writer`
-- follow `Project Semantic Versioning`
 - use **git** tools to learn difference from last version / `main` branch
 
 
