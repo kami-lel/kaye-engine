@@ -2049,19 +2049,7 @@ Use when assigning, bumping, or formatting a version, or choosing a pre-release/
 
 ## Project README Writer
 
-You are an expert in writing and maintaining `README.md` files for software repositories.
-
-These guidelines define what a good `README.md` is and must be applied when creating a new `README.md` or maintaining an existing `README.md`-like document.
-
-
-
-
-
-#### Purpose
-
-`README.md` is a human-oriented landing page that helps developers, users, and contributors quickly understand, use, and trust a repository.
-
-It should explain what the project is, why it matters, how to get started, and where to find key information.
+These guidelines define what a good `README.md` is. A `README.md` is a human-oriented landing page that helps developers, users, and contributors quickly understand, use, and trust a repository — explaining what the project is, why it matters, how to start, and where to find key information.
 
 
 
@@ -2072,7 +2060,7 @@ It should explain what the project is, why it matters, how to get started, and w
 - write for humans first, not AI agents
 - prioritize visual clarity, readability, and quick scanning
 - use clear headings, short sections, lists, tables, code blocks, links, and callouts where useful
-- encourage tasteful emoji use to improve navigation and visual appeal
+- use tasteful emoji to aid navigation and visual appeal
 - use badges, screenshots, diagrams, examples, and feature highlights when supported by project information
 - keep content concise, friendly, and practical
 
@@ -2080,33 +2068,48 @@ It should explain what the project is, why it matters, how to get started, and w
 
 
 
-#### Document Title
+#### Title
 
-The document title should be:
-
-    ```markdown
+```markdown
     # <Project Name> README
-    ```
-
+```
 Replace `<Project Name>` with the actual project name.
 
 
 
 
 
-#### Quality Expectations
+#### Sections
 
-A good `README.md` should be:
+A complete README covers these where applicable:
+- **Project Overview** — what it does, who it is for, why it is useful
+- **Features** — key capabilities, benefits, highlights
+- **Demo / Screenshots** — visuals, links, previews, usage examples
+- **Tech Stack** — languages, frameworks, libraries, tools, platforms
+- **Getting Started** — prerequisites and quick setup path
+- **Installation** — exact commands to install or set up
+- **Usage** — common commands, examples, workflows, API usage
+- **Configuration** — environment variables, settings, secrets, config files
+- **Project Structure** — important directories and files
+- **Build & Test** — exact commands to build, run, lint, test
+- **Contributing** — contribution flow, expectations, useful links
+- **Security** — responsible disclosure, sensitive-data warnings
+- **License** — license information
+- **Acknowledgments** — credits, references, sponsors, related projects
 
-- human-friendly, visually clear, and easy to scan
-- attractive enough to make the project approachable
+
+
+
+
+#### Quality
+
+A good `README.md` is:
 - specific to the repository, not generic
 - useful for first-time visitors and returning contributors
-- clear about project purpose, features, setup, usage, and contribution flow
-- command-oriented where installation, build, run, and test workflows are known
-- honest about project status, limitations, and requirements
-- aligned with existing project documentation and repository structure
-
+- command-oriented where install, build, run, and test workflows are known
+- honest about status, limitations, and requirements
+- backed by project information, never invented or padded with filler
+- aligned with existing project documentation and structure
 
 
 
@@ -2626,7 +2629,7 @@ Use to create, update, or review `CONTEXT.md` or `CONTEXT.local.md`, or to captu
 
 ## Create README
 
-Use **Coder README Writer** as the guideline for what makes a good `README.md`.
+Write a brand-new `README.md` for a repository that has none. Follow **Project README Writer** for style, title, sections, and quality.
 
 
 
@@ -2634,37 +2637,10 @@ Use **Coder README Writer** as the guideline for what makes a good `README.md`.
 
 #### Instructions
 
-- create a complete new `README.md` tailored to the repository
-- use the provided project description, repository details, or existing documentation as source material
-- use available tools to inspect the project when needed
-- use the actual project name in the document title
-- make the README human-oriented, visually clear, and easy to scan
-- use tasteful emoji and markdown features to improve visual quality when appropriate
-- include examples, tables, badges, screenshots, diagrams, or links only when supported by project information
-- tailor content to the provided project information
-
-
-
-
-
-#### Structure Guidelines
-
-Include the following sections where applicable, using clear markdown headings:
-
-- **Project Overview**: what the project does, who it is for, and why it is useful
-- **Features**: key capabilities, benefits, and highlights
-- **Demo or Screenshots**: visuals, links, previews, or usage examples when available
-- **Tech Stack**: main languages, frameworks, libraries, tools, and platforms
-- **Getting Started**: prerequisites and quick setup path
-- **Installation**: exact commands to install dependencies or set up the project
-- **Usage**: common commands, examples, workflows, or API usage
-- **Configuration**: environment variables, settings, secrets, and configuration files
-- **Project Structure**: important directories and files
-- **Build and Test Commands**: exact commands to build, run, lint, and test
-- **Contributing**: contribution flow, development expectations, and useful links
-- **Security**: responsible disclosure notes and sensitive-data warnings
-- **License**: project license information
-- **Acknowledgments**: credits, references, sponsors, or related projects
+- discover the project structure by inspecting the repository with available tools
+- learn from the conversation for project description, intent, and details not yet captured in the repo
+- draw source material from existing docs, config, manifests, and source code
+- write a section only when project information supports it
 
 
 
@@ -2672,7 +2648,7 @@ Include the following sections where applicable, using clear markdown headings:
 
 #### Output
 
-Create the `README.md` file at the project root
+Create `README.md` at the project root.
 
 
 
@@ -2694,7 +2670,7 @@ Use this skill when the user wants to create a new `README.md` from scratch — 
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
-- follow `Coder README Writer`
+- follow `Project README Writer`
 
 
 
@@ -2731,7 +2707,50 @@ Use this skill when the user wants to create a new `README.md` from scratch — 
 
 ## Maintain README
 
+Update an existing `README.md` so it matches the current project state. Follow **Project README Writer** for style, title, sections, and quality.
+
+
+
+
+
+#### Instructions
+
+- learn from the conversation to identify what changed and what the README must now reflect
+- review recent repository changes and the current README to find stale, missing, or inaccurate content
+- edit in place; preserve useful existing structure, scope, and purpose
+- remove stale, misleading, duplicated, or obsolete content
+- verify links, file paths, commands, configuration names, and examples against the codebase
+- prioritize the root README; keep secondary READMEs focused on their local area
+
+
+
+
+
+#### Output
+
+Update `README.md` in place, then return a brief summary of the changes made.
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
+
+Updates an existing `README.md` to match the current project state — correcting stale overviews, commands, links, configuration names, and examples, pruning obsolete or duplicated content, and editing in place against the latest repository changes.
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+- follow `Project README Writer`
 
 
 
@@ -3193,7 +3212,7 @@ Use this skill when the user wants to update existing README, AGENTS, or `docs/`
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
-- follow `Coder README Writer`
+- follow `Project README Writer`
 - follow `Coder AGENTS Writer`
 
 
