@@ -13,6 +13,7 @@ from tests.cli import *  # noqa: F401, F403
 # constants  ###################################################################
 PROMPT_FILENAME = "maintain-changelog"
 _PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[PROMPT_FILENAME]
 
 # Pytest fixtures  #############################################################
 
@@ -67,33 +68,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_maintain_changelog_heading(_, testee_content):
-        assert "## Maintain CHANGELOG" in testee_content
-
-    def test_intro_update_existing(_, testee_content):
-        assert (
-            "Update an existing CHANGELOG so it reflects recent changes."
-            in testee_content
-        )
-
-    def test_instructions_section(_, testee_content):
-        assert "#### Instructions" in testee_content
-
-    def test_instructions_add_to_unreleased(_, testee_content):
-        assert (
-            "add each change under the correct subsection of `[Unreleased]`"
-            in testee_content
-        )
-
-    def test_instructions_preserve_entries(_, testee_content):
-        assert (
-            "preserve existing entries; refine or reorganize instead of"
-            " duplicating them"
-            in testee_content
-        )
-
-    def test_output_section(_, testee_content):
-        assert "#### Output" in testee_content
-
-    def test_output_update_in_place(_, testee_content):
-        assert "Update CHANGELOG in place" in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content

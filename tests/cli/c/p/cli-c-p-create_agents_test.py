@@ -13,6 +13,7 @@ from tests.cli import *  # noqa: F401, F403
 # constants  ###################################################################
 PROMPT_FILENAME = "create-agents-and-context"
 _PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[PROMPT_FILENAME]
 
 
 # Pytest fixtures  #############################################################
@@ -68,30 +69,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Create AGENTS and CONTEXT" in testee_content
-
-    def test_intro_agents_context(_, testee_content):
-        assert (
-            "Write brand-new `AGENTS.md` and `CONTEXT.md` for a repository"
-            " that has neither."
-            in testee_content
-        )
-
-    def test_instructions_section(_, testee_content):
-        assert "#### Instructions" in testee_content
-
-    def test_instructions_inspect_repo(_, testee_content):
-        assert "inspect the repository with available tools" in testee_content
-
-    def test_instructions_split_content(_, testee_content):
-        assert "split content by purpose" in testee_content
-
-    def test_output_section(_, testee_content):
-        assert "#### Output" in testee_content
-
-    def test_output_file_location(_, testee_content):
-        assert (
-            "Create `AGENTS.md` and `CONTEXT.md` at the project root."
-            in testee_content
-        )
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content
