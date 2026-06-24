@@ -19,6 +19,8 @@ overwriting any existing one at PROMPT_FILE.
 
 DEFAULT_CLAUDE_FOLDER = Path.home() / ".claude"
 
+# Todo option to use, eg rapid & coder
+
 
 def find_user_system_prompt_file(claude_folder):
     """
