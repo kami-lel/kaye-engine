@@ -3,8 +3,8 @@ todo resume role
 
 todo write maintain before compact, then use hooks.PreCompact to call maintain
 
-Todo agent behavior add use todo for long task & long task only
+TODO agent behavior add use todo for long task & long task only
 
-Todo coder dev phases logic: mpt: working on a single phase at the same time
+TODO coder dev phases logic: mpt: working on a single phase at the same time
 
-Todo unit test & make sure agent & claude behavior is added
+TODO unit test & make sure agent & claude behavior is added
