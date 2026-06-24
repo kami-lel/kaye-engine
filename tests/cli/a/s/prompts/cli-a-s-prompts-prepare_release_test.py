@@ -17,7 +17,7 @@ from tests.cli.a.s import (
 # constants  ###################################################################
 
 
-SKILL_NAME = "prepare-for-release"
+SKILL_NAME = "prepare-for-version-release"
 TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 TESTEE_PREREQUISITE_CONTENT = TESTEE_PREREQUISITE_CONTENT_ALL[SKILL_NAME]
 
@@ -69,7 +69,8 @@ class TestHeader:  # ===========================================================
         assert assert_claude_header_line_name(SKILL_NAME, testee_header)
 
     def test_description(_, testee_header):
-        assert assert_claude_header_line_description(SKILL_NAME, testee_header)
+        keyword = TESTEE_DESCRIPTION_CONTENT_ALL[SKILL_NAME]
+        assert any(keyword in line for line in testee_header)
 
     def test_version(_, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)

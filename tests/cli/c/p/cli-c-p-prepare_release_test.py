@@ -11,8 +11,9 @@ import pytest
 from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
-PROMPT_FILENAME = "prepare-for-release"
+PROMPT_FILENAME = "prepare-for-version-release"
 _PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[PROMPT_FILENAME]
 
 # Pytest fixtures  #############################################################
 
@@ -67,31 +68,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_maintain_agents_heading(_, testee_content):
-        assert "## Prepare for Release" in testee_content
-
-    def test1(_, testee_content):
-        assert "version number or release date not provided" in testee_content
-
-    def test2(_, testee_content):
-        assert " **update `CHANGELOG.md`**:" in testee_content
-
-    def test3(_, testee_content):
-        assert "ove all content under *Unreleased* into a new" in testee_content
-
-    def test4(_, testee_content):
-        assert (
-            "reate a new empty *Unreleased* section above it" in testee_content
-        )
-
-    def test5(_, testee_content):
-        assert " **update project version**:" in testee_content
-
-    def test6(_, testee_content):
-        assert "ind and update the version number in project" in testee_content
-
-    def test7(_, testee_content):
-        assert (
-            "g `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`"
-            in testee_content
-        )
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content

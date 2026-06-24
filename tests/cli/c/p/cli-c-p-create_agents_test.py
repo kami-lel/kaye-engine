@@ -11,8 +11,9 @@ import pytest
 from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
-PROMPT_FILENAME = "create-agents"
+PROMPT_FILENAME = "create-agents-and-context"
 _PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[PROMPT_FILENAME]
 
 
 # Pytest fixtures  #############################################################
@@ -68,47 +69,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Create AGENTS" in testee_content
-
-    def test_intro_agents_writer(_, testee_content):
-        assert (
-            "Use **Coder AGENTS Writer** as the guideline for what makes a good"
-            " `AGENTS.md`"
-            in testee_content
-        )
-
-    def test_instructions_section(_, testee_content):
-        assert "#### Instructions" in testee_content
-
-    def test_instructions_create_complete(_, testee_content):
-        assert (
-            "create a complete new `AGENTS.md` tailored to the repository"
-            in testee_content
-        )
-
-    def test_instructions_frontmatter(_, testee_content):
-        assert (
-            "include the required frontmatter before any content"
-            in testee_content
-        )
-
-    def test_structure_guidelines_section(_, testee_content):
-        assert "#### Structure Guidelines" in testee_content
-
-    def test_project_overview_guideline(_, testee_content):
-        assert "**Project Overview**" in testee_content
-
-    def test_build_test_commands_guideline(_, testee_content):
-        assert "**Build and Test Commands**" in testee_content
-
-    def test_security_considerations_guideline(_, testee_content):
-        assert "**Security Considerations**" in testee_content
-
-    def test_output_section(_, testee_content):
-        assert "#### Output" in testee_content
-
-    def test_output_file_location(_, testee_content):
-        assert (
-            "Create the `AGENTS.md` file at the project root" in testee_content
-        )
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content

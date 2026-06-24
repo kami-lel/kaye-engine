@@ -9,15 +9,11 @@ creation of ``maintain_changelog.md``
 import pytest
 
 from tests.cli import *  # noqa: F401, F403
-from tests.cli.c.p import (
-    assert_edit_changelog0,
-    assert_edit_changelog1,
-    assert_edit_changelog2,
-)
 
 # constants  ###################################################################
 PROMPT_FILENAME = "maintain-changelog"
 _PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[PROMPT_FILENAME]
 
 # Pytest fixtures  #############################################################
 
@@ -72,23 +68,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_maintain_changelog_heading(_, testee_content):
-        assert "## Maintain CHANGELOG" in testee_content
-
-    def test_review_recent_changes(_, testee_content):
-        assert (
-            "review recent changes — "
-            "update or create `CHANGELOG.md` to reflect them."
-            in testee_content
-        )
-
-    # edit CHANGELOG  ----------------------------------------------------------
-
-    def test_edit_changelog0(_, testee_content):
-        assert assert_edit_changelog0(testee_content)
-
-    def test_edit_changelog1(_, testee_content):
-        assert assert_edit_changelog1(testee_content)
-
-    def test_edit_changelog2(_, testee_content):
-        assert assert_edit_changelog2(testee_content)
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content

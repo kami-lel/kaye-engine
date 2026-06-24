@@ -274,9 +274,21 @@ def test_tarot_reader(testee_skills_folder):
 # prompts blueprints  ##########################################################
 
 
-def test_maintain_docs(testee_skills_folder):
+def test_create_readme(testee_skills_folder):
     assert assert_agent_skill_frontmatter_limit(
-        "maintain-docs", testee_skills_folder
+        "create-readme", testee_skills_folder
+    )
+
+
+def test_maintain_readme(testee_skills_folder):
+    assert assert_agent_skill_frontmatter_limit(
+        "maintain-readme", testee_skills_folder
+    )
+
+
+def test_create_changelog(testee_skills_folder):
+    assert assert_agent_skill_frontmatter_limit(
+        "create-changelog", testee_skills_folder
     )
 
 
@@ -286,15 +298,39 @@ def test_maintain_changelog(testee_skills_folder):
     )
 
 
-def test_create_readme(testee_skills_folder):
+def test_create_agents_and_context(testee_skills_folder):
     assert assert_agent_skill_frontmatter_limit(
-        "create-readme", testee_skills_folder
+        "create-agents-and-context", testee_skills_folder
     )
 
 
-def test_create_agents(testee_skills_folder):
+def test_maintain_agents_and_context(testee_skills_folder):
     assert assert_agent_skill_frontmatter_limit(
-        "create-agents", testee_skills_folder
+        "maintain-agents-and-context", testee_skills_folder
+    )
+
+
+def test_create_docs(testee_skills_folder):
+    assert assert_agent_skill_frontmatter_limit(
+        "create-docs", testee_skills_folder
+    )
+
+
+def test_maintain_docs(testee_skills_folder):
+    assert assert_agent_skill_frontmatter_limit(
+        "maintain-docs", testee_skills_folder
+    )
+
+
+def test_initialize_project(testee_skills_folder):
+    assert assert_agent_skill_frontmatter_limit(
+        "initialize-project", testee_skills_folder
+    )
+
+
+def test_compact_with_maintenance(testee_skills_folder):
+    assert assert_agent_skill_frontmatter_limit(
+        "compact-with-maintenance", testee_skills_folder
     )
 
 
@@ -304,9 +340,9 @@ def test_prepare_for_feature_finish(testee_skills_folder):
     )
 
 
-def test_prepare_for_release(testee_skills_folder):
+def test_prepare_for_version_release(testee_skills_folder):
     assert assert_agent_skill_frontmatter_limit(
-        "prepare-for-release", testee_skills_folder
+        "prepare-for-version-release", testee_skills_folder
     )
 
 

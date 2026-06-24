@@ -13,6 +13,7 @@ from tests.cli import *  # noqa: F401, F403
 # constants  ###################################################################
 PROMPT_FILENAME = "create-readme"
 _PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[PROMPT_FILENAME]
 
 # Pytest fixtures  #############################################################
 
@@ -67,65 +68,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Create README" in testee_content
-
-    def test_intro_readme_writer(_, testee_content):
-        assert (
-            "Use **Coder README Writer** as the guideline for what makes a good"
-            " `README.md`"
-            in testee_content
-        )
-
-    def test_instructions_section(_, testee_content):
-        assert "#### Instructions" in testee_content
-
-    def test_instructions_create_complete(_, testee_content):
-        assert (
-            "create a complete new `README.md` tailored to the repository"
-            in testee_content
-        )
-
-    def test_instructions_human_oriented(_, testee_content):
-        assert (
-            "make the README human-oriented, visually clear, and easy to scan"
-            in testee_content
-        )
-
-    def test_structure_guidelines_section(_, testee_content):
-        assert "#### Structure Guidelines" in testee_content
-
-    def test_project_overview_guideline(_, testee_content):
-        assert "**Project Overview**" in testee_content
-
-    def test_features_guideline(_, testee_content):
-        assert "**Features**" in testee_content
-
-    def test_getting_started_guideline(_, testee_content):
-        assert "**Getting Started**" in testee_content
-
-    def test_installation_guideline(_, testee_content):
-        assert "**Installation**" in testee_content
-
-    def test_usage_guideline(_, testee_content):
-        assert "**Usage**" in testee_content
-
-    def test_contributing_guideline(_, testee_content):
-        assert "**Contributing**" in testee_content
-
-    def test_security_guideline(_, testee_content):
-        assert "**Security**" in testee_content
-
-    def test_license_guideline(_, testee_content):
-        assert "**License**" in testee_content
-
-    def test_build_test_commands_guideline(_, testee_content):
-        assert "**Build and Test Commands**" in testee_content
-
-    def test_output_section(_, testee_content):
-        assert "#### Output" in testee_content
-
-    def test_output_file_location(_, testee_content):
-        assert (
-            "Create the `README.md` file at the project root" in testee_content
-        )
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content
