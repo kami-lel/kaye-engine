@@ -13,6 +13,7 @@ from tests.cli import *  # noqa: F401, F403
 # constants  ###################################################################
 PROMPT_FILENAME = "prepare-for-version-release"
 _PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[PROMPT_FILENAME]
 
 # Pytest fixtures  #############################################################
 
@@ -67,33 +68,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Prepare for Version Release" in testee_content
-
-    def test_intro_cut_release(_, testee_content):
-        assert "Cut a new release: bring all docs current" in testee_content
-
-    def test_preconditions_section(_, testee_content):
-        assert "#### Preconditions" in testee_content
-
-    def test_preconditions_require_version_and_date(_, testee_content):
-        assert (
-            "require both a version number and a release date; if either is"
-            " missing"
-            in testee_content
-        )
-
-    def test_steps_section(_, testee_content):
-        assert "#### Steps" in testee_content
-
-    def test_steps_sync_docs(_, testee_content):
-        assert "**Sync the docs** to the state being released" in testee_content
-
-    def test_steps_close_changelog(_, testee_content):
-        assert "**Close out the changelog**" in testee_content
-
-    def test_steps_bump_version(_, testee_content):
-        assert "**Bump the project version**" in testee_content
-
-    def test_output_section(_, testee_content):
-        assert "#### Output" in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content

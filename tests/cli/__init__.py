@@ -108,7 +108,7 @@ PROMPT_FILENAME2NAME = {
     "create-readme": "Create README",
     "maintain-changelog": "Maintain CHANGELOG",
     "maintain-docs": "Maintain Docs",
-    "prepare-for-feature": "Prepare for Feature Finish",
+    "prepare-for-feature-finish": "Prepare for Feature Finish",
     "prepare-for-version-release": "Prepare for Version Release",
     "resolve-annotation-markers": "Resolve Annotation Markers",
 }
@@ -655,15 +655,36 @@ TESTEE_FILE_CONTENT_ALL = {
     "maintain-docs": [
         "## Maintain Docs",
         "Update files under `docs/`.",
+        "#### Instructions",
+        "- review recent repository changes",
         "- edit existing documentation in place whenever possible",
+        (
+            "- create new documentation only when an important expected file "
+            "is missing or repository changes require it"
+        ),
+        (
+            "- verify links, file paths, commands, configuration names, "
+            "examples, and references where possible"
+        ),
         "#### Docs Files",
+        (
+            "update affected APIs, commands, architecture notes, configuration "
+            "details, examples, workflows, and troubleshooting guidance"
+        ),
+        "cross-link related docs when it improves navigation",
+        "#### Output",
         "Return a brief summary listing changed files",
     ],
     "maintain-changelog": [
         "## Maintain CHANGELOG",
         "Update an existing CHANGELOG so it reflects recent changes.",
+        "#### Instructions",
         "- add each change under the correct subsection of `[Unreleased]`",
-        "- preserve existing entries; refine or reorganize instead of duplicating",
+        (
+            "- preserve existing entries; refine or reorganize instead of"
+            " duplicating them"
+        ),
+        "#### Output",
         "Update CHANGELOG in place",
     ],
     "create-readme": [
@@ -672,8 +693,10 @@ TESTEE_FILE_CONTENT_ALL = {
             "Write a brand-new `README.md` for a repository that has none."
             " Follow **Project README Writer**"
         ),
+        "#### Instructions",
         "- discover the project structure by inspecting the repository",
         "- draw source material from existing docs, config, manifests",
+        "#### Output",
         "Create `README.md` at the project root.",
     ],
     "create-agents-and-context": [
@@ -682,23 +705,34 @@ TESTEE_FILE_CONTENT_ALL = {
             "Write brand-new `AGENTS.md` and `CONTEXT.md` for a repository"
             " that has neither."
         ),
+        "#### Instructions",
         "- inspect the repository with available tools",
         "- split content by purpose",
+        "#### Output",
         "Create `AGENTS.md` and `CONTEXT.md` at the project root.",
     ],
     "prepare-for-feature-finish": [
         "## Prepare for Feature Finish",
         "Before merging the current feature branch",
+        "#### Instructions",
+        "- identify this branch's changes once",
         "- **Maintain CHANGELOG** → record the branch's changes",
         "- **Maintain AGENTS and CONTEXT** → update them for any",
+        "#### Output",
     ],
     "prepare-for-version-release": [
         "## Prepare for Version Release",
         "Cut a new release: bring all docs current",
-        "- require both a version number and a release date; if either is missing",
+        "#### Preconditions",
+        (
+            "- require both a version number and a release date;"
+            " if either is missing"
+        ),
+        "#### Steps",
         "1. **Sync the docs** to the state being released",
         "2. **Close out the changelog**",
         "3. **Bump the project version**",
+        "#### Output",
     ],
 }
 

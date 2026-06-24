@@ -11,8 +11,9 @@ import pytest
 from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
-PROMPT_FILENAME = "prepare-for-feature"
+PROMPT_FILENAME = "prepare-for-feature-finish"
 _PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[PROMPT_FILENAME]
 
 # Pytest fixtures  #############################################################
 
@@ -67,25 +68,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "## Prepare for Feature Finish" in testee_content
-
-    def test_intro_sync_docs(_, testee_content):
-        assert "Before merging the current feature branch" in testee_content
-
-    def test_instructions_section(_, testee_content):
-        assert "#### Instructions" in testee_content
-
-    def test_instructions_identify_changes(_, testee_content):
-        assert (
-            "identify this branch's changes once" in testee_content
-        )
-
-    def test_instructions_maintain_changelog(_, testee_content):
-        assert "**Maintain CHANGELOG** → record the branch's changes" in testee_content
-
-    def test_instructions_maintain_agents(_, testee_content):
-        assert "**Maintain AGENTS and CONTEXT** → update them for any" in testee_content
-
-    def test_output_section(_, testee_content):
-        assert "#### Output" in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content
