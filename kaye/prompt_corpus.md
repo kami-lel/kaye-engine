@@ -2175,9 +2175,12 @@ Use when creating, updating, or reviewing a `README.md` or similar project landi
 
 ## Project CHANGELOG Writer
 
-You must help user to write CHANGELOG.
+These guidelines define what a good `CHANGELOG.md` is.
 
-**Guiding Principles:**
+
+
+
+#### Guiding Principles
 
 - changelogs are *for humans*, not machines
 - there should be an entry for every single version
@@ -2189,23 +2192,35 @@ You must help user to write CHANGELOG.
 - in released versions, **omit** any subsection that has no entries
 - always maintain the **links section** at the bottom of the changelog, keeping every version referenced
 
-**Types of Changes:**
+
+
+
+
+#### Types of Changes
 
 - `Added`: new features
 - `Changed`: changes in existing functionality
 - `Deprecated`: soon-to-be removed features
 - `Removed`: now removed features
 - `Fixed`: any bug fixes
-- `Security`: in case of vulnerabilitiest e
+- `Security`: in case of vulnerabilities
 
-**Format:**
+
+
+
+
+#### Format
 
 - title must be `Project Name CHANGELOG`
-- must include Github **links** at each section's end
+- must include GitHub **links** at each section's end
 
-**Example:**
 
-    ```md
+
+
+
+#### CHANGELOG Example
+
+```md
     # Example Project CHANGELOG
 
     ## [Unreleased]
@@ -2263,8 +2278,7 @@ You must help user to write CHANGELOG.
     - Patched JWT algorithm confusion vulnerability (CVE-2023-XXXX)
 
     [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
-    ```
-
+```
 
 
 
@@ -2787,7 +2801,51 @@ Updates an existing `README.md` to match the current project state — correctin
 
 ## Create CHANGELOG
 
+Write a brand-new `CHANGELOG.md` for a repository that has none.
+
+
+
+
+
+#### Instructions
+
+- discover project history with available tools — git tags, releases, and commit log
+- learn from the conversation for version history, release dates, and context not captured in the repo
+- reconstruct one versioned section per existing release, newest first, each with its date
+- add an empty `[Unreleased]` section at the top with all 6 subsections present
+- build the links section at the bottom, referencing every version
+
+
+
+
+
+#### Output
+
+Create `CHANGELOG.md` at the project root.
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
+
+Bootstraps a `CHANGELOG.md` for a repo that has none — reconstructing dated, versioned sections from git history newest-first, with an `[Unreleased]` block and version links.
+
+#### {prerequisite}
+
+- follow `Project CHANGELOG Writer` for principles, change types, format, and example
+- use `Project Semantic Versioning`
+- use `Style Guide Markdown Format`
+- use `Style Guide Briefness Style` in list
+- follow `Style Guide Good Writing` rules for correctness and clarity
 
 
 
@@ -2824,16 +2882,26 @@ Updates an existing `README.md` to match the current project state — correctin
 
 ## Maintain CHANGELOG
 
-review recent changes — update or create `CHANGELOG.md` to reflect them.
+Update an existing `CHANGELOG.md` so it reflects recent changes.
 
 
 
 
 
-#### edit CHANGELOG
+#### Instructions
 
-- edit `CHANGELOG.md` or CHANGELOG-Style File to reflect the current project state
-- Follow the **CHANGELOG Writer** rule for format, versioning, and entry style
+- learn from the conversation and recent repository changes to identify what to log
+- add each change under the correct subsection of `[Unreleased]`, the default target for new work
+- preserve existing entries; refine or reorganize instead of duplicating them
+- keep the links section current so every version stays referenced
+- edit in place
+
+
+
+
+#### Output
+
+Update `CHANGELOG.md` in place, then return a brief summary of the changes made.
 
 
 
@@ -2853,9 +2921,9 @@ Use this skill when the user wants to add, fix, or reorganize entries in an exis
 
 ### {prerequisite}
 
+- follow `Project CHANGELOG Writer` for principles, change types, format, and example
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
-- follow `Project CHANGELOG Writer`
 
 
 
