@@ -36,6 +36,22 @@
   `a marketplace`)
 - **`tests/cli/a/sz/alts/`** — new mock-based alias tests for
   `kaye claude skill -z` (`claude s -z`, `a skill -z`, `a s -z`)
+- **New project prompt corpus sections** — 7 new `## ` prompt sections added
+  under `# Projects`: `Create README`, `Maintain README`, `Create CHANGELOG`,
+  `Maintain AGENTS and CONTEXT`, `Create Docs`, `Initialize Project`,
+  `Compact with Maintenance`; all follow the shared `#### Instructions` /
+  `#### Output` / `{prerequisite}` structure
+- **`kaye/cli/prompts_blueprints.py`** — expanded from 2 to 12 blueprints:
+  `create_readme`, `maintain_readme`, `create_changelog`, `maintain_changelog`,
+  `create_agents_and_context`, `maintain_agents_and_context`, `create_docs`,
+  `maintain_docs`, `initialize_project`, `compact_with_maintenance`,
+  `prepare_for_feature_finish`, `prepare_for_version_release`; `PROMPTS_BLUEPRINTS`
+  list updated accordingly; uses `recursively=True` only for nodes with
+  non-meta child sections
+- **`tests/corpus/corpus-skill_frontmatter_test.py`** — 6 new test functions
+  for newly exportable prompt blueprints: `test_maintain_readme`,
+  `test_create_changelog`, `test_maintain_agents_and_context`,
+  `test_create_docs`, `test_initialize_project`, `test_compact_with_maintenance`
 
 ### Changed
 
@@ -79,6 +95,34 @@
 - **`blueprint_meta_nodes.py`** — removed `collapse_lines_into_single_line()`
   helper function; replaced with module-level `REPLACEMENT_NEWLINE_SYMBOL`
   constant (`"↵"`) used inline with `.join()`
+- **Renamed prompt sections** — `Create AGENTS` → `Create AGENTS and CONTEXT`;
+  `Prepare for Release` → `Prepare for Version Release`; slug keys updated in
+  `prompts_blueprints.py`, `tests/cli/__init__.py` (`PROMPT_FILENAME2NAME`,
+  `TESTEE_FILE_CONTENT_ALL`, `TESTEE_DESCRIPTION_CONTENT_ALL`,
+  `TESTEE_PREREQUISITE_CONTENT_ALL`), and all affected test files
+- **Project README Writer** — rewritten from persona style to guideline style:
+  intro changed from "You are an expert..." to "These guidelines define what a
+  good `README.md` is"; removed `#### Purpose` and `#### Document Title`
+  subsections; renamed `#### Quality Expectations` → `#### Quality`; backtick-
+  wrapped filenames simplified to plain references in `description` and
+  `when_to_use` metadata
+- **Project CHANGELOG Writer** — `**Types of Changes:**` inline bold changed
+  to `#### Types of Changes` subheading; corrected `Github` → `GitHub`;
+  removed the `"- title must be \`Project Name CHANGELOG\`"` rule;
+  backtick-wrapped `CHANGELOG.md` simplified to `CHANGELOG` in metadata
+- **Project AGENTS Writer** — intro updated from "`AGENTS.md` files" to
+  "`AGENTS.md` (or AGENTS-style file) files" to clarify applicable file types
+- **`tests/cli/c/p/`** — all 6 Continue prompt test files refactored:
+  `TestContent` now uses `TESTEE_FILE_CONTENT_ALL[PROMPT_FILENAME]` with a
+  single `@pytest.mark.parametrize` method; `TESTEE_FILE_CONTENT` module
+  constant added to each file; stale `assert_edit_changelog*`,
+  `assert_edit_readme*`, `assert_edit_agents*` helpers removed from
+  `tests/cli/c/p/__init__.py`; `PROMPT_FILENAME2NAME["prepare-for-feature"]`
+  renamed to `"prepare-for-feature-finish"`
+- **`tests/cli/__init__.py`** — `TESTEE_FILE_CONTENT_ALL` entries for 6 prompt
+  blueprints expanded with full section content strings (headings, instructions,
+  output); description and when_to_use metadata strings updated to use plain
+  file references instead of backtick-wrapped filenames
 
 ### Deprecated
 
