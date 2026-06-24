@@ -104,12 +104,12 @@ MD_FILENAME2SKILL_NAME = {
 
 
 PROMPT_FILENAME2NAME = {
-    "create-agents": "Create AGENTS",
+    "create-agents-and-context": "Create AGENTS and CONTEXT",
     "create-readme": "Create README",
     "maintain-changelog": "Maintain CHANGELOG",
     "maintain-docs": "Maintain Docs",
-    "prepare-for-feature": "Prepare for Feature Finish",
-    "prepare-for-release": "Prepare for Release",
+    "prepare-for-feature-finish": "Prepare for Feature Finish",
+    "prepare-for-version-release": "Prepare for Version Release",
     "resolve-annotation-markers": "Resolve Annotation Markers",
 }
 
@@ -460,8 +460,8 @@ TESTEE_FILE_CONTENT_ALL = {
     "project-agents-writer": [
         "## Project AGENTS Writer",
         (
-            "You are an expert in writing and maintaining `AGENTS.md` files for"
-            " software repositories."
+            "You are an expert in writing and maintaining `AGENTS.md`"
+            " (or AGENTS-style file) files for software repositories."
         ),
         (
             "Apply these rules when writing or updating the content of an"
@@ -498,24 +498,30 @@ TESTEE_FILE_CONTENT_ALL = {
         "- changelogs are *for humans*, not machines",
         "- there should be an entry for every single version",
         "always maintain an `[Unreleased]` section",
-        "**Types of Changes:**",
+        "#### Types of Changes",
         "- `Added`: new features",
         "- `Fixed`: any bug fixes",
-        "- title must be `Project Name CHANGELOG`",
-        "- must include Github **links** at each section's end",
+        "#### CHANGELOG Example",
+        "- must include GitHub **links** at each section's end",
     ],
     "project-readme-writer": [
         "## Project README Writer",
-        "You are an expert in writing and maintaining `README.md` files",
-        "#### Purpose",
-        "`README.md` is a human-oriented landing page that helps developers",
+        (
+            "These guidelines define what a good `README.md`"
+            " (or README-style files) is."
+        ),
+        "A README is a human-oriented landing page that helps developers",
         "#### Style",
         "- write for humans first, not AI agents",
         "- prioritize visual clarity, readability, and quick scanning",
-        "#### Document Title",
-        "# <Project Name> README",
-        "#### Quality Expectations",
-        "- human-friendly, visually clear, and easy to scan",
+        "#### Sections",
+        (
+            "**Project Overview** — what it does, who it is for,"
+            " why it is useful"
+        ),
+        "#### Quality",
+        "- specific to the repository, not generic",
+        "- useful for first-time visitors and returning contributors",
     ],
     "project-semantic-versioning": [
         "## Project Semantic Versioning",
@@ -654,62 +660,85 @@ TESTEE_FILE_CONTENT_ALL = {
     ],
     "maintain-docs": [
         "## Maintain Docs",
-        (
-            "Update README-style files, AGENTS-style files, and files under"
-            " `docs/`."
-        ),
+        "Update files under `docs/`.",
+        "#### Instructions",
+        "- review recent repository changes",
         "- edit existing documentation in place whenever possible",
-        "#### edit README",
-        "#### edit AGENTS",
+        (
+            "- create new documentation only when an important expected file "
+            "is missing or repository changes require it"
+        ),
+        (
+            "- verify links, file paths, commands, configuration names, "
+            "examples, and references where possible"
+        ),
+        "#### Docs Files",
+        (
+            "update affected APIs, commands, architecture notes, configuration "
+            "details, examples, workflows, and troubleshooting guidance"
+        ),
+        "cross-link related docs when it improves navigation",
+        "#### Output",
+        "Return a brief summary listing changed files",
     ],
     "maintain-changelog": [
         "## Maintain CHANGELOG",
-        "#### edit CHANGELOG",
+        "Update an existing CHANGELOG so it reflects recent changes.",
+        "#### Instructions",
+        "- add each change under the correct subsection of `[Unreleased]`",
         (
-            "Follow the **CHANGELOG Writer** rule for format, versioning, and"
-            " entry style"
+            "- preserve existing entries; refine or reorganize instead of"
+            " duplicating them"
         ),
+        "#### Output",
+        "Update CHANGELOG in place",
     ],
     "create-readme": [
         "## Create README",
         (
-            "Use **Coder README Writer** as the guideline for what makes a good"
-            " `README.md`."
+            "Write a brand-new `README.md` for a repository that has none."
+            " Follow **Project README Writer**"
         ),
-        (
-            "- **Project Overview**: what the project does, who it is for, and"
-            " why it is useful"
-        ),
-        "- **Getting Started**: prerequisites and quick setup path",
-        "Create the `README.md` file at the project root",
+        "#### Instructions",
+        "- discover the project structure by inspecting the repository",
+        "- draw source material from existing docs, config, manifests",
+        "#### Output",
+        "Create `README.md` at the project root.",
     ],
-    "create-agents": [
-        "## Create AGENTS",
+    "create-agents-and-context": [
+        "## Create AGENTS and CONTEXT",
         (
-            "Use **Coder AGENTS Writer** as the guideline for what makes a good"
-            " `AGENTS.md`."
+            "Write brand-new `AGENTS.md` and `CONTEXT.md` for a repository"
+            " that has neither."
         ),
-        "- **Project Overview**: brief description of what the project does",
-        (
-            "- **Security Considerations**: anything sensitive an agent must"
-            " not expose"
-        ),
-        "Create the `AGENTS.md` file at the project root",
+        "#### Instructions",
+        "- inspect the repository with available tools",
+        "- split content by purpose",
+        "#### Output",
+        "Create `AGENTS.md` and `CONTEXT.md` at the project root.",
     ],
     "prepare-for-feature-finish": [
         "## Prepare for Feature Finish",
-        "- **preserve existing changelog entries**: do not remove or overwrite",
-        "- **avoid duplicate entries**:",
-        "- **only modify `CHANGELOG.md`**:",
+        "Before merging the current feature branch",
+        "#### Instructions",
+        "- identify this branch's changes once",
+        "- **Maintain CHANGELOG** → record the branch's changes",
+        "- **Maintain AGENTS and CONTEXT** → update them for any",
+        "#### Output",
     ],
-    "prepare-for-release": [
-        "## Prepare for Release",
+    "prepare-for-version-release": [
+        "## Prepare for Version Release",
+        "Cut a new release: bring all docs current",
+        "#### Preconditions",
         (
-            "if version number or release date not provided, ask the user"
-            " before proceeding."
+            "- require both a version number and a release date;"
+            " if either is missing"
         ),
-        "- **update `CHANGELOG.md`**:",
-        "- **update project version**: find and update the version number",
+        "#### Steps",
+        "1. **Sync the docs** to the state being released",
+        "2. **Close out the changelog**",
+        "3. **Bump the project version**",
+        "#### Output",
     ],
 }
 
@@ -792,13 +821,13 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         " standards."
     ),
     "project-changelog-writer": (
-        '"Writes and maintains `CHANGELOG.md` files per Keep a Changelog'
+        '"Writes and maintains CHANGELOG files per Keep a Changelog'
         " conventions \\u2014 dated version entries newest-first, grouped"
         " change types, a persistent `[Unreleased]` section, and linkable"
         ' version references."'
     ),
     "project-readme-writer": (
-        '"Writes and maintains human-friendly `README.md` files'
+        '"Writes and maintains human-friendly README files'
         " \\u2014 scannable, visually clear landing pages covering a"
         " project's purpose, features, setup, usage, and contribution"
         " flow, with a standard title format and tasteful use of headings,"
@@ -863,7 +892,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     ),
     "maintain-changelog": (
         '"Use this skill when the user wants to add, fix, or reorganize'
-        " entries in an existing `CHANGELOG.md` \\u2014 logging new"
+        " entries in an existing CHANGELOG \\u2014 logging new"
         " features, bug fixes, or breaking changes without overwriting"
         " existing content. Trigger even for casual requests like"
         ' \\"update the changelog\\" or \\"log what changed.\\"'
@@ -877,7 +906,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         ' or \\"document this project.\\"'
         '"'
     ),
-    "create-agents": (
+    "create-agents-and-context": (
         '"Use this skill when the user wants to create a new'
         " `AGENTS.md` from scratch \\u2014 covering project setup, build"
         " and test commands, code style, and PR conventions formatted"
@@ -885,24 +914,8 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         ' \\"add agent instructions\\" or \\"make an agents file.\\"'
         '"'
     ),
-    "prepare-for-feature-finish": (
-        '"Use this skill when the user wants to record feature branch'
-        " changes into the *Unreleased* section of `CHANGELOG.md` before"
-        " merging \\u2014 adding, updating, or reorganizing entries"
-        " without duplicating or overwriting existing ones. Trigger for"
-        ' requests like \\"prep the changelog\\" or \\"document what'
-        ' I changed.\\"'
-        '"'
-    ),
-    "prepare-for-release": (
-        '"Use this skill when the user wants to cut a release \\u2014'
-        " moving *Unreleased* changelog entries into a new versioned"
-        " section and bumping the version in metadata files like"
-        " `package.json`, `pyproject.toml`, or `Cargo.toml`. Trigger"
-        ' for requests like \\"ship v1.2.3\\" or \\"bump the'
-        ' version.\\"'
-        '"'
-    ),
+    "prepare-for-feature-finish": "Records a feature branch",
+    "prepare-for-version-release": "Cuts a project release",
 }
 
 
@@ -1057,21 +1070,21 @@ TESTEE_CONTINUE_BLUEPRINT_DESCRIPTION_CONTENT_ALL = {
         ' version,\\" \\"tag a release,\\" semver, alpha/beta/rc."'
     ),
     "project-changelog-writer": (
-        '"Writes and maintains `CHANGELOG.md` files per Keep a Changelog'
+        '"Writes and maintains CHANGELOG files per Keep a Changelog'
         " conventions \\u2014 dated version entries newest-first, grouped"
         " change types, a persistent `[Unreleased]` section, and linkable"
         " version references.\\u21B5Use when creating, updating, or adding"
-        " entries to a `CHANGELOG.md`, or recording changes for a release."
+        " entries to a CHANGELOG, or recording changes for a release."
         ' Triggers: \\"update the changelog,\\" \\"log this change,\\"'
         ' \\"document the release.\\""'
     ),
     "project-readme-writer": (
-        '"Writes and maintains human-friendly `README.md` files'
+        '"Writes and maintains human-friendly README files'
         " \\u2014 scannable, visually clear landing pages covering a"
         " project's purpose, features, setup, usage, and contribution"
         " flow, with a standard title format and tasteful use of headings,"
         " lists, badges, and emoji.\\u21B5Use when creating, updating, or"
-        " reviewing a `README.md` or similar project landing page. Triggers:"
+        " reviewing a README or similar project landing page. Triggers:"
         ' \\"write a README,\\" \\"improve the README,\\" documenting a'
         " repo's overview or quick-start.\""
     ),
@@ -1182,12 +1195,12 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
     ),
     "project-changelog-writer": (
         "'Use when creating, updating, or adding entries to a"
-        " `CHANGELOG.md`, or recording changes for a release."
+        " CHANGELOG, or recording changes for a release."
         ' Triggers: "update the changelog," "log this change,"'
         ' "document the release."\''
     ),
     "project-readme-writer": (
-        "'Use when creating, updating, or reviewing a `README.md` or"
+        "'Use when creating, updating, or reviewing a README or"
         ' similar project landing page. Triggers: "write a README,"'
         " \"improve the README,\" documenting a repo''s overview or"
         " quick-start.'"
@@ -1283,8 +1296,6 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
     "maintain-docs": [
         "use `Style Guide Markdown Format`",
         "follow `Style Guide Good Writing` rules for correctness and clarity",
-        "follow `Coder README Writer`",
-        "follow `Coder AGENTS Writer`",
     ],
     "maintain-changelog": [
         "use `Style Guide Markdown Format`",
@@ -1294,23 +1305,29 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
     "create-readme": [
         "use `Style Guide Markdown Format`",
         "follow `Style Guide Good Writing` rules for correctness and clarity",
-        "follow `Coder README Writer`",
+        "follow `Project README Writer`",
     ],
-    "create-agents": [
-        "use `Style Guide Markdown Format`",
+    "create-agents-and-context": [
         "follow `Coder AGENTS Writer`",
+        "follow `Coder CONTEXT Writer`",
+        "use `Style Guide Markdown Format`",
     ],
     "prepare-for-feature-finish": [
+        "follow `Maintain CHANGELOG`",
+        "follow `Maintain AGENTS and CONTEXT`",
         "use `Style Guide Markdown Format`",
         "follow `Style Guide Good Writing` rules for correctness and clarity",
-        "follow `Project CHANGELOG Writer`",
         "use **git** tools to learn difference from `dev` branch",
     ],
-    "prepare-for-release": [
+    "prepare-for-version-release": [
+        "follow `Maintain README`",
+        "follow `Maintain CHANGELOG`",
+        "follow `Maintain AGENTS and CONTEXT`",
+        "follow `Maintain Docs`",
+        "follow `Project Semantic Versioning`",
         "use `Style Guide Markdown Format`",
         "follow `Style Guide Good Writing` rules for correctness and clarity",
-        "follow `Project CHANGELOG Writer`",
-        "follow `Project Semantic Versioning`",
+        "use **git** tools to learn difference from last version",
     ],
 }
 
