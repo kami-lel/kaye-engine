@@ -27,10 +27,9 @@ def register_cli_claude_parser(  ###############################################
         description="utility functions for the Claude plugin integration"
     )
 
-    # TODO order
-    register_code_subparser(claude_subparser)
-    register_marketplace_subparser(claude_subparser)
-    register_plugin_subparser(claude_subparser)
     register_skill_subparser(claude_subparser)
-    register_vs_code_subparser(claude_subparser)
     register_user_prompt_subparser(claude_subparser)
+    register_plugin_subparser(claude_subparser)
+    register_marketplace_subparser(claude_subparser)
+    register_vs_code_subparser(claude_subparser)
+    register_code_subparser(claude_subparser)
