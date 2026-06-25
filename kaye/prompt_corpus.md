@@ -4296,7 +4296,7 @@ Eg
 - format inline comments as: actual code + two spaces + `#` or `//` + single space + comment content, for example `int a = 1;  // comment on number`
 - use *Briefness Style* for all comments
 - use *Commentary Case* for each comment line
-- include *immediate annotation markers* where appropriate, for example `// TODO implement data fetching`, `# BUG incorrect behavior with None`
+- include *Loud TT* where appropriate, for example `// TODO implement data fetching`, `# BUG incorrect behavior with None`
 
 
 
@@ -4416,7 +4416,7 @@ Trigger on any code writing, editing, debugging, or programming question.
 - use `Style Guide Markdown Format`
 - use `Style Guide Briefness Style` for all comments
 - use `Style Guide Commentary Case` for each Comment Line
-- use `Annotation Markers`
+- use `Triage Tags`
 - follow `Style Guide Good Writing` rules for correctness and clarity
 
 
