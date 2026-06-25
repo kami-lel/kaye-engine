@@ -356,9 +356,7 @@ Note: Do not include the text inside parentheses `()`, these are *instructions* 
 
 
 
-## Style Guide Capitalization
-
-### Title Case
+## Style Guide Title Case
 
 Use *Chicago Manual of Style* headline case:
 
@@ -380,7 +378,48 @@ Used for **document title** and **section headings**.
 
 
 
-### Commentary Case
+### {description}
+
+Applies Chicago headline-style Title Case to titles and headings.
+
+### {when_to_use}
+
+When formatting a document title or section heading. Not for body text or list items.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Style Guide Commentary Case
 
 - begin 1st sentence with a lowercase letter; use standard sentence capitalization for the 2nd and subsequent sentences
 - use *Title Case* for **a few important words** within a sentence
@@ -404,14 +443,13 @@ Used for **list items** and **table cell content**.
 
 
 
-
 ### {description}
 
-Applies Chicago Manual of Style capitalization: Title Case for titles and headings, Commentary Case (lowercase-leading, selective emphasis, no end punctuation) for list items and table cells.
+Applies Commentary Case: lowercase-leading sentences, selective Title Case on key words, no terminal punctuation.
 
 ### {when_to_use}
 
-Use when capitalizing titles, headings, list items, or table cells, or when a user mentions title case, headline case, or Chicago Manual of Style. Not for grammar, punctuation, or prose style.
+When formatting list items or table cell content. Not for titles, headings, or body prose.
 
 
 
@@ -4281,7 +4319,7 @@ Eg
 ### code comment
 
 - format inline comments as: actual code + two spaces + `#` or `//` + single space + comment content, for example `int a = 1;  // comment on number`
-- use *Briefness Style*
+- use *Briefness Style* for all comments
 - use *Commentary Case* for each comment line
 - include *immediate annotation markers* where appropriate, for example `// TODO implement data fetching`, `# BUG incorrect behavior with None`
 
@@ -4385,8 +4423,8 @@ Trigger on any code writing, editing, debugging, or programming question.
 ## {prerequisite}
 
 - use `Style Guide Markdown Format`
-- use `Style Guide Capitalization` for all comments
-- use `Style Guide Briefness Style` for each Comment Line
+- use `Style Guide Briefness Style` for all comments
+- use `Style Guide Commentary Case` for each Comment Line
 - use `Annotation Markers`
 - follow `Style Guide Good Writing` rules for correctness and clarity
 
@@ -5157,7 +5195,7 @@ def calc_square(number):
 ```python
 class Rectangle:
     """
-    A `Rectangle` represents an axis-aligned rectangle defined by its size.
+    a `Rectangle` represents an axis-aligned rectangle defined by its size.
     (FIRST EMPTY LINE)
     (SECOND EMPTY LINE)
     :param width: width of the rectangle;
