@@ -25,4 +25,5 @@ def convert_display_name2skill_name(display_name):
     return re.sub(r"[^a-z0-9]+", "-", display_name.lower()).strip("-")
 
 
-# TODO vscode extension support
+# FIXME update module naming
+# FIXME update description naming

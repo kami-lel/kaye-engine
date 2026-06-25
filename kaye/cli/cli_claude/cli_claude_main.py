@@ -12,6 +12,9 @@ from kaye.cli.cli_claude.claude_plugin.cli_claude_plugin import (
 from kaye.cli.cli_claude.claude_skill.cli_claude_skill import (
     register_cli_claude_skill_parser,
 )
+from kaye.cli.cli_claude.claude_vs_code_extension.cli_claude_vs_code_extension import (
+    register_cli_claude_vs_code_extension_parser,
+)
 from kaye.cli.cli_claude.user_prompt.cli_claude_user_prompt import (
     register_cli_claude_user_prompt_parser,
 )
@@ -40,4 +43,5 @@ def register_cli_claude_parser(  ###############################################
     register_cli_claude_marketplace_parser(claude_subparser)
     register_cli_claude_plugin_parser(claude_subparser)
     register_cli_claude_skill_parser(claude_subparser)
+    register_cli_claude_vs_code_extension_parser(claude_subparser)
     register_cli_claude_user_prompt_parser(claude_subparser)
