@@ -30,9 +30,8 @@ def find_user_system_prompt_file(claude_folder):
     return claude_folder / "CLAUDE.md"
 
 
-def register_user_prompt_subparser(  ###################################
-    cli_subparser,
-):  # pylint: disable=missing-function-docstring
+# pylint: disable=missing-function-docstring
+def register_user_prompt_subparser(cli_subparser):  ############################
     user_prompt_parser = cli_subparser.add_parser(
         "user-system-prompt",
         help=__doc__,

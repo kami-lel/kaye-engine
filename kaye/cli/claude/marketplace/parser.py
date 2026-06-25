@@ -28,7 +28,8 @@ MARKETPLACE/  (default: current directory)
 """
 
 
-def register_marketplace_subparser(cli_subparser):  ####################################
+# pylint: disable=missing-function-docstring
+def register_marketplace_subparser(cli_subparser):  ############################
     marketplace_parser = cli_subparser.add_parser(
         "marketplace",
         help=__doc__,
