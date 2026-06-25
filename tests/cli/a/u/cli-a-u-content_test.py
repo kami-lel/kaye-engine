@@ -7,7 +7,7 @@ CLAUDE.md content produced by ``kaye claude user-system-prompt`` for each
 flag combination (default, -r, -c, -r -c)
 """
 
-# Fixme difficult to read & understand
+# FIXME difficult to read & understand
 
 import pytest
 
