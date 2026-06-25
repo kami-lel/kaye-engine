@@ -9,6 +9,6 @@ Todo full unit test for cli/m
 Todo full unit test for cli/p
 TODO full unit test for cli/u
 
-TODO agent behavior add use todo for long task & long task only
+todo agent behavior add md-style task list, when Claude "task" is not available
 
-TODO coder dev phases logic: mpt: working on a single phase at the same time
+todo standardize software dev lifecycle, with standardized vocab

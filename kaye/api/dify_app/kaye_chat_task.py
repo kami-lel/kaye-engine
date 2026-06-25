@@ -9,6 +9,7 @@ define endpoint behavior of: /kaye/dify-app/ky/task
 
 from flask import request, abort, Response
 
+from kaye.prompt.prompt_blueprint import PromptBlueprint
 
 from kaye.prompt import (
     rapid_blueprint,
@@ -37,6 +38,10 @@ from kaye.prompt import (
 # constant  ####################################################################
 BODY_PROGRAMMING_LANGUAGES_KEY = "programming_languages"
 BODY_QUERY_KEY = "query"
+
+_user_scope_blueprint = PromptBlueprint.parse("""    ○
+[x] ├── Role
+[x] └── (Abbreviations)""")
 
 
 # Entry Point  #################################################################
@@ -74,10 +79,10 @@ def kaye_chat_task():
         bp = _create_librarian_blueprint()
 
     elif role == "prompt":
-        bp = rapid_blueprint | prompt_writer_blueprint
+        bp = rapid_blueprint | _user_scope_blueprint | prompt_writer_blueprint
 
     elif role == "rapid":
-        bp = rapid_blueprint
+        bp = rapid_blueprint | _user_scope_blueprint
 
     elif role == "secretary":
         bp = _create_secretary_blueprint()
@@ -103,7 +108,12 @@ def kaye_chat_task():
 
 
 def _create_chat_blueprint():
-    bp = chat_blueprint | date_time_blueprint | number_unit_blueprint
+    bp = (
+        chat_blueprint
+        | _user_scope_blueprint
+        | date_time_blueprint
+        | number_unit_blueprint
+    )
     return bp
 
 
@@ -158,13 +168,13 @@ def _create_coder_blueprint(plcs):
 
 
 def _create_art_blueprint():
-    bp = rapid_blueprint
+    bp = rapid_blueprint | _user_scope_blueprint
     bp.checkmark("Art Tutor", recursively=True)
     return bp
 
 
 def _create_barista_blueprint():
-    bp = rapid_blueprint
+    bp = rapid_blueprint | _user_scope_blueprint
     bp.checkmark("Date and Time Format")
     bp.checkmark("Assistant Barista", recursively=True)
     return bp
@@ -208,6 +218,6 @@ def _create_shelver_blueprint():
 
 
 def _create_tarot_blueprint():
-    bp = rapid_blueprint
+    bp = rapid_blueprint | _user_scope_blueprint
     bp.checkmark("Tarot Reader", recursively=True)
     return bp
