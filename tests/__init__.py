@@ -46,3 +46,23 @@ TESTEE_CODER_CONTENT = [
     "### variable naming",
     "### code comment",
 ]
+
+TESTEE_TITLE_CASE_CONTENT = [
+    "## Style Guide Title Case",
+    "Use *Chicago Manual of Style* headline case:",
+    "- **capitalize major words**: nouns, pronouns, verbs, adjectives, adverbs, numerals",
+    "- **lowercase minor words**: articles (a, an, the), coordinating conjunctions (and, but, or, nor, for, so, yet), prepositions (of, in, on, with, etc.), and the infinitive to",
+    "keep proper nouns, acronyms, and brand styling as written (New York, NASA, iPhone)",
+    "Used for **document title** and **section headings**",
+]
+
+TESTEE_BRIEFNESS_CONTENT = [
+    "## Style Guide Briefness Style",
+    "- write in **newspaper headlinese**, prioritize brevity over grammar",
+    "- use present for current, infinitive for planned",
+    "- omit articles (a, an, the) and helper verbs, use strong nouns, verbs",
+    "- compress with punctuation: colon, dash, comma, otherwise minimize, no terminal periods",
+    "- use numerals (use 2, not two), symbols, **Usable Abbrs** when unambiguous",
+    "- prefer active voice",
+    "- keep sentences short, direct, drop filler",
+]
