@@ -113,12 +113,6 @@ Defaults to `False`. Only `"Chat"`, `"Coder"`, `"Agent Behavior"`,
 `"Continue Behavior"` are in `_ALWAYS_APPLY_BLUEPRINT`
 (`kaye/cli/cli_continue/export_blueprint_rules.py`).
 
-## Annotation Markers
-
-The codebase uses `TODO`, `FIXME`, `BUG`, and `HACK` markers. When resolving a
-primary marker, implement the task and remove the marker. Do not touch markers
-unrelated to your current change.
-
 ## Security
 
 - do not commit secrets, credentials, or tokens

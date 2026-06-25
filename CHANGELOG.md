@@ -2,8 +2,6 @@
 
 [^format]
 
-<!-- Todo improve AM usage: abbreviations, vocab for up/down, vocab for different levels, and usage in Kaye Peer Coder -->
-
 
 
 
@@ -25,12 +23,17 @@
   Repository Layout
 
 - **`tests/__init__.py`** — `TESTEE_AGENT_BEHAVIOR_CONTENT` constant for
-  verifying Agent Behavior section presence in exported prompts
+  verifying Agent Behavior section presence in exported prompts;
+  `TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT` for Style Guide Good Writing
+  section; `TESTEE_TITLE_CASE_CONTENT` and `TESTEE_BRIEFNESS_CONTENT` for
+  style guide sections
 - **`tests/cli/a/__init__.py`** — `TESTEE_CLAUDE_BEHAVIOR_CONTENT` constant
   for verifying Claude Behavior subsection presence
 - **Test files** — `cli-a-u-chat_test.py`, `cli-a-u-rapid_test.py`,
   `cli-a-u-coder_test.py`, `cli-a-u-rapid_coder_test.py` for stem-specific
   user-system-prompt content validation
+- **`BlueprintMetaNodes.__or__`** — merge operator for combining meta fields
+  from two blueprint instances; left operand takes priority
 
 ### Changed
 
@@ -49,8 +52,18 @@
   test files by stem; each file tests only content relevant to its stem
 - **`tests/__init__.py`** — `TESTEE_CODER_CONTENT` expanded to include all
   section headings and comprehensive coverage of Kaye Peer Coder guidance
+- **`tests/api/ky/task/coder/`** — 13 test files refactored to use parametrized
+  tests with `TESTEE_*_CONTENT` constants instead of individual helper methods;
+  removes 24 hard-coded assertion helpers from `__init__.py`; base test reduced
+  from 50+ test methods to 5 parametrized methods
+- **`kaye/prompt/prompt_blueprint.py`** — `__or__` merge operator now includes
+  meta field merging via `BlueprintMetaNodes.__or__`
 - **`kaye/prompt_corpus.md`** — moved Testing Instructions from Project AGENTS
   Writer section to Kaye Peer Coder section; refined guidance for clarity
+- **Triage Tags structure** — converged to mono-node flat section with no
+  subsections; test content updated to reflect current corpus structure
+- **`kaye-peer-coder` blueprint** — now has proper description set post-merge
+  to ensure skill frontmatter validation passes
 
 ### Deprecated
 

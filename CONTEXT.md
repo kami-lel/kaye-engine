@@ -42,7 +42,11 @@ through a Python API, an HTTP API, and a CLI.
   .is_prerequisite(node)` checks `node.name == "{prerequisite}"`;
   pass `contains_prerequisite_nodes=True` to `generate_prompt()` /
   `generate_prompt_lines()` to auto-checkmark every `{prerequisite}` node
-  whose parent is already checkmarked before rendering.
+  whose parent is already checkmarked before rendering
+- **Blueprint Meta Merging** — `BlueprintMetaNodes.__or__` merges two instances
+  via `left | right`; left operand takes priority for each field
+  (description, when_to_use, globs, prerequisite); `PromptBlueprint.__or__`
+  now includes meta merging so merged blueprints preserve meta information
 
 ### Prompt Corpus Structure
 
@@ -128,7 +132,7 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
           blueprints
         - `tests/cli/a/s/coder/` — per-skill content tests for coder blueprints
         - `tests/cli/a/s/others/` — per-skill content tests for miscellaneous
-          blueprints (chat, annotation-markers, date-time, IPA, etc.)
+          blueprints (chat, triage-tags, date-time, IPA, etc.)
         - `tests/cli/a/s/proj/` — per-skill content tests for project blueprints
         - `tests/cli/a/s/role/` — per-skill content tests for role blueprints
         - `tests/cli/a/s/style/` — per-skill content tests for style blueprints
@@ -142,3 +146,4 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
     - `tests/cli/c/` — `continue` subcommand tests
   - `tests/abbr/` — abbreviation collection tests
 - `scripts/` — Git hooks and the `systemd` service file
+
