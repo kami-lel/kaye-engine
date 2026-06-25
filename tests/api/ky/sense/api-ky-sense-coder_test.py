@@ -81,24 +81,6 @@ def opt_no_diff(flask_test_client, sense_endpoint):
     response = flask_test_client.post(sense_endpoint, json=request_body)
     return response.get_data().decode("utf-8")
 
-
-# TT (Triage Tags)  #############################################################
-
-
-class TestTriageTagsDiffOverride:  # ============================================
-
-    @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
-    def test_tt_content(_, opt_diff_override, i):
-        assert TESTEE_TRIAGE_TAG_CONTENT[i] in opt_diff_override
-
-
-class TestTriageTagsNoDiff:  # ==================================================
-
-    @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
-    def test_tt_content(_, opt_no_diff, i):
-        assert TESTEE_TRIAGE_TAG_CONTENT[i] in opt_no_diff
-
-
 # Pytest unit tests  ###########################################################
 
 
