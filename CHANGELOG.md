@@ -20,6 +20,10 @@
 
 ### Added
 
+- **`CONTEXT.md`** — new agent-context file for system knowledge split from
+  `AGENTS.md`: Project Overview, Key Concepts, Prompt Corpus Structure, and
+  Repository Layout
+
 - **`tests/__init__.py`** — `TESTEE_AGENT_BEHAVIOR_CONTENT` constant for
   verifying Agent Behavior section presence in exported prompts
 - **`tests/cli/a/__init__.py`** — `TESTEE_CLAUDE_BEHAVIOR_CONTENT` constant
@@ -29,6 +33,10 @@
   user-system-prompt content validation
 
 ### Changed
+
+- **`AGENTS.md`** — trimmed to agent-behavior-only content; Project Overview,
+  Key Concepts, Prompt Corpus Structure, and Repository Layout moved to
+  `CONTEXT.md`; intro updated to reference `CONTEXT.md`
 
 - **`kaye/cli/claude/user_prompt/export.py`** — Agent Behavior and Claude
   Behavior nodes now checkmarked and included in all exported CLAUDE.md files
