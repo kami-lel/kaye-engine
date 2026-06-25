@@ -53,11 +53,16 @@ __all__ = (
 # blueprints  ##################################################################
 # (in corpus, but not as part of the content lines)
 
+
+# TODO include additional format
+
+
 # Rapid
 rapid_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Introduction
 [x] └── Style Guide
-[x]     └── Style Guide Markdown Format""")
+[x]     └── Style Guide Markdown Format
+[x]         └── Additional Markdown Format""")
 rapid_blueprint.display_name = "Rapid"
 rapid_blueprint.meta.description = (
     "quick, mechanical text or data tasks with no persona or role"
@@ -71,6 +76,7 @@ chat_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Language
 [x] └── Style Guide
 [x]     ├── Style Guide Markdown Format
+[x]     │   └── Additional Markdown Format
 [x]     └── Style Guide Commentary Case""")
 chat_blueprint.display_name = "Chat"
 chat_blueprint.meta.description = (

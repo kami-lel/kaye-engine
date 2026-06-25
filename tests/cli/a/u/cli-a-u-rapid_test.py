@@ -10,7 +10,8 @@ import pytest
 
 from tests import (
     TESTEE_INTRODUCTION_CONTENT,
-    TESTEE_MARKDOWN_FORMAT_CONTENT,
+    TESTEE_MD_BASIC_FORMAT_CONTENT,
+    TESTEE_MD_ADD_FORMAT_CONTENT,
     TESTEE_AGENT_BEHAVIOR_CONTENT,
 )
 from tests.cli.a import TESTEE_CLAUDE_BEHAVIOR_CONTENT
@@ -42,8 +43,12 @@ class TestContent:  # ==========================================================
     def test_introduction(self, content, marker):
         assert marker in content
 
-    @pytest.mark.parametrize("marker", TESTEE_MARKDOWN_FORMAT_CONTENT)
-    def test_markdown_format(self, content, marker):
+    @pytest.mark.parametrize("marker", TESTEE_MD_BASIC_FORMAT_CONTENT)
+    def test_md_basic_format(self, content, marker):
+        assert marker in content
+
+    @pytest.mark.parametrize("marker", TESTEE_MD_ADD_FORMAT_CONTENT)
+    def test_md_add_format(self, content, marker):
         assert marker in content
 
     @pytest.mark.parametrize("marker", TESTEE_AGENT_BEHAVIOR_CONTENT)
