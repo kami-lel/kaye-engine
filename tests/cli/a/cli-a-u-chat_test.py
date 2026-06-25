@@ -10,9 +10,6 @@ import subprocess
 
 import pytest
 
-# TODO fuller unit test for CLI a u
-
-
 # constants  ###################################################################
 
 
