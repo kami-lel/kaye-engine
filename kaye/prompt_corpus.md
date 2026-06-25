@@ -4153,15 +4153,15 @@ Eg:
 
 Select ONE prefix for the changed file. Read the rules below in order, top to bottom. Use the first prefix whose condition is true, then stop.
 
-1. `^` — the file is newly added.
-2. `!` — the file is deleted.
-3. `:` — the file moved to a different directory AND its content is unchanged or nearly unchanged. (Its filename may also change.)
-4. `=` — the file's directory is unchanged but its filename changed, AND its content is unchanged or nearly unchanged.
-5. `?` — the file is non-text: binary, compressed archive, database, or encrypted blob.
-6. `@` — the only edits are to triage tags and the lines directly tied to them.
-7. `#` — the edits are mostly to documentation or code comments.
-8. `~` — the edits are mostly reordering content or refactoring code, with behavior unchanged.
-9. `.` — the only edits are whitespace, indentation, or blank lines.
+1. `^` — file is newly added.
+2. `!` — file is deleted.
+3. `:` — file moved to a different directory AND its content is unchanged or nearly unchanged. (Its filename may also change.)
+4. `=` — file's directory is unchanged but its filename changed, AND its content is unchanged or nearly unchanged.
+5. `?` — file is non-text: binary, compressed archive, database, or encrypted blob.
+6. `@` — only edits are to triage tags and the lines directly tied to them.
+7. `#` — edits are mostly to documentation or code comments.
+8. `~` — edits are mostly reordering content or refactoring code, with behavior unchanged.
+9. `.` — only edits are whitespace, indentation, or blank lines.
 
 "Nearly unchanged" in rules 3 and 4 means the content is essentially the same; only the path or name differs, apart from trivial edits.
 
