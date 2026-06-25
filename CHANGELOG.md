@@ -16,49 +16,40 @@
 
 ## [Unreleased]
 
-### Added
-
-- `### Additional Markdown Format` subsection in `prompt_corpus.md` under
-  `Style Guide Markdown Format`, grouping `List Format`, `Math Formatting`,
-  and `Diagrams` (sub-headings demoted from `####` to `#####`)
-- `Additional Markdown Format` node added to `rapid_blueprint` and
-  `chat_blueprint` in `embedded_blueprints.py`
-- commit-sense test constants in `tests/api/commit/__init__.py`:
-  `TESTEE_COMMIT_COMMON`, `TESTEE_COMMIT_PRIMARY_COMMON`,
-  `TESTEE_COMMIT_PER_FILE_COMMON`, `TESTEE_COMMIT_PER_FILE_LONG`,
-  `TESTEE_COMMIT_PER_FILE_SHORT`
-- `TESTEE_MD_BASIC_FORMAT_CONTENT` and `TESTEE_MD_ADD_FORMAT_CONTENT` in
-  `tests/__init__.py`, splitting `TESTEE_MARKDOWN_FORMAT_CONTENT` by
-  basic vs. additional format content
-
-### Changed
-
-- `### Prefix Symbol` rules in `prompt_corpus.md` rewritten for clarity:
-  numbered with `—` dash, explicit `stop` semantics, and `nearly unchanged`
-  definition added; `#### Long` / `#### Short` symbol entries reformatted
-  as backtick list items
-- `## Primary Message Task` examples in `prompt_corpus.md` reformatted as
-  a fenced code block
-- commit API tests (`tests/api/commit/`) refactored to two-class pattern
-  (`TestContent` + `TestAllowsMd`) with session-scoped `testee_output`
-  fixture; `app_endpoint` and `primary_endpoint` conftest fixtures made
-  session-scoped; `assert_commit_sense_common` and `assert_per_file_common`
-  helpers removed
-
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.1...dev
 
 ### Added
 
-- `docs/http_api_doc.md` — `#### update` subsection under `systemd`
-  deployment: steps to pull the repo and reinstall the package, then reload
-  and restart the service
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+
+
+## [6.8.1] - 2026-06-26
+
+### Added
+
+- additional markdown format guidance (list, math, and diagram formatting)
+  now rendered in the Rapid and Chat prompts
+- HTTP API docs now cover updating an existing `systemd` deployment
 
 ### Changed
 
-- `docs/http_api_doc.md` — `systemd` deployment heading promoted from
-  `###` to `##` and renamed from *deployment as `systemd` on Ubuntu* to
-  *`systemd` deployment*; all `systemctl` and `chmod` commands prefixed with
-  `sudo`
+- clarified the commit-sense prefix-symbol rules and reformatted the
+  primary-message and prefix examples for readability
+- streamlined the `systemd` deployment guide in the HTTP API docs, with
+  `sudo`-prefixed commands
+- simplified the commit-sense API test suite
+
+[6.8.1]: https://github.com/kami-lel/kaye/compare/v6.8.0...v6.8.1
+
 
 
 ## [6.8.0] - 2026-06-26
