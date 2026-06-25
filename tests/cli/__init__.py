@@ -446,18 +446,6 @@ TESTEE_FILE_CONTENT_ALL = {
         "// Inspector Fields",
         "#### Inspector Assignment Guard",
     ],
-    "kaye-peer-coder": [
-        "# Kaye Peer Coder",
-        "- provide code **expansion**",
-        "- perform code **adjustment**",
-        "- offer concise coding **support**",
-        "- help users **debug**",
-        "### code format",
-        "- each line must not exceed **80 characters**",
-        "### variable naming",
-        "### code comment",
-        "### comment section headings",
-    ],
     "project-agents-writer": [
         "## Project AGENTS Writer",
         (

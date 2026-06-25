@@ -8,6 +8,7 @@ creation of ``kaye-peer-coder``
 
 import pytest
 
+from tests import TESTEE_CODER_CONTENT
 from tests.cli import *  # noqa: F401, F403
 from tests.cli.a.s import (
     VERSION_LINE_PATTERN,
@@ -18,7 +19,7 @@ from tests.cli.a.s import (
 
 
 SKILL_NAME = "kaye-peer-coder"
-TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
+TESTEE_FILE_CONTENT = TESTEE_CODER_CONTENT
 
 
 # Pytest fixtures  #############################################################
