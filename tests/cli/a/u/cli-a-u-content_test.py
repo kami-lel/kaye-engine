@@ -22,8 +22,6 @@ from tests.cli.a.u import (
 
 # constants  ###################################################################
 
-# TODO evaluate pytest parallel
-
 # (fixture stem, present markers, absent markers)
 CASES = [
     ("chat", CHAT_CONTENT, CHAT_ABSENT),
