@@ -79,4 +79,26 @@ python -m kaye --help
 
 
 
-<!-- TODO add instruction to use with claude -->
+### Using Kaye with Claude
+
+Deploy Kaye as a plugin to access it directly in Claude applications.
+
+#### Claude Desktop
+
+Generate a plugin package using the Kaye CLI:
+
+```bash
+cli kaye plugin --zip
+```
+
+Upload the generated `.zip` file to [Claude Desktop](https://claude.ai) settings under *Plugins* to enable Kaye integration.
+
+#### Claude Code VS Code Extension
+
+Export Kaye as a marketplace plugin using the Kaye CLI:
+
+```bash
+python -m kaye claude marketplace
+```
+
+Then install the extension from the *VS Code Marketplace* within the *Claude Code* extension settings.

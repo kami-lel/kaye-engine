@@ -58,6 +58,6 @@ def register_cli_claude_marketplace_parser(  ###################################
 
         export_marketplace(folder)
 
-        logger.done("export marketplace\t" + str(folder))
+        logger.done("export marketplace:\t" + str(folder))
 
     marketplace_parser.set_defaults(func=_marketplace_main)
