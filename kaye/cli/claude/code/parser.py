@@ -1,29 +1,26 @@
-"""export for Claude Code as a plugin and User System Prompt file"""
+"""set up Claude Code CLI with the kaye plugin and User System Prompt"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye import logger, kamilog
 
-from kaye.cli.cli_claude.claude_plugin.export_plugin_as_folder import (
-    export_plugin_as_folder,
-)
-from kaye.cli.cli_claude.user_prompt.cli_claude_user_prompt import (
+from kaye.cli.claude.plugin.export_folder import export_plugin_as_folder
+from kaye.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
     find_user_system_prompt_file,
 )
-from kaye.cli.cli_claude.user_prompt.export_user_file import (
-    export_user_system_prompt_file,
-)
+from kaye.cli.claude.user_prompt.export import export_user_system_prompt_file
 
 #  constants  ===================================================================
 
+
 _DESCRIPTION = """
 
-install kaye into a local .claude/ folder: write the kaye plugin under
-plugins/ and the Chat blueprint as the User System Prompt CLAUDE.md.
+writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint) and
+exports the kaye plugin into plugins/.
 
-FOLDER/  (default: ~/.claude)
+CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
 └── plugins/
     └── kaye/
@@ -36,9 +33,8 @@ FOLDER/  (default: ~/.claude)
 """
 
 
-def register_cli_claude_code_parser(  ##########################################
-    cli_subparser,
-):  # pylint: disable=missing-function-docstring
+# pylint: disable=missing-function-docstring
+def register_code_subparser(cli_subparser):  ###################################
     code_parser = cli_subparser.add_parser(
         "code",
         help=__doc__,
@@ -50,7 +46,7 @@ def register_cli_claude_code_parser(  ##########################################
     code_parser.add_argument(
         "folder",
         nargs="?",
-        metavar="FOLDER",
+        metavar="CLAUDE_FOLDER",
         type=Path,
         default=DEFAULT_CLAUDE_FOLDER,
         help="path to local .claude/ folder; default: ~/.claude",

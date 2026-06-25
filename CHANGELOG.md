@@ -20,6 +20,17 @@
 
 ### Added
 
+- **`kaye/cli/claude/vs_code/`** — new VS Code Extension export subcommand
+  (`claude vs-code-extension`, alias `a v`): writes User System Prompt to
+  `~/.claude/CLAUDE.md` and exports marketplace to
+  `~/.claude/kaye_marketplace/`; combines user-prompt and marketplace exports
+  for streamlined Claude Code setup
+- **`tests/cli/a/v/`** — new test suite for `kaye claude vs-code-extension`:
+  `cli-a-v-alts_test.py` covers command aliases (`v`, `vs-code-extension`);
+  `cli-a-v-claude_md_test.py` verifies CLAUDE.md creation and content
+  equivalence to `kaye claude u -c`; `cli-a-v-command_test.py` tests command
+  success path; `cli-a-v-marketplace_test.py` tests marketplace export; shared
+  fixtures in `conftest.py`
 - **`tests/__init__.py`** — new centralized test constants module: 
   `TESTEE_INTRODUCTION_CONTENT`, `TESTEE_MARKDOWN_FORMAT_CONTENT`, 
   `TESTEE_CHAT_ADDITIONAL_CONTENT`, `TESTEE_CHAT_COMMENTARY_CASE_CONTENT`, 
@@ -80,6 +91,10 @@
 
 ### Changed
 
+- **README** — restructured Claude integration section: added dedicated `####
+  Claude Code VS Code Extension` subsection with step-by-step marketplace setup
+  instructions; clarified install targets (`Claude Desktop` vs `Claude Code VS
+  Code Extension`) and command output paths
 - **API task content tests** — refactored `tests/api/ky/task/api-ky-task-chat1_test.py` 
   and `api-ky-task-rapid1_test.py` from 51 and 14 individual `test_*` methods 
   respectively to parametrized test classes using `@pytest.mark.parametrize` over 

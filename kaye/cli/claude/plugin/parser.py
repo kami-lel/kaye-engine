@@ -1,4 +1,4 @@
-"""export as an Anthropic Claude plugin"""
+"""export all kaye blueprints as a single Claude plugin"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -6,8 +6,8 @@ from pathlib import Path
 
 from kaye import logger, kamilog
 
-from .export_plugin_as_folder import export_plugin_as_folder
-from .export_plugin_as_zip import export_plugin_as_zip
+from .export_folder import export_plugin_as_folder
+from .export_zip import export_plugin_as_zip
 
 # constants  ===================================================================
 
@@ -15,12 +15,11 @@ _DEFAULT_PLUGINS_FOLDER = Path.home() / ".claude" / "plugins"
 
 _DESCRIPTION = """
 
-bundle every blueprint, prompt, and abbreviation group into a single Claude
-plugin folder (a plugin.json manifest plus one skills/ subfolder); with -z,
-pack it as an upload-ready .zip plugin instead.
+writes plugin.json and one SKILL.md per blueprint under kaye/skills/; with
+-z, creates an upload-ready .zip for Claude Desktop instead.
 
 FOLDER/  (default: ~/.claude/plugins/)
-└── kaye/  (plugin root)
+└── kaye/
     ├── .claude-plugin/
     │   └── plugin.json
     └── skills/
@@ -30,9 +29,8 @@ FOLDER/  (default: ~/.claude/plugins/)
 """
 
 
-def register_cli_claude_plugin_parser(  ########################################
-    cli_subparser,
-):  # pylint: disable=missing-function-docstring
+# pylint: disable=missing-function-docstring
+def register_plugin_subparser(cli_subparser):  #################################
     plugin_parser = cli_subparser.add_parser(
         "plugin",
         help=__doc__,

@@ -1,4 +1,4 @@
-"""export as agentskills.io-standard Skills for Anthropic Claude"""
+"""export each kaye blueprint as an individual Claude skill"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -7,10 +7,10 @@ from pathlib import Path
 from kaye import logger, kamilog
 
 
-from .export_skills_as_folders import (
+from .export_folders import (
     export_skills_as_folders,
 )
-from .export_skills_as_zips import export_skills_as_zips
+from .export_zips import export_skills_as_zips
 
 # constants  ===================================================================
 
@@ -18,9 +18,8 @@ _DEFAULT_SKILLS_FOLDER = Path.home() / ".claude" / "skills"
 
 _DESCRIPTION = """
 
-export every blueprint, project prompt, and abbreviation group as its own
-agentskills.io-standard Skill folder (one SKILL.md each); with -z, pack each
-Skill into its own .zip instead.
+writes one SKILL.md per blueprint, prompt, and abbreviation group as its own
+skill folder; with -z, creates a .zip per skill instead.
 
 FOLDER/  (default: ~/.claude/skills/)
 ├── coder-python/
@@ -29,9 +28,8 @@ FOLDER/  (default: ~/.claude/skills/)
 """
 
 
-def register_cli_claude_skill_parser(  #########################################
-    cli_subparser,
-):  # pylint: disable=missing-function-docstring
+# pylint: disable=missing-function-docstring
+def register_skill_subparser(cli_subparser):  ##################################
     skill_parser = cli_subparser.add_parser(
         "skill",
         help=__doc__,

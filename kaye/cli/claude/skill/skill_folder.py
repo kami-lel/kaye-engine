@@ -6,8 +6,8 @@ define ``AgentSkillFolder``
 
 from kaye import logger
 
-from kaye.cli.cli_claude import convert_display_name2skill_name
-from .skill_md_file import SkillMDFile
+from kaye.cli.claude import convert_display_name2skill_name
+from .skill_md import SkillMDFile
 
 # fixme include user/auto invokable instruction on prompts
 
