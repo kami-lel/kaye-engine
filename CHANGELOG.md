@@ -54,6 +54,9 @@
 
 ### Fixed
 
+- **test file naming** in `tests/cli/a/sz/` — renamed 35 test files from
+  `cli-a-s-*` to `cli-a-sz-*` to follow proper naming convention for zip export
+  tests
 - **typo** in `kaye/prompt_corpus.md` — `Todo` → `TODO` in comment
 
 ### Security
