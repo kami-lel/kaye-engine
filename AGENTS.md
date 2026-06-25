@@ -20,18 +20,34 @@ pip install -e .
 pip install -r requirements.txt
 ```
 
-Run the full test suite:
+**Always run tests selectively** — scope each run to the files that mirror the
+changed source. Run the full suite only when asked, or right before a PR/merge.
+
+Test files mirror the source tree under `tests/`. Source-to-test mapping:
+
+| changed source | test scope |
+|---|---|
+| `kaye/prompt/` | `tests/prompt/` |
+| `kaye/api/` | `tests/api/` |
+| `kaye/cli/claude/` | `tests/cli/a/` |
+| `kaye/cli/cli_continue/` | `tests/cli/c/` |
+| `kaye/abbr*` | `tests/abbr/` |
+| `kaye/prompt_corpus.md` | `tests/corpus/` |
+
+Run the scoped path (add `-n auto` for a parallel run):
+
+```bash
+pytest tests/prompt/
+pytest tests/cli/a/s/coder/
+pytest tests/cli/c/p/cli-c-p-maintain_changelog_test.py
+pytest tests/cli/c/p/cli-c-p-maintain_changelog_test.py::TestHeader::test_name
+pytest -n auto tests/cli/a/  # parallel
+```
+
+Full suite — **only for PR/merge or when explicitly asked**:
 
 ```bash
 pytest
-```
-
-Run a single test file or test (add `-n auto` for a parallel run):
-
-```bash
-pytest tests/cli/c/p/cli-c-p-maintain_changelog_test.py
-pytest tests/cli/c/p/cli-c-p-maintain_changelog_test.py::TestHeader::test_name
-pytest -n auto tests/cli/c/p/cli-c-p-maintain_changelog_test.py  # parallel
 ```
 
 Run the CLI and HTTP API locally:
