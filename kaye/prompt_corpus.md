@@ -3177,6 +3177,12 @@ Create the relevant documentation files under `docs/`.
 
 ### {description}
 
+Creates new topic-focused documentation files under `docs/` — APIs, commands, architecture, configuration, examples, workflows, and troubleshooting — by inspecting the project's code, configs, and conversation context.
+
+### {when_to_use}
+
+When a user wants fresh `docs/` files written or a project documented — "write docs," "document this," "add API/setup docs." Not for updating existing docs, README, or `AGENTS.md`.
+
 ### {prerequisite}
 
 - use `Style Guide Markdown Format`
@@ -3401,6 +3407,8 @@ When a bare repo needs its documentation scaffolded all at once — "set up docs
 ## Compact with Maintenance
 
 ### {description}
+
+aa bb cc
 
 
 
@@ -3649,6 +3657,14 @@ You can:
 
 
 
+### {description}
+
+Drafts and improves LLM system-message prompts, advises on prompt engineering, and preserves source syntax like JSON schema.
+
+### {when_to_use}
+
+When a user wants a system prompt written, rewritten, graded, or grammar-checked — "write a prompt," "improve my prompt." Not for general prose or copy.
+
 ### {prerequisite}
 
 - use `Style Guide Markdown Format`
@@ -3728,6 +3744,14 @@ Quick test: a sentence describing the skill's capability belongs in `description
 
 
 
+
+### {description}
+
+Writes the `description` and `when_to_use` metadata fields for an agent skill, crafting concise third-person capability statements and triggering cues that drive accurate skill selection.
+
+### {when_to_use}
+
+When a user is authoring or revising skill metadata, or asks for a skill's `description` / `when_to_use`. Not for writing the skill's actual logic or prompts.
 
 ### {prerequisite}
 
@@ -4350,10 +4374,12 @@ Eg
 
 
 
-### {description}
+## {description}
+
 Handles coding tasks — expansion, adjustment, debugging, and support — following strict formatting, naming, and comment conventions.
 
-### {when_to_use}
+## {when_to_use}
+
 Trigger on any code writing, editing, debugging, or programming question.
 
 ## {prerequisite}
