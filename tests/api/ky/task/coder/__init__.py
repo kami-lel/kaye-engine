@@ -126,25 +126,6 @@ def assert_style_caps_gw3(opt):
     assert "- Do not add new information" in opt
 
 
-# TT (Triage Tags)  ==========================================================
-
-
-def assert_tt_title(opt):
-    assert "## Triage Tags" in opt
-
-
-def assert_tt1(opt):
-    assert "Used to label defects and related" in opt
-
-
-def assert_tt2(opt):
-    assert "Changing a Quiet/Steady TT to a louder tier" in opt
-
-
-def assert_tt3(opt):
-    assert "changing to a quieter tier" in opt
-
-
 # coder  =======================================================================
 
 

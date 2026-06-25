@@ -11,8 +11,11 @@ import json
 
 import pytest
 
+from tests import TESTEE_TRIAGE_TAG_CONTENT
 from tests.api.ky.task import *
 from tests.api.ky.task.coder import *
+
+# TODO update to use new pattern unit test
 
 # pytest fixtures  #############################################################
 
@@ -203,19 +206,11 @@ class TestCoder:  # ============================================================
     def test_style_caps_gw3(_, opt):
         assert_style_caps_gw3(opt)
 
-    # AMs  *********************************************************************
+    # Triage Tags  *************************************************************
 
-    def test_am_title(_, opt):
-        assert_tt_title(opt)
-
-    def test_am1(_, opt):
-        assert_tt1(opt)
-
-    def test_am2(_, opt):
-        assert_tt2(opt)
-
-    def test_am3(_, opt):
-        assert_tt3(opt)
+    @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
+    def test_triage_tags(_, opt, i):
+        assert TESTEE_TRIAGE_TAG_CONTENT[i] in opt
 
     # chat blueprint  **********************************************************
 
