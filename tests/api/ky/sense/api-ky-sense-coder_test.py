@@ -8,7 +8,7 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-
+from tests import TESTEE_TRIAGE_TAG_CONTENT
 from tests.api.ky.sense import *
 
 # helpers  #####################################################################
@@ -66,7 +66,7 @@ def assert_plc9(opt):
 
 
 # Pytest fixtures  #############################################################
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="module")
 def opt_diff_override(flask_test_client, sense_endpoint):
     request_body = {"pre_sense_role": "coder", "difficulty_override": 15}
 
@@ -74,12 +74,29 @@ def opt_diff_override(flask_test_client, sense_endpoint):
     return response.get_data().decode("utf-8")
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="module")
 def opt_no_diff(flask_test_client, sense_endpoint):
     request_body = {"pre_sense_role": "coder", "difficulty_override": 0}
 
     response = flask_test_client.post(sense_endpoint, json=request_body)
     return response.get_data().decode("utf-8")
+
+
+# TT (Triage Tags)  #############################################################
+
+
+class TestTriageTagsDiffOverride:  # ============================================
+
+    @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
+    def test_tt_content(_, opt_diff_override, i):
+        assert TESTEE_TRIAGE_TAG_CONTENT[i] in opt_diff_override
+
+
+class TestTriageTagsNoDiff:  # ==================================================
+
+    @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
+    def test_tt_content(_, opt_no_diff, i):
+        assert TESTEE_TRIAGE_TAG_CONTENT[i] in opt_no_diff
 
 
 # Pytest unit tests  ###########################################################
