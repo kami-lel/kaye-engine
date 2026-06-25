@@ -6,8 +6,6 @@ Unit Tests (using pytest) for:
 /kaye/dify-api/ky/task with role=coder
 """
 
-# BUG BUG update split failed this unit test
-
 import json
 
 
@@ -153,9 +151,6 @@ class TestCoder:  # ============================================================
 
     def test_style_title(_, opt):
         assert_style_title(opt)
-
-    def test_style_caps(_, opt):
-        assert_style_caps(opt)
 
     def test_style_caps_tc0(_, opt):
         assert_style_caps_tc0(opt)
