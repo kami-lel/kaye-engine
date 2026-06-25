@@ -37,7 +37,6 @@ class TestShort:  ##############################################################
         response = flask_test_client.get(endpoint)
 
         opt = response.get_data().decode("utf-8")
-        print(opt)
 
         assert_commit_sense_common(opt)
         assert_per_file_common(opt)
@@ -49,7 +48,6 @@ class TestShort:  ##############################################################
         response = flask_test_client.get(endpoint, query_string=query_string)
 
         opt = response.get_data().decode("utf-8")
-        print(opt)
 
         assert_commit_sense_common(opt)
         assert_per_file_common(opt)
@@ -61,7 +59,6 @@ class TestShort:  ##############################################################
         response = flask_test_client.get(endpoint, query_string=query_string)
 
         opt = response.get_data().decode("utf-8")
-        print(opt)
 
         assert_commit_sense_common(opt)
         assert_per_file_common(opt)
@@ -75,7 +72,6 @@ class TestShort:  ##############################################################
         response = flask_test_client.get(endpoint, query_string=query_string)
 
         opt = response.get_data().decode("utf-8")
-        print(opt)
 
         assert_commit_sense_common(opt)
         assert_per_file_common(opt)

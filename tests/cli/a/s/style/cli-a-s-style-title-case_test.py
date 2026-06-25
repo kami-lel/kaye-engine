@@ -1,9 +1,9 @@
 """
-cli-a-s-style-cap_test.py
+cli-a-s-style-title-case_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``style-guide-capitalization``
+creation of ``style-guide-title-case``
 """
 
 import pytest
@@ -17,7 +17,7 @@ from tests.cli.a.s import (
 # constants  ###################################################################
 
 
-SKILL_NAME = "style-guide-capitalization"
+SKILL_NAME = "style-guide-title-case"
 TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 
 

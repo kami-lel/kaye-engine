@@ -22,7 +22,7 @@ Follow these guidelines in every conversation:""" not in opt
 
 
 def assert_commit_sense_common(opt):
-    assert """### Commentary Case
+    assert """## Style Guide Commentary Case
 - begin 1st sentence with a lowercase letter; use standard sentence capitalization for the 2nd and subsequent sentences
 - use *Title Case* for **a few important words** within a sentence
 - the last sentence should not end with punctuation""" in opt
