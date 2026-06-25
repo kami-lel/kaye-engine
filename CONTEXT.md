@@ -146,34 +146,7 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
 ## Known Test Failures
 
 recorded from `python3 -m pytest --tb=no -q` on 2026-06-25:
-**20 failed, 5093 passed** — reduced to **2 groups** after fixes.
-
----
-
-### Group C — triage-tags description mismatch (2 tests)
-
-**Root cause:** `TESTEE_DESCRIPTION_CONTENT_ALL["triage-tags"]` in
-`tests/cli/__init__.py` expects:
-```
-"Defines the three loudness tiers of triage tags (TT) —
-BUG/FIXME/TODO/HACK in any case — and their meanings, and
-the raise/lower terminology for tier changes."
-```
-The actual exported skill frontmatter description reads:
-```
-"Defines triage tags (TT) — defect/note labels spanning code
-and docs across... resolving what a TT tier signifies. Not for
-fixing the defects the tags point to"
-```
-
-**Affected tests:**
-
-- `tests/cli/a/s/others/cli-a-s-others-triage-tags_test.py::TestHeader::test_description`
-- `tests/cli/c/c/others/cli-c-c-bp-triage-tag_test.py::TestHeader::test_description`
-
-**Fix target:** align `TESTEE_DESCRIPTION_CONTENT_ALL["triage-tags"]` (and its
-continue-blueprint variant) in `tests/cli/__init__.py` with the corpus
-`{description}` text, or update the corpus description if it drifted.
+**20 failed, 5093 passed** — reduced to **1 group** after fixes.
 
 ---
 

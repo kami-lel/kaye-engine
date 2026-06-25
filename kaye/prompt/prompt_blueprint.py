@@ -385,9 +385,9 @@ class PromptBlueprint(dict):
         if contains_prerequisite_nodes:
             working_bp = copy.copy(self)
             for node in PreOrderIter(working_bp.corpus):
-                if MetaNodeType.is_prerequisite(node) and working_bp.is_checkmarked(
-                    node.parent
-                ):
+                if MetaNodeType.is_prerequisite(
+                    node
+                ) and working_bp.is_checkmarked(node.parent):
                     working_bp.checkmark(node)
         else:
             working_bp = self
@@ -472,6 +472,8 @@ class PromptBlueprint(dict):
         merged = PromptBlueprint(
             display_name=display_name, corpus_override=self.corpus
         )
+
+        # BUG meta is not merged
 
         for k in keys:
             merged[k] = self.is_checkmarked(k) or other.is_checkmarked(k)
