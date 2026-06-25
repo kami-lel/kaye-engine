@@ -2,7 +2,7 @@
 
 [^format]
 
-<!-- TODO improve AM usage: abbreviations, vocab for up/down, vocab for different levels, and usage in Kaye Peer Coder -->
+<!-- Todo improve AM usage: abbreviations, vocab for up/down, vocab for different levels, and usage in Kaye Peer Coder -->
 
 
 
