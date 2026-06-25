@@ -1,4 +1,4 @@
-"""export as Claude Marketplace including a kaye plugin"""
+"""package the kaye plugin as an installable Claude marketplace"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -11,8 +11,8 @@ from .export import export_marketplace
 
 _DESCRIPTION = """
 
-wrap the kaye plugin in a Claude marketplace: a marketplace.json manifest
-alongside the full plugin nested under plugins/, ready to add and install.
+writes marketplace.json and exports the kaye plugin into plugins/; the
+resulting folder can be added directly in Claude's marketplace settings.
 
 MARKETPLACE/  (default: current directory)
 ├── .claude-plugin/

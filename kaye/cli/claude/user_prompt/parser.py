@@ -1,4 +1,4 @@
-"""export Kaye's Chat blueprint to User System Prompt file CLAUDE.md"""
+"""write the Kaye Chat blueprint as the User System Prompt CLAUDE.md"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -11,8 +11,10 @@ from .export import export_user_system_prompt_file
 
 _DESCRIPTION = """
 
-render Kaye's Chat blueprint and write it as the User System Prompt file,
-overwriting any existing one at PROMPT_FILE.
+renders the Chat blueprint (or Rapid with -r) and writes it to PROMPT_FILE
+as the User System Prompt; optionally appends the Coder blueprint with -c.
+
+PROMPT_FILE  (default: ~/.claude/CLAUDE.md)
 """
 
 # helper  ######################################################################
