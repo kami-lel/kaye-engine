@@ -17,7 +17,7 @@ from tests import (
     TESTEE_CODER_CONTENT,
     TESTEE_AGENT_BEHAVIOR_CONTENT,
 )
-from tests.cli.claude import TESTEE_CLAUDE_BEHAVIOR_CONTENT
+from tests.cli.a import TESTEE_CLAUDE_BEHAVIOR_CONTENT
 
 
 # Fixtures  ####################################################################
