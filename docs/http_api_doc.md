@@ -19,7 +19,7 @@ python -m kaye http
 
 
 
-### deployment as `systemd` on Ubuntu
+## `systemd` deployment
 
 Place the entire project folder at `/opt/kaye`.
 
@@ -47,19 +47,28 @@ cp /opt/kaye/scripts/kaye_http_api.service /etc/systemd/system
 Set permissions, enable boot-start service, & check status
 
 ```bash
-chmod 644 /etc/systemd/system/kaye_http_api.service
-systemctl daemon-reload
-systemctl enable kaye_http_api.service
-systemctl status kaye_http_api.service
+sudo chmod 644 /etc/systemd/system/kaye_http_api.service
+sudo systemctl daemon-reload
+sudo systemctl enable kaye_http_api.service
+sudo systemctl status kaye_http_api.service
 ```
 
-----
+#### update
 
-If resource under `/opt/kaye` is updated, restart service:
+Update local repository:
 
 ```bash
-systemctl daemon-reload
-systemctl restart kaye_http_api.service
+cd /opt/kaye
+git pull
+pip install .  # update kaye package installation
+```
+
+Update service:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart kaye_http_api.service
+sudo systemctl status kaye_http_api.service
 ```
 
 
