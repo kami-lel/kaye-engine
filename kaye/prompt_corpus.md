@@ -4064,11 +4064,13 @@ If no clear, consistent cross-file pattern exists (i.e., each file was edited fo
 
 Eg:
 
-- modularize payment processing; split into gateway adapters
-- introduce feature-flag framework; enable gradual rollout for search
-- optimize database queries across services; remove n+1 patterns
-- upgrade dependencies: bump framework and address breaking changes
-- remove legacy analytics pipeline; replace with event-driven collector
+```
+modularize payment processing; split into gateway adapters
+introduce feature-flag framework; enable gradual rollout for search
+optimize database queries across services; remove n+1 patterns
+upgrade dependencies: bump framework and address breaking changes
+remove legacy analytics pipeline; replace with event-driven collector
+```
 
 
 

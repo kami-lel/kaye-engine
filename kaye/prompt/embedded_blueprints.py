@@ -54,9 +54,6 @@ __all__ = (
 # (in corpus, but not as part of the content lines)
 
 
-# TODO include additional format
-
-
 # Rapid
 rapid_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Introduction
