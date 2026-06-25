@@ -104,6 +104,7 @@ _kyc_node = _corpus["Kaye Peer Coder"]
 coder_blueprint = (
     PromptBlueprint.create_from_node(_kyc_node) | triage_tags_blueprint
 )
+coder_blueprint.display_name = "Kaye Peer Coder"
 
 
 # Coder Bash
