@@ -8,17 +8,12 @@ creation of ``Kaye Peer Coder.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-    assert_header_line_always_apply,
-)
+from tests import TESTEE_CODER_CONTENT
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "kaye-peer-coder"
-TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_CODER_CONTENT
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
 # Pytest fixtures  #############################################################
@@ -66,7 +61,7 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Kaye Peer Coder" in testee_header
+        assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -74,32 +69,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # =========================================================
 
-    def test0(_, testee_content):
-        assert TESTEE_FILE_CONTENT[0] in testee_content
-
-    def test1(_, testee_content):
-        assert TESTEE_FILE_CONTENT[1] in testee_content
-
-    def test2(_, testee_content):
-        assert TESTEE_FILE_CONTENT[2] in testee_content
-
-    def test3(_, testee_content):
-        assert TESTEE_FILE_CONTENT[3] in testee_content
-
-    def test4(_, testee_content):
-        assert TESTEE_FILE_CONTENT[4] in testee_content
-
-    def test5(_, testee_content):
-        assert TESTEE_FILE_CONTENT[5] in testee_content
-
-    def test6(_, testee_content):
-        assert TESTEE_FILE_CONTENT[6] in testee_content
-
-    def test7(_, testee_content):
-        assert TESTEE_FILE_CONTENT[7] in testee_content
-
-    def test8(_, testee_content):
-        assert TESTEE_FILE_CONTENT[8] in testee_content
-
-    def test9(_, testee_content):
-        assert TESTEE_FILE_CONTENT[9] in testee_content
+    @pytest.mark.parametrize("marker", TESTEE_FILE_CONTENT)
+    def test_content(_, testee_content, marker):
+        assert marker in testee_content

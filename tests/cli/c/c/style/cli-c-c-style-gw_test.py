@@ -6,13 +6,7 @@ Unit Tests (using pytest) for
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-    assert_header_line_always_apply,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "style-guide-good-writing"
@@ -61,19 +55,10 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        name_line = "name: " + _SKILL_NAME
-        assert name_line in testee_header
+        assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            'description: "Proofreads and polishes text with minimal edits'
-            " \\u2014 fixing spelling, grammar, punctuation, and clarity while"
-            " preserving the original meaning, voice, and wording.\\u21B5Use to"
-            " proofread, copyedit, or correct writing without rewriting. Not"
-            ' for heavy rewrites, summarizing, or tone changes."'
-            in testee_header
-        )
+        assert assert_continue_blueprint_header_line_description(MD_FILENAME, testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)

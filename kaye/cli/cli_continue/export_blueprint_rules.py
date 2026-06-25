@@ -26,7 +26,7 @@ _ALWAYS_APPLY_BLUEPRINT = [
 
 
 _continue_behavior_blueprint = PromptBlueprint.create_from_node(
-    load_prompt_corpus_tree()["Continue Behavior"]
+    load_prompt_corpus_tree()["Agent Behavior"]["Continue Behavior"]
 )
 
 

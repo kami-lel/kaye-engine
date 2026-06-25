@@ -11,7 +11,12 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from tests.api.ky.task import *
+from tests.api.ky.task import (
+    TESTEE_INTRODUCTION_CONTENT,
+    TESTEE_MARKDOWN_FORMAT_CONTENT,
+    TESTEE_CHAT_ADDITIONAL_CONTENT,
+    create_opt_from_role,
+)
 
 # Pytest fixtures  #############################################################
 
@@ -25,126 +30,31 @@ def opt(flask_test_client, task_endpoint):
 # Pytest unit tests  ###########################################################
 
 
-class TestChat:  # =============================================================
+class TestIntroductionContent:  # ==============================================
 
-    def test_intro1(_, opt):
-        assert_intro1(opt)
+    @pytest.mark.parametrize("marker", TESTEE_INTRODUCTION_CONTENT)
+    def test_content(_, opt, marker):
+        assert marker in opt
 
-    def test_intro2(_, opt):
-        assert_intro2(opt)
 
-    def test_format_title(_, opt):
-        assert_format_title(opt)
+class TestMarkdownFormatContent:  # ============================================
 
-    def test_format1(_, opt):
-        assert_format1(opt)
+    @pytest.mark.parametrize("marker", TESTEE_MARKDOWN_FORMAT_CONTENT)
+    def test_content(_, opt, marker):
+        assert marker in opt
 
-    def test_format2(_, opt):
-        assert_format2(opt)
 
-    def test_format3(_, opt):
-        assert_format3(opt)
+class TestChatAdditionalContent:  # ============================================
 
-    def test_format4(_, opt):
-        assert_format4(opt)
+    @pytest.mark.parametrize("marker", TESTEE_CHAT_ADDITIONAL_CONTENT)
+    def test_content(_, opt, marker):
+        assert marker in opt
 
-    def test_format5(_, opt):
-        assert_format5(opt)
 
-    def test_format_list1(_, opt):
-        assert_format_list1(opt)
-
-    def test_format_list2(_, opt):
-        assert_format_list2(opt)
-
-    def test_format_list3(_, opt):
-        assert_format_list3(opt)
-
-    def test_format_math1(_, opt):
-        assert_format_math1(opt)
-
-    def test_format_math2(_, opt):
-        assert_format_math2(opt)
-
-    def test_format_math3(_, opt):
-        assert_format_math3(opt)
-
-    def test_format_diagrams1(_, opt):
-        assert_format_diagrams1(opt)
-
-    def test_format_diagrams2(_, opt):
-        assert_format_diagrams2(opt)
-
-    def test_format_diagrams3(_, opt):
-        assert_format_diagrams3(opt)
-
-    def test_personality_title(_, opt):
-        assert_personality_title(opt)
-
-    def test_personality01(_, opt):
-        assert_personality01(opt)
-
-    def test_personality02(_, opt):
-        assert_personality02(opt)
-
-    def test_personality03(_, opt):
-        assert_personality03(opt)
-
-    def test_personality11(_, opt):
-        assert_personality11(opt)
-
-    def test_personality12(_, opt):
-        assert_personality12(opt)
-
-    def test_personality21(_, opt):
-        assert_personality21(opt)
-
-    def test_personality22(_, opt):
-        assert_personality22(opt)
-
-    def test_personality23(_, opt):
-        assert_personality23(opt)
-
-    def test_personality31(_, opt):
-        assert_personality31(opt)
-
-    def test_personality32(_, opt):
-        assert_personality32(opt)
-
-    def test_personality33(_, opt):
-        assert_personality33(opt)
-
-    def test_lang_title(_, opt):
-        assert_lang_title(opt)
-
-    def test_lang1(_, opt):
-        assert_lang1(opt)
-
-    def test_lang2(_, opt):
-        assert_lang2(opt)
-
-    def test_element11(_, opt):
-        assert_element11(opt)
-
-    def test_element12(_, opt):
-        assert_element12(opt)
-
-    def test_element13(_, opt):
-        assert_element13(opt)
-
-    def test_element21(_, opt):
-        assert_element21(opt)
-
-    def test_element22(_, opt):
-        assert_element22(opt)
-
-    def test_element23(_, opt):
-        assert_element23(opt)
+class TestRoleAndElements:  # ====================================================
 
     def test_role(_, opt):
-        assert_role(opt)
-
-    # abbr *********************************************************************
+        assert "# Role" in opt
 
     def test_abbr_heading(_, opt):
-        assert_abbr_heading(opt)
+        assert "# (Abbreviations)" in opt

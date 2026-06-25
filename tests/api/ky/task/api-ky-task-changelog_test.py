@@ -29,7 +29,7 @@ class TestCL:  # ===============================================================
         assert "## Project CHANGELOG Writer" in opt
 
     def test1(_, opt):
-        assert "You must help user to write CHANGELOG." in opt
+        assert "These guidelines define what a good `CHANGELOG.md`" in opt
 
     def test2(_, opt):
         assert "- changelogs are *for humans*, not machines" in opt

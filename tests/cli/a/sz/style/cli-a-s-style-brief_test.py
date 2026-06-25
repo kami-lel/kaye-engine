@@ -8,11 +8,7 @@ creation of ``style-guide-briefness-style``
 
 import pytest
 
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-)
+from tests.cli import *  # noqa: F401, F403
 from tests.cli.a.s import (
     VERSION_LINE_PATTERN,
     convert_folder_path2skill_file_path,
@@ -69,29 +65,13 @@ class TestBasic:  # ============================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: style-guide-briefness-style" in testee_header
+        assert assert_claude_header_line_name(SKILL_NAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            'description: "Rewrites content in \\"Briefness Style\\" \\u2014'
-            " terse, newspaper-headline prose that maximizes brevity: dropped"
-            " articles and helper verbs, strong nouns and verbs, active voice,"
-            " numerals and abbreviations, punctuation-compressed phrasing, no"
-            ' terminal periods."'
-            in testee_header
-        )
+        assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_when(_, testee_header):
-        assert (
-            'when_to_use: "Use when the user asks for headlinese, telegraphic,'
-            " or ultra-condensed text \\u2014 notes, headlines, summaries,"
-            ' bullets, status lines, captions \\u2014 or says \\"make it'
-            ' brief/terse/punchy,\\" \\"cut words,\\" or \\"headline style.\\"'
-            " Not for prose needing full grammar, formal tone, or complete"
-            ' sentences."'
-            in testee_header
-        )
+        assert assert_claude_header_line_how_to_use(SKILL_NAME, testee_header)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
@@ -105,5 +85,6 @@ class TestStructure:  # ========================================================
 
 class TestContent:  # =========================================================
 
-    def test0(_, testee_content):
-        assert TESTEE_FILE_CONTENT[0] in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content

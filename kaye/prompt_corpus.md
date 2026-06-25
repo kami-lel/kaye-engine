@@ -356,9 +356,7 @@ Note: Do not include the text inside parentheses `()`, these are *instructions* 
 
 
 
-## Style Guide Capitalization
-
-### Title Case
+## Style Guide Title Case
 
 Use *Chicago Manual of Style* headline case:
 
@@ -380,7 +378,48 @@ Used for **document title** and **section headings**.
 
 
 
-### Commentary Case
+### {description}
+
+Applies Chicago headline-style Title Case to titles and headings.
+
+### {when_to_use}
+
+When formatting a document title or section heading. Not for body text or list items.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Style Guide Commentary Case
 
 - begin 1st sentence with a lowercase letter; use standard sentence capitalization for the 2nd and subsequent sentences
 - use *Title Case* for **a few important words** within a sentence
@@ -404,14 +443,13 @@ Used for **list items** and **table cell content**.
 
 
 
-
 ### {description}
 
-Applies Chicago Manual of Style capitalization: Title Case for titles and headings, Commentary Case (lowercase-leading, selective emphasis, no end punctuation) for list items and table cells.
+Applies Commentary Case: lowercase-leading sentences, selective Title Case on key words, no terminal punctuation.
 
 ### {when_to_use}
 
-Use when capitalizing titles, headings, list items, or table cells, or when a user mentions title case, headline case, or Chicago Manual of Style. Not for grammar, punctuation, or prose style.
+When formatting list items or table cell content. Not for titles, headings, or body prose.
 
 
 
@@ -1889,7 +1927,10 @@ Place the following files and folders at the **top level** of the repository and
 - `CHANGELOG.md`: full version history; each release is documented here
 - `CREDITS.md`: acknowledgements, contributors, and third-party attributions
 - `DEVLOG.md`: development journal, decisions, and progress notes
-- `AGENTS.md`: agent-facing instructions covering build steps, conventions, and project context for AI coding tools
+- `AGENTS.md`: agent-facing behavioral instructions — build/test commands, conventions, and constraints for AI coding tools
+- `AGENTS.local.md`: personal, machine-specific agent rules that override `AGENTS.md`; gitignored, never committed
+- `CONTEXT.md`: descriptive codebase knowledge for humans and AI — architecture, domain model, patterns, and known gaps
+- `CONTEXT.local.md`: personal, machine-specific context notes that augment `CONTEXT.md`; gitignored, never committed
 - `src/` or package-name: primary source code folder
 - `bin/`: compiled binaries or executable entry-point scripts
 - `docs/`: in-depth documentation beyond what fits in `README.md`
@@ -1897,6 +1938,18 @@ Place the following files and folders at the **top level** of the repository and
 - `scripts/`: utility and maintenance scripts not part of the main codebase
 - `tests/`: test suite, kept separate from source code
 - `tools/`: project-specific developer tooling, distinct from `scripts/`
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### {description}
 
@@ -2034,19 +2087,7 @@ Use when assigning, bumping, or formatting a version, or choosing a pre-release/
 
 ## Project README Writer
 
-You are an expert in writing and maintaining `README.md` files for software repositories.
-
-These guidelines define what a good `README.md` is and must be applied when creating a new `README.md` or maintaining an existing `README.md`-like document.
-
-
-
-
-
-#### Purpose
-
-`README.md` is a human-oriented landing page that helps developers, users, and contributors quickly understand, use, and trust a repository.
-
-It should explain what the project is, why it matters, how to get started, and where to find key information.
+These guidelines define what a good `README.md` (or README-style files) is. A README is a human-oriented landing page that helps developers, users, and contributors quickly understand, use, and trust a repository — explaining what the project is, why it matters, how to start, and where to find key information.
 
 
 
@@ -2057,7 +2098,7 @@ It should explain what the project is, why it matters, how to get started, and w
 - write for humans first, not AI agents
 - prioritize visual clarity, readability, and quick scanning
 - use clear headings, short sections, lists, tables, code blocks, links, and callouts where useful
-- encourage tasteful emoji use to improve navigation and visual appeal
+- use tasteful emoji to aid navigation and visual appeal
 - use badges, screenshots, diagrams, examples, and feature highlights when supported by project information
 - keep content concise, friendly, and practical
 
@@ -2065,33 +2106,37 @@ It should explain what the project is, why it matters, how to get started, and w
 
 
 
-#### Document Title
+#### Sections
 
-The document title should be:
+A complete README covers these where applicable:
+- **Project Overview** — what it does, who it is for, why it is useful
+- **Features** — key capabilities, benefits, highlights
+- **Demo / Screenshots** — visuals, links, previews, usage examples
+- **Tech Stack** — languages, frameworks, libraries, tools, platforms
+- **Getting Started** — prerequisites and quick setup path
+- **Installation** — exact commands to install or set up
+- **Usage** — common commands, examples, workflows, API usage
+- **Configuration** — environment variables, settings, secrets, config files
+- **Project Structure** — important directories and files
+- **Build & Test** — exact commands to build, run, lint, test
+- **Contributing** — contribution flow, expectations, useful links
+- **Security** — responsible disclosure, sensitive-data warnings
+- **License** — license information
+- **Acknowledgments** — credits, references, sponsors, related projects
 
-    ```markdown
-    # <Project Name> README
-    ```
-
-Replace `<Project Name>` with the actual project name.
 
 
 
 
+#### Quality
 
-#### Quality Expectations
-
-A good `README.md` should be:
-
-- human-friendly, visually clear, and easy to scan
-- attractive enough to make the project approachable
+A good README is:
 - specific to the repository, not generic
 - useful for first-time visitors and returning contributors
-- clear about project purpose, features, setup, usage, and contribution flow
-- command-oriented where installation, build, run, and test workflows are known
-- honest about project status, limitations, and requirements
-- aligned with existing project documentation and repository structure
-
+- command-oriented where install, build, run, and test workflows are known
+- honest about status, limitations, and requirements
+- backed by project information, never invented or padded with filler
+- aligned with existing project documentation and structure
 
 
 
@@ -2105,11 +2150,11 @@ A good `README.md` should be:
 
 ### {description}
 
-Writes and maintains human-friendly `README.md` files — scannable, visually clear landing pages covering a project's purpose, features, setup, usage, and contribution flow, with a standard title format and tasteful use of headings, lists, badges, and emoji.
+Writes and maintains human-friendly README files — scannable, visually clear landing pages covering a project's purpose, features, setup, usage, and contribution flow, with a standard title format and tasteful use of headings, lists, badges, and emoji.
 
 ### {when_to_use}
 
-Use when creating, updating, or reviewing a `README.md` or similar project landing page. Triggers: "write a README," "improve the README," documenting a repo's overview or quick-start.
+Use when creating, updating, or reviewing a README or similar project landing page. Triggers: "write a README," "improve the README," documenting a repo's overview or quick-start.
 
 ### {globs}
 
@@ -2157,9 +2202,12 @@ Use when creating, updating, or reviewing a `README.md` or similar project landi
 
 ## Project CHANGELOG Writer
 
-You must help user to write CHANGELOG.
+These guidelines define what a good `CHANGELOG.md` (or CHANGELOG-style file) is.
 
-**Guiding Principles:**
+
+
+
+#### Guiding Principles
 
 - changelogs are *for humans*, not machines
 - there should be an entry for every single version
@@ -2170,24 +2218,28 @@ You must help user to write CHANGELOG.
 - always maintain an `[Unreleased]` section with **all 6 subsections** present, even if they are empty
 - in released versions, **omit** any subsection that has no entries
 - always maintain the **links section** at the bottom of the changelog, keeping every version referenced
+- must include GitHub **links** at each section's end
 
-**Types of Changes:**
+
+
+
+
+#### Types of Changes
 
 - `Added`: new features
 - `Changed`: changes in existing functionality
 - `Deprecated`: soon-to-be removed features
 - `Removed`: now removed features
 - `Fixed`: any bug fixes
-- `Security`: in case of vulnerabilitiest e
+- `Security`: in case of vulnerabilities
 
-**Format:**
 
-- title must be `Project Name CHANGELOG`
-- must include Github **links** at each section's end
 
-**Example:**
 
-    ```md
+
+#### CHANGELOG Example
+
+```md
     # Example Project CHANGELOG
 
     ## [Unreleased]
@@ -2245,8 +2297,7 @@ You must help user to write CHANGELOG.
     - Patched JWT algorithm confusion vulnerability (CVE-2023-XXXX)
 
     [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
-    ```
-
+```
 
 
 
@@ -2261,11 +2312,11 @@ You must help user to write CHANGELOG.
 
 ### {description}
 
-Writes and maintains `CHANGELOG.md` files per Keep a Changelog conventions — dated version entries newest-first, grouped change types, a persistent `[Unreleased]` section, and linkable version references.
+Writes and maintains CHANGELOG files per Keep a Changelog conventions — dated version entries newest-first, grouped change types, a persistent `[Unreleased]` section, and linkable version references.
 
 ### {when_to_use}
 
-Use when creating, updating, or adding entries to a `CHANGELOG.md`, or recording changes for a release. Triggers: "update the changelog," "log this change," "document the release."
+Use when creating, updating, or adding entries to a CHANGELOG, or recording changes for a release. Triggers: "update the changelog," "log this change," "document the release."
 
 ### {globs}
 
@@ -2312,48 +2363,42 @@ Use when creating, updating, or adding entries to a `CHANGELOG.md`, or recording
 
 
 ## Project AGENTS Writer
-You are an expert in writing and maintaining `AGENTS.md` files for software repositories.
-These guidelines define what a good `AGENTS.md` is and must be applied when creating a new `AGENTS.md` or maintaining an existing `AGENTS.md`-like document.
+
+You are an expert in writing and maintaining `AGENTS.md` (or AGENTS-style file) files for software repositories.
+
+Apply these rules when writing or updating the content of an `AGENTS.md` (or a personal `AGENTS.local.md`).
 
 
 
 
 
-#### Purpose
+#### Frontmatter & Title
 
-`AGENTS.md` is a dedicated, agent-readable file that gives AI coding tools the context they need to work effectively in a repository.
-It complements `README.md` without cluttering it by focusing on what agents need, not human contributors.
-
-
-
-
-
-#### Continue Rule Compatible
-
-Every `AGENTS.md` must begin with the following frontmatter block before any content:
+Begin the file with this Continue-compatible frontmatter block, then the document title immediately after it:
 
 ```yaml
----
-name: Example Project AGENTS
-alwaysApply: true
----
+    ---
+    name: Example Project AGENTS
+    alwaysApply: true
+    ---
 ```
 
-Replace `Example Project` with the actual project name.
-
-
-
-
-
-#### Document Title
-
-Immediately after the frontmatter, the document title must be:
-
-    ```markdown
+```markdown
     # Example Project AGENTS
-    ```
+```
 
-Replace `Example Project` with the actual project name.
+Replace `Example Project` with the actual project name. `AGENTS.local.md` follows the same shape, with a distinct `name` and a title marking it as the personal layer:
+
+```yaml
+    ---
+    name: Example Project local AGENTS
+    alwaysApply: true
+    ---
+```
+
+```markdown
+    # Example Project local AGENTS
+```
 
 
 
@@ -2361,20 +2406,32 @@ Replace `Example Project` with the actual project name.
 
 #### Suggested Sections
 
-The sections below are recommended, not mandatory. Use the ones that fit the repository, organize them with clear `##` headings, and omit any section rather than padding it with generic filler.
-- **Project Overview** — one short paragraph: what the project is and its primary tech stack.
-- **Key Concepts** — domain terms, core abstractions, and mental models an agent must understand to make correct changes.
-- **Repository Layout** — the important directories and what lives where, so an agent can locate code without scanning.
+The sections below are recommended, not mandatory. Use the ones that fit the repository, organize them with clear `##` headings, and omit any section rather than padding it with generic filler. Keep the content behavioral and command-oriented; send descriptive architecture and domain knowledge to `CONTEXT.md` instead.
 - **Setup Commands** — exact, copy-pasteable commands to install dependencies, run the dev server, and build (e.g. `pnpm install`, `pnpm dev`, `pnpm build`).
 - **Code Style** — language settings and conventions enforced in this repo (e.g. strict typing, quote/semicolon rules, preferred patterns, linter/formatter).
 - **Testing Instructions** — see the dedicated requirement below.
 - **PR & Commit Instructions** — title format, required pre-commit checks, and any review conventions.
 - **Security Considerations** — secrets handling, files or commands the agent must never touch, and any safety constraints.
-- **Documentation Maintenance** — which docs (including this `AGENTS.md`) must be updated when code, commands, or conventions change, and how to keep them in sync.
+- **Documentation Maintenance** — which docs (including this `AGENTS.md` and any `CONTEXT.md`) must be updated when code, commands, or conventions change, and how to keep them in sync.
+- **Project Overview & Pointers** — one short paragraph plus links to `CONTEXT.md` and other docs for architecture, layout, and domain detail. Keep this minimal; do not duplicate `CONTEXT.md`.
 
-Beyond the suggested set, add any sections that capture **project-specific information** an agent needs — architecture decisions, external services, environment variables, data/migration steps, release process, or domain-specific gotchas. The list above is a starting point, not a ceiling.
+Beyond the suggested set, add any sections that capture **project-specific behavioral rules** an agent needs — release process, migration commands, environment-specific gotchas, or do/don't constraints. The list above is a starting point, not a ceiling.
 
 For monorepos, place a nested `AGENTS.md` inside each package. State that the closest `AGENTS.md` to an edited file takes precedence, and that explicit user chat instructions override all files.
+
+For personal, machine-specific rules that should not be shared, use `AGENTS.local.md`. State that local files override the committed `AGENTS.md`, and keep all shared rules in the committed file.
+
+
+
+
+
+#### What to Include (and What to Leave Out)
+
+Instruction budget is finite, and a wrong instruction is worse than no instruction. Write for signal, not coverage:
+- **Document only what an agent cannot infer.** Skip restating framework defaults, obvious best practices, or anything discoverable from config files. Pin versions and state non-obvious constraints explicitly.
+- **Prefer anti-patterns and counterintuitive rules.** "Never use `Y` because of `Z` in this codebase" is high-signal; "write clean code" is noise the model already knows.
+- **Keep it lean; use progressive disclosure.** Point to nested `AGENTS.md` files, `CONTEXT.md`, or skills rather than cramming everything into the root. Keep rule counts low — compliance drops sharply once a file grows past a few dozen rules.
+- **One real example beats three paragraphs** describing a convention.
 
 
 
@@ -2382,7 +2439,7 @@ For monorepos, place a nested `AGENTS.md` inside each package. State that the cl
 
 #### Testing Instructions
 
-The generated `AGENTS.md` must direct coding agents to test **smartly and selectively** rather than blindly running the whole suite. Include guidance equivalent to the following:
+Direct coding agents to test **smartly and selectively** rather than blindly running the whole suite. Include guidance equivalent to the following:
 - **Maintain a code-to-test mapping.** Determine which unit tests cover each code class/module by combining repo conventions (naming patterns like `Foo` → `FooTest`/`foo.test.ts`, directory mirroring such as `src/x` → `tests/x`), test framework metadata, and import/dependency analysis. Prefer any mapping the repo already declares over guessing.
 - **Run only what changed.** For a given change, run the unit tests that cover the modified classes/modules plus any tests for modules that directly depend on them. Provide the concrete command to scope a run (e.g. `pnpm vitest run <path|pattern>`, `pytest <path>`, or `pnpm turbo run test --filter <package>`).
 - **Keep tests in sync.** Add or update unit tests for any code that is changed, even if not explicitly asked, and keep the code-to-test mapping accurate when files move or imports change.
@@ -2394,15 +2451,16 @@ Specify the actual test, lint, and type-check commands for the repository wherev
 
 
 
+
 #### Quality Expectations
 
 A good `AGENTS.md` should be:
 - repository-specific, not generic
-- concise but complete enough for AI coding agents
-- command-oriented where setup, build, run, and test workflows are known
+- behavioral and command-oriented — rules, commands, and constraints, not architecture narration
+- lean enough to stay in context without crowding out the rules that matter
 - explicit about project conventions, tooling, and safety constraints
 - aligned with existing project documentation and repository structure
-- free of irrelevant contributor-facing explanation better suited for `README.md`
+- free of contributor-facing explanation (belongs in `README.md`) and descriptive codebase knowledge (belongs in `CONTEXT.md`)
 
 
 
@@ -2418,16 +2476,152 @@ A good `AGENTS.md` should be:
 
 ### {description}
 
-Writes and maintains `AGENTS.md` files — concise, agent-readable repository context for AI coding tools covering setup, build, run, and test commands, conventions, tooling, and safety constraints, with required frontmatter and a standard title.
+`AGENTS.md` is the **prescriptive** instruction layer for AI coding agents — it states *how the agent should behave* in a repository: setup/build/run/test commands, code-style conventions, PR and commit rules, and do/don't safety constraints. It is agent-facing and always loaded (unlike the human-facing `README.md`), and `AGENTS.local.md` holds personal, gitignored overrides. This skill writes and maintains those files.
 
 ### {when_to_use}
 
-Use when creating, updating, or reviewing an `AGENTS.md` or equivalent agent-instruction file. Triggers: "write an AGENTS.md," "add agent instructions," documenting repo context for AI coding tools.
+Use when creating, updating, or reviewing `AGENTS.md`, `AGENTS.local.md`, `CLAUDE.md`, or similar agent-instruction files. Triggers: "write an AGENTS.md," "add agent instructions," "agent rules/conventions." Key difference from its sibling: `AGENTS.md` is **prescriptive** — commands, rules, and constraints that govern behavior — whereas `CONTEXT.md` is **descriptive** — architecture, domain model, and patterns that explain what the codebase is. Route descriptive architecture or domain knowledge to `CONTEXT.md`, not here.
 
 ### {globs}
 
 ```glob
-**/{AGENTS,Agents,agents}{,.md}
+**/{AGENTS,Agents,agents}{,.local,.override}{,.md}
+```
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Project CONTEXT Writer
+
+You are an expert in writing and maintaining `CONTEXT.md` (or CONTEXT-style file) files for software repositories.
+Apply these rules when writing or updating the content of a `CONTEXT.md` (or personal `CONTEXT.local.md`).
+
+
+
+
+
+#### Document Title
+
+Open with the title:
+
+```markdown
+    # Example Project CONTEXT
+```
+
+Replace `Example Project` with the project name. Add a `Last updated` line beneath it. For `CONTEXT.local.md`, mark it as the personal layer:
+
+```markdown
+    # Example Project local CONTEXT
+```
+
+
+
+
+
+#### Suggested Sections
+
+Recommended, not mandatory. Use what fits, organize with clear `##` headings, omit rather than pad with filler. Humans and AI parse structure fast — prefer tables, annotated trees, ASCII diagrams over prose where they carry more per token.
+- **Project Overview** — what the app is, who for, major tech. Tech-stack table works well.
+- **Repository Layout** — annotated tree of landmarks: what each key directory holds and *why* (e.g. "route handlers are thin controllers that delegate to repositories"). Not a raw `ls` dump.
+- **Domain Model** — entities, primary keys, key fields, foreign-key links. ASCII ERD plus a per-entity table.
+- **API Surface / Boundaries** — route prefixes, HTTP methods, request/response conventions. Saves reading every route file.
+- **Architectural Patterns & Conventions** — highest-value section. State where business logic lives, how data access and errors work, which naming and patterns to preserve (e.g. `snake_case` columns vs. `camelCase` models, parameterized queries only, shared error classes).
+- **Build, Run & Test Commands** — exact commands, not descriptions (`make test-api`, not "run the API tests"). Lets an assistant verify its own work.
+- **Environment Variables** — table of variables, defaults, descriptions.
+- **Testing Strategy** — tools, where tests live, fixture/mocking/test-database conventions.
+- **Known Gaps & Constraints** — underrated. Flag mocked auth, a missing service layer, or intentionally pinned-old libs. Stops the reader building on absent infra.
+
+Add any section capturing **project-specific knowledge** a newcomer or assistant needs — external services, data/migration flows, key abstractions, historical decisions. Starting point, not ceiling.
+
+Monorepos: nest a `CONTEXT.md` per package for its architecture and domain; the closest file is most specific. Large codebases: add a stack-specific layer (version-pinned patterns and anti-patterns per language/framework) under a base `CONTEXT.md`, and keep each file focused before instruction fatigue sets in.
+
+Personal, machine-specific context — local env quirks, workflow notes, local-only ports/services, scratch understanding — goes in `CONTEXT.local.md`. The committed `CONTEXT.md` is the shared source of truth; `CONTEXT.local.md` augments or overrides locally, without affecting teammates.
+
+
+
+
+
+#### Living Document Maintenance
+
+Value depends on staying current; a stale briefing is worse than none. Tell the reader to update it when:
+- new entities or services are added
+- patterns or boundaries change
+- build or test workflows change
+- new environment variables are introduced
+- new conventions are set
+
+Recommend in-file: update `CONTEXT.md` in the same PR as the architecture change; have the assistant update it as the final step after a change (best author = the agent that just made it); keep `Last updated` current and add a `CONTEXT.md` item to the PR checklist.
+
+
+
+
+
+#### Quality Expectations
+
+A good `CONTEXT.md` is:
+- repository-specific, not generic
+- descriptive — a system map, not a command list
+- structured for fast parsing (tables, trees, ASCII ERDs), useful to humans and AI
+- explicit on patterns, conventions, boundaries, and especially known gaps
+- current, maintained alongside architecture changes
+- complementary to `README.md` (human onboarding) and `AGENTS.md` (agent behavior), without duplicating either
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+`CONTEXT.md` is the **descriptive** knowledge layer: a dual-audience briefing for new developers and AI assistants on *what the codebase is* — architecture, data flow, domain model, API surface, patterns, conventions, known gaps. It goes deeper than the setup-focused `README.md` and is the foundational map other files build on; `CONTEXT.local.md` holds personal, gitignored context. This skill writes and maintains both.
+
+### {when_to_use}
+
+Use to create, update, or review `CONTEXT.md` or `CONTEXT.local.md`, or to capture durable codebase knowledge for AI across sessions. Triggers: "write a CONTEXT.md," "document the architecture for AI," "briefing doc for the repo." Difference from its sibling: `CONTEXT.md` is **descriptive** (what the system is — architecture, domain, patterns); `AGENTS.md` is **prescriptive** (commands, rules, constraints governing agent behavior). Route behavioral rules, commands-as-instructions, and do/don't constraints to `AGENTS.md`, not here.
+
+### {globs}
+
+```glob
+**/{CONTEXT,Context,context}{,.local}{,.md}
 ```
 
 ### {prerequisite}
@@ -2466,65 +2660,648 @@ Use when creating, updating, or reviewing an `AGENTS.md` or equivalent agent-ins
 
 
 
-## project prompts
 
-### Maintain Docs
+## Create README
 
-Update README-style files, AGENTS-style files, and files under `docs/`.
-
+Write a brand-new `README.md` for a repository that has none. Follow **Project README Writer** for style, title, sections, and quality.
 
 
-##### Instructions
+
+
+
+#### Instructions
+
+- discover the project structure by inspecting the repository with available tools
+- learn from the conversation for project description, intent, and details not yet captured in the repo
+- draw source material from existing docs, config, manifests, and source code
+- write a section only when project information supports it
+
+
+
+
+
+#### Title
+
+```markdown
+    # <Project Name> README
+```
+Replace `<Project Name>` with the actual project name.
+
+
+
+
+
+#### Output
+
+Create `README.md` at the project root.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Use this skill when the user wants to create a new `README.md` from scratch — covering project overview, setup, usage, configuration, and contributing guidelines. Trigger even for casual requests like "write a readme" or "document this project."
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+- follow `Project README Writer`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Maintain README
+
+Update an existing README so it matches the current project state. Follow **Project README Writer** for style, title, sections, and quality.
+
+
+
+
+
+#### Instructions
+
+- learn from the conversation to identify what changed and what the README must now reflect
+- review recent repository changes and the current README to find stale, missing, or inaccurate content
+- edit in place; preserve useful existing structure, scope, and purpose
+- remove stale, misleading, duplicated, or obsolete content
+- verify links, file paths, commands, configuration names, and examples against the codebase
+- prioritize the root README; keep secondary READMEs focused on their local area
+
+
+
+
+
+#### Output
+
+Update README in place, then return a brief summary of the changes made.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Updates an existing README to match the current project state — correcting stale overviews, commands, links, configuration names, and examples, pruning obsolete or duplicated content, and editing in place against the latest repository changes.
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+- follow `Project README Writer`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Create CHANGELOG
+
+Write a brand-new `CHANGELOG.md` for a repository that has none.
+
+
+
+
+
+#### Instructions
+
+- discover project history with available tools — git tags, releases, and commit log
+- learn from the conversation for version history, release dates, and context not captured in the repo
+- reconstruct one versioned section per existing release, newest first, each with its date
+- add an empty `[Unreleased]` section at the top with all 6 subsections present
+- build the links section at the bottom, referencing every version
+
+
+
+
+
+#### Title
+
+```markdown
+    # <Project Name> CHANGELOG
+```
+Replace `<Project Name>` with the actual project name.
+
+
+
+
+
+#### Output
+
+Create `CHANGELOG.md` at the project root.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Bootstraps a `CHANGELOG.md` for a repo that has none — reconstructing dated, versioned sections from git history newest-first, with an `[Unreleased]` block and version links.
+
+#### {prerequisite}
+
+- follow `Project CHANGELOG Writer` for principles, change types, format, and example
+- use `Project Semantic Versioning`
+- use `Style Guide Markdown Format`
+- use `Style Guide Briefness Style` in list
+- follow `Style Guide Good Writing` rules for correctness and clarity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Maintain CHANGELOG
+
+Update an existing CHANGELOG so it reflects recent changes.
+
+
+
+
+
+#### Instructions
+
+- learn from the conversation and recent repository changes to identify what to log
+- add each change under the correct subsection of `[Unreleased]`, the default target for new work
+- preserve existing entries; refine or reorganize instead of duplicating them
+- keep the links section current so every version stays referenced
+- edit in place
+
+
+
+
+#### Output
+
+Update CHANGELOG in place, then return a brief summary of the changes made.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Use this skill when the user wants to add, fix, or reorganize entries in an existing CHANGELOG — logging new features, bug fixes, or breaking changes without overwriting existing content. Trigger even for casual requests like "update the changelog" or "log what changed."
+
+### {prerequisite}
+
+- follow `Project CHANGELOG Writer` for principles, change types, format, and example
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Create AGENTS and CONTEXT
+
+Write brand-new `AGENTS.md` and `CONTEXT.md` for a repository that has neither.
+
+
+
+
+
+#### Instructions
+
+- inspect the repository with available tools — layout, configs, manifests, scripts, tests — and learn remaining context from the conversation
+- split content by purpose: behavioral rules and commands → `AGENTS.md`; descriptive system knowledge → `CONTEXT.md`; never duplicate one in the other
+- scaffold `AGENTS.md` with its required frontmatter, then the title, then every applicable section
+- scaffold `CONTEXT.md` with its title and a current `Last updated` line, then every applicable section
+- for monorepos, add a nested pair inside each package; when adding a `.local.md` layer, create it and add it to `.gitignore` the same day
+- write a section only when project information supports it
+
+
+
+
+
+#### Output
+
+Create `AGENTS.md` and `CONTEXT.md` at the project root.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Use this skill when the user wants to create a new `AGENTS.md` from scratch — covering project setup, build and test commands, code style, and PR conventions formatted for coding agents. Trigger even for casual requests like "add agent instructions" or "make an agents file."
+
+### {prerequisite}
+
+- follow `Coder AGENTS Writer`
+- follow `Coder CONTEXT Writer`
+- use `Style Guide Markdown Format`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Maintain AGENTS and CONTEXT
+
+Update existing AGENTS and CONTEXT so they match the current project state.
+
+
+
+
+
+#### Instructions
+
+- learn from the conversation and recent repository changes to identify what each file must reflect
+- route updates by purpose: changed commands, conventions, and constraints → AGENTS; changed architecture, entities, boundaries, and gaps → CONTEXT
+- edit in place; preserve useful structure, scope, and the existing frontmatter
+- remove stale, misleading, or duplicated content; keep AGENTS lean enough to stay in context
+- refresh CONTEXT's `Last updated` line whenever its content changes
+- verify commands, paths, env vars, and examples against the codebase
+- prioritize the root pair; keep nested files focused on their package
+- create a missing file only when project changes now require it
+
+
+
+
+#### Output
+
+Update the files in place, then return a brief summary of the changes made.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Refreshes existing AGENTS and CONTEXT to match the current codebase — routing command/convention/constraint changes to AGENTS and architecture/entity/boundary changes to CONTEXT, editing in place and pruning stale content.
+
+### {prerequisite}
+
+- follow `Coder AGENTS Writer`
+- follow `Coder CONTEXT Writer`
+- use `Style Guide Markdown Format`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Create Docs
+
+Create new documentation files under `docs/`.
+
+
+
+
+
+#### Instructions
+
+- inspect the project with available tools — code, configs, APIs, commands, workflows — and learn remaining context from the conversation
+- create one focused document per topic, organized for its intended audience
+- give each document a clear title and `##` section headings
+- prefer tables, trees, and examples over prose where they carry more per token
+- write content only when project information supports it
+
+
+
+
+
+#### Docs Files
+
+- cover APIs, commands, architecture notes, configuration details, examples, workflows, and troubleshooting guidance as the topic warrants
+- cross-link related docs to aid navigation
+- ensure examples and snippets match the current codebase
+
+
+
+
+
+#### Output
+
+Create the relevant documentation files under `docs/`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Creates new topic-focused documentation files under `docs/` — APIs, commands, architecture, configuration, examples, workflows, and troubleshooting — by inspecting the project's code, configs, and conversation context.
+
+### {when_to_use}
+
+When a user wants fresh `docs/` files written or a project documented — "write docs," "document this," "add API/setup docs." Not for updating existing docs, README, or `AGENTS.md`.
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Maintain Docs
+
+Update files under `docs/`.
+
+
+
+
+
+#### Instructions
 
 - review recent repository changes, project files, and existing documentation to identify required updates
 - use available tools to inspect the project, compare changes, and verify source material when needed
 - edit existing documentation in place whenever possible
 - create new documentation only when an important expected file is missing or repository changes require it
-- treat README-style files as files named `README`, `Readme`, or `readme`, with no extension, `.md`, or `.txt`
-- treat AGENTS-style files as files named `AGENTS`, `Agents`, or `agents`, with no extension or `.md`
 - preserve useful existing structure, scope, and document purpose while improving accuracy
 - remove stale, misleading, duplicated, obsolete, or unsupported content
 - verify links, file paths, commands, configuration names, examples, and references where possible
 
 
 
-##### Docs Files
+
+
+#### Docs Files
 
 - update affected APIs, commands, architecture notes, configuration details, examples, workflows, and troubleshooting guidance
-- preserve each document’s audience, scope, and organization where useful
+- preserve each document's audience, scope, and organization where useful
 - cross-link related docs when it improves navigation
 - revise outdated references to renamed files, removed features, changed commands, or deprecated behavior
 - ensure examples and snippets match the current codebase
 
 
 
-##### Output
+
+
+#### Output
 
 Update the relevant documentation files in place.
-
 Return a brief summary listing changed files and the documentation updates made.
 
 
 
 
 
-#### edit README
-
-- edit `README.md` or README-Style File to reflect the current project state
-- update applicable overview, features, setup, usage, configuration, commands, contribution notes, security notes, and license details
-- prioritize the root README when multiple README-style files exist
-- keep secondary README files focused on their local directory, package, or feature area
-
-
-
-
-
-#### edit AGENTS
-
-- edit `AGENTS.md` or AGENTS-Style File to reflect the current project state
-- preserve or add required frontmatter when applicable to the project’s AGENTS format
-- update applicable project name, setup notes, build commands, test commands, code style, testing instructions, PR instructions, and security considerations
-- avoid moving human-facing content from README files into AGENTS files unless it is useful for coding agents
 
 
 
@@ -2532,22 +3309,14 @@ Return a brief summary listing changed files and the documentation updates made.
 
 
 
-
-
-
-
-
-
-#### {description}
+### {description}
 
 Use this skill when the user wants to update existing README, AGENTS, or `docs/` files to reflect recent project changes — fixing stale commands, broken links, outdated examples, or renamed references. Trigger even for casual requests like "update the docs" or "fix the readme."
 
-#### {prerequisite}
+### {prerequisite}
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
-- follow `Coder README Writer`
-- follow `Coder AGENTS Writer`
 
 
 
@@ -2562,18 +3331,6 @@ Use this skill when the user wants to update existing README, AGENTS, or `docs/`
 
 
 
-### Maintain CHANGELOG
-
-review recent changes — update or create `CHANGELOG.md` to reflect them. 
-
-
-
-
-
-#### edit CHANGELOG
-
-- edit `CHANGELOG.md` or CHANGELOG-Style File to reflect the current project state
-- Follow the **CHANGELOG Writer** rule for format, versioning, and entry style
 
 
 
@@ -2587,15 +3344,71 @@ review recent changes — update or create `CHANGELOG.md` to reflect them.
 
 
 
-#### {description}
 
-Use this skill when the user wants to add, fix, or reorganize entries in an existing `CHANGELOG.md` — logging new features, bug fixes, or breaking changes without overwriting existing content. Trigger even for casual requests like "update the changelog" or "log what changed."
 
-#### {prerequisite}
 
+
+
+
+## Initialize Project
+
+Bootstrap a repository's baseline documentation from nothing, in one pass.
+
+
+
+
+
+#### Instructions
+
+- inspect the repository once with available tools — layout, configs, manifests, scripts, tests — and learn remaining context from the conversation; reuse these findings across every step below
+- run each create skill in order, skipping any whose target file already exists:
+
+  1. **Create README** → `README.md`
+  2. **Create CHANGELOG** → `CHANGELOG.md`
+  3. **Create AGENTS and CONTEXT** → `AGENTS.md` + `CONTEXT.md`
+  4. **Create Docs** → files under `docs/`
+
+- split content by purpose: human onboarding → README; release history → CHANGELOG; agent behavior → AGENTS; system knowledge → CONTEXT; topic deep-dives → `docs/`; never duplicate across files
+- write a file or section only when project information supports it
+
+
+
+
+
+#### Output
+
+Create the documentation files at their standard locations.
+Return a brief summary listing every file created.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Bootstraps a repository's entire baseline documentation set in one pass — `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CONTEXT.md`, and `docs/` — from a single repository inspection, splitting content by purpose with no duplication and skipping files that already exist.
+
+### {when_to_use}
+
+When a bare repo needs its documentation scaffolded all at once — "set up docs," "set up this project/repo," "document this project," "create the docs from scratch." Not for updating or fixing existing docs.
+
+### {prerequisite}
+
+- follow `Create README`
+- follow `Create CHANGELOG`
+- follow `Create AGENTS and CONTEXT`
+- follow `Create Docs`
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
-- follow `Project CHANGELOG Writer`
 
 
 
@@ -2610,49 +3423,6 @@ Use this skill when the user wants to add, fix, or reorganize entries in an exis
 
 
 
-### Create README
-
-Use **Coder README Writer** as the guideline for what makes a good `README.md`.
-
-
-
-##### Instructions
-
-- create a complete new `README.md` tailored to the repository
-- use the provided project description, repository details, or existing documentation as source material
-- use available tools to inspect the project when needed
-- use the actual project name in the document title
-- make the README human-oriented, visually clear, and easy to scan
-- use tasteful emoji and markdown features to improve visual quality when appropriate
-- include examples, tables, badges, screenshots, diagrams, or links only when supported by project information
-- tailor content to the provided project information
-
-
-
-##### Structure Guidelines
-
-Include the following sections where applicable, using clear markdown headings:
-
-- **Project Overview**: what the project does, who it is for, and why it is useful
-- **Features**: key capabilities, benefits, and highlights
-- **Demo or Screenshots**: visuals, links, previews, or usage examples when available
-- **Tech Stack**: main languages, frameworks, libraries, tools, and platforms
-- **Getting Started**: prerequisites and quick setup path
-- **Installation**: exact commands to install dependencies or set up the project
-- **Usage**: common commands, examples, workflows, or API usage
-- **Configuration**: environment variables, settings, secrets, and configuration files
-- **Project Structure**: important directories and files
-- **Build and Test Commands**: exact commands to build, run, lint, and test
-- **Contributing**: contribution flow, development expectations, and useful links
-- **Security**: responsible disclosure notes and sensitive-data warnings
-- **License**: project license information
-- **Acknowledgments**: credits, references, sponsors, or related projects
-
-
-
-###### Output
-
-Create the `README.md` file at the project root
 
 
 
@@ -2666,131 +3436,99 @@ Create the `README.md` file at the project root
 
 
 
-#### {description}
 
-Use this skill when the user wants to create a new `README.md` from scratch — covering project overview, setup, usage, configuration, and contributing guidelines. Trigger even for casual requests like "write a readme" or "document this project."
 
-#### {prerequisite}
 
+
+
+
+## Compact with Maintenance
+
+### {description}
+
+aa bb cc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Prepare for Feature Finish
+
+Before merging the current feature branch, sync the docs it affects: log its changes and update the agent-facing docs.
+
+
+
+
+#### Instructions
+
+- identify this branch's changes once — using available git tools (diff from `dev`), the conversation, and existing `[Unreleased]` entries — then reuse that set across the steps below
+- **Maintain CHANGELOG** → record the branch's changes; the unreleased-only and dedup rules come from that skill
+- **Maintain AGENTS and CONTEXT** → update them for any commands, conventions, constraints, or architecture this branch changed
+- skip a step when the branch introduces nothing relevant to it
+
+
+
+
+
+#### Output
+
+Update the affected files in place; leave unrelated files untouched.
+Return a brief summary listing changed files and what changed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Records a feature branch's changes into `CHANGELOG.md` and updates `AGENTS.md` and `CONTEXT.md` to match, syncing all affected docs in one pass before a merge.
+
+### {when_to_use}
+
+Reach for this when wrapping up or merging a feature branch — "prep for merge," "finish this feature," "document what I changed," "update docs before merging." Not for cutting a versioned release (use the release skill) or general doc edits unrelated to a branch.
+
+### {prerequisite}
+- follow `Maintain CHANGELOG`
+- follow `Maintain AGENTS and CONTEXT`
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
-- follow `Coder README Writer`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Create AGENTS
-
-Use **Coder AGENTS Writer** as the guideline for what makes a good `AGENTS.md`.
-
-
-
-##### Instructions
-
-- create a complete new `AGENTS.md` tailored to the repository
-- use the provided project description, repository details, or existing documentation as source material
-- use available tools to inspect the project when needed
-- include the required frontmatter before any content
-- use the actual project name in the frontmatter and document title
-- include all applicable sections of *Structure Guidelines*
-- tailor content to the provided project information
-
-
-
-##### Structure Guidelines
-
-Include the following sections where applicable, using clear markdown headings:
-
-- **Project Overview**: brief description of what the project does and how it is organized
-- **Dev Environment Tips**: setup steps, workspace commands, and environment-specific notes
-- **Build and Test Commands**: exact commands to install, build, run, and test the project
-- **Code Style**: language, formatting rules, patterns, and linting conventions
-- **Testing Instructions**: how to run tests, filter specific cases, and ensure the suite passes before committing
-- **PR Instructions**: commit message format, branch conventions, and pre-commit checklist
-- **Security Considerations**: anything sensitive an agent must not expose or modify carelessly
-
-
-
-##### Output
-
-Create the `AGENTS.md` file at the project root
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### {description}
-
-Use this skill when the user wants to create a new `AGENTS.md` from scratch — covering project setup, build and test commands, code style, and PR conventions formatted for coding agents. Trigger even for casual requests like "add agent instructions" or "make an agents file."
-
-#### {prerequisite}
-
-- use `Style Guide Markdown Format`
-- follow `Coder AGENTS Writer`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Prepare for Feature Finish
-
-update `CHANGELOG.md`: 
-
-- add all relevant changes made by the current feature branch to the *Unreleased* section
-- **identify feature branch changes**: determine the changes by using available git tools, information provided by the user in chat, and any existing entries already present in `CHANGELOG.md` under the *Unreleased* section
-- **preserve existing changelog entries**: do not remove or overwrite existing entries in the *Unreleased* section, since they may belong to other feature branches
-- **avoid duplicate entries**: if some feature branch changes are already mentioned in the *Unreleased* section, update, refine, or reorganize them as needed instead of duplicating them
-- **reorganize when helpful**: feel free to reorganize the *Unreleased* section for clarity, consistency, and proper changelog structure while preserving all existing information
-- **only modify `CHANGELOG.md`**: the only allowed file modification is `CHANGELOG.md`, and within that file, the only allowed content modification is inside the *Unreleased* section
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### {description}
-
-Use this skill when the user wants to record feature branch changes into the *Unreleased* section of `CHANGELOG.md` before merging — adding, updating, or reorganizing entries without duplicating or overwriting existing ones. Trigger for requests like "prep the changelog" or "document what I changed."
-
-#### {prerequisite}
-
-- use `Style Guide Markdown Format`
-- follow `Style Guide Good Writing` rules for correctness and clarity
-- follow `Project CHANGELOG Writer`
 - use **git** tools to learn difference from `dev` branch
 
 
@@ -2806,18 +3544,6 @@ Use this skill when the user wants to record feature branch changes into the *Un
 
 
 
-### Prepare for Release
-
-if version number or release date not provided, ask the user before proceeding. Then:
-
-- **update `CHANGELOG.md`**:
-
-  - move all content under *Unreleased* into a new versioned section using the provided version and date
-  - keep only non-empty subsections in the new versioned section (drop any subsection that has no entries)
-  - create a new empty *Unreleased* section above it
-  - update all relevant GitHub comparison links to reflect the new version tag
-
-- **update project version**: find and update the version number in project metadata files where applicable — eg `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`. Match the provided version exactly
 
 
 
@@ -2831,16 +3557,82 @@ if version number or release date not provided, ask the user before proceeding. 
 
 
 
-#### {description}
 
-Use this skill when the user wants to cut a release — moving *Unreleased* changelog entries into a new versioned section and bumping the version in metadata files like `package.json`, `pyproject.toml`, or `Cargo.toml`. Trigger for requests like "ship v1.2.3" or "bump the version."
 
-#### {prerequisite}
 
+
+
+
+
+## Prepare for Version Release
+
+Cut a new release: bring all docs current, finalize the changelog, and bump the project version.
+
+
+
+
+
+#### Preconditions
+
+- require both a version number and a release date; if either is missing, ask the user before proceeding
+- the version must match `Project Semantic Versioning`
+
+
+
+
+
+#### Steps
+
+1. **Sync the docs** to the state being released, via the maintain skills:
+   - **Maintain README** → overview, features, setup, usage, version-dependent details
+   - **Maintain AGENTS and CONTEXT** → changed commands, conventions, constraints, architecture
+   - **Maintain Docs** → affected files under `docs/`
+   - skip any whose content the release does not touch
+2. **Close out the changelog** in `CHANGELOG.md`, via **Maintain CHANGELOG**:
+   - move every entry under `[Unreleased]` into a new versioned section headed with the given version and date
+   - in that new section, keep only non-empty subsections — drop any with no entries
+   - leave a fresh, empty `[Unreleased]` section above it
+   - update the GitHub comparison links so each version, including the new tag, stays referenced
+3. **Bump the project version** to match exactly, in whichever metadata files apply — e.g. `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`
+
+
+
+
+
+#### Output
+
+Update the affected docs, `CHANGELOG.md`, and the version metadata files in place.
+Return a brief summary listing changed files and the released version.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Cuts a project release: brings `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CONTEXT.md`, and `docs/` current, moves `[Unreleased]` changelog entries into a dated versioned section, and bumps the version across metadata files like `package.json`, `pyproject.toml`, `Cargo.toml`, or `setup.cfg`.
+
+### {when_to_use}
+
+Reach for this on release requests — "ship v1.2.3," "cut a release," "tag a version," "bump the version," "prep the release." Not for logging a single in-progress change (use the changelog-maintain skill) or finishing a feature branch before merge (use the feature-finish skill).
+
+### {prerequisite}
+
+- follow `Maintain README`
+- follow `Maintain CHANGELOG`
+- follow `Maintain AGENTS and CONTEXT`
+- follow `Maintain Docs`
+- follow `Project Semantic Versioning`
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
-- follow `Project CHANGELOG Writer`
-- follow `Project Semantic Versioning`
 - use **git** tools to learn difference from last version / `main` branch
 
 
@@ -2902,6 +3694,14 @@ You can:
 
 
 
+
+### {description}
+
+Drafts and improves LLM system-message prompts, advises on prompt engineering, and preserves source syntax like JSON schema.
+
+### {when_to_use}
+
+When a user wants a system prompt written, rewritten, graded, or grammar-checked — "write a prompt," "improve my prompt." Not for general prose or copy.
 
 ### {prerequisite}
 
@@ -2982,6 +3782,14 @@ Quick test: a sentence describing the skill's capability belongs in `description
 
 
 
+
+### {description}
+
+Writes the `description` and `when_to_use` metadata fields for an agent skill, crafting concise third-person capability statements and triggering cues that drive accurate skill selection.
+
+### {when_to_use}
+
+When a user is authoring or revising skill metadata, or asks for a skill's `description` / `when_to_use`. Not for writing the skill's actual logic or prompts.
 
 ### {prerequisite}
 
@@ -3511,7 +4319,7 @@ Eg
 ### code comment
 
 - format inline comments as: actual code + two spaces + `#` or `//` + single space + comment content, for example `int a = 1;  // comment on number`
-- use *Briefness Style*
+- use *Briefness Style* for all comments
 - use *Commentary Case* for each comment line
 - include *immediate annotation markers* where appropriate, for example `// TODO implement data fetching`, `# BUG incorrect behavior with None`
 
@@ -3604,17 +4412,19 @@ Eg
 
 
 
-### {description}
+## {description}
+
 Handles coding tasks — expansion, adjustment, debugging, and support — following strict formatting, naming, and comment conventions.
 
-### {when_to_use}
+## {when_to_use}
+
 Trigger on any code writing, editing, debugging, or programming question.
 
 ## {prerequisite}
 
 - use `Style Guide Markdown Format`
-- use `Style Guide Capitalization` for all comments
-- use `Style Guide Briefness Style`'s Commentary Case for all comments
+- use `Style Guide Briefness Style` for all comments
+- use `Style Guide Commentary Case` for each Comment Line
 - use `Annotation Markers`
 - follow `Style Guide Good Writing` rules for correctness and clarity
 
@@ -4385,7 +5195,7 @@ def calc_square(number):
 ```python
 class Rectangle:
     """
-    A `Rectangle` represents an axis-aligned rectangle defined by its size.
+    a `Rectangle` represents an axis-aligned rectangle defined by its size.
     (FIRST EMPTY LINE)
     (SECOND EMPTY LINE)
     :param width: width of the rectangle;
@@ -4888,6 +5698,10 @@ Files are assumed to be consistent between rounds. If you detect any changes, tr
 
 After completing **all tasks requested by the user**, including **editing**, **discovery**, **analysis**, or any other work, **do not provide a recap or summary** of what you did unless the user **explicitly asks** for one. Avoid **repeating the completed actions**, **restating the user’s request**, or adding **unnecessary closing commentary**.
 
+### Git Command Safety Policy
+
+Never run these git commands, any flags: reset, clean, push, rebase, checkout, restore, branch, tag, gc, reflog, update-ref, commit, filter-branch, filter-repo, submodule.
+
 ## {description}
 
 Baseline agent behavior, treats between-round file changes as intentional edits.
@@ -4926,14 +5740,55 @@ ALWAYS apply — every task, every turn, no exceptions. Not situational: this de
 
 
 
-# Continue Behavior
 
-### `run_terminal_command`
+
+
+## Continue Behavior
+
+#### `run_terminal_command`
 
 Use when need to remove/delete file/folder.
 
 Only use `run_terminal_command` as a last resort when no other tool can accomplish the task.
 Prefer specific tools like `read_file` for reading files or `list_directory` for listing directories.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Claude Behavior
+
+Use `AGENTS.md` as the canonical instructions file. Ignore `CLAUDE.md`; When asked to update agent instructions, write to `AGENTS.md`.
+
+
 
 
 

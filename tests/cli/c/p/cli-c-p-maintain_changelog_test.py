@@ -8,22 +8,12 @@ creation of ``maintain_changelog.md``
 
 import pytest
 
-from tests.cli import PROMPT_FILENAME2NAME
-from tests.cli.c.c import (
-    assert_rule_file_basic_format,
-    split_rule_file_basic_format,
-    assert_header_line_always_apply,
-)
-
-from tests.cli.c.p import (
-    assert_edit_changelog0,
-    assert_edit_changelog1,
-    assert_edit_changelog2,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 PROMPT_FILENAME = "maintain-changelog"
 _PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[PROMPT_FILENAME]
 
 # Pytest fixtures  #############################################################
 
@@ -41,12 +31,12 @@ def testee(testee_path):
 
 @pytest.fixture(scope="session")
 def testee_header(testee):
-    return split_rule_file_basic_format(testee)[0]
+    return split_frontmatter_md_file(testee)[0]
 
 
 @pytest.fixture(scope="session")
 def testee_content(testee):
-    return split_rule_file_basic_format(testee)[1]
+    return split_frontmatter_md_file(testee)[1]
 
 
 # Pytest unit tests  ###########################################################
@@ -61,13 +51,13 @@ class TestBasic:  # ============================================================
         assert testee_path.is_file()
 
     def test_structure(_, testee):
-        assert assert_rule_file_basic_format(testee)
+        assert assert_frontmatter_md_file_basic_structure(testee)
 
 
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Maintain CHANGELOG" in testee_header
+        assert assert_continue_prompt_header_line_name(PROMPT_FILENAME, testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -78,23 +68,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_maintain_changelog_heading(_, testee_content):
-        assert "### Maintain CHANGELOG" in testee_content
-
-    def test_review_recent_changes(_, testee_content):
-        assert (
-            "review recent changes — "
-            "update or create `CHANGELOG.md` to reflect them."
-            in testee_content
-        )
-
-    # edit CHANGELOG  ----------------------------------------------------------
-
-    def test_edit_changelog0(_, testee_content):
-        assert assert_edit_changelog0(testee_content)
-
-    def test_edit_changelog1(_, testee_content):
-        assert assert_edit_changelog1(testee_content)
-
-    def test_edit_changelog2(_, testee_content):
-        assert assert_edit_changelog2(testee_content)
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content

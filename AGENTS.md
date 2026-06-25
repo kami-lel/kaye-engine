@@ -72,10 +72,12 @@ preserve them. The top-level (`#`) sections, in order:
   and `programming_languages` resolution for the `Chat` blueprint
 - **Role** — task personas: `Art Tutor`, `Assistant Barista`, `Deutschlehrer`,
   `Editor`, `Librarian`, `Secretary`, `Tarot Reader`
-- **Projects** — `Project Structure`, `Project Semantic Versioning`, and the
-  `README`/`CHANGELOG`/`AGENTS` writers, plus `project prompts` (Maintain Docs,
-  Maintain CHANGELOG, Create README, Create AGENTS, Prepare for Feature Finish,
-  Prepare for Release)
+- **Projects** — `Project Structure`, `Project Semantic Versioning`, the
+  `README`/`CHANGELOG`/`AGENTS` writers, and project workflow prompts: `Create
+  README`, `Maintain README`, `Create CHANGELOG`, `Maintain CHANGELOG`,
+  `Create AGENTS and CONTEXT`, `Maintain AGENTS and CONTEXT`, `Create Docs`,
+  `Maintain Docs`, `Initialize Project`, `Compact with Maintenance`, `Prepare
+  for Feature Finish`, `Prepare for Version Release`
 - **Prompt Engineering** — `Prompt Writer`, `Skill Description Writer`
 - **Kaye Cash Tracker** / **Kaye Commit Sense** / **Kaye Event Radar** —
   standalone task prompts (expense extraction, commit-message generation,
@@ -86,8 +88,8 @@ preserve them. The top-level (`#`) sections, in order:
   `JavaScript and TypeScript`, `Python` (with `Docstring Style` and `Testing
   Guidelines` sub-profiles)
 - **Opus Tag Smith** — media tagging (title/subtitle, release year, tags)
-- **Agent Behavior** / **Continue Behavior** — baseline agent conduct and
-  Continue-specific behavior (e.g. `run_terminal_command`)
+- **Agent Behavior** — baseline agent conduct; `Continue Behavior` is a
+  subsection (e.g. `run_terminal_command`)
 - **Utility Prompts** — Conversation Follow Up / Tag / Title generation
 
 Most leaf sections that back an exportable blueprint carry `{description}` and
@@ -101,9 +103,9 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
   - `kaye/api/` — Flask HTTP API and Dify app endpoints
   - `kaye/cli/` — argparse-based CLI subcommands
     - `kaye/cli/cli_continue/` — exports blueprint/abbreviation rules to `~/.continue`
-    - `kaye/cli/cli_claude/` — exports blueprints as Claude plugins,
-      marketplaces, agentskills.io Skills, a Claude Code `.claude/` folder, and
-      the user system prompt `CLAUDE.md`
+    - `kaye/cli/claude/` — exports blueprints as Claude plugins, marketplaces,
+      agentskills.io Skills, VS Code Extension setup, and the user system prompt
+      `CLAUDE.md`
     - `kaye/cli/cli_prompt/` — prompt generation CLI subcommands
   - `kaye/prompt_corpus.md`, `kaye/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
@@ -117,6 +119,13 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
     `MD_FILENAME2SKILL_NAME` (skill slug → display name) and
     `TESTEE_FILE_CONTENT_ALL` (skill slug → expected content strings)
     - `tests/cli/a/` — `claude` subcommand tests
+      - `tests/cli/a/c/` — `claude code` export tests (CLAUDE.md, plugin.json,
+        skill files, command aliases)
+      - `tests/cli/a/m/` — `claude marketplace` export tests (file structure,
+        marketplace.json content, command aliases)
+      - `tests/cli/a/p/` — `claude plugin` export tests (skill files,
+        plugin.json content, command aliases)
+      - `tests/cli/a/cz/` — `claude plugin -z` (zipped package) tests
       - `tests/cli/a/s/` — `claude skill` export tests
         - `tests/cli/a/s/structure/` — structure/exportability tests for every
           blueprint in `__all__` (`cli-a-s-structure-exportable_blueprints_test.py`)
@@ -129,6 +138,11 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
         - `tests/cli/a/s/style/` — per-skill content tests for style blueprints
         - `tests/cli/a/s/pe/` — per-skill content tests for prompt-engineering
           blueprints
+      - `tests/cli/a/sz/` — `claude skill -z` (zipped packages) tests
+      - `tests/cli/a/u/` — `claude user-system-prompt` export tests (content,
+        flags, aliases)
+      - `tests/cli/a/v/` — `claude vs-code-extension` export tests (CLAUDE.md,
+        marketplace, command aliases)
     - `tests/cli/c/` — `continue` subcommand tests
   - `tests/abbr/` — abbreviation collection tests
 - `scripts/` — Git hooks and the `systemd` service file
@@ -150,11 +164,12 @@ Run the full test suite:
 pytest
 ```
 
-Run a single test file or test:
+Run a single test file or test (add `-n auto` for a parallel run):
 
 ```bash
 pytest tests/cli/c/p/cli-c-p-maintain_changelog_test.py
 pytest tests/cli/c/p/cli-c-p-maintain_changelog_test.py::TestHeader::test_name
+pytest -n auto tests/cli/c/p/cli-c-p-maintain_changelog_test.py  # parallel
 ```
 
 Run the CLI and HTTP API locally:
@@ -172,13 +187,17 @@ python -m kaye claude plugin -z PLUGINS_FOLDER       # create .plugin file (-n o
 python -m kaye claude marketplace MARKETPLACE        # export a marketplace folder (plugin under plugins/)
 python -m kaye claude code                           # export plugin + CLAUDE.md into ~/.claude
 python -m kaye claude user-system-prompt             # export Chat blueprint to ~/.claude/CLAUDE.md
+python -m kaye claude user-system-prompt -r          # use Rapid blueprint instead of Chat
+python -m kaye claude user-system-prompt -c          # append Kaye Peer Coder content
+python -m kaye claude vs-code-extension              # export CLAUDE.md + marketplace into ~/.claude
 ```
 
 CLI subcommand aliases: `http` → `h`; `continue` → `c`;
 `continue config` → `c c`; `continue prompt` → `c p`;
-`claude` → `anthropic`, `a`; `claude plugin` → `claude p`;
-`claude skill` → `claude s`; `claude marketplace` → `claude m`;
-`claude code` → `claude c`; `claude user-system-prompt` → `claude u`.
+`claude` → `anthropic`, `a`; `claude code` → `claude c`;
+`claude marketplace` → `claude m`; `claude plugin` → `claude p`;
+`claude skill` → `claude s`; `claude user-system-prompt` → `claude u`;
+`claude vs-code-extension` → `claude v`.
 
 ## Code Conventions
 

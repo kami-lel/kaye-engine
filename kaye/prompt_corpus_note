@@ -1,11 +1,8 @@
 
 todo resume role
 
-todo split AGENTS & CONTEXT & CONTEXT.local.md, context should include project research content too
+todo write maintain before compact, then use hooks.PreCompact to call maintain
 
-todo init project prompt
+todo agent behavior add md-style task list, when Claude "task" is not available
 
-todo coder dev phases logic: mpt: working on a single phase at the same time
-
-todo add section of claude behavior, ask it to use agents.md instead of claude.md
-
+todo standardize software dev lifecycle, with standardized vocab

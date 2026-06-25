@@ -14,8 +14,7 @@ from kaye.prompt import PromptBlueprint
 # Blueprints  ##################################################################
 PRIMARY_MESSAGE_PROMPT_BLUEPRINT = """    ○
 [ ] ├── Style Guide
-[ ] │   ├── Style Guide Capitalization
-[x] │   │   └── Commentary Case
+[x] │   ├── Style Guide Commentary Case
 [x] │   └── Style Guide Briefness Style
 [x] └── Kaye Commit Sense
 [x]     └── Primary Message Task
@@ -25,8 +24,7 @@ PER_FILE_LONG_PROMPT_BLUEPRINT = """ ○
 [ ] ├── Elements
 [x] │   └── Annotation Markers
 [ ] ├── Style Guide
-[ ] │   ├── Style Guide Capitalization
-[x] │   │   └── Commentary Case
+[x] │   ├── Style Guide Commentary Case
 [x] │   └── Style Guide Briefness Style
 [x] └── Kaye Commit Sense
 [x]     └── Per File Summary Task
@@ -38,8 +36,7 @@ PER_FILE_SHORT_PROMPT_BLUEPRINT = """ ○
 [ ] ├── Elements
 [x] │   └── Annotation Markers
 [ ] ├── Style Guide
-[ ] │   ├── Style Guide Capitalization
-[x] │   │   └── Commentary Case
+[x] │   ├── Style Guide Commentary Case
 [x] │   └── Style Guide Briefness Style
 [x] └── Kaye Commit Sense
 [x]     └── Per File Summary Task
@@ -64,7 +61,9 @@ def _checkmark_md_related_node(blueprint):
             abort(Response("bad param: ?allows_md={}".format(md_arg), 422))
 
         if md_value == 1:
-            node = blueprint.corpus["Style Guide"]["Style Guide Markdown Format"]
+            node = blueprint.corpus["Style Guide"][
+                "Style Guide Markdown Format"
+            ]
         elif md_value != 0:
             abort(
                 Response(

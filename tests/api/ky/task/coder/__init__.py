@@ -1,6 +1,5 @@
 __all__ = [
     "assert_style_title",
-    "assert_style_caps",
     "assert_style_caps_tc0",
     "assert_style_caps_tc1",
     "assert_style_caps_tc2",
@@ -63,12 +62,8 @@ def assert_style_title(opt):
     assert "# Style" in opt
 
 
-def assert_style_caps(opt):
-    assert "## Style Guide Capitalization" in opt
-
-
 def assert_style_caps_tc0(opt):
-    assert "### Title Case" in opt
+    assert "## Style Guide Title Case" in opt
 
 
 def assert_style_caps_tc1(opt):
@@ -88,7 +83,7 @@ def assert_style_caps_tc4(opt):
 
 
 def assert_style_caps_cc0(opt):
-    assert "### Commentary Case" in opt
+    assert "## Style Guide Commentary Case" in opt
 
 
 def assert_style_caps_cc1(opt):
