@@ -20,206 +20,68 @@
 
 ### Added
 
-- **`kaye/cli/claude/vs_code/`** — new VS Code Extension export subcommand
-  (`claude vs-code-extension`, alias `a v`): writes User System Prompt to
-  `~/.claude/CLAUDE.md` and exports marketplace to
-  `~/.claude/kaye_marketplace/`; combines user-prompt and marketplace exports
-  for streamlined Claude Code setup
-- **`tests/cli/a/v/`** — new test suite for `kaye claude vs-code-extension`:
-  `cli-a-v-alts_test.py` covers command aliases (`v`, `vs-code-extension`);
-  `cli-a-v-claude_md_test.py` verifies CLAUDE.md creation and content
-  equivalence to `kaye claude u -c`; `cli-a-v-command_test.py` tests command
-  success path; `cli-a-v-marketplace_test.py` tests marketplace export; shared
-  fixtures in `conftest.py`
-- **`tests/__init__.py`** — new centralized test constants module: 
-  `TESTEE_INTRODUCTION_CONTENT`, `TESTEE_MARKDOWN_FORMAT_CONTENT`, 
-  `TESTEE_CHAT_ADDITIONAL_CONTENT`, `TESTEE_CHAT_COMMENTARY_CASE_CONTENT`, 
-  `TESTEE_CODER_CONTENT`, `TESTEE_TITLE_CASE_CONTENT`, `TESTEE_BRIEFNESS_CONTENT`; 
-  eliminates duplicate string lists across test files; semantic, reusable content 
-  markers organized by feature area
-- **`tests/cli/a/c/cli-a-c-claude_md_test.py`** — extended with parametrized 
-  content tests: `TestIntroductionContent`, `TestMarkdownFormatContent`, 
-  `TestChatAdditionalContent`, `TestChatCommentaryCaseContent`, `TestCoderContent`; 
-  verifies `kaye claude code` CLAUDE.md has content equivalent to 
-  `kaye claude u -c` (chat blueprint + coder mode)
-- **`tests/api/ky/task/` content constants** — re-exported from `tests/__init__.py` 
-  for use in API task tests
+- **`kaye claude vs-code-extension`** (alias `a v`) — new subcommand that
+  writes `CLAUDE.md` and exports the kaye marketplace to
+  `~/.claude/kaye_marketplace/`; one-step Claude Code VS Code Extension setup
+- **7 new project prompt corpus sections** under `# Projects`: `Create README`,
+  `Maintain README`, `Create CHANGELOG`, `Maintain AGENTS and CONTEXT`,
+  `Create Docs`, `Initialize Project`, `Compact with Maintenance`
+- **`prompts_blueprints.py`** — expanded from 2 to 12 blueprints:
+  `create_readme`, `maintain_readme`, `create_changelog`,
+  `maintain_changelog`, `create_agents_and_context`,
+  `maintain_agents_and_context`, `create_docs`, `maintain_docs`,
+  `initialize_project`, `compact_with_maintenance`,
+  `prepare_for_feature_finish`, `prepare_for_version_release`
 - **Project CONTEXT Writer** — new corpus section for creating and maintaining
-  `CONTEXT.md` and `CONTEXT.local.md` files; covers document title, suggested
-  sections, living document maintenance, and quality expectations
-- **`tests/cli/a/p/`** — new test suite for `kaye claude plugin`: skill file
-  existence across all 78 exported skills, `plugin.json` content validation
-  (`name`, `displayName`, `version`, `description`, `author`), and mock-based
-  command and alias tests (`claude plugin`, `claude p`, `a plugin`, `a p`)
-- **`tests/cli/a/cz/`** — new test suite for `kaye claude plugin -z`: mirrors
-  `tests/cli/a/p/` with zip extraction via `zipfile.ZipFile.extractall()`
-  before path assertions; extended with `cli-a-cz-claude_md_test.py` to verify
-  CLAUDE.md presence in the extracted output
-- **`tests/cli/a/m/`** — new test suite for `kaye claude marketplace`: file
-  existence for all skill files, `plugin.json`, and `marketplace.json`;
-  `marketplace.json` content validation (`$schema`, `name`, `version`,
-  `description`, `owner.name`, `plugins` list, `plugins[0].source`);
-  mock-based command and alias tests (`claude marketplace`, `claude m`, `a m`,
-  `a marketplace`)
-- **`tests/cli/a/sz/alts/`** — new mock-based alias tests for
-  `kaye claude skill -z` (`claude s -z`, `a skill -z`, `a s -z`)
-- **New project prompt corpus sections** — 7 new `## ` prompt sections added
-  under `# Projects`: `Create README`, `Maintain README`, `Create CHANGELOG`,
-  `Maintain AGENTS and CONTEXT`, `Create Docs`, `Initialize Project`,
-  `Compact with Maintenance`; all follow the shared `#### Instructions` /
-  `#### Output` / `{prerequisite}` structure
-- **`kaye/cli/prompts_blueprints.py`** — expanded from 2 to 12 blueprints:
-  `create_readme`, `maintain_readme`, `create_changelog`, `maintain_changelog`,
-  `create_agents_and_context`, `maintain_agents_and_context`, `create_docs`,
-  `maintain_docs`, `initialize_project`, `compact_with_maintenance`,
-  `prepare_for_feature_finish`, `prepare_for_version_release`; `PROMPTS_BLUEPRINTS`
-  list updated accordingly; uses `recursively=True` only for nodes with
-  non-meta child sections
-- **`tests/corpus/corpus-skill_frontmatter_test.py`** — refactored to a single
-  `@pytest.mark.parametrize("skill_name", ALL_CLAUDE_SKILL_NAMES)` test in
-  `TestSkillFrontmatter.test_frontmatter_conforms_to_spec`; covers every
-  exported blueprint, prompt, and abbreviation skill automatically — no
-  per-skill hand-written function needed for new additions
-- **`tests/cli/a/c/`** — new test suite for `kaye claude code` (`a code`,
-  `a c`, `claude c`): CLAUDE.md existence at `~/.claude/CLAUDE.md`,
-  `plugin.json` content validation, skill files existence across all exported
-  skills, and mock-based command/alias tests
-- **`tests/cli/a/u/`** — new package replacing `cli-a-u-chat_test.py`:
-  `cli-a-u-alts_test.py` covers all command aliases and flags,
-  `cli-a-u-content_test.py` covers output content per flag combination
-  (`--rapid`, `--coder`), and `conftest.py` provides shared fixtures
+  `CONTEXT.md` and `CONTEXT.local.md`
+- **test suites** — `tests/cli/a/v/` (VS Code export), `tests/cli/a/c/`
+  (code), `tests/cli/a/p/` (plugin), `tests/cli/a/cz/` (plugin zip),
+  `tests/cli/a/m/` (marketplace), `tests/cli/a/u/` (user-system-prompt)
+  added; `tests/__init__.py` centralized `TESTEE_*` content markers shared
+  across all suites
 
 ### Changed
 
-- **README** — restructured Claude integration section: added dedicated `####
-  Claude Code VS Code Extension` subsection with step-by-step marketplace setup
-  instructions; clarified install targets (`Claude Desktop` vs `Claude Code VS
-  Code Extension`) and command output paths
-- **API task content tests** — refactored `tests/api/ky/task/api-ky-task-chat1_test.py` 
-  and `api-ky-task-rapid1_test.py` from 51 and 14 individual `test_*` methods 
-  respectively to parametrized test classes using `@pytest.mark.parametrize` over 
-  shared content constants; reduced duplication and improved maintainability
-- **Continue blueprint coder test** — `tests/cli/c/c/coder/cli-c-c-bp-coder_test.py` 
-  refactored to use `TESTEE_CODER_CONTENT` from `tests/__init__.py` instead of 
-  `TESTEE_FILE_CONTENT_ALL`; content tests converted from 10 individual 
-  `test0`...`test9` methods to a single parametrized `test_content` method
-- **`kaye claude user-system-prompt`** (`claude u`, `a u`) — new `-r`/`--rapid`
-  flag uses the Rapid blueprint instead of Chat; new `-c`/`--coder` flag appends
-  Kaye Peer Coder content after the main blueprint
-- **`chat_blueprint` and `rapid_blueprint`** in `embedded_blueprints.py` —
-  `Role` and `(Abbreviations)` removed from their embedded definitions; the
-  Dify chat task now merges them in via a local `_user_scope_blueprint`
-  (`Role` + `(Abbreviations)`), keeping the base blueprints leaner and the
-  user-scope composition explicit
-- **Prompt corpus — skill metadata** — added `{description}` and `{when_to_use}`
-  meta nodes to `Create Docs`, `Prompt Writer`, and `Skill Description Writer`
-  sections; all three now export accurate skill metadata
-- **Continue Behavior** — rehomed from a standalone top-level `# Continue
-  Behavior` section to a `## ` subsection under `# Agent Behavior`; corpus
-  path updated in `export_blueprint_rules.py`; `run_terminal_command`
-  subsection normalized from `### ` to `#### `; Continue config test
-  expectations updated to reflect new heading levels
-- **Prompt corpus — project prompts** — removed the `## project prompts`
-  container; `Maintain Docs`, `Maintain CHANGELOG`, `Create README`, `Create
-  AGENTS`, `Prepare for Feature Finish`, and `Prepare for Release` promoted
-  from `### ` to `## ` level as direct children of `# Projects`; internal
-  subsections normalized from `#####`/`######` to `#### `; `{description}`
-  and `{prerequisite}` meta nodes normalized from `#### ` to `### `;
-  `prompts_blueprints.py` path updated to remove `["project prompts"]` lookup,
-  orphaned `checkmark()` calls on the removed `edit CHANGELOG` node removed;
-  Continue prompt tests updated for new heading levels
-- `kaye claude` subcommands (`code`, `marketplace`, `plugin`, `skill`,
-  `user-system-prompt`) — `--help` now prints a detailed description with an
-  output-folder tree diagram, rendered verbatim via
-  `RawDescriptionHelpFormatter`
-- **Project AGENTS Writer** — expanded and clarified guidance: new sections
-  covering Continue Rule compatibility, frontmatter format, suggested sections,
-  what to include/exclude, testing instructions, and quality expectations;
-  updated glob pattern to include `.local` and `.override` file variants;
-  unit tests enhanced with comprehensive content assertions for description
-  and when_to_use metadata; Continue config tests updated to match reformatted
-  export output
-- **Project Structure** — unit tests updated to reflect new file and folder
-  entries: `CREDITS.md`, `DEVLOG.md`, `AGENTS.local.md`, `CONTEXT.md`,
-  `CONTEXT.local.md`, `bin/`, `examples/`, and `tools/`
-- **Agent Behavior** — content expanded with new Git Command Safety Policy
-  guidance; unit tests added for all 5 content entries across Claude skill
-  and Continue config exports
-- **`tests/cli/a/s/` and `tests/cli/a/sz/`** — all `TestContent` and
-  `TestPrerequisite` classes refactored: manually-numbered `test0`, `test1`,
-  ... methods replaced with a single `@pytest.mark.parametrize` method;
-  `tests/cli/a/s/alts/` and `tests/cli/a/sz/alts/` refactored to mock-based
-  tests (no file I/O) using shared fixtures from `tests/cli/a/conftest.py`
-  (`mock_run`, `mock_tmp_path`, `mock_tmp_path_factory`)
-- **`blueprint_meta_nodes.py`** — removed `collapse_lines_into_single_line()`
-  helper function; replaced with module-level `REPLACEMENT_NEWLINE_SYMBOL`
-  constant (`"↵"`) used inline with `.join()`
-- **Renamed prompt sections** — `Create AGENTS` → `Create AGENTS and CONTEXT`;
-  `Prepare for Release` → `Prepare for Version Release`; slug keys updated in
-  `prompts_blueprints.py`, `tests/cli/__init__.py` (`PROMPT_FILENAME2NAME`,
-  `TESTEE_FILE_CONTENT_ALL`, `TESTEE_DESCRIPTION_CONTENT_ALL`,
-  `TESTEE_PREREQUISITE_CONTENT_ALL`), and all affected test files
-- **Project README Writer** — rewritten from persona style to guideline style:
-  intro changed from "You are an expert..." to "These guidelines define what a
-  good `README.md` is"; removed `#### Purpose` and `#### Document Title`
-  subsections; renamed `#### Quality Expectations` → `#### Quality`; backtick-
-  wrapped filenames simplified to plain references in `description` and
-  `when_to_use` metadata
-- **Project CHANGELOG Writer** — `**Types of Changes:**` inline bold changed
-  to `#### Types of Changes` subheading; corrected `Github` → `GitHub`;
-  removed the `"- title must be \`Project Name CHANGELOG\`"` rule;
-  backtick-wrapped `CHANGELOG.md` simplified to `CHANGELOG` in metadata
-- **Project AGENTS Writer** — intro updated from "`AGENTS.md` files" to
-  "`AGENTS.md` (or AGENTS-style file) files" to clarify applicable file types
-- **`tests/cli/c/p/`** — all 6 Continue prompt test files refactored:
-  `TestContent` now uses `TESTEE_FILE_CONTENT_ALL[PROMPT_FILENAME]` with a
-  single `@pytest.mark.parametrize` method; `TESTEE_FILE_CONTENT` module
-  constant added to each file; stale `assert_edit_changelog*`,
-  `assert_edit_readme*`, `assert_edit_agents*` helpers removed from
-  `tests/cli/c/p/__init__.py`; `PROMPT_FILENAME2NAME["prepare-for-feature"]`
-  renamed to `"prepare-for-feature-finish"`
-- **`tests/cli/__init__.py`** — `TESTEE_FILE_CONTENT_ALL` entries for 6 prompt
-  blueprints expanded with full section content strings (headings, instructions,
-  output); description and when_to_use metadata strings updated to use plain
-  file references instead of backtick-wrapped filenames
-- **Style Guide capitalization split** — `Style Guide Capitalization` section
-  split into two standalone sections: `Style Guide Title Case` (headlines and
-  document titles) and `Style Guide Commentary Case` (list items and table
-  cells); each has independent `{description}` and `{when_to_use}` meta nodes;
-  `style_capitalization_blueprint` replaced with `style_title_case_blueprint`
-  and `style_commentary_case_blueprint` in `embedded_blueprints.py` and
-  `EXPORTABLE_BLUEPRINTS`; `chat_blueprint` updated to include Commentary Case
-  (added to Style Guide traversal); skill and continue rule exports split:
-  new `style-guide-title-case` and `style-guide-commentary-case` skills replace
-  single `style-guide-capitalization` skill; test files reorganized in
-  `tests/cli/a/s/`, `tests/cli/a/sz/`, and `tests/cli/c/c/style/`;
-  `tests/cli/a/u/__init__.py` updated with `COMMENTARY_CASE` marker
-  (`## Style Guide Commentary Case`)
-- **pytest-xdist reverted to manual opt-in** — removed `addopts = -n auto`
-  from `setup.cfg`; pytest now runs serially by default; `-n auto` available
-  manually; documented in AGENTS.md; session-scoped fixture re-execution across
-  xdist workers made parallel runs 2× slower (212s vs 109s) due to expensive
-  CLI exports; root cause fixed by `generate_lineage()` memoization (see Fixed)
-- **CLI prompt export tests aligned** — `tests/cli/a/u/` tests now expect
-  `Role` and `(Abbreviations)` nodes absent from CLI user-system-prompt output
-  (only injected by Dify API); `USER_SCOPE` constant added to `__init__.py`
+- **`kaye claude user-system-prompt`** (`a u`) — new `-r`/`--rapid` and
+  `-c`/`--coder` flags; `--help` on all `kaye claude` subcommands now shows
+  an output-folder tree via `RawDescriptionHelpFormatter`
+- **`kaye/cli/claude/`** — `cli_claude/` renamed to `claude/`; subpackages
+  drop the `claude_` prefix (`claude_code/ → code/`, `claude_plugin/ →
+  plugin/`)
+- **Style Guide capitalization split** — `Style Guide Capitalization` split
+  into `Style Guide Title Case` and `Style Guide Commentary Case`; both
+  exported as separate skills and Continue rules
+- **`chat_blueprint` / `rapid_blueprint`** — `Role` and `(Abbreviations)`
+  removed from base definitions; Dify task composes them via
+  `_user_scope_blueprint`
+- **Prompt corpus restructured** — `## project prompts` container removed;
+  sections promoted to `## ` level; `Continue Behavior` rehomed under
+  `# Agent Behavior`; renamed: `Create AGENTS` → `Create AGENTS and CONTEXT`,
+  `Prepare for Release` → `Prepare for Version Release`
+- **Project writer corpus sections** — `Project README Writer`, `Project
+  CHANGELOG Writer`, `Project AGENTS Writer` rewritten from persona style
+  to guideline style; skill metadata fields updated
+- **Agent Behavior** — new Git Command Safety Policy guidance added
+- **Tests refactored** — all manually-numbered `test0`...`testN` methods
+  replaced with `@pytest.mark.parametrize`; alias tests in `a/s/alts/` and
+  `a/sz/alts/` converted to mock-based; API task tests parametrized over
+  shared constants; pytest-xdist reverted to manual opt-in (serial by default)
+- **README** — Claude integration section restructured with dedicated
+  `Claude Desktop` and `Claude Code VS Code Extension` subsections
 
 ### Deprecated
 
 ### Removed
 
+- **`kaye/cli/cli_claude/`** — removed; replaced by `kaye/cli/claude/`
 - **`collapse_lines_into_single_line()`** in `blueprint_meta_nodes.py` —
-  removed in favor of `REPLACEMENT_NEWLINE_SYMBOL.join(...)` at call sites
+  replaced with `REPLACEMENT_NEWLINE_SYMBOL.join(...)`
 
 ### Fixed
 
-- **`BasePromptNode` lineage/hash memoization** — `generate_lineage()` now
-  caches its result as a tuple in `_lineage_cache` on first call and returns
-  a copy on subsequent calls; `__hash__` caches its result in `_hash_cache`;
-  both caches are stored via `self.__dict__` to avoid `__slots__` conflicts;
-  reduced 33M redundant `generate_lineage()` calls per full skill export to
-  O(1) per node after warm-up; single export: ~10s → ~4.3s; full test suite:
-  ~109s → ~49s (2.2× faster); output byte-identical (verified via `diff -r`)
+- **`BasePromptNode` lineage/hash memoization** — `generate_lineage()` and
+  `__hash__` now cache results; reduces redundant calls from 33M to O(1) per
+  node; single export ~10s → ~4.3s; full test suite ~109s → ~49s (2.2×)
 
 ### Security
 
