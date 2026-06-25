@@ -4,6 +4,8 @@ embedded_blueprints.py
 common blueprints creations
 """
 
+# Todo make commentary case part of chat
+
 # pylint: disable=invalid-name
 
 from kaye.prompt.prompt_blueprint import PromptBlueprint
