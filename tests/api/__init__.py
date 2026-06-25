@@ -18,6 +18,3 @@ Used to label defects and related notes across code and documentation. You must 
     )
 
     assert """### Meaning""" in opt
-
-
-# TODO better organization of unit test using new formats
