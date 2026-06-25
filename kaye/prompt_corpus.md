@@ -689,37 +689,18 @@ when physical quantities appear in output
 
 
 
-## Annotation Markers
+## Triage Tags
 
-Used to label defects and related notes across code and documentation. You must refer them as *annotation markers* or *AM*:
+Labels for defects and related notes across code and docs; refer to them as *triage tags* or *TT*.
 
-- primary AM: BUG, FIXME, TODO, HACK
-- secondary AM: Bug, Fixme, Todo, Hack
-- tertiary AM: bug, fixme, todo, hack
+Each tag comes in three tiers by letter case — *Loud* (all-caps, e.g. `BUG`), *Steady* (capitalized, e.g. `Bug`), *Quiet* (lowercase, e.g. `bug`):
 
-When change lower AM to higher AM (e.g. `Bug` -> `BUG`,) call it **promote**;
-change from higher to lower AM, call it **demote**.
+- `BUG` — discovered defects that cause errors or unexpected behavior
+- `FIXME` — content that is wrong, inefficient, unclear, or otherwise improvable
+- `TODO` — intentionally incomplete work or placeholders to be implemented later
+- `HACK` — temporary workarounds or rationale expected to be removed before release
 
-
-
-
-
-
-
-
-
-
-
-
-
-### Meaning
-
-- BUG/Bug/bug: indicate discovered defects that cause errors or unexpected behavior
-- fixme/...: indicate content that is wrong, inefficient, unclear, or otherwise improvable
-- todo/... indicate intentionally incomplete work or placeholders to be implemented later
-- hack/...: indicate temporary workarounds or rationale expected to be removed before release
-- prefer *primary AM* for newly added urgent items
-- do not modify or remove any markers unless the user explicitly asks you to do so
+Shifting a tag to a louder tier (`bug` → `BUG`) is **raise**; to a quieter tier is **lower**. Prefer *Loud TT* for newly added urgent items. Do not modify or remove any tag unless the user explicitly asks.
 
 
 
@@ -735,7 +716,11 @@ change from higher to lower AM, call it **demote**.
 
 ### {description}
 
-when working with BUG, FIXME, TODO, or HACK markers in code or docs
+Defines triage tags (TT) — defect/note labels spanning code and docs across 3 case tiers (Loud/Steady/Quiet), with per-tag meanings and raise/lower tier shifts
+
+### {when_to_use}
+
+When adding, classifying, or raising/lowering BUG/FIXME/TODO/HACK markers in any case, or resolving what a TT tier signifies. Not for fixing the defects the tags point to
 
 
 
@@ -3487,7 +3472,6 @@ Before merging the current feature branch, sync the docs it affects: log its cha
 #### Output
 
 Update the affected files in place; leave unrelated files untouched.
-Return a brief summary listing changed files and what changed.
 
 
 
@@ -4125,7 +4109,7 @@ You are to select a single prefix that best describes the primary nature of the 
 3. `:`: relocated/moved file, with no or only minor changes (filename may change or stay the same)
 4. `=`: file renamed (but location unchanged), with no or only minor changes
 5. `?` if the modified file is a non-textual type (e.g., binaries, compressed archives, databases, encrypted blobs)
-6. `@`: file contains only changes to annotation markers (and to related lines)
+6. `@`: file contains only changes to triage tags (and to related lines)
 7. `#`: change primarily concerns documentation or code comments
 8. `~`: change is primarily content reordering or code refactoring
 9. `.`: change is only about: whitespace, indentation, or blank-line
@@ -4311,7 +4295,7 @@ Eg
 - format inline comments as: actual code + two spaces + `#` or `//` + single space + comment content, for example `int a = 1;  // comment on number`
 - use *Briefness Style* for all comments
 - use *Commentary Case* for each comment line
-- include *immediate annotation markers* where appropriate, for example `// TODO implement data fetching`, `# BUG incorrect behavior with None`
+- include *Loud TT* where appropriate, for example `// TODO implement data fetching`, `# BUG incorrect behavior with None`
 
 
 
@@ -4431,7 +4415,7 @@ Trigger on any code writing, editing, debugging, or programming question.
 - use `Style Guide Markdown Format`
 - use `Style Guide Briefness Style` for all comments
 - use `Style Guide Commentary Case` for each Comment Line
-- use `Annotation Markers`
+- use `Triage Tags`
 - follow `Style Guide Good Writing` rules for correctness and clarity
 
 

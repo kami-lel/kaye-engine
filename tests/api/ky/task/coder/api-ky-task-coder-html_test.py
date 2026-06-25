@@ -13,6 +13,14 @@ import json
 
 
 import pytest
+from tests import (
+    TESTEE_TRIAGE_TAG_CONTENT,
+    TESTEE_TITLE_CASE_CONTENT,
+    TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
+    TESTEE_BRIEFNESS_CONTENT,
+    TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT,
+    TESTEE_CODER_CONTENT,
+)
 
 from tests.api.ky.task import *
 from tests.api.ky.task.coder import *
@@ -20,7 +28,7 @@ from tests.api.ky.task.coder import *
 # pytest fixtures  #############################################################
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="module")
 def opt(flask_test_client, task_endpoint):
     payload = {"role": "coder", "programming_languages": "html"}
 
@@ -35,6 +43,17 @@ def opt(flask_test_client, task_endpoint):
     return opt
 
 
+
+
+
+# TT (Triage Tags)  #############################################################
+
+
+class TestTriageTags:  # ========================================================
+
+    @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
+    def test_tt_content(_, opt, i):
+        assert TESTEE_TRIAGE_TAG_CONTENT[i] in opt
 # Pytest unit tests  ###########################################################
 
 
@@ -48,31 +67,26 @@ class TestCoder:  # ============================================================
 
     # coder shared  ************************************************************
 
-    def test_coder_title(_, opt):
-        print(opt)
-        assert_coder_title(opt)
+    @pytest.mark.parametrize("marker", TESTEE_CODER_CONTENT)
+    def test_coder_content(_, opt, marker):
+        assert marker in opt
 
-    def test_coder_code_format_title(_, opt):
-        print(opt)
-        assert_coder_code_format_title(opt)
+    @pytest.mark.parametrize("marker", TESTEE_TITLE_CASE_CONTENT)
+    def test_style_title_case(_, opt, marker):
+        assert marker in opt
 
-    def test_coder_variable_naming_title(_, opt):
-        print(opt)
-        assert_coder_variable_naming_title(opt)
+    @pytest.mark.parametrize("marker", TESTEE_CHAT_COMMENTARY_CASE_CONTENT)
+    def test_style_commentary_case(_, opt, marker):
+        assert marker in opt
 
-    def test_coder_code_comment_title(_, opt):
-        print(opt)
-        assert_coder_code_comment_title(opt)
+    @pytest.mark.parametrize("marker", TESTEE_BRIEFNESS_CONTENT)
+    def test_style_briefness(_, opt, marker):
+        assert marker in opt
 
-    def test_coder_csh_title(_, opt):
-        print(opt)
-        assert_coder_csh_title(opt)
+    @pytest.mark.parametrize("marker", TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT)
+    def test_style_good_writing(_, opt, marker):
+        assert marker in opt
 
-    def test_style_title(_, opt):
-        assert_style_title(opt)
-
-    def test_am_title(_, opt):
-        assert_am_title(opt)
 
     # chat blueprint  **********************************************************
 

@@ -88,10 +88,27 @@ TESTEE_BRIEFNESS_CONTENT = [
     "- keep sentences short, direct, drop filler",
 ]
 
+TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT = [
+    "## Style Guide Good Writing",
+    "- Correct spelling, grammar, punctuation",
+    "- Ensure the revised text is clear, polite",
+    "- Do not add new information",
+]
+
 TESTEE_AGENT_BEHAVIOR_CONTENT = [
     "# Agent Behavior",
     "Files are assumed to be consistent between rounds",
     "do not provide a recap or summary",
     "### Git Command Safety Policy",
     "Never run these git commands",
+]
+
+TESTEE_TRIAGE_TAG_CONTENT = [
+    "## Triage Tags",
+    "- `BUG` — discovered defects that cause errors or unexpected behavior",
+    (
+        "- `FIXME` — content that is wrong, inefficient, unclear, or otherwise"
+        " improvable"
+    ),
+    "Prefer *Loud TT* for newly added urgent items",
 ]

@@ -14,7 +14,7 @@ agent_blueprint = PromptBlueprint.create_from_node(
 EXPORTABLE_BLUEPRINTS = [
     date_time_blueprint,
     number_unit_blueprint,
-    annotation_marker_blueprint,
+    triage_tags_blueprint,
     project_structure_blueprint,
     project_readme_blueprint,
     project_changelog_blueprint,

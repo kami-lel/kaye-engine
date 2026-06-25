@@ -8,6 +8,7 @@ Unit Tests (using pytest) for:
 
 import pytest
 
+from tests import TESTEE_TRIAGE_TAG_CONTENT
 from tests.api.commit import (
     assert_allows_md,
     assert_no_allows_md,
@@ -20,6 +21,22 @@ from tests.api.commit import (
 @pytest.fixture
 def endpoint(app_endpoint):
     return app_endpoint + "/per-file-short"
+
+
+@pytest.fixture
+def testee_output(flask_test_client, app_endpoint):
+    response = flask_test_client.get(app_endpoint + "/per-file-short")
+    return response.get_data().decode("utf-8")
+
+
+# TT (Triage Tags)  #############################################################
+
+
+class TestTriageTags:  # ========================================================
+
+    @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
+    def test_tt_content(_, testee_output, i):
+        assert TESTEE_TRIAGE_TAG_CONTENT[i] in testee_output
 
 
 class TestShort:  ##############################################################

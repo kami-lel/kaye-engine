@@ -127,6 +127,31 @@ class BlueprintMetaNodes:  #####################################################
             except KeyError:
                 pass
 
+    # operator  ================================================================
+
+    def __or__(self, other):
+        """
+        merge two BlueprintMetaNodes; left takes priority for each field
+
+        :param other: right operand
+        :type other: BlueprintMetaNodes
+        :return: merged meta nodes
+        :rtype: BlueprintMetaNodes
+        """
+        merged = BlueprintMetaNodes()
+        merged._description = self._description or other._description
+        merged.description_node = (
+            self.description_node or other.description_node
+        )
+        merged.when_to_use_node = (
+            self.when_to_use_node or other.when_to_use_node
+        )
+        merged.globs_node = self.globs_node or other.globs_node
+        merged.prerequisite_node = (
+            self.prerequisite_node or other.prerequisite_node
+        )
+        return merged
+
     # helpers  =================================================================
 
     @staticmethod

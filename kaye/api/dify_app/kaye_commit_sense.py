@@ -22,7 +22,7 @@ PRIMARY_MESSAGE_PROMPT_BLUEPRINT = """    ○
 
 PER_FILE_LONG_PROMPT_BLUEPRINT = """ ○
 [ ] ├── Elements
-[x] │   └── Annotation Markers
+[x] │   └── Triage Tags
 [ ] ├── Style Guide
 [x] │   ├── Style Guide Commentary Case
 [x] │   └── Style Guide Briefness Style
@@ -34,7 +34,7 @@ PER_FILE_LONG_PROMPT_BLUEPRINT = """ ○
 
 PER_FILE_SHORT_PROMPT_BLUEPRINT = """ ○
 [ ] ├── Elements
-[x] │   └── Annotation Markers
+[x] │   └── Triage Tags
 [ ] ├── Style Guide
 [x] │   ├── Style Guide Commentary Case
 [x] │   └── Style Guide Briefness Style

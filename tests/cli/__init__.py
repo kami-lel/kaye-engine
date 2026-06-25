@@ -1,5 +1,7 @@
 import re
 
+from tests import TESTEE_TRIAGE_TAG_CONTENT
+
 __all__ = (
     "MD_FILENAME2SKILL_NAME",
     "PROMPT_FILENAME2NAME",
@@ -8,6 +10,7 @@ __all__ = (
     "TESTEE_CONTINUE_BLUEPRINT_DESCRIPTION_CONTENT_ALL",
     "TESTEE_HOW_TO_USE_CONTENT_ALL",
     "TESTEE_PREREQUISITE_CONTENT_ALL",
+    "TESTEE_TRIAGE_TAG_CONTENT",
     "split_frontmatter_md_file",
     "assert_frontmatter_md_file_basic_structure",
     "assert_header_line_always_apply",
@@ -64,7 +67,7 @@ MD_FILENAME2SKILL_NAME = {
     "abbr-suffixes": "Abbr Suffixes",
     "abbr-symbols": "Abbr Symbols",
     "abbr-units-of-measure": "Abbr Units of Measure",
-    "annotation-markers": "Annotation Markers",
+    "triage-tags": "Triage Tags",
     "coder-bash": "Coder Bash",
     "coder-c": "Coder C",
     "coder-c-sharp": "Coder C Sharp",
@@ -111,7 +114,7 @@ PROMPT_FILENAME2NAME = {
     "maintain-docs": "Maintain Docs",
     "prepare-for-feature-finish": "Prepare for Feature Finish",
     "prepare-for-version-release": "Prepare for Version Release",
-    "resolve-annotation-markers": "Resolve Annotation Markers",
+    "resolve-triage-tags": "Resolve Triage Tags",
 }
 
 
@@ -121,17 +124,6 @@ TESTEE_FILE_CONTENT_ALL = {
         "#### `run_terminal_command`",
         "Only use `run_terminal_command` as a last resort",
         "Use when need to remove/delete file/folder.",
-    ],
-    "annotation-markers": [
-        "## Annotation Markers",
-        "- primary AM: BUG, FIXME, TODO, HACK",
-        "- secondary AM: Bug, Fixme, Todo, Hack",
-        "- tertiary AM: bug, fixme, todo, hack",
-        "call it **promote**",
-        "### Meaning",
-        "- BUG/Bug/bug:",
-        "- todo/...",
-        "- do not modify or remove any markers unless",
     ],
     "date-and-time-format": [
         "## Date and Time Format",
@@ -769,8 +761,10 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "coder-unreal-engine": "C++ code for Unreal Engine",
     "coder-cpp": "Writes, edits, and reviews all C++ code.",
     "date-and-time-format": "when dates or times appear in output",
-    "annotation-markers": (
-        "when working with BUG, FIXME, TODO, or HACK markers in code or docs"
+    "triage-tags": (
+        '"Defines triage tags (TT) \\u2014 defect/note labels spanning code'
+        " and docs across 3 case tiers (Loud/Steady/Quiet), with per-tag"
+        ' meanings and raise/lower tier shifts"'
     ),
     "numerical-values-with-units": "when physical quantities appear in output",
     "international-phonetic-alphabet": "IPA transcription",
@@ -1093,6 +1087,14 @@ TESTEE_CONTINUE_BLUEPRINT_DESCRIPTION_CONTENT_ALL = {
         " original meaning, voice, and wording.\\u21B5Use to proofread,"
         " copyedit, or correct writing without rewriting. Not for heavy"
         ' rewrites, summarizing, or tone changes."'
+    ),
+    "triage-tags": (
+        '"Defines triage tags (TT) \\u2014 defect/note labels spanning code'
+        " and docs across 3 case tiers (Loud/Steady/Quiet), with per-tag"
+        ' meanings and raise/lower tier shifts\\u21B5When adding,'
+        " classifying, or raising/lowering BUG/FIXME/TODO/HACK markers in"
+        " any case, or resolving what a TT tier signifies. Not for fixing"
+        ' the defects the tags point to"'
     ),
 }
 
