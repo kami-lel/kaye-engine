@@ -2437,21 +2437,6 @@ Instruction budget is finite, and a wrong instruction is worse than no instructi
 
 
 
-#### Testing Instructions
-
-Direct coding agents to test **smartly and selectively** rather than blindly running the whole suite. Include guidance equivalent to the following:
-- **Maintain a code-to-test mapping.** Determine which unit tests cover each code class/module by combining repo conventions (naming patterns like `Foo` → `FooTest`/`foo.test.ts`, directory mirroring such as `src/x` → `tests/x`), test framework metadata, and import/dependency analysis. Prefer any mapping the repo already declares over guessing.
-- **Run only what changed.** For a given change, run the unit tests that cover the modified classes/modules plus any tests for modules that directly depend on them. Provide the concrete command to scope a run (e.g. `pnpm vitest run <path|pattern>`, `pytest <path>`, or `pnpm turbo run test --filter <package>`).
-- **Keep tests in sync.** Add or update unit tests for any code that is changed, even if not explicitly asked, and keep the code-to-test mapping accurate when files move or imports change.
-- **Widen before merge.** Run the full suite (plus lint/type checks) before completing a PR or merging, since selective runs can miss cross-cutting regressions.
-- **Finish green.** Fix all failing tests, type errors, and lint errors introduced by the change before considering the task done.
-
-Specify the actual test, lint, and type-check commands for the repository wherever they are known.
-
-
-
-
-
 #### Quality Expectations
 
 A good `AGENTS.md` should be:
@@ -4384,6 +4369,22 @@ Eg
         # quick parse  -------------------------------------------------------------
         ~~
     ```
+
+
+
+
+
+### Testing Instructions
+
+Test **smartly and selectively** — never run the whole suite by default.
+
+- **Map code to tests** using repo conventions (naming patterns, directory mirroring), test framework metadata, or import/dependency analysis; prefer any mapping the repo already declares.
+- **Scope each run** to the tests covering the changed code plus anything that directly depends on it. Give the exact command to scope it (e.g. `pnpm vitest run <path|pattern>`, `pytest <path>`, `pnpm turbo run test --filter <package>`).
+- **Keep tests in sync** — add or update tests for changed code even if not asked, and keep the mapping current when files move.
+- **Run the full suite only when asked**, or right before a PR/merge, alongside lint and type checks.
+- **Finish green on scope** — fix failures directly tied to the current change; leave unrelated pre-existing failures as is.
+
+State the actual test, lint, and type-check commands for the repo wherever known.
 
 
 
