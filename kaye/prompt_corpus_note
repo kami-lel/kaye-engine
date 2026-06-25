@@ -5,4 +5,6 @@ Todo write maintain before compact, then use hooks.PreCompact to call maintain
 
 todo agent behavior add md-style task list, when Claude "task" is not available
 
-todo standardize software dev lifecycle, with standardized vocab
+Todo standardize software dev lifecycle, with standardized vocab
+
+Fixme coder need to make sure less test is run, remove them from agents writer
