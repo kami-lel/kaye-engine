@@ -1,6 +1,5 @@
 setuptools
 pytest
-pytest-xdist  # parallel test execution (`pytest -n auto`)
 
 # required by kaye Python package
 anytree

@@ -144,20 +144,18 @@ pip install -e .
 pip install -r requirements.txt
 ```
 
-Run the full test suite (runs in parallel via `pytest-xdist` by default; see
-the `[tool:pytest]` `addopts = -n auto` in `setup.cfg`):
+Run the full test suite:
 
 ```bash
 pytest
 ```
 
-Run a single test file or test (add `-n0` to force a serial run while
-debugging):
+Run a single test file or test (add `-n auto` for a parallel run):
 
 ```bash
 pytest tests/cli/c/p/cli-c-p-maintain_changelog_test.py
 pytest tests/cli/c/p/cli-c-p-maintain_changelog_test.py::TestHeader::test_name
-pytest -n0 tests/cli/c/p/cli-c-p-maintain_changelog_test.py  # serial
+pytest -n auto tests/cli/c/p/cli-c-p-maintain_changelog_test.py  # parallel
 ```
 
 Run the CLI and HTTP API locally:
