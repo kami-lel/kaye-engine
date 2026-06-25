@@ -15,20 +15,20 @@ from tests.cli.a.u import (
     RAPID_CONTENT,
     RAPID_ABSENT,
     CODER_CONTENT,
+    CODER_ABSENT,
     RAPID_CODER_CONTENT,
     RAPID_CODER_ABSENT,
 )
 
 # constants  ###################################################################
 
-# BUG dont include role & abbr in these
 # TODO evaluate pytest parallel
 
 # (fixture stem, present markers, absent markers)
 CASES = [
     ("chat", CHAT_CONTENT, CHAT_ABSENT),
     ("rapid", RAPID_CONTENT, RAPID_ABSENT),
-    ("coder", CODER_CONTENT, []),
+    ("coder", CODER_CONTENT, CODER_ABSENT),
     ("rapid_coder", RAPID_CODER_CONTENT, RAPID_CODER_ABSENT),
 ]
 
