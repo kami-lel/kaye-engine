@@ -1,6 +1,6 @@
 # Performance TODO
 
-<!-- todo: memoize `BasePromptNode` lineage / hash to kill O(N) recompute -->
+<!-- Todo: memoize `BasePromptNode` lineage / hash to kill O(N) recompute -->
 
 Recorded performance ideas to pick up later. Each entry states the problem,
 the evidence, a concrete implementation sketch, and how to verify the win.

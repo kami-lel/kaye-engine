@@ -4,8 +4,6 @@ embedded_blueprints.py
 common blueprints creations
 """
 
-# Todo make commentary case part of chat
-
 # pylint: disable=invalid-name
 
 from kaye.prompt.prompt_blueprint import PromptBlueprint
@@ -35,7 +33,8 @@ __all__ = (
     "coder_py_docstring_blueprint",
     "coder_py_testing_blueprint",
     "annotation_marker_blueprint",
-    "style_capitalization_blueprint",
+    "style_title_case_blueprint",
+    "style_commentary_case_blueprint",
     "style_briefness_blueprint",
     "style_good_writing_blueprint",
     "prompt_writer_blueprint",
@@ -71,7 +70,8 @@ chat_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Personality
 [x] ├── Language
 [x] └── Style Guide
-[x]     └── Style Guide Markdown Format""")
+[x]     ├── Style Guide Markdown Format
+[x]     └── Style Guide Commentary Case""")
 chat_blueprint.display_name = "Chat"
 chat_blueprint.meta.description = (
     "default for general conversation with full Kaye persona and role"
@@ -219,8 +219,12 @@ style_blueprint = PromptBlueprint.create_from_node(
 )
 
 
-style_capitalization_blueprint = PromptBlueprint.create_from_node(
-    _style_node["Style Guide Capitalization"], recursively=True
+style_title_case_blueprint = PromptBlueprint.create_from_node(
+    _style_node["Style Guide Title Case"]
+)
+
+style_commentary_case_blueprint = PromptBlueprint.create_from_node(
+    _style_node["Style Guide Commentary Case"]
 )
 
 style_briefness_blueprint = PromptBlueprint.create_from_node(
