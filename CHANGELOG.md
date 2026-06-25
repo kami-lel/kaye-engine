@@ -163,8 +163,7 @@
   from `setup.cfg`; pytest now runs serially by default; `-n auto` available
   manually; documented in AGENTS.md; session-scoped fixture re-execution across
   xdist workers made parallel runs 2× slower (212s vs 109s) due to expensive
-  CLI exports; memoization of `BasePromptNode.generate_lineage()` recommended
-  as real fix (documented in PERF_TODO.md)
+  CLI exports; root cause fixed by `generate_lineage()` memoization (see Fixed)
 - **CLI prompt export tests aligned** — `tests/cli/a/u/` tests now expect
   `Role` and `(Abbreviations)` nodes absent from CLI user-system-prompt output
   (only injected by Dify API); `USER_SCOPE` constant added to `__init__.py`
@@ -177,6 +176,14 @@
   removed in favor of `REPLACEMENT_NEWLINE_SYMBOL.join(...)` at call sites
 
 ### Fixed
+
+- **`BasePromptNode` lineage/hash memoization** — `generate_lineage()` now
+  caches its result as a tuple in `_lineage_cache` on first call and returns
+  a copy on subsequent calls; `__hash__` caches its result in `_hash_cache`;
+  both caches are stored via `self.__dict__` to avoid `__slots__` conflicts;
+  reduced 33M redundant `generate_lineage()` calls per full skill export to
+  O(1) per node after warm-up; single export: ~10s → ~4.3s; full test suite:
+  ~109s → ~49s (2.2× faster); output byte-identical (verified via `diff -r`)
 
 ### Security
 
