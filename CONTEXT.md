@@ -146,53 +146,7 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
 ## Known Test Failures
 
 recorded from `python3 -m pytest --tb=no -q` on 2026-06-25:
-**20 failed, 5093 passed**
-
----
-
-### Group A — `assert_tt_*` NameError (16 tests)
-
-**Root cause:** `assert_tt_title`, `assert_tt1`, `assert_tt2`, `assert_tt3` are
-defined in `tests/api/ky/task/coder/__init__.py` but are **not listed in
-`__all__`**, so `from tests.api.ky.task.coder import *` does not export them.
-Every coder task test file that calls these helpers gets `NameError`.
-
-**Affected tests (`tests/api/ky/task/coder/`):**
-
-- `api-ky-task-coder-base_test.py::TestCoder` — `test_am_title`, `test_am1`,
-  `test_am2`, `test_am3`
-- `api-ky-task-coder-bash_test.py::TestCoder::test_am_title`
-- `api-ky-task-coder-c_test.py::TestCoder::test_am_title`
-- `api-ky-task-coder-cpp_test.py::TestCoder::test_am_title`
-- `api-ky-task-coder-cs_test.py::TestCoder::test_am_title`
-- `api-ky-task-coder-gd_test.py::TestCoder::test_am_title`
-- `api-ky-task-coder-html_test.py::TestCoder::test_am_title`
-- `api-ky-task-coder-js_test.py::TestCoder::test_am_title`
-- `api-ky-task-coder-mux_test.py::TestCoder::test_am_title`
-- `api-ky-task-coder-py_test.py::TestCoder::test_am_title`
-- `api-ky-task-coder-ts_test.py::TestCoder::test_am_title`
-- `api-ky-task-coder-u3d_test.py::TestCoder::test_am_title`
-- `api-ky-task-coder-ue_test.py::TestCoder::test_am_title`
-
-**Fix target:** add `"assert_tt_title"`, `"assert_tt1"`, `"assert_tt2"`,
-`"assert_tt3"` to `__all__` in `tests/api/ky/task/coder/__init__.py`.
-Note: `assert_tt1/2/3` also assert stale content (see Group B).
-
----
-
-### Group B — stale corpus string in base coder test (1 test)
-
-**Root cause:** corpus text for `code comment` annotation markers changed;
-the test still checks the old string.
-
-**Affected test:**
-
-- `tests/api/ky/task/coder/api-ky-task-coder-base_test.py::TestCoder::test_coder_code_comment3`
-
-**Error:** `AssertionError: assert '- include *immediate annotation markers*' in opt`
-
-**Fix target:** update the assertion in `api-ky-task-coder-base_test.py` (or
-the helper it delegates to) to match the current corpus wording.
+**20 failed, 5093 passed** — reduced to **2 groups** after fixes.
 
 ---
 
