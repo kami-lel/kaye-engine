@@ -17,7 +17,7 @@ DIAGRAMS = "#### Diagrams"
 ROLE = "# Role"
 ABBREVIATIONS = "# (Abbreviations)"
 PEER_CODER = "# Kaye Peer Coder"
-COMMENTARY_CASE = "### Commentary Case"
+COMMENTARY_CASE = "## Style Guide Commentary Case"
 EMOTION_LINE = "- must use blockquote `>` for your emotions"
 LANGUAGE_LINE = "- always respond in the **same language**"
 
