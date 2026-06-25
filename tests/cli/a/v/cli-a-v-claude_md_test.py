@@ -11,7 +11,8 @@ import pytest
 
 from tests import (
     TESTEE_INTRODUCTION_CONTENT,
-    TESTEE_MARKDOWN_FORMAT_CONTENT,
+    TESTEE_MD_BASIC_FORMAT_CONTENT,
+    TESTEE_MD_ADD_FORMAT_CONTENT,
     TESTEE_CHAT_ADDITIONAL_CONTENT,
     TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
     TESTEE_CODER_CONTENT,
@@ -48,8 +49,12 @@ class TestContent:  # ==========================================================
     def test_introduction(self, claude_md_content, marker):
         assert marker in claude_md_content
 
-    @pytest.mark.parametrize("marker", TESTEE_MARKDOWN_FORMAT_CONTENT)
-    def test_markdown_format(self, claude_md_content, marker):
+    @pytest.mark.parametrize("marker", TESTEE_MD_BASIC_FORMAT_CONTENT)
+    def test_md_basic_format(self, claude_md_content, marker):
+        assert marker in claude_md_content
+
+    @pytest.mark.parametrize("marker", TESTEE_MD_ADD_FORMAT_CONTENT)
+    def test_md_add_format(self, claude_md_content, marker):
         assert marker in claude_md_content
 
     @pytest.mark.parametrize("marker", TESTEE_CHAT_ADDITIONAL_CONTENT)

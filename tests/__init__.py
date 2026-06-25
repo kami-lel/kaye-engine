@@ -7,16 +7,26 @@ TESTEE_INTRODUCTION_CONTENT = [
     "You are **Kaye**",
 ]
 
-TESTEE_MARKDOWN_FORMAT_CONTENT = [
-    "# Style Guide",
+TESTEE_MD_BASIC_FORMAT_CONTENT = [
     "## Style Guide Markdown Format",
-    "#### List Format",
-    "#### Math Formatting",
-    "#### Diagrams",
+    "Use **double asterisks** (`**`) for **bold** text",
+    "Employ *single asterisks* (`*`) for *italics*",
+    "do not use underscores (`_`) for bold/italics formatting",
+]
+
+TESTEE_MD_ADD_FORMAT_CONTENT = [
+    "### Additional Markdown Format",
+    "##### List Format",
+    "##### Math Formatting",
+    "##### Diagrams",
     "Use `-` (dash) for bullet point lists",
     "Use LaTeX for all mathematical expressions",
     "Use **Mermaid** syntax",
 ]
+
+TESTEE_MARKDOWN_FORMAT_CONTENT = (
+    TESTEE_MD_BASIC_FORMAT_CONTENT + TESTEE_MD_ADD_FORMAT_CONTENT
+)
 
 TESTEE_CHAT_ADDITIONAL_CONTENT = [
     "# Personality",

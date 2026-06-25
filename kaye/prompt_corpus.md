@@ -213,8 +213,9 @@ Follow these guidelines in every conversation:
 
 
 
+### Additional Markdown Format
 
-#### List Format
+##### List Format
 
 Use `-` (dash) for bullet point lists
 
@@ -227,9 +228,7 @@ For all types of **lists**, you must apply *commentary case* for **each** list i
 
 
 
-
-
-#### Math Formatting
+##### Math Formatting
 
 Use LaTeX for all mathematical expressions. Do not write math in plain text.
 
@@ -242,9 +241,7 @@ $$
 
 
 
-
-
-#### Diagrams
+##### Diagrams
 
 Use **Mermaid** syntax inside fenced code blocks to render diagrams, graphs, flowcharts, and visual representations. Eg
 
@@ -4057,6 +4054,26 @@ Do **NOT** using any markdown syntax in the output.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Primary Message Task
 
 Produce a concise summary of changes across **multiple** files.
@@ -4067,11 +4084,35 @@ If no clear, consistent cross-file pattern exists (i.e., each file was edited fo
 
 Eg:
 
-- modularize payment processing; split into gateway adapters
-- introduce feature-flag framework; enable gradual rollout for search
-- optimize database queries across services; remove n+1 patterns
-- upgrade dependencies: bump framework and address breaking changes
-- remove legacy analytics pipeline; replace with event-driven collector
+```
+modularize payment processing; split into gateway adapters
+introduce feature-flag framework; enable gradual rollout for search
+optimize database queries across services; remove n+1 patterns
+upgrade dependencies: bump framework and address breaking changes
+remove legacy analytics pipeline; replace with event-driven collector
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4100,37 +4141,51 @@ Eg:
 
 
 
+
+
+
+
+
+
+
+
 ### Prefix Symbol
 
-You are to select a single prefix that best describes the primary nature of the change to a given file. Use the following prefixes, in **priority order**. Apply the **first rule that matches**:
+Select ONE prefix for the changed file. Read the rules below in order, top to bottom. Use the first prefix whose condition is true, then stop.
 
-1. `^`: new file
-2. `!`: deleted file
-3. `:`: relocated/moved file, with no or only minor changes (filename may change or stay the same)
-4. `=`: file renamed (but location unchanged), with no or only minor changes
-5. `?` if the modified file is a non-textual type (e.g., binaries, compressed archives, databases, encrypted blobs)
-6. `@`: file contains only changes to triage tags (and to related lines)
-7. `#`: change primarily concerns documentation or code comments
-8. `~`: change is primarily content reordering or code refactoring
-9. `.`: change is only about: whitespace, indentation, or blank-line
+1. `^` — file is newly added.
+2. `!` — file is deleted.
+3. `:` — file moved to a different directory AND its content is unchanged or nearly unchanged. (Its filename may also change.)
+4. `=` — file's directory is unchanged but its filename changed, AND its content is unchanged or nearly unchanged.
+5. `?` — file is non-text: binary, compressed archive, database, or encrypted blob.
+6. `@` — only edits are to triage tags and the lines directly tied to them.
+7. `#` — edits are mostly to documentation or code comments.
+8. `~` — edits are mostly reordering content or refactoring code, with behavior unchanged.
+9. `.` — only edits are whitespace, indentation, or blank lines.
 
-If none of the above prefixes apply, use one of the following to describe the change:
+"Nearly unchanged" in rules 3 and 4 means the content is essentially the same; only the path or name differs, apart from trivial edits.
+
+If no rule above matches, the change is an ordinary edit, pick the symbol by comparing added vs. deleted lines:
+
+
 
 
 
 #### Long
 
-- predominantly addition: +
-- predominantly deletion: -
-- mixed modification: *
+- `+` — more lines added than deleted
+- `-` — more lines deleted than added
+- `*` — added and deleted are roughly balanced
+
+
 
 
 
 #### Short
 
-- predominantly addition: /
-- predominantly deletion: \
-- mixed modification: |
+- `/` — more lines added than deleted
+- `\` — more lines deleted than added
+- `|` — added and deleted are roughly balanced
 
 
 
