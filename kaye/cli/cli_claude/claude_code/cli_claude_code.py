@@ -16,6 +16,9 @@ from kaye.cli.cli_claude.user_prompt.export_user_file import (
     export_user_system_prompt_file,
 )
 
+# Fixme claude code should generate CLAUDE.md with coder
+# Todo add claude md coder test
+
 # constants  ===================================================================
 
 _DESCRIPTION = """
