@@ -5,10 +5,10 @@ from pathlib import Path
 
 from kaye import logger, kamilog
 
-from kaye.cli.cli_claude.user_prompt.cli_claude_user_prompt import (
+from kaye.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
 )
-from .export_vs_code_extension import export_vs_code_extension
+from .export import export_vs_code_extension
 
 # constants  ===================================================================
 
@@ -34,7 +34,7 @@ CLAUDE_FOLDER/  (default: ~/.claude)
 """
 
 
-def register_cli_claude_vs_code_extension_parser(  ###########################
+def register_parser(  ###########################
     cli_subparser,
 ):  # pylint: disable=missing-function-docstring
     vs_code_parser = cli_subparser.add_parser(
@@ -64,7 +64,7 @@ def register_cli_claude_vs_code_extension_parser(  ###########################
 
         export_vs_code_extension(folder)
 
-        # TODO add information of manifest placement
+        # TODO print information of manifest placement
         logger.done("export VS Code Extension folder:\t" + str(folder))
 
     vs_code_parser.set_defaults(func=_vs_code_main)

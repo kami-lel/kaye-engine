@@ -5,7 +5,7 @@ from pathlib import Path
 
 from kaye import logger, kamilog
 
-from .export_user_file import export_user_system_prompt_file
+from .export import export_user_system_prompt_file
 
 # constants  ===================================================================
 
@@ -30,7 +30,7 @@ def find_user_system_prompt_file(claude_folder):
     return claude_folder / "CLAUDE.md"
 
 
-def register_cli_claude_user_prompt_parser(  ###################################
+def register_parser(  ###################################
     cli_subparser,
 ):  # pylint: disable=missing-function-docstring
     user_prompt_parser = cli_subparser.add_parser(

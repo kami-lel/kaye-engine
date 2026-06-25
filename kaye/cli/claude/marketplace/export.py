@@ -9,11 +9,11 @@ from pathlib import Path
 
 from kaye import logger
 from kaye import PROGRAM_NAME
-from kaye.cli.cli_claude.claude_plugin.export_plugin_as_folder import (
+from kaye.cli.claude.plugin.export_folder import (
     export_plugin_as_folder,
 )
 
-from .marketplace_json import MarketplaceJson
+from .manifest import MarketplaceJson
 
 # constants  ===================================================================
 

@@ -5,7 +5,7 @@ from pathlib import Path
 
 from kaye import logger, kamilog
 
-from .export_marketplace import export_marketplace
+from .export import export_marketplace
 
 # constants  ===================================================================
 
@@ -28,9 +28,7 @@ MARKETPLACE/  (default: current directory)
 """
 
 
-def register_cli_claude_marketplace_parser(  ####################################
-    cli_subparser,
-):  # pylint: disable=missing-function-docstring
+def register_parser(cli_subparser):  ####################################
     marketplace_parser = cli_subparser.add_parser(
         "marketplace",
         help=__doc__,

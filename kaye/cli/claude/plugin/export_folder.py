@@ -9,10 +9,10 @@ from importlib.metadata import metadata, version
 from kaye import logger
 
 from kaye import PROGRAM_NAME, DISPLAY_NAME
-from kaye.cli.cli_claude.claude_skill.export_skills_as_folders import (
+from kaye.cli.claude.skill.export_folders import (
     export_skills_as_folders,
 )
-from .manifest_plugin_json import ManifestPluginJson
+from .manifest import ManifestPluginJson
 
 # constants  ===================================================================
 

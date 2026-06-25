@@ -12,7 +12,7 @@ from pathlib import Path
 from kaye import logger
 
 from kaye import PROGRAM_NAME
-from .export_plugin_as_folder import (
+from .export_folder import (
     export_plugin_as_folder,
 )
 

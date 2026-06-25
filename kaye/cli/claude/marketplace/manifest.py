@@ -1,5 +1,5 @@
 """
-marketplace_json.py
+manifest.py
 
 define ``MarketplaceJson``
 """
