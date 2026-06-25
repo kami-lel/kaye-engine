@@ -61,9 +61,9 @@ def register_vs_code_subparser(cli_subparser):  ################################
 
         folder = args.folder
 
-        export_vs_code_extension(folder)
+        marketplace_path = export_vs_code_extension(folder)
 
-        # TODO print information of manifest placement
+        logger.info("marketplace.json location:\n" + str(marketplace_path))
         logger.done("export VS Code Extension folder:\t" + str(folder))
 
     vs_code_parser.set_defaults(func=_vs_code_main)
