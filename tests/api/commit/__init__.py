@@ -31,11 +31,6 @@ def assert_commit_sense_common(opt):
 
 
 def assert_per_file_common(opt):
-    assert """## Triage Tags
-Used to label defects and related notes across code and documentation. You must refer to them as *triage tags* or *TT*:
-
-- Loud TT: BUG, FIXME, TODO, HACK""" in opt
-
     assert """## Per File Summary Task
 Produce a concise summary of changes of a **single** file.
 
