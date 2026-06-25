@@ -85,7 +85,8 @@ MD_FILENAME2SKILL_NAME = {
     "project-readme-writer": "Project README Writer",
     "project-semantic-versioning": "Project Semantic Versioning",
     "project-structure": "Project Structure",
-    "style-guide-capitalization": "Style Guide Capitalization",
+    "style-guide-title-case": "Style Guide Title Case",
+    "style-guide-commentary-case": "Style Guide Commentary Case",
     "style-guide-briefness-style": "Style Guide Briefness Style",
     "style-guide-good-writing": "Style Guide Good Writing",
     "continue-behavior": "Continue Behavior",
@@ -597,12 +598,14 @@ TESTEE_FILE_CONTENT_ALL = {
         "- omit articles (a, an, the) and helper verbs, ",
         "- keep sentences short, direct, drop filler",
     ],
-    "style-guide-capitalization": [
-        "## Style Guide Capitalization",
-        "### Title Case",
+    "style-guide-title-case": [
+        "## Style Guide Title Case",
         "Use *Chicago Manual of Style* headline case:",
         "Used for **document title** and **section headings**.",
-        "### Commentary Case",
+    ],
+    "style-guide-commentary-case": [
+        "## Style Guide Commentary Case",
+        "- begin 1st sentence with a lowercase letter",
         "Used for **list items** and **table cell content**.",
     ],
     "style-guide-good-writing": [
@@ -777,11 +780,12 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         " numerals and abbreviations, punctuation-compressed phrasing, no"
         ' terminal periods."'
     ),
-    "style-guide-capitalization": (
-        "'Applies Chicago Manual of Style capitalization:"
-        " Title Case for titles and headings, Commentary Case"
-        " (lowercase-leading, selective emphasis, no end punctuation) for"
-        " list items and table cells.'"
+    "style-guide-title-case": (
+        "Applies Chicago headline-style Title Case to titles and headings."
+    ),
+    "style-guide-commentary-case": (
+        "'Applies Commentary Case: lowercase-leading sentences, selective"
+        " Title Case on key words, no terminal punctuation.'"
     ),
     "style-guide-good-writing": (
         '"Proofreads and polishes text with minimal edits'
@@ -1099,14 +1103,16 @@ TESTEE_CONTINUE_BLUEPRINT_DESCRIPTION_CONTENT_ALL = {
         ' brief/terse/punchy,\\" \\"cut words,\\" or \\"headline style.\\" Not'
         ' for prose needing full grammar, formal tone, or complete sentences."'
     ),
-    "style-guide-capitalization": (
-        '"Applies Chicago Manual of Style capitalization: Title Case for'
-        " titles and headings, Commentary Case (lowercase-leading, selective"
-        " emphasis, no end punctuation) for list items and table"
-        " cells.\\u21B5Use when capitalizing titles, headings, list items, or"
-        " table cells, or when a user mentions title case, headline case, or"
-        " Chicago Manual of Style. Not for grammar, punctuation, or prose"
-        ' style."'
+    "style-guide-title-case": (
+        '"Applies Chicago headline-style Title Case to titles and headings.'
+        "\\u21B5When formatting a document title or section heading."
+        ' Not for body text or list items."'
+    ),
+    "style-guide-commentary-case": (
+        '"Applies Commentary Case: lowercase-leading sentences, selective'
+        " Title Case on key words, no terminal punctuation."
+        "\\u21B5When formatting list items or table cell content."
+        ' Not for titles, headings, or body prose."'
     ),
     "style-guide-good-writing": (
         '"Proofreads and polishes text with minimal edits \\u2014 fixing'
@@ -1157,11 +1163,13 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
         " Not for prose needing full grammar, formal tone, or complete"
         ' sentences."'
     ),
-    "style-guide-capitalization": (
-        "Use when capitalizing titles, headings, list items,"
-        " or table cells, or when a user mentions title case, headline"
-        " case, or Chicago Manual of Style. Not for grammar, punctuation,"
-        " or prose style."
+    "style-guide-title-case": (
+        "When formatting a document title or section heading."
+        " Not for body text or list items."
+    ),
+    "style-guide-commentary-case": (
+        "When formatting list items or table cell content."
+        " Not for titles, headings, or body prose."
     ),
     "style-guide-good-writing": (
         "Use to proofread, copyedit, or correct writing"

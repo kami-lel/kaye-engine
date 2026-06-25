@@ -1,7 +1,9 @@
 """
-cli-c-c-style-cap_test.py
+cli-c-c-style-commentary-case_test.py
 
 Unit Tests (using pytest) for
+
+creation of ``style-guide-commentary-case`` continue rule
 """
 
 import pytest
@@ -9,7 +11,7 @@ import pytest
 from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
-MD_FILENAME = "style-guide-capitalization"
+MD_FILENAME = "style-guide-commentary-case"
 TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 
@@ -58,7 +60,9 @@ class TestHeader:  # ===========================================================
         assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        assert assert_continue_blueprint_header_line_description(MD_FILENAME, testee_header)
+        assert assert_continue_blueprint_header_line_description(
+            MD_FILENAME, testee_header
+        )
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -66,20 +70,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # =========================================================
 
-    def test0(_, testee_content):
-        assert TESTEE_FILE_CONTENT[0] in testee_content
-
-    def test1(_, testee_content):
-        assert TESTEE_FILE_CONTENT[1] in testee_content
-
-    def test2(_, testee_content):
-        assert TESTEE_FILE_CONTENT[2] in testee_content
-
-    def test3(_, testee_content):
-        assert TESTEE_FILE_CONTENT[3] in testee_content
-
-    def test4(_, testee_content):
-        assert TESTEE_FILE_CONTENT[4] in testee_content
-
-    def test5(_, testee_content):
-        assert TESTEE_FILE_CONTENT[5] in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content

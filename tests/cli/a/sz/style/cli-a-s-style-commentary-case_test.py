@@ -1,9 +1,9 @@
 """
-cli-a-s-style-cap_test.py
+cli-a-s-style-commentary-case_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``style-guide-capitalization``
+creation of ``style-guide-commentary-case`` in zipped skill export
 """
 
 import pytest
@@ -17,7 +17,7 @@ from tests.cli.a.s import (
 # constants  ###################################################################
 
 
-SKILL_NAME = "style-guide-capitalization"
+SKILL_NAME = "style-guide-commentary-case"
 TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 
 
