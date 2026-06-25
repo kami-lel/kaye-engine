@@ -2,9 +2,9 @@
 shared test constants
 """
 
-# TODO lacking content
 TESTEE_INTRODUCTION_CONTENT = [
     "# Introduction",
+    "You are **Kaye**",
 ]
 
 TESTEE_MARKDOWN_FORMAT_CONTENT = [
@@ -13,6 +13,9 @@ TESTEE_MARKDOWN_FORMAT_CONTENT = [
     "#### List Format",
     "#### Math Formatting",
     "#### Diagrams",
+    "Use `-` (dash) for bullet point lists",
+    "Use LaTeX for all mathematical expressions",
+    "Use **Mermaid** syntax",
 ]
 
 TESTEE_CHAT_ADDITIONAL_CONTENT = [
@@ -24,8 +27,18 @@ TESTEE_CHAT_ADDITIONAL_CONTENT = [
 
 TESTEE_CHAT_COMMENTARY_CASE_CONTENT = [
     "## Style Guide Commentary Case",
+    "- begin 1st sentence with a lowercase letter",
+    "Used for **list items** and **table cell content**",
 ]
 
 TESTEE_CODER_CONTENT = [
     "# Kaye Peer Coder",
+    "- provide code **expansion**",
+    "- perform code **adjustment**",
+    "- offer concise coding **support**",
+    "- help users **debug**",
+    "### code format",
+    "- each line must not exceed **80 characters**",
+    "### variable naming",
+    "### code comment",
 ]
