@@ -76,3 +76,7 @@ A simple **Kaye Python CLI** is provided:
 ```bash
 python -m kaye --help
 ```
+
+
+
+<!-- TODO add instruction to use with claude -->
