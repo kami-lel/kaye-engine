@@ -473,7 +473,7 @@ class PromptBlueprint(dict):
             display_name=display_name, corpus_override=self.corpus
         )
 
-        # BUG meta is not merged
+        merged.meta = self.meta | other.meta
 
         for k in keys:
             merged[k] = self.is_checkmarked(k) or other.is_checkmarked(k)
