@@ -2,6 +2,8 @@
 
 [^format]
 
+<!-- todo improve AM usage: abbreviations, vocab for up/down, vocab for different levels, and usage in Kaye Peer Coder -->
+
 
 
 
@@ -28,7 +30,76 @@
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.6.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.7.0...dev
+
+
+
+## [6.7.0] - 2026-06-25
+
+### Added
+
+- **`kaye claude vs-code-extension`** (alias `a v`) — new subcommand that
+  writes `CLAUDE.md` and exports the kaye marketplace to
+  `~/.claude/kaye_marketplace/`; one-step Claude Code VS Code Extension setup
+- **7 new project prompt corpus sections** under `# Projects`: `Create README`,
+  `Maintain README`, `Create CHANGELOG`, `Maintain AGENTS and CONTEXT`,
+  `Create Docs`, `Initialize Project`, `Compact with Maintenance`
+- **`prompts_blueprints.py`** — expanded from 2 to 12 blueprints:
+  `create_readme`, `maintain_readme`, `create_changelog`,
+  `maintain_changelog`, `create_agents_and_context`,
+  `maintain_agents_and_context`, `create_docs`, `maintain_docs`,
+  `initialize_project`, `compact_with_maintenance`,
+  `prepare_for_feature_finish`, `prepare_for_version_release`
+- **Project CONTEXT Writer** — new corpus section for creating and maintaining
+  `CONTEXT.md` and `CONTEXT.local.md`
+- **test suites** — `tests/cli/a/v/` (VS Code export), `tests/cli/a/c/`
+  (code), `tests/cli/a/p/` (plugin), `tests/cli/a/cz/` (plugin zip),
+  `tests/cli/a/m/` (marketplace), `tests/cli/a/u/` (user-system-prompt)
+  added; `tests/__init__.py` centralized `TESTEE_*` content markers shared
+  across all suites
+
+### Changed
+
+- **`kaye claude user-system-prompt`** (`a u`) — new `-r`/`--rapid` and
+  `-c`/`--coder` flags; `--help` on all `kaye claude` subcommands now shows
+  an output-folder tree via `RawDescriptionHelpFormatter`
+- **`kaye/cli/claude/`** — `cli_claude/` renamed to `claude/`; subpackages
+  drop the `claude_` prefix (`claude_code/ → code/`, `claude_plugin/ →
+  plugin/`)
+- **Style Guide capitalization split** — `Style Guide Capitalization` split
+  into `Style Guide Title Case` and `Style Guide Commentary Case`; both
+  exported as separate skills and Continue rules
+- **`chat_blueprint` / `rapid_blueprint`** — `Role` and `(Abbreviations)`
+  removed from base definitions; Dify task composes them via
+  `_user_scope_blueprint`
+- **Prompt corpus restructured** — `## project prompts` container removed;
+  sections promoted to `## ` level; `Continue Behavior` rehomed under
+  `# Agent Behavior`; renamed: `Create AGENTS` → `Create AGENTS and CONTEXT`,
+  `Prepare for Release` → `Prepare for Version Release`
+- **Project writer corpus sections** — `Project README Writer`, `Project
+  CHANGELOG Writer`, `Project AGENTS Writer` rewritten from persona style
+  to guideline style; skill metadata fields updated
+- **Agent Behavior** — new Git Command Safety Policy guidance added
+- **Tests refactored** — all manually-numbered `test0`...`testN` methods
+  replaced with `@pytest.mark.parametrize`; alias tests in `a/s/alts/` and
+  `a/sz/alts/` converted to mock-based; API task tests parametrized over
+  shared constants; pytest-xdist reverted to manual opt-in (serial by default)
+- **README** — Claude integration section restructured with dedicated
+  `Claude Desktop` and `Claude Code VS Code Extension` subsections
+
+### Removed
+
+- **`kaye/cli/cli_claude/`** — removed; replaced by `kaye/cli/claude/`
+- **`collapse_lines_into_single_line()`** in `blueprint_meta_nodes.py` —
+  replaced with `REPLACEMENT_NEWLINE_SYMBOL.join(...)`
+
+### Fixed
+
+- **`BasePromptNode` lineage/hash memoization** — `generate_lineage()` and
+  `__hash__` now cache results; reduces redundant calls from 33M to O(1) per
+  node; single export ~10s → ~4.3s; full test suite ~109s → ~49s (2.2×)
+
+[6.7.0]: https://github.com/kami-lel/kaye/compare/v6.6.0...v6.7.0
 
 
 

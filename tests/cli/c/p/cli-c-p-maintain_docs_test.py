@@ -8,26 +8,12 @@ creation of ``maintain_docs.md``
 
 import pytest
 
-from tests.cli import PROMPT_FILENAME2NAME
-from tests.cli.c.c import (
-    assert_rule_file_basic_format,
-    split_rule_file_basic_format,
-    assert_header_line_always_apply,
-)
-from tests.cli.c.p import (
-    assert_edit_readme0,
-    assert_edit_readme1,
-    assert_edit_readme2,
-    assert_edit_readme3,
-    assert_edit_agents0,
-    assert_edit_agents1,
-    assert_edit_agents2,
-    assert_edit_agents3,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 PROMPT_FILENAME = "maintain-docs"
 _PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[PROMPT_FILENAME]
 
 # Pytest fixtures  #############################################################
 
@@ -45,12 +31,12 @@ def testee(testee_path):
 
 @pytest.fixture(scope="session")
 def testee_header(testee):
-    return split_rule_file_basic_format(testee)[0]
+    return split_frontmatter_md_file(testee)[0]
 
 
 @pytest.fixture(scope="session")
 def testee_content(testee):
-    return split_rule_file_basic_format(testee)[1]
+    return split_frontmatter_md_file(testee)[1]
 
 
 # Pytest unit tests  ###########################################################
@@ -65,13 +51,13 @@ class TestBasic:  # ============================================================
         assert testee_path.is_file()
 
     def test_structure(_, testee):
-        assert assert_rule_file_basic_format(testee)
+        assert assert_frontmatter_md_file_basic_structure(testee)
 
 
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Maintain Docs" in testee_header
+        assert assert_continue_prompt_header_line_name(PROMPT_FILENAME, testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
@@ -82,93 +68,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test_heading(_, testee_content):
-        assert "### Maintain Docs" in testee_content
-
-    def test_intro_readme_agents_docs(_, testee_content):
-        assert (
-            "Update README-style files, AGENTS-style files, "
-            "and files under `docs/`"
-            in testee_content
-        )
-
-    def test_instructions_section(_, testee_content):
-        assert "##### Instructions" in testee_content
-
-    def test_instructions_review_changes(_, testee_content):
-        assert "review recent repository changes" in testee_content
-
-    def test_instructions_create_only_when_missing(_, testee_content):
-        assert (
-            "create new documentation only when an important expected file "
-            "is missing or repository changes require it"
-            in testee_content
-        )
-
-    def test_instructions_readme_style_definition(_, testee_content):
-        assert (
-            "treat README-style files as files named `README`, `Readme`, or "
-            "`readme`, with no extension, `.md`, or `.txt`"
-            in testee_content
-        )
-
-    def test_instructions_agents_style_definition(_, testee_content):
-        assert (
-            "treat AGENTS-style files as files named `AGENTS`, `Agents`, or "
-            "`agents`, with no extension or `.md`"
-            in testee_content
-        )
-
-    def test_instructions_verify_content(_, testee_content):
-        assert (
-            "verify links, file paths, commands, configuration names, "
-            "examples, and references where possible"
-            in testee_content
-        )
-
-    def test_docs_files_section(_, testee_content):
-        assert "##### Docs Files" in testee_content
-
-    def test_docs_files_update_affected(_, testee_content):
-        assert (
-            "update affected APIs, commands, architecture notes, configuration "
-            "details, examples, workflows, and troubleshooting guidance"
-            in testee_content
-        )
-
-    def test_docs_files_cross_link(_, testee_content):
-        assert (
-            "cross-link related docs when it improves navigation"
-            in testee_content
-        )
-
-    def test_output_section(_, testee_content):
-        assert "##### Output" in testee_content
-
-    # edit README  -------------------------------------------------------------
-
-    def test_edit_readme_section(_, testee_content):
-        assert assert_edit_readme0(testee_content)
-
-    def test_edit_readme_follow_writer(_, testee_content):
-        assert assert_edit_readme1(testee_content)
-
-    def test_edit_readme_update_applicable(_, testee_content):
-        assert assert_edit_readme2(testee_content)
-
-    def test_edit_readme_prioritize_root(_, testee_content):
-        assert assert_edit_readme3(testee_content)
-
-    # edit AGENTS  -------------------------------------------------------------
-
-    def test_edit_agents_section(_, testee_content):
-        assert assert_edit_agents0(testee_content)
-
-    def test_edit_agents_follow_writer(_, testee_content):
-        assert assert_edit_agents1(testee_content)
-
-    def test_edit_agents_preserve_frontmatter(_, testee_content):
-        assert assert_edit_agents2(testee_content)
-
-    def test_edit_agents_avoid_moving_content(_, testee_content):
-        assert assert_edit_agents3(testee_content)
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content

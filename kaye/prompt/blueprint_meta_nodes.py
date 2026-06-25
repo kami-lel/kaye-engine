@@ -1,23 +1,12 @@
 """
 blueprint_meta_fields.py
 
-define ``BlueprintMetaNodes`` and ``collapse_lines_into_single_line``
+define ``BlueprintMetaNodes``
 """
 
 from kaye.prompt.meta_node_type import MetaNodeType
 
-
-def collapse_lines_into_single_line(lines):
-    """
-    collapse an iterable of text lines into one single-line string
-
-
-    :param lines: the text lines to collapse onto a single line
-    :type lines: Iterable[str]
-    :return: the lines joined into one string by the line-break glyph
-    :rtype: str
-    """
-    return "↵".join(lines)
+REPLACEMENT_NEWLINE_SYMBOL = "↵"
 
 
 class BlueprintMetaNodes:  #####################################################
@@ -37,7 +26,7 @@ class BlueprintMetaNodes:  #####################################################
         :return: description text, or rendered description node content
         :rtype: str
         """
-        return self._description or collapse_lines_into_single_line(
+        return self._description or REPLACEMENT_NEWLINE_SYMBOL.join(
             self._convert_node2content_lines(self.description_node)
         )
 
@@ -59,7 +48,7 @@ class BlueprintMetaNodes:  #####################################################
         :return: rendered when-to-use node content
         :rtype: str
         """
-        return collapse_lines_into_single_line(
+        return REPLACEMENT_NEWLINE_SYMBOL.join(
             self._convert_node2content_lines(self.when_to_use_node)
         )
 
@@ -71,7 +60,7 @@ class BlueprintMetaNodes:  #####################################################
         :return: rendered description and when-to-use content
         :rtype: str
         """
-        return self._description or collapse_lines_into_single_line(
+        return self._description or REPLACEMENT_NEWLINE_SYMBOL.join(
             self._convert_node2content_lines(self.description_node)
             + self._convert_node2content_lines(self.when_to_use_node)
         )

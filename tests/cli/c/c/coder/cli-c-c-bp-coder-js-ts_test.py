@@ -8,13 +8,7 @@ creation of ``coder_js_ts_blueprint.md``
 
 import pytest
 
-from tests.cli import MD_FILENAME2SKILL_NAME
-from tests.cli import (
-    TESTEE_FILE_CONTENT_ALL,
-    assert_frontmatter_md_file_basic_structure,
-    split_frontmatter_md_file,
-    assert_header_line_always_apply,
-)
+from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "coder-javascript-and-typescript"
@@ -66,18 +60,10 @@ class TestStructure:  # ========================================================
 class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
-        assert "name: Coder JavaScript and TypeScript" in testee_header
+        assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        print(testee_header)
-        assert (
-            'description: "Writes, edits, and reviews all JavaScript and'
-            " TypeScript code, targeting the ES11 standard with camelCase"
-            " naming and JSDoc documentation conventions.\\u21B5Use for any"
-            " JavaScript or TypeScript work, inline JS/TS code blocks,"
-            ' requests for JavaScript, TypeScript, or Node."'
-            in testee_header
-        )
+        assert assert_continue_blueprint_header_line_description(MD_FILENAME, testee_header)
 
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.{js,ts,jsx,tsx,mjs,cjs}"]' in testee_header
