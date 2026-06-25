@@ -27,7 +27,8 @@
   command and alias tests (`claude plugin`, `claude p`, `a plugin`, `a p`)
 - **`tests/cli/a/cz/`** — new test suite for `kaye claude plugin -z`: mirrors
   `tests/cli/a/p/` with zip extraction via `zipfile.ZipFile.extractall()`
-  before path assertions
+  before path assertions; extended with `cli-a-cz-claude_md_test.py` to verify
+  CLAUDE.md presence in the extracted output
 - **`tests/cli/a/m/`** — new test suite for `kaye claude marketplace`: file
   existence for all skill files, `plugin.json`, and `marketplace.json`;
   `marketplace.json` content validation (`$schema`, `name`, `version`,
@@ -48,13 +49,33 @@
   `prepare_for_feature_finish`, `prepare_for_version_release`; `PROMPTS_BLUEPRINTS`
   list updated accordingly; uses `recursively=True` only for nodes with
   non-meta child sections
-- **`tests/corpus/corpus-skill_frontmatter_test.py`** — 6 new test functions
-  for newly exportable prompt blueprints: `test_maintain_readme`,
-  `test_create_changelog`, `test_maintain_agents_and_context`,
-  `test_create_docs`, `test_initialize_project`, `test_compact_with_maintenance`
+- **`tests/corpus/corpus-skill_frontmatter_test.py`** — refactored to a single
+  `@pytest.mark.parametrize("skill_name", ALL_CLAUDE_SKILL_NAMES)` test in
+  `TestSkillFrontmatter.test_frontmatter_conforms_to_spec`; covers every
+  exported blueprint, prompt, and abbreviation skill automatically — no
+  per-skill hand-written function needed for new additions
+- **`tests/cli/a/c/`** — new test suite for `kaye claude code` (`a code`,
+  `a c`, `claude c`): CLAUDE.md existence at `~/.claude/CLAUDE.md`,
+  `plugin.json` content validation, skill files existence across all exported
+  skills, and mock-based command/alias tests
+- **`tests/cli/a/u/`** — new package replacing `cli-a-u-chat_test.py`:
+  `cli-a-u-alts_test.py` covers all command aliases and flags,
+  `cli-a-u-content_test.py` covers output content per flag combination
+  (`--rapid`, `--coder`), and `conftest.py` provides shared fixtures
 
 ### Changed
 
+- **`kaye claude user-system-prompt`** (`claude u`, `a u`) — new `-r`/`--rapid`
+  flag uses the Rapid blueprint instead of Chat; new `-c`/`--coder` flag appends
+  Kaye Peer Coder content after the main blueprint
+- **`chat_blueprint` and `rapid_blueprint`** in `embedded_blueprints.py` —
+  `Role` and `(Abbreviations)` removed from their embedded definitions; the
+  Dify chat task now merges them in via a local `_user_scope_blueprint`
+  (`Role` + `(Abbreviations)`), keeping the base blueprints leaner and the
+  user-scope composition explicit
+- **Prompt corpus — skill metadata** — added `{description}` and `{when_to_use}`
+  meta nodes to `Create Docs`, `Prompt Writer`, and `Skill Description Writer`
+  sections; all three now export accurate skill metadata
 - **Continue Behavior** — rehomed from a standalone top-level `# Continue
   Behavior` section to a `## ` subsection under `# Agent Behavior`; corpus
   path updated in `export_blueprint_rules.py`; `run_terminal_command`
