@@ -3472,7 +3472,6 @@ Before merging the current feature branch, sync the docs it affects: log its cha
 #### Output
 
 Update the affected files in place; leave unrelated files untouched.
-Return a brief summary listing changed files and what changed.
 
 
 
