@@ -9,12 +9,7 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/anthropic:0.3.8@6706e34565fb2c560cc3641c888b7f4e34288928df913e92241bd6d4f830a0cf
-    version: null
-- current_identifier: null
-  type: marketplace
-  value:
-    marketplace_plugin_unique_identifier: langgenius/openai:0.3.4@3345b596ee5117d9304097feaee866f05ffaf0d76a790fb07acd8b99f6c87cb3
+    marketplace_plugin_unique_identifier: langgenius/openai:0.3.8@592c8252795b5f75807de2d609a03196ed02596b409f7642b4a07548c7ff57ef
     version: null
 kind: app
 version: 0.5.0
@@ -309,7 +304,7 @@ workflow:
           required: false
           type: checkbox
           variable: allows_md
-      height: 109
+      height: 108
       id: '1775587230054'
       position:
         x: 80
@@ -380,7 +375,7 @@ workflow:
           - allows_md
           value_type: boolean
           variable: allows_md
-      height: 52
+      height: 51
       id: '1775587265168'
       position:
         x: 446.6804920892271
@@ -392,7 +387,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         cases:
         - case_id: 'true'
@@ -409,7 +404,7 @@ workflow:
         selected: false
         title: single multiple branch
         type: if-else
-      height: 124
+      height: 123
       id: '1775587559076'
       position:
         x: 808.0583480740074
@@ -421,7 +416,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         authorization:
           config: null
@@ -446,7 +441,7 @@ workflow:
         type: http-request
         url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/primary-message'
         variables: []
-      height: 176
+      height: 175
       id: '1775587581098'
       position:
         x: 1210.7481151599698
@@ -458,17 +453,16 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         context:
           enabled: false
           variable_selector: []
         model:
-          completion_params:
-            temperature: 0.7
+          completion_params: {}
           mode: chat
-          name: claude-sonnet-4-6
-          provider: langgenius/anthropic/anthropic
+          name: gpt-5.4-mini
+          provider: langgenius/openai/openai
         prompt_template:
         - id: 0344bd5f-e1f6-4116-99f6-c9a84a7e1dad
           role: system
@@ -481,7 +475,7 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 88
+      height: 87
       id: '1775587792914'
       position:
         x: 1210.7481151599698
@@ -493,7 +487,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         code: "# pylint: disable=missing-module-docstring\n\n\n# output keys  #################################################################\n\
           OUTPUT_RESULT_KEY = \"result\"\n\n\n# Entry Point  #################################################################\n\
@@ -534,7 +528,7 @@ workflow:
           - output
           value_type: array[object]
           variable: per_file_extracts
-      height: 52
+      height: 51
       id: '1775587847434'
       position:
         x: 2457.1927751959192
@@ -546,7 +540,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         error_handle_mode: terminated
         flatten_output: false
@@ -626,7 +620,7 @@ workflow:
         type: http-request
         url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/per-file-short'
         variables: []
-      height: 176
+      height: 175
       id: '17755879408110'
       position:
         x: 808.0583480740074
@@ -638,7 +632,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         authorization:
           config: null
@@ -663,7 +657,7 @@ workflow:
         type: http-request
         url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/per-file-long'
         variables: []
-      height: 176
+      height: 175
       id: '17755879849770'
       position:
         x: 808.0583480740074
@@ -675,7 +669,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         code: "# pylint: disable=missing-module-docstring\n\n# output keys  #################################################################\n\
           OUTPUT_PROMPT_KEY = \"extract_prompt\"\n\n\n# constants  ###################################################################\n\
@@ -718,7 +712,7 @@ workflow:
           - body
           value_type: string
           variable: prompt_per_file_extract_short
-      height: 52
+      height: 51
       id: '1775588043314'
       parentId: '1775587914644'
       position:
@@ -731,7 +725,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
       zIndex: 1002
     - data:
         context:
@@ -741,10 +735,9 @@ workflow:
         isInLoop: false
         iteration_id: '1775587914644'
         model:
-          completion_params:
-            temperature: 0.7
+          completion_params: {}
           mode: chat
-          name: gpt-4.1-nano
+          name: gpt-5.4-nano
           provider: langgenius/openai/openai
         prompt_template:
         - id: a87f8dc3-7905-4404-8f50-caad9bc26354
@@ -774,7 +767,7 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 88
+      height: 87
       id: '1775588142285'
       parentId: '1775587914644'
       position:
@@ -783,10 +776,11 @@ workflow:
       positionAbsolute:
         x: 1508.9157947832973
         y: 926.987496760723
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
       zIndex: 1002
     - data:
         cases:
@@ -804,7 +798,7 @@ workflow:
         selected: false
         title: single multiple branch (1)
         type: if-else
-      height: 124
+      height: 123
       id: '17755882039760'
       position:
         x: 1829.1240610632974
@@ -816,7 +810,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         code: "# pylint: disable=missing-module-docstring\n\n# output keys  #################################################################\n\
           OUTPUT_RESULT_KEY = \"result\"\n\n\n# Entry Point  #################################################################\n\
@@ -864,7 +858,7 @@ workflow:
           - text
           value_type: string
           variable: primary_message
-      height: 52
+      height: 51
       id: '17755883562550'
       position:
         x: 2457.1927751959192
@@ -876,7 +870,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         output_type: string
         selected: false
@@ -899,14 +893,14 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         answer: '{{#1775588436884.output#}}'
         selected: false
         title: Answer
         type: answer
         variables: []
-      height: 102
+      height: 101
       id: '1775588454795'
       position:
         x: 3159.1927751959192
@@ -918,9 +912,9 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     viewport:
-      x: -463.27713144704103
-      y: -40.002161790854984
-      zoom: 0.7578582832552008
+      x: -42.57984969855602
+      y: -77.12028011211135
+      zoom: 0.6118596723941092
   rag_pipeline_variables: []
