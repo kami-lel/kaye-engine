@@ -10,35 +10,19 @@ flag combination (default, -r, -c, -r -c)
 import pytest
 
 from tests.cli.a.u import (
-    CHAT_CONTENT,
-    CHAT_ABSENT,
-    RAPID_CONTENT,
-    RAPID_ABSENT,
-    CODER_CONTENT,
-    CODER_ABSENT,
-    RAPID_CODER_CONTENT,
-    RAPID_CODER_ABSENT,
+    TESTEE_INTRODUCTION_CONTENT,
+    TESTEE_MARKDOWN_FORMAT_CONTENT,
+    TESTEE_CHAT_ADDITIONAL_CONTENT,
+    TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
+    TESTEE_CODER_CONTENT,
 )
 
-# constants  ###################################################################
+# stem groups  #################################################################
 
-# (fixture stem, present markers, absent markers)
-CASES = [
-    ("chat", CHAT_CONTENT, CHAT_ABSENT),
-    ("rapid", RAPID_CONTENT, RAPID_ABSENT),
-    ("coder", CODER_CONTENT, CODER_ABSENT),
-    ("rapid_coder", RAPID_CODER_CONTENT, RAPID_CODER_ABSENT),
-]
-
-STEMS = [stem for stem, _, _ in CASES]
-
-PRESENT_CASES = [
-    (stem, marker) for stem, present, _ in CASES for marker in present
-]
-
-ABSENT_CASES = [
-    (stem, marker) for stem, _, absent in CASES for marker in absent
-]
+ALL_STEMS = ["chat", "rapid", "coder", "rapid_coder"]
+CHAT_STEMS = ["chat", "coder"]       # chat-based; have persona + commentary
+RAPID_STEMS = ["rapid", "rapid_coder"]  # rapid-based; persona/commentary absent
+NON_CODER_STEMS = ["chat", "rapid"]  # no Kaye Peer Coder
 
 
 # Pytest unit tests  ###########################################################
@@ -46,24 +30,65 @@ ABSENT_CASES = [
 
 class TestBasic:  # ============================================================
 
-    @pytest.mark.parametrize("stem", STEMS)
+    @pytest.mark.parametrize("stem", ALL_STEMS)
     def test_existence(_, request, stem):
         assert request.getfixturevalue(stem + "_path").exists()
 
-    @pytest.mark.parametrize("stem", STEMS)
+    @pytest.mark.parametrize("stem", ALL_STEMS)
     def test_is_file(_, request, stem):
         assert request.getfixturevalue(stem + "_path").is_file()
 
 
-class TestContent:  # ==========================================================
+class TestIntroductionContent:  # ==============================================
 
-    @pytest.mark.parametrize("stem,marker", PRESENT_CASES)
+    @pytest.mark.parametrize("stem", ALL_STEMS)
+    @pytest.mark.parametrize("marker", TESTEE_INTRODUCTION_CONTENT)
     def test_content(_, request, stem, marker):
         assert marker in request.getfixturevalue(stem + "_content")
 
 
-class TestAbsent:  # ===========================================================
+class TestMarkdownFormatContent:  # ============================================
 
-    @pytest.mark.parametrize("stem,marker", ABSENT_CASES)
+    @pytest.mark.parametrize("stem", ALL_STEMS)
+    @pytest.mark.parametrize("marker", TESTEE_MARKDOWN_FORMAT_CONTENT)
+    def test_content(_, request, stem, marker):
+        assert marker in request.getfixturevalue(stem + "_content")
+
+
+class TestChatAdditionalContent:  # ============================================
+
+    @pytest.mark.parametrize("stem", CHAT_STEMS)
+    @pytest.mark.parametrize("marker", TESTEE_CHAT_ADDITIONAL_CONTENT)
+    def test_content(_, request, stem, marker):
+        assert marker in request.getfixturevalue(stem + "_content")
+
+    @pytest.mark.parametrize("stem", RAPID_STEMS)
+    @pytest.mark.parametrize("marker", TESTEE_CHAT_ADDITIONAL_CONTENT)
+    def test_absent(_, request, stem, marker):
+        assert marker not in request.getfixturevalue(stem + "_content")
+
+
+class TestChatCommentaryCaseContent:  # ========================================
+
+    @pytest.mark.parametrize("stem", CHAT_STEMS)
+    @pytest.mark.parametrize("marker", TESTEE_CHAT_COMMENTARY_CASE_CONTENT)
+    def test_content(_, request, stem, marker):
+        assert marker in request.getfixturevalue(stem + "_content")
+
+    @pytest.mark.parametrize("stem", RAPID_STEMS)
+    @pytest.mark.parametrize("marker", TESTEE_CHAT_COMMENTARY_CASE_CONTENT)
+    def test_absent(_, request, stem, marker):
+        assert marker not in request.getfixturevalue(stem + "_content")
+
+
+class TestCoderContent:  # ====================================================
+
+    @pytest.mark.parametrize("stem", ["coder", "rapid_coder"])
+    @pytest.mark.parametrize("marker", TESTEE_CODER_CONTENT)
+    def test_content(_, request, stem, marker):
+        assert marker in request.getfixturevalue(stem + "_content")
+
+    @pytest.mark.parametrize("stem", NON_CODER_STEMS)
+    @pytest.mark.parametrize("marker", TESTEE_CODER_CONTENT)
     def test_absent(_, request, stem, marker):
         assert marker not in request.getfixturevalue(stem + "_content")
