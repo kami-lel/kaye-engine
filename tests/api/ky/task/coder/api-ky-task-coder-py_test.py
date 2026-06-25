@@ -13,7 +13,14 @@ import json
 
 
 import pytest
-from tests import TESTEE_TRIAGE_TAG_CONTENT
+from tests import (
+    TESTEE_TRIAGE_TAG_CONTENT,
+    TESTEE_TITLE_CASE_CONTENT,
+    TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
+    TESTEE_BRIEFNESS_CONTENT,
+    TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT,
+    TESTEE_CODER_CONTENT,
+)
 
 from tests.api.ky.task import *
 from tests.api.ky.task.coder import *
@@ -78,28 +85,25 @@ class TestCoder:  # ============================================================
 
     # coder shared  ************************************************************
 
-    def test_coder_title(_, opt):
-        print(opt)
-        assert_coder_title(opt)
+    @pytest.mark.parametrize("marker", TESTEE_CODER_CONTENT)
+    def test_coder_content(_, opt, marker):
+        assert marker in opt
 
-    def test_coder_code_format_title(_, opt):
-        print(opt)
-        assert_coder_code_format_title(opt)
+    @pytest.mark.parametrize("marker", TESTEE_TITLE_CASE_CONTENT)
+    def test_style_title_case(_, opt, marker):
+        assert marker in opt
 
-    def test_coder_variable_naming_title(_, opt):
-        print(opt)
-        assert_coder_variable_naming_title(opt)
+    @pytest.mark.parametrize("marker", TESTEE_CHAT_COMMENTARY_CASE_CONTENT)
+    def test_style_commentary_case(_, opt, marker):
+        assert marker in opt
 
-    def test_coder_code_comment_title(_, opt):
-        print(opt)
-        assert_coder_code_comment_title(opt)
+    @pytest.mark.parametrize("marker", TESTEE_BRIEFNESS_CONTENT)
+    def test_style_briefness(_, opt, marker):
+        assert marker in opt
 
-    def test_coder_csh_title(_, opt):
-        print(opt)
-        assert_coder_csh_title(opt)
-
-    def test_style_title(_, opt):
-        assert_style_title(opt)
+    @pytest.mark.parametrize("marker", TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT)
+    def test_style_good_writing(_, opt, marker):
+        assert marker in opt
 
 
     # chat blueprint  **********************************************************
