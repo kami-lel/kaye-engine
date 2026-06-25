@@ -8,3 +8,5 @@ Todo full unit test for cli/a/c
 todo agent behavior add md-style task list, when Claude "task" is not available
 
 todo standardize software dev lifecycle, with standardized vocab
+
+BUG missing descriptions: kaye-peer-coder,prompt-writer,skill-description-writer,create-docs,compact-with-maintenance

@@ -6,8 +6,8 @@ class SkillMDFileFrontmatterValidator(BaseModel):
     Validated frontmatter model for an agent skill SKILL.md file per the
     agentskills.io specification (https://agentskills.io/specification).
 
-    required fields: ``name``
-    optional fields omitted from output when empty: ``description``,
+    required fields: ``name``, ``description``
+    optional fields omitted from output when empty:
     ``license``, ``compatibility``, ``metadata``, ``allowed_tools``,
     ``user_invocable``, ``when_to_use``, ``paths``
     """
@@ -20,9 +20,10 @@ class SkillMDFileFrontmatterValidator(BaseModel):
         pattern=r"^[a-z0-9]([a-z0-9]|-[a-z0-9])*$",
     )
 
+    description: str = Field(min_length=1, max_length=1024)
+
     # optional  ================================================================
 
-    description: str | None = Field(None, max_length=1024)
     license: str | None = None
     compatibility: str | None = Field(None, max_length=500)
     metadata: dict | None = None
