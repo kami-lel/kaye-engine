@@ -62,6 +62,7 @@ def register_vs_code_subparser(cli_subparser):  ################################
 
         marketplace_path = export_vs_code_extension(folder)
 
+        # FIXME better showing file
         logger.info("marketplace.json location:\n" + str(marketplace_path))
         logger.done("export VS Code Extension folder:\t" + str(folder))
 
