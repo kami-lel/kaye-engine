@@ -1,9 +1,9 @@
 """
-cli-c-c-bp-annotation-marker_test.py
+cli-c-c-bp-triage-tag_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``Annotation Markers.md``
+creation of ``Triage Tags.md``
 """
 
 import pytest
@@ -11,7 +11,7 @@ import pytest
 from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
-MD_FILENAME = "annotation-markers"
+MD_FILENAME = "triage-tags"
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 

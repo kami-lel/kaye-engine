@@ -128,7 +128,7 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
           blueprints
         - `tests/cli/a/s/coder/` — per-skill content tests for coder blueprints
         - `tests/cli/a/s/others/` — per-skill content tests for miscellaneous
-          blueprints (chat, annotation-markers, date-time, IPA, etc.)
+          blueprints (chat, triage-tags, date-time, IPA, etc.)
         - `tests/cli/a/s/proj/` — per-skill content tests for project blueprints
         - `tests/cli/a/s/role/` — per-skill content tests for role blueprints
         - `tests/cli/a/s/style/` — per-skill content tests for style blueprints

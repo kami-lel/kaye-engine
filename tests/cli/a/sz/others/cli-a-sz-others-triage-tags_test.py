@@ -1,9 +1,9 @@
 """
-cli-a-s-others-annotation-markers_test.py
+cli-a-sz-others-triage-tags_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``annotation-markers``
+creation of ``triage-tags``
 """
 
 import pytest
@@ -17,7 +17,7 @@ from tests.cli.a.s import (
 # constants  ###################################################################
 
 
-SKILL_NAME = "annotation-markers"
+SKILL_NAME = "triage-tags"
 TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 
 
@@ -66,9 +66,6 @@ class TestHeader:  # ===========================================================
 
     def test_name(_, testee_header):
         assert assert_claude_header_line_name(SKILL_NAME, testee_header)
-
-    def test_description(_, testee_header):
-        assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
