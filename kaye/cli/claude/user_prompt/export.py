@@ -34,6 +34,8 @@ def export_user_system_prompt_file(
 
     blueprint = rapid_blueprint if use_rapid else chat_blueprint
 
+    # todo need to add agent behavior lines
+
     if use_coder:
         blueprint = blueprint | coder_blueprint
 
