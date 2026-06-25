@@ -72,7 +72,7 @@ class TestCoder:  # ============================================================
         assert_style_title(opt)
 
     def test_am_title(_, opt):
-        assert_am_title(opt)
+        assert_tt_title(opt)
 
     # chat blueprint  **********************************************************
 

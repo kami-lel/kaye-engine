@@ -64,7 +64,7 @@ MD_FILENAME2SKILL_NAME = {
     "abbr-suffixes": "Abbr Suffixes",
     "abbr-symbols": "Abbr Symbols",
     "abbr-units-of-measure": "Abbr Units of Measure",
-    "annotation-markers": "Annotation Markers",
+    "triage-tags": "Triage Tags",
     "coder-bash": "Coder Bash",
     "coder-c": "Coder C",
     "coder-c-sharp": "Coder C Sharp",
@@ -111,7 +111,7 @@ PROMPT_FILENAME2NAME = {
     "maintain-docs": "Maintain Docs",
     "prepare-for-feature-finish": "Prepare for Feature Finish",
     "prepare-for-version-release": "Prepare for Version Release",
-    "resolve-annotation-markers": "Resolve Annotation Markers",
+    "resolve-triage-tags": "Resolve Triage Tags",
 }
 
 
@@ -122,11 +122,11 @@ TESTEE_FILE_CONTENT_ALL = {
         "Only use `run_terminal_command` as a last resort",
         "Use when need to remove/delete file/folder.",
     ],
-    "annotation-markers": [
-        "## Annotation Markers",
-        "- primary AM: BUG, FIXME, TODO, HACK",
-        "- secondary AM: Bug, Fixme, Todo, Hack",
-        "- tertiary AM: bug, fixme, todo, hack",
+    "triage-tags": [
+        "## Triage Tags",
+        "- Loud TT: BUG, FIXME, TODO, HACK",
+        "- Steady TT: Bug, Fixme, Todo, Hack",
+        "- Quiet TT: bug, fixme, todo, hack",
         "call it **promote**",
         "### Meaning",
         "- BUG/Bug/bug:",
@@ -769,7 +769,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "coder-unreal-engine": "C++ code for Unreal Engine",
     "coder-cpp": "Writes, edits, and reviews all C++ code.",
     "date-and-time-format": "when dates or times appear in output",
-    "annotation-markers": (
+    "triage-tags": (
         "when working with BUG, FIXME, TODO, or HACK markers in code or docs"
     ),
     "numerical-values-with-units": "when physical quantities appear in output",

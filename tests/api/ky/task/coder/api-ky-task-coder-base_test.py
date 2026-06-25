@@ -206,16 +206,16 @@ class TestCoder:  # ============================================================
     # AMs  *********************************************************************
 
     def test_am_title(_, opt):
-        assert_am_title(opt)
+        assert_tt_title(opt)
 
     def test_am1(_, opt):
-        assert_am1(opt)
+        assert_tt1(opt)
 
     def test_am2(_, opt):
-        assert_am2(opt)
+        assert_tt2(opt)
 
     def test_am3(_, opt):
-        assert_am3(opt)
+        assert_tt3(opt)
 
     # chat blueprint  **********************************************************
 

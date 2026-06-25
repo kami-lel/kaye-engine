@@ -10,10 +10,10 @@ def assert_briefness_style(opt):
 - omit articles (a, an, the) and helper verbs, use strong nouns, verbs""" in opt
 
 
-def assert_annotation_markers(opt):
+def assert_triage_tags(opt):
     assert (
-        """## Annotation Markers
-Used to label defects and related notes across code and documentation. You must refer them as *annotation markers* or *AM*:"""
+        """## Triage Tags
+Used to label defects and related notes across code and documentation. You must refer to them as *triage tags* or *TT*:"""
         in opt
     )
 

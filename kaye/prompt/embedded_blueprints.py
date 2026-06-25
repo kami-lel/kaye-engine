@@ -32,7 +32,7 @@ __all__ = (
     "coder_py_blueprint",
     "coder_py_docstring_blueprint",
     "coder_py_testing_blueprint",
-    "annotation_marker_blueprint",
+    "triage_tags_blueprint",
     "style_title_case_blueprint",
     "style_commentary_case_blueprint",
     "style_briefness_blueprint",
@@ -90,9 +90,9 @@ number_unit_blueprint = PromptBlueprint.create_from_node(
 )
 
 
-# Annotation Markers
-annotation_marker_blueprint = PromptBlueprint.create_from_node(
-    _corpus["Elements"]["Annotation Markers"],
+# Triage Tags
+triage_tags_blueprint = PromptBlueprint.create_from_node(
+    _corpus["Elements"]["Triage Tags"],
     recursively=True,
 )
 
@@ -103,6 +103,7 @@ _kyc_node = _corpus["Kaye Peer Coder"]
 
 # Coder
 coder_blueprint = PromptBlueprint.create_from_node(_kyc_node)
+# TODO coder blueprint include TT
 
 
 # Coder Bash
