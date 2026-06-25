@@ -13,6 +13,7 @@ import json
 
 
 import pytest
+from tests import TESTEE_TRIAGE_TAG_CONTENT
 
 from tests.api.ky.task import *
 from tests.api.ky.task.coder import *
@@ -20,7 +21,7 @@ from tests.api.ky.task.coder import *
 # pytest fixtures  #############################################################
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="module")
 def opt(flask_test_client, task_endpoint):
     payload = {"role": "coder", "programming_languages": "js"}
 
@@ -35,6 +36,17 @@ def opt(flask_test_client, task_endpoint):
     return opt
 
 
+
+
+
+# TT (Triage Tags)  #############################################################
+
+
+class TestTriageTags:  # ========================================================
+
+    @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
+    def test_tt_content(_, opt, i):
+        assert TESTEE_TRIAGE_TAG_CONTENT[i] in opt
 # Pytest unit tests  ###########################################################
 
 
