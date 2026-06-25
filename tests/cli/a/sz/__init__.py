@@ -17,6 +17,3 @@ def prepare_root_folder(tmp_path_factory, command, folder_name):
 
 
 VERSION_LINE_PATTERN = re.compile(r"^  version: [a-z0-9.\-]+$")
-
-
-# Fixme refactoring naming s->sz
