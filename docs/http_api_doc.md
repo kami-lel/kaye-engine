@@ -21,8 +21,6 @@ python -m kaye http
 
 ### deployment as `systemd` on Ubuntu
 
-<!-- Fixme clearly write update method -->
-
 Place the entire project folder at `/opt/kaye`.
 
 ----
