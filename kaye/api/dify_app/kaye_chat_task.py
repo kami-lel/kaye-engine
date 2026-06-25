@@ -120,6 +120,7 @@ def _create_chat_blueprint():
 def _create_coder_blueprint(plcs):
     bp = (
         chat_blueprint
+        | _user_scope_blueprint
         | coder_blueprint
         | date_time_blueprint
         | number_unit_blueprint
