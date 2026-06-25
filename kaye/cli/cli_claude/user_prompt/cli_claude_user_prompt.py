@@ -75,7 +75,7 @@ def register_cli_claude_user_prompt_parser(  ###################################
         prompt_file = args.prompt_file
 
         export_user_system_prompt_file(
-            prompt_file, rapid=args.rapid, coder=args.coder
+            prompt_file, use_rapid=args.rapid, use_coder=args.coder
         )
 
         logger.done("export user system prompt" + "\t" + str(prompt_file))

@@ -16,7 +16,6 @@ from kaye.cli.cli_claude.user_prompt.export_user_file import (
     export_user_system_prompt_file,
 )
 
-# Fixme claude code should generate CLAUDE.md with coder
 # Todo add claude md coder test
 
 # constants  ===================================================================
@@ -73,7 +72,7 @@ def register_cli_claude_code_parser(  ##########################################
 
         logger.debug("export user system prompt file")
         prompt_file = find_user_system_prompt_file(folder)
-        export_user_system_prompt_file(prompt_file)
+        export_user_system_prompt_file(prompt_file, use_coder=True)
         logger.succ("export user system prompt file:\t" + str(prompt_file))
 
         # todo CLI claude code update setting for pre compact hooks
