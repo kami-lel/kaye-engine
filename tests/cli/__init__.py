@@ -762,9 +762,9 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "coder-cpp": "Writes, edits, and reviews all C++ code.",
     "date-and-time-format": "when dates or times appear in output",
     "triage-tags": (
-        '"Defines the three loudness tiers of triage tags (TT) \\u2014'
-        " BUG/FIXME/TODO/HACK in any case \\u2014 and their meanings, and"
-        ' the raise/lower terminology for tier changes."'
+        '"Defines triage tags (TT) \\u2014 defect/note labels spanning code'
+        " and docs across 3 case tiers (Loud/Steady/Quiet), with per-tag"
+        ' meanings and raise/lower tier shifts"'
     ),
     "numerical-values-with-units": "when physical quantities appear in output",
     "international-phonetic-alphabet": "IPA transcription",
@@ -1087,6 +1087,14 @@ TESTEE_CONTINUE_BLUEPRINT_DESCRIPTION_CONTENT_ALL = {
         " original meaning, voice, and wording.\\u21B5Use to proofread,"
         " copyedit, or correct writing without rewriting. Not for heavy"
         ' rewrites, summarizing, or tone changes."'
+    ),
+    "triage-tags": (
+        '"Defines triage tags (TT) \\u2014 defect/note labels spanning code'
+        " and docs across 3 case tiers (Loud/Steady/Quiet), with per-tag"
+        ' meanings and raise/lower tier shifts\\u21B5When adding,'
+        " classifying, or raising/lowering BUG/FIXME/TODO/HACK markers in"
+        " any case, or resolving what a TT tier signifies. Not for fixing"
+        ' the defects the tags point to"'
     ),
 }
 
