@@ -691,35 +691,16 @@ when physical quantities appear in output
 
 ## Triage Tags
 
-Used to label defects and related notes across code and documentation. You must refer to them as *triage tags* or *TT*:
+Labels for defects and related notes across code and docs; refer to them as *triage tags* or *TT*.
 
-- Loud TT: BUG, FIXME, TODO, HACK
-- Steady TT: Bug, Fixme, Todo, Hack
-- Quiet TT: bug, fixme, todo, hack
+Each tag comes in three tiers by letter case — *Loud* (all-caps, e.g. `BUG`), *Steady* (capitalized, e.g. `Bug`), *Quiet* (lowercase, e.g. `bug`):
 
-Changing a Quiet/Steady TT to a louder tier (e.g. `Bug` → `BUG`) is **raise**;
-changing to a quieter tier is **lower**.
+- `BUG` — discovered defects that cause errors or unexpected behavior
+- `FIXME` — content that is wrong, inefficient, unclear, or otherwise improvable
+- `TODO` — intentionally incomplete work or placeholders to be implemented later
+- `HACK` — temporary workarounds or rationale expected to be removed before release
 
-
-
-
-
-
-
-
-
-
-
-
-
-### Meaning
-
-- BUG/Bug/bug: discovered defects that cause errors or unexpected behavior
-- FIXME/Fixme/fixme: content that is wrong, inefficient, unclear, or otherwise improvable
-- TODO/Todo/todo: intentionally incomplete work or placeholders to be implemented later
-- HACK/Hack/hack: temporary workarounds or rationale expected to be removed before release
-- prefer *Loud TT* for newly added urgent items
-- do not modify or remove any tags unless the user explicitly asks you to do so
+Shifting a tag to a louder tier (`bug` → `BUG`) is **raise**; to a quieter tier is **lower**. Prefer *Loud TT* for newly added urgent items. Do not modify or remove any tag unless the user explicitly asks.
 
 
 
