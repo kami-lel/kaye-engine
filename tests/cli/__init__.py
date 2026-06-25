@@ -116,13 +116,6 @@ PROMPT_FILENAME2NAME = {
 
 
 TESTEE_FILE_CONTENT_ALL = {
-    "agent-behavior": [
-        "# Agent Behavior",
-        "Files are assumed to be consistent between rounds.",
-        "After completing **all tasks requested by the user**,",
-        "### Git Command Safety Policy",
-        "Never run these git commands, any flags: reset,",
-    ],
     "continue-behavior": [
         "## Continue Behavior",
         "#### `run_terminal_command`",
@@ -504,10 +497,7 @@ TESTEE_FILE_CONTENT_ALL = {
         "- write for humans first, not AI agents",
         "- prioritize visual clarity, readability, and quick scanning",
         "#### Sections",
-        (
-            "**Project Overview** — what it does, who it is for,"
-            " why it is useful"
-        ),
+        "**Project Overview** — what it does, who it is for, why it is useful",
         "#### Quality",
         "- specific to the repository, not generic",
         "- useful for first-time visitors and returning contributors",

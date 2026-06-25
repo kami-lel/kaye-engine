@@ -11,3 +11,10 @@ ALL_CLAUDE_SKILL_NAMES = [
     convert_display_name2skill_name(g.display_name)
     for g in EXPORTABLE_ABBRS
 ]
+
+TESTEE_CLAUDE_BEHAVIOR_CONTENT = [
+    "## Claude Behavior",
+    "Use `AGENTS.md` as the canonical instructions file",
+    "Ignore `CLAUDE.md`",
+    "When asked to update agent instructions, write to `AGENTS.md`",
+]

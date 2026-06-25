@@ -34,7 +34,9 @@ def export_user_system_prompt_file(
 
     blueprint = rapid_blueprint if use_rapid else chat_blueprint
 
-    # Todo need to add agent behavior lines
+    agent_behavior = blueprint.corpus["Agent Behavior"]
+    blueprint.checkmark(agent_behavior)
+    blueprint.checkmark(agent_behavior["Claude Behavior"])
 
     if use_coder:
         blueprint = blueprint | coder_blueprint

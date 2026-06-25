@@ -8,3 +8,5 @@ todo agent behavior add md-style task list, when Claude "task" is not available
 Todo standardize software dev lifecycle, with standardized vocab
 
 Fixme coder need to make sure less test is run, remove them from agents writer
+
+Todo allow prepare to ver release reword/re-organize to have concise
