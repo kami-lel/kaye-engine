@@ -47,6 +47,12 @@ through a Python API, an HTTP API, and a CLI.
   via `left | right`; left operand takes priority for each field
   (description, when_to_use, globs, prerequisite); `PromptBlueprint.__or__`
   now includes meta merging so merged blueprints preserve meta information
+- **Comment Banner (CB)** — visual separators written inside code comments to
+  show structure in long code; part of `Kaye Peer Coder` guidance under `code
+  comment` section; uses 6 hierarchy levels (0=boxed banner for file-level,
+  1-5=rulers with `#` through `-`); must live inside code comments only,
+  sparingly used for logical boundaries; common headings use Title Case for
+  public/exported items, lowercase for internal/private implementation details
 
 ### Prompt Corpus Structure
 

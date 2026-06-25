@@ -64,6 +64,12 @@
   subsections; test content updated to reflect current corpus structure
 - **`kaye-peer-coder` blueprint** — now has proper description set post-merge
   to ensure skill frontmatter validation passes
+- **Comment Section Headings (CSH) → Comment Banner (CB)** — renamed throughout
+  `kaye/prompt_corpus.md` under `Kaye Peer Coder` section; added formal
+  guidelines for hierarchy levels, usage rules (when to use / when not to),
+  common headings (Title Case vs lowercase), and comprehensive formatting
+  examples in C++, Python; `TESTEE_CODER_CONTENT` test constant updated to
+  reflect new naming
 
 ### Deprecated
 
