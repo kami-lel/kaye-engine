@@ -19,8 +19,6 @@ overwriting any existing one at PROMPT_FILE.
 
 DEFAULT_CLAUDE_FOLDER = Path.home() / ".claude"
 
-# Todo option to use, eg rapid & coder
-
 
 def find_user_system_prompt_file(claude_folder):
     """
@@ -52,6 +50,22 @@ def register_cli_claude_user_prompt_parser(  ###################################
         help="path to CLAUDE.md file; default: ~/.claude/CLAUDE.md",
     )
 
+    user_prompt_parser.add_argument(
+        "-r",
+        "--rapid",
+        action="store_true",
+        default=False,
+        help="use Rapid blueprint instead of Chat",
+    )
+
+    user_prompt_parser.add_argument(
+        "-c",
+        "--coder",
+        action="store_true",
+        default=False,
+        help="append Kaye Peer Coder content after the main blueprint",
+    )
+
     kamilog.add_verbose_arguments(user_prompt_parser)
 
     def _user_prompt_main(args):
@@ -60,7 +74,9 @@ def register_cli_claude_user_prompt_parser(  ###################################
 
         prompt_file = args.prompt_file
 
-        export_user_system_prompt_file(prompt_file)
+        export_user_system_prompt_file(
+            prompt_file, rapid=args.rapid, coder=args.coder
+        )
 
         logger.done("export user system prompt" + "\t" + str(prompt_file))
 
