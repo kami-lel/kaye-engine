@@ -7,6 +7,8 @@ CLAUDE.md content produced by ``kaye claude user-system-prompt`` for each
 flag combination (default, -r, -c, -r -c)
 """
 
+# Fixme difficult to read & understand
+
 import pytest
 
 from tests import (
@@ -22,7 +24,7 @@ from tests.cli.claude import TESTEE_CLAUDE_BEHAVIOR_CONTENT
 # stem groups  #################################################################
 
 ALL_STEMS = ["chat", "rapid", "coder", "rapid_coder"]
-CHAT_STEMS = ["chat", "coder"]       # chat-based; have persona + commentary
+CHAT_STEMS = ["chat", "coder"]  # chat-based; have persona + commentary
 RAPID_STEMS = ["rapid", "rapid_coder"]  # rapid-based; persona/commentary absent
 NON_CODER_STEMS = ["chat", "rapid"]  # no Kaye Peer Coder
 
