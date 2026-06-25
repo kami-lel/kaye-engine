@@ -9,13 +9,15 @@ flag combination (default, -r, -c, -r -c)
 
 import pytest
 
-from tests.cli.a.u import (
+from tests import (
     TESTEE_INTRODUCTION_CONTENT,
     TESTEE_MARKDOWN_FORMAT_CONTENT,
     TESTEE_CHAT_ADDITIONAL_CONTENT,
     TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
     TESTEE_CODER_CONTENT,
+    TESTEE_AGENT_BEHAVIOR_CONTENT,
 )
+from tests.cli.claude import TESTEE_CLAUDE_BEHAVIOR_CONTENT
 
 # stem groups  #################################################################
 
@@ -92,3 +94,19 @@ class TestCoderContent:  # ====================================================
     @pytest.mark.parametrize("marker", TESTEE_CODER_CONTENT)
     def test_absent(_, request, stem, marker):
         assert marker not in request.getfixturevalue(stem + "_content")
+
+
+class TestAgentBehaviorContent:  # ==============================================
+
+    @pytest.mark.parametrize("stem", ALL_STEMS)
+    @pytest.mark.parametrize("marker", TESTEE_AGENT_BEHAVIOR_CONTENT)
+    def test_content(_, request, stem, marker):
+        assert marker in request.getfixturevalue(stem + "_content")
+
+
+class TestClaudeBehaviorContent:  # =============================================
+
+    @pytest.mark.parametrize("stem", ALL_STEMS)
+    @pytest.mark.parametrize("marker", TESTEE_CLAUDE_BEHAVIOR_CONTENT)
+    def test_content(_, request, stem, marker):
+        assert marker in request.getfixturevalue(stem + "_content")

@@ -9,13 +9,15 @@ directly in the exported folder with content equivalent to ``kaye claude u -c``.
 
 import pytest
 
-from tests.cli.a.u import (
+from tests import (
     TESTEE_INTRODUCTION_CONTENT,
     TESTEE_MARKDOWN_FORMAT_CONTENT,
     TESTEE_CHAT_ADDITIONAL_CONTENT,
     TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
     TESTEE_CODER_CONTENT,
+    TESTEE_AGENT_BEHAVIOR_CONTENT,
 )
+from tests.cli.claude import TESTEE_CLAUDE_BEHAVIOR_CONTENT
 
 
 # Unit test classes  ###########################################################
@@ -86,5 +88,29 @@ class TestCoderContent:  # =====================================================
             return f.read()
 
     @pytest.mark.parametrize("marker", TESTEE_CODER_CONTENT)
+    def test_content(self, claude_md_content, marker):
+        assert marker in claude_md_content
+
+
+class TestAgentBehaviorContent:  # ===============================================
+
+    @pytest.fixture(scope="class")
+    def claude_md_content(self, testee_claude_folder):
+        with open(testee_claude_folder / "CLAUDE.md") as f:
+            return f.read()
+
+    @pytest.mark.parametrize("marker", TESTEE_AGENT_BEHAVIOR_CONTENT)
+    def test_content(self, claude_md_content, marker):
+        assert marker in claude_md_content
+
+
+class TestClaudeBehaviorContent:  # ==============================================
+
+    @pytest.fixture(scope="class")
+    def claude_md_content(self, testee_claude_folder):
+        with open(testee_claude_folder / "CLAUDE.md") as f:
+            return f.read()
+
+    @pytest.mark.parametrize("marker", TESTEE_CLAUDE_BEHAVIOR_CONTENT)
     def test_content(self, claude_md_content, marker):
         assert marker in claude_md_content
