@@ -3584,15 +3584,20 @@ Cut a new release: bring all docs current, finalize the changelog, and bump the 
 #### Steps
 
 1. **Sync the docs** to the state being released, via the maintain skills:
+
    - **Maintain README** → overview, features, setup, usage, version-dependent details
    - **Maintain AGENTS and CONTEXT** → changed commands, conventions, constraints, architecture
    - **Maintain Docs** → affected files under `docs/`
    - skip any whose content the release does not touch
+
 2. **Close out the changelog** in `CHANGELOG.md`, via **Maintain CHANGELOG**:
+
+   - reword entries as needed for proper changelog style — concise, high-level, free of excessive implementation detail
    - move every entry under `[Unreleased]` into a new versioned section headed with the given version and date
    - in that new section, keep only non-empty subsections — drop any with no entries
    - leave a fresh, empty `[Unreleased]` section above it
    - update the GitHub comparison links so each version, including the new tag, stays referenced
+
 3. **Bump the project version** to match exactly, in whichever metadata files apply — e.g. `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`
 
 
