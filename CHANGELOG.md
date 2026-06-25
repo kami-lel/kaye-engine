@@ -22,8 +22,11 @@
 
 - **`tests/__init__.py`** — `TESTEE_AGENT_BEHAVIOR_CONTENT` constant for
   verifying Agent Behavior section presence in exported prompts
-- **`tests/cli/claude/__init__.py`** — `TESTEE_CLAUDE_BEHAVIOR_CONTENT`
-  constant for verifying Claude Behavior subsection presence
+- **`tests/cli/a/__init__.py`** — `TESTEE_CLAUDE_BEHAVIOR_CONTENT` constant
+  for verifying Claude Behavior subsection presence
+- **Test files** — `cli-a-u-chat_test.py`, `cli-a-u-rapid_test.py`,
+  `cli-a-u-coder_test.py`, `cli-a-u-rapid_coder_test.py` for stem-specific
+  user-system-prompt content validation
 
 ### Changed
 
@@ -34,12 +37,20 @@
   `cli-a-v-claude_md_test.py` now use session-scoped `claude_md_content`
   fixture instead of class-scoped; 7 test classes condensed to 2
   (`TestBasic` + `TestContent`); improves test efficiency
-- **`tests/cli/a/u/cli-a-u-content_test.py`** — added
-  `TestAgentBehaviorContent` and `TestClaudeBehaviorContent` test classes
+- **`tests/cli/a/u/cli-a-u-content_test.py`** — refactored into 4 separate
+  test files by stem; each file tests only content relevant to its stem
+- **`tests/__init__.py`** — `TESTEE_CODER_CONTENT` expanded to include all
+  section headings and comprehensive coverage of Kaye Peer Coder guidance
+- **`kaye/prompt_corpus.md`** — moved Testing Instructions from Project AGENTS
+  Writer section to Kaye Peer Coder section; refined guidance for clarity
 
 ### Deprecated
 
 ### Removed
+
+- **`tests/cli/a/u/cli-a-u-content_test.py`** (original combined version) —
+  replaced by 4 stem-specific test files
+- **`tests/cli/claude/`** — moved constant to `tests.cli.a`
 
 ### Fixed
 
