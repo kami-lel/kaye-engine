@@ -6,12 +6,13 @@ Unit Tests (using pytest) for:
 
 import pytest
 
+from tests import TESTEE_AGENT_BEHAVIOR_CONTENT
 from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
 MD_FILENAME = "agent-behavior"
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
-TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_AGENT_BEHAVIOR_CONTENT
 
 
 # Pytest fixtures  #############################################################
@@ -70,17 +71,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test0(_, testee_content):
-        assert TESTEE_FILE_CONTENT[0] in testee_content
-
-    def test1(_, testee_content):
-        assert TESTEE_FILE_CONTENT[1] in testee_content
-
-    def test2(_, testee_content):
-        assert TESTEE_FILE_CONTENT[2] in testee_content
-
-    def test3(_, testee_content):
-        assert TESTEE_FILE_CONTENT[3] in testee_content
-
-    def test4(_, testee_content):
-        assert TESTEE_FILE_CONTENT[4] in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content

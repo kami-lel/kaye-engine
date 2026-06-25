@@ -20,13 +20,30 @@
 
 ### Added
 
+- **`tests/__init__.py`** — `TESTEE_AGENT_BEHAVIOR_CONTENT` constant for
+  verifying Agent Behavior section presence in exported prompts
+- **`tests/cli/claude/__init__.py`** — `TESTEE_CLAUDE_BEHAVIOR_CONTENT`
+  constant for verifying Claude Behavior subsection presence
+
 ### Changed
+
+- **`kaye/cli/claude/user_prompt/export.py`** — Agent Behavior and Claude
+  Behavior nodes now checkmarked and included in all exported CLAUDE.md files
+  (chat, rapid, coder variants)
+- **Tests refactored** — `cli-a-c-claude_md_test.py` and
+  `cli-a-v-claude_md_test.py` now use session-scoped `claude_md_content`
+  fixture instead of class-scoped; 7 test classes condensed to 2
+  (`TestBasic` + `TestContent`); improves test efficiency
+- **`tests/cli/a/u/cli-a-u-content_test.py`** — added
+  `TestAgentBehaviorContent` and `TestClaudeBehaviorContent` test classes
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- **typo** in `kaye/prompt_corpus.md` — `Todo` → `TODO` in comment
 
 ### Security
 
