@@ -11,6 +11,7 @@ from kaye.prompt.embedded_blueprints import (
     coder_blueprint,
     rapid_blueprint,
 )
+from kaye.api.dify_app.kaye_chat_task import _user_scope_blueprint
 
 
 def export_user_system_prompt_file(file_path, rapid=False, coder=False):
@@ -30,7 +31,7 @@ def export_user_system_prompt_file(file_path, rapid=False, coder=False):
     file_path = Path(file_path).resolve()
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    blueprint = rapid_blueprint if rapid else chat_blueprint
+    blueprint = (rapid_blueprint if rapid else chat_blueprint) | _user_scope_blueprint
 
     if coder:
         blueprint = blueprint | coder_blueprint

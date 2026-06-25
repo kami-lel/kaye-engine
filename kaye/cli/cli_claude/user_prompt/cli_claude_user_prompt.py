@@ -7,8 +7,6 @@ from kaye import logger, kamilog
 
 from .export_user_file import export_user_system_prompt_file
 
-# TODO remove role & abbr
-
 # constants  ===================================================================
 
 _DESCRIPTION = """
