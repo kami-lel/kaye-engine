@@ -92,8 +92,7 @@ number_unit_blueprint = PromptBlueprint.create_from_node(
 
 # Triage Tags
 triage_tags_blueprint = PromptBlueprint.create_from_node(
-    _corpus["Elements"]["Triage Tags"],
-    recursively=True,
+    _corpus["Elements"]["Triage Tags"]
 )
 
 
@@ -102,8 +101,9 @@ triage_tags_blueprint = PromptBlueprint.create_from_node(
 _kyc_node = _corpus["Kaye Peer Coder"]
 
 # Coder
-coder_blueprint = PromptBlueprint.create_from_node(_kyc_node)
-# TODO coder blueprint include TT
+coder_blueprint = (
+    PromptBlueprint.create_from_node(_kyc_node) | triage_tags_blueprint
+)
 
 
 # Coder Bash
