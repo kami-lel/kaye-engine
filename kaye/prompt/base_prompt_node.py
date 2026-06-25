@@ -133,12 +133,18 @@ class BasePromptNode(AnyTreeNode):
         >>> node.generate_lineage()
         ["My Parent", "Myself"]
         """
-        if self.is_root:
-            return []
+        cached = self.__dict__.get("_lineage_cache")
+        if cached is not None:
+            return list(cached)
 
-        ancestry_path = self.parent.generate_lineage()
-        ancestry_path.append(self.name)
-        return ancestry_path
+        if self.is_root:
+            lineage = []
+        else:
+            lineage = self.parent.generate_lineage()
+            lineage.append(self.name)
+
+        self.__dict__["_lineage_cache"] = tuple(lineage)
+        return lineage
 
     # magic methods  ===========================================================
 
@@ -179,7 +185,11 @@ class BasePromptNode(AnyTreeNode):
             )
 
     def __hash__(self):
-        return hash(tuple(self.generate_lineage()))
+        cached = self.__dict__.get("_hash_cache")
+        if cached is None:
+            cached = hash(tuple(self.generate_lineage()))
+            self.__dict__["_hash_cache"] = cached
+        return cached
 
     def __eq__(self, other):
         """
