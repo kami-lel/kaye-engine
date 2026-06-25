@@ -72,10 +72,12 @@ preserve them. The top-level (`#`) sections, in order:
   and `programming_languages` resolution for the `Chat` blueprint
 - **Role** — task personas: `Art Tutor`, `Assistant Barista`, `Deutschlehrer`,
   `Editor`, `Librarian`, `Secretary`, `Tarot Reader`
-- **Projects** — `Project Structure`, `Project Semantic Versioning`, and the
-  `README`/`CHANGELOG`/`AGENTS` writers, plus `project prompts` (Maintain Docs,
-  Maintain CHANGELOG, Create README, Create AGENTS, Prepare for Feature Finish,
-  Prepare for Release)
+- **Projects** — `Project Structure`, `Project Semantic Versioning`, the
+  `README`/`CHANGELOG`/`AGENTS` writers, and project workflow prompts: `Create
+  README`, `Maintain README`, `Create CHANGELOG`, `Maintain CHANGELOG`,
+  `Create AGENTS and CONTEXT`, `Maintain AGENTS and CONTEXT`, `Create Docs`,
+  `Maintain Docs`, `Initialize Project`, `Compact with Maintenance`, `Prepare
+  for Feature Finish`, `Prepare for Version Release`
 - **Prompt Engineering** — `Prompt Writer`, `Skill Description Writer`
 - **Kaye Cash Tracker** / **Kaye Commit Sense** / **Kaye Event Radar** —
   standalone task prompts (expense extraction, commit-message generation,
@@ -86,8 +88,8 @@ preserve them. The top-level (`#`) sections, in order:
   `JavaScript and TypeScript`, `Python` (with `Docstring Style` and `Testing
   Guidelines` sub-profiles)
 - **Opus Tag Smith** — media tagging (title/subtitle, release year, tags)
-- **Agent Behavior** / **Continue Behavior** — baseline agent conduct and
-  Continue-specific behavior (e.g. `run_terminal_command`)
+- **Agent Behavior** — baseline agent conduct; `Continue Behavior` is a
+  subsection (e.g. `run_terminal_command`)
 - **Utility Prompts** — Conversation Follow Up / Tag / Title generation
 
 Most leaf sections that back an exportable blueprint carry `{description}` and
@@ -185,6 +187,8 @@ python -m kaye claude plugin -z PLUGINS_FOLDER       # create .plugin file (-n o
 python -m kaye claude marketplace MARKETPLACE        # export a marketplace folder (plugin under plugins/)
 python -m kaye claude code                           # export plugin + CLAUDE.md into ~/.claude
 python -m kaye claude user-system-prompt             # export Chat blueprint to ~/.claude/CLAUDE.md
+python -m kaye claude user-system-prompt -r          # use Rapid blueprint instead of Chat
+python -m kaye claude user-system-prompt -c          # append Kaye Peer Coder content
 python -m kaye claude vs-code-extension              # export CLAUDE.md + marketplace into ~/.claude
 ```
 
