@@ -29,7 +29,7 @@ FOLDER/  (default: ~/.claude/skills/)
 """
 
 
-def register_parser(cli_subparser):  #########################################
+def register_skill_subparser(cli_subparser):  #########################################
     skill_parser = cli_subparser.add_parser(
         "skill",
         help=__doc__,

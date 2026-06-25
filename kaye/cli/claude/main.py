@@ -1,11 +1,11 @@
 """export Kaye blueprints as Anthropic Claude Skill / Plugin"""
 
-from kaye.cli.claude.code.parser import register_parser as register_code
-from kaye.cli.claude.marketplace.parser import register_parser as register_marketplace
-from kaye.cli.claude.plugin.parser import register_parser as register_plugin
-from kaye.cli.claude.skill.parser import register_parser as register_skill
-from kaye.cli.claude.vs_code.parser import register_parser as register_vs_code
-from kaye.cli.claude.user_prompt.parser import register_parser as register_user_prompt
+from kaye.cli.claude.code.parser import register_code_subparser
+from kaye.cli.claude.marketplace.parser import register_marketplace_subparser
+from kaye.cli.claude.plugin.parser import register_plugin_subparser
+from kaye.cli.claude.skill.parser import register_skill_subparser
+from kaye.cli.claude.vs_code.parser import register_vs_code_subparser
+from kaye.cli.claude.user_prompt.parser import register_user_prompt_subparser
 
 
 def register_cli_claude_parser(  ###############################################
@@ -27,9 +27,10 @@ def register_cli_claude_parser(  ###############################################
         description="utility functions for the Claude plugin integration"
     )
 
-    register_code(claude_subparser)
-    register_marketplace(claude_subparser)
-    register_plugin(claude_subparser)
-    register_skill(claude_subparser)
-    register_vs_code(claude_subparser)
-    register_user_prompt(claude_subparser)
+    # TODO order
+    register_code_subparser(claude_subparser)
+    register_marketplace_subparser(claude_subparser)
+    register_plugin_subparser(claude_subparser)
+    register_skill_subparser(claude_subparser)
+    register_vs_code_subparser(claude_subparser)
+    register_user_prompt_subparser(claude_subparser)
