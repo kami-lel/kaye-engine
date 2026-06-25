@@ -11,11 +11,16 @@ import json
 
 import pytest
 
-from tests import TESTEE_TRIAGE_TAG_CONTENT
+from tests import (
+    TESTEE_TRIAGE_TAG_CONTENT,
+    TESTEE_TITLE_CASE_CONTENT,
+    TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
+    TESTEE_BRIEFNESS_CONTENT,
+    TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT,
+    TESTEE_CODER_CONTENT,
+)
 from tests.api.ky.task import *
 from tests.api.ky.task.coder import *
-
-# TODO update to use new pattern unit test
 
 # pytest fixtures  #############################################################
 
@@ -40,171 +45,25 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCoder:  # ============================================================
 
-    # coder intro  *************************************************************
+    @pytest.mark.parametrize("marker", TESTEE_CODER_CONTENT)
+    def test_coder_content(_, opt, marker):
+        assert marker in opt
 
-    def test_coder_title(_, opt):
-        print(opt)
-        assert_coder_title(opt)
+    @pytest.mark.parametrize("marker", TESTEE_TITLE_CASE_CONTENT)
+    def test_style_title_case(_, opt, marker):
+        assert marker in opt
 
-    def test_coder1(_, opt):
-        print(opt)
-        assert "Duties are as follows" in opt
+    @pytest.mark.parametrize("marker", TESTEE_CHAT_COMMENTARY_CASE_CONTENT)
+    def test_style_commentary_case(_, opt, marker):
+        assert marker in opt
 
-    def test_coder2(_, opt):
-        print(opt)
-        assert "provide code **expansion** per user" in opt
+    @pytest.mark.parametrize("marker", TESTEE_BRIEFNESS_CONTENT)
+    def test_style_briefness(_, opt, marker):
+        assert marker in opt
 
-    def test_coder3(_, opt):
-        print(opt)
-        assert "- offer concise coding **support** with" in opt
-
-    def test_coder4(_, opt):
-        print(opt)
-        assert "include only minimal explanation" in opt
-
-    # code format  *************************************************************
-
-    def test_coder_code_format_title(_, opt):
-        print(opt)
-        assert_coder_code_format_title(opt)
-
-    def test_coder_code_format1(_, opt):
-        print(opt)
-        assert "- each line must not exceed **80 characters**" in opt
-
-    def test_coder_code_format2(_, opt):
-        print(opt)
-        assert "- when the file name is known," in opt
-
-    def test_coder_code_format3(_, opt):
-        print(opt)
-        assert "```python utils.py" in opt
-
-    # variable naming  *********************************************************
-
-    def test_coder_variable_naming_title(_, opt):
-        print(opt)
-        assert_coder_variable_naming_title(opt)
-
-    def test_coder_variable_naming1(_, opt):
-        print(opt)
-        assert "- use i, j, k for loop counters" in opt
-
-    def test_coder_variable_naming2(_, opt):
-        print(opt)
-        assert "  `calculate_sum`, `init_graphic_engine`" in opt
-
-    def test_coder_variable_naming3(_, opt):
-        print(opt)
-        assert "- use UPPER_CASE_WITH_UNDERSCORES for constants" in opt
-
-    # code comment  ************************************************************
-
-    def test_coder_code_comment_title(_, opt):
-        print(opt)
-        assert_coder_code_comment_title(opt)
-
-    def test_coder_code_comment1(_, opt):
-        print(opt)
-        assert "- format inline comments as:" in opt
-
-    def test_coder_code_comment2(_, opt):
-        print(opt)
-        assert "- use *Commentary Case* for each comment line" in opt
-
-    def test_coder_code_comment3(_, opt):
-        print(opt)
-        assert "- include *immediate annotation markers*" in opt
-
-    # csh  *********************************************************************
-
-    def test_coder_csh_title(_, opt):
-        print(opt)
-        assert_coder_csh_title(opt)
-
-    def test_coder_csh1(_, opt):
-        print(opt)
-        assert "**Comment section headings** (CSH) are visual" in opt
-
-    def test_coder_csh2(_, opt):
-        print(opt)
-        assert "- CSH must live **inside code comments only**" in opt
-
-    def test_coder_csh3(_, opt):
-        print(opt)
-        assert "- use CSH **sparingly** — prefer blank lines to" in opt
-
-    def test_coder_csh4(_, opt):
-        print(opt)
-        assert "- symbol order for descending levels:" in opt
-
-    def test_coder_csh5(_, opt):
-        print(opt)
-        assert "**Examples:**" in opt
-
-    def test_coder_csh6(_, opt):
-        print(opt)
-        assert "```cpp stats_demo.cpp" in opt
-
-    def test_coder_csh7(_, opt):
-        print(opt)
-        assert "def to_int(s):" in opt
-
-    # style  *******************************************************************
-
-    def test_style_title(_, opt):
-        assert_style_title(opt)
-
-    def test_style_caps_tc0(_, opt):
-        assert_style_caps_tc0(opt)
-
-    def test_style_caps_tc1(_, opt):
-        assert_style_caps_tc1(opt)
-
-    def test_style_caps_tc2(_, opt):
-        assert_style_caps_tc2(opt)
-
-    def test_style_caps_tc3(_, opt):
-        assert_style_caps_tc3(opt)
-
-    def test_style_caps_tc4(_, opt):
-        assert_style_caps_tc4(opt)
-
-    def test_style_caps_cc0(_, opt):
-        assert_style_caps_cc0(opt)
-
-    def test_style_caps_cc1(_, opt):
-        assert_style_caps_cc1(opt)
-
-    def test_style_caps_cc2(_, opt):
-        assert_style_caps_cc2(opt)
-
-    def test_style_caps_cc3(_, opt):
-        assert_style_caps_cc3(opt)
-
-    def test_style_caps_bs0(_, opt):
-        assert_style_caps_bs0(opt)
-
-    def test_style_caps_bs1(_, opt):
-        assert_style_caps_bs1(opt)
-
-    def test_style_caps_bs2(_, opt):
-        assert_style_caps_bs2(opt)
-
-    def test_style_caps_bs3(_, opt):
-        assert_style_caps_bs3(opt)
-
-    def test_style_caps_gw0(_, opt):
-        assert_style_caps_gw0(opt)
-
-    def test_style_caps_gw1(_, opt):
-        assert_style_caps_gw1(opt)
-
-    def test_style_caps_gw2(_, opt):
-        assert_style_caps_gw2(opt)
-
-    def test_style_caps_gw3(_, opt):
-        assert_style_caps_gw3(opt)
+    @pytest.mark.parametrize("marker", TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT)
+    def test_style_good_writing(_, opt, marker):
+        assert marker in opt
 
     # Triage Tags  *************************************************************
 
