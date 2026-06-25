@@ -16,7 +16,6 @@ class TestParamMd:  ############################################################
         )
 
         opt = response.get_data(as_text=True)
-        print(opt)
 
         assert response.status_code == 422
         assert opt == "bad param: ?allows_md=abc"
@@ -28,7 +27,6 @@ class TestParamMd:  ############################################################
         )
 
         opt = response.get_data(as_text=True)
-        print(opt)
 
         assert response.status_code == 422
         assert opt == "param ?allows_md must be 1/0: 150"

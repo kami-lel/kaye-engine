@@ -13,7 +13,8 @@ import pytest
 
 from tests.api.ky.task import (
     TESTEE_INTRODUCTION_CONTENT,
-    TESTEE_MARKDOWN_FORMAT_CONTENT,
+    TESTEE_MD_BASIC_FORMAT_CONTENT,
+    TESTEE_MD_ADD_FORMAT_CONTENT,
     TESTEE_CHAT_ADDITIONAL_CONTENT,
     create_opt_from_role,
 )
@@ -37,9 +38,16 @@ class TestIntroductionContent:  # ==============================================
         assert marker in opt
 
 
-class TestMarkdownFormatContent:  # ============================================
+class TestMdBasicFormatContent:  # ============================================
 
-    @pytest.mark.parametrize("marker", TESTEE_MARKDOWN_FORMAT_CONTENT)
+    @pytest.mark.parametrize("marker", TESTEE_MD_BASIC_FORMAT_CONTENT)
+    def test_content(_, opt, marker):
+        assert marker in opt
+
+
+class TestMdAddFormatContent:  # ==============================================
+
+    @pytest.mark.parametrize("marker", TESTEE_MD_ADD_FORMAT_CONTENT)
     def test_content(_, opt, marker):
         assert marker in opt
 

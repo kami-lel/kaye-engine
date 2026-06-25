@@ -8,91 +8,78 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from tests import TESTEE_TRIAGE_TAG_CONTENT
+from tests import (
+    TESTEE_BRIEFNESS_CONTENT,
+    TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
+    TESTEE_TRIAGE_TAG_CONTENT,
+)
 from tests.api.commit import (
+    TESTEE_COMMIT_COMMON,
+    TESTEE_COMMIT_PER_FILE_COMMON,
+    TESTEE_COMMIT_PER_FILE_SHORT,
     assert_allows_md,
     assert_no_allows_md,
-    assert_per_file_common,
-    assert_commit_sense_common,
+)
+
+_CONTENT = (
+    TESTEE_COMMIT_COMMON
+    + TESTEE_COMMIT_PER_FILE_COMMON
+    + TESTEE_COMMIT_PER_FILE_SHORT
+    + TESTEE_BRIEFNESS_CONTENT
+    + TESTEE_CHAT_COMMENTARY_CASE_CONTENT
+    + TESTEE_TRIAGE_TAG_CONTENT
 )
 
 
-# pytest fixtures  #############################################################
-@pytest.fixture
-def endpoint(app_endpoint):
-    return app_endpoint + "/per-file-short"
+# Fixtures  ####################################################################
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def testee_output(flask_test_client, app_endpoint):
     response = flask_test_client.get(app_endpoint + "/per-file-short")
     return response.get_data().decode("utf-8")
 
 
-# TT (Triage Tags)  #############################################################
+@pytest.fixture(scope="session")
+def endpoint(app_endpoint):
+    return app_endpoint + "/per-file-short"
 
 
-class TestTriageTags:  # ========================================================
-
-    @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
-    def test_tt_content(_, testee_output, i):
-        assert TESTEE_TRIAGE_TAG_CONTENT[i] in testee_output
+# Unit test classes  ###########################################################
 
 
-class TestShort:  ##############################################################
+class TestContent:  # ===========================================================
 
-    # helpers  =================================================================
-    def assert_common(_, opt):
-        assert """#### Short
-- predominantly addition: /""" in opt
+    @pytest.mark.parametrize("marker", _CONTENT)
+    def test_content(_, testee_output, marker):
+        assert marker in testee_output
 
-    # no markdown  =============================================================
+
+class TestAllowsMd:  # ==========================================================
 
     def test_no_param(self, flask_test_client, endpoint):
-        response = flask_test_client.get(endpoint)
-
-        opt = response.get_data().decode("utf-8")
-        print(opt)
-
-        assert_commit_sense_common(opt)
-        assert_per_file_common(opt)
-        self.assert_common(opt)
+        opt = flask_test_client.get(
+            endpoint
+        ).get_data().decode("utf-8")
         assert_no_allows_md(opt)
 
     def test_empty_param(self, flask_test_client, endpoint):
-        query_string = {"allows_md": ""}
-        response = flask_test_client.get(endpoint, query_string=query_string)
-
-        opt = response.get_data().decode("utf-8")
-        print(opt)
-
-        assert_commit_sense_common(opt)
-        assert_per_file_common(opt)
-        self.assert_common(opt)
+        qs = {"allows_md": ""}
+        opt = flask_test_client.get(
+            endpoint, query_string=qs
+        ).get_data().decode("utf-8")
         assert_no_allows_md(opt)
 
     def test_param0(self, flask_test_client, endpoint):
-        query_string = {"allows_md": 0}
-        response = flask_test_client.get(endpoint, query_string=query_string)
-
-        opt = response.get_data().decode("utf-8")
-        print(opt)
-
-        assert_commit_sense_common(opt)
-        assert_per_file_common(opt)
-        self.assert_common(opt)
+        qs = {"allows_md": 0}
+        opt = flask_test_client.get(
+            endpoint, query_string=qs
+        ).get_data().decode("utf-8")
         assert_no_allows_md(opt)
 
-    # w/ markdown  =============================================================
-
     def test_param1(self, flask_test_client, endpoint):
-        query_string = {"allows_md": 1}
-        response = flask_test_client.get(endpoint, query_string=query_string)
-
-        opt = response.get_data().decode("utf-8")
-        print(opt)
-
-        assert_commit_sense_common(opt)
-        assert_per_file_common(opt)
-        self.assert_common(opt)
+        qs = {"allows_md": 1}
+        opt = flask_test_client.get(
+            endpoint, query_string=qs
+        ).get_data().decode("utf-8")
         assert_allows_md(opt)
