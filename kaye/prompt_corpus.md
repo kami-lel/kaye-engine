@@ -4129,7 +4129,7 @@ You are to select a single prefix that best describes the primary nature of the 
 3. `:`: relocated/moved file, with no or only minor changes (filename may change or stay the same)
 4. `=`: file renamed (but location unchanged), with no or only minor changes
 5. `?` if the modified file is a non-textual type (e.g., binaries, compressed archives, databases, encrypted blobs)
-6. `@`: file contains only changes to annotation markers (and to related lines)
+6. `@`: file contains only changes to triage tags (and to related lines)
 7. `#`: change primarily concerns documentation or code comments
 8. `~`: change is primarily content reordering or code refactoring
 9. `.`: change is only about: whitespace, indentation, or blank-line
