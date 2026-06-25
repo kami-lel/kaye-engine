@@ -3,8 +3,6 @@ todo resume role
 
 todo write maintain before compact, then use hooks.PreCompact to call maintain
 
-Todo full unit test for cli/a/c
-
 todo agent behavior add md-style task list, when Claude "task" is not available
 
 todo standardize software dev lifecycle, with standardized vocab
