@@ -1,4 +1,4 @@
-"""export as an Anthropic Claude plugin"""
+"""export all kaye blueprints as a single Claude plugin"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -15,12 +15,11 @@ _DEFAULT_PLUGINS_FOLDER = Path.home() / ".claude" / "plugins"
 
 _DESCRIPTION = """
 
-bundle every blueprint, prompt, and abbreviation group into a single Claude
-plugin folder (a plugin.json manifest plus one skills/ subfolder); with -z,
-pack it as an upload-ready .zip plugin instead.
+writes plugin.json and one SKILL.md per blueprint under kaye/skills/; with
+-z, creates an upload-ready .zip for Claude Desktop instead.
 
 FOLDER/  (default: ~/.claude/plugins/)
-└── kaye/  (plugin root)
+└── kaye/
     ├── .claude-plugin/
     │   └── plugin.json
     └── skills/

@@ -1,4 +1,4 @@
-"""export for Claude Code VS Code Extension: CLAUDE.md and kaye_marketplace"""
+"""set up Claude Code VS Code Extension with the kaye marketplace and User System Prompt"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -14,12 +14,11 @@ from .export import export_vs_code_extension
 
 _DESCRIPTION = """
 
-install kaye into a local .claude/ folder for the Claude Code VS Code
-Extension: write the Chat blueprint as CLAUDE.md and export a kaye_marketplace/
-folder containing the marketplace manifest and kaye plugin.
+writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint) and
+exports the kaye plugin wrapped in a marketplace under kaye_marketplace/.
 
 CLAUDE_FOLDER/  (default: ~/.claude)
-├── CLAUDE.md
+├── CLAUDE.md  (User System Prompt)
 └── kaye_marketplace/
     ├── .claude-plugin/
     │   └── marketplace.json

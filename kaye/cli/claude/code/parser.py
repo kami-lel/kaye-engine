@@ -1,4 +1,4 @@
-"""export for Claude Code as a plugin and User System Prompt file"""
+"""set up Claude Code CLI with the kaye plugin and User System Prompt"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -17,8 +17,8 @@ from kaye.cli.claude.user_prompt.export import export_user_system_prompt_file
 
 _DESCRIPTION = """
 
-install kaye into a local .claude/ folder: write the kaye plugin under
-plugins/ and the Chat blueprint as the User System Prompt CLAUDE.md.
+writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint) and
+exports the kaye plugin into plugins/.
 
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)

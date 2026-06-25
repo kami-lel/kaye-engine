@@ -1,4 +1,4 @@
-"""export Kaye blueprints as Anthropic Claude Skill / Plugin"""
+"""install Kaye into Claude as skills, plugins, or marketplaces"""
 
 from kaye.cli.claude.code.parser import register_code_subparser
 from kaye.cli.claude.marketplace.parser import register_marketplace_subparser

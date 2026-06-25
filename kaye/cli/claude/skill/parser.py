@@ -1,4 +1,4 @@
-"""export as agentskills.io-standard Skills for Anthropic Claude"""
+"""export each kaye blueprint as an individual Claude skill"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -18,9 +18,8 @@ _DEFAULT_SKILLS_FOLDER = Path.home() / ".claude" / "skills"
 
 _DESCRIPTION = """
 
-export every blueprint, project prompt, and abbreviation group as its own
-agentskills.io-standard Skill folder (one SKILL.md each); with -z, pack each
-Skill into its own .zip instead.
+writes one SKILL.md per blueprint, prompt, and abbreviation group as its own
+skill folder; with -z, creates a .zip per skill instead.
 
 FOLDER/  (default: ~/.claude/skills/)
 ├── coder-python/
