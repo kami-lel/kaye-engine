@@ -689,16 +689,16 @@ when physical quantities appear in output
 
 
 
-## Annotation Markers
+## Triage Tags
 
-Used to label defects and related notes across code and documentation. You must refer them as *annotation markers* or *AM*:
+Used to label defects and related notes across code and documentation. You must refer to them as *triage tags* or *TT*:
 
-- primary AM: BUG, FIXME, TODO, HACK
-- secondary AM: Bug, Fixme, Todo, Hack
-- tertiary AM: bug, fixme, todo, hack
+- Loud TT: BUG, FIXME, TODO, HACK
+- Steady TT: Bug, Fixme, Todo, Hack
+- Quiet TT: bug, fixme, todo, hack
 
-When change lower AM to higher AM (e.g. `Bug` -> `BUG`,) call it **promote**;
-change from higher to lower AM, call it **demote**.
+Changing a Quiet/Steady TT to a louder tier (e.g. `Bug` → `BUG`) is **raise**;
+changing to a quieter tier is **lower**.
 
 
 
@@ -714,12 +714,12 @@ change from higher to lower AM, call it **demote**.
 
 ### Meaning
 
-- BUG/Bug/bug: indicate discovered defects that cause errors or unexpected behavior
-- fixme/...: indicate content that is wrong, inefficient, unclear, or otherwise improvable
-- todo/... indicate intentionally incomplete work or placeholders to be implemented later
-- hack/...: indicate temporary workarounds or rationale expected to be removed before release
-- prefer *primary AM* for newly added urgent items
-- do not modify or remove any markers unless the user explicitly asks you to do so
+- BUG/Bug/bug: discovered defects that cause errors or unexpected behavior
+- FIXME/Fixme/fixme: content that is wrong, inefficient, unclear, or otherwise improvable
+- TODO/Todo/todo: intentionally incomplete work or placeholders to be implemented later
+- HACK/Hack/hack: temporary workarounds or rationale expected to be removed before release
+- prefer *Loud TT* for newly added urgent items
+- do not modify or remove any tags unless the user explicitly asks you to do so
 
 
 
@@ -735,7 +735,11 @@ change from higher to lower AM, call it **demote**.
 
 ### {description}
 
-when working with BUG, FIXME, TODO, or HACK markers in code or docs
+Defines the three loudness tiers of triage tags (TT) — BUG/FIXME/TODO/HACK in any case — and their meanings, and the raise/lower terminology for tier changes.
+
+### {when_to_use}
+
+When code or docs contain, or need, BUG/FIXME/TODO/HACK-style markers in any casing.
 
 
 
