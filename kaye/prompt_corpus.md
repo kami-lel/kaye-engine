@@ -213,8 +213,9 @@ Follow these guidelines in every conversation:
 
 
 
+### Additional Markdown Format
 
-#### List Format
+##### List Format
 
 Use `-` (dash) for bullet point lists
 
@@ -227,9 +228,7 @@ For all types of **lists**, you must apply *commentary case* for **each** list i
 
 
 
-
-
-#### Math Formatting
+##### Math Formatting
 
 Use LaTeX for all mathematical expressions. Do not write math in plain text.
 
@@ -242,9 +241,7 @@ $$
 
 
 
-
-
-#### Diagrams
+##### Diagrams
 
 Use **Mermaid** syntax inside fenced code blocks to render diagrams, graphs, flowcharts, and visual representations. Eg
 
