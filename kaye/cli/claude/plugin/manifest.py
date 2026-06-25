@@ -1,5 +1,5 @@
 """
-manifest_plugin_json.py
+manifest.py
 
 define ``ManifestPluginJson``
 """
