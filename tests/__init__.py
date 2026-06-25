@@ -37,22 +37,37 @@ TESTEE_CHAT_COMMENTARY_CASE_CONTENT = [
 
 TESTEE_CODER_CONTENT = [
     "# Kaye Peer Coder",
-    "- provide code **expansion**",
     "- perform code **adjustment**",
-    "- offer concise coding **support**",
     "- help users **debug**",
     "### code format",
-    "- each line must not exceed **80 characters**",
+    "- always specify the **language identifier**",
     "### variable naming",
+    "- require boolean functions and variables to start with `is_` or `has_`",
     "### code comment",
+    "- format inline comments as:",
+    "### comment section headings",
+    "CSH must live **inside code comments only**",
+    "### Testing Instructions",
+    "Test **smartly and selectively**",
 ]
+
 
 TESTEE_TITLE_CASE_CONTENT = [
     "## Style Guide Title Case",
     "Use *Chicago Manual of Style* headline case:",
-    "- **capitalize major words**: nouns, pronouns, verbs, adjectives, adverbs, numerals",
-    "- **lowercase minor words**: articles (a, an, the), coordinating conjunctions (and, but, or, nor, for, so, yet), prepositions (of, in, on, with, etc.), and the infinitive to",
-    "keep proper nouns, acronyms, and brand styling as written (New York, NASA, iPhone)",
+    (
+        "- **capitalize major words**: nouns, pronouns, verbs, adjectives,"
+        " adverbs, numerals"
+    ),
+    (
+        "- **lowercase minor words**: articles (a, an, the), coordinating"
+        " conjunctions (and, but, or, nor, for, so, yet), prepositions (of, in,"
+        " on, with, etc.), and the infinitive to"
+    ),
+    (
+        "keep proper nouns, acronyms, and brand styling as written (New York,"
+        " NASA, iPhone)"
+    ),
     "Used for **document title** and **section headings**",
 ]
 
@@ -61,8 +76,14 @@ TESTEE_BRIEFNESS_CONTENT = [
     "- write in **newspaper headlinese**, prioritize brevity over grammar",
     "- use present for current, infinitive for planned",
     "- omit articles (a, an, the) and helper verbs, use strong nouns, verbs",
-    "- compress with punctuation: colon, dash, comma, otherwise minimize, no terminal periods",
-    "- use numerals (use 2, not two), symbols, **Usable Abbrs** when unambiguous",
+    (
+        "- compress with punctuation: colon, dash, comma, otherwise minimize,"
+        " no terminal periods"
+    ),
+    (
+        "- use numerals (use 2, not two), symbols, **Usable Abbrs** when"
+        " unambiguous"
+    ),
     "- prefer active voice",
     "- keep sentences short, direct, drop filler",
 ]
