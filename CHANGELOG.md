@@ -18,6 +18,18 @@
 
 [unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.0...dev
 
+### Added
+
+- `docs/http_api_doc.md` — `#### update` subsection under `systemd`
+  deployment: steps to pull the repo and reinstall the package, then reload
+  and restart the service
+
+### Changed
+
+- `docs/http_api_doc.md` — `systemd` deployment heading promoted from
+  `###` to `##` and renamed from *deployment as `systemd` on Ubuntu* to
+  *`systemd` deployment*; all `systemctl` and `chmod` commands prefixed with
+  `sudo`
 
 
 ## [6.8.0] - 2026-06-26
