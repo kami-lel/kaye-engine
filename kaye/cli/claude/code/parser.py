@@ -20,7 +20,7 @@ _DESCRIPTION = """
 install kaye into a local .claude/ folder: write the kaye plugin under
 plugins/ and the Chat blueprint as the User System Prompt CLAUDE.md.
 
-FOLDER/  (default: ~/.claude)
+CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
 └── plugins/
     └── kaye/
@@ -46,7 +46,7 @@ def register_code_subparser(cli_subparser):  ###################################
     code_parser.add_argument(
         "folder",
         nargs="?",
-        metavar="FOLDER",
+        metavar="CLAUDE_FOLDER",
         type=Path,
         default=DEFAULT_CLAUDE_FOLDER,
         help="path to local .claude/ folder; default: ~/.claude",
