@@ -716,11 +716,11 @@ Shifting a tag to a louder tier (`bug` → `BUG`) is **raise**; to a quieter tie
 
 ### {description}
 
-Defines the three loudness tiers of triage tags (TT) — BUG/FIXME/TODO/HACK in any case — and their meanings, and the raise/lower terminology for tier changes.
+Defines triage tags (TT) — defect/note labels spanning code and docs across 3 case tiers (Loud/Steady/Quiet), with per-tag meanings and raise/lower tier shifts
 
 ### {when_to_use}
 
-When code or docs contain, or need, BUG/FIXME/TODO/HACK-style markers in any casing.
+When adding, classifying, or raising/lowering BUG/FIXME/TODO/HACK markers in any case, or resolving what a TT tier signifies. Not for fixing the defects the tags point to
 
 
 
