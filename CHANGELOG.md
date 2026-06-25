@@ -20,6 +20,24 @@
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.7.0...dev
+
+
+
+## [6.7.0] - 2026-06-25
+
+### Added
+
 - **`kaye claude vs-code-extension`** (alias `a v`) — new subcommand that
   writes `CLAUDE.md` and exports the kaye marketplace to
   `~/.claude/kaye_marketplace/`; one-step Claude Code VS Code Extension setup
@@ -69,8 +87,6 @@
 - **README** — Claude integration section restructured with dedicated
   `Claude Desktop` and `Claude Code VS Code Extension` subsections
 
-### Deprecated
-
 ### Removed
 
 - **`kaye/cli/cli_claude/`** — removed; replaced by `kaye/cli/claude/`
@@ -83,9 +99,7 @@
   `__hash__` now cache results; reduces redundant calls from 33M to O(1) per
   node; single export ~10s → ~4.3s; full test suite ~109s → ~49s (2.2×)
 
-### Security
-
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.6.0...dev
+[6.7.0]: https://github.com/kami-lel/kaye/compare/v6.6.0...v6.7.0
 
 
 
