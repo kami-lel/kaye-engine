@@ -42,7 +42,11 @@ through a Python API, an HTTP API, and a CLI.
   .is_prerequisite(node)` checks `node.name == "{prerequisite}"`;
   pass `contains_prerequisite_nodes=True` to `generate_prompt()` /
   `generate_prompt_lines()` to auto-checkmark every `{prerequisite}` node
-  whose parent is already checkmarked before rendering.
+  whose parent is already checkmarked before rendering
+- **Blueprint Meta Merging** — `BlueprintMetaNodes.__or__` merges two instances
+  via `left | right`; left operand takes priority for each field
+  (description, when_to_use, globs, prerequisite); `PromptBlueprint.__or__`
+  now includes meta merging so merged blueprints preserve meta information
 
 ### Prompt Corpus Structure
 
