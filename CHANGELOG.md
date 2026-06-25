@@ -16,6 +16,35 @@
 
 ## [Unreleased]
 
+### Added
+
+- `### Additional Markdown Format` subsection in `prompt_corpus.md` under
+  `Style Guide Markdown Format`, grouping `List Format`, `Math Formatting`,
+  and `Diagrams` (sub-headings demoted from `####` to `#####`)
+- `Additional Markdown Format` node added to `rapid_blueprint` and
+  `chat_blueprint` in `embedded_blueprints.py`
+- commit-sense test constants in `tests/api/commit/__init__.py`:
+  `TESTEE_COMMIT_COMMON`, `TESTEE_COMMIT_PRIMARY_COMMON`,
+  `TESTEE_COMMIT_PER_FILE_COMMON`, `TESTEE_COMMIT_PER_FILE_LONG`,
+  `TESTEE_COMMIT_PER_FILE_SHORT`
+- `TESTEE_MD_BASIC_FORMAT_CONTENT` and `TESTEE_MD_ADD_FORMAT_CONTENT` in
+  `tests/__init__.py`, splitting `TESTEE_MARKDOWN_FORMAT_CONTENT` by
+  basic vs. additional format content
+
+### Changed
+
+- `### Prefix Symbol` rules in `prompt_corpus.md` rewritten for clarity:
+  numbered with `—` dash, explicit `stop` semantics, and `nearly unchanged`
+  definition added; `#### Long` / `#### Short` symbol entries reformatted
+  as backtick list items
+- `## Primary Message Task` examples in `prompt_corpus.md` reformatted as
+  a fenced code block
+- commit API tests (`tests/api/commit/`) refactored to two-class pattern
+  (`TestContent` + `TestAllowsMd`) with session-scoped `testee_output`
+  fixture; `app_endpoint` and `primary_endpoint` conftest fixtures made
+  session-scoped; `assert_commit_sense_common` and `assert_per_file_common`
+  helpers removed
+
 [unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.0...dev
 
 ### Added
