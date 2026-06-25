@@ -21,6 +21,8 @@ from tests.cli.a.u import (
 
 # constants  ###################################################################
 
+# BUG dont include role & abbr in these
+
 # (fixture stem, present markers, absent markers)
 CASES = [
     ("chat", CHAT_CONTENT, CHAT_ABSENT),
