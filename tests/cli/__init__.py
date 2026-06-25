@@ -463,11 +463,6 @@ TESTEE_FILE_CONTENT_ALL = {
             "Instruction budget is finite, and a wrong instruction is worse"
             " than no instruction."
         ),
-        "#### Testing Instructions",
-        (
-            "Direct coding agents to test **smartly and selectively** rather"
-            " than blindly running the whole suite."
-        ),
         "#### Quality Expectations",
         "- repository-specific, not generic",
         (
