@@ -95,6 +95,8 @@ Upload the generated `.zip` file to [Claude Desktop](https://claude.ai) settings
 
 #### Claude Code VS Code Extension
 
+<!-- FIXME update instruction to be more detailed -->
+
 Export Kaye as a marketplace plugin using the Kaye CLI:
 
 ```bash
