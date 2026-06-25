@@ -16,9 +16,7 @@ from kaye.cli.cli_claude.user_prompt.export_user_file import (
     export_user_system_prompt_file,
 )
 
-# TODO add claude md coder test
-
-# constants  ===================================================================
+#  constants  ===================================================================
 
 _DESCRIPTION = """
 
