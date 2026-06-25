@@ -26,7 +26,6 @@ Produce a concise summary of changes across **multiple** files.""" in opt
         response = flask_test_client.get(primary_endpoint)
 
         opt = response.get_data().decode("utf-8")
-        print(opt)
 
         assert_commit_sense_common(opt)
         self.assert_common(opt)
@@ -39,7 +38,6 @@ Produce a concise summary of changes across **multiple** files.""" in opt
         )
 
         opt = response.get_data().decode("utf-8")
-        print(opt)
 
         assert_commit_sense_common(opt)
         self.assert_common(opt)
@@ -52,7 +50,6 @@ Produce a concise summary of changes across **multiple** files.""" in opt
         )
 
         opt = response.get_data().decode("utf-8")
-        print(opt)
 
         assert_commit_sense_common(opt)
         self.assert_common(opt)
@@ -67,7 +64,6 @@ Produce a concise summary of changes across **multiple** files.""" in opt
         )
 
         opt = response.get_data().decode("utf-8")
-        print(opt)
 
         assert_commit_sense_common(opt)
         self.assert_common(opt)
