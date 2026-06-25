@@ -14,6 +14,8 @@ from tests.cli.a.s import (
     convert_folder_path2skill_file_path,
 )
 
+# FIXME merge testee content with top level constant
+
 # constants  ###################################################################
 
 
