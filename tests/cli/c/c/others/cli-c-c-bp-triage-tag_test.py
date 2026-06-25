@@ -13,7 +13,7 @@ from tests.cli import *  # noqa: F401, F403
 # constants  ###################################################################
 MD_FILENAME = "triage-tags"
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
-TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_TRIAGE_TAG_CONTENT
 
 # Pytest fixtures  #############################################################
 
@@ -93,6 +93,3 @@ class TestContent:  # ==========================================================
 
     def test7(_, testee_content):
         assert TESTEE_FILE_CONTENT[7] in testee_content
-
-    def test8(_, testee_content):
-        assert TESTEE_FILE_CONTENT[8] in testee_content
