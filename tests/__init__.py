@@ -35,17 +35,20 @@ TESTEE_CHAT_COMMENTARY_CASE_CONTENT = [
     "Used for **list items** and **table cell content**",
 ]
 
-# TODO more testee, include testing
 TESTEE_CODER_CONTENT = [
     "# Kaye Peer Coder",
-    "- provide code **expansion**",
     "- perform code **adjustment**",
-    "- offer concise coding **support**",
     "- help users **debug**",
     "### code format",
-    "- each line must not exceed **80 characters**",
+    "- always specify the **language identifier**",
     "### variable naming",
+    "- require boolean functions and variables to start with `is_` or `has_`",
     "### code comment",
+    "- format inline comments as:",
+    "### comment section headings",
+    "CSH must live **inside code comments only**",
+    "### Testing Instructions",
+    "Test **smartly and selectively**",
 ]
 
 
