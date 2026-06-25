@@ -2,6 +2,8 @@
 shared expected-content constants for ``kaye claude user-system-prompt`` tests
 """
 
+# Fixme update with better organizations
+
 # section markers  #############################################################
 
 INTRO = "# Introduction"
@@ -21,7 +23,7 @@ LANGUAGE_LINE = "- always respond in the **same language**"
 
 # section groups  ##############################################################
 
-# always present, regardless of flags (base + user scope)
+# always present, regardless of flags
 BASE_CONTENT = [
     INTRO,
     STYLE_GUIDE,
@@ -29,8 +31,6 @@ BASE_CONTENT = [
     LIST_FORMAT,
     MATH_FORMATTING,
     DIAGRAMS,
-    ROLE,
-    ABBREVIATIONS,
 ]
 
 # persona markers, present unless --rapid drops them
@@ -41,20 +41,25 @@ PERSONA_CONTENT = [
     LANGUAGE_LINE,
 ]
 
+# user-scope nodes (Role/Abbreviations) are injected by Dify API only;
+# the CLI user-system-prompt command does not include them
+USER_SCOPE = [ROLE, ABBREVIATIONS]
+
 
 # per-flag expected content  ###################################################
 
 # default (Chat blueprint)
 CHAT_CONTENT = BASE_CONTENT + PERSONA_CONTENT
-CHAT_ABSENT = [PEER_CODER]
+CHAT_ABSENT = [PEER_CODER] + USER_SCOPE
 
 # -r (Rapid blueprint)
 RAPID_CONTENT = BASE_CONTENT
-RAPID_ABSENT = PERSONA_CONTENT + [PEER_CODER]
+RAPID_ABSENT = PERSONA_CONTENT + [PEER_CODER] + USER_SCOPE
 
 # -c (Chat + Kaye Peer Coder)
 CODER_CONTENT = BASE_CONTENT + PERSONA_CONTENT + [PEER_CODER]
+CODER_ABSENT = USER_SCOPE
 
 # -r -c (Rapid + Kaye Peer Coder)
 RAPID_CODER_CONTENT = BASE_CONTENT + [PEER_CODER]
-RAPID_CODER_ABSENT = PERSONA_CONTENT
+RAPID_CODER_ABSENT = PERSONA_CONTENT + USER_SCOPE
