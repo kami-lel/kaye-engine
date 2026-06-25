@@ -45,8 +45,8 @@ TESTEE_CODER_CONTENT = [
     "- require boolean functions and variables to start with `is_` or `has_`",
     "### code comment",
     "- format inline comments as:",
-    "### comment section headings",
-    "CSH must live **inside code comments only**",
+    "### Comment Banner",
+    "CB must live **inside code comments only**",
     "### Testing Instructions",
     "Test **smartly and selectively**",
 ]
