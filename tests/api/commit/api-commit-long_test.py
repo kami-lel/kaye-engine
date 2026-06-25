@@ -23,7 +23,7 @@ def endpoint(app_endpoint):
     return app_endpoint + "/per-file-long"
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def testee_output(flask_test_client, app_endpoint):
     response = flask_test_client.get(app_endpoint + "/per-file-long")
     return response.get_data().decode("utf-8")
