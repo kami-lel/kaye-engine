@@ -20,6 +20,19 @@
 
 ### Added
 
+- **`tests/__init__.py`** — new centralized test constants module: 
+  `TESTEE_INTRODUCTION_CONTENT`, `TESTEE_MARKDOWN_FORMAT_CONTENT`, 
+  `TESTEE_CHAT_ADDITIONAL_CONTENT`, `TESTEE_CHAT_COMMENTARY_CASE_CONTENT`, 
+  `TESTEE_CODER_CONTENT`, `TESTEE_TITLE_CASE_CONTENT`, `TESTEE_BRIEFNESS_CONTENT`; 
+  eliminates duplicate string lists across test files; semantic, reusable content 
+  markers organized by feature area
+- **`tests/cli/a/c/cli-a-c-claude_md_test.py`** — extended with parametrized 
+  content tests: `TestIntroductionContent`, `TestMarkdownFormatContent`, 
+  `TestChatAdditionalContent`, `TestChatCommentaryCaseContent`, `TestCoderContent`; 
+  verifies `kaye claude code` CLAUDE.md has content equivalent to 
+  `kaye claude u -c` (chat blueprint + coder mode)
+- **`tests/api/ky/task/` content constants** — re-exported from `tests/__init__.py` 
+  for use in API task tests
 - **Project CONTEXT Writer** — new corpus section for creating and maintaining
   `CONTEXT.md` and `CONTEXT.local.md` files; covers document title, suggested
   sections, living document maintenance, and quality expectations
@@ -67,6 +80,14 @@
 
 ### Changed
 
+- **API task content tests** — refactored `tests/api/ky/task/api-ky-task-chat1_test.py` 
+  and `api-ky-task-rapid1_test.py` from 51 and 14 individual `test_*` methods 
+  respectively to parametrized test classes using `@pytest.mark.parametrize` over 
+  shared content constants; reduced duplication and improved maintainability
+- **Continue blueprint coder test** — `tests/cli/c/c/coder/cli-c-c-bp-coder_test.py` 
+  refactored to use `TESTEE_CODER_CONTENT` from `tests/__init__.py` instead of 
+  `TESTEE_FILE_CONTENT_ALL`; content tests converted from 10 individual 
+  `test0`...`test9` methods to a single parametrized `test_content` method
 - **`kaye claude user-system-prompt`** (`claude u`, `a u`) — new `-r`/`--rapid`
   flag uses the Rapid blueprint instead of Chat; new `-c`/`--coder` flag appends
   Kaye Peer Coder content after the main blueprint
