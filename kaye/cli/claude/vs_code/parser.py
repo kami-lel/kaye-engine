@@ -34,7 +34,7 @@ CLAUDE_FOLDER/  (default: ~/.claude)
 """
 
 
-def register_parser(  ###########################
+def register_vs_code_subparser(  ###########################
     cli_subparser,
 ):  # pylint: disable=missing-function-docstring
     vs_code_parser = cli_subparser.add_parser(

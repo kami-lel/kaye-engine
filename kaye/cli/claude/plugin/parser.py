@@ -30,7 +30,7 @@ FOLDER/  (default: ~/.claude/plugins/)
 """
 
 
-def register_parser(cli_subparser):  ########################################
+def register_plugin_subparser(cli_subparser):  ########################################
     plugin_parser = cli_subparser.add_parser(
         "plugin",
         help=__doc__,
