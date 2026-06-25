@@ -88,6 +88,13 @@ TESTEE_BRIEFNESS_CONTENT = [
     "- keep sentences short, direct, drop filler",
 ]
 
+TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT = [
+    "## Style Guide Good Writing",
+    "- Correct spelling, grammar, punctuation",
+    "- Ensure the revised text is clear, polite",
+    "- Do not add new information",
+]
+
 TESTEE_AGENT_BEHAVIOR_CONTENT = [
     "# Agent Behavior",
     "Files are assumed to be consistent between rounds",
