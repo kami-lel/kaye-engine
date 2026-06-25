@@ -4,7 +4,7 @@ embedded_blueprints.py
 common blueprints creations
 """
 
-# Todo make commentary case part of chat
+# TODO make commentary case part of chat
 
 # pylint: disable=invalid-name
 
