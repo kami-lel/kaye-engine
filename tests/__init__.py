@@ -66,3 +66,12 @@ TESTEE_BRIEFNESS_CONTENT = [
     "- prefer active voice",
     "- keep sentences short, direct, drop filler",
 ]
+
+TESTEE_AGENT_BEHAVIOR_CONTENT = [
+    "# Agent Behavior",
+    "Files are assumed to be consistent between rounds",
+    "do not provide a recap or summary",
+    "### Git Command Safety Policy",
+    "Never run these git commands",
+    "## Claude Behavior",
+]
