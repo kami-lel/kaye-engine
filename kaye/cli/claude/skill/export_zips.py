@@ -11,7 +11,7 @@ from pathlib import Path
 from kaye import logger
 
 
-from .export_skills_as_folders import (
+from .export_folders import (
     export_skills_as_folders,
 )
 

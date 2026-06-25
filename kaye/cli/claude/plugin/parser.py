@@ -6,8 +6,8 @@ from pathlib import Path
 
 from kaye import logger, kamilog
 
-from .export_plugin_as_folder import export_plugin_as_folder
-from .export_plugin_as_zip import export_plugin_as_zip
+from .export_folder import export_plugin_as_folder
+from .export_zip import export_plugin_as_zip
 
 # constants  ===================================================================
 
@@ -30,9 +30,7 @@ FOLDER/  (default: ~/.claude/plugins/)
 """
 
 
-def register_cli_claude_plugin_parser(  ########################################
-    cli_subparser,
-):  # pylint: disable=missing-function-docstring
+def register_parser(cli_subparser):  ########################################
     plugin_parser = cli_subparser.add_parser(
         "plugin",
         help=__doc__,

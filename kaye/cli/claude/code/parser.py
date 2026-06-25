@@ -5,16 +5,12 @@ from pathlib import Path
 
 from kaye import logger, kamilog
 
-from kaye.cli.cli_claude.claude_plugin.export_plugin_as_folder import (
-    export_plugin_as_folder,
-)
-from kaye.cli.cli_claude.user_prompt.cli_claude_user_prompt import (
+from kaye.cli.claude.plugin.export_folder import export_plugin_as_folder
+from kaye.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
     find_user_system_prompt_file,
 )
-from kaye.cli.cli_claude.user_prompt.export_user_file import (
-    export_user_system_prompt_file,
-)
+from kaye.cli.claude.user_prompt.export import export_user_system_prompt_file
 
 #  constants  ===================================================================
 
@@ -37,9 +33,7 @@ FOLDER/  (default: ~/.claude)
 """
 
 
-def register_cli_claude_code_parser(  ##########################################
-    cli_subparser,
-):  # pylint: disable=missing-function-docstring
+def register_parser(cli_subparser):  ###########################################################################
     code_parser = cli_subparser.add_parser(
         "code",
         help=__doc__,
