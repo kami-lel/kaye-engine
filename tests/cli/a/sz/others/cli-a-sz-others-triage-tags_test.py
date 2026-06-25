@@ -1,9 +1,9 @@
 """
-cli-a-s-others-annotation-markers_test.py
+cli-a-sz-others-triage-tags_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``annotation-markers``
+creation of ``triage-tags``
 """
 
 import pytest
@@ -17,8 +17,8 @@ from tests.cli.a.s import (
 # constants  ###################################################################
 
 
-SKILL_NAME = "annotation-markers"
-TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
+SKILL_NAME = "triage-tags"
+TESTEE_FILE_CONTENT = TESTEE_TRIAGE_TAG_CONTENT
 
 
 # Pytest fixtures  #############################################################

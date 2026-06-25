@@ -5,7 +5,7 @@ main parser for Kaye Python CLI
 """
 
 # todo CLI to import/export w/ OpenWebUI
-# fixme make cli functional again for prompt
+# fixme make cli prompt functional
 
 from argparse import ArgumentParser
 
