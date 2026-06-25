@@ -16,7 +16,39 @@
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.1...dev
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+
+
+## [6.8.1] - 2026-06-26
+
+### Added
+
+- additional markdown format guidance (list, math, and diagram formatting)
+  now rendered in the Rapid and Chat prompts
+- HTTP API docs now cover updating an existing `systemd` deployment
+
+### Changed
+
+- clarified the commit-sense prefix-symbol rules and reformatted the
+  primary-message and prefix examples for readability
+- streamlined the `systemd` deployment guide in the HTTP API docs, with
+  `sudo`-prefixed commands
+- simplified the commit-sense API test suite
+
+[6.8.1]: https://github.com/kami-lel/kaye/compare/v6.8.0...v6.8.1
 
 
 
