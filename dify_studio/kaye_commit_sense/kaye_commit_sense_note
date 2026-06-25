@@ -1,1 +1,3 @@
-Bug commit symbol is always wrong, especially deal with CB
+BUG commit symbol is always wrong, especially deal with CB
+
+BUG currently include too much markdown information, consider make extending
