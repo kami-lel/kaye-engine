@@ -101,9 +101,9 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
   - `kaye/api/` — Flask HTTP API and Dify app endpoints
   - `kaye/cli/` — argparse-based CLI subcommands
     - `kaye/cli/cli_continue/` — exports blueprint/abbreviation rules to `~/.continue`
-    - `kaye/cli/cli_claude/` — exports blueprints as Claude plugins,
-      marketplaces, agentskills.io Skills, a Claude Code `.claude/` folder, and
-      the user system prompt `CLAUDE.md`
+    - `kaye/cli/claude/` — exports blueprints as Claude plugins, marketplaces,
+      agentskills.io Skills, VS Code Extension setup, and the user system prompt
+      `CLAUDE.md`
     - `kaye/cli/cli_prompt/` — prompt generation CLI subcommands
   - `kaye/prompt_corpus.md`, `kaye/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
@@ -117,6 +117,13 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
     `MD_FILENAME2SKILL_NAME` (skill slug → display name) and
     `TESTEE_FILE_CONTENT_ALL` (skill slug → expected content strings)
     - `tests/cli/a/` — `claude` subcommand tests
+      - `tests/cli/a/c/` — `claude code` export tests (CLAUDE.md, plugin.json,
+        skill files, command aliases)
+      - `tests/cli/a/m/` — `claude marketplace` export tests (file structure,
+        marketplace.json content, command aliases)
+      - `tests/cli/a/p/` — `claude plugin` export tests (skill files,
+        plugin.json content, command aliases)
+      - `tests/cli/a/cz/` — `claude plugin -z` (zipped package) tests
       - `tests/cli/a/s/` — `claude skill` export tests
         - `tests/cli/a/s/structure/` — structure/exportability tests for every
           blueprint in `__all__` (`cli-a-s-structure-exportable_blueprints_test.py`)
@@ -129,6 +136,11 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
         - `tests/cli/a/s/style/` — per-skill content tests for style blueprints
         - `tests/cli/a/s/pe/` — per-skill content tests for prompt-engineering
           blueprints
+      - `tests/cli/a/sz/` — `claude skill -z` (zipped packages) tests
+      - `tests/cli/a/u/` — `claude user-system-prompt` export tests (content,
+        flags, aliases)
+      - `tests/cli/a/v/` — `claude vs-code-extension` export tests (CLAUDE.md,
+        marketplace, command aliases)
     - `tests/cli/c/` — `continue` subcommand tests
   - `tests/abbr/` — abbreviation collection tests
 - `scripts/` — Git hooks and the `systemd` service file
@@ -173,13 +185,15 @@ python -m kaye claude plugin -z PLUGINS_FOLDER       # create .plugin file (-n o
 python -m kaye claude marketplace MARKETPLACE        # export a marketplace folder (plugin under plugins/)
 python -m kaye claude code                           # export plugin + CLAUDE.md into ~/.claude
 python -m kaye claude user-system-prompt             # export Chat blueprint to ~/.claude/CLAUDE.md
+python -m kaye claude vs-code-extension              # export CLAUDE.md + marketplace into ~/.claude
 ```
 
 CLI subcommand aliases: `http` → `h`; `continue` → `c`;
 `continue config` → `c c`; `continue prompt` → `c p`;
-`claude` → `anthropic`, `a`; `claude plugin` → `claude p`;
-`claude skill` → `claude s`; `claude marketplace` → `claude m`;
-`claude code` → `claude c`; `claude user-system-prompt` → `claude u`.
+`claude` → `anthropic`, `a`; `claude code` → `claude c`;
+`claude marketplace` → `claude m`; `claude plugin` → `claude p`;
+`claude skill` → `claude s`; `claude user-system-prompt` → `claude u`;
+`claude vs-code-extension` → `claude v`.
 
 ## Code Conventions
 
