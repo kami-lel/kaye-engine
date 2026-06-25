@@ -8,14 +8,13 @@ Unit Tests (using pytest) for:
 
 import pytest
 
+from tests import TESTEE_TRIAGE_TAG_CONTENT
 from tests.api.commit import (
     assert_allows_md,
     assert_no_allows_md,
     assert_per_file_common,
     assert_commit_sense_common,
 )
-
-# TODO better improved
 
 
 # pytest fixtures  #############################################################
@@ -26,27 +25,18 @@ def endpoint(app_endpoint):
 
 @pytest.fixture(scope="session")
 def testee_output(flask_test_client, app_endpoint):
-    endpoint = app_endpoint + "/per-file-long"
-    response = flask_test_client.get(endpoint)
+    response = flask_test_client.get(app_endpoint + "/per-file-long")
     return response.get_data().decode("utf-8")
 
 
 # TT (Triage Tags)  #############################################################
 
-_TT_CONTENT = [
-    (
-        "## Triage Tags\n\nLabels for defects and related notes across code and"
-        " docs; refer to them as *triage tags* or *TT*."
-    ),
-    "- `BUG` — discovered defects that cause errors or unexpected behavior",
-]
-
 
 class TestTriageTags:  # ========================================================
 
-    @pytest.mark.parametrize("i", range(len(_TT_CONTENT)))
+    @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
     def test_tt_content(_, testee_output, i):
-        assert _TT_CONTENT[i] in testee_output
+        assert TESTEE_TRIAGE_TAG_CONTENT[i] in testee_output
 
 
 class TestShort:  ##############################################################
