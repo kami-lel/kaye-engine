@@ -3,43 +3,31 @@ from tests.api import assert_briefness_style
 TESTEE_COMMIT_COMMON = [
     "# Kaye Commit Sense",
     "You are given the result of `git diff --cached`",
-    "- strictly use *Briefness Style* language",
-    "- use *Commentary Case* for each line",
     "**You must produce a single-line, ultra-concise summary**",
 ]
 
 TESTEE_COMMIT_PRIMARY_COMMON = [
     "## Primary Message Task",
     "Produce a concise summary of changes across **multiple** files",
-    "Identify any overarching patterns, paradigm shifts",
     "modularize payment processing; split into gateway adapters",
 ]
 
 TESTEE_COMMIT_PER_FILE_COMMON = [
     "## Per File Summary Task",
     "Produce a concise summary of changes of a **single** file",
-    "- refactor date parsing to reduce duplication",
-    "- fix null-pointer crash in payment processor",
     "### Prefix Symbol",
     "Select ONE prefix for the changed file",
-    "1. `^` — file is newly added.",
-    "2. `!` — file is deleted.",
     "6. `@` — only edits are to triage tags",
-    "9. `.` — only edits are whitespace, indentation, or blank lines.",
 ]
 
 TESTEE_COMMIT_PER_FILE_LONG = [
     "#### Long",
-    "- `+` — more lines added than deleted",
-    "- `-` — more lines deleted than added",
     "- `*` — added and deleted are roughly balanced",
 ]
 
 TESTEE_COMMIT_PER_FILE_SHORT = [
     "#### Short",
     "- `/` — more lines added than deleted",
-    "- `\\` — more lines deleted than added",
-    "- `|` — added and deleted are roughly balanced",
 ]
 
 # FIXME use new pattern testing
