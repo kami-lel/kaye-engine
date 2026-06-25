@@ -22,6 +22,7 @@ from tests.cli.a.u import (
 # constants  ###################################################################
 
 # BUG dont include role & abbr in these
+# TODO evaluate pytest parallel
 
 # (fixture stem, present markers, absent markers)
 CASES = [
