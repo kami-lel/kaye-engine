@@ -1,5 +1,7 @@
 import re
 
+from tests import TESTEE_TRIAGE_TAG_CONTENT
+
 __all__ = (
     "MD_FILENAME2SKILL_NAME",
     "PROMPT_FILENAME2NAME",
@@ -8,6 +10,7 @@ __all__ = (
     "TESTEE_CONTINUE_BLUEPRINT_DESCRIPTION_CONTENT_ALL",
     "TESTEE_HOW_TO_USE_CONTENT_ALL",
     "TESTEE_PREREQUISITE_CONTENT_ALL",
+    "TESTEE_TRIAGE_TAG_CONTENT",
     "split_frontmatter_md_file",
     "assert_frontmatter_md_file_basic_structure",
     "assert_header_line_always_apply",
@@ -121,17 +124,6 @@ TESTEE_FILE_CONTENT_ALL = {
         "#### `run_terminal_command`",
         "Only use `run_terminal_command` as a last resort",
         "Use when need to remove/delete file/folder.",
-    ],
-    "triage-tags": [
-        "## Triage Tags",
-        "- Loud TT: BUG, FIXME, TODO, HACK",
-        "- Steady TT: Bug, Fixme, Todo, Hack",
-        "- Quiet TT: bug, fixme, todo, hack",
-        "call it **promote**",
-        "### Meaning",
-        "- BUG/Bug/bug:",
-        "- todo/...",
-        "- do not modify or remove any markers unless",
     ],
     "date-and-time-format": [
         "## Date and Time Format",
@@ -770,7 +762,9 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "coder-cpp": "Writes, edits, and reviews all C++ code.",
     "date-and-time-format": "when dates or times appear in output",
     "triage-tags": (
-        "when working with BUG, FIXME, TODO, or HACK markers in code or docs"
+        '"Defines the three loudness tiers of triage tags (TT) \\u2014'
+        " BUG/FIXME/TODO/HACK in any case \\u2014 and their meanings, and"
+        ' the raise/lower terminology for tier changes."'
     ),
     "numerical-values-with-units": "when physical quantities appear in output",
     "international-phonetic-alphabet": "IPA transcription",

@@ -96,5 +96,16 @@ TESTEE_AGENT_BEHAVIOR_CONTENT = [
     "Never run these git commands",
 ]
 
+TESTEE_TRIAGE_TAG_CONTENT = [
+    "## Triage Tags",
+    "- `BUG` — discovered defects that cause errors or unexpected behavior",
+    "- `FIXME` — content that is wrong, inefficient, unclear, or otherwise improvable",
+    "- `TODO` — intentionally incomplete work or placeholders to be implemented later",
+    "- `HACK` — temporary workarounds or rationale expected to be removed before release",
+    "Shifting a tag to a louder tier",
+    "Prefer *Loud TT* for newly added urgent items",
+    "Do not modify or remove any tag unless the user explicitly asks",
+]
+
 
 # TODO tt testing new pattern

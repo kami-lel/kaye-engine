@@ -18,7 +18,7 @@ from tests.cli.a.s import (
 
 
 SKILL_NAME = "triage-tags"
-TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
+TESTEE_FILE_CONTENT = TESTEE_TRIAGE_TAG_CONTENT
 
 
 # Pytest fixtures  #############################################################
