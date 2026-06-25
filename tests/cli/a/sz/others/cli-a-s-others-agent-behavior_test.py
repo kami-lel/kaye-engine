@@ -8,6 +8,7 @@ creation of ``agent-behavior``
 
 import pytest
 
+from tests import TESTEE_AGENT_BEHAVIOR_CONTENT
 from tests.cli import *  # noqa: F401, F403
 from tests.cli.a.s import (
     VERSION_LINE_PATTERN,
@@ -18,7 +19,7 @@ from tests.cli.a.s import (
 
 
 SKILL_NAME = "agent-behavior"
-TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
+TESTEE_FILE_CONTENT = TESTEE_AGENT_BEHAVIOR_CONTENT
 
 
 # Pytest fixtures  #############################################################

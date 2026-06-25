@@ -73,5 +73,4 @@ TESTEE_AGENT_BEHAVIOR_CONTENT = [
     "do not provide a recap or summary",
     "### Git Command Safety Policy",
     "Never run these git commands",
-    "## Claude Behavior",
 ]
