@@ -146,6 +146,28 @@
   blueprints expanded with full section content strings (headings, instructions,
   output); description and when_to_use metadata strings updated to use plain
   file references instead of backtick-wrapped filenames
+- **Style Guide capitalization split** — `Style Guide Capitalization` section
+  split into two standalone sections: `Style Guide Title Case` (headlines and
+  document titles) and `Style Guide Commentary Case` (list items and table
+  cells); each has independent `{description}` and `{when_to_use}` meta nodes;
+  `style_capitalization_blueprint` replaced with `style_title_case_blueprint`
+  and `style_commentary_case_blueprint` in `embedded_blueprints.py` and
+  `EXPORTABLE_BLUEPRINTS`; `chat_blueprint` updated to include Commentary Case
+  (added to Style Guide traversal); skill and continue rule exports split:
+  new `style-guide-title-case` and `style-guide-commentary-case` skills replace
+  single `style-guide-capitalization` skill; test files reorganized in
+  `tests/cli/a/s/`, `tests/cli/a/sz/`, and `tests/cli/c/c/style/`;
+  `tests/cli/a/u/__init__.py` updated with `COMMENTARY_CASE` marker
+  (`## Style Guide Commentary Case`)
+- **pytest-xdist reverted to manual opt-in** — removed `addopts = -n auto`
+  from `setup.cfg`; pytest now runs serially by default; `-n auto` available
+  manually; documented in AGENTS.md; session-scoped fixture re-execution across
+  xdist workers made parallel runs 2× slower (212s vs 109s) due to expensive
+  CLI exports; memoization of `BasePromptNode.generate_lineage()` recommended
+  as real fix (documented in PERF_TODO.md)
+- **CLI prompt export tests aligned** — `tests/cli/a/u/` tests now expect
+  `Role` and `(Abbreviations)` nodes absent from CLI user-system-prompt output
+  (only injected by Dify API); `USER_SCOPE` constant added to `__init__.py`
 
 ### Deprecated
 
