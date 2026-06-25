@@ -4300,27 +4300,45 @@ Eg
 
 
 
-### comment section headings
+### Comment Banner
 
-**Comment section headings** (CSH) are visual separators written inside code comments to show structure in long code.
+**Comment banners** (CB) are visual separators written inside code comments to show structure in long code.
 
 **When to use:**
 
-- CSH must live **inside code comments only** — never as raw code (which would break syntax), never in conversation text
-- only use CSH when the relevant section of code is **long enough** that a visual separator materially aids navigation
-- CSH must divide code at **logical boundaries**: modules, sections, functions, groups of related code
-- use CSH **sparingly** — prefer blank lines to separate relatively short sections; reserve CSH for blocks that span many lines
+- CB must live **inside code comments only** — never as raw code (which would break syntax), never in conversation text
+- only use CB when the relevant section of code is **long enough** that a visual separator materially aids navigation
+- CB must divide code at **logical boundaries**: modules, sections, functions, groups of related code
+- use CB **sparingly** — prefer blank lines to separate relatively short sections; reserve CB for blocks that span many lines
+
+**When NOT to use:**
+
+- do not use CB for **local, sequential, or line-level groupings inside a function** — use plain comments there
+- do not use CB **frequently**; overuse turns the separators into visual noise and defeats their purpose
 
 **How to format:**
 
-- symbol order for descending levels: `#`, `=`, `*`, `+`, `-`
-- repeat the symbol to fill a visual ruler up to **80 characters** line width
-- `-` may be used freely for small local labels; it does not need to follow the hierarchy
+- symbol order for descending levels:
+    - **level 0** — the **boxed banner**: a title framed by top and bottom `#` rulers; reserved for **file-level documentation** and is the highest level
+    - **level 1** — single-line `#` ruler
+    - **level 2** — single-line `=` ruler
+    - **level 3** — single-line `*` ruler
+    - **level 4** — single-line `+` ruler
+    - **level 5** — single-line `-` ruler
+- `-` is the lowest hierarchy level, but **may also be used freely for small local labels** without following the hierarchy
+- repeat the symbol to fill a visual ruler **always to 80 characters** line width
 - keep heading text short and use the comment syntax appropriate to the language
+
+**Common headings:**
+generic labels you may reach for — note the casing convention:
+- **Title Case** = public / exported / externally-visible interface: `Public API`, `Public Methods`, `Public Variables`, `Entry Point`
+- **lowercase** = internal / private / implementation detail: `constants`, `helpers`, `private methods`, `private variables`
+
+prefer a heading that **names the actual block or module** (e.g. `parse CLI flags`, `retry policy`) over these generic labels; reach for the generic ones only when no meaningful name fits.
 
 **Examples:**
 
-    ```cpp stats_demo.cpp
+```cpp stats_demo.cpp
     /*
     ################################################################################
     # stats_demo.cpp
@@ -4328,31 +4346,24 @@ Eg
     # produce statistics
     ################################################################################
     */
-
     // constants ###################################################################
-
     const int kValues[] = {10, 20, 30};
-
-    // helpers  ====================================================================
-    // number helpers  *************************************************************
-
+    // helpers  ####################################################################
+    // number helpers  =============================================================
     double compute_average(const int* v, int n) {
-        // accumulate  -------------------------------------------------------------
+        // accumulate  *************************************************************
         ~~
     }
-
     // Entry Point  ################################################################
-
     int main() { ... }
-    ```
+```
 
-    ```python
+```python
     # Public API  ##################################################################
-
     def to_int(s):
         # quick parse  -------------------------------------------------------------
         ~~
-    ```
+```
 
 
 
