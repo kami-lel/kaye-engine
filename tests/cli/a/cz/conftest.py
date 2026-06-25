@@ -18,3 +18,9 @@ def testee_plugin_folder(tmp_path_factory, cli_claude_command):
             zf.extractall(extracted_folder)
 
     return extracted_folder
+
+
+@pytest.fixture(scope="session")
+def testee_claude_folder(tmp_path_factory, cli_claude_command):
+    command = cli_claude_command + "code "
+    return prepare_root_folder(tmp_path_factory, command, "claude_code_cz")
