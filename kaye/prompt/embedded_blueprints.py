@@ -4,8 +4,6 @@ embedded_blueprints.py
 common blueprints creations
 """
 
-# TODO make commentary case part of chat
-
 # pylint: disable=invalid-name
 
 from kaye.prompt.prompt_blueprint import PromptBlueprint
@@ -71,7 +69,9 @@ chat_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Personality
 [x] ├── Language
 [x] └── Style Guide
-[x]     └── Style Guide Markdown Format""")
+[x]     ├── Style Guide Markdown Format
+[x]     └── Style Guide Capitalization
+[x]         └── Commentary Case""")
 chat_blueprint.display_name = "Chat"
 chat_blueprint.meta.description = (
     "default for general conversation with full Kaye persona and role"

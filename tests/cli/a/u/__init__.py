@@ -17,6 +17,7 @@ DIAGRAMS = "#### Diagrams"
 ROLE = "# Role"
 ABBREVIATIONS = "# (Abbreviations)"
 PEER_CODER = "# Kaye Peer Coder"
+COMMENTARY_CASE = "### Commentary Case"
 EMOTION_LINE = "- must use blockquote `>` for your emotions"
 LANGUAGE_LINE = "- always respond in the **same language**"
 
@@ -33,10 +34,11 @@ BASE_CONTENT = [
     DIAGRAMS,
 ]
 
-# persona markers, present unless --rapid drops them
+# persona + chat-style markers, present unless --rapid drops them
 PERSONA_CONTENT = [
     PERSONALITY,
     LANGUAGE,
+    COMMENTARY_CASE,
     EMOTION_LINE,
     LANGUAGE_LINE,
 ]

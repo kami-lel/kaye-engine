@@ -4386,7 +4386,7 @@ Trigger on any code writing, editing, debugging, or programming question.
 
 - use `Style Guide Markdown Format`
 - use `Style Guide Capitalization` for all comments
-- use `Style Guide Briefness Style`'s Commentary Case for all comments
+- use `Style Guide Briefness Style` for each Comment Line
 - use `Annotation Markers`
 - follow `Style Guide Good Writing` rules for correctness and clarity
 
