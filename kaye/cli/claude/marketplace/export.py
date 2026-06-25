@@ -74,4 +74,4 @@ def export_marketplace(marketplace_folder):
 
     logger.succ("write marketplace manifest:\t" + str(market.path))
 
-    return market.path
+    return market.path.resolve()

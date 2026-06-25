@@ -29,6 +29,8 @@ def export_vs_code_extension(claude_folder):
 
     :param claude_folder: destination .claude/ folder
     :type claude_folder: Path-like
+    :return: path to the written marketplace.json
+    :rtype: Path
     """
     claude_folder = Path(claude_folder)
 
@@ -39,5 +41,7 @@ def export_vs_code_extension(claude_folder):
 
     logger.debug("export marketplace")
     marketplace_folder = claude_folder / MARKETPLACE_NAME
-    export_marketplace(marketplace_folder)
+    marketplace_path = export_marketplace(marketplace_folder)
     logger.succ("export marketplace:\t" + str(marketplace_folder))
+
+    return marketplace_path
