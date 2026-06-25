@@ -2,7 +2,7 @@
 shared expected-content constants for ``kaye claude user-system-prompt`` tests
 """
 
-# Fixme update with better organizations
+# FIXME update with better organizations
 
 # section markers  #############################################################
 
