@@ -142,3 +142,100 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
     - `tests/cli/c/` — `continue` subcommand tests
   - `tests/abbr/` — abbreviation collection tests
 - `scripts/` — Git hooks and the `systemd` service file
+
+## Known Test Failures
+
+recorded from `python3 -m pytest --tb=no -q` on 2026-06-25:
+**20 failed, 5093 passed**
+
+---
+
+### Group A — `assert_tt_*` NameError (16 tests)
+
+**Root cause:** `assert_tt_title`, `assert_tt1`, `assert_tt2`, `assert_tt3` are
+defined in `tests/api/ky/task/coder/__init__.py` but are **not listed in
+`__all__`**, so `from tests.api.ky.task.coder import *` does not export them.
+Every coder task test file that calls these helpers gets `NameError`.
+
+**Affected tests (`tests/api/ky/task/coder/`):**
+
+- `api-ky-task-coder-base_test.py::TestCoder` — `test_am_title`, `test_am1`,
+  `test_am2`, `test_am3`
+- `api-ky-task-coder-bash_test.py::TestCoder::test_am_title`
+- `api-ky-task-coder-c_test.py::TestCoder::test_am_title`
+- `api-ky-task-coder-cpp_test.py::TestCoder::test_am_title`
+- `api-ky-task-coder-cs_test.py::TestCoder::test_am_title`
+- `api-ky-task-coder-gd_test.py::TestCoder::test_am_title`
+- `api-ky-task-coder-html_test.py::TestCoder::test_am_title`
+- `api-ky-task-coder-js_test.py::TestCoder::test_am_title`
+- `api-ky-task-coder-mux_test.py::TestCoder::test_am_title`
+- `api-ky-task-coder-py_test.py::TestCoder::test_am_title`
+- `api-ky-task-coder-ts_test.py::TestCoder::test_am_title`
+- `api-ky-task-coder-u3d_test.py::TestCoder::test_am_title`
+- `api-ky-task-coder-ue_test.py::TestCoder::test_am_title`
+
+**Fix target:** add `"assert_tt_title"`, `"assert_tt1"`, `"assert_tt2"`,
+`"assert_tt3"` to `__all__` in `tests/api/ky/task/coder/__init__.py`.
+Note: `assert_tt1/2/3` also assert stale content (see Group B).
+
+---
+
+### Group B — stale corpus string in base coder test (1 test)
+
+**Root cause:** corpus text for `code comment` annotation markers changed;
+the test still checks the old string.
+
+**Affected test:**
+
+- `tests/api/ky/task/coder/api-ky-task-coder-base_test.py::TestCoder::test_coder_code_comment3`
+
+**Error:** `AssertionError: assert '- include *immediate annotation markers*' in opt`
+
+**Fix target:** update the assertion in `api-ky-task-coder-base_test.py` (or
+the helper it delegates to) to match the current corpus wording.
+
+---
+
+### Group C — triage-tags description mismatch (2 tests)
+
+**Root cause:** `TESTEE_DESCRIPTION_CONTENT_ALL["triage-tags"]` in
+`tests/cli/__init__.py` expects:
+```
+"Defines the three loudness tiers of triage tags (TT) —
+BUG/FIXME/TODO/HACK in any case — and their meanings, and
+the raise/lower terminology for tier changes."
+```
+The actual exported skill frontmatter description reads:
+```
+"Defines triage tags (TT) — defect/note labels spanning code
+and docs across... resolving what a TT tier signifies. Not for
+fixing the defects the tags point to"
+```
+
+**Affected tests:**
+
+- `tests/cli/a/s/others/cli-a-s-others-triage-tags_test.py::TestHeader::test_description`
+- `tests/cli/c/c/others/cli-c-c-bp-triage-tag_test.py::TestHeader::test_description`
+
+**Fix target:** align `TESTEE_DESCRIPTION_CONTENT_ALL["triage-tags"]` (and its
+continue-blueprint variant) in `tests/cli/__init__.py` with the corpus
+`{description}` text, or update the corpus description if it drifted.
+
+---
+
+### Group D — `kaye-peer-coder` empty description (1 test)
+
+**Root cause:** `coder_blueprint` is built via
+`PromptBlueprint.create_from_node(_kyc_node) | triage_tags_blueprint`.
+The `|` merge carries over the left blueprint's content selection but the
+resulting object's `meta.description` is empty string, failing the pydantic
+`String should have at least 1 character` constraint in
+`SkillMDFileFrontmatterValidator`.
+
+**Affected test:**
+
+- `tests/corpus/corpus-skill_frontmatter_test.py::TestSkillFrontmatter::test_frontmatter_conforms_to_spec[kaye-peer-coder]`
+
+**Fix target:** set `coder_blueprint.meta.description` to a non-empty string
+in `kaye/prompt/embedded_blueprints.py` (after the `|` merge and the
+`display_name` reassignment that was already added).
