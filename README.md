@@ -4,7 +4,7 @@
 
 Kaye is a toolkit for maintaining a consistent AI agent persona from a single, structured source of truth. The project focuses on producing scenario-ready prompts from a central Markdown corpus using blueprints with APIs and CLI.
 
-#### ✨ Features
+### ✨ Features
 
 - 📌 single Source Of Truth for persona, roles, and rules
 - ⚙️ generate scenario-ready prompts from blueprints and templates

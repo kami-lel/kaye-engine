@@ -689,37 +689,18 @@ when physical quantities appear in output
 
 
 
-## Annotation Markers
+## Triage Tags
 
-Used to label defects and related notes across code and documentation. You must refer them as *annotation markers* or *AM*:
+Labels for defects and related notes across code and docs; refer to them as *triage tags* or *TT*.
 
-- primary AM: BUG, FIXME, TODO, HACK
-- secondary AM: Bug, Fixme, Todo, Hack
-- tertiary AM: bug, fixme, todo, hack
+Each tag comes in three tiers by letter case — *Loud* (all-caps, e.g. `BUG`), *Steady* (capitalized, e.g. `Bug`), *Quiet* (lowercase, e.g. `bug`):
 
-When change lower AM to higher AM (e.g. `Bug` -> `BUG`,) call it **promote**;
-change from higher to lower AM, call it **demote**.
+- `BUG` — discovered defects that cause errors or unexpected behavior
+- `FIXME` — content that is wrong, inefficient, unclear, or otherwise improvable
+- `TODO` — intentionally incomplete work or placeholders to be implemented later
+- `HACK` — temporary workarounds or rationale expected to be removed before release
 
-
-
-
-
-
-
-
-
-
-
-
-
-### Meaning
-
-- BUG/Bug/bug: indicate discovered defects that cause errors or unexpected behavior
-- fixme/...: indicate content that is wrong, inefficient, unclear, or otherwise improvable
-- todo/... indicate intentionally incomplete work or placeholders to be implemented later
-- hack/...: indicate temporary workarounds or rationale expected to be removed before release
-- prefer *primary AM* for newly added urgent items
-- do not modify or remove any markers unless the user explicitly asks you to do so
+Shifting a tag to a louder tier (`bug` → `BUG`) is **raise**; to a quieter tier is **lower**. Prefer *Loud TT* for newly added urgent items. Do not modify or remove any tag unless the user explicitly asks.
 
 
 
@@ -735,7 +716,11 @@ change from higher to lower AM, call it **demote**.
 
 ### {description}
 
-when working with BUG, FIXME, TODO, or HACK markers in code or docs
+Defines triage tags (TT) — defect/note labels spanning code and docs across 3 case tiers (Loud/Steady/Quiet), with per-tag meanings and raise/lower tier shifts
+
+### {when_to_use}
+
+When adding, classifying, or raising/lowering BUG/FIXME/TODO/HACK markers in any case, or resolving what a TT tier signifies. Not for fixing the defects the tags point to
 
 
 
@@ -2437,21 +2422,6 @@ Instruction budget is finite, and a wrong instruction is worse than no instructi
 
 
 
-#### Testing Instructions
-
-Direct coding agents to test **smartly and selectively** rather than blindly running the whole suite. Include guidance equivalent to the following:
-- **Maintain a code-to-test mapping.** Determine which unit tests cover each code class/module by combining repo conventions (naming patterns like `Foo` → `FooTest`/`foo.test.ts`, directory mirroring such as `src/x` → `tests/x`), test framework metadata, and import/dependency analysis. Prefer any mapping the repo already declares over guessing.
-- **Run only what changed.** For a given change, run the unit tests that cover the modified classes/modules plus any tests for modules that directly depend on them. Provide the concrete command to scope a run (e.g. `pnpm vitest run <path|pattern>`, `pytest <path>`, or `pnpm turbo run test --filter <package>`).
-- **Keep tests in sync.** Add or update unit tests for any code that is changed, even if not explicitly asked, and keep the code-to-test mapping accurate when files move or imports change.
-- **Widen before merge.** Run the full suite (plus lint/type checks) before completing a PR or merging, since selective runs can miss cross-cutting regressions.
-- **Finish green.** Fix all failing tests, type errors, and lint errors introduced by the change before considering the task done.
-
-Specify the actual test, lint, and type-check commands for the repository wherever they are known.
-
-
-
-
-
 #### Quality Expectations
 
 A good `AGENTS.md` should be:
@@ -3502,7 +3472,6 @@ Before merging the current feature branch, sync the docs it affects: log its cha
 #### Output
 
 Update the affected files in place; leave unrelated files untouched.
-Return a brief summary listing changed files and what changed.
 
 
 
@@ -3584,15 +3553,20 @@ Cut a new release: bring all docs current, finalize the changelog, and bump the 
 #### Steps
 
 1. **Sync the docs** to the state being released, via the maintain skills:
+
    - **Maintain README** → overview, features, setup, usage, version-dependent details
    - **Maintain AGENTS and CONTEXT** → changed commands, conventions, constraints, architecture
    - **Maintain Docs** → affected files under `docs/`
    - skip any whose content the release does not touch
+
 2. **Close out the changelog** in `CHANGELOG.md`, via **Maintain CHANGELOG**:
+
+   - reword entries as needed for proper changelog style — concise, high-level, free of excessive implementation detail
    - move every entry under `[Unreleased]` into a new versioned section headed with the given version and date
    - in that new section, keep only non-empty subsections — drop any with no entries
    - leave a fresh, empty `[Unreleased]` section above it
    - update the GitHub comparison links so each version, including the new tag, stays referenced
+
 3. **Bump the project version** to match exactly, in whichever metadata files apply — e.g. `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`
 
 
@@ -4135,7 +4109,7 @@ You are to select a single prefix that best describes the primary nature of the 
 3. `:`: relocated/moved file, with no or only minor changes (filename may change or stay the same)
 4. `=`: file renamed (but location unchanged), with no or only minor changes
 5. `?` if the modified file is a non-textual type (e.g., binaries, compressed archives, databases, encrypted blobs)
-6. `@`: file contains only changes to annotation markers (and to related lines)
+6. `@`: file contains only changes to triage tags (and to related lines)
 7. `#`: change primarily concerns documentation or code comments
 8. `~`: change is primarily content reordering or code refactoring
 9. `.`: change is only about: whitespace, indentation, or blank-line
@@ -4321,32 +4295,50 @@ Eg
 - format inline comments as: actual code + two spaces + `#` or `//` + single space + comment content, for example `int a = 1;  // comment on number`
 - use *Briefness Style* for all comments
 - use *Commentary Case* for each comment line
-- include *immediate annotation markers* where appropriate, for example `// TODO implement data fetching`, `# BUG incorrect behavior with None`
+- include *Loud TT* where appropriate, for example `// TODO implement data fetching`, `# BUG incorrect behavior with None`
 
 
 
 
-### comment section headings
+### Comment Banner
 
-**Comment section headings** (CSH) are visual separators written inside code comments to show structure in long code.
+**Comment banners** (CB) are visual separators written inside code comments to show structure in long code.
 
 **When to use:**
 
-- CSH must live **inside code comments only** — never as raw code (which would break syntax), never in conversation text
-- only use CSH when the relevant section of code is **long enough** that a visual separator materially aids navigation
-- CSH must divide code at **logical boundaries**: modules, sections, functions, groups of related code
-- use CSH **sparingly** — prefer blank lines to separate relatively short sections; reserve CSH for blocks that span many lines
+- CB must live **inside code comments only** — never as raw code (which would break syntax), never in conversation text
+- only use CB when the relevant section of code is **long enough** that a visual separator materially aids navigation
+- CB must divide code at **logical boundaries**: modules, sections, functions, groups of related code
+- use CB **sparingly** — prefer blank lines to separate relatively short sections; reserve CB for blocks that span many lines
+
+**When NOT to use:**
+
+- do not use CB for **local, sequential, or line-level groupings inside a function** — use plain comments there
+- do not use CB **frequently**; overuse turns the separators into visual noise and defeats their purpose
 
 **How to format:**
 
-- symbol order for descending levels: `#`, `=`, `*`, `+`, `-`
-- repeat the symbol to fill a visual ruler up to **80 characters** line width
-- `-` may be used freely for small local labels; it does not need to follow the hierarchy
+- symbol order for descending levels:
+    - **level 0** — the **boxed banner**: a title framed by top and bottom `#` rulers; reserved for **file-level documentation** and is the highest level
+    - **level 1** — single-line `#` ruler
+    - **level 2** — single-line `=` ruler
+    - **level 3** — single-line `*` ruler
+    - **level 4** — single-line `+` ruler
+    - **level 5** — single-line `-` ruler
+- `-` is the lowest hierarchy level, but **may also be used freely for small local labels** without following the hierarchy
+- repeat the symbol to fill a visual ruler **always to 80 characters** line width
 - keep heading text short and use the comment syntax appropriate to the language
+
+**Common headings:**
+generic labels you may reach for — note the casing convention:
+- **Title Case** = public / exported / externally-visible interface: `Public API`, `Public Methods`, `Public Variables`, `Entry Point`
+- **lowercase** = internal / private / implementation detail: `constants`, `helpers`, `private methods`, `private variables`
+
+prefer a heading that **names the actual block or module** (e.g. `parse CLI flags`, `retry policy`) over these generic labels; reach for the generic ones only when no meaningful name fits.
 
 **Examples:**
 
-    ```cpp stats_demo.cpp
+```cpp stats_demo.cpp
     /*
     ################################################################################
     # stats_demo.cpp
@@ -4354,31 +4346,40 @@ Eg
     # produce statistics
     ################################################################################
     */
-
     // constants ###################################################################
-
     const int kValues[] = {10, 20, 30};
-
-    // helpers  ====================================================================
-    // number helpers  *************************************************************
-
+    // helpers  ####################################################################
+    // number helpers  =============================================================
     double compute_average(const int* v, int n) {
-        // accumulate  -------------------------------------------------------------
+        // accumulate  *************************************************************
         ~~
     }
-
     // Entry Point  ################################################################
-
     int main() { ... }
-    ```
+```
 
-    ```python
+```python
     # Public API  ##################################################################
-
     def to_int(s):
         # quick parse  -------------------------------------------------------------
         ~~
-    ```
+```
+
+
+
+
+
+### Testing Instructions
+
+Test **smartly and selectively** — never run the whole suite by default.
+
+- **Map code to tests** using repo conventions (naming patterns, directory mirroring), test framework metadata, or import/dependency analysis; prefer any mapping the repo already declares.
+- **Scope each run** to the tests covering the changed code plus anything that directly depends on it. Give the exact command to scope it (e.g. `pnpm vitest run <path|pattern>`, `pytest <path>`, `pnpm turbo run test --filter <package>`).
+- **Keep tests in sync** — add or update tests for changed code even if not asked, and keep the mapping current when files move.
+- **Run the full suite only when asked**, or right before a PR/merge, alongside lint and type checks.
+- **Finish green on scope** — fix failures directly tied to the current change; leave unrelated pre-existing failures as is.
+
+State the actual test, lint, and type-check commands for the repo wherever known.
 
 
 
@@ -4425,7 +4426,7 @@ Trigger on any code writing, editing, debugging, or programming question.
 - use `Style Guide Markdown Format`
 - use `Style Guide Briefness Style` for all comments
 - use `Style Guide Commentary Case` for each Comment Line
-- use `Annotation Markers`
+- use `Triage Tags`
 - follow `Style Guide Good Writing` rules for correctness and clarity
 
 
@@ -4529,7 +4530,7 @@ Use for terminal commands or shell one-liners on Debian/Ubuntu. Triggers: "comma
 
 ### {prerequisite}
 
-- follow `Kaye Peer Coder`, use **comment section headings** for groups of commands
+- follow `Kaye Peer Coder`, use *comment banner* for groups of commands
 
 
 
@@ -5696,7 +5697,7 @@ A list of standard tags is provided below as reference:
 
 Files are assumed to be consistent between rounds. If you detect any changes, treat them as intentional user edits and continue working from the current state of the file.
 
-After completing **all tasks requested by the user**, including **editing**, **discovery**, **analysis**, or any other work, **do not provide a recap or summary** of what you did unless the user **explicitly asks** for one. Avoid **repeating the completed actions**, **restating the user’s request**, or adding **unnecessary closing commentary**.
+After completing all tasks requested by the user — including editing, discovery, analysis, or any other work — **do not provide a recap or summary** of what you did unless the user **explicitly asks** for one. Avoid repeating the completed actions, restating the user's request, or adding unnecessary closing commentary.
 
 ### Git Command Safety Policy
 

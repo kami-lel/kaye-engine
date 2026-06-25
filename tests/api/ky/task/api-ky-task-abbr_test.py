@@ -8,8 +8,31 @@ Unit Tests (using pytest) for:
 
 import json
 
+import pytest
 
+from tests import TESTEE_TRIAGE_TAG_CONTENT
 from tests.api.ky.task import *
+
+
+# pytest fixtures  #############################################################
+
+
+@pytest.fixture(scope="module")
+def opt_coder(flask_test_client, task_endpoint):
+    query = "afx"
+    payload = {"role": "coder", "query": query}
+    return create_opt_from_payload(flask_test_client, task_endpoint, payload)
+
+
+# TT (Triage Tags)  #############################################################
+
+
+class TestTriageTags:  # ========================================================
+
+    @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
+    def test_tt_content(_, opt_coder, i):
+        assert TESTEE_TRIAGE_TAG_CONTENT[i] in opt_coder
+
 
 # Pytest unit tests  ###########################################################
 
@@ -38,11 +61,8 @@ class TestSingle:  # ===========================================================
         assert_abbr_heading(opt)
         assert "- afx:affect,affected,affectedly,affectation" in opt
 
-    def test_coder(self, flask_test_client, task_endpoint):
-        query = "afx"
-        payload = {"role": "coder", "query": query}
-
-        opt = create_opt_from_payload(flask_test_client, task_endpoint, payload)
+    def test_coder(self, opt_coder):
+        opt = opt_coder
 
         print(opt)
 

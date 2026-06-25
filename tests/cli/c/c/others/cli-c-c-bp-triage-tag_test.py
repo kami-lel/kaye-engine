@@ -1,9 +1,9 @@
 """
-cli-c-c-bp-annotation-marker_test.py
+cli-c-c-bp-triage-tag_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``Annotation Markers.md``
+creation of ``Triage Tags.md``
 """
 
 import pytest
@@ -11,9 +11,9 @@ import pytest
 from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
-MD_FILENAME = "annotation-markers"
+MD_FILENAME = "triage-tags"
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
-TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
+TESTEE_FILE_CONTENT = TESTEE_TRIAGE_TAG_CONTENT
 
 # Pytest fixtures  #############################################################
 
@@ -70,29 +70,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # ==========================================================
 
-    def test0(_, testee_content):
-        assert TESTEE_FILE_CONTENT[0] in testee_content
-
-    def test1(_, testee_content):
-        assert TESTEE_FILE_CONTENT[1] in testee_content
-
-    def test2(_, testee_content):
-        assert TESTEE_FILE_CONTENT[2] in testee_content
-
-    def test3(_, testee_content):
-        assert TESTEE_FILE_CONTENT[3] in testee_content
-
-    def test4(_, testee_content):
-        assert TESTEE_FILE_CONTENT[4] in testee_content
-
-    def test5(_, testee_content):
-        assert TESTEE_FILE_CONTENT[5] in testee_content
-
-    def test6(_, testee_content):
-        assert TESTEE_FILE_CONTENT[6] in testee_content
-
-    def test7(_, testee_content):
-        assert TESTEE_FILE_CONTENT[7] in testee_content
-
-    def test8(_, testee_content):
-        assert TESTEE_FILE_CONTENT[8] in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content

@@ -17,7 +17,7 @@ from kaye.prompt import (
     date_time_blueprint,
     number_unit_blueprint,
     style_blueprint,
-    annotation_marker_blueprint,
+    triage_tags_blueprint,
     coder_blueprint,
     coder_bash_blueprint,
     project_changelog_blueprint,
@@ -125,7 +125,7 @@ def _create_coder_blueprint(plcs):
         | date_time_blueprint
         | number_unit_blueprint
         | style_blueprint
-        | annotation_marker_blueprint
+        | triage_tags_blueprint
     )
     bp.checkmark("Kaye Peer Coder")
 

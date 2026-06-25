@@ -1,13 +1,14 @@
 """
-cli-a-s-others-annotation-markers_test.py
+cli-a-s-others-agent-behavior_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``annotation-markers``
+creation of ``agent-behavior``
 """
 
 import pytest
 
+from tests import TESTEE_AGENT_BEHAVIOR_CONTENT
 from tests.cli import *  # noqa: F401, F403
 from tests.cli.a.s import (
     VERSION_LINE_PATTERN,
@@ -17,8 +18,8 @@ from tests.cli.a.s import (
 # constants  ###################################################################
 
 
-SKILL_NAME = "annotation-markers"
-TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
+SKILL_NAME = "agent-behavior"
+TESTEE_FILE_CONTENT = TESTEE_AGENT_BEHAVIOR_CONTENT
 
 
 # Pytest fixtures  #############################################################
@@ -70,6 +71,9 @@ class TestHeader:  # ===========================================================
     def test_description(_, testee_header):
         assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
+    def test_when(_, testee_header):
+        assert assert_claude_header_line_how_to_use(SKILL_NAME, testee_header)
+
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
 
@@ -85,3 +89,4 @@ class TestContent:  # ==========================================================
     @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
     def test_content(_, testee_content, i):
         assert TESTEE_FILE_CONTENT[i] in testee_content
+

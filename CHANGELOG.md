@@ -2,8 +2,6 @@
 
 [^format]
 
-<!-- todo improve AM usage: abbreviations, vocab for up/down, vocab for different levels, and usage in Kaye Peer Coder -->
-
 
 
 
@@ -18,19 +16,61 @@
 
 ## [Unreleased]
 
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.0...dev
+
+
+
+## [6.8.0] - 2026-06-26
+
 ### Added
+
+- `CONTEXT.md` — new agent-context file for system knowledge split from
+  `AGENTS.md`: Project Overview, Key Concepts, Prompt Corpus Structure, and
+  Repository Layout
+- `BlueprintMetaNodes.__or__` — merge operator for combining meta fields
+  from two blueprint instances; left operand takes priority
+- `tests/__init__.py` — `TESTEE_AGENT_BEHAVIOR_CONTENT`,
+  `TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT`, `TESTEE_TITLE_CASE_CONTENT`, and
+  `TESTEE_BRIEFNESS_CONTENT` constants for verifying exported prompt content
+- `tests/cli/a/__init__.py` — `TESTEE_CLAUDE_BEHAVIOR_CONTENT` constant
+  for verifying Claude Behavior subsection presence
+- test files `cli-a-u-chat_test.py`, `cli-a-u-rapid_test.py`,
+  `cli-a-u-coder_test.py`, `cli-a-u-rapid_coder_test.py` for stem-specific
+  user-system-prompt content validation
 
 ### Changed
 
-### Deprecated
+- `AGENTS.md` — trimmed to agent-behavior-only content; architecture,
+  corpus structure, and layout moved to `CONTEXT.md`; selective test-run
+  guidance added with source-to-test path mapping table
+- `kaye/cli/claude/user_prompt/export.py` — Agent Behavior and Claude
+  Behavior nodes now checkmarked in all exported CLAUDE.md files (chat, rapid,
+  coder variants)
+- `kaye/prompt/prompt_blueprint.py` — `__or__` merge operator now includes
+  meta field merging via `BlueprintMetaNodes.__or__`
+- `kaye/prompt_corpus.md` — Testing Instructions moved from Project AGENTS
+  Writer section to Kaye Peer Coder section; Triage Tags converged to a flat
+  mono-node section; Comment Section Headings renamed to **Comment Banner
+  (CB)** with formal hierarchy levels, usage rules, and formatting examples
+- tests refactored — `cli-a-c-claude_md_test.py` and
+  `cli-a-v-claude_md_test.py` condensed to 2 session-scoped fixture classes;
+  `cli-a-u-content_test.py` split into 4 stem-specific files; 13 coder API
+  test files migrated to parametrized `TESTEE_*_CONTENT` constants; 24
+  hard-coded helpers removed from `__init__.py`
 
 ### Removed
 
+- `tests/cli/a/u/cli-a-u-content_test.py` (original combined version) —
+  replaced by 4 stem-specific test files
+- `tests/cli/claude/` — constant moved to `tests.cli.a`
+
 ### Fixed
 
-### Security
+- test file naming in `tests/cli/a/sz/` — 35 test files renamed from
+  `cli-a-s-*` to `cli-a-sz-*` to match the zip-export naming convention
+- typo in `kaye/prompt_corpus.md` — `Todo` → `TODO` in comment
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.7.0...dev
+[6.8.0]: https://github.com/kami-lel/kaye/compare/v6.7.0...v6.8.0
 
 
 
