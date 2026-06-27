@@ -23,6 +23,9 @@
 ### Changed
 
 - `kamilog` logging module updated to v1.5.0
+- **Prepare for Version Release** prompt clarified — [Unreleased]
+  section now keeps all standard subsection headings with no entries
+  beneath them, rather than leaving it entirely empty
 
 ### Deprecated
 
