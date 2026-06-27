@@ -6,6 +6,8 @@ define ``FrontmatterMDFile``
 
 import copy
 
+from kaye.prompt.meta_node_type import MetaNodeType
+
 
 class FrontmatterMDFile:  ######################################################
     """
@@ -152,7 +154,7 @@ class FrontmatterMDFile:  ######################################################
             self.write_frontmatter_part()
             self.file.write(
                 self._blueprint.generate_prompt(
-                    contains_prerequisite_nodes=True
+                    contains_meta_nodes=MetaNodeType.PREREQUISITE
                 )
             )
 
