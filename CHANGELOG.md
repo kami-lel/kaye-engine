@@ -16,7 +16,7 @@
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.2...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.3...dev
 
 ### Added
 
@@ -29,6 +29,51 @@
 ### Fixed
 
 ### Security
+
+
+
+## [6.8.3] - 2026-06-28
+
+### Added
+
+`{for_claude}` meta node:
+
+- `{for_claude}` — Claude-specific instructions, auto-checkmarked on export
+- `CONTAINING_META_NODES` (`FOR_CLAUDE | PREREQUISITE`) in `kaye.cli.claude`
+
+VS Code `PreCompact` hook:
+
+- `kaye/cli/claude/vs_code/settings.py` — writes `Maintenance Before Compact`
+  as `PreCompact` hook into `settings.json`
+- **`Maintenance Before Compact`** corpus section — log session changes,
+  update docs before compaction
+- `{for_claude}` in **Prepare for Version Release** — `AskUserQuestion` if
+  version or date missing
+
+### Changed
+
+- **MetaNodeType** `Enum` → `IntFlag`; enables bitwise combinations
+- `contains_meta_nodes` replaces `contains_prerequisite_nodes` across prompt
+  and export APIs; `CONTAINING_META_NODES` wired into Claude exports
+- **`kaye claude vs-code-extension`** — writes `settings.json` with `PreCompact` hook
+- **kamilog** → v1.6.1; code style applied to `meta_node_type.py`
+
+### Removed
+
+- `compact_with_maintenance_blueprint` — replaced by `PreCompact` hook
+- stale kamilog version todo from `kaye/prompt_corpus_note`
+
+[6.8.3]: https://github.com/kami-lel/kaye/compare/v6.8.2...v6.8.3
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -47,6 +92,7 @@
   instead of current directory, aligning with the VS Code Extension export location
 
 [6.8.2]: https://github.com/kami-lel/kaye/compare/v6.8.1...v6.8.2
+
 
 
 

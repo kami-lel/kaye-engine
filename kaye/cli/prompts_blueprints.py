@@ -56,11 +56,6 @@ initialize_project_blueprint = PromptBlueprint.create_from_node(
     _prompt_node["Initialize Project"]
 )
 
-# Compact with Maintenance
-compact_with_maintenance_blueprint = PromptBlueprint.create_from_node(
-    _prompt_node["Compact with Maintenance"]
-)
-
 # Prepare for Feature Finish
 prepare_for_feature_blueprint = PromptBlueprint.create_from_node(
     _prompt_node["Prepare for Feature Finish"]
@@ -84,7 +79,6 @@ PROMPTS_BLUEPRINTS = [
     create_docs_blueprint,
     maintain_docs_blueprint,
     initialize_project_blueprint,
-    compact_with_maintenance_blueprint,
     prepare_for_feature_blueprint,
     prepare_for_release_blueprint,
 ]

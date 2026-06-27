@@ -4,6 +4,11 @@ CLI subcommand for Anthropic Claude Skill & Plugin integration.
 
 import re
 
+from kaye.prompt.meta_node_type import MetaNodeType
+
+# meta node types to auto-checkmark when exporting Claude prompts
+CONTAINING_META_NODES = MetaNodeType.FOR_CLAUDE | MetaNodeType.PREREQUISITE
+
 
 def convert_display_name2skill_name(display_name):
     """

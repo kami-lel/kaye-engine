@@ -3409,11 +3409,38 @@ When a bare repo needs its documentation scaffolded all at once — "set up docs
 
 
 
-## Compact with Maintenance
+## Maintenance Before Compact
 
-### {description}
+Before context is compacted, capture this session's durable changes so nothing is lost: log them and update the agent-facing docs.
 
-aa bb cc
+#### Instructions
+
+- identify this session's changes once — from the conversation itself, any working diffs, and existing `[Unreleased]` entries — then reuse that set across the steps below
+- **Maintain CHANGELOG** → record the session's changes; the unreleased-only and dedup rules come from that skill
+- **Maintain AGENTS and CONTEXT** → update them for any commands, conventions, constraints, or architecture this session changed
+- skip a step when the session introduces nothing relevant to it
+
+#### Output
+
+Update the affected files in place; leave unrelated files untouched.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {prerequisite}
+- follow `Maintain CHANGELOG`
+- follow `Maintain AGENTS and CONTEXT`
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
 
 
 
@@ -3605,6 +3632,12 @@ Reach for this on release requests — "ship v1.2.3," "cut a release," "tag a ve
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
 - use **git** tools to learn difference from last version / `main` branch
+
+### {for_claude}
+
+- if the version number or the release date is missing, use `AskUserQuestion` to ask the user before proceeding
+
+
 
 
 

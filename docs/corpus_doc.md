@@ -113,7 +113,17 @@ E.g.:
 ### `{prerequisite}`
 
 Lists prerequisite instructions that apply whenever the parent node is enabled.
-Pass `contains_prerequisite_nodes=True` to `generate_prompt()` or
+Pass `contains_meta_nodes=MetaNodeType.PREREQUISITE` to `generate_prompt()` or
 `generate_prompt_lines()` to auto-checkmark every `{prerequisite}` node whose
 parent is already checkmarked before rendering. A node is recognized via
-`MetaNodeType.is_prerequisite(node)`.
+`MetaNodeType.is_meta_node_of_type(node, MetaNodeType.PREREQUISITE)`.
+
+
+
+### `{for_claude}`
+
+Lists Claude-specific instructions that apply whenever the parent node is
+enabled. Pass `contains_meta_nodes=MetaNodeType.FOR_CLAUDE` (or combine with
+`PREREQUISITE` via `|`) to auto-checkmark these nodes during Claude exports.
+The `kaye.cli.claude.CONTAINING_META_NODES` constant combines both flags for
+all Claude skill and hook exports.

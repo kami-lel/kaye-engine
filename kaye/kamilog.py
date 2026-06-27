@@ -9,18 +9,15 @@ Q.v. https://github.com/kami-lel/kamilog
 
 import logging
 import sys
+import time
 from collections import deque
 from enum import IntEnum
 from logging import Formatter, StreamHandler
-
-__version__ = "1.5.0"
-__author__ = "kamiLeL"
 
 __all__ = (
     "getLogger",
     "KamiLogger",
     "add_verbose_arguments",
-    "calc_verbosity",
     "set_logging_level_by_verbosity",
     # log levels
     "NOTSET",
@@ -43,17 +40,12 @@ __all__ = (
 )
 
 
-# constants  ###################################################################
+# metadata  ####################################################################
+__version__ = "1.6.1"
+__author__ = "kamiLeL"
 
 
-# log levels  ==================================================================
-
-NOTSET = logging.NOTSET  # 0
-DEBUG = logging.DEBUG  # 10
-INFO = logging.INFO  # 20
-WARNING = logging.WARNING  # 30
-ERROR = logging.ERROR  # 40
-CRITICAL = logging.CRITICAL  # 50
+# enum  ########################################################################
 
 
 class _CustomLogLevel(IntEnum):
@@ -67,18 +59,31 @@ class _CustomLogLevel(IntEnum):
 
     ENTER = (11, "ENTER")
     SKIP = (12, "SKIP ")
+    SUCC = (15, "SUCC.")
     PASS = (21, "PASS ")
-    SUCC = (22, "SUCC.")
     DONE = (25, "DONE ")
     FAIL = (45, "FAIL ")
 
 
-ENTER = _CustomLogLevel.ENTER
-SKIP = _CustomLogLevel.SKIP
-PASS = _CustomLogLevel.PASS
-SUCC = _CustomLogLevel.SUCC
-DONE = _CustomLogLevel.DONE
-FAIL = _CustomLogLevel.FAIL
+# level registration during import
+for _lvl in _CustomLogLevel:
+    logging.addLevelName(int(_lvl), _lvl.name)
+
+
+# constants  ###################################################################
+
+NOTSET = logging.NOTSET  # 0
+DEBUG = logging.DEBUG  # 10
+ENTER = _CustomLogLevel.ENTER  # 11
+SKIP = _CustomLogLevel.SKIP  # 12
+SUCC = _CustomLogLevel.SUCC  # 15
+INFO = logging.INFO  # 20
+PASS = _CustomLogLevel.PASS  # 21
+DONE = _CustomLogLevel.DONE  # 25
+WARNING = logging.WARNING  # 30
+ERROR = logging.ERROR  # 40
+FAIL = _CustomLogLevel.FAIL  # 45
+CRITICAL = logging.CRITICAL  # 50
 
 
 # datetime formats  ============================================================
@@ -88,16 +93,7 @@ DATEFMT_DATETIME = "%Y-%m-%d %H:%M:%S"
 DATEFMT_DATETIME_MS = "%Y-%m-%d %H:%M:%S.{ms}"
 
 
-# registration  ================================================================
-
-for _lvl in _CustomLogLevel:
-    logging.addLevelName(int(_lvl), _lvl.name)
-
-
-# KamiLogger  ##################################################################
-
-
-class KamiLogger(logging.Logger):
+class KamiLogger(logging.Logger):  #############################################
     """
     Logger subclass extending :class:`logging.Logger` with six additional levels.
 
@@ -121,7 +117,9 @@ class KamiLogger(logging.Logger):
         :type message: str
         """
         if self.isEnabledFor(_CustomLogLevel.ENTER):
-            self._log(_CustomLogLevel.ENTER, message, args, stacklevel=2, **kwargs)
+            self._log(
+                _CustomLogLevel.ENTER, message, args, stacklevel=2, **kwargs
+            )
 
     def skip(self, message, *args, **kwargs):
         """
@@ -131,7 +129,9 @@ class KamiLogger(logging.Logger):
         :type message: str
         """
         if self.isEnabledFor(_CustomLogLevel.SKIP):
-            self._log(_CustomLogLevel.SKIP, message, args, stacklevel=2, **kwargs)
+            self._log(
+                _CustomLogLevel.SKIP, message, args, stacklevel=2, **kwargs
+            )
 
     def pass_(self, message, *args, **kwargs):
         """
@@ -141,7 +141,9 @@ class KamiLogger(logging.Logger):
         :type message: str
         """
         if self.isEnabledFor(_CustomLogLevel.PASS):
-            self._log(_CustomLogLevel.PASS, message, args, stacklevel=2, **kwargs)
+            self._log(
+                _CustomLogLevel.PASS, message, args, stacklevel=2, **kwargs
+            )
 
     def succ(self, message, *args, **kwargs):
         """
@@ -151,7 +153,9 @@ class KamiLogger(logging.Logger):
         :type message: str
         """
         if self.isEnabledFor(_CustomLogLevel.SUCC):
-            self._log(_CustomLogLevel.SUCC, message, args, stacklevel=2, **kwargs)
+            self._log(
+                _CustomLogLevel.SUCC, message, args, stacklevel=2, **kwargs
+            )
 
     def done(self, message, *args, **kwargs):
         """
@@ -161,7 +165,9 @@ class KamiLogger(logging.Logger):
         :type message: str
         """
         if self.isEnabledFor(_CustomLogLevel.DONE):
-            self._log(_CustomLogLevel.DONE, message, args, stacklevel=2, **kwargs)
+            self._log(
+                _CustomLogLevel.DONE, message, args, stacklevel=2, **kwargs
+            )
 
     def fail(self, message, *args, **kwargs):
         """
@@ -171,7 +177,9 @@ class KamiLogger(logging.Logger):
         :type message: str
         """
         if self.isEnabledFor(_CustomLogLevel.FAIL):
-            self._log(_CustomLogLevel.FAIL, message, args, stacklevel=2, **kwargs)
+            self._log(
+                _CustomLogLevel.FAIL, message, args, stacklevel=2, **kwargs
+            )
 
 
 logging.setLoggerClass(KamiLogger)
@@ -179,18 +187,88 @@ logging.setLoggerClass(KamiLogger)
 logging.root.__class__ = KamiLogger
 
 
-# _LogFormatter  ###############################################################
+class _AnsiPalette:  ###########################################################
+    """
+    ANSI color palette; detects TTY at construction time and applies
+    color codes through its public methods.
+
+    when ``stream`` is ``None`` or is not a TTY, all coloring methods
+    return their input text unchanged.
 
 
-# formatting tables  ===========================================================
+    :param stream: output stream used for TTY detection; ``None``
+            disables color unconditionally
+    :type stream: IO or None
+    """
+
+    _RESET = "\033[0m"
+    _BOLD = "\033[1m"
+    _GREY = "\033[90m"  # bright black
+    _LEVEL_COLORS = {
+        logging.DEBUG: "\033[36m",  # cyan
+        _CustomLogLevel.ENTER: "\033[96m",  # bright cyan
+        _CustomLogLevel.SKIP: "\033[34m",  # blue
+        _CustomLogLevel.SUCC: "\033[32m",  # green
+        logging.INFO: "\033[94m",  # bright blue
+        _CustomLogLevel.PASS: "\033[92m",  # bright green
+        _CustomLogLevel.DONE: "\033[93m",  # bright yellow
+        logging.WARNING: "\033[33m",  # yellow
+        logging.ERROR: "\033[31m",  # red
+        _CustomLogLevel.FAIL: "\033[91m",  # bright red
+        logging.CRITICAL: "\033[95m",  # bright magenta
+    }
+
+    def __init__(self, stream=None):
+        self._enabled = (
+            stream is not None and hasattr(stream, "isatty") and stream.isatty()
+        )
+
+    # Public API  ==============================================================
+
+    def color_level(self, text, levelno):
+        """
+        apply bold and level-specific ANSI color to ``text``.
+
+
+        :param text: text to colorize
+        :type text: str
+        :param levelno: numeric log level used to select the color
+        :type levelno: int
+        :return: colored text, or ``text`` unchanged when disabled
+        :rtype: str
+        """
+        if not self._enabled:
+            return text
+        color = self._LEVEL_COLORS.get(levelno, "")
+        return "{}{}{}{}".format(self._BOLD, color, text, self._RESET)
+
+    def color_grey(self, text):
+        """
+        apply bright-black (grey) ANSI color to ``text``.
+
+        used for timestamps and source name labels.
+
+
+        :param text: text to colorize
+        :type text: str
+        :return: grey text, or ``text`` unchanged when disabled
+        :rtype: str
+        """
+        if not self._enabled:
+            return text
+        return "{}{}{}".format(self._GREY, text, self._RESET)
+
+
+# log formatting  ##############################################################
+
 
 _PADDED_LEVELNAME_MAP = {
     logging.DEBUG: "DEBUG",
     _CustomLogLevel.ENTER: _CustomLogLevel.ENTER.display,
     _CustomLogLevel.SKIP: _CustomLogLevel.SKIP.display,
+    _CustomLogLevel.SUCC: _CustomLogLevel.SUCC.display,
     logging.INFO: "INFO ",
     _CustomLogLevel.PASS: _CustomLogLevel.PASS.display,
-    _CustomLogLevel.SUCC: _CustomLogLevel.SUCC.display,
     _CustomLogLevel.DONE: _CustomLogLevel.DONE.display,
     logging.WARNING: "WARN.",
     logging.ERROR: "ERROR",
@@ -199,94 +277,165 @@ _PADDED_LEVELNAME_MAP = {
 }
 
 
-_ANSI_RESET = "\033[0m"
-_ANSI_BOLD = "\033[1m"
-_ANSI_DATETIME = "\033[90m"  # bright black (grey)
-_ANSI_SOURCE = "\033[90m"  # bright black (grey)
-_ANSI_LEVEL_COLORS = {
-    logging.DEBUG: "\033[34m",  # blue
-    _CustomLogLevel.ENTER: "\033[94m",  # bright blue
-    _CustomLogLevel.SKIP: "\033[36m",  # cyan
-    logging.INFO: "\033[96m",  # bright cyan
-    _CustomLogLevel.PASS: "\033[32m",  # green
-    _CustomLogLevel.SUCC: "\033[92m",  # bright green
-    _CustomLogLevel.DONE: "\033[93m",  # bright yellow
-    logging.WARNING: "\033[33m",  # yellow
-    logging.ERROR: "\033[31m",  # red
-    _CustomLogLevel.FAIL: "\033[91m",  # bright red
-    logging.CRITICAL: "\033[95m",  # bright magenta
-}
-
-
-class _LogFormatter(Formatter):
+class _LogFormatEngine:  # =====================================================
     """
-    internal log formatter producing structured, optionally colored output
+    core log-line formatting logic, independent of ``logging.Formatter``.
+
+    builds each log line from its constituent parts — optional timestamp,
+    5-char padded level name, source label, and message — applying ANSI
+    color codes when enabled. exposed via ``_LogFormatter.engine`` so
+    external callers can reach ``count_prefix_chars`` without going
+    through the adapter.
+
+
+    :param palette: color palette controlling ANSI output
+    :type palette: _AnsiPalette
+    :param datefmt: strftime format string for wall-clock timestamps;
+            ignored when ``relative_to`` is set; ``None`` disables
+            timestamps
+    :type datefmt: str or None
+    :param relative_to: Unix timestamp used as the epoch for relative
+            time display; mutually exclusive with ``datefmt``
+    :type relative_to: float or None
     """
 
-    def __init__(self, *, use_color=False, datefmt=None, relative_to=None):
-        """
-        :param use_color: enable ANSI color output
-        :type use_color: bool
-        :param datefmt: strftime format for wall-clock timestamps;
-                ignored when ``relative_to`` is set; defaults to ``None`` (no timestamp)
-        :type datefmt: str, optional
-        :param relative_to: Unix timestamp used as epoch for relative time display;
-                mutually exclusive with ``datefmt``
-        :type relative_to: float, optional
-        """
-        super().__init__(datefmt=datefmt)
-        self.use_color = use_color
+    def __init__(self, palette, *, datefmt=None, relative_to=None):
+        self._palette = palette
         self._datefmt = datefmt
         self._relative_to = relative_to
 
-    # helpers  =================================================================
+    # Public API  **************************************************************
+
+    def count_prefix_chars(self, record):
+        """
+        return the count of printable characters before the message text.
+
+        accounts for the optional timestamp, 5-char padded level name,
+        and source label; ANSI escape codes are excluded from the count.
+
+
+        :param record: log record to measure
+        :type record: logging.LogRecord
+        :return: printable character count of the prefix
+        :rtype: int
+        """
+        name = record.name
+        has_name = bool(name and name != "root")
+
+        if self._relative_to is not None:
+            ts_len = len(self._fmt_relative(record.created))
+        elif self._datefmt:
+            plain = time.strftime(
+                self._datefmt, time.localtime(record.created)
+            ).replace("{ms}", "{:03d}".format(int(record.msecs)))
+            ts_len = len(plain)
+        else:
+            ts_len = 0
+
+        level_len = 5  # always padded/truncated to 5
+        space_len = 1 if has_name else 0
+        source_len = len(name) + 1 if has_name else 1  # "name:" or ":"
+
+        if ts_len:
+            return ts_len + 1 + level_len + space_len + source_len + 1
+        return level_len + space_len + source_len + 1
+
+    def format_time(self, record, datefmt=None):
+        """
+        return the formatted and optionally colored timestamp string.
+
+
+        :param record: log record
+        :type record: logging.LogRecord
+        :param datefmt: strftime format override; falls back to ``_datefmt``
+        :type datefmt: str or None
+        :return: formatted timestamp, or empty string when disabled
+        :rtype: str
+        """
+        if self._relative_to is not None:
+            return self._fmt_asctime(self._fmt_relative(record.created))
+        elif datefmt or self._datefmt:
+            fmt = datefmt or self._datefmt
+            asctime = time.strftime(
+                fmt, time.localtime(record.created)
+            ).replace("{ms}", "{:03d}".format(int(record.msecs)))
+            return self._fmt_asctime(asctime)
+        return ""
+
+    def build_line(self, record):
+        """
+        build the main log line from a record's parts.
+
+        produces the ``LEVEL source: message`` line with optional
+        timestamp prefix. does not handle exc_info or stack_info —
+        those are appended by the ``_LogFormatter`` adapter.
+
+
+        :param record: log record to format
+        :type record: logging.LogRecord
+        :return: formatted log line
+        :rtype: str
+        """
+        asctime = self.format_time(record)
+        source = self._fmt_source(record.name)
+        space = " " if record.name and record.name != "root" else ""
+
+        if asctime:
+            return "{} {}{}{} {}".format(
+                asctime,
+                self._fmt_level(record.levelno),
+                space,
+                source,
+                record.getMessage(),
+            )
+        return "{}{}{} {}".format(
+            self._fmt_level(record.levelno),
+            space,
+            source,
+            record.getMessage(),
+        )
+
+    # helpers  *****************************************************************
 
     def _fmt_asctime(self, asctime):
         """
         :param asctime: pre-formatted datetime string
         :type asctime: str
-        :return: asctime wrapped in black ANSI codes, or plain if color disabled
+        :return: asctime in grey, or plain if color disabled
         :rtype: str
         """
-        if self.use_color:
-            return "{}{}{}".format(_ANSI_DATETIME, asctime, _ANSI_RESET)
-        return asctime
+        return self._palette.color_grey(asctime)
 
     def _fmt_level(self, levelno):
         """
         :param levelno: numeric logging level
         :type levelno: int
-        :return: level name without brackets, e.g. ``DEBUG``, colored and bold if enabled
+        :return: 5-char padded level name, colored and bold if enabled
         :rtype: str
         """
         padded = _PADDED_LEVELNAME_MAP.get(levelno, str(levelno).ljust(5)[:5])
-        if self.use_color:
-            color = _ANSI_LEVEL_COLORS.get(levelno, "")
-            return "{}{}{}{}".format(_ANSI_BOLD, color, padded, _ANSI_RESET)
-        return padded
+        return self._palette.color_level(padded, levelno)
 
     def _fmt_source(self, name):
         """
         :param name: logger name
         :type name: str
-        :return: ``"name:"`` with the name in bold black, or ``":"`` in black if name is root or absent
+        :return: ``"name:"`` in grey, or ``":"`` in grey if name is
+                root or absent
         :rtype: str
         """
         if not name or name == "root":
-            if self.use_color:
-                return "{}:{}".format(_ANSI_DATETIME, _ANSI_RESET)
-            return ":"
-        if self.use_color:
-            return "{}{}{}{}:{}".format(
-                _ANSI_SOURCE, name, _ANSI_RESET, _ANSI_DATETIME, _ANSI_RESET
-            )
-        return "{}:".format(name)
+            return self._palette.color_grey(":")
+        return "{}{}".format(
+            self._palette.color_grey(name),
+            self._palette.color_grey(":"),
+        )
 
     def _fmt_relative(self, created):
         """
         :param created: Unix timestamp of the log record
         :type created: float
-        :return: elapsed time since ``_relative_to`` as ``+HH:MM:SS.mmm`` or ``-HH:MM:SS.mmm``
+        :return: elapsed time as ``+HH:MM:SS.mmm`` or ``-HH:MM:SS.mmm``
         :rtype: str
         """
         delta = created - self._relative_to
@@ -297,93 +446,102 @@ class _LogFormatter(Formatter):
         ms = int((delta % 1) * 1000)
         return "{}{:02d}:{:02d}:{:02d}.{:03d}".format(sign, h, m, s, ms)
 
-    # extend Formatter  ========================================================
+
+class _LogFormatter(Formatter):  # =============================================
+    """
+    ``logging.Formatter`` adapter wrapping ``_LogFormatEngine``.
+
+    delegates all line-building and timestamp logic to an internal
+    ``_LogFormatEngine`` instance exposed via the ``engine`` property.
+    the ``_AnsiPalette`` controlling color output is accessible via
+    ``palette``. exc_info and stack_info appending are handled here
+    because they depend on ``Formatter.formatException`` and
+    ``Formatter.formatStack``.
+
+
+    :param stream: forwarded to ``_AnsiPalette`` for TTY detection;
+            ``None`` disables color
+    :type stream: IO or None
+    :param datefmt: forwarded to ``_LogFormatEngine``; also passed to
+            ``Formatter.__init__`` for stdlib compatibility
+    :type datefmt: str or None
+    :param relative_to: forwarded to ``_LogFormatEngine``
+    :type relative_to: float or None
+    """
+
+    def __init__(self, stream=None, *, datefmt=None, relative_to=None):
+        super().__init__(datefmt=datefmt)
+        self.palette = _AnsiPalette(stream)
+        self.engine = _LogFormatEngine(
+            self.palette, datefmt=datefmt, relative_to=relative_to
+        )
 
     def formatTime(self, record, datefmt=None):
         """
+        delegate timestamp formatting to the engine.
+
+
         :param record: log record
         :type record: logging.LogRecord
-        :param datefmt: strftime format override; falls back to ``_datefmt`` if omitted
-        :type datefmt: str, optional
-        :return: formatted and optionally colored timestamp string, or empty string if no timestamp
+        :param datefmt: strftime format override
+        :type datefmt: str or None
+        :return: formatted timestamp, or empty string when disabled
         :rtype: str
         """
-        if self._relative_to is not None:
-            asctime = self._fmt_relative(record.created)
-            return self._fmt_asctime(asctime)
-        elif datefmt or self._datefmt:
-            asctime = super().formatTime(record, datefmt or self._datefmt)
-            asctime = asctime.replace(
-                "{ms}", "{:03d}".format(int(record.msecs))
-            )
-            return self._fmt_asctime(asctime)
-        else:
-            return ""
+        return self.engine.format_time(record, datefmt)
 
     def format(self, record):
         """
+        produce the complete log line, appending exc_info and stack_info.
+
+
         :param record: log record
         :type record: logging.LogRecord
-        :return: fully formatted log line: optional timestamp, level, source (or colon), message
+        :return: fully formatted log line with optional traceback and
+                stack info appended
         :rtype: str
         """
         record = logging.makeLogRecord(record.__dict__)
-
-        asctime = self.formatTime(record)
-        source = self._fmt_source(record.name)
-        space = " " if record.name and record.name != "root" else ""
-
-        if asctime:
-            result = "{} {}{}{} {}".format(
-                asctime,
-                self._fmt_level(record.levelno),
-                space,
-                source,
-                record.getMessage(),
-            )
-        else:
-            result = "{}{}{} {}".format(
-                self._fmt_level(record.levelno),
-                space,
-                source,
-                record.getMessage(),
-            )
-
         if record.exc_info and not record.exc_text:
             record.exc_text = self.formatException(record.exc_info)
+        result = self.engine.build_line(record)
         if record.exc_text:
             result = "{}\n{}".format(result, record.exc_text)
         if record.stack_info:
             result = "{}\n{}".format(
                 result, self.formatStack(record.stack_info)
             )
-
         return result
 
 
-# _DiffOnlyMsgFilter  ##########################################################
+# diff only message   ##########################################################
 
 
-class _DiffOnlyMsgFilter(logging.Filter):
+class _DiffOnlyEngine:  # ======================================================
     """
-    suppress characters shared across the last ``window`` messages, so
-    repeated log lines collapse down to only what changed.
+    engine for diff-only compression of log message text.
 
-    compares each incoming message against a sliding window of prior
-    messages; positions that are identical in all of them are candidates
-    for compression. contiguous common runs are replaced with ``〃\\t``
-    markers in multiples of 8: each group of 8 common chars becomes one
-    ``〃\\t`` pair. at least 2 original chars are preserved at each end of
-    the compressed block, giving visual context around the marker.
+    maintains a sliding window of prior messages; once the window is
+    full, compresses character runs common to all of them into ``〃\\t``
+    markers aligned to 8-column boundaries from the rendered line start.
+    prefix-width measurement and marker coloring use ``formatter``
+    directly.
 
 
+    :param formatter: formatter used to measure the prefix width and
+            apply ``color_grey`` to compression markers
+    :type formatter: _LogFormatter
     :param window: number of prior messages held for comparison;
-            suppression activates once this many messages have been seen
+            compression activates once this many messages have been seen
     :type window: int
     """
 
-    def __init__(self, window=3):
-        super().__init__()
+    _COMPRESSION_BLOCK_SIZE = 8
+    _PRESERVED_TRAILING_CHARS = 2
+    _COMPRESSION_MARKER = "〃\t"
+
+    def __init__(self, formatter, window=3):
+        self._formatter = formatter
         self._history = deque(maxlen=window)
         # _common[i] = shared char at position i across all history,
         # or None where messages diverge or lengths differ
@@ -391,7 +549,7 @@ class _DiffOnlyMsgFilter(logging.Filter):
 
     def _update_common(self):
         """
-        recompute _common from current _history
+        recompute ``_common`` from the current ``_history`` window
         """
         history = list(self._history)
         if not history:
@@ -410,61 +568,181 @@ class _DiffOnlyMsgFilter(logging.Filter):
                 )
         self._common = common
 
-    def filter(self, record):
+    def _compress(self, record, message):
         """
-        :param record: log record to mask in place
+        compress positions in ``message`` matching ``_common`` into
+        ``〃\\t`` markers.
+
+        aligns each marker to the next multiple-of-8 column measured
+        from the rendered line start (prefix + message offset); runs
+        too short to fit one full block after alignment are kept as-is.
+
+
+        :param record: log record used to measure the prefix width
         :type record: logging.LogRecord
-        :return: always ``True``; this filter never drops records
-        :rtype: bool
+        :param message: raw message text to compress
+        :type message: str
+        :return: compressed message string
+        :rtype: str
+        """
+        block = self._COMPRESSION_BLOCK_SIZE
+        trail = self._PRESERVED_TRAILING_CHARS
+        prefix_len = self._formatter.engine.count_prefix_chars(record)
+        n_common = len(self._common)
+        is_common = [
+            i < n_common
+            and self._common[i] is not None
+            and self._common[i] == ch
+            for i, ch in enumerate(message)
+        ]
+        result = []
+        i = 0
+        msg_len = len(message)
+        while i < msg_len:
+            if not is_common[i]:
+                result.append(message[i])
+                i += 1
+            else:
+                run_s = i
+                while i < msg_len and is_common[i]:
+                    i += 1
+                run_e = i
+                col_offset = (prefix_len + run_s) % block
+                padding = (block - col_offset) % block
+                tab_s = run_s + padding
+                replaceable = run_e - tab_s - trail
+                k = replaceable // block if replaceable > 0 else 0
+                if k == 0:
+                    result.append(message[run_s:run_e])
+                else:
+                    result.append(message[run_s:tab_s])
+                    result.append(
+                        self._formatter.palette.color_grey(
+                            self._COMPRESSION_MARKER * k
+                        )
+                    )
+                    result.append(message[tab_s + block * k : run_e])
+        return "".join(result)
+
+    def process(self, record):
+        """
+        process ``record`` and return the (possibly compressed) message.
+
+        if the history window is not yet full, the raw message is
+        returned unchanged. once full, character positions common to
+        all history messages are compressed into ``〃\\t`` markers.
+
+
+        :param record: log record being processed
+        :type record: logging.LogRecord
+        :return: compressed message, or the original during warmup
+        :rtype: str
         """
         message = record.getMessage()
 
         if len(self._history) == self._history.maxlen:
-            common = self._common
-            # mark positions where current message matches all history
-            n_common = len(common)
-            is_common = [
-                i < n_common and common[i] is not None and common[i] == ch
-                for i, ch in enumerate(message)
-            ]
-            # compress common runs: each 8-char block → one tab;
-            # keep ≥2 original chars at each end of the compressed block
-            result = []
-            i = 0
-            msg_len = len(message)
-            while i < msg_len:
-                if not is_common[i]:
-                    result.append(message[i])
-                    i += 1
-                else:
-                    run_s = i
-                    while i < msg_len and is_common[i]:
-                        i += 1
-                    run_e = i
-                    N = run_e - run_s
-                    # leading: chars to keep so ≥2 chars precede the tab
-                    leading = max(0, 2 - run_s)
-                    replaceable = N - leading - 2  # reserve ≥2 trailing
-                    k = replaceable // 8 if replaceable > 0 else 0
-                    if k == 0:
-                        result.append(message[run_s:run_e])
-                    else:
-                        tab_s = run_s + leading
-                        result.append(message[run_s:tab_s])
-                        result.append("〃\t" * k)
-                        result.append(message[tab_s + 8 * k : run_e])
-            masked = "".join(result)
+            masked = self._compress(record, message)
         else:
             masked = message
 
         self._history.append(message)
         self._update_common()
-        record.msg = masked
+        return masked
+
+
+class _DiffOnlyMsgFilter(logging.Filter):  # ===================================
+    """
+    ``logging.Filter`` adapter that applies ``_DiffOnlyEngine`` to records.
+
+    delegates all compression logic to an internal ``_DiffOnlyEngine``
+    instance; ``filter()`` mutates ``record.msg`` in place with the
+    result.
+
+
+    :param formatter: forwarded to ``_DiffOnlyEngine`` for prefix-width
+            measurement; pass ``None`` to disable prefix alignment
+    :type formatter: _LogFormatter or None
+    :param window: forwarded to ``_DiffOnlyEngine`` as the history
+            window size
+    :type window: int
+    """
+
+    def __init__(self, formatter, window=3):
+        super().__init__()
+        self._engine = _DiffOnlyEngine(formatter, window)
+
+    def filter(self, record):
+        """
+        apply diff-only compression to ``record.msg`` in place.
+
+
+        :param record: log record to mask in place
+        :type record: logging.LogRecord
+        :return: always ``True``; this filter never drops records
+        :rtype: bool
+        """
+        record.msg = self._engine.process(record)
         record.args = ()
         return True
 
 
-# Public API  ##################################################################
+# verbosity helpers  ###########################################################
+
+
+def _calc_logging_level_from_verbosity(verbosity):
+    """
+    Map a verbosity integer to a logging level.
+
+    - ``3`` or more: ``DEBUG`` (10)
+    - ``2``: ``SUCC`` (15)
+    - ``1``: ``INFO`` (20)
+    - ``0``: ``DONE`` (25)
+    - ``-1``: ``WARNING`` (30)
+    - ``-2``: ``ERROR`` (40)
+    - ``-3`` or less: ``CRITICAL`` (50)
+
+    :param verbosity: net verbosity count (positive = more verbose)
+    :type verbosity: int
+    :return: logging level constant
+    :rtype: int
+    """
+    if verbosity >= 3:
+        return logging.DEBUG
+    elif verbosity == 2:
+        return SUCC
+    elif verbosity == 1:
+        return logging.INFO
+    elif verbosity == 0:
+        return DONE
+    elif verbosity == -1:
+        return logging.WARNING
+    elif verbosity == -2:
+        return logging.ERROR
+    else:  # verbosity <= -3
+        return logging.CRITICAL
+
+
+def _calc_logging_level_from_verbosity_namespace(namespace):
+    """
+    Extract verbosity from a parsed namespace and return the corresponding
+    logging level.
+
+    Verbosity defaults to 0; each ``-v`` adds 1, each ``-q`` subtracts 1.
+
+    :param namespace: parsed namespace containing ``verbose`` and/or ``quiet`` counts
+    :type namespace: argparse.Namespace
+    :return: logging level constant
+    :rtype: int
+    """
+    verbosity = 0
+    if hasattr(namespace, "verbose"):
+        verbosity += namespace.verbose
+    if hasattr(namespace, "quiet"):
+        verbosity -= namespace.quiet
+    return _calc_logging_level_from_verbosity(verbosity)
+
+
+# Entry Point  #################################################################
 
 
 # pylint: disable-next=invalid-name
@@ -488,26 +766,24 @@ def getLogger(name=None, *, datefmt=None, relative_to=None):
         logger.__class__ = KamiLogger
 
     if not any(isinstance(f, _DiffOnlyMsgFilter) for f in logger.filters):
-        logger.addFilter(_DiffOnlyMsgFilter())
+        logger.addFilter(
+            _DiffOnlyMsgFilter(
+                _LogFormatter(
+                    sys.stdout, datefmt=datefmt, relative_to=relative_to
+                )
+            )
+        )
 
     if not logger.handlers:
         stdout_handler = StreamHandler(sys.stdout)
         stdout_handler.setFormatter(
-            _LogFormatter(
-                use_color=sys.stdout.isatty(),
-                datefmt=datefmt,
-                relative_to=relative_to,
-            )
+            _LogFormatter(sys.stdout, datefmt=datefmt, relative_to=relative_to)
         )
         stdout_handler.addFilter(lambda r: r.levelno < logging.WARNING)
 
         stderr_handler = StreamHandler(sys.stderr)
         stderr_handler.setFormatter(
-            _LogFormatter(
-                use_color=sys.stderr.isatty(),
-                datefmt=datefmt,
-                relative_to=relative_to,
-            )
+            _LogFormatter(sys.stderr, datefmt=datefmt, relative_to=relative_to)
         )
         stderr_handler.addFilter(lambda r: r.levelno >= logging.WARNING)
 
@@ -515,9 +791,6 @@ def getLogger(name=None, *, datefmt=None, relative_to=None):
         logger.addHandler(stderr_handler)
 
     return logger
-
-
-# verbosity helpers  ###########################################################
 
 
 def add_verbose_arguments(parser):
@@ -545,41 +818,9 @@ def add_verbose_arguments(parser):
     )
 
 
-def calc_verbosity(namespace):
-    """
-    Calculate a verbosity integer from ``--verbose`` and ``--quiet`` counts.
-
-    Verbosity defaults to 0; each ``-v`` adds 1, each ``-q`` subtracts 1.
-    There are no upper or lower bounds.
-
-    :param namespace: parsed namespace containing ``verbose`` and/or ``quiet`` counts
-    :type namespace: argparse.Namespace
-    :return: net verbosity level
-    :rtype: int
-    """
-    verbosity = 0
-
-    if hasattr(namespace, "verbose"):
-        verbosity += namespace.verbose
-    if hasattr(namespace, "quiet"):
-        verbosity -= namespace.quiet
-
-    return verbosity
-
-
 def set_logging_level_by_verbosity(namespace, *, logger=None, logger_name=None):
     """
     Set the logging level of a logger based on verbosity flags.
-
-    Verbosity-to-level mapping:
-
-    - ``-vv`` or more: ``DEBUG`` (10)
-    - ``-v``: ``INFO`` (20)
-    - no flags: ``DONE`` (25)
-    - ``-q``: ``WARNING`` (30)
-    - ``-qq``: ``ERROR`` (40)
-    - ``-qqq`` or more: ``CRITICAL`` (50)
-
 
     :param namespace: parsed namespace containing ``--verbose`` and/or ``--quiet`` counts
     :type namespace: argparse.Namespace
@@ -589,22 +830,6 @@ def set_logging_level_by_verbosity(namespace, *, logger=None, logger_name=None):
             ignored when ``logger`` is provided
     :type logger_name: str, optional
     """
-    verbosity = calc_verbosity(namespace)
-
-    if verbosity >= 2:
-        level = logging.DEBUG
-    elif verbosity == 1:
-        level = logging.INFO
-    elif verbosity == 0:
-        level = DONE
-    elif verbosity == -1:
-        level = logging.WARNING
-    elif verbosity == -2:
-        level = logging.ERROR
-    else:  # verbosity <= -3
-        level = logging.CRITICAL
-
     if logger is None:
         logger = logging.getLogger(logger_name)
-
-    logger.setLevel(level)
+    logger.setLevel(_calc_logging_level_from_verbosity_namespace(namespace))

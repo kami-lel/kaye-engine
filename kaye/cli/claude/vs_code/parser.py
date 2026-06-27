@@ -14,11 +14,13 @@ from .export import export_vs_code_extension
 
 _DESCRIPTION = """
 
-writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint) and
-exports the kaye plugin wrapped in a marketplace under kaye_marketplace/.
+writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint),
+updates settings.json, and exports the kaye plugin wrapped in a
+marketplace under kaye_marketplace/.
 
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
+├── settings.json  (updated)
 └── kaye_marketplace/
     ├── .claude-plugin/
     │   └── marketplace.json

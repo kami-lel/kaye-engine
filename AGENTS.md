@@ -68,7 +68,7 @@ python -m kaye claude code                           # export plugin + CLAUDE.md
 python -m kaye claude user-system-prompt             # export Chat blueprint to ~/.claude/CLAUDE.md
 python -m kaye claude user-system-prompt -r          # use Rapid blueprint instead of Chat
 python -m kaye claude user-system-prompt -c          # append Kaye Peer Coder content
-python -m kaye claude vs-code-extension              # export CLAUDE.md + marketplace into ~/.claude
+python -m kaye claude vs-code-extension              # export CLAUDE.md + marketplace + settings.json into ~/.claude
 ```
 
 CLI subcommand aliases: `http` → `h`; `continue` → `c`;

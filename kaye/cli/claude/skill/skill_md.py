@@ -10,7 +10,10 @@ from importlib.metadata import version
 import yaml
 
 from kaye import PROGRAM_NAME
-from kaye.cli.claude import convert_display_name2skill_name
+from kaye.cli.claude import (
+    convert_display_name2skill_name,
+    CONTAINING_META_NODES,
+)
 from kaye.cli.frontmatter_md_file import FrontmatterMDFile
 
 
@@ -74,7 +77,11 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
     def __init__(self, folder_path, *, blueprint=None):
         file_name = folder_path / self._FILENAME
-        super().__init__(file_name, blueprint)
+        super().__init__(
+            file_name,
+            blueprint,
+            contains_meta_nodes=CONTAINING_META_NODES,
+        )
 
         self.frontmatter["metadata"]["version"] = version(PROGRAM_NAME)
 
