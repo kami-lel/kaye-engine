@@ -338,7 +338,8 @@ class PromptBlueprint(dict):
         render the **concrete prompt** that can be used as LLM system message
         from this blueprint's node checkmarking status
 
-        optionally auto-checkmarks all prerequisite nodes before rendering.
+        optionally auto-checkmarks meta nodes of specified type(s) before
+        rendering.
 
         :param show_comment: show comment part after last line;
                 defaults to False
@@ -346,10 +347,11 @@ class PromptBlueprint(dict):
         :param disable_first_heading: whether disable showing top heading;
                 defaults to False
         :type disable_first_heading: bool, optional
-        :param contains_prerequisite_nodes: whether to auto-checkmark all
-                ``{prerequisite}`` meta nodes whose parents are checkmarked
-                before rendering; defaults to False
-        :type contains_prerequisite_nodes: bool, optional
+        :param contains_meta_nodes: auto-checkmark meta nodes of specified
+                type(s) whose parents are checkmarked; pass a
+                ``MetaNodeType`` flag or combination; defaults to
+                ``MetaNodeType.NONE`` (disabled)
+        :type contains_meta_nodes: MetaNodeType, optional
         :return: generated prompt
         :rtype: str
         """
@@ -360,13 +362,14 @@ class PromptBlueprint(dict):
         *,
         show_comment=False,
         disable_first_heading=False,
-        contains_prerequisite_nodes=False,
+        contains_meta_nodes=MetaNodeType.NONE,
         **kwargs,
     ):
         """
         generate prompt as a list of lines from this blueprint
 
-        optionally auto-checkmarks all prerequisite nodes before rendering.
+        optionally auto-checkmarks meta nodes of specified type(s) before
+        rendering.
 
 
         :param show_comment: show comment part after last line;
@@ -375,20 +378,20 @@ class PromptBlueprint(dict):
         :param disable_first_heading: whether disable showing top heading;
                 defaults to False
         :type disable_first_heading: bool, optional
-        :param contains_prerequisite_nodes: whether to auto-checkmark all
-                ``{prerequisite}`` meta nodes whose parents are checkmarked
-                before rendering; defaults to False
-        :type contains_prerequisite_nodes: bool, optional
+        :param contains_meta_nodes: auto-checkmark meta nodes of specified
+                type(s) whose parents are checkmarked; pass a
+                ``MetaNodeType`` flag or combination (e.g.,
+                ``MetaNodeType.PREREQUISITE | MetaNodeType.FOR_CLAUDE``);
+                defaults to ``MetaNodeType.NONE`` (disabled)
+        :type contains_meta_nodes: MetaNodeType, optional
         :return: list of prompt lines
         :rtype: list[str]
         """
-        # TODO make contains_prerequisite_nodes general
-
-        if contains_prerequisite_nodes:
+        if contains_meta_nodes != MetaNodeType.NONE:
             working_bp = copy.copy(self)
             for node in PreOrderIter(working_bp.corpus):
                 if MetaNodeType.is_meta_node_of_type(
-                    node, MetaNodeType.PREREQUISITE
+                    node, contains_meta_nodes
                 ) and working_bp.is_checkmarked(node.parent):
                     working_bp.checkmark(node)
         else:
