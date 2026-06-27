@@ -3561,7 +3561,7 @@ Cut a new release: bring all docs current, finalize the changelog, and bump the 
    - reword entries as needed for proper changelog style — concise, high-level, free of excessive implementation detail
    - move every entry under `[Unreleased]` into a new versioned section headed with the given version and date
    - in that new section, keep only non-empty subsections — drop any with no entries
-   - leave a fresh, empty `[Unreleased]` section above it
+   - leave a fresh [Unreleased] section above it, holding every standard subsection heading with no entries beneath them
    - update the GitHub comparison links so each version, including the new tag, stays referenced
 
 3. **Bump the project version** to match exactly, in whichever metadata files apply — e.g. `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`
@@ -4315,6 +4315,14 @@ include only minimal explanation unless the user asks for more.
 
 
 
+
+
+
+
+
+
+
+
 ### code format
 
 - each line must not exceed **80 characters**
@@ -4326,6 +4334,14 @@ Eg
 ```python utils.py
 ...
 ```
+
+
+
+
+
+
+
+
 
 
 
@@ -4345,6 +4361,15 @@ Eg
 
 
 
+
+
+
+
+
+
+
+
+
 ### code comment
 
 - format inline comments as: actual code + two spaces + `#` or `//` + single space + comment content, for example `int a = 1;  // comment on number`
@@ -4355,45 +4380,59 @@ Eg
 
 
 
+
+
+
+
+
+
+
+
+
 ### Comment Banner
 
-**Comment banners** (CB) are visual separators written inside code comments to show structure in long code.
+**Comment banners** (CB) are visual separators placed *inside code comments* to expose structure in long code. A banner is a heading followed by a **ruler** — one symbol repeated to fill the line.
 
-**When to use:**
+**Levels**:
 
-- CB must live **inside code comments only** — never as raw code (which would break syntax), never in conversation text
-- only use CB when the relevant section of code is **long enough** that a visual separator materially aids navigation
-- CB must divide code at **logical boundaries**: modules, sections, functions, groups of related code
-- use CB **sparingly** — prefer blank lines to separate relatively short sections; reserve CB for blocks that span many lines
+Six ranks, highest (`CB0`) to lowest (`CB5`):
 
-**When NOT to use:**
+| token | name | form |
+| --- | --- | --- |
+| `CB0` | boxed banner | file-level title boxed by top and bottom `#` rulers; multi-line; highest |
+| `CB1` | `#` banner | heading, then `#` filling the line |
+| `CB2` | `=` banner | heading, then `=` filling the line |
+| `CB3` | `*` banner | heading, then `*` filling the line |
+| `CB4` | `+` banner | heading, then `+` filling the line |
+| `CB5` | `-` banner | heading, then `-` filling the line; lowest |
 
-- do not use CB for **local, sequential, or line-level groupings inside a function** — use plain comments there
-- do not use CB **frequently**; overuse turns the separators into visual noise and defeats their purpose
+`-` may also be used freely for small local labels outside the hierarchy.
 
-**How to format:**
+**When to use**:
 
-- symbol order for descending levels:
-    - **level 0** — the **boxed banner**: a title framed by top and bottom `#` rulers; reserved for **file-level documentation** and is the highest level
-    - **level 1** — single-line `#` ruler
-    - **level 2** — single-line `=` ruler
-    - **level 3** — single-line `*` ruler
-    - **level 4** — single-line `+` ruler
-    - **level 5** — single-line `-` ruler
-- `-` is the lowest hierarchy level, but **may also be used freely for small local labels** without following the hierarchy
-- repeat the symbol to fill a visual ruler **always to 80 characters** line width
-- keep heading text short and use the comment syntax appropriate to the language
+- inside code comments only — never as raw code, never in conversation text
+- only when a section is long enough that a separator aids navigation
+- only at logical boundaries: modules, sections, functions, related groups
+- sparingly — prefer blank lines for short sections; reserve CB for long blocks
 
-**Common headings:**
-generic labels you may reach for — note the casing convention:
-- **Title Case** = public / exported / externally-visible interface: `Public API`, `Public Methods`, `Public Variables`, `Entry Point`
-- **lowercase** = internal / private / implementation detail: `constants`, `helpers`, `private methods`, `private variables`
+**When not to use**:
 
-prefer a heading that **names the actual block or module** (e.g. `parse CLI flags`, `retry policy`) over these generic labels; reach for the generic ones only when no meaningful name fits.
+- not for local, sequential, or line-level groups inside a function — use plain comments
+- not frequently — overuse turns separators into noise
 
-**Examples:**
+**How to format**:
 
-```cpp stats_demo.cpp
+- comment leader is the language's (`//`, `#`, ...); the ruler symbol is fixed per level
+- write the heading first, then repeat the ruler symbol to fill the line **to 80 chars** (counting the leader)
+- `CB0` instead boxes a file-level title between top and bottom `#` rulers
+- keep headings short; case them by visibility:
+    - **Title Case** = public / exported interface — `Public API`, `Entry Point`
+    - **lowercase** = internal / implementation detail — `constants`, `helpers`
+- prefer a heading naming the actual block (`parse CLI flags`) over generic labels
+
+**Examples**:
+
+```cpp
     /*
     ################################################################################
     # stats_demo.cpp
@@ -4403,22 +4442,30 @@ prefer a heading that **names the actual block or module** (e.g. `parse CLI flag
     */
     // constants ###################################################################
     const int kValues[] = {10, 20, 30};
-    // helpers  ####################################################################
-    // number helpers  =============================================================
+    // helpers #####################################################################
+    // number helpers ==============================================================
     double compute_average(const int* v, int n) {
-        // accumulate  *************************************************************
+        // accumulate **************************************************************
         ~~
     }
-    // Entry Point  ################################################################
+    // Entry Point #################################################################
     int main() { ... }
 ```
 
 ```python
-    # Public API  ##################################################################
+    # Public API ###################################################################
     def to_int(s):
-        # quick parse  -------------------------------------------------------------
+        # quick parse --------------------------------------------------------------
         ~~
 ```
+
+
+
+
+
+
+
+
 
 
 
