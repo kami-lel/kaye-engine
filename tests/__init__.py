@@ -56,7 +56,7 @@ TESTEE_CODER_CONTENT = [
     "### code comment",
     "- format inline comments as:",
     "### Comment Banner",
-    "CB must live **inside code comments only**",
+    "**Comment banners** (CB) are visual separators placed",
     "### Testing Instructions",
     "Test **smartly and selectively**",
 ]
