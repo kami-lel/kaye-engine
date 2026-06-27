@@ -16,63 +16,64 @@
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.2...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.3...dev
 
 ### Added
 
-- `{for_claude}` meta node type — marks Claude-specific instructions for
-  auto-checkmarking during Claude skill/prompt exports
-- `CONTAINING_META_NODES` constant in `kaye.cli.claude` — combines
-  `FOR_CLAUDE` and `PREREQUISITE` flags for consistent Claude exports
-- `TestClaude` class in skill tests — validates `{for_claude}` heading and
-  content in exported Claude skills
-- `REPLACEMENT_NEWLINE_SYMBOL` constant (`↵`) in `kaye/prompt/__init__.py` —
-  flattens prompt lines into a compact single-line format for hook payloads
-- `kaye/cli/claude/vs_code/settings.py` — new module;
-  `update_settings_json_for_pre_compact_hook()` upserts a `PreCompact` hook
-  entry (matcher `"*"`) in `~/.claude/settings.json` with the `Maintenance
-  Before Compact` prompt rendered as a compact single-line string
-- **`Maintenance Before Compact`** — new `## Maintenance Before Compact`
-  section in `kaye/prompt_corpus.md` under Projects; instructs agent to log
-  session changes and update `AGENTS.md`/`CONTEXT.md` before context compaction
-- **`{for_claude}` node in `Prepare for Version Release`** — triggers
-  `AskUserQuestion` when the release version or date is missing before
-  proceeding
-
 ### Changed
-
-- **MetaNodeType** refactored from `Enum` to `IntFlag` with `auto()` — enables
-  bitwise operations for checking multiple meta node types simultaneously
-- **contains_meta_nodes parameter** — `generate_prompt()` and
-  `generate_prompt_lines()` now accept a `MetaNodeType` flag or combination
-  instead of just `bool` (defaults to `MetaNodeType.NONE`); replaces
-  `contains_prerequisite_nodes` boolean parameter
-- **FrontmatterMDFile.__init__()** — added `contains_meta_nodes` parameter to
-  configure which meta node types are auto-checkmarked during export
-- **Claude skill exports** — updated to flag both `FOR_CLAUDE` and
-  `PREREQUISITE` meta nodes via `CONTAINING_META_NODES` constant
-- **`kaye claude vs-code-extension`** — now also writes/updates
-  `~/.claude/settings.json` with the `PreCompact` hook after marketplace
-  export; `--help` output tree lists `settings.json` alongside `CLAUDE.md`
-- **Code style** — applied Python coder and docstring standards to
-  `meta_node_type.py`
-- **kamilog** logging module updated to v1.6.1 — refactored module structure
-  with clearer comment banners, added TTY ANSI 16-color palette support, and
-  reorganized log-level constants by numeric order for clarity
 
 ### Deprecated
 
 ### Removed
 
-- `compact_with_maintenance_blueprint` removed from `prompts_blueprints.py`
-  and `PROMPTS_BLUEPRINTS` — `Maintenance Before Compact` is now embedded in
-  `settings.json` as a hook prompt rather than exported as a standalone skill
-- stale todo about kamilog version update removed from
-  `kaye/prompt_corpus_note`
-
 ### Fixed
 
 ### Security
+
+
+
+## [6.8.3] - 2026-06-28
+
+### Added
+
+`{for_claude}` meta node:
+
+- `{for_claude}` — Claude-specific instructions, auto-checkmarked on export
+- `CONTAINING_META_NODES` (`FOR_CLAUDE | PREREQUISITE`) in `kaye.cli.claude`
+
+VS Code `PreCompact` hook:
+
+- `kaye/cli/claude/vs_code/settings.py` — writes `Maintenance Before Compact`
+  as `PreCompact` hook into `settings.json`
+- **`Maintenance Before Compact`** corpus section — log session changes,
+  update docs before compaction
+- `{for_claude}` in **Prepare for Version Release** — `AskUserQuestion` if
+  version or date missing
+
+### Changed
+
+- **MetaNodeType** `Enum` → `IntFlag`; enables bitwise combinations
+- `contains_meta_nodes` replaces `contains_prerequisite_nodes` across prompt
+  and export APIs; `CONTAINING_META_NODES` wired into Claude exports
+- **`kaye claude vs-code-extension`** — writes `settings.json` with `PreCompact` hook
+- **kamilog** → v1.6.1; code style applied to `meta_node_type.py`
+
+### Removed
+
+- `compact_with_maintenance_blueprint` — replaced by `PreCompact` hook
+- stale kamilog version todo from `kaye/prompt_corpus_note`
+
+[6.8.3]: https://github.com/kami-lel/kaye/compare/v6.8.2...v6.8.3
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -91,6 +92,7 @@
   instead of current directory, aligning with the VS Code Extension export location
 
 [6.8.2]: https://github.com/kami-lel/kaye/compare/v6.8.1...v6.8.2
+
 
 
 

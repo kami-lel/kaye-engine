@@ -101,8 +101,10 @@ python -m kaye claude vs-code-extension  # or
 python -m kaye a v
 ```
 
-This writes the User System Prompt to `~/.claude/CLAUDE.md` and creates a
-`~/.claude/kaye_marketplace/` folder containing the kaye plugin.
+This writes the User System Prompt to `~/.claude/CLAUDE.md`, creates a
+`~/.claude/kaye_marketplace/` folder containing the kaye plugin, and
+configures a `PreCompact` hook in `~/.claude/settings.json` so session
+changes are logged before context is compacted.
 
 To load the marketplace in VS Code:
 
