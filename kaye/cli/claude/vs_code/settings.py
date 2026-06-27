@@ -11,25 +11,23 @@ from kaye.prompt import REPLACEMENT_NEWLINE_SYMBOL, load_prompt_corpus_tree
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 from kaye.cli.claude import CONTAINING_META_NODES
 
-
 # constants  ###################################################################
 
 _SETTINGS_FILENAME = "settings.json"
-_HOOK_MATCHER = "auto"
+_HOOK_MATCHER = "*"
 _HOOK_TYPE = "prompt"
 
 
 # helpers  #####################################################################
 
+
 def _build_settings(prompt):
     return {
         "hooks": {
-            "PreCompact": [
-                {
-                    "matcher": _HOOK_MATCHER,
-                    "hooks": [{"type": _HOOK_TYPE, "prompt": prompt}],
-                }
-            ]
+            "PreCompact": [{
+                "matcher": _HOOK_MATCHER,
+                "hooks": [{"type": _HOOK_TYPE, "prompt": prompt}],
+            }]
         }
     }
 
@@ -49,15 +47,14 @@ def _set_pre_compact_prompt(data, prompt):
             )
             return
 
-    pre_compact.append(
-        {
-            "matcher": _HOOK_MATCHER,
-            "hooks": [{"type": _HOOK_TYPE, "prompt": prompt}],
-        }
-    )
+    pre_compact.append({
+        "matcher": _HOOK_MATCHER,
+        "hooks": [{"type": _HOOK_TYPE, "prompt": prompt}],
+    })
 
 
 # Public API  ##################################################################
+
 
 def update_settings_json_for_pre_compact_hook(claude_folder):
     """
@@ -73,9 +70,7 @@ def update_settings_json_for_pre_compact_hook(claude_folder):
     _node = load_prompt_corpus_tree()["Projects"]["Maintenance Before Compact"]
     bp = PromptBlueprint.create_from_node(_node)
 
-    lines = bp.generate_prompt_lines(
-        contains_meta_nodes=CONTAINING_META_NODES
-    )
+    lines = bp.generate_prompt_lines(contains_meta_nodes=CONTAINING_META_NODES)
 
     # convert to single line compact format
     single_line = REPLACEMENT_NEWLINE_SYMBOL.join(lines)
