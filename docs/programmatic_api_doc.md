@@ -354,9 +354,10 @@ Use `.generate_prompt_lines()` when you want the rendered prompt as a list of
 lines instead.
 
 Both methods support `disable_first_heading=`, `show_comment=`, and
-`contains_prerequisite_nodes=`. When `contains_prerequisite_nodes=True`, all
-`{prerequisite}` meta nodes whose parents are checkmarked are automatically
-checkmarked before rendering.
+`contains_meta_nodes=`. When a `MetaNodeType` flag (or combination) is passed,
+every matching meta node whose parent is checkmarked is automatically
+checkmarked before rendering — e.g. `contains_meta_nodes=MetaNodeType.PREREQUISITE`
+or `contains_meta_nodes=MetaNodeType.PREREQUISITE | MetaNodeType.FOR_CLAUDE`.
 Any extra keyword arguments are passed through to node `content_lines()`
 implementations, which is how dynamic nodes receive values such as `query=`.
 
