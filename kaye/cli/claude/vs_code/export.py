@@ -35,10 +35,6 @@ def export_vs_code_extension(claude_folder):
     """
     claude_folder = Path(claude_folder)
 
-    logger.debug("update settings for pre-compact hook")
-    update_settings_json_for_pre_compact_hook(claude_folder)
-    logger.succ("update settings for pre-compact hook")
-
     logger.debug("export user system prompt file")
     prompt_file = find_user_system_prompt_file(claude_folder)
     export_user_system_prompt_file(prompt_file, use_coder=True)
@@ -48,5 +44,9 @@ def export_vs_code_extension(claude_folder):
     marketplace_folder = claude_folder / MARKETPLACE_NAME
     marketplace_path = export_marketplace(marketplace_folder)
     logger.succ("export marketplace:\t" + str(marketplace_folder))
+
+    logger.debug("update settings for pre-compact hook")
+    update_settings_json_for_pre_compact_hook(claude_folder)
+    logger.succ("update settings for pre-compact hook")
 
     return marketplace_path
