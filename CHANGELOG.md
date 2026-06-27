@@ -22,6 +22,8 @@
 
 ### Changed
 
+- `kamilog` logging module updated to v1.5.0
+
 ### Deprecated
 
 ### Removed
