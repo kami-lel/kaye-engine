@@ -43,6 +43,8 @@
 - **Comment Banner (CB)** section restructured with table-based level
   definitions, clearer usage guidelines (when/when-not-to-use), and
   improved examples for better clarity and navigability
+- **`kaye claude marketplace`** command default folder now `~/.claude/kaye_marketplace`
+  instead of current directory, aligning with the VS Code Extension export location
 
 [6.8.2]: https://github.com/kami-lel/kaye/compare/v6.8.1...v6.8.2
 
