@@ -16,9 +16,23 @@
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.2...dev
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+
+
+## [6.8.2] - 2026-06-27
 
 ### Changed
 
@@ -30,13 +44,7 @@
   definitions, clearer usage guidelines (when/when-not-to-use), and
   improved examples for better clarity and navigability
 
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+[6.8.2]: https://github.com/kami-lel/kaye/compare/v6.8.1...v6.8.2
 
 
 
