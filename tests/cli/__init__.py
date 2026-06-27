@@ -10,6 +10,7 @@ __all__ = (
     "TESTEE_CONTINUE_BLUEPRINT_DESCRIPTION_CONTENT_ALL",
     "TESTEE_HOW_TO_USE_CONTENT_ALL",
     "TESTEE_PREREQUISITE_CONTENT_ALL",
+    "TESTEE_FOR_CLAUDE_CONTENT_ALL",
     "TESTEE_TRIAGE_TAG_CONTENT",
     "split_frontmatter_md_file",
     "assert_frontmatter_md_file_basic_structure",
@@ -25,6 +26,8 @@ __all__ = (
     "assert_header_line_paths_content",
     "assert_prerequisite_heading_line",
     "assert_prerequisite_content_line",
+    "assert_for_claude_heading_line",
+    "assert_for_claude_content_line",
 )
 
 
@@ -1091,7 +1094,7 @@ TESTEE_CONTINUE_BLUEPRINT_DESCRIPTION_CONTENT_ALL = {
     "triage-tags": (
         '"Defines triage tags (TT) \\u2014 defect/note labels spanning code'
         " and docs across 3 case tiers (Loud/Steady/Quiet), with per-tag"
-        ' meanings and raise/lower tier shifts\\u21B5When adding,'
+        " meanings and raise/lower tier shifts\\u21B5When adding,"
         " classifying, or raising/lowering BUG/FIXME/TODO/HACK markers in"
         " any case, or resolving what a TT tier signifies. Not for fixing"
         ' the defects the tags point to"'
@@ -1315,6 +1318,13 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
 }
 
 
+TESTEE_FOR_CLAUDE_CONTENT_ALL = {
+    "prepare-for-version-release": [
+        "if the version number or the release date is missing, use `AskUserQuestion` to ask the user before proceeding",
+    ],
+}
+
+
 # helpers  #####################################################################
 
 
@@ -1463,4 +1473,19 @@ def assert_prerequisite_content_line(skill_id, testee_content, i):
     check if a specific prerequisite content line exists in content
     """
     line = TESTEE_PREREQUISITE_CONTENT_ALL[skill_id][i]
+    return line in testee_content
+
+
+def assert_for_claude_heading_line(testee_content, hash_symbol_cnt):
+    """
+    check if a {for_claude} heading exists at a specific heading level
+    """
+    return "#" * hash_symbol_cnt + " {for_claude}" in testee_content
+
+
+def assert_for_claude_content_line(skill_id, testee_content, i):
+    """
+    check if a specific for_claude content line exists in content
+    """
+    line = TESTEE_FOR_CLAUDE_CONTENT_ALL[skill_id][i]
     return line in testee_content
