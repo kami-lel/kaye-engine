@@ -16,8 +16,7 @@ class MetaNodeType(Enum):
     WHEN_TO_USE = "when_to_use"
     GLOBS = "globs"
     PREREQUISITE = "prerequisite"
-
-    # TODO add {claude} subnode
+    FOR_CLAUDE = "for_claude"
 
     # check types  =============================================================
 
