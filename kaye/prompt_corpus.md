@@ -3561,7 +3561,7 @@ Cut a new release: bring all docs current, finalize the changelog, and bump the 
    - reword entries as needed for proper changelog style — concise, high-level, free of excessive implementation detail
    - move every entry under `[Unreleased]` into a new versioned section headed with the given version and date
    - in that new section, keep only non-empty subsections — drop any with no entries
-   - leave a fresh, empty `[Unreleased]` section above it
+   - leave a fresh [Unreleased] section above it, holding every standard subsection heading with no entries beneath them
    - update the GitHub comparison links so each version, including the new tag, stays referenced
 
 3. **Bump the project version** to match exactly, in whichever metadata files apply — e.g. `setup.cfg`, `pyproject.toml`, `package.json`, `Cargo.toml`
