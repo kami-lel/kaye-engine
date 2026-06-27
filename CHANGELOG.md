@@ -20,11 +20,23 @@
 
 ### Added
 
+- `{claude}` meta node subtype (planned for Agent Behavior section) — to
+  reference the Claude API / Anthropic SDK during multi-agent and tool-use
+  design; will integrate with AskUserQuestion tool during **Prepare for
+  Version Release** prompt
+
 ### Changed
+
+- **kamilog** logging module updated to v1.6.1 — refactored module structure
+  with clearer comment banners, added TTY ANSI 16-color palette support, and
+  reorganized log-level constants by numeric order for clarity
 
 ### Deprecated
 
 ### Removed
+
+- stale todo about kamilog version update removed from
+  `kaye/prompt_corpus_note`
 
 ### Fixed
 
