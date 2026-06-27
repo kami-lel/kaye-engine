@@ -387,8 +387,8 @@ class PromptBlueprint(dict):
         if contains_prerequisite_nodes:
             working_bp = copy.copy(self)
             for node in PreOrderIter(working_bp.corpus):
-                if MetaNodeType.is_prerequisite(
-                    node
+                if MetaNodeType.is_meta_node_of_type(
+                    node, MetaNodeType.PREREQUISITE
                 ) and working_bp.is_checkmarked(node.parent):
                     working_bp.checkmark(node)
         else:
