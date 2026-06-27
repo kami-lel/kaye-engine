@@ -5,8 +5,7 @@ define ``BlueprintMetaNodes``
 """
 
 from kaye.prompt.meta_node_type import MetaNodeType
-
-REPLACEMENT_NEWLINE_SYMBOL = "↵"
+from kaye.prompt import REPLACEMENT_NEWLINE_SYMBOL
 
 
 class BlueprintMetaNodes:  #####################################################
