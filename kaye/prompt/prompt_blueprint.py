@@ -382,6 +382,8 @@ class PromptBlueprint(dict):
         :return: list of prompt lines
         :rtype: list[str]
         """
+        # TODO make contains_prerequisite_nodes general
+
         if contains_prerequisite_nodes:
             working_bp = copy.copy(self)
             for node in PreOrderIter(working_bp.corpus):

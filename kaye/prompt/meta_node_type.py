@@ -17,6 +17,8 @@ class MetaNodeType(Enum):
     GLOBS = "globs"
     PREREQUISITE = "prerequisite"
 
+    # TODO add {claude} subnode
+
     # check types  =============================================================
 
     @classmethod
