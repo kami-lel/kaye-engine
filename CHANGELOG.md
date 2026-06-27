@@ -26,6 +26,9 @@
 - **Prepare for Version Release** prompt clarified — [Unreleased]
   section now keeps all standard subsection headings with no entries
   beneath them, rather than leaving it entirely empty
+- **Comment Banner (CB)** section restructured with table-based level
+  definitions, clearer usage guidelines (when/when-not-to-use), and
+  improved examples for better clarity and navigability
 
 ### Deprecated
 
@@ -34,6 +37,15 @@
 ### Fixed
 
 ### Security
+
+
+
+
+
+
+
+
+
 
 
 
@@ -54,6 +66,16 @@
 - simplified the commit-sense API test suite
 
 [6.8.1]: https://github.com/kami-lel/kaye/compare/v6.8.0...v6.8.1
+
+
+
+
+
+
+
+
+
+
 
 
 
