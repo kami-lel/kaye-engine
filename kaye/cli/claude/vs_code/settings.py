@@ -66,6 +66,8 @@ def update_settings_json_for_pre_compact_hook(claude_folder):
 
     :param claude_folder: path to .claude/ folder
     :type claude_folder: Path-like
+    :return: path to the written settings.json
+    :rtype: Path
     """
     # create local blueprint with single node
     _node = load_prompt_corpus_tree()["Projects"]["Maintenance Before Compact"]
@@ -91,3 +93,5 @@ def update_settings_json_for_pre_compact_hook(claude_folder):
     with open(settings_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
         f.write("\n")
+
+    return settings_path
