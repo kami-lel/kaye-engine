@@ -12,6 +12,7 @@ from kaye.cli.claude.user_prompt.parser import (
     find_user_system_prompt_file,
 )
 from kaye.cli.claude.user_prompt.export import export_user_system_prompt_file
+from .settings import update_settings_json_for_pre_compact_hook
 
 # constants  ===================================================================
 
@@ -34,7 +35,9 @@ def export_vs_code_extension(claude_folder):
     """
     claude_folder = Path(claude_folder)
 
-    # TODO CLI claude code update setting for pre compact hooks
+    logger.debug("update settings for pre-compact hook")
+    update_settings_json_for_pre_compact_hook(claude_folder)
+    logger.succ("update settings for pre-compact hook")
 
     logger.debug("export user system prompt file")
     prompt_file = find_user_system_prompt_file(claude_folder)
