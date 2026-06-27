@@ -62,7 +62,8 @@ python -m kaye claude skill SKILLS_FOLDER            # export blueprints as Skil
 python -m kaye claude skill -z ZIPS_FOLDER           # create .zip Skill packages
 python -m kaye claude plugin PLUGINS_FOLDER          # export blueprints as plugin folder
 python -m kaye claude plugin -z PLUGINS_FOLDER       # create .plugin file (-n omits version)
-python -m kaye claude marketplace MARKETPLACE        # export a marketplace folder (plugin under plugins/)
+python -m kaye claude marketplace                    # export marketplace to ~/.claude/kaye_marketplace (default)
+python -m kaye claude marketplace MARKETPLACE        # export to custom folder
 python -m kaye claude code                           # export plugin + CLAUDE.md into ~/.claude
 python -m kaye claude user-system-prompt             # export Chat blueprint to ~/.claude/CLAUDE.md
 python -m kaye claude user-system-prompt -r          # use Rapid blueprint instead of Chat

@@ -14,7 +14,7 @@ _DESCRIPTION = """
 writes marketplace.json and exports the kaye plugin into plugins/; the
 resulting folder can be added directly in Claude's marketplace settings.
 
-MARKETPLACE/  (default: current directory)
+MARKETPLACE/  (default: ~/.claude/kaye_marketplace)
 ├── .claude-plugin/
 │   └── marketplace.json
 └── plugins/
@@ -43,8 +43,8 @@ def register_marketplace_subparser(cli_subparser):  ############################
         nargs="?",
         metavar="MARKETPLACE",
         type=Path,
-        default=Path.cwd(),
-        help="destination folder; default: current directory",
+        default=Path.home() / ".claude" / "kaye_marketplace",
+        help="destination folder; default: ~/.claude/kaye_marketplace",
     )
 
     kamilog.add_verbose_arguments(marketplace_parser)
