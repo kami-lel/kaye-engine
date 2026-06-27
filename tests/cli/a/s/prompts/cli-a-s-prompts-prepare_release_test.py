@@ -97,3 +97,6 @@ class TestPrerequisite:  # ====================================================
     @pytest.mark.parametrize("i", range(len(TESTEE_PREREQUISITE_CONTENT)))
     def test_prerequisite(_, testee_content, i):
         assert assert_prerequisite_content_line(SKILL_NAME, testee_content, i)
+
+
+# TODO for claude test
