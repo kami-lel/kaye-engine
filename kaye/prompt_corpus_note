@@ -6,3 +6,7 @@ todo write maintain before compact, then use hooks.PreCompact to call maintain
 todo agent behavior add md-style task list, when Claude "task" is not available
 
 todo standardize software dev lifecycle, with standardized vocab, in coder
+
+Todo add {claude} subnode, add to use ask user question tool during PFVR
+
+Todo update version of kamilog
