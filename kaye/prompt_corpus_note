@@ -1,10 +1,9 @@
 
 todo resume role
 
-Todo write maintain before compact, then use hooks.PreCompact to call maintain
+TODO write maintain before compact, then use hooks.PreCompact to call maintain
 
 todo agent behavior add md-style task list, when Claude "task" is not available
 
 todo standardize software dev lifecycle, with standardized vocab, in coder
-
 
