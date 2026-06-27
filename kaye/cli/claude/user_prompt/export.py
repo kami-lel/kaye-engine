@@ -11,6 +11,7 @@ from kaye.prompt.embedded_blueprints import (
     coder_blueprint,
     rapid_blueprint,
 )
+from kaye.cli.claude import CONTAINING_META_NODES
 
 
 def export_user_system_prompt_file(
@@ -41,4 +42,9 @@ def export_user_system_prompt_file(
     if use_coder:
         blueprint = blueprint | coder_blueprint
 
-    file_path.write_text(blueprint.generate_prompt(), encoding="utf-8")
+    file_path.write_text(
+        blueprint.generate_prompt(
+            contains_meta_nodes=CONTAINING_META_NODES
+        ),
+        encoding="utf-8",
+    )
