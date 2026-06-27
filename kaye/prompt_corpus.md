@@ -4393,7 +4393,7 @@ Eg
 
 **Comment banners** (CB) are visual separators placed *inside code comments* to expose structure in long code. A banner is a heading followed by a **ruler** — one symbol repeated to fill the line.
 
-#### Levels
+**Levels**:
 
 Six ranks, highest (`CB0`) to lowest (`CB5`):
 
@@ -4408,19 +4408,19 @@ Six ranks, highest (`CB0`) to lowest (`CB5`):
 
 `-` may also be used freely for small local labels outside the hierarchy.
 
-#### When to use
+**When to use**:
 
 - inside code comments only — never as raw code, never in conversation text
 - only when a section is long enough that a separator aids navigation
 - only at logical boundaries: modules, sections, functions, related groups
 - sparingly — prefer blank lines for short sections; reserve CB for long blocks
 
-#### When not to use
+**When not to use**:
 
 - not for local, sequential, or line-level groups inside a function — use plain comments
 - not frequently — overuse turns separators into noise
 
-#### How to format
+**How to format**:
 
 - comment leader is the language's (`//`, `#`, ...); the ruler symbol is fixed per level
 - write the heading first, then repeat the ruler symbol to fill the line **to 80 chars** (counting the leader)
@@ -4430,33 +4430,33 @@ Six ranks, highest (`CB0`) to lowest (`CB5`):
     - **lowercase** = internal / implementation detail — `constants`, `helpers`
 - prefer a heading naming the actual block (`parse CLI flags`) over generic labels
 
-#### Examples
+**Examples**:
 
 ```cpp
-/*
-################################################################################
-# stats_demo.cpp
-#
-# produce statistics
-################################################################################
-*/
-// constants ###################################################################
-const int kValues[] = {10, 20, 30};
-// helpers #####################################################################
-// number helpers ==============================================================
-double compute_average(const int* v, int n) {
-    // accumulate **************************************************************
-    ~~
-}
-// Entry Point #################################################################
-int main() { ... }
+    /*
+    ################################################################################
+    # stats_demo.cpp
+    #
+    # produce statistics
+    ################################################################################
+    */
+    // constants ###################################################################
+    const int kValues[] = {10, 20, 30};
+    // helpers #####################################################################
+    // number helpers ==============================================================
+    double compute_average(const int* v, int n) {
+        // accumulate **************************************************************
+        ~~
+    }
+    // Entry Point #################################################################
+    int main() { ... }
 ```
 
 ```python
-# Public API ###################################################################
-def to_int(s):
-    # quick parse --------------------------------------------------------------
-    ~~
+    # Public API ###################################################################
+    def to_int(s):
+        # quick parse --------------------------------------------------------------
+        ~~
 ```
 
 
