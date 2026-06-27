@@ -12,6 +12,7 @@ from kaye.cli.claude.user_prompt.parser import (
     find_user_system_prompt_file,
 )
 from kaye.cli.claude.user_prompt.export import export_user_system_prompt_file
+from .settings import update_settings_json_for_pre_compact_hook
 
 # constants  ===================================================================
 
@@ -43,5 +44,9 @@ def export_vs_code_extension(claude_folder):
     marketplace_folder = claude_folder / MARKETPLACE_NAME
     marketplace_path = export_marketplace(marketplace_folder)
     logger.succ("export marketplace:\t" + str(marketplace_folder))
+
+    logger.debug("update settings for pre-compact hook")
+    settings_path = update_settings_json_for_pre_compact_hook(claude_folder)
+    logger.succ("update settings for pre-compact hook:\t" + str(settings_path))
 
     return marketplace_path

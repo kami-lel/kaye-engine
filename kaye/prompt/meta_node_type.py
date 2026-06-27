@@ -1,98 +1,82 @@
 """
 meta_node_type.py
 
-define ``MetaNodeType``
+define ``MetaNodeType`` as an ``IntFlag`` for meta node type operations
 """
 
-from enum import Enum
+from enum import IntFlag, auto
 
 
-class MetaNodeType(Enum):
+class MetaNodeType(IntFlag):  ##################################################
     """
-    represent a meta node type as ``Enum``
+    represent meta node types using bitwise flag operations
     """
 
-    DESCRIPTION = "description"
-    WHEN_TO_USE = "when_to_use"
-    GLOBS = "globs"
-    PREREQUISITE = "prerequisite"
+    NONE = 0
+    DESCRIPTION = auto()
+    WHEN_TO_USE = auto()
+    GLOBS = auto()
+    PREREQUISITE = auto()
+    FOR_CLAUDE = auto()
 
     # check types  =============================================================
 
     @classmethod
-    def is_meta_node(cls, node, meta_node_type):
+    def is_meta_node_of_type(cls, node, meta_node_type):
         """
-        Check if a node is of a specific meta node type.
+        check if a node matches any meta node type in the flags
+
+        supports single types and combined flags. For combined flags like
+        ``PREREQUISITE | FOR_CLAUDE``, returns ``True`` if node matches
+        any of the individual types.
 
 
         :param node: the node to check (must have a ``name`` attribute)
         :type node: BasePromptNode
-        :param meta_node_type: the MetaNodeType to match against
+        :param meta_node_type: the ``MetaNodeType`` flag(s) to match
         :type meta_node_type: MetaNodeType
-        :return: True if the node's name matches the meta node type heading
+        :return: ``True`` if node's name matches any flag types
         :rtype: bool
         """
-        return node.name == meta_node_type.as_node_heading
+        if meta_node_type == cls.NONE:
+            return False
 
-    @classmethod
-    def is_description(cls, node):
-        """
-        Check if a node is a {description} meta node.
-
-
-        :param node: the node to check
-        :type node: BasePromptNode
-        :return: True if the node is a description meta node
-        :rtype: bool
-        """
-        return cls.is_meta_node(node, cls.DESCRIPTION)
-
-    @classmethod
-    def is_when_to_use(cls, node):
-        """
-        Check if a node is a {when_to_use} meta node.
-
-
-        :param node: the node to check
-        :type node: BasePromptNode
-        :return: True if the node is a when_to_use meta node
-        :rtype: bool
-        """
-        return cls.is_meta_node(node, cls.WHEN_TO_USE)
-
-    @classmethod
-    def is_globs(cls, node):
-        """
-        Check if a node is a {globs} meta node.
-
-
-        :param node: the node to check
-        :type node: BasePromptNode
-        :return: True if the node is a globs meta node
-        :rtype: bool
-        """
-        return cls.is_meta_node(node, cls.GLOBS)
-
-    @classmethod
-    def is_prerequisite(cls, node):
-        """
-        Check if a node is a {prerequisite} meta node.
-
-
-        :param node: the node to check
-        :type node: BasePromptNode
-        :return: True if the node is a prerequisite meta node
-        :rtype: bool
-        """
-        return cls.is_meta_node(node, cls.PREREQUISITE)
+        for flag in cls:
+            if flag and flag != cls.NONE and (meta_node_type & flag):
+                if node.name == flag.as_node_heading:
+                    return True
+        return False
 
     # property  ================================================================
 
     @property
     def as_node_heading(self):
         """
+        render this meta node type as a corpus node heading
+
+
+        :raises ValueError: if called on ``NONE`` or combined flags
         :return: this meta node type rendered as a corpus node heading,
-                e.g. ``"{description}"``
+                e.g., ``{description}``
         :rtype: str
         """
-        return "{{{}}}".format(self.value)
+        if self == self.NONE:
+            raise ValueError("NONE has no node heading")
+        if self not in _HEADING_NAMES:
+            raise ValueError(
+                "combined flags {} have no node heading; "
+                "only single types are valid".format(self)
+            )
+        return "{{{}}}".format(_HEADING_NAMES[self])
+
+
+# constants  ###################################################################
+
+
+_HEADING_NAMES = {
+    MetaNodeType.DESCRIPTION: "description",
+    MetaNodeType.WHEN_TO_USE: "when_to_use",
+    MetaNodeType.GLOBS: "globs",
+    MetaNodeType.PREREQUISITE: "prerequisite",
+    MetaNodeType.FOR_CLAUDE: "for_claude",
+}
