@@ -26,23 +26,26 @@ through a Python API, an HTTP API, and a CLI.
   corpus parts render into a concrete prompt
 - **Role** — task-specific behavior profile inside the corpus
 - **Meta Node** — `{name}`-bracketed subnode holding structured metadata for
-  its parent (members of `kaye/prompt/meta_node_type.py::MetaNodeType`:
-  `DESCRIPTION`, `WHEN_TO_USE`, `GLOBS`, `PREREQUISITE`; `.as_node_heading`
-  renders e.g. `{description}`); detected via `BasePromptNode.is_meta_node`
-  (regex `^\{.+\}$`); looked up and rendered by
+  its parent (`kaye/prompt/meta_node_type.py::MetaNodeType` is an `IntFlag`
+  with members `DESCRIPTION`, `WHEN_TO_USE`, `GLOBS`, `PREREQUISITE`,
+  `FOR_CLAUDE`; `.as_node_heading` renders e.g. `{description}`); detected via
+  `BasePromptNode.is_meta_node` (regex `^\{.+\}$`); type-checked via
+  `MetaNodeType.is_meta_node_of_type(node, flags)` (supports combined flags);
+  looked up and rendered by
   `kaye/prompt/blueprint_meta_nodes.py::BlueprintMetaNodes`. To add a new meta
-  node type: add a member to `MetaNodeType`, add a property + `_node` lookup
-  (via `MetaNodeType.<NAME>.as_node_heading`) in `BlueprintMetaNodes`, add
-  `### {name}` examples to `kaye/prompt_corpus.md`,
+  node type: add a member to `MetaNodeType` and a `_HEADING_NAMES` entry, add a
+  property + `_node` lookup (via `MetaNodeType.<NAME>.as_node_heading`) in
+  `BlueprintMetaNodes`, add `### {name}` examples to `kaye/prompt_corpus.md`,
   document it in `docs/corpus_doc.md` and `docs/programmatic_api_doc.md`, wire
   CLI export consumers (`kaye/cli/frontmatter_md_file.py`,
   `kaye/cli/cli_continue/rule_file.py`) if the type should surface in exports,
   and mirror tests under `tests/prompt/bp/` and `tests/prompt/node/`.
-- **Prerequisite Node** — `{prerequisite}` meta node; `MetaNodeType
-  .is_prerequisite(node)` checks `node.name == "{prerequisite}"`;
-  pass `contains_prerequisite_nodes=True` to `generate_prompt()` /
-  `generate_prompt_lines()` to auto-checkmark every `{prerequisite}` node
-  whose parent is already checkmarked before rendering
+- **Prerequisite Node** — `{prerequisite}` meta node; pass
+  `contains_meta_nodes=MetaNodeType.PREREQUISITE` (or a combined flag) to
+  `generate_prompt()` / `generate_prompt_lines()` to auto-checkmark every
+  matching meta node whose parent is already checkmarked before rendering;
+  `FOR_CLAUDE` and `PREREQUISITE` are combined in
+  `kaye.cli.claude.CONTAINING_META_NODES` for all Claude exports
 - **Blueprint Meta Merging** — `BlueprintMetaNodes.__or__` merges two instances
   via `left | right`; left operand takes priority for each field
   (description, when_to_use, globs, prerequisite); `PromptBlueprint.__or__`
@@ -81,7 +84,7 @@ preserve them. The top-level (`#`) sections, in order:
   `README`/`CHANGELOG`/`AGENTS` writers, and project workflow prompts: `Create
   README`, `Maintain README`, `Create CHANGELOG`, `Maintain CHANGELOG`,
   `Create AGENTS and CONTEXT`, `Maintain AGENTS and CONTEXT`, `Create Docs`,
-  `Maintain Docs`, `Initialize Project`, `Compact with Maintenance`, `Prepare
+  `Maintain Docs`, `Initialize Project`, `Maintenance Before Compact`, `Prepare
   for Feature Finish`, `Prepare for Version Release`
 - **Prompt Engineering** — `Prompt Writer`, `Skill Description Writer`
 - **Kaye Cash Tracker** / **Kaye Commit Sense** / **Kaye Event Radar** —

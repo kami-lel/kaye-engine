@@ -26,6 +26,18 @@
   `FOR_CLAUDE` and `PREREQUISITE` flags for consistent Claude exports
 - `TestClaude` class in skill tests — validates `{for_claude}` heading and
   content in exported Claude skills
+- `REPLACEMENT_NEWLINE_SYMBOL` constant (`↵`) in `kaye/prompt/__init__.py` —
+  flattens prompt lines into a compact single-line format for hook payloads
+- `kaye/cli/claude/vs_code/settings.py` — new module;
+  `update_settings_json_for_pre_compact_hook()` upserts a `PreCompact` hook
+  entry (matcher `"*"`) in `~/.claude/settings.json` with the `Maintenance
+  Before Compact` prompt rendered as a compact single-line string
+- **`Maintenance Before Compact`** — new `## Maintenance Before Compact`
+  section in `kaye/prompt_corpus.md` under Projects; instructs agent to log
+  session changes and update `AGENTS.md`/`CONTEXT.md` before context compaction
+- **`{for_claude}` node in `Prepare for Version Release`** — triggers
+  `AskUserQuestion` when the release version or date is missing before
+  proceeding
 
 ### Changed
 
@@ -39,6 +51,9 @@
   configure which meta node types are auto-checkmarked during export
 - **Claude skill exports** — updated to flag both `FOR_CLAUDE` and
   `PREREQUISITE` meta nodes via `CONTAINING_META_NODES` constant
+- **`kaye claude vs-code-extension`** — now also writes/updates
+  `~/.claude/settings.json` with the `PreCompact` hook after marketplace
+  export; `--help` output tree lists `settings.json` alongside `CLAUDE.md`
 - **Code style** — applied Python coder and docstring standards to
   `meta_node_type.py`
 - **kamilog** logging module updated to v1.6.1 — refactored module structure
@@ -49,6 +64,9 @@
 
 ### Removed
 
+- `compact_with_maintenance_blueprint` removed from `prompts_blueprints.py`
+  and `PROMPTS_BLUEPRINTS` — `Maintenance Before Compact` is now embedded in
+  `settings.json` as a hook prompt rather than exported as a standalone skill
 - stale todo about kamilog version update removed from
   `kaye/prompt_corpus_note`
 
