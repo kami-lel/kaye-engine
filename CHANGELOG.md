@@ -20,13 +20,27 @@
 
 ### Added
 
-- `{claude}` meta node subtype (planned for Agent Behavior section) — to
-  reference the Claude API / Anthropic SDK during multi-agent and tool-use
-  design; will integrate with AskUserQuestion tool during **Prepare for
-  Version Release** prompt
+- `{for_claude}` meta node type — marks Claude-specific instructions for
+  auto-checkmarking during Claude skill/prompt exports
+- `CONTAINING_META_NODES` constant in `kaye.cli.claude` — combines
+  `FOR_CLAUDE` and `PREREQUISITE` flags for consistent Claude exports
+- `TestClaude` class in skill tests — validates `{for_claude}` heading and
+  content in exported Claude skills
 
 ### Changed
 
+- **MetaNodeType** refactored from `Enum` to `IntFlag` with `auto()` — enables
+  bitwise operations for checking multiple meta node types simultaneously
+- **contains_meta_nodes parameter** — `generate_prompt()` and
+  `generate_prompt_lines()` now accept a `MetaNodeType` flag or combination
+  instead of just `bool` (defaults to `MetaNodeType.NONE`); replaces
+  `contains_prerequisite_nodes` boolean parameter
+- **FrontmatterMDFile.__init__()** — added `contains_meta_nodes` parameter to
+  configure which meta node types are auto-checkmarked during export
+- **Claude skill exports** — updated to flag both `FOR_CLAUDE` and
+  `PREREQUISITE` meta nodes via `CONTAINING_META_NODES` constant
+- **Code style** — applied Python coder and docstring standards to
+  `meta_node_type.py`
 - **kamilog** logging module updated to v1.6.1 — refactored module structure
   with clearer comment banners, added TTY ANSI 16-color palette support, and
   reorganized log-level constants by numeric order for clarity
