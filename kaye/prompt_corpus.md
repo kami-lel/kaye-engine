@@ -3606,6 +3606,12 @@ Reach for this on release requests — "ship v1.2.3," "cut a release," "tag a ve
 - follow `Style Guide Good Writing` rules for correctness and clarity
 - use **git** tools to learn difference from last version / `main` branch
 
+### {for_claude}
+
+- if the version number or the release date is missing, use `AskUserQuestion` to ask the user before proceeding
+
+
+
 
 
 

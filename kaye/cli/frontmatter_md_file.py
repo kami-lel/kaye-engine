@@ -6,6 +6,8 @@ define ``FrontmatterMDFile``
 
 import copy
 
+from kaye.prompt.meta_node_type import MetaNodeType
+
 
 class FrontmatterMDFile:  ######################################################
     """
@@ -128,11 +130,17 @@ class FrontmatterMDFile:  ######################################################
         "globs": [],
     }
 
-    def __init__(self, path, blueprint=None):
+    def __init__(
+        self,
+        path,
+        blueprint=None,
+        contains_meta_nodes=MetaNodeType.PREREQUISITE,
+    ):
         self.file = None
         self.frontmatter = copy.deepcopy(self._DEFAULT_FRONTMATTER)
         self._path = path
         self._blueprint = None
+        self._contains_meta_nodes = contains_meta_nodes
 
         if blueprint:
             self._blueprint = blueprint
@@ -152,7 +160,7 @@ class FrontmatterMDFile:  ######################################################
             self.write_frontmatter_part()
             self.file.write(
                 self._blueprint.generate_prompt(
-                    contains_prerequisite_nodes=True
+                    contains_meta_nodes=self._contains_meta_nodes
                 )
             )
 
