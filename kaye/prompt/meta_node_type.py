@@ -22,7 +22,7 @@ class MetaNodeType(Enum):
     # check types  =============================================================
 
     @classmethod
-    def is_meta_node(cls, node, meta_node_type):
+    def is_meta_node_of_type(cls, node, meta_node_type):
         """
         Check if a node is of a specific meta node type.
 
@@ -35,58 +35,6 @@ class MetaNodeType(Enum):
         :rtype: bool
         """
         return node.name == meta_node_type.as_node_heading
-
-    @classmethod
-    def is_description(cls, node):
-        """
-        Check if a node is a {description} meta node.
-
-
-        :param node: the node to check
-        :type node: BasePromptNode
-        :return: True if the node is a description meta node
-        :rtype: bool
-        """
-        return cls.is_meta_node(node, cls.DESCRIPTION)
-
-    @classmethod
-    def is_when_to_use(cls, node):
-        """
-        Check if a node is a {when_to_use} meta node.
-
-
-        :param node: the node to check
-        :type node: BasePromptNode
-        :return: True if the node is a when_to_use meta node
-        :rtype: bool
-        """
-        return cls.is_meta_node(node, cls.WHEN_TO_USE)
-
-    @classmethod
-    def is_globs(cls, node):
-        """
-        Check if a node is a {globs} meta node.
-
-
-        :param node: the node to check
-        :type node: BasePromptNode
-        :return: True if the node is a globs meta node
-        :rtype: bool
-        """
-        return cls.is_meta_node(node, cls.GLOBS)
-
-    @classmethod
-    def is_prerequisite(cls, node):
-        """
-        Check if a node is a {prerequisite} meta node.
-
-
-        :param node: the node to check
-        :type node: BasePromptNode
-        :return: True if the node is a prerequisite meta node
-        :rtype: bool
-        """
-        return cls.is_meta_node(node, cls.PREREQUISITE)
 
     # property  ================================================================
 
