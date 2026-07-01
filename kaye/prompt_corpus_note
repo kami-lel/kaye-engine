@@ -18,4 +18,8 @@ Todo docstring: defaults to sentence: defaults=
 Todo docstring: return type can be iterable etc.
 Todo docstring line break after `;`
 
+Bug claude still try to use git commit
+Bug LLM try to fix TT, forbid it to do so
+
+
 
