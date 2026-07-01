@@ -22,6 +22,16 @@
 
 ### Changed
 
+**CLI default handler** — simplified `_cli_main()` function to inline lambda;
+maintains existing behavior of printing CLI help when invoked without
+subcommands
+
+**Comment Banner (CB) examples** — adjusted ruler spacing in code examples to
+align with two-space convention (heading + two spaces + ruler symbol); clarified
+docstring formatting rules in TODOs: single-line form constraints, return
+behavior documentation, defaults syntax, iterable return types, line-break
+rules
+
 ### Deprecated
 
 ### Removed
