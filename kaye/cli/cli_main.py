@@ -4,6 +4,8 @@ cli_main.py
 main parser for Kaye Python CLI
 """
 
+# Bug doc is wrong
+
 # todo CLI to import/export w/ OpenWebUI
 # fixme make cli prompt functional
 
@@ -23,6 +25,8 @@ def _cli_main(_):
     # when calling ``python -m kaye``
     cli_parser.print_help()
 
+
+# Fixme use lambda instead of define function
 
 cli_parser = ArgumentParser(prog=PROGRAM_NAME, description=__doc__)
 cli_parser.set_defaults(func=_cli_main)
