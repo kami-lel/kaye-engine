@@ -1,10 +1,4 @@
-"""
-cli_main.py
-
-main parser for Kaye Python CLI
-"""
-
-# BUG doc is wrong
+"""main parser for Kaye Python CLI"""
 
 # todo CLI to import/export w/ OpenWebUI
 # fixme make cli prompt functional
