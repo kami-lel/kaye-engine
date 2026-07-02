@@ -17,10 +17,12 @@ Todo docstring: write return behavior in :return:
 Todo docstring: defaults to sentence: defaults=
 Todo docstring: return type can be iterable etc.
 Todo docstring line break after `;`
+Todo docstring raises: multiple scenario of same type must be different entries
 
 Bug claude still try to use git commit
 Bug LLM try to fix TT, forbid it to do so
 
 
 Todo changelog writer: use [!WARNING] for breaking api etc.
+
 
