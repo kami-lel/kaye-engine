@@ -403,14 +403,25 @@ TESTEE_FILE_CONTENT_ALL = {
     ],
     "coder-python-docstring-style": [
         "### Coder Python Docstring Style",
-        "**Sphinx** style",
-        "**reStructuredText**",
-        "- **public methods** must always include a docstring",
-        "- **private methods**",
-        "- *Form 1*",
-        "- *Form 2*",
-        "def calc_square(number):",
-        ":param",
+        "Write all docstrings in **Sphinx** style using **reStructuredText**.",
+        "#### Docstring Forms",
+        '"""banned single-line docstring"""',
+        "- *SDP-form* — **S**ummary, **D**escription, **P**arams",
+        "- *SP-form* — **S**ummary, **P**arams",
+        "- *S-form* — **S**ummary only",
+        "- *P-form* — **P**arams only, no summary",
+        "Field order: `:param:` / `:type:` per argument",
+        "#### Requirements by Visibility",
+        "- **public methods** always include a docstring",
+        "- **`__init__`** *never* carries a docstring",
+        "#### Module & Script Docstrings",
+        "first line is the **filename**",
+        "#### Field Rules",
+        "- `iterable(str)`",
+        "- `dict{str: int}`",
+        "**Optional / keyword args** — for a parameter with a default",
+        "**Raises** — one `:raises:` entry per distinct scenario",
+        "**Wrapping** — when a field line runs long",
     ],
     "coder-python-testing-guidelines": [
         "### Coder Python Testing Guidelines",
@@ -1320,7 +1331,10 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
 
 TESTEE_FOR_CLAUDE_CONTENT_ALL = {
     "prepare-for-version-release": [
-        "if the version number or the release date is missing, use `AskUserQuestion` to ask the user before proceeding",
+        (
+            "if the version number or the release date is missing, use"
+            " `AskUserQuestion` to ask the user before proceeding"
+        ),
     ],
 }
 

@@ -14,13 +14,7 @@ TODO software dev vocab: pub/priv/method/fx(function)/property,etc.
 TODO make CB also usable as print out session in code
 TODO make CB subset, eg CB1L, CB1R, CB1C
 
-TODO docstring: specify vocab, single line etc
-TODO docstring: never true single line form
-TODO docstring: write return behavior in :return:
-TODO docstring: defaults to sentence: defaults=
-TODO docstring: return type can be iterable etc.
-TODO docstring line break after `;`
-TODO docstring raises: multiple scenario of same type must be different entries
+TODO update how to use to let python prompts more easily triggered
 
 Todo always use "~" for range & other symbols
 

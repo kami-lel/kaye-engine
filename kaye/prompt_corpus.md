@@ -5287,51 +5287,67 @@ Use for any Python work, inline Python code blocks, requests for Python scripts,
 
 ### Coder Python Docstring Style
 
-The docstrings must be written using the **Sphinx** style and employ **reStructuredText** as the markup language. Avoid using any other styles.
+Write all docstrings in **Sphinx** style using **reStructuredText**. Use no other style.
 
-Docstring requirements by visibility:
-- **public methods** must always include a docstring
-- **private methods** (prefixed with `_`) may include a docstring, such as when the method name alone does not clearly convey its purpose
-- **dunder methods** (e.g. `__eq__`, `__repr__`, `__len__`) need no docstring in most cases, as their behaviour follows well-known Python conventions; add one only when the behaviour is non-obvious
-- **classes** must always include a docstring, placed directly under the `class` statement; this same docstring also documents the constructor, so its parameter fields describe the `__init__` arguments
-- **the `__init__` method** must *never* include a docstring; it is documented entirely by the class docstring
 
-A docstring must follow one of two accepted **forms** (applicable to both methods and classes):
-- *Form 1* — summary line, one empty line, a multi-line description, then **two empty lines**, then the parameter fields
-- *Form 2* — summary line, then **two empty lines**, then the parameter fields
 
-Order the fields as follows: `:param:` / `:type:` for each argument, then `:raises:`, then `:return:` / `:rtype:` (when the method returns a value), then `:example:`.
 
-In the examples below, every blank line is annotated with a marker — `(ONE EMPTY LINE)`, `(FIRST EMPTY LINE)`, `(SECOND EMPTY LINE)` — to show exactly where empty lines belong. The markers are not part of the actual docstring; only the empty lines they denote are.
+##### Docstring Forms
 
-*Example of Form 1 (a method):*
+A docstring is **never** collapsed onto one physical line — the `"""` delimiters always sit on their own lines with content between them. Banned:
 
 ```python
-def calc_square(number):
-    """
-    calculate the square of a number
-    (ONE EMPTY LINE)
-    performs a simple exponential operation, returning
-    the result of multiplying ``number`` by itself
-    (FIRST EMPTY LINE)
-    (SECOND EMPTY LINE)
-    :param number: number to be squared
-    :type number: int
-    :return: square of ``number``
-    :rtype: int
-    :example:
-    >>> calc_square(3)
-    9
-    """
-    return number ** 2
+"""banned single-line docstring"""
 ```
 
-*Example of Form 2 (a class — note `__init__` carries no docstring):*
+Every docstring uses one of four forms, for both methods and classes. Pick the leanest that still documents the callable fully:
+
+- *SDP-form* — **S**ummary, **D**escription, **P**arams; use when a Description adds more than the summary and fields alone
+- *SP-form* — **S**ummary, **P**arams; the default when fields need a summary but no narrative
+- *S-form* — **S**ummary only; when no field is worth recording
+- *P-form* — **P**arams only, no summary; when the fields say everything, as with a Return-Centric function
+
+Spacing: one empty line between summary and description; **two empty lines** before the first field. *S-form* and *P-form* hold no empty lines.
+
+Field order: `:param:` / `:type:` per argument, then `:raises:`, then `:return:` / `:rtype:`, then `:example:`.
+
+In the examples, `(ONE EMPTY LINE)` / `(FIRST EMPTY LINE)` / `(SECOND EMPTY LINE)` mark where empty lines go; the markers themselves are not written.
+
+*SDP-form (a method):*
+
+```python
+def normalize_scores(scores, weights, ceiling=1.0):
+    """
+    normalize a set of weighted scores to a fixed range
+    (ONE EMPTY LINE)
+    each score is multiplied by its matching weight, then the
+    whole set is rescaled so the largest value equals ``ceiling``
+    (FIRST EMPTY LINE)
+    (SECOND EMPTY LINE)
+    :param scores: raw scores to normalize
+    :type scores: list[float]
+    :param weights: weight for each score, keyed by its index;
+            every score must have a matching weight
+    :type weights: dict{int: float}
+    :param ceiling: value the largest score is scaled to; default=1.0
+    :type ceiling: float, optional
+    :raises KeyError: a score index has no matching weight
+    :raises ValueError: scores is empty
+    :raises ValueError: every weighted score is zero
+    :return: the normalized scores, in original order
+    :rtype: list[float]
+    :example:
+    >>> normalize_scores([1.0, 3.0], {0: 1.0, 1: 1.0})
+    [0.333, 1.0]
+    """
+```
+
+*SP-form (a class — `__init__` carries no docstring):*
 
 ```python
 class Rectangle:
     """
-    a `Rectangle` represents an axis-aligned rectangle defined by its size.
+    an axis-aligned rectangle defined by its size.
     (FIRST EMPTY LINE)
     (SECOND EMPTY LINE)
     :param width: width of the rectangle;
@@ -5340,7 +5356,8 @@ class Rectangle:
     :param height: height of the rectangle;
             must be a positive number
     :type height: float
-    :raises ValueError: if ``width`` or ``height`` is not positive
+    :raises ValueError: width is not positive
+    :raises ValueError: height is not positive
     :example:
     >>> rect = Rectangle(3.0, 4.0)
     """
@@ -5351,7 +5368,47 @@ class Rectangle:
         self._height = height
 ```
 
-Begin every module/script with a docstring whose first line is the **filename**, followed by a brief description of what it defines. For example:
+*S-form (a method — summary only):*
+
+```python
+def _clear_cache(self):
+    """
+    remove every entry from the internal cache
+    """
+    self._cache.clear()
+```
+
+*P-form (a return-centric method — fields only):*
+
+```python
+def add(a, b):
+    """
+    :param a: first addend
+    :type a: int
+    :param b: second addend
+    :type b: int
+    :return: the sum of ``a`` and ``b``
+    :rtype: int
+    """
+    return a + b
+```
+
+
+
+
+##### Requirements by Visibility
+
+- **public methods** always include a docstring
+- **private methods** (`_` prefixed) include one when the name alone does not convey the purpose
+- **dunder methods** (`__eq__`, `__repr__`, `__len__`) need none unless the behaviour is non-obvious
+- **classes** always include a docstring directly under the `class` statement; it also documents the constructor, so its `:param:` fields describe the `__init__` arguments
+- **`__init__`** *never* carries a docstring — the class docstring documents it
+
+
+
+##### Module & Script Docstrings
+
+Start every module with a docstring whose first line is the **filename**, then a brief description of what it defines. This follows its own rule and is not one of the four forms:
 
 ```python
 """
@@ -5360,6 +5417,29 @@ email_validator.py
 define ``EmailValidator`` and ``validate_address``
 """
 ```
+
+
+
+##### Field Rules
+
+**Types** (`:type:` / `:rtype:`) — follow these forms, nesting them for compound structures:
+
+- `int`, `float`, `str`, `bool`
+- `iterable`
+- `iterable(str)`
+- `list[bool]`
+- `dict{str: int}`
+- `tuple(float, float)`
+- `list[dict{str: int}]`
+- `iterable(tuple(str, bool))`
+
+**Optional / keyword args** — for a parameter with a default, append `, optional` to its `:type:` and `; default=<value>` to the end of its `:param:` description (see `ceiling` in the *SDP-form* example above).
+
+**Return** — when a callable exists mainly to return a value, describe that value in `:return:`, not the summary; if it stands alone, drop the summary and use *P-form*.
+
+**Raises** — one `:raises:` entry per distinct scenario, even when scenarios share an exception type; never merge them (see the two `ValueError` entries above).
+
+**Wrapping** — when a field line runs long, break after a `;` and indent the continuation (see `:param weights:` above).
 
 
 
