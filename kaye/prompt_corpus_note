@@ -19,6 +19,8 @@ TODO update how to use to let python prompts more easily triggered
 
 Fixme refactor for CLI: user system prompt file (usm) and user scope directory (u)
 Todo mpl permission settings, to ask permission for command: git & pytest */tests/, & etc.
+Hack remove ### Git Command Safety Policy
+
 BUG LLM try to fix TT, forbid it to do so
 
 
