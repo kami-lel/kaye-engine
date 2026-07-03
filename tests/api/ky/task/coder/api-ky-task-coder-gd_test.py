@@ -21,9 +21,14 @@ from tests import (
     TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT,
     TESTEE_CODER_CONTENT,
 )
-
+from tests.cli import TESTEE_FILE_CONTENT_ALL
 from tests.api.ky.task import *
 from tests.api.ky.task.coder import *
+
+# constants  ###################################################################
+
+
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL["coder-gdscript"]
 
 # pytest fixtures  #############################################################
 
@@ -59,11 +64,9 @@ class TestTriageTags:  # =======================================================
 
 class TestCoder:  # ============================================================
 
-    def test0(_, opt):
-        assert "## Coder GDScript" in opt
-
-    def test1(_, opt):
-        assert "- Version: Godot 4" in opt
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, opt, i):
+        assert TESTEE_FILE_CONTENT[i] in opt
 
     # coder shared  ************************************************************
 

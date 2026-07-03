@@ -359,10 +359,13 @@ TESTEE_FILE_CONTENT_ALL = {
         "Return only the command or commands, with no explanation.",
         "Use sudo when needed.",
         "ask one short clarifying question",
+        "You write command lines for",
+        "If the request is ambiguous",
     ],
     "coder-c": [
         "## Coder C",
         "Use **C99** standard",
+        "## Brace Style",
         "opening `{` on the **same line**",
         "closing `}` on its **own line**",
         "### {prerequisite}",
@@ -382,6 +385,10 @@ TESTEE_FILE_CONTENT_ALL = {
         "Use **C99** standard",
         "## Coder CPP",
         "Use **C++17** standard",
+    ],
+    "coder-gdscript": [
+        "## Coder GDScript",
+        "- Version: Godot 4",
     ],
     "coder-html": [
         "## Coder HTML",
