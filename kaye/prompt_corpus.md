@@ -690,14 +690,51 @@ when physical quantities appear in output
 
 Labels for defects and related notes across code and docs; refer to them as *triage tags* or *TT*.
 
-Each tag comes in three tiers by letter case — *Loud* (all-caps, e.g. `BUG`), *Steady* (capitalized, e.g. `Bug`), *Quiet* (lowercase, e.g. `bug`):
+Each tag comes in three tiers by letter case:
 
-- `BUG` — discovered defects that cause errors or unexpected behavior
+- *Loud* — all-caps: `BUG`, `FIXME`, `TODO`, `HACK`
+- *Steady* — capitalized: `Bug`, `Fixme`, `Todo`, `Hack`
+- *Quiet* — lowercase: `bug`, `fixme`, `todo`, `hack`
+
+Shifting to a louder tier is **raise**; to a quieter tier is **lower**.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Triage Tags Meanings
+
+- `BUG` — discovered defects causing errors or unexpected behavior
 - `FIXME` — content that is wrong, inefficient, unclear, or otherwise improvable
-- `TODO` — intentionally incomplete work or placeholders to be implemented later
-- `HACK` — temporary workarounds or rationale expected to be removed before release
+- `TODO` — intentionally incomplete work or placeholders for later
+- `HACK` — temporary workarounds expected to be removed before release
 
-Shifting a tag to a louder tier (`bug` → `BUG`) is **raise**; to a quieter tier is **lower**. Prefer *Loud TT* for newly added urgent items. Do not modify or remove any tag unless the user explicitly asks.
+
+
+
+
+
+
+
+
+
+
+
+
+### Working with Triage Tags
+
+Stay passive: never search for or resolve TT on your own, and never modify or remove one unless explicitly asked. Two exceptions:
+
+- a requested task incidentally resolves the issue a TT describes, and the TT falls within that same edit — resolve it there, without expanding the search elsewhere
+- a requested task calls for a placeholder or stopgap — leave an appropriate *Loud TT* marking it
 
 
 
