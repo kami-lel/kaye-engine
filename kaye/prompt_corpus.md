@@ -4424,46 +4424,46 @@ Eg
 
 ### Comment Banner
 
-**Comment banners** (CB) are visual separators placed *inside code comments* to expose structure in long code. A banner is a heading followed by a **ruler** — one symbol repeated to fill the line.
+**Comment banners** (CB) expose structure in long output. A banner is a short **heading** plus a **ruler** — one symbol repeated to fill the line to **80 chars**, with two spaces between heading and ruler. They appear in two places:
 
-**Levels**:
+- inside **code comments**, to mark sections of long source files
+- inside **printed output**, to divide logging / demo / test phases
 
-Six ranks, highest (`CB0`) to lowest (`CB5`):
+**Levels** — six ranks, highest (`CB0`) to lowest (`CB5`), each fixing one ruler symbol:
 
-| token | name | form |
+| token | ruler | role |
 | --- | --- | --- |
-| `CB0` | boxed banner | file-level title boxed by top and bottom `#` rulers; multi-line; highest |
-| `CB1` | `#` banner | heading, then `#` filling the line |
-| `CB2` | `=` banner | heading, then `=` filling the line |
-| `CB3` | `*` banner | heading, then `*` filling the line |
-| `CB4` | `+` banner | heading, then `+` filling the line |
-| `CB5` | `-` banner | heading, then `-` filling the line; lowest |
+| `CB0` | `#` box | file/run Title, boxed between top and bottom rulers; multi-line |
+| `CB1` | `#` | top-Level section |
+| `CB2` | `=` | sub-Section |
+| `CB3` | `*` | sub-Sub-section |
+| `CB4` | `+` | finer Group |
+| `CB5` | `-` | lowest; also usable freely as a small local Label, off-hierarchy |
 
-`-` may also be used freely for small local labels outside the hierarchy.
+**Justification** — suffix `L` / `R` / `C` on any level (`CB1`–`CB5`) sets where the heading sits:
 
-**When to use**:
+| suffix | layout |
+| --- | --- |
+| `L` | heading Left, ruler fills right |
+| `R` | ruler fills left, heading ends at Col 80 |
+| `C` | heading Centered, ruler splits evenly (±1) |
 
-- inside code comments only — never as raw code, never in conversation text
-- only when a section is long enough that a separator aids navigation
-- only at logical boundaries: modules, sections, functions, related groups
-- sparingly — prefer blank lines for short sections; reserve CB for long blocks
+```
+CB1L   heading  ##############################…
+CB1R   …##############################  heading
+CB1C   ###############  heading  ###############
+```
 
-**When not to use**:
+**Defaults** — a bare token means its `L` variant (`CB1` ≡ `CB1L`). `L` is the default in **comments**; `C` is the default in **printed output**. `CB0`'s inner title line follows the same rule, defaulting to `L`.
 
-- not for local, sequential, or line-level groups inside a function — use plain comments
-- not frequently — overuse turns separators into noise
+**Heading style** — keep it short and name the real block (`parse CLI flags`, not `section 1`). Case by visibility:
 
-**How to format**:
+- **Title Case** = public / exported interface — `Public API`, `Entry Point`
+- **lowercase** = internal / implementation detail — `constants`, `helpers`
 
-- comment leader is the language's (`//`, `#`, ...); the ruler symbol is fixed per level
-- write the heading first, then repeat the ruler symbol to fill the line **to 80 chars** (counting the leader)
-- `CB0` instead boxes a file-level title between top and bottom `#` rulers
-- keep headings short; case them by visibility:
-    - **Title Case** = public / exported interface — `Public API`, `Entry Point`
-    - **lowercase** = internal / implementation detail — `constants`, `helpers`
-- prefer a heading naming the actual block (`parse CLI flags`) over generic labels
+**Use** at genuine boundaries — modules, sections, functions, related groups, output phases — and only when a block is long enough that a separator aids navigation. **Avoid** for line-level or sequential groups inside a function (use plain comments), in ordinary prose, and anywhere frequent enough to become noise.
 
-**Examples**:
+**Comment example** — the ruler follows the language's comment leader (`//`, `#`, ...):
 
 ```cpp
     /*
@@ -4473,16 +4473,18 @@ Six ranks, highest (`CB0`) to lowest (`CB5`):
     # produce statistics
     ################################################################################
     */
-    // constants  ##################################################################
-    const int kValues[] = {10, 20, 30};
-    // helpers  ####################################################################
-    // number helpers  =============================================================
-    double compute_average(const int* v, int n) {
-        // accumulate  *************************************************************
-        ~~
-    }
-    // Entry Point  ################################################################
-    int main() { ... }
+// constants  ##################################################################
+const int kValues[] = {10, 20, 30};
+
+// helpers  ####################################################################
+// number helpers  =============================================================
+double compute_average(const int* v, int n) {
+    // accumulate  *************************************************************
+    ~~
+}
+
+// Entry Point  ################################################################
+int main() { ... }
 ```
 
 ```python
@@ -4491,6 +4493,38 @@ Six ranks, highest (`CB0`) to lowest (`CB5`):
         # quick parse  -------------------------------------------------------------
         ~~
 ```
+
+`CB0` boxes the file title, `CB1` marks top-level sections, `CB2`/`CB3` nest below. The `# quick parse  ----` line is a **CB5** used off-hierarchy: a small local label, not a structural boundary.
+
+**Printed output example** — no comment leader; the ruler prints directly, and `C` is the default. Levels nest exactly as in comments:
+
+```
+    ################################################################################
+    # configkit_demo — load and validate settings
+    ################################################################################
+    source:  ./config/app.toml
+    mode:    strict
+
+    ####################################  load  ####################################
+    INFO  read 24 keys from app.toml
+    INFO  merged 3 defaults
+
+    ##################################  validate  ##################################
+    ====================================  types  ===================================
+    INFO  port: int OK
+    INFO  host: str OK
+    ===================================  ranges  ===================================
+    WARN  port 70000 above max 65535 → clamped
+    ----- warnings -----
+    WARN  1 value adjusted
+
+    ###################################  report  ###################################
+    INFO  config valid, 24 keys ready
+```
+
+`CB0` boxes the run title, `CB1C` (`#`) marks each phase (`load`, `validate`, `report`), and `CB2C` (`=`) marks the checks nested under `validate`. The `----- warnings -----` line is again a **CB5**, dropped in freely as a lightweight local marker rather than a ranked phase.
+
+**Note** — both examples cluster many banners together to show the full set of levels at once. Real usage is far rarer: reach for CB only to separate genuine functional blocks, modules, or logically distinct sections — never at the density shown here.
 
 
 
