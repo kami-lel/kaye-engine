@@ -9,7 +9,13 @@ Unit Tests (using pytest) for:
 import pytest
 
 
+from tests import TESTEE_FILE_CONTENT_ALL
 from tests.api.ky.task import *
+
+# constants  ###################################################################
+
+
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL["deutschlehrer"]
 
 # pytest fixtures  #############################################################
 
@@ -25,26 +31,9 @@ def opt(flask_test_client, task_endpoint):
 
 class TestDe:  # ===============================================================
 
-    def test_title(_, opt):
-        assert "## Deutschlehrer" in opt
-
-    def test1(_, opt):
-        assert "You perform **Deutschlehrer** role to assist" in opt
-
-    def test2(_, opt):
-        assert "<example-response1>" in opt
-
-    def test3(_, opt):
-        assert "Morgen gehe ich zum Markt." in opt
-
-    def test4(_, opt):
-        assert "Es gibt viele verschiedene Stände und" in opt
-
-    def test5(_, opt):
-        assert "Was ist das wichtigste **Feste** für die Deutschen?" in opt
-
-    def test6(_, opt):
-        assert "</example-response3>" in opt
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, opt, i):
+        assert TESTEE_FILE_CONTENT[i] in opt
 
     # chat blueprint  **********************************************************
 
