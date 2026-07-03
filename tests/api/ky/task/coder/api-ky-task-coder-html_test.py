@@ -20,8 +20,8 @@ from tests import (
     TESTEE_BRIEFNESS_CONTENT,
     TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT,
     TESTEE_CODER_CONTENT,
+    TESTEE_FILE_CONTENT_ALL,
 )
-from tests.cli import TESTEE_FILE_CONTENT_ALL
 from tests.api.ky.task import *
 from tests.api.ky.task.coder import *
 
