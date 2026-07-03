@@ -117,15 +117,28 @@ TESTEE_AGENT_BEHAVIOR_CONTENT = [
     "Never run these git commands",
 ]
 
-TESTEE_TRIAGE_TAG_CONTENT = [
+TESTEE_TRIAGE_TAG_BASE_CONTENT = [
     "## Triage Tags",
-    "- `BUG` — discovered defects that cause errors or unexpected behavior",
-    (
-        "- `FIXME` — content that is wrong, inefficient, unclear, or otherwise"
-        " improvable"
-    ),
-    "Prefer *Loud TT* for newly added urgent items",
+    "Labels for defects and related notes across code and docs",
+    "- *Loud* — all-caps: `BUG`, `FIXME`, `TODO`, `HACK`",
+    "Shifting to a louder tier is **raise**; to a quieter tier is **lower**.",
 ]
+
+TESTEE_TRIAGE_TAG_MEANING_CONTENT = [
+    "### Triage Tags Meanings",
+    "- `TODO` — intentionally incomplete work or placeholders for later",
+]
+
+TESTEE_TRIAGE_TAG_WORK_CONTENT = [
+    "### Working with Triage Tags",
+    "Stay passive: never search for or resolve TT on your own",
+]
+
+TESTEE_TRIAGE_TAG_CONTENT = (
+    TESTEE_TRIAGE_TAG_BASE_CONTENT
+    + TESTEE_TRIAGE_TAG_MEANING_CONTENT
+    + TESTEE_TRIAGE_TAG_WORK_CONTENT
+)
 
 TESTEE_FILE_CONTENT_ALL = {
     "continue-behavior": [
