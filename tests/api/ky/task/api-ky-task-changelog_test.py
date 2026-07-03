@@ -9,7 +9,13 @@ Unit Tests (using pytest) for:
 import pytest
 
 
+from tests import TESTEE_FILE_CONTENT_ALL
 from tests.api.ky.task import *
+
+# constants  ###################################################################
+
+
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL["project-changelog-writer"]
 
 # pytest fixtures  #############################################################
 
@@ -25,33 +31,9 @@ def opt(flask_test_client, task_endpoint):
 
 class TestCL:  # ===============================================================
 
-    def test0(_, opt):
-        assert "## Project CHANGELOG Writer" in opt
-
-    def test1(_, opt):
-        assert "These guidelines define what a good `CHANGELOG.md`" in opt
-
-    def test2(_, opt):
-        assert "- changelogs are *for humans*, not machines" in opt
-
-    def test3(_, opt):
-        assert "- the latest version comes first" in opt
-
-    def test4(_, opt):
-        assert "- `Added`: new features" in opt
-
-    def test5(_, opt):
-        assert "- `Fixed`: any bug fixes" in opt
-
-    def test6(_, opt):
-        assert "# Example Project CHANGELOG" in opt
-
-    def test7(_, opt):
-        assert (
-            "[2.0.0]: https://github.com/example-user/"
-            "example-project/releases/tag/v2.0.0"
-            in opt
-        )
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, opt, i):
+        assert TESTEE_FILE_CONTENT[i] in opt
 
     # chat blueprint  **********************************************************
 

@@ -9,7 +9,13 @@ Unit Tests (using pytest) for:
 import pytest
 
 
+from tests import TESTEE_FILE_CONTENT_ALL
 from tests.api.ky.task import *
+
+# constants  ###################################################################
+
+
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL["prompt-writer"]
 
 # pytest fixtures  #############################################################
 
@@ -25,20 +31,9 @@ def opt(flask_test_client, task_endpoint):
 
 class TestP:  # ================================================================
 
-    def test0(_, opt):
-        assert "## Prompt Writer" in opt
-
-    def test1(_, opt):
-        assert "You perform *prompt writer role*" in opt
-
-    def test2(_, opt):
-        assert "- write a comprehensive and complete *prompt*" in opt
-
-    def test3(_, opt):
-        assert "- fix grammar and spelling errors in the *prompt*" in opt
-
-    def test4(_, opt):
-        assert "- strictly follow the syntax and format of" in opt
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, opt, i):
+        assert TESTEE_FILE_CONTENT[i] in opt
 
     # rapid blueprint  *********************************************************
 

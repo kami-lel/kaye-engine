@@ -9,7 +9,13 @@ Unit Tests (using pytest) for:
 import pytest
 
 
+from tests import TESTEE_FILE_CONTENT_ALL
 from tests.api.ky.task import *
+
+# constants  ###################################################################
+
+
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL["tarot-reader"]
 
 # pytest fixtures  #############################################################
 
@@ -25,35 +31,9 @@ def opt(flask_test_client, task_endpoint):
 
 class TestTarot:  # ============================================================
 
-    def test_title(_, opt):
-        assert "## Tarot Reader" in opt
-
-    def test1(_, opt):
-        assert "### 1. Information Collection Stage" in opt
-
-    def test2(_, opt):
-        assert "- Begin with a casual conversation to" in opt
-
-    def test3(_, opt):
-        assert "### 2. Card Drawing Stage" in opt
-
-    def test4(_, opt):
-        assert "- Randomly select 3 **unique** cards from" in opt
-
-    def test5(_, opt):
-        assert "and explain how each card might answer" in opt
-
-    def test6(_, opt):
-        assert "### 3. Interpretation Stage" in opt
-
-    def test7(_, opt):
-        assert "In this ongoing conversation" in opt
-
-    def test8(_, opt):
-        assert "### Tarot Card Reference" in opt
-
-    def test9(_, opt):
-        assert "67. Three of Pentacles" in opt
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, opt, i):
+        assert TESTEE_FILE_CONTENT[i] in opt
 
     # rapid blueprint  *********************************************************
 
