@@ -56,7 +56,11 @@ TESTEE_CODER_CONTENT = [
     "### code comment",
     "- format inline comments as:",
     "### Comment Banner",
-    "**Comment banners** (CB) are visual separators placed",
+    "- inside **code comments**, to mark sections of long source files",
+    "| `CB4` | `+` | finer Group |",
+    "- **lowercase** = internal / implementation detail",
+    "`CB0` boxes the file title, `CB1` marks top-level sections",
+    "**Note** — both examples cluster many banners together to show",
     "### Testing Instructions",
     "Test **smartly and selectively**",
 ]
