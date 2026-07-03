@@ -18,7 +18,7 @@ TODO update how to use to let python prompts more easily triggered
 
 Todo always use "~" for range & other symbols
 
-Bug claude still try to use git commit
+Bug claude still try to use git commit, use tool hook to ask permission
 Bug LLM try to fix TT, forbid it to do so
 
 
