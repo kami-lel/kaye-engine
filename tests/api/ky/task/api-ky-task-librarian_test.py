@@ -9,7 +9,13 @@ Unit Tests (using pytest) for:
 import pytest
 
 
+from tests import TESTEE_FILE_CONTENT_ALL
 from tests.api.ky.task import *
+
+# constants  ###################################################################
+
+
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL["librarian"]
 
 # pytest fixtures  #############################################################
 
@@ -25,41 +31,9 @@ def opt(flask_test_client, task_endpoint):
 
 class TestLib:  # ==============================================================
 
-    def test_lib00(_, opt):
-        assert "## Librarian" in opt
-
-    def test_lib01(_, opt):
-        assert "As a *librarian role*" in opt
-
-    def test_lib11(_, opt):
-        assert "#### Reading Notes Guidelines" in opt
-
-    def test_lib12(_, opt):
-        assert "- **For Each Paragraph:**" in opt
-
-    def test_lib13(_, opt):
-        assert "- **Preserve Original Structure" in opt
-
-    def test_lib14(_, opt):
-        assert "- Retain the natural progression" in opt
-
-    def test_lib15(_, opt):
-        assert "- Refrain from incorporating information" in opt
-
-    def test_lib_bib0(_, opt):
-        assert "### Bibliographer" in opt
-
-    def test_lib_bib1(_, opt):
-        assert "you **must** generate a **citation paragraph**" in opt
-
-    def test_lib_bib2(_, opt):
-        assert "##### Citation Paragraph Format" in opt
-
-    def test_lib_bib3(_, opt):
-        assert "- the citation paragraph contains two parts:" in opt
-
-    def test_lib_bib4(_, opt):
-        assert ">Schmemann, Serge. “The Voice of America Falls Silent.”" in opt
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, opt, i):
+        assert TESTEE_FILE_CONTENT[i] in opt
 
     # chat blueprint  **********************************************************
 
