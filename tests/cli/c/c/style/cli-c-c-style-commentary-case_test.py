@@ -60,9 +60,7 @@ class TestHeader:  # ===========================================================
         assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        assert assert_continue_blueprint_header_line_description(
-            MD_FILENAME, testee_header
-        )
+        assert assert_continue_description_field(MD_FILENAME, testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
