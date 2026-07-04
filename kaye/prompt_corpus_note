@@ -11,7 +11,7 @@ Todo add 30hour date time
 
 TODO add dynamic node for usable abbrs: in user system prompt
 TODO add dynamic node coding in: coder prompt
-TODO TODO add these two tags across abbrs.json: usable_abbrs & coding
+TODO TODO add these tags across abbrs.json: common & usable & coding
 TODO add explanation of meaning for coding tag in coder prompt, and additional terms
 
 
