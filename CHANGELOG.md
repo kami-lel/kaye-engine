@@ -20,6 +20,15 @@
 
 ### Added
 
+**30-hour clock** — `Date and Time Format` skill now supports counting
+post-midnight, pre-6 AM times as hours `24`–`29` of the prior day (e.g.
+`07-01 26:00` = `07-02 02:00`); `date_time_blueprint` now builds
+`recursively=True` to pull in the new section
+
+**CHANGELOG breaking-change callout** — `Project CHANGELOG Writer` guidelines
+now call for a `[!WARNING]` callout at the end of a version section (right
+before its link) to flag breaking changes, typically for major releases
+
 **VS Code Extension settings permissions** — `kaye/cli/claude/permission_cmds.jsonc`
 lists Bash command patterns for the `allow` / `ask` / `deny` permission fields
 (git read-only commands allowed; destructive/system/package commands ask;

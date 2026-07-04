@@ -283,7 +283,6 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "prepare-for-version-release": "Cuts a project release",
 }
 
-# HACK wrong name
 
 TESTEE_WHEN_TO_USE_CONTENT_ALL = {
     "coder-bash": (
