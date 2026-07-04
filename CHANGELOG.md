@@ -32,6 +32,14 @@ docstring formatting rules in TODOs: single-line form constraints, return
 behavior documentation, defaults syntax, iterable return types, line-break
 rules
 
+**`c/c` header tests** — split the single `test_description` check into
+`test_description` and `test_when_to_use`, each calling a dedicated substring
+assertion (`assert_description_in_continue_description_field`,
+`assert_when_to_use_in_continue_description_field`) against the minified
+`TESTEE_DESCRIPTION_CONTENT_ALL` / `TESTEE_HOW_TO_USE_CONTENT_ALL` corpora;
+`test_when_to_use` is only present for blueprints that expose a when-to-use
+entry
+
 ### Deprecated
 
 ### Removed
