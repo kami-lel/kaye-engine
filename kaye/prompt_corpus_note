@@ -15,8 +15,7 @@ Todo add abbr tags: "coding" for coding terms
 Todo add these two tags across abbrs.json: usable_abbrs & coding
 Todo add explanation of meaning for coding tag in coder prompt, and additional terms
 
-TODO new CLI user claude directory (u)
-TODO mpl permission settings, to ask permission for command: git & pytest */tests/, & etc.
+TODO mpl permission settings for v, to ask permission for command: git & pytest */tests/, & etc.
 
 
 Todo changelog writer: use [!WARNING] for breaking api etc.
