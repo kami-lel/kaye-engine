@@ -22,6 +22,12 @@
 
 ### Changed
 
+**Packaging** — migrated project metadata, dependencies, and package
+discovery from `setup.py`/`setup.cfg`/`requirements.txt` into a single
+PEP 621 `pyproject.toml`; dev-only tools (`pytest`) moved to a `dev` extra,
+installed via `pip install -e ".[dev]"`; `scripts/hooks/set_environment_variable.sh`
+now reads the project version from `pyproject.toml` instead of `setup.cfg`
+
 **CLI default handler** — simplified `_cli_main()` function to inline lambda;
 maintains existing behavior of printing CLI help when invoked without
 subcommands
@@ -43,6 +49,8 @@ entry
 ### Deprecated
 
 ### Removed
+
+**`setup.py`, `setup.cfg`, `requirements.txt`** — superseded by `pyproject.toml`
 
 ### Fixed
 
