@@ -159,9 +159,8 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "coder-unreal-engine": "C++ code for Unreal Engine",
     "coder-cpp": "Writes, edits, and reviews all C++ code.",
     "date-and-time-format": (
-        "Formats dates, times in output — weekday-prefixed dates, zero-padded"
-        " years, 24-hr clock, plus a 30-hr clock stretching the prior day"
-        " across pre-dawn hours"
+        "weekday-prefixed dates, zero-padded years, 24-hr clock, plus a 30-hr"
+        " clock stretching the prior day across pre-dawn hours"
     ),
     "triage-tags": (
         "defect/note labels spanning code"
