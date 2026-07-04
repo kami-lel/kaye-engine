@@ -15,9 +15,9 @@ Todo add abbr tags: "coding" for coding terms
 Todo add these two tags across abbrs.json: usable_abbrs & coding
 Todo add explanation of meaning for coding tag in coder prompt, and additional terms
 
-Fixme refactor for CLI: user system prompt file (usm) and user scope directory (u)
-Todo mpl permission settings, to ask permission for command: git & pytest */tests/, & etc.
-Hack remove ### Git Command Safety Policy
+FIXME refactor for CLI: user system prompt file (usm) and user scope directory (u)
+TODO mpl permission settings, to ask permission for command: git & pytest */tests/, & etc.
+HACK remove ### Git Command Safety Policy
 
 
 Todo changelog writer: use [!WARNING] for breaking api etc.
