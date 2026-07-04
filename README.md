@@ -2,8 +2,8 @@
 
 
 <!--
-Fixme use new pattern pyproject.toml
-Fixme a new alpha version
+FIXME use new pattern pyproject.toml
+FIXME a new alpha version
 -->
 
 > Consistent AI Agent Persona **Kaye**, powered by rigorous prompt engineering
