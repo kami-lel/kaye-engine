@@ -17,7 +17,6 @@ Todo add explanation of meaning for coding tag in coder prompt, and additional t
 
 FIXME refactor for CLI: user system prompt file (usm) and user scope directory (u)
 TODO mpl permission settings, to ask permission for command: git & pytest */tests/, & etc.
-HACK remove ### Git Command Safety Policy
 
 
 Todo changelog writer: use [!WARNING] for breaking api etc.
