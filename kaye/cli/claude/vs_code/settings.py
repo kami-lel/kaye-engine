@@ -1,7 +1,8 @@
 """
 settings.py
 
-define ``update_settings_json_for_pre_compact_hook``
+define ``update_settings_json`` — configure VS Code Extension settings
+(pre-compact hook and git command permissions)
 """
 
 import json
@@ -12,12 +13,31 @@ from kaye.prompt.prompt_blueprint import PromptBlueprint
 from kaye.cli.claude import CONTAINING_META_NODES
 
 # Bug not sure if pre compact hook is triggered
+# TODO include pytest too
 
 # constants  ###################################################################
 
 _SETTINGS_FILENAME = "settings.json"
 _HOOK_MATCHER = "*"
 _HOOK_TYPE = "prompt"
+
+_GIT_RESTRICTED_COMMANDS = [
+    "Bash(git reset*)",
+    "Bash(git clean*)",
+    "Bash(git push*)",
+    "Bash(git rebase*)",
+    "Bash(git checkout*)",
+    "Bash(git restore*)",
+    "Bash(git branch*)",
+    "Bash(git tag*)",
+    "Bash(git gc*)",
+    "Bash(git reflog*)",
+    "Bash(git update-ref*)",
+    "Bash(git commit*)",
+    "Bash(git filter-branch*)",
+    "Bash(git filter-repo*)",
+    "Bash(git submodule*)",
+]
 
 
 # helpers  #####################################################################
@@ -30,7 +50,10 @@ def _build_settings(prompt):
                 "matcher": _HOOK_MATCHER,
                 "hooks": [{"type": _HOOK_TYPE, "prompt": prompt}],
             }]
-        }
+        },
+        "permissions": {
+            "ask": _GIT_RESTRICTED_COMMANDS.copy(),
+        },
     }
 
 
@@ -55,14 +78,21 @@ def _set_pre_compact_prompt(data, prompt):
     })
 
 
-# Public API  ##################################################################
+def _set_permissions(data, permission_list):
+    perms = data.setdefault("permissions", {})
+    ask_perms = perms.setdefault("ask", [])
 
-# TODO mpl permission settings for v, to ask permission for command: git & pytest */tests/, & etc.
+    for cmd in permission_list:
+        if cmd not in ask_perms:
+            ask_perms.append(cmd)
+
+
+# Public API  ##################################################################
 
 
 def update_settings_json(claude_folder):
     """
-    update settings.json for pre-compact hook configuration
+    update settings.json for pre-compact hook and git command permissions
 
 
     :param claude_folder: path to .claude/ folder
@@ -88,6 +118,8 @@ def update_settings_json(claude_folder):
         _set_pre_compact_prompt(data, single_line)
     else:
         data = _build_settings(single_line)
+
+    _set_permissions(data, _GIT_RESTRICTED_COMMANDS)
 
     with open(settings_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
