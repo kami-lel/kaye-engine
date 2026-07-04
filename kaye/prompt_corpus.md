@@ -5328,11 +5328,11 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
 ### {description}
 
-Writes, edits, and reviews all Python code
+writes, edits, reviews Python code: scripts, modules, packages, functions, classes, inline snippets
 
 ### {when_to_use}
 
-Use for any Python work, inline Python code blocks, requests for Python scripts, modules, or packages.
+trigger for any Python task — `.py` files, code blocks, writing/fixing/refactoring/optimizing/reviewing Python, or bare code requests with no language stated in a Python context. Not for docstring-only or test-only requests, route those to the dedicated skills
 
 ### {globs}
 
@@ -5518,11 +5518,11 @@ define ``EmailValidator`` and ``validate_address``
 
 #### {description}
 
-Writes and formats Python docstrings in Sphinx/reStructuredText style, enforcing the project's docstring forms, field ordering, and visibility rules.
+writes, formats Python docstrings in Sphinx/reStructuredText
 
 #### {when_to_use}
 
-Use whenever Python code needs docstrings — including "add a docstring," "document this," or "write the function." Triggers: docstring, Sphinx, reST, `:param:`.
+trigger whenever a Python function, method, class, or module is written or edited — docstrings are near-mandatory, so add or update one by default, not just on explicit request. Also trigger on docstring, Sphinx, reST, `:param:`, `:return:`, `:raises:`, `:type:` mentions
 
 ##### {globs}
 
@@ -5597,11 +5597,11 @@ class TestAdd:
 
 #### {description}
 
-Writes and reviews Python `pytest` test code following the project's testing conventions.
+writes, reviews Python `pytest` test code per project conventions
 
 #### {when_to_use}
 
-Use whenever Python tests are written, run, fixed, or discussed. Triggers: `test_`/`_test.py` files, `pytest`, "add tests," "write a unit test," "test this function."
+trigger on `test_*.py`/`*_test.py` files, pytest, fixtures, mocks, parametrize, assertions, or requests like write/add/fix a unit test or test case. Not for non-test Python code
 
 #### {globs}
 
