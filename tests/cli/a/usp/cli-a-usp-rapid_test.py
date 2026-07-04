@@ -1,5 +1,5 @@
 """
-cli-a-u-rapid_test.py
+cli-a-usp-rapid_test.py
 
 Unit Tests (using pytest) for:
 
