@@ -21,13 +21,26 @@ _HOOK_MATCHER = "*"
 _HOOK_TYPE = "prompt"
 
 
-# TODO may be more commands?
 _ASK_PERMISSION_CMDS = [
-    # git — every git subcommand requires permission
-    "Bash(git *)",
-    # pytest — ban running the full suite
+    # system commands  ---------------------------------------------------------
+    "Bash(sudo *)",
+    "Bash(su)",
+    "Bash(kill *)",
+    "Bash(killall *)",
+    "Bash(shutdown *)",
+    "Bash(reboot)",
+    "Bash(systemctl *)",
+    # packages  ----------------------------------------------------------------
+    "Bash(npm install *)",
+    "Bash(brew install *)",
+    "Bash(apt *)",
+    # Python  ------------------------------------------------------------------
+    "Bash(pip install *)",
     "Bash(pytest .)",
     "Bash(pytest tests*)",
+    # apps  --------------------------------------------------------------------
+    "Bash(git *)",
+    "Bash(docker *)",
 ]
 
 
