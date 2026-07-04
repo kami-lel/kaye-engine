@@ -7,7 +7,6 @@ __all__ = (
     "PROMPT_FILENAME2NAME",
     "TESTEE_FILE_CONTENT_ALL",
     "TESTEE_DESCRIPTION_CONTENT_ALL",
-    "TESTEE_CONTINUE_BLUEPRINT_DESCRIPTION_CONTENT_ALL",
     "TESTEE_HOW_TO_USE_CONTENT_ALL",
     "TESTEE_PREREQUISITE_CONTENT_ALL",
     "TESTEE_FOR_CLAUDE_CONTENT_ALL",
@@ -296,215 +295,6 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     ),
     "prepare-for-feature-finish": "Records a feature branch",
     "prepare-for-version-release": "Cuts a project release",
-}
-
-
-TESTEE_CONTINUE_BLUEPRINT_DESCRIPTION_CONTENT_ALL = {
-    "coder-c": (
-        '"Writes, edits, and reviews all C code.\\u21B5Use for any C'
-        ' code work, requests for C."'
-    ),
-    "coder-cpp": (
-        '"Writes, edits, and reviews all C++ code.\\u21B5Use for any C++'
-        ' code work, requests for C++."'
-    ),
-    "coder-c-sharp": (
-        '"Writes, edits, and reviews all C# code.\\u21B5Use for any C#'
-        ' code work, requests for C#, mentions of .NET."'
-    ),
-    "coder-javascript-and-typescript": (
-        '"Writes, edits, and reviews all JavaScript and TypeScript code,'
-        " targeting the ES11 standard with camelCase naming and JSDoc"
-        " documentation conventions.\\u21B5Use for any JavaScript or"
-        " TypeScript work, inline JS/TS code blocks, requests for"
-        ' JavaScript, TypeScript, or Node."'
-    ),
-    "coder-python-testing-guidelines": (
-        '"Writes and reviews Python `pytest` test code following the'
-        " project's testing conventions.\\u21B5Use whenever Python tests"
-        " are written, run, fixed, or discussed. Triggers: `test_`/"
-        '`_test.py` files, `pytest`, \\"add tests,\\" \\"write a unit'
-        ' test,\\" \\"test this function.\\""'
-    ),
-    "coder-python": (
-        '"Writes, edits, and reviews all Python code\\u21B5Use for any'
-        " Python work, inline Python code blocks, requests for Python"
-        ' scripts, modules, or packages."'
-    ),
-    "coder-unity-engine": (
-        '"Writes, edits, and reviews all Unity 6 C# code, applying the'
-        " project's Unity conventions, structure, and coding"
-        " standards.\\u21B5ALWAYS apply for any Unity work \\u2014 scripts,"
-        " components, ScriptableObjects, editor tools, gameplay systems,"
-        " UI, shaders, asset and scene logic. Triggers: `MonoBehaviour`,"
-        ' `[SerializeField]`, any mention of Unity."'
-    ),
-    "agent-behavior": (
-        '"Baseline agent behavior, treats between-round file changes as'
-        " intentional edits.\\u21B5ALWAYS apply \\u2014 every task, every"
-        " turn, no exceptions. Not situational: this defines default agent"
-        " conduct at all times, regardless of the request or whether files"
-        ' or summaries are involved."'
-    ),
-    "international-phonetic-alphabet": (
-        '"Provides accurate IPA transcription in /slash notation/ inline'
-        " after any word requiring pronunciation clarity, across all"
-        " languages.\\u21B5Trigger on any pronunciation question, foreign"
-        " word, name, or phonetically ambiguous term \\u2014 even"
-        ' unprompted. Never use square brackets."'
-    ),
-    "project-agents-writer": (
-        '"`AGENTS.md` is the **prescriptive** instruction layer for AI'
-        " coding agents \\u2014 it states *how the agent should behave* in"
-        " a repository: setup/build/run/test commands, code-style"
-        " conventions, PR and commit rules, and do/don't safety"
-        " constraints. It is agent-facing and always loaded (unlike the"
-        " human-facing `README.md`), and `AGENTS.local.md` holds personal,"
-        " gitignored overrides. This skill writes and maintains those"
-        " files.\\u21B5Use when creating, updating, or reviewing"
-        " `AGENTS.md`, `AGENTS.local.md`, `CLAUDE.md`, or similar"
-        ' agent-instruction files. Triggers: \\"write an AGENTS.md,\\"'
-        ' \\"add agent instructions,\\" \\"agent rules/conventions.\\"'
-        " Key difference from its sibling: `AGENTS.md` is **prescriptive**"
-        " \\u2014 commands, rules, and constraints that govern behavior"
-        " \\u2014 whereas `CONTEXT.md` is **descriptive** \\u2014"
-        " architecture, domain model, and patterns that explain what the"
-        " codebase is. Route descriptive architecture or domain knowledge"
-        ' to `CONTEXT.md`, not here."'
-    ),
-    "art-tutor": (
-        '"Helps users build and refine AI image-generation prompts'
-        " through guided questions and artistic suggestions.\\u21B5Trigger"
-        " when a user wants to create or improve an image-gen prompt, or"
-        ' describes a scene they want visualized."'
-    ),
-    "assistant-barista": (
-        '"Formats and maintains a structured markdown coffee brewing note'
-        " document from user-provided input.\\u21B5Trigger when a user logs"
-        " a brew, adds coffee details, or updates an existing brewing"
-        ' note."'
-    ),
-    "deutschlehrer": (
-        '"Teaches German by responding in German with English blockquote'
-        " translations, correcting errors with bolded changes and brief"
-        " grammar explanations.\\u21B5Trigger on any German learning"
-        " request, translation, grammar question, or when the user writes"
-        ' German text that may need correction."'
-    ),
-    "editor": (
-        '"Revises user-provided text while preserving original intent and'
-        " style, offering suggestions and iterating on"
-        " feedback.\\u21B5Trigger when a user submits text for editing,"
-        ' proofreading, rewriting, or improvement."'
-    ),
-    "librarian": (
-        '"Creates detailed academic reading notes from provided text'
-        " \\u2014 summarizing paragraph by paragraph into structured bullet"
-        " points \\u2014 and generates Chicago-style citations and"
-        " bibliographies on request.\\u21B5Trigger when a user submits a"
-        " text passage for summarizing, note-taking, or academic reading."
-        " Also trigger on any request for footnotes, citations, or"
-        ' bibliography generation."'
-    ),
-    "secretary": (
-        "\"Drafts and processes emails and messages on the user's"
-        " behalf.\\u21B5Trigger on any email or message drafting, revision,"
-        ' or parsing task."'
-    ),
-    "tarot-reader": (
-        '"Conducts interactive tarot readings by gathering user context,'
-        " drawing three unique cards, and interpreting their meanings in a"
-        " mystical, conversational style.\\u21B5Trigger on any tarot, card"
-        ' reading, fortune, or divination request."'
-    ),
-    "coder-bash": (
-        '"Generates ready-to-run Debian GNU/Linux shell commands'
-        " \\u2014 command-only output, sudo and destructive commands when"
-        " requested.\\u21B5Use for terminal commands or shell one-liners on"
-        ' Debian/Ubuntu. Triggers: \\"command to...,\\" \\"bash for...,\\"'
-        ' CLI tasks."'
-    ),
-    "coder-python-docstring-style": (
-        '"Writes and formats Python docstrings in Sphinx/reStructuredText'
-        " style, enforcing the project's docstring forms, field ordering,"
-        " and visibility rules.\\u21B5Use whenever Python code needs"
-        ' docstrings \\u2014 including \\"add a docstring,\\" \\"document'
-        ' this,\\" or \\"write the function.\\" Triggers: docstring, Sphinx,'
-        ' reST, `:param:`."'
-    ),
-    "project-structure": (
-        '"Defines a standard, language-agnostic project/repository layout'
-        " \\u2014 naming conventions and placement for top-level"
-        " documentation files and source, build, docs, test, and tooling"
-        " folders.\\u21B5Use when scaffolding a new repo, organizing an"
-        " existing one, or deciding where a file or folder belongs."
-        ' Triggers: \\"set up project structure,\\" \\"where should this'
-        ' go,\\" naming a standard doc or directory."'
-    ),
-    "project-semantic-versioning": (
-        "\"Defines the project's semantic versioning scheme \\u2014"
-        " `major.minor.patch` core, pre-release tags (`alpha`/`beta`/`rc`),"
-        " build metadata, and versions mapped to development"
-        " stages.\\u21B5Use when assigning, bumping, or formatting a"
-        ' version, or choosing a pre-release/build tag. Triggers: \\"what'
-        ' version,\\" \\"tag a release,\\" semver, alpha/beta/rc."'
-    ),
-    "project-changelog-writer": (
-        '"Writes and maintains CHANGELOG files per Keep a Changelog'
-        " conventions \\u2014 dated version entries newest-first, grouped"
-        " change types, a persistent `[Unreleased]` section, and linkable"
-        " version references.\\u21B5Use when creating, updating, or adding"
-        " entries to a CHANGELOG, or recording changes for a release."
-        ' Triggers: \\"update the changelog,\\" \\"log this change,\\"'
-        ' \\"document the release.\\""'
-    ),
-    "project-readme-writer": (
-        '"Writes and maintains human-friendly README files'
-        " \\u2014 scannable, visually clear landing pages covering a"
-        " project's purpose, features, setup, usage, and contribution"
-        " flow, with a standard title format and tasteful use of headings,"
-        " lists, badges, and emoji.\\u21B5Use when creating, updating, or"
-        " reviewing a README or similar project landing page. Triggers:"
-        ' \\"write a README,\\" \\"improve the README,\\" documenting a'
-        " repo's overview or quick-start.\""
-    ),
-    "style-guide-briefness-style": (
-        '"Rewrites content in \\"Briefness Style\\" \\u2014 terse,'
-        " newspaper-headline prose that maximizes brevity: dropped articles and"
-        " helper verbs, strong nouns and verbs, active voice, numerals and"
-        " abbreviations, punctuation-compressed phrasing, no terminal"
-        " periods.\\u21B5Use when the user asks for headlinese, telegraphic, or"
-        " ultra-condensed text \\u2014 notes, headlines, summaries, bullets,"
-        ' status lines, captions \\u2014 or says \\"make it'
-        ' brief/terse/punchy,\\" \\"cut words,\\" or \\"headline style.\\" Not'
-        ' for prose needing full grammar, formal tone, or complete sentences."'
-    ),
-    "style-guide-title-case": (
-        '"Applies Chicago headline-style Title Case to titles and headings.'
-        "\\u21B5When formatting a document title or section heading."
-        ' Not for body text or list items."'
-    ),
-    "style-guide-commentary-case": (
-        '"Applies Commentary Case: lowercase-leading sentences, selective'
-        " Title Case on key words, no terminal punctuation."
-        "\\u21B5When formatting list items or table cell content."
-        ' Not for titles, headings, or body prose."'
-    ),
-    "style-guide-good-writing": (
-        '"Proofreads and polishes text with minimal edits \\u2014 fixing'
-        " spelling, grammar, punctuation, and clarity while preserving the"
-        " original meaning, voice, and wording.\\u21B5Use to proofread,"
-        " copyedit, or correct writing without rewriting. Not for heavy"
-        ' rewrites, summarizing, or tone changes."'
-    ),
-    "triage-tags": (
-        '"Defines triage tags (TT) \\u2014 defect/note labels spanning code'
-        " and docs across 3 case tiers (Loud/Steady/Quiet), with per-tag"
-        " meanings and raise/lower tier shifts\\u21B5When adding,"
-        " classifying, or raising/lowering BUG/FIXME/TODO/HACK markers in"
-        " any case, or resolving what a TT tier signifies. Not for fixing"
-        ' the defects the tags point to"'
-    ),
 }
 
 
@@ -849,10 +639,9 @@ def assert_continue_blueprint_header_line_description(
     """
     check if a Continue blueprint description header line exists
     """
-    description = TESTEE_CONTINUE_BLUEPRINT_DESCRIPTION_CONTENT_ALL.get(
-        blueprint_id, TESTEE_DESCRIPTION_CONTENT_ALL[blueprint_id]
-    )
-    keyword = "description: " + description
+    description = TESTEE_DESCRIPTION_CONTENT_ALL[blueprint_id]
+    how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[blueprint_id]
+    keyword = "description: " + description + "↵" + how_to_use
     return keyword in testee_header
 
 
