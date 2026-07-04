@@ -36,6 +36,7 @@ def testee_content(testee):
 
 # Pytest unit tests  ###########################################################
 
+
 class TestBasic:  # ============================================================
 
     def test_existence(_, testee_path):
@@ -44,10 +45,12 @@ class TestBasic:  # ============================================================
     def test_is_file(_, testee_path):
         assert testee_path.is_file()
 
+
 class TestStructure:  # ========================================================
 
     def test_structure(_, testee):
         assert assert_frontmatter_md_file_basic_structure(testee)
+
 
 class TestHeader:  # ===========================================================
 
@@ -62,6 +65,7 @@ class TestHeader:  # ===========================================================
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
+
 
 class TestContent:  # =========================================================
 
