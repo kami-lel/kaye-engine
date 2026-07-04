@@ -20,6 +20,8 @@ _SETTINGS_FILENAME = "settings.json"
 _HOOK_MATCHER = "*"
 _HOOK_TYPE = "prompt"
 
+
+# TODO may be more commands?
 _ASK_PERMISSION_CMDS = [
     # git — every git subcommand requires permission
     "Bash(git *)",
