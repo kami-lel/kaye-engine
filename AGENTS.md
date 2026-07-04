@@ -115,14 +115,21 @@ exports, touch these locations in order:
 
 Descriptions that contain `/`, `—`, or `↵` (U+21B5, the separator between
 `{description}` and `{when_to_use}`) are double-quoted by PyYAML with unicode
-escapes. The resulting header line is too long to match exactly. Use:
+escapes once combined into the Continue blueprint header, so an exact
+`"description: X" in testee_header` check breaks. Use the substring-based
+helpers in `tests/cli/__init__.py` instead:
 
 ```python
-def test_description(_, testee_header):
-    assert any("distinctive keyword" in line for line in testee_header)
+def test_description_in_description(_, testee_header):
+    assert assert_description_in_description(MD_FILENAME, testee_header)
+
+def test_when_to_use_in_description(_, testee_header):
+    assert assert_when_to_use_in_description(MD_FILENAME, testee_header)
 ```
 
-instead of `"description: X" in testee_header` (exact list-membership check).
+(older `c/c` test files still call the retired
+`assert_continue_blueprint_header_line_description`; migrate them to the
+pattern above when touched.)
 
 ### `always_apply` for new blueprints
 

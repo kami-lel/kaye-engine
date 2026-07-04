@@ -1,6 +1,9 @@
 import re
 
-from tests import TESTEE_TRIAGE_TAG_CONTENT, TESTEE_FILE_CONTENT_ALL  # noqa: F401
+from tests import (
+    TESTEE_TRIAGE_TAG_CONTENT,
+    TESTEE_FILE_CONTENT_ALL,
+)  # noqa: F401
 
 __all__ = (
     "MD_FILENAME2SKILL_NAME",
@@ -18,7 +21,8 @@ __all__ = (
     "assert_claude_header_line_description",
     "assert_claude_header_line_how_to_use",
     "assert_continue_blueprint_header_line_name",
-    "assert_continue_blueprint_header_line_description",
+    "assert_description_in_description",
+    "assert_when_to_use_in_description",
     "assert_continue_header_line_description",
     "assert_continue_prompt_header_line_name",
     "assert_header_line_paths_header",
@@ -126,8 +130,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         ' when requested."'
     ),
     "coder-python-docstring-style": (
-        "writes, formats Python docstrings in Sphinx/"
-        "reStructuredText"
+        "writes, formats Python docstrings in Sphinx/reStructuredText"
     ),
     "agent-behavior": (
         "Baseline agent behavior, treats between-round file"
@@ -193,8 +196,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         " packages, functions, classes, inline snippets"
     ),
     "coder-python-testing-guidelines": (
-        "writes, reviews Python `pytest` test code per project"
-        " conventions"
+        "writes, reviews Python `pytest` test code per project conventions"
     ),
     "coder-unity-engine": (
         "Writes, edits, and reviews all Unity 6 C# code, applying"
@@ -641,16 +643,26 @@ def assert_continue_header_line_description(prompt_id, testee_header):
     return keyword in testee_header
 
 
-def assert_continue_blueprint_header_line_description(
-    blueprint_id, testee_header
-):
+def _strip_wrapping_quote(text):
+    if len(text) >= 2 and text[0] == text[-1] and text[0] in ('"', "'"):
+        return text[1:-1]
+    return text
+
+
+def assert_description_in_description(prompt_id, testee_header):
     """
-    check if a Continue blueprint description header line exists
+    check if the description keyword text appears in the header
     """
-    description = TESTEE_DESCRIPTION_CONTENT_ALL[blueprint_id]
-    how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[blueprint_id]
-    keyword = "description: " + description + "↵" + how_to_use
-    return keyword in testee_header
+    keyword = _strip_wrapping_quote(TESTEE_DESCRIPTION_CONTENT_ALL[prompt_id])
+    return any(keyword in line for line in testee_header)
+
+
+def assert_when_to_use_in_description(prompt_id, testee_header):
+    """
+    check if the when_to_use keyword text appears in the header
+    """
+    keyword = _strip_wrapping_quote(TESTEE_HOW_TO_USE_CONTENT_ALL[prompt_id])
+    return any(keyword in line for line in testee_header)
 
 
 def assert_header_line_paths_header(testee_header):
