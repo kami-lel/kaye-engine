@@ -123,11 +123,7 @@ PROMPT_FILENAME2NAME = {
 }
 
 TESTEE_DESCRIPTION_CONTENT_ALL = {
-    "coder-bash": (
-        '"Generates ready-to-run Debian GNU/Linux shell commands'
-        " \\u2014 command-only output, sudo and destructive commands"
-        ' when requested."'
-    ),
+    "coder-bash": "Generates ready-to-run Debian GNU/Linux shell commands",
     "coder-python-docstring-style": (
         "writes, formats Python docstrings in Sphinx/reStructuredText"
     ),
@@ -136,44 +132,37 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         " changes as intentional edits."
     ),
     "project-structure": (
-        '"Defines a standard, language-agnostic'
-        " project/repository layout \\u2014 naming conventions and"
+        "naming conventions and"
         " placement for top-level documentation files and source,"
-        ' build, docs, test, and tooling folders."'
+        " build, docs, test, and tooling folders."
     ),
     "project-semantic-versioning": (
-        "\"Defines the project's semantic versioning"
-        " scheme \\u2014 `major.minor.patch` core, pre-release"
-        " tags (`alpha`/`beta`/`rc`), build metadata, and versions"
-        ' mapped to development stages."'
+        "Defines the project's semantic versioning scheme"
     ),
     "style-guide-briefness-style": (
-        '"Rewrites content in \\"Briefness Style\\" \\u2014'
-        " terse, newspaper-headline prose that maximizes brevity: dropped"
-        " articles and helper verbs, strong nouns and verbs, active voice,"
-        " numerals and abbreviations, punctuation-compressed phrasing, no"
-        ' terminal periods."'
+        "dropped articles and helper verbs, strong nouns and verbs, active"
+        " voice, numerals and abbreviations, punctuation-compressed phrasing,"
+        " no terminal periods."
     ),
     "style-guide-title-case": (
         "Applies Chicago headline-style Title Case to titles and headings."
     ),
     "style-guide-commentary-case": (
-        "'Applies Commentary Case: lowercase-leading sentences, selective"
-        " Title Case on key words, no terminal punctuation.'"
+        "lowercase-leading sentences, selective Title Case on key words, no"
+        " terminal punctuation."
     ),
     "style-guide-good-writing": (
-        '"Proofreads and polishes text with minimal edits'
-        " \\u2014 fixing spelling, grammar, punctuation, and clarity while"
-        ' preserving the original meaning, voice, and wording."'
+        "fixing spelling, grammar, punctuation, and clarity while preserving"
+        " the original meaning, voice, and wording."
     ),
     "coder-gdscript": "GDScript code for Godot 4",
     "coder-unreal-engine": "C++ code for Unreal Engine",
     "coder-cpp": "Writes, edits, and reviews all C++ code.",
     "date-and-time-format": "when dates or times appear in output",
     "triage-tags": (
-        '"Defines triage tags (TT) \\u2014 defect/note labels spanning code'
+        "defect/note labels spanning code"
         " and docs across 3 case tiers (Loud/Steady/Quiet), with per-tag"
-        ' meanings and raise/lower tier shifts"'
+        " meanings and raise/lower tier shifts"
     ),
     "numerical-values-with-units": "when physical quantities appear in output",
     "international-phonetic-alphabet": "IPA transcription",
@@ -202,27 +191,24 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         " standards."
     ),
     "project-changelog-writer": (
-        '"Writes and maintains CHANGELOG files per Keep a Changelog'
-        " conventions \\u2014 dated version entries newest-first, grouped"
+        "dated version entries newest-first, grouped"
         " change types, a persistent `[Unreleased]` section, and linkable"
-        ' version references."'
+        " version references."
     ),
     "project-readme-writer": (
-        '"Writes and maintains human-friendly README files'
-        " \\u2014 scannable, visually clear landing pages covering a"
+        "scannable, visually clear landing pages covering a"
         " project's purpose, features, setup, usage, and contribution"
         " flow, with a standard title format and tasteful use of headings,"
-        ' lists, badges, and emoji."'
+        " lists, badges, and emoji."
     ),
     "project-agents-writer": (
-        '"`AGENTS.md` is the **prescriptive** instruction layer for AI'
-        " coding agents \\u2014 it states *how the agent should behave*"
+        "it states *how the agent should behave*"
         " in a repository: setup/build/run/test commands, code-style"
         " conventions, PR and commit rules, and do/don't safety"
         " constraints. It is agent-facing and always loaded (unlike the"
         " human-facing `README.md`), and `AGENTS.local.md` holds"
         " personal, gitignored overrides. This skill writes and"
-        ' maintains those files."'
+        " maintains those files."
     ),
     "art-tutor": (
         "Helps users build and refine AI image-generation prompts"
@@ -241,12 +227,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         "Revises user-provided text while preserving original intent and"
         " style, offering suggestions and iterating on feedback."
     ),
-    "librarian": (
-        '"Creates detailed academic reading notes from provided text'
-        " \\u2014 summarizing paragraph by paragraph into structured bullet"
-        " points \\u2014 and generates Chicago-style citations and"
-        ' bibliographies on request."'
-    ),
+    "librarian": "Creates detailed academic reading notes from provided text",
     "secretary": (
         "Drafts and processes emails and messages on the user's behalf."
     ),
@@ -302,40 +283,29 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
 
 TESTEE_HOW_TO_USE_CONTENT_ALL = {
     "coder-bash": (
-        "'Use for terminal commands or shell one-liners on"
-        ' Debian/Ubuntu. Triggers: "command to...,"'
-        ' "bash for...," CLI tasks.\''
+        "Use for terminal commands or shell one-liners on Debian/Ubuntu. "
     ),
     "coder-python-docstring-style": (
         "trigger whenever a Python function, method, class, or"
         " module is written or edited"
     ),
     "agent-behavior": (
-        '"ALWAYS apply \\u2014 every task, every turn, no'
+        "every task, every turn, no"
         " exceptions. Not situational: this defines default agent conduct"
         " at all times, regardless of the request or whether files or"
-        ' summaries are involved."'
+        " summaries are involved."
     ),
     "project-structure": (
-        "'Use when scaffolding a new repo, organizing"
-        " an existing one, or deciding where a file or folder"
-        ' belongs. Triggers: "set up project structure,"'
-        ' "where should this go," naming a standard doc or'
-        " directory.'"
+        "Use when scaffolding a new repo, organizing"
+        " an existing one, or deciding where a file or folder belongs."
     ),
     "project-semantic-versioning": (
-        "'Use when assigning, bumping, or formatting"
+        "Use when assigning, bumping, or formatting"
         " a version, or choosing a pre-release/build tag."
-        ' Triggers: "what version," "tag a release," semver,'
-        " alpha/beta/rc.'"
     ),
     "style-guide-briefness-style": (
-        '"Use when the user asks for headlinese, telegraphic,'
-        " or ultra-condensed text \\u2014 notes, headlines, summaries,"
-        ' bullets, status lines, captions \\u2014 or says \\"make it'
-        ' brief/terse/punchy,\\" \\"cut words,\\" or \\"headline style.\\"'
-        " Not for prose needing full grammar, formal tone, or complete"
-        ' sentences."'
+        "Use when the user asks for headlinese, telegraphic,"
+        " or ultra-condensed text"
     ),
     "style-guide-title-case": (
         "When formatting a document title or section heading."
@@ -373,35 +343,22 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
         " non-test Python code"
     ),
     "coder-unity-engine": (
-        '"ALWAYS apply for any Unity work \\u2014 scripts,'
-        " components, ScriptableObjects, editor tools, gameplay"
+        "components, ScriptableObjects, editor tools, gameplay"
         " systems, UI, shaders, asset and scene logic. Triggers:"
         " `MonoBehaviour`, `[SerializeField]`, any mention"
-        ' of Unity."'
+        " of Unity."
     ),
     "project-changelog-writer": (
-        "'Use when creating, updating, or adding entries to a"
+        "Use when creating, updating, or adding entries to a"
         " CHANGELOG, or recording changes for a release."
-        ' Triggers: "update the changelog," "log this change,"'
-        ' "document the release."\''
     ),
     "project-readme-writer": (
-        "'Use when creating, updating, or reviewing a README or"
-        ' similar project landing page. Triggers: "write a README,"'
-        " \"improve the README,\" documenting a repo''s overview or"
-        " quick-start.'"
+        "Use when creating, updating, or reviewing a README or similar project"
+        " landing page."
     ),
     "project-agents-writer": (
-        '"Use when creating, updating, or reviewing `AGENTS.md`,'
-        " `AGENTS.local.md`, `CLAUDE.md`, or similar"
-        ' agent-instruction files. Triggers: \\"write an AGENTS.md,\\"'
-        ' \\"add agent instructions,\\" \\"agent rules/conventions.\\"'
-        " Key difference from its sibling: `AGENTS.md` is"
-        " **prescriptive** \\u2014 commands, rules, and constraints that"
-        " govern behavior \\u2014 whereas `CONTEXT.md` is **descriptive**"
-        " \\u2014 architecture, domain model, and patterns that explain"
-        " what the codebase is. Route descriptive architecture or domain"
-        ' knowledge to `CONTEXT.md`, not here."'
+        "Route descriptive architecture or domain knowledge to `CONTEXT.md`,"
+        " not here."
     ),
 }
 
@@ -625,13 +582,11 @@ def assert_claude_header_line_how_to_use(skill_id, testee_header):
 
 
 def assert_description_in_continue_description_field(prompt_id, testee_header):
-    return True  # HACK
     description = TESTEE_DESCRIPTION_CONTENT_ALL[prompt_id]
     return any(description in line for line in testee_header)
 
 
 def assert_when_to_use_in_continue_description_field(prompt_id, testee_header):
-    return True  # HACK
     how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[prompt_id]
     return any(how_to_use in line for line in testee_header)
 
