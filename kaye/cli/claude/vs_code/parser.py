@@ -10,13 +10,17 @@ from kaye.cli.claude.user_prompt.parser import (
 )
 from .export import export_vs_code_extension
 
+# TODO mpl permission settings for v, to ask permission for command: git & pytest */tests/, & etc.
+
 # constants  ===================================================================
 
 _DESCRIPTION = """
 
-writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint),
-updates settings.json, and exports the kaye plugin wrapped in a
-marketplace under kaye_marketplace/.
+which performs:
+
+- writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint)
+- updates settings.json
+- exports the kaye plugin wrapped in a marketplace under kaye_marketplace/.
 
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
