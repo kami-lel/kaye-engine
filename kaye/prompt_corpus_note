@@ -20,4 +20,3 @@ TODO changelog writer: use [!WARNING] for breaking api etc.
 
 FIXME better german learner prompt
 
-BUG cb0 for // comments are wrong, use multi line if possible
