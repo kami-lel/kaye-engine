@@ -10,9 +10,8 @@ import json
 
 import pytest
 
-from tests import TESTEE_TRIAGE_TAG_CONTENT
+from tests import TESTEE_TRIAGE_TAG_BASE_CONTENT
 from tests.api.ky.task import *
-
 
 # pytest fixtures  #############################################################
 
@@ -29,9 +28,9 @@ def opt_coder(flask_test_client, task_endpoint):
 
 class TestTriageTags:  # ========================================================
 
-    @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
+    @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_BASE_CONTENT)))
     def test_tt_content(_, opt_coder, i):
-        assert TESTEE_TRIAGE_TAG_CONTENT[i] in opt_coder
+        assert TESTEE_TRIAGE_TAG_BASE_CONTENT[i] in opt_coder
 
 
 # Pytest unit tests  ###########################################################
