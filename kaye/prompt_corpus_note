@@ -14,8 +14,6 @@ Todo add these two tags across abbrs.json: usable_abbrs & coding
 Todo add explanation of meaning for coding tag in coder prompt, and additional terms
 
 
-TODO changelog writer: use [!WARNING] for breaking api etc.
-
 FIXME better german learner prompt
 
 BUG BUG date time no unit test on content

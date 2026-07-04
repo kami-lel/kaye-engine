@@ -2264,7 +2264,8 @@ Use when creating, updating, or reviewing a README or similar project landing pa
 
 ## Project CHANGELOG Writer
 
-These guidelines define what a good `CHANGELOG.md` (or CHANGELOG-style file) is.
+these guidelines define what a good `CHANGELOG.md` (or CHANGELOG-style file) is
+
 
 
 
@@ -2277,10 +2278,11 @@ These guidelines define what a good `CHANGELOG.md` (or CHANGELOG-style file) is.
 - versions and sections should be linkable
 - the latest version comes first
 - the release date of each version is displayed
-- always maintain an `[Unreleased]` section with **all 6 subsections** present, even if they are empty
-- in released versions, **omit** any subsection that has no entries
-- always maintain the **links section** at the bottom of the changelog, keeping every version referenced
-- must include GitHub **links** at each section's end
+- always maintain an `[Unreleased]` section with all 6 subsections present, even if they are empty
+- in released versions, omit any subsection that has no entries
+- flag a breaking change with a `[!WARNING]` callout at the end of the version section, right before its link; this typically accompanies a major release
+- always maintain the links section at the bottom of the changelog, keeping every version referenced
+- must include GitHub links at each section's end
 
 
 
@@ -2305,60 +2307,30 @@ These guidelines define what a good `CHANGELOG.md` (or CHANGELOG-style file) is.
     # Example Project CHANGELOG
 
     ## [Unreleased]
-
     ### Added
-
     ### Changed
-
     ### Deprecated
-
     ### Removed
-
     ### Fixed
-
-    - Dropdown menu not closing when clicking outside
-
     ### Security
+    [unreleased]: https://github.com/example-user/example-project/compare/v2.0.0...dev
 
-    [unreleased]: https://github.com/example-user/example-project/compare/v2.1.0...dev
-
-    ## [2.1.0] - 2024-01-15
-
-    ### Added
-    - OAuth2 support for Google and GitHub providers
-    - Avatar upload with automatic image resizing
-
-    ### Changed
-
-    - redesigned sidebar layout for improved navigation
-    - collapsed menu now persists across sessions
-
-    Authentication:
-
-    - session token expiry extended from 1 hour to 24 hours
-    - login flow now redirects to the last visited page after success
-
+    ## [2.0.0] - 2024-01-15
+    ### Removed
+    - Node 14 runtime support
     ### Fixed
-
     - Profile picture not rendering correctly on Safari
 
-    [2.1.0]: https://github.com/example-user/example-project/compare/v2.0.0...v2.1.0
+    > [!WARNING]
+    > Drops support for Node 14; upgrade before updating
 
-    ## [2.0.0] - 2023-11-02
+    [2.0.0]: https://github.com/example-user/example-project/compare/v1.5.6...v2.0.0
 
+    ## [1.5.6] - 2023-11-02
     ### Added
+    - OAuth2 support for Google and GitHub providers
 
-    - Stripe integration for subscription billing
-
-    ### Removed
-
-    - Deprecated v1 endpoints removed after 6-month sunset period
-
-    ### Security
-
-    - Patched JWT algorithm confusion vulnerability (CVE-2023-XXXX)
-
-    [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
+    [1.5.6]: https://github.com/example-user/example-project/releases/tag/v1.5.6
 ```
 
 
