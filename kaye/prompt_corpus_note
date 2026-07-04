@@ -20,3 +20,5 @@ TODO changelog writer: use [!WARNING] for breaking api etc.
 
 FIXME better german learner prompt
 
+BUG date time no unit test on content
+BUG update date time description & when to use testee

@@ -602,9 +602,52 @@ Use to proofread, copyedit, or correct writing without rewriting. Not for heavy 
 - Month-Day Example: For dates lacking a specific year, format them as: `Tue 01-16` (Day of the week Month-Day).
 - Time Format: Use a 24-hour clock when expressing time. For example, represent 2:30 PM as `14:30`.
 
+
+
+
+
+
+
+
+
+
+
+
+
+### 30-hour Clock
+
+Day extends past midnight instead of switching date. Count times from midnight to 6 AM as hours `24`–`29`, keep earlier date.
+
+- hours `24:00`~`29:59` = `00:00`~`05:59` of next Day
+- to convert, subtract `24` from hour, advance date: `07-01 26:00` = `07-02 02:00`
+- `06:00` is Cutoff; from 6 AM on, use new date, write time normally
+
+Edge cases:
+
+- `07-01 24:00` = midnight, start of `07-02`
+- `07-01 29:59` = latest time for `07-01`, i.e. `07-02 05:59`
+- `07-02 06:00` past Cutoff, takes new date not `07-01 30:00`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
 
-when dates or times appear in output
+Formats dates, times in output — weekday-prefixed dates, zero-padded years, 24-hr clock, plus a 30-hr clock stretching the prior day across pre-dawn hours
+
+### {when_to_use}
+
+Any date or time in output. Extend past `24:00` when a post-midnight, pre-6 AM moment belongs to the prior day's block
 
 
 
