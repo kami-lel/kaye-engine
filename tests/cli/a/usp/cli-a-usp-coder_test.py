@@ -1,9 +1,9 @@
 """
-cli-a-u-chat_test.py
+cli-a-usp-coder_test.py
 
 Unit Tests (using pytest) for:
 
-CLAUDE.md content produced by ``kaye claude user-system-prompt`` (chat stem)
+CLAUDE.md content produced by ``kaye claude user-system-prompt -c`` (coder stem)
 """
 
 import pytest
@@ -14,7 +14,9 @@ from tests import (
     TESTEE_MD_ADD_FORMAT_CONTENT,
     TESTEE_CHAT_ADDITIONAL_CONTENT,
     TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
+    TESTEE_CODER_CONTENT,
     TESTEE_AGENT_BEHAVIOR_CONTENT,
+    TESTEE_TRIAGE_TAG_CONTENT,
 )
 from tests.cli.a import TESTEE_CLAUDE_BEHAVIOR_CONTENT
 
@@ -23,8 +25,8 @@ from tests.cli.a import TESTEE_CLAUDE_BEHAVIOR_CONTENT
 
 
 @pytest.fixture(scope="session")
-def content(chat_content):
-    return chat_content
+def content(coder_content):
+    return coder_content
 
 
 # Unit test classes  ###########################################################
@@ -32,11 +34,11 @@ def content(chat_content):
 
 class TestBasic:  # ============================================================
 
-    def test_existence(self, chat_path):
-        assert chat_path.exists()
+    def test_existence(self, coder_path):
+        assert coder_path.exists()
 
-    def test_is_file(self, chat_path):
-        assert chat_path.is_file()
+    def test_is_file(self, coder_path):
+        assert coder_path.is_file()
 
 
 class TestContent:  # ===========================================================
@@ -59,6 +61,14 @@ class TestContent:  # ==========================================================
 
     @pytest.mark.parametrize("marker", TESTEE_CHAT_COMMENTARY_CASE_CONTENT)
     def test_chat_commentary_case(self, content, marker):
+        assert marker in content
+
+    @pytest.mark.parametrize("marker", TESTEE_CODER_CONTENT)
+    def test_coder(self, content, marker):
+        assert marker in content
+
+    @pytest.mark.parametrize("marker", TESTEE_TRIAGE_TAG_CONTENT)
+    def test_triage_tags(self, content, marker):
         assert marker in content
 
     @pytest.mark.parametrize("marker", TESTEE_AGENT_BEHAVIOR_CONTENT)
