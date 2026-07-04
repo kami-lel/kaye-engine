@@ -4,6 +4,7 @@ export_plugin_as_folder.py
 define ``export_plugin_as_folder``
 """
 
+from email.utils import parseaddr
 from importlib.metadata import metadata, version
 
 from kaye import logger
@@ -40,14 +41,12 @@ def export_plugin_as_folder(parent_folder):
 
     meta = metadata(PROGRAM_NAME)
     pkg_version = version(PROGRAM_NAME)
-    pkg_author = meta["Author"] or ""
-    pkg_author_email = meta.get("Author-email") or ""
-    pkg_homepage = meta.get("Home-page") or ""
-    pkg_repository = (
-        meta.get("Project-URL", "").split(", ")[-1]
-        if meta.get("Project-URL")
-        else ""
+    pkg_author, pkg_author_email = parseaddr(meta.get("Author-email") or "")
+    pkg_urls = dict(
+        _url.split(", ", 1) for _url in meta.get_all("Project-URL") or []
     )
+    pkg_homepage = pkg_urls.get("homepage", "")
+    pkg_repository = pkg_urls.get("Repository", "")
 
     with ManifestPluginJson(plugin_root) as manifest:
         manifest.name = PROGRAM_NAME
