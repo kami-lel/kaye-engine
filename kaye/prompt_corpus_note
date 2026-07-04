@@ -14,7 +14,7 @@ Todo add these two tags across abbrs.json: usable_abbrs & coding
 Todo add explanation of meaning for coding tag in coder prompt, and additional terms
 
 
-FIXME better german learner prompt
+fixme better german learner prompt
 
 BUG BUG date time no unit test on content
 BUG BUG update date time description & when to use testee
