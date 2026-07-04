@@ -68,10 +68,7 @@ def _set_permissions(data, permission_cmds):
     perms = data.setdefault("permissions", {})
 
     for field in _PERMISSION_FIELDS:
-        field_perms = perms.setdefault(field, [])
-        for cmd in permission_cmds[field]:
-            if cmd not in field_perms:
-                field_perms.append(cmd)
+        perms[field] = permission_cmds[field]
 
 
 # Public API  ##################################################################
