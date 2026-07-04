@@ -7,6 +7,8 @@ define ``MarketplaceJson``
 import json
 from pathlib import Path
 
+# BUG no author name
+
 
 class MarketplaceJson:  #########################################################
     """
