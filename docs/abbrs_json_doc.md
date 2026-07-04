@@ -73,6 +73,8 @@ must be an *array* of *string* of these selected values:
 
 - `"single_character"`: single letter/character abbreviations
 
+- `"coding"`: abbreviation/terms used in software development / coding context
+
 Character set:
 
 - `"letters_only"`
