@@ -21,9 +21,9 @@ __all__ = (
     "assert_claude_header_line_description",
     "assert_claude_header_line_how_to_use",
     "assert_continue_blueprint_header_line_name",
-    "assert_continue_description_field",
-    "assert_continue_header_line_description",
     "assert_continue_prompt_header_line_name",
+    "assert_description_in_continue_description_field",
+    "assert_when_to_use_in_continue_description_field",
     "assert_header_line_paths_header",
     "assert_header_line_paths_content",
     "assert_prerequisite_heading_line",
@@ -621,32 +621,17 @@ def assert_claude_header_line_how_to_use(skill_id, testee_header):
     check if a Claude skill when_to_use header line exists
     """
     how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[skill_id]
-
     return any(how_to_use in line for line in testee_header)
 
 
-# HACK remove this
-def assert_continue_header_line_description(prompt_id, testee_header):
-    """
-    check if a Continue prompt description+when_to_use combined header line
-    exists
-    """
-    description = TESTEE_DESCRIPTION_CONTENT_ALL[prompt_id]
-    how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[prompt_id]
-    keyword = "description: " + description + how_to_use
-    return keyword in testee_header
-
-
-def assert_continue_description_field(prompt_id, testee_header):
-    return True  # HACK remove
-
-
 def assert_description_in_continue_description_field(prompt_id, testee_header):
-    return True  # HACK mpl
+    description = TESTEE_DESCRIPTION_CONTENT_ALL[prompt_id]
+    return any(description in line for line in testee_header)
 
 
 def assert_when_to_use_in_continue_description_field(prompt_id, testee_header):
-    return True  # HACK mpl
+    how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[prompt_id]
+    return any(how_to_use in line for line in testee_header)
 
 
 def assert_header_line_paths_header(testee_header):
