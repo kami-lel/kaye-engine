@@ -57,6 +57,8 @@ def _set_pre_compact_prompt(data, prompt):
 
 # Public API  ##################################################################
 
+# TODO mpl permission settings for v, to ask permission for command: git & pytest */tests/, & etc.
+
 
 def update_settings_json_for_pre_compact_hook(claude_folder):
     """
