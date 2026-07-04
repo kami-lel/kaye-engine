@@ -21,9 +21,10 @@ _SETTINGS_FILENAME = "settings.json"
 _HOOK_MATCHER = "*"
 _HOOK_TYPE = "prompt"
 
-_ASK_PERMISSION_CMDS_PATH = (
-    Path(__file__).parent.parent / "ask_permission_cmds.jsonc"
+_PERMISSION_CMDS_PATH = (
+    Path(__file__).parent.parent / "permission_cmds.jsonc"
 )
+_PERMISSION_FIELDS = ("ask", "deny", "allow")
 
 _JSONC_COMMENT_RE = re.compile(
     r'"(?:\\.|[^"\\])*"|(//[^\n]*)', re.MULTILINE
@@ -39,12 +40,12 @@ def _strip_jsonc_comments(text):
     )
 
 
-def _load_ask_permission_cmds():
-    raw = _ASK_PERMISSION_CMDS_PATH.read_text(encoding="utf-8")
+def _load_permission_cmds():
+    raw = _PERMISSION_CMDS_PATH.read_text(encoding="utf-8")
     return json.loads(_strip_jsonc_comments(raw))
 
 
-def _build_settings(prompt, permission_list):
+def _build_settings(prompt, permission_cmds):
     return {
         "hooks": {
             "PreCompact": [{
@@ -53,7 +54,7 @@ def _build_settings(prompt, permission_list):
             }]
         },
         "permissions": {
-            "ask": permission_list,
+            field: permission_cmds[field] for field in _PERMISSION_FIELDS
         },
     }
 
@@ -79,13 +80,14 @@ def _set_pre_compact_prompt(data, prompt):
     })
 
 
-def _set_permissions(data, permission_list):
+def _set_permissions(data, permission_cmds):
     perms = data.setdefault("permissions", {})
-    ask_perms = perms.setdefault("ask", [])
 
-    for cmd in permission_list:
-        if cmd not in ask_perms:
-            ask_perms.append(cmd)
+    for field in _PERMISSION_FIELDS:
+        field_perms = perms.setdefault(field, [])
+        for cmd in permission_cmds[field]:
+            if cmd not in field_perms:
+                field_perms.append(cmd)
 
 
 # Public API  ##################################################################
@@ -110,7 +112,7 @@ def update_settings_json(claude_folder):
     # convert to single line compact format
     single_line = REPLACEMENT_NEWLINE_SYMBOL.join(lines)
 
-    ask_permission_cmds = _load_ask_permission_cmds()
+    permission_cmds = _load_permission_cmds()
 
     settings_path = Path(claude_folder) / _SETTINGS_FILENAME
     settings_path.parent.mkdir(parents=True, exist_ok=True)
@@ -120,9 +122,9 @@ def update_settings_json(claude_folder):
             data = json.load(f)
         _set_pre_compact_prompt(data, single_line)
     else:
-        data = _build_settings(single_line, ask_permission_cmds)
+        data = _build_settings(single_line, permission_cmds)
 
-    _set_permissions(data, ask_permission_cmds)
+    _set_permissions(data, permission_cmds)
 
     with open(settings_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
