@@ -147,12 +147,12 @@ TESTEE_FILE_CONTENT_ALL = {
     ],
     "date-and-time-format": [
         "## Date and Time Format",
-        "- Full Date Example:",
-        "`Mon 02015-01-15`",
-        "- Month-Day Example:",
-        "`Tue 01-16`",
-        "- Time Format:",
-        "24-hour clock",
+        "- Full Date Example: For dates with a specific year",
+        "- Time Format: Use a 24-hour clock when expressing time",
+        "### 30-hour Clock",
+        "Day extends past midnight instead of switching date.",
+        "Edge cases:",
+        "- `07-02 06:00` past Cutoff, takes new date not",
     ],
     "numerical-values-with-units": [
         "## Numerical Values with Units",
