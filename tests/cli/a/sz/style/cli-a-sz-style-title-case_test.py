@@ -71,7 +71,7 @@ class TestHeader:  # ===========================================================
         assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_when(_, testee_header):
-        assert assert_claude_header_line_how_to_use(SKILL_NAME, testee_header)
+        assert assert_claude_header_line_when_to_use(SKILL_NAME, testee_header)
 
     def test_version(self, testee_header):
         assert any(VERSION_LINE_PATTERN.match(line) for line in testee_header)
