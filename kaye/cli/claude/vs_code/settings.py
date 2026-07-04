@@ -6,8 +6,9 @@ define ``update_settings_json`` — configure VS Code Extension settings
 """
 
 import json
-import re
 from pathlib import Path
+
+import json5
 
 from kaye.prompt import REPLACEMENT_NEWLINE_SYMBOL, load_prompt_corpus_tree
 from kaye.prompt.prompt_blueprint import PromptBlueprint
@@ -24,22 +25,8 @@ _HOOK_TYPE = "prompt"
 _PERMISSION_CMDS_PATH = Path(__file__).parent.parent / "permission_cmds.jsonc"
 _PERMISSION_FIELDS = ("ask", "deny", "allow")
 
-_JSONC_COMMENT_RE = re.compile(r'"(?:\\.|[^"\\])*"|(//[^\n]*)', re.MULTILINE)
-
 
 # helpers  #####################################################################
-
-
-def _strip_jsonc_comments(text):
-    return _JSONC_COMMENT_RE.sub(
-        lambda m: "" if m.group(1) else m.group(0), text
-    )
-
-
-def _load_permission_cmds():
-    # BUG must use proper jsonc reader
-    raw = _PERMISSION_CMDS_PATH.read_text(encoding="utf-8")
-    return json.loads(_strip_jsonc_comments(raw))
 
 
 def _build_settings(prompt, permission_cmds):
@@ -109,7 +96,8 @@ def update_settings_json(claude_folder):
     # convert to single line compact format
     single_line = REPLACEMENT_NEWLINE_SYMBOL.join(lines)
 
-    permission_cmds = _load_permission_cmds()
+    with open(_PERMISSION_CMDS_PATH, encoding="utf-8") as f:
+        permission_cmds = json5.load(f)
 
     settings_path = Path(claude_folder) / _SETTINGS_FILENAME
     settings_path.parent.mkdir(parents=True, exist_ok=True)
