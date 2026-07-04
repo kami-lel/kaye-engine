@@ -9,11 +9,11 @@ todo standardize software dev lifecycle, with standardized vocab, in coder
 
 Todo add 30hour date time
 
-Todo add dynamic node for usable abbrs: in user system prompt
-Todo add dynamic node coding in: coder prompt
-Todo add abbr tags: "coding" for coding terms
-Todo add these two tags across abbrs.json: usable_abbrs & coding
-Todo add explanation of meaning for coding tag in coder prompt, and additional terms
+TODO add dynamic node for usable abbrs: in user system prompt
+TODO add dynamic node coding in: coder prompt
+TODO add abbr tags: "coding" for coding terms
+TODO add these two tags across abbrs.json: usable_abbrs & coding
+TODO add explanation of meaning for coding tag in coder prompt, and additional terms
 
 
 Todo changelog writer: use [!WARNING] for breaking api etc.
