@@ -10,7 +10,7 @@ __all__ = (
     "PROMPT_FILENAME2NAME",
     "TESTEE_FILE_CONTENT_ALL",
     "TESTEE_DESCRIPTION_CONTENT_ALL",
-    "TESTEE_HOW_TO_USE_CONTENT_ALL",
+    "TESTEE_WHEN_TO_USE_CONTENT_ALL",
     "TESTEE_PREREQUISITE_CONTENT_ALL",
     "TESTEE_FOR_CLAUDE_CONTENT_ALL",
     "TESTEE_TRIAGE_TAG_CONTENT",
@@ -19,7 +19,7 @@ __all__ = (
     "assert_header_line_always_apply",
     "assert_claude_header_line_name",
     "assert_claude_header_line_description",
-    "assert_claude_header_line_how_to_use",
+    "assert_claude_header_line_when_to_use",
     "assert_continue_blueprint_header_line_name",
     "assert_continue_prompt_header_line_name",
     "assert_description_in_continue_description_field",
@@ -285,7 +285,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
 
 # HACK wrong name
 
-TESTEE_HOW_TO_USE_CONTENT_ALL = {
+TESTEE_WHEN_TO_USE_CONTENT_ALL = {
     "coder-bash": (
         "Use for terminal commands or shell one-liners on Debian/Ubuntu. "
     ),
@@ -581,12 +581,12 @@ def assert_claude_header_line_description(skill_id, testee_header):
     return any(description in line for line in testee_header)
 
 
-def assert_claude_header_line_how_to_use(skill_id, testee_header):
+def assert_claude_header_line_when_to_use(skill_id, testee_header):
     """
     check if a Claude skill when_to_use header line exists
     """
-    how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[skill_id]
-    return any(how_to_use in line for line in testee_header)
+    when_to_use = TESTEE_WHEN_TO_USE_CONTENT_ALL[skill_id]
+    return any(when_to_use in line for line in testee_header)
 
 
 def assert_description_in_continue_description_field(prompt_id, testee_header):
@@ -595,8 +595,8 @@ def assert_description_in_continue_description_field(prompt_id, testee_header):
 
 
 def assert_when_to_use_in_continue_description_field(prompt_id, testee_header):
-    how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[prompt_id]
-    return any(how_to_use in line for line in testee_header)
+    when_to_use = TESTEE_WHEN_TO_USE_CONTENT_ALL[prompt_id]
+    return any(when_to_use in line for line in testee_header)
 
 
 def assert_header_line_paths_header(testee_header):
