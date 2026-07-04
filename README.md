@@ -1,11 +1,5 @@
 # Kaye README
 
-
-<!--
-FIXME use new pattern pyproject.toml
-FIXME a new alpha version
--->
-
 > Consistent AI Agent Persona **Kaye**, powered by rigorous prompt engineering
 
 Kaye is a toolkit for maintaining a consistent AI agent persona from a single, structured source of truth. The project focuses on producing scenario-ready prompts from a central Markdown corpus using blueprints with APIs and CLI.
