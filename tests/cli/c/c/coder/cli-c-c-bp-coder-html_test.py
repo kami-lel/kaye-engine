@@ -55,7 +55,7 @@ class TestHeader:  # ===========================================================
         assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        assert assert_continue_description_field(MD_FILENAME, testee_header)
+        assert assert_description_in_continue_description_field(MD_FILENAME, testee_header)
 
     def test_globs(_, testee_header):
         assert 'globs: ["**/*.{html,htm}"]' in testee_header
