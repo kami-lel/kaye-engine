@@ -8,7 +8,6 @@ import json
 from pathlib import Path
 
 
-# BUG no author name, no url
 class ManifestPluginJson:  #######################################################
     """
     manage metadata and content writing for a Claude plugin manifest file
