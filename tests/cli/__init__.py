@@ -126,9 +126,8 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         ' when requested."'
     ),
     "coder-python-docstring-style": (
-        "Writes and formats Python docstrings in"
-        " Sphinx/reStructuredText style, enforcing the project's"
-        " docstring forms, field ordering, and visibility rules."
+        "writes, formats Python docstrings in Sphinx/"
+        "reStructuredText"
     ),
     "agent-behavior": (
         "Baseline agent behavior, treats between-round file"
@@ -189,10 +188,13 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         " code, targeting the ES11 standard with camelCase naming and"
         " JSDoc documentation conventions."
     ),
-    "coder-python": "Writes, edits, and reviews all Python code",
+    "coder-python": (
+        "writes, edits, reviews Python code: scripts, modules,"
+        " packages, functions, classes, inline snippets"
+    ),
     "coder-python-testing-guidelines": (
-        "Writes and reviews Python `pytest` test code following"
-        " the project's testing conventions."
+        "writes, reviews Python `pytest` test code per project"
+        " conventions"
     ),
     "coder-unity-engine": (
         "Writes, edits, and reviews all Unity 6 C# code, applying"
@@ -305,10 +307,12 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
         ' "bash for...," CLI tasks.\''
     ),
     "coder-python-docstring-style": (
-        '"Use whenever Python code needs docstrings'
-        ' \\u2014 including \\"add a docstring,\\" \\"document'
-        ' this,\\" or \\"write the function.\\" Triggers: docstring,'
-        ' Sphinx, reST, `:param:`."'
+        "trigger whenever a Python function, method, class, or"
+        " module is written or edited — docstrings are"
+        " near-mandatory, so add or update one by default, not just"
+        " on explicit request. Also trigger on docstring, Sphinx,"
+        " reST, `:param:`, `:return:`, `:raises:`, `:type:`"
+        " mentions"
     ),
     "agent-behavior": (
         '"ALWAYS apply \\u2014 every task, every turn, no'
@@ -360,13 +364,17 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
         " code blocks, requests for JavaScript, TypeScript, or Node."
     ),
     "coder-python": (
-        "Use for any Python work, inline Python code blocks,"
-        " requests for Python scripts, modules, or packages."
+        "trigger for any Python task — `.py` files, code blocks,"
+        " writing/fixing/refactoring/optimizing/reviewing Python, or"
+        " bare code requests with no language stated in a Python"
+        " context. Not for docstring-only or test-only requests,"
+        " route those to the dedicated skills"
     ),
     "coder-python-testing-guidelines": (
-        "'Use whenever Python tests are written, run, fixed, or"
-        " discussed. Triggers: `test_`/`_test.py` files, `pytest`,"
-        ' "add tests," "write a unit test," "test this function."\''
+        "trigger on `test_*.py`/`*_test.py` files, pytest,"
+        " fixtures, mocks, parametrize, assertions, or requests"
+        " like write/add/fix a unit test or test case. Not for"
+        " non-test Python code"
     ),
     "coder-unity-engine": (
         '"ALWAYS apply for any Unity work \\u2014 scripts,'
