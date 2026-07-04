@@ -1,12 +1,12 @@
 
 todo resume role
 
-Fixme desensitize personality
+fixme desensitize personality
 
 todo agent behavior add md-style task list, when Claude "task" is not available
 
-Todo standardize software dev lifecycle, with standardized vocab, in coder
-Todo add control-language style instruction
+todo standardize software dev lifecycle, with standardized vocab, in coder
+todo add control-language style instruction
 
 Todo add dynamic node for usable abbrs: in user system prompt
 Todo add dynamic node coding in: coder prompt
