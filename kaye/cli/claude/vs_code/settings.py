@@ -13,7 +13,6 @@ from kaye.prompt.prompt_blueprint import PromptBlueprint
 from kaye.cli.claude import CONTAINING_META_NODES
 
 # Bug not sure if pre compact hook is triggered
-# TODO include pytest too
 
 # constants  ###################################################################
 
