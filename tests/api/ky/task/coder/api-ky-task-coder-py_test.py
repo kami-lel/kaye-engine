@@ -20,10 +20,20 @@ from tests import (
     TESTEE_BRIEFNESS_CONTENT,
     TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT,
     TESTEE_CODER_CONTENT,
+    TESTEE_FILE_CONTENT_ALL,
 )
 
 from tests.api.ky.task import *
 from tests.api.ky.task.coder import *
+
+# constants  ###################################################################
+
+
+TESTEE_FILE_CONTENT = (
+    TESTEE_FILE_CONTENT_ALL["coder-python"]
+    + TESTEE_FILE_CONTENT_ALL["coder-python-docstring-style"]
+    + TESTEE_FILE_CONTENT_ALL["coder-python-testing-guidelines"]
+)
 
 # pytest fixtures  #############################################################
 
@@ -59,29 +69,9 @@ class TestTriageTags:  # =======================================================
 
 class TestCoder:  # ============================================================
 
-    def test_py_title(_, opt):
-        assert_py_title(opt)
-
-    def test_py_intro(_, opt):
-        assert_py_intro(opt)
-
-    def test_py_doc0(_, opt):
-        assert_py_doc0(opt)
-
-    def test_py_doc1(_, opt):
-        assert_py_doc1(opt)
-
-    def test_py_pytest0(_, opt):
-        print(opt)
-        assert_py_pytest0(opt)
-
-    def test_py_pytest1(_, opt):
-        print(opt)
-        assert_py_pytest1(opt)
-
-    def test_py_pytest2(_, opt):
-        print(opt)
-        assert_py_pytest2(opt)
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, opt, i):
+        assert TESTEE_FILE_CONTENT[i] in opt
 
     # coder shared  ************************************************************
 

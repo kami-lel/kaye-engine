@@ -5,27 +5,19 @@ Fixme desensitize personality
 
 todo agent behavior add md-style task list, when Claude "task" is not available
 
-Todo standardize software dev lifecycle, with standardized vocab, in coder
+todo standardize software dev lifecycle, with standardized vocab, in coder
 
 Todo add 30hour date time
 
-Todo software dev vocab: pub/priv/method/fx(function)/property,etc.
+Todo add dynamic node for usable abbrs: in user system prompt
+Todo add dynamic node coding in: coder prompt
+Todo add abbr tags: "coding" for coding terms
+Todo add these two tags across abbrs.json: usable_abbrs & coding
+Todo add explanation of meaning for coding tag in coder prompt, and additional terms
 
-Todo make CB also usable as print out session in code
-Todo make CB subset, eg CB1L, CB1R, CB1C
-
-Todo docstring: specify vocab, single line etc
-Todo docstring: never true single line form
-Todo docstring: write return behavior in :return:
-Todo docstring: defaults to sentence: defaults=
-Todo docstring: return type can be iterable etc.
-Todo docstring line break after `;`
-Todo docstring raises: multiple scenario of same type must be different entries
-
-Todo always use "~" for range & other symbols
-
-Bug claude still try to use git commit
-Bug LLM try to fix TT, forbid it to do so
+Fixme refactor for CLI: user system prompt file (usm) and user scope directory (u)
+Todo mpl permission settings, to ask permission for command: git & pytest */tests/, & etc.
+Hack remove ### Git Command Safety Policy
 
 
 Todo changelog writer: use [!WARNING] for breaking api etc.

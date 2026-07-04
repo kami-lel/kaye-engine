@@ -20,9 +20,15 @@ from tests import (
     TESTEE_BRIEFNESS_CONTENT,
     TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT,
     TESTEE_CODER_CONTENT,
+    TESTEE_FILE_CONTENT_ALL,
 )
 from tests.api.ky.task import *
 from tests.api.ky.task.coder import *
+
+# constants  ###################################################################
+
+
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL["coder-bash"]
 
 # pytest fixtures  #############################################################
 
@@ -57,17 +63,9 @@ class TestTriageTags:  # =======================================================
 
 class TestCoder:  # ============================================================
 
-    def test0(_, opt):
-        assert "## Coder Bash" in opt
-
-    def test1(_, opt):
-        assert "You write command lines for" in opt
-
-    def test2(_, opt):
-        assert "Use sudo when needed." in opt
-
-    def test3(_, opt):
-        assert "If the request is ambiguous" in opt
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, opt, i):
+        assert TESTEE_FILE_CONTENT[i] in opt
 
     # coder shared  ************************************************************
 

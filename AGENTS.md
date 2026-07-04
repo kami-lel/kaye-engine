@@ -111,18 +111,43 @@ exports, touch these locations in order:
    content test; fixture is `testee_rules_folder / (display_name + ".md")`
    (file named by display name, not kebab slug)
 
-### YAML-quoting gotcha in `c/c` `test_description`
+### `c/c` `TestHeader` description/when-to-use pattern
 
-Descriptions that contain `/`, `—`, or `↵` (U+21B5, the separator between
-`{description}` and `{when_to_use}`) are double-quoted by PyYAML with unicode
-escapes. The resulting header line is too long to match exactly. Use:
+Every `cli-c-c-bp-*_test.py` file's `TestHeader` class has a `test_description`
+test; blueprints whose `MD_FILENAME` also has an entry in
+`TESTEE_HOW_TO_USE_CONTENT_ALL` add a `test_when_to_use` test right after it:
 
 ```python
-def test_description(_, testee_header):
-    assert any("distinctive keyword" in line for line in testee_header)
+class TestHeader:  # ===========================================================
+
+    def test_name(_, testee_header):
+        assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
+
+    def test_description(_, testee_header):
+        assert assert_description_in_continue_description_field(MD_FILENAME, testee_header)
+
+    def test_when_to_use(_, testee_header):
+        assert assert_when_to_use_in_continue_description_field(MD_FILENAME, testee_header)
+
+    def test_always_apply(_, testee_header):
+        assert_header_line_always_apply(testee_header, False)
 ```
 
-instead of `"description: X" in testee_header` (exact list-membership check).
+Omit `test_when_to_use` for blueprints with no `TESTEE_HOW_TO_USE_CONTENT_ALL`
+entry (e.g. `date-and-time-format`, `international-phonetic-alphabet`, most
+`role/` blueprints). `assert_description_in_continue_description_field` and
+`assert_when_to_use_in_continue_description_field` (`tests/cli/__init__.py`)
+each do a real substring check against `TESTEE_DESCRIPTION_CONTENT_ALL` /
+`TESTEE_HOW_TO_USE_CONTENT_ALL` — both corpora were minified to short
+substrings so they match regardless of PyYAML's unicode escaping of `/`, `—`,
+or `↵` (U+21B5, the separator between `{description}` and `{when_to_use}`) in
+the rendered Continue blueprint header.
+
+Every class body in these test files keeps **two** blank lines before the
+next `class` line (PEP 8), including before the first class after the
+`# Pytest unit tests` banner — a regex-based refactor once dropped this to a
+single blank line in files without `test_when_to_use`; watch for the same
+regression when scripting edits across this test group.
 
 ### `always_apply` for new blueprints
 

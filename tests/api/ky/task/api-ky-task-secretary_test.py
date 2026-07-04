@@ -9,7 +9,13 @@ Unit Tests (using pytest) for:
 import pytest
 
 
+from tests import TESTEE_FILE_CONTENT_ALL
 from tests.api.ky.task import *
+
+# constants  ###################################################################
+
+
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL["secretary"]
 
 # pytest fixtures  #############################################################
 
@@ -25,20 +31,9 @@ def opt(flask_test_client, task_endpoint):
 
 class TestEd:  # ===============================================================
 
-    def test0(_, opt):
-        assert "## Secretary" in opt
-
-    def test1(_, opt):
-        assert "Assist with message-based communication" in opt
-
-    def test2(_, opt):
-        assert "- Draft and compose emails or other messages." in opt
-
-    def test3(_, opt):
-        assert "- Use direct, concise, and clear language." in opt
-
-    def test4(_, opt):
-        assert "- Provide feedback, revision notes, or " in opt
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, opt, i):
+        assert TESTEE_FILE_CONTENT[i] in opt
 
     # chat blueprint  **********************************************************
 

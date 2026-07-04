@@ -95,7 +95,7 @@ number_unit_blueprint = PromptBlueprint.create_from_node(
 
 # Triage Tags
 triage_tags_blueprint = PromptBlueprint.create_from_node(
-    _corpus["Elements"]["Triage Tags"]
+    _corpus["Elements"]["Triage Tags"], recursively=True
 )
 
 

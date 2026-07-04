@@ -15,30 +15,24 @@ MD_FILENAME = "numerical-values-with-units"
 _SKILL_NAME = MD_FILENAME2SKILL_NAME[MD_FILENAME]
 TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[MD_FILENAME]
 
-
 # Pytest fixtures  #############################################################
-
 
 @pytest.fixture(scope="session")
 def testee_path(testee_rules_folder):
     return testee_rules_folder / (_SKILL_NAME + ".md")
-
 
 @pytest.fixture(scope="session")
 def testee(testee_path):
     with open(testee_path) as f:
         return f.read()
 
-
 @pytest.fixture(scope="session")
 def testee_header(testee):
     return split_frontmatter_md_file(testee)[0]
 
-
 @pytest.fixture(scope="session")
 def testee_content(testee):
     return split_frontmatter_md_file(testee)[1]
-
 
 # Pytest unit tests  ###########################################################
 
@@ -61,9 +55,7 @@ class TestHeader:  # ===========================================================
         assert assert_continue_blueprint_header_line_name(MD_FILENAME, testee_header)
 
     def test_description(_, testee_header):
-        assert assert_continue_blueprint_header_line_description(
-            MD_FILENAME, testee_header
-        )
+        assert assert_description_in_continue_description_field(MD_FILENAME, testee_header)
 
     def test_always_apply(_, testee_header):
         assert_header_line_always_apply(testee_header, False)
