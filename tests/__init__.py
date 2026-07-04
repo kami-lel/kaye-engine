@@ -113,8 +113,6 @@ TESTEE_AGENT_BEHAVIOR_CONTENT = [
     "# Agent Behavior",
     "Files are assumed to be consistent between rounds",
     "do not provide a recap or summary",
-    "### Git Command Safety Policy",
-    "Never run these git commands",
 ]
 
 TESTEE_TRIAGE_TAG_BASE_CONTENT = [

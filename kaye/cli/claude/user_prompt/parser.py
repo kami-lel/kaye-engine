@@ -22,6 +22,19 @@ PROMPT_FILE  (default: ~/.claude/CLAUDE.md)
 DEFAULT_CLAUDE_FOLDER = Path.home() / ".claude"
 
 
+def _user_prompt_main(args):
+    kamilog.set_logging_level_by_verbosity(args, logger=logger)
+    logger.enter("kaye claude user-system-prompt")
+
+    prompt_file = args.prompt_file
+
+    export_user_system_prompt_file(
+        prompt_file, use_rapid=args.rapid, use_coder=args.coder
+    )
+
+    logger.done("export user system prompt" + "\t" + str(prompt_file))
+
+
 def find_user_system_prompt_file(claude_folder):
     """
     :param claude_folder:
@@ -39,7 +52,7 @@ def register_user_prompt_subparser(cli_subparser):  ############################
         help=__doc__,
         description=__doc__ + _DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
-        aliases=["u"],
+        aliases=["usp"],
     )
 
     user_prompt_parser.add_argument(
@@ -68,17 +81,5 @@ def register_user_prompt_subparser(cli_subparser):  ############################
     )
 
     kamilog.add_verbose_arguments(user_prompt_parser)
-
-    def _user_prompt_main(args):
-        kamilog.set_logging_level_by_verbosity(args, logger=logger)
-        logger.enter("kaye claude user-system-prompt")
-
-        prompt_file = args.prompt_file
-
-        export_user_system_prompt_file(
-            prompt_file, use_rapid=args.rapid, use_coder=args.coder
-        )
-
-        logger.done("export user system prompt" + "\t" + str(prompt_file))
 
     user_prompt_parser.set_defaults(func=_user_prompt_main)

@@ -72,4 +72,3 @@ class ManifestPluginJson:  #####################################################
             json.dumps(manifest_data, indent=2) + "\n",
             encoding="utf-8",
         )
-

@@ -20,6 +20,20 @@
 
 ### Added
 
+**VS Code Extension settings permissions** — `kaye/cli/claude/permission_cmds.jsonc`
+lists Bash command patterns for the `allow` / `ask` / `deny` permission fields
+(git read-only commands allowed; destructive/system/package commands ask;
+loaded via `json5` to support comments); `update_settings_json` (renamed from
+`update_settings_json_for_pre_compact_hook`) writes these into the exported
+`settings.json` alongside the pre-compact hook
+
+**kamilog Comment Banner utilities** — `gen_comment_banner_centered`,
+`gen_comment_banner_left_just`, `gen_comment_banner_right_just`, and
+`gen_comment_banner_zero` generate CB-style banner lines; `AnsiRenderer`
+(renamed from `_AnsiPalette`, now public) backs their color output; a new
+`comment_banner`/`cb` and `comment_banner_zero`/`cb0` CLI exposes them via
+stdin; bumped to `kamilog` v2.2.0
+
 ### Changed
 
 **Packaging** — migrated project metadata, dependencies, and package
@@ -27,6 +41,15 @@ discovery from `setup.py`/`setup.cfg`/`requirements.txt` into a single
 PEP 621 `pyproject.toml`; dev-only tools (`pytest`) moved to a `dev` extra,
 installed via `pip install -e ".[dev]"`; `scripts/hooks/set_environment_variable.sh`
 now reads the project version from `pyproject.toml` instead of `setup.cfg`
+
+**CLI alias** — `claude user-system-prompt` alias renamed from `u` to `usp`
+
+**kamilog custom log levels** — renumbered `ENTER`/`SKIP`/`SUCC` from
+`11`/`12`/`15` to `15`/`16`/`17` to leave headroom below `INFO` (20)
+
+**Git Command Safety Policy** — moved from `Agent Behavior` into `Continue
+Behavior` in the prompt corpus, alongside the new permission list covering the
+same commands
 
 **CLI default handler** — simplified `_cli_main()` function to inline lambda;
 maintains existing behavior of printing CLI help when invoked without
@@ -53,6 +76,12 @@ entry
 **`setup.py`, `setup.cfg`, `requirements.txt`** — superseded by `pyproject.toml`
 
 ### Fixed
+
+**Marketplace/plugin author metadata** — `export_marketplace` and
+`export_plugin_as_folder` now parse `Author-email` with
+`email.utils.parseaddr` and build a `Project-URL` name→url map (`homepage`,
+`Repository`) instead of splitting a single joined string, fixing incorrect
+author/URL output in exported manifests
 
 ### Security
 
