@@ -21,22 +21,9 @@ _SETTINGS_FILENAME = "settings.json"
 _HOOK_MATCHER = "*"
 _HOOK_TYPE = "prompt"
 
-_GIT_RESTRICTED_COMMANDS = [
-    "Bash(git reset*)",
-    "Bash(git clean*)",
-    "Bash(git push*)",
-    "Bash(git rebase*)",
-    "Bash(git checkout*)",
-    "Bash(git restore*)",
-    "Bash(git branch*)",
-    "Bash(git tag*)",
-    "Bash(git gc*)",
-    "Bash(git reflog*)",
-    "Bash(git update-ref*)",
-    "Bash(git commit*)",
-    "Bash(git filter-branch*)",
-    "Bash(git filter-repo*)",
-    "Bash(git submodule*)",
+_ASK_PERMISSION_CMDS = [
+    # git — every git subcommand requires permission
+    "Bash(git *)",
 ]
 
 
@@ -52,7 +39,7 @@ def _build_settings(prompt):
             }]
         },
         "permissions": {
-            "ask": _GIT_RESTRICTED_COMMANDS.copy(),
+            "ask": _ASK_PERMISSION_CMDS,
         },
     }
 
@@ -119,7 +106,7 @@ def update_settings_json(claude_folder):
     else:
         data = _build_settings(single_line)
 
-    _set_permissions(data, _GIT_RESTRICTED_COMMANDS)
+    _set_permissions(data, _ASK_PERMMISION_CMDS)
 
     with open(settings_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
