@@ -119,7 +119,7 @@ exports, touch these locations in order:
 
 Every `cli-c-c-bp-*_test.py` file's `TestHeader` class has a `test_description`
 test; blueprints whose `MD_FILENAME` also has an entry in
-`TESTEE_HOW_TO_USE_CONTENT_ALL` add a `test_when_to_use` test right after it:
+`TESTEE_WHEN_TO_USE_CONTENT_ALL` add a `test_when_to_use` test right after it:
 
 ```python
 class TestHeader:  # ===========================================================
@@ -137,12 +137,12 @@ class TestHeader:  # ===========================================================
         assert_header_line_always_apply(testee_header, False)
 ```
 
-Omit `test_when_to_use` for blueprints with no `TESTEE_HOW_TO_USE_CONTENT_ALL`
+Omit `test_when_to_use` for blueprints with no `TESTEE_WHEN_TO_USE_CONTENT_ALL`
 entry (e.g. `date-and-time-format`, `international-phonetic-alphabet`, most
 `role/` blueprints). `assert_description_in_continue_description_field` and
 `assert_when_to_use_in_continue_description_field` (`tests/cli/__init__.py`)
 each do a real substring check against `TESTEE_DESCRIPTION_CONTENT_ALL` /
-`TESTEE_HOW_TO_USE_CONTENT_ALL` — both corpora were minified to short
+`TESTEE_WHEN_TO_USE_CONTENT_ALL` — both corpora were minified to short
 substrings so they match regardless of PyYAML's unicode escaping of `/`, `—`,
 or `↵` (U+21B5, the separator between `{description}` and `{when_to_use}`) in
 the rendered Continue blueprint header.

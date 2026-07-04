@@ -602,9 +602,52 @@ Use to proofread, copyedit, or correct writing without rewriting. Not for heavy 
 - Month-Day Example: For dates lacking a specific year, format them as: `Tue 01-16` (Day of the week Month-Day).
 - Time Format: Use a 24-hour clock when expressing time. For example, represent 2:30 PM as `14:30`.
 
+
+
+
+
+
+
+
+
+
+
+
+
+### 30-hour Clock
+
+Day extends past midnight instead of switching date. Count times from midnight to 6 AM as hours `24`–`29`, keep earlier date.
+
+- hours `24:00`~`29:59` = `00:00`~`05:59` of next Day
+- to convert, subtract `24` from hour, advance date: `07-01 26:00` = `07-02 02:00`
+- `06:00` is Cutoff; from 6 AM on, use new date, write time normally
+
+Edge cases:
+
+- `07-01 24:00` = midnight, start of `07-02`
+- `07-01 29:59` = latest time for `07-01`, i.e. `07-02 05:59`
+- `07-02 06:00` past Cutoff, takes new date not `07-01 30:00`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
 
-when dates or times appear in output
+Formats dates, times in output — weekday-prefixed dates, zero-padded years, 24-hr clock, plus a 30-hr clock stretching the prior day across pre-dawn hours
+
+### {when_to_use}
+
+Any date or time in output. Extend past `24:00` when a post-midnight, pre-6 AM moment belongs to the prior day's block
 
 
 
@@ -2221,7 +2264,8 @@ Use when creating, updating, or reviewing a README or similar project landing pa
 
 ## Project CHANGELOG Writer
 
-These guidelines define what a good `CHANGELOG.md` (or CHANGELOG-style file) is.
+these guidelines define what a good `CHANGELOG.md` (or CHANGELOG-style file) is
+
 
 
 
@@ -2234,10 +2278,11 @@ These guidelines define what a good `CHANGELOG.md` (or CHANGELOG-style file) is.
 - versions and sections should be linkable
 - the latest version comes first
 - the release date of each version is displayed
-- always maintain an `[Unreleased]` section with **all 6 subsections** present, even if they are empty
-- in released versions, **omit** any subsection that has no entries
-- always maintain the **links section** at the bottom of the changelog, keeping every version referenced
-- must include GitHub **links** at each section's end
+- always maintain an `[Unreleased]` section with all 6 subsections present, even if they are empty
+- in released versions, omit any subsection that has no entries
+- flag a breaking change with a `[!WARNING]` callout at the end of the version section, right before its link; this typically accompanies a major release
+- always maintain the links section at the bottom of the changelog, keeping every version referenced
+- must include GitHub links at each section's end
 
 
 
@@ -2262,60 +2307,30 @@ These guidelines define what a good `CHANGELOG.md` (or CHANGELOG-style file) is.
     # Example Project CHANGELOG
 
     ## [Unreleased]
-
     ### Added
-
     ### Changed
-
     ### Deprecated
-
     ### Removed
-
     ### Fixed
-
-    - Dropdown menu not closing when clicking outside
-
     ### Security
+    [unreleased]: https://github.com/example-user/example-project/compare/v2.0.0...dev
 
-    [unreleased]: https://github.com/example-user/example-project/compare/v2.1.0...dev
-
-    ## [2.1.0] - 2024-01-15
-
-    ### Added
-    - OAuth2 support for Google and GitHub providers
-    - Avatar upload with automatic image resizing
-
-    ### Changed
-
-    - redesigned sidebar layout for improved navigation
-    - collapsed menu now persists across sessions
-
-    Authentication:
-
-    - session token expiry extended from 1 hour to 24 hours
-    - login flow now redirects to the last visited page after success
-
+    ## [2.0.0] - 2024-01-15
+    ### Removed
+    - Node 14 runtime support
     ### Fixed
-
     - Profile picture not rendering correctly on Safari
 
-    [2.1.0]: https://github.com/example-user/example-project/compare/v2.0.0...v2.1.0
+    > [!WARNING]
+    > Drops support for Node 14; upgrade before updating
 
-    ## [2.0.0] - 2023-11-02
+    [2.0.0]: https://github.com/example-user/example-project/compare/v1.5.6...v2.0.0
 
+    ## [1.5.6] - 2023-11-02
     ### Added
+    - OAuth2 support for Google and GitHub providers
 
-    - Stripe integration for subscription billing
-
-    ### Removed
-
-    - Deprecated v1 endpoints removed after 6-month sunset period
-
-    ### Security
-
-    - Patched JWT algorithm confusion vulnerability (CVE-2023-XXXX)
-
-    [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
+    [1.5.6]: https://github.com/example-user/example-project/releases/tag/v1.5.6
 ```
 
 

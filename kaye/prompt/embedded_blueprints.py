@@ -82,7 +82,9 @@ chat_blueprint.meta.description = (
 
 
 # Date and Time Format
-date_time_blueprint = PromptBlueprint.create_from_node("Date and Time Format")
+date_time_blueprint = PromptBlueprint.create_from_node(
+    "Date and Time Format", recursively=True
+)
 
 _corpus = date_time_blueprint.corpus
 

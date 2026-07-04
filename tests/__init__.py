@@ -147,12 +147,12 @@ TESTEE_FILE_CONTENT_ALL = {
     ],
     "date-and-time-format": [
         "## Date and Time Format",
-        "- Full Date Example:",
-        "`Mon 02015-01-15`",
-        "- Month-Day Example:",
-        "`Tue 01-16`",
-        "- Time Format:",
-        "24-hour clock",
+        "- Full Date Example: For dates with a specific year",
+        "- Time Format: Use a 24-hour clock when expressing time",
+        "### 30-hour Clock",
+        "Day extends past midnight instead of switching date.",
+        "Edge cases:",
+        "- `07-02 06:00` past Cutoff, takes new date not",
     ],
     "numerical-values-with-units": [
         "## Numerical Values with Units",
@@ -533,21 +533,22 @@ TESTEE_FILE_CONTENT_ALL = {
     ],
     "project-changelog-writer": [
         "## Project CHANGELOG Writer",
-        "These guidelines define what a good `CHANGELOG.md`",
-        "- changelogs are *for humans*, not machines",
-        "- there should be an entry for every single version",
-        "- the latest version comes first",
-        "always maintain an `[Unreleased]` section",
-        "#### Types of Changes",
-        "- `Added`: new features",
-        "- `Fixed`: any bug fixes",
-        "#### CHANGELOG Example",
-        "# Example Project CHANGELOG",
         (
-            "[2.0.0]: https://github.com/example-user/"
-            "example-project/releases/tag/v2.0.0"
+            "these guidelines define what a good `CHANGELOG.md` (or"
+            " CHANGELOG-style file) is"
         ),
-        "- must include GitHub **links** at each section's end",
+        "#### Guiding Principles",
+        "- versions and sections should be linkable",
+        "- must include GitHub links at each section's end",
+        "#### Types of Changes",
+        "- `Changed`: changes in existing functionality",
+        "- `Security`: in case of vulnerabilities",
+        "#### CHANGELOG Example",
+        (
+            "    [unreleased]:"
+            " https://github.com/example-user/example-project/compare/v2.0.0...dev"
+        ),
+        "    > Drops support for Node 14; upgrade before updating",
     ],
     "project-readme-writer": [
         "## Project README Writer",
