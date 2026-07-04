@@ -21,14 +21,10 @@ _SETTINGS_FILENAME = "settings.json"
 _HOOK_MATCHER = "*"
 _HOOK_TYPE = "prompt"
 
-_PERMISSION_CMDS_PATH = (
-    Path(__file__).parent.parent / "permission_cmds.jsonc"
-)
+_PERMISSION_CMDS_PATH = Path(__file__).parent.parent / "permission_cmds.jsonc"
 _PERMISSION_FIELDS = ("ask", "deny", "allow")
 
-_JSONC_COMMENT_RE = re.compile(
-    r'"(?:\\.|[^"\\])*"|(//[^\n]*)', re.MULTILINE
-)
+_JSONC_COMMENT_RE = re.compile(r'"(?:\\.|[^"\\])*"|(//[^\n]*)', re.MULTILINE)
 
 
 # helpers  #####################################################################
@@ -41,6 +37,7 @@ def _strip_jsonc_comments(text):
 
 
 def _load_permission_cmds():
+    # BUG must use proper jsonc reader
     raw = _PERMISSION_CMDS_PATH.read_text(encoding="utf-8")
     return json.loads(_strip_jsonc_comments(raw))
 
