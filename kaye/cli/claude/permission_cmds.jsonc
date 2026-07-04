@@ -6,7 +6,13 @@
 # written to the corresponding "permissions" fields in settings.json
 ################################################################################
 */
+
+
+// FIXME go thru all git commands again, adds to allow & ask
+
+
 {
+  "allow": [],
   "ask": [
     // system commands  --------------------------------------------------------
     "Bash(sudo *)",
@@ -29,6 +35,5 @@
     // apps  -------------------------------------------------------------------
     "Bash(docker *)"
   ],
-  "deny": [],
-  "allow": []
+  "deny": []
 }
