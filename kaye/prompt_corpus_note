@@ -7,8 +7,6 @@ todo agent behavior add md-style task list, when Claude "task" is not available
 
 todo standardize software dev lifecycle, with standardized vocab, in coder
 
-TODO add 30hour date time
-
 Todo add dynamic node for usable abbrs: in user system prompt
 Todo add dynamic node coding in: coder prompt
 Todo add abbr tags: "coding" for coding terms
@@ -20,5 +18,5 @@ TODO changelog writer: use [!WARNING] for breaking api etc.
 
 FIXME better german learner prompt
 
-BUG date time no unit test on content
-BUG update date time description & when to use testee
+BUG BUG date time no unit test on content
+BUG BUG update date time description & when to use testee
