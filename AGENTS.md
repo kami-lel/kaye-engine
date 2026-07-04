@@ -70,11 +70,16 @@ python -m kaye claude user-system-prompt -c          # append Kaye Peer Coder co
 python -m kaye claude vs-code-extension              # export CLAUDE.md + marketplace + settings.json into ~/.claude
 ```
 
+`claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
+Bash command patterns) into `settings.json`, sourced from
+`kaye/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so comments are
+allowed).
+
 CLI subcommand aliases: `http` → `h`; `continue` → `c`;
 `continue config` → `c c`; `continue prompt` → `c p`;
 `claude` → `anthropic`, `a`; `claude code` → `claude c`;
 `claude marketplace` → `claude m`; `claude plugin` → `claude p`;
-`claude skill` → `claude s`; `claude user-system-prompt` → `claude u`;
+`claude skill` → `claude s`; `claude user-system-prompt` → `claude usp`;
 `claude vs-code-extension` → `claude v`.
 
 ## Code Conventions
