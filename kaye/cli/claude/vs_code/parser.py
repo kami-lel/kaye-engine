@@ -10,8 +10,6 @@ from kaye.cli.claude.user_prompt.parser import (
 )
 from .export import export_vs_code_extension
 
-# TODO mpl permission settings for v, to ask permission for command: git & pytest */tests/, & etc.
-
 # constants  ===================================================================
 
 _DESCRIPTION = """
@@ -39,6 +37,18 @@ CLAUDE_FOLDER/  (default: ~/.claude)
 """
 
 
+def _vs_code_main(args):
+    kamilog.set_logging_level_by_verbosity(args, logger=logger)
+    logger.enter("kaye claude vs-code-extension")
+
+    folder = args.folder
+
+    marketplace_path = export_vs_code_extension(folder)
+
+    logger.info("marketplace.json location:\n" + str(marketplace_path))
+    logger.done("export VS Code Extension folder:\t" + str(folder))
+
+
 # pylint: disable=missing-function-docstring
 def register_vs_code_subparser(cli_subparser):  ################################
     vs_code_parser = cli_subparser.add_parser(
@@ -59,16 +69,5 @@ def register_vs_code_subparser(cli_subparser):  ################################
     )
 
     kamilog.add_verbose_arguments(vs_code_parser)
-
-    def _vs_code_main(args):
-        kamilog.set_logging_level_by_verbosity(args, logger=logger)
-        logger.enter("kaye claude vs-code-extension")
-
-        folder = args.folder
-
-        marketplace_path = export_vs_code_extension(folder)
-
-        logger.info("marketplace.json location:\n" + str(marketplace_path))
-        logger.done("export VS Code Extension folder:\t" + str(folder))
 
     vs_code_parser.set_defaults(func=_vs_code_main)
