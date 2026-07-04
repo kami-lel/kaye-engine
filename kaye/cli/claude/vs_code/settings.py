@@ -11,7 +11,7 @@ from kaye.prompt import REPLACEMENT_NEWLINE_SYMBOL, load_prompt_corpus_tree
 from kaye.prompt.prompt_blueprint import PromptBlueprint
 from kaye.cli.claude import CONTAINING_META_NODES
 
-# bug not sure if pre compact hook is triggered
+# Bug not sure if pre compact hook is triggered
 
 # constants  ###################################################################
 
