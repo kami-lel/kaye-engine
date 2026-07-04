@@ -10,7 +10,7 @@ __all__ = (
     "PROMPT_FILENAME2NAME",
     "TESTEE_FILE_CONTENT_ALL",
     "TESTEE_DESCRIPTION_CONTENT_ALL",
-    "TESTEE_HOW_TO_USE_CONTENT_ALL",
+    "TESTEE_WHEN_TO_USE_CONTENT_ALL",
     "TESTEE_PREREQUISITE_CONTENT_ALL",
     "TESTEE_FOR_CLAUDE_CONTENT_ALL",
     "TESTEE_TRIAGE_TAG_CONTENT",
@@ -19,7 +19,7 @@ __all__ = (
     "assert_header_line_always_apply",
     "assert_claude_header_line_name",
     "assert_claude_header_line_description",
-    "assert_claude_header_line_how_to_use",
+    "assert_claude_header_line_when_to_use",
     "assert_continue_blueprint_header_line_name",
     "assert_continue_prompt_header_line_name",
     "assert_description_in_continue_description_field",
@@ -158,7 +158,10 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "coder-gdscript": "GDScript code for Godot 4",
     "coder-unreal-engine": "C++ code for Unreal Engine",
     "coder-cpp": "Writes, edits, and reviews all C++ code.",
-    "date-and-time-format": "when dates or times appear in output",
+    "date-and-time-format": (
+        "weekday-prefixed dates, zero-padded years, 24-hr clock, plus a 30-hr"
+        " clock stretching the prior day across pre-dawn hours"
+    ),
     "triage-tags": (
         "defect/note labels spanning code"
         " and docs across 3 case tiers (Loud/Steady/Quiet), with per-tag"
@@ -281,7 +284,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
 }
 
 
-TESTEE_HOW_TO_USE_CONTENT_ALL = {
+TESTEE_WHEN_TO_USE_CONTENT_ALL = {
     "coder-bash": (
         "Use for terminal commands or shell one-liners on Debian/Ubuntu. "
     ),
@@ -359,6 +362,10 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
     "project-agents-writer": (
         "Route descriptive architecture or domain knowledge to `CONTEXT.md`,"
         " not here."
+    ),
+    "date-and-time-format": (
+        "Any date or time in output. Extend past `24:00` when a post-midnight,"
+        " pre-6 AM moment belongs to the prior"
     ),
 }
 
@@ -573,12 +580,12 @@ def assert_claude_header_line_description(skill_id, testee_header):
     return any(description in line for line in testee_header)
 
 
-def assert_claude_header_line_how_to_use(skill_id, testee_header):
+def assert_claude_header_line_when_to_use(skill_id, testee_header):
     """
     check if a Claude skill when_to_use header line exists
     """
-    how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[skill_id]
-    return any(how_to_use in line for line in testee_header)
+    when_to_use = TESTEE_WHEN_TO_USE_CONTENT_ALL[skill_id]
+    return any(when_to_use in line for line in testee_header)
 
 
 def assert_description_in_continue_description_field(prompt_id, testee_header):
@@ -587,8 +594,8 @@ def assert_description_in_continue_description_field(prompt_id, testee_header):
 
 
 def assert_when_to_use_in_continue_description_field(prompt_id, testee_header):
-    how_to_use = TESTEE_HOW_TO_USE_CONTENT_ALL[prompt_id]
-    return any(how_to_use in line for line in testee_header)
+    when_to_use = TESTEE_WHEN_TO_USE_CONTENT_ALL[prompt_id]
+    return any(when_to_use in line for line in testee_header)
 
 
 def assert_header_line_paths_header(testee_header):

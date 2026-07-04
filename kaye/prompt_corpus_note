@@ -1,13 +1,12 @@
 
-Todo resume role
+todo resume role
 
 Fixme desensitize personality
 
 todo agent behavior add md-style task list, when Claude "task" is not available
 
-todo standardize software dev lifecycle, with standardized vocab, in coder
-
-Todo add 30hour date time
+Todo standardize software dev lifecycle, with standardized vocab, in coder
+Todo add control-language style instruction
 
 Todo add dynamic node for usable abbrs: in user system prompt
 Todo add dynamic node coding in: coder prompt
@@ -16,8 +15,4 @@ Todo add these two tags across abbrs.json: usable_abbrs & coding
 Todo add explanation of meaning for coding tag in coder prompt, and additional terms
 
 
-Todo changelog writer: use [!WARNING] for breaking api etc.
-
-Fixme better german learner prompt
-
-Bug cb0 for // comments are wrong, use multi line if possible
+fixme better german learner prompt
