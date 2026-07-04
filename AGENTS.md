@@ -16,8 +16,7 @@ Set up a virtual environment and install in editable mode:
 ```bash
 python -m venv venv
 source venv/bin/activate
-pip install -e .
-pip install -r requirements.txt
+pip install -e ".[dev]"
 ```
 
 **Always run tests selectively** — scope each run to the files that mirror the

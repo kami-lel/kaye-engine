@@ -1,6 +1,0 @@
-setuptools
-pytest
-
-# required by kaye Python package
-anytree
-flask

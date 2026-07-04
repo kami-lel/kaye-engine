@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kaye"
+version = "6.8.3"
+description = "define Kaye, a devoted and deferential AI assistant persona, in a single source of truth and reuse it consistently across every task and tool"
+readme = "README.md"
+authors = [
+    { name = "kamiLeL", email = "77594253+kami-lel@users.noreply.github.com" },
+]
+requires-python = ">=3.11"
+dependencies = [
+    "anytree",
+    "flask",
+    "pyahocorasick",
+    "pydantic",
+    "pyyaml",
+]
+
+[project.urls]
+homepage = "https://github.com/kami-lel/kaye/blob/main/README.md"
+Repository = "https://github.com/kami-lel/kaye"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
+
+[tool.setuptools]
+include-package-data = true
+package-dir = { "" = "." }
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-data]
+"*" = ["prompt_corpus.md", "abbrs.json"]
