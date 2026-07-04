@@ -158,7 +158,11 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "coder-gdscript": "GDScript code for Godot 4",
     "coder-unreal-engine": "C++ code for Unreal Engine",
     "coder-cpp": "Writes, edits, and reviews all C++ code.",
-    "date-and-time-format": "when dates or times appear in output",
+    "date-and-time-format": (
+        "Formats dates, times in output — weekday-prefixed dates, zero-padded"
+        " years, 24-hr clock, plus a 30-hr clock stretching the prior day"
+        " across pre-dawn hours"
+    ),
     "triage-tags": (
         "defect/note labels spanning code"
         " and docs across 3 case tiers (Loud/Steady/Quiet), with per-tag"
@@ -280,6 +284,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "prepare-for-version-release": "Cuts a project release",
 }
 
+# HACK wrong name
 
 TESTEE_HOW_TO_USE_CONTENT_ALL = {
     "coder-bash": (
@@ -359,6 +364,10 @@ TESTEE_HOW_TO_USE_CONTENT_ALL = {
     "project-agents-writer": (
         "Route descriptive architecture or domain knowledge to `CONTEXT.md`,"
         " not here."
+    ),
+    "date-and-time-format": (
+        "Any date or time in output. Extend past `24:00` when a post-midnight,"
+        " pre-6 AM moment belongs to the prior"
     ),
 }
 
