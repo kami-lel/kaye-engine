@@ -24,6 +24,9 @@ _HOOK_TYPE = "prompt"
 _ASK_PERMISSION_CMDS = [
     # git — every git subcommand requires permission
     "Bash(git *)",
+    # pytest — ban running the full suite
+    "Bash(pytest .)",
+    "Bash(pytest tests*)",
 ]
 
 
@@ -106,7 +109,7 @@ def update_settings_json(claude_folder):
     else:
         data = _build_settings(single_line)
 
-    _set_permissions(data, _ASK_PERMMISION_CMDS)
+    _set_permissions(data, _ASK_PERMISSION_CMDS)
 
     with open(settings_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
