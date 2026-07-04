@@ -19,3 +19,5 @@ Todo add explanation of meaning for coding tag in coder prompt, and additional t
 Todo changelog writer: use [!WARNING] for breaking api etc.
 
 Fixme better german learner prompt
+
+Bug cb0 for // comments are wrong, use multi line if possible

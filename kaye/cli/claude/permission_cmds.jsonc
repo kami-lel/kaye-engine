@@ -1,0 +1,34 @@
+/*
+################################################################################
+# permission_cmds.jsonc
+#
+# Bash command patterns for the ask / deny / allow permissions lists,
+# written to the corresponding "permissions" fields in settings.json
+################################################################################
+*/
+{
+  "ask": [
+    // system commands  --------------------------------------------------------
+    "Bash(sudo *)",
+    "Bash(su)",
+    "Bash(kill *)",
+    "Bash(killall *)",
+    "Bash(shutdown *)",
+    "Bash(reboot)",
+    "Bash(systemctl *)",
+    // packages  ---------------------------------------------------------------
+    "Bash(npm install *)",
+    "Bash(brew install *)",
+    "Bash(apt *)",
+    // Python  -----------------------------------------------------------------
+    "Bash(pip install *)",
+    "Bash(pytest .)",
+    "Bash(pytest tests*)",
+    // git  --------------------------------------------------------------------
+    "Bash(git *)",
+    // apps  -------------------------------------------------------------------
+    "Bash(docker *)"
+  ],
+  "deny": [],
+  "allow": []
+}
