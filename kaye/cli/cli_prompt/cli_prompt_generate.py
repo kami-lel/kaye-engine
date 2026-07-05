@@ -112,7 +112,7 @@ def register_cli_prompt_generate_parser(cli_prompt_subparser):
     def _prompt_generate_main(args):
         # when calling ``python -m kaye prompt gen``
         # todo interactive mode which allow user set preview line, etc.
-        kamilog.set_logging_level_by_verbosity(args, PROGRAM_NAME)
+        kamilog.set_logging_level_by_namespace(args, PROGRAM_NAME)
 
         blueprint = create_blueprint_from_generate_show(args)
 

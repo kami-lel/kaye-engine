@@ -70,7 +70,7 @@ def register_plugin_subparser(cli_subparser):  #################################
     kamilog.add_verbose_arguments(plugin_parser)
 
     def _plugin_main(args):
-        kamilog.set_logging_level_by_verbosity(args, logger=logger)
+        kamilog.set_logging_level_by_namespace(args, logger=logger)
         logger.enter("kaye claude plugin")
 
         folder = args.folder

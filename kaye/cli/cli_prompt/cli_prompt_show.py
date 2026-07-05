@@ -54,7 +54,7 @@ def register_cli_prompt_show_parser(cli_prompt_subparser):
 
     # define main function  ----------------------------------------------------
     def _prompt_show_main(args):
-        kamilog.set_logging_level_by_verbosity(args, PROGRAM_NAME)
+        kamilog.set_logging_level_by_namespace(args, PROGRAM_NAME)
 
         blueprint = create_blueprint_from_generate_show(args)
 

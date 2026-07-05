@@ -1,12 +1,12 @@
 
 todo resume role
 
-Fixme desensitize personality
+fixme desensitize personality
 
 todo agent behavior add md-style task list, when Claude "task" is not available
 
-Todo standardize software dev lifecycle, with standardized vocab, in coder
-Todo add control-language style instruction
+todo standardize software dev lifecycle, with standardized vocab, in coder
+todo add control-language style instruction
 
 TODO add dynamic node for usable abbrs: in user system prompt
 TODO add dynamic node coding in: coder prompt
@@ -15,3 +15,8 @@ todo add explanation of meaning for coding tag in coder prompt, and additional t
 
 
 fixme better german learner prompt
+
+
+Fixme coder py: ensure use except ... as e and during raise use "from e"
+
+Todo coder py docstring: return: if boolean, use the "if ..." pattern, no need to explain "else ..."
