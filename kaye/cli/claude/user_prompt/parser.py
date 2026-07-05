@@ -23,7 +23,7 @@ DEFAULT_CLAUDE_FOLDER = Path.home() / ".claude"
 
 
 def _user_prompt_main(args):
-    kamilog.set_logging_level_by_verbosity(args, logger=logger)
+    kamilog.set_logging_level_by_namespace(args, logger=logger)
     logger.enter("kaye claude user-system-prompt")
 
     prompt_file = args.prompt_file
