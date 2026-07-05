@@ -6,6 +6,8 @@
 # written to the corresponding "permissions" fields in settings.json
 ################################################################################
 */
+
+// Fixme move git mv to allow, also update git worktree related
 {
   "allow": [  //  ##############################################################
     // git  --------------------------------------------------------------------
