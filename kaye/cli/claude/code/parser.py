@@ -55,7 +55,7 @@ def register_code_subparser(cli_subparser):  ###################################
     kamilog.add_verbose_arguments(code_parser)
 
     def _code_main(args):
-        kamilog.set_logging_level_by_verbosity(args, logger=logger)
+        kamilog.set_logging_level_by_namespace(args, logger=logger)
         logger.enter("kaye claude code")
 
         folder = args.folder

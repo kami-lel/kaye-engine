@@ -29,7 +29,7 @@ def register_cli_continue_config_parser(  ######################################
     kamilog.add_verbose_arguments(config_parser)
 
     def _config_main(args):
-        kamilog.set_logging_level_by_verbosity(args, logger=logger)
+        kamilog.set_logging_level_by_namespace(args, logger=logger)
         logger.enter("update Continue local config folder")
 
         folder = args.local_config_folder

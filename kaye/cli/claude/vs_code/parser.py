@@ -38,7 +38,7 @@ CLAUDE_FOLDER/  (default: ~/.claude)
 
 
 def _vs_code_main(args):
-    kamilog.set_logging_level_by_verbosity(args, logger=logger)
+    kamilog.set_logging_level_by_namespace(args, logger=logger)
     logger.enter("kaye claude vs-code-extension")
 
     folder = args.folder
