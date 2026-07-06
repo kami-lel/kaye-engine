@@ -1332,6 +1332,7 @@
       "cond": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -1350,7 +1351,9 @@
       "cf.": {
         "priority": 5,
         "tags": [
-          "ascii_only"
+          "ascii_only",
+          "common",
+          "usable"
         ],
         "wrap": "word"
       }
@@ -1405,7 +1408,8 @@
       "const": {
         "priority": 5,
         "tags": [
-          "letters_only"
+          "letters_only",
+          "coding"
         ],
         "wrap": "word"
       }
@@ -1427,6 +1431,7 @@
       "ctxt": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -1438,6 +1443,7 @@
       "cont": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -1460,6 +1466,7 @@
       "ctr": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -1471,6 +1478,7 @@
       "✓": {
         "priority": 3,
         "tags": [
+          "common",
           "single_character"
         ],
         "wrap": "symbol"
@@ -1478,6 +1486,8 @@
       "✔️": {
         "priority": 2,
         "tags": [
+          "common",
+          "usable",
           "emoji"
         ],
         "wrap": "symbol"
@@ -1485,6 +1495,7 @@
       "cor": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -1496,6 +1507,7 @@
       "cnt": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -1572,6 +1584,7 @@
       "cur": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4145,6 +4158,7 @@
       "✗": {
         "priority": 2,
         "tags": [
+          "common",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4152,6 +4166,8 @@
       "❌": {
         "priority": 1,
         "tags": [
+          "common",
+          "usable",
           "emoji"
         ],
         "wrap": "symbol"
@@ -4159,6 +4175,7 @@
       "x": {
         "priority": 5,
         "tags": [
+          "common",
           "letters_only",
           "single_character"
         ],
