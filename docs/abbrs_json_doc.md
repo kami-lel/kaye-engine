@@ -16,6 +16,7 @@ Top level structure:
           "common"
         ],
         "wrap": "word",
+        "remark": "optional free-text note about this abbreviation",
        },
       "ABBR2": { ~ },
      }
@@ -49,8 +50,6 @@ Each `MEANING` entry is an *object* with:
 #### `remark`
 
 An *optional string* free-text note about the meaning as a whole (not any single spelling). Omit this key entirely when there is no remark.
-
-When present, it is appended to the rendered abbreviation entry, e.g. `- abbr:meaning (remark)`.
 
 #### `abbrs`
 
@@ -123,3 +122,12 @@ Must be a *string* of these selected values:
 - `"symbol"`
 - `"unit"`: unit-like abbreviation after a number
 - `"currency"`: currency-like abbreviation before a number
+
+
+
+
+#### `remark`
+
+An *optional string* free-text note about this specific abbreviation (as opposed to the meaning's `remark`, which applies to every spelling). Omit this key entirely when there is no remark.
+
+When rendered as a Markdown list entry, the meaning's `remark` and the abbr's `remark` are both included (in that order, separated by `; `) when present, e.g. `- abbr:meaning (meaning remark; abbr remark)`.
