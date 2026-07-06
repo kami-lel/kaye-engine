@@ -13,19 +13,45 @@ from .sidecar_node_type import SidecarNodeType
 from .blueprint_description_sidecars import BlueprintDescriptorSidecars
 
 __all__ = (
-    "is_sidecar_node",
+    "get_sidecar_node_type",
     "SidecarNodeType",
     "BlueprintDescriptorSidecars",
 )
 
 
-def is_sidecar_node(node):
-    """
-    check if a node is a **sidecar node**
+# constants  ###################################################################
 
-    :param node: node to check
-    :type node: BasePromptNode
-    :return: ``True`` if node's name matches sidecar convention ``{name}``
-    :rtype: bool
+SIDECAR_NODE_TYPE_HEADINGS = {
+    SidecarNodeType.DESCRIPTION: "description",
+    SidecarNodeType.WHEN_TO_USE: "when_to_use",
+    SidecarNodeType.GLOBS: "globs",
+    SidecarNodeType.PREREQUISITE: "prerequisite",
+    SidecarNodeType.FOR_CLAUDE: "for_claude",
+}
+
+
+# type detection  #############################################################
+
+
+def get_sidecar_node_type(node):
     """
-    return bool(re.match(r"^\{.+\}$", node.name))
+    determine the sidecar node type from a node's name
+
+    matches the node's name against the sidecar naming convention
+    ``{name}`` and identifies its specific type. if the node is not a
+    recognized sidecar node, returns ``SidecarNodeType.NONE``.
+
+
+    :param node: node to check (must have a ``name`` attribute)
+    :type node: BasePromptNode
+    :return: sidecar node type (NONE if not a sidecar node)
+    :rtype: SidecarNodeType
+    """
+    if not re.match(r"^\{.+\}$", node.name):
+        return SidecarNodeType.NONE
+
+    for node_type, heading_name in SIDECAR_NODE_TYPE_HEADINGS.items():
+        if node.name == "{{{}}}".format(heading_name):
+            return node_type
+
+    return SidecarNodeType.NONE
