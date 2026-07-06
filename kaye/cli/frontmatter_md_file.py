@@ -144,8 +144,8 @@ class FrontmatterMDFile:  ######################################################
 
         if blueprint:
             self._blueprint = blueprint
-            self.description = blueprint.sidecar.description
-            self.when_to_use = blueprint.sidecar.when_to_use
+            self.description = blueprint.sidecars.description
+            self.when_to_use = blueprint.sidecars.when_to_use
 
     # support context manager  =================================================
 

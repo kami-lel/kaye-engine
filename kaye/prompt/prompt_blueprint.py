@@ -12,7 +12,10 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
 from kaye import PROGRAM_NAME
-from kaye.prompt.sidecar_nodes import BlueprintSidecarNodes, SidecarNodeType
+from kaye.prompt.sidecar_nodes import (
+    BlueprintDescriptorSidecars,
+    SidecarNodeType,
+)
 
 from .base_prompt_node import BasePromptNode
 from .prompt_corpus_loader import (
@@ -186,7 +189,7 @@ class PromptBlueprint(dict):
 
         bp.display_name = node_obj.name
 
-        bp.sidecar = BlueprintSidecarNodes(main_node=node_obj)
+        bp.sidecars = BlueprintDescriptorSidecars(main_node=node_obj)
 
         return bp
 
@@ -209,7 +212,7 @@ class PromptBlueprint(dict):
             self.corpus = copy.deepcopy(corpus_override)
 
         self.display_name = display_name
-        self.sidecar = BlueprintSidecarNodes()
+        self.sidecars = BlueprintDescriptorSidecars()
 
     # node operations  *********************************************************
     def is_checkmarked(self, node):
@@ -477,7 +480,7 @@ class PromptBlueprint(dict):
             display_name=display_name, corpus_override=self.corpus
         )
 
-        merged.sidecar = self.sidecar | other.sidecar
+        merged.sidecars = self.sidecars | other.sidecars
 
         for k in keys:
             merged[k] = self.is_checkmarked(k) or other.is_checkmarked(k)

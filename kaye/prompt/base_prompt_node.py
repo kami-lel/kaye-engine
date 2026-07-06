@@ -116,8 +116,7 @@ class BasePromptNode(AnyTreeNode):
         :return: whether this node is a **sidecar node**
         :rtype: bool
         """
-        from kaye.prompt.sidecar_nodes import SidecarNode
-        return isinstance(self, SidecarNode)
+        return bool(re.match(r"^\{.+\}$", self.name))
 
     # instance methods  ========================================================
 
