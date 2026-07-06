@@ -42,14 +42,7 @@ A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, whi
 nodes types:
 
 - Prompt Corpus Node `PromptCorpusNode`
-- dynamic nodes `DynamicNode`
-
-  - Today Node `TodayNode`
-  - Abbreviations Node `AbbrNode`
-  - Languages Code Node `LanguageCodeNode`
-  - Programming Languages Code Node `PLCNode`
-  - Usable Abbreviations Node `UsableAbbrNode`
-  - Unity Engine Abbreviations Node `UnityEngineAbbrNode`
+- dynamic nodes `DynamicNode`; q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md) for the full type list and details
 
 
 
@@ -74,7 +67,7 @@ E.g.
 
 **Sidecar nodes** are identified by names in curly braces, e.g. `{description}`. They are metadata or conditional instructions attached to parent nodes. For identification, checkmarking, rendering, and complete details, see [`sidecar_node_doc.md`](sidecar_node_doc.md).
 
-**Dynamic nodes** are identified by names in parentheses, such as `(Today)`, `(Abbreviations)`. Unlike sidecar nodes, dynamic nodes are injected at render time and **are** included in the rendered prompt output.
+**Dynamic nodes** are identified by names in parentheses, such as `(Today)`, `(Abbreviations)`. Unlike sidecar nodes, dynamic nodes are injected at render time and **are** included in the rendered prompt output. Q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md) for comprehensive documentation on dynamic nodes.
 
 
 
@@ -200,7 +193,7 @@ Use `copy.deepcopy(root)` to copy a prompt tree.
 It is rare for end users to create individual instances, but to **create**
 an entire prompt tree, use `load_prompt_corpus_tree()`.
 It loads the embedded `prompt_corpus.md` file, parses it, and attaches the
-runtime dynamic nodes once:
+runtime dynamic nodes once; q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#in-prompt-corpus) for details:
 
 ```python
 from kaye.prompt import load_prompt_corpus_tree
@@ -347,7 +340,8 @@ Both methods support `disable_first_heading=`, `show_comment=`, and
 `contains_sidecar_nodes=` to conditionally include conditional sidecar nodes during rendering.
 For details on sidecar node types and conditional inclusion patterns, see [`sidecar_node_doc.md`](sidecar_node_doc.md#conditional-sidecar-nodes).
 Any extra keyword arguments are passed through to node `content_lines()`
-implementations, which is how dynamic nodes receive values such as `query=`.
+implementations, which is how dynamic nodes receive values such as `query=`;
+q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#concepts).
 
 E.g.
 
@@ -443,4 +437,4 @@ If you need to load a blueprint from the embedded blueprint files at runtime,
 use `load_embedded_blueprint(name)`. To list available names, use
 `get_embedded_prompt_blueprints_names()`.
 Each embedded blueprint is a `PromptBlueprint` instance with
-`.display_name` and `.meta.description` already set.
+`.display_name` and `.sidecars.description` already set.

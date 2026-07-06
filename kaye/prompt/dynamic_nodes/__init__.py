@@ -6,6 +6,8 @@ node types whose content has no fixed value and is generated during
 query)
 """
 
+# FIXME FIXME refactorize all dynamic nodes
+
 from .dynamic_node import DynamicNode
 from .today_node import TodayNode
 from .abbr_nodes import (
