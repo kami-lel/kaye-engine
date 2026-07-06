@@ -50,6 +50,22 @@ through a Python API, an HTTP API, and a CLI.
   via `left | right`; left operand takes priority for each field
   (description, when_to_use, globs, prerequisite); `PromptBlueprint.__or__`
   now includes meta merging so merged blueprints preserve meta information
+- TODO pending rename: **Meta Node** → **Sidecar Node** (same mechanism,
+  clearer name — a node attached to a blueprint's parent but stored as corpus
+  content, `{...}`-bracketed, excluded by default and conditionally spliced in
+  via `contains_meta_nodes`). Two usage-role labels under the same mechanism,
+  not separate classes: *descriptor sidecar* for `{description}`,
+  `{when_to_use}`, `{globs}` (blueprint metadata consumed by
+  `BlueprintMetaNodes`) and *conditional sidecar* for `{prerequisite}`,
+  `{for_claude}` (real prompt content spliced in conditionally). Not yet
+  implemented — `MetaNodeType`, `is_meta_node`, `BlueprintMetaNodes`, and
+  `contains_meta_nodes` still use the old name throughout
+  `kaye/prompt/meta_node_type.py`, `kaye/prompt/base_prompt_node.py`, and
+  `kaye/prompt/blueprint_meta_nodes.py`. A separately proposed "materialized
+  node" (content with no fixed value until blueprint-creation time, e.g. an
+  abbreviation list decided from abbr tags) was dropped — that use case is
+  just a kind of `DynamicNode`, since it is still generated during prompt
+  generation.
 - **Comment Banner (CB)** — visual separators written inside code comments to
   show structure in long code; part of `Kaye Peer Coder` guidance under `code
   comment` section; defines 6 hierarchy levels (`CB0`–`CB5`): `CB0` (boxed,

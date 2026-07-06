@@ -1,5 +1,7 @@
 # `prompt_corpus.md` Format Documentation
 
+<!-- FIXME better organize dynamic/sidebar nodes docs -->
+
 `prompt_corpus.md` is the authoritative Source of Truth for the Kaye persona,
 roles, rules, styles, and references. It is a single continuous Markdown file
 parsed at runtime into a **prompt tree**.
