@@ -5474,28 +5474,46 @@
   "selected": {
     "abbrs": {
       "☑": {
-        "priority": 5,
+        "remark": "checkbox with a tick",
+        "priority": 1,
         "tags": [
           "common",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
       },
       "✅": {
+        "priority": 5,
+        "tags": [
+          "common",
+          "emoji"
+        ],
+        "wrap": "symbol"
+      },
+      "☒": {
+        "remark": "checkbox with a cross",
         "priority": 2,
         "tags": [
           "common",
           "usable_in_brief",
-          "emoji"
+          "single_character"
         ],
         "wrap": "symbol"
-      }
-    }
-  },
-  "selected with a cross": {
-    "abbrs": {
-      "☒": {
-        "priority": 5,
+      },
+      "◎": {
+        "remark": "bullseye",
+        "priority": 3,
+        "tags": [
+          "common",
+          "usable_in_brief",
+          "single_character"
+        ],
+        "wrap": "symbol"
+      },
+      "●": {
+        "remark": "filled circle",
+        "priority": 4,
         "tags": [
           "common",
           "usable_in_brief",
@@ -6279,7 +6297,18 @@
   "unselected": {
     "abbrs": {
       "☐": {
+        "remark": "empty checkbox",
         "priority": 5,
+        "tags": [
+          "common",
+          "usable_in_brief",
+          "single_character"
+        ],
+        "wrap": "symbol"
+      },
+      "○": {
+        "remark": "empty circle",
+        "priority": 6,
         "tags": [
           "common",
           "usable_in_brief",
