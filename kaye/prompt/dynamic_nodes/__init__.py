@@ -12,6 +12,7 @@ from .dynamic_node import DynamicNode
 from .today_node import TodayNode
 from .abbr_nodes import AbbrNode
 from .abbr_tag_nodes import (
+    gen_abbrs_content_lines,
     UsableAbbrNode,
     LanguageCodeNode,
     PLCNode,
@@ -21,6 +22,7 @@ from .abbr_tag_nodes import (
 
 __all__ = (
     "is_valid_dynamic_node_heading",
+    "gen_abbrs_content_lines",
     "DynamicNode",
     "TodayNode",
     "AbbrNode",
