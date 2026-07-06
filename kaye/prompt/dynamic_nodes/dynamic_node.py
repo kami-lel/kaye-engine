@@ -11,6 +11,9 @@ from kaye.prompt.base_prompt_node import BasePromptNode
 __all__ = ("DynamicNode",)
 
 
+# FIXME FIXME refactorize dynamic node
+
+
 class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
     """
     abstract class for all *dynamic node*
