@@ -10,14 +10,21 @@ from enum import IntFlag, auto
 class SidecarNodeType(IntFlag):  ###############################################
     """
     represent sidecar node types using bitwise flag operations
+
+    sidecar node types are categorized into:
+
+    - **Descriptor sidecars** (DESCRIPTION, WHEN_TO_USE, GLOBS): metadata
+      about a parent node, exposed via blueprint.sidecars attribute
+    - **Conditional sidecars** (PREREQUISITE, FOR_CLAUDE): real prompt
+      content conditionally included via contains_sidecar_nodes parameter
     """
 
     NONE = 0
     DESCRIPTION = auto()
     WHEN_TO_USE = auto()
     GLOBS = auto()
-    PREREQUISITE = auto()
-    FOR_CLAUDE = auto()
+    PREREQUISITE = auto()  # conditional sidecar node type
+    FOR_CLAUDE = auto()  # conditional sidecar node type
 
     # check types  =============================================================
 
@@ -26,9 +33,9 @@ class SidecarNodeType(IntFlag):  ###############################################
         """
         check if a node matches any sidecar node type in the flags
 
-        supports single types and combined flags. For combined flags like
-        ``PREREQUISITE | FOR_CLAUDE``, returns ``True`` if node matches
-        any of the individual types.
+        supports single types and combined flags. For conditional sidecars
+        like ``PREREQUISITE | FOR_CLAUDE``, returns ``True`` if node
+        matches any of the individual types.
 
 
         :param node: the node to check (must have a ``name`` attribute)
