@@ -76,7 +76,7 @@ Additional information regards this entry,
 must be an *array* of *string* of these selected values:
 
 - `"common"`: common abbreviations that any person might understand
-- usage cases:
+- usage cases (these tags should be mutually exclusive):
 
   - `"always_understand"`: list of abbreviation always provided such LLM may understand
   - `"usable_in_brief"`: abbreviations those can be used during for briefness styles
@@ -85,7 +85,6 @@ must be an *array* of *string* of these selected values:
 - specialized groups:
   - `"programming_language_code"`: it is an abbreviation of a programming language
     e.g. `cpp` for C++ programming language
-
   - `"language_code"`: abbreviation for natural languages;
     partial of and based on ISO 639-1 (2 letter)
   - `"unity_engine_abbr"`: abbreviations specific to Unity Engine
