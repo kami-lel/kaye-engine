@@ -22,7 +22,7 @@ class AbbrNode(DynamicNode):  ##################################################
 
     # implement BasePromptNode  ================================================
 
-    # TODO add preface
+    # Todo add preface
 
     def content_lines(self, *, query=""):  # pylint: disable=arguments-differ
         # TODO TODO use always understand if query is empty
