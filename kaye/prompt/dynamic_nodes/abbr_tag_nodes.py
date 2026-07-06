@@ -42,15 +42,12 @@ class AbbrTagNodeBase(DynamicNode):  ###########################################
 # Usage Cases  =================================================================
 
 
-# TODO add always understand node
-
-
 class UsableAbbrNode(AbbrTagNodeBase):  # **************************************
     """
     dynamic node to provide **Usable Abbreviations**
     """
 
-    # TODO add more prefix
+    # TODO add preface
 
     HEADING = "Usable Abbreviations"  # implement DynamicNode
     ABBR_TAG = AbbrTags.usable_in_brief  # implement AbbrTagNode
