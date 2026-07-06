@@ -16,6 +16,7 @@ from .abbr_tag_nodes import (
     LanguageCodeNode,
     PLCNode,
     UnityEngineAbbrNode,
+    CodingTermsNode,
 )
 
 __all__ = (
@@ -27,6 +28,7 @@ __all__ = (
     "LanguageCodeNode",
     "PLCNode",
     "UnityEngineAbbrNode",
+    "CodingTermsNode",
     "DYNAMIC_NODE_TYPES",
 )
 
@@ -38,6 +40,7 @@ DYNAMIC_NODE_TYPES = (
     LanguageCodeNode,
     PLCNode,
     UnityEngineAbbrNode,
+    CodingTermsNode,
 )
 
 

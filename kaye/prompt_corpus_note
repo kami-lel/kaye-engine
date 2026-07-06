@@ -10,8 +10,7 @@ todo add control-language style instruction
 
 TODO add dynamic node for usable abbrs: in user system prompt
 TODO add dynamic node coding in: coder prompt
-TODO TODO add these tags across abbrs.json: common & usable & coding
-todo add explanation of meaning for coding tag in coder prompt, and additional terms
+TODO go thru abbrs.json: add usable/common/remarks
 
 
 fixme better german learner prompt
