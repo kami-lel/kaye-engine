@@ -12,7 +12,7 @@ import json5
 
 from kaye.prompt import REPLACEMENT_NEWLINE_SYMBOL, load_prompt_corpus_tree
 from kaye.prompt.prompt_blueprint import PromptBlueprint
-from kaye.cli.claude import CONTAINING_META_NODES
+from kaye.cli.claude import CONTAINING_SIDECAR_NODES
 
 # bug not sure if pre compact hook is triggered
 
@@ -88,7 +88,9 @@ def update_settings_json(claude_folder):
     _node = load_prompt_corpus_tree()["Projects"]["Maintenance Before Compact"]
     bp = PromptBlueprint.create_from_node(_node)
 
-    lines = bp.generate_prompt_lines(contains_meta_nodes=CONTAINING_META_NODES)
+    lines = bp.generate_prompt_lines(
+        contains_sidecar_nodes=CONTAINING_SIDECAR_NODES
+    )
 
     # convert to single line compact format
     single_line = REPLACEMENT_NEWLINE_SYMBOL.join(lines)

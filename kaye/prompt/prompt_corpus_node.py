@@ -4,7 +4,8 @@ prompt_corpus_node.py
 define ``PromptCorpusNode``
 """
 
-from .base_prompt_node import BasePromptNode, DynamicNode
+from .base_prompt_node import BasePromptNode
+from .dynamic_nodes import DynamicNode
 
 # section heading prefix used for parsing .md file of prompt corpus
 
