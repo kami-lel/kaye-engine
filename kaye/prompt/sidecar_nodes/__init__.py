@@ -9,7 +9,7 @@ checkmarked
 
 import re
 
-from .sidecar_node_type import SidecarNodeType, _SIDECAR_NODE_TYPE_HEADINGS
+from .sidecar_node_type import SidecarNodeType, SIDECAR_NODE_TYPE_HEADINGS
 from .blueprint_description_sidecars import BlueprintDescriptorSidecars
 
 __all__ = (
@@ -18,11 +18,6 @@ __all__ = (
     "BlueprintDescriptorSidecars",
     "SIDECAR_NODE_TYPE_HEADINGS",
 )
-
-
-# constants (re-exported from sidecar_node_type)  ##############################
-
-SIDECAR_NODE_TYPE_HEADINGS = _SIDECAR_NODE_TYPE_HEADINGS
 
 
 # type detection  #############################################################
