@@ -87,6 +87,6 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
         if blueprint:
             self.name = convert_display_name2skill_name(blueprint.display_name)
-            globs = blueprint.sidecar.globs
+            globs = blueprint.sidecars.globs
             if globs:
                 self.frontmatter["paths"] = list(globs)
