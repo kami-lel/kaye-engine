@@ -25,7 +25,7 @@ class AbbrNode(DynamicNode):  ##################################################
     # TODO add preface
 
     def content_lines(self, *, query=""):  # pylint: disable=arguments-differ
-        # TODO use always understand if query is empty
+        # TODO TODO use always understand if query is empty
         # find abbr occurrences  -----------------------------------------------
         query_lower = query.lower()  # provide lower case to automation
         query_len = len(query)
