@@ -648,9 +648,21 @@
       }
     }
   },
-  "argue,argument": {
+  "argument": {
     "abbrs": {
       "arg": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "keyword argument": {
+    "abbrs": {
+      "kwarg": {
         "priority": 5,
         "tags": [
           "coding",
@@ -4793,7 +4805,7 @@
       "opn": {
         "priority": 5,
         "tags": [
-          "always_understand",
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
