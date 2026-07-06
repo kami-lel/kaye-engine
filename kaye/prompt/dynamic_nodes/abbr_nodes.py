@@ -25,7 +25,7 @@ class AbbrNode(DynamicNode):  ##################################################
 
     def content_lines(self, *, query=""):  # pylint: disable=arguments-differ
         if query:
-            lines = self._generate_content_lines_dynamically
+            lines = self._generate_content_lines_dynamically(query)
         else:
             lines = gen_abbrs_content_lines(AbbrTags.always_understand)
 
