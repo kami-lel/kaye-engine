@@ -6,6 +6,10 @@ define ``SidecarNodeType`` as an ``IntFlag`` for sidecar node type operations
 
 from enum import IntFlag, auto
 
+# sidecar node type to heading name mapping  ##################################
+
+_SIDECAR_NODE_TYPE_HEADINGS = {}
+
 
 class SidecarNodeType(IntFlag):  ###############################################
     """
@@ -15,8 +19,20 @@ class SidecarNodeType(IntFlag):  ###############################################
 
     - **Descriptor sidecars** (DESCRIPTION, WHEN_TO_USE, GLOBS): metadata
       about a parent node, exposed via blueprint.sidecars attribute
-    - **Conditional sidecars** (PREREQUISITE, FOR_CLAUDE): real prompt
+    - **Conditional sidecar nodes** (PREREQUISITE, FOR_CLAUDE): real prompt
       content conditionally included via contains_sidecar_nodes parameter
+
+    **NONE** (value 0) indicates the node is not a sidecar node and evaluates
+    to ``False`` in boolean context. Any other type evaluates to ``True``.
+
+    **usage examples**:
+
+    >>> from kaye.prompt.sidecar_nodes import get_sidecar_node_type
+    >>> node_type = get_sidecar_node_type(node)
+    >>> if bool(node_type):  # True if any sidecar type
+    ...     pass
+    >>> if node_type & (PREREQUISITE | FOR_CLAUDE):  # bitwise check
+    ...     pass  # conditional sidecar node
     """
 
     NONE = 0
@@ -39,15 +55,23 @@ class SidecarNodeType(IntFlag):  ###############################################
                 e.g., ``{description}``
         :rtype: str
         """
-        from . import SIDECAR_NODE_TYPE_HEADINGS
-
         if self == self.NONE:
             raise ValueError("NONE has no node heading")
-        if self not in SIDECAR_NODE_TYPE_HEADINGS:
+        if self not in _SIDECAR_NODE_TYPE_HEADINGS:
             raise ValueError(
                 "combined flags {} have no node heading; "
                 "only single types are valid".format(self)
             )
-        return "{{{}}}".format(SIDECAR_NODE_TYPE_HEADINGS[self])
+        return "{{{}}}".format(_SIDECAR_NODE_TYPE_HEADINGS[self])
 
+
+# populate mapping after class definition  ####################################
+
+_SIDECAR_NODE_TYPE_HEADINGS.update({
+    SidecarNodeType.DESCRIPTION: "description",
+    SidecarNodeType.WHEN_TO_USE: "when_to_use",
+    SidecarNodeType.GLOBS: "globs",
+    SidecarNodeType.PREREQUISITE: "prerequisite",
+    SidecarNodeType.FOR_CLAUDE: "for_claude",
+})
 
