@@ -6,10 +6,6 @@ define ``SidecarNodeType`` as an ``IntFlag`` for sidecar node type operations
 
 from enum import IntFlag, auto
 
-# sidecar node type to heading name mapping  ##################################
-
-_SIDECAR_NODE_TYPE_HEADINGS = {}
-
 
 class SidecarNodeType(IntFlag):  ###############################################
     """
@@ -57,21 +53,20 @@ class SidecarNodeType(IntFlag):  ###############################################
         """
         if self == self.NONE:
             raise ValueError("NONE has no node heading")
-        if self not in _SIDECAR_NODE_TYPE_HEADINGS:
+        if self not in SIDECAR_NODE_TYPE_HEADINGS:
             raise ValueError(
                 "combined flags {} have no node heading; "
                 "only single types are valid".format(self)
             )
-        return "{{{}}}".format(_SIDECAR_NODE_TYPE_HEADINGS[self])
+        return "{{{}}}".format(SIDECAR_NODE_TYPE_HEADINGS[self])
 
 
-# populate mapping after class definition  ####################################
+# sidecar node type to heading name mapping  ##################################
 
-_SIDECAR_NODE_TYPE_HEADINGS.update({
+SIDECAR_NODE_TYPE_HEADINGS = {
     SidecarNodeType.DESCRIPTION: "description",
     SidecarNodeType.WHEN_TO_USE: "when_to_use",
     SidecarNodeType.GLOBS: "globs",
     SidecarNodeType.PREREQUISITE: "prerequisite",
     SidecarNodeType.FOR_CLAUDE: "for_claude",
-})
-
+}
