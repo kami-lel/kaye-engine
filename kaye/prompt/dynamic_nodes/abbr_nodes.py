@@ -15,6 +15,8 @@ __all__ = (
     "UnityEngineAbbrNode",
 )
 
+# FIXME FIXME refactorize abbr node
+
 
 class AbbrNode(DynamicNode):  ##################################################
     """
