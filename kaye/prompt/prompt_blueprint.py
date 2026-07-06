@@ -341,8 +341,8 @@ class PromptBlueprint(dict):
         render the **concrete prompt** that can be used as LLM system message
         from this blueprint's node checkmarking status
 
-        optionally auto-checkmarks sidecar nodes of specified type(s) before
-        rendering.
+        optionally auto-checkmarks conditional sidecar nodes of specified
+        type(s) before rendering.
 
         :param show_comment: show comment part after last line;
                 defaults to False
@@ -350,8 +350,8 @@ class PromptBlueprint(dict):
         :param disable_first_heading: whether disable showing top heading;
                 defaults to False
         :type disable_first_heading: bool, optional
-        :param contains_sidecar_nodes: auto-checkmark sidecar nodes of specified
-                type(s) whose parents are checkmarked; pass a
+        :param contains_sidecar_nodes: auto-checkmark conditional sidecar nodes
+                of specified type(s) whose parents are checkmarked; pass a
                 ``SidecarNodeType`` flag or combination; defaults to
                 ``SidecarNodeType.NONE`` (disabled)
         :type contains_sidecar_nodes: SidecarNodeType, optional
@@ -381,8 +381,8 @@ class PromptBlueprint(dict):
         :param disable_first_heading: whether disable showing top heading;
                 defaults to False
         :type disable_first_heading: bool, optional
-        :param contains_sidecar_nodes: auto-checkmark sidecar nodes of specified
-                type(s) whose parents are checkmarked; pass a
+        :param contains_sidecar_nodes: auto-checkmark conditional sidecar nodes
+                of specified type(s) whose parents are checkmarked; pass a
                 ``SidecarNodeType`` flag or combination (e.g.,
                 ``SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE``);
                 defaults to ``SidecarNodeType.NONE`` (disabled)

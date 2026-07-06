@@ -1,19 +1,8 @@
 # `prompt_corpus.md` Format Documentation
 
-<!-- FIXME better organize dynamic/sidebar nodes docs -->
-
 `prompt_corpus.md` is the authoritative Source of Truth for the Kaye persona,
 roles, rules, styles, and references. It is a single continuous Markdown file
 parsed at runtime into a **prompt tree**.
-
-
-
-
-
-
-
-
-
 
 
 
@@ -57,75 +46,10 @@ Leading and trailing empty lines within a node's content are trimmed.
 
 
 
+## Sidecar Nodes
 
+**Sidecar nodes** are corpus nodes whose names are enclosed in curly braces, e.g. `{description}`, `{when_to_use}`. They are attached to parent nodes in the prompt tree and hold structured metadata or conditional instructions about their parent. Sidecar nodes appear in the blueprint preview tree but are **not** included in the rendered prompt output by default.
 
+Five sidecar node types are defined: `{description}`, `{when_to_use}`, `{globs}` (descriptor sidecars), and `{prerequisite}`, `{for_claude}` (conditional sidecar nodes).
 
-
-
-
-
-
-
-## Meta Nodes
-
-**Meta nodes** are corpus nodes whose names are enclosed in curly braces, e.g. `{description}`. They can be attached to any node in the prompt tree and hold structured metadata about their parent. Meta nodes appear in the blueprint preview tree but are **not** included in the rendered prompt output.
-
-Four meta node types are defined:
-
-
-
-
-
-### `{description}`
-
-Describes the parent node's functionality — what the node represents or what it instructs.
-
-
-
-
-
-
-### `{when_to_use}`
-
-Indicates when the parent node should be enabled — the conditions or contexts that make the node relevant.
-
-
-
-
-
-### `{globs}`
-
-Lists file glob patterns that indicate which file types or paths make the parent node relevant. Each line is treated as a separate pattern — multiple patterns are supported.
-
-E.g.:
-
-    ### Python Files
-
-    #### {globs}
-
-    ```glob
-    **/*.py
-    **/*.pyi
-    ```
-
-
-
-
-
-### `{prerequisite}`
-
-Lists prerequisite instructions that apply whenever the parent node is enabled.
-Pass `contains_meta_nodes=MetaNodeType.PREREQUISITE` to `generate_prompt()` or
-`generate_prompt_lines()` to auto-checkmark every `{prerequisite}` node whose
-parent is already checkmarked before rendering. A node is recognized via
-`MetaNodeType.is_meta_node_of_type(node, MetaNodeType.PREREQUISITE)`.
-
-
-
-### `{for_claude}`
-
-Lists Claude-specific instructions that apply whenever the parent node is
-enabled. Pass `contains_meta_nodes=MetaNodeType.FOR_CLAUDE` (or combine with
-`PREREQUISITE` via `|`) to auto-checkmark these nodes during Claude exports.
-The `kaye.cli.claude.CONTAINING_META_NODES` constant combines both flags for
-all Claude skill and hook exports.
+For comprehensive documentation on sidecar nodes, including usage patterns, checkmarking behavior, and programmatic access, see [`sidecar_node_doc.md`](sidecar_node_doc.md).

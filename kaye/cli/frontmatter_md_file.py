@@ -18,6 +18,9 @@ class FrontmatterMDFile:  ######################################################
     :type path: Path-like
     :param blueprint: blueprint object
     :type blueprint: PromptBlueprint
+    :param contains_sidecar_nodes: which conditional sidecar nodes to include
+            when generating prompt content (via SidecarNodeType flag)
+    :type contains_sidecar_nodes: SidecarNodeType
     """
 
     # abstract method  =========================================================

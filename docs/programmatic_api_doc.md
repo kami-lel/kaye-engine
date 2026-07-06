@@ -58,7 +58,7 @@ nodes types:
 Each node has `.name`, i.e. **section heading** which appears in *preview tree* (v.i.):
 
   - for `DynamicNode` instances: it must be enclosed by `()`.
-  - for *meta nodes*: it must be enclosed by `{}`.
+  - for **sidecar nodes**: it must be enclosed by `{}`.
 
 E.g.
 
@@ -67,21 +67,14 @@ E.g.
 "Introduction"
 >>> dynamic_node.name
 "(Abbreviations)"
->>> meta_node.name
-"{description}"
 ```
 
 > [!NOTE]
 > `.name` is a property of `anytree.Node`
 
-Meta nodes are corpus nodes identified by names enclosed in curly braces, such as `{description}`. They appear in the blueprint preview tree but are **not** included in the rendered prompt output.
+**Sidecar nodes** are identified by names in curly braces, e.g. `{description}`. They are metadata or conditional instructions attached to parent nodes. For identification, checkmarking, rendering, and complete details, see [`sidecar_node_doc.md`](sidecar_node_doc.md).
 
-Use `.is_meta_node` to check if a node is a meta node.
-
-> [!NOTE]
-> Meta nodes are **not** auto-checkmarked by `create_full_blueprint()` or by `checkmark()` with `recursively=True`. They can still be checkmarked explicitly with a direct `checkmark(meta_node)` call.
-
-Dynamic nodes are identified by names enclosed in parentheses, such as `(Today)`, `(Abbreviations)`. Unlike meta nodes, dynamic nodes are not parsed from the corpus — they are injected at render time and **are** included in the rendered prompt output.
+**Dynamic nodes** are identified by names in parentheses, such as `(Today)`, `(Abbreviations)`. Unlike sidecar nodes, dynamic nodes are injected at render time and **are** included in the rendered prompt output.
 
 
 
@@ -250,7 +243,7 @@ Additionally, one might create full/empty blueprints by *classmethod*:
 - ``PromptBlueprint.create_full_blueprint()``, and
 - ``PromptBlueprint.create_empty_blueprint()``
 
-These return blueprint objects that contain all nodes of the corpus tree, with all nodes checkmarked or uncheckmarked. Note that `create_full_blueprint()` does **not** auto-checkmark meta nodes.
+These return blueprint objects that contain all nodes of the corpus tree, with all nodes checkmarked or uncheckmarked.
 
 ----
 
@@ -260,9 +253,7 @@ A `PromptBlueprint` has 3 additional attributes:
 
 - `.corpus`: corresponding prompt corpus tree root (typed `BasePromptNode`)
 - `.display_name`: name of the blueprint, typed `str`, default to `''`
-- `.meta`: a `BlueprintMetaNodes` instance exposing structured metadata derived
-  from meta nodes in the corpus — including `.meta.description`,
-  `.meta.when_to_use`, and `.meta.globs`
+- `.sidecars`: blueprint metadata (description, when_to_use, globs) derived from sidecar nodes; see [`sidecar_node_doc.md`](sidecar_node_doc.md) for details
 
 Each entry in `PromptBlueprint` represents a node, with key being node `hash()` (typed `int`,) and value being if the node is *checkmarked*, (typed `bool`.) The *root node* is never included in blueprint, because one will assume root node is always enabled/checkmarked.
 
@@ -303,8 +294,7 @@ blueprint -= node  # identical
 
 `.checkmark()` and `.uncheckmark()` support keyword argument `recursively=` which allows user to (un)checkmark a node and all of its descendants.
 
-> [!NOTE]
-> When `recursively=True`, `.checkmark()` **skips meta node descendants**. Use a direct `.checkmark(meta_node)` call to explicitly checkmark a meta node.
+For information on how sidecar nodes interact with recursive checkmarking, see [`sidecar_node_doc.md`](sidecar_node_doc.md#checkmarking-behavior).
 
 ----
 
@@ -354,10 +344,8 @@ Use `.generate_prompt_lines()` when you want the rendered prompt as a list of
 lines instead.
 
 Both methods support `disable_first_heading=`, `show_comment=`, and
-`contains_meta_nodes=`. When a `MetaNodeType` flag (or combination) is passed,
-every matching meta node whose parent is checkmarked is automatically
-checkmarked before rendering — e.g. `contains_meta_nodes=MetaNodeType.PREREQUISITE`
-or `contains_meta_nodes=MetaNodeType.PREREQUISITE | MetaNodeType.FOR_CLAUDE`.
+`contains_sidecar_nodes=` to conditionally include conditional sidecar nodes during rendering.
+For details on sidecar node types and conditional inclusion patterns, see [`sidecar_node_doc.md`](sidecar_node_doc.md#conditional-sidecar-nodes).
 Any extra keyword arguments are passed through to node `content_lines()`
 implementations, which is how dynamic nodes receive values such as `query=`.
 
