@@ -14,6 +14,8 @@ ABBRS_JSON_TAGS_KEY = "tags"
 ABBRS_JSON_WRAP_KEY = "wrap"
 
 
+# TODO remarks scheme
+
 # AbbrEntry  ###################################################################
 
 
@@ -81,6 +83,7 @@ class AbbrEntry:
                 ``- abbr:meaning``
         :rtype: str
         """
+        # TODO include remarks
         return "- {}:{}".format(self.abbr, self.mean)
 
     def verify_found(self, found, char_before, char_after):

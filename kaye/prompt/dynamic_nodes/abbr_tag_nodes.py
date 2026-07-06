@@ -12,13 +12,11 @@ __all__ = (
     "LanguageCodeNode",
     "PLCNode",
     "UnityEngineAbbrNode",
+    "CodingTermsNode",
 )
 
 
-# simple abbr tag  #############################################################
-
-
-class _SimpleAbbrTagNodeBase(DynamicNode):  # ==================================
+class AbbrTagNodeBase(DynamicNode):  ###########################################
     # pylint: disable=abstract-method
     """
     abstract dynamic node that provides abbreviation entries matching
@@ -39,7 +37,10 @@ class _SimpleAbbrTagNodeBase(DynamicNode):  # ==================================
         return lines
 
 
-class UsableAbbrNode(_SimpleAbbrTagNodeBase):  # ===============================
+# concrete classes  ############################################################
+
+
+class UsableAbbrNode(AbbrTagNodeBase):  # ======================================
     """
     dynamic node to provide **Usable Abbreviations**
     """
@@ -48,7 +49,7 @@ class UsableAbbrNode(_SimpleAbbrTagNodeBase):  # ===============================
     ABBR_TAG = AbbrTags.usable  # implement AbbrTagNode
 
 
-class LanguageCodeNode(_SimpleAbbrTagNodeBase):  # =============================
+class LanguageCodeNode(AbbrTagNodeBase):  # ====================================
     """
     dynamic node to provide **Languages Code**
     """
@@ -57,7 +58,7 @@ class LanguageCodeNode(_SimpleAbbrTagNodeBase):  # =============================
     ABBR_TAG = AbbrTags.language_code  # implement AbbrTagNode
 
 
-class PLCNode(_SimpleAbbrTagNodeBase):  # ======================================
+class PLCNode(AbbrTagNodeBase):  # =============================================
     """
     dynamic node to provide **Programming Languages Code**
     """
@@ -66,7 +67,7 @@ class PLCNode(_SimpleAbbrTagNodeBase):  # ======================================
     ABBR_TAG = AbbrTags.programming_language_code  # implement AbbrTagNode
 
 
-class UnityEngineAbbrNode(_SimpleAbbrTagNodeBase):  # ==========================
+class UnityEngineAbbrNode(AbbrTagNodeBase):  # =================================
     """
     dynamic node to provide **Unity Engine Abbreviations**
     """
@@ -75,4 +76,10 @@ class UnityEngineAbbrNode(_SimpleAbbrTagNodeBase):  # ==========================
     ABBR_TAG = AbbrTags.unity_engine_abbr  # implement AbbrTagNode
 
 
-# TODO TODO query content include program terms meaning with coding
+class CodingTermsNode(AbbrTagNodeBase):  # =====================================
+    """
+    dynamic node to provide **Coding/Programming Terms**
+    """
+
+    HEADING = "Coding Terms"  # implement DynamicNode
+    ABBR_TAG = AbbrTags.coding  # implement AbbrTagNode
