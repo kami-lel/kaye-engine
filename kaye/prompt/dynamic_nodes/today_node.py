@@ -6,7 +6,7 @@ define ``TodayNode``
 
 from datetime import datetime
 
-from .base_prompt_node import DynamicNode
+from .dynamic_node import DynamicNode
 
 __all__ = ("TodayNode",)
 

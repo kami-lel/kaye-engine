@@ -1,26 +1,26 @@
 """
-blueprint_meta_fields.py
+blueprint_sidecar_nodes.py
 
-define ``BlueprintMetaNodes``
+define ``BlueprintSidecarNodes``
 """
 
-from kaye.prompt.meta_node_type import MetaNodeType
+from .sidecar_node_type import SidecarNodeType
 from kaye.prompt import REPLACEMENT_NEWLINE_SYMBOL
 
 
-class BlueprintMetaNodes:  #####################################################
+class BlueprintSidecarNodes:  ##################################################
     """
-    blueprint meta node lookups
+    blueprint sidecar node lookups
 
 
-    :param main_node: blueprint node that may contain meta subnodes
+    :param main_node: blueprint node that may contain sidecar subnodes
     :type main_node: BasePromptNode or None
     """
 
     @property
     def description(self):
         """
-        retrieve the description text for the blueprint meta node
+        retrieve the description text for the blueprint sidecar node
 
         :return: description text, or rendered description node content
         :rtype: str
@@ -32,7 +32,7 @@ class BlueprintMetaNodes:  #####################################################
     @description.setter
     def description(self, value):
         """
-        set the description text for the blueprint meta node
+        set the description text for the blueprint sidecar node
 
         :param value: new description text
         :type value: str
@@ -42,7 +42,7 @@ class BlueprintMetaNodes:  #####################################################
     @property
     def when_to_use(self):
         """
-        retrieve the when-to-use text for the blueprint meta node
+        retrieve the when-to-use text for the blueprint sidecar node
 
         :return: rendered when-to-use node content
         :rtype: str
@@ -67,9 +67,9 @@ class BlueprintMetaNodes:  #####################################################
     @property
     def globs(self):
         """
-        retrieve glob patterns from the blueprint meta node
+        retrieve glob patterns from the blueprint sidecar node
 
-        :return: glob patterns extracted from the meta node content
+        :return: glob patterns extracted from the sidecar node content
         :rtype: list[str]
         """
         lines = self._convert_node2content_lines(self.globs_node)
@@ -102,26 +102,28 @@ class BlueprintMetaNodes:  #####################################################
         if main_node:
             try:
                 self.description_node = main_node[
-                    MetaNodeType.DESCRIPTION.as_node_heading
+                    SidecarNodeType.DESCRIPTION.as_node_heading
                 ]
             except KeyError:
                 pass
 
             try:
                 self.when_to_use_node = main_node[
-                    MetaNodeType.WHEN_TO_USE.as_node_heading
+                    SidecarNodeType.WHEN_TO_USE.as_node_heading
                 ]
             except KeyError:
                 pass
 
             try:
-                self.globs_node = main_node[MetaNodeType.GLOBS.as_node_heading]
+                self.globs_node = main_node[
+                    SidecarNodeType.GLOBS.as_node_heading
+                ]
             except KeyError:
                 pass
 
             try:
                 self.prerequisite_node = main_node[
-                    MetaNodeType.PREREQUISITE.as_node_heading
+                    SidecarNodeType.PREREQUISITE.as_node_heading
                 ]
             except KeyError:
                 pass
@@ -130,14 +132,14 @@ class BlueprintMetaNodes:  #####################################################
 
     def __or__(self, other):
         """
-        merge two BlueprintMetaNodes; left takes priority for each field
+        merge two BlueprintSidecarNodes; left takes priority for each field
 
         :param other: right operand
-        :type other: BlueprintMetaNodes
-        :return: merged meta nodes
-        :rtype: BlueprintMetaNodes
+        :type other: BlueprintSidecarNodes
+        :return: merged sidecar nodes
+        :rtype: BlueprintSidecarNodes
         """
-        merged = BlueprintMetaNodes()
+        merged = BlueprintSidecarNodes()
         merged._description = self._description or other._description
         merged.description_node = (
             self.description_node or other.description_node

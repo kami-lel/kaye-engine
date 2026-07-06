@@ -9,27 +9,11 @@ import re
 from pathlib import Path
 
 from .prompt_corpus_node import PromptCorpusNode
-from .today_node import TodayNode
-from .abbr_nodes import (
-    AbbrNode,
-    UsableAbbrNode,
-    LanguageCodeNode,
-    PLCNode,
-    UnityEngineAbbrNode,
-)
+from .dynamic_nodes import DYNAMIC_NODE_TYPES
 
 __all__ = (
     "get_embedded_prompt_corpus_file_path",
     "load_prompt_corpus_tree",
-)
-
-DYNAMIC_NODE_TYPES = (
-    TodayNode,
-    AbbrNode,
-    UsableAbbrNode,
-    LanguageCodeNode,
-    PLCNode,
-    UnityEngineAbbrNode,
 )
 
 
