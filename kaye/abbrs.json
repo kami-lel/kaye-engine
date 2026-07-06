@@ -203,7 +203,6 @@
       "abs": {
         "priority": 5,
         "tags": [
-          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -407,8 +406,7 @@
       "a.": {
         "priority": 5,
         "tags": [
-          "ascii_only",
-          "single_character"
+          "ascii_only"
         ],
         "wrap": "prefix"
       }
@@ -795,7 +793,6 @@
       "⇐": {
         "priority": 3,
         "tags": [
-          "always_understand",
           "usable_in_brief",
           "single_character"
         ],
@@ -832,7 +829,6 @@
       "←": {
         "priority": 5,
         "tags": [
-          "always_understand",
           "usable_in_brief",
           "single_character"
         ],
@@ -859,7 +855,6 @@
       "→": {
         "priority": 5,
         "tags": [
-          "always_understand",
           "usable_in_brief",
           "single_character"
         ],
@@ -1175,7 +1170,7 @@
       "char": {
         "priority": 5,
         "tags": [
-          "always_understand",
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -1198,7 +1193,6 @@
       "k": {
         "priority": 7,
         "tags": [
-          "coding",
           "letters_only",
           "single_character"
         ],
@@ -1288,7 +1282,7 @@
       "col": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -1303,6 +1297,18 @@
           "ascii_only"
         ],
         "wrap": "prefix"
+      }
+    }
+  },
+  "comment,commentary": {
+    "abbrs": {
+      "cmt": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
       }
     }
   },
@@ -1389,7 +1395,6 @@
       "z": {
         "priority": 7,
         "tags": [
-          "coding",
           "letters_only",
           "single_character"
         ],
@@ -1457,7 +1462,6 @@
       "c.fl": {
         "priority": 5,
         "tags": [
-          "always_understand",
           "ascii_only"
         ],
         "wrap": "word"
@@ -1585,7 +1589,6 @@
       "y": {
         "priority": 8,
         "tags": [
-          "coding",
           "letters_only",
           "single_character"
         ],
@@ -1627,7 +1630,7 @@
       "cnt": {
         "priority": 5,
         "tags": [
-          "always_understand",
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -1766,18 +1769,18 @@
   },
   "decrease,decrement": {
     "abbrs": {
+      "-=": {
+        "priority": 6,
+        "tags": [
+          "ascii_only"
+        ],
+        "wrap": "symbol"
+      },
       "↓": {
         "priority": 5,
         "tags": [
           "single_character",
           "usable_in_brief"
-        ],
-        "wrap": "symbol"
-      },
-      "-=": {
-        "priority": 6,
-        "tags": [
-          "ascii_only"
         ],
         "wrap": "symbol"
       },
@@ -1853,20 +1856,18 @@
   },
   "delete,deleted,deletion;remove": {
     "abbrs": {
-      "del": {
-        "priority": 5,
-        "tags": [
-          "coding",
-          "letters_only"
-        ],
-        "wrap": "word"
-      },
       "d": {
         "priority": 8,
         "tags": [
-          "coding",
           "letters_only",
           "single_character"
+        ],
+        "wrap": "word"
+      },
+      "del": {
+        "priority": 5,
+        "tags": [
+          "letters_only"
         ],
         "wrap": "word"
       },
@@ -1954,7 +1955,6 @@
       "d": {
         "priority": 8,
         "tags": [
-          "coding",
           "letters_only",
           "single_character"
         ],
@@ -2059,12 +2059,23 @@
       }
     }
   },
+  "document,documentation": {
+    "abbrs": {
+      "man": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "download": {
     "abbrs": {
       "dl": {
         "priority": 5,
         "tags": [
-          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -2536,7 +2547,6 @@
       "xp": {
         "priority": 5,
         "tags": [
-          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -2594,6 +2604,7 @@
       "vv": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -3099,7 +3110,7 @@
       "gnl": {
         "priority": 5,
         "tags": [
-          "always_understand",
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3244,7 +3255,6 @@
       "z": {
         "priority": 7,
         "tags": [
-          "coding",
           "letters_only",
           "single_character"
         ],
@@ -3505,6 +3515,7 @@
         "tags": [
           "common",
           "usable_in_brief",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -3597,6 +3608,7 @@
       "i.dep": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "ascii_only"
         ],
         "wrap": "word"
@@ -3679,7 +3691,6 @@
       "info": {
         "priority": 6,
         "tags": [
-          "coding",
           "letters_only",
           "log_level"
         ],
@@ -3763,7 +3774,7 @@
       "iss": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -3809,6 +3820,7 @@
       "lang": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -3864,6 +3876,7 @@
       "lx": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -3875,6 +3888,7 @@
       "len": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3938,6 +3952,7 @@
       "ll": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -3961,6 +3976,7 @@
         "priority": 5,
         "tags": [
           "letters_only",
+          "always_understand",
           "single_character"
         ],
         "wrap": "word"
@@ -3972,7 +3988,6 @@
       "l": {
         "priority": 8,
         "tags": [
-          "coding",
           "letters_only",
           "single_character"
         ],
@@ -3993,6 +4008,7 @@
       "l.": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "ascii_only"
         ],
         "wrap": "word"
@@ -4037,7 +4053,7 @@
       "mk": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -4049,7 +4065,6 @@
       "b": {
         "priority": 5,
         "tags": [
-          "coding",
           "letters_only",
           "single_character"
         ],
@@ -4073,8 +4088,7 @@
       "man": {
         "priority": 5,
         "tags": [
-          "letters_only",
-          "coding"
+          "letters_only"
         ],
         "wrap": "word"
       }
@@ -4085,6 +4099,7 @@
       "m.": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "ascii_only"
         ],
         "wrap": "word"
@@ -4236,7 +4251,6 @@
       "mtk": {
         "priority": 5,
         "tags": [
-          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4283,6 +4297,7 @@
       "mm": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -4294,6 +4309,7 @@
       "mx": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -4305,7 +4321,6 @@
       "m": {
         "priority": 8,
         "tags": [
-          "coding",
           "letters_only",
           "single_character"
         ],
@@ -4314,7 +4329,7 @@
       "mv": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -4382,6 +4397,7 @@
       "M": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only",
           "single_character"
         ],
@@ -4394,6 +4410,7 @@
       "Mx": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -4439,6 +4456,7 @@
       "nec": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -4480,7 +4498,6 @@
         "priority": 6,
         "tags": [
           "letters_only",
-          "coding",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4620,6 +4637,7 @@
       "n/t": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "ascii_only"
         ],
         "wrap": "word"
@@ -4659,8 +4677,7 @@
         "priority": 5,
         "tags": [
           "ascii_only",
-          "common",
-          "usable_in_brief"
+          "common"
         ],
         "wrap": "word"
       }
@@ -4695,6 +4712,7 @@
         "priority": 5,
         "tags": [
           "letters_only",
+          "always_understand",
           "single_character"
         ],
         "wrap": "word"
@@ -4764,7 +4782,7 @@
       "opn": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -4790,7 +4808,7 @@
       "org": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -4906,6 +4924,7 @@
       "pa": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -4928,6 +4947,7 @@
       "pp": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -4981,7 +5001,7 @@
       "pl": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -4993,6 +5013,7 @@
       "pt": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5077,6 +5098,7 @@
       "poss": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5146,6 +5168,7 @@
       "prev": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5180,6 +5203,7 @@
       "prob": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5284,7 +5308,6 @@
       "pub": {
         "priority": 5,
         "tags": [
-          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5296,7 +5319,6 @@
       "l": {
         "priority": 7,
         "tags": [
-          "coding",
           "letters_only",
           "single_character"
         ],
@@ -5309,7 +5331,6 @@
       "q": {
         "priority": 7,
         "tags": [
-          "coding",
           "letters_only",
           "single_character"
         ],
@@ -5322,7 +5343,6 @@
       "p": {
         "priority": 8,
         "tags": [
-          "coding",
           "letters_only",
           "single_character"
         ],
@@ -5418,7 +5438,7 @@
       "rand": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5478,11 +5498,23 @@
       }
     }
   },
+  "re-": {
+    "abbrs": {
+      "r.": {
+        "priority": 5,
+        "tags": [
+          "ascii_only"
+        ],
+        "wrap": "prefix"
+      }
+    }
+  },
   "reason,reasoning": {
     "abbrs": {
       "rs": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5518,6 +5550,7 @@
       "rl": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5541,6 +5574,7 @@
       "rlv": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5560,10 +5594,10 @@
   },
   "repetition": {
     "abbrs": {
-      "rept": {
+      "rpt": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5610,7 +5644,7 @@
       "rsch": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5622,7 +5656,7 @@
       "rsrc": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5634,6 +5668,7 @@
       "rsp": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5719,7 +5754,6 @@
         "remark": "bullseye",
         "tags": [
           "common",
-          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5729,7 +5763,6 @@
         "remark": "filled circle",
         "tags": [
           "common",
-          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5749,7 +5782,6 @@
         "remark": "checkbox with a cross",
         "tags": [
           "common",
-          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5802,6 +5834,7 @@
       "sep": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5836,6 +5869,7 @@
       "sl": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5847,6 +5881,7 @@
       "slx": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -5880,6 +5915,7 @@
       "sim.": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "ascii_only"
         ],
         "wrap": "word"
@@ -5935,6 +5971,7 @@
       "s/": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "ascii_only"
         ],
         "wrap": "word"
@@ -6055,19 +6092,27 @@
       "stn": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
       }
     }
   },
-  "state": {
+  "state/status": {
     "abbrs": {
+      "s": {
+        "priority": 7,
+        "tags": [
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
+      },
       "st": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -6081,19 +6126,6 @@
         "tags": [
           "coding",
           "letters_only"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
-  "status": {
-    "abbrs": {
-      "s": {
-        "priority": 7,
-        "tags": [
-          "coding",
-          "letters_only",
-          "single_character"
         ],
         "wrap": "word"
       }
@@ -6138,7 +6170,7 @@
       "succ": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -6198,7 +6230,7 @@
       "tk": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -6255,6 +6287,7 @@
       "T": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only",
           "single_character"
         ],
@@ -6287,6 +6320,7 @@
       "tt": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -6298,6 +6332,7 @@
       "T": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only",
           "single_character"
         ],
@@ -6321,7 +6356,6 @@
       "⇒": {
         "priority": 3,
         "tags": [
-          "always_understand",
           "usable_in_brief",
           "single_character"
         ],
@@ -6346,7 +6380,7 @@
         "priority": 5,
         "tags": [
           "letters_only",
-          "usable_in_brief",
+          "always_understand",
           "common"
         ],
         "wrap": "word"
@@ -6358,6 +6392,18 @@
       "th": {
         "priority": 5,
         "tags": [
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "this,these": {
+    "abbrs": {
+      "ts": {
+        "priority": 5,
+        "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -6404,6 +6450,7 @@
         "priority": 5,
         "tags": [
           "word_character_only",
+          "always_understand",
           "single_character"
         ],
         "wrap": "word"
@@ -6416,6 +6463,7 @@
         "priority": 5,
         "tags": [
           "word_character_only",
+          "always_understand",
           "single_character"
         ],
         "wrap": "word"
@@ -6497,6 +6545,7 @@
       "ud": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -6508,7 +6557,7 @@
       "udsd": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -6558,7 +6607,6 @@
         "remark": "empty circle",
         "tags": [
           "common",
-          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -6592,7 +6640,7 @@
       "upd": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -6604,7 +6652,6 @@
       "upl": {
         "priority": 5,
         "tags": [
-          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -6691,6 +6738,7 @@
       "v.": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "ascii_only"
         ],
         "wrap": "word"
@@ -6815,16 +6863,7 @@
       },
       "q.v.": {
         "priority": 5,
-        "tags": [
-          "ascii_only",
-          "common",
-          "usable_in_brief"
-        ],
-        "wrap": "word"
-      },
-      "qq.v.": {
-        "priority": 6,
-        "remark": "multiple references",
+        "remark": "use qq.v. for multiple references",
         "tags": [
           "ascii_only",
           "common",
@@ -6840,6 +6879,7 @@
         "priority": 5,
         "tags": [
           "letters_only",
+          "always_understand",
           "single_character"
         ],
         "wrap": "word"
@@ -6948,7 +6988,6 @@
       "wr": {
         "priority": 5,
         "tags": [
-          "coding",
           "letters_only"
         ],
         "wrap": "word"
