@@ -5,8 +5,6 @@ define ``BasePromptNode``
 """
 
 import copy
-import re
-
 
 from anytree import Node as AnyTreeNode, RenderTree, PreOrderIter
 
@@ -107,16 +105,6 @@ class BasePromptNode(AnyTreeNode):
         :rtype: BasePromptNode
         """
         raise NotImplementedError
-
-    # properties  ==============================================================
-
-    @property
-    def is_sidecar_node(self):
-        """
-        :return: whether this node is a **sidecar node**
-        :rtype: bool
-        """
-        return bool(re.match(r"^\{.+\}$", self.name))
 
     # instance methods  ========================================================
 
