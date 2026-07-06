@@ -11,9 +11,6 @@ from .dynamic_node import DynamicNode
 __all__ = ("TodayNode",)
 
 
-# FIXME FIXME refactorize today node
-
-
 class TodayNode(DynamicNode):
     """
     a dynamic node to provide today's **date** and current **time**
