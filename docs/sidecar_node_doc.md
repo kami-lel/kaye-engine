@@ -5,320 +5,48 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Overview
+## Concepts
 
 Sidecar nodes enable two complementary patterns:
-
-1. **Descriptor Sidecars**: structured metadata fields (`{description}`, `{when_to_use}`, `{globs}`) that describe a node's purpose, relevance conditions, and applicable file patterns — used for blueprint discovery and skill documentation generation.
-
-2. **Conditional Sidecar Nodes** (`{prerequisite}`, `{for_claude}`): real prompt content conditionally spliced into rendered output only when explicitly requested via the `contains_sidecar_nodes` parameter with matching `SidecarNodeType` flags.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Identification
-
-A sidecar node is identified by a **name enclosed in curly braces**. The pattern is:
-
-```regex
-^\{.+\}$
-```
-
-Example sidecar node names:
-
-- `{description}`
-- `{when_to_use}`
-- `{globs}`
-- `{prerequisite}`
-- `{for_claude}`
-
-Use the function `get_sidecar_node_type(node)` from `kaye.prompt.sidecar_nodes` to check if a node is a sidecar node and determine its type.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Sidecar Node Types
-
-Five sidecar node types are defined. They are categorized into two groups:
-
-
-
-
-
-
-
-
-
-
-
-
 
 ### Descriptor Sidecars
 
 Descriptor sidecars are metadata fields that describe a parent node's purpose, relevance, and applicable contexts. They are consumed by blueprints and exposed via `.sidecars` (a `BlueprintDescriptorSidecars` instance).
 
-
-
-
-
 #### `{description}`
 
 Describes the parent node's functionality — what the node represents or what it instructs. Used in blueprint discovery and documentation generation.
 
-**Example:**
-
-```markdown
-# Python Style Guide
-
-## {description}
-
-Guidelines and conventions for writing Python code that follows PEP 8 and project-specific standards.
-
-## Setup
-
-...content of Setup section...
-```
-
-In a parsed blueprint, access via:
-
-```python
-blueprint.sidecars.description
-```
-
 **Rendering behavior:** The description is **overridable** — if explicitly set on the blueprint object, it is used; otherwise, it falls back to the `{description}` node's content.
 
-
-
+**Access:** `blueprint.sidecars.description`
 
 
 #### `{when_to_use}`
 
 Indicates when the parent node should be enabled — the conditions or contexts that make the node relevant. Used for filtering nodes in blueprint UIs and documentation.
 
-**Example:**
-
-```markdown
-# Python Style Guide
-
-## {when_to_use}
-
-Enabled when working with Python projects to enforce consistent code style.
-
-## Setup
-
-...content...
-```
-
-In a parsed blueprint, access via:
-
-```python
-blueprint.sidecars.when_to_use
-```
-
 **Rendering behavior:** `when_to_use` is **always rendered from the sidecar node content**, never overridden.
 
-
-
+**Access:** `blueprint.sidecars.when_to_use`
 
 
 #### `{globs}`
 
 Lists file glob patterns indicating which file types or paths make the parent node relevant. Each line is treated as a separate pattern — multiple patterns are supported. Used by IDE integrations and code editors to determine when to apply the prompt context.
 
-**Example:**
-
-```markdown
-# Python Files
-
-## {globs}
-
-```glob
-**/*.py
-**/*.pyi
-```
-## Python Setup
-
-...content...
-```
-
-In a parsed blueprint, access via:
-
-```python
-blueprint.sidecars.globs  # returns list of glob patterns
-```
-
 **Rendering behavior:** `globs` requires **fence-block parsing** (e.g., code blocks with ` ```glob ` delimiters). The patterns are extracted and stored in `blueprint.sidecars.globs`.
 
-
-
-
-
-
-
-
-
-
-
-
+**Access:** `blueprint.sidecars.globs` (returns list of glob patterns)
 
 
 ### Conditional Sidecar Nodes
 
 Conditional sidecar nodes are real prompt content (e.g., instructions, rules) that are conditionally spliced into the rendered prompt based on explicit requests via the `contains_sidecar_nodes` parameter with matching flags.
 
-
-
-
-
 #### `{prerequisite}`
 
 Lists prerequisite instructions that apply whenever the parent node is enabled. When a parent node is checkmarked in a blueprint, its `{prerequisite}` sidecar children should typically be auto-included.
-
-**Example:**
-
-```markdown
-# Data Processing
-
-## {prerequisite}
-
-Before using data processing functions, ensure the data source is initialized and validated.
-
-Set up error handling:
-```python
-try:
-    process_data()
-except DataError as e:
-    log_error(e)
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Main Content
-
-...content...
-```
 
 **Rendering behavior:** Pass `contains_sidecar_nodes=SidecarNodeType.PREREQUISITE` to `generate_prompt()` or `generate_prompt_lines()` to auto-checkmark every `{prerequisite}` node whose parent is already checkmarked before rendering.
 
@@ -329,25 +57,6 @@ except DataError as e:
 
 Lists Claude-specific instructions that apply whenever the parent node is enabled. Pass `contains_sidecar_nodes=SidecarNodeType.FOR_CLAUDE` (or combine with `PREREQUISITE` via `|`) to auto-checkmark these nodes during Claude exports.
 
-**Example:**
-
-```markdown
-# Task: Code Review
-
-## {for_claude}
-
-When reviewing code, focus on:
-- Correctness and safety
-- Readability and maintainability
-- Performance implications
-
-Always provide actionable feedback.
-
-## Implementation
-
-...content...
-```
-
 **Rendering behavior:** Pass `contains_sidecar_nodes=SidecarNodeType.FOR_CLAUDE` to auto-include `{for_claude}` sidecars during rendering. The constant `kaye.cli.claude.CONTAINING_SIDECAR_NODES` combines both `PREREQUISITE` and `FOR_CLAUDE` flags for all Claude skill and hook exports.
 
 **Detection:** Use `get_sidecar_node_type(node) & SidecarNodeType.FOR_CLAUDE` to identify Claude-specific sidecars.
@@ -355,46 +64,241 @@ Always provide actionable feedback.
 
 
 
+## In Prompt Corpus
+
+Sidecar nodes follow the standard Markdown heading format in `prompt_corpus.md`:
+
+```markdown
+# Parent Node
+
+Content of parent node.
+
+## {description}
+
+This node describes the parent.
+
+## {when_to_use}
+
+This node indicates when to use the parent.
+
+## {globs}
+
+```glob
+**/*.py
+```
+
+## {prerequisite}
+
+This node contains prerequisite instructions.
+
+## {for_claude}
+
+This node contains Claude-specific instructions.
+```
+
+**Heading conventions:**
+- The heading level of a sidecar node (e.g., `##`, `###`) determines its depth in the tree
+- A sidecar node must be **one level deeper than its parent node**
+- Sidecar nodes are identified by the pattern `^\{.+\}$` (any name in curly braces)
+- Unknown sidecar node types (names in `{}` that don't match descriptor or conditional types) are treated as regular nodes
+
+**Checkmarking behavior:**
+- Sidecar nodes are **never auto-checkmarked** by `create_full_blueprint()` or by `.checkmark()` with `recursively=True`
+- Descriptor sidecars are generally not checkmarked at all — their content is accessed via the `.sidecars` blueprint attribute
+- Conditional sidecar nodes can be auto-checkmarked only when you explicitly pass a matching `SidecarNodeType` flag to `generate_prompt()` or `generate_prompt_lines()`
+- To explicitly checkmark a sidecar node: `bp.checkmark(sidecar_node)`
 
 
 
 
+## Python Package `kaye/prompt/sidecar_nodes`
 
+### `get_sidecar_node_type(node)`
 
+Determine the sidecar node type from a node's name.
 
+**Signature:**
+```python
+def get_sidecar_node_type(node: BasePromptNode) -> SidecarNodeType
+```
 
+**Description:**
+Identifies the type of a sidecar node by matching its name against known sidecar node type headings (e.g., `{description}`, `{prerequisite}`). Returns `SidecarNodeType.NONE` (which evaluates to `False` in boolean context) if the node is not a recognized sidecar node type.
 
+**Parameters:**
+- `node` (BasePromptNode): Node to check (must have a `name` attribute)
 
+**Returns:**
+- `SidecarNodeType`: Sidecar node type; `SidecarNodeType.NONE` (0) if not a sidecar node or unknown type
 
+**Examples:**
 
+Check if a node is any sidecar node:
+```python
+from kaye.prompt.sidecar_nodes import get_sidecar_node_type, SidecarNodeType
 
+node_type = get_sidecar_node_type(node)
 
+if bool(node_type):  # equivalent to: if node_type != NONE
+    print(f"sidecar node type: {node_type.name}")
+```
 
+Check for specific sidecar type using bitwise operations:
+```python
+if node_type & SidecarNodeType.PREREQUISITE:
+    print("this is a conditional sidecar node")
 
+if node_type & (SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE):
+    print("this is a conditional sidecar node (either PREREQUISITE or FOR_CLAUDE)")
+```
 
+---
 
+### `SidecarNodeType`
 
+Enumeration of sidecar node types using bitwise flag operations.
 
+**Type:** `IntFlag`
 
+**Members:**
 
+| Name | Value | Category | Description |
+| --- | --- | --- | --- |
+| `NONE` | 0 | (base) | Not a sidecar node; evaluates to `False` in boolean context |
+| `DESCRIPTION` | 1 | Descriptor | Metadata: node description |
+| `WHEN_TO_USE` | 2 | Descriptor | Metadata: when to apply node |
+| `GLOBS` | 4 | Descriptor | Metadata: file glob patterns |
+| `PREREQUISITE` | 8 | Conditional | Real prompt content: prerequisites |
+| `FOR_CLAUDE` | 16 | Conditional | Real prompt content: Claude-specific |
 
+**Properties:**
 
+#### `as_node_heading`
 
+Render this sidecar node type as a corpus node heading.
 
+**Signature:**
+```python
+@property
+def as_node_heading(self) -> str
+```
 
+**Returns:**
+- `str`: Heading string, e.g., `{description}`
 
-
-## Blueprint Sidecar Metadata
-
-A `PromptBlueprint` instance has a `.sidecars` attribute (typed `BlueprintDescriptorSidecars`) that exposes:
-
-- `.description` — description of the blueprint's parent node (overridable)
-- `.when_to_use` — when the blueprint should be applied
-- `.globs` — list of file glob patterns for which the blueprint is relevant
-- `.description_and_when_to_use` — derived property combining both fields
+**Raises:**
+- `ValueError`: If called on `NONE` or combined flags (only single types are valid)
 
 **Example:**
+```python
+SidecarNodeType.DESCRIPTION.as_node_heading  # returns "{description}"
+SidecarNodeType.PREREQUISITE.as_node_heading  # returns "{prerequisite}"
+```
 
+**Usage Notes:**
+
+- **Boolean context:** `NONE` evaluates to `False`; any other type evaluates to `True`
+- **Bitwise operations:** Combine multiple types using `|` (OR) operator
+  ```python
+  combined = SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE
+  if node_type & combined:
+      pass  # matches either type
+  ```
+- **Categories:**
+  - Descriptor sidecars (`DESCRIPTION`, `WHEN_TO_USE`, `GLOBS`): metadata about parent nodes
+  - Conditional sidecar nodes (`PREREQUISITE`, `FOR_CLAUDE`): real prompt content conditionally included
+
+---
+
+### `BlueprintDescriptorSidecars`
+
+Container for descriptor sidecar metadata extracted from a node's descriptor children.
+
+**Location:** `kaye/prompt/sidecar_nodes/blueprint_description_sidecars.py`
+
+**Description:**
+Represents the structured metadata (description, when_to_use, globs) derived from a node's sidecar children. These are accessed via `blueprint.sidecars` and never rendered to the prompt output — they exist purely for discovery, documentation, and conditional inclusion logic.
+
+**Attributes:**
+
+#### `description`
+
+The description metadata from the node's `{description}` sidecar child.
+
+**Type:** `str`
+
+**Behavior:** Overridable via setter. If explicitly set, that value is used; otherwise, content from the `{description}` sidecar node is used as fallback.
+
+**Example:**
+```python
+blueprint.sidecars.description = "Custom description"
+print(blueprint.sidecars.description)  # "Custom description"
+```
+
+#### `when_to_use`
+
+The when_to_use metadata from the node's `{when_to_use}` sidecar child.
+
+**Type:** `str`
+
+**Behavior:** Always rendered from the sidecar node content; cannot be overridden.
+
+**Example:**
+```python
+print(blueprint.sidecars.when_to_use)  # content of {when_to_use} node
+```
+
+#### `globs`
+
+The file glob patterns from the node's `{globs}` sidecar child.
+
+**Type:** `list[str]`
+
+**Behavior:** Extracted via fence-block parsing (e.g., ` ```glob ` code blocks). Each line becomes a separate pattern.
+
+**Example:**
+```python
+patterns = blueprint.sidecars.globs
+# e.g., ["**/*.py", "**/*.pyi"]
+```
+
+#### `description_and_when_to_use`
+
+Derived property combining both description and when_to_use fields.
+
+**Type:** `str`
+
+**Behavior:** Returns both fields concatenated with appropriate separators.
+
+**Example:**
+```python
+combined = blueprint.sidecars.description_and_when_to_use
+```
+
+**Methods:**
+
+#### `__or__(other)`
+
+Merge two `BlueprintDescriptorSidecars` instances using the `|` operator.
+
+**Signature:**
+```python
+def __or__(self, other: BlueprintDescriptorSidecars) -> BlueprintDescriptorSidecars
+```
+
+**Behavior:**
+- Creates a new instance merging metadata from both operands
+- `description` takes from self if set, otherwise from other
+- `when_to_use` and `globs` combine from both
+
+**Example:**
+```python
+merged = bp1.sidecars | bp2.sidecars
+```
+
+**Usage in PromptBlueprint:**
+
+Access descriptor sidecar metadata:
 ```python
 from kaye.prompt import PromptBlueprint
 
@@ -405,155 +309,21 @@ print(bp.sidecars.description)
 print(bp.sidecars.when_to_use)
 print(bp.sidecars.globs)
 
-# Combine description and when_to_use
+# Use combined field
 print(bp.sidecars.description_and_when_to_use)
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Checkmarking Behavior
-
-Sidecar nodes are **never auto-checkmarked** by `create_full_blueprint()` or by `.checkmark()` with `recursively=True`.
-
-- **Descriptor sidecars** (`{description}`, `{when_to_use}`, `{globs}`) are generally not checkmarked at all — their content is accessed via the `.sidecars` blueprint attribute, not rendered.
-- **Conditional sidecar nodes** (`{prerequisite}`, `{for_claude}`) can be auto-checkmarked only if you explicitly pass a matching `SidecarNodeType` flag to `generate_prompt()` or `generate_prompt_lines()`.
-
-To explicitly checkmark a sidecar node:
-
+Merge blueprints:
 ```python
-bp.checkmark(sidecar_node)  # explicit checkmark
+merged_bp = bp1 | bp2
+# merged_bp.sidecars combines metadata from both
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Programmatic Usage
-
-### Detecting Sidecar Nodes
-
-Use `get_sidecar_node_type(node)` to check if a node is a sidecar node and determine its type:
-
-```python
-from kaye.prompt.sidecar_nodes import get_sidecar_node_type, SidecarNodeType
-
-node_type = get_sidecar_node_type(node)
-
-# Check if node is any sidecar node type
-if bool(node_type):
-    print(f"{node.name} is a sidecar node of type {node_type.name}")
-
-# Check for specific type
-if node_type == SidecarNodeType.PREREQUISITE:
-    print("This is a prerequisite sidecar node")
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Detecting Conditional Sidecar Nodes
-
-Conditional sidecar nodes (`PREREQUISITE | FOR_CLAUDE`) can be detected via bitwise operations:
-
-```python
-from kaye.prompt.sidecar_nodes import get_sidecar_node_type, SidecarNodeType
-
-node_type = get_sidecar_node_type(node)
-
-# Check if node matches any conditional sidecar node type
-if node_type & (SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE):
-    print("This node is a conditional sidecar node")
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Conditional Rendering
-
-Auto-checkmark conditional sidecar nodes matching specified types during rendering:
-
+Conditional rendering with conditional sidecar nodes:
 ```python
 from kaye.prompt.sidecar_nodes import SidecarNodeType
 
-# Include prerequisites when rendering
+# Include prerequisites
 prompt = bp.generate_prompt(
     contains_sidecar_nodes=SidecarNodeType.PREREQUISITE
 )
@@ -565,62 +335,3 @@ prompt = bp.generate_prompt(
     )
 )
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Corpus Format
-
-In `prompt_corpus.md`, sidecar nodes follow the standard Markdown heading format:
-
-```markdown
-    # Parent Node
-
-    Content of parent node.
-
-    ## {description}
-
-    This node describes the parent.
-
-    ## {when_to_use}
-
-    This node indicates when to use the parent.
-
-    ## {globs}
-
-    ```glob
-    **/*.py
-    ```
-```
-
-The heading level of a sidecar node (e.g., `##`, `###`) determines its depth in the tree; it must be **one level deeper than its parent node**.
