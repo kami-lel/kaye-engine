@@ -1124,7 +1124,7 @@
         "priority": 3,
         "tags": [
           "common",
-          "usable_in_brief",
+          "coding",
           "single_character"
         ],
         "wrap": "symbol"
@@ -1602,7 +1602,6 @@
         "priority": 2,
         "tags": [
           "common",
-          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -3353,9 +3352,23 @@
   },
   "hour": {
     "abbrs": {
-      "hr": {
+      "h": {
         "priority": 5,
         "tags": [
+          "common",
+          "usable_in_brief",
+          "letters_only",
+          "unit_of_measure",
+          "single_character"
+        ],
+        "wrap": "unit"
+      },
+      "hr": {
+        "priority": 6,
+        "remark": "use when h is ambagious",
+        "tags": [
+          "common",
+          "usable_in_brief",
           "letters_only",
           "unit_of_measure"
         ],
@@ -4117,7 +4130,7 @@
       }
     }
   },
-  "mathematics": {
+  "mathematics,mathematical": {
     "abbrs": {
       "math": {
         "priority": 5,
@@ -4209,6 +4222,7 @@
         "priority": 5,
         "tags": [
           "letters_only",
+          "usable_in_brief",
           "unit_of_measure"
         ],
         "wrap": "unit"
@@ -4352,7 +4366,6 @@
       "≫": {
         "priority": 5,
         "tags": [
-          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4364,7 +4377,6 @@
       "≪": {
         "priority": 5,
         "tags": [
-          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4513,7 +4525,6 @@
         "priority": 1,
         "tags": [
           "common",
-          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5025,7 +5036,6 @@
       "☟": {
         "priority": 5,
         "tags": [
-          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5044,7 +5054,6 @@
       "☜": {
         "priority": 5,
         "tags": [
-          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5063,7 +5072,6 @@
       "☞": {
         "priority": 5,
         "tags": [
-          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5075,7 +5083,6 @@
       "☝": {
         "priority": 5,
         "tags": [
-          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5724,7 +5731,7 @@
   "second": {
     "abbrs": {
       "s": {
-        "priority": 7,
+        "priority": 5,
         "tags": [
           "common",
           "usable_in_brief",
@@ -5735,7 +5742,7 @@
         "wrap": "unit"
       },
       "sec": {
-        "priority": 5,
+        "priority": 6,
         "remark": "use when s is ambagious",
         "tags": [
           "common",
