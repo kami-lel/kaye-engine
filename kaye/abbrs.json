@@ -175,62 +175,6 @@
       }
     }
   },
-  "and the others": {
-    "remark": "non-people",
-    "abbrs": {
-      "~": {
-        "remark": "eg a, b, ~",
-        "priority": 1,
-        "tags": [
-          "ascii_only",
-          "single_character",
-          "usable_in_brief"
-        ],
-        "wrap": "symbol"
-      },
-      "~~": {
-        "remark": "use when ~ is ambagious; eg a, b, ~~",
-        "priority": 2,
-        "tags": [
-          "ascii_only",
-          "usable_in_brief"
-        ],
-        "wrap": "symbol"
-      },
-      "etc.": {
-        "priority": 5,
-        "tags": [
-          "common",
-          "usable_in_brief",
-          "ascii_only"
-        ],
-        "wrap": "word"
-      },
-      "etc": {
-        "priority": 6,
-        "tags": [
-          "letters_only"
-        ],
-        "wrap": "word"
-      },
-      "…": {
-        "priority": 8,
-        "tags": [
-          "common",
-          "single_character"
-        ],
-        "wrap": "symbol"
-      },
-      "...": {
-        "priority": 9,
-        "tags": [
-          "ascii_only",
-          "common"
-        ],
-        "wrap": "symbol"
-      }
-    }
-  },
   "abbreviation": {
     "abbrs": {
       "abbr": {
@@ -476,6 +420,62 @@
         "wrap": "symbol"
       }
     }
+  },
+  "and the others": {
+    "abbrs": {
+      "...": {
+        "priority": 9,
+        "tags": [
+          "ascii_only",
+          "common"
+        ],
+        "wrap": "symbol"
+      },
+      "…": {
+        "priority": 8,
+        "tags": [
+          "common",
+          "single_character"
+        ],
+        "wrap": "symbol"
+      },
+      "~": {
+        "priority": 1,
+        "remark": "eg a, b, ~",
+        "tags": [
+          "ascii_only",
+          "single_character",
+          "usable_in_brief"
+        ],
+        "wrap": "symbol"
+      },
+      "~~": {
+        "priority": 2,
+        "remark": "use when ~ is ambagious; eg a, b, ~~",
+        "tags": [
+          "ascii_only",
+          "usable_in_brief"
+        ],
+        "wrap": "symbol"
+      },
+      "etc": {
+        "priority": 6,
+        "tags": [
+          "letters_only"
+        ],
+        "wrap": "word"
+      },
+      "etc.": {
+        "priority": 5,
+        "tags": [
+          "common",
+          "usable_in_brief",
+          "ascii_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "non-people"
   },
   "anno Domini,in the year of the Lord,common era,used after year number": {
     "abbrs": {
@@ -1168,6 +1168,19 @@
       }
     }
   },
+  "checkout;touch": {
+    "abbrs": {
+      "k": {
+        "priority": 7,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "Chinese Yuan,RMB": {
     "abbrs": {
       "¥": {
@@ -1332,6 +1345,19 @@
       }
     }
   },
+  "compress;tar": {
+    "abbrs": {
+      "z": {
+        "priority": 7,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "con-": {
     "abbrs": {
       "c.": {
@@ -1442,18 +1468,6 @@
       }
     }
   },
-  "feature": {
-    "abbrs": {
-      "feat": {
-        "priority": 5,
-        "tags": [
-          "letters_only",
-          "coding"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
   "contemporary": {
     "abbrs": {
       "c.tmp": {
@@ -1507,6 +1521,31 @@
         "tags": [
           "coding",
           "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "copy": {
+    "abbrs": {
+      "cp": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "copy;clone": {
+    "abbrs": {
+      "y": {
+        "priority": 8,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
         ],
         "wrap": "word"
       }
@@ -1851,20 +1890,20 @@
   },
   "difference,different": {
     "abbrs": {
-      "dif": {
-        "priority": 5,
-        "tags": [
-          "coding",
-          "letters_only"
-        ],
-        "wrap": "word"
-      },
       "d": {
         "priority": 8,
         "tags": [
           "coding",
           "letters_only",
           "single_character"
+        ],
+        "wrap": "word"
+      },
+      "dif": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
         ],
         "wrap": "word"
       }
@@ -1973,18 +2012,6 @@
         "priority": 5,
         "tags": [
           "ascii_only"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
-  "manual": {
-    "abbrs": {
-      "man": {
-        "priority": 5,
-        "tags": [
-          "letters_only",
-          "coding"
         ],
         "wrap": "word"
       }
@@ -2514,7 +2541,6 @@
     }
   },
   "false": {
-    "remark": "boolean value",
     "abbrs": {
       "F": {
         "priority": 5,
@@ -2525,17 +2551,23 @@
         ],
         "wrap": "word"
       }
+    },
+    "remark": "boolean value"
+  },
+  "feature": {
+    "abbrs": {
+      "feat": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "coding"
+        ],
+        "wrap": "word"
+      }
     }
   },
   "find,found": {
     "abbrs": {
-      "fd": {
-        "priority": 5,
-        "tags": [
-          "letters_only"
-        ],
-        "wrap": "word"
-      },
       "f": {
         "priority": 7,
         "tags": [
@@ -2544,82 +2576,11 @@
           "single_character"
         ],
         "wrap": "word"
-      }
-    }
-  },
-  "status": {
-    "abbrs": {
-      "s": {
-        "priority": 7,
+      },
+      "fd": {
+        "priority": 5,
         "tags": [
-          "coding",
-          "letters_only",
-          "single_character"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
-  "checkout;touch": {
-    "abbrs": {
-      "k": {
-        "priority": 7,
-        "tags": [
-          "coding",
-          "letters_only",
-          "single_character"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
-  "git": {
-    "abbrs": {
-      "g": {
-        "priority": 7,
-        "tags": [
-          "coding",
-          "letters_only",
-          "single_character"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
-  "push": {
-    "abbrs": {
-      "q": {
-        "priority": 7,
-        "tags": [
-          "coding",
-          "letters_only",
-          "single_character"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
-  "pull": {
-    "abbrs": {
-      "l": {
-        "priority": 7,
-        "tags": [
-          "coding",
-          "letters_only",
-          "single_character"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
-  "compress;tar": {
-    "abbrs": {
-      "z": {
-        "priority": 7,
-        "tags": [
-          "coding",
-          "letters_only",
-          "single_character"
+          "letters_only"
         ],
         "wrap": "word"
       }
@@ -3083,6 +3044,19 @@
       }
     }
   },
+  "git": {
+    "abbrs": {
+      "g": {
+        "priority": 7,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "good": {
     "abbrs": {
       "g.": {
@@ -3110,36 +3084,6 @@
       "govt": {
         "priority": 5,
         "tags": [
-          "letters_only"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
-  "greater than or equal to": {
-    "abbrs": {
-      ">=": {
-        "priority": 5,
-        "tags": [
-          "common",
-          "coding",
-          "ascii_only"
-        ],
-        "wrap": "symbol"
-      },
-      "≥": {
-        "priority": 4,
-        "tags": [
-          "common",
-          "usable_in_brief",
-          "single_character"
-        ],
-        "wrap": "symbol"
-      },
-      "ge": {
-        "priority": 6,
-        "tags": [
-          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3179,12 +3123,55 @@
       }
     }
   },
+  "greater than or equal to": {
+    "abbrs": {
+      ">=": {
+        "priority": 5,
+        "tags": [
+          "common",
+          "coding",
+          "ascii_only"
+        ],
+        "wrap": "symbol"
+      },
+      "≥": {
+        "priority": 4,
+        "tags": [
+          "common",
+          "usable_in_brief",
+          "single_character"
+        ],
+        "wrap": "symbol"
+      },
+      "ge": {
+        "priority": 6,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "greatest": {
     "abbrs": {
       "gtx": {
         "priority": 5,
         "tags": [
           "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "grep": {
+    "abbrs": {
+      "z": {
+        "priority": 7,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
         ],
         "wrap": "word"
       }
@@ -3904,20 +3891,20 @@
   },
   "list": {
     "abbrs": {
-      "ls": {
-        "priority": 5,
-        "tags": [
-          "coding",
-          "letters_only"
-        ],
-        "wrap": "word"
-      },
       "l": {
         "priority": 8,
         "tags": [
           "coding",
           "letters_only",
           "single_character"
+        ],
+        "wrap": "word"
+      },
+      "ls": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
         ],
         "wrap": "word"
       }
@@ -4000,6 +3987,18 @@
           "ascii_only"
         ],
         "wrap": "prefix"
+      }
+    }
+  },
+  "manual": {
+    "abbrs": {
+      "man": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "coding"
+        ],
+        "wrap": "word"
       }
     }
   },
@@ -4136,19 +4135,19 @@
   },
   "miscellaneous": {
     "abbrs": {
+      "misc": {
+        "priority": 6,
+        "tags": [
+          "letters_only"
+        ],
+        "wrap": "word"
+      },
       "misc.": {
         "priority": 5,
         "tags": [
           "ascii_only",
           "common",
           "usable_in_brief"
-        ],
-        "wrap": "word"
-      },
-      "misc": {
-        "priority": 6,
-        "tags": [
-          "letters_only"
         ],
         "wrap": "word"
       }
@@ -4225,14 +4224,6 @@
   },
   "move": {
     "abbrs": {
-      "mv": {
-        "priority": 5,
-        "tags": [
-          "coding",
-          "letters_only"
-        ],
-        "wrap": "word"
-      },
       "m": {
         "priority": 8,
         "tags": [
@@ -4241,29 +4232,12 @@
           "single_character"
         ],
         "wrap": "word"
-      }
-    }
-  },
-  "copy": {
-    "abbrs": {
-      "cp": {
+      },
+      "mv": {
         "priority": 5,
         "tags": [
           "coding",
           "letters_only"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
-  "copy;clone": {
-    "abbrs": {
-      "y": {
-        "priority": 8,
-        "tags": [
-          "coding",
-          "letters_only",
-          "single_character"
         ],
         "wrap": "word"
       }
@@ -5238,22 +5212,48 @@
       }
     }
   },
-  "Python": {
+  "pull": {
     "abbrs": {
-      "py": {
-        "priority": 5,
+      "l": {
+        "priority": 7,
         "tags": [
+          "coding",
           "letters_only",
-          "programming_language_code"
+          "single_character"
         ],
         "wrap": "word"
-      },
+      }
+    }
+  },
+  "push": {
+    "abbrs": {
+      "q": {
+        "priority": 7,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "Python": {
+    "abbrs": {
       "p": {
         "priority": 8,
         "tags": [
           "coding",
           "letters_only",
           "single_character"
+        ],
+        "wrap": "word"
+      },
+      "py": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "programming_language_code"
         ],
         "wrap": "word"
       }
@@ -5347,17 +5347,6 @@
   },
   "range": {
     "abbrs": {
-      "~": {
-        "remark": "eg 1~5, a~f, ii~iv",
-        "priority": 1,
-        "tags": [
-          "common",
-          "usable_in_brief",
-          "ascii_only",
-          "single_character"
-        ],
-        "wrap": "symbol"
-      },
       "...": {
         "priority": 9,
         "tags": [
@@ -5370,6 +5359,17 @@
         "priority": 8,
         "tags": [
           "common",
+          "single_character"
+        ],
+        "wrap": "symbol"
+      },
+      "~": {
+        "priority": 1,
+        "remark": "eg 1~5, a~f, ii~iv",
+        "tags": [
+          "common",
+          "usable_in_brief",
+          "ascii_only",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5480,20 +5480,20 @@
   },
   "remove/delete": {
     "abbrs": {
-      "rm": {
-        "priority": 5,
-        "tags": [
-          "coding",
-          "letters_only"
-        ],
-        "wrap": "word"
-      },
       "d": {
         "priority": 8,
         "tags": [
           "coding",
           "letters_only",
           "single_character"
+        ],
+        "wrap": "word"
+      },
+      "rm": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
         ],
         "wrap": "word"
       }
@@ -5641,8 +5641,8 @@
         "wrap": "unit"
       },
       "sec": {
-        "remark": "use when s is ambagious",
         "priority": 5,
+        "remark": "use when s is ambagious",
         "tags": [
           "common",
           "usable_in_brief",
@@ -5655,9 +5655,39 @@
   },
   "selected": {
     "abbrs": {
+      "◎": {
+        "priority": 3,
+        "remark": "bullseye",
+        "tags": [
+          "common",
+          "usable_in_brief",
+          "single_character"
+        ],
+        "wrap": "symbol"
+      },
+      "●": {
+        "priority": 4,
+        "remark": "filled circle",
+        "tags": [
+          "common",
+          "usable_in_brief",
+          "single_character"
+        ],
+        "wrap": "symbol"
+      },
       "☑": {
-        "remark": "checkbox with a tick",
         "priority": 1,
+        "remark": "checkbox with a tick",
+        "tags": [
+          "common",
+          "usable_in_brief",
+          "single_character"
+        ],
+        "wrap": "symbol"
+      },
+      "☒": {
+        "priority": 2,
+        "remark": "checkbox with a cross",
         "tags": [
           "common",
           "usable_in_brief",
@@ -5670,36 +5700,6 @@
         "tags": [
           "common",
           "emoji"
-        ],
-        "wrap": "symbol"
-      },
-      "☒": {
-        "remark": "checkbox with a cross",
-        "priority": 2,
-        "tags": [
-          "common",
-          "usable_in_brief",
-          "single_character"
-        ],
-        "wrap": "symbol"
-      },
-      "◎": {
-        "remark": "bullseye",
-        "priority": 3,
-        "tags": [
-          "common",
-          "usable_in_brief",
-          "single_character"
-        ],
-        "wrap": "symbol"
-      },
-      "●": {
-        "remark": "filled circle",
-        "priority": 4,
-        "tags": [
-          "common",
-          "usable_in_brief",
-          "single_character"
         ],
         "wrap": "symbol"
       }
@@ -6022,6 +6022,19 @@
         "tags": [
           "coding",
           "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "status": {
+    "abbrs": {
+      "s": {
+        "priority": 7,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
         ],
         "wrap": "word"
       }
@@ -6382,7 +6395,6 @@
     }
   },
   "true": {
-    "remark": "boolean value",
     "abbrs": {
       "T": {
         "priority": 5,
@@ -6393,7 +6405,8 @@
         ],
         "wrap": "word"
       }
-    }
+    },
+    "remark": "boolean value"
   },
   "TypeScript": {
     "abbrs": {
@@ -6479,9 +6492,9 @@
   },
   "unselected": {
     "abbrs": {
-      "☐": {
-        "remark": "empty checkbox",
-        "priority": 5,
+      "○": {
+        "priority": 6,
+        "remark": "empty circle",
         "tags": [
           "common",
           "usable_in_brief",
@@ -6489,9 +6502,9 @@
         ],
         "wrap": "symbol"
       },
-      "○": {
-        "remark": "empty circle",
-        "priority": 6,
+      "☐": {
+        "priority": 5,
+        "remark": "empty checkbox",
         "tags": [
           "common",
           "usable_in_brief",
@@ -6748,8 +6761,8 @@
         "wrap": "word"
       },
       "qq.v.": {
-        "remark": "multiple references",
         "priority": 6,
+        "remark": "multiple references",
         "tags": [
           "ascii_only",
           "common",
