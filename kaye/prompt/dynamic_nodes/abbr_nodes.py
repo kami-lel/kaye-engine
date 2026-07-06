@@ -10,9 +10,6 @@ from .dynamic_node import DynamicNode
 __all__ = ("AbbrNode",)
 
 
-# TODO generate by priority, ie give all priority zero; or alt tag?
-
-
 class AbbrNode(DynamicNode):  ##################################################
     """
     dynamic node to provide abbreviations' meanings
@@ -25,7 +22,10 @@ class AbbrNode(DynamicNode):  ##################################################
 
     # implement BasePromptNode  ================================================
 
+    # TODO add preface
+
     def content_lines(self, *, query=""):  # pylint: disable=arguments-differ
+        # TODO use always understand if query is empty
         # find abbr occurrences  -----------------------------------------------
         query_lower = query.lower()  # provide lower case to automation
         query_len = len(query)
