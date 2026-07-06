@@ -456,6 +456,7 @@ class Test4:  # remark  ========================================================
                         "priority": 5,
                         "tags": ["ascii_only", "common"],
                         "wrap": "word",
+                        "remark": "casual usage only",
                     },
                 },
             },
@@ -469,11 +470,13 @@ class Test4:  # remark  ========================================================
     def test_entry_remark(self):
         entry = self.data.abbrs[0]
         assert entry.mean.remark == "Latin exempli gratia"
+        assert entry.remark == "casual usage only"
 
     def test_as_md_list_entry(self):
         entry = self.data.abbrs[0]
         opt = entry.as_md_list_entry()
         print(opt)
         assert opt == (
-            "- e.g.:for example,for instance (Latin exempli gratia)"
+            "- e.g.:for example,for instance"
+            " (Latin exempli gratia; casual usage only)"
         )

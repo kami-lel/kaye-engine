@@ -117,6 +117,20 @@ class TestErrWrap:  # ==========================================================
         assert opt == "'AAA' is not a valid AbbrWrap"
 
 
+class TestErrRemark:  # ========================================================
+
+    def test1(_):
+        abbr_obj = ABBR_OBJ.copy()
+        abbr_obj["remark"] = 123
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrEntry(MEAN, ABBR, abbr_obj)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "remark must be String: 123"
+
+
 # init  ########################################################################
 class TestInit:
 
@@ -138,6 +152,50 @@ class TestInit:
         assert opt.wrap == AbbrWrap.WORD
         assert isinstance(opt.tags, AbbrTags)
         assert opt.tags == AbbrTags.NONE
+        assert opt.remark is None
+
+    def test_remark(_):
+        abbr_obj = {
+            "priority": 0,
+            "tags": [],
+            "wrap": "word",
+            "remark": "casual usage only",
+        }
+        opt = AbbrEntry(AbbrMeaning("sometimes"), "s/X", abbr_obj)
+
+        assert opt.remark == "casual usage only"
+
+
+# .as_md_list_entry()  #########################################################
+class TestAsMdListEntry:  # ====================================================
+
+    def test_no_remark(_):
+        entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", ABBR_OBJ)
+        assert entry.as_md_list_entry() == "- e.g.:for example"
+
+    def test_mean_remark_only(_):
+        mean = AbbrMeaning("for example", remark="Latin exempli gratia")
+        entry = AbbrEntry(mean, "e.g.", ABBR_OBJ)
+        assert entry.as_md_list_entry() == (
+            "- e.g.:for example (Latin exempli gratia)"
+        )
+
+    def test_abbr_remark_only(_):
+        abbr_obj = ABBR_OBJ.copy()
+        abbr_obj["remark"] = "casual usage only"
+        entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", abbr_obj)
+        assert entry.as_md_list_entry() == (
+            "- e.g.:for example (casual usage only)"
+        )
+
+    def test_both_remarks(_):
+        abbr_obj = ABBR_OBJ.copy()
+        abbr_obj["remark"] = "casual usage only"
+        mean = AbbrMeaning("for example", remark="Latin exempli gratia")
+        entry = AbbrEntry(mean, "e.g.", abbr_obj)
+        assert entry.as_md_list_entry() == (
+            "- e.g.:for example (Latin exempli gratia; casual usage only)"
+        )
 
 
 # .verify_found()  #############################################################
