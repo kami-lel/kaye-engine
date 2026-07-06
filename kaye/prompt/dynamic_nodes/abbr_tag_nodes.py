@@ -14,87 +14,64 @@ __all__ = (
     "UnityEngineAbbrNode",
 )
 
-
-# FIXME FIXME refactor to use abstract class
-
 # TODO query content include program terms meaning
 
 
-class UsableAbbrNode(DynamicNode):  ############################################
+class _AbbrTagNode(DynamicNode):  ##############################################
+    # pylint: disable=abstract-method
+    """
+    abstract dynamic node that provides abbreviation entries matching
+    a single ``ABBR_TAG`` from ``AbbrData().abbrs``
+    """
+
+    # abstract property  -------------------------------------------------------
+
+    ABBR_TAG = None
+
+    # implement BasePromptNode  ------------------------------------------------
+
+    def content_lines(self, **kwargs):
+        lines = []
+        for entry in AbbrData().abbrs:
+            if self.ABBR_TAG in entry.tags:
+                lines.append(entry.as_md_list_entry())
+        return lines
+
+
+# concrete abbr tag nodes  #####################################################
+
+
+class UsableAbbrNode(_AbbrTagNode):  # =========================================
     """
     dynamic node to provide **Usable Abbreviations**
     """
 
-    # implement DynamicNode  ===================================================
-
-    HEADING = "Usable Abbreviations"
-
-    # implement BasePromptNode  ================================================
-
-    def content_lines(self, **kwargs):
-        lines = []
-        for entry in AbbrData().abbrs:
-            if AbbrTags.usable in entry.tags:
-                lines.append(entry.as_md_list_entry())
-
-        return lines
+    HEADING = "Usable Abbreviations"  # implement DynamicNode
+    ABBR_TAG = AbbrTags.usable  # implement AbbrTagNode
 
 
-class LanguageCodeNode(DynamicNode):  ##########################################
+class LanguageCodeNode(_AbbrTagNode):  # =======================================
     """
     dynamic node to provide **Languages Code**
     """
 
-    # implement DynamicNode  ===================================================
-
-    HEADING = "Languages Code"
-
-    # implement BasePromptNode  ================================================
-
-    def content_lines(self, **kwargs):
-        lines = []
-        for entry in AbbrData().abbrs:
-            if AbbrTags.language_code in entry.tags:
-                lines.append(entry.as_md_list_entry())
-
-        return lines
+    HEADING = "Languages Code"  # implement DynamicNode
+    ABBR_TAG = AbbrTags.language_code  # implement AbbrTagNode
 
 
-class PLCNode(DynamicNode):  ###################################################
+class PLCNode(_AbbrTagNode):  # ================================================
     """
     dynamic node to provide **Programming Languages Code**
     """
 
-    # implement DynamicNode  ===================================================
-
-    HEADING = "Programming Languages Code"
-
-    # implement BasePromptNode  ================================================
-
-    def content_lines(self, **kwargs):
-        lines = []
-        for entry in AbbrData().abbrs:
-            if AbbrTags.programming_language_code in entry.tags:
-                lines.append(entry.as_md_list_entry())
-
-        return lines
+    HEADING = "Programming Languages Code"  # implement DynamicNode
+    ABBR_TAG = AbbrTags.programming_language_code  # implement AbbrTagNode
 
 
-class UnityEngineAbbrNode(DynamicNode):  #######################################
+class UnityEngineAbbrNode(_AbbrTagNode):  # ====================================
     """
     dynamic node to provide **Unity Engine Abbreviations**
     """
 
-    # implement DynamicNode  ===================================================
-
-    HEADING = "Unity Engine Abbreviations"
-
-    # implement BasePromptNode  ================================================
-
-    def content_lines(self, **kwargs):
-        lines = []
-        for entry in AbbrData().abbrs:
-            if AbbrTags.unity_engine_abbr in entry.tags:
-                lines.append(entry.as_md_list_entry())
-
-        return lines
+    HEADING = "Unity Engine Abbreviations"  # implement DynamicNode
+    ABBR_TAG = AbbrTags.unity_engine_abbr  # implement AbbrTagNode
