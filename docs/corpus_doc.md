@@ -43,13 +43,4 @@ The root node `○` is synthetic — it is never written in the file.
 Consecutive empty lines are collapsed to a single empty line during parsing.
 Leading and trailing empty lines within a node's content are trimmed.
 
-
-
-
-## Sidecar Nodes
-
-**Sidecar nodes** are corpus nodes whose names are enclosed in curly braces, e.g. `{description}`, `{when_to_use}`. They are attached to parent nodes in the prompt tree and hold structured metadata or conditional instructions about their parent. Sidecar nodes appear in the blueprint preview tree but are **not** included in the rendered prompt output by default.
-
-Five sidecar node types are defined: `{description}`, `{when_to_use}`, `{globs}` (descriptor sidecars), and `{prerequisite}`, `{for_claude}` (conditional sidecar nodes).
-
-For comprehensive documentation on sidecar nodes, including usage patterns, checkmarking behavior, and programmatic access, see [`sidecar_node_doc.md`](sidecar_node_doc.md).
+Q.v. [`Sidecar Node Documentation`](sidecar_node_doc.md) for comprehensive documentation on sidecar nodes.
