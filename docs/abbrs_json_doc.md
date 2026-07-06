@@ -7,16 +7,19 @@ Top level structure:
 ```json
 {
   "MEANING1": {
-    "ABBR1": {
-      "priority": 0,
-      "tags": [
-        "ascii_only",
-        "common"
-      ],
-      "wrap": "word",
-     },
-    "ABBR2": { ~ },
-   },
+    "remark": "optional free-text note about this meaning",
+    "abbrs": {
+      "ABBR1": {
+        "priority": 0,
+        "tags": [
+          "ascii_only",
+          "common"
+        ],
+        "wrap": "word",
+       },
+      "ABBR2": { ~ },
+     }
+  },
 
   "MEANING2": { ~ },
   "MEANING3": { ~ },
@@ -24,6 +27,10 @@ Top level structure:
 }
 ```
 
+Each `MEANING` entry is an *object* with:
+
+- `remark` *(optional)*: a *string* free-text note about this meaning; omitted when there is nothing to add
+- `abbrs` *(required)*: an *object* mapping each spelling of this meaning to its own fields (v.i.)
 
 
 
@@ -36,7 +43,25 @@ Top level structure:
 
 
 
-## fields
+
+## meaning-level fields
+
+#### `remark`
+
+An *optional string* free-text note about the meaning as a whole (not any single spelling). Omit this key entirely when there is no remark.
+
+When present, it is appended to the rendered abbreviation entry, e.g. `- abbr:meaning (remark)`.
+
+#### `abbrs`
+
+A *required object* mapping each spelling/abbreviation (`ABBR1`, `ABBR2`, ...) of this meaning to its own fields, documented below.
+
+
+
+
+## abbr-level fields
+
+These fields live under each key of a meaning's `abbrs` object.
 
 #### `priority`
 
