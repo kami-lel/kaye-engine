@@ -1915,7 +1915,7 @@
       }
     }
   },
-  "depend,dependent,dependence": {
+  "depend,dependent,dependence,dependency": {
     "abbrs": {
       "dep": {
         "priority": 5,
@@ -3485,7 +3485,7 @@
       }
     }
   },
-  "implement": {
+  "implement,implementation": {
     "abbrs": {
       "mpl": {
         "priority": 5,
