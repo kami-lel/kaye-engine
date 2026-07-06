@@ -10,8 +10,8 @@ import re
 
 from .dynamic_node import DynamicNode
 from .today_node import TodayNode
-from .abbr_nodes import (
-    AbbrNode,
+from .abbr_nodes import AbbrNode
+from .abbr_tag_nodes import (
     UsableAbbrNode,
     LanguageCodeNode,
     PLCNode,
@@ -55,6 +55,3 @@ def is_valid_dynamic_node_heading(heading):
     :rtype: bool
     """
     return bool(_DYNAMIC_NODE_HEADING_PATTERN.match(heading))
-
-
-# TODO TODO write abbr tag node
