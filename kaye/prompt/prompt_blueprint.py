@@ -15,7 +15,7 @@ from kaye import PROGRAM_NAME
 from kaye.prompt.sidecar_nodes import (
     BlueprintDescriptorSidecars,
     SidecarNodeType,
-    is_sidecar_node,
+    get_sidecar_node_type,
 )
 
 from .base_prompt_node import BasePromptNode
@@ -393,9 +393,9 @@ class PromptBlueprint(dict):
         if contains_sidecar_nodes != SidecarNodeType.NONE:
             working_bp = copy.copy(self)
             for node in PreOrderIter(working_bp.corpus):
-                if SidecarNodeType.is_sidecar_node_of_type(
-                    node, contains_sidecar_nodes
-                ) and working_bp.is_checkmarked(node.parent):
+                node_type = get_sidecar_node_type(node)
+                if (node_type & contains_sidecar_nodes) and \
+                        working_bp.is_checkmarked(node.parent):
                     working_bp.checkmark(node)
         else:
             working_bp = self
@@ -551,7 +551,7 @@ class PromptBlueprint(dict):
         for node in PreOrderIter(bp.corpus):
             if not node.is_root:  # skip root node
                 key = hash(node)
-                bp[key] = is_full and not is_sidecar_node(node)
+                bp[key] = is_full and not bool(get_sidecar_node_type(node))
 
         return bp
 
@@ -581,7 +581,7 @@ class PromptBlueprint(dict):
         # add all descendants too; skip sidecar nodes when auto-checkmarking
         if recursively:
             for d in node_obj.descendants:
-                if is_checkmark and is_sidecar_node(d):
+                if is_checkmark and bool(get_sidecar_node_type(d)):
                     continue
                 d_hash = hash(d)
                 if d_hash in self or is_checkmark:

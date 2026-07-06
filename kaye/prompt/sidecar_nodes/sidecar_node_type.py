@@ -26,34 +26,6 @@ class SidecarNodeType(IntFlag):  ###############################################
     PREREQUISITE = auto()  # conditional sidecar node type
     FOR_CLAUDE = auto()  # conditional sidecar node type
 
-    # check types  =============================================================
-
-    @classmethod
-    def is_sidecar_node_of_type(cls, node, sidecar_node_type):
-        """
-        check if a node matches any sidecar node type in the flags
-
-        supports single types and combined flags. For conditional sidecars
-        like ``PREREQUISITE | FOR_CLAUDE``, returns ``True`` if node
-        matches any of the individual types.
-
-
-        :param node: the node to check (must have a ``name`` attribute)
-        :type node: BasePromptNode
-        :param sidecar_node_type: the ``SidecarNodeType`` flag(s) to match
-        :type sidecar_node_type: SidecarNodeType
-        :return: ``True`` if node's name matches any flag types
-        :rtype: bool
-        """
-        if sidecar_node_type == cls.NONE:
-            return False
-
-        for flag in cls:
-            if flag and flag != cls.NONE and (sidecar_node_type & flag):
-                if node.name == flag.as_node_heading:
-                    return True
-        return False
-
     # property  ================================================================
 
     @property
@@ -67,23 +39,15 @@ class SidecarNodeType(IntFlag):  ###############################################
                 e.g., ``{description}``
         :rtype: str
         """
+        from . import SIDECAR_NODE_TYPE_HEADINGS
+
         if self == self.NONE:
             raise ValueError("NONE has no node heading")
-        if self not in _HEADING_NAMES:
+        if self not in SIDECAR_NODE_TYPE_HEADINGS:
             raise ValueError(
                 "combined flags {} have no node heading; "
                 "only single types are valid".format(self)
             )
-        return "{{{}}}".format(_HEADING_NAMES[self])
+        return "{{{}}}".format(SIDECAR_NODE_TYPE_HEADINGS[self])
 
 
-# constants  ###################################################################
-
-
-_HEADING_NAMES = {
-    SidecarNodeType.DESCRIPTION: "description",
-    SidecarNodeType.WHEN_TO_USE: "when_to_use",
-    SidecarNodeType.GLOBS: "globs",
-    SidecarNodeType.PREREQUISITE: "prerequisite",
-    SidecarNodeType.FOR_CLAUDE: "for_claude",
-}
