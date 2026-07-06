@@ -23,6 +23,8 @@ class AbbrTagNodeBase(DynamicNode):  ###########################################
     a single ``ABBR_TAG`` from ``AbbrData().abbrs``
     """
 
+    # Todo add preface
+
     # abstract property  -------------------------------------------------------
 
     ABBR_TAG = None
@@ -46,8 +48,6 @@ class UsableAbbrNode(AbbrTagNodeBase):  # **************************************
     """
     dynamic node to provide **Usable Abbreviations**
     """
-
-    # TODO add preface
 
     HEADING = "Usable Abbreviations"  # implement DynamicNode
     ABBR_TAG = AbbrTags.usable_in_brief  # implement AbbrTagNode
