@@ -4,7 +4,8 @@ abbr_nodes.py
 define abbreviations-related node types
 """
 
-from kaye.abbr_collection import AbbrData
+from kaye.abbr_collection import AbbrData, AbbrTags
+from kaye.prompt.dynamic_nodes.abbr_tag_nodes import gen_abbrs_content_lines
 from .dynamic_node import DynamicNode
 
 __all__ = ("AbbrNode",)
@@ -22,10 +23,18 @@ class AbbrNode(DynamicNode):  ##################################################
 
     # implement BasePromptNode  ================================================
 
-    # Todo add preface
-
     def content_lines(self, *, query=""):  # pylint: disable=arguments-differ
-        # TODO TODO use always understand if query is empty
+        if query:
+            lines = self._generate_content_lines_dynamically
+        else:
+            lines = gen_abbrs_content_lines(AbbrTags.always_understand)
+
+        # Todo add preface
+        return lines
+
+    # helpers  =================================================================
+
+    def _generate_content_lines_dynamically(self, query):
         # find abbr occurrences  -----------------------------------------------
         query_lower = query.lower()  # provide lower case to automation
         query_len = len(query)

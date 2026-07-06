@@ -8,6 +8,7 @@ from kaye.abbr_collection import AbbrData, AbbrTags
 from .dynamic_node import DynamicNode
 
 __all__ = (
+    "gen_abbrs_content_lines",
     "UsableAbbrNode",
     "LanguageCodeNode",
     "PLCNode",
@@ -16,14 +17,30 @@ __all__ = (
 )
 
 
-class AbbrTagNodeBase(DynamicNode):  ###########################################
+def gen_abbrs_content_lines(abbr_tag):
+    """
+    render every ``AbbrData().abbrs`` entry matching ``abbr_tag``
+    as a list of markdown list items
+
+
+    :param abbr_tag: tag to filter entries by
+    :type abbr_tag: AbbrTags
+    :return: rendered markdown list items, one per matching entry
+    :rtype: list[str]
+    """
+    lines = []
+    for entry in AbbrData().abbrs:
+        if abbr_tag in entry.tags:
+            lines.append(entry.as_md_list_entry())
+    return lines
+
+
+class _AbbrTagNodeBase(DynamicNode):  ##########################################
     # pylint: disable=abstract-method
     """
     abstract dynamic node that provides abbreviation entries matching
     a single ``ABBR_TAG`` from ``AbbrData().abbrs``
     """
-
-    # Todo add preface
 
     # abstract property  -------------------------------------------------------
 
@@ -32,11 +49,8 @@ class AbbrTagNodeBase(DynamicNode):  ###########################################
     # implement BasePromptNode  ------------------------------------------------
 
     def content_lines(self, **kwargs):
-        lines = []
-        for entry in AbbrData().abbrs:
-            if self.ABBR_TAG in entry.tags:
-                lines.append(entry.as_md_list_entry())
-        return lines
+        # Todo add preface
+        return gen_abbrs_content_lines(self.ABBR_TAG)
 
 
 # concrete classes  ############################################################
@@ -44,7 +58,7 @@ class AbbrTagNodeBase(DynamicNode):  ###########################################
 # Usage Cases  =================================================================
 
 
-class UsableAbbrNode(AbbrTagNodeBase):  # **************************************
+class UsableAbbrNode(_AbbrTagNodeBase):  # *************************************
     """
     dynamic node to provide **Usable Abbreviations**
     """
@@ -53,7 +67,7 @@ class UsableAbbrNode(AbbrTagNodeBase):  # **************************************
     ABBR_TAG = AbbrTags.usable_in_brief  # implement AbbrTagNode
 
 
-class CodingTermsNode(AbbrTagNodeBase):  # *************************************
+class CodingTermsNode(_AbbrTagNodeBase):  # ************************************
     """
     dynamic node to provide **Coding/Programming Terms**
     """
@@ -65,7 +79,7 @@ class CodingTermsNode(AbbrTagNodeBase):  # *************************************
 # specialized groups  ==========================================================
 
 
-class PLCNode(AbbrTagNodeBase):  # *********************************************
+class PLCNode(_AbbrTagNodeBase):  # ********************************************
     """
     dynamic node to provide **Programming Languages Code**
     """
@@ -74,7 +88,7 @@ class PLCNode(AbbrTagNodeBase):  # *********************************************
     ABBR_TAG = AbbrTags.programming_language_code  # implement AbbrTagNode
 
 
-class LanguageCodeNode(AbbrTagNodeBase):  # ************************************
+class LanguageCodeNode(_AbbrTagNodeBase):  # ***********************************
     """
     dynamic node to provide **Languages Code**
     """
@@ -83,7 +97,9 @@ class LanguageCodeNode(AbbrTagNodeBase):  # ************************************
     ABBR_TAG = AbbrTags.language_code  # implement AbbrTagNode
 
 
-class UnityEngineAbbrNode(AbbrTagNodeBase):  # =================================
+class UnityEngineAbbrNode(
+    _AbbrTagNodeBase
+):  # =================================
     """
     dynamic node to provide **Unity Engine Abbreviations**
     """
