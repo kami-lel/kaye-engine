@@ -1858,6 +1858,15 @@
           "letters_only"
         ],
         "wrap": "word"
+      },
+      "d": {
+        "priority": 8,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
       }
     }
   },
@@ -1964,6 +1973,18 @@
         "priority": 5,
         "tags": [
           "ascii_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "manual": {
+    "abbrs": {
+      "man": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "coding"
         ],
         "wrap": "word"
       }
@@ -2512,6 +2533,93 @@
         "priority": 5,
         "tags": [
           "letters_only"
+        ],
+        "wrap": "word"
+      },
+      "f": {
+        "priority": 7,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "status": {
+    "abbrs": {
+      "s": {
+        "priority": 7,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "checkout;touch": {
+    "abbrs": {
+      "k": {
+        "priority": 7,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "git": {
+    "abbrs": {
+      "g": {
+        "priority": 7,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "push": {
+    "abbrs": {
+      "q": {
+        "priority": 7,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "pull": {
+    "abbrs": {
+      "l": {
+        "priority": 7,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "compress;tar": {
+    "abbrs": {
+      "z": {
+        "priority": 7,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
         ],
         "wrap": "word"
       }
@@ -3803,6 +3911,15 @@
           "letters_only"
         ],
         "wrap": "word"
+      },
+      "l": {
+        "priority": 8,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
       }
     }
   },
@@ -3857,6 +3974,19 @@
         "tags": [
           "coding",
           "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "make/build": {
+    "abbrs": {
+      "b": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
         ],
         "wrap": "word"
       }
@@ -4100,6 +4230,40 @@
         "tags": [
           "coding",
           "letters_only"
+        ],
+        "wrap": "word"
+      },
+      "m": {
+        "priority": 8,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "copy": {
+    "abbrs": {
+      "cp": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "copy;clone": {
+    "abbrs": {
+      "y": {
+        "priority": 8,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
         ],
         "wrap": "word"
       }
@@ -5083,6 +5247,15 @@
           "programming_language_code"
         ],
         "wrap": "word"
+      },
+      "p": {
+        "priority": 8,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
+        ],
+        "wrap": "word"
       }
     }
   },
@@ -5305,13 +5478,22 @@
       }
     }
   },
-  "remove": {
+  "remove/delete": {
     "abbrs": {
       "rm": {
         "priority": 5,
         "tags": [
           "coding",
           "letters_only"
+        ],
+        "wrap": "word"
+      },
+      "d": {
+        "priority": 8,
+        "tags": [
+          "coding",
+          "letters_only",
+          "single_character"
         ],
         "wrap": "word"
       }
@@ -5756,6 +5938,7 @@
       "src": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
