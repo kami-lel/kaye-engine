@@ -8,9 +8,9 @@ todo agent behavior add md-style task list, when Claude "task" is not available
 todo standardize software dev lifecycle, with standardized vocab, in coder
 todo add control-language style instruction
 
-TODO add dynamic node for usable abbrs: in user system prompt
-TODO add dynamic node coding in: coder prompt
-TODO 2nd pass abbrs.json, distinguish always/usable/coding
+TODO add always understand abbr node for: in user system prompt
+TODO add coding term node in: coder prompt
+TODO TODO 2nd pass abbrs.json, distinguish always/usable/coding
 
 
 
