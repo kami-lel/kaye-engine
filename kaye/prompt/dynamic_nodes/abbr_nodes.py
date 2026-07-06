@@ -10,6 +10,9 @@ from .dynamic_node import DynamicNode
 __all__ = ("AbbrNode",)
 
 
+# TODO generate by priority, ie give all priority zero; or alt tag?
+
+
 class AbbrNode(DynamicNode):  ##################################################
     """
     dynamic node to provide abbreviations' meanings
