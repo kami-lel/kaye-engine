@@ -660,9 +660,9 @@
       }
     }
   },
-  "keyword argument": {
+  "keyword": {
     "abbrs": {
-      "kwarg": {
+      "kw": {
         "priority": 5,
         "tags": [
           "coding",
