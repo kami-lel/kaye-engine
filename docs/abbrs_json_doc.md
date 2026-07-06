@@ -75,36 +75,33 @@ An *integer* value, lower value means higher priority.
 Additional information regards this entry,
 must be an *array* of *string* of these selected values:
 
+- `"common"`: common abbreviations that any person might understand
+- usage cases:
 
-- `"common"`: common abbreviations that any person might understand,
-  thus LLM may utilize this abbreviation in conversation
+  - `"always_understand"`: list of abbreviation always provided such LLM may understand
+  - `"usable_in_brief"`: abbreviations those can be used during for briefness styles
+  - `"coding"`: abbreviation/terms used in software development / coding context
 
-- `"usable"`: abbreviations which can be used by the agent
+- specialized groups:
+  - `"programming_language_code"`: it is an abbreviation of a programming language
+    e.g. `cpp` for C++ programming language
 
-- `"programming_language_code"`: it is an abbreviation of a programming language
-  e.g. `cpp` for C++ programming language
+  - `"language_code"`: abbreviation for natural languages;
+    partial of and based on ISO 639-1 (2 letter)
+  - `"unity_engine_abbr"`: abbreviations specific to Unity Engine
+  - `"log_level"`
+  - `"unit_of_measure"`: scientific units for measurement
+  - `"currency_symbol"`: monetary currency symbol
 
-- `"language_code"`: abbreviation for natural languages;
-  partial of and based on ISO 639-1 (2 letter)
+- character set:
 
-- `"unity_engine_abbr"`: abbreviations specific to Unity Engine
+  - `"single_character"`: single letter/character abbreviations
+  - `"letters_only"`
+  - `"word_character_only"`
+  - `"ascii_only"`
+  - `"emoji"`
 
-- `"log_level"`
 
-- `"unit_of_measure"`: scientific units for measurement
-
-- `"currency_symbol"`: monetary currency symbol
-
-- `"single_character"`: single letter/character abbreviations
-
-- `"coding"`: abbreviation/terms used in software development / coding context
-
-Character set:
-
-- `"letters_only"`
-- `"word_character_only"`
-- `"ascii_only"`
-- `"emoji"`
 
 
 

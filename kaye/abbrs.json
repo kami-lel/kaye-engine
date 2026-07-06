@@ -184,7 +184,7 @@
         "tags": [
           "ascii_only",
           "single_character",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "symbol"
       },
@@ -193,7 +193,7 @@
         "priority": 2,
         "tags": [
           "ascii_only",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "symbol"
       },
@@ -201,7 +201,7 @@
         "priority": 5,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "ascii_only"
         ],
         "wrap": "word"
@@ -367,7 +367,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       }
@@ -470,7 +470,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -914,7 +914,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       }
@@ -1380,7 +1380,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       }
@@ -1526,7 +1526,7 @@
         "priority": 2,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "emoji"
         ],
         "wrap": "symbol"
@@ -1696,7 +1696,7 @@
         "priority": 5,
         "tags": [
           "single_character",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "symbol"
       },
@@ -2142,7 +2142,7 @@
       "=": {
         "priority": 5,
         "tags": [
-          "usable",
+          "usable_in_brief",
           "common",
           "ascii_only",
           "single_character"
@@ -2601,7 +2601,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       },
@@ -3023,7 +3023,7 @@
         "priority": 4,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -3055,7 +3055,7 @@
         "priority": 5,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "ascii_only",
           "single_character"
         ],
@@ -3262,7 +3262,7 @@
         "tags": [
           "letters_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       }
@@ -3332,7 +3332,7 @@
         "priority": 5,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "letters_only"
         ],
         "wrap": "word"
@@ -3399,7 +3399,7 @@
         "priority": 5,
         "tags": [
           "single_character",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "symbol"
       },
@@ -3714,7 +3714,7 @@
         "priority": 5,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "ascii_only",
           "single_character"
         ],
@@ -3745,7 +3745,7 @@
         "priority": 4,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -3901,7 +3901,7 @@
         "priority": 5,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "letters_only"
         ],
         "wrap": "word"
@@ -3914,7 +3914,7 @@
         "priority": 5,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "letters_only"
         ],
         "wrap": "word"
@@ -3974,7 +3974,7 @@
         "priority": 5,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "letters_only"
         ],
         "wrap": "word"
@@ -4011,7 +4011,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       },
@@ -4121,7 +4121,7 @@
       "≫": {
         "priority": 5,
         "tags": [
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4133,7 +4133,7 @@
       "≪": {
         "priority": 5,
         "tags": [
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4146,7 +4146,7 @@
         "priority": 3,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4288,7 +4288,7 @@
         "priority": 1,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "emoji"
         ],
         "wrap": "symbol"
@@ -4362,7 +4362,7 @@
         "priority": 5,
         "tags": [
           "ascii_only",
-          "usable",
+          "usable_in_brief",
           "common"
         ],
         "wrap": "word"
@@ -4384,7 +4384,7 @@
         "priority": 4,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4435,7 +4435,7 @@
         "tags": [
           "common",
           "single_character",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "symbol"
       },
@@ -4444,7 +4444,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       }
@@ -4562,7 +4562,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4787,7 +4787,7 @@
       "☟": {
         "priority": 5,
         "tags": [
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4806,7 +4806,7 @@
       "☜": {
         "priority": 5,
         "tags": [
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4825,7 +4825,7 @@
       "☞": {
         "priority": 5,
         "tags": [
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4837,7 +4837,7 @@
       "☝": {
         "priority": 5,
         "tags": [
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4891,7 +4891,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       },
@@ -5179,7 +5179,7 @@
         "priority": 1,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "ascii_only",
           "single_character"
         ],
@@ -5451,7 +5451,7 @@
         "priority": 7,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "letters_only",
           "unit_of_measure",
           "single_character"
@@ -5463,7 +5463,7 @@
         "priority": 5,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "letters_only",
           "unit_of_measure"
         ],
@@ -5485,7 +5485,7 @@
         "priority": 2,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "emoji"
         ],
         "wrap": "symbol"
@@ -5498,7 +5498,7 @@
         "priority": 5,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5997,7 +5997,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       },
@@ -6282,7 +6282,7 @@
         "priority": 5,
         "tags": [
           "common",
-          "usable",
+          "usable_in_brief",
           "single_character"
         ],
         "wrap": "symbol"
@@ -6522,7 +6522,7 @@
         "tags": [
           "common",
           "single_character",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "symbol"
       },
@@ -6531,7 +6531,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       },
@@ -6541,7 +6541,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       }
@@ -6589,7 +6589,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       }
@@ -6602,7 +6602,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       }
@@ -6615,7 +6615,7 @@
         "tags": [
           "ascii_only",
           "common",
-          "usable"
+          "usable_in_brief"
         ],
         "wrap": "word"
       }
