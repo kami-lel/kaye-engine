@@ -36,6 +36,3 @@ DYNAMIC_NODE_TYPES = (
     PLCNode,
     UnityEngineAbbrNode,
 )
-
-
-# TODO abbr tag node

@@ -11,7 +11,7 @@ import copy
 import pytest
 
 
-from kaye.prompt.today_node import TodayNode
+from kaye.prompt.dynamic_nodes import TodayNode
 
 
 # pytest fixture  ##############################################################

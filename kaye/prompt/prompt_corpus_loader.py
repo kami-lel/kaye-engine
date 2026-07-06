@@ -9,6 +9,7 @@ import re
 from pathlib import Path
 
 from .prompt_corpus_node import PromptCorpusNode
+from .sidecar_nodes import SidecarNode, SidecarNodeType
 from .dynamic_nodes import DYNAMIC_NODE_TYPES
 
 __all__ = (
@@ -84,6 +85,26 @@ ROOT_NODE_NAME = "○"
 HEADING_PREFIX_ELEMENT = "#"
 
 
+def _is_sidecar_node_heading(heading):
+    """
+    check if a heading matches any sidecar node type
+
+    :param heading: node name/heading to check
+    :type heading: str
+    :return: ``True`` if heading is a sidecar node
+    :rtype: bool
+    """
+    for flag in SidecarNodeType:
+        if flag and flag != SidecarNodeType.NONE:
+            try:
+                if heading == flag.as_node_heading:
+                    return True
+            except ValueError:
+                # combined flags have no heading
+                pass
+    return False
+
+
 def _create_prompt_corpus_node_from_text_lines_recursively(
     name, parent, text_lines
 ):
@@ -100,7 +121,10 @@ def _create_prompt_corpus_node_from_text_lines_recursively(
 
         # get content_lines of current node level
         content_lines = text_lines[: heading_lines_idx[0]]
-        node = PromptCorpusNode(name, parent, content_lines)
+        node_class = (
+            SidecarNode if _is_sidecar_node_heading(name) else PromptCorpusNode
+        )
+        node = node_class(name, parent, content_lines)
 
         # parse sub-sections, create children nodes
         for start, end in zip(
@@ -119,4 +143,7 @@ def _create_prompt_corpus_node_from_text_lines_recursively(
     else:
         # contains no subsection  ----------------------------------------------
         # i.e. all of text_lines are node content
-        return PromptCorpusNode(name, parent, text_lines)
+        node_class = (
+            SidecarNode if _is_sidecar_node_heading(name) else PromptCorpusNode
+        )
+        return node_class(name, parent, text_lines)
