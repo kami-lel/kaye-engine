@@ -179,19 +179,32 @@
     "remark": "non-people",
     "abbrs": {
       "~": {
+        "remark": "eg a, b, ~",
         "priority": 1,
         "tags": [
           "ascii_only",
-          "single_character"
+          "single_character",
+          "usable"
         ],
         "wrap": "symbol"
       },
       "~~": {
+        "remark": "use when ~ is ambagious; eg a, b, ~~",
         "priority": 2,
         "tags": [
-          "ascii_only"
+          "ascii_only",
+          "usable"
         ],
         "wrap": "symbol"
+      },
+      "etc.": {
+        "priority": 5,
+        "tags": [
+          "common",
+          "usable",
+          "ascii_only"
+        ],
+        "wrap": "word"
       },
       "etc": {
         "priority": 6,
@@ -200,12 +213,21 @@
         ],
         "wrap": "word"
       },
-      "etc.": {
-        "priority": 5,
+      "…": {
+        "priority": 8,
         "tags": [
-          "ascii_only"
+          "common",
+          "single_character"
         ],
-        "wrap": "word"
+        "wrap": "symbol"
+      },
+      "...": {
+        "priority": 9,
+        "tags": [
+          "ascii_only",
+          "common"
+        ],
+        "wrap": "symbol"
       }
     }
   },
@@ -258,6 +280,7 @@
       "acpt": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -342,7 +365,9 @@
       "vs.": {
         "priority": 5,
         "tags": [
-          "ascii_only"
+          "ascii_only",
+          "common",
+          "usable"
         ],
         "wrap": "word"
       }
@@ -682,6 +707,7 @@
       "attr": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -887,7 +913,8 @@
         "priority": 5,
         "tags": [
           "ascii_only",
-          "common"
+          "common",
+          "usable"
         ],
         "wrap": "word"
       }
@@ -1063,7 +1090,7 @@
       }
     }
   },
-  "century,e.g. 2nd C.": {
+  "century,eg 2nd C.": {
     "abbrs": {
       "C.": {
         "priority": 5,
@@ -1415,6 +1442,18 @@
       }
     }
   },
+  "feature": {
+    "abbrs": {
+      "feat": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "coding"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "contemporary": {
     "abbrs": {
       "c.tmp": {
@@ -1656,7 +1695,8 @@
       "↓": {
         "priority": 5,
         "tags": [
-          "single_character"
+          "single_character",
+          "usable"
         ],
         "wrap": "symbol"
       },
@@ -1674,7 +1714,8 @@
       "dft": {
         "priority": 5,
         "tags": [
-          "letters_only"
+          "letters_only",
+          "coding"
         ],
         "wrap": "word"
       }
@@ -1685,7 +1726,8 @@
       "def": {
         "priority": 5,
         "tags": [
-          "letters_only"
+          "letters_only",
+          "coding"
         ],
         "wrap": "word"
       }
@@ -1732,6 +1774,7 @@
       "del": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -1743,6 +1786,7 @@
       "demo": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -1798,6 +1842,7 @@
       "dev": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -1809,6 +1854,7 @@
       "dif": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -1962,6 +2008,7 @@
       "ed": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -2083,6 +2130,7 @@
       "env": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -2094,6 +2142,8 @@
       "=": {
         "priority": 5,
         "tags": [
+          "usable",
+          "common",
           "ascii_only",
           "single_character"
         ],
@@ -2109,6 +2159,7 @@
       "eq": {
         "priority": 6,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -2209,6 +2260,7 @@
       "eval": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -2323,6 +2375,7 @@
       "xcl": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -2374,6 +2427,7 @@
       "xpl": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -2385,6 +2439,7 @@
       "xpr": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -2396,6 +2451,7 @@
       "expr": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -2437,10 +2493,12 @@
     }
   },
   "false": {
+    "remark": "boolean value",
     "abbrs": {
       "F": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only",
           "single_character"
         ],
@@ -2542,7 +2600,8 @@
         "priority": 5,
         "tags": [
           "ascii_only",
-          "common"
+          "common",
+          "usable"
         ],
         "wrap": "word"
       },
@@ -2571,6 +2630,7 @@
       "fmt": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -2843,6 +2903,7 @@
       "fx": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -2907,6 +2968,7 @@
       "gen": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -2946,11 +3008,13 @@
       }
     }
   },
-  "grater than or equal to": {
+  "greater than or equal to": {
     "abbrs": {
       ">=": {
         "priority": 5,
         "tags": [
+          "common",
+          "coding",
           "ascii_only"
         ],
         "wrap": "symbol"
@@ -2958,6 +3022,8 @@
       "≥": {
         "priority": 4,
         "tags": [
+          "common",
+          "usable",
           "single_character"
         ],
         "wrap": "symbol"
@@ -2965,6 +3031,7 @@
       "ge": {
         "priority": 6,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -2987,6 +3054,8 @@
       ">": {
         "priority": 5,
         "tags": [
+          "common",
+          "usable",
           "ascii_only",
           "single_character"
         ],
@@ -2995,6 +3064,7 @@
       "gt": {
         "priority": 6,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3017,6 +3087,7 @@
       "grp": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3163,6 +3234,7 @@
       "id": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3188,7 +3260,9 @@
       "iff": {
         "priority": 5,
         "tags": [
-          "letters_only"
+          "letters_only",
+          "common",
+          "usable"
         ],
         "wrap": "word"
       }
@@ -3210,6 +3284,7 @@
       "mpl": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3221,6 +3296,7 @@
       "mp": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3243,6 +3319,7 @@
       "mpv": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3254,6 +3331,8 @@
       "re": {
         "priority": 5,
         "tags": [
+          "common",
+          "usable",
           "letters_only"
         ],
         "wrap": "word"
@@ -3307,6 +3386,7 @@
       "icl": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3318,7 +3398,8 @@
       "↑": {
         "priority": 5,
         "tags": [
-          "single_character"
+          "single_character",
+          "usable"
         ],
         "wrap": "symbol"
       },
@@ -3354,6 +3435,7 @@
       "idx": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3424,6 +3506,7 @@
       "info": {
         "priority": 6,
         "tags": [
+          "coding",
           "letters_only",
           "log_level"
         ],
@@ -3443,6 +3526,7 @@
       "ipt": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3454,6 +3538,7 @@
       "int": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3505,6 +3590,7 @@
       "iss": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3627,6 +3713,8 @@
       "<": {
         "priority": 5,
         "tags": [
+          "common",
+          "usable",
           "ascii_only",
           "single_character"
         ],
@@ -3635,6 +3723,7 @@
       "lt": {
         "priority": 6,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3646,6 +3735,8 @@
       "=<": {
         "priority": 5,
         "tags": [
+          "common",
+          "coding",
           "ascii_only"
         ],
         "wrap": "symbol"
@@ -3653,6 +3744,8 @@
       "≤": {
         "priority": 4,
         "tags": [
+          "common",
+          "usable",
           "single_character"
         ],
         "wrap": "symbol"
@@ -3660,6 +3753,7 @@
       "le": {
         "priority": 6,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3705,6 +3799,7 @@
       "ls": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3760,6 +3855,7 @@
       "mk": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3804,6 +3900,8 @@
       "math": {
         "priority": 5,
         "tags": [
+          "common",
+          "usable",
           "letters_only"
         ],
         "wrap": "word"
@@ -3815,6 +3913,8 @@
       "max": {
         "priority": 5,
         "tags": [
+          "common",
+          "usable",
           "letters_only"
         ],
         "wrap": "word"
@@ -3826,6 +3926,7 @@
       "mn": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3837,6 +3938,7 @@
       "mthd": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3871,6 +3973,8 @@
       "min": {
         "priority": 5,
         "tags": [
+          "common",
+          "usable",
           "letters_only"
         ],
         "wrap": "word"
@@ -3902,8 +4006,17 @@
   },
   "miscellaneous": {
     "abbrs": {
-      "misc": {
+      "misc.": {
         "priority": 5,
+        "tags": [
+          "ascii_only",
+          "common",
+          "usable"
+        ],
+        "wrap": "word"
+      },
+      "misc": {
+        "priority": 6,
         "tags": [
           "letters_only"
         ],
@@ -3916,6 +4029,7 @@
       "mtk": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -3984,6 +4098,7 @@
       "mv": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4006,6 +4121,7 @@
       "≫": {
         "priority": 5,
         "tags": [
+          "usable",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4017,6 +4133,7 @@
       "≪": {
         "priority": 5,
         "tags": [
+          "usable",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4028,6 +4145,8 @@
       "×": {
         "priority": 3,
         "tags": [
+          "common",
+          "usable",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4035,6 +4154,7 @@
       "mux": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4144,6 +4264,7 @@
         "priority": 6,
         "tags": [
           "letters_only",
+          "coding",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4241,6 +4362,7 @@
         "priority": 5,
         "tags": [
           "ascii_only",
+          "usable",
           "common"
         ],
         "wrap": "word"
@@ -4252,6 +4374,8 @@
       "!=": {
         "priority": 5,
         "tags": [
+          "common",
+          "coding",
           "ascii_only"
         ],
         "wrap": "symbol"
@@ -4259,6 +4383,8 @@
       "≠": {
         "priority": 4,
         "tags": [
+          "common",
+          "usable",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4266,6 +4392,7 @@
       "ne": {
         "priority": 6,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4307,14 +4434,17 @@
         "priority": 3,
         "tags": [
           "common",
-          "single_character"
+          "single_character",
+          "usable"
         ],
         "wrap": "symbol"
       },
       "No.": {
         "priority": 5,
         "tags": [
-          "ascii_only"
+          "ascii_only",
+          "common",
+          "usable"
         ],
         "wrap": "word"
       }
@@ -4325,6 +4455,7 @@
       "obj": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4359,6 +4490,7 @@
       "op": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4392,6 +4524,7 @@
       "opmz": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4403,6 +4536,7 @@
       "opm": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4414,6 +4548,7 @@
       "opn": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4434,11 +4569,12 @@
       }
     }
   },
-  "organization": {
+  "organize,organization": {
     "abbrs": {
       "org": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4490,6 +4626,7 @@
       "opt": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4627,6 +4764,7 @@
       "pl": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4649,6 +4787,7 @@
       "☟": {
         "priority": 5,
         "tags": [
+          "usable",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4667,6 +4806,7 @@
       "☜": {
         "priority": 5,
         "tags": [
+          "usable",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4685,6 +4825,7 @@
       "☞": {
         "priority": 5,
         "tags": [
+          "usable",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4696,6 +4837,7 @@
       "☝": {
         "priority": 5,
         "tags": [
+          "usable",
           "single_character"
         ],
         "wrap": "symbol"
@@ -4747,7 +4889,9 @@
       "p.s.": {
         "priority": 5,
         "tags": [
-          "ascii_only"
+          "ascii_only",
+          "common",
+          "usable"
         ],
         "wrap": "word"
       },
@@ -4796,6 +4940,7 @@
       "priv": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4829,6 +4974,7 @@
       "pbm": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4851,6 +4997,7 @@
       "prog": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4862,6 +5009,7 @@
       "PL": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4884,6 +5032,7 @@
       "prp": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4906,6 +5055,7 @@
       "pub": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4917,6 +5067,7 @@
       "pub": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5014,16 +5165,28 @@
       "rand": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
       }
     }
   },
-  "range;and the others": {
+  "range": {
     "abbrs": {
+      "~": {
+        "remark": "eg 1~5, a~f, ii~iv",
+        "priority": 1,
+        "tags": [
+          "common",
+          "usable",
+          "ascii_only",
+          "single_character"
+        ],
+        "wrap": "symbol"
+      },
       "...": {
-        "priority": 3,
+        "priority": 9,
         "tags": [
           "ascii_only",
           "common"
@@ -5031,17 +5194,9 @@
         "wrap": "symbol"
       },
       "…": {
-        "priority": 2,
+        "priority": 8,
         "tags": [
           "common",
-          "single_character"
-        ],
-        "wrap": "symbol"
-      },
-      "~": {
-        "priority": 1,
-        "tags": [
-          "ascii_only",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5086,6 +5241,7 @@
       "reg": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5097,6 +5253,7 @@
       "rej": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5119,6 +5276,7 @@
       "rls": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5152,6 +5310,7 @@
       "rm": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5163,6 +5322,7 @@
       "rept": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5185,6 +5345,7 @@
       "repr": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5196,6 +5357,7 @@
       "req": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5207,6 +5369,7 @@
       "rsch": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5218,6 +5381,7 @@
       "rsrc": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5240,6 +5404,7 @@
       "resp": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5273,6 +5438,7 @@
       "sch": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5284,6 +5450,8 @@
       "s": {
         "priority": 7,
         "tags": [
+          "common",
+          "usable",
           "letters_only",
           "unit_of_measure",
           "single_character"
@@ -5291,8 +5459,11 @@
         "wrap": "unit"
       },
       "sec": {
+        "remark": "use when s is ambagious",
         "priority": 5,
         "tags": [
+          "common",
+          "usable",
           "letters_only",
           "unit_of_measure"
         ],
@@ -5305,6 +5476,7 @@
       "☑": {
         "priority": 5,
         "tags": [
+          "common",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5312,6 +5484,8 @@
       "✅": {
         "priority": 2,
         "tags": [
+          "common",
+          "usable",
           "emoji"
         ],
         "wrap": "symbol"
@@ -5323,6 +5497,8 @@
       "☒": {
         "priority": 5,
         "tags": [
+          "common",
+          "usable",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5378,6 +5554,7 @@
       "sq": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5618,6 +5795,7 @@
       "stn": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5629,6 +5807,7 @@
       "st": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5640,6 +5819,7 @@
       "stat": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5651,6 +5831,7 @@
       "str": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5684,6 +5865,7 @@
       "succ": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5707,6 +5889,7 @@
       "Σ": {
         "priority": 5,
         "tags": [
+          "common",
           "single_character"
         ],
         "wrap": "symbol"
@@ -5730,6 +5913,7 @@
       "sys": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5741,6 +5925,7 @@
       "tk": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5774,6 +5959,7 @@
       "tmp": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5785,6 +5971,7 @@
       "txt": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5808,7 +5995,9 @@
       "i.e.": {
         "priority": 5,
         "tags": [
-          "ascii_only"
+          "ascii_only",
+          "common",
+          "usable"
         ],
         "wrap": "word"
       },
@@ -5992,10 +6181,12 @@
     }
   },
   "true": {
+    "remark": "boolean value",
     "abbrs": {
       "T": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only",
           "single_character"
         ],
@@ -6042,6 +6233,7 @@
       "udsd": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -6089,6 +6281,8 @@
       "☐": {
         "priority": 5,
         "tags": [
+          "common",
+          "usable",
           "single_character"
         ],
         "wrap": "symbol"
@@ -6112,6 +6306,7 @@
       "upd": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -6174,6 +6369,7 @@
       "val": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -6185,6 +6381,7 @@
       "var": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -6324,21 +6521,27 @@
         "priority": 3,
         "tags": [
           "common",
-          "single_character"
+          "single_character",
+          "usable"
         ],
         "wrap": "symbol"
       },
       "q.v.": {
         "priority": 5,
         "tags": [
-          "ascii_only"
+          "ascii_only",
+          "common",
+          "usable"
         ],
         "wrap": "word"
       },
       "qq.v.": {
+        "remark": "multiple references",
         "priority": 6,
         "tags": [
-          "ascii_only"
+          "ascii_only",
+          "common",
+          "usable"
         ],
         "wrap": "word"
       }
@@ -6385,7 +6588,8 @@
         "priority": 5,
         "tags": [
           "ascii_only",
-          "common"
+          "common",
+          "usable"
         ],
         "wrap": "word"
       }
@@ -6397,7 +6601,8 @@
         "priority": 5,
         "tags": [
           "ascii_only",
-          "common"
+          "common",
+          "usable"
         ],
         "wrap": "word"
       }
@@ -6409,7 +6614,8 @@
         "priority": 5,
         "tags": [
           "ascii_only",
-          "common"
+          "common",
+          "usable"
         ],
         "wrap": "word"
       }
@@ -6453,6 +6659,7 @@
       "wr": {
         "priority": 5,
         "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
