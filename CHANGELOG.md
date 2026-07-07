@@ -43,6 +43,23 @@ loaded via `json5` to support comments); `update_settings_json` (renamed from
 `comment_banner`/`cb` and `comment_banner_zero`/`cb0` CLI exposes them via
 stdin; bumped to `kamilog` v2.2.0
 
+**`(Abbreviations)` node in the Chat blueprint** — `chat_blueprint` now
+includes a dynamic `(Abbreviations)` node (`AbbrNode`) rendering every
+`always_understand`-tagged entry from `abbrs.json`; covered by a new
+`TESTEE_ALWAYS_UNDERSTAND_ABBR` fixture parametrized across the CLI
+`CLAUDE.md` chat-stem test and all `role=chat` HTTP API task tests
+
+**`(Coding Terms)` node in the Coder blueprint** — new `CodingTermsNode`
+dynamic node (tag `coding`) renders coding/programming-term abbreviations;
+wired into `coder_blueprint` via a new `coding_terms_blueprint`; covered by a
+`TESTEE_CODING_TERMS_ABBR` fixture mirrored across the CLI coder/rapid-coder
+stem tests and the coder HTTP API task test
+
+**`abbrs.json` `remark` field** — an optional free-text `remark` string may
+now be set on a meaning and/or on an individual abbreviation; both are
+appended (meaning first, `; `-joined) to the entry's rendered Markdown list
+item, e.g. `- abbr:meaning (meaning remark; abbr remark)`
+
 ### Changed
 
 **Packaging** — migrated project metadata, dependencies, and package
@@ -77,6 +94,31 @@ assertion (`assert_description_in_continue_description_field`,
 `TESTEE_DESCRIPTION_CONTENT_ALL` / `TESTEE_WHEN_TO_USE_CONTENT_ALL` corpora;
 `test_when_to_use` is only present for blueprints that expose a when-to-use
 entry
+
+**Meta Node renamed to Sidecar Node** — `kaye/prompt/meta_node_type.py` and
+`kaye/prompt/blueprint_meta_nodes.py` replaced by the `kaye/prompt/sidecar_nodes/`
+package; `MetaNodeType` → `SidecarNodeType`, `BlueprintMetaNodes` →
+`BlueprintDescriptorSidecars`, `PromptBlueprint.meta` → `.sidecars`,
+`generate_prompt(contains_meta_nodes=...)` → `contains_sidecar_nodes`,
+`kaye.cli.claude.CONTAINING_META_NODES` → `CONTAINING_SIDECAR_NODES`;
+`BasePromptNode.is_meta_node` removed in favor of the module-level
+`get_sidecar_node_type(node)`
+
+**`kaye/prompt/dynamic_nodes/` package** — `DynamicNode` (previously in
+`base_prompt_node.py`) and every abbreviation-driven dynamic node type
+(`TodayNode`, `AbbrNode`, `UsableAbbrNode`, `LanguageCodeNode`, `PLCNode`,
+`UnityEngineAbbrNode`, and the new `CodingTermsNode`) now live together under
+one package with a `DYNAMIC_NODE_TYPES` registry tuple
+
+**`AbbrTags.usable` split into usage-case tags** — replaced by three
+mutually-exclusive tags: `always_understand` (always rendered so the LLM
+recognizes the abbreviation), `usable_in_brief` (usable under Briefness
+Style), and `coding` (software-development/coding terms); `abbrs.json`
+entries re-tagged accordingly
+
+**`abbrs.json` schema** — each meaning's abbreviations now nest under a
+required `abbrs` key (previously flat under the meaning key) to make room
+for the meaning-level `remark` field
 
 ### Deprecated
 
