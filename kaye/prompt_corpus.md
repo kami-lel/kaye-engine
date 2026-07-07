@@ -5328,6 +5328,7 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
 - do **not** use type hints anywhere (no variable annotations, no function parameter or return type annotations).
 - prefer `str.format()` for string formatting, dont use f-strings (`f""`).
+- for every `try`/`except` block, bind the exception with `as e` (eg `except ValueError as e:`); if that block re-raises, the `raise` must include `from e`.
 
 
 
@@ -5526,6 +5527,8 @@ define ``EmailValidator`` and ``validate_address``
 **Raises** — one `:raises:` entry per distinct scenario, even when scenarios share an exception type; never merge them (see the two `ValueError` entries above).
 
 **Wrapping** — when a field line runs long, break after a `;` and indent the continuation (see `:param weights:` above).
+
+**Boolean return** — when `:rtype:` is `bool`, start the `:return:` description with "if" and describe only the positive/true case, eg `:return: if the invoice is both signed and paid in full`; write the positive case clearly enough that no "else"/negative case needs stating.
 
 
 

@@ -137,6 +137,13 @@ in `prompt_corpus_loader.py`; `HEADING_PREFIX_ELEMENT` moved to
 `ValueError`, since `is_valid_dynamic_node_heading` was removed — this is what
 lets a corpus section double as a dynamic node's preface
 
+**`Coder Python` try/except and docstring boolean-return rules** — `Coder
+Python` now requires binding the exception with `as e` in every
+`try`/`except` and including `from e` on any re-raise; `Coder Python
+Docstring Style` → `Field Rules` gains a **Boolean return** rule requiring
+`:rtype: bool` return descriptions to start with "if" and cover only the
+positive case, with no "else"/negative case needed
+
 ### Deprecated
 
 ### Removed

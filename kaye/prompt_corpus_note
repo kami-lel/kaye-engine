@@ -13,10 +13,6 @@ todo add control-language style instruction
 
 fixme better german learner prompt
 
-
-Fixme coder py: ensure use except ... as e and during raise use "from e"
-
-Todo coder py docstring: return: if boolean, use the "if ..." pattern, no need to explain "else ..."
 Todo agent behavior: avoid using git mv, work with only current worktree
 todo utilize worktree & kaye-agent
 
