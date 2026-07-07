@@ -60,6 +60,15 @@ now be set on a meaning and/or on an individual abbreviation; both are
 appended (meaning first, `; `-joined) to the entry's rendered Markdown list
 item, e.g. `- abbr:meaning (meaning remark; abbr remark)`
 
+**Dynamic node preface** — `DynamicNode` and every subclass (`TodayNode`,
+`AbbrNode`, `UsableAbbrNode`, `CodingTermsNode`, `PLCNode`, `LanguageCodeNode`,
+`UnityEngineAbbrNode`) accept a `preface` argument prepended to their rendered
+content; `load_prompt_corpus_tree()` auto-populates it via `prompt_corpus.md`
+sections sharing a dynamic node's heading (e.g. `(Today)`, `(Usable
+Abbreviations)`) — the static section's content is detached and carried over
+instead of being dropped, letting the corpus author write introductory text
+above dynamically-generated entries
+
 ### Changed
 
 **Packaging** — migrated project metadata, dependencies, and package
@@ -120,6 +129,14 @@ entries re-tagged accordingly
 required `abbrs` key (previously flat under the meaning key) to make room
 for the meaning-level `remark` field
 
+**Prompt corpus parsing** — `PromptCorpusNode.parse()` (with `_split_sections`
+/ `_trim_blank_lines` helpers) replaces the old free-standing recursive parser
+in `prompt_corpus_loader.py`; `HEADING_PREFIX_ELEMENT` moved to
+`prompt_corpus_node.py`; parenthesized dynamic-node-style headings (e.g.
+`(Today)`) are now allowed directly in `prompt_corpus.md` instead of raising
+`ValueError`, since `is_valid_dynamic_node_heading` was removed — this is what
+lets a corpus section double as a dynamic node's preface
+
 ### Deprecated
 
 ### Removed
@@ -133,6 +150,9 @@ for the meaning-level `remark` field
 `email.utils.parseaddr` and build a `Project-URL` name→url map (`homepage`,
 `Repository`) instead of splitting a single joined string, fixing incorrect
 author/URL output in exported manifests
+
+**`TodayNode` date line label** — rendered `"Today: <date>"`, mismatching its
+own `(Today)` heading; now renders `"Date: <date>"`
 
 ### Security
 

@@ -60,19 +60,26 @@ through a Python API, an HTTP API, and a CLI.
   information
 - **Dynamic Node** — `kaye/prompt/dynamic_nodes/`, a node type whose content
   has no fixed value and is generated during `.generate_prompt()`; abstract
-  base `DynamicNode` (`dynamic_node.py`), heading syntax `(Name)` validated by
-  `is_valid_dynamic_node_heading`; `DYNAMIC_NODE_TYPES` registers every
-  concrete type: `TodayNode` (today's date/time), `AbbrNode` (renders
-  `always_understand`-tagged abbreviations by default, or abbreviations found
-  in a `query=` string when one is passed), and the tag-filtered
-  `_AbbrTagNodeBase` subclasses — `UsableAbbrNode` (`usable_in_brief`),
-  `CodingTermsNode` (`coding`), `PLCNode` (`programming_language_code`),
-  `LanguageCodeNode` (`language_code`), `UnityEngineAbbrNode`
-  (`unity_engine_abbr`) — each rendering every `AbbrData().abbrs` entry
-  matching its `AbbrTags` member via `gen_abbrs_content_lines()`.
-  `chat_blueprint` checkmarks `(Abbreviations)`; `coder_blueprint` checkmarks
-  `(Coding Terms)` via a small `coding_terms_blueprint`
-  (`kaye/prompt/embedded_blueprints.py`).
+  base `DynamicNode` (`dynamic_node.py`), heading syntax `(Name)`;
+  `DYNAMIC_NODE_TYPES` registers every concrete type: `TodayNode` (today's
+  date/time), `AbbrNode` (renders `always_understand`-tagged abbreviations by
+  default, or abbreviations found in a `query=` string when one is passed),
+  and the tag-filtered `_AbbrTagNodeBase` subclasses — `UsableAbbrNode`
+  (`usable_in_brief`), `CodingTermsNode` (`coding`), `PLCNode`
+  (`programming_language_code`), `LanguageCodeNode` (`language_code`),
+  `UnityEngineAbbrNode` (`unity_engine_abbr`) — each rendering every
+  `AbbrData().abbrs` entry matching its `AbbrTags` member via
+  `gen_abbrs_content_lines()`. `chat_blueprint` checkmarks `(Abbreviations)`;
+  `coder_blueprint` checkmarks `(Coding Terms)` via a small
+  `coding_terms_blueprint` (`kaye/prompt/embedded_blueprints.py`).
+  - **Preface** — every `DynamicNode` accepts a `preface=()` sequence, stored
+    as `self._preface` and prepended to `content_lines()`'s generated output.
+    `load_prompt_corpus_tree()` populates this automatically: `prompt_corpus.md`
+    may contain a literal `# (Today)`-style section (same heading as a dynamic
+    node); `_attach_dynamic_node()` (`prompt_corpus_loader.py`) detaches that
+    static `PromptCorpusNode` and passes its `content_lines()` as the dynamic
+    node's `preface`, so hand-written intro text renders before the generated
+    entries instead of being silently dropped.
 - **Comment Banner (CB)** — visual separators written inside code comments to
   show structure in long code; part of `Kaye Peer Coder` guidance under `code
   comment` section; defines 6 hierarchy levels (`CB0`–`CB5`): `CB0` (boxed,
@@ -122,6 +129,11 @@ intentional — preserve them. The top-level (`#`) sections, in order:
 - **Agent Behavior** — baseline agent conduct; `Continue Behavior` is a
   subsection (e.g. `run_terminal_command`)
 - **Utility Prompts** — Conversation Follow Up / Tag / Title generation
+- **`(Today)` / `(Abbreviations)` / `(Usable Abbreviations)` / `(Coding
+  Terms)` / `(Programming Languages Code)` / `(Languages Code)` / `(Unity
+  Engine Abbreviations)`** — parenthesized sections whose content is not
+  rendered directly; each is carried over as the matching Dynamic Node's
+  `preface` (see above) instead
 
 Most leaf sections that back an exportable blueprint carry `{description}` and
 `{when_to_use}` sidecar nodes; coder and writer sections add `{globs}` and
