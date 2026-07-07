@@ -184,8 +184,8 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
         - `tests/cli/a/s/pe/` — per-skill content tests for prompt-engineering
           blueprints
       - `tests/cli/a/sz/` — `claude skill -z` (zipped packages) tests
-      - `tests/cli/a/u/` — `claude user-system-prompt` export tests (content,
-        flags, aliases)
+      - `tests/cli/a/usp/` — `claude user-system-prompt` export tests
+        (content, flags, aliases)
       - `tests/cli/a/v/` — `claude vs-code-extension` export tests (CLAUDE.md,
         marketplace, command aliases)
     - `tests/cli/c/` — `continue` subcommand tests
