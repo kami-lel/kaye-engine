@@ -83,6 +83,9 @@ def load_prompt_corpus_tree():
 ROOT_NODE_NAME = "○"
 HEADING_PREFIX_ELEMENT = "#"
 
+# TODO may moved to prompt corpus tree
+# TODO make dynamic node utilize this too?
+
 
 def _create_prompt_corpus_node_from_text_lines_recursively(
     name, parent, text_lines
@@ -100,6 +103,14 @@ def _create_prompt_corpus_node_from_text_lines_recursively(
 
         # get content_lines of current node level
         content_lines = text_lines[: heading_lines_idx[0]]
+        # trim leading/trailing empty strings
+        start, end = 0, len(content_lines)
+        while start < end and content_lines[start] == "":
+            start += 1
+        while end > start and content_lines[end - 1] == "":
+            end -= 1
+        content_lines = content_lines[start:end]
+
         node = PromptCorpusNode(name, parent, content_lines)
 
         # parse sub-sections, create children nodes
@@ -119,4 +130,11 @@ def _create_prompt_corpus_node_from_text_lines_recursively(
     else:
         # contains no subsection  ----------------------------------------------
         # i.e. all of text_lines are node content
-        return PromptCorpusNode(name, parent, text_lines)
+        # trim leading/trailing empty strings
+        start, end = 0, len(text_lines)
+        while start < end and text_lines[start] == "":
+            start += 1
+        while end > start and text_lines[end - 1] == "":
+            end -= 1
+
+        return PromptCorpusNode(name, parent, text_lines[start:end])
