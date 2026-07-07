@@ -25,47 +25,54 @@ through a Python API, an HTTP API, and a CLI.
 - **Blueprint** — a `PromptBlueprint` tree selection spec controlling which
   corpus parts render into a concrete prompt
 - **Role** — task-specific behavior profile inside the corpus
-- **Meta Node** — `{name}`-bracketed subnode holding structured metadata for
-  its parent (`kaye/prompt/meta_node_type.py::MetaNodeType` is an `IntFlag`
-  with members `DESCRIPTION`, `WHEN_TO_USE`, `GLOBS`, `PREREQUISITE`,
-  `FOR_CLAUDE`; `.as_node_heading` renders e.g. `{description}`); detected via
-  `BasePromptNode.is_meta_node` (regex `^\{.+\}$`); type-checked via
-  `MetaNodeType.is_meta_node_of_type(node, flags)` (supports combined flags);
-  looked up and rendered by
-  `kaye/prompt/blueprint_meta_nodes.py::BlueprintMetaNodes`. To add a new meta
-  node type: add a member to `MetaNodeType` and a `_HEADING_NAMES` entry, add a
-  property + `_node` lookup (via `MetaNodeType.<NAME>.as_node_heading`) in
-  `BlueprintMetaNodes`, add `### {name}` examples to `kaye/prompt_corpus.md`,
-  document it in `docs/corpus_doc.md` and `docs/programmatic_api_doc.md`, wire
-  CLI export consumers (`kaye/cli/frontmatter_md_file.py`,
-  `kaye/cli/cli_continue/rule_file.py`) if the type should surface in exports,
-  and mirror tests under `tests/prompt/bp/` and `tests/prompt/node/`.
-- **Prerequisite Node** — `{prerequisite}` meta node; pass
-  `contains_meta_nodes=MetaNodeType.PREREQUISITE` (or a combined flag) to
-  `generate_prompt()` / `generate_prompt_lines()` to auto-checkmark every
-  matching meta node whose parent is already checkmarked before rendering;
+- **Sidecar Node** — `{name}`-bracketed subnode attached to a blueprint's
+  parent but stored as corpus content; excluded by default and conditionally
+  spliced in via `contains_sidecar_nodes` (`kaye/prompt/sidecar_nodes/`).
+  `SidecarNodeType` (`sidecar_node_type.py`) is an `IntFlag` with members
+  `DESCRIPTION`, `WHEN_TO_USE`, `GLOBS`, `PREREQUISITE`, `FOR_CLAUDE`;
+  `.as_node_heading` renders e.g. `{description}`. Two usage-role labels
+  under the same mechanism, not separate classes: *descriptor sidecar* for
+  `{description}`, `{when_to_use}`, `{globs}` (blueprint metadata consumed by
+  `BlueprintDescriptorSidecars`, exposed as `blueprint.sidecars`) and
+  *conditional sidecar* for `{prerequisite}`, `{for_claude}` (real prompt
+  content spliced in conditionally). A node's type is detected via
+  `get_sidecar_node_type(node)` (regex `^\{.+\}$`, returns
+  `SidecarNodeType.NONE`, falsy, if not a sidecar node). To add a new sidecar
+  node type: add a member to `SidecarNodeType` and a
+  `SIDECAR_NODE_TYPE_HEADINGS` entry, add a property + `_node` lookup (via
+  `SidecarNodeType.<NAME>.as_node_heading`) in `BlueprintDescriptorSidecars`,
+  add `### {name}` examples to `kaye/prompt_corpus.md`, document it in
+  `docs/corpus_doc.md`, `docs/sidecar_node_doc.md`, and
+  `docs/programmatic_api_doc.md`, wire CLI export consumers
+  (`kaye/cli/frontmatter_md_file.py`, `kaye/cli/cli_continue/rule_file.py`) if
+  the type should surface in exports, and mirror tests under
+  `tests/prompt/bp/` and `tests/prompt/node/`.
+- **Prerequisite Node** — `{prerequisite}` conditional sidecar node; pass
+  `contains_sidecar_nodes=SidecarNodeType.PREREQUISITE` (or a combined flag)
+  to `generate_prompt()` / `generate_prompt_lines()` to auto-checkmark every
+  matching sidecar node whose parent is already checkmarked before rendering;
   `FOR_CLAUDE` and `PREREQUISITE` are combined in
-  `kaye.cli.claude.CONTAINING_META_NODES` for all Claude exports
-- **Blueprint Meta Merging** — `BlueprintMetaNodes.__or__` merges two instances
-  via `left | right`; left operand takes priority for each field
-  (description, when_to_use, globs, prerequisite); `PromptBlueprint.__or__`
-  now includes meta merging so merged blueprints preserve meta information
-- TODO pending rename: **Meta Node** → **Sidecar Node** (same mechanism,
-  clearer name — a node attached to a blueprint's parent but stored as corpus
-  content, `{...}`-bracketed, excluded by default and conditionally spliced in
-  via `contains_meta_nodes`). Two usage-role labels under the same mechanism,
-  not separate classes: *descriptor sidecar* for `{description}`,
-  `{when_to_use}`, `{globs}` (blueprint metadata consumed by
-  `BlueprintMetaNodes`) and *conditional sidecar* for `{prerequisite}`,
-  `{for_claude}` (real prompt content spliced in conditionally). Not yet
-  implemented — `MetaNodeType`, `is_meta_node`, `BlueprintMetaNodes`, and
-  `contains_meta_nodes` still use the old name throughout
-  `kaye/prompt/meta_node_type.py`, `kaye/prompt/base_prompt_node.py`, and
-  `kaye/prompt/blueprint_meta_nodes.py`. A separately proposed "materialized
-  node" (content with no fixed value until blueprint-creation time, e.g. an
-  abbreviation list decided from abbr tags) was dropped — that use case is
-  just a kind of `DynamicNode`, since it is still generated during prompt
-  generation.
+  `kaye.cli.claude.CONTAINING_SIDECAR_NODES` for all Claude exports
+- **Blueprint Sidecar Merging** — `BlueprintDescriptorSidecars.__or__` merges
+  two instances via `left | right`; left operand takes priority for each
+  field (description, when_to_use, globs, prerequisite); `PromptBlueprint.__or__`
+  now includes sidecar merging so merged blueprints preserve sidecar
+  information
+- **Dynamic Node** — `kaye/prompt/dynamic_nodes/`, a node type whose content
+  has no fixed value and is generated during `.generate_prompt()`; abstract
+  base `DynamicNode` (`dynamic_node.py`), heading syntax `(Name)` validated by
+  `is_valid_dynamic_node_heading`; `DYNAMIC_NODE_TYPES` registers every
+  concrete type: `TodayNode` (today's date/time), `AbbrNode` (renders
+  `always_understand`-tagged abbreviations by default, or abbreviations found
+  in a `query=` string when one is passed), and the tag-filtered
+  `_AbbrTagNodeBase` subclasses — `UsableAbbrNode` (`usable_in_brief`),
+  `CodingTermsNode` (`coding`), `PLCNode` (`programming_language_code`),
+  `LanguageCodeNode` (`language_code`), `UnityEngineAbbrNode`
+  (`unity_engine_abbr`) — each rendering every `AbbrData().abbrs` entry
+  matching its `AbbrTags` member via `gen_abbrs_content_lines()`.
+  `chat_blueprint` checkmarks `(Abbreviations)`; `coder_blueprint` checkmarks
+  `(Coding Terms)` via a small `coding_terms_blueprint`
+  (`kaye/prompt/embedded_blueprints.py`).
 - **Comment Banner (CB)** — visual separators written inside code comments to
   show structure in long code; part of `Kaye Peer Coder` guidance under `code
   comment` section; defines 6 hierarchy levels (`CB0`–`CB5`): `CB0` (boxed,
@@ -77,9 +84,9 @@ through a Python API, an HTTP API, and a CLI.
 ### Prompt Corpus Structure
 
 `kaye/prompt_corpus.md` is one large Markdown document parsed into the prompt
-tree. Each `#`/`##`/`###` heading becomes a node; `{name}` headings are meta
-nodes (see above). Blank "spacer" lines between sections are intentional —
-preserve them. The top-level (`#`) sections, in order:
+tree. Each `#`/`##`/`###` heading becomes a node; `{name}` headings are
+sidecar nodes (see above). Blank "spacer" lines between sections are
+intentional — preserve them. The top-level (`#`) sections, in order:
 
 - **Introduction** — defines Kaye as an AI agent serving the user
 - **Personality** — the Kaye persona: submissive/deferential voice, emotion
@@ -117,7 +124,7 @@ preserve them. The top-level (`#`) sections, in order:
 - **Utility Prompts** — Conversation Follow Up / Tag / Title generation
 
 Most leaf sections that back an exportable blueprint carry `{description}` and
-`{when_to_use}` meta nodes; coder and writer sections add `{globs}` and
+`{when_to_use}` sidecar nodes; coder and writer sections add `{globs}` and
 `{prerequisite}`.
 
 ## Repository Layout
