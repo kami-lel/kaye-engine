@@ -49,8 +49,7 @@ class _AbbrTagNodeBase(DynamicNode):  ##########################################
     # implement BasePromptNode  ------------------------------------------------
 
     def content_lines(self, **kwargs):
-        # TODO add preface
-        return gen_abbrs_content_lines(self.ABBR_TAG)
+        return self._preface + gen_abbrs_content_lines(self.ABBR_TAG)
 
 
 # concrete classes  ############################################################

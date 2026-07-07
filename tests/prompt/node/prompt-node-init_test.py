@@ -140,22 +140,18 @@ class TestInit:  ###############################################################
         len(works.children) == 0
 
 
-class TestCheckName:  ##########################################################
+class TestAllowsDynamicNodeHeadingSyntax:  #####################################
 
-    def test_fail1(_):
+    def test1(_):
         ipt = "(Abc Def)"
-        with pytest.raises(ValueError) as exec_info:
-            PromptCorpusNode(ipt, None, [])
+        opt = PromptCorpusNode(ipt, None, [])
 
-        opt = exec_info.value.args[0]
         print(opt)
-        assert opt == "illegal heading syntax: '(Abc Def)'"
+        assert opt.name == ipt
 
-    def test_fail2(_):
+    def test2(_):
         ipt = "(Some Content ZZZ)"
-        with pytest.raises(ValueError) as exec_info:
-            PromptCorpusNode(ipt, None, [])
+        opt = PromptCorpusNode(ipt, None, [])
 
-        opt = exec_info.value.args[0]
         print(opt)
-        assert opt == "illegal heading syntax: '(Some Content ZZZ)'"
+        assert opt.name == ipt

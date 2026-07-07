@@ -29,8 +29,7 @@ class AbbrNode(DynamicNode):  ##################################################
         else:
             lines = gen_abbrs_content_lines(AbbrTags.always_understand)
 
-        # TODO add preface
-        return lines
+        return self._preface + lines
 
     # helpers  =================================================================
 
