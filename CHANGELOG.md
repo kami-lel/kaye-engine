@@ -69,6 +69,13 @@ Abbreviations)`) — the static section's content is detached and carried over
 instead of being dropped, letting the corpus author write introductory text
 above dynamically-generated entries
 
+**Coding-term abbreviations** — `abbrs.json` gains `aCls` (abstract class),
+`bCls`/`dCls` (base/derived class, each with an `ie superclass`/`ie subclass`
+remark), `aux` (auxiliary), `oride` (override, remark "in inheritance"), `rf`
+(refactor,refactorization), `rgs` (regression, and separately unit test
+revision, both with TDD-context remarks), `UT` (unit test), and `util`
+(utility,utilize)
+
 ### Changed
 
 **Packaging** — migrated project metadata, dependencies, and package
@@ -143,6 +150,17 @@ Python` now requires binding the exception with `as e` in every
 Docstring Style` → `Field Rules` gains a **Boolean return** rule requiring
 `:rtype: bool` return descriptions to start with "if" and cover only the
 positive case, with no "else"/negative case needed
+
+**`(Coding Terms)` guardrail** — `prompt_corpus.md` now also forbids using
+coding-term abbreviations in code comments or documentation, not just in
+chat replies; identifier use (file, variable, and similar names) remains
+allowed
+
+**`state/status` abbr key** — renamed to `state,status,stage` in
+`abbrs.json`, adding *stage* as a covered meaning
+
+**Comment Banner example** — `helpers` heading renamed to `auxiliary` in CB
+usage examples, matching the new `aux` abbreviation
 
 ### Deprecated
 

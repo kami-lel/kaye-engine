@@ -209,6 +209,18 @@
       }
     }
   },
+  "abstract class": {
+    "abbrs": {
+      "aCls": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "abstract,abstraction": {
     "abbrs": {
       "abs": {
@@ -753,6 +765,18 @@
       }
     }
   },
+  "auxiliary": {
+    "abbrs": {
+      "aux": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "available,availability": {
     "abbrs": {
       "avai": {
@@ -800,6 +824,19 @@
         "wrap": "word"
       }
     }
+  },
+  "base class": {
+    "abbrs": {
+      "bCls": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "ie superclass, parent class"
   },
   "Bash": {
     "abbrs": {
@@ -1671,6 +1708,18 @@
       }
     }
   },
+  "correspond,corresponding": {
+    "abbrs": {
+      "crsp": {
+        "priority": 5,
+        "tags": [
+          "always_understand",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "count,counting": {
     "abbrs": {
       "cnt": {
@@ -1961,6 +2010,19 @@
         "wrap": "word"
       }
     }
+  },
+  "derived class": {
+    "abbrs": {
+      "dCls": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "ie subclass, child class"
   },
   "destination,destinational": {
     "abbrs": {
@@ -5076,6 +5138,19 @@
       }
     }
   },
+  "override": {
+    "abbrs": {
+      "oride": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "in inheritance"
+  },
   "package": {
     "abbrs": {
       "pkg": {
@@ -5799,6 +5874,18 @@
       }
     }
   },
+  "refactor,refactorization": {
+    "abbrs": {
+      "rf": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "register,regulation": {
     "abbrs": {
       "reg": {
@@ -5809,6 +5896,19 @@
         "wrap": "word"
       }
     }
+  },
+  "regression": {
+    "abbrs": {
+      "rgs": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "part of TDD, finding bugs introduced by new implementation or refactoring, then Fixing Codebase so existing Unit Tests pass again"
   },
   "reject": {
     "abbrs": {
@@ -5955,18 +6055,6 @@
       "rspn": {
         "priority": 5,
         "tags": [
-          "letters_only"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
-  "correspond,corresponding": {
-    "abbrs": {
-      "crsp": {
-        "priority": 5,
-        "tags": [
-          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -6385,7 +6473,7 @@
       }
     }
   },
-  "state/status": {
+  "state,status,stage": {
     "abbrs": {
       "s": {
         "priority": 7,
@@ -6864,6 +6952,31 @@
       }
     }
   },
+  "unit test": {
+    "abbrs": {
+      "UT": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "unit test revision": {
+    "abbrs": {
+      "rgs": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "part of TDD, updating Unit Tests to match new implemented behavior"
+  },
   "Unity Engine code": {
     "abbrs": {
       "u3d": {
@@ -6992,6 +7105,18 @@
       "usu": {
         "priority": 5,
         "tags": [
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "utility,utilize": {
+    "abbrs": {
+      "util": {
+        "priority": 5,
+        "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"

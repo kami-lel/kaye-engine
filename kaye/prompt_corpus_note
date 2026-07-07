@@ -5,9 +5,8 @@ fixme desensitize personality
 
 todo agent behavior add md-style task list, when Claude "task" is not available
 
-Todo standardize software dev lifecycle, with standardized vocab, in coder,
-eg unit test, helper fx
-Fixme sync with various single letter abbr
+fixme sync abbr w/ dotfile commands
+fixme sync abbr w/ vs code shortcut & snippets
 todo add control-language style instruction
 
 

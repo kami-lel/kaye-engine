@@ -4511,7 +4511,7 @@ CB1C   ###############  heading  ###############
 **Heading style** — keep it short and name the real block (`parse CLI flags`, not `section 1`). Case by visibility:
 
 - **Title Case** = public / exported interface — `Public API`, `Entry Point`
-- **lowercase** = internal / implementation detail — `constants`, `helpers`
+- **lowercase** = internal / implementation detail — `constants`, `auxiliary`
 
 **Use** at genuine boundaries — modules, sections, functions, related groups, output phases — and only when a block is long enough that a separator aids navigation. **Avoid** for line-level or sequential groups inside a function (use plain comments), in ordinary prose, and anywhere frequent enough to become noise.
 
@@ -4528,7 +4528,7 @@ CB1C   ###############  heading  ###############
 // constants  ##################################################################
 const int kValues[] = {10, 20, 30};
 
-// helpers  ####################################################################
+// auxiliary  ##################################################################
 // number helpers  =============================================================
 double compute_average(const int* v, int n) {
     // accumulate  *************************************************************
@@ -6393,7 +6393,7 @@ JSON format: { "title": "your concise title here" }
 
 # (Coding Terms)
 
-**understand** every entry below as software-dev-specific terms during the user's chat; do not use them in your reply, but you may use them to name files, variables, and similar identifiers
+**understand** every entry below as software-dev-specific terms during the user's chat; do not use them in your reply, nor in code comments or documentation; but you may use them as identifiers, eg naming files, variables, etc.
 
 
 
