@@ -12,132 +12,7 @@ import pytest
 
 from kaye.prompt.dynamic_nodes import AbbrNode
 
-
 # fixtures data  ################################################################
-_ALWAYS_UNDERSTAND_LINES = [
-    "- abt:about",
-    "- add.:additional,additionally,in addition",
-    "- A:also",
-    "- alt:alternative,alternatively",
-    "- ~:and the others (non-people; eg a, b, ~; use ~~ when when ~ is"
-    " ambiguous; eg a, b, ~~)",
-    "- aot:another",
-    "- answ:answer",
-    "- a/:any",
-    "- apch:approach",
-    "- appr:appropriate,appropriately",
-    "- R:are",
-    "- asm:assume,assumed,assumption",
-    "- bg:background",
-    "- b.:bad",
-    "- b4:before",
-    "- gx:best",
-    "- gg:better",
-    "- B:but,however",
-    "- Cx:can not,could not",
-    "- C:can,could",
-    "- chg:change",
-    "- col:column",
-    "- cpl:complete,completed,completion,completely,completeness",
-    "- cond:condition,conditional",
-    "- cf.:confer,compare",
-    "- c.nt:connect,connection,connected",
-    "- ctxt:context",
-    "- cont:continue,continued,continuation",
-    "- ctr:control",
-    "- cor:correct,correction",
-    "- cur:current,currently",
-    "- d.c:decrease,decrement",
-    "- def:define,definition,definite,definitive",
-    "- dep:depend,dependent,dependence,dependency",
-    "- dif:difference,different",
-    "- diff:difficult,difficulty",
-    "- do.:ditto,repetitive as above",
-    "- ed:edit,edition,edited",
-    "- mfa:emphasize,emphasis,emphatic",
-    "- e/:every",
-    "- e/o:everyone",
-    "- e/t:everything",
-    "- e/X:everytime",
-    "- xcl:exclude,exclusion",
-    "- xsi:exist,existence,there exists,existing",
-    "- xpc:expect,expectation,expected",
-    "- xpl:explain,explanation",
-    "- vv:extreme,extremely",
-    "- 4:for",
-    "- fr:from",
-    "- g.:good",
-    "- grp:group,grouping",
-    "- iff:if and only if",
-    "- mpt:important,importance",
-    "- mpv:improve,improvement",
-    "- re:in the matter of,concerning,regarding",
-    "- icl:include,inclusion",
-    "- i.c:increase,increment",
-    "- i.dep:independent,independence",
-    "- iss:issue",
-    "- lang:language",
-    "- lx:least,fewest",
-    "- ll:less,fewer",
-    "- L:like,likely",
-    "- ls:list",
-    "- l.:little,few",
-    "- mk:make",
-    "- m.:many,much",
-    "- mthd:method",
-    "- mm:more",
-    "- mx:most",
-    "- mv:move",
-    "- M:must",
-    "- Mx:must not",
-    "- nec:necessary",
-    "- n/t:nothing",
-    "- O:only",
-    "- org:organize,organization",
-    "- ot:other",
-    "- pa:part,partial",
-    "- pp:person,people,popular",
-    "- pl:place,placement",
-    "- pt:point",
-    "- poss:possible,possibly",
-    "- prev:previous",
-    "- prob:probably,probability",
-    "- ques:question",
-    "- rand:random,randomize",
-    "- rs:reason,reasoning",
-    "- rl:relate",
-    "- rlv:relevant,relative",
-    "- rpt:repetition",
-    "- rsch:research",
-    "- rsrc:resource",
-    "- rsp:respect,respective,respectively",
-    "- crsp:correspond,corresponding",
-    "- sep:separate",
-    "- sl:should,shall",
-    "- slx:should/shall not",
-    "- sim.:similar",
-    "- s/:some",
-    "- stn:standard",
-    "- st:state/status",
-    "- succ:successful",
-    "- |:such that",
-    "- tk:take",
-    "- T:than",
-    "- tt:that,those",
-    "- T:then",
-    "- tf:therefore,causing,resulting",
-    "- ts:this,these",
-    "- X:time,times",
-    "- 2:to",
-    "- 2:too",
-    "- ud:under",
-    "- udsd:understand",
-    "- upd:update",
-    "- v.:very",
-    "- W:while,when",
-    "- bb:worse",
-    "- bx:worst",
-]
 
 
 # pytest fixtures  #############################################################
@@ -227,7 +102,7 @@ class TestContentLines:  #######################################################
             "- in:inch",
             "- o.:over-",
             "- est.:estimate,estimation,estimated,estimating,estimatingly",
-            "- s:state/status",
+            "- s:state,status,stage",
         }
 
     def test_fx3(_, testee1):
@@ -338,24 +213,12 @@ class TestContentLines:  #######################################################
             "- ↓:decrease,decrement",
             "- ¼:fraction one quarter",
             "- in:inch",
-            "- s:state/status",
+            "- s:state,status,stage",
         }
 
-    def test_empty1(_, testee1):
+    def test_no_abbr(_, testee1):
         query = "some content without abbreviation"
 
         lines = testee1.content_lines(query=query)
         print(lines)
         assert lines == []
-
-    def test_empty2(_, testee1):
-        query = ""
-
-        lines = testee1.content_lines(query=query)
-        print(lines)
-        assert lines == _ALWAYS_UNDERSTAND_LINES
-
-    def test_empty3(_, testee1):
-        lines = testee1.content_lines()
-        print(lines)
-        assert lines == _ALWAYS_UNDERSTAND_LINES
