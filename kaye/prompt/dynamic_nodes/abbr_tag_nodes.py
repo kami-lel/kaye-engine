@@ -42,15 +42,14 @@ class _AbbrTagNodeBase(DynamicNode):  ##########################################
     a single ``ABBR_TAG`` from ``AbbrData().abbrs``
     """
 
-    # abstract property  -------------------------------------------------------
+    # abstract fields  ---------------------------------------------------------
 
     ABBR_TAG = None
 
     # implement BasePromptNode  ------------------------------------------------
 
     def content_lines(self, **kwargs):
-        # Todo add preface
-        return gen_abbrs_content_lines(self.ABBR_TAG)
+        return self._preface + gen_abbrs_content_lines(self.ABBR_TAG)
 
 
 # concrete classes  ############################################################
