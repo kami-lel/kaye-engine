@@ -5523,6 +5523,30 @@
       }
     }
   },
+  "auxiliary": {
+    "abbrs": {
+      "aux": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "utility,utilize": {
+    "abbrs": {
+      "util": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "programming language": {
     "abbrs": {
       "PL": {
@@ -5805,6 +5829,18 @@
         "priority": 5,
         "tags": [
           "always_understand",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "refactor,refactorization": {
+    "abbrs": {
+      "rf": {
+        "priority": 5,
+        "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
