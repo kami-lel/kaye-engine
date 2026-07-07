@@ -8,6 +8,7 @@ from tests import (
     TESTEE_CHAT_ADDITIONAL_CONTENT,
     TESTEE_TITLE_CASE_CONTENT,
     TESTEE_BRIEFNESS_CONTENT,
+    TESTEE_ALWAYS_UNDERSTAND_ABBR,
 )
 
 __all__ = [
@@ -18,6 +19,7 @@ __all__ = [
     "TESTEE_CHAT_ADDITIONAL_CONTENT",
     "TESTEE_TITLE_CASE_CONTENT",
     "TESTEE_BRIEFNESS_CONTENT",
+    "TESTEE_ALWAYS_UNDERSTAND_ABBR",
     "assert_intro1",
     "assert_intro2",
     "assert_format_title",
@@ -58,6 +60,7 @@ __all__ = [
     "assert_element22",
     "assert_element23",
     "assert_role",
+    "assert_abbr_heading",
     "create_opt_from_role",
     "create_opt_from_payload",
 ]
@@ -250,3 +253,7 @@ def assert_element23(opt):
 
 def assert_role(opt):
     assert "# Role" in opt
+
+
+def assert_abbr_heading(opt):
+    assert "# (Abbreviations)" in opt

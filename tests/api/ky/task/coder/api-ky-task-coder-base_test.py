@@ -73,8 +73,8 @@ class TestCoder:  # ============================================================
         assert TESTEE_TRIAGE_TAG_CONTENT[i] in opt
 
     @pytest.mark.parametrize("marker", TESTEE_CODING_TERMS_ABBR)
-    def test_coding_terms(self, content, marker):
-        assert marker in content
+    def test_coding_terms(self, opt, marker):
+        assert marker in opt
 
     # chat blueprint  **********************************************************
 
@@ -233,7 +233,3 @@ class TestCoder:  # ============================================================
     def test_role(_, opt):
         print(opt)
         assert_role(opt)
-
-    @pytest.mark.parametrize("marker", TESTEE_CODING_TERMS_ABBR)
-    def test_coding_terms(self, content, marker):
-        assert marker in content

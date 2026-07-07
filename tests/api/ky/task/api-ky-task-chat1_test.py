@@ -16,6 +16,7 @@ from tests.api.ky.task import (
     TESTEE_MD_BASIC_FORMAT_CONTENT,
     TESTEE_MD_ADD_FORMAT_CONTENT,
     TESTEE_CHAT_ADDITIONAL_CONTENT,
+    TESTEE_ALWAYS_UNDERSTAND_ABBR,
     create_opt_from_role,
 )
 
@@ -66,3 +67,7 @@ class TestRoleAndElements:  # ==================================================
 
     def test_abbr_heading(_, opt):
         assert "# (Abbreviations)" in opt
+
+    @pytest.mark.parametrize("marker", TESTEE_ALWAYS_UNDERSTAND_ABBR)
+    def test_always_understand_abbr(_, opt, marker):
+        assert marker in opt
