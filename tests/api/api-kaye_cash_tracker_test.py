@@ -104,8 +104,6 @@ select the most likely category abbreviation for each transaction based on its d
 
 class TestToday:  # ============================================================
 
-    # FIXME index 1 (preface) omitted: TodayNode.content_lines() drops
-    # self._preface, so the corpus heading line never renders
-    @pytest.mark.parametrize("i", (0, 2, 3))
+    @pytest.mark.parametrize("i", range(len(TESTEE_TODAY_CONTENT)))
     def test_content(_, opt, i):
         assert TESTEE_TODAY_CONTENT[i] in opt

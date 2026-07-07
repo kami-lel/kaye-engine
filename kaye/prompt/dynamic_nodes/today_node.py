@@ -30,4 +30,5 @@ class TodayNode(DynamicNode):
         now = datetime.now()
         date = now.strftime("%Y-%m-%d")
         time = now.strftime("%H:%M:%S")
-        return ["Date: {}".format(date), "Time: {}".format(time)]
+        lines = ["Date: {}".format(date), "Time: {}".format(time)]
+        return self._preface + lines
