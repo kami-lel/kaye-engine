@@ -19,10 +19,8 @@ from kaye.prompt.sidecar_nodes import (
 )
 
 from .base_prompt_node import BasePromptNode
-from .prompt_corpus_loader import (
-    load_prompt_corpus_tree,
-    HEADING_PREFIX_ELEMENT,
-)
+from .prompt_corpus_node import HEADING_PREFIX_ELEMENT
+from .prompt_corpus_loader import load_prompt_corpus_tree
 
 __all__ = ("PromptBlueprint",)
 
