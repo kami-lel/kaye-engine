@@ -12,6 +12,7 @@ import json
 import pytest
 
 from tests import (
+    TESTEE_CODING_TERMS_ABBR,
     TESTEE_TRIAGE_TAG_CONTENT,
     TESTEE_TITLE_CASE_CONTENT,
     TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
@@ -70,6 +71,10 @@ class TestCoder:  # ============================================================
     @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
     def test_triage_tags(_, opt, i):
         assert TESTEE_TRIAGE_TAG_CONTENT[i] in opt
+
+    @pytest.mark.parametrize("marker", TESTEE_CODING_TERMS_ABBR)
+    def test_coding_terms(self, opt, marker):
+        assert marker in opt
 
     # chat blueprint  **********************************************************
 
@@ -228,8 +233,3 @@ class TestCoder:  # ============================================================
     def test_role(_, opt):
         print(opt)
         assert_role(opt)
-
-    # abbr *********************************************************************
-
-    def test_abbr_heading(_, opt):
-        assert_abbr_heading(opt)

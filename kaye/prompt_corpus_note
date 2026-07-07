@@ -5,14 +5,9 @@ fixme desensitize personality
 
 todo agent behavior add md-style task list, when Claude "task" is not available
 
-todo standardize software dev lifecycle, with standardized vocab, in coder
+Todo standardize software dev lifecycle, with standardized vocab, in coder,
+eg unit test, helper fx
 todo add control-language style instruction
-
-Todo add dynamic node for usable abbrs: in user system prompt
-Todo add dynamic node coding in: coder prompt
-Todo add abbr tags: "coding" for coding terms
-Todo add these two tags across abbrs.json: usable_abbrs & coding
-Todo add explanation of meaning for coding tag in coder prompt, and additional terms
 
 
 fixme better german learner prompt
@@ -21,3 +16,7 @@ fixme better german learner prompt
 Fixme coder py: ensure use except ... as e and during raise use "from e"
 
 Todo coder py docstring: return: if boolean, use the "if ..." pattern, no need to explain "else ..."
+Todo agent behavior: avoid using git mv, work with only current worktree
+todo utilize worktree & kaye-agent
+
+

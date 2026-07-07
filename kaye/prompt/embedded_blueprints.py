@@ -61,7 +61,7 @@ rapid_blueprint = PromptBlueprint.parse("""    ○
 [x]     └── Style Guide Markdown Format
 [x]         └── Additional Markdown Format""")
 rapid_blueprint.display_name = "Rapid"
-rapid_blueprint.meta.description = (
+rapid_blueprint.sidecars.description = (
     "quick, mechanical text or data tasks with no persona or role"
 )
 
@@ -71,12 +71,13 @@ chat_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Introduction
 [x] ├── Personality
 [x] ├── Language
-[x] └── Style Guide
-[x]     ├── Style Guide Markdown Format
-[x]     │   └── Additional Markdown Format
-[x]     └── Style Guide Commentary Case""")
+[x] ├── Style Guide
+[x] │   ├── Style Guide Markdown Format
+[x] │   │   └── Additional Markdown Format
+[x] │   └── Style Guide Commentary Case
+[x] └── (Abbreviations)""")
 chat_blueprint.display_name = "Chat"
-chat_blueprint.meta.description = (
+chat_blueprint.sidecars.description = (
     "default for general conversation with full Kaye persona and role"
 )
 
@@ -101,13 +102,20 @@ triage_tags_blueprint = PromptBlueprint.create_from_node(
 )
 
 
+# Coding Terms dynamic node
+coding_terms_blueprint = PromptBlueprint.parse(""" ○
+[x] └── (Coding Terms)""")
+
+
 # coder  =======================================================================
 
 _kyc_node = _corpus["Kaye Peer Coder"]
 
 # Coder
 coder_blueprint = (
-    PromptBlueprint.create_from_node(_kyc_node) | triage_tags_blueprint
+    PromptBlueprint.create_from_node(_kyc_node)
+    | triage_tags_blueprint
+    | coding_terms_blueprint
 )
 coder_blueprint.display_name = "Kaye Peer Coder"
 

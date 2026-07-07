@@ -12,7 +12,7 @@ import yaml
 from kaye import PROGRAM_NAME
 from kaye.cli.claude import (
     convert_display_name2skill_name,
-    CONTAINING_META_NODES,
+    CONTAINING_SIDECAR_NODES,
 )
 from kaye.cli.frontmatter_md_file import FrontmatterMDFile
 
@@ -80,13 +80,13 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
         super().__init__(
             file_name,
             blueprint,
-            contains_meta_nodes=CONTAINING_META_NODES,
+            contains_sidecar_nodes=CONTAINING_SIDECAR_NODES,
         )
 
         self.frontmatter["metadata"]["version"] = version(PROGRAM_NAME)
 
         if blueprint:
             self.name = convert_display_name2skill_name(blueprint.display_name)
-            globs = blueprint.meta.globs
+            globs = blueprint.sidecars.globs
             if globs:
                 self.frontmatter["paths"] = list(globs)

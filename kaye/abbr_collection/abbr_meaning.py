@@ -8,20 +8,20 @@ define ``AbbrMeaning``
 class AbbrMeaning:
     """
     represent a single meaning (of possible different spellings)
-
-
-    :raises ValueError:
     """
 
-    __slots__ = ("mean",)
+    __slots__ = ("mean", "remark")
 
-    def __init__(self, mean):
+    def __init__(self, mean, remark=None):
         if not isinstance(mean, str):
             raise ValueError(
                 "meaning key must be String: {}".format(repr(mean))
             )
-
         self.mean = mean
+
+        if remark is not None and not isinstance(remark, str):
+            raise ValueError("remark must be String: {}".format(repr(remark)))
+        self.remark = remark
 
     # magic methods  ===========================================================
 

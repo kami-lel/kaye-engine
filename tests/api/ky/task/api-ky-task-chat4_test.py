@@ -149,3 +149,7 @@ class TestChat:  # =============================================================
 
     def test_abbr_heading(_, opt):
         assert_abbr_heading(opt)
+
+    @pytest.mark.parametrize("marker", TESTEE_ALWAYS_UNDERSTAND_ABBR)
+    def test_always_understand_abbr(_, opt, marker):
+        assert marker in opt

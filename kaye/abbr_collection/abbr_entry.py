@@ -12,6 +12,7 @@ from kaye.abbr_collection.abbr_wrap import AbbrWrap
 ABBRS_JSON_PRIORITY_KEY = "priority"
 ABBRS_JSON_TAGS_KEY = "tags"
 ABBRS_JSON_WRAP_KEY = "wrap"
+ABBRS_JSON_REMARK_KEY = "remark"
 
 
 # AbbrEntry  ###################################################################
@@ -27,7 +28,7 @@ class AbbrEntry:
 
     # instance structure  ******************************************************
 
-    __slots__ = ("abbr", "mean", "priority", "tags", "wrap")
+    __slots__ = ("abbr", "mean", "priority", "tags", "wrap", "remark")
 
     def __init__(self, mean, abbr, abbr_obj):
         self.mean = mean  # referenced to meaning
@@ -71,6 +72,12 @@ class AbbrEntry:
         # may raise ValueError
         self.wrap = AbbrWrap(abbr_obj[ABBRS_JSON_WRAP_KEY])
 
+        # set .remark  -----------------------------------------------------------
+        remark = abbr_obj.get(ABBRS_JSON_REMARK_KEY)
+        if remark is not None and not isinstance(remark, str):
+            raise ValueError("remark must be String: {}".format(repr(remark)))
+        self.remark = remark
+
     # instance methods  ********************************************************
 
     def as_md_list_entry(self):
@@ -78,9 +85,15 @@ class AbbrEntry:
         render this entry as a markdown list item
 
         :return: a single markdown list item in the form
-                ``- abbr:meaning``
+                ``- abbr:meaning``, or ``- abbr:meaning (remark; remark)``
+                when the meaning and/or the abbr itself carries a remark
         :rtype: str
         """
+        remarks = [r for r in (self.mean.remark, self.remark) if r]
+        if remarks:
+            return "- {}:{} ({})".format(
+                self.abbr, self.mean, "; ".join(remarks)
+            )
         return "- {}:{}".format(self.abbr, self.mean)
 
     def verify_found(self, found, char_before, char_after):

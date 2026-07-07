@@ -72,5 +72,5 @@ class RuleFile(FrontmatterMDFile):  ############################################
 
         if blueprint:
             self.name = blueprint.display_name
-            self.description = blueprint.meta.description_and_when_to_use
-            self.frontmatter["globs"] = blueprint.meta.globs
+            self.description = blueprint.sidecars.description_and_when_to_use
+            self.frontmatter["globs"] = blueprint.sidecars.globs

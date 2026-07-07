@@ -8,6 +8,7 @@ from tests import (
     TESTEE_CHAT_ADDITIONAL_CONTENT,
     TESTEE_TITLE_CASE_CONTENT,
     TESTEE_BRIEFNESS_CONTENT,
+    TESTEE_ALWAYS_UNDERSTAND_ABBR,
 )
 
 __all__ = [
@@ -18,6 +19,7 @@ __all__ = [
     "TESTEE_CHAT_ADDITIONAL_CONTENT",
     "TESTEE_TITLE_CASE_CONTENT",
     "TESTEE_BRIEFNESS_CONTENT",
+    "TESTEE_ALWAYS_UNDERSTAND_ABBR",
     "assert_intro1",
     "assert_intro2",
     "assert_format_title",

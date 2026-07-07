@@ -14,6 +14,7 @@ from tests import (
     TESTEE_MD_ADD_FORMAT_CONTENT,
     TESTEE_CHAT_ADDITIONAL_CONTENT,
     TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
+    TESTEE_ALWAYS_UNDERSTAND_ABBR,
     TESTEE_AGENT_BEHAVIOR_CONTENT,
 )
 from tests.cli.a import TESTEE_CLAUDE_BEHAVIOR_CONTENT
@@ -59,6 +60,10 @@ class TestContent:  # ==========================================================
 
     @pytest.mark.parametrize("marker", TESTEE_CHAT_COMMENTARY_CASE_CONTENT)
     def test_chat_commentary_case(self, content, marker):
+        assert marker in content
+
+    @pytest.mark.parametrize("marker", TESTEE_ALWAYS_UNDERSTAND_ABBR)
+    def test_always_understand_abbr(self, content, marker):
         assert marker in content
 
     @pytest.mark.parametrize("marker", TESTEE_AGENT_BEHAVIOR_CONTENT)

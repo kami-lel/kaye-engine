@@ -6,7 +6,7 @@ define ``FrontmatterMDFile``
 
 import copy
 
-from kaye.prompt.meta_node_type import MetaNodeType
+from kaye.prompt.sidecar_nodes import SidecarNodeType
 
 
 class FrontmatterMDFile:  ######################################################
@@ -18,6 +18,9 @@ class FrontmatterMDFile:  ######################################################
     :type path: Path-like
     :param blueprint: blueprint object
     :type blueprint: PromptBlueprint
+    :param contains_sidecar_nodes: which conditional sidecar nodes to include
+            when generating prompt content (via SidecarNodeType flag)
+    :type contains_sidecar_nodes: SidecarNodeType
     """
 
     # abstract method  =========================================================
@@ -134,18 +137,18 @@ class FrontmatterMDFile:  ######################################################
         self,
         path,
         blueprint=None,
-        contains_meta_nodes=MetaNodeType.PREREQUISITE,
+        contains_sidecar_nodes=SidecarNodeType.PREREQUISITE,
     ):
         self.file = None
         self.frontmatter = copy.deepcopy(self._DEFAULT_FRONTMATTER)
         self._path = path
         self._blueprint = None
-        self._contains_meta_nodes = contains_meta_nodes
+        self._contains_sidecar_nodes = contains_sidecar_nodes
 
         if blueprint:
             self._blueprint = blueprint
-            self.description = blueprint.meta.description
-            self.when_to_use = blueprint.meta.when_to_use
+            self.description = blueprint.sidecars.description
+            self.when_to_use = blueprint.sidecars.when_to_use
 
     # support context manager  =================================================
 
@@ -160,7 +163,7 @@ class FrontmatterMDFile:  ######################################################
             self.write_frontmatter_part()
             self.file.write(
                 self._blueprint.generate_prompt(
-                    contains_meta_nodes=self._contains_meta_nodes
+                    contains_sidecar_nodes=self._contains_sidecar_nodes
                 )
             )
 
