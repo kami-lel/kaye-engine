@@ -58,7 +58,6 @@ __all__ = [
     "assert_element22",
     "assert_element23",
     "assert_role",
-    "assert_abbr_heading",
     "create_opt_from_role",
     "create_opt_from_payload",
 ]
@@ -251,7 +250,3 @@ def assert_element23(opt):
 
 def assert_role(opt):
     assert "# Role" in opt
-
-
-def assert_abbr_heading(opt):  # TODO better unit test pattern
-    assert "# (Abbreviations)" in opt

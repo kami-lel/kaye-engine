@@ -12,13 +12,13 @@ import json
 import pytest
 
 from tests import (
+    TESTEE_CODING_TERMS_ABBR,
     TESTEE_TRIAGE_TAG_CONTENT,
     TESTEE_TITLE_CASE_CONTENT,
     TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
     TESTEE_BRIEFNESS_CONTENT,
     TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT,
     TESTEE_CODER_CONTENT,
-    assert_coding_terms_content,
 )
 from tests.api.ky.task import *
 from tests.api.ky.task.coder import *
@@ -72,10 +72,9 @@ class TestCoder:  # ============================================================
     def test_triage_tags(_, opt, i):
         assert TESTEE_TRIAGE_TAG_CONTENT[i] in opt
 
-    # Coding Terms  ****************************************************************
-
-    def test_coding_terms(_, opt):
-        assert_coding_terms_content(opt)
+    @pytest.mark.parametrize("marker", TESTEE_CODING_TERMS_ABBR)
+    def test_coding_terms(self, content, marker):
+        assert marker in content
 
     # chat blueprint  **********************************************************
 
@@ -235,7 +234,6 @@ class TestCoder:  # ============================================================
         print(opt)
         assert_role(opt)
 
-    # abbr *********************************************************************
-
-    def test_abbr_heading(_, opt):
-        assert_abbr_heading(opt)
+    @pytest.mark.parametrize("marker", TESTEE_CODING_TERMS_ABBR)
+    def test_coding_terms(self, content, marker):
+        assert marker in content
