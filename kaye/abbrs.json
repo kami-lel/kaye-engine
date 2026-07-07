@@ -4325,13 +4325,12 @@
       "mthd": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
       }
-    },
-    "remark": "function owned by object"
+    }
   },
   "mile": {
     "abbrs": {
