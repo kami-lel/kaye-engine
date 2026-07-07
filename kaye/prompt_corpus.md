@@ -5528,6 +5528,8 @@ define ``EmailValidator`` and ``validate_address``
 
 **Wrapping** — when a field line runs long, break after a `;` and indent the continuation (see `:param weights:` above).
 
+**Boolean return** — when `:rtype:` is `bool`, start the `:return:` description with "if" and describe only the positive/true case, eg `:return: if the invoice is both signed and paid in full`; write the positive case clearly enough that no "else"/negative case needs stating.
+
 
 
 
