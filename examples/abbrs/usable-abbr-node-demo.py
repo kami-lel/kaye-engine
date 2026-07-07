@@ -1,7 +1,7 @@
 """
-abbrs-coding_term_node-demo.py
+usable-abbr-node-demo.py
 
-demonstrate ``CodingTermsNode`` by building a single-node blueprint and
+demonstrate ``UsableAbbrNode`` by building a single-node blueprint and
 printing its generated prompt
 """
 
@@ -9,7 +9,7 @@ from kaye.prompt import PromptBlueprint
 
 # constants  ###################################################################
 BLUEPRINT_TEXT = """ ○
-[x] └── (Coding Terms)"""
+[x] └── (Usable Abbreviations)"""
 
 
 # Entry Point  #################################################################
