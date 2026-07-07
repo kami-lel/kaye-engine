@@ -1,5 +1,5 @@
 """
-abbrs-usable_abbr_node-demo.py
+usable-abbr-node-demo.py
 
 demonstrate ``UsableAbbrNode`` by building a single-node blueprint and
 printing its generated prompt
