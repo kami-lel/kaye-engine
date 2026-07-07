@@ -15,6 +15,7 @@ from tests import (
     TESTEE_CODER_CONTENT,
     TESTEE_AGENT_BEHAVIOR_CONTENT,
     TESTEE_TRIAGE_TAG_CONTENT,
+    assert_coding_terms_content,
 )
 from tests.cli.a import TESTEE_CLAUDE_BEHAVIOR_CONTENT
 
@@ -60,6 +61,9 @@ class TestContent:  # ==========================================================
     @pytest.mark.parametrize("marker", TESTEE_TRIAGE_TAG_CONTENT)
     def test_triage_tags(self, content, marker):
         assert marker in content
+
+    def test_coding_terms(self, content):
+        assert_coding_terms_content(content)
 
     @pytest.mark.parametrize("marker", TESTEE_AGENT_BEHAVIOR_CONTENT)
     def test_agent_behavior(self, content, marker):

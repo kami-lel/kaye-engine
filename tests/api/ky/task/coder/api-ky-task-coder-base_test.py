@@ -18,6 +18,7 @@ from tests import (
     TESTEE_BRIEFNESS_CONTENT,
     TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT,
     TESTEE_CODER_CONTENT,
+    assert_coding_terms_content,
 )
 from tests.api.ky.task import *
 from tests.api.ky.task.coder import *
@@ -70,6 +71,11 @@ class TestCoder:  # ============================================================
     @pytest.mark.parametrize("i", range(len(TESTEE_TRIAGE_TAG_CONTENT)))
     def test_triage_tags(_, opt, i):
         assert TESTEE_TRIAGE_TAG_CONTENT[i] in opt
+
+    # Coding Terms  ****************************************************************
+
+    def test_coding_terms(_, opt):
+        assert_coding_terms_content(opt)
 
     # chat blueprint  **********************************************************
 
