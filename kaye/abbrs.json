@@ -209,6 +209,18 @@
       }
     }
   },
+  "abstract class": {
+    "abbrs": {
+      "aCls": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "abstract,abstraction": {
     "abbrs": {
       "abs": {
@@ -753,6 +765,18 @@
       }
     }
   },
+  "auxiliary": {
+    "abbrs": {
+      "aux": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "available,availability": {
     "abbrs": {
       "avai": {
@@ -800,6 +824,19 @@
         "wrap": "word"
       }
     }
+  },
+  "base class": {
+    "abbrs": {
+      "bCls": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "ie superclass, parent class"
   },
   "Bash": {
     "abbrs": {
@@ -1973,6 +2010,19 @@
         "wrap": "word"
       }
     }
+  },
+  "derived class": {
+    "abbrs": {
+      "dCls": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "ie subclass, child class"
   },
   "destination,destinational": {
     "abbrs": {
@@ -5088,6 +5138,19 @@
       }
     }
   },
+  "override": {
+    "abbrs": {
+      "oride": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "in inheritance"
+  },
   "package": {
     "abbrs": {
       "pkg": {
@@ -5514,30 +5577,6 @@
   "program,programming,programme": {
     "abbrs": {
       "prog": {
-        "priority": 5,
-        "tags": [
-          "coding",
-          "letters_only"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
-  "auxiliary": {
-    "abbrs": {
-      "aux": {
-        "priority": 5,
-        "tags": [
-          "coding",
-          "letters_only"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
-  "utility,utilize": {
-    "abbrs": {
-      "util": {
         "priority": 5,
         "tags": [
           "coding",
@@ -7066,6 +7105,18 @@
       "usu": {
         "priority": 5,
         "tags": [
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "utility,utilize": {
+    "abbrs": {
+      "util": {
+        "priority": 5,
+        "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
