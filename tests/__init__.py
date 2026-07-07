@@ -165,6 +165,15 @@ TESTEE_USABLE_ABBRS = [
     "- ※:which see,reference to",
 ]
 
+
+TESTEE_TODAY_CONTENT = [
+    "# (Today)",
+    "**Current** Date and Time is:",
+    "Date: ",
+    "Time: ",
+]
+
+
 TESTEE_FILE_CONTENT_ALL = {
     "continue-behavior": [
         "## Continue Behavior",

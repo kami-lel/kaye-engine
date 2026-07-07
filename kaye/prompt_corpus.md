@@ -6367,7 +6367,7 @@ JSON format: { "title": "your concise title here" }
 
 # (Today)
 
-Current Date and Time is:
+**Current** Date and Time is:
 
 
 
