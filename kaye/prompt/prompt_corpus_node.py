@@ -36,14 +36,7 @@ class PromptCorpusNode(BasePromptNode):
 
         super().__init__(heading, parent)
 
-        # trim leading/trailing empty strings
-        start, end = 0, len(content_lines)
-        while start < end and content_lines[start] == "":
-            start += 1
-        while end > start and content_lines[end - 1] == "":
-            end -= 1
-
-        self._content_lines = content_lines[start:end]
+        self._content_lines = content_lines
 
     # implement BasePromptNode  ================================================
 

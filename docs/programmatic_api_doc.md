@@ -205,6 +205,27 @@ tree_root = load_prompt_corpus_tree()
 
 
 
+#### class diagraph
+
+```mermaid
+classDiagram
+    AnyTreeNode <|-- BasePromptNode
+    BasePromptNode <|-- PromptCorpusNode
+    BasePromptNode <|-- DynamicNode
+    DynamicNode <|-- TodayNode
+    DynamicNode <|-- AbbrNode
+    DynamicNode <|-- _AbbrTagNodeBase
+    _AbbrTagNodeBase <|-- UsableAbbrNode
+    _AbbrTagNodeBase <|-- CodingTermsNode
+    _AbbrTagNodeBase <|-- PLCNode
+    _AbbrTagNodeBase <|-- LanguageCodeNode
+    _AbbrTagNodeBase <|-- UnityEngineAbbrNode
+```
+
+
+
+
+
 
 
 
@@ -438,3 +459,5 @@ use `load_embedded_blueprint(name)`. To list available names, use
 `get_embedded_prompt_blueprints_names()`.
 Each embedded blueprint is a `PromptBlueprint` instance with
 `.display_name` and `.sidecars.description` already set.
+
+

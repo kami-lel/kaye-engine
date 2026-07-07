@@ -42,7 +42,7 @@ class _AbbrTagNodeBase(DynamicNode):  ##########################################
     a single ``ABBR_TAG`` from ``AbbrData().abbrs``
     """
 
-    # abstract property  -------------------------------------------------------
+    # abstract fields  ---------------------------------------------------------
 
     ABBR_TAG = None
 
