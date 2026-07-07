@@ -68,55 +68,33 @@ def load_prompt_corpus_tree():
     text_lines = list(text_cleanup.split("\n"))
 
     # create prompt corpus nodes  ----------------------------------------------
-    prompt_corpus_tree = _create_prompt_corpus_node_from_text_lines_recursively(
-        ROOT_NODE_NAME, None, text_lines
-    )
+    prompt_corpus_tree = PromptCorpusNode.parse(ROOT_NODE_NAME, None, text_lines)
 
     # add dynamic nodes  -------------------------------------------------------
     for node_type in DYNAMIC_NODE_TYPES:
-        node_type(prompt_corpus_tree)
+        _attach_dynamic_node(prompt_corpus_tree, node_type)
 
     return prompt_corpus_tree
 
 
 # helpers  #####################################################################
 ROOT_NODE_NAME = "○"
-HEADING_PREFIX_ELEMENT = "#"
 
 
-def _create_prompt_corpus_node_from_text_lines_recursively(
-    name, parent, text_lines
-):
-    # find every sub-section heading lines
-    prefix_element_cnt = 1 if parent is None else parent.depth + 2
-    heading_prefix = HEADING_PREFIX_ELEMENT * prefix_element_cnt + " "
-    heading_lines_idx = []
-    for idx, line in enumerate(text_lines):
-        if line.startswith(heading_prefix):
-            heading_lines_idx.append(idx)
+def _attach_dynamic_node(parent, node_type):
+    """
+    attach a ``node_type`` instance under ``parent``;
+    if a statically-authored ``PromptCorpusNode`` with the same heading
+    already exists among ``parent``'s children, detach it and carry its
+    content over as the dynamic node's ``preface``
+    """
+    heading = "(" + node_type.HEADING + ")"
 
-    if heading_lines_idx:
-        # contains subsections  ------------------------------------------------
+    preface = ()
+    for child in parent.children:
+        if child.name == heading:
+            preface = tuple(child.content_lines())
+            child.parent = None
+            break
 
-        # get content_lines of current node level
-        content_lines = text_lines[: heading_lines_idx[0]]
-        node = PromptCorpusNode(name, parent, content_lines)
-
-        # parse sub-sections, create children nodes
-        for start, end in zip(
-            heading_lines_idx, heading_lines_idx[1:] + [len(text_lines)]
-        ):
-            # extract heading content
-            # e.g. "### this is heading " -> "this is heading"
-            child_heading = text_lines[start][len(heading_prefix) :].strip()
-            child_text_lines = text_lines[start + 1 : end]
-            _create_prompt_corpus_node_from_text_lines_recursively(
-                child_heading, node, child_text_lines
-            )
-
-        return node
-
-    else:
-        # contains no subsection  ----------------------------------------------
-        # i.e. all of text_lines are node content
-        return PromptCorpusNode(name, parent, text_lines)
+    node_type(parent, preface=preface)

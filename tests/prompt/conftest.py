@@ -15,6 +15,8 @@ from kaye.prompt import (
     PLCNode,
 )
 
+from tests import TESTEE_USABLE_ABBRS
+
 
 @pytest.fixture(scope="session")
 def corpus_testee1():
@@ -146,6 +148,11 @@ def corpus_dynamic_testee(corpus_testee3):
 def corpus_dynamic_testee2(corpus_testee1):
     tree = deepcopy(corpus_testee1)
 
+    # carry the same preface a static "(Usable Abbreviations)" node
+    # would hand off via `_attach_dynamic_node()` in production
+    node_prefaces = {
+        UsableAbbrNode: (TESTEE_USABLE_ABBRS[1],),
+    }
     for node_type in (
         TodayNode,
         AbbrNode,
@@ -153,7 +160,7 @@ def corpus_dynamic_testee2(corpus_testee1):
         LanguageCodeNode,
         PLCNode,
     ):
-        node_type(tree)
+        node_type(tree, preface=node_prefaces.get(node_type, ()))
 
     return tree
 

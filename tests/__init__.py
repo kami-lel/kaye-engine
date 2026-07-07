@@ -2,8 +2,6 @@
 shared test constants
 """
 
-from kaye.abbr_collection import AbbrData, AbbrTags
-
 TESTEE_INTRODUCTION_CONTENT = [
     "# Introduction",
     "You are **Kaye**",
@@ -143,6 +141,7 @@ TESTEE_TRIAGE_TAG_CONTENT = (
 
 TESTEE_ALWAYS_UNDERSTAND_ABBR = [
     "# (Abbreviations)",
+    "**understand** every entry below, but **never use**",
     "- asm:assume,assumed,assumption",
     "- cor:correct,correction",
     "- L:like,likely",
@@ -151,10 +150,29 @@ TESTEE_ALWAYS_UNDERSTAND_ABBR = [
 
 TESTEE_CODING_TERMS_ABBR = [
     "# (Coding Terms)",
+    "**understand** every entry below as software-dev-specific",
     "- attr:attribute (variable owned by object; similar to field)",
     "- eval:evaluate,evaluable",
     "- sch:search",
 ]
+
+
+TESTEE_USABLE_ABBRS = [
+    "# (Usable Abbreviations)",
+    "**actively** and **progressively** utilize every entry below,",
+    "- &:and",
+    "- /:or",
+    "- ※:which see,reference to",
+]
+
+
+TESTEE_TODAY_CONTENT = [
+    "# (Today)",
+    "**Current** Date and Time is:",
+    "Date: ",
+    "Time: ",
+]
+
 
 TESTEE_FILE_CONTENT_ALL = {
     "continue-behavior": [
@@ -181,13 +199,10 @@ TESTEE_FILE_CONTENT_ALL = {
         "Use a space character as the thousands separator",
     ],
     "abbr-currency-symbols": [
-        "- $:(default)US Dollar",
+        "- $:US Dollar (default)",
         "- HK$:港元 Hong Kong Dollar",
-        "- JP¥:円 Japanese Yen",
-        "- ¢:(default)US cent",
+        "- ¢:US cent (default)",
         "- ¤:any non-specific currency",
-        "- ¥:(default)Chinese Yuan,RMB",
-        "- €:Euro",
     ],
     "abbr-emoji": [
         "- ⚙️:settings,preferences",
@@ -239,7 +254,6 @@ TESTEE_FILE_CONTENT_ALL = {
         "- ue:Unreal Engine code",
     ],
     "abbr-single-character": [
-        "- $:(default)US Dollar",
         "- &:and",
         "- >:greater than",
         "- b:bit",
@@ -309,7 +323,6 @@ TESTEE_FILE_CONTENT_ALL = {
         "- opn:opinion",
         "- opp:oppose,opposition",
         "- opt:output",
-        "- org:organization",
         "- ori:origin,original",
         "- ot:other",
     ],
@@ -320,7 +333,6 @@ TESTEE_FILE_CONTENT_ALL = {
         "- rej:reject",
         "- req:requirement",
         "- rls:release",
-        "- rm:remove",
         "- rsch:research",
         "- rsp:respect,respective,respectively",
         "- rsrc:resource",
