@@ -2,7 +2,7 @@
 
 **Dynamic nodes** are corpus nodes whose content has no fixed value — it is generated at render time (e.g. today's date, abbreviation lookups from a query). Unlike sidecar nodes, dynamic nodes **are** included in the rendered prompt output by default.
 
-<!-- todo require proof reading -->
+<!-- fixme require proof reading -->
 
 
 
