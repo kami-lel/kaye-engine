@@ -12,7 +12,7 @@ import copy
 import pytest
 
 
-from kaye.prompt.abbr_nodes import UsableAbbrNode
+from kaye.prompt.dynamic_nodes import UsableAbbrNode
 
 
 # pytest fixtures  #############################################################

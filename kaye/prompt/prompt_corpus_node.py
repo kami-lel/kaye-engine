@@ -4,7 +4,8 @@ prompt_corpus_node.py
 define ``PromptCorpusNode``
 """
 
-from .base_prompt_node import BasePromptNode, DynamicNode
+from .base_prompt_node import BasePromptNode
+from .dynamic_nodes import is_valid_dynamic_node_heading
 
 # section heading prefix used for parsing .md file of prompt corpus
 
@@ -30,7 +31,7 @@ class PromptCorpusNode(BasePromptNode):
     # constructor  =============================================================
     def __init__(self, heading, parent, content_lines):
         # check valid name
-        if DynamicNode.is_valid_dynamic_node_heading(heading):
+        if is_valid_dynamic_node_heading(heading):
             raise ValueError("illegal heading syntax: {}".format(repr(heading)))
 
         super().__init__(heading, parent)

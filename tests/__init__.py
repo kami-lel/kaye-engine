@@ -2,6 +2,8 @@
 shared test constants
 """
 
+from kaye.abbr_collection import AbbrData, AbbrTags
+
 TESTEE_INTRODUCTION_CONTENT = [
     "# Introduction",
     "You are **Kaye**",
@@ -137,6 +139,22 @@ TESTEE_TRIAGE_TAG_CONTENT = (
     + TESTEE_TRIAGE_TAG_MEANING_CONTENT
     + TESTEE_TRIAGE_TAG_WORK_CONTENT
 )
+
+
+TESTEE_ALWAYS_UNDERSTAND_ABBR = [
+    "# (Abbreviations)",
+    "- asm:assume,assumed,assumption",
+    "- cor:correct,correction",
+    "- L:like,likely",
+]
+
+
+TESTEE_CODING_TERMS_ABBR = [
+    "# (Coding Terms)",
+    "- attr:attribute (variable owned by object; similar to field)",
+    "- eval:evaluate,evaluable",
+    "- sch:search",
+]
 
 TESTEE_FILE_CONTENT_ALL = {
     "continue-behavior": [

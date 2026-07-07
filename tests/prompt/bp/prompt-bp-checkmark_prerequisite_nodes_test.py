@@ -2,7 +2,7 @@
 prompt-bp-checkmark_prerequisite_nodes_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint.generate_prompt_lines(
-    contains_meta_nodes=MetaNodeType.PREREQUISITE
+    contains_sidecar_nodes=SidecarNodeType.PREREQUISITE
 )
 """
 
@@ -10,7 +10,7 @@ import pytest
 
 from kaye.prompt.prompt_corpus_node import PromptCorpusNode
 from kaye.prompt.prompt_blueprint import PromptBlueprint
-from kaye.prompt.meta_node_type import MetaNodeType
+from kaye.prompt.sidecar_nodes import SidecarNodeType
 
 
 @pytest.fixture
@@ -37,7 +37,7 @@ class TestGeneratePromptLinesContainsPrerequisiteNodes:  #################
         prereq = bp.corpus["Project Title"]["{prerequisite}"]
 
         lines = bp.generate_prompt_lines(
-            contains_meta_nodes=MetaNodeType.PREREQUISITE
+            contains_sidecar_nodes=SidecarNodeType.PREREQUISITE
         )
 
         # prerequisite should not be in output if parent is unchecked
@@ -49,7 +49,7 @@ class TestGeneratePromptLinesContainsPrerequisiteNodes:  #################
 
         bp.checkmark("Project Title")
         lines = bp.generate_prompt_lines(
-            contains_meta_nodes=MetaNodeType.PREREQUISITE
+            contains_sidecar_nodes=SidecarNodeType.PREREQUISITE
         )
 
         # prerequisite should be in output if parent is checked
@@ -60,7 +60,9 @@ class TestGeneratePromptLinesContainsPrerequisiteNodes:  #################
         prereq = bp.corpus["Project Title"]["{prerequisite}"]
 
         bp.checkmark("Project Title")
-        lines = bp.generate_prompt_lines(contains_meta_nodes=MetaNodeType.NONE)
+        lines = bp.generate_prompt_lines(
+            contains_sidecar_nodes=SidecarNodeType.NONE
+        )
 
         # prerequisite should NOT be in output without the flag
         assert "must finish setup first" not in "\n".join(lines)
