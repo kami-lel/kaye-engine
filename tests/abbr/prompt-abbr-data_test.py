@@ -30,6 +30,38 @@ class TestValidate:
 
         assert opt == "meaning value must be Object: 5"
 
+    def test_missing_abbrs_key(_):
+        json_override = {"for example": {}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrData(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "meaning value must contains key: 'abbrs'"
+
+    def test_abbrs_value(_):
+        json_override = {"for example": {"abbrs": 5}}
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrData(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "abbrs value must be Object: 5"
+
+    def test_remark_type(_):
+        json_override = {
+            "for example": {"remark": 5, "abbrs": {}},
+        }
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrData(abbrs_json_override=json_override)
+        opt = exec_info.value.args[0]
+        print(opt)
+
+        assert opt == "remark must be String: 5"
+
 
 # test functions  ##############################################################
 class Test1:  # ================================================================
@@ -37,15 +69,17 @@ class Test1:  # ================================================================
     data = AbbrData(
         abbrs_json_override={
             "for example,for instance": {
-                "e.g.": {
-                    "priority": 5,
-                    "tags": ["ascii_only", "common"],
-                    "wrap": "word",
-                },
-                "eg": {
-                    "priority": 6,
-                    "tags": ["letters_only"],
-                    "wrap": "prefix",
+                "abbrs": {
+                    "e.g.": {
+                        "priority": 5,
+                        "tags": ["ascii_only", "common"],
+                        "wrap": "word",
+                    },
+                    "eg": {
+                        "priority": 6,
+                        "tags": ["letters_only"],
+                        "wrap": "prefix",
+                    },
                 },
             },
         }
@@ -61,6 +95,7 @@ class Test1:  # ================================================================
         assert isinstance(meaning, AbbrMeaning)
         assert isinstance(meaning.mean, str)
         assert meaning.mean == "for example,for instance"
+        assert meaning.remark is None
 
     def test_abbrs(self):
         abbrs = self.data.abbrs
@@ -126,21 +161,55 @@ class Test2:  # ================================================================
     data = AbbrData(
         abbrs_json_override={
             "footnote": {
-                "†": {"priority": 5, "tags": ["common"], "wrap": "symbol"},
-                "‡": {"priority": 6, "tags": ["common"], "wrap": "symbol"},
+                "abbrs": {
+                    "†": {
+                        "priority": 5,
+                        "tags": ["common"],
+                        "wrap": "symbol",
+                    },
+                    "‡": {
+                        "priority": 6,
+                        "tags": ["common"],
+                        "wrap": "symbol",
+                    },
+                },
             },
             "fraction five eighths": {
-                "⅝": {"priority": 5, "tags": ["common"], "wrap": "symbol"}
+                "abbrs": {
+                    "⅝": {"priority": 5, "tags": ["common"], "wrap": "symbol"}
+                },
             },
             "-er,-or": {
-                ".r": {"priority": 5, "tags": ["ascii_only"], "wrap": "suffix"}
+                "abbrs": {
+                    ".r": {
+                        "priority": 5,
+                        "tags": ["ascii_only"],
+                        "wrap": "suffix",
+                    }
+                },
             },
             "then": {
-                "T": {"priority": 5, "tags": ["letters_only"], "wrap": "word"}
+                "abbrs": {
+                    "T": {
+                        "priority": 5,
+                        "tags": ["letters_only"],
+                        "wrap": "word",
+                    }
+                },
             },
             "ante meridiem,before midday": {
-                "a.m.": {"priority": 5, "tags": ["ascii_only"], "wrap": "word"},
-                "AM": {"priority": 6, "tags": ["letters_only"], "wrap": "word"},
+                "abbrs": {
+                    "a.m.": {
+                        "priority": 5,
+                        "tags": ["ascii_only"],
+                        "wrap": "word",
+                    },
+                    "AM": {
+                        "priority": 6,
+                        "tags": ["letters_only"],
+                        "wrap": "word",
+                    },
+                },
             },
         }
     )
@@ -286,10 +355,22 @@ class Test3:  # ================================================================
     data = AbbrData(
         abbrs_json_override={
             "west": {
-                "W": {"priority": 5, "tags": ["letters_only"], "wrap": "word"}
+                "abbrs": {
+                    "W": {
+                        "priority": 5,
+                        "tags": ["letters_only"],
+                        "wrap": "word",
+                    }
+                },
             },
             "while,when": {
-                "W": {"priority": 5, "tags": ["letters_only"], "wrap": "word"}
+                "abbrs": {
+                    "W": {
+                        "priority": 5,
+                        "tags": ["letters_only"],
+                        "wrap": "word",
+                    }
+                },
             },
         }
     )
@@ -362,3 +443,40 @@ class Test3:  # ================================================================
         assert i == 4
         assert str(e[0]) == "W:west"
         assert str(e[1]) == "W:while,when"
+
+
+class Test4:  # remark  ========================================================
+
+    data = AbbrData(
+        abbrs_json_override={
+            "for example,for instance": {
+                "remark": "Latin exempli gratia",
+                "abbrs": {
+                    "e.g.": {
+                        "priority": 5,
+                        "tags": ["ascii_only", "common"],
+                        "wrap": "word",
+                        "remark": "casual usage only",
+                    },
+                },
+            },
+        }
+    )
+
+    def test_meaning_remark(self):
+        meaning = self.data.meanings[0]
+        assert meaning.remark == "Latin exempli gratia"
+
+    def test_entry_remark(self):
+        entry = self.data.abbrs[0]
+        assert entry.mean.remark == "Latin exempli gratia"
+        assert entry.remark == "casual usage only"
+
+    def test_as_md_list_entry(self):
+        entry = self.data.abbrs[0]
+        opt = entry.as_md_list_entry()
+        print(opt)
+        assert opt == (
+            "- e.g.:for example,for instance"
+            " (Latin exempli gratia; casual usage only)"
+        )

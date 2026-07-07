@@ -6,7 +6,7 @@ define ``TodayNode``
 
 from datetime import datetime
 
-from .base_prompt_node import DynamicNode
+from .dynamic_node import DynamicNode
 
 __all__ = ("TodayNode",)
 
@@ -30,7 +30,5 @@ class TodayNode(DynamicNode):
         now = datetime.now()
         date = now.strftime("%Y-%m-%d")
         time = now.strftime("%H:%M:%S")
-        return ["Today: {}".format(date), "Time: {}".format(time)]
-
-    def __copy__(self):
-        return TodayNode(None)
+        lines = ["Date: {}".format(date), "Time: {}".format(time)]
+        return self._preface + lines

@@ -50,24 +50,27 @@ class AbbrTags(Flag):
 
     NONE = 0
     common = auto()
-    usable = auto()
+
+    # usage cases  -------------------------------------------------------------
+
+    always_understand = auto()
+    usable_in_brief = auto()
+    coding = auto()
+
+    # specialized groups  ------------------------------------------------------
+
     programming_language_code = auto()
     language_code = auto()
     unity_engine_abbr = auto()
     log_level = auto()
     unit_of_measure = auto()
     currency_symbol = auto()
-    single_character = auto()
 
     # character set  -----------------------------------------------------------
 
-    # contains only letter with no other types of characters
+    single_character = auto()
     letters_only = auto()
-
-    # contains only word character with no punctuations etc.
     word_character_only = auto()
-
-    # contains only ASCII characters
     ascii_only = auto()
     emoji = auto()
 

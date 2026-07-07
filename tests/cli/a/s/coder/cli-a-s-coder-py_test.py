@@ -72,7 +72,7 @@ class TestHeader:  # ===========================================================
         assert assert_claude_header_line_description(SKILL_NAME, testee_header)
 
     def test_when_to_use(_, testee_header):
-        assert assert_claude_header_line_how_to_use(SKILL_NAME, testee_header)
+        assert assert_claude_header_line_when_to_use(SKILL_NAME, testee_header)
 
     def test_paths(_, testee_header):
         assert assert_header_line_paths_header(testee_header)
@@ -103,5 +103,6 @@ class TestPrerequisite:  # ====================================================
     @pytest.mark.parametrize("i", range(len(TESTEE_PREREQUISITE_CONTENT)))
     def test_prerequisite(_, testee_content, i):
         assert assert_prerequisite_content_line(SKILL_NAME, testee_content, i)
+
     def test1(_, testee_content):
         assert assert_prerequisite_content_line(SKILL_NAME, testee_content, 1)

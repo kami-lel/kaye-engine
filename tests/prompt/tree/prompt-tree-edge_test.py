@@ -8,8 +8,6 @@ load_prompt_corpus_tree
 
 from unittest.mock import mock_open, patch
 
-import pytest
-
 from kaye.prompt.prompt_corpus_loader import load_prompt_corpus_tree
 
 # pytest #######################################################################
@@ -48,7 +46,7 @@ class TestEdge:  # various edge cases
             assert tree.parent is None
 
 
-class TestForbiddenHeading:  ###################################################
+class TestAllowsDynamicNodeHeadingSyntax:  #####################################
 
     def test1(_):
         m = mock_open(read_data="""# Title
@@ -56,9 +54,8 @@ class TestForbiddenHeading:  ###################################################
         with patch("builtins.open", m), patch(
             "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
         ):
-            with pytest.raises(ValueError) as exec_info:
-                load_prompt_corpus_tree()
+            tree = load_prompt_corpus_tree()
 
-            opt = exec_info.value.args[0]
-            print(opt)
-            assert opt == "illegal heading syntax: '(Some)'"
+            node = tree["Title"]["(Some)"]
+            print(node)
+            assert node.name == "(Some)"
