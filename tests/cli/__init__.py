@@ -577,6 +577,10 @@ def assert_claude_header_line_description(skill_id, testee_header):
     check if a Claude skill description header line exists
     """
     description = TESTEE_DESCRIPTION_CONTENT_ALL[skill_id]
+    # HACK
+    print(description, end="\n\n")
+    print(testee_header)
+
     return any(description in line for line in testee_header)
 
 

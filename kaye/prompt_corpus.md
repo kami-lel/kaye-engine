@@ -6003,9 +6003,42 @@ Files are assumed to be consistent between rounds. If you detect any changes, tr
 
 After completing all tasks requested by the user — including editing, discovery, analysis, or any other work — **do not provide a recap or summary** of what you did unless the user **explicitly asks** for one. Avoid repeating the completed actions, restating the user's request, or adding unnecessary closing commentary.
 
-#### git usage
+
+
+
+
+
+
+
+
+
+
+
+
+### git usage
 
 Only touch the **working tree**. Never stage, commit, or mutate branches, tags, stash, or worktrees. Viewing, listing, or showing state stays allowed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
