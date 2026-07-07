@@ -6367,14 +6367,49 @@ JSON format: { "title": "your concise title here" }
 
 # (Today)
 
+Current Date and Time is:
+
+
+
+
+
 # (Abbreviations)
+
+**understand** every entry below, but **never use** them in your response
+
+
+
 
 # (Usable Abbreviations)
 
+**actively** and **progressively** utilize every entry below, replacing the full form with its abbreviation whenever possible
+
+
+
+
+
 # (Coding Terms)
+
+**understand** every entry below as software-dev-specific terms during the user's chat; do not use them in your reply, but you may use them to name files, variables, and similar identifiers
+
+
+
+
 
 # (Programming Languages Code)
 
+**understand** every entry below as a *programming language*'s abbreviation
+
+
+
+
+
 # (Languages Code)
+
+**understand** every entry below as a *natural language*'s abbreviation
+
+
+
+
 
 # (Unity Engine Abbreviations)

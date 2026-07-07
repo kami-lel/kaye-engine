@@ -30,4 +30,4 @@ class TodayNode(DynamicNode):
         now = datetime.now()
         date = now.strftime("%Y-%m-%d")
         time = now.strftime("%H:%M:%S")
-        return ["Today: {}".format(date), "Time: {}".format(time)]
+        return ["Date: {}".format(date), "Time: {}".format(time)]
