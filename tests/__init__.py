@@ -2,6 +2,8 @@
 shared test constants
 """
 
+from kaye.abbr_collection import AbbrData, AbbrTags
+
 TESTEE_INTRODUCTION_CONTENT = [
     "# Introduction",
     "You are **Kaye**",
@@ -64,6 +66,33 @@ TESTEE_CODER_CONTENT = [
     "### Testing Instructions",
     "Test **smartly and selectively**",
 ]
+
+
+def assert_coding_terms_content(text, *, sample_size=3):
+    """
+    assert the ``(Coding Terms)`` dynamic node rendered its heading, plus a
+    sample of coding-tagged abbr entries, into ``text``
+
+    samples live entries from ``AbbrData`` (tagged ``AbbrTags.coding``)
+    instead of hardcoding abbrs, so the check stays valid as the corpus
+    of coding terms is edited
+
+    :param text: rendered prompt text to search
+    :type text: str
+    :param sample_size: number of coding-tagged entries to sample and check
+    :type sample_size: int
+    """
+    assert "# (Coding Terms)" in text
+
+    sample = [
+        entry.as_md_list_entry()
+        for entry in AbbrData().abbrs
+        if AbbrTags.coding in entry.tags
+    ][:sample_size]
+    assert len(sample) == sample_size
+
+    for marker in sample:
+        assert marker in text
 
 
 TESTEE_TITLE_CASE_CONTENT = [
