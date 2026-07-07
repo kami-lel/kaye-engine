@@ -648,21 +648,7 @@
       }
     }
   },
-  "parameter": {
-    "remark": "name in function, placeholder for value; interchangeable w/ argument casually",
-    "abbrs": {
-      "param": {
-        "priority": 5,
-        "tags": [
-          "coding",
-          "letters_only"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
   "argument": {
-    "remark": "value provided to function at call time; interchangeable w/ parameter casually",
     "abbrs": {
       "arg": {
         "priority": 5,
@@ -672,7 +658,8 @@
         ],
         "wrap": "word"
       }
-    }
+    },
+    "remark": "value provided to function at call time; interchangeable w/ parameter casually"
   },
   "aspect": {
     "abbrs": {
@@ -1550,6 +1537,18 @@
       }
     }
   },
+  "constructor": {
+    "abbrs": {
+      "ctor": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "contemporary": {
     "abbrs": {
       "c.tmp": {
@@ -2117,6 +2116,18 @@
       }
     }
   },
+  "dynamic": {
+    "abbrs": {
+      "dyn": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "eadem,the same (woman)": {
     "abbrs": {
       "ead.": {
@@ -2336,6 +2347,14 @@
         ],
         "wrap": "symbol"
       },
+      "err": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      },
       "ERROR": {
         "priority": 5,
         "tags": [
@@ -2513,6 +2532,18 @@
           "letters_only"
         ],
         "wrap": "prefix"
+      }
+    }
+  },
+  "except,exception": {
+    "abbrs": {
+      "xcp": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
       }
     }
   },
@@ -3779,6 +3810,18 @@
       }
     }
   },
+  "instance": {
+    "abbrs": {
+      "inst": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "integer": {
     "abbrs": {
       "int": {
@@ -3814,6 +3857,18 @@
       "int": {
         "priority": 5,
         "tags": [
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "interface": {
+    "abbrs": {
+      "iface": {
+        "priority": 5,
+        "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4037,6 +4092,18 @@
       "lib": {
         "priority": 5,
         "tags": [
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "library": {
+    "abbrs": {
+      "lib": {
+        "priority": 5,
+        "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4350,6 +4417,30 @@
       "modn": {
         "priority": 5,
         "tags": [
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "modify,modification": {
+    "abbrs": {
+      "mod": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "module": {
+    "abbrs": {
+      "mod": {
+        "priority": 5,
+        "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -4837,9 +4928,9 @@
       }
     }
   },
-  "optimize,optimization": {
+  "optimal": {
     "abbrs": {
-      "opmz": {
+      "opm": {
         "priority": 5,
         "tags": [
           "coding",
@@ -4849,9 +4940,9 @@
       }
     }
   },
-  "optimal": {
+  "optimize,optimization": {
     "abbrs": {
-      "opm": {
+      "opmz": {
         "priority": 5,
         "tags": [
           "coding",
@@ -4974,6 +5065,18 @@
       }
     }
   },
+  "package": {
+    "abbrs": {
+      "pkg": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "page": {
     "abbrs": {
       "p.": {
@@ -5014,12 +5117,61 @@
       }
     }
   },
+  "parameter": {
+    "abbrs": {
+      "param": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "name in function, placeholder for value; interchangeable w/ argument casually"
+  },
   "part,partial": {
     "abbrs": {
       "pa": {
         "priority": 5,
         "tags": [
           "always_understand",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "pass by pointer": {
+    "abbrs": {
+      "bypt": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "pass by references": {
+    "abbrs": {
+      "byref": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "pass by value": {
+    "abbrs": {
+      "byval": {
+        "priority": 5,
+        "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5109,6 +5261,18 @@
         "priority": 5,
         "tags": [
           "always_understand",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "pointer": {
+    "abbrs": {
+      "pt": {
+        "priority": 5,
+        "tags": [
+          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -6218,6 +6382,18 @@
       }
     }
   },
+  "static;stable": {
+    "abbrs": {
+      "sta": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "statistics": {
     "abbrs": {
       "stat": {
@@ -6536,6 +6712,7 @@
       "X": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "letters_only",
           "single_character"
         ],
