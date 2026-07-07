@@ -1671,6 +1671,18 @@
       }
     }
   },
+  "correspond,corresponding": {
+    "abbrs": {
+      "crsp": {
+        "priority": 5,
+        "tags": [
+          "always_understand",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "count,counting": {
     "abbrs": {
       "cnt": {
@@ -5810,6 +5822,19 @@
       }
     }
   },
+  "regression": {
+    "abbrs": {
+      "rgs": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "part of TDD, finding bugs introduced by new implementation or refactoring, then Fixing Codebase so existing Unit Tests pass again"
+  },
   "reject": {
     "abbrs": {
       "rej": {
@@ -5955,18 +5980,6 @@
       "rspn": {
         "priority": 5,
         "tags": [
-          "letters_only"
-        ],
-        "wrap": "word"
-      }
-    }
-  },
-  "correspond,corresponding": {
-    "abbrs": {
-      "crsp": {
-        "priority": 5,
-        "tags": [
-          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -6385,7 +6398,7 @@
       }
     }
   },
-  "state/status": {
+  "state,status,stage": {
     "abbrs": {
       "s": {
         "priority": 7,
@@ -6863,6 +6876,31 @@
         "wrap": "word"
       }
     }
+  },
+  "unit test": {
+    "abbrs": {
+      "UT": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "unit test revision": {
+    "abbrs": {
+      "rgs": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "part of TDD, updating Unit Tests to match new implemented behavior"
   },
   "Unity Engine code": {
     "abbrs": {
