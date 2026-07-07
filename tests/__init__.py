@@ -68,33 +68,6 @@ TESTEE_CODER_CONTENT = [
 ]
 
 
-def assert_coding_terms_content(text, *, sample_size=3):
-    """
-    assert the ``(Coding Terms)`` dynamic node rendered its heading, plus a
-    sample of coding-tagged abbr entries, into ``text``
-
-    samples live entries from ``AbbrData`` (tagged ``AbbrTags.coding``)
-    instead of hardcoding abbrs, so the check stays valid as the corpus
-    of coding terms is edited
-
-    :param text: rendered prompt text to search
-    :type text: str
-    :param sample_size: number of coding-tagged entries to sample and check
-    :type sample_size: int
-    """
-    assert "# (Coding Terms)" in text
-
-    sample = [
-        entry.as_md_list_entry()
-        for entry in AbbrData().abbrs
-        if AbbrTags.coding in entry.tags
-    ][:sample_size]
-    assert len(sample) == sample_size
-
-    for marker in sample:
-        assert marker in text
-
-
 TESTEE_TITLE_CASE_CONTENT = [
     "## Style Guide Title Case",
     "Use *Chicago Manual of Style* headline case:",
@@ -166,6 +139,22 @@ TESTEE_TRIAGE_TAG_CONTENT = (
     + TESTEE_TRIAGE_TAG_MEANING_CONTENT
     + TESTEE_TRIAGE_TAG_WORK_CONTENT
 )
+
+
+TESTEE_ALWAYS_UNDERSTAND_ABBR = [
+    "# (Abbreviations)",
+    "- asm:assume,assumed,assumption",
+    "- cor:correct,correction",
+    "- L:like,likely",
+]
+
+
+TESTEE_CODING_TERMS_ABBR = [
+    "# (Coding Terms)",
+    "- attr:attribute (variable owned by object; similar to field)",
+    "- eval:evaluate,evaluable",
+    "- sch:search",
+]
 
 TESTEE_FILE_CONTENT_ALL = {
     "continue-behavior": [
