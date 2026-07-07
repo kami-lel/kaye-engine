@@ -12,24 +12,24 @@ from kaye.kamilog import gen_comment_banner_centered
 BLUEPRINT_TEXT = """ ○
 [x] └── (Abbreviations)"""
 
+QUERY = (
+    "The ind rev catalyzed a tectonic shift fr artisanal produc.n to"
+    " mechanized manufacture, precipitating urbanization, the rise of"
+    " factory labor, and new cls dynamics; & innovations in pub health,"
+    " and pol repr. The period's cul ramifications incl the spread of"
+    " literacy and reorder modn soc. This is really o.est."
+)
+
 
 # Entry Point  #################################################################
 if __name__ == "__main__":
     blueprint = PromptBlueprint.parse(BLUEPRINT_TEXT, disable_prune=True)
 
-    # FIXME better formatting
     print(gen_comment_banner_centered("provided query", 1))
+    print(QUERY)
+
     print(gen_comment_banner_centered("abbr node content", 2))
     prompt = blueprint.generate_prompt(
-        disable_first_heading=True,
         query="use an algo to calc the avg",
-    )
-    print(prompt)
-
-    # partial match query  =====================================================
-    print("\n" + gen_comment_banner_centered("partial match query", 2))
-    prompt = blueprint.generate_prompt(
-        disable_first_heading=True,
-        query="use an algo only",
     )
     print(prompt)
