@@ -12,15 +12,16 @@ import pytest
 
 from kaye.prompt.dynamic_nodes import AbbrNode
 
-
 # fixtures data  ################################################################
 _ALWAYS_UNDERSTAND_LINES = [
     "- abt:about",
     "- add.:additional,additionally,in addition",
     "- A:also",
     "- alt:alternative,alternatively",
-    "- ~:and the others (non-people; eg a, b, ~; use ~~ when when ~ is"
-    " ambiguous; eg a, b, ~~)",
+    (
+        "- ~:and the others (non-people; eg a, b, ~; use ~~ when when ~ is"
+        " ambiguous; eg a, b, ~~)"
+    ),
     "- aot:another",
     "- answ:answer",
     "- a/:any",
@@ -338,7 +339,7 @@ class TestContentLines:  #######################################################
             "- ↓:decrease,decrement",
             "- ¼:fraction one quarter",
             "- in:inch",
-            "- s:state/status",
+            "- s:state,status,stage",
         }
 
     def test_empty1(_, testee1):
