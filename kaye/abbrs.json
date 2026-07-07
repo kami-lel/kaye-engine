@@ -648,9 +648,10 @@
       }
     }
   },
-  "argument": {
+  "parameter": {
+    "remark": "name in function, placeholder for value; interchangeable w/ argument casually",
     "abbrs": {
-      "arg": {
+      "param": {
         "priority": 5,
         "tags": [
           "coding",
@@ -660,9 +661,10 @@
       }
     }
   },
-  "keyword": {
+  "argument": {
+    "remark": "value provided to function at call time; interchangeable w/ parameter casually",
     "abbrs": {
-      "kw": {
+      "arg": {
         "priority": 5,
         "tags": [
           "coding",
@@ -717,12 +719,24 @@
       }
     }
   },
-  "attribute,attribution": {
+  "attribute": {
     "abbrs": {
       "attr": {
         "priority": 5,
         "tags": [
           "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "variable owned by object; similar to field"
+  },
+  "attribution": {
+    "abbrs": {
+      "attr": {
+        "priority": 5,
+        "tags": [
           "letters_only"
         ],
         "wrap": "word"
@@ -1136,7 +1150,6 @@
         "priority": 3,
         "tags": [
           "common",
-          "coding",
           "single_character"
         ],
         "wrap": "symbol"
@@ -1177,12 +1190,23 @@
       }
     }
   },
-  "character,characterize,characterization,characteristic": {
+  "character": {
     "abbrs": {
       "char": {
         "priority": 5,
         "tags": [
           "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "characterize,characterization,characteristic": {
+    "abbrs": {
+      "char": {
+        "priority": 5,
+        "tags": [
           "letters_only"
         ],
         "wrap": "word"
@@ -2072,7 +2096,7 @@
   },
   "document,documentation": {
     "abbrs": {
-      "man": {
+      "doc": {
         "priority": 5,
         "tags": [
           "coding",
@@ -2660,6 +2684,19 @@
       }
     }
   },
+  "field": {
+    "abbrs": {
+      "fld": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "variable declared inside an object, implies primitive data type; similar to attribute"
+  },
   "find,found": {
     "abbrs": {
       "f": {
@@ -3072,7 +3109,8 @@
         ],
         "wrap": "word"
       }
-    }
+    },
+    "remark": "may include method, but implies standalone function"
   },
   "fundamental,foundational": {
     "abbrs": {
@@ -3226,7 +3264,6 @@
         "priority": 5,
         "tags": [
           "common",
-          "coding",
           "ascii_only"
         ],
         "wrap": "symbol"
@@ -3818,6 +3855,18 @@
       }
     }
   },
+  "keyword": {
+    "abbrs": {
+      "kw": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "know,known": {
     "abbrs": {
       "kn": {
@@ -3948,7 +3997,6 @@
         "priority": 5,
         "tags": [
           "common",
-          "coding",
           "ascii_only"
         ],
         "wrap": "symbol"
@@ -4021,7 +4069,7 @@
       "ls": {
         "priority": 5,
         "tags": [
-          "coding",
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -4180,6 +4228,19 @@
       }
     }
   },
+  "member": {
+    "abbrs": {
+      "mbr": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    },
+    "remark": "of object, include fields/attributes, properties, & methods"
+  },
   "method": {
     "abbrs": {
       "mthd": {
@@ -4190,7 +4251,8 @@
         ],
         "wrap": "word"
       }
-    }
+    },
+    "remark": "function owned by object"
   },
   "mile": {
     "abbrs": {
@@ -4631,7 +4693,6 @@
         "priority": 5,
         "tags": [
           "common",
-          "coding",
           "ascii_only"
         ],
         "wrap": "symbol"
@@ -4788,12 +4849,23 @@
       }
     }
   },
-  "optimum,optimal,optimism,optimist": {
+  "optimal": {
     "abbrs": {
       "opm": {
         "priority": 5,
         "tags": [
           "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "optimum,optimism,optimist": {
+    "abbrs": {
+      "opm": {
+        "priority": 5,
+        "tags": [
           "letters_only"
         ],
         "wrap": "word"
@@ -5287,7 +5359,18 @@
       }
     }
   },
-  "proper,property": {
+  "proper": {
+    "abbrs": {
+      "prp": {
+        "priority": 5,
+        "tags": [
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "property": {
     "abbrs": {
       "prp": {
         "priority": 5,
@@ -5297,7 +5380,8 @@
         ],
         "wrap": "word"
       }
-    }
+    },
+    "remark": "field/attribute with accessor, like a getter or setter"
   },
   "psychology": {
     "abbrs": {
@@ -5545,7 +5629,6 @@
       "reg": {
         "priority": 5,
         "tags": [
-          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5557,7 +5640,6 @@
       "rej": {
         "priority": 5,
         "tags": [
-          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5581,7 +5663,6 @@
       "rls": {
         "priority": 5,
         "tags": [
-          "coding",
           "letters_only"
         ],
         "wrap": "word"
@@ -5699,7 +5780,6 @@
       "resp": {
         "priority": 5,
         "tags": [
-          "coding",
           "letters_only"
         ],
         "wrap": "word"
