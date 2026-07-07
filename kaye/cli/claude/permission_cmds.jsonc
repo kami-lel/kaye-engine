@@ -7,7 +7,7 @@
 ################################################################################
 */
 
-// Fixme move git mv to allow, also update git worktree related
+// FIXME move git mv to allow, also update git worktree related
 {
   "allow": [  //  ##############################################################
     // git  --------------------------------------------------------------------
