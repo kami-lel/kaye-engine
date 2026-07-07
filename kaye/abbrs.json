@@ -623,6 +623,18 @@
       }
     }
   },
+  "approach": {
+    "abbrs": {
+      "apch": {
+        "priority": 5,
+        "tags": [
+          "always_understand",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "appropriate,appropriately": {
     "abbrs": {
       "appr": {
