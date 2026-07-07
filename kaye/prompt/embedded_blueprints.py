@@ -71,14 +71,17 @@ chat_blueprint = PromptBlueprint.parse("""    ○
 [x] ├── Introduction
 [x] ├── Personality
 [x] ├── Language
-[x] └── Style Guide
-[x]     ├── Style Guide Markdown Format
-[x]     │   └── Additional Markdown Format
-[x]     └── Style Guide Commentary Case""")
+[x] ├── Style Guide
+[x] │   ├── Style Guide Markdown Format
+[x] │   │   └── Additional Markdown Format
+[x] │   └── Style Guide Commentary Case
+[x] └── (Abbreviations)""")
 chat_blueprint.display_name = "Chat"
 chat_blueprint.sidecars.description = (
     "default for general conversation with full Kaye persona and role"
 )
+
+# TODO unit test for abbreviations existence
 
 
 # Date and Time Format
