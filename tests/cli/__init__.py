@@ -98,7 +98,6 @@ MD_FILENAME2SKILL_NAME = {
     "style-guide-briefness-style": "Style Guide Briefness Style",
     "style-guide-good-writing": "Style Guide Good Writing",
     "continue-behavior": "Continue Behavior",
-    "agent-behavior": "Agent Behavior",
     "prompt-writer": "Prompt Writer",
     "skill-description-writer": "Skill Description Writer",
     "international-phonetic-alphabet": "International Phonetic Alphabet",
@@ -126,10 +125,6 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "coder-bash": "Generates ready-to-run Debian GNU/Linux shell commands",
     "coder-python-docstring-style": (
         "writes, formats Python docstrings in Sphinx/reStructuredText"
-    ),
-    "agent-behavior": (
-        "Baseline agent behavior, treats between-round file"
-        " changes as intentional edits."
     ),
     "project-structure": (
         "naming conventions and"
@@ -291,12 +286,6 @@ TESTEE_WHEN_TO_USE_CONTENT_ALL = {
     "coder-python-docstring-style": (
         "trigger whenever a Python function, method, class, or"
         " module is written or edited"
-    ),
-    "agent-behavior": (
-        "every task, every turn, no"
-        " exceptions. Not situational: this defines default agent conduct"
-        " at all times, regardless of the request or whether files or"
-        " summaries are involved."
     ),
     "project-structure": (
         "Use when scaffolding a new repo, organizing"
