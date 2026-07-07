@@ -101,13 +101,20 @@ triage_tags_blueprint = PromptBlueprint.create_from_node(
 )
 
 
+# Coding Terms dynamic node
+coding_terms_blueprint = PromptBlueprint.parse(""" ○
+[x] └── (Coding Terms)""")
+
+
 # coder  =======================================================================
 
 _kyc_node = _corpus["Kaye Peer Coder"]
 
 # Coder
 coder_blueprint = (
-    PromptBlueprint.create_from_node(_kyc_node) | triage_tags_blueprint
+    PromptBlueprint.create_from_node(_kyc_node)
+    | triage_tags_blueprint
+    | coding_terms_blueprint
 )
 coder_blueprint.display_name = "Kaye Peer Coder"
 
