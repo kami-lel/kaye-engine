@@ -12,9 +12,15 @@ import ahocorasick
 from kaye.abbr_collection.abbr_entry import AbbrEntry
 from kaye.abbr_collection.abbr_meaning import AbbrMeaning
 
-# abbrs.json path  #############################################################
+# constants  ###################################################################
 
+# abbrs.json path
 ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent.parent / "abbrs.json"
+
+
+# abbrs.json key constants
+ABBRS_JSON_ABBRS_KEY = "abbrs"
+ABBRS_JSON_REMARK_KEY = "remark"
 
 
 # AbbrData  ####################################################################
@@ -72,15 +78,30 @@ class AbbrData:
         self.meanings = []
         self.abbrs = []
         for mean_key, mean_obj in json_data.items():
-            mean = AbbrMeaning(mean_key)
-            self.meanings.append(mean)
-
             if not isinstance(mean_obj, dict):
                 raise ValueError(
                     "meaning value must be Object: {}".format(repr(mean_obj))
                 )
 
-            for abbr, abbr_obj in mean_obj.items():
+            if ABBRS_JSON_ABBRS_KEY not in mean_obj:
+                raise ValueError(
+                    "meaning value must contains key: {}".format(
+                        repr(ABBRS_JSON_ABBRS_KEY)
+                    )
+                )
+
+            remark = mean_obj.get(ABBRS_JSON_REMARK_KEY)
+
+            mean = AbbrMeaning(mean_key, remark=remark)
+            self.meanings.append(mean)
+
+            abbrs_obj = mean_obj[ABBRS_JSON_ABBRS_KEY]
+            if not isinstance(abbrs_obj, dict):
+                raise ValueError(
+                    "abbrs value must be Object: {}".format(repr(abbrs_obj))
+                )
+
+            for abbr, abbr_obj in abbrs_obj.items():
                 self.abbrs.append(AbbrEntry(mean, abbr, abbr_obj))
 
         # create automaton  ----------------------------------------------------

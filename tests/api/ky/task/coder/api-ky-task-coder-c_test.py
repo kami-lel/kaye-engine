@@ -20,10 +20,19 @@ from tests import (
     TESTEE_BRIEFNESS_CONTENT,
     TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT,
     TESTEE_CODER_CONTENT,
+    TESTEE_FILE_CONTENT_ALL,
 )
-
 from tests.api.ky.task import *
 from tests.api.ky.task.coder import *
+
+# constants  ###################################################################
+
+
+TESTEE_FILE_CONTENT = [
+    marker
+    for marker in TESTEE_FILE_CONTENT_ALL["coder-c"]
+    if marker != "### {prerequisite}"  # raw corpus placeholder, not in opt
+]
 
 # pytest fixtures  #############################################################
 
@@ -59,22 +68,9 @@ class TestTriageTags:  # =======================================================
 
 class TestCoder:  # ============================================================
 
-    def test_c0(_, opt):
-        assert_coder_c_title(opt)
-
-    def test_c1(_, opt):
-        assert_coder_c1(opt)
-
-    # braces  ******************************************************************
-
-    def test_brace_title(_, opt):
-        assert_brace_title(opt)
-
-    def test_brace1(_, opt):
-        assert_brace1(opt)
-
-    def test_brace2(_, opt):
-        assert_brace2(opt)
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, opt, i):
+        assert TESTEE_FILE_CONTENT[i] in opt
 
     # coder shared  ************************************************************
 

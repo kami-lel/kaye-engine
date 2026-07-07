@@ -602,9 +602,52 @@ Use to proofread, copyedit, or correct writing without rewriting. Not for heavy 
 - Month-Day Example: For dates lacking a specific year, format them as: `Tue 01-16` (Day of the week Month-Day).
 - Time Format: Use a 24-hour clock when expressing time. For example, represent 2:30 PM as `14:30`.
 
+
+
+
+
+
+
+
+
+
+
+
+
+### 30-hour Clock
+
+Day extends past midnight instead of switching date. Count times from midnight to 6 AM as hours `24`–`29`, keep earlier date.
+
+- hours `24:00`~`29:59` = `00:00`~`05:59` of next Day
+- to convert, subtract `24` from hour, advance date: `07-01 26:00` = `07-02 02:00`
+- `06:00` is Cutoff; from 6 AM on, use new date, write time normally
+
+Edge cases:
+
+- `07-01 24:00` = midnight, start of `07-02`
+- `07-01 29:59` = latest time for `07-01`, i.e. `07-02 05:59`
+- `07-02 06:00` past Cutoff, takes new date not `07-01 30:00`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### {description}
 
-when dates or times appear in output
+Formats dates, times in output — weekday-prefixed dates, zero-padded years, 24-hr clock, plus a 30-hr clock stretching the prior day across pre-dawn hours
+
+### {when_to_use}
+
+Any date or time in output. Extend past `24:00` when a post-midnight, pre-6 AM moment belongs to the prior day's block
 
 
 
@@ -690,14 +733,51 @@ when physical quantities appear in output
 
 Labels for defects and related notes across code and docs; refer to them as *triage tags* or *TT*.
 
-Each tag comes in three tiers by letter case — *Loud* (all-caps, e.g. `BUG`), *Steady* (capitalized, e.g. `Bug`), *Quiet* (lowercase, e.g. `bug`):
+Each tag comes in three tiers by letter case:
 
-- `BUG` — discovered defects that cause errors or unexpected behavior
+- *Loud* — all-caps: `BUG`, `FIXME`, `TODO`, `HACK`
+- *Steady* — capitalized: `Bug`, `Fixme`, `Todo`, `Hack`
+- *Quiet* — lowercase: `bug`, `fixme`, `todo`, `hack`
+
+Shifting to a louder tier is **raise**; to a quieter tier is **lower**.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Triage Tags Meanings
+
+- `BUG` — discovered defects causing errors or unexpected behavior
 - `FIXME` — content that is wrong, inefficient, unclear, or otherwise improvable
-- `TODO` — intentionally incomplete work or placeholders to be implemented later
-- `HACK` — temporary workarounds or rationale expected to be removed before release
+- `TODO` — intentionally incomplete work or placeholders for later
+- `HACK` — temporary workarounds expected to be removed before release
 
-Shifting a tag to a louder tier (`bug` → `BUG`) is **raise**; to a quieter tier is **lower**. Prefer *Loud TT* for newly added urgent items. Do not modify or remove any tag unless the user explicitly asks.
+
+
+
+
+
+
+
+
+
+
+
+
+### Working with Triage Tags
+
+Stay passive: never search for or resolve TT on your own, and never modify or remove one unless explicitly asked. Two exceptions:
+
+- a requested task incidentally resolves the issue a TT describes, and the TT falls within that same edit — resolve it there, without expanding the search elsewhere
+- a requested task calls for a placeholder or stopgap — leave an appropriate *Loud TT* marking it
 
 
 
@@ -2184,7 +2264,8 @@ Use when creating, updating, or reviewing a README or similar project landing pa
 
 ## Project CHANGELOG Writer
 
-These guidelines define what a good `CHANGELOG.md` (or CHANGELOG-style file) is.
+these guidelines define what a good `CHANGELOG.md` (or CHANGELOG-style file) is
+
 
 
 
@@ -2197,10 +2278,11 @@ These guidelines define what a good `CHANGELOG.md` (or CHANGELOG-style file) is.
 - versions and sections should be linkable
 - the latest version comes first
 - the release date of each version is displayed
-- always maintain an `[Unreleased]` section with **all 6 subsections** present, even if they are empty
-- in released versions, **omit** any subsection that has no entries
-- always maintain the **links section** at the bottom of the changelog, keeping every version referenced
-- must include GitHub **links** at each section's end
+- always maintain an `[Unreleased]` section with all 6 subsections present, even if they are empty
+- in released versions, omit any subsection that has no entries
+- flag a breaking change with a `[!WARNING]` callout at the end of the version section, right before its link; this typically accompanies a major release
+- always maintain the links section at the bottom of the changelog, keeping every version referenced
+- must include GitHub links at each section's end
 
 
 
@@ -2225,60 +2307,30 @@ These guidelines define what a good `CHANGELOG.md` (or CHANGELOG-style file) is.
     # Example Project CHANGELOG
 
     ## [Unreleased]
-
     ### Added
-
     ### Changed
-
     ### Deprecated
-
     ### Removed
-
     ### Fixed
-
-    - Dropdown menu not closing when clicking outside
-
     ### Security
+    [unreleased]: https://github.com/example-user/example-project/compare/v2.0.0...dev
 
-    [unreleased]: https://github.com/example-user/example-project/compare/v2.1.0...dev
-
-    ## [2.1.0] - 2024-01-15
-
-    ### Added
-    - OAuth2 support for Google and GitHub providers
-    - Avatar upload with automatic image resizing
-
-    ### Changed
-
-    - redesigned sidebar layout for improved navigation
-    - collapsed menu now persists across sessions
-
-    Authentication:
-
-    - session token expiry extended from 1 hour to 24 hours
-    - login flow now redirects to the last visited page after success
-
+    ## [2.0.0] - 2024-01-15
+    ### Removed
+    - Node 14 runtime support
     ### Fixed
-
     - Profile picture not rendering correctly on Safari
 
-    [2.1.0]: https://github.com/example-user/example-project/compare/v2.0.0...v2.1.0
+    > [!WARNING]
+    > Drops support for Node 14; upgrade before updating
 
-    ## [2.0.0] - 2023-11-02
+    [2.0.0]: https://github.com/example-user/example-project/compare/v1.5.6...v2.0.0
 
+    ## [1.5.6] - 2023-11-02
     ### Added
+    - OAuth2 support for Google and GitHub providers
 
-    - Stripe integration for subscription billing
-
-    ### Removed
-
-    - Deprecated v1 endpoints removed after 6-month sunset period
-
-    ### Security
-
-    - Patched JWT algorithm confusion vulnerability (CVE-2023-XXXX)
-
-    [2.0.0]: https://github.com/example-user/example-project/releases/tag/v2.0.0
+    [1.5.6]: https://github.com/example-user/example-project/releases/tag/v1.5.6
 ```
 
 
@@ -4424,46 +4476,46 @@ Eg
 
 ### Comment Banner
 
-**Comment banners** (CB) are visual separators placed *inside code comments* to expose structure in long code. A banner is a heading followed by a **ruler** — one symbol repeated to fill the line.
+**Comment banners** (CB) expose structure in long output. A banner is a short **heading** plus a **ruler** — one symbol repeated to fill the line to **80 chars**, with two spaces between heading and ruler. They appear in two places:
 
-**Levels**:
+- inside **code comments**, to mark sections of long source files
+- inside **printed output**, to divide logging / demo / test phases
 
-Six ranks, highest (`CB0`) to lowest (`CB5`):
+**Levels** — six ranks, highest (`CB0`) to lowest (`CB5`), each fixing one ruler symbol:
 
-| token | name | form |
+| token | ruler | role |
 | --- | --- | --- |
-| `CB0` | boxed banner | file-level title boxed by top and bottom `#` rulers; multi-line; highest |
-| `CB1` | `#` banner | heading, then `#` filling the line |
-| `CB2` | `=` banner | heading, then `=` filling the line |
-| `CB3` | `*` banner | heading, then `*` filling the line |
-| `CB4` | `+` banner | heading, then `+` filling the line |
-| `CB5` | `-` banner | heading, then `-` filling the line; lowest |
+| `CB0` | `#` box | file/run Title, boxed between top and bottom rulers; multi-line |
+| `CB1` | `#` | top-Level section |
+| `CB2` | `=` | sub-Section |
+| `CB3` | `*` | sub-Sub-section |
+| `CB4` | `+` | finer Group |
+| `CB5` | `-` | lowest; also usable freely as a small local Label, off-hierarchy |
 
-`-` may also be used freely for small local labels outside the hierarchy.
+**Justification** — suffix `L` / `R` / `C` on any level (`CB1`–`CB5`) sets where the heading sits:
 
-**When to use**:
+| suffix | layout |
+| --- | --- |
+| `L` | heading Left, ruler fills right |
+| `R` | ruler fills left, heading ends at Col 80 |
+| `C` | heading Centered, ruler splits evenly (±1) |
 
-- inside code comments only — never as raw code, never in conversation text
-- only when a section is long enough that a separator aids navigation
-- only at logical boundaries: modules, sections, functions, related groups
-- sparingly — prefer blank lines for short sections; reserve CB for long blocks
+```
+CB1L   heading  ##############################…
+CB1R   …##############################  heading
+CB1C   ###############  heading  ###############
+```
 
-**When not to use**:
+**Defaults** — a bare token means its `L` variant (`CB1` ≡ `CB1L`). `L` is the default in **comments**; `C` is the default in **printed output**. `CB0`'s inner title line follows the same rule, defaulting to `L`.
 
-- not for local, sequential, or line-level groups inside a function — use plain comments
-- not frequently — overuse turns separators into noise
+**Heading style** — keep it short and name the real block (`parse CLI flags`, not `section 1`). Case by visibility:
 
-**How to format**:
+- **Title Case** = public / exported interface — `Public API`, `Entry Point`
+- **lowercase** = internal / implementation detail — `constants`, `auxiliary`
 
-- comment leader is the language's (`//`, `#`, ...); the ruler symbol is fixed per level
-- write the heading first, then repeat the ruler symbol to fill the line **to 80 chars** (counting the leader)
-- `CB0` instead boxes a file-level title between top and bottom `#` rulers
-- keep headings short; case them by visibility:
-    - **Title Case** = public / exported interface — `Public API`, `Entry Point`
-    - **lowercase** = internal / implementation detail — `constants`, `helpers`
-- prefer a heading naming the actual block (`parse CLI flags`) over generic labels
+**Use** at genuine boundaries — modules, sections, functions, related groups, output phases — and only when a block is long enough that a separator aids navigation. **Avoid** for line-level or sequential groups inside a function (use plain comments), in ordinary prose, and anywhere frequent enough to become noise.
 
-**Examples**:
+**Comment example** — the ruler follows the language's comment leader (`//`, `#`, ...):
 
 ```cpp
     /*
@@ -4473,24 +4525,58 @@ Six ranks, highest (`CB0`) to lowest (`CB5`):
     # produce statistics
     ################################################################################
     */
-    // constants ###################################################################
-    const int kValues[] = {10, 20, 30};
-    // helpers #####################################################################
-    // number helpers ==============================================================
-    double compute_average(const int* v, int n) {
-        // accumulate **************************************************************
-        ~~
-    }
-    // Entry Point #################################################################
-    int main() { ... }
+// constants  ##################################################################
+const int kValues[] = {10, 20, 30};
+
+// auxiliary  ##################################################################
+// number helpers  =============================================================
+double compute_average(const int* v, int n) {
+    // accumulate  *************************************************************
+    ~~
+}
+
+// Entry Point  ################################################################
+int main() { ... }
 ```
 
 ```python
-    # Public API ###################################################################
+    # Public API  ##################################################################
     def to_int(s):
-        # quick parse --------------------------------------------------------------
+        # quick parse  -------------------------------------------------------------
         ~~
 ```
+
+`CB0` boxes the file title, `CB1` marks top-level sections, `CB2`/`CB3` nest below. The `# quick parse  ----` line is a **CB5** used off-hierarchy: a small local label, not a structural boundary.
+
+**Printed output example** — no comment leader; the ruler prints directly, and `C` is the default. Levels nest exactly as in comments:
+
+```
+    ################################################################################
+    # configkit_demo — load and validate settings
+    ################################################################################
+    source:  ./config/app.toml
+    mode:    strict
+
+    ####################################  load  ####################################
+    INFO  read 24 keys from app.toml
+    INFO  merged 3 defaults
+
+    ##################################  validate  ##################################
+    ====================================  types  ===================================
+    INFO  port: int OK
+    INFO  host: str OK
+    ===================================  ranges  ===================================
+    WARN  port 70000 above max 65535 → clamped
+    ----- warnings -----
+    WARN  1 value adjusted
+
+    ###################################  report  ###################################
+    INFO  config valid, 24 keys ready
+```
+
+`CB0` boxes the run title, `CB1C` (`#`) marks each phase (`load`, `validate`, `report`), and `CB2C` (`=`) marks the checks nested under `validate`. The `----- warnings -----` line is again a **CB5**, dropped in freely as a lightweight local marker rather than a ranked phase.
+
+**Note** — both examples cluster many banners together to show the full set of levels at once. Real usage is far rarer: reach for CB only to separate genuine functional blocks, modules, or logically distinct sections — never at the density shown here.
 
 
 
@@ -5242,6 +5328,7 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
 - do **not** use type hints anywhere (no variable annotations, no function parameter or return type annotations).
 - prefer `str.format()` for string formatting, dont use f-strings (`f""`).
+- for every `try`/`except` block, bind the exception with `as e` (eg `except ValueError as e:`); if that block re-raises, the `raise` must include `from e`.
 
 
 
@@ -5257,11 +5344,11 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 
 ### {description}
 
-Writes, edits, and reviews all Python code
+writes, edits, reviews Python code: scripts, modules, packages, functions, classes, inline snippets
 
 ### {when_to_use}
 
-Use for any Python work, inline Python code blocks, requests for Python scripts, modules, or packages.
+trigger for any Python task — `.py` files, code blocks, writing/fixing/refactoring/optimizing/reviewing Python, or bare code requests with no language stated in a Python context. Not for docstring-only or test-only requests, route those to the dedicated skills
 
 ### {globs}
 
@@ -5287,51 +5374,67 @@ Use for any Python work, inline Python code blocks, requests for Python scripts,
 
 ### Coder Python Docstring Style
 
-The docstrings must be written using the **Sphinx** style and employ **reStructuredText** as the markup language. Avoid using any other styles.
+Write all docstrings in **Sphinx** style using **reStructuredText**. Use no other style.
 
-Docstring requirements by visibility:
-- **public methods** must always include a docstring
-- **private methods** (prefixed with `_`) may include a docstring, such as when the method name alone does not clearly convey its purpose
-- **dunder methods** (e.g. `__eq__`, `__repr__`, `__len__`) need no docstring in most cases, as their behaviour follows well-known Python conventions; add one only when the behaviour is non-obvious
-- **classes** must always include a docstring, placed directly under the `class` statement; this same docstring also documents the constructor, so its parameter fields describe the `__init__` arguments
-- **the `__init__` method** must *never* include a docstring; it is documented entirely by the class docstring
 
-A docstring must follow one of two accepted **forms** (applicable to both methods and classes):
-- *Form 1* — summary line, one empty line, a multi-line description, then **two empty lines**, then the parameter fields
-- *Form 2* — summary line, then **two empty lines**, then the parameter fields
 
-Order the fields as follows: `:param:` / `:type:` for each argument, then `:raises:`, then `:return:` / `:rtype:` (when the method returns a value), then `:example:`.
 
-In the examples below, every blank line is annotated with a marker — `(ONE EMPTY LINE)`, `(FIRST EMPTY LINE)`, `(SECOND EMPTY LINE)` — to show exactly where empty lines belong. The markers are not part of the actual docstring; only the empty lines they denote are.
+##### Docstring Forms
 
-*Example of Form 1 (a method):*
+A docstring is **never** collapsed onto one physical line — the `"""` delimiters always sit on their own lines with content between them. Banned:
 
 ```python
-def calc_square(number):
-    """
-    calculate the square of a number
-    (ONE EMPTY LINE)
-    performs a simple exponential operation, returning
-    the result of multiplying ``number`` by itself
-    (FIRST EMPTY LINE)
-    (SECOND EMPTY LINE)
-    :param number: number to be squared
-    :type number: int
-    :return: square of ``number``
-    :rtype: int
-    :example:
-    >>> calc_square(3)
-    9
-    """
-    return number ** 2
+"""banned single-line docstring"""
 ```
 
-*Example of Form 2 (a class — note `__init__` carries no docstring):*
+Every docstring uses one of four forms, for both methods and classes. Pick the leanest that still documents the callable fully:
+
+- *SDP-form* — **S**ummary, **D**escription, **P**arams; use when a Description adds more than the summary and fields alone
+- *SP-form* — **S**ummary, **P**arams; the default when fields need a summary but no narrative
+- *S-form* — **S**ummary only; when no field is worth recording
+- *P-form* — **P**arams only, no summary; when the fields say everything, as with a Return-Centric function
+
+Spacing: one empty line between summary and description; **two empty lines** before the first field. *S-form* and *P-form* hold no empty lines.
+
+Field order: `:param:` / `:type:` per argument, then `:raises:`, then `:return:` / `:rtype:`, then `:example:`.
+
+In the examples, `(ONE EMPTY LINE)` / `(FIRST EMPTY LINE)` / `(SECOND EMPTY LINE)` mark where empty lines go; the markers themselves are not written.
+
+*SDP-form (a method):*
+
+```python
+def normalize_scores(scores, weights, ceiling=1.0):
+    """
+    normalize a set of weighted scores to a fixed range
+    (ONE EMPTY LINE)
+    each score is multiplied by its matching weight, then the
+    whole set is rescaled so the largest value equals ``ceiling``
+    (FIRST EMPTY LINE)
+    (SECOND EMPTY LINE)
+    :param scores: raw scores to normalize
+    :type scores: list[float]
+    :param weights: weight for each score, keyed by its index;
+            every score must have a matching weight
+    :type weights: dict{int: float}
+    :param ceiling: value the largest score is scaled to; default=1.0
+    :type ceiling: float, optional
+    :raises KeyError: a score index has no matching weight
+    :raises ValueError: scores is empty
+    :raises ValueError: every weighted score is zero
+    :return: the normalized scores, in original order
+    :rtype: list[float]
+    :example:
+    >>> normalize_scores([1.0, 3.0], {0: 1.0, 1: 1.0})
+    [0.333, 1.0]
+    """
+```
+
+*SP-form (a class — `__init__` carries no docstring):*
 
 ```python
 class Rectangle:
     """
-    a `Rectangle` represents an axis-aligned rectangle defined by its size.
+    an axis-aligned rectangle defined by its size.
     (FIRST EMPTY LINE)
     (SECOND EMPTY LINE)
     :param width: width of the rectangle;
@@ -5340,7 +5443,8 @@ class Rectangle:
     :param height: height of the rectangle;
             must be a positive number
     :type height: float
-    :raises ValueError: if ``width`` or ``height`` is not positive
+    :raises ValueError: width is not positive
+    :raises ValueError: height is not positive
     :example:
     >>> rect = Rectangle(3.0, 4.0)
     """
@@ -5351,7 +5455,47 @@ class Rectangle:
         self._height = height
 ```
 
-Begin every module/script with a docstring whose first line is the **filename**, followed by a brief description of what it defines. For example:
+*S-form (a method — summary only):*
+
+```python
+def _clear_cache(self):
+    """
+    remove every entry from the internal cache
+    """
+    self._cache.clear()
+```
+
+*P-form (a return-centric method — fields only):*
+
+```python
+def add(a, b):
+    """
+    :param a: first addend
+    :type a: int
+    :param b: second addend
+    :type b: int
+    :return: the sum of ``a`` and ``b``
+    :rtype: int
+    """
+    return a + b
+```
+
+
+
+
+##### Requirements by Visibility
+
+- **public methods** always include a docstring
+- **private methods** (`_` prefixed) include one when the name alone does not convey the purpose
+- **dunder methods** (`__eq__`, `__repr__`, `__len__`) need none unless the behaviour is non-obvious
+- **classes** always include a docstring directly under the `class` statement; it also documents the constructor, so its `:param:` fields describe the `__init__` arguments
+- **`__init__`** *never* carries a docstring — the class docstring documents it
+
+
+
+##### Module & Script Docstrings
+
+Start every module with a docstring whose first line is the **filename**, then a brief description of what it defines. This follows its own rule and is not one of the four forms:
 
 ```python
 """
@@ -5363,15 +5507,40 @@ define ``EmailValidator`` and ``validate_address``
 
 
 
+##### Field Rules
+
+**Types** (`:type:` / `:rtype:`) — follow these forms, nesting them for compound structures:
+
+- `int`, `float`, `str`, `bool`
+- `iterable`
+- `iterable(str)`
+- `list[bool]`
+- `dict{str: int}`
+- `tuple(float, float)`
+- `list[dict{str: int}]`
+- `iterable(tuple(str, bool))`
+
+**Optional / keyword args** — for a parameter with a default, append `, optional` to its `:type:` and `; default=<value>` to the end of its `:param:` description (see `ceiling` in the *SDP-form* example above).
+
+**Return** — when a callable exists mainly to return a value, describe that value in `:return:`, not the summary; if it stands alone, drop the summary and use *P-form*.
+
+**Raises** — one `:raises:` entry per distinct scenario, even when scenarios share an exception type; never merge them (see the two `ValueError` entries above).
+
+**Wrapping** — when a field line runs long, break after a `;` and indent the continuation (see `:param weights:` above).
+
+**Boolean return** — when `:rtype:` is `bool`, start the `:return:` description with "if" and describe only the positive/true case, eg `:return: if the invoice is both signed and paid in full`; write the positive case clearly enough that no "else"/negative case needs stating.
+
+
+
 
 
 #### {description}
 
-Writes and formats Python docstrings in Sphinx/reStructuredText style, enforcing the project's docstring forms, field ordering, and visibility rules.
+writes, formats Python docstrings in Sphinx/reStructuredText
 
 #### {when_to_use}
 
-Use whenever Python code needs docstrings — including "add a docstring," "document this," or "write the function." Triggers: docstring, Sphinx, reST, `:param:`.
+trigger whenever a Python function, method, class, or module is written or edited — docstrings are near-mandatory, so add or update one by default, not just on explicit request. Also trigger on docstring, Sphinx, reST, `:param:`, `:return:`, `:raises:`, `:type:` mentions
 
 ##### {globs}
 
@@ -5446,11 +5615,11 @@ class TestAdd:
 
 #### {description}
 
-Writes and reviews Python `pytest` test code following the project's testing conventions.
+writes, reviews Python `pytest` test code per project conventions
 
 #### {when_to_use}
 
-Use whenever Python tests are written, run, fixed, or discussed. Triggers: `test_`/`_test.py` files, `pytest`, "add tests," "write a unit test," "test this function."
+trigger on `test_*.py`/`*_test.py` files, pytest, fixtures, mocks, parametrize, assertions, or requests like write/add/fix a unit test or test case. Not for non-test Python code
 
 #### {globs}
 
@@ -5834,17 +6003,62 @@ Files are assumed to be consistent between rounds. If you detect any changes, tr
 
 After completing all tasks requested by the user — including editing, discovery, analysis, or any other work — **do not provide a recap or summary** of what you did unless the user **explicitly asks** for one. Avoid repeating the completed actions, restating the user's request, or adding unnecessary closing commentary.
 
-### Git Command Safety Policy
 
-Never run these git commands, any flags: reset, clean, push, rebase, checkout, restore, branch, tag, gc, reflog, update-ref, commit, filter-branch, filter-repo, submodule.
+
+
+
+
+
+
+
+
+
+
+
+### git usage
+
+Only touch the **working tree**. Never stage, commit, or mutate branches, tags, stash, or worktrees. Viewing, listing, or showing state stays allowed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## {description}
 
-Baseline agent behavior, treats between-round file changes as intentional edits.
+Restricts git actions to the working tree only — no staging, committing, or branch/tag/stash/worktree mutation; read-only inspection stays allowed.
 
 ## {when_to_use}
 
-ALWAYS apply — every task, every turn, no exceptions. Not situational: this defines default agent conduct at all times, regardless of the request or whether files or summaries are involved.
+Whenever a task involves git. Use `status`, `diff`, `log`, `show`, `blame` freely; avoid anything that stages, commits, or mutates branches, tags, stash, or worktrees.
 
 
 
@@ -6165,3 +6379,85 @@ JSON format: { "title": "your concise title here" }
 <chat_history>
 {{MESSAGES:END:2}}
 </chat_history>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# (Today)
+
+**Current** Date and Time is:
+
+
+
+
+
+# (Abbreviations)
+
+**understand** every entry below, but **never use** them in your response
+
+
+
+
+# (Usable Abbreviations)
+
+**actively** and **progressively** utilize every entry below, replacing the full form with its abbreviation whenever possible
+
+
+
+
+
+# (Coding Terms)
+
+**understand** every entry below as software-dev-specific terms during the user's chat; do not use them in your reply, nor in code comments or documentation; but you may use them as identifiers, eg naming files, variables, etc.
+
+
+
+
+
+# (Programming Languages Code)
+
+**understand** every entry below as a *programming language*'s abbreviation
+
+
+
+
+
+# (Languages Code)
+
+**understand** every entry below as a *natural language*'s abbreviation
+
+
+
+
+
+# (Unity Engine Abbreviations)

@@ -12,7 +12,7 @@ import copy
 import pytest
 
 
-from kaye.prompt.abbr_nodes import LanguageCodeNode
+from kaye.prompt.dynamic_nodes import LanguageCodeNode
 
 
 # pytest fixtures  #############################################################
@@ -75,6 +75,6 @@ class TestContentLines:  # =====================================================
             "- en:English",
             "- zh:中文",
             "- zhs:大陆简体中文",
-            "- zht:香港繁體中文",
             "- jp:日本語",
+            "- zht:香港繁體中文",
         ]

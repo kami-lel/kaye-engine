@@ -11,7 +11,10 @@ import copy
 import pytest
 
 
-from kaye.prompt.today_node import TodayNode
+from kaye.prompt.dynamic_nodes import TodayNode
+from kaye.prompt.prompt_corpus_node import HEADING_PREFIX_ELEMENT
+
+from tests import TESTEE_TODAY_CONTENT
 
 
 # pytest fixture  ##############################################################
@@ -22,7 +25,7 @@ def local_corpus_testee1(corpus_testee1):
 
 @pytest.fixture(scope="session")
 def testee1(local_corpus_testee1):
-    return TodayNode(local_corpus_testee1)
+    return TodayNode(local_corpus_testee1, preface=(TESTEE_TODAY_CONTENT[1],))
 
 
 class TestToday:  ##############################################################
@@ -43,11 +46,19 @@ class TestToday:  ##############################################################
 │   └── License
 └── (Today)"""
 
-    def test_content_lines(_, local_corpus_testee1, testee1):
-        testee1 = TodayNode(local_corpus_testee1)
+    def test_date(_, testee1):
         lines = testee1.content_lines()
-        assert re.fullmatch(r"Today: \d{4}-\d{2}-\d{2}", lines[0])
-        assert re.fullmatch(r"Time: \d{2}:\d{2}:\d{2}", lines[1])
+        assert re.fullmatch(r"Date: \d{4}-\d{2}-\d{2}", lines[-2])
+
+    def test_time(_, testee1):
+        lines = testee1.content_lines()
+        assert re.fullmatch(r"Time: \d{2}:\d{2}:\d{2}", lines[-1])
+
+    @pytest.mark.parametrize("marker", TESTEE_TODAY_CONTENT)
+    def test_today_content(_, testee1, marker):
+        heading = HEADING_PREFIX_ELEMENT * testee1.depth + " " + testee1.name
+        opt = heading + "\n" + "\n".join(testee1.content_lines())
+        assert marker in opt
 
 
 class TestCopy:  ###############################################################

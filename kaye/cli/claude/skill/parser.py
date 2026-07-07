@@ -58,7 +58,7 @@ def register_skill_subparser(cli_subparser):  ##################################
     kamilog.add_verbose_arguments(skill_parser)
 
     def _skill_main(args):
-        kamilog.set_logging_level_by_verbosity(args, logger=logger)
+        kamilog.set_logging_level_by_namespace(args, logger=logger)
         logger.enter("kaye claude skill")
 
         folder = args.folder

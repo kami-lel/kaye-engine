@@ -11,7 +11,7 @@ import pytest
 from tests import (
     TESTEE_BRIEFNESS_CONTENT,
     TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
-    TESTEE_TRIAGE_TAG_CONTENT,
+    TESTEE_TRIAGE_TAG_BASE_CONTENT,
 )
 from tests.api.commit import (
     TESTEE_COMMIT_COMMON,
@@ -27,7 +27,7 @@ _CONTENT = (
     + TESTEE_COMMIT_PER_FILE_LONG
     + TESTEE_BRIEFNESS_CONTENT
     + TESTEE_CHAT_COMMENTARY_CASE_CONTENT
-    + TESTEE_TRIAGE_TAG_CONTENT
+    + TESTEE_TRIAGE_TAG_BASE_CONTENT
 )
 
 
@@ -58,28 +58,32 @@ class TestContent:  # ==========================================================
 class TestAllowsMd:  # ==========================================================
 
     def test_no_param(self, flask_test_client, endpoint):
-        opt = flask_test_client.get(
-            endpoint
-        ).get_data().decode("utf-8")
+        opt = flask_test_client.get(endpoint).get_data().decode("utf-8")
         assert_no_allows_md(opt)
 
     def test_empty_param(self, flask_test_client, endpoint):
         qs = {"allows_md": ""}
-        opt = flask_test_client.get(
-            endpoint, query_string=qs
-        ).get_data().decode("utf-8")
+        opt = (
+            flask_test_client.get(endpoint, query_string=qs)
+            .get_data()
+            .decode("utf-8")
+        )
         assert_no_allows_md(opt)
 
     def test_param0(self, flask_test_client, endpoint):
         qs = {"allows_md": 0}
-        opt = flask_test_client.get(
-            endpoint, query_string=qs
-        ).get_data().decode("utf-8")
+        opt = (
+            flask_test_client.get(endpoint, query_string=qs)
+            .get_data()
+            .decode("utf-8")
+        )
         assert_no_allows_md(opt)
 
     def test_param1(self, flask_test_client, endpoint):
         qs = {"allows_md": 1}
-        opt = flask_test_client.get(
-            endpoint, query_string=qs
-        ).get_data().decode("utf-8")
+        opt = (
+            flask_test_client.get(endpoint, query_string=qs)
+            .get_data()
+            .decode("utf-8")
+        )
         assert_allows_md(opt)

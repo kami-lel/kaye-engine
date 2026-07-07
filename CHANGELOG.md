@@ -16,7 +16,7 @@
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.8.3...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.9.0...dev
 
 ### Added
 
@@ -29,6 +29,93 @@
 ### Fixed
 
 ### Security
+
+
+
+## [6.9.0] - 2026-07-08
+
+### Added
+
+- **30-hour clock** — `Date and Time Format` skill counts post-midnight
+  times as hours `24`–`29` of the prior day (e.g. `07-01 26:00` = `07-02
+  02:00`)
+- **CHANGELOG breaking-change callout** — `Project CHANGELOG Writer` now
+  calls for a `[!WARNING]` callout before a version's link to flag breaking
+  changes
+- **VS Code Extension settings permissions** — `permission_cmds.jsonc`
+  defines `allow`/`ask`/`deny` Bash patterns (git read-only allowed;
+  destructive/system/package commands ask), written into exported
+  `settings.json` via `update_settings_json`
+- **kamilog Comment Banner utilities** — `gen_comment_banner_centered` /
+  `_left_just` / `_right_just` / `_zero`, backed by the now-public
+  `AnsiRenderer`; new `comment_banner`/`cb` and `comment_banner_zero`/`cb0`
+  CLI commands; bumped to `kamilog` v2.2.0
+- **`(Abbreviations)` node in the Chat blueprint** — renders every
+  `always_understand`-tagged entry from `abbrs.json`
+- **`(Coding Terms)` node in the Coder blueprint** — new `CodingTermsNode`
+  (tag `coding`), wired in via `coding_terms_blueprint`
+- **`abbrs.json` `remark` field** — optional free-text remark on a meaning
+  and/or an individual abbreviation, appended to the rendered list item
+- **Dynamic node preface** — every dynamic node accepts a `preface`
+  prepended to its rendered content; `load_prompt_corpus_tree()`
+  auto-populates it from a matching static `prompt_corpus.md` section
+- **Coding-term abbreviations** — `abbrs.json` gains `aCls`, `bCls`/`dCls`,
+  `aux`, `oride`, `rf`, `rgs`, `UT`, `util`
+
+### Changed
+
+- **Packaging** — migrated to a single PEP 621 `pyproject.toml`; dev-only
+  tools moved to a `dev` extra (`pip install -e ".[dev]"`)
+- **CLI alias** — `claude user-system-prompt` alias renamed `u` → `usp`
+- **kamilog custom log levels** — `ENTER`/`SKIP`/`SUCC` renumbered
+  `11`/`12`/`15` → `15`/`16`/`17`, leaving headroom below `INFO` (20)
+- **Git Command Safety Policy** — moved from `Agent Behavior` to `Continue
+  Behavior` in the prompt corpus
+- **CLI default handler** — simplified `_cli_main()` to an inline lambda
+- **Comment Banner (CB) examples** — ruler spacing aligned to the
+  two-space convention; docstring formatting TODOs clarified
+- **`c/c` header tests** — split `test_description` into
+  `test_description` and `test_when_to_use`
+- **Meta Node renamed to Sidecar Node** — `kaye/prompt/sidecar_nodes/`
+  package replaces `meta_node_type.py`/`blueprint_meta_nodes.py`;
+  `MetaNodeType` → `SidecarNodeType`, `PromptBlueprint.meta` → `.sidecars`,
+  `contains_meta_nodes` → `contains_sidecar_nodes`
+- **`kaye/prompt/dynamic_nodes/` package** — every dynamic node type now
+  lives together under one package with a `DYNAMIC_NODE_TYPES` registry
+- **`AbbrTags.usable` split** — replaced by `always_understand`,
+  `usable_in_brief`, and `coding`; `abbrs.json` entries re-tagged
+  accordingly
+- **`abbrs.json` schema** — each meaning's abbreviations now nest under a
+  required `abbrs` key, making room for the meaning-level `remark` field
+- **Prompt corpus parsing** — `PromptCorpusNode.parse()` replaces the old
+  free-standing parser; parenthesized dynamic-node headings (e.g.
+  `(Today)`) are now allowed directly in `prompt_corpus.md`, letting a
+  corpus section double as a dynamic node's preface
+- **`Coder Python` try/except and docstring boolean-return rules** —
+  requires binding `as e` in every `try`/`except` with `from e` on re-raise;
+  new **Boolean return** docstring rule for `:rtype: bool`
+- **`(Coding Terms)` guardrail** — also forbids coding-term abbreviations in
+  code comments/documentation, not just chat replies
+- **`state/status` abbr key** — renamed to `state,status,stage`
+- **Comment Banner example** — `helpers` heading renamed to `auxiliary`,
+  matching the new `aux` abbreviation
+
+### Deprecated
+
+### Removed
+
+- **`setup.py`, `setup.cfg`, `requirements.txt`** — superseded by
+  `pyproject.toml`
+
+### Fixed
+
+- **Marketplace/plugin author metadata** — `export_marketplace` and
+  `export_plugin_as_folder` now parse `Author-email` correctly and build a
+  proper `Project-URL` map, instead of splitting a joined string
+- **`TodayNode` date line label** — rendered `"Today: <date>"`, mismatching
+  its own `(Today)` heading; now renders `"Date: <date>"`
+
+[6.9.0]: https://github.com/kami-lel/kaye/compare/v6.8.3...v6.9.0
 
 
 

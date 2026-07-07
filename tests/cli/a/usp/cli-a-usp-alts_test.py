@@ -1,5 +1,5 @@
 """
-cli-a-u-alts_test.py
+cli-a-usp-alts_test.py
 
 Unit Tests (using pytest) for:
 
@@ -19,10 +19,10 @@ class TestCommandAliases:  # ===================================================
 
     @pytest.mark.parametrize("alias,expected", [
         ("claude user-system-prompt", "claude user-system-prompt"),
-        ("claude u", "claude u"),
+        ("claude usp", "claude usp"),
         ("a user-system-prompt", "a user-system-prompt"),
-        ("a u", "a u"),
-        ("anthropic u", "anthropic u"),
+        ("a usp", "a usp"),
+        ("anthropic usp", "anthropic usp"),
     ])
     def test_command_invoked(
         self,
@@ -48,11 +48,11 @@ class TestCommandAliases:  # ===================================================
 class TestFlags:  # ============================================================
 
     @pytest.mark.parametrize("flags,expected", [
-        ("-r", "u -r"),
-        ("--rapid", "u --rapid"),
-        ("-c", "u -c"),
-        ("--coder", "u --coder"),
-        ("-r -c", "u -r -c"),
+        ("-r", "usp -r"),
+        ("--rapid", "usp --rapid"),
+        ("-c", "usp -c"),
+        ("--coder", "usp --coder"),
+        ("-r -c", "usp -r -c"),
     ])
     def test_command_invoked(
         self,
@@ -63,7 +63,7 @@ class TestFlags:  # ============================================================
         flags,
         expected,
     ):
-        command = cli_claude_command + "u " + flags + " "
+        command = cli_claude_command + "usp " + flags + " "
         prepare_root_folder(
             tmp_path_factory=mock_tmp_path_factory,
             command=command,

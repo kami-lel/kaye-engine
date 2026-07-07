@@ -14,9 +14,11 @@ from .export import export_vs_code_extension
 
 _DESCRIPTION = """
 
-writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint),
-updates settings.json, and exports the kaye plugin wrapped in a
-marketplace under kaye_marketplace/.
+which performs:
+
+- writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint)
+- updates settings.json
+- exports the kaye plugin wrapped in a marketplace under kaye_marketplace/.
 
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
@@ -33,6 +35,18 @@ CLAUDE_FOLDER/  (default: ~/.claude)
                 │   └── SKILL.md
                 └── ~~  (one folder per remaining skill)
 """
+
+
+def _vs_code_main(args):
+    kamilog.set_logging_level_by_namespace(args, logger=logger)
+    logger.enter("kaye claude vs-code-extension")
+
+    folder = args.folder
+
+    marketplace_path = export_vs_code_extension(folder)
+
+    logger.info("marketplace.json location:\n" + str(marketplace_path))
+    logger.done("export VS Code Extension folder:\t" + str(folder))
 
 
 # pylint: disable=missing-function-docstring
@@ -55,16 +69,5 @@ def register_vs_code_subparser(cli_subparser):  ################################
     )
 
     kamilog.add_verbose_arguments(vs_code_parser)
-
-    def _vs_code_main(args):
-        kamilog.set_logging_level_by_verbosity(args, logger=logger)
-        logger.enter("kaye claude vs-code-extension")
-
-        folder = args.folder
-
-        marketplace_path = export_vs_code_extension(folder)
-
-        logger.info("marketplace.json location:\n" + str(marketplace_path))
-        logger.done("export VS Code Extension folder:\t" + str(folder))
 
     vs_code_parser.set_defaults(func=_vs_code_main)

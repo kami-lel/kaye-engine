@@ -12,7 +12,13 @@ import json
 import pytest
 
 
+from tests import TESTEE_FILE_CONTENT_ALL
 from tests.api.ky.task import *
+
+# constants  ###################################################################
+
+
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL["art-tutor"]
 
 # pytest fixtures  #############################################################
 
@@ -28,39 +34,9 @@ def opt(flask_test_client, task_endpoint):
 
 class TestArt:  # ==============================================================
 
-    def test_heading(_, opt):
-
-        assert "## Art Tutor" in opt
-
-    def test01(_, opt):
-        assert "Your role is to help users craft detailed" in opt
-
-    def test02(_, opt):
-        assert "Respond using one of two modes as" in opt
-
-    def test11(_, opt):
-        assert "#### A: Information Gathering" in opt
-
-    def test12(_, opt):
-        assert "- Guide users through prompt creation" in opt
-
-    def test13(_, opt):
-        assert "- Advise on using vivid, precise descriptions" in opt
-
-    def test14(_, opt):
-        assert "- Remind users they can request the completed" in opt
-
-    def test21(_, opt):
-        assert "#### B: Prompt Generation" in opt
-
-    def test22(_, opt):
-        assert "- Use this mode when all required information" in opt
-
-    def test23(_, opt):
-        assert "- The prompt must include orientation." in opt
-
-    def test24(_, opt):
-        assert "- Conclude with a reminder: Click ⬇️ icon 🖼️" in opt
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, opt, i):
+        assert TESTEE_FILE_CONTENT[i] in opt
 
     # rapid blueprint  *********************************************************
 

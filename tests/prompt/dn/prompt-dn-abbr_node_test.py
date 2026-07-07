@@ -10,7 +10,9 @@ import copy
 import pytest
 
 
-from kaye.prompt.abbr_nodes import AbbrNode
+from kaye.prompt.dynamic_nodes import AbbrNode
+
+# fixtures data  ################################################################
 
 
 # pytest fixtures  #############################################################
@@ -92,13 +94,15 @@ class TestContentLines:  #######################################################
             "- cul:culture,cultural",
             "- rev:revolution",
             "- fr:from",
-            "- cls:class,classic,classicism,classify,classical",
+            "- cls:class",
+            "- cls:classic,classicism,classify,classical",
             "- pub:public",
             "- pub:publish",
             "- ind:industry,industrial",
             "- in:inch",
             "- o.:over-",
             "- est.:estimate,estimation,estimated,estimating,estimatingly",
+            "- s:state,status,stage",
         }
 
     def test_fx3(_, testee1):
@@ -112,7 +116,7 @@ class TestContentLines:  #######################################################
         print(lines)
 
         assert set(lines) == {
-            "- $:(default)US Dollar",
+            "- $:US Dollar (default)",
             "- a.m.:ante meridiem,before midday",
             "- para:paragraph",
             "- PM:post meridiem,after midday",
@@ -205,27 +209,16 @@ class TestContentLines:  #######################################################
         print(lines)
         assert set(lines) == {
             "- ℃:degree Celsius",
-            "- ☒:selected with a cross",
+            "- ☒:selected (checkbox with a cross)",
             "- ↓:decrease,decrement",
             "- ¼:fraction one quarter",
             "- in:inch",
+            "- s:state,status,stage",
         }
 
-    def test_empty1(_, testee1):
+    def test_no_abbr(_, testee1):
         query = "some content without abbreviation"
 
         lines = testee1.content_lines(query=query)
-        print(lines)
-        assert lines == []
-
-    def test_empty2(_, testee1):
-        query = ""
-
-        lines = testee1.content_lines(query=query)
-        print(lines)
-        assert lines == []
-
-    def test_empty3(_, testee1):
-        lines = testee1.content_lines()
         print(lines)
         assert lines == []

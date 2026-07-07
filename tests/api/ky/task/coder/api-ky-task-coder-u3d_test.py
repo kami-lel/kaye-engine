@@ -20,10 +20,16 @@ from tests import (
     TESTEE_BRIEFNESS_CONTENT,
     TESTEE_STYLE_GUIDE_GOOD_WRITING_CONTENT,
     TESTEE_CODER_CONTENT,
+    TESTEE_FILE_CONTENT_ALL,
 )
 
 from tests.api.ky.task import *
 from tests.api.ky.task.coder import *
+
+# constants  ###################################################################
+
+
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL["coder-unity-engine"]
 
 # pytest fixtures  #############################################################
 
@@ -59,60 +65,9 @@ class TestTriageTags:  # =======================================================
 
 class TestCoder:  # ============================================================
 
-    def test_u3d_title(_, opt):
-        assert "## Coder Unity Engine" in opt
-
-    def test_u3d_ver(_, opt):
-        assert "Unity **6**" in opt
-
-    def test_mb_title(_, opt):
-        assert "### MonoBehaviour" in opt
-
-    def test_mb0(_, opt):
-        assert "When writing or reviewing `MonoBehaviour`" in opt
-
-    def test_mb1(_, opt):
-        assert "public class PlayerController : MonoBehaviour" in opt
-
-    def test_mb2(_, opt):
-        assert "public static PlayerController FindInScene()" in opt
-
-    def test_mb3(_, opt):
-        assert "private const string LOAD_TRIGGER_TAG" in opt
-
-    def test_mb4(_, opt):
-        assert "- **section order is fixed** and must" in opt
-
-    def test_mb5(_, opt):
-        assert "- **MonoBehaviour lifecycle methods**" in opt
-
-    def test_mb_guard1(_, opt):
-        assert "#### Inspector Assignment Guard" in opt
-
-    def test_mb_guard2(_, opt):
-        assert "place the guard block at the top" in opt
-
-    def test_mb_guard3(_, opt):
-        assert 'Debug.LogWarning($"must assign: nextSceneName}", this);' in opt
-
-    # c#  **********************************************************************
-
-    def assert_cs0(_, opt):
-        assert_cs0(opt)
-
-    def assert_cs1(_, opt):
-        assert_cs1(opt)
-
-    # braces  ******************************************************************
-
-    def test_brace_title(_, opt):
-        assert_brace_title(opt)
-
-    def test_brace1(_, opt):
-        assert_brace1(opt)
-
-    def test_brace2(_, opt):
-        assert_brace2(opt)
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, opt, i):
+        assert TESTEE_FILE_CONTENT[i] in opt
 
     # coder shared  ************************************************************
 

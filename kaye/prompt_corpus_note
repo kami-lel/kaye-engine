@@ -1,7 +1,17 @@
 
 todo resume role
 
+fixme desensitize personality
+
 todo agent behavior add md-style task list, when Claude "task" is not available
 
-todo standardize software dev lifecycle, with standardized vocab, in coder
+fixme sync abbr w/ dotfile commands
+fixme sync abbr w/ vs code shortcut & snippets
+todo add control-language style instruction
+
+
+fixme better german learner prompt
+
+todo write drone/subagent working w/ worktree
+todo utilize worktree & kaye-agent
 

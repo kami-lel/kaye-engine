@@ -12,14 +12,15 @@ import importlib.metadata
 from anytree import RenderTree, PreOrderIter
 
 from kaye import PROGRAM_NAME
-from kaye.prompt.blueprint_meta_nodes import BlueprintMetaNodes
-from kaye.prompt.meta_node_type import MetaNodeType
+from kaye.prompt.sidecar_nodes import (
+    BlueprintDescriptorSidecars,
+    SidecarNodeType,
+    get_sidecar_node_type,
+)
 
 from .base_prompt_node import BasePromptNode
-from .prompt_corpus_loader import (
-    load_prompt_corpus_tree,
-    HEADING_PREFIX_ELEMENT,
-)
+from .prompt_corpus_node import HEADING_PREFIX_ELEMENT
+from .prompt_corpus_loader import load_prompt_corpus_tree
 
 __all__ = ("PromptBlueprint",)
 
@@ -187,7 +188,7 @@ class PromptBlueprint(dict):
 
         bp.display_name = node_obj.name
 
-        bp.meta = BlueprintMetaNodes(main_node=node_obj)
+        bp.sidecars = BlueprintDescriptorSidecars(main_node=node_obj)
 
         return bp
 
@@ -210,7 +211,7 @@ class PromptBlueprint(dict):
             self.corpus = copy.deepcopy(corpus_override)
 
         self.display_name = display_name
-        self.meta = BlueprintMetaNodes()
+        self.sidecars = BlueprintDescriptorSidecars()
 
     # node operations  *********************************************************
     def is_checkmarked(self, node):
@@ -338,8 +339,8 @@ class PromptBlueprint(dict):
         render the **concrete prompt** that can be used as LLM system message
         from this blueprint's node checkmarking status
 
-        optionally auto-checkmarks meta nodes of specified type(s) before
-        rendering.
+        optionally auto-checkmarks conditional sidecar nodes of specified
+        type(s) before rendering.
 
         :param show_comment: show comment part after last line;
                 defaults to False
@@ -347,11 +348,11 @@ class PromptBlueprint(dict):
         :param disable_first_heading: whether disable showing top heading;
                 defaults to False
         :type disable_first_heading: bool, optional
-        :param contains_meta_nodes: auto-checkmark meta nodes of specified
-                type(s) whose parents are checkmarked; pass a
-                ``MetaNodeType`` flag or combination; defaults to
-                ``MetaNodeType.NONE`` (disabled)
-        :type contains_meta_nodes: MetaNodeType, optional
+        :param contains_sidecar_nodes: auto-checkmark conditional sidecar nodes
+                of specified type(s) whose parents are checkmarked; pass a
+                ``SidecarNodeType`` flag or combination; defaults to
+                ``SidecarNodeType.NONE`` (disabled)
+        :type contains_sidecar_nodes: SidecarNodeType, optional
         :return: generated prompt
         :rtype: str
         """
@@ -362,13 +363,13 @@ class PromptBlueprint(dict):
         *,
         show_comment=False,
         disable_first_heading=False,
-        contains_meta_nodes=MetaNodeType.NONE,
+        contains_sidecar_nodes=SidecarNodeType.NONE,
         **kwargs,
     ):
         """
         generate prompt as a list of lines from this blueprint
 
-        optionally auto-checkmarks meta nodes of specified type(s) before
+        optionally auto-checkmarks sidecar nodes of specified type(s) before
         rendering.
 
 
@@ -378,21 +379,21 @@ class PromptBlueprint(dict):
         :param disable_first_heading: whether disable showing top heading;
                 defaults to False
         :type disable_first_heading: bool, optional
-        :param contains_meta_nodes: auto-checkmark meta nodes of specified
-                type(s) whose parents are checkmarked; pass a
-                ``MetaNodeType`` flag or combination (e.g.,
-                ``MetaNodeType.PREREQUISITE | MetaNodeType.FOR_CLAUDE``);
-                defaults to ``MetaNodeType.NONE`` (disabled)
-        :type contains_meta_nodes: MetaNodeType, optional
+        :param contains_sidecar_nodes: auto-checkmark conditional sidecar nodes
+                of specified type(s) whose parents are checkmarked; pass a
+                ``SidecarNodeType`` flag or combination (e.g.,
+                ``SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE``);
+                defaults to ``SidecarNodeType.NONE`` (disabled)
+        :type contains_sidecar_nodes: SidecarNodeType, optional
         :return: list of prompt lines
         :rtype: list[str]
         """
-        if contains_meta_nodes != MetaNodeType.NONE:
+        if contains_sidecar_nodes != SidecarNodeType.NONE:
             working_bp = copy.copy(self)
             for node in PreOrderIter(working_bp.corpus):
-                if MetaNodeType.is_meta_node_of_type(
-                    node, contains_meta_nodes
-                ) and working_bp.is_checkmarked(node.parent):
+                node_type = get_sidecar_node_type(node)
+                if (node_type & contains_sidecar_nodes) and \
+                        working_bp.is_checkmarked(node.parent):
                     working_bp.checkmark(node)
         else:
             working_bp = self
@@ -478,7 +479,7 @@ class PromptBlueprint(dict):
             display_name=display_name, corpus_override=self.corpus
         )
 
-        merged.meta = self.meta | other.meta
+        merged.sidecars = self.sidecars | other.sidecars
 
         for k in keys:
             merged[k] = self.is_checkmarked(k) or other.is_checkmarked(k)
@@ -544,11 +545,11 @@ class PromptBlueprint(dict):
             corpus_override=corpus_override,
         )
 
-        # include all nodes; meta nodes are never auto-checkmarked
+        # include all nodes; sidecar nodes are never auto-checkmarked
         for node in PreOrderIter(bp.corpus):
             if not node.is_root:  # skip root node
                 key = hash(node)
-                bp[key] = is_full and not node.is_meta_node
+                bp[key] = is_full and not bool(get_sidecar_node_type(node))
 
         return bp
 
@@ -575,10 +576,10 @@ class PromptBlueprint(dict):
         # actual perform checking/unchecking
         self[node_hash] = is_checkmark
 
-        # add all descendants too; skip meta nodes when auto-checkmarking
+        # add all descendants too; skip sidecar nodes when auto-checkmarking
         if recursively:
             for d in node_obj.descendants:
-                if is_checkmark and d.is_meta_node:
+                if is_checkmark and bool(get_sidecar_node_type(d)):
                     continue
                 d_hash = hash(d)
                 if d_hash in self or is_checkmark:

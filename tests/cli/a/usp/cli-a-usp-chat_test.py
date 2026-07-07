@@ -1,9 +1,9 @@
 """
-cli-a-u-rapid_test.py
+cli-a-usp-chat_test.py
 
 Unit Tests (using pytest) for:
 
-CLAUDE.md content produced by ``kaye claude user-system-prompt -r`` (rapid stem)
+CLAUDE.md content produced by ``kaye claude user-system-prompt`` (chat stem)
 """
 
 import pytest
@@ -12,6 +12,9 @@ from tests import (
     TESTEE_INTRODUCTION_CONTENT,
     TESTEE_MD_BASIC_FORMAT_CONTENT,
     TESTEE_MD_ADD_FORMAT_CONTENT,
+    TESTEE_CHAT_ADDITIONAL_CONTENT,
+    TESTEE_CHAT_COMMENTARY_CASE_CONTENT,
+    TESTEE_ALWAYS_UNDERSTAND_ABBR,
     TESTEE_AGENT_BEHAVIOR_CONTENT,
 )
 from tests.cli.a import TESTEE_CLAUDE_BEHAVIOR_CONTENT
@@ -21,8 +24,8 @@ from tests.cli.a import TESTEE_CLAUDE_BEHAVIOR_CONTENT
 
 
 @pytest.fixture(scope="session")
-def content(rapid_content):
-    return rapid_content
+def content(chat_content):
+    return chat_content
 
 
 # Unit test classes  ###########################################################
@@ -30,11 +33,11 @@ def content(rapid_content):
 
 class TestBasic:  # ============================================================
 
-    def test_existence(self, rapid_path):
-        assert rapid_path.exists()
+    def test_existence(self, chat_path):
+        assert chat_path.exists()
 
-    def test_is_file(self, rapid_path):
-        assert rapid_path.is_file()
+    def test_is_file(self, chat_path):
+        assert chat_path.is_file()
 
 
 class TestContent:  # ===========================================================
@@ -49,6 +52,18 @@ class TestContent:  # ==========================================================
 
     @pytest.mark.parametrize("marker", TESTEE_MD_ADD_FORMAT_CONTENT)
     def test_md_add_format(self, content, marker):
+        assert marker in content
+
+    @pytest.mark.parametrize("marker", TESTEE_CHAT_ADDITIONAL_CONTENT)
+    def test_chat_additional(self, content, marker):
+        assert marker in content
+
+    @pytest.mark.parametrize("marker", TESTEE_CHAT_COMMENTARY_CASE_CONTENT)
+    def test_chat_commentary_case(self, content, marker):
+        assert marker in content
+
+    @pytest.mark.parametrize("marker", TESTEE_ALWAYS_UNDERSTAND_ABBR)
+    def test_always_understand_abbr(self, content, marker):
         assert marker in content
 
     @pytest.mark.parametrize("marker", TESTEE_AGENT_BEHAVIOR_CONTENT)

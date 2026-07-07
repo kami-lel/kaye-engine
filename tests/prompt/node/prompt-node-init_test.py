@@ -139,78 +139,19 @@ class TestInit:  ###############################################################
         conclusion.parent is root
         len(works.children) == 0
 
-    # content lines trimming  ==================================================
-    def test_trim1(_):
-        content_lines = ["", "aaa", "", "zzz"]
 
-        opt = PromptCorpusNode("AAA", None, content_lines)
+class TestAllowsDynamicNodeHeadingSyntax:  #####################################
 
-        print(opt)
-
-        assert opt._content_lines == ["aaa", "", "zzz"]
-
-    def test_trim2(_):
-        content_lines = ["", "", "", "aaa", "", "zzz"]
-
-        opt = PromptCorpusNode("AAA", None, content_lines)
-
-        print(opt)
-
-        assert opt._content_lines == ["aaa", "", "zzz"]
-
-    def test_trim3(_):
-        content_lines = ["aaa", "", "zzz", "", ""]
-
-        opt = PromptCorpusNode("AAA", None, content_lines)
-
-        print(opt)
-
-        assert opt._content_lines == ["aaa", "", "zzz"]
-
-    def test_trim4(_):
-        content_lines = ["", "aaa", "", "bbb", "", "ccc", "zzz", "", ""]
-
-        opt = PromptCorpusNode("AAA", None, content_lines)
-
-        print(opt)
-
-        assert opt._content_lines == ["aaa", "", "bbb", "", "ccc", "zzz"]
-
-    def test_trim5(_):
-        content_lines = [""]
-
-        opt = PromptCorpusNode("AAA", None, content_lines)
-
-        print(opt)
-
-        assert opt._content_lines == []
-
-    def test_trim6(_):
-        content_lines = ["", ""]
-
-        opt = PromptCorpusNode("AAA", None, content_lines)
-
-        print(opt)
-
-        assert opt._content_lines == []
-
-
-class TestCheckName:  ##########################################################
-
-    def test_fail1(_):
+    def test1(_):
         ipt = "(Abc Def)"
-        with pytest.raises(ValueError) as exec_info:
-            PromptCorpusNode(ipt, None, [])
+        opt = PromptCorpusNode(ipt, None, [])
 
-        opt = exec_info.value.args[0]
         print(opt)
-        assert opt == "illegal heading syntax: '(Abc Def)'"
+        assert opt.name == ipt
 
-    def test_fail2(_):
+    def test2(_):
         ipt = "(Some Content ZZZ)"
-        with pytest.raises(ValueError) as exec_info:
-            PromptCorpusNode(ipt, None, [])
+        opt = PromptCorpusNode(ipt, None, [])
 
-        opt = exec_info.value.args[0]
         print(opt)
-        assert opt == "illegal heading syntax: '(Some Content ZZZ)'"
+        assert opt.name == ipt

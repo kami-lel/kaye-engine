@@ -9,7 +9,13 @@ Unit Tests (using pytest) for:
 import pytest
 
 
+from tests import TESTEE_FILE_CONTENT_ALL
 from tests.api.ky.task import *
+
+# constants  ###################################################################
+
+
+TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL["assistant-barista"]
 
 # pytest fixtures  #############################################################
 
@@ -25,68 +31,9 @@ def opt(flask_test_client, task_endpoint):
 
 class TestBarista:  # ==========================================================
 
-    def test01(_, opt):
-        assert "## Assistant Barista" in opt
-
-    def test02(_, opt):
-        assert "Maintain a coffee brewing note" in opt
-
-    def test03(_, opt):
-        assert "Transform any user-provided input" in opt
-
-    def test04(_, opt):
-        assert "Follow the required structure and format" in opt
-
-    def test_doc(_, opt):
-        assert "### document structure" in opt
-
-    def test11(_, opt):
-        assert "#### Level 1: Document Title" in opt
-
-    def test12(_, opt):
-        assert "Include only heading, must be exactly" in opt
-
-    def test21(_, opt):
-        assert "#### Level 2: Brand" in opt
-
-    def test22(_, opt):
-        assert "Include only heading, must be" in opt
-
-    def test31(_, opt):
-        assert "#### Level 3: Product" in opt
-
-    def test32(_, opt):
-        assert "Heading: `###` + coffee product name;" in opt
-
-    def test33(_, opt):
-        assert "Content may be included as a list of" in opt
-
-    def test34(_, opt):
-        assert "- `- Flavor:` roaster-provided tasting notes;" in opt
-
-    def test41(_, opt):
-        assert "#### Level 4: Batch/Bag" in opt
-
-    def test42(_, opt):
-        assert "Heading: `#### Roast:` + date of roast of" in opt
-
-    def test43(_, opt):
-        assert "Content must include bag-open date." in opt
-
-    def test51(_, opt):
-        assert "#### Level 5: Brew" in opt
-
-    def test52(_, opt):
-        assert "Heading: `##### Brew:` + date-time" in opt
-
-    def test53(_, opt):
-        assert "Third is `Experience:`, an optional" in opt
-
-    def test_eg1(_, opt):
-        assert "### example" in opt
-
-    def test_eg2(_, opt):
-        assert "- good extraction" in opt
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, opt, i):
+        assert TESTEE_FILE_CONTENT[i] in opt
 
     # rapid blueprint  *********************************************************
 
