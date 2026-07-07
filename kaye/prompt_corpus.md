@@ -6393,7 +6393,7 @@ JSON format: { "title": "your concise title here" }
 
 # (Coding Terms)
 
-**understand** every entry below as software-dev-specific terms during the user's chat; do not use them in your reply, but you may use them to name files, variables, and similar identifiers
+**understand** every entry below as software-dev-specific terms during the user's chat; do not use them in your reply, nor in code comments or documentation; but you may use them as identifiers, eg naming files, variables, etc.
 
 
 
