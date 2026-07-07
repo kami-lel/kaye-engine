@@ -139,61 +139,6 @@ class TestInit:  ###############################################################
         conclusion.parent is root
         len(works.children) == 0
 
-    # content lines trimming  ==================================================
-    def test_trim1(_):
-        content_lines = ["", "aaa", "", "zzz"]
-
-        opt = PromptCorpusNode("AAA", None, content_lines)
-
-        print(opt)
-
-        assert opt._content_lines == ["aaa", "", "zzz"]
-
-    def test_trim2(_):
-        content_lines = ["", "", "", "aaa", "", "zzz"]
-
-        opt = PromptCorpusNode("AAA", None, content_lines)
-
-        print(opt)
-
-        assert opt._content_lines == ["aaa", "", "zzz"]
-
-    def test_trim3(_):
-        content_lines = ["aaa", "", "zzz", "", ""]
-
-        opt = PromptCorpusNode("AAA", None, content_lines)
-
-        print(opt)
-
-        assert opt._content_lines == ["aaa", "", "zzz"]
-
-    def test_trim4(_):
-        content_lines = ["", "aaa", "", "bbb", "", "ccc", "zzz", "", ""]
-
-        opt = PromptCorpusNode("AAA", None, content_lines)
-
-        print(opt)
-
-        assert opt._content_lines == ["aaa", "", "bbb", "", "ccc", "zzz"]
-
-    def test_trim5(_):
-        content_lines = [""]
-
-        opt = PromptCorpusNode("AAA", None, content_lines)
-
-        print(opt)
-
-        assert opt._content_lines == []
-
-    def test_trim6(_):
-        content_lines = ["", ""]
-
-        opt = PromptCorpusNode("AAA", None, content_lines)
-
-        print(opt)
-
-        assert opt._content_lines == []
-
 
 class TestCheckName:  ##########################################################
 

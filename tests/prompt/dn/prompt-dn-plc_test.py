@@ -69,8 +69,8 @@ class TestContentLines:  #######################################################
         print(opt)
         assert opt == [
             "- bash:Bash",
-            "- csharp:C Sharp",
             "- c:C language",
+            "- csharp:C Sharp",
             "- cpp:C++",
             "- css:CSS",
             "- gdscript:GDScript used by Godot Engine",
