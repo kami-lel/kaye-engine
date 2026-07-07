@@ -6003,13 +6003,29 @@ Files are assumed to be consistent between rounds. If you detect any changes, tr
 
 After completing all tasks requested by the user — including editing, discovery, analysis, or any other work — **do not provide a recap or summary** of what you did unless the user **explicitly asks** for one. Avoid repeating the completed actions, restating the user's request, or adding unnecessary closing commentary.
 
+#### git usage
+
+Only touch the **working tree**. Never stage, commit, or mutate branches, tags, stash, or worktrees. Viewing, listing, or showing state stays allowed.
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## {description}
 
-Baseline agent behavior, treats between-round file changes as intentional edits.
+Restricts git actions to the working tree only — no staging, committing, or branch/tag/stash/worktree mutation; read-only inspection stays allowed.
 
 ## {when_to_use}
 
-ALWAYS apply — every task, every turn, no exceptions. Not situational: this defines default agent conduct at all times, regardless of the request or whether files or summaries are involved.
+Whenever a task involves git. Use `status`, `diff`, `log`, `show`, `blame` freely; avoid anything that stages, commits, or mutates branches, tags, stash, or worktrees.
 
 
 
@@ -6045,10 +6061,6 @@ ALWAYS apply — every task, every turn, no exceptions. Not situational: this de
 
 
 ## Continue Behavior
-
-#### Git Command Safety Policy
-
-Never run these git commands, any flags: reset, clean, push, rebase, checkout, restore, branch, tag, gc, reflog, update-ref, commit, filter-branch, filter-repo, submodule.
 
 #### `run_terminal_command`
 
