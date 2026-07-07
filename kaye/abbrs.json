@@ -5952,9 +5952,21 @@
   },
   "respond,response,responsible": {
     "abbrs": {
-      "resp": {
+      "rspn": {
         "priority": 5,
         "tags": [
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "correspond,corresponding": {
+    "abbrs": {
+      "crsp": {
+        "priority": 5,
+        "tags": [
+          "always_understand",
           "letters_only"
         ],
         "wrap": "word"
@@ -6468,6 +6480,7 @@
       "|": {
         "priority": 5,
         "tags": [
+          "always_understand",
           "ascii_only",
           "single_character"
         ],

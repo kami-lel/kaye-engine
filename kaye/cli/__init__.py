@@ -2,8 +2,6 @@
 Kaye Python CLI
 """
 
-# Bug must use "-" instead of "_" in commands
-
 from kaye.prompt import PromptBlueprint, load_prompt_corpus_tree
 from kaye.prompt.embedded_blueprints import *
 

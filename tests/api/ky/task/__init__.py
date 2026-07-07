@@ -253,5 +253,5 @@ def assert_role(opt):
     assert "# Role" in opt
 
 
-def assert_abbr_heading(opt):
+def assert_abbr_heading(opt):  # TODO better unit test pattern
     assert "# (Abbreviations)" in opt

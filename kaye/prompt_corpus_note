@@ -5,12 +5,9 @@ fixme desensitize personality
 
 todo agent behavior add md-style task list, when Claude "task" is not available
 
-todo standardize software dev lifecycle, with standardized vocab, in coder
+Todo standardize software dev lifecycle, with standardized vocab, in coder,
+eg unit test, helper fx
 todo add control-language style instruction
-
-TODO add always understand abbr node for: in user system prompt
-TODO add terms for dev phases: unit tests etc. helper fx
-
 
 
 fixme better german learner prompt
