@@ -6,7 +6,6 @@ single-node blueprint and printing its generated prompt
 """
 
 from kaye.prompt import PromptBlueprint
-from kaye.kamilog import gen_comment_banner_centered
 
 # constants  ###################################################################
 BLUEPRINT_TEXT = """ ○
@@ -17,10 +16,5 @@ BLUEPRINT_TEXT = """ ○
 if __name__ == "__main__":
     blueprint = PromptBlueprint.parse(BLUEPRINT_TEXT, disable_prune=True)
 
-    # FIXME better formatting
-    print(gen_comment_banner_centered("empty query", 1))
-    print(gen_comment_banner_centered("abbr node content", 2))
-    prompt = blueprint.generate_prompt(
-        disable_first_heading=True,
-    )
+    prompt = blueprint.generate_prompt()
     print(prompt)
