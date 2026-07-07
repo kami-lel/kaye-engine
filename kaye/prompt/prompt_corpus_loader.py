@@ -83,7 +83,6 @@ def load_prompt_corpus_tree():
 ROOT_NODE_NAME = "○"
 HEADING_PREFIX_ELEMENT = "#"
 
-# TODO may moved to prompt corpus tree
 # TODO make dynamic node utilize this too?
 
 
