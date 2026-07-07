@@ -156,6 +156,14 @@ TESTEE_CODING_TERMS_ABBR = [
     "- sch:search",
 ]
 
+
+TESTEE_USABLE_ABBRS = [
+    "# (Usable Abbreviations)",
+    "- &:and",
+    "- /:or",
+    "- ※:which see,reference to",
+]
+
 TESTEE_FILE_CONTENT_ALL = {
     "continue-behavior": [
         "## Continue Behavior",
@@ -181,13 +189,10 @@ TESTEE_FILE_CONTENT_ALL = {
         "Use a space character as the thousands separator",
     ],
     "abbr-currency-symbols": [
-        "- $:(default)US Dollar",
+        "- $:US Dollar (default)",
         "- HK$:港元 Hong Kong Dollar",
-        "- JP¥:円 Japanese Yen",
-        "- ¢:(default)US cent",
+        "- ¢:US cent (default)",
         "- ¤:any non-specific currency",
-        "- ¥:(default)Chinese Yuan,RMB",
-        "- €:Euro",
     ],
     "abbr-emoji": [
         "- ⚙️:settings,preferences",
@@ -239,7 +244,6 @@ TESTEE_FILE_CONTENT_ALL = {
         "- ue:Unreal Engine code",
     ],
     "abbr-single-character": [
-        "- $:(default)US Dollar",
         "- &:and",
         "- >:greater than",
         "- b:bit",
@@ -309,7 +313,6 @@ TESTEE_FILE_CONTENT_ALL = {
         "- opn:opinion",
         "- opp:oppose,opposition",
         "- opt:output",
-        "- org:organization",
         "- ori:origin,original",
         "- ot:other",
     ],
@@ -320,7 +323,6 @@ TESTEE_FILE_CONTENT_ALL = {
         "- rej:reject",
         "- req:requirement",
         "- rls:release",
-        "- rm:remove",
         "- rsch:research",
         "- rsp:respect,respective,respectively",
         "- rsrc:resource",
