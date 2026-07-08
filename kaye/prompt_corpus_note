@@ -1,19 +1,21 @@
 
 todo resume role
 
-fixme desensitize personality
+Fixme desensitize personality
 
 todo agent behavior add md-style task list, when Claude "task" is not available
 
-fixme sync abbr w/ dotfile commands
-fixme sync abbr w/ vs code shortcut & snippets
+Fixme sync abbr w/ dotfile commands
+Fixme sync abbr w/ vs code shortcut & snippets
 todo add control-language style instruction
 
 
 fixme better german learner prompt
 
-todo write drone/subagent working w/ worktree
-todo utilize worktree & kaye-agent
+Todo write drone/subagent working w/ worktree
+Todo utilize worktree & kaye-agent
 
 Todo py docstring: flag like kwarg (default=False) and description ie whether ...
+Fixme git worktree: exact wording main vs. linked worktree
+
 
