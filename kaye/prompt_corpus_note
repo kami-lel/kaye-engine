@@ -15,3 +15,5 @@ fixme better german learner prompt
 todo write drone/subagent working w/ worktree
 todo utilize worktree & kaye-agent
 
+Todo py docstring: flag like kwarg (default=False) and description ie whether ...
+
