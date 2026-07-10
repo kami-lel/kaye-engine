@@ -17,6 +17,7 @@ Todo utilize worktree & kaye-agent
 Bug compact-with-maintenance skill need to be rm
 Bug abbr rule is not strict enough
 Bug language rule is not strong
+Bug tries to use git mv a lot
 Fixme consider make chat & rapid single blueprint + dynamic node
 
 Todo py docstring: flag like kwarg (default=False) and description ie whether ...
