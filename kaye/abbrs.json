@@ -3530,6 +3530,18 @@
       }
     }
   },
+  "hint": {
+    "abbrs": {
+      "HINT ": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "log_level"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "history": {
     "abbrs": {
       "his.": {
