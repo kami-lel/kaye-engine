@@ -1169,6 +1169,18 @@
       }
     }
   },
+  "caution": {
+    "abbrs": {
+      "CAUT.": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "log_level"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "century,eg 2nd C.": {
     "abbrs": {
       "C.": {
@@ -1753,7 +1765,7 @@
         ],
         "wrap": "symbol"
       },
-      "CRIT ": {
+      "CRIT.": {
         "priority": 5,
         "tags": [
           "letters_only",
@@ -2179,6 +2191,18 @@
       }
     }
   },
+  "done": {
+    "abbrs": {
+      "DONE ": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "log_level"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "download": {
     "abbrs": {
       "dl": {
@@ -2365,6 +2389,18 @@
         "priority": 5,
         "tags": [
           "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "enter": {
+    "abbrs": {
+      "ENTER": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "log_level"
         ],
         "wrap": "word"
       }
@@ -2746,6 +2782,18 @@
         "tags": [
           "always_understand",
           "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "fail,failure": {
+    "abbrs": {
+      "FAIL ": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "log_level"
         ],
         "wrap": "word"
       }
@@ -3653,8 +3701,16 @@
   },
   "important,importance": {
     "abbrs": {
-      "mpt": {
+      "IMPT.": {
         "priority": 5,
+        "tags": [
+          "letters_only",
+          "log_level"
+        ],
+        "wrap": "word"
+      },
+      "mpt": {
+        "priority": 4,
         "tags": [
           "always_understand",
           "letters_only"
@@ -3858,15 +3914,15 @@
       "info": {
         "priority": 6,
         "tags": [
-          "letters_only",
-          "log_level"
+          "letters_only"
         ],
         "wrap": "word"
       },
       "INFO ": {
         "priority": 5,
         "tags": [
-          "letters_only"
+          "letters_only",
+          "log_level"
         ],
         "wrap": "word"
       }
@@ -4880,6 +4936,18 @@
       }
     }
   },
+  "note": {
+    "abbrs": {
+      "NOTE ": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "log_level"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "nothing": {
     "abbrs": {
       "n/t": {
@@ -5223,6 +5291,18 @@
         "tags": [
           "always_understand",
           "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "pass": {
+    "abbrs": {
+      "PASS ": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "log_level"
         ],
         "wrap": "word"
       }
@@ -6308,6 +6388,18 @@
       }
     }
   },
+  "skip": {
+    "abbrs": {
+      "SKIP ": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "log_level"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "small": {
     "abbrs": {
       "sml": {
@@ -6566,10 +6658,18 @@
   "successful": {
     "abbrs": {
       "succ": {
-        "priority": 5,
+        "priority": 4,
         "tags": [
           "always_understand",
           "letters_only"
+        ],
+        "wrap": "word"
+      },
+      "SUCC.": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "log_level"
         ],
         "wrap": "word"
       }
@@ -6839,6 +6939,18 @@
           "always_understand",
           "letters_only",
           "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "tip": {
+    "abbrs": {
+      "TIP  ": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "log_level"
         ],
         "wrap": "word"
       }
