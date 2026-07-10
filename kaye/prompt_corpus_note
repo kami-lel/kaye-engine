@@ -15,6 +15,7 @@ fixme better german learner prompt
 Todo write drone/subagent working w/ worktree
 Todo utilize worktree & kaye-agent
 Bug compact-with-maintenance skill need to be rm
+Bug abbr rule is not strict enough
 
 Todo py docstring: flag like kwarg (default=False) and description ie whether ...
 Fixme git worktree: exact wording main vs. linked worktree
