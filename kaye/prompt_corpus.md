@@ -2087,12 +2087,12 @@ Use when scaffolding a new repo, organizing an existing one, or deciding where a
 #### development stage examples
 
 - toy/prototypes: `0.1.z`~`0.4.z`
-- vertical slice (VS): `0.5.z`~`0.8.z`
+- Vertical Slice (VS): `0.5.z`~`0.8.z`
 - pre-alpha: `0.9.z`
 - alpha: `1.0.0-alpha`, `1.0.0-alpha.2`, ~~
 - beta: `1.0.0-beta`, `1.0.0-beta.2`, ~~
-- release candidate (RC): `1.0.0-rc`, `1.0.0-rc.2`
-- first release: `1.0.0`
+- Release Candidate (RC): `1.0.0-rc`, `1.0.0-rc.2`
+- first Stable Release: `1.0.0`
 
 
 
