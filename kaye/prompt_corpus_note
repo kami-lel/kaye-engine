@@ -19,7 +19,7 @@ Bug abbr rule is not strict enough
 Bug language rule is not strong
 Bug tries to use git mv a lot
 Fixme consider make chat & rapid single blueprint + dynamic node
-Fixme change vocab: feature landing & stable release
+Fixme change vocab: feature landing
 
 Todo py docstring: flag like kwarg (default=False) and description ie whether ...
 Fixme git worktree: exact wording main vs. linked worktree
