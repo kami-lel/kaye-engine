@@ -6061,6 +6061,18 @@
       }
     }
   },
+  "return,returning,returned": {
+    "abbrs": {
+      "rtn": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "revolution": {
     "abbrs": {
       "rev": {
