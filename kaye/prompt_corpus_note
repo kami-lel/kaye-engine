@@ -22,6 +22,7 @@ Fixme consider make chat & rapid single blueprint + dynamic node
 Fixme change vocab: feature landing
 
 Todo py docstring: flag like kwarg (default=False) and description ie whether ...
+Todo py docstring: module naming special case for file eg __init__.py
 Fixme git worktree: exact wording main vs. linked worktree
 
 
