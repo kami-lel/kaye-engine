@@ -19,6 +19,7 @@ Bug compact-with-maintenance skill need to be rm
 Bug abbr rule is not strict enough
 Bug language rule is not strong
 Bug tries to use git mv a lot
+Todo distinguish project/repo root vs. workspace root
 Fixme consider make chat & rapid single blueprint + dynamic node
 Fixme change vocab: feature landing
 
