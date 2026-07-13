@@ -5218,6 +5218,18 @@
       }
     }
   },
+  "overwrite": {
+    "abbrs": {
+      "owr": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "override": {
     "abbrs": {
       "oride": {
