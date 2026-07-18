@@ -2679,6 +2679,99 @@ Use to create, update, or review `CONTEXT.md` or `CONTEXT.local.md`, or to captu
 
 
 
+## Initialize Project
+
+Bootstrap a repository's baseline documentation from nothing, in one pass.
+
+
+
+
+
+#### Instructions
+
+- inspect the repository once with available tools — layout, configs, manifests, scripts, tests — and learn remaining context from the conversation; reuse these findings across every step below
+- run each create skill in order, skipping any whose target file already exists:
+
+  1. **Create README** → `README.md`
+  2. **Create CHANGELOG** → `CHANGELOG.md`
+  3. **Create AGENTS and CONTEXT** → `AGENTS.md` + `CONTEXT.md`
+  4. **Create Docs** → files under `docs/`
+
+- split content by purpose: human onboarding → README; release history → CHANGELOG; agent behavior → AGENTS; system knowledge → CONTEXT; topic deep-dives → `docs/`; never duplicate across files
+- write a file or section only when project information supports it
+
+
+
+
+
+#### Output
+
+Create the documentation files at their standard locations.
+Return a brief summary listing every file created.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Bootstraps a repository's entire baseline documentation set in one pass — `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CONTEXT.md`, and `docs/` — from a single repository inspection, splitting content by purpose with no duplication and skipping files that already exist.
+
+### {when_to_use}
+
+When a bare repo needs its documentation scaffolded all at once — "set up docs," "set up this project/repo," "document this project," "create the docs from scratch." Not for updating or fixing existing docs.
+
+### {prerequisite}
+
+- follow `Create README`
+- follow `Create CHANGELOG`
+- follow `Create AGENTS and CONTEXT`
+- follow `Create Docs`
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Create README
 
@@ -3336,99 +3429,6 @@ Use this skill when the user wants to update existing README, AGENTS, or `docs/`
 
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Initialize Project
-
-Bootstrap a repository's baseline documentation from nothing, in one pass.
-
-
-
-
-
-#### Instructions
-
-- inspect the repository once with available tools — layout, configs, manifests, scripts, tests — and learn remaining context from the conversation; reuse these findings across every step below
-- run each create skill in order, skipping any whose target file already exists:
-
-  1. **Create README** → `README.md`
-  2. **Create CHANGELOG** → `CHANGELOG.md`
-  3. **Create AGENTS and CONTEXT** → `AGENTS.md` + `CONTEXT.md`
-  4. **Create Docs** → files under `docs/`
-
-- split content by purpose: human onboarding → README; release history → CHANGELOG; agent behavior → AGENTS; system knowledge → CONTEXT; topic deep-dives → `docs/`; never duplicate across files
-- write a file or section only when project information supports it
-
-
-
-
-
-#### Output
-
-Create the documentation files at their standard locations.
-Return a brief summary listing every file created.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### {description}
-
-Bootstraps a repository's entire baseline documentation set in one pass — `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CONTEXT.md`, and `docs/` — from a single repository inspection, splitting content by purpose with no duplication and skipping files that already exist.
-
-### {when_to_use}
-
-When a bare repo needs its documentation scaffolded all at once — "set up docs," "set up this project/repo," "document this project," "create the docs from scratch." Not for updating or fixing existing docs.
-
-### {prerequisite}
-
-- follow `Create README`
-- follow `Create CHANGELOG`
-- follow `Create AGENTS and CONTEXT`
-- follow `Create Docs`
-- use `Style Guide Markdown Format`
-- follow `Style Guide Good Writing` rules for correctness and clarity
-
 
 
 
