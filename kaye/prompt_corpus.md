@@ -3529,7 +3529,8 @@ Use when the user describes work at a high level rather than a concrete edit —
 
 ### {for_claude}
 
-- present the finished Plan through ``ExitPlanMode`` so approval is explicit and recorded
+- call `EnterPlanMode` before gathering, so the whole discovery pass runs under plan-mode protection
+- present the finished Plan through `ExitPlanMode` so approval is explicit and recorded
 - leave `TodoWrite` unused while planning. Open it only once the user approves, one todo per Step, in Plan order
 
 
@@ -3730,7 +3731,7 @@ track resolution with the `TodoWrite` tool — one todo per unmerged path, marke
 
 
 
-## Prepare for Feature Finish
+## Prepare for Feature Landing
 
 Before merging the current feature branch, sync the docs it affects: log its changes and update the agent-facing docs.
 
@@ -3875,7 +3876,7 @@ Cuts a project release: brings `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CONTEX
 
 ### {when_to_use}
 
-Reach for this on release requests — "ship v1.2.3," "cut a release," "tag a version," "bump the version," "prep the release." Not for logging a single in-progress change (use the changelog-maintain skill) or finishing a feature branch before merge (use the feature-finish skill).
+Reach for this on release requests — "ship v1.2.3," "cut a release," "tag a version," "bump the version," "prep the release." Not for logging a single in-progress change (use the changelog-maintain skill) or landing a feature branch before merge (use the feature-landing skill).
 
 ### {prerequisite}
 

@@ -1,9 +1,9 @@
 """
-cli-a-s-prompts-prepare_feature_test.py
+cli-a-s-prompts-resolve_merge_conflict_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``prepare-for-feature-landing``
+creation of ``resolve-merge-conflict``
 """
 
 import pytest
@@ -17,9 +17,8 @@ from tests.cli.a.s import (
 # constants  ###################################################################
 
 
-SKILL_NAME = "prepare-for-feature-landing"
+SKILL_NAME = "resolve-merge-conflict"
 TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
-TESTEE_PREREQUISITE_CONTENT = TESTEE_PREREQUISITE_CONTENT_ALL[SKILL_NAME]
 
 
 # Pytest fixtures  #############################################################
@@ -89,11 +88,13 @@ class TestContent:  # ==========================================================
         assert TESTEE_FILE_CONTENT[i] in testee_content
 
 
-class TestPrerequisite:  # ====================================================
+class TestClaude:  # ===========================================================
 
     def test_heading(_, testee_content):
-        assert assert_prerequisite_heading_line(testee_content, 3)
+        assert assert_for_claude_heading_line(testee_content, 3)
 
-    @pytest.mark.parametrize("i", range(len(TESTEE_PREREQUISITE_CONTENT)))
-    def test_prerequisite(_, testee_content, i):
-        assert assert_prerequisite_content_line(SKILL_NAME, testee_content, i)
+    @pytest.mark.parametrize(
+        "i", range(len(TESTEE_FOR_CLAUDE_CONTENT_ALL[SKILL_NAME]))
+    )
+    def test_for_claude(_, testee_content, i):
+        assert assert_for_claude_content_line(SKILL_NAME, testee_content, i)

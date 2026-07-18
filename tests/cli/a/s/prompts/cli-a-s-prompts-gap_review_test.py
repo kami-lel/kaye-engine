@@ -1,9 +1,9 @@
 """
-cli-a-s-prompts-prepare_feature_test.py
+cli-a-s-prompts-gap_review_test.py
 
 Unit Tests (using pytest) for:
 
-creation of ``prepare-for-feature-landing``
+creation of ``gap-review``
 """
 
 import pytest
@@ -17,7 +17,7 @@ from tests.cli.a.s import (
 # constants  ###################################################################
 
 
-SKILL_NAME = "prepare-for-feature-landing"
+SKILL_NAME = "gap-review"
 TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[SKILL_NAME]
 TESTEE_PREREQUISITE_CONTENT = TESTEE_PREREQUISITE_CONTENT_ALL[SKILL_NAME]
 
