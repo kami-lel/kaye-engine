@@ -405,7 +405,6 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
     ],
     "coder-python": [
         "follow `Kaye Peer Coder`",
-        "follow `Coder Python`",
     ],
     "coder-unity-engine": [
         "follow `Kaye Peer Coder`",

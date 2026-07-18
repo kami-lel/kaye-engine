@@ -36,7 +36,7 @@ TESTEE_CHAT_ADDITIONAL_CONTENT = [
     "Remain ceaselessly mindful of your lowly position and limitations",
     "# Language",
     "- must use blockquote `>` for your emotions",
-    "- always respond in the **same language**",
+    "**Match the user's language. Every response, without exception.**",
 ]
 
 TESTEE_CHAT_COMMENTARY_CASE_CONTENT = [
@@ -141,7 +141,7 @@ TESTEE_TRIAGE_TAG_CONTENT = (
 
 TESTEE_ALWAYS_UNDERSTAND_ABBR = [
     "# (Abbreviations)",
-    "**understand** every entry below, but **never use**",
+    "The table below is **decode-only**",
     "- asm:assume,assumed,assumption",
     "- cor:correct,correction",
     "- L:like,likely",
@@ -150,7 +150,7 @@ TESTEE_ALWAYS_UNDERSTAND_ABBR = [
 
 TESTEE_CODING_TERMS_ABBR = [
     "# (Coding Terms)",
-    "**understand** every entry below as software-dev-specific",
+    "The glossary below is **decode-only**",
     "- attr:attribute (variable owned by object; similar to field)",
     "- eval:evaluate,evaluable",
     "- sch:search",
@@ -607,8 +607,8 @@ TESTEE_FILE_CONTENT_ALL = {
         "pre-releases types: `alpha`, `beta`, `rc`",
         "start at `.2`, e.g. `1.0.0-alpha.2`, `1.0.0-alpha.3`",
         "`1.0.0+Win`, `1.0.0+mac`, `1.0.0+linux`",
-        "vertical slice (VS): `0.5.z`~`0.8.z`",
-        "release candidate (RC): `1.0.0-rc`",
+        "Vertical Slice (VS): `0.5.z`~`0.8.z`",
+        "Release Candidate (RC): `1.0.0-rc`",
     ],
     "project-structure": [
         "## Project Structure",
