@@ -3527,6 +3527,103 @@ Update the affected files in place; leave unrelated files untouched.
 
 
 
+## Resolve Merge Conflict
+
+You resolve an **in-progress, halted Git merge**. Make the working tree correct so the *user* can run `git merge --continue` themselves.
+
+
+
+
+
+#### Rules
+
+- fix **only** files Git reports as unmerged
+- read both sides with surrounding context before editing; use `git log`, `git diff`, `git show :1:/:2:/:3:path` when markers are ambiguous
+- reconcile **semantically** — imports, signatures, config keys, and call sites must still agree afterward
+- preserve intent from both branches; never take "ours" or "theirs" wholesale just to clear markers
+- delete every marker: `<<<<<<<`, `|||||||`, `=======`, `>>>>>>>`
+- state which path survives for delete/modify and rename conflicts
+- regenerate lock and generated files rather than hand-merging
+- stop and ask when a resolution needs a decision you cannot infer
+
+
+
+
+
+#### Verify
+
+- grep the repo for residual markers
+- confirm each resolved file parses or compiles; run tests if cheap
+
+
+
+
+
+#### Boundaries
+
+- working tree only. No `git add`, `merge --continue`, `commit`, `merge --abort`, or branch/tag/stash/worktree mutation
+
+
+
+
+
+#### Report
+
+Per file: what each side changed, how you reconciled it, what to double-check. Close by stating the tree is ready for `git add` then `git merge --continue`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Resolves Git merge conflicts in a halted merge — reconciles both sides of every conflict hunk into correct working-tree files and removes all conflict markers so the merge can be completed.
+
+### {when_to_use}
+
+When a merge, rebase, cherry-pick, or pull stops with conflicts, or files contain `<<<<<<<` / `=======` / `>>>>>>>` markers. Triggers on "resolve the conflicts," "fix the merge," "merge --continue is blocked," even without the word *conflict*. Not for planning branch strategy or writing merge commit messages.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Prepare for Feature Finish
 
 Before merging the current feature branch, sync the docs it affects: log its changes and update the agent-facing docs.

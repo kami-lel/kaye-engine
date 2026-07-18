@@ -6,7 +6,7 @@ group abbreviations for export
 
 from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
 
-# TODO add prompt: gap review
+# TODO add prompt: gap review, resolve merge conflict
 
 # constants  ###################################################################
 
