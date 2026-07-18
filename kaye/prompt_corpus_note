@@ -14,15 +14,15 @@ fixme better german learner prompt
 
 Todo write drone/subagent working w/ worktree
 Todo utilize worktree & kaye-agent
-BUG compact-with-maintenance skill need to be rm
+Bug compact-with-maintenance skill need to be rm
 BUG abbr rule is not strict enough
 BUG language rule is not strong
 Bug tries to use git mv a lot
-BUG exportable blueprint is not clear
+Bug exportable blueprint logic opmz: not readable
 TODO project add step by step plan
-TODO distinguish project/repo root vs. workspace root
+Todo distinguish project/repo root vs. workspace root
 Fixme consider make chat & rapid single blueprint + dynamic node
-FIXME change vocab: feature landing
+Fixme change vocab: feature landing
 
 TODO py dunder method cb headings
 TODO py docstring: flag like kwarg (default=False) and description ie whether ...
