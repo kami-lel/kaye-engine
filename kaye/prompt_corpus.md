@@ -4837,8 +4837,8 @@ CB1C   ###############  heading  ###############
 
 **Heading style** — keep it short and name the real block (`parse CLI flags`, not `section 1`). Case by visibility:
 
-- **Title Case** = public / exported interface — `Public API`, `Entry Point`
-- **lowercase** = internal / implementation detail — `constants`, `auxiliary`
+- **Title Case** = public / exported interface — `Public API`, `Entry Point`, `Properties`, `CLI`, `Public Method`, `Public Attributes`, `Public Fields`
+- **lowercase** = internal / implementation detail — `constants`, `auxiliaries`, `private variables`, `private methods`/`attributes`/`fields`
 
 **Use** at genuine boundaries — modules, sections, functions, related groups, output phases — and only when a block is long enough that a separator aids navigation. **Avoid** for line-level or sequential groups inside a function (use plain comments), in ordinary prose, and anywhere frequent enough to become noise.
 
@@ -4855,7 +4855,7 @@ CB1C   ###############  heading  ###############
 // constants  ##################################################################
 const int kValues[] = {10, 20, 30};
 
-// auxiliary  ##################################################################
+// auxiliaries  ################################################################
 // number helpers  =============================================================
 double compute_average(const int* v, int n) {
     // accumulate  *************************************************************
@@ -5656,6 +5656,7 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 - do **not** use type hints anywhere (no variable annotations, no function parameter or return type annotations).
 - prefer `str.format()` for string formatting, dont use f-strings (`f""`).
 - for every `try`/`except` block, bind the exception with `as e` (eg `except ValueError as e:`); if that block re-raises, the `raise` must include `from e`.
+- may use CB of `dunder methods`
 
 
 
