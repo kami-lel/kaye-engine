@@ -16,7 +16,7 @@ todo write drone/subagent working w/ worktree
 todo utilize worktree & kaye-agent
 Bug compact-with-maintenance skill need to be rm
 bug tries to use git mv a lot
-Bug exportable blueprint logic opmz: not readable
+BUG exportable blueprint logic opmz: not readable
 todo distinguish project/repo root vs. workspace root
 Fixme consider make chat & rapid single blueprint + dynamic node
 Bug plan for step by step should work w/ exit plan tool
@@ -25,7 +25,7 @@ fixme move print out content to "terminal", include CB, upd its when to use
 
 fixme git worktree: exact wording main vs. linked worktree
 
-Todo make continue support deprecated
-Fixme reduce continue scope (limited set of exported things)
-Fixme reduce continue UTs
+TODO make continue support deprecated
+FIXME reduce continue scope (limited set of exported things)
+FIXME reduce continue UTs
 
