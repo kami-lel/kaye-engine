@@ -9,7 +9,7 @@ from kaye import logger
 from kaye.cli.claude import convert_display_name2skill_name
 from .skill_md import SkillMDFile
 
-# Fixme include user/auto invokable instruction on prompts
+# FIXME include user/auto invokable instruction on prompts
 
 
 class AgentSkillFolder:  ########################################################

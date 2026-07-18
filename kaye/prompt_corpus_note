@@ -1,7 +1,7 @@
 
 todo resume role
 
-Fixme sensitize personality
+FIXME sensitize personality w/ layer
 
 todo agent behavior add md-style task list, when Claude "task" is not available
 
@@ -14,12 +14,12 @@ fixme better german learner prompt
 
 Todo write drone/subagent working w/ worktree
 Todo utilize worktree & kaye-agent
-Bug compact-with-maintenance skill need to be rm
+BUG compact-with-maintenance skill need to be rm
 Bug tries to use git mv a lot
-Bug exportable blueprint logic opmz: not readable
+BUG exportable blueprint logic opmz: not readable
 Todo distinguish project/repo root vs. workspace root
-Fixme consider make chat & rapid single blueprint + dynamic node
-Fixme change vocab: feature landing
+FIXME consider make chat & rapid single blueprint + dynamic node
+FIXME change vocab: feature landing
 Fixme move print out content to "terminal", include CB, upd its when to use
 
 Fixme git worktree: exact wording main vs. linked worktree
