@@ -112,10 +112,20 @@ exports, touch these locations in order:
 5. **`tests/cli/a/s/<group>/cli-a-s-<group>-<slug>_test.py`** — per-skill
    content test (classes `TestBasic`, `TestHeader`, `TestStructure`,
    `TestContent`); group folders: `coder/`, `proj/`, `style/`, `pe/`,
-   `others/` (catch-all incl. Elements nodes), `role/` (Role section)
+   `others/` (catch-all incl. Elements nodes), `role/` (Role section),
+   `prompts/` (`# Projects` workflow prompts, see below)
 6. **`tests/cli/c/c/<group>/cli-c-c-bp-<slug>_test.py`** — continue config
    content test; fixture is `testee_rules_folder / (display_name + ".md")`
    (file named by display name, not kebab slug)
+
+`# Projects` workflow prompts (e.g. `Gap Review`, `Plan for Step By Step`) use
+a **separate, parallel pipeline**: they skip steps 1–2 above and instead go
+into `PROMPTS_BLUEPRINTS` in `kaye/cli/prompts_blueprints.py` — build with
+`PromptBlueprint.create_from_node(_prompt_node["<Name>"])`, adding
+`recursively=True` if the corpus node has `####` sub-sections — then follow
+steps 3–6 the same way (test group folder `prompts/`, not the blueprint's
+topic). `PROMPTS_BLUEPRINTS` is consumed by both `claude skill` and `continue
+config` exports identically to `EXPORTABLE_BLUEPRINTS`.
 
 ### `c/c` `TestHeader` description/when-to-use pattern
 
