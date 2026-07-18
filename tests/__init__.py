@@ -855,8 +855,8 @@ TESTEE_FILE_CONTENT_ALL = {
         "#### Output",
         "Create `AGENTS.md` and `CONTEXT.md` at the project root.",
     ],
-    "prepare-for-feature-finish": [
-        "## Prepare for Feature Finish",
+    "prepare-for-feature-landing": [
+        "## Prepare for Feature Landing",
         "Before merging the current feature branch",
         "#### Instructions",
         "- identify this branch's changes once",
