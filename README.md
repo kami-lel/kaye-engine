@@ -71,10 +71,11 @@ Q.v. [Kaye HTTP API documentation](docs/http_api_doc.md)
 
 ### Python CLI
 
-A simple **Kaye Python CLI** is provided:
+A simple **Kaye Python CLI** is provided, exposed as the `kaye` command once
+installed (or run as `python -m kaye`):
 
 ```bash
-python -m kaye --help
+kaye --help
 ```
 
 
@@ -86,8 +87,8 @@ python -m kaye --help
 Generate a plugin package using the Kaye CLI:
 
 ```bash
-python -m kaye claude plugin --zip  # or
-python -m kaye a p -z
+kaye claude plugin --zip  # or
+kaye a p -z
 ```
 
 Upload the generated `.zip` file to [Claude Desktop](https://claude.ai) settings under *Plugins* to enable Kaye integration.
@@ -97,8 +98,8 @@ Upload the generated `.zip` file to [Claude Desktop](https://claude.ai) settings
 Set up Kaye for the Claude Code VS Code Extension with one command:
 
 ```bash
-python -m kaye claude vs-code-extension  # or
-python -m kaye a v
+kaye claude vs-code-extension  # or
+kaye a v
 ```
 
 This writes the User System Prompt to `~/.claude/CLAUDE.md`, creates a

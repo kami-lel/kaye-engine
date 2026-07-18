@@ -49,25 +49,27 @@ Full suite — **only for PR/merge or when explicitly asked**:
 pytest
 ```
 
-Run the CLI and HTTP API locally:
+Run the CLI and HTTP API locally. The editable install registers a `kaye`
+console script (`[project.scripts]` in `pyproject.toml`), so `kaye ...` and
+`python -m kaye ...` are equivalent — prefer the shorter `kaye` form:
 
 ```bash
-python -m kaye --help          # show CLI usage
-python -m kaye http            # start Flask HTTP API (port 11255)
-python -m kaye continue config                  # export rules to ~/.continue
-python -m kaye continue config LOCAL_CONFIG_FOLDER  # export to custom path
-python -m kaye continue prompt PROMPTS_FOLDER        # export Continue prompts
-python -m kaye claude skill SKILLS_FOLDER            # export blueprints as Skill folders
-python -m kaye claude skill -z ZIPS_FOLDER           # create .zip Skill packages
-python -m kaye claude plugin PLUGINS_FOLDER          # export blueprints as plugin folder
-python -m kaye claude plugin -z PLUGINS_FOLDER       # create .plugin file (-n omits version)
-python -m kaye claude marketplace                    # export marketplace to ~/.claude/kaye_marketplace (default)
-python -m kaye claude marketplace MARKETPLACE        # export to custom folder
-python -m kaye claude code                           # export plugin + CLAUDE.md into ~/.claude
-python -m kaye claude user-system-prompt             # export Chat blueprint to ~/.claude/CLAUDE.md
-python -m kaye claude user-system-prompt -r          # use Rapid blueprint instead of Chat
-python -m kaye claude user-system-prompt -c          # append Kaye Peer Coder content
-python -m kaye claude vs-code-extension              # export CLAUDE.md + marketplace + settings.json into ~/.claude
+kaye --help          # show CLI usage
+kaye http            # start Flask HTTP API (port 11255)
+kaye continue config                  # export rules to ~/.continue
+kaye continue config LOCAL_CONFIG_FOLDER  # export to custom path
+kaye continue prompt PROMPTS_FOLDER        # export Continue prompts
+kaye claude skill SKILLS_FOLDER            # export blueprints as Skill folders
+kaye claude skill -z ZIPS_FOLDER           # create .zip Skill packages
+kaye claude plugin PLUGINS_FOLDER          # export blueprints as plugin folder
+kaye claude plugin -z PLUGINS_FOLDER       # create .plugin file (-n omits version)
+kaye claude marketplace                    # export marketplace to ~/.claude/kaye_marketplace (default)
+kaye claude marketplace MARKETPLACE        # export to custom folder
+kaye claude code                           # export plugin + CLAUDE.md into ~/.claude
+kaye claude user-system-prompt             # export Chat blueprint to ~/.claude/CLAUDE.md
+kaye claude user-system-prompt -r          # use Rapid blueprint instead of Chat
+kaye claude user-system-prompt -c          # append Kaye Peer Coder content
+kaye claude vs-code-extension              # export CLAUDE.md + marketplace + settings.json into ~/.claude
 ```
 
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
