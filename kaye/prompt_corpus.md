@@ -5867,6 +5867,8 @@ expose ``EmailValidator`` and ``validate_address`` as the public API
 
 **Boolean return** — when `:rtype:` is `bool`, start the `:return:` description with "if" and describe only the positive/true case, eg `:return: if the invoice is both signed and paid in full`; write the positive case clearly enough that no "else"/negative case needs stating.
 
+**Boolean parameter** — when `:type:` is `bool`, start the `:param:` description with "whether" and describe only what the true case turns on, eg `:param strict: whether to reject addresses with non-ASCII local parts`; phrase the true case clearly enough that the false case needs no stating.
+
 
 
 
@@ -5879,13 +5881,17 @@ writes, formats Python docstrings in Sphinx/reStructuredText
 
 trigger whenever a Python function, method, class, or module is written or edited — docstrings are near-mandatory, so add or update one by default, not just on explicit request. Also trigger on docstring, Sphinx, reST, `:param:`, `:return:`, `:raises:`, `:type:` mentions
 
-##### {globs}
+#### {globs}
 
 ```glob
 **/*.py
 ```
 
-### {prerequisite}
+
+
+
+
+#### {prerequisite}
 
 - follow `Kaye Peer Coder`
 - follow `Coder Python`
@@ -5965,7 +5971,10 @@ trigger on `test_*.py`/`*_test.py` files, pytest, fixtures, mocks, parametrize, 
 **/*_test.py
 ```
 
-### {prerequisite}
+
+
+
+#### {prerequisite}
 
 - follow `Kaye Peer Coder`
 - follow `Coder Python`

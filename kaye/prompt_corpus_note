@@ -22,7 +22,6 @@ Fixme consider make chat & rapid single blueprint + dynamic node
 Fixme change vocab: feature landing
 
 TODO py dunder method cb headings
-TODO py docstring: flag like kwarg (default=False) and description ie whether ...
 Fixme git worktree: exact wording main vs. linked worktree
 
 
