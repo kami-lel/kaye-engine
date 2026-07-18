@@ -116,7 +116,7 @@ PROMPT_FILENAME2NAME = {
     "create-readme": "Create README",
     "maintain-changelog": "Maintain CHANGELOG",
     "maintain-docs": "Maintain Docs",
-    "prepare-for-feature-finish": "Prepare for Feature Finish",
+    "prepare-for-feature-landing": "Prepare for Feature Landing",
     "prepare-for-version-release": "Prepare for Version Release",
     "resolve-triage-tags": "Resolve Triage Tags",
 }
@@ -274,7 +274,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         ' \\"add agent instructions\\" or \\"make an agents file.\\"'
         '"'
     ),
-    "prepare-for-feature-finish": "Records a feature branch",
+    "prepare-for-feature-landing": "Records a feature branch",
     "prepare-for-version-release": "Cuts a project release",
 }
 
@@ -450,7 +450,7 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
         "follow `Coder CONTEXT Writer`",
         "use `Style Guide Markdown Format`",
     ],
-    "prepare-for-feature-finish": [
+    "prepare-for-feature-landing": [
         "follow `Maintain CHANGELOG`",
         "follow `Maintain AGENTS and CONTEXT`",
         "use `Style Guide Markdown Format`",
