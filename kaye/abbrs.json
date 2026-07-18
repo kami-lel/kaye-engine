@@ -4265,6 +4265,18 @@
       }
     }
   },
+  "likewise": {
+    "abbrs": {
+      "Lw": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "always_understand"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "list": {
     "abbrs": {
       "l": {

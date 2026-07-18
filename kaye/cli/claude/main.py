@@ -7,6 +7,8 @@ from kaye.cli.claude.skill.parser import register_skill_subparser
 from kaye.cli.claude.vs_code.parser import register_vs_code_subparser
 from kaye.cli.claude.user_prompt.parser import register_user_prompt_subparser
 
+# Todo add prompt: gap review, resolve merge conflict, Plan for Step By Step
+
 
 def register_cli_claude_parser(  ###############################################
     cli_subparser,
