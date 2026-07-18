@@ -15,7 +15,9 @@ through a Python API, an HTTP API, and a CLI.
   `kaye/__init__.py`, paired with `DISPLAY_NAME` = `"Prompt Engineering Project
   Kaye"` used as the Claude plugin `displayName`)
 - core dependencies: `anytree`, `flask`, `json5`, `pyahocorasick`, `pyyaml`
-- entry point: `python -m kaye` (CLI; `http` subcommand starts the Flask app)
+- entry point: `kaye` console script (`[project.scripts]` in
+  `pyproject.toml`, mapped to `kaye.__main__:main`); `python -m kaye` still
+  works identically. `http` subcommand starts the Flask app
 
 ### Key Concepts
 

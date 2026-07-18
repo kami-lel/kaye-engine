@@ -24,6 +24,9 @@ dependencies = [
 homepage = "https://github.com/kami-lel/kaye/blob/main/README.md"
 Repository = "https://github.com/kami-lel/kaye"
 
+[project.scripts]
+kaye = "kaye.__main__:main"
+
 [project.optional-dependencies]
 dev = [
     "pytest",
