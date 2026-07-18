@@ -4,7 +4,13 @@ Entry Point for Kaye Flask HTTP API
 
 from kaye.cli.cli_main import cli_parser
 
-# Entry Point  #################################################################
-if __name__ == "__main__":
+
+# pylint: disable-next=missing-function-docstring
+def main():
     parsed_args = cli_parser.parse_args()
     parsed_args.func(parsed_args)  # call respective main function
+
+
+# Entry Point  #################################################################
+if __name__ == "__main__":
+    main()

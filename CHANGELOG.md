@@ -20,6 +20,10 @@
 
 ### Added
 
+- **`kaye` console-script entry point** — `pyproject.toml` gains
+  `[project.scripts]` mapping `kaye` to `kaye.__main__:main`; the CLI now
+  runs directly as `kaye --help`, no longer requiring `python -m kaye`
+
 ### Changed
 
 ### Deprecated
