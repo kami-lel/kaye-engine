@@ -5,21 +5,22 @@ FIXME sensitize personality w/ layer
 
 todo agent behavior add md-style task list, when Claude "task" is not available
 
-Fixme sync abbr w/ dotfile commands
-Fixme sync abbr w/ vs code shortcut & snippets
+fixme sync abbr w/ dotfile commands
+fixme sync abbr w/ vs code shortcut & snippets
 todo add control-language style instruction
 
 
 fixme better german learner prompt
 
-Todo write drone/subagent working w/ worktree
-Todo utilize worktree & kaye-agent
+todo write drone/subagent working w/ worktree
+todo utilize worktree & kaye-agent
 BUG compact-with-maintenance skill need to be rm
-Bug tries to use git mv a lot
+bug tries to use git mv a lot
 BUG exportable blueprint logic opmz: not readable
-Todo distinguish project/repo root vs. workspace root
+todo distinguish project/repo root vs. workspace root
 FIXME consider make chat & rapid single blueprint + dynamic node
 FIXME change vocab: feature landing
-Fixme move print out content to "terminal", include CB, upd its when to use
 
-Fixme git worktree: exact wording main vs. linked worktree
+fixme move print out content to "terminal", include CB, upd its when to use
+
+fixme git worktree: exact wording main vs. linked worktree
