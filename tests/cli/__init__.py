@@ -119,6 +119,9 @@ PROMPT_FILENAME2NAME = {
     "prepare-for-feature-landing": "Prepare for Feature Landing",
     "prepare-for-version-release": "Prepare for Version Release",
     "resolve-triage-tags": "Resolve Triage Tags",
+    "gap-review": "Gap Review",
+    "resolve-merge-conflict": "Resolve Merge Conflict",
+    "plan-for-step-by-step": "Plan for Step By Step",
 }
 
 TESTEE_DESCRIPTION_CONTENT_ALL = {
@@ -276,6 +279,11 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     ),
     "prepare-for-feature-landing": "Records a feature branch",
     "prepare-for-version-release": "Cuts a project release",
+    "gap-review": "Audits whole repository for gaps, drift, unfinished seams",
+    "resolve-merge-conflict": "Resolves Git merge conflicts in a halted merge",
+    "plan-for-step-by-step": (
+        "Turns a high-level task request into an ordered Plan"
+    ),
 }
 
 
@@ -467,6 +475,12 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
         "follow `Style Guide Good Writing` rules for correctness and clarity",
         "use **git** tools to learn difference from last version",
     ],
+    "gap-review": [
+        "read `Project Structure` to know which top-level files",
+        "read `Triage Tags` and label each finding",
+        "use `Style Guide Markdown Format`",
+        "follow `Style Guide Good Writing` rules for correctness and clarity",
+    ],
 }
 
 
@@ -475,6 +489,26 @@ TESTEE_FOR_CLAUDE_CONTENT_ALL = {
         (
             "if the version number or the release date is missing, use"
             " `AskUserQuestion` to ask the user before proceeding"
+        ),
+    ],
+    "resolve-merge-conflict": [
+        (
+            "track resolution with the `TodoWrite` tool"
+            " — one todo per unmerged path"
+        ),
+    ],
+    "plan-for-step-by-step": [
+        (
+            "call `EnterPlanMode` before gathering, so the whole"
+            " discovery pass runs under plan-mode protection"
+        ),
+        (
+            "present the finished Plan through `ExitPlanMode`"
+            " so approval is explicit and recorded"
+        ),
+        (
+            "leave `TodoWrite` unused while planning. Open it only"
+            " once the user approves, one todo per Step, in Plan order"
         ),
     ],
 }
