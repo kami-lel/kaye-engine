@@ -6,6 +6,8 @@ group abbreviations for export
 
 from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
 
+# TODO add prompt: gap review
+
 # constants  ###################################################################
 
 _ABBR_TEMPLATE = "Abbr "
@@ -33,7 +35,7 @@ _WRAP_NAMES = {
 }
 
 
-# helpers  #####################################################################
+# auxiliaries  #################################################################
 
 
 class ExportableAbbr(list):  ###################################################
