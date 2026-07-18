@@ -15,8 +15,6 @@ fixme better german learner prompt
 Todo write drone/subagent working w/ worktree
 Todo utilize worktree & kaye-agent
 Bug compact-with-maintenance skill need to be rm
-BUG abbr rule is not strict enough
-BUG language rule is not strong
 Bug tries to use git mv a lot
 Bug exportable blueprint logic opmz: not readable
 TODO project add step by step plan
