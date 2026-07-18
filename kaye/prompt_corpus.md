@@ -3529,7 +3529,8 @@ Use when the user describes work at a high level rather than a concrete edit —
 
 ### {for_claude}
 
-- present the finished Plan through ``ExitPlanMode`` so approval is explicit and recorded
+- call `EnterPlanMode` before gathering, so the whole discovery pass runs under plan-mode protection
+- present the finished Plan through `ExitPlanMode` so approval is explicit and recorded
 - leave `TodoWrite` unused while planning. Open it only once the user approves, one todo per Step, in Plan order
 
 
