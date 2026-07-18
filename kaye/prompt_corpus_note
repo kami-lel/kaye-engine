@@ -19,6 +19,7 @@ bug tries to use git mv a lot
 BUG exportable blueprint logic opmz: not readable
 todo distinguish project/repo root vs. workspace root
 FIXME consider make chat & rapid single blueprint + dynamic node
+BUG plan for step by step should work w/ exit plan tool
 
 fixme move print out content to "terminal", include CB, upd its when to use
 
