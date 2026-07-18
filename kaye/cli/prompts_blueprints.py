@@ -56,14 +56,29 @@ initialize_project_blueprint = PromptBlueprint.create_from_node(
     _prompt_node["Initialize Project"]
 )
 
-# Prepare for Feature Finish
+# Prepare for Feature Landing
 prepare_for_feature_blueprint = PromptBlueprint.create_from_node(
-    _prompt_node["Prepare for Feature Finish"]
+    _prompt_node["Prepare for Feature Landing"]
 )
 
 # Prepare for Version Release
 prepare_for_release_blueprint = PromptBlueprint.create_from_node(
     _prompt_node["Prepare for Version Release"]
+)
+
+# Plan for Step By Step
+plan_step_by_step_blueprint = PromptBlueprint.create_from_node(
+    _prompt_node["Plan for Step By Step"], recursively=True
+)
+
+# Resolve Merge Conflict
+resolve_merge_conflict_blueprint = PromptBlueprint.create_from_node(
+    _prompt_node["Resolve Merge Conflict"], recursively=True
+)
+
+# Gap Review
+gap_review_blueprint = PromptBlueprint.create_from_node(
+    _prompt_node["Gap Review"], recursively=True
 )
 
 # Entry Point  #################################################################
@@ -81,4 +96,7 @@ PROMPTS_BLUEPRINTS = [
     initialize_project_blueprint,
     prepare_for_feature_blueprint,
     prepare_for_release_blueprint,
+    plan_step_by_step_blueprint,
+    resolve_merge_conflict_blueprint,
+    gap_review_blueprint,
 ]
