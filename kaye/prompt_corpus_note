@@ -20,6 +20,7 @@ Bug exportable blueprint logic opmz: not readable
 Todo distinguish project/repo root vs. workspace root
 Fixme consider make chat & rapid single blueprint + dynamic node
 Fixme change vocab: feature landing
+Fixme move print out content to "terminal", include CB
 
 TODO py dunder method cb headings
 Fixme git worktree: exact wording main vs. linked worktree
