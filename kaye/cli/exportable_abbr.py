@@ -6,8 +6,6 @@ group abbreviations for export
 
 from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
 
-# Todo add prompt: gap review, resolve merge conflict
-
 # constants  ###################################################################
 
 _ABBR_TEMPLATE = "Abbr "
