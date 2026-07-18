@@ -295,7 +295,7 @@ VS Code `PreCompact` hook:
   `maintain_changelog`, `create_agents_and_context`,
   `maintain_agents_and_context`, `create_docs`, `maintain_docs`,
   `initialize_project`, `compact_with_maintenance`,
-  `prepare_for_feature_finish`, `prepare_for_version_release`
+  `prepare_for_feature_landing`, `prepare_for_version_release`
 - **Project CONTEXT Writer** — new corpus section for creating and maintaining
   `CONTEXT.md` and `CONTEXT.local.md`
 - **test suites** — `tests/cli/a/v/` (VS Code export), `tests/cli/a/c/`
@@ -636,7 +636,7 @@ Continue Export:
 
 - **Continue Export**: documentation workflow blueprints and Continue export refactor
 
-  - `prepare_for_feature_finish` — prepare feature branch for final submission;
+  - `prepare_for_feature_landing` — prepare feature branch for final submission;
     generates prompts to update `CHANGELOG.md` and documentation files
   - `prepare_for_release` — prepare release branch with comprehensive documentation
     updates
