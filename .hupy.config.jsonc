@@ -144,7 +144,7 @@
       // run before pre-commit's core logic
       "trail": [
         {
-          "cmd": "pytest tests",
+          "cmd": "pytest tests/",
           "allow_commit_types": ["INTEGRATION"],
           "allow_failure": false,
           "remark": "Integration UTs"
