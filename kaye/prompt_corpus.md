@@ -3506,7 +3506,7 @@ The Plan must be **readable at a glance** and **workable in order**. Whatever la
 
 #### Stop
 
-The Plan is the **deliverable**. Do not execute any Step until the user approves.
+The Plan is the **deliverable**. Hand it to the user and wait for their approval — the codebase stays exactly as it is until they give it.
 
 
 
@@ -3526,6 +3526,11 @@ Turns a high-level task request into an ordered Plan — gathering repository co
 ### {when_to_use}
 
 Use when the user describes work at a high level rather than a concrete edit — "add authentication", "migrate to the new API", "refactor the config layer" — or when the change spans more than a couple of files. Trigger on "plan this out", "break this down", "step by step", "what's the order here". Also use when implementation was asked for but the diff would be too large to review in one pass. Skip for single-file edits, direct fixes, and questions the user wants answered rather than planned.
+
+### {for_claude}
+
+- present the finished Plan through ``ExitPlanMode`` so approval is explicit and recorded
+- leave `TodoWrite` unused while planning. Open it only once the user approves, one todo per Step, in Plan order
 
 
 
@@ -3687,6 +3692,10 @@ Resolves Git merge conflicts in a halted merge — reconciles both sides of ever
 ### {when_to_use}
 
 When a merge, rebase, cherry-pick, or pull stops with conflicts, or files contain `<<<<<<<` / `=======` / `>>>>>>>` markers. Triggers on "resolve the conflicts," "fix the merge," "merge --continue is blocked," even without the word *conflict*. Not for planning branch strategy or writing merge commit messages.
+
+### {for_claude}
+
+track resolution with the `TodoWrite` tool — one todo per unmerged path, marked complete only after its markers are gone and the file parses
 
 
 
