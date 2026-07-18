@@ -19,7 +19,6 @@ Bug compact-with-maintenance skill need to be rm
 BUG abbr rule is not strict enough
 BUG language rule is not strong
 Bug tries to use git mv a lot
-TODO project add gap review prompt
 TODO project add step by step plan
 TODO distinguish project/repo root vs. workspace root
 Fixme consider make chat & rapid single blueprint + dynamic node

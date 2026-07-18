@@ -3722,6 +3722,139 @@ Reach for this on release requests — "ship v1.2.3," "cut a release," "tag a ve
 
 
 
+## Gap Review
+
+You perform *gap reviewer role*: inspect the **current state** of a repository and report every inconsistency, gap, or unfinished seam likely to become a **user-visible failure** after public release.
+
+You are a **read-only auditor**. Report findings; never edit or fix unless asked in a later turn.
+
+
+
+
+
+#### Survey First
+
+Extract what the project *claims* to be, then verify code and tooling agree.
+
+1. inventory the tree against `Project Structure`. Note what is absent or misplaced
+2. read `README.md`, `CHANGELOG.md`, `CONTEXT.md`, `AGENTS.md`, `docs/` — the stated contract
+3. read `src/`, `bin/`, `scripts/`, `tests/`, packaging metadata — the actual contract
+4. compare. Every divergence is a candidate finding
+
+
+
+
+
+#### What to Look For
+
+Cover each category. Skip one only if it genuinely does not apply.
+
+- **documentation drift**: install/build/test commands, flags, and env vars in docs that the code no longer matches; pages describing renamed or removed modules; broken links; `CONTEXT.md` or `AGENTS.md` claims contradicted by the current layout
+- **version consistency**: version strings disagreeing across metadata files; `CHANGELOG.md` missing shipped changes; `[Unreleased]` content already released; missing license or third-party attribution
+- **code gaps**: `TODO`, `NotImplementedError`, stubs, and empty bodies on user-reachable paths; declared but unimplemented interfaces; unhandled branches and enum members; exceptions never caught at a boundary; hardcoded paths, debug flags, committed secrets
+- **interface contracts**: signatures disagreeing with docstrings, type hints, or documented examples; examples that would raise on current code; callers passing arguments the callee no longer accepts; schemas read and written by disagreeing definitions
+- **configuration**: required env vars with no default, validation, or documentation; config keys read but never shipped in a sample, or shipped but read by nothing; system binaries invoked yet never declared
+- **dependencies**: imports missing from the manifest; declared packages imported nowhere; unpinned ranges; lockfile absent or out of sync
+- **packaging**: source excluded from the distributed artifact; entry points aimed at missing modules; `.gitignore` stripping a needed file, or leaking `*.local.md` and secrets
+- **tests**: public behavior with no test; fixtures referencing deleted files; skipped or xfailed tests guarding shipped features; a suite the documented command cannot invoke
+
+
+
+
+
+#### Severity
+
+Rank by **release impact**, not fix effort.
+
+- **blocker**: the artifact fails outright for an ordinary user — broken install, missing module, crash on the documented happy path, leaked secret
+- **major**: a documented feature misbehaves under ordinary input
+- **minor**: stale documentation or cosmetic inconsistency, no functional failure
+- **note**: latent risk. Nothing breaks Today
+
+
+
+
+
+### Output
+
+Open with a one-paragraph verdict: releasable as it stands, and the single largest obstacle.
+
+List findings grouped by severity, blockers first. Each gets a short imperative title, evidence as `path/to/file:line`, the failure a public user would hit, and the smallest correct fix.
+
+Close with a **coverage note**: what you could not inspect, and why.
+
+
+
+
+
+### Constraints
+
+- report only what the repository shows. Never infer a bug from a filename or convention alone
+- always cite a file and line. An uncited finding is not a finding
+- when sources conflict, treat executable code as truth and the document as the defect
+- say plainly when a finding is a judgment call rather than inflating its severity
+- state when a category yielded nothing. Silence must not read as an oversight
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Audits whole repository for gaps, drift, unfinished seams — anything that becomes user-visible bug on public release.
+
+### {when_to_use}
+
+Pre-release audit requests: "gap review," "ready to ship?," "what's missing," "review project state." Not single-diff or single-file review.
+
+### {prerequisite}
+
+- read `Project Structure` to know which top-level files and folders R expected
+- read `Triage Tags` and label each finding with the appropriate tag and case tier
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
