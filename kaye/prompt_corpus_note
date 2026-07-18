@@ -1,7 +1,7 @@
 
 todo resume role
 
-Fixme desensitize personality
+Fixme sensitize personality
 
 todo agent behavior add md-style task list, when Claude "task" is not available
 
@@ -14,17 +14,20 @@ fixme better german learner prompt
 
 Todo write drone/subagent working w/ worktree
 Todo utilize worktree & kaye-agent
-Todo merge conflict resolver prompt
+TODO merge conflict resolver prompt
 Bug compact-with-maintenance skill need to be rm
-Bug abbr rule is not strict enough
-Bug language rule is not strong
+BUG abbr rule is not strict enough
+BUG language rule is not strong
 Bug tries to use git mv a lot
-Todo distinguish project/repo root vs. workspace root
+TODO project add gap review prompt
+TODO project add step by step plan
+TODO distinguish project/repo root vs. workspace root
 Fixme consider make chat & rapid single blueprint + dynamic node
 Fixme change vocab: feature landing
 
-Todo py docstring: flag like kwarg (default=False) and description ie whether ...
-Todo py docstring: module naming special case for file eg __init__.py
+TODO py dunder method cb headings
+TODO py docstring: flag like kwarg (default=False) and description ie whether ...
+TODO py docstring: module naming special case for file eg __init__.py
 Fixme git worktree: exact wording main vs. linked worktree
 
 
