@@ -5832,6 +5832,16 @@ define ``EmailValidator`` and ``validate_address``
 """
 ```
 
+For `__init__.py`, `__main__.py`, and `conftest.py`, the bare filename is ambiguous — prefix it with the dotted path of the containing package or directory (eg `my_package/sub/__init__.py` → `my_package.sub.__init__.py`):
+
+```python
+"""
+my_package.__init__.py
+(SINGLE EMPTY LINE)
+expose ``EmailValidator`` and ``validate_address`` as the public API
+"""
+```
+
 
 
 ##### Field Rules

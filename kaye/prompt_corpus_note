@@ -23,7 +23,6 @@ Fixme change vocab: feature landing
 
 TODO py dunder method cb headings
 TODO py docstring: flag like kwarg (default=False) and description ie whether ...
-TODO py docstring: module naming special case for file eg __init__.py
 Fixme git worktree: exact wording main vs. linked worktree
 
 
