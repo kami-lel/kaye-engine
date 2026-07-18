@@ -116,8 +116,9 @@ intentional — preserve them. The top-level (`#`) sections, in order:
   `README`/`CHANGELOG`/`AGENTS` writers, and project workflow prompts: `Create
   README`, `Maintain README`, `Create CHANGELOG`, `Maintain CHANGELOG`,
   `Create AGENTS and CONTEXT`, `Maintain AGENTS and CONTEXT`, `Create Docs`,
-  `Maintain Docs`, `Initialize Project`, `Maintenance Before Compact`, `Prepare
-  for Feature Landing`, `Prepare for Version Release`
+  `Maintain Docs`, `Initialize Project`, `Maintenance Before Compact`, `Plan
+  for Step By Step`, `Resolve Merge Conflict`, `Prepare for Feature Landing`,
+  `Prepare for Version Release`, `Gap Review`
 - **Prompt Engineering** — `Prompt Writer`, `Skill Description Writer`
 - **Kaye Cash Tracker** / **Kaye Commit Sense** / **Kaye Event Radar** —
   standalone task prompts (expense extraction, commit-message generation,
@@ -181,6 +182,9 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
         - `tests/cli/a/s/others/` — per-skill content tests for miscellaneous
           blueprints (chat, triage-tags, date-time, IPA, etc.)
         - `tests/cli/a/s/proj/` — per-skill content tests for project blueprints
+        - `tests/cli/a/s/prompts/` — per-skill content tests for `Projects`
+          workflow prompts (`PROMPTS_BLUEPRINTS`, e.g. Create README, Gap
+          Review, Plan for Step By Step)
         - `tests/cli/a/s/role/` — per-skill content tests for role blueprints
         - `tests/cli/a/s/style/` — per-skill content tests for style blueprints
         - `tests/cli/a/s/pe/` — per-skill content tests for prompt-engineering

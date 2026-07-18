@@ -23,12 +23,32 @@
 - **`kaye` console-script entry point** — `pyproject.toml` gains
   `[project.scripts]` mapping `kaye` to `kaye.__main__:main`; the CLI now
   runs directly as `kaye --help`, no longer requiring `python -m kaye`
+- **`Gap Review`, `Resolve Merge Conflict`, `Plan for Step By Step` skills**
+  — wired into `PROMPTS_BLUEPRINTS` (`kaye/cli/prompts_blueprints.py`), so
+  `kaye claude skill` (and its downstream plugin/marketplace/VS Code
+  exports) now generate `gap-review`, `resolve-merge-conflict`, and
+  `plan-for-step-by-step` skills from prompt content that already existed
+  in `prompt_corpus.md`; new `tests/cli/a/s/prompts/` test files cover all
+  three
 
 ### Changed
+
+- **`Plan for Step By Step` `{for_claude}` guidance** — now also calls
+  `EnterPlanMode` before gathering, so the whole discovery pass runs under
+  plan-mode protection (previously only called `ExitPlanMode` after)
+- **`kamilog`** bumped to `v2.8.0` — new `NOTE`/`TIP`/`HINT`/`IMPORTANT`/
+  `CAUTION` log levels and matching logger methods; `AnsiColor` enum
+  replaced by combinable `AnsiStyle` flags (foreground/background/bold/
+  underline); `AnsiRenderer` gains `is_disabled` to force-disable color and
+  `color_triage_tag()` for BUG/FIXME/TODO/HACK coloring
 
 ### Deprecated
 
 ### Removed
+
+- stale `# Todo add prompt: gap review, resolve merge conflict, Plan for
+  Step By Step` comment in `kaye/cli/claude/main.py`, resolved by the
+  additions above
 
 ### Fixed
 
