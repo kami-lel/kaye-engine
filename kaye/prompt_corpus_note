@@ -23,7 +23,7 @@ TODO project add gap review prompt
 TODO project add step by step plan
 TODO distinguish project/repo root vs. workspace root
 Fixme consider make chat & rapid single blueprint + dynamic node
-Fixme change vocab: feature landing
+FIXME change vocab: feature landing
 
 TODO py dunder method cb headings
 TODO py docstring: flag like kwarg (default=False) and description ie whether ...
