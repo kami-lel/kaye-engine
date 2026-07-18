@@ -216,11 +216,11 @@ def assert_lang_title(opt):
 
 
 def assert_lang1(opt):
-    assert "Conversation language consistency:" in opt
+    assert "Match the user's language. Every response, without exception." in opt
 
 
 def assert_lang2(opt):
-    assert "- in each response, use only the current" in opt
+    assert "**One language per response.**" in opt
 
 
 def assert_element_title(opt):
