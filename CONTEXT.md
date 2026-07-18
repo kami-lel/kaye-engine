@@ -117,7 +117,7 @@ intentional — preserve them. The top-level (`#`) sections, in order:
   README`, `Maintain README`, `Create CHANGELOG`, `Maintain CHANGELOG`,
   `Create AGENTS and CONTEXT`, `Maintain AGENTS and CONTEXT`, `Create Docs`,
   `Maintain Docs`, `Initialize Project`, `Maintenance Before Compact`, `Prepare
-  for Feature Finish`, `Prepare for Version Release`
+  for Feature Landing`, `Prepare for Version Release`
 - **Prompt Engineering** — `Prompt Writer`, `Skill Description Writer`
 - **Kaye Cash Tracker** / **Kaye Commit Sense** / **Kaye Event Radar** —
   standalone task prompts (expense extraction, commit-message generation,

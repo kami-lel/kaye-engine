@@ -56,9 +56,9 @@ initialize_project_blueprint = PromptBlueprint.create_from_node(
     _prompt_node["Initialize Project"]
 )
 
-# Prepare for Feature Finish
+# Prepare for Feature Landing
 prepare_for_feature_blueprint = PromptBlueprint.create_from_node(
-    _prompt_node["Prepare for Feature Finish"]
+    _prompt_node["Prepare for Feature Landing"]
 )
 
 # Prepare for Version Release
