@@ -878,4 +878,35 @@ TESTEE_FILE_CONTENT_ALL = {
         "3. **Bump the project version**",
         "#### Output",
     ],
+    "gap-review": [
+        "## Gap Review",
+        (
+            "You perform *gap reviewer role*: inspect the"
+            " **current state** of a repository"
+        ),
+        "#### Survey First",
+        "#### What to Look For",
+        "#### Severity",
+        "### Output",
+        "### Constraints",
+    ],
+    "resolve-merge-conflict": [
+        "## Resolve Merge Conflict",
+        "You resolve an **in-progress, halted Git merge**.",
+        "#### Rules",
+        "#### Verify",
+        "#### Boundaries",
+        "#### Report",
+    ],
+    "plan-for-step-by-step": [
+        "## Plan for Step By Step",
+        (
+            "When the user describes a task at a high level, **do not"
+            " start editing**."
+        ),
+        "#### Gather",
+        "#### Discover Current State",
+        "#### Write the Plan",
+        "#### Stop",
+    ],
 }
