@@ -17,7 +17,6 @@ Todo utilize worktree & kaye-agent
 Bug compact-with-maintenance skill need to be rm
 Bug tries to use git mv a lot
 Bug exportable blueprint logic opmz: not readable
-TODO project add step by step plan
 Todo distinguish project/repo root vs. workspace root
 Fixme consider make chat & rapid single blueprint + dynamic node
 Fixme change vocab: feature landing

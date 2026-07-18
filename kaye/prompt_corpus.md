@@ -3463,6 +3463,101 @@ Use this skill when the user wants to update existing README, AGENTS, or `docs/`
 
 
 
+
+## Plan for Step By Step
+
+When the user describes a task at a high level, **do not start editing**. Produce a **Plan** first.
+
+
+
+
+
+#### Gather
+
+Read before you plan. Resolve the task's scope from the repository itself — entry points, existing conventions, the files the task will touch, and anything the description leaves ambiguous. Prefer reading the actual code over assuming its shape. If a genuine blocker remains after reading, ask **one** question; otherwise state the assumption inline and continue.
+
+
+
+
+
+#### Discover Current State
+
+Establish where the project stands **now**: what already exists, what is partially done, what is missing. The Plan starts from the real state, never from a clean slate.
+
+
+
+
+
+#### Write the Plan
+
+The Plan must be **readable at a glance** and **workable in order**. Whatever layout serves that, use it — but every Step must be findable, numbered, and unambiguous.
+
+- always use the word **Step** — never "phase", "task", "stage", or "part"
+- number Steps from `1`, incrementing by 1 — `1`, `2`, `3`
+- order Steps so each one can be done, reviewed, and left in a Working state before the next begins
+- each Step touches only **a few files**, small enough to review at a Glance
+- name the exact files each Step touches
+- say what changes and why, in one or two lines — no code dumps
+- when a Step is too large to review at a glance, break it into sub-Steps numbered by depth — `1.1`, `1.2`, then `1.1.1` if needed. Nest only as far as the task requires; a flat list is preferred when it fits
+
+
+
+
+
+#### Stop
+
+The Plan is the **deliverable**. Do not execute any Step until the user approves.
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Turns a high-level task request into an ordered Plan — gathering repository context, establishing current state, and breaking work into numbered Steps that each touch only a few files. Stops at the Plan and awaits approval.
+
+### {when_to_use}
+
+Use when the user describes work at a high level rather than a concrete edit — "add authentication", "migrate to the new API", "refactor the config layer" — or when the change spans more than a couple of files. Trigger on "plan this out", "break this down", "step by step", "what's the order here". Also use when implementation was asked for but the diff would be too large to review in one pass. Skip for single-file edits, direct fixes, and questions the user wants answered rather than planned.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Maintenance Before Compact
 
 Before context is compacted, capture this session's durable changes so nothing is lost: log them and update the agent-facing docs.
