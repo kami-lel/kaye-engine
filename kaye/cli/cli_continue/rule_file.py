@@ -1,81 +1,95 @@
 """
 rule_file.py
 
-define ``RuleFile``
+define ``ContinueRule``
 """
 
-import io
-import yaml
+from kaye.prompt.sidecar_nodes import SidecarNodeType
 
-from kaye.cli.frontmatter_md_file import FrontmatterMDFile
+from kaye.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 
 
-class RuleFile(FrontmatterMDFile):  ############################################
+class ContinueRule(FrontmatterDoc):  ##########################################
     """
-    manage metadata and content writing for a Continue AI rule file
+    a Continue AI rule document: metadata frontmatter plus rule body
 
 
-    :param path:
-    :type path: Path-like
-    :param registry: optional blueprint registry entry; ``always_apply`` and
-            ``invokable`` are taken from it directly
-    :type registry: BlueprintRegistry or None
+    :param name: rule name written to the ``name`` frontmatter field
+    :type name: str
+    :param description: rule description; omitted from frontmatter when
+            empty
+    :type description: str
+    :param globs: file globs the rule applies to; omitted when empty
+    :type globs: iterable(str)
+    :param always_apply: value of the ``alwaysApply`` frontmatter field;
+            default=False
+    :type always_apply: bool, optional
+    :param invokable: whether the rule is invokable; emitted only when
+            True; default=False
+    :type invokable: bool, optional
+    :param body: markdown body written after the frontmatter block
+    :type body: str
     :example:
-    >>> # blueprint rule file
-    ... with RuleFile(path, registry=reg) as rule:
-    ...     pass
+    >>> # blueprint rule
+    ... ContinueRule.from_registry(reg).write(path)
 
-    >>> # abbreviation rule file
-    ... with RuleFile(path) as rule:
-    ...     rule.name = ~~
-    ...     rule.description = ~~
-    ...     rule.write_frontmatter_part()
-    ...     rule.write(~~)
-    ...     ~~
+    >>> # abbreviation rule
+    ... ContinueRule(name=~~, description=~~, body=~~).write(path)
     """
 
-    # implement FrontmatterMDFile  =============================================
+    def __init__(
+        self,
+        name="",
+        description="",
+        globs=None,
+        always_apply=False,
+        invokable=False,
+        body="",
+    ):
+        self.name = name
+        self.description = description
+        self.globs = globs or []
+        self.always_apply = always_apply
+        self.invokable = invokable
+        self.body = body
 
-    def _write_frontmatter_content(self):
-        metadata = {"name": self.frontmatter.get("name", "")}
+    # factory  =================================================================
 
-        description = self.frontmatter.get("description", "")
-        if description:
-            metadata["description"] = description
+    @classmethod
+    def from_registry(cls, registry):
+        """
+        :param registry: blueprint registry entry to render
+        :type registry: BlueprintRegistry
+        :return: a rule built from ``registry`` and its blueprint prompt
+        :rtype: ContinueRule
+        """
+        sidecars = registry.blueprint.sidecars
+        return cls(
+            name=registry.display_name,
+            description=sidecars.description_and_when_to_use,
+            globs=sidecars.globs,
+            always_apply=registry.always_apply,
+            invokable=registry.invokable,
+            body=registry.blueprint.generate_prompt(
+                contains_sidecar_nodes=SidecarNodeType.PREREQUISITE
+            ),
+        )
+
+    # implement FrontmatterDoc  ================================================
+
+    def _render_frontmatter(self):
+        metadata = {"name": self.name}
+        if self.description:
+            metadata["description"] = self.description
 
         metadata["alwaysApply"] = self.always_apply
-
         if self.invokable:
             metadata["invokable"] = self.invokable
 
-        yaml_buffer = io.StringIO()
-        yaml.dump(
-            metadata,
-            yaml_buffer,
-            default_flow_style=False,
-            sort_keys=False,
-            width=float("inf"),
-        )
-        self.file.write(yaml_buffer.getvalue())
+        rendered = dump_yaml(metadata)
 
-        globs = self.frontmatter["globs"]
-        if globs:
-            globs_str = ", ".join('"{}"'.format(g) for g in globs)
-            self.file.write("globs: [{}]\n".format(globs_str))
+        if self.globs:
+            globs_str = ", ".join('"{}"'.format(g) for g in self.globs)
+            rendered += "globs: [{}]\n".format(globs_str)
 
-    # constructor  =============================================================
-
-    def __init__(self, path, registry=None):
-        super().__init__(path, registry)
-
-        self.always_apply = False
-        self.invokable = False
-
-        if registry:
-            self.name = registry.display_name
-            self.description = (
-                registry.blueprint.sidecars.description_and_when_to_use
-            )
-            self.frontmatter["globs"] = registry.blueprint.sidecars.globs
-            self.always_apply = registry.always_apply
-            self.invokable = registry.invokable
+        return rendered
