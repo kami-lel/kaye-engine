@@ -99,8 +99,9 @@ CLI subcommand aliases: `http` → `h`; `continue` → `c`;
 To add a blueprint that appears in both `claude skill` and `continue config`
 exports, touch these locations in order:
 
-1. **`kaye/prompt/embedded_blueprints.py`** — define the variable and add its
-   name to `__all__` (controls the `*` import into `kaye/cli/__init__.py`)
+1. **`kaye/prompt/blueprint/embedded_blueprints.py`** — define the variable
+   and add its name to `__all__` (controls the `*` import into
+   `kaye/cli/__init__.py`)
 2. **`kaye/cli/__init__.py` → `EXPORTABLE_BLUEPRINTS`** — append the blueprint
    object; this is the actual gate for CLI export; omitting it causes "file not
    found" in tests even though import works
