@@ -5,6 +5,7 @@ group abbreviations for export
 """
 
 from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
+from kaye.prompt.blueprint.registry import to_skill_name
 
 # constants  ###################################################################
 
@@ -49,6 +50,14 @@ class ExportableAbbr(list):  ###################################################
 
         self.display_name = ""
         self.description = ""
+
+    @property
+    def skill_name(self):
+        """
+        :return: canonical kebab-case skill name from ``display_name``
+        :rtype: str
+        """
+        return to_skill_name(self)
 
     def as_md_list(self):
         """
