@@ -12,10 +12,7 @@ import yaml
 _FILE_ENCODING = "utf-8"
 
 
-# shared helper  ###############################################################
-
-
-def dump_yaml(mapping):
+def dump_yaml(mapping):  # =====================================================
     """
     dump a mapping as a YAML block using the project's shared settings
 
@@ -36,7 +33,7 @@ def dump_yaml(mapping):
     return yaml_buffer.getvalue()
 
 
-class FrontmatterDoc:  ########################################################
+class FrontmatterDoc:  # =======================================================
     """
     base class for a markdown document made of a YAML frontmatter block
     fenced with ``---`` delimiters, followed by a body string
@@ -46,21 +43,7 @@ class FrontmatterDoc:  ########################################################
     :type body: str
     """
 
-    body = ""  # default; dataclass subclasses override as a field
-
-    # abstract method  =========================================================
-
-    def _render_frontmatter(self):
-        """
-        render ``self``'s frontmatter fields in the format-specific layout
-
-
-        :return: frontmatter text, without the ``---`` fences
-        :rtype: str
-        """
-        raise NotImplementedError
-
-    # public methods  ==========================================================
+    # Public Methods  ----------------------------------------------------------
 
     def render(self):
         """
@@ -70,9 +53,7 @@ class FrontmatterDoc:  ########################################################
         :return: complete markdown document text
         :rtype: str
         """
-        return "---\n{}---\n\n{}".format(
-            self._render_frontmatter(), self.body
-        )
+        return "---\n{}---\n\n{}".format(self._render_frontmatter(), self.body)
 
     def write(self, path):
         """
@@ -83,3 +64,19 @@ class FrontmatterDoc:  ########################################################
         :type path: Path-like
         """
         Path(path).write_text(self.render(), encoding=_FILE_ENCODING)
+
+    # fields   -----------------------------------------------------------------
+
+    body = ""  # default; dataclass subclasses override as a field
+
+    # Abstract Method  ---------------------------------------------------------
+
+    def _render_frontmatter(self):
+        """
+        render ``self``'s frontmatter fields in the format-specific layout
+
+
+        :return: frontmatter text, without the ``---`` fences
+        :rtype: str
+        """
+        raise NotImplementedError

@@ -1,65 +1,101 @@
 """
-skill_md_file.py
+skill_md.py
 
-define ``SkillMDFile``
+define ``Skill``
 """
 
-import io
+from pathlib import Path
 from importlib.metadata import version
-
-import yaml
 
 from kaye import PROGRAM_NAME
 from kaye.cli.claude import (
     convert_display_name2skill_name,
     CONTAINING_SIDECAR_NODES,
 )
-from kaye.cli.frontmatter_md_file import FrontmatterMDFile
+from kaye.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 
 
-class SkillMDFile(FrontmatterMDFile):  #########################################
+class Skill(FrontmatterDoc):
     """
-    manage metadata and content writing for an agent skill markdown file
+    a Claude agent skill document, written as ``SKILL.md`` inside the
+    skill's own folder
+
+    only frontmatter fields that differ from their default are emitted, so
+    a minimal skill carries a minimal header
 
 
-    :param folder_path: folder to write SKILL.md into
-    :type folder_path: Path-like
-    :param registry: blueprint registry entry
-    :type registry: BlueprintRegistry
+    :param name: skill name, also used as the skill folder basename
+    :type name: str
+    :param description: skill description
+    :type description: str
+    :param when_to_use: guidance on when the skill applies
+    :type when_to_use: str
+    :param license: license identifier; omitted when empty
+    :type license: str
+    :param compatibility: compatibility note; omitted when empty
+    :type compatibility: str
+    :param metadata: extra metadata fields; a ``version`` entry is always
+            injected on render
+    :type metadata: dict
+    :param allowed_tools: tools the skill may use; omitted when empty
+    :type allowed_tools: list[str]
+    :param user_invocable: whether users may invoke the skill directly;
+            default=True
+    :type user_invocable: bool, optional
+    :param paths: file globs the skill applies to; omitted when empty
+    :type paths: list[str]
+    :param body: markdown body written after the frontmatter block
+    :type body: str
     :example:
-    >>> # blueprint-based skills
-    ... with SkillMDFile(parent_folder, registry=reg) as skill:
-    ...     pass
+    >>> # blueprint skill
+    ... Skill.from_registry(reg).write(parent_folder)
 
-    >>> # abbreviation skills
-    ... with SkillMDFile(parent_folder) as skill:
-    ...     skill.name = ~~
-    ...     skill.description = ~~
-    ...     skill.write_frontmatter_part()
-    ...     skill.write(~~)
-    ...     ~~
+    >>> # abbreviation skill
+    ... Skill(name=~~, description=~~, body=~~).write(parent_folder)
     """
 
-    # implement FrontmatterMDFile  =============================================
+    # Public Methods  ----------------------------------------------------------
 
-    def _write_frontmatter_content(self):
-        d = {
+    def write(self, parent_folder):
+        """
+        create the skill folder under ``parent_folder`` and write
+        ``SKILL.md`` into it
+
+
+        :param parent_folder: directory the skill folder is created under
+        :type parent_folder: Path-like
+        """
+        folder = Path(parent_folder) / self.name
+        folder.mkdir(parents=True, exist_ok=True)
+        super().write(folder / self._FILENAME)
+
+    # implement FrontmatterDoc  ------------------------------------------------
+
+    def _render_frontmatter(self):
+        metadata = dict(self.metadata)
+        metadata["version"] = version(PROGRAM_NAME)
+
+        fields = {
+            "name": self.name,
+            "description": self.description,
+            "when_to_use": self.when_to_use,
+            "license": self.license,
+            "compatibility": self.compatibility,
+            "metadata": metadata,
+            "allowed-tools": self.allowed_tools,
+            "user-invocable": self.user_invocable,
+            "paths": self.paths,
+        }
+        sparse = {
             key: value
-            for key, value in self.frontmatter.items()
+            for key, value in fields.items()
             if value != self._DEFAULT_FRONTMATTER.get(key)
         }
+        return dump_yaml(sparse)
 
-        yaml_buffer = io.StringIO()
-        yaml.dump(
-            d,
-            yaml_buffer,
-            default_flow_style=False,
-            sort_keys=False,
-            width=float("inf"),
-        )
-        self.file.write(yaml_buffer.getvalue())
+    # fields  ------------------------------------------------------------------
 
-    # constants  ===============================================================
+    _FILENAME = "SKILL.md"
 
     _DEFAULT_FRONTMATTER = {
         "name": "",
@@ -73,20 +109,47 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
         "paths": [],
     }
 
-    _FILENAME = "SKILL.md"
+    def __init__(
+        self,
+        name="",
+        description="",
+        when_to_use="",
+        license="",
+        compatibility="",
+        metadata=None,
+        allowed_tools=None,
+        user_invocable=True,
+        paths=None,
+        body="",
+    ):
+        self.name = name
+        self.description = description
+        self.when_to_use = when_to_use
+        self.license = license
+        self.compatibility = compatibility
+        self.metadata = dict(metadata) if metadata else {}
+        self.allowed_tools = list(allowed_tools) if allowed_tools else []
+        self.user_invocable = user_invocable
+        self.paths = list(paths) if paths else []
+        self.body = body
 
-    def __init__(self, folder_path, *, registry=None):
-        file_name = folder_path / self._FILENAME
-        super().__init__(
-            file_name,
-            registry,
-            contains_sidecar_nodes=CONTAINING_SIDECAR_NODES,
+    # factory  -----------------------------------------------------------------
+
+    @classmethod
+    def from_registry(cls, registry):
+        """
+        :param registry: blueprint registry entry to render
+        :type registry: BlueprintRegistry
+        :return: a skill built from ``registry`` and its blueprint prompt
+        :rtype: Skill
+        """
+        sidecars = registry.blueprint.sidecars
+        return cls(
+            name=convert_display_name2skill_name(registry.display_name),
+            description=sidecars.description,
+            when_to_use=sidecars.when_to_use,
+            paths=list(sidecars.globs) if sidecars.globs else [],
+            body=registry.blueprint.generate_prompt(
+                contains_sidecar_nodes=CONTAINING_SIDECAR_NODES
+            ),
         )
-
-        self.frontmatter["metadata"]["version"] = version(PROGRAM_NAME)
-
-        if registry:
-            self.name = convert_display_name2skill_name(registry.display_name)
-            globs = registry.blueprint.sidecars.globs
-            if globs:
-                self.frontmatter["paths"] = list(globs)
