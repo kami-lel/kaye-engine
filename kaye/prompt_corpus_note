@@ -1,27 +1,21 @@
+Bug compact-with-maintenance skill need to be rm
+Bug plan for step by step should work w/ exit plan tool
+Fixme consider make chat & rapid single blueprint + dynamic node
 Fixme for_claude -> for_claude_code
-
-todo resume role
-
 Fixme sensitize personality w/ layer
+Todo gap review add med TT
 
-todo agent behavior add md-style task list, when Claude "task" is not available
 
+bug tries to use git mv a lot
+fixme better german learner prompt
+fixme git worktree: exact wording main vs. linked worktree
+fixme move print out content to "terminal", include CB, upd its when to use
 fixme sync abbr w/ dotfile commands
 fixme sync abbr w/ vs code shortcut & snippets
 todo add control-language style instruction
-
-
-fixme better german learner prompt
-
-todo write drone/subagent working w/ worktree
-todo utilize worktree & kaye-agent
-Bug compact-with-maintenance skill need to be rm
-bug tries to use git mv a lot
+todo additional review prompts, eg efficiency review, eg allow project/scoped review
+todo agent behavior add md-style task list, when Claude "task" is not available
 todo distinguish project/repo root vs. workspace root
-Fixme consider make chat & rapid single blueprint + dynamic node
-Bug plan for step by step should work w/ exit plan tool
-Todo gap review add med TT
-
-fixme move print out content to "terminal", include CB, upd its when to use
-
-fixme git worktree: exact wording main vs. linked worktree
+todo resume role
+todo utilize worktree & kaye-agent
+todo write drone/subagent working w/ worktree
