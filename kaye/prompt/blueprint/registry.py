@@ -101,38 +101,14 @@ class BlueprintRegistry:
 BLUEPRINT_REGISTRIES = {}
 
 
-def register_blueprint(
-    name,
-    display_name,
-    blueprint,
-    *,
-    skill_exportable=False,
-    continue_exportable=False,
-    always_apply=False,
-    user_invokable=True,
-    llm_invokable=True,
-):
+def register_blueprint(name, *args, **kwargs):
     """
     create a `BlueprintRegistry` and insert it into `BLUEPRINT_REGISTRIES`
 
+    ``args``/``kwargs`` are forwarded as-is into `BlueprintRegistry`; see
+    its docstring for the full field list
 
-    :param name: canonical string key, kebab-case, must be unique across
-            all registrations
-    :type name: str
-    :param display_name: human-readable name
-    :type display_name: str
-    :param blueprint: the underlying blueprint
-    :type blueprint: PromptBlueprint
-    :param skill_exportable: defaults to False
-    :type skill_exportable: bool, optional
-    :param continue_exportable: defaults to False
-    :type continue_exportable: bool, optional
-    :param always_apply: defaults to False
-    :type always_apply: bool, optional
-    :param user_invokable: defaults to True
-    :type user_invokable: bool, optional
-    :param llm_invokable: defaults to True
-    :type llm_invokable: bool, optional
+
     :raise ValueError: ``name`` is already registered
     :return: the created registry entry
     :rtype: BlueprintRegistry
@@ -142,16 +118,7 @@ def register_blueprint(
             "duplicate blueprint registry name: {}".format(name)
         )
 
-    reg = BlueprintRegistry(
-        name=name,
-        display_name=display_name,
-        blueprint=blueprint,
-        skill_exportable=skill_exportable,
-        continue_exportable=continue_exportable,
-        always_apply=always_apply,
-        user_invokable=user_invokable,
-        llm_invokable=llm_invokable,
-    )
+    reg = BlueprintRegistry(name, *args, **kwargs)
     BLUEPRINT_REGISTRIES[name] = reg
 
     return reg
