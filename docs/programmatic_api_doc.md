@@ -193,7 +193,7 @@ Use `copy.deepcopy(root)` to copy a prompt tree.
 It is rare for end users to create individual instances, but to **create**
 an entire prompt tree, use `load_prompt_corpus_tree()`.
 It loads the embedded `prompt_corpus.md` file, parses it, and attaches the
-runtime dynamic nodes once; q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#in-prompt-corpus) for details:
+runtime dynamic nodes once; q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#using-a-dynamic-node) for details:
 
 ```python
 from kaye.prompt import load_prompt_corpus_tree
@@ -362,7 +362,7 @@ Both methods support `disable_first_heading=`, `show_comment=`, and
 For details on sidecar node types and conditional inclusion patterns, see [`sidecar_node_doc.md`](sidecar_node_doc.md#conditional-sidecar-nodes).
 Any extra keyword arguments are passed through to node `content_lines()`
 implementations, which is how dynamic nodes receive values such as `query=`;
-q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#concepts).
+q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#feeding-render-time-input).
 
 E.g.
 
