@@ -1,14 +1,13 @@
 from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
 from kaye.cli.exportable_abbr import EXPORTABLE_ABBRS
-from kaye.cli.claude import convert_display_name2skill_name
 
 
 ALL_CLAUDE_SKILL_NAMES = [
-    convert_display_name2skill_name(reg.display_name)
+    reg.skill_name
     for reg in BLUEPRINT_REGISTRIES.values()
     if reg.skill_exportable
 ] + [
-    convert_display_name2skill_name(g.display_name)
+    g.skill_name
     for g in EXPORTABLE_ABBRS
 ]
 
