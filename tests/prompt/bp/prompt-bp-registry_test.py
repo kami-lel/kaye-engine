@@ -42,7 +42,8 @@ class TestRegisterBlueprint:  ##################################################
         assert reg.skill_exportable is False
         assert reg.continue_exportable is False
         assert reg.always_apply is False
-        assert reg.invokable is False
+        assert reg.user_invokable is True
+        assert reg.llm_invokable is True
         assert BLUEPRINT_REGISTRIES["test-registry-dft"] is reg
 
     def test_flags(_, corpus_testee1, registered_names):
@@ -57,14 +58,16 @@ class TestRegisterBlueprint:  ##################################################
             skill_exportable=True,
             continue_exportable=True,
             always_apply=True,
-            invokable=True,
+            user_invokable=False,
+            llm_invokable=False,
         )
         registered_names.append(reg.name)
 
         assert reg.skill_exportable is True
         assert reg.continue_exportable is True
         assert reg.always_apply is True
-        assert reg.invokable is True
+        assert reg.user_invokable is False
+        assert reg.llm_invokable is False
 
     def test_duplicate_name(_, corpus_testee1, registered_names):
         bp = PromptBlueprint.create_empty_blueprint(

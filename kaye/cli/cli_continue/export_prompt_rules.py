@@ -14,8 +14,8 @@ from kaye.cli.cli_continue.rule_file import ContinueRule
 # Entry Point  #################################################################
 def export_prompt_rules(prompts_folder):
     """
-    export all invokable, Continue-exportable blueprints as Continue Prompts
-    files
+    export all non-LLM-invokable, Continue-exportable blueprints as
+    Continue Prompts files
 
 
     :param prompts_folder: destination folder for prompt rule files
@@ -25,7 +25,7 @@ def export_prompt_rules(prompts_folder):
     folder.mkdir(parents=True, exist_ok=True)
 
     for reg in BLUEPRINT_REGISTRIES.values():
-        if not (reg.continue_exportable and reg.invokable):
+        if not (reg.continue_exportable and not reg.llm_invokable):
             continue
 
         filename = reg.display_name + ".md"

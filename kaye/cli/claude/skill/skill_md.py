@@ -150,6 +150,7 @@ class Skill(FrontmatterDoc):
             description=sidecars.description,
             when_to_use=sidecars.when_to_use,
             paths=list(sidecars.globs) if sidecars.globs else [],
+            user_invocable=registry.user_invokable,
             body=registry.blueprint.generate_prompt(
                 contains_sidecar_nodes=CONTAINING_SIDECAR_NODES
             ),

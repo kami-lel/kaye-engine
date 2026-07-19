@@ -28,7 +28,7 @@ _register_prompt = functools.partial(
     register_blueprint,
     skill_exportable=True,
     continue_exportable=True,
-    invokable=True,
+    llm_invokable=False,
 )
 
 

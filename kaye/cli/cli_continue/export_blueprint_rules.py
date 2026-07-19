@@ -17,12 +17,13 @@ from kaye.cli.cli_continue.rule_file import ContinueRule
 
 def export_blueprint_rules(rules_folder):
     """
-    export all Continue-exportable, non-invokable blueprints as Continue AI
+    export all Continue-exportable, LLM-invokable blueprints as Continue AI
     rule files
 
     creates ``rules_folder`` if it does not exist, then writes one rule file
-    per registry entry with ``continue_exportable`` set (excluding
-    ``invokable`` entries, which belong to ``export_prompt_rules`` instead)
+    per registry entry with ``continue_exportable`` and ``llm_invokable``
+    set (excluding non-``llm_invokable`` entries, which belong to
+    ``export_prompt_rules`` instead)
 
 
     :param rules_folder: destination folder for rule files
@@ -32,7 +33,7 @@ def export_blueprint_rules(rules_folder):
     folder_path.mkdir(parents=True, exist_ok=True)
 
     for reg in BLUEPRINT_REGISTRIES.values():
-        if not reg.continue_exportable or reg.invokable:
+        if not reg.continue_exportable or not reg.llm_invokable:
             continue
 
         file_path = folder_path / "{}.md".format(reg.display_name)

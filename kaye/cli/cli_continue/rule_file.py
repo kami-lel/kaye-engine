@@ -69,7 +69,7 @@ class ContinueRule(FrontmatterDoc):  ##########################################
             description=sidecars.description_and_when_to_use,
             globs=sidecars.globs,
             always_apply=registry.always_apply,
-            invokable=registry.invokable,
+            invokable=not registry.llm_invokable,
             body=registry.blueprint.generate_prompt(
                 contains_sidecar_nodes=SidecarNodeType.PREREQUISITE
             ),
