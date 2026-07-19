@@ -9,7 +9,7 @@ Unit Tests (using pytest) for: PromptBlueprint.generate_prompt_lines(
 import pytest
 
 from kaye.prompt.prompt_corpus_node import PromptCorpusNode
-from kaye.prompt.prompt_blueprint import PromptBlueprint
+from kaye.prompt.blueprint.prompt_blueprint import PromptBlueprint
 from kaye.prompt.sidecar_nodes import SidecarNodeType
 
 

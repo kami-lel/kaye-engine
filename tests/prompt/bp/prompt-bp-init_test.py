@@ -6,7 +6,7 @@ Unit Tests (using pytest) for: PromptBlueprint.__init__()
 
 import pytest
 
-from kaye.prompt.prompt_blueprint import (
+from kaye.prompt.blueprint.prompt_blueprint import (
     PromptBlueprint,
     load_prompt_corpus_tree,
 )

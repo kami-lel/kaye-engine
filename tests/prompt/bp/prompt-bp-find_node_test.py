@@ -4,13 +4,14 @@ prompt-bp-find_node_test.py
 Unit Tests (using pytest) for:
 
 
-._find_node_in_corpus_and_blueprint()
+blueprint_node_resolver.resolve_node()
 """
 
 import pytest
 
 
 from kaye.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye.prompt.blueprint.blueprint_node_resolver import resolve_node
 
 
 class Test1:  ##################################################################
@@ -22,7 +23,7 @@ class Test1:  ##################################################################
         node = corpus_testee1["Project Title"]
         node_arg = "Project Title"
 
-        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
+        node_obj, node_hash = resolve_node(bp.corpus, node_arg)
 
         assert node_obj.generate_lineage() == node.generate_lineage()
         assert node_hash == hash(node)
@@ -32,7 +33,7 @@ class Test1:  ##################################################################
         node = corpus_testee1["Project Title"]
         node_arg = node
 
-        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
+        node_obj, node_hash = resolve_node(bp.corpus, node_arg)
 
         assert node_obj.generate_lineage() == node.generate_lineage()
         assert node_hash == hash(node)
@@ -42,7 +43,7 @@ class Test1:  ##################################################################
         node = corpus_testee1["Project Title"]
         node_arg = hash(node)
 
-        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
+        node_obj, node_hash = resolve_node(bp.corpus, node_arg)
 
         assert node_obj.generate_lineage() == node.generate_lineage()
         assert node_hash == hash(node)
@@ -54,7 +55,7 @@ class Test1:  ##################################################################
         node = corpus_testee1["Project Title"]["Description"]
         node_arg = "Description"
 
-        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
+        node_obj, node_hash = resolve_node(bp.corpus, node_arg)
 
         assert node_obj.generate_lineage() == node.generate_lineage()
         assert node_hash == hash(node)
@@ -64,7 +65,7 @@ class Test1:  ##################################################################
         node = corpus_testee1["Project Title"]["Description"]
         node_arg = node
 
-        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
+        node_obj, node_hash = resolve_node(bp.corpus, node_arg)
 
         assert node_obj.generate_lineage() == node.generate_lineage()
         assert node_hash == hash(node)
@@ -74,7 +75,7 @@ class Test1:  ##################################################################
         node = corpus_testee1["Project Title"]["Description"]
         node_arg = hash(node)
 
-        node_obj, node_hash = bp._find_node_in_corpus_and_blueprint(node_arg)
+        node_obj, node_hash = resolve_node(bp.corpus, node_arg)
 
         assert node_obj.generate_lineage() == node.generate_lineage()
         assert node_hash == hash(node)
@@ -88,7 +89,7 @@ class Test1:  ##################################################################
         ipt = 12.5
 
         with pytest.raises(TypeError) as exec_info:
-            bp._find_node_in_corpus_and_blueprint(ipt)
+            resolve_node(bp.corpus, ipt)
         opt = exec_info.value.args[0]
 
         print(opt)
@@ -100,7 +101,7 @@ class Test1:  ##################################################################
         ipt = ["a", "b", "c"]
 
         with pytest.raises(TypeError) as exec_info:
-            bp._find_node_in_corpus_and_blueprint(ipt)
+            resolve_node(bp.corpus, ipt)
         opt = exec_info.value.args[0]
 
         print(opt)
@@ -119,7 +120,7 @@ class Test1:  ##################################################################
         ipt = "AAAZZZ"
 
         with pytest.raises(ValueError) as exec_info:
-            bp._find_node_in_corpus_and_blueprint(ipt)
+            resolve_node(bp.corpus, ipt)
         opt = exec_info.value.args[0]
 
         print(opt)
@@ -131,7 +132,7 @@ class Test1:  ##################################################################
         ipt = hash(None)
 
         with pytest.raises(ValueError) as exec_info:
-            bp._find_node_in_corpus_and_blueprint(ipt)
+            resolve_node(bp.corpus, ipt)
         opt = exec_info.value.args[0]
 
         print(opt)
@@ -144,7 +145,7 @@ class Test1:  ##################################################################
         ipt = PromptCorpusNode("AAAZZZ", root, [])
 
         with pytest.raises(ValueError) as exec_info:
-            bp._find_node_in_corpus_and_blueprint(ipt)
+            resolve_node(bp.corpus, ipt)
         opt = exec_info.value.args[0]
 
         print(opt)
