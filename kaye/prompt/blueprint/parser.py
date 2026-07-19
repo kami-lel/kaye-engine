@@ -36,7 +36,7 @@ def parse_blueprint_text(blueprint_text, corpus):
     node hash
 
     ``blueprint_text`` must be in the same format as the output of
-    ``blueprint_render.render_blueprint_tree()``
+    ``render.render_blueprint_tree()``
     (with tree structure and checkmarks)
 
 
