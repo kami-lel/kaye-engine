@@ -46,9 +46,10 @@ through a Python API, an HTTP API, and a CLI.
   add `### {name}` examples to `kaye/prompt_corpus.md`, document it in
   `docs/corpus_doc.md`, `docs/sidecar_node_doc.md`, and
   `docs/programmatic_api_doc.md`, wire CLI export consumers
-  (`kaye/cli/frontmatter_md_file.py`, `kaye/cli/cli_continue/rule_file.py`) if
-  the type should surface in exports, and mirror tests under
-  `tests/prompt/bp/` and `tests/prompt/node/`.
+  (`kaye/cli/claude/skill/skill_md.py`, `kaye/cli/cli_continue/rule_file.py`,
+  both built on the shared `kaye/cli/frontmatter_doc.py`) if the type should
+  surface in exports, and mirror tests under `tests/prompt/bp/` and
+  `tests/prompt/node/`.
 - **Prerequisite Node** — `{prerequisite}` conditional sidecar node; pass
   `contains_sidecar_nodes=SidecarNodeType.PREREQUISITE` (or a combined flag)
   to `generate_prompt()` / `generate_prompt_lines()` to auto-checkmark every
@@ -71,9 +72,9 @@ through a Python API, an HTTP API, and a CLI.
   (`programming_language_code`), `LanguageCodeNode` (`language_code`),
   `UnityEngineAbbrNode` (`unity_engine_abbr`) — each rendering every
   `AbbrData().abbrs` entry matching its `AbbrTags` member via
-  `gen_abbrs_content_lines()`. `chat_blueprint` checkmarks `(Abbreviations)`;
-  `coder_blueprint` checkmarks `(Coding Terms)` via a small
-  `coding_terms_blueprint` (`kaye/prompt/embedded_blueprints.py`).
+  `gen_abbrs_content_lines()`. `chat` checkmarks `(Abbreviations)`; `coder`
+  checkmarks `(Coding Terms)` via a small `coding_terms_blueprint`
+  (`kaye/prompt/blueprint/registrations.py`).
   - **Preface** — every `DynamicNode` accepts a `preface=()` sequence, stored
     as `self._preface` and prepended to `content_lines()`'s generated output.
     `load_prompt_corpus_tree()` populates this automatically: `prompt_corpus.md`
@@ -153,7 +154,10 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
     - `kaye/cli/claude/` — exports blueprints as Claude plugins, marketplaces,
       agentskills.io Skills, VS Code Extension setup, and the user system
       prompt `CLAUDE.md`
-    - `kaye/cli/cli_prompt/` — prompt generation CLI subcommands
+    - `kaye/cli/cli_prompt/` — prompt generation CLI subcommands; unwired
+      and non-functional (never registered in `kaye/cli/cli_main.py`; see
+      the `# fixme make cli prompt functional` note there), pending removal
+      alongside `kaye/prompt/blueprint/prompt_blueprint_loader.py`
   - `kaye/prompt_corpus.md`, `kaye/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
 - `docs/` — in-depth documentation (API, HTTP, CLI, abbreviations)
@@ -173,17 +177,19 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
       - `tests/cli/a/p/` — `claude plugin` export tests (skill files,
         plugin.json content, command aliases)
       - `tests/cli/a/cz/` — `claude plugin -z` (zipped package) tests
-      - `tests/cli/a/s/` — `claude skill` export tests
-        - `tests/cli/a/s/structure/` — structure/exportability tests for every
-          blueprint in `__all__`
-          (`cli-a-s-structure-exportable_blueprints_test.py`) and prompt
-          blueprints
+      - `tests/cli/a/s/` — `claude skill` export tests; no dedicated
+        structural-exportability folder — `tests/cli/a/__init__.py`'s
+        `ALL_CLAUDE_SKILL_NAMES` derives the full skill list straight from
+        `BLUEPRINT_REGISTRIES`, and parametrized suites like
+        `tests/corpus/corpus-skill_frontmatter_test.py` cover every
+        registration automatically
         - `tests/cli/a/s/coder/` — per-skill content tests for coder blueprints
         - `tests/cli/a/s/others/` — per-skill content tests for miscellaneous
           blueprints (chat, triage-tags, date-time, IPA, etc.)
         - `tests/cli/a/s/proj/` — per-skill content tests for project blueprints
         - `tests/cli/a/s/prompts/` — per-skill content tests for `Projects`
-          workflow prompts (`PROMPTS_BLUEPRINTS`, e.g. Create README, Gap
+          workflow prompts registered via `_register_prompt`
+          (`kaye/prompt/blueprint/registrations.py`, e.g. Create README, Gap
           Review, Plan for Step By Step)
         - `tests/cli/a/s/role/` — per-skill content tests for role blueprints
         - `tests/cli/a/s/style/` — per-skill content tests for style blueprints
