@@ -53,13 +53,13 @@ Lists prerequisite instructions that apply whenever the parent node is enabled. 
 **Detection:** Use `get_sidecar_node_type(node) & SidecarNodeType.PREREQUISITE` to identify prerequisite sidecars.
 
 
-#### `{for_claude}`
+#### `{for-claude-code}`
 
-Lists Claude-specific instructions that apply whenever the parent node is enabled. Pass `contains_sidecar_nodes=SidecarNodeType.FOR_CLAUDE` (or combine with `PREREQUISITE` via `|`) to auto-checkmark these nodes during Claude exports.
+Lists Claude-specific instructions that apply whenever the parent node is enabled. Pass `contains_sidecar_nodes=SidecarNodeType.FOR_CLAUDE_CODE` (or combine with `PREREQUISITE` via `|`) to auto-checkmark these nodes during Claude exports.
 
-**Rendering behavior:** Pass `contains_sidecar_nodes=SidecarNodeType.FOR_CLAUDE` to auto-include `{for_claude}` sidecars during rendering. The constant `kaye.cli.claude.CONTAINING_SIDECAR_NODES` combines both `PREREQUISITE` and `FOR_CLAUDE` flags for all Claude skill and hook exports.
+**Rendering behavior:** Pass `contains_sidecar_nodes=SidecarNodeType.FOR_CLAUDE_CODE` to auto-include `{for-claude-code}` sidecars during rendering. The constant `kaye.cli.claude.CONTAINING_SIDECAR_NODES` combines both `PREREQUISITE` and `FOR_CLAUDE_CODE` flags for all Claude skill and hook exports.
 
-**Detection:** Use `get_sidecar_node_type(node) & SidecarNodeType.FOR_CLAUDE` to identify Claude-specific sidecars.
+**Detection:** Use `get_sidecar_node_type(node) & SidecarNodeType.FOR_CLAUDE_CODE` to identify Claude-specific sidecars.
 
 
 
@@ -91,7 +91,7 @@ This node indicates when to use the parent.
 
 This node contains prerequisite instructions.
 
-## {for_claude}
+## {for-claude-code}
 
 This node contains Claude-specific instructions.
 ```
@@ -148,8 +148,8 @@ Check for specific sidecar type using bitwise operations:
 if node_type & SidecarNodeType.PREREQUISITE:
     print("this is a conditional sidecar node")
 
-if node_type & (SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE):
-    print("this is a conditional sidecar node (either PREREQUISITE or FOR_CLAUDE)")
+if node_type & (SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE_CODE):
+    print("this is a conditional sidecar node (either PREREQUISITE or FOR_CLAUDE_CODE)")
 ```
 
 ---
@@ -169,7 +169,7 @@ Enumeration of sidecar node types using bitwise flag operations.
 | `WHEN_TO_USE` | 2 | Descriptor | Metadata: when to apply node |
 | `GLOBS` | 4 | Descriptor | Metadata: file glob patterns |
 | `PREREQUISITE` | 8 | Conditional | Real prompt content: prerequisites |
-| `FOR_CLAUDE` | 16 | Conditional | Real prompt content: Claude-specific |
+| `FOR_CLAUDE_CODE` | 16 | Conditional | Real prompt content: Claude-specific |
 
 **Properties:**
 
@@ -200,13 +200,13 @@ SidecarNodeType.PREREQUISITE.as_node_heading  # returns "{prerequisite}"
 - **Boolean context:** `NONE` evaluates to `False`; any other type evaluates to `True`
 - **Bitwise operations:** Combine multiple types using `|` (OR) operator
   ```python
-  combined = SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE
+  combined = SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE_CODE
   if node_type & combined:
       pass  # matches either type
   ```
 - **Categories:**
   - Descriptor sidecars (`DESCRIPTION`, `WHEN_TO_USE`, `GLOBS`): metadata about parent nodes
-  - Conditional sidecar nodes (`PREREQUISITE`, `FOR_CLAUDE`): real prompt content conditionally included
+  - Conditional sidecar nodes (`PREREQUISITE`, `FOR_CLAUDE_CODE`): real prompt content conditionally included
 
 ---
 
@@ -331,7 +331,7 @@ prompt = bp.generate_prompt(
 # Include both prerequisites and Claude-specific instructions
 prompt = bp.generate_prompt(
     contains_sidecar_nodes=(
-        SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE
+        SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE_CODE
     )
 )
 ```

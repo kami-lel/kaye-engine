@@ -168,7 +168,7 @@ def render_prompt_lines(  # ====================================================
     :param contains_sidecar_nodes: auto-checkmark conditional sidecar nodes
             of specified type(s) whose parents are checkmarked; pass a
             ``SidecarNodeType`` flag or combination (e.g.,
-            ``SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE``);
+            ``SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE_CODE``);
             defaults to ``SidecarNodeType.NONE`` (disabled)
     :type contains_sidecar_nodes: SidecarNodeType, optional
     :param display_name: blueprint's human-readable name, included in the

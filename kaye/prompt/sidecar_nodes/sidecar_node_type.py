@@ -15,8 +15,9 @@ class SidecarNodeType(IntFlag):  ###############################################
 
     - **Descriptor sidecars** (DESCRIPTION, WHEN_TO_USE, GLOBS): metadata
       about a parent node, exposed via blueprint.sidecars attribute
-    - **Conditional sidecar nodes** (PREREQUISITE, FOR_CLAUDE): real prompt
-      content conditionally included via contains_sidecar_nodes parameter
+    - **Conditional sidecar nodes** (PREREQUISITE, FOR_CLAUDE_CODE): real
+      prompt content conditionally included via contains_sidecar_nodes
+      parameter
 
     **NONE** (value 0) indicates the node is not a sidecar node and evaluates
     to ``False`` in boolean context. Any other type evaluates to ``True``.
@@ -27,7 +28,7 @@ class SidecarNodeType(IntFlag):  ###############################################
     >>> node_type = get_sidecar_node_type(node)
     >>> if bool(node_type):  # True if any sidecar type
     ...     pass
-    >>> if node_type & (PREREQUISITE | FOR_CLAUDE):  # bitwise check
+    >>> if node_type & (PREREQUISITE | FOR_CLAUDE_CODE):  # bitwise check
     ...     pass  # conditional sidecar node
     """
 
@@ -37,7 +38,7 @@ class SidecarNodeType(IntFlag):  ###############################################
     GLOBS = auto()
     # FIXME make for claude & prerequisite generic terms
     PREREQUISITE = auto()  # conditional sidecar node type
-    FOR_CLAUDE = auto()  # conditional sidecar node type
+    FOR_CLAUDE_CODE = auto()  # conditional sidecar node type
 
     # property  ================================================================
 
@@ -69,5 +70,5 @@ SIDECAR_NODE_TYPE_HEADINGS = {
     SidecarNodeType.WHEN_TO_USE: "when_to_use",
     SidecarNodeType.GLOBS: "globs",
     SidecarNodeType.PREREQUISITE: "prerequisite",
-    SidecarNodeType.FOR_CLAUDE: "for_claude",
+    SidecarNodeType.FOR_CLAUDE_CODE: "for-claude-code",
 }
