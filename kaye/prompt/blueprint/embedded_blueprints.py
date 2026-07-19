@@ -6,7 +6,7 @@ common blueprints creations
 
 # pylint: disable=invalid-name
 
-from kaye.prompt.prompt_blueprint import PromptBlueprint
+from .prompt_blueprint import PromptBlueprint
 
 __all__ = (
     "rapid_blueprint",
