@@ -6,7 +6,7 @@ Unit Tests (using pytest) for:
 - __repr__()
 """
 
-from kaye.prompt.prompt_blueprint import PromptBlueprint
+from kaye.prompt.blueprint.prompt_blueprint import PromptBlueprint
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
