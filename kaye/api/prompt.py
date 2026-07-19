@@ -2,6 +2,8 @@
 Kaye HTTP API: endpoints /kaye/prompts/
 """
 
+# todo todo /kaye/prompt endpoint
+
 # pylint: disable=missing-function-docstring
 
 from flask import Blueprint, Response
@@ -10,8 +12,6 @@ from kaye import PROGRAM_NAME
 
 # /kaye/prompt
 prompt_bp = Blueprint("prompt", PROGRAM_NAME, url_prefix="/prompt")
-
-# todo /kaye/prompt endpoint
 
 
 @prompt_bp.route("/generate", methods=["GET"])
