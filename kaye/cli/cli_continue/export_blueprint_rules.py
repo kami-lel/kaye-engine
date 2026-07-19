@@ -9,7 +9,7 @@ from pathlib import Path
 
 from kaye import logger
 from kaye.prompt import load_prompt_corpus_tree
-from kaye.prompt.prompt_blueprint import PromptBlueprint
+from kaye.prompt.blueprint import PromptBlueprint
 
 from kaye.cli import EXPORTABLE_BLUEPRINTS
 from kaye.cli.cli_continue.rule_file import RuleFile
