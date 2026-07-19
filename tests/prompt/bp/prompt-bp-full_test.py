@@ -28,19 +28,6 @@ class TestFull1:  # ============================================================
 
         print(opt)
         assert opt == BLUEPRINT_1_FULL
-        assert bp.display_name == "full"
-
-    def test_name(_, corpus_testee1):
-        display_name = "My Full Blueprint"
-
-        bp = PromptBlueprint.create_full_blueprint(
-            display_name=display_name, corpus_override=corpus_testee1
-        )
-        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
-
-        print(opt)
-        assert opt == BLUEPRINT_1_FULL
-        assert bp.display_name == display_name
 
 
 class TestFull2:  # ============================================================
@@ -53,19 +40,6 @@ class TestFull2:  # ============================================================
 
         print(opt)
         assert opt == BLUEPRINT_2_FULL
-        assert bp.display_name == "full"
-
-    def test_name(_, corpus_testee2):
-        display_name = "My Full Blueprint"
-
-        bp = PromptBlueprint.create_full_blueprint(
-            display_name=display_name, corpus_override=corpus_testee2
-        )
-        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
-
-        print(opt)
-        assert opt == BLUEPRINT_2_FULL
-        assert bp.display_name == display_name
 
 
 # test .create_empty_blueprint()  ##############################################
@@ -79,19 +53,6 @@ class TestEmpty1:  # ===========================================================
 
         print(opt)
         assert opt == BLUEPRINT_1_EMPTY
-        assert bp.display_name == "empty"
-
-    def test_name(_, corpus_testee1):
-        display_name = "My Empty Blueprint"
-
-        bp = PromptBlueprint.create_empty_blueprint(
-            display_name=display_name, corpus_override=corpus_testee1
-        )
-        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
-
-        print(opt)
-        assert opt == BLUEPRINT_1_EMPTY
-        assert bp.display_name == display_name
 
 
 class TestEmpty2:  # ===========================================================
@@ -104,16 +65,3 @@ class TestEmpty2:  # ===========================================================
 
         print(opt)
         assert opt == BLUEPRINT_2_EMPTY
-        assert bp.display_name == "empty"
-
-    def test_name(_, corpus_testee2):
-        display_name = "My Empty Blueprint"
-
-        bp = PromptBlueprint.create_empty_blueprint(
-            display_name=display_name, corpus_override=corpus_testee2
-        )
-        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
-
-        print(opt)
-        assert opt == BLUEPRINT_2_EMPTY
-        assert bp.display_name == display_name

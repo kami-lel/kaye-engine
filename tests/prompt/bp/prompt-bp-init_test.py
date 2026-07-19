@@ -6,7 +6,7 @@ Unit Tests (using pytest) for: PromptBlueprint.__init__()
 
 import pytest
 
-from kaye.prompt.prompt_blueprint import (
+from kaye.prompt.blueprint.prompt_blueprint import (
     PromptBlueprint,
     load_prompt_corpus_tree,
 )
@@ -22,24 +22,6 @@ class TestEmpty:
         assert isinstance(bp, dict)
         assert len(bp) == 0
         assert bp.corpus == corpus
-        assert isinstance(bp.display_name, str)
-        assert bp.display_name == ""
-
-
-class TestName:
-
-    NAME = "My Blueprint"
-
-    def test_init(self, corpus):
-        bp = PromptBlueprint(display_name=self.NAME)
-
-        print(bp)
-
-        assert isinstance(bp, dict)
-        assert len(bp) == 0
-        assert bp.corpus == corpus
-        assert isinstance(bp.display_name, str)
-        assert bp.display_name == self.NAME
 
 
 class TestErr:

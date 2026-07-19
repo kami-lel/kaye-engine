@@ -10,7 +10,7 @@ import copy
 import pytest
 
 
-from kaye.prompt.prompt_blueprint import PromptBlueprint
+from kaye.prompt.blueprint.prompt_blueprint import PromptBlueprint
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_3_FULL,

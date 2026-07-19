@@ -11,7 +11,7 @@ from pathlib import Path
 import json5
 
 from kaye.prompt import REPLACEMENT_NEWLINE_SYMBOL, load_prompt_corpus_tree
-from kaye.prompt.prompt_blueprint import PromptBlueprint
+from kaye.prompt.blueprint import PromptBlueprint
 from kaye.cli.claude import CONTAINING_SIDECAR_NODES
 
 # Bug not sure if pre compact hook is triggered

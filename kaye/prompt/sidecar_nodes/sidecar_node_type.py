@@ -35,6 +35,7 @@ class SidecarNodeType(IntFlag):  ###############################################
     DESCRIPTION = auto()
     WHEN_TO_USE = auto()
     GLOBS = auto()
+    # Fixme make for claude & prerequisite generic terms
     PREREQUISITE = auto()  # conditional sidecar node type
     FOR_CLAUDE = auto()  # conditional sidecar node type
 

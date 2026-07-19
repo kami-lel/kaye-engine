@@ -17,7 +17,40 @@ __all__ = (
 )
 
 
-def get_embedded_prompt_corpus_file_path():
+# constants  ###################################################################
+ROOT_NODE_NAME = "○"
+
+
+# auxiliaries  #################################################################
+
+
+def _attach_dynamic_node(parent, node_type):
+    """
+    attach a ``node_type`` instance under ``parent``;
+    if a statically-authored ``PromptCorpusNode`` with the same heading
+    already exists among ``parent``'s children, detach it and carry its
+    content over as the dynamic node's ``preface``
+    """
+    heading = "(" + node_type.HEADING + ")"
+
+    preface = ()
+    for child in parent.children:
+        if child.name == heading:
+            preface = tuple(child.content_lines())
+            child.parent = None
+            break
+
+    node_type(parent, preface=preface)
+
+
+# singleton prompt corpus tree
+prompt_corpus_tree = None  # pylint: disable=invalid-name
+
+
+# Public API  ##################################################################
+
+
+def get_embedded_prompt_corpus_file_path():  # =================================
     """
     :return: absolute path of embedded prompt corpus ``prompt_corpus.md`` file
     :rtype: Path
@@ -27,11 +60,7 @@ def get_embedded_prompt_corpus_file_path():
     ).absolute()
 
 
-# singleton prompt corpus tree
-prompt_corpus_tree = None  # pylint: disable=invalid-name
-
-
-def load_prompt_corpus_tree():
+def load_prompt_corpus_tree():  # ==============================================
     """
     get the **prompt corpus tree** *singleton*, which is created by:
 
@@ -68,33 +97,12 @@ def load_prompt_corpus_tree():
     text_lines = list(text_cleanup.split("\n"))
 
     # create prompt corpus nodes  ----------------------------------------------
-    prompt_corpus_tree = PromptCorpusNode.parse(ROOT_NODE_NAME, None, text_lines)
+    prompt_corpus_tree = PromptCorpusNode.parse(
+        ROOT_NODE_NAME, None, text_lines
+    )
 
     # add dynamic nodes  -------------------------------------------------------
     for node_type in DYNAMIC_NODE_TYPES:
         _attach_dynamic_node(prompt_corpus_tree, node_type)
 
     return prompt_corpus_tree
-
-
-# helpers  #####################################################################
-ROOT_NODE_NAME = "○"
-
-
-def _attach_dynamic_node(parent, node_type):
-    """
-    attach a ``node_type`` instance under ``parent``;
-    if a statically-authored ``PromptCorpusNode`` with the same heading
-    already exists among ``parent``'s children, detach it and carry its
-    content over as the dynamic node's ``preface``
-    """
-    heading = "(" + node_type.HEADING + ")"
-
-    preface = ()
-    for child in parent.children:
-        if child.name == heading:
-            preface = tuple(child.content_lines())
-            child.parent = None
-            break
-
-    node_type(parent, preface=preface)

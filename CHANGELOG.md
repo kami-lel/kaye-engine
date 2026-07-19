@@ -2,6 +2,8 @@
 
 [^format]
 
+<!-- todo CLI to import/export w/ OpenWebUI -->
+
 
 
 
@@ -24,12 +26,39 @@
   `[project.scripts]` mapping `kaye` to `kaye.__main__:main`; the CLI now
   runs directly as `kaye --help`, no longer requiring `python -m kaye`
 - **`Gap Review`, `Resolve Merge Conflict`, `Plan for Step By Step` skills**
-  — wired into `PROMPTS_BLUEPRINTS` (`kaye/cli/prompts_blueprints.py`), so
-  `kaye claude skill` (and its downstream plugin/marketplace/VS Code
-  exports) now generate `gap-review`, `resolve-merge-conflict`, and
-  `plan-for-step-by-step` skills from prompt content that already existed
-  in `prompt_corpus.md`; new `tests/cli/a/s/prompts/` test files cover all
-  three
+  — registered via `register_blueprint(..., llm_invokable=False)`
+  (`kaye/prompt/blueprint/registrations.py`), so `kaye claude skill` (and
+  its downstream plugin/marketplace/VS Code exports) now generate
+  `gap-review`, `resolve-merge-conflict`, and `plan-for-step-by-step`
+  skills from prompt content that already existed in `prompt_corpus.md`;
+  new `tests/cli/a/s/prompts/` test files cover all three
+- **`BlueprintRegistry` / `register_blueprint()` / `BLUEPRINT_REGISTRIES`**
+  (`kaye/prompt/blueprint/registry.py`, `registrations.py`) — single
+  source of truth for every blueprint's identity and export policy,
+  replacing the old split between `EXPORTABLE_BLUEPRINTS`
+  (`kaye/cli/__init__.py`) and `PROMPTS_BLUEPRINTS`
+  (`kaye/cli/prompts_blueprints.py`); every Claude Skill, Continue rule,
+  and Continue Prompt export now iterates `BLUEPRINT_REGISTRIES` directly;
+  `register_blueprint()` forwards `*args`/`**kwargs` straight into
+  `BlueprintRegistry`, so its own docstring no longer restates every field
+- **`always_apply` / `user_invokable` / `llm_invokable` registry flags** —
+  replace the old single `invokable` flag; `always_apply` forces
+  unconditional inclusion in an exported Continue AI rule regardless of
+  relevance; `user_invokable` gates whether a human may deliberately
+  invoke the entry by name, driving the exported Claude Skill's
+  `user-invocable` field; `llm_invokable` gates whether Continue's own
+  relevance matching may silently surface the entry without it being
+  named — `True` exports as a Continue rule, `False` exports as a
+  Continue Prompt
+- **`FrontmatterDoc` base class + shared `dump_yaml()`**
+  (`kaye/cli/frontmatter_doc.py`) — common YAML-frontmatter-plus-body
+  rendering shared by `Skill` (`SKILL.md`) and `ContinueRule`; frontmatter
+  is now sparse, only fields differing from their default are emitted
+- **`BlueprintRegistry.skill_name` / `to_skill_name()`** — canonical
+  kebab-case skill slug derived directly from `display_name` (Anthropic
+  skill-name grammar, non-alphanumeric runs incl. `~` collapsed to a
+  single `-`), replacing separately-tracked display-name state on each
+  blueprint
 
 ### Changed
 
@@ -41,14 +70,41 @@
   replaced by combinable `AnsiStyle` flags (foreground/background/bold/
   underline); `AnsiRenderer` gains `is_disabled` to force-disable color and
   `color_triage_tag()` for BUG/FIXME/TODO/HACK coloring
+- **`resolve_node()` node lookup** — now memoizes a `{hash: node}` and a
+  `{name: node}` index per corpus tree, cached on the corpus root; avoids
+  a full tree walk on every call (previously `O(n)` per call, `O(n²)`
+  across a full tree render)
+- **Skill and Continue rule export pipeline consolidated** —
+  `Skill.from_registry()` / `ContinueRule.from_registry()` now build a
+  skill/rule directly from a `BlueprintRegistry` entry; the intermediate
+  `skill_folder.py` wrapper and `frontmatter_md_file.py` were removed in
+  favor of the shared `FrontmatterDoc`
 
 ### Deprecated
+
+- **`kaye/prompt/blueprint/prompt_blueprint_loader.py`,
+  `kaye/cli/cli_prompt/`** — left in place but unused and non-functional;
+  `load_embedded_blueprint()` / `get_embedded_prompt_blueprints_names()`
+  always raise `FileNotFoundError` now that the `embedded_blueprints/`
+  data folder they read from is gone, and `kaye/cli/cli_prompt/` was
+  never wired into the `kaye` CLI subcommand tree (see the `# fixme make
+  cli prompt functional` note in `kaye/cli/cli_main.py`); pending removal
 
 ### Removed
 
 - stale `# Todo add prompt: gap review, resolve merge conflict, Plan for
   Step By Step` comment in `kaye/cli/claude/main.py`, resolved by the
   additions above
+- **legacy `.kaye_blueprint` embedded-blueprint text files**
+  (`kaye/prompt/embedded_blueprints/`, e.g. `translator.kaye_blueprint`,
+  `encyclopedic.kaye_blueprint`) — superseded by the Python-defined
+  `registrations.py`
+- **`kaye/prompt/blueprint/embedded_blueprints.py`,
+  `kaye/cli/prompts_blueprints.py`** — folded into `registrations.py` /
+  `BLUEPRINT_REGISTRIES`
+- **`tests/cli/a/s/structure/` blueprint-exportability tests** — coverage
+  moved to `tests/prompt/bp/prompt-bp-registry_test.py` (registry-level)
+  and the existing per-skill content tests
 
 ### Fixed
 
