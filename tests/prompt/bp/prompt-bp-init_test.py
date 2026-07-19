@@ -22,24 +22,6 @@ class TestEmpty:
         assert isinstance(bp, dict)
         assert len(bp) == 0
         assert bp.corpus == corpus
-        assert isinstance(bp.display_name, str)
-        assert bp.display_name == ""
-
-
-class TestName:
-
-    NAME = "My Blueprint"
-
-    def test_init(self, corpus):
-        bp = PromptBlueprint(display_name=self.NAME)
-
-        print(bp)
-
-        assert isinstance(bp, dict)
-        assert len(bp) == 0
-        assert bp.corpus == corpus
-        assert isinstance(bp.display_name, str)
-        assert bp.display_name == self.NAME
 
 
 class TestErr:

@@ -31,7 +31,6 @@ class TestBasic1:  # use corpus1  ##############################################
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 4
         assert opt.corpus == corpus_testee1
-        assert opt.display_name == ""
 
         # test entries  --------------------------------------------------------
         # test Project Title
@@ -177,7 +176,6 @@ class TestBasic3:  # use corpus3  ##############################################
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 10
         assert opt.corpus == corpus_testee3
-        assert opt.display_name == ""
 
         # test entries  --------------------------------------------------------
         # Main Title

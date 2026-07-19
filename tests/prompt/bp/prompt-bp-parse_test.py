@@ -37,56 +37,6 @@ from tests.prompt.bp import (
 )
 
 
-class TestDisplayName:  ########################################################
-
-    def test_dft(_, corpus_testee1):
-        bp_text = BLUEPRINT_1_FULL
-
-        opt = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
-
-        print(opt)
-        assert opt.display_name == ""
-
-    def test1(_, corpus_testee1):
-        bp_text = BLUEPRINT_1_FULL
-        display_name = "My Blueprint"
-
-        opt = PromptBlueprint.parse(
-            bp_text,
-            display_name=display_name,
-            corpus_override=corpus_testee1,
-        )
-
-        print(opt)
-        assert opt.display_name == display_name
-
-    def test2(_, corpus_testee1):
-        bp_text = BLUEPRINT_1_PARTIAL_1
-        display_name = "My Blueprint"
-
-        opt = PromptBlueprint.parse(
-            bp_text,
-            display_name=display_name,
-            corpus_override=corpus_testee1,
-        )
-
-        print(opt)
-        assert opt.display_name == display_name
-
-    def test3(_, corpus_testee3):
-        bp_text = BLUEPRINT_3_EMPTY
-        display_name = "My Blueprint"
-
-        opt = PromptBlueprint.parse(
-            bp_text,
-            display_name=display_name,
-            corpus_override=corpus_testee3,
-        )
-
-        print(opt)
-        assert opt.display_name == display_name
-
-
 # err handling  ################################################################
 class TestErr:
 
@@ -141,7 +91,6 @@ class TestDft1:  # use PROMPT1  ================================================
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 4
         assert opt.corpus == corpus_testee1
-        assert opt.display_name == ""
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == bp_text
@@ -194,7 +143,6 @@ class TestDft2:  # use PROMPT2  ================================================
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 7
         assert opt.corpus == corpus_testee2
-        assert opt.display_name == ""
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == bp_text
@@ -238,7 +186,6 @@ class TestDft3:  # use PROMPT3  ================================================
         assert isinstance(opt, PromptBlueprint)
         assert len(opt) == 10
         assert opt.corpus == corpus_testee3
-        assert opt.display_name == ""
         assert (
             opt.generate_blueprint(content_preview_lines=0, show_comment=False)
             == bp_text
