@@ -19,10 +19,10 @@ class AgentSkillFolder:  #######################################################
 
     :param path: folder path
     :type path: Path-like
-    :param blueprint: blueprint object
-    :type blueprint: PromptBlueprint
+    :param registry: blueprint registry entry
+    :type registry: BlueprintRegistry
     :example:
-    >>> with AgentSkillFolder(path, blueprint) as agent:
+    >>> with AgentSkillFolder(path, registry=reg) as agent:
     ...     pass
     """
 
@@ -32,17 +32,17 @@ class AgentSkillFolder:  #######################################################
         self,
         parent_folder_path,
         *,
-        blueprint=None,
+        registry=None,
         skill_name=None,
     ):
-        if blueprint:
+        if registry:
             self._path = parent_folder_path / convert_display_name2skill_name(
-                blueprint.display_name
+                registry.display_name
             )
         else:
             self._path = parent_folder_path / skill_name
 
-        self._blueprint = blueprint
+        self._registry = registry
         self._skill_name = skill_name
         self.skill_md = None
 
@@ -51,13 +51,10 @@ class AgentSkillFolder:  #######################################################
     def __enter__(self):
         self._path.mkdir(parents=True, exist_ok=True)
 
-        skill_md = SkillMDFile(
-            self._path,
-            blueprint=self._blueprint,
-        )
+        skill_md = SkillMDFile(self._path, registry=self._registry)
         self.skill_md = skill_md.__enter__()
 
-        if not self._blueprint and self._skill_name:
+        if not self._registry and self._skill_name:
             self.skill_md.name = self._skill_name
 
         return self

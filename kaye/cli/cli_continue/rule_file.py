@@ -17,12 +17,13 @@ class RuleFile(FrontmatterMDFile):  ############################################
 
     :param path:
     :type path: Path-like
-    :param blueprint: optional blueprint object
-    :type blueprint: PromptBlueprint or None
+    :param registry: optional blueprint registry entry; ``always_apply`` and
+            ``invokable`` are taken from it directly
+    :type registry: BlueprintRegistry or None
     :example:
     >>> # blueprint rule file
-    ... with RuleFile(path, blueprint=bp) as rule:
-    ...     rule.always_apply = False
+    ... with RuleFile(path, registry=reg) as rule:
+    ...     pass
 
     >>> # abbreviation rule file
     ... with RuleFile(path) as rule:
@@ -64,13 +65,17 @@ class RuleFile(FrontmatterMDFile):  ############################################
 
     # constructor  =============================================================
 
-    def __init__(self, path, blueprint=None):
-        super().__init__(path, blueprint)
+    def __init__(self, path, registry=None):
+        super().__init__(path, registry)
 
         self.always_apply = False
         self.invokable = False
 
-        if blueprint:
-            self.name = blueprint.display_name
-            self.description = blueprint.sidecars.description_and_when_to_use
-            self.frontmatter["globs"] = blueprint.sidecars.globs
+        if registry:
+            self.name = registry.display_name
+            self.description = (
+                registry.blueprint.sidecars.description_and_when_to_use
+            )
+            self.frontmatter["globs"] = registry.blueprint.sidecars.globs
+            self.always_apply = registry.always_apply
+            self.invokable = registry.invokable
