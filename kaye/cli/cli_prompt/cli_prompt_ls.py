@@ -1,6 +1,6 @@
 """list names of all available embedded blueprints"""
 
-# Bug cli: prompt ls is broken
+# BUG cli: prompt ls is broken
 
 from kaye import PROGRAM_NAME, kamilog
 from kaye.prompt.blueprint import get_embedded_prompt_blueprints_names
