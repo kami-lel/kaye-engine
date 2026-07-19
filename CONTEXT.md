@@ -36,7 +36,7 @@ through a Python API, an HTTP API, and a CLI.
   under the same mechanism, not separate classes: *descriptor sidecar* for
   `{description}`, `{when_to_use}`, `{globs}` (blueprint metadata consumed by
   `BlueprintDescriptorSidecars`, exposed as `blueprint.sidecars`) and
-  *conditional sidecar* for `{prerequisite}`, `{for_claude}` (real prompt
+  *conditional sidecar* for `{prerequisite}`, `{for-claude-code}` (real prompt
   content spliced in conditionally). A node's type is detected via
   `get_sidecar_node_type(node)` (regex `^\{.+\}$`, returns
   `SidecarNodeType.NONE`, falsy, if not a sidecar node). To add a new sidecar

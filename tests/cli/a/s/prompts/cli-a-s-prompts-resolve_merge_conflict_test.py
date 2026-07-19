@@ -91,10 +91,10 @@ class TestContent:  # ==========================================================
 class TestClaude:  # ===========================================================
 
     def test_heading(_, testee_content):
-        assert assert_for_claude_heading_line(testee_content, 3)
+        assert assert_for_claude_code_heading_line(testee_content, 3)
 
     @pytest.mark.parametrize(
-        "i", range(len(TESTEE_FOR_CLAUDE_CONTENT_ALL[SKILL_NAME]))
+        "i", range(len(TESTEE_FOR_CLAUDE_CODE_CONTENT_ALL[SKILL_NAME]))
     )
-    def test_for_claude(_, testee_content, i):
-        assert assert_for_claude_content_line(SKILL_NAME, testee_content, i)
+    def test_for_claude_code(_, testee_content, i):
+        assert assert_for_claude_code_content_line(SKILL_NAME, testee_content, i)

@@ -1,6 +1,5 @@
 
 FIXME consider make chat & rapid single blueprint + dynamic node
-FIXME for_claude -> for_claude_code
 FIXME sensitize personality w/ layer
 Todo gap review add med TT
 
@@ -14,6 +13,7 @@ fixme move print out content to "terminal", include CB, upd its when to use
 fixme sync abbr w/ dotfile commands
 fixme sync abbr w/ vs code shortcut & snippets
 todo add control-language style instruction
+todo add TT aware workflow
 todo git commit aware workflow
 todo additional review prompts, eg efficiency review, eg allow project/scoped review
 todo distinguish project/repo root vs. workspace root

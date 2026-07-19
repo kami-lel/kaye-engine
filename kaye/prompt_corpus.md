@@ -3527,7 +3527,7 @@ Turns a high-level task request into an ordered Plan — gathering repository co
 
 Use when the user describes work at a high level rather than a concrete edit — "add authentication", "migrate to the new API", "refactor the config layer" — or when the change spans more than a couple of files. Trigger on "plan this out", "break this down", "step by step", "what's the order here". Also use when implementation was asked for but the diff would be too large to review in one pass. Skip for single-file edits, direct fixes, and questions the user wants answered rather than planned.
 
-### {for_claude}
+### {for-claude-code}
 
 - call `EnterPlanMode` before gathering, so the whole discovery pass runs under plan-mode protection
 - present the finished Plan through `ExitPlanMode` so approval is explicit and recorded
@@ -3694,7 +3694,7 @@ Resolves Git merge conflicts in a halted merge — reconciles both sides of ever
 
 When a merge, rebase, cherry-pick, or pull stops with conflicts, or files contain `<<<<<<<` / `=======` / `>>>>>>>` markers. Triggers on "resolve the conflicts," "fix the merge," "merge --continue is blocked," even without the word *conflict*. Not for planning branch strategy or writing merge commit messages.
 
-### {for_claude}
+### {for-claude-code}
 
 track resolution with the `TodoWrite` tool — one todo per unmerged path, marked complete only after its markers are gone and the file parses
 
@@ -3889,7 +3889,7 @@ Reach for this on release requests — "ship v1.2.3," "cut a release," "tag a ve
 - follow `Style Guide Good Writing` rules for correctness and clarity
 - use **git** tools to learn difference from last version / `main` branch
 
-### {for_claude}
+### {for-claude-code}
 
 - if the version number or the release date is missing, use `AskUserQuestion` to ask the user before proceeding
 
