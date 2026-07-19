@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+Hack manually inspect all claude skills
 todo todo CLI to import/export w/ OpenWebUI
 -->
 

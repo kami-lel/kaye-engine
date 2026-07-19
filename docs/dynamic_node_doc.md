@@ -1,118 +1,102 @@
 # Dynamic Node Documentation
 
-**Dynamic nodes** are corpus nodes whose content has no fixed value — it is generated at render time (e.g. today's date, abbreviation lookups from a query). Unlike sidecar nodes, dynamic nodes **are** included in the rendered prompt output by default.
+**Dynamic nodes** are prompt corpus nodes whose content is generated at render time instead of being written by hand — today's date, abbreviation lookups against a query, and similar. Unlike [sidecar nodes](sidecar_node_doc.md), dynamic nodes **are** included in the rendered prompt output by default, exactly like a regular corpus section.
 
-<!-- Fixme require proof reading -->
-
-
-
-
-## Concepts
-
-A dynamic node is an instance of the abstract class `DynamicNode`, itself a subclass of `BasePromptNode`. Every concrete dynamic node type must:
-
-- declare a `HEADING` class attribute (its name, without parentheses)
-- be a **leaf node** — attaching children raises `TypeError`
-- implement `content_lines(**kwargs)` to produce its rendered content
-
-**Name syntax:** a dynamic node's `.name` is always its `HEADING` wrapped in parentheses, e.g. `(Today)`, `(Abbreviations)`. This is enforced by the constructor, which builds `.name` from `HEADING` automatically — a concrete subclass never sets `.name` directly.
-
-**Preface:** the constructor also accepts a `preface` argument (an iterable of lines, defaulting to empty) stored as `self._preface`. Every concrete `content_lines()` implementation prepends `self._preface` to its generated lines. This lets a dynamic node carry over introductory text written by a corpus author; q.v. "In Prompt Corpus" below for how `preface` gets populated.
-
-**Rendering behavior:** dynamic nodes are attached directly to the prompt corpus tree and behave like any other node during blueprint checkmarking and rendering — no `contains_sidecar_nodes`-style opt-in is required. Compare this to conditional sidecar nodes, which are excluded unless explicitly requested; q.v. [`Sidecar Node Documentation`](sidecar_node_doc.md).
-
-**Kwargs pass-through:** any extra keyword arguments passed to `PromptBlueprint.generate_prompt()` / `.generate_prompt_lines()` are forwarded to every node's `content_lines()`. This is how a dynamic node receives render-time input — e.g. `AbbrNode.content_lines(query=...)` uses `query` to scan for abbreviation occurrences.
+Every dynamic node's name is its heading wrapped in parentheses, e.g. `(Today)`, `(Abbreviations)` — that syntax marks a node as dynamic wherever it appears, whether in a tree preview, a blueprint, or an error message.
 
 
 
 
-## In Prompt Corpus
+## Available Dynamic Nodes
 
-Dynamic nodes are **not** written in `prompt_corpus.md`. `PromptCorpusNode` explicitly rejects any heading matching the dynamic-node syntax `^\(.+\)$` — that syntax is reserved.
-
-Instead, every registered dynamic node type is attached to the corpus tree **once**, programmatically, right after the corpus file is parsed, via `_attach_dynamic_node()`:
-
-```python
-for node_type in DYNAMIC_NODE_TYPES:
-    _attach_dynamic_node(prompt_corpus_tree, node_type)
-```
-
-This happens inside `load_prompt_corpus_tree()` ([prompt_corpus_loader.py](../kaye/prompt/prompt_corpus_loader.py)) — each dynamic node type becomes a direct child of the tree root.
-
-**Preface carry-over:** `_attach_dynamic_node()` first checks whether a statically-authored `PromptCorpusNode` sharing the dynamic node's heading (e.g. `(Today)`, `(Usable Abbreviations)`) already exists among the root's children. If so, that static node is detached and its `content_lines()` becomes the new dynamic node's `preface` — letting a corpus author write introductory text above dynamically-generated entries instead of it being silently dropped.
-
-**Checkmarking behavior:** a dynamic node behaves like a regular corpus node once attached — it can be checkmarked, uncheckmarked, or included in a full/empty blueprint the same way as any `PromptCorpusNode`. There is no special exclusion rule for dynamic nodes as there is for sidecar nodes.
-
-
-
-
-## Python Package `kaye/prompt/dynamic_nodes`
-
-### `DynamicNode`
-
-Abstract base class for all dynamic node types.
-
-**Location:** [dynamic_node.py](../kaye/prompt/dynamic_nodes/dynamic_node.py)
-
-**Class attributes:**
-
-- `HEADING` (str): the node's name, without parentheses; must be set by every concrete subclass
-
-**Constructor behavior:**
-
-```python
-def __init__(self, parent=None, preface=(), **kwargs):
-    heading = "(" + self.HEADING + ")"
-    super().__init__(heading, parent=parent, **kwargs)
-
-    self._preface = list(preface)
-```
-
-`.name` is always derived from `HEADING`; a subclass never passes a heading explicitly. `preface` is stored as `self._preface` for `content_lines()` implementations to prepend.
-
-**Leaf-node enforcement:** `_pre_attach_children()` raises `TypeError` if any children are attached — a dynamic node is always a leaf.
-
-**Copy behavior:** `__copy__()` returns `type(self)(None, preface=self._preface)` — a fresh instance with no parent, carrying the same preface, since dynamic node content is generated on demand rather than stored.
-
-
-### Registry: `DYNAMIC_NODE_TYPES`
-
-**Location:** [dynamic_nodes/\_\_init\_\_.py](../kaye/prompt/dynamic_nodes/__init__.py)
-
-A tuple of every concrete `DynamicNode` subclass, attached to the corpus tree by `load_prompt_corpus_tree()`. To register a new dynamic node type, add it to this tuple.
-
-
-### Concrete Dynamic Node Types
-
-**Location:** [today_node.py](../kaye/prompt/dynamic_nodes/today_node.py), [abbr_nodes.py](../kaye/prompt/dynamic_nodes/abbr_nodes.py), [abbr_tag_nodes.py](../kaye/prompt/dynamic_nodes/abbr_tag_nodes.py)
-
-| Class | Heading | Purpose |
+| Node | Heading | Renders |
 | --- | --- | --- |
-| `TodayNode` | `(Today)` | current date and time |
-| `AbbrNode` | `(Abbreviations)` | abbreviation meanings found in a `query=` string, or every `always_understand`-tagged entry when `query` is empty |
-| `UsableAbbrNode` | `(Usable Abbreviations)` | abbreviations tagged `usable_in_brief` |
-| `CodingTermsNode` | `(Coding Terms)` | abbreviations tagged `coding` |
-| `LanguageCodeNode` | `(Languages Code)` | abbreviations tagged `language_code` |
-| `PLCNode` | `(Programming Languages Code)` | abbreviations tagged `programming_language_code` |
-| `UnityEngineAbbrNode` | `(Unity Engine Abbreviations)` | abbreviations tagged `unity_engine_abbr` |
+| Today | `(Today)` | current date and time |
+| Abbreviations | `(Abbreviations)` | meanings of abbreviations found in a `query=` string, or every `always_understand`-tagged entry when no query is given |
+| Usable Abbreviations | `(Usable Abbreviations)` | abbreviations tagged `usable_in_brief` |
+| Coding Terms | `(Coding Terms)` | abbreviations tagged `coding` |
+| Languages Code | `(Languages Code)` | abbreviations tagged `language_code` |
+| Programming Languages Code | `(Programming Languages Code)` | abbreviations tagged `programming_language_code` |
+| Unity Engine Abbreviations | `(Unity Engine Abbreviations)` | abbreviations tagged `unity_engine_abbr` |
 
-#### `TodayNode`
+Q.v. [`abbrs_json_doc.md`](abbrs_json_doc.md) for how the `tags` field on an abbreviation entry drives the tag-filtered nodes above.
 
-`content_lines()` takes no meaningful arguments; returns two lines: `Date: YYYY-MM-DD` and `Time: HH:MM:SS`, computed from `datetime.now()` at render time.
+Every dynamic node is a **leaf** — it never has children, so it cannot itself contain sub-sections.
 
-#### `AbbrNode`
 
-`content_lines(*, query="")` behaves in one of two ways:
 
-- if `query` is given, it scans `query` using `AbbrData().automaton` to find abbreviation occurrences, verifies each match's surrounding characters via `verify_found()`, then renders matches as Markdown list entries
-- if `query` is empty, it falls back to every `AbbrData().abbrs` entry tagged `AbbrTags.always_understand`, via the shared `gen_abbrs_content_lines()` helper
 
-#### `gen_abbrs_content_lines(abbr_tag)`
+## Using a Dynamic Node
 
-**Location:** [abbr_tag_nodes.py](../kaye/prompt/dynamic_nodes/abbr_tag_nodes.py)
+Every dynamic node type is attached once to the prompt corpus tree automatically, as a direct child of the root — you do not add them to `prompt_corpus.md` yourself, and in fact `prompt_corpus.md` **rejects** any heading in the `(...)` form, since that syntax is reserved for dynamic nodes.
 
-Shared helper that filters `AbbrData().abbrs` by a single `AbbrTags` flag and renders matching entries as Markdown list entries. Backs every tag-filtered node below, and `AbbrNode`'s empty-`query` fallback.
+Once attached, a dynamic node behaves like any other corpus node in a blueprint: checkmark it to include it, uncheckmark it to leave it out.
 
-#### `UsableAbbrNode`, `CodingTermsNode`, `LanguageCodeNode`, `PLCNode`, `UnityEngineAbbrNode`
+```python
+from kaye.prompt import PromptBlueprint
 
-Each is a thin `_AbbrTagNodeBase` subclass declaring a single `ABBR_TAG` (`usable_in_brief`, `coding`, `language_code`, `programming_language_code`, `unity_engine_abbr` respectively); `content_lines()` returns `self._preface + gen_abbrs_content_lines(self.ABBR_TAG)`. Q.v. [`abbrs_json_doc.md`](abbrs_json_doc.md) for the `tags` field these filters key off of.
+blueprint_text = """ ○
+[x] └── (Abbreviations)"""
+
+blueprint = PromptBlueprint.parse(blueprint_text)
+prompt = blueprint.generate_prompt()
+```
+
+There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `contains_sidecar_nodes=`, q.v. [`sidecar_node_doc.md`](sidecar_node_doc.md#conditional-sidecar-nodes).
+
+
+
+
+## Feeding Render-Time Input
+
+Some dynamic nodes need input that only exists at render time — `(Abbreviations)` scans a piece of text for abbreviation occurrences, for example. Pass that input as an extra keyword argument to `generate_prompt()` / `generate_prompt_lines()`; it is forwarded to every node's content generation, and each dynamic node picks out the keyword(s) it understands.
+
+```python
+prompt = blueprint.generate_prompt(
+    query="use an algo to calc the avg",
+)
+```
+
+Given that query, `(Abbreviations)` finds `algo` and `calc` (verifying each match against its surrounding characters to avoid false positives) and renders them as a Markdown list:
+
+```markdown
+- algo:algorithm
+- calc:calculate
+```
+
+If `query` is omitted or empty, `(Abbreviations)` falls back to rendering every abbreviation tagged `always_understand`, the same way the tag-filtered nodes (`(Usable Abbreviations)`, `(Coding Terms)`, etc.) always do — those nodes ignore `query` entirely and simply render every entry carrying their tag.
+
+`(Today)` needs no input at all; it always renders the current date and time.
+
+
+
+
+## Adding Introductory Text
+
+A dynamic node's content is generated at render time, so you cannot normally write your own text into it. If you want introductory text to appear above a dynamic node's generated content, write a regular section in `prompt_corpus.md` with that dynamic node's exact heading:
+
+```markdown
+# (Usable Abbreviations)
+
+Use the following abbreviations only when brevity is required.
+```
+
+When the corpus loads, that section is detected, removed from the static tree, and its content is carried over as a **preface** — prepended to the dynamic node's generated lines every time it renders. The result is a single `(Usable Abbreviations)` node whose output is:
+
+```markdown
+Use the following abbreviations only when brevity is required.
+- ...
+- ...
+```
+
+Without this, any section written under a dynamic node's heading is silently dropped in favor of the generated content.
+
+
+
+
+## Cross-References
+
+- [`corpus_doc.md`](corpus_doc.md) — `prompt_corpus.md` format and heading-to-tree-depth rules
+- [`sidecar_node_doc.md`](sidecar_node_doc.md) — sidecar nodes, the other special node category, and how they differ from dynamic nodes
+- [`programmatic_api_doc.md`](programmatic_api_doc.md) — `PromptBlueprint`, checkmarking, and `generate_prompt()` / `generate_prompt_lines()` in full
+- [`abbrs_json_doc.md`](abbrs_json_doc.md) — abbreviation entries and the tags the tag-filtered dynamic nodes key off of
