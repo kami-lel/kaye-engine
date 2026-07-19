@@ -1,5 +1,4 @@
 Bug compact-with-maintenance skill need to be rm
-Bug plan for step by step should work w/ exit plan tool
 Fixme consider make chat & rapid single blueprint + dynamic node
 Fixme for_claude -> for_claude_code
 Fixme sensitize personality w/ layer
@@ -8,12 +7,14 @@ Todo gap review add med TT
 
 bug barista: it sometimes remove some information & remove repeated chinese word
 bug tries to use git mv a lot
+bug plan for step by step should work w/ exit plan tool
 fixme better german learner prompt
 fixme git worktree: exact wording main vs. linked worktree
 fixme move print out content to "terminal", include CB, upd its when to use
 fixme sync abbr w/ dotfile commands
 fixme sync abbr w/ vs code shortcut & snippets
 todo add control-language style instruction
+todo git commit aware workflow
 todo additional review prompts, eg efficiency review, eg allow project/scoped review
 todo distinguish project/repo root vs. workspace root
 todo resume role
