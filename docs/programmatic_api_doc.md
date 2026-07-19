@@ -443,11 +443,11 @@ E.g.
 #### embedded blueprints
 
 **Embedded blueprints** are defined as module-level variables in
-`kaye.prompt.embedded_blueprints`. Import them directly by name when you want a
-ready-made blueprint object:
+`kaye.prompt.blueprint.embedded_blueprints`. Import them directly by name
+when you want a ready-made blueprint object:
 
 ```python
-from kaye.prompt.embedded_blueprints import (
+from kaye.prompt.blueprint.embedded_blueprints import (
     chat_blueprint,
     coder_py_blueprint,
     project_changelog_blueprint,

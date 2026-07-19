@@ -8,6 +8,9 @@ define:
 - ``get_embedded_prompt_blueprints_names``
 """
 
+# bug bp loader no longer used
+
+
 import os
 from pathlib import Path
 

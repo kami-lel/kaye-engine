@@ -68,6 +68,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # =========================================================
 
-    @pytest.mark.parametrize("marker", TESTEE_FILE_CONTENT)
-    def test_content(_, testee_content, marker):
-        assert marker in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content

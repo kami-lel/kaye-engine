@@ -99,33 +99,38 @@ CLI subcommand aliases: `http` → `h`; `continue` → `c`;
 To add a blueprint that appears in both `claude skill` and `continue config`
 exports, touch these locations in order:
 
-1. **`kaye/prompt/embedded_blueprints.py`** — define the variable and add its
-   name to `__all__` (controls the `*` import into `kaye/cli/__init__.py`)
-2. **`kaye/cli/__init__.py` → `EXPORTABLE_BLUEPRINTS`** — append the blueprint
-   object; this is the actual gate for CLI export; omitting it causes "file not
-   found" in tests even though import works
-3. **`tests/cli/__init__.py`** — add entries to both:
+1. **`kaye/prompt/blueprint/registrations.py`** — the single place every
+   blueprint is created; call `register_blueprint()` (or the
+   `_register_exportable`/`_register_prompt` partials defined near the top
+   of the file) with the corpus node, setting `skill_exportable`,
+   `continue_exportable`, `always_apply`, `user_invokable`, `llm_invokable`
+   as needed. This is the only gate — a blueprint that isn't registered here
+   is invisible to every exporter, since `claude skill`, `continue config`,
+   and `continue prompt` all iterate `BLUEPRINT_REGISTRIES` directly
+2. **`tests/cli/__init__.py`** — add entries to both:
    - `MD_FILENAME2SKILL_NAME`: `"kebab-slug": "Display Name"`
    - `TESTEE_FILE_CONTENT_ALL`: `"kebab-slug": ["string1", "string2", ...]`
-4. **`tests/cli/a/s/structure/cli-a-s-structure-exportable_blueprints_test.py`**
-   — add a `test_<name>()` calling `validate_blueprint(bp)`
-5. **`tests/cli/a/s/<group>/cli-a-s-<group>-<slug>_test.py`** — per-skill
+3. **`tests/cli/a/s/<group>/cli-a-s-<group>-<slug>_test.py`** — per-skill
    content test (classes `TestBasic`, `TestHeader`, `TestStructure`,
    `TestContent`); group folders: `coder/`, `proj/`, `style/`, `pe/`,
    `others/` (catch-all incl. Elements nodes), `role/` (Role section),
-   `prompts/` (`# Projects` workflow prompts, see below)
-6. **`tests/cli/c/c/<group>/cli-c-c-bp-<slug>_test.py`** — continue config
+   `prompts/` (`# Projects` workflow prompts, see below). No separate
+   structural-exportability test is needed — `tests/cli/a/__init__.py`'s
+   `ALL_CLAUDE_SKILL_NAMES` derives the full skill list straight from
+   `BLUEPRINT_REGISTRIES`, so parametrized suites like
+   `tests/corpus/corpus-skill_frontmatter_test.py` cover any new
+   registration automatically
+4. **`tests/cli/c/c/<group>/cli-c-c-bp-<slug>_test.py`** — continue config
    content test; fixture is `testee_rules_folder / (display_name + ".md")`
    (file named by display name, not kebab slug)
 
 `# Projects` workflow prompts (e.g. `Gap Review`, `Plan for Step By Step`) use
-a **separate, parallel pipeline**: they skip steps 1–2 above and instead go
-into `PROMPTS_BLUEPRINTS` in `kaye/cli/prompts_blueprints.py` — build with
+`_register_prompt` (`llm_invokable=False`) instead of `_register_exportable`
+— same `registrations.py` file, no separate module or pipeline — built with
 `PromptBlueprint.create_from_node(_prompt_node["<Name>"])`, adding
 `recursively=True` if the corpus node has `####` sub-sections — then follow
-steps 3–6 the same way (test group folder `prompts/`, not the blueprint's
-topic). `PROMPTS_BLUEPRINTS` is consumed by both `claude skill` and `continue
-config` exports identically to `EXPORTABLE_BLUEPRINTS`.
+steps 2–4 the same way (test group folder `prompts/`, not the blueprint's
+topic).
 
 ### `c/c` `TestHeader` description/when-to-use pattern
 
@@ -165,11 +170,22 @@ next `class` line (PEP 8), including before the first class after the
 single blank line in files without `test_when_to_use`; watch for the same
 regression when scripting edits across this test group.
 
-### `always_apply` for new blueprints
+### Export-policy flags for new blueprints
 
-Defaults to `False`. Only `"Chat"`, `"Coder"`, `"Agent Behavior"`,
-`"Continue Behavior"` are in `_ALWAYS_APPLY_BLUEPRINT`
-(`kaye/cli/cli_continue/export_blueprint_rules.py`).
+`register_blueprint()` takes three independent bools, each defaulting per
+below — set per-registration in `registrations.py`, there's no separate
+allow-list constant:
+
+- `always_apply` (default `False`) — forces unconditional inclusion in the
+  exported Continue AI rule regardless of relevance; currently only
+  `"Kaye Peer Coder"` and `"Continue Behavior"` set this
+- `user_invokable` (default `True`) — whether a human may deliberately
+  invoke the entry by name; drives the exported Claude Skill's
+  `user-invocable` field
+- `llm_invokable` (default `True`) — whether Continue's own relevance
+  matching may silently surface the entry without it being named; `True`
+  exports as a Continue rule, `False` exports as a Continue Prompt (set by
+  `_register_prompt`, used for `# Projects` workflow prompts)
 
 ## Security
 

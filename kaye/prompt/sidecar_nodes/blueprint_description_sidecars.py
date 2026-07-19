@@ -158,7 +158,7 @@ class BlueprintDescriptorSidecars:  ##########################################
         if not node:
             return []
 
-        from kaye.prompt.prompt_blueprint import PromptBlueprint
+        from kaye.prompt.blueprint import PromptBlueprint
 
         bp = PromptBlueprint.create_from_node(node)
         return bp.generate_prompt_lines(disable_first_heading=True)

@@ -9,31 +9,31 @@ define endpoint behavior of: /kaye/dify-app/ky/task
 
 from flask import request, abort, Response
 
-from kaye.prompt.prompt_blueprint import PromptBlueprint
+from kaye.prompt.blueprint import PromptBlueprint, BLUEPRINT_REGISTRIES
 
-from kaye.prompt import (
-    rapid_blueprint,
-    chat_blueprint,
-    date_time_blueprint,
-    number_unit_blueprint,
-    style_blueprint,
-    triage_tags_blueprint,
-    coder_blueprint,
-    coder_bash_blueprint,
-    project_changelog_blueprint,
-    coder_c_blueprint,
-    coder_cpp_blueprint,
-    coder_ue_blueprint,
-    coder_csharp_blueprint,
-    coder_u3d_blueprint,
-    coder_gdscript_blueprint,
-    coder_html_blueprint,
-    coder_js_ts_blueprint,
-    coder_py_blueprint,
-    coder_py_docstring_blueprint,
-    coder_py_testing_blueprint,
-    prompt_writer_blueprint,
-)
+_BR = BLUEPRINT_REGISTRIES
+
+rapid_blueprint = _BR["rapid"].blueprint
+chat_blueprint = _BR["chat"].blueprint
+date_time_blueprint = _BR["date-time"].blueprint
+number_unit_blueprint = _BR["number-unit"].blueprint
+style_blueprint = _BR["style"].blueprint
+triage_tags_blueprint = _BR["triage-tags"].blueprint
+coder_blueprint = _BR["coder"].blueprint
+coder_bash_blueprint = _BR["coder-bash"].blueprint
+project_changelog_blueprint = _BR["project-changelog"].blueprint
+coder_c_blueprint = _BR["coder-c"].blueprint
+coder_cpp_blueprint = _BR["coder-cpp"].blueprint
+coder_ue_blueprint = _BR["coder-ue"].blueprint
+coder_csharp_blueprint = _BR["coder-csharp"].blueprint
+coder_u3d_blueprint = _BR["coder-u3d"].blueprint
+coder_gdscript_blueprint = _BR["coder-gdscript"].blueprint
+coder_html_blueprint = _BR["coder-html"].blueprint
+coder_js_ts_blueprint = _BR["coder-js-ts"].blueprint
+coder_py_blueprint = _BR["coder-py"].blueprint
+coder_py_docstring_blueprint = _BR["coder-py-docstring"].blueprint
+coder_py_testing_blueprint = _BR["coder-py-testing"].blueprint
+prompt_writer_blueprint = _BR["prompt-writer"].blueprint
 
 # constant  ####################################################################
 BODY_PROGRAMMING_LANGUAGES_KEY = "programming_languages"

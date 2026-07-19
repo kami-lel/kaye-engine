@@ -2,11 +2,6 @@ import pytest
 
 from tests.cli.a.s import prepare_root_folder
 
-collect_ignore = [
-    "cli/c/c/cli-c-c-alts_test.py",  # Hack remove/mpv CLI c c alts test
-]
-
-
 # Pytest fixtures  #############################################################
 
 
