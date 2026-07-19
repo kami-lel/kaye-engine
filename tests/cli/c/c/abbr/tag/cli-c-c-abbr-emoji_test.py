@@ -68,47 +68,6 @@ class TestHeader:  # ===========================================================
 
 class TestContent:  # =========================================================
 
-    def test0(_, testee_content):
-        assert TESTEE_FILE_CONTENT[0] in testee_content
-
-    def test1(_, testee_content):
-        assert TESTEE_FILE_CONTENT[1] in testee_content
-
-    def test2(_, testee_content):
-        assert TESTEE_FILE_CONTENT[2] in testee_content
-
-    def test3(_, testee_content):
-        assert TESTEE_FILE_CONTENT[3] in testee_content
-
-    def test4(_, testee_content):
-        assert TESTEE_FILE_CONTENT[4] in testee_content
-
-    def test5(_, testee_content):
-        assert TESTEE_FILE_CONTENT[5] in testee_content
-
-    def test6(_, testee_content):
-        assert TESTEE_FILE_CONTENT[6] in testee_content
-
-    def test7(_, testee_content):
-        assert TESTEE_FILE_CONTENT[7] in testee_content
-
-    def test8(_, testee_content):
-        assert TESTEE_FILE_CONTENT[8] in testee_content
-
-    def test9(_, testee_content):
-        assert TESTEE_FILE_CONTENT[9] in testee_content
-
-    def test10(_, testee_content):
-        assert TESTEE_FILE_CONTENT[10] in testee_content
-
-    def test11(_, testee_content):
-        assert TESTEE_FILE_CONTENT[11] in testee_content
-
-    def test12(_, testee_content):
-        assert TESTEE_FILE_CONTENT[12] in testee_content
-
-    def test13(_, testee_content):
-        assert TESTEE_FILE_CONTENT[13] in testee_content
-
-    def test14(_, testee_content):
-        assert TESTEE_FILE_CONTENT[14] in testee_content
+    @pytest.mark.parametrize("i", range(len(TESTEE_FILE_CONTENT)))
+    def test_content(_, testee_content, i):
+        assert TESTEE_FILE_CONTENT[i] in testee_content
