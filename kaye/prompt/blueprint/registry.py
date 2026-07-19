@@ -4,11 +4,40 @@ registry.py
 define `BlueprintRegistry`, `register_blueprint`, `BLUEPRINT_REGISTRIES`
 """
 
+import re
+
 from dataclasses import dataclass
 
 from .prompt_blueprint import PromptBlueprint
 
-__all__ = ("BlueprintRegistry", "register_blueprint", "BLUEPRINT_REGISTRIES")
+__all__ = (
+    "BlueprintRegistry",
+    "register_blueprint",
+    "BLUEPRINT_REGISTRIES",
+    "to_skill_name",
+)
+
+
+def to_skill_name(node):
+    """
+    read a corpus node's title and convert it to a kebab-case skill name
+
+    the title is taken from the node's ``display_name``; every run of
+    characters outside ``[a-z0-9]`` collapses to a single hyphen and
+    leading/trailing hyphens are stripped, so the result matches
+    Anthropic's skill-name grammar
+    ``^[a-z0-9]([a-z0-9]|-[a-z0-9])*$`` -- a title such as
+    ``Abbr Starts with Digits 0~9`` yields ``abbr-starts-with-digits-0-9``
+    rather than an upload-rejected slug containing ``~``
+
+
+    :param node: object exposing a ``display_name`` title, such as a
+            ``BlueprintRegistry`` or ``ExportableAbbr``
+    :type node: object
+    :return: lowercase, hyphen-separated skill name
+    :rtype: str
+    """
+    return re.sub(r"[^a-z0-9]+", "-", node.display_name.lower()).strip("-")
 
 
 @dataclass
@@ -50,6 +79,14 @@ class BlueprintRegistry:
     continue_exportable: bool = False
     always_apply: bool = False
     invokable: bool = False
+
+    @property
+    def skill_name(self):
+        """
+        :return: canonical kebab-case skill name from ``display_name``
+        :rtype: str
+        """
+        return to_skill_name(self)
 
 
 # Entry Point  #################################################################

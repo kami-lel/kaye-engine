@@ -8,10 +8,7 @@ from pathlib import Path
 from importlib.metadata import version
 
 from kaye import PROGRAM_NAME
-from kaye.cli.claude import (
-    convert_display_name2skill_name,
-    CONTAINING_SIDECAR_NODES,
-)
+from kaye.cli.claude import CONTAINING_SIDECAR_NODES
 from kaye.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 
 
@@ -64,10 +61,14 @@ class Skill(FrontmatterDoc):
 
         :param parent_folder: directory the skill folder is created under
         :type parent_folder: Path-like
+        :return: the skill folder that was written
+        :rtype: Path
         """
         folder = Path(parent_folder) / self.name
         folder.mkdir(parents=True, exist_ok=True)
         super().write(folder / self._FILENAME)
+
+        return folder
 
     # implement FrontmatterDoc  ------------------------------------------------
 
@@ -145,7 +146,7 @@ class Skill(FrontmatterDoc):
         """
         sidecars = registry.blueprint.sidecars
         return cls(
-            name=convert_display_name2skill_name(registry.display_name),
+            name=registry.skill_name,
             description=sidecars.description,
             when_to_use=sidecars.when_to_use,
             paths=list(sidecars.globs) if sidecars.globs else [],
