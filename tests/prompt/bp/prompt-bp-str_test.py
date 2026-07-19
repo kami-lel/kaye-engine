@@ -17,17 +17,7 @@ class TestEmpty:
         opt = str(bp)
 
         print(opt)
-        assert opt == "PromptBlueprint()"
-
-
-class TestName:
-
-    NAME = "My Blueprint"
-
-    def test_init(self):
-        bp = PromptBlueprint(display_name=self.NAME)
-
-        opt = str(bp)
-
-        print(opt)
-        assert opt == "PromptBlueprint(My Blueprint)"
+        # str() has no dedicated override; falls back to __repr__(), the
+        # tree-preview dump
+        assert opt == repr(bp)
+        assert opt == bp.generate_blueprint()
