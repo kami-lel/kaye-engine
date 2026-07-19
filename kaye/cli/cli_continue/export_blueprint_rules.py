@@ -10,7 +10,7 @@ from pathlib import Path
 from kaye import logger
 from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
 
-from kaye.cli.cli_continue.rule_file import RuleFile
+from kaye.cli.cli_continue.rule_file import ContinueRule
 
 # Entry Point  #################################################################
 
@@ -37,7 +37,6 @@ def export_blueprint_rules(rules_folder):
 
         file_path = folder_path / "{}.md".format(reg.display_name)
 
-        with RuleFile(file_path, registry=reg):
-            pass
+        ContinueRule.from_registry(reg).write(file_path)
 
         logger.succ("blueprint rule:\t{}".format(file_path))

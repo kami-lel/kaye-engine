@@ -8,7 +8,7 @@ from pathlib import Path
 
 from kaye import logger
 from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
-from kaye.cli.cli_continue.rule_file import RuleFile
+from kaye.cli.cli_continue.rule_file import ContinueRule
 
 
 # Entry Point  #################################################################
@@ -31,7 +31,6 @@ def export_prompt_rules(prompts_folder):
         filename = reg.display_name + ".md"
         file_path = prompts_folder / filename
 
-        with RuleFile(file_path, registry=reg):
-            pass
+        ContinueRule.from_registry(reg).write(file_path)
 
         logger.succ("prompt:\t{}".format(file_path))
