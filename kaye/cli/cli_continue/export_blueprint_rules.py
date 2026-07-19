@@ -2,7 +2,7 @@
 blueprint_rule.py
 
 define ``export_all_blueprint_rules``, the full pipeline for writing
-blueprints as Continue AI rule files via ``RuleFile``
+blueprints as Continue AI rule files via ``ContinueRule``
 """
 
 from pathlib import Path
