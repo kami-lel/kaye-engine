@@ -1,5 +1,8 @@
 """show content of any of embedded blueprints"""
 
+# Bug cli: prompt show is broken
+
+
 from kaye import PROGRAM_NAME, kamilog
 
 from .cli_prompt_generate import (

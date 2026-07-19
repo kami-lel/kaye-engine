@@ -1,5 +1,7 @@
 """generate concrete prompt from blueprint"""
 
+# bug cli: prompt gen is broken
+
 from argparse import FileType, ArgumentParser
 from pathlib import Path
 
