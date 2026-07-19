@@ -1,3 +1,4 @@
+Fixme for_claude -> for_claude_code
 
 todo resume role
 
@@ -19,6 +20,7 @@ bug tries to use git mv a lot
 todo distinguish project/repo root vs. workspace root
 Fixme consider make chat & rapid single blueprint + dynamic node
 Bug plan for step by step should work w/ exit plan tool
+Todo gap review add med TT
 
 fixme move print out content to "terminal", include CB, upd its when to use
 
