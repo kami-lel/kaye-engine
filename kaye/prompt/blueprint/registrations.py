@@ -397,6 +397,20 @@ role_tarot_reader = _register_exportable(
 )
 
 
+# Continue AI  ==================================================================
+# (Continue-only, not exported as a Claude skill)
+
+continue_behavior = register_blueprint(
+    "continue-behavior",
+    "Continue Behavior",
+    PromptBlueprint.create_from_node(
+        _corpus["Agent Behavior"]["Continue Behavior"]
+    ),
+    continue_exportable=True,
+    always_apply=True,
+)
+
+
 # Prompts (invokable workflows)  ===============================================
 # (share `_proj_node`, same "Projects" corpus node used above -- different
 # children)
