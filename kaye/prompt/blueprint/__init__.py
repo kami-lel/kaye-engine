@@ -7,5 +7,5 @@ common embedded blueprint instances
 
 from .prompt_blueprint import *
 from .prompt_blueprint_loader import *
-from .blueprint_registry import *
-from .embedded_blueprints import *
+from .registry import *
+from .registrations import *

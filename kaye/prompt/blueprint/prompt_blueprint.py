@@ -16,9 +16,9 @@ from kaye.prompt.sidecar_nodes import (
 from ..base_prompt_node import BasePromptNode
 from ..prompt_corpus_loader import load_prompt_corpus_tree
 
-from . import blueprint_render
-from . import blueprint_parser
-from .blueprint_node_resolver import resolve_node
+from . import render
+from . import parser
+from .node_resolver import resolve_node
 
 __all__ = ("PromptBlueprint",)
 
@@ -76,7 +76,7 @@ class PromptBlueprint(dict):
         )
 
         bp.update(
-            blueprint_parser.parse_blueprint_text(blueprint_text, bp.corpus)
+            parser.parse_blueprint_text(blueprint_text, bp.corpus)
         )
 
         # prune the tree
@@ -230,20 +230,20 @@ class PromptBlueprint(dict):
         generate **preview tree** of the blueprint,
         an human-readable representation
 
-        (see ``blueprint_render.render_blueprint_tree()`` for parameters)
+        (see ``render.render_blueprint_tree()`` for parameters)
 
 
         :return: the preview tree
         :rtype: str
         """
-        return blueprint_render.render_blueprint_tree(self, **kwargs)
+        return render.render_blueprint_tree(self, **kwargs)
 
     def generate_prompt(self, *args, **kwargs):
         """
         render the **concrete prompt** that can be used as LLM system message
         from this blueprint's node checkmarking status
 
-        (see ``blueprint_render.render_prompt_lines()`` for parameters)
+        (see ``render.render_prompt_lines()`` for parameters)
 
 
         :return: generated prompt
@@ -255,13 +255,13 @@ class PromptBlueprint(dict):
         """
         generate prompt as a list of lines from this blueprint
 
-        (see ``blueprint_render.render_prompt_lines()`` for parameters)
+        (see ``render.render_prompt_lines()`` for parameters)
 
 
         :return: list of prompt lines
         :rtype: list[str]
         """
-        return blueprint_render.render_prompt_lines(self, **kwargs)
+        return render.render_prompt_lines(self, **kwargs)
 
     # Blueprint operation  *****************************************************
 

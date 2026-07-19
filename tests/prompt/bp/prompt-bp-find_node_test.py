@@ -4,14 +4,14 @@ prompt-bp-find_node_test.py
 Unit Tests (using pytest) for:
 
 
-blueprint_node_resolver.resolve_node()
+node_resolver.resolve_node()
 """
 
 import pytest
 
 
 from kaye.prompt.prompt_corpus_node import PromptCorpusNode
-from kaye.prompt.blueprint.blueprint_node_resolver import resolve_node
+from kaye.prompt.blueprint.node_resolver import resolve_node
 
 
 class Test1:  ##################################################################
