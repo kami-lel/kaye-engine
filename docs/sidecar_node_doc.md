@@ -48,7 +48,7 @@ Conditional sidecar nodes are real prompt content (e.g., instructions, rules) th
 
 Lists prerequisite instructions that apply whenever the parent node is enabled. When a parent node is checkmarked in a blueprint, its `{prerequisite}` sidecar children should typically be auto-included.
 
-**Rendering behavior:** Pass `contains_sidecar_nodes=SidecarNodeType.PREREQUISITE` to `generate_prompt()` or `generate_prompt_lines()` to auto-checkmark every `{prerequisite}` node whose parent is already checkmarked before rendering.
+**Rendering behavior:** Pass `contains_sidecar_nodes=SidecarNodeType.PREREQUISITE` to `generate_prompt()` or `render.render_prompt_lines()` to auto-checkmark every `{prerequisite}` node whose parent is already checkmarked before rendering.
 
 **Detection:** Use `get_sidecar_node_type(node) & SidecarNodeType.PREREQUISITE` to identify prerequisite sidecars.
 
@@ -105,7 +105,7 @@ This node contains Claude-specific instructions.
 **Checkmarking behavior:**
 - Sidecar nodes are **never auto-checkmarked** by `create_full_blueprint()` or by `.checkmark()` with `recursively=True`
 - Descriptor sidecars are generally not checkmarked at all — their content is accessed via the `.sidecars` blueprint attribute
-- Conditional sidecar nodes can be auto-checkmarked only when you explicitly pass a matching `SidecarNodeType` flag to `generate_prompt()` or `generate_prompt_lines()`
+- Conditional sidecar nodes can be auto-checkmarked only when you explicitly pass a matching `SidecarNodeType` flag to `generate_prompt()` or `render.render_prompt_lines()`
 - To explicitly checkmark a sidecar node: `bp.checkmark(sidecar_node)`
 
 

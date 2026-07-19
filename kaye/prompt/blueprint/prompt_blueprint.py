@@ -219,7 +219,7 @@ class PromptBlueprint(dict):
         """
         return render.render_blueprint_tree(self, **kwargs)
 
-    def generate_prompt(self, *args, **kwargs):
+    def generate_prompt(self, **kwargs):
         """
         render the **concrete prompt** that can be used as LLM system message
         from this blueprint's node checkmarking status
@@ -230,19 +230,7 @@ class PromptBlueprint(dict):
         :return: generated prompt
         :rtype: str
         """
-        return "\n".join(self.generate_prompt_lines(*args, **kwargs))
-
-    def generate_prompt_lines(self, **kwargs):
-        """
-        generate prompt as a list of lines from this blueprint
-
-        (see ``render.render_prompt_lines()`` for parameters)
-
-
-        :return: list of prompt lines
-        :rtype: list[str]
-        """
-        return render.render_prompt_lines(self, **kwargs)
+        return "\n".join(render.render_prompt_lines(self, **kwargs))
 
     # Blueprint operation  *****************************************************
 
