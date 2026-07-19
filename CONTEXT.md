@@ -31,7 +31,7 @@ through a Python API, an HTTP API, and a CLI.
   parent but stored as corpus content; excluded by default and conditionally
   spliced in via `contains_sidecar_nodes` (`kaye/prompt/sidecar_nodes/`).
   `SidecarNodeType` (`sidecar_node_type.py`) is an `IntFlag` with members
-  `DESCRIPTION`, `WHEN_TO_USE`, `GLOBS`, `PREREQUISITE`, `FOR_CLAUDE`;
+  `DESCRIPTION`, `WHEN_TO_USE`, `GLOBS`, `PREREQUISITE`, `FOR_CLAUDE_CODE`;
   `.as_node_heading` renders e.g. `{description}`. Two usage-role labels
   under the same mechanism, not separate classes: *descriptor sidecar* for
   `{description}`, `{when_to_use}`, `{globs}` (blueprint metadata consumed by
@@ -52,9 +52,9 @@ through a Python API, an HTTP API, and a CLI.
   `tests/prompt/node/`.
 - **Prerequisite Node** — `{prerequisite}` conditional sidecar node; pass
   `contains_sidecar_nodes=SidecarNodeType.PREREQUISITE` (or a combined flag)
-  to `generate_prompt()` / `generate_prompt_lines()` to auto-checkmark every
-  matching sidecar node whose parent is already checkmarked before rendering;
-  `FOR_CLAUDE` and `PREREQUISITE` are combined in
+  to `generate_prompt()` / `render.render_prompt_lines()` to auto-checkmark
+  every matching sidecar node whose parent is already checkmarked before
+  rendering; `FOR_CLAUDE_CODE` and `PREREQUISITE` are combined in
   `kaye.cli.claude.CONTAINING_SIDECAR_NODES` for all Claude exports
 - **Blueprint Sidecar Merging** — `BlueprintDescriptorSidecars.__or__` merges
   two instances via `left | right`; left operand takes priority for each

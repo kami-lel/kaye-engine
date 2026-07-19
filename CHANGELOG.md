@@ -65,9 +65,17 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Changed
 
-- **`Plan for Step By Step` `{for_claude}` guidance** — now also calls
+- **`Plan for Step By Step` `{for-claude-code}` guidance** — now also calls
   `EnterPlanMode` before gathering, so the whole discovery pass runs under
   plan-mode protection (previously only called `ExitPlanMode` after)
+- **`{for_claude}` sidecar node renamed to `{for-claude-code}`** — matching
+  `SidecarNodeType.FOR_CLAUDE` enum member renamed to `FOR_CLAUDE_CODE`
+  (`kaye/prompt/sidecar_nodes/sidecar_node_type.py`); every prompt-corpus
+  heading, doc reference, and test fixture updated to match
+- **`PromptBlueprint.generate_prompt()`** now calls
+  `render.render_prompt_lines()` (`kaye/prompt/blueprint/render.py`)
+  directly instead of through the removed `.generate_prompt_lines()`
+  wrapper
 - **`kamilog`** bumped to `v2.8.0` — new `NOTE`/`TIP`/`HINT`/`IMPORTANT`/
   `CAUTION` log levels and matching logger methods; `AnsiColor` enum
   replaced by combinable `AnsiStyle` flags (foreground/background/bold/
@@ -108,6 +116,8 @@ todo todo CLI to import/export w/ OpenWebUI
 - **`tests/cli/a/s/structure/` blueprint-exportability tests** — coverage
   moved to `tests/prompt/bp/prompt-bp-registry_test.py` (registry-level)
   and the existing per-skill content tests
+- **`PromptBlueprint.generate_prompt_lines()`** — callers use
+  `render.render_prompt_lines(bp, ...)` directly instead
 
 ### Fixed
 

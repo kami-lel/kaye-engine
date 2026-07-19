@@ -354,10 +354,10 @@ bp_left | bp_right
 ##### generate prompt
 
 Use `.generate_prompt()` to render the concrete prompt as a single string.
-Use `.generate_prompt_lines()` when you want the rendered prompt as a list of
-lines instead.
+Use `render.render_prompt_lines()` (`kaye.prompt.blueprint.render`) when you
+want the rendered prompt as a list of lines instead.
 
-Both methods support `disable_first_heading=`, `show_comment=`, and
+Both support `disable_first_heading=`, `show_comment=`, and
 `contains_sidecar_nodes=` to conditionally include conditional sidecar nodes during rendering.
 For details on sidecar node types and conditional inclusion patterns, see [`sidecar_node_doc.md`](sidecar_node_doc.md#conditional-sidecar-nodes).
 Any extra keyword arguments are passed through to node `content_lines()`
@@ -367,8 +367,9 @@ q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#feeding-render-time-inpu
 E.g.
 
 ```python
+>>> from kaye.prompt.blueprint import render
 >>> tree = PromptBlueprint.parse(...)
->>> tree.generate_prompt_lines(disable_first_heading=True)
+>>> render.render_prompt_lines(tree, disable_first_heading=True)
 ['Overview of the methodologies used.',
  '### Data Collection',
  'How data was gathered for analysis.',
