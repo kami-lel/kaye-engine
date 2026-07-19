@@ -1,6 +1,6 @@
 """main parser for Kaye Python CLI"""
 
-# FIXME make cli prompt functional
+# fixme make cli prompt functional
 
 from argparse import ArgumentParser
 

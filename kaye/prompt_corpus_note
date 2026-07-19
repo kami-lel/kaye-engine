@@ -24,8 +24,3 @@ Bug plan for step by step should work w/ exit plan tool
 fixme move print out content to "terminal", include CB, upd its when to use
 
 fixme git worktree: exact wording main vs. linked worktree
-
-TODO make continue support deprecated
-FIXME reduce continue scope (limited set of exported things)
-FIXME reduce continue UTs
-
