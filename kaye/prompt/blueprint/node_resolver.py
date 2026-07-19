@@ -1,5 +1,5 @@
 """
-blueprint_node_resolver.py
+node_resolver.py
 
 define ``resolve_node``
 """

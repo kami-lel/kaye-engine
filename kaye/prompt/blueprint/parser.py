@@ -1,5 +1,5 @@
 """
-blueprint_parser.py
+parser.py
 
 define ``parse_blueprint_text``
 """
