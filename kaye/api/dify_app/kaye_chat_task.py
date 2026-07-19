@@ -9,7 +9,7 @@ define endpoint behavior of: /kaye/dify-app/ky/task
 
 from flask import request, abort, Response
 
-from kaye.prompt.prompt_blueprint import PromptBlueprint
+from kaye.prompt.blueprint import PromptBlueprint
 
 from kaye.prompt import (
     rapid_blueprint,

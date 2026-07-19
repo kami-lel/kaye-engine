@@ -5,7 +5,7 @@ define ``PROMPTS_BLUEPRINTS``
 """
 
 from kaye.prompt import load_prompt_corpus_tree
-from kaye.prompt.prompt_blueprint import PromptBlueprint
+from kaye.prompt.blueprint import PromptBlueprint
 
 _prompt_node = load_prompt_corpus_tree()["Projects"]
 # blueprints  ##################################################################

@@ -6,7 +6,7 @@ define ``export_user_system_prompt_file``
 
 from pathlib import Path
 
-from kaye.prompt.embedded_blueprints import (
+from kaye.prompt.blueprint.embedded_blueprints import (
     chat_blueprint,
     coder_blueprint,
     rapid_blueprint,

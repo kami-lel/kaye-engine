@@ -2,7 +2,7 @@
 Kaye Python CLI
 """
 
-from kaye.prompt.embedded_blueprints import *
+from kaye.prompt.blueprint.embedded_blueprints import *
 
 
 # blueprints exported by continue export & skill export
