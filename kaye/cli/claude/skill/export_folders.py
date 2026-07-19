@@ -5,11 +5,10 @@ define ``export_skills_as_folders``
 """
 
 from kaye import logger
-from kaye.cli import EXPORTABLE_BLUEPRINTS
+from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
 from kaye.cli.claude import convert_display_name2skill_name
 from .skill_folder import AgentSkillFolder
 from kaye.cli.exportable_abbr import EXPORTABLE_ABBRS
-from kaye.cli.prompts_blueprints import PROMPTS_BLUEPRINTS
 
 # entry point  #################################################################
 
@@ -27,9 +26,12 @@ def export_skills_as_folders(parent_folder):
     """
     logger.enter("exporting blueprints and prompts as skills")
 
-    # export embedded_blueprints and prompts
-    for blueprint in EXPORTABLE_BLUEPRINTS + PROMPTS_BLUEPRINTS:
-        with AgentSkillFolder(parent_folder, blueprint=blueprint):
+    # export blueprints and prompts
+    for reg in BLUEPRINT_REGISTRIES.values():
+        if not reg.skill_exportable:
+            continue
+
+        with AgentSkillFolder(parent_folder, registry=reg):
             pass
 
     logger.enter("exporting abbreviation groups as skills")

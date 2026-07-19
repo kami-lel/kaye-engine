@@ -24,15 +24,15 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
     :param folder_path: folder to write SKILL.md into
     :type folder_path: Path-like
-    :param blueprint: blueprint object
-    :type blueprint: PromptBlueprint
+    :param registry: blueprint registry entry
+    :type registry: BlueprintRegistry
     :example:
     >>> # blueprint-based skills
-    ... with SkillMDFile(parent_folder, blueprint=bp) as skill:
+    ... with SkillMDFile(parent_folder, registry=reg) as skill:
     ...     pass
 
     >>> # abbreviation skills
-    ... with SkillMDFile(parent_folder, blueprint=bp) as skill:
+    ... with SkillMDFile(parent_folder) as skill:
     ...     skill.name = ~~
     ...     skill.description = ~~
     ...     skill.write_frontmatter_part()
@@ -75,18 +75,18 @@ class SkillMDFile(FrontmatterMDFile):  #########################################
 
     _FILENAME = "SKILL.md"
 
-    def __init__(self, folder_path, *, blueprint=None):
+    def __init__(self, folder_path, *, registry=None):
         file_name = folder_path / self._FILENAME
         super().__init__(
             file_name,
-            blueprint,
+            registry,
             contains_sidecar_nodes=CONTAINING_SIDECAR_NODES,
         )
 
         self.frontmatter["metadata"]["version"] = version(PROGRAM_NAME)
 
-        if blueprint:
-            self.name = convert_display_name2skill_name(blueprint.display_name)
-            globs = blueprint.sidecars.globs
+        if registry:
+            self.name = convert_display_name2skill_name(registry.display_name)
+            globs = registry.blueprint.sidecars.globs
             if globs:
                 self.frontmatter["paths"] = list(globs)

@@ -16,8 +16,8 @@ class FrontmatterMDFile:  ######################################################
 
     :param path: output path for the file to write
     :type path: Path-like
-    :param blueprint: blueprint object
-    :type blueprint: PromptBlueprint
+    :param registry: blueprint registry entry
+    :type registry: BlueprintRegistry
     :param contains_sidecar_nodes: which conditional sidecar nodes to include
             when generating prompt content (via SidecarNodeType flag)
     :type contains_sidecar_nodes: SidecarNodeType
@@ -136,19 +136,20 @@ class FrontmatterMDFile:  ######################################################
     def __init__(
         self,
         path,
-        blueprint=None,
+        registry=None,
         contains_sidecar_nodes=SidecarNodeType.PREREQUISITE,
     ):
         self.file = None
         self.frontmatter = copy.deepcopy(self._DEFAULT_FRONTMATTER)
         self._path = path
+        self._registry = registry
         self._blueprint = None
         self._contains_sidecar_nodes = contains_sidecar_nodes
 
-        if blueprint:
-            self._blueprint = blueprint
-            self.description = blueprint.sidecars.description
-            self.when_to_use = blueprint.sidecars.when_to_use
+        if registry:
+            self._blueprint = registry.blueprint
+            self.description = registry.blueprint.sidecars.description
+            self.when_to_use = registry.blueprint.sidecars.when_to_use
 
     # support context manager  =================================================
 
