@@ -16,7 +16,6 @@ todo write drone/subagent working w/ worktree
 todo utilize worktree & kaye-agent
 Bug compact-with-maintenance skill need to be rm
 bug tries to use git mv a lot
-BUG exportable blueprint logic opmz: not readable
 todo distinguish project/repo root vs. workspace root
 Fixme consider make chat & rapid single blueprint + dynamic node
 Bug plan for step by step should work w/ exit plan tool

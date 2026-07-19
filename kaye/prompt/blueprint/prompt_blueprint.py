@@ -28,8 +28,6 @@ class PromptBlueprint(dict):
     `PromptBlueprint` represents a configurable subset of *prompt corpus tree*
 
 
-    :param display_name: display name given to the blueprint
-    :type display_name: str, optional
     :param corpus_override: use to set ``.corpus``,
             instead of using ``load_prompt_corpus_tree`` by default;
             defaults to None
@@ -42,7 +40,6 @@ class PromptBlueprint(dict):
         cls,
         blueprint_text,
         *,
-        display_name="",
         disable_prune=False,
         corpus_override=None,
     ):
@@ -54,8 +51,6 @@ class PromptBlueprint(dict):
                 the same format of output of ``.generate_blueprint()``
                 (with tree structure and checkmarks)
         :type blueprint_text: str
-        :param display_name: defaults to ""
-        :type display_name: str, optional
         :param disable_prune: by default,
                 the parsed tree does not include irreverent nodes;
                 when ``disable_prune``, the parsed tree contains the full
@@ -70,10 +65,7 @@ class PromptBlueprint(dict):
         :rtype: PromptBlueprint
         """
         # create bp w/ nothing, to be filled during this function
-        bp = PromptBlueprint(
-            display_name=display_name,
-            corpus_override=corpus_override,
-        )
+        bp = PromptBlueprint(corpus_override=corpus_override)
 
         bp.update(
             parser.parse_blueprint_text(blueprint_text, bp.corpus)
@@ -83,12 +75,8 @@ class PromptBlueprint(dict):
         return bp if disable_prune else bp.prune()
 
     @classmethod
-    def create_full_blueprint(
-        cls, *, display_name="full", corpus_override=None
-    ):
+    def create_full_blueprint(cls, *, corpus_override=None):
         """
-        :param display_name:
-        :type display_name: str, optional
         :param corpus_override: use to set ``.corpus``,
                 instead of using ``load_prompt_corpus_tree`` by default;
                 defaults to None
@@ -99,16 +87,12 @@ class PromptBlueprint(dict):
         :rtype: PromptBlueprint
         """
         return cls._create_full_or_empty_blueprint_generic(
-            True, display_name, corpus_override
+            True, corpus_override
         )
 
     @classmethod
-    def create_empty_blueprint(
-        cls, *, display_name="empty", corpus_override=None
-    ):
+    def create_empty_blueprint(cls, *, corpus_override=None):
         """
-        :param display_name:
-        :type display_name: str, optional
         :param corpus_override: use to set ``.corpus``,
                 instead of using ``load_prompt_corpus_tree`` by default;
                 defaults to None
@@ -119,7 +103,7 @@ class PromptBlueprint(dict):
         :rtype: PromptBlueprint
         """
         return cls._create_full_or_empty_blueprint_generic(
-            False, display_name, corpus_override
+            False, corpus_override
         )
 
     @classmethod
@@ -147,14 +131,12 @@ class PromptBlueprint(dict):
         node_obj, _ = resolve_node(bp.corpus, node)
         bp.checkmark(node_obj, recursively=recursively)
 
-        bp.display_name = node_obj.name
-
         bp.sidecars = BlueprintDescriptorSidecars(main_node=node_obj)
 
         return bp
 
     # instance methods  ========================================================
-    def __init__(self, *, display_name="", corpus_override=None):
+    def __init__(self, *, corpus_override=None):
         super().__init__()  # init as empty dict
 
         if corpus_override is None:
@@ -171,7 +153,6 @@ class PromptBlueprint(dict):
                 )
             self.corpus = copy.deepcopy(corpus_override)
 
-        self.display_name = display_name
         self.sidecars = BlueprintDescriptorSidecars()
 
     # node operations  *********************************************************
@@ -273,9 +254,7 @@ class PromptBlueprint(dict):
         :rtype: PromptBlueprint
         """
         # create bp w/ nothing
-        pruned_bp = PromptBlueprint(
-            display_name=self.display_name, corpus_override=self.corpus
-        )
+        pruned_bp = PromptBlueprint(corpus_override=self.corpus)
 
         _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
 
@@ -298,14 +277,7 @@ class PromptBlueprint(dict):
         # create keys of resulted blueprint
         keys = set(self.keys()) | set(other.keys())
 
-        # create display_name
-        display_name = "|".join(
-            name for name in (self.display_name, other.display_name) if name
-        )
-
-        merged = PromptBlueprint(
-            display_name=display_name, corpus_override=self.corpus
-        )
+        merged = PromptBlueprint(corpus_override=self.corpus)
 
         merged.sidecars = self.sidecars | other.sidecars
 
@@ -318,17 +290,14 @@ class PromptBlueprint(dict):
 
     @classmethod
     def _create_full_or_empty_blueprint_generic(
-        cls, is_full, display_name, corpus_override=None
+        cls, is_full, corpus_override=None
     ):
         """
         helper method used
         in ``.create_full_blueprint()`` & in ``.create_empty_blueprint()``,
         i.e. a generic version of the 2 functions
         """
-        bp = PromptBlueprint(
-            display_name=display_name,
-            corpus_override=corpus_override,
-        )
+        bp = PromptBlueprint(corpus_override=corpus_override)
 
         # include all nodes; sidecar nodes are never auto-checkmarked
         for node in PreOrderIter(bp.corpus):
@@ -460,9 +429,7 @@ class PromptBlueprint(dict):
         :return: shallow copy, w/o creating new node tree
         :rtype: PromptBlueprint
         """
-        copied = PromptBlueprint(
-            display_name=self.display_name, corpus_override=self.corpus
-        )
+        copied = PromptBlueprint(corpus_override=self.corpus)
 
         for k, v in self.items():
             copied[k] = v
@@ -491,17 +458,6 @@ class PromptBlueprint(dict):
         :rtype: str
         """
         return self.generate_blueprint()
-
-    def __str__(self):
-        """
-        :return:
-        :rtype: str
-
-        :example:
-        >>> str(node)
-        "PromptBlueprint(My Blueprint)"
-        """
-        return "PromptBlueprint({})".format(self.display_name)
 
 
 # helpers  #####################################################################

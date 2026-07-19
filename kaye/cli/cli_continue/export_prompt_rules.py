@@ -29,7 +29,7 @@ def export_prompt_rules(prompts_folder):
             continue
 
         filename = reg.display_name + ".md"
-        file_path = prompts_folder / filename
+        file_path = folder / filename
 
         ContinueRule.from_registry(reg).write(file_path)
 
