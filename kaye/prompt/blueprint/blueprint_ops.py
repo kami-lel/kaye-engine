@@ -6,6 +6,8 @@ define ``prune`` and ``merge``
 
 __all__ = ("prune", "merge")
 
+# FIXME FIXME dont save in another file
+
 
 # auxiliaries  #################################################################
 def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
@@ -49,7 +51,9 @@ def _add_all_unprunable_nodes_recursively(old_bp, pruned_bp, node):
 
 
 # Public API  ##################################################################
-def prune(blueprint):
+
+
+def prune(blueprint):  # =======================================================
     """
     :param blueprint:
     :type blueprint: PromptBlueprint
@@ -71,7 +75,7 @@ def prune(blueprint):
     return pruned_bp
 
 
-def merge(a, b):
+def merge(a, b):  # ============================================================
     """
     create a new **merged** blueprint as union of checkmarked nodes
 
