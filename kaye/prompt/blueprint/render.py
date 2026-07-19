@@ -71,6 +71,7 @@ def render_blueprint_tree(  # ==================================================
     content_preview_width=64,
     show_full_tree=False,
     show_comment=False,
+    display_name="",
 ):
     """
     generate **preview tree** of ``blueprint``,
@@ -93,6 +94,9 @@ def render_blueprint_tree(  # ==================================================
     :param show_comment: show comment part after last line;
             defaults to False
     :type show_comment: bool, optional
+    :param display_name: blueprint's human-readable name, included in the
+            comment when ``show_comment`` is set; defaults to ""
+    :type display_name: str, optional
     :return: the preview tree
     :rtype: str
     """
@@ -131,7 +135,7 @@ def render_blueprint_tree(  # ==================================================
 
     # append comment line  -----------------------------------------------------
     if show_comment:
-        comment_line = "<!-- " + render_comment(blueprint) + " -->"
+        comment_line = "<!-- " + render_comment(display_name) + " -->"
         lines.append(comment_line)
 
     return "\n".join(lines)
@@ -143,6 +147,7 @@ def render_prompt_lines(  # ====================================================
     show_comment=False,
     disable_first_heading=False,
     contains_sidecar_nodes=SidecarNodeType.NONE,
+    display_name="",
     **kwargs,
 ):
     """
@@ -166,6 +171,9 @@ def render_prompt_lines(  # ====================================================
             ``SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE``);
             defaults to ``SidecarNodeType.NONE`` (disabled)
     :type contains_sidecar_nodes: SidecarNodeType, optional
+    :param display_name: blueprint's human-readable name, included in the
+            comment when ``show_comment`` is set; defaults to ""
+    :type display_name: str, optional
     :return: list of prompt lines
     :rtype: list[str]
     """
@@ -204,7 +212,7 @@ def render_prompt_lines(  # ====================================================
                     lines.append("")  # add an empty line
 
     if show_comment:
-        lines.append("<!-- " + render_comment(working_bp) + " -->")
+        lines.append("<!-- " + render_comment(display_name) + " -->")
 
     # trim empty lines
     while lines and lines[0] == "":
@@ -216,16 +224,17 @@ def render_prompt_lines(  # ====================================================
     return lines
 
 
-def render_comment(blueprint):  # ==============================================
+def render_comment(display_name=""):  # ========================================
     """
-    :param blueprint:
-    :type blueprint: PromptBlueprint
+    :param display_name: blueprint's human-readable name, omitted from the
+            comment when empty; defaults to ""
+    :type display_name: str, optional
     :return: prompt comment containing blueprint name and Kaye version
     :rtype: str
 
     :example:
-    >>> print(render_comment(blueprint))
-    'blueprint: chat; Kaye v1.2.3'
+    >>> print(render_comment("Chat"))
+    'blueprint: Chat; Kaye v1.2.3'
     """
     kaye_version = importlib.metadata.version(PROGRAM_NAME)
 
@@ -234,9 +243,7 @@ def render_comment(blueprint):  # ==============================================
         kaye_version += datetime.now().strftime(".0%Y%m%d%H%M%S")
 
     name_part = (
-        "blueprint: {}; ".format(blueprint.display_name)
-        if blueprint.display_name
-        else ""
+        "blueprint: {}; ".format(display_name) if display_name else ""
     )
 
     return "{}Kaye v{}".format(name_part, kaye_version)
