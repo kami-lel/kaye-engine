@@ -1,5 +1,5 @@
 """
-blueprint_registry.py
+registry.py
 
 define `BlueprintRegistry`, `register_blueprint`, `BLUEPRINT_REGISTRIES`
 """
