@@ -9,6 +9,7 @@ from ..base_prompt_node import BasePromptNode
 __all__ = ("resolve_node",)
 
 
+# Public API  ##################################################################
 def resolve_node(corpus, node_arg):
     """
     search a node in ``corpus`` providing node object/name/hash
@@ -29,7 +30,7 @@ def resolve_node(corpus, node_arg):
     """
     corpus_and_descendants = [corpus] + list(corpus.descendants)
 
-    # search by name   -----------------------------------------------------
+    # search by name   ---------------------------------------------------------
     if isinstance(node_arg, str):
         node_obj = None
 
@@ -46,7 +47,7 @@ def resolve_node(corpus, node_arg):
 
         node_hash = hash(node_obj)
 
-    # search by node hash  -------------------------------------------------
+    # search by node hash  -----------------------------------------------------
     elif isinstance(node_arg, int):
         node_obj = None
 
@@ -58,14 +59,12 @@ def resolve_node(corpus, node_arg):
 
         if node_obj is None:
             raise ValueError(
-                "no node in corpus with hash value: {}".format(
-                    repr(node_arg)
-                )
+                "no node in corpus with hash value: {}".format(repr(node_arg))
             )
 
         node_hash = node_arg
 
-    # node is already object  ----------------------------------------------
+    # node is already object  --------------------------------------------------
     elif isinstance(node_arg, BasePromptNode):
         if node_arg not in corpus_and_descendants:
             raise ValueError("node not in corpus: {}".format(node_arg))

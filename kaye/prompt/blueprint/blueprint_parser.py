@@ -13,6 +13,23 @@ __all__ = ("HEADING_LINE_PATTERN", "parse_blueprint_text")
 HEADING_LINE_PATTERN = re.compile(r"\[([x ])\] (.*)[└├]── (.+)")
 
 
+# auxiliaries  #################################################################
+def _lookup_corpus_node(parent, heading, line):
+    """
+    find node under ``parent`` matching ``heading``
+
+    (helper function used in ``parse_blueprint_text()``)
+    """
+    try:
+        return parent[heading]
+    except KeyError as err:
+        raise ValueError(
+            "missing node heading {} in corpus "
+            "that corresponds to this line:\n{}".format(repr(heading), line)
+        ) from err
+
+
+# Public API  ##################################################################
 def parse_blueprint_text(blueprint_text, corpus):
     """
     parse ``blueprint_text`` into a dict of checkmark state, keyed by
@@ -33,7 +50,7 @@ def parse_blueprint_text(blueprint_text, corpus):
     """
     checkmarks = {}
 
-    # extract all headings  ++++++++++++++++++++++++++++++++++++++++++++++++
+    # extract all headings  ----------------------------------------------------
     prev_node = corpus
     for line in blueprint_text.split("\n"):
         heading_line_match = HEADING_LINE_PATTERN.fullmatch(line)
@@ -49,9 +66,7 @@ def parse_blueprint_text(blueprint_text, corpus):
         # find parent of current node
         level_offset = level - prev_node.depth
         if level_offset > 1:
-            raise ValueError(
-                "malformed tree format at line:\n{}".format(line)
-            )
+            raise ValueError("malformed tree format at line:\n{}".format(line))
 
         elif level_offset > 0:
             parent = prev_node
@@ -68,18 +83,3 @@ def parse_blueprint_text(blueprint_text, corpus):
         prev_node = node
 
     return checkmarks
-
-
-def _lookup_corpus_node(parent, heading, line):
-    """
-    find node under ``parent`` matching ``heading``
-
-    (helper function used in ``parse_blueprint_text()``)
-    """
-    try:
-        return parent[heading]
-    except KeyError as err:
-        raise ValueError(
-            "missing node heading {} in corpus "
-            "that corresponds to this line:\n{}".format(repr(heading), line)
-        ) from err
