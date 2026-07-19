@@ -9,6 +9,38 @@ from ..base_prompt_node import BasePromptNode
 __all__ = ("resolve_node",)
 
 
+# auxiliaries  #################################################################
+def _get_hash_index(corpus):
+    """
+    lazily build and cache a ``{hash(node): node}`` index for every node in
+    ``corpus``'s tree, memoized on ``corpus`` itself; safe since the corpus
+    tree is fully built once (``load_prompt_corpus_tree``) and never mutated
+    afterward — avoids rescanning the whole tree on every ``resolve_node``
+    call, which was previously O(n) per call (O(n^2) for a full tree walk)
+    """
+    cached = corpus.__dict__.get("_hash_index")
+    if cached is None:
+        cached = {hash(n): n for n in [corpus] + list(corpus.descendants)}
+        corpus.__dict__["_hash_index"] = cached
+    return cached
+
+
+def _get_name_index(corpus):
+    """
+    same as :func:`_get_hash_index`, but keyed by node name; first match in
+    preorder wins on duplicate names, matching the previous linear-scan
+    behavior
+    """
+    cached = corpus.__dict__.get("_name_index")
+    if cached is None:
+        cached = {}
+        for n in [corpus] + list(corpus.descendants):
+            if n.name not in cached:
+                cached[n.name] = n
+        corpus.__dict__["_name_index"] = cached
+    return cached
+
+
 # Public API  ##################################################################
 def resolve_node(corpus, node_arg):
     """
@@ -28,17 +60,9 @@ def resolve_node(corpus, node_arg):
     :return: the resolved node object and its hash value
     :rtype: tuple(BasePromptNode, int)
     """
-    corpus_and_descendants = [corpus] + list(corpus.descendants)
-
     # search by name   ---------------------------------------------------------
     if isinstance(node_arg, str):
-        node_obj = None
-
-        # search all descendants with name of node
-        for n in corpus_and_descendants:
-            if node_arg == n.name:
-                node_obj = n
-                break
+        node_obj = _get_name_index(corpus).get(node_arg)
 
         if node_obj is None:
             raise ValueError(
@@ -49,13 +73,7 @@ def resolve_node(corpus, node_arg):
 
     # search by node hash  -----------------------------------------------------
     elif isinstance(node_arg, int):
-        node_obj = None
-
-        # search all descendants with hash of node
-        for n in corpus_and_descendants:
-            if node_arg == hash(n):
-                node_obj = n
-                break
+        node_obj = _get_hash_index(corpus).get(node_arg)
 
         if node_obj is None:
             raise ValueError(
@@ -66,11 +84,23 @@ def resolve_node(corpus, node_arg):
 
     # node is already object  --------------------------------------------------
     elif isinstance(node_arg, BasePromptNode):
-        if node_arg not in corpus_and_descendants:
-            raise ValueError("node not in corpus: {}".format(node_arg))
+        # root nodes all share the same (empty-lineage) hash, so a hash-index
+        # lookup can't tell them apart — fall back to ``__eq__``'s full
+        # tree-structural comparison, which only ever runs once per resolve
+        # (roots are resolved once at the top of a tree walk, not per node)
+        if node_arg.is_root:
+            if node_arg != corpus:
+                raise ValueError("node not in corpus: {}".format(node_arg))
+            node_obj = node_arg
+            node_hash = hash(node_arg)
 
-        node_obj = node_arg
-        node_hash = hash(node_arg)
+        else:
+            node_hash = hash(node_arg)
+
+            if node_hash not in _get_hash_index(corpus):
+                raise ValueError("node not in corpus: {}".format(node_arg))
+
+            node_obj = node_arg
 
     else:
         raise TypeError(
