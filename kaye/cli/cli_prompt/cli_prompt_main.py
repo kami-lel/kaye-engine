@@ -1,7 +1,7 @@
 """dynamically generate system prompt with a prompt blueprint
 as a subset of the prompt corpus"""
 
-# BUG cli: prompt is broken
+# BUG BUG cli: prompt is broken
 # FIXME standardize module docstring & help & description
 
 from kaye.cli.cli_prompt.cli_prompt_ls import register_cli_prompt_ls_parser
