@@ -64,12 +64,18 @@ class BlueprintRegistry:
     :param continue_exportable: export as a Continue AI rule;
             defaults to False
     :type continue_exportable: bool, optional
-    :param always_apply: mark the exported Continue AI rule as
-            ``alwaysApply``; defaults to False
+    :param always_apply: whether this entry is unconditionally relevant
+            and should always be applied, rather than surfaced only when
+            judged relevant; defaults to False
     :type always_apply: bool, optional
-    :param invokable: mark the exported Continue AI rule as
-            ``invokable``; defaults to False
-    :type invokable: bool, optional
+    :param user_invokable: whether a human may deliberately invoke this
+            entry by name, rather than it only ever surfacing on its
+            own; defaults to True
+    :type user_invokable: bool, optional
+    :param llm_invokable: whether the assistant may bring this entry
+            into play on its own judgment, without being explicitly
+            named; defaults to True
+    :type llm_invokable: bool, optional
     """
 
     name: str
@@ -78,7 +84,8 @@ class BlueprintRegistry:
     skill_exportable: bool = False
     continue_exportable: bool = False
     always_apply: bool = False
-    invokable: bool = False
+    user_invokable: bool = True
+    llm_invokable: bool = True
 
     @property
     def skill_name(self):
@@ -102,7 +109,8 @@ def register_blueprint(
     skill_exportable=False,
     continue_exportable=False,
     always_apply=False,
-    invokable=False,
+    user_invokable=True,
+    llm_invokable=True,
 ):
     """
     create a `BlueprintRegistry` and insert it into `BLUEPRINT_REGISTRIES`
@@ -121,8 +129,10 @@ def register_blueprint(
     :type continue_exportable: bool, optional
     :param always_apply: defaults to False
     :type always_apply: bool, optional
-    :param invokable: defaults to False
-    :type invokable: bool, optional
+    :param user_invokable: defaults to True
+    :type user_invokable: bool, optional
+    :param llm_invokable: defaults to True
+    :type llm_invokable: bool, optional
     :raise ValueError: ``name`` is already registered
     :return: the created registry entry
     :rtype: BlueprintRegistry
@@ -139,7 +149,8 @@ def register_blueprint(
         skill_exportable=skill_exportable,
         continue_exportable=continue_exportable,
         always_apply=always_apply,
-        invokable=invokable,
+        user_invokable=user_invokable,
+        llm_invokable=llm_invokable,
     )
     BLUEPRINT_REGISTRIES[name] = reg
 
