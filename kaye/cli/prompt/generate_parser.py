@@ -4,9 +4,14 @@ generate_parser.py
 define ``register_generate_subparser``
 """
 
-from kaye import logger, kamilog
+from kaye import logger
+from kaye.kamilog import add_verbose_arguments, set_logging_level_by_namespace
 
-from kaye.cli.prompt.blueprint_io_parser import blueprint_io_parser
+from kaye.cli.prompt.blueprint_io_parser import (
+    blueprint_io_parser,
+    load_blueprint_from_args,
+    write_blueprint_result,
+)
 
 # constants  ###################################################################
 _HELP = "generate concrete prompt from blueprint"
@@ -18,11 +23,16 @@ more description"""
 
 
 def _generate_main(args):  ####################################################
-    kamilog.set_logging_level_by_namespace(args, logger=logger)
-    # TODO: create blueprint from args, render prompt, write to
-    # args.target_file or print it
-    logger.error("kaye prompt generate: not implemented yet")
-    raise NotImplementedError
+    set_logging_level_by_namespace(args, logger=logger)
+
+    blueprint, display_name = load_blueprint_from_args(args)
+
+    prompt = blueprint.generate_prompt(
+        show_comment=not args.no_comment,
+        display_name=display_name,
+    )
+
+    write_blueprint_result(prompt, args.target_file)
 
 
 def register_generate_subparser(cli_subparser):  ###############################
@@ -33,10 +43,10 @@ def register_generate_subparser(cli_subparser):  ###############################
         "generate",
         help=_HELP,
         description=_DESCRIPTION,
-        aliases=["gen"],
+        aliases=["g"],
         parents=[blueprint_io_parser],
     )
 
-    kamilog.add_verbose_arguments(generate_parser)
+    add_verbose_arguments(generate_parser)
 
     generate_parser.set_defaults(func=_generate_main)
