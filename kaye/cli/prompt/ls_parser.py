@@ -4,7 +4,9 @@ ls_parser.py
 define ``register_ls_subparser``
 """
 
-from kaye import logger
+from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
+
+# todo cli prompt ls additional filtering/groups
 
 # constants  ###################################################################
 
@@ -17,9 +19,8 @@ more description"""
 
 
 def _ls_main(_):  ##############################################################
-    # TODO: list names of all available embedded blueprints
-    logger.error("kaye prompt ls: not implemented yet")
-    raise NotImplementedError
+    for name in sorted(BLUEPRINT_REGISTRIES):
+        print(name)
 
 
 def register_ls_subparser(cli_subparser):  #####################################
