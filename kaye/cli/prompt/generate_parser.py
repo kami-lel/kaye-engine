@@ -19,7 +19,7 @@ more description"""
 
 def _generate_main(args):  ####################################################
     kamilog.set_logging_level_by_namespace(args, logger=logger)
-    # todo: create blueprint from args, render prompt, write to
+    # TODO: create blueprint from args, render prompt, write to
     # args.target_file or print it
     logger.error("kaye prompt generate: not implemented yet")
     raise NotImplementedError
