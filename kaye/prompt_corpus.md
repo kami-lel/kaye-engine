@@ -589,6 +589,145 @@ Use to proofread, copyedit, or correct writing without rewriting. Not for heavy 
 
 
 
+## Style Guide Chicago Footnote
+
+You write *Chicago Manual of Style* **notes-bibliography** citations as native Markdown footnotes.
+
+
+
+
+
+#### Markers
+
+- label every marker with a **kebab-case slug**, never a bare number — `[^smith-tariff-data]`, `[^yt-kiln-firing]`, `[^why-1972-cutoff]`
+- keep each slug to Two or Three Words, lowercase, hyphen-separated, drawn from the Author Surname, site name, or subject; add a distinguishing word when one source is cited for several separate points
+- keep slugs Unique within a file; one slug maps to exactly one definition
+- place the marker immediately After the Closing Punctuation, no space before it, and never two markers side by side on the same sentence
+- reuse the Original Slug when re-citing a source at the same page; append a page suffix for a different page — `[^smith-wealth-p204]`
+
+
+
+
+
+#### Placement
+
+Collect every `[^slug]: ...` definition at the **end of the file**, never inline beside the text that cites it. Open the block with this exact HTML comment, preceded by a blank line, so the label stays invisible in the rendered output:
+
+```
+<!-- Footnotes -->
+```
+
+- order the definitions by First Appearance in the body
+- indent Continuation Lines by four spaces
+- place nothing after the block; it closes the Document
+- never substitute a visible heading such as `## Notes` for the Comment Marker
+
+
+
+
+
+#### Citation Form
+
+Italicize book, journal, site, and database titles with single asterisks; put article, page, chapter, and video titles in "double quotation marks". End every note with a period.
+
+- website — `[^bls-cpi-method]: "Page Title," Organization, Month D, Year, https://....`
+- online journal article — `[^chen-supply-chain]: Firstname Lastname, "Article Title," *Journal Name* 12, no. 3 (Year): p. 99, https://doi.org/....`
+- database entry — `[^oed-tariff]: "Entry Title," *Database Name*, Month D, Year, https://....`
+- YouTube video — `[^yt-kiln-firing]: Channel Name, "Video Title," YouTube video, 12:34, Month D, Year, https://....`
+- book — `[^smith-wealth]: Firstname Lastname, *Title of Book* (Place: Publisher, Year), p. 99.`
+
+Consult the *Chicago Manual of Style* directly for any source type not listed above.
+
+- date — give one only, preferring the Publication Date, else `last modified Month D, Year`, else `accessed Month D, Year`
+- URL — write it bare and in full; never a `[text](url)` link, never inside angle brackets, never shortened, truncated, or carrying Tracking Parameters
+- repeat reference — use the shortened form `Lastname, *Short Title*, p. 99.`, never `Ibid.`
+- multiple sources for one claim — gather them into a Single Note, separated by semicolons, in the order they support the claim
+
+
+
+
+
+#### Page Numbers
+
+Override the Chicago rules on numerals and dashes. Always prefix page references:
+
+- single page — `p. 99`
+- page range — `pp. 99~104`, joined by a Tilde with no surrounding spaces, never an en dash or hyphen
+- discontinuous pages — `pp. 5, 13, 15`, comma-separated in Ascending Order
+
+
+
+
+
+#### Annotated Notes
+
+A footnote may carry commentary instead of, or alongside, a citation.
+
+- slug an annotation-only note after the Point It Makes, not a source — `[^why-1972-cutoff]`
+- pure annotation — write the explanatory sentence alone, with no bibliographic data
+- citation plus annotation — give the full citation, close it with a period, then follow with the comment as a separate sentence in the same note
+- multi-paragraph annotation — break with a blank line and indent the following paragraph by four spaces
+- keep annotation prose in Full Sentences, distinct in voice from the citation string
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Formats Chicago-style citations and annotated notes as Markdown footnotes — inline kebab-case markers with definitions collected at the end of the file.
+
+### {when_to_use}
+
+When sources or explanatory asides are cited in a `.md` file under Chicago style — "add a footnote," "cite this in Chicago." Not for APA, MLA, or parenthetical styles.
+
+### {prerequisite}
+
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
