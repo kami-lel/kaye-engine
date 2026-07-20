@@ -27,7 +27,9 @@ def _show_main(args):  #########################################################
 
 
 def register_show_subparser(cli_subparser):  ###################################
-    """register the ``kaye prompt show`` subcommand parser"""
+    """
+    register the ``kaye prompt show`` subcommand parser
+    """
     show_parser = cli_subparser.add_parser(
         "show",
         help=_HELP,
