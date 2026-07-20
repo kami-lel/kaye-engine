@@ -7,9 +7,11 @@ define ``register_show_subparser``
 from kaye import logger
 from kaye.kamilog import add_verbose_arguments, set_logging_level_by_namespace
 
-from kaye.cli.prompt.blueprint_io_parser import blueprint_io_parser
-from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
-from kaye.prompt.blueprint.prompt_blueprint import PromptBlueprint
+from kaye.cli.prompt.blueprint_io_parser import (
+    blueprint_io_parser,
+    load_blueprint_from_args,
+    write_blueprint_result,
+)
 
 # constants  ###################################################################
 
@@ -25,14 +27,7 @@ more description"""
 def _show_main(args):
     set_logging_level_by_namespace(args, logger=logger)
 
-    if args.source_file:
-        with open(args.BLUEPRINT, "r", encoding="utf-8") as blueprint_file:
-            blueprint = PromptBlueprint.parse(blueprint_file.read())
-        display_name = args.BLUEPRINT
-    else:
-        registry = BLUEPRINT_REGISTRIES[args.BLUEPRINT]
-        blueprint = registry.blueprint
-        display_name = registry.display_name
+    blueprint, display_name = load_blueprint_from_args(args)
 
     render_kwargs = {
         "show_full_tree": args.show_full_tree,
@@ -46,10 +41,7 @@ def _show_main(args):
 
     preview_tree = blueprint.generate_blueprint(**render_kwargs)
 
-    if args.target_file is None:
-        print(preview_tree)
-    else:
-        args.target_file.write(preview_tree)
+    write_blueprint_result(preview_tree, args.target_file)
 
 
 # Public API  ##################################################################
