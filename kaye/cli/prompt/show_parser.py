@@ -13,6 +13,11 @@ from kaye.cli.prompt.blueprint_io_parser import blueprint_io_parser
 _HELP = "show content of any of embedded blueprints"
 
 
+_DESCRIPTION = _HELP + """
+
+more description"""
+
+
 def _show_main(args):  #########################################################
     kamilog.set_logging_level_by_namespace(args, logger=logger)
     # TODO: create blueprint from args, render preview tree, write to
@@ -26,7 +31,7 @@ def register_show_subparser(cli_subparser):  ###################################
     show_parser = cli_subparser.add_parser(
         "show",
         help=_HELP,
-        description=_HELP,
+        description=_DESCRIPTION,
         parents=[blueprint_io_parser],
     )
 

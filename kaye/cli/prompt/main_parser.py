@@ -8,8 +8,6 @@ from kaye.cli.prompt.ls_parser import register_ls_subparser
 from kaye.cli.prompt.show_parser import register_show_subparser
 from kaye.cli.prompt.generate_parser import register_generate_subparser
 
-# FIXME upd main doc
-
 _HELP = (
     "dynamically generate system prompt with a prompt blueprint "
     "as a subset of the prompt corpus"

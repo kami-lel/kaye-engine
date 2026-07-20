@@ -11,6 +11,11 @@ from kaye import logger
 _HELP = "list names of all available embedded blueprints"
 
 
+_DESCRIPTION = _HELP + """
+
+more description"""
+
+
 def _ls_main(_):  ##############################################################
     # TODO: list names of all available embedded blueprints
     logger.error("kaye prompt ls: not implemented yet")
@@ -21,6 +26,8 @@ def register_ls_subparser(cli_subparser):  #####################################
     """
     register the ``kaye prompt ls`` subcommand parser
     """
-    ls_parser = cli_subparser.add_parser("ls", help=_HELP, description=_HELP)
+    ls_parser = cli_subparser.add_parser(
+        "ls", help=_HELP, description=_DESCRIPTION
+    )
 
     ls_parser.set_defaults(func=_ls_main)

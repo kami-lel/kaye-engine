@@ -12,6 +12,11 @@ from kaye.cli.prompt.blueprint_io_parser import blueprint_io_parser
 _HELP = "generate concrete prompt from blueprint"
 
 
+_DESCRIPTION = _HELP + """
+
+more description"""
+
+
 def _generate_main(args):  ####################################################
     kamilog.set_logging_level_by_namespace(args, logger=logger)
     # todo: create blueprint from args, render prompt, write to
@@ -27,7 +32,7 @@ def register_generate_subparser(cli_subparser):  ###############################
     generate_parser = cli_subparser.add_parser(
         "generate",
         help=_HELP,
-        description=_HELP,
+        description=_DESCRIPTION,
         aliases=["gen"],
         parents=[blueprint_io_parser],
     )
