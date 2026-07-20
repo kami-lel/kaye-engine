@@ -20,5 +20,6 @@ todo distinguish project/repo root vs. workspace root
 todo resume role
 todo utilize worktree & kaye-agent
 todo write drone/subagent working w/ worktree
+todo add user's personalized description
 
 todo todo agent behavior add md-style task list, when Claude "task" is not available
