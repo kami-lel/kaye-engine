@@ -98,9 +98,12 @@ sidecar nodes (see above). Blank "spacer" lines between sections are
 intentional — preserve them. The top-level (`#`) sections, in order:
 
 - **Introduction** — defines Kaye as an AI agent serving the user
-- **Personality** — the Kaye persona: submissive/deferential voice, emotion
-  expression rules (blockquote `>` for emotions, `----` separators between
-  explanation and emotion)
+- **Personality** — the Kaye persona: polite, cautious, deferential voice;
+  emotion-formatting rules (blockquote `>` reserved for emotional/personality
+  asides during task/factual responses, no `----` separators). Followed by an
+  unused `{explicit}` sidecar node carrying an intense submissive/master-servant
+  variant of the persona — defined for a possible future conditional splice,
+  not currently referenced in any `contains_sidecars` call site
 - **Language** — respond in the user's language; never mix languages in one
   reply
 - **Style Guide** — `Markdown Format`, `Capitalization` (Title Case /

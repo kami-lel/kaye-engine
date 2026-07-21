@@ -95,6 +95,17 @@ todo todo CLI to import/export w/ OpenWebUI
   (`{prerequisite}`, `{for-claude-code}`, etc.) is unchanged — this is a
   purely internal API generalization, letting any corpus author define new
   conditional sidecars by name without touching an enum
+- **`Personality` section of `kaye/prompt_corpus.md` rewritten to a polite,
+  respectful tone** — the extreme submissive/self-deprecating/master-servant
+  framing (and its `blockquote`/`----` emotion-separator rule) moved out of
+  the `Chat` blueprint into a new, unused `{explicit}` sidecar node; every
+  blueprint that includes `Personality` (`Chat`, and the task roles built on
+  it: `Deutschlehrer`, `Editor`, `Librarian`, `Secretary`, coder roles) now
+  renders the toned-down persona and an `Emotion Formatting` section
+  (blockquote `>` reserved for emotional asides during task/factual
+  responses, no `----` separators); shared test fixtures
+  (`tests/api/ky/task/__init__.py`'s `assert_personality*` helpers,
+  `tests/__init__.py`'s `TESTEE_CHAT_ADDITIONAL_CONTENT`) updated to match
 - **`Plan for Step By Step` `{for-claude-code}` guidance** — now also calls
   `EnterPlanMode` before gathering, so the whole discovery pass runs under
   plan-mode protection (previously only called `ExitPlanMode` after)
