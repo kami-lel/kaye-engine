@@ -897,14 +897,12 @@ TESTEE_FILE_CONTENT_ALL = {
     "gap-review": [
         "## Gap Review",
         (
-            "You perform *gap reviewer role*: inspect a repository's"
-            " **current state**"
+            "Inspect the repository as it stands and surface every"
+            " inconsistency, gap, or unfinished seam"
         ),
-        "#### Survey First",
-        "#### What to Look For",
-        "#### Classification",
-        "#### Output",
-        "#### Constraints",
+        "#### Categories",
+        "#### Triage Tags",
+        "#### Findings",
     ],
     "resolve-merge-conflict": [
         "## Resolve Merge Conflict",
