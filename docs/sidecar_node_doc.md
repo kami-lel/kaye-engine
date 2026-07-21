@@ -53,13 +53,13 @@ Lists prerequisite instructions that apply whenever the parent node is enabled. 
 **Detection:** Use `get_sidecar_name(node) == "prerequisite"` to identify prerequisite sidecars.
 
 
-#### `{for-claude-code}`
+#### `{for claude code}`
 
-Lists Claude-specific instructions that apply whenever the parent node is enabled. Pass `contains_sidecars=("for-claude-code",)` (or combine with `"prerequisite"` in the same collection) to auto-checkmark these nodes during Claude exports.
+Lists Claude-specific instructions that apply whenever the parent node is enabled. Pass `contains_sidecars=("for claude code",)` (or combine with `"prerequisite"` in the same collection) to auto-checkmark these nodes during Claude exports.
 
-**Rendering behavior:** Pass `contains_sidecars=("for-claude-code",)` to auto-include `{for-claude-code}` sidecars during rendering. The constant `kaye.cli.claude.CONTAINING_SIDECARS` combines both `"prerequisite"` and `"for-claude-code"` for all Claude skill and hook exports.
+**Rendering behavior:** Pass `contains_sidecars=("for claude code",)` to auto-include `{for claude code}` sidecars during rendering. The constant `kaye.cli.claude.CONTAINING_SIDECARS` combines both `"prerequisite"` and `"for claude code"` for all Claude skill and hook exports.
 
-**Detection:** Use `get_sidecar_name(node) == "for-claude-code"` to identify Claude-specific sidecars.
+**Detection:** Use `get_sidecar_name(node) == "for claude code"` to identify Claude-specific sidecars.
 
 
 
@@ -91,7 +91,7 @@ This node indicates when to use the parent.
 
 This node contains prerequisite instructions.
 
-## {for-claude-code}
+## {for claude code}
 
 This node contains Claude-specific instructions.
 ```
@@ -148,8 +148,8 @@ Check for specific sidecar names:
 if name == "prerequisite":
     print("this is a prerequisite sidecar node")
 
-if name in ("prerequisite", "for-claude-code"):
-    print("this is a conditional sidecar node (either prerequisite or for-claude-code)")
+if name in ("prerequisite", "for claude code"):
+    print("this is a conditional sidecar node (either prerequisite or for claude code)")
 ```
 
 ---
@@ -270,6 +270,6 @@ prompt = bp.generate_prompt(contains_sidecars=("prerequisite",))
 
 # Include both prerequisites and Claude-specific instructions
 prompt = bp.generate_prompt(
-    contains_sidecars=("prerequisite", "for-claude-code")
+    contains_sidecars=("prerequisite", "for claude code")
 )
 ```

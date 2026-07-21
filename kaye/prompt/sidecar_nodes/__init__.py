@@ -36,7 +36,7 @@ def get_sidecar_name(node):
     >>> name = get_sidecar_name(node)
     >>> if name is not None:
     ...     print(f"sidecar name: {name}")
-    >>> if name in ("prerequisite", "for-claude-code"):
+    >>> if name in ("prerequisite", "for claude code"):
     ...     print("this is a conditional sidecar node")
 
 
