@@ -15,7 +15,9 @@ through a Python API, an HTTP API, and a CLI.
   `kaye/__init__.py`, paired with `DISPLAY_NAME` = `"Prompt Engineering Project
   Kaye"` used as the Claude plugin `displayName`)
 - core dependencies: `anytree`, `flask`, `json5`, `pyahocorasick`, `pyyaml`
-- entry point: `python -m kaye` (CLI; `http` subcommand starts the Flask app)
+- entry point: `kaye` console script (`[project.scripts]` in
+  `pyproject.toml`, mapped to `kaye.__main__:main`); `python -m kaye` still
+  works identically. `http` subcommand starts the Flask app
 
 ### Key Concepts
 
@@ -27,32 +29,32 @@ through a Python API, an HTTP API, and a CLI.
 - **Role** — task-specific behavior profile inside the corpus
 - **Sidecar Node** — `{name}`-bracketed subnode attached to a blueprint's
   parent but stored as corpus content; excluded by default and conditionally
-  spliced in via `contains_sidecar_nodes` (`kaye/prompt/sidecar_nodes/`).
-  `SidecarNodeType` (`sidecar_node_type.py`) is an `IntFlag` with members
-  `DESCRIPTION`, `WHEN_TO_USE`, `GLOBS`, `PREREQUISITE`, `FOR_CLAUDE`;
-  `.as_node_heading` renders e.g. `{description}`. Two usage-role labels
-  under the same mechanism, not separate classes: *descriptor sidecar* for
-  `{description}`, `{when_to_use}`, `{globs}` (blueprint metadata consumed by
-  `BlueprintDescriptorSidecars`, exposed as `blueprint.sidecars`) and
-  *conditional sidecar* for `{prerequisite}`, `{for_claude}` (real prompt
-  content spliced in conditionally). A node's type is detected via
-  `get_sidecar_node_type(node)` (regex `^\{.+\}$`, returns
-  `SidecarNodeType.NONE`, falsy, if not a sidecar node). To add a new sidecar
-  node type: add a member to `SidecarNodeType` and a
-  `SIDECAR_NODE_TYPE_HEADINGS` entry, add a property + `_node` lookup (via
-  `SidecarNodeType.<NAME>.as_node_heading`) in `BlueprintDescriptorSidecars`,
-  add `### {name}` examples to `kaye/prompt_corpus.md`, document it in
-  `docs/corpus_doc.md`, `docs/sidecar_node_doc.md`, and
+  spliced in via `contains_sidecars` (`kaye/prompt/sidecar_nodes/`). There is
+  no fixed enum of sidecar names — `get_sidecar_name(node)` (regex
+  `^\{.+\}$`, returns `None` if not a sidecar node) extracts the name inside
+  the braces as a plain string. Two usage-role labels under the same
+  mechanism, not separate classes: *descriptor sidecar* for `{description}`,
+  `{when_to_use}`, `{globs}` (reserved names, consumed as blueprint metadata
+  by `BlueprintDescriptorSidecars` via plain string-key lookup, exposed as
+  `blueprint.sidecars`) and *conditional sidecar* for any other name, e.g.
+  `{prerequisite}`, `{for claude code}` (real prompt content spliced in
+  conditionally when its name is passed in `contains_sidecars`). Because
+  detection is name-based rather than type-based, a reserved descriptor name
+  can also be requested via `contains_sidecars` for conditional content
+  inclusion — nothing structurally prevents it. To add a new conditional
+  sidecar name: add `### {name}` examples to `kaye/prompt_corpus.md`,
+  document it in `docs/corpus_doc.md`, `docs/sidecar_node_doc.md`, and
   `docs/programmatic_api_doc.md`, wire CLI export consumers
-  (`kaye/cli/frontmatter_md_file.py`, `kaye/cli/cli_continue/rule_file.py`) if
-  the type should surface in exports, and mirror tests under
-  `tests/prompt/bp/` and `tests/prompt/node/`.
+  (`kaye/cli/claude/skill/skill_md.py`, `kaye/cli/cli_continue/rule_file.py`,
+  both built on the shared `kaye/cli/frontmatter_doc.py`) if the name should
+  surface in exports, and mirror tests under `tests/prompt/bp/` and
+  `tests/prompt/node/`.
 - **Prerequisite Node** — `{prerequisite}` conditional sidecar node; pass
-  `contains_sidecar_nodes=SidecarNodeType.PREREQUISITE` (or a combined flag)
-  to `generate_prompt()` / `generate_prompt_lines()` to auto-checkmark every
-  matching sidecar node whose parent is already checkmarked before rendering;
-  `FOR_CLAUDE` and `PREREQUISITE` are combined in
-  `kaye.cli.claude.CONTAINING_SIDECAR_NODES` for all Claude exports
+  `contains_sidecars=("prerequisite",)` (or a larger collection) to
+  `generate_prompt()` / `render.render_prompt_lines()` to auto-checkmark
+  every matching sidecar node whose parent is already checkmarked before
+  rendering; `"for claude code"` and `"prerequisite"` are combined in
+  `kaye.cli.claude.CONTAINING_SIDECARS` for all Claude exports
 - **Blueprint Sidecar Merging** — `BlueprintDescriptorSidecars.__or__` merges
   two instances via `left | right`; left operand takes priority for each
   field (description, when_to_use, globs, prerequisite); `PromptBlueprint.__or__`
@@ -69,9 +71,9 @@ through a Python API, an HTTP API, and a CLI.
   (`programming_language_code`), `LanguageCodeNode` (`language_code`),
   `UnityEngineAbbrNode` (`unity_engine_abbr`) — each rendering every
   `AbbrData().abbrs` entry matching its `AbbrTags` member via
-  `gen_abbrs_content_lines()`. `chat_blueprint` checkmarks `(Abbreviations)`;
-  `coder_blueprint` checkmarks `(Coding Terms)` via a small
-  `coding_terms_blueprint` (`kaye/prompt/embedded_blueprints.py`).
+  `gen_abbrs_content_lines()`. `chat` checkmarks `(Abbreviations)`; `coder`
+  checkmarks `(Coding Terms)` via a small `coding_terms_blueprint`
+  (`kaye/prompt/blueprint/registrations.py`).
   - **Preface** — every `DynamicNode` accepts a `preface=()` sequence, stored
     as `self._preface` and prepended to `content_lines()`'s generated output.
     `load_prompt_corpus_tree()` populates this automatically: `prompt_corpus.md`
@@ -96,9 +98,12 @@ sidecar nodes (see above). Blank "spacer" lines between sections are
 intentional — preserve them. The top-level (`#`) sections, in order:
 
 - **Introduction** — defines Kaye as an AI agent serving the user
-- **Personality** — the Kaye persona: submissive/deferential voice, emotion
-  expression rules (blockquote `>` for emotions, `----` separators between
-  explanation and emotion)
+- **Personality** — the Kaye persona: polite, cautious, deferential voice;
+  emotion-formatting rules (blockquote `>` reserved for emotional/personality
+  asides during task/factual responses, no `----` separators). Followed by an
+  unused `{explicit}` sidecar node carrying an intense submissive/master-servant
+  variant of the persona — defined for a possible future conditional splice,
+  not currently referenced in any `contains_sidecars` call site
 - **Language** — respond in the user's language; never mix languages in one
   reply
 - **Style Guide** — `Markdown Format`, `Capitalization` (Title Case /
@@ -114,17 +119,18 @@ intentional — preserve them. The top-level (`#`) sections, in order:
   `README`/`CHANGELOG`/`AGENTS` writers, and project workflow prompts: `Create
   README`, `Maintain README`, `Create CHANGELOG`, `Maintain CHANGELOG`,
   `Create AGENTS and CONTEXT`, `Maintain AGENTS and CONTEXT`, `Create Docs`,
-  `Maintain Docs`, `Initialize Project`, `Maintenance Before Compact`, `Prepare
-  for Feature Finish`, `Prepare for Version Release`
+  `Maintain Docs`, `Initialize Project`, `Maintenance Before Compact`,
+  `Prepare for Feature Landing`, `Prepare for Version Release`
 - **Prompt Engineering** — `Prompt Writer`, `Skill Description Writer`
 - **Kaye Cash Tracker** / **Kaye Commit Sense** / **Kaye Event Radar** —
   standalone task prompts (expense extraction, commit-message generation,
   event parsing/filtering)
 - **Kaye Peer Coder** — shared coder rules (`code format`, `variable naming`,
-  `code comment`, `Brace Style`) plus per-language coder profiles: `Bash`,
-  `C`, `CPP`, `Unreal Engine`, `C Sharp`, `Unity Engine`, `GDScript`, `HTML`,
-  `JavaScript and TypeScript`, `Python` (with `Docstring Style` and `Testing
-  Guidelines` sub-profiles)
+  `code comment`, `Brace Style`), the coder workflow prompts (`Plan for Step
+  By Step`, `Sync Unit Test`, `Resolve Merge Conflict`, `Gap Review`), plus
+  per-language coder profiles: `Bash`, `C`, `CPP`, `Unreal Engine`, `C Sharp`,
+  `Unity Engine`, `GDScript`, `HTML`, `JavaScript and TypeScript`, `Python`
+  (with `Docstring Style` and `Testing Guidelines` sub-profiles)
 - **Opus Tag Smith** — media tagging (title/subtitle, release year, tags)
 - **Agent Behavior** — baseline agent conduct; `Continue Behavior` is a
   subsection (e.g. `run_terminal_command`)
@@ -150,7 +156,13 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
     - `kaye/cli/claude/` — exports blueprints as Claude plugins, marketplaces,
       agentskills.io Skills, VS Code Extension setup, and the user system
       prompt `CLAUDE.md`
-    - `kaye/cli/cli_prompt/` — prompt generation CLI subcommands
+    - `kaye/cli/prompt/` — `kaye prompt` (alias `p`) subcommand: `ls`
+      (list registered blueprint names), `show` (preview a blueprint's
+      structure), `generate` (alias `g`, render a concrete prompt);
+      `show`/`generate` share a `blueprint_io_parser` base plus
+      `load_blueprint_from_args()`/`write_blueprint_result()` helpers
+      (`blueprint_io_parser.py`); supersedes the dead, never-wired
+      `kaye/cli/cli_prompt/`
   - `kaye/prompt_corpus.md`, `kaye/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
 - `docs/` — in-depth documentation (API, HTTP, CLI, abbreviations)
@@ -170,15 +182,20 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
       - `tests/cli/a/p/` — `claude plugin` export tests (skill files,
         plugin.json content, command aliases)
       - `tests/cli/a/cz/` — `claude plugin -z` (zipped package) tests
-      - `tests/cli/a/s/` — `claude skill` export tests
-        - `tests/cli/a/s/structure/` — structure/exportability tests for every
-          blueprint in `__all__`
-          (`cli-a-s-structure-exportable_blueprints_test.py`) and prompt
-          blueprints
+      - `tests/cli/a/s/` — `claude skill` export tests; no dedicated
+        structural-exportability folder — `tests/cli/a/__init__.py`'s
+        `ALL_CLAUDE_SKILL_NAMES` derives the full skill list straight from
+        `BLUEPRINT_REGISTRIES`, and parametrized suites like
+        `tests/corpus/corpus-skill_frontmatter_test.py` cover every
+        registration automatically
         - `tests/cli/a/s/coder/` — per-skill content tests for coder blueprints
         - `tests/cli/a/s/others/` — per-skill content tests for miscellaneous
           blueprints (chat, triage-tags, date-time, IPA, etc.)
         - `tests/cli/a/s/proj/` — per-skill content tests for project blueprints
+        - `tests/cli/a/s/prompts/` — per-skill content tests for workflow
+          prompts registered via `_register_prompt`
+          (`kaye/prompt/blueprint/registrations.py`, e.g. Create README, Gap
+          Review, Plan for Step By Step)
         - `tests/cli/a/s/role/` — per-skill content tests for role blueprints
         - `tests/cli/a/s/style/` — per-skill content tests for style blueprints
         - `tests/cli/a/s/pe/` — per-skill content tests for prompt-engineering

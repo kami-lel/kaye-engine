@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kaye"
-version = "6.9.0"
+version = "6.10.0"
 description = "define Kaye, a devoted and deferential AI assistant persona, in a single source of truth and reuse it consistently across every task and tool"
 readme = "README.md"
 authors = [
@@ -24,6 +24,9 @@ dependencies = [
 homepage = "https://github.com/kami-lel/kaye/blob/main/README.md"
 Repository = "https://github.com/kami-lel/kaye"
 
+[project.scripts]
+kaye = "kaye.__main__:main"
+
 [project.optional-dependencies]
 dev = [
     "pytest",
@@ -35,6 +38,7 @@ package-dir = { "" = "." }
 
 [tool.setuptools.packages.find]
 where = ["."]
+include = ["kaye*"]
 
 [tool.setuptools.package-data]
 "*" = ["prompt_corpus.md", "abbrs.json"]

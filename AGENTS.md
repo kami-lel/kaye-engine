@@ -49,25 +49,30 @@ Full suite — **only for PR/merge or when explicitly asked**:
 pytest
 ```
 
-Run the CLI and HTTP API locally:
+Run the CLI and HTTP API locally. The editable install registers a `kaye`
+console script (`[project.scripts]` in `pyproject.toml`), so `kaye ...` and
+`python -m kaye ...` are equivalent — prefer the shorter `kaye` form:
 
 ```bash
-python -m kaye --help          # show CLI usage
-python -m kaye http            # start Flask HTTP API (port 11255)
-python -m kaye continue config                  # export rules to ~/.continue
-python -m kaye continue config LOCAL_CONFIG_FOLDER  # export to custom path
-python -m kaye continue prompt PROMPTS_FOLDER        # export Continue prompts
-python -m kaye claude skill SKILLS_FOLDER            # export blueprints as Skill folders
-python -m kaye claude skill -z ZIPS_FOLDER           # create .zip Skill packages
-python -m kaye claude plugin PLUGINS_FOLDER          # export blueprints as plugin folder
-python -m kaye claude plugin -z PLUGINS_FOLDER       # create .plugin file (-n omits version)
-python -m kaye claude marketplace                    # export marketplace to ~/.claude/kaye_marketplace (default)
-python -m kaye claude marketplace MARKETPLACE        # export to custom folder
-python -m kaye claude code                           # export plugin + CLAUDE.md into ~/.claude
-python -m kaye claude user-system-prompt             # export Chat blueprint to ~/.claude/CLAUDE.md
-python -m kaye claude user-system-prompt -r          # use Rapid blueprint instead of Chat
-python -m kaye claude user-system-prompt -c          # append Kaye Peer Coder content
-python -m kaye claude vs-code-extension              # export CLAUDE.md + marketplace + settings.json into ~/.claude
+kaye --help          # show CLI usage
+kaye http            # start Flask HTTP API (port 11255)
+kaye prompt ls                              # list registered blueprint names
+kaye prompt show BLUEPRINT                  # preview a blueprint's structure
+kaye prompt generate BLUEPRINT              # render a blueprint into a concrete prompt
+kaye continue config                  # export rules to ~/.continue
+kaye continue config LOCAL_CONFIG_FOLDER  # export to custom path
+kaye continue prompt PROMPTS_FOLDER        # export Continue prompts
+kaye claude skill SKILLS_FOLDER            # export blueprints as Skill folders
+kaye claude skill -z ZIPS_FOLDER           # create .zip Skill packages
+kaye claude plugin PLUGINS_FOLDER          # export blueprints as plugin folder
+kaye claude plugin -z PLUGINS_FOLDER       # create .plugin file (-n omits version)
+kaye claude marketplace                    # export marketplace to ~/.claude/kaye_marketplace (default)
+kaye claude marketplace MARKETPLACE        # export to custom folder
+kaye claude code                           # export plugin + CLAUDE.md into ~/.claude
+kaye claude user-system-prompt             # export Chat blueprint to ~/.claude/CLAUDE.md
+kaye claude user-system-prompt -r          # use Rapid blueprint instead of Chat
+kaye claude user-system-prompt -c          # append Kaye Peer Coder content
+kaye claude vs-code-extension              # export CLAUDE.md + marketplace + settings.json into ~/.claude
 ```
 
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
@@ -75,7 +80,8 @@ Bash command patterns) into `settings.json`, sourced from
 `kaye/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so comments are
 allowed).
 
-CLI subcommand aliases: `http` → `h`; `continue` → `c`;
+CLI subcommand aliases: `http` → `h`; `prompt` → `p`;
+`prompt generate` → `p g`; `continue` → `c`;
 `continue config` → `c c`; `continue prompt` → `c p`;
 `claude` → `anthropic`, `a`; `claude code` → `claude c`;
 `claude marketplace` → `claude m`; `claude plugin` → `claude p`;
@@ -97,23 +103,43 @@ CLI subcommand aliases: `http` → `h`; `continue` → `c`;
 To add a blueprint that appears in both `claude skill` and `continue config`
 exports, touch these locations in order:
 
-1. **`kaye/prompt/embedded_blueprints.py`** — define the variable and add its
-   name to `__all__` (controls the `*` import into `kaye/cli/__init__.py`)
-2. **`kaye/cli/__init__.py` → `EXPORTABLE_BLUEPRINTS`** — append the blueprint
-   object; this is the actual gate for CLI export; omitting it causes "file not
-   found" in tests even though import works
-3. **`tests/cli/__init__.py`** — add entries to both:
+1. **`kaye/prompt/blueprint/registrations.py`** — the single place every
+   blueprint is created; call `register_blueprint()` (or the
+   `_register_exportable`/`_register_prompt` partials defined near the top
+   of the file) with the corpus node, setting `skill_exportable`,
+   `continue_exportable`, `always_apply`, `user_invokable`, `llm_invokable`
+   as needed. This is the only gate — a blueprint that isn't registered here
+   is invisible to every exporter, since `claude skill`, `continue config`,
+   and `continue prompt` all iterate `BLUEPRINT_REGISTRIES` directly
+2. **`tests/cli/__init__.py`** — add entries to both:
    - `MD_FILENAME2SKILL_NAME`: `"kebab-slug": "Display Name"`
    - `TESTEE_FILE_CONTENT_ALL`: `"kebab-slug": ["string1", "string2", ...]`
-4. **`tests/cli/a/s/structure/cli-a-s-structure-exportable_blueprints_test.py`**
-   — add a `test_<name>()` calling `validate_blueprint(bp)`
-5. **`tests/cli/a/s/<group>/cli-a-s-<group>-<slug>_test.py`** — per-skill
+3. **`tests/cli/a/s/<group>/cli-a-s-<group>-<slug>_test.py`** — per-skill
    content test (classes `TestBasic`, `TestHeader`, `TestStructure`,
    `TestContent`); group folders: `coder/`, `proj/`, `style/`, `pe/`,
-   `others/` (catch-all incl. Elements nodes), `role/` (Role section)
-6. **`tests/cli/c/c/<group>/cli-c-c-bp-<slug>_test.py`** — continue config
+   `others/` (catch-all incl. Elements nodes), `role/` (Role section),
+   `prompts/` (workflow prompts registered via `_register_prompt`, see
+   below). No separate
+   structural-exportability test is needed — `tests/cli/a/__init__.py`'s
+   `ALL_CLAUDE_SKILL_NAMES` derives the full skill list straight from
+   `BLUEPRINT_REGISTRIES`, so parametrized suites like
+   `tests/corpus/corpus-skill_frontmatter_test.py` cover any new
+   registration automatically
+4. **`tests/cli/c/c/<group>/cli-c-c-bp-<slug>_test.py`** — continue config
    content test; fixture is `testee_rules_folder / (display_name + ".md")`
    (file named by display name, not kebab slug)
+
+Workflow prompts use `_register_prompt` (`llm_invokable=False`) instead of
+`_register_exportable` — same `registrations.py` file, no separate module or
+pipeline. They live under either `# Projects` (e.g. `Prepare for Feature
+Landing`, `Prepare for Version Release`) via `_proj_node`, or `# Kaye Peer
+Coder` (e.g. `Gap Review`, `Sync Unit Test`, `Resolve Merge Conflict`, `Plan
+for Step By Step`)
+via `_kyc_node`. Built with
+`PromptBlueprint.create_from_node(<parent_node>["<Name>"])`, adding
+`recursively=True` if the corpus node has `####` sub-sections — then follow
+steps 2–4 the same way (test group folder `prompts/`, not the blueprint's
+topic).
 
 ### `c/c` `TestHeader` description/when-to-use pattern
 
@@ -153,11 +179,22 @@ next `class` line (PEP 8), including before the first class after the
 single blank line in files without `test_when_to_use`; watch for the same
 regression when scripting edits across this test group.
 
-### `always_apply` for new blueprints
+### Export-policy flags for new blueprints
 
-Defaults to `False`. Only `"Chat"`, `"Coder"`, `"Agent Behavior"`,
-`"Continue Behavior"` are in `_ALWAYS_APPLY_BLUEPRINT`
-(`kaye/cli/cli_continue/export_blueprint_rules.py`).
+`register_blueprint()` takes three independent bools, each defaulting per
+below — set per-registration in `registrations.py`, there's no separate
+allow-list constant:
+
+- `always_apply` (default `False`) — forces unconditional inclusion in the
+  exported Continue AI rule regardless of relevance; currently only
+  `"Kaye Peer Coder"` and `"Continue Behavior"` set this
+- `user_invokable` (default `True`) — whether a human may deliberately
+  invoke the entry by name; drives the exported Claude Skill's
+  `user-invocable` field
+- `llm_invokable` (default `True`) — whether Continue's own relevance
+  matching may silently surface the entry without it being named; `True`
+  exports as a Continue rule, `False` exports as a Continue Prompt (set by
+  `_register_prompt`, used for workflow prompts)
 
 ## Security
 

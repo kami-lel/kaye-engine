@@ -7,5 +7,3 @@ from kaye.cli.cli_continue.cli_continue_main import (
 )
 
 __all__ = ("register_cli_continue_parser",)
-
-# todo utilize prerequisite node

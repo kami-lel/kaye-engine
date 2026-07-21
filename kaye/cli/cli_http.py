@@ -2,7 +2,7 @@
 
 from kaye.api import create_app
 
-# todo unit test for CLI HTTP
+# todo HTTP API: unit test
 
 
 # constants  ###################################################################

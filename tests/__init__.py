@@ -30,13 +30,12 @@ TESTEE_MARKDOWN_FORMAT_CONTENT = (
 
 TESTEE_CHAT_ADDITIONAL_CONTENT = [
     "# Personality",
-    "You are deeply submissive and cautious",
-    "Your entire world revolves around *Kami*",
-    "Always communicate politely and address the user as **Sir**",
-    "Remain ceaselessly mindful of your lowly position and limitations",
+    "You are Kaye, a polite, cautious, and deeply respectful assistant",
+    "Your demeanor is gentle, careful, and eager to meet the user's needs",
+    "You may address the user as **Sir** when appropriate",
+    "Your purpose is to enrich *Kami*'s experience by being helpful, attentive, respectful",
     "# Language",
-    "- must use blockquote `>` for your emotions",
-    "- always respond in the **same language**",
+    "**Match the user's language. Every response, without exception.**",
 ]
 
 TESTEE_CHAT_COMMENTARY_CASE_CONTENT = [
@@ -128,8 +127,8 @@ TESTEE_TRIAGE_TAG_MEANING_CONTENT = [
 ]
 
 TESTEE_TRIAGE_TAG_WORK_CONTENT = [
-    "### Working with Triage Tags",
-    "Stay passive: never search for or resolve TT on your own",
+    "### Modifying Triage Tags",
+    "Stay passive: never hunt for TT, never resolve one on your own",
 ]
 
 TESTEE_TRIAGE_TAG_CONTENT = (
@@ -141,7 +140,7 @@ TESTEE_TRIAGE_TAG_CONTENT = (
 
 TESTEE_ALWAYS_UNDERSTAND_ABBR = [
     "# (Abbreviations)",
-    "**understand** every entry below, but **never use**",
+    "The table below is **decode-only**",
     "- asm:assume,assumed,assumption",
     "- cor:correct,correction",
     "- L:like,likely",
@@ -150,7 +149,7 @@ TESTEE_ALWAYS_UNDERSTAND_ABBR = [
 
 TESTEE_CODING_TERMS_ABBR = [
     "# (Coding Terms)",
-    "**understand** every entry below as software-dev-specific",
+    "The glossary below is **decode-only**",
     "- attr:attribute (variable owned by object; similar to field)",
     "- eval:evaluate,evaluable",
     "- sch:search",
@@ -213,7 +212,7 @@ TESTEE_FILE_CONTENT_ALL = {
         "- 🏁:finish",
         "- 🐞:debug",
         "- 💡:information,informational",
-        "- 💥:critical",
+        "- ⛔:critical",
         "- 💬:chat,conversation",
         "- 🔰:beginning,prototype",
         "- 🚀:rapid,fast",
@@ -607,8 +606,8 @@ TESTEE_FILE_CONTENT_ALL = {
         "pre-releases types: `alpha`, `beta`, `rc`",
         "start at `.2`, e.g. `1.0.0-alpha.2`, `1.0.0-alpha.3`",
         "`1.0.0+Win`, `1.0.0+mac`, `1.0.0+linux`",
-        "vertical slice (VS): `0.5.z`~`0.8.z`",
-        "release candidate (RC): `1.0.0-rc`",
+        "Vertical Slice (VS): `0.5.z`~`0.8.z`",
+        "Release Candidate (RC): `1.0.0-rc`",
     ],
     "project-structure": [
         "## Project Structure",
@@ -831,6 +830,23 @@ TESTEE_FILE_CONTENT_ALL = {
         "#### Output",
         "Update CHANGELOG in place",
     ],
+    "maintenance-before-compact": [
+        "## Maintenance Before Compact",
+        (
+            "Before context is compacted, capture this session's durable"
+            " changes so nothing is lost"
+        ),
+        "#### Instructions",
+        "- **Maintain CHANGELOG** → record the session's changes",
+        (
+            "- **Maintain AGENTS and CONTEXT** → update them for any"
+            " commands, conventions, constraints, or architecture this"
+            " session changed"
+        ),
+        "- skip a step when the session introduces nothing relevant to it",
+        "#### Output",
+        "Update the affected files in place; leave unrelated files untouched.",
+    ],
     "create-readme": [
         "## Create README",
         (
@@ -855,8 +871,8 @@ TESTEE_FILE_CONTENT_ALL = {
         "#### Output",
         "Create `AGENTS.md` and `CONTEXT.md` at the project root.",
     ],
-    "prepare-for-feature-finish": [
-        "## Prepare for Feature Finish",
+    "prepare-for-feature-landing": [
+        "## Prepare for Feature Landing",
         "Before merging the current feature branch",
         "#### Instructions",
         "- identify this branch's changes once",
@@ -877,5 +893,34 @@ TESTEE_FILE_CONTENT_ALL = {
         "2. **Close out the changelog**",
         "3. **Bump the project version**",
         "#### Output",
+    ],
+    "gap-review": [
+        "## Gap Review",
+        (
+            "Inspect the repository as it stands and surface every"
+            " inconsistency, gap, or unfinished seam"
+        ),
+        "#### Categories",
+        "#### Triage Tags",
+        "#### Findings",
+    ],
+    "resolve-merge-conflict": [
+        "## Resolve Merge Conflict",
+        "You resolve an **in-progress, halted Git merge**.",
+        "#### Rules",
+        "#### Verify",
+        "#### Boundaries",
+        "#### Report",
+    ],
+    "plan-for-step-by-step": [
+        "## Plan for Step By Step",
+        (
+            "When the user describes a task at a high level, **do not"
+            " start editing**."
+        ),
+        "#### Gather",
+        "#### Discover Current State",
+        "#### Write the Plan",
+        "#### Stop",
     ],
 }

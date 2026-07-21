@@ -2,7 +2,7 @@
 settings.py
 
 define ``update_settings_json`` — configure VS Code Extension settings
-(pre-compact hook and git command permissions)
+(git command permissions)
 """
 
 import json
@@ -10,17 +10,9 @@ from pathlib import Path
 
 import json5
 
-from kaye.prompt import REPLACEMENT_NEWLINE_SYMBOL, load_prompt_corpus_tree
-from kaye.prompt.prompt_blueprint import PromptBlueprint
-from kaye.cli.claude import CONTAINING_SIDECAR_NODES
-
-# bug not sure if pre compact hook is triggered
-
 # constants  ###################################################################
 
 _SETTINGS_FILENAME = "settings.json"
-_HOOK_MATCHER = "*"
-_HOOK_TYPE = "prompt"
 
 _PERMISSION_CMDS_PATH = Path(__file__).parent.parent / "permission_cmds.jsonc"
 _PERMISSION_FIELDS = ("ask", "deny", "allow")
@@ -29,39 +21,12 @@ _PERMISSION_FIELDS = ("ask", "deny", "allow")
 # helpers  #####################################################################
 
 
-def _build_settings(prompt, permission_cmds):
+def _build_settings(permission_cmds):
     return {
-        "hooks": {
-            "PreCompact": [{
-                "matcher": _HOOK_MATCHER,
-                "hooks": [{"type": _HOOK_TYPE, "prompt": prompt}],
-            }]
-        },
         "permissions": {
             field: permission_cmds[field] for field in _PERMISSION_FIELDS
         },
     }
-
-
-def _set_pre_compact_prompt(data, prompt):
-    hooks = data.setdefault("hooks", {})
-    pre_compact = hooks.setdefault("PreCompact", [])
-
-    for entry in pre_compact:
-        if entry.get("matcher") == _HOOK_MATCHER:
-            for hook in entry.get("hooks", []):
-                if hook.get("type") == _HOOK_TYPE:
-                    hook["prompt"] = prompt
-                    return
-            entry.setdefault("hooks", []).append(
-                {"type": _HOOK_TYPE, "prompt": prompt}
-            )
-            return
-
-    pre_compact.append({
-        "matcher": _HOOK_MATCHER,
-        "hooks": [{"type": _HOOK_TYPE, "prompt": prompt}],
-    })
 
 
 def _set_permissions(data, permission_cmds):
@@ -76,7 +41,7 @@ def _set_permissions(data, permission_cmds):
 
 def update_settings_json(claude_folder):
     """
-    update settings.json for pre-compact hook and git command permissions
+    update settings.json for git command permissions
 
 
     :param claude_folder: path to .claude/ folder
@@ -84,17 +49,6 @@ def update_settings_json(claude_folder):
     :return: path to the written settings.json
     :rtype: Path
     """
-    # create local blueprint with single node
-    _node = load_prompt_corpus_tree()["Projects"]["Maintenance Before Compact"]
-    bp = PromptBlueprint.create_from_node(_node)
-
-    lines = bp.generate_prompt_lines(
-        contains_sidecar_nodes=CONTAINING_SIDECAR_NODES
-    )
-
-    # convert to single line compact format
-    single_line = REPLACEMENT_NEWLINE_SYMBOL.join(lines)
-
     with open(_PERMISSION_CMDS_PATH, encoding="utf-8") as f:
         permission_cmds = json5.load(f)
 
@@ -104,9 +58,8 @@ def update_settings_json(claude_folder):
     if settings_path.exists():
         with open(settings_path, encoding="utf-8") as f:
             data = json.load(f)
-        _set_pre_compact_prompt(data, single_line)
     else:
-        data = _build_settings(single_line, permission_cmds)
+        data = _build_settings(permission_cmds)
 
     _set_permissions(data, permission_cmds)
 

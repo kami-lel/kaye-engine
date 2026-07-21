@@ -7,7 +7,7 @@ define ``export_abbr_rules``
 from pathlib import Path
 
 from kaye import logger
-from kaye.cli.cli_continue.rule_file import RuleFile
+from kaye.cli.cli_continue.rule_file import ContinueRule
 from kaye.cli.exportable_abbr import EXPORTABLE_ABBRS
 
 # Entry Point  #################################################################
@@ -33,10 +33,10 @@ def export_abbr_rules(folder):
     for group in EXPORTABLE_ABBRS:
         file_path = folder / "{}.md".format(group.display_name)
 
-        with RuleFile(file_path) as rule:
-            rule.name = group.display_name
-            rule.description = group.description
-            rule.write_frontmatter_part()
-            rule.write(group.as_md_list())
+        ContinueRule(
+            name=group.display_name,
+            description=group.description,
+            body=group.as_md_list(),
+        ).write(file_path)
 
         logger.succ("abbr rule:\t{}".format(file_path))

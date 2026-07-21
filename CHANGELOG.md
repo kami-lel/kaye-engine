@@ -2,6 +2,11 @@
 
 [^format]
 
+<!--
+todo split corpus itself from this project (public vs private repo)
+todo todo CLI to import/export w/ OpenWebUI
+-->
+
 
 
 
@@ -16,7 +21,7 @@
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.9.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.10.0...dev
 
 ### Added
 
@@ -29,6 +34,98 @@
 ### Fixed
 
 ### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.10.0] - 2026-07-22
+
+### Added
+
+- `Maintenance Before Compact` skill — now exported as a proper skill,
+  replacing the VS Code `PreCompact` hook, which never fired in the
+  extension
+- `kaye` console-script entry point — run as `kaye --help`, no more
+  `python -m kaye`
+- `Gap Review`, `Resolve Merge Conflict`, `Plan for Step By Step` skills —
+  now exported from existing prompt content, with test coverage for all
+  three
+- unified blueprint registry — a single source of truth for every
+  blueprint's identity and export policy, replacing two separate lists
+- finer export-visibility flags — control whether a prompt applies
+  unconditionally, may be invoked by name, or may surface automatically,
+  replacing one blunt flag
+- shared frontmatter rendering — skills and Continue rules now emit sparse
+  frontmatter (only non-default fields) through one common base
+- canonical skill-name derivation — skill slugs are now derived directly
+  from display names instead of tracked separately
+- `kaye prompt` CLI subcommand (alias `p`) — list, preview, and generate
+  prompts from the terminal
+- `Sync Unit Test` skill — triages a failing test as stale (fix the test) or
+  a real regression (stop and ask) before making any repair, and forbids
+  weakening assertions or blindly accepting snapshot updates
+
+### Changed
+
+- `Gap Review` now marks critical gaps — every critical finding gets a
+  visible marker at the failure site; the old four-tier severity ladder is
+  replaced by a clearer three-tier classification
+- `Triage Tags` writability clarified — only the loudest tag tier may be
+  edited; the rest are read-only context
+- `Gap Review`, `Resolve Merge Conflict`, `Plan for Step By Step` moved
+  under the coder role, inheriting its context
+- sidecar nodes generalized — conditional prompt sections are now
+  identified by freeform name instead of a fixed enum, letting new ones be
+  added without code changes
+- personality tone rewritten — the old extreme submissive tone is replaced
+  by a polite, respectful one across chat and every task role built on it
+- `Plan for Step By Step` now enters plan mode before gathering context, not
+  just after
+- `kamilog` bumped to `v2.8.0` — new log levels and colorized triage-tag
+  output
+- corpus node lookup optimized — cached indexes avoid a full tree walk on
+  every call
+- skill and Continue rule export consolidated onto one shared code path
+- `kaye prompt show` preview trimming issue flagged, not yet fixed
+
+### Deprecated
+
+- legacy blueprint loader — left in place but non-functional; pending
+  removal
+
+### Removed
+
+- VS Code `PreCompact` hook generation — superseded by the
+  `maintenance-before-compact` skill
+- stale to-do comment resolved by the additions above
+- legacy embedded-blueprint text files — superseded by the Python-defined
+  registry
+- old blueprint-list modules — folded into the unified registry
+- redundant exportability tests — coverage moved to the registry-level and
+  per-skill tests
+- unused prompt-line-generation wrapper
+- dead, unwired legacy CLI prompt module — superseded by `kaye/cli/prompt/`
+
+[6.10.0]: https://github.com/kami-lel/kaye/compare/v6.9.0...v6.10.0
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -291,7 +388,7 @@ VS Code `PreCompact` hook:
   `maintain_changelog`, `create_agents_and_context`,
   `maintain_agents_and_context`, `create_docs`, `maintain_docs`,
   `initialize_project`, `compact_with_maintenance`,
-  `prepare_for_feature_finish`, `prepare_for_version_release`
+  `prepare_for_feature_landing`, `prepare_for_version_release`
 - **Project CONTEXT Writer** — new corpus section for creating and maintaining
   `CONTEXT.md` and `CONTEXT.local.md`
 - **test suites** — `tests/cli/a/v/` (VS Code export), `tests/cli/a/c/`
@@ -632,7 +729,7 @@ Continue Export:
 
 - **Continue Export**: documentation workflow blueprints and Continue export refactor
 
-  - `prepare_for_feature_finish` — prepare feature branch for final submission;
+  - `prepare_for_feature_landing` — prepare feature branch for final submission;
     generates prompts to update `CHANGELOG.md` and documentation files
   - `prepare_for_release` — prepare release branch with comprehensive documentation
     updates

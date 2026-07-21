@@ -1,3 +1,0 @@
-[submodule "scripts/hooks_utility"]
-	path = scripts/hooks_utility
-	url = git@github.com:kami-lel/hooks-utility.git
