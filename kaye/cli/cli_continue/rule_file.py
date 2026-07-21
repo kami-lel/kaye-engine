@@ -4,7 +4,6 @@ rule_file.py
 define ``ContinueRule``
 """
 
-from kaye.prompt.sidecar_nodes import SidecarNodeType
 
 from kaye.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 
@@ -71,7 +70,7 @@ class ContinueRule(FrontmatterDoc):  ##########################################
             always_apply=registry.always_apply,
             invokable=not registry.llm_invokable,
             body=registry.blueprint.generate_prompt(
-                contains_sidecar_nodes=SidecarNodeType.PREREQUISITE
+                contains_sidecars=("prerequisite",)
             ),
         )
 
