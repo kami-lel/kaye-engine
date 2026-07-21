@@ -3650,106 +3650,6 @@ Use this skill when the user wants to update existing README, AGENTS, or `docs/`
 
 
 
-## Plan for Step By Step
-
-When the user describes a task at a high level, **do not start editing**. Produce a **Plan** first.
-
-
-
-
-
-#### Gather
-
-Read before you plan. Resolve the task's scope from the repository itself — entry points, existing conventions, the files the task will touch, and anything the description leaves ambiguous. Prefer reading the actual code over assuming its shape. If a genuine blocker remains after reading, ask **one** question; otherwise state the assumption inline and continue.
-
-
-
-
-
-#### Discover Current State
-
-Establish where the project stands **now**: what already exists, what is partially done, what is missing. The Plan starts from the real state, never from a clean slate.
-
-
-
-
-
-#### Write the Plan
-
-The Plan must be **readable at a glance** and **workable in order**. Whatever layout serves that, use it — but every Step must be findable, numbered, and unambiguous.
-
-- always use the word **Step** — never "phase", "task", "stage", or "part"
-- number Steps from `1`, incrementing by 1 — `1`, `2`, `3`
-- order Steps so each one can be done, reviewed, and left in a Working state before the next begins
-- each Step touches only **a few files**, small enough to review at a Glance
-- name the exact files each Step touches
-- say what changes and why, in one or two lines — no code dumps
-- when a Step is too large to review at a glance, break it into sub-Steps numbered by depth — `1.1`, `1.2`, then `1.1.1` if needed. Nest only as far as the task requires; a flat list is preferred when it fits
-
-
-
-
-
-#### Stop
-
-The Plan is the **deliverable**. Hand it to the user and wait for their approval — the codebase stays exactly as it is until they give it.
-
-
-
-
-
-
-
-
-
-
-
-
-### {description}
-
-Turns a high-level task request into an ordered Plan — gathering repository context, establishing current state, and breaking work into numbered Steps that each touch only a few files. Stops at the Plan and awaits approval.
-
-### {when_to_use}
-
-Use when the user describes work at a high level rather than a concrete edit — "add authentication", "migrate to the new API", "refactor the config layer" — or when the change spans more than a couple of files. Trigger on "plan this out", "break this down", "step by step", "what's the order here". Also use when implementation was asked for but the diff would be too large to review in one pass. Skip for single-file edits, direct fixes, and questions the user wants answered rather than planned.
-
-### {for claude code}
-
-- call `EnterPlanMode` before gathering, so the whole discovery pass runs under plan-mode protection
-- present the finished Plan through `ExitPlanMode` so approval is explicit and recorded
-- leave `TodoWrite` unused while planning. Open it only once the user approves, one todo per Step, in Plan order
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Maintenance Before Compact
 
 Before context is compacted, capture this session's durable changes so nothing is lost: log them and update the agent-facing docs.
@@ -3782,107 +3682,6 @@ Update the affected files in place; leave unrelated files untouched.
 - follow `Maintain AGENTS and CONTEXT`
 - use `Style Guide Markdown Format`
 - follow `Style Guide Good Writing` rules for correctness and clarity
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Resolve Merge Conflict
-
-You resolve an **in-progress, halted Git merge**. Make the working tree correct so the *user* can run `git merge --continue` themselves.
-
-
-
-
-
-#### Rules
-
-- fix **only** files Git reports as unmerged
-- read both sides with surrounding context before editing; use `git log`, `git diff`, `git show :1:/:2:/:3:path` when markers are ambiguous
-- reconcile **semantically** — imports, signatures, config keys, and call sites must still agree afterward
-- preserve intent from both branches; never take "ours" or "theirs" wholesale just to clear markers
-- delete every marker: `<<<<<<<`, `|||||||`, `=======`, `>>>>>>>`
-- state which path survives for delete/modify and rename conflicts
-- regenerate lock and generated files rather than hand-merging
-- stop and ask when a resolution needs a decision you cannot infer
-
-
-
-
-
-#### Verify
-
-- grep the repo for residual markers
-- confirm each resolved file parses or compiles; run tests if cheap
-
-
-
-
-
-#### Boundaries
-
-- working tree only. No `git add`, `merge --continue`, `commit`, `merge --abort`, or branch/tag/stash/worktree mutation
-
-
-
-
-
-#### Report
-
-Per file: what each side changed, how you reconciled it, what to double-check. Close by stating the tree is ready for `git add` then `git merge --continue`.
-
-
-
-
-
-
-
-
-
-
-
-
-
-### {description}
-
-Resolves Git merge conflicts in a halted merge — reconciles both sides of every conflict hunk into correct working-tree files and removes all conflict markers so the merge can be completed.
-
-### {when_to_use}
-
-When a merge, rebase, cherry-pick, or pull stops with conflicts, or files contain `<<<<<<<` / `=======` / `>>>>>>>` markers. Triggers on "resolve the conflicts," "fix the merge," "merge --continue is blocked," even without the word *conflict*. Not for planning branch strategy or writing merge commit messages.
-
-### {for claude code}
-
-track resolution with the `TodoWrite` tool — one todo per unmerged path, marked complete only after its markers are gone and the file parses
 
 
 
@@ -4078,142 +3877,6 @@ Reach for this on release requests — "ship v1.2.3," "cut a release," "tag a ve
 ### {for claude code}
 
 - if the version number or the release date is missing, use `AskUserQuestion` to ask the user before proceeding
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Gap Review
-
-You perform *gap reviewer role*: inspect the **current state** of a repository and report every inconsistency, gap, or unfinished seam likely to become a **user-visible failure** after public release.
-
-You are a **read-only auditor**. Report findings; never edit or fix unless asked in a later turn.
-
-
-
-
-
-#### Survey First
-
-Extract what the project *claims* to be, then verify code and tooling agree.
-
-1. inventory the tree against `Project Structure`. Note what is absent or misplaced
-2. read `README.md`, `CHANGELOG.md`, `CONTEXT.md`, `AGENTS.md`, `docs/` — the stated contract
-3. read `src/`, `bin/`, `scripts/`, `tests/`, packaging metadata — the actual contract
-4. compare. Every divergence is a candidate finding
-
-
-
-
-
-#### What to Look For
-
-Cover each category. Skip one only if it genuinely does not apply.
-
-- **documentation drift**: install/build/test commands, flags, and env vars in docs that the code no longer matches; pages describing renamed or removed modules; broken links; `CONTEXT.md` or `AGENTS.md` claims contradicted by the current layout
-- **version consistency**: version strings disagreeing across metadata files; `CHANGELOG.md` missing shipped changes; `[Unreleased]` content already released; missing license or third-party attribution
-- **code gaps**: `TODO`, `NotImplementedError`, stubs, and empty bodies on user-reachable paths; declared but unimplemented interfaces; unhandled branches and enum members; exceptions never caught at a boundary; hardcoded paths, debug flags, committed secrets
-- **interface contracts**: signatures disagreeing with docstrings, type hints, or documented examples; examples that would raise on current code; callers passing arguments the callee no longer accepts; schemas read and written by disagreeing definitions
-- **configuration**: required env vars with no default, validation, or documentation; config keys read but never shipped in a sample, or shipped but read by nothing; system binaries invoked yet never declared
-- **dependencies**: imports missing from the manifest; declared packages imported nowhere; unpinned ranges; lockfile absent or out of sync
-- **packaging**: source excluded from the distributed artifact; entry points aimed at missing modules; `.gitignore` stripping a needed file, or leaking `*.local.md` and secrets
-- **tests**: public behavior with no test; fixtures referencing deleted files; skipped or xfailed tests guarding shipped features; a suite the documented command cannot invoke
-
-
-
-
-
-#### Severity
-
-Rank by **release impact**, not fix effort.
-
-- **blocker**: the artifact fails outright for an ordinary user — broken install, missing module, crash on the documented happy path, leaked secret
-- **major**: a documented feature misbehaves under ordinary input
-- **minor**: stale documentation or cosmetic inconsistency, no functional failure
-- **note**: latent risk. Nothing breaks Today
-
-
-
-
-
-### Output
-
-Open with a one-paragraph verdict: releasable as it stands, and the single largest obstacle.
-
-List findings grouped by severity, blockers first. Each gets a short imperative title, evidence as `path/to/file:line`, the failure a public user would hit, and the smallest correct fix.
-
-Close with a **coverage note**: what you could not inspect, and why.
-
-
-
-
-
-### Constraints
-
-- report only what the repository shows. Never infer a bug from a filename or convention alone
-- always cite a file and line. An uncited finding is not a finding
-- when sources conflict, treat executable code as truth and the document as the defect
-- say plainly when a finding is a judgment call rather than inflating its severity
-- state when a category yielded nothing. Silence must not read as an oversight
-
-
-
-
-
-
-
-
-
-
-
-
-
-### {description}
-
-Audits whole repository for gaps, drift, unfinished seams — anything that becomes user-visible bug on public release.
-
-### {when_to_use}
-
-Pre-release audit requests: "gap review," "ready to ship?," "what's missing," "review project state." Not single-diff or single-file review.
-
-### {prerequisite}
-
-- read `Project Structure` to know which top-level files and folders R expected
-- read `Triage Tags` and label each finding with the appropriate tag and case tier
-- use `Style Guide Markdown Format`
-- follow `Style Guide Good Writing` rules for correctness and clarity
-
-
-
 
 
 
@@ -5172,6 +4835,343 @@ Trigger on any code writing, editing, debugging, or programming question.
 - use `Style Guide Commentary Case` for each Comment Line
 - use `Triage Tags`
 - follow `Style Guide Good Writing` rules for correctness and clarity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Plan for Step By Step
+
+When the user describes a task at a high level, **do not start editing**. Produce a **Plan** first.
+
+
+
+
+
+#### Gather
+
+Read before you plan. Resolve the task's scope from the repository itself — entry points, existing conventions, the files the task will touch, and anything the description leaves ambiguous. Prefer reading the actual code over assuming its shape. If a genuine blocker remains after reading, ask **one** question; otherwise state the assumption inline and continue.
+
+
+
+
+
+#### Discover Current State
+
+Establish where the project stands **now**: what already exists, what is partially done, what is missing. The Plan starts from the real state, never from a clean slate.
+
+
+
+
+
+#### Write the Plan
+
+The Plan must be **readable at a glance** and **workable in order**. Whatever layout serves that, use it — but every Step must be findable, numbered, and unambiguous.
+
+- always use the word **Step** — never "phase", "task", "stage", or "part"
+- number Steps from `1`, incrementing by 1 — `1`, `2`, `3`
+- order Steps so each one can be done, reviewed, and left in a Working state before the next begins
+- each Step touches only **a few files**, small enough to review at a Glance
+- name the exact files each Step touches
+- say what changes and why, in one or two lines — no code dumps
+- when a Step is too large to review at a glance, break it into sub-Steps numbered by depth — `1.1`, `1.2`, then `1.1.1` if needed. Nest only as far as the task requires; a flat list is preferred when it fits
+
+
+
+
+
+#### Stop
+
+The Plan is the **deliverable**. Hand it to the user and wait for their approval — the codebase stays exactly as it is until they give it.
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Turns a high-level task request into an ordered Plan — gathering repository context, establishing current state, and breaking work into numbered Steps that each touch only a few files. Stops at the Plan and awaits approval.
+
+### {when_to_use}
+
+Use when the user describes work at a high level rather than a concrete edit — "add authentication", "migrate to the new API", "refactor the config layer" — or when the change spans more than a couple of files. Trigger on "plan this out", "break this down", "step by step", "what's the order here". Also use when implementation was asked for but the diff would be too large to review in one pass. Skip for single-file edits, direct fixes, and questions the user wants answered rather than planned.
+
+### {for claude code}
+
+- call `EnterPlanMode` before gathering, so the whole discovery pass runs under plan-mode protection
+- present the finished Plan through `ExitPlanMode` so approval is explicit and recorded
+- leave `TodoWrite` unused while planning. Open it only once the user approves, one todo per Step, in Plan order
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Resolve Merge Conflict
+
+You resolve an **in-progress, halted Git merge**. Make the working tree correct so the *user* can run `git merge --continue` themselves.
+
+
+
+
+
+#### Rules
+
+- fix **only** files Git reports as unmerged
+- read both sides with surrounding context before editing; use `git log`, `git diff`, `git show :1:/:2:/:3:path` when markers are ambiguous
+- reconcile **semantically** — imports, signatures, config keys, and call sites must still agree afterward
+- preserve intent from both branches; never take "ours" or "theirs" wholesale just to clear markers
+- delete every marker: `<<<<<<<`, `|||||||`, `=======`, `>>>>>>>`
+- state which path survives for delete/modify and rename conflicts
+- regenerate lock and generated files rather than hand-merging
+- stop and ask when a resolution needs a decision you cannot infer
+
+
+
+
+
+#### Verify
+
+- grep the repo for residual markers
+- confirm each resolved file parses or compiles; run tests if cheap
+
+
+
+
+
+#### Boundaries
+
+- working tree only. No `git add`, `merge --continue`, `commit`, `merge --abort`, or branch/tag/stash/worktree mutation
+
+
+
+
+
+#### Report
+
+Per file: what each side changed, how you reconciled it, what to double-check. Close by stating the tree is ready for `git add` then `git merge --continue`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Resolves Git merge conflicts in a halted merge — reconciles both sides of every conflict hunk into correct working-tree files and removes all conflict markers so the merge can be completed.
+
+### {when_to_use}
+
+When a merge, rebase, cherry-pick, or pull stops with conflicts, or files contain `<<<<<<<` / `=======` / `>>>>>>>` markers. Triggers on "resolve the conflicts," "fix the merge," "merge --continue is blocked," even without the word *conflict*. Not for planning branch strategy or writing merge commit messages.
+
+### {for claude code}
+
+track resolution with the `TodoWrite` tool — one todo per unmerged path, marked complete only after its markers are gone and the file parses
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Gap Review
+
+You perform *gap reviewer role*: inspect the **current state** of a repository and report every inconsistency, gap, or unfinished seam likely to become a **user-visible failure** after public release.
+
+You are a **read-only auditor**. Report findings; never edit or fix unless asked in a later turn.
+
+
+
+
+
+#### Survey First
+
+Extract what the project *claims* to be, then verify code and tooling agree.
+
+1. inventory the tree against `Project Structure`. Note what is absent or misplaced
+2. read `README.md`, `CHANGELOG.md`, `CONTEXT.md`, `AGENTS.md`, `docs/` — the stated contract
+3. read `src/`, `bin/`, `scripts/`, `tests/`, packaging metadata — the actual contract
+4. compare. Every divergence is a candidate finding
+
+
+
+
+
+#### What to Look For
+
+Cover each category. Skip one only if it genuinely does not apply.
+
+- **documentation drift**: install/build/test commands, flags, and env vars in docs that the code no longer matches; pages describing renamed or removed modules; broken links; `CONTEXT.md` or `AGENTS.md` claims contradicted by the current layout
+- **version consistency**: version strings disagreeing across metadata files; `CHANGELOG.md` missing shipped changes; `[Unreleased]` content already released; missing license or third-party attribution
+- **code gaps**: `TODO`, `NotImplementedError`, stubs, and empty bodies on user-reachable paths; declared but unimplemented interfaces; unhandled branches and enum members; exceptions never caught at a boundary; hardcoded paths, debug flags, committed secrets
+- **interface contracts**: signatures disagreeing with docstrings, type hints, or documented examples; examples that would raise on current code; callers passing arguments the callee no longer accepts; schemas read and written by disagreeing definitions
+- **configuration**: required env vars with no default, validation, or documentation; config keys read but never shipped in a sample, or shipped but read by nothing; system binaries invoked yet never declared
+- **dependencies**: imports missing from the manifest; declared packages imported nowhere; unpinned ranges; lockfile absent or out of sync
+- **packaging**: source excluded from the distributed artifact; entry points aimed at missing modules; `.gitignore` stripping a needed file, or leaking `*.local.md` and secrets
+- **tests**: public behavior with no test; fixtures referencing deleted files; skipped or xfailed tests guarding shipped features; a suite the documented command cannot invoke
+
+
+
+
+
+#### Severity
+
+Rank by **release impact**, not fix effort.
+
+- **blocker**: the artifact fails outright for an ordinary user — broken install, missing module, crash on the documented happy path, leaked secret
+- **major**: a documented feature misbehaves under ordinary input
+- **minor**: stale documentation or cosmetic inconsistency, no functional failure
+- **note**: latent risk. Nothing breaks Today
+
+
+
+
+
+### Output
+
+Open with a one-paragraph verdict: releasable as it stands, and the single largest obstacle.
+
+List findings grouped by severity, blockers first. Each gets a short imperative title, evidence as `path/to/file:line`, the failure a public user would hit, and the smallest correct fix.
+
+Close with a **coverage note**: what you could not inspect, and why.
+
+
+
+
+
+### Constraints
+
+- report only what the repository shows. Never infer a bug from a filename or convention alone
+- always cite a file and line. An uncited finding is not a finding
+- when sources conflict, treat executable code as truth and the document as the defect
+- say plainly when a finding is a judgment call rather than inflating its severity
+- state when a category yielded nothing. Silence must not read as an oversight
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Audits whole repository for gaps, drift, unfinished seams — anything that becomes user-visible bug on public release.
+
+### {when_to_use}
+
+Pre-release audit requests: "gap review," "ready to ship?," "what's missing," "review project state." Not single-diff or single-file review.
+
+### {prerequisite}
+
+- read `Project Structure` to know which top-level files and folders R expected
+- read `Triage Tags` and label each finding with the appropriate tag and case tier
+- use `Style Guide Markdown Format`
+- follow `Style Guide Good Writing` rules for correctness and clarity
+
+
+
+
+
 
 
 
