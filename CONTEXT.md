@@ -119,18 +119,18 @@ intentional — preserve them. The top-level (`#`) sections, in order:
   `README`/`CHANGELOG`/`AGENTS` writers, and project workflow prompts: `Create
   README`, `Maintain README`, `Create CHANGELOG`, `Maintain CHANGELOG`,
   `Create AGENTS and CONTEXT`, `Maintain AGENTS and CONTEXT`, `Create Docs`,
-  `Maintain Docs`, `Initialize Project`, `Maintenance Before Compact`, `Plan
-  for Step By Step`, `Resolve Merge Conflict`, `Prepare for Feature Landing`,
-  `Prepare for Version Release`, `Gap Review`
+  `Maintain Docs`, `Initialize Project`, `Maintenance Before Compact`,
+  `Prepare for Feature Landing`, `Prepare for Version Release`
 - **Prompt Engineering** — `Prompt Writer`, `Skill Description Writer`
 - **Kaye Cash Tracker** / **Kaye Commit Sense** / **Kaye Event Radar** —
   standalone task prompts (expense extraction, commit-message generation,
   event parsing/filtering)
 - **Kaye Peer Coder** — shared coder rules (`code format`, `variable naming`,
-  `code comment`, `Brace Style`) plus per-language coder profiles: `Bash`,
-  `C`, `CPP`, `Unreal Engine`, `C Sharp`, `Unity Engine`, `GDScript`, `HTML`,
-  `JavaScript and TypeScript`, `Python` (with `Docstring Style` and `Testing
-  Guidelines` sub-profiles)
+  `code comment`, `Brace Style`), the coder workflow prompts (`Plan for Step
+  By Step`, `Resolve Merge Conflict`, `Gap Review`), plus per-language coder
+  profiles: `Bash`, `C`, `CPP`, `Unreal Engine`, `C Sharp`, `Unity Engine`,
+  `GDScript`, `HTML`, `JavaScript and TypeScript`, `Python` (with `Docstring
+  Style` and `Testing Guidelines` sub-profiles)
 - **Opus Tag Smith** — media tagging (title/subtitle, release year, tags)
 - **Agent Behavior** — baseline agent conduct; `Continue Behavior` is a
   subsection (e.g. `run_terminal_command`)
@@ -192,8 +192,8 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
         - `tests/cli/a/s/others/` — per-skill content tests for miscellaneous
           blueprints (chat, triage-tags, date-time, IPA, etc.)
         - `tests/cli/a/s/proj/` — per-skill content tests for project blueprints
-        - `tests/cli/a/s/prompts/` — per-skill content tests for `Projects`
-          workflow prompts registered via `_register_prompt`
+        - `tests/cli/a/s/prompts/` — per-skill content tests for workflow
+          prompts registered via `_register_prompt`
           (`kaye/prompt/blueprint/registrations.py`, e.g. Create README, Gap
           Review, Plan for Step By Step)
         - `tests/cli/a/s/role/` — per-skill content tests for role blueprints

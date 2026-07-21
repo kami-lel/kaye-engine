@@ -118,7 +118,8 @@ exports, touch these locations in order:
    content test (classes `TestBasic`, `TestHeader`, `TestStructure`,
    `TestContent`); group folders: `coder/`, `proj/`, `style/`, `pe/`,
    `others/` (catch-all incl. Elements nodes), `role/` (Role section),
-   `prompts/` (`# Projects` workflow prompts, see below). No separate
+   `prompts/` (workflow prompts registered via `_register_prompt`, see
+   below). No separate
    structural-exportability test is needed — `tests/cli/a/__init__.py`'s
    `ALL_CLAUDE_SKILL_NAMES` derives the full skill list straight from
    `BLUEPRINT_REGISTRIES`, so parametrized suites like
@@ -128,10 +129,13 @@ exports, touch these locations in order:
    content test; fixture is `testee_rules_folder / (display_name + ".md")`
    (file named by display name, not kebab slug)
 
-`# Projects` workflow prompts (e.g. `Gap Review`, `Plan for Step By Step`) use
-`_register_prompt` (`llm_invokable=False`) instead of `_register_exportable`
-— same `registrations.py` file, no separate module or pipeline — built with
-`PromptBlueprint.create_from_node(_prompt_node["<Name>"])`, adding
+Workflow prompts use `_register_prompt` (`llm_invokable=False`) instead of
+`_register_exportable` — same `registrations.py` file, no separate module or
+pipeline. They live under either `# Projects` (e.g. `Prepare for Feature
+Landing`, `Prepare for Version Release`) via `_proj_node`, or `# Kaye Peer
+Coder` (e.g. `Gap Review`, `Resolve Merge Conflict`, `Plan for Step By Step`)
+via `_kyc_node`. Built with
+`PromptBlueprint.create_from_node(<parent_node>["<Name>"])`, adding
 `recursively=True` if the corpus node has `####` sub-sections — then follow
 steps 2–4 the same way (test group folder `prompts/`, not the blueprint's
 topic).
@@ -189,7 +193,7 @@ allow-list constant:
 - `llm_invokable` (default `True`) — whether Continue's own relevance
   matching may silently surface the entry without it being named; `True`
   exports as a Continue rule, `False` exports as a Continue Prompt (set by
-  `_register_prompt`, used for `# Projects` workflow prompts)
+  `_register_prompt`, used for workflow prompts)
 
 ## Security
 

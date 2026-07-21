@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+Todo write claude doc, instruct for the 2 steps for desktop
 todo split corpus itself from this project (public vs private repo)
 todo todo CLI to import/export w/ OpenWebUI
 -->
@@ -77,6 +78,30 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Changed
 
+- **`Gap Review` skill now marks critical gaps** — its read-only stance
+  gains one exception: every **⛔ Critical** finding, and only those, gets a
+  *Loud TT* at the failure site before reporting, defined by a new
+  `#### Marking Critical Gaps` section (`kaye/prompt_corpus.md`); the old
+  severity ladder (`blocker`/`major`/`minor`/`note`) is replaced by a
+  three-tier **Classification** (`⛔ Critical`/`⚠️ Warning`/`📌 Hint`) ranked
+  by release impact; `{prerequisite}` now reads `Triage Tags` for tag
+  meanings before inserting a marker instead of labeling every finding with
+  a tier
+- **`Triage Tags` writability model rewritten** — the
+  `### Working with Triage Tags` subsection is renamed
+  `### Modifying Triage Tags`, and its two-exception rule is replaced by a
+  tier split: only *Loud TT* are writable (insert, edit, or remove when the
+  task calls for it), while *Steady* and *Quiet TT* are read-only and read
+  for Context only; test fixture `TESTEE_TRIAGE_TAG_WORK_CONTENT`
+  (`tests/__init__.py`) updated to match
+- **`Gap Review`, `Resolve Merge Conflict`, `Plan for Step By Step` moved
+  under `Kaye Peer Coder`** — these three workflow prompts now register
+  against `_kyc_node` rather than `_proj_node`
+  (`kaye/prompt/blueprint/registrations.py`), and their corpus sections
+  relocate from `# Projects` to `# Kaye Peer Coder`, so they inherit the
+  coder tree's Context; still exported via `_register_prompt`
+  (`llm_invokable=False`), and their `tests/cli/a/s/prompts/` coverage is
+  unchanged
 - **Sidecar node identification generalized from a fixed enum to freeform
   names** — `SidecarNodeType` (`IntFlag`) and `sidecar_node_type.py` are
   removed; `get_sidecar_node_type()` is replaced by
