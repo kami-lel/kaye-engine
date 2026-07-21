@@ -960,13 +960,13 @@ Shifting to a louder tier is **raise**; to a quieter tier is **lower**.
 
 
 
-### Working with Triage Tags
+### Modifying Triage Tags
 
-Stay passive: never search for or resolve TT on your own, and never modify or remove one unless explicitly asked. Two exceptions:
+Stay passive: never hunt for TT, never resolve one on your own, and never alter one unless explicitly asked.
 
-- a requested task incidentally resolves the issue a TT describes, and the TT falls within that same edit — resolve it there, without expanding the search elsewhere
-- a requested task calls for a placeholder or stopgap — leave an appropriate *Loud TT* marking it
+Only *Loud TT* are writable. You may insert, edit, or remove a Loud TT when the task calls for it.
 
+*Steady* and *Quiet TT* are read-only. Interpret them for Context, but never edit, remove, raise, or lower them — not even in passing.
 
 
 
