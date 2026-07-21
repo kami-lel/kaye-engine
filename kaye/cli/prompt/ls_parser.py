@@ -10,12 +10,13 @@ from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
 
 # constants  ###################################################################
 
-_HELP = "list names of all available embedded blueprints"
+_HELP = "list names of all registered blueprints"
 
 
 _DESCRIPTION = _HELP + """
 
-more description"""
+prints the name of each registered blueprint in BLUEPRINT_REGISTRIES,
+sorted alphabetically, one per line"""
 
 
 def _ls_main(_):  ##############################################################
