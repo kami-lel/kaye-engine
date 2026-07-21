@@ -830,6 +830,23 @@ TESTEE_FILE_CONTENT_ALL = {
         "#### Output",
         "Update CHANGELOG in place",
     ],
+    "maintenance-before-compact": [
+        "## Maintenance Before Compact",
+        (
+            "Before context is compacted, capture this session's durable"
+            " changes so nothing is lost"
+        ),
+        "#### Instructions",
+        "- **Maintain CHANGELOG** → record the session's changes",
+        (
+            "- **Maintain AGENTS and CONTEXT** → update them for any"
+            " commands, conventions, constraints, or architecture this"
+            " session changed"
+        ),
+        "- skip a step when the session introduces nothing relevant to it",
+        "#### Output",
+        "Update the affected files in place; leave unrelated files untouched.",
+    ],
     "create-readme": [
         "## Create README",
         (
