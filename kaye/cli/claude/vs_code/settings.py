@@ -14,13 +14,11 @@ from kaye.prompt import REPLACEMENT_NEWLINE_SYMBOL, load_prompt_corpus_tree
 from kaye.prompt.blueprint import PromptBlueprint, render
 from kaye.cli.claude import CONTAINING_SIDECARS
 
-# BUG not sure if pre compact hook is triggered
-
 # constants  ###################################################################
 
 _SETTINGS_FILENAME = "settings.json"
 _HOOK_MATCHER = "*"
-_HOOK_TYPE = "prompt"
+_HOOK_TYPE = "agent"
 
 _PERMISSION_CMDS_PATH = Path(__file__).parent.parent / "permission_cmds.jsonc"
 _PERMISSION_FIELDS = ("ask", "deny", "allow")
@@ -45,23 +43,10 @@ def _build_settings(prompt, permission_cmds):
 
 def _set_pre_compact_prompt(data, prompt):
     hooks = data.setdefault("hooks", {})
-    pre_compact = hooks.setdefault("PreCompact", [])
-
-    for entry in pre_compact:
-        if entry.get("matcher") == _HOOK_MATCHER:
-            for hook in entry.get("hooks", []):
-                if hook.get("type") == _HOOK_TYPE:
-                    hook["prompt"] = prompt
-                    return
-            entry.setdefault("hooks", []).append(
-                {"type": _HOOK_TYPE, "prompt": prompt}
-            )
-            return
-
-    pre_compact.append({
+    hooks["PreCompact"] = [{
         "matcher": _HOOK_MATCHER,
         "hooks": [{"type": _HOOK_TYPE, "prompt": prompt}],
-    })
+    }]
 
 
 def _set_permissions(data, permission_cmds):
