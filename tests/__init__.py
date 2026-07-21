@@ -212,7 +212,7 @@ TESTEE_FILE_CONTENT_ALL = {
         "- 🏁:finish",
         "- 🐞:debug",
         "- 💡:information,informational",
-        "- 💥:critical",
+        "- ⛔:critical",
         "- 💬:chat,conversation",
         "- 🔰:beginning,prototype",
         "- 🚀:rapid,fast",
