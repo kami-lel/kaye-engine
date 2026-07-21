@@ -13,8 +13,6 @@ from kaye.cli.prompt.blueprint_io_parser import (
     write_blueprint_result,
 )
 
-# Bug printed out things not trimmed
-
 # constants  ###################################################################
 
 _HELP = "show content of any of registered blueprints"
