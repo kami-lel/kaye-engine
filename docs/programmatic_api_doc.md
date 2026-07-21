@@ -4,7 +4,7 @@
 
 The public programmatic API lives in `kaye.prompt`.
 It re-exports the prompt tree nodes, blueprint type, corpus loader,
-blueprint loader, and embedded blueprints.
+and the blueprint registry.
 
 Example imports:
 
@@ -15,8 +15,8 @@ from kaye.prompt import (
     PromptCorpusNode,
     PromptBlueprint,
     load_prompt_corpus_tree,
-    load_embedded_blueprint,
-    get_embedded_prompt_blueprints_names,
+    BlueprintRegistry,
+    BLUEPRINT_REGISTRIES,
 )
 ```
 
@@ -441,24 +441,27 @@ E.g.
 
 
 
-#### embedded blueprints
+#### blueprint registry
 
-**Embedded blueprints** are defined as module-level variables in
-`kaye.prompt.blueprint.embedded_blueprints`. Import them directly by name
-when you want a ready-made blueprint object:
+Every named blueprint is declared in
+`kaye.prompt.blueprint.registrations` and collected in the
+`BLUEPRINT_REGISTRIES` dictionary — the single source of truth for a
+blueprint's identity and export policy. Keys are canonical kebab-case
+names; values are `BlueprintRegistry` entries:
 
 ```python
-from kaye.prompt.blueprint.embedded_blueprints import (
-    chat_blueprint,
-    coder_py_blueprint,
-    project_changelog_blueprint,
-)
+from kaye.prompt import BLUEPRINT_REGISTRIES
+
+registry = BLUEPRINT_REGISTRIES["chat"]
+blueprint = registry.blueprint          # a PromptBlueprint instance
+name = registry.display_name            # e.g. "Chat"
+skill_name = registry.skill_name        # kebab-case slug, e.g. "chat"
 ```
 
-If you need to load a blueprint from the embedded blueprint files at runtime,
-use `load_embedded_blueprint(name)`. To list available names, use
-`get_embedded_prompt_blueprints_names()`.
-Each embedded blueprint is a `PromptBlueprint` instance with
-`.display_name` and `.sidecars.description` already set.
+Each `BlueprintRegistry` carries the underlying `PromptBlueprint` as
+`.blueprint`, its `.name`/`.display_name`, and the export-policy flags
+`skill_exportable`, `continue_exportable`, `always_apply`,
+`user_invokable`, and `llm_invokable`. Iterate `BLUEPRINT_REGISTRIES`
+directly to enumerate every exportable blueprint.
 
 

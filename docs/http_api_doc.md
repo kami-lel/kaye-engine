@@ -5,7 +5,7 @@ Implemented in `~~/kaye/api/`
 Run the Flask App thru *Python CLI* by:
 
 ```bash
-python -m kaye http
+kaye http
 ```
 
 

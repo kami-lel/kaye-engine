@@ -21,7 +21,33 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.9.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.10.0...dev
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.10.0] - 2026-07-22
 
 ### Added
 
@@ -210,9 +236,7 @@ todo todo CLI to import/export w/ OpenWebUI
   `cli_prompt_show.py`, `cli_prompt_generate.py`) — dead, unwired module
   superseded by `kaye/cli/prompt/`
 
-### Fixed
-
-### Security
+[6.10.0]: https://github.com/kami-lel/kaye/compare/v6.9.0...v6.10.0
 
 
 
