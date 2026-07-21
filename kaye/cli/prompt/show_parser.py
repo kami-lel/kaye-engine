@@ -15,12 +15,16 @@ from kaye.cli.prompt.blueprint_io_parser import (
 
 # constants  ###################################################################
 
-_HELP = "show content of any of embedded blueprints"
+_HELP = "show content of any of registered blueprints"
 
 
 _DESCRIPTION = _HELP + """
 
-more description"""
+renders BLUEPRINT into a preview tree via generate_blueprint(), loading
+it from the registry by name or, with -f, parsing it from a source
+file; the preview's depth, line count, and line width can be tuned with
+-t, -l, and -w, and the result is printed to stdout or, with -F,
+written to a file"""
 
 
 # auxiliaries  #################################################################
