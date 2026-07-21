@@ -1,7 +1,4 @@
 
-BUG compact-with-maintenance skill need to be rm
-
-
 bug barista: it sometimes remove some information & remove repeated chinese word
 bug tries to use git mv a lot
 bug plan for step by step should work w/ exit plan tool
