@@ -25,6 +25,14 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Added
 
+- **`maintenance-before-compact` skill** — the `Maintenance Before Compact`
+  prompt node (`kaye/prompt_corpus.md`) gains `{description}` /
+  `{when_to_use}` sidecars and a `_register_prompt` registration
+  (`kaye/prompt/blueprint/registrations.py`), so `kaye claude skill` and its
+  downstream plugin/marketplace/VS Code exports now generate a
+  `maintenance-before-compact` skill; it replaces the removed VS Code
+  `PreCompact` hook, which never fired inside the Claude Code VS Code
+  extension
 - **`kaye` console-script entry point** — `pyproject.toml` gains
   `[project.scripts]` mapping `kaye` to `kaye.__main__:main`; the CLI now
   runs directly as `kaye --help`, no longer requiring `python -m kaye`
@@ -177,6 +185,12 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Removed
 
+- **VS Code `PreCompact` hook generation** — `update_settings_json`
+  (`kaye/cli/claude/vs_code/settings.py`) no longer writes a `PreCompact`
+  hook into `settings.json`; the hook never fired inside the Claude Code VS
+  Code extension (upstream limitation), so its behavior now ships as the
+  `maintenance-before-compact` skill instead. `settings.json` still receives
+  the git command permission lists
 - stale `# Todo add prompt: gap review, resolve merge conflict, Plan for
   Step By Step` comment in `kaye/cli/claude/main.py`, resolved by the
   additions above

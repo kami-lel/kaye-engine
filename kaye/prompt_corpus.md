@@ -3648,12 +3648,20 @@ Use this skill when the user wants to update existing README, AGENTS, or `docs/`
 
 Before context is compacted, capture this session's durable changes so nothing is lost: log them and update the agent-facing docs.
 
+
+
+
+
 #### Instructions
 
 - identify this session's changes once — from the conversation itself, any working diffs, and existing `[Unreleased]` entries — then reuse that set across the steps below
 - **Maintain CHANGELOG** → record the session's changes; the unreleased-only and dedup rules come from that skill
 - **Maintain AGENTS and CONTEXT** → update them for any commands, conventions, constraints, or architecture this session changed
 - skip a step when the session introduces nothing relevant to it
+
+
+
+
 
 #### Output
 
@@ -3670,6 +3678,9 @@ Update the affected files in place; leave unrelated files untouched.
 
 
 
+### {description}
+
+Logs a session's durable changes before context compaction — recording them in `CHANGELOG.md` and syncing `AGENTS.md` and `CONTEXT.md` — identifying the change set once from the conversation, working diffs, and existing `[Unreleased]` entries.
 
 ### {prerequisite}
 - follow `Maintain CHANGELOG`
