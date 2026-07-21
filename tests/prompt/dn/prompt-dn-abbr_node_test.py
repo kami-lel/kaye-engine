@@ -190,7 +190,7 @@ class TestContentLines:  #######################################################
             "- ☝:points/notice up,upward",
             "- 🛠️:tools",
             "- ☜:points/notice left,left direction",
-            "- 🏁:finish",
+            "- 🏁:finish,done",
         }
 
     def test_unicode1(_, testee1):
