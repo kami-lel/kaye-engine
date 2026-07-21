@@ -8,7 +8,7 @@ from pathlib import Path
 from importlib.metadata import version
 
 from kaye import PROGRAM_NAME
-from kaye.cli.claude import CONTAINING_SIDECAR_NODES
+from kaye.cli.claude import CONTAINING_SIDECARS
 from kaye.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 
 
@@ -152,6 +152,6 @@ class Skill(FrontmatterDoc):
             paths=list(sidecars.globs) if sidecars.globs else [],
             user_invocable=registry.user_invokable,
             body=registry.blueprint.generate_prompt(
-                contains_sidecar_nodes=CONTAINING_SIDECAR_NODES
+                contains_sidecars=CONTAINING_SIDECARS
             ),
         )
