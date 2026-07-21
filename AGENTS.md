@@ -133,7 +133,8 @@ Workflow prompts use `_register_prompt` (`llm_invokable=False`) instead of
 `_register_exportable` — same `registrations.py` file, no separate module or
 pipeline. They live under either `# Projects` (e.g. `Prepare for Feature
 Landing`, `Prepare for Version Release`) via `_proj_node`, or `# Kaye Peer
-Coder` (e.g. `Gap Review`, `Resolve Merge Conflict`, `Plan for Step By Step`)
+Coder` (e.g. `Gap Review`, `Sync Unit Test`, `Resolve Merge Conflict`, `Plan
+for Step By Step`)
 via `_kyc_node`. Built with
 `PromptBlueprint.create_from_node(<parent_node>["<Name>"])`, adding
 `recursively=True` if the corpus node has `####` sub-sections — then follow
