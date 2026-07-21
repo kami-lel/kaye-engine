@@ -4,7 +4,7 @@
 
 The public programmatic API lives in `kaye.prompt`.
 It re-exports the prompt tree nodes, blueprint type, corpus loader,
-blueprint loader, and embedded blueprints.
+and the blueprint registry.
 
 Example imports:
 
@@ -15,8 +15,8 @@ from kaye.prompt import (
     PromptCorpusNode,
     PromptBlueprint,
     load_prompt_corpus_tree,
-    load_embedded_blueprint,
-    get_embedded_prompt_blueprints_names,
+    BlueprintRegistry,
+    BLUEPRINT_REGISTRIES,
 )
 ```
 
@@ -193,7 +193,7 @@ Use `copy.deepcopy(root)` to copy a prompt tree.
 It is rare for end users to create individual instances, but to **create**
 an entire prompt tree, use `load_prompt_corpus_tree()`.
 It loads the embedded `prompt_corpus.md` file, parses it, and attaches the
-runtime dynamic nodes once; q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#in-prompt-corpus) for details:
+runtime dynamic nodes once; q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#using-a-dynamic-node) for details:
 
 ```python
 from kaye.prompt import load_prompt_corpus_tree
@@ -354,21 +354,22 @@ bp_left | bp_right
 ##### generate prompt
 
 Use `.generate_prompt()` to render the concrete prompt as a single string.
-Use `.generate_prompt_lines()` when you want the rendered prompt as a list of
-lines instead.
+Use `render.render_prompt_lines()` (`kaye.prompt.blueprint.render`) when you
+want the rendered prompt as a list of lines instead.
 
-Both methods support `disable_first_heading=`, `show_comment=`, and
-`contains_sidecar_nodes=` to conditionally include conditional sidecar nodes during rendering.
+Both support `disable_first_heading=`, `show_comment=`, and
+`contains_sidecars=` to conditionally include conditional sidecar nodes during rendering.
 For details on sidecar node types and conditional inclusion patterns, see [`sidecar_node_doc.md`](sidecar_node_doc.md#conditional-sidecar-nodes).
 Any extra keyword arguments are passed through to node `content_lines()`
 implementations, which is how dynamic nodes receive values such as `query=`;
-q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#concepts).
+q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#feeding-render-time-input).
 
 E.g.
 
 ```python
+>>> from kaye.prompt.blueprint import render
 >>> tree = PromptBlueprint.parse(...)
->>> tree.generate_prompt_lines(disable_first_heading=True)
+>>> render.render_prompt_lines(tree, disable_first_heading=True)
 ['Overview of the methodologies used.',
  '### Data Collection',
  'How data was gathered for analysis.',
@@ -440,24 +441,27 @@ E.g.
 
 
 
-#### embedded blueprints
+#### blueprint registry
 
-**Embedded blueprints** are defined as module-level variables in
-`kaye.prompt.embedded_blueprints`. Import them directly by name when you want a
-ready-made blueprint object:
+Every named blueprint is declared in
+`kaye.prompt.blueprint.registrations` and collected in the
+`BLUEPRINT_REGISTRIES` dictionary — the single source of truth for a
+blueprint's identity and export policy. Keys are canonical kebab-case
+names; values are `BlueprintRegistry` entries:
 
 ```python
-from kaye.prompt.embedded_blueprints import (
-    chat_blueprint,
-    coder_py_blueprint,
-    project_changelog_blueprint,
-)
+from kaye.prompt import BLUEPRINT_REGISTRIES
+
+registry = BLUEPRINT_REGISTRIES["chat"]
+blueprint = registry.blueprint          # a PromptBlueprint instance
+name = registry.display_name            # e.g. "Chat"
+skill_name = registry.skill_name        # kebab-case slug, e.g. "chat"
 ```
 
-If you need to load a blueprint from the embedded blueprint files at runtime,
-use `load_embedded_blueprint(name)`. To list available names, use
-`get_embedded_prompt_blueprints_names()`.
-Each embedded blueprint is a `PromptBlueprint` instance with
-`.display_name` and `.sidecars.description` already set.
+Each `BlueprintRegistry` carries the underlying `PromptBlueprint` as
+`.blueprint`, its `.name`/`.display_name`, and the export-policy flags
+`skill_exportable`, `continue_exportable`, `always_apply`,
+`user_invokable`, and `llm_invokable`. Iterate `BLUEPRINT_REGISTRIES`
+directly to enumerate every exportable blueprint.
 
 

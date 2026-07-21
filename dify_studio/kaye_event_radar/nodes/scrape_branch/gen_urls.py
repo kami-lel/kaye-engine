@@ -121,7 +121,7 @@ def main(
             )
         )
 
-    # bug Kaye Event Radar: spider.web fail to extract full info via only url
+    # bug bug Kaye Event Radar: spider.web fail to extract full info via only url
 
     # return all urls  ---------------------------------------------------------
     return {"output": opt}

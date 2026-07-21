@@ -2,41 +2,29 @@
 blueprint_rule.py
 
 define ``export_all_blueprint_rules``, the full pipeline for writing
-blueprints as Continue AI rule files via ``RuleFile``
+blueprints as Continue AI rule files via ``ContinueRule``
 """
 
 from pathlib import Path
 
 from kaye import logger
-from kaye.prompt import load_prompt_corpus_tree
-from kaye.prompt.prompt_blueprint import PromptBlueprint
+from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
 
-from kaye.cli import EXPORTABLE_BLUEPRINTS
-from kaye.cli.cli_continue.rule_file import RuleFile
-
-# constants  ###################################################################
-
-
-_ALWAYS_APPLY_BLUEPRINT = [
-    "Chat",
-    "Coder",
-    "Agent Behavior",
-    "Continue Behavior",
-]
-
-
-_continue_behavior_blueprint = PromptBlueprint.create_from_node(
-    load_prompt_corpus_tree()["Agent Behavior"]["Continue Behavior"]
-)
-
+from kaye.cli.cli_continue.rule_file import ContinueRule
 
 # Entry Point  #################################################################
+
+
 def export_blueprint_rules(rules_folder):
     """
-    export all blueprints in ``EXPORT_BLUEPRINTS`` as Continue AI rule files
+    export all Continue-exportable, LLM-invokable blueprints as Continue AI
+    rule files
 
-    creates ``rules_folder`` if it does not exist, then calls
-    ``export_blueprint_rule`` for each listed blueprint
+    creates ``rules_folder`` if it does not exist, then writes one rule file
+    per registry entry with ``continue_exportable`` and ``llm_invokable``
+    set (excluding non-``llm_invokable`` entries, which belong to
+    ``export_prompt_rules`` instead)
+
 
     :param rules_folder: destination folder for rule files
     :type rules_folder: Path-like
@@ -44,11 +32,12 @@ def export_blueprint_rules(rules_folder):
     folder_path = Path(rules_folder).resolve()
     folder_path.mkdir(parents=True, exist_ok=True)
 
-    for bp in EXPORTABLE_BLUEPRINTS + [_continue_behavior_blueprint]:
-        name = bp.display_name
-        file_path = folder_path / "{}.md".format(bp.display_name)
+    for reg in BLUEPRINT_REGISTRIES.values():
+        if not reg.continue_exportable or not reg.llm_invokable:
+            continue
 
-        with RuleFile(file_path, blueprint=bp) as rule:
-            rule.always_apply = name in _ALWAYS_APPLY_BLUEPRINT
+        file_path = folder_path / "{}.md".format(reg.display_name)
+
+        ContinueRule.from_registry(reg).write(file_path)
 
         logger.succ("blueprint rule:\t{}".format(file_path))

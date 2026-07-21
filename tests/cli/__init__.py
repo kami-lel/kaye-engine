@@ -12,7 +12,7 @@ __all__ = (
     "TESTEE_DESCRIPTION_CONTENT_ALL",
     "TESTEE_WHEN_TO_USE_CONTENT_ALL",
     "TESTEE_PREREQUISITE_CONTENT_ALL",
-    "TESTEE_FOR_CLAUDE_CONTENT_ALL",
+    "TESTEE_FOR_CLAUDE_CODE_CONTENT_ALL",
     "TESTEE_TRIAGE_TAG_CONTENT",
     "split_frontmatter_md_file",
     "assert_frontmatter_md_file_basic_structure",
@@ -28,8 +28,8 @@ __all__ = (
     "assert_header_line_paths_content",
     "assert_prerequisite_heading_line",
     "assert_prerequisite_content_line",
-    "assert_for_claude_heading_line",
-    "assert_for_claude_content_line",
+    "assert_for_claude_code_heading_line",
+    "assert_for_claude_code_content_line",
 )
 
 
@@ -114,11 +114,15 @@ MD_FILENAME2SKILL_NAME = {
 PROMPT_FILENAME2NAME = {
     "create-agents-and-context": "Create AGENTS and CONTEXT",
     "create-readme": "Create README",
+    "maintenance-before-compact": "Maintenance Before Compact",
     "maintain-changelog": "Maintain CHANGELOG",
     "maintain-docs": "Maintain Docs",
-    "prepare-for-feature-finish": "Prepare for Feature Finish",
+    "prepare-for-feature-landing": "Prepare for Feature Landing",
     "prepare-for-version-release": "Prepare for Version Release",
     "resolve-triage-tags": "Resolve Triage Tags",
+    "gap-review": "Gap Review",
+    "resolve-merge-conflict": "Resolve Merge Conflict",
+    "plan-for-step-by-step": "Plan for Step By Step",
 }
 
 TESTEE_DESCRIPTION_CONTENT_ALL = {
@@ -258,6 +262,9 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         ' \\"update the changelog\\" or \\"log what changed.\\"'
         '"'
     ),
+    "maintenance-before-compact": (
+        "Logs a session's durable changes before context compaction"
+    ),
     "create-readme": (
         '"Use this skill when the user wants to create a new'
         " `README.md` from scratch \\u2014 covering project overview,"
@@ -274,8 +281,13 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         ' \\"add agent instructions\\" or \\"make an agents file.\\"'
         '"'
     ),
-    "prepare-for-feature-finish": "Records a feature branch",
+    "prepare-for-feature-landing": "Records a feature branch",
     "prepare-for-version-release": "Cuts a project release",
+    "gap-review": "Audits whole repository for gaps, drift, unfinished seams",
+    "resolve-merge-conflict": "Resolves Git merge conflicts in a halted merge",
+    "plan-for-step-by-step": (
+        "Turns a high-level task request into an ordered Plan"
+    ),
 }
 
 
@@ -405,7 +417,6 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
     ],
     "coder-python": [
         "follow `Kaye Peer Coder`",
-        "follow `Coder Python`",
     ],
     "coder-unity-engine": [
         "follow `Kaye Peer Coder`",
@@ -441,6 +452,12 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
         "follow `Style Guide Good Writing` rules for correctness and clarity",
         "follow `Project CHANGELOG Writer`",
     ],
+    "maintenance-before-compact": [
+        "follow `Maintain CHANGELOG`",
+        "follow `Maintain AGENTS and CONTEXT`",
+        "use `Style Guide Markdown Format`",
+        "follow `Style Guide Good Writing` rules for correctness and clarity",
+    ],
     "create-readme": [
         "use `Style Guide Markdown Format`",
         "follow `Style Guide Good Writing` rules for correctness and clarity",
@@ -451,7 +468,7 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
         "follow `Coder CONTEXT Writer`",
         "use `Style Guide Markdown Format`",
     ],
-    "prepare-for-feature-finish": [
+    "prepare-for-feature-landing": [
         "follow `Maintain CHANGELOG`",
         "follow `Maintain AGENTS and CONTEXT`",
         "use `Style Guide Markdown Format`",
@@ -468,14 +485,39 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
         "follow `Style Guide Good Writing` rules for correctness and clarity",
         "use **git** tools to learn difference from last version",
     ],
+    "gap-review": [
+        "follow `Kaye Peer Coder`",
+        "read `Triage Tags` for tag meanings and case tiers before inserting"
+        " any marker",
+    ],
 }
 
 
-TESTEE_FOR_CLAUDE_CONTENT_ALL = {
+TESTEE_FOR_CLAUDE_CODE_CONTENT_ALL = {
     "prepare-for-version-release": [
         (
             "if the version number or the release date is missing, use"
             " `AskUserQuestion` to ask the user before proceeding"
+        ),
+    ],
+    "resolve-merge-conflict": [
+        (
+            "track resolution with the `TodoWrite` tool"
+            " — one todo per unmerged path"
+        ),
+    ],
+    "plan-for-step-by-step": [
+        (
+            "call `EnterPlanMode` before gathering, so the whole"
+            " discovery pass runs under plan-mode protection"
+        ),
+        (
+            "present the finished Plan through `ExitPlanMode`"
+            " so approval is explicit and recorded"
+        ),
+        (
+            "leave `TodoWrite` unused while planning. Open it only"
+            " once the user approves, one todo per Step, in Plan order"
         ),
     ],
 }
@@ -616,16 +658,16 @@ def assert_prerequisite_content_line(skill_id, testee_content, i):
     return line in testee_content
 
 
-def assert_for_claude_heading_line(testee_content, hash_symbol_cnt):
+def assert_for_claude_code_heading_line(testee_content, hash_symbol_cnt):
     """
-    check if a {for_claude} heading exists at a specific heading level
+    check if a {for claude code} heading exists at a specific heading level
     """
-    return "#" * hash_symbol_cnt + " {for_claude}" in testee_content
+    return "#" * hash_symbol_cnt + " {for claude code}" in testee_content
 
 
-def assert_for_claude_content_line(skill_id, testee_content, i):
+def assert_for_claude_code_content_line(skill_id, testee_content, i):
     """
-    check if a specific for_claude content line exists in content
+    check if a specific for claude code content line exists in content
     """
-    line = TESTEE_FOR_CLAUDE_CONTENT_ALL[skill_id][i]
+    line = TESTEE_FOR_CLAUDE_CODE_CONTENT_ALL[skill_id][i]
     return line in testee_content

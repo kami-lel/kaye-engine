@@ -11,7 +11,7 @@ import pytest
 from tests.cli import *  # noqa: F401, F403
 
 # constants  ###################################################################
-PROMPT_FILENAME = "prepare-for-feature-finish"
+PROMPT_FILENAME = "prepare-for-feature-landing"
 _PROMPT_FILE = PROMPT_FILENAME2NAME[PROMPT_FILENAME]
 TESTEE_FILE_CONTENT = TESTEE_FILE_CONTENT_ALL[PROMPT_FILENAME]
 

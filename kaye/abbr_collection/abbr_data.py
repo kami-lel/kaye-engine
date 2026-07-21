@@ -105,7 +105,7 @@ class AbbrData:
                 self.abbrs.append(AbbrEntry(mean, abbr, abbr_obj))
 
         # create automaton  ----------------------------------------------------
-        # todo use pickle.loads/dumps to save a local automaton, with hash
+        # todo abbr data: use pickle.loads/dumps to save a local automaton, with hash
         # pylint: disable=c-extension-no-member
         automaton_entires = {}
         for entry in self.abbrs:

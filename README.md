@@ -71,43 +71,18 @@ Q.v. [Kaye HTTP API documentation](docs/http_api_doc.md)
 
 ### Python CLI
 
-A simple **Kaye Python CLI** is provided:
+A simple **Kaye Python CLI** is provided, exposed as the `kaye` command once
+installed (or run as `python -m kaye`):
 
 ```bash
-python -m kaye --help
+kaye --help
 ```
 
 
 
 ### Using Kaye with Claude
 
-#### Claude Desktop
+Package Kaye as a Claude Desktop plugin or wire it into the Claude Code
+VS Code Extension.
 
-Generate a plugin package using the Kaye CLI:
-
-```bash
-python -m kaye claude plugin --zip  # or
-python -m kaye a p -z
-```
-
-Upload the generated `.zip` file to [Claude Desktop](https://claude.ai) settings under *Plugins* to enable Kaye integration.
-
-#### Claude Code VS Code Extension
-
-Set up Kaye for the Claude Code VS Code Extension with one command:
-
-```bash
-python -m kaye claude vs-code-extension  # or
-python -m kaye a v
-```
-
-This writes the User System Prompt to `~/.claude/CLAUDE.md`, creates a
-`~/.claude/kaye_marketplace/` folder containing the kaye plugin, and
-configures a `PreCompact` hook in `~/.claude/settings.json` so session
-changes are logged before context is compacted.
-
-To load the marketplace in VS Code:
-
-1. Open the *Claude* sidebar in VS Code.
-2. Go to *Settings* → *Marketplaces*.
-3. Add the path to `~/.claude/kaye_marketplace/` and click *Install*.
+Q.v. [Using Kaye with Claude documentation](docs/claude_doc.md)

@@ -1169,6 +1169,27 @@
       }
     }
   },
+  "caution": {
+    "abbrs": {
+      "🚧": {
+        "priority": 3,
+        "tags": [
+          "emoji",
+          "log_level"
+        ],
+        "wrap": "symbol"
+      },
+      "CAUT.": {
+        "priority": 5,
+        "remark": "needs even more immediate attention",
+        "tags": [
+          "letters_only",
+          "log_level"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "century,eg 2nd C.": {
     "abbrs": {
       "C.": {
@@ -1745,7 +1766,7 @@
   },
   "critical": {
     "abbrs": {
-      "💥": {
+      "⛔": {
         "priority": 3,
         "tags": [
           "emoji",
@@ -1753,8 +1774,9 @@
         ],
         "wrap": "symbol"
       },
-      "CRIT ": {
+      "CRIT.": {
         "priority": 5,
+        "remark": "program failure or immediate crash",
         "tags": [
           "letters_only",
           "log_level"
@@ -1854,6 +1876,7 @@
       },
       "DEBUG": {
         "priority": 5,
+        "remark": "indicates state and control flow, for debug output and never shown to users",
         "tags": [
           "letters_only",
           "log_level"
@@ -2370,6 +2393,27 @@
       }
     }
   },
+  "enter": {
+    "abbrs": {
+      "▶️": {
+        "priority": 3,
+        "tags": [
+          "emoji",
+          "log_level"
+        ],
+        "wrap": "symbol"
+      },
+      "ENTER": {
+        "priority": 5,
+        "remark": "enters a subroutine or test section, a developer's trace of flow",
+        "tags": [
+          "letters_only",
+          "log_level"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "environment": {
     "abbrs": {
       "env": {
@@ -2431,6 +2475,7 @@
       },
       "ERROR": {
         "priority": 5,
+        "remark": "an operation failed",
         "tags": [
           "letters_only",
           "log_level"
@@ -2751,6 +2796,27 @@
       }
     }
   },
+  "fail,failure": {
+    "abbrs": {
+      "❌": {
+        "priority": 3,
+        "tags": [
+          "emoji",
+          "log_level"
+        ],
+        "wrap": "symbol"
+      },
+      "FAIL ": {
+        "priority": 5,
+        "remark": "a test assertion or case failed",
+        "tags": [
+          "letters_only",
+          "log_level"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "fall": {
     "abbrs": {
       "F": {
@@ -2821,14 +2887,24 @@
       }
     }
   },
-  "finish": {
+  "finish,done": {
     "abbrs": {
       "🏁": {
-        "priority": 5,
+        "priority": 3,
         "tags": [
-          "emoji"
+          "emoji",
+          "log_level"
         ],
         "wrap": "symbol"
+      },
+      "DONE ": {
+        "priority": 5,
+        "remark": "an entire program or major phase finished successfully",
+        "tags": [
+          "letters_only",
+          "log_level"
+        ],
+        "wrap": "word"
       }
     }
   },
@@ -3482,6 +3558,27 @@
       }
     }
   },
+  "hint": {
+    "abbrs": {
+      "📌": {
+        "priority": 3,
+        "tags": [
+          "emoji",
+          "log_level"
+        ],
+        "wrap": "symbol"
+      },
+      "HINT ": {
+        "priority": 5,
+        "remark": "a subtle actionable cue",
+        "tags": [
+          "letters_only",
+          "log_level"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "history": {
     "abbrs": {
       "his.": {
@@ -3653,8 +3750,25 @@
   },
   "important,importance": {
     "abbrs": {
-      "mpt": {
+      "🚨": {
+        "priority": 3,
+        "tags": [
+          "emoji",
+          "log_level"
+        ],
+        "wrap": "symbol"
+      },
+      "IMPT.": {
         "priority": 5,
+        "remark": "emphasized information that should stand out",
+        "tags": [
+          "letters_only",
+          "log_level"
+        ],
+        "wrap": "word"
+      },
+      "mpt": {
+        "priority": 4,
         "tags": [
           "always_understand",
           "letters_only"
@@ -3858,15 +3972,16 @@
       "info": {
         "priority": 6,
         "tags": [
-          "letters_only",
-          "log_level"
+          "letters_only"
         ],
         "wrap": "word"
       },
       "INFO ": {
         "priority": 5,
+        "remark": "a general event or state change during normal execution",
         "tags": [
-          "letters_only"
+          "letters_only",
+          "log_level"
         ],
         "wrap": "word"
       }
@@ -4192,6 +4307,18 @@
           "letters_only",
           "always_understand",
           "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "likewise": {
+    "abbrs": {
+      "Lw": {
+        "priority": 5,
+        "tags": [
+          "letters_only",
+          "always_understand"
         ],
         "wrap": "word"
       }
@@ -4880,6 +5007,27 @@
       }
     }
   },
+  "note": {
+    "abbrs": {
+      "📝": {
+        "priority": 3,
+        "tags": [
+          "emoji",
+          "log_level"
+        ],
+        "wrap": "symbol"
+      },
+      "NOTE ": {
+        "priority": 5,
+        "remark": "an aside worth recording for the production user",
+        "tags": [
+          "letters_only",
+          "log_level"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "nothing": {
     "abbrs": {
       "n/t": {
@@ -4940,6 +5088,19 @@
           "letters_only"
         ],
         "wrap": "word"
+      }
+    }
+  },
+  "of": {
+    "abbrs": {
+      "\\": {
+        "priority": 5,
+        "tags": [
+          "ascii_only",
+          "usable_in_brief",
+          "single_character"
+        ],
+        "wrap": "symbol"
       }
     }
   },
@@ -5151,6 +5312,18 @@
     },
     "remark": "in inheritance"
   },
+  "overwrite": {
+    "abbrs": {
+      "owr": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "package": {
     "abbrs": {
       "pkg": {
@@ -5223,6 +5396,27 @@
         "tags": [
           "always_understand",
           "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "pass": {
+    "abbrs": {
+      "✔️": {
+        "priority": 3,
+        "tags": [
+          "emoji",
+          "log_level"
+        ],
+        "wrap": "symbol"
+      },
+      "PASS ": {
+        "priority": 5,
+        "remark": "a test assertion or case passed",
+        "tags": [
+          "letters_only",
+          "log_level"
         ],
         "wrap": "word"
       }
@@ -6061,6 +6255,18 @@
       }
     }
   },
+  "return,returning,returned": {
+    "abbrs": {
+      "rtn": {
+        "priority": 5,
+        "tags": [
+          "coding",
+          "letters_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
   "revolution": {
     "abbrs": {
       "rev": {
@@ -6291,6 +6497,27 @@
         "tags": [
           "always_understand",
           "ascii_only"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "skip": {
+    "abbrs": {
+      "⏭️": {
+        "priority": 3,
+        "tags": [
+          "emoji",
+          "log_level"
+        ],
+        "wrap": "symbol"
+      },
+      "SKIP ": {
+        "priority": 5,
+        "remark": "a logic branch or test case was expectedly skipped",
+        "tags": [
+          "letters_only",
+          "log_level"
         ],
         "wrap": "word"
       }
@@ -6553,11 +6780,28 @@
   },
   "successful": {
     "abbrs": {
+      "✅": {
+        "priority": 3,
+        "tags": [
+          "emoji",
+          "log_level"
+        ],
+        "wrap": "symbol"
+      },
       "succ": {
-        "priority": 5,
+        "priority": 4,
         "tags": [
           "always_understand",
           "letters_only"
+        ],
+        "wrap": "word"
+      },
+      "SUCC.": {
+        "priority": 5,
+        "remark": "a subroutine completed successfully",
+        "tags": [
+          "letters_only",
+          "log_level"
         ],
         "wrap": "word"
       }
@@ -6827,6 +7071,27 @@
           "always_understand",
           "letters_only",
           "single_character"
+        ],
+        "wrap": "word"
+      }
+    }
+  },
+  "tip": {
+    "abbrs": {
+      "🍀": {
+        "priority": 3,
+        "tags": [
+          "emoji",
+          "log_level"
+        ],
+        "wrap": "symbol"
+      },
+      "TIP  ": {
+        "priority": 5,
+        "remark": "an actionable suggestion for the production user",
+        "tags": [
+          "letters_only",
+          "log_level"
         ],
         "wrap": "word"
       }
@@ -7235,15 +7500,16 @@
   "warning": {
     "abbrs": {
       "⚠️": {
-        "priority": 5,
+        "priority": 3,
         "tags": [
           "emoji",
           "log_level"
         ],
         "wrap": "symbol"
       },
-      "WARN ": {
+      "WARN.": {
         "priority": 5,
+        "remark": "indicate an unexpected but recoverable condition",
         "tags": [
           "letters_only",
           "log_level"
