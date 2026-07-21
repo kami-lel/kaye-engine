@@ -8,15 +8,8 @@ from kaye.cli.prompt.ls_parser import register_ls_subparser
 from kaye.cli.prompt.show_parser import register_show_subparser
 from kaye.cli.prompt.generate_parser import register_generate_subparser
 
-_HELP = (
-    "dynamically generate system prompt with a prompt blueprint "
-    "as a subset of the prompt corpus"
-)
-
-
-_DESCRIPTION = _HELP + """
-
-more description"""
+# constants  ###################################################################
+_HELP = "list, preview, and generate system prompts from prompt blueprints"
 
 
 def register_cli_prompt_parser(cli_subparser):  ################################
@@ -26,7 +19,7 @@ def register_cli_prompt_parser(cli_subparser):  ################################
     cli_prompt_parser = cli_subparser.add_parser(
         "prompt",
         help=_HELP,
-        description=_DESCRIPTION,
+        description=_HELP,
         aliases=["p"],
     )
 
@@ -35,7 +28,7 @@ def register_cli_prompt_parser(cli_subparser):  ################################
     )
 
     cli_prompt_subparser = cli_prompt_parser.add_subparsers(
-        description="utility functions related to prompt generation"
+        description="available prompt blueprint operations"
     )
 
     register_ls_subparser(cli_prompt_subparser)
