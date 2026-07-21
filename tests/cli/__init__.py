@@ -476,10 +476,9 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
         "use **git** tools to learn difference from last version",
     ],
     "gap-review": [
-        "read `Project Structure` to know which top-level files",
-        "read `Triage Tags` and label each finding",
-        "use `Style Guide Markdown Format`",
-        "follow `Style Guide Good Writing` rules for correctness and clarity",
+        "follow `Kaye Peer Coder`",
+        "read `Triage Tags` for tag meanings and case tiers before inserting"
+        " any marker",
     ],
 }
 
