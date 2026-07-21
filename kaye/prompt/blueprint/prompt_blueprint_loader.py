@@ -96,6 +96,7 @@ def _get_embedded_prompt_blueprints_names_and_paths():
     :rtype: dict{str: str}
     """
     folder_path = get_embedded_prompt_blueprints_folder_path()
+    # BUG crashes public load_embedded_blueprint / names, embedded_blueprints dir gone
     files_paths = os.listdir(folder_path)
     # Filter out directories, keeping only files and removing extensions
     opt = {
