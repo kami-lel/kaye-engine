@@ -45,8 +45,10 @@ def export_vs_code_extension(claude_folder):
     marketplace_path = export_marketplace(marketplace_folder)
     logger.succ("export marketplace:\t" + str(marketplace_folder))
 
-    logger.debug("update settings for pre-compact hook")
+    logger.debug("update settings for git command permissions")
     settings_path = update_settings_json(claude_folder)
-    logger.succ("update settings for pre-compact hook:\t" + str(settings_path))
+    logger.succ(
+        "update settings for git command permissions:\t" + str(settings_path)
+    )
 
     return marketplace_path
