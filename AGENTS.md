@@ -56,6 +56,9 @@ console script (`[project.scripts]` in `pyproject.toml`), so `kaye ...` and
 ```bash
 kaye --help          # show CLI usage
 kaye http            # start Flask HTTP API (port 11255)
+kaye prompt ls                              # list registered blueprint names
+kaye prompt show BLUEPRINT                  # preview a blueprint's structure
+kaye prompt generate BLUEPRINT              # render a blueprint into a concrete prompt
 kaye continue config                  # export rules to ~/.continue
 kaye continue config LOCAL_CONFIG_FOLDER  # export to custom path
 kaye continue prompt PROMPTS_FOLDER        # export Continue prompts
@@ -77,7 +80,8 @@ Bash command patterns) into `settings.json`, sourced from
 `kaye/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so comments are
 allowed).
 
-CLI subcommand aliases: `http` → `h`; `continue` → `c`;
+CLI subcommand aliases: `http` → `h`; `prompt` → `p`;
+`prompt generate` → `p g`; `continue` → `c`;
 `continue config` → `c c`; `continue prompt` → `c p`;
 `claude` → `anthropic`, `a`; `claude code` → `claude c`;
 `claude marketplace` → `claude m`; `claude plugin` → `claude p`;
