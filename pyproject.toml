@@ -37,6 +37,7 @@ include-package-data = true
 package-dir = { "" = "." }
 
 [tool.setuptools.packages.find]
+# FIXME no exclude ships top-level tests package into user site-packages
 where = ["."]
 
 [tool.setuptools.package-data]
