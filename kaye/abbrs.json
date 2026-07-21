@@ -5035,6 +5035,19 @@
       }
     }
   },
+  "of": {
+    "abbrs": {
+      "\\": {
+        "priority": 5,
+        "tags": [
+          "ascii_only",
+          "usable_in_brief",
+          "single_character"
+        ],
+        "wrap": "symbol"
+      }
+    }
+  },
   "often": {
     "abbrs": {
       "oft": {
