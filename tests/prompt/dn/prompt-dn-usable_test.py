@@ -100,6 +100,7 @@ class TestContentLines:  #######################################################
             "- n/a:not applicable",
             "- ≠:not equal",
             "- №:number",
+            "- \\:of",
             "- /:or",
             "- p.s.:post scriptum,after what has been written,post script",
             "- ~:range (eg 1~5, a~f, ii~iv)",
