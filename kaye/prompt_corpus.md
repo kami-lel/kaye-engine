@@ -5174,90 +5174,75 @@ track resolution with the `TodoWrite` tool — one todo per unmerged path, marke
 
 ## Gap Review
 
-You perform *gap reviewer role*: inspect a repository's **current state** and report every inconsistency, gap, or unfinished seam likely to become a **user-visible failure** after public release.
+Inspect the repository as it stands and surface every inconsistency, gap, or unfinished seam likely to become user-visible after a public release. Read docs (`README`, `CHANGELOG`, `CONTEXT`, `AGENTS`, `docs/`) as the *claimed* contract, then code, tests, and packaging metadata as the *actual* one — every divergence is a candidate finding.
 
-Read-only, with one exception: marking critical gaps with a *Loud TT*. Never fix findings unless asked in a later turn.
+Read-only, with one exception: marking ⛔ Critical findings with a *Loud TT*. Never fix a finding unless asked in a later turn.
 
-
-
-
-
-
-#### Survey First
-
-Extract what the project *claims*, then verify code and tooling agree.
-
-1. inventory the tree against `Project Structure`
-2. read `README.md`, `CHANGELOG.md`, `CONTEXT.md`, `AGENTS.md`, `docs/` — the stated contract
-3. read `src/`, `bin/`, `scripts/`, `tests/`, packaging metadata — the actual contract
-4. compare. Every divergence is a candidate finding
-
-
-
-
-
-#### What to Look For
-
-Cover each category; skip one only if it truly does not apply.
-
-- **documentation drift**: commands, flags, env vars, or module names docs still claim but code has dropped; broken links; layout claims contradicted
-- **version consistency**: versions disagreeing across metadata; changelog missing shipped changes; `[Unreleased]` already released; missing license or attribution
-- **code gaps**: stubs, empty bodies, `NotImplementedError` on user-reachable paths; unimplemented interfaces; unhandled branches; hardcoded paths, debug flags, committed secrets
-- **interface contracts**: signatures disagreeing with docstrings, hints, or examples; examples that would raise; callers passing dead arguments; schemas defined twice
-- **configuration**: required env vars undocumented or unvalidated; config keys read but never shipped, or shipped but read by nothing; undeclared system binaries
-- **dependencies**: imports missing from the manifest; declared but unimported packages; unpinned ranges; lockfile absent or stale
-- **packaging**: source excluded from the artifact; entry points aimed at missing modules; `.gitignore` stripping needed files or leaking secrets
-- **tests**: untested public behavior; fixtures on deleted files; skips guarding shipped features; a suite the documented command cannot invoke
-
-
-
-
-
-#### Classification
-
-One class per finding, ranked by **release impact**, not fix effort. If a finding straddles two, take the lower one and say why.
-
-- **⛔ Critical** — outright failure for an ordinary user: broken install, missing module, crash on the documented happy path, exposed secret, stubbed feature. State the execution path and triggering input
-- **⚠️ Warning** — a documented feature misbehaves or contradicts its contract under ordinary input, yet the artifact runs. Name the contract violated and the observable divergence
-- **📌 Hint** — stale wording, cosmetic drift, or latent risk breaking nothing Today. State what would escalate it
-
-
-
-
-
-#### Marking Critical Gaps
-
-Every **⛔ Critical** finding, and only those, gets a *Loud TT* before you report.
-
-- tag the failure site itself, not its caller or its documentation
-- pick the tag by meaning per `Triage Tags`, keep it *Loud*
-- one line: what fails, and for whom. No patch, no commented-out code
-- insert nothing else, and cite the tag's location in its finding
-- leave existing *Steady* and *Quiet TT* untouched; read them for Context only
-
-
-
-
-
-#### Output
-
-Open with a one-paragraph verdict: releasable or not, and the largest obstacle.
-
-List findings strictly ⛔ Critical, then ⚠️ Warning, then 📌 Hint, ordered within each group by blast radius. Each gets an imperative title, evidence as `path/to/file:line`, its class requirement, the user-facing failure, and the smallest correct fix.
-
-Close with a **coverage note**: what you could not inspect, and why.
-
-
-
-
-
-#### Constraints
-
-- report only what the repository shows. Never infer a defect from a filename or convention alone
-- always cite file and line. An uncited finding is not a finding
-- when sources conflict, executable code is truth and the document is the defect
+- report only what the repository shows, never inferring from filename or convention
+- uncited is not a finding
+- on conflict, code is truth and the document is the defect
 - flag judgment calls plainly rather than inflating their class
-- say when a category yielded nothing. Silence must not read as oversight
+
+
+
+
+
+#### Categories
+
+- **docs drift**: dropped commands, flags, env vars, modules; broken links
+- **code gaps**: stubs, `NotImplementedError`, unhandled branches, hardcoded paths, secrets
+- **interfaces**: signatures vs docstrings, hints, examples; dead arguments; duplicated schemas
+- **config**: undocumented or unvalidated env vars; orphaned keys; undeclared binaries
+- **dependencies**: missing or unused manifest entries; unpinned ranges; stale lockfile
+- **packaging**: excluded sources; entry points to missing modules; `.gitignore` faults
+- **tests**: untested public behavior; dead fixtures; skips over shipped features
+
+
+
+
+
+#### Triage Tags
+
+Check *TT* already present, usually nearby in the same file. Judge by meaning, not tag name or proximity.
+
+- covered → skip silently, no new *TT*, no report line
+- partly covered → report the remainder only, naming the covering *TT*
+- never restate or re-tag; read *Steady* and *Quiet TT* for Context only
+- each ⛔ Critical, and only those, gets a one-line *Loud TT* at the failure site, tag chosen by meaning. Nothing else inserted
+
+
+
+
+
+#### Findings
+
+Rank by release impact, not fix effort. Straddling two classes, take the lower.
+
+- **⛔ Critical** — ordinary user hits outright failure: broken install, missing module, crash on the happy path, exposed secret, stub
+- **⚠️ Warning** — contract violated under ordinary input, artifact still runs
+- **📌 Hint** — stale wording, cosmetic drift, latent risk
+
+Emit these three sections only. No verdict, preface, or closing note.
+
+```
+    ## ⛔ Critical
+
+    ### imperative title
+    `path/to/file.py:42`
+
+    Concise prose describing the gap — what the repository claims versus
+    what it holds, and the scope affected.
+
+    ## ⚠️ Warning
+
+    ## 📌 Hint
+```
+
+- one finding per `###` heading, ordered by blast radius
+- body runs 1–3 short paragraphs, dense and free of filler. Add further `path:line` citations inline as the explanation needs them
+- describe the gap only. No fix, no patch, no remediation steps
+- cite `path:line` verbatim, keeping it clickable
+- empty section keeps its heading, body reads `none`
 
 
 
