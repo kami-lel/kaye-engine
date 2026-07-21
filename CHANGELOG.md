@@ -51,192 +51,81 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Added
 
-- **`maintenance-before-compact` skill** — the `Maintenance Before Compact`
-  prompt node (`kaye/prompt_corpus.md`) gains `{description}` /
-  `{when_to_use}` sidecars and a `_register_prompt` registration
-  (`kaye/prompt/blueprint/registrations.py`), so `kaye claude skill` and its
-  downstream plugin/marketplace/VS Code exports now generate a
-  `maintenance-before-compact` skill; it replaces the removed VS Code
-  `PreCompact` hook, which never fired inside the Claude Code VS Code
+- `Maintenance Before Compact` skill — now exported as a proper skill,
+  replacing the VS Code `PreCompact` hook, which never fired in the
   extension
-- **`kaye` console-script entry point** — `pyproject.toml` gains
-  `[project.scripts]` mapping `kaye` to `kaye.__main__:main`; the CLI now
-  runs directly as `kaye --help`, no longer requiring `python -m kaye`
-- **`Gap Review`, `Resolve Merge Conflict`, `Plan for Step By Step` skills**
-  — registered via `register_blueprint(..., llm_invokable=False)`
-  (`kaye/prompt/blueprint/registrations.py`), so `kaye claude skill` (and
-  its downstream plugin/marketplace/VS Code exports) now generate
-  `gap-review`, `resolve-merge-conflict`, and `plan-for-step-by-step`
-  skills from prompt content that already existed in `prompt_corpus.md`;
-  new `tests/cli/a/s/prompts/` test files cover all three
-- **`BlueprintRegistry` / `register_blueprint()` / `BLUEPRINT_REGISTRIES`**
-  (`kaye/prompt/blueprint/registry.py`, `registrations.py`) — single
-  source of truth for every blueprint's identity and export policy,
-  replacing the old split between `EXPORTABLE_BLUEPRINTS`
-  (`kaye/cli/__init__.py`) and `PROMPTS_BLUEPRINTS`
-  (`kaye/cli/prompts_blueprints.py`); every Claude Skill, Continue rule,
-  and Continue Prompt export now iterates `BLUEPRINT_REGISTRIES` directly;
-  `register_blueprint()` forwards `*args`/`**kwargs` straight into
-  `BlueprintRegistry`, so its own docstring no longer restates every field
-- **`always_apply` / `user_invokable` / `llm_invokable` registry flags** —
-  replace the old single `invokable` flag; `always_apply` forces
-  unconditional inclusion in an exported Continue AI rule regardless of
-  relevance; `user_invokable` gates whether a human may deliberately
-  invoke the entry by name, driving the exported Claude Skill's
-  `user-invocable` field; `llm_invokable` gates whether Continue's own
-  relevance matching may silently surface the entry without it being
-  named — `True` exports as a Continue rule, `False` exports as a
-  Continue Prompt
-- **`FrontmatterDoc` base class + shared `dump_yaml()`**
-  (`kaye/cli/frontmatter_doc.py`) — common YAML-frontmatter-plus-body
-  rendering shared by `Skill` (`SKILL.md`) and `ContinueRule`; frontmatter
-  is now sparse, only fields differing from their default are emitted
-- **`BlueprintRegistry.skill_name` / `to_skill_name()`** — canonical
-  kebab-case skill slug derived directly from `display_name` (Anthropic
-  skill-name grammar, non-alphanumeric runs incl. `~` collapsed to a
-  single `-`), replacing separately-tracked display-name state on each
-  blueprint
-- **`kaye prompt` CLI subcommand** (alias `p`) — new `kaye/cli/prompt/`
-  package, wired into `kaye/cli/cli_main.py` via
-  `register_cli_prompt_parser`, resolving the `# fixme make cli prompt
-  functional` note: `ls` lists registered blueprint names from
-  `BLUEPRINT_REGISTRIES`; `show` previews a blueprint's structure via
-  `generate_blueprint()` (`-t`/`--show-full-tree`,
-  `-l`/`--preview-line-count`, `-w`/`--preview-line-width`); `generate`
-  (alias `g`) renders a concrete prompt via `generate_prompt()`; `show`
-  and `generate` share a `blueprint_io_parser` base
-  (`kaye/cli/prompt/blueprint_io_parser.py`) providing `-f`/
-  `--source-file`, `-F`/`--target-file`, `-C`/`--no-comment`, plus
-  `load_blueprint_from_args()` / `write_blueprint_result()` helpers
-- **`Sync Unit Test` skill** — new `kaye/prompt_corpus.md` section under
-  `# Kaye Peer Coder`, registered against `_kyc_node` via `_register_prompt`
-  (`kaye/prompt/blueprint/registrations.py`); triages a failing test as
-  *stale* (fix the test to match the new intended contract) or
-  *regression/ambiguous* (stop and ask the user) before any repair, and
-  forbids weakening assertions, loosening types, skipping tests, or
-  accepting unread snapshot updates
+- `kaye` console-script entry point — run as `kaye --help`, no more
+  `python -m kaye`
+- `Gap Review`, `Resolve Merge Conflict`, `Plan for Step By Step` skills —
+  now exported from existing prompt content, with test coverage for all
+  three
+- unified blueprint registry — a single source of truth for every
+  blueprint's identity and export policy, replacing two separate lists
+- finer export-visibility flags — control whether a prompt applies
+  unconditionally, may be invoked by name, or may surface automatically,
+  replacing one blunt flag
+- shared frontmatter rendering — skills and Continue rules now emit sparse
+  frontmatter (only non-default fields) through one common base
+- canonical skill-name derivation — skill slugs are now derived directly
+  from display names instead of tracked separately
+- `kaye prompt` CLI subcommand (alias `p`) — list, preview, and generate
+  prompts from the terminal
+- `Sync Unit Test` skill — triages a failing test as stale (fix the test) or
+  a real regression (stop and ask) before making any repair, and forbids
+  weakening assertions or blindly accepting snapshot updates
 
 ### Changed
 
-- **`Gap Review` skill now marks critical gaps** — its read-only stance
-  gains one exception: every **⛔ Critical** finding, and only those, gets a
-  *Loud TT* at the failure site before reporting, defined by a new
-  `#### Marking Critical Gaps` section (`kaye/prompt_corpus.md`); the old
-  severity ladder (`blocker`/`major`/`minor`/`note`) is replaced by a
-  three-tier **Classification** (`⛔ Critical`/`⚠️ Warning`/`📌 Hint`) ranked
-  by release impact; `{prerequisite}` now reads `Triage Tags` for tag
-  meanings before inserting a marker instead of labeling every finding with
-  a tier
-- **`Triage Tags` writability model rewritten** — the
-  `### Working with Triage Tags` subsection is renamed
-  `### Modifying Triage Tags`, and its two-exception rule is replaced by a
-  tier split: only *Loud TT* are writable (insert, edit, or remove when the
-  task calls for it), while *Steady* and *Quiet TT* are read-only and read
-  for Context only; test fixture `TESTEE_TRIAGE_TAG_WORK_CONTENT`
-  (`tests/__init__.py`) updated to match
-- **`Gap Review`, `Resolve Merge Conflict`, `Plan for Step By Step` moved
-  under `Kaye Peer Coder`** — these three workflow prompts now register
-  against `_kyc_node` rather than `_proj_node`
-  (`kaye/prompt/blueprint/registrations.py`), and their corpus sections
-  relocate from `# Projects` to `# Kaye Peer Coder`, so they inherit the
-  coder tree's Context; still exported via `_register_prompt`
-  (`llm_invokable=False`), and their `tests/cli/a/s/prompts/` coverage is
-  unchanged
-- **Sidecar node identification generalized from a fixed enum to freeform
-  names** — `SidecarNodeType` (`IntFlag`) and `sidecar_node_type.py` are
-  removed; `get_sidecar_node_type()` is replaced by
-  `get_sidecar_name(node) -> str | None`
-  (`kaye/prompt/sidecar_nodes/__init__.py`), which extracts the name inside
-  a `{name}` heading with no fixed vocabulary. `render_prompt_lines()` /
-  `generate_prompt()`'s `contains_sidecar_nodes` (`SidecarNodeType` flag)
-  parameter is replaced by `contains_sidecars` (a plain collection of
-  name strings); `BlueprintDescriptorSidecars` now looks up
-  `description`/`when_to_use`/`globs` by string key instead of enum
-  attribute. `kaye.cli.claude.CONTAINING_SIDECAR_NODES` is renamed to
-  `CONTAINING_SIDECARS = ("for-claude-code", "prerequisite")`; all call
-  sites (`skill_md.py`, `user_prompt/export.py`, `vs_code/settings.py`,
-  `cli_continue/rule_file.py`) updated accordingly. Corpus heading syntax
-  (`{prerequisite}`, `{for-claude-code}`, etc.) is unchanged — this is a
-  purely internal API generalization, letting any corpus author define new
-  conditional sidecars by name without touching an enum
-- **`Personality` section of `kaye/prompt_corpus.md` rewritten to a polite,
-  respectful tone** — the extreme submissive/self-deprecating/master-servant
-  framing (and its `blockquote`/`----` emotion-separator rule) moved out of
-  the `Chat` blueprint into a new, unused `{explicit}` sidecar node; every
-  blueprint that includes `Personality` (`Chat`, and the task roles built on
-  it: `Deutschlehrer`, `Editor`, `Librarian`, `Secretary`, coder roles) now
-  renders the toned-down persona and an `Emotion Formatting` section
-  (blockquote `>` reserved for emotional asides during task/factual
-  responses, no `----` separators); shared test fixtures
-  (`tests/api/ky/task/__init__.py`'s `assert_personality*` helpers,
-  `tests/__init__.py`'s `TESTEE_CHAT_ADDITIONAL_CONTENT`) updated to match
-- **`Plan for Step By Step` `{for-claude-code}` guidance** — now also calls
-  `EnterPlanMode` before gathering, so the whole discovery pass runs under
-  plan-mode protection (previously only called `ExitPlanMode` after)
-- **`{for_claude}` sidecar node renamed to `{for-claude-code}`** — matching
-  `SidecarNodeType.FOR_CLAUDE` enum member renamed to `FOR_CLAUDE_CODE`
-  (`kaye/prompt/sidecar_nodes/sidecar_node_type.py`); every prompt-corpus
-  heading, doc reference, and test fixture updated to match
-- **`PromptBlueprint.generate_prompt()`** now calls
-  `render.render_prompt_lines()` (`kaye/prompt/blueprint/render.py`)
-  directly instead of through the removed `.generate_prompt_lines()`
-  wrapper
-- **`kamilog`** bumped to `v2.8.0` — new `NOTE`/`TIP`/`HINT`/`IMPORTANT`/
-  `CAUTION` log levels and matching logger methods; `AnsiColor` enum
-  replaced by combinable `AnsiStyle` flags (foreground/background/bold/
-  underline); `AnsiRenderer` gains `is_disabled` to force-disable color and
-  `color_triage_tag()` for BUG/FIXME/TODO/HACK coloring
-- **`resolve_node()` node lookup** — now memoizes a `{hash: node}` and a
-  `{name: node}` index per corpus tree, cached on the corpus root; avoids
-  a full tree walk on every call (previously `O(n)` per call, `O(n²)`
-  across a full tree render)
-- **Skill and Continue rule export pipeline consolidated** —
-  `Skill.from_registry()` / `ContinueRule.from_registry()` now build a
-  skill/rule directly from a `BlueprintRegistry` entry; the intermediate
-  `skill_folder.py` wrapper and `frontmatter_md_file.py` were removed in
-  favor of the shared `FrontmatterDoc`
-
-- **`kaye prompt show` preview trim issue flagged, not yet fixed** —
-  `kaye/cli/prompt/show_parser.py` gains a `Bug printed out things not
-  trimmed` note above its constants; the `-l`/`-w` preview truncation
-  itself is unchanged
+- `Gap Review` now marks critical gaps — every critical finding gets a
+  visible marker at the failure site; the old four-tier severity ladder is
+  replaced by a clearer three-tier classification
+- `Triage Tags` writability clarified — only the loudest tag tier may be
+  edited; the rest are read-only context
+- `Gap Review`, `Resolve Merge Conflict`, `Plan for Step By Step` moved
+  under the coder role, inheriting its context
+- sidecar nodes generalized — conditional prompt sections are now
+  identified by freeform name instead of a fixed enum, letting new ones be
+  added without code changes
+- personality tone rewritten — the old extreme submissive tone is replaced
+  by a polite, respectful one across chat and every task role built on it
+- `Plan for Step By Step` now enters plan mode before gathering context, not
+  just after
+- `kamilog` bumped to `v2.8.0` — new log levels and colorized triage-tag
+  output
+- corpus node lookup optimized — cached indexes avoid a full tree walk on
+  every call
+- skill and Continue rule export consolidated onto one shared code path
+- `kaye prompt show` preview trimming issue flagged, not yet fixed
 
 ### Deprecated
 
-- **`kaye/prompt/blueprint/prompt_blueprint_loader.py`** — left in place
-  but unused and non-functional; `load_embedded_blueprint()` /
-  `get_embedded_prompt_blueprints_names()` always raise
-  `FileNotFoundError` now that the `embedded_blueprints/` data folder
-  they read from is gone; pending removal
+- legacy blueprint loader — left in place but non-functional; pending
+  removal
 
 ### Removed
 
-- **VS Code `PreCompact` hook generation** — `update_settings_json`
-  (`kaye/cli/claude/vs_code/settings.py`) no longer writes a `PreCompact`
-  hook into `settings.json`; the hook never fired inside the Claude Code VS
-  Code extension (upstream limitation), so its behavior now ships as the
-  `maintenance-before-compact` skill instead. `settings.json` still receives
-  the git command permission lists
-- stale `# Todo add prompt: gap review, resolve merge conflict, Plan for
-  Step By Step` comment in `kaye/cli/claude/main.py`, resolved by the
-  additions above
-- **legacy `.kaye_blueprint` embedded-blueprint text files**
-  (`kaye/prompt/embedded_blueprints/`, e.g. `translator.kaye_blueprint`,
-  `encyclopedic.kaye_blueprint`) — superseded by the Python-defined
-  `registrations.py`
-- **`kaye/prompt/blueprint/embedded_blueprints.py`,
-  `kaye/cli/prompts_blueprints.py`** — folded into `registrations.py` /
-  `BLUEPRINT_REGISTRIES`
-- **`tests/cli/a/s/structure/` blueprint-exportability tests** — coverage
-  moved to `tests/prompt/bp/prompt-bp-registry_test.py` (registry-level)
-  and the existing per-skill content tests
-- **`PromptBlueprint.generate_prompt_lines()`** — callers use
-  `render.render_prompt_lines(bp, ...)` directly instead
-- **`kaye/cli/cli_prompt/`** (`cli_prompt_main.py`, `cli_prompt_ls.py`,
-  `cli_prompt_show.py`, `cli_prompt_generate.py`) — dead, unwired module
-  superseded by `kaye/cli/prompt/`
+- VS Code `PreCompact` hook generation — superseded by the
+  `maintenance-before-compact` skill
+- stale to-do comment resolved by the additions above
+- legacy embedded-blueprint text files — superseded by the Python-defined
+  registry
+- old blueprint-list modules — folded into the unified registry
+- redundant exportability tests — coverage moved to the registry-level and
+  per-skill tests
+- unused prompt-line-generation wrapper
+- dead, unwired legacy CLI prompt module — superseded by `kaye/cli/prompt/`
 
 [6.10.0]: https://github.com/kami-lel/kaye/compare/v6.9.0...v6.10.0
+
+
+
+
+
+
+
+
+
+
 
 
 
