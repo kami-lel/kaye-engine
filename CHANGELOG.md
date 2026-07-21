@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-HACK manually inspect all claude skills
+Hack manually inspect all claude skills
 todo split corpus itself from this project (public vs private repo)
 todo todo CLI to import/export w/ OpenWebUI
 -->
