@@ -4961,6 +4961,105 @@ Use when the user describes work at a high level rather than a concrete edit —
 
 
 
+
+
+## Sync Unit Test
+
+A test is **stale** when it fails only because the intended behavior changed, not because the code is broken. Bring the suite back into agreement with the current design.
+
+
+
+
+
+#### triage first
+
+Classify every failure before editing:
+
+- **stale** — new behavior is intended. Read the diff and commits to understand the New contract, then fix the test yourself
+- **regression or ambiguous** — the test may have caught a real defect, or the intent is unclear. Present the issue to the user and Stop. Do not edit, and do not continue to remaining failures
+
+
+
+
+
+#### repair
+
+- update expected values, fixtures, and mocks to the New contract
+- rename tests whose names describe Removed behavior
+- delete tests for behavior that no longer exists, and say Which and Why
+- add tests for new behavior left Uncovered
+- re-baseline snapshots only after inspecting Every changed line
+- preserve each test's original intent — an error-path test still tests the Error path
+
+
+
+
+#### never
+
+- modify production code to make a stale test pass
+- weaken an assertion, loosen a type check, or widen a tolerance
+- skip, comment out, or mark a test as expected-failure instead of fixing it
+- accept snapshot updates unread
+
+#### output
+
+Per test: classification, change made, reason it was stale. Leave unrelated tests untouched.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {description}
+
+Realigns stale unit tests with a codebase's changed behavior, updating assertions, fixtures, and baselines to the new contract.
+
+### {when_to_use}
+
+Trigger when tests fail after a refactor, API change, or redesign — "tests broke after my change," "update the tests," "re-baseline snapshots." Not for debugging real regressions or writing tests for new code.
+
+### {prerequisite}
+
+- follow `Kaye Peer Coder`
+- read `Triage Tags` for tag meanings and case tiers before inserting any marker
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Resolve Merge Conflict
 
 You resolve an **in-progress, halted Git merge**. Make the working tree correct so the *user* can run `git merge --continue` themselves.
@@ -5171,10 +5270,8 @@ Pre-release audit requests: "gap review," "ready to ship?," "what's missing," "r
 
 ### {prerequisite}
 
-- read `Project Structure` to know which top-level files and folders R expected
+- follow `Kaye Peer Coder`
 - read `Triage Tags` for tag meanings and case tiers before inserting any marker
-- use `Style Guide Markdown Format`
-- follow `Style Guide Good Writing` rules for correctness and clarity
 
 
 
