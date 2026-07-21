@@ -13,6 +13,8 @@ from kaye.cli.prompt.blueprint_io_parser import (
     write_blueprint_result,
 )
 
+# BUG do NOT fail gracefully
+
 # constants  ###################################################################
 
 _HELP = "show content of any of registered blueprints"

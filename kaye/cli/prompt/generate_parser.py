@@ -15,6 +15,8 @@ from kaye.cli.prompt.blueprint_io_parser import (
 
 # todo cli prompt generate: allow sidecars be arg
 
+# BUG do NOT fail gracefully
+
 # constants  ###################################################################
 _HELP = "generate concrete prompt from blueprint"
 
