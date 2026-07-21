@@ -114,6 +114,7 @@ MD_FILENAME2SKILL_NAME = {
 PROMPT_FILENAME2NAME = {
     "create-agents-and-context": "Create AGENTS and CONTEXT",
     "create-readme": "Create README",
+    "maintenance-before-compact": "Maintenance Before Compact",
     "maintain-changelog": "Maintain CHANGELOG",
     "maintain-docs": "Maintain Docs",
     "prepare-for-feature-landing": "Prepare for Feature Landing",
@@ -260,6 +261,10 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         " existing content. Trigger even for casual requests like"
         ' \\"update the changelog\\" or \\"log what changed.\\"'
         '"'
+    ),
+    "maintenance-before-compact": (
+        "Captures a session's durable changes right before context is"
+        " compacted"
     ),
     "create-readme": (
         '"Use this skill when the user wants to create a new'
@@ -447,6 +452,12 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
         "use `Style Guide Markdown Format`",
         "follow `Style Guide Good Writing` rules for correctness and clarity",
         "follow `Project CHANGELOG Writer`",
+    ],
+    "maintenance-before-compact": [
+        "follow `Maintain CHANGELOG`",
+        "follow `Maintain AGENTS and CONTEXT`",
+        "use `Style Guide Markdown Format`",
+        "follow `Style Guide Good Writing` rules for correctness and clarity",
     ],
     "create-readme": [
         "use `Style Guide Markdown Format`",

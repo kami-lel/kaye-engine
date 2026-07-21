@@ -521,3 +521,11 @@ prepare_for_release = _register_node(
     _proj_node,
     "Prepare for Version Release",
 )
+
+# Maintenance Before Compact
+maintenance_before_compact = _register_node(
+    _register_prompt,
+    "maintenance-before-compact",
+    _proj_node,
+    "Maintenance Before Compact",
+)
