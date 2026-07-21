@@ -651,14 +651,14 @@ def assert_prerequisite_content_line(skill_id, testee_content, i):
 
 def assert_for_claude_code_heading_line(testee_content, hash_symbol_cnt):
     """
-    check if a {for-claude-code} heading exists at a specific heading level
+    check if a {for claude code} heading exists at a specific heading level
     """
-    return "#" * hash_symbol_cnt + " {for-claude-code}" in testee_content
+    return "#" * hash_symbol_cnt + " {for claude code}" in testee_content
 
 
 def assert_for_claude_code_content_line(skill_id, testee_content, i):
     """
-    check if a specific for-claude-code content line exists in content
+    check if a specific for claude code content line exists in content
     """
     line = TESTEE_FOR_CLAUDE_CODE_CONTENT_ALL[skill_id][i]
     return line in testee_content

@@ -37,7 +37,7 @@ through a Python API, an HTTP API, and a CLI.
   `{when_to_use}`, `{globs}` (reserved names, consumed as blueprint metadata
   by `BlueprintDescriptorSidecars` via plain string-key lookup, exposed as
   `blueprint.sidecars`) and *conditional sidecar* for any other name, e.g.
-  `{prerequisite}`, `{for-claude-code}` (real prompt content spliced in
+  `{prerequisite}`, `{for claude code}` (real prompt content spliced in
   conditionally when its name is passed in `contains_sidecars`). Because
   detection is name-based rather than type-based, a reserved descriptor name
   can also be requested via `contains_sidecars` for conditional content
@@ -53,7 +53,7 @@ through a Python API, an HTTP API, and a CLI.
   `contains_sidecars=("prerequisite",)` (or a larger collection) to
   `generate_prompt()` / `render.render_prompt_lines()` to auto-checkmark
   every matching sidecar node whose parent is already checkmarked before
-  rendering; `"for-claude-code"` and `"prerequisite"` are combined in
+  rendering; `"for claude code"` and `"prerequisite"` are combined in
   `kaye.cli.claude.CONTAINING_SIDECARS` for all Claude exports
 - **Blueprint Sidecar Merging** — `BlueprintDescriptorSidecars.__or__` merges
   two instances via `left | right`; left operand takes priority for each
