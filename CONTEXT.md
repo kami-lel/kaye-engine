@@ -154,10 +154,13 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
     - `kaye/cli/claude/` — exports blueprints as Claude plugins, marketplaces,
       agentskills.io Skills, VS Code Extension setup, and the user system
       prompt `CLAUDE.md`
-    - `kaye/cli/cli_prompt/` — prompt generation CLI subcommands; unwired
-      and non-functional (never registered in `kaye/cli/cli_main.py`; see
-      the `# fixme make cli prompt functional` note there), pending removal
-      alongside `kaye/prompt/blueprint/prompt_blueprint_loader.py`
+    - `kaye/cli/prompt/` — `kaye prompt` (alias `p`) subcommand: `ls`
+      (list registered blueprint names), `show` (preview a blueprint's
+      structure), `generate` (alias `g`, render a concrete prompt);
+      `show`/`generate` share a `blueprint_io_parser` base plus
+      `load_blueprint_from_args()`/`write_blueprint_result()` helpers
+      (`blueprint_io_parser.py`); supersedes the dead, never-wired
+      `kaye/cli/cli_prompt/`
   - `kaye/prompt_corpus.md`, `kaye/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
 - `docs/` — in-depth documentation (API, HTTP, CLI, abbreviations)

@@ -3,6 +3,9 @@ FIXME consider make chat & rapid single blueprint + dynamic node
 FIXME sensitize personality w/ layer
 Todo gap review add med TT
 Fixme python coder CB: magic method & operators
+Bug compact-with-maintenance skill need to be rm
+Fixme for_claude -> for_claude_code
+Todo add chicago footnote prompt
 
 
 bug barista: it sometimes remove some information & remove repeated chinese word
@@ -21,5 +24,6 @@ todo distinguish project/repo root vs. workspace root
 todo resume role
 todo utilize worktree & kaye-agent
 todo write drone/subagent working w/ worktree
+todo add user's personalized description
 
 todo todo agent behavior add md-style task list, when Claude "task" is not available

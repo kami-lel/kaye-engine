@@ -4,6 +4,7 @@
 
 <!--
 Hack manually inspect all claude skills
+todo split corpus itself from this project (public vs private repo)
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
@@ -62,6 +63,18 @@ todo todo CLI to import/export w/ OpenWebUI
   skill-name grammar, non-alphanumeric runs incl. `~` collapsed to a
   single `-`), replacing separately-tracked display-name state on each
   blueprint
+- **`kaye prompt` CLI subcommand** (alias `p`) — new `kaye/cli/prompt/`
+  package, wired into `kaye/cli/cli_main.py` via
+  `register_cli_prompt_parser`, resolving the `# fixme make cli prompt
+  functional` note: `ls` lists registered blueprint names from
+  `BLUEPRINT_REGISTRIES`; `show` previews a blueprint's structure via
+  `generate_blueprint()` (`-t`/`--show-full-tree`,
+  `-l`/`--preview-line-count`, `-w`/`--preview-line-width`); `generate`
+  (alias `g`) renders a concrete prompt via `generate_prompt()`; `show`
+  and `generate` share a `blueprint_io_parser` base
+  (`kaye/cli/prompt/blueprint_io_parser.py`) providing `-f`/
+  `--source-file`, `-F`/`--target-file`, `-C`/`--no-comment`, plus
+  `load_blueprint_from_args()` / `write_blueprint_result()` helpers
 
 ### Changed
 
@@ -93,13 +106,11 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Deprecated
 
-- **`kaye/prompt/blueprint/prompt_blueprint_loader.py`,
-  `kaye/cli/cli_prompt/`** — left in place but unused and non-functional;
-  `load_embedded_blueprint()` / `get_embedded_prompt_blueprints_names()`
-  always raise `FileNotFoundError` now that the `embedded_blueprints/`
-  data folder they read from is gone, and `kaye/cli/cli_prompt/` was
-  never wired into the `kaye` CLI subcommand tree (see the `# fixme make
-  cli prompt functional` note in `kaye/cli/cli_main.py`); pending removal
+- **`kaye/prompt/blueprint/prompt_blueprint_loader.py`** — left in place
+  but unused and non-functional; `load_embedded_blueprint()` /
+  `get_embedded_prompt_blueprints_names()` always raise
+  `FileNotFoundError` now that the `embedded_blueprints/` data folder
+  they read from is gone; pending removal
 
 ### Removed
 
@@ -118,6 +129,9 @@ todo todo CLI to import/export w/ OpenWebUI
   and the existing per-skill content tests
 - **`PromptBlueprint.generate_prompt_lines()`** — callers use
   `render.render_prompt_lines(bp, ...)` directly instead
+- **`kaye/cli/cli_prompt/`** (`cli_prompt_main.py`, `cli_prompt_ls.py`,
+  `cli_prompt_show.py`, `cli_prompt_generate.py`) — dead, unwired module
+  superseded by `kaye/cli/prompt/`
 
 ### Fixed
 
