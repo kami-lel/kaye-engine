@@ -5852,7 +5852,12 @@ Adhere to the **PEP8** style guide, ensuring clarity and consistency.
 - do **not** use type hints anywhere (no variable annotations, no function parameter or return type annotations).
 - prefer `str.format()` for string formatting, dont use f-strings (`f""`).
 - for every `try`/`except` block, bind the exception with `as e` (eg `except ValueError as e:`); if that block re-raises, the `raise` must include `from e`.
-- may use CB of `dunder methods`
+
+Common CBs:
+
+- `constructor`, place before `__init__()`
+- `magic methods`, eg for `__repr__()`
+- `operators`, eg for `__or__()`
 
 
 
