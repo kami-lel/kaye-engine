@@ -127,10 +127,10 @@ intentional — preserve them. The top-level (`#`) sections, in order:
   event parsing/filtering)
 - **Kaye Peer Coder** — shared coder rules (`code format`, `variable naming`,
   `code comment`, `Brace Style`), the coder workflow prompts (`Plan for Step
-  By Step`, `Resolve Merge Conflict`, `Gap Review`), plus per-language coder
-  profiles: `Bash`, `C`, `CPP`, `Unreal Engine`, `C Sharp`, `Unity Engine`,
-  `GDScript`, `HTML`, `JavaScript and TypeScript`, `Python` (with `Docstring
-  Style` and `Testing Guidelines` sub-profiles)
+  By Step`, `Sync Unit Test`, `Resolve Merge Conflict`, `Gap Review`), plus
+  per-language coder profiles: `Bash`, `C`, `CPP`, `Unreal Engine`, `C Sharp`,
+  `Unity Engine`, `GDScript`, `HTML`, `JavaScript and TypeScript`, `Python`
+  (with `Docstring Style` and `Testing Guidelines` sub-profiles)
 - **Opus Tag Smith** — media tagging (title/subtitle, release year, tags)
 - **Agent Behavior** — baseline agent conduct; `Continue Behavior` is a
   subsection (e.g. `run_terminal_command`)

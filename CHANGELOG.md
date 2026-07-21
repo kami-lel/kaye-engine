@@ -75,6 +75,13 @@ todo todo CLI to import/export w/ OpenWebUI
   (`kaye/cli/prompt/blueprint_io_parser.py`) providing `-f`/
   `--source-file`, `-F`/`--target-file`, `-C`/`--no-comment`, plus
   `load_blueprint_from_args()` / `write_blueprint_result()` helpers
+- **`Sync Unit Test` skill** — new `kaye/prompt_corpus.md` section under
+  `# Kaye Peer Coder`, registered against `_kyc_node` via `_register_prompt`
+  (`kaye/prompt/blueprint/registrations.py`); triages a failing test as
+  *stale* (fix the test to match the new intended contract) or
+  *regression/ambiguous* (stop and ask the user) before any repair, and
+  forbids weakening assertions, loosening types, skipping tests, or
+  accepting unread snapshot updates
 
 ### Changed
 
@@ -155,6 +162,11 @@ todo todo CLI to import/export w/ OpenWebUI
   skill/rule directly from a `BlueprintRegistry` entry; the intermediate
   `skill_folder.py` wrapper and `frontmatter_md_file.py` were removed in
   favor of the shared `FrontmatterDoc`
+
+- **`kaye prompt show` preview trim issue flagged, not yet fixed** —
+  `kaye/cli/prompt/show_parser.py` gains a `Bug printed out things not
+  trimmed` note above its constants; the `-l`/`-w` preview truncation
+  itself is unchanged
 
 ### Deprecated
 
