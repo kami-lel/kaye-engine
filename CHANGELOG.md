@@ -78,6 +78,23 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Changed
 
+- **Sidecar node identification generalized from a fixed enum to freeform
+  names** — `SidecarNodeType` (`IntFlag`) and `sidecar_node_type.py` are
+  removed; `get_sidecar_node_type()` is replaced by
+  `get_sidecar_name(node) -> str | None`
+  (`kaye/prompt/sidecar_nodes/__init__.py`), which extracts the name inside
+  a `{name}` heading with no fixed vocabulary. `render_prompt_lines()` /
+  `generate_prompt()`'s `contains_sidecar_nodes` (`SidecarNodeType` flag)
+  parameter is replaced by `contains_sidecars` (a plain collection of
+  name strings); `BlueprintDescriptorSidecars` now looks up
+  `description`/`when_to_use`/`globs` by string key instead of enum
+  attribute. `kaye.cli.claude.CONTAINING_SIDECAR_NODES` is renamed to
+  `CONTAINING_SIDECARS = ("for-claude-code", "prerequisite")`; all call
+  sites (`skill_md.py`, `user_prompt/export.py`, `vs_code/settings.py`,
+  `cli_continue/rule_file.py`) updated accordingly. Corpus heading syntax
+  (`{prerequisite}`, `{for-claude-code}`, etc.) is unchanged — this is a
+  purely internal API generalization, letting any corpus author define new
+  conditional sidecars by name without touching an enum
 - **`Plan for Step By Step` `{for-claude-code}` guidance** — now also calls
   `EnterPlanMode` before gathering, so the whole discovery pass runs under
   plan-mode protection (previously only called `ExitPlanMode` after)
