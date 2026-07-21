@@ -145,6 +145,15 @@ plan_step_by_step = _register_node(
     recursively=True,
 )
 
+# Sync Unit Test
+sync_unit_test = _register_node(
+    _register_prompt,
+    "sync-unit-test",
+    _kyc_node,
+    "Sync Unit Test",
+    recursively=True,
+)
+
 # Resolve Merge Conflict
 resolve_merge_conflict = _register_node(
     _register_prompt,
