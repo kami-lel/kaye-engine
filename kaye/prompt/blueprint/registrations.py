@@ -136,6 +136,29 @@ coder = _register_exportable(
     always_apply=True,
 )
 
+# Plan for Step By Step
+plan_step_by_step = _register_node(
+    _register_prompt,
+    "plan-step-by-step",
+    _kyc_node,
+    "Plan for Step By Step",
+    recursively=True,
+)
+
+# Resolve Merge Conflict
+resolve_merge_conflict = _register_node(
+    _register_prompt,
+    "resolve-merge-conflict",
+    _kyc_node,
+    "Resolve Merge Conflict",
+    recursively=True,
+)
+
+# Gap Review
+gap_review = _register_node(
+    _register_prompt, "gap-review", _kyc_node, "Gap Review", recursively=True
+)
+
 
 # Coder Bash
 coder_bash = _register_node(
@@ -488,27 +511,4 @@ prepare_for_release = _register_node(
     "prepare-for-release",
     _proj_node,
     "Prepare for Version Release",
-)
-
-# Plan for Step By Step
-plan_step_by_step = _register_node(
-    _register_prompt,
-    "plan-step-by-step",
-    _proj_node,
-    "Plan for Step By Step",
-    recursively=True,
-)
-
-# Resolve Merge Conflict
-resolve_merge_conflict = _register_node(
-    _register_prompt,
-    "resolve-merge-conflict",
-    _proj_node,
-    "Resolve Merge Conflict",
-    recursively=True,
-)
-
-# Gap Review
-gap_review = _register_node(
-    _register_prompt, "gap-review", _proj_node, "Gap Review", recursively=True
 )
