@@ -1,8 +1,7 @@
+
+Todo gap review add med TT
+Fixme python coder CB: magic method & operators
 Bug compact-with-maintenance skill need to be rm
-Fixme consider make chat & rapid single blueprint + dynamic node
-Fixme for_claude -> for_claude_code
-Fixme sensitize personality w/ layer
-Todo gap review should add med TT
 Todo add chicago footnote prompt
 
 
@@ -15,6 +14,7 @@ fixme move print out content to "terminal", include CB, upd its when to use
 fixme sync abbr w/ dotfile commands
 fixme sync abbr w/ vs code shortcut & snippets
 todo add control-language style instruction
+todo add TT aware workflow
 todo git commit aware workflow
 todo additional review prompts, eg efficiency review, eg allow project/scoped review
 todo distinguish project/repo root vs. workspace root

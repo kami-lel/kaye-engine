@@ -12,7 +12,7 @@ __all__ = (
     "TESTEE_DESCRIPTION_CONTENT_ALL",
     "TESTEE_WHEN_TO_USE_CONTENT_ALL",
     "TESTEE_PREREQUISITE_CONTENT_ALL",
-    "TESTEE_FOR_CLAUDE_CONTENT_ALL",
+    "TESTEE_FOR_CLAUDE_CODE_CONTENT_ALL",
     "TESTEE_TRIAGE_TAG_CONTENT",
     "split_frontmatter_md_file",
     "assert_frontmatter_md_file_basic_structure",
@@ -28,8 +28,8 @@ __all__ = (
     "assert_header_line_paths_content",
     "assert_prerequisite_heading_line",
     "assert_prerequisite_content_line",
-    "assert_for_claude_heading_line",
-    "assert_for_claude_content_line",
+    "assert_for_claude_code_heading_line",
+    "assert_for_claude_code_content_line",
 )
 
 
@@ -484,7 +484,7 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
 }
 
 
-TESTEE_FOR_CLAUDE_CONTENT_ALL = {
+TESTEE_FOR_CLAUDE_CODE_CONTENT_ALL = {
     "prepare-for-version-release": [
         (
             "if the version number or the release date is missing, use"
@@ -649,16 +649,16 @@ def assert_prerequisite_content_line(skill_id, testee_content, i):
     return line in testee_content
 
 
-def assert_for_claude_heading_line(testee_content, hash_symbol_cnt):
+def assert_for_claude_code_heading_line(testee_content, hash_symbol_cnt):
     """
-    check if a {for_claude} heading exists at a specific heading level
+    check if a {for-claude-code} heading exists at a specific heading level
     """
-    return "#" * hash_symbol_cnt + " {for_claude}" in testee_content
+    return "#" * hash_symbol_cnt + " {for-claude-code}" in testee_content
 
 
-def assert_for_claude_content_line(skill_id, testee_content, i):
+def assert_for_claude_code_content_line(skill_id, testee_content, i):
     """
-    check if a specific for_claude content line exists in content
+    check if a specific for-claude-code content line exists in content
     """
-    line = TESTEE_FOR_CLAUDE_CONTENT_ALL[skill_id][i]
+    line = TESTEE_FOR_CLAUDE_CODE_CONTENT_ALL[skill_id][i]
     return line in testee_content

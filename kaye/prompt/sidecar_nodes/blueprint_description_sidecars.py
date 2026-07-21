@@ -4,8 +4,12 @@ blueprint_description_sidecars.py
 define ``BlueprintDescriptorSidecars``
 """
 
-from .sidecar_node_type import SidecarNodeType
 from kaye.prompt import REPLACEMENT_NEWLINE_SYMBOL
+
+# reserved descriptor names, documentation only; consumption is by string key
+DESCRIPTION_NAME = "description"
+WHEN_TO_USE_NAME = "when_to_use"
+GLOBS_NAME = "globs"
 
 
 class BlueprintDescriptorSidecars:  ##########################################
@@ -102,22 +106,20 @@ class BlueprintDescriptorSidecars:  ##########################################
         if main_node:
             try:
                 self.description_node = main_node[
-                    SidecarNodeType.DESCRIPTION.as_node_heading
+                    "{{{}}}".format(DESCRIPTION_NAME)
                 ]
             except KeyError:
                 pass
 
             try:
                 self.when_to_use_node = main_node[
-                    SidecarNodeType.WHEN_TO_USE.as_node_heading
+                    "{{{}}}".format(WHEN_TO_USE_NAME)
                 ]
             except KeyError:
                 pass
 
             try:
-                self.globs_node = main_node[
-                    SidecarNodeType.GLOBS.as_node_heading
-                ]
+                self.globs_node = main_node["{{{}}}".format(GLOBS_NAME)]
             except KeyError:
                 pass
 
@@ -158,7 +160,7 @@ class BlueprintDescriptorSidecars:  ##########################################
         if not node:
             return []
 
-        from kaye.prompt.blueprint import PromptBlueprint
+        from kaye.prompt.blueprint import PromptBlueprint, render
 
         bp = PromptBlueprint.create_from_node(node)
-        return bp.generate_prompt_lines(disable_first_heading=True)
+        return render.render_prompt_lines(bp, disable_first_heading=True)

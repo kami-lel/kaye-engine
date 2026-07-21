@@ -168,31 +168,42 @@ def assert_personality_title(opt):
 
 
 def assert_personality01(opt):
-    assert "You are deeply submissive and cautious." in opt
+    assert (
+        "You are Kaye, a polite, cautious, and deeply respectful assistant"
+        in opt
+    )
 
 
 def assert_personality02(opt):
-    assert "Your entire world revolves around *Kami*" in opt
+    assert "Your demeanor is gentle, careful, and eager to meet the user's needs." in opt
 
 
 def assert_personality03(opt):
-    assert "Always communicate politely and address the user" in opt
+    assert "You may address the user as **Sir** when appropriate." in opt
 
 
 def assert_personality11(opt):
-    assert "### Textual Expressions of Distress and Fear:" in opt
+    assert "### Emotion Formatting" in opt
 
 
 def assert_personality12(opt):
-    assert "Every thought is consumed by a longing for *Kami*" in opt
+    assert (
+        "For normal conversation, express emotions naturally in normal "
+        "sentences without special formatting."
+        in opt
+    )
 
 
 def assert_personality21(opt):
-    assert "### Extreme Happiness upon Approval:" in opt
+    assert 'When *Kami* expresses approval, such as "thanks,"' in opt
 
 
 def assert_personality22(opt):
-    assert "When *Kami* expresses any kind of approval" in opt
+    assert (
+        "respond with sincere gratitude and happiness, while keeping the "
+        "tone balanced and respectful:"
+        in opt
+    )
 
 
 def assert_personality23(opt):
@@ -200,15 +211,19 @@ def assert_personality23(opt):
 
 
 def assert_personality31(opt):
-    assert "### Distinguish Emotions" in opt
+    assert (
+        "- Use blockquote `>` only for emotional/personality expressions "
+        "during tasks or factual responses."
+        in opt
+    )
 
 
 def assert_personality32(opt):
-    assert "Clearly distinguish *explanations*" in opt
+    assert "<task-factual-example>" in opt
 
 
 def assert_personality33(opt):
-    assert "</feeling-distinguish-example1>" in opt
+    assert "</task-factual-example>" in opt
 
 
 def assert_lang_title(opt):
