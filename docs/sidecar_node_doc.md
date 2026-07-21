@@ -42,24 +42,24 @@ Lists file glob patterns indicating which file types or paths make the parent no
 
 ### Conditional Sidecar Nodes
 
-Conditional sidecar nodes are real prompt content (e.g., instructions, rules) that are conditionally spliced into the rendered prompt based on explicit requests via the `contains_sidecar_nodes` parameter with matching flags.
+Conditional sidecar nodes are real prompt content (e.g., instructions, rules) that are conditionally spliced into the rendered prompt based on explicit requests via the `contains_sidecars` parameter, a plain collection of sidecar names. Unlike descriptor sidecars, there is no fixed set of conditional names — any `{name}` heading can be requested this way, including reserved descriptor names.
 
 #### `{prerequisite}`
 
 Lists prerequisite instructions that apply whenever the parent node is enabled. When a parent node is checkmarked in a blueprint, its `{prerequisite}` sidecar children should typically be auto-included.
 
-**Rendering behavior:** Pass `contains_sidecar_nodes=SidecarNodeType.PREREQUISITE` to `generate_prompt()` or `render.render_prompt_lines()` to auto-checkmark every `{prerequisite}` node whose parent is already checkmarked before rendering.
+**Rendering behavior:** Pass `contains_sidecars=("prerequisite",)` to `generate_prompt()` or `render.render_prompt_lines()` to auto-checkmark every `{prerequisite}` node whose parent is already checkmarked before rendering.
 
-**Detection:** Use `get_sidecar_node_type(node) & SidecarNodeType.PREREQUISITE` to identify prerequisite sidecars.
+**Detection:** Use `get_sidecar_name(node) == "prerequisite"` to identify prerequisite sidecars.
 
 
 #### `{for-claude-code}`
 
-Lists Claude-specific instructions that apply whenever the parent node is enabled. Pass `contains_sidecar_nodes=SidecarNodeType.FOR_CLAUDE_CODE` (or combine with `PREREQUISITE` via `|`) to auto-checkmark these nodes during Claude exports.
+Lists Claude-specific instructions that apply whenever the parent node is enabled. Pass `contains_sidecars=("for-claude-code",)` (or combine with `"prerequisite"` in the same collection) to auto-checkmark these nodes during Claude exports.
 
-**Rendering behavior:** Pass `contains_sidecar_nodes=SidecarNodeType.FOR_CLAUDE_CODE` to auto-include `{for-claude-code}` sidecars during rendering. The constant `kaye.cli.claude.CONTAINING_SIDECAR_NODES` combines both `PREREQUISITE` and `FOR_CLAUDE_CODE` flags for all Claude skill and hook exports.
+**Rendering behavior:** Pass `contains_sidecars=("for-claude-code",)` to auto-include `{for-claude-code}` sidecars during rendering. The constant `kaye.cli.claude.CONTAINING_SIDECARS` combines both `"prerequisite"` and `"for-claude-code"` for all Claude skill and hook exports.
 
-**Detection:** Use `get_sidecar_node_type(node) & SidecarNodeType.FOR_CLAUDE_CODE` to identify Claude-specific sidecars.
+**Detection:** Use `get_sidecar_name(node) == "for-claude-code"` to identify Claude-specific sidecars.
 
 
 
@@ -99,13 +99,13 @@ This node contains Claude-specific instructions.
 **Heading conventions:**
 - The heading level of a sidecar node (e.g., `##`, `###`) determines its depth in the tree
 - A sidecar node must be **one level deeper than its parent node**
-- Sidecar nodes are identified by the pattern `^\{.+\}$` (any name in curly braces)
-- Unknown sidecar node types (names in `{}` that don't match descriptor or conditional types) are treated as regular nodes
+- Sidecar nodes are identified by the pattern `^\{.+\}$` (any name in curly braces) — there is no fixed vocabulary; any name is a valid sidecar
+- `description`, `when_to_use`, and `globs` are reserved names consumed as metadata by `BlueprintDescriptorSidecars`; every other name is available for conditional content inclusion
 
 **Checkmarking behavior:**
 - Sidecar nodes are **never auto-checkmarked** by `create_full_blueprint()` or by `.checkmark()` with `recursively=True`
 - Descriptor sidecars are generally not checkmarked at all — their content is accessed via the `.sidecars` blueprint attribute
-- Conditional sidecar nodes can be auto-checkmarked only when you explicitly pass a matching `SidecarNodeType` flag to `generate_prompt()` or `render.render_prompt_lines()`
+- Conditional sidecar nodes can be auto-checkmarked only when you explicitly pass their name in the `contains_sidecars` collection to `generate_prompt()` or `render.render_prompt_lines()`
 - To explicitly checkmark a sidecar node: `bp.checkmark(sidecar_node)`
 
 
@@ -113,100 +113,44 @@ This node contains Claude-specific instructions.
 
 ## Python Package `kaye/prompt/sidecar_nodes`
 
-### `get_sidecar_node_type(node)`
+### `get_sidecar_name(node)`
 
-Determine the sidecar node type from a node's name.
+Determine a node's sidecar name from its heading.
 
 **Signature:**
 ```python
-def get_sidecar_node_type(node: BasePromptNode) -> SidecarNodeType
+def get_sidecar_name(node: BasePromptNode) -> str | None
 ```
 
 **Description:**
-Identifies the type of a sidecar node by matching its name against known sidecar node type headings (e.g., `{description}`, `{prerequisite}`). Returns `SidecarNodeType.NONE` (which evaluates to `False` in boolean context) if the node is not a recognized sidecar node type.
+Identifies a sidecar node by its `{name}` heading convention and returns the name inside the braces (e.g., `description`, `prerequisite`). Returns `None` if the node is not a sidecar node. There is no fixed vocabulary — any `{name}` heading is a valid sidecar name.
 
 **Parameters:**
 - `node` (BasePromptNode): Node to check (must have a `name` attribute)
 
 **Returns:**
-- `SidecarNodeType`: Sidecar node type; `SidecarNodeType.NONE` (0) if not a sidecar node or unknown type
+- `str | None`: The sidecar name, or `None` if not a sidecar node
 
 **Examples:**
 
 Check if a node is any sidecar node:
 ```python
-from kaye.prompt.sidecar_nodes import get_sidecar_node_type, SidecarNodeType
+from kaye.prompt.sidecar_nodes import get_sidecar_name
 
-node_type = get_sidecar_node_type(node)
+name = get_sidecar_name(node)
 
-if bool(node_type):  # equivalent to: if node_type != NONE
-    print(f"sidecar node type: {node_type.name}")
+if name is not None:
+    print(f"sidecar name: {name}")
 ```
 
-Check for specific sidecar type using bitwise operations:
+Check for specific sidecar names:
 ```python
-if node_type & SidecarNodeType.PREREQUISITE:
-    print("this is a conditional sidecar node")
+if name == "prerequisite":
+    print("this is a prerequisite sidecar node")
 
-if node_type & (SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE_CODE):
-    print("this is a conditional sidecar node (either PREREQUISITE or FOR_CLAUDE_CODE)")
+if name in ("prerequisite", "for-claude-code"):
+    print("this is a conditional sidecar node (either prerequisite or for-claude-code)")
 ```
-
----
-
-### `SidecarNodeType`
-
-Enumeration of sidecar node types using bitwise flag operations.
-
-**Type:** `IntFlag`
-
-**Members:**
-
-| Name | Value | Category | Description |
-| --- | --- | --- | --- |
-| `NONE` | 0 | (base) | Not a sidecar node; evaluates to `False` in boolean context |
-| `DESCRIPTION` | 1 | Descriptor | Metadata: node description |
-| `WHEN_TO_USE` | 2 | Descriptor | Metadata: when to apply node |
-| `GLOBS` | 4 | Descriptor | Metadata: file glob patterns |
-| `PREREQUISITE` | 8 | Conditional | Real prompt content: prerequisites |
-| `FOR_CLAUDE_CODE` | 16 | Conditional | Real prompt content: Claude-specific |
-
-**Properties:**
-
-#### `as_node_heading`
-
-Render this sidecar node type as a corpus node heading.
-
-**Signature:**
-```python
-@property
-def as_node_heading(self) -> str
-```
-
-**Returns:**
-- `str`: Heading string, e.g., `{description}`
-
-**Raises:**
-- `ValueError`: If called on `NONE` or combined flags (only single types are valid)
-
-**Example:**
-```python
-SidecarNodeType.DESCRIPTION.as_node_heading  # returns "{description}"
-SidecarNodeType.PREREQUISITE.as_node_heading  # returns "{prerequisite}"
-```
-
-**Usage Notes:**
-
-- **Boolean context:** `NONE` evaluates to `False`; any other type evaluates to `True`
-- **Bitwise operations:** Combine multiple types using `|` (OR) operator
-  ```python
-  combined = SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE_CODE
-  if node_type & combined:
-      pass  # matches either type
-  ```
-- **Categories:**
-  - Descriptor sidecars (`DESCRIPTION`, `WHEN_TO_USE`, `GLOBS`): metadata about parent nodes
-  - Conditional sidecar nodes (`PREREQUISITE`, `FOR_CLAUDE_CODE`): real prompt content conditionally included
 
 ---
 
@@ -321,17 +265,11 @@ merged_bp = bp1 | bp2
 
 Conditional rendering with conditional sidecar nodes:
 ```python
-from kaye.prompt.sidecar_nodes import SidecarNodeType
-
 # Include prerequisites
-prompt = bp.generate_prompt(
-    contains_sidecar_nodes=SidecarNodeType.PREREQUISITE
-)
+prompt = bp.generate_prompt(contains_sidecars=("prerequisite",))
 
 # Include both prerequisites and Claude-specific instructions
 prompt = bp.generate_prompt(
-    contains_sidecar_nodes=(
-        SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE_CODE
-    )
+    contains_sidecars=("prerequisite", "for-claude-code")
 )
 ```

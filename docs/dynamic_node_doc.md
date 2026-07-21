@@ -42,7 +42,7 @@ blueprint = PromptBlueprint.parse(blueprint_text)
 prompt = blueprint.generate_prompt()
 ```
 
-There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `contains_sidecar_nodes=`, q.v. [`sidecar_node_doc.md`](sidecar_node_doc.md#conditional-sidecar-nodes).
+There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `contains_sidecars=`, q.v. [`sidecar_node_doc.md`](sidecar_node_doc.md#conditional-sidecar-nodes).
 
 
 
