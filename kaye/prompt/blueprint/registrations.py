@@ -17,6 +17,9 @@ from .registry import register_blueprint
 __all__ = ()
 
 
+# FIXME poss mpv aux structure
+
+
 # auxiliaries  #################################################################
 
 
@@ -311,6 +314,15 @@ style_good_writing = _register_exportable(
     "style-good-writing",
     "Style Guide Good Writing",
     PromptBlueprint.create_from_node(_style_node["Style Guide Good Writing"]),
+)
+
+
+style_chicago_footnote = _register_exportable(
+    "style-chicago-footnote",
+    "Style Guide Chicago Footnote",
+    PromptBlueprint.create_from_node(
+        _style_node["Style Guide Chicago Footnote"]
+    ),
 )
 
 
