@@ -105,8 +105,6 @@ sudo systemctl status kaye_http_api.service
 
 ## Endpoints
 
-<!-- FIXME core /kaye/prompt/generate|show|list endpoints undocumented here -->
-
 Port Number: `11255` (k=11, a=1, y=25, e=5) or `11256` for debugging.
 
 
