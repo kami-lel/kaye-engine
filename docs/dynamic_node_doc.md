@@ -42,14 +42,14 @@ blueprint = PromptBlueprint.parse(blueprint_text)
 prompt = blueprint.generate_prompt()
 ```
 
-There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `contains_sidecar_nodes=`, q.v. [`sidecar_node_doc.md`](sidecar_node_doc.md#conditional-sidecar-nodes).
+There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `contains_sidecars=`, q.v. [`sidecar_node_doc.md`](sidecar_node_doc.md#conditional-sidecar-nodes).
 
 
 
 
 ## Feeding Render-Time Input
 
-Some dynamic nodes need input that only exists at render time — `(Abbreviations)` scans a piece of text for abbreviation occurrences, for example. Pass that input as an extra keyword argument to `generate_prompt()` / `generate_prompt_lines()`; it is forwarded to every node's content generation, and each dynamic node picks out the keyword(s) it understands.
+Some dynamic nodes need input that only exists at render time — `(Abbreviations)` scans a piece of text for abbreviation occurrences, for example. Pass that input as an extra keyword argument to `generate_prompt()` / `render.render_prompt_lines()`; it is forwarded to every node's content generation, and each dynamic node picks out the keyword(s) it understands.
 
 ```python
 prompt = blueprint.generate_prompt(
@@ -98,5 +98,5 @@ Without this, any section written under a dynamic node's heading is silently dro
 
 - [`corpus_doc.md`](corpus_doc.md) — `prompt_corpus.md` format and heading-to-tree-depth rules
 - [`sidecar_node_doc.md`](sidecar_node_doc.md) — sidecar nodes, the other special node category, and how they differ from dynamic nodes
-- [`programmatic_api_doc.md`](programmatic_api_doc.md) — `PromptBlueprint`, checkmarking, and `generate_prompt()` / `generate_prompt_lines()` in full
+- [`programmatic_api_doc.md`](programmatic_api_doc.md) — `PromptBlueprint`, checkmarking, and `generate_prompt()` / `render.render_prompt_lines()` in full
 - [`abbrs_json_doc.md`](abbrs_json_doc.md) — abbreviation entries and the tags the tag-filtered dynamic nodes key off of

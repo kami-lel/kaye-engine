@@ -7,7 +7,7 @@ define ``export_user_system_prompt_file``
 from pathlib import Path
 
 from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
-from kaye.cli.claude import CONTAINING_SIDECAR_NODES
+from kaye.cli.claude import CONTAINING_SIDECARS
 
 
 def export_user_system_prompt_file(
@@ -41,7 +41,7 @@ def export_user_system_prompt_file(
 
     file_path.write_text(
         blueprint.generate_prompt(
-            contains_sidecar_nodes=CONTAINING_SIDECAR_NODES
+            contains_sidecars=CONTAINING_SIDECARS
         ),
         encoding="utf-8",
     )

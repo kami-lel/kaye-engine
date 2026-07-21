@@ -16,7 +16,7 @@ from anytree import RenderTree, PreOrderIter
 
 from kaye import PROGRAM_NAME
 from ..prompt_corpus_node import HEADING_PREFIX_ELEMENT
-from ..sidecar_nodes import SidecarNodeType, get_sidecar_node_type
+from ..sidecar_nodes import get_sidecar_name
 
 __all__ = (
     "render_blueprint_tree",
@@ -146,14 +146,14 @@ def render_prompt_lines(  # ====================================================
     *,
     show_comment=False,
     disable_first_heading=False,
-    contains_sidecar_nodes=SidecarNodeType.NONE,
+    contains_sidecars=(),
     display_name="",
     **kwargs,
 ):
     """
     generate prompt as a list of lines from ``blueprint``
 
-    optionally auto-checkmarks sidecar nodes of specified type(s) before
+    optionally auto-checkmarks sidecar nodes of specified name(s) before
     rendering.
 
 
@@ -165,24 +165,23 @@ def render_prompt_lines(  # ====================================================
     :param disable_first_heading: whether disable showing top heading;
             defaults to False
     :type disable_first_heading: bool, optional
-    :param contains_sidecar_nodes: auto-checkmark conditional sidecar nodes
-            of specified type(s) whose parents are checkmarked; pass a
-            ``SidecarNodeType`` flag or combination (e.g.,
-            ``SidecarNodeType.PREREQUISITE | SidecarNodeType.FOR_CLAUDE``);
-            defaults to ``SidecarNodeType.NONE`` (disabled)
-    :type contains_sidecar_nodes: SidecarNodeType, optional
+    :param contains_sidecars: auto-checkmark conditional sidecar nodes
+            whose name is in this collection and whose parent is
+            checkmarked (e.g., ``("prerequisite", "for-claude-code")``);
+            defaults to ``()`` (disabled)
+    :type contains_sidecars: collections.abc.Iterable[str], optional
     :param display_name: blueprint's human-readable name, included in the
             comment when ``show_comment`` is set; defaults to ""
     :type display_name: str, optional
     :return: list of prompt lines
     :rtype: list[str]
     """
-    if contains_sidecar_nodes != SidecarNodeType.NONE:
+    if contains_sidecars:
         working_bp = copy.copy(blueprint)
         for node in PreOrderIter(working_bp.corpus):
-            node_type = get_sidecar_node_type(node)
+            sidecar_name = get_sidecar_name(node)
             if (
-                node_type & contains_sidecar_nodes
+                sidecar_name in contains_sidecars
             ) and working_bp.is_checkmarked(node.parent):
                 working_bp.checkmark(node)
     else:
@@ -242,8 +241,6 @@ def render_comment(display_name=""):  # ========================================
     if "a" in kaye_version:
         kaye_version += datetime.now().strftime(".0%Y%m%d%H%M%S")
 
-    name_part = (
-        "blueprint: {}; ".format(display_name) if display_name else ""
-    )
+    name_part = "blueprint: {}; ".format(display_name) if display_name else ""
 
     return "{}Kaye v{}".format(name_part, kaye_version)

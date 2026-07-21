@@ -29,33 +29,32 @@ through a Python API, an HTTP API, and a CLI.
 - **Role** — task-specific behavior profile inside the corpus
 - **Sidecar Node** — `{name}`-bracketed subnode attached to a blueprint's
   parent but stored as corpus content; excluded by default and conditionally
-  spliced in via `contains_sidecar_nodes` (`kaye/prompt/sidecar_nodes/`).
-  `SidecarNodeType` (`sidecar_node_type.py`) is an `IntFlag` with members
-  `DESCRIPTION`, `WHEN_TO_USE`, `GLOBS`, `PREREQUISITE`, `FOR_CLAUDE`;
-  `.as_node_heading` renders e.g. `{description}`. Two usage-role labels
-  under the same mechanism, not separate classes: *descriptor sidecar* for
-  `{description}`, `{when_to_use}`, `{globs}` (blueprint metadata consumed by
-  `BlueprintDescriptorSidecars`, exposed as `blueprint.sidecars`) and
-  *conditional sidecar* for `{prerequisite}`, `{for_claude}` (real prompt
-  content spliced in conditionally). A node's type is detected via
-  `get_sidecar_node_type(node)` (regex `^\{.+\}$`, returns
-  `SidecarNodeType.NONE`, falsy, if not a sidecar node). To add a new sidecar
-  node type: add a member to `SidecarNodeType` and a
-  `SIDECAR_NODE_TYPE_HEADINGS` entry, add a property + `_node` lookup (via
-  `SidecarNodeType.<NAME>.as_node_heading`) in `BlueprintDescriptorSidecars`,
-  add `### {name}` examples to `kaye/prompt_corpus.md`, document it in
-  `docs/corpus_doc.md`, `docs/sidecar_node_doc.md`, and
+  spliced in via `contains_sidecars` (`kaye/prompt/sidecar_nodes/`). There is
+  no fixed enum of sidecar names — `get_sidecar_name(node)` (regex
+  `^\{.+\}$`, returns `None` if not a sidecar node) extracts the name inside
+  the braces as a plain string. Two usage-role labels under the same
+  mechanism, not separate classes: *descriptor sidecar* for `{description}`,
+  `{when_to_use}`, `{globs}` (reserved names, consumed as blueprint metadata
+  by `BlueprintDescriptorSidecars` via plain string-key lookup, exposed as
+  `blueprint.sidecars`) and *conditional sidecar* for any other name, e.g.
+  `{prerequisite}`, `{for-claude-code}` (real prompt content spliced in
+  conditionally when its name is passed in `contains_sidecars`). Because
+  detection is name-based rather than type-based, a reserved descriptor name
+  can also be requested via `contains_sidecars` for conditional content
+  inclusion — nothing structurally prevents it. To add a new conditional
+  sidecar name: add `### {name}` examples to `kaye/prompt_corpus.md`,
+  document it in `docs/corpus_doc.md`, `docs/sidecar_node_doc.md`, and
   `docs/programmatic_api_doc.md`, wire CLI export consumers
   (`kaye/cli/claude/skill/skill_md.py`, `kaye/cli/cli_continue/rule_file.py`,
-  both built on the shared `kaye/cli/frontmatter_doc.py`) if the type should
+  both built on the shared `kaye/cli/frontmatter_doc.py`) if the name should
   surface in exports, and mirror tests under `tests/prompt/bp/` and
   `tests/prompt/node/`.
 - **Prerequisite Node** — `{prerequisite}` conditional sidecar node; pass
-  `contains_sidecar_nodes=SidecarNodeType.PREREQUISITE` (or a combined flag)
-  to `generate_prompt()` / `generate_prompt_lines()` to auto-checkmark every
-  matching sidecar node whose parent is already checkmarked before rendering;
-  `FOR_CLAUDE` and `PREREQUISITE` are combined in
-  `kaye.cli.claude.CONTAINING_SIDECAR_NODES` for all Claude exports
+  `contains_sidecars=("prerequisite",)` (or a larger collection) to
+  `generate_prompt()` / `render.render_prompt_lines()` to auto-checkmark
+  every matching sidecar node whose parent is already checkmarked before
+  rendering; `"for-claude-code"` and `"prerequisite"` are combined in
+  `kaye.cli.claude.CONTAINING_SIDECARS` for all Claude exports
 - **Blueprint Sidecar Merging** — `BlueprintDescriptorSidecars.__or__` merges
   two instances via `left | right`; left operand takes priority for each
   field (description, when_to_use, globs, prerequisite); `PromptBlueprint.__or__`
@@ -99,9 +98,12 @@ sidecar nodes (see above). Blank "spacer" lines between sections are
 intentional — preserve them. The top-level (`#`) sections, in order:
 
 - **Introduction** — defines Kaye as an AI agent serving the user
-- **Personality** — the Kaye persona: submissive/deferential voice, emotion
-  expression rules (blockquote `>` for emotions, `----` separators between
-  explanation and emotion)
+- **Personality** — the Kaye persona: polite, cautious, deferential voice;
+  emotion-formatting rules (blockquote `>` reserved for emotional/personality
+  asides during task/factual responses, no `----` separators). Followed by an
+  unused `{explicit}` sidecar node carrying an intense submissive/master-servant
+  variant of the persona — defined for a possible future conditional splice,
+  not currently referenced in any `contains_sidecars` call site
 - **Language** — respond in the user's language; never mix languages in one
   reply
 - **Style Guide** — `Markdown Format`, `Capitalization` (Title Case /

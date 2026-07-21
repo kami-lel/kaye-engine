@@ -78,9 +78,45 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Changed
 
-- **`Plan for Step By Step` `{for_claude}` guidance** — now also calls
+- **Sidecar node identification generalized from a fixed enum to freeform
+  names** — `SidecarNodeType` (`IntFlag`) and `sidecar_node_type.py` are
+  removed; `get_sidecar_node_type()` is replaced by
+  `get_sidecar_name(node) -> str | None`
+  (`kaye/prompt/sidecar_nodes/__init__.py`), which extracts the name inside
+  a `{name}` heading with no fixed vocabulary. `render_prompt_lines()` /
+  `generate_prompt()`'s `contains_sidecar_nodes` (`SidecarNodeType` flag)
+  parameter is replaced by `contains_sidecars` (a plain collection of
+  name strings); `BlueprintDescriptorSidecars` now looks up
+  `description`/`when_to_use`/`globs` by string key instead of enum
+  attribute. `kaye.cli.claude.CONTAINING_SIDECAR_NODES` is renamed to
+  `CONTAINING_SIDECARS = ("for-claude-code", "prerequisite")`; all call
+  sites (`skill_md.py`, `user_prompt/export.py`, `vs_code/settings.py`,
+  `cli_continue/rule_file.py`) updated accordingly. Corpus heading syntax
+  (`{prerequisite}`, `{for-claude-code}`, etc.) is unchanged — this is a
+  purely internal API generalization, letting any corpus author define new
+  conditional sidecars by name without touching an enum
+- **`Personality` section of `kaye/prompt_corpus.md` rewritten to a polite,
+  respectful tone** — the extreme submissive/self-deprecating/master-servant
+  framing (and its `blockquote`/`----` emotion-separator rule) moved out of
+  the `Chat` blueprint into a new, unused `{explicit}` sidecar node; every
+  blueprint that includes `Personality` (`Chat`, and the task roles built on
+  it: `Deutschlehrer`, `Editor`, `Librarian`, `Secretary`, coder roles) now
+  renders the toned-down persona and an `Emotion Formatting` section
+  (blockquote `>` reserved for emotional asides during task/factual
+  responses, no `----` separators); shared test fixtures
+  (`tests/api/ky/task/__init__.py`'s `assert_personality*` helpers,
+  `tests/__init__.py`'s `TESTEE_CHAT_ADDITIONAL_CONTENT`) updated to match
+- **`Plan for Step By Step` `{for-claude-code}` guidance** — now also calls
   `EnterPlanMode` before gathering, so the whole discovery pass runs under
   plan-mode protection (previously only called `ExitPlanMode` after)
+- **`{for_claude}` sidecar node renamed to `{for-claude-code}`** — matching
+  `SidecarNodeType.FOR_CLAUDE` enum member renamed to `FOR_CLAUDE_CODE`
+  (`kaye/prompt/sidecar_nodes/sidecar_node_type.py`); every prompt-corpus
+  heading, doc reference, and test fixture updated to match
+- **`PromptBlueprint.generate_prompt()`** now calls
+  `render.render_prompt_lines()` (`kaye/prompt/blueprint/render.py`)
+  directly instead of through the removed `.generate_prompt_lines()`
+  wrapper
 - **`kamilog`** bumped to `v2.8.0` — new `NOTE`/`TIP`/`HINT`/`IMPORTANT`/
   `CAUTION` log levels and matching logger methods; `AnsiColor` enum
   replaced by combinable `AnsiStyle` flags (foreground/background/bold/
@@ -119,6 +155,8 @@ todo todo CLI to import/export w/ OpenWebUI
 - **`tests/cli/a/s/structure/` blueprint-exportability tests** — coverage
   moved to `tests/prompt/bp/prompt-bp-registry_test.py` (registry-level)
   and the existing per-skill content tests
+- **`PromptBlueprint.generate_prompt_lines()`** — callers use
+  `render.render_prompt_lines(bp, ...)` directly instead
 - **`kaye/cli/cli_prompt/`** (`cli_prompt_main.py`, `cli_prompt_ls.py`,
   `cli_prompt_show.py`, `cli_prompt_generate.py`) — dead, unwired module
   superseded by `kaye/cli/prompt/`
