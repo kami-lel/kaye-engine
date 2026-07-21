@@ -131,9 +131,10 @@ class PromptBlueprint(dict):
         node_obj, _ = resolve_node(bp.corpus, node)
         bp.checkmark(node_obj, recursively=recursively)
 
-        bp.sidecars = BlueprintDescriptorSidecars(main_node=node_obj)
+        pruned_bp = bp.prune()
+        pruned_bp.sidecars = BlueprintDescriptorSidecars(main_node=node_obj)
 
-        return bp
+        return pruned_bp
 
     # instance methods  ========================================================
     def __init__(self, *, corpus_override=None):
