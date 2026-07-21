@@ -14,7 +14,7 @@ from kaye.prompt import REPLACEMENT_NEWLINE_SYMBOL, load_prompt_corpus_tree
 from kaye.prompt.blueprint import PromptBlueprint, render
 from kaye.cli.claude import CONTAINING_SIDECARS
 
-# Bug not sure if pre compact hook is triggered
+# BUG not sure if pre compact hook is triggered
 
 # constants  ###################################################################
 
