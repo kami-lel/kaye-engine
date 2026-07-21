@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-Todo write claude doc, instruct for the 2 steps for desktop
 todo split corpus itself from this project (public vs private repo)
 todo todo CLI to import/export w/ OpenWebUI
 -->
