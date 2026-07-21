@@ -263,8 +263,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         '"'
     ),
     "maintenance-before-compact": (
-        "Captures a session's durable changes right before context is"
-        " compacted"
+        "Logs a session's durable changes before context compaction"
     ),
     "create-readme": (
         '"Use this skill when the user wants to create a new'
