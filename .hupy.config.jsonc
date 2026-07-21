@@ -94,12 +94,11 @@
     // disable PT
     "is_disabled": false,
     "trails": [
-      // example entry:
-      // {
-      //   "remark": "Changelog Entry Required on Feature Landing",
-      //   "glob": "CHANGELOG.md",
-      //   "allow_commit_types": ["FEATURE_LANDING"]
-      // }
+      {
+        "remark": "Changelog Entry Required on Feature Landing",
+        "glob": "CHANGELOG.md",
+        "allow_commit_types": ["FEATURE_LANDING"]
+      }
     ]
   },
   "pch": { // Prepend Commit Header ############################################
@@ -148,7 +147,7 @@
           "allow_commit_types": ["INTEGRATION"],
           "allow_failure": false,
           "remark": "Integration UTs"
-        }
+        },
       ]
     }
   }
