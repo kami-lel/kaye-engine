@@ -127,8 +127,8 @@ TESTEE_TRIAGE_TAG_MEANING_CONTENT = [
 ]
 
 TESTEE_TRIAGE_TAG_WORK_CONTENT = [
-    "### Working with Triage Tags",
-    "Stay passive: never search for or resolve TT on your own",
+    "### Modifying Triage Tags",
+    "Stay passive: never hunt for TT, never resolve one on your own",
 ]
 
 TESTEE_TRIAGE_TAG_CONTENT = (
