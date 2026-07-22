@@ -13,6 +13,8 @@ from kaye.prompt import PromptBlueprint
 
 # Blueprints  ##################################################################
 PRIMARY_MESSAGE_PROMPT_BLUEPRINT = """    ○
+[ ] ├── Elements
+[x] │   └── Triage Tags
 [ ] ├── Style Guide
 [x] │   ├── Style Guide Commentary Case
 [x] │   └── Style Guide Briefness Style
