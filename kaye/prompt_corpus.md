@@ -4357,7 +4357,7 @@ The **current task** is to summarize a change set spanning **multiple files** �
 
 Name the **unifying intent** behind the edits: the pattern, shift, or purpose they share. That is the summary. If none holds, name the one change that most defines the set.
 
-Output **exactly one line** — never two, never a list, never a trailing blank line.
+Output **exactly one line**, **under 72 characters** — never two lines, never a list. Drop every secondary detail that does not fit; accuracy over coverage.
 
 <primary-message-example>
 introduce feature-flag framework; enable gradual rollout for search
