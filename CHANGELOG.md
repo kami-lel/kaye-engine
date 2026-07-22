@@ -33,6 +33,10 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Fixed
 
+- `dump_yaml` (`kaye/cli/frontmatter_doc.py`) — non-ASCII characters (e.g.
+  em dashes) in frontmatter values no longer render as `\uXXXX` escapes;
+  `yaml.dump` now runs with `allow_unicode=True`
+
 ### Security
 
 
