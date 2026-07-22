@@ -13,6 +13,8 @@ ANSWER_TEMPLATE = "{}\n\n{}"
 
 
 # auxiliaries  ##################################################################
+
+
 def _merge_single(allows_md, filenames, per_file_extracts):
     """
     merge the answer for the single-file, no-primary-message scenario
