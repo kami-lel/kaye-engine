@@ -1,6 +1,6 @@
 # Kaye Commit Sense Documentation
 
-TODO specify commit sense doc
+<!-- TODO specify commit sense doc -->
 
 | Sigil | Remark |
 |-------|--------|
