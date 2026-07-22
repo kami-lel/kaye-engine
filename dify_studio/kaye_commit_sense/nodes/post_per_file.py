@@ -61,7 +61,8 @@ def main(LONG_SHORT_THRESHOLD, per_file_diff, llm_message):
       length against ``LONG_SHORT_THRESHOLD``
 
 
-    :param LONG_SHORT_THRESHOLD:
+    :param LONG_SHORT_THRESHOLD: newline-count cutoff above which a
+            diff is classified as long rather than short
     :type LONG_SHORT_THRESHOLD: float
     :param per_file_diff:
     :type per_file_diff: str
