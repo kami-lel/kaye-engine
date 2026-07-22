@@ -21,7 +21,7 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.10.0...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.10.1...dev
 
 ### Added
 
@@ -43,6 +43,31 @@ todo todo CLI to import/export w/ OpenWebUI
 
 
 
+
+
+
+
+## [6.10.1] - 2026-07-23
+
+### Added
+
+- `docs/kaye_commit_sense_doc.md` — sigil reference table for Kaye
+  Commit Sense's per-file change symbols
+
+### Changed
+
+- Kaye Commit Sense prompt rules — tighter sigil selection and
+  refactor-case handling; 72-char line cap and single-line output for
+  multi-file summaries
+
+### Fixed
+
+- `dump_yaml` — non-ASCII frontmatter values no longer escape to
+  `\uXXXX`
+- Kaye Commit Sense — primary-message output could span multiple
+  lines; examples now enforce single-line output
+
+[6.10.1]: https://github.com/kami-lel/kaye/compare/v6.10.0...v6.10.1
 
 
 
