@@ -4403,45 +4403,40 @@ Name the **unifying intent** behind the edits: the pattern, shift, or purpose th
 
 The **current task** is to summarize a change set confined to **one file** — that file is the whole set.
 
-Name the file's intent and its single most impactful change in **one line**. Drop secondary edits rather than crowd it.
+Return exactly **two lines**, and nothing else — no heading, no blank line between them, no surrounding prose or code fence.
 
+- line 1 — the change sigil
+- line 2 — the summary message
 
+#### line 1 — change sigil
 
+Emit exactly **one character**. Never a word, a label, a quote, or an empty line.
 
+Read the rules below in order, top to bottom. Emit the first sigil whose condition is fully satisfied, then stop.
+If no rule matches, or a rule matches only loosely, emit `*`.
 
+1. `?`: file's change is non-textual and non-code — for example a binary, a compressed archive, a database, or an encrypted blob.
+2. `^`: file is newly added.
+3. `!`: file is deleted.
+4. `:`: file moved to a different directory, and its content is unchanged or nearly unchanged. Its filename may also change.
+5. `=`: file's directory is unchanged but its filename changed, and its content is unchanged or nearly unchanged.
+6. `.`: only edits are the addition or deletion of whitespace, indentation, or blank lines.
+7. `@`: only edits are the addition, deletion, editing, raising, or lowering of *triage tags*, plus lines directly tied to them.
+8. `#`: edits are mostly to documentation or code comments.
+9. `~`: edits are purely refactoring — structure, naming, extraction, or ordering is reworked while observable behavior stays identical.
 
+"Nearly unchanged" in the `:` and `=` rules means the content is essentially the same; only the path or name differs, apart from trivial edits.
 
+#### line 2 — message
 
+Name the file's intent and its single most impactful change in one line. Drop secondary edits rather than crowd it.
 
+#### example
 
-
-
-
-#### supplementary change sigil
-
-Provide the `change_sigil` field for the changed file, using the first sigil whose condition is fully satisfied, then stop.
-
-If no rule matches, or a rule matches only loosely, set `change_sigil` to an empty string rather than to a sigil.
-
-1. `^`: file is newly added.
-2. `!`: file is deleted.
-3. `:`: file moved to a different directory, and its content is unchanged
-   or nearly unchanged. Its filename may also change.
-4. `=`: file's directory is unchanged but its filename changed, and its
-   content is unchanged or nearly unchanged.
-5. `?`: file's change is non-textual and non-code — for example a binary,
-   a compressed archive, a database, or an encrypted blob.
-6. `@`: only edits are the addition, deletion, editing, raising, or
-   lowering of *triage tags*, plus lines directly tied to them.
-7. `#`: edits are mostly to documentation or code comments.
-8. `~`: edits are purely refactoring — structure, naming, extraction, or
-   ordering is reworked while observable behavior stays identical.
-9. `.`: only edits are the addition or deletion of whitespace,
-   indentation, or blank lines.
-
-"Nearly unchanged" in rules 3 and 4 means the content is essentially the same;
-only the path or name differs, apart from trivial edits.
-
+```
+#
+document the retry-budget behavior in the scheduler README
+```
 
 
 
