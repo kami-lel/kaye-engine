@@ -18,16 +18,6 @@ TESTEE_COMMIT_PER_FILE_COMMON = [
     "6. `@` — only edits are to triage tags",
 ]
 
-TESTEE_COMMIT_PER_FILE_LONG = [
-    "#### Long",
-    "- `*` — added and deleted are roughly balanced",
-]
-
-TESTEE_COMMIT_PER_FILE_SHORT = [
-    "#### Short",
-    "- `/` — more lines added than deleted",
-]
-
 def assert_allows_md(opt):
     assert """## no markdown syntax
 Do **NOT** using any markdown syntax in the output.""" not in opt
