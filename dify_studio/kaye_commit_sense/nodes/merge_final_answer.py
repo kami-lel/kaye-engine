@@ -12,7 +12,7 @@ KEY_MESSAGE = "message"
 ANSWER_TEMPLATE = "{}\n\n{}"
 
 
-# auxiliaries  ##################################################################
+# auxiliaries  #################################################################
 
 
 def _merge_single(allows_md, filenames, per_file_extracts):
