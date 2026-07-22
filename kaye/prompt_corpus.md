@@ -4312,7 +4312,16 @@ First, find the **intent** behind the edits — the direction they move in, the 
 
 Discard secondary, incidental, and repetitive edits. Report what the work was **for**, not an inventory of everything touched. Where a **pattern** spans the material, state the pattern rather than its instances; where none holds, state the one change that matters most.
 
-Write strictly in *Briefness Style*, and apply *Commentary Case* to every line. Compress to the shortest wording that stays faithful and specific — when a length limit forces a choice, sacrifice **detail** before **accuracy**.
+Write strictly in *Briefness Style*, and apply *Commentary Case* to every line. Hold every line to **72 characters per line** — a hard cap, not a target. Cut secondary detail to fit; never cut accuracy.
+
+Eg:
+
+```
+refactor date parsing to reduce duplication
+optimize string concatenation in report generator
+remove legacy analytics pipeline
+introduce feature-flag framework; enable gradual rollout for search
+```
 
 ## no markdown syntax
 
@@ -4357,14 +4366,6 @@ The **current task** is to summarize a change set spanning **multiple files** �
 
 Name the **unifying intent** behind the edits: the pattern, shift, or purpose they share. That is the summary. If none holds, name the one change that most defines the set.
 
-Eg:
-
-```
-modularize payment processing; split into gateway adapters
-remove legacy analytics pipeline
-introduce feature-flag framework; enable gradual rollout for search;
-```
-
 
 
 
@@ -4400,17 +4401,9 @@ introduce feature-flag framework; enable gradual rollout for search;
 
 ## Per File Summary Task
 
-**You must produce a single-line, ultra-concise summary** (max **72 characters**) that captures the file’s overall intent and its primary or most impactful change; omit secondary changes if including them would exceed the limit, so the line highlights only the most significant change.
+The **current task** is to summarize a change set confined to **one file** — that file is the whole set.
 
-Produce a concise summary of changes of a **single** file.
-
-Eg:
-
-- refactor date parsing to reduce duplication
-- fix null-pointer crash in payment processor
-- simplify configuration loading logic
-- rename parser variable for clarity
-- optimize string concatenation in report generator
+Name the file's intent and its single most impactful change in **one line**. Drop secondary edits rather than crowd it.
 
 
 
