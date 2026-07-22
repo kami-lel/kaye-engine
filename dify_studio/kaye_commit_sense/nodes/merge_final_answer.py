@@ -12,6 +12,39 @@ KEY_MESSAGE = "message"
 ANSWER_TEMPLATE = "{}\n\n{}"
 
 
+# auxiliaries  ##################################################################
+def _merge_single(allows_md, filenames, per_file_extracts):
+    """
+    merge the answer for the single-file, no-primary-message scenario
+    """
+    filename = filenames[0]
+    file_extract = per_file_extracts[0]
+    sigil = file_extract[KEY_SIGIL]
+    message = file_extract[KEY_MESSAGE]
+
+    filename_line = ("{}`{}`" if allows_md else "{}[{}]").format(
+        sigil, filename
+    )
+
+    return ANSWER_TEMPLATE.format(message, filename_line)
+
+
+def _merge_multiple(allows_md, filenames, per_file_extracts, primary_message):
+    """
+    merge the answer for the multiple-file, with-primary-message scenario
+    """
+    line_pattern = "{}`{}` {}" if allows_md else "{}[{}] {}"
+
+    lines = []
+    for filename, file_extract in zip(filenames, per_file_extracts):
+        sigil = file_extract[KEY_SIGIL]
+        message = file_extract[KEY_MESSAGE]
+        line = line_pattern.format(sigil, filename, message)
+        lines.append(line)
+
+    return ANSWER_TEMPLATE.format(primary_message, "\n".join(lines))
+
+
 # Entry Point  #################################################################
 def main(
     allows_md: bool,
@@ -44,28 +77,10 @@ def main(
     :rtype: dict{"answer": str}
     """
     if skip_primary_message:
-        filename = filenames[0]
-        file_extract = per_file_extracts[0]
-        sigil = file_extract[KEY_SIGIL]
-        message = file_extract[KEY_MESSAGE]
-
-        filename_line = ("{}`{}`" if allows_md else "{}[{}]").format(
-            sigil, filename
+        answer = _merge_single(allows_md, filenames, per_file_extracts)
+    else:
+        answer = _merge_multiple(
+            allows_md, filenames, per_file_extracts, primary_message
         )
-
-        answer = ANSWER_TEMPLATE.format(message, filename_line)
-
-        return {OUTPUT_ANSWER: answer}
-
-    line_pattern = "{}`{}` {}" if allows_md else "{}[{}] {}"
-
-    lines = []
-    for filename, file_extract in zip(filenames, per_file_extracts):
-        sigil = file_extract[KEY_SIGIL]
-        message = file_extract[KEY_MESSAGE]
-        line = line_pattern.format(sigil, filename, message)
-        lines.append(line)
-
-    answer = ANSWER_TEMPLATE.format(primary_message, "\n".join(lines))
 
     return {OUTPUT_ANSWER: answer}
