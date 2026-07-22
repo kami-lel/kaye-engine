@@ -10,12 +10,12 @@ OUTPUT_OPT_OBJ = "opt_obj"
 FALLBACK_SIGIL = "*"
 BALANCE_TOLERANCE = 0.2
 
-SIGIL_ADD_LONG = "+"
-SIGIL_DEL_LONG = "-"
-SIGIL_BALANCED_LONG = "*"
-SIGIL_ADD_SHORT = "/"
-SIGIL_DEL_SHORT = "\\"
-SIGIL_BALANCED_SHORT = "|"
+SIGIL_ADD_SHORT = "+"
+SIGIL_DEL_SHORT = "-"
+SIGIL_BALANCED_SHORT = "*"
+SIGIL_ADD_LONG = "/"
+SIGIL_DEL_LONG = "\\"
+SIGIL_BALANCED_LONG = "|"
 
 
 # auxiliaries  ##################################################################

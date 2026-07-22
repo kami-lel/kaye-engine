@@ -257,7 +257,7 @@ workflow:
           required: false
           type: checkbox
           variable: allows_md
-      height: 109
+      height: 108
       id: '1775587230054'
       position:
         x: 50.9526206193467
@@ -294,7 +294,7 @@ workflow:
         type: http-request
         url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/primary-message'
         variables: []
-      height: 176
+      height: 175
       id: '1775587581098'
       position:
         x: 1235.311937969482
@@ -306,7 +306,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         context:
           enabled: false
@@ -329,7 +329,7 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 88
+      height: 87
       id: '1775587792914'
       position:
         x: 1624.1896205545227
@@ -341,14 +341,14 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         answer: '{{#1784718530590.answer#}}'
         selected: false
         title: Answer
         type: answer
         variables: []
-      height: 102
+      height: 101
       id: '1775588454795'
       position:
         x: 2365.8399223882
@@ -360,7 +360,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         code: "# pylint: disable=missing-module-docstring\n\n\nimport re\n\n# output\
           \ keys  #################################################################\n\
@@ -416,7 +416,7 @@ workflow:
           - allows_md
           value_type: boolean
           variable: allows_md
-      height: 52
+      height: 51
       id: '1784712853898'
       position:
         x: 429.92769948458306
@@ -428,7 +428,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         cases:
         - case_id: 'true'
@@ -445,7 +445,7 @@ workflow:
         selected: false
         title: skip primary message
         type: if-else
-      height: 124
+      height: 123
       id: '1784713051584'
       position:
         x: 873.9601904472995
@@ -457,7 +457,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         authorization:
           config: null
@@ -482,7 +482,7 @@ workflow:
         type: http-request
         url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/per-file'
         variables: []
-      height: 176
+      height: 175
       id: '17847134865020'
       position:
         x: 873.9601904472995
@@ -494,7 +494,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         error_handle_mode: terminated
         flatten_output: false
@@ -559,7 +559,7 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 88
+      height: 87
       id: '1784713643712017847136437131'
       parentId: '17847136437120'
       position:
@@ -572,7 +572,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
       zIndex: 1002
     - data:
         desc: ''
@@ -591,6 +591,7 @@ workflow:
         x: 1259.311937969482
         y: 604.2574064245854
       selectable: false
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom-iteration-start
@@ -639,7 +640,7 @@ workflow:
           answer:
             children: null
             type: string
-        selected: true
+        selected: false
         title: merge_final_answer
         type: code
         variables:
@@ -668,7 +669,7 @@ workflow:
           - text
           value_type: string
           variable: primary_message
-      height: 52
+      height: 51
       id: '1784718530590'
       position:
         x: 2038.5682732510259
@@ -676,17 +677,17 @@ workflow:
       positionAbsolute:
         x: 2038.5682732510259
         y: 303
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         code: "# pylint: disable=missing-module-docstring\n\n\n# output keys  #################################################################\n\
           OUTPUT_OPT_OBJ = \"opt_obj\"\n\n\n# constants  ###################################################################\n\
-          \nFALLBACK_SIGIL = \"*\"\nBALANCE_TOLERANCE = 0.2\n\nSIGIL_ADD_LONG = \"\
-          +\"\nSIGIL_DEL_LONG = \"-\"\nSIGIL_BALANCED_LONG = \"*\"\nSIGIL_ADD_SHORT\
-          \ = \"/\"\nSIGIL_DEL_SHORT = \"\\\\\"\nSIGIL_BALANCED_SHORT = \"|\"\n\n\n\
+          \nFALLBACK_SIGIL = \"*\"\nBALANCE_TOLERANCE = 0.2\n\nSIGIL_ADD_SHORT = \"\
+          +\"\nSIGIL_DEL_SHORT = \"-\"\nSIGIL_BALANCED_SHORT = \"*\"\nSIGIL_ADD_LONG\
+          \ = \"/\"\nSIGIL_DEL_LONG = \"\\\\\"\nSIGIL_BALANCED_LONG = \"|\"\n\n\n\
           # auxiliaries  ##################################################################\n\
           def _resolve_ordinary_sigil(per_file_diff, LONG_SHORT_THRESHOLD):\n    \"\
           \"\"\n    resolve the ordinary-edit sigil for a diff, from its add/delete\n\
@@ -707,16 +708,18 @@ workflow:
           \ - split ``llm_message`` into its sigil line and summary line\n    - when\
           \ the sigil is the ordinary-edit placeholder, resolve the\n      real sigil\
           \ from ``per_file_diff``'s add/delete balance and\n      length against\
-          \ ``LONG_SHORT_THRESHOLD``\n\n\n    :param LONG_SHORT_THRESHOLD:\n    :type\
-          \ LONG_SHORT_THRESHOLD: float\n    :param per_file_diff:\n    :type per_file_diff:\
-          \ str\n    :param llm_message:\n    :type llm_message: str\n    :return:\
-          \ {\n        \"opt_obj\": the resolved sigil and message for this file\n\
-          \    }\n    :rtype: dict{\n        \"opt_obj\": dict{\"sigil\": str, \"\
-          message\": str}\n    }\n    \"\"\"\n    sigil, _, message = llm_message.strip(\"\
-          \\n\").partition(\"\\n\")\n    sigil = sigil.strip()\n    message = message.strip()\n\
-          \n    if sigil == FALLBACK_SIGIL:\n        sigil = _resolve_ordinary_sigil(per_file_diff,\
-          \ LONG_SHORT_THRESHOLD)\n\n    opt_obj = {\"sigil\": sigil, \"message\"\
-          : message}\n\n    return {OUTPUT_OPT_OBJ: opt_obj}\n\n"
+          \ ``LONG_SHORT_THRESHOLD``\n\n\n    :param LONG_SHORT_THRESHOLD: newline-count\
+          \ cutoff above which a\n            diff is classified as long rather than\
+          \ short\n    :type LONG_SHORT_THRESHOLD: float\n    :param per_file_diff:\n\
+          \    :type per_file_diff: str\n    :param llm_message:\n    :type llm_message:\
+          \ str\n    :return: {\n        \"opt_obj\": the resolved sigil and message\
+          \ for this file\n    }\n    :rtype: dict{\n        \"opt_obj\": dict{\"\
+          sigil\": str, \"message\": str}\n    }\n    \"\"\"\n    sigil, _, message\
+          \ = llm_message.strip(\"\\n\").partition(\"\\n\")\n    sigil = sigil.strip()\n\
+          \    message = message.strip()\n\n    if sigil == FALLBACK_SIGIL:\n    \
+          \    sigil = _resolve_ordinary_sigil(per_file_diff, LONG_SHORT_THRESHOLD)\n\
+          \n    opt_obj = {\"sigil\": sigil, \"message\": message}\n\n    return {OUTPUT_OPT_OBJ:\
+          \ opt_obj}\n\n"
         code_language: python3
         isInIteration: true
         isInLoop: false
@@ -725,7 +728,7 @@ workflow:
           opt_obj:
             children: null
             type: object
-        selected: false
+        selected: true
         title: post_per_file
         type: code
         variables:
@@ -744,7 +747,7 @@ workflow:
           - text
           value_type: string
           variable: llm_message
-      height: 52
+      height: 51
       id: '1784719997268'
       parentId: '17847136437120'
       position:
@@ -753,14 +756,14 @@ workflow:
       positionAbsolute:
         x: 1652.311937969482
         y: 601.2574064245854
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
       zIndex: 1002
     viewport:
-      x: 418.6855360058587
-      y: 360.68039116552455
+      x: 58.685536005858694
+      y: 150.6803911655245
       zoom: 0.5743491774985181
   rag_pipeline_variables: []
