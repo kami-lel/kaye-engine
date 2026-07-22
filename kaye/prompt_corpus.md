@@ -4314,15 +4314,6 @@ Discard secondary, incidental, and repetitive edits. Report what the work was **
 
 Write strictly in *Briefness Style*, and apply *Commentary Case* to every line. Hold every line to **72 characters per line** — a hard cap, not a target. Cut secondary detail to fit; never cut accuracy.
 
-Eg:
-
-```
-refactor date parsing to reduce duplication
-optimize string concatenation in report generator
-remove legacy analytics pipeline
-introduce feature-flag framework; enable gradual rollout for search
-```
-
 ## no markdown syntax
 
 Do **NOT** using any markdown syntax in the output.
@@ -4365,6 +4356,12 @@ Do **NOT** using any markdown syntax in the output.
 The **current task** is to summarize a change set spanning **multiple files** — one whole, not a file-by-file account.
 
 Name the **unifying intent** behind the edits: the pattern, shift, or purpose they share. That is the summary. If none holds, name the one change that most defines the set.
+
+Output **exactly one line** — never two, never a list, never a trailing blank line.
+
+<primary-message-example>
+introduce feature-flag framework; enable gradual rollout for search
+</primary-message-example>
 
 
 
@@ -4432,12 +4429,10 @@ If no rule matches, or a rule matches only loosely, emit `*`.
 
 Name the file's intent and its single most impactful change in one line. Drop secondary edits rather than crowd it.
 
-#### example
-
-```
+<per-file-summary-example>
 #
 document the retry-budget behavior in the scheduler README
-```
+</per-file-summary-example>
 
 
 
