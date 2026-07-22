@@ -6,8 +6,8 @@ index 7d2e918..1a4c063 100644
 
 
  def rewrite(path, index):
--    # FIXME(steady): partial writes leave the index unreadable
-+    # BUG(loud): partial writes leave the index unreadable
+-    # FIXME: partial writes leave the index unreadable
++    # BUG: partial writes leave the index unreadable
      tmp = path.with_suffix(".tmp")
      with tmp.open("wb") as handle:
          for key, (offset, length) in index.items():
@@ -15,7 +15,7 @@ index 7d2e918..1a4c063 100644
 
 
  def verify(path):
--    # TODO(quiet): compare checksums instead of byte length
+-    # TODO: compare checksums instead of byte length
      expected = path.stat().st_size
      actual = sum(len(record) for record in _records(path))
      return expected == actual
