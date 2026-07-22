@@ -4423,7 +4423,8 @@ If no rule matches, or a rule matches only loosely, emit `*`.
 6. `.`: only edits are the addition or deletion of whitespace, indentation, or blank lines.
 7. `@`: only edits are the addition, deletion, editing, raising, or lowering of *triage tags*, plus lines directly tied to them.
 8. `#`: edits are mostly to documentation or code comments.
-9. `~`: edits are purely refactoring — structure, naming, extraction, or ordering is reworked while observable behavior stays identical.
+9. `~`: pure Repositioning of existing lines — nothing added, removed, or altered in content; renaming or extraction does not qualify
+10. `*`: fallback — the file's change does not fully satisfy any rule above, or satisfies one only loosely, or mixes several kinds of edit.
 
 "Nearly unchanged" in the `:` and `=` rules means the content is essentially the same; only the path or name differs, apart from trivial edits.
 
