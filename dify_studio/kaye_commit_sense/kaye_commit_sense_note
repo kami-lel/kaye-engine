@@ -1,1 +1,4 @@
-Bug symbol generation is extremely unreliable
+
+FIXME improve sigil prompt
+HACK rm add/del/modification prompt
+FIXME upd dify app logic

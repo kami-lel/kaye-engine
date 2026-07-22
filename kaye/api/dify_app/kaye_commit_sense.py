@@ -30,7 +30,6 @@ PER_FILE_PROMPT_BLUEPRINT = """ ○
 [x] │   └── Style Guide Briefness Style
 [x] └── Kaye Commit Sense
 [x]     └── Per File Summary Task
-[x]         └── Prefix Symbol
 """
 
 

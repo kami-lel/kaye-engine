@@ -13,7 +13,7 @@ TESTEE_COMMIT_PRIMARY_COMMON = [
 TESTEE_COMMIT_PER_FILE_COMMON = [
     "## Per File Summary Task",
     "Produce a concise summary of changes of a **single** file",
-    "### Prefix Symbol",
+    "#### supplementary change sigil",
     "Select ONE prefix for the changed file",
     "6. `@` — only edits are to triage tags",
 ]

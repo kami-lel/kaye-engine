@@ -4417,7 +4417,7 @@ Name the file's intent and its single most impactful change in **one line**. Dro
 
 
 
-### Prefix Symbol
+#### supplementary change sigil
 
 Select ONE prefix for the changed file. Read the rules below in order, top to bottom. Use the first prefix whose condition is true, then stop.
 
