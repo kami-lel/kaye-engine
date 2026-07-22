@@ -1,21 +1,22 @@
 TESTEE_COMMIT_COMMON = [
     "# Kaye Commit Sense",
     "You are given the result of `git diff --cached`",
-    "**You must produce a single-line, ultra-concise summary**",
+    "Hold every line to **72 characters per line**",
 ]
 
 TESTEE_COMMIT_PRIMARY_COMMON = [
     "## Primary Message Task",
-    "Produce a concise summary of changes across **multiple** files",
-    "modularize payment processing; split into gateway adapters",
+    "summarize a change set spanning **multiple files**",
+    "introduce feature-flag framework; enable gradual rollout for search",
 ]
 
 TESTEE_COMMIT_PER_FILE_COMMON = [
     "## Per File Summary Task",
-    "Produce a concise summary of changes of a **single** file",
-    "#### supplementary change sigil",
-    "Select ONE prefix for the changed file",
-    "6. `@` — only edits are to triage tags",
+    "summarize a change set confined to **one file**",
+    "#### line 1 — change sigil",
+    "Read the rules below in order, top to bottom.",
+    "7. `@`: only edits are the addition, deletion, editing, raising,"
+    " or lowering of *triage tags*, plus lines directly tied to them.",
 ]
 
 def assert_allows_md(opt):
