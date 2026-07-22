@@ -22,7 +22,7 @@ PRIMARY_MESSAGE_PROMPT_BLUEPRINT = """    ○
 [x]     └── Primary Message Task
 """
 
-PER_FILE_LONG_PROMPT_BLUEPRINT = """ ○
+PER_FILE_PROMPT_BLUEPRINT = """ ○
 [ ] ├── Elements
 [x] │   └── Triage Tags
 [ ] ├── Style Guide
@@ -31,19 +31,6 @@ PER_FILE_LONG_PROMPT_BLUEPRINT = """ ○
 [x] └── Kaye Commit Sense
 [x]     └── Per File Summary Task
 [x]         └── Prefix Symbol
-[x]             └── Long
-"""
-
-PER_FILE_SHORT_PROMPT_BLUEPRINT = """ ○
-[ ] ├── Elements
-[x] │   └── Triage Tags
-[ ] ├── Style Guide
-[x] │   ├── Style Guide Commentary Case
-[x] │   └── Style Guide Briefness Style
-[x] └── Kaye Commit Sense
-[x]     └── Per File Summary Task
-[x]         └── Prefix Symbol
-[x]             └── Short
 """
 
 
@@ -95,21 +82,11 @@ def kaye_commit_sense_primary_message():
     return blueprint.generate_prompt()
 
 
-# /kaye/dify-app/kaye-commit-sense/per-file-long
-@commit_sense_bp.route("/per-file-long", methods=["GET"])
-def kaye_commit_sense_per_file_long():
+# /kaye/dify-app/kaye-commit-sense/per-file
+@commit_sense_bp.route("/per-file", methods=["GET"])
+def kaye_commit_sense_per_file():
     blueprint = PromptBlueprint.parse(
-        PER_FILE_LONG_PROMPT_BLUEPRINT,
-    )
-    _checkmark_md_related_node(blueprint)
-    return blueprint.generate_prompt()
-
-
-# /kaye/dify-app/kaye-commit-sense/per-file-short
-@commit_sense_bp.route("/per-file-short", methods=["GET"])
-def kaye_commit_sense_per_file_short():
-    blueprint = PromptBlueprint.parse(
-        PER_FILE_SHORT_PROMPT_BLUEPRINT,
+        PER_FILE_PROMPT_BLUEPRINT,
     )
     _checkmark_md_related_node(blueprint)
     return blueprint.generate_prompt()
