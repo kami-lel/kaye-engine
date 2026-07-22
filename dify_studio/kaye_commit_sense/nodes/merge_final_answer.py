@@ -6,6 +6,10 @@ OUTPUT_ANSWER = "answer"
 
 
 # constants  ###################################################################
+KEY_SIGIL = "sigil"
+KEY_MESSAGE = "message"
+
+ANSWER_TEMPLATE = "{}\n\n{}"
 
 
 # Entry Point  #################################################################
@@ -42,31 +46,26 @@ def main(
     if skip_primary_message:
         filename = filenames[0]
         file_extract = per_file_extracts[0]
-        sigil = file_extract["sigil"]
-        message = file_extract["message"]
+        sigil = file_extract[KEY_SIGIL]
+        message = file_extract[KEY_MESSAGE]
 
         filename_line = ("{}`{}`" if allows_md else "{}[{}]").format(
             sigil, filename
         )
 
-        answer = """{}
-
-{}""".format(message, filename_line)
+        answer = ANSWER_TEMPLATE.format(message, filename_line)
 
         return {OUTPUT_ANSWER: answer}
 
-    else:
-        line_pattern = "{}`{}` {}" if allows_md else "{}[{}] {}"
+    line_pattern = "{}`{}` {}" if allows_md else "{}[{}] {}"
 
-        lines = []
-        for filename, file_extract in zip(filenames, per_file_extracts):
-            sigil = file_extract["sigil"]
-            message = file_extract["message"]
-            line = line_pattern.format(sigil, filename, message)
-            lines.append(line)
+    lines = []
+    for filename, file_extract in zip(filenames, per_file_extracts):
+        sigil = file_extract[KEY_SIGIL]
+        message = file_extract[KEY_MESSAGE]
+        line = line_pattern.format(sigil, filename, message)
+        lines.append(line)
 
-        answer = """{}
-
-    {}""".format(primary_message, "\n".join(lines))
+    answer = ANSWER_TEMPLATE.format(primary_message, "\n".join(lines))
 
     return {OUTPUT_ANSWER: answer}
