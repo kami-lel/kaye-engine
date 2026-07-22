@@ -4306,10 +4306,13 @@ select the most likely category abbreviation for each transaction based on its d
 
 # Kaye Commit Sense
 
-You are given the result of `git diff --cached`; interpret it as the changes ready to be committed for the file(s).
+You are given the result of `git diff --cached` — read it as the changes staged for commit, and distill them into their **essential meaning**.
 
-- strictly use *Briefness Style* language
-- use *Commentary Case* for each line
+First, find the **intent** behind the edits — the direction they move in, the paradigm they shift toward, the theme they share. Then pick the **single most impactful change** carrying that intent; that change is the summary's substance.
+
+Discard secondary, incidental, and repetitive edits. Report what the work was **for**, not an inventory of everything touched. Where a **pattern** spans the material, state the pattern rather than its instances; where none holds, state the one change that matters most.
+
+Write strictly in *Briefness Style*, and apply *Commentary Case* to every line. Compress to the shortest wording that stays faithful and specific — when a length limit forces a choice, sacrifice **detail** before **accuracy**.
 
 ## no markdown syntax
 
@@ -4350,11 +4353,11 @@ Do **NOT** using any markdown syntax in the output.
 
 ## Primary Message Task
 
-Produce a concise summary of changes across **multiple** files.
+The **current task**; supplementary tasks may accompany it, none replace it.
 
-Identify any overarching patterns, paradigm shifts, or common themes that span the files; if such cross-file changes exist, summarize them and infer the likely intent or direction of the changes.
+The staged changes may span **one file or many**.
 
-If no clear, consistent cross-file pattern exists (i.e., each file was edited for unrelated reasons), summarize the single most important change among the files and omit minor or numerous unrelated edits that would make the summary wordy.
+Across **multiple** files, summarize the change set as a whole — a cross-file intent or pattern outranks any single file's edit. Where the files were touched for unrelated reasons, fall back to the one most impactful change.
 
 Eg:
 
