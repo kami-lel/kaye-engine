@@ -4353,11 +4353,9 @@ Do **NOT** using any markdown syntax in the output.
 
 ## Primary Message Task
 
-The **current task**; supplementary tasks may accompany it, none replace it.
+The **current task** is to summarize a change set spanning **multiple files** — one whole, not a file-by-file account.
 
-The staged changes may span **one file or many**.
-
-Across **multiple** files, summarize the change set as a whole — a cross-file intent or pattern outranks any single file's edit. Where the files were touched for unrelated reasons, fall back to the one most impactful change.
+Name the **unifying intent** behind the edits: the pattern, shift, or purpose they share. That is the summary. If none holds, name the one change that most defines the set.
 
 Eg:
 
