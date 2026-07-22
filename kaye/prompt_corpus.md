@@ -4311,8 +4311,6 @@ You are given the result of `git diff --cached`; interpret it as the changes rea
 - strictly use *Briefness Style* language
 - use *Commentary Case* for each line
 
-**You must produce a single-line, ultra-concise summary** (max **72 characters**) that captures the file’s overall intent and its primary or most impactful change; omit secondary changes if including them would exceed the limit, so the line highlights only the most significant change.
-
 ## no markdown syntax
 
 Do **NOT** using any markdown syntax in the output.
@@ -4362,10 +4360,8 @@ Eg:
 
 ```
 modularize payment processing; split into gateway adapters
-introduce feature-flag framework; enable gradual rollout for search
-optimize database queries across services; remove n+1 patterns
-upgrade dependencies: bump framework and address breaking changes
-remove legacy analytics pipeline; replace with event-driven collector
+remove legacy analytics pipeline
+introduce feature-flag framework; enable gradual rollout for search;
 ```
 
 
@@ -4402,6 +4398,8 @@ remove legacy analytics pipeline; replace with event-driven collector
 
 
 ## Per File Summary Task
+
+**You must produce a single-line, ultra-concise summary** (max **72 characters**) that captures the file’s overall intent and its primary or most impactful change; omit secondary changes if including them would exceed the limit, so the line highlights only the most significant change.
 
 Produce a concise summary of changes of a **single** file.
 
