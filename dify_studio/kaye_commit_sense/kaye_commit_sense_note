@@ -1,3 +1,4 @@
 
-TODO some examples to be used w/ commit sense
 HACK rm unused nodes
+BUG reordering match too munch
+BUG primary message contains too much content, must be 1 line & no md block
