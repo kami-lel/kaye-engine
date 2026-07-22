@@ -171,10 +171,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "coder-c": "Writes, edits, and reviews all C code.",
     "coder-c-sharp": "Writes, edits, and reviews all C# code.",
     "coder-html": (
-        '"Use this skill when writing or generating HTML'
-        " \\u2014 apply HTML5 standards for structure, semantics, and"
-        " markup. Trigger for any task that produces or edits .html"
-        ' files or embedded HTML content."'
+        "apply HTML5 standards for structure, semantics, and markup."
     ),
     "coder-javascript-and-typescript": (
         "Writes, edits, and reviews all JavaScript and TypeScript"
@@ -188,9 +185,7 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         "writes, reviews Python `pytest` test code per project conventions"
     ),
     "coder-unity-engine": (
-        "Writes, edits, and reviews all Unity 6 C# code, applying"
-        " the project's Unity conventions, structure, and coding"
-        " standards."
+        "Writes, edits, and reviews all Unity 6 C# code, applying the"
     ),
     "project-changelog-writer": (
         "dated version entries newest-first, grouped"
@@ -198,16 +193,11 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
         " version references."
     ),
     "project-readme-writer": (
-        "scannable, visually clear landing pages covering a"
-        " project's purpose, features, setup, usage, and contribution"
-        " flow, with a standard title format and tasteful use of headings,"
-        " lists, badges, and emoji."
+        "Writes and maintains human-friendly README files"
+        " — scannable, visually clear landing pages covering a"
     ),
     "project-agents-writer": (
-        "it states *how the agent should behave*"
-        " in a repository: setup/build/run/test commands, code-style"
-        " conventions, PR and commit rules, and do/don't safety"
-        " constraints. It is agent-facing and always loaded (unlike the"
+        "It is agent-facing and always loaded (unlike the"
         " human-facing `README.md`), and `AGENTS.local.md` holds"
         " personal, gitignored overrides. This skill writes and"
         " maintains those files."
@@ -247,39 +237,30 @@ TESTEE_DESCRIPTION_CONTENT_ALL = {
     "abbr-suffixes": "Abbr Suffixes",
     "abbr-symbols": "Abbr Symbols",
     "maintain-docs": (
-        '"Use this skill when the user wants to update existing README,'
+        "Use this skill when the user wants to update existing README,"
         " AGENTS, or `docs/` files to reflect recent project changes"
-        " \\u2014 fixing stale commands, broken links, outdated examples,"
-        " or renamed references. Trigger even for casual requests like"
-        ' \\"update the docs\\" or \\"fix the readme.\\"'
-        '"'
+        " — fixing stale commands, broken links, outdated examples,"
+        " or renamed references."
     ),
     "maintain-changelog": (
-        '"Use this skill when the user wants to add, fix, or reorganize'
-        " entries in an existing CHANGELOG \\u2014 logging new"
+        "Use this skill when the user wants to add, fix, or reorganize"
+        " entries in an existing CHANGELOG — logging new"
         " features, bug fixes, or breaking changes without overwriting"
-        " existing content. Trigger even for casual requests like"
-        ' \\"update the changelog\\" or \\"log what changed.\\"'
-        '"'
+        " existing content."
     ),
     "maintenance-before-compact": (
         "Logs a session's durable changes before context compaction"
     ),
     "create-readme": (
-        '"Use this skill when the user wants to create a new'
-        " `README.md` from scratch \\u2014 covering project overview,"
+        "Use this skill when the user wants to create a new"
+        " `README.md` from scratch — covering project overview,"
         " setup, usage, configuration, and contributing guidelines."
-        ' Trigger even for casual requests like \\"write a readme\\"'
-        ' or \\"document this project.\\"'
-        '"'
     ),
     "create-agents-and-context": (
-        '"Use this skill when the user wants to create a new'
-        " `AGENTS.md` from scratch \\u2014 covering project setup, build"
+        "Use this skill when the user wants to create a new"
+        " `AGENTS.md` from scratch — covering project setup, build"
         " and test commands, code style, and PR conventions formatted"
-        " for coding agents. Trigger even for casual requests like"
-        ' \\"add agent instructions\\" or \\"make an agents file.\\"'
-        '"'
+        " for coding agents."
     ),
     "prepare-for-feature-landing": "Records a feature branch",
     "prepare-for-version-release": "Cuts a project release",

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kaye"
-version = "6.10.0"
+version = "6.10.1"
 description = "define Kaye, a devoted and deferential AI assistant persona, in a single source of truth and reuse it consistently across every task and tool"
 readme = "README.md"
 authors = [

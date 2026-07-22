@@ -27,6 +27,7 @@
     "better-todo-tree.filtering.excludeGlobs": [
         "**/hooks_utility/*/**",
         "*.yml",
-        "**/prompt_corpus.md"
+        "**/prompt_corpus.md",
+        "tests/kaye_commit_sense/mux-files.diff"
     ]
 }

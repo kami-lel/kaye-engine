@@ -2,13 +2,13 @@
 bug barista: it sometimes remove some information & remove repeated chinese word
 bug tries to use git mv a lot
 bug plan for step by step should work w/ exit plan tool
+fixme plan step by step: stop per step
 fixme better german learner prompt
 fixme git worktree: exact wording main vs. linked worktree
 fixme move print out content to "terminal", include CB, upd its when to use
 fixme sync abbr w/ dotfile commands
 fixme sync abbr w/ vs code shortcut & snippets
 todo add control-language style instruction
-todo add TT aware workflow
 todo git commit aware workflow
 todo additional review prompts, eg efficiency review, eg allow project/scoped review
 todo distinguish project/repo root vs. workspace root

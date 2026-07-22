@@ -4306,12 +4306,13 @@ select the most likely category abbreviation for each transaction based on its d
 
 # Kaye Commit Sense
 
-You are given the result of `git diff --cached`; interpret it as the changes ready to be committed for the file(s).
+You are given the result of `git diff --cached` — read it as the changes staged for commit, and distill them into their **essential meaning**.
 
-- strictly use *Briefness Style* language
-- use *Commentary Case* for each line
+First, find the **intent** behind the edits — the direction they move in, the paradigm they shift toward, the theme they share. Then pick the **single most impactful change** carrying that intent; that change is the summary's substance.
 
-**You must produce a single-line, ultra-concise summary** (max **72 characters**) that captures the file’s overall intent and its primary or most impactful change; omit secondary changes if including them would exceed the limit, so the line highlights only the most significant change.
+Discard secondary, incidental, and repetitive edits. Report what the work was **for**, not an inventory of everything touched. Where a **pattern** spans the material, state the pattern rather than its instances; where none holds, state the one change that matters most.
+
+Write strictly in *Briefness Style*, and apply *Commentary Case* to every line. Hold every line to **72 characters per line** — a hard cap, not a target. Cut secondary detail to fit; never cut accuracy.
 
 ## no markdown syntax
 
@@ -4352,21 +4353,15 @@ Do **NOT** using any markdown syntax in the output.
 
 ## Primary Message Task
 
-Produce a concise summary of changes across **multiple** files.
+The **current task** is to summarize a change set spanning **multiple files** — one whole, not a file-by-file account.
 
-Identify any overarching patterns, paradigm shifts, or common themes that span the files; if such cross-file changes exist, summarize them and infer the likely intent or direction of the changes.
+Name the **unifying intent** behind the edits: the pattern, shift, or purpose they share. That is the summary. If none holds, name the one change that most defines the set.
 
-If no clear, consistent cross-file pattern exists (i.e., each file was edited for unrelated reasons), summarize the single most important change among the files and omit minor or numerous unrelated edits that would make the summary wordy.
+Output **exactly one line**, **under 72 characters** — never two lines, never a list. Drop every secondary detail that does not fit; accuracy over coverage.
 
-Eg:
-
-```
-modularize payment processing; split into gateway adapters
+<primary-message-example>
 introduce feature-flag framework; enable gradual rollout for search
-optimize database queries across services; remove n+1 patterns
-upgrade dependencies: bump framework and address breaking changes
-remove legacy analytics pipeline; replace with event-driven collector
-```
+</primary-message-example>
 
 
 
@@ -4403,66 +4398,41 @@ remove legacy analytics pipeline; replace with event-driven collector
 
 ## Per File Summary Task
 
-Produce a concise summary of changes of a **single** file.
+The **current task** is to summarize a change set confined to **one file** — that file is the whole set.
 
-Eg:
+Return exactly **two lines**, and nothing else — no heading, no blank line between them, no surrounding prose or code fence.
 
-- refactor date parsing to reduce duplication
-- fix null-pointer crash in payment processor
-- simplify configuration loading logic
-- rename parser variable for clarity
-- optimize string concatenation in report generator
+- line 1 — the change sigil
+- line 2 — the summary message
 
+#### line 1 — change sigil
 
+Emit exactly **one character**. Never a word, a label, a quote, or an empty line.
 
+Read the rules below in order, top to bottom. Emit the first sigil whose condition is fully satisfied, then stop.
+If no rule matches, or a rule matches only loosely, emit `*`.
 
+1. `?`: file's change is non-textual and non-code — for example a binary, a compressed archive, a database, or an encrypted blob.
+2. `^`: file is newly added.
+3. `!`: file is deleted.
+4. `:`: file moved to a different directory, and its content is unchanged or nearly unchanged. Its filename may also change.
+5. `=`: file's directory is unchanged but its filename changed, and its content is unchanged or nearly unchanged.
+6. `.`: only edits are the addition or deletion of whitespace, indentation, or blank lines.
+7. `@`: only edits are the addition, deletion, editing, raising, or lowering of *triage tags*, plus lines directly tied to them.
+8. `#`: edits are mostly to documentation or code comments.
+9. `~`: pure Repositioning of existing lines — nothing added, removed, or altered in content; renaming or extraction does not qualify
+10. `*`: fallback — the file's change does not fully satisfy any rule above, or satisfies one only loosely, or mixes several kinds of edit.
 
+"Nearly unchanged" in the `:` and `=` rules means the content is essentially the same; only the path or name differs, apart from trivial edits.
 
+#### line 2 — message
 
+Name the file's intent and its single most impactful change in one line. Drop secondary edits rather than crowd it.
 
-
-
-
-
-
-### Prefix Symbol
-
-Select ONE prefix for the changed file. Read the rules below in order, top to bottom. Use the first prefix whose condition is true, then stop.
-
-1. `^` — file is newly added.
-2. `!` — file is deleted.
-3. `:` — file moved to a different directory AND its content is unchanged or nearly unchanged. (Its filename may also change.)
-4. `=` — file's directory is unchanged but its filename changed, AND its content is unchanged or nearly unchanged.
-5. `?` — file is non-text: binary, compressed archive, database, or encrypted blob.
-6. `@` — only edits are to triage tags and the lines directly tied to them.
-7. `#` — edits are mostly to documentation or code comments.
-8. `~` — edits are mostly reordering content or refactoring code, with behavior unchanged.
-9. `.` — only edits are whitespace, indentation, or blank lines.
-
-"Nearly unchanged" in rules 3 and 4 means the content is essentially the same; only the path or name differs, apart from trivial edits.
-
-If no rule above matches, the change is an ordinary edit, pick the symbol by comparing added vs. deleted lines:
-
-
-
-
-
-#### Long
-
-- `+` — more lines added than deleted
-- `-` — more lines deleted than added
-- `*` — added and deleted are roughly balanced
-
-
-
-
-
-#### Short
-
-- `/` — more lines added than deleted
-- `\` — more lines deleted than added
-- `|` — added and deleted are roughly balanced
-
+<per-file-summary-example>
+#
+document the retry-budget behavior in the scheduler README
+</per-file-summary-example>
 
 
 

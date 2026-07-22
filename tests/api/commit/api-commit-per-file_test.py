@@ -1,9 +1,9 @@
 """
-api-commit-long_test.py
+api-commit-per-file_test.py
 
 Unit Tests (using pytest) for:
 
-/kaye/dify-ap/kaye-commit-sense/per-file-long
+/kaye/dify-ap/kaye-commit-sense/per-file
 """
 
 import pytest
@@ -16,7 +16,6 @@ from tests import (
 from tests.api.commit import (
     TESTEE_COMMIT_COMMON,
     TESTEE_COMMIT_PER_FILE_COMMON,
-    TESTEE_COMMIT_PER_FILE_LONG,
     assert_allows_md,
     assert_no_allows_md,
 )
@@ -24,7 +23,6 @@ from tests.api.commit import (
 _CONTENT = (
     TESTEE_COMMIT_COMMON
     + TESTEE_COMMIT_PER_FILE_COMMON
-    + TESTEE_COMMIT_PER_FILE_LONG
     + TESTEE_BRIEFNESS_CONTENT
     + TESTEE_CHAT_COMMENTARY_CASE_CONTENT
     + TESTEE_TRIAGE_TAG_BASE_CONTENT
@@ -36,13 +34,13 @@ _CONTENT = (
 
 @pytest.fixture(scope="session")
 def testee_output(flask_test_client, app_endpoint):
-    response = flask_test_client.get(app_endpoint + "/per-file-long")
+    response = flask_test_client.get(app_endpoint + "/per-file")
     return response.get_data().decode("utf-8")
 
 
 @pytest.fixture(scope="session")
 def endpoint(app_endpoint):
-    return app_endpoint + "/per-file-long"
+    return app_endpoint + "/per-file"
 
 
 # Unit test classes  ###########################################################

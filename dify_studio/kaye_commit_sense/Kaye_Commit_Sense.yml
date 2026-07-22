@@ -9,13 +9,24 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/openai:0.3.8@592c8252795b5f75807de2d609a03196ed02596b409f7642b4a07548c7ff57ef
+    marketplace_plugin_unique_identifier: langgenius/anthropic:0.3.24@c5e50da8c13c7ac75348df5ac75b9418c79736eb506064669dd7ca06cbd83537
     version: null
 kind: app
 version: 0.5.0
 workflow:
   conversation_variables: []
   environment_variables:
+  - description: 'newline-count cutoff above which a diff is classified as long rather
+      than short
+
+      '
+    id: 656a231e-ebd7-490c-896a-2a98956f17f2
+    name: LONG_SHORT_THRESHOLD
+    selector:
+    - env
+    - LONG_SHORT_THRESHOLD
+    value: 100
+    value_type: integer
   - description: Kaye Flask API's Port Number; default is "11255", debug is "11256"
     id: 9a2a3f53-e9ba-4ee8-8331-6f0dd0127571
     name: FLASK_API_PORT
@@ -65,7 +76,7 @@ workflow:
       number_limits: 3
     opening_statement: ''
     retriever_resource:
-      enabled: true
+      enabled: false
     sensitive_word_avoidance:
       enabled: false
     speech_to_text:
@@ -82,43 +93,6 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: start
-        targetType: code
-      id: 1775587230054-source-1775587265168-target
-      source: '1775587230054'
-      sourceHandle: source
-      target: '1775587265168'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: code
-        targetType: if-else
-      id: 1775587265168-source-1775587559076-target
-      source: '1775587265168'
-      sourceHandle: source
-      target: '1775587559076'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: if-else
-        targetType: http-request
-      id: 1775587559076-false-1775587581098-target
-      selected: false
-      source: '1775587559076'
-      sourceHandle: 'false'
-      target: '1775587581098'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
         sourceType: http-request
         targetType: llm
       id: 1775587581098-source-1775587792914-target
@@ -130,116 +104,91 @@ workflow:
       type: custom
       zIndex: 0
     - data:
+        isInIteration: false
         isInLoop: false
-        sourceType: if-else
+        sourceType: start
         targetType: code
-      id: 1775587559076-true-1775587847434-target
-      source: '1775587559076'
-      sourceHandle: 'true'
-      target: '1775587847434'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: http-request
-        targetType: iteration
-      id: 17755879408110-source-1775587914644-target
-      source: '17755879408110'
+      id: 1775587230054-source-1784712853898-target
+      selected: false
+      source: '1775587230054'
       sourceHandle: source
-      target: '1775587914644'
+      target: '1784712853898'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
+        isInIteration: false
         isInLoop: false
         sourceType: code
-        targetType: http-request
-      id: 1775587265168-source-17755879408110-target
-      source: '1775587265168'
-      sourceHandle: source
-      target: '17755879408110'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: http-request
-      id: 1775587265168-source-17755879849770-target
-      source: '1775587265168'
-      sourceHandle: source
-      target: '17755879849770'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: http-request
-        targetType: iteration
-      id: 17755879849770-source-1775587914644-target
-      source: '17755879849770'
-      sourceHandle: source
-      target: '1775587914644'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: true
-        isInLoop: false
-        iteration_id: '1775587914644'
-        sourceType: iteration-start
-        targetType: code
-      id: 1775587914644start-source-1775588043314-target
-      source: 1775587914644start
-      sourceHandle: source
-      target: '1775588043314'
-      targetHandle: target
-      type: custom
-      zIndex: 1002
-    - data:
-        isInIteration: true
-        isInLoop: false
-        iteration_id: '1775587914644'
-        sourceType: code
-        targetType: llm
-      id: 1775588043314-source-1775588142285-target
-      source: '1775588043314'
-      sourceHandle: source
-      target: '1775588142285'
-      targetHandle: target
-      type: custom
-      zIndex: 1002
-    - data:
-        isInLoop: false
-        sourceType: iteration
         targetType: if-else
-      id: 1775587914644-source-17755882039760-target
-      source: '1775587914644'
+      id: 1784712853898-source-1784713051584-target
+      selected: false
+      source: '1784712853898'
       sourceHandle: source
-      target: '17755882039760'
+      target: '1784713051584'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
         isInLoop: false
         sourceType: if-else
-        targetType: code
-      id: 17755882039760-true-1775587847434-target
-      source: '17755882039760'
-      sourceHandle: 'true'
-      target: '1775587847434'
+        targetType: http-request
+      id: 1784713051584-false-1775587581098-target
+      selected: false
+      source: '1784713051584'
+      sourceHandle: 'false'
+      target: '1775587581098'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
+        isInLoop: false
+        sourceType: code
+        targetType: http-request
+      id: 1784712853898-source-17847134865020-target
+      selected: false
+      source: '1784712853898'
+      sourceHandle: source
+      target: '17847134865020'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: http-request
+        targetType: iteration
+      id: 17847134865020-source-17847136437120-target
+      selected: false
+      source: '17847134865020'
+      sourceHandle: source
+      target: '17847136437120'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '17847136437120'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1784713643712start-source-1784713643712017847136437131-target
+      selected: false
+      source: 1784713643712start
+      sourceHandle: source
+      target: '1784713643712017847136437131'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
         isInLoop: false
         sourceType: llm
         targetType: code
-      id: 1775587792914-source-17755883562550-target
+      id: 1775587792914-source-1784718530590-target
+      selected: false
       source: '1775587792914'
       sourceHandle: source
-      target: '17755883562550'
+      target: '1784718530590'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -247,48 +196,52 @@ workflow:
         isInLoop: false
         sourceType: if-else
         targetType: code
-      id: 17755882039760-false-17755883562550-target
-      source: '17755882039760'
-      sourceHandle: 'false'
-      target: '17755883562550'
+      id: 1784713051584-true-1784718530590-target
+      selected: false
+      source: '1784713051584'
+      sourceHandle: 'true'
+      target: '1784718530590'
       targetHandle: target
       type: custom
       zIndex: 0
     - data:
-        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: code
+      id: 17847136437120-source-1784718530590-target
+      selected: false
+      source: '17847136437120'
+      sourceHandle: source
+      target: '1784718530590'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
         isInLoop: false
         sourceType: code
-        targetType: variable-aggregator
-      id: 1775587847434-source-1775588436884-target
-      source: '1775587847434'
-      sourceHandle: source
-      target: '1775588436884'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: variable-aggregator
-      id: 17755883562550-source-1775588436884-target
-      source: '17755883562550'
-      sourceHandle: source
-      target: '1775588436884'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: variable-aggregator
         targetType: answer
-      id: 1775588436884-source-1775588454795-target
-      source: '1775588436884'
+      id: 1784718530590-source-1775588454795-target
+      selected: false
+      source: '1784718530590'
       sourceHandle: source
       target: '1775588454795'
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '17847136437120'
+        sourceType: llm
+        targetType: code
+      id: 1784713643712017847136437131-source-1784719997268-target
+      selected: false
+      source: '1784713643712017847136437131'
+      sourceHandle: source
+      target: '1784719997268'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
     nodes:
     - data:
         selected: false
@@ -307,116 +260,16 @@ workflow:
       height: 108
       id: '1775587230054'
       position:
-        x: 80
+        x: 50.9526206193467
         y: 282
       positionAbsolute:
-        x: 80
+        x: 50.9526206193467
         y: 282
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
-    - data:
-        code: "# pylint: disable=missing-module-docstring\n\n\nimport re\n\n# output\
-          \ keys  #################################################################\n\
-          OUTPUT_FILENAME_LIST_KEY = \"filenames_list\"\nOUTPUT_PER_FILE_LIST_KEY\
-          \ = \"per_file_list\"\nOUTPUT_IS_SINGLE_FILE_KEY = \"is_single_file\"\n\
-          OUTPUT_ALLOWS_MD_KEY = \"allows_md\"\nOUTPUT_ALLOWS_MD_NUMBER_KEY = \"allows_md_number\"\
-          \n\n# constants  ###################################################################\n\
-          DIFF_GIT = \"diff --git\"\nREGEX_PATTERN = r\".+\\/(.+)\"\n\n\n# Entry Point\
-          \  #################################################################\ndef\
-          \ main(content: str, allows_md: bool):\n    \"\"\"\n    perform pre-process\
-          \ directly on inputs:\n\n    - split the full diff content per file\n  \
-          \  - decide if there is only one file change\n    - pass through ``allows_md``\
-          \ as both Boolean and number\n\n\n    :param content:\n    :type content:\
-          \ str\n    :param allows_md:\n    :type allows_md: bool\n    :return: {\n\
-          \        \"filename_list\": a list of all files' name\n        \"per_file_list\"\
-          : a list of all files' diff content\n        \"is_single_file\": if the\
-          \ given content contains only single file\n    }\n    :rtype: dict{\n  \
-          \      \"filename_list\": list[str]\n        \"per_file_list\": list[str]\n\
-          \        \"is_single_file\": bool\n    }\n    \"\"\"\n    filenames_list\
-          \ = []\n    per_file_list = []\n\n    for segment in content.split(DIFF_GIT)[1:]:\n\
-          \        filename = re.match(REGEX_PATTERN, segment).group(1)\n        filenames_list.append(filename)\n\
-          \n        per_line = DIFF_GIT + segment\n        per_file_list.append(per_line)\n\
-          \n    is_single_file = len(filenames_list) == 1\n\n    return {\n      \
-          \  OUTPUT_FILENAME_LIST_KEY: filenames_list,\n        OUTPUT_PER_FILE_LIST_KEY:\
-          \ per_file_list,\n        OUTPUT_IS_SINGLE_FILE_KEY: is_single_file,\n \
-          \       OUTPUT_ALLOWS_MD_KEY: allows_md,\n        OUTPUT_ALLOWS_MD_NUMBER_KEY:\
-          \ 1 if allows_md else 0,\n    }\n\n"
-        code_language: python3
-        outputs:
-          allows_md:
-            children: null
-            type: boolean
-          allows_md_number:
-            children: null
-            type: number
-          filenames_list:
-            children: null
-            type: array[string]
-          is_single_file:
-            children: null
-            type: boolean
-          per_file_list:
-            children: null
-            type: array[string]
-        selected: false
-        title: input_process
-        type: code
-        variables:
-        - value_selector:
-          - sys
-          - query
-          value_type: string
-          variable: content
-        - value_selector:
-          - '1775587230054'
-          - allows_md
-          value_type: boolean
-          variable: allows_md
-      height: 51
-      id: '1775587265168'
-      position:
-        x: 446.6804920892271
-        y: 303
-      positionAbsolute:
-        x: 446.6804920892271
-        y: 303
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        cases:
-        - case_id: 'true'
-          conditions:
-          - comparison_operator: is
-            id: a64c48ea-eadc-4b10-8af0-796d1c87755f
-            value: true
-            varType: boolean
-            variable_selector:
-            - '1775587265168'
-            - is_single_file
-          id: 'true'
-          logical_operator: and
-        selected: false
-        title: single multiple branch
-        type: if-else
-      height: 123
-      id: '1775587559076'
-      position:
-        x: 808.0583480740074
-        y: 303
-      positionAbsolute:
-        x: 808.0583480740074
-        y: 303
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
     - data:
         authorization:
           config: null
@@ -426,7 +279,7 @@ workflow:
           type: none
         headers: ''
         method: get
-        params: allows_md:{{#1775587265168.allows_md_number#}}
+        params: allows_md:{{#1784712853898.allows_md_query_value#}}
         retry_config:
           max_retries: 3
           retry_enabled: true
@@ -444,11 +297,11 @@ workflow:
       height: 175
       id: '1775587581098'
       position:
-        x: 1210.7481151599698
-        y: 383.68619121288395
+        x: 1235.311937969482
+        y: 214.3679700000165
       positionAbsolute:
-        x: 1210.7481151599698
-        y: 383.68619121288395
+        x: 1235.311937969482
+        y: 214.3679700000165
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -461,8 +314,8 @@ workflow:
         model:
           completion_params: {}
           mode: chat
-          name: gpt-5.4-mini
-          provider: langgenius/openai/openai
+          name: claude-sonnet-5
+          provider: langgenius/anthropic/anthropic
         prompt_template:
         - id: 0344bd5f-e1f6-4116-99f6-c9a84a7e1dad
           role: system
@@ -470,7 +323,8 @@ workflow:
         - id: 441c17f9-228c-48fb-89c4-2256e27979ba
           role: user
           text: '{{#sys.query#}}'
-        selected: true
+        selected: false
+        structured_output_enabled: false
         title: primary message
         type: llm
         vision:
@@ -478,64 +332,164 @@ workflow:
       height: 87
       id: '1775587792914'
       position:
-        x: 1210.7481151599698
-        y: 556.5417275241331
+        x: 1624.1896205545227
+        y: 214.3679700000165
       positionAbsolute:
-        x: 1210.7481151599698
-        y: 556.5417275241331
-      selected: true
+        x: 1624.1896205545227
+        y: 214.3679700000165
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 241
     - data:
-        code: "# pylint: disable=missing-module-docstring\n\n\n# output keys  #################################################################\n\
-          OUTPUT_RESULT_KEY = \"result\"\n\n\n# Entry Point  #################################################################\n\
-          def main(\n    allows_md: bool, filenames_list: list[str], per_file_extracts:\
-          \ list[dict]\n):\n    \"\"\"\n    merge to produce final output,\n    when\
-          \ only single file is involved\n\n\n    :param allows_md: whether utilize\
-          \ md format in final result\n    :type allows_md: bool\n    :param primary_message:\n\
-          \    :type primary_message: str\n    :param filenames_list:\n    :type filenames_list:\
-          \ list[str]\n    :param per_file_extracts:\n    :type per_file_extracts:\
-          \ list[dict]\n    :return: {\"result\": merged output}\n    :rtype: dict{\"\
-          result\": str}\n    \"\"\"\n    filename = filenames_list[0]\n    file_extract\
-          \ = per_file_extracts[0]\n    symbol = file_extract[\"symbol\"]\n\n    filename_line\
-          \ = (\"{}`{}`\" if allows_md else \"{}[{}]\").format(\n        symbol, filename\n\
-          \    )\n\n    summary = file_extract[\"summary\"]\n\n    opt = \"\"\"{}\n\
-          \n{}\"\"\".format(summary, filename_line)\n\n    return {OUTPUT_RESULT_KEY:\
-          \ opt}\n\n"
+        answer: '{{#1784718530590.answer#}}'
+        selected: false
+        title: Answer
+        type: answer
+        variables: []
+      height: 101
+      id: '1775588454795'
+      position:
+        x: 2365.8399223882
+        y: 303
+      positionAbsolute:
+        x: 2365.8399223882
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        code: "# pylint: disable=missing-module-docstring\n\n\nimport re\n\n# output\
+          \ keys  #################################################################\n\
+          \nOUTPUT_SKIP_PRIMARY = \"skip_primary_message\"\nOUTPUT_ALLOWS_MD_API =\
+          \ \"allows_md_query_value\"\nOUTPUT_PER_FILE_DIFF = \"per_file_diff\"\n\
+          OUTPUT_FILENAMES = \"filenames\"\n\n\n# constants  ###################################################################\n\
+          DIFF_GIT = \"diff --git\"\nREGEX_PATTERN = r\".+\\/(.+)\"\n\n\n# Entry Point\
+          \  #################################################################\ndef\
+          \ main(content: str, allows_md: bool):\n    \"\"\"\n    perform pre-process\
+          \ directly on inputs:\n\n    - split the full diff content per file\n  \
+          \  - extract each file's name, ordered the same as ``per_file_diff``\n \
+          \   - decide if there is only one file change, to skip the primary message\n\
+          \    - pass through ``allows_md`` as ``1/2`` as URL query parameter value\n\
+          \n\n    :param content:\n    :type content: str\n    :param allows_md:\n\
+          \    :type allows_md: bool\n    :return: {\n        \"skip_primary_message\"\
+          : if the given content contains only single file\n        \"allows_md_query_value\"\
+          : old query value of ``allows_md_number``\n        \"per_file_diff\": a\
+          \ list of all files' diff content\n        \"filenames\": a list of all\
+          \ files' name\n    }\n    :rtype: dict{\n        \"skip_primary_message\"\
+          : bool\n        \"allows_md_query_value\": int\n        \"per_file_diff\"\
+          : list[str]\n        \"filenames\": list[str]\n    }\n    \"\"\"\n    per_file_diff\
+          \ = []\n    filenames = []\n\n    for segment in content.split(DIFF_GIT)[1:]:\n\
+          \        per_file_diff.append(DIFF_GIT + segment)\n        filenames.append(re.match(REGEX_PATTERN,\
+          \ segment).group(1))\n\n    skip_primary_message = len(per_file_diff) ==\
+          \ 1\n\n    return {\n        OUTPUT_SKIP_PRIMARY: skip_primary_message,\n\
+          \        OUTPUT_ALLOWS_MD_API: 1 if allows_md else 0,\n        OUTPUT_PER_FILE_DIFF:\
+          \ per_file_diff,\n        OUTPUT_FILENAMES: filenames,\n    }\n\n"
         code_language: python3
         outputs:
-          result:
+          allows_md_query_value:
             children: null
-            type: string
+            type: number
+          filenames:
+            children: null
+            type: array[string]
+          per_file_diff:
+            children: null
+            type: array[string]
+          skip_primary_message:
+            children: null
+            type: boolean
         selected: false
-        title: merge final single
+        title: split_mux_files
         type: code
         variables:
         - value_selector:
-          - '1775587265168'
+          - sys
+          - query
+          value_type: string
+          variable: content
+        - value_selector:
+          - '1775587230054'
           - allows_md
           value_type: boolean
           variable: allows_md
-        - value_selector:
-          - '1775587265168'
-          - filenames_list
-          value_type: array[string]
-          variable: filenames_list
-        - value_selector:
-          - '1775587914644'
-          - output
-          value_type: array[object]
-          variable: per_file_extracts
       height: 51
-      id: '1775587847434'
+      id: '1784712853898'
       position:
-        x: 2457.1927751959192
+        x: 429.92769948458306
         y: 303
       positionAbsolute:
-        x: 2457.1927751959192
+        x: 429.92769948458306
         y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: b8256c9a-fe45-4588-b182-be95147e2e0b
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1784712853898'
+            - skip_primary_message
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: skip primary message
+        type: if-else
+      height: 123
+      id: '1784713051584'
+      position:
+        x: 873.9601904472995
+        y: 132.66238271358972
+      positionAbsolute:
+        x: 873.9601904472995
+        y: 132.66238271358972
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        method: get
+        params: allows_md:{{#1784712853898.allows_md_query_value#}}
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: Per File Prompt Getter
+        type: http-request
+        url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/per-file'
+        variables: []
+      height: 175
+      id: '17847134865020'
+      position:
+        x: 873.9601904472995
+        y: 536.2574064245854
+      positionAbsolute:
+        x: 873.9601904472995
+        y: 536.2574064245854
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -544,36 +498,82 @@ workflow:
     - data:
         error_handle_mode: terminated
         flatten_output: false
-        height: 174
+        height: 189
         is_parallel: true
         iterator_input_type: array[string]
         iterator_selector:
-        - '1775587265168'
-        - per_file_list
+        - '1784712853898'
+        - per_file_diff
         output_selector:
-        - '1775588142285'
-        - structured_output
+        - '1784719997268'
+        - opt_obj
         output_type: array[object]
         parallel_nums: 10
         selected: false
-        start_node_id: 1775587914644start
-        title: Iteration
+        start_node_id: 1784713643712start
+        title: Per File Iteration
         type: iteration
-        width: 662.0000000000002
-      height: 174
-      id: '1775587914644'
+        width: 674.6067698055317
+      height: 189
+      id: '17847136437120'
       position:
-        x: 1104.915794783297
-        y: 860.987496760723
+        x: 1235.311937969482
+        y: 536.2574064245854
       positionAbsolute:
-        x: 1104.915794783297
-        y: 860.987496760723
+        x: 1235.311937969482
+        y: 536.2574064245854
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 662
+      width: 675
       zIndex: 1
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '17847136437120'
+        model:
+          completion_params: {}
+          mode: chat
+          name: claude-haiku-4-5-20251001
+          provider: langgenius/anthropic/anthropic
+        prompt_template:
+        - id: a87f8dc3-7905-4404-8f50-caad9bc26354
+          role: system
+          text: '{{#17847134865020.body#}}'
+        - id: f409b96e-6edf-40b8-9aa7-b8ddf8f8aed9
+          role: user
+          text: '{{#17847136437120.item#}}'
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties: {}
+            required: []
+            type: object
+        structured_output_enabled: false
+        title: per file messge
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1784713643712017847136437131'
+      parentId: '17847136437120'
+      position:
+        x: 111.57533667251096
+        y: 63.29709258450214
+      positionAbsolute:
+        x: 1346.887274641993
+        y: 599.5544990090875
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1002
     - data:
         desc: ''
         isInIteration: true
@@ -582,274 +582,85 @@ workflow:
         type: iteration-start
       draggable: false
       height: 48
-      id: 1775587914644start
-      parentId: '1775587914644'
+      id: 1784713643712start
+      parentId: '17847136437120'
       position:
         x: 24
         y: 68
       positionAbsolute:
-        x: 1128.915794783297
-        y: 928.987496760723
+        x: 1259.311937969482
+        y: 604.2574064245854
       selectable: false
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom-iteration-start
       width: 44
       zIndex: 1002
     - data:
-        authorization:
-          config: null
-          type: no-auth
-        body:
-          data: []
-          type: none
-        headers: ''
-        method: get
-        params: allows_md:{{#1775587265168.allows_md_number#}}
-        retry_config:
-          max_retries: 3
-          retry_enabled: true
-          retry_interval: 100
-        selected: false
-        ssl_verify: true
-        timeout:
-          max_connect_timeout: 0
-          max_read_timeout: 0
-          max_write_timeout: 0
-        title: Per File Short Getter
-        type: http-request
-        url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/per-file-short'
-        variables: []
-      height: 175
-      id: '17755879408110'
-      position:
-        x: 808.0583480740074
-        y: 860.987496760723
-      positionAbsolute:
-        x: 808.0583480740074
-        y: 860.987496760723
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        authorization:
-          config: null
-          type: no-auth
-        body:
-          data: []
-          type: none
-        headers: ''
-        method: get
-        params: allows_md:{{#1775587265168.allows_md_number#}}
-        retry_config:
-          max_retries: 3
-          retry_enabled: true
-          retry_interval: 100
-        selected: false
-        ssl_verify: true
-        timeout:
-          max_connect_timeout: 0
-          max_read_timeout: 0
-          max_write_timeout: 0
-        title: Per File Long Getter
-        type: http-request
-        url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/per-file-long'
-        variables: []
-      height: 175
-      id: '17755879849770'
-      position:
-        x: 808.0583480740074
-        y: 1037.8870434302662
-      positionAbsolute:
-        x: 808.0583480740074
-        y: 1037.8870434302662
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        code: "# pylint: disable=missing-module-docstring\n\n# output keys  #################################################################\n\
-          OUTPUT_PROMPT_KEY = \"extract_prompt\"\n\n\n# constants  ###################################################################\n\
-          LONG_SHORT_THRESHOLD = 100\n\n\n# entry point  #################################################################\n\
-          def main(\n    item: str,\n    prompt_per_file_extract_long: str,\n    prompt_per_file_extract_short:\
-          \ str,\n):\n    \"\"\"\n    count number of lines, and decide to use either\
-          \ long/short prompts\n\n\n    :param item:\n    :type item: str\n    :param\
-          \ prompt_per_file_extract_long:\n    :type prompt_per_file_extract_long:\
-          \ str\n    :param prompt_per_file_extract_short:\n    :type prompt_per_file_extract_short:\
-          \ str\n    :return: {\"extract_prompt\": prompt to use}\n    :rtype: dict{\"\
-          extract_prompt\": str}\n    \"\"\"\n    newline_cnt = item.count(\"\\n\"\
-          )\n    is_long = newline_cnt > LONG_SHORT_THRESHOLD\n\n    return {\n  \
-          \      OUTPUT_PROMPT_KEY: (\n            prompt_per_file_extract_long\n\
-          \            if is_long\n            else prompt_per_file_extract_short\n\
-          \        )\n    }\n\n"
+        code: "# pylint: disable=missing-module-docstring\n\n\n# output keys  #################################################################\n\
+          OUTPUT_ANSWER = \"answer\"\n\n\n# constants  ###################################################################\n\
+          KEY_SIGIL = \"sigil\"\nKEY_MESSAGE = \"message\"\n\nANSWER_TEMPLATE = \"\
+          {}\\n\\n{}\"\n\n\n# auxiliaries  ##################################################################\n\
+          \n\ndef _merge_single(allows_md, filenames, per_file_extracts):\n    \"\"\
+          \"\n    merge the answer for the single-file, no-primary-message scenario\n\
+          \    \"\"\"\n    filename = filenames[0]\n    file_extract = per_file_extracts[0]\n\
+          \    sigil = file_extract[KEY_SIGIL]\n    message = file_extract[KEY_MESSAGE]\n\
+          \n    filename_line = (\"{}`{}`\" if allows_md else \"{}[{}]\").format(\n\
+          \        sigil, filename\n    )\n\n    return ANSWER_TEMPLATE.format(message,\
+          \ filename_line)\n\n\ndef _merge_multiple(allows_md, filenames, per_file_extracts,\
+          \ primary_message):\n    \"\"\"\n    merge the answer for the multiple-file,\
+          \ with-primary-message scenario\n    \"\"\"\n    line_pattern = \"{}`{}`\
+          \ {}\" if allows_md else \"{}[{}] {}\"\n\n    lines = []\n    for filename,\
+          \ file_extract in zip(filenames, per_file_extracts):\n        sigil = file_extract[KEY_SIGIL]\n\
+          \        message = file_extract[KEY_MESSAGE]\n        line = line_pattern.format(sigil,\
+          \ filename, message)\n        lines.append(line)\n\n    return ANSWER_TEMPLATE.format(primary_message,\
+          \ \"\\n\".join(lines))\n\n\n# Entry Point  #################################################################\n\
+          def main(\n    allows_md: bool,\n    skip_primary_message: bool,\n    filenames:\
+          \ list[str],\n    per_file_extracts: list[dict],\n    primary_message: str,\n\
+          ):\n    \"\"\"\n    merge to produce the final answer, from all per-file\
+          \ extracts\n\n    - when ``skip_primary_message`` is set, only a single\
+          \ file is\n      involved, so the answer is the file's message followed\
+          \ by its\n      sigil/filename line\n    - otherwise, the answer is the\
+          \ primary message followed by one\n      line per file, each with its sigil,\
+          \ filename, and message\n\n\n    :param allows_md: whether utilize md format\
+          \ in final result\n    :type allows_md: bool\n    :param skip_primary_message:\
+          \ whether only a single file is involved\n    :type skip_primary_message:\
+          \ bool\n    :param filenames:\n    :type filenames: list[str]\n    :param\
+          \ per_file_extracts: opt_obj entries, as returned by post_per_file\n   \
+          \ :type per_file_extracts: list[dict]\n    :param primary_message:\n   \
+          \ :type primary_message: str\n    :return: {\"answer\": merged final answer}\n\
+          \    :rtype: dict{\"answer\": str}\n    \"\"\"\n    if skip_primary_message:\n\
+          \        answer = _merge_single(allows_md, filenames, per_file_extracts)\n\
+          \    else:\n        answer = _merge_multiple(\n            allows_md, filenames,\
+          \ per_file_extracts, primary_message\n        )\n\n    return {OUTPUT_ANSWER:\
+          \ answer}\n\n"
         code_language: python3
-        isInIteration: true
-        isInLoop: false
-        iteration_id: '1775587914644'
         outputs:
-          extract_prompt:
+          answer:
             children: null
             type: string
         selected: false
-        title: decide_per_file_extract_prompt
+        title: merge_final_answer
         type: code
         variables:
         - value_selector:
-          - '1775587914644'
-          - item
-          value_type: string
-          variable: item
-        - value_selector:
-          - '17755879849770'
-          - body
-          value_type: string
-          variable: prompt_per_file_extract_long
-        - value_selector:
-          - '17755879408110'
-          - body
-          value_type: string
-          variable: prompt_per_file_extract_short
-      height: 51
-      id: '1775588043314'
-      parentId: '1775587914644'
-      position:
-        x: 102.00000000000023
-        y: 66
-      positionAbsolute:
-        x: 1206.9157947832973
-        y: 926.987496760723
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-      zIndex: 1002
-    - data:
-        context:
-          enabled: false
-          variable_selector: []
-        isInIteration: true
-        isInLoop: false
-        iteration_id: '1775587914644'
-        model:
-          completion_params: {}
-          mode: chat
-          name: gpt-5.4-nano
-          provider: langgenius/openai/openai
-        prompt_template:
-        - id: a87f8dc3-7905-4404-8f50-caad9bc26354
-          role: system
-          text: '{{#1775588043314.extract_prompt#}}'
-        - id: f409b96e-6edf-40b8-9aa7-b8ddf8f8aed9
-          role: user
-          text: '{{#1775587914644.item#}}'
-        selected: false
-        structured_output:
-          schema:
-            additionalProperties: false
-            properties:
-              summary:
-                maxLength: 72
-                type: string
-              symbol:
-                maxLength: 1
-                minLength: 1
-                type: string
-            required:
-            - symbol
-            - summary
-            type: object
-        structured_output_enabled: true
-        title: per file extract
-        type: llm
-        vision:
-          enabled: false
-      height: 87
-      id: '1775588142285'
-      parentId: '1775587914644'
-      position:
-        x: 404.0000000000002
-        y: 66
-      positionAbsolute:
-        x: 1508.9157947832973
-        y: 926.987496760723
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-      zIndex: 1002
-    - data:
-        cases:
-        - case_id: 'true'
-          conditions:
-          - comparison_operator: is
-            id: a64c48ea-eadc-4b10-8af0-796d1c87755f
-            value: true
-            varType: boolean
-            variable_selector:
-            - '1775587265168'
-            - is_single_file
-          id: 'true'
-          logical_operator: and
-        selected: false
-        title: single multiple branch (1)
-        type: if-else
-      height: 123
-      id: '17755882039760'
-      position:
-        x: 1829.1240610632974
-        y: 860.987496760723
-      positionAbsolute:
-        x: 1829.1240610632974
-        y: 860.987496760723
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        code: "# pylint: disable=missing-module-docstring\n\n# output keys  #################################################################\n\
-          OUTPUT_RESULT_KEY = \"result\"\n\n\n# Entry Point  #################################################################\n\
-          def main(\n    allows_md: bool,\n    filenames_list: list[str],\n    per_file_extracts:\
-          \ list[dict],\n    primary_message: str,\n):\n    \"\"\"\n    merge to produce\
-          \ final output,\n    when multiple files are involved\n\n\n    :param allows_md:\
-          \ whether utilize md format in final result\n    :type allows_md: bool\n\
-          \    :param filenames_list:\n    :type filenames_list: list[str]\n    :param\
-          \ per_file_extracts:\n    :type per_file_extracts: list[dict]\n    :param\
-          \ primary_message:\n    :type primary_message: str\n    :return: {\"result\"\
-          : merged output}\n    :rtype: dict{\"result\": str}\n    \"\"\"\n    line_pattern\
-          \ = \"{}`{}` {}\" if allows_md else \"{}[{}] {}\"\n\n    # create line per\
-          \ file\n    lines = []\n    for filename, file_extract in zip(filenames_list,\
-          \ per_file_extracts):\n        symbol = file_extract[\"symbol\"]\n     \
-          \   summary = file_extract[\"summary\"]\n        line = line_pattern.format(symbol,\
-          \ filename, summary)\n        lines.append(line)\n\n    # combines\n   \
-          \ opt = \"\"\"{}\n\n{}\"\"\".format(primary_message, \"\\n\".join(lines))\n\
-          \n    return {OUTPUT_RESULT_KEY: opt}\n\n"
-        code_language: python3
-        outputs:
-          result:
-            children: null
-            type: string
-        selected: false
-        title: merge final multiple
-        type: code
-        variables:
-        - value_selector:
-          - '1775587265168'
+          - '1775587230054'
           - allows_md
           value_type: boolean
           variable: allows_md
         - value_selector:
-          - '1775587265168'
-          - filenames_list
-          value_type: array[string]
-          variable: filenames_list
+          - '1784712853898'
+          - skip_primary_message
+          value_type: boolean
+          variable: skip_primary_message
         - value_selector:
-          - '1775587914644'
+          - '1784712853898'
+          - filenames
+          value_type: array[string]
+          variable: filenames
+        - value_selector:
+          - '17847136437120'
           - output
           value_type: array[object]
           variable: per_file_extracts
@@ -859,62 +670,100 @@ workflow:
           value_type: string
           variable: primary_message
       height: 51
-      id: '17755883562550'
+      id: '1784718530590'
       position:
-        x: 2457.1927751959192
-        y: 443.1649923447007
+        x: 2038.5682732510259
+        y: 303
       positionAbsolute:
-        x: 2457.1927751959192
-        y: 443.1649923447007
+        x: 2038.5682732510259
+        y: 303
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 241
     - data:
-        output_type: string
-        selected: false
-        title: Final Aggregator
-        type: variable-aggregator
+        code: "# pylint: disable=missing-module-docstring\n\n\n# output keys  #################################################################\n\
+          OUTPUT_OPT_OBJ = \"opt_obj\"\n\n\n# constants  ###################################################################\n\
+          \nFALLBACK_SIGIL = \"*\"\nBALANCE_TOLERANCE = 0.2\n\nSIGIL_ADD_SHORT = \"\
+          +\"\nSIGIL_DEL_SHORT = \"-\"\nSIGIL_BALANCED_SHORT = \"*\"\nSIGIL_ADD_LONG\
+          \ = \"/\"\nSIGIL_DEL_LONG = \"\\\\\"\nSIGIL_BALANCED_LONG = \"|\"\n\n\n\
+          # auxiliaries  ##################################################################\n\
+          def _resolve_ordinary_sigil(per_file_diff, LONG_SHORT_THRESHOLD):\n    \"\
+          \"\"\n    resolve the ordinary-edit sigil for a diff, from its add/delete\n\
+          \    balance and its long/short form\n\n\n    :return: the resolved ordinary-edit\
+          \ sigil\n    :rtype: str\n    \"\"\"\n    added = 0\n    deleted = 0\n\n\
+          \    for line in per_file_diff.split(\"\\n\"):\n        if line.startswith(\"\
+          +++\") or line.startswith(\"---\"):\n            continue\n        if line.startswith(\"\
+          +\"):\n            added += 1\n        elif line.startswith(\"-\"):\n  \
+          \          deleted += 1\n\n    is_long = per_file_diff.count(\"\\n\") >\
+          \ LONG_SHORT_THRESHOLD\n    largest = max(added, deleted, 1)\n    is_balanced\
+          \ = abs(added - deleted) <= BALANCE_TOLERANCE * largest\n\n    if is_balanced:\n\
+          \        return SIGIL_BALANCED_LONG if is_long else SIGIL_BALANCED_SHORT\n\
+          \    if added > deleted:\n        return SIGIL_ADD_LONG if is_long else\
+          \ SIGIL_ADD_SHORT\n    return SIGIL_DEL_LONG if is_long else SIGIL_DEL_SHORT\n\
+          \n\n# Entry Point  #################################################################\n\
+          def main(LONG_SHORT_THRESHOLD, per_file_diff, llm_message):\n    \"\"\"\n\
+          \    perform post-process directly on the LLM's per-file output:\n\n   \
+          \ - split ``llm_message`` into its sigil line and summary line\n    - when\
+          \ the sigil is the ordinary-edit placeholder, resolve the\n      real sigil\
+          \ from ``per_file_diff``'s add/delete balance and\n      length against\
+          \ ``LONG_SHORT_THRESHOLD``\n\n\n    :param LONG_SHORT_THRESHOLD: newline-count\
+          \ cutoff above which a\n            diff is classified as long rather than\
+          \ short\n    :type LONG_SHORT_THRESHOLD: float\n    :param per_file_diff:\n\
+          \    :type per_file_diff: str\n    :param llm_message:\n    :type llm_message:\
+          \ str\n    :return: {\n        \"opt_obj\": the resolved sigil and message\
+          \ for this file\n    }\n    :rtype: dict{\n        \"opt_obj\": dict{\"\
+          sigil\": str, \"message\": str}\n    }\n    \"\"\"\n    sigil, _, message\
+          \ = llm_message.strip(\"\\n\").partition(\"\\n\")\n    sigil = sigil.strip()\n\
+          \    message = message.strip()\n\n    if sigil == FALLBACK_SIGIL:\n    \
+          \    sigil = _resolve_ordinary_sigil(per_file_diff, LONG_SHORT_THRESHOLD)\n\
+          \n    opt_obj = {\"sigil\": sigil, \"message\": message}\n\n    return {OUTPUT_OPT_OBJ:\
+          \ opt_obj}\n\n"
+        code_language: python3
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '17847136437120'
+        outputs:
+          opt_obj:
+            children: null
+            type: object
+        selected: true
+        title: post_per_file
+        type: code
         variables:
-        - - '17755883562550'
-          - result
-        - - '1775587847434'
-          - result
-      height: 134
-      id: '1775588436884'
+        - value_selector:
+          - env
+          - LONG_SHORT_THRESHOLD
+          value_type: number
+          variable: LONG_SHORT_THRESHOLD
+        - value_selector:
+          - '17847136437120'
+          - item
+          value_type: string
+          variable: per_file_diff
+        - value_selector:
+          - '1784713643712017847136437131'
+          - text
+          value_type: string
+          variable: llm_message
+      height: 51
+      id: '1784719997268'
+      parentId: '17847136437120'
       position:
-        x: 2839.1927751959192
-        y: 335
+        x: 417
+        y: 65
       positionAbsolute:
-        x: 2839.1927751959192
-        y: 335
-      selected: false
+        x: 1652.311937969482
+        y: 601.2574064245854
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 241
-    - data:
-        answer: '{{#1775588436884.output#}}'
-        selected: false
-        title: Answer
-        type: answer
-        variables: []
-      height: 101
-      id: '1775588454795'
-      position:
-        x: 3159.1927751959192
-        y: 335
-      positionAbsolute:
-        x: 3159.1927751959192
-        y: 335
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
+      zIndex: 1002
     viewport:
-      x: -42.57984969855602
-      y: -77.12028011211135
-      zoom: 0.6118596723941092
+      x: 58.685536005858694
+      y: 150.6803911655245
+      zoom: 0.5743491774985181
   rag_pipeline_variables: []

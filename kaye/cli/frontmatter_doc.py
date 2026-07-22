@@ -29,6 +29,7 @@ def dump_yaml(mapping):  # =====================================================
         default_flow_style=False,
         sort_keys=False,
         width=float("inf"),
+        allow_unicode=True,
     )
     return yaml_buffer.getvalue()
 

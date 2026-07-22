@@ -179,15 +179,7 @@ All endpoints below `/kaye/dify-app/kaye-commit-sense`
 
 ----
 
-`/per-file-long`
-
-- by `GET`
-- response type `text/plain`
-- param `allows_md`, v.s.
-
-----
-
-`/per-file-short`
+`/per-file`
 
 - by `GET`
 - response type `text/plain`
