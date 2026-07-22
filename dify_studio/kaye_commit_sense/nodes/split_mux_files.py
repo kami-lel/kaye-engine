@@ -3,13 +3,10 @@
 
 import re
 
-# HACK is pass thru allows md necessary?
-
 # output keys  #################################################################
 
 OUTPUT_SKIP_PRIMARY = "skip_primary_message"
 OUTPUT_ALLOWS_MD_API = "allows_md_query_value"
-OUTPUT_ALLOWS_MD = "allows_md"
 OUTPUT_PER_FILE_DIFF = "per_file_diff"
 OUTPUT_FILENAMES = "filenames"
 
@@ -28,7 +25,6 @@ def main(content: str, allows_md: bool):
     - extract each file's name, ordered the same as ``per_file_diff``
     - decide if there is only one file change, to skip the primary message
     - pass through ``allows_md`` as ``1/2`` as URL query parameter value
-    - pass through ``allows_md`` as-is
 
 
     :param content:
@@ -38,14 +34,12 @@ def main(content: str, allows_md: bool):
     :return: {
         "skip_primary_message": if the given content contains only single file
         "allows_md_query_value": old query value of ``allows_md_number``
-        "allows_md": pass-through of the given ``allows_md``
         "per_file_diff": a list of all files' diff content
         "filenames": a list of all files' name
     }
     :rtype: dict{
         "skip_primary_message": bool
         "allows_md_query_value": int
-        "allows_md": bool
         "per_file_diff": list[str]
         "filenames": list[str]
     }
@@ -62,7 +56,6 @@ def main(content: str, allows_md: bool):
     return {
         OUTPUT_SKIP_PRIMARY: skip_primary_message,
         OUTPUT_ALLOWS_MD_API: 1 if allows_md else 0,
-        OUTPUT_ALLOWS_MD: allows_md,
         OUTPUT_PER_FILE_DIFF: per_file_diff,
         OUTPUT_FILENAMES: filenames,
     }
