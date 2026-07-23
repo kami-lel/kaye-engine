@@ -33,12 +33,13 @@ dev = [
 ]
 
 [tool.setuptools]
-include-package-data = true
+include-package-data = false
 package-dir = { "" = "." }
 
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["kaye*"]
+exclude = ["build*", "tests*", "dify_studio*", "examples*", "scripts*"]
 
 [tool.setuptools.package-data]
 "*" = ["prompt_corpus.md", "abbrs.json", "permission_cmds.jsonc"]
