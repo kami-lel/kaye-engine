@@ -41,4 +41,4 @@ where = ["."]
 include = ["kaye*"]
 
 [tool.setuptools.package-data]
-"*" = ["prompt_corpus.md", "abbrs.json"]
+"*" = ["prompt_corpus.md", "abbrs.json", "permission_cmds.jsonc"]
