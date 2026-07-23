@@ -16,6 +16,16 @@ version: 0.5.0
 workflow:
   conversation_variables: []
   environment_variables:
+  - description: 'Kaye Flask API''s IP accessible to this Dify App, e.g. "11.22.33.44";
+
+      default Docker gateway: "172.17.0.1"'
+    id: 90754377-4807-42cd-9547-11f6213ed4e9
+    name: FLASK_API_IP
+    selector:
+    - env
+    - FLASK_API_IP
+    value: ''
+    value_type: secret
   - description: 'newline-count cutoff above which a diff is classified as long rather
       than short
 
@@ -35,14 +45,6 @@ workflow:
     - FLASK_API_PORT
     value: '11255'
     value_type: string
-  - description: Kaye Flask API's URL accessible to this Dify App, e.g. "http://11.22.33.44"
-    id: a4e4119d-414f-42c6-b1f8-24ce7399b8ba
-    name: FLASK_API_URL
-    selector:
-    - env
-    - FLASK_API_URL
-    value: ''
-    value_type: secret
   features:
     file_upload:
       allowed_file_extensions:
@@ -292,7 +294,7 @@ workflow:
           max_write_timeout: 0
         title: GET primary message prompt
         type: http-request
-        url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/primary-message'
+        url: http://{{#env.FLASK_API_IP#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/primary-message
         variables: []
       height: 175
       id: '1775587581098'
@@ -302,7 +304,7 @@ workflow:
       positionAbsolute:
         x: 1235.311937969482
         y: 214.3679700000165
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -480,7 +482,7 @@ workflow:
           max_write_timeout: 0
         title: Per File Prompt Getter
         type: http-request
-        url: '{{#env.FLASK_API_URL#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/per-file'
+        url: http://{{#env.FLASK_API_IP#}}:{{#env.FLASK_API_PORT#}}/kaye/dify-app/kaye-commit-sense/per-file
         variables: []
       height: 175
       id: '17847134865020'
@@ -728,7 +730,7 @@ workflow:
           opt_obj:
             children: null
             type: object
-        selected: true
+        selected: false
         title: post_per_file
         type: code
         variables:
@@ -756,14 +758,14 @@ workflow:
       positionAbsolute:
         x: 1652.311937969482
         y: 601.2574064245854
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 241
       zIndex: 1002
     viewport:
-      x: 58.685536005858694
-      y: 150.6803911655245
+      x: -181.70947141544377
+      y: 334.1223797173432
       zoom: 0.5743491774985181
   rag_pipeline_variables: []
