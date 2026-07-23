@@ -21,7 +21,7 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.10.1...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.10.2...dev
 
 ### Added
 
@@ -34,6 +34,31 @@ todo todo CLI to import/export w/ OpenWebUI
 ### Fixed
 
 ### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.10.2] - 2026-07-23
+
+### Changed
+
+- Kaye Commit Sense Dify workflow — the Flask endpoint host is now a separate `FLASK_API_IP` variable, split from the former full-URL `FLASK_API_URL`, with the `http` protocol fixed in the request URLs
+
+### Fixed
+
+- `kaye claude vs-code-extension` — the command crashed on an installed package because `permission_cmds.jsonc` was never packaged; it now ships as package data
+- packaged wheel — no longer bundles a stale duplicate `build/` tree, so a distribution carries only the package and its declared data files
+
+[6.10.2]: https://github.com/kami-lel/kaye/compare/v6.10.1...v6.10.2
 
 
 
