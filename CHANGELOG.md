@@ -29,9 +29,15 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Changed
 
+- Prompt corpus — the standalone Introduction section is gone; the Kaye intro line now lives as a **Personality-Kaye** subsection under Personality, with the name bolded
+- Prompt corpus — Emotion Formatting is now **Personality Formatting**, formalizing the split between Personality Content and Task Content
+- Blueprint registration checklists (`rapid`, `chat`) — dropped the Introduction checkpoint, added Personality-Kaye
+
 ### Deprecated
 
 ### Removed
+
+- Obsolete intro1/intro2 unit tests across all coder and task test suites, along with the shared `TESTEE_INTRODUCTION_CONTENT` fixture
 
 ### Fixed
 
