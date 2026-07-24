@@ -12,7 +12,6 @@ Unit Tests (using pytest) for:
 import pytest
 
 from tests.api.ky.task import (
-    TESTEE_INTRODUCTION_CONTENT,
     TESTEE_MD_BASIC_FORMAT_CONTENT,
     TESTEE_MD_ADD_FORMAT_CONTENT,
     TESTEE_CHAT_ADDITIONAL_CONTENT,
@@ -30,13 +29,6 @@ def opt(flask_test_client, task_endpoint):
 
 
 # Pytest unit tests  ###########################################################
-
-
-class TestIntroductionContent:  # ==============================================
-
-    @pytest.mark.parametrize("marker", TESTEE_INTRODUCTION_CONTENT)
-    def test_content(_, opt, marker):
-        assert marker in opt
 
 
 class TestMdBasicFormatContent:  # ============================================

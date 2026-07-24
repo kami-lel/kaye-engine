@@ -40,14 +40,6 @@ class TestArt:  # ==============================================================
 
     # rapid blueprint  *********************************************************
 
-    def test_intro1(_, opt):
-
-        assert_intro1(opt)
-
-    def test_intro2(_, opt):
-
-        assert_intro2(opt)
-
     def test_format_title(_, opt):
 
         assert_format_title(opt)

@@ -78,14 +78,6 @@ class TestCoder:  # ============================================================
 
     # chat blueprint  **********************************************************
 
-    def test_intro1(_, opt):
-        print(opt)
-        assert_intro1(opt)
-
-    def test_intro2(_, opt):
-        print(opt)
-        assert_intro2(opt)
-
     def test_format_title(_, opt):
         print(opt)
         assert_format_title(opt)

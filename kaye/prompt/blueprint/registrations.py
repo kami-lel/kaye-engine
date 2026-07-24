@@ -59,7 +59,6 @@ rapid = register_blueprint(
     "rapid",
     "Rapid",
     PromptBlueprint.parse("""    ○
-[x] ├── Introduction
 [x] └── Style Guide
 [x]     └── Style Guide Markdown Format
 [x]         └── Additional Markdown Format"""),
@@ -74,8 +73,8 @@ chat = register_blueprint(
     "chat",
     "Chat",
     PromptBlueprint.parse("""    ○
-[x] ├── Introduction
 [x] ├── Personality
+[x] │   └── Personality-Kaye
 [x] ├── Language
 [x] ├── Style Guide
 [x] │   ├── Style Guide Markdown Format
