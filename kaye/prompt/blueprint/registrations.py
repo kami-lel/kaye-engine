@@ -286,9 +286,16 @@ project_changelog = _register_node(
 
 
 # Project AGENTS Writer
-# BUG exported prerequisites name `Coder AGENTS Writer` / `Coder CONTEXT Writer`, neither registered nor in corpus
 project_agents = _register_node(
     _register_exportable, "project-agents", _proj_node, "Project AGENTS Writer"
+)
+
+# Project CONTEXT Writer
+project_context = _register_node(
+    _register_exportable,
+    "project-context",
+    _proj_node,
+    "Project CONTEXT Writer",
 )
 
 # Project Semantic Versioning
