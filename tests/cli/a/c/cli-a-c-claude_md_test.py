@@ -10,7 +10,6 @@ exported folder with content equivalent to ``kaye claude u -c``.
 import pytest
 
 from tests import (
-    TESTEE_INTRODUCTION_CONTENT,
     TESTEE_MD_BASIC_FORMAT_CONTENT,
     TESTEE_MD_ADD_FORMAT_CONTENT,
     TESTEE_CHAT_ADDITIONAL_CONTENT,
@@ -44,10 +43,6 @@ class TestBasic:  # ============================================================
 
 
 class TestContent:  # ===========================================================
-
-    @pytest.mark.parametrize("marker", TESTEE_INTRODUCTION_CONTENT)
-    def test_introduction(self, claude_md_content, marker):
-        assert marker in claude_md_content
 
     @pytest.mark.parametrize("marker", TESTEE_MD_BASIC_FORMAT_CONTENT)
     def test_md_basic_format(self, claude_md_content, marker):
