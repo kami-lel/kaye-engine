@@ -4,7 +4,7 @@
 
 <!--
 Todo add Ria & Zin personality
-Bug kaye commit sense: per-file fail to follow 72 char rules
+BUG kaye commit sense: per-file fail to follow 72 char rules
 todo split corpus itself from this project (public vs private repo)
 todo todo CLI to import/export w/ OpenWebUI
 -->
