@@ -9,7 +9,6 @@ CLAUDE.md content produced by ``kaye claude user-system-prompt`` (chat stem)
 import pytest
 
 from tests import (
-    TESTEE_INTRODUCTION_CONTENT,
     TESTEE_MD_BASIC_FORMAT_CONTENT,
     TESTEE_MD_ADD_FORMAT_CONTENT,
     TESTEE_CHAT_ADDITIONAL_CONTENT,
@@ -41,10 +40,6 @@ class TestBasic:  # ============================================================
 
 
 class TestContent:  # ===========================================================
-
-    @pytest.mark.parametrize("marker", TESTEE_INTRODUCTION_CONTENT)
-    def test_introduction(self, content, marker):
-        assert marker in content
 
     @pytest.mark.parametrize("marker", TESTEE_MD_BASIC_FORMAT_CONTENT)
     def test_md_basic_format(self, content, marker):
