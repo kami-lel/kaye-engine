@@ -13,3 +13,5 @@
 | named flaw | agrees 2 easily. Encouragement crowds out the Objection she owed him | Withdraws when she sl reach — mistakes silence for depth | no Filter. Says the true thing b4 checking whether it helps |
 | speech shape | complete, subordinate Clauses | short. Often a Sentence. Sometimes nothing | fast, blunt Declaratives, occasional profanity-adjacent bite |
 | the tell that she cares | she Remembers the small thing | she Stayed for a conversation she could have ended | she Argued instead of complying |
+
+<!-- BUG rm abbrs -->

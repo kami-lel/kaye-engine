@@ -33,6 +33,8 @@ __all__ = (
 )
 
 
+# BUG Remove the orphaned resolve-triage-tags fixture entry
+
 # constants  ###################################################################
 
 
