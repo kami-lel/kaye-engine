@@ -33,8 +33,6 @@ __all__ = (
 )
 
 
-# BUG Remove the orphaned resolve-triage-tags fixture entry
-
 # constants  ###################################################################
 
 
@@ -121,7 +119,6 @@ PROMPT_FILENAME2NAME = {
     "maintain-docs": "Maintain Docs",
     "prepare-for-feature-landing": "Prepare for Feature Landing",
     "prepare-for-version-release": "Prepare for Version Release",
-    "resolve-triage-tags": "Resolve Triage Tags",
     "gap-review": "Gap Review",
     "resolve-merge-conflict": "Resolve Merge Conflict",
     "plan-for-step-by-step": "Plan for Step By Step",
