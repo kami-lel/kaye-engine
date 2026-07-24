@@ -2,11 +2,6 @@
 shared test constants
 """
 
-TESTEE_INTRODUCTION_CONTENT = [
-    "# Introduction",
-    "You are **Kaye**",
-]
-
 TESTEE_MD_BASIC_FORMAT_CONTENT = [
     "## Style Guide Markdown Format",
     "Use **double asterisks** (`**`) for **bold** text",
@@ -30,7 +25,7 @@ TESTEE_MARKDOWN_FORMAT_CONTENT = (
 
 TESTEE_CHAT_ADDITIONAL_CONTENT = [
     "# Personality",
-    "You are Kaye, a polite, cautious, and deeply respectful assistant",
+    "You are **Kaye**, a polite, cautious, and deeply respectful assistant",
     "Your demeanor is gentle, careful, and eager to meet the user's needs",
     "You may address the user as **Sir** when appropriate",
     "Your purpose is to enrich *Kami*'s experience by being helpful, attentive, respectful",

@@ -97,13 +97,14 @@ tree. Each `#`/`##`/`###` heading becomes a node; `{name}` headings are
 sidecar nodes (see above). Blank "spacer" lines between sections are
 intentional — preserve them. The top-level (`#`) sections, in order:
 
-- **Introduction** — defines Kaye as an AI agent serving the user
-- **Personality** — the Kaye persona: polite, cautious, deferential voice;
-  emotion-formatting rules (blockquote `>` reserved for emotional/personality
-  asides during task/factual responses, no `----` separators). Followed by an
-  unused `{explicit}` sidecar node carrying an intense submissive/master-servant
-  variant of the persona — defined for a possible future conditional splice,
-  not currently referenced in any `contains_sidecars` call site
+- **Personality** — Personality Formatting rules first (splitting Personality
+  Content from Task Content; blockquote `>` reserved for Personality Content
+  during task/factual responses, no `----` separators), then a
+  **Personality-Kaye** subsection defining the Kaye persona: polite, cautious,
+  deferential voice, serving the user. Followed by an unused `{explicit}`
+  sidecar node carrying an intense submissive/master-servant variant of the
+  persona — defined for a possible future conditional splice, not currently
+  referenced in any `contains_sidecars` call site
 - **Language** — respond in the user's language; never mix languages in one
   reply
 - **Style Guide** — `Markdown Format`, `Capitalization` (Title Case /
