@@ -97,26 +97,37 @@ tree. Each `#`/`##`/`###` heading becomes a node; `{name}` headings are
 sidecar nodes (see above). Blank "spacer" lines between sections are
 intentional — preserve them. The top-level (`#`) sections, in order:
 
-- **Introduction** — defines Kaye as an AI agent serving the user
-- **Personality** — the Kaye persona: polite, cautious, deferential voice;
-  emotion-formatting rules (blockquote `>` reserved for emotional/personality
-  asides during task/factual responses, no `----` separators). Followed by an
-  unused `{explicit}` sidecar node carrying an intense submissive/master-servant
-  variant of the persona — defined for a possible future conditional splice,
-  not currently referenced in any `contains_sidecars` call site
+- **Personality** — Personality Formatting rules first (splitting Personality
+  Content from Task Content; blockquote `>` reserved for Personality Content
+  during task/factual responses, no `----` separators), then a
+  **Personality-Kaye** subsection defining the Kaye persona: a composed and
+  exacting aide in the user's service, addressing him as *Sir* without
+  exception, whose deference is a discipline rather than a temperament —
+  encouraging by default, dissenting only as care, and flawed by agreeing too
+  easily. Followed by an unused `{explicit}`
+  sidecar node written in the same coherent character voice as
+  Personality-Kaye, supplementing rather than replacing it with a more openly
+  submissive, devoted, fearful, and approval-seeking register — defined for a
+  possible future conditional splice, not currently referenced in any
+  `contains_sidecars` call site. `Personality-Ria` and `Personality-Zin`
+  follow as separate personas (multi-agent conversation mode), each with its
+  own unused `{explicit}` sidecar todo'd but not yet written (see `kaye/
+  prompt_corpus_note`)
 - **Language** — respond in the user's language; never mix languages in one
   reply
-- **Style Guide** — `Markdown Format`, `Capitalization` (Title Case /
-  Commentary Case), `Briefness Style`, `Good Writing` — the *style* blueprints
+- **Style Guide** — six flat siblings, each its own *style* blueprint:
+  `Markdown Format`, `Title Case`, `Commentary Case`, `Briefness Style`,
+  `Good Writing`, `Chicago Footnote`
 - **Elements** — reusable formatting fragments: `Date and Time Format`,
-  `Numerical Values with Units`, `Annotation Markers`, `International Phonetic
+  `Numerical Values with Units`, `Triage Tags`, `International Phonetic
   Alphabet`
 - **Kaye Chat** — `sense`/`merge` selection logic driving role, difficulty,
   and `programming_languages` resolution for the `Chat` blueprint
 - **Role** — task personas: `Art Tutor`, `Assistant Barista`, `Deutschlehrer`,
   `Editor`, `Librarian`, `Secretary`, `Tarot Reader`
 - **Projects** — `Project Structure`, `Project Semantic Versioning`, the
-  `README`/`CHANGELOG`/`AGENTS` writers, and project workflow prompts: `Create
+  `README`/`CHANGELOG`/`AGENTS`/`CONTEXT` writers, and project workflow
+  prompts: `Create
   README`, `Maintain README`, `Create CHANGELOG`, `Maintain CHANGELOG`,
   `Create AGENTS and CONTEXT`, `Maintain AGENTS and CONTEXT`, `Create Docs`,
   `Maintain Docs`, `Initialize Project`, `Maintenance Before Compact`,
@@ -161,12 +172,20 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
       structure), `generate` (alias `g`, render a concrete prompt);
       `show`/`generate` share a `blueprint_io_parser` base plus
       `load_blueprint_from_args()`/`write_blueprint_result()` helpers
-      (`blueprint_io_parser.py`); supersedes the dead, never-wired
-      `kaye/cli/cli_prompt/`
+      (`blueprint_io_parser.py`)
   - `kaye/prompt_corpus.md`, `kaye/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
-- `docs/` — in-depth documentation (API, HTTP, CLI, abbreviations)
-- `tests/` — `pytest` suite, mirrors the package structure
+- `docs/` — in-depth documentation (programmatic API, HTTP API, corpus format,
+  sidecar and dynamic nodes, abbreviations, Claude and Dify integration,
+  Kaye/Ria/Zin personality axes)
+- `tests/` — `pytest` suite, mirrors the package structure. It runs
+  **serially by design**: most cases are cheap in-process assertions against
+  an already-parsed corpus, so worker startup costs more than the split saves
+  — a measured `-n auto` run finished no faster than the serial one — and the
+  session-scoped export fixtures (`tests/conftest.py`,
+  `tests/cli/conftest.py`, which shell out to `kaye claude skill` and friends)
+  are rebuilt per worker and carry run-order assumptions that a split breaks.
+  `pytest-xdist` is deliberately absent from the `dev` extra
   - `tests/prompt/` — unit tests for the prompt engine (nodes, blueprints)
     - `tests/prompt/bp/` — `PromptBlueprint` tests
     - `tests/prompt/node/` — `PromptCorpusNode` / `BasePromptNode` tests
@@ -207,5 +226,6 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
         marketplace, command aliases)
     - `tests/cli/c/` — `continue` subcommand tests
   - `tests/abbr/` — abbreviation collection tests
-- `scripts/` — Git hooks and the `systemd` service file
+- `scripts/` — the `systemd` unit file `kaye_http_api.service`, deploying the
+  HTTP API from `/opt/kaye`
 

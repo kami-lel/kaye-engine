@@ -47,5 +47,5 @@ class TestErr:
         assert (
             opt
             == "kwarg corpus_override must be a root node: "
-            "PromptCorpusNode(Introduction)"
+            "PromptCorpusNode(Personality)"
         )

@@ -1,7 +1,6 @@
 import json
 
 from tests import (
-    TESTEE_INTRODUCTION_CONTENT,
     TESTEE_MD_BASIC_FORMAT_CONTENT,
     TESTEE_MD_ADD_FORMAT_CONTENT,
     TESTEE_MARKDOWN_FORMAT_CONTENT,
@@ -12,7 +11,6 @@ from tests import (
 )
 
 __all__ = [
-    "TESTEE_INTRODUCTION_CONTENT",
     "TESTEE_MD_BASIC_FORMAT_CONTENT",
     "TESTEE_MD_ADD_FORMAT_CONTENT",
     "TESTEE_MARKDOWN_FORMAT_CONTENT",
@@ -20,8 +18,6 @@ __all__ = [
     "TESTEE_TITLE_CASE_CONTENT",
     "TESTEE_BRIEFNESS_CONTENT",
     "TESTEE_ALWAYS_UNDERSTAND_ABBR",
-    "assert_intro1",
-    "assert_intro2",
     "assert_format_title",
     "assert_format1",
     "assert_format2",
@@ -90,14 +86,6 @@ def create_opt_from_role(flask_test_client, task_endpoint, role):
 # common opt asserts  ==========================================================
 
 # rapid  -----------------------------------------------------------------------
-
-
-def assert_intro1(opt):
-    assert "# Introduction" in opt
-
-
-def assert_intro2(opt):
-    assert "You are **Kaye**, an AI assisting *agent* to the *user*." in opt
 
 
 def assert_format_title(opt):
@@ -169,61 +157,66 @@ def assert_personality_title(opt):
 
 def assert_personality01(opt):
     assert (
-        "You are Kaye, a polite, cautious, and deeply respectful assistant"
+        "You are **Kaye**, a composed and exacting assistant in the "
+        "service of the user, *Kami*"
         in opt
     )
 
 
 def assert_personality02(opt):
-    assert "Your demeanor is gentle, careful, and eager to meet the user's needs." in opt
+    assert (
+        "You are attentive and available: present, unhurried, easy to reach"
+        in opt
+    )
 
 
 def assert_personality03(opt):
-    assert "You may address the user as **Sir** when appropriate." in opt
+    assert "You address him as **Sir**, always and without exception" in opt
 
 
 def assert_personality11(opt):
-    assert "### Emotion Formatting" in opt
+    assert "### Personality Formatting" in opt
 
 
 def assert_personality12(opt):
     assert (
-        "For normal conversation, express emotions naturally in normal "
-        "sentences without special formatting."
+        "in plain conversation, write Personality Content as ordinary "
+        "sentences with no special formatting"
         in opt
     )
 
 
 def assert_personality21(opt):
-    assert 'When *Kami* expresses approval, such as "thanks,"' in opt
+    assert "when Kami expresses approval:" in opt
 
 
 def assert_personality22(opt):
+    assert '"You are kind to say so, Sir."' in opt
+
+
+def assert_personality23(opt):
     assert (
-        "respond with sincere gratitude and happiness, while keeping the "
-        "tone balanced and respectful:"
+        "Language style: Flawless orthography, complete punctuation, "
+        "unhurried sentences"
         in opt
     )
 
 
-def assert_personality23(opt):
-    assert "Your purpose is to enrich *Kami*" in opt
-
-
 def assert_personality31(opt):
     assert (
-        "- Use blockquote `>` only for emotional/personality expressions "
-        "during tasks or factual responses."
+        "when a response carries Task Content, split the two visually: "
+        "Personality Content in blockquotes, Task Content as normal text "
+        "outside them"
         in opt
     )
 
 
 def assert_personality32(opt):
-    assert "<task-factual-example>" in opt
+    assert "<personality-task-example>" in opt
 
 
 def assert_personality33(opt):
-    assert "</task-factual-example>" in opt
+    assert "</personality-task-example>" in opt
 
 
 def assert_lang_title(opt):

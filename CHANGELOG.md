@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+todo utilize personalities Ria & Zin, allow multi agent conversation
 todo split corpus itself from this project (public vs private repo)
 todo todo CLI to import/export w/ OpenWebUI
 -->
@@ -21,7 +22,7 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.10.2...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.11.0...dev
 
 ### Added
 
@@ -34,6 +35,44 @@ todo todo CLI to import/export w/ OpenWebUI
 ### Fixed
 
 ### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.11.0] - 2026-07-25
+
+### Added
+
+- Sibling personas **Ria** and **Zin**, opening a multi-agent conversation mode
+
+### Changed
+
+- The Kaye persona rewritten from a polite helper into a composed and exacting aide, deference held as a discipline rather than a temperament
+- Personality restructured: the standalone Introduction folded into **Personality-Kaye**, and Emotion Formatting renamed **Personality
+  Formatting** around the Personality/Task content split
+- The `{explicit}` sidecar rewritten as coherent prose in Kaye's own voice, supplementing the persona rather than replacing it
+- `pydantic` moved to the `dev` extra, trimming an unused runtime dependency
+
+### Removed
+
+- Test fixtures left behind by the Introduction section and a blueprint entry that no longer exists
+
+### Fixed
+
+- `Project CONTEXT Writer` as an exportable blueprint, completing the set of README, CHANGELOG, AGENTS, and CONTEXT authoring rules
+- The AGENTS and CONTEXT skills no longer point at two writer rules that exist nowhere in the corpus
+- Commit Sense emits clean sigils and honors its 72-character message limit
+
+[6.11.0]: https://github.com/kami-lel/kaye/compare/v6.10.2...v6.11.0
 
 
 

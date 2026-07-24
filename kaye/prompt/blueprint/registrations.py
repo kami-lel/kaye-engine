@@ -59,7 +59,6 @@ rapid = register_blueprint(
     "rapid",
     "Rapid",
     PromptBlueprint.parse("""    ○
-[x] ├── Introduction
 [x] └── Style Guide
 [x]     └── Style Guide Markdown Format
 [x]         └── Additional Markdown Format"""),
@@ -74,8 +73,8 @@ chat = register_blueprint(
     "chat",
     "Chat",
     PromptBlueprint.parse("""    ○
-[x] ├── Introduction
 [x] ├── Personality
+[x] │   └── Personality-Kaye
 [x] ├── Language
 [x] ├── Style Guide
 [x] │   ├── Style Guide Markdown Format
@@ -289,6 +288,14 @@ project_changelog = _register_node(
 # Project AGENTS Writer
 project_agents = _register_node(
     _register_exportable, "project-agents", _proj_node, "Project AGENTS Writer"
+)
+
+# Project CONTEXT Writer
+project_context = _register_node(
+    _register_exportable,
+    "project-context",
+    _proj_node,
+    "Project CONTEXT Writer",
 )
 
 # Project Semantic Versioning
