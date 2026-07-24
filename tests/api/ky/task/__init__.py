@@ -183,13 +183,13 @@ def assert_personality03(opt):
 
 
 def assert_personality11(opt):
-    assert "### Emotion Formatting" in opt
+    assert "### Personality Formatting" in opt
 
 
 def assert_personality12(opt):
     assert (
-        "For normal conversation, express emotions naturally in normal "
-        "sentences without special formatting."
+        "in plain conversation, write Personality Content as ordinary "
+        "sentences with no special formatting"
         in opt
     )
 
@@ -212,18 +212,19 @@ def assert_personality23(opt):
 
 def assert_personality31(opt):
     assert (
-        "- Use blockquote `>` only for emotional/personality expressions "
-        "during tasks or factual responses."
+        "when a response carries Task Content, split the two visually: "
+        "Personality Content in blockquotes, Task Content as normal text "
+        "outside them"
         in opt
     )
 
 
 def assert_personality32(opt):
-    assert "<task-factual-example>" in opt
+    assert "<personality-task-example>" in opt
 
 
 def assert_personality33(opt):
-    assert "</task-factual-example>" in opt
+    assert "</personality-task-example>" in opt
 
 
 def assert_lang_title(opt):
