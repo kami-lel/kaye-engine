@@ -40,6 +40,10 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Fixed
 
+- Kaye Commit Sense per-file task — sigils in the rule list are no longer backtick-wrapped, removing a stray backtick that could leak into the emitted sigil and break the two-line output contract
+- Kaye Commit Sense — the 72-character cap now applies clearly to the message line, resolving conflicting line-length wording that caused the per-file task to violate it
+- `post_per_file.py` — the ordinary-sigil fallback now triggers on any sigil that is not exactly one valid sigil character, not just the literal `*` placeholder
+
 ### Security
 
 
