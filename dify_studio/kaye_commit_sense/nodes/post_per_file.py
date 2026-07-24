@@ -7,7 +7,6 @@ OUTPUT_OPT_OBJ = "opt_obj"
 
 # constants  ###################################################################
 
-FALLBACK_SIGIL = "*"
 BALANCE_TOLERANCE = 0.2
 
 SIGIL_ADD_SHORT = "+"
@@ -16,6 +15,8 @@ SIGIL_BALANCED_SHORT = "*"
 SIGIL_ADD_LONG = "/"
 SIGIL_DEL_LONG = "\\"
 SIGIL_BALANCED_LONG = "|"
+
+VALID_SIGILS = frozenset("?^!:=.@#~*")
 
 
 # auxiliaries  ##################################################################
@@ -56,8 +57,8 @@ def main(LONG_SHORT_THRESHOLD, per_file_diff, llm_message):
     perform post-process directly on the LLM's per-file output:
 
     - split ``llm_message`` into its sigil line and summary line
-    - when the sigil is the ordinary-edit placeholder, resolve the
-      real sigil from ``per_file_diff``'s add/delete balance and
+    - when the sigil is not a valid single-character sigil, resolve
+      the real sigil from ``per_file_diff``'s add/delete balance and
       length against ``LONG_SHORT_THRESHOLD``
 
 
@@ -79,7 +80,7 @@ def main(LONG_SHORT_THRESHOLD, per_file_diff, llm_message):
     sigil = sigil.strip()
     message = message.strip()
 
-    if sigil == FALLBACK_SIGIL:
+    if not (len(sigil) == 1 and sigil in VALID_SIGILS):
         sigil = _resolve_ordinary_sigil(per_file_diff, LONG_SHORT_THRESHOLD)
 
     opt_obj = {"sigil": sigil, "message": message}
