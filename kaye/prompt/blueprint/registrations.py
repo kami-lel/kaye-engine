@@ -73,7 +73,6 @@ chat = register_blueprint(
     "chat",
     "Chat",
     PromptBlueprint.parse("""    ○
-[x] ├── Introduction
 [x] ├── Personality
 [x] │   └── Personality-Kaye
 [x] ├── Language
