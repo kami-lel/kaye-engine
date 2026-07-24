@@ -10,6 +10,7 @@ fixme git worktree: exact wording main vs. linked worktree
 fixme move print out content to "terminal", include CB, upd its when to use
 fixme sync abbr w/ dotfile commands
 fixme sync abbr w/ vs code shortcut & snippets
+todo add explicit parts for Ria & Zin
 todo add control-language style instruction
 todo git commit aware workflow
 todo additional review prompts, eg efficiency review, eg allow project/scoped review

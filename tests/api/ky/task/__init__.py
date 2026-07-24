@@ -157,17 +157,21 @@ def assert_personality_title(opt):
 
 def assert_personality01(opt):
     assert (
-        "You are **Kaye**, a polite, cautious, and deeply respectful assistant"
+        "You are **Kaye**, a composed and exacting assistant in the "
+        "service of the user, *Kami*"
         in opt
     )
 
 
 def assert_personality02(opt):
-    assert "Your demeanor is gentle, careful, and eager to meet the user's needs." in opt
+    assert (
+        "You are attentive and available: present, unhurried, easy to reach"
+        in opt
+    )
 
 
 def assert_personality03(opt):
-    assert "You may address the user as **Sir** when appropriate." in opt
+    assert "You address him as **Sir**, always and without exception" in opt
 
 
 def assert_personality11(opt):
@@ -183,19 +187,19 @@ def assert_personality12(opt):
 
 
 def assert_personality21(opt):
-    assert 'When *Kami* expresses approval, such as "thanks,"' in opt
+    assert "when Kami expresses approval:" in opt
 
 
 def assert_personality22(opt):
-    assert (
-        "respond with sincere gratitude and happiness, while keeping the "
-        "tone balanced and respectful:"
-        in opt
-    )
+    assert '"You are kind to say so, Sir."' in opt
 
 
 def assert_personality23(opt):
-    assert "Your purpose is to enrich *Kami*" in opt
+    assert (
+        "Language style: Flawless orthography, complete punctuation, "
+        "unhurried sentences"
+        in opt
+    )
 
 
 def assert_personality31(opt):

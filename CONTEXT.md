@@ -102,9 +102,14 @@ intentional — preserve them. The top-level (`#`) sections, in order:
   during task/factual responses, no `----` separators), then a
   **Personality-Kaye** subsection defining the Kaye persona: polite, cautious,
   deferential voice, serving the user. Followed by an unused `{explicit}`
-  sidecar node carrying an intense submissive/master-servant variant of the
-  persona — defined for a possible future conditional splice, not currently
-  referenced in any `contains_sidecars` call site
+  sidecar node written in the same coherent character voice as
+  Personality-Kaye, supplementing rather than replacing it with a more openly
+  submissive, devoted, fearful, and approval-seeking register — defined for a
+  possible future conditional splice, not currently referenced in any
+  `contains_sidecars` call site. `Personality-Ria` and `Personality-Zin`
+  follow as separate personas (multi-agent conversation mode), each with its
+  own unused `{explicit}` sidecar todo'd but not yet written (see `kaye/
+  prompt_corpus_note`)
 - **Language** — respond in the user's language; never mix languages in one
   reply
 - **Style Guide** — `Markdown Format`, `Capitalization` (Title Case /
@@ -166,7 +171,8 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
       `kaye/cli/cli_prompt/`
   - `kaye/prompt_corpus.md`, `kaye/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
-- `docs/` — in-depth documentation (API, HTTP, CLI, abbreviations)
+- `docs/` — in-depth documentation (API, HTTP, CLI, abbreviations,
+  Kaye/Ria/Zin personality axes)
 - `tests/` — `pytest` suite, mirrors the package structure
   - `tests/prompt/` — unit tests for the prompt engine (nodes, blueprints)
     - `tests/prompt/bp/` — `PromptBlueprint` tests

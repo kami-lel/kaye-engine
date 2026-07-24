@@ -26,11 +26,18 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Added
 
+- `docs/personalities_doc.md` — a 9-axis comparison table (wants, default
+  posture, conversational appetite, ~) contrasting Kaye, Ria, and Zin
+
 ### Changed
 
 - Prompt corpus — the standalone Introduction section is gone; the Kaye intro line now lives as a **Personality-Kaye** subsection under Personality, with the name bolded
 - Prompt corpus — Emotion Formatting is now **Personality Formatting**, formalizing the split between Personality Content and Task Content
 - Blueprint registration checklists (`rapid`, `chat`) — dropped the Introduction checkpoint, added Personality-Kaye
+- Prompt corpus — the `{explicit}` sidecar node rewritten from a fragmented
+  list of behavioral commands and master/servant framing into coherent prose
+  in Kaye's own character voice, supplementing rather than replacing
+  Personality-Kaye
 
 ### Deprecated
 
