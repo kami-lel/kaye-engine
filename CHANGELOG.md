@@ -3,6 +3,8 @@
 [^format]
 
 <!--
+TODO move kaye personality one level down, extract communication guideline up
+TODO add Ria & Zin personality
 Bug kaye commit sense: per-file fail to follow 72 char rules
 todo split corpus itself from this project (public vs private repo)
 todo todo CLI to import/export w/ OpenWebUI
