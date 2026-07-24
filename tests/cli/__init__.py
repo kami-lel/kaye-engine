@@ -444,8 +444,8 @@ TESTEE_PREREQUISITE_CONTENT_ALL = {
         "follow `Project README Writer`",
     ],
     "create-agents-and-context": [
-        "follow `Coder AGENTS Writer`",
-        "follow `Coder CONTEXT Writer`",
+        "follow `Project AGENTS Writer`",
+        "follow `Project CONTEXT Writer`",
         "use `Style Guide Markdown Format`",
     ],
     "prepare-for-feature-landing": [

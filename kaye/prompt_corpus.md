@@ -3407,8 +3407,8 @@ Use this skill when the user wants to create a new `AGENTS.md` from scratch — 
 
 ### {prerequisite}
 
-- follow `Coder AGENTS Writer`
-- follow `Coder CONTEXT Writer`
+- follow `Project AGENTS Writer`
+- follow `Project CONTEXT Writer`
 - use `Style Guide Markdown Format`
 
 
@@ -3493,8 +3493,8 @@ Refreshes existing AGENTS and CONTEXT to match the current codebase — routing 
 
 ### {prerequisite}
 
-- follow `Coder AGENTS Writer`
-- follow `Coder CONTEXT Writer`
+- follow `Project AGENTS Writer`
+- follow `Project CONTEXT Writer`
 - use `Style Guide Markdown Format`
 
 
