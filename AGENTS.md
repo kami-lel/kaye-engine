@@ -33,15 +33,18 @@ Test files mirror the source tree under `tests/`. Source-to-test mapping:
 | `kaye/abbr*` | `tests/abbr/` |
 | `kaye/prompt_corpus.md` | `tests/corpus/` |
 
-Run the scoped path (add `-n auto` for a parallel run):
+Run the scoped path:
 
 ```bash
 pytest tests/prompt/
 pytest tests/cli/a/s/coder/
 pytest tests/cli/c/p/cli-c-p-maintain_changelog_test.py
 pytest tests/cli/c/p/cli-c-p-maintain_changelog_test.py::TestHeader::test_name
-pytest -n auto tests/cli/a/  # parallel
 ```
+
+**Do not parallelize** — no `pytest-xdist`, no `-n auto`. The suite is already
+fast, worker startup cancels out any gain, and splitting across workers breaks
+tests that depend on run order.
 
 Full suite — **only for PR/merge or when explicitly asked**:
 
@@ -65,7 +68,7 @@ kaye continue prompt PROMPTS_FOLDER        # export Continue prompts
 kaye claude skill SKILLS_FOLDER            # export blueprints as Skill folders
 kaye claude skill -z ZIPS_FOLDER           # create .zip Skill packages
 kaye claude plugin PLUGINS_FOLDER          # export blueprints as plugin folder
-kaye claude plugin -z PLUGINS_FOLDER       # create .plugin file (-n omits version)
+kaye claude plugin -z PLUGINS_FOLDER       # create .zip package (-n omits version)
 kaye claude marketplace                    # export marketplace to ~/.claude/kaye_marketplace (default)
 kaye claude marketplace MARKETPLACE        # export to custom folder
 kaye claude code                           # export plugin + CLAUDE.md into ~/.claude
@@ -201,16 +204,18 @@ allow-list constant:
 - do not commit secrets, credentials, or tokens
 - `.git`, `venv/`, build artifacts, and generated prompts are git-ignored;
   keep them out of commits
-- the Git submodule `scripts/hooks_utility` is fetched via SSH; do not embed
-  credentials in `.gitmodules`
 - the HTTP API is intended for trusted local or internal deployment; do not
-  expose it publicly without review
+  expose it publicly without review. `kaye http` serves Flask's development
+  server bound to `0.0.0.0`, and `-d/--debug` additionally enables the
+  Werkzeug debugger — never run either on an untrusted network
 
 ## Documentation Maintenance
 
 After meaningful changes, keep these in sync:
 
 - `README.md` — human-facing overview and quick start
-- `docs/` — programmatic API, HTTP API, CLI, abbreviations
+- `docs/` — programmatic API, HTTP API, corpus format, sidecar and dynamic
+  nodes, abbreviations, Claude and Dify integration, personality axes
+- `CONTEXT.md` — architecture, corpus structure, repository layout
 - `CHANGELOG.md` — record notable changes per release
 - this `AGENTS.md` — update agent-specific context as structure evolves

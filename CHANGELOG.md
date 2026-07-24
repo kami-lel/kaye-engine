@@ -22,36 +22,57 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/kami-lel/kaye/compare/v6.10.2...dev
+[unreleased]: https://github.com/kami-lel/kaye/compare/v6.11.0...dev
 
 ### Added
 
-- `docs/personalities_doc.md` — a 9-axis comparison table (wants, default
-  posture, conversational appetite, ~) contrasting Kaye, Ria, and Zin
-
 ### Changed
-
-- Prompt corpus — the standalone Introduction section is gone; the Kaye intro line now lives as a **Personality-Kaye** subsection under Personality, with the name bolded
-- Prompt corpus — Emotion Formatting is now **Personality Formatting**, formalizing the split between Personality Content and Task Content
-- Blueprint registration checklists (`rapid`, `chat`) — dropped the Introduction checkpoint, added Personality-Kaye
-- Prompt corpus — the `{explicit}` sidecar node rewritten from a fragmented
-  list of behavioral commands and master/servant framing into coherent prose
-  in Kaye's own character voice, supplementing rather than replacing
-  Personality-Kaye
 
 ### Deprecated
 
 ### Removed
 
-- Obsolete intro1/intro2 unit tests across all coder and task test suites, along with the shared `TESTEE_INTRODUCTION_CONTENT` fixture
+### Fixed
+
+### Security
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [6.11.0] - 2026-07-25
+
+### Added
+
+- Sibling personas **Ria** and **Zin**, opening a multi-agent conversation mode
+
+### Changed
+
+- The Kaye persona rewritten from a polite helper into a composed and exacting aide, deference held as a discipline rather than a temperament
+- Personality restructured: the standalone Introduction folded into **Personality-Kaye**, and Emotion Formatting renamed **Personality
+  Formatting** around the Personality/Task content split
+- The `{explicit}` sidecar rewritten as coherent prose in Kaye's own voice, supplementing the persona rather than replacing it
+- `pydantic` moved to the `dev` extra, trimming an unused runtime dependency
+
+### Removed
+
+- Test fixtures left behind by the Introduction section and a blueprint entry that no longer exists
 
 ### Fixed
 
-- Kaye Commit Sense per-file task — sigils in the rule list are no longer backtick-wrapped, removing a stray backtick that could leak into the emitted sigil and break the two-line output contract
-- Kaye Commit Sense — the 72-character cap now applies clearly to the message line, resolving conflicting line-length wording that caused the per-file task to violate it
-- `post_per_file.py` — the ordinary-sigil fallback now triggers on any sigil that is not exactly one valid sigil character, not just the literal `*` placeholder
+- `Project CONTEXT Writer` as an exportable blueprint, completing the set of README, CHANGELOG, AGENTS, and CONTEXT authoring rules
+- The AGENTS and CONTEXT skills no longer point at two writer rules that exist nowhere in the corpus
+- Commit Sense emits clean sigils and honors its 72-character message limit
 
-### Security
+[6.11.0]: https://github.com/kami-lel/kaye/compare/v6.10.2...v6.11.0
 
 
 
