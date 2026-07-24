@@ -286,6 +286,7 @@ project_changelog = _register_node(
 
 
 # Project AGENTS Writer
+# BUG exported prerequisites name `Coder AGENTS Writer` / `Coder CONTEXT Writer`, neither registered nor in corpus
 project_agents = _register_node(
     _register_exportable, "project-agents", _proj_node, "Project AGENTS Writer"
 )
