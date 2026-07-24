@@ -4272,7 +4272,7 @@ First, find the **intent** behind the edits — the direction they move in, the 
 
 Discard secondary, incidental, and repetitive edits. Report what the work was **for**, not an inventory of everything touched. Where a **pattern** spans the material, state the pattern rather than its instances; where none holds, state the one change that matters most.
 
-Write strictly in *Briefness Style*, and apply *Commentary Case* to every line. Hold every line to **72 characters per line** — a hard cap, not a target. Cut secondary detail to fit; never cut accuracy.
+Write strictly in *Briefness Style*, and apply *Commentary Case* to every line. Hold message line to **72 characters at max** — a hard cap, not a target. Cut secondary detail to fit; never cut accuracy.
 
 ## no markdown syntax
 
@@ -4313,11 +4313,9 @@ Do **NOT** using any markdown syntax in the output.
 
 ## Primary Message Task
 
-The **current task** is to summarize a change set spanning **multiple files** — one whole, not a file-by-file account.
+**current task**: create a message summarizing changes spanning **multiple files** — one whole, not a file-by-file account.
 
 Name the **unifying intent** behind the edits: the pattern, shift, or purpose they share. That is the summary. If none holds, name the one change that most defines the set.
-
-Output **exactly one line**, **under 72 characters** — never two lines, never a list. Drop every secondary detail that does not fit; accuracy over coverage.
 
 <primary-message-example>
 introduce feature-flag framework; enable gradual rollout for search
@@ -4358,12 +4356,12 @@ introduce feature-flag framework; enable gradual rollout for search
 
 ## Per File Summary Task
 
-Summarize change set touching **one file** — that file is whole set.
+**current task**: create a message summarizing change set touching **one file** — that file is whole set.
 
 Return exactly **two lines**, nothing else — no heading, no blank line between, no surrounding text, no code fence.
 
 - line 1 — change sigil
-- line 2 — summary message
+- line 2 — summary message line
 
 
 
