@@ -5,6 +5,7 @@
 <!--
 todo utilize personalities Ria & Zin, allow multi agent conversation
 todo split corpus itself from this project (public vs private repo)
+todo git branch cleanup prompt
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
