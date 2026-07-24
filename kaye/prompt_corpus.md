@@ -4358,40 +4358,47 @@ introduce feature-flag framework; enable gradual rollout for search
 
 ## Per File Summary Task
 
-The **current task** is to summarize a change set confined to **one file** — that file is the whole set.
+Summarize change set touching **one file** — that file is whole set.
 
-Return exactly **two lines**, and nothing else — no heading, no blank line between them, no surrounding prose or code fence.
+Return exactly **two lines**, nothing else — no heading, no blank line between, no surrounding text, no code fence.
 
-- line 1 — the change sigil
-- line 2 — the summary message
+- line 1 — change sigil
+- line 2 — summary message
+
+
+
+
 
 #### line 1 — change sigil
 
-Emit exactly **one character**. Never a word, a label, a quote, or an empty line.
+Output exactly **one character**. Never word, label, quote, or empty line.
+Read rules in order, top to bottom. Output first sigil that fully fits, then stop.
+If nothing fits, or rule fits only loosely, output `*`.
 
-Read the rules below in order, top to bottom. Emit the first sigil whose condition is fully satisfied, then stop.
-If no rule matches, or a rule matches only loosely, emit `*`.
+1. `?`: file neither text nor code — binary, compressed archive, database, encrypted blob
+2. `^`: entire file newly added
+3. `!`: entire file deleted
+4. `:`: file moved to different directory, content same or nearly same. Filename may change too
+5. `=`: file stayed in directory, filename changed, content same or nearly same
+6. `.`: only edits are whitespace, indentation, blank lines added or removed
+7. `@`: only edits are *triage tags* added, removed, edited, raised, lowered, plus lines tied directly to them
+8. `#`: edits mostly documentation or code comments
+9. `~`: existing lines only moved position — nothing added, removed, reworded. Renaming, extracting do not count
+10. `*`: fallback — no rule above fully fits, one fits only loosely, or file mixes several kinds of edit
 
-1. `?`: file's change is non-textual and non-code — for example a binary, a compressed archive, a database, or an encrypted blob.
-2. `^`: file is newly added.
-3. `!`: file is deleted.
-4. `:`: file moved to a different directory, and its content is unchanged or nearly unchanged. Its filename may also change.
-5. `=`: file's directory is unchanged but its filename changed, and its content is unchanged or nearly unchanged.
-6. `.`: only edits are the addition or deletion of whitespace, indentation, or blank lines.
-7. `@`: only edits are the addition, deletion, editing, raising, or lowering of *triage tags*, plus lines directly tied to them.
-8. `#`: edits are mostly to documentation or code comments.
-9. `~`: pure Repositioning of existing lines — nothing added, removed, or altered in content; renaming or extraction does not qualify
-10. `*`: fallback — the file's change does not fully satisfy any rule above, or satisfies one only loosely, or mixes several kinds of edit.
+"Nearly same" in rules 4, 5 means content essentially unchanged; only path or name differs, apart from tiny edits.
 
-"Nearly unchanged" in the `:` and `=` rules means the content is essentially the same; only the path or name differs, apart from trivial edits.
+
+
+
 
 #### line 2 — message
 
-Name the file's intent and its single most impactful change in one line. Drop secondary edits rather than crowd it.
+Name what file is for, its single most impactful change, in one line. Drop smaller edits rather than crowd it.
 
 <per-file-summary-example>
 #
-document the retry-budget behavior in the scheduler README
+document retry-budget behavior in scheduler README
 </per-file-summary-example>
 
 
