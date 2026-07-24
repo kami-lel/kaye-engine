@@ -16,7 +16,6 @@ dependencies = [
     "flask",
     "json5",
     "pyahocorasick",
-    "pydantic",
     "pyyaml",
 ]
 
@@ -29,6 +28,7 @@ kaye = "kaye.__main__:main"
 
 [project.optional-dependencies]
 dev = [
+    "pydantic",
     "pytest",
 ]
 
