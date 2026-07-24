@@ -1,7 +1,6 @@
 import json
 
 from tests import (
-    TESTEE_INTRODUCTION_CONTENT,
     TESTEE_MD_BASIC_FORMAT_CONTENT,
     TESTEE_MD_ADD_FORMAT_CONTENT,
     TESTEE_MARKDOWN_FORMAT_CONTENT,
@@ -12,7 +11,6 @@ from tests import (
 )
 
 __all__ = [
-    "TESTEE_INTRODUCTION_CONTENT",
     "TESTEE_MD_BASIC_FORMAT_CONTENT",
     "TESTEE_MD_ADD_FORMAT_CONTENT",
     "TESTEE_MARKDOWN_FORMAT_CONTENT",
@@ -20,8 +18,6 @@ __all__ = [
     "TESTEE_TITLE_CASE_CONTENT",
     "TESTEE_BRIEFNESS_CONTENT",
     "TESTEE_ALWAYS_UNDERSTAND_ABBR",
-    "assert_intro1",
-    "assert_intro2",
     "assert_format_title",
     "assert_format1",
     "assert_format2",
@@ -90,14 +86,6 @@ def create_opt_from_role(flask_test_client, task_endpoint, role):
 # common opt asserts  ==========================================================
 
 # rapid  -----------------------------------------------------------------------
-
-
-def assert_intro1(opt):
-    assert "# Introduction" in opt
-
-
-def assert_intro2(opt):
-    assert "You are **Kaye**, an AI assisting *agent* to the *user*." in opt
 
 
 def assert_format_title(opt):
@@ -169,7 +157,7 @@ def assert_personality_title(opt):
 
 def assert_personality01(opt):
     assert (
-        "You are Kaye, a polite, cautious, and deeply respectful assistant"
+        "You are **Kaye**, a polite, cautious, and deeply respectful assistant"
         in opt
     )
 
