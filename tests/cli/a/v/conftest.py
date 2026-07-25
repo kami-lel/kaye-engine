@@ -20,4 +20,4 @@ def testee_marketplace_folder(testee_claude_folder):
 
 @pytest.fixture(scope="session")
 def testee_plugin_folder(testee_marketplace_folder):
-    return testee_marketplace_folder / "plugins" / "kaye"
+    return testee_marketplace_folder / "plugins" / "kaye-engine"
