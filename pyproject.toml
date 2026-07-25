@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "kaye"
+name = "kaye-engine"
 version = "6.11.0"
 description = "define Kaye, a composed and exacting AI assistant persona, in a single source of truth and reuse it consistently across every task and tool"
 readme = "README.md"
@@ -20,11 +20,11 @@ dependencies = [
 ]
 
 [project.urls]
-homepage = "https://github.com/kami-lel/kaye/blob/main/README.md"
-Repository = "https://github.com/kami-lel/kaye"
+homepage = "https://github.com/kami-lel/kaye-engine/blob/main/README.md"
+Repository = "https://github.com/kami-lel/kaye-engine"
 
 [project.scripts]
-kaye = "kaye.__main__:main"
+kaye-engine = "kaye_engine.__main__:main"
 
 [project.optional-dependencies]
 dev = [
@@ -38,7 +38,7 @@ package-dir = { "" = "." }
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["kaye*"]
+include = ["kaye_engine*"]
 exclude = ["build*", "tests*", "dify_studio*", "examples*", "scripts*"]
 
 [tool.setuptools.package-data]
