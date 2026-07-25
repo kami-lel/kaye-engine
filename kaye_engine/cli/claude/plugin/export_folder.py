@@ -7,10 +7,10 @@ define ``export_plugin_as_folder``
 from email.utils import parseaddr
 from importlib.metadata import metadata, version
 
-from kaye import logger
+from kaye_engine import logger
 
-from kaye import PROGRAM_NAME, DISPLAY_NAME
-from kaye.cli.claude.skill.export_folders import (
+from kaye_engine import PROGRAM_NAME, DISPLAY_NAME
+from kaye_engine.cli.claude.skill.export_folders import (
     export_skills_as_folders,
 )
 from .manifest import ManifestPluginJson

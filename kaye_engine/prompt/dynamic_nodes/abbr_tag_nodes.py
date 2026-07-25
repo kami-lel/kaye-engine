@@ -4,7 +4,7 @@ abbr_tag_nodes.py
 define abbreviation-tag-filtered node types
 """
 
-from kaye.abbr_collection import AbbrData, AbbrTags
+from kaye_engine.abbr_collection import AbbrData, AbbrTags
 from .dynamic_node import DynamicNode
 
 __all__ = (

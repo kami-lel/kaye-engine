@@ -6,7 +6,7 @@ Unit Tests (using pytest) for:
 load_prompt_corpus_tree
 """
 
-from kaye.prompt.prompt_corpus_loader import load_prompt_corpus_tree
+from kaye_engine.prompt.prompt_corpus_loader import load_prompt_corpus_tree
 
 
 # pytest  ######################################################################

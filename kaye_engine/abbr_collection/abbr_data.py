@@ -9,8 +9,8 @@ from pathlib import Path
 
 import ahocorasick
 
-from kaye.abbr_collection.abbr_entry import AbbrEntry
-from kaye.abbr_collection.abbr_meaning import AbbrMeaning
+from kaye_engine.abbr_collection.abbr_entry import AbbrEntry
+from kaye_engine.abbr_collection.abbr_meaning import AbbrMeaning
 
 # constants  ###################################################################
 

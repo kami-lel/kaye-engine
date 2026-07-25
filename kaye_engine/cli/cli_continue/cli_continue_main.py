@@ -1,9 +1,9 @@
 """utilities for the Continue AI code editor integration"""
 
-from kaye.cli.cli_continue.cli_continue_config import (
+from kaye_engine.cli.cli_continue.cli_continue_config import (
     register_cli_continue_config_parser,
 )
-from kaye.cli.cli_continue.cli_continue_prompt import (
+from kaye_engine.cli.cli_continue.cli_continue_prompt import (
     register_cli_continue_prompt_parser,
 )
 

@@ -8,8 +8,8 @@ define API to specific work with Dify App: Kaye Cash Tracker
 
 from flask import Blueprint
 
-from kaye import PROGRAM_NAME
-from kaye.prompt import PromptBlueprint
+from kaye_engine import PROGRAM_NAME
+from kaye_engine.prompt import PromptBlueprint
 
 # Blueprints  ##################################################################
 EXTRACT_PROMPT_BLUEPRINT = """    ○

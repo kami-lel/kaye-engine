@@ -7,9 +7,9 @@ define ``blueprint_io_parser``, ``load_blueprint_from_args``,
 
 from argparse import FileType, ArgumentParser
 
-from kaye import logger
-from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
-from kaye.prompt.blueprint.prompt_blueprint import PromptBlueprint
+from kaye_engine import logger
+from kaye_engine.prompt.blueprint import BLUEPRINT_REGISTRIES
+from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
 
 # defining args shared by generate_parser and show_parser
 blueprint_io_parser = ArgumentParser(add_help=False)

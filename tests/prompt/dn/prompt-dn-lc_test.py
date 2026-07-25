@@ -12,7 +12,7 @@ import copy
 import pytest
 
 
-from kaye.prompt.dynamic_nodes import LanguageCodeNode
+from kaye_engine.prompt.dynamic_nodes import LanguageCodeNode
 
 
 # pytest fixtures  #############################################################

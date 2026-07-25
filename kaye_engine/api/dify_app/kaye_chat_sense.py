@@ -10,7 +10,7 @@ define endpoint behavior of: /kaye/dify-app/ky/sense
 from flask import request
 
 
-from kaye.prompt import PromptBlueprint
+from kaye_engine.prompt import PromptBlueprint
 
 # constant  ####################################################################
 SENSE_PROMPT_BLUEPRINT = """ ○

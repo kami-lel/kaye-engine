@@ -6,9 +6,9 @@ define ``export_abbr_rules``
 
 from pathlib import Path
 
-from kaye import logger
-from kaye.cli.cli_continue.rule_file import ContinueRule
-from kaye.cli.exportable_abbr import EXPORTABLE_ABBRS
+from kaye_engine import logger
+from kaye_engine.cli.cli_continue.rule_file import ContinueRule
+from kaye_engine.cli.exportable_abbr import EXPORTABLE_ABBRS
 
 # Entry Point  #################################################################
 

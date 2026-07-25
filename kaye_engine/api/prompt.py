@@ -8,7 +8,7 @@ Kaye HTTP API: endpoints /kaye/prompts/
 
 from flask import Blueprint, Response
 
-from kaye import PROGRAM_NAME
+from kaye_engine import PROGRAM_NAME
 
 # /kaye/prompt
 prompt_bp = Blueprint("prompt", PROGRAM_NAME, url_prefix="/prompt")

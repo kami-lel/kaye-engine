@@ -8,7 +8,7 @@ define API to specific work with Dify App: Kaye Event Radar
 
 from flask import Blueprint, abort
 
-from kaye import PROGRAM_NAME
+from kaye_engine import PROGRAM_NAME
 
 # Blueprints  ##################################################################
 

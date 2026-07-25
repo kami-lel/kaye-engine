@@ -5,7 +5,7 @@ define ``ContinueRule``
 """
 
 
-from kaye.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
+from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 
 
 class ContinueRule(FrontmatterDoc):  ##########################################

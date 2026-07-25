@@ -4,11 +4,11 @@ Kaye Python Package API
 
 
 
-from kaye import kamilog
+from kaye_engine import kamilog
 
 
-PROGRAM_NAME = "kaye"
-DISPLAY_NAME = "Prompt Engineering Project Kaye"
+PROGRAM_NAME = "kaye-engine"
+DISPLAY_NAME = "Prompt Engineering Project Kaye Engine"
 
 
 logger = kamilog.getLogger(PROGRAM_NAME)

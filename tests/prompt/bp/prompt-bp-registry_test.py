@@ -9,8 +9,8 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from kaye.prompt.blueprint import PromptBlueprint
-from kaye.prompt.blueprint.registry import (
+from kaye_engine.prompt.blueprint import PromptBlueprint
+from kaye_engine.prompt.blueprint.registry import (
     BlueprintRegistry,
     register_blueprint,
     BLUEPRINT_REGISTRIES,

@@ -4,10 +4,10 @@ Kaye HTTP API
 
 from flask import Flask, Blueprint
 
-from kaye import PROGRAM_NAME
+from kaye_engine import PROGRAM_NAME
 
-from kaye.api.prompt import prompt_bp
-from kaye.api.dify_app import dify_bp
+from kaye_engine.api.prompt import prompt_bp
+from kaye_engine.api.dify_app import dify_bp
 
 
 # flask app  ###################################################################

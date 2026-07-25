@@ -4,7 +4,7 @@ ls_parser.py
 define ``register_ls_subparser``
 """
 
-from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
+from kaye_engine.prompt.blueprint import BLUEPRINT_REGISTRIES
 
 # todo cli prompt ls additional filtering/groups
 

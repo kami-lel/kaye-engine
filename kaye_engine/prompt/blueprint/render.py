@@ -14,7 +14,7 @@ from datetime import datetime
 
 from anytree import RenderTree, PreOrderIter
 
-from kaye import PROGRAM_NAME
+from kaye_engine import PROGRAM_NAME
 from ..prompt_corpus_node import HEADING_PREFIX_ELEMENT
 from ..sidecar_nodes import get_sidecar_name
 

@@ -1,6 +1,6 @@
 """Kaye HTTP API: start Flask server/app"""
 
-from kaye.api import create_app
+from kaye_engine.api import create_app
 
 # todo HTTP API: unit test
 

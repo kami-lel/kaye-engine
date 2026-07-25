@@ -6,8 +6,8 @@ define ``export_user_system_prompt_file``
 
 from pathlib import Path
 
-from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
-from kaye.cli.claude import CONTAINING_SIDECARS
+from kaye_engine.prompt.blueprint import BLUEPRINT_REGISTRIES
+from kaye_engine.cli.claude import CONTAINING_SIDECARS
 
 
 def export_user_system_prompt_file(

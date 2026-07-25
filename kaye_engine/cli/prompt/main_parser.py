@@ -4,9 +4,9 @@ main_parser.py
 define ``register_cli_prompt_parser``
 """
 
-from kaye.cli.prompt.ls_parser import register_ls_subparser
-from kaye.cli.prompt.show_parser import register_show_subparser
-from kaye.cli.prompt.generate_parser import register_generate_subparser
+from kaye_engine.cli.prompt.ls_parser import register_ls_subparser
+from kaye_engine.cli.prompt.show_parser import register_show_subparser
+from kaye_engine.cli.prompt.generate_parser import register_generate_subparser
 
 # constants  ###################################################################
 _HELP = "list, preview, and generate system prompts from prompt blueprints"

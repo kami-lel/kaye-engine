@@ -6,7 +6,7 @@ define endpoint behavior of: /kaye/dify-app/ky/merge
 
 # pylint: disable=missing-function-docstring
 
-from kaye.prompt import PromptBlueprint
+from kaye_engine.prompt import PromptBlueprint
 
 # constant  ####################################################################
 

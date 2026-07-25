@@ -4,7 +4,7 @@ prompt-bp-parse-basic_test.py
 Unit Tests (using pytest) for: PromptBlueprint.parse()
 """
 
-from kaye.prompt import PromptBlueprint
+from kaye_engine.prompt import PromptBlueprint
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,

@@ -4,10 +4,10 @@ generate_parser.py
 define ``register_generate_subparser``
 """
 
-from kaye import logger
-from kaye.kamilog import add_verbose_arguments, set_logging_level_by_namespace
+from kaye_engine import logger
+from kaye_engine.kamilog import add_verbose_arguments, set_logging_level_by_namespace
 
-from kaye.cli.prompt.blueprint_io_parser import (
+from kaye_engine.cli.prompt.blueprint_io_parser import (
     blueprint_io_parser,
     load_blueprint_from_args,
     write_blueprint_result,

@@ -10,10 +10,10 @@ define API to specific work with Dify App: Kaye Chat
 from flask import Blueprint
 
 
-from kaye import PROGRAM_NAME
-from kaye.api.dify_app.kaye_chat_sense import kaye_chat_sense
-from kaye.api.dify_app.kaye_chat_task import kaye_chat_task
-from kaye.api.dify_app.kaye_chat_merge import kaye_chat_merge
+from kaye_engine import PROGRAM_NAME
+from kaye_engine.api.dify_app.kaye_chat_sense import kaye_chat_sense
+from kaye_engine.api.dify_app.kaye_chat_task import kaye_chat_task
+from kaye_engine.api.dify_app.kaye_chat_merge import kaye_chat_merge
 
 # Flask Routing  ###############################################################
 # /kaye/dify-app/ky

@@ -3,7 +3,7 @@
 from pathlib import Path
 
 
-from kaye import logger, kamilog
+from kaye_engine import logger, kamilog
 
 from .export_prompt_rules import export_prompt_rules
 
