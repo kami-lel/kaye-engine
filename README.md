@@ -27,7 +27,7 @@ Kaye is a toolkit for maintaining a consistent AI agent persona from a single, s
 
 ### 📄 Prompt Corpus
 
-The [Prompt Corpus](kaye/prompt_corpus.md) is the single, structured Markdown file that defines persona, roles, rules, styles, and references. It is the authoritative Source Of Truth used to generate prompts for different scenarios.
+The [Prompt Corpus](kaye_engine/prompt_corpus.md) is the single, structured Markdown file that defines persona, roles, rules, styles, and references. It is the authoritative Source Of Truth used to generate prompts for different scenarios.
 
 Q.v. [Prompt Corpus Format documentation](docs/corpus_doc.md) for the heading-to-tree mapping and full Markdown syntax.
 
@@ -41,7 +41,7 @@ Other core concepts:
 - 🔀 dynamic node: corpus node whose content is **Generated** at render time — Q.v. [Dynamic Node documentation](docs/dynamic_node_doc.md)
 - 🗂️ sidecar node: corpus node holding structured **Metadata** about its parent — Q.v. [Sidecar Node documentation](docs/sidecar_node_doc.md)
 
-The `(Abbreviations)` dynamic node reads its meanings from [`kaye/abbrs.json`](kaye/abbrs.json) — Q.v. [`abbrs.json` documentation](docs/abbrs_json_doc.md) for its format.
+The `(Abbreviations)` dynamic node reads its meanings from [`kaye_engine/abbrs.json`](kaye_engine/abbrs.json) — Q.v. [`abbrs.json` documentation](docs/abbrs_json_doc.md) for its format.
 
 ### 🎭 Personas
 
@@ -122,11 +122,11 @@ Q.v. [Kaye HTTP API documentation](docs/http_api_doc.md)
 
 ### Python CLI
 
-A simple **Kaye Python CLI** is provided, exposed as the `kaye` command once
-installed (or run as `python -m kaye`):
+A simple **Kaye Python CLI** is provided, exposed as the `kaye-engine` command
+once installed (or run as `python -m kaye_engine`):
 
 ```bash
-kaye --help
+kaye-engine --help
 ```
 
 

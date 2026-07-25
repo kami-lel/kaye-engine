@@ -57,7 +57,7 @@ Lists prerequisite instructions that apply whenever the parent node is enabled. 
 
 Lists Claude-specific instructions that apply whenever the parent node is enabled. Pass `contains_sidecars=("for claude code",)` (or combine with `"prerequisite"` in the same collection) to auto-checkmark these nodes during Claude exports.
 
-**Rendering behavior:** Pass `contains_sidecars=("for claude code",)` to auto-include `{for claude code}` sidecars during rendering. The constant `kaye.cli.claude.CONTAINING_SIDECARS` combines both `"prerequisite"` and `"for claude code"` for all Claude skill and hook exports.
+**Rendering behavior:** Pass `contains_sidecars=("for claude code",)` to auto-include `{for claude code}` sidecars during rendering. The constant `kaye_engine.cli.claude.CONTAINING_SIDECARS` combines both `"prerequisite"` and `"for claude code"` for all Claude skill and hook exports.
 
 **Detection:** Use `get_sidecar_name(node) == "for claude code"` to identify Claude-specific sidecars.
 
@@ -111,7 +111,7 @@ This node contains Claude-specific instructions.
 
 
 
-## Python Package `kaye/prompt/sidecar_nodes`
+## Python Package `kaye_engine/prompt/sidecar_nodes`
 
 ### `get_sidecar_name(node)`
 
@@ -135,7 +135,7 @@ Identifies a sidecar node by its `{name}` heading convention and returns the nam
 
 Check if a node is any sidecar node:
 ```python
-from kaye.prompt.sidecar_nodes import get_sidecar_name
+from kaye_engine.prompt.sidecar_nodes import get_sidecar_name
 
 name = get_sidecar_name(node)
 
@@ -158,7 +158,7 @@ if name in ("prerequisite", "for claude code"):
 
 Container for descriptor sidecar metadata extracted from a node's descriptor children.
 
-**Location:** `kaye/prompt/sidecar_nodes/blueprint_description_sidecars.py`
+**Location:** `kaye_engine/prompt/sidecar_nodes/blueprint_description_sidecars.py`
 
 **Description:**
 Represents the structured metadata (description, when_to_use, globs) derived from a node's sidecar children. These are accessed via `blueprint.sidecars` and never rendered to the prompt output — they exist purely for discovery, documentation, and conditional inclusion logic.
@@ -244,7 +244,7 @@ merged = bp1.sidecars | bp2.sidecars
 
 Access descriptor sidecar metadata:
 ```python
-from kaye.prompt import PromptBlueprint
+from kaye_engine.prompt import PromptBlueprint
 
 bp = PromptBlueprint.parse(blueprint_text)
 

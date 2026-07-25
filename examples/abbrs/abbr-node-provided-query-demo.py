@@ -5,8 +5,8 @@ demonstrate ``AbbrNode`` with a provided ``query``, building a
 single-node blueprint and printing its generated prompt
 """
 
-from kaye.prompt import PromptBlueprint
-from kaye.kamilog import gen_comment_banner_centered
+from kaye_engine.prompt import PromptBlueprint
+from kaye_engine.kamilog import gen_comment_banner_centered
 
 # constants  ###################################################################
 BLUEPRINT_TEXT = """ ○

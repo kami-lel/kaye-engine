@@ -1,9 +1,9 @@
 ----
-name: kaye AGENTS.md
+name: kaye-engine AGENTS.md
 alwaysApply: true
 ----
 
-# kaye AGENTS
+# kaye-engine AGENTS
 
 Guidance for AI coding agents working in the **Kaye** repository. Read this
 file alongside `CONTEXT.md` before making changes, and follow the exact
@@ -26,12 +26,12 @@ Test files mirror the source tree under `tests/`. Source-to-test mapping:
 
 | changed source | test scope |
 |---|---|
-| `kaye/prompt/` | `tests/prompt/` |
-| `kaye/api/` | `tests/api/` |
-| `kaye/cli/claude/` | `tests/cli/a/` |
-| `kaye/cli/cli_continue/` | `tests/cli/c/` |
-| `kaye/abbr*` | `tests/abbr/` |
-| `kaye/prompt_corpus.md` | `tests/corpus/` |
+| `kaye_engine/prompt/` | `tests/prompt/` |
+| `kaye_engine/api/` | `tests/api/` |
+| `kaye_engine/cli/claude/` | `tests/cli/a/` |
+| `kaye_engine/cli/cli_continue/` | `tests/cli/c/` |
+| `kaye_engine/abbr*` | `tests/abbr/` |
+| `kaye_engine/prompt_corpus.md` | `tests/corpus/` |
 
 Run the scoped path:
 
@@ -52,35 +52,36 @@ Full suite — **only for PR/merge or when explicitly asked**:
 pytest
 ```
 
-Run the CLI and HTTP API locally. The editable install registers a `kaye`
-console script (`[project.scripts]` in `pyproject.toml`), so `kaye ...` and
-`python -m kaye ...` are equivalent — prefer the shorter `kaye` form:
+Run the CLI and HTTP API locally. The editable install registers a
+`kaye-engine` console script (`[project.scripts]` in `pyproject.toml`), so
+`kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer the
+shorter `kaye-engine` form:
 
 ```bash
-kaye --help          # show CLI usage
-kaye http            # start Flask HTTP API (port 11255)
-kaye prompt ls                              # list registered blueprint names
-kaye prompt show BLUEPRINT                  # preview a blueprint's structure
-kaye prompt generate BLUEPRINT              # render a blueprint into a concrete prompt
-kaye continue config                  # export rules to ~/.continue
-kaye continue config LOCAL_CONFIG_FOLDER  # export to custom path
-kaye continue prompt PROMPTS_FOLDER        # export Continue prompts
-kaye claude skill SKILLS_FOLDER            # export blueprints as Skill folders
-kaye claude skill -z ZIPS_FOLDER           # create .zip Skill packages
-kaye claude plugin PLUGINS_FOLDER          # export blueprints as plugin folder
-kaye claude plugin -z PLUGINS_FOLDER       # create .zip package (-n omits version)
-kaye claude marketplace                    # export marketplace to ~/.claude/kaye_marketplace (default)
-kaye claude marketplace MARKETPLACE        # export to custom folder
-kaye claude code                           # export plugin + CLAUDE.md into ~/.claude
-kaye claude user-system-prompt             # export Chat blueprint to ~/.claude/CLAUDE.md
-kaye claude user-system-prompt -r          # use Rapid blueprint instead of Chat
-kaye claude user-system-prompt -c          # append Kaye Peer Coder content
-kaye claude vs-code-extension              # export CLAUDE.md + marketplace + settings.json into ~/.claude
+kaye-engine --help          # show CLI usage
+kaye-engine http            # start Flask HTTP API (port 11255)
+kaye-engine prompt ls                              # list registered blueprint names
+kaye-engine prompt show BLUEPRINT                  # preview a blueprint's structure
+kaye-engine prompt generate BLUEPRINT              # render a blueprint into a concrete prompt
+kaye-engine continue config                  # export rules to ~/.continue
+kaye-engine continue config LOCAL_CONFIG_FOLDER  # export to custom path
+kaye-engine continue prompt PROMPTS_FOLDER        # export Continue prompts
+kaye-engine claude skill SKILLS_FOLDER            # export blueprints as Skill folders
+kaye-engine claude skill -z ZIPS_FOLDER           # create .zip Skill packages
+kaye-engine claude plugin PLUGINS_FOLDER          # export blueprints as plugin folder
+kaye-engine claude plugin -z PLUGINS_FOLDER       # create .zip package (-n omits version)
+kaye-engine claude marketplace                    # export marketplace to ~/.claude/kaye_marketplace (default)
+kaye-engine claude marketplace MARKETPLACE        # export to custom folder
+kaye-engine claude code                           # export plugin + CLAUDE.md into ~/.claude
+kaye-engine claude user-system-prompt             # export Chat blueprint to ~/.claude/CLAUDE.md
+kaye-engine claude user-system-prompt -r          # use Rapid blueprint instead of Chat
+kaye-engine claude user-system-prompt -c          # append Kaye Peer Coder content
+kaye-engine claude vs-code-extension              # export CLAUDE.md + marketplace + settings.json into ~/.claude
 ```
 
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
 Bash command patterns) into `settings.json`, sourced from
-`kaye/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so comments are
+`kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so comments are
 allowed).
 
 CLI subcommand aliases: `http` → `h`; `prompt` → `p`;
@@ -106,7 +107,7 @@ CLI subcommand aliases: `http` → `h`; `prompt` → `p`;
 To add a blueprint that appears in both `claude skill` and `continue config`
 exports, touch these locations in order:
 
-1. **`kaye/prompt/blueprint/registrations.py`** — the single place every
+1. **`kaye_engine/prompt/blueprint/registrations.py`** — the single place every
    blueprint is created; call `register_blueprint()` (or the
    `_register_exportable`/`_register_prompt` partials defined near the top
    of the file) with the corpus node, setting `skill_exportable`,
@@ -205,7 +206,7 @@ allow-list constant:
 - `.git`, `venv/`, build artifacts, and generated prompts are git-ignored;
   keep them out of commits
 - the HTTP API is intended for trusted local or internal deployment; do not
-  expose it publicly without review. `kaye http` serves Flask's development
+  expose it publicly without review. `kaye-engine http` serves Flask's development
   server bound to `0.0.0.0`, and `-d/--debug` additionally enables the
   Werkzeug debugger — never run either on an untrusted network
 

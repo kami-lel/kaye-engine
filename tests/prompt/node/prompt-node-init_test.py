@@ -9,7 +9,7 @@ Unit Tests (using pytest) for:
 import pytest
 
 
-from kaye.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 
 class TestInit:  ###############################################################

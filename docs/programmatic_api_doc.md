@@ -2,14 +2,14 @@
 
 ## `prompt` module
 
-The public programmatic API lives in `kaye.prompt`.
+The public programmatic API lives in `kaye_engine.prompt`.
 It re-exports the prompt tree nodes, blueprint type, corpus loader,
 and the blueprint registry.
 
 Example imports:
 
 ```python
-from kaye.prompt import (
+from kaye_engine.prompt import (
     BasePromptNode,
     DynamicNode,
     PromptCorpusNode,
@@ -196,7 +196,7 @@ It loads the embedded `prompt_corpus.md` file, parses it, and attaches the
 runtime dynamic nodes once; q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#using-a-dynamic-node) for details:
 
 ```python
-from kaye.prompt import load_prompt_corpus_tree
+from kaye_engine.prompt import load_prompt_corpus_tree
 
 tree_root = load_prompt_corpus_tree()
 ```
@@ -354,7 +354,7 @@ bp_left | bp_right
 ##### generate prompt
 
 Use `.generate_prompt()` to render the concrete prompt as a single string.
-Use `render.render_prompt_lines()` (`kaye.prompt.blueprint.render`) when you
+Use `render.render_prompt_lines()` (`kaye_engine.prompt.blueprint.render`) when you
 want the rendered prompt as a list of lines instead.
 
 Both support `disable_first_heading=`, `show_comment=`, and
@@ -367,7 +367,7 @@ q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#feeding-render-time-inpu
 E.g.
 
 ```python
->>> from kaye.prompt.blueprint import render
+>>> from kaye_engine.prompt.blueprint import render
 >>> tree = PromptBlueprint.parse(...)
 >>> render.render_prompt_lines(tree, disable_first_heading=True)
 ['Overview of the methodologies used.',
@@ -444,13 +444,13 @@ E.g.
 #### blueprint registry
 
 Every named blueprint is declared in
-`kaye.prompt.blueprint.registrations` and collected in the
+`kaye_engine.prompt.blueprint.registrations` and collected in the
 `BLUEPRINT_REGISTRIES` dictionary — the single source of truth for a
 blueprint's identity and export policy. Keys are canonical kebab-case
 names; values are `BlueprintRegistry` entries:
 
 ```python
-from kaye.prompt import BLUEPRINT_REGISTRIES
+from kaye_engine.prompt import BLUEPRINT_REGISTRIES
 
 registry = BLUEPRINT_REGISTRIES["chat"]
 blueprint = registry.blueprint          # a PromptBlueprint instance
