@@ -3,9 +3,9 @@
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye import logger, kamilog
+from kaye_engine import logger, kamilog
 
-from kaye.cli.claude.user_prompt.parser import (
+from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
 )
 from .export import export_vs_code_extension

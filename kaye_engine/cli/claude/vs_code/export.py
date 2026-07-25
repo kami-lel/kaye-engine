@@ -6,12 +6,12 @@ define ``export_vs_code_extension``
 
 from pathlib import Path
 
-from kaye import logger
-from kaye.cli.claude.marketplace.export import export_marketplace
-from kaye.cli.claude.user_prompt.parser import (
+from kaye_engine import logger
+from kaye_engine.cli.claude.marketplace.export import export_marketplace
+from kaye_engine.cli.claude.user_prompt.parser import (
     find_user_system_prompt_file,
 )
-from kaye.cli.claude.user_prompt.export import export_user_system_prompt_file
+from kaye_engine.cli.claude.user_prompt.export import export_user_system_prompt_file
 from .settings import update_settings_json
 
 # constants  ===================================================================

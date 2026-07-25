@@ -1,11 +1,11 @@
 """install Kaye into Claude as skills, plugins, or marketplaces"""
 
-from kaye.cli.claude.code.parser import register_code_subparser
-from kaye.cli.claude.marketplace.parser import register_marketplace_subparser
-from kaye.cli.claude.plugin.parser import register_plugin_subparser
-from kaye.cli.claude.skill.parser import register_skill_subparser
-from kaye.cli.claude.vs_code.parser import register_vs_code_subparser
-from kaye.cli.claude.user_prompt.parser import register_user_prompt_subparser
+from kaye_engine.cli.claude.code.parser import register_code_subparser
+from kaye_engine.cli.claude.marketplace.parser import register_marketplace_subparser
+from kaye_engine.cli.claude.plugin.parser import register_plugin_subparser
+from kaye_engine.cli.claude.skill.parser import register_skill_subparser
+from kaye_engine.cli.claude.vs_code.parser import register_vs_code_subparser
+from kaye_engine.cli.claude.user_prompt.parser import register_user_prompt_subparser
 
 
 def register_cli_claude_parser(  ###############################################

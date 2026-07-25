@@ -9,7 +9,7 @@ load_prompt_corpus_tree adding dynamic nodes
 import pytest
 
 
-from kaye.prompt.prompt_corpus_loader import load_prompt_corpus_tree
+from kaye_engine.prompt.prompt_corpus_loader import load_prompt_corpus_tree
 
 
 # pytest fixtures  #############################################################

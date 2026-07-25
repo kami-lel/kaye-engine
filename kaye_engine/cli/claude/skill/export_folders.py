@@ -4,9 +4,9 @@ export_folders.py
 define ``export_skills_as_folders``
 """
 
-from kaye import logger
-from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
-from kaye.cli.exportable_abbr import EXPORTABLE_ABBRS
+from kaye_engine import logger
+from kaye_engine.prompt.blueprint import BLUEPRINT_REGISTRIES
+from kaye_engine.cli.exportable_abbr import EXPORTABLE_ABBRS
 from .skill_md import Skill
 
 # entry point  #################################################################

@@ -10,8 +10,8 @@ node_resolver.resolve_node()
 import pytest
 
 
-from kaye.prompt.prompt_corpus_node import PromptCorpusNode
-from kaye.prompt.blueprint.node_resolver import resolve_node
+from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye_engine.prompt.blueprint.node_resolver import resolve_node
 
 
 class Test1:  ##################################################################

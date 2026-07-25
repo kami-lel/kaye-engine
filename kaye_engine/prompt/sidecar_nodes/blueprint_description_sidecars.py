@@ -4,7 +4,7 @@ blueprint_description_sidecars.py
 define ``BlueprintDescriptorSidecars``
 """
 
-from kaye.prompt import REPLACEMENT_NEWLINE_SYMBOL
+from kaye_engine.prompt import REPLACEMENT_NEWLINE_SYMBOL
 
 # reserved descriptor names, documentation only; consumption is by string key
 DESCRIPTION_NAME = "description"
@@ -160,7 +160,7 @@ class BlueprintDescriptorSidecars:  ##########################################
         if not node:
             return []
 
-        from kaye.prompt.blueprint import PromptBlueprint, render
+        from kaye_engine.prompt.blueprint import PromptBlueprint, render
 
         bp = PromptBlueprint.create_from_node(node)
         return render.render_prompt_lines(bp, disable_first_heading=True)

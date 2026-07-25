@@ -3,14 +3,14 @@
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye import logger, kamilog
+from kaye_engine import logger, kamilog
 
-from kaye.cli.claude.plugin.export_folder import export_plugin_as_folder
-from kaye.cli.claude.user_prompt.parser import (
+from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder
+from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
     find_user_system_prompt_file,
 )
-from kaye.cli.claude.user_prompt.export import export_user_system_prompt_file
+from kaye_engine.cli.claude.user_prompt.export import export_user_system_prompt_file
 
 #  constants  ===================================================================
 

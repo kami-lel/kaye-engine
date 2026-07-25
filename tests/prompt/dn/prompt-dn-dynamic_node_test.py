@@ -6,7 +6,7 @@ Unit Tests (using pytest) for: DynamicNode
 
 import pytest
 
-from kaye.prompt.dynamic_nodes import DynamicNode
+from kaye_engine.prompt.dynamic_nodes import DynamicNode
 
 
 # helpers  #####################################################################

@@ -1,5 +1,5 @@
-from kaye.prompt.blueprint import BLUEPRINT_REGISTRIES
-from kaye.cli.exportable_abbr import EXPORTABLE_ABBRS
+from kaye_engine.prompt.blueprint import BLUEPRINT_REGISTRIES
+from kaye_engine.cli.exportable_abbr import EXPORTABLE_ABBRS
 
 
 ALL_CLAUDE_SKILL_NAMES = [

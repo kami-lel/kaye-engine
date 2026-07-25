@@ -9,9 +9,9 @@ import tempfile
 from importlib.metadata import version
 from pathlib import Path
 
-from kaye import logger
+from kaye_engine import logger
 
-from kaye import PROGRAM_NAME
+from kaye_engine import PROGRAM_NAME
 from .export_folder import (
     export_plugin_as_folder,
 )

@@ -2,7 +2,7 @@
 Entry Point for Kaye Flask HTTP API
 """
 
-from kaye.cli.cli_main import cli_parser
+from kaye_engine.cli.cli_main import cli_parser
 
 
 # pylint: disable-next=missing-function-docstring

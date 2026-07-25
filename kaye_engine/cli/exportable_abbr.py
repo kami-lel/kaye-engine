@@ -4,8 +4,8 @@ exportable_abbr.py
 group abbreviations for export
 """
 
-from kaye.abbr_collection import AbbrData, AbbrTags, AbbrWrap
-from kaye.prompt.blueprint.registry import to_skill_name
+from kaye_engine.abbr_collection import AbbrData, AbbrTags, AbbrWrap
+from kaye_engine.prompt.blueprint.registry import to_skill_name
 
 # constants  ###################################################################
 

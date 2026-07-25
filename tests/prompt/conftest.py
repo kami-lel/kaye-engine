@@ -4,10 +4,10 @@ import pytest
 from copy import deepcopy
 
 
-from kaye.prompt.prompt_corpus_node import PromptCorpusNode
-from kaye.prompt.prompt_corpus_loader import load_prompt_corpus_tree
+from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye_engine.prompt.prompt_corpus_loader import load_prompt_corpus_tree
 
-from kaye.prompt import (
+from kaye_engine.prompt import (
     TodayNode,
     AbbrNode,
     UsableAbbrNode,

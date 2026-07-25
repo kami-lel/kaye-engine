@@ -10,7 +10,7 @@ from unittest.mock import mock_open, patch
 
 import pytest
 
-from kaye.prompt.prompt_corpus_loader import load_prompt_corpus_tree
+from kaye_engine.prompt.prompt_corpus_loader import load_prompt_corpus_tree
 
 
 # pytest fixtures  #############################################################
@@ -29,7 +29,7 @@ Licensed under the MIT License.
 """)
 
     with patch("builtins.open", m), patch(
-        "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
+        "kaye_engine.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
     ):
         return load_prompt_corpus_tree()
 
@@ -59,7 +59,7 @@ This project is licensed under the MIT License.
 """)
 
     with patch("builtins.open", m), patch(
-        "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
+        "kaye_engine.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
     ):
         return load_prompt_corpus_tree()
 
@@ -98,7 +98,7 @@ Summarizing the findings and implications.
 """)
 
     with patch("builtins.open", m), patch(
-        "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
+        "kaye_engine.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
     ):
         return load_prompt_corpus_tree()
 

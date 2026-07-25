@@ -7,9 +7,9 @@ define ``Skill``
 from pathlib import Path
 from importlib.metadata import version
 
-from kaye import PROGRAM_NAME
-from kaye.cli.claude import CONTAINING_SIDECARS
-from kaye.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
+from kaye_engine import PROGRAM_NAME
+from kaye_engine.cli.claude import CONTAINING_SIDECARS
+from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 
 
 class Skill(FrontmatterDoc):

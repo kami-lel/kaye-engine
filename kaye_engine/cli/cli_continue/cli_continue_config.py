@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from kaye import logger, kamilog
+from kaye_engine import logger, kamilog
 
 from .export_abbr_rules import export_abbr_rules
 from .export_blueprint_rules import export_blueprint_rules
