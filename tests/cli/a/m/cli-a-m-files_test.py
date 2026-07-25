@@ -41,14 +41,14 @@ class TestPluginJson:  # =======================================================
     def test_plugin_json_exists(self, testee_marketplace_folder):
         path = (
             testee_marketplace_folder
-            / "plugins" / "kaye" / ".claude-plugin" / "plugin.json"
+            / "plugins" / "kaye-engine" / ".claude-plugin" / "plugin.json"
         )
         assert path.exists()
 
     def test_plugin_json_is_file(self, testee_marketplace_folder):
         path = (
             testee_marketplace_folder
-            / "plugins" / "kaye" / ".claude-plugin" / "plugin.json"
+            / "plugins" / "kaye-engine" / ".claude-plugin" / "plugin.json"
         )
         assert path.is_file()
 
@@ -59,18 +59,18 @@ class TestSkillFiles:  # =======================================================
     def test_skill_file_exists(self, testee_marketplace_folder, skill_name):
         skill_file = (
             testee_marketplace_folder
-            / "plugins" / "kaye" / "skills" / skill_name / "SKILL.md"
+            / "plugins" / "kaye-engine" / "skills" / skill_name / "SKILL.md"
         )
         assert skill_file.exists(), (
-            f"Missing plugins/kaye/skills/{skill_name}/SKILL.md"
+            f"Missing plugins/kaye-engine/skills/{skill_name}/SKILL.md"
         )
 
     @pytest.mark.parametrize("skill_name", ALL_CLAUDE_SKILL_NAMES)
     def test_skill_file_is_file(self, testee_marketplace_folder, skill_name):
         skill_file = (
             testee_marketplace_folder
-            / "plugins" / "kaye" / "skills" / skill_name / "SKILL.md"
+            / "plugins" / "kaye-engine" / "skills" / skill_name / "SKILL.md"
         )
         assert skill_file.is_file(), (
-            f"plugins/kaye/skills/{skill_name}/SKILL.md is not a file"
+            f"plugins/kaye-engine/skills/{skill_name}/SKILL.md is not a file"
         )

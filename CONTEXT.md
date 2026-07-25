@@ -1,4 +1,4 @@
-# kaye CONTEXT
+# kaye-engine CONTEXT
 
 System knowledge for the **Kaye** repository — architecture, entities, and
 boundaries. Read this alongside `AGENTS.md` before making changes.
@@ -11,17 +11,18 @@ prompts from a central Markdown corpus using tree-based blueprints, exposed
 through a Python API, an HTTP API, and a CLI.
 
 - language: Python (`>=3.11`)
-- package name: `kaye` (distribution and import name; `PROGRAM_NAME` in
-  `kaye/__init__.py`, paired with `DISPLAY_NAME` = `"Prompt Engineering Project
-  Kaye"` used as the Claude plugin `displayName`)
+- package name: `kaye-engine` (distribution name); import name `kaye_engine`
+  (`PROGRAM_NAME` in `kaye_engine/__init__.py`, paired with `DISPLAY_NAME` =
+  `"Prompt Engineering Project Kaye Engine"` used as the Claude plugin
+  `displayName`)
 - core dependencies: `anytree`, `flask`, `json5`, `pyahocorasick`, `pyyaml`
-- entry point: `kaye` console script (`[project.scripts]` in
-  `pyproject.toml`, mapped to `kaye.__main__:main`); `python -m kaye` still
-  works identically. `http` subcommand starts the Flask app
+- entry point: `kaye-engine` console script (`[project.scripts]` in
+  `pyproject.toml`, mapped to `kaye_engine.__main__:main`); `python -m
+  kaye_engine` still works identically. `http` subcommand starts the Flask app
 
 ### Key Concepts
 
-- **Prompt Corpus** — `kaye/prompt_corpus.md`, the authoritative Source Of
+- **Prompt Corpus** — `kaye_engine/prompt_corpus.md`, the authoritative Source Of
   Truth defining persona, roles, rules, styles, and references
 - **Prompt Tree** — parsed corpus; each section heading is a `BasePromptNode`
 - **Blueprint** — a `PromptBlueprint` tree selection spec controlling which
@@ -29,7 +30,7 @@ through a Python API, an HTTP API, and a CLI.
 - **Role** — task-specific behavior profile inside the corpus
 - **Sidecar Node** — `{name}`-bracketed subnode attached to a blueprint's
   parent but stored as corpus content; excluded by default and conditionally
-  spliced in via `contains_sidecars` (`kaye/prompt/sidecar_nodes/`). There is
+  spliced in via `contains_sidecars` (`kaye_engine/prompt/sidecar_nodes/`). There is
   no fixed enum of sidecar names — `get_sidecar_name(node)` (regex
   `^\{.+\}$`, returns `None` if not a sidecar node) extracts the name inside
   the braces as a plain string. Two usage-role labels under the same
@@ -42,11 +43,11 @@ through a Python API, an HTTP API, and a CLI.
   detection is name-based rather than type-based, a reserved descriptor name
   can also be requested via `contains_sidecars` for conditional content
   inclusion — nothing structurally prevents it. To add a new conditional
-  sidecar name: add `### {name}` examples to `kaye/prompt_corpus.md`,
+  sidecar name: add `### {name}` examples to `kaye_engine/prompt_corpus.md`,
   document it in `docs/corpus_doc.md`, `docs/sidecar_node_doc.md`, and
   `docs/programmatic_api_doc.md`, wire CLI export consumers
-  (`kaye/cli/claude/skill/skill_md.py`, `kaye/cli/cli_continue/rule_file.py`,
-  both built on the shared `kaye/cli/frontmatter_doc.py`) if the name should
+  (`kaye_engine/cli/claude/skill/skill_md.py`, `kaye_engine/cli/cli_continue/rule_file.py`,
+  both built on the shared `kaye_engine/cli/frontmatter_doc.py`) if the name should
   surface in exports, and mirror tests under `tests/prompt/bp/` and
   `tests/prompt/node/`.
 - **Prerequisite Node** — `{prerequisite}` conditional sidecar node; pass
@@ -54,13 +55,13 @@ through a Python API, an HTTP API, and a CLI.
   `generate_prompt()` / `render.render_prompt_lines()` to auto-checkmark
   every matching sidecar node whose parent is already checkmarked before
   rendering; `"for claude code"` and `"prerequisite"` are combined in
-  `kaye.cli.claude.CONTAINING_SIDECARS` for all Claude exports
+  `kaye_engine.cli.claude.CONTAINING_SIDECARS` for all Claude exports
 - **Blueprint Sidecar Merging** — `BlueprintDescriptorSidecars.__or__` merges
   two instances via `left | right`; left operand takes priority for each
   field (description, when_to_use, globs, prerequisite); `PromptBlueprint.__or__`
   now includes sidecar merging so merged blueprints preserve sidecar
   information
-- **Dynamic Node** — `kaye/prompt/dynamic_nodes/`, a node type whose content
+- **Dynamic Node** — `kaye_engine/prompt/dynamic_nodes/`, a node type whose content
   has no fixed value and is generated during `.generate_prompt()`; abstract
   base `DynamicNode` (`dynamic_node.py`), heading syntax `(Name)`;
   `DYNAMIC_NODE_TYPES` registers every concrete type: `TodayNode` (today's
@@ -73,7 +74,7 @@ through a Python API, an HTTP API, and a CLI.
   `AbbrData().abbrs` entry matching its `AbbrTags` member via
   `gen_abbrs_content_lines()`. `chat` checkmarks `(Abbreviations)`; `coder`
   checkmarks `(Coding Terms)` via a small `coding_terms_blueprint`
-  (`kaye/prompt/blueprint/registrations.py`).
+  (`kaye_engine/prompt/blueprint/registrations.py`).
   - **Preface** — every `DynamicNode` accepts a `preface=()` sequence, stored
     as `self._preface` and prepended to `content_lines()`'s generated output.
     `load_prompt_corpus_tree()` populates this automatically: `prompt_corpus.md`
@@ -92,7 +93,7 @@ through a Python API, an HTTP API, and a CLI.
 
 ### Prompt Corpus Structure
 
-`kaye/prompt_corpus.md` is one large Markdown document parsed into the prompt
+`kaye_engine/prompt_corpus.md` is one large Markdown document parsed into the prompt
 tree. Each `#`/`##`/`###` heading becomes a node; `{name}` headings are
 sidecar nodes (see above). Blank "spacer" lines between sections are
 intentional — preserve them. The top-level (`#`) sections, in order:
@@ -111,7 +112,7 @@ intentional — preserve them. The top-level (`#`) sections, in order:
   possible future conditional splice, not currently referenced in any
   `contains_sidecars` call site. `Personality-Ria` and `Personality-Zin`
   follow as separate personas (multi-agent conversation mode), each with its
-  own unused `{explicit}` sidecar todo'd but not yet written (see `kaye/
+  own unused `{explicit}` sidecar todo'd but not yet written (see `kaye_engine/
   prompt_corpus_note`)
 - **Language** — respond in the user's language; never mix languages in one
   reply
@@ -158,22 +159,22 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
 
 ## Repository Layout
 
-- `kaye/` — main package (API, CLI, prompt engine, abbreviation collection)
-  - `kaye/prompt/` — prompt tree, nodes, blueprints, loaders
-  - `kaye/api/` — Flask HTTP API and Dify app endpoints
-  - `kaye/cli/` — argparse-based CLI subcommands
-    - `kaye/cli/cli_continue/` — exports blueprint/abbreviation rules to
+- `kaye_engine/` — main package (API, CLI, prompt engine, abbreviation collection)
+  - `kaye_engine/prompt/` — prompt tree, nodes, blueprints, loaders
+  - `kaye_engine/api/` — Flask HTTP API and Dify app endpoints
+  - `kaye_engine/cli/` — argparse-based CLI subcommands
+    - `kaye_engine/cli/cli_continue/` — exports blueprint/abbreviation rules to
       `~/.continue`
-    - `kaye/cli/claude/` — exports blueprints as Claude plugins, marketplaces,
+    - `kaye_engine/cli/claude/` — exports blueprints as Claude plugins, marketplaces,
       agentskills.io Skills, VS Code Extension setup, and the user system
       prompt `CLAUDE.md`
-    - `kaye/cli/prompt/` — `kaye prompt` (alias `p`) subcommand: `ls`
+    - `kaye_engine/cli/prompt/` — `kaye-engine prompt` (alias `p`) subcommand: `ls`
       (list registered blueprint names), `show` (preview a blueprint's
       structure), `generate` (alias `g`, render a concrete prompt);
       `show`/`generate` share a `blueprint_io_parser` base plus
       `load_blueprint_from_args()`/`write_blueprint_result()` helpers
       (`blueprint_io_parser.py`)
-  - `kaye/prompt_corpus.md`, `kaye/abbrs.json` — packaged data
+  - `kaye_engine/prompt_corpus.md`, `kaye_engine/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
 - `docs/` — in-depth documentation (programmatic API, HTTP API, corpus format,
   sidecar and dynamic nodes, abbreviations, Claude and Dify integration,
@@ -183,7 +184,7 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
   an already-parsed corpus, so worker startup costs more than the split saves
   — a measured `-n auto` run finished no faster than the serial one — and the
   session-scoped export fixtures (`tests/conftest.py`,
-  `tests/cli/conftest.py`, which shell out to `kaye claude skill` and friends)
+  `tests/cli/conftest.py`, which shell out to `kaye-engine claude skill` and friends)
   are rebuilt per worker and carry run-order assumptions that a split breaks.
   `pytest-xdist` is deliberately absent from the `dev` extra
   - `tests/prompt/` — unit tests for the prompt engine (nodes, blueprints)
@@ -213,7 +214,7 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
         - `tests/cli/a/s/proj/` — per-skill content tests for project blueprints
         - `tests/cli/a/s/prompts/` — per-skill content tests for workflow
           prompts registered via `_register_prompt`
-          (`kaye/prompt/blueprint/registrations.py`, e.g. Create README, Gap
+          (`kaye_engine/prompt/blueprint/registrations.py`, e.g. Create README, Gap
           Review, Plan for Step By Step)
         - `tests/cli/a/s/role/` — per-skill content tests for role blueprints
         - `tests/cli/a/s/style/` — per-skill content tests for style blueprints

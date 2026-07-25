@@ -11,8 +11,8 @@ import copy
 import pytest
 
 
-from kaye.prompt.dynamic_nodes import TodayNode
-from kaye.prompt.prompt_corpus_node import HEADING_PREFIX_ELEMENT
+from kaye_engine.prompt.dynamic_nodes import TodayNode
+from kaye_engine.prompt.prompt_corpus_node import HEADING_PREFIX_ELEMENT
 
 from tests import TESTEE_TODAY_CONTENT
 

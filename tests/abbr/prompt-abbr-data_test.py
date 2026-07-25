@@ -8,7 +8,7 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from kaye.abbr_collection import (
+from kaye_engine.abbr_collection import (
     AbbrMeaning,
     AbbrEntry,
     AbbrWrap,

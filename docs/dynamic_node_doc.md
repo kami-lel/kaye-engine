@@ -33,7 +33,7 @@ Every dynamic node type is attached once to the prompt corpus tree automatically
 Once attached, a dynamic node behaves like any other corpus node in a blueprint: checkmark it to include it, uncheckmark it to leave it out.
 
 ```python
-from kaye.prompt import PromptBlueprint
+from kaye_engine.prompt import PromptBlueprint
 
 blueprint_text = """ ○
 [x] └── (Abbreviations)"""

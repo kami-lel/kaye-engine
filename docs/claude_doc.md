@@ -5,8 +5,8 @@
 Generate a plugin package using the Kaye CLI:
 
 ```bash
-kaye claude plugin --zip  # or
-kaye a p -z
+kaye-engine claude plugin --zip  # or
+kaye-engine a p -z
 ```
 
 ----
@@ -18,8 +18,8 @@ Upload the generated `.zip` file to [Claude Desktop](https://claude.ai) settings
 Set up Kaye for the Claude Code VS Code Extension with one command:
 
 ```bash
-kaye claude vs-code-extension  # or
-kaye a v
+kaye-engine claude vs-code-extension  # or
+kaye-engine a v
 ```
 
 This writes the User System Prompt to `~/.claude/CLAUDE.md`, creates a

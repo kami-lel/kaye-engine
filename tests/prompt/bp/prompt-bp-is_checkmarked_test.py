@@ -10,7 +10,7 @@ import copy
 import pytest
 
 
-from kaye.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 
 # use corpus 1  ################################################################

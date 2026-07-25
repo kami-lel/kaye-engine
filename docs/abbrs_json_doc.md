@@ -1,6 +1,6 @@
 # `abbrs.json` documentation
 
-Explain format of `kaye/abbrs.json`
+Explain format of `kaye_engine/abbrs.json`
 
 Top level structure:
 

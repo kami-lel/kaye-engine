@@ -42,10 +42,13 @@ class TestBasic:  # ============================================================
 class TestContent:  # ==========================================================
 
     def test_name(self, testee_plugin_json):
-        assert testee_plugin_json["name"] == "kaye"
+        assert testee_plugin_json["name"] == "kaye-engine"
 
     def test_display_name(self, testee_plugin_json):
-        assert testee_plugin_json["displayName"] == "Prompt Engineering Project Kaye"
+        assert (
+            testee_plugin_json["displayName"]
+            == "Prompt Engineering Project Kaye Engine"
+        )
 
     def test_version(self, testee_plugin_json):
         assert "version" in testee_plugin_json

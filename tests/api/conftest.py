@@ -1,6 +1,6 @@
 import pytest
 
-from kaye.api import create_app
+from kaye_engine.api import create_app
 
 
 @pytest.fixture(scope="session")

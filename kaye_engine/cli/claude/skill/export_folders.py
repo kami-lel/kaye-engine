@@ -1,0 +1,46 @@
+"""
+export_folders.py
+
+define ``export_skills_as_folders``
+"""
+
+from kaye_engine import logger
+from kaye_engine.prompt.blueprint import BLUEPRINT_REGISTRIES
+from kaye_engine.cli.exportable_abbr import EXPORTABLE_ABBRS
+from .skill_md import Skill
+
+# entry point  #################################################################
+
+
+def export_skills_as_folders(parent_folder):
+    """
+    export all blueprints, prompts, and abbreviation groups as skill folders
+
+    writes one subfolder per blueprint and per abbreviation group under
+    ``parent_folder``; abbreviation skills are marked as non-user-invocable
+
+
+    :param parent_folder: destination directory to write skill folders into
+    :type parent_folder: Path-like
+    """
+    logger.enter("exporting blueprints and prompts as skills")
+
+    # export blueprints and prompts
+    for reg in BLUEPRINT_REGISTRIES.values():
+        if not reg.skill_exportable:
+            continue
+
+        folder = Skill.from_registry(reg).write(parent_folder)
+        logger.succ("export skill:\t{}".format(folder))
+
+    logger.enter("exporting abbreviation groups as skills")
+
+    # export abbrs
+    for group in EXPORTABLE_ABBRS:
+        folder = Skill(
+            name=group.skill_name,
+            description=group.description,
+            user_invocable=False,
+            body=group.as_md_list(),
+        ).write(parent_folder)
+        logger.succ("export skill:\t{}".format(folder))

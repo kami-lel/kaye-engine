@@ -13,4 +13,4 @@ def testee_claude_folder(tmp_path_factory, cli_claude_command):
 
 @pytest.fixture(scope="session")
 def testee_plugin_folder(testee_claude_folder):
-    return testee_claude_folder / "plugins" / "kaye"
+    return testee_claude_folder / "plugins" / "kaye-engine"

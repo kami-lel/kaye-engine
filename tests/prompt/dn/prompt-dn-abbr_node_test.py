@@ -10,7 +10,7 @@ import copy
 import pytest
 
 
-from kaye.prompt.dynamic_nodes import AbbrNode
+from kaye_engine.prompt.dynamic_nodes import AbbrNode
 
 # fixtures data  ################################################################
 

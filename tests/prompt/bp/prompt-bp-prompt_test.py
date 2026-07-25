@@ -8,7 +8,7 @@ import re
 
 import pytest
 
-from kaye.prompt import PromptBlueprint
+from kaye_engine.prompt import PromptBlueprint
 
 from tests import TESTEE_USABLE_ABBRS
 from tests.prompt.bp import (

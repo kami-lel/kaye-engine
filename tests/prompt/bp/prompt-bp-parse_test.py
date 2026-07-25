@@ -7,7 +7,7 @@ Unit Tests (using pytest) for: PromptBlueprint.parse()
 import pytest
 
 
-from kaye.prompt.blueprint.prompt_blueprint import PromptBlueprint
+from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
