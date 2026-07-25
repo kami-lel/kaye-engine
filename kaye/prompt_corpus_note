@@ -5,6 +5,7 @@ bug plan for step by step should work w/ exit plan tool
 fixme gap review: also add TT for warning
 fixme gap review: add numbering for better communications (consider generic sequence numbering)
 fixme plan step by step: stop per step
+fixme plan step by step: save steps into context.md & remind read it
 fixme better german learner prompt
 fixme git worktree: exact wording main vs. linked worktree
 fixme move print out content to "terminal", include CB, upd its when to use
