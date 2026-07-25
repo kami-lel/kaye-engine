@@ -44,7 +44,7 @@ class TestContent:  # ==========================================================
         assert "$schema" in testee_marketplace_json
 
     def test_name(self, testee_marketplace_json):
-        assert testee_marketplace_json["name"] == "kaye"
+        assert testee_marketplace_json["name"] == "kaye-engine"
 
     def test_version(self, testee_marketplace_json):
         assert "version" in testee_marketplace_json
@@ -62,4 +62,4 @@ class TestContent:  # ==========================================================
 
     def test_plugin_source(self, testee_marketplace_json):
         plugin = testee_marketplace_json["plugins"][0]
-        assert plugin["source"] == "./plugins/kaye"
+        assert plugin["source"] == "./plugins/kaye-engine"
