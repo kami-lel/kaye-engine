@@ -29,7 +29,7 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Changed
 
-- Project renamed from **kaye** to **kaye-engine**: package/import path `kaye` → `kaye_engine`, distribution name and console script `kaye` → `kaye-engine`, repository URLs updated to `kami-lel/kaye-engine`
+- Project renamed: **kaye** → **kaye-engine**, including the package/import path (`kaye` → `kaye_engine`), the distribution name and console script (`kaye` → `kaye-engine`), and repository URLs (updated to `kami-lel/kaye-engine`)
 
 ### Deprecated
 
