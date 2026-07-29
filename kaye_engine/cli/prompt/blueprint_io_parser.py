@@ -8,7 +8,7 @@ define ``blueprint_io_parser``, ``load_blueprint_from_args``,
 from argparse import FileType, ArgumentParser
 
 from kaye_engine import logger
-from kaye_engine.prompt.blueprint import BLUEPRINT_REGISTRIES
+from kaye_engine.prompt.blueprint import blueprint_registry
 from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
 
 # defining args shared by generate_parser and show_parser
@@ -54,7 +54,7 @@ def load_blueprint_from_args(args):
         return blueprint, args.BLUEPRINT
 
     try:
-        registry = BLUEPRINT_REGISTRIES[args.BLUEPRINT]
+        registry = blueprint_registry[args.BLUEPRINT]
     except KeyError as err:
         logger.critical("unknown blueprint:\t{}".format(args.BLUEPRINT))
         raise SystemExit(1) from err

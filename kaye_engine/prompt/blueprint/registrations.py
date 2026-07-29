@@ -2,9 +2,9 @@
 registrations.py
 
 the single place every blueprint is created; registers each one into
-``BLUEPRINT_REGISTRIES`` via ``register_blueprint`` -- no blueprint should
+``blueprint_registry`` via ``register_blueprint`` -- no blueprint should
 be created anywhere else. other scripts must access blueprints through
-``BLUEPRINT_REGISTRIES``, never by importing names from this module
+``blueprint_registry``, never by importing names from this module
 """
 
 # pylint: disable=invalid-name

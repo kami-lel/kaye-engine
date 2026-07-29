@@ -5,7 +5,7 @@ define ``export_skills_as_folders``
 """
 
 from kaye_engine import logger
-from kaye_engine.prompt.blueprint import BLUEPRINT_REGISTRIES
+from kaye_engine.prompt.blueprint import blueprint_registry
 from kaye_engine.cli.exportable_abbr import EXPORTABLE_ABBRS
 from .skill_md import Skill
 
@@ -26,7 +26,7 @@ def export_skills_as_folders(parent_folder):
     logger.enter("exporting blueprints and prompts as skills")
 
     # export blueprints and prompts
-    for reg in BLUEPRINT_REGISTRIES.values():
+    for reg in blueprint_registry.values():
         if not reg.skill_exportable:
             continue
 

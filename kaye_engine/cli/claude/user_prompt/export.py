@@ -6,7 +6,7 @@ define ``export_user_system_prompt_file``
 
 from pathlib import Path
 
-from kaye_engine.prompt.blueprint import BLUEPRINT_REGISTRIES
+from kaye_engine.prompt.blueprint import blueprint_registry
 from kaye_engine.cli.claude import CONTAINING_SIDECARS
 
 
@@ -30,14 +30,14 @@ def export_user_system_prompt_file(
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
     base_name = "rapid" if use_rapid else "chat"
-    blueprint = BLUEPRINT_REGISTRIES[base_name].blueprint
+    blueprint = blueprint_registry[base_name].blueprint
 
     agent_behavior = blueprint.corpus["Agent Behavior"]
     blueprint.checkmark(agent_behavior)
     blueprint.checkmark(agent_behavior["Claude Behavior"])
 
     if use_coder:
-        blueprint = blueprint | BLUEPRINT_REGISTRIES["coder"].blueprint
+        blueprint = blueprint | blueprint_registry["coder"].blueprint
 
     file_path.write_text(
         blueprint.generate_prompt(
