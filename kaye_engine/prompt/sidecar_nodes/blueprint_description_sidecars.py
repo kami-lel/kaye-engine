@@ -162,5 +162,5 @@ class BlueprintDescriptorSidecars:  ##########################################
 
         from kaye_engine.prompt.blueprint import PromptBlueprint, render
 
-        bp = PromptBlueprint.create_from_node(node)
+        bp = PromptBlueprint.create_from_node(node.root, node)
         return render.render_prompt_lines(bp, disable_first_heading=True)
