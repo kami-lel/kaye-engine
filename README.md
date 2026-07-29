@@ -41,7 +41,7 @@ Other core concepts:
 - 🔀 dynamic node: corpus node whose content is **Generated** at render time — Q.v. [Dynamic Node documentation](docs/dynamic_node_doc.md)
 - 🗂️ sidecar node: corpus node holding structured **Metadata** about its parent — Q.v. [Sidecar Node documentation](docs/sidecar_node_doc.md)
 
-The `(Abbreviations)` dynamic node reads its meanings from [`kaye_engine/abbrs.json`](kaye_engine/abbrs.json) — Q.v. [`abbrs.json` documentation](docs/abbrs_json_doc.md) for its format.
+The `(Abbreviations)` dynamic node reads its meanings from an `abbrs.json` file loaded via `load_abbr_data`/`get_abbr_data` — kaye-engine bundles no copy of its own; a host package (e.g. `kaye-vault`) supplies and loads the real file. Q.v. [`abbrs.json` documentation](docs/abbrs_json_doc.md) for its format.
 
 ### 🎭 Personas
 
