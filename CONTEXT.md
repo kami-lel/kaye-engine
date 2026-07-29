@@ -22,8 +22,11 @@ through a Python API, an HTTP API, and a CLI.
 
 ### Key Concepts
 
-- **Prompt Corpus** — `kaye_engine/prompt_corpus.md`, the authoritative Source Of
-  Truth defining persona, roles, rules, styles, and references
+- **Prompt Corpus** — a markdown file defining persona, roles, rules,
+  styles, and references; the authoritative Source Of Truth for whatever
+  content it holds. `kaye_engine` bundles none itself — a caller loads
+  and caches one by name via `load_corpus_tree(tree_name, file_path)` /
+  `get_corpus_tree(tree_name)` (`kaye_engine/prompt/prompt_corpus_loader.py`)
 - **Prompt Tree** — parsed corpus; each section heading is a `BasePromptNode`
 - **Blueprint** — a `PromptBlueprint` tree selection spec controlling which
   corpus parts render into a concrete prompt
@@ -43,8 +46,9 @@ through a Python API, an HTTP API, and a CLI.
   detection is name-based rather than type-based, a reserved descriptor name
   can also be requested via `contains_sidecars` for conditional content
   inclusion — nothing structurally prevents it. To add a new conditional
-  sidecar name: add `### {name}` examples to `kaye_engine/prompt_corpus.md`,
-  document it in `docs/corpus_doc.md`, `docs/sidecar_node_doc.md`, and
+  sidecar name: add `### {name}` examples to the corpus markdown file
+  supplied to `load_corpus_tree()`, document it in `docs/corpus_doc.md`,
+  `docs/sidecar_node_doc.md`, and
   `docs/programmatic_api_doc.md`, wire CLI export consumers
   (`kaye_engine/cli/claude/skill/skill_md.py`, `kaye_engine/cli/cli_continue/rule_file.py`,
   both built on the shared `kaye_engine/cli/frontmatter_doc.py`) if the name should
@@ -77,7 +81,7 @@ through a Python API, an HTTP API, and a CLI.
   (`kaye_engine/prompt/blueprint/registrations.py`).
   - **Preface** — every `DynamicNode` accepts a `preface=()` sequence, stored
     as `self._preface` and prepended to `content_lines()`'s generated output.
-    `load_prompt_corpus_tree()` populates this automatically: `prompt_corpus.md`
+    `load_corpus_tree()` populates this automatically: the corpus file
     may contain a literal `# (Today)`-style section (same heading as a dynamic
     node); `_attach_dynamic_node()` (`prompt_corpus_loader.py`) detaches that
     static `PromptCorpusNode` and passes its `content_lines()` as the dynamic
@@ -93,8 +97,8 @@ through a Python API, an HTTP API, and a CLI.
 
 ### Prompt Corpus Structure
 
-`kaye_engine/prompt_corpus.md` is one large Markdown document parsed into the prompt
-tree. Each `#`/`##`/`###` heading becomes a node; `{name}` headings are
+A prompt corpus file is one large Markdown document parsed into the prompt
+tree by `load_corpus_tree()`. Each `#`/`##`/`###` heading becomes a node; `{name}` headings are
 sidecar nodes (see above). Blank "spacer" lines between sections are
 intentional — preserve them. The top-level (`#`) sections, in order:
 
@@ -174,7 +178,7 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
       `show`/`generate` share a `blueprint_io_parser` base plus
       `load_blueprint_from_args()`/`write_blueprint_result()` helpers
       (`blueprint_io_parser.py`)
-  - `kaye_engine/prompt_corpus.md`, `kaye_engine/abbrs.json` — packaged data
+  - `kaye_engine/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
 - `docs/` — in-depth documentation (programmatic API, HTTP API, corpus format,
   sidecar and dynamic nodes, abbreviations, Claude and Dify integration,

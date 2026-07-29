@@ -31,7 +31,6 @@ Test files mirror the source tree under `tests/`. Source-to-test mapping:
 | `kaye_engine/cli/claude/` | `tests/cli/a/` |
 | `kaye_engine/cli/cli_continue/` | `tests/cli/c/` |
 | `kaye_engine/abbr*` | `tests/abbr/` |
-| `kaye_engine/prompt_corpus.md` | `tests/corpus/` |
 
 Run the scoped path:
 
