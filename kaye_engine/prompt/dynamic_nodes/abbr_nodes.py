@@ -4,7 +4,7 @@ abbr_nodes.py
 define abbreviations-related node types
 """
 
-from kaye_engine.abbr_collection import AbbrData, AbbrTags
+from kaye_engine.abbr_collection import AbbrTags, get_abbr_data
 from kaye_engine.prompt.dynamic_nodes.abbr_tag_nodes import gen_abbrs_content_lines
 from .dynamic_node import DynamicNode
 
@@ -39,7 +39,9 @@ class AbbrNode(DynamicNode):  ##################################################
         query_len = len(query)
         entries = set()
 
-        for last_idx, matched in AbbrData().automaton.iter_long(query_lower):
+        for last_idx, matched in get_abbr_data().automaton.iter_long(
+            query_lower
+        ):
             key_len = len(matched[0].abbr)
             end_idx = last_idx + 1
             start_idx = end_idx - key_len

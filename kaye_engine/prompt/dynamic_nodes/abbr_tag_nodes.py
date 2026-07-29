@@ -4,7 +4,7 @@ abbr_tag_nodes.py
 define abbreviation-tag-filtered node types
 """
 
-from kaye_engine.abbr_collection import AbbrData, AbbrTags
+from kaye_engine.abbr_collection import AbbrTags, get_abbr_data
 from .dynamic_node import DynamicNode
 
 __all__ = (
@@ -19,7 +19,7 @@ __all__ = (
 
 def gen_abbrs_content_lines(abbr_tag):
     """
-    render every ``AbbrData().abbrs`` entry matching ``abbr_tag``
+    render every ``get_abbr_data().abbrs`` entry matching ``abbr_tag``
     as a list of markdown list items
 
 
@@ -29,7 +29,7 @@ def gen_abbrs_content_lines(abbr_tag):
     :rtype: list[str]
     """
     lines = []
-    for entry in AbbrData().abbrs:
+    for entry in get_abbr_data().abbrs:
         if abbr_tag in entry.tags:
             lines.append(entry.as_md_list_entry())
     return lines
@@ -39,7 +39,7 @@ class _AbbrTagNodeBase(DynamicNode):  ##########################################
     # pylint: disable=abstract-method
     """
     abstract dynamic node that provides abbreviation entries matching
-    a single ``ABBR_TAG`` from ``AbbrData().abbrs``
+    a single ``ABBR_TAG`` from ``get_abbr_data().abbrs``
     """
 
     # abstract fields  ---------------------------------------------------------
