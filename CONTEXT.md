@@ -75,7 +75,7 @@ through a Python API, an HTTP API, and a CLI.
   (`usable_in_brief`), `CodingTermsNode` (`coding`), `PLCNode`
   (`programming_language_code`), `LanguageCodeNode` (`language_code`),
   `UnityEngineAbbrNode` (`unity_engine_abbr`) — each rendering every
-  `AbbrData().abbrs` entry matching its `AbbrTags` member via
+  `get_abbr_data().abbrs` entry matching its `AbbrTags` member via
   `gen_abbrs_content_lines()`. `chat` checkmarks `(Abbreviations)`; `coder`
   checkmarks `(Coding Terms)` via a small `coding_terms_blueprint`
   (`kaye_engine/prompt/blueprint/registrations.py`).
@@ -178,7 +178,6 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
       `show`/`generate` share a `blueprint_io_parser` base plus
       `load_blueprint_from_args()`/`write_blueprint_result()` helpers
       (`blueprint_io_parser.py`)
-  - `kaye_engine/abbrs.json` — packaged data
 - `dify_studio/` — Dify workflow node sources (not part of the package)
 - `docs/` — in-depth documentation (programmatic API, HTTP API, corpus format,
   sidecar and dynamic nodes, abbreviations, Claude and Dify integration,
