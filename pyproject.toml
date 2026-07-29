@@ -42,4 +42,4 @@ include = ["kaye_engine*"]
 exclude = ["build*", "tests*", "dify_studio*", "examples*", "scripts*"]
 
 [tool.setuptools.package-data]
-"*" = ["prompt_corpus.md", "abbrs.json", "permission_cmds.jsonc"]
+"*" = ["abbrs.json", "permission_cmds.jsonc"]
