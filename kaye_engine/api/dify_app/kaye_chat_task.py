@@ -9,9 +9,9 @@ define endpoint behavior of: /kaye/dify-app/ky/task
 
 from flask import request, abort, Response
 
-from kaye_engine.prompt.blueprint import PromptBlueprint, BLUEPRINT_REGISTRIES
+from kaye_engine.prompt.blueprint import PromptBlueprint, blueprint_registry
 
-_BR = BLUEPRINT_REGISTRIES
+_BR = blueprint_registry
 
 rapid_blueprint = _BR["rapid"].blueprint
 chat_blueprint = _BR["chat"].blueprint

@@ -8,7 +8,7 @@ blueprints as Continue AI rule files via ``ContinueRule``
 from pathlib import Path
 
 from kaye_engine import logger
-from kaye_engine.prompt.blueprint import BLUEPRINT_REGISTRIES
+from kaye_engine.prompt.blueprint import blueprint_registry
 
 from kaye_engine.cli.cli_continue.rule_file import ContinueRule
 
@@ -32,7 +32,7 @@ def export_blueprint_rules(rules_folder):
     folder_path = Path(rules_folder).resolve()
     folder_path.mkdir(parents=True, exist_ok=True)
 
-    for reg in BLUEPRINT_REGISTRIES.values():
+    for reg in blueprint_registry.values():
         if not reg.continue_exportable or not reg.llm_invokable:
             continue
 

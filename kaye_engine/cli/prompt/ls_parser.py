@@ -4,7 +4,7 @@ ls_parser.py
 define ``register_ls_subparser``
 """
 
-from kaye_engine.prompt.blueprint import BLUEPRINT_REGISTRIES
+from kaye_engine.prompt.blueprint import blueprint_registry
 
 # todo cli prompt ls additional filtering/groups
 
@@ -15,12 +15,12 @@ _HELP = "list names of all registered blueprints"
 
 _DESCRIPTION = _HELP + """
 
-prints the name of each registered blueprint in BLUEPRINT_REGISTRIES,
+prints the name of each registered blueprint in blueprint_registry,
 sorted alphabetically, one per line"""
 
 
 def _ls_main(_):  ##############################################################
-    for name in sorted(BLUEPRINT_REGISTRIES):
+    for name in sorted(blueprint_registry):
         print(name)
 
 

@@ -7,7 +7,7 @@ define ``export_prompts``
 from pathlib import Path
 
 from kaye_engine import logger
-from kaye_engine.prompt.blueprint import BLUEPRINT_REGISTRIES
+from kaye_engine.prompt.blueprint import blueprint_registry
 from kaye_engine.cli.cli_continue.rule_file import ContinueRule
 
 
@@ -24,7 +24,7 @@ def export_prompt_rules(prompts_folder):
     folder = Path(prompts_folder).resolve()
     folder.mkdir(parents=True, exist_ok=True)
 
-    for reg in BLUEPRINT_REGISTRIES.values():
+    for reg in blueprint_registry.values():
         if not (reg.continue_exportable and not reg.llm_invokable):
             continue
 

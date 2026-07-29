@@ -13,7 +13,7 @@ from kaye_engine.prompt.blueprint import PromptBlueprint
 from kaye_engine.prompt.blueprint.registry import (
     BlueprintRegistry,
     register_blueprint,
-    BLUEPRINT_REGISTRIES,
+    blueprint_registry,
 )
 
 
@@ -22,7 +22,7 @@ def registered_names():
     names = []
     yield names
     for name in names:
-        BLUEPRINT_REGISTRIES.pop(name, None)
+        blueprint_registry.pop(name, None)
 
 
 class TestRegisterBlueprint:  ###################################################
@@ -44,7 +44,7 @@ class TestRegisterBlueprint:  ##################################################
         assert reg.always_apply is False
         assert reg.user_invokable is True
         assert reg.llm_invokable is True
-        assert BLUEPRINT_REGISTRIES["test-registry-dft"] is reg
+        assert blueprint_registry["test-registry-dft"] is reg
 
     def test_flags(_, corpus_testee1, registered_names):
         bp = PromptBlueprint.create_empty_blueprint(

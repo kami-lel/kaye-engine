@@ -1,7 +1,7 @@
 """
 registry.py
 
-define `BlueprintRegistry`, `register_blueprint`, `BLUEPRINT_REGISTRIES`
+define `BlueprintRegistry`, `register_blueprint`, `blueprint_registry`
 """
 
 import re
@@ -13,7 +13,8 @@ from .prompt_blueprint import PromptBlueprint
 __all__ = (
     "BlueprintRegistry",
     "register_blueprint",
-    "BLUEPRINT_REGISTRIES",
+    "get_blueprint",
+    "blueprint_registry",
     "to_skill_name",
 )
 
@@ -46,7 +47,7 @@ class BlueprintRegistry:
     metadata & export policy for a single named `PromptBlueprint`
 
     instances are created via `register_blueprint` and collected in
-    `BLUEPRINT_REGISTRIES`; this is the single source of truth for a
+    `blueprint_registry`; this is the single source of truth for a
     blueprint's identity (`name`/`display_name`) and where it should be
     exported (Continue AI rules, Claude skills) and how
 
@@ -98,12 +99,12 @@ class BlueprintRegistry:
 
 # Entry Point  #################################################################
 
-BLUEPRINT_REGISTRIES = {}
+blueprint_registry = {}
 
 
 def register_blueprint(name, *args, **kwargs):
     """
-    create a `BlueprintRegistry` and insert it into `BLUEPRINT_REGISTRIES`
+    create a `BlueprintRegistry` and insert it into `blueprint_registry`
 
     ``args``/``kwargs`` are forwarded as-is into `BlueprintRegistry`; see
     its docstring for the full field list
@@ -113,12 +114,27 @@ def register_blueprint(name, *args, **kwargs):
     :return: the created registry entry
     :rtype: BlueprintRegistry
     """
-    if name in BLUEPRINT_REGISTRIES:
-        raise ValueError(
-            "duplicate blueprint registry name: {}".format(name)
-        )
+    if name in blueprint_registry:
+        raise ValueError("duplicate blueprint registry name: {}".format(name))
 
     reg = BlueprintRegistry(name, *args, **kwargs)
-    BLUEPRINT_REGISTRIES[name] = reg
+    blueprint_registry[name] = reg
 
     return reg
+
+
+def get_blueprint(name):
+    """
+    :param name: canonical string key a blueprint was registered under
+            via `register_blueprint`
+    :type name: str
+    :raises KeyError: no blueprint is registered under ``name``
+    :return: the registry entry stored under ``name``
+    :rtype: BlueprintRegistry
+    """
+    try:
+        return blueprint_registry[name]
+    except KeyError as e:
+        raise KeyError(
+            "no blueprint registered under name: {}".format(name)
+        ) from e

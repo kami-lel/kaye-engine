@@ -1,10 +1,10 @@
-from kaye_engine.prompt.blueprint import BLUEPRINT_REGISTRIES
+from kaye_engine.prompt.blueprint import blueprint_registry
 from kaye_engine.cli.exportable_abbr import EXPORTABLE_ABBRS
 
 
 ALL_CLAUDE_SKILL_NAMES = [
     reg.skill_name
-    for reg in BLUEPRINT_REGISTRIES.values()
+    for reg in blueprint_registry.values()
     if reg.skill_exportable
 ] + [
     g.skill_name
