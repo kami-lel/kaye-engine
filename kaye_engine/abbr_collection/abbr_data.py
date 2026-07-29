@@ -30,11 +30,6 @@ class AbbrData:
     """
 
     def __init__(self, *, abbrs_json_override):
-        self._load_abbrs_json(abbrs_json_override)
-
-    # load from abbrs.json  ====================================================
-
-    def _load_abbrs_json(self, json_data):
         """
         parse already-loaded ``abbrs.json`` content to create
 
@@ -45,12 +40,10 @@ class AbbrData:
 
         :raises ValueError:
         """
-        # pylint: disable=attribute-defined-outside-init
-
         # fill .meanings & .abbrs  ---------------------------------------------
         self.meanings = []
         self.abbrs = []
-        for mean_key, mean_obj in json_data.items():
+        for mean_key, mean_obj in abbrs_json_override.items():
             if not isinstance(mean_obj, dict):
                 raise ValueError(
                     "meaning value must be Object: {}".format(repr(mean_obj))
