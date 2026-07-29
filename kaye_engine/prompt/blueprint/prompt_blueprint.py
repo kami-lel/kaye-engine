@@ -14,7 +14,6 @@ from kaye_engine.prompt.sidecar_nodes import (
 )
 
 from ..base_prompt_node import BasePromptNode
-from ..prompt_corpus_loader import load_prompt_corpus_tree
 
 from . import render
 from . import parser
@@ -28,9 +27,9 @@ class PromptBlueprint(dict):
     `PromptBlueprint` represents a configurable subset of *prompt corpus tree*
 
 
-    :param corpus_override: use to set ``.corpus``,
-            instead of using ``load_prompt_corpus_tree`` by default;
-            defaults to None
+    :param corpus_override: use to set ``.corpus``;
+            required, no default tree is provided
+            (defaults to None, which raises)
     :type corpus_override: PromptCorpusNode, optional
     """
 
@@ -56,9 +55,9 @@ class PromptBlueprint(dict):
                 when ``disable_prune``, the parsed tree contains the full
                 prompt corpus tree
         :type disable_prune: bool, optional
-        :param corpus_override: use to set ``.corpus``,
-                instead of using ``load_prompt_corpus_tree`` by default;
-                defaults to None
+        :param corpus_override: use to set ``.corpus``;
+                required, no default tree is provided
+                (defaults to None, which raises)
         :type corpus_override: PromptCorpusNode, optional
         :raise ValueError:
         :return: a blueprint parsed from ``blueprint_text``
@@ -77,9 +76,9 @@ class PromptBlueprint(dict):
     @classmethod
     def create_full_blueprint(cls, *, corpus_override=None):
         """
-        :param corpus_override: use to set ``.corpus``,
-                instead of using ``load_prompt_corpus_tree`` by default;
-                defaults to None
+        :param corpus_override: use to set ``.corpus``;
+                required, no default tree is provided
+                (defaults to None, which raises)
         :type corpus_override: PromptCorpusNode, optional
         :return: a blueprint
                 with all nodes from `prompt_corpus` (except dynamic nodes,)
@@ -93,9 +92,9 @@ class PromptBlueprint(dict):
     @classmethod
     def create_empty_blueprint(cls, *, corpus_override=None):
         """
-        :param corpus_override: use to set ``.corpus``,
-                instead of using ``load_prompt_corpus_tree`` by default;
-                defaults to None
+        :param corpus_override: use to set ``.corpus``;
+                required, no default tree is provided
+                (defaults to None, which raises)
         :type corpus_override: PromptCorpusNode, optional
         :return: a blueprint
                 with all nodes from `prompt_corpus` (except dynamic nodes,)
@@ -141,7 +140,10 @@ class PromptBlueprint(dict):
         super().__init__()  # init as empty dict
 
         if corpus_override is None:
-            self.corpus = load_prompt_corpus_tree()
+            raise NotImplementedError(
+                "PromptBlueprint requires an explicit corpus_override; "
+                "no default corpus tree is provided"
+            )
         else:
             if not (
                 isinstance(corpus_override, BasePromptNode)

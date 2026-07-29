@@ -14,7 +14,7 @@ def _get_hash_index(corpus):
     """
     lazily build and cache a ``{hash(node): node}`` index for every node in
     ``corpus``'s tree, memoized on ``corpus`` itself; safe since the corpus
-    tree is fully built once (``load_prompt_corpus_tree``) and never mutated
+    tree is fully built once (``load_corpus_tree``) and never mutated
     afterward — avoids rescanning the whole tree on every ``resolve_node``
     call, which was previously O(n) per call (O(n^2) for a full tree walk)
     """
