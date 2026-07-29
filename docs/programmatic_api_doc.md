@@ -14,7 +14,8 @@ from kaye_engine.prompt import (
     DynamicNode,
     PromptCorpusNode,
     PromptBlueprint,
-    load_prompt_corpus_tree,
+    load_corpus_tree,
+    get_corpus_tree,
     BlueprintRegistry,
     BLUEPRINT_REGISTRIES,
 )
@@ -191,15 +192,25 @@ Use `copy.deepcopy(root)` to copy a prompt tree.
 #### tree creation
 
 It is rare for end users to create individual instances, but to **create**
-an entire prompt tree, use `load_prompt_corpus_tree()`.
-It loads the embedded `prompt_corpus.md` file, parses it, and attaches the
-runtime dynamic nodes once; q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#using-a-dynamic-node) for details:
+an entire prompt tree, use `load_corpus_tree(tree_name, file_path)`.
+`kaye_engine` bundles no corpus markdown file of its own — the caller
+supplies the file and a name to cache it under. It parses the file and
+attaches the runtime dynamic nodes once; q.v.
+[`Dynamic Node Documentation`](dynamic_node_doc.md#using-a-dynamic-node)
+for details:
 
 ```python
-from kaye_engine.prompt import load_prompt_corpus_tree
+from kaye_engine.prompt import load_corpus_tree, get_corpus_tree
 
-tree_root = load_prompt_corpus_tree()
+tree_root = load_corpus_tree("my-tree", "path/to/corpus.md")
+
+# subsequent lookups by the same name return the same cached tree
+tree_root is get_corpus_tree("my-tree")  # True
 ```
+
+`PromptBlueprint()` no longer falls back to a default tree either — its
+`corpus_override` argument is required; omitting it raises
+`NotImplementedError`.
 
 
 

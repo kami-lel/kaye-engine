@@ -27,7 +27,7 @@ Kaye is a toolkit for maintaining a consistent AI agent persona from a single, s
 
 ### 📄 Prompt Corpus
 
-The [Prompt Corpus](kaye_engine/prompt_corpus.md) is the single, structured Markdown file that defines persona, roles, rules, styles, and references. It is the authoritative Source Of Truth used to generate prompts for different scenarios.
+The **Prompt Corpus** is a single, structured Markdown file that defines persona, roles, rules, styles, and references — the authoritative Source Of Truth used to generate prompts for different scenarios. `kaye-engine` does not bundle one itself; it only provides the parsing mechanism (`load_corpus_tree()` / `get_corpus_tree()`) that any caller uses to load and cache one by name.
 
 Q.v. [Prompt Corpus Format documentation](docs/corpus_doc.md) for the heading-to-tree mapping and full Markdown syntax.
 
