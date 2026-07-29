@@ -230,3 +230,13 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
 - `scripts/` — the `systemd` unit file `kaye_http_api.service`, deploying the
   HTTP API from `/opt/kaye`
 
+## Personalization Boundary
+
+`kaye-engine` is a public mechanism package, meant to be extended by a
+separate, private repository holding the user's personalized project —
+one that supplies the actual persona, abbreviations, and blueprint
+registrations `kaye-engine`'s mechanism operates on. The dependency runs
+one direction only: a personalized project depends on `kaye-engine`;
+`kaye-engine` must build, test, and export with no knowledge of what
+specific persona, abbreviations, or blueprints such a project supplies.
+
