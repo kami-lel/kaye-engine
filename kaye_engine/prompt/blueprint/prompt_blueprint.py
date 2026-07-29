@@ -14,6 +14,7 @@ from kaye_engine.prompt.sidecar_nodes import (
 )
 
 from ..base_prompt_node import BasePromptNode
+from ..prompt_corpus_loader import get_corpus_tree
 
 from . import render
 from . import parser
@@ -22,30 +23,54 @@ from .node_resolver import resolve_node
 __all__ = ("PromptBlueprint",)
 
 
+# auxiliaries  #################################################################
+
+
+def _resolve_corpus_tree(corpus_tree):
+    """
+    :param corpus_tree: root node of a corpus tree; or the name a
+            corpus tree was registered under via ``load_corpus_tree``
+    :type corpus_tree: BasePromptNode or str
+    :raises ValueError: ``corpus_tree`` is a node that is not root
+    :raises KeyError: ``corpus_tree`` is a str not registered via
+            ``load_corpus_tree``
+    :return: root node of the resolved corpus tree
+    :rtype: BasePromptNode
+    """
+    if isinstance(corpus_tree, str):
+        return get_corpus_tree(corpus_tree)
+
+    if not (
+        isinstance(corpus_tree, BasePromptNode)
+        and corpus_tree.is_root
+    ):
+        raise ValueError(
+            "corpus_tree must be a root node or a registered "
+            "tree name: {}".format(corpus_tree)
+        )
+    return corpus_tree
+
+
 class PromptBlueprint(dict):
     """
     `PromptBlueprint` represents a configurable subset of *prompt corpus tree*
 
 
-    :param corpus_override: use to set ``.corpus``;
-            required, no default tree is provided
-            (defaults to None, which raises)
-    :type corpus_override: PromptCorpusNode, optional
+    :param corpus_tree: root node of a corpus tree; or the name a
+            corpus tree was registered under via ``load_corpus_tree``
+    :type corpus_tree: BasePromptNode or str
     """
 
     # classmethods  ============================================================
     @classmethod
-    def parse(
-        cls,
-        blueprint_text,
-        *,
-        disable_prune=False,
-        corpus_override=None,
-    ):
+    def parse(cls, corpus_tree, blueprint_text, *, disable_prune=False):
         """
         parse ``blueprint_text`` into a blueprint object
 
 
+        :param corpus_tree: root node of a corpus tree; or the name a
+                corpus tree was registered under via ``load_corpus_tree``
+        :type corpus_tree: BasePromptNode or str
         :param blueprint_text: prompt blueprint text to set nodes, must in
                 the same format of output of ``.generate_blueprint()``
                 (with tree structure and checkmarks)
@@ -55,16 +80,12 @@ class PromptBlueprint(dict):
                 when ``disable_prune``, the parsed tree contains the full
                 prompt corpus tree
         :type disable_prune: bool, optional
-        :param corpus_override: use to set ``.corpus``;
-                required, no default tree is provided
-                (defaults to None, which raises)
-        :type corpus_override: PromptCorpusNode, optional
         :raise ValueError:
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
         """
         # create bp w/ nothing, to be filled during this function
-        bp = PromptBlueprint(corpus_override=corpus_override)
+        bp = PromptBlueprint(corpus_tree)
 
         bp.update(
             parser.parse_blueprint_text(blueprint_text, bp.corpus)
@@ -74,39 +95,33 @@ class PromptBlueprint(dict):
         return bp if disable_prune else bp.prune()
 
     @classmethod
-    def create_full_blueprint(cls, *, corpus_override=None):
+    def create_full_blueprint(cls, corpus_tree):
         """
-        :param corpus_override: use to set ``.corpus``;
-                required, no default tree is provided
-                (defaults to None, which raises)
-        :type corpus_override: PromptCorpusNode, optional
+        :param corpus_tree: root node of a corpus tree; or the name a
+                corpus tree was registered under via ``load_corpus_tree``
+        :type corpus_tree: BasePromptNode or str
         :return: a blueprint
                 with all nodes from `prompt_corpus` (except dynamic nodes,)
                 and checkmarking all nodes
         :rtype: PromptBlueprint
         """
-        return cls._create_full_or_empty_blueprint_generic(
-            True, corpus_override
-        )
+        return cls._create_full_or_empty_blueprint_generic(corpus_tree, True)
 
     @classmethod
-    def create_empty_blueprint(cls, *, corpus_override=None):
+    def create_empty_blueprint(cls, corpus_tree):
         """
-        :param corpus_override: use to set ``.corpus``;
-                required, no default tree is provided
-                (defaults to None, which raises)
-        :type corpus_override: PromptCorpusNode, optional
+        :param corpus_tree: root node of a corpus tree; or the name a
+                corpus tree was registered under via ``load_corpus_tree``
+        :type corpus_tree: BasePromptNode or str
         :return: a blueprint
                 with all nodes from `prompt_corpus` (except dynamic nodes,)
                 but uncheckmarking all nodes
         :rtype: PromptBlueprint
         """
-        return cls._create_full_or_empty_blueprint_generic(
-            False, corpus_override
-        )
+        return cls._create_full_or_empty_blueprint_generic(corpus_tree, False)
 
     @classmethod
-    def create_from_node(cls, node, *, recursively=False):
+    def create_from_node(cls, corpus_tree, node, *, recursively=False):
         """
         create a **blueprint** from a specific node and its content
 
@@ -118,6 +133,9 @@ class PromptBlueprint(dict):
         corpus sections.
 
 
+        :param corpus_tree: root node of a corpus tree; or the name a
+                corpus tree was registered under via ``load_corpus_tree``
+        :type corpus_tree: BasePromptNode or str
         :param node: node object; hash value; name
         :type node: BasePromptNode or int or str
         :param recursively: allow checkmarks on node's descendants,
@@ -126,7 +144,7 @@ class PromptBlueprint(dict):
         :raise TypeError:
         :raise ValueError:
         """
-        bp = cls.create_empty_blueprint()
+        bp = cls.create_empty_blueprint(corpus_tree)
         node_obj, _ = resolve_node(bp.corpus, node)
         bp.checkmark(node_obj, recursively=recursively)
 
@@ -136,25 +154,11 @@ class PromptBlueprint(dict):
         return pruned_bp
 
     # instance methods  ========================================================
-    def __init__(self, *, corpus_override=None):
+    def __init__(self, corpus_tree):
         super().__init__()  # init as empty dict
 
-        if corpus_override is None:
-            raise NotImplementedError(
-                "PromptBlueprint requires an explicit corpus_override; "
-                "no default corpus tree is provided"
-            )
-        else:
-            if not (
-                isinstance(corpus_override, BasePromptNode)
-                and (corpus_override.is_root)
-            ):
-                raise ValueError(
-                    "kwarg corpus_override must be a root node: {}".format(
-                        corpus_override
-                    )
-                )
-            self.corpus = copy.deepcopy(corpus_override)
+        self.corpus_tree = corpus_tree
+        self.corpus = copy.deepcopy(_resolve_corpus_tree(corpus_tree))
 
         self.sidecars = BlueprintDescriptorSidecars()
 
@@ -245,7 +249,7 @@ class PromptBlueprint(dict):
         :rtype: PromptBlueprint
         """
         # create bp w/ nothing
-        pruned_bp = PromptBlueprint(corpus_override=self.corpus)
+        pruned_bp = PromptBlueprint(self.corpus_tree)
 
         _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
 
@@ -268,7 +272,7 @@ class PromptBlueprint(dict):
         # create keys of resulted blueprint
         keys = set(self.keys()) | set(other.keys())
 
-        merged = PromptBlueprint(corpus_override=self.corpus)
+        merged = PromptBlueprint(self.corpus_tree)
 
         merged.sidecars = self.sidecars | other.sidecars
 
@@ -280,15 +284,13 @@ class PromptBlueprint(dict):
     # helpers  =================================================================
 
     @classmethod
-    def _create_full_or_empty_blueprint_generic(
-        cls, is_full, corpus_override=None
-    ):
+    def _create_full_or_empty_blueprint_generic(cls, corpus_tree, is_full):
         """
         helper method used
         in ``.create_full_blueprint()`` & in ``.create_empty_blueprint()``,
         i.e. a generic version of the 2 functions
         """
-        bp = PromptBlueprint(corpus_override=corpus_override)
+        bp = PromptBlueprint(corpus_tree)
 
         # include all nodes; sidecar nodes are never auto-checkmarked
         for node in PreOrderIter(bp.corpus):
@@ -420,7 +422,7 @@ class PromptBlueprint(dict):
         :return: shallow copy, w/o creating new node tree
         :rtype: PromptBlueprint
         """
-        copied = PromptBlueprint(corpus_override=self.corpus)
+        copied = PromptBlueprint(self.corpus_tree)
 
         for k, v in self.items():
             copied[k] = v
