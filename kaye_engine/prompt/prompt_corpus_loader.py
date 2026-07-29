@@ -1,8 +1,10 @@
 """
 prompt_corpus_loader.py
 
-define ``load_prompt_corpus_tree``
-and its supporting function ``get_embedded_prompt_corpus_file_path()``
+define ``load_corpus_tree`` and ``get_corpus_tree`` -- a name-keyed
+cache of parsed prompt corpus trees -- plus ``load_prompt_corpus_tree``
+and ``get_embedded_prompt_corpus_file_path()``, kept as back-compat
+wrappers around a single ``"default"`` named tree
 """
 
 import re
@@ -14,6 +16,8 @@ from .dynamic_nodes import DYNAMIC_NODE_TYPES
 __all__ = (
     "get_embedded_prompt_corpus_file_path",
     "load_prompt_corpus_tree",
+    "load_corpus_tree",
+    "get_corpus_tree",
 )
 
 
@@ -43,8 +47,8 @@ def _attach_dynamic_node(parent, node_type):
     node_type(parent, preface=preface)
 
 
-# singleton prompt corpus tree
-prompt_corpus_tree = None  # pylint: disable=invalid-name
+# name-keyed cache of parsed prompt corpus trees
+_corpus_tree_cache = {}
 
 
 # Public API  ##################################################################
@@ -60,34 +64,31 @@ def get_embedded_prompt_corpus_file_path():  # =================================
     ).absolute()
 
 
-def load_prompt_corpus_tree():  # ==============================================
+def load_corpus_tree(tree_name, file_path):  # ==================================
     """
-    get the **prompt corpus tree** *singleton*, which is created by:
-
-    - parse the prompt corpus text saved in ``prompt_corpus.md``
-    - attach various dynamic nodes
+    parse ``file_path`` into a **prompt corpus tree** and cache it under
+    ``tree_name``, attaching the various dynamic nodes once
 
 
-    :param prompt_corpus_text_override: (for testing only); default to None
-    :type prompt_corpus_text_override: str, optional
+    :param tree_name: key this tree is cached under; every subsequent
+            :func:`get_corpus_tree` call with this name returns the
+            same tree object
+    :type tree_name: str
+    :param file_path: path of the markdown file to parse
+    :type file_path: Path or str
+    :raises ValueError: ``tree_name`` is already registered
     :raises FileNotFoundError:
     :raises IOError:
-    :return: **root** node of *prompt corpus tree*
+    :return: **root** node of the parsed *prompt corpus tree*
     :rtype: PromptCorpusNode
     """
-    # prompt corpus tree singleton
-    global prompt_corpus_tree  # pylint: disable=global-statement
+    if tree_name in _corpus_tree_cache:
+        raise ValueError(
+            "duplicate corpus tree name: {}".format(tree_name)
+        )
 
-    # early exit for singleton  ++++++++++++++++++++++++++++++++++++++++++++++++
-    if prompt_corpus_tree is not None:
-        return prompt_corpus_tree
-
-    # create singleton  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     # read corpus content from file
-    prompt_corpus_file_path = get_embedded_prompt_corpus_file_path()
-    with open(
-        prompt_corpus_file_path, "r", encoding="utf-8", newline=""
-    ) as file:
+    with open(file_path, "r", encoding="utf-8", newline="") as file:
         prompt_corpus_text = file.read()
 
     # text split & clean up  ---------------------------------------------------
@@ -97,12 +98,47 @@ def load_prompt_corpus_tree():  # ==============================================
     text_lines = list(text_cleanup.split("\n"))
 
     # create prompt corpus nodes  ----------------------------------------------
-    prompt_corpus_tree = PromptCorpusNode.parse(
-        ROOT_NODE_NAME, None, text_lines
-    )
+    tree = PromptCorpusNode.parse(ROOT_NODE_NAME, None, text_lines)
 
     # add dynamic nodes  -------------------------------------------------------
     for node_type in DYNAMIC_NODE_TYPES:
-        _attach_dynamic_node(prompt_corpus_tree, node_type)
+        _attach_dynamic_node(tree, node_type)
 
-    return prompt_corpus_tree
+    _corpus_tree_cache[tree_name] = tree
+    return tree
+
+
+def get_corpus_tree(tree_name):  # ==============================================
+    """
+    :param tree_name: key a tree was previously cached under via
+            :func:`load_corpus_tree`
+    :type tree_name: str
+    :raises KeyError: no tree is registered under ``tree_name``
+    :return: **root** node of the cached *prompt corpus tree*
+    :rtype: PromptCorpusNode
+    """
+    try:
+        return _corpus_tree_cache[tree_name]
+    except KeyError as err:
+        raise KeyError(
+            "no corpus tree registered under name: {}".format(tree_name)
+        ) from err
+
+
+def load_prompt_corpus_tree():  # ==============================================
+    """
+    get the **default** *prompt corpus tree* singleton -- a thin
+    back-compat wrapper around :func:`load_corpus_tree` /
+    :func:`get_corpus_tree` using the reserved name ``"default"``
+
+    :raises FileNotFoundError:
+    :raises IOError:
+    :return: **root** node of *prompt corpus tree*
+    :rtype: PromptCorpusNode
+    """
+    try:
+        return get_corpus_tree("default")
+    except KeyError:
+        return load_corpus_tree(
+            "default", get_embedded_prompt_corpus_file_path()
+        )
