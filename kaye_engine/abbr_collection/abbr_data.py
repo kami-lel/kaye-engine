@@ -4,19 +4,12 @@ abbr_data.py
 define ``AbbrData``
 """
 
-import json
-from pathlib import Path
-
 import ahocorasick
 
 from kaye_engine.abbr_collection.abbr_entry import AbbrEntry
 from kaye_engine.abbr_collection.abbr_meaning import AbbrMeaning
 
 # constants  ###################################################################
-
-# abbrs.json path
-ABBRS_JSON_FILE_PATH = Path(__file__).resolve().parent.parent / "abbrs.json"
-
 
 # abbrs.json key constants
 ABBRS_JSON_ABBRS_KEY = "abbrs"
@@ -28,51 +21,31 @@ ABBRS_JSON_REMARK_KEY = "remark"
 
 class AbbrData:
     """
-    represents collections of all abbreviation read from ``abbrs.json`
+    represents collections of all abbreviation parsed from already-loaded
+    ``abbrs.json`` content
 
 
     :example:
-    >>> instance = AbbrData()
+    >>> instance = AbbrData(abbrs_json_override=json_data)
     """
 
-    # singleton pattern  =======================================================
-
-    def __init__(self, *, abbrs_json_override=None):
-        # fixme optimize as singleton
-        self._load_abbrs_json(abbrs_json_override=abbrs_json_override)
+    def __init__(self, *, abbrs_json_override):
+        self._load_abbrs_json(abbrs_json_override)
 
     # load from abbrs.json  ====================================================
 
-    def _load_abbrs_json(self, *, abbrs_json_override=None):
+    def _load_abbrs_json(self, json_data):
         """
-        load from ``abbrs.json`` to create
+        parse already-loaded ``abbrs.json`` content to create
 
         - ``self.meanings``
         - ``self.abbrs``
         - ``self.automaton``
 
 
-        :raises json.JSONDecodeError:
         :raises ValueError:
         """
         # pylint: disable=attribute-defined-outside-init
-
-        if abbrs_json_override:
-            json_data = abbrs_json_override
-
-        else:
-            # read abbrs.json  -------------------------------------------------
-            with open(
-                ABBRS_JSON_FILE_PATH, "r", encoding="utf-8"
-            ) as f:  # read only
-                try:
-                    json_data = json.load(f)
-                except json.JSONDecodeError as err:
-                    raise json.JSONDecodeError(
-                        "fail to parse abbrs.json: " + err.msg,
-                        err.doc,
-                        err.pos,
-                    ) from err
 
         # fill .meanings & .abbrs  ---------------------------------------------
         self.meanings = []

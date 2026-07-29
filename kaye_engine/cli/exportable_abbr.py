@@ -4,7 +4,7 @@ exportable_abbr.py
 group abbreviations for export
 """
 
-from kaye_engine.abbr_collection import AbbrData, AbbrTags, AbbrWrap
+from kaye_engine.abbr_collection import AbbrTags, AbbrWrap, get_abbr_data
 from kaye_engine.prompt.blueprint.registry import to_skill_name
 
 # constants  ###################################################################
@@ -129,7 +129,7 @@ def _get_abbrs_by_first_char(abbrs):
 
 # module-level export  #########################################################
 
-_abbrs = AbbrData().abbrs
+_abbrs = get_abbr_data().abbrs
 
 EXPORTABLE_ABBRS = (
     _get_abbrs_by_tags(_abbrs)
