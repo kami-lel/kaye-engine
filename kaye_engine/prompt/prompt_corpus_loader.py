@@ -2,20 +2,15 @@
 prompt_corpus_loader.py
 
 define ``load_corpus_tree`` and ``get_corpus_tree`` -- a name-keyed
-cache of parsed prompt corpus trees -- plus ``load_prompt_corpus_tree``
-and ``get_embedded_prompt_corpus_file_path()``, kept as back-compat
-wrappers around a single ``"default"`` named tree
+cache of parsed prompt corpus trees
 """
 
 import re
-from pathlib import Path
 
 from .prompt_corpus_node import PromptCorpusNode
 from .dynamic_nodes import DYNAMIC_NODE_TYPES
 
 __all__ = (
-    "get_embedded_prompt_corpus_file_path",
-    "load_prompt_corpus_tree",
     "load_corpus_tree",
     "get_corpus_tree",
 )
@@ -52,16 +47,6 @@ _corpus_tree_cache = {}
 
 
 # Public API  ##################################################################
-
-
-def get_embedded_prompt_corpus_file_path():  # =================================
-    """
-    :return: absolute path of embedded prompt corpus ``prompt_corpus.md`` file
-    :rtype: Path
-    """
-    return (
-        Path(__file__).resolve().parent.parent / "prompt_corpus.md"
-    ).absolute()
 
 
 def load_corpus_tree(tree_name, file_path):  # ==================================
@@ -123,22 +108,3 @@ def get_corpus_tree(tree_name):  # =============================================
         raise KeyError(
             "no corpus tree registered under name: {}".format(tree_name)
         ) from err
-
-
-def load_prompt_corpus_tree():  # ==============================================
-    """
-    get the **default** *prompt corpus tree* singleton -- a thin
-    back-compat wrapper around :func:`load_corpus_tree` /
-    :func:`get_corpus_tree` using the reserved name ``"default"``
-
-    :raises FileNotFoundError:
-    :raises IOError:
-    :return: **root** node of *prompt corpus tree*
-    :rtype: PromptCorpusNode
-    """
-    try:
-        return get_corpus_tree("default")
-    except KeyError:
-        return load_corpus_tree(
-            "default", get_embedded_prompt_corpus_file_path()
-        )
