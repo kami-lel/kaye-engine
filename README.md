@@ -1,12 +1,12 @@
 # Kaye README
 
-> Consistent AI Agent Persona **Kaye**, powered by rigorous prompt engineering
+> Consistent AI Agent Identity, powered by rigorous prompt engineering
 
-Kaye is a toolkit for maintaining a consistent AI agent persona from a single, structured source of truth. The project focuses on producing scenario-ready prompts from a central Markdown corpus using blueprints with APIs and CLI.
+Kaye is a toolkit for maintaining a consistent AI agent identity from a single, structured source of truth. The project focuses on producing scenario-ready prompts from a central Markdown corpus using blueprints with APIs and CLI.
 
 ### ✨ Features
 
-- 📌 single Source Of Truth for persona, roles, and rules
+- 📌 single Source Of Truth for identity, roles, and rules
 - ⚙️ generate scenario-ready prompts from blueprints and templates
 - 🐍 programmatic Python API for listing, previewing, and generating prompts
 - 🌐 HTTP endpoints for dynamic prompt generation via a lightweight Flask service
@@ -27,7 +27,7 @@ Kaye is a toolkit for maintaining a consistent AI agent persona from a single, s
 
 ### 📄 Prompt Corpus
 
-The **Prompt Corpus** is a single, structured Markdown file that defines persona, roles, rules, styles, and references — the authoritative Source Of Truth used to generate prompts for different scenarios. `kaye-engine` does not bundle one itself; it only provides the parsing mechanism (`load_corpus_tree()` / `get_corpus_tree()`) that any caller uses to load and cache one by name.
+The **Prompt Corpus** is a single, structured Markdown file that defines identity, roles, rules, styles, and references — the authoritative Source Of Truth used to generate prompts for different scenarios. `kaye-engine` does not bundle one itself; it only provides the parsing mechanism (`load_corpus_tree()` / `get_corpus_tree()`) that any caller uses to load and cache one by name.
 
 Q.v. [Prompt Corpus Format documentation](docs/corpus_doc.md) for the heading-to-tree mapping and full Markdown syntax.
 
@@ -42,12 +42,6 @@ Other core concepts:
 - 🗂️ sidecar node: corpus node holding structured **Metadata** about its parent — Q.v. [Sidecar Node documentation](docs/sidecar_node_doc.md)
 
 The `(Abbreviations)` dynamic node reads its meanings from an `abbrs.json` file loaded via `load_abbr_data`/`get_abbr_data` — kaye-engine bundles no copy of its own; a separate host package supplies and loads the real file. Q.v. [`abbrs.json` documentation](docs/abbrs_json_doc.md) for its format.
-
-### 🎭 Personas
-
-Beyond Kaye, the corpus defines sibling personas **Ria** and **Zin** for comparison and reuse.
-
-Q.v. [Personalities documentation](docs/personalities_doc.md) for an axis-by-axis comparison.
 
 
 
