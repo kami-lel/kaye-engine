@@ -1,9 +1,9 @@
+# hack hack Continue support is deprecated
 """
 rule_file.py
 
 define ``ContinueRule``
 """
-
 
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 

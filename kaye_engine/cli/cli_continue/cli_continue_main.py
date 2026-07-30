@@ -1,3 +1,4 @@
+# hack hack Continue support is deprecated
 """utilities for the Continue AI code editor integration"""
 
 from kaye_engine.cli.cli_continue.cli_continue_config import (

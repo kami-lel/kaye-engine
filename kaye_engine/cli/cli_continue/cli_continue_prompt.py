@@ -1,3 +1,4 @@
+# hack hack Continue support is deprecated
 """export all current Kaye Continue prompts"""
 
 from pathlib import Path
