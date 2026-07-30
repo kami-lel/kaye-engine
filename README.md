@@ -102,24 +102,6 @@ Q.v. [Kaye Programmatic API documentation](docs/programmatic_api_doc.md)
 
 
 
-### HTTP API
-
-The **Kaye HTTP API** uses *Flask* to provide endpoints for requesting rendered prompts and previews dynamically.
-
-Q.v. [Kaye HTTP API documentation](docs/http_api_doc.md)
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### Python CLI
 
 A simple **Kaye Python CLI** is provided, exposed as the `kaye-engine` command
