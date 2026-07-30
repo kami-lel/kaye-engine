@@ -27,10 +27,14 @@ Test files mirror the source tree under `tests/`. Source-to-test mapping:
 | changed source | test scope |
 |---|---|
 | `kaye_engine/prompt/` | `tests/prompt/` |
-| `kaye_engine/api/` | `tests/api/` |
 | `kaye_engine/cli/claude/` | `tests/cli/a/` |
 | `kaye_engine/cli/cli_continue/` | `tests/cli/c/` |
 | `kaye_engine/abbr*` | `tests/abbr/` |
+
+`tests/api/` and `tests/dify/` are stale — they tested `kaye_engine/api/`,
+which moved wholesale to a separate host package. They were left in place
+unmoved and now fail to collect; do not attempt to fix them here, and do
+not add an `api` package back to satisfy them.
 
 Run the scoped path:
 
@@ -58,7 +62,6 @@ shorter `kaye-engine` form:
 
 ```bash
 kaye-engine --help          # show CLI usage
-kaye-engine http            # start Flask HTTP API (port 11255)
 kaye-engine prompt ls                              # list registered blueprint names
 kaye-engine prompt show BLUEPRINT                  # preview a blueprint's structure
 kaye-engine prompt generate BLUEPRINT              # render a blueprint into a concrete prompt
@@ -83,7 +86,7 @@ Bash command patterns) into `settings.json`, sourced from
 `kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so comments are
 allowed).
 
-CLI subcommand aliases: `http` → `h`; `prompt` → `p`;
+CLI subcommand aliases: `prompt` → `p`;
 `prompt generate` → `p g`; `continue` → `c`;
 `continue config` → `c c`; `continue prompt` → `c p`;
 `claude` → `anthropic`, `a`; `claude code` → `claude c`;
@@ -204,10 +207,6 @@ allow-list constant:
 - do not commit secrets, credentials, or tokens
 - `.git`, `venv/`, build artifacts, and generated prompts are git-ignored;
   keep them out of commits
-- the HTTP API is intended for trusted local or internal deployment; do not
-  expose it publicly without review. `kaye-engine http` serves Flask's development
-  server bound to `0.0.0.0`, and `-d/--debug` additionally enables the
-  Werkzeug debugger — never run either on an untrusted network
 
 ## Documentation Maintenance
 

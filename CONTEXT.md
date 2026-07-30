@@ -15,10 +15,11 @@ through a Python API, an HTTP API, and a CLI.
   (`PROGRAM_NAME` in `kaye_engine/__init__.py`, paired with `DISPLAY_NAME` =
   `"Prompt Engineering Project Kaye Engine"` used as the Claude plugin
   `displayName`)
-- core dependencies: `anytree`, `flask`, `json5`, `pyahocorasick`, `pyyaml`
+- core dependencies: `anytree`, `json5`, `pyahocorasick`, `pyyaml`
 - entry point: `kaye-engine` console script (`[project.scripts]` in
   `pyproject.toml`, mapped to `kaye_engine.__main__:main`); `python -m
-  kaye_engine` still works identically. `http` subcommand starts the Flask app
+  kaye_engine` still works identically. No `http` subcommand — the Flask HTTP
+  API moved wholesale to a separate host package
 
 ### Key Concepts
 
@@ -163,9 +164,8 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
 
 ## Repository Layout
 
-- `kaye_engine/` — main package (API, CLI, prompt engine, abbreviation collection)
+- `kaye_engine/` — main package (CLI, prompt engine, abbreviation collection)
   - `kaye_engine/prompt/` — prompt tree, nodes, blueprints, loaders
-  - `kaye_engine/api/` — Flask HTTP API and Dify app endpoints
   - `kaye_engine/cli/` — argparse-based CLI subcommands
     - `kaye_engine/cli/cli_continue/` — exports blueprint/abbreviation rules to
       `~/.continue`
@@ -193,7 +193,6 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
   - `tests/prompt/` — unit tests for the prompt engine (nodes, blueprints)
     - `tests/prompt/bp/` — `PromptBlueprint` tests
     - `tests/prompt/node/` — `PromptCorpusNode` / `BasePromptNode` tests
-  - `tests/api/` — HTTP API and Dify app endpoint tests
   - `tests/cli/` — CLI integration tests; `tests/cli/__init__.py` holds
     `MD_FILENAME2SKILL_NAME` (skill slug → display name) and
     `TESTEE_FILE_CONTENT_ALL` (skill slug → expected content strings)
@@ -230,8 +229,12 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
         marketplace, command aliases)
     - `tests/cli/c/` — `continue` subcommand tests
   - `tests/abbr/` — abbreviation collection tests
-- `scripts/` — the `systemd` unit file `kaye_http_api.service`, deploying the
-  HTTP API from `/opt/kaye`
+  - `tests/api/`, `tests/dify/` — **stale.** Tested the Flask HTTP API and
+    Dify app endpoints that lived at `kaye_engine/api/` before that package
+    moved wholesale to a separate host package; left in place unmoved and
+    now fail to collect (`kaye_engine.api` no longer exists). Not part of
+    the `pytest` scope for any current source path — do not re-add an
+    `api` package here to satisfy them, move or retire them instead
 
 ## Personalization Boundary
 
