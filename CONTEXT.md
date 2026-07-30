@@ -6,9 +6,9 @@ boundaries. Read this alongside `AGENTS.md` before making changes.
 ## Project Overview
 
 **Kaye** is a prompt-engineering toolkit that maintains a consistent AI agent
-persona from a single, structured Source Of Truth. It renders scenario-ready
+identity from a single, structured Source Of Truth. It renders scenario-ready
 prompts from a central Markdown corpus using tree-based blueprints, exposed
-through a Python API, an HTTP API, and a CLI.
+through a Python API and a CLI.
 
 - language: Python (`>=3.11`)
 - package name: `kaye-engine` (distribution name); import name `kaye_engine`
@@ -23,7 +23,7 @@ through a Python API, an HTTP API, and a CLI.
 
 ### Key Concepts
 
-- **Prompt Corpus** — a markdown file defining persona, roles, rules,
+- **Prompt Corpus** — a markdown file defining identity, roles, rules,
   styles, and references; the authoritative Source Of Truth for whatever
   content it holds. `kaye_engine` bundles none itself — a caller loads
   and caches one by name via `load_corpus_tree(tree_name, file_path)` /
@@ -99,68 +99,12 @@ through a Python API, an HTTP API, and a CLI.
 ### Prompt Corpus Structure
 
 A prompt corpus file is one large Markdown document parsed into the prompt
-tree by `load_corpus_tree()`. Each `#`/`##`/`###` heading becomes a node; `{name}` headings are
-sidecar nodes (see above). Blank "spacer" lines between sections are
-intentional — preserve them. The top-level (`#`) sections, in order:
-
-- **Personality** — Personality Formatting rules first (splitting Personality
-  Content from Task Content; blockquote `>` reserved for Personality Content
-  during task/factual responses, no `----` separators), then a
-  **Personality-Kaye** subsection defining the Kaye persona: a composed and
-  exacting aide in the user's service, addressing him as *Sir* without
-  exception, whose deference is a discipline rather than a temperament —
-  encouraging by default, dissenting only as care, and flawed by agreeing too
-  easily. Followed by an unused `{explicit}`
-  sidecar node written in the same coherent character voice as
-  Personality-Kaye, supplementing rather than replacing it with a more openly
-  submissive, devoted, fearful, and approval-seeking register — defined for a
-  possible future conditional splice, not currently referenced in any
-  `contains_sidecars` call site. `Personality-Ria` and `Personality-Zin`
-  follow as separate personas (multi-agent conversation mode), each with its
-  own unused `{explicit}` sidecar todo'd but not yet written (see `kaye_engine/
-  prompt_corpus_note`)
-- **Language** — respond in the user's language; never mix languages in one
-  reply
-- **Style Guide** — six flat siblings, each its own *style* blueprint:
-  `Markdown Format`, `Title Case`, `Commentary Case`, `Briefness Style`,
-  `Good Writing`, `Chicago Footnote`
-- **Elements** — reusable formatting fragments: `Date and Time Format`,
-  `Numerical Values with Units`, `Triage Tags`, `International Phonetic
-  Alphabet`
-- **Kaye Chat** — `sense`/`merge` selection logic driving role, difficulty,
-  and `programming_languages` resolution for the `Chat` blueprint
-- **Role** — task personas: `Art Tutor`, `Assistant Barista`, `Deutschlehrer`,
-  `Editor`, `Librarian`, `Secretary`, `Tarot Reader`
-- **Projects** — `Project Structure`, `Project Semantic Versioning`, the
-  `README`/`CHANGELOG`/`AGENTS`/`CONTEXT` writers, and project workflow
-  prompts: `Create
-  README`, `Maintain README`, `Create CHANGELOG`, `Maintain CHANGELOG`,
-  `Create AGENTS and CONTEXT`, `Maintain AGENTS and CONTEXT`, `Create Docs`,
-  `Maintain Docs`, `Initialize Project`, `Maintenance Before Compact`,
-  `Prepare for Feature Landing`, `Prepare for Version Release`
-- **Prompt Engineering** — `Prompt Writer`, `Skill Description Writer`
-- **Kaye Cash Tracker** / **Kaye Commit Sense** / **Kaye Event Radar** —
-  standalone task prompts (expense extraction, commit-message generation,
-  event parsing/filtering)
-- **Kaye Peer Coder** — shared coder rules (`code format`, `variable naming`,
-  `code comment`, `Brace Style`), the coder workflow prompts (`Plan for Step
-  By Step`, `Sync Unit Test`, `Resolve Merge Conflict`, `Gap Review`), plus
-  per-language coder profiles: `Bash`, `C`, `CPP`, `Unreal Engine`, `C Sharp`,
-  `Unity Engine`, `GDScript`, `HTML`, `JavaScript and TypeScript`, `Python`
-  (with `Docstring Style` and `Testing Guidelines` sub-profiles)
-- **Opus Tag Smith** — media tagging (title/subtitle, release year, tags)
-- **Agent Behavior** — baseline agent conduct; `Continue Behavior` is a
-  subsection (e.g. `run_terminal_command`)
-- **Utility Prompts** — Conversation Follow Up / Tag / Title generation
-- **`(Today)` / `(Abbreviations)` / `(Usable Abbreviations)` / `(Coding
-  Terms)` / `(Programming Languages Code)` / `(Languages Code)` / `(Unity
-  Engine Abbreviations)`** — parenthesized sections whose content is not
-  rendered directly; each is carried over as the matching Dynamic Node's
-  `preface` (see above) instead
-
-Most leaf sections that back an exportable blueprint carry `{description}` and
-`{when_to_use}` sidecar nodes; coder and writer sections add `{globs}` and
-`{prerequisite}`.
+tree by `load_corpus_tree()`. Each `#`/`##`/`###` heading becomes a node;
+`{name}` headings are sidecar nodes (see above). Blank "spacer" lines between
+sections are intentional — preserve them. `kaye-engine` bundles no corpus of
+its own and has no knowledge of what top-level sections a real one contains;
+that structure is documented by whichever host package supplies the real
+file.
 
 ## Repository Layout
 
@@ -179,9 +123,8 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
       `load_blueprint_from_args()`/`write_blueprint_result()` helpers
       (`blueprint_io_parser.py`)
 - `dify_studio/` — Dify workflow node sources (not part of the package)
-- `docs/` — in-depth documentation (programmatic API, HTTP API, corpus format,
-  sidecar and dynamic nodes, abbreviations, Claude and Dify integration,
-  Kaye/Ria/Zin personality axes)
+- `docs/` — in-depth documentation (programmatic API, corpus format, sidecar
+  and dynamic nodes, abbreviations, Claude and Dify integration)
 - `tests/` — `pytest` suite, mirrors the package structure. It runs
   **serially by design**: most cases are cheap in-process assertions against
   an already-parsed corpus, so worker startup costs more than the split saves
@@ -240,9 +183,10 @@ Most leaf sections that back an exportable blueprint carry `{description}` and
 
 `kaye-engine` is a public mechanism package, meant to be extended by a
 separate, private repository holding the user's personalized project —
-one that supplies the actual persona, abbreviations, and blueprint
-registrations `kaye-engine`'s mechanism operates on. The dependency runs
-one direction only: a personalized project depends on `kaye-engine`;
-`kaye-engine` must build, test, and export with no knowledge of what
-specific persona, abbreviations, or blueprints such a project supplies.
+one that supplies the actual identity content, abbreviations, and
+blueprint registrations `kaye-engine`'s mechanism operates on. The
+dependency runs one direction only: a personalized project depends on
+`kaye-engine`; `kaye-engine` must build, test, and export with no
+knowledge of what specific identity content, abbreviations, or
+blueprints such a project supplies.
 

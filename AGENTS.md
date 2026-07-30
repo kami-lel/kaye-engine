@@ -213,8 +213,8 @@ allow-list constant:
 After meaningful changes, keep these in sync:
 
 - `README.md` — human-facing overview and quick start
-- `docs/` — programmatic API, HTTP API, corpus format, sidecar and dynamic
-  nodes, abbreviations, Claude and Dify integration, personality axes
+- `docs/` — programmatic API, corpus format, sidecar and dynamic nodes,
+  abbreviations, Claude and Dify integration
 - `CONTEXT.md` — architecture, corpus structure, repository layout
 - `CHANGELOG.md` — record notable changes per release
 - this `AGENTS.md` — update agent-specific context as structure evolves
