@@ -8,7 +8,7 @@ import copy
 
 from anytree import PreOrderIter
 
-from kaye_engine.prompt.sidecar_nodes import (
+from kaye_engine.prompt.sidecar_node import (
     BlueprintDescriptorSidecars,
     get_sidecar_name,
 )

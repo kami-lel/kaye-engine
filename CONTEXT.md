@@ -34,7 +34,7 @@ through a Python API and a CLI.
 - **Role** — task-specific behavior profile inside the corpus
 - **Sidecar Node** — `{name}`-bracketed subnode attached to a blueprint's
   parent but stored as corpus content; excluded by default and conditionally
-  spliced in via `contains_sidecars` (`kaye_engine/prompt/sidecar_nodes/`). There is
+  spliced in via `contains_sidecars` (`kaye_engine/prompt/sidecar_node.py`). There is
   no fixed enum of sidecar names — `get_sidecar_name(node)` (regex
   `^\{.+\}$`, returns `None` if not a sidecar node) extracts the name inside
   the braces as a plain string. Two usage-role labels under the same

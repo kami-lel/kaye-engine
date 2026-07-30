@@ -111,7 +111,7 @@ This node contains Claude-specific instructions.
 
 
 
-## Python Package `kaye_engine/prompt/sidecar_nodes`
+## Python Module `kaye_engine/prompt/sidecar_node.py`
 
 ### `get_sidecar_name(node)`
 
@@ -135,7 +135,7 @@ Identifies a sidecar node by its `{name}` heading convention and returns the nam
 
 Check if a node is any sidecar node:
 ```python
-from kaye_engine.prompt.sidecar_nodes import get_sidecar_name
+from kaye_engine.prompt.sidecar_node import get_sidecar_name
 
 name = get_sidecar_name(node)
 
@@ -158,7 +158,7 @@ if name in ("prerequisite", "for claude code"):
 
 Container for descriptor sidecar metadata extracted from a node's descriptor children.
 
-**Location:** `kaye_engine/prompt/sidecar_nodes/blueprint_description_sidecars.py`
+**Location:** `kaye_engine/prompt/sidecar_node.py`
 
 **Description:**
 Represents the structured metadata (description, when_to_use, globs) derived from a node's sidecar children. These are accessed via `blueprint.sidecars` and never rendered to the prompt output — they exist purely for discovery, documentation, and conditional inclusion logic.
