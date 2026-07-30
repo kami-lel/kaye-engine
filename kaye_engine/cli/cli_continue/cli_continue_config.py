@@ -1,3 +1,4 @@
+# hack hack Continue support is deprecated
 """update Continue local config folder by exporting all current Kaye prompts/blueprints"""
 
 from pathlib import Path

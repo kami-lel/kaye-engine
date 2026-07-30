@@ -1,3 +1,4 @@
+# hack hack Continue support is deprecated
 """
 blueprint_rule.py
 

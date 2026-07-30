@@ -1,3 +1,4 @@
+# hack hack Continue support is deprecated
 """
 CLI subcommand for Continue integration.
 """
