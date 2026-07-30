@@ -2,8 +2,8 @@
 
 Explain format of `abbrs.json`, the abbreviation database loaded at
 runtime via `load_abbr_data`/`get_abbr_data`. kaye-engine bundles no copy
-of its own — a host package (e.g. `kaye-vault`) owns the real file and
-loads it once at import time.
+of its own — a separate host package owns the real file and loads it
+once at import time.
 
 Top level structure:
 
