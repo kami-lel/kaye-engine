@@ -16,7 +16,7 @@ from anytree import RenderTree, PreOrderIter
 
 from kaye_engine import PROGRAM_NAME
 from ..prompt_corpus_node import HEADING_PREFIX_ELEMENT
-from ..sidecar_nodes import get_sidecar_name
+from ..sidecar_node import get_sidecar_name
 
 __all__ = (
     "render_blueprint_tree",

@@ -1,10 +1,20 @@
 """
-blueprint_description_sidecars.py
+sidecar_node.py
 
-define ``BlueprintDescriptorSidecars``
+nodes attached to a blueprint's parent node but stored as corpus content,
+identified by the ``{name}`` heading convention; excluded by default and
+conditionally spliced in via ``contains_sidecars`` when their parent is
+checkmarked
 """
 
+import re
+
 from kaye_engine.prompt import REPLACEMENT_NEWLINE_SYMBOL
+
+__all__ = (
+    "get_sidecar_name",
+    "BlueprintDescriptorSidecars",
+)
 
 # reserved descriptor names, documentation only; consumption is by string key
 DESCRIPTION_NAME = "description"
@@ -12,7 +22,39 @@ WHEN_TO_USE_NAME = "when_to_use"
 GLOBS_NAME = "globs"
 
 
-class BlueprintDescriptorSidecars:  ##########################################
+# name detection  ##############################################################
+
+_SIDECAR_HEADING_PATTERN = re.compile(r"^\{(.+)\}$")
+
+
+def get_sidecar_name(node):
+    """
+    determine a node's sidecar name from its heading
+
+    identifies a sidecar node by its ``{name}`` heading convention and
+    returns the name inside the braces (e.g., ``description``,
+    ``prerequisite``). returns ``None`` if the node is not a sidecar node.
+
+    **usage**:
+
+    >>> from kaye.prompt.sidecar_node import get_sidecar_name
+    >>> name = get_sidecar_name(node)
+    >>> if name is not None:
+    ...     print(f"sidecar name: {name}")
+    >>> if name in ("prerequisite", "for claude code"):
+    ...     print("this is a conditional sidecar node")
+
+
+    :param node: node to check (must have a ``name`` attribute)
+    :type node: BasePromptNode
+    :return: the sidecar name, or ``None`` if not a sidecar node
+    :rtype: str or None
+    """
+    match = _SIDECAR_HEADING_PATTERN.match(node.name)
+    return match.group(1) if match else None
+
+
+class BlueprintDescriptorSidecars:  ############################################
     """
     blueprint description sidecar node lookups
     (description, when_to_use, globs)
@@ -95,7 +137,7 @@ class BlueprintDescriptorSidecars:  ##########################################
 
         return results
 
-    # constructor  =============================================================
+    # constructor  ===============================================================
 
     def __init__(self, *, main_node=None):
         self._description = None
@@ -123,7 +165,7 @@ class BlueprintDescriptorSidecars:  ##########################################
             except KeyError:
                 pass
 
-    # operator  ================================================================
+    # operator  ===================================================================
 
     def __or__(self, other):
         """
@@ -145,7 +187,7 @@ class BlueprintDescriptorSidecars:  ##########################################
         merged.globs_node = self.globs_node or other.globs_node
         return merged
 
-    # helpers  =================================================================
+    # helpers  =====================================================================
 
     @staticmethod
     def _convert_node2content_lines(node):

@@ -16,5 +16,5 @@ from .base_prompt_node import *
 from .prompt_corpus_node import *
 from .prompt_corpus_loader import *
 from .dynamic_nodes import *
-from .sidecar_nodes import *
+from .sidecar_node import *
 from .blueprint import *
