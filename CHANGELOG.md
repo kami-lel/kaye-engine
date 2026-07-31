@@ -4,7 +4,6 @@
 
 <!--
 FIXME rework all docs
-TODO split cli claude: keep core mechanism in engine, move actual prompt
   content to vault, design corpus form engine expects for generation
 TODO split & rf UTs: keep some UTs in engine, move some to vault, rf
   correctly across both
