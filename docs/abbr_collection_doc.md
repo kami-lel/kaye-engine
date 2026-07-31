@@ -39,26 +39,9 @@ Every abbreviation-related *dynamic node* reads through this store rather than p
 
 ## `abbr_collection` module
 
-### `populate_abbr_data_with_json_file(file_path)`
-
-Parse an `abbrs.json` file (v.i. for its schema) and load every entry it
-contains into the shared store. Call this once, before anything renders
-abbreviation-related dynamic nodes.
-
-```python
-from kaye_engine.abbr_collection import populate_abbr_data_with_json_file
-
-populate_abbr_data_with_json_file("abbrs.json")
-```
-
-- **raises** `json.JSONDecodeError`: malformed JSON
-- **raises** `ValueError`: malformed content, or an entry duplicating one already added
-
 ### `get_abbr_data()`
 
-Return the single, always-present store — empty if nothing has been
-loaded yet. This is how dynamic nodes (and anything else needing the raw
-entries) read the loaded data.
+Return the single, always-present `AbbrData` singleton.
 
 ```python
 from kaye_engine.abbr_collection import get_abbr_data
@@ -67,6 +50,72 @@ data = get_abbr_data()
 for entry in data.abbrs:
     print(entry.as_md_list_entry())
 ```
+
+
+
+
+
+#### adding entries by hand
+
+To add entries directly, open the singleton as a context manager and call `add_entry` for each one:
+
+```python
+from kaye_engine.abbr_collection import get_abbr_data, AbbrMeaning
+
+data = get_abbr_data()
+with data:
+    mean = AbbrMeaning("for example", remark=None)
+    data.add_entry(mean, "e.g.", {"priority": 5, "tags": [], "wrap": "word"})
+```
+
+> [!IMPORTANT]
+> The `with` block matters: entries added inside it aren't searchable until the block exits, since that is when the lookup index is rebuilt.
+
+
+
+
+
+#### `populate_abbr_data_with_json_file(file_path)`
+
+Parse an `.json` file and add every entry it contains into `get_abbr_data()`.
+
+```python
+from kaye_engine.abbr_collection import populate_abbr_data_with_json_file
+
+populate_abbr_data_with_json_file("abbrs.json")
+```
+
+Q.v. [abbreviation entries `json` file](#abbreviation-entries-json-file) below for the file's required schema.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -94,7 +143,36 @@ renders each match via `AbbrEntry.as_md_list_entry()`.
 
 
 
-## 3. `abbrs.json` Schema
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## abbreviation entries `json` file schema
 
 Top level structure:
 
