@@ -5,7 +5,10 @@ from copy import deepcopy
 from unittest.mock import mock_open, patch
 
 
-from kaye_engine.abbr_collection.abbr_data_loader import load_abbr_data
+from kaye_engine.abbr_collection import get_abbr_data
+from kaye_engine.abbr_collection.abbr_data_loader import (
+    populate_abbr_data_with_json_file,
+)
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
@@ -23,7 +26,9 @@ def _loaded_abbr_data():
     m = mock_open(read_data="{}")
 
     with patch("builtins.open", m):
-        return load_abbr_data("dummy-abbrs-path.json")
+        populate_abbr_data_with_json_file("dummy-abbrs-path.json")
+
+    return get_abbr_data()
 
 
 @pytest.fixture(scope="session")
