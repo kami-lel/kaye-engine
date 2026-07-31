@@ -27,7 +27,6 @@ kaye-engine = "kaye_engine.__main__:main"
 
 [project.optional-dependencies]
 dev = [
-    "pydantic",
     "pytest",
 ]
 
