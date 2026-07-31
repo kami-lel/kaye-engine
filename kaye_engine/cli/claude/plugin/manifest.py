@@ -67,7 +67,7 @@ class ManifestPluginJson:  #####################################################
             "keywords": self.keywords,
         }
 
-        # fixme utilize kamilog here
+        # Fixme utilize kamilog here
         self._manifest_dir.mkdir(parents=True, exist_ok=True)
         self.path.write_text(
             json.dumps(manifest_data, indent=2) + "\n",

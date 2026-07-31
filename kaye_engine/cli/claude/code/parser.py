@@ -61,7 +61,7 @@ def register_code_subparser(cli_subparser):  ###################################
 
     def _code_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
-        # fixme retired program name reaches verbose output; use kaye-engine
+        # Fixme retired program name reaches verbose output; use kaye-engine
         logger.enter("kaye claude code")
 
         folder = args.folder

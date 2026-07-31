@@ -44,7 +44,7 @@ def export_marketplace(marketplace_folder):
     logger.debug("exporting plugin into marketplace folder")
     export_plugin_as_folder(marketplace_folder / "plugins")
 
-    # fixme utilize kamilog here
+    # Fixme utilize kamilog here
     meta = metadata(PROGRAM_NAME)
     pkg_version = version(PROGRAM_NAME)
     pkg_author, pkg_author_email = parseaddr(meta.get("Author-email") or "")

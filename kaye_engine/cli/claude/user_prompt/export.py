@@ -10,7 +10,7 @@ from kaye_engine.prompt.blueprint import blueprint_registry
 from kaye_engine.cli.claude import CONTAINING_SIDECARS
 
 
-# fixme utilize kamilog here
+# Fixme utilize kamilog here
 def export_user_system_prompt_file(
     file_path, *, use_rapid=False, use_coder=False
 ):
