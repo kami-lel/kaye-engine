@@ -29,7 +29,7 @@ Kaye Engine is a toolkit for maintaining a consistent AI agent identity from a s
 
 The **Prompt Corpus** is a single, structured Markdown file that defines identity, roles, rules, styles, and references — the authoritative Source Of Truth used to generate prompts for different scenarios. `kaye-engine` does not bundle one itself; it only provides the parsing mechanism (`load_corpus_tree()` / `get_corpus_tree()`) that any caller uses to load and cache one by name.
 
-Q.v. [Prompt Corpus Format documentation](docs/corpus_doc.md) for the heading-to-tree mapping and full Markdown syntax.
+Q.v. [Prompt Corpus Format documentation](docs/corpus-doc.md) for the heading-to-tree mapping and full Markdown syntax.
 
 ----
 
@@ -38,10 +38,10 @@ Other core concepts:
 - 🎭 role: task-specific **Behavior Profile** inside the corpus shaping response style and scope
 - 📝 prompt: final **Rendered Text** tailored to a context and ready for direct use
 - 🌲 blueprint: tree **Selection Spec** that controls which corpus parts are rendered
-- 🔀 dynamic node: corpus node whose content is **Generated** at render time — Q.v. [Dynamic Node documentation](docs/dynamic_node_doc.md)
-- 🗂️ sidecar node: corpus node holding structured **Metadata** about its parent — Q.v. [Sidecar Node documentation](docs/sidecar_node_doc.md)
+- 🔀 dynamic node: corpus node whose content is **Generated** at render time — Q.v. [Dynamic Node documentation](docs/dynamic-node-doc.md)
+- 🗂️ sidecar node: corpus node holding structured **Metadata** about its parent — Q.v. [Sidecar Node documentation](docs/sidecar-node-doc.md)
 
-The `(Abbreviations)` dynamic node reads its meanings from an `abbrs.json` file loaded via `populate_abbr_data_with_json_file`/`get_abbr_data` — kaye-engine bundles no copy of its own; a separate host package supplies and loads the real file. Q.v. [`abbr_collection` documentation](docs/abbr_collection_doc.md) for its schema, top-level functions, and where abbreviations are used.
+The `(Abbreviations)` dynamic node reads its meanings from an `abbrs.json` file loaded via `populate_abbr_data_with_json_file`/`get_abbr_data` — kaye-engine bundles no copy of its own; a separate host package supplies and loads the real file. Q.v. [`abbr_collection` documentation](docs/abbr-collection-doc.md) for its schema, top-level functions, and where abbreviations are used.
 
 
 
@@ -82,7 +82,7 @@ The `(Abbreviations)` dynamic node reads its meanings from an `abbrs.json` file 
 
 The **Kaye Engine Programmatic API** provides *Python programmatic access* to list corpus entries, preview sections, and generate concrete prompts.
 
-Q.v. [Kaye Engine Programmatic API documentation](docs/programmatic_api_doc.md)
+Q.v. [Kaye Engine Programmatic API documentation](docs/programmatic-api-doc.md)
 
 
 
@@ -122,7 +122,7 @@ kaye-engine --help
 Package Kaye Engine as a Claude Desktop plugin or wire it into the Claude Code
 VS Code Extension.
 
-Q.v. [Using Kaye Engine with Claude documentation](docs/claude_doc.md)
+Q.v. [Using Kaye Engine with Claude documentation](docs/claude-doc.md)
 
 
 
@@ -140,4 +140,4 @@ Q.v. [Using Kaye Engine with Claude documentation](docs/claude_doc.md)
 
 A Dify App wires Kaye Engine into a chat workflow, round by round.
 
-Q.v. [Dify App Kaye Chat documentation](docs/ky_doc.md)
+Q.v. [Dify App Kaye Chat documentation](docs/ky-doc.md)
