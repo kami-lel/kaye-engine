@@ -3,7 +3,10 @@
 [^format]
 
 <!--
-todo utilize personalities Ria & Zin, allow multi agent conversation
+FIXME rework all docs
+TODO split the cli claude
+FIXME split & rf UTs
+todo utilize personalities, allow multi agent conversation
 todo split corpus itself from this project (public vs private repo)
 todo git branch cleanup prompt
 todo todo CLI to import/export w/ OpenWebUI
