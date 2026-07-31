@@ -9,6 +9,7 @@ __all__ = (
     "PROGRAM_NAME",
     "get_corpus_tree",
     "load_corpus_tree",
+    "get_default_corpus_tree",
     "get_abbr_data",
     "load_abbr_data",
     "get_blueprint",
@@ -26,6 +27,7 @@ logger = kamilog.getLogger(PROGRAM_NAME)
 from kaye_engine.prompt import (  # noqa: I001
     load_corpus_tree,
     get_corpus_tree,
+    get_default_corpus_tree,
     get_blueprint,
     register_blueprint,
 )
