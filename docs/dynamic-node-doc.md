@@ -1,6 +1,6 @@
 # Dynamic Node Documentation
 
-**Dynamic nodes** are prompt corpus nodes whose content is generated at render time instead of being written by hand — today's date, and similar. Unlike [sidecar nodes](sidecar_node_doc.md), dynamic nodes **are** included in the rendered prompt output by default, exactly like a regular corpus section.
+**Dynamic nodes** are prompt corpus nodes whose content is generated at render time instead of being written by hand — today's date, and similar. Unlike [sidecar nodes](sidecar-node-doc.md), dynamic nodes **are** included in the rendered prompt output by default, exactly like a regular corpus section.
 
 Every dynamic node's name is its heading wrapped in parentheses, e.g. `(Today)` — that syntax marks a node as dynamic wherever it appears, whether in a tree preview, a blueprint, or an error message.
 
@@ -13,7 +13,7 @@ Every dynamic node's name is its heading wrapped in parentheses, e.g. `(Today)` 
 | --- | --- | --- |
 | Today | `(Today)` | current date and time |
 
-Every abbreviation-related dynamic node (`(Abbreviations)`, `(Usable Abbreviations)`, `(Coding Terms)`, and the rest) is documented separately in [`abbr_collection_doc.md`](abbr_collection_doc.md).
+Every abbreviation-related dynamic node (`(Abbreviations)`, `(Usable Abbreviations)`, `(Coding Terms)`, and the rest) is documented separately in [`abbr-collection-doc.md`](abbr-collection-doc.md).
 
 Every dynamic node is a **leaf** — it never has children, so it cannot itself contain sub-sections.
 
@@ -36,7 +36,7 @@ blueprint = PromptBlueprint.parse(blueprint_text)
 prompt = blueprint.generate_prompt()
 ```
 
-There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `contains_sidecars=`, q.v. [`sidecar_node_doc.md`](sidecar_node_doc.md#conditional-sidecar-nodes).
+There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `contains_sidecars=`, q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md#conditional-sidecar-nodes).
 
 
 
@@ -80,7 +80,7 @@ Without this, any section written under a dynamic node's heading is silently dro
 
 ## Cross-References
 
-- [`corpus_doc.md`](corpus_doc.md) — `prompt_corpus.md` format and heading-to-tree-depth rules
-- [`sidecar_node_doc.md`](sidecar_node_doc.md) — sidecar nodes, the other special node category, and how they differ from dynamic nodes
-- [`programmatic_api_doc.md`](programmatic_api_doc.md) — `PromptBlueprint`, checkmarking, and `generate_prompt()` / `render.render_prompt_lines()` in full
-- [`abbr_collection_doc.md`](abbr_collection_doc.md) — abbreviation-related dynamic nodes, their tags, and render-time query input
+- [`corpus-doc.md`](corpus-doc.md) — `prompt_corpus.md` format and heading-to-tree-depth rules
+- [`sidecar-node-doc.md`](sidecar-node-doc.md) — sidecar nodes, the other special node category, and how they differ from dynamic nodes
+- [`programmatic-api-doc.md`](programmatic-api-doc.md) — `PromptBlueprint`, checkmarking, and `generate_prompt()` / `render.render_prompt_lines()` in full
+- [`abbr-collection-doc.md`](abbr-collection-doc.md) — abbreviation-related dynamic nodes, their tags, and render-time query input

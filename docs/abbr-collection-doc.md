@@ -122,7 +122,7 @@ Q.v. [abbreviation entries `json` file](#abbreviation-entries-json-file) below f
 
 ## abbreviations-related dynamic nodes
 
-Every abbreviation-related [dynamic node](dynamic_node_doc.md) lives in `kaye_engine/prompt/dynamic_nodes/` and reads through `get_abbr_data()`.
+Every abbreviation-related [dynamic node](dynamic-node-doc.md) lives in `kaye_engine/prompt/dynamic_nodes/` and reads through `get_abbr_data()`.
 
 | Node | Heading | Source | Behavior |
 | --- | --- | --- | --- |
