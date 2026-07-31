@@ -3,12 +3,15 @@
 [^format]
 
 <!--
-FIXME rework all docs
+Fixme rework all docs
   content to vault, design corpus form engine expects for generation
+Fixme rewrite README
+Fixme rewrite pyproject
 todo utilize kamilog
 todo utilize personalities, allow multi agent conversation
 todo split corpus itself from this project (public vs private repo)
 todo git branch cleanup prompt
+hack consider how to manage dify_studio
 todo todo CLI to import/export w/ OpenWebUI
 -->
 

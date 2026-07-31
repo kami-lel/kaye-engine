@@ -1,8 +1,8 @@
-# Kaye README
+# Kaye Engine README
 
 > Consistent AI Agent Identity, powered by rigorous prompt engineering
 
-Kaye is a toolkit for maintaining a consistent AI agent identity from a single, structured source of truth. The project focuses on producing scenario-ready prompts from a central Markdown corpus using blueprints with APIs and CLI.
+Kaye Engine is a toolkit for maintaining a consistent AI agent identity from a single, structured source of truth. The project focuses on producing scenario-ready prompts from a central Markdown corpus using blueprints with APIs and CLI.
 
 ### ✨ Features
 
@@ -80,9 +80,9 @@ The `(Abbreviations)` dynamic node reads its meanings from an `abbrs.json` file 
 
 ### Programmatic API
 
-The **Kaye Programmatic API** provides *Python programmatic access* to list corpus entries, preview sections, and generate concrete prompts.
+The **Kaye Engine Programmatic API** provides *Python programmatic access* to list corpus entries, preview sections, and generate concrete prompts.
 
-Q.v. [Kaye Programmatic API documentation](docs/programmatic_api_doc.md)
+Q.v. [Kaye Engine Programmatic API documentation](docs/programmatic_api_doc.md)
 
 
 
@@ -98,7 +98,7 @@ Q.v. [Kaye Programmatic API documentation](docs/programmatic_api_doc.md)
 
 ### Python CLI
 
-A simple **Kaye Python CLI** is provided, exposed as the `kaye-engine` command
+A simple **Kaye Engine Python CLI** is provided, exposed as the `kaye-engine` command
 once installed (or run as `python -m kaye_engine`):
 
 ```bash
@@ -117,12 +117,12 @@ kaye-engine --help
 
 
 
-### Using Kaye with Claude
+### Using Kaye Engine with Claude
 
-Package Kaye as a Claude Desktop plugin or wire it into the Claude Code
+Package Kaye Engine as a Claude Desktop plugin or wire it into the Claude Code
 VS Code Extension.
 
-Q.v. [Using Kaye with Claude documentation](docs/claude_doc.md)
+Q.v. [Using Kaye Engine with Claude documentation](docs/claude_doc.md)
 
 
 
@@ -136,8 +136,8 @@ Q.v. [Using Kaye with Claude documentation](docs/claude_doc.md)
 
 
 
-### Using Kaye with Dify
+### Using Kaye Engine with Dify
 
-A Dify App wires Kaye into a chat workflow, round by round.
+A Dify App wires Kaye Engine into a chat workflow, round by round.
 
 Q.v. [Dify App Kaye Chat documentation](docs/ky_doc.md)
