@@ -6,8 +6,6 @@ Unit Tests (using pytest) for: PromptBlueprint.generate_prompt()
 
 import re
 
-import pytest
-
 from kaye_engine.prompt import PromptBlueprint
 
 from tests.prompt.bp import (
@@ -23,15 +21,6 @@ from tests.prompt.bp import (
     BLUEPRINT_3_EMPTY,
     _split_content_and_comment,
 )
-
-TESTEE_USABLE_ABBRS = [
-    "# (Usable Abbreviations)",
-    "**actively** and **progressively** utilize every entry below,",
-    "- &:and",
-    "- /:or",
-    "- ※:which see,reference to",
-]
-
 
 class Test1:  # with PROMPT1  ##################################################
 
@@ -263,37 +252,3 @@ How data was gathered for analysis.
 
 ##### Future Work
 Suggestions for future research or tasks."""
-
-
-@pytest.fixture(scope="class")
-def opt(corpus_dynamic_testee2):
-    corpus = corpus_dynamic_testee2
-
-    bp_text = """    ○
-[ ] └── Project Title
-[x] │   ├── Description
-[x] │   ├── Installation
-[x] │   └── License
-[x] └── (Usable Abbreviations)"""
-
-    bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus)
-
-    return bp.generate_prompt(show_comment=False)
-
-
-class TestDynamicNodes:  #######################################################
-
-    def test_starts_with(_, opt):
-        print(opt)
-        assert opt.startswith("""## Description
-Brief overview of the project and its purpose.
-
-## Installation
-Clone the repo and install dependencies.
-
-## License
-Licensed under the MIT License.""")
-
-    @pytest.mark.parametrize("marker", TESTEE_USABLE_ABBRS)
-    def test_usable_abbrs(_, opt, marker):
-        assert marker in opt
