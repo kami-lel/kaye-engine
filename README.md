@@ -141,22 +141,3 @@ Q.v. [Using Kaye with Claude documentation](docs/claude_doc.md)
 A Dify App wires Kaye into a chat workflow, round by round.
 
 Q.v. [Dify App Kaye Chat documentation](docs/ky_doc.md)
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Kaye Commit Sense
-
-Commit messages carry a leading **Sigil** summarizing the nature of the
-change (added, deleted, moved, refactored, ~~).
-
-Q.v. [Kaye Commit Sense documentation](docs/kaye_commit_sense_doc.md)
