@@ -129,6 +129,8 @@ def _get_abbrs_by_first_char(abbrs):
 
 # module-level export  #########################################################
 
+# BUG evaluated at import time, so importing this before the host calls
+# populate_abbr_data_with_json_file() freezes every group empty, silently
 _abbrs = get_abbr_data().abbrs
 
 EXPORTABLE_ABBRS = (
