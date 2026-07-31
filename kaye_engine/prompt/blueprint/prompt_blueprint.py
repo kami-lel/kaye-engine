@@ -14,7 +14,7 @@ from kaye_engine.prompt.sidecar_node import (
 )
 
 from ..base_prompt_node import BasePromptNode
-from ..prompt_corpus_loader import get_corpus_tree
+from ..prompt_corpus_loader import get_corpus_tree, get_default_corpus_tree
 
 from . import render
 from . import parser
@@ -28,15 +28,15 @@ __all__ = ("PromptBlueprint",)
 
 def _resolve_corpus_tree(corpus_tree):
     """
-    :param corpus_tree: root node of a corpus tree; or the name a
-            corpus tree was registered under via ``load_corpus_tree``
-    :type corpus_tree: BasePromptNode or str
-    :raises ValueError: ``corpus_tree`` is a node that is not root
-    :raises KeyError: ``corpus_tree`` is a str not registered via
-            ``load_corpus_tree``
+    resolve ``None`` to the default tree, a ``str`` to its registered
+    tree, or a root node to itself
+
     :return: root node of the resolved corpus tree
     :rtype: BasePromptNode
     """
+    if corpus_tree is None:
+        return get_default_corpus_tree()
+
     if isinstance(corpus_tree, str):
         return get_corpus_tree(corpus_tree)
 
@@ -56,25 +56,27 @@ class PromptBlueprint(dict):
     `PromptBlueprint` represents a configurable subset of *prompt corpus tree*
 
 
-    :param corpus_tree: root node of a corpus tree; or the name a
-            corpus tree was registered under via ``load_corpus_tree``
-    :type corpus_tree: BasePromptNode or str
+    :param corpus_tree: root node of a corpus tree; the name a corpus
+            tree was registered under via ``load_corpus_tree``; or
+            ``None`` (the default) to use the default corpus tree
+    :type corpus_tree: BasePromptNode or str or None, optional
     """
 
     # classmethods  ============================================================
     @classmethod
-    def parse(cls, corpus_tree, blueprint_text, *, disable_prune=False):
+    def parse(cls, blueprint_text, *, corpus_tree=None, disable_prune=False):
         """
         parse ``blueprint_text`` into a blueprint object
 
 
-        :param corpus_tree: root node of a corpus tree; or the name a
-                corpus tree was registered under via ``load_corpus_tree``
-        :type corpus_tree: BasePromptNode or str
         :param blueprint_text: prompt blueprint text to set nodes, must in
                 the same format of output of ``.generate_blueprint()``
                 (with tree structure and checkmarks)
         :type blueprint_text: str
+        :param corpus_tree: root node of a corpus tree; the name a
+                corpus tree was registered under via ``load_corpus_tree``;
+                or ``None`` (the default) to use the default corpus tree
+        :type corpus_tree: BasePromptNode or str or None, optional
         :param disable_prune: by default,
                 the parsed tree does not include irreverent nodes;
                 when ``disable_prune``, the parsed tree contains the full
@@ -85,7 +87,7 @@ class PromptBlueprint(dict):
         :rtype: PromptBlueprint
         """
         # create bp w/ nothing, to be filled during this function
-        bp = PromptBlueprint(corpus_tree)
+        bp = PromptBlueprint(corpus_tree=corpus_tree)
 
         bp.update(
             parser.parse_blueprint_text(blueprint_text, bp.corpus)
@@ -95,11 +97,12 @@ class PromptBlueprint(dict):
         return bp if disable_prune else bp.prune()
 
     @classmethod
-    def create_full_blueprint(cls, corpus_tree):
+    def create_full_blueprint(cls, *, corpus_tree=None):
         """
-        :param corpus_tree: root node of a corpus tree; or the name a
-                corpus tree was registered under via ``load_corpus_tree``
-        :type corpus_tree: BasePromptNode or str
+        :param corpus_tree: root node of a corpus tree; the name a
+                corpus tree was registered under via ``load_corpus_tree``;
+                or ``None`` (the default) to use the default corpus tree
+        :type corpus_tree: BasePromptNode or str or None, optional
         :return: a blueprint
                 with all nodes from `prompt_corpus` (except dynamic nodes,)
                 and checkmarking all nodes
@@ -108,11 +111,12 @@ class PromptBlueprint(dict):
         return cls._create_full_or_empty_blueprint_generic(corpus_tree, True)
 
     @classmethod
-    def create_empty_blueprint(cls, corpus_tree):
+    def create_empty_blueprint(cls, *, corpus_tree=None):
         """
-        :param corpus_tree: root node of a corpus tree; or the name a
-                corpus tree was registered under via ``load_corpus_tree``
-        :type corpus_tree: BasePromptNode or str
+        :param corpus_tree: root node of a corpus tree; the name a
+                corpus tree was registered under via ``load_corpus_tree``;
+                or ``None`` (the default) to use the default corpus tree
+        :type corpus_tree: BasePromptNode or str or None, optional
         :return: a blueprint
                 with all nodes from `prompt_corpus` (except dynamic nodes,)
                 but uncheckmarking all nodes
@@ -121,7 +125,7 @@ class PromptBlueprint(dict):
         return cls._create_full_or_empty_blueprint_generic(corpus_tree, False)
 
     @classmethod
-    def create_from_node(cls, corpus_tree, node, *, recursively=False):
+    def create_from_node(cls, node, *, corpus_tree=None, recursively=False):
         """
         create a **blueprint** from a specific node and its content
 
@@ -133,18 +137,19 @@ class PromptBlueprint(dict):
         corpus sections.
 
 
-        :param corpus_tree: root node of a corpus tree; or the name a
-                corpus tree was registered under via ``load_corpus_tree``
-        :type corpus_tree: BasePromptNode or str
         :param node: node object; hash value; name
         :type node: BasePromptNode or int or str
+        :param corpus_tree: root node of a corpus tree; the name a
+                corpus tree was registered under via ``load_corpus_tree``;
+                or ``None`` (the default) to use the default corpus tree
+        :type corpus_tree: BasePromptNode or str or None, optional
         :param recursively: allow checkmarks on node's descendants,
                 defaults to False
         :type recursively: bool, optional
         :raise TypeError:
         :raise ValueError:
         """
-        bp = cls.create_empty_blueprint(corpus_tree)
+        bp = cls.create_empty_blueprint(corpus_tree=corpus_tree)
         node_obj, _ = resolve_node(bp.corpus, node)
         bp.checkmark(node_obj, recursively=recursively)
 
@@ -154,7 +159,7 @@ class PromptBlueprint(dict):
         return pruned_bp
 
     # instance methods  ========================================================
-    def __init__(self, corpus_tree):
+    def __init__(self, *, corpus_tree=None):
         super().__init__()  # init as empty dict
 
         self.corpus_tree = corpus_tree
@@ -249,7 +254,7 @@ class PromptBlueprint(dict):
         :rtype: PromptBlueprint
         """
         # create bp w/ nothing
-        pruned_bp = PromptBlueprint(self.corpus_tree)
+        pruned_bp = PromptBlueprint(corpus_tree=self.corpus_tree)
 
         _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
 
@@ -272,7 +277,7 @@ class PromptBlueprint(dict):
         # create keys of resulted blueprint
         keys = set(self.keys()) | set(other.keys())
 
-        merged = PromptBlueprint(self.corpus_tree)
+        merged = PromptBlueprint(corpus_tree=self.corpus_tree)
 
         merged.sidecars = self.sidecars | other.sidecars
 
@@ -290,7 +295,7 @@ class PromptBlueprint(dict):
         in ``.create_full_blueprint()`` & in ``.create_empty_blueprint()``,
         i.e. a generic version of the 2 functions
         """
-        bp = PromptBlueprint(corpus_tree)
+        bp = PromptBlueprint(corpus_tree=corpus_tree)
 
         # include all nodes; sidecar nodes are never auto-checkmarked
         for node in PreOrderIter(bp.corpus):
@@ -422,7 +427,7 @@ class PromptBlueprint(dict):
         :return: shallow copy, w/o creating new node tree
         :rtype: PromptBlueprint
         """
-        copied = PromptBlueprint(self.corpus_tree)
+        copied = PromptBlueprint(corpus_tree=self.corpus_tree)
 
         for k, v in self.items():
             copied[k] = v
