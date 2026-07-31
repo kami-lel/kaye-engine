@@ -1,4 +1,4 @@
-# Kaye Programmatic API documentation
+# Kaye Engine Programmatic API documentation
 
 ## `prompt` module
 
@@ -394,7 +394,7 @@ Overview of the methodologies used.
 How data was gathered for analysis.
 ## Conclusion
 Summarizing the findings and implications.
-<!-- blueprint: conversation; Kaye v1.2.3 -->
+<!-- blueprint: conversation; Kaye Engine v1.2.3 -->
 ```
 
 
@@ -433,7 +433,7 @@ E.g.
         │   3. Submit a pull request
 [x]     └── License
             This project is licensed under the MIT License.
-(blueprint: conversation; Kaye v1.2.3)
+(blueprint: conversation; Kaye Engine v1.2.3)
 >>> tree.generate_blueprint(content_preview_lines=0, show_comment=True)
     ○
 [x] └── Project Title
@@ -442,7 +442,7 @@ E.g.
 [ ]     ├── Usage
 [ ]     ├── Contributing
 [x]     └── License
-<!-- blueprint: conversation; Kaye v1.2.3 -->
+<!-- blueprint: conversation; Kaye Engine v1.2.3 -->
 ```
 
 ----

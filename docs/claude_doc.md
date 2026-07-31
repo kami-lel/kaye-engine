@@ -1,8 +1,8 @@
-# Using Kaye with Claude
+# Using Kaye Engine with Claude
 
 ## Claude Desktop
 
-Generate a plugin package using the Kaye CLI:
+Generate a plugin package using the Kaye Engine CLI:
 
 ```bash
 kaye-engine claude plugin --zip  # or
@@ -11,11 +11,11 @@ kaye-engine a p -z
 
 ----
 
-Upload the generated `.zip` file to [Claude Desktop](https://claude.ai) settings under *Plugins* to enable Kaye integration.
+Upload the generated `.zip` file to [Claude Desktop](https://claude.ai) settings under *Plugins* to enable Kaye Engine integration.
 
 ## Claude Code VS Code Extension
 
-Set up Kaye for the Claude Code VS Code Extension with one command:
+Set up Kaye Engine for the Claude Code VS Code Extension with one command:
 
 ```bash
 kaye-engine claude vs-code-extension  # or

@@ -228,12 +228,12 @@ def render_comment(display_name=""):  # ========================================
     :param display_name: blueprint's human-readable name, omitted from the
             comment when empty; defaults to ""
     :type display_name: str, optional
-    :return: prompt comment containing blueprint name and Kaye version
+    :return: prompt comment containing blueprint name and Kaye Engine version
     :rtype: str
 
     :example:
     >>> print(render_comment("Chat"))
-    'blueprint: Chat; Kaye v1.2.3'
+    'blueprint: Chat; Kaye Engine v1.2.3'
     """
     kaye_version = importlib.metadata.version(PROGRAM_NAME)
 
@@ -243,4 +243,4 @@ def render_comment(display_name=""):  # ========================================
 
     name_part = "blueprint: {}; ".format(display_name) if display_name else ""
 
-    return "{}Kaye v{}".format(name_part, kaye_version)
+    return "{}Kaye Engine v{}".format(name_part, kaye_version)
