@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "kaye-engine"
 version = "6.11.0"
-description = "define Kaye, a composed and exacting AI assistant persona, in a single source of truth and reuse it consistently across every task and tool"
+description = "parse a plain Markdown file, as the structured single source of truth, then render scenario-ready prompt assets"
 readme = "README.md"
 authors = [
     { name = "kamiLeL", email = "77594253+kami-lel@users.noreply.github.com" },

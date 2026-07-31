@@ -2,15 +2,15 @@
 
 > Consistent AI Agent Identity, powered by rigorous prompt engineering
 
-Kaye Engine is a toolkit for maintaining a consistent AI agent identity from a single, structured source of truth. The project focuses on producing scenario-ready prompts from a central Markdown corpus using blueprints with APIs and CLI.
+Kaye Engine parses a plain Markdown file, as the structured single source of truth, then renders scenario-ready prompt assets through blueprints, a programmatic API, and a CLI.
 
 ### ✨ Features
 
-- 📌 single Source Of Truth for identity, roles, and rules
+- 📌 single Source Of Truth for an LLM's prompt assets
 - ⚙️ generate scenario-ready prompts from blueprints and templates
 - 🐍 programmatic Python API for listing, previewing, and generating prompts
-- 🌐 HTTP endpoints for dynamic prompt generation via a lightweight Flask service
 - 💻 CLI for quick local generation and inspection
+- 🔌 pluggable mechanism, ready for a host package to plug in its own corpus, abbreviations, and blueprints — including a Flask/HTTP surface, if the host chooses to build one
 
 
 
