@@ -30,7 +30,7 @@ class Test1:  # with PROMPT1  ##################################################
 
     def test_full(_, corpus_testee1):
         bp_text = BLUEPRINT_1_FULL
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
+        bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee1)
 
         opt = bp.generate_prompt(show_comment=True)
 
@@ -52,7 +52,7 @@ Licensed under the MIT License."""
 
     def test_part1(_, corpus_testee1):
         bp_text = BLUEPRINT_1_PARTIAL_1
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
+        bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee1)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -68,7 +68,7 @@ Licensed under the MIT License."""
 
     def test_part2(_, corpus_testee1):
         bp_text = BLUEPRINT_1_PARTIAL_2
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
+        bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee1)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -82,7 +82,7 @@ Licensed under the MIT License."""
 
     def test_empty(_, corpus_testee1):
         bp_text = BLUEPRINT_1_EMPTY
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee1)
+        bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee1)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -94,7 +94,7 @@ class Test2:  # with PROMPT2  ##################################################
 
     def test_full(_, corpus_testee2):
         bp_text = BLUEPRINT_2_FULL
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee2)
+        bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee2)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -141,7 +141,7 @@ This project is licensed under the MIT License."""
 
     def test_empty(_, corpus_testee2):
         bp_text = BLUEPRINT_2_EMPTY
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee2)
+        bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee2)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -153,7 +153,7 @@ class Test3:  # with PROMPT3  ##################################################
 
     def test_full(_, corpus_testee3):
         bp_text = BLUEPRINT_3_FULL
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
+        bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -188,7 +188,7 @@ Summarizing the findings and implications."""
 
     def test_part1(_, corpus_testee3):
         bp_text = BLUEPRINT_3_PARTIAL_1
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
+        bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -211,7 +211,7 @@ Summarizing the findings and implications."""
 
     def test_part2(_, corpus_testee3):
         bp_text = BLUEPRINT_3_PARTIAL_2
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
+        bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -231,7 +231,7 @@ Suggestions for future research or tasks."""
 
     def test_empty(_, corpus_testee3):
         bp_text = BLUEPRINT_3_EMPTY
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
+        bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
         opt = bp.generate_prompt(show_comment=False)
 
@@ -240,7 +240,7 @@ Suggestions for future research or tasks."""
 
     def test_no_top(_, corpus_testee3):
         bp_text = BLUEPRINT_3_PARTIAL_2
-        bp = PromptBlueprint.parse(bp_text, corpus_override=corpus_testee3)
+        bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
         opt = bp.generate_prompt(show_comment=False, disable_first_heading=True)
 
@@ -269,7 +269,7 @@ def opt(corpus_dynamic_testee2):
 [x] │   └── License
 [x] └── (Usable Abbreviations)"""
 
-    bp = PromptBlueprint.parse(bp_text, corpus_override=corpus)
+    bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus)
 
     return bp.generate_prompt(show_comment=False)
 

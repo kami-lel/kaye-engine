@@ -22,7 +22,7 @@ class TestFull1:  # ============================================================
 
     def test_dft(_, corpus_testee1):
         bp = PromptBlueprint.create_full_blueprint(
-            corpus_override=corpus_testee1
+            corpus_tree=corpus_testee1
         )
         opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
 
@@ -34,7 +34,7 @@ class TestFull2:  # ============================================================
 
     def test_dft(_, corpus_testee2):
         bp = PromptBlueprint.create_full_blueprint(
-            corpus_override=corpus_testee2
+            corpus_tree=corpus_testee2
         )
         opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
 
@@ -47,7 +47,7 @@ class TestEmpty1:  # ===========================================================
 
     def test_dft(_, corpus_testee1):
         bp = PromptBlueprint.create_empty_blueprint(
-            corpus_override=corpus_testee1
+            corpus_tree=corpus_testee1
         )
         opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
 
@@ -59,7 +59,7 @@ class TestEmpty2:  # ===========================================================
 
     def test_dft(_, corpus_testee2):
         bp = PromptBlueprint.create_empty_blueprint(
-            corpus_override=corpus_testee2
+            corpus_tree=corpus_testee2
         )
         opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
 

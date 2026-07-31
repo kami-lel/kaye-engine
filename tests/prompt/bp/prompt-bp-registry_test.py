@@ -29,7 +29,7 @@ class TestRegisterBlueprint:  ##################################################
 
     def test_dft(_, corpus_testee1, registered_names):
         bp = PromptBlueprint.create_empty_blueprint(
-            corpus_override=corpus_testee1
+            corpus_tree=corpus_testee1
         )
 
         reg = register_blueprint("test-registry-dft", "Test Registry Dft", bp)
@@ -48,7 +48,7 @@ class TestRegisterBlueprint:  ##################################################
 
     def test_flags(_, corpus_testee1, registered_names):
         bp = PromptBlueprint.create_empty_blueprint(
-            corpus_override=corpus_testee1
+            corpus_tree=corpus_testee1
         )
 
         reg = register_blueprint(
@@ -71,7 +71,7 @@ class TestRegisterBlueprint:  ##################################################
 
     def test_duplicate_name(_, corpus_testee1, registered_names):
         bp = PromptBlueprint.create_empty_blueprint(
-            corpus_override=corpus_testee1
+            corpus_tree=corpus_testee1
         )
 
         reg = register_blueprint("test-registry-dup", "Test Registry Dup", bp)
@@ -89,7 +89,7 @@ class TestSkillName:  ##########################################################
 
     def test_slugify(_, corpus_testee1, registered_names):
         bp = PromptBlueprint.create_empty_blueprint(
-            corpus_override=corpus_testee1
+            corpus_tree=corpus_testee1
         )
 
         reg = register_blueprint(
