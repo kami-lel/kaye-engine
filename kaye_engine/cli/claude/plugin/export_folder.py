@@ -39,6 +39,7 @@ def export_plugin_as_folder(parent_folder):
     """
     plugin_root = parent_folder / PROGRAM_NAME
 
+    # fixme utilize kamilog here
     meta = metadata(PROGRAM_NAME)
     pkg_version = version(PROGRAM_NAME)
     pkg_author, pkg_author_email = parseaddr(meta.get("Author-email") or "")
