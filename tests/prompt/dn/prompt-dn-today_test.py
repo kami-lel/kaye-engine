@@ -14,7 +14,12 @@ import pytest
 from kaye_engine.prompt.dynamic_nodes import TodayNode
 from kaye_engine.prompt.prompt_corpus_node import HEADING_PREFIX_ELEMENT
 
-from tests import TESTEE_TODAY_CONTENT
+TESTEE_TODAY_CONTENT = [
+    "# (Today)",
+    "**Current** Date and Time is:",
+    "Date: ",
+    "Time: ",
+]
 
 
 # pytest fixture  ##############################################################
