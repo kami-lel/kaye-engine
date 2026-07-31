@@ -52,8 +52,7 @@ class AbbrData:
         - ``self.meanings`` (``mean`` itself, if not already tracked)
         - ``self.abbrs``
 
-        must be called within a ``with`` block; the automaton is rebuilt on
-        exit, not per call
+        the automaton is rebuilt on ``with`` block exit, not per call
 
 
         :param mean: the meaning this entry belongs to
@@ -63,7 +62,6 @@ class AbbrData:
         :param abbr_obj: already-loaded ``abbrs.json`` entry content, see
                 :class:`AbbrEntry`
         :type abbr_obj: dict
-        :raises RuntimeError: called outside a ``with`` block
         :raises ValueError: malformed ``abbr_obj``, or an entry duplicating
                 one already added
         """
@@ -102,3 +100,17 @@ class AbbrData:
         self._editing = False
         if args[0] is None:
             self._rebuild_automaton()
+
+
+# single, always-present singleton instance  ###################################
+
+_abbr_data = AbbrData()
+
+
+def get_abbr_data():  # ========================================================
+    """
+    :return: the single, always-present :class:`AbbrData` singleton, empty
+            if nothing has been added yet
+    :rtype: AbbrData
+    """
+    return _abbr_data
