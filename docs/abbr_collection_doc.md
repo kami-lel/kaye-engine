@@ -226,10 +226,8 @@ Top level structure:
 
 Each `MEANING` entry is an *object* with:
 
-- `remark` *(optional)*: a *string* free-text note about this meaning;
-  omitted when there is nothing to add
-- `abbrs` *(required)*: an *object* mapping each spelling of this meaning
-  to its own fields (v.i.)
+- `remark` *(optional)*: a *string* free-text note about this meaning; omitted when there is nothing to add
+- `abbrs` *(required)*: an *object* mapping each spelling of this meaning to its own fields (v.i.)
 
 
 
@@ -247,8 +245,7 @@ Each `MEANING` entry is an *object* with:
 
 #### `remark`
 
-An *optional string* free-text note about the meaning as a whole (not
-any single spelling). Omit this key entirely when there is no remark.
+An *optional string* free-text note about the meaning as a whole (not any single spelling). Omit this key entirely when there is no remark.
 
 
 
@@ -256,8 +253,7 @@ any single spelling). Omit this key entirely when there is no remark.
 
 #### `abbrs`
 
-A *required object* mapping each spelling/abbreviation (`ABBR1`, `ABBR2`,
-...) of this meaning to its own fields, documented below.
+A *required object* mapping each spelling/abbreviation (`ABBR1`, `ABBR2`, ...) of this meaning to its own fields, documented below.
 
 
 
@@ -289,8 +285,7 @@ An *integer* value, lower value means higher priority.
 
 #### `tags`
 
-Additional information regards this entry,
-must be an *array* of *string* of these selected values:
+Additional information regards this entry, must be an *array* of *string* of these selected values:
 
 - `"common"`: common abbreviations that any person might understand
 - usage cases (these tags should be mutually exclusive):
@@ -300,6 +295,7 @@ must be an *array* of *string* of these selected values:
   - `"coding"`: abbreviation/terms used in software development / coding context
 
 - specialized groups:
+
   - `"programming_language_code"`: it is an abbreviation of a programming language
     e.g. `cpp` for C++ programming language
   - `"language_code"`: abbreviation for natural languages;
@@ -323,8 +319,7 @@ must be an *array* of *string* of these selected values:
 
 #### `"wrap"`
 
-Define how the abbreviation will be understood
-with character before and after it.
+Define how the abbreviation will be understood with character before and after it.
 
 Must be a *string* of these selected values:
 
@@ -341,10 +336,6 @@ Must be a *string* of these selected values:
 
 #### `remark`
 
-An *optional string* free-text note about this specific abbreviation (as
-opposed to the meaning's `remark`, which applies to every spelling). Omit
-this key entirely when there is no remark.
+An *optional string* free-text note about this specific abbreviation (as opposed to the meaning's `remark`, which applies to every spelling). Omit this key entirely when there is no remark.
 
-When rendered as a Markdown list entry, the meaning's `remark` and the
-abbr's `remark` are both included (in that order, separated by `; `) when
-present, e.g. `- abbr:meaning (meaning remark; abbr remark)`.
+When rendered as a Markdown list entry, the meaning's `remark` and the abbr's `remark` are both included (in that order, separated by `; `) when present, e.g. `- abbr:meaning (meaning remark; abbr remark)`.
