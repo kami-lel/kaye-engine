@@ -38,7 +38,7 @@ def dynamic_bp_testee1(corpus_dynamic_testee):
 [ ] └── (Programming Languages Code)"""
 
     return PromptBlueprint.parse(
-        text, corpus_override=corpus, disable_prune=True
+        text, corpus_tree=corpus, disable_prune=True
     )
 
 
@@ -64,7 +64,7 @@ def dynamic_bp_testee_full(corpus_dynamic_testee):
 [x] └── (Programming Languages Code)"""
 
     return PromptBlueprint.parse(
-        text, corpus_override=corpus, disable_prune=True
+        text, corpus_tree=corpus, disable_prune=True
     )
 
 
@@ -90,7 +90,7 @@ def dynamic_bp_testee_empty(corpus_dynamic_testee):
 [ ] └── (Programming Languages Code)"""
 
     return PromptBlueprint.parse(
-        text, corpus_override=corpus, disable_prune=True
+        text, corpus_tree=corpus, disable_prune=True
     )
 
 
@@ -100,7 +100,7 @@ def dynamic_bp_testee2(corpus_dynamic_testee):
 [x] └── (Today)"""
 
     return PromptBlueprint.parse(
-        bp_text, corpus_override=corpus_dynamic_testee, disable_prune=True
+        bp_text, corpus_tree=corpus_dynamic_testee, disable_prune=True
     )
 
 
@@ -110,7 +110,7 @@ def dynamic_bp_testee3(corpus_dynamic_testee):
 [x] └── (Abbreviations)"""
 
     return PromptBlueprint.parse(
-        bp_text, corpus_override=corpus_dynamic_testee, disable_prune=True
+        bp_text, corpus_tree=corpus_dynamic_testee, disable_prune=True
     )
 
 
@@ -120,7 +120,7 @@ def dynamic_bp_testee4(corpus_dynamic_testee):
 [x] └── (Programming Languages Code)"""
 
     return PromptBlueprint.parse(
-        bp_text, corpus_override=corpus_dynamic_testee, disable_prune=True
+        bp_text, corpus_tree=corpus_dynamic_testee, disable_prune=True
     )
 
 
@@ -130,7 +130,7 @@ def dynamic_bp_testee5(corpus_dynamic_testee):
 [x] └── (Usable Abbreviations)"""
 
     return PromptBlueprint.parse(
-        bp_text, corpus_override=corpus_dynamic_testee, disable_prune=True
+        bp_text, corpus_tree=corpus_dynamic_testee, disable_prune=True
     )
 
 
@@ -141,7 +141,7 @@ def dynamic_bp_testee5(corpus_dynamic_testee):
 def bp_testee1full(corpus_testee1):
     corpus = corpus_testee1
     return PromptBlueprint.parse(
-        BLUEPRINT_1_FULL, disable_prune=True, corpus_override=corpus
+        BLUEPRINT_1_FULL, disable_prune=True, corpus_tree=corpus
     )
 
 
@@ -149,7 +149,7 @@ def bp_testee1full(corpus_testee1):
 def bp_testee1pa1(corpus_testee1):
     corpus = corpus_testee1
     return PromptBlueprint.parse(
-        BLUEPRINT_1_PARTIAL_1, disable_prune=True, corpus_override=corpus
+        BLUEPRINT_1_PARTIAL_1, disable_prune=True, corpus_tree=corpus
     )
 
 
@@ -157,7 +157,7 @@ def bp_testee1pa1(corpus_testee1):
 def bp_testee1pa2(corpus_testee1):
     corpus = corpus_testee1
     return PromptBlueprint.parse(
-        BLUEPRINT_1_PARTIAL_2, disable_prune=True, corpus_override=corpus
+        BLUEPRINT_1_PARTIAL_2, disable_prune=True, corpus_tree=corpus
     )
 
 
@@ -167,7 +167,7 @@ def bp_testee1pa2pruned(corpus_testee1):
     return PromptBlueprint.parse(
         BLUEPRINT_1_PARTIAL_2_PRUNED,
         disable_prune=True,
-        corpus_override=corpus,
+        corpus_tree=corpus,
     )
 
 
@@ -175,7 +175,7 @@ def bp_testee1pa2pruned(corpus_testee1):
 def bp_testee1empty(corpus_testee1):
     corpus = corpus_testee1
     return PromptBlueprint.parse(
-        BLUEPRINT_1_EMPTY, disable_prune=True, corpus_override=corpus
+        BLUEPRINT_1_EMPTY, disable_prune=True, corpus_tree=corpus
     )
 
 
@@ -186,7 +186,7 @@ def bp_testee1empty(corpus_testee1):
 def bp_testee2full(corpus_testee2):
     corpus = corpus_testee2
     return PromptBlueprint.parse(
-        BLUEPRINT_2_FULL, disable_prune=True, corpus_override=corpus
+        BLUEPRINT_2_FULL, disable_prune=True, corpus_tree=corpus
     )
 
 
@@ -194,7 +194,7 @@ def bp_testee2full(corpus_testee2):
 def bp_testee2pa1(corpus_testee2):
     corpus = corpus_testee2
     return PromptBlueprint.parse(
-        BLUEPRINT_2_PARTIAL_1, disable_prune=True, corpus_override=corpus
+        BLUEPRINT_2_PARTIAL_1, disable_prune=True, corpus_tree=corpus
     )
 
 
@@ -205,7 +205,7 @@ def bp_testee2pa1(corpus_testee2):
 def bp_testee3full(corpus_testee3):
     corpus = corpus_testee3
     return PromptBlueprint.parse(
-        BLUEPRINT_3_FULL, disable_prune=True, corpus_override=corpus
+        BLUEPRINT_3_FULL, disable_prune=True, corpus_tree=corpus
     )
 
 
@@ -213,7 +213,7 @@ def bp_testee3full(corpus_testee3):
 def bp_testee3pa1(corpus_testee3):
     corpus = corpus_testee3
     return PromptBlueprint.parse(
-        BLUEPRINT_3_PARTIAL_1, disable_prune=True, corpus_override=corpus
+        BLUEPRINT_3_PARTIAL_1, disable_prune=True, corpus_tree=corpus
     )
 
 
@@ -221,7 +221,7 @@ def bp_testee3pa1(corpus_testee3):
 def bp_testee3pa2(corpus_testee3):
     corpus = corpus_testee3
     return PromptBlueprint.parse(
-        BLUEPRINT_3_PARTIAL_2, disable_prune=True, corpus_override=corpus
+        BLUEPRINT_3_PARTIAL_2, disable_prune=True, corpus_tree=corpus
     )
 
 
@@ -229,5 +229,5 @@ def bp_testee3pa2(corpus_testee3):
 def bp_testee3empty(corpus_testee3):
     corpus = corpus_testee3
     return PromptBlueprint.parse(
-        BLUEPRINT_3_EMPTY, disable_prune=True, corpus_override=corpus
+        BLUEPRINT_3_EMPTY, disable_prune=True, corpus_tree=corpus
     )

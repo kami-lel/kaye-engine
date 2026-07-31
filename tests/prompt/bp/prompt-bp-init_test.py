@@ -27,25 +27,27 @@ class TestEmpty:
 class TestErr:
 
     def test1(_):
-        corpus_override = 123
+        corpus_tree = 123
 
         with pytest.raises(ValueError) as exec_info:
-            PromptBlueprint(corpus_override=corpus_override)
+            PromptBlueprint(corpus_tree=corpus_tree)
         opt = exec_info.value.args[0]
 
         print(opt)
-        assert opt == "kwarg corpus_override must be a root node: 123"
+        assert opt == (
+            "corpus_tree must be a root node or a registered tree name: 123"
+        )
 
     def test2(_):
         node = load_prompt_corpus_tree()[0]
 
         with pytest.raises(ValueError) as exec_info:
-            PromptBlueprint(corpus_override=node)
+            PromptBlueprint(corpus_tree=node)
         opt = exec_info.value.args[0]
 
         print(opt)
         assert (
             opt
-            == "kwarg corpus_override must be a root node: "
+            == "corpus_tree must be a root node or a registered tree name: "
             "PromptCorpusNode(Personality)"
         )

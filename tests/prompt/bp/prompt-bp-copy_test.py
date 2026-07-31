@@ -20,7 +20,7 @@ class TestCopy:
 
     def test_copy1(_, corpus_testee3):
         src_bp = PromptBlueprint.parse(
-            BLUEPRINT_3_PARTIAL_1, corpus_override=corpus_testee3
+            BLUEPRINT_3_PARTIAL_1, corpus_tree=corpus_testee3
         )
 
         copied = copy.copy(src_bp)
@@ -35,7 +35,7 @@ class TestCopy:
 
     def test_deepcopy1(_, corpus_testee3):
         src_bp = PromptBlueprint.parse(
-            BLUEPRINT_3_PARTIAL_1, corpus_override=corpus_testee3
+            BLUEPRINT_3_PARTIAL_1, corpus_tree=corpus_testee3
         )
 
         copied = copy.deepcopy(src_bp)

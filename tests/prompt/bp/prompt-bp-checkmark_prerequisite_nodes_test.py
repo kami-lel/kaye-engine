@@ -26,7 +26,7 @@ def corpus_with_prerequisite():
 @pytest.fixture
 def bp_testee(corpus_with_prerequisite):
     return PromptBlueprint.create_empty_blueprint(
-        corpus_override=corpus_with_prerequisite
+        corpus_tree=corpus_with_prerequisite
     )
 
 
