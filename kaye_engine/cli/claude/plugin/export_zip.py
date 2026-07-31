@@ -36,7 +36,7 @@ def export_plugin_as_zip(parent_folder, *, includes_version=True):
     :type includes_version: bool
     """
     parent_folder = Path(parent_folder)
-    # Fixme utilize kamilog here
+    # FIXME utilize kamilog here
     parent_folder.mkdir(parents=True, exist_ok=True)
 
     with (

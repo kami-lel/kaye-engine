@@ -33,7 +33,7 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
     :type verbose: bool
     """
     parent_folder = Path(parent_folder)
-    # Fixme utilize kamilog here
+    # FIXME utilize kamilog here
     parent_folder.mkdir(parents=True, exist_ok=True)
 
     with (
@@ -47,7 +47,7 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
         for skill_folder in Path(skills_temp).iterdir():
             logger.debug("archiving skill:\t{}".format(skill_folder.name))
             zip_base = Path(zips_temp) / skill_folder.name
-            # Fixme utilize kamilog here
+            # FIXME utilize kamilog here
             shutil.make_archive(
                 str(zip_base),
                 "zip",
@@ -58,7 +58,7 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
         logger.debug("moving archived skills to destination folder")
         for zip_file in Path(zips_temp).iterdir():
             dest = parent_folder / zip_file.name
-            # Fixme utilize kamilog here
+            # FIXME utilize kamilog here
             shutil.move(str(zip_file), str(dest))
 
             logger.succ("export skill:\t{}".format(dest))
