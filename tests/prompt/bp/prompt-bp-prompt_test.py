@@ -10,7 +10,6 @@ import pytest
 
 from kaye_engine.prompt import PromptBlueprint
 
-from tests import TESTEE_USABLE_ABBRS
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_1_EMPTY,
@@ -24,6 +23,14 @@ from tests.prompt.bp import (
     BLUEPRINT_3_EMPTY,
     _split_content_and_comment,
 )
+
+TESTEE_USABLE_ABBRS = [
+    "# (Usable Abbreviations)",
+    "**actively** and **progressively** utilize every entry below,",
+    "- &:and",
+    "- /:or",
+    "- ※:which see,reference to",
+]
 
 
 class Test1:  # with PROMPT1  ##################################################

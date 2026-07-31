@@ -2,10 +2,11 @@ import pytest
 
 
 from copy import deepcopy
+from unittest.mock import mock_open, patch
 
 
+from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
-from kaye_engine.prompt.prompt_corpus_loader import load_prompt_corpus_tree
 
 from kaye_engine.prompt import (
     TodayNode,
@@ -15,7 +16,13 @@ from kaye_engine.prompt import (
     PLCNode,
 )
 
-from tests import TESTEE_USABLE_ABBRS
+TESTEE_USABLE_ABBRS = [
+    "# (Usable Abbreviations)",
+    "**actively** and **progressively** utilize every entry below,",
+    "- &:and",
+    "- /:or",
+    "- ※:which see,reference to",
+]
 
 
 @pytest.fixture(scope="session")
@@ -165,6 +172,21 @@ def corpus_dynamic_testee2(corpus_testee1):
     return tree
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def corpus():
-    return load_prompt_corpus_tree()
+    m = mock_open(read_data="""
+# Project Title
+## Description
+Brief overview of the project and its purpose.
+
+## Installation
+Clone the repo and install dependencies.
+
+## License
+Licensed under the MIT License.
+""")
+
+    with patch("builtins.open", m):
+        return load_corpus_tree(
+            "prompt-conftest-default", "dummy-path.md", is_default_tree=True
+        )

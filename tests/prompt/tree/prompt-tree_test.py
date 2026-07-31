@@ -3,14 +3,14 @@ prompt_tree_test.py
 
 Unit Tests (using pytest) for:
 
-load_prompt_corpus_tree
+load_corpus_tree
 """
 
 from unittest.mock import mock_open, patch
 
 import pytest
 
-from kaye_engine.prompt.prompt_corpus_loader import load_prompt_corpus_tree
+from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
 
 # pytest fixtures  #############################################################
@@ -28,10 +28,8 @@ Clone the repo and install dependencies.
 Licensed under the MIT License.
 """)
 
-    with patch("builtins.open", m), patch(
-        "kaye_engine.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
-    ):
-        return load_prompt_corpus_tree()
+    with patch("builtins.open", m):
+        return load_corpus_tree("prompt-tree-test-1", "dummy-path-1.md")
 
 
 @pytest.fixture(scope="session")
@@ -58,10 +56,8 @@ Provide instructions on how to use the application.
 This project is licensed under the MIT License.
 """)
 
-    with patch("builtins.open", m), patch(
-        "kaye_engine.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
-    ):
-        return load_prompt_corpus_tree()
+    with patch("builtins.open", m):
+        return load_corpus_tree("prompt-tree-test-2", "dummy-path-2.md")
 
 
 @pytest.fixture(scope="session")
@@ -97,10 +93,8 @@ Suggestions for future research or tasks.
 Summarizing the findings and implications.
 """)
 
-    with patch("builtins.open", m), patch(
-        "kaye_engine.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
-    ):
-        return load_prompt_corpus_tree()
+    with patch("builtins.open", m):
+        return load_corpus_tree("prompt-tree-test-3", "dummy-path-3.md")
 
 
 # pytest #######################################################################
