@@ -49,7 +49,7 @@ def load_blueprint_from_args(args):
     either from the blueprint registry or from a source file
     """
     if args.source_file:
-        # fixme utilize kamilog here
+        # Fixme utilize kamilog here
         with open(args.BLUEPRINT, "r", encoding="utf-8") as blueprint_file:
             blueprint = PromptBlueprint.parse(blueprint_file.read())
         return blueprint, args.BLUEPRINT
@@ -71,5 +71,5 @@ def write_blueprint_result(text, target_file):
     if target_file is None:
         print(text)
     else:
-        # fixme utilize kamilog here
+        # Fixme utilize kamilog here
         target_file.write(text)

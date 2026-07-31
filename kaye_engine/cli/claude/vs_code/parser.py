@@ -41,7 +41,7 @@ CLAUDE_FOLDER/  (default: ~/.claude)
 
 def _vs_code_main(args):
     kamilog.set_logging_level_by_namespace(args, logger=logger)
-    # fixme retired program name reaches verbose output; use kaye-engine
+    # Fixme retired program name reaches verbose output; use kaye-engine
     logger.enter("kaye claude vs-code-extension")
 
     folder = args.folder

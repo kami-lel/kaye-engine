@@ -41,7 +41,7 @@ def export_plugin_as_folder(parent_folder):
     """
     plugin_root = parent_folder / PROGRAM_NAME
 
-    # fixme utilize kamilog here
+    # Fixme utilize kamilog here
     # Fixme reads distribution metadata mid-export, so an uninstalled
     # source checkout raises PackageNotFoundError instead of failing early
     meta = metadata(PROGRAM_NAME)

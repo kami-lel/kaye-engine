@@ -24,7 +24,7 @@ DEFAULT_CLAUDE_FOLDER = Path.home() / ".claude"
 
 def _user_prompt_main(args):
     kamilog.set_logging_level_by_namespace(args, logger=logger)
-    # fixme retired program name reaches verbose output; use kaye-engine
+    # Fixme retired program name reaches verbose output; use kaye-engine
     logger.enter("kaye claude user-system-prompt")
 
     prompt_file = args.prompt_file

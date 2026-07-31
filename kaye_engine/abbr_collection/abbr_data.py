@@ -75,7 +75,7 @@ class AbbrData:
             self.meanings.append(mean)
 
     def _rebuild_automaton(self):
-        # fixme abbr data: use pickle.loads/dumps to save a local automaton, with hash
+        # fixme fixme abbr data: use pickle.loads/dumps to save a local automaton, with hash
         # pylint: disable=c-extension-no-member
         automaton_entires = {}
         for entry in self.abbrs:
