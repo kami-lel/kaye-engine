@@ -8,6 +8,7 @@ TODO split cli claude: keep core mechanism in engine, move actual prompt
   content to vault, design corpus form engine expects for generation
 TODO split & rf UTs: keep some UTs in engine, move some to vault, rf
   correctly across both
+todo utilize kamilog
 todo utilize personalities, allow multi agent conversation
 todo split corpus itself from this project (public vs private repo)
 todo git branch cleanup prompt
