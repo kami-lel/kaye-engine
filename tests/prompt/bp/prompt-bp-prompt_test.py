@@ -55,7 +55,7 @@ Clone the repo and install dependencies.
 Licensed under the MIT License."""
 
         # test comment structure
-        assert re.fullmatch("<!-- Kaye v.+ -->", comment)
+        assert re.fullmatch("<!-- Kaye Engine v.+ -->", comment)
 
     def test_part1(_, corpus_testee1):
         bp_text = BLUEPRINT_1_PARTIAL_1

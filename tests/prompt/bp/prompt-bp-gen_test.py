@@ -61,7 +61,7 @@ class TestAllArgs1:  # =========================================================
         assert tree_content == BLUEPRINT_1_FULL_PREVIEW
 
         # test comment structure
-        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+        assert re.fullmatch("<!-- Kaye Engine v.+ -->", comment_content)
 
     def test_part1(_, corpus_testee1):
         corpus = corpus_testee1
@@ -150,7 +150,7 @@ class TestAllArgs2:  # =========================================================
         assert tree_content == BLUEPRINT_2_PREVIEW
 
         # test comment structure
-        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+        assert re.fullmatch("<!-- Kaye Engine v.+ -->", comment_content)
 
     def test_part1(_, corpus_testee2):
         corpus = corpus_testee2
@@ -229,7 +229,7 @@ class TestAllArgs3:  # =========================================================
 
         assert tree_content == BLUEPRINT_3_FULL_PREVIEW
         # test comment structure
-        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+        assert re.fullmatch("<!-- Kaye Engine v.+ -->", comment_content)
 
     def test_part1(_, corpus_testee3):
         corpus = corpus_testee3
@@ -335,7 +335,7 @@ class TestNoContent1:  # =======================================================
 [x]     └── License"""
 
         # test comment structure
-        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+        assert re.fullmatch("<!-- Kaye Engine v.+ -->", comment_content)
 
     def test_part1(_, corpus_testee1):
         corpus = corpus_testee1
@@ -435,7 +435,7 @@ class TestNoContent3:  # =======================================================
 [x]     └── Conclusion"""
 
         # test comment structure
-        assert re.fullmatch("<!-- Kaye v.+ -->", comment_content)
+        assert re.fullmatch("<!-- Kaye Engine v.+ -->", comment_content)
 
     def test_part1(_, corpus_testee3):
         corpus = corpus_testee3
