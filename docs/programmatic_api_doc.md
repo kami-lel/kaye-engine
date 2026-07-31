@@ -17,7 +17,9 @@ from kaye_engine.prompt import (
     load_corpus_tree,
     get_corpus_tree,
     BlueprintRegistry,
-    BLUEPRINT_REGISTRIES,
+    register_blueprint,
+    get_blueprint,
+    blueprint_registry,
 )
 ```
 
@@ -208,15 +210,17 @@ tree_root = load_corpus_tree("my-tree", "path/to/corpus.md")
 tree_root is get_corpus_tree("my-tree")  # True
 ```
 
-`PromptBlueprint()` no longer falls back to a default tree either — its
-`corpus_override` argument is required; omitting it raises
-`NotImplementedError`.
+`PromptBlueprint`'s `corpus_tree` argument defaults to `None`, which
+resolves to whichever tree was registered as default via
+`load_corpus_tree(..., is_default_tree=True)`. `kaye_engine` bundles no
+corpus of its own, so if no host package has loaded one as default yet,
+that resolution raises `ValueError`.
 
 
 
 
 
-#### class diagraph
+#### class diagram
 
 ```mermaid
 classDiagram
@@ -259,7 +263,7 @@ blueprint_text = ~
 blueprint = PromptBlueprint.parse(blueprint_text)
 ```
 
-By default, this parse the blueprint text based on the *embedded prompt corpus text*. One might use an alternative corpus tree by providing keyword argument `corpus_override`, but this is often only used for testing purpose.
+By default (`corpus_tree=None`), this parses the blueprint text against whichever corpus tree is registered as the process default, v.s. By providing keyword argument `corpus_tree` (a root node, or a name registered via `load_corpus_tree`) one may parse against a different corpus tree instead — this is often only used for testing purpose.
 
 ----
 
@@ -276,9 +280,11 @@ These return blueprint objects that contain all nodes of the corpus tree, with a
 
 A `PromptBlueprint` has 3 additional attributes:
 
+- `.corpus_tree`: the `corpus_tree` argument it was constructed with — a root node, a registered tree name, or `None`
 - `.corpus`: corresponding prompt corpus tree root (typed `BasePromptNode`)
-- `.display_name`: name of the blueprint, typed `str`, default to `''`
 - `.sidecars`: blueprint metadata (description, when_to_use, globs) derived from sidecar nodes; see [`sidecar_node_doc.md`](sidecar_node_doc.md) for details
+
+There is no `.display_name` attribute on the instance itself — a blueprint's display name is a render-time argument to `.generate_prompt()` / `.generate_blueprint()` (v.i.), or lives on its `BlueprintRegistry` entry once registered (v.i., "blueprint registry").
 
 Each entry in `PromptBlueprint` represents a node, with key being node `hash()` (typed `int`,) and value being if the node is *checkmarked*, (typed `bool`.) The *root node* is never included in blueprint, because one will assume root node is always enabled/checkmarked.
 
@@ -319,7 +325,7 @@ blueprint -= node  # identical
 
 `.checkmark()` and `.uncheckmark()` support keyword argument `recursively=` which allows user to (un)checkmark a node and all of its descendants.
 
-For information on how sidecar nodes interact with recursive checkmarking, see [`sidecar_node_doc.md`](sidecar_node_doc.md#checkmarking-behavior).
+For information on how sidecar nodes interact with recursive checkmarking, see [`sidecar_node_doc.md`](sidecar_node_doc.md#in-prompt-corpus).
 
 ----
 
@@ -337,7 +343,7 @@ bp.uncheckmark("(Abbreviations)")
 However, when encounter a node findable in corpus tree, but not contained in the blueprint:
 
 - `.checkmark()` will automatically contain the node, and then mark it checkmarked
-- `.uncheckmark()` will raise a `KeyError`
+- `.uncheckmark()` will raise a `ValueError`
 
 
 
@@ -454,16 +460,18 @@ E.g.
 
 #### blueprint registry
 
-Every named blueprint is declared in
-`kaye_engine.prompt.blueprint.registrations` and collected in the
-`BLUEPRINT_REGISTRIES` dictionary — the single source of truth for a
-blueprint's identity and export policy. Keys are canonical kebab-case
-names; values are `BlueprintRegistry` entries:
+`register_blueprint(name, ...)` creates a `BlueprintRegistry` and
+inserts it into the `blueprint_registry` dictionary — the single source
+of truth for a blueprint's identity and export policy. `kaye_engine`
+bundles no blueprint registrations of its own; a host package calls
+`register_blueprint` for each real blueprint it defines. Keys are
+canonical kebab-case names; values are `BlueprintRegistry` entries,
+retrievable via `get_blueprint(name)`:
 
 ```python
-from kaye_engine.prompt import BLUEPRINT_REGISTRIES
+from kaye_engine.prompt import get_blueprint, blueprint_registry
 
-registry = BLUEPRINT_REGISTRIES["chat"]
+registry = get_blueprint("chat")
 blueprint = registry.blueprint          # a PromptBlueprint instance
 name = registry.display_name            # e.g. "Chat"
 skill_name = registry.skill_name        # kebab-case slug, e.g. "chat"
@@ -472,7 +480,6 @@ skill_name = registry.skill_name        # kebab-case slug, e.g. "chat"
 Each `BlueprintRegistry` carries the underlying `PromptBlueprint` as
 `.blueprint`, its `.name`/`.display_name`, and the export-policy flags
 `skill_exportable`, `continue_exportable`, `always_apply`,
-`user_invokable`, and `llm_invokable`. Iterate `BLUEPRINT_REGISTRIES`
-directly to enumerate every exportable blueprint.
-
+`user_invokable`, and `llm_invokable`. Iterate `blueprint_registry`
+directly to enumerate every registered blueprint.
 
