@@ -12,6 +12,10 @@ todo split corpus itself from this project (public vs private repo)
 todo git branch cleanup prompt
 hack consider how to manage dify_studio
 todo todo CLI to import/export w/ OpenWebUI
+todo extract register_cli_subcommands(cli_subparser) in cli/cli_main.py so
+  sibling packages (kaye-vault) can compose engine's prompt/claude
+  subcommands explicitly instead of relying on shared cli_subparser
+  import-time side effects
 -->
 
 
