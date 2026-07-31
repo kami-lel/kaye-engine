@@ -10,7 +10,12 @@ from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
     find_user_system_prompt_file,
 )
-from kaye_engine.cli.claude.user_prompt.export import export_user_system_prompt_file
+from kaye_engine.cli.claude.user_prompt.export import (
+    export_user_system_prompt_file,
+)
+
+# Bug exported folder structure contains name: kaye-engine
+
 
 #  constants  ===================================================================
 
@@ -23,7 +28,7 @@ exports the kaye plugin into plugins/.
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
 └── plugins/
-    └── kaye/
+    └── kaye-engine/
         ├── .claude-plugin/
         │   └── plugin.json
         └── skills/
@@ -56,6 +61,7 @@ def register_code_subparser(cli_subparser):  ###################################
 
     def _code_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
+        # fixme retired program name reaches verbose output; use kaye-engine
         logger.enter("kaye claude code")
 
         folder = args.folder

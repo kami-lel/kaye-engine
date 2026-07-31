@@ -37,7 +37,7 @@ def get_sidecar_name(node):
 
     **usage**:
 
-    >>> from kaye.prompt.sidecar_node import get_sidecar_name
+    >>> from kaye_engine.prompt.sidecar_node import get_sidecar_name
     >>> name = get_sidecar_name(node)
     >>> if name is not None:
     ...     print(f"sidecar name: {name}")
