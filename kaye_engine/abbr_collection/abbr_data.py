@@ -7,70 +7,76 @@ define ``AbbrData``
 import ahocorasick
 
 from kaye_engine.abbr_collection.abbr_entry import AbbrEntry
-from kaye_engine.abbr_collection.abbr_meaning import AbbrMeaning
-
-# constants  ###################################################################
-
-# abbrs.json key constants
-ABBRS_JSON_ABBRS_KEY = "abbrs"
-ABBRS_JSON_REMARK_KEY = "remark"
-
 
 # AbbrData  ####################################################################
 
 
 class AbbrData:
     """
-    represents collections of all abbreviation parsed from already-loaded
-    ``abbrs.json`` content
+    holds collections of parsed abbreviation entries; starts empty and grows
+    additively, one :class:`AbbrEntry` at a time, via :meth:`add_entry`,
+    called within a ``with`` block
 
 
     :example:
-    >>> instance = AbbrData(abbrs_json_override=json_data)
+    >>> data = AbbrData()
+    >>> with data:
+    ...     mean = AbbrMeaning("for example", remark=None)
+    ...     data.add_entry(mean, "e.g.", {"priority": 5, "tags": [], "wrap": "word"})
     """
 
-    def __init__(self, *, abbrs_json_override):
+    def __init__(self):
         """
-        parse already-loaded ``abbrs.json`` content to create
+        create an empty instance with
 
         - ``self.meanings``
         - ``self.abbrs``
         - ``self.automaton``
-
-
-        :raises ValueError:
         """
-        # fill .meanings & .abbrs  ---------------------------------------------
         self.meanings = []
         self.abbrs = []
-        for mean_key, mean_obj in abbrs_json_override.items():
-            if not isinstance(mean_obj, dict):
-                raise ValueError(
-                    "meaning value must be Object: {}".format(repr(mean_obj))
-                )
+        self._seen_entries = set()
+        self._editing = False
 
-            if ABBRS_JSON_ABBRS_KEY not in mean_obj:
-                raise ValueError(
-                    "meaning value must contains key: {}".format(
-                        repr(ABBRS_JSON_ABBRS_KEY)
-                    )
-                )
+        self.automaton = (
+            ahocorasick.Automaton()
+        )  # pylint: disable=c-extension-no-member
+        self.automaton.make_automaton()
 
-            remark = mean_obj.get(ABBRS_JSON_REMARK_KEY)
+    # entry addition  ==========================================================
 
-            mean = AbbrMeaning(mean_key, remark=remark)
+    def add_entry(self, mean, abbr, abbr_obj):
+        """
+        add a single abbreviation entry, merging it into
+
+        - ``self.meanings`` (``mean`` itself, if not already tracked)
+        - ``self.abbrs``
+
+        must be called within a ``with`` block; the automaton is rebuilt on
+        exit, not per call
+
+
+        :param mean: the meaning this entry belongs to
+        :type mean: AbbrMeaning
+        :param abbr: the abbreviation text
+        :type abbr: str
+        :param abbr_obj: already-loaded ``abbrs.json`` entry content, see
+                :class:`AbbrEntry`
+        :type abbr_obj: dict
+        :raises RuntimeError: called outside a ``with`` block
+        :raises ValueError: malformed ``abbr_obj``, or an entry duplicating
+                one already added
+        """
+        entry = AbbrEntry(mean, abbr, abbr_obj)
+        if entry in self._seen_entries:
+            raise ValueError("duplicate abbr entry: {}".format(repr(entry)))
+        self._seen_entries.add(entry)
+        self.abbrs.append(entry)
+
+        if mean not in self.meanings:
             self.meanings.append(mean)
 
-            abbrs_obj = mean_obj[ABBRS_JSON_ABBRS_KEY]
-            if not isinstance(abbrs_obj, dict):
-                raise ValueError(
-                    "abbrs value must be Object: {}".format(repr(abbrs_obj))
-                )
-
-            for abbr, abbr_obj in abbrs_obj.items():
-                self.abbrs.append(AbbrEntry(mean, abbr, abbr_obj))
-
-        # create automaton  ----------------------------------------------------
+    def _rebuild_automaton(self):
         # fixme abbr data: use pickle.loads/dumps to save a local automaton, with hash
         # pylint: disable=c-extension-no-member
         automaton_entires = {}
@@ -80,7 +86,19 @@ class AbbrData:
                 automaton_entires[abbr_lower] = []
             automaton_entires[abbr_lower].append(entry)
 
-        self.automaton = ahocorasick.Automaton()
+        automaton = ahocorasick.Automaton()
         for k, v in automaton_entires.items():
-            self.automaton.add_word(k, tuple(v))
-        self.automaton.make_automaton()
+            automaton.add_word(k, tuple(v))
+        automaton.make_automaton()
+        self.automaton = automaton
+
+    # support context manager  =================================================
+
+    def __enter__(self):
+        self._editing = True
+        return self
+
+    def __exit__(self, *args):
+        self._editing = False
+        if args[0] is None:
+            self._rebuild_automaton()
