@@ -3,21 +3,26 @@ prompt-tree-dynamic_test.py
 
 Unit Tests (using pytest) for:
 
-load_prompt_corpus_tree adding dynamic nodes
+load_corpus_tree adding dynamic nodes
 """
+
+from unittest.mock import mock_open, patch
 
 import pytest
 
 
-from kaye_engine.prompt.prompt_corpus_loader import load_prompt_corpus_tree
+from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
 
 # pytest fixtures  #############################################################
-@pytest.fixture
+@pytest.fixture(scope="session")
 def prompt_corpus_tree_preview():
-    return load_prompt_corpus_tree().generate_prompt_tree_preview(
-        content_preview_lines=0
-    )
+    m = mock_open(read_data="# Title\n")
+
+    with patch("builtins.open", m):
+        tree = load_corpus_tree("dynamic-nodes-test", "dummy-path.md")
+
+    return tree.generate_prompt_tree_preview(content_preview_lines=0)
 
 
 # pytest  ######################################################################

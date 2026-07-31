@@ -6,10 +6,7 @@ Unit Tests (using pytest) for: PromptBlueprint.__init__()
 
 import pytest
 
-from kaye_engine.prompt.blueprint.prompt_blueprint import (
-    PromptBlueprint,
-    load_prompt_corpus_tree,
-)
+from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
 
 
 class TestEmpty:
@@ -38,8 +35,8 @@ class TestErr:
             "corpus_tree must be a root node or a registered tree name: 123"
         )
 
-    def test2(_):
-        node = load_prompt_corpus_tree()[0]
+    def test2(_, corpus):
+        node = corpus[0]
 
         with pytest.raises(ValueError) as exec_info:
             PromptBlueprint(corpus_tree=node)
@@ -49,5 +46,5 @@ class TestErr:
         assert (
             opt
             == "corpus_tree must be a root node or a registered tree name: "
-            "PromptCorpusNode(Personality)"
+            "PromptCorpusNode(Project Title)"
         )
