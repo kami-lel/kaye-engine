@@ -230,6 +230,8 @@ Merge two `BlueprintDescriptorSidecars` instances using the `|` operator.
 def __or__(self, other: BlueprintDescriptorSidecars) -> BlueprintDescriptorSidecars
 ```
 
+<!-- Fixme last bullet is wrong: sidecar_node.py does self.x or other.x for when_to_use and globs too, so the right operand is dropped, never combined -->
+
 **Behavior:**
 - Creates a new instance merging metadata from both operands
 - `description` takes from self if set, otherwise from other

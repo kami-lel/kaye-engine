@@ -34,6 +34,8 @@ dev = [
 include-package-data = false
 package-dir = { "" = "." }
 
+# Bug exclude filters package names, not stale build/lib output, so a
+# wheel built over an old build/ ships a phantom prompt/sidecar_nodes/
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["kaye_engine*"]

@@ -22,6 +22,8 @@ Every dynamic node is a **leaf** — it never has children, so it cannot itself 
 
 ## Using a Dynamic Node
 
+<!-- Fixme no such rejection exists in the loader or node parser; an unrecognized (...) heading parses as an ordinary static node, and the "Adding Introductory Text" section below depends on that -->
+
 Every dynamic node type is attached once to the prompt corpus tree automatically, as a direct child of the root — you do not add them to `prompt_corpus.md` yourself, and in fact `prompt_corpus.md` **rejects** any heading in the `(...)` form, since that syntax is reserved for dynamic nodes.
 
 Once attached, a dynamic node behaves like any other corpus node in a blueprint: checkmark it to include it, uncheckmark it to leave it out.
