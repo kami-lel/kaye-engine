@@ -48,9 +48,9 @@ through a Python API and a CLI.
   can also be requested via `contains_sidecars` for conditional content
   inclusion — nothing structurally prevents it. To add a new conditional
   sidecar name: add `### {name}` examples to the corpus markdown file
-  supplied to `load_corpus_tree()`, document it in `docs/corpus_doc.md`,
-  `docs/sidecar_node_doc.md`, and
-  `docs/programmatic_api_doc.md`, wire CLI export consumers
+  supplied to `load_corpus_tree()`, document it in `docs/corpus-doc.md`,
+  `docs/sidecar-node-doc.md`, and
+  `docs/programmatic-api-doc.md`, wire CLI export consumers
   (`kaye_engine/cli/claude/skill/skill_md.py`, `kaye_engine/cli/cli_continue/rule_file.py`,
   both built on the shared `kaye_engine/cli/frontmatter_doc.py`) if the name should
   surface in exports, and mirror tests under `tests/prompt/bp/` and
