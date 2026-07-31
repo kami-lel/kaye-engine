@@ -1,24 +1,49 @@
 # `abbr_collection` Documentation
 
-**`abbr_collection`** holds the data structures and loader behind every
-abbreviation-related dynamic node — `AbbrEntry`, `AbbrMeaning`,
-`AbbrTags`, `AbbrWrap`, `AbbrData`, and the functions that populate and
-expose a single, always-present `AbbrData` singleton. It owns the schema
-and the lookup mechanism; the actual abbreviation entries live in a
-separate `abbrs.json` file supplied by a host package, since kaye-engine
-bundles no copy of its own.
+`abbr_collection` is the package that deals with **abbreviations**: the entry data structures, the store, and the loader that populates it from `abbrs.json`.
+
+Every abbreviation-related *dynamic node* reads through this store rather than parsing the file or holding its own copy of the data.
 
 
 
 
-## 1. Using `abbr_collection`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## `abbr_collection` module
 
 ### `populate_abbr_data_with_json_file(file_path)`
 
-Parse an `abbrs.json` file (v.i. for its schema) and add every entry it
-contains into the single `get_abbr_data()` instance, via
-`AbbrData.add_entry`. The lookup automaton is rebuilt once, after the
-whole file has been applied.
+Parse an `abbrs.json` file (v.i. for its schema) and load every entry it
+contains into the shared store. Call this once, before anything renders
+abbreviation-related dynamic nodes.
 
 ```python
 from kaye_engine.abbr_collection import populate_abbr_data_with_json_file
@@ -27,14 +52,13 @@ populate_abbr_data_with_json_file("abbrs.json")
 ```
 
 - **raises** `json.JSONDecodeError`: malformed JSON
-- **raises** `ValueError`: malformed content, or an entry duplicating one
-  already added
+- **raises** `ValueError`: malformed content, or an entry duplicating one already added
 
 ### `get_abbr_data()`
 
-Return the single, always-present `AbbrData` singleton — empty if nothing
-has been added yet. Every abbreviation-related dynamic node reads through
-this function rather than holding its own reference.
+Return the single, always-present store — empty if nothing has been
+loaded yet. This is how dynamic nodes (and anything else needing the raw
+entries) read the loaded data.
 
 ```python
 from kaye_engine.abbr_collection import get_abbr_data
@@ -43,53 +67,6 @@ data = get_abbr_data()
 for entry in data.abbrs:
     print(entry.as_md_list_entry())
 ```
-
-### `AbbrData`
-
-Holds the parsed collection — `.meanings` (list of `AbbrMeaning`),
-`.abbrs` (list of `AbbrEntry`), and `.automaton` (an `ahocorasick`
-automaton used for fast substring matching against arbitrary query text).
-Starts empty and grows additively, one `AbbrEntry` at a time, via
-`add_entry`, called within a `with` block so the automaton is rebuilt once
-per batch rather than per entry:
-
-```python
-from kaye_engine.abbr_collection import AbbrData, AbbrMeaning
-
-data = AbbrData()
-with data:
-    mean = AbbrMeaning("for example", remark=None)
-    data.add_entry(mean, "e.g.", {"priority": 5, "tags": [], "wrap": "word"})
-```
-
-### `AbbrEntry`
-
-A single `abbr => meaning` record — `.abbr`, `.mean`, `.priority`,
-`.tags` (`AbbrTags`), `.wrap` (`AbbrWrap`), `.remark`. Provides
-`as_md_list_entry()` to render itself as a Markdown list item
-(`- abbr:meaning`, or `- abbr:meaning (remark; remark)` when either the
-meaning or the abbr carries a remark), and `verify_found(found,
-char_before, char_after)` to confirm a raw automaton match satisfies case
-sensitivity and wrap-boundary rules before it is accepted.
-
-### `AbbrMeaning`
-
-Represents a single meaning shared by one or more spellings — `.mean`,
-`.remark`.
-
-### `AbbrTags`
-
-A bit-flag `Enum` of every tag an abbreviation entry may carry (v.i. for
-the full list). `AbbrTags.parse(tags_list)` converts the raw `list[str]`
-from `abbrs.json` into a combined flag value, raising `ValueError` on any
-unrecognized tag.
-
-### `AbbrWrap`
-
-An `Enum` of boundary rules (`WORD`, `PREFIX`, `SUFFIX`, `SYMBOL`, `UNIT`,
-`CURRENCY`) governing what characters may surround a match for it to
-count as a real occurrence — q.v. `AbbrEntry.verify_found` above, and the
-`wrap` field description in the schema section below.
 
 
 
