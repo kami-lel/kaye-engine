@@ -38,14 +38,14 @@ from kaye_engine.prompt import (
 
 ### Prompt Tree Nodes `BasePromptNode`
 
-The **prompt tree** is the structured representation parsed from *prompt corpus text* — see [`corpus_doc.md`](corpus_doc.md) for the format specification. Each section heading in the corpus becomes a node; the text between headings is that node's content.
+The **prompt tree** is the structured representation parsed from *prompt corpus text* — see [`corpus-doc.md`](corpus-doc.md) for the format specification. Each section heading in the corpus becomes a node; the text between headings is that node's content.
 
 A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, which is a subclass of `anytree.Node`, q.v. [anytree Documentation](https://anytree.readthedocs.io/en/stable/)
 
 nodes types:
 
 - Prompt Corpus Node `PromptCorpusNode`
-- dynamic nodes `DynamicNode`; q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md) for the full type list and details
+- dynamic nodes `DynamicNode`; q.v. [`Dynamic Node Documentation`](dynamic-node-doc.md) for the full type list and details
 
 
 
@@ -68,9 +68,9 @@ E.g.
 > [!NOTE]
 > `.name` is a property of `anytree.Node`
 
-**Sidecar nodes** are identified by names in curly braces, e.g. `{description}`. They are metadata or conditional instructions attached to parent nodes. For identification, checkmarking, rendering, and complete details, see [`sidecar_node_doc.md`](sidecar_node_doc.md).
+**Sidecar nodes** are identified by names in curly braces, e.g. `{description}`. They are metadata or conditional instructions attached to parent nodes. For identification, checkmarking, rendering, and complete details, see [`sidecar-node-doc.md`](sidecar-node-doc.md).
 
-**Dynamic nodes** are identified by names in parentheses, such as `(Today)`, `(Abbreviations)`. Unlike sidecar nodes, dynamic nodes are injected at render time and **are** included in the rendered prompt output. Q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md) for comprehensive documentation on dynamic nodes.
+**Dynamic nodes** are identified by names in parentheses, such as `(Today)`, `(Abbreviations)`. Unlike sidecar nodes, dynamic nodes are injected at render time and **are** included in the rendered prompt output. Q.v. [`Dynamic Node Documentation`](dynamic-node-doc.md) for comprehensive documentation on dynamic nodes.
 
 
 
@@ -198,7 +198,7 @@ an entire prompt tree, use `load_corpus_tree(tree_name, file_path)`.
 `kaye_engine` bundles no corpus markdown file of its own — the caller
 supplies the file and a name to cache it under. It parses the file and
 attaches the runtime dynamic nodes once; q.v.
-[`Dynamic Node Documentation`](dynamic_node_doc.md#using-a-dynamic-node)
+[`Dynamic Node Documentation`](dynamic-node-doc.md#using-a-dynamic-node)
 for details:
 
 ```python
@@ -282,7 +282,7 @@ A `PromptBlueprint` has 3 additional attributes:
 
 - `.corpus_tree`: the `corpus_tree` argument it was constructed with — a root node, a registered tree name, or `None`
 - `.corpus`: corresponding prompt corpus tree root (typed `BasePromptNode`)
-- `.sidecars`: blueprint metadata (description, when_to_use, globs) derived from sidecar nodes; see [`sidecar_node_doc.md`](sidecar_node_doc.md) for details
+- `.sidecars`: blueprint metadata (description, when_to_use, globs) derived from sidecar nodes; see [`sidecar-node-doc.md`](sidecar-node-doc.md) for details
 
 There is no `.display_name` attribute on the instance itself — a blueprint's display name is a render-time argument to `.generate_prompt()` / `.generate_blueprint()` (v.i.), or lives on its `BlueprintRegistry` entry once registered (v.i., "blueprint registry").
 
@@ -325,7 +325,7 @@ blueprint -= node  # identical
 
 `.checkmark()` and `.uncheckmark()` support keyword argument `recursively=` which allows user to (un)checkmark a node and all of its descendants.
 
-For information on how sidecar nodes interact with recursive checkmarking, see [`sidecar_node_doc.md`](sidecar_node_doc.md#in-prompt-corpus).
+For information on how sidecar nodes interact with recursive checkmarking, see [`sidecar-node-doc.md`](sidecar-node-doc.md#in-prompt-corpus).
 
 ----
 
@@ -376,10 +376,10 @@ want the rendered prompt as a list of lines instead.
 
 Both support `disable_first_heading=`, `show_comment=`, and
 `contains_sidecars=` to conditionally include conditional sidecar nodes during rendering.
-For details on sidecar node types and conditional inclusion patterns, see [`sidecar_node_doc.md`](sidecar_node_doc.md#conditional-sidecar-nodes).
+For details on sidecar node types and conditional inclusion patterns, see [`sidecar-node-doc.md`](sidecar-node-doc.md#conditional-sidecar-nodes).
 Any extra keyword arguments are passed through to node `content_lines()`
 implementations, which is how dynamic nodes receive values such as `query=`;
-q.v. [`Dynamic Node Documentation`](dynamic_node_doc.md#feeding-render-time-input).
+q.v. [`Dynamic Node Documentation`](dynamic-node-doc.md#feeding-render-time-input).
 
 E.g.
 

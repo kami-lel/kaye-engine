@@ -45,4 +45,4 @@ The root node `○` is synthetic — it is never written in the file.
 Consecutive empty lines are collapsed to a single empty line during parsing.
 Leading and trailing empty lines within a node's content are trimmed.
 
-Q.v. [`Sidecar Node Documentation`](sidecar_node_doc.md) for comprehensive documentation on sidecar nodes.
+Q.v. [`Sidecar Node Documentation`](sidecar-node-doc.md) for comprehensive documentation on sidecar nodes.
