@@ -190,3 +190,79 @@ dependency runs one direction only: a personalized project depends on
 knowledge of what specific identity content, abbreviations, or
 blueprints such a project supplies.
 
+## Gap Review Result
+
+Whole-repository pre-release audit, Sat 2026-08-01. Verified against a
+wheel built with `python -m build --wheel` and installed into a clean
+virtual environment, with every documented command run and the full
+suite executed — `685 passed`, no failures, no collection errors.
+
+Findings are open as of that date. Each names its site; check the site
+before assuming a gap still stands. Only critical entries carry a Loud
+triage tag in the source.
+
+### critical
+
+- `claude user-system-prompt`, `claude code`, and `claude
+  vs-code-extension` abort with a raw `KeyError` on any install lacking
+  a host corpus — the `blueprint_registry[base_name]` lookup at
+  `kaye_engine/cli/claude/user_prompt/export.py:36` is unguarded, and
+  `vs_code/export.py` writes the user system prompt first, so the
+  marketplace and `settings.json` steps never run
+- `AGENTS.md`'s "Adding an Exportable Blueprint" section documents a
+  host package's layout rather than this one. `registrations.py`,
+  `BLUEPRINT_REGISTRIES`, `tests/cli/`, and `tests/corpus/` live in
+  `kaye-vault`; here the registry is `blueprint_registry` in
+  `kaye_engine/prompt/blueprint/registry.py`
+- the `continue` subcommand is unreachable — `cli_main.py` never calls
+  `register_cli_continue_parser`, so the eight-module
+  `kaye_engine/cli/cli_continue/` package ships dead and
+  `kaye-engine continue config` exits 2. Its own quiet `hack` tags
+  cover the code side; the documentation still presents it as live
+- `EXPORTABLE_ABBRS` (`kaye_engine/cli/exportable_abbr.py:134`) is
+  built at import time against an abbreviation store the host fills
+  later, so importing the CLI first freezes all 37 groups empty, and
+  `skill/export_folders.py` writes them out with no emptiness guard.
+  Proven by varying import order alone — 0 populated groups against 2
+
+### warning
+
+- `AGENTS.md` and this file both call `tests/api/` and `tests/dify/`
+  stale and uncollectable. `tests/api/` does not exist; `tests/dify/`
+  collects 101 tests and all pass, covering the shipped `dify_studio/`
+  workflow nodes
+- a built wheel carries `kaye_engine/prompt/sidecar_nodes/`, a stale
+  duplicate of `sidecar_node.py` surviving in the untracked `build/lib/`
+  tree. `pyproject.toml`'s `exclude = ["build*"]` filters package names,
+  not stale build output, so the 6.10.2 fix for this has regressed
+- four CLI help diagrams draw the emitted plugin folder as `kaye/`
+  while the exporters build `kaye-engine/` — `plugin/parser.py:22`,
+  `marketplace/parser.py:21`, `code/parser.py:26`,
+  `vs_code/parser.py:30`
+- every script under `examples/abbrs/` predates the corpus split, parses
+  a blueprint with no `corpus_tree`, and dies on `no default corpus tree
+  set`
+- `docs/sidecar-node-doc.md` describes `__or__` as combining
+  `when_to_use` and `globs` from both operands; `sidecar_node.py:184`
+  does a left-priority fallback, silently dropping the right operand.
+  This file's own key-concept entry also lists a `prerequisite` field
+  that `BlueprintDescriptorSidecars` does not have
+- `docs/dynamic-node-doc.md:25` claims a corpus rejects `(...)`
+  headings. No such validation exists, and the same file's
+  introductory-text section depends on the heading being accepted
+- `docs/ky-doc.md` documents an `llm_override` input field absent from
+  `dify_studio/`; its quiet `fixme` marks the file stale in general but
+  not this field
+
+### hint
+
+- pre-rename identifiers persist in `__main__.py`'s "Flask HTTP API"
+  docstring, `prompt/blueprint/__init__.py`'s `kaye/` path,
+  `sidecar_node.py:40`'s `from kaye.prompt...` example, six
+  `logger.enter("kaye claude ...")` calls that reach verbose output,
+  and four `kaye prompt ...` docstrings under `kaye_engine/cli/prompt/`
+- `plugin/export_folder.py:41` and `skill/skill_md.py:77` read
+  distribution metadata at export time, so an uninstalled source
+  checkout raises `PackageNotFoundError` mid-export rather than at
+  startup
+

@@ -65,6 +65,8 @@ kaye-engine --help          # show CLI usage
 kaye-engine prompt ls                              # list registered blueprint names
 kaye-engine prompt show BLUEPRINT                  # preview a blueprint's structure
 kaye-engine prompt generate BLUEPRINT              # render a blueprint into a concrete prompt
+# FIXME these 3 continue commands do not exist -- cli_main.py never calls
+# register_cli_continue_parser, so all of them exit 2 with "invalid choice"
 kaye-engine continue config                  # export rules to ~/.continue
 kaye-engine continue config LOCAL_CONFIG_FOLDER  # export to custom path
 kaye-engine continue prompt PROMPTS_FOLDER        # export Continue prompts
@@ -105,6 +107,8 @@ CLI subcommand aliases: `prompt` → `p`;
 - use comment section headings (`#`, `=`, `*`, `+`, `-`) only for long files
 
 ## Adding an Exportable Blueprint
+
+<!-- FIXME this section, and tests/cli/, tests/corpus/ elsewhere in this file, describe a host package's layout (see kaye_vault/blueprint_registrations.py in kaye-vault) -- none of these paths exist in kaye-engine itself -->
 
 To add a blueprint that appears in both `claude skill` and `continue config`
 exports, touch these locations in order:
