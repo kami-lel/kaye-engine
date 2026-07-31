@@ -2,7 +2,7 @@
 
 > Consistent AI Agent Identity, powered by rigorous prompt engineering
 
-Kaye Engine parses a plain Markdown file, as the structured single source of truth, then renders scenario-ready prompt assets through blueprints, a programmatic API, and a CLI.
+Kaye Engine parses a plain Markdown file, as the structured single source of truth for LLM instructions, then renders scenario-ready prompt assets through blueprints, a programmatic API, and a CLI.
 
 ### ✨ Features
 
