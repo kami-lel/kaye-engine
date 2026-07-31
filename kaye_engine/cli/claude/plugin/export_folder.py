@@ -15,6 +15,8 @@ from kaye_engine.cli.claude.skill.export_folders import (
 )
 from .manifest import ManifestPluginJson
 
+# Bug exported folder structure contains name: kaye-engine
+
 # constants  ===================================================================
 
 _SKILLS_DIR = "skills"
@@ -40,6 +42,8 @@ def export_plugin_as_folder(parent_folder):
     plugin_root = parent_folder / PROGRAM_NAME
 
     # fixme utilize kamilog here
+    # Fixme reads distribution metadata mid-export, so an uninstalled
+    # source checkout raises PackageNotFoundError instead of failing early
     meta = metadata(PROGRAM_NAME)
     pkg_version = version(PROGRAM_NAME)
     pkg_author, pkg_author_email = parseaddr(meta.get("Author-email") or "")
