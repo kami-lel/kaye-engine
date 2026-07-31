@@ -7,6 +7,9 @@ from kaye_engine import logger, kamilog
 
 from .export import export_marketplace
 
+# Bug exported folder structure contains name: kaye-engine
+
+
 # constants  ===================================================================
 
 _DESCRIPTION = """
@@ -18,7 +21,7 @@ MARKETPLACE/  (default: ~/.claude/kaye_marketplace)
 ├── .claude-plugin/
 │   └── marketplace.json
 └── plugins/
-    └── kaye/
+    └── kaye-engine/
         ├── .claude-plugin/
         │   └── plugin.json
         └── skills/
@@ -51,6 +54,7 @@ def register_marketplace_subparser(cli_subparser):  ############################
 
     def _marketplace_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
+        # fixme retired program name reaches verbose output; use kaye-engine
         logger.enter("kaye claude marketplace")
 
         folder = args.folder

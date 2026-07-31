@@ -1,5 +1,5 @@
 """
-Entry Point for Kaye Flask HTTP API
+Entry Point for Kaye Engine CLI
 """
 
 from kaye_engine.cli.cli_main import cli_parser

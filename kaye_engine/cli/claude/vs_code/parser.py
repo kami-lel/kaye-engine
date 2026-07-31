@@ -10,6 +10,8 @@ from kaye_engine.cli.claude.user_prompt.parser import (
 )
 from .export import export_vs_code_extension
 
+# Bug exported folder structure contains name: kaye-engine
+
 # constants  ===================================================================
 
 _DESCRIPTION = """
@@ -27,7 +29,7 @@ CLAUDE_FOLDER/  (default: ~/.claude)
     ├── .claude-plugin/
     │   └── marketplace.json
     └── plugins/
-        └── kaye/
+        └── kaye-engine/
             ├── .claude-plugin/
             │   └── plugin.json
             └── skills/
@@ -39,6 +41,7 @@ CLAUDE_FOLDER/  (default: ~/.claude)
 
 def _vs_code_main(args):
     kamilog.set_logging_level_by_namespace(args, logger=logger)
+    # fixme retired program name reaches verbose output; use kaye-engine
     logger.enter("kaye claude vs-code-extension")
 
     folder = args.folder

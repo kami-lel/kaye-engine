@@ -9,17 +9,20 @@ from kaye_engine import logger, kamilog
 from .export_folder import export_plugin_as_folder
 from .export_zip import export_plugin_as_zip
 
+# Bug exported folder structure contains name: kaye-engine
+
+
 # constants  ===================================================================
 
 _DEFAULT_PLUGINS_FOLDER = Path.home() / ".claude" / "plugins"
 
 _DESCRIPTION = """
 
-writes plugin.json and one SKILL.md per blueprint under kaye/skills/; with
--z, creates an upload-ready .zip for Claude Desktop instead.
+writes plugin.json and one SKILL.md per blueprint under kaye-engine/skills/;
+with -z, creates an upload-ready .zip for Claude Desktop instead.
 
 FOLDER/  (default: ~/.claude/plugins/)
-└── kaye/
+└── kaye-engine/
     ├── .claude-plugin/
     │   └── plugin.json
     └── skills/
@@ -71,6 +74,7 @@ def register_plugin_subparser(cli_subparser):  #################################
 
     def _plugin_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
+        # fixme retired program name reaches verbose output; use kaye-engine
         logger.enter("kaye claude plugin")
 
         folder = args.folder

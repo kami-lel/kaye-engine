@@ -1,5 +1,5 @@
 """
-kaye/prompt/blueprint/
+kaye_engine/prompt/blueprint/
 
 `PromptBlueprint`: definition, parsing, rendering, and loading;
 the blueprint registry mechanism
