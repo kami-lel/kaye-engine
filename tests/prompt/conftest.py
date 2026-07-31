@@ -5,6 +5,7 @@ from copy import deepcopy
 from unittest.mock import mock_open, patch
 
 
+from kaye_engine.abbr_collection.abbr_data_loader import load_abbr_data
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
@@ -16,13 +17,13 @@ from kaye_engine.prompt import (
     PLCNode,
 )
 
-TESTEE_USABLE_ABBRS = [
-    "# (Usable Abbreviations)",
-    "**actively** and **progressively** utilize every entry below,",
-    "- &:and",
-    "- /:or",
-    "- ※:which see,reference to",
-]
+
+@pytest.fixture(scope="session", autouse=True)
+def _loaded_abbr_data():
+    m = mock_open(read_data="{}")
+
+    with patch("builtins.open", m):
+        return load_abbr_data("dummy-abbrs-path.json")
 
 
 @pytest.fixture(scope="session")
@@ -147,27 +148,6 @@ def corpus_dynamic_testee(corpus_testee3):
         PLCNode,
     ):
         node_type(tree)
-
-    return tree
-
-
-@pytest.fixture(scope="session")
-def corpus_dynamic_testee2(corpus_testee1):
-    tree = deepcopy(corpus_testee1)
-
-    # carry the same preface a static "(Usable Abbreviations)" node
-    # would hand off via `_attach_dynamic_node()` in production
-    node_prefaces = {
-        UsableAbbrNode: (TESTEE_USABLE_ABBRS[1],),
-    }
-    for node_type in (
-        TodayNode,
-        AbbrNode,
-        UsableAbbrNode,
-        LanguageCodeNode,
-        PLCNode,
-    ):
-        node_type(tree, preface=node_prefaces.get(node_type, ()))
 
     return tree
 
