@@ -30,6 +30,7 @@ def export_skills_as_folders(parent_folder):
         if not reg.skill_exportable:
             continue
 
+        # fixme utilize kamilog here
         folder = Skill.from_registry(reg).write(parent_folder)
         logger.succ("export skill:\t{}".format(folder))
 

@@ -56,6 +56,7 @@ def update_settings_json(claude_folder):
     settings_path.parent.mkdir(parents=True, exist_ok=True)
 
     if settings_path.exists():
+        # fixme utilize kamilog here
         with open(settings_path, encoding="utf-8") as f:
             data = json.load(f)
     else:
