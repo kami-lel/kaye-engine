@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-Fixme rework all docs
   content to vault, design corpus form engine expects for generation
 Fixme rewrite README
 Fixme rewrite pyproject

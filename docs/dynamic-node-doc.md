@@ -74,13 +74,3 @@ The current date and time, for reference.
 ```
 
 Without this, any section written under a dynamic node's heading is silently dropped in favor of the generated content.
-
-
-
-
-## Cross-References
-
-- [`corpus-doc.md`](corpus-doc.md) — `prompt_corpus.md` format and heading-to-tree-depth rules
-- [`sidecar-node-doc.md`](sidecar-node-doc.md) — sidecar nodes, the other special node category, and how they differ from dynamic nodes
-- [`programmatic-api-doc.md`](programmatic-api-doc.md) — `PromptBlueprint`, checkmarking, and `generate_prompt()` / `render.render_prompt_lines()` in full
-- [`abbr-collection-doc.md`](abbr-collection-doc.md) — abbreviation-related dynamic nodes, their tags, and render-time query input
