@@ -74,7 +74,7 @@ def register_plugin_subparser(cli_subparser):  #################################
 
     def _plugin_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
-        # Fixme retired program name reaches verbose output; use kaye-engine
+        # FIXME retired program name reaches verbose output; use kaye-engine
         logger.enter("kaye claude plugin")
 
         folder = args.folder
