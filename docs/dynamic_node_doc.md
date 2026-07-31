@@ -19,7 +19,7 @@ Every dynamic node's name is its heading wrapped in parentheses, e.g. `(Today)`,
 | Programming Languages Code | `(Programming Languages Code)` | abbreviations tagged `programming_language_code` |
 | Unity Engine Abbreviations | `(Unity Engine Abbreviations)` | abbreviations tagged `unity_engine_abbr` |
 
-Q.v. [`abbrs_json_doc.md`](abbrs_json_doc.md) for how the `tags` field on an abbreviation entry drives the tag-filtered nodes above.
+Q.v. [`abbr_collection_doc.md`](abbr_collection_doc.md) for how the `tags` field on an abbreviation entry drives the tag-filtered nodes above.
 
 Every dynamic node is a **leaf** — it never has children, so it cannot itself contain sub-sections.
 
@@ -99,4 +99,4 @@ Without this, any section written under a dynamic node's heading is silently dro
 - [`corpus_doc.md`](corpus_doc.md) — `prompt_corpus.md` format and heading-to-tree-depth rules
 - [`sidecar_node_doc.md`](sidecar_node_doc.md) — sidecar nodes, the other special node category, and how they differ from dynamic nodes
 - [`programmatic_api_doc.md`](programmatic_api_doc.md) — `PromptBlueprint`, checkmarking, and `generate_prompt()` / `render.render_prompt_lines()` in full
-- [`abbrs_json_doc.md`](abbrs_json_doc.md) — abbreviation entries and the tags the tag-filtered dynamic nodes key off of
+- [`abbr_collection_doc.md`](abbr_collection_doc.md) — abbreviation entries and the tags the tag-filtered dynamic nodes key off of
