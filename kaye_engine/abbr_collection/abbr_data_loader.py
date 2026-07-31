@@ -1,65 +1,59 @@
 """
 abbr_data_loader.py
 
-define ``load_abbr_data`` and ``get_abbr_data`` -- a single cached
-``AbbrData`` instance, loaded once from an explicit ``file_path``
+define ``populate_abbr_data`` -- parse already-loaded ``abbrs.json`` content
+into an :class:`AbbrData` instance
 """
 
-import json
+from .abbr_meaning import AbbrMeaning
 
-from .abbr_data import AbbrData
+__all__ = ("populate_abbr_data",)
 
-__all__ = (
-    "load_abbr_data",
-    "get_abbr_data",
-)
-
-
-# single cached AbbrData instance
-_abbr_data = None
+# abbrs.json key constants
+ABBRS_JSON_ABBRS_KEY = "abbrs"
+ABBRS_JSON_REMARK_KEY = "remark"
 
 
 # Public API  ##################################################################
 
 
-def load_abbr_data(file_path):  # ==============================================
+def populate_abbr_data(data, abbrs_json):  # ===================================
     """
-    parse ``file_path`` into an :class:`AbbrData` instance and cache it as
-    the single abbr database
+    walk already-loaded ``abbrs.json`` content and add each entry into
+    ``data`` via :meth:`AbbrData.add_entry`
+
+    should be called within a ``with data:`` block, so the automaton is
+    rebuilt once on exit rather than left stale
 
 
-    :param file_path: path of the ``abbrs.json`` file to load
-    :type file_path: Path or str
-    :raises ValueError: an abbr database is already loaded
-    :raises json.JSONDecodeError:
-    :return: the loaded, cached :class:`AbbrData` instance
-    :rtype: AbbrData
+    :param data: the instance to populate
+    :type data: AbbrData
+    :param abbrs_json: already-loaded ``abbrs.json`` content
+    :type abbrs_json: dict
+    :raises ValueError: malformed content, or an entry duplicating one
+            already added
     """
-    global _abbr_data  # pylint: disable=global-statement
+    for mean_key, mean_obj in abbrs_json.items():
+        if not isinstance(mean_obj, dict):
+            raise ValueError(
+                "meaning value must be Object: {}".format(repr(mean_obj))
+            )
 
-    if _abbr_data is not None:
-        raise ValueError("abbr data is already loaded")
+        if ABBRS_JSON_ABBRS_KEY not in mean_obj:
+            raise ValueError(
+                "meaning value must contains key: {}".format(
+                    repr(ABBRS_JSON_ABBRS_KEY)
+                )
+            )
 
-    with open(file_path, "r", encoding="utf-8") as file:  # read only
-        try:
-            json_data = json.load(file)
-        except json.JSONDecodeError as err:
-            raise json.JSONDecodeError(
-                "fail to parse abbrs.json: " + err.msg, err.doc, err.pos
-            ) from err
+        remark = mean_obj.get(ABBRS_JSON_REMARK_KEY)
+        mean = AbbrMeaning(mean_key, remark=remark)
 
-    _abbr_data = AbbrData(abbrs_json_override=json_data)
-    return _abbr_data
+        abbrs_obj = mean_obj[ABBRS_JSON_ABBRS_KEY]
+        if not isinstance(abbrs_obj, dict):
+            raise ValueError(
+                "abbrs value must be Object: {}".format(repr(abbrs_obj))
+            )
 
-
-def get_abbr_data():  # ========================================================
-    """
-    :raises ValueError: no abbr data has been loaded yet via
-            :func:`load_abbr_data`
-    :return: the cached :class:`AbbrData` instance
-    :rtype: AbbrData
-    """
-    if _abbr_data is None:
-        raise ValueError("no abbr data loaded; call load_abbr_data() first")
-
-    return _abbr_data
+        for abbr, abbr_obj in abbrs_obj.items():
+            data.add_entry(mean, abbr, abbr_obj)
