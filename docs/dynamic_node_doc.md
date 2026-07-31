@@ -66,7 +66,7 @@ A dynamic node's content is generated at render time, so you cannot normally wri
 The current date and time, for reference.
 ```
 
-When the corpus loads, that section is detected, removed from the static tree, and its content is carried over as a **preface** — prepended to the dynamic node's generated lines every time it renders. The result is a single `(Today)` node whose output is:
+When the corpus loads, that section is detected, removed from the static tree, and its content lines are carried over as the dynamic node's `preface=` constructor argument — prepended to the dynamic node's generated lines every time it renders. This applies uniformly to every dynamic node type, since it is implemented once, generically, where each node type is attached to the tree — not something each dynamic node opts into individually. The result is a single `(Today)` node whose output is:
 
 ```markdown
 The current date and time, for reference.
