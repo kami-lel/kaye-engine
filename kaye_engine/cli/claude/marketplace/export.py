@@ -9,10 +9,12 @@ from importlib.metadata import PackageNotFoundError, metadata, version
 from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
-from kaye_engine.cli import claude
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin.export_folder import (
     export_plugin_as_folder,
+)
+from kaye_engine.cli.claude.plugin_marketplace_name import (
+    get_plugin_marketplace_name,
 )
 
 from .manifest import MarketplaceJson
@@ -43,11 +45,12 @@ def export_marketplace(marketplace_folder):
     :rtype: Path
     """
     marketplace_folder = Path(marketplace_folder)
+    marketplace_name = get_plugin_marketplace_name()
     plugin_keywords = [
         "prompt-engineering",
         "persona",
         "agent",
-        claude.PLUGIN_MARKETPLACE_NAME,
+        marketplace_name,
     ]
 
     logger.debug("exporting plugin into marketplace folder")
@@ -68,13 +71,13 @@ def export_marketplace(marketplace_folder):
     pkg_repository = pkg_urls.get("Repository", "")
 
     with MarketplaceJson(marketplace_folder) as market:
-        market.name = claude.PLUGIN_MARKETPLACE_NAME
+        market.name = marketplace_name
         market.description = meta["Summary"]
         market.version = pkg_version
         market.owner_name = pkg_author
         market.owner_email = pkg_author_email
-        market.plugin_name = claude.PLUGIN_MARKETPLACE_NAME
-        market.plugin_source = "./plugins/" + claude.PLUGIN_MARKETPLACE_NAME
+        market.plugin_name = marketplace_name
+        market.plugin_source = "./plugins/" + marketplace_name
         market.plugin_display_name = meta["Name"]
         market.plugin_description = meta["Summary"]
         market.plugin_version = pkg_version
