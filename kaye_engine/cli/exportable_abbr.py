@@ -127,14 +127,20 @@ def _get_abbrs_by_first_char(abbrs):
     return result
 
 
-# module-level export  #########################################################
+# Public API  ##################################################################
+def get_exportable_abbrs():
+    """
+    build every exportable abbreviation group, computed fresh on each
+    call rather than once at import time, so it always reflects the
+    current state of :func:`get_abbr_data`
 
-# Bug evaluated at import time, so importing this before the host calls
-# populate_abbr_data_with_json_file() freezes every group empty, silently
-_abbrs = get_abbr_data().abbrs
 
-EXPORTABLE_ABBRS = (
-    _get_abbrs_by_tags(_abbrs)
-    + _get_abbrs_by_wrap(_abbrs)
-    + _get_abbrs_by_first_char(_abbrs)
-)
+    :return: every tag, wrap, and first-character abbreviation group
+    :rtype: list[ExportableAbbr]
+    """
+    abbrs = get_abbr_data().abbrs
+    return (
+        _get_abbrs_by_tags(abbrs)
+        + _get_abbrs_by_wrap(abbrs)
+        + _get_abbrs_by_first_char(abbrs)
+    )

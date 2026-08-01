@@ -7,7 +7,7 @@ define ``export_skills_as_folders``
 from kaye_engine import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.prompt.blueprint import blueprint_registry
-from kaye_engine.cli.exportable_abbr import EXPORTABLE_ABBRS
+from kaye_engine.cli.exportable_abbr import get_exportable_abbrs
 from .skill_md import Skill
 
 # logger  ######################################################################
@@ -48,7 +48,7 @@ def export_skills_as_folders(parent_folder, *, version):
     logger.enter("exporting abbreviation groups as skills")
 
     # export abbrs
-    for group in EXPORTABLE_ABBRS:
+    for group in get_exportable_abbrs():
         folder = Skill(
             name=group.skill_name,
             description=group.description,

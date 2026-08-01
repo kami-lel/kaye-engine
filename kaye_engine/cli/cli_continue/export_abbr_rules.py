@@ -9,7 +9,7 @@ from pathlib import Path
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.cli.cli_continue.rule_file import ContinueRule
-from kaye_engine.cli.exportable_abbr import EXPORTABLE_ABBRS
+from kaye_engine.cli.exportable_abbr import get_exportable_abbrs
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
@@ -34,7 +34,7 @@ def export_abbr_rules(folder):
     folder = Path(folder).resolve()
     folder.mkdir(parents=True, exist_ok=True)
 
-    for group in EXPORTABLE_ABBRS:
+    for group in get_exportable_abbrs():
         file_path = folder / "{}.md".format(group.display_name)
 
         ContinueRule(
