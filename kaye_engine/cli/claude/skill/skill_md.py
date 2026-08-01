@@ -5,9 +5,7 @@ define ``Skill``
 """
 
 from pathlib import Path
-from importlib.metadata import version
 
-from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli.claude import CONTAINING_SIDECARS
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 
@@ -43,6 +41,8 @@ class Skill(FrontmatterDoc):
     :type paths: list[str]
     :param body: markdown body written after the frontmatter block
     :type body: str
+    :param version: installed package version
+    :type version: str, optional
     :example:
     >>> # blueprint skill
     ... Skill.from_registry(reg).write(parent_folder)
@@ -74,9 +74,7 @@ class Skill(FrontmatterDoc):
 
     def _render_frontmatter(self):
         metadata = dict(self.metadata)
-        # FIXME reads distribution metadata mid-render, so an uninstalled
-        # source checkout raises PackageNotFoundError instead of failing early
-        metadata["version"] = version(PACKAGE_NAME)
+        metadata["version"] = self.version
 
         fields = {
             "name": self.name,
@@ -124,6 +122,7 @@ class Skill(FrontmatterDoc):
         user_invocable=True,
         paths=None,
         body="",
+        version="",
     ):
         self.name = name
         self.description = description
@@ -135,14 +134,18 @@ class Skill(FrontmatterDoc):
         self.user_invocable = user_invocable
         self.paths = list(paths) if paths else []
         self.body = body
+        self.version = version
 
     # factory  -----------------------------------------------------------------
 
     @classmethod
-    def from_registry(cls, registry):
+    def from_registry(cls, registry, version=""):
         """
         :param registry: blueprint registry entry to render
         :type registry: BlueprintRegistry
+        :param version: installed package version, forwarded to
+                :meth:`__init__`
+        :type version: str, optional
         :return: a skill built from ``registry`` and its blueprint prompt
         :rtype: Skill
         """
@@ -156,4 +159,5 @@ class Skill(FrontmatterDoc):
             body=registry.blueprint.generate_prompt(
                 contains_sidecars=CONTAINING_SIDECARS
             ),
+            version=version,
         )
