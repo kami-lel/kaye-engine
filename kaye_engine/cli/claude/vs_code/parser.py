@@ -1,3 +1,5 @@
+"""export the kaye plugin as a VS Code extension marketplace folder"""
+
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
