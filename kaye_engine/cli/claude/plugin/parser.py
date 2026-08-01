@@ -4,7 +4,7 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 
-from kaye_engine import kamilog
+from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 
 from .export_folder import export_plugin_as_folder
@@ -78,8 +78,7 @@ def register_plugin_parser(cli_subparser):  ####################################
 
     def _plugin_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
-        # FIXME retired program name reaches verbose output; use kaye-engine
-        logger.enter("kaye claude plugin")
+        logger.enter("{} claude plugin".format(PACKAGE_NAME))
 
         folder = args.folder
         if folder is None:
