@@ -6,11 +6,15 @@ define ``export_user_system_prompt_file``
 
 from pathlib import Path
 
+from kaye_engine import kamilog
+from kaye_engine.cli.claude import CONTAINING_SIDECARS, LOGGER_CLAUDE_NAME
 from kaye_engine.prompt.blueprint import blueprint_registry
-from kaye_engine.cli.claude import CONTAINING_SIDECARS
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
-# FIXME utilize kamilog here
+# Main Entry Point  ############################################################
 def export_user_system_prompt_file(
     file_path, *, use_rapid=False, use_coder=False
 ):
@@ -33,7 +37,11 @@ def export_user_system_prompt_file(
     base_name = "rapid" if use_rapid else "chat"
     # Fixme unguarded lookup; on a corpus-less install this raises a raw
     # KeyError traceback and aborts claude code / vs-code-extension midway
-    blueprint = blueprint_registry[base_name].blueprint
+    try:
+        blueprint = blueprint_registry[base_name].blueprint
+    except KeyError as err:
+        logger.critical("unknown blueprint:\t" + base_name)
+        raise SystemExit(1) from err
 
     agent_behavior = blueprint.corpus["Agent Behavior"]
     blueprint.checkmark(agent_behavior)
