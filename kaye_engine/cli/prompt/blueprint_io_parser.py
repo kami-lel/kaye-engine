@@ -7,9 +7,12 @@ define ``blueprint_io_parser``, ``load_blueprint_from_args``,
 
 from argparse import FileType, ArgumentParser
 
-from kaye_engine import logger
+from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.prompt.blueprint import blueprint_registry
 from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 # defining args shared by generate_parser and show_parser
 blueprint_io_parser = ArgumentParser(add_help=False)

@@ -6,13 +6,16 @@ define ``export_vs_code_extension``
 
 from pathlib import Path
 
-from kaye_engine import logger
+from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.cli.claude.marketplace.export import export_marketplace
 from kaye_engine.cli.claude.user_prompt.parser import (
     find_user_system_prompt_file,
 )
 from kaye_engine.cli.claude.user_prompt.export import export_user_system_prompt_file
 from .settings import update_settings_json
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ===================================================================
 

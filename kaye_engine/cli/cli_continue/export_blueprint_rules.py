@@ -8,10 +8,13 @@ blueprints as Continue AI rule files via ``ContinueRule``
 
 from pathlib import Path
 
-from kaye_engine import logger
+from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.prompt.blueprint import blueprint_registry
 
 from kaye_engine.cli.cli_continue.rule_file import ContinueRule
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 # Entry Point  #################################################################
 

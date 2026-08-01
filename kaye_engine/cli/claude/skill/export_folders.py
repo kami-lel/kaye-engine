@@ -4,10 +4,13 @@ export_folders.py
 define ``export_skills_as_folders``
 """
 
-from kaye_engine import logger
+from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.prompt.blueprint import blueprint_registry
 from kaye_engine.cli.exportable_abbr import EXPORTABLE_ABBRS
 from .skill_md import Skill
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 # entry point  #################################################################
 
