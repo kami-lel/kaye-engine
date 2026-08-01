@@ -48,7 +48,7 @@ def export_plugin_as_folder(parent_folder):
     ]
     plugin_root = parent_folder / claude.PLUGIN_MARKETPLACE_NAME
 
-    # Fixme reads distribution metadata mid-export, so an uninstalled
+    # FIXME reads distribution metadata mid-export, so an uninstalled
     # source checkout raises PackageNotFoundError instead of failing early
     try:
         meta = metadata(PACKAGE_NAME)
