@@ -88,3 +88,8 @@ A corpus must supply a node at `Agent Behavior` → `Claude Behavior`, and regis
 `{for claude code}` and `{prerequisite}` sidecar nodes are optional; when present, `CONTAINING_SIDECARS` auto-includes them in every Claude export.
 
 Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md).
+
+----
+
+`kaye-engine claude plugin`, `claude marketplace`, `claude code`, and `claude vs-code-extension` all name the exported plugin/marketplace folder after `PLUGIN_MARKETPLACE_NAME`. A host project must call `set_claude_plugin_marketplace_name(name)` (exposed at the top level, e.g. `kaye_engine.set_claude_plugin_marketplace_name("kaye-vault")`) before invoking the CLI.
+
