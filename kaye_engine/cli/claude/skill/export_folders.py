@@ -16,7 +16,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 # entry point  #################################################################
 
 
-def export_skills_as_folders(parent_folder):
+def export_skills_as_folders(parent_folder, *, version):
     """
     export all blueprints, prompts, and abbreviation groups as skill folders
 
@@ -26,6 +26,8 @@ def export_skills_as_folders(parent_folder):
 
     :param parent_folder: destination directory to write skill folders into
     :type parent_folder: Path-like
+    :param version: installed package version
+    :type version: str
     """
     logger.enter("exporting blueprints and prompts as skills")
 
@@ -35,7 +37,9 @@ def export_skills_as_folders(parent_folder):
             continue
 
         try:
-            folder = Skill.from_registry(reg).write(parent_folder)
+            folder = Skill.from_registry(reg, version=version).write(
+                parent_folder
+            )
         except OSError as err:
             logger.critical("cannot write skill:\t" + reg.display_name)
             raise SystemExit(1) from err
@@ -50,5 +54,6 @@ def export_skills_as_folders(parent_folder):
             description=group.description,
             user_invocable=False,
             body=group.as_md_list(),
+            version=version,
         ).write(parent_folder)
         logger.succ("export skill:\t{}".format(folder))
