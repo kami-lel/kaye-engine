@@ -34,8 +34,11 @@ def export_skills_as_folders(parent_folder):
         if not reg.skill_exportable:
             continue
 
-        # FIXME utilize kamilog here
-        folder = Skill.from_registry(reg).write(parent_folder)
+        try:
+            folder = Skill.from_registry(reg).write(parent_folder)
+        except OSError as err:
+            logger.critical("cannot write skill:\t" + reg.display_name)
+            raise SystemExit(1) from err
         logger.succ("export skill:\t{}".format(folder))
 
     logger.enter("exporting abbreviation groups as skills")
