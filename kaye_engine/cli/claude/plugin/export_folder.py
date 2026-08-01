@@ -5,7 +5,7 @@ define ``export_plugin_as_folder``
 """
 
 from email.utils import parseaddr
-from importlib.metadata import metadata, version
+from importlib.metadata import PackageNotFoundError, metadata, version
 
 from kaye_engine import DISPLAY_NAME, PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME, PLUGIN_MARKETPLACE_NAME
@@ -49,11 +49,14 @@ def export_plugin_as_folder(parent_folder):
     """
     plugin_root = parent_folder / PLUGIN_MARKETPLACE_NAME
 
-    # FIXME utilize kamilog here
     # Fixme reads distribution metadata mid-export, so an uninstalled
     # source checkout raises PackageNotFoundError instead of failing early
-    meta = metadata(PACKAGE_NAME)
-    pkg_version = version(PACKAGE_NAME)
+    try:
+        meta = metadata(PACKAGE_NAME)
+        pkg_version = version(PACKAGE_NAME)
+    except PackageNotFoundError as err:
+        logger.critical("package metadata not found:\t" + PACKAGE_NAME)
+        raise SystemExit(1) from err
     pkg_author, pkg_author_email = parseaddr(meta.get("Author-email") or "")
     pkg_urls = dict(
         _url.split(", ", 1) for _url in meta.get_all("Project-URL") or []
