@@ -25,23 +25,26 @@ ROOT_NODE_NAME = "○"
 # auxiliaries  #################################################################
 
 
-def _attach_dynamic_node(parent, node_type):
+def _match_dynamic_node_type(heading):
     """
-    attach a ``node_type`` instance under ``parent``;
-    if a statically-authored ``PromptCorpusNode`` with the same heading
-    already exists among ``parent``'s children, detach it and carry its
-    content over as the dynamic node's ``preface``
+    :param heading: a section heading, as parsed from ``prompt_corpus.md``
+    :type heading: str
+    :return: the ``DYNAMIC_NODE_TYPES`` member ``heading`` refers to,
+            or ``None`` if ``heading`` is an ordinary static heading
+    :rtype: type or None
+    :raises ValueError: ``heading`` is wrapped in parentheses but
+            matches no known dynamic node type
     """
-    heading = "(" + node_type.HEADING + ")"
+    if not (heading.startswith("(") and heading.endswith(")")):
+        return None
 
-    preface = ()
-    for child in parent.children:
-        if child.name == heading:
-            preface = tuple(child.content_lines())
-            child.parent = None
-            break
+    for node_type in DYNAMIC_NODE_TYPES:
+        if heading == "(" + node_type.HEADING + ")":
+            return node_type
 
-    node_type(parent, preface=preface)
+    raise ValueError(
+        "unrecognized dynamic node heading: {}".format(heading)
+    )
 
 
 # name-keyed cache of parsed prompt corpus trees
@@ -73,9 +76,10 @@ def load_corpus_tree(  # =======================================================
             without knowing ``tree_name``; only one tree may ever be
             flagged default per process
     :type is_default_tree: bool, optional
-    :raises ValueError: ``tree_name`` is already registered, or
+    :raises ValueError: ``tree_name`` is already registered,
             ``is_default_tree`` is set while a default tree already
-            exists
+            exists, or ``file_path`` contains a heading wrapped in
+            parentheses that matches no known dynamic node type
     :raises FileNotFoundError:
     :raises IOError:
     :return: **root** node of the parsed *prompt corpus tree*
@@ -107,8 +111,15 @@ def load_corpus_tree(  # =======================================================
     tree = PromptCorpusNode.parse(ROOT_NODE_NAME, None, text_lines)
 
     # add dynamic nodes  -------------------------------------------------------
+    prefaces = {}
+    for child in list(tree.children):
+        node_type = _match_dynamic_node_type(child.name)
+        if node_type is not None:
+            prefaces[node_type] = tuple(child.content_lines())
+            child.parent = None
+
     for node_type in DYNAMIC_NODE_TYPES:
-        _attach_dynamic_node(tree, node_type)
+        node_type(tree, preface=prefaces.get(node_type, ()))
 
     _corpus_tree_cache[tree_name] = tree
 
