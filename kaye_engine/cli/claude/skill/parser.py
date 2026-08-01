@@ -6,6 +6,7 @@ from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 
 
 from .export_folders import (
@@ -64,6 +65,7 @@ def register_skill_parser(cli_subparser):  #####################################
     def _skill_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
         logger.enter("{} claude skill".format(PACKAGE_NAME))
+        check_corpus_setup_for_cli()
 
         folder = args.folder
         if folder is None:
