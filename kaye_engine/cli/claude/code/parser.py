@@ -1,3 +1,5 @@
+"""export the kaye plugin and User System Prompt for Claude Code"""
+
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
@@ -18,10 +20,8 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 # BUG exported folder structure contains name: kaye-engine
 
 
-#  constants  ===================================================================
-
-
-_DESCRIPTION = """
+# constants  ###################################################################
+_DESCRIPTION = __doc__ + """
 
 writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint) and
 exports the kaye plugin into plugins/.
@@ -44,7 +44,7 @@ def register_code_parser(cli_subparser):  ######################################
     code_parser = cli_subparser.add_parser(
         "code",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["c"],
     )
