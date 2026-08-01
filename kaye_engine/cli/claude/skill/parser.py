@@ -33,7 +33,7 @@ FOLDER/  (default: ~/.claude/skills/)
 
 
 # pylint: disable=missing-function-docstring
-def register_skill_subparser(cli_subparser):  ##################################
+def register_skill_parser(cli_subparser):  #####################################
     skill_parser = cli_subparser.add_parser(
         "skill",
         help=__doc__,

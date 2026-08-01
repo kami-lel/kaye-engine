@@ -1,7 +1,7 @@
 """
 generate_parser.py
 
-define ``register_generate_subparser``
+define ``register_generate_parser``
 """
 
 from kaye_engine import LOGGER_NAME, kamilog
@@ -43,7 +43,7 @@ def _generate_main(args):  ####################################################
     write_blueprint_result(prompt, args.target_file)
 
 
-def register_generate_subparser(cli_subparser):  ###############################
+def register_generate_parser(cli_subparser):  ##################################
     """
     register the ``kaye prompt generate`` subcommand parser
     """

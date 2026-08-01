@@ -37,7 +37,7 @@ FOLDER/  (default: ~/.claude/plugins/)
 
 
 # pylint: disable=missing-function-docstring
-def register_plugin_subparser(cli_subparser):  #################################
+def register_plugin_parser(cli_subparser):  ####################################
     plugin_parser = cli_subparser.add_parser(
         "plugin",
         help=__doc__,

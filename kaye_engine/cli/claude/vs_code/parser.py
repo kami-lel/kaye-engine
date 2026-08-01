@@ -57,7 +57,7 @@ def _vs_code_main(args):
 
 
 # pylint: disable=missing-function-docstring
-def register_vs_code_subparser(cli_subparser):  ################################
+def register_vs_code_parser(cli_subparser):  ###################################
     vs_code_parser = cli_subparser.add_parser(
         "vs-code-extension",
         help=__doc__,

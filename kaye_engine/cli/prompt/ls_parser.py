@@ -1,7 +1,7 @@
 """
 ls_parser.py
 
-define ``register_ls_subparser``
+define ``register_ls_parser``
 """
 
 from kaye_engine.prompt.blueprint import blueprint_registry
@@ -24,7 +24,7 @@ def _ls_main(_):  ##############################################################
         print(name)
 
 
-def register_ls_subparser(cli_subparser):  #####################################
+def register_ls_parser(cli_subparser):  ########################################
     """
     register the ``kaye prompt ls`` subcommand parser
     """
