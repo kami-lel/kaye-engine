@@ -74,7 +74,7 @@ class Skill(FrontmatterDoc):
 
     def _render_frontmatter(self):
         metadata = dict(self.metadata)
-        # Fixme reads distribution metadata mid-render, so an uninstalled
+        # FIXME reads distribution metadata mid-render, so an uninstalled
         # source checkout raises PackageNotFoundError instead of failing early
         metadata["version"] = version(PACKAGE_NAME)
 
