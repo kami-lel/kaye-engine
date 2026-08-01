@@ -1,11 +1,11 @@
 """install Kaye into Claude as skills, plugins, or marketplaces"""
 
-from kaye_engine.cli.claude.code.parser import register_code_subparser
-from kaye_engine.cli.claude.marketplace.parser import register_marketplace_subparser
-from kaye_engine.cli.claude.plugin.parser import register_plugin_subparser
-from kaye_engine.cli.claude.skill.parser import register_skill_subparser
-from kaye_engine.cli.claude.vs_code.parser import register_vs_code_subparser
-from kaye_engine.cli.claude.user_prompt.parser import register_user_prompt_subparser
+from kaye_engine.cli.claude.code.parser import register_code_parser
+from kaye_engine.cli.claude.marketplace.parser import register_marketplace_parser
+from kaye_engine.cli.claude.plugin.parser import register_plugin_parser
+from kaye_engine.cli.claude.skill.parser import register_skill_parser
+from kaye_engine.cli.claude.vs_code.parser import register_vs_code_parser
+from kaye_engine.cli.claude.user_prompt.parser import register_user_prompt_parser
 
 
 def register_cli_claude_parser(  ###############################################
@@ -27,9 +27,9 @@ def register_cli_claude_parser(  ###############################################
         description="utility functions for the Claude plugin integration"
     )
 
-    register_skill_subparser(claude_subparser)
-    register_user_prompt_subparser(claude_subparser)
-    register_plugin_subparser(claude_subparser)
-    register_marketplace_subparser(claude_subparser)
-    register_vs_code_subparser(claude_subparser)
-    register_code_subparser(claude_subparser)
+    register_skill_parser(claude_subparser)
+    register_user_prompt_parser(claude_subparser)
+    register_plugin_parser(claude_subparser)
+    register_marketplace_parser(claude_subparser)
+    register_vs_code_parser(claude_subparser)
+    register_code_parser(claude_subparser)

@@ -1,7 +1,7 @@
 """
 show_parser.py
 
-define ``register_show_subparser``
+define ``register_show_parser``
 """
 
 from kaye_engine import LOGGER_NAME, kamilog
@@ -52,7 +52,7 @@ def _show_main(args):
 
 
 # Public API  ##################################################################
-def register_show_subparser(cli_subparser):
+def register_show_parser(cli_subparser):
     """
     register the ``kaye prompt show`` subcommand parser
     """

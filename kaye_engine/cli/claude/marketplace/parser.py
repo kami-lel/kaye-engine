@@ -36,7 +36,7 @@ MARKETPLACE/  (default: ~/.claude/kaye_marketplace)
 
 
 # pylint: disable=missing-function-docstring
-def register_marketplace_subparser(cli_subparser):  ############################
+def register_marketplace_parser(cli_subparser):  ###############################
     marketplace_parser = cli_subparser.add_parser(
         "marketplace",
         help=__doc__,
