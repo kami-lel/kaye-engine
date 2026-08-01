@@ -25,7 +25,7 @@ DISPLAY_NAME = "Prompt Engineering Project Kaye Engine"
 PACKAGE_NAME = "kaye-engine"
 LOGGER_NAME = "kaye.engine"
 
-
+# HACK del logger, use logger name instead
 logger = kamilog.getLogger(PROGRAM_NAME)
 
 
