@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-08-01
+**Last updated:** 2026-08-02
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -110,7 +110,7 @@ kaye_engine/
 dify_studio/             Dify workflow node sources, outside the package
 docs/                    per-topic reference, linked above
 examples/                standalone scripts, outside the package
-tests/                   prompt/, abbr/, dify/ — mirrors the source
+tests/                   prompt/, abbr/, cli/, dify/ — mirrors the source
 ```
 
 The `prompt` layer is pure: it knows nothing of Claude, Continue, or any
@@ -119,15 +119,17 @@ the same `blueprint_registry` rather than holding its own list.
 
 ## Testing Strategy
 
-`pytest`, 685 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 692 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.
 
 Tests mirror the source tree: `tests/prompt/` for the engine, `tests/abbr/`
 for the abbreviation collection, `tests/dify/` for the `dify_studio/`
-workflow nodes. There is no `tests/cli/` — CLI exporters need a corpus to
-produce output, so the host package covers them.
+workflow nodes. `tests/cli/` stays deliberately thin — it holds only the
+corpus-independent pieces, version resolution and `SKILL.md` rendering,
+because the exporters need a corpus to produce output and the host package
+covers those.
 
 ## Maintaining This File
 
