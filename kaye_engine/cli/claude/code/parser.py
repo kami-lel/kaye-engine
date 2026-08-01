@@ -4,7 +4,7 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME, check_setup_for_claude_cli
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder
 from kaye_engine.cli.claude.user_prompt.parser import (
@@ -18,9 +18,6 @@ from kaye_engine.cli.claude.user_prompt.export import (
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
-# BUG exported folder structure contains name: kaye-engine
-
-
 # constants  ###################################################################
 _DESCRIPTION = __doc__ + """
 
@@ -30,7 +27,7 @@ exports the kaye plugin into plugins/.
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
 └── plugins/
-    └── kaye-engine/
+    └── PLUGIN_MARKETPLACE_NAME/
         ├── .claude-plugin/
         │   └── plugin.json
         └── skills/
@@ -65,6 +62,7 @@ def register_code_parser(cli_subparser):  ######################################
         kamilog.set_logging_level_by_namespace(args, logger=logger)
         logger.enter("{} claude code".format(PACKAGE_NAME))
         check_corpus_setup_for_cli()
+        check_setup_for_claude_cli()
 
         folder = args.folder
 

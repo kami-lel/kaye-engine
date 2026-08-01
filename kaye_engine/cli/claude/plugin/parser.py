@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 from kaye_engine import PACKAGE_NAME, kamilog
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME, check_setup_for_claude_cli
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 
 from .export_folder import export_plugin_as_folder
@@ -14,20 +14,18 @@ from .export_zip import export_plugin_as_zip
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
-# BUG exported folder structure contains name: kaye-engine
-
-
 # constants  ===================================================================
 
 _DEFAULT_PLUGINS_FOLDER = Path.home() / ".claude" / "plugins"
 
 _DESCRIPTION = """
 
-writes plugin.json and one SKILL.md per blueprint under kaye-engine/skills/;
-with -z, creates an upload-ready .zip for Claude Desktop instead.
+writes plugin.json and one SKILL.md per blueprint under
+PLUGIN_MARKETPLACE_NAME/skills/; with -z, creates an upload-ready .zip for
+Claude Desktop instead.
 
 FOLDER/  (default: ~/.claude/plugins/)
-└── kaye-engine/
+└── PLUGIN_MARKETPLACE_NAME/
     ├── .claude-plugin/
     │   └── plugin.json
     └── skills/
@@ -81,6 +79,7 @@ def register_plugin_parser(cli_subparser):  ####################################
         kamilog.set_logging_level_by_namespace(args, logger=logger)
         logger.enter("{} claude plugin".format(PACKAGE_NAME))
         check_corpus_setup_for_cli()
+        check_setup_for_claude_cli()
 
         folder = args.folder
         if folder is None:

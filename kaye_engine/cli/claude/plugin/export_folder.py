@@ -8,7 +8,8 @@ from email.utils import parseaddr
 from importlib.metadata import PackageNotFoundError, metadata, version
 
 from kaye_engine import DISPLAY_NAME, PACKAGE_NAME, kamilog
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME, PLUGIN_MARKETPLACE_NAME
+from kaye_engine.cli import claude
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.skill.export_folders import (
     export_skills_as_folders,
 )
@@ -17,17 +18,9 @@ from .manifest import ManifestPluginJson
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
-# BUG exported folder structure contains name: kaye-engine
-
 # constants  ===================================================================
 
 _SKILLS_DIR = "skills"
-_PLUGIN_KEYWORDS = [
-    "prompt-engineering",
-    "persona",
-    "agent",
-    PLUGIN_MARKETPLACE_NAME,
-]
 
 # entry point  #################################################################
 
@@ -47,7 +40,13 @@ def export_plugin_as_folder(parent_folder):
     :return: path to the created plugin directory
     :rtype: Path
     """
-    plugin_root = parent_folder / PLUGIN_MARKETPLACE_NAME
+    plugin_keywords = [
+        "prompt-engineering",
+        "persona",
+        "agent",
+        claude.PLUGIN_MARKETPLACE_NAME,
+    ]
+    plugin_root = parent_folder / claude.PLUGIN_MARKETPLACE_NAME
 
     # Fixme reads distribution metadata mid-export, so an uninstalled
     # source checkout raises PackageNotFoundError instead of failing early
@@ -65,7 +64,7 @@ def export_plugin_as_folder(parent_folder):
     pkg_repository = pkg_urls.get("Repository", "")
 
     with ManifestPluginJson(plugin_root) as manifest:
-        manifest.name = PLUGIN_MARKETPLACE_NAME
+        manifest.name = claude.PLUGIN_MARKETPLACE_NAME
         manifest.display_name = DISPLAY_NAME
         manifest.version = pkg_version
         manifest.description = meta["Summary"]
@@ -73,7 +72,7 @@ def export_plugin_as_folder(parent_folder):
         manifest.author_email = pkg_author_email
         manifest.homepage = pkg_homepage
         manifest.repository = pkg_repository
-        manifest.keywords = _PLUGIN_KEYWORDS
+        manifest.keywords = plugin_keywords
         logger.succ("write plugin manifest:\t" + str(manifest.path))
 
     logger.debug("exporting blueprints as plugin skills")
