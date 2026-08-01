@@ -7,14 +7,15 @@ define ``export_plugin_as_folder``
 from email.utils import parseaddr
 from importlib.metadata import metadata, version
 
-from kaye_engine import logger
-
-from kaye_engine import PACKAGE_NAME, DISPLAY_NAME
+from kaye_engine import DISPLAY_NAME, LOGGER_NAME, PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import PLUGIN_MARKETPLACE_NAME
 from kaye_engine.cli.claude.skill.export_folders import (
     export_skills_as_folders,
 )
 from .manifest import ManifestPluginJson
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 # Bug exported folder structure contains name: kaye-engine
 

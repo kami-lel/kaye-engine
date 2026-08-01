@@ -4,13 +4,16 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 
-from kaye_engine import logger, kamilog
+from kaye_engine import LOGGER_NAME, kamilog
 
 
 from .export_folders import (
     export_skills_as_folders,
 )
 from .export_zips import export_skills_as_zips
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ===================================================================
 

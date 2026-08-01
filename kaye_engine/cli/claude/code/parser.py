@@ -3,7 +3,7 @@
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import logger, kamilog
+from kaye_engine import LOGGER_NAME, kamilog
 
 from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder
 from kaye_engine.cli.claude.user_prompt.parser import (
@@ -13,6 +13,9 @@ from kaye_engine.cli.claude.user_prompt.parser import (
 from kaye_engine.cli.claude.user_prompt.export import (
     export_user_system_prompt_file,
 )
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 # Bug exported folder structure contains name: kaye-engine
 

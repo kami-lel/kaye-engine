@@ -8,12 +8,15 @@ import shutil
 import tempfile
 from pathlib import Path
 
-from kaye_engine import logger
+from kaye_engine import LOGGER_NAME, kamilog
 
 
 from .export_folders import (
     export_skills_as_folders,
 )
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 # entry point  #################################################################
 

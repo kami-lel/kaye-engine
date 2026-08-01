@@ -9,12 +9,14 @@ import tempfile
 from importlib.metadata import version
 from pathlib import Path
 
-from kaye_engine import logger
+from kaye_engine import LOGGER_NAME, PACKAGE_NAME, kamilog
 
-from kaye_engine import PACKAGE_NAME
 from .export_folder import (
     export_plugin_as_folder,
 )
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 # entry point  #################################################################
 

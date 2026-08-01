@@ -3,9 +3,12 @@
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import logger, kamilog
+from kaye_engine import LOGGER_NAME, kamilog
 
 from .export import export_user_system_prompt_file
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ===================================================================
 

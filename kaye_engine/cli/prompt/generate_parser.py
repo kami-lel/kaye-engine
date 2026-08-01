@@ -4,7 +4,7 @@ generate_parser.py
 define ``register_generate_subparser``
 """
 
-from kaye_engine import logger
+from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.kamilog import add_verbose_arguments, set_logging_level_by_namespace
 
 from kaye_engine.cli.prompt.blueprint_io_parser import (
@@ -12,6 +12,9 @@ from kaye_engine.cli.prompt.blueprint_io_parser import (
     load_blueprint_from_args,
     write_blueprint_result,
 )
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 # todo cli prompt generate: allow sidecars be arg
 

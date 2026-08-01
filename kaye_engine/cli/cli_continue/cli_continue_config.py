@@ -3,10 +3,13 @@
 
 from pathlib import Path
 
-from kaye_engine import logger, kamilog
+from kaye_engine import LOGGER_NAME, kamilog
 
 from .export_abbr_rules import export_abbr_rules
 from .export_blueprint_rules import export_blueprint_rules
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 _DEFAULT_CONTINUE_FOLDER = Path.home() / ".continue"
 
