@@ -22,8 +22,8 @@ source venv/bin/activate
 pip install -e ".[dev]"
 ```
 
-Several `claude` exports read installed distribution metadata, so run them
-against an installed package rather than a bare checkout.
+`claude` exports read installed distribution metadata — run against an
+installed package, not a bare checkout.
 
 ## Testing
 
@@ -98,8 +98,13 @@ comments are allowed).
 document it, invoke it, or wire it back in without being asked.
 
 `claude user-system-prompt`, `claude code`, and `claude vs-code-extension`
-look up the blueprints `"chat"`, `"rapid"`, and `"coder"`, so they only run
-against a host corpus. On a bare checkout they raise `KeyError`.
+look up blueprints `"chat"`/`"rapid"`/`"coder"`, so they need a host corpus.
+On a bare checkout each subcommand logs a setup-guard warning (no default
+corpus tree, empty `blueprint_registry`, unset `PLUGIN_MARKETPLACE_NAME`)
+then raises `KeyError` — expected, not a bug.
+
+A `claude`-exporting host must call `set_claude_plugin_marketplace_name(name)`
+before invoking the CLI, or the manifest ships with no name.
 
 ## Code Conventions
 
@@ -114,13 +119,10 @@ against a host corpus. On a bare checkout they raise `KeyError`.
 ## Registering a Blueprint
 
 `register_blueprint()` in `kaye_engine/prompt/blueprint/registry.py` is the
-only gate — an unregistered blueprint is invisible to every exporter, since
-all of them iterate `blueprint_registry` directly. **The calls themselves
-live in the host package**, not here; this repository owns the mechanism and
-its tests only.
+only gate — every exporter reads `blueprint_registry` directly. **Calls
+live in the host package**, not here.
 
-Export policy is set per registration through five independent flags, with
-no separate allow-list constant:
+Export policy — five independent flags, no allow-list constant:
 
 | flag | default | effect |
 |---|---|---|
@@ -132,10 +134,9 @@ no separate allow-list constant:
 
 ## Load Order Constraint
 
-Populate the abbreviation database **before** importing anything under
-`kaye_engine.cli`. `EXPORTABLE_ABBRS` is built at import time, so importing
-the CLI first freezes every abbreviation group empty and the exporters then
-write empty skills with no error.
+Populate the abbreviation database **before** importing `kaye_engine.cli`.
+`EXPORTABLE_ABBRS` builds at import time; importing the CLI first freezes
+every group empty and exporters silently write empty skills.
 
 ```python
 populate_abbr_data_with_json_file(path)   # first
