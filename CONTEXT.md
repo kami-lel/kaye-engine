@@ -87,9 +87,12 @@ documentation](docs/programmatic-api-doc.md).
 Every CLI subcommand entrypoint calls a setup guard
 (`check_corpus_setup_for_cli()`, or `check_setup_for_claude_cli()` for
 `claude` subcommands) that logs a warning — never raises — when a host
-hasn't loaded a default corpus tree, registered any blueprints, or set the
-plugin/marketplace name. It exists to surface a bare-checkout misuse early,
-not to enforce the boundary.
+hasn't loaded a default corpus tree or registered any blueprints. It exists
+to surface a bare-checkout misuse early, not to enforce the boundary. The
+plugin/marketplace name is enforced separately: any `claude` export
+subcommand that needs it calls `get_plugin_marketplace_name()`, which logs
+`logger.critical` and raises `SystemExit(1)` when unset, rather than letting
+`None` reach path or manifest building.
 
 ## Repository Layout
 
