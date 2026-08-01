@@ -15,6 +15,7 @@ __all__ = ("cli_parser", "cli_subparser")
 # parse definition  ############################################################
 
 
+# BUG this should support other names
 cli_parser = ArgumentParser(prog=PROGRAM_NAME, description=__doc__)
 cli_parser.set_defaults(func=lambda _: cli_parser.print_help())
 cli_subparser = cli_parser.add_subparsers(title="subcommands")

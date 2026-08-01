@@ -9,7 +9,7 @@ from importlib.metadata import metadata, version
 from pathlib import Path
 
 from kaye_engine import logger
-from kaye_engine import PROGRAM_NAME
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli.claude import PLUGIN_MARKETPLACE_NAME
 from kaye_engine.cli.claude.plugin.export_folder import (
     export_plugin_as_folder,
@@ -51,8 +51,8 @@ def export_marketplace(marketplace_folder):
     export_plugin_as_folder(marketplace_folder / "plugins")
 
     # FIXME Utilize kamilog here
-    meta = metadata(PROGRAM_NAME)
-    pkg_version = version(PROGRAM_NAME)
+    meta = metadata(PACKAGE_NAME)
+    pkg_version = version(PACKAGE_NAME)
     pkg_author, pkg_author_email = parseaddr(meta.get("Author-email") or "")
     pkg_urls = dict(
         _url.split(", ", 1) for _url in meta.get_all("Project-URL") or []

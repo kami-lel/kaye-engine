@@ -7,6 +7,7 @@ from kaye_engine import kamilog
 __all__ = (
     "DISPLAY_NAME",
     "PROGRAM_NAME",
+    "PACKAGE_NAME",
     "get_corpus_tree",
     "load_corpus_tree",
     "get_default_corpus_tree",
@@ -17,8 +18,12 @@ __all__ = (
 )
 
 
-PROGRAM_NAME = "kaye-engine"
+PROGRAM_NAME = "kaye-engine"  # HACK consider remove or more specific
 DISPLAY_NAME = "Prompt Engineering Project Kaye Engine"
+
+# installed distribution name, for importlib.metadata lookups
+PACKAGE_NAME = "kaye-engine"
+LOGGER_NAME = "kaye.engine"
 
 
 logger = kamilog.getLogger(PROGRAM_NAME)

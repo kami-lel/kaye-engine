@@ -9,7 +9,7 @@ from importlib.metadata import metadata, version
 
 from kaye_engine import logger
 
-from kaye_engine import PROGRAM_NAME, DISPLAY_NAME
+from kaye_engine import PACKAGE_NAME, DISPLAY_NAME
 from kaye_engine.cli.claude import PLUGIN_MARKETPLACE_NAME
 from kaye_engine.cli.claude.skill.export_folders import (
     export_skills_as_folders,
@@ -51,8 +51,8 @@ def export_plugin_as_folder(parent_folder):
     # FIXME utilize kamilog here
     # Fixme reads distribution metadata mid-export, so an uninstalled
     # source checkout raises PackageNotFoundError instead of failing early
-    meta = metadata(PROGRAM_NAME)
-    pkg_version = version(PROGRAM_NAME)
+    meta = metadata(PACKAGE_NAME)
+    pkg_version = version(PACKAGE_NAME)
     pkg_author, pkg_author_email = parseaddr(meta.get("Author-email") or "")
     pkg_urls = dict(
         _url.split(", ", 1) for _url in meta.get_all("Project-URL") or []

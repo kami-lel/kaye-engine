@@ -14,7 +14,7 @@ from datetime import datetime
 
 from anytree import RenderTree, PreOrderIter
 
-from kaye_engine import PROGRAM_NAME
+from kaye_engine import PACKAGE_NAME
 from ..prompt_corpus_node import HEADING_PREFIX_ELEMENT
 from ..sidecar_node import get_sidecar_name
 
@@ -235,7 +235,7 @@ def render_comment(display_name=""):  # ========================================
     >>> print(render_comment("Chat"))
     'blueprint: Chat; Kaye Engine v1.2.3'
     """
-    kaye_version = importlib.metadata.version(PROGRAM_NAME)
+    kaye_version = importlib.metadata.version(PACKAGE_NAME)
 
     # append render date-time in version for alpha releases
     if "a" in kaye_version:

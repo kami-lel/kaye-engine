@@ -7,7 +7,7 @@ define ``Skill``
 from pathlib import Path
 from importlib.metadata import version
 
-from kaye_engine import PROGRAM_NAME
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli.claude import CONTAINING_SIDECARS
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 
@@ -76,7 +76,7 @@ class Skill(FrontmatterDoc):
         metadata = dict(self.metadata)
         # Fixme reads distribution metadata mid-render, so an uninstalled
         # source checkout raises PackageNotFoundError instead of failing early
-        metadata["version"] = version(PROGRAM_NAME)
+        metadata["version"] = version(PACKAGE_NAME)
 
         fields = {
             "name": self.name,
