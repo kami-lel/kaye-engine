@@ -13,6 +13,7 @@ __all__ = (
     "get_abbr_data",
     "get_blueprint",
     "register_blueprint",
+    "set_claude_plugin_marketplace_name",
 )
 
 
