@@ -7,6 +7,15 @@ Every dynamic node's name is its heading wrapped in parentheses, e.g. `(Today)` 
 
 
 
+
+
+
+
+
+
+
+
+
 ## Available Dynamic Nodes
 
 | Node | Heading | Renders |
@@ -16,6 +25,15 @@ Every dynamic node's name is its heading wrapped in parentheses, e.g. `(Today)` 
 Every abbreviation-related dynamic node (`(Abbreviations)`, `(Usable Abbreviations)`, `(Coding Terms)`, and the rest) is documented separately in [`abbr-collection-doc.md`](abbr-collection-doc.md).
 
 Every dynamic node is a **leaf** — it never has children, so it cannot itself contain sub-sections.
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +59,15 @@ There is no special opt-in required — unlike conditional sidecar nodes, which 
 
 
 
+
+
+
+
+
+
+
+
+
 ## Feeding Render-Time Input
 
 Some dynamic nodes need input that only exists at render time — a search query, for example. Pass that input as an extra keyword argument to `generate_prompt()` / `render.render_prompt_lines()`; it is forwarded to every node's content generation, and each dynamic node picks out the keyword(s) it understands.
@@ -52,6 +79,15 @@ prompt = blueprint.generate_prompt(
 ```
 
 A dynamic node that has nothing to key off of ignores keywords it doesn't recognize. `(Today)` needs no input at all; it always renders the current date and time.
+
+
+
+
+
+
+
+
+
 
 
 
