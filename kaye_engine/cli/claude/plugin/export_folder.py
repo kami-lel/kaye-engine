@@ -10,6 +10,7 @@ from importlib.metadata import metadata, version
 from kaye_engine import logger
 
 from kaye_engine import PROGRAM_NAME, DISPLAY_NAME
+from kaye_engine.cli.claude import PLUGIN_MARKETPLACE_NAME
 from kaye_engine.cli.claude.skill.export_folders import (
     export_skills_as_folders,
 )
@@ -20,7 +21,12 @@ from .manifest import ManifestPluginJson
 # constants  ===================================================================
 
 _SKILLS_DIR = "skills"
-_PLUGIN_KEYWORDS = ["prompt-engineering", "persona", "agent", PROGRAM_NAME]
+_PLUGIN_KEYWORDS = [
+    "prompt-engineering",
+    "persona",
+    "agent",
+    PLUGIN_MARKETPLACE_NAME,
+]
 
 # entry point  #################################################################
 
@@ -29,9 +35,10 @@ def export_plugin_as_folder(parent_folder):
     """
     export all Kaye blueprints as a single Anthropic Claude plugin folder
 
-    writes a ``<parent_folder>/<PROGRAM_NAME>/`` plugin directory containing
-    a ``.claude-plugin/plugin.json`` manifest and a ``skills/`` directory
-    with one skill folder per blueprint, prompt, and abbreviation group
+    writes a ``<parent_folder>/<PLUGIN_MARKETPLACE_NAME>/`` plugin directory
+    containing a ``.claude-plugin/plugin.json`` manifest and a ``skills/``
+    directory with one skill folder per blueprint, prompt, and abbreviation
+    group
 
 
     :param parent_folder: destination directory to write the plugin into
@@ -39,7 +46,7 @@ def export_plugin_as_folder(parent_folder):
     :return: path to the created plugin directory
     :rtype: Path
     """
-    plugin_root = parent_folder / PROGRAM_NAME
+    plugin_root = parent_folder / PLUGIN_MARKETPLACE_NAME
 
     # FIXME utilize kamilog here
     # Fixme reads distribution metadata mid-export, so an uninstalled
@@ -54,7 +61,7 @@ def export_plugin_as_folder(parent_folder):
     pkg_repository = pkg_urls.get("Repository", "")
 
     with ManifestPluginJson(plugin_root) as manifest:
-        manifest.name = PROGRAM_NAME
+        manifest.name = PLUGIN_MARKETPLACE_NAME
         manifest.display_name = DISPLAY_NAME
         manifest.version = pkg_version
         manifest.description = meta["Summary"]
