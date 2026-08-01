@@ -8,8 +8,8 @@ from email.utils import parseaddr
 from importlib.metadata import metadata, version
 from pathlib import Path
 
-from kaye_engine import LOGGER_NAME, PACKAGE_NAME, kamilog
-from kaye_engine.cli.claude import PLUGIN_MARKETPLACE_NAME
+from kaye_engine import PACKAGE_NAME, kamilog
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME, PLUGIN_MARKETPLACE_NAME
 from kaye_engine.cli.claude.plugin.export_folder import (
     export_plugin_as_folder,
 )
@@ -17,7 +17,7 @@ from kaye_engine.cli.claude.plugin.export_folder import (
 from .manifest import MarketplaceJson
 
 # logger  ######################################################################
-logger = kamilog.getLogger(LOGGER_NAME)
+logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # constants  ===================================================================
 
