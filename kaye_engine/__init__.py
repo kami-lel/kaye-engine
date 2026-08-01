@@ -16,7 +16,6 @@ from kaye_engine.abbr_collection import (
 
 __all__ = (
     "DISPLAY_NAME",
-    "PROGRAM_NAME",
     "PACKAGE_NAME",
     "LOGGER_NAME",
     "get_corpus_tree",
@@ -29,7 +28,6 @@ __all__ = (
 )
 
 
-PROGRAM_NAME = "kaye-engine"  # HACK consider remove or more specific
 DISPLAY_NAME = "Prompt Engineering Project Kaye Engine"
 
 # installed distribution name, for importlib.metadata lookups

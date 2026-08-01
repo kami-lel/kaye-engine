@@ -11,6 +11,6 @@ def main():
     parsed_args.func(parsed_args)  # call respective main function
 
 
-# Entry Point  #################################################################
+# Main Entry Point  ############################################################
 if __name__ == "__main__":
     main()
