@@ -5,8 +5,8 @@ from pathlib import Path
 
 
 from kaye_engine import PACKAGE_NAME, kamilog
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME, check_setup_for_claude_cli
-from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.claude.plugin_marketplace_name import check_setup_for_claude_cli
 
 from .export_folder import export_plugin_as_folder
 from .export_zip import export_plugin_as_zip
@@ -78,7 +78,6 @@ def register_plugin_parser(cli_subparser):  ####################################
     def _plugin_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
         logger.enter("{} claude plugin".format(PACKAGE_NAME))
-        check_corpus_setup_for_cli()
         check_setup_for_claude_cli()
 
         folder = args.folder
