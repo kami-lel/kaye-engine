@@ -87,3 +87,26 @@ class TestPreface:
         with pytest.raises(ValueError, match="unrecognized dynamic node heading"):
             with patch("builtins.open", m):
                 load_corpus_tree("dynamic-nodes-reject-test", "d.md")
+
+
+class TestNestedParenHeadingRejected:
+
+    def test_unrecognized_nested_paren_heading_raises(_):
+        m = mock_open(
+            read_data="# Intro\n\n## (Nonsense)\nSome content.\n"
+        )
+
+        with pytest.raises(
+            ValueError, match="only allowed as a direct child of root"
+        ):
+            with patch("builtins.open", m):
+                load_corpus_tree("dynamic-nodes-nested-reject-test", "d.md")
+
+    def test_recognized_nested_paren_heading_still_raises(_):
+        m = mock_open(read_data="# Intro\n\n## (Today)\nSome content.\n")
+
+        with pytest.raises(
+            ValueError, match="only allowed as a direct child of root"
+        ):
+            with patch("builtins.open", m):
+                load_corpus_tree("dynamic-nodes-nested-today-test", "d.md")
