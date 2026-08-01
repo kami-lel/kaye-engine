@@ -5,7 +5,7 @@ define ``export_marketplace``
 """
 
 from email.utils import parseaddr
-from importlib.metadata import metadata, version
+from importlib.metadata import PackageNotFoundError, metadata, version
 from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
@@ -19,7 +19,8 @@ from .manifest import MarketplaceJson
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
-# constants  ===================================================================
+
+# constants  ###################################################################
 
 _PLUGIN_KEYWORDS = [
     "prompt-engineering",
@@ -27,11 +28,11 @@ _PLUGIN_KEYWORDS = [
     "agent",
     PLUGIN_MARKETPLACE_NAME,
 ]
+
 _PLUGIN_CATEGORY = "productivity"
 
-# entry point  #################################################################
 
-
+# Main Entry Point  ############################################################
 def export_marketplace(marketplace_folder):
     """
     export the Kaye plugin and write a marketplace manifest for it
@@ -52,9 +53,13 @@ def export_marketplace(marketplace_folder):
     logger.debug("exporting plugin into marketplace folder")
     export_plugin_as_folder(marketplace_folder / "plugins")
 
-    # FIXME Utilize kamilog here
-    meta = metadata(PACKAGE_NAME)
-    pkg_version = version(PACKAGE_NAME)
+    try:
+        meta = metadata(PACKAGE_NAME)
+        pkg_version = version(PACKAGE_NAME)
+    except PackageNotFoundError as err:
+        logger.critical("package metadata not found:\t" + PACKAGE_NAME)
+        raise SystemExit(1) from err
+
     pkg_author, pkg_author_email = parseaddr(meta.get("Author-email") or "")
     pkg_urls = dict(
         _url.split(", ", 1) for _url in meta.get_all("Project-URL") or []
