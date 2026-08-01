@@ -39,8 +39,13 @@ def export_plugin_as_zip(parent_folder, *, includes_version=True):
     :type includes_version: bool
     """
     parent_folder = Path(parent_folder)
-    # FIXME utilize kamilog here
-    parent_folder.mkdir(parents=True, exist_ok=True)
+    try:
+        parent_folder.mkdir(parents=True, exist_ok=True)
+    except OSError as err:
+        logger.critical(
+            "cannot create destination folder:\t" + str(parent_folder)
+        )
+        raise SystemExit(1) from err
 
     with (
         tempfile.TemporaryDirectory() as plugin_temp,
