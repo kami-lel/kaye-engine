@@ -5,6 +5,7 @@ from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
@@ -63,6 +64,7 @@ def register_code_parser(cli_subparser):  ######################################
     def _code_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
         logger.enter("{} claude code".format(PACKAGE_NAME))
+        check_corpus_setup_for_cli()
 
         folder = args.folder
 

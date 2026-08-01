@@ -5,6 +5,7 @@ from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
@@ -46,6 +47,7 @@ CLAUDE_FOLDER/  (default: ~/.claude)
 def _vs_code_main(args):
     kamilog.set_logging_level_by_namespace(args, logger=logger)
     logger.enter("{} claude vs-code-extension".format(PACKAGE_NAME))
+    check_corpus_setup_for_cli()
 
     folder = args.folder
 
