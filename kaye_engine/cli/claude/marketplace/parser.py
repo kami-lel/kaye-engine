@@ -11,7 +11,7 @@ from .export import export_marketplace
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
-# Bug exported folder structure contains name: kaye-engine
+# BUG exported folder structure contains name: kaye-engine
 
 
 # constants  ===================================================================

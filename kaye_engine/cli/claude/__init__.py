@@ -11,5 +11,5 @@ LOGGER_CLAUDE_NAME = LOGGER_NAME + ".claude"
 CONTAINING_SIDECARS = ("for claude code", "prerequisite")
 
 # name shown to Anthropic's plugin/marketplace tooling
-# Fixme set plugin/marketplace name by api
+# FIXME set plugin/marketplace name by api
 PLUGIN_MARKETPLACE_NAME = "kaye"

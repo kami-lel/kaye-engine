@@ -1,5 +1,3 @@
-"""set up Claude Code VS Code Extension with the kaye marketplace and User System Prompt"""
-
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
@@ -14,7 +12,7 @@ from .export import export_vs_code_extension
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
-# Bug exported folder structure contains name: kaye-engine
+# BUG exported folder structure contains name: kaye-engine
 
 # constants  ===================================================================
 
