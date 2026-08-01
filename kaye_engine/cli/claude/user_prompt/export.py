@@ -34,9 +34,8 @@ def export_user_system_prompt_file(
     file_path = Path(file_path).resolve()
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
+    # bug base blueprint is hardcoded
     base_name = "rapid" if use_rapid else "chat"
-    # FIXME unguarded lookup; on a corpus-less install this raises a raw
-    # KeyError traceback and aborts claude code / vs-code-extension midway
     try:
         blueprint = blueprint_registry[base_name].blueprint
     except KeyError as err:
