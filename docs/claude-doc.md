@@ -91,5 +91,5 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md).
 
 ----
 
-`kaye-engine claude plugin`, `claude marketplace`, `claude code`, and `claude vs-code-extension` all name the exported plugin/marketplace folder after `PLUGIN_MARKETPLACE_NAME`. A host project must call `set_claude_plugin_marketplace_name(name)` (exposed at the top level, e.g. `kaye_engine.set_claude_plugin_marketplace_name("kaye-vault")`) before invoking the CLI.
+`kaye-engine claude plugin`, `claude marketplace`, `claude code`, and `claude vs-code-extension` all name the exported plugin/marketplace folder after the value read back by `get_plugin_marketplace_name()`. A host project must call `set_claude_plugin_marketplace_name(name)` (exposed at the top level, e.g. `kaye_engine.set_claude_plugin_marketplace_name("kaye-vault")`) before invoking the CLI, or `get_plugin_marketplace_name()` logs `logger.critical` and raises `SystemExit(1)`.
 
