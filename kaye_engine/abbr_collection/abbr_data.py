@@ -113,4 +113,5 @@ def get_abbr_data():  # ========================================================
             if nothing has been added yet
     :rtype: AbbrData
     """
+    # fixme abbr data need to warn for empty abbrs
     return _abbr_data
