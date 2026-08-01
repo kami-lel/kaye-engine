@@ -4,9 +4,12 @@
 from pathlib import Path
 
 
-from kaye_engine import logger, kamilog
+from kaye_engine import LOGGER_NAME, kamilog
 
 from .export_prompt_rules import export_prompt_rules
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 
 def register_cli_continue_prompt_parser(  ######################################

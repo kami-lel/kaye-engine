@@ -7,8 +7,14 @@ define ``ManifestPluginJson``
 import json
 from pathlib import Path
 
+from kaye_engine import kamilog
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 
-class ManifestPluginJson:  #######################################################
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
+
+
+class ManifestPluginJson:  #####################################################
     """
     manage metadata and content writing for a Claude plugin manifest file
 
@@ -67,9 +73,12 @@ class ManifestPluginJson:  #####################################################
             "keywords": self.keywords,
         }
 
-        # Fixme utilize kamilog here
-        self._manifest_dir.mkdir(parents=True, exist_ok=True)
-        self.path.write_text(
-            json.dumps(manifest_data, indent=2) + "\n",
-            encoding="utf-8",
-        )
+        try:
+            self._manifest_dir.mkdir(parents=True, exist_ok=True)
+            self.path.write_text(
+                json.dumps(manifest_data, indent=2) + "\n",
+                encoding="utf-8",
+            )
+        except OSError as err:
+            logger.critical("cannot write plugin manifest:\t" + str(self.path))
+            raise SystemExit(1) from err

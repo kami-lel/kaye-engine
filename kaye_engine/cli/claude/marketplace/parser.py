@@ -3,9 +3,13 @@
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import logger, kamilog
+from kaye_engine import PACKAGE_NAME, kamilog
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 
 from .export import export_marketplace
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # Bug exported folder structure contains name: kaye-engine
 
@@ -32,7 +36,7 @@ MARKETPLACE/  (default: ~/.claude/kaye_marketplace)
 
 
 # pylint: disable=missing-function-docstring
-def register_marketplace_subparser(cli_subparser):  ############################
+def register_marketplace_parser(cli_subparser):  ###############################
     marketplace_parser = cli_subparser.add_parser(
         "marketplace",
         help=__doc__,
@@ -54,8 +58,7 @@ def register_marketplace_subparser(cli_subparser):  ############################
 
     def _marketplace_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
-        # Fixme retired program name reaches verbose output; use kaye-engine
-        logger.enter("kaye claude marketplace")
+        logger.enter("{} claude marketplace".format(PACKAGE_NAME))
 
         folder = args.folder
 

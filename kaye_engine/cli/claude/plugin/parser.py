@@ -4,10 +4,14 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 
-from kaye_engine import logger, kamilog
+from kaye_engine import PACKAGE_NAME, kamilog
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 
 from .export_folder import export_plugin_as_folder
 from .export_zip import export_plugin_as_zip
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # Bug exported folder structure contains name: kaye-engine
 
@@ -33,7 +37,7 @@ FOLDER/  (default: ~/.claude/plugins/)
 
 
 # pylint: disable=missing-function-docstring
-def register_plugin_subparser(cli_subparser):  #################################
+def register_plugin_parser(cli_subparser):  ####################################
     plugin_parser = cli_subparser.add_parser(
         "plugin",
         help=__doc__,
@@ -74,8 +78,7 @@ def register_plugin_subparser(cli_subparser):  #################################
 
     def _plugin_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
-        # Fixme retired program name reaches verbose output; use kaye-engine
-        logger.enter("kaye claude plugin")
+        logger.enter("{} claude plugin".format(PACKAGE_NAME))
 
         folder = args.folder
         if folder is None:

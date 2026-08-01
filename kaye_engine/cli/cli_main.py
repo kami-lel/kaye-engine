@@ -4,21 +4,32 @@ main parser for Kaye Python CLI
 
 from argparse import ArgumentParser
 
-from kaye_engine import PROGRAM_NAME
-
 from kaye_engine.cli.claude.main import register_cli_claude_parser
 from kaye_engine.cli.prompt.main_parser import register_cli_prompt_parser
 
-__all__ = ("cli_parser", "cli_subparser")
+__all__ = ("register_cli_main_parser",)
 
 
-# parse definition  ############################################################
+# constants  ###################################################################
+PROGRAM_NAME = "kaye-engine"
 
 
-cli_parser = ArgumentParser(prog=PROGRAM_NAME, description=__doc__)
-cli_parser.set_defaults(func=lambda _: cli_parser.print_help())
-cli_subparser = cli_parser.add_subparsers(title="subcommands")
+# Main Entry Point  ############################################################
+def register_cli_main_parser(program_name=PROGRAM_NAME):
+    """
+    build the top-level Kaye CLI parser and register its subcommands
 
-# register subcommands parsers
-register_cli_prompt_parser(cli_subparser)
-register_cli_claude_parser(cli_subparser)
+    :param program_name: name shown as the CLI's ``prog`` in ``--help``
+            output
+    :type program_name: str
+    :return: the top-level parser
+    :rtype: ArgumentParser
+    """
+    parser = ArgumentParser(prog=program_name, description=__doc__)
+    parser.set_defaults(func=lambda _: parser.print_help())
+    subparser = parser.add_subparsers(title="subcommands")
+
+    register_cli_prompt_parser(subparser)
+    register_cli_claude_parser(subparser)
+
+    return parser

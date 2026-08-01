@@ -2,11 +2,22 @@
 Kaye Python Package API
 """
 
-from kaye_engine import kamilog
+from kaye_engine.prompt import (
+    load_corpus_tree,
+    get_corpus_tree,
+    get_default_corpus_tree,
+    get_blueprint,
+    register_blueprint,
+)
+from kaye_engine.abbr_collection import (
+    AbbrData,
+    get_abbr_data,
+)
 
 __all__ = (
     "DISPLAY_NAME",
-    "PROGRAM_NAME",
+    "PACKAGE_NAME",
+    "LOGGER_NAME",
     "get_corpus_tree",
     "load_corpus_tree",
     "get_default_corpus_tree",
@@ -17,21 +28,8 @@ __all__ = (
 )
 
 
-PROGRAM_NAME = "kaye-engine"
 DISPLAY_NAME = "Prompt Engineering Project Kaye Engine"
 
-
-logger = kamilog.getLogger(PROGRAM_NAME)
-
-
-from kaye_engine.prompt import (  # noqa: I001
-    load_corpus_tree,
-    get_corpus_tree,
-    get_default_corpus_tree,
-    get_blueprint,
-    register_blueprint,
-)
-from kaye_engine.abbr_collection import (  # noqa: I001
-    AbbrData,
-    get_abbr_data,
-)
+# installed distribution name, for importlib.metadata lookups
+PACKAGE_NAME = "kaye-engine"
+LOGGER_NAME = "kaye.engine"
