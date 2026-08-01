@@ -1,10 +1,11 @@
-"""set up Claude Code CLI with the kaye plugin and User System Prompt"""
+"""export the kaye plugin and User System Prompt for Claude Code"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.claude.plugin_marketplace_name import check_setup_for_claude_cli
 from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
@@ -17,13 +18,8 @@ from kaye_engine.cli.claude.user_prompt.export import (
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
-# Bug exported folder structure contains name: kaye-engine
-
-
-#  constants  ===================================================================
-
-
-_DESCRIPTION = """
+# constants  ###################################################################
+_DESCRIPTION = __doc__ + """
 
 writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint) and
 exports the kaye plugin into plugins/.
@@ -31,7 +27,7 @@ exports the kaye plugin into plugins/.
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
 └── plugins/
-    └── kaye-engine/
+    └── PLUGIN_MARKETPLACE_NAME/
         ├── .claude-plugin/
         │   └── plugin.json
         └── skills/
@@ -46,7 +42,7 @@ def register_code_parser(cli_subparser):  ######################################
     code_parser = cli_subparser.add_parser(
         "code",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["c"],
     )
@@ -65,6 +61,7 @@ def register_code_parser(cli_subparser):  ######################################
     def _code_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
         logger.enter("{} claude code".format(PACKAGE_NAME))
+        check_setup_for_claude_cli()
 
         folder = args.folder
 

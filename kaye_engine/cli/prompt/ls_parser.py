@@ -4,6 +4,7 @@ ls_parser.py
 define ``register_ls_parser``
 """
 
+from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.prompt.blueprint import blueprint_registry
 
 # todo cli prompt ls additional filtering/groups
@@ -20,6 +21,8 @@ sorted alphabetically, one per line"""
 
 
 def _ls_main(_):  ##############################################################
+    check_corpus_setup_for_cli()
+
     for name in sorted(blueprint_registry):
         print(name)
 
