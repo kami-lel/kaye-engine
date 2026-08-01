@@ -9,12 +9,15 @@ import tempfile
 from importlib.metadata import version
 from pathlib import Path
 
-from kaye_engine import logger
+from kaye_engine import PACKAGE_NAME, kamilog
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 
-from kaye_engine import PROGRAM_NAME
 from .export_folder import (
     export_plugin_as_folder,
 )
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # entry point  #################################################################
 
@@ -36,8 +39,13 @@ def export_plugin_as_zip(parent_folder, *, includes_version=True):
     :type includes_version: bool
     """
     parent_folder = Path(parent_folder)
-    # Fixme utilize kamilog here
-    parent_folder.mkdir(parents=True, exist_ok=True)
+    try:
+        parent_folder.mkdir(parents=True, exist_ok=True)
+    except OSError as err:
+        logger.critical(
+            "cannot create destination folder:\t" + str(parent_folder)
+        )
+        raise SystemExit(1) from err
 
     with (
         tempfile.TemporaryDirectory() as plugin_temp,
@@ -53,7 +61,7 @@ def export_plugin_as_zip(parent_folder, *, includes_version=True):
         logger.debug("moving archived plugin to destination folder")
         file_name = plugin_root.name
         if includes_version:
-            file_name = "{}-{}".format(file_name, version(PROGRAM_NAME))
+            file_name = "{}-{}".format(file_name, version(PACKAGE_NAME))
         dest = parent_folder / (file_name + ".zip")
         shutil.move(str(zip_base.with_suffix(".zip")), str(dest))
 

@@ -7,9 +7,12 @@ define ``export_abbr_rules``
 
 from pathlib import Path
 
-from kaye_engine import logger
+from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.cli.cli_continue.rule_file import ContinueRule
 from kaye_engine.cli.exportable_abbr import EXPORTABLE_ABBRS
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 # Entry Point  #################################################################
 

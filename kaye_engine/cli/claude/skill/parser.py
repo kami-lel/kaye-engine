@@ -4,13 +4,17 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 
-from kaye_engine import logger, kamilog
+from kaye_engine import PACKAGE_NAME, kamilog
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 
 
 from .export_folders import (
     export_skills_as_folders,
 )
 from .export_zips import export_skills_as_zips
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # constants  ===================================================================
 
@@ -29,7 +33,7 @@ FOLDER/  (default: ~/.claude/skills/)
 
 
 # pylint: disable=missing-function-docstring
-def register_skill_subparser(cli_subparser):  ##################################
+def register_skill_parser(cli_subparser):  #####################################
     skill_parser = cli_subparser.add_parser(
         "skill",
         help=__doc__,
@@ -59,8 +63,7 @@ def register_skill_subparser(cli_subparser):  ##################################
 
     def _skill_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
-        # Fixme retired program name reaches verbose output; use kaye-engine
-        logger.enter("kaye claude skill")
+        logger.enter("{} claude skill".format(PACKAGE_NAME))
 
         folder = args.folder
         if folder is None:

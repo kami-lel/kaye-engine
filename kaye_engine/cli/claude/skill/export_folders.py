@@ -4,10 +4,14 @@ export_folders.py
 define ``export_skills_as_folders``
 """
 
-from kaye_engine import logger
+from kaye_engine import kamilog
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.prompt.blueprint import blueprint_registry
 from kaye_engine.cli.exportable_abbr import EXPORTABLE_ABBRS
 from .skill_md import Skill
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # entry point  #################################################################
 
@@ -30,8 +34,11 @@ def export_skills_as_folders(parent_folder):
         if not reg.skill_exportable:
             continue
 
-        # Fixme utilize kamilog here
-        folder = Skill.from_registry(reg).write(parent_folder)
+        try:
+            folder = Skill.from_registry(reg).write(parent_folder)
+        except OSError as err:
+            logger.critical("cannot write skill:\t" + reg.display_name)
+            raise SystemExit(1) from err
         logger.succ("export skill:\t{}".format(folder))
 
     logger.enter("exporting abbreviation groups as skills")

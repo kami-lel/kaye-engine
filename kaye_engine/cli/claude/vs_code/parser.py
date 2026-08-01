@@ -3,12 +3,16 @@
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import logger, kamilog
+from kaye_engine import PACKAGE_NAME, kamilog
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
 )
 from .export import export_vs_code_extension
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # Bug exported folder structure contains name: kaye-engine
 
@@ -41,8 +45,7 @@ CLAUDE_FOLDER/  (default: ~/.claude)
 
 def _vs_code_main(args):
     kamilog.set_logging_level_by_namespace(args, logger=logger)
-    # Fixme retired program name reaches verbose output; use kaye-engine
-    logger.enter("kaye claude vs-code-extension")
+    logger.enter("{} claude vs-code-extension".format(PACKAGE_NAME))
 
     folder = args.folder
 
@@ -53,7 +56,7 @@ def _vs_code_main(args):
 
 
 # pylint: disable=missing-function-docstring
-def register_vs_code_subparser(cli_subparser):  ################################
+def register_vs_code_parser(cli_subparser):  ###################################
     vs_code_parser = cli_subparser.add_parser(
         "vs-code-extension",
         help=__doc__,

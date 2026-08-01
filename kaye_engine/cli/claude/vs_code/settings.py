@@ -10,6 +10,13 @@ from pathlib import Path
 
 import json5
 
+from kaye_engine import kamilog
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
+
+
 # constants  ###################################################################
 
 _SETTINGS_FILENAME = "settings.json"
@@ -36,9 +43,7 @@ def _set_permissions(data, permission_cmds):
         perms[field] = permission_cmds[field]
 
 
-# Public API  ##################################################################
-
-
+# Main Entry Point  ############################################################
 def update_settings_json(claude_folder):
     """
     update settings.json for git command permissions
@@ -56,9 +61,14 @@ def update_settings_json(claude_folder):
     settings_path.parent.mkdir(parents=True, exist_ok=True)
 
     if settings_path.exists():
-        # Fixme utilize kamilog here
-        with open(settings_path, encoding="utf-8") as f:
-            data = json.load(f)
+        try:
+            with open(settings_path, encoding="utf-8") as f:
+                data = json.load(f)
+        except json.JSONDecodeError as err:
+            logger.critical(
+                "cannot parse existing settings.json:\t" + str(settings_path)
+            )
+            raise SystemExit(1) from err
     else:
         data = _build_settings(permission_cmds)
 
