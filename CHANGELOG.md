@@ -26,21 +26,50 @@ todo todo utilize personalities, allow multi agent conversation
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v6.11.0...dev
-
 ### Added
+
+- Corpus registry — `load_corpus_tree()`/`get_corpus_tree()` replace the old `load_prompt_corpus_tree()` singleton, keyed by named registered trees, with a default-tree flag enabling lookup without a name
+- CLI startup guard — corpus and blueprint registration are checked before running, wired into every CLI subcommand entrypoint
+- `kaye claude` setup check — warns during setup when the Claude plugin marketplace name is unset, resolved via the Claude plugin API instead of a hardcoded value
+- `PACKAGE_NAME` and `PLUGIN_MARKETPLACE_NAME` constants, split from `PROGRAM_NAME` for metadata lookups and plugin identity respectively
+- `kamilog`-backed error handling across the CLI — package metadata retrieval, blueprint file I/O, unknown blueprints, settings parsing, manifest writes, and skill-file writes now log critically and exit cleanly instead of raising unhandled exceptions
+- Kaye Commit Sense (sibling tool) — `AnsiStyle.parse()`, new `color`/`color-grey` subcommands, shared parser infrastructure; `kamilog` bumped to v2.9.1
+- `prepare-commit-msg` git hook; `VerGrep` expanded to check version uniformity across multiple files
 
 ### Changed
 
+- **kaye-engine decoupled from its bundled prompt corpus** — `prompt_corpus.md` (7,157 lines) and `abbrs.json` (7,780 lines) removed from the package; a host package now supplies corpus content and abbreviation data through the registry/loader APIs
+- `AbbrData` rebuilt as a singleton, built incrementally via a context manager; drops direct file I/O, loaded instead through `load_abbr_data()`/`get_abbr_data()` at host import time
+- `BLUEPRINT_REGISTRIES` replaced by a single dynamic `blueprint_registry`, now the sole source for blueprint registration
+- CLI parser build moved into a lazy factory function, dropping the module-level singleton; `register_*_subparser` renamed `register_*_parser` across CLI modules; per-module `getLogger` calls replace the shared package-level logger, with a dedicated sublogger namespace for `claude` subcommands
+- `PromptBlueprint` methods accept an optional `corpus_tree` parameter with a default tree, argument order swapped to match (node first, corpus tree by name)
+- docs renamed to kebab-case filenames, cross-links fixed; `abbrs_json_doc.md` reorganized into `abbr_collection_doc.md` with full API/schema coverage; documentation overhauled to strip host-specific detail and reposition kaye-engine as a pluggable core rather than a fixed persona
+- scattered inline notes consolidated into a tracked issue backlog system, replacing `kaye_engine/prompt_corpus_note`
+- Kaye Commit Sense's Dify workflow files split out of this repository
+- triage tags across the codebase re-leveled during review
 - Project renamed: **kaye** → **kaye-engine**, including the package/import path (`kaye` → `kaye_engine`), the distribution name and console script (`kaye` → `kaye-engine`), and repository URLs (updated to `kami-lel/kaye-engine`)
 
 ### Deprecated
 
 ### Removed
 
+- entire Flask HTTP API layer (`kaye_engine/api/`), its CLI subcommand, `systemd` service, and README/docs sections — the Flask dependency is dropped entirely
+- legacy `prompt_blueprint_loader` module and unused embedded loader
+- `personalities_doc` — consolidated into the character reference elsewhere
+- large legacy test suites — `tests/cli/a/**` (claude-specific tests), `tests/cli/c/**` (continue support), pydantic-based skill frontmatter validation, and a 921-line test-constants file, replaced by inline fixtures and a shared `tests/api` layout
+
 ### Fixed
 
+- CLI parser build now returns the subparsers action, so it can be extended by other subcommands
+- stale plugin-name bug in the claude CLI — the marketplace name is resolved via the API rather than a hardcoded value
+- circular import init order; module docstrings deduped into a single `_DESCRIPTION`
+
 ### Security
+
+> [!WARNING]
+> Drops the bundled `prompt_corpus.md` and `abbrs.json` entirely, along with the whole Flask HTTP API; a host package must now supply corpus/abbreviation content, and any HTTP-API integration must migrate off this project
+
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v6.11.0...dev
 
 
 

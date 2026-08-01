@@ -69,17 +69,27 @@ documentation](docs/abbr-collection-doc.md).
 
 ```python
 from kaye_engine import (
-    PROGRAM_NAME, DISPLAY_NAME,
+    PACKAGE_NAME, DISPLAY_NAME, LOGGER_NAME,
     load_corpus_tree, get_corpus_tree, get_default_corpus_tree,
     AbbrData, get_abbr_data,
     register_blueprint, get_blueprint,
+    set_claude_plugin_marketplace_name,
 )
 ```
 
 A caller loads and caches a corpus by name; one tree may be flagged the
 process default, which is what a blueprint resolves against when given no
-explicit tree. Q.v. [programmatic API
+explicit tree. A host that exports through `claude` subcommands must also
+call `set_claude_plugin_marketplace_name()` to name the plugin/marketplace
+for Anthropic's tooling. Q.v. [programmatic API
 documentation](docs/programmatic-api-doc.md).
+
+Every CLI subcommand entrypoint calls a setup guard
+(`check_corpus_setup_for_cli()`, or `check_setup_for_claude_cli()` for
+`claude` subcommands) that logs a warning — never raises — when a host
+hasn't loaded a default corpus tree, registered any blueprints, or set the
+plugin/marketplace name. It exists to surface a bare-checkout misuse early,
+not to enforce the boundary.
 
 ## Repository Layout
 
