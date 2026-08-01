@@ -8,6 +8,8 @@ resolving whichever tree was loaded with ``is_default_tree=True``
 
 import re
 
+from anytree import PreOrderIter
+
 from .prompt_corpus_node import PromptCorpusNode
 from .dynamic_nodes import DYNAMIC_NODE_TYPES
 
@@ -25,6 +27,15 @@ ROOT_NODE_NAME = "○"
 # auxiliaries  #################################################################
 
 
+def _is_parenthesized_heading(heading):
+    """
+    :return: whether ``heading`` uses the ``(...)`` syntax reserved for
+            dynamic node headings
+    :rtype: bool
+    """
+    return heading.startswith("(") and heading.endswith(")")
+
+
 def _match_dynamic_node_type(heading):
     """
     :param heading: a section heading, as parsed from ``prompt_corpus.md``
@@ -35,7 +46,7 @@ def _match_dynamic_node_type(heading):
     :raises ValueError: ``heading`` is wrapped in parentheses but
             matches no known dynamic node type
     """
-    if not (heading.startswith("(") and heading.endswith(")")):
+    if not _is_parenthesized_heading(heading):
         return None
 
     for node_type in DYNAMIC_NODE_TYPES:
@@ -79,7 +90,8 @@ def load_corpus_tree(  # =======================================================
     :raises ValueError: ``tree_name`` is already registered,
             ``is_default_tree`` is set while a default tree already
             exists, or ``file_path`` contains a heading wrapped in
-            parentheses that matches no known dynamic node type
+            parentheses -- reserved for dynamic nodes, and only valid
+            as a direct child of the root
     :raises FileNotFoundError:
     :raises IOError:
     :return: **root** node of the parsed *prompt corpus tree*
@@ -117,6 +129,15 @@ def load_corpus_tree(  # =======================================================
         if node_type is not None:
             prefaces[node_type] = tuple(child.content_lines())
             child.parent = None
+
+    # any remaining "(...)" heading is invalid -- that syntax is reserved
+    # for dynamic nodes, which attach only as direct children of the root
+    for node in PreOrderIter(tree):
+        if node is not tree and _is_parenthesized_heading(node.name):
+            raise ValueError(
+                "dynamic node heading only allowed as a direct child "
+                "of root: {}".format(node.name)
+            )
 
     for node_type in DYNAMIC_NODE_TYPES:
         node_type(tree, preface=prefaces.get(node_type, ()))
