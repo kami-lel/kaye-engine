@@ -37,8 +37,13 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
     :type verbose: bool
     """
     parent_folder = Path(parent_folder)
-    # FIXME utilize kamilog here
-    parent_folder.mkdir(parents=True, exist_ok=True)
+    try:
+        parent_folder.mkdir(parents=True, exist_ok=True)
+    except OSError as err:
+        logger.critical(
+            "cannot create destination folder:\t" + str(parent_folder)
+        )
+        raise SystemExit(1) from err
 
     with (
         tempfile.TemporaryDirectory() as skills_temp,
@@ -51,18 +56,29 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
         for skill_folder in Path(skills_temp).iterdir():
             logger.debug("archiving skill:\t{}".format(skill_folder.name))
             zip_base = Path(zips_temp) / skill_folder.name
-            # FIXME utilize kamilog here
-            shutil.make_archive(
-                str(zip_base),
-                "zip",
-                root_dir=skill_folder.parent,
-                base_dir=skill_folder.name,
-            )
+            try:
+                shutil.make_archive(
+                    str(zip_base),
+                    "zip",
+                    root_dir=skill_folder.parent,
+                    base_dir=skill_folder.name,
+                )
+            except (OSError, shutil.Error) as err:
+                logger.critical(
+                    "cannot archive skill:\t" + skill_folder.name
+                )
+                raise SystemExit(1) from err
 
         logger.debug("moving archived skills to destination folder")
         for zip_file in Path(zips_temp).iterdir():
             dest = parent_folder / zip_file.name
-            # FIXME utilize kamilog here
-            shutil.move(str(zip_file), str(dest))
+            try:
+                shutil.move(str(zip_file), str(dest))
+            except (OSError, shutil.Error) as err:
+                logger.critical(
+                    "cannot move archived skill to destination:\t"
+                    + str(dest)
+                )
+                raise SystemExit(1) from err
 
             logger.succ("export skill:\t{}".format(dest))
