@@ -13,5 +13,6 @@ LOGGER_CLAUDE_NAME = LOGGER_NAME + ".claude"
 CONTAINING_SIDECARS = ("for claude code", "prerequisite")
 
 # name shown to Anthropic's plugin/marketplace tooling; set via
-# set_claude_plugin_marketplace_name() in plugin_marketplace_name.py
-PLUGIN_MARKETPLACE_NAME = None
+# set_claude_plugin_marketplace_name() in plugin_marketplace_name.py, read
+# via get_plugin_marketplace_name() in the same module
+_plugin_marketplace_name = None

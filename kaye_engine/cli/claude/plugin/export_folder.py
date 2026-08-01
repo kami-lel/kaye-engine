@@ -8,8 +8,10 @@ from email.utils import parseaddr
 from importlib.metadata import PackageNotFoundError, metadata, version
 
 from kaye_engine import DISPLAY_NAME, PACKAGE_NAME, kamilog
-from kaye_engine.cli import claude
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.claude.plugin_marketplace_name import (
+    get_plugin_marketplace_name,
+)
 from kaye_engine.cli.claude.skill.export_folders import (
     export_skills_as_folders,
 )
@@ -40,13 +42,14 @@ def export_plugin_as_folder(parent_folder):
     :return: path to the created plugin directory
     :rtype: Path
     """
+    marketplace_name = get_plugin_marketplace_name()
     plugin_keywords = [
         "prompt-engineering",
         "persona",
         "agent",
-        claude.PLUGIN_MARKETPLACE_NAME,
+        marketplace_name,
     ]
-    plugin_root = parent_folder / claude.PLUGIN_MARKETPLACE_NAME
+    plugin_root = parent_folder / marketplace_name
 
     try:
         meta = metadata(PACKAGE_NAME)
@@ -62,7 +65,7 @@ def export_plugin_as_folder(parent_folder):
     pkg_repository = pkg_urls.get("Repository", "")
 
     with ManifestPluginJson(plugin_root) as manifest:
-        manifest.name = claude.PLUGIN_MARKETPLACE_NAME
+        manifest.name = marketplace_name
         manifest.display_name = DISPLAY_NAME
         manifest.version = pkg_version
         manifest.description = meta["Summary"]

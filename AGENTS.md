@@ -100,11 +100,12 @@ document it, invoke it, or wire it back in without being asked.
 `claude user-system-prompt`, `claude code`, and `claude vs-code-extension`
 look up blueprints `"chat"`/`"rapid"`/`"coder"`, so they need a host corpus.
 On a bare checkout each subcommand logs a setup-guard warning (no default
-corpus tree, empty `blueprint_registry`, unset `PLUGIN_MARKETPLACE_NAME`)
-then raises `KeyError` — expected, not a bug.
+corpus tree, empty `blueprint_registry`) then raises `KeyError` — expected,
+not a bug.
 
 A `claude`-exporting host must call `set_claude_plugin_marketplace_name(name)`
-before invoking the CLI, or the manifest ships with no name.
+before invoking the CLI, or `get_plugin_marketplace_name()` logs
+`logger.critical` and raises `SystemExit(1)`.
 
 ## Code Conventions
 
