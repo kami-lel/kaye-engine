@@ -41,10 +41,7 @@ class Skill(FrontmatterDoc):
     :type paths: list[str]
     :param body: markdown body written after the frontmatter block
     :type body: str
-    :param version: installed package version, injected into the
-            frontmatter's ``metadata.version`` field on render; resolve it
-            once via :func:`kaye_engine.cli.claude.package_version.resolve_package_version`
-            and pass it in, rather than looking it up here
+    :param version: installed package version
     :type version: str, optional
     :example:
     >>> # blueprint skill

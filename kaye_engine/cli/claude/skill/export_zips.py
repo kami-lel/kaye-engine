@@ -10,6 +10,7 @@ from pathlib import Path
 
 from kaye_engine import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.claude.package_version import resolve_package_version
 
 
 from .export_folders import (
@@ -45,12 +46,14 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
         )
         raise SystemExit(1) from err
 
+    pkg_version = resolve_package_version()
+
     with (
         tempfile.TemporaryDirectory() as skills_temp,
         tempfile.TemporaryDirectory() as zips_temp,
     ):
         logger.debug("building skill folders in temporary directory")
-        export_skills_as_folders(Path(skills_temp))
+        export_skills_as_folders(Path(skills_temp), version=pkg_version)
 
         logger.debug("archiving skills to .zip packages")
         for skill_folder in Path(skills_temp).iterdir():

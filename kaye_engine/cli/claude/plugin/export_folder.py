@@ -48,8 +48,6 @@ def export_plugin_as_folder(parent_folder):
     ]
     plugin_root = parent_folder / claude.PLUGIN_MARKETPLACE_NAME
 
-    # FIXME reads distribution metadata mid-export, so an uninstalled
-    # source checkout raises PackageNotFoundError instead of failing early
     try:
         meta = metadata(PACKAGE_NAME)
         pkg_version = version(PACKAGE_NAME)
@@ -76,7 +74,7 @@ def export_plugin_as_folder(parent_folder):
         logger.succ("write plugin manifest:\t" + str(manifest.path))
 
     logger.debug("exporting blueprints as plugin skills")
-    export_skills_as_folders(plugin_root / _SKILLS_DIR)
+    export_skills_as_folders(plugin_root / _SKILLS_DIR, version=pkg_version)
 
     logger.succ("export plugin:\t" + str(plugin_root))
 
