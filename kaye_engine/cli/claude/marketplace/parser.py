@@ -3,12 +3,13 @@
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import LOGGER_NAME, kamilog
+from kaye_engine import kamilog
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 
 from .export import export_marketplace
 
 # logger  ######################################################################
-logger = kamilog.getLogger(LOGGER_NAME)
+logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # Bug exported folder structure contains name: kaye-engine
 

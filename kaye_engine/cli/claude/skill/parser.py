@@ -4,7 +4,8 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 
-from kaye_engine import LOGGER_NAME, kamilog
+from kaye_engine import kamilog
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 
 
 from .export_folders import (
@@ -13,7 +14,7 @@ from .export_folders import (
 from .export_zips import export_skills_as_zips
 
 # logger  ######################################################################
-logger = kamilog.getLogger(LOGGER_NAME)
+logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # constants  ===================================================================
 
