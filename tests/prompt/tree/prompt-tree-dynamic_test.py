@@ -63,3 +63,27 @@ class TestDynamic:
 
         print(opt)
         assert "── (Unity Engine Abbreviations)" in opt
+
+
+class TestPreface:
+
+    def test_matching_heading_becomes_preface(_):
+        m = mock_open(
+            read_data="# Title\n\n# (Today)\nThe current date, for reference.\n"
+        )
+
+        with patch("builtins.open", m):
+            tree = load_corpus_tree("dynamic-nodes-preface-test", "d.md")
+
+        today_node = tree["(Today)"]
+        assert "The current date, for reference." in today_node.content_lines()
+
+        today_children = [c for c in tree.children if c.name == "(Today)"]
+        assert len(today_children) == 1
+
+    def test_unrecognized_paren_heading_raises(_):
+        m = mock_open(read_data="# Title\n\n# (Bogus)\nSome content.\n")
+
+        with pytest.raises(ValueError, match="unrecognized dynamic node heading"):
+            with patch("builtins.open", m):
+                load_corpus_tree("dynamic-nodes-reject-test", "d.md")
