@@ -35,6 +35,7 @@ merge.
 |---|---|
 | `kaye_engine/prompt/` | `tests/prompt/` |
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
+| `kaye_engine/cli/` | `tests/cli/` |
 | `dify_studio/` | `tests/dify/` |
 
 ```bash
@@ -44,9 +45,10 @@ pytest tests/prompt/bp/prompt-bp-merge_test.py
 pytest tests/prompt/bp/prompt-bp-merge_test.py::TestMerge::test1_1
 ```
 
-`kaye_engine/cli/` has **no** test directory here — the CLI exporters need a
-corpus to produce output, so they are covered by the host package's suite.
-Do not scaffold `tests/cli/` to fill the hole.
+`tests/cli/` covers only what runs without a corpus — version resolution and
+`SKILL.md` rendering. The exporters themselves need a corpus to produce
+output, so the host package's suite covers those; do not scaffold corpus
+fixtures here to widen the directory.
 
 **Do not parallelize** — no `pytest-xdist`, no `-n auto`. The suite is
 already fast, worker startup cancels out any gain, and splitting across
@@ -100,8 +102,8 @@ document it, invoke it, or wire it back in without being asked.
 `claude user-system-prompt`, `claude code`, and `claude vs-code-extension`
 look up blueprints `"chat"`/`"rapid"`/`"coder"`, so they need a host corpus.
 On a bare checkout each subcommand logs a setup-guard warning (no default
-corpus tree, empty `blueprint_registry`) then raises `KeyError` — expected,
-not a bug.
+corpus tree, empty `blueprint_registry`), then exits `1` on the missing
+`"chat"`/`"rapid"` lookup — expected, not a bug.
 
 A `claude`-exporting host must call `set_claude_plugin_marketplace_name(name)`
 before invoking the CLI, or `get_plugin_marketplace_name()` logs
@@ -133,16 +135,12 @@ Export policy — five independent flags, no allow-list constant:
 | `user_invokable` | `True` | a human may invoke it by name |
 | `llm_invokable` | `True` | the assistant may surface it unprompted |
 
-## Load Order Constraint
+## Abbreviation Data
 
-Populate the abbreviation database **before** importing `kaye_engine.cli`.
-`EXPORTABLE_ABBRS` builds at import time; importing the CLI first freezes
-every group empty and exporters silently write empty skills.
-
-```python
-populate_abbr_data_with_json_file(path)   # first
-import kaye_engine.cli.cli_main           # then
-```
+`get_exportable_abbrs()` rebuilds every group on each call, so there is no
+import-order constraint — populate the abbreviation database at any point
+before an export actually runs. An unpopulated database still exports, as
+one empty skill folder per group.
 
 ## Security
 

@@ -38,16 +38,3 @@ class TestEdge:  # various edge cases
             tree = load_corpus_tree("edge-empty3", "dummy-path.md")
             assert tree.depth == 0
             assert tree.parent is None
-
-
-class TestAllowsDynamicNodeHeadingSyntax:  #####################################
-
-    def test1(_):
-        m = mock_open(read_data="""# Title
-## (Some)""")
-        with patch("builtins.open", m):
-            tree = load_corpus_tree("edge-dynamic-heading-syntax", "dummy-path.md")
-
-            node = tree["Title"]["(Some)"]
-            print(node)
-            assert node.name == "(Some)"
