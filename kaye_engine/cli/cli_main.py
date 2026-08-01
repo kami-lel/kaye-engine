@@ -7,7 +7,7 @@ from argparse import ArgumentParser
 from kaye_engine.cli.claude.main import register_cli_claude_parser
 from kaye_engine.cli.prompt.main_parser import register_cli_prompt_parser
 
-__all__ = ("cli_parser", "cli_subparser", "register_cli_main_parser")
+__all__ = ("register_cli_main_parser",)
 
 
 # constants  ###################################################################
@@ -22,8 +22,8 @@ def register_cli_main_parser(program_name=PROGRAM_NAME):
     :param program_name: name shown as the CLI's ``prog`` in ``--help``
             output
     :type program_name: str
-    :return: the top-level parser and its subparser group
-    :rtype: tuple
+    :return: the top-level parser
+    :rtype: ArgumentParser
     """
     parser = ArgumentParser(prog=program_name, description=__doc__)
     parser.set_defaults(func=lambda _: parser.print_help())
@@ -32,7 +32,4 @@ def register_cli_main_parser(program_name=PROGRAM_NAME):
     register_cli_prompt_parser(subparser)
     register_cli_claude_parser(subparser)
 
-    return parser, subparser
-
-
-cli_parser, cli_subparser = register_cli_main_parser()
+    return parser
