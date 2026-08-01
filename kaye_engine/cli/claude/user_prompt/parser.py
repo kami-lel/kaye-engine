@@ -3,7 +3,7 @@
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import kamilog
+from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 
 from .export import export_user_system_prompt_file
@@ -28,8 +28,7 @@ DEFAULT_CLAUDE_FOLDER = Path.home() / ".claude"
 
 def _user_prompt_main(args):
     kamilog.set_logging_level_by_namespace(args, logger=logger)
-    # Fixme retired program name reaches verbose output; use kaye-engine
-    logger.enter("kaye claude user-system-prompt")
+    logger.enter("{} claude user-system-prompt".format(PACKAGE_NAME))
 
     prompt_file = args.prompt_file
 
