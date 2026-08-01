@@ -40,10 +40,7 @@ def _resolve_corpus_tree(corpus_tree):
     if isinstance(corpus_tree, str):
         return get_corpus_tree(corpus_tree)
 
-    if not (
-        isinstance(corpus_tree, BasePromptNode)
-        and corpus_tree.is_root
-    ):
+    if not (isinstance(corpus_tree, BasePromptNode) and corpus_tree.is_root):
         raise ValueError(
             "corpus_tree must be a root node or a registered "
             "tree name: {}".format(corpus_tree)
@@ -89,9 +86,7 @@ class PromptBlueprint(dict):
         # create bp w/ nothing, to be filled during this function
         bp = PromptBlueprint(corpus_tree=corpus_tree)
 
-        bp.update(
-            parser.parse_blueprint_text(blueprint_text, bp.corpus)
-        )
+        bp.update(parser.parse_blueprint_text(blueprint_text, bp.corpus))
 
         # prune the tree
         return bp if disable_prune else bp.prune()
@@ -424,7 +419,7 @@ class PromptBlueprint(dict):
 
     def __copy__(self):
         """
-        :return: shallow copy, w/o creating new node tree
+        :return: copy of this blueprint, (creates a new corpus tree)
         :rtype: PromptBlueprint
         """
         copied = PromptBlueprint(corpus_tree=self.corpus_tree)
