@@ -9,7 +9,8 @@ from importlib.metadata import PackageNotFoundError, metadata, version
 from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME, PLUGIN_MARKETPLACE_NAME
+from kaye_engine.cli import claude
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin.export_folder import (
     export_plugin_as_folder,
 )
@@ -21,13 +22,6 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
 # constants  ###################################################################
-
-_PLUGIN_KEYWORDS = [
-    "prompt-engineering",
-    "persona",
-    "agent",
-    PLUGIN_MARKETPLACE_NAME,
-]
 
 _PLUGIN_CATEGORY = "productivity"
 
@@ -49,6 +43,12 @@ def export_marketplace(marketplace_folder):
     :rtype: Path
     """
     marketplace_folder = Path(marketplace_folder)
+    plugin_keywords = [
+        "prompt-engineering",
+        "persona",
+        "agent",
+        claude.PLUGIN_MARKETPLACE_NAME,
+    ]
 
     logger.debug("exporting plugin into marketplace folder")
     export_plugin_as_folder(marketplace_folder / "plugins")
@@ -68,13 +68,13 @@ def export_marketplace(marketplace_folder):
     pkg_repository = pkg_urls.get("Repository", "")
 
     with MarketplaceJson(marketplace_folder) as market:
-        market.name = PLUGIN_MARKETPLACE_NAME
+        market.name = claude.PLUGIN_MARKETPLACE_NAME
         market.description = meta["Summary"]
         market.version = pkg_version
         market.owner_name = pkg_author
         market.owner_email = pkg_author_email
-        market.plugin_name = PLUGIN_MARKETPLACE_NAME
-        market.plugin_source = "./plugins/" + PLUGIN_MARKETPLACE_NAME
+        market.plugin_name = claude.PLUGIN_MARKETPLACE_NAME
+        market.plugin_source = "./plugins/" + claude.PLUGIN_MARKETPLACE_NAME
         market.plugin_display_name = meta["Name"]
         market.plugin_description = meta["Summary"]
         market.plugin_version = pkg_version
@@ -82,7 +82,7 @@ def export_marketplace(marketplace_folder):
         market.plugin_author_email = pkg_author_email
         market.plugin_homepage = pkg_homepage
         market.plugin_repository = pkg_repository
-        market.plugin_keywords = _PLUGIN_KEYWORDS
+        market.plugin_keywords = plugin_keywords
         market.plugin_category = _PLUGIN_CATEGORY
 
     logger.succ("write marketplace manifest:\t" + str(market.path))
