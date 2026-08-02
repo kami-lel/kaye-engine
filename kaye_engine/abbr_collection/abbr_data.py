@@ -101,6 +101,15 @@ class AbbrData:
         if args[0] is None:
             self._rebuild_automaton()
 
+    # magic method  ============================================================
+
+    def __bool__(self):
+        """
+        :return: whether this instance holds at least one entry
+        :rtype: bool
+        """
+        return bool(self.abbrs)
+
 
 # single, always-present singleton instance  ###################################
 
