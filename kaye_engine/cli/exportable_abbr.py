@@ -137,8 +137,8 @@ def get_exportable_abbrs():
 
     :return: every tag, wrap, and first-character abbreviation group
     :rtype: list[ExportableAbbr]
+    :raises RuntimeError: :func:`get_abbr_data` is still empty
     """
-    # BUG BUG need handle empty data
     abbrs = get_abbr_data().abbrs
     return (
         _get_abbrs_by_tags(abbrs)

@@ -27,9 +27,9 @@ def gen_abbrs_content_lines(abbr_tag):
     :type abbr_tag: AbbrTags
     :return: rendered markdown list items, one per matching entry
     :rtype: list[str]
+    :raises RuntimeError: :func:`get_abbr_data` is still empty
     """
     lines = []
-    # BUG need to handle empty
     for entry in get_abbr_data().abbrs:
         if abbr_tag in entry.tags:
             lines.append(entry.as_md_list_entry())
@@ -50,6 +50,9 @@ class _AbbrTagNodeBase(DynamicNode):  ##########################################
     # implement BasePromptNode  ------------------------------------------------
 
     def content_lines(self, **kwargs):
+        """
+        :raises RuntimeError: :func:`get_abbr_data` is still empty
+        """
         return self._preface + gen_abbrs_content_lines(self.ABBR_TAG)
 
 

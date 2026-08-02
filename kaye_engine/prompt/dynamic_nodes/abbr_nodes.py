@@ -26,6 +26,9 @@ class AbbrNode(DynamicNode):  ##################################################
     # implement BasePromptNode  ================================================
 
     def content_lines(self, *, query=""):  # pylint: disable=arguments-differ
+        """
+        :raises RuntimeError: :func:`get_abbr_data` is still empty
+        """
         if query:
             lines = self._generate_content_lines_dynamically(query)
         else:
@@ -36,12 +39,14 @@ class AbbrNode(DynamicNode):  ##################################################
     # helpers  =================================================================
 
     def _generate_content_lines_dynamically(self, query):
+        """
+        :raises RuntimeError: :func:`get_abbr_data` is still empty
+        """
         # find abbr occurrences  -----------------------------------------------
         query_lower = query.lower()  # provide lower case to automation
         query_len = len(query)
         entries = set()
 
-        # BUG need to handle empty
         for last_idx, matched in get_abbr_data().automaton.iter_long(
             query_lower
         ):

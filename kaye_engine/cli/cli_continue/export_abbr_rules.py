@@ -34,6 +34,7 @@ def export_abbr_rules(folder):
     folder = Path(folder).resolve()
     folder.mkdir(parents=True, exist_ok=True)
 
+    # BUG get_exportable_abbrs() may raise RuntimeError if abbr data is empty
     for group in get_exportable_abbrs():
         file_path = folder / "{}.md".format(group.display_name)
 
