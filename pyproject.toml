@@ -3,9 +3,9 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "kaye"
-version = "6.11.0"
-description = "define Kaye, a composed and exacting AI assistant persona, in a single source of truth and reuse it consistently across every task and tool"
+name = "kaye-engine"
+version = "7.0.0"
+description = "parse a plain Markdown file, as the structured single source of truth for LLM instructions, then render scenario-ready prompt assets"
 readme = "README.md"
 authors = [
     { name = "kamiLeL", email = "77594253+kami-lel@users.noreply.github.com" },
@@ -13,22 +13,20 @@ authors = [
 requires-python = ">=3.11"
 dependencies = [
     "anytree",
-    "flask",
     "json5",
     "pyahocorasick",
     "pyyaml",
 ]
 
 [project.urls]
-homepage = "https://github.com/kami-lel/kaye/blob/main/README.md"
-Repository = "https://github.com/kami-lel/kaye"
+homepage = "https://github.com/kami-lel/kaye-engine/blob/main/README.md"
+Repository = "https://github.com/kami-lel/kaye-engine"
 
 [project.scripts]
-kaye = "kaye.__main__:main"
+kaye-engine = "kaye_engine.__main__:main"
 
 [project.optional-dependencies]
 dev = [
-    "pydantic",
     "pytest",
 ]
 
@@ -38,8 +36,8 @@ package-dir = { "" = "." }
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["kaye*"]
+include = ["kaye_engine*"]
 exclude = ["build*", "tests*", "dify_studio*", "examples*", "scripts*"]
 
 [tool.setuptools.package-data]
-"*" = ["prompt_corpus.md", "abbrs.json", "permission_cmds.jsonc"]
+"*" = ["permission_cmds.jsonc"]

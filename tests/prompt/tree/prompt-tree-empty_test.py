@@ -3,14 +3,14 @@ prompt-tree-empty_test.py
 
 Unit Tests (using pytest) for:
 
-load_prompt_corpus_tree
+load_corpus_tree
 """
 
 from unittest.mock import mock_open, patch
 
 import pytest
 
-from kaye.prompt.prompt_corpus_loader import load_prompt_corpus_tree
+from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
 # pytest fixtures  #############################################################
 
@@ -67,10 +67,8 @@ Provide instructions on how to use the application.
 This project is licensed under the MIT License.
 """)
 
-    with patch("builtins.open", m), patch(
-        "kaye.prompt.prompt_corpus_loader.prompt_corpus_tree", new=None
-    ):
-        return load_prompt_corpus_tree()
+    with patch("builtins.open", m):
+        return load_corpus_tree("prompt-tree-empty-test", "dummy-path.md")
 
 
 # pytest #######################################################################

@@ -4,7 +4,7 @@ prompt-bp-parse-dynamics-test.py
 Unit Tests (using pytest) for: PromptBlueprint.parse()
 """
 
-from kaye.prompt.dynamic_nodes import (
+from kaye_engine.prompt.dynamic_nodes import (
     TodayNode,
     AbbrNode,
     PLCNode,

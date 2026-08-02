@@ -1,3 +1,0 @@
-"""
-Kaye Python CLI
-"""

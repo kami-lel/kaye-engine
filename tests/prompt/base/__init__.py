@@ -1,4 +1,4 @@
-from kaye.prompt.base_prompt_node import BasePromptNode
+from kaye_engine.prompt.base_prompt_node import BasePromptNode
 
 
 class UnitTestNode(BasePromptNode):

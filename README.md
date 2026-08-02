@@ -1,16 +1,16 @@
-# Kaye README
+# Kaye Engine README
 
-> Consistent AI Agent Persona **Kaye**, powered by rigorous prompt engineering
+> Consistent AI Agent Identity, powered by rigorous prompt engineering
 
-Kaye is a toolkit for maintaining a consistent AI agent persona from a single, structured source of truth. The project focuses on producing scenario-ready prompts from a central Markdown corpus using blueprints with APIs and CLI.
+Kaye Engine parses a plain Markdown file, as the structured single source of truth for LLM instructions, then renders scenario-ready prompt assets through blueprints, a programmatic API, and a CLI.
 
 ### ✨ Features
 
-- 📌 single Source Of Truth for persona, roles, and rules
+- 📌 single Source Of Truth for an LLM's prompt assets
 - ⚙️ generate scenario-ready prompts from blueprints and templates
 - 🐍 programmatic Python API for listing, previewing, and generating prompts
-- 🌐 HTTP endpoints for dynamic prompt generation via a lightweight Flask service
 - 💻 CLI for quick local generation and inspection
+- 🔌 pluggable mechanism, ready for a host package to plug in its own corpus, abbreviations, and blueprints — including a Flask/HTTP surface, if the host chooses to build one
 
 
 
@@ -27,9 +27,9 @@ Kaye is a toolkit for maintaining a consistent AI agent persona from a single, s
 
 ### 📄 Prompt Corpus
 
-The [Prompt Corpus](kaye/prompt_corpus.md) is the single, structured Markdown file that defines persona, roles, rules, styles, and references. It is the authoritative Source Of Truth used to generate prompts for different scenarios.
+The **Prompt Corpus** is a single, structured Markdown file that defines identity, roles, rules, styles, and references — the authoritative Source Of Truth used to generate prompts for different scenarios. `kaye-engine` does not bundle one itself; it only provides the parsing mechanism (`load_corpus_tree()` / `get_corpus_tree()`) that any caller uses to load and cache one by name.
 
-Q.v. [Prompt Corpus Format documentation](docs/corpus_doc.md) for the heading-to-tree mapping and full Markdown syntax.
+Q.v. [Prompt Corpus Format documentation](docs/corpus-doc.md) for the heading-to-tree mapping and full Markdown syntax.
 
 ----
 
@@ -38,16 +38,10 @@ Other core concepts:
 - 🎭 role: task-specific **Behavior Profile** inside the corpus shaping response style and scope
 - 📝 prompt: final **Rendered Text** tailored to a context and ready for direct use
 - 🌲 blueprint: tree **Selection Spec** that controls which corpus parts are rendered
-- 🔀 dynamic node: corpus node whose content is **Generated** at render time — Q.v. [Dynamic Node documentation](docs/dynamic_node_doc.md)
-- 🗂️ sidecar node: corpus node holding structured **Metadata** about its parent — Q.v. [Sidecar Node documentation](docs/sidecar_node_doc.md)
+- 🔀 dynamic node: corpus node whose content is **Generated** at render time — Q.v. [Dynamic Node documentation](docs/dynamic-node-doc.md)
+- 🗂️ sidecar node: corpus node holding structured **Metadata** about its parent — Q.v. [Sidecar Node documentation](docs/sidecar-node-doc.md)
 
-The `(Abbreviations)` dynamic node reads its meanings from [`kaye/abbrs.json`](kaye/abbrs.json) — Q.v. [`abbrs.json` documentation](docs/abbrs_json_doc.md) for its format.
-
-### 🎭 Personas
-
-Beyond Kaye, the corpus defines sibling personas **Ria** and **Zin** for comparison and reuse.
-
-Q.v. [Personalities documentation](docs/personalities_doc.md) for an axis-by-axis comparison.
+The `(Abbreviations)` dynamic node reads its meanings from an `abbrs.json` file loaded via `populate_abbr_data_with_json_file`/`get_abbr_data` — kaye-engine bundles no copy of its own; a separate host package supplies and loads the real file. Q.v. [`abbr_collection` documentation](docs/abbr-collection-doc.md) for its schema, top-level functions, and where abbreviations are used.
 
 
 
@@ -86,27 +80,9 @@ Q.v. [Personalities documentation](docs/personalities_doc.md) for an axis-by-axi
 
 ### Programmatic API
 
-The **Kaye Programmatic API** provides *Python programmatic access* to list corpus entries, preview sections, and generate concrete prompts.
+The **Kaye Engine Programmatic API** provides *Python programmatic access* to list corpus entries, preview sections, and generate concrete prompts.
 
-Q.v. [Kaye Programmatic API documentation](docs/programmatic_api_doc.md)
-
-
-
-
-
-
-
-
-
-
-
-
-
-### HTTP API
-
-The **Kaye HTTP API** uses *Flask* to provide endpoints for requesting rendered prompts and previews dynamically.
-
-Q.v. [Kaye HTTP API documentation](docs/http_api_doc.md)
+Q.v. [Kaye Engine Programmatic API documentation](docs/programmatic-api-doc.md)
 
 
 
@@ -122,11 +98,11 @@ Q.v. [Kaye HTTP API documentation](docs/http_api_doc.md)
 
 ### Python CLI
 
-A simple **Kaye Python CLI** is provided, exposed as the `kaye` command once
-installed (or run as `python -m kaye`):
+A simple **Kaye Engine Python CLI** is provided, exposed as the `kaye-engine` command
+once installed (or run as `python -m kaye_engine`):
 
 ```bash
-kaye --help
+kaye-engine --help
 ```
 
 
@@ -141,12 +117,12 @@ kaye --help
 
 
 
-### Using Kaye with Claude
+### Using Kaye Engine with Claude
 
-Package Kaye as a Claude Desktop plugin or wire it into the Claude Code
+Package Kaye Engine as a Claude Desktop plugin or wire it into the Claude Code
 VS Code Extension.
 
-Q.v. [Using Kaye with Claude documentation](docs/claude_doc.md)
+Q.v. [Using Kaye Engine with Claude documentation](docs/claude-doc.md)
 
 
 
@@ -160,27 +136,8 @@ Q.v. [Using Kaye with Claude documentation](docs/claude_doc.md)
 
 
 
-### Using Kaye with Dify
+### Using Kaye Engine with Dify
 
-A Dify App wires Kaye into a chat workflow, round by round.
+A Dify App wires Kaye Engine into a chat workflow, round by round.
 
-Q.v. [Dify App Kaye Chat documentation](docs/ky_doc.md)
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Kaye Commit Sense
-
-Commit messages carry a leading **Sigil** summarizing the nature of the
-change (added, deleted, moved, refactored, ~~).
-
-Q.v. [Kaye Commit Sense documentation](docs/kaye_commit_sense_doc.md)
+Q.v. [Dify App Kaye Chat documentation](docs/ky-doc.md)

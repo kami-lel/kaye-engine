@@ -2,12 +2,17 @@ import pytest
 
 
 from copy import deepcopy
+from unittest.mock import mock_open, patch
 
 
-from kaye.prompt.prompt_corpus_node import PromptCorpusNode
-from kaye.prompt.prompt_corpus_loader import load_prompt_corpus_tree
+from kaye_engine.abbr_collection import get_abbr_data
+from kaye_engine.abbr_collection.abbr_data_loader import (
+    populate_abbr_data_with_json_file,
+)
+from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
+from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
-from kaye.prompt import (
+from kaye_engine.prompt import (
     TodayNode,
     AbbrNode,
     UsableAbbrNode,
@@ -15,7 +20,15 @@ from kaye.prompt import (
     PLCNode,
 )
 
-from tests import TESTEE_USABLE_ABBRS
+
+@pytest.fixture(scope="session", autouse=True)
+def _loaded_abbr_data():
+    m = mock_open(read_data="{}")
+
+    with patch("builtins.open", m):
+        populate_abbr_data_with_json_file("dummy-abbrs-path.json")
+
+    return get_abbr_data()
 
 
 @pytest.fixture(scope="session")
@@ -145,26 +158,20 @@ def corpus_dynamic_testee(corpus_testee3):
 
 
 @pytest.fixture(scope="session")
-def corpus_dynamic_testee2(corpus_testee1):
-    tree = deepcopy(corpus_testee1)
-
-    # carry the same preface a static "(Usable Abbreviations)" node
-    # would hand off via `_attach_dynamic_node()` in production
-    node_prefaces = {
-        UsableAbbrNode: (TESTEE_USABLE_ABBRS[1],),
-    }
-    for node_type in (
-        TodayNode,
-        AbbrNode,
-        UsableAbbrNode,
-        LanguageCodeNode,
-        PLCNode,
-    ):
-        node_type(tree, preface=node_prefaces.get(node_type, ()))
-
-    return tree
-
-
-@pytest.fixture()
 def corpus():
-    return load_prompt_corpus_tree()
+    m = mock_open(read_data="""
+# Project Title
+## Description
+Brief overview of the project and its purpose.
+
+## Installation
+Clone the repo and install dependencies.
+
+## License
+Licensed under the MIT License.
+""")
+
+    with patch("builtins.open", m):
+        return load_corpus_tree(
+            "prompt-conftest-default", "dummy-path.md", is_default_tree=True
+        )

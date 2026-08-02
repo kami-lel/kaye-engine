@@ -8,9 +8,9 @@ Unit Tests (using pytest) for: render.render_prompt_lines(
 
 import pytest
 
-from kaye.prompt.prompt_corpus_node import PromptCorpusNode
-from kaye.prompt.blueprint.prompt_blueprint import PromptBlueprint
-from kaye.prompt.blueprint import render
+from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
+from kaye_engine.prompt.blueprint import render
 
 
 @pytest.fixture
@@ -26,7 +26,7 @@ def corpus_with_prerequisite():
 @pytest.fixture
 def bp_testee(corpus_with_prerequisite):
     return PromptBlueprint.create_empty_blueprint(
-        corpus_override=corpus_with_prerequisite
+        corpus_tree=corpus_with_prerequisite
     )
 
 

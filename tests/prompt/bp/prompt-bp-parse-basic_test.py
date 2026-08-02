@@ -4,7 +4,7 @@ prompt-bp-parse-basic_test.py
 Unit Tests (using pytest) for: PromptBlueprint.parse()
 """
 
-from kaye.prompt import PromptBlueprint
+from kaye_engine.prompt import PromptBlueprint
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
@@ -24,7 +24,7 @@ class TestBasic1:  # use corpus1  ##############################################
         bp_text = BLUEPRINT_1_FULL
 
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
+            bp_text, disable_prune=True, corpus_tree=corpus_testee1
         )
 
         print(opt)
@@ -61,7 +61,7 @@ class TestBasic1:  # use corpus1  ##############################################
         bp_text = BLUEPRINT_1_PARTIAL_1
 
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
+            bp_text, disable_prune=True, corpus_tree=corpus_testee1
         )
 
         print(opt)
@@ -96,7 +96,7 @@ class TestBasic1:  # use corpus1  ##############################################
         bp_text = BLUEPRINT_1_PARTIAL_2
 
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
+            bp_text, disable_prune=True, corpus_tree=corpus_testee1
         )
 
         print(opt)
@@ -131,7 +131,7 @@ class TestBasic1:  # use corpus1  ##############################################
         bp_text = BLUEPRINT_1_EMPTY
 
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee1
+            bp_text, disable_prune=True, corpus_tree=corpus_testee1
         )
 
         print(opt)
@@ -169,7 +169,7 @@ class TestBasic3:  # use corpus3  ##############################################
         bp_text = BLUEPRINT_3_FULL
 
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee3
+            bp_text, disable_prune=True, corpus_tree=corpus_testee3
         )
 
         print(opt)
@@ -242,7 +242,7 @@ class TestBasic3:  # use corpus3  ##############################################
         bp_text = BLUEPRINT_3_PARTIAL_1
 
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee3
+            bp_text, disable_prune=True, corpus_tree=corpus_testee3
         )
 
         print(opt)
@@ -312,7 +312,7 @@ class TestBasic3:  # use corpus3  ##############################################
     def test_part2(_, corpus_testee3):
         bp_text = BLUEPRINT_3_PARTIAL_2
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee3
+            bp_text, disable_prune=True, corpus_tree=corpus_testee3
         )
 
         print(opt)
@@ -382,7 +382,7 @@ class TestBasic3:  # use corpus3  ##############################################
     def test_empty(_, corpus_testee3):
         bp_text = BLUEPRINT_3_EMPTY
         opt = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus_testee3
+            bp_text, disable_prune=True, corpus_tree=corpus_testee3
         )
 
         print(opt)

@@ -6,7 +6,7 @@ Unit Tests (using pytest) for:
 - __repr__()
 """
 
-from kaye.prompt.blueprint.prompt_blueprint import PromptBlueprint
+from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
@@ -25,7 +25,7 @@ class TestRepr:  ###############################################################
         bp_text = BLUEPRINT_1_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus
+            bp_text, disable_prune=True, corpus_tree=corpus
         )
         opt = repr(bp)
 
@@ -38,7 +38,7 @@ class TestRepr:  ###############################################################
         bp_text = BLUEPRINT_2_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus
+            bp_text, disable_prune=True, corpus_tree=corpus
         )
         opt = repr(bp)
 
@@ -51,7 +51,7 @@ class TestRepr:  ###############################################################
         bp_text = BLUEPRINT_3_FULL
 
         bp = PromptBlueprint.parse(
-            bp_text, disable_prune=True, corpus_override=corpus
+            bp_text, disable_prune=True, corpus_tree=corpus
         )
         opt = repr(bp)
 
