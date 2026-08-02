@@ -5,7 +5,9 @@ define abbreviations-related node types
 """
 
 from kaye_engine.abbr_collection import AbbrTags, get_abbr_data
-from kaye_engine.prompt.dynamic_nodes.abbr_tag_nodes import gen_abbrs_content_lines
+from kaye_engine.prompt.dynamic_nodes.abbr_tag_nodes import (
+    gen_abbrs_content_lines,
+)
 from .dynamic_node import DynamicNode
 
 __all__ = ("AbbrNode",)
@@ -39,6 +41,7 @@ class AbbrNode(DynamicNode):  ##################################################
         query_len = len(query)
         entries = set()
 
+        # BUG need to handle empty
         for last_idx, matched in get_abbr_data().automaton.iter_long(
             query_lower
         ):
