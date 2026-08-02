@@ -6,15 +6,42 @@ Unit Tests (using pytest) for:
 - AbbrData
 """
 
+import json
+from unittest.mock import mock_open, patch
+
 import pytest
 
-from kaye.abbr_collection import (
+from kaye_engine.abbr_collection import (
     AbbrMeaning,
     AbbrEntry,
     AbbrWrap,
     AbbrData,
     AbbrTags,
 )
+from kaye_engine.abbr_collection.abbr_data_loader import (
+    populate_abbr_data_with_json_file,
+)
+
+
+def _build_abbr_data(abbrs_json):
+    """
+    build an isolated :class:`AbbrData` instance from ``abbrs_json``, by
+    mocking :func:`get_abbr_data` and ``open`` around the real
+    :func:`populate_abbr_data_with_json_file` entry point
+    """
+    data = AbbrData()
+    m = mock_open(read_data=json.dumps(abbrs_json))
+
+    with (
+        patch(
+            "kaye_engine.abbr_collection.abbr_data_loader.get_abbr_data",
+            return_value=data,
+        ),
+        patch("builtins.open", m),
+    ):
+        populate_abbr_data_with_json_file("dummy-abbrs-path.json")
+
+    return data
 
 
 # data validate  ###############################################################
@@ -24,7 +51,7 @@ class TestValidate:
         json_override = {"for example": 5}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrData(abbrs_json_override=json_override)
+            _build_abbr_data(json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -34,7 +61,7 @@ class TestValidate:
         json_override = {"for example": {}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrData(abbrs_json_override=json_override)
+            _build_abbr_data(json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -44,7 +71,7 @@ class TestValidate:
         json_override = {"for example": {"abbrs": 5}}
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrData(abbrs_json_override=json_override)
+            _build_abbr_data(json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -56,7 +83,7 @@ class TestValidate:
         }
 
         with pytest.raises(ValueError) as exec_info:
-            AbbrData(abbrs_json_override=json_override)
+            _build_abbr_data(json_override)
         opt = exec_info.value.args[0]
         print(opt)
 
@@ -66,24 +93,22 @@ class TestValidate:
 # test functions  ##############################################################
 class Test1:  # ================================================================
 
-    data = AbbrData(
-        abbrs_json_override={
-            "for example,for instance": {
-                "abbrs": {
-                    "e.g.": {
-                        "priority": 5,
-                        "tags": ["ascii_only", "common"],
-                        "wrap": "word",
-                    },
-                    "eg": {
-                        "priority": 6,
-                        "tags": ["letters_only"],
-                        "wrap": "prefix",
-                    },
+    data = _build_abbr_data({
+        "for example,for instance": {
+            "abbrs": {
+                "e.g.": {
+                    "priority": 5,
+                    "tags": ["ascii_only", "common"],
+                    "wrap": "word",
+                },
+                "eg": {
+                    "priority": 6,
+                    "tags": ["letters_only"],
+                    "wrap": "prefix",
                 },
             },
-        }
-    )
+        },
+    })
 
     def test_meanings(self):
         meanings = self.data.meanings
@@ -158,61 +183,59 @@ class Test1:  # ================================================================
 
 class Test2:  # ================================================================
 
-    data = AbbrData(
-        abbrs_json_override={
-            "footnote": {
-                "abbrs": {
-                    "†": {
-                        "priority": 5,
-                        "tags": ["common"],
-                        "wrap": "symbol",
-                    },
-                    "‡": {
-                        "priority": 6,
-                        "tags": ["common"],
-                        "wrap": "symbol",
-                    },
+    data = _build_abbr_data({
+        "footnote": {
+            "abbrs": {
+                "†": {
+                    "priority": 5,
+                    "tags": ["common"],
+                    "wrap": "symbol",
+                },
+                "‡": {
+                    "priority": 6,
+                    "tags": ["common"],
+                    "wrap": "symbol",
                 },
             },
-            "fraction five eighths": {
-                "abbrs": {
-                    "⅝": {"priority": 5, "tags": ["common"], "wrap": "symbol"}
+        },
+        "fraction five eighths": {
+            "abbrs": {
+                "⅝": {"priority": 5, "tags": ["common"], "wrap": "symbol"}
+            },
+        },
+        "-er,-or": {
+            "abbrs": {
+                ".r": {
+                    "priority": 5,
+                    "tags": ["ascii_only"],
+                    "wrap": "suffix",
+                }
+            },
+        },
+        "then": {
+            "abbrs": {
+                "T": {
+                    "priority": 5,
+                    "tags": ["letters_only"],
+                    "wrap": "word",
+                }
+            },
+        },
+        "ante meridiem,before midday": {
+            "abbrs": {
+                "a.m.": {
+                    "priority": 5,
+                    "tags": ["ascii_only"],
+                    "wrap": "word",
+                },
+                "AM": {
+                    "priority": 6,
+                    "tags": ["letters_only"],
+                    "wrap": "word",
                 },
             },
-            "-er,-or": {
-                "abbrs": {
-                    ".r": {
-                        "priority": 5,
-                        "tags": ["ascii_only"],
-                        "wrap": "suffix",
-                    }
-                },
-            },
-            "then": {
-                "abbrs": {
-                    "T": {
-                        "priority": 5,
-                        "tags": ["letters_only"],
-                        "wrap": "word",
-                    }
-                },
-            },
-            "ante meridiem,before midday": {
-                "abbrs": {
-                    "a.m.": {
-                        "priority": 5,
-                        "tags": ["ascii_only"],
-                        "wrap": "word",
-                    },
-                    "AM": {
-                        "priority": 6,
-                        "tags": ["letters_only"],
-                        "wrap": "word",
-                    },
-                },
-            },
-        }
-    )
+        },
+    })
 
     def test_meanings(self):
         meanings = self.data.meanings
@@ -352,28 +375,26 @@ class Test2:  # ================================================================
 
 class Test3:  # ================================================================
 
-    data = AbbrData(
-        abbrs_json_override={
-            "west": {
-                "abbrs": {
-                    "W": {
-                        "priority": 5,
-                        "tags": ["letters_only"],
-                        "wrap": "word",
-                    }
-                },
+    data = _build_abbr_data({
+        "west": {
+            "abbrs": {
+                "W": {
+                    "priority": 5,
+                    "tags": ["letters_only"],
+                    "wrap": "word",
+                }
             },
-            "while,when": {
-                "abbrs": {
-                    "W": {
-                        "priority": 5,
-                        "tags": ["letters_only"],
-                        "wrap": "word",
-                    }
-                },
+        },
+        "while,when": {
+            "abbrs": {
+                "W": {
+                    "priority": 5,
+                    "tags": ["letters_only"],
+                    "wrap": "word",
+                }
             },
-        }
-    )
+        },
+    })
 
     def test_meanings(self):
         meanings = self.data.meanings
@@ -447,21 +468,19 @@ class Test3:  # ================================================================
 
 class Test4:  # remark  ========================================================
 
-    data = AbbrData(
-        abbrs_json_override={
-            "for example,for instance": {
-                "remark": "Latin exempli gratia",
-                "abbrs": {
-                    "e.g.": {
-                        "priority": 5,
-                        "tags": ["ascii_only", "common"],
-                        "wrap": "word",
-                        "remark": "casual usage only",
-                    },
+    data = _build_abbr_data({
+        "for example,for instance": {
+            "remark": "Latin exempli gratia",
+            "abbrs": {
+                "e.g.": {
+                    "priority": 5,
+                    "tags": ["ascii_only", "common"],
+                    "wrap": "word",
+                    "remark": "casual usage only",
                 },
             },
-        }
-    )
+        },
+    })
 
     def test_meaning_remark(self):
         meaning = self.data.meanings[0]
@@ -476,7 +495,8 @@ class Test4:  # remark  ========================================================
         entry = self.data.abbrs[0]
         opt = entry.as_md_list_entry()
         print(opt)
-        assert opt == (
-            "- e.g.:for example,for instance"
+        assert (
+            opt
+            == "- e.g.:for example,for instance"
             " (Latin exempli gratia; casual usage only)"
         )

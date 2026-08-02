@@ -9,11 +9,11 @@ Unit Tests (using pytest) for:
 
 import pytest
 
-from kaye.prompt.blueprint import PromptBlueprint
-from kaye.prompt.blueprint.registry import (
+from kaye_engine.prompt.blueprint import PromptBlueprint
+from kaye_engine.prompt.blueprint.registry import (
     BlueprintRegistry,
     register_blueprint,
-    BLUEPRINT_REGISTRIES,
+    blueprint_registry,
 )
 
 
@@ -22,14 +22,14 @@ def registered_names():
     names = []
     yield names
     for name in names:
-        BLUEPRINT_REGISTRIES.pop(name, None)
+        blueprint_registry.pop(name, None)
 
 
 class TestRegisterBlueprint:  ###################################################
 
     def test_dft(_, corpus_testee1, registered_names):
         bp = PromptBlueprint.create_empty_blueprint(
-            corpus_override=corpus_testee1
+            corpus_tree=corpus_testee1
         )
 
         reg = register_blueprint("test-registry-dft", "Test Registry Dft", bp)
@@ -44,11 +44,11 @@ class TestRegisterBlueprint:  ##################################################
         assert reg.always_apply is False
         assert reg.user_invokable is True
         assert reg.llm_invokable is True
-        assert BLUEPRINT_REGISTRIES["test-registry-dft"] is reg
+        assert blueprint_registry["test-registry-dft"] is reg
 
     def test_flags(_, corpus_testee1, registered_names):
         bp = PromptBlueprint.create_empty_blueprint(
-            corpus_override=corpus_testee1
+            corpus_tree=corpus_testee1
         )
 
         reg = register_blueprint(
@@ -71,7 +71,7 @@ class TestRegisterBlueprint:  ##################################################
 
     def test_duplicate_name(_, corpus_testee1, registered_names):
         bp = PromptBlueprint.create_empty_blueprint(
-            corpus_override=corpus_testee1
+            corpus_tree=corpus_testee1
         )
 
         reg = register_blueprint("test-registry-dup", "Test Registry Dup", bp)
@@ -89,7 +89,7 @@ class TestSkillName:  ##########################################################
 
     def test_slugify(_, corpus_testee1, registered_names):
         bp = PromptBlueprint.create_empty_blueprint(
-            corpus_override=corpus_testee1
+            corpus_tree=corpus_testee1
         )
 
         reg = register_blueprint(

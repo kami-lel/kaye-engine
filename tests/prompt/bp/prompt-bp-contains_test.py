@@ -10,7 +10,7 @@ import copy
 import pytest
 
 
-from kaye.prompt.blueprint.prompt_blueprint import PromptBlueprint
+from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
     BLUEPRINT_3_FULL,
@@ -21,14 +21,14 @@ from tests.prompt.bp import (
 @pytest.fixture(scope="session")
 def bp_testee1(corpus_testee1):
     return PromptBlueprint.parse(
-        BLUEPRINT_1_FULL, disable_prune=True, corpus_override=corpus_testee1
+        BLUEPRINT_1_FULL, disable_prune=True, corpus_tree=corpus_testee1
     )
 
 
 @pytest.fixture(scope="session")
 def bp_testee3(corpus_testee3):
     return PromptBlueprint.parse(
-        BLUEPRINT_3_FULL, disable_prune=True, corpus_override=corpus_testee3
+        BLUEPRINT_3_FULL, disable_prune=True, corpus_tree=corpus_testee3
     )
 
 

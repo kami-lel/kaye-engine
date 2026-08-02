@@ -6,7 +6,7 @@ Unit Tests (using pytest) for:
 PromptBlueprint.__str__()
 """
 
-from kaye.prompt.blueprint.prompt_blueprint import PromptBlueprint
+from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
 
 
 class TestEmpty:

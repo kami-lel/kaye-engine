@@ -4,7 +4,7 @@ prompt_abbr_wrap_test.py
 Unit Tests (using pytest) for: AbbrWarp
 """
 
-from kaye.abbr_collection import AbbrWrap
+from kaye_engine.abbr_collection import AbbrWrap
 
 
 # .is_satisfied_wrap_rule  #####################################################
