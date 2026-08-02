@@ -118,9 +118,10 @@ _abbr_data = AbbrData()
 
 def get_abbr_data():  # ========================================================
     """
-    :return: the single, always-present :class:`AbbrData` singleton, empty
-            if nothing has been added yet
+    :return: the single, always-present :class:`AbbrData` singleton
     :rtype: AbbrData
+    :raises RuntimeError: the singleton is still empty
     """
-    # FIXME FIXME abbr data need to warn for empty abbrs
+    if not _abbr_data:
+        raise RuntimeError("abbr data is empty")
     return _abbr_data
