@@ -14,9 +14,8 @@ from kaye_engine.cli.exportable_abbr import get_exportable_abbrs
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
-# Entry Point  #################################################################
 
-
+# Main Entry Point  ############################################################
 def export_abbr_rules(folder):
     """
     export rule files into ``folder``
@@ -34,14 +33,18 @@ def export_abbr_rules(folder):
     folder = Path(folder).resolve()
     folder.mkdir(parents=True, exist_ok=True)
 
-    # BUG get_exportable_abbrs() may raise RuntimeError if abbr data is empty
-    for group in get_exportable_abbrs():
-        file_path = folder / "{}.md".format(group.display_name)
+    try:
+        for group in get_exportable_abbrs():
+            file_path = folder / "{}.md".format(group.display_name)
 
-        ContinueRule(
-            name=group.display_name,
-            description=group.description,
-            body=group.as_md_list(),
-        ).write(file_path)
+            ContinueRule(
+                name=group.display_name,
+                description=group.description,
+                body=group.as_md_list(),
+            ).write(file_path)
 
-        logger.succ("abbr rule:\t{}".format(file_path))
+            logger.succ("abbr rule:\t{}".format(file_path))
+
+    except RuntimeError as e:
+        logger.err(str(e))
+        raise SystemExit(1) from e
