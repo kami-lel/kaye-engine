@@ -25,10 +25,9 @@ _HELP = "show content of any of registered blueprints"
 _DESCRIPTION = _HELP + """
 
 renders BLUEPRINT into a preview tree via generate_blueprint(), loading
-it from the registry by name or, with -f, parsing it from a source
-file; the preview's depth, line count, and line width can be tuned with
--t, -l, and -w, and the result is printed to stdout or, with -F,
-written to a file"""
+it from the registry by name, or from stdin when BLUEPRINT is omitted;
+the preview's depth, line count, and line width can be tuned with -t,
+-l, and -w, and the result is printed to stdout"""
 
 
 # auxiliaries  #################################################################
@@ -50,7 +49,7 @@ def _show_main(args):
 
     preview_tree = blueprint.generate_blueprint(**render_kwargs)
 
-    write_blueprint_result(preview_tree, args.target_file)
+    write_blueprint_result(preview_tree)
 
 
 # Public API  ##################################################################
