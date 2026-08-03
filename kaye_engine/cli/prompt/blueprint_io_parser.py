@@ -37,21 +37,13 @@ blueprint_io_parser.add_argument(
 # Public API  ###################################################################
 def load_blueprint_from_args(args):
     """
-    load the blueprint identified by ``args.BLUEPRINT``,
-    either from the blueprint registry or from a source file
+    load the blueprint identified by ``args.BLUEPRINT``, either from
+    the blueprint registry by name, or from stdin when ``args.BLUEPRINT``
+    is ``None``
     """
-    if args.source_file:
-        try:
-            with open(
-                args.BLUEPRINT, "r", encoding="utf-8"
-            ) as blueprint_file:
-                blueprint = PromptBlueprint.parse(blueprint_file.read())
-        except OSError as err:
-            logger.critical(
-                "cannot read blueprint source file:\t" + args.BLUEPRINT
-            )
-            raise SystemExit(1) from err
-        return blueprint, args.BLUEPRINT
+    if args.BLUEPRINT is None:
+        blueprint = PromptBlueprint.parse(sys.stdin.read())
+        return blueprint, "<stdin>"
 
     try:
         registry = blueprint_registry[args.BLUEPRINT]
@@ -62,18 +54,8 @@ def load_blueprint_from_args(args):
     return registry.blueprint, registry.display_name
 
 
-def write_blueprint_result(text, target_file):
+def write_blueprint_result(text):
     """
-    write ``text`` to ``target_file``, or print it when ``target_file``
-    is ``None``
+    print ``text`` to stdout
     """
-    if target_file is None:
-        print(text)
-    else:
-        try:
-            target_file.write(text)
-        except OSError as err:
-            logger.critical(
-                "cannot write result to target file:\t" + str(target_file)
-            )
-            raise SystemExit(1) from err
+    print(text)
