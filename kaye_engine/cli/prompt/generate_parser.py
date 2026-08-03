@@ -26,9 +26,8 @@ _HELP = "generate concrete prompt from blueprint"
 _DESCRIPTION = _HELP + """
 
 renders BLUEPRINT into a final system prompt via generate_prompt(),
-loading it from the registry by name or, with -f, parsing it from a
-source file; the result is printed to stdout or, with -F, written to a
-file"""
+loading it from the registry by name, or from stdin when BLUEPRINT is
+omitted; the result is printed to stdout"""
 
 
 def _generate_main(args):  ####################################################
@@ -42,7 +41,7 @@ def _generate_main(args):  ####################################################
         display_name=display_name,
     )
 
-    write_blueprint_result(prompt, args.target_file)
+    write_blueprint_result(prompt)
 
 
 def register_generate_parser(cli_subparser):  ##################################
