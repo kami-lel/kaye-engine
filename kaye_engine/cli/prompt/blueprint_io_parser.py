@@ -5,7 +5,8 @@ define ``blueprint_io_parser``, ``load_blueprint_from_args``,
 ``write_blueprint_result``
 """
 
-from argparse import FileType, ArgumentParser
+import sys
+from argparse import ArgumentParser
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.prompt.blueprint import blueprint_registry
@@ -19,24 +20,12 @@ blueprint_io_parser = ArgumentParser(add_help=False)
 # positional argument
 blueprint_io_parser.add_argument(
     "BLUEPRINT",
-    help="embedded blueprints name",
+    help="embedded blueprint name; read from stdin when omitted",
     type=str,
+    nargs="?",
+    default=None,
 )
 # options
-blueprint_io_parser.add_argument(
-    "-f",
-    "--source-file",
-    action="store_true",
-    help="load blueprint from path BLUEPRINT",
-)
-blueprint_io_parser.add_argument(
-    "-F",
-    "--target-file",
-    metavar="FILE",
-    type=FileType(mode="w"),
-    nargs="?",
-    help="save result to FILE",
-)
 blueprint_io_parser.add_argument(
     "-C",
     "--no-comment",
