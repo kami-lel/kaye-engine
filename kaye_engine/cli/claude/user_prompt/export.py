@@ -8,46 +8,39 @@ from pathlib import Path
 
 from kaye_engine import kamilog
 from kaye_engine.cli.claude import CONTAINING_SIDECARS, LOGGER_CLAUDE_NAME
-from kaye_engine.prompt.blueprint import blueprint_registry
+from kaye_engine.cli.claude.blueprint_name import (
+    get_claude_chat_blueprint,
+    get_claude_coder_blueprint,
+)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
 # Main Entry Point  ############################################################
-def export_user_system_prompt_file(
-    file_path, *, use_rapid=False, use_coder=False
-):
+def export_user_system_prompt_file(file_path, *, use_coder=False):
     """
-    export Chat or Rapid blueprint as Claude user/system prompt to CLAUDE.md
+    export the Chat blueprint as Claude user/system prompt to CLAUDE.md
 
-    renders the selected blueprint and writes the prompt to the given file path;
-    optionally appends the Kaye Peer Coder blueprint
+    renders the configured Chat blueprint and writes the prompt to the given
+    file path; optionally appends the configured Coder blueprint
 
     :param file_path: destination file path for CLAUDE.md
     :type file_path: Path-like
-    :param use_rapid: use Rapid blueprint instead of Chat
-    :type use_rapid: bool
-    :param use_coder: append Kaye Peer Coder content after the main blueprint
+    :param use_coder: append the Coder blueprint after the main blueprint
     :type use_coder: bool
     """
     file_path = Path(file_path).resolve()
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # BUG base blueprint is hardcoded
-    base_name = "rapid" if use_rapid else "chat"
-    try:
-        blueprint = blueprint_registry[base_name].blueprint
-    except KeyError as err:
-        logger.critical("unknown blueprint:\t" + base_name)
-        raise SystemExit(1) from err
+    blueprint = get_claude_chat_blueprint()
 
     agent_behavior = blueprint.corpus["Agent Behavior"]
     blueprint.checkmark(agent_behavior)
     blueprint.checkmark(agent_behavior["Claude Behavior"])
 
     if use_coder:
-        blueprint = blueprint | blueprint_registry["coder"].blueprint
+        blueprint = blueprint | get_claude_coder_blueprint()
 
     file_path.write_text(
         blueprint.generate_prompt(contains_sidecars=CONTAINING_SIDECARS),
