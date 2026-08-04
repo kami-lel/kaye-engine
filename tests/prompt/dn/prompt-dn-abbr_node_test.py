@@ -20,6 +20,7 @@ from kaye_engine.prompt.dynamic_nodes import (
     LanguageCodeNode,
     UnityEngineAbbrNode,
     PlanStepByStepAbbrNode,
+    CodeDocumentationFieldAbbrNode,
 )
 
 _TAG_NODE_TYPES = (
@@ -29,6 +30,7 @@ _TAG_NODE_TYPES = (
     LanguageCodeNode,
     UnityEngineAbbrNode,
     PlanStepByStepAbbrNode,
+    CodeDocumentationFieldAbbrNode,
 )
 
 
