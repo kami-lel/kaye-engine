@@ -118,10 +118,8 @@ _abbr_data = AbbrData()
 
 def get_abbr_data():  # ========================================================
     """
-    :return: the single, always-present :class:`AbbrData` singleton
+    :return: the single, always-present :class:`AbbrData` singleton, which
+            may still be empty; check via ``bool(get_abbr_data())``
     :rtype: AbbrData
-    :raises RuntimeError: the singleton is still empty
     """
-    if not _abbr_data:
-        raise RuntimeError("abbr data is empty")
     return _abbr_data
