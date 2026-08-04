@@ -64,13 +64,17 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Two** subcommands exist, `prompt` and `claude`:
+the shorter form. **Three** subcommands exist, `prompt`, `claude`, and
+`dynamic-node`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
 kaye-engine prompt ls                       # list registered blueprint names
 kaye-engine prompt show BLUEPRINT           # preview a blueprint's structure
+kaye-engine prompt show < FILE              # preview from stdin (BLUEPRINT omitted)
 kaye-engine prompt generate BLUEPRINT       # render a concrete prompt
+kaye-engine prompt generate < FILE          # render from stdin (BLUEPRINT omitted)
+kaye-engine dynamic-node NODE_TYPE          # render a single dynamic node to stdout
 kaye-engine claude skill SKILLS_FOLDER      # export blueprints as Skill folders
 kaye-engine claude skill -z ZIPS_FOLDER     # create .zip Skill packages
 kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
@@ -84,11 +88,11 @@ kaye-engine claude user-system-prompt -c    # append Kaye Peer Coder content
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
 ```
 
-Aliases: `prompt` → `p`; `prompt generate` → `p g`; `claude` →
-`anthropic`, `a`; `claude code` → `claude c`; `claude marketplace` →
-`claude m`; `claude plugin` → `claude p`; `claude skill` → `claude s`;
-`claude user-system-prompt` → `claude usp`; `claude vs-code-extension` →
-`claude v`.
+Aliases: `prompt` → `p`; `prompt generate` → `p g`; `dynamic-node` →
+`dn`; `claude` → `anthropic`, `a`; `claude code` → `claude c`; `claude
+marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skill`
+→ `claude s`; `claude user-system-prompt` → `claude usp`; `claude
+vs-code-extension` → `claude v`.
 
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
 Bash command patterns) into `settings.json`, sourced from
@@ -139,8 +143,9 @@ Export policy — five independent flags, no allow-list constant:
 
 `get_exportable_abbrs()` rebuilds every group on each call, so there is no
 import-order constraint — populate the abbreviation database at any point
-before an export actually runs. An unpopulated database still exports, as
-one empty skill folder per group.
+before an export actually runs. An unpopulated database logs an error and
+returns an empty list, so no skill folders are exported. Check
+`bool(get_abbr_data())` to test for an empty singleton directly.
 
 ## Security
 

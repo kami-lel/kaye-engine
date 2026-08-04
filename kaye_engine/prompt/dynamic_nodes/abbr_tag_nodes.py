@@ -4,6 +4,7 @@ abbr_tag_nodes.py
 define abbreviation-tag-filtered node types
 """
 
+from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.abbr_collection import AbbrTags, get_abbr_data
 from .dynamic_node import DynamicNode
 
@@ -14,13 +15,18 @@ __all__ = (
     "PLCNode",
     "UnityEngineAbbrNode",
     "CodingTermsNode",
+    "PlanStepByStepAbbrNode",
 )
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 
 def gen_abbrs_content_lines(abbr_tag):
     """
     render every ``get_abbr_data().abbrs`` entry matching ``abbr_tag``
-    as a list of markdown list items
+    as a list of markdown list items; empty when the abbr data singleton
+    is still empty
 
 
     :param abbr_tag: tag to filter entries by
@@ -28,8 +34,13 @@ def gen_abbrs_content_lines(abbr_tag):
     :return: rendered markdown list items, one per matching entry
     :rtype: list[str]
     """
+    abbr_data = get_abbr_data()
+    if not abbr_data:
+        logger.error("abbr data is empty, rendering without any abbr")
+        return []
+
     lines = []
-    for entry in get_abbr_data().abbrs:
+    for entry in abbr_data.abbrs:
         if abbr_tag in entry.tags:
             lines.append(entry.as_md_list_entry())
     return lines
@@ -105,3 +116,14 @@ class UnityEngineAbbrNode(
 
     HEADING = "Unity Engine Abbreviations"  # implement DynamicNode
     ABBR_TAG = AbbrTags.unity_engine_abbr  # implement AbbrTagNode
+
+
+class PlanStepByStepAbbrNode(
+    _AbbrTagNodeBase
+):  # =================================
+    """
+    dynamic node to provide **Plan Step By Step Abbreviations**
+    """
+
+    HEADING = "Plan Step By Step Abbreviations"  # implement DynamicNode
+    ABBR_TAG = AbbrTags.plan_step_by_step_abbr  # implement AbbrTagNode

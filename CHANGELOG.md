@@ -8,6 +8,7 @@ Todo extract register_cli_subcommands(cli_subparser) in cli/cli_main.py so
   sibling packages (kaye-vault) can compose engine's prompt/claude
   subcommands explicitly instead of relying on shared cli_subparser
   import-time side effects
+Fixme consider update kamilog.py
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -28,11 +29,29 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Added
 
+- `dynamic-node`/`dn` CLI subcommand, rendering a single dynamic node
+  (`today`, `abbr`, `usable`, `language`, `plc`, `unity`, `coding`, `plan`)
+  directly to stdout, with the abbreviation node reading its query from
+  stdin
+- `PlanStepByStepAbbrNode` dynamic node and its `plan_step_by_step_abbr`
+  abbreviation tag
+- stdin support for `prompt generate` and `prompt show` — the `BLUEPRINT`
+  argument is now optional, reading from stdin when omitted
+- `AbbrData.__bool__`, reporting whether the singleton holds any entries
+
 ### Changed
+
+- `get_exportable_abbrs()` now logs an error and returns an empty list
+  when the abbr data singleton is empty, instead of raising `RuntimeError`
 
 ### Deprecated
 
 ### Removed
+
+- `examples/abbrs/` standalone demo scripts, superseded by the
+  `dynamic-node` CLI subcommand
+- `-f`/`-F` file-based blueprint I/O flags from `prompt generate` and
+  `prompt show`, in favor of stdin/stdout only
 
 ### Fixed
 

@@ -105,11 +105,11 @@ kaye_engine/
 ├── cli/
 │   ├── prompt/          `prompt` subcommand: ls, show, generate
 │   ├── claude/          skills, plugins, marketplaces, CLAUDE.md
+│   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: single-node render
 │   └── cli_continue/    deprecated; never registered, unreachable
 └── kamilog.py           logging, shared across the package
 dify_studio/             Dify workflow node sources, outside the package
 docs/                    per-topic reference, linked above
-examples/                standalone scripts, outside the package
 tests/                   prompt/, abbr/, cli/, dify/ — mirrors the source
 ```
 
