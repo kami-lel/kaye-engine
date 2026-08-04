@@ -48,17 +48,12 @@ def export_skills_as_folders(parent_folder, *, version):
     logger.enter("exporting abbreviation groups as skills")
 
     # export abbrs
-    try:
-        for group in get_exportable_abbrs():
-            folder = Skill(
-                name=group.skill_name,
-                description=group.description,
-                user_invocable=False,
-                body=group.as_md_list(),
-                version=version,
-            ).write(parent_folder)
-            logger.succ("export skill:\t{}".format(folder))
-
-    except RuntimeError as err:  # BUG better handling empty abbr
-        logger.err(str(err))
-        raise SystemExit(1) from err
+    for group in get_exportable_abbrs():
+        folder = Skill(
+            name=group.skill_name,
+            description=group.description,
+            user_invocable=False,
+            body=group.as_md_list(),
+            version=version,
+        ).write(parent_folder)
+        logger.succ("export skill:\t{}".format(folder))
