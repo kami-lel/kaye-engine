@@ -13,8 +13,8 @@ from kaye_engine.kamilog import (
     set_logging_level_by_namespace,
 )
 from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
+from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
-from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.dynamic_node.node_type_choices import NODE_TYPE_CHOICES
 
 # logger  ######################################################################
@@ -22,6 +22,9 @@ logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 _HELP = "render a single dynamic node"
+
+# root heading of the dummy corpus tree built for this command
+_ROOT_NODE_NAME = "○"
 
 
 _NODE_TYPE_LIST = "\n".join(
@@ -53,19 +56,24 @@ Abbreviation node reads its query content from stdin, optional:
 # auxiliaries  #################################################################
 def _dynamic_node_main(args):
     set_logging_level_by_namespace(args, logger=logger)
-    check_corpus_setup_for_cli()
 
     node_cls = NODE_TYPE_CHOICES[args.NODE_TYPE]
-    blueprint = PromptBlueprint.create_from_node("(" + node_cls.HEADING + ")")
+
+    dummy_root = PromptCorpusNode(_ROOT_NODE_NAME, None, [])
+    node_cls(dummy_root)
+
+    blueprint = PromptBlueprint.create_from_node(
+        "(" + node_cls.HEADING + ")", corpus_tree=dummy_root
+    )
 
     generate_kwargs = {}
     if args.NODE_TYPE == "abbr":
-        generate_kwargs["query"] = sys.stdin.read()
+        generate_kwargs["query"] = sys.stdin.read()  # BUG
 
     try:
         prompt = blueprint.generate_prompt(**generate_kwargs)
     except RuntimeError as e:
-        logger.err(str(e))
+        logger.error(str(e))
         raise SystemExit(1) from e
 
     print(prompt)
