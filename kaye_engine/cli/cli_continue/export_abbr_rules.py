@@ -33,18 +33,13 @@ def export_abbr_rules(folder):
     folder = Path(folder).resolve()
     folder.mkdir(parents=True, exist_ok=True)
 
-    try:
-        for group in get_exportable_abbrs():
-            file_path = folder / "{}.md".format(group.display_name)
+    for group in get_exportable_abbrs():
+        file_path = folder / "{}.md".format(group.display_name)
 
-            ContinueRule(
-                name=group.display_name,
-                description=group.description,
-                body=group.as_md_list(),
-            ).write(file_path)
+        ContinueRule(
+            name=group.display_name,
+            description=group.description,
+            body=group.as_md_list(),
+        ).write(file_path)
 
-            logger.succ("abbr rule:\t{}".format(file_path))
-
-    except RuntimeError as e:  # BUG better handling empty abbr
-        logger.err(str(e))
-        raise SystemExit(1) from e
+        logger.succ("abbr rule:\t{}".format(file_path))
