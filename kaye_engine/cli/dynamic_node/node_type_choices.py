@@ -27,5 +27,5 @@ NODE_TYPE_CHOICES = {
     "plc": PLCNode,
     "unity": UnityEngineAbbrNode,
     "coding": CodingTermsNode,
-    "plan-step-by-step-abbr": PlanStepByStepAbbrNode,
+    "plan": PlanStepByStepAbbrNode,
 }
