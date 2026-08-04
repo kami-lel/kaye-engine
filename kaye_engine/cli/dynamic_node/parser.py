@@ -68,13 +68,13 @@ def _dynamic_node_main(args):
 
     generate_kwargs = {}
     if args.NODE_TYPE == "abbr":
-        generate_kwargs["query"] = sys.stdin.read()  # BUG
+        generate_kwargs["query"] = sys.stdin.read()
 
     try:
         prompt = blueprint.generate_prompt(**generate_kwargs)
-    except RuntimeError as e:
-        logger.error(str(e))
-        raise SystemExit(1) from e
+    except RuntimeError as e:  # BUG better handling empty abbr
+        logger.warning(str(e))
+        prompt = ""
 
     print(prompt)
 

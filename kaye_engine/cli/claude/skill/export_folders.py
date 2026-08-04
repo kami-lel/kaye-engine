@@ -59,6 +59,6 @@ def export_skills_as_folders(parent_folder, *, version):
             ).write(parent_folder)
             logger.succ("export skill:\t{}".format(folder))
 
-    except RuntimeError as err:
+    except RuntimeError as err:  # BUG better handling empty abbr
         logger.err(str(err))
         raise SystemExit(1) from err
