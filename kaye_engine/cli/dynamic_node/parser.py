@@ -68,7 +68,7 @@ def _dynamic_node_main(args):
 
     generate_kwargs = {}
     if args.NODE_TYPE == "abbr":
-        generate_kwargs["query"] = sys.stdin.read()
+        generate_kwargs["query"] = sys.stdin.read()  # BUG
 
     prompt = blueprint.generate_prompt(**generate_kwargs)
 

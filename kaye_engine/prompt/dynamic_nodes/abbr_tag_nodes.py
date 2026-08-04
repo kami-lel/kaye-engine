@@ -15,6 +15,7 @@ __all__ = (
     "PLCNode",
     "UnityEngineAbbrNode",
     "CodingTermsNode",
+    "PlanStepByStepAbbrNode",
 )
 
 # logger  ######################################################################
@@ -119,3 +120,14 @@ class UnityEngineAbbrNode(
 
     HEADING = "Unity Engine Abbreviations"  # implement DynamicNode
     ABBR_TAG = AbbrTags.unity_engine_abbr  # implement AbbrTagNode
+
+
+class PlanStepByStepAbbrNode(
+    _AbbrTagNodeBase
+):  # =================================
+    """
+    dynamic node to provide **Plan Step By Step Abbreviations**
+    """
+
+    HEADING = "Plan Step By Step Abbreviations"  # implement DynamicNode
+    ABBR_TAG = AbbrTags.plan_step_by_step_abbr  # implement AbbrTagNode
