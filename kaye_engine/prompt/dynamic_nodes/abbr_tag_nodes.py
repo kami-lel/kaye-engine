@@ -16,6 +16,7 @@ __all__ = (
     "UnityEngineAbbrNode",
     "CodingTermsNode",
     "PlanStepByStepAbbrNode",
+    "CodeDocumentationFieldAbbrNode",
 )
 
 # logger  ######################################################################
@@ -89,7 +90,7 @@ class CodingTermsNode(_AbbrTagNodeBase):  # ************************************
 # specialized groups  ==========================================================
 
 
-class PLCNode(_AbbrTagNodeBase):  # ********************************************
+class PLCNode(_AbbrTagNodeBase):
     """
     dynamic node to provide **Programming Languages Code**
     """
@@ -98,7 +99,7 @@ class PLCNode(_AbbrTagNodeBase):  # ********************************************
     ABBR_TAG = AbbrTags.programming_language_code  # implement AbbrTagNode
 
 
-class LanguageCodeNode(_AbbrTagNodeBase):  # ***********************************
+class LanguageCodeNode(_AbbrTagNodeBase):
     """
     dynamic node to provide **Languages Code**
     """
@@ -107,9 +108,7 @@ class LanguageCodeNode(_AbbrTagNodeBase):  # ***********************************
     ABBR_TAG = AbbrTags.language_code  # implement AbbrTagNode
 
 
-class UnityEngineAbbrNode(
-    _AbbrTagNodeBase
-):  # =================================
+class UnityEngineAbbrNode(_AbbrTagNodeBase):
     """
     dynamic node to provide **Unity Engine Abbreviations**
     """
@@ -118,12 +117,19 @@ class UnityEngineAbbrNode(
     ABBR_TAG = AbbrTags.unity_engine_abbr  # implement AbbrTagNode
 
 
-class PlanStepByStepAbbrNode(
-    _AbbrTagNodeBase
-):  # =================================
+class PlanStepByStepAbbrNode(_AbbrTagNodeBase):
     """
     dynamic node to provide **Plan Step By Step Abbreviations**
     """
 
     HEADING = "Plan Step By Step Abbreviations"  # implement DynamicNode
     ABBR_TAG = AbbrTags.plan_step_by_step_abbr  # implement AbbrTagNode
+
+
+class CodeDocumentationFieldAbbrNode(_AbbrTagNodeBase):
+    """
+    dynamic node to provide **Code Documentation Field Abbreviations**
+    """
+
+    HEADING = "Code Documentation Field Abbreviations"  # implement DynamicNode
+    ABBR_TAG = AbbrTags.code_documentation_field_abbr  # implement AbbrTagNode

@@ -235,6 +235,7 @@ classDiagram
     _AbbrTagNodeBase <|-- PLCNode
     _AbbrTagNodeBase <|-- LanguageCodeNode
     _AbbrTagNodeBase <|-- UnityEngineAbbrNode
+    _AbbrTagNodeBase <|-- CodeDocumentationFieldAbbrNode
 ```
 
 
