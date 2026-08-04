@@ -16,8 +16,8 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 _DESCRIPTION = """
 
-renders the Chat blueprint (or Rapid with -r) and writes it to PROMPT_FILE
-as the User System Prompt; optionally appends the Coder blueprint with -c.
+renders the Chat blueprint and writes it to PROMPT_FILE as the User System
+Prompt; optionally appends the Coder blueprint with -c.
 
 PROMPT_FILE  (default: ~/.claude/CLAUDE.md)
 """
@@ -34,9 +34,7 @@ def _user_prompt_main(args):
 
     prompt_file = args.prompt_file
 
-    export_user_system_prompt_file(
-        prompt_file, use_rapid=args.rapid, use_coder=args.coder
-    )
+    export_user_system_prompt_file(prompt_file, use_coder=args.coder)
 
     logger.done("export user system prompt" + "\t" + str(prompt_file))
 
@@ -68,14 +66,6 @@ def register_user_prompt_parser(cli_subparser):  ###############################
         type=Path,
         default=find_user_system_prompt_file(DEFAULT_CLAUDE_FOLDER),
         help="path to CLAUDE.md file; default: ~/.claude/CLAUDE.md",
-    )
-
-    user_prompt_parser.add_argument(
-        "-r",
-        "--rapid",
-        action="store_true",
-        default=False,
-        help="use Rapid blueprint instead of Chat",
     )
 
     user_prompt_parser.add_argument(

@@ -5,7 +5,9 @@ from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.plugin_marketplace_name import check_setup_for_claude_cli
+from kaye_engine.cli.claude.plugin_marketplace_name import (
+    check_setup_for_claude_cli,
+)
 from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
