@@ -6,9 +6,8 @@ from unittest.mock import mock_open, patch
 
 
 from kaye_engine.abbr_collection import get_abbr_data
-from kaye_engine.abbr_collection.abbr_data_loader import (
-    populate_abbr_data_with_json_file,
-)
+from kaye_engine.abbr_collection.abbr_data import _abbr_data
+from kaye_engine.abbr_collection.abbr_meaning import AbbrMeaning
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
@@ -23,10 +22,11 @@ from kaye_engine.prompt import (
 
 @pytest.fixture(scope="session", autouse=True)
 def _loaded_abbr_data():
-    m = mock_open(read_data="{}")
-
-    with patch("builtins.open", m):
-        populate_abbr_data_with_json_file("dummy-abbrs-path.json")
+    mean = AbbrMeaning("dummy", remark=None)
+    with _abbr_data:
+        _abbr_data.add_entry(
+            mean, "dmy", {"priority": 0, "tags": [], "wrap": "word"}
+        )
 
     return get_abbr_data()
 
