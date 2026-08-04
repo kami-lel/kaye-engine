@@ -20,7 +20,7 @@ blueprint_io_parser = ArgumentParser(add_help=False)
 # positional argument
 blueprint_io_parser.add_argument(
     "BLUEPRINT",
-    help="embedded blueprint name; read from stdin when omitted",
+    help="embedded blueprint name",
     type=str,
     nargs="?",
     default=None,

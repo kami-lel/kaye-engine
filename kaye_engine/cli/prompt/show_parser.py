@@ -4,8 +4,13 @@ show_parser.py
 define ``register_show_parser``
 """
 
+from argparse import RawDescriptionHelpFormatter
+
 from kaye_engine import LOGGER_NAME, kamilog
-from kaye_engine.kamilog import add_verbose_arguments, set_logging_level_by_namespace
+from kaye_engine.kamilog import (
+    add_verbose_arguments,
+    set_logging_level_by_namespace,
+)
 
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.prompt.blueprint_io_parser import (
@@ -24,10 +29,19 @@ _HELP = "show content of any of registered blueprints"
 
 _DESCRIPTION = _HELP + """
 
-renders BLUEPRINT into a preview tree via generate_blueprint(), loading
-it from the registry by name, or from stdin when BLUEPRINT is omitted;
-the preview's depth, line count, and line width can be tuned with -t,
--l, and -w, and the result is printed to stdout"""
+render blueprint into a preview tree; the result is printed to stdout
+
+select blueprint by registry name BLUEPRINT:
+
+    kaye-engine prompt show my-blueprint
+
+reading blueprint from stdin:
+
+    kaye-engine prompt show < my-blueprint.yaml
+    cat my-blueprint.yaml | kaye-engine prompt show
+
+the preview's depth, line count, and line width can be tuned with -t, -l, and -w
+"""
 
 
 # auxiliaries  #################################################################
@@ -61,6 +75,7 @@ def register_show_parser(cli_subparser):
         "show",
         help=_HELP,
         description=_DESCRIPTION,
+        formatter_class=RawDescriptionHelpFormatter,
         parents=[blueprint_io_parser],
     )
 

@@ -4,8 +4,13 @@ generate_parser.py
 define ``register_generate_parser``
 """
 
+from argparse import RawDescriptionHelpFormatter
+
 from kaye_engine import LOGGER_NAME, kamilog
-from kaye_engine.kamilog import add_verbose_arguments, set_logging_level_by_namespace
+from kaye_engine.kamilog import (
+    add_verbose_arguments,
+    set_logging_level_by_namespace,
+)
 
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.prompt.blueprint_io_parser import (
@@ -25,9 +30,17 @@ _HELP = "generate concrete prompt from blueprint"
 
 _DESCRIPTION = _HELP + """
 
-renders BLUEPRINT into a final system prompt via generate_prompt(),
-loading it from the registry by name, or from stdin when BLUEPRINT is
-omitted; the result is printed to stdout"""
+renders blueprint into a final system prompt; the result is printed to stdout
+
+select blueprint by registry name BLUEPRINT:
+
+    kaye-engine prompt generate my-blueprint
+
+reading blueprint from stdin:
+
+    kaye-engine prompt generate < my-blueprint.yaml
+    cat my-blueprint.yaml | kaye-engine prompt generate
+"""
 
 
 def _generate_main(args):  ####################################################
@@ -52,6 +65,7 @@ def register_generate_parser(cli_subparser):  ##################################
         "generate",
         help=_HELP,
         description=_DESCRIPTION,
+        formatter_class=RawDescriptionHelpFormatter,
         aliases=["g"],
         parents=[blueprint_io_parser],
     )
