@@ -12,6 +12,7 @@ from kaye_engine.prompt.dynamic_nodes import (
     PLCNode,
     UnityEngineAbbrNode,
     CodingTermsNode,
+    PlanStepByStepAbbrNode,
 )
 
 __all__ = ("NODE_TYPE_CHOICES",)
@@ -26,4 +27,5 @@ NODE_TYPE_CHOICES = {
     "plc": PLCNode,
     "unity": UnityEngineAbbrNode,
     "coding": CodingTermsNode,
+    "plan-step-by-step-abbr": PlanStepByStepAbbrNode,
 }
