@@ -18,6 +18,7 @@ from kaye_engine.abbr_collection import (
     AbbrData,
     AbbrTags,
 )
+from kaye_engine.abbr_collection import abbr_data as abbr_data_module
 from kaye_engine.abbr_collection.abbr_data_loader import (
     populate_abbr_data_with_json_file,
 )
@@ -88,6 +89,40 @@ class TestValidate:
         print(opt)
 
         assert opt == "remark must be String: 5"
+
+
+# get_abbr_data  ###############################################################
+class TestGetAbbrDataEmpty:
+
+    def test_returns_empty_singleton_without_raising(_):
+        empty = AbbrData()
+
+        with patch.object(abbr_data_module, "_abbr_data", empty):
+            opt = abbr_data_module.get_abbr_data()
+
+        print(opt)
+        assert opt is empty
+        assert not opt
+
+    def test_returns_populated_singleton(_):
+        populated = _build_abbr_data({
+            "for example,for instance": {
+                "abbrs": {
+                    "e.g.": {
+                        "priority": 5,
+                        "tags": ["ascii_only"],
+                        "wrap": "word",
+                    },
+                },
+            },
+        })
+
+        with patch.object(abbr_data_module, "_abbr_data", populated):
+            opt = abbr_data_module.get_abbr_data()
+
+        print(opt)
+        assert opt is populated
+        assert opt
 
 
 # test functions  ##############################################################
