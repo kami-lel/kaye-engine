@@ -34,6 +34,7 @@ def _user_prompt_main(args):
 
     prompt_file = args.prompt_file
 
+    # BUG consider fixed prompt
     export_user_system_prompt_file(
         prompt_file, use_rapid=args.rapid, use_coder=args.coder
     )
