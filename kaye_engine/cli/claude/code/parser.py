@@ -73,7 +73,6 @@ def register_code_parser(cli_subparser):  ######################################
 
         logger.debug("export user system prompt file")
         prompt_file = find_user_system_prompt_file(folder)
-        # BUG consider fixed prompt
         export_user_system_prompt_file(prompt_file, use_coder=True)
         logger.succ("export user system prompt file:\t" + str(prompt_file))
 

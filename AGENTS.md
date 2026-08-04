@@ -83,8 +83,7 @@ kaye-engine claude marketplace              # to ~/.claude/kaye_marketplace
 kaye-engine claude marketplace MARKETPLACE  # to a custom folder
 kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
 kaye-engine claude user-system-prompt       # Chat blueprint as CLAUDE.md
-kaye-engine claude user-system-prompt -r    # use Rapid blueprint instead
-kaye-engine claude user-system-prompt -c    # append Kaye Peer Coder content
+kaye-engine claude user-system-prompt -c    # append Coder blueprint content
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
 ```
 
@@ -104,10 +103,12 @@ comments are allowed).
 document it, invoke it, or wire it back in without being asked.
 
 `claude user-system-prompt`, `claude code`, and `claude vs-code-extension`
-look up blueprints `"chat"`/`"rapid"`/`"coder"`, so they need a host corpus.
-On a bare checkout each subcommand logs a setup-guard warning (no default
-corpus tree, empty `blueprint_registry`), then exits `1` on the missing
-`"chat"`/`"rapid"` lookup — expected, not a bug.
+resolve their Chat and Coder blueprints by name, so a host must call
+`set_claude_using_blueprint(chat_bp_name, coder_bp_name)` before invoking the
+CLI — there is no default. On a bare checkout, or when the setter was never
+called, `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` log
+`logger.critical` and raise `SystemExit(1)`; the same happens if the
+configured name is not a registered blueprint — expected, not a bug.
 
 A `claude`-exporting host must call `set_claude_plugin_marketplace_name(name)`
 before invoking the CLI, or `get_plugin_marketplace_name()` logs

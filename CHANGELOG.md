@@ -38,6 +38,11 @@ todo todo utilize personalities, allow multi agent conversation
 - stdin support for `prompt generate` and `prompt show` — the `BLUEPRINT`
   argument is now optional, reading from stdin when omitted
 - `AbbrData.__bool__`, reporting whether the singleton holds any entries
+- `set_claude_using_blueprint(chat_bp_name, coder_bp_name)`, exposed at the
+  `kaye_engine` top level, letting a host project configure which
+  registered blueprint names back the Chat and Coder exports; unset or
+  unregistered names log `logger.critical` and raise `SystemExit(1)` when
+  `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` are read
 
 ### Changed
 
@@ -52,6 +57,10 @@ todo todo utilize personalities, allow multi agent conversation
   `dynamic-node` CLI subcommand
 - `-f`/`-F` file-based blueprint I/O flags from `prompt generate` and
   `prompt show`, in favor of stdin/stdout only
+- Rapid blueprint option — the `-r`/`--rapid` flag on
+  `claude user-system-prompt` and the `use_rapid` parameter on
+  `export_user_system_prompt_file()`, superseded by
+  `set_claude_using_blueprint(...)`
 
 ### Fixed
 

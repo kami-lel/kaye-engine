@@ -43,7 +43,6 @@ def export_vs_code_extension(claude_folder):
 
     logger.debug("export user system prompt file")
     prompt_file = find_user_system_prompt_file(claude_folder)
-    # BUG consider fixed prompt
     export_user_system_prompt_file(prompt_file, use_coder=True)
     logger.succ("export user system prompt file:\t" + str(prompt_file))
 
