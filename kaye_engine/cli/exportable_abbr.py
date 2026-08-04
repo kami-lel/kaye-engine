@@ -145,7 +145,7 @@ def get_exportable_abbrs():
     """
     abbr_data = get_abbr_data()
     if not abbr_data:
-        logger.warning("abbr data is empty, no exportable abbr groups")
+        logger.error("abbr data is empty, no exportable abbr groups")
         return []
 
     abbrs = abbr_data.abbrs
