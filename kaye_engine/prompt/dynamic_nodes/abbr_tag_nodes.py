@@ -36,11 +36,7 @@ def gen_abbrs_content_lines(abbr_tag):
     """
     abbr_data = get_abbr_data()
     if not abbr_data:
-        logger.warning(
-            "abbr data is empty, rendering {} with no abbr content".format(
-                repr(abbr_tag)
-            )
-        )
+        logger.error("abbr data is empty, rendering without any abbr")
         return []
 
     lines = []

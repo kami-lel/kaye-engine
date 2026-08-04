@@ -42,10 +42,7 @@ class AbbrNode(DynamicNode):  ##################################################
     def _generate_content_lines_dynamically(self, query):
         abbr_data = get_abbr_data()
         if not abbr_data:
-            logger.warning(
-                "abbr data is empty, rendering {} with no abbr content"
-                .format(type(self).__name__)
-            )
+            logger.error("abbr data is empty, rendering without any abbr")
             return []
 
         # find abbr occurrences  -----------------------------------------------
