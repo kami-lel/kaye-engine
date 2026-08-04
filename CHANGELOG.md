@@ -64,6 +64,9 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Fixed
 
+- `check_corpus_setup_for_cli()` now logs a missing corpus tree or empty
+  `blueprint_registry` at `ERROR` instead of `WARNING`
+
 ### Security
 
 [unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.0.0...dev
