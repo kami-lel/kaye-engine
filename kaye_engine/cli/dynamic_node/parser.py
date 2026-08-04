@@ -66,9 +66,11 @@ def _dynamic_node_main(args):
         "(" + node_cls.HEADING + ")", corpus_tree=dummy_root
     )
 
+    query = sys.stdin.read() if not sys.stdin.isatty() else ""
+
     generate_kwargs = {}
     if args.NODE_TYPE == "abbr":
-        generate_kwargs["query"] = sys.stdin.read()  # BUG
+        generate_kwargs["query"] = query
 
     prompt = blueprint.generate_prompt(**generate_kwargs)
 
