@@ -25,26 +25,29 @@ _HELP = "render a single dynamic node"
 
 
 _NODE_TYPE_LIST = "\n".join(
-    "    {:<10}{}".format(name, cls.HEADING)
+    "{:<10}{}".format(name, cls.HEADING)
     for name, cls in NODE_TYPE_CHOICES.items()
 )
 
 
-_DESCRIPTION = _HELP + """
+_DESCRIPTION = (
+    _HELP
+    + """
 
-renders a blueprint made of ONLY the given NODE_TYPE dynamic node;
+renders a blueprint made of ONLY the given NODE_TYPE dynamic node,
 result is printed to stdout
-
-    kaye-engine dynamic-node today
-    kaye-engine dn coding
-
-the "abbr" node type reads its query content from stdin:
-
-    echo "use an algo to calc the avg" | kaye-engine dn abbr
 
 NODE_TYPE choices:
 
-""" + _NODE_TYPE_LIST
+"""
+    + _NODE_TYPE_LIST
+    + """
+
+Abbreviation node reads its query content from stdin, optional:
+
+    echo "use an algo to calc the avg" | kaye-engine dynamic-node abbr
+"""
+)
 
 
 # auxiliaries  #################################################################
