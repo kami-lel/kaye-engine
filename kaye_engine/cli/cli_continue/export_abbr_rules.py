@@ -45,6 +45,6 @@ def export_abbr_rules(folder):
 
             logger.succ("abbr rule:\t{}".format(file_path))
 
-    except RuntimeError as e:
+    except RuntimeError as e:  # BUG better handling empty abbr
         logger.err(str(e))
         raise SystemExit(1) from e
