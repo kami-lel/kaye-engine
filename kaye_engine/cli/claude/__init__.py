@@ -10,7 +10,7 @@ from kaye_engine import LOGGER_NAME
 LOGGER_CLAUDE_NAME = LOGGER_NAME + ".claude"
 
 # sidecar names to auto-checkmark when exporting Claude prompts
-CONTAINING_SIDECARS = ("for claude code", "prerequisite")
+CONTAINING_SIDECARS = ("for claude code",)
 
 # name shown to Anthropic's plugin/marketplace tooling
 _plugin_marketplace_name = None

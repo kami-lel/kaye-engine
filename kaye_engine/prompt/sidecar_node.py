@@ -33,7 +33,7 @@ def get_sidecar_name(node):
 
     identifies a sidecar node by its ``{name}`` heading convention and
     returns the name inside the braces (e.g., ``description``,
-    ``prerequisite``). returns ``None`` if the node is not a sidecar node.
+    ``globs``). returns ``None`` if the node is not a sidecar node.
 
     **usage**:
 
@@ -41,7 +41,7 @@ def get_sidecar_name(node):
     >>> name = get_sidecar_name(node)
     >>> if name is not None:
     ...     print(f"sidecar name: {name}")
-    >>> if name in ("prerequisite", "for claude code"):
+    >>> if name == "for claude code":
     ...     print("this is a conditional sidecar node")
 
 

@@ -85,7 +85,7 @@ To load the marketplace in VS Code:
 
 A corpus must supply a node at `Agent Behavior` → `Claude Behavior`, and register a Chat blueprint and a Coder blueprint under whatever names the host passes to `set_claude_using_blueprint(chat_bp_name, coder_bp_name)`; `user_prompt/export.py` resolves them via `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` in `blueprint_name.py`.
 
-`{for claude code}` and `{prerequisite}` sidecar nodes are optional; when present, `CONTAINING_SIDECARS` auto-includes them in every Claude export.
+`{for claude code}` sidecar nodes are optional; when present, `CONTAINING_SIDECARS` auto-includes them in every Claude export.
 
 Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md).
 
