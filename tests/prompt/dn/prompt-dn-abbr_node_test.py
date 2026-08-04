@@ -49,13 +49,13 @@ class TestAbbrTagNodesEmpty:
             "kaye_engine.prompt.dynamic_nodes.abbr_tag_nodes.get_abbr_data",
             return_value=empty_abbr_data,
         ):
-            with caplog.at_level(logging.WARNING, logger=LOGGER_NAME):
+            with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
                 opt = testee.content_lines()
 
         print(opt)
         assert opt == []
         assert any(
-            rec.levelno == logging.WARNING for rec in caplog.records
+            rec.levelno == logging.ERROR for rec in caplog.records
         )
 
 
@@ -69,13 +69,13 @@ class TestAbbrNodeEmpty:
             "kaye_engine.prompt.dynamic_nodes.abbr_tag_nodes.get_abbr_data",
             return_value=empty_abbr_data,
         ):
-            with caplog.at_level(logging.WARNING, logger=LOGGER_NAME):
+            with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
                 opt = testee.content_lines()
 
         print(opt)
         assert opt == []
         assert any(
-            rec.levelno == logging.WARNING for rec in caplog.records
+            rec.levelno == logging.ERROR for rec in caplog.records
         )
 
     def test_content_lines_with_query(_, empty_abbr_data, caplog):
@@ -85,11 +85,11 @@ class TestAbbrNodeEmpty:
             "kaye_engine.prompt.dynamic_nodes.abbr_nodes.get_abbr_data",
             return_value=empty_abbr_data,
         ):
-            with caplog.at_level(logging.WARNING, logger=LOGGER_NAME):
+            with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
                 opt = testee.content_lines(query="use an algo to calc avg")
 
         print(opt)
         assert opt == []
         assert any(
-            rec.levelno == logging.WARNING for rec in caplog.records
+            rec.levelno == logging.ERROR for rec in caplog.records
         )
