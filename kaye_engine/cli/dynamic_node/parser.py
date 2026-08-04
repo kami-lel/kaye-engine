@@ -21,7 +21,7 @@ from kaye_engine.cli.dynamic_node.node_type_choices import NODE_TYPE_CHOICES
 logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
-_HELP = "render a blueprint containing a single dynamic node"
+_HELP = "render a single dynamic node"
 
 
 _NODE_TYPE_LIST = "\n".join(
