@@ -5,6 +5,7 @@ main parser for Kaye Python CLI
 from argparse import ArgumentParser
 
 from kaye_engine.cli.claude.main import register_cli_claude_parser
+from kaye_engine.cli.dynamic_node.parser import register_dynamic_node_parser
 from kaye_engine.cli.prompt.main_parser import register_cli_prompt_parser
 
 __all__ = ("register_cli_main_parser",)
@@ -31,5 +32,6 @@ def register_cli_main_parser(program_name=PROGRAM_NAME):
 
     register_cli_prompt_parser(subparser)
     register_cli_claude_parser(subparser)
+    register_dynamic_node_parser(subparser)
 
     return parser, subparser
