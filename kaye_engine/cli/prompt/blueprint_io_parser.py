@@ -52,10 +52,3 @@ def load_blueprint_from_args(args):
         raise SystemExit(1) from err
 
     return registry.blueprint, registry.display_name
-
-
-def write_blueprint_result(text):
-    """
-    print ``text`` to stdout
-    """
-    print(text)

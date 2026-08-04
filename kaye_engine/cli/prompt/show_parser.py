@@ -16,7 +16,6 @@ from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.prompt.blueprint_io_parser import (
     blueprint_io_parser,
     load_blueprint_from_args,
-    write_blueprint_result,
 )
 
 # logger  ######################################################################
@@ -63,7 +62,7 @@ def _show_main(args):
 
     preview_tree = blueprint.generate_blueprint(**render_kwargs)
 
-    write_blueprint_result(preview_tree)
+    print(preview_tree)
 
 
 # Public API  ##################################################################
