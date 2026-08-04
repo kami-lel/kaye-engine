@@ -71,6 +71,7 @@ kaye-engine --help                          # show CLI usage
 kaye-engine prompt ls                       # list registered blueprint names
 kaye-engine prompt show BLUEPRINT           # preview a blueprint's structure
 kaye-engine prompt generate BLUEPRINT       # render a concrete prompt
+kaye-engine prompt generate < FILE          # render from stdin (BLUEPRINT omitted)
 kaye-engine claude skill SKILLS_FOLDER      # export blueprints as Skill folders
 kaye-engine claude skill -z ZIPS_FOLDER     # create .zip Skill packages
 kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
