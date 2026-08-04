@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-Hack consider how to manage dify_studio
+hack consider how to manage dify_studio
 Todo extract register_cli_subcommands(cli_subparser) in cli/cli_main.py so
   sibling packages (kaye-vault) can compose engine's prompt/claude
   subcommands explicitly instead of relying on shared cli_subparser
