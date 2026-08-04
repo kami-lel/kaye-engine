@@ -16,6 +16,7 @@ from .abbr_tag_nodes import (
     PLCNode,
     UnityEngineAbbrNode,
     CodingTermsNode,
+    PlanStepByStepAbbrNode,
 )
 
 __all__ = (
@@ -28,6 +29,7 @@ __all__ = (
     "PLCNode",
     "UnityEngineAbbrNode",
     "CodingTermsNode",
+    "PlanStepByStepAbbrNode",
     "DYNAMIC_NODE_TYPES",
 )
 
@@ -40,4 +42,5 @@ DYNAMIC_NODE_TYPES = (
     PLCNode,
     UnityEngineAbbrNode,
     CodingTermsNode,
+    PlanStepByStepAbbrNode,
 )
