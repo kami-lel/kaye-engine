@@ -14,6 +14,7 @@ __all__ = (
     "get_blueprint",
     "register_blueprint",
     "set_claude_plugin_marketplace_name",
+    "set_claude_using_blueprint",
 )
 
 
@@ -36,4 +37,7 @@ from kaye_engine.abbr_collection import (
 )
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     set_claude_plugin_marketplace_name,
+)
+from kaye_engine.cli.claude.blueprint_name import (
+    set_claude_using_blueprint,
 )
