@@ -34,7 +34,7 @@ def export_user_system_prompt_file(
     file_path = Path(file_path).resolve()
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Bug base blueprint is hardcoded
+    # BUG base blueprint is hardcoded
     base_name = "rapid" if use_rapid else "chat"
     try:
         blueprint = blueprint_registry[base_name].blueprint
