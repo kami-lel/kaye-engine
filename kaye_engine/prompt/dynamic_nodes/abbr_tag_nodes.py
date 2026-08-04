@@ -4,6 +4,7 @@ abbr_tag_nodes.py
 define abbreviation-tag-filtered node types
 """
 
+from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.abbr_collection import AbbrTags, get_abbr_data
 from .dynamic_node import DynamicNode
 
@@ -16,21 +17,33 @@ __all__ = (
     "CodingTermsNode",
 )
 
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
+
 
 def gen_abbrs_content_lines(abbr_tag):
     """
     render every ``get_abbr_data().abbrs`` entry matching ``abbr_tag``
-    as a list of markdown list items
+    as a list of markdown list items; empty when the abbr data singleton
+    is still empty
 
 
     :param abbr_tag: tag to filter entries by
     :type abbr_tag: AbbrTags
     :return: rendered markdown list items, one per matching entry
     :rtype: list[str]
-    :raises RuntimeError: :func:`get_abbr_data` is still empty
     """
+    abbr_data = get_abbr_data()
+    if not abbr_data:
+        logger.warning(
+            "abbr data is empty, rendering {} with no abbr content".format(
+                repr(abbr_tag)
+            )
+        )
+        return []
+
     lines = []
-    for entry in get_abbr_data().abbrs:
+    for entry in abbr_data.abbrs:
         if abbr_tag in entry.tags:
             lines.append(entry.as_md_list_entry())
     return lines
@@ -50,9 +63,6 @@ class _AbbrTagNodeBase(DynamicNode):  ##########################################
     # implement BasePromptNode  ------------------------------------------------
 
     def content_lines(self, **kwargs):
-        """
-        :raises RuntimeError: :func:`get_abbr_data` is still empty
-        """
         return self._preface + gen_abbrs_content_lines(self.ABBR_TAG)
 
 
