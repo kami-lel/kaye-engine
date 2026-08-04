@@ -74,6 +74,7 @@ from kaye_engine import (
     AbbrData, get_abbr_data,
     register_blueprint, get_blueprint,
     set_claude_plugin_marketplace_name,
+    set_claude_using_blueprint,
 )
 ```
 
@@ -81,18 +82,23 @@ A caller loads and caches a corpus by name; one tree may be flagged the
 process default, which is what a blueprint resolves against when given no
 explicit tree. A host that exports through `claude` subcommands must also
 call `set_claude_plugin_marketplace_name()` to name the plugin/marketplace
-for Anthropic's tooling. Q.v. [programmatic API
+for Anthropic's tooling, and `set_claude_using_blueprint(chat_bp_name,
+coder_bp_name)` to name the registered blueprints that back the Chat and
+Coder exports — neither has a default. Q.v. [programmatic API
 documentation](docs/programmatic-api-doc.md).
 
 Every CLI subcommand entrypoint calls a setup guard
 (`check_corpus_setup_for_cli()`, or `check_setup_for_claude_cli()` for
-`claude` subcommands) that logs a warning — never raises — when a host
+`claude` subcommands) that logs an error — never raises — when a host
 hasn't loaded a default corpus tree or registered any blueprints. It exists
 to surface a bare-checkout misuse early, not to enforce the boundary. The
-plugin/marketplace name is enforced separately: any `claude` export
-subcommand that needs it calls `get_plugin_marketplace_name()`, which logs
-`logger.critical` and raises `SystemExit(1)` when unset, rather than letting
-`None` reach path or manifest building.
+plugin/marketplace name and the Chat/Coder blueprint names are enforced
+separately, each by its own getter (`get_plugin_marketplace_name()`,
+`get_claude_chat_blueprint()`, `get_claude_coder_blueprint()`), which logs
+`logger.critical` and raises `SystemExit(1)` when unset — or, for the
+blueprint getters, when the configured name is not in `blueprint_registry`
+— rather than letting `None` or an unresolved name reach path, manifest, or
+prompt building.
 
 ## Repository Layout
 
