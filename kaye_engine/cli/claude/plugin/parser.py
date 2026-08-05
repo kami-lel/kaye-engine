@@ -21,11 +21,11 @@ _DEFAULT_PLUGINS_FOLDER = Path.home() / ".claude" / "plugins"
 _DESCRIPTION = """
 
 writes plugin.json and one SKILL.md per blueprint under
-PLUGIN_MARKETPLACE_NAME/skills/; with -z, creates an upload-ready .zip for
+PLUGIN_NAME/skills/; with -z, creates an upload-ready .zip for
 Claude Desktop instead.
 
 FOLDER/  (default: ~/.claude/plugins/)
-└── PLUGIN_MARKETPLACE_NAME/
+└── PLUGIN_NAME/
     ├── .claude-plugin/
     │   └── plugin.json
     └── skills/
