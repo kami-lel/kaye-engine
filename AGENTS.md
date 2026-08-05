@@ -78,7 +78,7 @@ kaye-engine claude skill SKILLS_FOLDER      # export blueprints as Skill folders
 kaye-engine claude skill -z ZIPS_FOLDER     # create .zip Skill packages
 kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
 kaye-engine claude plugin -z PLUGINS_FOLDER # .zip package (-n drops version)
-kaye-engine claude marketplace              # to ~/.claude/kaye_marketplace
+kaye-engine claude marketplace              # to ~/.claude/<marketplace folder>
 kaye-engine claude marketplace MARKETPLACE  # to a custom folder
 kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
 kaye-engine claude user-system-prompt       # Chat blueprint as CLAUDE.md
@@ -101,17 +101,16 @@ comments are allowed).
 `cli_main.py` never registers it, so no `continue` subcommand exists. Do not
 document it, invoke it, or wire it back in without being asked.
 
-`claude user-system-prompt`, `claude code`, and `claude vs-code-extension`
-resolve their Chat and Coder blueprints by name, so a consumer must call
-`set_claude_using_blueprint(chat_bp_name, coder_bp_name)` before invoking the
-CLI — there is no default. On a bare checkout, or when the setter was never
-called, `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` log
-`logger.critical` and raise `SystemExit(1)`; the same happens if the
-configured name is not a registered blueprint — expected, not a bug.
-
-A `claude`-exporting consumer must call `set_claude_plugin_marketplace_name(name)`
-before invoking the CLI, or `get_plugin_marketplace_name()` logs
-`logger.critical` and raises `SystemExit(1)`.
+Every `claude` subcommand needs a consumer to call
+`setup_claude_cli(plugin_name, marketplace_name, chat_bp_name,
+coder_bp_name, version, marketplace_folder_name)` before invoking the CLI —
+there is no default for any of the six. On a bare checkout, or when
+`setup_claude_cli(...)` was never called, `get_plugin_name()`,
+`get_marketplace_name()`, `get_claude_chat_blueprint()`,
+`get_claude_coder_blueprint()`, `get_claude_cli_consumer_version()`, and
+`get_marketplace_folder_name()` each log `logger.critical` and raise
+`SystemExit(1)`; the blueprint getters do the same when the configured name
+is not a registered blueprint — expected, not a bug.
 
 ## Code Conventions
 
