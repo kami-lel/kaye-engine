@@ -6,7 +6,7 @@ from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.package_version import resolve_package_version
+from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 
 
@@ -78,7 +78,9 @@ def register_skill_parser(cli_subparser):  #####################################
             done_msg = "export skills as zip packages"
         else:
             logger.debug("export skills as folders")
-            export_skills_as_folders(folder, version=resolve_package_version())
+            export_skills_as_folders(
+                folder, version=get_claude_cli_consumer_version()
+            )
             done_msg = "export skills as folders"
 
         logger.done(done_msg + "\t" + str(folder))

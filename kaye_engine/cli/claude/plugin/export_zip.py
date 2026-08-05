@@ -6,11 +6,11 @@ define ``export_plugin_as_zip``
 
 import shutil
 import tempfile
-from importlib.metadata import version
 from pathlib import Path
 
-from kaye_engine import PACKAGE_NAME, kamilog
+from kaye_engine import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
 
 from .export_folder import (
     export_plugin_as_folder,
@@ -34,8 +34,8 @@ def export_plugin_as_zip(parent_folder, *, includes_version=True):
 
     :param parent_folder: destination directory to write the ``.zip`` into
     :type parent_folder: Path-like
-    :param includes_version: append the current package version to the
-            ``.zip`` filename when ``True``
+    :param includes_version: append the configured version to the ``.zip``
+            filename when ``True``
     :type includes_version: bool
     """
     parent_folder = Path(parent_folder)
@@ -61,7 +61,9 @@ def export_plugin_as_zip(parent_folder, *, includes_version=True):
         logger.debug("moving archived plugin to destination folder")
         file_name = plugin_root.name
         if includes_version:
-            file_name = "{}-{}".format(file_name, version(PACKAGE_NAME))
+            file_name = "{}-{}".format(
+                file_name, get_claude_cli_consumer_version()
+            )
         dest = parent_folder / (file_name + ".zip")
         shutil.move(str(zip_base.with_suffix(".zip")), str(dest))
 

@@ -12,9 +12,18 @@ LOGGER_CLAUDE_NAME = LOGGER_NAME + ".claude"
 # sidecar names to auto-checkmark when exporting Claude prompts
 CONTAINING_SIDECARS = ("for claude code",)
 
-# name shown to Anthropic's plugin/marketplace tooling
-_plugin_marketplace_name = None
+# name written into plugin.json / used as the plugin's folder name
+_plugin_name = None
+
+# name written into marketplace.json
+_marketplace_name = None
 
 # registered blueprint names used for Claude user/system prompt export
 _chat_blueprint_name = None
 _coder_blueprint_name = None
+
+# version stamped into plugin.json, marketplace.json, and every SKILL.md
+_version = None
+
+# folder name used for the marketplace under ~/.claude and under a given Claude folder
+_marketplace_folder_name = None

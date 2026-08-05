@@ -5,7 +5,10 @@ from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.plugin_marketplace_name import check_setup_for_claude_cli
+from kaye_engine.cli.claude.plugin_marketplace_name import (
+    check_setup_for_claude_cli,
+)
+from kaye_engine.cli.claude.setup import get_marketplace_folder_name
 
 from .export import export_marketplace
 
@@ -19,11 +22,11 @@ _DESCRIPTION = """
 writes marketplace.json and exports the kaye plugin into plugins/; the
 resulting folder can be added directly in Claude's marketplace settings.
 
-MARKETPLACE/  (default: ~/.claude/kaye_marketplace)
+MARKETPLACE/  (default: ~/.claude/MARKETPLACE_FOLDER_NAME)
 ├── .claude-plugin/
 │   └── marketplace.json
 └── plugins/
-    └── PLUGIN_MARKETPLACE_NAME/
+    └── PLUGIN_NAME/
         ├── .claude-plugin/
         │   └── plugin.json
         └── skills/
@@ -48,8 +51,8 @@ def register_marketplace_parser(cli_subparser):  ###############################
         nargs="?",
         metavar="MARKETPLACE",
         type=Path,
-        default=Path.home() / ".claude" / "kaye_marketplace",
-        help="destination folder; default: ~/.claude/kaye_marketplace",
+        default=None,
+        help="destination folder; default: ~/.claude/<marketplace folder>",
     )
 
     kamilog.add_verbose_arguments(marketplace_parser)
@@ -60,6 +63,8 @@ def register_marketplace_parser(cli_subparser):  ###############################
         check_setup_for_claude_cli()
 
         folder = args.folder
+        if folder is None:
+            folder = Path.home() / ".claude" / get_marketplace_folder_name()
 
         export_marketplace(folder)
 

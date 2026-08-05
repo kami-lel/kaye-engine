@@ -29,7 +29,7 @@ exports the kaye plugin into plugins/.
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
 └── plugins/
-    └── PLUGIN_MARKETPLACE_NAME/
+    └── PLUGIN_NAME/
         ├── .claude-plugin/
         │   └── plugin.json
         └── skills/
