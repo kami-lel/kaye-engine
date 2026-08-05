@@ -167,7 +167,7 @@ def render_prompt_lines(  # ====================================================
     :type disable_first_heading: bool, optional
     :param contains_sidecars: auto-checkmark conditional sidecar nodes
             whose name is in this collection and whose parent is
-            checkmarked (e.g., ``("prerequisite", "for claude code")``);
+            checkmarked (e.g., ``("for claude code",)``);
             defaults to ``()`` (disabled)
     :type contains_sidecars: collections.abc.Iterable[str], optional
     :param display_name: blueprint's human-readable name, included in the

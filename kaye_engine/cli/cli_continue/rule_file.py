@@ -69,9 +69,7 @@ class ContinueRule(FrontmatterDoc):  ##########################################
             globs=sidecars.globs,
             always_apply=registry.always_apply,
             invokable=not registry.llm_invokable,
-            body=registry.blueprint.generate_prompt(
-                contains_sidecars=("prerequisite",)
-            ),
+            body=registry.blueprint.generate_prompt(),
         )
 
     # implement FrontmatterDoc  ================================================

@@ -4,8 +4,12 @@ exportable_abbr.py
 group abbreviations for export
 """
 
+from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.abbr_collection import AbbrTags, AbbrWrap, get_abbr_data
 from kaye_engine.prompt.blueprint.registry import to_skill_name
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 
@@ -135,10 +139,16 @@ def get_exportable_abbrs():
     current state of :func:`get_abbr_data`
 
 
-    :return: every tag, wrap, and first-character abbreviation group
+    :return: every tag, wrap, and first-character abbreviation group;
+            empty when the abbr data singleton is still empty
     :rtype: list[ExportableAbbr]
     """
-    abbrs = get_abbr_data().abbrs
+    abbr_data = get_abbr_data()
+    if not abbr_data:
+        logger.error("abbr data is empty, no exportable abbr groups")
+        return []
+
+    abbrs = abbr_data.abbrs
     return (
         _get_abbrs_by_tags(abbrs)
         + _get_abbrs_by_wrap(abbrs)

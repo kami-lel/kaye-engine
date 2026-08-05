@@ -14,9 +14,8 @@ from kaye_engine.cli.exportable_abbr import get_exportable_abbrs
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
-# Entry Point  #################################################################
 
-
+# Main Entry Point  ############################################################
 def export_abbr_rules(folder):
     """
     export rule files into ``folder``

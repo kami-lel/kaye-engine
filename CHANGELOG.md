@@ -3,11 +3,8 @@
 [^format]
 
 <!--
-hack consider how to manage dify_studio
-todo extract register_cli_subcommands(cli_subparser) in cli/cli_main.py so
-  sibling packages (kaye-vault) can compose engine's prompt/claude
-  subcommands explicitly instead of relying on shared cli_subparser
-  import-time side effects
+fixme sidecar node logic, use registry pattern
+Fixme consider update kamilog.py
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -38,7 +35,47 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.0.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.1.0...dev
+
+
+
+
+## [7.1.0] - 2026-08-05
+
+### Added
+
+- `dynamic-node` CLI command, renders a single dynamic node (dates,
+  abbreviations, and more) straight to stdout
+- new abbreviations for step-by-step plans and code documentation fields
+- `prompt generate` and `prompt show` now read from stdin
+- host projects can choose which blueprints back the Claude Chat and
+  Coder exports
+- host projects can plug kaye-engine's CLI commands into their own
+  parser
+
+### Changed
+
+- an empty abbreviation database no longer breaks an export, it's just
+  skipped
+- clearer usage examples in the `prompt generate`/`prompt show` help
+  text
+
+### Removed
+
+- old `examples/abbrs/` demo scripts, replaced by `dynamic-node`
+- file-based input/output flags on `prompt generate` and `prompt show`,
+  stdin/stdout only now
+- the rapid blueprint option, replaced by configurable Chat/Coder
+  blueprints
+- Dify Studio App storage, moved out of this repository, along with its
+  documentation
+
+### Fixed
+
+- a single-character abbreviation could wrongly match inside a longer
+  word (e.g. `a` inside "and")
+
+[7.1.0]: https://github.com/kami-lel/kaye-engine/compare/v7.0.0...v7.1.0
 
 
 

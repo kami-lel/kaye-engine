@@ -101,6 +101,15 @@ class AbbrData:
         if args[0] is None:
             self._rebuild_automaton()
 
+    # magic method  ============================================================
+
+    def __bool__(self):
+        """
+        :return: whether this instance holds at least one entry
+        :rtype: bool
+        """
+        return bool(self.abbrs)
+
 
 # single, always-present singleton instance  ###################################
 
@@ -109,9 +118,8 @@ _abbr_data = AbbrData()
 
 def get_abbr_data():  # ========================================================
     """
-    :return: the single, always-present :class:`AbbrData` singleton, empty
-            if nothing has been added yet
+    :return: the single, always-present :class:`AbbrData` singleton, which
+            may still be empty; check via ``bool(get_abbr_data())``
     :rtype: AbbrData
     """
-    # fixme abbr data need to warn for empty abbrs
     return _abbr_data

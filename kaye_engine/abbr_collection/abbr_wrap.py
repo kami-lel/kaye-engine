@@ -7,7 +7,6 @@ define ``AbbrWrap`` and its boundary patterns
 import re
 from enum import Enum
 
-
 # patterns  ####################################################################
 
 WORD_BOUNDARY_PATTERN = re.compile(r"\s|[^\w]?")
@@ -60,7 +59,9 @@ class AbbrWrap(Enum):
             ) and WORD_BOUNDARY_PATTERN.fullmatch(char_after)
 
         elif self == AbbrWrap.SYMBOL:
-            return True
+            return WORD_BOUNDARY_PATTERN.fullmatch(
+                char_before
+            ) and WORD_BOUNDARY_PATTERN.fullmatch(char_after)
 
         elif self == AbbrWrap.UNIT:
             return NUMBER_OR_BOUNDARY_PATTERN.fullmatch(

@@ -36,7 +36,6 @@ merge.
 | `kaye_engine/prompt/` | `tests/prompt/` |
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
-| `dify_studio/` | `tests/dify/` |
 
 ```bash
 pytest tests/prompt/
@@ -64,13 +63,17 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Two** subcommands exist, `prompt` and `claude`:
+the shorter form. **Three** subcommands exist, `prompt`, `claude`, and
+`dynamic-node`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
 kaye-engine prompt ls                       # list registered blueprint names
 kaye-engine prompt show BLUEPRINT           # preview a blueprint's structure
+kaye-engine prompt show < FILE              # preview from stdin (BLUEPRINT omitted)
 kaye-engine prompt generate BLUEPRINT       # render a concrete prompt
+kaye-engine prompt generate < FILE          # render from stdin (BLUEPRINT omitted)
+kaye-engine dynamic-node NODE_TYPE          # render a single dynamic node to stdout
 kaye-engine claude skill SKILLS_FOLDER      # export blueprints as Skill folders
 kaye-engine claude skill -z ZIPS_FOLDER     # create .zip Skill packages
 kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
@@ -79,16 +82,15 @@ kaye-engine claude marketplace              # to ~/.claude/kaye_marketplace
 kaye-engine claude marketplace MARKETPLACE  # to a custom folder
 kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
 kaye-engine claude user-system-prompt       # Chat blueprint as CLAUDE.md
-kaye-engine claude user-system-prompt -r    # use Rapid blueprint instead
-kaye-engine claude user-system-prompt -c    # append Kaye Peer Coder content
+kaye-engine claude user-system-prompt -c    # append Coder blueprint content
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
 ```
 
-Aliases: `prompt` → `p`; `prompt generate` → `p g`; `claude` →
-`anthropic`, `a`; `claude code` → `claude c`; `claude marketplace` →
-`claude m`; `claude plugin` → `claude p`; `claude skill` → `claude s`;
-`claude user-system-prompt` → `claude usp`; `claude vs-code-extension` →
-`claude v`.
+Aliases: `prompt` → `p`; `prompt generate` → `p g`; `dynamic-node` →
+`dn`; `claude` → `anthropic`, `a`; `claude code` → `claude c`; `claude
+marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skill`
+→ `claude s`; `claude user-system-prompt` → `claude usp`; `claude
+vs-code-extension` → `claude v`.
 
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
 Bash command patterns) into `settings.json`, sourced from
@@ -100,10 +102,12 @@ comments are allowed).
 document it, invoke it, or wire it back in without being asked.
 
 `claude user-system-prompt`, `claude code`, and `claude vs-code-extension`
-look up blueprints `"chat"`/`"rapid"`/`"coder"`, so they need a host corpus.
-On a bare checkout each subcommand logs a setup-guard warning (no default
-corpus tree, empty `blueprint_registry`), then exits `1` on the missing
-`"chat"`/`"rapid"` lookup — expected, not a bug.
+resolve their Chat and Coder blueprints by name, so a host must call
+`set_claude_using_blueprint(chat_bp_name, coder_bp_name)` before invoking the
+CLI — there is no default. On a bare checkout, or when the setter was never
+called, `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` log
+`logger.critical` and raise `SystemExit(1)`; the same happens if the
+configured name is not a registered blueprint — expected, not a bug.
 
 A `claude`-exporting host must call `set_claude_plugin_marketplace_name(name)`
 before invoking the CLI, or `get_plugin_marketplace_name()` logs
@@ -139,8 +143,9 @@ Export policy — five independent flags, no allow-list constant:
 
 `get_exportable_abbrs()` rebuilds every group on each call, so there is no
 import-order constraint — populate the abbreviation database at any point
-before an export actually runs. An unpopulated database still exports, as
-one empty skill folder per group.
+before an export actually runs. An unpopulated database logs an error and
+returns an empty list, so no skill folders are exported. Check
+`bool(get_abbr_data())` to test for an empty singleton directly.
 
 ## Security
 

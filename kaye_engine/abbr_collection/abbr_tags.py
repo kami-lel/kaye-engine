@@ -65,6 +65,8 @@ class AbbrTags(Flag):
     log_level = auto()
     unit_of_measure = auto()
     currency_symbol = auto()
+    plan_step_by_step_abbr = auto()
+    code_documentation_field_abbr = auto()
 
     # character set  -----------------------------------------------------------
 
