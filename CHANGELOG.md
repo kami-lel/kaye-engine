@@ -3,10 +3,6 @@
 [^format]
 
 <!--
-Todo extract register_cli_subcommands(cli_subparser) in cli/cli_main.py so
-  sibling packages (kaye-vault) can compose engine's prompt/claude
-  subcommands explicitly instead of relying on shared cli_subparser
-  import-time side effects
 Todo sidecar node registry logic
 Fixme consider update kamilog.py
 todo todo CLI to import/export w/ OpenWebUI
