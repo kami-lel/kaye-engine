@@ -21,7 +21,7 @@ from kaye_engine.cli.prompt.blueprint_io_parser import (
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
-# Todo cli prompt generate: allow sidecars be arg
+# todo cli prompt generate: allow sidecars be arg
 
 # constants  ###################################################################
 _HELP = "generate concrete prompt from blueprint"
