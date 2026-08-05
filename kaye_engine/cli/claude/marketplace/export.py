@@ -17,7 +17,7 @@ from kaye_engine.cli.claude.plugin_marketplace_name import (
     get_marketplace_name,
     get_plugin_name,
 )
-from kaye_engine.cli.claude.setup import get_claude_cli_version
+from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
 
 from .manifest import MarketplaceJson
 
@@ -64,7 +64,7 @@ def export_marketplace(marketplace_folder):
     except PackageNotFoundError as err:
         logger.critical("package metadata not found:\t" + PACKAGE_NAME)
         raise SystemExit(1) from err
-    pkg_version = get_claude_cli_version()
+    pkg_version = get_claude_cli_consumer_version()
 
     pkg_author, pkg_author_email = parseaddr(meta.get("Author-email") or "")
     pkg_urls = dict(

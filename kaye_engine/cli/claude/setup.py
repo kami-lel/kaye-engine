@@ -1,7 +1,7 @@
 """
 setup.py
 
-define ``setup_claude_cli``, ``get_claude_cli_version``,
+define ``setup_claude_cli``, ``get_claude_cli_consumer_version``,
 ``get_marketplace_folder_name``
 """
 
@@ -12,7 +12,7 @@ from kaye_engine import kamilog
 from kaye_engine.cli import claude
 
 __all__ = (
-    "get_claude_cli_version",
+    "get_claude_cli_consumer_version",
     "get_marketplace_folder_name",
     "setup_claude_cli",
 )
@@ -62,7 +62,7 @@ def setup_claude_cli(
     claude._marketplace_folder_name = marketplace_folder_name
 
 
-def get_claude_cli_version():
+def get_claude_cli_consumer_version():
     """
     :raises SystemExit: exit code 1, when no consumer project has called
             ``setup_claude_cli(...)``

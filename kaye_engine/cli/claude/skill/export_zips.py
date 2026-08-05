@@ -10,7 +10,7 @@ from pathlib import Path
 
 from kaye_engine import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.package_version import resolve_package_version
+from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
 
 
 from .export_folders import (
@@ -46,7 +46,7 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
         )
         raise SystemExit(1) from err
 
-    pkg_version = resolve_package_version()
+    pkg_version = get_claude_cli_consumer_version()
 
     with (
         tempfile.TemporaryDirectory() as skills_temp,
