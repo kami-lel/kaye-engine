@@ -10,9 +10,9 @@ Read this file alongside `CONTEXT.md` before making changes, and follow the
 exact commands and conventions below.
 
 **kaye-engine ships mechanism only.** It bundles no prompt corpus, no
-abbreviation database, and no blueprint registrations — a host package such
-as `kaye-vault` supplies all three. Never add that content here to make
-something work; fix the mechanism or fix the host.
+abbreviation database, and no blueprint registrations — a consumer package
+such as `kaye-vault` supplies all three. Never add that content here to make
+something work; fix the mechanism or fix the consumer.
 
 ## Setup
 
@@ -46,7 +46,7 @@ pytest tests/prompt/bp/prompt-bp-merge_test.py::TestMerge::test1_1
 
 `tests/cli/` covers only what runs without a corpus — version resolution and
 `SKILL.md` rendering. The exporters themselves need a corpus to produce
-output, so the host package's suite covers those; do not scaffold corpus
+output, so the consumer package's suite covers those; do not scaffold corpus
 fixtures here to widen the directory.
 
 **Do not parallelize** — no `pytest-xdist`, no `-n auto`. The suite is
@@ -102,14 +102,14 @@ comments are allowed).
 document it, invoke it, or wire it back in without being asked.
 
 `claude user-system-prompt`, `claude code`, and `claude vs-code-extension`
-resolve their Chat and Coder blueprints by name, so a host must call
+resolve their Chat and Coder blueprints by name, so a consumer must call
 `set_claude_using_blueprint(chat_bp_name, coder_bp_name)` before invoking the
 CLI — there is no default. On a bare checkout, or when the setter was never
 called, `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` log
 `logger.critical` and raise `SystemExit(1)`; the same happens if the
 configured name is not a registered blueprint — expected, not a bug.
 
-A `claude`-exporting host must call `set_claude_plugin_marketplace_name(name)`
+A `claude`-exporting consumer must call `set_claude_plugin_marketplace_name(name)`
 before invoking the CLI, or `get_plugin_marketplace_name()` logs
 `logger.critical` and raises `SystemExit(1)`.
 
@@ -127,7 +127,7 @@ before invoking the CLI, or `get_plugin_marketplace_name()` logs
 
 `register_blueprint()` in `kaye_engine/prompt/blueprint/registry.py` is the
 only gate — every exporter reads `blueprint_registry` directly. **Calls
-live in the host package**, not here.
+live in the consumer package**, not here.
 
 Export policy — five independent flags, no allow-list constant:
 

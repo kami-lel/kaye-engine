@@ -53,14 +53,14 @@ def get_claude_chat_blueprint():
 
     :return: the configured Chat blueprint
     :rtype: PromptBlueprint
-    :raises SystemExit: exit code 1, when no host project has called
+    :raises SystemExit: exit code 1, when no consumer project has called
             ``set_claude_using_blueprint(...)``, or the configured name is
             not a registered blueprint
     """
     if claude._chat_blueprint_name is None:
         logger.critical(
             "no Chat blueprint name set\n"
-            "a host project should call "
+            "a consumer project should call "
             "set_claude_using_blueprint(...) before invoking this CLI"
         )
         raise SystemExit(1)
@@ -76,14 +76,14 @@ def get_claude_coder_blueprint():
 
     :return: the configured Coder blueprint
     :rtype: PromptBlueprint
-    :raises SystemExit: exit code 1, when no host project has called
+    :raises SystemExit: exit code 1, when no consumer project has called
             ``set_claude_using_blueprint(...)``, or the configured name is
             not a registered blueprint
     """
     if claude._coder_blueprint_name is None:
         logger.critical(
             "no Coder blueprint name set\n"
-            "a host project should call "
+            "a consumer project should call "
             "set_claude_using_blueprint(...) before invoking this CLI"
         )
         raise SystemExit(1)
