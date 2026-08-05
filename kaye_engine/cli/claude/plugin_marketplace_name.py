@@ -43,13 +43,13 @@ def get_plugin_marketplace_name():
 
     :return: plugin/marketplace name
     :rtype: str
-    :raises SystemExit: exit code 1, when no host project has called
+    :raises SystemExit: exit code 1, when no consumer project has called
             ``set_claude_plugin_marketplace_name(...)``
     """
     if claude._plugin_marketplace_name is None:
         logger.critical(
             "no PLUGIN_MARKETPLACE_NAME set\n"
-            "a host project should call "
+            "a consumer project should call "
             "set_claude_plugin_marketplace_name(...) before invoking this CLI"
         )
         raise SystemExit(1)
