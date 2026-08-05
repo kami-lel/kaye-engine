@@ -7,7 +7,6 @@ define ``AbbrWrap`` and its boundary patterns
 import re
 from enum import Enum
 
-
 # patterns  ####################################################################
 
 WORD_BOUNDARY_PATTERN = re.compile(r"\s|[^\w]?")
@@ -60,6 +59,8 @@ class AbbrWrap(Enum):
             ) and WORD_BOUNDARY_PATTERN.fullmatch(char_after)
 
         elif self == AbbrWrap.SYMBOL:
+            # BUG no boundary check at all, so a single-character entry
+            # matches mid-word (eg "a" inside "and")
             return True
 
         elif self == AbbrWrap.UNIT:
