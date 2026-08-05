@@ -27,9 +27,27 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Changed
 
+- consolidated the Claude-CLI setup calls into one
+  `setup_claude_cli(plugin_name, marketplace_name, chat_bp_name,
+  coder_bp_name, version, marketplace_folder_name)`; a consumer now sets
+  every Claude-CLI value in a single call, none of them defaulted
+- split the combined plugin/marketplace name into two independent
+  values, exposed via `get_plugin_name()`/`get_marketplace_name()`
+- every exported `plugin.json`, `marketplace.json`, and `SKILL.md` is now
+  stamped with a consumer-supplied version, not kaye-engine's own
+  installed package version
+- the marketplace folder name (`kaye_marketplace` by default, previously
+  hardcoded in two places) is now consumer-configurable
+
 ### Deprecated
 
 ### Removed
+
+- `set_claude_plugin_marketplace_name`, `set_claude_using_blueprint`,
+  and `get_plugin_marketplace_name`, superseded by `setup_claude_cli(...)`
+  and its split getters
+- `resolve_package_version`/`package_version.py`, superseded by the
+  consumer-supplied version read through `setup_claude_cli(...)`
 
 ### Fixed
 
