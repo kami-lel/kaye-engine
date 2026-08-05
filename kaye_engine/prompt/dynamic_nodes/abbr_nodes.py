@@ -4,11 +4,17 @@ abbr_nodes.py
 define abbreviations-related node types
 """
 
+from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.abbr_collection import AbbrTags, get_abbr_data
-from kaye_engine.prompt.dynamic_nodes.abbr_tag_nodes import gen_abbrs_content_lines
+from kaye_engine.prompt.dynamic_nodes.abbr_tag_nodes import (
+    gen_abbrs_content_lines,
+)
 from .dynamic_node import DynamicNode
 
 __all__ = ("AbbrNode",)
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 
 class AbbrNode(DynamicNode):  ##################################################
@@ -34,14 +40,17 @@ class AbbrNode(DynamicNode):  ##################################################
     # helpers  =================================================================
 
     def _generate_content_lines_dynamically(self, query):
+        abbr_data = get_abbr_data()
+        if not abbr_data:
+            logger.error("abbr data is empty, rendering without any abbr")
+            return []
+
         # find abbr occurrences  -----------------------------------------------
         query_lower = query.lower()  # provide lower case to automation
         query_len = len(query)
         entries = set()
 
-        for last_idx, matched in get_abbr_data().automaton.iter_long(
-            query_lower
-        ):
+        for last_idx, matched in abbr_data.automaton.iter_long(query_lower):
             key_len = len(matched[0].abbr)
             end_idx = last_idx + 1
             start_idx = end_idx - key_len

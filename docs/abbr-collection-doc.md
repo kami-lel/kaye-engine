@@ -132,6 +132,8 @@ Every abbreviation-related [dynamic node](dynamic-node-doc.md) lives in `kaye_en
 | `LanguageCodeNode` | `(Languages Code)` | `abbr_tag_nodes.py` | every entry tagged `language_code` |
 | `PLCNode` | `(Programming Languages Code)` | `abbr_tag_nodes.py` | every entry tagged `programming_language_code` |
 | `UnityEngineAbbrNode` | `(Unity Engine Abbreviations)` | `abbr_tag_nodes.py` | every entry tagged `unity_engine_abbr` |
+| `PlanStepByStepAbbrNode` | `(Plan Step By Step Abbreviations)` | `abbr_tag_nodes.py` | every entry tagged `plan_step_by_step_abbr` |
+| `CodeDocumentationFieldAbbrNode` | `(Code Documentation Field Abbreviations)` | `abbr_tag_nodes.py` | every entry tagged `code_documentation_field_abbr` |
 
 
 
@@ -304,6 +306,9 @@ Additional information regards this entry, must be an *array* of *string* of the
   - `"log_level"`
   - `"unit_of_measure"`: scientific units for measurement
   - `"currency_symbol"`: monetary currency symbol
+  - `"plan_step_by_step_abbr"`: abbreviations used within step-by-step planning
+  - `"code_documentation_field_abbr"`: abbreviations for code documentation
+    fields, e.g. docstring/comment field keywords
 
 - character set:
 

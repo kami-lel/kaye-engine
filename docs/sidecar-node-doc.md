@@ -44,20 +44,11 @@ Lists file glob patterns indicating which file types or paths make the parent no
 
 Conditional sidecar nodes are real prompt content (e.g., instructions, rules) that are conditionally spliced into the rendered prompt based on explicit requests via the `contains_sidecars` parameter, a plain collection of sidecar names. Unlike descriptor sidecars, there is no fixed set of conditional names — any `{name}` heading can be requested this way, including reserved descriptor names.
 
-#### `{prerequisite}`
-
-Lists prerequisite instructions that apply whenever the parent node is enabled. When a parent node is checkmarked in a blueprint, its `{prerequisite}` sidecar children should typically be auto-included.
-
-**Rendering behavior:** Pass `contains_sidecars=("prerequisite",)` to `generate_prompt()` or `render.render_prompt_lines()` to auto-checkmark every `{prerequisite}` node whose parent is already checkmarked before rendering.
-
-**Detection:** Use `get_sidecar_name(node) == "prerequisite"` to identify prerequisite sidecars.
-
-
 #### `{for claude code}`
 
-Lists Claude-specific instructions that apply whenever the parent node is enabled. Pass `contains_sidecars=("for claude code",)` (or combine with `"prerequisite"` in the same collection) to auto-checkmark these nodes during Claude exports.
+Lists Claude-specific instructions that apply whenever the parent node is enabled. Pass `contains_sidecars=("for claude code",)` to auto-checkmark these nodes during Claude exports.
 
-**Rendering behavior:** Pass `contains_sidecars=("for claude code",)` to auto-include `{for claude code}` sidecars during rendering. The constant `kaye_engine.cli.claude.CONTAINING_SIDECARS` combines both `"prerequisite"` and `"for claude code"` for all Claude skill and hook exports.
+**Rendering behavior:** Pass `contains_sidecars=("for claude code",)` to auto-include `{for claude code}` sidecars during rendering. The constant `kaye_engine.cli.claude.CONTAINING_SIDECARS` includes `"for claude code"` for all Claude skill and hook exports.
 
 **Detection:** Use `get_sidecar_name(node) == "for claude code"` to identify Claude-specific sidecars.
 
@@ -86,10 +77,6 @@ This node indicates when to use the parent.
 ```glob
 **/*.py
 ```
-
-## {prerequisite}
-
-This node contains prerequisite instructions.
 
 ## {for claude code}
 
@@ -123,7 +110,7 @@ def get_sidecar_name(node: BasePromptNode) -> str | None
 ```
 
 **Description:**
-Identifies a sidecar node by its `{name}` heading convention and returns the name inside the braces (e.g., `description`, `prerequisite`). Returns `None` if the node is not a sidecar node. There is no fixed vocabulary — any `{name}` heading is a valid sidecar name.
+Identifies a sidecar node by its `{name}` heading convention and returns the name inside the braces (e.g., `description`, `globs`). Returns `None` if the node is not a sidecar node. There is no fixed vocabulary — any `{name}` heading is a valid sidecar name.
 
 **Parameters:**
 - `node` (BasePromptNode): Node to check (must have a `name` attribute)
@@ -145,11 +132,8 @@ if name is not None:
 
 Check for specific sidecar names:
 ```python
-if name == "prerequisite":
-    print("this is a prerequisite sidecar node")
-
-if name in ("prerequisite", "for claude code"):
-    print("this is a conditional sidecar node (either prerequisite or for claude code)")
+if name == "for claude code":
+    print("this is a conditional sidecar node")
 ```
 
 ---
@@ -265,11 +249,6 @@ merged_bp = bp1 | bp2
 
 Conditional rendering with conditional sidecar nodes:
 ```python
-# Include prerequisites
-prompt = bp.generate_prompt(contains_sidecars=("prerequisite",))
-
-# Include both prerequisites and Claude-specific instructions
-prompt = bp.generate_prompt(
-    contains_sidecars=("prerequisite", "for claude code")
-)
+# Include Claude-specific instructions
+prompt = bp.generate_prompt(contains_sidecars=("for claude code",))
 ```

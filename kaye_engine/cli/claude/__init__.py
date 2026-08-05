@@ -10,9 +10,11 @@ from kaye_engine import LOGGER_NAME
 LOGGER_CLAUDE_NAME = LOGGER_NAME + ".claude"
 
 # sidecar names to auto-checkmark when exporting Claude prompts
-CONTAINING_SIDECARS = ("for claude code", "prerequisite")
+CONTAINING_SIDECARS = ("for claude code",)
 
-# name shown to Anthropic's plugin/marketplace tooling; set via
-# set_claude_plugin_marketplace_name() in plugin_marketplace_name.py, read
-# via get_plugin_marketplace_name() in the same module
+# name shown to Anthropic's plugin/marketplace tooling
 _plugin_marketplace_name = None
+
+# registered blueprint names used for Claude user/system prompt export
+_chat_blueprint_name = None
+_coder_blueprint_name = None

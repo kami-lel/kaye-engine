@@ -16,6 +16,8 @@ from .abbr_tag_nodes import (
     PLCNode,
     UnityEngineAbbrNode,
     CodingTermsNode,
+    PlanStepByStepAbbrNode,
+    CodeDocumentationFieldAbbrNode,
 )
 
 __all__ = (
@@ -28,6 +30,8 @@ __all__ = (
     "PLCNode",
     "UnityEngineAbbrNode",
     "CodingTermsNode",
+    "PlanStepByStepAbbrNode",
+    "CodeDocumentationFieldAbbrNode",
     "DYNAMIC_NODE_TYPES",
 )
 
@@ -40,4 +44,6 @@ DYNAMIC_NODE_TYPES = (
     PLCNode,
     UnityEngineAbbrNode,
     CodingTermsNode,
+    PlanStepByStepAbbrNode,
+    CodeDocumentationFieldAbbrNode,
 )
