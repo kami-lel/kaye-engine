@@ -61,9 +61,9 @@ kaye-engine claude vs-code-extension
 
 This writes the User System Prompt to `~/.claude/CLAUDE.md`, creates a
 `~/.claude/kaye_marketplace/` folder containing the kaye plugin, and
-configures git command permissions in `~/.claude/settings.json`.
-<!-- FIXME gap review: understates scope — permission_cmds.jsonc also
-     covers sudo/kill/systemctl, package managers, and pytest, not just git -->
+configures Bash command permissions in `~/.claude/settings.json` —
+covering git, system commands (`sudo`, `kill`, `systemctl`), package
+managers, `pytest`, and `docker`.
 
 To load the marketplace in VS Code:
 

@@ -222,8 +222,6 @@ that resolution raises `ValueError`.
 
 #### class diagram
 
-<!-- FIXME gap review: diagram omits PlanStepByStepAbbrNode, a real
-     _AbbrTagNodeBase subclass (kaye_engine/prompt/dynamic_nodes/abbr_tag_nodes.py) -->
 ```mermaid
 classDiagram
     AnyTreeNode <|-- BasePromptNode
@@ -237,6 +235,7 @@ classDiagram
     _AbbrTagNodeBase <|-- PLCNode
     _AbbrTagNodeBase <|-- LanguageCodeNode
     _AbbrTagNodeBase <|-- UnityEngineAbbrNode
+    _AbbrTagNodeBase <|-- PlanStepByStepAbbrNode
     _AbbrTagNodeBase <|-- CodeDocumentationFieldAbbrNode
 ```
 
