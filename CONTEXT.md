@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-08-02
+**Last updated:** 2026-08-05
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `prompt`, `claude` |
+| CLI subcommands | `prompt`, `claude`, `dynamic-node` |
 
 ## Personalization Boundary
 
@@ -114,9 +114,8 @@ kaye_engine/
 │   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: single-node render
 │   └── cli_continue/    deprecated; never registered, unreachable
 └── kamilog.py           logging, shared across the package
-dify_studio/             Dify workflow node sources, outside the package
 docs/                    per-topic reference, linked above
-tests/                   prompt/, abbr/, cli/, dify/ — mirrors the source
+tests/                   prompt/, abbr/, cli/ — mirrors the source
 ```
 
 The `prompt` layer is pure: it knows nothing of Claude, Continue, or any
@@ -131,11 +130,10 @@ fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.
 
 Tests mirror the source tree: `tests/prompt/` for the engine, `tests/abbr/`
-for the abbreviation collection, `tests/dify/` for the `dify_studio/`
-workflow nodes. `tests/cli/` stays deliberately thin — it holds only the
-corpus-independent pieces, version resolution and `SKILL.md` rendering,
-because the exporters need a corpus to produce output and the host package
-covers those.
+for the abbreviation collection. `tests/cli/` stays deliberately thin — it
+holds only the corpus-independent pieces, version resolution and
+`SKILL.md` rendering, because the exporters need a corpus to produce
+output and the host package covers those.
 
 ## Maintaining This File
 

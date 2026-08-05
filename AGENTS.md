@@ -36,7 +36,6 @@ merge.
 | `kaye_engine/prompt/` | `tests/prompt/` |
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
-| `dify_studio/` | `tests/dify/` |
 
 ```bash
 pytest tests/prompt/

@@ -9,6 +9,8 @@ Unit Tests (using pytest) for:
 import pytest
 
 
+# FIXME: dify_studio package no longer exists in the repo, this import
+# fails collection along with the other three tests/dify/ky/*.py files
 from dify_studio.kaye_chat.nodes.sense import post_sense
 from dify_studio.kaye_chat.nodes.sense.post_sense import (
     OUTPUT_ROLE_KEY,
