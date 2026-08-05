@@ -3,8 +3,8 @@
 [^format]
 
 <!--
-Fixme claude version should be that of kaye consumer
-Hack figure out kaye_marketplace
+FIXME claude version should be that of kaye consumer
+HACK figure out kaye_marketplace
 fixme sidecar node & abbr tag logic, use registry pattern
 
 todo todo CLI to import/export w/ OpenWebUI
