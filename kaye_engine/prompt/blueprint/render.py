@@ -219,13 +219,15 @@ def render_prompt_lines(  # ====================================================
     :param display_name: blueprint's human-readable name, included in the
             comment when ``show_comment`` is set; defaults to ""
     :type display_name: str, optional
-    :param sparseness: controls how runs of blank lines collapse;
-            ``None`` disables trimming entirely; ``0`` removes all blank
-            lines; ``1`` collapses every run of blank lines to a single
-            blank line (default); ``2`` caps runs at two blank lines, and
-            so on; ``-1`` collapses the whole output into a single line,
-            joined with ``REPLACEMENT_NEWLINE_SYMBOL`` in place of every
-            newline; defaults to 1
+    :param sparseness: controls how runs of blank lines collapse:
+
+    - ``None`` disables trimming entirely
+    - ``0`` removes all blank lines
+    - ``1`` collapses every run of blank lines to a single blank line (default)
+    - ``2`` caps runs at two blank lines, and so on
+    - ``-1`` collapses the whole output into a single line, joined with
+            ``REPLACEMENT_NEWLINE_SYMBOL`` in place of every newline
+
     :type sparseness: int or None, optional
     :return: list of prompt lines
     :rtype: list[str]
