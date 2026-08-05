@@ -59,9 +59,9 @@ class AbbrWrap(Enum):
             ) and WORD_BOUNDARY_PATTERN.fullmatch(char_after)
 
         elif self == AbbrWrap.SYMBOL:
-            # BUG no boundary check at all, so a single-character entry
-            # matches mid-word (eg "a" inside "and")
-            return True
+            return WORD_BOUNDARY_PATTERN.fullmatch(
+                char_before
+            ) and WORD_BOUNDARY_PATTERN.fullmatch(char_after)
 
         elif self == AbbrWrap.UNIT:
             return NUMBER_OR_BOUNDARY_PATTERN.fullmatch(
