@@ -44,55 +44,36 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Added
 
-- `dynamic-node`/`dn` CLI subcommand, rendering a single dynamic node
-  (`today`, `abbr`, `usable`, `language`, `plc`, `unity`, `coding`, `plan`)
-  directly to stdout, with the abbreviation node reading its query from
-  stdin
-- `PlanStepByStepAbbrNode` dynamic node and its `plan_step_by_step_abbr`
-  abbreviation tag
-- stdin support for `prompt generate` and `prompt show` — the `BLUEPRINT`
-  argument is now optional, reading from stdin when omitted
-- `AbbrData.__bool__`, reporting whether the singleton holds any entries
-- `set_claude_using_blueprint(chat_bp_name, coder_bp_name)`, exposed at the
-  `kaye_engine` top level, letting a host project configure which
-  registered blueprint names back the Chat and Coder exports; unset or
-  unregistered names log `logger.critical` and raise `SystemExit(1)` when
-  `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` are read
-- `CodeDocumentationFieldAbbrNode` dynamic node and its
-  `code_documentation_field_abbr` abbreviation tag
-- `register_cli_subcommands(cli_subparser)`, exposed from
-  `kaye_engine.cli.cli_main`, letting sibling packages register the
-  engine's `prompt`/`claude`/`dynamic-node` subcommands onto their own
-  top-level parser instead of only through `register_cli_main_parser()`
+- `dynamic-node` CLI command, renders a single dynamic node (dates,
+  abbreviations, and more) straight to stdout
+- new abbreviations for step-by-step plans and code documentation fields
+- `prompt generate` and `prompt show` now read from stdin
+- host projects can choose which blueprints back the Claude Chat and
+  Coder exports
+- host projects can plug kaye-engine's CLI commands into their own
+  parser
 
 ### Changed
 
-- `get_exportable_abbrs()` now logs an error and returns an empty list
-  when the abbr data singleton is empty, instead of raising `RuntimeError`
+- an empty abbreviation database no longer breaks an export, it's just
+  skipped
+- clearer usage examples in the `prompt generate`/`prompt show` help
+  text
 
 ### Removed
 
-- `examples/abbrs/` standalone demo scripts, superseded by the
-  `dynamic-node` CLI subcommand
-- `-f`/`-F` file-based blueprint I/O flags from `prompt generate` and
-  `prompt show`, in favor of stdin/stdout only
-- Rapid blueprint option — the `-r`/`--rapid` flag on
-  `claude user-system-prompt` and the `use_rapid` parameter on
-  `export_user_system_prompt_file()`, superseded by
-  `set_claude_using_blueprint(...)`
-- `dify_studio/`: remove storage of Dify Studio Apps
-- the `{prerequisite}` sidecar concept, entirely — `CONTAINING_SIDECARS`
-  now auto-includes only `{for claude code}`
-- `docs/ky-doc.md`, the outdated Kaye Chat documentation for the removed
-  `dify_studio/` package
+- old `examples/abbrs/` demo scripts, replaced by `dynamic-node`
+- file-based input/output flags on `prompt generate` and `prompt show`,
+  stdin/stdout only now
+- the rapid blueprint option, replaced by configurable Chat/Coder
+  blueprints
+- Dify Studio App storage, moved out of this repository, along with its
+  documentation
 
 ### Fixed
 
-- `check_corpus_setup_for_cli()` now logs a missing corpus tree or empty
-  `blueprint_registry` at `ERROR` instead of `WARNING`
-- `AbbrWrap.SYMBOL` now enforces word boundaries like the other wrap
-  kinds, resolving a bug where a single-character abbreviation matched
-  mid-word (e.g. `a` inside `and`)
+- a single-character abbreviation could wrongly match inside a longer
+  word (e.g. `a` inside "and")
 
 [7.1.0]: https://github.com/kami-lel/kaye-engine/compare/v7.0.0...v7.1.0
 
