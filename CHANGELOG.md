@@ -3,6 +3,9 @@
 [^format]
 
 <!--
+Fixme claude version should be that of kaye vault
+Hack figure out kaye_marketplace
+
 fixme sidecar node logic, use registry pattern
 Fixme consider update kamilog.py
 todo todo CLI to import/export w/ OpenWebUI
