@@ -5,7 +5,7 @@
 <!--
 Fixme claude version should be that of kaye vault
 Hack figure out kaye_marketplace
-Fixme sidecar node logic, use registry pattern
+fixme sidecar node & abbr tag logic, use registry pattern
 
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
