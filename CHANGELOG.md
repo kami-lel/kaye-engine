@@ -5,9 +5,8 @@
 <!--
 Fixme claude version should be that of kaye vault
 Hack figure out kaye_marketplace
+Fixme sidecar node logic, use registry pattern
 
-fixme sidecar node logic, use registry pattern
-Fixme consider update kamilog.py
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
