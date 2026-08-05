@@ -25,6 +25,25 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.1.0...dev
+
+
+
+
+## [7.1.0] - 2026-08-05
+
+### Added
+
 - `dynamic-node`/`dn` CLI subcommand, rendering a single dynamic node
   (`today`, `abbr`, `usable`, `language`, `plc`, `unity`, `coding`, `plan`)
   directly to stdout, with the abbreviation node reading its query from
@@ -39,13 +58,17 @@ todo todo utilize personalities, allow multi agent conversation
   registered blueprint names back the Chat and Coder exports; unset or
   unregistered names log `logger.critical` and raise `SystemExit(1)` when
   `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` are read
+- `CodeDocumentationFieldAbbrNode` dynamic node and its
+  `code_documentation_field_abbr` abbreviation tag
+- `register_cli_subcommands(cli_subparser)`, exposed from
+  `kaye_engine.cli.cli_main`, letting sibling packages register the
+  engine's `prompt`/`claude`/`dynamic-node` subcommands onto their own
+  top-level parser instead of only through `register_cli_main_parser()`
 
 ### Changed
 
 - `get_exportable_abbrs()` now logs an error and returns an empty list
   when the abbr data singleton is empty, instead of raising `RuntimeError`
-
-### Deprecated
 
 ### Removed
 
@@ -57,17 +80,21 @@ todo todo utilize personalities, allow multi agent conversation
   `claude user-system-prompt` and the `use_rapid` parameter on
   `export_user_system_prompt_file()`, superseded by
   `set_claude_using_blueprint(...)`
-
 - `dify_studio/`: remove storage of Dify Studio Apps
+- the `{prerequisite}` sidecar concept, entirely — `CONTAINING_SIDECARS`
+  now auto-includes only `{for claude code}`
+- `docs/ky-doc.md`, the outdated Kaye Chat documentation for the removed
+  `dify_studio/` package
 
 ### Fixed
 
 - `check_corpus_setup_for_cli()` now logs a missing corpus tree or empty
   `blueprint_registry` at `ERROR` instead of `WARNING`
+- `AbbrWrap.SYMBOL` now enforces word boundaries like the other wrap
+  kinds, resolving a bug where a single-character abbreviation matched
+  mid-word (e.g. `a` inside `and`)
 
-### Security
-
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.0.0...dev
+[7.1.0]: https://github.com/kami-lel/kaye-engine/compare/v7.0.0...v7.1.0
 
 
 

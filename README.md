@@ -136,8 +136,3 @@ Q.v. [Using Kaye Engine with Claude documentation](docs/claude-doc.md)
 
 
 
-### Using Kaye Engine with Dify
-
-A Dify App wires Kaye Engine into a chat workflow, round by round.
-
-Q.v. [Dify App Kaye Chat documentation](docs/ky-doc.md)
