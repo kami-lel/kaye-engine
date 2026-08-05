@@ -6,6 +6,7 @@ define:
 - ``render_blueprint_tree``
 - ``render_prompt_lines``
 - ``render_comment``
+- ``REPLACEMENT_NEWLINE_SYMBOL``
 """
 
 import copy
@@ -22,6 +23,7 @@ __all__ = (
     "render_blueprint_tree",
     "render_prompt_lines",
     "render_comment",
+    "REPLACEMENT_NEWLINE_SYMBOL",
 )
 
 
@@ -29,6 +31,7 @@ __all__ = (
 CHECKMARKED_PREFIX = "[x] "
 UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
+REPLACEMENT_NEWLINE_SYMBOL = "↵"
 
 
 # auxiliaries  #################################################################
@@ -59,6 +62,48 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
             new_child.parent = new_node
 
     return new_node
+
+
+def _apply_sparseness(lines, sparseness):
+    """
+    apply the ``sparseness`` blank-line policy to a list of prompt lines
+
+    (helper function used in ``render_prompt_lines()``)
+
+
+    :param lines:
+    :type lines: list[str]
+    :param sparseness: see ``render_prompt_lines()`` for the full contract
+    :type sparseness: int or None
+    :return: lines with the ``sparseness`` policy applied
+    :rtype: list[str]
+    """
+    if sparseness is None:
+        return lines
+
+    # trim leading/trailing empty lines unconditionally
+    start, end = 0, len(lines)
+    while start < end and lines[start] == "":
+        start += 1
+    while end > start and lines[end - 1] == "":
+        end -= 1
+    trimmed = lines[start:end]
+
+    if sparseness == -1:
+        return [REPLACEMENT_NEWLINE_SYMBOL.join(trimmed)]
+
+    result = []
+    empty_run = 0
+    for line in trimmed:
+        if line == "":
+            empty_run += 1
+            continue
+        result.extend([""] * min(empty_run, sparseness))
+        empty_run = 0
+        result.append(line)
+    result.extend([""] * min(empty_run, sparseness))
+
+    return result
 
 
 # Public API  ##################################################################
@@ -148,6 +193,7 @@ def render_prompt_lines(  # ====================================================
     disable_first_heading=False,
     contains_sidecars=(),
     display_name="",
+    sparseness=1,
     **kwargs,
 ):
     """
@@ -173,6 +219,14 @@ def render_prompt_lines(  # ====================================================
     :param display_name: blueprint's human-readable name, included in the
             comment when ``show_comment`` is set; defaults to ""
     :type display_name: str, optional
+    :param sparseness: controls how runs of blank lines collapse;
+            ``None`` disables trimming entirely; ``0`` removes all blank
+            lines; ``1`` collapses every run of blank lines to a single
+            blank line (default); ``2`` caps runs at two blank lines, and
+            so on; ``-1`` collapses the whole output into a single line,
+            joined with ``REPLACEMENT_NEWLINE_SYMBOL`` in place of every
+            newline; defaults to 1
+    :type sparseness: int or None, optional
     :return: list of prompt lines
     :rtype: list[str]
     """
@@ -213,14 +267,7 @@ def render_prompt_lines(  # ====================================================
     if show_comment:
         lines.append("<!-- " + render_comment(display_name) + " -->")
 
-    # trim empty lines
-    while lines and lines[0] == "":
-        lines.pop(0)
-
-    while lines and lines[-1] == "":
-        lines.pop()
-
-    return lines
+    return _apply_sparseness(lines, sparseness)
 
 
 def render_comment(display_name=""):  # ========================================
