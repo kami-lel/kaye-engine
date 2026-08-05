@@ -311,8 +311,17 @@ class TestVerify4:  # ==========================================================
 
     def test1(self):
         found = "=>"
-        wraps = ("A", " ")
+        wraps = (" ", " ")
 
         print(found, wraps, sep="\n")
 
         assert self.entry.verify_found(found, *wraps)
+
+    # false cases  *************************************************************
+    def test_false1(self):
+        found = "=>"
+        wraps = ("A", " ")
+
+        print(found, wraps, sep="\n")
+
+        assert not self.entry.verify_found(found, *wraps)
