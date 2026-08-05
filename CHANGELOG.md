@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-Todo sidecar node registry logic
+fixme sidecar node logic, use registry pattern
 Fixme consider update kamilog.py
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
