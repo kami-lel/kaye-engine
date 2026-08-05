@@ -9,6 +9,7 @@ from pathlib import Path
 from kaye_engine import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.marketplace.export import export_marketplace
+from kaye_engine.cli.claude.setup import get_marketplace_folder_name
 from kaye_engine.cli.claude.user_prompt.parser import (
     find_user_system_prompt_file,
 )
@@ -20,19 +21,15 @@ from .settings import update_settings_json
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
-# constants  ===================================================================
-
-MARKETPLACE_NAME = "kaye_marketplace"
-
 # entry point  #################################################################
 
 
 def export_vs_code_extension(claude_folder):
     """
-    export CLAUDE.md and a kaye_marketplace/ into the given Claude folder
+    export CLAUDE.md and a marketplace folder into the given Claude folder
 
     writes CLAUDE.md (Chat + Coder blueprint) at ``claude_folder/CLAUDE.md``
-    and a marketplace at ``claude_folder/kaye_marketplace/``
+    and a marketplace at ``claude_folder/<marketplace folder name>/``
 
     :param claude_folder: destination .claude/ folder
     :type claude_folder: Path-like
@@ -47,7 +44,7 @@ def export_vs_code_extension(claude_folder):
     logger.succ("export user system prompt file:\t" + str(prompt_file))
 
     logger.debug("export marketplace")
-    marketplace_folder = claude_folder / MARKETPLACE_NAME
+    marketplace_folder = claude_folder / get_marketplace_folder_name()
     marketplace_path = export_marketplace(marketplace_folder)
     logger.succ("export marketplace:\t" + str(marketplace_folder))
 

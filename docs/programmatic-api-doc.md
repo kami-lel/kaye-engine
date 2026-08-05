@@ -213,7 +213,7 @@ tree_root is get_corpus_tree("my-tree")  # True
 `PromptBlueprint`'s `corpus_tree` argument defaults to `None`, which
 resolves to whichever tree was registered as default via
 `load_corpus_tree(..., is_default_tree=True)`. `kaye_engine` bundles no
-corpus of its own, so if no host package has loaded one as default yet,
+corpus of its own, so if no consumer package has loaded one as default yet,
 that resolution raises `ValueError`.
 
 
@@ -465,7 +465,7 @@ E.g.
 `register_blueprint(name, ...)` creates a `BlueprintRegistry` and
 inserts it into the `blueprint_registry` dictionary — the single source
 of truth for a blueprint's identity and export policy. `kaye_engine`
-bundles no blueprint registrations of its own; a host package calls
+bundles no blueprint registrations of its own; a consumer package calls
 `register_blueprint` for each real blueprint it defines. Keys are
 canonical kebab-case names; values are `BlueprintRegistry` entries,
 retrievable via `get_blueprint(name)`:

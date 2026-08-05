@@ -25,7 +25,7 @@ through a Python API and a CLI.
 `kaye-engine` is a public mechanism package, extended by a separate private
 repository that supplies the actual identity content, abbreviations, and
 blueprint registrations the mechanism operates on. The dependency runs one
-direction only: a personalized project depends on `kaye-engine`;
+direction only: a personalized consumer project depends on `kaye-engine`;
 `kaye-engine` must build, test, and export with no knowledge of what any
 such project supplies.
 
@@ -73,32 +73,30 @@ from kaye_engine import (
     load_corpus_tree, get_corpus_tree, get_default_corpus_tree,
     AbbrData, get_abbr_data,
     register_blueprint, get_blueprint,
-    set_claude_plugin_marketplace_name,
-    set_claude_using_blueprint,
+    setup_claude_cli,
 )
 ```
 
 A caller loads and caches a corpus by name; one tree may be flagged the
 process default, which is what a blueprint resolves against when given no
-explicit tree. A host that exports through `claude` subcommands must also
-call `set_claude_plugin_marketplace_name()` to name the plugin/marketplace
-for Anthropic's tooling, and `set_claude_using_blueprint(chat_bp_name,
-coder_bp_name)` to name the registered blueprints that back the Chat and
-Coder exports — neither has a default. Q.v. [programmatic API
-documentation](docs/programmatic-api-doc.md).
+explicit tree. A consumer that exports through `claude` subcommands must also
+call `setup_claude_cli(plugin_name, marketplace_name, chat_bp_name,
+coder_bp_name, version, marketplace_folder_name)` — none of the six has a
+default. Q.v. [programmatic API documentation](docs/programmatic-api-doc.md).
 
 Every CLI subcommand entrypoint calls a setup guard
 (`check_corpus_setup_for_cli()`, or `check_setup_for_claude_cli()` for
-`claude` subcommands) that logs an error — never raises — when a host
+`claude` subcommands) that logs an error — never raises — when a consumer
 hasn't loaded a default corpus tree or registered any blueprints. It exists
 to surface a bare-checkout misuse early, not to enforce the boundary. The
-plugin/marketplace name and the Chat/Coder blueprint names are enforced
-separately, each by its own getter (`get_plugin_marketplace_name()`,
-`get_claude_chat_blueprint()`, `get_claude_coder_blueprint()`), which logs
-`logger.critical` and raises `SystemExit(1)` when unset — or, for the
-blueprint getters, when the configured name is not in `blueprint_registry`
-— rather than letting `None` or an unresolved name reach path, manifest, or
-prompt building.
+plugin name, marketplace name, Chat/Coder blueprint names, version, and
+marketplace folder name are enforced separately, each by its own getter
+(`get_plugin_name()`, `get_marketplace_name()`, `get_claude_chat_blueprint()`,
+`get_claude_coder_blueprint()`, `get_claude_cli_consumer_version()`,
+`get_marketplace_folder_name()`), which logs `logger.critical` and raises
+`SystemExit(1)` when unset — or, for the blueprint getters, when the
+configured name is not in `blueprint_registry` — rather than letting `None`
+or an unresolved name reach path, manifest, or prompt building.
 
 ## Repository Layout
 
@@ -133,7 +131,7 @@ Tests mirror the source tree: `tests/prompt/` for the engine, `tests/abbr/`
 for the abbreviation collection. `tests/cli/` stays deliberately thin — it
 holds only the corpus-independent pieces, version resolution and
 `SKILL.md` rendering, because the exporters need a corpus to produce
-output and the host package covers those.
+output and the consumer package covers those.
 
 ## Maintaining This File
 

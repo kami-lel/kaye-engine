@@ -23,16 +23,17 @@ which performs:
 
 - writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint)
 - updates settings.json
-- exports the kaye plugin wrapped in a marketplace under kaye_marketplace/.
+- exports the kaye plugin wrapped in a marketplace under
+  MARKETPLACE_FOLDER_NAME/.
 
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
 ├── settings.json  (updated)
-└── kaye_marketplace/
+└── MARKETPLACE_FOLDER_NAME/
     ├── .claude-plugin/
     │   └── marketplace.json
     └── plugins/
-        └── PLUGIN_MARKETPLACE_NAME/
+        └── PLUGIN_NAME/
             ├── .claude-plugin/
             │   └── plugin.json
             └── skills/

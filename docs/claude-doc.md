@@ -60,16 +60,18 @@ kaye-engine claude vs-code-extension
 ```
 
 This writes the User System Prompt to `~/.claude/CLAUDE.md`, creates a
-`~/.claude/kaye_marketplace/` folder containing the kaye plugin, and
+`~/.claude/<marketplace folder name>/` folder containing the plugin, and
 configures Bash command permissions in `~/.claude/settings.json` —
 covering git, system commands (`sudo`, `kill`, `systemctl`), package
-managers, `pytest`, and `docker`.
+managers, `pytest`, and `docker`. Marketplace folder name set via
+`setup_claude_cli(~~)`.
 
 To load the marketplace in VS Code:
 
 1. Open the *Claude* sidebar in VS Code.
 2. Go to *Settings* → *Marketplaces*.
-3. Add the path to `~/.claude/kaye_marketplace/` and click *Install*.
+3. Add the path to `~/.claude/<marketplace folder name>/` and click
+   *Install*.
 
 
 
@@ -83,9 +85,9 @@ To load the marketplace in VS Code:
 
 
 
-## Corpus Requirements
+## Consumer Requirement
 
-A corpus must supply a node at `Agent Behavior` → `Claude Behavior`, and register a Chat blueprint and a Coder blueprint under whatever names the host passes to `set_claude_using_blueprint(chat_bp_name, coder_bp_name)`; `user_prompt/export.py` resolves them via `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` in `blueprint_name.py`.
+A corpus must supply a node at `Agent Behavior` → `Claude Behavior`, and register a Chat blueprint and a Coder blueprint under whatever names the consumer passes to `setup_claude_cli(...)`; `user_prompt/export.py` resolves them via `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` in `blueprint_name.py`.
 
 `{for claude code}` sidecar nodes are optional; when present, `CONTAINING_SIDECARS` auto-includes them in every Claude export.
 
@@ -93,7 +95,5 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md).
 
 ----
 
-`kaye-engine claude plugin`, `claude marketplace`, `claude code`, and `claude vs-code-extension` all name the exported plugin/marketplace folder after the value read back by `get_plugin_marketplace_name()`. A host project must call `set_claude_plugin_marketplace_name(name)` (exposed at the top level, e.g. `kaye_engine.set_claude_plugin_marketplace_name("kaye-vault")`) before invoking the CLI, or `get_plugin_marketplace_name()` logs `logger.critical` and raises `SystemExit(1)`.
-
-`claude user-system-prompt`, `claude code`, and `claude vs-code-extension` likewise resolve the Chat and Coder blueprints by name. A host project must call `set_claude_using_blueprint(chat_bp_name, coder_bp_name)` (exposed at the top level, e.g. `kaye_engine.set_claude_using_blueprint("chat", "coder")`) before invoking the CLI, or `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` log `logger.critical` and raise `SystemExit(1)` — both when unset and when the configured name is not a registered blueprint.
+A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking the. The version passed here is the consumer's own, stamped into every `plugin.json`, `marketplace.json`, and `SKILL.md` the CLI writes
 
