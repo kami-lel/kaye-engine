@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-hack consider how to manage dify_studio
 Todo extract register_cli_subcommands(cli_subparser) in cli/cli_main.py so
   sibling packages (kaye-vault) can compose engine's prompt/claude
   subcommands explicitly instead of relying on shared cli_subparser
@@ -62,6 +61,8 @@ todo todo utilize personalities, allow multi agent conversation
   `claude user-system-prompt` and the `use_rapid` parameter on
   `export_user_system_prompt_file()`, superseded by
   `set_claude_using_blueprint(...)`
+
+- `dify_studio/`: remove storage of Dify Studio Apps
 
 ### Fixed
 
