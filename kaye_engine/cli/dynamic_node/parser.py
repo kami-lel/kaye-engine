@@ -8,10 +8,10 @@ import sys
 from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
+from kaye_engine.abbr_collection import get_abbr_data
 from kaye_engine.cli.dynamic_node.node_type_choices import (
     ENGINE_DEFINED_NODES,
     gen_node_type_list,
-    get_node_type_choices,
 )
 from kaye_engine.kamilog import (
     add_verbose_arguments,
@@ -55,22 +55,19 @@ Abbreviation node reads its query content from stdin, optional:
 
 def _resolve_node_type(name):
     """
-    resolve ``name`` against ``get_node_type_choices()`` -- returns
-    ``(node_cls, None)`` for an engine-defined choice, ``(AbbrGroupNode,
-    name)`` for a group match; raises ``ValueError`` when ``name``
-    matches neither
+    resolve ``name`` against ``ENGINE_DEFINED_NODES`` and known abbr
+    group names -- returns ``(node_cls, None)`` for an engine-defined
+    choice, ``(AbbrGroupNode, name)`` for a group match; raises
+    ``ValueError`` when ``name`` matches neither
     """
-    choices = get_node_type_choices()
-    node_cls = choices.get(name)
-    if node_cls is None:
-        raise ValueError(
-            "unrecognized NODE_TYPE: {}; expected one of {}".format(
-                repr(name), list(choices)
-            )
-        )
+    node_cls = ENGINE_DEFINED_NODES.get(name)
+    if node_cls is not None:
+        return node_cls, None
 
-    group_name = name if node_cls is AbbrGroupNode else None
-    return node_cls, group_name
+    if name in get_abbr_data().groups.names:
+        return AbbrGroupNode, name
+
+    raise ValueError("unrecognized NODE_TYPE: {}".format(repr(name)))
 
 
 def _dynamic_node_main(args):
