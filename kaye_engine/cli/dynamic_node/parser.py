@@ -11,7 +11,7 @@ from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.abbr_collection import get_abbr_data
 from kaye_engine.cli.dynamic_node.node_type_choices import (
     ENGINE_DEFINED_NODES,
-    gen_node_type_list,
+    list_all_node_type_names,
 )
 from kaye_engine.kamilog import (
     add_verbose_arguments,
@@ -33,24 +33,17 @@ _ROOT_NODE_NAME = "○"
 
 # auxiliaries  #################################################################
 def _build_description():
-    return (
-        _HELP
-        + """
+    return _HELP + """
 
 renders a blueprint made of ONLY the given NODE_TYPE dynamic node,
 result is printed to stdout
 
-NODE_TYPE choices:
-
-"""
-        + gen_node_type_list()
-        + """
+run `kaye-engine dynamic-node ls` to list available NODE_TYPE values
 
 Abbreviation node reads its query content from stdin, optional:
 
     echo "use an algo to calc the avg" | kaye-engine dynamic-node abbr
 """
-    )
 
 
 def _resolve_node_type(name):
@@ -72,6 +65,11 @@ def _resolve_node_type(name):
 
 def _dynamic_node_main(args):
     set_logging_level_by_namespace(args, logger=logger)
+
+    if args.NODE_TYPE == "ls":
+        for name in list_all_node_type_names():
+            print(name)
+        return
 
     node_cls, group_name = _resolve_node_type(args.NODE_TYPE)
 
@@ -114,12 +112,7 @@ def register_dynamic_node_parser(cli_subparser):
     # positional
     dynamic_node_parser.add_argument(
         "NODE_TYPE",
-        help=(
-            "dynamic node type to render: an engine-defined choice "
-            "({}) or a known abbr group name".format(
-                ", ".join(ENGINE_DEFINED_NODES)
-            )
-        ),
+        help="dynamic node type to render; ls to list available values",
     )
     add_verbose_arguments(dynamic_node_parser)
 
