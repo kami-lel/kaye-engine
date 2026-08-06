@@ -11,6 +11,9 @@ from unittest.mock import mock_open, patch
 import pytest
 
 
+from kaye_engine.abbr_collection.abbr_data import _abbr_data
+from kaye_engine.abbr_collection.abbr_meaning import AbbrMeaning
+from kaye_engine.prompt.dynamic_nodes import AbbrGroupNode
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
 
@@ -27,6 +30,13 @@ def prompt_corpus_tree_preview():
 
 # pytest  ######################################################################
 class TestDynamic:
+    """
+    engine-defined dynamic node types (``DYNAMIC_NODE_TYPES``) still attach
+    unconditionally, with no corresponding corpus heading required; abbr
+    group nodes do not -- they are consumer-defined data, so they only
+    attach when a matching ``(group-name)`` heading is present, see
+    ``TestGroupHeading`` below
+    """
 
     def test_today(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview
@@ -40,29 +50,42 @@ class TestDynamic:
         print(opt)
         assert "── (Abbreviations)" in opt
 
-    def test_usable(_, prompt_corpus_tree_preview):
-        opt = prompt_corpus_tree_preview
 
-        print(opt)
-        assert "── (Usable Abbreviations)" in opt
+class TestGroupHeading:
 
-    def test_lc(_, prompt_corpus_tree_preview):
-        opt = prompt_corpus_tree_preview
+    def test_known_group_heading_resolves(_):
+        mean = AbbrMeaning("dummy group meaning", remark=None)
+        with _abbr_data:
+            _abbr_data.add_entry(
+                mean,
+                "dmygrp",
+                {
+                    "priority": 0,
+                    "tags": [],
+                    "groups": ["some-group"],
+                    "wrap": "word",
+                },
+            )
 
-        print(opt)
-        assert "── (Languages Code)" in opt
+        m = mock_open(
+            read_data="# Title\n\n# (some-group)\nGroup preface text.\n"
+        )
 
-    def test_plc(_, prompt_corpus_tree_preview):
-        opt = prompt_corpus_tree_preview
+        with patch("builtins.open", m):
+            tree = load_corpus_tree("dynamic-nodes-group-test", "d.md")
 
-        print(opt)
-        assert "── (Programming Languages Code)" in opt
+        node = tree["(some-group)"]
+        assert isinstance(node, AbbrGroupNode)
+        assert "Group preface text." in node.content_lines()
 
-    def test_u3d(_, prompt_corpus_tree_preview):
-        opt = prompt_corpus_tree_preview
+    def test_unknown_group_heading_raises(_):
+        m = mock_open(read_data="# Title\n\n# (no-such-group)\nContent.\n")
 
-        print(opt)
-        assert "── (Unity Engine Abbreviations)" in opt
+        with pytest.raises(
+            ValueError, match="unrecognized dynamic node heading"
+        ):
+            with patch("builtins.open", m):
+                load_corpus_tree("dynamic-nodes-group-reject-test", "d.md")
 
 
 class TestPreface:
