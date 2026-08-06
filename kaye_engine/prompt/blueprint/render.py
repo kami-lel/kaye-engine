@@ -245,7 +245,6 @@ def render_prompt_lines(  # ====================================================
     else:
         working_bp = blueprint
 
-    # TODO compact render & other types
     lines = []
 
     should_skip_heading = disable_first_heading
