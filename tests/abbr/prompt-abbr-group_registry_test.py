@@ -40,16 +40,25 @@ class TestRegisterAbbrGroup:  ##################################################
         assert reg.name == "test-group-dft"
         assert reg.uses_numbered_list is False
         assert reg.is_sorted is False
+        assert reg.priority_threshold is None
         assert abbr_group_registry["test-group-dft"] is reg
 
     def test_flags(_, registered_names):
         reg = register_abbr_group(
-            "test-group-flags", uses_numbered_list=True, is_sorted=True
+            "test-group-flags",
+            uses_numbered_list=True,
+            is_sorted=True,
+            priority_threshold=5,
         )
         registered_names.append(reg.name)
 
         assert reg.uses_numbered_list is True
         assert reg.is_sorted is True
+        assert reg.priority_threshold == 5
+
+    def test_priority_threshold_not_int_raises(_):
+        with pytest.raises(TypeError):
+            register_abbr_group("test-group-bad-threshold", priority_threshold="5")
 
     def test_duplicate_name(_, registered_names):
         reg = register_abbr_group("test-group-dup")
