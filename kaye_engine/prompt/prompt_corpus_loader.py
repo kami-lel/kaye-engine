@@ -10,7 +10,7 @@ import re
 
 from anytree import PreOrderIter
 
-from kaye_engine.abbr_collection import get_abbr_data
+from kaye_engine.abbr_collection import abbr_group_registry
 
 from .dynamic_nodes import DYNAMIC_NODE_TYPES, AbbrGroupNode
 from .prompt_corpus_node import PromptCorpusNode
@@ -42,7 +42,7 @@ def _resolve_dynamic_heading(heading):
     """
     resolve a parenthesized ``heading`` against ``DYNAMIC_NODE_TYPES``
     first, then against every group name known to
-    ``get_abbr_data().groups`` -- returns ``(node_type, None)`` for an
+    ``abbr_group_registry`` -- returns ``(node_type, None)`` for an
     engine-defined match, ``(AbbrGroupNode, group_name)`` for a group
     match, or ``(None, None)`` for an ordinary static heading
     """
@@ -54,7 +54,7 @@ def _resolve_dynamic_heading(heading):
             return node_type, None
 
     group_name = heading[1:-1]
-    if group_name in get_abbr_data().groups.names:
+    if group_name in abbr_group_registry:
         return AbbrGroupNode, group_name
 
     raise ValueError("unrecognized dynamic node heading: {}".format(heading))
