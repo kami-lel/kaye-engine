@@ -11,6 +11,8 @@ __all__ = (
     "get_default_corpus_tree",
     "AbbrData",
     "get_abbr_data",
+    "register_abbr_group",
+    "get_abbr_group",
     "get_blueprint",
     "register_blueprint",
     "setup_claude_cli",
@@ -33,5 +35,7 @@ from kaye_engine.prompt import (
 from kaye_engine.abbr_collection import (
     AbbrData,
     get_abbr_data,
+    register_abbr_group,
+    get_abbr_group,
 )
 from kaye_engine.cli.claude.setup import setup_claude_cli
