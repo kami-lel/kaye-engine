@@ -24,7 +24,7 @@ class TestErrAbbr:  # ==========================================================
 
     def test_key_type1(_):
         abbr = 5
-        with pytest.raises(ValueError) as exec_info:
+        with pytest.raises(TypeError) as exec_info:
             AbbrEntry(MEAN, abbr, ABBR_OBJ)
 
         opt = exec_info.value.args[0]
@@ -36,7 +36,7 @@ class TestErrAbbrObj:  # =======================================================
 
     def test_value_type1(_):
         abbr_obj = 5
-        with pytest.raises(ValueError) as exec_info:
+        with pytest.raises(TypeError) as exec_info:
             AbbrEntry(MEAN, ABBR, abbr_obj)
 
         opt = exec_info.value.args[0]
@@ -84,7 +84,7 @@ class TestErrPriority:  # ======================================================
         abbr_obj = ABBR_OBJ.copy()
         abbr_obj["priority"] = "123"
 
-        with pytest.raises(ValueError) as exec_info:
+        with pytest.raises(TypeError) as exec_info:
             AbbrEntry(MEAN, ABBR, abbr_obj)
 
         opt = exec_info.value.args[0]
