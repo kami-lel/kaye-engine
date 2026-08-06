@@ -5,7 +5,12 @@ group abbreviations for export
 """
 
 from kaye_engine import LOGGER_NAME, kamilog
-from kaye_engine.abbr_collection import AbbrTags, AbbrWrap, get_abbr_data
+from kaye_engine.abbr_collection import (
+    AbbrTags,
+    AbbrWrap,
+    abbr_group_registry,
+    get_abbr_data,
+)
 from kaye_engine.prompt.blueprint.registry import to_skill_name
 
 # logger  ######################################################################
@@ -89,9 +94,11 @@ def _get_abbrs_by_groups(abbr_data):
     return [
         _make_group(
             _ABBR_TEMPLATE + group_name,
-            _sort_entries(abbr_data.groups.entries_for(group_name)),
+            _sort_entries(
+                e for e in abbr_data.abbrs if group_name in e.groups
+            ),
         )
-        for group_name in sorted(abbr_data.groups.names)
+        for group_name in sorted(abbr_group_registry)
     ]
 
 
