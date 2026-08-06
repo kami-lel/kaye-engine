@@ -19,7 +19,9 @@ __all__ = ("AbbrGroupNode", "gen_group_abbrs_content_lines")
 logger = kamilog.getLogger(LOGGER_NAME)
 
 
-def gen_group_abbrs_content_lines(group_name, is_sorted=None, uses_numbered_list=None):
+def gen_group_abbrs_content_lines(
+    group_name, is_sorted=None, uses_numbered_list=None, priority_threshold=None
+):
     """
     :param is_sorted: sort by ascending priority instead of insertion
             order; defaults to the group's registered ``is_sorted``
@@ -28,6 +30,11 @@ def gen_group_abbrs_content_lines(group_name, is_sorted=None, uses_numbered_list
             bullets; defaults to the group's registered
             ``uses_numbered_list``
     :type uses_numbered_list: bool, optional
+    :param priority_threshold: exclude entries whose priority is
+            greater than this value from rendering; ``None`` disables
+            this filtering; defaults to the group's registered
+            ``priority_threshold``
+    :type priority_threshold: int, optional
     :return: markdown list items for ``group_name``'s entries;
             empty when the abbr data singleton is empty
     :rtype: list[str]
@@ -42,10 +49,16 @@ def gen_group_abbrs_content_lines(group_name, is_sorted=None, uses_numbered_list
         is_sorted = reg.is_sorted
     if uses_numbered_list is None:
         uses_numbered_list = reg.uses_numbered_list
+    if priority_threshold is None:
+        priority_threshold = reg.priority_threshold
 
     entries = tuple(
         entry for entry in abbr_data.abbrs if group_name in entry.groups
     )
+    if priority_threshold is not None:
+        entries = tuple(
+            entry for entry in entries if entry.priority <= priority_threshold
+        )
     if is_sorted:
         entries = sorted(entries, key=lambda entry: entry.priority)
 
@@ -73,11 +86,18 @@ class AbbrGroupNode(DynamicNode):  #############################################
 
     # implement BasePromptNode  ------------------------------------------------
 
-    def content_lines(self, is_sorted=None, uses_numbered_list=None, **kwargs):
+    def content_lines(
+        self,
+        is_sorted=None,
+        uses_numbered_list=None,
+        priority_threshold=None,
+        **kwargs
+    ):
         return self._preface + gen_group_abbrs_content_lines(
             self.group_name,
             is_sorted=is_sorted,
             uses_numbered_list=uses_numbered_list,
+            priority_threshold=priority_threshold,
         )
 
     def __copy__(self):
