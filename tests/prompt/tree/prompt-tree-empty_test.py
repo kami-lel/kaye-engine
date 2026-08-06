@@ -79,7 +79,7 @@ class TestEmptyLine:  # source material contains various empty lines
     def test_root(self, prompt_tree_empty):
         assert prompt_tree_empty.depth == 0
         assert prompt_tree_empty.parent is None
-        assert prompt_tree_empty._content_lines == []
+        assert prompt_tree_empty._content_lines == ["", ""]
 
     def test_project(self, prompt_tree_empty):
         project = prompt_tree_empty.children[0]
@@ -88,7 +88,7 @@ class TestEmptyLine:  # source material contains various empty lines
         assert project.depth == 1
         assert project.parent is prompt_tree_empty
         assert len(project.children) == 5
-        assert project._content_lines == []
+        assert project._content_lines == [""]
 
     def test_description(self, prompt_tree_empty):
         project = prompt_tree_empty.children[0]
@@ -100,6 +100,7 @@ class TestEmptyLine:  # source material contains various empty lines
         assert len(sub.children) == 0
         assert sub._content_lines == [
             "A brief overview of the project, its purpose, and goals.",
+            "",
         ]
 
     def test_install(self, prompt_tree_empty):
@@ -114,6 +115,7 @@ class TestEmptyLine:  # source material contains various empty lines
             "1. Clone the repo",
             "2. Install dependencies",
             "3. Run the application",
+            "",
         ]
 
     def test_usage1(self, prompt_tree_empty):
@@ -125,7 +127,9 @@ class TestEmptyLine:  # source material contains various empty lines
         assert sub.parent is project
         assert len(sub.children) == 0
         assert sub._content_lines == [
+            "",
             "Provide instructions on how to use the application.",
+            "",
         ]
 
     def test_usage2(self, prompt_tree_empty):
@@ -140,6 +144,7 @@ class TestEmptyLine:  # source material contains various empty lines
             "1. Fork the repo",
             "2. Create a new branch",
             "3. Submit a pull request",
+            "",
         ]
 
     def test_license(self, prompt_tree_empty):
@@ -152,4 +157,5 @@ class TestEmptyLine:  # source material contains various empty lines
         assert len(sub.children) == 0
         assert sub._content_lines == [
             "This project is licensed under the MIT License.",
+            "",
         ]
