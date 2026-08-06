@@ -7,6 +7,7 @@ define ``AbbrData``
 import ahocorasick
 
 from kaye_engine.abbr_collection.abbr_entry import AbbrEntry
+from kaye_engine.abbr_collection.abbr_group import AbbrGroupIndex
 
 # AbbrData  ####################################################################
 
@@ -31,10 +32,12 @@ class AbbrData:
 
         - ``self.meanings``
         - ``self.abbrs``
+        - ``self.groups``
         - ``self.automaton``
         """
         self.meanings = []
         self.abbrs = []
+        self.groups = AbbrGroupIndex()
         self._seen_entries = set()
         self._editing = False
 
@@ -51,6 +54,7 @@ class AbbrData:
 
         - ``self.meanings`` (``mean`` itself, if not already tracked)
         - ``self.abbrs``
+        - ``self.groups``
 
         the automaton is rebuilt on ``with`` block exit, not per call
 
@@ -70,6 +74,7 @@ class AbbrData:
             raise ValueError("duplicate abbr entry: {}".format(repr(entry)))
         self._seen_entries.add(entry)
         self.abbrs.append(entry)
+        self.groups.add_entry(entry)
 
         if mean not in self.meanings:
             self.meanings.append(mean)

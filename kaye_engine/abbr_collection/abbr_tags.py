@@ -50,23 +50,7 @@ class AbbrTags(Flag):
 
     NONE = 0
     common = auto()
-
-    # usage cases  -------------------------------------------------------------
-
     always_understand = auto()
-    usable_in_brief = auto()
-    coding = auto()
-
-    # specialized groups  ------------------------------------------------------
-
-    programming_language_code = auto()
-    language_code = auto()
-    unity_engine_abbr = auto()
-    log_level = auto()
-    unit_of_measure = auto()
-    currency_symbol = auto()
-    plan_step_by_step_abbr = auto()
-    code_documentation_field_abbr = auto()
 
     # character set  -----------------------------------------------------------
 

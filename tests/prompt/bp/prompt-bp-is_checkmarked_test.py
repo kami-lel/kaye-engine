@@ -668,6 +668,6 @@ class TestDynamicNodes:  #######################################################
     def test_plc(_, dynamic_bp_testee1):
         bp = copy.deepcopy(dynamic_bp_testee1)
 
-        node = dynamic_bp_testee1.corpus["(Programming Languages Code)"]
+        node = dynamic_bp_testee1.corpus["(programming-language-codes)"]
 
         assert not bp.is_checkmarked(node)

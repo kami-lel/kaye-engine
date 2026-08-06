@@ -524,7 +524,7 @@ class TestDynamicNodes:
     def test_checkmark_by_obj2(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
 
-        node = bp.corpus["(Programming Languages Code)"]
+        node = bp.corpus["(programming-language-codes)"]
 
         assert bp.uncheckmark(node)
         assert not bp.is_checkmarked(node)
@@ -532,7 +532,7 @@ class TestDynamicNodes:
     def test_checkmark_by_hash2(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
 
-        node = bp.corpus["(Programming Languages Code)"]
+        node = bp.corpus["(programming-language-codes)"]
         node_hash = hash(node)
 
         assert bp.uncheckmark(node_hash)
@@ -542,8 +542,8 @@ class TestDynamicNodes:
     def test_checkmark_by_name2(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
 
-        node = bp.corpus["(Programming Languages Code)"]
-        ipt = "(Programming Languages Code)"
+        node = bp.corpus["(programming-language-codes)"]
+        ipt = "(programming-language-codes)"
 
         assert bp.uncheckmark(ipt)
 
@@ -551,8 +551,8 @@ class TestDynamicNodes:
 
     def test_checkmark_by_identifier2(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
-        node = bp.corpus["(Programming Languages Code)"]
-        ipt = "(Programming Languages Code)"
+        node = bp.corpus["(programming-language-codes)"]
+        ipt = "(programming-language-codes)"
 
         bp.uncheckmark(ipt)
 
@@ -575,9 +575,9 @@ class TestDynamicNodes:
 [ ] │   └── Conclusion
 [x] ├── (Today)
 [x] ├── (Abbreviations)
-[x] ├── (Usable Abbreviations)
-[x] ├── (Languages Code)
-[x] └── (Programming Languages Code)"""
+[x] ├── (usable-abbreviations)
+[x] ├── (natural-language-codes)
+[x] └── (programming-language-codes)"""
 
         bp.uncheckmark("Main Title", recursively=True)
 
@@ -602,9 +602,9 @@ class TestDynamicNodes:
 [x] │   └── Conclusion
 [x] ├── (Today)
 [x] ├── (Abbreviations)
-[x] ├── (Usable Abbreviations)
-[x] ├── (Languages Code)
-[x] └── (Programming Languages Code)"""
+[x] ├── (usable-abbreviations)
+[x] ├── (natural-language-codes)
+[x] └── (programming-language-codes)"""
 
         bp.uncheckmark("Introduction", recursively=True)
 

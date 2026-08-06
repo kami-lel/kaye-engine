@@ -22,7 +22,7 @@ Every dynamic node's name is its heading wrapped in parentheses, e.g. `(Today)` 
 | --- | --- | --- |
 | Today | `(Today)` | current date and time |
 
-Every abbreviation-related dynamic node (`(Abbreviations)`, `(Usable Abbreviations)`, `(Coding Terms)`, and the rest) is documented separately in [`abbr-collection-doc.md`](abbr-collection-doc.md).
+Every abbreviation-related dynamic node (`(Abbreviations)`, plus one `(group-name)` per abbr group, e.g. `(coding-terms)`) is documented in [`abbr-collection-doc.md`](abbr-collection-doc.md).
 
 Every dynamic node is a **leaf** — it never has children, so it cannot itself contain sub-sections.
 
@@ -40,7 +40,9 @@ Every dynamic node is a **leaf** — it never has children, so it cannot itself 
 
 ## Using a Dynamic Node
 
-Every dynamic node type is attached once to the prompt corpus tree automatically, as a direct child of the root — you do not add them to `prompt_corpus.md` yourself. The `(...)` heading form is reserved, so loading a corpus **rejects** it in two cases: a parenthesized heading naming no known dynamic node type, and a parenthesized heading at any depth below the root. A top-level heading naming a known type is the one accepted form, and it supplies introductory text rather than creating a second node — v.i.
+Engine-defined types (`Today`, `Abbreviations`) attach automatically as direct children of the root — you do not add them to `prompt_corpus.md` yourself. `AbbrGroupNode` (q.v. [`abbr-collection-doc.md`](abbr-collection-doc.md#groups)) is different: it attaches only when a top-level `(group-name)` heading is present **and** some loaded `AbbrEntry` carries that group. No heading, no node.
+
+A top-level `(...)` heading resolves against engine-defined types first, then against known group names. Loading a corpus **rejects** a parenthesized heading matching neither, or one below the root. A resolving heading supplies introductory text rather than creating a second node — v.i.
 
 Once attached, a dynamic node behaves like any other corpus node in a blueprint: checkmark it to include it, uncheckmark it to leave it out.
 

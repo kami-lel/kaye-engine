@@ -23,10 +23,6 @@ _LETTERS_SET = frozenset(_LETTERS)
 _DIGITS_SET = frozenset("0123456789")
 
 _TAG_NAMES = {
-    AbbrTags.programming_language_code: "Programming Language Codes",
-    AbbrTags.language_code: "Natural Language Codes",
-    AbbrTags.unit_of_measure: "Units of Measure",
-    AbbrTags.currency_symbol: "Currency Symbols",
     AbbrTags.single_character: "Single Character",
     AbbrTags.emoji: "Emoji",
 }
@@ -36,9 +32,6 @@ _WRAP_NAMES = {
     AbbrWrap.SUFFIX: "Suffixes",
     AbbrWrap.SYMBOL: "Symbols",
 }
-
-
-# auxiliaries  #################################################################
 
 
 class ExportableAbbr(list):  ###################################################
@@ -92,6 +85,16 @@ def _get_abbrs_by_tags(abbrs):
     ]
 
 
+def _get_abbrs_by_groups(abbr_data):
+    return [
+        _make_group(
+            _ABBR_TEMPLATE + group_name,
+            _sort_entries(abbr_data.groups.entries_for(group_name)),
+        )
+        for group_name in sorted(abbr_data.groups.names)
+    ]
+
+
 def _get_abbrs_by_wrap(abbrs):
     return [
         _make_group(
@@ -139,8 +142,7 @@ def get_exportable_abbrs():
     current state of :func:`get_abbr_data`
 
 
-    :return: every tag, wrap, and first-character abbreviation group;
-            empty when the abbr data singleton is still empty
+    :return: every group; empty when the abbr data singleton is still empty
     :rtype: list[ExportableAbbr]
     """
     abbr_data = get_abbr_data()
@@ -151,6 +153,7 @@ def get_exportable_abbrs():
     abbrs = abbr_data.abbrs
     return (
         _get_abbrs_by_tags(abbrs)
+        + _get_abbrs_by_groups(abbr_data)
         + _get_abbrs_by_wrap(abbrs)
         + _get_abbrs_by_first_char(abbrs)
     )

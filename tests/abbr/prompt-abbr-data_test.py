@@ -501,6 +501,66 @@ class Test3:  # ================================================================
         assert str(e[1]) == "W:while,when"
 
 
+class TestGroups:  # groups  ===================================================
+
+    data = _build_abbr_data({
+        "abstract class": {
+            "abbrs": {
+                "aCls": {
+                    "priority": 5,
+                    "tags": [],
+                    "groups": ["coding-terms"],
+                    "wrap": "word",
+                },
+            },
+        },
+        "C language": {
+            "abbrs": {
+                "c": {
+                    "priority": 5,
+                    "tags": ["single_character"],
+                    "groups": [
+                        "coding-terms",
+                        "programming-language-codes",
+                    ],
+                    "wrap": "word",
+                },
+            },
+        },
+        "against": {
+            "abbrs": {
+                "vs.": {
+                    "priority": 5,
+                    "tags": ["common"],
+                    "wrap": "word",
+                },
+            },
+        },
+    })
+
+    def test_names(self):
+        assert self.data.groups.names == {
+            "coding-terms",
+            "programming-language-codes",
+        }
+
+    def test_entries_for_shared_group(self):
+        entries = self.data.groups.entries_for("coding-terms")
+        assert [e.abbr for e in entries] == ["aCls", "c"]
+
+    def test_entries_for_single_member_group(self):
+        entries = self.data.groups.entries_for("programming-language-codes")
+        assert [e.abbr for e in entries] == ["c"]
+
+    def test_entries_for_unknown_group(self):
+        assert self.data.groups.entries_for("no-such-group") == ()
+
+    def test_entry_without_groups_is_unindexed(self):
+        entry = self.data.abbrs[2]
+        assert entry.abbr == "vs."
+        assert entry.groups == ()
+
+
 class Test4:  # remark  ========================================================
 
     data = _build_abbr_data({
