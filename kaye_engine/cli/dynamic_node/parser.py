@@ -11,7 +11,7 @@ from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.abbr_collection import get_abbr_data
 from kaye_engine.cli.dynamic_node.node_type_choices import (
     ENGINE_DEFINED_NODES,
-    gen_node_type_list,
+    list_all_node_type_names,
 )
 from kaye_engine.kamilog import (
     add_verbose_arguments,
@@ -33,24 +33,17 @@ _ROOT_NODE_NAME = "○"
 
 # auxiliaries  #################################################################
 def _build_description():
-    return (
-        _HELP
-        + """
+    return _HELP + """
 
-renders a blueprint made of ONLY the given NODE_TYPE dynamic node,
+renders a blueprint made of ONLY the given NODE dynamic node,
 result is printed to stdout
 
-NODE_TYPE choices:
+run `kaye-engine dynamic-node ls` to list available NODE values
 
-"""
-        + gen_node_type_list()
-        + """
-
-Abbreviation node reads its query content from stdin, optional:
+when NODE=abbr, reads query content from stdin, optional:
 
     echo "use an algo to calc the avg" | kaye-engine dynamic-node abbr
 """
-    )
 
 
 def _resolve_node_type(name):
@@ -67,34 +60,47 @@ def _resolve_node_type(name):
     if name in get_abbr_data().groups.names:
         return AbbrGroupNode, name
 
-    raise ValueError("unrecognized NODE_TYPE: {}".format(repr(name)))
+    raise ValueError("unrecognized NODE: {}".format(repr(name)))
 
 
 def _dynamic_node_main(args):
     set_logging_level_by_namespace(args, logger=logger)
 
-    node_cls, group_name = _resolve_node_type(args.NODE_TYPE)
+    if args.NODE == "ls":
+        for name in list_all_node_type_names():
+            print(name)
+        return
 
-    dummy_root = PromptCorpusNode(_ROOT_NODE_NAME, None, [])
-    node = (
-        node_cls(dummy_root, group_name=group_name)
-        if group_name is not None
-        else node_cls(dummy_root)
-    )
+    try:
+        node_cls, group_name = _resolve_node_type(args.NODE)
+    except ValueError as err:
+        logger.error(str(err))
+        raise SystemExit(1) from err
 
-    blueprint = PromptBlueprint.create_from_node(
-        node.name, corpus_tree=dummy_root
-    )
+    try:
+        dummy_root = PromptCorpusNode(_ROOT_NODE_NAME, None, [])
+        node = (
+            node_cls(dummy_root, group_name=group_name)
+            if group_name is not None
+            else node_cls(dummy_root)
+        )
 
-    query = sys.stdin.read() if not sys.stdin.isatty() else ""
+        blueprint = PromptBlueprint.create_from_node(
+            node.name, corpus_tree=dummy_root
+        )
 
-    generate_kwargs = {}
-    if args.NODE_TYPE == "abbr":
-        generate_kwargs["query"] = query
+        query = sys.stdin.read() if not sys.stdin.isatty() else ""
 
-    prompt = blueprint.generate_prompt(**generate_kwargs)
+        generate_kwargs = {}
+        if args.NODE == "abbr":
+            generate_kwargs["query"] = query
 
-    print(prompt)
+        prompt = blueprint.generate_prompt(**generate_kwargs)
+
+        print(prompt)
+    except (ValueError, TypeError, KeyError, NotImplementedError) as err:
+        logger.critical(str(err))
+        raise SystemExit(1) from err
 
 
 # Public API  ##################################################################
@@ -113,13 +119,8 @@ def register_dynamic_node_parser(cli_subparser):
     # add arguments  -------------------------------------------------------
     # positional
     dynamic_node_parser.add_argument(
-        "NODE_TYPE",
-        help=(
-            "dynamic node type to render: an engine-defined choice "
-            "({}) or a known abbr group name".format(
-                ", ".join(ENGINE_DEFINED_NODES)
-            )
-        ),
+        "NODE",
+        help="dynamic node type to render; NODE=ls to list available values",
     )
     add_verbose_arguments(dynamic_node_parser)
 
