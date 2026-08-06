@@ -35,12 +35,12 @@ _ROOT_NODE_NAME = "○"
 def _build_description():
     return _HELP + """
 
-renders a blueprint made of ONLY the given NODE_TYPE dynamic node,
+renders a blueprint made of ONLY the given NODE dynamic node,
 result is printed to stdout
 
-run `kaye-engine dynamic-node ls` to list available NODE_TYPE values
+run `kaye-engine dynamic-node ls` to list available NODE values
 
-Abbreviation node reads its query content from stdin, optional:
+when NODE=abbr, reads query content from stdin, optional:
 
     echo "use an algo to calc the avg" | kaye-engine dynamic-node abbr
 """
@@ -60,18 +60,18 @@ def _resolve_node_type(name):
     if name in get_abbr_data().groups.names:
         return AbbrGroupNode, name
 
-    raise ValueError("unrecognized NODE_TYPE: {}".format(repr(name)))
+    raise ValueError("unrecognized NODE: {}".format(repr(name)))
 
 
 def _dynamic_node_main(args):
     set_logging_level_by_namespace(args, logger=logger)
 
-    if args.NODE_TYPE == "ls":
+    if args.NODE == "ls":
         for name in list_all_node_type_names():
             print(name)
         return
 
-    node_cls, group_name = _resolve_node_type(args.NODE_TYPE)
+    node_cls, group_name = _resolve_node_type(args.NODE)
 
     dummy_root = PromptCorpusNode(_ROOT_NODE_NAME, None, [])
     node = (
@@ -87,7 +87,7 @@ def _dynamic_node_main(args):
     query = sys.stdin.read() if not sys.stdin.isatty() else ""
 
     generate_kwargs = {}
-    if args.NODE_TYPE == "abbr":
+    if args.NODE == "abbr":
         generate_kwargs["query"] = query
 
     prompt = blueprint.generate_prompt(**generate_kwargs)
@@ -111,8 +111,8 @@ def register_dynamic_node_parser(cli_subparser):
     # add arguments  -------------------------------------------------------
     # positional
     dynamic_node_parser.add_argument(
-        "NODE_TYPE",
-        help="dynamic node type to render; ls to list available values",
+        "NODE",
+        help="dynamic node type to render; NODE=ls to list available values",
     )
     add_verbose_arguments(dynamic_node_parser)
 
