@@ -25,8 +25,26 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Added
 
+- `sparseness` parameter on `render_prompt_lines()`/`generate_prompt()`,
+  controlling how runs of blank lines collapse in rendered output: `-1`
+  joins the whole output into one line (`REPLACEMENT_NEWLINE_SYMBOL` in
+  place of every newline), `0` removes all blank lines, `1` collapses
+  every run to a single blank line (default), and so on up through `99`,
+  which disables trimming entirely
+- `-s`/`--sparseness` option on `kaye-engine prompt generate`, forwarding
+  the new parameter from the CLI
+
 ### Changed
 
+- sidecar descriptor rendering (`description`, `when_to_use`,
+  `description_and_when_to_use`) now renders through the `sparseness`
+  control instead of its own blank-line trimming
+- `export_user_system_prompt_file()` gained a `sparseness` keyword
+  (default `1`); `claude vs-code-extension` and Claude Skill `SKILL.md`
+  export now render their prompt with `sparseness=0`
+- `REPLACEMENT_NEWLINE_SYMBOL` moved from `kaye_engine.prompt` to
+  `kaye_engine.prompt.blueprint.render`; it was never part of the
+  documented public API
 - consolidated the Claude-CLI setup calls into one
   `setup_claude_cli(plugin_name, marketplace_name, chat_bp_name,
   coder_bp_name, version, marketplace_folder_name)`; a consumer now sets
