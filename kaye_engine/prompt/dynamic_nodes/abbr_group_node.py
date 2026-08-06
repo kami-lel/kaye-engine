@@ -19,14 +19,9 @@ logger = kamilog.getLogger(LOGGER_NAME)
 
 def gen_group_abbrs_content_lines(group_name):
     """
-    render every ``get_abbr_data().groups`` entry matching ``group_name``
-    as a list of markdown list items; empty when the abbr data singleton
-    is still empty, or ``group_name`` is unknown
-
-
-    :param group_name: group to filter entries by
-    :type group_name: str
-    :return: rendered markdown list items, one per matching entry
+    :return: markdown list items for every ``get_abbr_data().groups``
+            entry belonging to ``group_name``; empty when the abbr data
+            singleton is still empty, or ``group_name`` is unknown
     :rtype: list[str]
     """
     abbr_data = get_abbr_data()
