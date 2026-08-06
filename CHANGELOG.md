@@ -3,8 +3,6 @@
 [^format]
 
 <!--
-fixme sidecar node & abbr tag logic, use registry pattern
-
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -33,6 +31,14 @@ todo todo utilize personalities, allow multi agent conversation
   which disables trimming entirely
 - `-s`/`--sparseness` option on `kaye-engine prompt generate`, forwarding
   the new parameter from the CLI
+- `groups` — free-form, consumer-defined array field on `abbrs.json`
+  entries; any value an entry declares becomes a known group on load, no
+  `kaye-engine` change required
+- `AbbrGroupNode` — dynamic node parametrized by group name at
+  construction time; a top-level `(group-name)` heading in
+  `prompt_corpus.md` resolves to it when `group-name` matches a known
+  abbr group, and `kaye-engine dynamic-node NODE_TYPE` now accepts any
+  known group name alongside its engine-defined choices
 
 ### Changed
 
@@ -56,6 +62,14 @@ todo todo utilize personalities, allow multi agent conversation
   installed package version
 - the marketplace folder name (`kaye_marketplace` by default, previously
   hardcoded in two places) is now consumer-configurable
+- the fixed abbr-tag dynamic nodes (`Usable Abbreviations`, `Coding
+  Terms`, `Languages Code`, `Programming Languages Code`, `Unity Engine
+  Abbreviations`, `Plan Step By Step Abbreviations`, `Code Documentation
+  Field Abbreviations`) are replaced by group-based `(group-name)`
+  headings; a host `abbrs.json` must move affected entries' tags to
+  `groups` to keep them rendering
+- `AbbrEntry` now raises `TypeError`, not `ValueError`, when `abbr`, its
+  value object, or `priority` is the wrong type
 
 ### Deprecated
 
@@ -66,6 +80,16 @@ todo todo utilize personalities, allow multi agent conversation
   and its split getters
 - `resolve_package_version`/`package_version.py`, superseded by the
   consumer-supplied version read through `setup_claude_cli(...)`
+- `AbbrTags` members `usable_in_brief`, `coding`,
+  `programming_language_code`, `language_code`, `unity_engine_abbr`,
+  `log_level`, `unit_of_measure`, `currency_symbol`,
+  `plan_step_by_step_abbr`, and `code_documentation_field_abbr`,
+  superseded by free-form `groups`
+- `UsableAbbrNode`, `LanguageCodeNode`, `PLCNode`, `UnityEngineAbbrNode`,
+  `CodingTermsNode`, `PlanStepByStepAbbrNode`, and
+  `CodeDocumentationFieldAbbrNode`, superseded by `AbbrGroupNode`
+- `NODE_TYPE_CHOICES`, superseded by `ENGINE_DEFINED_NODES` and
+  `get_node_type_choices()`
 
 ### Fixed
 

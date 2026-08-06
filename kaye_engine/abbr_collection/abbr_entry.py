@@ -4,6 +4,7 @@ abbr_entry.py
 define ``AbbrEntry``
 """
 
+from kaye_engine.abbr_collection.abbr_group import ABBRS_JSON_GROUP_KEY
 from kaye_engine.abbr_collection.abbr_tags import AbbrTags
 from kaye_engine.abbr_collection.abbr_wrap import AbbrWrap
 
@@ -23,24 +24,33 @@ class AbbrEntry:
     represent an abbr => meaning structure
 
 
+    :raises TypeError:
     :raises ValueError:
     """
 
     # instance structure  ******************************************************
 
-    __slots__ = ("abbr", "mean", "priority", "tags", "wrap", "remark")
+    __slots__ = (
+        "abbr",
+        "groups",
+        "mean",
+        "priority",
+        "remark",
+        "tags",
+        "wrap",
+    )
 
     def __init__(self, mean, abbr, abbr_obj):
         self.mean = mean  # referenced to meaning
 
         # set .abbr  -----------------------------------------------------------
         if not isinstance(abbr, str):
-            raise ValueError("abbr key must be String: {}".format(repr(abbr)))
+            raise TypeError("abbr key must be String: {}".format(repr(abbr)))
         self.abbr = abbr
 
         # test abbr_obj shapes  ------------------------------------------------
         if not isinstance(abbr_obj, dict):
-            raise ValueError(
+            raise TypeError(
                 "abbr value must be Object: {}".format(repr(abbr_obj))
             )
         missing_keys = [
@@ -60,13 +70,24 @@ class AbbrEntry:
         # set .priority  -------------------------------------------------------
         priority = abbr_obj[ABBRS_JSON_PRIORITY_KEY]
         if not isinstance(priority, int):
-            raise ValueError(
+            raise TypeError(
                 "priority must be Integer: {}".format(repr(priority))
             )
         self.priority = priority
 
         # set .tags  -----------------------------------------------------------
         self.tags = AbbrTags.parse(abbr_obj[ABBRS_JSON_TAGS_KEY])
+
+        # set .groups  ---------------------------------------------------------
+        # optional; free-form, consumer-defined group names, no fixed enum
+        groups = abbr_obj.get(ABBRS_JSON_GROUP_KEY, [])
+        if not isinstance(groups, list) or not all(
+            isinstance(group, str) for group in groups
+        ):
+            raise ValueError(
+                "groups value must be Array of String: {}".format(repr(groups))
+            )
+        self.groups = tuple(groups)
 
         # set .wrap  -----------------------------------------------------------
         # may raise ValueError

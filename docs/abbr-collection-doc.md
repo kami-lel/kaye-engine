@@ -127,13 +127,9 @@ Every abbreviation-related [dynamic node](dynamic-node-doc.md) lives in `kaye_en
 | Node | Heading | Source | Behavior |
 | --- | --- | --- | --- |
 | `AbbrNode` | `(Abbreviations)` | `abbr_nodes.py` | scans a `query=` string against `get_abbr_data().automaton`, verifying each raw match with `AbbrEntry.verify_found` before including it; falls back to every `always_understand`-tagged entry when `query` is omitted |
-| `UsableAbbrNode` | `(Usable Abbreviations)` | `abbr_tag_nodes.py` | every entry tagged `usable_in_brief` |
-| `CodingTermsNode` | `(Coding Terms)` | `abbr_tag_nodes.py` | every entry tagged `coding` |
-| `LanguageCodeNode` | `(Languages Code)` | `abbr_tag_nodes.py` | every entry tagged `language_code` |
-| `PLCNode` | `(Programming Languages Code)` | `abbr_tag_nodes.py` | every entry tagged `programming_language_code` |
-| `UnityEngineAbbrNode` | `(Unity Engine Abbreviations)` | `abbr_tag_nodes.py` | every entry tagged `unity_engine_abbr` |
-| `PlanStepByStepAbbrNode` | `(Plan Step By Step Abbreviations)` | `abbr_tag_nodes.py` | every entry tagged `plan_step_by_step_abbr` |
-| `CodeDocumentationFieldAbbrNode` | `(Code Documentation Field Abbreviations)` | `abbr_tag_nodes.py` | every entry tagged `code_documentation_field_abbr` |
+| `AbbrGroupNode` | `(group-name)` | `abbr_group_node.py` | every entry whose `groups` array contains `group-name` |
+
+Unlike `AbbrNode`, `AbbrGroupNode` is not engine-registered — one instance is created per group name found on `AbbrEntry.groups` (q.v. [`groups`](#groups) below), never enumerated in `kaye-engine` code. Q.v. [dynamic-node-doc.md](dynamic-node-doc.md) for the heading resolution order.
 
 
 
@@ -164,7 +160,7 @@ Given that query, `(Abbreviations)` finds `algo` and `calc` (verifying each matc
 - calc:calculate
 ```
 
-If `query` is omitted or empty, `(Abbreviations)` falls back to rendering every abbreviation tagged `always_understand`, the same way the tag-filtered nodes (`(Usable Abbreviations)`, `(Coding Terms)`, etc.) always do — those nodes ignore `query` entirely and simply render every entry carrying their tag.
+If `query` is omitted or empty, `(Abbreviations)` falls back to rendering every abbreviation tagged `always_understand`, the same way every `AbbrGroupNode` always does — those nodes ignore `query` entirely and simply render every entry carrying their group.
 
 
 
@@ -212,6 +208,9 @@ Top level structure:
         "tags": [
           "ascii_only",
           "common"
+        ],
+        "groups": [
+          "coding-terms"
         ],
         "wrap": "word",
         "remark": "optional free-text note about this abbreviation",
@@ -293,22 +292,6 @@ Additional information regards this entry, must be an *array* of *string* of the
 - usage cases (these tags should be mutually exclusive):
 
   - `"always_understand"`: list of abbreviation always provided such LLM may understand
-  - `"usable_in_brief"`: abbreviations those can be used during for briefness styles
-  - `"coding"`: abbreviation/terms used in software development / coding context
-
-- specialized groups:
-
-  - `"programming_language_code"`: it is an abbreviation of a programming language
-    e.g. `cpp` for C++ programming language
-  - `"language_code"`: abbreviation for natural languages;
-    partial of and based on ISO 639-1 (2 letter)
-  - `"unity_engine_abbr"`: abbreviations specific to Unity Engine
-  - `"log_level"`
-  - `"unit_of_measure"`: scientific units for measurement
-  - `"currency_symbol"`: monetary currency symbol
-  - `"plan_step_by_step_abbr"`: abbreviations used within step-by-step planning
-  - `"code_documentation_field_abbr"`: abbreviations for code documentation
-    fields, e.g. docstring/comment field keywords
 
 - character set:
 
@@ -317,6 +300,26 @@ Additional information regards this entry, must be an *array* of *string* of the
   - `"word_character_only"`
   - `"ascii_only"`
   - `"emoji"`
+
+`tags` is a fixed, engine-defined enum (`AbbrTags`). For free-form,
+consumer-defined groupings, use [`groups`](#groups) instead.
+
+
+
+
+#### `groups`
+
+An *optional array* of *string* — free-form, no fixed enum; any value
+becomes a known group on load, no `kaye-engine` change required. Omit
+when an entry belongs to no group, like `remark`.
+
+```json
+"groups": ["programming-language-codes", "coding-terms"]
+```
+
+Each group name also works as a [dynamic node](dynamic-node-doc.md)
+heading: `(group-name)` auto-populates with every matching entry, via
+`AbbrGroupNode` — q.v. [abbreviations-related dynamic nodes](#abbreviations-related-dynamic-nodes).
 
 
 
