@@ -8,7 +8,7 @@ import sys
 from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
-from kaye_engine.abbr_collection import get_abbr_data
+from kaye_engine.abbr_collection import abbr_group_registry
 from kaye_engine.cli.dynamic_node.node_type_choices import (
     ENGINE_DEFINED_NODES,
     list_all_node_type_names,
@@ -57,7 +57,7 @@ def _resolve_node_type(name):
     if node_cls is not None:
         return node_cls, None
 
-    if name in get_abbr_data().groups.names:
+    if name in abbr_group_registry:
         return AbbrGroupNode, name
 
     raise ValueError("unrecognized NODE: {}".format(repr(name)))

@@ -7,7 +7,7 @@ define ``AbbrData``
 import ahocorasick
 
 from kaye_engine.abbr_collection.abbr_entry import AbbrEntry
-from kaye_engine.abbr_collection.abbr_group import AbbrGroupIndex
+from kaye_engine.abbr_collection.abbr_group_registry import abbr_group_registry
 
 # AbbrData  ####################################################################
 
@@ -32,12 +32,10 @@ class AbbrData:
 
         - ``self.meanings``
         - ``self.abbrs``
-        - ``self.groups``
         - ``self.automaton``
         """
         self.meanings = []
         self.abbrs = []
-        self.groups = AbbrGroupIndex()
         self._seen_entries = set()
         self._editing = False
 
@@ -54,7 +52,6 @@ class AbbrData:
 
         - ``self.meanings`` (``mean`` itself, if not already tracked)
         - ``self.abbrs``
-        - ``self.groups``
 
         the automaton is rebuilt on ``with`` block exit, not per call
 
@@ -66,15 +63,20 @@ class AbbrData:
         :param abbr_obj: already-loaded ``abbrs.json`` entry content, see
                 :class:`AbbrEntry`
         :type abbr_obj: dict
-        :raises ValueError: malformed ``abbr_obj``, or an entry duplicating
-                one already added
+        :raises ValueError: malformed ``abbr_obj``, an entry duplicating one
+                already added, or an entry referencing a group name never
+                registered via ``register_abbr_group``
         """
         entry = AbbrEntry(mean, abbr, abbr_obj)
         if entry in self._seen_entries:
             raise ValueError("duplicate abbr entry: {}".format(repr(entry)))
+        for group in entry.groups:
+            if group not in abbr_group_registry:
+                raise ValueError(
+                    "unregistered abbr group: {}".format(repr(group))
+                )
         self._seen_entries.add(entry)
         self.abbrs.append(entry)
-        self.groups.add_entry(entry)
 
         if mean not in self.meanings:
             self.meanings.append(mean)

@@ -40,7 +40,7 @@ Every dynamic node is a **leaf** — it never has children, so it cannot itself 
 
 ## Using a Dynamic Node
 
-Engine-defined types (`Today`, `Abbreviations`) attach automatically as direct children of the root — you do not add them to `prompt_corpus.md` yourself. `AbbrGroupNode` (q.v. [`abbr-collection-doc.md`](abbr-collection-doc.md#groups)) is different: it attaches only when a top-level `(group-name)` heading is present **and** some loaded `AbbrEntry` carries that group. No heading, no node.
+Engine-defined types (`Today`, `Abbreviations`) attach automatically as direct children of the root — you do not add them to `prompt_corpus.md` yourself. `AbbrGroupNode` (q.v. [`abbr-collection-doc.md`](abbr-collection-doc.md#groups)) is different: it attaches only when a top-level `(group-name)` heading is present **and** `group-name` is registered via `register_abbr_group`. No heading, no node; a registered group with no loaded entries yet still attaches and simply renders empty.
 
 A top-level `(...)` heading resolves against engine-defined types first, then against known group names. Loading a corpus **rejects** a parenthesized heading matching neither, or one below the root. A resolving heading supplies introductory text rather than creating a second node — v.i.
 
