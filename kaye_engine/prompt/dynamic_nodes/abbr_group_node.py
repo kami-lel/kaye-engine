@@ -9,6 +9,7 @@ registered here
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.abbr_collection import get_abbr_data
+from kaye_engine.abbr_collection.abbr_group_registry import get_abbr_group
 
 from .dynamic_node import DynamicNode
 
@@ -18,12 +19,17 @@ __all__ = ("AbbrGroupNode", "gen_group_abbrs_content_lines")
 logger = kamilog.getLogger(LOGGER_NAME)
 
 
-def gen_group_abbrs_content_lines(group_name, is_sorted=False):
+def gen_group_abbrs_content_lines(group_name, is_sorted=None, uses_numbered_list=None):
     """
-    :param is_sorted: sort by ascending priority, numbered list, if True
+    :param is_sorted: sort by ascending priority instead of insertion
+            order; defaults to the group's registered ``is_sorted``
     :type is_sorted: bool, optional
+    :param uses_numbered_list: render numbered markers instead of
+            bullets; defaults to the group's registered
+            ``uses_numbered_list``
+    :type uses_numbered_list: bool, optional
     :return: markdown list items for ``group_name``'s entries;
-            empty when the abbr data singleton is empty, or unknown group
+            empty when the abbr data singleton is empty
     :rtype: list[str]
     """
     abbr_data = get_abbr_data()
@@ -31,9 +37,17 @@ def gen_group_abbrs_content_lines(group_name, is_sorted=False):
         logger.error("abbr data is empty, rendering without any abbr")
         return []
 
+    reg = get_abbr_group(group_name)
+    if is_sorted is None:
+        is_sorted = reg.is_sorted
+    if uses_numbered_list is None:
+        uses_numbered_list = reg.uses_numbered_list
+
     entries = abbr_data.groups.entries_for(group_name)
     if is_sorted:
         entries = sorted(entries, key=lambda entry: entry.priority)
+
+    if uses_numbered_list:
         return [
             entry.as_md_list_entry(number=i)
             for i, entry in enumerate(entries, start=1)
@@ -57,9 +71,11 @@ class AbbrGroupNode(DynamicNode):  #############################################
 
     # implement BasePromptNode  ------------------------------------------------
 
-    def content_lines(self, is_sorted=False, **kwargs):
+    def content_lines(self, is_sorted=None, uses_numbered_list=None, **kwargs):
         return self._preface + gen_group_abbrs_content_lines(
-            self.group_name, is_sorted=is_sorted
+            self.group_name,
+            is_sorted=is_sorted,
+            uses_numbered_list=uses_numbered_list,
         )
 
     def __copy__(self):
