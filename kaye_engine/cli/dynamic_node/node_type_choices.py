@@ -1,17 +1,15 @@
 """
 node_type_choices.py
 
-define ``ENGINE_DEFINED_NODES``, ``get_node_type_choices``, and
-``gen_node_type_list``
+define ``ENGINE_DEFINED_NODES`` and ``gen_node_type_list``
 """
 
 from kaye_engine.abbr_collection import get_abbr_data
-from kaye_engine.prompt.dynamic_nodes import AbbrGroupNode, AbbrNode, TodayNode
+from kaye_engine.prompt.dynamic_nodes import AbbrNode, TodayNode
 
 __all__ = (
     "ENGINE_DEFINED_NODES",
     "gen_node_type_list",
-    "get_node_type_choices",
 )
 
 # constants  ###################################################################
@@ -22,20 +20,6 @@ ENGINE_DEFINED_NODES = {
 
 
 # Public API  ##################################################################
-def get_node_type_choices():  # HACK rm
-    """
-    :return: every currently resolvable ``NODE_TYPE`` value mapped to
-            its dynamic node class -- ``ENGINE_DEFINED_NODES`` plus one
-            ``AbbrGroupNode`` entry per abbr group name currently known
-            to ``get_abbr_data().groups``
-    :rtype: dict{str: type}
-    """
-    choices = dict(ENGINE_DEFINED_NODES)
-    for group_name in get_abbr_data().groups.names:
-        choices[group_name] = AbbrGroupNode
-    return choices
-
-
 def gen_node_type_list():
     """
     :return: one ``"NAME    HEADING"`` line per currently resolvable
