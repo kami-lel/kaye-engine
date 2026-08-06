@@ -154,6 +154,12 @@ before an export actually runs. An unpopulated database logs an error and
 returns an empty list, so no skill folders are exported. Check
 `bool(get_abbr_data())` to test for an empty singleton directly.
 
+Every group name an entry's `groups` array uses must be registered via
+`register_abbr_group(name, ...)` before that entry loads, or `ValueError`
+is raised — `tests/conftest.py` registers every group name the test suite
+references, module-level, so it runs at collection time before any test
+module builds `AbbrData`. Register a new group there when adding one.
+
 ## Security
 
 - do not commit secrets, credentials, or tokens
