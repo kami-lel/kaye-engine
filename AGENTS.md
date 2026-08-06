@@ -92,6 +92,14 @@ marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skill`
 → `claude s`; `claude user-system-prompt` → `claude usp`; `claude
 vs-code-extension` → `claude v`.
 
+`prompt generate` takes `-s`/`--sparseness SPARSENESS` to control blank-line
+collapsing in the rendered output: `-1` joins everything into one line, `0`
+strips all blank lines, `1` (default) collapses every run to a single blank
+line, up through `99` which disables trimming entirely. Exporters set their
+own default independent of the CLI default — `SKILL.md` and
+`vs-code-extension` render with `sparseness=0`, `user-system-prompt` with
+`sparseness=1` unless a caller overrides it.
+
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
 Bash command patterns) into `settings.json`, sourced from
 `kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so
