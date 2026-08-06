@@ -3,7 +3,7 @@ abbr_group_node.py
 
 define ``AbbrGroupNode`` -- unlike the fixed set of dynamic node types in
 ``DYNAMIC_NODE_TYPES``, one ``AbbrGroupNode`` instance is created per
-consumer-defined group name found in ``get_abbr_data().groups``, not
+consumer-defined group name known to ``abbr_group_registry``, not
 registered here
 """
 
@@ -43,7 +43,9 @@ def gen_group_abbrs_content_lines(group_name, is_sorted=None, uses_numbered_list
     if uses_numbered_list is None:
         uses_numbered_list = reg.uses_numbered_list
 
-    entries = abbr_data.groups.entries_for(group_name)
+    entries = tuple(
+        entry for entry in abbr_data.abbrs if group_name in entry.groups
+    )
     if is_sorted:
         entries = sorted(entries, key=lambda entry: entry.priority)
 
