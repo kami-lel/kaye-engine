@@ -235,6 +235,18 @@ class TestAsMdListEntry:  # ====================================================
             "- e.g.:for example (Latin exempli gratia; casual usage only)"
         )
 
+    def test_number_no_remark(_):
+        entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", ABBR_OBJ)
+        assert entry.as_md_list_entry(number=1) == "1. e.g.:for example"
+
+    def test_number_with_remark(_):
+        abbr_obj = ABBR_OBJ.copy()
+        abbr_obj["remark"] = "casual usage only"
+        entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", abbr_obj)
+        assert entry.as_md_list_entry(number=2) == (
+            "2. e.g.:for example (casual usage only)"
+        )
+
 
 # .verify_found()  #############################################################
 class TestVerify1:  # ==========================================================
