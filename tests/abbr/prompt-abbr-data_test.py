@@ -538,22 +538,20 @@ class TestGroups:  # groups  ===================================================
         },
     })
 
-    def test_names(self):
-        assert self.data.groups.names == {
-            "coding-terms",
-            "programming-language-codes",
-        }
-
     def test_entries_for_shared_group(self):
-        entries = self.data.groups.entries_for("coding-terms")
+        entries = [e for e in self.data.abbrs if "coding-terms" in e.groups]
         assert [e.abbr for e in entries] == ["aCls", "c"]
 
     def test_entries_for_single_member_group(self):
-        entries = self.data.groups.entries_for("programming-language-codes")
+        entries = [
+            e for e in self.data.abbrs
+            if "programming-language-codes" in e.groups
+        ]
         assert [e.abbr for e in entries] == ["c"]
 
     def test_entries_for_unknown_group(self):
-        assert self.data.groups.entries_for("no-such-group") == ()
+        entries = [e for e in self.data.abbrs if "no-such-group" in e.groups]
+        assert entries == []
 
     def test_entry_without_groups_is_unindexed(self):
         entry = self.data.abbrs[2]

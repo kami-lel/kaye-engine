@@ -6,7 +6,7 @@ Unit Tests (using pytest) for:
 - register_abbr_group()
 - get_abbr_group()
 - AbbrGroupRegistry
-- AbbrGroupIndex.add_entry() rejecting unregistered groups
+- AbbrData.add_entry() rejecting unregistered groups
 - AbbrGroupNode rendering defaults driven by the registry
 """
 
