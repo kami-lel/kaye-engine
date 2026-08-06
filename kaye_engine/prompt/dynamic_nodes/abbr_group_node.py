@@ -9,9 +9,10 @@ registered here
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.abbr_collection import get_abbr_data
+
 from .dynamic_node import DynamicNode
 
-__all__ = ("gen_group_abbrs_content_lines", "AbbrGroupNode")
+__all__ = ("AbbrGroupNode", "gen_group_abbrs_content_lines")
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
