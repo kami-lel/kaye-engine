@@ -8,8 +8,11 @@ import sys
 from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
-from kaye_engine.abbr_collection import get_abbr_data
-from kaye_engine.cli.dynamic_node.node_type_choices import NODE_TYPE_CHOICES
+from kaye_engine.cli.dynamic_node.node_type_choices import (
+    ENGINE_DEFINED_NODES,
+    gen_node_type_list,
+    get_node_type_choices,
+)
 from kaye_engine.kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
@@ -28,15 +31,11 @@ _HELP = "render a single dynamic node"
 _ROOT_NODE_NAME = "○"
 
 
-_NODE_TYPE_LIST = "\n".join(
-    "{:<10}{}".format(name, cls.HEADING)
-    for name, cls in NODE_TYPE_CHOICES.items()
-)
-
-
-_DESCRIPTION = (
-    _HELP
-    + """
+# auxiliaries  #################################################################
+def _build_description():
+    return (
+        _HELP
+        + """
 
 renders a blueprint made of ONLY the given NODE_TYPE dynamic node,
 result is printed to stdout
@@ -44,40 +43,34 @@ result is printed to stdout
 NODE_TYPE choices:
 
 """
-    + _NODE_TYPE_LIST
-    + """
-
-NODE_TYPE also accepts any abbr group name currently known to the
-loaded abbrs.json -- consumer-defined, not listed above, eg:
-
-    kaye-engine dynamic-node coding-terms
+        + gen_node_type_list()
+        + """
 
 Abbreviation node reads its query content from stdin, optional:
 
     echo "use an algo to calc the avg" | kaye-engine dynamic-node abbr
 """
-)
+    )
 
 
-# auxiliaries  #################################################################
 def _resolve_node_type(name):
     """
-    resolve ``name`` against ``NODE_TYPE_CHOICES`` first, then against
-    every group name known to ``get_abbr_data().groups`` -- returns
+    resolve ``name`` against ``get_node_type_choices()`` -- returns
     ``(node_cls, None)`` for an engine-defined choice, ``(AbbrGroupNode,
     name)`` for a group match; raises ``ValueError`` when ``name``
     matches neither
     """
-    if name in NODE_TYPE_CHOICES:
-        return NODE_TYPE_CHOICES[name], None
+    choices = get_node_type_choices()
+    node_cls = choices.get(name)
+    if node_cls is None:
+        raise ValueError(
+            "unrecognized NODE_TYPE: {}; expected one of {}".format(
+                repr(name), list(choices)
+            )
+        )
 
-    if name in get_abbr_data().groups.names:
-        return AbbrGroupNode, name
-
-    raise ValueError(
-        "unrecognized NODE_TYPE: {}; expected one of {} or a known abbr "
-        "group name".format(repr(name), list(NODE_TYPE_CHOICES))
-    )
+    group_name = name if node_cls is AbbrGroupNode else None
+    return node_cls, group_name
 
 
 def _dynamic_node_main(args):
@@ -115,7 +108,7 @@ def register_dynamic_node_parser(cli_subparser):
     dynamic_node_parser = cli_subparser.add_parser(
         "dynamic-node",
         help=_HELP,
-        description=_DESCRIPTION,
+        description=_build_description(),
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["dn"],
     )
@@ -127,7 +120,7 @@ def register_dynamic_node_parser(cli_subparser):
         help=(
             "dynamic node type to render: an engine-defined choice "
             "({}) or a known abbr group name".format(
-                ", ".join(NODE_TYPE_CHOICES)
+                ", ".join(ENGINE_DEFINED_NODES)
             )
         ),
     )
