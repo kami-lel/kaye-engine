@@ -36,11 +36,17 @@ class AbbrGroupRegistry:
             :attr:`AbbrEntry.priority` instead of insertion order by
             default; defaults to False
     :type is_sorted: bool, optional
+    :param priority_threshold: when set, entries whose
+            :attr:`AbbrEntry.priority` is greater than this value are excluded
+            from rendering; ``None`` disables this filtering; defaults to
+            None
+    :type priority_threshold: int, optional
     """
 
     name: str
     uses_numbered_list: bool = False
     is_sorted: bool = False
+    priority_threshold: int = None
 
 
 # Entry Point  #################################################################
@@ -48,7 +54,9 @@ class AbbrGroupRegistry:
 abbr_group_registry = {}
 
 
-def register_abbr_group(name, uses_numbered_list=False, is_sorted=False):
+def register_abbr_group(
+    name, uses_numbered_list=False, is_sorted=False, priority_threshold=None
+):
     """
     create an `AbbrGroupRegistry` and insert it into `abbr_group_registry`
 
@@ -57,14 +65,28 @@ def register_abbr_group(name, uses_numbered_list=False, is_sorted=False):
     that references an unregistered group raises ``ValueError``
 
 
+    :param priority_threshold: see :class:`AbbrGroupRegistry`
+    :type priority_threshold: int, optional
     :raise ValueError: ``name`` is already registered
+    :raise TypeError: ``priority_threshold`` is neither ``None`` nor
+            an ``int``
     :return: the created registry entry
     :rtype: AbbrGroupRegistry
     """
     if name in abbr_group_registry:
         raise ValueError("duplicate abbr group registry name: {}".format(name))
+    if priority_threshold is not None and not isinstance(
+        priority_threshold, int
+    ):
+        raise TypeError(
+            "priority_threshold must be an int or None, got: {}".format(
+                type(priority_threshold)
+            )
+        )
 
-    reg = AbbrGroupRegistry(name, uses_numbered_list, is_sorted)
+    reg = AbbrGroupRegistry(
+        name, uses_numbered_list, is_sorted, priority_threshold
+    )
     abbr_group_registry[name] = reg
 
     return reg
