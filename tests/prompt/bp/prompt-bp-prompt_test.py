@@ -7,6 +7,8 @@ Unit Tests (using pytest) for: PromptBlueprint.generate_prompt()
 import re
 
 from kaye_engine.prompt import PromptBlueprint
+from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye_engine.prompt.blueprint.render import REPLACEMENT_NEWLINE_SYMBOL
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
@@ -252,3 +254,87 @@ How data was gathered for analysis.
 
 ##### Future Work
 Suggestions for future research or tasks."""
+
+
+class TestSparseness:  # sparseness param of generate_prompt  #################
+    """
+    uses a dedicated one-node corpus whose content contains a leading blank
+    line, an interior run of three blank lines, and a trailing blank line,
+    so all sparseness levels are exercised.
+    """
+
+    def _bp(_):
+        corpus = PromptCorpusNode("○", None, [])
+        PromptCorpusNode(
+            "Section",
+            corpus,
+            ["", "First line.", "", "", "", "Second line.", ""],
+        )
+
+        bp_text = """    ○
+[x] └── Section"""
+        return PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_tree=corpus
+        )
+
+    def test_default(_):
+        bp = _._bp()
+
+        opt = bp.generate_prompt(show_comment=False, disable_first_heading=True)
+
+        print(repr(opt))
+        assert opt == """First line.
+
+Second line."""
+
+    def test_no_trim(_):
+        bp = _._bp()
+
+        opt = bp.generate_prompt(
+            show_comment=False, disable_first_heading=True, sparseness=99
+        )
+
+        print(repr(opt))
+        assert opt == """
+First line.
+
+
+
+Second line.
+"""
+
+    def test_zero(_):
+        bp = _._bp()
+
+        opt = bp.generate_prompt(
+            show_comment=False, disable_first_heading=True, sparseness=0
+        )
+
+        print(repr(opt))
+        assert opt == """First line.
+Second line."""
+
+    def test_two(_):
+        bp = _._bp()
+
+        opt = bp.generate_prompt(
+            show_comment=False, disable_first_heading=True, sparseness=2
+        )
+
+        print(repr(opt))
+        assert opt == """First line.
+
+
+Second line."""
+
+    def test_minus_one(_):
+        bp = _._bp()
+
+        opt = bp.generate_prompt(
+            show_comment=False, disable_first_heading=True, sparseness=-1
+        )
+
+        print(repr(opt))
+        assert opt == REPLACEMENT_NEWLINE_SYMBOL.join(
+            ["First line.", "", "", "", "Second line."]
+        )

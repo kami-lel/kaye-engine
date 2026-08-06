@@ -28,10 +28,10 @@ def _split_sections(text_lines, parent):
 
     if not heading_lines_idx:
         # contains no subsection, i.e. all of text_lines are node content
-        return _trim_blank_lines(text_lines), []
+        return text_lines, []
 
     # contains subsections  ------------------------------------------------
-    content_lines = _trim_blank_lines(text_lines[: heading_lines_idx[0]])
+    content_lines = text_lines[: heading_lines_idx[0]]
 
     child_specs = []
     for start, end in zip(
@@ -44,16 +44,6 @@ def _split_sections(text_lines, parent):
         child_specs.append((child_heading, child_text_lines))
 
     return content_lines, child_specs
-
-
-def _trim_blank_lines(lines):
-    # trim leading/trailing empty strings
-    start, end = 0, len(lines)
-    while start < end and lines[start] == "":
-        start += 1
-    while end > start and lines[end - 1] == "":
-        end -= 1
-    return lines[start:end]
 
 
 class PromptCorpusNode(BasePromptNode):  #######################################

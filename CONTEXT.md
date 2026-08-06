@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-08-05
+**Last updated:** 2026-08-06
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -53,6 +53,11 @@ corpus.md ──load_corpus_tree()──> Prompt Tree ─┐
                                                ├─generate_prompt()─> text
 blueprint text ──PromptBlueprint.parse()───────┘
 ```
+
+Rendering takes a `sparseness` parameter governing how runs of blank lines
+collapse in the output, from `-1` (whole output joined onto one line) through
+`99` (no trimming); descriptor sidecar rendering always renders at `-1` so a
+multi-line description or when-to-use collapses to one string.
 
 Sidecars split by usage rather than by class. *Descriptor* sidecars
 (`{description}`, `{when_to_use}`, `{globs}`) are consumed as blueprint
