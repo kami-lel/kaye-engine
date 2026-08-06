@@ -101,21 +101,23 @@ class AbbrEntry:
 
     # instance methods  ********************************************************
 
-    def as_md_list_entry(self):
+    def as_md_list_entry(self, number=None):
         """
         render this entry as a markdown list item
 
-        :return: a single markdown list item in the form
-                ``- abbr:meaning``, or ``- abbr:meaning (remark; remark)``
-                when the meaning and/or the abbr itself carries a remark
+        :param number: numbered list item instead of a bullet, if given
+        :type number: int, optional
+        :return: a single markdown list item
         :rtype: str
         """
+        marker = "-" if number is None else "{}.".format(number)
+
         remarks = [r for r in (self.mean.remark, self.remark) if r]
         if remarks:
-            return "- {}:{} ({})".format(
-                self.abbr, self.mean, "; ".join(remarks)
+            return "{} {}:{} ({})".format(
+                marker, self.abbr, self.mean, "; ".join(remarks)
             )
-        return "- {}:{}".format(self.abbr, self.mean)
+        return "{} {}:{}".format(marker, self.abbr, self.mean)
 
     def verify_found(self, found, char_before, char_after):
         """
