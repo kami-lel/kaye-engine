@@ -38,7 +38,12 @@ todo todo utilize personalities, allow multi agent conversation
   construction time; a top-level `(group-name)` heading in
   `prompt_corpus.md` resolves to it when `group-name` matches a known
   abbr group, and `kaye-engine dynamic-node NODE_TYPE` now accepts any
-  known group name alongside its engine-defined choices
+  known group name alongside its engine-defined choices; its
+  `content_lines()` gained an `is_sorted` keyword (default `False`)
+  rendering the group as a numbered list sorted by ascending
+  `priority` instead of an unordered bullet list
+- `number` keyword on `AbbrEntry.as_md_list_entry()`, rendering a
+  numbered list item (`{number}. abbr:meaning`) instead of a bullet
 
 ### Changed
 
