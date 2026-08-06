@@ -4,6 +4,7 @@ abbr_entry.py
 define ``AbbrEntry``
 """
 
+from kaye_engine.abbr_collection.abbr_group import ABBRS_JSON_GROUP_KEY
 from kaye_engine.abbr_collection.abbr_tags import AbbrTags
 from kaye_engine.abbr_collection.abbr_wrap import AbbrWrap
 
@@ -28,7 +29,15 @@ class AbbrEntry:
 
     # instance structure  ******************************************************
 
-    __slots__ = ("abbr", "mean", "priority", "tags", "wrap", "remark")
+    __slots__ = (
+        "abbr",
+        "mean",
+        "priority",
+        "tags",
+        "groups",
+        "wrap",
+        "remark",
+    )
 
     def __init__(self, mean, abbr, abbr_obj):
         self.mean = mean  # referenced to meaning
@@ -67,6 +76,19 @@ class AbbrEntry:
 
         # set .tags  -----------------------------------------------------------
         self.tags = AbbrTags.parse(abbr_obj[ABBRS_JSON_TAGS_KEY])
+
+        # set .groups  ---------------------------------------------------------
+        # optional; free-form, consumer-defined group names, no fixed enum
+        groups = abbr_obj.get(ABBRS_JSON_GROUP_KEY, [])
+        if not isinstance(groups, list) or not all(
+            isinstance(group, str) for group in groups
+        ):
+            raise ValueError(
+                "groups value must be Array of String: {}".format(
+                    repr(groups)
+                )
+            )
+        self.groups = tuple(groups)
 
         # set .wrap  -----------------------------------------------------------
         # may raise ValueError
