@@ -1,0 +1,87 @@
+"""
+abbr_group_registry.py
+
+define ``AbbrGroupRegistry``, ``register_abbr_group``, ``abbr_group_registry``
+"""
+
+from dataclasses import dataclass
+
+__all__ = (
+    "AbbrGroupRegistry",
+    "register_abbr_group",
+    "get_abbr_group",
+    "abbr_group_registry",
+)
+
+
+@dataclass
+class AbbrGroupRegistry:
+    """
+    metadata for a single, consumer-defined abbr **group**
+
+    instances are created via `register_abbr_group` and collected in
+    `abbr_group_registry`; this is the single source of truth for
+    whether an `AbbrEntry.groups` name is known, and how its
+    :class:`AbbrGroupNode` renders by default
+
+
+    :param name: canonical group name, as it appears in
+            ``AbbrEntry.groups`` and in the ``(name)`` corpus heading
+    :type name: str
+    :param uses_numbered_list: render entries with numbered markers
+            (``"1. ..."``) instead of bullets (``"- ..."``) by default;
+            defaults to False
+    :type uses_numbered_list: bool, optional
+    :param is_sorted: render entries ordered by ascending
+            :attr:`AbbrEntry.priority` instead of insertion order by
+            default; defaults to False
+    :type is_sorted: bool, optional
+    """
+
+    name: str
+    uses_numbered_list: bool = False
+    is_sorted: bool = False
+
+
+# Entry Point  #################################################################
+
+abbr_group_registry = {}
+
+
+def register_abbr_group(name, uses_numbered_list=False, is_sorted=False):
+    """
+    create an `AbbrGroupRegistry` and insert it into `abbr_group_registry`
+
+    every group name an :class:`AbbrEntry` may declare via its
+    ``groups`` field must be registered here first; adding an entry
+    that references an unregistered group raises ``ValueError``
+
+
+    :raise ValueError: ``name`` is already registered
+    :return: the created registry entry
+    :rtype: AbbrGroupRegistry
+    """
+    if name in abbr_group_registry:
+        raise ValueError("duplicate abbr group registry name: {}".format(name))
+
+    reg = AbbrGroupRegistry(name, uses_numbered_list, is_sorted)
+    abbr_group_registry[name] = reg
+
+    return reg
+
+
+def get_abbr_group(name):
+    """
+    :param name: canonical string key a group was registered under via
+            `register_abbr_group`
+    :type name: str
+    :raises KeyError: no group is registered under ``name``
+    :return: the registry entry stored under ``name``
+    :rtype: AbbrGroupRegistry
+    """
+    try:
+        return abbr_group_registry[name]
+    except KeyError as e:
+        raise KeyError(
+            "no abbr group registered under name: {}".format(name)
+        ) from e
