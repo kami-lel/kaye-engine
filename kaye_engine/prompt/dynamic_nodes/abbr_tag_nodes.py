@@ -13,17 +13,11 @@ __all__ = ("gen_abbrs_content_lines",)
 logger = kamilog.getLogger(LOGGER_NAME)
 
 
-# HACK duplicated fx
 def gen_abbrs_content_lines(abbr_tag):
     """
-    render every ``get_abbr_data().abbrs`` entry matching ``abbr_tag``
-    as a list of markdown list items; empty when the abbr data singleton
-    is still empty
-
-
-    :param abbr_tag: tag to filter entries by
-    :type abbr_tag: AbbrTags
-    :return: rendered markdown list items, one per matching entry
+    :return: markdown list items for every ``get_abbr_data().abbrs``
+            entry whose tags contain ``abbr_tag``; empty when the abbr
+            data singleton is still empty
     :rtype: list[str]
     """
     abbr_data = get_abbr_data()
