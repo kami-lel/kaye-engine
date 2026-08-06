@@ -31,7 +31,7 @@ def export_user_system_prompt_file(file_path, *, use_coder=False, sparseness=1):
     :type use_coder: bool
     :param sparseness: blank-line policy forwarded to
             ``generate_prompt()``; defaults to 1
-    :type sparseness: int or None, optional
+    :type sparseness: int, optional
     """
     file_path = Path(file_path).resolve()
     file_path.parent.mkdir(parents=True, exist_ok=True)

@@ -32,6 +32,7 @@ CHECKMARKED_PREFIX = "[x] "
 UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
 REPLACEMENT_NEWLINE_SYMBOL = "↵"
+NO_TRIM_SPARSENESS = 99
 
 
 # auxiliaries  #################################################################
@@ -74,11 +75,11 @@ def _apply_sparseness(lines, sparseness):
     :param lines:
     :type lines: list[str]
     :param sparseness: see ``render_prompt_lines()`` for the full contract
-    :type sparseness: int or None
+    :type sparseness: int
     :return: lines with the ``sparseness`` policy applied
     :rtype: list[str]
     """
-    if sparseness is None:
+    if sparseness == NO_TRIM_SPARSENESS:
         return lines
 
     # trim leading/trailing empty lines unconditionally
@@ -221,14 +222,15 @@ def render_prompt_lines(  # ====================================================
     :type display_name: str, optional
     :param sparseness: controls how runs of blank lines collapse:
 
-    - ``None`` disables trimming entirely
+    - ``-1`` collapses the whole output into a single line, joined with
+            ``REPLACEMENT_NEWLINE_SYMBOL`` in place of every newline
     - ``0`` removes all blank lines
     - ``1`` collapses every run of blank lines to a single blank line (default)
     - ``2`` caps runs at two blank lines, and so on
-    - ``-1`` collapses the whole output into a single line, joined with
-            ``REPLACEMENT_NEWLINE_SYMBOL`` in place of every newline
+    - 〃
+    - ``99`` disables trimming entirely
 
-    :type sparseness: int or None, optional
+    :type sparseness: int, optional
     :return: list of prompt lines
     :rtype: list[str]
     """
