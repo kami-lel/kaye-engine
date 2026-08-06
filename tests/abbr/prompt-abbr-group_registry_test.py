@@ -203,3 +203,81 @@ class TestRenderingDefaults:  ##################################################
 
         print(opt)
         assert opt == ["- e.g.:for example"]
+
+    def test_priority_threshold_default(_, registered_names):
+        reg = register_abbr_group("test-group-threshold", priority_threshold=5)
+        registered_names.append(reg.name)
+
+        data = AbbrData()
+        with data:
+            data.add_entry(
+                AbbrMeaning("for example"),
+                "e.g.",
+                {
+                    "priority": 5,
+                    "tags": [],
+                    "wrap": "word",
+                    "groups": ["test-group-threshold"],
+                },
+            )
+            data.add_entry(
+                AbbrMeaning("id est"),
+                "i.e.",
+                {
+                    "priority": 6,
+                    "tags": [],
+                    "wrap": "word",
+                    "groups": ["test-group-threshold"],
+                },
+            )
+
+        assert len(data.abbrs) == 2
+
+        testee = AbbrGroupNode(None, group_name="test-group-threshold")
+        with pytest.MonkeyPatch.context() as mp:
+            mp.setattr(
+                "kaye_engine.prompt.dynamic_nodes.abbr_group_node.get_abbr_data",
+                lambda: data,
+            )
+            opt = testee.content_lines()
+
+        print(opt)
+        assert opt == ["- e.g.:for example"]
+
+    def test_priority_threshold_explicit_override_wins(_, registered_names):
+        reg = register_abbr_group("test-group-threshold-override")
+        registered_names.append(reg.name)
+
+        data = AbbrData()
+        with data:
+            data.add_entry(
+                AbbrMeaning("for example"),
+                "e.g.",
+                {
+                    "priority": 5,
+                    "tags": [],
+                    "wrap": "word",
+                    "groups": ["test-group-threshold-override"],
+                },
+            )
+            data.add_entry(
+                AbbrMeaning("id est"),
+                "i.e.",
+                {
+                    "priority": 6,
+                    "tags": [],
+                    "wrap": "word",
+                    "groups": ["test-group-threshold-override"],
+                },
+            )
+
+        testee = AbbrGroupNode(None, group_name="test-group-threshold-override")
+        with pytest.MonkeyPatch.context() as mp:
+            mp.setattr(
+                "kaye_engine.prompt.dynamic_nodes.abbr_group_node.get_abbr_data",
+                lambda: data,
+            )
+            opt = testee.content_lines(priority_threshold=5)
+
+        print(opt)
+        assert opt == ["- e.g.:for example"]
