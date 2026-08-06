@@ -22,7 +22,7 @@ ENGINE_DEFINED_NODES = {
 
 
 # Public API  ##################################################################
-def get_node_type_choices():
+def get_node_type_choices():  # HACK rm
     """
     :return: every currently resolvable ``NODE_TYPE`` value mapped to
             its dynamic node class -- ``ENGINE_DEFINED_NODES`` plus one
@@ -47,7 +47,7 @@ def gen_node_type_list():
         for name, cls in ENGINE_DEFINED_NODES.items()
     ]
     lines += [
-        "{:<14} {}".format(group_name, group_name)
+        group_name
         for group_name in get_abbr_data().groups.names
     ]
     return "\n".join(lines)
