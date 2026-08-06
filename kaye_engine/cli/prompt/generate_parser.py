@@ -55,6 +55,15 @@ reading blueprint from stdin:
 
     kaye-engine prompt generate < my-blueprint.yaml
     cat my-blueprint.yaml | kaye-engine prompt generate
+
+SPARSENESS:
+
+- -1 collapses the whole output into a single line
+- 0 removes all blank lines
+- 1 collapses every run of blank lines to a single blank line (default)
+- 2 caps runs at two blank lines, and so on
+- 〃
+- 99 disables trimming entirely
 """
 
 
@@ -92,13 +101,7 @@ def register_generate_parser(cli_subparser):  ##################################
         metavar="SPARSENESS",
         type=_sparseness_type,
         default=1,
-        help=(
-            "blank-line policy for the rendered prompt: 'none' disables "
-            "trimming entirely, 0 removes all blank lines, 1 collapses "
-            "every run of blank lines to a single blank line (default), "
-            "2+ caps runs at that count, and -1 collapses the whole "
-            "output into a single line"
-        ),
+        help="blank-line policy for the rendered prompt, v.s.",
     )
 
     add_verbose_arguments(generate_parser)
