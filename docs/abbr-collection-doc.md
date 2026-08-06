@@ -93,21 +93,26 @@ Q.v. [abbreviation entries `json` file](#abbreviation-entries-json-file) below f
 
 
 
-#### `register_abbr_group(name, uses_numbered_list=False, is_sorted=False)`
+#### `register_abbr_group(name, uses_numbered_list=False, is_sorted=False, priority_threshold=None)`
 
 Register a group name so entries may reference it via `groups` (v.i.), and set that group's default rendering behavior for its `AbbrGroupNode`:
 
 - `uses_numbered_list`: render entries with numbered markers (`"1. ..."`) instead of bullets (`"- ..."`)
 - `is_sorted`: render entries ordered by ascending `priority` instead of insertion order
+- `priority_threshold`: exclude entries whose `priority` is greater than this value from rendering; `None` (default) disables the filter
 
 ```python
 from kaye_engine.abbr_collection import register_abbr_group
 
 register_abbr_group("coding-terms")
 register_abbr_group("plan-step-by-step-abbr", uses_numbered_list=True, is_sorted=True)
+register_abbr_group("low-priority-only", priority_threshold=5)
 ```
 
-Raises `ValueError` if `name` is already registered. Both flags are also render-time overrides — q.v. [`AbbrGroupNode`](#abbreviations-related-dynamic-nodes) below.
+Raises `ValueError` if `name` is already registered, `TypeError` if `priority_threshold` is neither `None` nor an `int`. All three flags are also render-time overrides — q.v. [`AbbrGroupNode`](#abbreviations-related-dynamic-nodes) below.
+
+> [!NOTE]
+> `priority_threshold` only filters rendering. An entry whose `priority` exceeds the threshold is still added to `AbbrData` — its `groups` membership is still validated, and it is still findable through `get_abbr_data()` — it simply never appears in a rendered `AbbrGroupNode`.
 
 
 
@@ -151,7 +156,7 @@ Every abbreviation-related [dynamic node](dynamic-node-doc.md) lives in `kaye_en
 | `AbbrNode` | `(Abbreviations)` | `abbr_nodes.py` | scans a `query=` string against `get_abbr_data().automaton`, verifying each raw match with `AbbrEntry.verify_found` before including it; falls back to every `always_understand`-tagged entry when `query` is omitted |
 | `AbbrGroupNode` | `(group-name)` | `abbr_group_node.py` | every entry whose `groups` array contains `group-name` |
 
-Unlike `AbbrNode`, `AbbrGroupNode` is not a fixed engine type — one instance is created per group name a consumer registered via `register_abbr_group` (v.s.) and referenced on `AbbrEntry.groups` (q.v. [`groups`](#groups) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, insertion order vs. sorted by `priority` — defaults to that group's registered flags, and both may be overridden per render via `content_lines(is_sorted=..., uses_numbered_list=...)`. Q.v. [dynamic-node-doc.md](dynamic-node-doc.md) for the heading resolution order.
+Unlike `AbbrNode`, `AbbrGroupNode` is not a fixed engine type — one instance is created per group name a consumer registered via `register_abbr_group` (v.s.) and referenced on `AbbrEntry.groups` (q.v. [`groups`](#groups) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, insertion order vs. sorted by `priority`, and whether high-priority-number entries are hidden — defaults to that group's registered flags, and all three may be overridden per render via `content_lines(is_sorted=..., uses_numbered_list=..., priority_threshold=...)`. Q.v. [dynamic-node-doc.md](dynamic-node-doc.md) for the heading resolution order.
 
 
 
@@ -333,7 +338,7 @@ consumer-defined groupings, use [`groups`](#groups) instead.
 
 An *optional array* of *string* — free-form, no fixed enum, but every
 value must already be registered via
-[`register_abbr_group`](#register_abbr_groupname-uses_numbered_listfalse-is_sortedfalse)
+[`register_abbr_group`](#register_abbr_groupname-uses_numbered_listfalse-is_sortedfalse-priority_thresholdnone)
 before this entry is loaded, or loading raises `ValueError`. Omit
 when an entry belongs to no group, like `remark`.
 

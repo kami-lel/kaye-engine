@@ -35,20 +35,28 @@ todo todo utilize personalities, allow multi agent conversation
   entries; every value an entry declares must already be registered via
   `register_abbr_group` before that entry loads, or loading raises
   `ValueError`
-- `register_abbr_group(name, uses_numbered_list=False, is_sorted=False)`/
-  `get_abbr_group(name)`, registering a `groups` name and its
-  `AbbrGroupNode` default rendering behavior; `register_abbr_group`
-  raises `ValueError` on a duplicate name, `get_abbr_group` raises
-  `KeyError` on an unknown one
+- `register_abbr_group(name, uses_numbered_list=False, is_sorted=False,
+  priority_threshold=None)`/`get_abbr_group(name)`, registering a
+  `groups` name and its `AbbrGroupNode` default rendering behavior;
+  `register_abbr_group` raises `ValueError` on a duplicate name,
+  `TypeError` on a `priority_threshold` that is neither `None` nor an
+  `int`; `get_abbr_group` raises `KeyError` on an unknown name
+- `priority_threshold` on `AbbrGroupRegistry`/`register_abbr_group`,
+  also accepted as a `content_lines()`/`gen_group_abbrs_content_lines()`
+  override: entries whose `priority` exceeds the threshold are still
+  added to `AbbrData` (so group-membership validation still sees them)
+  but excluded from rendered output; `None` (default) disables the
+  filter entirely
 - `AbbrGroupNode` — dynamic node parametrized by group name at
   construction time; a top-level `(group-name)` heading in
   `prompt_corpus.md` resolves to it when `group-name` matches a known
   abbr group, and `kaye-engine dynamic-node NODE` now accepts any
   known group name alongside its engine-defined choices; its
-  `content_lines()` gained `is_sorted` and `uses_numbered_list`
-  keywords (default `None`, falling back to the group's registered
-  flags), rendering the group sorted by ascending `priority` and/or as
-  a numbered list instead of insertion-order bullets
+  `content_lines()` gained `is_sorted`, `uses_numbered_list`, and
+  `priority_threshold` keywords (default `None`, falling back to the
+  group's registered flags), rendering the group sorted by ascending
+  `priority`, as a numbered list instead of insertion-order bullets,
+  and/or with high-priority-number entries hidden
 - `number` keyword on `AbbrEntry.as_md_list_entry()`, rendering a
   numbered list item (`{number}. abbr:meaning`) instead of a bullet
 - `kaye-engine dynamic-node ls` (`dn ls`) — a special `NODE` value that
