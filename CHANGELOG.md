@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-fixme sidecar node & abbr tag logic, use registry pattern
+FIXME chg sidecar node & abbr tag logic
 
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
