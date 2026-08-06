@@ -8,9 +8,9 @@ from dataclasses import dataclass
 
 __all__ = (
     "AbbrGroupRegistry",
-    "register_abbr_group",
-    "get_abbr_group",
     "abbr_group_registry",
+    "get_abbr_group",
+    "register_abbr_group",
 )
 
 
