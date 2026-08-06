@@ -77,6 +77,7 @@ from kaye_engine import (
     PACKAGE_NAME, DISPLAY_NAME, LOGGER_NAME,
     load_corpus_tree, get_corpus_tree, get_default_corpus_tree,
     AbbrData, get_abbr_data,
+    register_abbr_group, get_abbr_group,
     register_blueprint, get_blueprint,
     setup_claude_cli,
 )

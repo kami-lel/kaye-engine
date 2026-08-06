@@ -4,6 +4,8 @@ abbr_group.py
 define ``ABBRS_JSON_GROUP_KEY`` and ``AbbrGroupIndex``
 """
 
+from kaye_engine.abbr_collection.abbr_group_registry import abbr_group_registry
+
 # abbrs.json key constant  #####################################################
 
 ABBRS_JSON_GROUP_KEY = "groups"
@@ -33,8 +35,14 @@ class AbbrGroupIndex:
 
         :param entry: entry to index
         :type entry: AbbrEntry
+        :raises ValueError: ``entry`` references a group name that was
+                never registered via ``register_abbr_group``
         """
         for group in entry.groups:
+            if group not in abbr_group_registry:
+                raise ValueError(
+                    "unregistered abbr group: {}".format(repr(group))
+                )
             self._by_group.setdefault(group, []).append(entry)
 
     # lookups  ==================================================================
