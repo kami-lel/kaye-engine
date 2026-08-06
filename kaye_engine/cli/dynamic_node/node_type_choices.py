@@ -30,8 +30,5 @@ def gen_node_type_list():
         "{:<14} {}".format(name, cls.HEADING)
         for name, cls in ENGINE_DEFINED_NODES.items()
     ]
-    lines += [
-        group_name
-        for group_name in get_abbr_data().groups.names
-    ]
+    lines += sorted(get_abbr_data().groups.names)
     return "\n".join(lines)
