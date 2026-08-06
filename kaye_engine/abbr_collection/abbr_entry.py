@@ -24,6 +24,7 @@ class AbbrEntry:
     represent an abbr => meaning structure
 
 
+    :raises TypeError:
     :raises ValueError:
     """
 
@@ -31,12 +32,12 @@ class AbbrEntry:
 
     __slots__ = (
         "abbr",
+        "groups",
         "mean",
         "priority",
-        "tags",
-        "groups",
-        "wrap",
         "remark",
+        "tags",
+        "wrap",
     )
 
     def __init__(self, mean, abbr, abbr_obj):
@@ -44,12 +45,12 @@ class AbbrEntry:
 
         # set .abbr  -----------------------------------------------------------
         if not isinstance(abbr, str):
-            raise ValueError("abbr key must be String: {}".format(repr(abbr)))
+            raise TypeError("abbr key must be String: {}".format(repr(abbr)))
         self.abbr = abbr
 
         # test abbr_obj shapes  ------------------------------------------------
         if not isinstance(abbr_obj, dict):
-            raise ValueError(
+            raise TypeError(
                 "abbr value must be Object: {}".format(repr(abbr_obj))
             )
         missing_keys = [
@@ -69,7 +70,7 @@ class AbbrEntry:
         # set .priority  -------------------------------------------------------
         priority = abbr_obj[ABBRS_JSON_PRIORITY_KEY]
         if not isinstance(priority, int):
-            raise ValueError(
+            raise TypeError(
                 "priority must be Integer: {}".format(repr(priority))
             )
         self.priority = priority
@@ -84,9 +85,7 @@ class AbbrEntry:
             isinstance(group, str) for group in groups
         ):
             raise ValueError(
-                "groups value must be Array of String: {}".format(
-                    repr(groups)
-                )
+                "groups value must be Array of String: {}".format(repr(groups))
             )
         self.groups = tuple(groups)
 
