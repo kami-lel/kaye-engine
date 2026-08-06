@@ -204,7 +204,7 @@ class BlueprintDescriptorSidecars:  ############################################
         :type node: BasePromptNode or None
         :param sparseness: blank-line policy forwarded to
                 ``render.render_prompt_lines()``; defaults to 1
-        :type sparseness: int or None, optional
+        :type sparseness: int, optional
         :return: rendered prompt lines
         :rtype: list[str]
         """

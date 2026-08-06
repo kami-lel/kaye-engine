@@ -287,11 +287,11 @@ class TestSparseness:  # sparseness param of generate_prompt  #################
 
 Second line."""
 
-    def test_none(_):
+    def test_no_trim(_):
         bp = _._bp()
 
         opt = bp.generate_prompt(
-            show_comment=False, disable_first_heading=True, sparseness=None
+            show_comment=False, disable_first_heading=True, sparseness=99
         )
 
         print(repr(opt))
