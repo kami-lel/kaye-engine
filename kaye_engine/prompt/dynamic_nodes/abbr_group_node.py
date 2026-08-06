@@ -9,19 +9,21 @@ registered here
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.abbr_collection import get_abbr_data
+
 from .dynamic_node import DynamicNode
 
-__all__ = ("gen_group_abbrs_content_lines", "AbbrGroupNode")
+__all__ = ("AbbrGroupNode", "gen_group_abbrs_content_lines")
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
 
-def gen_group_abbrs_content_lines(group_name):
+def gen_group_abbrs_content_lines(group_name, is_sorted=False):
     """
-    :return: markdown list items for every ``get_abbr_data().groups``
-            entry belonging to ``group_name``; empty when the abbr data
-            singleton is still empty, or ``group_name`` is unknown
+    :param is_sorted: sort by ascending priority, numbered list, if True
+    :type is_sorted: bool, optional
+    :return: markdown list items for ``group_name``'s entries;
+            empty when the abbr data singleton is empty, or unknown group
     :rtype: list[str]
     """
     abbr_data = get_abbr_data()
@@ -29,10 +31,15 @@ def gen_group_abbrs_content_lines(group_name):
         logger.error("abbr data is empty, rendering without any abbr")
         return []
 
-    return [
-        entry.as_md_list_entry()
-        for entry in abbr_data.groups.entries_for(group_name)
-    ]
+    entries = abbr_data.groups.entries_for(group_name)
+    if is_sorted:
+        entries = sorted(entries, key=lambda entry: entry.priority)
+        return [
+            entry.as_md_list_entry(number=i)
+            for i, entry in enumerate(entries, start=1)
+        ]
+
+    return [entry.as_md_list_entry() for entry in entries]
 
 
 class AbbrGroupNode(DynamicNode):  #############################################
@@ -50,8 +57,10 @@ class AbbrGroupNode(DynamicNode):  #############################################
 
     # implement BasePromptNode  ------------------------------------------------
 
-    def content_lines(self, **kwargs):
-        return self._preface + gen_group_abbrs_content_lines(self.group_name)
+    def content_lines(self, is_sorted=False, **kwargs):
+        return self._preface + gen_group_abbrs_content_lines(
+            self.group_name, is_sorted=is_sorted
+        )
 
     def __copy__(self):
         return type(self)(
