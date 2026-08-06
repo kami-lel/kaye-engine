@@ -87,6 +87,28 @@ populate_abbr_data_with_json_file("abbrs.json")
 
 Q.v. [abbreviation entries `json` file](#abbreviation-entries-json-file) below for the file's required schema.
 
+> [!IMPORTANT]
+> Every group name any entry's `groups` array uses must already be registered via `register_abbr_group` (v.i.) before that entry is added — otherwise `add_entry`/`populate_abbr_data_with_json_file` raises `ValueError`.
+
+
+
+
+#### `register_abbr_group(name, uses_numbered_list=False, is_sorted=False)`
+
+Register a group name so entries may reference it via `groups` (v.i.), and set that group's default rendering behavior for its `AbbrGroupNode`:
+
+- `uses_numbered_list`: render entries with numbered markers (`"1. ..."`) instead of bullets (`"- ..."`)
+- `is_sorted`: render entries ordered by ascending `priority` instead of insertion order
+
+```python
+from kaye_engine.abbr_collection import register_abbr_group
+
+register_abbr_group("coding-terms")
+register_abbr_group("plan-step-by-step-abbr", uses_numbered_list=True, is_sorted=True)
+```
+
+Raises `ValueError` if `name` is already registered. Both flags are also render-time overrides — q.v. [`AbbrGroupNode`](#abbreviations-related-dynamic-nodes) below.
+
 
 
 
@@ -129,7 +151,7 @@ Every abbreviation-related [dynamic node](dynamic-node-doc.md) lives in `kaye_en
 | `AbbrNode` | `(Abbreviations)` | `abbr_nodes.py` | scans a `query=` string against `get_abbr_data().automaton`, verifying each raw match with `AbbrEntry.verify_found` before including it; falls back to every `always_understand`-tagged entry when `query` is omitted |
 | `AbbrGroupNode` | `(group-name)` | `abbr_group_node.py` | every entry whose `groups` array contains `group-name` |
 
-Unlike `AbbrNode`, `AbbrGroupNode` is not engine-registered — one instance is created per group name found on `AbbrEntry.groups` (q.v. [`groups`](#groups) below), never enumerated in `kaye-engine` code. Q.v. [dynamic-node-doc.md](dynamic-node-doc.md) for the heading resolution order.
+Unlike `AbbrNode`, `AbbrGroupNode` is not a fixed engine type — one instance is created per group name a consumer registered via `register_abbr_group` (v.s.) and referenced on `AbbrEntry.groups` (q.v. [`groups`](#groups) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, insertion order vs. sorted by `priority` — defaults to that group's registered flags, and both may be overridden per render via `content_lines(is_sorted=..., uses_numbered_list=...)`. Q.v. [dynamic-node-doc.md](dynamic-node-doc.md) for the heading resolution order.
 
 
 
@@ -309,8 +331,10 @@ consumer-defined groupings, use [`groups`](#groups) instead.
 
 #### `groups`
 
-An *optional array* of *string* — free-form, no fixed enum; any value
-becomes a known group on load, no `kaye-engine` change required. Omit
+An *optional array* of *string* — free-form, no fixed enum, but every
+value must already be registered via
+[`register_abbr_group`](#register_abbr_groupname-uses_numbered_listfalse-is_sortedfalse)
+before this entry is loaded, or loading raises `ValueError`. Omit
 when an entry belongs to no group, like `remark`.
 
 ```json
