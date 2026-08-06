@@ -9,41 +9,21 @@ query)
 from .dynamic_node import DynamicNode
 from .today_node import TodayNode
 from .abbr_nodes import AbbrNode
-from .abbr_tag_nodes import (
-    gen_abbrs_content_lines,
-    UsableAbbrNode,
-    LanguageCodeNode,
-    PLCNode,
-    UnityEngineAbbrNode,
-    CodingTermsNode,
-    PlanStepByStepAbbrNode,
-    CodeDocumentationFieldAbbrNode,
-)
+from .abbr_tag_nodes import gen_abbrs_content_lines
+from .abbr_group_node import gen_group_abbrs_content_lines, AbbrGroupNode
 
 __all__ = (
     "gen_abbrs_content_lines",
+    "gen_group_abbrs_content_lines",
     "DynamicNode",
     "TodayNode",
     "AbbrNode",
-    "UsableAbbrNode",
-    "LanguageCodeNode",
-    "PLCNode",
-    "UnityEngineAbbrNode",
-    "CodingTermsNode",
-    "PlanStepByStepAbbrNode",
-    "CodeDocumentationFieldAbbrNode",
+    "AbbrGroupNode",
     "DYNAMIC_NODE_TYPES",
 )
 
-# registry of every dynamic node type attached to the prompt corpus tree
+# registry of every engine-defined, statically-registered dynamic node
 DYNAMIC_NODE_TYPES = (
     TodayNode,
     AbbrNode,
-    UsableAbbrNode,
-    LanguageCodeNode,
-    PLCNode,
-    UnityEngineAbbrNode,
-    CodingTermsNode,
-    PlanStepByStepAbbrNode,
-    CodeDocumentationFieldAbbrNode,
 )
