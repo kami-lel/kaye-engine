@@ -99,7 +99,7 @@ class TestAbbrGroupNodeSorting:  # =============================================
             "- etc.:et cetera",
         ]
 
-    def test_content_lines_sorted(_, populated_abbr_data):
+    def test_content_lines_sorted_bulleted(_, populated_abbr_data):
         testee = AbbrGroupNode(None, group_name="g")
 
         with patch(
@@ -107,6 +107,22 @@ class TestAbbrGroupNodeSorting:  # =============================================
             return_value=populated_abbr_data,
         ):
             opt = testee.content_lines(is_sorted=True)
+
+        print(opt)
+        assert opt == [
+            "- i.e.:id est",
+            "- etc.:et cetera",
+            "- e.g.:for example",
+        ]
+
+    def test_content_lines_sorted_numbered(_, populated_abbr_data):
+        testee = AbbrGroupNode(None, group_name="g")
+
+        with patch(
+            "kaye_engine.prompt.dynamic_nodes.abbr_group_node.get_abbr_data",
+            return_value=populated_abbr_data,
+        ):
+            opt = testee.content_lines(is_sorted=True, uses_numbered_list=True)
 
         print(opt)
         assert opt == [
