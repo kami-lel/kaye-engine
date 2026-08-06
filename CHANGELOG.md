@@ -3,9 +3,7 @@
 [^format]
 
 <!--
-Fixme CLI dn: utilize logger
-Bug CLI dn: consider --list/-l to show all dns
-Todo priority threshold fx for abbr group node
+todo priority threshold fx for abbr group node
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -46,7 +44,7 @@ todo todo utilize personalities, allow multi agent conversation
 - `AbbrGroupNode` — dynamic node parametrized by group name at
   construction time; a top-level `(group-name)` heading in
   `prompt_corpus.md` resolves to it when `group-name` matches a known
-  abbr group, and `kaye-engine dynamic-node NODE_TYPE` now accepts any
+  abbr group, and `kaye-engine dynamic-node NODE` now accepts any
   known group name alongside its engine-defined choices; its
   `content_lines()` gained `is_sorted` and `uses_numbered_list`
   keywords (default `None`, falling back to the group's registered
@@ -54,6 +52,10 @@ todo todo utilize personalities, allow multi agent conversation
   a numbered list instead of insertion-order bullets
 - `number` keyword on `AbbrEntry.as_md_list_entry()`, rendering a
   numbered list item (`{number}. abbr:meaning`) instead of a bullet
+- `kaye-engine dynamic-node ls` (`dn ls`) — a special `NODE` value that
+  is not itself a node; it prints every currently available `NODE`
+  name (engine-defined choices plus every registered abbr group name),
+  one kebab-case name per line, sorted alphabetically
 
 ### Changed
 
@@ -85,6 +87,9 @@ todo todo utilize personalities, allow multi agent conversation
   `groups` to keep them rendering
 - `AbbrEntry` now raises `TypeError`, not `ValueError`, when `abbr`, its
   value object, or `priority` is the wrong type
+- `dynamic-node`'s positional argument renamed `NODE_TYPE` → `NODE`; its
+  `--help`/description text no longer lists every available choice
+  inline, pointing to `dynamic-node ls` instead
 
 ### Deprecated
 
@@ -103,10 +108,14 @@ todo todo utilize personalities, allow multi agent conversation
 - `UsableAbbrNode`, `LanguageCodeNode`, `PLCNode`, `UnityEngineAbbrNode`,
   `CodingTermsNode`, `PlanStepByStepAbbrNode`, and
   `CodeDocumentationFieldAbbrNode`, superseded by `AbbrGroupNode`
-- `NODE_TYPE_CHOICES`, superseded by `ENGINE_DEFINED_NODES` and
-  `get_node_type_choices()`
+- `NODE_TYPE_CHOICES`, superseded by `ENGINE_DEFINED_NODES`
 
 ### Fixed
+
+- `dynamic-node` no longer crashes with a raw Python traceback: an
+  unrecognized `NODE` now logs an `ERROR` through the `kaye.engine`
+  logger, and any other failure while resolving/rendering the node
+  logs `CRITICAL`; both cases exit with status `1`
 
 ### Security
 
