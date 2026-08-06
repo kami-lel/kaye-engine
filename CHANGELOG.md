@@ -32,16 +32,23 @@ todo todo utilize personalities, allow multi agent conversation
 - `-s`/`--sparseness` option on `kaye-engine prompt generate`, forwarding
   the new parameter from the CLI
 - `groups` — free-form, consumer-defined array field on `abbrs.json`
-  entries; any value an entry declares becomes a known group on load, no
-  `kaye-engine` change required
+  entries; every value an entry declares must already be registered via
+  `register_abbr_group` before that entry loads, or loading raises
+  `ValueError`
+- `register_abbr_group(name, uses_numbered_list=False, is_sorted=False)`/
+  `get_abbr_group(name)`, registering a `groups` name and its
+  `AbbrGroupNode` default rendering behavior; `register_abbr_group`
+  raises `ValueError` on a duplicate name, `get_abbr_group` raises
+  `KeyError` on an unknown one
 - `AbbrGroupNode` — dynamic node parametrized by group name at
   construction time; a top-level `(group-name)` heading in
   `prompt_corpus.md` resolves to it when `group-name` matches a known
   abbr group, and `kaye-engine dynamic-node NODE_TYPE` now accepts any
   known group name alongside its engine-defined choices; its
-  `content_lines()` gained an `is_sorted` keyword (default `False`)
-  rendering the group as a numbered list sorted by ascending
-  `priority` instead of an unordered bullet list
+  `content_lines()` gained `is_sorted` and `uses_numbered_list`
+  keywords (default `None`, falling back to the group's registered
+  flags), rendering the group sorted by ascending `priority` and/or as
+  a numbered list instead of insertion-order bullets
 - `number` keyword on `AbbrEntry.as_md_list_entry()`, rendering a
   numbered list item (`{number}. abbr:meaning`) instead of a bullet
 
