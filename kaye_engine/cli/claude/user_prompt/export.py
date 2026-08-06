@@ -18,7 +18,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
 # Main Entry Point  ############################################################
-def export_user_system_prompt_file(file_path, *, use_coder=False):
+def export_user_system_prompt_file(file_path, *, use_coder=False, sparseness=1):
     """
     export the Chat blueprint as Claude user/system prompt to CLAUDE.md
 
@@ -29,6 +29,9 @@ def export_user_system_prompt_file(file_path, *, use_coder=False):
     :type file_path: Path-like
     :param use_coder: append the Coder blueprint after the main blueprint
     :type use_coder: bool
+    :param sparseness: blank-line policy forwarded to
+            ``generate_prompt()``; defaults to 1
+    :type sparseness: int, optional
     """
     file_path = Path(file_path).resolve()
     file_path.parent.mkdir(parents=True, exist_ok=True)
@@ -43,6 +46,8 @@ def export_user_system_prompt_file(file_path, *, use_coder=False):
         blueprint = blueprint | get_claude_coder_blueprint()
 
     file_path.write_text(
-        blueprint.generate_prompt(contains_sidecars=CONTAINING_SIDECARS),
+        blueprint.generate_prompt(
+            contains_sidecars=CONTAINING_SIDECARS, sparseness=sparseness
+        ),
         encoding="utf-8",
     )

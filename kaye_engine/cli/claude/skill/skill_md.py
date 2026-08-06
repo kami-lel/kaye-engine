@@ -157,7 +157,7 @@ class Skill(FrontmatterDoc):
             paths=list(sidecars.globs) if sidecars.globs else [],
             user_invocable=registry.user_invokable,
             body=registry.blueprint.generate_prompt(
-                contains_sidecars=CONTAINING_SIDECARS
+                contains_sidecars=CONTAINING_SIDECARS, sparseness=0
             ),
             version=version,
         )

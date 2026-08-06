@@ -6,10 +6,6 @@ implement a systematic, dynamic, and structured framework
 for **prompt management and manipulation**.
 """
 
-# constants  ###################################################################
-
-REPLACEMENT_NEWLINE_SYMBOL = "↵"
-
 # imports  #####################################################################
 
 from .base_prompt_node import *

@@ -40,7 +40,7 @@ def export_vs_code_extension(claude_folder):
 
     logger.debug("export user system prompt file")
     prompt_file = find_user_system_prompt_file(claude_folder)
-    export_user_system_prompt_file(prompt_file, use_coder=True)
+    export_user_system_prompt_file(prompt_file, use_coder=True, sparseness=0)
     logger.succ("export user system prompt file:\t" + str(prompt_file))
 
     logger.debug("export marketplace")
