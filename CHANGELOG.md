@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-FIXME CLI dn: utilize logger
 todo priority threshold fx for abbr group node
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation

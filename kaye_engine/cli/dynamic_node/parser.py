@@ -71,28 +71,36 @@ def _dynamic_node_main(args):
             print(name)
         return
 
-    node_cls, group_name = _resolve_node_type(args.NODE)
+    try:
+        node_cls, group_name = _resolve_node_type(args.NODE)
+    except ValueError as err:
+        logger.error(str(err))
+        raise SystemExit(1) from err
 
-    dummy_root = PromptCorpusNode(_ROOT_NODE_NAME, None, [])
-    node = (
-        node_cls(dummy_root, group_name=group_name)
-        if group_name is not None
-        else node_cls(dummy_root)
-    )
+    try:
+        dummy_root = PromptCorpusNode(_ROOT_NODE_NAME, None, [])
+        node = (
+            node_cls(dummy_root, group_name=group_name)
+            if group_name is not None
+            else node_cls(dummy_root)
+        )
 
-    blueprint = PromptBlueprint.create_from_node(
-        node.name, corpus_tree=dummy_root
-    )
+        blueprint = PromptBlueprint.create_from_node(
+            node.name, corpus_tree=dummy_root
+        )
 
-    query = sys.stdin.read() if not sys.stdin.isatty() else ""
+        query = sys.stdin.read() if not sys.stdin.isatty() else ""
 
-    generate_kwargs = {}
-    if args.NODE == "abbr":
-        generate_kwargs["query"] = query
+        generate_kwargs = {}
+        if args.NODE == "abbr":
+            generate_kwargs["query"] = query
 
-    prompt = blueprint.generate_prompt(**generate_kwargs)
+        prompt = blueprint.generate_prompt(**generate_kwargs)
 
-    print(prompt)
+        print(prompt)
+    except (ValueError, TypeError, KeyError, NotImplementedError) as err:
+        logger.critical(str(err))
+        raise SystemExit(1) from err
 
 
 # Public API  ##################################################################
