@@ -6,7 +6,7 @@ define various data structures supporting **abbreviation nodes**
 
 from .abbr_tags import AbbrTags
 from .abbr_wrap import AbbrWrap
-from .abbr_group import ABBRS_JSON_GROUP_KEY, AbbrGroupIndex
+from .abbr_group import ABBRS_JSON_GROUP_KEY
 from .abbr_group_registry import (
     AbbrGroupRegistry,
     abbr_group_registry,
@@ -22,7 +22,6 @@ __all__ = (
     "AbbrTags",
     "AbbrWrap",
     "ABBRS_JSON_GROUP_KEY",
-    "AbbrGroupIndex",
     "AbbrGroupRegistry",
     "abbr_group_registry",
     "register_abbr_group",
