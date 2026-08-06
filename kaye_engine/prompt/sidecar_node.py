@@ -9,8 +9,6 @@ checkmarked
 
 import re
 
-from kaye_engine.prompt import REPLACEMENT_NEWLINE_SYMBOL
-
 __all__ = (
     "get_sidecar_name",
     "BlueprintDescriptorSidecars",
@@ -72,9 +70,10 @@ class BlueprintDescriptorSidecars:  ############################################
         :return: description text, or rendered description node content
         :rtype: str
         """
-        return self._description or REPLACEMENT_NEWLINE_SYMBOL.join(
-            self._convert_node2content_lines(self.description_node)
+        lines = self._convert_node2content_lines(
+            self.description_node, sparseness=-1
         )
+        return self._description or (lines[0] if lines else "")
 
     @description.setter
     def description(self, value):
@@ -94,9 +93,10 @@ class BlueprintDescriptorSidecars:  ############################################
         :return: rendered when-to-use node content
         :rtype: str
         """
-        return REPLACEMENT_NEWLINE_SYMBOL.join(
-            self._convert_node2content_lines(self.when_to_use_node)
+        lines = self._convert_node2content_lines(
+            self.when_to_use_node, sparseness=-1
         )
+        return lines[0] if lines else ""
 
     @property
     def description_and_when_to_use(self):
@@ -106,9 +106,15 @@ class BlueprintDescriptorSidecars:  ############################################
         :return: rendered description and when-to-use content
         :rtype: str
         """
-        return self._description or REPLACEMENT_NEWLINE_SYMBOL.join(
-            self._convert_node2content_lines(self.description_node)
-            + self._convert_node2content_lines(self.when_to_use_node)
+        from kaye_engine.prompt.blueprint import render
+
+        return self._description or render.REPLACEMENT_NEWLINE_SYMBOL.join(
+            self._convert_node2content_lines(
+                self.description_node, sparseness=-1
+            )
+            + self._convert_node2content_lines(
+                self.when_to_use_node, sparseness=-1
+            )
         )
 
     @property
@@ -190,12 +196,15 @@ class BlueprintDescriptorSidecars:  ############################################
     # helpers  =====================================================================
 
     @staticmethod
-    def _convert_node2content_lines(node):
+    def _convert_node2content_lines(node, *, sparseness=1):
         """
         render a node into prompt content lines
 
         :param node: node to render
         :type node: BasePromptNode or None
+        :param sparseness: blank-line policy forwarded to
+                ``render.render_prompt_lines()``; defaults to 1
+        :type sparseness: int or None, optional
         :return: rendered prompt lines
         :rtype: list[str]
         """
@@ -205,4 +214,6 @@ class BlueprintDescriptorSidecars:  ############################################
         from kaye_engine.prompt.blueprint import PromptBlueprint, render
 
         bp = PromptBlueprint.create_from_node(node, corpus_tree=node.root)
-        return render.render_prompt_lines(bp, disable_first_heading=True)
+        return render.render_prompt_lines(
+            bp, disable_first_heading=True, sparseness=sparseness
+        )
