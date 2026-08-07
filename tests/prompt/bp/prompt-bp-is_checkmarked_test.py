@@ -661,7 +661,7 @@ class TestDynamicNodes:  #######################################################
     def test_abbr(_, dynamic_bp_testee1):
         bp = copy.deepcopy(dynamic_bp_testee1)
 
-        node = dynamic_bp_testee1.corpus["(Abbreviations)"]
+        node = dynamic_bp_testee1.corpus["(Decode-Only Shorthand)"]
 
         assert bp.is_checkmarked(node)
 

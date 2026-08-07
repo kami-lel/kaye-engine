@@ -17,6 +17,7 @@ for _glossary_name in (
     "plan-step-by-step-abbr",
     "code-documentation-field-abbr",
     "some-glossary",
+    "other-glossary",
     "g",
 ):
     register_abbr_glossary(_glossary_name)

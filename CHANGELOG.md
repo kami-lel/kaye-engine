@@ -67,9 +67,19 @@ todo todo utilize personalities, allow multi agent conversation
   is not itself a node; it prints every currently available `NODE`
   name (engine-defined choices plus every registered abbr glossary
   name), one kebab-case name per line, sorted alphabetically
+- `kaye-engine dynamic-node` now accepts 1 or more `NODE` values in a
+  single invocation, merging every resolved node into one shared
+  blueprint and printing one merged output
+- `-s`/`--sparseness` option on `kaye-engine dynamic-node`, via the same
+  shared `sparseness_parser` `prompt generate` uses
 
 ### Changed
 
+- the engine-defined `(Abbreviations)` dynamic node is renamed
+  `(Decode-Only Shorthand)` (`AbbrNode` → `ShorthandNode`,
+  `kaye-engine dynamic-node abbr` → `dynamic-node shorthand`); the
+  general abbreviation/glossary system (`AbbrData`, `AbbrEntry`,
+  `abbrs.json`, `GlossaryNode`, `(glossary-name)` nodes) is unaffected
 - sidecar descriptor rendering (`description`, `when_to_use`,
   `description_and_when_to_use`) now renders through the `sparseness`
   control instead of its own blank-line trimming
@@ -127,6 +137,9 @@ todo todo utilize personalities, allow multi agent conversation
   unrecognized `NODE` now logs an `ERROR` through the `kaye.engine`
   logger, and any other failure while resolving/rendering the node
   logs `CRITICAL`; both cases exit with status `1`
+- `dynamic-node NODE` now correctly reuses an authored `(...)` heading's
+  preface for every requested `NODE`, not only when it happened to be
+  the sole one requested
 
 ### Security
 
