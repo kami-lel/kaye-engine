@@ -20,7 +20,10 @@ logger = kamilog.getLogger(LOGGER_NAME)
 
 
 def gen_glossary_content_lines(
-    glossary_name, is_sorted=None, uses_numbered_list=None, priority_threshold=None
+    glossary_name,
+    is_sorted=None,
+    uses_numbered_list=None,
+    glossary_priority_threshold=None,
 ):
     """
     :param is_sorted: sort by ascending priority instead of insertion
@@ -30,11 +33,10 @@ def gen_glossary_content_lines(
             bullets; defaults to the glossary's registered
             ``uses_numbered_list``
     :type uses_numbered_list: bool, optional
-    :param priority_threshold: exclude entries whose priority is
-            greater than this value from rendering; ``None`` disables
-            this filtering; defaults to the glossary's registered
-            ``priority_threshold``
-    :type priority_threshold: int, optional
+    :param glossary_priority_threshold: exclude entries whose priority
+            is greater than this value from rendering; ``None`` (the
+            default) disables this filtering
+    :type glossary_priority_threshold: int, optional
     :return: markdown list items for ``glossary_name``'s entries;
             empty when the abbr data singleton is empty
     :rtype: list[str]
@@ -49,17 +51,17 @@ def gen_glossary_content_lines(
         is_sorted = reg.is_sorted
     if uses_numbered_list is None:
         uses_numbered_list = reg.uses_numbered_list
-    if priority_threshold is None:
-        priority_threshold = reg.priority_threshold
 
     entries = tuple(
         entry
         for entry in abbr_data.abbrs
         if glossary_name in entry.glossaries
     )
-    if priority_threshold is not None:
+    if glossary_priority_threshold is not None:
         entries = tuple(
-            entry for entry in entries if entry.priority <= priority_threshold
+            entry
+            for entry in entries
+            if entry.priority <= glossary_priority_threshold
         )
     if is_sorted:
         entries = sorted(entries, key=lambda entry: entry.priority)
@@ -93,14 +95,14 @@ class GlossaryNode(DynamicNode):  ##############################################
         self,
         is_sorted=None,
         uses_numbered_list=None,
-        priority_threshold=None,
+        glossary_priority_threshold=None,
         **kwargs
     ):
         return self._preface + gen_glossary_content_lines(
             self.glossary_name,
             is_sorted=is_sorted,
             uses_numbered_list=uses_numbered_list,
-            priority_threshold=priority_threshold,
+            glossary_priority_threshold=glossary_priority_threshold,
         )
 
     def __copy__(self):
