@@ -93,26 +93,26 @@ Q.v. [abbreviation entries `json` file](#abbreviation-entries-json-file) below f
 
 
 
-#### `register_abbr_glossary(name, uses_numbered_list=False, is_sorted=False, priority_threshold=None)`
+#### `register_abbr_glossary(name, uses_numbered_list=False, is_sorted=False)`
 
 Register a glossary name so entries may reference it via `glossaries` (v.i.), and set that glossary's default rendering behavior for its `GlossaryNode`:
 
 - `uses_numbered_list`: render entries with numbered markers (`"1. ..."`) instead of bullets (`"- ..."`)
 - `is_sorted`: render entries ordered by ascending `priority` instead of insertion order
-- `priority_threshold`: exclude entries whose `priority` is greater than this value from rendering; `None` (default) disables the filter
 
 ```python
 from kaye_engine.abbr_collection import register_abbr_glossary
 
 register_abbr_glossary("coding-terms")
 register_abbr_glossary("plan-step-by-step-abbr", uses_numbered_list=True, is_sorted=True)
-register_abbr_glossary("low-priority-only", priority_threshold=5)
 ```
 
-Raises `ValueError` if `name` is already registered, `TypeError` if `priority_threshold` is neither `None` nor an `int`. All three flags are also render-time overrides — q.v. [`GlossaryNode`](#abbreviations-related-dynamic-nodes) below.
+Raises `ValueError` if `name` is already registered. Both flags are also render-time overrides — q.v. [`GlossaryNode`](#abbreviations-related-dynamic-nodes) below.
+
+Priority-based filtering is not a registration concern — it is supplied by the caller at generation time via `glossary_priority_threshold`, q.v. below.
 
 > [!NOTE]
-> `priority_threshold` only filters rendering. An entry whose `priority` exceeds the threshold is still added to `AbbrData` — its `glossaries` membership is still validated, and it is still findable through `get_abbr_data()` — it simply never appears in a rendered `GlossaryNode`.
+> `glossary_priority_threshold` only filters rendering. An entry whose `priority` exceeds the threshold is still added to `AbbrData` — its `glossaries` membership is still validated, and it is still findable through `get_abbr_data()` — it simply never appears in a rendered `GlossaryNode`.
 
 
 
@@ -156,7 +156,7 @@ Every abbreviation-related [dynamic node](dynamic-node-doc.md) lives in `kaye_en
 | `AbbrNode` | `(Abbreviations)` | `abbr_nodes.py` | scans a `query=` string against `get_abbr_data().automaton`, verifying each raw match with `AbbrEntry.verify_found` before including it; falls back to every `always_understand`-tagged entry when `query` is omitted |
 | `GlossaryNode` | `(glossary-name)` | `glossary_node.py` | every entry whose `glossaries` array contains `glossary-name` |
 
-Unlike `AbbrNode`, `GlossaryNode` is not a fixed engine type — one instance is created per glossary name a consumer registered via `register_abbr_glossary` (v.s.) and referenced on `AbbrEntry.glossaries` (q.v. [`glossaries`](#glossaries) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, insertion order vs. sorted by `priority`, and whether high-priority-number entries are hidden — defaults to that glossary's registered flags, and all three may be overridden per render via `content_lines(is_sorted=..., uses_numbered_list=..., priority_threshold=...)`. Q.v. [dynamic-node-doc.md](dynamic-node-doc.md) for the heading resolution order.
+Unlike `AbbrNode`, `GlossaryNode` is not a fixed engine type — one instance is created per glossary name a consumer registered via `register_abbr_glossary` (v.s.) and referenced on `AbbrEntry.glossaries` (q.v. [`glossaries`](#glossaries) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, and insertion order vs. sorted by `priority` — defaults to that glossary's registered flags, and both may be overridden per render via `content_lines(is_sorted=..., uses_numbered_list=...)`. Whether high-priority-number entries are hidden is a generation-time-only concern, not a registration default: pass `content_lines(glossary_priority_threshold=...)` (or the matching `generate_prompt(glossary_priority_threshold=...)` kwarg, since it flows through to every checkmarked node's `content_lines()`) — `None` (default) disables the filter. Q.v. [dynamic-node-doc.md](dynamic-node-doc.md) for the heading resolution order.
 
 
 
@@ -338,7 +338,7 @@ consumer-defined groupings, use [`glossaries`](#glossaries) instead.
 
 An *optional array* of *string* — free-form, no fixed enum, but every
 value must already be registered via
-[`register_abbr_glossary`](#register_abbr_glossaryname-uses_numbered_listfalse-is_sortedfalse-priority_thresholdnone)
+[`register_abbr_glossary`](#register_abbr_glossaryname-uses_numbered_listfalse-is_sortedfalse)
 before this entry is loaded, or loading raises `ValueError`. Omit
 when an entry belongs to no glossary, like `remark`.
 

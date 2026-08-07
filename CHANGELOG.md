@@ -36,28 +36,31 @@ todo todo utilize personalities, allow multi agent conversation
   registered via `register_abbr_glossary` before that entry loads, or
   loading raises `ValueError`
 - `register_abbr_glossary(name, uses_numbered_list=False,
-  is_sorted=False, priority_threshold=None)`/`get_abbr_glossary(name)`,
-  registering a `glossaries` name and its `GlossaryNode` default
-  rendering behavior; `register_abbr_glossary` raises `ValueError` on a
-  duplicate name, `TypeError` on a `priority_threshold` that is neither
-  `None` nor an `int`; `get_abbr_glossary` raises `KeyError` on an
-  unknown name
-- `priority_threshold` on `AbbrGlossaryRegistry`/`register_abbr_glossary`,
-  also accepted as a `content_lines()`/`gen_glossary_content_lines()`
-  override: entries whose `priority` exceeds the threshold are still
-  added to `AbbrData` (so glossary-membership validation still sees
-  them) but excluded from rendered output; `None` (default) disables
-  the filter entirely
+  is_sorted=False)`/`get_abbr_glossary(name)`, registering a
+  `glossaries` name and its `GlossaryNode` default rendering behavior;
+  `register_abbr_glossary` raises `ValueError` on a duplicate name;
+  `get_abbr_glossary` raises `KeyError` on an unknown name
+- `glossary_priority_threshold` keyword on
+  `content_lines()`/`gen_glossary_content_lines()`, and forwarded
+  through as a generation-time `generate_prompt()` kwarg: entries whose
+  `priority` exceeds the threshold are still added to `AbbrData` (so
+  glossary-membership validation still sees them) but excluded from
+  rendered output; `None` (default) disables the filter entirely — the
+  threshold is supplied by the caller at render time, not stored on the
+  glossary's registration
+- `-t`/`--priority-threshold` option on `kaye-engine dynamic-node`,
+  forwarding `glossary_priority_threshold` to a rendered glossary node
 - `GlossaryNode` — dynamic node parametrized by glossary name at
   construction time; a top-level `(glossary-name)` heading in
   `prompt_corpus.md` resolves to it when `glossary-name` matches a
   known abbr glossary, and `kaye-engine dynamic-node NODE` now accepts
   any known glossary name alongside its engine-defined choices; its
-  `content_lines()` gained `is_sorted`, `uses_numbered_list`, and
-  `priority_threshold` keywords (default `None`, falling back to the
-  glossary's registered flags), rendering the glossary sorted by
-  ascending `priority`, as a numbered list instead of insertion-order
-  bullets, and/or with high-priority-number entries hidden
+  `content_lines()` gained `is_sorted`, `uses_numbered_list` (default
+  `None`, falling back to the glossary's registered flags), and
+  `glossary_priority_threshold` (default `None`, no fallback) keywords,
+  rendering the glossary sorted by ascending `priority`, as a numbered
+  list instead of insertion-order bullets, and/or with high-priority-number
+  entries hidden
 - `number` keyword on `AbbrEntry.as_md_list_entry()`, rendering a
   numbered list item (`{number}. abbr:meaning`) instead of a bullet
 - `kaye-engine dynamic-node ls` (`dn ls`) — a special `NODE` value that
