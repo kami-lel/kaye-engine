@@ -22,7 +22,7 @@ Every dynamic node's name is its heading wrapped in parentheses, e.g. `(Today)` 
 | --- | --- | --- |
 | Today | `(Today)` | current date and time |
 
-Every abbreviation-related dynamic node (`(Abbreviations)`, plus one `(glossary-name)` per abbr glossary, e.g. `(coding-terms)`) is documented in [`abbr-collection-doc.md`](abbr-collection-doc.md).
+Every abbreviation-related dynamic node (`(Decode-Only Shorthand)`, plus one `(glossary-name)` per abbr glossary, e.g. `(coding-terms)`) is documented in [`abbr-collection-doc.md`](abbr-collection-doc.md).
 
 Every dynamic node is a **leaf** — it never has children, so it cannot itself contain sub-sections.
 
@@ -40,7 +40,7 @@ Every dynamic node is a **leaf** — it never has children, so it cannot itself 
 
 ## Using a Dynamic Node
 
-Engine-defined types (`Today`, `Abbreviations`) attach automatically as direct children of the root — you do not add them to `prompt_corpus.md` yourself. `GlossaryNode` (q.v. [`abbr-collection-doc.md`](abbr-collection-doc.md#glossaries)) is different: it attaches only when a top-level `(glossary-name)` heading is present **and** `glossary-name` is registered via `register_abbr_glossary`. No heading, no node; a registered glossary with no loaded entries yet still attaches and simply renders empty.
+Engine-defined types (`Today`, `Decode-Only Shorthand`) attach automatically as direct children of the root — you do not add them to `prompt_corpus.md` yourself. `GlossaryNode` (q.v. [`abbr-collection-doc.md`](abbr-collection-doc.md#glossaries)) is different: it attaches only when a top-level `(glossary-name)` heading is present **and** `glossary-name` is registered via `register_abbr_glossary`. No heading, no node; a registered glossary with no loaded entries yet still attaches and simply renders empty.
 
 A top-level `(...)` heading resolves against engine-defined types first, then against known glossary names. Loading a corpus **rejects** a parenthesized heading matching neither, or one below the root. A resolving heading supplies introductory text rather than creating a second node — v.i.
 

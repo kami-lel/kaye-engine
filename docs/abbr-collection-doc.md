@@ -153,10 +153,10 @@ Every abbreviation-related [dynamic node](dynamic-node-doc.md) lives in `kaye_en
 
 | Node | Heading | Source | Behavior |
 | --- | --- | --- | --- |
-| `AbbrNode` | `(Abbreviations)` | `abbr_nodes.py` | scans a `query=` string against `get_abbr_data().automaton`, verifying each raw match with `AbbrEntry.verify_found` before including it; falls back to every `always_understand`-tagged entry when `query` is omitted |
+| `ShorthandNode` | `(Decode-Only Shorthand)` | `shorthand_node.py` | scans a `query=` string against `get_abbr_data().automaton`, verifying each raw match with `AbbrEntry.verify_found` before including it; falls back to every `always_understand`-tagged entry when `query` is omitted |
 | `GlossaryNode` | `(glossary-name)` | `glossary_node.py` | every entry whose `glossaries` array contains `glossary-name` |
 
-Unlike `AbbrNode`, `GlossaryNode` is not a fixed engine type — one instance is created per glossary name a consumer registered via `register_abbr_glossary` (v.s.) and referenced on `AbbrEntry.glossaries` (q.v. [`glossaries`](#glossaries) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, and insertion order vs. sorted by `priority` — defaults to that glossary's registered flags, and both may be overridden per render via `content_lines(is_sorted=..., uses_numbered_list=...)`. Whether high-priority-number entries are hidden is a generation-time-only concern, not a registration default: pass `content_lines(glossary_priority_threshold=...)` (or the matching `generate_prompt(glossary_priority_threshold=...)` kwarg, since it flows through to every checkmarked node's `content_lines()`) — `None` (default) disables the filter. Q.v. [dynamic-node-doc.md](dynamic-node-doc.md) for the heading resolution order.
+Unlike `ShorthandNode`, `GlossaryNode` is not a fixed engine type — one instance is created per glossary name a consumer registered via `register_abbr_glossary` (v.s.) and referenced on `AbbrEntry.glossaries` (q.v. [`glossaries`](#glossaries) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, and insertion order vs. sorted by `priority` — defaults to that glossary's registered flags, and both may be overridden per render via `content_lines(is_sorted=..., uses_numbered_list=...)`. Whether high-priority-number entries are hidden is a generation-time-only concern, not a registration default: pass `content_lines(glossary_priority_threshold=...)` (or the matching `generate_prompt(glossary_priority_threshold=...)` kwarg, since it flows through to every checkmarked node's `content_lines()`) — `None` (default) disables the filter. Q.v. [dynamic-node-doc.md](dynamic-node-doc.md) for the heading resolution order.
 
 
 
@@ -170,9 +170,9 @@ Unlike `AbbrNode`, `GlossaryNode` is not a fixed engine type — one instance is
 
 
 
-### queried abbreviations
+### queried shorthand
 
-`(Abbreviations)` needs render-time input — a piece of text to scan for abbreviation occurrences. Pass it as `query=` to `generate_prompt()` / `render.render_prompt_lines()`:
+`(Decode-Only Shorthand)` needs render-time input — a piece of text to scan for abbreviation occurrences. Pass it as `query=` to `generate_prompt()` / `render.render_prompt_lines()`:
 
 ```python
 prompt = blueprint.generate_prompt(
@@ -180,14 +180,14 @@ prompt = blueprint.generate_prompt(
 )
 ```
 
-Given that query, `(Abbreviations)` finds `algo` and `calc` (verifying each match against its surrounding characters to avoid false positives) and renders them as a Markdown list:
+Given that query, `(Decode-Only Shorthand)` finds `algo` and `calc` (verifying each match against its surrounding characters to avoid false positives) and renders them as a Markdown list:
 
 ```markdown
 - algo:algorithm
 - calc:calculate
 ```
 
-If `query` is omitted or empty, `(Abbreviations)` falls back to rendering every abbreviation tagged `always_understand`, the same way every `GlossaryNode` always does — those nodes ignore `query` entirely and simply render every entry carrying their glossary.
+If `query` is omitted or empty, `(Decode-Only Shorthand)` falls back to rendering every abbreviation tagged `always_understand`, the same way every `GlossaryNode` always does — those nodes ignore `query` entirely and simply render every entry carrying their glossary.
 
 
 
