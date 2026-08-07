@@ -11,7 +11,7 @@ from argparse import ArgumentParser
 import pytest
 
 from kaye_engine.cli.dynamic_node import parser as dynamic_node_parser
-from kaye_engine.prompt.dynamic_nodes import AbbrGroupNode
+from kaye_engine.prompt.dynamic_nodes import GlossaryNode
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 
@@ -40,9 +40,9 @@ class TestDynamicNodeMain:
         self, monkeypatch, capsys
     ):
         root = PromptCorpusNode("○", None, [])
-        AbbrGroupNode(
+        GlossaryNode(
             root,
-            group_name="some-group",
+            glossary_name="some-glossary",
             preface=["This is the authored preface line."],
         )
 
@@ -51,7 +51,7 @@ class TestDynamicNodeMain:
         )
 
         parser = _build_dn_parser()
-        args = parser.parse_args(["dynamic-node", "some-group"])
+        args = parser.parse_args(["dynamic-node", "some-glossary"])
         args.func(args)
 
         out = capsys.readouterr().out
@@ -84,7 +84,7 @@ class TestDynamicNodeMain:
         )
 
         parser = _build_dn_parser()
-        args = parser.parse_args(["dynamic-node", "some-group"])
+        args = parser.parse_args(["dynamic-node", "some-glossary"])
         args.func(args)
 
         out = capsys.readouterr().out

@@ -501,7 +501,7 @@ class Test3:  # ================================================================
         assert str(e[1]) == "W:while,when"
 
 
-class TestGroups:  # groups  ===================================================
+class TestGlossaries:  # glossaries  ===================================================
 
     data = _build_abbr_data({
         "abstract class": {
@@ -509,7 +509,7 @@ class TestGroups:  # groups  ===================================================
                 "aCls": {
                     "priority": 5,
                     "tags": [],
-                    "groups": ["coding-terms"],
+                    "glossaries": ["coding-terms"],
                     "wrap": "word",
                 },
             },
@@ -519,7 +519,7 @@ class TestGroups:  # groups  ===================================================
                 "c": {
                     "priority": 5,
                     "tags": ["single_character"],
-                    "groups": [
+                    "glossaries": [
                         "coding-terms",
                         "programming-language-codes",
                     ],
@@ -538,25 +538,25 @@ class TestGroups:  # groups  ===================================================
         },
     })
 
-    def test_entries_for_shared_group(self):
-        entries = [e for e in self.data.abbrs if "coding-terms" in e.groups]
+    def test_entries_for_shared_glossary(self):
+        entries = [e for e in self.data.abbrs if "coding-terms" in e.glossaries]
         assert [e.abbr for e in entries] == ["aCls", "c"]
 
-    def test_entries_for_single_member_group(self):
+    def test_entries_for_single_member_glossary(self):
         entries = [
             e for e in self.data.abbrs
-            if "programming-language-codes" in e.groups
+            if "programming-language-codes" in e.glossaries
         ]
         assert [e.abbr for e in entries] == ["c"]
 
-    def test_entries_for_unknown_group(self):
-        entries = [e for e in self.data.abbrs if "no-such-group" in e.groups]
+    def test_entries_for_unknown_glossary(self):
+        entries = [e for e in self.data.abbrs if "no-such-glossary" in e.glossaries]
         assert entries == []
 
-    def test_entry_without_groups_is_unindexed(self):
+    def test_entry_without_glossaries_is_unindexed(self):
         entry = self.data.abbrs[2]
         assert entry.abbr == "vs."
-        assert entry.groups == ()
+        assert entry.glossaries == ()
 
 
 class Test4:  # remark  ========================================================

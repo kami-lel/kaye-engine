@@ -1,14 +1,14 @@
 """
 tests/conftest.py
 
-register every abbr group name used across the test suite; module-level
+register every abbr glossary name used across the test suite; module-level
 so it runs at collection time, before any test module (some of which
 build ``AbbrData`` at class-body scope) is imported
 """
 
-from kaye_engine.abbr_collection import register_abbr_group
+from kaye_engine.abbr_collection import register_abbr_glossary
 
-for _group_name in (
+for _glossary_name in (
     "coding-terms",
     "programming-language-codes",
     "natural-language-codes",
@@ -16,7 +16,7 @@ for _group_name in (
     "unity-engine-abbr",
     "plan-step-by-step-abbr",
     "code-documentation-field-abbr",
-    "some-group",
+    "some-glossary",
     "g",
 ):
-    register_abbr_group(_group_name)
+    register_abbr_glossary(_glossary_name)
