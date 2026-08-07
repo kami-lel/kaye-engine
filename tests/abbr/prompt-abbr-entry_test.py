@@ -131,29 +131,29 @@ class TestErrRemark:  # ========================================================
         assert opt == "remark must be String: 123"
 
 
-class TestErrGroups:  # ========================================================
+class TestErrGlossaries:  # ========================================================
 
     def test_not_array(_):
         abbr_obj = ABBR_OBJ.copy()
-        abbr_obj["groups"] = 123
+        abbr_obj["glossaries"] = 123
 
         with pytest.raises(ValueError) as exec_info:
             AbbrEntry(MEAN, ABBR, abbr_obj)
 
         opt = exec_info.value.args[0]
         print(opt)
-        assert opt == "groups value must be Array of String: 123"
+        assert opt == "glossaries value must be Array of String: 123"
 
     def test_non_string_item(_):
         abbr_obj = ABBR_OBJ.copy()
-        abbr_obj["groups"] = ["coding-terms", 5]
+        abbr_obj["glossaries"] = ["coding-terms", 5]
 
         with pytest.raises(ValueError) as exec_info:
             AbbrEntry(MEAN, ABBR, abbr_obj)
 
         opt = exec_info.value.args[0]
         print(opt)
-        assert opt == "groups value must be Array of String: ['coding-terms', 5]"
+        assert opt == "glossaries value must be Array of String: ['coding-terms', 5]"
 
 
 # init  ########################################################################
@@ -177,8 +177,8 @@ class TestInit:
         assert opt.wrap == AbbrWrap.WORD
         assert isinstance(opt.tags, AbbrTags)
         assert opt.tags == AbbrTags.NONE
-        assert isinstance(opt.groups, tuple)
-        assert opt.groups == ()
+        assert isinstance(opt.glossaries, tuple)
+        assert opt.glossaries == ()
         assert opt.remark is None
 
     def test_remark(_):
@@ -192,16 +192,16 @@ class TestInit:
 
         assert opt.remark == "casual usage only"
 
-    def test_groups(_):
+    def test_glossaries(_):
         abbr_obj = {
             "priority": 0,
             "tags": [],
             "wrap": "word",
-            "groups": ["coding-terms", "usable-abbreviations"],
+            "glossaries": ["coding-terms", "usable-abbreviations"],
         }
         opt = AbbrEntry(AbbrMeaning("sometimes"), "s/X", abbr_obj)
 
-        assert opt.groups == ("coding-terms", "usable-abbreviations")
+        assert opt.glossaries == ("coding-terms", "usable-abbreviations")
 
 
 # .as_md_list_entry()  #########################################################

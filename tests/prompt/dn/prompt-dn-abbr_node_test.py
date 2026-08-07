@@ -1,7 +1,7 @@
 """
 prompt-dn-abbr_node_test.py
 
-Unit Tests (using pytest) for: AbbrNode, AbbrGroupNode,
+Unit Tests (using pytest) for: AbbrNode, GlossaryNode,
 covering the case where the abbr data singleton is empty
 """
 
@@ -12,9 +12,9 @@ import pytest
 
 from kaye_engine import LOGGER_NAME
 from kaye_engine.abbr_collection import AbbrData, AbbrMeaning
-from kaye_engine.prompt.dynamic_nodes import AbbrNode, AbbrGroupNode
+from kaye_engine.prompt.dynamic_nodes import AbbrNode, GlossaryNode
 
-_GROUP_NAMES = (
+_GLOSSARY_NAMES = (
     "usable-abbreviations",
     "coding-terms",
     "programming-language-codes",
@@ -31,15 +31,15 @@ def empty_abbr_data():
     return AbbrData()
 
 
-# AbbrGroupNode  #################################################################
-class TestAbbrGroupNodesEmpty:
+# GlossaryNode  #################################################################
+class TestGlossaryNodesEmpty:
 
-    @pytest.mark.parametrize("group_name", _GROUP_NAMES)
-    def test_content_lines_empty(_, group_name, empty_abbr_data, caplog):
-        testee = AbbrGroupNode(None, group_name=group_name)
+    @pytest.mark.parametrize("glossary_name", _GLOSSARY_NAMES)
+    def test_content_lines_empty(_, glossary_name, empty_abbr_data, caplog):
+        testee = GlossaryNode(None, glossary_name=glossary_name)
 
         with patch(
-            "kaye_engine.prompt.dynamic_nodes.abbr_group_node.get_abbr_data",
+            "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
             return_value=empty_abbr_data,
         ):
             with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
@@ -51,10 +51,10 @@ class TestAbbrGroupNodesEmpty:
             rec.levelno == logging.ERROR for rec in caplog.records
         )
 
-    def test_heading_and_group_name(_):
-        testee = AbbrGroupNode(None, group_name="coding-terms")
+    def test_heading_and_glossary_name(_):
+        testee = GlossaryNode(None, glossary_name="coding-terms")
 
-        assert testee.group_name == "coding-terms"
+        assert testee.glossary_name == "coding-terms"
         assert testee.name == "(coding-terms)"
 
 
@@ -66,28 +66,28 @@ def populated_abbr_data():
         data.add_entry(
             AbbrMeaning("for example"),
             "e.g.",
-            {"priority": 5, "tags": [], "wrap": "word", "groups": ["g"]},
+            {"priority": 5, "tags": [], "wrap": "word", "glossaries": ["g"]},
         )
         data.add_entry(
             AbbrMeaning("id est"),
             "i.e.",
-            {"priority": 1, "tags": [], "wrap": "word", "groups": ["g"]},
+            {"priority": 1, "tags": [], "wrap": "word", "glossaries": ["g"]},
         )
         data.add_entry(
             AbbrMeaning("et cetera"),
             "etc.",
-            {"priority": 3, "tags": [], "wrap": "word", "groups": ["g"]},
+            {"priority": 3, "tags": [], "wrap": "word", "glossaries": ["g"]},
         )
     return data
 
 
-class TestAbbrGroupNodeSorting:  # =============================================
+class TestGlossaryNodeSorting:  # =============================================
 
     def test_content_lines_unsorted(_, populated_abbr_data):
-        testee = AbbrGroupNode(None, group_name="g")
+        testee = GlossaryNode(None, glossary_name="g")
 
         with patch(
-            "kaye_engine.prompt.dynamic_nodes.abbr_group_node.get_abbr_data",
+            "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
             return_value=populated_abbr_data,
         ):
             opt = testee.content_lines()
@@ -100,10 +100,10 @@ class TestAbbrGroupNodeSorting:  # =============================================
         ]
 
     def test_content_lines_sorted_bulleted(_, populated_abbr_data):
-        testee = AbbrGroupNode(None, group_name="g")
+        testee = GlossaryNode(None, glossary_name="g")
 
         with patch(
-            "kaye_engine.prompt.dynamic_nodes.abbr_group_node.get_abbr_data",
+            "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
             return_value=populated_abbr_data,
         ):
             opt = testee.content_lines(is_sorted=True)
@@ -116,10 +116,10 @@ class TestAbbrGroupNodeSorting:  # =============================================
         ]
 
     def test_content_lines_sorted_numbered(_, populated_abbr_data):
-        testee = AbbrGroupNode(None, group_name="g")
+        testee = GlossaryNode(None, glossary_name="g")
 
         with patch(
-            "kaye_engine.prompt.dynamic_nodes.abbr_group_node.get_abbr_data",
+            "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
             return_value=populated_abbr_data,
         ):
             opt = testee.content_lines(is_sorted=True, uses_numbered_list=True)
