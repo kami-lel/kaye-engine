@@ -1,19 +1,19 @@
 """
-abbr_tag_nodes.py
+shorthand_tag_nodes.py
 
-define abbreviation-tag-filtered node types
+define tag-filtered content for the decode-only shorthand node
 """
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.abbr_collection import get_abbr_data
 
-__all__ = ("gen_abbrs_content_lines",)
+__all__ = ("gen_shorthand_content_lines",)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
 
-def gen_abbrs_content_lines(abbr_tag):
+def gen_shorthand_content_lines(abbr_tag):
     """
     :return: markdown list items for every ``get_abbr_data().abbrs``
             entry whose tags contain ``abbr_tag``; empty when the abbr

@@ -4,7 +4,7 @@ generate_parser.py
 define ``register_generate_parser``
 """
 
-from argparse import ArgumentTypeError, RawDescriptionHelpFormatter
+from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.kamilog import (
@@ -17,6 +17,10 @@ from kaye_engine.cli.prompt.blueprint_io_parser import (
     blueprint_io_parser,
     load_blueprint_from_args,
 )
+from kaye_engine.cli.sparseness_parser import (
+    SPARSENESS_DESCRIPTION,
+    sparseness_parser,
+)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
@@ -25,23 +29,6 @@ logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 _HELP = "generate concrete prompt from blueprint"
-
-
-def _sparseness_type(value):
-    """
-    argparse ``type`` for ``--sparseness``: an int, or the literal
-    string ``"none"`` (case-insensitive) mapped to ``None``
-    """
-    if value.lower() == "none":
-        return None
-
-    try:
-        return int(value)
-    except ValueError as err:
-        raise ArgumentTypeError(
-            "sparseness must be an integer or 'none': {!r}".format(value)
-        ) from err
-
 
 _DESCRIPTION = _HELP + """
 
@@ -56,15 +43,7 @@ reading blueprint from stdin:
     kaye-engine prompt generate < my-blueprint.yaml
     cat my-blueprint.yaml | kaye-engine prompt generate
 
-SPARSENESS:
-
-- -1 collapses the whole output into a single line
-- 0 removes all blank lines
-- 1 collapses every run of blank lines to a single blank line (default)
-- 2 caps runs at two blank lines, and so on
-- 〃
-- 99 disables trimming entirely
-"""
+""" + SPARSENESS_DESCRIPTION
 
 
 def _generate_main(args):  ####################################################
@@ -92,16 +71,7 @@ def register_generate_parser(cli_subparser):  ##################################
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["g"],
-        parents=[blueprint_io_parser],
-    )
-
-    generate_parser.add_argument(
-        "-s",
-        "--sparseness",
-        metavar="SPARSENESS",
-        type=_sparseness_type,
-        default=1,
-        help="blank-line policy for the rendered prompt, v.s.",
+        parents=[blueprint_io_parser, sparseness_parser],
     )
 
     add_verbose_arguments(generate_parser)

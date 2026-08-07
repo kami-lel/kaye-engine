@@ -1,7 +1,7 @@
 """
-prompt-dn-abbr_node_test.py
+prompt-dn-shorthand_node_test.py
 
-Unit Tests (using pytest) for: AbbrNode, GlossaryNode,
+Unit Tests (using pytest) for: ShorthandNode, GlossaryNode,
 covering the case where the abbr data singleton is empty
 """
 
@@ -12,7 +12,7 @@ import pytest
 
 from kaye_engine import LOGGER_NAME
 from kaye_engine.abbr_collection import AbbrData, AbbrMeaning
-from kaye_engine.prompt.dynamic_nodes import AbbrNode, GlossaryNode
+from kaye_engine.prompt.dynamic_nodes import ShorthandNode, GlossaryNode
 
 _GLOSSARY_NAMES = (
     "usable-abbreviations",
@@ -132,14 +132,14 @@ class TestGlossaryNodeSorting:  # =============================================
         ]
 
 
-# AbbrNode  #####################################################################
-class TestAbbrNodeEmpty:
+# ShorthandNode  ################################################################
+class TestShorthandNodeEmpty:
 
     def test_content_lines_no_query(_, empty_abbr_data, caplog):
-        testee = AbbrNode(None)
+        testee = ShorthandNode(None)
 
         with patch(
-            "kaye_engine.prompt.dynamic_nodes.abbr_tag_nodes.get_abbr_data",
+            "kaye_engine.prompt.dynamic_nodes.shorthand_tag_nodes.get_abbr_data",
             return_value=empty_abbr_data,
         ):
             with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
@@ -152,10 +152,10 @@ class TestAbbrNodeEmpty:
         )
 
     def test_content_lines_with_query(_, empty_abbr_data, caplog):
-        testee = AbbrNode(None)
+        testee = ShorthandNode(None)
 
         with patch(
-            "kaye_engine.prompt.dynamic_nodes.abbr_nodes.get_abbr_data",
+            "kaye_engine.prompt.dynamic_nodes.shorthand_node.get_abbr_data",
             return_value=empty_abbr_data,
         ):
             with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
