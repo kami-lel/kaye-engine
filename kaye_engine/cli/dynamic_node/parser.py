@@ -13,6 +13,10 @@ from kaye_engine.cli.dynamic_node.node_type_choices import (
     ENGINE_DEFINED_NODES,
     list_all_node_type_names,
 )
+from kaye_engine.cli.sparseness_parser import (
+    SPARSENESS_DESCRIPTION,
+    sparseness_parser,
+)
 from kaye_engine.kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
@@ -46,7 +50,8 @@ when NODE=abbr, reads query content from stdin, optional:
 run to list available NODE values:
 
     kaye-engine dynamic-node ls
-"""
+
+""" + SPARSENESS_DESCRIPTION
 
 
 def _resolve_node_type(name):
@@ -145,6 +150,7 @@ def _dynamic_node_main(args):
         prompt = blueprint.generate_prompt(
             query=query,
             glossary_priority_threshold=args.priority_threshold,
+            sparseness=args.sparseness,
         )
     except (TypeError, KeyError, NotImplementedError) as err:
         logger.critical(str(err))
@@ -164,6 +170,7 @@ def register_dynamic_node_parser(cli_subparser):
         description=_build_description(),
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["dn"],
+        parents=[sparseness_parser],
     )
 
     # add arguments  -------------------------------------------------------
