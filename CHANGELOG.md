@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-FIXME allow priority threshold
+FIXME change priority threshold logic
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
