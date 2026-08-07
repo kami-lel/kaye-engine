@@ -114,6 +114,10 @@ def _dynamic_node_main(args):
         generate_kwargs = {}
         if args.NODE == "abbr":
             generate_kwargs["query"] = query
+        if glossary_name is not None and args.priority_threshold is not None:
+            generate_kwargs["glossary_priority_threshold"] = (
+                args.priority_threshold
+            )
 
         prompt = blueprint.generate_prompt(**generate_kwargs)
 
@@ -141,6 +145,14 @@ def register_dynamic_node_parser(cli_subparser):
     dynamic_node_parser.add_argument(
         "NODE",
         help="dynamic node type to render; NODE=ls to list available values",
+    )
+    dynamic_node_parser.add_argument(
+        "-t",
+        "--priority-threshold",
+        metavar="THRESHOLD",
+        type=int,
+        default=None,
+        help="exclude entries whose priority is greater than THRESHOLD",
     )
     add_verbose_arguments(dynamic_node_parser)
 
