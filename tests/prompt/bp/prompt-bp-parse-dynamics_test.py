@@ -7,7 +7,7 @@ Unit Tests (using pytest) for: PromptBlueprint.parse()
 from kaye_engine.prompt.dynamic_nodes import (
     TodayNode,
     AbbrNode,
-    AbbrGroupNode,
+    GlossaryNode,
 )
 
 
@@ -36,7 +36,7 @@ class TestDynamics:
         print(bp.generate_blueprint(content_preview_lines=0))
 
         node = bp.corpus["(programming-language-codes)"]
-        assert isinstance(node, AbbrGroupNode)
+        assert isinstance(node, GlossaryNode)
         assert node in bp
         assert bp.is_checkmarked(node)
 
@@ -45,7 +45,7 @@ class TestDynamics:
         print(bp.generate_blueprint(content_preview_lines=0))
 
         node = bp.corpus["(usable-abbreviations)"]
-        assert isinstance(node, AbbrGroupNode)
+        assert isinstance(node, GlossaryNode)
         assert node in bp
         assert bp.is_checkmarked(node)
 
@@ -63,7 +63,7 @@ class TestDynamics:
 
         node = dynamic_bp_testee1.corpus["(programming-language-codes)"]
 
-        assert isinstance(node, AbbrGroupNode)
+        assert isinstance(node, GlossaryNode)
 
     def test_mux_today(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
@@ -77,4 +77,4 @@ class TestDynamics:
 
         node = dynamic_bp_testee1.corpus["(usable-abbreviations)"]
 
-        assert isinstance(node, AbbrGroupNode)
+        assert isinstance(node, GlossaryNode)

@@ -1,25 +1,25 @@
 """
-prompt-abbr-group_registry_test.py
+prompt-abbr-glossary_registry_test.py
 
 Unit Tests (using pytest) for:
 
-- register_abbr_group()
-- get_abbr_group()
-- AbbrGroupRegistry
-- AbbrData.add_entry() rejecting unregistered groups
-- AbbrGroupNode rendering defaults driven by the registry
+- register_abbr_glossary()
+- get_abbr_glossary()
+- AbbrGlossaryRegistry
+- AbbrData.add_entry() rejecting unregistered glossaries
+- GlossaryNode rendering defaults driven by the registry
 """
 
 import pytest
 
 from kaye_engine.abbr_collection import AbbrData, AbbrMeaning
-from kaye_engine.abbr_collection.abbr_group_registry import (
-    AbbrGroupRegistry,
-    register_abbr_group,
-    get_abbr_group,
-    abbr_group_registry,
+from kaye_engine.abbr_collection.abbr_glossary_registry import (
+    AbbrGlossaryRegistry,
+    abbr_glossary_registry,
+    get_abbr_glossary,
+    register_abbr_glossary,
 )
-from kaye_engine.prompt.dynamic_nodes import AbbrGroupNode
+from kaye_engine.prompt.dynamic_nodes import GlossaryNode
 
 
 @pytest.fixture
@@ -27,67 +27,60 @@ def registered_names():
     names = []
     yield names
     for name in names:
-        abbr_group_registry.pop(name, None)
+        abbr_glossary_registry.pop(name, None)
 
 
-class TestRegisterAbbrGroup:  ###################################################
+class TestRegisterAbbrGlossary:  ###################################################
 
     def test_dft(_, registered_names):
-        reg = register_abbr_group("test-group-dft")
+        reg = register_abbr_glossary("test-glossary-dft")
         registered_names.append(reg.name)
 
-        assert isinstance(reg, AbbrGroupRegistry)
-        assert reg.name == "test-group-dft"
+        assert isinstance(reg, AbbrGlossaryRegistry)
+        assert reg.name == "test-glossary-dft"
         assert reg.uses_numbered_list is False
         assert reg.is_sorted is False
-        assert reg.priority_threshold is None
-        assert abbr_group_registry["test-group-dft"] is reg
+        assert abbr_glossary_registry["test-glossary-dft"] is reg
 
     def test_flags(_, registered_names):
-        reg = register_abbr_group(
-            "test-group-flags",
+        reg = register_abbr_glossary(
+            "test-glossary-flags",
             uses_numbered_list=True,
             is_sorted=True,
-            priority_threshold=5,
         )
         registered_names.append(reg.name)
 
         assert reg.uses_numbered_list is True
         assert reg.is_sorted is True
-        assert reg.priority_threshold == 5
-
-    def test_priority_threshold_not_int_raises(_):
-        with pytest.raises(TypeError):
-            register_abbr_group("test-group-bad-threshold", priority_threshold="5")
 
     def test_duplicate_name(_, registered_names):
-        reg = register_abbr_group("test-group-dup")
+        reg = register_abbr_glossary("test-glossary-dup")
         registered_names.append(reg.name)
 
         with pytest.raises(ValueError) as exec_info:
-            register_abbr_group("test-group-dup")
+            register_abbr_glossary("test-glossary-dup")
 
         opt = exec_info.value.args[0]
         print(opt)
-        assert opt == "duplicate abbr group registry name: test-group-dup"
+        assert opt == "duplicate abbr glossary registry name: test-glossary-dup"
 
 
-class TestGetAbbrGroup:  ########################################################
+class TestGetAbbrGlossary:  ########################################################
 
     def test_known_name(_, registered_names):
-        reg = register_abbr_group("test-group-get")
+        reg = register_abbr_glossary("test-glossary-get")
         registered_names.append(reg.name)
 
-        assert get_abbr_group("test-group-get") is reg
+        assert get_abbr_glossary("test-glossary-get") is reg
 
     def test_unknown_name(_):
         with pytest.raises(KeyError):
-            get_abbr_group("test-group-no-such-name")
+            get_abbr_glossary("test-glossary-no-such-name")
 
 
-class TestAddEntryUnregisteredGroup:  ###########################################
+class TestAddEntryUnregisteredGlossary:  ###########################################
 
-    def test_raises_on_unregistered_group(_):
+    def test_raises_on_unregistered_glossary(_):
         data = AbbrData()
 
         with pytest.raises(ValueError) as exec_info:
@@ -99,19 +92,21 @@ class TestAddEntryUnregisteredGroup:  ##########################################
                         "priority": 0,
                         "tags": [],
                         "wrap": "word",
-                        "groups": ["test-group-unregistered"],
+                        "glossaries": ["test-glossary-unregistered"],
                     },
                 )
 
         opt = exec_info.value.args[0]
         print(opt)
-        assert opt == "unregistered abbr group: 'test-group-unregistered'"
+        assert opt == "unregistered abbr glossary: 'test-glossary-unregistered'"
 
 
 class TestRenderingDefaults:  ###################################################
 
     def test_uses_numbered_list_default(_, registered_names):
-        reg = register_abbr_group("test-group-numbered", uses_numbered_list=True)
+        reg = register_abbr_glossary(
+            "test-glossary-numbered", uses_numbered_list=True
+        )
         registered_names.append(reg.name)
 
         data = AbbrData()
@@ -123,14 +118,14 @@ class TestRenderingDefaults:  ##################################################
                     "priority": 5,
                     "tags": [],
                     "wrap": "word",
-                    "groups": ["test-group-numbered"],
+                    "glossaries": ["test-glossary-numbered"],
                 },
             )
 
-        testee = AbbrGroupNode(None, group_name="test-group-numbered")
+        testee = GlossaryNode(None, glossary_name="test-glossary-numbered")
         with pytest.MonkeyPatch.context() as mp:
             mp.setattr(
-                "kaye_engine.prompt.dynamic_nodes.abbr_group_node.get_abbr_data",
+                "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
                 lambda: data,
             )
             opt = testee.content_lines()
@@ -139,7 +134,7 @@ class TestRenderingDefaults:  ##################################################
         assert opt == ["1. e.g.:for example"]
 
     def test_is_sorted_default(_, registered_names):
-        reg = register_abbr_group("test-group-sorted", is_sorted=True)
+        reg = register_abbr_glossary("test-glossary-sorted", is_sorted=True)
         registered_names.append(reg.name)
 
         data = AbbrData()
@@ -151,7 +146,7 @@ class TestRenderingDefaults:  ##################################################
                     "priority": 5,
                     "tags": [],
                     "wrap": "word",
-                    "groups": ["test-group-sorted"],
+                    "glossaries": ["test-glossary-sorted"],
                 },
             )
             data.add_entry(
@@ -161,14 +156,14 @@ class TestRenderingDefaults:  ##################################################
                     "priority": 1,
                     "tags": [],
                     "wrap": "word",
-                    "groups": ["test-group-sorted"],
+                    "glossaries": ["test-glossary-sorted"],
                 },
             )
 
-        testee = AbbrGroupNode(None, group_name="test-group-sorted")
+        testee = GlossaryNode(None, glossary_name="test-glossary-sorted")
         with pytest.MonkeyPatch.context() as mp:
             mp.setattr(
-                "kaye_engine.prompt.dynamic_nodes.abbr_group_node.get_abbr_data",
+                "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
                 lambda: data,
             )
             opt = testee.content_lines()
@@ -177,7 +172,9 @@ class TestRenderingDefaults:  ##################################################
         assert opt == ["- i.e.:id est", "- e.g.:for example"]
 
     def test_explicit_override_wins(_, registered_names):
-        reg = register_abbr_group("test-group-override", uses_numbered_list=True)
+        reg = register_abbr_glossary(
+            "test-glossary-override", uses_numbered_list=True
+        )
         registered_names.append(reg.name)
 
         data = AbbrData()
@@ -189,14 +186,14 @@ class TestRenderingDefaults:  ##################################################
                     "priority": 5,
                     "tags": [],
                     "wrap": "word",
-                    "groups": ["test-group-override"],
+                    "glossaries": ["test-glossary-override"],
                 },
             )
 
-        testee = AbbrGroupNode(None, group_name="test-group-override")
+        testee = GlossaryNode(None, glossary_name="test-glossary-override")
         with pytest.MonkeyPatch.context() as mp:
             mp.setattr(
-                "kaye_engine.prompt.dynamic_nodes.abbr_group_node.get_abbr_data",
+                "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
                 lambda: data,
             )
             opt = testee.content_lines(uses_numbered_list=False)
@@ -204,8 +201,10 @@ class TestRenderingDefaults:  ##################################################
         print(opt)
         assert opt == ["- e.g.:for example"]
 
-    def test_priority_threshold_default(_, registered_names):
-        reg = register_abbr_group("test-group-threshold", priority_threshold=5)
+    def test_glossary_priority_threshold_omitted_renders_all(
+        _, registered_names
+    ):
+        reg = register_abbr_glossary("test-glossary-threshold")
         registered_names.append(reg.name)
 
         data = AbbrData()
@@ -217,7 +216,7 @@ class TestRenderingDefaults:  ##################################################
                     "priority": 5,
                     "tags": [],
                     "wrap": "word",
-                    "groups": ["test-group-threshold"],
+                    "glossaries": ["test-glossary-threshold"],
                 },
             )
             data.add_entry(
@@ -227,25 +226,25 @@ class TestRenderingDefaults:  ##################################################
                     "priority": 6,
                     "tags": [],
                     "wrap": "word",
-                    "groups": ["test-group-threshold"],
+                    "glossaries": ["test-glossary-threshold"],
                 },
             )
 
         assert len(data.abbrs) == 2
 
-        testee = AbbrGroupNode(None, group_name="test-group-threshold")
+        testee = GlossaryNode(None, glossary_name="test-glossary-threshold")
         with pytest.MonkeyPatch.context() as mp:
             mp.setattr(
-                "kaye_engine.prompt.dynamic_nodes.abbr_group_node.get_abbr_data",
+                "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
                 lambda: data,
             )
             opt = testee.content_lines()
 
         print(opt)
-        assert opt == ["- e.g.:for example"]
+        assert opt == ["- e.g.:for example", "- i.e.:id est"]
 
-    def test_priority_threshold_explicit_override_wins(_, registered_names):
-        reg = register_abbr_group("test-group-threshold-override")
+    def test_glossary_priority_threshold_filters(_, registered_names):
+        reg = register_abbr_glossary("test-glossary-threshold-filtered")
         registered_names.append(reg.name)
 
         data = AbbrData()
@@ -257,7 +256,7 @@ class TestRenderingDefaults:  ##################################################
                     "priority": 5,
                     "tags": [],
                     "wrap": "word",
-                    "groups": ["test-group-threshold-override"],
+                    "glossaries": ["test-glossary-threshold-filtered"],
                 },
             )
             data.add_entry(
@@ -267,17 +266,19 @@ class TestRenderingDefaults:  ##################################################
                     "priority": 6,
                     "tags": [],
                     "wrap": "word",
-                    "groups": ["test-group-threshold-override"],
+                    "glossaries": ["test-glossary-threshold-filtered"],
                 },
             )
 
-        testee = AbbrGroupNode(None, group_name="test-group-threshold-override")
+        testee = GlossaryNode(
+            None, glossary_name="test-glossary-threshold-filtered"
+        )
         with pytest.MonkeyPatch.context() as mp:
             mp.setattr(
-                "kaye_engine.prompt.dynamic_nodes.abbr_group_node.get_abbr_data",
+                "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
                 lambda: data,
             )
-            opt = testee.content_lines(priority_threshold=5)
+            opt = testee.content_lines(glossary_priority_threshold=5)
 
         print(opt)
         assert opt == ["- e.g.:for example"]

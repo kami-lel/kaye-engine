@@ -4,7 +4,7 @@ abbr_entry.py
 define ``AbbrEntry``
 """
 
-from kaye_engine.abbr_collection.abbr_group import ABBRS_JSON_GROUP_KEY
+from kaye_engine.abbr_collection.abbr_glossary import ABBRS_JSON_GLOSSARY_KEY
 from kaye_engine.abbr_collection.abbr_tags import AbbrTags
 from kaye_engine.abbr_collection.abbr_wrap import AbbrWrap
 
@@ -32,7 +32,7 @@ class AbbrEntry:
 
     __slots__ = (
         "abbr",
-        "groups",
+        "glossaries",
         "mean",
         "priority",
         "remark",
@@ -78,16 +78,18 @@ class AbbrEntry:
         # set .tags  -----------------------------------------------------------
         self.tags = AbbrTags.parse(abbr_obj[ABBRS_JSON_TAGS_KEY])
 
-        # set .groups  ---------------------------------------------------------
-        # optional; free-form, consumer-defined group names, no fixed enum
-        groups = abbr_obj.get(ABBRS_JSON_GROUP_KEY, [])
-        if not isinstance(groups, list) or not all(
-            isinstance(group, str) for group in groups
+        # set .glossaries  -------------------------------------------------------
+        # optional; free-form, consumer-defined glossary names, no fixed enum
+        glossaries = abbr_obj.get(ABBRS_JSON_GLOSSARY_KEY, [])
+        if not isinstance(glossaries, list) or not all(
+            isinstance(glossary, str) for glossary in glossaries
         ):
             raise ValueError(
-                "groups value must be Array of String: {}".format(repr(groups))
+                "glossaries value must be Array of String: {}".format(
+                    repr(glossaries)
+                )
             )
-        self.groups = tuple(groups)
+        self.glossaries = tuple(glossaries)
 
         # set .wrap  -----------------------------------------------------------
         # may raise ValueError
