@@ -73,8 +73,9 @@ kaye-engine prompt show BLUEPRINT           # preview a blueprint's structure
 kaye-engine prompt show < FILE              # preview from stdin (BLUEPRINT omitted)
 kaye-engine prompt generate BLUEPRINT       # render a concrete prompt
 kaye-engine prompt generate < FILE          # render from stdin (BLUEPRINT omitted)
-kaye-engine dynamic-node NODE               # render a dynamic node; NODE is "today"/"shorthand" or any known abbr glossary name
+kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged into one blueprint/output; NODE is "today"/"shorthand" or any known abbr glossary name
 kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
+kaye-engine dynamic-node NODE -s SPARSENESS # blank-line policy, v.i.
 kaye-engine dynamic-node ls                 # list every available NODE value
 kaye-engine claude skill SKILLS_FOLDER      # export blueprints as Skill folders
 kaye-engine claude skill -z ZIPS_FOLDER     # create .zip Skill packages
@@ -94,12 +95,13 @@ marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skill`
 → `claude s`; `claude user-system-prompt` → `claude usp`; `claude
 vs-code-extension` → `claude v`.
 
-`prompt generate` takes `-s`/`--sparseness SPARSENESS` to control blank-line
-collapsing in the rendered output: `-1` joins everything into one line, `0`
-strips all blank lines, `1` (default) collapses every run to a single blank
-line, up through `99` which disables trimming entirely. Exporters set their
-own default independent of the CLI default — `SKILL.md` and
-`vs-code-extension` render with `sparseness=0`, `user-system-prompt` with
+`prompt generate` and `dynamic-node` both take `-s`/`--sparseness SPARSENESS`
+(shared parser in `kaye_engine/cli/sparseness_parser.py`) to control
+blank-line collapsing in the rendered output: `-1` joins everything into one
+line, `0` strips all blank lines, `1` (default) collapses every run to a
+single blank line, up through `99` which disables trimming entirely.
+Exporters set their own default independent of the CLI default — `SKILL.md`
+and `vs-code-extension` render with `sparseness=0`, `user-system-prompt` with
 `sparseness=1` unless a caller overrides it.
 
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
