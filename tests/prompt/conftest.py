@@ -13,7 +13,7 @@ from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 from kaye_engine.prompt import (
     TodayNode,
-    AbbrNode,
+    ShorthandNode,
     GlossaryNode,
 )
 
@@ -143,7 +143,7 @@ def corpus_testee3():
 def corpus_dynamic_testee(corpus_testee3):
     tree = deepcopy(corpus_testee3)
 
-    for node_type in (TodayNode, AbbrNode):
+    for node_type in (TodayNode, ShorthandNode):
         node_type(tree)
 
     for glossary_name in (
