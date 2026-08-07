@@ -239,3 +239,69 @@ class TestMultipleNodes:  ######################################################
 
         with pytest.raises(SystemExit):
             args.func(args)
+
+
+class TestSparsenessFlag:  #####################################################
+
+    @pytest.fixture(autouse=True)
+    def _two_glossaries(self, monkeypatch):
+        root = PromptCorpusNode("○", None, [])
+        GlossaryNode(
+            root,
+            glossary_name="some-glossary",
+            preface=["This is the some-glossary preface line."],
+        )
+        GlossaryNode(
+            root,
+            glossary_name="other-glossary",
+            preface=["This is the other-glossary preface line."],
+        )
+
+        monkeypatch.setattr(
+            dynamic_node_parser, "get_default_corpus_tree", lambda: root
+        )
+
+    def test_omitted_keeps_single_blank_lines(self, capsys):
+        parser = _build_dn_parser()
+        args = parser.parse_args(
+            ["dynamic-node", "some-glossary", "other-glossary"]
+        )
+        args.func(args)
+
+        out = capsys.readouterr().out
+        assert "\n\n\n" not in out
+        assert "\n\n" in out
+
+    def test_zero_removes_blank_lines(self, capsys):
+        parser = _build_dn_parser()
+        args = parser.parse_args(
+            ["dynamic-node", "some-glossary", "other-glossary", "-s", "0"]
+        )
+        args.func(args)
+
+        out = capsys.readouterr().out
+        assert "\n\n" not in out
+        assert "This is the some-glossary preface line." in out
+        assert "This is the other-glossary preface line." in out
+
+    def test_negative_one_collapses_to_single_line(self, capsys):
+        parser = _build_dn_parser()
+        args = parser.parse_args(
+            ["dynamic-node", "some-glossary", "other-glossary", "-s", "-1"]
+        )
+        args.func(args)
+
+        out = capsys.readouterr().out
+        assert "\n" not in out.rstrip("\n")
+
+    def test_accepts_none_literal(self):
+        # ``_sparseness_type`` maps the literal "none" to ``None`` -- the
+        # underlying ``_apply_sparseness()`` (render.py) does not itself
+        # support a ``None`` policy, matching prompt generate's existing
+        # pre-existing "none" flag behavior; this only covers CLI parsing
+        parser = _build_dn_parser()
+        args = parser.parse_args(
+            ["dynamic-node", "some-glossary", "-s", "none"]
+        )
+
+        assert args.sparseness is None
