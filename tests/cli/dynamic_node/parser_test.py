@@ -10,6 +10,11 @@ from argparse import ArgumentParser
 
 import pytest
 
+from kaye_engine.abbr_collection import AbbrData, AbbrMeaning
+from kaye_engine.abbr_collection.abbr_glossary_registry import (
+    abbr_glossary_registry,
+    register_abbr_glossary,
+)
 from kaye_engine.cli.dynamic_node import parser as dynamic_node_parser
 from kaye_engine.prompt.dynamic_nodes import GlossaryNode
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
@@ -89,3 +94,66 @@ class TestDynamicNodeMain:
 
         out = capsys.readouterr().out
         assert "This is the authored preface line." not in out
+
+
+class TestPriorityThresholdFlag:  ##############################################
+
+    @pytest.fixture(autouse=True)
+    def _no_default_corpus_tree(self, monkeypatch):
+        def _raise_no_default():
+            raise ValueError("no default corpus tree set")
+
+        monkeypatch.setattr(
+            dynamic_node_parser, "get_default_corpus_tree", _raise_no_default
+        )
+
+    @pytest.fixture
+    def _abbr_data(self, monkeypatch):
+        data = AbbrData()
+        with data:
+            data.add_entry(
+                AbbrMeaning("for example"),
+                "e.g.",
+                {
+                    "priority": 1,
+                    "tags": [],
+                    "wrap": "word",
+                    "glossaries": ["some-glossary"],
+                },
+            )
+            data.add_entry(
+                AbbrMeaning("id est"),
+                "i.e.",
+                {
+                    "priority": 6,
+                    "tags": [],
+                    "wrap": "word",
+                    "glossaries": ["some-glossary"],
+                },
+            )
+
+        monkeypatch.setattr(
+            "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
+            lambda: data,
+        )
+        return data
+
+    def test_filters_by_threshold(self, _abbr_data, capsys):
+        parser = _build_dn_parser()
+        args = parser.parse_args(
+            ["dynamic-node", "some-glossary", "-t", "5"]
+        )
+        args.func(args)
+
+        out = capsys.readouterr().out
+        assert "e.g.:for example" in out
+        assert "i.e.:id est" not in out
+
+    def test_omitted_renders_all(self, _abbr_data, capsys):
+        parser = _build_dn_parser()
+        args = parser.parse_args(["dynamic-node", "some-glossary"])
+        args.func(args)
+
+        out = capsys.readouterr().out
+        assert "e.g.:for example" in out
+        assert "i.e.:id est" in out
