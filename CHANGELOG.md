@@ -3,6 +3,8 @@
 [^format]
 
 <!--
+FIXME allow priority threshold
+BUG dn node not showing preface
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
