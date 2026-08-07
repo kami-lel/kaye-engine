@@ -48,7 +48,7 @@ class TestDynamic:
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── (Abbreviations)" in opt
+        assert "── (Decode-Only Shorthand)" in opt
 
 
 class TestGlossaryHeading:
