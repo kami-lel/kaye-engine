@@ -19,6 +19,7 @@ logger = kamilog.getLogger(LOGGER_NAME)
 # constants  ###################################################################
 
 _ABBR_TEMPLATE = "Abbr "
+_GLOSSARY_TEMPLATE = "Glossary "
 _START_WITH_TEMPLATE = _ABBR_TEMPLATE + "Starts with "
 _START_WITH_DIGIT = _START_WITH_TEMPLATE + "Digits 0~9"
 _START_WITH_OTHER = _START_WITH_TEMPLATE + "Non-Alphanumeric"
@@ -93,7 +94,7 @@ def _get_abbrs_by_tags(abbrs):
 def _get_abbrs_by_glossaries(abbr_data):
     return [
         _make_group(
-            _ABBR_TEMPLATE + glossary_name,
+            _GLOSSARY_TEMPLATE + glossary_name,
             _sort_entries(
                 e for e in abbr_data.abbrs if glossary_name in e.glossaries
             ),
