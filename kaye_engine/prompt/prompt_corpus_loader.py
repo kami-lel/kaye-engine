@@ -10,9 +10,9 @@ import re
 
 from anytree import PreOrderIter
 
-from kaye_engine.abbr_collection import abbr_group_registry
+from kaye_engine.abbr_collection import abbr_glossary_registry
 
-from .dynamic_nodes import DYNAMIC_NODE_TYPES, AbbrGroupNode
+from .dynamic_nodes import DYNAMIC_NODE_TYPES, GlossaryNode
 from .prompt_corpus_node import PromptCorpusNode
 
 __all__ = (
@@ -41,10 +41,10 @@ def _is_parenthesized_heading(heading):
 def _resolve_dynamic_heading(heading):
     """
     resolve a parenthesized ``heading`` against ``DYNAMIC_NODE_TYPES``
-    first, then against every group name known to
-    ``abbr_group_registry`` -- returns ``(node_type, None)`` for an
-    engine-defined match, ``(AbbrGroupNode, group_name)`` for a group
-    match, or ``(None, None)`` for an ordinary static heading
+    first, then against every glossary name known to
+    ``abbr_glossary_registry`` -- returns ``(node_type, None)`` for an
+    engine-defined match, ``(GlossaryNode, glossary_name)`` for a
+    glossary match, or ``(None, None)`` for an ordinary static heading
     """
     if not _is_parenthesized_heading(heading):
         return None, None
@@ -53,9 +53,9 @@ def _resolve_dynamic_heading(heading):
         if heading == "(" + node_type.HEADING + ")":
             return node_type, None
 
-    group_name = heading[1:-1]
-    if group_name in abbr_group_registry:
-        return AbbrGroupNode, group_name
+    glossary_name = heading[1:-1]
+    if glossary_name in abbr_glossary_registry:
+        return GlossaryNode, glossary_name
 
     raise ValueError("unrecognized dynamic node heading: {}".format(heading))
 
@@ -126,11 +126,11 @@ def load_corpus_tree(  # =======================================================
 
     # add dynamic nodes  -------------------------------------------------------
     prefaces = {}
-    group_prefaces = {}
+    glossary_prefaces = {}
     for child in list(tree.children):
-        node_type, group_name = _resolve_dynamic_heading(child.name)
-        if group_name is not None:
-            group_prefaces[group_name] = tuple(child.content_lines())
+        node_type, glossary_name = _resolve_dynamic_heading(child.name)
+        if glossary_name is not None:
+            glossary_prefaces[glossary_name] = tuple(child.content_lines())
             child.parent = None
         elif node_type is not None:
             prefaces[node_type] = tuple(child.content_lines())
@@ -148,8 +148,8 @@ def load_corpus_tree(  # =======================================================
     for node_type in DYNAMIC_NODE_TYPES:
         node_type(tree, preface=prefaces.get(node_type, ()))
 
-    for group_name, preface in group_prefaces.items():
-        AbbrGroupNode(tree, group_name=group_name, preface=preface)
+    for glossary_name, preface in glossary_prefaces.items():
+        GlossaryNode(tree, glossary_name=glossary_name, preface=preface)
 
     _corpus_tree_cache[tree_name] = tree
 
