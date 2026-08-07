@@ -86,14 +86,15 @@ def _node_name_in(corpus_tree, node_name_arg, node_cls, glossary_name):
             freshly attached ``node_cls`` instance
     :rtype: str
     """
-    heading = "(" + node_name_arg + ")"
+    heading_text = (
+        glossary_name if glossary_name is not None else node_cls.HEADING
+    )
+    heading = "(" + heading_text + ")"
 
     has_authored_heading = any(
         child.name == heading for child in corpus_tree.children
     )
     if has_authored_heading:
-        # reuse the already-loaded corpus tree so this node's authored
-        # preface (from its "(...)" section) is included
         return heading
 
     node = (

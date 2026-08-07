@@ -12,7 +12,7 @@ import pytest
 
 from kaye_engine.abbr_collection import AbbrData, AbbrMeaning
 from kaye_engine.cli.dynamic_node import parser as dynamic_node_parser
-from kaye_engine.prompt.dynamic_nodes import GlossaryNode
+from kaye_engine.prompt.dynamic_nodes import GlossaryNode, TodayNode
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 
@@ -74,6 +74,29 @@ class TestDynamicNodeMain:
 
         out = capsys.readouterr().out
         assert out.strip() != ""
+
+    def test_reuses_authored_engine_defined_node_without_duplicating(
+        self, monkeypatch, capsys
+    ):
+        # regression: TodayNode.HEADING == "Today", but the CLI's NODE
+        # key for it is the lowercase "today" -- matching the authored
+        # "(...)" heading by the raw NODE arg instead of by HEADING used
+        # to falsely conclude no authored heading existed, so a second
+        # TodayNode got attached alongside the real one and both rendered
+        root = PromptCorpusNode("○", None, [])
+        TodayNode(root, preface=["This is the authored Today preface."])
+
+        monkeypatch.setattr(
+            dynamic_node_parser, "get_default_corpus_tree", lambda: root
+        )
+
+        parser = _build_dn_parser()
+        args = parser.parse_args(["dynamic-node", "today"])
+        args.func(args)
+
+        out = capsys.readouterr().out
+        assert out.count("(Today)") == 1
+        assert "This is the authored Today preface." in out
 
     def test_falls_back_when_heading_not_authored_in_default_tree(
         self, monkeypatch, capsys
