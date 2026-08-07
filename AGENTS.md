@@ -74,6 +74,7 @@ kaye-engine prompt show < FILE              # preview from stdin (BLUEPRINT omit
 kaye-engine prompt generate BLUEPRINT       # render a concrete prompt
 kaye-engine prompt generate < FILE          # render from stdin (BLUEPRINT omitted)
 kaye-engine dynamic-node NODE               # render a dynamic node; NODE is "today"/"abbr" or any known abbr glossary name
+kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
 kaye-engine dynamic-node ls                 # list every available NODE value
 kaye-engine claude skill SKILLS_FOLDER      # export blueprints as Skill folders
 kaye-engine claude skill -z ZIPS_FOLDER     # create .zip Skill packages
