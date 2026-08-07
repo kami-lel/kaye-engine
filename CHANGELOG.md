@@ -70,6 +70,11 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Changed
 
+- the engine-defined `(Abbreviations)` dynamic node is renamed
+  `(Decode-Only Shorthand)` (`AbbrNode` → `ShorthandNode`,
+  `kaye-engine dynamic-node abbr` → `dynamic-node shorthand`); the
+  general abbreviation/glossary system (`AbbrData`, `AbbrEntry`,
+  `abbrs.json`, `GlossaryNode`, `(glossary-name)` nodes) is unaffected
 - sidecar descriptor rendering (`description`, `when_to_use`,
   `description_and_when_to_use`) now renders through the `sparseness`
   control instead of its own blank-line trimming
