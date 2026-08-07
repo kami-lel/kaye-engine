@@ -19,6 +19,7 @@ from kaye_engine.kamilog import (
 )
 from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
 from kaye_engine.prompt.dynamic_nodes import AbbrGroupNode
+from kaye_engine.prompt.prompt_corpus_loader import get_default_corpus_tree
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 # logger  ######################################################################
@@ -78,15 +79,34 @@ def _dynamic_node_main(args):
         raise SystemExit(1) from err
 
     try:
-        dummy_root = PromptCorpusNode(_ROOT_NODE_NAME, None, [])
-        node = (
-            node_cls(dummy_root, group_name=group_name)
-            if group_name is not None
-            else node_cls(dummy_root)
+        heading = "(" + args.NODE + ")"
+
+        try:
+            default_tree = get_default_corpus_tree()
+        except ValueError:
+            default_tree = None
+
+        has_authored_heading = default_tree is not None and any(
+            child.name == heading for child in default_tree.children
         )
 
+        if has_authored_heading:
+            # reuse the already-loaded default corpus tree so this node's
+            # authored preface (from its "(...)" section) is included
+            corpus_tree = default_tree
+            node_name = heading
+        else:
+            dummy_root = PromptCorpusNode(_ROOT_NODE_NAME, None, [])
+            node = (
+                node_cls(dummy_root, group_name=group_name)
+                if group_name is not None
+                else node_cls(dummy_root)
+            )
+            corpus_tree = dummy_root
+            node_name = node.name
+
         blueprint = PromptBlueprint.create_from_node(
-            node.name, corpus_tree=dummy_root
+            node_name, corpus_tree=corpus_tree
         )
 
         query = sys.stdin.read() if not sys.stdin.isatty() else ""
