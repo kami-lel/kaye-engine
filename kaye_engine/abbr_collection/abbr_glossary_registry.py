@@ -37,17 +37,11 @@ class AbbrGlossaryRegistry:
             :attr:`AbbrEntry.priority` instead of insertion order by
             default; defaults to False
     :type is_sorted: bool, optional
-    :param priority_threshold: when set, entries whose
-            :attr:`AbbrEntry.priority` is greater than this value are excluded
-            from rendering; ``None`` disables this filtering; defaults to
-            None
-    :type priority_threshold: int, optional
     """
 
     name: str
     uses_numbered_list: bool = False
     is_sorted: bool = False
-    priority_threshold: int = None
 
 
 # Entry Point  #################################################################
@@ -55,9 +49,7 @@ class AbbrGlossaryRegistry:
 abbr_glossary_registry = {}
 
 
-def register_abbr_glossary(
-    name, uses_numbered_list=False, is_sorted=False, priority_threshold=None
-):
+def register_abbr_glossary(name, uses_numbered_list=False, is_sorted=False):
     """
     create an `AbbrGlossaryRegistry` and insert it into
     `abbr_glossary_registry`
@@ -67,11 +59,7 @@ def register_abbr_glossary(
     that references an unregistered glossary raises ``ValueError``
 
 
-    :param priority_threshold: see :class:`AbbrGlossaryRegistry`
-    :type priority_threshold: int, optional
     :raise ValueError: ``name`` is already registered
-    :raise TypeError: ``priority_threshold`` is neither ``None`` nor
-            an ``int``
     :return: the created registry entry
     :rtype: AbbrGlossaryRegistry
     """
@@ -79,18 +67,8 @@ def register_abbr_glossary(
         raise ValueError(
             "duplicate abbr glossary registry name: {}".format(name)
         )
-    if priority_threshold is not None and not isinstance(
-        priority_threshold, int
-    ):
-        raise TypeError(
-            "priority_threshold must be an int or None, got: {}".format(
-                type(priority_threshold)
-            )
-        )
 
-    reg = AbbrGlossaryRegistry(
-        name, uses_numbered_list, is_sorted, priority_threshold
-    )
+    reg = AbbrGlossaryRegistry(name, uses_numbered_list, is_sorted)
     abbr_glossary_registry[name] = reg
 
     return reg
