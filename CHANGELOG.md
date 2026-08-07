@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-FIXME abbreviations title -> change
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
