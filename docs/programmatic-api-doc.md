@@ -228,7 +228,7 @@ classDiagram
     BasePromptNode <|-- PromptCorpusNode
     BasePromptNode <|-- DynamicNode
     DynamicNode <|-- TodayNode
-    DynamicNode <|-- AbbrNode
+    DynamicNode <|-- ShorthandNode
     DynamicNode <|-- _AbbrTagNodeBase
     _AbbrTagNodeBase <|-- UsableAbbrNode
     _AbbrTagNodeBase <|-- CodingTermsNode
