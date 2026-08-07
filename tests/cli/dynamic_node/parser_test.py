@@ -11,10 +11,6 @@ from argparse import ArgumentParser
 import pytest
 
 from kaye_engine.abbr_collection import AbbrData, AbbrMeaning
-from kaye_engine.abbr_collection.abbr_glossary_registry import (
-    abbr_glossary_registry,
-    register_abbr_glossary,
-)
 from kaye_engine.cli.dynamic_node import parser as dynamic_node_parser
 from kaye_engine.prompt.dynamic_nodes import GlossaryNode
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
@@ -157,3 +153,66 @@ class TestPriorityThresholdFlag:  ##############################################
         out = capsys.readouterr().out
         assert "e.g.:for example" in out
         assert "i.e.:id est" in out
+
+
+class TestMultipleNodes:  ######################################################
+
+    def test_renders_every_given_node_in_one_merged_output(
+        self, monkeypatch, capsys
+    ):
+        root = PromptCorpusNode("○", None, [])
+        GlossaryNode(
+            root,
+            glossary_name="some-glossary",
+            preface=["This is the some-glossary preface line."],
+        )
+
+        monkeypatch.setattr(
+            dynamic_node_parser, "get_default_corpus_tree", lambda: root
+        )
+
+        parser = _build_dn_parser()
+        args = parser.parse_args(
+            ["dynamic-node", "some-glossary", "today"]
+        )
+        args.func(args)
+
+        out = capsys.readouterr().out
+        assert "This is the some-glossary preface line." in out
+        assert "Today" in out
+
+    def test_renders_two_glossaries_sharing_one_corpus_tree(
+        self, monkeypatch, capsys
+    ):
+        root = PromptCorpusNode("○", None, [])
+        GlossaryNode(
+            root,
+            glossary_name="some-glossary",
+            preface=["This is the some-glossary preface line."],
+        )
+        GlossaryNode(
+            root,
+            glossary_name="other-glossary",
+            preface=["This is the other-glossary preface line."],
+        )
+
+        monkeypatch.setattr(
+            dynamic_node_parser, "get_default_corpus_tree", lambda: root
+        )
+
+        parser = _build_dn_parser()
+        args = parser.parse_args(
+            ["dynamic-node", "some-glossary", "other-glossary"]
+        )
+        args.func(args)
+
+        out = capsys.readouterr().out
+        assert "This is the some-glossary preface line." in out
+        assert "This is the other-glossary preface line." in out
+
+    def test_ls_combined_with_other_nodes_errors(self, capsys):
+        parser = _build_dn_parser()
+        args = parser.parse_args(["dynamic-node", "ls", "today"])
+
+        with pytest.raises(SystemExit):
+            args.func(args)

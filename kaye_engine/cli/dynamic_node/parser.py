@@ -36,8 +36,8 @@ _ROOT_NODE_NAME = "○"
 def _build_description():
     return _HELP + """
 
-renders a blueprint made of each given NODE dynamic nodes,
-result for every NODE is printed to stdout under its own header
+renders a single blueprint merged from every given NODE dynamic node,
+result is printed to stdout
 
 when NODE=abbr, reads query content from stdin, optional:
 
@@ -66,62 +66,42 @@ def _resolve_node_type(name):
     raise ValueError("unrecognized NODE: {}".format(repr(name)))
 
 
-def _corpus_tree_and_node_name(node_name_arg, node_cls, glossary_name):
+def _get_shared_corpus_tree():
     """
-    :return: ``(corpus_tree, node_name)`` -- the default corpus tree and its
-            authored "(...)" heading when ``node_name_arg`` has one, else a
-            fresh dummy root and the node's own name
-    :rtype: tuple[PromptCorpusNode, str]
+    :return: the default corpus tree if one is set, else a fresh dummy
+            root -- shared as the single ``corpus_tree`` every requested
+            NODE is attached to or read from, so their blueprints can merge
+    :rtype: PromptCorpusNode
+    """
+    try:
+        return get_default_corpus_tree()
+    except ValueError:
+        return PromptCorpusNode(_ROOT_NODE_NAME, None, [])
+
+
+def _node_name_in(corpus_tree, node_name_arg, node_cls, glossary_name):
+    """
+    :return: the authored "(...)" heading already present as a child of
+            ``corpus_tree`` for ``node_name_arg``, else the name of a
+            freshly attached ``node_cls`` instance
+    :rtype: str
     """
     heading = "(" + node_name_arg + ")"
 
-    try:
-        default_tree = get_default_corpus_tree()
-    except ValueError:
-        default_tree = None
-
-    has_authored_heading = default_tree is not None and any(
-        child.name == heading for child in default_tree.children
+    has_authored_heading = any(
+        child.name == heading for child in corpus_tree.children
     )
-
     if has_authored_heading:
-        # reuse the already-loaded default corpus tree so this node's
-        # authored preface (from its "(...)" section) is included
-        return default_tree, heading
+        # reuse the already-loaded corpus tree so this node's authored
+        # preface (from its "(...)" section) is included
+        return heading
 
-    dummy_root = PromptCorpusNode(_ROOT_NODE_NAME, None, [])
     node = (
-        node_cls(dummy_root, glossary_name=glossary_name)
+        node_cls(corpus_tree, glossary_name=glossary_name)
         if glossary_name is not None
-        else node_cls(dummy_root)
+        else node_cls(corpus_tree)
     )
-    return dummy_root, node.name
-
-
-def _render_one_node(node_name_arg, query, priority_threshold):
-    """
-    resolve, build, and render the blueprint for a single ``NODE`` value
-
-    :return: the rendered prompt text for ``node_name_arg``
-    :rtype: str
-    """
-    node_cls, glossary_name = _resolve_node_type(node_name_arg)
-
-    corpus_tree, node_name = _corpus_tree_and_node_name(
-        node_name_arg, node_cls, glossary_name
-    )
-
-    blueprint = PromptBlueprint.create_from_node(
-        node_name, corpus_tree=corpus_tree
-    )
-
-    generate_kwargs = {}
-    if node_name_arg == "abbr":
-        generate_kwargs["query"] = query
-    if glossary_name is not None and priority_threshold is not None:
-        generate_kwargs["glossary_priority_threshold"] = priority_threshold
-
-    return blueprint.generate_prompt(**generate_kwargs)
+    return node.name
 
 
 def _dynamic_node_main(args):
@@ -132,22 +112,44 @@ def _dynamic_node_main(args):
             print(name)
         return
 
+    corpus_tree = _get_shared_corpus_tree()
+
+    try:
+        node_names = []
+        for node_name_arg in args.NODE:
+            node_cls, glossary_name = _resolve_node_type(node_name_arg)
+            node_names.append(
+                _node_name_in(
+                    corpus_tree, node_name_arg, node_cls, glossary_name
+                )
+            )
+
+        blueprint = None
+        for node_name in node_names:
+            node_blueprint = PromptBlueprint.create_from_node(
+                node_name, corpus_tree=corpus_tree
+            )
+            blueprint = (
+                node_blueprint
+                if blueprint is None
+                else blueprint.merge(node_blueprint)
+            )
+    except ValueError as err:
+        logger.error(str(err))
+        raise SystemExit(1) from err
+
     query = sys.stdin.read() if not sys.stdin.isatty() else ""
 
-    for node_name_arg in args.NODE:
-        try:
-            prompt = _render_one_node(
-                node_name_arg, query, args.priority_threshold
-            )
-        except ValueError as err:
-            logger.error(str(err))
-            raise SystemExit(1) from err
-        except (TypeError, KeyError, NotImplementedError) as err:
-            logger.critical(str(err))
-            raise SystemExit(1) from err
+    try:
+        prompt = blueprint.generate_prompt(
+            query=query,
+            glossary_priority_threshold=args.priority_threshold,
+        )
+    except (TypeError, KeyError, NotImplementedError) as err:
+        logger.critical(str(err))
+        raise SystemExit(1) from err
 
-        print("=== {} ===".format(node_name_arg))
-        print(prompt)
+    print(prompt)
 
 
 # Public API  ##################################################################
