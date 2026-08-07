@@ -66,7 +66,7 @@ real content spliced in only when its name is passed to `contains_sidecars`.
 Q.v. [sidecar node documentation](docs/sidecar-node-doc.md).
 
 Dynamic nodes are attached to the tree at load time and cover today's date
-plus the abbreviation groups. Q.v. [dynamic node
+plus the abbreviation glossaries. Q.v. [dynamic node
 documentation](docs/dynamic-node-doc.md) and [abbreviation collection
 documentation](docs/abbr-collection-doc.md).
 
@@ -77,7 +77,7 @@ from kaye_engine import (
     PACKAGE_NAME, DISPLAY_NAME, LOGGER_NAME,
     load_corpus_tree, get_corpus_tree, get_default_corpus_tree,
     AbbrData, get_abbr_data,
-    register_abbr_group, get_abbr_group,
+    register_abbr_glossary, get_abbr_glossary,
     register_blueprint, get_blueprint,
     setup_claude_cli,
 )
