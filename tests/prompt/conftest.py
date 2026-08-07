@@ -14,7 +14,7 @@ from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 from kaye_engine.prompt import (
     TodayNode,
     AbbrNode,
-    AbbrGroupNode,
+    GlossaryNode,
 )
 
 
@@ -146,12 +146,12 @@ def corpus_dynamic_testee(corpus_testee3):
     for node_type in (TodayNode, AbbrNode):
         node_type(tree)
 
-    for group_name in (
+    for glossary_name in (
         "usable-abbreviations",
         "natural-language-codes",
         "programming-language-codes",
     ):
-        AbbrGroupNode(tree, group_name=group_name)
+        GlossaryNode(tree, glossary_name=glossary_name)
 
     return tree
 

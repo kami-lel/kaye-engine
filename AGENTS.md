@@ -73,7 +73,8 @@ kaye-engine prompt show BLUEPRINT           # preview a blueprint's structure
 kaye-engine prompt show < FILE              # preview from stdin (BLUEPRINT omitted)
 kaye-engine prompt generate BLUEPRINT       # render a concrete prompt
 kaye-engine prompt generate < FILE          # render from stdin (BLUEPRINT omitted)
-kaye-engine dynamic-node NODE               # render a dynamic node; NODE is "today"/"abbr" or any known abbr group name
+kaye-engine dynamic-node NODE               # render a dynamic node; NODE is "today"/"abbr" or any known abbr glossary name
+kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
 kaye-engine dynamic-node ls                 # list every available NODE value
 kaye-engine claude skill SKILLS_FOLDER      # export blueprints as Skill folders
 kaye-engine claude skill -z ZIPS_FOLDER     # create .zip Skill packages
@@ -149,17 +150,17 @@ Export policy — five independent flags, no allow-list constant:
 
 ## Abbreviation Data
 
-`get_exportable_abbrs()` rebuilds every group on each call, so there is no
+`get_exportable_abbrs()` rebuilds every glossary on each call, so there is no
 import-order constraint — populate the abbreviation database at any point
 before an export actually runs. An unpopulated database logs an error and
 returns an empty list, so no skill folders are exported. Check
 `bool(get_abbr_data())` to test for an empty singleton directly.
 
-Every group name an entry's `groups` array uses must be registered via
-`register_abbr_group(name, ...)` before that entry loads, or `ValueError`
-is raised — `tests/conftest.py` registers every group name the test suite
+Every glossary name an entry's `glossaries` array uses must be registered via
+`register_abbr_glossary(name, ...)` before that entry loads, or `ValueError`
+is raised — `tests/conftest.py` registers every glossary name the test suite
 references, module-level, so it runs at collection time before any test
-module builds `AbbrData`. Register a new group there when adding one.
+module builds `AbbrData`. Register a new glossary there when adding one.
 
 ## Security
 

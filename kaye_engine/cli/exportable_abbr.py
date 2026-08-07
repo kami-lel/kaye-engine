@@ -8,7 +8,7 @@ from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.abbr_collection import (
     AbbrTags,
     AbbrWrap,
-    abbr_group_registry,
+    abbr_glossary_registry,
     get_abbr_data,
 )
 from kaye_engine.prompt.blueprint.registry import to_skill_name
@@ -19,6 +19,7 @@ logger = kamilog.getLogger(LOGGER_NAME)
 # constants  ###################################################################
 
 _ABBR_TEMPLATE = "Abbr "
+_GLOSSARY_TEMPLATE = "Glossary "
 _START_WITH_TEMPLATE = _ABBR_TEMPLATE + "Starts with "
 _START_WITH_DIGIT = _START_WITH_TEMPLATE + "Digits 0~9"
 _START_WITH_OTHER = _START_WITH_TEMPLATE + "Non-Alphanumeric"
@@ -90,15 +91,15 @@ def _get_abbrs_by_tags(abbrs):
     ]
 
 
-def _get_abbrs_by_groups(abbr_data):
+def _get_abbrs_by_glossaries(abbr_data):
     return [
         _make_group(
-            _ABBR_TEMPLATE + group_name,
+            _GLOSSARY_TEMPLATE + glossary_name,
             _sort_entries(
-                e for e in abbr_data.abbrs if group_name in e.groups
+                e for e in abbr_data.abbrs if glossary_name in e.glossaries
             ),
         )
-        for group_name in sorted(abbr_group_registry)
+        for glossary_name in sorted(abbr_glossary_registry)
     ]
 
 
@@ -160,7 +161,7 @@ def get_exportable_abbrs():
     abbrs = abbr_data.abbrs
     return (
         _get_abbrs_by_tags(abbrs)
-        + _get_abbrs_by_groups(abbr_data)
+        + _get_abbrs_by_glossaries(abbr_data)
         + _get_abbrs_by_wrap(abbrs)
         + _get_abbrs_by_first_char(abbrs)
     )

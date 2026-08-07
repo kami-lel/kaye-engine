@@ -13,7 +13,7 @@ import pytest
 
 from kaye_engine.abbr_collection.abbr_data import _abbr_data
 from kaye_engine.abbr_collection.abbr_meaning import AbbrMeaning
-from kaye_engine.prompt.dynamic_nodes import AbbrGroupNode
+from kaye_engine.prompt.dynamic_nodes import GlossaryNode
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
 
@@ -33,9 +33,9 @@ class TestDynamic:
     """
     engine-defined dynamic node types (``DYNAMIC_NODE_TYPES``) still attach
     unconditionally, with no corresponding corpus heading required; abbr
-    group nodes do not -- they are consumer-defined data, so they only
-    attach when a matching ``(group-name)`` heading is present, see
-    ``TestGroupHeading`` below
+    glossary nodes do not -- they are consumer-defined data, so they only
+    attach when a matching ``(glossary-name)`` heading is present, see
+    ``TestGlossaryHeading`` below
     """
 
     def test_today(_, prompt_corpus_tree_preview):
@@ -51,10 +51,10 @@ class TestDynamic:
         assert "── (Abbreviations)" in opt
 
 
-class TestGroupHeading:
+class TestGlossaryHeading:
 
-    def test_known_group_heading_resolves(_):
-        mean = AbbrMeaning("dummy group meaning", remark=None)
+    def test_known_glossary_heading_resolves(_):
+        mean = AbbrMeaning("dummy glossary meaning", remark=None)
         with _abbr_data:
             _abbr_data.add_entry(
                 mean,
@@ -62,30 +62,30 @@ class TestGroupHeading:
                 {
                     "priority": 0,
                     "tags": [],
-                    "groups": ["some-group"],
+                    "glossaries": ["some-glossary"],
                     "wrap": "word",
                 },
             )
 
         m = mock_open(
-            read_data="# Title\n\n# (some-group)\nGroup preface text.\n"
+            read_data="# Title\n\n# (some-glossary)\nGlossary preface text.\n"
         )
 
         with patch("builtins.open", m):
-            tree = load_corpus_tree("dynamic-nodes-group-test", "d.md")
+            tree = load_corpus_tree("dynamic-nodes-glossary-test", "d.md")
 
-        node = tree["(some-group)"]
-        assert isinstance(node, AbbrGroupNode)
-        assert "Group preface text." in node.content_lines()
+        node = tree["(some-glossary)"]
+        assert isinstance(node, GlossaryNode)
+        assert "Glossary preface text." in node.content_lines()
 
-    def test_unknown_group_heading_raises(_):
-        m = mock_open(read_data="# Title\n\n# (no-such-group)\nContent.\n")
+    def test_unknown_glossary_heading_raises(_):
+        m = mock_open(read_data="# Title\n\n# (no-such-glossary)\nContent.\n")
 
         with pytest.raises(
             ValueError, match="unrecognized dynamic node heading"
         ):
             with patch("builtins.open", m):
-                load_corpus_tree("dynamic-nodes-group-reject-test", "d.md")
+                load_corpus_tree("dynamic-nodes-glossary-reject-test", "d.md")
 
 
 class TestPreface:

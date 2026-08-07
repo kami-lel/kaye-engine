@@ -8,7 +8,7 @@ import sys
 from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
-from kaye_engine.abbr_collection import abbr_group_registry
+from kaye_engine.abbr_collection import abbr_glossary_registry
 from kaye_engine.cli.dynamic_node.node_type_choices import (
     ENGINE_DEFINED_NODES,
     list_all_node_type_names,
@@ -18,7 +18,8 @@ from kaye_engine.kamilog import (
     set_logging_level_by_namespace,
 )
 from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
-from kaye_engine.prompt.dynamic_nodes import AbbrGroupNode
+from kaye_engine.prompt.dynamic_nodes import GlossaryNode
+from kaye_engine.prompt.prompt_corpus_loader import get_default_corpus_tree
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 # logger  ######################################################################
@@ -49,16 +50,16 @@ when NODE=abbr, reads query content from stdin, optional:
 def _resolve_node_type(name):
     """
     resolve ``name`` against ``ENGINE_DEFINED_NODES`` and known abbr
-    group names -- returns ``(node_cls, None)`` for an engine-defined
-    choice, ``(AbbrGroupNode, name)`` for a group match; raises
+    glossary names -- returns ``(node_cls, None)`` for an engine-defined
+    choice, ``(GlossaryNode, name)`` for a glossary match; raises
     ``ValueError`` when ``name`` matches neither
     """
     node_cls = ENGINE_DEFINED_NODES.get(name)
     if node_cls is not None:
         return node_cls, None
 
-    if name in abbr_group_registry:
-        return AbbrGroupNode, name
+    if name in abbr_glossary_registry:
+        return GlossaryNode, name
 
     raise ValueError("unrecognized NODE: {}".format(repr(name)))
 
@@ -72,21 +73,40 @@ def _dynamic_node_main(args):
         return
 
     try:
-        node_cls, group_name = _resolve_node_type(args.NODE)
+        node_cls, glossary_name = _resolve_node_type(args.NODE)
     except ValueError as err:
         logger.error(str(err))
         raise SystemExit(1) from err
 
     try:
-        dummy_root = PromptCorpusNode(_ROOT_NODE_NAME, None, [])
-        node = (
-            node_cls(dummy_root, group_name=group_name)
-            if group_name is not None
-            else node_cls(dummy_root)
+        heading = "(" + args.NODE + ")"
+
+        try:
+            default_tree = get_default_corpus_tree()
+        except ValueError:
+            default_tree = None
+
+        has_authored_heading = default_tree is not None and any(
+            child.name == heading for child in default_tree.children
         )
 
+        if has_authored_heading:
+            # reuse the already-loaded default corpus tree so this node's
+            # authored preface (from its "(...)" section) is included
+            corpus_tree = default_tree
+            node_name = heading
+        else:
+            dummy_root = PromptCorpusNode(_ROOT_NODE_NAME, None, [])
+            node = (
+                node_cls(dummy_root, glossary_name=glossary_name)
+                if glossary_name is not None
+                else node_cls(dummy_root)
+            )
+            corpus_tree = dummy_root
+            node_name = node.name
+
         blueprint = PromptBlueprint.create_from_node(
-            node.name, corpus_tree=dummy_root
+            node_name, corpus_tree=corpus_tree
         )
 
         query = sys.stdin.read() if not sys.stdin.isatty() else ""
@@ -94,6 +114,10 @@ def _dynamic_node_main(args):
         generate_kwargs = {}
         if args.NODE == "abbr":
             generate_kwargs["query"] = query
+        if glossary_name is not None and args.priority_threshold is not None:
+            generate_kwargs["glossary_priority_threshold"] = (
+                args.priority_threshold
+            )
 
         prompt = blueprint.generate_prompt(**generate_kwargs)
 
@@ -121,6 +145,14 @@ def register_dynamic_node_parser(cli_subparser):
     dynamic_node_parser.add_argument(
         "NODE",
         help="dynamic node type to render; NODE=ls to list available values",
+    )
+    dynamic_node_parser.add_argument(
+        "-t",
+        "--priority-threshold",
+        metavar="THRESHOLD",
+        type=int,
+        default=None,
+        help="exclude entries whose priority is greater than THRESHOLD",
     )
     add_verbose_arguments(dynamic_node_parser)
 

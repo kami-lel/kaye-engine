@@ -7,7 +7,9 @@ define ``AbbrData``
 import ahocorasick
 
 from kaye_engine.abbr_collection.abbr_entry import AbbrEntry
-from kaye_engine.abbr_collection.abbr_group_registry import abbr_group_registry
+from kaye_engine.abbr_collection.abbr_glossary_registry import (
+    abbr_glossary_registry,
+)
 
 # AbbrData  ####################################################################
 
@@ -64,16 +66,16 @@ class AbbrData:
                 :class:`AbbrEntry`
         :type abbr_obj: dict
         :raises ValueError: malformed ``abbr_obj``, an entry duplicating one
-                already added, or an entry referencing a group name never
-                registered via ``register_abbr_group``
+                already added, or an entry referencing a glossary name
+                never registered via ``register_abbr_glossary``
         """
         entry = AbbrEntry(mean, abbr, abbr_obj)
         if entry in self._seen_entries:
             raise ValueError("duplicate abbr entry: {}".format(repr(entry)))
-        for group in entry.groups:
-            if group not in abbr_group_registry:
+        for glossary in entry.glossaries:
+            if glossary not in abbr_glossary_registry:
                 raise ValueError(
-                    "unregistered abbr group: {}".format(repr(group))
+                    "unregistered abbr glossary: {}".format(repr(glossary))
                 )
         self._seen_entries.add(entry)
         self.abbrs.append(entry)

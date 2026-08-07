@@ -3,8 +3,6 @@
 [^format]
 
 <!--
-FIXME allow priority threshold
-BUG dn node not showing preface
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -33,38 +31,42 @@ todo todo utilize personalities, allow multi agent conversation
   which disables trimming entirely
 - `-s`/`--sparseness` option on `kaye-engine prompt generate`, forwarding
   the new parameter from the CLI
-- `groups` — free-form, consumer-defined array field on `abbrs.json`
-  entries; every value an entry declares must already be registered via
-  `register_abbr_group` before that entry loads, or loading raises
-  `ValueError`
-- `register_abbr_group(name, uses_numbered_list=False, is_sorted=False,
-  priority_threshold=None)`/`get_abbr_group(name)`, registering a
-  `groups` name and its `AbbrGroupNode` default rendering behavior;
-  `register_abbr_group` raises `ValueError` on a duplicate name,
-  `TypeError` on a `priority_threshold` that is neither `None` nor an
-  `int`; `get_abbr_group` raises `KeyError` on an unknown name
-- `priority_threshold` on `AbbrGroupRegistry`/`register_abbr_group`,
-  also accepted as a `content_lines()`/`gen_group_abbrs_content_lines()`
-  override: entries whose `priority` exceeds the threshold are still
-  added to `AbbrData` (so group-membership validation still sees them)
-  but excluded from rendered output; `None` (default) disables the
-  filter entirely
-- `AbbrGroupNode` — dynamic node parametrized by group name at
-  construction time; a top-level `(group-name)` heading in
-  `prompt_corpus.md` resolves to it when `group-name` matches a known
-  abbr group, and `kaye-engine dynamic-node NODE` now accepts any
-  known group name alongside its engine-defined choices; its
-  `content_lines()` gained `is_sorted`, `uses_numbered_list`, and
-  `priority_threshold` keywords (default `None`, falling back to the
-  group's registered flags), rendering the group sorted by ascending
-  `priority`, as a numbered list instead of insertion-order bullets,
-  and/or with high-priority-number entries hidden
+- `glossaries` — free-form, consumer-defined array field on
+  `abbrs.json` entries; every value an entry declares must already be
+  registered via `register_abbr_glossary` before that entry loads, or
+  loading raises `ValueError`
+- `register_abbr_glossary(name, uses_numbered_list=False,
+  is_sorted=False)`/`get_abbr_glossary(name)`, registering a
+  `glossaries` name and its `GlossaryNode` default rendering behavior;
+  `register_abbr_glossary` raises `ValueError` on a duplicate name;
+  `get_abbr_glossary` raises `KeyError` on an unknown name
+- `glossary_priority_threshold` keyword on
+  `content_lines()`/`gen_glossary_content_lines()`, and forwarded
+  through as a generation-time `generate_prompt()` kwarg: entries whose
+  `priority` exceeds the threshold are still added to `AbbrData` (so
+  glossary-membership validation still sees them) but excluded from
+  rendered output; `None` (default) disables the filter entirely — the
+  threshold is supplied by the caller at render time, not stored on the
+  glossary's registration
+- `-t`/`--priority-threshold` option on `kaye-engine dynamic-node`,
+  forwarding `glossary_priority_threshold` to a rendered glossary node
+- `GlossaryNode` — dynamic node parametrized by glossary name at
+  construction time; a top-level `(glossary-name)` heading in
+  `prompt_corpus.md` resolves to it when `glossary-name` matches a
+  known abbr glossary, and `kaye-engine dynamic-node NODE` now accepts
+  any known glossary name alongside its engine-defined choices; its
+  `content_lines()` gained `is_sorted`, `uses_numbered_list` (default
+  `None`, falling back to the glossary's registered flags), and
+  `glossary_priority_threshold` (default `None`, no fallback) keywords,
+  rendering the glossary sorted by ascending `priority`, as a numbered
+  list instead of insertion-order bullets, and/or with high-priority-number
+  entries hidden
 - `number` keyword on `AbbrEntry.as_md_list_entry()`, rendering a
   numbered list item (`{number}. abbr:meaning`) instead of a bullet
 - `kaye-engine dynamic-node ls` (`dn ls`) — a special `NODE` value that
   is not itself a node; it prints every currently available `NODE`
-  name (engine-defined choices plus every registered abbr group name),
-  one kebab-case name per line, sorted alphabetically
+  name (engine-defined choices plus every registered abbr glossary
+  name), one kebab-case name per line, sorted alphabetically
 
 ### Changed
 
@@ -91,9 +93,9 @@ todo todo utilize personalities, allow multi agent conversation
 - the fixed abbr-tag dynamic nodes (`Usable Abbreviations`, `Coding
   Terms`, `Languages Code`, `Programming Languages Code`, `Unity Engine
   Abbreviations`, `Plan Step By Step Abbreviations`, `Code Documentation
-  Field Abbreviations`) are replaced by group-based `(group-name)`
+  Field Abbreviations`) are replaced by glossary-based `(glossary-name)`
   headings; a host `abbrs.json` must move affected entries' tags to
-  `groups` to keep them rendering
+  `glossaries` to keep them rendering
 - `AbbrEntry` now raises `TypeError`, not `ValueError`, when `abbr`, its
   value object, or `priority` is the wrong type
 - `dynamic-node`'s positional argument renamed `NODE_TYPE` → `NODE`; its
@@ -113,10 +115,10 @@ todo todo utilize personalities, allow multi agent conversation
   `programming_language_code`, `language_code`, `unity_engine_abbr`,
   `log_level`, `unit_of_measure`, `currency_symbol`,
   `plan_step_by_step_abbr`, and `code_documentation_field_abbr`,
-  superseded by free-form `groups`
+  superseded by free-form `glossaries`
 - `UsableAbbrNode`, `LanguageCodeNode`, `PLCNode`, `UnityEngineAbbrNode`,
   `CodingTermsNode`, `PlanStepByStepAbbrNode`, and
-  `CodeDocumentationFieldAbbrNode`, superseded by `AbbrGroupNode`
+  `CodeDocumentationFieldAbbrNode`, superseded by `GlossaryNode`
 - `NODE_TYPE_CHOICES`, superseded by `ENGINE_DEFINED_NODES`
 
 ### Fixed

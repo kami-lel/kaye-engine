@@ -6,20 +6,20 @@ node types whose content has no fixed value and is generated during
 query)
 """
 
-from .dynamic_node import DynamicNode
-from .today_node import TodayNode
 from .abbr_nodes import AbbrNode
 from .abbr_tag_nodes import gen_abbrs_content_lines
-from .abbr_group_node import gen_group_abbrs_content_lines, AbbrGroupNode
+from .dynamic_node import DynamicNode
+from .glossary_node import GlossaryNode, gen_glossary_content_lines
+from .today_node import TodayNode
 
 __all__ = (
-    "gen_abbrs_content_lines",
-    "gen_group_abbrs_content_lines",
-    "DynamicNode",
-    "TodayNode",
-    "AbbrNode",
-    "AbbrGroupNode",
     "DYNAMIC_NODE_TYPES",
+    "AbbrNode",
+    "DynamicNode",
+    "GlossaryNode",
+    "TodayNode",
+    "gen_abbrs_content_lines",
+    "gen_glossary_content_lines",
 )
 
 # registry of every engine-defined, statically-registered dynamic node

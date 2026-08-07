@@ -29,7 +29,7 @@ class AbbrNode(DynamicNode):  ##################################################
 
     # implement BasePromptNode  ================================================
 
-    def content_lines(self, *, query=""):  # pylint: disable=arguments-differ
+    def content_lines(self, *, query="", **kwargs):  # pylint: disable=arguments-differ,unused-argument
         if query:
             lines = self._generate_content_lines_dynamically(query)
         else:
