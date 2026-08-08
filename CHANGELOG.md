@@ -124,6 +124,16 @@ todo todo utilize personalities, allow multi agent conversation
 - `dynamic-node`'s positional argument renamed `NODE_TYPE` → `NODE`; its
   `--help`/description text no longer lists every available choice
   inline, pointing to `dynamic-node ls` instead
+- the single generic `{for claude code}` conditional sidecar and its
+  `CONTAINING_SIDECARS` constant are replaced by eight named
+  `{Claude Tool:...}` sidecars (`Enter/ExitPlanMode`, `TodoWrite`,
+  `AskUserQuestion`, `Subagents`, `Tasks`, `Worktrees`, `Skill`,
+  `Workflow`), auto-checkmarked per Claude export surface via its own
+  `CLAUDE_CHAT_SIDECARS`/`CLAUDE_COWORK_SIDECARS`/`CLAUDE_CODE_SIDECARS`/
+  `CLAUDE_CODE_VSC_XTN_SIDECARS` constant in `kaye_engine.cli.claude`;
+  `export_user_system_prompt_file()` gained a `sidecars` keyword
+  (default `CLAUDE_CHAT_SIDECARS`) forwarding the chosen set as
+  `contains_sidecars`
 
 ### Deprecated
 
