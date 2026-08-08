@@ -109,21 +109,7 @@ Conditional sidecar nodes are real prompt content (e.g., instructions, rules) th
 
 **Rendering behavior:** Pass `contains_sidecars=(...)` to auto-include sidecars of the given name(s) during rendering.
 
-Currently defined conditional sidecar names, in use across the corpus:
-
-
-
-
-
-#### `{Claude Tool:~~}`
-
-| sidecar name | Claude tool |
-| --- | --- |
-| `{Claude Tool:Enter/ExitPlanMode}` | `EnterPlanMode`/`ExitPlanMode` |
-| `{Claude Tool:TodoWrite}` | `TodoWrite` |
-| `{Claude Tool:AskUserQuestion}` | `AskUserQuestion` |
-
-Q.v. [`claude-doc.md`](claude-doc.md) for which Claude export surface includes each of these, and the underlying API.
+Q.v. [`claude-doc.md`](claude-doc.md) for the list of `{Claude Tool:...}` sidecars, which Claude export surface includes each of these, and the underlying API.
 
 
 
