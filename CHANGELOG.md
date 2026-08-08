@@ -153,6 +153,10 @@ todo todo utilize personalities, allow multi agent conversation
   `CodingTermsNode`, `PlanStepByStepAbbrNode`, and
   `CodeDocumentationFieldAbbrNode`, superseded by `GlossaryNode`
 - `NODE_TYPE_CHOICES`, superseded by `ENGINE_DEFINED_NODES`
+- the deprecated Continue AI tool integration: `cli_continue`, the CLI
+  subpackage exporting blueprints as Continue rule files (already
+  unregistered and unreachable), and `continue_exportable`, the
+  `BlueprintRegistry` export-policy flag it depended on
 
 ### Fixed
 
