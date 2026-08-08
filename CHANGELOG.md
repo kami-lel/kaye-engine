@@ -23,8 +23,18 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Added
 
-- `(Emoji)` dynamic node, rendering every `abbrs.json` entry tagged
-  `emoji`; accessible via `kaye-engine dn emoji`
+- `AbbrTagNode` — dynamic node parametrized by an `AbbrTags` member at
+  construction time (mirrors `GlossaryNode`'s `glossary_name`
+  parametrization), replacing the single hardcoded `EmojiNode`; one
+  instance attaches per `ABBR_TAG_NODE_MEMBERS` entry (every simple
+  `AbbrTags` member except `always_understand`), rendering every
+  `abbrs.json` entry tagged with that member; accessible via
+  `kaye-engine dn TAG_NAME`, e.g. `kaye-engine dn emoji`,
+  `kaye-engine dn single_character`
+- `kaye-engine dynamic-node ls` now groups its output instead of a flat
+  alphabetical sort: `today`, `shorthand`, every `AbbrTagNode` name
+  (`AbbrTags` declaration order), then every glossary name
+  (alphabetical)
 - `sparseness` parameter on `render_prompt_lines()`/`generate_prompt()`,
   controlling how runs of blank lines collapse in rendered output: `-1`
   joins the whole output into one line (`REPLACEMENT_NEWLINE_SYMBOL` in
