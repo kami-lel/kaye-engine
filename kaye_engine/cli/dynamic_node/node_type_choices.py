@@ -5,7 +5,7 @@ define ``ENGINE_DEFINED_NODES`` and ``list_all_node_type_names``
 """
 
 from kaye_engine.abbr_collection import abbr_glossary_registry
-from kaye_engine.prompt.dynamic_nodes import ShorthandNode, TodayNode
+from kaye_engine.prompt.dynamic_nodes import EmojiNode, ShorthandNode, TodayNode
 
 __all__ = (
     "ENGINE_DEFINED_NODES",
@@ -16,6 +16,7 @@ __all__ = (
 ENGINE_DEFINED_NODES = {
     "today": TodayNode,
     "shorthand": ShorthandNode,
+    "emoji": EmojiNode,
 }
 
 
