@@ -50,6 +50,13 @@ class TestDynamic:
         print(opt)
         assert "── (Decode-Only Shorthand)" in opt
 
+    def test_abbr_tag(_, prompt_corpus_tree_preview):
+        opt = prompt_corpus_tree_preview
+
+        print(opt)
+        assert "── (Emoji)" in opt
+        assert "── (Single Character)" in opt
+
 
 class TestGlossaryHeading:
 
@@ -103,6 +110,20 @@ class TestPreface:
 
         today_children = [c for c in tree.children if c.name == "(Today)"]
         assert len(today_children) == 1
+
+    def test_matching_abbr_tag_heading_becomes_preface(_):
+        m = mock_open(
+            read_data="# Title\n\n# (Emoji)\nEvery abbr tagged emoji.\n"
+        )
+
+        with patch("builtins.open", m):
+            tree = load_corpus_tree("dynamic-nodes-abbr-tag-preface-test", "d.md")
+
+        emoji_node = tree["(Emoji)"]
+        assert "Every abbr tagged emoji." in emoji_node.content_lines()
+
+        emoji_children = [c for c in tree.children if c.name == "(Emoji)"]
+        assert len(emoji_children) == 1
 
     def test_unrecognized_paren_heading_raises(_):
         m = mock_open(read_data="# Title\n\n# (Bogus)\nSome content.\n")

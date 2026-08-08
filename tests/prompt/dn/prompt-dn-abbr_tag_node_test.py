@@ -1,7 +1,7 @@
 """
-prompt-dn-emoji_node_test.py
+prompt-dn-abbr_tag_node_test.py
 
-Unit Tests (using pytest) for: EmojiNode
+Unit Tests (using pytest) for: AbbrTagNode
 """
 
 import logging
@@ -10,8 +10,8 @@ from unittest.mock import patch
 import pytest
 
 from kaye_engine import LOGGER_NAME
-from kaye_engine.abbr_collection import AbbrData, AbbrMeaning
-from kaye_engine.prompt.dynamic_nodes import EmojiNode
+from kaye_engine.abbr_collection import AbbrData, AbbrMeaning, AbbrTags
+from kaye_engine.prompt.dynamic_nodes import AbbrTagNode
 
 
 # pytest fixture  ##############################################################
@@ -42,11 +42,11 @@ def populated_abbr_data():
     return data
 
 
-# EmojiNode  #####################################################################
-class TestEmojiNodeEmpty:
+# AbbrTagNode  ####################################################################
+class TestAbbrTagNodeEmpty:
 
     def test_content_lines_empty(_, empty_abbr_data, caplog):
-        testee = EmojiNode(None)
+        testee = AbbrTagNode(None, abbr_tag=AbbrTags.emoji)
 
         with patch(
             "kaye_engine.prompt.dynamic_nodes.shorthand_tag_nodes.get_abbr_data",
@@ -62,15 +62,15 @@ class TestEmojiNodeEmpty:
         )
 
     def test_heading(_):
-        testee = EmojiNode(None)
+        testee = AbbrTagNode(None, abbr_tag=AbbrTags.emoji)
 
         assert testee.name == "(Emoji)"
 
 
-class TestEmojiNodeFiltering:
+class TestAbbrTagNodeFiltering:
 
     def test_content_lines_only_emoji_tagged(_, populated_abbr_data):
-        testee = EmojiNode(None)
+        testee = AbbrTagNode(None, abbr_tag=AbbrTags.emoji)
 
         with patch(
             "kaye_engine.prompt.dynamic_nodes.shorthand_tag_nodes.get_abbr_data",
@@ -83,3 +83,23 @@ class TestEmojiNodeFiltering:
             "- 📦:package,packaging",
             "- 🤖:agent,AI",
         ]
+
+
+class TestAbbrTagNodeGenericity:
+    """
+    prove ``AbbrTagNode`` is parametrized over any ``AbbrTags`` member,
+    not hardcoded to ``emoji`` -- mirrors ``GlossaryNode`` construction
+    """
+
+    def test_heading_for_a_different_abbr_tag(_):
+        testee = AbbrTagNode(None, abbr_tag=AbbrTags.single_character)
+
+        assert testee.name == "(Single Character)"
+
+    def test_copy_preserves_abbr_tag(_):
+        testee = AbbrTagNode(None, abbr_tag=AbbrTags.single_character)
+
+        opt = testee.__copy__()
+
+        assert opt.abbr_tag == AbbrTags.single_character
+        assert opt.name == "(Single Character)"
