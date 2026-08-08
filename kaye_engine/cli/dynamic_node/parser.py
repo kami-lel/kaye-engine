@@ -8,7 +8,7 @@ import sys
 from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
-from kaye_engine.abbr_collection import abbr_glossary_registry
+from kaye_engine.abbr_collection import AbbrTags, abbr_glossary_registry
 from kaye_engine.cli.dynamic_node.node_type_choices import (
     ENGINE_DEFINED_NODES,
     list_all_node_type_names,
@@ -22,7 +22,12 @@ from kaye_engine.kamilog import (
     set_logging_level_by_namespace,
 )
 from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
-from kaye_engine.prompt.dynamic_nodes import GlossaryNode
+from kaye_engine.prompt.dynamic_nodes import (
+    ABBR_TAG_NODE_MEMBERS,
+    AbbrTagNode,
+    GlossaryNode,
+    heading_for_abbr_tag,
+)
 from kaye_engine.prompt.prompt_corpus_loader import get_default_corpus_tree
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
@@ -56,17 +61,27 @@ run to list available NODE values:
 
 def _resolve_node_type(name):
     """
-    resolve ``name`` against ``ENGINE_DEFINED_NODES`` and known abbr
-    glossary names -- returns ``(node_cls, None)`` for an engine-defined
-    choice, ``(GlossaryNode, name)`` for a glossary match; raises
-    ``ValueError`` when ``name`` matches neither
+    resolve ``name`` against ``ENGINE_DEFINED_NODES``,
+    ``ABBR_TAG_NODE_MEMBERS``, and known abbr glossary names -- returns
+    ``(node_cls, kwargs)``, where ``kwargs`` is the dict of parameters
+    the match needs at construction time (empty for an engine-defined
+    choice, ``{"abbr_tag": ...}`` for an AbbrTagNode match,
+    ``{"glossary_name": ...}`` for a glossary match); raises
+    ``ValueError`` when ``name`` matches none of the above
     """
     node_cls = ENGINE_DEFINED_NODES.get(name)
     if node_cls is not None:
-        return node_cls, None
+        return node_cls, {}
+
+    try:
+        abbr_tag = AbbrTags[name]
+    except KeyError:
+        abbr_tag = None
+    if abbr_tag in ABBR_TAG_NODE_MEMBERS:
+        return AbbrTagNode, {"abbr_tag": abbr_tag}
 
     if name in abbr_glossary_registry:
-        return GlossaryNode, name
+        return GlossaryNode, {"glossary_name": name}
 
     raise ValueError("unrecognized NODE: {}".format(repr(name)))
 
@@ -84,16 +99,19 @@ def _get_shared_corpus_tree():
         return PromptCorpusNode(_ROOT_NODE_NAME, None, [])
 
 
-def _node_name_in(corpus_tree, node_name_arg, node_cls, glossary_name):
+def _node_name_in(corpus_tree, node_name_arg, node_cls, kwargs):
     """
     :return: the authored "(...)" heading already present as a child of
             ``corpus_tree`` for ``node_name_arg``, else the name of a
             freshly attached ``node_cls`` instance
     :rtype: str
     """
-    heading_text = (
-        glossary_name if glossary_name is not None else node_cls.HEADING
-    )
+    if node_cls is AbbrTagNode:
+        heading_text = heading_for_abbr_tag(kwargs["abbr_tag"])
+    elif node_cls is GlossaryNode:
+        heading_text = kwargs["glossary_name"]
+    else:
+        heading_text = node_cls.HEADING
     heading = "(" + heading_text + ")"
 
     has_authored_heading = any(
@@ -102,11 +120,7 @@ def _node_name_in(corpus_tree, node_name_arg, node_cls, glossary_name):
     if has_authored_heading:
         return heading
 
-    node = (
-        node_cls(corpus_tree, glossary_name=glossary_name)
-        if glossary_name is not None
-        else node_cls(corpus_tree)
-    )
+    node = node_cls(corpus_tree, **kwargs)
     return node.name
 
 
@@ -123,11 +137,9 @@ def _dynamic_node_main(args):
     try:
         node_names = []
         for node_name_arg in args.NODE:
-            node_cls, glossary_name = _resolve_node_type(node_name_arg)
+            node_cls, kwargs = _resolve_node_type(node_name_arg)
             node_names.append(
-                _node_name_in(
-                    corpus_tree, node_name_arg, node_cls, glossary_name
-                )
+                _node_name_in(corpus_tree, node_name_arg, node_cls, kwargs)
             )
 
         blueprint = None
