@@ -23,6 +23,8 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Added
 
+- `(Emoji)` dynamic node, rendering every `abbrs.json` entry tagged
+  `emoji`; accessible via `kaye-engine dn emoji`
 - `sparseness` parameter on `render_prompt_lines()`/`generate_prompt()`,
   controlling how runs of blank lines collapse in rendered output: `-1`
   joins the whole output into one line (`REPLACEMENT_NEWLINE_SYMBOL` in

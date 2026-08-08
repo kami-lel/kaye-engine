@@ -21,6 +21,7 @@ Every dynamic node's name is its heading wrapped in parentheses, e.g. `(Today)` 
 | Node | Heading | Renders |
 | --- | --- | --- |
 | Today | `(Today)` | current date and time |
+| Emoji | `(Emoji)` | every abbr entry tagged `emoji` |
 
 Every abbreviation-related dynamic node (`(Decode-Only Shorthand)`, plus one `(glossary-name)` per abbr glossary, e.g. `(coding-terms)`) is documented in [`abbr-collection-doc.md`](abbr-collection-doc.md).
 
