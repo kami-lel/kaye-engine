@@ -16,11 +16,21 @@ CLAUDE_CODE_SIDECARS = (
     "Claude Tool:Enter/ExitPlanMode",
     "Claude Tool:TodoWrite",
     "Claude Tool:AskUserQuestion",
+    "Claude Tool:Subagents",
+    "Claude Tool:Tasks",
+    "Claude Tool:Worktrees",
+    "Claude Tool:Skill",
+    "Claude Tool:Workflow",
 )
 CLAUDE_CODE_VSC_XTN_SIDECARS = (
     "Claude Tool:Enter/ExitPlanMode",
     "Claude Tool:TodoWrite",
     "Claude Tool:AskUserQuestion",
+    "Claude Tool:Subagents",
+    "Claude Tool:Tasks",
+    "Claude Tool:Worktrees",
+    "Claude Tool:Skill",
+    "Claude Tool:Workflow",
 )
 
 # name written into plugin.json / used as the plugin's folder name
