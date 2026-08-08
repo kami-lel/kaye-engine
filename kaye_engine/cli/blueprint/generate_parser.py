@@ -13,7 +13,7 @@ from kaye_engine.kamilog import (
 )
 
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.prompt.blueprint_io_parser import (
+from kaye_engine.cli.blueprint.blueprint_io_parser import (
     blueprint_io_parser,
     load_blueprint_from_args,
 )
@@ -36,12 +36,12 @@ renders blueprint into a final system prompt; the result is printed to stdout
 
 select blueprint by registry name BLUEPRINT:
 
-    kaye-engine prompt generate my-blueprint
+    kaye-engine blueprint generate my-blueprint
 
 reading blueprint from stdin:
 
-    kaye-engine prompt generate < my-blueprint.yaml
-    cat my-blueprint.yaml | kaye-engine prompt generate
+    kaye-engine blueprint generate < my-blueprint.yaml
+    cat my-blueprint.yaml | kaye-engine blueprint generate
 
 """ + SPARSENESS_DESCRIPTION
 
@@ -63,14 +63,14 @@ def _generate_main(args):  ####################################################
 
 def register_generate_parser(cli_subparser):  ##################################
     """
-    register the ``kaye prompt generate`` subcommand parser
+    register the ``kaye blueprint generate`` subcommand parser
     """
     generate_parser = cli_subparser.add_parser(
         "generate",
         help=_HELP,
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
-        aliases=["g"],
+        aliases=["gen", "g"],
         parents=[blueprint_io_parser, sparseness_parser],
     )
 
