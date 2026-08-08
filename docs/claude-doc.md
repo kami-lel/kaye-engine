@@ -122,15 +122,15 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `{Claude Tool:Skill}` | `Skill` |
 | `{Claude Tool:Workflow}` | `Workflow` |
 
-<!-- Bug claude sidecars by CLI -->
+<!-- Bug claude sidecars organize -->
 
 | sidecar name | `CLAUDE_CHAT_SIDECARS` | `CLAUDE_COWORK_SIDECARS` | `CLAUDE_CODE_SIDECARS` | `CLAUDE_CODE_VSC_XTN_SIDECARS` |
 | --- | --- | --- | --- | --- |
 | `Claude Tool:Enter/ExitPlanMode` | ❌ | ❌ | ✔️ | ✔️ |
 | `Claude Tool:TodoWrite` | ❌ | ❌ | ✔️ | ✔️ |
 | `Claude Tool:AskUserQuestion` | ❌ | ❌ | ✔️ | ✔️ |
-| `Claude Tool:Subagents` | ❌ | ❌ | ❌ | ❌ |
-| `Claude Tool:Tasks` | ❌ | ❌ | ❌ | ❌ |
-| `Claude Tool:Worktrees` | ❌ | ❌ | ❌ | ❌ |
-| `Claude Tool:Skill` | ❌ | ❌ | ❌ | ❌ |
-| `Claude Tool:Workflow` | ❌ | ❌ | ❌ | ❌ |
+| `Claude Tool:Subagents` | ❌ | ❌ | ✔️ | ✔️ |
+| `Claude Tool:Tasks` | ❌ | ❌ | ✔️ | ✔️ |
+| `Claude Tool:Worktrees` | ❌ | ❌ | ✔️ | ✔️ |
+| `Claude Tool:Skill` | ❌ | ❌ | ✔️ | ✔️ |
+| `Claude Tool:Workflow` | ❌ | ❌ | ✔️ | ✔️ |
