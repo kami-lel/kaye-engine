@@ -89,11 +89,34 @@ To load the marketplace in VS Code:
 
 A corpus must supply a node at `Agent Behavior` → `Claude Behavior`, and register a Chat blueprint and a Coder blueprint under whatever names the consumer passes to `setup_claude_cli(...)`; `user_prompt/export.py` resolves them via `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` in `blueprint_name.py`.
 
-Conditional `{Claude Tool:...}` sidecar nodes are optional; when present, each Claude export surface auto-includes them via its own `CLAUDE_*_SIDECARS` constant in `kaye_engine.cli.claude`.
-
-Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md).
-
 ----
 
 A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking the. The version passed here is the consumer's own, stamped into every `plugin.json`, `marketplace.json`, and `SKILL.md` the CLI writes
 
+
+
+
+
+
+
+
+
+
+
+
+
+## Conditional Sidecar Inclusion
+
+Conditional `{Claude Tool:...}` sidecar nodes are optional; when present, each Claude export surface auto-includes them via its own `CLAUDE_*_SIDECARS` constant in `kaye_engine.cli.claude`:
+
+| sidecar name | `CLAUDE_CHAT_SIDECARS` | `CLAUDE_COWORK_SIDECARS` | `CLAUDE_CODE_SIDECARS` | `CLAUDE_CODE_VSC_XTN_SIDECARS` |
+| --- | --- | --- | --- | --- |
+| `Claude Tool:Enter/ExitPlanMode` | | | ✓ | ✓ |
+| `Claude Tool:TodoWrite` | | | ✓ | ✓ |
+| `Claude Tool:AskUserQuestion` | | | ✓ | ✓ |
+
+`CLAUDE_CHAT_SIDECARS` and `CLAUDE_COWORK_SIDECARS` are currently empty — neither export surface auto-includes any `{Claude Tool:...}` sidecar.
+
+Each Claude export surface passes its constant to `contains_sidecars=` when calling `generate_prompt()` / `render.render_prompt_lines()` to auto-checkmark the matching sidecar nodes.
+
+Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept and how they're authored in the prompt corpus.
