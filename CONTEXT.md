@@ -115,15 +115,14 @@ kaye_engine/
 ├── cli/
 │   ├── prompt/          `prompt` subcommand: ls, show, generate
 │   ├── claude/          skills, plugins, marketplaces, CLAUDE.md
-│   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
-│   └── cli_continue/    deprecated; never registered, unreachable
+│   └── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
 └── kamilog.py           logging, shared across the package
 docs/                    per-topic reference, linked above
 tests/                   prompt/, abbr/, cli/ — mirrors the source
 ```
 
-The `prompt` layer is pure: it knows nothing of Claude, Continue, or any
-export target. Every export target is a leaf under `cli/`, and each reads
+The `prompt` layer is pure: it knows nothing of Claude or any export
+target. Every export target is a leaf under `cli/`, and each reads
 the same `blueprint_registry` rather than holding its own list.
 
 ## Testing Strategy

@@ -49,7 +49,7 @@ class BlueprintRegistry:
     instances are created via `register_blueprint` and collected in
     `blueprint_registry`; this is the single source of truth for a
     blueprint's identity (`name`/`display_name`) and where it should be
-    exported (Continue AI rules, Claude skills) and how
+    exported (Claude skills) and how
 
 
     :param name: canonical string key, kebab-case, e.g. ``"coder-py"``,
@@ -62,9 +62,6 @@ class BlueprintRegistry:
     :param skill_exportable: export as a Claude Agent Skill;
             defaults to False
     :type skill_exportable: bool, optional
-    :param continue_exportable: export as a Continue AI rule;
-            defaults to False
-    :type continue_exportable: bool, optional
     :param always_apply: whether this entry is unconditionally relevant
             and should always be applied, rather than surfaced only when
             judged relevant; defaults to False
@@ -83,7 +80,6 @@ class BlueprintRegistry:
     display_name: str
     blueprint: PromptBlueprint
     skill_exportable: bool = False
-    continue_exportable: bool = False
     always_apply: bool = False
     user_invokable: bool = True
     llm_invokable: bool = True
