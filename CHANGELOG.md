@@ -158,6 +158,10 @@ todo todo utilize personalities, allow multi agent conversation
 - `abbrs.json`'s separate `glossaries` key and its `ABBRS_JSON_GLOSSARY_KEY`
   export, along with `AbbrTags.parse()`, superseded by unified parsing of
   a single `tags` array (v.s.)
+- the deprecated Continue AI tool integration: `cli_continue`, the CLI
+  subpackage exporting blueprints as Continue rule files (already
+  unregistered and unreachable), and `continue_exportable`, the
+  `BlueprintRegistry` export-policy flag it depended on
 
 ### Fixed
 

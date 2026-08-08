@@ -40,7 +40,6 @@ class TestRegisterBlueprint:  ##################################################
         assert reg.display_name == "Test Registry Dft"
         assert reg.blueprint is bp
         assert reg.skill_exportable is False
-        assert reg.continue_exportable is False
         assert reg.always_apply is False
         assert reg.user_invokable is True
         assert reg.llm_invokable is True
@@ -56,7 +55,6 @@ class TestRegisterBlueprint:  ##################################################
             "Test Registry Flags",
             bp,
             skill_exportable=True,
-            continue_exportable=True,
             always_apply=True,
             user_invokable=False,
             llm_invokable=False,
@@ -64,7 +62,6 @@ class TestRegisterBlueprint:  ##################################################
         registered_names.append(reg.name)
 
         assert reg.skill_exportable is True
-        assert reg.continue_exportable is True
         assert reg.always_apply is True
         assert reg.user_invokable is False
         assert reg.llm_invokable is False
