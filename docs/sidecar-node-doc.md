@@ -5,13 +5,59 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Concepts
 
 Sidecar nodes enable two complementary patterns:
 
+
+
+
+
+
+
+
+
+
+
+
+
 ### Descriptor Sidecars
 
 Descriptor sidecars are metadata fields that describe a parent node's purpose, relevance, and applicable contexts. They are consumed by blueprints and exposed via `.sidecars` (a `BlueprintDescriptorSidecars` instance).
+
+
+
+
 
 #### `{description}`
 
@@ -20,6 +66,9 @@ Describes the parent node's functionality — what the node represents or what i
 **Rendering behavior:** The description is **overridable** — if explicitly set on the blueprint object, it is used; otherwise, it falls back to the `{description}` node's content.
 
 **Access:** `blueprint.sidecars.description`
+
+
+
 
 
 #### `{when_to_use}`
@@ -31,6 +80,9 @@ Indicates when the parent node should be enabled — the conditions or contexts 
 **Access:** `blueprint.sidecars.when_to_use`
 
 
+
+
+
 #### `{globs}`
 
 Lists file glob patterns indicating which file types or paths make the parent node relevant. Each line is treated as a separate pattern — multiple patterns are supported. Used by IDE integrations and code editors to determine when to apply the prompt context.
@@ -40,33 +92,43 @@ Lists file glob patterns indicating which file types or paths make the parent no
 **Access:** `blueprint.sidecars.globs` (returns list of glob patterns)
 
 
+
+
+
+
+
+
+
+
+
+
+
 ### Conditional Sidecar Nodes
 
 Conditional sidecar nodes are real prompt content (e.g., instructions, rules) that are conditionally spliced into the rendered prompt based on explicit requests via the `contains_sidecars` parameter, a plain collection of sidecar names. Unlike descriptor sidecars, there is no fixed set of conditional names — any `{name}` heading can be requested this way, including reserved descriptor names.
 
-**Rendering behavior:** Pass `contains_sidecars=(...)` to auto-include sidecars of the given name(s) during rendering. `kaye_engine.cli.claude` defines one constant per Claude export surface — `CLAUDE_CHAT_SIDECARS`, `CLAUDE_COWORK_SIDECARS`, `CLAUDE_CODE_SIDECARS`, `CLAUDE_CODE_VSC_XTN_SIDECARS` — so which conditional sidecars get included can differ by surface; each export site (`user_prompt/export.py`, `code/parser.py`, `vs_code/export.py`, `skill/skill_md.py`) passes the constant matching what it exports.
-
-**Detection:** Use `get_sidecar_name(node) == "<name>"` to identify a specific conditional sidecar.
+**Rendering behavior:** Pass `contains_sidecars=(...)` to auto-include sidecars of the given name(s) during rendering.
 
 Currently defined conditional sidecar names, in use across the corpus:
 
-#### `{Claude Tool:Enter/ExitPlanMode}`
 
-Instructions for using the `EnterPlanMode`/`ExitPlanMode` tools — when to open plan mode before discovery, and how the finished plan is handed to the user for approval via `ExitPlanMode`.
 
-**Included by:** `CLAUDE_CODE_SIDECARS`, `CLAUDE_CODE_VSC_XTN_SIDECARS`.
 
-#### `{Claude Tool:TodoWrite}`
 
-Instructions for using the `TodoWrite` tool — when to seed, open, and close todo entries to track Steps or other multi-part work.
+#### `{Claude Tool:~~}`
 
-**Included by:** `CLAUDE_CODE_SIDECARS`, `CLAUDE_CODE_VSC_XTN_SIDECARS`.
+| sidecar name | Claude tool |
+| --- | --- |
+| `{Claude Tool:Enter/ExitPlanMode}` | `EnterPlanMode`/`ExitPlanMode` |
+| `{Claude Tool:TodoWrite}` | `TodoWrite` |
+| `{Claude Tool:AskUserQuestion}` | `AskUserQuestion` |
 
-#### `{Claude Tool:AskUserQuestion}`
+Q.v. [`claude-doc.md`](claude-doc.md) for which Claude export surface includes each of these, and the underlying API.
 
-Instructions for using the `AskUserQuestion` tool — when to stop and ask the user rather than assuming an answer.
 
-**Included by:** `CLAUDE_CODE_SIDECARS`, `CLAUDE_CODE_VSC_XTN_SIDECARS`.
+
+
+
 
 #### `{explicit}`
 
