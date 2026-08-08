@@ -21,9 +21,11 @@ Every dynamic node's name is its heading wrapped in parentheses, e.g. `(Today)` 
 | Node | Heading | Renders |
 | --- | --- | --- |
 | Today | `(Today)` | current date and time |
-| Emoji | `(Emoji)` | every abbr entry tagged `emoji` |
+| AbbrTagNode | `(Title Case Of Tag Name)` | every abbr entry tagged with that `AbbrTags` member |
 
-Every abbreviation-related dynamic node (`(Decode-Only Shorthand)`, plus one `(glossary-name)` per abbr glossary, e.g. `(coding-terms)`) is documented in [`abbr-collection-doc.md`](abbr-collection-doc.md).
+`AbbrTagNode` is parametrized by an `AbbrTags` member instead of being subclassed per tag — one instance is attached per member of `ABBR_TAG_NODE_MEMBERS` (every simple, single-bit `AbbrTags` member except `always_understand`, which `(Decode-Only Shorthand)` already covers as its no-query fallback; composite members like `WORD_CHARACTER`/`ASCII` are excluded). Its heading is the tag's name in Title Case, e.g. `emoji` → `(Emoji)`, `single_character` → `(Single Character)`. On the CLI, the `NODE` argument for one of these is the raw tag name, e.g. `kaye-engine dn emoji`, `kaye-engine dn single_character`.
+
+Every other abbreviation-related dynamic node (`(Decode-Only Shorthand)`, plus one `(glossary-name)` per abbr glossary, e.g. `(coding-terms)`) is documented in [`abbr-collection-doc.md`](abbr-collection-doc.md).
 
 Every dynamic node is a **leaf** — it never has children, so it cannot itself contain sub-sections.
 
