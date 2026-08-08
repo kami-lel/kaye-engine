@@ -109,20 +109,30 @@ A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking t
 
 Conditional `{Claude Tool:...}` sidecar nodes are optional; when present, each Claude export surface auto-includes them via its own `CLAUDE_*_SIDECARS` constant in `kaye_engine.cli.claude`.
 
+Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept and how they're authored in the prompt corpus.
+
 | sidecar name | Claude tool |
 | --- | --- |
 | `{Claude Tool:Enter/ExitPlanMode}` | `EnterPlanMode`/`ExitPlanMode` |
 | `{Claude Tool:TodoWrite}` | `TodoWrite` |
 | `{Claude Tool:AskUserQuestion}` | `AskUserQuestion` |
+| `{Claude Tool:Subagents}` | `Agent`, `ListAgents`, `SendMessage`, `TaskStop` |
+| `{Claude Tool:Tasks}` | `TaskCreate`, `TaskGet`, `TaskList`, `TaskOutput`, `TaskStop`, `TaskUpdate` |
+| `{Claude Tool:Worktrees}` | `EnterWorktree`, `ExitWorktree` |
+| `{Claude Tool:Skill}` | `Skill` |
+| `{Claude Tool:Workflow}` | `Workflow` |
+
+<!-- Bug claude sidecars by CLI -->
+
+<!-- HACK use emoji -->
 
 | sidecar name | `CLAUDE_CHAT_SIDECARS` | `CLAUDE_COWORK_SIDECARS` | `CLAUDE_CODE_SIDECARS` | `CLAUDE_CODE_VSC_XTN_SIDECARS` |
 | --- | --- | --- | --- | --- |
 | `Claude Tool:Enter/ExitPlanMode` | | | ✓ | ✓ |
 | `Claude Tool:TodoWrite` | | | ✓ | ✓ |
 | `Claude Tool:AskUserQuestion` | | | ✓ | ✓ |
-
-`CLAUDE_CHAT_SIDECARS` and `CLAUDE_COWORK_SIDECARS` are currently empty — neither export surface auto-includes any `{Claude Tool:...}` sidecar.
-
-Each Claude export surface passes its constant to `contains_sidecars=` when calling `generate_prompt()` / `render.render_prompt_lines()` to auto-checkmark the matching sidecar nodes.
-
-Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept and how they're authored in the prompt corpus.
+| `Claude Tool:Subagents` | | | | |
+| `Claude Tool:Tasks` | | | | |
+| `Claude Tool:Worktrees` | | | | |
+| `Claude Tool:Skill` | | | | |
+| `Claude Tool:Workflow` | | | | |
