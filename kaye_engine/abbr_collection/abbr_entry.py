@@ -4,7 +4,6 @@ abbr_entry.py
 define ``AbbrEntry``
 """
 
-from kaye_engine.abbr_collection.abbr_glossary import ABBRS_JSON_GLOSSARY_KEY
 from kaye_engine.abbr_collection.abbr_tags import AbbrTags
 from kaye_engine.abbr_collection.abbr_wrap import AbbrWrap
 
@@ -75,20 +74,28 @@ class AbbrEntry:
             )
         self.priority = priority
 
-        # set .tags  -----------------------------------------------------------
-        self.tags = AbbrTags.parse(abbr_obj[ABBRS_JSON_TAGS_KEY])
-
-        # set .glossaries  -------------------------------------------------------
-        # optional; free-form, consumer-defined glossary names, no fixed enum
-        glossaries = abbr_obj.get(ABBRS_JSON_GLOSSARY_KEY, [])
-        if not isinstance(glossaries, list) or not all(
-            isinstance(glossary, str) for glossary in glossaries
-        ):
+        # set .tags & .glossaries  -----------------------------------------------
+        # each "tags" entry is tried as an AbbrTags member first; on failure
+        # it's treated as a free-form, consumer-defined glossary name instead,
+        # validated later against the registry by AbbrData.add_entry
+        tags_list = abbr_obj[ABBRS_JSON_TAGS_KEY]
+        if not isinstance(tags_list, list):
             raise ValueError(
-                "glossaries value must be Array of String: {}".format(
-                    repr(glossaries)
-                )
+                "tags value must be Array: {}".format(repr(tags_list))
             )
+
+        tags = AbbrTags.NONE
+        glossaries = []
+        for tag in tags_list:
+            if not isinstance(tag, str):
+                raise ValueError(
+                    "tags entry must be String: {}".format(repr(tag))
+                )
+            try:
+                tags |= AbbrTags[tag]
+            except KeyError:
+                glossaries.append(tag)
+        self.tags = tags
         self.glossaries = tuple(glossaries)
 
         # set .wrap  -----------------------------------------------------------
