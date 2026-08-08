@@ -6,7 +6,7 @@ define ``Skill``
 
 from pathlib import Path
 
-from kaye_engine.cli.claude import CONTAINING_SIDECARS
+from kaye_engine.cli.claude import CLAUDE_CODE_SIDECARS
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 
 
@@ -157,7 +157,7 @@ class Skill(FrontmatterDoc):
             paths=list(sidecars.globs) if sidecars.globs else [],
             user_invocable=registry.user_invokable,
             body=registry.blueprint.generate_prompt(
-                contains_sidecars=CONTAINING_SIDECARS, sparseness=0
+                contains_sidecars=CLAUDE_CODE_SIDECARS, sparseness=0
             ),
             version=version,
         )
