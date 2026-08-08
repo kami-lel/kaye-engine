@@ -121,6 +121,7 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `{Claude Tool:Worktrees}` | `EnterWorktree`, `ExitWorktree` |
 | `{Claude Tool:Skill}` | `Skill` |
 | `{Claude Tool:Workflow}` | `Workflow` |
+| `{Claude Tool:ReportFindings}` | `ReportFindings` |
 
 <!-- Bug claude sidecars organize -->
 
@@ -134,3 +135,4 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `Claude Tool:Worktrees` | ❌ | ❌ | ✔️ | ✔️ |
 | `Claude Tool:Skill` | ❌ | ❌ | ✔️ | ✔️ |
 | `Claude Tool:Workflow` | ❌ | ❌ | ✔️ | ✔️ |
+| `Claude Tool:ReportFindings` | ❌ | ❌ | ✔️ | ✔️ |
