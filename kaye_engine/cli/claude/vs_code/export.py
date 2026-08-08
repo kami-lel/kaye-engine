@@ -7,7 +7,10 @@ define ``export_vs_code_extension``
 from pathlib import Path
 
 from kaye_engine import kamilog
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.claude import (
+    CLAUDE_CODE_VSC_XTN_SIDECARS,
+    LOGGER_CLAUDE_NAME,
+)
 from kaye_engine.cli.claude.marketplace.export import export_marketplace
 from kaye_engine.cli.claude.setup import get_marketplace_folder_name
 from kaye_engine.cli.claude.user_prompt.parser import (
@@ -40,7 +43,12 @@ def export_vs_code_extension(claude_folder):
 
     logger.debug("export user system prompt file")
     prompt_file = find_user_system_prompt_file(claude_folder)
-    export_user_system_prompt_file(prompt_file, use_coder=True, sparseness=0)
+    export_user_system_prompt_file(
+        prompt_file,
+        use_coder=True,
+        sparseness=0,
+        sidecars=CLAUDE_CODE_VSC_XTN_SIDECARS,
+    )
     logger.succ("export user system prompt file:\t" + str(prompt_file))
 
     logger.debug("export marketplace")

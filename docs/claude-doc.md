@@ -89,11 +89,48 @@ To load the marketplace in VS Code:
 
 A corpus must supply a node at `Agent Behavior` → `Claude Behavior`, and register a Chat blueprint and a Coder blueprint under whatever names the consumer passes to `setup_claude_cli(...)`; `user_prompt/export.py` resolves them via `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` in `blueprint_name.py`.
 
-`{for claude code}` sidecar nodes are optional; when present, `CONTAINING_SIDECARS` auto-includes them in every Claude export.
-
-Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md).
-
 ----
 
 A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking the. The version passed here is the consumer's own, stamped into every `plugin.json`, `marketplace.json`, and `SKILL.md` the CLI writes
 
+
+
+
+
+
+
+
+
+
+
+
+
+## Conditional Sidecar Inclusion
+
+Conditional `{Claude Tool:...}` sidecar nodes are optional; when present, each Claude export surface auto-includes them via its own `CLAUDE_*_SIDECARS` constant in `kaye_engine.cli.claude`.
+
+Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept and how they're authored in the prompt corpus.
+
+| sidecar name | Claude tool |
+| --- | --- |
+| `{Claude Tool:Enter/ExitPlanMode}` | `EnterPlanMode`/`ExitPlanMode` |
+| `{Claude Tool:TodoWrite}` | `TodoWrite` |
+| `{Claude Tool:AskUserQuestion}` | `AskUserQuestion` |
+| `{Claude Tool:Subagents}` | `Agent`, `ListAgents`, `SendMessage`, `TaskStop` |
+| `{Claude Tool:Tasks}` | `TaskCreate`, `TaskGet`, `TaskList`, `TaskOutput`, `TaskStop`, `TaskUpdate` |
+| `{Claude Tool:Worktrees}` | `EnterWorktree`, `ExitWorktree` |
+| `{Claude Tool:Skill}` | `Skill` |
+| `{Claude Tool:Workflow}` | `Workflow` |
+
+<!-- Bug claude sidecars organize -->
+
+| sidecar name | `CLAUDE_CHAT_SIDECARS` | `CLAUDE_COWORK_SIDECARS` | `CLAUDE_CODE_SIDECARS` | `CLAUDE_CODE_VSC_XTN_SIDECARS` |
+| --- | --- | --- | --- | --- |
+| `Claude Tool:Enter/ExitPlanMode` | ❌ | ❌ | ✔️ | ✔️ |
+| `Claude Tool:TodoWrite` | ❌ | ❌ | ✔️ | ✔️ |
+| `Claude Tool:AskUserQuestion` | ❌ | ❌ | ✔️ | ✔️ |
+| `Claude Tool:Subagents` | ❌ | ❌ | ✔️ | ✔️ |
+| `Claude Tool:Tasks` | ❌ | ❌ | ✔️ | ✔️ |
+| `Claude Tool:Worktrees` | ❌ | ❌ | ✔️ | ✔️ |
+| `Claude Tool:Skill` | ❌ | ❌ | ✔️ | ✔️ |
+| `Claude Tool:Workflow` | ❌ | ❌ | ✔️ | ✔️ |
