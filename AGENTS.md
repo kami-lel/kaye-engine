@@ -63,16 +63,16 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Three** subcommands exist, `prompt`, `claude`, and
+the shorter form. **Three** subcommands exist, `blueprint`, `claude`, and
 `dynamic-node`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
-kaye-engine prompt ls                       # list registered blueprint names
-kaye-engine prompt show BLUEPRINT           # preview a blueprint's structure
-kaye-engine prompt show < FILE              # preview from stdin (BLUEPRINT omitted)
-kaye-engine prompt generate BLUEPRINT       # render a concrete prompt
-kaye-engine prompt generate < FILE          # render from stdin (BLUEPRINT omitted)
+kaye-engine blueprint ls                    # list registered blueprint names
+kaye-engine blueprint show BLUEPRINT        # preview a blueprint's structure
+kaye-engine blueprint show < FILE           # preview from stdin (BLUEPRINT omitted)
+kaye-engine blueprint generate BLUEPRINT    # render a concrete prompt
+kaye-engine blueprint generate < FILE       # render from stdin (BLUEPRINT omitted)
 kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged into one blueprint/output; NODE is "today"/"shorthand" or any known abbr glossary name
 kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
 kaye-engine dynamic-node NODE -s SPARSENESS # blank-line policy, v.i.
@@ -89,13 +89,14 @@ kaye-engine claude user-system-prompt -c    # append Coder blueprint content
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
 ```
 
-Aliases: `prompt` → `p`; `prompt generate` → `p g`; `dynamic-node` →
-`dn`; `claude` → `anthropic`, `a`; `claude code` → `claude c`; `claude
-marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skill`
-→ `claude s`; `claude user-system-prompt` → `claude usp`; `claude
-vs-code-extension` → `claude v`.
+Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
+generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` →
+`anthropic`, `a`; `claude code` → `claude c`; `claude marketplace` →
+`claude m`; `claude plugin` → `claude p`; `claude skill` → `claude s`;
+`claude user-system-prompt` → `claude usp`; `claude vs-code-extension`
+→ `claude v`.
 
-`prompt generate` and `dynamic-node` both take `-s`/`--sparseness SPARSENESS`
+`blueprint generate` and `dynamic-node` both take `-s`/`--sparseness SPARSENESS`
 (shared parser in `kaye_engine/cli/sparseness_parser.py`) to control
 blank-line collapsing in the rendered output: `-1` joins everything into one
 line, `0` strips all blank lines, `1` (default) collapses every run to a
