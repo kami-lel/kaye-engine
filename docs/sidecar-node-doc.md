@@ -44,13 +44,33 @@ Lists file glob patterns indicating which file types or paths make the parent no
 
 Conditional sidecar nodes are real prompt content (e.g., instructions, rules) that are conditionally spliced into the rendered prompt based on explicit requests via the `contains_sidecars` parameter, a plain collection of sidecar names. Unlike descriptor sidecars, there is no fixed set of conditional names — any `{name}` heading can be requested this way, including reserved descriptor names.
 
-#### `{for claude code}`
+**Rendering behavior:** Pass `contains_sidecars=(...)` to auto-include sidecars of the given name(s) during rendering. `kaye_engine.cli.claude` defines one constant per Claude export surface — `CLAUDE_CHAT_SIDECARS`, `CLAUDE_COWORK_SIDECARS`, `CLAUDE_CODE_SIDECARS`, `CLAUDE_CODE_VSC_XTN_SIDECARS` — so which conditional sidecars get included can differ by surface; each export site (`user_prompt/export.py`, `code/parser.py`, `vs_code/export.py`, `skill/skill_md.py`) passes the constant matching what it exports.
 
-Lists Claude-specific instructions that apply whenever the parent node is enabled. Pass `contains_sidecars=("for claude code",)` to auto-checkmark these nodes during Claude exports.
+**Detection:** Use `get_sidecar_name(node) == "<name>"` to identify a specific conditional sidecar.
 
-**Rendering behavior:** Pass `contains_sidecars=("for claude code",)` to auto-include `{for claude code}` sidecars during rendering. The constant `kaye_engine.cli.claude.CONTAINING_SIDECARS` includes `"for claude code"` for all Claude skill and hook exports.
+Currently defined conditional sidecar names, in use across the corpus:
 
-**Detection:** Use `get_sidecar_name(node) == "for claude code"` to identify Claude-specific sidecars.
+#### `{Claude Tool:Enter/ExitPlanMode}`
+
+Instructions for using the `EnterPlanMode`/`ExitPlanMode` tools — when to open plan mode before discovery, and how the finished plan is handed to the user for approval via `ExitPlanMode`.
+
+**Included by:** `CLAUDE_CODE_SIDECARS`, `CLAUDE_CODE_VSC_XTN_SIDECARS`.
+
+#### `{Claude Tool:TodoWrite}`
+
+Instructions for using the `TodoWrite` tool — when to seed, open, and close todo entries to track Steps or other multi-part work.
+
+**Included by:** `CLAUDE_CODE_SIDECARS`, `CLAUDE_CODE_VSC_XTN_SIDECARS`.
+
+#### `{Claude Tool:AskUserQuestion}`
+
+Instructions for using the `AskUserQuestion` tool — when to stop and ask the user rather than assuming an answer.
+
+**Included by:** `CLAUDE_CODE_SIDECARS`, `CLAUDE_CODE_VSC_XTN_SIDECARS`.
+
+#### `{explicit}`
+
+A persona-intensifier sidecar supplementing a personality node; not tool-specific and currently has no code consumer (no `CLAUDE_*_SIDECARS` constant references it yet).
 
 
 
@@ -78,9 +98,9 @@ This node indicates when to use the parent.
 **/*.py
 ```
 
-## {for claude code}
+## {Claude Tool:TodoWrite}
 
-This node contains Claude-specific instructions.
+This node contains TodoWrite-specific instructions.
 ```
 
 **Heading conventions:**
@@ -132,7 +152,7 @@ if name is not None:
 
 Check for specific sidecar names:
 ```python
-if name == "for claude code":
+if name == "Claude Tool:TodoWrite":
     print("this is a conditional sidecar node")
 ```
 
@@ -249,6 +269,8 @@ merged_bp = bp1 | bp2
 
 Conditional rendering with conditional sidecar nodes:
 ```python
-# Include Claude-specific instructions
-prompt = bp.generate_prompt(contains_sidecars=("for claude code",))
+from kaye_engine.cli.claude import CLAUDE_CODE_SIDECARS
+
+# Include Claude Code tool instructions
+prompt = bp.generate_prompt(contains_sidecars=CLAUDE_CODE_SIDECARS)
 ```

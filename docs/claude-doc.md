@@ -89,7 +89,7 @@ To load the marketplace in VS Code:
 
 A corpus must supply a node at `Agent Behavior` → `Claude Behavior`, and register a Chat blueprint and a Coder blueprint under whatever names the consumer passes to `setup_claude_cli(...)`; `user_prompt/export.py` resolves them via `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` in `blueprint_name.py`.
 
-`{for claude code}` sidecar nodes are optional; when present, `CONTAINING_SIDECARS` auto-includes them in every Claude export.
+Conditional `{Claude Tool:...}` sidecar nodes are optional; when present, each Claude export surface auto-includes them via its own `CLAUDE_*_SIDECARS` constant in `kaye_engine.cli.claude`.
 
 Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md).
 
