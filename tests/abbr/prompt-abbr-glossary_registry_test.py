@@ -90,9 +90,8 @@ class TestAddEntryUnregisteredGlossary:  #######################################
                     "dmy",
                     {
                         "priority": 0,
-                        "tags": [],
+                        "tags": ["test-glossary-unregistered"],
                         "wrap": "word",
-                        "glossaries": ["test-glossary-unregistered"],
                     },
                 )
 
@@ -116,9 +115,8 @@ class TestRenderingDefaults:  ##################################################
                 "e.g.",
                 {
                     "priority": 5,
-                    "tags": [],
+                    "tags": ["test-glossary-numbered"],
                     "wrap": "word",
-                    "glossaries": ["test-glossary-numbered"],
                 },
             )
 
@@ -144,9 +142,8 @@ class TestRenderingDefaults:  ##################################################
                 "e.g.",
                 {
                     "priority": 5,
-                    "tags": [],
+                    "tags": ["test-glossary-sorted"],
                     "wrap": "word",
-                    "glossaries": ["test-glossary-sorted"],
                 },
             )
             data.add_entry(
@@ -154,9 +151,8 @@ class TestRenderingDefaults:  ##################################################
                 "i.e.",
                 {
                     "priority": 1,
-                    "tags": [],
+                    "tags": ["test-glossary-sorted"],
                     "wrap": "word",
-                    "glossaries": ["test-glossary-sorted"],
                 },
             )
 
@@ -184,9 +180,8 @@ class TestRenderingDefaults:  ##################################################
                 "e.g.",
                 {
                     "priority": 5,
-                    "tags": [],
+                    "tags": ["test-glossary-override"],
                     "wrap": "word",
-                    "glossaries": ["test-glossary-override"],
                 },
             )
 
@@ -214,9 +209,8 @@ class TestRenderingDefaults:  ##################################################
                 "e.g.",
                 {
                     "priority": 5,
-                    "tags": [],
+                    "tags": ["test-glossary-threshold"],
                     "wrap": "word",
-                    "glossaries": ["test-glossary-threshold"],
                 },
             )
             data.add_entry(
@@ -224,9 +218,8 @@ class TestRenderingDefaults:  ##################################################
                 "i.e.",
                 {
                     "priority": 6,
-                    "tags": [],
+                    "tags": ["test-glossary-threshold"],
                     "wrap": "word",
-                    "glossaries": ["test-glossary-threshold"],
                 },
             )
 
@@ -254,9 +247,8 @@ class TestRenderingDefaults:  ##################################################
                 "e.g.",
                 {
                     "priority": 5,
-                    "tags": [],
+                    "tags": ["test-glossary-threshold-filtered"],
                     "wrap": "word",
-                    "glossaries": ["test-glossary-threshold-filtered"],
                 },
             )
             data.add_entry(
@@ -264,9 +256,8 @@ class TestRenderingDefaults:  ##################################################
                 "i.e.",
                 {
                     "priority": 6,
-                    "tags": [],
+                    "tags": ["test-glossary-threshold-filtered"],
                     "wrap": "word",
-                    "glossaries": ["test-glossary-threshold-filtered"],
                 },
             )
 

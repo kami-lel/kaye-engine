@@ -508,8 +508,7 @@ class TestGlossaries:  # glossaries  ===========================================
             "abbrs": {
                 "aCls": {
                     "priority": 5,
-                    "tags": [],
-                    "glossaries": ["coding-terms"],
+                    "tags": ["coding-terms"],
                     "wrap": "word",
                 },
             },
@@ -518,8 +517,8 @@ class TestGlossaries:  # glossaries  ===========================================
             "abbrs": {
                 "c": {
                     "priority": 5,
-                    "tags": ["single_character"],
-                    "glossaries": [
+                    "tags": [
+                        "single_character",
                         "coding-terms",
                         "programming-language-codes",
                     ],
