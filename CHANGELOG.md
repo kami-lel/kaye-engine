@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+TODO emoji only dn
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
