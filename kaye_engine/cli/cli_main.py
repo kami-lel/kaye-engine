@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 
 from kaye_engine.cli.claude.main import register_cli_claude_parser
 from kaye_engine.cli.dynamic_node.parser import register_dynamic_node_parser
-from kaye_engine.cli.prompt.main_parser import register_cli_prompt_parser
+from kaye_engine.cli.blueprint.main_parser import register_cli_blueprint_parser
 
 __all__ = ("register_cli_main_parser", "register_cli_subcommands")
 
@@ -18,7 +18,7 @@ PROGRAM_NAME = "kaye-engine"
 # Public API  ##################################################################
 def register_cli_subcommands(cli_subparser):
     """
-    register every engine-owned subcommand (``prompt``, ``claude``, the
+    register every engine-owned subcommand (``blueprint``, ``claude``, the
     dynamic-node command) onto an existing subparsers action, so sibling
     packages can compose their own top-level parser with engine's
     subcommands mixed in, instead of only being able to add to the
@@ -27,7 +27,7 @@ def register_cli_subcommands(cli_subparser):
     :param cli_subparser: subparsers action to register subcommands onto
     :type cli_subparser: argparse._SubParsersAction
     """
-    register_cli_prompt_parser(cli_subparser)
+    register_cli_blueprint_parser(cli_subparser)
     register_cli_claude_parser(cli_subparser)
     register_dynamic_node_parser(cli_subparser)
 
