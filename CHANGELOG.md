@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-Todo tag based node & cli
+TODO tag based node & cli
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
