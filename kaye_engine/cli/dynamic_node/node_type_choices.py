@@ -27,8 +27,8 @@ ENGINE_DEFINED_NODES = {
 def list_all_node_type_names():
     """
     :return: every currently available ``NODE_TYPE`` name, ordered as:
-            ``today``, every ``AbbrTagNode`` name (``AbbrTags``
-            declaration order), ``shorthand``, then every registered
+            ``today``, ``shorthand``, every ``AbbrTagNode`` name
+            (``AbbrTags`` declaration order), then every registered
             abbr glossary name (sorted alphabetically)
     :rtype: list[str]
     """
