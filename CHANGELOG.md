@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-Fixme merge glossary & tag: engine-defined-tag vs glossary-tag, update abbrs.json structure
+FIXME merge glossary & tag: engine-defined-tag vs glossary-tag, update abbrs.json structure
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
