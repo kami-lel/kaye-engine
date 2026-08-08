@@ -39,7 +39,7 @@ def get_sidecar_name(node):
     >>> name = get_sidecar_name(node)
     >>> if name is not None:
     ...     print(f"sidecar name: {name}")
-    >>> if name == "for claude code":
+    >>> if name == "Claude Tool:TodoWrite":
     ...     print("this is a conditional sidecar node")
 
 
