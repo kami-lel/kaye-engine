@@ -481,7 +481,7 @@ skill_name = registry.skill_name        # kebab-case slug, e.g. "chat"
 
 Each `BlueprintRegistry` carries the underlying `PromptBlueprint` as
 `.blueprint`, its `.name`/`.display_name`, and the export-policy flags
-`skill_exportable`, `continue_exportable`, `always_apply`,
-`user_invokable`, and `llm_invokable`. Iterate `blueprint_registry`
-directly to enumerate every registered blueprint.
+`skill_exportable`, `always_apply`, `user_invokable`, and
+`llm_invokable`. Iterate `blueprint_registry` directly to enumerate every
+registered blueprint.
 
