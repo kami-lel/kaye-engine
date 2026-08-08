@@ -107,7 +107,13 @@ A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking t
 
 ## Conditional Sidecar Inclusion
 
-Conditional `{Claude Tool:...}` sidecar nodes are optional; when present, each Claude export surface auto-includes them via its own `CLAUDE_*_SIDECARS` constant in `kaye_engine.cli.claude`:
+Conditional `{Claude Tool:...}` sidecar nodes are optional; when present, each Claude export surface auto-includes them via its own `CLAUDE_*_SIDECARS` constant in `kaye_engine.cli.claude`.
+
+| sidecar name | Claude tool |
+| --- | --- |
+| `{Claude Tool:Enter/ExitPlanMode}` | `EnterPlanMode`/`ExitPlanMode` |
+| `{Claude Tool:TodoWrite}` | `TodoWrite` |
+| `{Claude Tool:AskUserQuestion}` | `AskUserQuestion` |
 
 | sidecar name | `CLAUDE_CHAT_SIDECARS` | `CLAUDE_COWORK_SIDECARS` | `CLAUDE_CODE_SIDECARS` | `CLAUDE_CODE_VSC_XTN_SIDECARS` |
 | --- | --- | --- | --- | --- |
