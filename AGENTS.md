@@ -141,12 +141,11 @@ is not a registered blueprint — expected, not a bug.
 only gate — every exporter reads `blueprint_registry` directly. **Calls
 live in the consumer package**, not here.
 
-Export policy — five independent flags, no allow-list constant:
+Export policy — four independent flags, no allow-list constant:
 
 | flag | default | effect |
 |---|---|---|
 | `skill_exportable` | `False` | export as a Claude Agent Skill |
-| `continue_exportable` | `False` | export as a Continue AI rule |
 | `always_apply` | `False` | apply unconditionally, skipping relevance |
 | `user_invokable` | `True` | a human may invoke it by name |
 | `llm_invokable` | `True` | the assistant may surface it unprompted |
