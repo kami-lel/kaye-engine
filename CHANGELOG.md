@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-FIXME merge glossary & tag: engine-defined-tag vs glossary-tag, update abbrs.json structure
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -44,13 +43,15 @@ todo todo utilize personalities, allow multi agent conversation
   which disables trimming entirely
 - `-s`/`--sparseness` option on `kaye-engine prompt generate`, forwarding
   the new parameter from the CLI
-- `glossaries` — free-form, consumer-defined array field on
-  `abbrs.json` entries; every value an entry declares must already be
+- free-form, consumer-defined glossary names in `abbrs.json` entries'
+  `tags` array: each `tags` item is resolved by trying it against the
+  fixed `AbbrTags` enum first, falling back to a glossary name on
+  failure; every glossary name an entry declares must already be
   registered via `register_abbr_glossary` before that entry loads, or
   loading raises `ValueError`
 - `register_abbr_glossary(name, uses_numbered_list=False,
-  is_sorted=False)`/`get_abbr_glossary(name)`, registering a
-  `glossaries` name and its `GlossaryNode` default rendering behavior;
+  is_sorted=False)`/`get_abbr_glossary(name)`, registering a glossary
+  name and its `GlossaryNode` default rendering behavior;
   `register_abbr_glossary` raises `ValueError` on a duplicate name;
   `get_abbr_glossary` raises `KeyError` on an unknown name
 - `glossary_priority_threshold` keyword on
@@ -117,8 +118,9 @@ todo todo utilize personalities, allow multi agent conversation
   Terms`, `Languages Code`, `Programming Languages Code`, `Unity Engine
   Abbreviations`, `Plan Step By Step Abbreviations`, `Code Documentation
   Field Abbreviations`) are replaced by glossary-based `(glossary-name)`
-  headings; a host `abbrs.json` must move affected entries' tags to
-  `glossaries` to keep them rendering
+  headings; a host `abbrs.json` must replace affected entries' removed
+  `AbbrTags` values with their registered glossary-name equivalent in
+  `tags` to keep them rendering
 - `AbbrEntry` now raises `TypeError`, not `ValueError`, when `abbr`, its
   value object, or `priority` is the wrong type
 - `dynamic-node`'s positional argument renamed `NODE_TYPE` → `NODE`; its
@@ -153,6 +155,9 @@ todo todo utilize personalities, allow multi agent conversation
   `CodingTermsNode`, `PlanStepByStepAbbrNode`, and
   `CodeDocumentationFieldAbbrNode`, superseded by `GlossaryNode`
 - `NODE_TYPE_CHOICES`, superseded by `ENGINE_DEFINED_NODES`
+- `abbrs.json`'s separate `glossaries` key and its `ABBRS_JSON_GLOSSARY_KEY`
+  export, along with `AbbrTags.parse()`, superseded by unified parsing of
+  a single `tags` array (v.s.)
 
 ### Fixed
 
