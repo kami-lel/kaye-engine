@@ -42,4 +42,4 @@ Registration:
 Usage:
 
 - `claude` CLI: q.v. [`claude-doc.md`](claude-doc.md) for the full Claude CLI surface (`kaye-engine claude skill|plugin|marketplace|code|...`)
-- `export` CLI: `kaye-engine export`
+- `export` CLI (alias `x`): `kaye-engine export EXPORTABLE` prints that exportable's `content()`; `kaye-engine export ls` lists every registered exportable name, sorted alphabetically

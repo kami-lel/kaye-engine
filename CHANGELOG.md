@@ -86,6 +86,14 @@ todo todo utilize personalities, allow multi agent conversation
   blueprint and printing one merged output
 - `-s`/`--sparseness` option on `kaye-engine dynamic-node`, via the same
   shared `sparseness_parser` `prompt generate` uses
+- `Exportable` — abstract base for anything that can appear in the new
+  `exportable_registry`, carrying `canonical_name`, `display_name`,
+  `always_apply`, `user_invokable`, `llm_invokable`, and an abstract
+  `content()`; `exportable_registry`, `register_exportable_entry(exportable)`,
+  and `get_exportable(canonical_name)` round out the registry
+- `kaye-engine export EXPORTABLE` (alias `x`) — prints an exportable's
+  `content()`; `kaye-engine export ls` lists every registered exportable
+  name, sorted alphabetically
 
 ### Changed
 
@@ -136,6 +144,10 @@ todo todo utilize personalities, allow multi agent conversation
   `export_user_system_prompt_file()` gained a `sidecars` keyword
   (default `CLAUDE_CHAT_SIDECARS`) forwarding the chosen set as
   `contains_sidecars`
+- `BlueprintRegistry` and `ExportableAbbr` now subclass `Exportable`; each
+  `register_blueprint()` call (unless `is_internal`) and every glossary
+  group `register_exportable_abbrs()` builds inserts into the shared
+  `exportable_registry`, not just their own dedicated registry
 
 ### Deprecated
 
@@ -162,6 +174,10 @@ todo todo utilize personalities, allow multi agent conversation
   subpackage exporting blueprints as Continue rule files (already
   unregistered and unreachable), and `continue_exportable`, the
   `BlueprintRegistry` export-policy flag it depended on
+- `get_abbr_data`, `get_abbr_glossary`, `get_blueprint`, and
+  `get_corpus_tree` dropped from the top-level `kaye_engine` package
+  exports; each is still importable from its owning submodule
+  (`kaye_engine.abbr_collection`, `kaye_engine.prompt`)
 
 ### Fixed
 
