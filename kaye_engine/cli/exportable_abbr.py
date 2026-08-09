@@ -4,6 +4,8 @@ exportable_abbr.py
 group abbreviations for export
 """
 
+import re
+
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.abbr_collection import (
     AbbrTags,
@@ -11,12 +13,25 @@ from kaye_engine.abbr_collection import (
     abbr_glossary_registry,
     get_abbr_data,
 )
-from kaye_engine.prompt.blueprint.registry import to_skill_name
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
+
+# auxiliaries  #################################################################
+
+
+def _to_skill_name(display_name):
+    """
+    convert a display name to a kebab-case skill name matching
+    Anthropic's skill-name grammar, e.g. ``Abbr Starts with Digits 0~9``
+    -> ``abbr-starts-with-digits-0-9``
+    """
+    return re.sub(r"[^a-z0-9]+", "-", display_name.lower()).strip("-")
+
+
 # constants  ###################################################################
+
 
 _ABBR_TEMPLATE = "Abbr "
 _GLOSSARY_TEMPLATE = "Glossary "
@@ -60,7 +75,7 @@ class ExportableAbbr(list):  ###################################################
         :return: canonical kebab-case skill name from ``display_name``
         :rtype: str
         """
-        return to_skill_name(self)
+        return _to_skill_name(self.display_name)
 
     def as_md_list(self):
         """
