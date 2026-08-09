@@ -131,29 +131,29 @@ class TestErrRemark:  # ========================================================
         assert opt == "remark must be String: 123"
 
 
-class TestErrGlossaries:  # ========================================================
+class TestErrTags:  # ==========================================================
 
     def test_not_array(_):
         abbr_obj = ABBR_OBJ.copy()
-        abbr_obj["glossaries"] = 123
+        abbr_obj["tags"] = 123
 
         with pytest.raises(ValueError) as exec_info:
             AbbrEntry(MEAN, ABBR, abbr_obj)
 
         opt = exec_info.value.args[0]
         print(opt)
-        assert opt == "glossaries value must be Array of String: 123"
+        assert opt == "tags value must be Array: 123"
 
     def test_non_string_item(_):
         abbr_obj = ABBR_OBJ.copy()
-        abbr_obj["glossaries"] = ["coding-terms", 5]
+        abbr_obj["tags"] = ["coding-terms", 5]
 
         with pytest.raises(ValueError) as exec_info:
             AbbrEntry(MEAN, ABBR, abbr_obj)
 
         opt = exec_info.value.args[0]
         print(opt)
-        assert opt == "glossaries value must be Array of String: ['coding-terms', 5]"
+        assert opt == "tags entry must be String: 5"
 
 
 # init  ########################################################################
@@ -195,13 +195,24 @@ class TestInit:
     def test_glossaries(_):
         abbr_obj = {
             "priority": 0,
-            "tags": [],
+            "tags": ["coding-terms", "usable-abbreviations"],
             "wrap": "word",
-            "glossaries": ["coding-terms", "usable-abbreviations"],
         }
         opt = AbbrEntry(AbbrMeaning("sometimes"), "s/X", abbr_obj)
 
+        assert opt.tags == AbbrTags.NONE
         assert opt.glossaries == ("coding-terms", "usable-abbreviations")
+
+    def test_mixed_tags_and_glossaries(_):
+        abbr_obj = {
+            "priority": 0,
+            "tags": ["single_character", "coding-terms"],
+            "wrap": "word",
+        }
+        opt = AbbrEntry(AbbrMeaning("sometimes"), "s/X", abbr_obj)
+
+        assert opt.tags == AbbrTags.single_character
+        assert opt.glossaries == ("coding-terms",)
 
 
 # .as_md_list_entry()  #########################################################

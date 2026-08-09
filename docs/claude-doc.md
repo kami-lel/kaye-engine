@@ -31,6 +31,8 @@ kaye-engine claude vs-code-extension    # export CLAUDE.md, marketplace, and set
 > [!TIP]
 > Run `kaye-engine claude [SUBCOMMAND] -h` to see full documentation.
 
+<!-- Todo document all skills -->
+
 
 
 

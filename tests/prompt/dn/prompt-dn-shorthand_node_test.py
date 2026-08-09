@@ -66,17 +66,17 @@ def populated_abbr_data():
         data.add_entry(
             AbbrMeaning("for example"),
             "e.g.",
-            {"priority": 5, "tags": [], "wrap": "word", "glossaries": ["g"]},
+            {"priority": 5, "tags": ["g"], "wrap": "word"},
         )
         data.add_entry(
             AbbrMeaning("id est"),
             "i.e.",
-            {"priority": 1, "tags": [], "wrap": "word", "glossaries": ["g"]},
+            {"priority": 1, "tags": ["g"], "wrap": "word"},
         )
         data.add_entry(
             AbbrMeaning("et cetera"),
             "etc.",
-            {"priority": 3, "tags": [], "wrap": "word", "glossaries": ["g"]},
+            {"priority": 3, "tags": ["g"], "wrap": "word"},
         )
     return data
 

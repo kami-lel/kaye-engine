@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-Fixme merge glossary & tag: engine-defined-tag vs glossary-tag, update abbrs.json structure
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -44,13 +43,15 @@ todo todo utilize personalities, allow multi agent conversation
   which disables trimming entirely
 - `-s`/`--sparseness` option on `kaye-engine prompt generate`, forwarding
   the new parameter from the CLI
-- `glossaries` — free-form, consumer-defined array field on
-  `abbrs.json` entries; every value an entry declares must already be
+- free-form, consumer-defined glossary names in `abbrs.json` entries'
+  `tags` array: each `tags` item is resolved by trying it against the
+  fixed `AbbrTags` enum first, falling back to a glossary name on
+  failure; every glossary name an entry declares must already be
   registered via `register_abbr_glossary` before that entry loads, or
   loading raises `ValueError`
 - `register_abbr_glossary(name, uses_numbered_list=False,
-  is_sorted=False)`/`get_abbr_glossary(name)`, registering a
-  `glossaries` name and its `GlossaryNode` default rendering behavior;
+  is_sorted=False)`/`get_abbr_glossary(name)`, registering a glossary
+  name and its `GlossaryNode` default rendering behavior;
   `register_abbr_glossary` raises `ValueError` on a duplicate name;
   `get_abbr_glossary` raises `KeyError` on an unknown name
 - `glossary_priority_threshold` keyword on
@@ -85,6 +86,14 @@ todo todo utilize personalities, allow multi agent conversation
   blueprint and printing one merged output
 - `-s`/`--sparseness` option on `kaye-engine dynamic-node`, via the same
   shared `sparseness_parser` `prompt generate` uses
+- `Exportable` — abstract base for anything that can appear in the new
+  `exportable_registry`, carrying `canonical_name`, `display_name`,
+  `always_apply`, `user_invokable`, `llm_invokable`, and an abstract
+  `content()`; `exportable_registry`, `register_exportable_entry(exportable)`,
+  and `get_exportable(canonical_name)` round out the registry
+- `kaye-engine export EXPORTABLE` (alias `x`) — prints an exportable's
+  `content()`; `kaye-engine export ls` lists every registered exportable
+  name, sorted alphabetically
 
 ### Changed
 
@@ -117,8 +126,9 @@ todo todo utilize personalities, allow multi agent conversation
   Terms`, `Languages Code`, `Programming Languages Code`, `Unity Engine
   Abbreviations`, `Plan Step By Step Abbreviations`, `Code Documentation
   Field Abbreviations`) are replaced by glossary-based `(glossary-name)`
-  headings; a host `abbrs.json` must move affected entries' tags to
-  `glossaries` to keep them rendering
+  headings; a host `abbrs.json` must replace affected entries' removed
+  `AbbrTags` values with their registered glossary-name equivalent in
+  `tags` to keep them rendering
 - `AbbrEntry` now raises `TypeError`, not `ValueError`, when `abbr`, its
   value object, or `priority` is the wrong type
 - `dynamic-node`'s positional argument renamed `NODE_TYPE` → `NODE`; its
@@ -134,6 +144,10 @@ todo todo utilize personalities, allow multi agent conversation
   `export_user_system_prompt_file()` gained a `sidecars` keyword
   (default `CLAUDE_CHAT_SIDECARS`) forwarding the chosen set as
   `contains_sidecars`
+- `BlueprintRegistry` and `ExportableAbbr` now subclass `Exportable`; each
+  `register_blueprint()` call (unless `is_internal`) and every glossary
+  group `register_exportable_abbrs()` builds inserts into the shared
+  `exportable_registry`, not just their own dedicated registry
 
 ### Deprecated
 
@@ -153,10 +167,17 @@ todo todo utilize personalities, allow multi agent conversation
   `CodingTermsNode`, `PlanStepByStepAbbrNode`, and
   `CodeDocumentationFieldAbbrNode`, superseded by `GlossaryNode`
 - `NODE_TYPE_CHOICES`, superseded by `ENGINE_DEFINED_NODES`
+- `abbrs.json`'s separate `glossaries` key and its `ABBRS_JSON_GLOSSARY_KEY`
+  export, along with `AbbrTags.parse()`, superseded by unified parsing of
+  a single `tags` array (v.s.)
 - the deprecated Continue AI tool integration: `cli_continue`, the CLI
   subpackage exporting blueprints as Continue rule files (already
   unregistered and unreachable), and `continue_exportable`, the
   `BlueprintRegistry` export-policy flag it depended on
+- `get_abbr_data`, `get_abbr_glossary`, `get_blueprint`, and
+  `get_corpus_tree` dropped from the top-level `kaye_engine` package
+  exports; each is still importable from its owning submodule
+  (`kaye_engine.abbr_collection`, `kaye_engine.prompt`)
 
 ### Fixed
 

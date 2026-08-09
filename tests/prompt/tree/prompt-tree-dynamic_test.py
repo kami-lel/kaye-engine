@@ -68,8 +68,7 @@ class TestGlossaryHeading:
                 "dmygrp",
                 {
                     "priority": 0,
-                    "tags": [],
-                    "glossaries": ["some-glossary"],
+                    "tags": ["some-glossary"],
                     "wrap": "word",
                 },
             )
