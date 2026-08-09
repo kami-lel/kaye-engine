@@ -63,8 +63,8 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Three** subcommands exist, `blueprint`, `claude`, and
-`dynamic-node`:
+the shorter form. **Four** subcommands exist, `blueprint`, `claude`,
+`dynamic-node`, and `export`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
@@ -87,6 +87,8 @@ kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
 kaye-engine claude user-system-prompt       # Chat blueprint as CLAUDE.md
 kaye-engine claude user-system-prompt -c    # append Coder blueprint content
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
+kaye-engine export EXPORTABLE               # print an exportable's content
+kaye-engine export ls                       # list every registered exportable name
 ```
 
 Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
@@ -94,7 +96,7 @@ generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` →
 `anthropic`, `a`; `claude code` → `claude c`; `claude marketplace` →
 `claude m`; `claude plugin` → `claude p`; `claude skill` → `claude s`;
 `claude user-system-prompt` → `claude usp`; `claude vs-code-extension`
-→ `claude v`.
+→ `claude v`; `export` → `x`.
 
 `blueprint generate` and `dynamic-node` both take `-s`/`--sparseness SPARSENESS`
 (shared parser in `kaye_engine/cli/sparseness_parser.py`) to control
