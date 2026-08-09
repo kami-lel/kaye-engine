@@ -79,9 +79,11 @@ def register_exportable_entry(exportable):
 
     :param exportable: entry to register
     :type exportable: Exportable
-    :raise ValueError: `canonical_name` is already registered
+    :raises ValueError: `canonical_name` is already registered
     :return: ``exportable``, unchanged
     :rtype: Exportable
+    :example:
+    >>> register_exportable_entry(my_exportable)
     """
     if exportable.canonical_name in exportable_registry:
         raise ValueError(
@@ -103,6 +105,8 @@ def get_exportable(canonical_name):
     :raises KeyError: no exportable is registered under ``canonical_name``
     :return: the registry entry stored under ``canonical_name``
     :rtype: Exportable
+    :example:
+    >>> get_exportable("coder")
     """
     try:
         return exportable_registry[canonical_name]

@@ -221,6 +221,10 @@ def register_exportable_abbrs():
     blueprints, which register once, abbr groups are recomputed fresh
     each call, so a stale entry from an earlier abbr data state must
     not linger
+
+
+    :example:
+    >>> register_exportable_abbrs()
     """
     for group in get_exportable_abbrs():
         exportable_registry.pop(group.canonical_name, None)
