@@ -1,7 +1,5 @@
 # `exportable` Documentation
 
-<!-- FIXME review this doc -->
-
 `exportable` treats everything a consumer might want exported — a `PromptBlueprint`, an abbreviation/glossary group — as one collection, `exportable_registry`, keyed by the exact name it exports under.
 
 
