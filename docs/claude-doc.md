@@ -31,7 +31,7 @@ kaye-engine claude vs-code-extension    # export CLAUDE.md, marketplace, and set
 > [!TIP]
 > Run `kaye-engine claude [SUBCOMMAND] -h` to see full documentation.
 
-<!-- TODO document all skills -->
+<!-- Todo document all skills -->
 
 
 
@@ -125,7 +125,7 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `{Claude Tool:Workflow}` | `Workflow` |
 | `{Claude Tool:ReportFindings}` | `ReportFindings` |
 
-<!-- BUG claude sidecars organize -->
+<!-- Bug claude sidecars organize -->
 
 | sidecar name | `CLAUDE_CHAT_SIDECARS` | `CLAUDE_COWORK_SIDECARS` | `CLAUDE_CODE_SIDECARS` | `CLAUDE_CODE_VSC_XTN_SIDECARS` |
 | --- | --- | --- | --- | --- |
