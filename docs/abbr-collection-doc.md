@@ -369,3 +369,11 @@ Must be a *string* of these selected values:
 An *optional string* free-text note about this specific abbreviation (as opposed to the meaning's `remark`, which applies to every spelling). Omit this key entirely when there is no remark.
 
 When rendered as a Markdown list entry, the meaning's `remark` and the abbr's `remark` are both included (in that order, separated by `; `) when present, e.g. `- abbr:meaning (meaning remark; abbr remark)`.
+
+
+
+
+## registered abbr groups
+
+<!-- TODO list which glossary names a given consumer actually registers via `register_abbr_glossary`, and what each is for -->
+

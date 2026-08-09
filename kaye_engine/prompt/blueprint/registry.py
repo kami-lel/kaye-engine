@@ -92,9 +92,12 @@ def register_blueprint(
             into play on its own judgment, without being explicitly
             named; defaults to True
     :type llm_invokable: bool, optional
-    :raise ValueError: ``canonical_name`` is already registered
+    :raises ValueError: ``canonical_name`` is already registered
     :return: the created registry entry
     :rtype: BlueprintRegistry
+    :example:
+    >>> register_blueprint("coder", "Kaye Peer Coder", coder_blueprint, always_apply=True)
+    >>> register_blueprint("chat", "Chat", chat_blueprint, is_internal=True)
     """
     if canonical_name in blueprint_registry:
         raise ValueError(
@@ -126,6 +129,8 @@ def get_blueprint(canonical_name):
     :raises KeyError: no blueprint is registered under ``canonical_name``
     :return: the registry entry stored under ``canonical_name``
     :rtype: BlueprintRegistry
+    :example:
+    >>> get_blueprint("coder")
     """
     try:
         return blueprint_registry[canonical_name]
