@@ -406,7 +406,7 @@ When rendered as a Markdown list entry, the meaning's `remark` and the abbr's `r
 ## registered abbr groups
 
 
-<!-- BUG export & register logic is wrong -->
+<!-- Bug export & register logic is wrong -->
 
 kaye-engine itself registers none of these — every glossary below is registered by the current consumer (kaye-vault) via `register_abbr_glossary`, then exported under `abbr-glossary-<name>` by `register_exportable_abbrs` (q.v. [`exportable-registry-doc.md`](exportable-registry-doc.md)); every entry shares the same flags: `always_apply: no`, `user_invokable: no`, `llm_invokable: yes`.
 
