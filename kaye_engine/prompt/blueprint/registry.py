@@ -4,9 +4,9 @@ registry.py
 define `BlueprintRegistry`, `register_blueprint`, `blueprint_registry`
 """
 
-import re
-
 from dataclasses import dataclass
+
+from kaye_engine.exportable import Exportable, register_exportable_entry
 
 from .prompt_blueprint import PromptBlueprint
 
@@ -15,53 +15,71 @@ __all__ = (
     "register_blueprint",
     "get_blueprint",
     "blueprint_registry",
-    "to_skill_name",
 )
 
 
-def to_skill_name(node):
-    """
-    read a corpus node's title and convert it to a kebab-case skill name
-
-    the title is taken from the node's ``display_name``; every run of
-    characters outside ``[a-z0-9]`` collapses to a single hyphen and
-    leading/trailing hyphens are stripped, so the result matches
-    Anthropic's skill-name grammar
-    ``^[a-z0-9]([a-z0-9]|-[a-z0-9])*$`` -- a title such as
-    ``Abbr Starts with Digits 0~9`` yields ``abbr-starts-with-digits-0-9``
-    rather than an upload-rejected slug containing ``~``
-
-
-    :param node: object exposing a ``display_name`` title, such as a
-            ``BlueprintRegistry`` or ``ExportableAbbr``
-    :type node: object
-    :return: lowercase, hyphen-separated skill name
-    :rtype: str
-    """
-    return re.sub(r"[^a-z0-9]+", "-", node.display_name.lower()).strip("-")
-
-
-@dataclass
-class BlueprintRegistry:
+@dataclass(kw_only=True)
+class BlueprintRegistry(Exportable):
     """
     metadata & export policy for a single named `PromptBlueprint`
 
     instances are created via `register_blueprint` and collected in
-    `blueprint_registry`; this is the single source of truth for a
-    blueprint's identity (`name`/`display_name`) and where it should be
-    exported (Claude skills) and how
+    `blueprint_registry`, keyed by their `canonical_name`; this is the
+    single source of truth for a blueprint's identity and where it
+    should be exported (Claude skills) and how -- it implements
+    `Exportable` directly, so a registered, exportable instance is also
+    the entry stored in `exportable_registry` under the same key
 
 
-    :param name: canonical string key, kebab-case, e.g. ``"coder-py"``,
-            ``"rapid"``
-    :type name: str
+    :param blueprint: the underlying blueprint
+    :type blueprint: PromptBlueprint
+    :param is_internal: never export this blueprint as a Claude Agent
+            Skill; defaults to False
+    :type is_internal: bool, optional
+    """
+
+    blueprint: PromptBlueprint
+    is_internal: bool = False
+
+    def content(self):
+        """
+        :return: this blueprint's rendered prompt
+        :rtype: str
+        """
+        return self.blueprint.generate_prompt(sparseness=0)
+
+
+# Entry Point  #################################################################
+
+blueprint_registry = {}
+
+
+def register_blueprint(
+    canonical_name,
+    display_name,
+    blueprint,
+    *,
+    is_internal=False,
+    always_apply=False,
+    user_invokable=True,
+    llm_invokable=True,
+):
+    """
+    create a `BlueprintRegistry` and insert it into `blueprint_registry`;
+    unless ``is_internal``, the same instance is also inserted into
+    `exportable_registry` via `register_exportable_entry`
+
+
+    :param canonical_name: kebab-case name, used directly as the
+            exported skill name when not ``is_internal``
+    :type canonical_name: str
     :param display_name: human-readable name, e.g. ``"Coder Python"``
     :type display_name: str
     :param blueprint: the underlying blueprint
     :type blueprint: PromptBlueprint
-    :param skill_exportable: export as a Claude Agent Skill;
-            defaults to False
-    :type skill_exportable: bool, optional
+    :param is_internal: never export this blueprint as a Claude Agent
+            Skill; defaults to False
+    :type is_internal: bool, optional
     :param always_apply: whether this entry is unconditionally relevant
             and should always be applied, rather than surfaced only when
             judged relevant; defaults to False
@@ -74,63 +92,44 @@ class BlueprintRegistry:
             into play on its own judgment, without being explicitly
             named; defaults to True
     :type llm_invokable: bool, optional
-    """
-
-    name: str
-    display_name: str
-    blueprint: PromptBlueprint
-    skill_exportable: bool = False
-    always_apply: bool = False
-    user_invokable: bool = True
-    llm_invokable: bool = True
-
-    @property
-    def skill_name(self):
-        """
-        :return: canonical kebab-case skill name from ``display_name``
-        :rtype: str
-        """
-        return to_skill_name(self)
-
-
-# Entry Point  #################################################################
-
-blueprint_registry = {}
-
-
-def register_blueprint(name, *args, **kwargs):
-    """
-    create a `BlueprintRegistry` and insert it into `blueprint_registry`
-
-    ``args``/``kwargs`` are forwarded as-is into `BlueprintRegistry`; see
-    its docstring for the full field list
-
-
-    :raise ValueError: ``name`` is already registered
+    :raise ValueError: ``canonical_name`` is already registered
     :return: the created registry entry
     :rtype: BlueprintRegistry
     """
-    if name in blueprint_registry:
-        raise ValueError("duplicate blueprint registry name: {}".format(name))
+    if canonical_name in blueprint_registry:
+        raise ValueError(
+            "duplicate blueprint registry name: {}".format(canonical_name)
+        )
 
-    reg = BlueprintRegistry(name, *args, **kwargs)
-    blueprint_registry[name] = reg
+    reg = BlueprintRegistry(
+        canonical_name=canonical_name,
+        display_name=display_name,
+        blueprint=blueprint,
+        is_internal=is_internal,
+        always_apply=always_apply,
+        user_invokable=user_invokable,
+        llm_invokable=llm_invokable,
+    )
+    blueprint_registry[canonical_name] = reg
+
+    if not is_internal:
+        register_exportable_entry(reg)
 
     return reg
 
 
-def get_blueprint(name):
+def get_blueprint(canonical_name):
     """
-    :param name: canonical string key a blueprint was registered under
-            via `register_blueprint`
-    :type name: str
-    :raises KeyError: no blueprint is registered under ``name``
-    :return: the registry entry stored under ``name``
+    :param canonical_name: canonical string key a blueprint was
+            registered under via `register_blueprint`
+    :type canonical_name: str
+    :raises KeyError: no blueprint is registered under ``canonical_name``
+    :return: the registry entry stored under ``canonical_name``
     :rtype: BlueprintRegistry
     """
     try:
-        return blueprint_registry[name]
+        return blueprint_registry[canonical_name]
     except KeyError as e:
         raise KeyError(
-            "no blueprint registered under name: {}".format(name)
+            "no blueprint registered under name: {}".format(canonical_name)
         ) from e
