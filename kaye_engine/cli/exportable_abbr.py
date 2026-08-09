@@ -13,6 +13,11 @@ from kaye_engine.abbr_collection import (
     abbr_glossary_registry,
     get_abbr_data,
 )
+from kaye_engine.exportable import (
+    Exportable,
+    exportable_registry,
+    register_exportable_entry,
+)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
@@ -55,27 +60,51 @@ _WRAP_NAMES = {
 }
 
 
-class ExportableAbbr(list):  ###################################################
+class ExportableAbbr(list, Exportable):  #######################################
     """
-    a named, iterable group of abbreviation entries
+    a named, iterable group of abbreviation entries; implements
+    `Exportable` directly -- the group itself is the entry stored in
+    `exportable_registry`, not a wrapper around it
+
+    `Exportable` is a dataclass and `list` is not, so both parents'
+    ``__init__`` are called explicitly rather than relying on
+    cooperative ``super()``
 
 
     :param entries: abbreviation entries for this group
+    :param canonical_name: kebab-case name, used directly as the
+            exported skill name
+    :type canonical_name: str, optional
+    :param display_name: human-readable name
+    :type display_name: str, optional
     """
 
-    def __init__(self, entries=()):
-        super().__init__(entries)
+    def __init__(
+        self,
+        entries=(),
+        *,
+        canonical_name="",
+        display_name="",
+        always_apply=False,
+        user_invokable=False,
+        llm_invokable=True,
+    ):
+        list.__init__(self, entries)
+        Exportable.__init__(
+            self,
+            canonical_name=canonical_name,
+            display_name=display_name,
+            always_apply=always_apply,
+            user_invokable=user_invokable,
+            llm_invokable=llm_invokable,
+        )
 
-        self.display_name = ""
-        self.description = ""
-
-    @property
-    def skill_name(self):
+    def content(self):
         """
-        :return: canonical kebab-case skill name from ``display_name``
+        :return: this group's markdown abbr list
         :rtype: str
         """
-        return _to_skill_name(self.display_name)
+        return self.as_md_list()
 
     def as_md_list(self):
         """
@@ -89,11 +118,12 @@ def _sort_entries(entries):
     return sorted(entries, key=lambda e: e.abbr.lower())
 
 
-def _make_group(display_name, entries):
-    group = ExportableAbbr(entries)
-    group.display_name = display_name
-    group.description = display_name
-    return group
+def _make_group(display_name, entries, canonical_name=None):
+    return ExportableAbbr(
+        entries,
+        canonical_name=canonical_name or _to_skill_name(display_name),
+        display_name=display_name,
+    )
 
 
 def _get_abbrs_by_tags(abbrs):
@@ -113,6 +143,7 @@ def _get_abbrs_by_glossaries(abbr_data):
             _sort_entries(
                 e for e in abbr_data.abbrs if glossary_name in e.glossaries
             ),
+            canonical_name="abbr-glossary-" + glossary_name,
         )
         for glossary_name in sorted(abbr_glossary_registry)
     ]
@@ -180,3 +211,17 @@ def get_exportable_abbrs():
         + _get_abbrs_by_wrap(abbrs)
         + _get_abbrs_by_first_char(abbrs)
     )
+
+
+def register_exportable_abbrs():
+    """
+    register every exportable abbreviation group (see
+    :func:`get_exportable_abbrs`) into `exportable_registry`, replacing
+    any previously-registered group under the same key -- unlike
+    blueprints, which register once, abbr groups are recomputed fresh
+    each call, so a stale entry from an earlier abbr data state must
+    not linger
+    """
+    for group in get_exportable_abbrs():
+        exportable_registry.pop(group.canonical_name, None)
+        register_exportable_entry(group)
