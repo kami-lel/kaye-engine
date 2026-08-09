@@ -7,6 +7,7 @@ from argparse import ArgumentParser
 from kaye_engine.cli.claude.main import register_cli_claude_parser
 from kaye_engine.cli.dynamic_node.parser import register_dynamic_node_parser
 from kaye_engine.cli.blueprint.main_parser import register_cli_blueprint_parser
+from kaye_engine.cli.exportable_parser import register_export_parser
 
 __all__ = ("register_cli_main_parser", "register_cli_subcommands")
 
@@ -19,7 +20,8 @@ PROGRAM_NAME = "kaye-engine"
 def register_cli_subcommands(cli_subparser):
     """
     register every engine-owned subcommand (``blueprint``, ``claude``, the
-    dynamic-node command) onto an existing subparsers action, so sibling
+    dynamic-node command, the export command) onto an existing subparsers
+    action, so sibling
     packages can compose their own top-level parser with engine's
     subcommands mixed in, instead of only being able to add to the
     subparser :func:`register_cli_main_parser` hands back
@@ -30,6 +32,7 @@ def register_cli_subcommands(cli_subparser):
     register_cli_blueprint_parser(cli_subparser)
     register_cli_claude_parser(cli_subparser)
     register_dynamic_node_parser(cli_subparser)
+    register_export_parser(cli_subparser)
 
 
 # Main Entry Point  ############################################################

@@ -6,8 +6,8 @@ define ``export_skills_as_folders``
 
 from kaye_engine import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.prompt.blueprint import blueprint_registry
-from kaye_engine.cli.exportable_abbr import get_exportable_abbrs
+from kaye_engine.cli.exportable_abbr import register_exportable_abbrs
+from kaye_engine.exportable import exportable_registry
 from .skill_md import Skill
 
 # logger  ######################################################################
@@ -18,10 +18,10 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 def export_skills_as_folders(parent_folder, *, version):
     """
-    export all blueprints, prompts, and abbreviation groups as skill folders
+    export every `exportable_registry` entry as a skill folder
 
     writes one subfolder per blueprint and per abbreviation group under
-    ``parent_folder``; abbreviation skills are marked as non-user-invocable
+    ``parent_folder``
 
 
     :param parent_folder: destination directory to write skill folders into
@@ -29,31 +29,16 @@ def export_skills_as_folders(parent_folder, *, version):
     :param version: installed package version
     :type version: str
     """
-    logger.enter("exporting blueprints and prompts as skills")
+    register_exportable_abbrs()
 
-    # export blueprints and prompts
-    for reg in blueprint_registry.values():
-        if not reg.skill_exportable:
-            continue
+    logger.enter("exporting exportables as skills")
 
+    for exportable in exportable_registry.values():
         try:
-            folder = Skill.from_registry(reg, version=version).write(
+            folder = Skill.from_exportable(exportable, version=version).write(
                 parent_folder
             )
         except OSError as err:
-            logger.critical("cannot write skill:\t" + reg.display_name)
+            logger.critical("cannot write skill:\t" + exportable.display_name)
             raise SystemExit(1) from err
-        logger.succ("export skill:\t{}".format(folder))
-
-    logger.enter("exporting abbreviation groups as skills")
-
-    # export abbrs
-    for group in get_exportable_abbrs():
-        folder = Skill(
-            name=group.skill_name,
-            description=group.description,
-            user_invocable=False,
-            body=group.as_md_list(),
-            version=version,
-        ).write(parent_folder)
         logger.succ("export skill:\t{}".format(folder))

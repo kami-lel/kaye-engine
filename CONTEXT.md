@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-08-06
+**Last updated:** 2026-08-09
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `prompt`, `claude`, `dynamic-node` |
+| CLI subcommands | `prompt`, `claude`, `dynamic-node`, `export` |
 
 ## Personalization Boundary
 
@@ -41,6 +41,7 @@ not a gap to fill.
 | **Prompt Tree** | the parsed corpus; every heading a `BasePromptNode` |
 | **Blueprint** | a selection spec marking which tree nodes render |
 | **Blueprint Registry** | name → blueprint plus its export policy |
+| **Exportable** | common base for anything `exportable_registry` holds — `BlueprintRegistry` and `ExportableAbbr` are its two implementers |
 | **Role** | a task-specific behavior profile held inside the corpus |
 | **Sidecar Node** | a `{name}` subnode; metadata or conditional content |
 | **Dynamic Node** | a `(Name)` node whose content is generated at render |
@@ -75,13 +76,20 @@ documentation](docs/abbr-collection-doc.md).
 ```python
 from kaye_engine import (
     PACKAGE_NAME, DISPLAY_NAME, LOGGER_NAME,
-    load_corpus_tree, get_corpus_tree, get_default_corpus_tree,
-    AbbrData, get_abbr_data,
-    register_abbr_glossary, get_abbr_glossary,
-    register_blueprint, get_blueprint,
+    load_corpus_tree, get_default_corpus_tree,
+    AbbrData,
+    register_abbr_glossary,
+    register_blueprint,
     setup_claude_cli,
 )
 ```
+
+`get_abbr_data`, `get_abbr_glossary`, `get_blueprint`, and `get_corpus_tree`
+are not exported at this top level — reach them through their owning
+submodule (`kaye_engine.abbr_collection`, `kaye_engine.prompt`) instead.
+`Exportable`, `exportable_registry`, `register_exportable_entry`, and
+`get_exportable` (`kaye_engine.exportable`) round out the registry every
+`BlueprintRegistry` and `ExportableAbbr` entry is inserted into.
 
 A caller loads and caches a corpus by name; one tree may be flagged the
 process default, which is what a blueprint resolves against when given no
@@ -112,10 +120,12 @@ kaye_engine/
 │   ├── blueprint/       PromptBlueprint, registry, rendering
 │   └── dynamic_nodes/   render-time generated node types
 ├── abbr_collection/     abbreviation entries, store, JSON loader
+├── exportable.py        Exportable base, exportable_registry
 ├── cli/
 │   ├── prompt/          `prompt` subcommand: ls, show, generate
 │   ├── claude/          skills, plugins, marketplaces, CLAUDE.md
-│   └── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
+│   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
+│   └── exportable_parser.py  `export`/`x` subcommand: print, list exportables
 └── kamilog.py           logging, shared across the package
 docs/                    per-topic reference, linked above
 tests/                   prompt/, abbr/, cli/ — mirrors the source
@@ -127,7 +137,7 @@ the same `blueprint_registry` rather than holding its own list.
 
 ## Testing Strategy
 
-`pytest`, 692 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 667 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.

@@ -27,17 +27,17 @@ def populated_abbr_data():
         data.add_entry(
             AbbrMeaning("package,packaging"),
             "📦",
-            {"priority": 18, "tags": ["emoji"], "wrap": "symbol", "glossaries": []},
+            {"priority": 18, "tags": ["emoji"], "wrap": "symbol"},
         )
         data.add_entry(
             AbbrMeaning("agent,AI"),
             "🤖",
-            {"priority": 10, "tags": ["emoji"], "wrap": "symbol", "glossaries": []},
+            {"priority": 10, "tags": ["emoji"], "wrap": "symbol"},
         )
         data.add_entry(
             AbbrMeaning("for example"),
             "e.g.",
-            {"priority": 5, "tags": [], "wrap": "word", "glossaries": ["g"]},
+            {"priority": 5, "tags": ["g"], "wrap": "word"},
         )
     return data
 

@@ -135,9 +135,8 @@ class TestPriorityThresholdFlag:  ##############################################
                 "e.g.",
                 {
                     "priority": 1,
-                    "tags": [],
+                    "tags": ["some-glossary"],
                     "wrap": "word",
-                    "glossaries": ["some-glossary"],
                 },
             )
             data.add_entry(
@@ -145,9 +144,8 @@ class TestPriorityThresholdFlag:  ##############################################
                 "i.e.",
                 {
                     "priority": 6,
-                    "tags": [],
+                    "tags": ["some-glossary"],
                     "wrap": "word",
-                    "glossaries": ["some-glossary"],
                 },
             )
 

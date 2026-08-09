@@ -88,14 +88,14 @@ populate_abbr_data_with_json_file("abbrs.json")
 Q.v. [abbreviation entries `json` file](#abbreviation-entries-json-file) below for the file's required schema.
 
 > [!IMPORTANT]
-> Every glossary name any entry's `glossaries` array uses must already be registered via `register_abbr_glossary` (v.i.) before that entry is added — otherwise `add_entry`/`populate_abbr_data_with_json_file` raises `ValueError`.
+> Every glossary name any entry's `tags` array uses (any item that isn't a fixed `AbbrTags` value) must already be registered via `register_abbr_glossary` (v.i.) before that entry is added — otherwise `add_entry`/`populate_abbr_data_with_json_file` raises `ValueError`.
 
 
 
 
 #### `register_abbr_glossary(name, uses_numbered_list=False, is_sorted=False)`
 
-Register a glossary name so entries may reference it via `glossaries` (v.i.), and set that glossary's default rendering behavior for its `GlossaryNode`:
+Register a glossary name so entries may reference it via `tags` (v.i.), and set that glossary's default rendering behavior for its `GlossaryNode`:
 
 - `uses_numbered_list`: render entries with numbered markers (`"1. ..."`) instead of bullets (`"- ..."`)
 - `is_sorted`: render entries ordered by ascending `priority` instead of insertion order
@@ -112,7 +112,7 @@ Raises `ValueError` if `name` is already registered. Both flags are also render-
 Priority-based filtering is not a registration concern — it is supplied by the caller at generation time via `glossary_priority_threshold`, q.v. below.
 
 > [!NOTE]
-> `glossary_priority_threshold` only filters rendering. An entry whose `priority` exceeds the threshold is still added to `AbbrData` — its `glossaries` membership is still validated, and it is still findable through `get_abbr_data()` — it simply never appears in a rendered `GlossaryNode`.
+> `glossary_priority_threshold` only filters rendering. An entry whose `priority` exceeds the threshold is still added to `AbbrData` — its `tags` glossary membership is still validated, and it is still findable through `get_abbr_data()` — it simply never appears in a rendered `GlossaryNode`.
 
 
 
@@ -156,7 +156,7 @@ Every abbreviation-related [dynamic node](dynamic-node-doc.md) lives in `kaye_en
 | `ShorthandNode` | `(Decode-Only Shorthand)` | `shorthand_node.py` | scans a `query=` string against `get_abbr_data().automaton`, verifying each raw match with `AbbrEntry.verify_found` before including it; falls back to every `always_understand`-tagged entry when `query` is omitted |
 | `GlossaryNode` | `(glossary-name)` | `glossary_node.py` | every entry whose `glossaries` array contains `glossary-name` |
 
-Unlike `ShorthandNode`, `GlossaryNode` is not a fixed engine type — one instance is created per glossary name a consumer registered via `register_abbr_glossary` (v.s.) and referenced on `AbbrEntry.glossaries` (q.v. [`glossaries`](#glossaries) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, and insertion order vs. sorted by `priority` — defaults to that glossary's registered flags, and both may be overridden per render via `content_lines(is_sorted=..., uses_numbered_list=...)`. Whether high-priority-number entries are hidden is a generation-time-only concern, not a registration default: pass `content_lines(glossary_priority_threshold=...)` (or the matching `generate_prompt(glossary_priority_threshold=...)` kwarg, since it flows through to every checkmarked node's `content_lines()`) — `None` (default) disables the filter. Q.v. [dynamic-node-doc.md](dynamic-node-doc.md) for the heading resolution order.
+Unlike `ShorthandNode`, `GlossaryNode` is not a fixed engine type — one instance is created per glossary name a consumer registered via `register_abbr_glossary` (v.s.) and referenced on `AbbrEntry.glossaries` (q.v. [`tags`](#tags) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, and insertion order vs. sorted by `priority` — defaults to that glossary's registered flags, and both may be overridden per render via `content_lines(is_sorted=..., uses_numbered_list=...)`. Whether high-priority-number entries are hidden is a generation-time-only concern, not a registration default: pass `content_lines(glossary_priority_threshold=...)` (or the matching `generate_prompt(glossary_priority_threshold=...)` kwarg, since it flows through to every checkmarked node's `content_lines()`) — `None` (default) disables the filter. Q.v. [dynamic-node-doc.md](dynamic-node-doc.md) for the heading resolution order.
 
 
 
@@ -234,9 +234,7 @@ Top level structure:
         "priority": 0,
         "tags": [
           "ascii_only",
-          "common"
-        ],
-        "glossaries": [
+          "common",
           "coding-terms"
         ],
         "wrap": "word",
@@ -313,7 +311,14 @@ An *integer* value, lower value means higher priority.
 
 #### `tags`
 
-Additional information regards this entry, must be an *array* of *string* of these selected values:
+A *required array* of *string*. Each item is resolved by trying it against
+the fixed, engine-defined `AbbrTags` enum first; anything that doesn't
+match a member is treated instead as a free-form, consumer-defined
+glossary name, which must already be registered via
+[`register_abbr_glossary`](#register_abbr_glossaryname-uses_numbered_listfalse-is_sortedfalse)
+before this entry is loaded, or loading raises `ValueError`.
+
+Fixed `AbbrTags` values:
 
 - `"common"`: common abbreviations that any person might understand
 - usage cases (these tags should be mutually exclusive):
@@ -328,22 +333,10 @@ Additional information regards this entry, must be an *array* of *string* of the
   - `"ascii_only"`
   - `"emoji"`
 
-`tags` is a fixed, engine-defined enum (`AbbrTags`). For free-form,
-consumer-defined groupings, use [`glossaries`](#glossaries) instead.
-
-
-
-
-#### `glossaries`
-
-An *optional array* of *string* — free-form, no fixed enum, but every
-value must already be registered via
-[`register_abbr_glossary`](#register_abbr_glossaryname-uses_numbered_listfalse-is_sortedfalse)
-before this entry is loaded, or loading raises `ValueError`. Omit
-when an entry belongs to no glossary, like `remark`.
+Anything else is looked up as a glossary name, e.g.:
 
 ```json
-"glossaries": ["programming-language-codes", "coding-terms"]
+"tags": ["ascii_only", "coding-terms", "programming-language-codes"]
 ```
 
 Each glossary name also works as a [dynamic node](dynamic-node-doc.md)
@@ -376,3 +369,66 @@ Must be a *string* of these selected values:
 An *optional string* free-text note about this specific abbreviation (as opposed to the meaning's `remark`, which applies to every spelling). Omit this key entirely when there is no remark.
 
 When rendered as a Markdown list entry, the meaning's `remark` and the abbr's `remark` are both included (in that order, separated by `; `) when present, e.g. `- abbr:meaning (meaning remark; abbr remark)`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## registered abbr groups
+
+
+<!-- Bug export & register logic is wrong -->
+
+kaye-engine itself registers none of these — every glossary below is registered by the current consumer (kaye-vault) via `register_abbr_glossary`, then exported under `abbr-glossary-<name>` by `register_exportable_abbrs` (q.v. [`exportable-registry-doc.md`](exportable-registry-doc.md)); every entry shares the same flags: `always_apply: no`, `user_invokable: no`, `llm_invokable: yes`.
+
+| canonical name | display name | always_apply | user_invokable | llm_invokable |
+| --- | --- | --- | --- | --- |
+| `abbr-glossary-cardinal-directions` | Glossary cardinal-directions | ❌ | ❌ | ✔️ |
+| `abbr-glossary-code-documentation-field-abbr` | Glossary code-documentation-field-abbr | ❌ | ❌ | ✔️ |
+| `abbr-glossary-coding-terms` | Glossary coding-terms | ❌ | ❌ | ✔️ |
+| `abbr-glossary-commit-sense-sigil` | Glossary commit-sense-sigil | ❌ | ❌ | ✔️ |
+| `abbr-glossary-currency-symbols` | Glossary currency-symbols | ❌ | ❌ | ✔️ |
+| `abbr-glossary-days-of-week` | Glossary days-of-week | ❌ | ❌ | ✔️ |
+| `abbr-glossary-git-abbr` | Glossary git-abbr | ❌ | ❌ | ✔️ |
+| `abbr-glossary-log-level` | Glossary log-level | ❌ | ❌ | ✔️ |
+| `abbr-glossary-natural-language-codes` | Glossary natural-language-codes | ❌ | ❌ | ✔️ |
+| `abbr-glossary-plan-step-by-step-abbr` | Glossary plan-step-by-step-abbr | ❌ | ❌ | ✔️ |
+| `abbr-glossary-programming-language-codes` | Glossary programming-language-codes | ❌ | ❌ | ✔️ |
+| `abbr-glossary-seasons` | Glossary seasons | ❌ | ❌ | ✔️ |
+| `abbr-glossary-units-of-measure` | Glossary units-of-measure | ❌ | ❌ | ✔️ |
+| `abbr-glossary-unity-engine-abbr` | Glossary unity-engine-abbr | ❌ | ❌ | ✔️ |
+| `abbr-glossary-usable-agent-decoratives` | Glossary usable-agent-decoratives | ❌ | ❌ | ✔️ |
+| `abbr-glossary-usable-agent-shorthands` | Glossary usable-agent-shorthands | ❌ | ❌ | ✔️ |
+| `abbr-glossary-usable-briefness-abbr` | Glossary usable-briefness-abbr | ❌ | ❌ | ✔️ |
+| `abbr-glossary-usable-commit-sense-shorthands` | Glossary usable-commit-sense-shorthands | ❌ | ❌ | ✔️ |
+| `abbr-glossary-usable-identifier-abbr` | Glossary usable-identifier-abbr | ❌ | ❌ | ✔️ |
+
