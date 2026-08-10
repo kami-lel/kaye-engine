@@ -114,42 +114,50 @@ A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking t
 
 Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept and how they're authored in the prompt corpus.
 
-| sidecar name | tool | Chat | Cowork | VSC | remark |
-| --- | --- | --- | --- | --- | --- |
-| `{Claude Chat [memory_] Usage}` | `memory_read`,<br>`memory_write`,<br>`memory_append`,<br>`memory_str_replace`,<br>`memory_delete`,<br>`memory_list` | ✔️ | ❌ | ❌ | read, write, append, edit, delete, and list memory files |
-| `{Claude Chat [ask_user_input_v0] Usage}` | `ask_user_input_v0` | ✔️ | ❌ | ❌ | show tappable multiple-choice questions |
-| `{Claude Chat [weather_fetch] Usage}` | `weather_fetch` | ✔️ | ❌ | ❌ | weather by location |
-| `{Claude Chat [places_search] Usage}` | `places_search` | ✔️ | ❌ | ❌ | search Google Places |
-| `{Claude Chat [places_map_display_v0] Usage}` | `places_map_display_v0` | ✔️ | ❌ | ❌ | show places on a map |
-| `{Claude Chat [places_list_display_v0] Usage}` | `places_list_display_v0` | ✔️ | ❌ | ❌ | show places as a browsable list |
-| `{Claude Chat [recipe_display_v0] Usage}` | `recipe_display_v0` | ✔️ | ❌ | ❌ | interactive scalable recipe card |
-| `{Claude Chat [itinerary_display_v0] Usage}` | `itinerary_display_v0` | ✔️ | ❌ | ❌ | day-by-day travel itinerary card |
-| `{Claude Chat [step_card_display_v0] Usage}` | `step_card_display_v0` | ✔️ | ❌ | ❌ | numbered step-by-step walkthrough card |
-| `{Claude Chat [options_card_display_v0] Usage}` | `options_card_display_v0` | ✔️ | ❌ | ❌ | multi-approach options card |
-| `{Claude Chat [comparison_card_display_v0] Usage}` | `comparison_card_display_v0` | ✔️ | ❌ | ❌ | side-by-side product comparison card |
-| `{Claude Chat [featured_card_display_v0] Usage}` | `featured_card_display_v0` | ✔️ | ❌ | ❌ | single best-pick product card |
-| `{Claude Chat [product_carousel_display_v0] Usage}` | `product_carousel_display_v0` | ✔️ | ❌ | ❌ | paged product browsing card |
-| `{Claude Chat [link_preview_display_v0] Usage}` | `link_preview_display_v0` | ✔️ | ❌ | ❌ | external link preview cards |
-| `{Claude Chat [message_compose_v1] Usage}` | `message_compose_v1` | ✔️ | ❌ | ❌ | drafts email/Slack/text with strategic variants |
-| `{Claude Chat [visualize:show_widget] Uage}` | `visualize:show_widget` | ✔️ | ❌ | ❌ | renders inline SVG/HTML diagram, chart, or widget |
-| `{Claude Code [Agent] Usage}` | `Agent` | ❌ | ✔️ | ✔️ | launches a subagent for multi-step or research tasks |
-| `{Claude Code [ListAgents] Usage}` | `ListAgents` | ❌ | ❌ | ✔️ | lists other agents/sessions reachable via `SendMessage` |
-| `{Claude Code [AskUserQuestion] Usage}` | `AskUserQuestion` | ❌ | ✔️ | ✔️ | asks the user a clarifying question with selectable options |
-| `{Claude Code [Artifact] Usage}` | `Artifact` | ❌ | ❌ | ✔️ | publishes an HTML/Markdown page as a shareable web artifact |
-| `{Claude Code [ReportFindings] Usage}` | `ReportFindings` | ❌ | ❌ | ✔️ | emits structured code-review findings |
-| `{Claude Code [ScheduleWakeup] Usage}` | `ScheduleWakeup` | ❌ | ❌ | ✔️ | schedules a future self-resumption for `/loop` dynamic mode |
-| `{Claude Code [Skill] Usage}` | `Skill` | ❌ | ✔️ | ✔️ | invokes a packaged skill (`/skill-name`) |
-| `{Claude Code [ToolSearch] Usage}` | `ToolSearch` | ❌ | ✔️ | ✔️ | fetches full schemas for deferred tools by name or keyword |
-| `{Claude Code [Write] Usage}` | `Write` | ❌ | ✔️ | ✔️ | creates or overwrites a file on local disk |
-| `{Claude Code [CronCreate/Delete/List] Usage}` | `CronCreate`,<br>`CronDelete`,<br>`CronList` | ❌ | ❌ | ✔️ | creates, deletes, and lists scheduled cloud agents |
-| `{Claude Code [DesignSync] Usage}` | `DesignSync` | ❌ | ❌ | ✔️ | syncs design assets/state |
-| `{Claude Code [Enter/ExitPlanMode:] Usage}` | `EnterPlanMode`<br>`ExitPlanMode` | ❌ | ❌ | ✔️ | toggles planning mode |
-| `{Claude Code [Enter/ExitWorktree] Usage}` | `EnterWorktree`<br>`ExitWorktree` | ❌ | ❌ | ✔️ | creates/switches into and exits an isolated git worktree session |
-| `{Claude Code [Monitor] Usage}` | `Monitor` | ❌ | ❌ | ✔️ | streams events from a background process |
-| `{Claude Code [NotebookEdit] Usage}` | `NotebookEdit` | ❌ | ❌ | ✔️ | edits Jupyter notebook cells |
-| `{Claude Code [PushNotification] Usage}` | `PushNotification` | ❌ | ❌ | ✔️ | sends a push notification |
-| `{Claude Code [RemoteTrigger] Usage}` | `RemoteTrigger` | ❌ | ❌ | ✔️ | triggers a remote/cloud agent run |
-| `{Claude Code [SendMessage] Usage}` | `SendMessage` | ❌ | ❌ | ✔️ | messages another agent/session |
-| `{Claude Code [TaskOutput] Usage}` | `TaskOutput` | ❌ | ❌ | ✔️ | fetches output from a background task |
-| `{Claude Code [TaskStop] Usage}` | `TaskStop` | ❌ | ✔️ | ✔️ | stops a background task |
-| `{Claude Code [TodoWrite] Usage}` | `TodoWrite` | ❌ | ❌ | ✔️ | maintains a task/todo list for the session |
+| sidecar name | tool | Chat[^chat] | Cowork | Code | VSC[^vsc] | remark |
+| --- | --- | --- | --- | --- | --- | --- |
+| `{Claude Chat [memory_] Usage}` | `memory_read`,<br>`memory_write`,<br>`memory_append`,<br>`memory_str_replace`,<br>`memory_delete`,<br>`memory_list` | ✔️ | ❌ | ❌ | ❌ | read, write, append, edit, delete, and list memory files |
+| `{Claude Chat [ask_user_input_v0] Usage}` | `ask_user_input_v0` | ✔️ | ❌ | ❌ | ❌ | show tappable multiple-choice questions |
+| `{Claude Chat [weather_fetch] Usage}` | `weather_fetch` | ✔️ | ❌ | ❌ | ❌ | weather by location |
+| `{Claude Chat [places_search] Usage}` | `places_search` | ✔️ | ❌ | ❌ | ❌ | search Google Places |
+| `{Claude Chat [places_map_display_v0] Usage}` | `places_map_display_v0` | ✔️ | ❌ | ❌ | ❌ | show places on a map |
+| `{Claude Chat [places_list_display_v0] Usage}` | `places_list_display_v0` | ✔️ | ❌ | ❌ | ❌ | show places as a browsable list |
+| `{Claude Chat [recipe_display_v0] Usage}` | `recipe_display_v0` | ✔️ | ❌ | ❌ | ❌ | interactive scalable recipe card |
+| `{Claude Chat [itinerary_display_v0] Usage}` | `itinerary_display_v0` | ✔️ | ❌ | ❌ | ❌ | day-by-day travel itinerary card |
+| `{Claude Chat [step_card_display_v0] Usage}` | `step_card_display_v0` | ✔️ | ❌ | ❌ | ❌ | numbered step-by-step walkthrough card |
+| `{Claude Chat [options_card_display_v0] Usage}` | `options_card_display_v0` | ✔️ | ❌ | ❌ | ❌ | multi-approach options card |
+| `{Claude Chat [comparison_card_display_v0] Usage}` | `comparison_card_display_v0` | ✔️ | ❌ | ❌ | ❌ | side-by-side product comparison card |
+| `{Claude Chat [featured_card_display_v0] Usage}` | `featured_card_display_v0` | ✔️ | ❌ | ❌ | ❌ | single best-pick product card |
+| `{Claude Chat [product_carousel_display_v0] Usage}` | `product_carousel_display_v0` | ✔️ | ❌ | ❌ | ❌ | paged product browsing card |
+| `{Claude Chat [link_preview_display_v0] Usage}` | `link_preview_display_v0` | ✔️ | ❌ | ❌ | ❌ | external link preview cards |
+| `{Claude Chat [message_compose_v1] Usage}` | `message_compose_v1` | ✔️ | ❌ | ❌ | ❌ | drafts email/Slack/text with strategic variants |
+| `{Claude Chat [visualize:show_widget] Uage}` | `visualize:show_widget` | ✔️ | ❌ | ❌ | ❌ | renders inline SVG/HTML diagram, chart, or widget |
+| `{Claude Code [Agent] Usage}` | `Agent` | ❌ | ✔️ | ✔️ | ✔️ | launches a subagent for multi-step or research tasks |
+| `{Claude Code [ListAgents] Usage}` | `ListAgents` | ❌ | ❌ | ❌ | ✔️ | lists other agents/sessions reachable via `SendMessage` |
+| `{Claude Code [AskUserQuestion] Usage}` | `AskUserQuestion` | ❌ | ✔️ | ✔️ | ✔️ | asks the user a clarifying question with selectable options |
+| `{Claude Code [Artifact] Usage}` | `Artifact` | ❌ | ❌ | ✔️ | ✔️ | publishes an HTML/Markdown page as a shareable web artifact |
+| `{Claude Code [ReportFindings] Usage}` | `ReportFindings` | ❌ | ❌ | ✔️ | ✔️ | emits structured code-review findings |
+| `{Claude Code [ScheduleWakeup] Usage}` | `ScheduleWakeup` | ❌ | ❌ | ✔️ | ✔️ | schedules a future self-resumption for `/loop` dynamic mode |
+| `{Claude Code [SendUserFile] Usage}` | `SendUserFile` | ❌ | ❌ | ✔️ | ✔️ | sends a local file to Kami |
+| `{Claude Code [Skill] Usage}` | `Skill` | ❌ | ✔️ | ✔️ | ✔️ | invokes a packaged skill (`/skill-name`) |
+| `{Claude Code [ToolSearch] Usage}` | `ToolSearch` | ❌ | ✔️ | ✔️ | ✔️ | fetches full schemas for deferred tools by name or keyword |
+| `{Claude Code [Write] Usage}` | `Write` | ❌ | ✔️ | ✔️ | ✔️ | creates or overwrites a file on local disk |
+| `{Claude Code [CronCreate/Delete/List] Usage}` | `CronCreate`,<br>`CronDelete`,<br>`CronList` | ❌ | ❌ | ✔️ | ✔️ | creates, deletes, and lists scheduled cloud agents |
+| `{Claude Code [DesignSync] Usage}` | `DesignSync` | ❌ | ❌ | ✔️ | ✔️ | syncs design assets/state |
+| `{Claude Code [Enter/ExitPlanMode:] Usage}` | `EnterPlanMode`<br>`ExitPlanMode` | ❌ | ❌ | ✔️ | ✔️ | toggles planning mode |
+| `{Claude Code [Enter/ExitWorktree] Usage}` | `EnterWorktree`<br>`ExitWorktree` | ❌ | ❌ | ✔️ | ✔️ | creates/switches into and exits an isolated git worktree session |
+| `{Claude Code [Monitor] Usage}` | `Monitor` | ❌ | ❌ | ✔️ | ✔️ | streams events from a background process |
+| `{Claude Code [NotebookEdit] Usage}` | `NotebookEdit` | ❌ | ❌ | ✔️ | ✔️ | edits Jupyter notebook cells |
+| `{Claude Code [PushNotification] Usage}` | `PushNotification` | ❌ | ❌ | ✔️ | ✔️ | sends a push notification |
+| `{Claude Code [RemoteTrigger] Usage}` | `RemoteTrigger` | ❌ | ❌ | ✔️ | ✔️ | triggers a remote/cloud agent run |
+| `{Claude Code [SendMessage] Usage}` | `SendMessage` | ❌ | ❌ | ✔️ | ✔️ | messages another agent/session |
+| `{Claude Code [TaskCreate] Usage}` | `TaskCreate` | ❌ | ❌ | ✔️ | ✔️ | creates a tracked background task |
+| `{Claude Code [TaskGet] Usage}` | `TaskGet` | ❌ | ❌ | ✔️ | ✔️ | gets a task's details |
+| `{Claude Code [TaskList] Usage}` | `TaskList` | ❌ | ❌ | ✔️ | ✔️ | lists tracked tasks |
+| `{Claude Code [TaskOutput] Usage}` | `TaskOutput` | ❌ | ❌ | ✔️ | ✔️ | fetches output from a background task |
+| `{Claude Code [TaskStop] Usage}` | `TaskStop` | ❌ | ✔️ | ✔️ | ✔️ | stops a background task |
+| `{Claude Code [TaskUpdate] Usage}` | `TaskUpdate` | ❌ | ❌ | ✔️ | ✔️ | updates a task's state |
+| `{Claude Code [TodoWrite] Usage}` | `TodoWrite` | ❌ | ❌ | ❌ | ✔️ | maintains a task/todo list for the session |
+
+[^chat]: i.e. Claude.ai.
+[^vsc]: i.e. Claude Code VS Code Extension.
