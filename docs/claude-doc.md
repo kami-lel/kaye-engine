@@ -19,8 +19,8 @@ Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as 
 `kaye-engine claude` exposes one subcommand per Claude export target:
 
 ```bash
-kaye-engine claude skill                # export blueprints as Skill folders or .zip packages
-kaye-engine claude plugin               # export blueprints as a plugin folder or .zip package
+kaye-engine claude skill                # export exportables as Skill folders or .zip packages
+kaye-engine claude plugin               # export exportables as a plugin folder or .zip package
 kaye-engine claude marketplace          # export a marketplace folder for the Claude sidebar
 kaye-engine claude code                 # export a plugin plus CLAUDE.md into ~/.claude
 kaye-engine claude user-system-prompt   # export a blueprint as ~/.claude/CLAUDE.md
@@ -31,7 +31,8 @@ kaye-engine claude vs-code-extension    # export CLAUDE.md, marketplace, and set
 > [!TIP]
 > Run `kaye-engine claude [SUBCOMMAND] -h` to see full documentation.
 
-<!-- Todo document all skills -->
+> [!NOTE]
+>  All (non-internal) exportables in  `exportable_registry` will be rendered
 
 
 
@@ -109,6 +110,8 @@ A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking t
 
 ## Conditional Sidecar Inclusion
 
+<!-- bug better surfaced based sidecar org  -->
+
 Conditional `{Claude Tool:...}` sidecar nodes are optional; when present, each Claude export surface auto-includes them via its own `CLAUDE_*_SIDECARS` constant in `kaye_engine.cli.claude`.
 
 Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept and how they're authored in the prompt corpus.
@@ -125,7 +128,6 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `{Claude Tool:Workflow}` | `Workflow` |
 | `{Claude Tool:ReportFindings}` | `ReportFindings` |
 
-<!-- BUG claude sidecars organize -->
 
 | sidecar name | `CLAUDE_CHAT_SIDECARS` | `CLAUDE_COWORK_SIDECARS` | `CLAUDE_CODE_SIDECARS` | `CLAUDE_CODE_VSC_XTN_SIDECARS` |
 | --- | --- | --- | --- | --- |

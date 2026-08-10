@@ -1,20 +1,20 @@
-"""export the kaye plugin and User System Prompt for Claude Code"""
+"""export as plugin and User System Prompt for Claude Code"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import CLAUDE_CODE_SIDECARS, LOGGER_CLAUDE_NAME
+from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
-from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder
+from kaye_engine.cli.claude.user_prompt.export import (
+    export_user_system_prompt_file,
+)
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
     find_user_system_prompt_file,
-)
-from kaye_engine.cli.claude.user_prompt.export import (
-    export_user_system_prompt_file,
 )
 
 # logger  ######################################################################
@@ -24,7 +24,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 _DESCRIPTION = __doc__ + """
 
 writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint) and
-exports the kaye plugin into plugins/.
+exports the kaye plugin into plugins/
 
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)

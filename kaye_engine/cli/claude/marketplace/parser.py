@@ -19,8 +19,8 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 _DESCRIPTION = """
 
-writes marketplace.json and exports the kaye plugin into plugins/; the
-resulting folder can be added directly in Claude's marketplace settings.
+writes marketplace.json and exports into plugins/;
+the resulting folder can be added directly in Claude's marketplace settings.
 
 MARKETPLACE/  (default: ~/.claude/MARKETPLACE_FOLDER_NAME)
 ├── .claude-plugin/
