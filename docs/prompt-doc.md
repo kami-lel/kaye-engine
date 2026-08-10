@@ -1,10 +1,6 @@
-# Kaye Engine Programmatic API documentation
+# Kaye Engine: `prompt` module Documentation
 
-## `prompt` module
-
-The public programmatic API lives in `kaye_engine.prompt`.
-It re-exports the prompt tree nodes, blueprint type, corpus loader,
-and the blueprint registry.
+The public programmatic API lives in `kaye_engine.prompt`. It re-exports the prompt tree nodes, blueprint type, corpus loader, and the blueprint registry.
 
 Example imports:
 
@@ -351,7 +347,7 @@ However, when encounter a node findable in corpus tree, but not contained in the
 
 #### blueprint-level operations
 
-##### prune
+#### prune
 
 Use `bp.prune()` will create a minimum version that contains only branches with checkmarked nodes.
 
