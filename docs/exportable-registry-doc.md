@@ -40,13 +40,16 @@ Two kinds of exportable registration feed `exportable_registry`:
   always registered, by the engine;
   generate during runtime, all abbrs later added will also be rendered
 
-- **consumer registered exportable**:
-  consumer's call to `register_blueprint` will automatically register the blueprint into `exportable_registry`
+- **consumer registered exportable**
+
+  - blueprint: `register_blueprint()`
+    will automatically register the blueprint into `exportable_registry`
+  - glossary: `register_abbr_glossary()`
 
 Usage:
 
-- `claude` CLI: q.v. [`claude-doc.md`](claude-doc.md) for the full Claude CLI surface (`kaye-engine claude skill|plugin|marketplace|code|...`)
 - `export` CLI (alias `x`): `kaye-engine export EXPORTABLE` prints that exportable's `content()`; `kaye-engine export ls` lists every registered exportable name, sorted alphabetically
+- `claude` CLI: q.v. [`claude-doc.md`](claude-doc.md) for the full Claude CLI surface (`kaye-engine claude skill|plugin|marketplace|code|...`)
 
 
 
