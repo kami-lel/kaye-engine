@@ -1,12 +1,13 @@
-"""export all kaye blueprints as a single Claude plugin"""
+"""export all exportable as a single Claude plugin"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-
 from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.plugin_marketplace_name import check_setup_for_claude_cli
+from kaye_engine.cli.claude.plugin_marketplace_name import (
+    check_setup_for_claude_cli,
+)
 
 from .export_folder import export_plugin_as_folder
 from .export_zip import export_plugin_as_zip
@@ -20,8 +21,8 @@ _DEFAULT_PLUGINS_FOLDER = Path.home() / ".claude" / "plugins"
 
 _DESCRIPTION = """
 
-writes plugin.json and one SKILL.md per blueprint under
-PLUGIN_NAME/skills/; with -z, creates an upload-ready .zip for
+writes plugin.json and one SKILL.md per exportable under PLUGIN_NAME/skills/;
+with -z, creates an upload-ready .zip for
 Claude Desktop instead.
 
 FOLDER/  (default: ~/.claude/plugins/)

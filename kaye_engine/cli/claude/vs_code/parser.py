@@ -1,15 +1,17 @@
-"""export the kaye plugin as a VS Code extension marketplace folder"""
+"""export the plugin as a VS Code extension marketplace folder"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.plugin_marketplace_name import check_setup_for_claude_cli
-
+from kaye_engine.cli.claude.plugin_marketplace_name import (
+    check_setup_for_claude_cli,
+)
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
 )
+
 from .export import export_vs_code_extension
 
 # logger  ######################################################################
