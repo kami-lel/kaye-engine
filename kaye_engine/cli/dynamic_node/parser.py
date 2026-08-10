@@ -8,71 +8,165 @@ import sys
 from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
+from kaye_engine.abbr_collection import AbbrTags, abbr_glossary_registry
+from kaye_engine.cli.dynamic_node.node_type_choices import (
+    ENGINE_DEFINED_NODES,
+    list_all_node_type_names,
+)
+from kaye_engine.cli.sparseness_parser import (
+    SPARSENESS_DESCRIPTION,
+    sparseness_parser,
+)
 from kaye_engine.kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
 )
 from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
+from kaye_engine.prompt.dynamic_nodes import (
+    ABBR_TAG_NODE_MEMBERS,
+    AbbrTagNode,
+    GlossaryNode,
+    heading_for_abbr_tag,
+)
+from kaye_engine.prompt.prompt_corpus_loader import get_default_corpus_tree
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
-
-from kaye_engine.cli.dynamic_node.node_type_choices import NODE_TYPE_CHOICES
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
-_HELP = "render a single dynamic node"
+_HELP = "render 1 or more dynamic nodes"
 
 # root heading of the dummy corpus tree built for this command
 _ROOT_NODE_NAME = "○"
 
 
-_NODE_TYPE_LIST = "\n".join(
-    "{:<10}{}".format(name, cls.HEADING)
-    for name, cls in NODE_TYPE_CHOICES.items()
-)
+# auxiliaries  #################################################################
+def _build_description():
+    return _HELP + """
 
-
-_DESCRIPTION = (
-    _HELP
-    + """
-
-renders a blueprint made of ONLY the given NODE_TYPE dynamic node,
+renders a single blueprint merged from every given NODE dynamic node,
 result is printed to stdout
 
-NODE_TYPE choices:
+when NODE=shorthand, reads query content from stdin, optional:
 
-"""
-    + _NODE_TYPE_LIST
-    + """
+    echo "use an algo to calc the avg" | kaye-engine dynamic-node shorthand
 
-Abbreviation node reads its query content from stdin, optional:
+run to list available NODE values:
 
-    echo "use an algo to calc the avg" | kaye-engine dynamic-node abbr
-"""
-)
+    kaye-engine dynamic-node ls
+
+""" + SPARSENESS_DESCRIPTION
 
 
-# auxiliaries  #################################################################
+def _resolve_node_type(name):
+    """
+    resolve ``name`` against ``ENGINE_DEFINED_NODES``,
+    ``ABBR_TAG_NODE_MEMBERS``, and known abbr glossary names -- returns
+    ``(node_cls, kwargs)``, where ``kwargs`` is the dict of parameters
+    the match needs at construction time (empty for an engine-defined
+    choice, ``{"abbr_tag": ...}`` for an AbbrTagNode match,
+    ``{"glossary_name": ...}`` for a glossary match); raises
+    ``ValueError`` when ``name`` matches none of the above
+    """
+    node_cls = ENGINE_DEFINED_NODES.get(name)
+    if node_cls is not None:
+        return node_cls, {}
+
+    try:
+        abbr_tag = AbbrTags[name]
+    except KeyError:
+        abbr_tag = None
+    if abbr_tag in ABBR_TAG_NODE_MEMBERS:
+        return AbbrTagNode, {"abbr_tag": abbr_tag}
+
+    if name in abbr_glossary_registry:
+        return GlossaryNode, {"glossary_name": name}
+
+    raise ValueError("unrecognized NODE: {}".format(repr(name)))
+
+
+def _get_shared_corpus_tree():
+    """
+    :return: the default corpus tree if one is set, else a fresh dummy
+            root -- shared as the single ``corpus_tree`` every requested
+            NODE is attached to or read from, so their blueprints can merge
+    :rtype: PromptCorpusNode
+    """
+    try:
+        return get_default_corpus_tree()
+    except ValueError:
+        return PromptCorpusNode(_ROOT_NODE_NAME, None, [])
+
+
+def _node_name_in(corpus_tree, node_name_arg, node_cls, kwargs):
+    """
+    :return: the authored "(...)" heading already present as a child of
+            ``corpus_tree`` for ``node_name_arg``, else the name of a
+            freshly attached ``node_cls`` instance
+    :rtype: str
+    """
+    if node_cls is AbbrTagNode:
+        heading_text = heading_for_abbr_tag(kwargs["abbr_tag"])
+    elif node_cls is GlossaryNode:
+        heading_text = kwargs["glossary_name"]
+    else:
+        heading_text = node_cls.HEADING
+    heading = "(" + heading_text + ")"
+
+    has_authored_heading = any(
+        child.name == heading for child in corpus_tree.children
+    )
+    if has_authored_heading:
+        return heading
+
+    node = node_cls(corpus_tree, **kwargs)
+    return node.name
+
+
 def _dynamic_node_main(args):
     set_logging_level_by_namespace(args, logger=logger)
 
-    node_cls = NODE_TYPE_CHOICES[args.NODE_TYPE]
+    if args.NODE == ["ls"]:
+        for name in list_all_node_type_names():
+            print(name)
+        return
 
-    dummy_root = PromptCorpusNode(_ROOT_NODE_NAME, None, [])
-    node_cls(dummy_root)
+    corpus_tree = _get_shared_corpus_tree()
 
-    blueprint = PromptBlueprint.create_from_node(
-        "(" + node_cls.HEADING + ")", corpus_tree=dummy_root
-    )
+    try:
+        node_names = []
+        for node_name_arg in args.NODE:
+            node_cls, kwargs = _resolve_node_type(node_name_arg)
+            node_names.append(
+                _node_name_in(corpus_tree, node_name_arg, node_cls, kwargs)
+            )
+
+        blueprint = None
+        for node_name in node_names:
+            node_blueprint = PromptBlueprint.create_from_node(
+                node_name, corpus_tree=corpus_tree
+            )
+            blueprint = (
+                node_blueprint
+                if blueprint is None
+                else blueprint.merge(node_blueprint)
+            )
+    except ValueError as err:
+        logger.error(str(err))
+        raise SystemExit(1) from err
 
     query = sys.stdin.read() if not sys.stdin.isatty() else ""
 
-    generate_kwargs = {}
-    if args.NODE_TYPE == "abbr":
-        generate_kwargs["query"] = query
-
-    prompt = blueprint.generate_prompt(**generate_kwargs)
+    try:
+        prompt = blueprint.generate_prompt(
+            query=query,
+            glossary_priority_threshold=args.priority_threshold,
+            sparseness=args.sparseness,
+        )
+    except (TypeError, KeyError, NotImplementedError) as err:
+        logger.critical(str(err))
+        raise SystemExit(1) from err
 
     print(prompt)
 
@@ -85,17 +179,26 @@ def register_dynamic_node_parser(cli_subparser):
     dynamic_node_parser = cli_subparser.add_parser(
         "dynamic-node",
         help=_HELP,
-        description=_DESCRIPTION,
+        description=_build_description(),
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["dn"],
+        parents=[sparseness_parser],
     )
 
     # add arguments  -------------------------------------------------------
     # positional
     dynamic_node_parser.add_argument(
-        "NODE_TYPE",
-        help="dynamic node type to render",
-        choices=list(NODE_TYPE_CHOICES),
+        "NODE",
+        nargs="+",
+        help="dynamic nodes to render; NODE=ls: list available node values",
+    )
+    dynamic_node_parser.add_argument(
+        "-t",
+        "--priority-threshold",
+        metavar="THRESHOLD",
+        type=int,
+        default=None,
+        help="(glossary node) exclude entries whose priority > THRESHOLD",
     )
     add_verbose_arguments(dynamic_node_parser)
 

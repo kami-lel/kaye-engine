@@ -13,7 +13,7 @@ from kaye_engine.kamilog import (
 )
 
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.prompt.blueprint_io_parser import (
+from kaye_engine.cli.blueprint.blueprint_io_parser import (
     blueprint_io_parser,
     load_blueprint_from_args,
 )
@@ -32,12 +32,12 @@ render blueprint into a preview tree; the result is printed to stdout
 
 select blueprint by registry name BLUEPRINT:
 
-    kaye-engine prompt show my-blueprint
+    kaye-engine blueprint show my-blueprint
 
 reading blueprint from stdin:
 
-    kaye-engine prompt show < my-blueprint.yaml
-    cat my-blueprint.yaml | kaye-engine prompt show
+    kaye-engine blueprint show < my-blueprint.yaml
+    cat my-blueprint.yaml | kaye-engine blueprint show
 
 the preview's depth, line count, and line width can be tuned with -t, -l, and -w
 """
@@ -68,13 +68,14 @@ def _show_main(args):
 # Public API  ##################################################################
 def register_show_parser(cli_subparser):
     """
-    register the ``kaye prompt show`` subcommand parser
+    register the ``kaye blueprint show`` subcommand parser
     """
     show_parser = cli_subparser.add_parser(
         "show",
         help=_HELP,
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
+        aliases=["s"],
         parents=[blueprint_io_parser],
     )
 

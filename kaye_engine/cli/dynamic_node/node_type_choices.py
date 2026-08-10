@@ -1,33 +1,39 @@
 """
 node_type_choices.py
 
-define ``NODE_TYPE_CHOICES``
+define ``ENGINE_DEFINED_NODES`` and ``list_all_node_type_names``
 """
 
+from kaye_engine.abbr_collection import abbr_glossary_registry
 from kaye_engine.prompt.dynamic_nodes import (
+    ABBR_TAG_NODE_MEMBERS,
+    ShorthandNode,
     TodayNode,
-    AbbrNode,
-    UsableAbbrNode,
-    LanguageCodeNode,
-    PLCNode,
-    UnityEngineAbbrNode,
-    CodingTermsNode,
-    PlanStepByStepAbbrNode,
-    CodeDocumentationFieldAbbrNode,
 )
 
-__all__ = ("NODE_TYPE_CHOICES",)
+__all__ = (
+    "ENGINE_DEFINED_NODES",
+    "list_all_node_type_names",
+)
 
 # constants  ###################################################################
-# map CLI-facing NODE_TYPE identifiers to their dynamic node class
-NODE_TYPE_CHOICES = {
+ENGINE_DEFINED_NODES = {
     "today": TodayNode,
-    "abbr": AbbrNode,
-    "usable": UsableAbbrNode,
-    "language": LanguageCodeNode,
-    "plc": PLCNode,
-    "unity": UnityEngineAbbrNode,
-    "coding": CodingTermsNode,
-    "plan": PlanStepByStepAbbrNode,
-    "docfield": CodeDocumentationFieldAbbrNode,
+    "shorthand": ShorthandNode,
 }
+
+
+# Public API  ##################################################################
+def list_all_node_type_names():
+    """
+    :return: every currently available ``NODE_TYPE`` name, ordered as:
+            ``today``, ``shorthand``, every ``AbbrTagNode`` name
+            (``AbbrTags`` declaration order), then every registered
+            abbr glossary name (sorted alphabetically)
+    :rtype: list[str]
+    """
+    return (
+        ["today", "shorthand"]
+        + [abbr_tag.name for abbr_tag in ABBR_TAG_NODE_MEMBERS]
+        + sorted(abbr_glossary_registry)
+    )

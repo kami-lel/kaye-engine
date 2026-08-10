@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-08-05
+**Last updated:** 2026-08-10
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -18,14 +18,14 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `prompt`, `claude`, `dynamic-node` |
+| CLI subcommands | `blueprint`, `claude`, `dynamic-node`, `export` |
 
 ## Personalization Boundary
 
 `kaye-engine` is a public mechanism package, extended by a separate private
 repository that supplies the actual identity content, abbreviations, and
 blueprint registrations the mechanism operates on. The dependency runs one
-direction only: a personalized project depends on `kaye-engine`;
+direction only: a personalized consumer project depends on `kaye-engine`;
 `kaye-engine` must build, test, and export with no knowledge of what any
 such project supplies.
 
@@ -41,6 +41,7 @@ not a gap to fill.
 | **Prompt Tree** | the parsed corpus; every heading a `BasePromptNode` |
 | **Blueprint** | a selection spec marking which tree nodes render |
 | **Blueprint Registry** | name → blueprint plus its export policy |
+| **Exportable** | common base for anything `exportable_registry` holds — `BlueprintRegistry` and `ExportableAbbr` are its two implementers |
 | **Role** | a task-specific behavior profile held inside the corpus |
 | **Sidecar Node** | a `{name}` subnode; metadata or conditional content |
 | **Dynamic Node** | a `(Name)` node whose content is generated at render |
@@ -54,6 +55,11 @@ corpus.md ──load_corpus_tree()──> Prompt Tree ─┐
 blueprint text ──PromptBlueprint.parse()───────┘
 ```
 
+Rendering takes a `sparseness` parameter governing how runs of blank lines
+collapse in the output, from `-1` (whole output joined onto one line) through
+`99` (no trimming); descriptor sidecar rendering always renders at `-1` so a
+multi-line description or when-to-use collapses to one string.
+
 Sidecars split by usage rather than by class. *Descriptor* sidecars
 (`{description}`, `{when_to_use}`, `{globs}`) are consumed as blueprint
 metadata and never rendered; every other name is a *conditional* sidecar,
@@ -61,44 +67,50 @@ real content spliced in only when its name is passed to `contains_sidecars`.
 Q.v. [sidecar node documentation](docs/sidecar-node-doc.md).
 
 Dynamic nodes are attached to the tree at load time and cover today's date
-plus the abbreviation groups. Q.v. [dynamic node
+plus the abbreviation glossaries. Q.v. [dynamic node
 documentation](docs/dynamic-node-doc.md) and [abbreviation collection
-documentation](docs/abbr-collection-doc.md).
+documentation](docs/abbrs-doc.md).
 
 ## Public API
 
 ```python
 from kaye_engine import (
     PACKAGE_NAME, DISPLAY_NAME, LOGGER_NAME,
-    load_corpus_tree, get_corpus_tree, get_default_corpus_tree,
-    AbbrData, get_abbr_data,
-    register_blueprint, get_blueprint,
-    set_claude_plugin_marketplace_name,
-    set_claude_using_blueprint,
+    load_corpus_tree, get_default_corpus_tree,
+    AbbrData,
+    register_abbr_glossary,
+    register_blueprint,
+    setup_claude_cli,
 )
 ```
 
+`get_abbr_data`, `get_abbr_glossary`, `get_blueprint`, and `get_corpus_tree`
+are not exported at this top level — reach them through their owning
+submodule (`kaye_engine.abbr_collection`, `kaye_engine.prompt`) instead.
+`Exportable`, `exportable_registry`, `register_exportable_entry`, and
+`get_exportable` (`kaye_engine.exportable`) round out the registry every
+`BlueprintRegistry` and `ExportableAbbr` entry is inserted into.
+
 A caller loads and caches a corpus by name; one tree may be flagged the
 process default, which is what a blueprint resolves against when given no
-explicit tree. A host that exports through `claude` subcommands must also
-call `set_claude_plugin_marketplace_name()` to name the plugin/marketplace
-for Anthropic's tooling, and `set_claude_using_blueprint(chat_bp_name,
-coder_bp_name)` to name the registered blueprints that back the Chat and
-Coder exports — neither has a default. Q.v. [programmatic API
-documentation](docs/programmatic-api-doc.md).
+explicit tree. A consumer that exports through `claude` subcommands must also
+call `setup_claude_cli(plugin_name, marketplace_name, chat_bp_name,
+coder_bp_name, version, marketplace_folder_name)` — none of the six has a
+default. Q.v. [Kaye Engine: `prompt` module Documentation](docs/prompt-doc.md).
 
 Every CLI subcommand entrypoint calls a setup guard
 (`check_corpus_setup_for_cli()`, or `check_setup_for_claude_cli()` for
-`claude` subcommands) that logs an error — never raises — when a host
+`claude` subcommands) that logs an error — never raises — when a consumer
 hasn't loaded a default corpus tree or registered any blueprints. It exists
 to surface a bare-checkout misuse early, not to enforce the boundary. The
-plugin/marketplace name and the Chat/Coder blueprint names are enforced
-separately, each by its own getter (`get_plugin_marketplace_name()`,
-`get_claude_chat_blueprint()`, `get_claude_coder_blueprint()`), which logs
-`logger.critical` and raises `SystemExit(1)` when unset — or, for the
-blueprint getters, when the configured name is not in `blueprint_registry`
-— rather than letting `None` or an unresolved name reach path, manifest, or
-prompt building.
+plugin name, marketplace name, Chat/Coder blueprint names, version, and
+marketplace folder name are enforced separately, each by its own getter
+(`get_plugin_name()`, `get_marketplace_name()`, `get_claude_chat_blueprint()`,
+`get_claude_coder_blueprint()`, `get_claude_cli_consumer_version()`,
+`get_marketplace_folder_name()`), which logs `logger.critical` and raises
+`SystemExit(1)` when unset — or, for the blueprint getters, when the
+configured name is not in `blueprint_registry` — rather than letting `None`
+or an unresolved name reach path, manifest, or prompt building.
 
 ## Repository Layout
 
@@ -108,32 +120,35 @@ kaye_engine/
 │   ├── blueprint/       PromptBlueprint, registry, rendering
 │   └── dynamic_nodes/   render-time generated node types
 ├── abbr_collection/     abbreviation entries, store, JSON loader
+├── exportable.py        Exportable base, exportable_registry
 ├── cli/
-│   ├── prompt/          `prompt` subcommand: ls, show, generate
+│   ├── blueprint/       `blueprint`/`bp` subcommand: ls, show, generate
 │   ├── claude/          skills, plugins, marketplaces, CLAUDE.md
-│   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: single-node render
-│   └── cli_continue/    deprecated; never registered, unreachable
+│   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
+│   └── exportable_parser.py  `export`/`x` subcommand: print, list exportables
 └── kamilog.py           logging, shared across the package
 docs/                    per-topic reference, linked above
 tests/                   prompt/, abbr/, cli/ — mirrors the source
 ```
 
-The `prompt` layer is pure: it knows nothing of Claude, Continue, or any
-export target. Every export target is a leaf under `cli/`, and each reads
+The `prompt` layer is pure: it knows nothing of Claude or any export
+target. Every export target is a leaf under `cli/`, and each reads
 the same `blueprint_registry` rather than holding its own list.
 
 ## Testing Strategy
 
-`pytest`, 692 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 667 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.
 
 Tests mirror the source tree: `tests/prompt/` for the engine, `tests/abbr/`
 for the abbreviation collection. `tests/cli/` stays deliberately thin — it
-holds only the corpus-independent pieces, version resolution and
-`SKILL.md` rendering, because the exporters need a corpus to produce
-output and the host package covers those.
+holds only the corpus-independent pieces (setup guard, exportable-abbr
+registration, `dynamic-node` parsing, `SKILL.md` rendering), because the
+exporters need a corpus to produce output and the consumer package covers
+those. The `blueprint` and `export` subcommand parsers currently have no
+dedicated tests.
 
 ## Maintaining This File
 

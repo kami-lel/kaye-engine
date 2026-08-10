@@ -11,6 +11,9 @@ from unittest.mock import mock_open, patch
 import pytest
 
 
+from kaye_engine.abbr_collection.abbr_data import _abbr_data
+from kaye_engine.abbr_collection.abbr_meaning import AbbrMeaning
+from kaye_engine.prompt.dynamic_nodes import GlossaryNode
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
 
@@ -27,6 +30,13 @@ def prompt_corpus_tree_preview():
 
 # pytest  ######################################################################
 class TestDynamic:
+    """
+    engine-defined dynamic node types (``DYNAMIC_NODE_TYPES``) still attach
+    unconditionally, with no corresponding corpus heading required; abbr
+    glossary nodes do not -- they are consumer-defined data, so they only
+    attach when a matching ``(glossary-name)`` heading is present, see
+    ``TestGlossaryHeading`` below
+    """
 
     def test_today(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview
@@ -38,31 +48,50 @@ class TestDynamic:
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── (Abbreviations)" in opt
+        assert "── (Decode-Only Shorthand)" in opt
 
-    def test_usable(_, prompt_corpus_tree_preview):
+    def test_abbr_tag(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── (Usable Abbreviations)" in opt
+        assert "── (Emoji)" in opt
+        assert "── (Single Character)" in opt
 
-    def test_lc(_, prompt_corpus_tree_preview):
-        opt = prompt_corpus_tree_preview
 
-        print(opt)
-        assert "── (Languages Code)" in opt
+class TestGlossaryHeading:
 
-    def test_plc(_, prompt_corpus_tree_preview):
-        opt = prompt_corpus_tree_preview
+    def test_known_glossary_heading_resolves(_):
+        mean = AbbrMeaning("dummy glossary meaning", remark=None)
+        with _abbr_data:
+            _abbr_data.add_entry(
+                mean,
+                "dmygrp",
+                {
+                    "priority": 0,
+                    "tags": ["some-glossary"],
+                    "wrap": "word",
+                },
+            )
 
-        print(opt)
-        assert "── (Programming Languages Code)" in opt
+        m = mock_open(
+            read_data="# Title\n\n# (some-glossary)\nGlossary preface text.\n"
+        )
 
-    def test_u3d(_, prompt_corpus_tree_preview):
-        opt = prompt_corpus_tree_preview
+        with patch("builtins.open", m):
+            tree = load_corpus_tree("dynamic-nodes-glossary-test", "d.md")
 
-        print(opt)
-        assert "── (Unity Engine Abbreviations)" in opt
+        node = tree["(some-glossary)"]
+        assert isinstance(node, GlossaryNode)
+        assert "Glossary preface text." in node.content_lines()
+
+    def test_unknown_glossary_heading_raises(_):
+        m = mock_open(read_data="# Title\n\n# (no-such-glossary)\nContent.\n")
+
+        with pytest.raises(
+            ValueError, match="unrecognized dynamic node heading"
+        ):
+            with patch("builtins.open", m):
+                load_corpus_tree("dynamic-nodes-glossary-reject-test", "d.md")
 
 
 class TestPreface:
@@ -80,6 +109,20 @@ class TestPreface:
 
         today_children = [c for c in tree.children if c.name == "(Today)"]
         assert len(today_children) == 1
+
+    def test_matching_abbr_tag_heading_becomes_preface(_):
+        m = mock_open(
+            read_data="# Title\n\n# (Emoji)\nEvery abbr tagged emoji.\n"
+        )
+
+        with patch("builtins.open", m):
+            tree = load_corpus_tree("dynamic-nodes-abbr-tag-preface-test", "d.md")
+
+        emoji_node = tree["(Emoji)"]
+        assert "Every abbr tagged emoji." in emoji_node.content_lines()
+
+        emoji_children = [c for c in tree.children if c.name == "(Emoji)"]
+        assert len(emoji_children) == 1
 
     def test_unrecognized_paren_heading_raises(_):
         m = mock_open(read_data="# Title\n\n# (Bogus)\nSome content.\n")

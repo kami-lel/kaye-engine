@@ -1,6 +1,36 @@
-# Sidecar Node Documentation
+# Kaye Engine: Sidecar Node Documentation
 
 **Sidecar nodes** are corpus nodes with names enclosed in curly braces, e.g. `{description}`, `{when_to_use}`. They are attached to parent nodes in the prompt tree and hold structured metadata or conditional content about their parent. Sidecar nodes appear in the blueprint preview tree but are **not** included in the rendered prompt output by default.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -9,9 +39,25 @@
 
 Sidecar nodes enable two complementary patterns:
 
+
+
+
+
+
+
+
+
+
+
+
+
 ### Descriptor Sidecars
 
 Descriptor sidecars are metadata fields that describe a parent node's purpose, relevance, and applicable contexts. They are consumed by blueprints and exposed via `.sidecars` (a `BlueprintDescriptorSidecars` instance).
+
+
+
+
 
 #### `{description}`
 
@@ -20,6 +66,9 @@ Describes the parent node's functionality — what the node represents or what i
 **Rendering behavior:** The description is **overridable** — if explicitly set on the blueprint object, it is used; otherwise, it falls back to the `{description}` node's content.
 
 **Access:** `blueprint.sidecars.description`
+
+
+
 
 
 #### `{when_to_use}`
@@ -31,6 +80,9 @@ Indicates when the parent node should be enabled — the conditions or contexts 
 **Access:** `blueprint.sidecars.when_to_use`
 
 
+
+
+
 #### `{globs}`
 
 Lists file glob patterns indicating which file types or paths make the parent node relevant. Each line is treated as a separate pattern — multiple patterns are supported. Used by IDE integrations and code editors to determine when to apply the prompt context.
@@ -40,17 +92,33 @@ Lists file glob patterns indicating which file types or paths make the parent no
 **Access:** `blueprint.sidecars.globs` (returns list of glob patterns)
 
 
+
+
+
+
+
+
+
+
+
+
+
 ### Conditional Sidecar Nodes
 
 Conditional sidecar nodes are real prompt content (e.g., instructions, rules) that are conditionally spliced into the rendered prompt based on explicit requests via the `contains_sidecars` parameter, a plain collection of sidecar names. Unlike descriptor sidecars, there is no fixed set of conditional names — any `{name}` heading can be requested this way, including reserved descriptor names.
 
-#### `{for claude code}`
+**Rendering behavior:** Pass `contains_sidecars=(...)` to auto-include sidecars of the given name(s) during rendering.
 
-Lists Claude-specific instructions that apply whenever the parent node is enabled. Pass `contains_sidecars=("for claude code",)` to auto-checkmark these nodes during Claude exports.
+Q.v. [`claude-doc.md`](claude-doc.md) for the list of `{Claude Tool:...}` sidecars, which Claude export surface includes each of these, and the underlying API.
 
-**Rendering behavior:** Pass `contains_sidecars=("for claude code",)` to auto-include `{for claude code}` sidecars during rendering. The constant `kaye_engine.cli.claude.CONTAINING_SIDECARS` includes `"for claude code"` for all Claude skill and hook exports.
 
-**Detection:** Use `get_sidecar_name(node) == "for claude code"` to identify Claude-specific sidecars.
+
+
+
+
+#### `{explicit}`
+
+A persona-intensifier sidecar supplementing a personality node; not tool-specific and currently has no code consumer (no `CLAUDE_*_SIDECARS` constant references it yet).
 
 
 
@@ -78,9 +146,9 @@ This node indicates when to use the parent.
 **/*.py
 ```
 
-## {for claude code}
+## {Claude Tool:TodoWrite}
 
-This node contains Claude-specific instructions.
+This node contains TodoWrite-specific instructions.
 ```
 
 **Heading conventions:**
@@ -132,7 +200,7 @@ if name is not None:
 
 Check for specific sidecar names:
 ```python
-if name == "for claude code":
+if name == "Claude Tool:TodoWrite":
     print("this is a conditional sidecar node")
 ```
 
@@ -196,7 +264,11 @@ Derived property combining both description and when_to_use fields.
 
 **Type:** `str`
 
-**Behavior:** Returns both fields concatenated with appropriate separators.
+**Behavior:** When the description is not overridden, returns the
+description and when-to-use node content concatenated with appropriate
+separators. When the description *is* explicitly overridden, returns
+that override alone — the when-to-use content is not appended in that
+case.
 
 **Example:**
 ```python
@@ -249,6 +321,8 @@ merged_bp = bp1 | bp2
 
 Conditional rendering with conditional sidecar nodes:
 ```python
-# Include Claude-specific instructions
-prompt = bp.generate_prompt(contains_sidecars=("for claude code",))
+from kaye_engine.cli.claude import CLAUDE_CODE_SIDECARS
+
+# Include Claude Code tool instructions
+prompt = bp.generate_prompt(contains_sidecars=CLAUDE_CODE_SIDECARS)
 ```

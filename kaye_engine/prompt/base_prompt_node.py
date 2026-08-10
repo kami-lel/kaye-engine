@@ -234,7 +234,7 @@ class BasePromptNode(AnyTreeNode):
         >>> str(corpus_node)
         "PromptCorpusNode(Introduction#Data#Advanced)"
         >>> str(abbr_node)
-        "AbbrNode(Introduction#Data#(Abbreviations))"
+        "ShorthandNode(Introduction#Data#(Decode-Only Shorthand))"
         """
         lineage = "#".join(node.name for node in self.path[1:])
         return "{}({})".format(type(self).__name__, lineage)

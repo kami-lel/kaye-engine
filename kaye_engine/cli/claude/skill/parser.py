@@ -1,14 +1,12 @@
-"""export each kaye blueprint as an individual Claude skill"""
+"""export each exportable as an individual Claude skill"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-
 from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.package_version import resolve_package_version
+from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-
 
 from .export_folders import (
     export_skills_as_folders,
@@ -24,13 +22,13 @@ _DEFAULT_SKILLS_FOLDER = Path.home() / ".claude" / "skills"
 
 _DESCRIPTION = """
 
-writes one SKILL.md per blueprint, prompt, and abbreviation group as its own
-skill folder; with -z, creates a .zip per skill instead.
+writes one SKILL.md per exportable as its own skill folder;
+with -z, creates a .zip per skill instead.
 
 FOLDER/  (default: ~/.claude/skills/)
 ├── coder-python/
 │   └── SKILL.md
-└── ~~  (one folder per remaining blueprint, prompt, and abbr group)
+└── ~~  (one folder per remaining exportable)
 """
 
 
@@ -78,7 +76,9 @@ def register_skill_parser(cli_subparser):  #####################################
             done_msg = "export skills as zip packages"
         else:
             logger.debug("export skills as folders")
-            export_skills_as_folders(folder, version=resolve_package_version())
+            export_skills_as_folders(
+                folder, version=get_claude_cli_consumer_version()
+            )
             done_msg = "export skills as folders"
 
         logger.done(done_msg + "\t" + str(folder))

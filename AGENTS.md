@@ -10,9 +10,9 @@ Read this file alongside `CONTEXT.md` before making changes, and follow the
 exact commands and conventions below.
 
 **kaye-engine ships mechanism only.** It bundles no prompt corpus, no
-abbreviation database, and no blueprint registrations — a host package such
-as `kaye-vault` supplies all three. Never add that content here to make
-something work; fix the mechanism or fix the host.
+abbreviation database, and no blueprint registrations — a consumer package
+such as `kaye-vault` supplies all three. Never add that content here to make
+something work; fix the mechanism or fix the consumer.
 
 ## Setup
 
@@ -44,10 +44,13 @@ pytest tests/prompt/bp/prompt-bp-merge_test.py
 pytest tests/prompt/bp/prompt-bp-merge_test.py::TestMerge::test1_1
 ```
 
-`tests/cli/` covers only what runs without a corpus — version resolution and
-`SKILL.md` rendering. The exporters themselves need a corpus to produce
-output, so the host package's suite covers those; do not scaffold corpus
-fixtures here to widen the directory.
+`tests/cli/` covers only what runs without a corpus — the setup guard,
+exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
+rendering. The exporters themselves need a corpus to produce output, so the
+consumer package's suite covers those; do not scaffold corpus fixtures here
+to widen the directory. The `blueprint` and `export` subcommand parsers
+currently have no dedicated tests — a known gap, not an intentional
+exclusion like the exporters above.
 
 **Do not parallelize** — no `pytest-xdist`, no `-n auto`. The suite is
 already fast, worker startup cancels out any gain, and splitting across
@@ -63,34 +66,49 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Three** subcommands exist, `prompt`, `claude`, and
-`dynamic-node`:
+the shorter form. **Four** subcommands exist, `blueprint`, `claude`,
+`dynamic-node`, and `export`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
-kaye-engine prompt ls                       # list registered blueprint names
-kaye-engine prompt show BLUEPRINT           # preview a blueprint's structure
-kaye-engine prompt show < FILE              # preview from stdin (BLUEPRINT omitted)
-kaye-engine prompt generate BLUEPRINT       # render a concrete prompt
-kaye-engine prompt generate < FILE          # render from stdin (BLUEPRINT omitted)
-kaye-engine dynamic-node NODE_TYPE          # render a single dynamic node to stdout
+kaye-engine blueprint ls                    # list registered blueprint names
+kaye-engine blueprint show BLUEPRINT        # preview a blueprint's structure
+kaye-engine blueprint show < FILE           # preview from stdin (BLUEPRINT omitted)
+kaye-engine blueprint generate BLUEPRINT    # render a concrete prompt
+kaye-engine blueprint generate < FILE       # render from stdin (BLUEPRINT omitted)
+kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged into one blueprint/output; NODE is "today"/"shorthand", any simple AbbrTags name (eg "emoji", "single_character"), or any known abbr glossary name
+kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
+kaye-engine dynamic-node NODE -s SPARSENESS # blank-line policy, v.i.
+kaye-engine dynamic-node ls                 # list every available NODE value: today, shorthand, every AbbrTags-derived name, then glossary names alphabetically
 kaye-engine claude skill SKILLS_FOLDER      # export blueprints as Skill folders
 kaye-engine claude skill -z ZIPS_FOLDER     # create .zip Skill packages
 kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
 kaye-engine claude plugin -z PLUGINS_FOLDER # .zip package (-n drops version)
-kaye-engine claude marketplace              # to ~/.claude/kaye_marketplace
+kaye-engine claude marketplace              # to ~/.claude/<marketplace folder>
 kaye-engine claude marketplace MARKETPLACE  # to a custom folder
 kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
 kaye-engine claude user-system-prompt       # Chat blueprint as CLAUDE.md
 kaye-engine claude user-system-prompt -c    # append Coder blueprint content
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
+kaye-engine export EXPORTABLE               # print an exportable's content
+kaye-engine export ls                       # list every registered exportable name
 ```
 
-Aliases: `prompt` → `p`; `prompt generate` → `p g`; `dynamic-node` →
-`dn`; `claude` → `anthropic`, `a`; `claude code` → `claude c`; `claude
-marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skill`
-→ `claude s`; `claude user-system-prompt` → `claude usp`; `claude
-vs-code-extension` → `claude v`.
+Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
+generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` →
+`anthropic`, `a`; `claude code` → `claude c`; `claude marketplace` →
+`claude m`; `claude plugin` → `claude p`; `claude skill` → `claude s`;
+`claude user-system-prompt` → `claude usp`; `claude vs-code-extension`
+→ `claude v`; `export` → `x`.
+
+`blueprint generate` and `dynamic-node` both take `-s`/`--sparseness SPARSENESS`
+(shared parser in `kaye_engine/cli/sparseness_parser.py`) to control
+blank-line collapsing in the rendered output: `-1` joins everything into one
+line, `0` strips all blank lines, `1` (default) collapses every run to a
+single blank line, up through `99` which disables trimming entirely.
+Exporters set their own default independent of the CLI default — `SKILL.md`
+and `vs-code-extension` render with `sparseness=0`, `user-system-prompt` with
+`sparseness=1` unless a caller overrides it.
 
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
 Bash command patterns) into `settings.json`, sourced from
@@ -101,17 +119,16 @@ comments are allowed).
 `cli_main.py` never registers it, so no `continue` subcommand exists. Do not
 document it, invoke it, or wire it back in without being asked.
 
-`claude user-system-prompt`, `claude code`, and `claude vs-code-extension`
-resolve their Chat and Coder blueprints by name, so a host must call
-`set_claude_using_blueprint(chat_bp_name, coder_bp_name)` before invoking the
-CLI — there is no default. On a bare checkout, or when the setter was never
-called, `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` log
-`logger.critical` and raise `SystemExit(1)`; the same happens if the
-configured name is not a registered blueprint — expected, not a bug.
-
-A `claude`-exporting host must call `set_claude_plugin_marketplace_name(name)`
-before invoking the CLI, or `get_plugin_marketplace_name()` logs
-`logger.critical` and raises `SystemExit(1)`.
+Every `claude` subcommand needs a consumer to call
+`setup_claude_cli(plugin_name, marketplace_name, chat_bp_name,
+coder_bp_name, version, marketplace_folder_name)` before invoking the CLI —
+there is no default for any of the six. On a bare checkout, or when
+`setup_claude_cli(...)` was never called, `get_plugin_name()`,
+`get_marketplace_name()`, `get_claude_chat_blueprint()`,
+`get_claude_coder_blueprint()`, `get_claude_cli_consumer_version()`, and
+`get_marketplace_folder_name()` each log `logger.critical` and raise
+`SystemExit(1)`; the blueprint getters do the same when the configured name
+is not a registered blueprint — expected, not a bug.
 
 ## Code Conventions
 
@@ -127,25 +144,31 @@ before invoking the CLI, or `get_plugin_marketplace_name()` logs
 
 `register_blueprint()` in `kaye_engine/prompt/blueprint/registry.py` is the
 only gate — every exporter reads `blueprint_registry` directly. **Calls
-live in the host package**, not here.
+live in the consumer package**, not here.
 
-Export policy — five independent flags, no allow-list constant:
+Export policy — one gate plus three independent flags, no allow-list
+constant:
 
 | flag | default | effect |
 |---|---|---|
-| `skill_exportable` | `False` | export as a Claude Agent Skill |
-| `continue_exportable` | `False` | export as a Continue AI rule |
+| `is_internal` | `False` | `True` excludes it from `exportable_registry` entirely — never export as a Claude Agent Skill |
 | `always_apply` | `False` | apply unconditionally, skipping relevance |
 | `user_invokable` | `True` | a human may invoke it by name |
 | `llm_invokable` | `True` | the assistant may surface it unprompted |
 
 ## Abbreviation Data
 
-`get_exportable_abbrs()` rebuilds every group on each call, so there is no
+`get_exportable_abbrs()` rebuilds every glossary on each call, so there is no
 import-order constraint — populate the abbreviation database at any point
 before an export actually runs. An unpopulated database logs an error and
 returns an empty list, so no skill folders are exported. Check
 `bool(get_abbr_data())` to test for an empty singleton directly.
+
+Every glossary name an entry's `glossaries` array uses must be registered via
+`register_abbr_glossary(name, ...)` before that entry loads, or `ValueError`
+is raised — `tests/conftest.py` registers every glossary name the test suite
+references, module-level, so it runs at collection time before any test
+module builds `AbbrData`. Register a new glossary there when adding one.
 
 ## Security
 
