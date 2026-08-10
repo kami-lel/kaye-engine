@@ -6,7 +6,6 @@ define ``export_skills_as_folders``
 
 from kaye_engine import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.exportable_abbr import register_exportable_abbrs
 from kaye_engine.exportable import exportable_registry
 from .skill_md import Skill
 
@@ -29,8 +28,6 @@ def export_skills_as_folders(parent_folder, *, version):
     :param version: installed package version
     :type version: str
     """
-    register_exportable_abbrs()
-
     logger.enter("exporting exportables as skills")
 
     for exportable in exportable_registry.values():
