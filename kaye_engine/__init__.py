@@ -3,7 +3,6 @@ Kaye Python Package API
 """
 
 __all__ = (
-    "DISPLAY_NAME",
     "LOGGER_NAME",
     "PACKAGE_NAME",
     "AbbrData",
@@ -15,8 +14,6 @@ __all__ = (
     "setup_claude_cli",
 )
 
-
-DISPLAY_NAME = "Prompt Engineering Project Kaye Engine"
 
 # installed distribution name, for importlib.metadata lookups
 PACKAGE_NAME = "kaye-engine"

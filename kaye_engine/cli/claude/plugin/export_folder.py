@@ -7,10 +7,13 @@ define ``export_plugin_as_folder``
 from email.utils import parseaddr
 from importlib.metadata import PackageNotFoundError, metadata
 
-from kaye_engine import DISPLAY_NAME, PACKAGE_NAME, kamilog
+from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import get_plugin_name
-from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
+from kaye_engine.cli.claude.setup import (
+    get_claude_cli_consumer_version,
+    get_claude_cli_display_name,
+)
 from kaye_engine.cli.claude.skill.export_folders import (
     export_skills_as_folders,
 )
@@ -64,7 +67,7 @@ def export_plugin_as_folder(parent_folder):
 
     with ManifestPluginJson(plugin_root) as manifest:
         manifest.name = plugin_name
-        manifest.display_name = DISPLAY_NAME
+        manifest.display_name = get_claude_cli_display_name()
         manifest.version = pkg_version
         manifest.description = meta["Summary"]
         manifest.author_name = pkg_author
