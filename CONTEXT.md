@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `prompt`, `claude`, `dynamic-node`, `export` |
+| CLI subcommands | `blueprint`, `claude`, `dynamic-node`, `export` |
 
 ## Personalization Boundary
 

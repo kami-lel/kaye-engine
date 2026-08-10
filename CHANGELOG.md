@@ -41,7 +41,7 @@ todo todo utilize personalities, allow multi agent conversation
   place of every newline), `0` removes all blank lines, `1` collapses
   every run to a single blank line (default), and so on up through `99`,
   which disables trimming entirely
-- `-s`/`--sparseness` option on `kaye-engine prompt generate`, forwarding
+- `-s`/`--sparseness` option on `kaye-engine blueprint generate`, forwarding
   the new parameter from the CLI
 - free-form, consumer-defined glossary names in `abbrs.json` entries'
   `tags` array: each `tags` item is resolved by trying it against the
@@ -85,7 +85,7 @@ todo todo utilize personalities, allow multi agent conversation
   single invocation, merging every resolved node into one shared
   blueprint and printing one merged output
 - `-s`/`--sparseness` option on `kaye-engine dynamic-node`, via the same
-  shared `sparseness_parser` `prompt generate` uses
+  shared `sparseness_parser` `blueprint generate` uses
 - `Exportable` — abstract base for anything that can appear in the new
   `exportable_registry`, carrying `canonical_name`, `display_name`,
   `always_apply`, `user_invokable`, `llm_invokable`, and an abstract

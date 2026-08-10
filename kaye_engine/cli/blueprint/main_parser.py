@@ -1,12 +1,12 @@
 """
 main_parser.py
 
-define ``register_cli_prompt_parser``
+define ``register_cli_blueprint_parser``
 """
 
+from kaye_engine.cli.blueprint.generate_parser import register_generate_parser
 from kaye_engine.cli.blueprint.ls_parser import register_ls_parser
 from kaye_engine.cli.blueprint.show_parser import register_show_parser
-from kaye_engine.cli.blueprint.generate_parser import register_generate_parser
 
 # constants  ###################################################################
 _HELP = "list, preview, and generate system prompts from prompt blueprints"

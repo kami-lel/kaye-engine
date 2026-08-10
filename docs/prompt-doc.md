@@ -225,14 +225,9 @@ classDiagram
     BasePromptNode <|-- DynamicNode
     DynamicNode <|-- TodayNode
     DynamicNode <|-- ShorthandNode
-    DynamicNode <|-- _AbbrTagNodeBase
-    _AbbrTagNodeBase <|-- UsableAbbrNode
-    _AbbrTagNodeBase <|-- CodingTermsNode
-    _AbbrTagNodeBase <|-- PLCNode
-    _AbbrTagNodeBase <|-- LanguageCodeNode
-    _AbbrTagNodeBase <|-- UnityEngineAbbrNode
-    _AbbrTagNodeBase <|-- PlanStepByStepAbbrNode
-    _AbbrTagNodeBase <|-- CodeDocumentationFieldAbbrNode
+    DynamicNode <|-- GlossaryNode
+    DynamicNode <|-- AbbrTagNode
+    AbbrTagNode : +AbbrTags tag
 ```
 
 
@@ -472,12 +467,13 @@ from kaye_engine.prompt import get_blueprint, blueprint_registry
 registry = get_blueprint("chat")
 blueprint = registry.blueprint          # a PromptBlueprint instance
 name = registry.display_name            # e.g. "Chat"
-skill_name = registry.skill_name        # kebab-case slug, e.g. "chat"
+canonical_name = registry.canonical_name  # kebab-case slug, e.g. "chat"
 ```
 
 Each `BlueprintRegistry` carries the underlying `PromptBlueprint` as
-`.blueprint`, its `.name`/`.display_name`, and the export-policy flags
-`skill_exportable`, `always_apply`, `user_invokable`, and
+`.blueprint`, its `.canonical_name`/`.display_name`, whether it is
+`.is_internal` (never exported as a Claude Agent Skill), and the
+export-policy flags `always_apply`, `user_invokable`, and
 `llm_invokable`. Iterate `blueprint_registry` directly to enumerate every
 registered blueprint.
 
