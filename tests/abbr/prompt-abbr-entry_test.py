@@ -24,7 +24,7 @@ class TestErrAbbr:  # ==========================================================
 
     def test_key_type1(_):
         abbr = 5
-        with pytest.raises(ValueError) as exec_info:
+        with pytest.raises(TypeError) as exec_info:
             AbbrEntry(MEAN, abbr, ABBR_OBJ)
 
         opt = exec_info.value.args[0]
@@ -36,7 +36,7 @@ class TestErrAbbrObj:  # =======================================================
 
     def test_value_type1(_):
         abbr_obj = 5
-        with pytest.raises(ValueError) as exec_info:
+        with pytest.raises(TypeError) as exec_info:
             AbbrEntry(MEAN, ABBR, abbr_obj)
 
         opt = exec_info.value.args[0]
@@ -84,7 +84,7 @@ class TestErrPriority:  # ======================================================
         abbr_obj = ABBR_OBJ.copy()
         abbr_obj["priority"] = "123"
 
-        with pytest.raises(ValueError) as exec_info:
+        with pytest.raises(TypeError) as exec_info:
             AbbrEntry(MEAN, ABBR, abbr_obj)
 
         opt = exec_info.value.args[0]
@@ -131,6 +131,31 @@ class TestErrRemark:  # ========================================================
         assert opt == "remark must be String: 123"
 
 
+class TestErrTags:  # ==========================================================
+
+    def test_not_array(_):
+        abbr_obj = ABBR_OBJ.copy()
+        abbr_obj["tags"] = 123
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrEntry(MEAN, ABBR, abbr_obj)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "tags value must be Array: 123"
+
+    def test_non_string_item(_):
+        abbr_obj = ABBR_OBJ.copy()
+        abbr_obj["tags"] = ["coding-terms", 5]
+
+        with pytest.raises(ValueError) as exec_info:
+            AbbrEntry(MEAN, ABBR, abbr_obj)
+
+        opt = exec_info.value.args[0]
+        print(opt)
+        assert opt == "tags entry must be String: 5"
+
+
 # init  ########################################################################
 class TestInit:
 
@@ -152,6 +177,8 @@ class TestInit:
         assert opt.wrap == AbbrWrap.WORD
         assert isinstance(opt.tags, AbbrTags)
         assert opt.tags == AbbrTags.NONE
+        assert isinstance(opt.glossaries, tuple)
+        assert opt.glossaries == ()
         assert opt.remark is None
 
     def test_remark(_):
@@ -164,6 +191,28 @@ class TestInit:
         opt = AbbrEntry(AbbrMeaning("sometimes"), "s/X", abbr_obj)
 
         assert opt.remark == "casual usage only"
+
+    def test_glossaries(_):
+        abbr_obj = {
+            "priority": 0,
+            "tags": ["coding-terms", "usable-abbreviations"],
+            "wrap": "word",
+        }
+        opt = AbbrEntry(AbbrMeaning("sometimes"), "s/X", abbr_obj)
+
+        assert opt.tags == AbbrTags.NONE
+        assert opt.glossaries == ("coding-terms", "usable-abbreviations")
+
+    def test_mixed_tags_and_glossaries(_):
+        abbr_obj = {
+            "priority": 0,
+            "tags": ["single_character", "coding-terms"],
+            "wrap": "word",
+        }
+        opt = AbbrEntry(AbbrMeaning("sometimes"), "s/X", abbr_obj)
+
+        assert opt.tags == AbbrTags.single_character
+        assert opt.glossaries == ("coding-terms",)
 
 
 # .as_md_list_entry()  #########################################################
@@ -195,6 +244,18 @@ class TestAsMdListEntry:  # ====================================================
         entry = AbbrEntry(mean, "e.g.", abbr_obj)
         assert entry.as_md_list_entry() == (
             "- e.g.:for example (Latin exempli gratia; casual usage only)"
+        )
+
+    def test_number_no_remark(_):
+        entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", ABBR_OBJ)
+        assert entry.as_md_list_entry(number=1) == "1. e.g.:for example"
+
+    def test_number_with_remark(_):
+        abbr_obj = ABBR_OBJ.copy()
+        abbr_obj["remark"] = "casual usage only"
+        entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", abbr_obj)
+        assert entry.as_md_list_entry(number=2) == (
+            "2. e.g.:for example (casual usage only)"
         )
 
 

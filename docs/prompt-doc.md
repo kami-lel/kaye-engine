@@ -1,10 +1,6 @@
-# Kaye Engine Programmatic API documentation
+# Kaye Engine: `prompt` module Documentation
 
-## `prompt` module
-
-The public programmatic API lives in `kaye_engine.prompt`.
-It re-exports the prompt tree nodes, blueprint type, corpus loader,
-and the blueprint registry.
+The public programmatic API lives in `kaye_engine.prompt`. It re-exports the prompt tree nodes, blueprint type, corpus loader, and the blueprint registry.
 
 Example imports:
 
@@ -62,7 +58,7 @@ E.g.
 >>> corpus_node.name
 "Introduction"
 >>> dynamic_node.name
-"(Abbreviations)"
+"(Decode-Only Shorthand)"
 ```
 
 > [!NOTE]
@@ -70,7 +66,7 @@ E.g.
 
 **Sidecar nodes** are identified by names in curly braces, e.g. `{description}`. They are metadata or conditional instructions attached to parent nodes. For identification, checkmarking, rendering, and complete details, see [`sidecar-node-doc.md`](sidecar-node-doc.md).
 
-**Dynamic nodes** are identified by names in parentheses, such as `(Today)`, `(Abbreviations)`. Unlike sidecar nodes, dynamic nodes are injected at render time and **are** included in the rendered prompt output. Q.v. [`Dynamic Node Documentation`](dynamic-node-doc.md) for comprehensive documentation on dynamic nodes.
+**Dynamic nodes** are identified by names in parentheses, such as `(Today)`, `(Decode-Only Shorthand)`. Unlike sidecar nodes, dynamic nodes are injected at render time and **are** included in the rendered prompt output. Q.v. [`Dynamic Node Documentation`](dynamic-node-doc.md) for comprehensive documentation on dynamic nodes.
 
 
 
@@ -93,7 +89,7 @@ E.g.
 >>> str(corpus_node)
 "PromptCorpusNode(Introduction#Data#Advanced)"
 >>> str(abbr_node)
-"AbbrNode(Introduction#Data#(Abbreviations))"
+"ShorthandNode(Introduction#Data#(Decode-Only Shorthand))"
 ```
 
 ----
@@ -213,7 +209,7 @@ tree_root is get_corpus_tree("my-tree")  # True
 `PromptBlueprint`'s `corpus_tree` argument defaults to `None`, which
 resolves to whichever tree was registered as default via
 `load_corpus_tree(..., is_default_tree=True)`. `kaye_engine` bundles no
-corpus of its own, so if no host package has loaded one as default yet,
+corpus of its own, so if no consumer package has loaded one as default yet,
 that resolution raises `ValueError`.
 
 
@@ -228,15 +224,10 @@ classDiagram
     BasePromptNode <|-- PromptCorpusNode
     BasePromptNode <|-- DynamicNode
     DynamicNode <|-- TodayNode
-    DynamicNode <|-- AbbrNode
-    DynamicNode <|-- _AbbrTagNodeBase
-    _AbbrTagNodeBase <|-- UsableAbbrNode
-    _AbbrTagNodeBase <|-- CodingTermsNode
-    _AbbrTagNodeBase <|-- PLCNode
-    _AbbrTagNodeBase <|-- LanguageCodeNode
-    _AbbrTagNodeBase <|-- UnityEngineAbbrNode
-    _AbbrTagNodeBase <|-- PlanStepByStepAbbrNode
-    _AbbrTagNodeBase <|-- CodeDocumentationFieldAbbrNode
+    DynamicNode <|-- ShorthandNode
+    DynamicNode <|-- GlossaryNode
+    DynamicNode <|-- AbbrTagNode
+    AbbrTagNode : +AbbrTags tag
 ```
 
 
@@ -339,7 +330,7 @@ E.g.
 bp.checkmark(bp.corpus[0][1])
 bp.checkmark(node_hash)
 bp.uncheckmark("Important Instruction")
-bp.uncheckmark("(Abbreviations)")
+bp.uncheckmark("(Decode-Only Shorthand)")
 ```
 
 However, when encounter a node findable in corpus tree, but not contained in the blueprint:
@@ -351,7 +342,7 @@ However, when encounter a node findable in corpus tree, but not contained in the
 
 #### blueprint-level operations
 
-##### prune
+#### prune
 
 Use `bp.prune()` will create a minimum version that contains only branches with checkmarked nodes.
 
@@ -465,7 +456,7 @@ E.g.
 `register_blueprint(name, ...)` creates a `BlueprintRegistry` and
 inserts it into the `blueprint_registry` dictionary — the single source
 of truth for a blueprint's identity and export policy. `kaye_engine`
-bundles no blueprint registrations of its own; a host package calls
+bundles no blueprint registrations of its own; a consumer package calls
 `register_blueprint` for each real blueprint it defines. Keys are
 canonical kebab-case names; values are `BlueprintRegistry` entries,
 retrievable via `get_blueprint(name)`:
@@ -476,12 +467,13 @@ from kaye_engine.prompt import get_blueprint, blueprint_registry
 registry = get_blueprint("chat")
 blueprint = registry.blueprint          # a PromptBlueprint instance
 name = registry.display_name            # e.g. "Chat"
-skill_name = registry.skill_name        # kebab-case slug, e.g. "chat"
+canonical_name = registry.canonical_name  # kebab-case slug, e.g. "chat"
 ```
 
 Each `BlueprintRegistry` carries the underlying `PromptBlueprint` as
-`.blueprint`, its `.name`/`.display_name`, and the export-policy flags
-`skill_exportable`, `continue_exportable`, `always_apply`,
-`user_invokable`, and `llm_invokable`. Iterate `blueprint_registry`
-directly to enumerate every registered blueprint.
+`.blueprint`, its `.canonical_name`/`.display_name`, whether it is
+`.is_internal` (never exported as a Claude Agent Skill), and the
+export-policy flags `always_apply`, `user_invokable`, and
+`llm_invokable`. Iterate `blueprint_registry` directly to enumerate every
+registered blueprint.
 

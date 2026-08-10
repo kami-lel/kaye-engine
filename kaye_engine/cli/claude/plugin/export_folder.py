@@ -5,13 +5,12 @@ define ``export_plugin_as_folder``
 """
 
 from email.utils import parseaddr
-from importlib.metadata import PackageNotFoundError, metadata, version
+from importlib.metadata import PackageNotFoundError, metadata
 
 from kaye_engine import DISPLAY_NAME, PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.plugin_marketplace_name import (
-    get_plugin_marketplace_name,
-)
+from kaye_engine.cli.claude.plugin_marketplace_name import get_plugin_name
+from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
 from kaye_engine.cli.claude.skill.export_folders import (
     export_skills_as_folders,
 )
@@ -31,10 +30,9 @@ def export_plugin_as_folder(parent_folder):
     """
     export all Kaye blueprints as a single Anthropic Claude plugin folder
 
-    writes a ``<parent_folder>/<PLUGIN_MARKETPLACE_NAME>/`` plugin directory
-    containing a ``.claude-plugin/plugin.json`` manifest and a ``skills/``
-    directory with one skill folder per blueprint, prompt, and abbreviation
-    group
+    writes a ``<parent_folder>/<PLUGIN_NAME>/`` plugin directory containing
+    a ``.claude-plugin/plugin.json`` manifest and a ``skills/`` directory
+    with one skill folder per blueprint, prompt, and abbreviation group
 
 
     :param parent_folder: destination directory to write the plugin into
@@ -42,21 +40,21 @@ def export_plugin_as_folder(parent_folder):
     :return: path to the created plugin directory
     :rtype: Path
     """
-    marketplace_name = get_plugin_marketplace_name()
+    plugin_name = get_plugin_name()
     plugin_keywords = [
         "prompt-engineering",
         "persona",
         "agent",
-        marketplace_name,
+        plugin_name,
     ]
-    plugin_root = parent_folder / marketplace_name
+    plugin_root = parent_folder / plugin_name
 
     try:
         meta = metadata(PACKAGE_NAME)
-        pkg_version = version(PACKAGE_NAME)
     except PackageNotFoundError as err:
         logger.critical("package metadata not found:\t" + PACKAGE_NAME)
         raise SystemExit(1) from err
+    pkg_version = get_claude_cli_consumer_version()
     pkg_author, pkg_author_email = parseaddr(meta.get("Author-email") or "")
     pkg_urls = dict(
         _url.split(", ", 1) for _url in meta.get_all("Project-URL") or []
@@ -65,7 +63,7 @@ def export_plugin_as_folder(parent_folder):
     pkg_repository = pkg_urls.get("Repository", "")
 
     with ManifestPluginJson(plugin_root) as manifest:
-        manifest.name = marketplace_name
+        manifest.name = plugin_name
         manifest.display_name = DISPLAY_NAME
         manifest.version = pkg_version
         manifest.description = meta["Summary"]

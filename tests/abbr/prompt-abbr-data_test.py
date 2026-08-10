@@ -12,11 +12,11 @@ from unittest.mock import mock_open, patch
 import pytest
 
 from kaye_engine.abbr_collection import (
-    AbbrMeaning,
-    AbbrEntry,
-    AbbrWrap,
     AbbrData,
+    AbbrEntry,
+    AbbrMeaning,
     AbbrTags,
+    AbbrWrap,
 )
 from kaye_engine.abbr_collection import abbr_data as abbr_data_module
 from kaye_engine.abbr_collection.abbr_data_loader import (
@@ -51,7 +51,7 @@ class TestValidate:
     def test_mean_value(_):
         json_override = {"for example": 5}
 
-        with pytest.raises(ValueError) as exec_info:
+        with pytest.raises(TypeError) as exec_info:
             _build_abbr_data(json_override)
         opt = exec_info.value.args[0]
         print(opt)
@@ -71,7 +71,7 @@ class TestValidate:
     def test_abbrs_value(_):
         json_override = {"for example": {"abbrs": 5}}
 
-        with pytest.raises(ValueError) as exec_info:
+        with pytest.raises(TypeError) as exec_info:
             _build_abbr_data(json_override)
         opt = exec_info.value.args[0]
         print(opt)
@@ -499,6 +499,66 @@ class Test3:  # ================================================================
         assert i == 4
         assert str(e[0]) == "W:west"
         assert str(e[1]) == "W:while,when"
+
+
+class TestGlossaries:  # glossaries  ===================================================
+
+    data = _build_abbr_data({
+        "abstract class": {
+            "abbrs": {
+                "aCls": {
+                    "priority": 5,
+                    "tags": ["coding-terms"],
+                    "wrap": "word",
+                },
+            },
+        },
+        "C language": {
+            "abbrs": {
+                "c": {
+                    "priority": 5,
+                    "tags": [
+                        "single_character",
+                        "coding-terms",
+                        "programming-language-codes",
+                    ],
+                    "wrap": "word",
+                },
+            },
+        },
+        "against": {
+            "abbrs": {
+                "vs.": {
+                    "priority": 5,
+                    "tags": ["common"],
+                    "wrap": "word",
+                },
+            },
+        },
+    })
+
+    def test_entries_for_shared_glossary(self):
+        entries = [e for e in self.data.abbrs if "coding-terms" in e.glossaries]
+        assert [e.abbr for e in entries] == ["aCls", "c"]
+
+    def test_entries_for_single_member_glossary(self):
+        entries = [
+            e
+            for e in self.data.abbrs
+            if "programming-language-codes" in e.glossaries
+        ]
+        assert [e.abbr for e in entries] == ["c"]
+
+    def test_entries_for_unknown_glossary(self):
+        entries = [
+            e for e in self.data.abbrs if "no-such-glossary" in e.glossaries
+        ]
+        assert entries == []
+
+    def test_entry_without_glossaries_is_unindexed(self):
+        entry = self.data.abbrs[2]
+        assert entry.abbr == "vs."
+        assert entry.glossaries == ()
 
 
 class Test4:  # remark  ========================================================

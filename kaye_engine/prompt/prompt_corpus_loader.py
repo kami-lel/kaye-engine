@@ -10,13 +10,21 @@ import re
 
 from anytree import PreOrderIter
 
+from kaye_engine.abbr_collection import abbr_glossary_registry
+
+from .dynamic_nodes import (
+    ABBR_TAG_NODE_MEMBERS,
+    DYNAMIC_NODE_TYPES,
+    AbbrTagNode,
+    GlossaryNode,
+    heading_for_abbr_tag,
+)
 from .prompt_corpus_node import PromptCorpusNode
-from .dynamic_nodes import DYNAMIC_NODE_TYPES
 
 __all__ = (
-    "load_corpus_tree",
     "get_corpus_tree",
     "get_default_corpus_tree",
+    "load_corpus_tree",
 )
 
 
@@ -36,26 +44,32 @@ def _is_parenthesized_heading(heading):
     return heading.startswith("(") and heading.endswith(")")
 
 
-def _match_dynamic_node_type(heading):
+def _resolve_dynamic_heading(heading):
     """
-    :param heading: a section heading, as parsed from ``prompt_corpus.md``
-    :type heading: str
-    :return: the ``DYNAMIC_NODE_TYPES`` member ``heading`` refers to,
-            or ``None`` if ``heading`` is an ordinary static heading
-    :rtype: type or None
-    :raises ValueError: ``heading`` is wrapped in parentheses but
-            matches no known dynamic node type
+    resolve a parenthesized ``heading`` against ``DYNAMIC_NODE_TYPES``
+    first, then ``ABBR_TAG_NODE_MEMBERS``, then against every glossary
+    name known to ``abbr_glossary_registry`` -- returns
+    ``(node_type, kwargs)`` where ``kwargs`` is the dict of parameters
+    the match needs at construction time (empty for an engine-defined
+    match), or ``(None, {})`` for an ordinary static heading
     """
     if not _is_parenthesized_heading(heading):
-        return None
+        return None, {}
 
     for node_type in DYNAMIC_NODE_TYPES:
         if heading == "(" + node_type.HEADING + ")":
-            return node_type
+            return node_type, {}
 
-    raise ValueError(
-        "unrecognized dynamic node heading: {}".format(heading)
-    )
+    inner = heading[1:-1]
+
+    for abbr_tag in ABBR_TAG_NODE_MEMBERS:
+        if inner == heading_for_abbr_tag(abbr_tag):
+            return AbbrTagNode, {"abbr_tag": abbr_tag}
+
+    if inner in abbr_glossary_registry:
+        return GlossaryNode, {"glossary_name": inner}
+
+    raise ValueError("unrecognized dynamic node heading: {}".format(heading))
 
 
 # name-keyed cache of parsed prompt corpus trees
@@ -124,9 +138,19 @@ def load_corpus_tree(  # =======================================================
 
     # add dynamic nodes  -------------------------------------------------------
     prefaces = {}
+    abbr_tag_prefaces = {}
+    glossary_prefaces = {}
     for child in list(tree.children):
-        node_type = _match_dynamic_node_type(child.name)
-        if node_type is not None:
+        node_type, kwargs = _resolve_dynamic_heading(child.name)
+        if node_type is AbbrTagNode:
+            abbr_tag_prefaces[kwargs["abbr_tag"]] = tuple(child.content_lines())
+            child.parent = None
+        elif node_type is GlossaryNode:
+            glossary_prefaces[kwargs["glossary_name"]] = tuple(
+                child.content_lines()
+            )
+            child.parent = None
+        elif node_type is not None:
             prefaces[node_type] = tuple(child.content_lines())
             child.parent = None
 
@@ -141,6 +165,14 @@ def load_corpus_tree(  # =======================================================
 
     for node_type in DYNAMIC_NODE_TYPES:
         node_type(tree, preface=prefaces.get(node_type, ()))
+
+    for abbr_tag in ABBR_TAG_NODE_MEMBERS:
+        AbbrTagNode(
+            tree, abbr_tag=abbr_tag, preface=abbr_tag_prefaces.get(abbr_tag, ())
+        )
+
+    for glossary_name, preface in glossary_prefaces.items():
+        GlossaryNode(tree, glossary_name=glossary_name, preface=preface)
 
     _corpus_tree_cache[tree_name] = tree
 

@@ -32,10 +32,10 @@ def dynamic_bp_testee1(corpus_dynamic_testee):
 [x] │   │           └── Future Work
 [x] │   └── Conclusion
 [x] ├── (Today)
-[x] ├── (Abbreviations)
-[x] ├── (Usable Abbreviations)
-[x] ├── (Languages Code)
-[ ] └── (Programming Languages Code)"""
+[x] ├── (Decode-Only Shorthand)
+[x] ├── (usable-abbreviations)
+[x] ├── (natural-language-codes)
+[ ] └── (programming-language-codes)"""
 
     return PromptBlueprint.parse(
         text, corpus_tree=corpus, disable_prune=True
@@ -58,10 +58,10 @@ def dynamic_bp_testee_full(corpus_dynamic_testee):
 [x] │   │           └── Future Work
 [x] │   └── Conclusion
 [x] ├── (Today)
-[x] ├── (Abbreviations)
-[x] ├── (Usable Abbreviations)
-[x] ├── (Languages Code)
-[x] └── (Programming Languages Code)"""
+[x] ├── (Decode-Only Shorthand)
+[x] ├── (usable-abbreviations)
+[x] ├── (natural-language-codes)
+[x] └── (programming-language-codes)"""
 
     return PromptBlueprint.parse(
         text, corpus_tree=corpus, disable_prune=True
@@ -84,10 +84,10 @@ def dynamic_bp_testee_empty(corpus_dynamic_testee):
 [ ] │   │           └── Future Work
 [ ] │   └── Conclusion
 [ ] ├── (Today)
-[ ] ├── (Abbreviations)
-[ ] ├── (Usable Abbreviations)
-[ ] ├── (Languages Code)
-[ ] └── (Programming Languages Code)"""
+[ ] ├── (Decode-Only Shorthand)
+[ ] ├── (usable-abbreviations)
+[ ] ├── (natural-language-codes)
+[ ] └── (programming-language-codes)"""
 
     return PromptBlueprint.parse(
         text, corpus_tree=corpus, disable_prune=True
@@ -107,7 +107,7 @@ def dynamic_bp_testee2(corpus_dynamic_testee):
 @pytest.fixture(scope="session")
 def dynamic_bp_testee3(corpus_dynamic_testee):
     bp_text = """ ○
-[x] └── (Abbreviations)"""
+[x] └── (Decode-Only Shorthand)"""
 
     return PromptBlueprint.parse(
         bp_text, corpus_tree=corpus_dynamic_testee, disable_prune=True
@@ -117,7 +117,7 @@ def dynamic_bp_testee3(corpus_dynamic_testee):
 @pytest.fixture(scope="session")
 def dynamic_bp_testee4(corpus_dynamic_testee):
     bp_text = """ ○
-[x] └── (Programming Languages Code)"""
+[x] └── (programming-language-codes)"""
 
     return PromptBlueprint.parse(
         bp_text, corpus_tree=corpus_dynamic_testee, disable_prune=True
@@ -127,7 +127,7 @@ def dynamic_bp_testee4(corpus_dynamic_testee):
 @pytest.fixture(scope="session")
 def dynamic_bp_testee5(corpus_dynamic_testee):
     bp_text = """ ○
-[x] └── (Usable Abbreviations)"""
+[x] └── (usable-abbreviations)"""
 
     return PromptBlueprint.parse(
         bp_text, corpus_tree=corpus_dynamic_testee, disable_prune=True

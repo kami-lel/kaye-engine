@@ -4,17 +4,15 @@ Kaye Python Package API
 
 __all__ = (
     "DISPLAY_NAME",
-    "PACKAGE_NAME",
     "LOGGER_NAME",
-    "get_corpus_tree",
-    "load_corpus_tree",
-    "get_default_corpus_tree",
+    "PACKAGE_NAME",
     "AbbrData",
-    "get_abbr_data",
-    "get_blueprint",
+    "get_default_corpus_tree",
+    "load_corpus_tree",
+    "populate_abbr_data_with_json_file",
+    "register_abbr_glossary",
     "register_blueprint",
-    "set_claude_plugin_marketplace_name",
-    "set_claude_using_blueprint",
+    "setup_claude_cli",
 )
 
 
@@ -24,20 +22,16 @@ DISPLAY_NAME = "Prompt Engineering Project Kaye Engine"
 PACKAGE_NAME = "kaye-engine"
 LOGGER_NAME = "kaye.engine"
 
-from kaye_engine.prompt import (
-    load_corpus_tree,
-    get_corpus_tree,
-    get_default_corpus_tree,
-    get_blueprint,
-    register_blueprint,
-)
+
+# pylint: disable=wrong-import-position
 from kaye_engine.abbr_collection import (
     AbbrData,
-    get_abbr_data,
+    populate_abbr_data_with_json_file,
+    register_abbr_glossary,
 )
-from kaye_engine.cli.claude.plugin_marketplace_name import (
-    set_claude_plugin_marketplace_name,
-)
-from kaye_engine.cli.claude.blueprint_name import (
-    set_claude_using_blueprint,
+from kaye_engine.cli.claude.setup import setup_claude_cli
+from kaye_engine.prompt import (
+    get_default_corpus_tree,
+    load_corpus_tree,
+    register_blueprint,
 )

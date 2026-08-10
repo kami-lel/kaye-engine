@@ -25,7 +25,11 @@ def populate_abbr_data_with_json_file(file_path):  # ===========================
     parse ``file_path`` and add each entry into the single
     :func:`get_abbr_data` instance via :meth:`AbbrData.add_entry`
 
-    the automaton is rebuilt once, after the whole file has been applied
+    the automaton is rebuilt once, after the whole file has been applied;
+    every exportable abbr group (tags, glossaries, wraps, first-char
+    buckets) is then re-registered via
+    :func:`kaye_engine.cli.exportable_abbr.register_exportable_abbrs`, so
+    callers need not register those groups themselves
 
 
     :param file_path: path of the ``abbrs.json`` file to load
@@ -33,6 +37,7 @@ def populate_abbr_data_with_json_file(file_path):  # ===========================
     :raises json.JSONDecodeError:
     :raises ValueError: malformed content, or an entry duplicating one
             already added
+    :raises TypeError: a meaning or abbrs value is not a JSON object
     """
     with open(file_path, "r", encoding="utf-8") as file:  # read only
         try:
@@ -46,7 +51,7 @@ def populate_abbr_data_with_json_file(file_path):  # ===========================
     with data:
         for mean_key, mean_obj in abbrs_json.items():
             if not isinstance(mean_obj, dict):
-                raise ValueError(
+                raise TypeError(
                     "meaning value must be Object: {}".format(repr(mean_obj))
                 )
 
@@ -62,9 +67,14 @@ def populate_abbr_data_with_json_file(file_path):  # ===========================
 
             abbrs_obj = mean_obj[ABBRS_JSON_ABBRS_KEY]
             if not isinstance(abbrs_obj, dict):
-                raise ValueError(
+                raise TypeError(
                     "abbrs value must be Object: {}".format(repr(abbrs_obj))
                 )
 
             for abbr, abbr_obj in abbrs_obj.items():
                 data.add_entry(mean, abbr, abbr_obj)
+
+    # pylint: disable-next=import-outside-toplevel
+    from kaye_engine.cli.exportable_abbr import register_exportable_abbrs
+
+    register_exportable_abbrs()

@@ -6,9 +6,8 @@ Unit Tests (using pytest) for: PromptBlueprint.parse()
 
 from kaye_engine.prompt.dynamic_nodes import (
     TodayNode,
-    AbbrNode,
-    PLCNode,
-    UsableAbbrNode,
+    ShorthandNode,
+    GlossaryNode,
 )
 
 
@@ -23,12 +22,12 @@ class TestDynamics:
         assert node in bp
         assert bp.is_checkmarked(node)
 
-    def test_abbr_node(_, dynamic_bp_testee3):
+    def test_shorthand_node(_, dynamic_bp_testee3):
         bp = dynamic_bp_testee3
         print(bp.generate_blueprint(content_preview_lines=0))
 
-        node = bp.corpus["(Abbreviations)"]
-        assert isinstance(node, AbbrNode)
+        node = bp.corpus["(Decode-Only Shorthand)"]
+        assert isinstance(node, ShorthandNode)
         assert node in bp
         assert bp.is_checkmarked(node)
 
@@ -36,8 +35,8 @@ class TestDynamics:
         bp = dynamic_bp_testee4
         print(bp.generate_blueprint(content_preview_lines=0))
 
-        node = bp.corpus["(Programming Languages Code)"]
-        assert isinstance(node, PLCNode)
+        node = bp.corpus["(programming-language-codes)"]
+        assert isinstance(node, GlossaryNode)
         assert node in bp
         assert bp.is_checkmarked(node)
 
@@ -45,26 +44,26 @@ class TestDynamics:
         bp = dynamic_bp_testee5
         print(bp.generate_blueprint(content_preview_lines=0))
 
-        node = bp.corpus["(Usable Abbreviations)"]
-        assert isinstance(node, UsableAbbrNode)
+        node = bp.corpus["(usable-abbreviations)"]
+        assert isinstance(node, GlossaryNode)
         assert node in bp
         assert bp.is_checkmarked(node)
 
     # use dynamic_bp_testee1  --------------------------------------------------
 
-    def test_mux_abbr(_, dynamic_bp_testee1):
+    def test_mux_shorthand(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
 
-        node = dynamic_bp_testee1.corpus["(Abbreviations)"]
+        node = dynamic_bp_testee1.corpus["(Decode-Only Shorthand)"]
 
-        assert isinstance(node, AbbrNode)
+        assert isinstance(node, ShorthandNode)
 
     def test_mux_plc(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
 
-        node = dynamic_bp_testee1.corpus["(Programming Languages Code)"]
+        node = dynamic_bp_testee1.corpus["(programming-language-codes)"]
 
-        assert isinstance(node, PLCNode)
+        assert isinstance(node, GlossaryNode)
 
     def test_mux_today(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
@@ -76,6 +75,6 @@ class TestDynamics:
     def test_mux_usable(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
 
-        node = dynamic_bp_testee1.corpus["(Usable Abbreviations)"]
+        node = dynamic_bp_testee1.corpus["(usable-abbreviations)"]
 
-        assert isinstance(node, UsableAbbrNode)
+        assert isinstance(node, GlossaryNode)

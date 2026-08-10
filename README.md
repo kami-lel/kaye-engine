@@ -10,7 +10,7 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 - ⚙️ generate scenario-ready prompts from blueprints and templates
 - 🐍 programmatic Python API for listing, previewing, and generating prompts
 - 💻 CLI for quick local generation and inspection
-- 🔌 pluggable mechanism, ready for a host package to plug in its own corpus, abbreviations, and blueprints — including a Flask/HTTP surface, if the host chooses to build one
+- 🔌 pluggable mechanism, ready for a consumer package to plug in its own corpus, abbreviations, and blueprints — including a Flask/HTTP surface, if the consumer chooses to build one
 
 
 
@@ -41,7 +41,8 @@ Other core concepts:
 - 🔀 dynamic node: corpus node whose content is **Generated** at render time — Q.v. [Dynamic Node documentation](docs/dynamic-node-doc.md)
 - 🗂️ sidecar node: corpus node holding structured **Metadata** about its parent — Q.v. [Sidecar Node documentation](docs/sidecar-node-doc.md)
 
-The `(Abbreviations)` dynamic node reads its meanings from an `abbrs.json` file loaded via `populate_abbr_data_with_json_file`/`get_abbr_data` — kaye-engine bundles no copy of its own; a separate host package supplies and loads the real file. Q.v. [`abbr_collection` documentation](docs/abbr-collection-doc.md) for its schema, top-level functions, and where abbreviations are used.
+The `(Decode-Only Shorthand)` dynamic node reads its meanings from an `abbrs.json` file loaded via `populate_abbr_data_with_json_file`/`get_abbr_data` — kaye-engine bundles no copy of its own; a separate consumer package supplies and loads the real file. Q.v. [`abbr_collection` documentation](docs/abbrs-doc.md) for its schema, top-level functions, and where abbreviations are used.
+
 
 
 
@@ -82,7 +83,7 @@ The `(Abbreviations)` dynamic node reads its meanings from an `abbrs.json` file 
 
 The **Kaye Engine Programmatic API** provides *Python programmatic access* to list corpus entries, preview sections, and generate concrete prompts.
 
-Q.v. [Kaye Engine Programmatic API documentation](docs/programmatic-api-doc.md)
+Q.v. [Kaye Engine: `prompt` module Documentation](docs/prompt-doc.md)
 
 
 

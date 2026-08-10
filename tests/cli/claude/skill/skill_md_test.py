@@ -11,6 +11,7 @@ from unittest.mock import MagicMock, patch
 import yaml
 
 from kaye_engine.cli.claude.skill.skill_md import Skill
+from kaye_engine.prompt.blueprint import BlueprintRegistry
 
 _NOT_CALLED_MSG = "Skill must not call importlib.metadata itself"
 
@@ -29,15 +30,19 @@ class TestVersionInjection:
 
         assert frontmatter["metadata"]["version"] == "1.2.3"
 
-    def test_from_registry_threads_version(_):
-        registry = MagicMock()
-        registry.skill_name = "test-skill"
-        registry.blueprint.sidecars.description = "d"
-        registry.blueprint.sidecars.when_to_use = "w"
-        registry.blueprint.sidecars.globs = []
-        registry.user_invokable = True
-        registry.blueprint.generate_prompt.return_value = "body"
+    def test_from_exportable_threads_version(_):
+        blueprint = MagicMock()
+        blueprint.sidecars.description = "d"
+        blueprint.sidecars.when_to_use = "w"
+        blueprint.sidecars.globs = []
+        blueprint.generate_prompt.return_value = "body"
 
-        skill = Skill.from_registry(registry, version="1.2.3")
+        registry = BlueprintRegistry(
+            canonical_name="test-skill",
+            display_name="Test Skill",
+            blueprint=blueprint,
+        )
+
+        skill = Skill.from_exportable(registry, version="1.2.3")
 
         assert skill.version == "1.2.3"

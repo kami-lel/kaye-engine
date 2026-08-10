@@ -29,7 +29,7 @@ def _ls_main(_):  ##############################################################
 
 def register_ls_parser(cli_subparser):  ########################################
     """
-    register the ``kaye prompt ls`` subcommand parser
+    register the ``kaye blueprint ls`` subcommand parser
     """
     ls_parser = cli_subparser.add_parser(
         "ls", help=_HELP, description=_DESCRIPTION

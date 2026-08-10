@@ -16,7 +16,7 @@ logger = kamilog.getLogger(LOGGER_NAME)
 # Public API  ##################################################################
 def check_corpus_setup_for_cli():
     """
-    log an error when no host project has loaded a corpus and registered
+    log an error when no consumer project has loaded a corpus and registered
     blueprints
 
     checks both that a default corpus tree is loaded and that
@@ -27,7 +27,7 @@ def check_corpus_setup_for_cli():
     except ValueError:
         logger.error(
             "no corpus tree loaded\n"
-            "a host project should call "
+            "a consumer project should call "
             "load_corpus_tree(..., is_default_tree=True) "
             "before invoking this CLI"
         )
@@ -35,6 +35,6 @@ def check_corpus_setup_for_cli():
     if not blueprint_registry:
         logger.error(
             "no blueprints registered\n"
-            "a host project should register "
+            "a consumer project should register "
             "blueprints before invoking this CLI"
         )

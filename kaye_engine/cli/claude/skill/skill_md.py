@@ -6,8 +6,10 @@ define ``Skill``
 
 from pathlib import Path
 
-from kaye_engine.cli.claude import CONTAINING_SIDECARS
+from kaye_engine.cli.claude import CLAUDE_CODE_SIDECARS
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
+from kaye_engine.cli.exportable_abbr import ExportableAbbr
+from kaye_engine.prompt.blueprint import BlueprintRegistry
 
 
 class Skill(FrontmatterDoc):
@@ -44,11 +46,8 @@ class Skill(FrontmatterDoc):
     :param version: installed package version
     :type version: str, optional
     :example:
-    >>> # blueprint skill
-    ... Skill.from_registry(reg).write(parent_folder)
-
-    >>> # abbreviation skill
-    ... Skill(name=~~, description=~~, body=~~).write(parent_folder)
+    >>> # any Exportable, blueprint or abbr group alike
+    ... Skill.from_exportable(exportable).write(parent_folder)
     """
 
     # Public Methods  ----------------------------------------------------------
@@ -139,25 +138,41 @@ class Skill(FrontmatterDoc):
     # factory  -----------------------------------------------------------------
 
     @classmethod
-    def from_registry(cls, registry, version=""):
+    def from_exportable(cls, exportable, version=""):
         """
-        :param registry: blueprint registry entry to render
-        :type registry: BlueprintRegistry
+        dispatches on the concrete `Exportable` implementer -- this
+        isinstance check lives here, in the Claude-specific translation
+        layer, precisely because `Exportable` itself stays Claude-agnostic
+
+
+        :param exportable: entry to render, either a `BlueprintRegistry`
+                or an `ExportableAbbr` group
+        :type exportable: Exportable
         :param version: installed package version, forwarded to
                 :meth:`__init__`
         :type version: str, optional
-        :return: a skill built from ``registry`` and its blueprint prompt
+        :return: a skill built from ``exportable``'s content
         :rtype: Skill
         """
-        sidecars = registry.blueprint.sidecars
+        if isinstance(exportable, BlueprintRegistry):
+            sidecars = exportable.blueprint.sidecars
+            return cls(
+                name=exportable.canonical_name,
+                description=sidecars.description,
+                when_to_use=sidecars.when_to_use,
+                paths=list(sidecars.globs) if sidecars.globs else [],
+                user_invocable=exportable.user_invokable,
+                body=exportable.blueprint.generate_prompt(
+                    contains_sidecars=CLAUDE_CODE_SIDECARS, sparseness=0
+                ),
+                version=version,
+            )
+
+        assert isinstance(exportable, ExportableAbbr)
         return cls(
-            name=registry.skill_name,
-            description=sidecars.description,
-            when_to_use=sidecars.when_to_use,
-            paths=list(sidecars.globs) if sidecars.globs else [],
-            user_invocable=registry.user_invokable,
-            body=registry.blueprint.generate_prompt(
-                contains_sidecars=CONTAINING_SIDECARS
-            ),
+            name=exportable.canonical_name,
+            description=exportable.display_name,
+            user_invocable=exportable.user_invokable,
+            body=exportable.as_md_list(),
             version=version,
         )

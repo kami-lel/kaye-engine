@@ -1,39 +1,39 @@
 """
-abbr_nodes.py
+shorthand_node.py
 
-define abbreviations-related node types
+define the decode-only shorthand node type
 """
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.abbr_collection import AbbrTags, get_abbr_data
-from kaye_engine.prompt.dynamic_nodes.abbr_tag_nodes import (
-    gen_abbrs_content_lines,
+from kaye_engine.prompt.dynamic_nodes.shorthand_tag_nodes import (
+    gen_shorthand_content_lines,
 )
 from .dynamic_node import DynamicNode
 
-__all__ = ("AbbrNode",)
+__all__ = ("ShorthandNode",)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
 
-class AbbrNode(DynamicNode):  ##################################################
+class ShorthandNode(DynamicNode):  #############################################
     """
-    dynamic node to provide abbreviations' meanings
+    dynamic node to provide decode-only shorthand meanings
     based on a given ``query`` content
     """
 
     # implement DynamicNode  ===================================================
 
-    HEADING = "Abbreviations"
+    HEADING = "Decode-Only Shorthand"
 
     # implement BasePromptNode  ================================================
 
-    def content_lines(self, *, query=""):  # pylint: disable=arguments-differ
+    def content_lines(self, *, query="", **kwargs):  # pylint: disable=arguments-differ,unused-argument
         if query:
             lines = self._generate_content_lines_dynamically(query)
         else:
-            lines = gen_abbrs_content_lines(AbbrTags.always_understand)
+            lines = gen_shorthand_content_lines(AbbrTags.always_understand)
 
         return self._preface + lines
 
@@ -65,5 +65,6 @@ class AbbrNode(DynamicNode):  ##################################################
                     entries.add(m)
 
         # convert to md lines  -------------------------------------------------
-        lines = [e.as_md_list_entry() for e in entries]
+        sorted_entries = sorted(entries, key=lambda e: e.abbr)
+        lines = [e.as_md_list_entry() for e in sorted_entries]
         return lines
