@@ -23,178 +23,97 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Added
 
-- `AbbrTagNode` — dynamic node parametrized by an `AbbrTags` member at
-  construction time (mirrors `GlossaryNode`'s `glossary_name`
-  parametrization), replacing the single hardcoded `EmojiNode`; one
-  instance attaches per `ABBR_TAG_NODE_MEMBERS` entry (every simple
-  `AbbrTags` member except `always_understand`), rendering every
-  `abbrs.json` entry tagged with that member; accessible via
-  `kaye-engine dn TAG_NAME`, e.g. `kaye-engine dn emoji`,
-  `kaye-engine dn single_character`
-- `kaye-engine dynamic-node ls` now groups its output instead of a flat
-  alphabetical sort: `today`, `shorthand`, every `AbbrTagNode` name
-  (`AbbrTags` declaration order), then every glossary name
-  (alphabetical)
-- `sparseness` parameter on `render_prompt_lines()`/`generate_prompt()`,
-  controlling how runs of blank lines collapse in rendered output: `-1`
-  joins the whole output into one line (`REPLACEMENT_NEWLINE_SYMBOL` in
-  place of every newline), `0` removes all blank lines, `1` collapses
-  every run to a single blank line (default), and so on up through `99`,
-  which disables trimming entirely
-- `-s`/`--sparseness` option on `kaye-engine blueprint generate`, forwarding
-  the new parameter from the CLI
-- free-form, consumer-defined glossary names in `abbrs.json` entries'
-  `tags` array: each `tags` item is resolved by trying it against the
-  fixed `AbbrTags` enum first, falling back to a glossary name on
-  failure; every glossary name an entry declares must already be
-  registered via `register_abbr_glossary` before that entry loads, or
-  loading raises `ValueError`
-- `register_abbr_glossary(name, uses_numbered_list=False,
-  is_sorted=False)`/`get_abbr_glossary(name)`, registering a glossary
-  name and its `GlossaryNode` default rendering behavior;
-  `register_abbr_glossary` raises `ValueError` on a duplicate name;
-  `get_abbr_glossary` raises `KeyError` on an unknown name
-- `glossary_priority_threshold` keyword on
-  `content_lines()`/`gen_glossary_content_lines()`, and forwarded
-  through as a generation-time `generate_prompt()` kwarg: entries whose
-  `priority` exceeds the threshold are still added to `AbbrData` (so
-  glossary-membership validation still sees them) but excluded from
-  rendered output; `None` (default) disables the filter entirely — the
-  threshold is supplied by the caller at render time, not stored on the
-  glossary's registration
-- `-t`/`--priority-threshold` option on `kaye-engine dynamic-node`,
-  forwarding `glossary_priority_threshold` to a rendered glossary node
-- `GlossaryNode` — dynamic node parametrized by glossary name at
-  construction time; a top-level `(glossary-name)` heading in
-  `prompt_corpus.md` resolves to it when `glossary-name` matches a
-  known abbr glossary, and `kaye-engine dynamic-node NODE` now accepts
-  any known glossary name alongside its engine-defined choices; its
-  `content_lines()` gained `is_sorted`, `uses_numbered_list` (default
-  `None`, falling back to the glossary's registered flags), and
-  `glossary_priority_threshold` (default `None`, no fallback) keywords,
-  rendering the glossary sorted by ascending `priority`, as a numbered
-  list instead of insertion-order bullets, and/or with high-priority-number
-  entries hidden
-- `number` keyword on `AbbrEntry.as_md_list_entry()`, rendering a
-  numbered list item (`{number}. abbr:meaning`) instead of a bullet
-- `kaye-engine dynamic-node ls` (`dn ls`) — a special `NODE` value that
-  is not itself a node; it prints every currently available `NODE`
-  name (engine-defined choices plus every registered abbr glossary
-  name), one kebab-case name per line, sorted alphabetically
-- `kaye-engine dynamic-node` now accepts 1 or more `NODE` values in a
-  single invocation, merging every resolved node into one shared
-  blueprint and printing one merged output
-- `-s`/`--sparseness` option on `kaye-engine dynamic-node`, via the same
-  shared `sparseness_parser` `blueprint generate` uses
-- `Exportable` — abstract base for anything that can appear in the new
-  `exportable_registry`, carrying `canonical_name`, `display_name`,
-  `always_apply`, `user_invokable`, `llm_invokable`, and an abstract
-  `content()`; `exportable_registry`, `register_exportable_entry(exportable)`,
-  and `get_exportable(canonical_name)` round out the registry
-- `kaye-engine export EXPORTABLE` (alias `x`) — prints an exportable's
-  `content()`; `kaye-engine export ls` lists every registered exportable
-  name, sorted alphabetically
-
 ### Changed
-
-- the engine-defined `(Abbreviations)` dynamic node is renamed
-  `(Decode-Only Shorthand)` (`AbbrNode` → `ShorthandNode`,
-  `kaye-engine dynamic-node abbr` → `dynamic-node shorthand`); the
-  general abbreviation/glossary system (`AbbrData`, `AbbrEntry`,
-  `abbrs.json`, `GlossaryNode`, `(glossary-name)` nodes) is unaffected
-- sidecar descriptor rendering (`description`, `when_to_use`,
-  `description_and_when_to_use`) now renders through the `sparseness`
-  control instead of its own blank-line trimming
-- `export_user_system_prompt_file()` gained a `sparseness` keyword
-  (default `1`); `claude vs-code-extension` and Claude Skill `SKILL.md`
-  export now render their prompt with `sparseness=0`
-- `REPLACEMENT_NEWLINE_SYMBOL` moved from `kaye_engine.prompt` to
-  `kaye_engine.prompt.blueprint.render`; it was never part of the
-  documented public API
-- consolidated the Claude-CLI setup calls into one
-  `setup_claude_cli(plugin_name, marketplace_name, chat_bp_name,
-  coder_bp_name, version, marketplace_folder_name)`; a consumer now sets
-  every Claude-CLI value in a single call, none of them defaulted
-- split the combined plugin/marketplace name into two independent
-  values, exposed via `get_plugin_name()`/`get_marketplace_name()`
-- every exported `plugin.json`, `marketplace.json`, and `SKILL.md` is now
-  stamped with a consumer-supplied version, not kaye-engine's own
-  installed package version
-- the marketplace folder name (`kaye_marketplace` by default, previously
-  hardcoded in two places) is now consumer-configurable
-- the fixed abbr-tag dynamic nodes (`Usable Abbreviations`, `Coding
-  Terms`, `Languages Code`, `Programming Languages Code`, `Unity Engine
-  Abbreviations`, `Plan Step By Step Abbreviations`, `Code Documentation
-  Field Abbreviations`) are replaced by glossary-based `(glossary-name)`
-  headings; a host `abbrs.json` must replace affected entries' removed
-  `AbbrTags` values with their registered glossary-name equivalent in
-  `tags` to keep them rendering
-- `AbbrEntry` now raises `TypeError`, not `ValueError`, when `abbr`, its
-  value object, or `priority` is the wrong type
-- `dynamic-node`'s positional argument renamed `NODE_TYPE` → `NODE`; its
-  `--help`/description text no longer lists every available choice
-  inline, pointing to `dynamic-node ls` instead
-- the single generic `{for claude code}` conditional sidecar and its
-  `CONTAINING_SIDECARS` constant are replaced by eight named
-  `{Claude Tool:...}` sidecars (`Enter/ExitPlanMode`, `TodoWrite`,
-  `AskUserQuestion`, `Subagents`, `Tasks`, `Worktrees`, `Skill`,
-  `Workflow`), auto-checkmarked per Claude export surface via its own
-  `CLAUDE_CHAT_SIDECARS`/`CLAUDE_COWORK_SIDECARS`/`CLAUDE_CODE_SIDECARS`/
-  `CLAUDE_CODE_VSC_XTN_SIDECARS` constant in `kaye_engine.cli.claude`;
-  `export_user_system_prompt_file()` gained a `sidecars` keyword
-  (default `CLAUDE_CHAT_SIDECARS`) forwarding the chosen set as
-  `contains_sidecars`
-- `BlueprintRegistry` and `ExportableAbbr` now subclass `Exportable`; each
-  `register_blueprint()` call (unless `is_internal`) and every glossary
-  group `register_exportable_abbrs()` builds inserts into the shared
-  `exportable_registry`, not just their own dedicated registry
 
 ### Deprecated
 
 ### Removed
 
-- `set_claude_plugin_marketplace_name`, `set_claude_using_blueprint`,
-  and `get_plugin_marketplace_name`, superseded by `setup_claude_cli(...)`
-  and its split getters
-- `resolve_package_version`/`package_version.py`, superseded by the
-  consumer-supplied version read through `setup_claude_cli(...)`
-- `AbbrTags` members `usable_in_brief`, `coding`,
-  `programming_language_code`, `language_code`, `unity_engine_abbr`,
-  `log_level`, `unit_of_measure`, `currency_symbol`,
-  `plan_step_by_step_abbr`, and `code_documentation_field_abbr`,
-  superseded by free-form `glossaries`
-- `UsableAbbrNode`, `LanguageCodeNode`, `PLCNode`, `UnityEngineAbbrNode`,
-  `CodingTermsNode`, `PlanStepByStepAbbrNode`, and
-  `CodeDocumentationFieldAbbrNode`, superseded by `GlossaryNode`
-- `NODE_TYPE_CHOICES`, superseded by `ENGINE_DEFINED_NODES`
-- `abbrs.json`'s separate `glossaries` key and its `ABBRS_JSON_GLOSSARY_KEY`
-  export, along with `AbbrTags.parse()`, superseded by unified parsing of
-  a single `tags` array (v.s.)
-- the deprecated Continue AI tool integration: `cli_continue`, the CLI
-  subpackage exporting blueprints as Continue rule files (already
-  unregistered and unreachable), and `continue_exportable`, the
-  `BlueprintRegistry` export-policy flag it depended on
-- `get_abbr_data`, `get_abbr_glossary`, `get_blueprint`, and
-  `get_corpus_tree` dropped from the top-level `kaye_engine` package
-  exports; each is still importable from its owning submodule
-  (`kaye_engine.abbr_collection`, `kaye_engine.prompt`)
-
 ### Fixed
-
-- `dynamic-node` no longer crashes with a raw Python traceback: an
-  unrecognized `NODE` now logs an `ERROR` through the `kaye.engine`
-  logger, and any other failure while resolving/rendering the node
-  logs `CRITICAL`; both cases exit with status `1`
-- `dynamic-node NODE` now correctly reuses an authored `(...)` heading's
-  preface for every requested `NODE`, not only when it happened to be
-  the sole one requested
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.1.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.2.0...dev
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+## [7.2.0] - 2026-08-10
+
+### Added
+
+- `AbbrTagNode`, a dynamic node parametrized by an `AbbrTags` member,
+  accessible via `kaye-engine dn TAG_NAME`
+- `sparseness` control for blank-line collapsing in rendered output, via
+  `-s`/`--sparseness` on `blueprint generate` and `dynamic-node`
+- free-form, consumer-defined glossary names in `abbrs.json` `tags`
+- `register_abbr_glossary()`/`get_abbr_glossary()` for glossary
+  registration, plus a `glossary_priority_threshold` render-time filter
+- `GlossaryNode`, a dynamic node rendering a registered glossary as a
+  `(glossary-name)` heading, with optional sorting and numbered-list
+  output
+- `dynamic-node ls` to list every available `NODE` value; `dynamic-node`
+  now accepts multiple `NODE` values in one call
+- `Exportable` base class and `exportable_registry`, unifying blueprints
+  and abbreviation/glossary groups under one registry
+- `kaye-engine export`/`x` CLI subcommand to print or list registered
+  exportables
+
+### Changed
+
+- CLI subcommand `prompt` renamed `blueprint` (alias `bp`)
+- `(Abbreviations)` dynamic node renamed `(Decode-Only Shorthand)`
+- sidecar descriptor rendering now goes through the shared `sparseness`
+  control
+- Claude-CLI setup consolidated into a single `setup_claude_cli(...)`
+  call; plugin/marketplace naming and versioning are now fully
+  consumer-supplied
+- the fixed abbr-tag dynamic nodes are replaced by glossary-based
+  `(glossary-name)` nodes
+- the `{for claude code}` sidecar is replaced by eight named
+  `{Claude Tool:...}` sidecars, checkmarked per Claude export surface
+- `BlueprintRegistry`/`ExportableAbbr` now register into the shared
+  `exportable_registry`
+
+### Removed
+
+- `set_claude_plugin_marketplace_name` and related setters, superseded
+  by `setup_claude_cli(...)`
+- `resolve_package_version`/`package_version.py`, superseded by a
+  consumer-supplied version
+- fixed-tag `AbbrTags` members and their dynamic node classes,
+  superseded by free-form glossaries
+- `NODE_TYPE_CHOICES`, the deprecated Continue AI integration, and
+  `abbrs.json`'s separate `glossaries` key
+- `get_abbr_data`, `get_abbr_glossary`, `get_blueprint`, and
+  `get_corpus_tree` from the top-level `kaye_engine` exports (still
+  importable from their owning submodule)
+- unused `ABBRS_JSON_GROUP_KEY` constant
+
+### Fixed
+
+- `dynamic-node` failures now log through `kaye.engine` instead of
+  raising a raw traceback
+- `dynamic-node NODE` reuses an authored heading's preface for every
+  requested node
+- `(Decode-Only Shorthand)` entries now render sorted alphabetically,
+  instead of following non-deterministic `set` order
+- corrected several docs left stale by the `prompt`→`blueprint` rename:
+  a broken doc link, an outdated `BlueprintRegistry` example, and an
+  inaccurate description of `description_and_when_to_use`'s override
+  behavior
+
+[7.2.0]: https://github.com/kami-lel/kaye-engine/compare/v7.1.0...v7.2.0
 
 ## [7.1.0] - 2026-08-05
 
