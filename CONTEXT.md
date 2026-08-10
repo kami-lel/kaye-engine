@@ -75,7 +75,7 @@ documentation](docs/abbrs-doc.md).
 
 ```python
 from kaye_engine import (
-    PACKAGE_NAME, DISPLAY_NAME, LOGGER_NAME,
+    PACKAGE_NAME, LOGGER_NAME,
     load_corpus_tree, get_default_corpus_tree,
     AbbrData,
     register_abbr_glossary,
@@ -94,18 +94,22 @@ submodule (`kaye_engine.abbr_collection`, `kaye_engine.prompt`) instead.
 A caller loads and caches a corpus by name; one tree may be flagged the
 process default, which is what a blueprint resolves against when given no
 explicit tree. A consumer that exports through `claude` subcommands must also
-call `setup_claude_cli(plugin_name, marketplace_name, chat_bp_name,
-coder_bp_name, version, marketplace_folder_name)` — none of the six has a
-default. Q.v. [Kaye Engine: `prompt` module Documentation](docs/prompt-doc.md).
+call `setup_claude_cli(plugin_name, display_name, marketplace_name,
+chat_bp_name, coder_bp_name, version, marketplace_folder_name)` — none of the
+seven has a default; `display_name` replaces the former hardcoded
+`DISPLAY_NAME` constant, letting each consumer stamp its own
+`plugin.json` `display_name`. Q.v. [Kaye Engine: `prompt` module
+Documentation](docs/prompt-doc.md).
 
 Every CLI subcommand entrypoint calls a setup guard
 (`check_corpus_setup_for_cli()`, or `check_setup_for_claude_cli()` for
 `claude` subcommands) that logs an error — never raises — when a consumer
 hasn't loaded a default corpus tree or registered any blueprints. It exists
 to surface a bare-checkout misuse early, not to enforce the boundary. The
-plugin name, marketplace name, Chat/Coder blueprint names, version, and
-marketplace folder name are enforced separately, each by its own getter
-(`get_plugin_name()`, `get_marketplace_name()`, `get_claude_chat_blueprint()`,
+plugin name, display name, marketplace name, Chat/Coder blueprint names,
+version, and marketplace folder name are enforced separately, each by its own
+getter (`get_plugin_name()`, `get_claude_cli_display_name()`,
+`get_marketplace_name()`, `get_claude_chat_blueprint()`,
 `get_claude_coder_blueprint()`, `get_claude_cli_consumer_version()`,
 `get_marketplace_folder_name()`), which logs `logger.critical` and raises
 `SystemExit(1)` when unset — or, for the blueprint getters, when the
