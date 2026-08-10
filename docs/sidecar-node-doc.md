@@ -264,7 +264,11 @@ Derived property combining both description and when_to_use fields.
 
 **Type:** `str`
 
-**Behavior:** Returns both fields concatenated with appropriate separators.
+**Behavior:** When the description is not overridden, returns the
+description and when-to-use node content concatenated with appropriate
+separators. When the description *is* explicitly overridden, returns
+that override alone — the when-to-use content is not appended in that
+case.
 
 **Example:**
 ```python

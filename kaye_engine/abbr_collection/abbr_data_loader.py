@@ -37,6 +37,7 @@ def populate_abbr_data_with_json_file(file_path):  # ===========================
     :raises json.JSONDecodeError:
     :raises ValueError: malformed content, or an entry duplicating one
             already added
+    :raises TypeError: a meaning or abbrs value is not a JSON object
     """
     with open(file_path, "r", encoding="utf-8") as file:  # read only
         try:
