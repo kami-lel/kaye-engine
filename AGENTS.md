@@ -120,15 +120,22 @@ comments are allowed).
 document it, invoke it, or wire it back in without being asked.
 
 Every `claude` subcommand needs a consumer to call
-`setup_claude_cli(plugin_name, marketplace_name, chat_bp_name,
+`setup_claude_cli(plugin_name, display_name, marketplace_name, chat_bp_name,
 coder_bp_name, version, marketplace_folder_name)` before invoking the CLI —
-there is no default for any of the six. On a bare checkout, or when
-`setup_claude_cli(...)` was never called, `get_plugin_name()`,
+there is no default for any of the seven. `display_name` is stamped into
+`plugin.json`'s `display_name` field by `claude plugin export`; it replaces
+the former hardcoded `DISPLAY_NAME` constant in `kaye_engine/__init__.py`. On
+a bare checkout, or when `setup_claude_cli(...)` was never called,
+`get_plugin_name()`, `get_claude_cli_display_name()`,
 `get_marketplace_name()`, `get_claude_chat_blueprint()`,
 `get_claude_coder_blueprint()`, `get_claude_cli_consumer_version()`, and
 `get_marketplace_folder_name()` each log `logger.critical` and raise
 `SystemExit(1)`; the blueprint getters do the same when the configured name
 is not a registered blueprint — expected, not a bug.
+
+`kaye-engine --version` reports the installed distribution's version via
+`importlib.metadata.version(PACKAGE_NAME)` — run against an installed
+package, not a bare checkout.
 
 ## Code Conventions
 
