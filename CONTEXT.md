@@ -96,7 +96,7 @@ process default, which is what a blueprint resolves against when given no
 explicit tree. A consumer that exports through `claude` subcommands must also
 call `setup_claude_cli(plugin_name, marketplace_name, chat_bp_name,
 coder_bp_name, version, marketplace_folder_name)` — none of the six has a
-default. Q.v. [programmatic API documentation](docs/programmatic-api-doc.md).
+default. Q.v. [Kaye Engine: `prompt` module Documentation](docs/prompt-doc.md).
 
 Every CLI subcommand entrypoint calls a setup guard
 (`check_corpus_setup_for_cli()`, or `check_setup_for_claude_cli()` for

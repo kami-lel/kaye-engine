@@ -82,7 +82,7 @@ The `(Decode-Only Shorthand)` dynamic node reads its meanings from an `abbrs.jso
 
 The **Kaye Engine Programmatic API** provides *Python programmatic access* to list corpus entries, preview sections, and generate concrete prompts.
 
-Q.v. [Kaye Engine Programmatic API documentation](docs/programmatic-api-doc.md)
+Q.v. [Kaye Engine: `prompt` module Documentation](docs/prompt-doc.md)
 
 
 
