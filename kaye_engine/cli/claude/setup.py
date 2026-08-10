@@ -13,6 +13,7 @@ from kaye_engine.cli import claude
 
 __all__ = (
     "get_claude_cli_consumer_version",
+    "get_claude_cli_display_name",
     "get_marketplace_folder_name",
     "setup_claude_cli",
 )
@@ -26,6 +27,7 @@ logger = kamilog.getLogger(claude.LOGGER_CLAUDE_NAME)
 
 def setup_claude_cli(
     plugin_name,
+    display_name,
     marketplace_name,
     chat_bp_name,
     coder_bp_name,
@@ -39,6 +41,9 @@ def setup_claude_cli(
     :param plugin_name: name written into ``plugin.json``, and used as the
             plugin's folder name and export keyword
     :type plugin_name: str
+    :param display_name: display name stamped into ``plugin.json``'s
+            ``display_name`` field
+    :type display_name: str
     :param marketplace_name: name written into ``marketplace.json``
     :type marketplace_name: str
     :param chat_bp_name: registered name of the Chat blueprint
@@ -55,6 +60,7 @@ def setup_claude_cli(
     :type marketplace_folder_name: str
     """
     claude._plugin_name = plugin_name
+    claude._display_name = display_name
     claude._marketplace_name = marketplace_name
     claude._chat_blueprint_name = chat_bp_name
     claude._coder_blueprint_name = coder_bp_name
@@ -77,6 +83,23 @@ def get_claude_cli_consumer_version():
         )
         raise SystemExit(1)
     return claude._version
+
+
+def get_claude_cli_display_name():
+    """
+    :raises SystemExit: exit code 1, when no consumer project has called
+            ``setup_claude_cli(...)``
+    :return: configured display name
+    :rtype: str
+    """
+    if claude._display_name is None:
+        logger.critical(
+            "no display name set\n"
+            "a consumer project should call "
+            "setup_claude_cli(...) before invoking this CLI"
+        )
+        raise SystemExit(1)
+    return claude._display_name
 
 
 def get_marketplace_folder_name():

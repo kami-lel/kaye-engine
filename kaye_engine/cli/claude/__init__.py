@@ -38,6 +38,9 @@ CLAUDE_CODE_VSC_XTN_SIDECARS = (
 # name written into plugin.json / used as the plugin's folder name
 _plugin_name = None
 
+# display name stamped into plugin.json's display_name field
+_display_name = None
+
 # name written into marketplace.json
 _marketplace_name = None
 
