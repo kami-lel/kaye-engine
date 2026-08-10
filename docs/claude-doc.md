@@ -116,8 +116,6 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 
 
 
-
-
 #### User Interaction
 
 | tool | sidecar | Chat[^chat] | Cowork | Code | VSC[^vsc] | remark |
@@ -144,8 +142,6 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 
 
 
-
-
 #### Data & Communication
 
 | tool | sidecar | Chat | Cowork | Code | VSC | remark |
@@ -156,8 +152,6 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `message_compose_v1` | `{Claude Chat [message_compose_v1] Usage}` | ✔️ | ❌ | ❌ | ❌ | drafts email/Slack/text with strategic variants |
 | `NotebookEdit` | `{Claude Code [NotebookEdit] Usage}` | ❌ | ❌ | ✔️ | ✔️ | edits Jupyter notebook cells |
 | `RemoteTrigger` | `{Claude Code [RemoteTrigger] Usage}` | ❌ | ❌ | ✔️ | ✔️ | triggers a remote/cloud agent run |
-
-
 
 
 
@@ -176,8 +170,6 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 
 
 
-
-
 #### Agents & Tasks
 
 | tool | sidecar | Chat | Cowork | Code | VSC | remark |
@@ -192,8 +184,6 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `TaskStop` | `{Claude Code [TaskStop] Usage}` | ❌ | ✔️ | ✔️ | ✔️ | stops a background task |
 | `TaskUpdate` | `{Claude Code [TaskUpdate] Usage}` | ❌ | ❌ | ✔️ | ✔️ | updates a task's state |
 | `TodoWrite` | `{Claude Code [TodoWrite] Usage}` | ❌ | ❌ | ❌ | ✔️ | maintains a task/todo list for the session |
-
-
 
 
 
