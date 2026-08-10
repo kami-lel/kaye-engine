@@ -1,4 +1,4 @@
-# Kaye Engine: `abbr_collection` module Documentation
+# Kaye Engine: Abbreviations Documentation
 
 `abbr_collection` is the package that deals with **abbreviations**: the entry data structures, the store, and the loader that populates it from `abbrs.json`.
 
