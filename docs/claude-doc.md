@@ -114,6 +114,10 @@ A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking t
 
 Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept and how they're authored in the prompt corpus.
 
+
+
+
+
 #### User Interaction
 
 | tool | sidecar | Chat[^chat] | Cowork | Code | VSC[^vsc] | remark |
@@ -138,6 +142,10 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 [^chat]: i.e. Claude.ai.
 [^vsc]: i.e. Claude Code VS Code Extension.
 
+
+
+
+
 #### Data & Communication
 
 | tool | sidecar | Chat | Cowork | Code | VSC | remark |
@@ -148,6 +156,10 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `message_compose_v1` | `{Claude Chat [message_compose_v1] Usage}` | ✔️ | ❌ | ❌ | ❌ | drafts email/Slack/text with strategic variants |
 | `NotebookEdit` | `{Claude Code [NotebookEdit] Usage}` | ❌ | ❌ | ✔️ | ✔️ | edits Jupyter notebook cells |
 | `RemoteTrigger` | `{Claude Code [RemoteTrigger] Usage}` | ❌ | ❌ | ✔️ | ✔️ | triggers a remote/cloud agent run |
+
+
+
+
 
 #### Development
 
@@ -161,6 +173,10 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `ScheduleWakeup` | `{Claude Code [ScheduleWakeup] Usage}` | ❌ | ❌ | ✔️ | ✔️ | schedules a future self-resumption for `/loop` dynamic mode |
 | `CronCreate`,<br>`CronDelete`,<br>`CronList` | `{Claude Code [CronCreate/Delete/List] Usage}` | ❌ | ❌ | ✔️ | ✔️ | creates, deletes, and lists scheduled cloud agents |
 | `Monitor` | `{Claude Code [Monitor] Usage}` | ❌ | ❌ | ✔️ | ✔️ | streams events from a background process |
+
+
+
+
 
 #### Agents & Tasks
 
@@ -176,3 +192,18 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `TaskStop` | `{Claude Code [TaskStop] Usage}` | ❌ | ✔️ | ✔️ | ✔️ | stops a background task |
 | `TaskUpdate` | `{Claude Code [TaskUpdate] Usage}` | ❌ | ❌ | ✔️ | ✔️ | updates a task's state |
 | `TodoWrite` | `{Claude Code [TodoWrite] Usage}` | ❌ | ❌ | ❌ | ✔️ | maintains a task/todo list for the session |
+
+
+
+
+
+#### Fallbacks
+
+Utilize these *fallbacks* sidecars for specific surface:
+
+| sidecar | Chat | Cowork | Code | VSC |
+| --- | --- | --- | --- | --- |
+| `{Claude Chat Fallback}` | ✔️ | ❌ | ❌ | ❌ |
+| `{Claude Cowork Fallback}` | ❌ | ✔️ | ❌ | ❌ |
+| `{Claude Code Fallback}` | ❌ | ❌ | ✔️ | ❌ |
+| `{Claude Code VSC Extension Fallback}` | ❌ | ❌ | ❌ | ✔️ |
