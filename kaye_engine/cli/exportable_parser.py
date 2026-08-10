@@ -8,7 +8,6 @@ from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.exportable_abbr import register_exportable_abbrs
 from kaye_engine.exportable import exportable_registry
 from kaye_engine.kamilog import (
     add_verbose_arguments,
@@ -37,7 +36,6 @@ list every registered exportable, sorted alphabetically:
 def _export_main(args):
     set_logging_level_by_namespace(args, logger=logger)
     check_corpus_setup_for_cli()
-    register_exportable_abbrs()
 
     if args.EXPORTABLE == "ls":
         for name in sorted(exportable_registry):
