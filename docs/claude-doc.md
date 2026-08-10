@@ -110,7 +110,7 @@ A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking t
 
 ## Conditional Sidecar Inclusion
 
-<!-- bug better surfaced based sidecar org  -->
+<!-- Bug better surfaced based sidecar org  -->
 
 Conditional `{Claude Tool:...}` sidecar nodes are optional; when present, each Claude export surface auto-includes them via its own `CLAUDE_*_SIDECARS` constant in `kaye_engine.cli.claude`.
 
