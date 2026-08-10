@@ -17,6 +17,9 @@ from kaye_engine.cli.claude.blueprint_name import (
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
+# Hack dont take file path, to allow > pattern
+
+
 # Main Entry Point  ############################################################
 def export_user_system_prompt_file(
     file_path,
@@ -49,7 +52,6 @@ def export_user_system_prompt_file(
     blueprint = get_claude_chat_blueprint()
 
     agent_behavior = blueprint.corpus["Agent Behavior"]
-    blueprint.checkmark(agent_behavior)
     blueprint.checkmark(agent_behavior["Claude Behavior"])
 
     if use_coder:
