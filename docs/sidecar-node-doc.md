@@ -1,4 +1,4 @@
-# Sidecar Node Documentation
+# Kaye Engine: Sidecar Node Documentation
 
 **Sidecar nodes** are corpus nodes with names enclosed in curly braces, e.g. `{description}`, `{when_to_use}`. They are attached to parent nodes in the prompt tree and hold structured metadata or conditional content about their parent. Sidecar nodes appear in the blueprint preview tree but are **not** included in the rendered prompt output by default.
 

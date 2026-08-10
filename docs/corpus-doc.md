@@ -1,4 +1,4 @@
-# `prompt_corpus.md` Format Documentation
+# Kaye Engine: `prompt_corpus.md` Format Documentation
 
 `prompt_corpus.md` is the authoritative Source of Truth for an agent's identity, roles, rules, styles, and references. It is a single continuous Markdown file parsed at runtime into a **prompt tree**.
 
