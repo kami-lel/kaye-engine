@@ -17,7 +17,8 @@ from kaye_engine.cli.claude.blueprint_name import (
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
-# Hack dont take file path, to allow > pattern
+# Hack kaye a usp: dont take file path, to allow > pattern
+# Fixme kaye a usp: claude setup take a blueprint that merge into chat
 
 
 # Main Entry Point  ############################################################
