@@ -4,6 +4,8 @@ exportable_parser.py
 define ``register_export_parser``
 """
 
+# todo gap-review: no test file cover CLI kaye x
+
 from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
