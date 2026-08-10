@@ -3,7 +3,9 @@ main parser for Kaye Python CLI
 """
 
 from argparse import ArgumentParser
+from importlib.metadata import version
 
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli.claude.main import register_cli_claude_parser
 from kaye_engine.cli.dynamic_node.parser import register_dynamic_node_parser
 from kaye_engine.cli.blueprint.main_parser import register_cli_blueprint_parser
@@ -47,6 +49,11 @@ def register_cli_main_parser(program_name=PROGRAM_NAME):
     :rtype: tuple(ArgumentParser, argparse._SubParsersAction)
     """
     parser = ArgumentParser(prog=program_name, description=__doc__)
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=str(version(PACKAGE_NAME)),
+    )
     parser.set_defaults(func=lambda _: parser.print_help())
     subparser = parser.add_subparsers(title="subcommands")
 
