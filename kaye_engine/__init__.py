@@ -9,6 +9,7 @@ __all__ = (
     "AbbrData",
     "get_default_corpus_tree",
     "load_corpus_tree",
+    "populate_abbr_data_with_json_file",
     "register_abbr_glossary",
     "register_blueprint",
     "setup_claude_cli",
@@ -23,8 +24,11 @@ LOGGER_NAME = "kaye.engine"
 
 
 # pylint: disable=wrong-import-position
-
-from kaye_engine.abbr_collection import AbbrData, register_abbr_glossary
+from kaye_engine.abbr_collection import (
+    AbbrData,
+    populate_abbr_data_with_json_file,
+    register_abbr_glossary,
+)
 from kaye_engine.cli.claude.setup import setup_claude_cli
 from kaye_engine.prompt import (
     get_default_corpus_tree,
