@@ -23,7 +23,14 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Added
 
+- `--version` flag on the `kaye-engine` CLI, reporting the installed
+  distribution's version via `importlib.metadata`
+
 ### Changed
+
+- `setup_claude_cli()` now takes a `display_name` argument, letting each
+  consumer stamp its own `plugin.json` `display_name` instead of the
+  hardcoded `DISPLAY_NAME` constant, which is removed
 
 ### Deprecated
 
