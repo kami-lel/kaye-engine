@@ -125,7 +125,7 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `{Claude Tool:Workflow}` | `Workflow` |
 | `{Claude Tool:ReportFindings}` | `ReportFindings` |
 
-<!-- Bug claude sidecars organize -->
+<!-- BUG claude sidecars organize -->
 
 | sidecar name | `CLAUDE_CHAT_SIDECARS` | `CLAUDE_COWORK_SIDECARS` | `CLAUDE_CODE_SIDECARS` | `CLAUDE_CODE_VSC_XTN_SIDECARS` |
 | --- | --- | --- | --- | --- |
