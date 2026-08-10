@@ -65,5 +65,6 @@ class ShorthandNode(DynamicNode):  #############################################
                     entries.add(m)
 
         # convert to md lines  -------------------------------------------------
-        lines = [e.as_md_list_entry() for e in entries]
+        sorted_entries = sorted(entries, key=lambda e: e.abbr)
+        lines = [e.as_md_list_entry() for e in sorted_entries]
         return lines
