@@ -44,10 +44,13 @@ pytest tests/prompt/bp/prompt-bp-merge_test.py
 pytest tests/prompt/bp/prompt-bp-merge_test.py::TestMerge::test1_1
 ```
 
-`tests/cli/` covers only what runs without a corpus — version resolution and
-`SKILL.md` rendering. The exporters themselves need a corpus to produce
-output, so the consumer package's suite covers those; do not scaffold corpus
-fixtures here to widen the directory.
+`tests/cli/` covers only what runs without a corpus — the setup guard,
+exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
+rendering. The exporters themselves need a corpus to produce output, so the
+consumer package's suite covers those; do not scaffold corpus fixtures here
+to widen the directory. The `blueprint` and `export` subcommand parsers
+currently have no dedicated tests — a known gap, not an intentional
+exclusion like the exporters above.
 
 **Do not parallelize** — no `pytest-xdist`, no `-n auto`. The suite is
 already fast, worker startup cancels out any gain, and splitting across

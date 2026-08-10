@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-08-09
+**Last updated:** 2026-08-10
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -69,7 +69,7 @@ Q.v. [sidecar node documentation](docs/sidecar-node-doc.md).
 Dynamic nodes are attached to the tree at load time and cover today's date
 plus the abbreviation glossaries. Q.v. [dynamic node
 documentation](docs/dynamic-node-doc.md) and [abbreviation collection
-documentation](docs/abbr-collection-doc.md).
+documentation](docs/abbrs-doc.md).
 
 ## Public API
 
@@ -122,7 +122,7 @@ kaye_engine/
 ├── abbr_collection/     abbreviation entries, store, JSON loader
 ├── exportable.py        Exportable base, exportable_registry
 ├── cli/
-│   ├── prompt/          `prompt` subcommand: ls, show, generate
+│   ├── blueprint/       `blueprint`/`bp` subcommand: ls, show, generate
 │   ├── claude/          skills, plugins, marketplaces, CLAUDE.md
 │   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
 │   └── exportable_parser.py  `export`/`x` subcommand: print, list exportables
@@ -144,9 +144,11 @@ from the `dev` extra.
 
 Tests mirror the source tree: `tests/prompt/` for the engine, `tests/abbr/`
 for the abbreviation collection. `tests/cli/` stays deliberately thin — it
-holds only the corpus-independent pieces, version resolution and
-`SKILL.md` rendering, because the exporters need a corpus to produce
-output and the consumer package covers those.
+holds only the corpus-independent pieces (setup guard, exportable-abbr
+registration, `dynamic-node` parsing, `SKILL.md` rendering), because the
+exporters need a corpus to produce output and the consumer package covers
+those. The `blueprint` and `export` subcommand parsers currently have no
+dedicated tests.
 
 ## Maintaining This File
 
