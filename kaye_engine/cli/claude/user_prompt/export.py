@@ -53,8 +53,8 @@ def export_user_system_prompt_file(
 
     blueprint = get_claude_chat_blueprint()
 
-    agent_behavior = blueprint.corpus["Agent Behavior"]
-    blueprint.checkmark(agent_behavior["Claude Behavior"])
+    agentic = blueprint.corpus["Agentic"]
+    blueprint.checkmark(agentic["Claude Behavior"])
 
     if use_coder:
         blueprint = blueprint | get_claude_coder_blueprint()
