@@ -65,6 +65,74 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
     return new_node
 
 
+def _build_affordance_sidecar_map(affordances):
+    """
+    build a sidecar-name -> should-checkmark lookup from every entry in
+    ``affordance_registry``, given which affordances are available
+
+    (helper function used in ``_splice_conditional_sidecars()``)
+
+
+    :param affordances: canonical names of affordances available on the
+            target surface
+    :type affordances: collections.abc.Iterable[str]
+    :return: sidecar name -> whether it should be auto-checkmarked
+    :rtype: dict[str, bool]
+    """
+    from ..affordance_registry import affordance_registry
+
+    available = set(affordances)
+    sidecar_map = {}
+    for entry in affordance_registry.values():
+        is_available = entry.canonical_name in available
+        sidecar_map[entry.usage_sidecar_name] = is_available
+        sidecar_map[entry.lack_sidecar_name] = not is_available
+    return sidecar_map
+
+
+def _splice_conditional_sidecars(blueprint, *, contains_sidecars, affordances):
+    """
+    auto-checkmark conditional sidecar nodes ahead of rendering -- both
+    plain ``contains_sidecars`` name matches and, when ``affordances``
+    is given, the ``Usage``/``Lack`` sidecar pair for every entry in
+    ``affordance_registry``
+
+    (helper function used in ``render_prompt_lines()``)
+
+
+    :param blueprint:
+    :type blueprint: PromptBlueprint
+    :param contains_sidecars: see ``render_prompt_lines()``
+    :type contains_sidecars: collections.abc.Iterable[str]
+    :param affordances: see ``render_prompt_lines()``
+    :type affordances: collections.abc.Iterable[str] or None
+    :return: ``blueprint``, or a checkmark-spliced copy of it when either
+            mechanism has anything to apply
+    :rtype: PromptBlueprint
+    """
+    affordance_sidecar_names = (
+        _build_affordance_sidecar_map(affordances)
+        if affordances is not None
+        else None
+    )
+
+    if not contains_sidecars and affordance_sidecar_names is None:
+        return blueprint
+
+    working_bp = copy.copy(blueprint)
+    for node in PreOrderIter(working_bp.corpus):
+        sidecar_name = get_sidecar_name(node)
+        if sidecar_name is None or not working_bp.is_checkmarked(node.parent):
+            continue
+        if sidecar_name in contains_sidecars or (
+            affordance_sidecar_names is not None
+            and affordance_sidecar_names.get(sidecar_name)
+        ):
+            working_bp.checkmark(node)
+
+    return working_bp
+
+
 def _apply_sparseness(lines, sparseness):
     """
     apply the ``sparseness`` blank-line policy to a list of prompt lines
@@ -193,6 +261,7 @@ def render_prompt_lines(  # ====================================================
     show_comment=False,
     disable_first_heading=False,
     contains_sidecars=(),
+    affordances=None,
     display_name="",
     sparseness=1,
     **kwargs,
@@ -216,7 +285,14 @@ def render_prompt_lines(  # ====================================================
             whose name is in this collection and whose parent is
             checkmarked (e.g., ``("Claude Tool:TodoWrite",)``);
             defaults to ``()`` (disabled)
-    :type contains_sidecars: collections.abc.Iterable[str], optional
+    :type contains_sidecars: Iterable[str], optional
+    :param affordances: per ``affordance_registry`` entry,
+            checkmarks ``Usage`` node if entry's ``canonical_name`` in
+            this collection, else ``Lack`` node; either way, only if
+            parent already checkmarked.
+            ``None``: pass off (default).
+            ``()``: pass on, every affordance unavailable.
+    :type affordances: Iterable[str] or None, optional
     :param display_name: blueprint's human-readable name, included in the
             comment when ``show_comment`` is set; defaults to ""
     :type display_name: str, optional
@@ -234,16 +310,9 @@ def render_prompt_lines(  # ====================================================
     :return: list of prompt lines
     :rtype: list[str]
     """
-    if contains_sidecars:
-        working_bp = copy.copy(blueprint)
-        for node in PreOrderIter(working_bp.corpus):
-            sidecar_name = get_sidecar_name(node)
-            if (
-                sidecar_name in contains_sidecars
-            ) and working_bp.is_checkmarked(node.parent):
-                working_bp.checkmark(node)
-    else:
-        working_bp = blueprint
+    working_bp = _splice_conditional_sidecars(
+        blueprint, contains_sidecars=contains_sidecars, affordances=affordances
+    )
 
     lines = []
 
