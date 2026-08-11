@@ -187,16 +187,3 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `TaskStop` | `TaskStop` | ❌ | ✔️ | ✔️ | ✔️ | stops a background task |
 | `TaskUpdate` | `TaskUpdate` | ❌ | ❌ | ✔️ | ✔️ | updates a task's state |
 | `TodoWrite` | `TodoWrite` | ❌ | ❌ | ❌ | ✔️ | maintains a task/todo list for the session |
-
-
-
-#### Fallbacks
-
-Utilize these *fallbacks* sidecars for specific surface:
-
-| sidecar | Chat | Cowork | Code | VSC |
-| --- | --- | --- | --- | --- |
-| `{Claude Chat Fallback}` | ✔️ | ❌ | ❌ | ❌ |
-| `{Claude Cowork Fallback}` | ❌ | ✔️ | ❌ | ❌ |
-| `{Claude Code Fallback}` | ❌ | ❌ | ✔️ | ❌ |
-| `{Claude Code VSC Extension Fallback}` | ❌ | ❌ | ❌ | ✔️ |
