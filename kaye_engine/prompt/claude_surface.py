@@ -106,23 +106,22 @@ _AFFORDANCES_BY_SURFACE = {
 }
 
 
-# Entry Point  #################################################################
-
+# Main Entry Point  ############################################################
 class ClaudeSurface(enum.Flag):
     """
     a combinable set of Claude surfaces (``chat``, ``cowork``, ``code``,
     ``vsc``) -- resolves a requested surface combination into the
     affordance names to checkmark via ``render_prompt_lines``'s
     ``affordances=``/``contains_sidecars=`` kwargs
-
-    .. FIXME (quiet TT): affordances are modeled as independent
-            per-surface membership, but some may actually be connected --
-            today `as_affordances()` and `as_contained_sidecars()` derive
-            from the identical per-surface data with no way to express
-            that a canonical name only does something under
-            `contains_sidecars` when the corpus also authored a bare node
-            for it (most don't, and there's no check that one exists).
     """
+
+    # fixme affordances are modeled as independent
+    # per-surface membership, but some may actually be connected --
+    # today `as_affordances()` and `as_contained_sidecars()` derive
+    # from the identical per-surface data with no way to express
+    # that a canonical name only does something under
+    # `contains_sidecars` when the corpus also authored a bare node
+    # for it (most don't, and there's no check that one exists).
 
     chat = enum.auto()
     cowork = enum.auto()
