@@ -121,24 +121,24 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 
 #### User Interaction
 
-| tool | sidecar | Chat[^chat] | Cowork | Code | VSC[^vsc] | remark |
+| tool | affordance | Chat[^chat] | Cowork | Code | VSC[^vsc] | remark |
 | --- | --- | --- | --- | --- | --- | --- |
-| `ask_user_input_v0` | `{Claude Chat [ask_user_input_v0] Usage}` | ✔️ | ❌ | ❌ | ❌ | show tappable multiple-choice questions |
-| `AskUserQuestion` | `{Claude Code [AskUserQuestion] Usage}` | ❌ | ✔️ | ✔️ | ✔️ | asks the user a clarifying question with selectable options |
-| `places_map_display_v0` | `{Claude Chat [places_map_display_v0] Usage}` | ✔️ | ❌ | ❌ | ❌ | show places on a map |
-| `places_list_display_v0` | `{Claude Chat [places_list_display_v0] Usage}` | ✔️ | ❌ | ❌ | ❌ | show places as a browsable list |
-| `recipe_display_v0` | `{Claude Chat [recipe_display_v0] Usage}` | ✔️ | ❌ | ❌ | ❌ | interactive scalable recipe card |
-| `itinerary_display_v0` | `{Claude Chat [itinerary_display_v0] Usage}` | ✔️ | ❌ | ❌ | ❌ | day-by-day travel itinerary card |
-| `step_card_display_v0` | `{Claude Chat [step_card_display_v0] Usage}` | ✔️ | ❌ | ❌ | ❌ | numbered step-by-step walkthrough card |
-| `options_card_display_v0` | `{Claude Chat [options_card_display_v0] Usage}` | ✔️ | ❌ | ❌ | ❌ | multi-approach options card |
-| `comparison_card_display_v0` | `{Claude Chat [comparison_card_display_v0] Usage}` | ✔️ | ❌ | ❌ | ❌ | side-by-side product comparison card |
-| `featured_card_display_v0` | `{Claude Chat [featured_card_display_v0] Usage}` | ✔️ | ❌ | ❌ | ❌ | single best-pick product card |
-| `product_carousel_display_v0` | `{Claude Chat [product_carousel_display_v0] Usage}` | ✔️ | ❌ | ❌ | ❌ | paged product browsing card |
-| `link_preview_display_v0` | `{Claude Chat [link_preview_display_v0] Usage}` | ✔️ | ❌ | ❌ | ❌ | external link preview cards |
-| `visualize:show_widget` | `{Claude Chat [visualize:show_widget] Uage}` | ✔️ | ❌ | ❌ | ❌ | renders inline SVG/HTML diagram, chart, or widget |
-| `Artifact` | `{Claude Code [Artifact] Usage}` | ❌ | ❌ | ✔️ | ✔️ | publishes an HTML/Markdown page as a shareable web artifact |
-| `SendUserFile` | `{Claude Code [SendUserFile] Usage}` | ❌ | ❌ | ✔️ | ✔️ | sends a local file to the user |
-| `PushNotification` | `{Claude Code [PushNotification] Usage}` | ❌ | ❌ | ✔️ | ✔️ | sends a push notification |
+| `ask_user_input_v0` | `ask_user_input_v0` | ✔️ | ❌ | ❌ | ❌ | show tappable multiple-choice questions |
+| `AskUserQuestion` | `AskUserQuestion` | ❌ | ✔️ | ✔️ | ✔️ | asks the user a clarifying question with selectable options |
+| `places_map_display_v0` | `places_map_display_v0` | ✔️ | ❌ | ❌ | ❌ | show places on a map |
+| `places_list_display_v0` | `places_list_display_v0` | ✔️ | ❌ | ❌ | ❌ | show places as a browsable list |
+| `recipe_display_v0` | `recipe_display_v0` | ✔️ | ❌ | ❌ | ❌ | interactive scalable recipe card |
+| `itinerary_display_v0` | `itinerary_display_v0` | ✔️ | ❌ | ❌ | ❌ | day-by-day travel itinerary card |
+| `step_card_display_v0` | `step_card_display_v0` | ✔️ | ❌ | ❌ | ❌ | numbered step-by-step walkthrough card |
+| `options_card_display_v0` | `options_card_display_v0` | ✔️ | ❌ | ❌ | ❌ | multi-approach options card |
+| `comparison_card_display_v0` | `comparison_card_display_v0` | ✔️ | ❌ | ❌ | ❌ | side-by-side product comparison card |
+| `featured_card_display_v0` | `featured_card_display_v0` | ✔️ | ❌ | ❌ | ❌ | single best-pick product card |
+| `product_carousel_display_v0` | `product_carousel_display_v0` | ✔️ | ❌ | ❌ | ❌ | paged product browsing card |
+| `link_preview_display_v0` | `link_preview_display_v0` | ✔️ | ❌ | ❌ | ❌ | external link preview cards |
+| `visualize:show_widget` | `visualize:show_widget` | ✔️ | ❌ | ❌ | ❌ | renders inline SVG/HTML diagram, chart, or widget |
+| `Artifact` | `Artifact` | ❌ | ❌ | ✔️ | ✔️ | publishes an HTML/Markdown page as a shareable web artifact |
+| `SendUserFile` | `SendUserFile` | ❌ | ❌ | ✔️ | ✔️ | sends a local file to the user |
+| `PushNotification` | `PushNotification` | ❌ | ❌ | ✔️ | ✔️ | sends a push notification |
 
 [^chat]: i.e. Claude.ai.
 [^vsc]: i.e. Claude Code VS Code Extension.
@@ -147,46 +147,46 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 
 #### Data & Communication
 
-| tool | sidecar | Chat | Cowork | Code | VSC | remark |
+| tool | affordance | Chat | Cowork | Code | VSC | remark |
 | --- | --- | --- | --- | --- | --- | --- |
-| `memory_read`,<br>`memory_write`,<br>`memory_append`,<br>`memory_str_replace`,<br>`memory_delete`,<br>`memory_list` | `{Claude Chat [memory_] Usage}` | ✔️ | ❌ | ❌ | ❌ | read, write, append, edit, delete, and list memory files |
-| `weather_fetch` | `{Claude Chat [weather_fetch] Usage}` | ✔️ | ❌ | ❌ | ❌ | weather by location |
-| `places_search` | `{Claude Chat [places_search] Usage}` | ✔️ | ❌ | ❌ | ❌ | search Google Places |
-| `message_compose_v1` | `{Claude Chat [message_compose_v1] Usage}` | ✔️ | ❌ | ❌ | ❌ | drafts email/Slack/text with strategic variants |
-| `NotebookEdit` | `{Claude Code [NotebookEdit] Usage}` | ❌ | ❌ | ✔️ | ✔️ | edits Jupyter notebook cells |
-| `RemoteTrigger` | `{Claude Code [RemoteTrigger] Usage}` | ❌ | ❌ | ✔️ | ✔️ | triggers a remote/cloud agent run |
+| `memory_read`,<br>`memory_write`,<br>`memory_append`,<br>`memory_str_replace`,<br>`memory_delete`,<br>`memory_list` | `memory_` | ✔️ | ❌ | ❌ | ❌ | read, write, append, edit, delete, and list memory files |
+| `weather_fetch` | `weather_fetch` | ✔️ | ❌ | ❌ | ❌ | weather by location |
+| `places_search` | `places_search` | ✔️ | ❌ | ❌ | ❌ | search Google Places |
+| `message_compose_v1` | `message_compose_v1` | ✔️ | ❌ | ❌ | ❌ | drafts email/Slack/text with strategic variants |
+| `NotebookEdit` | `NotebookEdit` | ❌ | ❌ | ✔️ | ✔️ | edits Jupyter notebook cells |
+| `RemoteTrigger` | `RemoteTrigger` | ❌ | ❌ | ✔️ | ✔️ | triggers a remote/cloud agent run |
 
 
 
 #### Development
 
-| tool | sidecar | Chat | Cowork | Code | VSC | remark |
+| tool | affordance | Chat | Cowork | Code | VSC | remark |
 | --- | --- | --- | --- | --- | --- | --- |
-| `Skill` | `{Claude Code [Skill] Usage}` | ❌ | ✔️ | ✔️ | ✔️ | invokes a packaged skill (`/skill-name`) |
-| `DesignSync` | `{Claude Code [DesignSync] Usage}` | ❌ | ❌ | ✔️ | ✔️ | syncs design assets/state |
-| `ReportFindings` | `{Claude Code [ReportFindings] Usage}` | ❌ | ❌ | ✔️ | ✔️ | emits structured code-review findings |
-| `EnterPlanMode`<br>`ExitPlanMode` | `{Claude Code [Enter/ExitPlanMode:] Usage}` | ❌ | ❌ | ✔️ | ✔️ | toggles planning mode |
-| `EnterWorktree`<br>`ExitWorktree` | `{Claude Code [Enter/ExitWorktree] Usage}` | ❌ | ❌ | ✔️ | ✔️ | creates/switches into and exits an isolated git worktree session |
-| `ScheduleWakeup` | `{Claude Code [ScheduleWakeup] Usage}` | ❌ | ❌ | ✔️ | ✔️ | schedules a future self-resumption for `/loop` dynamic mode |
-| `CronCreate`,<br>`CronDelete`,<br>`CronList` | `{Claude Code [CronCreate/Delete/List] Usage}` | ❌ | ❌ | ✔️ | ✔️ | creates, deletes, and lists scheduled cloud agents |
-| `Monitor` | `{Claude Code [Monitor] Usage}` | ❌ | ❌ | ✔️ | ✔️ | streams events from a background process |
+| `Skill` | `Skill` | ❌ | ✔️ | ✔️ | ✔️ | invokes a packaged skill (`/skill-name`) |
+| `DesignSync` | `DesignSync` | ❌ | ❌ | ✔️ | ✔️ | syncs design assets/state |
+| `ReportFindings` | `ReportFindings` | ❌ | ❌ | ✔️ | ✔️ | emits structured code-review findings |
+| `EnterPlanMode`<br>`ExitPlanMode` | `Enter/ExitPlanMode` | ❌ | ❌ | ✔️ | ✔️ | toggles planning mode |
+| `EnterWorktree`<br>`ExitWorktree` | `Enter/ExitWorktree` | ❌ | ❌ | ✔️ | ✔️ | creates/switches into and exits an isolated git worktree session |
+| `ScheduleWakeup` | `ScheduleWakeup` | ❌ | ❌ | ✔️ | ✔️ | schedules a future self-resumption for `/loop` dynamic mode |
+| `CronCreate`,<br>`CronDelete`,<br>`CronList` | `CronCreate/Delete/List` | ❌ | ❌ | ✔️ | ✔️ | creates, deletes, and lists scheduled cloud agents |
+| `Monitor` | `Monitor` | ❌ | ❌ | ✔️ | ✔️ | streams events from a background process |
 
 
 
 #### Agents & Tasks
 
-| tool | sidecar | Chat | Cowork | Code | VSC | remark |
+| tool | affordance | Chat | Cowork | Code | VSC | remark |
 | --- | --- | --- | --- | --- | --- | --- |
-| `SendMessage` | `{Claude Code [SendMessage] Usage}` | ❌ | ❌ | ✔️ | ✔️ | messages another agent/session |
-| `Agent` | `{Claude Code [Agent] Usage}` | ❌ | ✔️ | ✔️ | ✔️ | launches a subagent for multi-step or research tasks |
-| `ListAgents` | `{Claude Code [ListAgents] Usage}` | ❌ | ❌ | ❌ | ✔️ | lists other agents/sessions reachable via `SendMessage` |
-| `TaskCreate` | `{Claude Code [TaskCreate] Usage}` | ❌ | ❌ | ✔️ | ✔️ | creates a tracked background task |
-| `TaskGet` | `{Claude Code [TaskGet] Usage}` | ❌ | ❌ | ✔️ | ✔️ | gets a task's details |
-| `TaskList` | `{Claude Code [TaskList] Usage}` | ❌ | ❌ | ✔️ | ✔️ | lists tracked tasks |
-| `TaskOutput` | `{Claude Code [TaskOutput] Usage}` | ❌ | ❌ | ✔️ | ✔️ | fetches output from a background task |
-| `TaskStop` | `{Claude Code [TaskStop] Usage}` | ❌ | ✔️ | ✔️ | ✔️ | stops a background task |
-| `TaskUpdate` | `{Claude Code [TaskUpdate] Usage}` | ❌ | ❌ | ✔️ | ✔️ | updates a task's state |
-| `TodoWrite` | `{Claude Code [TodoWrite] Usage}` | ❌ | ❌ | ❌ | ✔️ | maintains a task/todo list for the session |
+| `SendMessage` | `SendMessage` | ❌ | ❌ | ✔️ | ✔️ | messages another agent/session |
+| `Agent` | `Agent` | ❌ | ✔️ | ✔️ | ✔️ | launches a subagent for multi-step or research tasks |
+| `ListAgents` | `ListAgents` | ❌ | ❌ | ❌ | ✔️ | lists other agents/sessions reachable via `SendMessage` |
+| `TaskCreate` | `TaskCreate` | ❌ | ❌ | ✔️ | ✔️ | creates a tracked background task |
+| `TaskGet` | `TaskGet` | ❌ | ❌ | ✔️ | ✔️ | gets a task's details |
+| `TaskList` | `TaskList` | ❌ | ❌ | ✔️ | ✔️ | lists tracked tasks |
+| `TaskOutput` | `TaskOutput` | ❌ | ❌ | ✔️ | ✔️ | fetches output from a background task |
+| `TaskStop` | `TaskStop` | ❌ | ✔️ | ✔️ | ✔️ | stops a background task |
+| `TaskUpdate` | `TaskUpdate` | ❌ | ❌ | ✔️ | ✔️ | updates a task's state |
+| `TodoWrite` | `TodoWrite` | ❌ | ❌ | ❌ | ✔️ | maintains a task/todo list for the session |
 
 
 
