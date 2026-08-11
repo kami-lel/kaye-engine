@@ -15,7 +15,6 @@ __all__ = ("ClaudeSurface",)
 
 # constants  ###################################################################
 
-#: canonical names available on Claude Chat, per `docs/claude-doc.md`
 _CHAT_AFFORDANCES = (
     "ClaudeChat:ask_user_input_v0",
     "ClaudeChat:places_map_display_v0",
@@ -35,23 +34,20 @@ _CHAT_AFFORDANCES = (
     "ClaudeChat:message_compose_v1",
 )
 
-#: canonical names available on Claude Cowork, per `docs/claude-doc.md`
-_COWORK_AFFORDANCES = (
+
+_COWORK_TIER_AFFORDANCES = (
     "ClaudeCowork:AskUserQuestion",
     "ClaudeCowork:Skill",
     "ClaudeCowork:Agent",
     "ClaudeCowork:TaskStop",
 )
 
-#: canonical names available on Claude Code, per `docs/claude-doc.md`
-_CODE_AFFORDANCES = (
-    "ClaudeCowork:AskUserQuestion",
+_CODE_TIER_AFFORDANCES = (
     "ClaudeCode:Artifact",
     "ClaudeCode:SendUserFile",
     "ClaudeCode:PushNotification",
     "ClaudeCode:NotebookEdit",
     "ClaudeCode:RemoteTrigger",
-    "ClaudeCowork:Skill",
     "ClaudeCode:DesignSync",
     "ClaudeCode:ReportFindings",
     "ClaudeCode:Enter/ExitPlanMode",
@@ -60,42 +56,24 @@ _CODE_AFFORDANCES = (
     "ClaudeCode:CronCreate/Delete/List",
     "ClaudeCode:Monitor",
     "ClaudeCode:SendMessage",
-    "ClaudeCowork:Agent",
     "ClaudeCode:TaskCreate",
     "ClaudeCode:TaskGet",
     "ClaudeCode:TaskList",
     "ClaudeCode:TaskOutput",
-    "ClaudeCowork:TaskStop",
     "ClaudeCode:TaskUpdate",
 )
 
-#: canonical names available on the Claude VS Code extension, per
-#: `docs/claude-doc.md`
-_VSC_AFFORDANCES = (
-    "ClaudeCowork:AskUserQuestion",
-    "ClaudeCode:Artifact",
-    "ClaudeCode:SendUserFile",
-    "ClaudeCode:PushNotification",
-    "ClaudeCode:NotebookEdit",
-    "ClaudeCode:RemoteTrigger",
-    "ClaudeCowork:Skill",
-    "ClaudeCode:DesignSync",
-    "ClaudeCode:ReportFindings",
-    "ClaudeCode:Enter/ExitPlanMode",
-    "ClaudeCode:Enter/ExitWorktree",
-    "ClaudeCode:ScheduleWakeup",
-    "ClaudeCode:CronCreate/Delete/List",
-    "ClaudeCode:Monitor",
-    "ClaudeCode:SendMessage",
-    "ClaudeCowork:Agent",
+_VSC_TIER_AFFORDANCES = (
     "ClaudeVSC:ListAgents",
-    "ClaudeCode:TaskCreate",
-    "ClaudeCode:TaskGet",
-    "ClaudeCode:TaskList",
-    "ClaudeCode:TaskOutput",
-    "ClaudeCowork:TaskStop",
-    "ClaudeCode:TaskUpdate",
     "ClaudeVSC:TodoWrite",
+)
+
+_COWORK_AFFORDANCES = _COWORK_TIER_AFFORDANCES
+
+_CODE_AFFORDANCES = _COWORK_TIER_AFFORDANCES + _CODE_TIER_AFFORDANCES
+
+_VSC_AFFORDANCES = (
+    _COWORK_TIER_AFFORDANCES + _CODE_TIER_AFFORDANCES + _VSC_TIER_AFFORDANCES
 )
 
 _AFFORDANCES_BY_SURFACE = {
@@ -106,7 +84,7 @@ _AFFORDANCES_BY_SURFACE = {
 }
 
 
-# Main Entry Point  ############################################################
+# Main Entry Point  ###########kk#################################################
 class ClaudeSurface(enum.Flag):
     """
     a combinable set of Claude surfaces (``chat``, ``cowork``, ``code``,
@@ -123,6 +101,7 @@ class ClaudeSurface(enum.Flag):
     # `contains_sidecars` when the corpus also authored a bare node
     # for it (most don't, and there's no check that one exists).
 
+    # pylint: disable=invalid-name
     chat = enum.auto()
     cowork = enum.auto()
     code = enum.auto()
