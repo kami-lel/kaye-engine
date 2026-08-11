@@ -122,6 +122,18 @@ A persona-intensifier sidecar supplementing a personality node; not tool-specifi
 
 
 
+#### Affordance Sidecars (Usage / Lack)
+
+A second, independent auto-checkmark mechanism for a common case: acknowledging whether a platform capability is available at all, rather than splicing in arbitrary named content.
+
+A consumer registers each capability once, engine-level and platform-agnostic, via `register_affordance(canonical_name, display_name, remark="")` (`kaye_engine/prompt/affordance_registry.py`) — this has nothing to do with Claude, Chat, Cowork, Code, or VSC specifically; any consumer project can register any capability under any name. A corpus author then pairs a `{canonical_name Usage}` / `{canonical_name Lack}` sidecar under a checkmarked node, describing respectively what to do when the capability is present or absent.
+
+**Rendering behavior:** pass `affordances=(...)` to `generate_prompt()` / `render_prompt_lines()` — a plain collection of canonical names. For every entry in `affordance_registry`, its `Usage` sidecar is checkmarked if the entry's `canonical_name` is in `affordances`, else its `Lack` sidecar is checkmarked; either way, only if the sidecar's parent is already checkmarked. This pass is independent of `contains_sidecars` — both may apply to the same render. `affordances=None` (the default) disables the pass entirely; `affordances=()` enables it with every affordance treated as unavailable (every registered `Lack` sidecar wins).
+
+How a consumer's own CLI determines what to pass as `affordances` for a given invocation is entirely up to that consumer — the engine has no concept of "surface" or "which affordances apply where."
+
+Q.v. [`claude-doc.md`](claude-doc.md) for how kaye-vault, a consumer project, uses this mechanism for Claude platform tools specifically.
+
 
 ## In Prompt Corpus
 
@@ -321,8 +333,55 @@ merged_bp = bp1 | bp2
 
 Conditional rendering with conditional sidecar nodes:
 ```python
-from kaye_engine.cli.claude import CLAUDE_CODE_SIDECARS
-
-# Include Claude Code tool instructions
-prompt = bp.generate_prompt(contains_sidecars=CLAUDE_CODE_SIDECARS)
+# Include arbitrary named sidecar content
+prompt = bp.generate_prompt(contains_sidecars=("Claude Tool:TodoWrite",))
 ```
+
+Conditional rendering with affordance sidecars:
+```python
+# Usage/Lack checkmarking for every registered affordance
+prompt = bp.generate_prompt(affordances=("Claude Tool:TodoWrite",))
+```
+
+---
+
+## Python Module `kaye_engine/prompt/affordance_registry.py`
+
+### `Affordance`
+
+A single registered platform capability, and the two sidecar names derived from its `canonical_name`.
+
+**Fields:**
+- `canonical_name` (str): unique identifier for this affordance; also the shared root of its `Usage`/`Lack` sidecar names, and the string an `affordances=(...)` collection names to mark it available
+- `display_name` (str): human-readable name, used in generated documentation
+- `remark` (str, optional): one-line description of what this affordance does
+
+**Properties:**
+- `usage_sidecar_name` → `"{canonical_name} Usage"`
+- `lack_sidecar_name` → `"{canonical_name} Lack"`
+
+### `register_affordance(canonical_name, display_name, remark="")`
+
+Construct an `Affordance` and insert it into `affordance_registry` under its `canonical_name`.
+
+**Raises:** `ValueError` if `canonical_name` is already registered.
+
+**Example:**
+```python
+from kaye_engine.prompt.affordance_registry import register_affordance
+
+register_affordance(
+    "Claude Tool:TodoWrite", "TodoWrite",
+    remark="maintains a task/todo list for the session",
+)
+```
+
+### `get_affordance(canonical_name)`
+
+**Raises:** `KeyError` if no affordance is registered under `canonical_name`.
+
+**Returns:** the registry entry stored under `canonical_name`.
+
+### `affordance_registry`
+
+Module-level `dict[str, Affordance]` — every affordance registered so far, keyed by `canonical_name`.
