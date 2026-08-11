@@ -4,7 +4,7 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
-from kaye_engine.cli.claude import CLAUDE_CODE_SIDECARS, LOGGER_CLAUDE_NAME
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
@@ -73,9 +73,8 @@ def register_code_parser(cli_subparser):  ######################################
 
         logger.debug("export user system prompt file")
         prompt_file = find_user_system_prompt_file(folder)
-        export_user_system_prompt_file(
-            prompt_file, use_coder=True, sidecars=CLAUDE_CODE_SIDECARS
-        )
+        # Todo kaye a code: wire real per-surface affordances once available
+        export_user_system_prompt_file(prompt_file, use_coder=True)
         logger.succ("export user system prompt file:\t" + str(prompt_file))
 
         logger.done("export Claude Code folder:" + "\t" + str(folder))
