@@ -21,9 +21,9 @@ def corpus_with_affordance_sidecars():
     root = PromptCorpusNode("○", None, [])
     section = PromptCorpusNode("Section", root, ["intro"])
     PromptCorpusNode(
-        "{Claude Tool:TestAff Usage}", section, ["usage content"]
+        "{[Claude Tool:TestAff] Usage}", section, ["usage content"]
     )
-    PromptCorpusNode("{Claude Tool:TestAff Lack}", section, ["lack content"])
+    PromptCorpusNode("{[Claude Tool:TestAff] Lack}", section, ["lack content"])
     return root
 
 
