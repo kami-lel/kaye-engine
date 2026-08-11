@@ -6,7 +6,6 @@ define ``Skill``
 
 from pathlib import Path
 
-from kaye_engine.cli.claude import CLAUDE_CODE_SIDECARS
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 from kaye_engine.cli.exportable_abbr import ExportableAbbr
 from kaye_engine.prompt.blueprint import BlueprintRegistry
@@ -162,8 +161,9 @@ class Skill(FrontmatterDoc):
                 when_to_use=sidecars.when_to_use,
                 paths=list(sidecars.globs) if sidecars.globs else [],
                 user_invocable=exportable.user_invokable,
+                # Todo kaye a code: wire real per-surface affordances once available
                 body=exportable.blueprint.generate_prompt(
-                    contains_sidecars=CLAUDE_CODE_SIDECARS, sparseness=0
+                    affordances=None, sparseness=0
                 ),
                 version=version,
             )
