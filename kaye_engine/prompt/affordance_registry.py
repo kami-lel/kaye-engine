@@ -47,7 +47,7 @@ class Affordance:
                 under to describe using this affordance
         :rtype: str
         """
-        return "{} Usage".format(self.canonical_name)
+        return "[{}] Usage".format(self.canonical_name)
 
     @property
     def lack_sidecar_name(self):
@@ -56,7 +56,7 @@ class Affordance:
                 under to describe the absence of this affordance
         :rtype: str
         """
-        return "{} Lack".format(self.canonical_name)
+        return "[{}] Lack".format(self.canonical_name)
 
 
 # Entry Point  #################################################################
@@ -81,7 +81,7 @@ def register_affordance(canonical_name, display_name, remark=""):
     :rtype: Affordance
     :example:
     >>> register_affordance(
-    ...     "Claude Tool:TodoWrite", "TodoWrite",
+    ...     "ClaudeVSC:TodoWrite", "TodoWrite",
     ...     remark="maintains a task/todo list for the session",
     ... )
     """

@@ -77,5 +77,5 @@ class TestSidecarNames:  #######################################################
         entry = register_affordance("Claude Tool:TestSidecar", "TestSidecar")
         registered_names.append(entry.canonical_name)
 
-        assert entry.usage_sidecar_name == "Claude Tool:TestSidecar Usage"
-        assert entry.lack_sidecar_name == "Claude Tool:TestSidecar Lack"
+        assert entry.usage_sidecar_name == "[Claude Tool:TestSidecar] Usage"
+        assert entry.lack_sidecar_name == "[Claude Tool:TestSidecar] Lack"

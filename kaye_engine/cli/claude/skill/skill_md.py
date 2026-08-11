@@ -161,7 +161,7 @@ class Skill(FrontmatterDoc):
                 when_to_use=sidecars.when_to_use,
                 paths=list(sidecars.globs) if sidecars.globs else [],
                 user_invocable=exportable.user_invokable,
-                # Todo kaye a code: wire real per-surface affordances once available
+                # TODO kaye a code: wire real per-surface affordances once available
                 body=exportable.blueprint.generate_prompt(
                     affordances=None, sparseness=0
                 ),
