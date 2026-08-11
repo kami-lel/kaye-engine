@@ -4,7 +4,7 @@ exportable_parser.py
 define ``register_export_parser``
 """
 
-# Todo gap-review: no test file cover CLI kaye x
+# Hack no test file cover CLI kaye x
 
 from argparse import RawDescriptionHelpFormatter
 
