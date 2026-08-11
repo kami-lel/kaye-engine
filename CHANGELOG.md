@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+Todo write prerequisite for top level functions
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
