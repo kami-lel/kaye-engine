@@ -114,14 +114,6 @@ Q.v. [`claude-doc.md`](claude-doc.md) for the list of `{[ClaudeCode:...]}`/`{[Cl
 
 
 
-#### `{explicit}`
-
-A persona-intensifier sidecar supplementing a personality node; not tool-specific and currently has no code consumer (no `CLAUDE_*_SIDECARS` constant references it yet).
-
-
-
-
-
 
 
 
