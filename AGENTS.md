@@ -137,6 +137,13 @@ is not a registered blueprint — expected, not a bug.
 `importlib.metadata.version(PACKAGE_NAME)` — run against an installed
 package, not a bare checkout.
 
+Every `claude` export subcommand also takes `--surface SURFACE [SURFACE
+...]` (shared parser in `kaye_engine/cli/claude/surface_parser.py`),
+combinable member names of the `ClaudeSurface` enum.Flag (`chat`,
+`cowork`, `code`, `vsc`) — the affordance names available on those
+surfaces get checkmarked in the rendered output. Each subcommand defines
+its own default surface set when the flag is omitted.
+
 ## Code Conventions
 
 - follow **PEP 8**; keep lines within **80 characters**

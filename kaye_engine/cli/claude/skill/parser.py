@@ -6,7 +6,9 @@ from pathlib import Path
 from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
+from kaye_engine.cli.claude.surface_parser import build_surface_parent_parser
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
+from kaye_engine.prompt.claude_surface import ClaudeSurface
 
 from .export_folders import (
     export_skills_as_folders,
@@ -40,6 +42,7 @@ def register_skill_parser(cli_subparser):  #####################################
         description=__doc__ + _DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["s"],
+        parents=[build_surface_parent_parser(("chat",))],
     )
 
     skill_parser.add_argument(
@@ -69,15 +72,18 @@ def register_skill_parser(cli_subparser):  #####################################
         folder = args.folder
         if folder is None:
             folder = Path.cwd() if args.zip else _DEFAULT_SKILLS_FOLDER
+        surface = ClaudeSurface.combine(args.surface)
 
         if args.zip:
             logger.debug("export skills as zip packages")
-            export_skills_as_zips(folder)
+            export_skills_as_zips(folder, surface=surface)
             done_msg = "export skills as zip packages"
         else:
             logger.debug("export skills as folders")
             export_skills_as_folders(
-                folder, version=get_claude_cli_consumer_version()
+                folder,
+                version=get_claude_cli_consumer_version(),
+                surface=surface,
             )
             done_msg = "export skills as folders"
 

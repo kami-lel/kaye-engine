@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-08-10
+**Last updated:** 2026-08-12
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -45,6 +45,8 @@ not a gap to fill.
 | **Role** | a task-specific behavior profile held inside the corpus |
 | **Sidecar Node** | a `{name}` subnode; metadata or conditional content |
 | **Dynamic Node** | a `(Name)` node whose content is generated at render |
+| **Affordance** | a named platform capability, tracked in `affordance_registry` |
+| **ClaudeSurface** | an enum mapping a Claude surface (Chat, Cowork, Code, VS Code) to the affordance names available on it |
 
 Heading syntax carries node type: plain text is an ordinary corpus node,
 `{braces}` a sidecar, `(parentheses)` a dynamic node.
@@ -63,8 +65,19 @@ multi-line description or when-to-use collapses to one string.
 Sidecars split by usage rather than by class. *Descriptor* sidecars
 (`{description}`, `{when_to_use}`, `{globs}`) are consumed as blueprint
 metadata and never rendered; every other name is a *conditional* sidecar,
-real content spliced in only when its name is passed to `contains_sidecars`.
+real content spliced in only when its name is passed to `contains_sidecars`
+or matched via the `affordances` kwarg against `affordance_registry`.
 Q.v. [sidecar node documentation](docs/sidecar-node-doc.md).
+
+`affordance_registry` tracks platform capabilities as `Affordance` entries
+and derives each one's Usage/Lack sidecar names; `ClaudeSurface` declares,
+per surface, which affordance names are available, and exposes them as
+`contains_sidecars` tuples via `as_contained_sidecars`. Every `kaye claude`
+export subcommand takes a `--surface` flag that threads a `surface` param
+through to `render_prompt_lines(affordances=...)`, so rendered prompts
+auto-checkmark only the sidecars real on that surface. Q.v. [Claude
+documentation](docs/claude-doc.md) and [sidecar node
+documentation](docs/sidecar-node-doc.md).
 
 Dynamic nodes are attached to the tree at load time and cover today's date
 plus the abbreviation glossaries. Q.v. [dynamic node
@@ -122,12 +135,16 @@ or an unresolved name reach path, manifest, or prompt building.
 kaye_engine/
 ├── prompt/              parse, model, select, render
 │   ├── blueprint/       PromptBlueprint, registry, rendering
-│   └── dynamic_nodes/   render-time generated node types
+│   ├── dynamic_nodes/   render-time generated node types
+│   ├── affordance_registry.py  Affordance entries, Usage/Lack sidecar names
+│   └── claude_surface.py       ClaudeSurface enum: surface → affordance names
 ├── abbr_collection/     abbreviation entries, store, JSON loader
 ├── exportable.py        Exportable base, exportable_registry
 ├── cli/
 │   ├── blueprint/       `blueprint`/`bp` subcommand: ls, show, generate
 │   ├── claude/          skills, plugins, marketplaces, CLAUDE.md
+│   │   ├── claude_affordances.py  registers the Claude affordance catalog
+│   │   └── surface_parser.py      shared `--surface` parent parser
 │   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
 │   └── exportable_parser.py  `export`/`x` subcommand: print, list exportables
 └── kamilog.py           logging, shared across the package
@@ -141,7 +158,7 @@ the same `blueprint_registry` rather than holding its own list.
 
 ## Testing Strategy
 
-`pytest`, 667 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 690 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.

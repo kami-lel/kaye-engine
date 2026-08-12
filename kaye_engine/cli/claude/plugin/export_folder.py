@@ -29,7 +29,7 @@ _SKILLS_DIR = "skills"
 # entry point  #################################################################
 
 
-def export_plugin_as_folder(parent_folder):
+def export_plugin_as_folder(parent_folder, *, surface=None):
     """
     export all Kaye blueprints as a single Anthropic Claude plugin folder
 
@@ -40,6 +40,9 @@ def export_plugin_as_folder(parent_folder):
 
     :param parent_folder: destination directory to write the plugin into
     :type parent_folder: Path-like
+    :param surface: Claude surface(s) to checkmark affordances for,
+            forwarded to :func:`export_skills_as_folders`
+    :type surface: ClaudeSurface, optional
     :return: path to the created plugin directory
     :rtype: Path
     """
@@ -78,7 +81,9 @@ def export_plugin_as_folder(parent_folder):
         logger.succ("write plugin manifest:\t" + str(manifest.path))
 
     logger.debug("exporting blueprints as plugin skills")
-    export_skills_as_folders(plugin_root / _SKILLS_DIR, version=pkg_version)
+    export_skills_as_folders(
+        plugin_root / _SKILLS_DIR, version=pkg_version, surface=surface
+    )
 
     logger.succ("export plugin:\t" + str(plugin_root))
 

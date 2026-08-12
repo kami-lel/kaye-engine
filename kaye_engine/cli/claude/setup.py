@@ -10,6 +10,9 @@ define ``setup_claude_cli``, ``get_claude_cli_consumer_version``,
 
 from kaye_engine import kamilog
 from kaye_engine.cli import claude
+from kaye_engine.cli.claude.claude_affordances import (
+    register_claude_affordances,
+)
 
 __all__ = (
     "get_claude_cli_consumer_version",
@@ -66,6 +69,8 @@ def setup_claude_cli(
     claude._coder_blueprint_name = coder_bp_name
     claude._version = version
     claude._marketplace_folder_name = marketplace_folder_name
+
+    register_claude_affordances()
 
 
 def get_claude_cli_consumer_version():

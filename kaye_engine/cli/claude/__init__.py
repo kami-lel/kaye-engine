@@ -9,32 +9,6 @@ from kaye_engine import LOGGER_NAME
 # sublogger for all claude subcommands
 LOGGER_CLAUDE_NAME = LOGGER_NAME + ".claude"
 
-# sidecar names to auto-checkmark per Claude export surface
-CLAUDE_CHAT_SIDECARS = ()
-CLAUDE_COWORK_SIDECARS = ()
-CLAUDE_CODE_SIDECARS = (
-    "Claude Tool:Enter/ExitPlanMode",
-    "Claude Tool:TodoWrite",
-    "Claude Tool:AskUserQuestion",
-    "Claude Tool:Subagents",
-    "Claude Tool:Tasks",
-    "Claude Tool:Worktrees",
-    "Claude Tool:Skill",
-    "Claude Tool:Workflow",
-    "Claude Tool:ReportFindings",
-)
-CLAUDE_CODE_VSC_XTN_SIDECARS = (
-    "Claude Tool:Enter/ExitPlanMode",
-    "Claude Tool:TodoWrite",
-    "Claude Tool:AskUserQuestion",
-    "Claude Tool:Subagents",
-    "Claude Tool:Tasks",
-    "Claude Tool:Worktrees",
-    "Claude Tool:Skill",
-    "Claude Tool:Workflow",
-    "Claude Tool:ReportFindings",
-)
-
 # name written into plugin.json / used as the plugin's folder name
 _plugin_name = None
 
