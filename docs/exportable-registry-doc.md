@@ -18,7 +18,7 @@
 
 `Exportable` is the abstract base class every exportable kind implements directly — `BlueprintRegistry` and `ExportableAbbr` (q.v. [`abbrs-doc.md`](abbrs-doc.md)) each subclass it, so a registry entry *is* the `Exportable`, never a copy. `exportable_registry` is the plain `dict`, `canonical_name -> Exportable`, populated via `register_exportable_entry` and read via `get_exportable`.
 
-`register_blueprint` creates a `BlueprintRegistry` (adding `blueprint` and `is_internal`) and inserts it into `blueprint_registry`, plus `exportable_registry` unless `is_internal`; `get_blueprint` looks it back up. `register_exportable_abbrs` recomputes every abbr/glossary group fresh and (re-)inserts each into `exportable_registry` — unlike blueprints, these must be re-run whenever `AbbrData` changes.
+`register_blueprint` creates a `BlueprintRegistry` (adding `blueprint` and `is_exportable`) and inserts it into `blueprint_registry`, plus `exportable_registry` when `is_exportable`; `get_blueprint` looks it back up. `register_exportable_abbrs` recomputes every abbr/glossary group fresh and (re-)inserts each into `exportable_registry` — unlike blueprints, these must be re-run whenever `AbbrData` changes.
 
 
 

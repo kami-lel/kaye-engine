@@ -41,7 +41,7 @@ class TestRegisterBlueprint:  ##################################################
         assert reg.canonical_name == "test-registry-dft"
         assert reg.display_name == "Test Registry Dft"
         assert reg.blueprint is bp
-        assert reg.is_internal is False
+        assert reg.is_exportable is True
         assert reg.always_apply is False
         assert reg.user_invokable is True
         assert reg.llm_invokable is True
@@ -63,13 +63,13 @@ class TestRegisterBlueprint:  ##################################################
         )
         registered_names.append(reg.canonical_name)
 
-        assert reg.is_internal is False
+        assert reg.is_exportable is True
         assert reg.always_apply is True
         assert reg.user_invokable is False
         assert reg.llm_invokable is False
         assert exportable_registry["test-registry-flags"] is reg
 
-    def test_is_internal_skips_exportable_registry(
+    def test_is_exportable_false_skips_exportable_registry(
         _, corpus_testee1, registered_names
     ):
         bp = PromptBlueprint.create_empty_blueprint(
@@ -80,11 +80,11 @@ class TestRegisterBlueprint:  ##################################################
             "test-registry-internal",
             "Test Registry Internal",
             bp,
-            is_internal=True,
+            is_exportable=False,
         )
         registered_names.append(reg.canonical_name)
 
-        assert reg.is_internal is True
+        assert reg.is_exportable is False
         assert blueprint_registry["test-registry-internal"] is reg
         assert "test-registry-internal" not in exportable_registry
 
