@@ -26,42 +26,33 @@ def registered_names():
         affordance_registry.pop(name, None)
 
 
-class TestRegisterAffordance:  ######################################################
+# Pytest unit tests  ###########################################################
+class TestRegisterAffordance:
 
     def test_dft(_, registered_names):
-        entry = register_affordance("Claude Tool:Test", "Test")
+        entry = register_affordance("Claude Tool:Test")
         registered_names.append(entry.canonical_name)
 
         assert isinstance(entry, Affordance)
         assert entry.canonical_name == "Claude Tool:Test"
-        assert entry.display_name == "Test"
-        assert entry.remark == ""
         assert affordance_registry["Claude Tool:Test"] is entry
 
-    def test_remark(_, registered_names):
-        entry = register_affordance(
-            "Claude Tool:TestRemark", "TestRemark", remark="does a thing"
-        )
-        registered_names.append(entry.canonical_name)
-
-        assert entry.remark == "does a thing"
-
     def test_duplicate_name(_, registered_names):
-        entry = register_affordance("Claude Tool:TestDup", "TestDup")
+        entry = register_affordance("Claude Tool:TestDup")
         registered_names.append(entry.canonical_name)
 
         with pytest.raises(ValueError) as exec_info:
-            register_affordance("Claude Tool:TestDup", "TestDup")
+            register_affordance("Claude Tool:TestDup")
 
         opt = exec_info.value.args[0]
         print(opt)
         assert opt == "duplicate affordance registry name: Claude Tool:TestDup"
 
 
-class TestGetAffordance:  ###########################################################
+class TestGetAffordance:
 
     def test_known_name(_, registered_names):
-        entry = register_affordance("Claude Tool:TestGet", "TestGet")
+        entry = register_affordance("Claude Tool:TestGet")
         registered_names.append(entry.canonical_name)
 
         assert get_affordance("Claude Tool:TestGet") is entry
@@ -71,10 +62,10 @@ class TestGetAffordance:  ######################################################
             get_affordance("Claude Tool:NoSuchName")
 
 
-class TestSidecarNames:  ############################################################
+class TestSidecarNames:
 
     def test_usage_and_lack_sidecar_names(_, registered_names):
-        entry = register_affordance("Claude Tool:TestSidecar", "TestSidecar")
+        entry = register_affordance("Claude Tool:TestSidecar")
         registered_names.append(entry.canonical_name)
 
         assert entry.usage_sidecar_name == "[Claude Tool:TestSidecar] Usage"

@@ -26,16 +26,9 @@ class Affordance:
 
     :param canonical_name: unique identifier for this affordance
     :type canonical_name: str
-    :param display_name: human-readable name, used in generated
-            documentation
-    :type display_name: str
-    :param remark: one-line description of what this affordance does
-    :type remark: str, optional
     """
 
     canonical_name: str
-    display_name: str
-    remark: str = ""
 
     @property
     def usage_sidecar_name(self):
@@ -56,12 +49,11 @@ class Affordance:
         return "[{}] Lack".format(self.canonical_name)
 
 
-# Entry Point  #################################################################
-
 affordance_registry = {}
 
 
-def register_affordance(canonical_name, display_name, remark=""):
+# Main Entry Point  ############################################################
+def register_affordance(canonical_name):
     """
     construct an `Affordance` and insert it into `affordance_registry`
     under its `canonical_name`
@@ -69,29 +61,18 @@ def register_affordance(canonical_name, display_name, remark=""):
 
     :param canonical_name: unique identifier for the affordance
     :type canonical_name: str
-    :param display_name: human-readable name
-    :type display_name: str
-    :param remark: one-line description of what the affordance does
-    :type remark: str, optional
     :raises ValueError: `canonical_name` is already registered
     :return: the newly registered affordance
     :rtype: Affordance
     :example:
-    >>> register_affordance(
-    ...     "ClaudeVSC:TodoWrite", "TodoWrite",
-    ...     remark="maintains a task/todo list for the session",
-    ... )
+    >>> register_affordance("ClaudeCode:TodoWrite")
     """
     if canonical_name in affordance_registry:
         raise ValueError(
             "duplicate affordance registry name: {}".format(canonical_name)
         )
 
-    affordance = Affordance(
-        canonical_name=canonical_name,
-        display_name=display_name,
-        remark=remark,
-    )
+    affordance = Affordance(canonical_name=canonical_name)
     affordance_registry[canonical_name] = affordance
 
     return affordance
@@ -106,7 +87,7 @@ def get_affordance(canonical_name):
     :return: the registry entry stored under ``canonical_name``
     :rtype: Affordance
     :example:
-    >>> get_affordance("Claude Tool:TodoWrite")
+    >>> get_affordance("ClaudeCode:TodoWrite")
     """
     try:
         return affordance_registry[canonical_name]
