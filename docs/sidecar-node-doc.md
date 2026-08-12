@@ -109,9 +109,9 @@ Conditional sidecar nodes are real prompt content (e.g., instructions, rules) th
 
 **Rendering behavior:** Pass `contains_sidecars=(...)` to auto-include sidecars of the given name(s) during rendering.
 
-Q.v. [`claude-doc.md`](claude-doc.md) for the list of `{Claude Tool:...}` sidecars, which Claude export surface includes each of these, and the underlying API.
+<!-- TODO surface sidecar -->
 
-
+Q.v. [`claude-doc.md`](claude-doc.md) for the list of `{[ClaudeCode:...]}`/`{[ClaudeChat:...]}` sidecars, which Claude export surface includes each of these, and the underlying API.
 
 
 
@@ -122,17 +122,35 @@ A persona-intensifier sidecar supplementing a personality node; not tool-specifi
 
 
 
-#### Affordance Sidecars (Usage / Lack)
 
-A second, independent auto-checkmark mechanism for a common case: acknowledging whether a platform capability is available at all, rather than splicing in arbitrary named content.
 
-A consumer registers each capability once, engine-level and platform-agnostic, via `register_affordance(canonical_name, display_name, remark="")` (`kaye_engine/prompt/affordance_registry.py`) — this has nothing to do with Claude, Chat, Cowork, Code, or VSC specifically; any consumer project can register any capability under any name. A corpus author then pairs a `{canonical_name Usage}` / `{canonical_name Lack}` sidecar under a checkmarked node, describing respectively what to do when the capability is present or absent.
 
-**Rendering behavior:** pass `affordances=(...)` to `generate_prompt()` / `render_prompt_lines()` — a plain collection of canonical names. For every entry in `affordance_registry`, its `Usage` sidecar is checkmarked if the entry's `canonical_name` is in `affordances`, else its `Lack` sidecar is checkmarked; either way, only if the sidecar's parent is already checkmarked. This pass is independent of `contains_sidecars` — both may apply to the same render. `affordances=None` (the default) disables the pass entirely; `affordances=()` enables it with every affordance treated as unavailable (every registered `Lack` sidecar wins).
 
-How a consumer's own CLI determines what to pass as `affordances` for a given invocation is entirely up to that consumer — the engine has no concept of "surface" or "which affordances apply where."
 
-Q.v. [`claude-doc.md`](claude-doc.md) for how kaye-vault, a consumer project, uses this mechanism for Claude platform tools specifically.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## In Prompt Corpus
@@ -158,7 +176,7 @@ Sidecar nodes follow the standard Markdown heading format in `prompt_corpus.md`:
     **/*.py
     ```
 
-    ## {Claude Tool:TodoWrite}
+    ## {[ClaudeCode:TodoWrite]}
 
     This node contains TodoWrite-specific instructions.
     ```
@@ -178,9 +196,50 @@ Sidecar nodes follow the standard Markdown heading format in `prompt_corpus.md`:
 
 
 
-## Python Module `kaye_engine/prompt/sidecar_node.py`
 
-### `get_sidecar_name(node)`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Programmatic API
+
+### `kaye_engine/prompt/sidecar_node.py`
+
+#### `get_sidecar_name(node)`
 
 Determine a node's sidecar name from its heading.
 
@@ -212,13 +271,13 @@ if name is not None:
 
 Check for specific sidecar names:
 ```python
-if name == "Claude Tool:TodoWrite":
+if name == "[ClaudeCode:TodoWrite]":
     print("this is a conditional sidecar node")
 ```
 
 ---
 
-### `BlueprintDescriptorSidecars`
+#### `BlueprintDescriptorSidecars`
 
 Container for descriptor sidecar metadata extracted from a node's descriptor children.
 
@@ -229,7 +288,7 @@ Represents the structured metadata (description, when_to_use, globs) derived fro
 
 **Attributes:**
 
-#### `description`
+##### `description`
 
 The description metadata from the node's `{description}` sidecar child.
 
@@ -243,7 +302,7 @@ blueprint.sidecars.description = "Custom description"
 print(blueprint.sidecars.description)  # "Custom description"
 ```
 
-#### `when_to_use`
+##### `when_to_use`
 
 The when_to_use metadata from the node's `{when_to_use}` sidecar child.
 
@@ -256,7 +315,7 @@ The when_to_use metadata from the node's `{when_to_use}` sidecar child.
 print(blueprint.sidecars.when_to_use)  # content of {when_to_use} node
 ```
 
-#### `globs`
+##### `globs`
 
 The file glob patterns from the node's `{globs}` sidecar child.
 
@@ -270,7 +329,7 @@ patterns = blueprint.sidecars.globs
 # e.g., ["**/*.py", "**/*.pyi"]
 ```
 
-#### `description_and_when_to_use`
+##### `description_and_when_to_use`
 
 Derived property combining both description and when_to_use fields.
 
@@ -289,7 +348,7 @@ combined = blueprint.sidecars.description_and_when_to_use
 
 **Methods:**
 
-#### `__or__(other)`
+##### `__or__(other)`
 
 Merge two `BlueprintDescriptorSidecars` instances using the `|` operator.
 
@@ -337,17 +396,28 @@ Conditional rendering with conditional sidecar nodes:
 prompt = bp.generate_prompt(contains_sidecars=("[ClaudeCode:TodoWrite]",))
 ```
 
-Conditional rendering with affordance sidecars:
+
+## Affordances
+
+A second, independent auto-checkmark mechanism for a common case: acknowledging whether a platform capability is available at all, rather than splicing in arbitrary named content.
+
+A consumer registers each capability once, engine-level and platform-agnostic, via `register_affordance(canonical_name)` (`kaye_engine/prompt/affordance_registry.py`) — this has nothing to do with Claude, Chat, Cowork, Code, or VSC specifically; any consumer project can register any capability under any name. A corpus author then pairs a `{[canonical_name] Usage}` / `{[canonical_name] Lack}` sidecar under a checkmarked node, describing respectively what to do when the capability is present or absent.
+
+**Rendering behavior:** pass `affordances=(...)` to `generate_prompt()` / `render_prompt_lines()` — a plain collection of canonical names. For every entry in `affordance_registry`, its `Usage` sidecar is checkmarked if the entry's `canonical_name` is in `affordances`, else its `Lack` sidecar is checkmarked; either way, only if the sidecar's parent is already checkmarked. This pass is independent of `contains_sidecars` — both may apply to the same render. `affordances=None` (the default) disables the pass entirely; `affordances=()` enables it with every affordance treated as unavailable (every registered `Lack` sidecar wins).
+
+How a consumer's own CLI determines what to pass as `affordances` for a given invocation is entirely up to that consumer — the engine has no concept of "surface" or "which affordances apply where."
+
+Q.v. [`claude-doc.md`](claude-doc.md) for how kaye-vault, a consumer project, uses this mechanism for Claude platform tools specifically.
+
+**Example:**
 ```python
 # Usage/Lack checkmarking for every registered affordance
 prompt = bp.generate_prompt(affordances=("ClaudeCode:TodoWrite",))
 ```
 
----
+### `kaye_engine/prompt/affordance_registry.py`
 
-## Python Module `kaye_engine/prompt/affordance_registry.py`
-
-### `Affordance`
+#### `Affordance`
 
 A single registered platform capability, and the two sidecar names derived from its `canonical_name`. Data-wise, just the name — no display name or remark.
 
@@ -358,7 +428,7 @@ A single registered platform capability, and the two sidecar names derived from 
 - `usage_sidecar_name` → `"[{canonical_name}] Usage"`
 - `lack_sidecar_name` → `"[{canonical_name}] Lack"`
 
-### `register_affordance(canonical_name)`
+#### `register_affordance(canonical_name)`
 
 Construct an `Affordance` and insert it into `affordance_registry` under its `canonical_name`.
 
@@ -371,6 +441,6 @@ from kaye_engine.prompt.affordance_registry import register_affordance
 register_affordance("ClaudeCode:TodoWrite")
 ```
 
-### `affordance_registry`
+#### `affordance_registry`
 
 Module-level `dict[str, Affordance]` — every affordance registered so far, keyed by `canonical_name`.
