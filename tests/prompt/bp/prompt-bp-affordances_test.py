@@ -29,7 +29,7 @@ def corpus_with_affordance_sidecars():
 
 @pytest.fixture
 def registered_test_affordance():
-    entry = register_affordance("Claude Tool:TestAff", "TestAff")
+    entry = register_affordance("Claude Tool:TestAff")
     yield entry
     affordance_registry.pop(entry.canonical_name, None)
 
@@ -46,7 +46,8 @@ def unchecked_bp(corpus_with_affordance_sidecars):
     return PromptBlueprint(corpus_tree=corpus_with_affordance_sidecars)
 
 
-class TestAffordancePresent:  #######################################################
+# Pytest unit tests  ###########################################################
+class TestAffordancePresent:
 
     def test_usage_checkmarked_lack_not(
         _, checkmarked_bp, registered_test_affordance
@@ -60,7 +61,7 @@ class TestAffordancePresent:  ##################################################
         assert "lack content" not in opt
 
 
-class TestAffordanceAbsent:  ########################################################
+class TestAffordanceAbsent:
 
     def test_lack_checkmarked_usage_not(
         _, checkmarked_bp, registered_test_affordance
@@ -72,7 +73,7 @@ class TestAffordanceAbsent:  ###################################################
         assert "usage content" not in opt
 
 
-class TestAffordancesDisabled:  #####################################################
+class TestAffordancesDisabled:
 
     def test_neither_checkmarked_when_none(
         _, checkmarked_bp, registered_test_affordance
@@ -93,12 +94,10 @@ class TestAffordancesDisabled:  ################################################
         assert "lack content" not in opt
 
 
-class TestParentNotCheckmarked:  ####################################################
+class TestParentNotCheckmarked:
 
     def test_neither_spliced_in(_, unchecked_bp, registered_test_affordance):
-        opt = unchecked_bp.generate_prompt(
-            affordances=("Claude Tool:TestAff",)
-        )
+        opt = unchecked_bp.generate_prompt(affordances=("Claude Tool:TestAff",))
 
         print(opt)
         assert "usage content" not in opt

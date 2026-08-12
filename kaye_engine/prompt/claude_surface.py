@@ -36,10 +36,10 @@ _CHAT_AFFORDANCES = (
 
 
 _COWORK_TIER_AFFORDANCES = (
-    "ClaudeCowork:AskUserQuestion",
-    "ClaudeCowork:Skill",
-    "ClaudeCowork:Agent",
-    "ClaudeCowork:TaskStop",
+    "ClaudeCode:AskUserQuestion",
+    "ClaudeCode:Skill",
+    "ClaudeCode:Agent",
+    "ClaudeCode:TaskStop",
 )
 
 _CODE_TIER_AFFORDANCES = (
@@ -64,8 +64,8 @@ _CODE_TIER_AFFORDANCES = (
 )
 
 _VSC_TIER_AFFORDANCES = (
-    "ClaudeVSC:ListAgents",
-    "ClaudeVSC:TodoWrite",
+    "ClaudeCode:ListAgents",
+    "ClaudeCode:TodoWrite",
 )
 
 _COWORK_AFFORDANCES = _COWORK_TIER_AFFORDANCES
@@ -84,7 +84,7 @@ _AFFORDANCES_BY_SURFACE = {
 }
 
 
-# Main Entry Point  ###########kk#################################################
+# Main Entry Point  ############################################################
 class ClaudeSurface(enum.Flag):
     """
     a combinable set of Claude surfaces (``chat``, ``cowork``, ``code``,
