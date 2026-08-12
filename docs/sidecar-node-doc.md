@@ -109,8 +109,6 @@ Conditional sidecar nodes are real prompt content (e.g., instructions, rules) th
 
 **Rendering behavior:** Pass `contains_sidecars=(...)` to auto-include sidecars of the given name(s) during rendering.
 
-<!-- TODO surface sidecar -->
-
 Q.v. [`claude-doc.md`](claude-doc.md) for the list of `{[ClaudeCode:...]}`/`{[ClaudeChat:...]}` sidecars, which Claude export surface includes each of these, and the underlying API.
 
 
