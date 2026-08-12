@@ -112,12 +112,11 @@ A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking t
 
 Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept and how they're authored in the prompt corpus.
 
-
 <!-- TODO surface sidecar -->
 
 #### User Interaction
 
-| tool | affordance | Chat[^chat] | Cowork | Code | VSC[^vsc] | remark |
+| tool | affordance[^affordance] | Chat[^chat] | Cowork | Code | VSC[^vsc] | remark |
 | --- | --- | --- | --- | --- | --- | --- |
 | `ask_user_input_v0` | `ClaudeChat:ask_user_input_v0` | ✔️ | ❌ | ❌ | ❌ | show tappable multiple-choice questions |
 | `AskUserQuestion` | `ClaudeCode:AskUserQuestion` | ❌ | ✔️ | ✔️ | ✔️ | asks the user a clarifying question with selectable options |
@@ -138,6 +137,7 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 
 [^chat]: i.e. Claude.ai.
 [^vsc]: i.e. Claude Code VS Code Extension.
+[^affordance]: q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md#affordances).
 
 
 
