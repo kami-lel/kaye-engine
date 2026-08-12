@@ -90,10 +90,10 @@ def _build_affordance_sidecar_map(affordances):
     return sidecar_map
 
 
-def _splice_conditional_sidecars(blueprint, *, contains_sidecars, affordances):
+def _splice_conditional_sidecars(blueprint, *, conditional_sidecars, affordances):
     """
     auto-checkmark conditional sidecar nodes ahead of rendering -- both
-    plain ``contains_sidecars`` name matches and, when ``affordances``
+    plain ``conditional_sidecars`` name matches and, when ``affordances``
     is given, the ``Usage``/``Lack`` sidecar pair for every entry in
     ``affordance_registry``
 
@@ -102,8 +102,8 @@ def _splice_conditional_sidecars(blueprint, *, contains_sidecars, affordances):
 
     :param blueprint:
     :type blueprint: PromptBlueprint
-    :param contains_sidecars: see ``render_prompt_lines()``
-    :type contains_sidecars: collections.abc.Iterable[str]
+    :param conditional_sidecars: see ``render_prompt_lines()``
+    :type conditional_sidecars: collections.abc.Iterable[str]
     :param affordances: see ``render_prompt_lines()``
     :type affordances: collections.abc.Iterable[str] or None
     :return: ``blueprint``, or a checkmark-spliced copy of it when either
@@ -116,7 +116,7 @@ def _splice_conditional_sidecars(blueprint, *, contains_sidecars, affordances):
         else None
     )
 
-    if not contains_sidecars and affordance_sidecar_names is None:
+    if not conditional_sidecars and affordance_sidecar_names is None:
         return blueprint
 
     working_bp = copy.copy(blueprint)
@@ -124,7 +124,7 @@ def _splice_conditional_sidecars(blueprint, *, contains_sidecars, affordances):
         sidecar_name = get_sidecar_name(node)
         if sidecar_name is None or not working_bp.is_checkmarked(node.parent):
             continue
-        if sidecar_name in contains_sidecars or (
+        if sidecar_name in conditional_sidecars or (
             affordance_sidecar_names is not None
             and affordance_sidecar_names.get(sidecar_name)
         ):
@@ -260,7 +260,7 @@ def render_prompt_lines(  # ====================================================
     *,
     show_comment=False,
     disable_first_heading=False,
-    contains_sidecars=(),
+    conditional_sidecars=(),
     affordances=None,
     display_name="",
     sparseness=1,
@@ -281,11 +281,11 @@ def render_prompt_lines(  # ====================================================
     :param disable_first_heading: whether disable showing top heading;
             defaults to False
     :type disable_first_heading: bool, optional
-    :param contains_sidecars: auto-checkmark conditional sidecar nodes
+    :param conditional_sidecars: auto-checkmark conditional sidecar nodes
             whose name is in this collection and whose parent is
             checkmarked (e.g., ``("Claude Tool:TodoWrite",)``);
             defaults to ``()`` (disabled)
-    :type contains_sidecars: Iterable[str], optional
+    :type conditional_sidecars: Iterable[str], optional
     :param affordances: per ``affordance_registry`` entry,
             checkmarks ``Usage`` node if entry's ``canonical_name`` in
             this collection, else ``Lack`` node; either way, only if
@@ -311,7 +311,7 @@ def render_prompt_lines(  # ====================================================
     :rtype: list[str]
     """
     working_bp = _splice_conditional_sidecars(
-        blueprint, contains_sidecars=contains_sidecars, affordances=affordances
+        blueprint, conditional_sidecars=conditional_sidecars, affordances=affordances
     )
 
     lines = []

@@ -92,7 +92,7 @@ class ClaudeSurface(enum.Flag):
     ``vsc``) -- resolves a requested surface combination into the
     affordance names, plus one plain per-surface sidecar name per
     surface (e.g. ``for Claude Code``), to checkmark via
-    ``render_prompt_lines``'s ``affordances=``/``contains_sidecars=``
+    ``render_prompt_lines``'s ``affordances=``/``conditional_sidecars=``
     kwargs
     """
 
@@ -101,7 +101,7 @@ class ClaudeSurface(enum.Flag):
     # today `as_affordances()` and `as_contained_sidecars()` derive
     # from the identical per-surface data with no way to express
     # that a canonical name only does something under
-    # `contains_sidecars` when the corpus also authored a bare node
+    # `conditional_sidecars` when the corpus also authored a bare node
     # for it (most don't, and there's no check that one exists).
 
     # pylint: disable=invalid-name
@@ -126,7 +126,7 @@ class ClaudeSurface(enum.Flag):
         """
         :return: ``as_affordances()``'s names, each bracket-wrapped, plus
                 one plain ``for Claude <canonical name>`` name per surface
-                set in ``self``, for the ``contains_sidecars=`` kwarg
+                set in ``self``, for the ``conditional_sidecars=`` kwarg
         :rtype: tuple[str, ...]
         """
         names = tuple("[{}]".format(name) for name in self.as_affordances())

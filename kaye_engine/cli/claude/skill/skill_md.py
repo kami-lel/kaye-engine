@@ -169,7 +169,7 @@ class Skill(FrontmatterDoc):
                         surface.as_affordances()
                         if surface is not None else None
                     ),
-                    contains_sidecars=(
+                    conditional_sidecars=(
                         surface.as_contained_sidecars()
                         if surface is not None else ()
                     ),

@@ -66,7 +66,7 @@ class TestVersionInjection:
         _, kwargs = blueprint.generate_prompt.call_args
         assert kwargs["affordances"] == ClaudeSurface.cowork.as_affordances()
         assert (
-            kwargs["contains_sidecars"]
+            kwargs["conditional_sidecars"]
             == ClaudeSurface.cowork.as_contained_sidecars()
         )
 
@@ -87,4 +87,4 @@ class TestVersionInjection:
 
         _, kwargs = blueprint.generate_prompt.call_args
         assert kwargs["affordances"] is None
-        assert kwargs["contains_sidecars"] == ()
+        assert kwargs["conditional_sidecars"] == ()

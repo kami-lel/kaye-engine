@@ -65,14 +65,14 @@ multi-line description or when-to-use collapses to one string.
 Sidecars split by usage rather than by class. *Descriptor* sidecars
 (`{description}`, `{when_to_use}`, `{globs}`) are consumed as blueprint
 metadata and never rendered; every other name is a *conditional* sidecar,
-real content spliced in only when its name is passed to `contains_sidecars`
+real content spliced in only when its name is passed to `conditional_sidecars`
 or matched via the `affordances` kwarg against `affordance_registry`.
 Q.v. [sidecar node documentation](docs/sidecar-node-doc.md).
 
 `affordance_registry` tracks platform capabilities as `Affordance` entries
 and derives each one's Usage/Lack sidecar names; `ClaudeSurface` declares,
 per surface, which affordance names are available, and exposes them as
-`contains_sidecars` tuples via `as_contained_sidecars`. Every `kaye claude`
+`conditional_sidecars` tuples via `as_contained_sidecars`. Every `kaye claude`
 export subcommand takes a `--surface` flag that threads a `surface` param
 through to `render_prompt_lines(affordances=...)`, so rendered prompts
 auto-checkmark only the sidecars real on that surface. Q.v. [Claude
