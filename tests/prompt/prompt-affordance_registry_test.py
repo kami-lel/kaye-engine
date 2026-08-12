@@ -4,7 +4,6 @@ prompt-affordance_registry_test.py
 Unit Tests (using pytest) for:
 
 - register_affordance()
-- get_affordance()
 - Affordance.usage_sidecar_name / Affordance.lack_sidecar_name
 """
 
@@ -13,7 +12,6 @@ import pytest
 from kaye_engine.prompt.affordance_registry import (
     Affordance,
     affordance_registry,
-    get_affordance,
     register_affordance,
 )
 
@@ -47,19 +45,6 @@ class TestRegisterAffordance:
         opt = exec_info.value.args[0]
         print(opt)
         assert opt == "duplicate affordance registry name: Claude Tool:TestDup"
-
-
-class TestGetAffordance:
-
-    def test_known_name(_, registered_names):
-        entry = register_affordance("Claude Tool:TestGet")
-        registered_names.append(entry.canonical_name)
-
-        assert get_affordance("Claude Tool:TestGet") is entry
-
-    def test_unknown_name(_):
-        with pytest.raises(KeyError):
-            get_affordance("Claude Tool:NoSuchName")
 
 
 class TestSidecarNames:
