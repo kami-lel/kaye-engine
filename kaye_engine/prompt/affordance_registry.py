@@ -12,8 +12,8 @@ from dataclasses import dataclass
 __all__ = (
     "Affordance",
     "affordance_registry",
-    "register_affordance",
     "get_affordance",
+    "register_affordance",
 )
 
 
@@ -24,10 +24,7 @@ class Affordance:
     derived from its ``canonical_name`` that a corpus may author
 
 
-    :param canonical_name: unique identifier for this affordance; also
-            the shared root of its ``Usage``/``Lack`` sidecar names, and
-            the string a consumer's ``affordances=(...)`` tuple names to
-            mark it available
+    :param canonical_name: unique identifier for this affordance
     :type canonical_name: str
     :param display_name: human-readable name, used in generated
             documentation
