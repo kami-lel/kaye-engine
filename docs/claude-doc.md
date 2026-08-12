@@ -108,11 +108,12 @@ A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking t
 
 
 
-## Conditional Sidecar Inclusion
+## Conditional Sidecar/Affordances Inclusion
 
 Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept and how they're authored in the prompt corpus.
 
 
+<!-- TODO surface sidecar -->
 
 #### User Interaction
 
