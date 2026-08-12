@@ -28,7 +28,7 @@ def export_user_system_prompt_file(
     *,
     use_coder=False,
     sparseness=1,
-    affordances=None,
+    surface=None,
 ):
     """
     export the Chat blueprint as Claude user/system prompt to CLAUDE.md
@@ -43,10 +43,9 @@ def export_user_system_prompt_file(
     :param sparseness: blank-line policy forwarded to
             ``generate_prompt()``; defaults to 1
     :type sparseness: int, optional
-    :param affordances: forwarded to ``generate_prompt()``; see its
-            ``affordances`` param; defaults to ``None`` (auto-checkmark
-            pass off)
-    :type affordances: collections.abc.Iterable[str] or None, optional
+    :param surface: Claude surface(s) to checkmark affordances for;
+            ``None`` leaves affordance checkmarking disabled
+    :type surface: ClaudeSurface, optional
     """
     file_path = Path(file_path).resolve()
     file_path.parent.mkdir(parents=True, exist_ok=True)
@@ -61,7 +60,14 @@ def export_user_system_prompt_file(
 
     file_path.write_text(
         blueprint.generate_prompt(
-            affordances=affordances, sparseness=sparseness
+            affordances=(
+                surface.as_affordances() if surface is not None else None
+            ),
+            contains_sidecars=(
+                surface.as_contained_sidecars()
+                if surface is not None else ()
+            ),
+            sparseness=sparseness,
         ),
         encoding="utf-8",
     )
