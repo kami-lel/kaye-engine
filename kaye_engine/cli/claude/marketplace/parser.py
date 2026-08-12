@@ -9,6 +9,8 @@ from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
 from kaye_engine.cli.claude.setup import get_marketplace_folder_name
+from kaye_engine.cli.claude.surface_parser import build_surface_parent_parser
+from kaye_engine.prompt.claude_surface import ClaudeSurface
 
 from .export import export_marketplace
 
@@ -44,6 +46,7 @@ def register_marketplace_parser(cli_subparser):  ###############################
         description=__doc__ + _DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["m"],
+        parents=[build_surface_parent_parser(("vsc",))],
     )
 
     marketplace_parser.add_argument(
@@ -65,8 +68,9 @@ def register_marketplace_parser(cli_subparser):  ###############################
         folder = args.folder
         if folder is None:
             folder = Path.home() / ".claude" / get_marketplace_folder_name()
+        surface = ClaudeSurface.combine(args.surface)
 
-        export_marketplace(folder)
+        export_marketplace(folder, surface=surface)
 
         logger.done("export marketplace:\t" + str(folder))
 
