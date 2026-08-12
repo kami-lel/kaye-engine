@@ -114,6 +114,11 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 
 <!-- TODO surface sidecar -->
 
+
+#### Per Surface Sidecar
+
+
+
 #### User Interaction
 
 | tool | affordance[^affordance] | Chat[^chat] | Cowork | Code | VSC[^vsc] | remark |
