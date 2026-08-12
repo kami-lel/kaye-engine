@@ -26,12 +26,33 @@ todo todo utilize personalities, allow multi agent conversation
 
 - `--version` flag on the `kaye-engine` CLI, reporting the installed
   distribution's version via `importlib.metadata`
+- `ClaudeSurface` enum, mapping each Claude surface (Chat, Cowork, Code,
+  VS Code) to its available affordance names
+- `Affordance` registry (`kaye_engine/prompt/affordance_registry.py`),
+  tracking platform capabilities and deriving Usage/Lack sidecar names
+- `--surface` flag on every `kaye claude` export subcommand, threading a
+  `surface` param through the skill, plugin, marketplace, VS Code, and
+  user-prompt export chains to drive real affordance rendering
+- `affordances` kwarg on `render_prompt_lines`, auto-checkmarking sidecars
+  per surface
+- registered Claude affordance catalog, auto-loaded on `setup_claude_cli`
+- per-surface sidecar names on `ClaudeSurface.as_contained_sidecars`,
+  derived from the enum member name
 
 ### Changed
 
 - `setup_claude_cli()` now takes a `display_name` argument, letting each
   consumer stamp its own `plugin.json` `display_name` instead of the
   hardcoded `DISPLAY_NAME` constant, which is removed
+- tool affordances now namespaced `ClaudeChat:` / `ClaudeCode:`
+- affordance API simplified: dropped `display_name`/`remark` fields and
+  `get_affordance`
+- `claude` CLI export functions' `contains_sidecars` param renamed to
+  `affordances`; hardcoded per-surface sidecar tuples dropped in favor of
+  deriving from `ClaudeSurface`
+- rewrote `docs/claude-doc.md` and `docs/sidecar-node-doc.md`: replaced
+  tool inventory/sidecar matrix tables with affordance registry
+  reference, cross-linked the two docs
 
 ### Deprecated
 
