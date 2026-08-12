@@ -137,7 +137,7 @@ class Skill(FrontmatterDoc):
     # factory  -----------------------------------------------------------------
 
     @classmethod
-    def from_exportable(cls, exportable, version=""):
+    def from_exportable(cls, exportable, version="", surface=None):
         """
         dispatches on the concrete `Exportable` implementer -- this
         isinstance check lives here, in the Claude-specific translation
@@ -150,6 +150,9 @@ class Skill(FrontmatterDoc):
         :param version: installed package version, forwarded to
                 :meth:`__init__`
         :type version: str, optional
+        :param surface: Claude surface(s) to checkmark affordances for;
+                ``None`` leaves affordance checkmarking disabled
+        :type surface: ClaudeSurface, optional
         :return: a skill built from ``exportable``'s content
         :rtype: Skill
         """
@@ -161,9 +164,16 @@ class Skill(FrontmatterDoc):
                 when_to_use=sidecars.when_to_use,
                 paths=list(sidecars.globs) if sidecars.globs else [],
                 user_invocable=exportable.user_invokable,
-                # TODO kaye a code: wire real per-surface affordances once available
                 body=exportable.blueprint.generate_prompt(
-                    affordances=None, sparseness=0
+                    affordances=(
+                        surface.as_affordances()
+                        if surface is not None else None
+                    ),
+                    contains_sidecars=(
+                        surface.as_contained_sidecars()
+                        if surface is not None else ()
+                    ),
+                    sparseness=0,
                 ),
                 version=version,
             )

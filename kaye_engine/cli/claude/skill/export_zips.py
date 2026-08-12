@@ -23,7 +23,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 # entry point  #################################################################
 
 
-def export_skills_as_zips(parent_folder, *, verbose=True):
+def export_skills_as_zips(parent_folder, *, verbose=True, surface=None):
     """
     export all blueprints, prompts, and abbreviation groups as ``.zip`` files
 
@@ -36,6 +36,9 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
     :type parent_folder: Path-like
     :param verbose: print exported paths when ``True``
     :type verbose: bool
+    :param surface: Claude surface(s) to checkmark affordances for,
+            forwarded to :func:`export_skills_as_folders`
+    :type surface: ClaudeSurface, optional
     """
     parent_folder = Path(parent_folder)
     try:
@@ -53,7 +56,9 @@ def export_skills_as_zips(parent_folder, *, verbose=True):
         tempfile.TemporaryDirectory() as zips_temp,
     ):
         logger.debug("building skill folders in temporary directory")
-        export_skills_as_folders(Path(skills_temp), version=pkg_version)
+        export_skills_as_folders(
+            Path(skills_temp), version=pkg_version, surface=surface
+        )
 
         logger.debug("archiving skills to .zip packages")
         for skill_folder in Path(skills_temp).iterdir():
