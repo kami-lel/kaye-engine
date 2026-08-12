@@ -170,7 +170,7 @@ constant:
 
 | flag | default | effect |
 |---|---|---|
-| `is_internal` | `False` | `True` excludes it from `exportable_registry` entirely — never export as a Claude Agent Skill |
+| `is_exportable` | `True` | `False` excludes it from `exportable_registry` entirely — never export as a Claude Agent Skill |
 | `always_apply` | `False` | apply unconditionally, skipping relevance |
 | `user_invokable` | `True` | a human may invoke it by name |
 | `llm_invokable` | `True` | the assistant may surface it unprompted |

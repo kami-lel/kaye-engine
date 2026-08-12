@@ -33,13 +33,13 @@ class BlueprintRegistry(Exportable):
 
     :param blueprint: the underlying blueprint
     :type blueprint: PromptBlueprint
-    :param is_internal: never export this blueprint as a Claude Agent
-            Skill; defaults to False
-    :type is_internal: bool, optional
+    :param is_exportable: whether this blueprint is exported as a Claude
+            Agent Skill; defaults to True
+    :type is_exportable: bool, optional
     """
 
     blueprint: PromptBlueprint
-    is_internal: bool = False
+    is_exportable: bool = True
 
     def content(self):
         """
@@ -59,27 +59,27 @@ def register_blueprint(
     display_name,
     blueprint,
     *,
-    is_internal=False,
+    is_exportable=True,
     always_apply=False,
     user_invokable=True,
     llm_invokable=True,
 ):
     """
     create a `BlueprintRegistry` and insert it into `blueprint_registry`;
-    unless ``is_internal``, the same instance is also inserted into
+    when ``is_exportable``, the same instance is also inserted into
     `exportable_registry` via `register_exportable_entry`
 
 
     :param canonical_name: kebab-case name, used directly as the
-            exported skill name when not ``is_internal``
+            exported skill name when ``is_exportable``
     :type canonical_name: str
     :param display_name: human-readable name, e.g. ``"Coder Python"``
     :type display_name: str
     :param blueprint: the underlying blueprint
     :type blueprint: PromptBlueprint
-    :param is_internal: never export this blueprint as a Claude Agent
-            Skill; defaults to False
-    :type is_internal: bool, optional
+    :param is_exportable: whether this blueprint is exported as a Claude
+            Agent Skill; defaults to True
+    :type is_exportable: bool, optional
     :param always_apply: whether this entry is unconditionally relevant
             and should always be applied, rather than surfaced only when
             judged relevant; defaults to False
@@ -97,7 +97,7 @@ def register_blueprint(
     :rtype: BlueprintRegistry
     :example:
     >>> register_blueprint("coder", "Kaye Peer Coder", coder_blueprint, always_apply=True)
-    >>> register_blueprint("chat", "Chat", chat_blueprint, is_internal=True)
+    >>> register_blueprint("chat", "Chat", chat_blueprint, is_exportable=False)
     """
     if canonical_name in blueprint_registry:
         raise ValueError(
@@ -108,14 +108,14 @@ def register_blueprint(
         canonical_name=canonical_name,
         display_name=display_name,
         blueprint=blueprint,
-        is_internal=is_internal,
+        is_exportable=is_exportable,
         always_apply=always_apply,
         user_invokable=user_invokable,
         llm_invokable=llm_invokable,
     )
     blueprint_registry[canonical_name] = reg
 
-    if not is_internal:
+    if is_exportable:
         register_exportable_entry(reg)
 
     return reg
