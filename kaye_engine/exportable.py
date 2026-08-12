@@ -49,9 +49,12 @@ class Exportable(ABC):
 
     canonical_name: str
     display_name: str
-    always_apply: bool = False
     user_invokable: bool = True
     llm_invokable: bool = True
+
+    # hack hack leftover from an earlier attempt at generating a Continue AI
+    # rule file; unused by any current consumer
+    always_apply: bool = False
 
     @abstractmethod
     def content(self):
