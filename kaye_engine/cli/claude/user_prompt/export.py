@@ -63,7 +63,7 @@ def export_user_system_prompt_file(
             affordances=(
                 surface.as_affordances() if surface is not None else None
             ),
-            contains_sidecars=(
+            conditional_sidecars=(
                 surface.as_contained_sidecars()
                 if surface is not None else ()
             ),

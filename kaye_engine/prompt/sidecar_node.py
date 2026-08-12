@@ -3,7 +3,7 @@ sidecar_node.py
 
 nodes attached to a blueprint's parent node but stored as corpus content,
 identified by the ``{name}`` heading convention; excluded by default and
-conditionally spliced in via ``contains_sidecars`` when their parent is
+conditionally spliced in via ``conditional_sidecars`` when their parent is
 checkmarked
 """
 
