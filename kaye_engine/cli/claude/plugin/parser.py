@@ -8,6 +8,8 @@ from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
+from kaye_engine.cli.claude.surface_parser import build_surface_parent_parser
+from kaye_engine.prompt.claude_surface import ClaudeSurface
 
 from .export_folder import export_plugin_as_folder
 from .export_zip import export_plugin_as_zip
@@ -44,6 +46,7 @@ def register_plugin_parser(cli_subparser):  ####################################
         description=__doc__ + _DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["p"],
+        parents=[build_surface_parent_parser(("vsc",))],
     )
 
     plugin_parser.add_argument(
@@ -84,14 +87,19 @@ def register_plugin_parser(cli_subparser):  ####################################
         folder = args.folder
         if folder is None:
             folder = Path.cwd() if args.zip else _DEFAULT_PLUGINS_FOLDER
+        surface = ClaudeSurface.combine(args.surface)
 
         if args.zip:
             logger.debug("export plugin as zip")
-            export_plugin_as_zip(folder, includes_version=args.includes_version)
+            export_plugin_as_zip(
+                folder,
+                includes_version=args.includes_version,
+                surface=surface,
+            )
             done_msg = "export plugin as zip"
         else:
             logger.debug("export plugin as folder")
-            export_plugin_as_folder(folder)
+            export_plugin_as_folder(folder, surface=surface)
             done_msg = "export plugin as folder"
 
         logger.done(done_msg + "\t" + str(folder))
