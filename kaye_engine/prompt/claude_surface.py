@@ -83,12 +83,6 @@ _AFFORDANCES_BY_SURFACE = {
     "vsc": _VSC_AFFORDANCES,
 }
 
-_SURFACE_SIDECAR_NAMES = {
-    "chat": "for Claude Chat",
-    "cowork": "for Claude Cowork",
-    "code": "for Claude Code",
-    "vsc": "for Claude VSC Extension",
-}
 
 
 # Main Entry Point  ############################################################
@@ -131,13 +125,13 @@ class ClaudeSurface(enum.Flag):
     def as_contained_sidecars(self):
         """
         :return: ``as_affordances()``'s names, each bracket-wrapped, plus
-                one plain ``for Claude <Surface>`` name per surface set in
-                ``self``, for the ``contains_sidecars=`` kwarg
+                one plain ``for Claude <canonical name>`` name per surface
+                set in ``self``, for the ``contains_sidecars=`` kwarg
         :rtype: tuple[str, ...]
         """
         names = tuple("[{}]".format(name) for name in self.as_affordances())
         surface_names = tuple(
-            _SURFACE_SIDECAR_NAMES[member.name]
+            "for Claude {}".format(member.name)
             for member in ClaudeSurface
             if member in self
         )

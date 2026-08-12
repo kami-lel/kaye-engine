@@ -112,10 +112,21 @@ A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking t
 
 Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept and how they're authored in the prompt corpus.
 
-<!-- TODO surface sidecar -->
+
+
 
 
 #### Per Surface Sidecar
+
+| sidecar | surface name |
+| --- | --- |
+| `{for Claude chat}` | `chat` |
+| `{for Claude cowork}` | `cowork` |
+| `{for Claude code}` | `code` |
+| `{for Claude vsc}` | `vsc` |
+
+
+
 
 
 
@@ -146,6 +157,8 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 
 
 
+
+
 #### Data & Communication
 
 | tool | affordance | Chat | Cowork | Code | VSC | remark |
@@ -156,6 +169,8 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `message_compose_v1` | `ClaudeChat:message_compose_v1` | ✔️ | ❌ | ❌ | ❌ | drafts email/Slack/text with strategic variants |
 | `NotebookEdit` | `ClaudeCode:NotebookEdit` | ❌ | ❌ | ✔️ | ✔️ | edits Jupyter notebook cells |
 | `RemoteTrigger` | `ClaudeCode:RemoteTrigger` | ❌ | ❌ | ✔️ | ✔️ | triggers a remote/cloud agent run |
+
+
 
 
 
@@ -171,6 +186,8 @@ Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept a
 | `ScheduleWakeup` | `ClaudeCode:ScheduleWakeup` | ❌ | ❌ | ✔️ | ✔️ | schedules a future self-resumption for `/loop` dynamic mode |
 | `CronCreate`,<br>`CronDelete`,<br>`CronList` | `ClaudeCode:CronCreate/Delete/List` | ❌ | ❌ | ✔️ | ✔️ | creates, deletes, and lists scheduled cloud agents |
 | `Monitor` | `ClaudeCode:Monitor` | ❌ | ❌ | ✔️ | ✔️ | streams events from a background process |
+
+
 
 
 
