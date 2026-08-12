@@ -118,11 +118,14 @@ def _sort_entries(entries):
     return sorted(entries, key=lambda e: e.abbr.lower())
 
 
-def _make_group(display_name, entries, canonical_name=None):
+def _make_group(
+    display_name, entries, canonical_name=None, user_invokable=False
+):
     return ExportableAbbr(
         entries,
         canonical_name=canonical_name or _to_skill_name(display_name),
         display_name=display_name,
+        user_invokable=user_invokable,
     )
 
 
@@ -144,6 +147,7 @@ def _get_abbrs_by_glossaries(abbr_data):
                 e for e in abbr_data.abbrs if glossary_name in e.glossaries
             ),
             canonical_name="abbr-glossary-" + glossary_name,
+            user_invokable=True,
         )
         for glossary_name in sorted(abbr_glossary_registry)
         if abbr_glossary_registry[glossary_name].is_exportable
