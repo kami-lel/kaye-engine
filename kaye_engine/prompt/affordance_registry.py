@@ -1,10 +1,10 @@
 """
 affordance_registry.py
 
-define ``Affordance``, ``affordance_registry``, ``register_affordance``,
-``get_affordance`` -- the registry a consumer project populates with the
-platform capabilities its corpus can conditionally acknowledge via a
-paired ``{name Usage}`` / ``{name Lack}`` sidecar
+define ``Affordance``, ``affordance_registry``, ``register_affordance``
+-- the registry a consumer project populates with the platform
+capabilities its corpus can conditionally acknowledge via a paired
+``{name Usage}`` / ``{name Lack}`` sidecar
 """
 
 from dataclasses import dataclass
@@ -12,7 +12,6 @@ from dataclasses import dataclass
 __all__ = (
     "Affordance",
     "affordance_registry",
-    "get_affordance",
     "register_affordance",
 )
 
@@ -76,22 +75,3 @@ def register_affordance(canonical_name):
     affordance_registry[canonical_name] = affordance
 
     return affordance
-
-
-def get_affordance(canonical_name):
-    """
-    :param canonical_name: canonical name an affordance was registered
-            under via `register_affordance`
-    :type canonical_name: str
-    :raises KeyError: no affordance is registered under ``canonical_name``
-    :return: the registry entry stored under ``canonical_name``
-    :rtype: Affordance
-    :example:
-    >>> get_affordance("ClaudeCode:TodoWrite")
-    """
-    try:
-        return affordance_registry[canonical_name]
-    except KeyError as e:
-        raise KeyError(
-            "no affordance registered under name: {}".format(canonical_name)
-        ) from e

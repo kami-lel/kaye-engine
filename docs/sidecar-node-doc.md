@@ -139,29 +139,29 @@ Q.v. [`claude-doc.md`](claude-doc.md) for how kaye-vault, a consumer project, us
 
 Sidecar nodes follow the standard Markdown heading format in `prompt_corpus.md`:
 
-```markdown
-# Parent Node
+    ```markdown
+    # Parent Node
 
-Content of parent node.
+    Content of parent node.
 
-## {description}
+    ## {description}
 
-This node describes the parent.
+    This node describes the parent.
 
-## {when_to_use}
+    ## {when_to_use}
 
-This node indicates when to use the parent.
+    This node indicates when to use the parent.
 
-## {globs}
+    ## {globs}
 
-```glob
-**/*.py
-```
+    ```glob
+    **/*.py
+    ```
 
-## {Claude Tool:TodoWrite}
+    ## {Claude Tool:TodoWrite}
 
-This node contains TodoWrite-specific instructions.
-```
+    This node contains TodoWrite-specific instructions.
+    ```
 
 **Heading conventions:**
 - The heading level of a sidecar node (e.g., `##`, `###`) determines its depth in the tree
@@ -334,13 +334,13 @@ merged_bp = bp1 | bp2
 Conditional rendering with conditional sidecar nodes:
 ```python
 # Include arbitrary named sidecar content
-prompt = bp.generate_prompt(contains_sidecars=("Claude Tool:TodoWrite",))
+prompt = bp.generate_prompt(contains_sidecars=("[ClaudeCode:TodoWrite]",))
 ```
 
 Conditional rendering with affordance sidecars:
 ```python
 # Usage/Lack checkmarking for every registered affordance
-prompt = bp.generate_prompt(affordances=("Claude Tool:TodoWrite",))
+prompt = bp.generate_prompt(affordances=("ClaudeCode:TodoWrite",))
 ```
 
 ---
@@ -349,18 +349,16 @@ prompt = bp.generate_prompt(affordances=("Claude Tool:TodoWrite",))
 
 ### `Affordance`
 
-A single registered platform capability, and the two sidecar names derived from its `canonical_name`.
+A single registered platform capability, and the two sidecar names derived from its `canonical_name`. Data-wise, just the name — no display name or remark.
 
 **Fields:**
-- `canonical_name` (str): unique identifier for this affordance; also the shared root of its `Usage`/`Lack` sidecar names, and the string an `affordances=(...)` collection names to mark it available
-- `display_name` (str): human-readable name, used in generated documentation
-- `remark` (str, optional): one-line description of what this affordance does
+- `canonical_name` (str): unique identifier for this affordance; also the shared root of its `[canonical_name] Usage`/`[canonical_name] Lack` sidecar names, and the string an `affordances=(...)` collection names to mark it available
 
 **Properties:**
-- `usage_sidecar_name` → `"{canonical_name} Usage"`
-- `lack_sidecar_name` → `"{canonical_name} Lack"`
+- `usage_sidecar_name` → `"[{canonical_name}] Usage"`
+- `lack_sidecar_name` → `"[{canonical_name}] Lack"`
 
-### `register_affordance(canonical_name, display_name, remark="")`
+### `register_affordance(canonical_name)`
 
 Construct an `Affordance` and insert it into `affordance_registry` under its `canonical_name`.
 
@@ -370,17 +368,8 @@ Construct an `Affordance` and insert it into `affordance_registry` under its `ca
 ```python
 from kaye_engine.prompt.affordance_registry import register_affordance
 
-register_affordance(
-    "Claude Tool:TodoWrite", "TodoWrite",
-    remark="maintains a task/todo list for the session",
-)
+register_affordance("ClaudeCode:TodoWrite")
 ```
-
-### `get_affordance(canonical_name)`
-
-**Raises:** `KeyError` if no affordance is registered under `canonical_name`.
-
-**Returns:** the registry entry stored under `canonical_name`.
 
 ### `affordance_registry`
 
