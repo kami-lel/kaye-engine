@@ -8,9 +8,11 @@ from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
+from kaye_engine.cli.claude.surface_parser import build_surface_parent_parser
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
 )
+from kaye_engine.prompt.claude_surface import ClaudeSurface
 
 from .export import export_vs_code_extension
 
@@ -51,8 +53,9 @@ def _vs_code_main(args):
     check_setup_for_claude_cli()
 
     folder = args.folder
+    surface = ClaudeSurface.combine(args.surface)
 
-    marketplace_path = export_vs_code_extension(folder)
+    marketplace_path = export_vs_code_extension(folder, surface=surface)
 
     logger.info("marketplace.json location:\n" + str(marketplace_path))
     logger.done("export VS Code Extension folder:\t" + str(folder))
@@ -66,6 +69,7 @@ def register_vs_code_parser(cli_subparser):  ###################################
         description=__doc__ + _DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["v"],
+        parents=[build_surface_parent_parser(("vsc",))],
     )
 
     vs_code_parser.add_argument(
