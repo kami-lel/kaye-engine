@@ -397,6 +397,38 @@ prompt = bp.generate_prompt(contains_sidecars=("[ClaudeCode:TodoWrite]",))
 ```
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Affordances
 
 A second, independent auto-checkmark mechanism for a common case: acknowledging whether a platform capability is available at all, rather than splicing in arbitrary named content.
@@ -415,32 +447,21 @@ Q.v. [`claude-doc.md`](claude-doc.md) for how kaye-vault, a consumer project, us
 prompt = bp.generate_prompt(affordances=("ClaudeCode:TodoWrite",))
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
 ### `kaye_engine/prompt/affordance_registry.py`
 
-#### `Affordance`
+Docstrings there carry full detail; this is just the map.
 
-A single registered platform capability, and the two sidecar names derived from its `canonical_name`. Data-wise, just the name — no display name or remark.
-
-**Fields:**
-- `canonical_name` (str): unique identifier for this affordance; also the shared root of its `[canonical_name] Usage`/`[canonical_name] Lack` sidecar names, and the string an `affordances=(...)` collection names to mark it available
-
-**Properties:**
-- `usage_sidecar_name` → `"[{canonical_name}] Usage"`
-- `lack_sidecar_name` → `"[{canonical_name}] Lack"`
-
-#### `register_affordance(canonical_name)`
-
-Construct an `Affordance` and insert it into `affordance_registry` under its `canonical_name`.
-
-**Raises:** `ValueError` if `canonical_name` is already registered.
-
-**Example:**
-```python
-from kaye_engine.prompt.affordance_registry import register_affordance
-
-register_affordance("ClaudeCode:TodoWrite")
-```
-
-#### `affordance_registry`
-
-Module-level `dict[str, Affordance]` — every affordance registered so far, keyed by `canonical_name`.
+- `Affordance`: one registered capability. Just a `canonical_name`, plus the two derived sidecar names `usage_sidecar_name` (`"[{canonical_name}] Usage"`) and `lack_sidecar_name` (`"[{canonical_name}] Lack"`)
+- `register_affordance(canonical_name)`: builds an `Affordance` and adds it to `affordance_registry`; raises `ValueError` on a duplicate name `affordance_registry`: module-level `dict[str, Affordance]` of every affordance registered so far, keyed by `canonical_name`
