@@ -29,6 +29,9 @@ class AbbrGlossaryRegistry:
     :param name: canonical glossary name, as it appears in
             ``AbbrEntry.glossaries`` and in the ``(name)`` corpus heading
     :type name: str
+    :param is_exportable: whether this glossary is registered into the
+            exportable registry
+    :type is_exportable: bool
     :param uses_numbered_list: render entries with numbered markers
             (``"1. ..."``) instead of bullets (``"- ..."``) by default;
             defaults to False
@@ -40,16 +43,19 @@ class AbbrGlossaryRegistry:
     """
 
     name: str
+    is_exportable: bool
     uses_numbered_list: bool = False
     is_sorted: bool = False
 
 
-# Entry Point  #################################################################
+# Main Entry Point  ############################################################
 
 abbr_glossary_registry = {}
 
 
-def register_abbr_glossary(name, uses_numbered_list=False, is_sorted=False):
+def register_abbr_glossary(
+    name, is_exportable, uses_numbered_list=False, is_sorted=False
+):
     """
     create an `AbbrGlossaryRegistry` and insert it into
     `abbr_glossary_registry`
@@ -59,6 +65,9 @@ def register_abbr_glossary(name, uses_numbered_list=False, is_sorted=False):
     that references an unregistered glossary raises ``ValueError``
 
 
+    :param is_exportable: whether this glossary is registered into the
+            exportable registry
+    :type is_exportable: bool
     :raise ValueError: ``name`` is already registered
     :return: the created registry entry
     :rtype: AbbrGlossaryRegistry
@@ -68,7 +77,9 @@ def register_abbr_glossary(name, uses_numbered_list=False, is_sorted=False):
             "duplicate abbr glossary registry name: {}".format(name)
         )
 
-    reg = AbbrGlossaryRegistry(name, uses_numbered_list, is_sorted)
+    reg = AbbrGlossaryRegistry(
+        name, is_exportable, uses_numbered_list, is_sorted
+    )
     abbr_glossary_registry[name] = reg
 
     return reg
