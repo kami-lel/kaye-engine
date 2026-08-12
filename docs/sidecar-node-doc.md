@@ -431,35 +431,16 @@ prompt = bp.generate_prompt(contains_sidecars=("[ClaudeCode:TodoWrite]",))
 
 A second, independent auto-checkmark mechanism for a common case: acknowledging whether a platform capability is available at all, rather than splicing in arbitrary named content.
 
-A consumer registers each capability once, engine-level and platform-agnostic, via `register_affordance(canonical_name)` (`kaye_engine/prompt/affordance_registry.py`) — this has nothing to do with Claude, Chat, Cowork, Code, or VSC specifically; any consumer project can register any capability under any name. A corpus author then pairs a `{[canonical_name] Usage}` / `{[canonical_name] Lack}` sidecar under a checkmarked node, describing respectively what to do when the capability is present or absent.
+In the corpus, pair a `{[canonical_name] Usage}` / `{[canonical_name] Lack}` sidecar under a checkmarked node, describing respectively what to do when the capability is present or absent.
 
-**Rendering behavior:** pass `affordances=(...)` to `generate_prompt()` / `render_prompt_lines()` — a plain collection of canonical names. For every entry in `affordance_registry`, its `Usage` sidecar is checkmarked if the entry's `canonical_name` is in `affordances`, else its `Lack` sidecar is checkmarked; either way, only if the sidecar's parent is already checkmarked. This pass is independent of `contains_sidecars` — both may apply to the same render. `affordances=None` (the default) disables the pass entirely; `affordances=()` enables it with every affordance treated as unavailable (every registered `Lack` sidecar wins).
+Programmatically, register each capability once via `register_affordance(canonical_name)`, then pass `affordances=(...)` to `generate_prompt()` / `render_prompt_lines()` as a collection of canonical names available for this invocation, alongside `contains_sidecars` in the same render. Each registered affordance's `Usage` sidecar is checkmarked when its `canonical_name` is present in `affordances`, and its `Lack` sidecar when absent — either way, only under an already-checkmarked parent. `affordances=None` is the default, keeping the render as-is; `affordances=()` marks every affordance absent.
 
 How a consumer's own CLI determines what to pass as `affordances` for a given invocation is entirely up to that consumer — the engine has no concept of "surface" or "which affordances apply where."
 
-Q.v. [`claude-doc.md`](claude-doc.md) for how kaye-vault, a consumer project, uses this mechanism for Claude platform tools specifically.
+Q.v. [`claude-doc.md`](claude-doc.md) for how to uses this mechanism for Claude platform tools specifically.
 
 **Example:**
 ```python
 # Usage/Lack checkmarking for every registered affordance
 prompt = bp.generate_prompt(affordances=("ClaudeCode:TodoWrite",))
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-### `kaye_engine/prompt/affordance_registry.py`
-
-Docstrings there carry full detail; this is just the map.
-
-- `Affordance`: one registered capability. Just a `canonical_name`, plus the two derived sidecar names `usage_sidecar_name` (`"[{canonical_name}] Usage"`) and `lack_sidecar_name` (`"[{canonical_name}] Lack"`)
-- `register_affordance(canonical_name)`: builds an `Affordance` and adds it to `affordance_registry`; raises `ValueError` on a duplicate name `affordance_registry`: module-level `dict[str, Affordance]` of every affordance registered so far, keyed by `canonical_name`
