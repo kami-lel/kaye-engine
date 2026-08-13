@@ -81,7 +81,7 @@ kaye-engine blueprint show BLUEPRINT        # preview a blueprint's structure
 kaye-engine blueprint show < FILE           # preview from stdin (BLUEPRINT omitted)
 kaye-engine blueprint generate BLUEPRINT    # render a concrete prompt
 kaye-engine blueprint generate < FILE       # render from stdin (BLUEPRINT omitted)
-kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged into one blueprint/output; NODE is "today"/"shorthand", any simple AbbrTags name (eg "emoji", "single_character"), or any known abbr glossary name
+kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged into one blueprint/output; NODE is "today"/"shorthand", any simple AbbrTags kebab slug (eg "emoji", "single-character"), or any known abbr glossary name
 kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
 kaye-engine dynamic-node NODE -s SPARSENESS # blank-line policy, v.i.
 kaye-engine dynamic-node ls                 # list every available NODE value: today, shorthand, every AbbrTags-derived name, then glossary names alphabetically
