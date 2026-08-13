@@ -92,8 +92,9 @@ kaye-engine claude plugin -z PLUGINS_FOLDER # .zip package (-n drops version)
 kaye-engine claude marketplace              # to ~/.claude/<marketplace folder>
 kaye-engine claude marketplace MARKETPLACE  # to a custom folder
 kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
-kaye-engine claude user-system-prompt       # Chat blueprint as CLAUDE.md
+kaye-engine claude user-system-prompt       # print Chat blueprint to stdout
 kaye-engine claude user-system-prompt -c    # append Coder blueprint content
+kaye-engine claude user-system-prompt --no-show-comment # omit trailing comment
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
 kaye-engine export EXPORTABLE               # print an exportable's content
 kaye-engine export ls                       # list every registered exportable name
@@ -109,11 +110,11 @@ generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` →
 `blueprint generate` and `dynamic-node` both take `-s`/`--sparseness SPARSENESS`
 (shared parser in `kaye_engine/cli/sparseness_parser.py`) to control
 blank-line collapsing in the rendered output: `-1` joins everything into one
-line, `0` strips all blank lines, `1` (default) collapses every run to a
-single blank line, up through `99` which disables trimming entirely.
-Exporters set their own default independent of the CLI default — `SKILL.md`
-and `vs-code-extension` render with `sparseness=0`, `user-system-prompt` with
-`sparseness=1` unless a caller overrides it.
+line, `0` (default) strips all blank lines, `1` collapses every run to a
+single blank line, up through `99` which disables trimming entirely. The
+default lives in `DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`) and is
+shared by `sparseness_parser`, `SKILL.md` export, `user-system-prompt`, and
+`vs-code-extension` alike, unless a caller overrides it.
 
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
 Bash command patterns) into `settings.json`, sourced from
