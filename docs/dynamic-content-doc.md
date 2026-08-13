@@ -1,4 +1,4 @@
-# Kaye Engine: Dynamic Node Documentation
+# Kaye Engine: Dynamic Content Documentation
 
 **Dynamic nodes** are prompt corpus nodes whose content is generated at render time instead of being written by hand — today's date, and similar. Unlike [sidecar nodes](sidecar-node-doc.md), dynamic nodes **are** included in the rendered prompt output by default, exactly like a regular corpus section.
 
