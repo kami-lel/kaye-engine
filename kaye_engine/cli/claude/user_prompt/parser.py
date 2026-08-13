@@ -35,7 +35,11 @@ def _user_prompt_main(args):
 
     surface = ClaudeSurface.combine(args.surface)
 
-    prompt = generate_user_system_prompt(use_coder=args.coder, surface=surface)
+    prompt = generate_user_system_prompt(
+        use_coder=args.coder,
+        surface=surface,
+        show_comment=not args.no_show_comment,
+    )
 
     print(prompt)
 
@@ -67,6 +71,13 @@ def register_user_prompt_parser(cli_subparser):  ###############################
         action="store_true",
         default=False,
         help="append Kaye Peer Coder content after the main blueprint",
+    )
+
+    user_prompt_parser.add_argument(
+        "--no-show-comment",
+        action="store_true",
+        default=False,
+        help="disable the trailing generated-by comment",
     )
 
     kamilog.add_verbose_arguments(user_prompt_parser)
