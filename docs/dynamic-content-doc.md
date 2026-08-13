@@ -2,7 +2,7 @@
 
 **Dynamic nodes** are prompt corpus nodes whose content is generated at render time instead of being written by hand — today's date, and similar. Unlike [sidecar nodes](sidecar-node-doc.md), dynamic nodes **are** included in the rendered prompt output by default, exactly like a regular corpus section.
 
-Every dynamic node's identity is a canonical **kebab-case** `NAME` slug; its heading is that slug wrapped in parentheses, e.g. `(today)` — that syntax marks a node as dynamic wherever it appears, whether in a tree preview, a blueprint, or an error message. This same `NAME` is also the CLI's `NODE` argument and the placeholder name inside a `(((name)))` inline substitution (q.v. [Inline `(((name)))` Substitution](#inline-name-substitution) below) — one canonical name, three surfaces, resolved by a single shared function, `resolve_dynamic_node_factory`.
+Every dynamic node's identity is a canonical **kebab-case** `NAME` slug; its heading is that slug wrapped in parentheses, e.g. `(today)` — that syntax marks a node as dynamic wherever it appears, whether in a tree preview, a blueprint, or an error message. This same `NAME` is also the CLI's `NODE` argument and the placeholder name inside a `(((name)))` inline substitution (q.v. [Dynamic Substitution](#dynamic-substitution) below) — one canonical name, three surfaces, resolved by a single shared function, `resolve_dynamic_node_factory`. Both structures below also accept the same extra render-time keyword arguments (q.v. [Feeding Render-Time Input](#feeding-render-time-input)).
 
 
 
@@ -14,38 +14,54 @@ Every dynamic node's identity is a canonical **kebab-case** `NAME` slug; its hea
 
 
 
+## Dynamic Nodes
 
-
-## Available Dynamic Nodes
-
-| Node | NAME / Heading | Renders |
-| --- | --- | --- |
-| Today | `(today)` | current date and time |
-| AbbrTagNode | `(kebab-case-of-tag-name)` | every abbr entry tagged with that `AbbrTags` member |
+#### Identity & Naming
 
 `AbbrTagNode` is parametrized by an `AbbrTags` member instead of being subclassed per tag — one instance is attached per member of `ABBR_TAG_NODE_MEMBERS` (every simple, single-bit `AbbrTags` member except `always_understand`, which `(decode-only-shorthand)` already covers as its no-query fallback; composite members like `WORD_CHARACTER`/`ASCII` are excluded). Its `NAME` is `slug_for_abbr_tag(abbr_tag)` — the tag's name in kebab-case, e.g. `emoji` → `(emoji)`, `single_character` → `(single-character)`. On the CLI, the `NODE` argument for one of these is that same kebab slug, e.g. `kaye-engine dn emoji`, `kaye-engine dn single-character`.
 
 Every other abbreviation-related dynamic node (`(decode-only-shorthand)`, plus one `(glossary-name)` per abbr glossary, e.g. `(coding-terms)`) is documented in [`abbrs-doc.md`](abbrs-doc.md).
 
+
+
+#### Leaf Constraint
+
 Every dynamic node is a **leaf** — it never has children, so it cannot itself contain sub-sections.
 
 
 
-
-
-
-
-
-
-
-
-
-
-## Using a Dynamic Node
+#### Auto-Attachment
 
 Every dynamic node auto-attaches as a direct child of the root when a corpus tree is created via `load_corpus_tree` — every engine-defined type (`today`, `decode-only-shorthand`), every `ABBR_TAG_NODE_MEMBERS` entry, and every `GlossaryNode` for a glossary registered via `register_abbr_glossary`. You never need to author a `(name)` heading in `prompt_corpus.md` just for a dynamic node to exist and be checkmarkable — a registered glossary with no loaded entries yet still attaches and simply renders empty.
 
-Authoring a top-level `(name)` heading is therefore no longer about existence — it is purely a way to attach custom **preface** text ahead of the node's generated content, v.i. A `(name)` heading resolves against `resolve_dynamic_node_factory`: engine-defined types first, then `AbbrTagNode` slugs, then known glossary names. Loading a corpus **rejects** a parenthesized heading matching none of the three, or one below the root.
+There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `conditional_sidecars=`, q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md#conditional-sidecar-nodes).
+
+
+
+#### Adding Introductory Text (Preface)
+
+A dynamic node's content is generated at render time, so you cannot normally write your own text into it. If you want introductory text to appear above a dynamic node's generated content, write a regular section in `prompt_corpus.md` with that dynamic node's exact heading:
+
+```markdown
+# (today)
+
+The current date and time, for reference.
+```
+
+When the corpus loads, that section is detected, removed from the static tree, and its content lines are carried over as the dynamic node's `preface=` constructor argument — prepended to the dynamic node's generated lines every time it renders. This applies uniformly to every dynamic node type, since it is implemented once, generically, where each node type is attached to the tree — not something each dynamic node opts into individually. The result is a single `(today)` node whose output is:
+
+```markdown
+The current date and time, for reference.
+...
+```
+
+Authoring a top-level `(name)` heading is therefore no longer about existence — it is purely a way to attach a preface ahead of the node's generated content. A `(name)` heading resolves against `resolve_dynamic_node_factory`: engine-defined types first, then `AbbrTagNode` slugs, then known glossary names. Loading a corpus **rejects** a parenthesized heading matching none of the three, or one below the root.
+
+Without an authored heading, a dynamic node still attaches with an empty preface — it renders only its generated content.
+
+
+
+#### Checkmark Control
 
 Once attached, a dynamic node behaves like any other corpus node in a blueprint: checkmark it to include it, uncheckmark it to leave it out.
 
@@ -59,9 +75,64 @@ blueprint = PromptBlueprint.parse(blueprint_text)
 prompt = blueprint.generate_prompt()
 ```
 
-There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `conditional_sidecars=`, q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md#conditional-sidecar-nodes).
-
 Because every dynamic node now auto-attaches, `PromptBlueprint.create_full_blueprint()` checkmarks them too, like any other node — its output now includes today's date/time, the shorthand fallback list, and the full content of every abbr-tag and every registered glossary, where previously it was effectively empty of dynamic content unless explicitly authored.
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Dynamic Substitution
+
+#### Resolution & Headless Rendering
+
+Alongside the tree-child mechanism above, `PromptBlueprint.generate_prompt()` runs a second, independent pass: any `(((name)))` placeholder appearing anywhere in the fully-assembled prompt text is replaced with that dynamic node's generated content — unconditionally, regardless of whether a same-named tree child exists or is checkmarked. This lets you drop a dynamic node's content in the middle of ordinary prose, not just as a whole checkmark-controlled section.
+
+`name` resolves against the same `resolve_dynamic_node_factory` used by the tree mechanism, via a **headless** instance of the matched `DynamicNode` subclass (`parent=None`, empty preface) — content generation is identical, just without ever attaching to the tree.
+
+
+
+#### Unconditional, Anywhere-in-Prose
+
+```markdown
+Today's date is (((today))), for reference.
+```
+
+renders as:
+
+```markdown
+Today's date is Date: 2026-08-13
+Time: 16:35:45, for reference.
+```
+
+An unresolved `name` logs a warning and leaves the literal `(((name)))` text in place — it never raises.
+
+The two mechanisms are independent and both fully functional: `DynamicNode` tree children give you whole-section, checkmark-controlled, preface-capable content; `(((name)))` substitution gives you the same generated content dropped anywhere inside ordinary prose, unconditionally.
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Available Dynamic Node/Substitution
+
+`Today`, with `NAME`/heading `(today)`, renders the current date and time.
+
+`AbbrTagNode`, with `NAME`/heading `(kebab-case-of-tag-name)`, renders every abbr entry tagged with that `AbbrTags` member.
 
 
 
@@ -87,57 +158,3 @@ prompt = blueprint.generate_prompt(
 
 A dynamic node that has nothing to key off of ignores keywords it doesn't recognize. `(today)` needs no input at all; it always renders the current date and time.
 
-
-
-
-
-
-
-
-
-
-
-
-
-## Adding Introductory Text
-
-A dynamic node's content is generated at render time, so you cannot normally write your own text into it. If you want introductory text to appear above a dynamic node's generated content, write a regular section in `prompt_corpus.md` with that dynamic node's exact heading:
-
-```markdown
-# (today)
-
-The current date and time, for reference.
-```
-
-When the corpus loads, that section is detected, removed from the static tree, and its content lines are carried over as the dynamic node's `preface=` constructor argument — prepended to the dynamic node's generated lines every time it renders. This applies uniformly to every dynamic node type, since it is implemented once, generically, where each node type is attached to the tree — not something each dynamic node opts into individually. The result is a single `(today)` node whose output is:
-
-```markdown
-The current date and time, for reference.
-...
-```
-
-Without an authored heading, a dynamic node still attaches (q.v. [Using a Dynamic Node](#using-a-dynamic-node)) with an empty preface — it renders only its generated content.
-
-
-
-
-## Inline `(((name)))` Substitution
-
-Alongside the tree-child mechanism above, `PromptBlueprint.generate_prompt()` runs a second, independent pass: any `(((name)))` placeholder appearing anywhere in the fully-assembled prompt text is replaced with that dynamic node's generated content — unconditionally, regardless of whether a same-named tree child exists or is checkmarked. This lets you drop a dynamic node's content in the middle of ordinary prose, not just as a whole checkmark-controlled section.
-
-```markdown
-Today's date is (((today))), for reference.
-```
-
-renders as:
-
-```markdown
-Today's date is Date: 2026-08-13
-Time: 16:35:45, for reference.
-```
-
-`name` resolves against the same `resolve_dynamic_node_factory` used by the tree mechanism, via a **headless** instance of the matched `DynamicNode` subclass (`parent=None`, empty preface) — content generation is identical, just without ever attaching to the tree. Keyword arguments passed to `generate_prompt()` (`query=`, `glossary_priority_threshold=`, etc.) are forwarded the same way as to the tree-walk render.
-
-An unresolved `name` logs a warning and leaves the literal `(((name)))` text in place — it never raises.
-
-The two mechanisms are independent and both fully functional: `DynamicNode` tree children give you whole-section, checkmark-controlled, preface-capable content; `(((name)))` substitution gives you the same generated content dropped anywhere inside ordinary prose, unconditionally.
