@@ -44,7 +44,7 @@ not a gap to fill.
 | **Exportable** | common base for anything `exportable_registry` holds — `BlueprintRegistry` and `ExportableAbbr` are its two implementers |
 | **Role** | a task-specific behavior profile held inside the corpus |
 | **Sidecar Node** | a `{name}` subnode; metadata or conditional content |
-| **Dynamic Node** | a `(Name)` node whose content is generated at render |
+| **Dynamic Node** | a `(name)` node (canonical kebab-case `NAME`) whose content is generated at render |
 | **Affordance** | a named platform capability, tracked in `affordance_registry` |
 | **ClaudeSurface** | an enum mapping a Claude surface (Chat, Cowork, Code, VS Code) to the affordance names available on it |
 
@@ -79,10 +79,14 @@ auto-checkmark only the sidecars real on that surface. Q.v. [Claude
 documentation](docs/claude-doc.md) and [sidecar node
 documentation](docs/sidecar-node-doc.md).
 
-Dynamic nodes are attached to the tree at load time and cover today's date
-plus the abbreviation glossaries. Q.v. [dynamic node
-documentation](docs/dynamic-node-doc.md) and [abbreviation collection
-documentation](docs/abbrs-doc.md).
+Dynamic nodes auto-attach to every tree at load time — no authored
+heading required for existence — and cover today's date plus the
+abbreviation glossaries; an authored `(name)` heading only supplies
+custom preface text. A second, independent mechanism, inline
+`(((name)))` substitution, resolves the same canonical names anywhere
+inside rendered prompt text at `generate_prompt()` time. Q.v. [dynamic
+node documentation](docs/dynamic-node-doc.md) and [abbreviation
+collection documentation](docs/abbrs-doc.md).
 
 ## Public API
 
