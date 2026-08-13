@@ -13,7 +13,7 @@ import pytest
 
 from kaye_engine.abbr_collection.abbr_data import _abbr_data
 from kaye_engine.abbr_collection.abbr_meaning import AbbrMeaning
-from kaye_engine.prompt.dynamic_nodes import GlossaryNode
+from kaye_engine.prompt.dynamic_nodes import GlossaryNode, TodayNode
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
 
@@ -34,8 +34,8 @@ class TestDynamic:
     every dynamic node -- engine-defined types (``DYNAMIC_NODE_TYPES``),
     every ``ABBR_TAG_NODE_MEMBERS`` tag, and every registered abbr
     glossary -- auto-attaches unconditionally, with no corresponding
-    corpus heading required; an explicit ``(name)`` heading only
-    supplies custom preface text, see ``TestPreface`` below
+    corpus heading required; an explicit ``(name)`` heading instead
+    fixes preface and location, see ``TestPreface``/``TestNestedParenHeading``
     """
 
     def test_today(_, prompt_corpus_tree_preview):
@@ -154,7 +154,25 @@ class TestPreface:
                 load_corpus_tree("dynamic-nodes-reject-test", "d.md")
 
 
-class TestNestedParenHeadingRejected:
+class TestNestedParenHeading:
+    """
+    a ``(name)`` heading registers its dynamic node at that exact tree
+    location -- any depth, in place of the heading -- not only as a
+    direct child of root
+    """
+
+    def test_recognized_nested_paren_heading_attaches_at_location(_):
+        m = mock_open(read_data="# Intro\n\n## (today)\nSome content.\n")
+
+        with patch("builtins.open", m):
+            tree = load_corpus_tree("dynamic-nodes-nested-today-test", "d.md")
+
+        today_node = tree["Intro"]["(today)"]
+        assert isinstance(today_node, TodayNode)
+        assert "Some content." in today_node.content_lines()
+
+        # not also appended at root
+        assert "(today)" not in [c.name for c in tree.children]
 
     def test_unrecognized_nested_paren_heading_raises(_):
         m = mock_open(
@@ -162,16 +180,34 @@ class TestNestedParenHeadingRejected:
         )
 
         with pytest.raises(
-            ValueError, match="only allowed as a direct child of root"
+            ValueError, match="unrecognized dynamic node name"
         ):
             with patch("builtins.open", m):
                 load_corpus_tree("dynamic-nodes-nested-reject-test", "d.md")
 
-    def test_recognized_nested_paren_heading_still_raises(_):
-        m = mock_open(read_data="# Intro\n\n## (today)\nSome content.\n")
+    def test_duplicate_heading_for_same_node_raises(_):
+        m = mock_open(
+            read_data="# (today)\nRoot preface.\n\n# Intro\n\n## (today)\n"
+            "Nested preface.\n"
+        )
 
         with pytest.raises(
-            ValueError, match="only allowed as a direct child of root"
+            ValueError, match="duplicate heading for dynamic node"
         ):
             with patch("builtins.open", m):
-                load_corpus_tree("dynamic-nodes-nested-today-test", "d.md")
+                load_corpus_tree("dynamic-nodes-duplicate-heading-test", "d.md")
+
+
+class TestLocationOrdering:
+    """
+    a dynamic node located via heading swaps into that heading's
+    position, preserving order among its siblings
+    """
+
+    def test_root_sibling_order_preserved(_):
+        m = mock_open(read_data="# A\n\n# (today)\nPreface.\n\n# B\n")
+
+        with patch("builtins.open", m):
+            tree = load_corpus_tree("dynamic-nodes-order-test", "d.md")
+
+        assert [c.name for c in tree.children][:3] == ["A", "(today)", "B"]
