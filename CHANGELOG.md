@@ -38,6 +38,14 @@ todo todo utilize personalities, allow multi agent conversation
 - registered Claude affordance catalog, auto-loaded on `setup_claude_cli`
 - per-surface sidecar names on `ClaudeSurface.as_contained_sidecars`,
   derived from the enum member name
+- `DEFAULT_SPARSENESS` constant (`kaye_engine/cli/__init__.py`), the shared
+  default for every CLI entry point accepting a `sparseness` param
+- `generate_user_system_prompt()`, rendering the Chat (optionally +Coder)
+  blueprint to a string; `export_user_system_prompt_file()` now writes
+  that string to a file rather than rendering it itself
+- `--no-show-comment` flag on `claude usp` and `claude vs-code-extension`,
+  threading a `show_comment` param through the user-prompt export chain
+  to suppress the trailing generated-by comment
 
 ### Changed
 
@@ -53,12 +61,25 @@ todo todo utilize personalities, allow multi agent conversation
 - rewrote `docs/claude-doc.md` and `docs/sidecar-node-doc.md`: replaced
   tool inventory/sidecar matrix tables with affordance registry
   reference, cross-linked the two docs
+- `kaye-engine claude user-system-prompt` (`usp`) now prints the rendered
+  prompt to stdout instead of writing it to a file; the `PROMPT_FILE`
+  positional argument is removed
+- default `sparseness` changed from `1` to `0` everywhere it is applied
+  (`sparseness_parser`, `usp`, `claude skill`, `vs-code-extension`), so
+  omitting `--sparseness` now strips blank lines rather than keeping
+  single ones
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- documented the Coder-blueprint merge contract (`coder_bp_name` is
+  merged into Chat via `|` to build the `-c` prompt, and may also stand
+  alone as its own exportable Skill) in `blueprint_name.py`,
+  `setup.py`, and `docs/claude-doc.md`; cleared the resolved
+  FIXME/Todo comments this settles in `user_prompt/export.py`
 
 ### Security
 
