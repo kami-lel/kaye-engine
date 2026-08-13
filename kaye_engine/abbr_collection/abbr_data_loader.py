@@ -31,6 +31,9 @@ def populate_abbr_data_with_json_file(file_path):  # ===========================
     :func:`kaye_engine.cli.exportable_abbr.register_exportable_abbrs`, so
     callers need not register those groups themselves
 
+    Prerequisite: :func:`register_abbr_glossary` for every glossary
+    name referenced by an entry's ``glossaries`` field
+
 
     :param file_path: path of the ``abbrs.json`` file to load
     :type file_path: Path or str

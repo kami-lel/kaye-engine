@@ -89,6 +89,9 @@ def load_corpus_tree(  # =======================================================
     parse ``file_path`` into a **prompt corpus tree** and cache it under
     ``tree_name``, attaching the various dynamic nodes once
 
+    Prerequisite: :func:`register_abbr_glossary` for every glossary
+    named in a ``(name)`` heading of ``file_path``
+
 
     :param tree_name: key this tree is cached under; every subsequent
             :func:`get_corpus_tree` call with this name returns the
@@ -201,8 +204,11 @@ def get_corpus_tree(tree_name):  # =============================================
 
 def get_default_corpus_tree():  # ==============================================
     """
-    :raises ValueError: no tree has been flagged default yet, via
-            ``load_corpus_tree(..., is_default_tree=True)``
+    Prerequisite: :func:`load_corpus_tree` called with
+    ``is_default_tree=True``
+
+
+    :raises ValueError: no tree has been flagged default yet
     :return: **root** node of the corpus tree flagged default
     :rtype: PromptCorpusNode
     """
