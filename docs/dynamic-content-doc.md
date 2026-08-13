@@ -32,7 +32,9 @@ Every dynamic node is a **leaf** — it never has children, so it cannot itself 
 
 #### Auto-Attachment
 
-Every dynamic node auto-attaches as a direct child of the root when a corpus tree is created via `load_corpus_tree` — every engine-defined type (`today`, `decode-only-shorthand`), every `ABBR_TAG_NODE_MEMBERS` entry, and every `GlossaryNode` for a glossary registered via `register_abbr_glossary`. You never need to author a `(name)` heading in `prompt_corpus.md` just for a dynamic node to exist and be checkmarkable — a registered glossary with no loaded entries yet still attaches and simply renders empty.
+Every dynamic node auto-attaches when a corpus tree is created via `load_corpus_tree` — every engine-defined type (`today`, `decode-only-shorthand`), every `ABBR_TAG_NODE_MEMBERS` entry, and every `GlossaryNode` for a glossary registered via `register_abbr_glossary`. You never need to author a `(name)` heading in `prompt_corpus.md` just for a dynamic node to exist and be checkmarkable — a registered glossary with no loaded entries yet still attaches and simply renders empty.
+
+Where it attaches depends on whether `prompt_corpus.md` authors that node's `(name)` heading. Authored, at any nesting depth: the dynamic node takes that heading's exact spot in the tree, in place of it, keeping its position among siblings. Not authored: the node falls back to a direct child of root.
 
 There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `conditional_sidecars=`, q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md#conditional-sidecar-nodes).
 
@@ -40,7 +42,7 @@ There is no special opt-in required — unlike conditional sidecar nodes, which 
 
 #### Adding Introductory Text (Preface)
 
-A dynamic node's content is generated at render time, so you cannot normally write your own text into it. If you want introductory text to appear above a dynamic node's generated content, write a regular section in `prompt_corpus.md` with that dynamic node's exact heading:
+A dynamic node's content is generated at render time, so you cannot normally write your own text into it. If you want introductory text to appear above a dynamic node's generated content — and, per [Auto-Attachment](#auto-attachment) above, to place that node at a specific tree location — write a regular section in `prompt_corpus.md` with that dynamic node's exact heading:
 
 ```markdown
 # (today)
@@ -48,16 +50,16 @@ A dynamic node's content is generated at render time, so you cannot normally wri
 The current date and time, for reference.
 ```
 
-When the corpus loads, that section is detected, removed from the static tree, and its content lines are carried over as the dynamic node's `preface=` constructor argument — prepended to the dynamic node's generated lines every time it renders. This applies uniformly to every dynamic node type, since it is implemented once, generically, where each node type is attached to the tree — not something each dynamic node opts into individually. The result is a single `(today)` node whose output is:
+When the corpus loads, that section is detected, swapped for the dynamic node it names, and its content lines are carried over as the dynamic node's `preface=` constructor argument — prepended to the dynamic node's generated lines every time it renders. This applies uniformly to every dynamic node type, since it is implemented once, generically, where each node type is attached to the tree — not something each dynamic node opts into individually. The result is a single `(today)` node, in place of the authored heading, whose output is:
 
 ```markdown
 The current date and time, for reference.
 ...
 ```
 
-Authoring a top-level `(name)` heading is therefore no longer about existence — it is purely a way to attach a preface ahead of the node's generated content. A `(name)` heading resolves against `resolve_dynamic_node_factory`: engine-defined types first, then `AbbrTagNode` slugs, then known glossary names. Loading a corpus **rejects** a parenthesized heading matching none of the three, or one below the root.
+A `(name)` heading resolves against `resolve_dynamic_node_factory`: engine-defined types first, then `AbbrTagNode` slugs, then known glossary names. Loading a corpus **rejects** a parenthesized heading matching none of the three, and a `(name)` heading authored more than once for the same dynamic node.
 
-Without an authored heading, a dynamic node still attaches with an empty preface — it renders only its generated content.
+Without an authored heading, a dynamic node still attaches — at root, with an empty preface — and renders only its generated content.
 
 
 

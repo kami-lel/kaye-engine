@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-BUG order failed to matter for dynamic node
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -75,6 +74,10 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Fixed
 
+- `load_corpus_tree` now attaches a dynamic node at its authored
+  `(name)` heading's exact tree location -- any depth, in place of the
+  heading, preserving sibling order -- instead of always appending to
+  root regardless of where the heading sits
 - documented the Coder-blueprint merge contract (`coder_bp_name` is
   merged into Chat via `|` to build the `-c` prompt, and may also stand
   alone as its own exportable Skill) in `blueprint_name.py`,
