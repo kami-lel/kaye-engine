@@ -7,6 +7,7 @@ define ``generate_user_system_prompt``, ``export_user_system_prompt_file``
 from pathlib import Path
 
 from kaye_engine import kamilog
+from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.blueprint_name import (
     get_claude_chat_blueprint,
@@ -21,7 +22,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 def generate_user_system_prompt(
     *,
     use_coder=False,
-    sparseness=1,
+    sparseness=DEFAULT_SPARSENESS,
     surface=None,
     show_comment=False,
 ):
@@ -66,7 +67,7 @@ def export_user_system_prompt_file(
     file_path,
     *,
     use_coder=False,
-    sparseness=1,
+    sparseness=DEFAULT_SPARSENESS,
     surface=None,
     show_comment=False,
 ):

@@ -7,6 +7,7 @@ define ``export_vs_code_extension``
 from pathlib import Path
 
 from kaye_engine import kamilog
+from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.marketplace.export import export_marketplace
 from kaye_engine.cli.claude.setup import get_marketplace_folder_name
@@ -50,7 +51,7 @@ def export_vs_code_extension(claude_folder, *, surface=None, show_comment=True):
     export_user_system_prompt_file(
         prompt_file,
         use_coder=True,
-        sparseness=0,
+        sparseness=DEFAULT_SPARSENESS,
         surface=surface,
         show_comment=show_comment,
     )
