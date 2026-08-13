@@ -11,6 +11,8 @@ import re
 
 from anytree import PreOrderIter
 
+from kaye_engine.abbr_collection import abbr_glossary_registry
+
 from .dynamic_nodes import (
     ABBR_TAG_NODE_MEMBERS,
     DYNAMIC_NODE_TYPES,
@@ -79,7 +81,13 @@ def load_corpus_tree(  # =======================================================
 ):
     """
     parse ``file_path`` into a **prompt corpus tree** and cache it under
-    ``tree_name``, attaching the various dynamic nodes once
+    ``tree_name`` -- every dynamic node (each ``DYNAMIC_NODE_TYPES``
+    member, each ``ABBR_TAG_NODE_MEMBERS`` tag, and every glossary
+    registered with ``abbr_glossary_registry``) is auto-attached as a
+    direct child of root, whether or not ``file_path`` explicitly
+    authors its ``(name)`` heading; an explicit ``(name)`` heading is
+    now only needed to attach custom preface text -- existence and
+    checkmarkability no longer require authoring
 
     Prerequisite: :func:`register_abbr_glossary` for every glossary
     named in a ``(name)`` heading of ``file_path``
@@ -166,8 +174,12 @@ def load_corpus_tree(  # =======================================================
             tree, abbr_tag=abbr_tag, preface=abbr_tag_prefaces.get(abbr_tag, ())
         )
 
-    for glossary_name, preface in glossary_prefaces.items():
-        GlossaryNode(tree, glossary_name=glossary_name, preface=preface)
+    for glossary_name in sorted(abbr_glossary_registry):
+        GlossaryNode(
+            tree,
+            glossary_name=glossary_name,
+            preface=glossary_prefaces.get(glossary_name, ()),
+        )
 
     _corpus_tree_cache[tree_name] = tree
 
