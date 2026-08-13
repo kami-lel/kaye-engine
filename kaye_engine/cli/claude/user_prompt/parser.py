@@ -1,15 +1,15 @@
-"""write the Kaye Chat blueprint as the User System Prompt CLAUDE.md"""
+"""render the Kaye Chat blueprint as the User System Prompt"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import PACKAGE_NAME, kamilog
+from kaye_engine import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.surface_parser import build_surface_parent_parser
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.prompt.claude_surface import ClaudeSurface
 
-from .export import export_user_system_prompt_file
+from .export import generate_user_system_prompt
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
@@ -18,10 +18,10 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 _DESCRIPTION = """
 
-renders the Chat blueprint and writes it to PROMPT_FILE as the User System
-Prompt; optionally appends the Coder blueprint with -c.
+renders the Chat blueprint as the User System Prompt; the result is
+printed to stdout. Optionally appends the Coder blueprint with -c.
 
-PROMPT_FILE  (default: ~/.claude/CLAUDE.md)
+    kaye-engine claude usp > ~/.claude/CLAUDE.md
 """
 
 # helper  ######################################################################
@@ -31,17 +31,13 @@ DEFAULT_CLAUDE_FOLDER = Path.home() / ".claude"
 
 def _user_prompt_main(args):
     kamilog.set_logging_level_by_namespace(args, logger=logger)
-    logger.enter("{} claude user-system-prompt".format(PACKAGE_NAME))
     check_corpus_setup_for_cli()
 
-    prompt_file = args.prompt_file
     surface = ClaudeSurface.combine(args.surface)
 
-    export_user_system_prompt_file(
-        prompt_file, use_coder=args.coder, surface=surface
-    )
+    prompt = generate_user_system_prompt(use_coder=args.coder, surface=surface)
 
-    logger.done("export user system prompt" + "\t" + str(prompt_file))
+    print(prompt)
 
 
 def find_user_system_prompt_file(claude_folder):
@@ -63,15 +59,6 @@ def register_user_prompt_parser(cli_subparser):  ###############################
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["usp"],
         parents=[build_surface_parent_parser(("chat", "cowork"))],
-    )
-
-    user_prompt_parser.add_argument(
-        "prompt_file",
-        nargs="?",
-        metavar="PROMPT_FILE",
-        type=Path,
-        default=find_user_system_prompt_file(DEFAULT_CLAUDE_FOLDER),
-        help="path to CLAUDE.md file; default: ~/.claude/CLAUDE.md",
     )
 
     user_prompt_parser.add_argument(
