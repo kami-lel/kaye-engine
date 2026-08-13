@@ -14,7 +14,7 @@ class DynamicTestee(DynamicNode):
 
     # implement DynamicNode  ===================================================
 
-    HEADING = "Testee Node"
+    NAME = "testee-node"
 
     # implement BasePromptNode  ================================================
 
@@ -44,7 +44,7 @@ class TestName:  ###############################################################
     def test1(_, testee1):
         opt = testee1.name
         print(opt)
-        assert opt == "(Testee Node)"
+        assert opt == "(testee-node)"
 
 
 class TestNoChild:  ############################################################
