@@ -17,9 +17,9 @@ from kaye_engine.cli.claude.blueprint_name import (
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
-# Hack kaye a usp: dont take file path, to allow > pattern
-# Fixme kaye a usp: claude setup take a blueprint that merge into chat
-# Todo kaye a usp: need include version
+# HACK kaye a usp: dont take file path, to allow > pattern
+# FIXME kaye a usp: claude setup take a blueprint that merge into chat
+# TODO kaye a usp: need include version
 
 
 # Main Entry Point  ############################################################
@@ -64,8 +64,7 @@ def export_user_system_prompt_file(
                 surface.as_affordances() if surface is not None else None
             ),
             conditional_sidecars=(
-                surface.as_contained_sidecars()
-                if surface is not None else ()
+                surface.as_contained_sidecars() if surface is not None else ()
             ),
             sparseness=sparseness,
         ),
