@@ -4,6 +4,9 @@ prompt_corpus_loader.py
 define ``load_corpus_tree`` and ``get_corpus_tree`` -- a name-keyed
 cache of parsed prompt corpus trees -- plus ``get_default_corpus_tree``,
 resolving whichever tree was loaded with ``is_default_tree=True``
+
+Every dynamic node auto-attaches; an authored ``(name)`` heading, at
+any depth, fixes its location and preface -- else it falls back to root.
 """
 
 import functools
@@ -82,12 +85,11 @@ def load_corpus_tree(  # =======================================================
     """
     parse ``file_path`` into a **prompt corpus tree** and cache it under
     ``tree_name`` -- every dynamic node (each ``DYNAMIC_NODE_TYPES``
-    member, each ``ABBR_TAG_NODE_MEMBERS`` tag, and every glossary
-    registered with ``abbr_glossary_registry``) is auto-attached as a
-    direct child of root, whether or not ``file_path`` explicitly
-    authors its ``(name)`` heading; an explicit ``(name)`` heading is
-    now only needed to attach custom preface text -- existence and
-    checkmarkability no longer require authoring
+    member, each ``ABBR_TAG_NODE_MEMBERS`` tag, and every registered
+    glossary) auto-attaches unconditionally; an authored ``(name)``
+    heading, at any depth in ``file_path``, fixes its preface and tree
+    location in place of the heading -- else it falls back to a direct
+    child of root
 
     Prerequisite: :func:`register_abbr_glossary` for every glossary
     named in a ``(name)`` heading of ``file_path``
@@ -106,9 +108,10 @@ def load_corpus_tree(  # =======================================================
     :type is_default_tree: bool, optional
     :raises ValueError: ``tree_name`` is already registered,
             ``is_default_tree`` is set while a default tree already
-            exists, or ``file_path`` contains a heading wrapped in
-            parentheses -- reserved for dynamic nodes, and only valid
-            as a direct child of the root
+            exists, ``file_path`` contains a heading wrapped in
+            parentheses -- reserved for dynamic nodes -- that resolves
+            to no known dynamic node, or two headings resolve to the
+            same dynamic node
     :raises FileNotFoundError:
     :raises IOError:
     :return: **root** node of the parsed *prompt corpus tree*
@@ -140,45 +143,60 @@ def load_corpus_tree(  # =======================================================
     tree = PromptCorpusNode.parse(ROOT_NODE_NAME, None, text_lines)
 
     # add dynamic nodes  -------------------------------------------------------
-    prefaces = {}
-    abbr_tag_prefaces = {}
-    glossary_prefaces = {}
-    for child in list(tree.children):
-        node_type, kwargs = _resolve_dynamic_heading(child.name)
-        if node_type is AbbrTagNode:
-            abbr_tag_prefaces[kwargs["abbr_tag"]] = tuple(child.content_lines())
-            child.parent = None
-        elif node_type is GlossaryNode:
-            glossary_prefaces[kwargs["glossary_name"]] = tuple(
-                child.content_lines()
-            )
-            child.parent = None
-        elif node_type is not None:
-            prefaces[node_type] = tuple(child.content_lines())
-            child.parent = None
-
-    # any remaining "(...)" heading is invalid -- that syntax is reserved
-    # for dynamic nodes, which attach only as direct children of the root
+    # locate every "(name)" heading that resolves to a dynamic node;
+    # unresolved headings raise inside _resolve_dynamic_heading
+    locations = {}
     for node in PreOrderIter(tree):
-        if node is not tree and _is_parenthesized_heading(node.name):
+        if node is tree:
+            continue
+
+        node_type, kwargs = _resolve_dynamic_heading(node.name)
+        if node_type is None:
+            continue
+
+        key = (node_type, tuple(sorted(kwargs.items())))
+        if key in locations:
             raise ValueError(
-                "dynamic node heading only allowed as a direct child "
-                "of root: {}".format(node.name)
+                "duplicate heading for dynamic node: {}".format(node.name)
             )
+        locations[key] = node
+
+    def _attach(new_node, key):
+        # swap into the heading's position, or fall back to root
+        heading_node = locations.get(key)
+        if heading_node is None:
+            new_node.parent = tree
+            return
+
+        parent = heading_node.parent
+        parent.children = tuple(
+            new_node if child is heading_node else child
+            for child in parent.children
+        )
+
+    def _preface_for(key):
+        heading_node = locations.get(key)
+        if heading_node is None:
+            return ()
+        return tuple(heading_node.content_lines())
 
     for node_type in DYNAMIC_NODE_TYPES:
-        node_type(tree, preface=prefaces.get(node_type, ()))
+        key = (node_type, ())
+        _attach(node_type(None, preface=_preface_for(key)), key)
 
     for abbr_tag in ABBR_TAG_NODE_MEMBERS:
-        AbbrTagNode(
-            tree, abbr_tag=abbr_tag, preface=abbr_tag_prefaces.get(abbr_tag, ())
+        key = (AbbrTagNode, (("abbr_tag", abbr_tag),))
+        _attach(
+            AbbrTagNode(None, abbr_tag=abbr_tag, preface=_preface_for(key)), key
         )
 
     for glossary_name in sorted(abbr_glossary_registry):
-        GlossaryNode(
-            tree,
-            glossary_name=glossary_name,
-            preface=glossary_prefaces.get(glossary_name, ()),
+        key = (GlossaryNode, (("glossary_name", glossary_name),))
+        _attach(
+            GlossaryNode(
+                None, glossary_name=glossary_name, preface=_preface_for(key)
+            ),
+            key,
         )
 
     _corpus_tree_cache[tree_name] = tree
