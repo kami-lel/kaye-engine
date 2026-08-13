@@ -81,11 +81,13 @@ documentation](docs/sidecar-node-doc.md).
 
 Dynamic nodes auto-attach to every tree at load time — no authored
 heading required for existence — and cover today's date plus the
-abbreviation glossaries; an authored `(name)` heading only supplies
-custom preface text. A second, independent mechanism, inline
-`(((name)))` substitution, resolves the same canonical names anywhere
-inside rendered prompt text at `generate_prompt()` time. Q.v. [dynamic
-node documentation](docs/dynamic-content-doc.md) and [abbreviation
+abbreviation glossaries; an authored `(name)` heading, at any depth,
+fixes the node's preface and tree location in place of the heading
+itself, else it falls back to a direct child of root. A second,
+independent mechanism, inline `(((name)))` substitution, resolves the
+same canonical names anywhere inside rendered prompt text at
+`generate_prompt()` time. Q.v. [dynamic node
+documentation](docs/dynamic-content-doc.md) and [abbreviation
 collection documentation](docs/abbrs-doc.md).
 
 ## Public API

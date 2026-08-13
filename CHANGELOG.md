@@ -45,6 +45,14 @@ todo todo utilize personalities, allow multi agent conversation
 - `--no-show-comment` flag on `claude usp` and `claude vs-code-extension`,
   threading a `show_comment` param through the user-prompt export chain
   to suppress the trailing generated-by comment
+- inline `(((name)))` placeholder substitution
+  (`apply_dynamic_substitutions`), a render-time search-and-replace pass
+  resolving dynamic-node content anywhere inside a generated prompt,
+  independent of checkmarking; wired into
+  `PromptBlueprint.generate_prompt()`
+- `resolve_dynamic_node_factory`, the single canonical-name resolver
+  (`kaye_engine/prompt/dynamic_nodes/registry.py`) now shared by the
+  corpus loader and the `dynamic-node` CLI
 
 ### Changed
 
@@ -67,6 +75,18 @@ todo todo utilize personalities, allow multi agent conversation
   (`sparseness_parser`, `usp`, `claude skill`, `vs-code-extension`), so
   omitting `--sparseness` now strips blank lines rather than keeping
   single ones
+- every dynamic node (engine-defined types, `AbbrTagNode` tags, and
+  registered glossaries) now auto-attaches to every corpus tree
+  unconditionally, in canonical kebab-case `NAME`; an authored `(name)`
+  heading is no longer required for a dynamic node to exist, only to
+  customize its preface and tree location
+- `DynamicNode.HEADING` renamed `NAME`; `AbbrTagNode` slugs derive from
+  `slug_for_abbr_tag()` (was `heading_for_abbr_tag()`), producing
+  kebab-case (`single-character`) instead of Title Case
+  (`Single Character`)
+- `dynamic-node-doc.md` renamed `dynamic-content-doc.md` and
+  reorganized: the tree auto-attach mechanism and inline `(((name)))`
+  substitution are unified under one Dynamic Substitution section
 
 ### Deprecated
 
