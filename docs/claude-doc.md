@@ -23,7 +23,7 @@ kaye-engine claude skill                # export exportables as Skill folders or
 kaye-engine claude plugin               # export exportables as a plugin folder or .zip package
 kaye-engine claude marketplace          # export a marketplace folder for the Claude sidebar
 kaye-engine claude code                 # export a plugin plus CLAUDE.md into ~/.claude
-kaye-engine claude user-system-prompt   # export a blueprint as ~/.claude/CLAUDE.md
+kaye-engine claude user-system-prompt   # print the User System Prompt
 kaye-engine claude vs-code-extension    # export CLAUDE.md, marketplace, and settings.json
                                         # into ~/.claude for the Claude Code VS Code Extension
 ```
@@ -91,6 +91,8 @@ To load the marketplace in VS Code:
 ## Consumer Requirement
 
 A corpus must supply a node at `Agentic` → `Claude Behavior`, and register a Chat blueprint and a Coder blueprint under whatever names the consumer passes to `setup_claude_cli(...)`; `user_prompt/export.py` resolves them via `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` in `blueprint_name.py`.
+
+The Coder blueprint (`coder_bp_name`) is merged into the Chat blueprint via `|` to build the final `-c` prompt used by `usp -c`, `claude code`, and `claude vs-code-extension`; it may also double as its own standalone exportable Skill (e.g. Kaye Vault registers one blueprint, `"coder"`, for both roles — see `kaye_vault/bp/coder.py`).
 
 ----
 

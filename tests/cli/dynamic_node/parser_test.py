@@ -259,7 +259,7 @@ class TestSparsenessFlag:  #####################################################
             dynamic_node_parser, "get_default_corpus_tree", lambda: root
         )
 
-    def test_omitted_keeps_single_blank_lines(self, capsys):
+    def test_omitted_defaults_to_no_blank_lines(self, capsys):
         parser = _build_dn_parser()
         args = parser.parse_args(
             ["dynamic-node", "some-glossary", "other-glossary"]
@@ -267,8 +267,9 @@ class TestSparsenessFlag:  #####################################################
         args.func(args)
 
         out = capsys.readouterr().out
-        assert "\n\n\n" not in out
-        assert "\n\n" in out
+        assert "\n\n" not in out
+        assert "This is the some-glossary preface line." in out
+        assert "This is the other-glossary preface line." in out
 
     def test_zero_removes_blank_lines(self, capsys):
         parser = _build_dn_parser()

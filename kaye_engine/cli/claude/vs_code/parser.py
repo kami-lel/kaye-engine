@@ -55,7 +55,9 @@ def _vs_code_main(args):
     folder = args.folder
     surface = ClaudeSurface.combine(args.surface)
 
-    marketplace_path = export_vs_code_extension(folder, surface=surface)
+    marketplace_path = export_vs_code_extension(
+        folder, surface=surface, show_comment=not args.no_show_comment
+    )
 
     logger.info("marketplace.json location:\n" + str(marketplace_path))
     logger.done("export VS Code Extension folder:\t" + str(folder))
@@ -79,6 +81,13 @@ def register_vs_code_parser(cli_subparser):  ###################################
         type=Path,
         default=DEFAULT_CLAUDE_FOLDER,
         help="path to local .claude/ folder; default: ~/.claude",
+    )
+
+    vs_code_parser.add_argument(
+        "--no-show-comment",
+        action="store_true",
+        default=False,
+        help="disable the trailing generated-by comment in CLAUDE.md",
     )
 
     kamilog.add_verbose_arguments(vs_code_parser)
