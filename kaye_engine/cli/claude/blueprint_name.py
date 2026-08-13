@@ -48,6 +48,10 @@ def get_claude_chat_blueprint():
 
 def get_claude_coder_blueprint():
     """
+    the returned blueprint is meant to be merged into the Chat blueprint
+    (via ``|``) to build the final ``-c`` prompt; see ``coder_bp_name``
+    on :func:`kaye_engine.cli.claude.setup.setup_claude_cli`
+
     :raises SystemExit: exit code 1, when no consumer project has called
             ``setup_claude_cli(...)``, or the configured name is not a
             registered blueprint

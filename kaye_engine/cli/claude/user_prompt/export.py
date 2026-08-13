@@ -17,10 +17,6 @@ from kaye_engine.cli.claude.blueprint_name import (
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
-# FIXME kaye a usp: claude setup take a blueprint that merge into chat
-# TODO kaye a usp: need include version
-
-
 # Main Entry Point  ############################################################
 def generate_user_system_prompt(
     *,
@@ -57,9 +53,7 @@ def generate_user_system_prompt(
         blueprint = blueprint | get_claude_coder_blueprint()
 
     return blueprint.generate_prompt(
-        affordances=(
-            surface.as_affordances() if surface is not None else None
-        ),
+        affordances=(surface.as_affordances() if surface is not None else None),
         conditional_sidecars=(
             surface.as_contained_sidecars() if surface is not None else ()
         ),

@@ -51,7 +51,11 @@ def setup_claude_cli(
     :type marketplace_name: str
     :param chat_bp_name: registered name of the Chat blueprint
     :type chat_bp_name: str
-    :param coder_bp_name: registered name of the Coder blueprint
+    :param coder_bp_name: registered name of the Coder blueprint; this
+            blueprint is merged into the Chat blueprint (via ``|``) to
+            build the final ``-c`` prompt (``usp -c``, ``claude code``,
+            ``claude vs-code-extension``), and may also be exported as
+            its own standalone Skill
     :type coder_bp_name: str
     :param version: version string stamped into ``plugin.json``,
             ``marketplace.json``, and every exported ``SKILL.md``
