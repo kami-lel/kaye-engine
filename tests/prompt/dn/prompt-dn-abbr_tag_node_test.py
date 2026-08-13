@@ -64,7 +64,7 @@ class TestAbbrTagNodeEmpty:
     def test_heading(_):
         testee = AbbrTagNode(None, abbr_tag=AbbrTags.emoji)
 
-        assert testee.name == "(Emoji)"
+        assert testee.name == "(emoji)"
 
 
 class TestAbbrTagNodeFiltering:
@@ -94,7 +94,7 @@ class TestAbbrTagNodeGenericity:
     def test_heading_for_a_different_abbr_tag(_):
         testee = AbbrTagNode(None, abbr_tag=AbbrTags.single_character)
 
-        assert testee.name == "(Single Character)"
+        assert testee.name == "(single-character)"
 
     def test_copy_preserves_abbr_tag(_):
         testee = AbbrTagNode(None, abbr_tag=AbbrTags.single_character)
@@ -102,4 +102,4 @@ class TestAbbrTagNodeGenericity:
         opt = testee.__copy__()
 
         assert opt.abbr_tag == AbbrTags.single_character
-        assert opt.name == "(Single Character)"
+        assert opt.name == "(single-character)"

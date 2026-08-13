@@ -42,20 +42,20 @@ class TestDynamic:
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── (Today)" in opt
+        assert "── (today)" in opt
 
     def test_abbr(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── (Decode-Only Shorthand)" in opt
+        assert "── (decode-only-shorthand)" in opt
 
     def test_abbr_tag(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── (Emoji)" in opt
-        assert "── (Single Character)" in opt
+        assert "── (emoji)" in opt
+        assert "── (single-character)" in opt
 
 
 class TestGlossaryHeading:
@@ -88,7 +88,7 @@ class TestGlossaryHeading:
         m = mock_open(read_data="# Title\n\n# (no-such-glossary)\nContent.\n")
 
         with pytest.raises(
-            ValueError, match="unrecognized dynamic node heading"
+            ValueError, match="unrecognized dynamic node name"
         ):
             with patch("builtins.open", m):
                 load_corpus_tree("dynamic-nodes-glossary-reject-test", "d.md")
@@ -98,36 +98,36 @@ class TestPreface:
 
     def test_matching_heading_becomes_preface(_):
         m = mock_open(
-            read_data="# Title\n\n# (Today)\nThe current date, for reference.\n"
+            read_data="# Title\n\n# (today)\nThe current date, for reference.\n"
         )
 
         with patch("builtins.open", m):
             tree = load_corpus_tree("dynamic-nodes-preface-test", "d.md")
 
-        today_node = tree["(Today)"]
+        today_node = tree["(today)"]
         assert "The current date, for reference." in today_node.content_lines()
 
-        today_children = [c for c in tree.children if c.name == "(Today)"]
+        today_children = [c for c in tree.children if c.name == "(today)"]
         assert len(today_children) == 1
 
     def test_matching_abbr_tag_heading_becomes_preface(_):
         m = mock_open(
-            read_data="# Title\n\n# (Emoji)\nEvery abbr tagged emoji.\n"
+            read_data="# Title\n\n# (emoji)\nEvery abbr tagged emoji.\n"
         )
 
         with patch("builtins.open", m):
             tree = load_corpus_tree("dynamic-nodes-abbr-tag-preface-test", "d.md")
 
-        emoji_node = tree["(Emoji)"]
+        emoji_node = tree["(emoji)"]
         assert "Every abbr tagged emoji." in emoji_node.content_lines()
 
-        emoji_children = [c for c in tree.children if c.name == "(Emoji)"]
+        emoji_children = [c for c in tree.children if c.name == "(emoji)"]
         assert len(emoji_children) == 1
 
     def test_unrecognized_paren_heading_raises(_):
         m = mock_open(read_data="# Title\n\n# (Bogus)\nSome content.\n")
 
-        with pytest.raises(ValueError, match="unrecognized dynamic node heading"):
+        with pytest.raises(ValueError, match="unrecognized dynamic node name"):
             with patch("builtins.open", m):
                 load_corpus_tree("dynamic-nodes-reject-test", "d.md")
 
@@ -146,7 +146,7 @@ class TestNestedParenHeadingRejected:
                 load_corpus_tree("dynamic-nodes-nested-reject-test", "d.md")
 
     def test_recognized_nested_paren_heading_still_raises(_):
-        m = mock_open(read_data="# Intro\n\n## (Today)\nSome content.\n")
+        m = mock_open(read_data="# Intro\n\n## (today)\nSome content.\n")
 
         with pytest.raises(
             ValueError, match="only allowed as a direct child of root"
