@@ -16,14 +16,14 @@ class DynamicNode(BasePromptNode):  # pylint: disable=abstract-method
 
     # constructor  -------------------------------------------------------------
     def __init__(self, parent=None, preface=(), **kwargs):
-        heading = "(" + self.HEADING + ")"
+        heading = "(" + self.NAME + ")"
         super().__init__(heading, parent=parent, **kwargs)
 
         self._preface = list(preface)
 
     # abstract fields  ---------------------------------------------------------
 
-    HEADING = None
+    NAME = None
 
     # implement BasePromptNode  ------------------------------------------------
 

@@ -18,6 +18,7 @@ from ..prompt_corpus_loader import get_corpus_tree, get_default_corpus_tree
 
 from . import render
 from . import parser
+from .dynamic_substitution import apply_dynamic_substitutions
 from .node_resolver import resolve_node
 
 __all__ = ("PromptBlueprint",)
@@ -99,8 +100,8 @@ class PromptBlueprint(dict):
                 or ``None`` (the default) to use the default corpus tree
         :type corpus_tree: BasePromptNode or str or None, optional
         :return: a blueprint
-                with all nodes from `prompt_corpus` (except dynamic nodes,)
-                and checkmarking all nodes
+                with all nodes from `prompt_corpus`, including every
+                auto-attached dynamic node, and checkmarking all nodes
         :rtype: PromptBlueprint
         """
         return cls._create_full_or_empty_blueprint_generic(corpus_tree, True)
@@ -113,8 +114,8 @@ class PromptBlueprint(dict):
                 or ``None`` (the default) to use the default corpus tree
         :type corpus_tree: BasePromptNode or str or None, optional
         :return: a blueprint
-                with all nodes from `prompt_corpus` (except dynamic nodes,)
-                but uncheckmarking all nodes
+                with all nodes from `prompt_corpus`, including every
+                auto-attached dynamic node, but uncheckmarking all nodes
         :rtype: PromptBlueprint
         """
         return cls._create_full_or_empty_blueprint_generic(corpus_tree, False)
@@ -229,15 +230,19 @@ class PromptBlueprint(dict):
     def generate_prompt(self, **kwargs):
         """
         render the **concrete prompt** that can be used as LLM system message
-        from this blueprint's node checkmarking status
+        from this blueprint's node checkmarking status, then resolve every
+        inline ``(((name)))`` placeholder against the same ``kwargs``
 
-        (see ``render.render_prompt_lines()`` for parameters)
+        (see ``render.render_prompt_lines()`` and
+        ``dynamic_substitution.apply_dynamic_substitutions()`` for
+        parameters)
 
 
         :return: generated prompt
         :rtype: str
         """
-        return "\n".join(render.render_prompt_lines(self, **kwargs))
+        text = "\n".join(render.render_prompt_lines(self, **kwargs))
+        return apply_dynamic_substitutions(text, **kwargs)
 
     # Blueprint operation  *****************************************************
 

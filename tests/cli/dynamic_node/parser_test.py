@@ -78,11 +78,10 @@ class TestDynamicNodeMain:
     def test_reuses_authored_engine_defined_node_without_duplicating(
         self, monkeypatch, capsys
     ):
-        # regression: TodayNode.HEADING == "Today", but the CLI's NODE
-        # key for it is the lowercase "today" -- matching the authored
-        # "(...)" heading by the raw NODE arg instead of by HEADING used
-        # to falsely conclude no authored heading existed, so a second
-        # TodayNode got attached alongside the real one and both rendered
+        # regression: matching the authored "(...)" heading by the raw
+        # NODE arg instead of by the canonical NAME used to falsely
+        # conclude no authored heading existed, so a second TodayNode
+        # got attached alongside the real one and both rendered
         root = PromptCorpusNode("○", None, [])
         TodayNode(root, preface=["This is the authored Today preface."])
 
@@ -95,7 +94,7 @@ class TestDynamicNodeMain:
         args.func(args)
 
         out = capsys.readouterr().out
-        assert out.count("(Today)") == 1
+        assert out.count("(today)") == 1
         assert "This is the authored Today preface." in out
 
     def test_falls_back_when_heading_not_authored_in_default_tree(
@@ -200,7 +199,7 @@ class TestMultipleNodes:  ######################################################
 
         out = capsys.readouterr().out
         assert "This is the some-glossary preface line." in out
-        assert "Today" in out
+        assert "(today)" in out
 
     def test_renders_two_glossaries_sharing_one_corpus_tree(
         self, monkeypatch, capsys

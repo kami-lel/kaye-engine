@@ -31,8 +31,8 @@ def dynamic_bp_testee1(corpus_dynamic_testee):
 [x] │   │       └── Tools Used
 [x] │   │           └── Future Work
 [x] │   └── Conclusion
-[x] ├── (Today)
-[x] ├── (Decode-Only Shorthand)
+[x] ├── (today)
+[x] ├── (decode-only-shorthand)
 [x] ├── (usable-abbreviations)
 [x] ├── (natural-language-codes)
 [ ] └── (programming-language-codes)"""
@@ -57,8 +57,8 @@ def dynamic_bp_testee_full(corpus_dynamic_testee):
 [x] │   │       └── Tools Used
 [x] │   │           └── Future Work
 [x] │   └── Conclusion
-[x] ├── (Today)
-[x] ├── (Decode-Only Shorthand)
+[x] ├── (today)
+[x] ├── (decode-only-shorthand)
 [x] ├── (usable-abbreviations)
 [x] ├── (natural-language-codes)
 [x] └── (programming-language-codes)"""
@@ -83,8 +83,8 @@ def dynamic_bp_testee_empty(corpus_dynamic_testee):
 [ ] │   │       └── Tools Used
 [ ] │   │           └── Future Work
 [ ] │   └── Conclusion
-[ ] ├── (Today)
-[ ] ├── (Decode-Only Shorthand)
+[ ] ├── (today)
+[ ] ├── (decode-only-shorthand)
 [ ] ├── (usable-abbreviations)
 [ ] ├── (natural-language-codes)
 [ ] └── (programming-language-codes)"""
@@ -97,7 +97,7 @@ def dynamic_bp_testee_empty(corpus_dynamic_testee):
 @pytest.fixture(scope="session")
 def dynamic_bp_testee2(corpus_dynamic_testee):
     bp_text = """ ○
-[x] └── (Today)"""
+[x] └── (today)"""
 
     return PromptBlueprint.parse(
         bp_text, corpus_tree=corpus_dynamic_testee, disable_prune=True
@@ -107,7 +107,7 @@ def dynamic_bp_testee2(corpus_dynamic_testee):
 @pytest.fixture(scope="session")
 def dynamic_bp_testee3(corpus_dynamic_testee):
     bp_text = """ ○
-[x] └── (Decode-Only Shorthand)"""
+[x] └── (decode-only-shorthand)"""
 
     return PromptBlueprint.parse(
         bp_text, corpus_tree=corpus_dynamic_testee, disable_prune=True
