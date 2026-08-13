@@ -6,6 +6,7 @@ define ``Skill``
 
 from pathlib import Path
 
+from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 from kaye_engine.cli.exportable_abbr import ExportableAbbr
 from kaye_engine.prompt.blueprint import BlueprintRegistry
@@ -173,7 +174,7 @@ class Skill(FrontmatterDoc):
                         surface.as_contained_sidecars()
                         if surface is not None else ()
                     ),
-                    sparseness=0,
+                    sparseness=DEFAULT_SPARSENESS,
                 ),
                 version=version,
             )
