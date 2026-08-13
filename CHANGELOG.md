@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+BUG order failed to matter for dynamic node
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
