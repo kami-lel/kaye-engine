@@ -31,11 +31,11 @@ def prompt_corpus_tree_preview():
 # pytest  ######################################################################
 class TestDynamic:
     """
-    engine-defined dynamic node types (``DYNAMIC_NODE_TYPES``) still attach
-    unconditionally, with no corresponding corpus heading required; abbr
-    glossary nodes do not -- they are consumer-defined data, so they only
-    attach when a matching ``(glossary-name)`` heading is present, see
-    ``TestGlossaryHeading`` below
+    every dynamic node -- engine-defined types (``DYNAMIC_NODE_TYPES``),
+    every ``ABBR_TAG_NODE_MEMBERS`` tag, and every registered abbr
+    glossary -- auto-attaches unconditionally, with no corresponding
+    corpus heading required; an explicit ``(name)`` heading only
+    supplies custom preface text, see ``TestPreface`` below
     """
 
     def test_today(_, prompt_corpus_tree_preview):
@@ -56,6 +56,28 @@ class TestDynamic:
         print(opt)
         assert "── (emoji)" in opt
         assert "── (single-character)" in opt
+
+    def test_glossary_auto_attaches_without_authored_heading(_):
+        mean = AbbrMeaning("auto-attach glossary meaning", remark=None)
+        with _abbr_data:
+            _abbr_data.add_entry(
+                mean,
+                "atgrp",
+                {
+                    "priority": 0,
+                    "tags": ["some-glossary"],
+                    "wrap": "word",
+                },
+            )
+
+        m = mock_open(read_data="# Title\n")
+
+        with patch("builtins.open", m):
+            tree = load_corpus_tree("dynamic-nodes-glossary-auto-test", "d.md")
+
+        node = tree["(some-glossary)"]
+        assert isinstance(node, GlossaryNode)
+        assert "- atgrp:auto-attach glossary meaning" in node.content_lines()
 
 
 class TestGlossaryHeading:
