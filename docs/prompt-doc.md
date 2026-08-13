@@ -58,7 +58,7 @@ E.g.
 >>> corpus_node.name
 "Introduction"
 >>> dynamic_node.name
-"(Decode-Only Shorthand)"
+"(decode-only-shorthand)"
 ```
 
 > [!NOTE]
@@ -66,7 +66,7 @@ E.g.
 
 **Sidecar nodes** are identified by names in curly braces, e.g. `{description}`. They are metadata or conditional instructions attached to parent nodes. For identification, checkmarking, rendering, and complete details, see [`sidecar-node-doc.md`](sidecar-node-doc.md).
 
-**Dynamic nodes** are identified by names in parentheses, such as `(Today)`, `(Decode-Only Shorthand)`. Unlike sidecar nodes, dynamic nodes are injected at render time and **are** included in the rendered prompt output. Q.v. [`Dynamic Node Documentation`](dynamic-node-doc.md) for comprehensive documentation on dynamic nodes.
+**Dynamic nodes** are identified by names in parentheses, such as `(today)`, `(decode-only-shorthand)`. Unlike sidecar nodes, dynamic nodes are injected at render time and **are** included in the rendered prompt output. Q.v. [`Dynamic Node Documentation`](dynamic-node-doc.md) for comprehensive documentation on dynamic nodes.
 
 
 
@@ -89,7 +89,7 @@ E.g.
 >>> str(corpus_node)
 "PromptCorpusNode(Introduction#Data#Advanced)"
 >>> str(abbr_node)
-"ShorthandNode(Introduction#Data#(Decode-Only Shorthand))"
+"ShorthandNode(Introduction#Data#(decode-only-shorthand))"
 ```
 
 ----
@@ -330,7 +330,7 @@ E.g.
 bp.checkmark(bp.corpus[0][1])
 bp.checkmark(node_hash)
 bp.uncheckmark("Important Instruction")
-bp.uncheckmark("(Decode-Only Shorthand)")
+bp.uncheckmark("(decode-only-shorthand)")
 ```
 
 However, when encounter a node findable in corpus tree, but not contained in the blueprint:
