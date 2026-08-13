@@ -41,6 +41,10 @@ def setup_claude_cli(
     set every consumer-configurable value used by the ``claude`` CLI
     subcommand family in one call
 
+    Prerequisite: :func:`register_blueprint` for ``chat_bp_name`` and
+    ``coder_bp_name``
+
+
     :param plugin_name: name written into ``plugin.json``, and used as the
             plugin's folder name and export keyword
     :type plugin_name: str
