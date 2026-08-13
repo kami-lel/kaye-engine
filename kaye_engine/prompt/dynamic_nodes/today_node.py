@@ -22,7 +22,7 @@ class TodayNode(DynamicNode):
 
     # implement DynamicNode  ===================================================
 
-    HEADING = "Today"
+    NAME = "today"
 
     # implement BasePromptNode  ================================================
 

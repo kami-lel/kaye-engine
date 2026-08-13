@@ -4,13 +4,12 @@ parser.py
 define ``register_dynamic_node_parser``
 """
 
+import functools
 import sys
 from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
-from kaye_engine.abbr_collection import AbbrTags, abbr_glossary_registry
 from kaye_engine.cli.dynamic_node.node_type_choices import (
-    ENGINE_DEFINED_NODES,
     list_all_node_type_names,
 )
 from kaye_engine.cli.sparseness_parser import (
@@ -23,10 +22,10 @@ from kaye_engine.kamilog import (
 )
 from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
 from kaye_engine.prompt.dynamic_nodes import (
-    ABBR_TAG_NODE_MEMBERS,
     AbbrTagNode,
     GlossaryNode,
-    heading_for_abbr_tag,
+    resolve_dynamic_node_factory,
+    slug_for_abbr_tag,
 )
 from kaye_engine.prompt.prompt_corpus_loader import get_default_corpus_tree
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
@@ -61,29 +60,20 @@ run to list available NODE values:
 
 def _resolve_node_type(name):
     """
-    resolve ``name`` against ``ENGINE_DEFINED_NODES``,
-    ``ABBR_TAG_NODE_MEMBERS``, and known abbr glossary names -- returns
+    resolve ``name`` via :func:`resolve_dynamic_node_factory` against
+    the canonical kebab ``NAME`` universe -- returns
     ``(node_cls, kwargs)``, where ``kwargs`` is the dict of parameters
     the match needs at construction time (empty for an engine-defined
     choice, ``{"abbr_tag": ...}`` for an AbbrTagNode match,
     ``{"glossary_name": ...}`` for a glossary match); raises
     ``ValueError`` when ``name`` matches none of the above
     """
-    node_cls = ENGINE_DEFINED_NODES.get(name)
-    if node_cls is not None:
-        return node_cls, {}
+    factory = resolve_dynamic_node_factory(name)
 
-    try:
-        abbr_tag = AbbrTags[name]
-    except KeyError:
-        abbr_tag = None
-    if abbr_tag in ABBR_TAG_NODE_MEMBERS:
-        return AbbrTagNode, {"abbr_tag": abbr_tag}
+    if isinstance(factory, functools.partial):
+        return factory.func, dict(factory.keywords)
 
-    if name in abbr_glossary_registry:
-        return GlossaryNode, {"glossary_name": name}
-
-    raise ValueError("unrecognized NODE: {}".format(repr(name)))
+    return factory, {}
 
 
 def _get_shared_corpus_tree():
@@ -107,12 +97,12 @@ def _node_name_in(corpus_tree, node_name_arg, node_cls, kwargs):
     :rtype: str
     """
     if node_cls is AbbrTagNode:
-        heading_text = heading_for_abbr_tag(kwargs["abbr_tag"])
+        name_text = slug_for_abbr_tag(kwargs["abbr_tag"])
     elif node_cls is GlossaryNode:
-        heading_text = kwargs["glossary_name"]
+        name_text = kwargs["glossary_name"]
     else:
-        heading_text = node_cls.HEADING
-    heading = "(" + heading_text + ")"
+        name_text = node_cls.NAME
+    heading = "(" + name_text + ")"
 
     has_authored_heading = any(
         child.name == heading for child in corpus_tree.children
