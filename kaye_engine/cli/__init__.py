@@ -6,4 +6,4 @@ __all__ = ("DEFAULT_SPARSENESS",)
 
 
 # constants  ###################################################################
-DEFAULT_SPARSENESS = 1
+DEFAULT_SPARSENESS = 0
