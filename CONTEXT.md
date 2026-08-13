@@ -85,7 +85,7 @@ abbreviation glossaries; an authored `(name)` heading only supplies
 custom preface text. A second, independent mechanism, inline
 `(((name)))` substitution, resolves the same canonical names anywhere
 inside rendered prompt text at `generate_prompt()` time. Q.v. [dynamic
-node documentation](docs/dynamic-node-doc.md) and [abbreviation
+node documentation](docs/dynamic-content-doc.md) and [abbreviation
 collection documentation](docs/abbrs-doc.md).
 
 ## Public API
