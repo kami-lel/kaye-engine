@@ -8,6 +8,8 @@ define ``sparseness_parser`` and ``SPARSENESS_DESCRIPTION`` -- the
 
 from argparse import ArgumentParser, ArgumentTypeError
 
+from kaye_engine.cli import DEFAULT_SPARSENESS
+
 __all__ = (
     "SPARSENESS_DESCRIPTION",
     "sparseness_parser",
@@ -50,6 +52,6 @@ sparseness_parser.add_argument(
     "--sparseness",
     metavar="SPARSENESS",
     type=_sparseness_type,
-    default=1,
+    default=DEFAULT_SPARSENESS,
     help="blank-line policy for the rendered prompt, v.s.",
 )

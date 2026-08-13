@@ -7,6 +7,7 @@ define ``export_vs_code_extension``
 from pathlib import Path
 
 from kaye_engine import kamilog
+from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.marketplace.export import export_marketplace
 from kaye_engine.cli.claude.setup import get_marketplace_folder_name
@@ -24,7 +25,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 # entry point  #################################################################
 
 
-def export_vs_code_extension(claude_folder, *, surface=None):
+def export_vs_code_extension(claude_folder, *, surface=None, show_comment=True):
     """
     export CLAUDE.md and a marketplace folder into the given Claude folder
 
@@ -37,6 +38,9 @@ def export_vs_code_extension(claude_folder, *, surface=None):
             forwarded to both :func:`export_user_system_prompt_file` and
             :func:`export_marketplace`
     :type surface: ClaudeSurface, optional
+    :param show_comment: include the trailing generated-by comment in
+            CLAUDE.md; not applied to the marketplace or settings.json export
+    :type show_comment: bool
     :return: path to the written marketplace.json
     :rtype: Path
     """
@@ -45,7 +49,11 @@ def export_vs_code_extension(claude_folder, *, surface=None):
     logger.debug("export user system prompt file")
     prompt_file = find_user_system_prompt_file(claude_folder)
     export_user_system_prompt_file(
-        prompt_file, use_coder=True, sparseness=0, surface=surface
+        prompt_file,
+        use_coder=True,
+        sparseness=DEFAULT_SPARSENESS,
+        surface=surface,
+        show_comment=show_comment,
     )
     logger.succ("export user system prompt file:\t" + str(prompt_file))
 
