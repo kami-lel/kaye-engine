@@ -10,7 +10,10 @@ from kaye_engine.abbr_collection import abbr_glossary_registry
 from kaye_engine.cli.dynamic_node.node_type_choices import (
     list_all_node_type_names,
 )
-from kaye_engine.prompt.dynamic_nodes import ABBR_TAG_NODE_MEMBERS
+from kaye_engine.prompt.dynamic_nodes import (
+    ABBR_TAG_NODE_MEMBERS,
+    slug_for_abbr_tag,
+)
 
 
 # pytest  ######################################################################
@@ -21,7 +24,9 @@ class TestListAllNodeTypeNames:
 
         print(opt)
 
-        expected_tag_names = [abbr_tag.name for abbr_tag in ABBR_TAG_NODE_MEMBERS]
+        expected_tag_names = [
+            slug_for_abbr_tag(abbr_tag) for abbr_tag in ABBR_TAG_NODE_MEMBERS
+        ]
         expected_glossary_names = sorted(abbr_glossary_registry)
 
         assert opt == (
@@ -34,6 +39,6 @@ class TestListAllNodeTypeNames:
         opt = list_all_node_type_names()
 
         print(opt)
-        assert "always_understand" not in opt
-        assert "WORD_CHARACTER" not in opt
-        assert "ASCII" not in opt
+        assert "always-understand" not in opt
+        assert "word-character" not in opt
+        assert "ascii" not in opt

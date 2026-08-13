@@ -17,7 +17,7 @@ class TestDynamics:
         bp = dynamic_bp_testee2
         print(bp.generate_blueprint(content_preview_lines=0))
 
-        node = bp.corpus["(Today)"]
+        node = bp.corpus["(today)"]
         assert isinstance(node, TodayNode)
         assert node in bp
         assert bp.is_checkmarked(node)
@@ -26,7 +26,7 @@ class TestDynamics:
         bp = dynamic_bp_testee3
         print(bp.generate_blueprint(content_preview_lines=0))
 
-        node = bp.corpus["(Decode-Only Shorthand)"]
+        node = bp.corpus["(decode-only-shorthand)"]
         assert isinstance(node, ShorthandNode)
         assert node in bp
         assert bp.is_checkmarked(node)
@@ -54,7 +54,7 @@ class TestDynamics:
     def test_mux_shorthand(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
 
-        node = dynamic_bp_testee1.corpus["(Decode-Only Shorthand)"]
+        node = dynamic_bp_testee1.corpus["(decode-only-shorthand)"]
 
         assert isinstance(node, ShorthandNode)
 
@@ -68,7 +68,7 @@ class TestDynamics:
     def test_mux_today(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
 
-        node = dynamic_bp_testee1.corpus["(Today)"]
+        node = dynamic_bp_testee1.corpus["(today)"]
 
         assert isinstance(node, TodayNode)
 

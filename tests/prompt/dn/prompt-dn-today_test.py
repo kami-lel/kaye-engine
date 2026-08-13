@@ -15,7 +15,7 @@ from kaye_engine.prompt.dynamic_nodes import TodayNode
 from kaye_engine.prompt.prompt_corpus_node import HEADING_PREFIX_ELEMENT
 
 TESTEE_TODAY_CONTENT = [
-    "# (Today)",
+    "# (today)",
     "**Current** Date and Time is:",
     "Date: ",
     "Time: ",
@@ -37,7 +37,7 @@ class TestToday:  ##############################################################
 
     def test_init(_, local_corpus_testee1, testee1):
         assert testee1.parent is local_corpus_testee1
-        assert testee1.name == "(Today)"
+        assert testee1.name == "(today)"
 
     def test_preview(_, local_corpus_testee1):
         opt = local_corpus_testee1.generate_prompt_tree_preview(
@@ -49,7 +49,7 @@ class TestToday:  ##############################################################
 │   ├── Description
 │   ├── Installation
 │   └── License
-└── (Today)"""
+└── (today)"""
 
     def test_date(_, testee1):
         lines = testee1.content_lines()
@@ -72,12 +72,12 @@ class TestCopy:  ###############################################################
         copied = copy.copy(testee1)
 
         assert isinstance(copied, TodayNode)
-        assert copied.name == "(Today)"
+        assert copied.name == "(today)"
         assert copied.parent is None
 
     def test_deep_copy1(_, testee1):
         copied = copy.deepcopy(testee1)
 
         assert isinstance(copied, TodayNode)
-        assert copied.name == "(Today)"
+        assert copied.name == "(today)"
         assert copied.parent is None
