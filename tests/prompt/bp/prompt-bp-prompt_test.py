@@ -9,6 +9,7 @@ import re
 from kaye_engine.prompt import PromptBlueprint
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 from kaye_engine.prompt.blueprint.render import REPLACEMENT_NEWLINE_SYMBOL
+from kaye_engine.prompt.dynamic_nodes import TodayNode
 
 from tests.prompt.bp import (
     BLUEPRINT_1_FULL,
@@ -254,6 +255,37 @@ How data was gathered for analysis.
 
 ##### Future Work
 Suggestions for future research or tasks."""
+
+
+class TestInlineSubstitution:  # (((name))) placeholder in authored body  #####
+
+    def _bp(_, *, checkmark_today_node):
+        corpus = PromptCorpusNode("○", None, [])
+        PromptCorpusNode("Section", corpus, ["Date is (((today))). "])
+        TodayNode(corpus)
+
+        bp_text = "    ○\n{}[x] └── Section".format(
+            "[x] ├── (today)\n" if checkmark_today_node else ""
+        )
+        return PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_tree=corpus
+        )
+
+    def test_substitutes_regardless_of_today_node_checkmark(_):
+        unchecked = _._bp(checkmark_today_node=False)
+        checked = _._bp(checkmark_today_node=True)
+
+        opt_unchecked = unchecked.generate_prompt(
+            show_comment=False, disable_first_heading=True
+        )
+        opt_checked = checked.generate_prompt(
+            show_comment=False, disable_first_heading=True
+        )
+
+        print(opt_unchecked)
+        assert "(((today)))" not in opt_unchecked
+        assert "Date: " in opt_unchecked
+        assert "Date: " in opt_checked
 
 
 class TestSparseness:  # sparseness param of generate_prompt  #################
