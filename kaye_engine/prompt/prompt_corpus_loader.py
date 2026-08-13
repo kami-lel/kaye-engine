@@ -6,18 +6,17 @@ cache of parsed prompt corpus trees -- plus ``get_default_corpus_tree``,
 resolving whichever tree was loaded with ``is_default_tree=True``
 """
 
+import functools
 import re
 
 from anytree import PreOrderIter
-
-from kaye_engine.abbr_collection import abbr_glossary_registry
 
 from .dynamic_nodes import (
     ABBR_TAG_NODE_MEMBERS,
     DYNAMIC_NODE_TYPES,
     AbbrTagNode,
     GlossaryNode,
-    heading_for_abbr_tag,
+    resolve_dynamic_node_factory,
 )
 from .prompt_corpus_node import PromptCorpusNode
 
@@ -46,30 +45,23 @@ def _is_parenthesized_heading(heading):
 
 def _resolve_dynamic_heading(heading):
     """
-    resolve a parenthesized ``heading`` against ``DYNAMIC_NODE_TYPES``
-    first, then ``ABBR_TAG_NODE_MEMBERS``, then against every glossary
-    name known to ``abbr_glossary_registry`` -- returns
-    ``(node_type, kwargs)`` where ``kwargs`` is the dict of parameters
-    the match needs at construction time (empty for an engine-defined
-    match), or ``(None, {})`` for an ordinary static heading
+    resolve a parenthesized ``heading`` via
+    :func:`resolve_dynamic_node_factory` against the canonical kebab
+    ``NAME`` universe -- returns ``(node_type, kwargs)`` where
+    ``kwargs`` is the dict of parameters the match needs at
+    construction time (empty for an engine-defined match), or
+    ``(None, {})`` for an ordinary static heading
     """
     if not _is_parenthesized_heading(heading):
         return None, {}
 
-    for node_type in DYNAMIC_NODE_TYPES:
-        if heading == "(" + node_type.HEADING + ")":
-            return node_type, {}
+    name = heading[1:-1]
+    factory = resolve_dynamic_node_factory(name)
 
-    inner = heading[1:-1]
+    if isinstance(factory, functools.partial):
+        return factory.func, dict(factory.keywords)
 
-    for abbr_tag in ABBR_TAG_NODE_MEMBERS:
-        if inner == heading_for_abbr_tag(abbr_tag):
-            return AbbrTagNode, {"abbr_tag": abbr_tag}
-
-    if inner in abbr_glossary_registry:
-        return GlossaryNode, {"glossary_name": inner}
-
-    raise ValueError("unrecognized dynamic node heading: {}".format(heading))
+    return factory, {}
 
 
 # name-keyed cache of parsed prompt corpus trees

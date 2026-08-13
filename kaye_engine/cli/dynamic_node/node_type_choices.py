@@ -9,6 +9,7 @@ from kaye_engine.prompt.dynamic_nodes import (
     ABBR_TAG_NODE_MEMBERS,
     ShorthandNode,
     TodayNode,
+    slug_for_abbr_tag,
 )
 
 __all__ = (
@@ -27,13 +28,13 @@ ENGINE_DEFINED_NODES = {
 def list_all_node_type_names():
     """
     :return: every currently available ``NODE_TYPE`` name, ordered as:
-            ``today``, ``shorthand``, every ``AbbrTagNode`` name
+            ``today``, ``shorthand``, every ``AbbrTagNode`` kebab slug
             (``AbbrTags`` declaration order), then every registered
             abbr glossary name (sorted alphabetically)
     :rtype: list[str]
     """
     return (
         ["today", "shorthand"]
-        + [abbr_tag.name for abbr_tag in ABBR_TAG_NODE_MEMBERS]
+        + [slug_for_abbr_tag(abbr_tag) for abbr_tag in ABBR_TAG_NODE_MEMBERS]
         + sorted(abbr_glossary_registry)
     )

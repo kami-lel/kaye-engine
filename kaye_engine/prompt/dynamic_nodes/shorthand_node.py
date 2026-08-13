@@ -25,7 +25,7 @@ class ShorthandNode(DynamicNode):  #############################################
 
     # implement DynamicNode  ===================================================
 
-    HEADING = "Decode-Only Shorthand"
+    NAME = "decode-only-shorthand"
 
     # implement BasePromptNode  ================================================
 

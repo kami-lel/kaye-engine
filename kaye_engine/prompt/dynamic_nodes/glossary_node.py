@@ -86,7 +86,7 @@ class GlossaryNode(DynamicNode):  ##############################################
 
     def __init__(self, parent=None, *, glossary_name, preface=(), **kwargs):
         self.glossary_name = glossary_name
-        self.HEADING = glossary_name  # implement DynamicNode
+        self.NAME = glossary_name  # implement DynamicNode
         super().__init__(parent, preface=preface, **kwargs)
 
     # implement BasePromptNode  ------------------------------------------------
