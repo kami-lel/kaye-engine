@@ -111,8 +111,7 @@ Conditional sidecar nodes are real prompt content (e.g., instructions, rules) th
 
 Q.v. [`claude-doc.md`](claude-doc.md) for the list of `{[ClaudeCode:...]}`/`{[ClaudeChat:...]}` sidecars, which Claude export surface includes each of these, and the underlying API.
 
-
-
+A conditional sidecar can itself carry sidecar children — e.g. its own `{description}` — since detection and depth placement apply per-node, independent of the parent's own type.
 
 
 
