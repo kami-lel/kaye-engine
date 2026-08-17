@@ -71,12 +71,16 @@ Q.v. [sidecar node documentation](docs/sidecar-node-doc.md).
 
 `affordance_registry` tracks platform capabilities as `Affordance` entries
 and derives each one's Usage/Lack sidecar names; `ClaudeSurface` declares,
-per surface, which affordance names are available, and exposes them as
-`conditional_sidecars` tuples via `as_contained_sidecars`. Every `kaye claude`
-export subcommand takes a `--surface` flag that threads a `surface` param
-through to `render_prompt_lines(affordances=...)`, so rendered prompts
-auto-checkmark only the sidecars real on that surface. Q.v. [Claude
-documentation](docs/claude-doc.md) and [sidecar node
+per surface, which affordance names are available — its tool affordances,
+plus the universal `Claude` affordance and, for `chat`/`cowork`/`code`,
+a per-surface identity affordance (e.g. `ClaudeCode`; `vsc` has none of
+its own) — and exposes them as `conditional_sidecars` tuples via
+`as_contained_sidecars`. Every `kaye claude` export subcommand takes a
+`--surface` flag that threads a `surface` param through to
+`render_prompt_lines(affordances=...)`, so rendered prompts auto-checkmark
+only the sidecars real on that surface. Q.v. [affordance
+documentation](docs/affordance-doc.md), [Claude
+documentation](docs/claude-doc.md), and [sidecar node
 documentation](docs/sidecar-node-doc.md).
 
 Dynamic nodes auto-attach to every tree at load time — no authored
