@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-Todo affordance of git & claude (just claude, and surface)
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
