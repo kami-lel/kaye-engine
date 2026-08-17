@@ -12,9 +12,9 @@ from .prompt_blueprint import PromptBlueprint
 
 __all__ = (
     "BlueprintRegistry",
-    "register_blueprint",
-    "get_blueprint",
     "blueprint_registry",
+    "get_blueprint",
+    "register_blueprint",
 )
 
 
@@ -44,10 +44,14 @@ class BlueprintRegistry(Exportable):
     def content(self, **kwargs):
         """
         :param kwargs: render options forwarded to
-                ``PromptBlueprint.generate_prompt(...)``
+                ``PromptBlueprint.generate_prompt(...)``; ``conditional_sidecars``
+                and ``affordances`` default to this registry entry's own
+                values unless passed explicitly
         :return: this blueprint's rendered prompt
         :rtype: str
         """
+        kwargs.setdefault("conditional_sidecars", self.conditional_sidecars)
+        kwargs.setdefault("affordances", self.affordances)
         return self.blueprint.generate_prompt(**kwargs)
 
 
@@ -65,6 +69,8 @@ def register_blueprint(
     always_apply=False,
     user_invokable=True,
     llm_invokable=True,
+    conditional_sidecars=(),
+    affordances=None,
 ):
     """
     create a `BlueprintRegistry` and insert it into `blueprint_registry`;
@@ -94,6 +100,16 @@ def register_blueprint(
             into play on its own judgment, without being explicitly
             named; defaults to True
     :type llm_invokable: bool, optional
+    :param conditional_sidecars: used as the default collection of
+            conditional sidecar node names to auto-checkmark unless the
+            caller passes its own value explicitly; defaults to ``()``
+            (disabled)
+    :type conditional_sidecars: Iterable[str], optional
+    :param affordances: used as the default per-``affordance_registry``
+            checkmark selection unless the caller passes its own value
+            explicitly; ``None`` passes off (default), ``()`` passes on
+            with every affordance unavailable
+    :type affordances: Iterable[str] or None, optional
     :raises ValueError: ``canonical_name`` is already registered
     :return: the created registry entry
     :rtype: BlueprintRegistry
@@ -114,6 +130,8 @@ def register_blueprint(
         always_apply=always_apply,
         user_invokable=user_invokable,
         llm_invokable=llm_invokable,
+        conditional_sidecars=conditional_sidecars,
+        affordances=affordances,
     )
     blueprint_registry[canonical_name] = reg
 
