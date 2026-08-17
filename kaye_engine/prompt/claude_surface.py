@@ -66,6 +66,7 @@ _CODE_TIER_AFFORDANCES = (
 _VSC_TIER_AFFORDANCES = (
     "ClaudeCode:ListAgents",
     "ClaudeCode:TodoWrite",
+    "git",
 )
 
 _COWORK_AFFORDANCES = _COWORK_TIER_AFFORDANCES
@@ -83,26 +84,27 @@ _AFFORDANCES_BY_SURFACE = {
     "vsc": _VSC_AFFORDANCES,
 }
 
+_SURFACE_DISPLAY_NAMES = {
+    "chat": "Claude Chat",
+    "cowork": "Claude Cowork",
+    "code": "Claude Code",
+    "vsc": "Claude VSC",
+}
+
+_UNIVERSAL_AFFORDANCE = "Claude"
+
 
 
 # Main Entry Point  ############################################################
 class ClaudeSurface(enum.Flag):
     """
     a combinable set of Claude surfaces (``chat``, ``cowork``, ``code``,
-    ``vsc``) -- resolves a requested surface combination into the
-    affordance names, plus one plain per-surface sidecar name per
-    surface (e.g. ``for Claude Code``), to checkmark via
-    ``render_prompt_lines``'s ``affordances=``/``conditional_sidecars=``
+    ``vsc``) -- resolves a requested surface combination into affordance
+    names (its tool affordances, plus a ``Claude`` affordance and a
+    per-surface identity affordance such as ``Claude Code``), to checkmark
+    via ``render_prompt_lines``'s ``affordances=``/``conditional_sidecars=``
     kwargs
     """
-
-    # fixme affordances are modeled as independent
-    # per-surface membership, but some may actually be connected --
-    # today `as_affordances()` and `as_contained_sidecars()` derive
-    # from the identical per-surface data with no way to express
-    # that a canonical name only does something under
-    # `conditional_sidecars` when the corpus also authored a bare node
-    # for it (most don't, and there's no check that one exists).
 
     # pylint: disable=invalid-name
     chat = enum.auto()
@@ -113,29 +115,26 @@ class ClaudeSurface(enum.Flag):
     def as_affordances(self):
         """
         :return: canonical names of every affordance available on a
-                surface set in ``self``, de-duplicated
+                surface set in ``self`` -- its tool affordances, plus
+                ``Claude`` and a per-surface identity affordance (e.g.
+                ``Claude Code``) for every surface set, de-duplicated
         :rtype: tuple[str, ...]
         """
         names = set()
         for member in ClaudeSurface:
             if member in self:
                 names.update(_AFFORDANCES_BY_SURFACE[member.name])
+                names.add(_SURFACE_DISPLAY_NAMES[member.name])
+                names.add(_UNIVERSAL_AFFORDANCE)
         return tuple(names)
 
     def as_contained_sidecars(self):
         """
-        :return: ``as_affordances()``'s names, each bracket-wrapped, plus
-                one plain ``for Claude <canonical name>`` name per surface
-                set in ``self``, for the ``conditional_sidecars=`` kwarg
+        :return: ``as_affordances()``'s names, each bracket-wrapped, for
+                the ``conditional_sidecars=`` kwarg
         :rtype: tuple[str, ...]
         """
-        names = tuple("[{}]".format(name) for name in self.as_affordances())
-        surface_names = tuple(
-            "for Claude {}".format(member.name)
-            for member in ClaudeSurface
-            if member in self
-        )
-        return names + surface_names
+        return tuple("[{}]".format(name) for name in self.as_affordances())
 
     @classmethod
     def combine(cls, names):
