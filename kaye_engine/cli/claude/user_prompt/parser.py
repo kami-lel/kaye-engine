@@ -4,10 +4,13 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye_engine import kamilog
+from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.surface_parser import build_surface_parent_parser
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.prompt.claude_surface import ClaudeSurface
+from kaye_engine.cli.render_options_parser import (
+    build_render_options_parent_parser,
+    resolve_render_options,
+)
 
 from .export import generate_user_system_prompt
 
@@ -33,12 +36,11 @@ def _user_prompt_main(args):
     kamilog.set_logging_level_by_namespace(args, logger=logger)
     check_corpus_setup_for_cli()
 
-    surface = ClaudeSurface.combine(args.surface)
+    render_kwargs = resolve_render_options(args, default_show_comment=True)
 
     prompt = generate_user_system_prompt(
         use_coder=args.coder,
-        surface=surface,
-        show_comment=not args.no_show_comment,
+        render_kwargs=render_kwargs,
     )
 
     print(prompt)
@@ -62,7 +64,13 @@ def register_user_prompt_parser(cli_subparser):  ###############################
         description=__doc__ + _DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["usp"],
-        parents=[build_surface_parent_parser(("chat", "cowork"))],
+        parents=[
+            build_render_options_parent_parser(
+                default_surface=("chat", "cowork"),
+                default_sparseness=DEFAULT_SPARSENESS,
+                comment_short_flags=False,
+            )
+        ],
     )
 
     user_prompt_parser.add_argument(
@@ -71,13 +79,6 @@ def register_user_prompt_parser(cli_subparser):  ###############################
         action="store_true",
         default=False,
         help="append Kaye Peer Coder content after the main blueprint",
-    )
-
-    user_prompt_parser.add_argument(
-        "--no-show-comment",
-        action="store_true",
-        default=False,
-        help="disable the trailing generated-by comment",
     )
 
     kamilog.add_verbose_arguments(user_prompt_parser)
