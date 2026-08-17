@@ -45,6 +45,16 @@ class Exportable(ABC):
             into play on its own judgment, without being explicitly
             named; defaults to True
     :type llm_invokable: bool, optional
+    :param conditional_sidecars: used as the default collection of
+            conditional sidecar node names to auto-checkmark (e.g.,
+            ``("Claude Tool:TodoWrite",)``) unless the caller passes its
+            own value explicitly; defaults to ``()`` (disabled)
+    :type conditional_sidecars: Iterable[str], optional
+    :param affordances: used as the default per-``affordance_registry``
+            checkmark selection unless the caller passes its own value
+            explicitly; ``None`` passes off (default), ``()`` passes on
+            with every affordance unavailable
+    :type affordances: Iterable[str] or None, optional
     """
 
     canonical_name: str
@@ -55,6 +65,9 @@ class Exportable(ABC):
     # hack hack leftover from an earlier attempt at generating a Continue AI
     # rule file; unused by any current consumer
     always_apply: bool = False
+
+    conditional_sidecars: tuple = ()
+    affordances: object = None
 
     @abstractmethod
     def content(self, **kwargs):

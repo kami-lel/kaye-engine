@@ -48,7 +48,7 @@ def _show_main(args):
     set_logging_level_by_namespace(args, logger=logger)
     check_corpus_setup_for_cli()
 
-    blueprint, display_name = load_blueprint_from_args(args)
+    blueprint, display_name, _registry = load_blueprint_from_args(args)
 
     show_comment = True if args.show_comment is None else args.show_comment
 

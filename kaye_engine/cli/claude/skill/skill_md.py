@@ -151,10 +151,11 @@ class Skill(FrontmatterDoc):
                 :meth:`__init__`
         :type version: str, optional
         :param render_kwargs: render options forwarded to
-                ``exportable.blueprint.generate_prompt(...)`` -- already
-                resolved (e.g. via :func:`resolve_render_options`), so
-                its ``affordances``/``conditional_sidecars`` already
-                carry whatever surface derivation the caller wants
+                ``exportable.content(...)`` -- already resolved (e.g. via
+                :func:`resolve_render_options`); when it omits
+                ``affordances``/``conditional_sidecars`` (nothing explicit
+                requested), the registry entry's own defaults apply instead
+                of being clobbered
         :type render_kwargs: dict, optional
         :return: a skill built from ``exportable``'s content
         :rtype: Skill
@@ -167,9 +168,7 @@ class Skill(FrontmatterDoc):
                 when_to_use=sidecars.when_to_use,
                 paths=list(sidecars.globs) if sidecars.globs else [],
                 user_invocable=exportable.user_invokable,
-                body=exportable.blueprint.generate_prompt(
-                    **(render_kwargs or {})
-                ),
+                body=exportable.content(**(render_kwargs or {})),
                 version=version,
             )
 

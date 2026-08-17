@@ -129,7 +129,12 @@ and one aux function, `build_render_options_parent_parser`/
 `--affordance`/`--conditional-sidecar` are additive: on surface-aware
 (`claude ...`) subcommands they union with whatever `--surface` derives;
 on surface-less subcommands (`blueprint generate`, `dynamic-node`,
-`exportable`) they work standalone. `--comment`/`--no-comment` and
+`exportable`) they work standalone. When neither the corresponding flag
+nor `--surface` is passed, `resolve_render_options` omits the key
+entirely rather than defaulting it -- on `blueprint generate` and
+`claude skill`, that lets a `register_blueprint(conditional_sidecars=
+..., affordances=...)` entry's own defaults apply instead of being
+clobbered by an empty value. `--comment`/`--no-comment` and
 `--sparseness` each keep their own pre-existing per-subcommand default
 when the flags are omitted. `claude user-system-prompt` already owns
 `-c` for `--coder`, so on that subcommand `--comment`/`--no-comment`
@@ -202,6 +207,11 @@ constant:
 | `always_apply` | `False` | apply unconditionally, skipping relevance |
 | `user_invokable` | `True` | a human may invoke it by name |
 | `llm_invokable` | `True` | the assistant may surface it unprompted |
+
+`conditional_sidecars` (default `()`) and `affordances` (default `None`)
+set this entry's own default surface derivation, applied by
+`BlueprintRegistry.content()` via `dict.setdefault` whenever a caller
+renders it without passing those kwargs explicitly.
 
 ## Abbreviation Data
 
