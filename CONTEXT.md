@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `dynamic-node`, `export` |
+| CLI subcommands | `blueprint`, `claude`, `dynamic-node`, `exportable`, `affordance`, `glossary` |
 
 ## Personalization Boundary
 
@@ -75,10 +75,18 @@ per surface, which affordance names are available — its tool affordances,
 plus the universal `Claude` affordance and, for `chat`/`cowork`/`code`,
 a per-surface identity affordance (e.g. `ClaudeCode`; `vsc` has none of
 its own) — and exposes them as `conditional_sidecars` tuples via
-`as_contained_sidecars`. Every `kaye claude` export subcommand takes a
-`--surface` flag that threads a `surface` param through to
-`render_prompt_lines(affordances=...)`, so rendered prompts auto-checkmark
-only the sidecars real on that surface. Q.v. [affordance
+`as_contained_sidecars`. Every **rendering command** — any CLI subcommand
+that reaches `PromptBlueprint.generate_prompt(...)`, directly or via
+`Exportable.content()` — exposes the same 5 options (`--surface`,
+`--comment`/`--no-comment`, `--conditional-sidecar`, `--affordance`,
+`--sparseness`) via one shared parent parser and one aux function,
+`build_render_options_parent_parser`/`resolve_render_options`
+(`kaye_engine/cli/render_options_parser.py`); `--affordance`/
+`--conditional-sidecar` union additively with whatever `--surface`
+derives, so rendered prompts auto-checkmark the sidecars real on that
+surface plus any named explicitly. Each subcommand keeps its own
+pre-existing default for `--comment`/`--no-comment` and `--sparseness`
+when the flags are omitted. Q.v. [affordance
 documentation](docs/affordance-doc.md), [Claude
 documentation](docs/claude-doc.md), and [sidecar node
 documentation](docs/sidecar-node-doc.md).
@@ -156,7 +164,11 @@ kaye_engine/
 │   │   ├── claude_affordances.py  registers the Claude affordance catalog
 │   │   └── surface_parser.py      shared `--surface` parent parser
 │   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
-│   └── exportable_parser.py  `export`/`x` subcommand: print, list exportables
+│   ├── affordance_parser.py  `affordance`/`a` subcommand: list affordance_registry
+│   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
+│   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
+│   ├── render_options_parser.py  shared 5-option parent parser + aux fn
+│   └── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
 └── kamilog.py           logging, shared across the package
 docs/                    per-topic reference, linked above
 tests/                   prompt/, abbr/, cli/ — mirrors the source
@@ -178,8 +190,8 @@ for the abbreviation collection. `tests/cli/` stays deliberately thin — it
 holds only the corpus-independent pieces (setup guard, exportable-abbr
 registration, `dynamic-node` parsing, `SKILL.md` rendering), because the
 exporters need a corpus to produce output and the consumer package covers
-those. The `blueprint` and `export` subcommand parsers currently have no
-dedicated tests.
+those. `exportable`, `affordance`, and `glossary` parser tests are now
+covered; the `blueprint` subcommand parser still has no dedicated tests.
 
 ## Maintaining This File
 

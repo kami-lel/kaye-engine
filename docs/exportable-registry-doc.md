@@ -48,7 +48,7 @@ Two kinds of exportable registration feed `exportable_registry`:
 
 Usage:
 
-- `export` CLI (alias `x`): `kaye-engine export EXPORTABLE` prints that exportable's `content()`; `kaye-engine export ls` lists every registered exportable name, sorted alphabetically
+- `exportable` CLI (alias `x`): `kaye-engine exportable EXPORTABLE` prints that exportable's `content()`; `kaye-engine exportable ls` lists every registered exportable name, sorted alphabetically
 - `claude` CLI: q.v. [`claude-doc.md`](claude-doc.md) for the full Claude CLI surface (`kaye-engine claude skill|plugin|marketplace|code|...`)
 
 

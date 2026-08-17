@@ -3,8 +3,6 @@
 [^format]
 
 <!--
-TODO organize various renderer
-TODO add surface flag
 Todo exportable register w/ sidecar & affordance
 Fixme rm all claude related ?
 todo todo CLI to import/export w/ OpenWebUI
