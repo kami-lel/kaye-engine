@@ -57,6 +57,12 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Changed
 
+- `generate_user_system_prompt()` no longer hard-checkmarks an
+  `Agentic` → `Claude Behavior` node by name; a consumer corpus now
+  opts Claude-specific content into CLAUDE.md via the `{[Claude] Usage}`
+  affordance sidecar instead, checkmarked through the existing
+  `affordances=surface.as_affordances()` render path — updated
+  `docs/claude-doc.md`'s Consumer Requirement section to match
 - `setup_claude_cli()` now takes a `display_name` argument, letting each
   consumer stamp its own `plugin.json` `display_name` instead of the
   hardcoded `DISPLAY_NAME` constant, which is removed
