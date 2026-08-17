@@ -20,7 +20,7 @@ from kaye_engine.exportable import Exportable
 # auxiliaries  ##################################################################
 class _FakeExportable(Exportable):
 
-    def content(self):
+    def content(self, **_render_kwargs):
         return "fake exportable content for " + self.canonical_name
 
 

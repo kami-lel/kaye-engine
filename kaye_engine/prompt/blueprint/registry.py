@@ -41,12 +41,14 @@ class BlueprintRegistry(Exportable):
     blueprint: PromptBlueprint
     is_exportable: bool = True
 
-    def content(self):
+    def content(self, **kwargs):
         """
+        :param kwargs: render options forwarded to
+                ``PromptBlueprint.generate_prompt(...)``
         :return: this blueprint's rendered prompt
         :rtype: str
         """
-        return self.blueprint.generate_prompt(sparseness=0)
+        return self.blueprint.generate_prompt(**kwargs)
 
 
 # Entry Point  #################################################################
