@@ -6,6 +6,7 @@ from argparse import ArgumentParser
 from importlib.metadata import version
 
 from kaye_engine import PACKAGE_NAME
+from kaye_engine.cli.affordance_parser import register_affordance_parser
 from kaye_engine.cli.claude.main import register_cli_claude_parser
 from kaye_engine.cli.dynamic_node.parser import register_dynamic_node_parser
 from kaye_engine.cli.blueprint.main_parser import register_cli_blueprint_parser
@@ -35,6 +36,7 @@ def register_cli_subcommands(cli_subparser):
     register_cli_claude_parser(cli_subparser)
     register_dynamic_node_parser(cli_subparser)
     register_exportable_parser(cli_subparser)
+    register_affordance_parser(cli_subparser)
 
 
 # Main Entry Point  ############################################################
