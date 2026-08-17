@@ -72,6 +72,10 @@ todo todo utilize personalities, allow multi agent conversation
   affordances
 - `docs/affordance-doc.md`, the Claude affordance/surface reference,
   replacing the tables `docs/claude-doc.md` used to carry inline
+- `conditional_sidecars`/`affordances` params on `register_blueprint()`
+  and the `Exportable` base class, letting a registry entry carry its
+  own default surface derivation applied whenever a caller renders it
+  without passing those kwargs explicitly
 
 ### Changed
 
@@ -135,6 +139,26 @@ todo todo utilize personalities, allow multi agent conversation
   user-system-prompt, code) now threads a single `render_kwargs` dict
   end-to-end instead of individual `surface`/`sparseness`/
   `show_comment` params
+- `BlueprintRegistry.content()` now applies the registry entry's own
+  `conditional_sidecars`/`affordances` as defaults (via
+  `dict.setdefault`) unless the caller passes explicit values
+- `load_blueprint_from_args()` now returns a 3-tuple `(blueprint,
+  display_name, registry)`; `registry` is `None` when loaded from
+  stdin
+- `blueprint generate` now renders through `registry.content(...)`
+  (applying the registry entry's defaults) instead of calling
+  `blueprint.generate_prompt()` directly, when the blueprint was
+  loaded from the registry
+- `Skill.from_exportable()` now calls `exportable.content(...)`
+  instead of `exportable.blueprint.generate_prompt()` directly, so
+  registry-level `conditional_sidecars`/`affordances` defaults apply
+  to `claude skill` export too
+- `resolve_render_options()` now omits `affordances`/
+  `conditional_sidecars` from the returned kwargs entirely (rather
+  than defaulting to `None`/`()`) when neither the corresponding flag
+  nor `--surface` was passed, so a registry-level default can still
+  apply via `dict.setdefault`
+- `registry.py`'s `__all__` sorted alphabetically
 
 ### Deprecated
 
