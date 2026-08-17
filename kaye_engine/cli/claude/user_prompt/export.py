@@ -47,9 +47,6 @@ def generate_user_system_prompt(
     """
     blueprint = get_claude_chat_blueprint()
 
-    agentic = blueprint.corpus["Agentic"]
-    blueprint.checkmark(agentic["Claude Behavior"])
-
     if use_coder:
         blueprint = blueprint | get_claude_coder_blueprint()
 
