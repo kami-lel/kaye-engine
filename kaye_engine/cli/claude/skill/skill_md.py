@@ -6,7 +6,6 @@ define ``Skill``
 
 from pathlib import Path
 
-from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 from kaye_engine.cli.exportable_abbr import ExportableAbbr
 from kaye_engine.prompt.blueprint import BlueprintRegistry
@@ -138,7 +137,7 @@ class Skill(FrontmatterDoc):
     # factory  -----------------------------------------------------------------
 
     @classmethod
-    def from_exportable(cls, exportable, version="", surface=None):
+    def from_exportable(cls, exportable, version="", render_kwargs=None):
         """
         dispatches on the concrete `Exportable` implementer -- this
         isinstance check lives here, in the Claude-specific translation
@@ -151,9 +150,12 @@ class Skill(FrontmatterDoc):
         :param version: installed package version, forwarded to
                 :meth:`__init__`
         :type version: str, optional
-        :param surface: Claude surface(s) to checkmark affordances for;
-                ``None`` leaves affordance checkmarking disabled
-        :type surface: ClaudeSurface, optional
+        :param render_kwargs: render options forwarded to
+                ``exportable.blueprint.generate_prompt(...)`` -- already
+                resolved (e.g. via :func:`resolve_render_options`), so
+                its ``affordances``/``conditional_sidecars`` already
+                carry whatever surface derivation the caller wants
+        :type render_kwargs: dict, optional
         :return: a skill built from ``exportable``'s content
         :rtype: Skill
         """
@@ -166,15 +168,7 @@ class Skill(FrontmatterDoc):
                 paths=list(sidecars.globs) if sidecars.globs else [],
                 user_invocable=exportable.user_invokable,
                 body=exportable.blueprint.generate_prompt(
-                    affordances=(
-                        surface.as_affordances()
-                        if surface is not None else None
-                    ),
-                    conditional_sidecars=(
-                        surface.as_contained_sidecars()
-                        if surface is not None else ()
-                    ),
-                    sparseness=DEFAULT_SPARSENESS,
+                    **(render_kwargs or {})
                 ),
                 version=version,
             )
