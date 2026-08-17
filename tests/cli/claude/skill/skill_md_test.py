@@ -14,6 +14,14 @@ from kaye_engine.cli.claude.skill.skill_md import Skill
 from kaye_engine.prompt.blueprint import BlueprintRegistry
 from kaye_engine.prompt.claude_surface import ClaudeSurface
 
+
+def _dummy_registry(blueprint):
+    return BlueprintRegistry(
+        canonical_name="test-skill",
+        display_name="Test Skill",
+        blueprint=blueprint,
+    )
+
 _NOT_CALLED_MSG = "Skill must not call importlib.metadata itself"
 
 
@@ -38,53 +46,42 @@ class TestVersionInjection:
         blueprint.sidecars.globs = []
         blueprint.generate_prompt.return_value = "body"
 
-        registry = BlueprintRegistry(
-            canonical_name="test-skill",
-            display_name="Test Skill",
-            blueprint=blueprint,
-        )
+        registry = _dummy_registry(blueprint)
 
         skill = Skill.from_exportable(registry, version="1.2.3")
 
         assert skill.version == "1.2.3"
 
-    def test_from_exportable_threads_surface(_):
+    def test_from_exportable_threads_render_kwargs(_):
         blueprint = MagicMock()
         blueprint.sidecars.description = "d"
         blueprint.sidecars.when_to_use = "w"
         blueprint.sidecars.globs = []
         blueprint.generate_prompt.return_value = "body"
 
-        registry = BlueprintRegistry(
-            canonical_name="test-skill",
-            display_name="Test Skill",
-            blueprint=blueprint,
-        )
+        registry = _dummy_registry(blueprint)
+        render_kwargs = {
+            "affordances": ClaudeSurface.cowork.as_affordances(),
+            "conditional_sidecars": (
+                ClaudeSurface.cowork.as_contained_sidecars()
+            ),
+            "sparseness": 0,
+            "show_comment": False,
+        }
 
-        Skill.from_exportable(registry, surface=ClaudeSurface.cowork)
+        Skill.from_exportable(registry, render_kwargs=render_kwargs)
 
-        _, kwargs = blueprint.generate_prompt.call_args
-        assert kwargs["affordances"] == ClaudeSurface.cowork.as_affordances()
-        assert (
-            kwargs["conditional_sidecars"]
-            == ClaudeSurface.cowork.as_contained_sidecars()
-        )
+        blueprint.generate_prompt.assert_called_once_with(**render_kwargs)
 
-    def test_from_exportable_without_surface_disables_affordances(_):
+    def test_from_exportable_without_render_kwargs_passes_none(_):
         blueprint = MagicMock()
         blueprint.sidecars.description = "d"
         blueprint.sidecars.when_to_use = "w"
         blueprint.sidecars.globs = []
         blueprint.generate_prompt.return_value = "body"
 
-        registry = BlueprintRegistry(
-            canonical_name="test-skill",
-            display_name="Test Skill",
-            blueprint=blueprint,
-        )
+        registry = _dummy_registry(blueprint)
 
         Skill.from_exportable(registry)
 
-        _, kwargs = blueprint.generate_prompt.call_args
-        assert kwargs["affordances"] is None
-        assert kwargs["conditional_sidecars"] == ()
+        blueprint.generate_prompt.assert_called_once_with()

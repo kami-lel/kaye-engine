@@ -31,7 +31,7 @@ _PLUGIN_CATEGORY = "productivity"
 
 
 # Main Entry Point  ############################################################
-def export_marketplace(marketplace_folder, *, surface=None):
+def export_marketplace(marketplace_folder, *, render_kwargs=None):
     """
     export the Kaye plugin and write a marketplace manifest for it
 
@@ -43,9 +43,9 @@ def export_marketplace(marketplace_folder, *, surface=None):
 
     :param marketplace_folder: directory to write the marketplace into
     :type marketplace_folder: Path-like
-    :param surface: Claude surface(s) to checkmark affordances for,
-            forwarded to :func:`export_plugin_as_folder`
-    :type surface: ClaudeSurface, optional
+    :param render_kwargs: render options forwarded to
+            :func:`export_plugin_as_folder`
+    :type render_kwargs: dict, optional
     :return: path to the written marketplace.json
     :rtype: Path
     """
@@ -60,7 +60,9 @@ def export_marketplace(marketplace_folder, *, surface=None):
     ]
 
     logger.debug("exporting plugin into marketplace folder")
-    export_plugin_as_folder(marketplace_folder / "plugins", surface=surface)
+    export_plugin_as_folder(
+        marketplace_folder / "plugins", render_kwargs=render_kwargs
+    )
 
     try:
         meta = metadata(PACKAGE_NAME)
