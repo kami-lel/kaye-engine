@@ -3,6 +3,10 @@
 [^format]
 
 <!--
+TODO organize various renderer
+TODO add surface flag
+Todo exportable register w/ sidecar & affordance
+Fixme rmmove all claude related ?
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
