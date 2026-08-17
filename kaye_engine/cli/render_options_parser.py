@@ -58,6 +58,7 @@ def build_render_options_parent_parser(
         ],
     )
     parent.add_argument(
+        "-a",
         "--affordance",
         nargs="+",
         metavar="AFFORDANCE",
@@ -65,9 +66,10 @@ def build_render_options_parent_parser(
         help="affordance name(s) to include, unioned with --surface",
     )
     parent.add_argument(
+        "-i",
         "--conditional-sidecar",
         nargs="+",
-        metavar="CONDITIONAL_SIDECAR",
+        metavar="SIDECAR",
         default=(),
         help=(
             "conditional-sidecar name(s) to include, unioned with "

@@ -9,13 +9,15 @@ import sys
 from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
+from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.dynamic_node.node_type_choices import (
     list_all_node_type_names,
 )
-from kaye_engine.cli.sparseness_parser import (
-    SPARSENESS_DESCRIPTION,
-    sparseness_parser,
+from kaye_engine.cli.render_options_parser import (
+    build_render_options_parent_parser,
+    resolve_render_options,
 )
+from kaye_engine.cli.sparseness_parser import SPARSENESS_DESCRIPTION
 from kaye_engine.kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
@@ -152,7 +154,7 @@ def _dynamic_node_main(args):
         prompt = blueprint.generate_prompt(
             query=query,
             glossary_priority_threshold=args.priority_threshold,
-            sparseness=args.sparseness,
+            **resolve_render_options(args, default_show_comment=False),
         )
     except (TypeError, KeyError, NotImplementedError) as err:
         logger.critical(str(err))
@@ -172,7 +174,11 @@ def register_dynamic_node_parser(cli_subparser):
         description=_build_description(),
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["dn"],
-        parents=[sparseness_parser],
+        parents=[
+            build_render_options_parent_parser(
+                default_sparseness=DEFAULT_SPARSENESS
+            )
+        ],
     )
 
     # add arguments  -------------------------------------------------------
