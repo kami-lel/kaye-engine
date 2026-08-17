@@ -85,10 +85,9 @@ _AFFORDANCES_BY_SURFACE = {
 }
 
 _SURFACE_DISPLAY_NAMES = {
-    "chat": "Claude Chat",
-    "cowork": "Claude Cowork",
-    "code": "Claude Code",
-    "vsc": "Claude VSC",
+    "chat": "ClaudeChat",
+    "cowork": "ClaudeCowork",
+    "code": "ClaudeCode",
 }
 
 _UNIVERSAL_AFFORDANCE = "Claude"
@@ -100,9 +99,10 @@ class ClaudeSurface(enum.Flag):
     """
     a combinable set of Claude surfaces (``chat``, ``cowork``, ``code``,
     ``vsc``) -- resolves a requested surface combination into affordance
-    names (its tool affordances, plus a ``Claude`` affordance and a
-    per-surface identity affordance such as ``Claude Code``), to checkmark
-    via ``render_prompt_lines``'s ``affordances=``/``conditional_sidecars=``
+    names (its tool affordances, plus a ``Claude`` affordance and, for
+    ``chat``/``cowork``/``code``, a per-surface identity affordance such
+    as ``ClaudeCode``; ``vsc`` has none of its own), to checkmark via
+    ``render_prompt_lines``'s ``affordances=``/``conditional_sidecars=``
     kwargs
     """
 
@@ -116,15 +116,18 @@ class ClaudeSurface(enum.Flag):
         """
         :return: canonical names of every affordance available on a
                 surface set in ``self`` -- its tool affordances, plus
-                ``Claude`` and a per-surface identity affordance (e.g.
-                ``Claude Code``) for every surface set, de-duplicated
+                ``Claude`` for every surface set and, for
+                ``chat``/``cowork``/``code``, that surface's identity
+                affordance (e.g. ``ClaudeCode``), de-duplicated
         :rtype: tuple[str, ...]
         """
         names = set()
         for member in ClaudeSurface:
             if member in self:
                 names.update(_AFFORDANCES_BY_SURFACE[member.name])
-                names.add(_SURFACE_DISPLAY_NAMES[member.name])
+                display_name = _SURFACE_DISPLAY_NAMES.get(member.name)
+                if display_name is not None:
+                    names.add(display_name)
                 names.add(_UNIVERSAL_AFFORDANCE)
         return tuple(names)
 

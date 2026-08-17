@@ -56,6 +56,11 @@ _AFFORDANCES = (
     "ClaudeCode:TaskStop",
     "ClaudeCode:TaskUpdate",
     "ClaudeCode:TodoWrite",
+    "git",
+    "Claude",
+    "ClaudeChat",
+    "ClaudeCowork",
+    "ClaudeCode",
 )
 
 
