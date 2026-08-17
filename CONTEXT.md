@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-08-12
+**Last updated:** 2026-08-18
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -86,7 +86,13 @@ that reaches `PromptBlueprint.generate_prompt(...)`, directly or via
 derives, so rendered prompts auto-checkmark the sidecars real on that
 surface plus any named explicitly. Each subcommand keeps its own
 pre-existing default for `--comment`/`--no-comment` and `--sparseness`
-when the flags are omitted. Q.v. [affordance
+when the flags are omitted (via `build_sparseness_parent_parser(default=
+...)`, a per-call builder that replaced the former fixed-default
+module-level singleton). Resolved options are carried as a single
+`render_kwargs` dict from parser down through every `claude` export
+chain (skill/plugin/marketplace/vs-code/code/user-prompt), instead of
+threading `surface`/`sparseness`/`show_comment` as separate params at
+each layer. Q.v. [affordance
 documentation](docs/affordance-doc.md), [Claude
 documentation](docs/claude-doc.md), and [sidecar node
 documentation](docs/sidecar-node-doc.md).
