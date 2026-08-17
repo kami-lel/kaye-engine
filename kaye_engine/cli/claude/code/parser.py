@@ -4,12 +4,12 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
+from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
-from kaye_engine.cli.claude.surface_parser import build_surface_parent_parser
 from kaye_engine.cli.claude.user_prompt.export import (
     export_user_system_prompt_file,
 )
@@ -17,7 +17,10 @@ from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
     find_user_system_prompt_file,
 )
-from kaye_engine.prompt.claude_surface import ClaudeSurface
+from kaye_engine.cli.render_options_parser import (
+    build_render_options_parent_parser,
+    resolve_render_options,
+)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
@@ -49,7 +52,12 @@ def register_code_parser(cli_subparser):  ######################################
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["c"],
-        parents=[build_surface_parent_parser(("code",))],
+        parents=[
+            build_render_options_parent_parser(
+                default_surface=("code",),
+                default_sparseness=DEFAULT_SPARSENESS,
+            )
+        ],
     )
 
     code_parser.add_argument(
@@ -69,16 +77,18 @@ def register_code_parser(cli_subparser):  ######################################
         check_setup_for_claude_cli()
 
         folder = args.folder
-        surface = ClaudeSurface.combine(args.surface)
+        render_kwargs = resolve_render_options(
+            args, default_show_comment=False
+        )
 
         logger.debug("export plugin as folder")
         plugin_folder = folder / "plugins"
-        export_plugin_as_folder(plugin_folder, surface=surface)
+        export_plugin_as_folder(plugin_folder, render_kwargs=render_kwargs)
 
         logger.debug("export user system prompt file")
         prompt_file = find_user_system_prompt_file(folder)
         export_user_system_prompt_file(
-            prompt_file, use_coder=True, surface=surface
+            prompt_file, use_coder=True, render_kwargs=render_kwargs
         )
         logger.succ("export user system prompt file:\t" + str(prompt_file))
 
