@@ -93,25 +93,15 @@ def resolve_render_options(args, *, default_show_comment=False):
             ``--comment`` nor ``--no-comment`` was passed -- each
             call site states its own pre-existing default
     :type default_show_comment: bool
-    :return: kwargs for ``generate_prompt(...)``
+    :return: kwargs for ``generate_prompt(...)``; ``affordances``/
+            ``conditional_sidecars`` are omitted entirely (rather than set
+            to their empty defaults) when neither the corresponding flag
+            nor ``--surface`` was passed, so a registry-level default (see
+            ``BlueprintRegistry.content()``) can still apply via
+            ``dict.setdefault``
     :rtype: dict
     """
     surface = ClaudeSurface.combine(args.surface) if args.surface else None
-
-    if surface is None:
-        affordances = tuple(args.affordance) or None
-        conditional_sidecars = tuple(args.conditional_sidecar)
-    else:
-        affordances = tuple(
-            dict.fromkeys(
-                (*surface.as_affordances(), *args.affordance)
-            )
-        )
-        conditional_sidecars = tuple(
-            dict.fromkeys(
-                (*surface.as_contained_sidecars(), *args.conditional_sidecar)
-            )
-        )
 
     show_comment = (
         default_show_comment
@@ -119,9 +109,26 @@ def resolve_render_options(args, *, default_show_comment=False):
         else args.show_comment
     )
 
-    return {
+    result = {
         "sparseness": args.sparseness,
         "show_comment": show_comment,
-        "affordances": affordances,
-        "conditional_sidecars": conditional_sidecars,
     }
+
+    if surface is None:
+        if args.affordance:
+            result["affordances"] = tuple(args.affordance)
+        if args.conditional_sidecar:
+            result["conditional_sidecars"] = tuple(args.conditional_sidecar)
+    else:
+        result["affordances"] = tuple(
+            dict.fromkeys(
+                (*surface.as_affordances(), *args.affordance)
+            )
+        )
+        result["conditional_sidecars"] = tuple(
+            dict.fromkeys(
+                (*surface.as_contained_sidecars(), *args.conditional_sidecar)
+            )
+        )
+
+    return result

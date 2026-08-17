@@ -92,7 +92,14 @@ module-level singleton). Resolved options are carried as a single
 `render_kwargs` dict from parser down through every `claude` export
 chain (skill/plugin/marketplace/vs-code/code/user-prompt), instead of
 threading `surface`/`sparseness`/`show_comment` as separate params at
-each layer. Q.v. [affordance
+each layer. `resolve_render_options` omits `affordances`/
+`conditional_sidecars` from that dict entirely when neither the
+corresponding flag nor `--surface` was passed, rather than defaulting
+them to `None`/`()`, so a `register_blueprint()` entry's own
+`conditional_sidecars`/`affordances` defaults can still apply --
+`BlueprintRegistry.content()` fills them in via `dict.setdefault`
+whenever the caller (`blueprint generate`, `Skill.from_exportable()`)
+omits them. Q.v. [affordance
 documentation](docs/affordance-doc.md), [Claude
 documentation](docs/claude-doc.md), and [sidecar node
 documentation](docs/sidecar-node-doc.md).
