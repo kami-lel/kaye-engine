@@ -11,11 +11,13 @@ from kaye_engine.cli.blueprint.blueprint_io_parser import (
     blueprint_io_parser,
     load_blueprint_from_args,
 )
+from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.sparseness_parser import (
-    SPARSENESS_DESCRIPTION,
-    sparseness_parser,
+from kaye_engine.cli.render_options_parser import (
+    build_render_options_parent_parser,
+    resolve_render_options,
 )
+from kaye_engine.cli.sparseness_parser import SPARSENESS_DESCRIPTION
 from kaye_engine.kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
@@ -52,9 +54,8 @@ def _generate_main(args):  ####################################################
     blueprint, display_name = load_blueprint_from_args(args)
 
     prompt = blueprint.generate_prompt(
-        show_comment=not args.no_comment,
         display_name=display_name,
-        sparseness=args.sparseness,
+        **resolve_render_options(args, default_show_comment=True),
     )
 
     print(prompt)
@@ -70,7 +71,12 @@ def register_generate_parser(cli_subparser):  ##################################
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["gen", "g"],
-        parents=[blueprint_io_parser, sparseness_parser],
+        parents=[
+            blueprint_io_parser,
+            build_render_options_parent_parser(
+                default_sparseness=DEFAULT_SPARSENESS
+            ),
+        ],
     )
 
     add_verbose_arguments(generate_parser)

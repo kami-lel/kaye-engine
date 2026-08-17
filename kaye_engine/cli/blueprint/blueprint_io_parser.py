@@ -25,14 +25,6 @@ blueprint_io_parser.add_argument(
     nargs="?",
     default=None,
 )
-# options
-blueprint_io_parser.add_argument(
-    "-C",
-    "--no-comment",
-    action="store_true",
-    help="disable last-line comment in result",
-)
-
 
 # Public API  ###################################################################
 def load_blueprint_from_args(args):

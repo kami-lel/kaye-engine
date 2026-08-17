@@ -99,7 +99,7 @@ class ExportableAbbr(list, Exportable):  #######################################
             llm_invokable=llm_invokable,
         )
 
-    def content(self):
+    def content(self, **_kwargs):
         """
         :return: this group's markdown abbr list
         :rtype: str

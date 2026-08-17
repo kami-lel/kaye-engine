@@ -7,7 +7,6 @@ define ``generate_user_system_prompt``, ``export_user_system_prompt_file``
 from pathlib import Path
 
 from kaye_engine import kamilog
-from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.blueprint_name import (
     get_claude_chat_blueprint,
@@ -19,13 +18,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
 # Main Entry Point  ############################################################
-def generate_user_system_prompt(
-    *,
-    use_coder=False,
-    sparseness=DEFAULT_SPARSENESS,
-    surface=None,
-    show_comment=False,
-):
+def generate_user_system_prompt(*, use_coder=False, render_kwargs=None):
     """
     render the Chat blueprint as the Claude user/system prompt
 
@@ -34,14 +27,10 @@ def generate_user_system_prompt(
 
     :param use_coder: append the Coder blueprint after the main blueprint
     :type use_coder: bool
-    :param sparseness: blank-line policy forwarded to
-            ``generate_prompt()``; defaults to 1
-    :type sparseness: int, optional
-    :param surface: Claude surface(s) to checkmark affordances for;
-            ``None`` leaves affordance checkmarking disabled
-    :type surface: ClaudeSurface, optional
-    :param show_comment: include the trailing generated-by comment
-    :type show_comment: bool
+    :param render_kwargs: kwargs forwarded to ``generate_prompt()``, v.s.
+            ``resolve_render_options()``; ``None`` renders with
+            ``generate_prompt()``'s own defaults
+    :type render_kwargs: dict, optional
     :return: rendered prompt
     :rtype: str
     """
@@ -50,23 +39,14 @@ def generate_user_system_prompt(
     if use_coder:
         blueprint = blueprint | get_claude_coder_blueprint()
 
-    return blueprint.generate_prompt(
-        affordances=(surface.as_affordances() if surface is not None else None),
-        conditional_sidecars=(
-            surface.as_contained_sidecars() if surface is not None else ()
-        ),
-        sparseness=sparseness,
-        show_comment=show_comment,
-    )
+    return blueprint.generate_prompt(**(render_kwargs or {}))
 
 
 def export_user_system_prompt_file(
     file_path,
     *,
     use_coder=False,
-    sparseness=DEFAULT_SPARSENESS,
-    surface=None,
-    show_comment=False,
+    render_kwargs=None,
 ):
     """
     export the Chat blueprint as Claude user/system prompt to CLAUDE.md
@@ -79,14 +59,10 @@ def export_user_system_prompt_file(
     :type file_path: Path-like
     :param use_coder: append the Coder blueprint after the main blueprint
     :type use_coder: bool
-    :param sparseness: blank-line policy forwarded to
-            ``generate_prompt()``; defaults to 1
-    :type sparseness: int, optional
-    :param surface: Claude surface(s) to checkmark affordances for;
-            ``None`` leaves affordance checkmarking disabled
-    :type surface: ClaudeSurface, optional
-    :param show_comment: include the trailing generated-by comment
-    :type show_comment: bool
+    :param render_kwargs: kwargs forwarded to ``generate_prompt()``, v.s.
+            ``resolve_render_options()``; ``None`` renders with
+            ``generate_prompt()``'s own defaults
+    :type render_kwargs: dict, optional
     """
     file_path = Path(file_path).resolve()
     file_path.parent.mkdir(parents=True, exist_ok=True)
@@ -94,9 +70,7 @@ def export_user_system_prompt_file(
     file_path.write_text(
         generate_user_system_prompt(
             use_coder=use_coder,
-            sparseness=sparseness,
-            surface=surface,
-            show_comment=show_comment,
+            render_kwargs=render_kwargs,
         ),
         encoding="utf-8",
     )
