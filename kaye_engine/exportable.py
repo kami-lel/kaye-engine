@@ -57,13 +57,18 @@ class Exportable(ABC):
     always_apply: bool = False
 
     @abstractmethod
-    def content(self):
+    def content(self, **kwargs):
         """
         generic, non-Claude-specific displayable content -- e.g. the
         rendered prompt for a blueprint, or the markdown abbr list for
-        an abbr group; used by the ``kaye-engine export`` CLI command
+        an abbr group; used by the ``kaye-engine exportable`` CLI
+        command
 
 
+        :param kwargs: render options forwarded to
+                ``PromptBlueprint.generate_prompt(...)`` by
+                implementers that render a blueprint; ignored by
+                implementers that don't
         :return: this exportable's content
         :rtype: str
         """
