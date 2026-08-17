@@ -90,7 +90,7 @@ To load the marketplace in VS Code:
 
 ## Consumer Requirement
 
-A corpus must supply a node at `Agentic` → `Claude Behavior`, and register a Chat blueprint and a Coder blueprint under whatever names the consumer passes to `setup_claude_cli(...)`; `user_prompt/export.py` resolves them via `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` in `blueprint_name.py`.
+A corpus must register a Chat blueprint and a Coder blueprint under whatever names it passes to `setup_claude_cli(...)`; `user_prompt/export.py` resolves them via `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` in `blueprint_name.py`.
 
 The Coder blueprint (`coder_bp_name`) is merged into the Chat blueprint via `|` to build the final `-c` prompt used by `usp -c`, `claude code`, and `claude vs-code-extension`; it may also double as its own standalone exportable Skill (e.g. Kaye Vault registers one blueprint, `"coder"`, for both roles — see `kaye_vault/bp/coder.py`).
 
@@ -114,96 +114,5 @@ A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking t
 
 Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept and how they're authored in the prompt corpus.
 
+Q.v. [`affordance-doc.md`](affordance-doc.md) for the Claude affordances Kaye Engine registers, and which surfaces enable them.
 
-
-
-
-#### Per Surface Sidecar
-
-| sidecar | surface name |
-| --- | --- |
-| `{for Claude chat}` | `chat` |
-| `{for Claude cowork}` | `cowork` |
-| `{for Claude code}` | `code` |
-| `{for Claude vsc}` | `vsc` |
-
-
-
-
-
-
-#### User Interaction
-
-| tool | affordance[^affordance] | Chat[^chat] | Cowork | Code | VSC[^vsc] | remark |
-| --- | --- | --- | --- | --- | --- | --- |
-| `ask_user_input_v0` | `ClaudeChat:ask_user_input_v0` | ✔️ | ❌ | ❌ | ❌ | show tappable multiple-choice questions |
-| `AskUserQuestion` | `ClaudeCode:AskUserQuestion` | ❌ | ✔️ | ✔️ | ✔️ | asks the user a clarifying question with selectable options |
-| `places_map_display_v0` | `ClaudeChat:places_map_display_v0` | ✔️ | ❌ | ❌ | ❌ | show places on a map |
-| `places_list_display_v0` | `ClaudeChat:places_list_display_v0` | ✔️ | ❌ | ❌ | ❌ | show places as a browsable list |
-| `recipe_display_v0` | `ClaudeChat:recipe_display_v0` | ✔️ | ❌ | ❌ | ❌ | interactive scalable recipe card |
-| `itinerary_display_v0` | `ClaudeChat:itinerary_display_v0` | ✔️ | ❌ | ❌ | ❌ | day-by-day travel itinerary card |
-| `step_card_display_v0` | `ClaudeChat:step_card_display_v0` | ✔️ | ❌ | ❌ | ❌ | numbered step-by-step walkthrough card |
-| `options_card_display_v0` | `ClaudeChat:options_card_display_v0` | ✔️ | ❌ | ❌ | ❌ | multi-approach options card |
-| `comparison_card_display_v0` | `ClaudeChat:comparison_card_display_v0` | ✔️ | ❌ | ❌ | ❌ | side-by-side product comparison card |
-| `featured_card_display_v0` | `ClaudeChat:featured_card_display_v0` | ✔️ | ❌ | ❌ | ❌ | single best-pick product card |
-| `product_carousel_display_v0` | `ClaudeChat:product_carousel_display_v0` | ✔️ | ❌ | ❌ | ❌ | paged product browsing card |
-| `link_preview_display_v0` | `ClaudeChat:link_preview_display_v0` | ✔️ | ❌ | ❌ | ❌ | external link preview cards |
-| `visualize:show_widget` | `ClaudeChat:visualize:show_widget` | ✔️ | ❌ | ❌ | ❌ | renders inline SVG/HTML diagram, chart, or widget |
-| `Artifact` | `ClaudeCode:Artifact` | ❌ | ❌ | ✔️ | ✔️ | publishes an HTML/Markdown page as a shareable web artifact |
-| `SendUserFile` | `ClaudeCode:SendUserFile` | ❌ | ❌ | ✔️ | ✔️ | sends a local file to the user |
-| `PushNotification` | `ClaudeCode:PushNotification` | ❌ | ❌ | ✔️ | ✔️ | sends a push notification |
-
-[^chat]: i.e. Claude.ai.
-[^vsc]: i.e. Claude Code VS Code Extension.
-[^affordance]: q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md#affordances).
-
-
-
-
-
-#### Data & Communication
-
-| tool | affordance | Chat | Cowork | Code | VSC | remark |
-| --- | --- | --- | --- | --- | --- | --- |
-| `memory_read`,<br>`memory_write`,<br>`memory_append`,<br>`memory_str_replace`,<br>`memory_delete`,<br>`memory_list` | `ClaudeChat:memory_` | ✔️ | ❌ | ❌ | ❌ | read, write, append, edit, delete, and list memory files |
-| `weather_fetch` | `ClaudeChat:weather_fetch` | ✔️ | ❌ | ❌ | ❌ | weather by location |
-| `places_search` | `ClaudeChat:places_search` | ✔️ | ❌ | ❌ | ❌ | search Google Places |
-| `message_compose_v1` | `ClaudeChat:message_compose_v1` | ✔️ | ❌ | ❌ | ❌ | drafts email/Slack/text with strategic variants |
-| `NotebookEdit` | `ClaudeCode:NotebookEdit` | ❌ | ❌ | ✔️ | ✔️ | edits Jupyter notebook cells |
-| `RemoteTrigger` | `ClaudeCode:RemoteTrigger` | ❌ | ❌ | ✔️ | ✔️ | triggers a remote/cloud agent run |
-
-
-
-
-
-#### Development
-
-| tool | affordance | Chat | Cowork | Code | VSC | remark |
-| --- | --- | --- | --- | --- | --- | --- |
-| `Skill` | `ClaudeCode:Skill` | ❌ | ✔️ | ✔️ | ✔️ | invokes a packaged skill (`/skill-name`) |
-| `DesignSync` | `ClaudeCode:DesignSync` | ❌ | ❌ | ✔️ | ✔️ | syncs design assets/state |
-| `ReportFindings` | `ClaudeCode:ReportFindings` | ❌ | ❌ | ✔️ | ✔️ | emits structured code-review findings |
-| `EnterPlanMode`<br>`ExitPlanMode` | `ClaudeCode:Enter/ExitPlanMode` | ❌ | ❌ | ✔️ | ✔️ | toggles planning mode |
-| `EnterWorktree`<br>`ExitWorktree` | `ClaudeCode:Enter/ExitWorktree` | ❌ | ❌ | ✔️ | ✔️ | creates/switches into and exits an isolated git worktree session |
-| `ScheduleWakeup` | `ClaudeCode:ScheduleWakeup` | ❌ | ❌ | ✔️ | ✔️ | schedules a future self-resumption for `/loop` dynamic mode |
-| `CronCreate`,<br>`CronDelete`,<br>`CronList` | `ClaudeCode:CronCreate/Delete/List` | ❌ | ❌ | ✔️ | ✔️ | creates, deletes, and lists scheduled cloud agents |
-| `Monitor` | `ClaudeCode:Monitor` | ❌ | ❌ | ✔️ | ✔️ | streams events from a background process |
-
-
-
-
-
-#### Agents & Tasks
-
-| tool | affordance | Chat | Cowork | Code | VSC | remark |
-| --- | --- | --- | --- | --- | --- | --- |
-| `SendMessage` | `ClaudeCode:SendMessage` | ❌ | ❌ | ✔️ | ✔️ | messages another agent/session |
-| `Agent` | `ClaudeCode:Agent` | ❌ | ✔️ | ✔️ | ✔️ | launches a subagent for multi-step or research tasks |
-| `ListAgents` | `ClaudeCode:ListAgents` | ❌ | ❌ | ❌ | ✔️ | lists other agents/sessions reachable via `SendMessage` |
-| `TaskCreate` | `ClaudeCode:TaskCreate` | ❌ | ❌ | ✔️ | ✔️ | creates a tracked background task |
-| `TaskGet` | `ClaudeCode:TaskGet` | ❌ | ❌ | ✔️ | ✔️ | gets a task's details |
-| `TaskList` | `ClaudeCode:TaskList` | ❌ | ❌ | ✔️ | ✔️ | lists tracked tasks |
-| `TaskOutput` | `ClaudeCode:TaskOutput` | ❌ | ❌ | ✔️ | ✔️ | fetches output from a background task |
-| `TaskStop` | `ClaudeCode:TaskStop` | ❌ | ✔️ | ✔️ | ✔️ | stops a background task |
-| `TaskUpdate` | `ClaudeCode:TaskUpdate` | ❌ | ❌ | ✔️ | ✔️ | updates a task's state |
-| `TodoWrite` | `ClaudeCode:TodoWrite` | ❌ | ❌ | ❌ | ✔️ | maintains a task/todo list for the session |

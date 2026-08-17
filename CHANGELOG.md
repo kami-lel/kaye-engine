@@ -53,9 +53,30 @@ todo todo utilize personalities, allow multi agent conversation
 - `resolve_dynamic_node_factory`, the single canonical-name resolver
   (`kaye_engine/prompt/dynamic_nodes/registry.py`) now shared by the
   corpus loader and the `dynamic-node` CLI
+- `git`, `Claude`, `ClaudeChat`, `ClaudeCowork`, `ClaudeCode` registered to
+  the Claude affordance catalog (`claude_affordances.py`); `Claude` and the
+  per-surface identity affordances are auto-checkmarked by
+  `ClaudeSurface.as_affordances()` alongside each surface's tool
+  affordances
+- `docs/affordance-doc.md`, the Claude affordance/surface reference,
+  replacing the tables `docs/claude-doc.md` used to carry inline
 
 ### Changed
 
+- `ClaudeSurface.as_affordances()` now folds each surface's identity
+  directly into its returned affordance names (the universal `Claude`
+  plus, for `chat`/`cowork`/`code`, a per-surface identity affordance
+  such as `ClaudeCode`; `vsc` has none of its own), replacing the former
+  plain `for Claude <surface>` sidecar names that `as_contained_sidecars`
+  used to append separately — every name it returns is now bracket-wrapped
+- `docs/claude-doc.md` trimmed to a pointer at `docs/affordance-doc.md`
+  in place of its inline affordance tables
+- `generate_user_system_prompt()` no longer hard-checkmarks an
+  `Agentic` → `Claude Behavior` node by name; a consumer corpus now
+  opts Claude-specific content into CLAUDE.md via the `{[Claude] Usage}`
+  affordance sidecar instead, checkmarked through the existing
+  `affordances=surface.as_affordances()` render path — updated
+  `docs/claude-doc.md`'s Consumer Requirement section to match
 - `setup_claude_cli()` now takes a `display_name` argument, letting each
   consumer stamp its own `plugin.json` `display_name` instead of the
   hardcoded `DISPLAY_NAME` constant, which is removed
