@@ -1,7 +1,7 @@
 """
 exportable_parser.py
 
-define ``register_export_parser``
+define ``register_exportable_parser``
 """
 
 from argparse import RawDescriptionHelpFormatter
@@ -24,16 +24,16 @@ _DESCRIPTION = _HELP + """
 
 prints the content of the exportable registered under EXPORTABLE:
 
-    kaye-engine export my-canonical-name
+    kaye-engine exportable my-canonical-name
 
 list every registered exportable, sorted alphabetically:
 
-    kaye-engine export ls
+    kaye-engine exportable ls
 """
 
 
 # auxiliaries  #################################################################
-def _export_main(args):
+def _exportable_main(args):
     set_logging_level_by_namespace(args, logger=logger)
     check_corpus_setup_for_cli()
 
@@ -52,12 +52,12 @@ def _export_main(args):
 
 
 # Public API  ##################################################################
-def register_export_parser(cli_subparser):
+def register_exportable_parser(cli_subparser):
     """
-    register the ``kaye-engine export`` subcommand parser
+    register the ``kaye-engine exportable`` subcommand parser
     """
     export_parser = cli_subparser.add_parser(
-        "export",
+        "exportable",
         help=_HELP,
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
@@ -71,4 +71,4 @@ def register_export_parser(cli_subparser):
     )
     add_verbose_arguments(export_parser)
 
-    export_parser.set_defaults(func=_export_main)
+    export_parser.set_defaults(func=_exportable_main)
