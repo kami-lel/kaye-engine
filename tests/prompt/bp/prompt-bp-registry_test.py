@@ -45,6 +45,8 @@ class TestRegisterBlueprint:  ##################################################
         assert reg.always_apply is False
         assert reg.user_invokable is True
         assert reg.llm_invokable is True
+        assert reg.conditional_sidecars == ()
+        assert reg.affordances is None
         assert blueprint_registry["test-registry-dft"] is reg
         assert exportable_registry["test-registry-dft"] is reg
 
@@ -88,6 +90,25 @@ class TestRegisterBlueprint:  ##################################################
         assert blueprint_registry["test-registry-internal"] is reg
         assert "test-registry-internal" not in exportable_registry
 
+    def test_conditional_sidecars_and_affordances(
+        _, corpus_testee1, registered_names
+    ):
+        bp = PromptBlueprint.create_empty_blueprint(
+            corpus_tree=corpus_testee1
+        )
+
+        reg = register_blueprint(
+            "test-registry-sidecars",
+            "Test Registry Sidecars",
+            bp,
+            conditional_sidecars=("for Kaye",),
+            affordances=(),
+        )
+        registered_names.append(reg.canonical_name)
+
+        assert reg.conditional_sidecars == ("for Kaye",)
+        assert reg.affordances == ()
+
     def test_duplicate_name(_, corpus_testee1, registered_names):
         bp = PromptBlueprint.create_empty_blueprint(
             corpus_tree=corpus_testee1
@@ -102,3 +123,54 @@ class TestRegisterBlueprint:  ##################################################
         opt = exec_info.value.args[0]
         print(opt)
         assert opt == "duplicate blueprint registry name: test-registry-dup"
+
+
+class TestBlueprintRegistryContent:  ############################################
+
+    def test_forwards_registry_defaults(_, corpus_testee1, monkeypatch):
+        bp = PromptBlueprint.create_empty_blueprint(
+            corpus_tree=corpus_testee1
+        )
+        captured = {}
+        monkeypatch.setattr(
+            bp,
+            "generate_prompt",
+            lambda **kwargs: captured.update(kwargs),
+        )
+
+        reg = BlueprintRegistry(
+            canonical_name="test-content-dft",
+            display_name="Test Content Dft",
+            blueprint=bp,
+            conditional_sidecars=("for Kaye",),
+            affordances=(),
+        )
+        reg.content()
+
+        assert captured["conditional_sidecars"] == ("for Kaye",)
+        assert captured["affordances"] == ()
+
+    def test_explicit_kwargs_override_registry_defaults(
+        _, corpus_testee1, monkeypatch
+    ):
+        bp = PromptBlueprint.create_empty_blueprint(
+            corpus_tree=corpus_testee1
+        )
+        captured = {}
+        monkeypatch.setattr(
+            bp,
+            "generate_prompt",
+            lambda **kwargs: captured.update(kwargs),
+        )
+
+        reg = BlueprintRegistry(
+            canonical_name="test-content-owr",
+            display_name="Test Content Owr",
+            blueprint=bp,
+            conditional_sidecars=("for Kaye",),
+            affordances=(),
+        )
+        reg.content(conditional_sidecars=("for Ria",), affordances=None)
+
+        assert captured["conditional_sidecars"] == ("for Ria",)
+        assert captured["affordances"] is None
