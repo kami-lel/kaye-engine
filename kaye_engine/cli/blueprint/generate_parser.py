@@ -51,12 +51,15 @@ def _generate_main(args):  ####################################################
     set_logging_level_by_namespace(args, logger=logger)
     check_corpus_setup_for_cli()
 
-    blueprint, display_name = load_blueprint_from_args(args)
+    blueprint, display_name, registry = load_blueprint_from_args(args)
+    render_kwargs = resolve_render_options(args, default_show_comment=True)
 
-    prompt = blueprint.generate_prompt(
-        display_name=display_name,
-        **resolve_render_options(args, default_show_comment=True),
-    )
+    if registry is not None:
+        prompt = registry.content(display_name=display_name, **render_kwargs)
+    else:
+        prompt = blueprint.generate_prompt(
+            display_name=display_name, **render_kwargs
+        )
 
     print(prompt)
 

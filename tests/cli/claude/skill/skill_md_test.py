@@ -73,7 +73,7 @@ class TestVersionInjection:
 
         blueprint.generate_prompt.assert_called_once_with(**render_kwargs)
 
-    def test_from_exportable_without_render_kwargs_passes_none(_):
+    def test_from_exportable_without_render_kwargs_uses_registry_defaults(_):
         blueprint = MagicMock()
         blueprint.sidecars.description = "d"
         blueprint.sidecars.when_to_use = "w"
@@ -84,4 +84,6 @@ class TestVersionInjection:
 
         Skill.from_exportable(registry)
 
-        blueprint.generate_prompt.assert_called_once_with()
+        blueprint.generate_prompt.assert_called_once_with(
+            conditional_sidecars=(), affordances=None
+        )
