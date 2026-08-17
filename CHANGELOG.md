@@ -3,6 +3,8 @@
 [^format]
 
 <!--
+Todo exportable register w/ sidecar & affordance
+Fixme rm all claude related ?
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -29,11 +31,26 @@ todo todo utilize personalities, allow multi agent conversation
   VS Code) to its available affordance names
 - `Affordance` registry (`kaye_engine/prompt/affordance_registry.py`),
   tracking platform capabilities and deriving Usage/Lack sidecar names
-- `--surface` flag on every `kaye claude` export subcommand, threading a
-  `surface` param through the skill, plugin, marketplace, VS Code, and
-  user-prompt export chains to drive real affordance rendering
 - `affordances` kwarg on `render_prompt_lines`, auto-checkmarking sidecars
   per surface
+- `kaye-engine affordance`/`a` CLI subcommand, listing every
+  `affordance_registry` name, sorted
+- `kaye-engine glossary`/`g` CLI subcommand, printing a registered
+  glossary's content (`glossary ls` lists every registered name)
+- `kaye_engine/cli/render_options_parser.py`:
+  `build_render_options_parent_parser`/`resolve_render_options`, a
+  shared parent parser and aux function unifying `--surface`,
+  `--comment`/`--no-comment`, `--conditional-sidecar`, `--affordance`,
+  and `--sparseness` across every rendering command (`blueprint
+  generate`, `dynamic-node`, `exportable`, and every `claude` export
+  subcommand) — `--affordance`/`--conditional-sidecar` union
+  additively with whatever `--surface` derives
+- `kaye_engine/cli/comment_parser.py`:
+  `build_comment_parent_parser`, the shared `--comment`/`--no-comment`
+  (`-c`/`-C`) mutually-exclusive pair, also used standalone by
+  `kaye-engine blueprint show`
+- `-u` short flag for `--surface`; `-a`/`-i` short flags for the new
+  `--affordance`/`--conditional-sidecar` flags
 - registered Claude affordance catalog, auto-loaded on `setup_claude_cli`
 - per-surface sidecar names on `ClaudeSurface.as_contained_sidecars`,
   derived from the enum member name
@@ -42,9 +59,6 @@ todo todo utilize personalities, allow multi agent conversation
 - `generate_user_system_prompt()`, rendering the Chat (optionally +Coder)
   blueprint to a string; `export_user_system_prompt_file()` now writes
   that string to a file rather than rendering it itself
-- `--no-show-comment` flag on `claude usp` and `claude vs-code-extension`,
-  threading a `show_comment` param through the user-prompt export chain
-  to suppress the trailing generated-by comment
 - inline `(((name)))` placeholder substitution
   (`apply_dynamic_substitutions`), a render-time search-and-replace pass
   resolving dynamic-node content anywhere inside a generated prompt,
@@ -108,6 +122,21 @@ todo todo utilize personalities, allow multi agent conversation
 - `dynamic-node-doc.md` renamed `dynamic-content-doc.md` and
   reorganized: the tree auto-attach mechanism and inline `(((name)))`
   substitution are unified under one Dynamic Substitution section
+- `kaye-engine export` CLI subcommand renamed `exportable` (alias `x`
+  kept)
+- `claude`'s `anthropic`/`a` aliases dropped in favor of a single `c`,
+  freeing `a` for the new `affordance` subcommand
+- `Exportable.content()` widened to `content(self, **render_kwargs)`;
+  `BlueprintRegistry.content()` forwards the kwargs straight into
+  `generate_prompt()` (drops the hardcoded `sparseness=0`);
+  `ExportableAbbr.content()` accepts and ignores them
+- `sparseness_parser`'s fixed-default module-level singleton replaced
+  by a `build_sparseness_parent_parser(default=...)` builder, so each
+  rendering command states its own default
+- every `claude` export chain (skill, plugin, marketplace, VS Code,
+  user-system-prompt, code) now threads a single `render_kwargs` dict
+  end-to-end instead of individual `surface`/`sparseness`/
+  `show_comment` params
 
 ### Deprecated
 

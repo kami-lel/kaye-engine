@@ -7,7 +7,6 @@ define ``export_vs_code_extension``
 from pathlib import Path
 
 from kaye_engine import kamilog
-from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.marketplace.export import export_marketplace
 from kaye_engine.cli.claude.setup import get_marketplace_folder_name
@@ -25,7 +24,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 # entry point  #################################################################
 
 
-def export_vs_code_extension(claude_folder, *, surface=None, show_comment=True):
+def export_vs_code_extension(claude_folder, *, render_kwargs=None):
     """
     export CLAUDE.md and a marketplace folder into the given Claude folder
 
@@ -34,13 +33,10 @@ def export_vs_code_extension(claude_folder, *, surface=None, show_comment=True):
 
     :param claude_folder: destination .claude/ folder
     :type claude_folder: Path-like
-    :param surface: Claude surface(s) to checkmark affordances for,
-            forwarded to both :func:`export_user_system_prompt_file` and
+    :param render_kwargs: render options forwarded to both
+            :func:`export_user_system_prompt_file` and
             :func:`export_marketplace`
-    :type surface: ClaudeSurface, optional
-    :param show_comment: include the trailing generated-by comment in
-            CLAUDE.md; not applied to the marketplace or settings.json export
-    :type show_comment: bool
+    :type render_kwargs: dict, optional
     :return: path to the written marketplace.json
     :rtype: Path
     """
@@ -51,15 +47,15 @@ def export_vs_code_extension(claude_folder, *, surface=None, show_comment=True):
     export_user_system_prompt_file(
         prompt_file,
         use_coder=True,
-        sparseness=DEFAULT_SPARSENESS,
-        surface=surface,
-        show_comment=show_comment,
+        render_kwargs=render_kwargs,
     )
     logger.succ("export user system prompt file:\t" + str(prompt_file))
 
     logger.debug("export marketplace")
     marketplace_folder = claude_folder / get_marketplace_folder_name()
-    marketplace_path = export_marketplace(marketplace_folder, surface=surface)
+    marketplace_path = export_marketplace(
+        marketplace_folder, render_kwargs=render_kwargs
+    )
     logger.succ("export marketplace:\t" + str(marketplace_folder))
 
     logger.debug("update settings for git command permissions")

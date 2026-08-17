@@ -53,8 +53,9 @@ pytest tests/prompt/bp/prompt-bp-merge_test.py::TestMerge::test1_1
 exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
 rendering. The exporters themselves need a corpus to produce output, so the
 consumer package's suite covers those; do not scaffold corpus fixtures here
-to widen the directory. The `blueprint` and `export` subcommand parsers
-currently have no dedicated tests — a known gap, not an intentional
+to widen the directory. `exportable`, `affordance`, and `glossary` are now
+covered by dedicated parser tests; the `blueprint` subcommand parser
+currently has no dedicated tests — a known gap, not an intentional
 exclusion like the exporters above.
 
 **Do not parallelize** — no `pytest-xdist`, no `-n auto`. The suite is
@@ -71,8 +72,8 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Four** subcommands exist, `blueprint`, `claude`,
-`dynamic-node`, and `export`:
+the shorter form. **Six** top-level subcommands exist: `blueprint`,
+`claude`, `dynamic-node`, `exportable`, `affordance`, and `glossary`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
@@ -83,7 +84,6 @@ kaye-engine blueprint generate BLUEPRINT    # render a concrete prompt
 kaye-engine blueprint generate < FILE       # render from stdin (BLUEPRINT omitted)
 kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged into one blueprint/output; NODE is "today"/"shorthand", any simple AbbrTags kebab slug (eg "emoji", "single-character"), or any known abbr glossary name
 kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
-kaye-engine dynamic-node NODE -s SPARSENESS # blank-line policy, v.i.
 kaye-engine dynamic-node ls                 # list every available NODE value: today, shorthand, every AbbrTags-derived name, then glossary names alphabetically
 kaye-engine claude skill SKILLS_FOLDER      # export blueprints as Skill folders
 kaye-engine claude skill -z ZIPS_FOLDER     # create .zip Skill packages
@@ -94,27 +94,55 @@ kaye-engine claude marketplace MARKETPLACE  # to a custom folder
 kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
 kaye-engine claude user-system-prompt       # print Chat blueprint to stdout
 kaye-engine claude user-system-prompt -c    # append Coder blueprint content
-kaye-engine claude user-system-prompt --no-show-comment # omit trailing comment
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
-kaye-engine export EXPORTABLE               # print an exportable's content
-kaye-engine export ls                       # list every registered exportable name
+kaye-engine exportable EXPORTABLE           # print an exportable's content
+kaye-engine exportable ls                   # list every registered exportable name
+kaye-engine affordance                      # list affordance_registry names, sorted
+kaye-engine glossary GLOSSARY               # print a glossary's content
+kaye-engine glossary ls                     # list every registered glossary name
 ```
 
 Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
-generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` →
-`anthropic`, `a`; `claude code` → `claude c`; `claude marketplace` →
+generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` → `c` (was
+`anthropic`/`a`); `claude code` → `claude c`; `claude marketplace` →
 `claude m`; `claude plugin` → `claude p`; `claude skill` → `claude s`;
 `claude user-system-prompt` → `claude usp`; `claude vs-code-extension`
-→ `claude v`; `export` → `x`.
+→ `claude v`; `exportable` → `x`; `affordance` → `a`; `glossary` → `g`.
 
-`blueprint generate` and `dynamic-node` both take `-s`/`--sparseness SPARSENESS`
-(shared parser in `kaye_engine/cli/sparseness_parser.py`) to control
-blank-line collapsing in the rendered output: `-1` joins everything into one
-line, `0` (default) strips all blank lines, `1` collapses every run to a
-single blank line, up through `99` which disables trimming entirely. The
-default lives in `DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`) and is
-shared by `sparseness_parser`, `SKILL.md` export, `user-system-prompt`, and
-`vs-code-extension` alike, unless a caller overrides it.
+**Rendering commands** — any subcommand that reaches
+`PromptBlueprint.generate_prompt(...)`, directly or via
+`Exportable.content()` (`blueprint generate`, `dynamic-node`,
+`exportable`, `claude skill`, `claude plugin`, `claude marketplace`,
+`claude user-system-prompt`, `claude vs-code-extension`, `claude
+code`) — all expose the same 5 options via one shared parent parser
+and one aux function, `build_render_options_parent_parser`/
+`resolve_render_options` (`kaye_engine/cli/render_options_parser.py`):
+
+| flag | short | effect |
+|---|---|---|
+| `--surface` | `-u` | Claude surface(s) to checkmark affordances for; combinable |
+| `--comment`/`--no-comment` | `-c`/`-C` | show/omit the trailing generated-by comment |
+| `--conditional-sidecar` | `-i` | conditional-sidecar name(s), unioned with `--surface` |
+| `--affordance` | `-a` | affordance name(s), unioned with `--surface` |
+| `--sparseness` | `-s` | blank-line policy, v.i. |
+
+`--affordance`/`--conditional-sidecar` are additive: on surface-aware
+(`claude ...`) subcommands they union with whatever `--surface` derives;
+on surface-less subcommands (`blueprint generate`, `dynamic-node`,
+`exportable`) they work standalone. `--comment`/`--no-comment` and
+`--sparseness` each keep their own pre-existing per-subcommand default
+when the flags are omitted. `claude user-system-prompt` already owns
+`-c` for `--coder`, so on that subcommand `--comment`/`--no-comment`
+are long-form only (no `-c`/`-C`). `kaye-engine blueprint show` is not
+a rendering command but shares the `--comment`/`--no-comment` toggle
+(`-c`/`-C` included there).
+
+`--sparseness SPARSENESS` controls blank-line collapsing in the
+rendered output: `-1` joins everything into one line, `0` strips all
+blank lines, `1` collapses every run to a single blank line, up through
+`99` which disables trimming entirely. The default lives in
+`DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`) unless a caller
+overrides it.
 
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
 Bash command patterns) into `settings.json`, sourced from
@@ -143,12 +171,11 @@ is not a registered blueprint — expected, not a bug.
 `importlib.metadata.version(PACKAGE_NAME)` — run against an installed
 package, not a bare checkout.
 
-Every `claude` export subcommand also takes `--surface SURFACE [SURFACE
-...]` (shared parser in `kaye_engine/cli/claude/surface_parser.py`),
-combinable member names of the `ClaudeSurface` enum.Flag (`chat`,
-`cowork`, `code`, `vsc`) — the affordance names available on those
-surfaces get checkmarked in the rendered output. Each subcommand defines
-its own default surface set when the flag is omitted.
+`--surface` takes combinable member names of the `ClaudeSurface`
+enum.Flag (`chat`, `cowork`, `code`, `vsc`) — the affordance names
+available on those surfaces get checkmarked in the rendered output.
+Each subcommand defines its own default surface set when the flag is
+omitted.
 
 ## Code Conventions
 

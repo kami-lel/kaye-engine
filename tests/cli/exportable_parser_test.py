@@ -3,7 +3,7 @@ exportable_parser_test.py
 
 Unit Tests (using pytest) for:
 
-_export_main, register_export_parser
+_exportable_main, register_exportable_parser
 """
 
 import logging
@@ -20,14 +20,14 @@ from kaye_engine.exportable import Exportable
 # auxiliaries  ##################################################################
 class _FakeExportable(Exportable):
 
-    def content(self):
+    def content(self, **_render_kwargs):
         return "fake exportable content for " + self.canonical_name
 
 
-def _build_export_parser():
+def _build_exportable_parser():
     root_parser = ArgumentParser()
     subparser = root_parser.add_subparsers()
-    exportable_parser.register_export_parser(subparser)
+    exportable_parser.register_exportable_parser(subparser)
     return root_parser
 
 
@@ -55,29 +55,29 @@ def _fake_registry():
 
 
 # pytest  ######################################################################
-class TestRegisterExportParser:
+class TestRegisterExportableParser:
 
-    def test_registers_export_subcommand(self):
-        parser = _build_export_parser()
-        args = parser.parse_args(["export", "some-exportable"])
+    def test_registers_exportable_subcommand(self):
+        parser = _build_exportable_parser()
+        args = parser.parse_args(["exportable", "some-exportable"])
 
         assert args.EXPORTABLE == "some-exportable"
-        assert args.func is exportable_parser._export_main
+        assert args.func is exportable_parser._exportable_main
 
     def test_registers_x_alias(self):
-        parser = _build_export_parser()
+        parser = _build_exportable_parser()
         args = parser.parse_args(["x", "some-exportable"])
 
         assert args.EXPORTABLE == "some-exportable"
 
 
-class TestExportMainLs:
+class TestExportableMainLs:
 
     def test_lists_registered_exportables_sorted(
         self, _fake_registry, capsys
     ):
-        parser = _build_export_parser()
-        args = parser.parse_args(["export", "ls"])
+        parser = _build_exportable_parser()
+        args = parser.parse_args(["exportable", "ls"])
         args.func(args)
 
         out = capsys.readouterr().out
@@ -85,32 +85,32 @@ class TestExportMainLs:
 
     def test_lists_nothing_when_registry_empty(self, capsys):
         with patch.object(exportable_parser, "exportable_registry", {}):
-            parser = _build_export_parser()
-            args = parser.parse_args(["export", "ls"])
+            parser = _build_exportable_parser()
+            args = parser.parse_args(["exportable", "ls"])
             args.func(args)
 
         out = capsys.readouterr().out
         assert out == ""
 
 
-class TestExportMainPrintsContent:
+class TestExportableMainPrintsContent:
 
     def test_prints_content_of_known_exportable(
         self, _fake_registry, capsys
     ):
-        parser = _build_export_parser()
-        args = parser.parse_args(["export", "some-exportable"])
+        parser = _build_exportable_parser()
+        args = parser.parse_args(["exportable", "some-exportable"])
         args.func(args)
 
         out = capsys.readouterr().out
         assert "fake exportable content for some-exportable" in out
 
 
-class TestExportMainUnknownExportable:
+class TestExportableMainUnknownExportable:
 
     def test_exits_on_unknown_exportable(self, _fake_registry):
-        parser = _build_export_parser()
-        args = parser.parse_args(["export", "does-not-exist"])
+        parser = _build_exportable_parser()
+        args = parser.parse_args(["exportable", "does-not-exist"])
 
         with pytest.raises(SystemExit):
             args.func(args)
@@ -118,8 +118,8 @@ class TestExportMainUnknownExportable:
     def test_logs_critical_on_unknown_exportable(
         self, _fake_registry, caplog
     ):
-        parser = _build_export_parser()
-        args = parser.parse_args(["export", "does-not-exist"])
+        parser = _build_exportable_parser()
+        args = parser.parse_args(["exportable", "does-not-exist"])
 
         with caplog.at_level(logging.CRITICAL, logger=LOGGER_NAME):
             with pytest.raises(SystemExit):

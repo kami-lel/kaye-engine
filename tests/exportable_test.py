@@ -99,7 +99,18 @@ class TestContent:  ############################################################
     def test_blueprint_registry_content(_, empty_corpus):
         reg = _dummy_blueprint_registry("test-exp-content", empty_corpus)
 
-        assert reg.content() == reg.blueprint.generate_prompt(sparseness=0)
+        assert reg.content(sparseness=0) == reg.blueprint.generate_prompt(
+            sparseness=0
+        )
+
+    def test_blueprint_registry_content_forwards_render_kwargs(
+        _, empty_corpus
+    ):
+        reg = _dummy_blueprint_registry("test-exp-content-kw", empty_corpus)
+
+        assert reg.content(sparseness=-1) == reg.blueprint.generate_prompt(
+            sparseness=-1
+        )
 
     def test_exportable_abbr_content(_):
         entry = AbbrEntry(
@@ -113,3 +124,6 @@ class TestContent:  ############################################################
 
         assert group.content() == group.as_md_list()
         assert group.content() == entry.as_md_list_entry()
+        assert group.content(sparseness=0, show_comment=True) == (
+            group.as_md_list()
+        )

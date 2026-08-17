@@ -4,15 +4,18 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
+from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
-from kaye_engine.cli.claude.surface_parser import build_surface_parent_parser
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
 )
-from kaye_engine.prompt.claude_surface import ClaudeSurface
+from kaye_engine.cli.render_options_parser import (
+    build_render_options_parent_parser,
+    resolve_render_options,
+)
 
 from .export import export_vs_code_extension
 
@@ -53,10 +56,10 @@ def _vs_code_main(args):
     check_setup_for_claude_cli()
 
     folder = args.folder
-    surface = ClaudeSurface.combine(args.surface)
+    render_kwargs = resolve_render_options(args, default_show_comment=True)
 
     marketplace_path = export_vs_code_extension(
-        folder, surface=surface, show_comment=not args.no_show_comment
+        folder, render_kwargs=render_kwargs
     )
 
     logger.info("marketplace.json location:\n" + str(marketplace_path))
@@ -71,7 +74,12 @@ def register_vs_code_parser(cli_subparser):  ###################################
         description=__doc__ + _DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["v"],
-        parents=[build_surface_parent_parser(("vsc",))],
+        parents=[
+            build_render_options_parent_parser(
+                default_surface=("vsc",),
+                default_sparseness=DEFAULT_SPARSENESS,
+            )
+        ],
     )
 
     vs_code_parser.add_argument(
@@ -81,13 +89,6 @@ def register_vs_code_parser(cli_subparser):  ###################################
         type=Path,
         default=DEFAULT_CLAUDE_FOLDER,
         help="path to local .claude/ folder; default: ~/.claude",
-    )
-
-    vs_code_parser.add_argument(
-        "--no-show-comment",
-        action="store_true",
-        default=False,
-        help="disable the trailing generated-by comment in CLAUDE.md",
     )
 
     kamilog.add_verbose_arguments(vs_code_parser)

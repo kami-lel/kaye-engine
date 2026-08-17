@@ -15,7 +15,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 # entry point  #################################################################
 
 
-def export_skills_as_folders(parent_folder, *, version, surface=None):
+def export_skills_as_folders(parent_folder, *, version, render_kwargs=None):
     """
     export every `exportable_registry` entry as a skill folder
 
@@ -27,16 +27,16 @@ def export_skills_as_folders(parent_folder, *, version, surface=None):
     :type parent_folder: Path-like
     :param version: installed package version
     :type version: str
-    :param surface: Claude surface(s) to checkmark affordances for,
-            forwarded to :meth:`Skill.from_exportable`
-    :type surface: ClaudeSurface, optional
+    :param render_kwargs: render options forwarded to
+            :meth:`Skill.from_exportable`
+    :type render_kwargs: dict, optional
     """
     logger.enter("exporting exportables as skills")
 
     for exportable in exportable_registry.values():
         try:
             folder = Skill.from_exportable(
-                exportable, version=version, surface=surface
+                exportable, version=version, render_kwargs=render_kwargs
             ).write(parent_folder)
         except OSError as err:
             logger.critical("cannot write skill:\t" + exportable.display_name)
