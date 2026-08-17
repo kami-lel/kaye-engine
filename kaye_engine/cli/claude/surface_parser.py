@@ -31,6 +31,7 @@ def build_surface_parent_parser(default):
     """
     parent = ArgumentParser(add_help=False)
     parent.add_argument(
+        "-u",
         "--surface",
         nargs="+",
         metavar="SURFACE",
