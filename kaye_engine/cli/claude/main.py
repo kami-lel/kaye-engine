@@ -19,7 +19,7 @@ def register_cli_claude_parser(  ###############################################
         "claude",
         help=__doc__,
         description=__doc__,
-        aliases=["anthropic", "a"],
+        aliases=["c"],
     )
 
     def _claude_parser_main(_):
