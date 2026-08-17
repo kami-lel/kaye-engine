@@ -7,15 +7,15 @@ define ``register_show_parser``
 from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
-from kaye_engine.kamilog import (
-    add_verbose_arguments,
-    set_logging_level_by_namespace,
-)
-
-from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.blueprint.blueprint_io_parser import (
     blueprint_io_parser,
     load_blueprint_from_args,
+)
+from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
+from kaye_engine.cli.comment_parser import build_comment_parent_parser
+from kaye_engine.kamilog import (
+    add_verbose_arguments,
+    set_logging_level_by_namespace,
 )
 
 # logger  ######################################################################
@@ -50,9 +50,11 @@ def _show_main(args):
 
     blueprint, display_name = load_blueprint_from_args(args)
 
+    show_comment = True if args.show_comment is None else args.show_comment
+
     render_kwargs = {
         "show_full_tree": args.show_full_tree,
-        "show_comment": not args.no_comment,
+        "show_comment": show_comment,
         "display_name": display_name,
     }
     if args.preview_line_count is not None:
@@ -76,7 +78,7 @@ def register_show_parser(cli_subparser):
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["s"],
-        parents=[blueprint_io_parser],
+        parents=[blueprint_io_parser, build_comment_parent_parser()],
     )
 
     # add arguments  -----------------------------------------------------------
