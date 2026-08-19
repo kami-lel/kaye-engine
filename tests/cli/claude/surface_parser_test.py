@@ -11,10 +11,21 @@ from argparse import ArgumentParser
 import pytest
 
 from kaye_engine.cli.claude.surface_parser import build_surface_parent_parser
+from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
 
-def _build_parser(default):
-    parent = build_surface_parent_parser(default)
+_SURFACE_PROFILES = {
+    "chat": RenderProfile(),
+    "cowork": RenderProfile(),
+    "code": RenderProfile(),
+    "vsc": RenderProfile(),
+}
+
+
+def _build_parser(default, *, surface_profiles=_SURFACE_PROFILES):
+    parent = build_surface_parent_parser(
+        default, surface_profiles=surface_profiles
+    )
     root_parser = ArgumentParser(parents=[parent])
     return root_parser
 
@@ -45,3 +56,18 @@ class TestSurfaceFlag:
 
         with pytest.raises(SystemExit):
             parser.parse_args(["--surface", "nonexistent"])
+
+
+class TestSurfaceProfilesUnset:
+
+    def test_surface_flag_omitted_when_none(_):
+        parser = _build_parser(("code",), surface_profiles=None)
+
+        with pytest.raises(SystemExit):
+            parser.parse_args(["--surface", "code"])
+
+    def test_surface_flag_omitted_when_empty(_):
+        parser = _build_parser(("code",), surface_profiles={})
+
+        with pytest.raises(SystemExit):
+            parser.parse_args(["--surface", "code"])

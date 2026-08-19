@@ -14,5 +14,4 @@ from .prompt_corpus_loader import *
 from .dynamic_nodes import *
 from .sidecar_node import *
 from .affordance_registry import *
-from .claude_surface import *
 from .blueprint import *

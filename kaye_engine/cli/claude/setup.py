@@ -10,14 +10,16 @@ define ``setup_claude_cli``, ``get_claude_cli_consumer_version``,
 
 from kaye_engine import kamilog
 from kaye_engine.cli import claude
-from kaye_engine.cli.claude.claude_affordances import (
-    register_claude_affordances,
+from kaye_engine.prompt.affordance_registry import (
+    affordance_registry,
+    register_affordance,
 )
 
 __all__ = (
     "get_claude_cli_consumer_version",
     "get_claude_cli_display_name",
     "get_marketplace_folder_name",
+    "get_surface_profiles",
     "setup_claude_cli",
 )
 
@@ -36,6 +38,8 @@ def setup_claude_cli(
     chat_coder_exportable_name,
     version,
     marketplace_folder_name,
+    affordance_names=(),
+    surface_profiles=None,
 ):
     """
     set every consumer-configurable value used by the ``claude`` CLI
@@ -70,6 +74,13 @@ def setup_claude_cli(
             destination, and under the target Claude folder for ``claude
             vs-code-extension``
     :type marketplace_folder_name: str
+    :param affordance_names: canonical names registered into
+            `affordance_registry` via `register_claude_affordances`;
+            defaults to ``()``
+    :type affordance_names: Iterable[str], optional
+    :param surface_profiles: populates the ``--surface`` flag's
+            choices; ``None`` (default) omits ``--surface`` entirely
+    :type surface_profiles: dict[str, RenderProfile] or None, optional
     """
     claude._plugin_name = plugin_name
     claude._display_name = display_name
@@ -78,8 +89,24 @@ def setup_claude_cli(
     claude._chat_coder_exportable_name = chat_coder_exportable_name
     claude._version = version
     claude._marketplace_folder_name = marketplace_folder_name
+    claude._affordance_names = affordance_names
+    claude._surface_profiles = surface_profiles
 
     register_claude_affordances()
+
+
+def register_claude_affordances():
+    """
+    register every name in the consumer-configured `affordance_names`
+    (see `setup_claude_cli`) into `affordance_registry` via
+    `register_affordance`, skipping any `canonical_name` already
+    registered -- keeps repeated `setup_claude_cli(...)` calls within
+    one process idempotent instead of raising on the second call
+    """
+    for canonical_name in claude._affordance_names:
+        if canonical_name in affordance_registry:
+            continue
+        register_affordance(canonical_name)
 
 
 def get_claude_cli_consumer_version():
@@ -131,3 +158,16 @@ def get_marketplace_folder_name():
         )
         raise SystemExit(1)
     return claude._marketplace_folder_name
+
+
+def get_surface_profiles():
+    """
+    :return: configured ``dict[str, RenderProfile]`` populating the
+            ``--surface`` flag's choices, or ``None`` when the consumer
+            project never configured surfaces -- unlike this module's
+            other getters, ``None`` is a valid, non-error configuration
+            (precedented by ``default_surface=()`` for surface-less
+            subcommands), so this never raises
+    :rtype: dict[str, RenderProfile] or None
+    """
+    return claude._surface_profiles
