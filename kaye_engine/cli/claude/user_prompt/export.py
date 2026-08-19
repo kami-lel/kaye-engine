@@ -18,7 +18,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
 # Main Entry Point  ############################################################
-def generate_user_system_prompt(*, use_coder=False, render_kwargs=None):
+def generate_user_system_prompt(*, use_coder=False, render_profile=None):
     """
     render the Chat exportable as the Claude user/system prompt
 
@@ -29,10 +29,10 @@ def generate_user_system_prompt(*, use_coder=False, render_kwargs=None):
     :param use_coder: render the precomputed Chat+Coder exportable
             instead of the plain Chat exportable
     :type use_coder: bool
-    :param render_kwargs: kwargs forwarded to ``generate_prompt()``, v.s.
-            ``resolve_render_options()``; ``None`` renders with
-            ``generate_prompt()``'s own defaults
-    :type render_kwargs: dict, optional
+    :param render_profile: render profile forwarded to
+            ``exportable.content(...)``, v.s. ``resolve_render_profile()``;
+            ``None`` renders with the exportable's own defaults
+    :type render_profile: RenderProfile, optional
     :return: rendered prompt
     :rtype: str
     """
@@ -42,14 +42,14 @@ def generate_user_system_prompt(*, use_coder=False, render_kwargs=None):
         else get_claude_chat_exportable()
     )
 
-    return exportable.content(**(render_kwargs or {}))
+    return exportable.content(profile=render_profile)
 
 
 def export_user_system_prompt_file(
     file_path,
     *,
     use_coder=False,
-    render_kwargs=None,
+    render_profile=None,
 ):
     """
     export the Chat exportable as Claude user/system prompt to CLAUDE.md
@@ -63,10 +63,10 @@ def export_user_system_prompt_file(
     :param use_coder: render the precomputed Chat+Coder exportable
             instead of the plain Chat exportable
     :type use_coder: bool
-    :param render_kwargs: kwargs forwarded to ``generate_prompt()``, v.s.
-            ``resolve_render_options()``; ``None`` renders with
-            ``generate_prompt()``'s own defaults
-    :type render_kwargs: dict, optional
+    :param render_profile: render profile forwarded to
+            ``exportable.content(...)``, v.s. ``resolve_render_profile()``;
+            ``None`` renders with the exportable's own defaults
+    :type render_profile: RenderProfile, optional
     """
     file_path = Path(file_path).resolve()
     file_path.parent.mkdir(parents=True, exist_ok=True)
@@ -74,7 +74,7 @@ def export_user_system_prompt_file(
     file_path.write_text(
         generate_user_system_prompt(
             use_coder=use_coder,
-            render_kwargs=render_kwargs,
+            render_profile=render_profile,
         ),
         encoding="utf-8",
     )

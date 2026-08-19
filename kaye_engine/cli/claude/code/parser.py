@@ -13,13 +13,14 @@ from kaye_engine.cli.claude.plugin_marketplace_name import (
 from kaye_engine.cli.claude.user_prompt.export import (
     export_user_system_prompt_file,
 )
+from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
     find_user_system_prompt_file,
 )
-from kaye_engine.cli.render_options_parser import (
-    build_render_options_parent_parser,
-    resolve_render_options,
+from kaye_engine.cli.render_profile_parser import (
+    build_render_profile_parent_parser,
+    resolve_render_profile,
 )
 
 # logger  ######################################################################
@@ -53,9 +54,10 @@ def register_code_parser(cli_subparser):  ######################################
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["c"],
         parents=[
-            build_render_options_parent_parser(
+            build_render_profile_parent_parser(
                 default_surface=("code",),
                 default_sparseness=DEFAULT_SPARSENESS,
+                surface_profiles=get_surface_profiles(),
             )
         ],
     )
@@ -77,18 +79,20 @@ def register_code_parser(cli_subparser):  ######################################
         check_setup_for_claude_cli()
 
         folder = args.folder
-        render_kwargs = resolve_render_options(
-            args, default_show_comment=False
+        render_profile = resolve_render_profile(
+            args,
+            surface_profiles=get_surface_profiles(),
+            default_show_comment=False,
         )
 
         logger.debug("export plugin as folder")
         plugin_folder = folder / "plugins"
-        export_plugin_as_folder(plugin_folder, render_kwargs=render_kwargs)
+        export_plugin_as_folder(plugin_folder, render_profile=render_profile)
 
         logger.debug("export user system prompt file")
         prompt_file = find_user_system_prompt_file(folder)
         export_user_system_prompt_file(
-            prompt_file, use_coder=True, render_kwargs=render_kwargs
+            prompt_file, use_coder=True, render_profile=render_profile
         )
         logger.succ("export user system prompt file:\t" + str(prompt_file))
 

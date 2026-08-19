@@ -9,9 +9,10 @@ from argparse import RawDescriptionHelpFormatter
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.render_options_parser import (
-    build_render_options_parent_parser,
-    resolve_render_options,
+from kaye_engine.cli.claude.setup import get_surface_profiles
+from kaye_engine.cli.render_profile_parser import (
+    build_render_profile_parent_parser,
+    resolve_render_profile,
 )
 from kaye_engine.exportable import exportable_registry
 from kaye_engine.kamilog import (
@@ -53,8 +54,12 @@ def _exportable_main(args):
         logger.critical("unknown exportable:\t" + args.EXPORTABLE)
         raise SystemExit(1) from err
 
-    render_kwargs = resolve_render_options(args, default_show_comment=False)
-    print(exportable.content(**render_kwargs))
+    render_profile = resolve_render_profile(
+        args,
+        surface_profiles=get_surface_profiles(),
+        default_show_comment=False,
+    )
+    print(exportable.content(profile=render_profile))
 
 
 # Public API  ##################################################################
@@ -69,8 +74,9 @@ def register_exportable_parser(cli_subparser):
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["x"],
         parents=[
-            build_render_options_parent_parser(
-                default_sparseness=DEFAULT_SPARSENESS
+            build_render_profile_parent_parser(
+                default_sparseness=DEFAULT_SPARSENESS,
+                surface_profiles=get_surface_profiles(),
             )
         ],
     )

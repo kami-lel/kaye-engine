@@ -9,12 +9,13 @@ from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
+from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
 )
-from kaye_engine.cli.render_options_parser import (
-    build_render_options_parent_parser,
-    resolve_render_options,
+from kaye_engine.cli.render_profile_parser import (
+    build_render_profile_parent_parser,
+    resolve_render_profile,
 )
 
 from .export import export_vs_code_extension
@@ -56,10 +57,14 @@ def _vs_code_main(args):
     check_setup_for_claude_cli()
 
     folder = args.folder
-    render_kwargs = resolve_render_options(args, default_show_comment=True)
+    render_profile = resolve_render_profile(
+        args,
+        surface_profiles=get_surface_profiles(),
+        default_show_comment=True,
+    )
 
     marketplace_path = export_vs_code_extension(
-        folder, render_kwargs=render_kwargs
+        folder, render_profile=render_profile
     )
 
     logger.info("marketplace.json location:\n" + str(marketplace_path))
@@ -75,9 +80,10 @@ def register_vs_code_parser(cli_subparser):  ###################################
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["v"],
         parents=[
-            build_render_options_parent_parser(
+            build_render_profile_parent_parser(
                 default_surface=("vsc",),
                 default_sparseness=DEFAULT_SPARSENESS,
+                surface_profiles=get_surface_profiles(),
             )
         ],
     )
