@@ -486,7 +486,7 @@ class TestDynamicNodes:
     def test_checkmark_by_obj1(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
 
-        node = bp.corpus["(decode-only-shorthand)"]
+        node = bp.corpus["(decode-only-abbr)"]
 
         assert bp.uncheckmark(node)
         assert not bp.is_checkmarked(node)
@@ -494,7 +494,7 @@ class TestDynamicNodes:
     def test_checkmark_by_hash1(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
 
-        node = bp.corpus["(decode-only-shorthand)"]
+        node = bp.corpus["(decode-only-abbr)"]
         node_hash = hash(node)
 
         assert bp.uncheckmark(node_hash)
@@ -503,8 +503,8 @@ class TestDynamicNodes:
 
     def test_checkmark_by_name1(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
-        node = bp.corpus["(decode-only-shorthand)"]
-        ipt = "(decode-only-shorthand)"
+        node = bp.corpus["(decode-only-abbr)"]
+        ipt = "(decode-only-abbr)"
 
         assert bp.uncheckmark(ipt)
 
@@ -512,8 +512,8 @@ class TestDynamicNodes:
 
     def test_checkmark_by_identifier1(_, local_dynamic_testee1):
         bp = local_dynamic_testee1
-        node = bp.corpus["(decode-only-shorthand)"]
-        ipt = "(decode-only-shorthand)"
+        node = bp.corpus["(decode-only-abbr)"]
+        ipt = "(decode-only-abbr)"
 
         assert bp.uncheckmark(ipt)
 
@@ -574,7 +574,7 @@ class TestDynamicNodes:
 [ ] │   │           └── Future Work
 [ ] │   └── Conclusion
 [x] ├── (today)
-[x] ├── (decode-only-shorthand)
+[x] ├── (decode-only-abbr)
 [x] ├── (usable-abbreviations)
 [x] ├── (natural-language-codes)
 [x] └── (programming-language-codes)"""
@@ -601,7 +601,7 @@ class TestDynamicNodes:
 [x] │   │           └── Future Work
 [x] │   └── Conclusion
 [x] ├── (today)
-[x] ├── (decode-only-shorthand)
+[x] ├── (decode-only-abbr)
 [x] ├── (usable-abbreviations)
 [x] ├── (natural-language-codes)
 [x] └── (programming-language-codes)"""

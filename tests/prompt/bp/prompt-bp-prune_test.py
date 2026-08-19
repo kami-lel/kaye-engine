@@ -249,6 +249,6 @@ class TestDynamicNodes:  #######################################################
 [x] │   │           └── Future Work
 [x] │   └── Conclusion
 [x] ├── (today)
-[x] ├── (decode-only-shorthand)
+[x] ├── (decode-only-abbr)
 [x] ├── (usable-abbreviations)
 [x] └── (natural-language-codes)"""
