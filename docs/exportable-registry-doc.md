@@ -77,12 +77,15 @@ Abbreviation Group by Tag:
 Abbreviation Group by Wrap:
 
 | canonical name | display name | user_invokable | llm_invokable |
+| --- | --- | --- | --- |
 | `abbr-prefixes` | Abbr Prefixes | ❌ | ✔️ |
 | `abbr-suffixes` | Abbr Suffixes | ❌ | ✔️ |
 | `abbr-symbols` | Abbr Symbols | ❌ | ✔️ |
 
 Abbreviation *Starts-With*:
 
+| canonical name | display name | user_invokable | llm_invokable |
+| --- | --- | --- | --- |
 | `abbr-starts-with-digits-0-9` | Abbr Starts with Digits 0~9 | ❌ | ✔️ |
 | `abbr-starts-with-a` | Abbr Starts with A | ❌ | ✔️ |
 | `abbr-starts-with-b` | Abbr Starts with B | ❌ | ✔️ |
