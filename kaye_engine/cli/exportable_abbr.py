@@ -85,7 +85,6 @@ class ExportableAbbr(list, Exportable):  #######################################
         *,
         canonical_name="",
         display_name="",
-        always_apply=False,
         user_invokable=False,
         llm_invokable=True,
     ):
@@ -94,7 +93,6 @@ class ExportableAbbr(list, Exportable):  #######################################
             self,
             canonical_name=canonical_name,
             display_name=display_name,
-            always_apply=always_apply,
             user_invokable=user_invokable,
             llm_invokable=llm_invokable,
         )

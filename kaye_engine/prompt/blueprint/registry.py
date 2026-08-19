@@ -6,14 +6,10 @@ define `BlueprintRegistry`, `register_blueprint`, `blueprint_registry`
 
 from dataclasses import dataclass
 
-from kaye_engine.exportable import (
-    Exportable,
-    merge_affordances,
-    merge_conditional_sidecars,
-    register_exportable_entry,
-)
+from kaye_engine.exportable import Exportable, register_exportable_entry
 
 from .prompt_blueprint import PromptBlueprint
+from .render_profile import RenderProfile
 
 __all__ = (
     "BlueprintRegistry",

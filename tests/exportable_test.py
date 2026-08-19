@@ -17,11 +17,10 @@ from kaye_engine.exportable import (
     Exportable,
     exportable_registry,
     get_exportable,
-    merge_affordances,
-    merge_conditional_sidecars,
     register_exportable_entry,
 )
 from kaye_engine.prompt.blueprint import BlueprintRegistry, PromptBlueprint
+from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 
@@ -162,28 +161,26 @@ class TestBlueprintRegistryMerge:  #############################################
         reg_a = _dummy_blueprint_registry(
             "merge-sc-a",
             empty_corpus,
-            conditional_sidecars=("s1", "s2"),
-            affordances=("aff1",),
+            render_profile=RenderProfile(
+                conditional_sidecars=("s1", "s2"), affordances=("aff1",)
+            ),
         )
         reg_b = _dummy_blueprint_registry(
             "merge-sc-b",
             empty_corpus,
-            conditional_sidecars=("s2", "s3"),
-            affordances=None,
+            render_profile=RenderProfile(
+                conditional_sidecars=("s2", "s3"), affordances=None
+            ),
         )
 
         merged = reg_a.merge(reg_b)
 
-        assert merged.conditional_sidecars == ("s1", "s2", "s3")
-        assert merged.affordances == ("aff1",)
-
-    def test_or_operator_delegates_to_merge(_, empty_corpus):
-        reg_a = _dummy_blueprint_registry("merge-or-a", empty_corpus)
-        reg_b = _dummy_blueprint_registry("merge-or-b", empty_corpus)
-
-        merged = reg_a | reg_b
-
-        assert merged.canonical_name == "merge-or-a"
+        assert merged.render_profile.conditional_sidecars == (
+            "s1",
+            "s2",
+            "s3",
+        )
+        assert merged.render_profile.affordances == ("aff1",)
 
     def test_merge_raises_type_error_on_mismatched_kind(_, empty_corpus):
         reg_a = _dummy_blueprint_registry("merge-mismatch", empty_corpus)
@@ -217,34 +214,3 @@ class TestExportableAbbrMerge:  ################################################
 
         with pytest.raises(NotImplementedError):
             group_a.merge(group_b)
-
-        with pytest.raises(NotImplementedError):
-            group_a | group_b  # noqa: B018
-
-
-class TestMergeConditionalSidecars:  ############################################
-
-    def test_dedup_and_order(_):
-        assert merge_conditional_sidecars(
-            ("a", "b"), ("b", "c"), ("a",)
-        ) == ("a", "b", "c")
-
-    def test_empty(_):
-        assert merge_conditional_sidecars() == ()
-        assert merge_conditional_sidecars((), ()) == ()
-
-
-class TestMergeAffordances:  ####################################################
-
-    def test_all_none_returns_none(_):
-        assert merge_affordances(None, None) is None
-
-    def test_one_none_one_tuple(_):
-        assert merge_affordances(None, ("a", "b")) == ("a", "b")
-
-    def test_dedup_across_groups(_):
-        assert merge_affordances(("a", "b"), ("b", "c"), None) == (
-            "a",
-            "b",
-            "c",
-        )
