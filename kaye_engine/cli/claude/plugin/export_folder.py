@@ -30,7 +30,7 @@ _SKILLS_DIR = "skills"
 # entry point  #################################################################
 
 
-def export_plugin_as_folder(parent_folder, *, render_kwargs=None):
+def export_plugin_as_folder(parent_folder, *, render_profile=None):
     """
     export all Kaye blueprints as a single Anthropic Claude plugin folder
 
@@ -41,9 +41,9 @@ def export_plugin_as_folder(parent_folder, *, render_kwargs=None):
 
     :param parent_folder: destination directory to write the plugin into
     :type parent_folder: Path-like
-    :param render_kwargs: render options forwarded to
+    :param render_profile: render profile forwarded to
             :func:`export_skills_as_folders`
-    :type render_kwargs: dict, optional
+    :type render_profile: RenderProfile, optional
     :return: path to the created plugin directory
     :rtype: Path
     """
@@ -85,7 +85,7 @@ def export_plugin_as_folder(parent_folder, *, render_kwargs=None):
     export_skills_as_folders(
         plugin_root / _SKILLS_DIR,
         version=pkg_version,
-        render_kwargs=render_kwargs,
+        render_profile=render_profile,
     )
 
     logger.succ("export plugin:\t" + str(plugin_root))

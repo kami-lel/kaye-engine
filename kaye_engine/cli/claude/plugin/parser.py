@@ -9,9 +9,10 @@ from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
-from kaye_engine.cli.render_options_parser import (
-    build_render_options_parent_parser,
-    resolve_render_options,
+from kaye_engine.cli.claude.setup import get_surface_profiles
+from kaye_engine.cli.render_profile_parser import (
+    build_render_profile_parent_parser,
+    resolve_render_profile,
 )
 
 from .export_folder import export_plugin_as_folder
@@ -50,9 +51,10 @@ def register_plugin_parser(cli_subparser):  ####################################
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["p"],
         parents=[
-            build_render_options_parent_parser(
+            build_render_profile_parent_parser(
                 default_surface=("vsc",),
                 default_sparseness=DEFAULT_SPARSENESS,
+                surface_profiles=get_surface_profiles(),
             )
         ],
     )
@@ -95,8 +97,10 @@ def register_plugin_parser(cli_subparser):  ####################################
         folder = args.folder
         if folder is None:
             folder = Path.cwd() if args.zip else _DEFAULT_PLUGINS_FOLDER
-        render_kwargs = resolve_render_options(
-            args, default_show_comment=False
+        render_profile = resolve_render_profile(
+            args,
+            surface_profiles=get_surface_profiles(),
+            default_show_comment=False,
         )
 
         if args.zip:
@@ -104,12 +108,12 @@ def register_plugin_parser(cli_subparser):  ####################################
             export_plugin_as_zip(
                 folder,
                 includes_version=args.includes_version,
-                render_kwargs=render_kwargs,
+                render_profile=render_profile,
             )
             done_msg = "export plugin as zip"
         else:
             logger.debug("export plugin as folder")
-            export_plugin_as_folder(folder, render_kwargs=render_kwargs)
+            export_plugin_as_folder(folder, render_profile=render_profile)
             done_msg = "export plugin as folder"
 
         logger.done(done_msg + "\t" + str(folder))

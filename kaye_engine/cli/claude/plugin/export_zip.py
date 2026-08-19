@@ -23,7 +23,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
 def export_plugin_as_zip(
-    parent_folder, *, includes_version=True, render_kwargs=None
+    parent_folder, *, includes_version=True, render_profile=None
 ):
     """
     export all Kaye blueprints as an upload-ready ``.zip`` Claude plugin
@@ -39,9 +39,9 @@ def export_plugin_as_zip(
     :param includes_version: append the configured version to the ``.zip``
             filename when ``True``
     :type includes_version: bool
-    :param render_kwargs: render options forwarded to
+    :param render_profile: render options forwarded to
             :func:`export_plugin_as_folder`
-    :type render_kwargs: dict, optional
+    :type render_profile: RenderProfile, optional
     """
     parent_folder = Path(parent_folder)
     try:
@@ -58,7 +58,7 @@ def export_plugin_as_zip(
     ):
         logger.debug("building plugin folder in temporary directory")
         plugin_root = export_plugin_as_folder(
-            Path(plugin_temp), render_kwargs=render_kwargs
+            Path(plugin_temp), render_profile=render_profile
         )
 
         logger.debug("archiving plugin to .zip package")
