@@ -150,7 +150,7 @@ class TestBlueprintRegistryContent:  ###########################################
         assert captured["conditional_sidecars"] == ("for Kaye",)
         assert captured["affordances"] == ()
 
-    def test_explicit_kwargs_override_registry_defaults(
+    def test_explicit_kwargs_merge_with_registry_defaults(
         _, corpus_testee1, monkeypatch
     ):
         bp = PromptBlueprint.create_empty_blueprint(
@@ -172,5 +172,9 @@ class TestBlueprintRegistryContent:  ###########################################
         )
         reg.content(conditional_sidecars=("for Ria",), affordances=None)
 
-        assert captured["conditional_sidecars"] == ("for Ria",)
-        assert captured["affordances"] is None
+        # explicit kwargs are unioned with the registry's own defaults
+        # rather than replacing them, so a caller-supplied value (e.g.
+        # surface-derived sidecars/affordances from the CLI) never
+        # clobbers this entry's own registered defaults
+        assert captured["conditional_sidecars"] == ("for Kaye", "for Ria")
+        assert captured["affordances"] == ()

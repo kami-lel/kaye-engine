@@ -96,9 +96,9 @@ def resolve_render_options(args, *, default_show_comment=False):
     :return: kwargs for ``generate_prompt(...)``; ``affordances``/
             ``conditional_sidecars`` are omitted entirely (rather than set
             to their empty defaults) when neither the corresponding flag
-            nor ``--surface`` was passed, so a registry-level default (see
-            ``BlueprintRegistry.content()``) can still apply via
-            ``dict.setdefault``
+            nor ``--surface`` was passed; when present, a registry-level
+            default (see ``BlueprintRegistry.content()``) is still merged
+            in on top rather than being replaced
     :rtype: dict
     """
     surface = ClaudeSurface.combine(args.surface) if args.surface else None

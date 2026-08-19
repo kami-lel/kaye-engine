@@ -50,13 +50,18 @@ class BlueprintRegistry(Exportable):
         """
         :param kwargs: render options forwarded to
                 ``PromptBlueprint.generate_prompt(...)``; ``conditional_sidecars``
-                and ``affordances`` default to this registry entry's own
-                values unless passed explicitly
+                and ``affordances`` are merged with this registry entry's
+                own values, not replaced by them
         :return: this blueprint's rendered prompt
         :rtype: str
         """
-        kwargs.setdefault("conditional_sidecars", self.conditional_sidecars)
-        kwargs.setdefault("affordances", self.affordances)
+        kwargs["conditional_sidecars"] = merge_conditional_sidecars(
+            self.conditional_sidecars,
+            kwargs.get("conditional_sidecars") or (),
+        )
+        kwargs["affordances"] = merge_affordances(
+            self.affordances, kwargs.get("affordances")
+        )
         return self.blueprint.generate_prompt(**kwargs)
 
     def merge(self, other):
