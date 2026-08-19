@@ -17,6 +17,8 @@ from kaye_engine.exportable import (
     Exportable,
     exportable_registry,
     get_exportable,
+    merge_affordances,
+    merge_conditional_sidecars,
     register_exportable_entry,
 )
 from kaye_engine.prompt.blueprint import BlueprintRegistry, PromptBlueprint
@@ -126,4 +128,123 @@ class TestContent:  ############################################################
         assert group.content() == entry.as_md_list_entry()
         assert group.content(sparseness=0, show_comment=True) == (
             group.as_md_list()
+        )
+
+
+class TestBlueprintRegistryMerge:  ##############################################
+
+    def test_merge_unions_checkmarked_nodes(_, empty_corpus):
+        node_a = PromptCorpusNode("A", empty_corpus, [])
+        node_b = PromptCorpusNode("B", empty_corpus, [])
+
+        bp_a = PromptBlueprint.create_empty_blueprint(
+            corpus_tree=empty_corpus
+        )
+        bp_a.checkmark(node_a)
+        bp_b = PromptBlueprint.create_empty_blueprint(
+            corpus_tree=empty_corpus
+        )
+        bp_b.checkmark(node_b)
+
+        reg_a = _dummy_blueprint_registry("merge-a", empty_corpus)
+        reg_a.blueprint = bp_a
+        reg_b = _dummy_blueprint_registry("merge-b", empty_corpus)
+        reg_b.blueprint = bp_b
+
+        merged = reg_a.merge(reg_b)
+
+        assert merged.blueprint.is_checkmarked(node_a)
+        assert merged.blueprint.is_checkmarked(node_b)
+        assert merged.canonical_name == "merge-a"
+        assert merged.display_name == reg_a.display_name
+
+    def test_merge_combines_sidecars_and_affordances(_, empty_corpus):
+        reg_a = _dummy_blueprint_registry(
+            "merge-sc-a",
+            empty_corpus,
+            conditional_sidecars=("s1", "s2"),
+            affordances=("aff1",),
+        )
+        reg_b = _dummy_blueprint_registry(
+            "merge-sc-b",
+            empty_corpus,
+            conditional_sidecars=("s2", "s3"),
+            affordances=None,
+        )
+
+        merged = reg_a.merge(reg_b)
+
+        assert merged.conditional_sidecars == ("s1", "s2", "s3")
+        assert merged.affordances == ("aff1",)
+
+    def test_or_operator_delegates_to_merge(_, empty_corpus):
+        reg_a = _dummy_blueprint_registry("merge-or-a", empty_corpus)
+        reg_b = _dummy_blueprint_registry("merge-or-b", empty_corpus)
+
+        merged = reg_a | reg_b
+
+        assert merged.canonical_name == "merge-or-a"
+
+    def test_merge_raises_type_error_on_mismatched_kind(_, empty_corpus):
+        reg_a = _dummy_blueprint_registry("merge-mismatch", empty_corpus)
+        entry = AbbrEntry(
+            AbbrMeaning("for example", remark=None),
+            "e.g.",
+            {"priority": 5, "tags": [], "wrap": "word"},
+        )
+        abbr = ExportableAbbr(
+            [entry], canonical_name="merge-abbr", display_name="Test"
+        )
+
+        with pytest.raises(TypeError):
+            reg_a.merge(abbr)
+
+
+class TestExportableAbbrMerge:  #################################################
+
+    def test_merge_raises_not_implemented(_):
+        entry = AbbrEntry(
+            AbbrMeaning("for example", remark=None),
+            "e.g.",
+            {"priority": 5, "tags": [], "wrap": "word"},
+        )
+        group_a = ExportableAbbr(
+            [entry], canonical_name="abbr-merge-a", display_name="A"
+        )
+        group_b = ExportableAbbr(
+            [entry], canonical_name="abbr-merge-b", display_name="B"
+        )
+
+        with pytest.raises(NotImplementedError):
+            group_a.merge(group_b)
+
+        with pytest.raises(NotImplementedError):
+            group_a | group_b  # noqa: B018
+
+
+class TestMergeConditionalSidecars:  ############################################
+
+    def test_dedup_and_order(_):
+        assert merge_conditional_sidecars(
+            ("a", "b"), ("b", "c"), ("a",)
+        ) == ("a", "b", "c")
+
+    def test_empty(_):
+        assert merge_conditional_sidecars() == ()
+        assert merge_conditional_sidecars((), ()) == ()
+
+
+class TestMergeAffordances:  ####################################################
+
+    def test_all_none_returns_none(_):
+        assert merge_affordances(None, None) is None
+
+    def test_one_none_one_tuple(_):
+        assert merge_affordances(None, ("a", "b")) == ("a", "b")
+
+    def test_dedup_across_groups(_):
+        assert merge_affordances(("a", "b"), ("b", "c"), None) == (
+            "a",
+            "b",
+            "c",
         )

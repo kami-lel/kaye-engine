@@ -106,6 +106,15 @@ class ExportableAbbr(list, Exportable):  #######################################
         """
         return self.as_md_list()
 
+    def merge(self, other):
+        """
+        :raises NotImplementedError: abbreviation groups have no
+                defined merge
+        """
+        raise NotImplementedError(
+            "ExportableAbbr does not support merge()"
+        )
+
     def as_md_list(self):
         """
         :return: a markdown list of all abbrs

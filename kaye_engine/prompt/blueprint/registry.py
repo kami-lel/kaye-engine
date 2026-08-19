@@ -6,7 +6,12 @@ define `BlueprintRegistry`, `register_blueprint`, `blueprint_registry`
 
 from dataclasses import dataclass
 
-from kaye_engine.exportable import Exportable, register_exportable_entry
+from kaye_engine.exportable import (
+    Exportable,
+    merge_affordances,
+    merge_conditional_sidecars,
+    register_exportable_entry,
+)
 
 from .prompt_blueprint import PromptBlueprint
 
@@ -53,6 +58,44 @@ class BlueprintRegistry(Exportable):
         kwargs.setdefault("conditional_sidecars", self.conditional_sidecars)
         kwargs.setdefault("affordances", self.affordances)
         return self.blueprint.generate_prompt(**kwargs)
+
+    def merge(self, other):
+        """
+        create a new, unregistered `BlueprintRegistry` combining
+        ``self`` and ``other``: the underlying blueprints are merged
+        via ``|``, ``conditional_sidecars``/``affordances`` are merged
+        via :func:`merge_conditional_sidecars`/:func:`merge_affordances`;
+        every other field (``canonical_name``, ``display_name``,
+        ``is_exportable``, ``always_apply``, ``user_invokable``,
+        ``llm_invokable``) is taken from ``self``
+
+
+        :param other: registry entry to merge with
+        :type other: BlueprintRegistry
+        :raises TypeError: ``other`` is not a `BlueprintRegistry`
+        :return: newly created, unregistered merged entry
+        :rtype: BlueprintRegistry
+        """
+        if not isinstance(other, BlueprintRegistry):
+            raise TypeError(
+                "cannot merge BlueprintRegistry with {}".format(type(other))
+            )
+
+        return BlueprintRegistry(
+            canonical_name=self.canonical_name,
+            display_name=self.display_name,
+            blueprint=self.blueprint | other.blueprint,
+            is_exportable=self.is_exportable,
+            always_apply=self.always_apply,
+            user_invokable=self.user_invokable,
+            llm_invokable=self.llm_invokable,
+            conditional_sidecars=merge_conditional_sidecars(
+                self.conditional_sidecars, other.conditional_sidecars
+            ),
+            affordances=merge_affordances(
+                self.affordances, other.affordances
+            ),
+        )
 
 
 # Entry Point  #################################################################
