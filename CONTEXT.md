@@ -143,8 +143,8 @@ A caller loads and caches a corpus by name; one tree may be flagged the
 process default, which is what a blueprint resolves against when given no
 explicit tree. A consumer that exports through `claude` subcommands must also
 call `setup_claude_cli(plugin_name, display_name, marketplace_name,
-chat_bp_name, coder_bp_name, version, marketplace_folder_name)` — none of the
-seven has a default; `display_name` replaces the former hardcoded
+chat_exportable_name, chat_coder_exportable_name, version,
+marketplace_folder_name)` — none of the seven has a default; `display_name` replaces the former hardcoded
 `DISPLAY_NAME` constant, letting each consumer stamp its own
 `plugin.json` `display_name`. Q.v. [Kaye Engine: `prompt` module
 Documentation](docs/prompt-doc.md).
