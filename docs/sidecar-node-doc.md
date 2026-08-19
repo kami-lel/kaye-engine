@@ -105,9 +105,9 @@ Lists file glob patterns indicating which file types or paths make the parent no
 
 ### Conditional Sidecar Nodes
 
-Conditional sidecar nodes are real prompt content (e.g., instructions, rules) that are conditionally spliced into the rendered prompt based on explicit requests via the `conditional_sidecars` parameter, a plain collection of sidecar names. Unlike descriptor sidecars, there is no fixed set of conditional names — any `{name}` heading can be requested this way, including reserved descriptor names.
+Conditional sidecar nodes are real prompt content (e.g., instructions, rules) that are conditionally spliced into the rendered prompt based on explicit requests via `RenderProfile`'s `conditional_sidecars` field, a plain collection of sidecar names. Unlike descriptor sidecars, there is no fixed set of conditional names — any `{name}` heading can be requested this way, including reserved descriptor names.
 
-**Rendering behavior:** Pass `conditional_sidecars=(...)` to auto-include sidecars of the given name(s) during rendering.
+**Rendering behavior:** Pass `profile=RenderProfile(conditional_sidecars=(...))` to auto-include sidecars of the given name(s) during rendering.
 
 Q.v. [`claude-doc.md`](claude-doc.md) for the list of `{[ClaudeCode:...]}`/`{[ClaudeChat:...]}` sidecars, which Claude export surface includes each of these, and the underlying API.
 
@@ -382,7 +382,9 @@ merged_bp = bp1 | bp2
 Conditional rendering with conditional sidecar nodes:
 ```python
 # Include arbitrary named sidecar content
-prompt = bp.generate_prompt(conditional_sidecars=("[ClaudeCode:TodoWrite]",))
+prompt = bp.generate_prompt(
+    profile=RenderProfile(conditional_sidecars=("[ClaudeCode:TodoWrite]",))
+)
 ```
 
 
@@ -424,7 +426,7 @@ A second, independent auto-checkmark mechanism for a common case: acknowledging 
 
 In the corpus, pair a `{[canonical_name] Usage}` / `{[canonical_name] Lack}` sidecar under a checkmarked node, describing respectively what to do when the capability is present or absent.
 
-Programmatically, register each capability once via `register_affordance(canonical_name)`, then pass `affordances=(...)` to `generate_prompt()` / `render_prompt_lines()` as a collection of canonical names available for this invocation, alongside `conditional_sidecars` in the same render. Each registered affordance's `Usage` sidecar is checkmarked when its `canonical_name` is present in `affordances`, and its `Lack` sidecar when absent — either way, only under an already-checkmarked parent. `affordances=None` is the default, keeping the render as-is; `affordances=()` marks every affordance absent.
+Programmatically, register each capability once via `register_affordance(canonical_name)`, then pass `profile=RenderProfile(affordances=(...))` to `generate_prompt()` / `render_prompt_lines()`, `affordances` being a collection of canonical names available for this invocation, alongside `conditional_sidecars` on the same `RenderProfile`. Each registered affordance's `Usage` sidecar is checkmarked when its `canonical_name` is present in `affordances`, and its `Lack` sidecar when absent — either way, only under an already-checkmarked parent. `affordances=None` is the default, keeping the render as-is; `affordances=()` marks every affordance absent.
 
 How a consumer's own CLI determines what to pass as `affordances` for a given invocation is entirely up to that consumer — the engine has no concept of "surface" or "which affordances apply where."
 
@@ -433,5 +435,7 @@ Q.v. [`claude-doc.md`](claude-doc.md) for how to uses this mechanism for Claude 
 **Example:**
 ```python
 # Usage/Lack checkmarking for every registered affordance
-prompt = bp.generate_prompt(affordances=("ClaudeCode:TodoWrite",))
+prompt = bp.generate_prompt(
+    profile=RenderProfile(affordances=("ClaudeCode:TodoWrite",))
+)
 ```

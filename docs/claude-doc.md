@@ -92,27 +92,8 @@ To load the marketplace in VS Code:
 
 A corpus must register a Chat exportable and a Chat Coder exportable under whatever names it passes to `setup_claude_cli(...)` as `chat_exportable_name`/`chat_coder_exportable_name`; `user_prompt/export.py` resolves them via `get_claude_chat_exportable()`/`get_claude_chat_coder_exportable()` in `exportable_name.py`.
 
-The Chat Coder exportable (`chat_coder_exportable_name`) is the precomputed merge (via `Exportable.merge()`/`|`, q.v. [`exportable-registry-doc.md`](exportable-registry-doc.md)) of the Chat exportable and the Coder exportable, built once at registration time rather than merged live at export time; it is what builds the final `-c` prompt used by `usp -c`, `claude code`, and `claude vs-code-extension`. Both Chat and Chat Coder may also double as their own standalone exportable Skills (e.g. Kaye Vault registers `"chat"` and `"chat-coder"` — see `kaye_vault/bp/general.py`/`kaye_vault/bp/coder.py`).
+The Chat Coder exportable (`chat_coder_exportable_name`) is the precomputed merge (via `BlueprintRegistry.merge()`, q.v. [`exportable-registry-doc.md`](exportable-registry-doc.md)) of the Chat exportable and the Coder exportable, built once at registration time rather than merged live at export time; it is what builds the final `-c` prompt used by `usp -c`, `claude code`, and `claude vs-code-extension`. Both Chat and Chat Coder may also double as their own standalone exportable Skills (e.g. Kaye Vault registers `"chat"` and `"chat-coder"` — see `kaye_vault/bp/general.py`/`kaye_vault/bp/coder.py`).
 
 ----
 
 A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking the. The version passed here is the consumer's own, stamped into every `plugin.json`, `marketplace.json`, and `SKILL.md` the CLI writes
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Conditional Sidecar/Affordances Inclusion
-
-Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept and how they're authored in the prompt corpus.
-
-Q.v. [`affordance-doc.md`](affordance-doc.md) for the Claude affordances Kaye Engine registers, and which surfaces enable them.
-

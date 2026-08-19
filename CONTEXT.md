@@ -46,7 +46,7 @@ not a gap to fill.
 | **Sidecar Node** | a `{name}` subnode; metadata or conditional content |
 | **Dynamic Node** | a `(name)` node (canonical kebab-case `NAME`) whose content is generated at render |
 | **Affordance** | a named platform capability, tracked in `affordance_registry` |
-| **ClaudeSurface** | an enum mapping a Claude surface (Chat, Cowork, Code, VS Code) to the affordance names available on it |
+| **RenderProfile** | a `kw_only` dataclass bundling render settings (`conditional_sidecars`, `affordances`, `sparseness`, ...); `.merge()` overrides scalar fields and unions the collection fields |
 
 Heading syntax carries node type: plain text is an ordinary corpus node,
 `{braces}` a sidecar, `(parentheses)` a dynamic node.
@@ -65,44 +65,48 @@ multi-line description or when-to-use collapses to one string.
 Sidecars split by usage rather than by class. *Descriptor* sidecars
 (`{description}`, `{when_to_use}`, `{globs}`) are consumed as blueprint
 metadata and never rendered; every other name is a *conditional* sidecar,
-real content spliced in only when its name is passed to `conditional_sidecars`
-or matched via the `affordances` kwarg against `affordance_registry`.
-Q.v. [sidecar node documentation](docs/sidecar-node-doc.md).
+real content spliced in only when its name is on a `RenderProfile`'s
+`conditional_sidecars`, or matched via that same profile's `affordances`
+field against `affordance_registry`. Q.v. [sidecar node
+documentation](docs/sidecar-node-doc.md).
 
 `affordance_registry` tracks platform capabilities as `Affordance` entries
-and derives each one's Usage/Lack sidecar names; `ClaudeSurface` declares,
-per surface, which affordance names are available — its tool affordances,
-plus the universal `Claude` affordance and, for `chat`/`cowork`/`code`,
-a per-surface identity affordance (e.g. `ClaudeCode`; `vsc` has none of
-its own) — and exposes them as `conditional_sidecars` tuples via
-`as_contained_sidecars`. Every **rendering command** — any CLI subcommand
+and derives each one's Usage/Lack sidecar names; a Kaye-specific,
+consumer-supplied `surface_profiles` dict (`dict[str, RenderProfile]`,
+passed to `setup_claude_cli(...)` — kaye-vault owns the actual Claude
+surface data, q.v. `kaye_vault/claude_render_profiles.py`) maps a surface
+name to the `RenderProfile` carrying that surface's affordances/
+conditional-sidecars. Every **rendering command** — any CLI subcommand
 that reaches `PromptBlueprint.generate_prompt(...)`, directly or via
 `Exportable.content()` — exposes the same 5 options (`--surface`,
 `--comment`/`--no-comment`, `--conditional-sidecar`, `--affordance`,
 `--sparseness`) via one shared parent parser and one aux function,
-`build_render_options_parent_parser`/`resolve_render_options`
-(`kaye_engine/cli/render_options_parser.py`); `--affordance`/
-`--conditional-sidecar` union additively with whatever `--surface`
-derives, so rendered prompts auto-checkmark the sidecars real on that
-surface plus any named explicitly. Each subcommand keeps its own
-pre-existing default for `--comment`/`--no-comment` and `--sparseness`
-when the flags are omitted (via `build_sparseness_parent_parser(default=
-...)`, a per-call builder that replaced the former fixed-default
-module-level singleton). Resolved options are carried as a single
-`render_kwargs` dict from parser down through every `claude` export
-chain (skill/plugin/marketplace/vs-code/code/user-prompt), instead of
-threading `surface`/`sparseness`/`show_comment` as separate params at
-each layer. `resolve_render_options` omits `affordances`/
-`conditional_sidecars` from that dict entirely when neither the
-corresponding flag nor `--surface` was passed, rather than defaulting
-them to `None`/`()`, so a `register_blueprint()` entry's own
-`conditional_sidecars`/`affordances` defaults can still apply --
-`BlueprintRegistry.content()` fills them in via `dict.setdefault`
-whenever the caller (`blueprint generate`, `Skill.from_exportable()`)
-omits them. Q.v. [affordance
-documentation](docs/affordance-doc.md), [Claude
-documentation](docs/claude-doc.md), and [sidecar node
-documentation](docs/sidecar-node-doc.md).
+`build_render_profile_parent_parser`/`resolve_render_profile`
+(`kaye_engine/cli/render_profile_parser.py`); `resolve_render_profile`
+returns a single `RenderProfile` (not a kwargs dict), built by merging
+each selected surface's profile with one built from the explicit
+`--affordance`/`--conditional-sidecar`/`--sparseness`/`--comment` flags
+via `RenderProfile.merge()` -- `--affordance`/`--conditional-sidecar`
+union additively with whatever `--surface` derives, so rendered prompts
+auto-checkmark the sidecars real on that surface plus any named
+explicitly. `--surface` itself is omitted entirely from the parser when
+no consumer project configures `surface_profiles`. Each subcommand keeps
+its own pre-existing default for `--comment`/`--no-comment` and
+`--sparseness` when the flags are omitted (via
+`build_sparseness_parent_parser(default=...)`, a per-call builder). The
+resolved `RenderProfile` is carried as a single `profile=` object from
+parser down through every `claude` export chain (skill/plugin/
+marketplace/vs-code/code/user-prompt), instead of threading
+`surface`/`sparseness`/`show_comment` as separate params at each layer.
+A `RenderProfile()` default (no explicit `--surface`/`--affordance`/
+`--conditional-sidecar`) carries `affordances=None`/
+`conditional_sidecars=()`, which `RenderProfile.merge()` treats as a
+no-op contribution, so a `register_blueprint()` entry's own
+`render_profile` defaults still apply -- `BlueprintRegistry.content()`
+merges them in via `self.render_profile.merge(profile)` whenever the
+caller (`blueprint generate`, `Skill.from_exportable()`) passes a
+`profile=`. Q.v. [Claude documentation](docs/claude-doc.md) and
+[sidecar node documentation](docs/sidecar-node-doc.md).
 
 Dynamic nodes auto-attach to every tree at load time — no authored
 heading required for existence — and cover today's date plus the
@@ -166,21 +170,24 @@ or an unresolved name reach path, manifest, or prompt building.
 kaye_engine/
 ├── prompt/              parse, model, select, render
 │   ├── blueprint/       PromptBlueprint, registry, rendering
+│   │   └── render_profile.py   RenderProfile: layerable render-kwargs bundle
 │   ├── dynamic_nodes/   render-time generated node types
-│   ├── affordance_registry.py  Affordance entries, Usage/Lack sidecar names
-│   └── claude_surface.py       ClaudeSurface enum: surface → affordance names
+│   └── affordance_registry.py  Affordance entries, Usage/Lack sidecar names
 ├── abbr_collection/     abbreviation entries, store, JSON loader
-├── exportable.py        Exportable base, exportable_registry
+├── exportable/           Exportable base, exportable_registry
 ├── cli/
 │   ├── blueprint/       `blueprint`/`bp` subcommand: ls, show, generate
 │   ├── claude/          skills, plugins, marketplaces, CLAUDE.md
-│   │   ├── claude_affordances.py  registers the Claude affordance catalog
-│   │   └── surface_parser.py      shared `--surface` parent parser
+│   │   ├── setup.py               setup_claude_cli(...); registers
+│   │   │                          consumer-supplied affordance_names,
+│   │   │                          stores surface_profiles
+│   │   └── surface_parser.py      shared `--surface` parent parser --
+│   │                              choices from consumer's surface_profiles
 │   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
 │   ├── affordance_parser.py  `affordance`/`a` subcommand: list affordance_registry
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
-│   ├── render_options_parser.py  shared 5-option parent parser + aux fn
+│   ├── render_profile_parser.py  shared 5-option parent parser + aux fn
 │   └── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
 └── kamilog.py           logging, shared across the package
 docs/                    per-topic reference, linked above

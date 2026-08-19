@@ -115,8 +115,9 @@ generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` → `c` (was
 `exportable`, `claude skill`, `claude plugin`, `claude marketplace`,
 `claude user-system-prompt`, `claude vs-code-extension`, `claude
 code`) — all expose the same 5 options via one shared parent parser
-and one aux function, `build_render_options_parent_parser`/
-`resolve_render_options` (`kaye_engine/cli/render_options_parser.py`):
+and one aux function, `build_render_profile_parent_parser`/
+`resolve_render_profile` (`kaye_engine/cli/render_profile_parser.py`),
+the latter returning a `RenderProfile` rather than a kwargs dict:
 
 | flag | short | effect |
 |---|---|---|
@@ -130,11 +131,13 @@ and one aux function, `build_render_options_parent_parser`/
 (`claude ...`) subcommands they union with whatever `--surface` derives;
 on surface-less subcommands (`blueprint generate`, `dynamic-node`,
 `exportable`) they work standalone. When neither the corresponding flag
-nor `--surface` is passed, `resolve_render_options` omits the key
-entirely rather than defaulting it -- on `blueprint generate` and
-`claude skill`, that lets a `register_blueprint(conditional_sidecars=
-..., affordances=...)` entry's own defaults apply instead of being
-clobbered by an empty value. `--comment`/`--no-comment` and
+nor `--surface` is passed, `resolve_render_profile`'s returned
+`RenderProfile` keeps `affordances=None`/`conditional_sidecars=()` --
+its own defaults -- rather than an explicit override; `RenderProfile.
+merge()` treats those as a no-op contribution, so on `blueprint generate`
+and `claude skill`, a `register_blueprint(render_profile=RenderProfile(
+conditional_sidecars=..., affordances=...))` entry's own defaults apply
+instead of being clobbered by an empty value. `--comment`/`--no-comment` and
 `--sparseness` each keep their own pre-existing per-subcommand default
 when the flags are omitted. `claude user-system-prompt` already owns
 `-c` for `--coder`, so on that subcommand `--comment`/`--no-comment`
@@ -176,11 +179,13 @@ is not a registered blueprint — expected, not a bug.
 `importlib.metadata.version(PACKAGE_NAME)` — run against an installed
 package, not a bare checkout.
 
-`--surface` takes combinable member names of the `ClaudeSurface`
-enum.Flag (`chat`, `cowork`, `code`, `vsc`) — the affordance names
-available on those surfaces get checkmarked in the rendered output.
-Each subcommand defines its own default surface set when the flag is
-omitted.
+`--surface` takes combinable names keyed into the consumer-supplied
+`surface_profiles` dict (a `dict[str, RenderProfile]` passed to
+`setup_claude_cli(...)`) — each name's `RenderProfile` is merged in,
+checkmarking the affordances/conditional sidecars that surface
+carries. `--surface` is omitted entirely when no consumer project
+configures `surface_profiles`. Each subcommand defines its own
+default surface set when the flag is present but omitted.
 
 ## Code Conventions
 
@@ -198,20 +203,20 @@ omitted.
 only gate — every exporter reads `blueprint_registry` directly. **Calls
 live in the consumer package**, not here.
 
-Export policy — one gate plus three independent flags, no allow-list
+Export policy — one gate plus two independent flags, no allow-list
 constant:
 
 | flag | default | effect |
 |---|---|---|
 | `is_exportable` | `True` | `False` excludes it from `exportable_registry` entirely — never export as a Claude Agent Skill |
-| `always_apply` | `False` | apply unconditionally, skipping relevance |
 | `user_invokable` | `True` | a human may invoke it by name |
 | `llm_invokable` | `True` | the assistant may surface it unprompted |
 
-`conditional_sidecars` (default `()`) and `affordances` (default `None`)
-set this entry's own default surface derivation, applied by
-`BlueprintRegistry.content()` via `dict.setdefault` whenever a caller
-renders it without passing those kwargs explicitly.
+`render_profile` (a `RenderProfile`, default `RenderProfile()`) sets
+this entry's own default render settings — including
+`conditional_sidecars`/`affordances` — merged (not clobbered) by
+`BlueprintRegistry.content()` with any caller-supplied `profile=`
+via `RenderProfile.merge()`.
 
 ## Abbreviation Data
 
