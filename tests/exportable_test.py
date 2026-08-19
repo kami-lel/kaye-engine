@@ -100,18 +100,18 @@ class TestContent:  ############################################################
     def test_blueprint_registry_content(_, empty_corpus):
         reg = _dummy_blueprint_registry("test-exp-content", empty_corpus)
 
-        assert reg.content(sparseness=0) == reg.blueprint.generate_prompt(
-            sparseness=0
-        )
+        assert reg.content(
+            profile=RenderProfile(sparseness=0)
+        ) == reg.blueprint.generate_prompt(sparseness=0)
 
     def test_blueprint_registry_content_forwards_render_kwargs(
         _, empty_corpus
     ):
         reg = _dummy_blueprint_registry("test-exp-content-kw", empty_corpus)
 
-        assert reg.content(sparseness=-1) == reg.blueprint.generate_prompt(
-            sparseness=-1
-        )
+        assert reg.content(
+            profile=RenderProfile(sparseness=-1)
+        ) == reg.blueprint.generate_prompt(sparseness=-1)
 
     def test_exportable_abbr_content(_):
         entry = AbbrEntry(
