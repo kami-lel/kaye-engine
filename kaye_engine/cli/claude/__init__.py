@@ -18,9 +18,9 @@ _display_name = None
 # name written into marketplace.json
 _marketplace_name = None
 
-# registered blueprint names used for Claude user/system prompt export
-_chat_blueprint_name = None
-_coder_blueprint_name = None
+# registered exportable names used for Claude user/system prompt export
+_chat_exportable_name = None
+_chat_coder_exportable_name = None
 
 # version stamped into plugin.json, marketplace.json, and every SKILL.md
 _version = None

@@ -32,8 +32,8 @@ def setup_claude_cli(
     plugin_name,
     display_name,
     marketplace_name,
-    chat_bp_name,
-    coder_bp_name,
+    chat_exportable_name,
+    chat_coder_exportable_name,
     version,
     marketplace_folder_name,
 ):
@@ -41,8 +41,9 @@ def setup_claude_cli(
     set every consumer-configurable value used by the ``claude`` CLI
     subcommand family in one call
 
-    Prerequisite: :func:`register_blueprint` for ``chat_bp_name`` and
-    ``coder_bp_name``
+    Prerequisite: :func:`register_exportable_entry` (or
+    :func:`register_blueprint`) for ``chat_exportable_name`` and
+    ``chat_coder_exportable_name``
 
 
     :param plugin_name: name written into ``plugin.json``, and used as the
@@ -53,14 +54,14 @@ def setup_claude_cli(
     :type display_name: str
     :param marketplace_name: name written into ``marketplace.json``
     :type marketplace_name: str
-    :param chat_bp_name: registered name of the Chat blueprint
-    :type chat_bp_name: str
-    :param coder_bp_name: registered name of the Coder blueprint; this
-            blueprint is merged into the Chat blueprint (via ``|``) to
-            build the final ``-c`` prompt (``usp -c``, ``claude code``,
-            ``claude vs-code-extension``), and may also be exported as
-            its own standalone Skill
-    :type coder_bp_name: str
+    :param chat_exportable_name: registered name, in
+            `exportable_registry`, of the Chat exportable
+    :type chat_exportable_name: str
+    :param chat_coder_exportable_name: registered name, in
+            `exportable_registry`, of the precomputed Chat+Coder
+            exportable, used to build the final ``-c`` prompt
+            (``usp -c``, ``claude code``, ``claude vs-code-extension``)
+    :type chat_coder_exportable_name: str
     :param version: version string stamped into ``plugin.json``,
             ``marketplace.json``, and every exported ``SKILL.md``
     :type version: str
@@ -73,8 +74,8 @@ def setup_claude_cli(
     claude._plugin_name = plugin_name
     claude._display_name = display_name
     claude._marketplace_name = marketplace_name
-    claude._chat_blueprint_name = chat_bp_name
-    claude._coder_blueprint_name = coder_bp_name
+    claude._chat_exportable_name = chat_exportable_name
+    claude._chat_coder_exportable_name = chat_coder_exportable_name
     claude._version = version
     claude._marketplace_folder_name = marketplace_folder_name
 
