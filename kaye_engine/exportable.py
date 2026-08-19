@@ -64,7 +64,7 @@ class Exportable(ABC):
     user_invokable: bool = True
     llm_invokable: bool = True
 
-    # hack hack leftover from an earlier attempt at generating a Continue AI
+    # HACK leftover from an earlier attempt at generating a Continue AI
     # rule file; unused by any current consumer
     always_apply: bool = False
 
