@@ -152,10 +152,9 @@ class Skill(FrontmatterDoc):
         :type version: str, optional
         :param render_kwargs: render options forwarded to
                 ``exportable.content(...)`` -- already resolved (e.g. via
-                :func:`resolve_render_options`); when it omits
-                ``affordances``/``conditional_sidecars`` (nothing explicit
-                requested), the registry entry's own defaults apply instead
-                of being clobbered
+                :func:`resolve_render_options`); ``affordances``/
+                ``conditional_sidecars`` are merged with, not clobbering,
+                the registry entry's own defaults
         :type render_kwargs: dict, optional
         :return: a skill built from ``exportable``'s content
         :rtype: Skill
