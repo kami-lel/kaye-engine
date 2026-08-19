@@ -48,7 +48,7 @@ class TestDynamic:
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── (decode-only-shorthand)" in opt
+        assert "── (decode-only-abbr)" in opt
 
     def test_abbr_tag(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview

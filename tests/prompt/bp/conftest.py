@@ -32,7 +32,7 @@ def dynamic_bp_testee1(corpus_dynamic_testee):
 [x] │   │           └── Future Work
 [x] │   └── Conclusion
 [x] ├── (today)
-[x] ├── (decode-only-shorthand)
+[x] ├── (decode-only-abbr)
 [x] ├── (usable-abbreviations)
 [x] ├── (natural-language-codes)
 [ ] └── (programming-language-codes)"""
@@ -58,7 +58,7 @@ def dynamic_bp_testee_full(corpus_dynamic_testee):
 [x] │   │           └── Future Work
 [x] │   └── Conclusion
 [x] ├── (today)
-[x] ├── (decode-only-shorthand)
+[x] ├── (decode-only-abbr)
 [x] ├── (usable-abbreviations)
 [x] ├── (natural-language-codes)
 [x] └── (programming-language-codes)"""
@@ -84,7 +84,7 @@ def dynamic_bp_testee_empty(corpus_dynamic_testee):
 [ ] │   │           └── Future Work
 [ ] │   └── Conclusion
 [ ] ├── (today)
-[ ] ├── (decode-only-shorthand)
+[ ] ├── (decode-only-abbr)
 [ ] ├── (usable-abbreviations)
 [ ] ├── (natural-language-codes)
 [ ] └── (programming-language-codes)"""
@@ -107,7 +107,7 @@ def dynamic_bp_testee2(corpus_dynamic_testee):
 @pytest.fixture(scope="session")
 def dynamic_bp_testee3(corpus_dynamic_testee):
     bp_text = """ ○
-[x] └── (decode-only-shorthand)"""
+[x] └── (decode-only-abbr)"""
 
     return PromptBlueprint.parse(
         bp_text, corpus_tree=corpus_dynamic_testee, disable_prune=True

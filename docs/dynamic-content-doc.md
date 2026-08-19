@@ -18,9 +18,9 @@ Every dynamic node's identity is a canonical **kebab-case** `NAME` slug; its hea
 
 #### Identity & Naming
 
-`AbbrTagNode` is parametrized by an `AbbrTags` member instead of being subclassed per tag — one instance is attached per member of `ABBR_TAG_NODE_MEMBERS` (every simple, single-bit `AbbrTags` member except `always_understand`, which `(decode-only-shorthand)` already covers as its no-query fallback; composite members like `WORD_CHARACTER`/`ASCII` are excluded). Its `NAME` is `slug_for_abbr_tag(abbr_tag)` — the tag's name in kebab-case, e.g. `emoji` → `(emoji)`, `single_character` → `(single-character)`. On the CLI, the `NODE` argument for one of these is that same kebab slug, e.g. `kaye-engine dn emoji`, `kaye-engine dn single-character`.
+`AbbrTagNode` is parametrized by an `AbbrTags` member instead of being subclassed per tag — one instance is attached per member of `ABBR_TAG_NODE_MEMBERS` (every simple, single-bit `AbbrTags` member except `always_understand`, which `(decode-only-abbr)` already covers as its no-query fallback; composite members like `WORD_CHARACTER`/`ASCII` are excluded). Its `NAME` is `slug_for_abbr_tag(abbr_tag)` — the tag's name in kebab-case, e.g. `emoji` → `(emoji)`, `single_character` → `(single-character)`. On the CLI, the `NODE` argument for one of these is that same kebab slug, e.g. `kaye-engine dn emoji`, `kaye-engine dn single-character`.
 
-Every other abbreviation-related dynamic node (`(decode-only-shorthand)`, plus one `(glossary-name)` per abbr glossary, e.g. `(coding-terms)`) is documented in [`abbrs-doc.md`](abbrs-doc.md).
+Every other abbreviation-related dynamic node (`(decode-only-abbr)`, plus one `(glossary-name)` per abbr glossary, e.g. `(coding-terms)`) is documented in [`abbrs-doc.md`](abbrs-doc.md).
 
 
 
@@ -32,7 +32,7 @@ Every dynamic node is a **leaf** — it never has children, so it cannot itself 
 
 #### Auto-Attachment
 
-Every dynamic node auto-attaches when a corpus tree is created via `load_corpus_tree` — every engine-defined type (`today`, `decode-only-shorthand`), every `ABBR_TAG_NODE_MEMBERS` entry, and every `GlossaryNode` for a glossary registered via `register_abbr_glossary`. You never need to author a `(name)` heading in `prompt_corpus.md` just for a dynamic node to exist and be checkmarkable — a registered glossary with no loaded entries yet still attaches and simply renders empty.
+Every dynamic node auto-attaches when a corpus tree is created via `load_corpus_tree` — every engine-defined type (`today`, `decode-only-abbr`), every `ABBR_TAG_NODE_MEMBERS` entry, and every `GlossaryNode` for a glossary registered via `register_abbr_glossary`. You never need to author a `(name)` heading in `prompt_corpus.md` just for a dynamic node to exist and be checkmarkable — a registered glossary with no loaded entries yet still attaches and simply renders empty.
 
 Where it attaches depends on whether `prompt_corpus.md` authors that node's `(name)` heading. Authored, at any nesting depth: the dynamic node takes that heading's exact spot in the tree, in place of it, keeping its position among siblings. Not authored: the node falls back to a direct child of root.
 

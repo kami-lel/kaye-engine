@@ -36,11 +36,11 @@ class TestMultiplePlaceholders:
 
     def test_distinct_names_both_resolve(_):
         opt = apply_dynamic_substitutions(
-            "(((today))) -- (((decode-only-shorthand)))"
+            "(((today))) -- (((decode-only-abbr)))"
         )
 
         assert "(((today)))" not in opt
-        assert "(((decode-only-shorthand)))" not in opt
+        assert "(((decode-only-abbr)))" not in opt
         assert "Date: " in opt
 
 
@@ -68,10 +68,10 @@ class TestKwargsThreadThrough:
 
     def test_query_reaches_shorthand_node(_):
         opt = apply_dynamic_substitutions(
-            "(((decode-only-shorthand)))", query=""
+            "(((decode-only-abbr)))", query=""
         )
 
-        assert "(((decode-only-shorthand)))" not in opt
+        assert "(((decode-only-abbr)))" not in opt
 
     def test_glossary_priority_threshold_reaches_glossary_node(_):
         with _abbr_data:
