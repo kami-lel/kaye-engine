@@ -7,9 +7,10 @@ from kaye_engine import kamilog
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.render_options_parser import (
-    build_render_options_parent_parser,
-    resolve_render_options,
+from kaye_engine.cli.claude.setup import get_surface_profiles
+from kaye_engine.cli.render_profile_parser import (
+    build_render_profile_parent_parser,
+    resolve_render_profile,
 )
 
 from .export import generate_user_system_prompt
@@ -36,11 +37,15 @@ def _user_prompt_main(args):
     kamilog.set_logging_level_by_namespace(args, logger=logger)
     check_corpus_setup_for_cli()
 
-    render_kwargs = resolve_render_options(args, default_show_comment=True)
+    render_profile = resolve_render_profile(
+        args,
+        surface_profiles=get_surface_profiles(),
+        default_show_comment=True,
+    )
 
     prompt = generate_user_system_prompt(
         use_coder=args.coder,
-        render_kwargs=render_kwargs,
+        render_profile=render_profile,
     )
 
     print(prompt)
@@ -65,10 +70,11 @@ def register_user_prompt_parser(cli_subparser):  ###############################
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["usp"],
         parents=[
-            build_render_options_parent_parser(
+            build_render_profile_parent_parser(
                 default_surface=("chat", "cowork"),
                 default_sparseness=DEFAULT_SPARSENESS,
                 comment_short_flags=False,
+                surface_profiles=get_surface_profiles(),
             )
         ],
     )

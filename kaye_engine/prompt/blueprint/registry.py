@@ -6,14 +6,10 @@ define `BlueprintRegistry`, `register_blueprint`, `blueprint_registry`
 
 from dataclasses import dataclass
 
-from kaye_engine.exportable import (
-    Exportable,
-    merge_affordances,
-    merge_conditional_sidecars,
-    register_exportable_entry,
-)
+from kaye_engine.exportable import Exportable, register_exportable_entry
 
 from .prompt_blueprint import PromptBlueprint
+from .render_profile import RenderProfile
 
 __all__ = (
     "BlueprintRegistry",
@@ -46,32 +42,28 @@ class BlueprintRegistry(Exportable):
     blueprint: PromptBlueprint
     is_exportable: bool = True
 
-    def content(self, **kwargs):
+    def content(self, *, profile=None, **kwargs):
         """
-        :param kwargs: render options forwarded to
-                ``PromptBlueprint.generate_prompt(...)``; ``conditional_sidecars``
-                and ``affordances`` are merged with this registry entry's
-                own values, not replaced by them
+        :param profile: render profile merged with this registry
+                entry's own `render_profile`, not replaced by it
+        :type profile: RenderProfile, optional
+        :param kwargs: further render options (e.g. ``query``)
+                forwarded to ``PromptBlueprint.generate_prompt(...)``
         :return: this blueprint's rendered prompt
         :rtype: str
         """
-        kwargs["conditional_sidecars"] = merge_conditional_sidecars(
-            self.conditional_sidecars,
-            kwargs.get("conditional_sidecars") or (),
-        )
-        kwargs["affordances"] = merge_affordances(
-            self.affordances, kwargs.get("affordances")
-        )
-        return self.blueprint.generate_prompt(**kwargs)
+        merged = self.render_profile
+        if profile is not None:
+            merged = merged.merge(profile)
+        return self.blueprint.generate_prompt(profile=merged, **kwargs)
 
     def merge(self, other):
         """
         create a new, unregistered `BlueprintRegistry` combining
         ``self`` and ``other``: the underlying blueprints are merged
-        via ``|``, ``conditional_sidecars``/``affordances`` are merged
-        via :func:`merge_conditional_sidecars`/:func:`merge_affordances`;
-        every other field (``canonical_name``, ``display_name``,
-        ``is_exportable``, ``always_apply``, ``user_invokable``,
+        via ``|``, `render_profile` is merged via
+        `RenderProfile.merge`; every other field (``canonical_name``,
+        ``display_name``, ``is_exportable``, ``user_invokable``,
         ``llm_invokable``) is taken from ``self``
 
 
@@ -91,15 +83,9 @@ class BlueprintRegistry(Exportable):
             display_name=self.display_name,
             blueprint=self.blueprint | other.blueprint,
             is_exportable=self.is_exportable,
-            always_apply=self.always_apply,
             user_invokable=self.user_invokable,
             llm_invokable=self.llm_invokable,
-            conditional_sidecars=merge_conditional_sidecars(
-                self.conditional_sidecars, other.conditional_sidecars
-            ),
-            affordances=merge_affordances(
-                self.affordances, other.affordances
-            ),
+            render_profile=self.render_profile.merge(other.render_profile),
         )
 
 
@@ -114,11 +100,9 @@ def register_blueprint(
     blueprint,
     *,
     is_exportable=True,
-    always_apply=False,
     user_invokable=True,
     llm_invokable=True,
-    conditional_sidecars=(),
-    affordances=None,
+    render_profile=RenderProfile(),
 ):
     """
     create a `BlueprintRegistry` and insert it into `blueprint_registry`;
@@ -136,10 +120,6 @@ def register_blueprint(
     :param is_exportable: whether this blueprint is exported as a Claude
             Agent Skill; defaults to True
     :type is_exportable: bool, optional
-    :param always_apply: whether this entry is unconditionally relevant
-            and should always be applied, rather than surfaced only when
-            judged relevant; defaults to False
-    :type always_apply: bool, optional
     :param user_invokable: whether a human may deliberately invoke this
             entry by name, rather than it only ever surfacing on its
             own; defaults to True
@@ -148,21 +128,16 @@ def register_blueprint(
             into play on its own judgment, without being explicitly
             named; defaults to True
     :type llm_invokable: bool, optional
-    :param conditional_sidecars: used as the default collection of
-            conditional sidecar node names to auto-checkmark unless the
-            caller passes its own value explicitly; defaults to ``()``
-            (disabled)
-    :type conditional_sidecars: Iterable[str], optional
-    :param affordances: used as the default per-``affordance_registry``
-            checkmark selection unless the caller passes its own value
-            explicitly; ``None`` passes off (default), ``()`` passes on
-            with every affordance unavailable
-    :type affordances: Iterable[str] or None, optional
+    :param render_profile: default render settings for this entry,
+            merged with any caller-supplied profile unless the caller
+            passes its own value explicitly; defaults to a plain
+            `RenderProfile()`
+    :type render_profile: RenderProfile, optional
     :raises ValueError: ``canonical_name`` is already registered
     :return: the created registry entry
     :rtype: BlueprintRegistry
     :example:
-    >>> register_blueprint("coder", "Kaye Peer Coder", coder_blueprint, always_apply=True)
+    >>> register_blueprint("coder", "Kaye Peer Coder", coder_blueprint)
     >>> register_blueprint("chat", "Chat", chat_blueprint, is_exportable=False)
     """
     if canonical_name in blueprint_registry:
@@ -175,11 +150,9 @@ def register_blueprint(
         display_name=display_name,
         blueprint=blueprint,
         is_exportable=is_exportable,
-        always_apply=always_apply,
         user_invokable=user_invokable,
         llm_invokable=llm_invokable,
-        conditional_sidecars=conditional_sidecars,
-        affordances=affordances,
+        render_profile=render_profile,
     )
     blueprint_registry[canonical_name] = reg
 

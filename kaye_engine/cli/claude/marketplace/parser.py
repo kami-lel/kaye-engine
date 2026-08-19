@@ -9,10 +9,13 @@ from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
-from kaye_engine.cli.claude.setup import get_marketplace_folder_name
-from kaye_engine.cli.render_options_parser import (
-    build_render_options_parent_parser,
-    resolve_render_options,
+from kaye_engine.cli.claude.setup import (
+    get_marketplace_folder_name,
+    get_surface_profiles,
+)
+from kaye_engine.cli.render_profile_parser import (
+    build_render_profile_parent_parser,
+    resolve_render_profile,
 )
 
 from .export import export_marketplace
@@ -50,9 +53,10 @@ def register_marketplace_parser(cli_subparser):  ###############################
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["m"],
         parents=[
-            build_render_options_parent_parser(
+            build_render_profile_parent_parser(
                 default_surface=("vsc",),
                 default_sparseness=DEFAULT_SPARSENESS,
+                surface_profiles=get_surface_profiles(),
             )
         ],
     )
@@ -76,11 +80,13 @@ def register_marketplace_parser(cli_subparser):  ###############################
         folder = args.folder
         if folder is None:
             folder = Path.home() / ".claude" / get_marketplace_folder_name()
-        render_kwargs = resolve_render_options(
-            args, default_show_comment=False
+        render_profile = resolve_render_profile(
+            args,
+            surface_profiles=get_surface_profiles(),
+            default_show_comment=False,
         )
 
-        export_marketplace(folder, render_kwargs=render_kwargs)
+        export_marketplace(folder, render_profile=render_profile)
 
         logger.done("export marketplace:\t" + str(folder))
 

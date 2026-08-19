@@ -4,7 +4,7 @@ comment_parser.py
 define ``build_comment_parent_parser`` -- a shared argparse parent parser
 adding the ``--comment``/``--no-comment`` mutually-exclusive pair, reused
 as a `parents=[...]` entry by ``blueprint show`` directly and, composed
-via ``render_options_parser.py``, by every rendering command
+via ``render_profile_parser.py``, by every rendering command
 """
 
 from argparse import ArgumentParser

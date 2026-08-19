@@ -12,7 +12,7 @@ import yaml
 
 from kaye_engine.cli.claude.skill.skill_md import Skill
 from kaye_engine.prompt.blueprint import BlueprintRegistry
-from kaye_engine.prompt.claude_surface import ClaudeSurface
+from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
 
 def _dummy_registry(blueprint):
@@ -52,7 +52,7 @@ class TestVersionInjection:
 
         assert skill.version == "1.2.3"
 
-    def test_from_exportable_threads_render_kwargs(_):
+    def test_from_exportable_threads_render_profile(_):
         blueprint = MagicMock()
         blueprint.sidecars.description = "d"
         blueprint.sidecars.when_to_use = "w"
@@ -60,20 +60,22 @@ class TestVersionInjection:
         blueprint.generate_prompt.return_value = "body"
 
         registry = _dummy_registry(blueprint)
-        render_kwargs = {
-            "affordances": ClaudeSurface.cowork.as_affordances(),
-            "conditional_sidecars": (
-                ClaudeSurface.cowork.as_contained_sidecars()
-            ),
-            "sparseness": 0,
-            "show_comment": False,
-        }
+        render_profile = RenderProfile(
+            affordances=("Claude", "ClaudeCowork"),
+            conditional_sidecars=("[Claude]", "[ClaudeCowork]"),
+            sparseness=0,
+            show_comment=False,
+        )
 
-        Skill.from_exportable(registry, render_kwargs=render_kwargs)
+        Skill.from_exportable(registry, render_profile=render_profile)
 
-        blueprint.generate_prompt.assert_called_once_with(**render_kwargs)
+        blueprint.generate_prompt.assert_called_once_with(
+            profile=registry.render_profile.merge(render_profile)
+        )
 
-    def test_from_exportable_without_render_kwargs_uses_registry_defaults(_):
+    def test_from_exportable_without_render_profile_uses_registry_defaults(
+        _,
+    ):
         blueprint = MagicMock()
         blueprint.sidecars.description = "d"
         blueprint.sidecars.when_to_use = "w"
@@ -85,5 +87,5 @@ class TestVersionInjection:
         Skill.from_exportable(registry)
 
         blueprint.generate_prompt.assert_called_once_with(
-            conditional_sidecars=(), affordances=None
+            profile=registry.render_profile
         )

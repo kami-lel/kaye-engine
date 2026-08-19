@@ -212,8 +212,14 @@ class BlueprintDescriptorSidecars:  ############################################
             return []
 
         from kaye_engine.prompt.blueprint import PromptBlueprint, render
+        from kaye_engine.prompt.blueprint.render_profile import (
+            RenderProfile,
+        )
 
         bp = PromptBlueprint.create_from_node(node, corpus_tree=node.root)
         return render.render_prompt_lines(
-            bp, disable_first_heading=True, sparseness=sparseness
+            bp,
+            profile=RenderProfile(
+                disable_first_heading=True, sparseness=sparseness
+            ),
         )

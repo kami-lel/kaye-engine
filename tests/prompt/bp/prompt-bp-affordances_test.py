@@ -7,12 +7,12 @@ in ``affordance_registry``
 """
 
 import pytest
-
 from kaye_engine.prompt.affordance_registry import (
     affordance_registry,
     register_affordance,
 )
 from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
+from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 
@@ -53,7 +53,7 @@ class TestAffordancePresent:
         _, checkmarked_bp, registered_test_affordance
     ):
         opt = checkmarked_bp.generate_prompt(
-            affordances=("Claude Tool:TestAff",)
+            profile=RenderProfile(affordances=("Claude Tool:TestAff",))
         )
 
         print(opt)
@@ -66,7 +66,9 @@ class TestAffordanceAbsent:
     def test_lack_checkmarked_usage_not(
         _, checkmarked_bp, registered_test_affordance
     ):
-        opt = checkmarked_bp.generate_prompt(affordances=())
+        opt = checkmarked_bp.generate_prompt(
+            profile=RenderProfile(affordances=())
+        )
 
         print(opt)
         assert "lack content" in opt
@@ -78,7 +80,9 @@ class TestAffordancesDisabled:
     def test_neither_checkmarked_when_none(
         _, checkmarked_bp, registered_test_affordance
     ):
-        opt = checkmarked_bp.generate_prompt(affordances=None)
+        opt = checkmarked_bp.generate_prompt(
+            profile=RenderProfile(affordances=None)
+        )
 
         print(opt)
         assert "usage content" not in opt
@@ -97,7 +101,9 @@ class TestAffordancesDisabled:
 class TestParentNotCheckmarked:
 
     def test_neither_spliced_in(_, unchecked_bp, registered_test_affordance):
-        opt = unchecked_bp.generate_prompt(affordances=("Claude Tool:TestAff",))
+        opt = unchecked_bp.generate_prompt(
+            profile=RenderProfile(affordances=("Claude Tool:TestAff",))
+        )
 
         print(opt)
         assert "usage content" not in opt

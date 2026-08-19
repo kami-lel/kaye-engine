@@ -10,12 +10,13 @@ from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.cli import DEFAULT_SPARSENESS
+from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.dynamic_node.node_type_choices import (
     list_all_node_type_names,
 )
-from kaye_engine.cli.render_options_parser import (
-    build_render_options_parent_parser,
-    resolve_render_options,
+from kaye_engine.cli.render_profile_parser import (
+    build_render_profile_parent_parser,
+    resolve_render_profile,
 )
 from kaye_engine.cli.sparseness_parser import SPARSENESS_DESCRIPTION
 from kaye_engine.kamilog import (
@@ -154,7 +155,11 @@ def _dynamic_node_main(args):
         prompt = blueprint.generate_prompt(
             query=query,
             glossary_priority_threshold=args.priority_threshold,
-            **resolve_render_options(args, default_show_comment=False),
+            profile=resolve_render_profile(
+                args,
+                surface_profiles=get_surface_profiles(),
+                default_show_comment=False,
+            ),
         )
     except (TypeError, KeyError, NotImplementedError) as err:
         logger.critical(str(err))
@@ -175,8 +180,9 @@ def register_dynamic_node_parser(cli_subparser):
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["dn"],
         parents=[
-            build_render_options_parent_parser(
-                default_sparseness=DEFAULT_SPARSENESS
+            build_render_profile_parent_parser(
+                default_sparseness=DEFAULT_SPARSENESS,
+                surface_profiles=get_surface_profiles(),
             )
         ],
     )

@@ -24,7 +24,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 # entry point  #################################################################
 
 
-def export_vs_code_extension(claude_folder, *, render_kwargs=None):
+def export_vs_code_extension(claude_folder, *, render_profile=None):
     """
     export CLAUDE.md and a marketplace folder into the given Claude folder
 
@@ -33,10 +33,10 @@ def export_vs_code_extension(claude_folder, *, render_kwargs=None):
 
     :param claude_folder: destination .claude/ folder
     :type claude_folder: Path-like
-    :param render_kwargs: render options forwarded to both
+    :param render_profile: render options forwarded to both
             :func:`export_user_system_prompt_file` and
             :func:`export_marketplace`
-    :type render_kwargs: dict, optional
+    :type render_profile: RenderProfile, optional
     :return: path to the written marketplace.json
     :rtype: Path
     """
@@ -47,14 +47,14 @@ def export_vs_code_extension(claude_folder, *, render_kwargs=None):
     export_user_system_prompt_file(
         prompt_file,
         use_coder=True,
-        render_kwargs=render_kwargs,
+        render_profile=render_profile,
     )
     logger.succ("export user system prompt file:\t" + str(prompt_file))
 
     logger.debug("export marketplace")
     marketplace_folder = claude_folder / get_marketplace_folder_name()
     marketplace_path = export_marketplace(
-        marketplace_folder, render_kwargs=render_kwargs
+        marketplace_folder, render_profile=render_profile
     )
     logger.succ("export marketplace:\t" + str(marketplace_folder))
 
