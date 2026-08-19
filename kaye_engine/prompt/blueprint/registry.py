@@ -55,9 +55,7 @@ class BlueprintRegistry(Exportable):
         merged = self.render_profile
         if profile is not None:
             merged = merged.merge(profile)
-        return self.blueprint.generate_prompt(
-            **merged.as_kwargs(), **kwargs
-        )
+        return self.blueprint.generate_prompt(profile=merged, **kwargs)
 
     def merge(self, other):
         """

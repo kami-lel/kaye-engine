@@ -146,8 +146,8 @@ class TestBlueprintRegistryContent:  ###########################################
         )
         reg.content()
 
-        assert captured["conditional_sidecars"] == ("for Kaye",)
-        assert captured["affordances"] == ()
+        assert captured["profile"].conditional_sidecars == ("for Kaye",)
+        assert captured["profile"].affordances == ()
 
     def test_explicit_kwargs_merge_with_registry_defaults(
         _, corpus_testee1, monkeypatch
@@ -180,5 +180,8 @@ class TestBlueprintRegistryContent:  ###########################################
         # defaults rather than replacing them, so a caller-supplied
         # value (e.g. surface-derived sidecars/affordances from the
         # CLI) never clobbers this entry's own registered defaults
-        assert captured["conditional_sidecars"] == ("for Kaye", "for Ria")
-        assert captured["affordances"] == ()
+        assert captured["profile"].conditional_sidecars == (
+            "for Kaye",
+            "for Ria",
+        )
+        assert captured["profile"].affordances == ()
