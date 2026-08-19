@@ -36,7 +36,7 @@ Every dynamic node auto-attaches when a corpus tree is created via `load_corpus_
 
 Where it attaches depends on whether `prompt_corpus.md` authors that node's `(name)` heading. Authored, at any nesting depth: the dynamic node takes that heading's exact spot in the tree, in place of it, keeping its position among siblings. Not authored: the node falls back to a direct child of root.
 
-There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `conditional_sidecars=`, q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md#conditional-sidecar-nodes).
+There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `profile=RenderProfile(conditional_sidecars=...)`, q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md#conditional-sidecar-nodes).
 
 
 

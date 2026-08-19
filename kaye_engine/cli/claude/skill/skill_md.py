@@ -137,7 +137,7 @@ class Skill(FrontmatterDoc):
     # factory  -----------------------------------------------------------------
 
     @classmethod
-    def from_exportable(cls, exportable, version="", render_kwargs=None):
+    def from_exportable(cls, exportable, version="", render_profile=None):
         """
         dispatches on the concrete `Exportable` implementer -- this
         isinstance check lives here, in the Claude-specific translation
@@ -150,12 +150,11 @@ class Skill(FrontmatterDoc):
         :param version: installed package version, forwarded to
                 :meth:`__init__`
         :type version: str, optional
-        :param render_kwargs: render options forwarded to
+        :param render_profile: render profile forwarded to
                 ``exportable.content(...)`` -- already resolved (e.g. via
-                :func:`resolve_render_options`); ``affordances``/
-                ``conditional_sidecars`` are merged with, not clobbering,
-                the registry entry's own defaults
-        :type render_kwargs: dict, optional
+                :func:`resolve_render_profile`); merged with, not
+                clobbering, the registry entry's own `render_profile`
+        :type render_profile: RenderProfile, optional
         :return: a skill built from ``exportable``'s content
         :rtype: Skill
         """
@@ -167,7 +166,7 @@ class Skill(FrontmatterDoc):
                 when_to_use=sidecars.when_to_use,
                 paths=list(sidecars.globs) if sidecars.globs else [],
                 user_invocable=exportable.user_invokable,
-                body=exportable.content(**(render_kwargs or {})),
+                body=exportable.content(profile=render_profile),
                 version=version,
             )
 

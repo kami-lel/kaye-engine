@@ -23,7 +23,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 # entry point  #################################################################
 
 
-def export_skills_as_zips(parent_folder, *, verbose=True, render_kwargs=None):
+def export_skills_as_zips(parent_folder, *, verbose=True, render_profile=None):
     """
     export all blueprints, prompts, and abbreviation groups as ``.zip`` files
 
@@ -36,9 +36,9 @@ def export_skills_as_zips(parent_folder, *, verbose=True, render_kwargs=None):
     :type parent_folder: Path-like
     :param verbose: print exported paths when ``True``
     :type verbose: bool
-    :param render_kwargs: render options forwarded to
+    :param render_profile: render options forwarded to
             :func:`export_skills_as_folders`
-    :type render_kwargs: dict, optional
+    :type render_profile: RenderProfile, optional
     """
     parent_folder = Path(parent_folder)
     try:
@@ -57,7 +57,9 @@ def export_skills_as_zips(parent_folder, *, verbose=True, render_kwargs=None):
     ):
         logger.debug("building skill folders in temporary directory")
         export_skills_as_folders(
-            Path(skills_temp), version=pkg_version, render_kwargs=render_kwargs
+            Path(skills_temp),
+            version=pkg_version,
+            render_profile=render_profile,
         )
 
         logger.debug("archiving skills to .zip packages")

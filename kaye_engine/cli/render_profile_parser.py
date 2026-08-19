@@ -1,8 +1,8 @@
 """
-render_options_parser.py
+render_profile_parser.py
 
-define ``build_render_options_parent_parser`` and
-``resolve_render_options`` -- the shared parent parser and aux function
+define ``build_render_profile_parent_parser`` and
+``resolve_render_profile`` -- the shared parent parser and aux function
 behind the 5 render options (``--surface``, ``--comment``/
 ``--no-comment``, ``--conditional-sidecar``, ``--affordance``,
 ``--sparseness``) every rendering command exposes
@@ -14,20 +14,21 @@ from kaye_engine.cli.comment_parser import build_comment_parent_parser
 from kaye_engine.cli.sparseness_parser import build_sparseness_parent_parser
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude.surface_parser import build_surface_parent_parser
-from kaye_engine.prompt.claude_surface import ClaudeSurface
+from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
 __all__ = (
-    "build_render_options_parent_parser",
-    "resolve_render_options",
+    "build_render_profile_parent_parser",
+    "resolve_render_profile",
 )
 
 
 # Main Entry Point  ############################################################
-def build_render_options_parent_parser(
+def build_render_profile_parent_parser(
     *,
     default_surface=(),
     default_sparseness=DEFAULT_SPARSENESS,
     comment_short_flags=True,
+    surface_profiles=None,
 ):
     """
     build a fresh, help-suppressed ``ArgumentParser`` carrying all 5
@@ -46,13 +47,18 @@ def build_render_options_parent_parser(
             also register ``-c``/``-C``, v.s. ``build_comment_parent_
             parser``
     :type comment_short_flags: bool
+    :param surface_profiles: populates the ``--surface`` flag's
+            choices; ``None`` or empty omits ``--surface`` entirely
+    :type surface_profiles: dict[str, RenderProfile] or None, optional
     :return: the parent parser
     :rtype: ArgumentParser
     """
     parent = ArgumentParser(
         add_help=False,
         parents=[
-            build_surface_parent_parser(default_surface),
+            build_surface_parent_parser(
+                default_surface, surface_profiles=surface_profiles
+            ),
             build_sparseness_parent_parser(default_sparseness),
             build_comment_parent_parser(short_flags=comment_short_flags),
         ],
@@ -79,56 +85,57 @@ def build_render_options_parent_parser(
     return parent
 
 
-def resolve_render_options(args, *, default_show_comment=False):
+def resolve_render_profile(
+    args, *, surface_profiles=None, default_show_comment=False
+):
     """
     resolve a parsed ``Namespace`` carrying the 5 render options into a
-    kwargs dict directly ``**``-splattable into
-    ``generate_prompt(...)``
+    `RenderProfile`, directly ``**``-splattable via ``as_kwargs()`` or
+    passable as ``profile=`` into ``generate_prompt(...)``/
+    ``BlueprintRegistry.content(...)``
 
 
     :param args: namespace parsed from a parser built by
-            ``build_render_options_parent_parser``
+            ``build_render_profile_parent_parser``
     :type args: argparse.Namespace
+    :param surface_profiles: same dict passed to
+            ``build_render_profile_parent_parser``, used to resolve
+            ``args.surface`` names into their `RenderProfile`; unused
+            (and ``args`` has no ``surface`` attribute) when
+            ``--surface`` was omitted
+    :type surface_profiles: dict[str, RenderProfile] or None, optional
     :param default_show_comment: fallback used when neither
             ``--comment`` nor ``--no-comment`` was passed -- each
             call site states its own pre-existing default
     :type default_show_comment: bool
-    :return: kwargs for ``generate_prompt(...)``; ``affordances``/
-            ``conditional_sidecars`` are omitted entirely (rather than set
-            to their empty defaults) when neither the corresponding flag
-            nor ``--surface`` was passed; when present, a registry-level
-            default (see ``BlueprintRegistry.content()``) is still merged
-            in on top rather than being replaced
-    :rtype: dict
+    :return: resolved render profile; a caller-side registry's own
+            `render_profile` is still merged in on top rather than
+            being replaced (see ``BlueprintRegistry.content()``)
+    :rtype: RenderProfile
     """
-    surface = ClaudeSurface.combine(args.surface) if args.surface else None
-
     show_comment = (
         default_show_comment
         if args.show_comment is None
         else args.show_comment
     )
 
-    result = {
-        "sparseness": args.sparseness,
-        "show_comment": show_comment,
-    }
+    surface_names = getattr(args, "surface", None) or ()
 
-    if surface is None:
-        if args.affordance:
-            result["affordances"] = tuple(args.affordance)
-        if args.conditional_sidecar:
-            result["conditional_sidecars"] = tuple(args.conditional_sidecar)
-    else:
-        result["affordances"] = tuple(
-            dict.fromkeys(
-                (*surface.as_affordances(), *args.affordance)
-            )
+    profile = RenderProfile()
+    for name in surface_names:
+        profile = profile.merge(surface_profiles[name])
+
+    if args.affordance or surface_names:
+        profile = profile.merge(
+            RenderProfile(affordances=tuple(args.affordance))
         )
-        result["conditional_sidecars"] = tuple(
-            dict.fromkeys(
-                (*surface.as_contained_sidecars(), *args.conditional_sidecar)
+    if args.conditional_sidecar:
+        profile = profile.merge(
+            RenderProfile(
+                conditional_sidecars=tuple(args.conditional_sidecar)
             )
         )
 
-    return result
+    return profile.merge(
+        RenderProfile(sparseness=args.sparseness, show_comment=show_comment)
+    )

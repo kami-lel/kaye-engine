@@ -240,6 +240,70 @@ class TestRenderingDefaults:  ##################################################
         print(opt)
         assert opt == ["- e.g.:for example", "- i.e.:id est"]
 
+    def test_disable_remark_default(_, registered_names):
+        reg = register_abbr_glossary(
+            "test-glossary-disable-remark", True, disable_remark=True
+        )
+        registered_names.append(reg.name)
+
+        data = AbbrData()
+        with data:
+            data.add_entry(
+                AbbrMeaning("for example", remark="Latin exempli gratia"),
+                "e.g.",
+                {
+                    "priority": 5,
+                    "tags": ["test-glossary-disable-remark"],
+                    "wrap": "word",
+                },
+            )
+
+        testee = GlossaryNode(
+            None, glossary_name="test-glossary-disable-remark"
+        )
+        with pytest.MonkeyPatch.context() as mp:
+            mp.setattr(
+                "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
+                lambda: data,
+            )
+            opt = testee.content_lines()
+
+        print(opt)
+        assert opt == ["- e.g.:for example"]
+
+    def test_disable_remark_explicit_override_wins(_, registered_names):
+        reg = register_abbr_glossary(
+            "test-glossary-disable-remark-override",
+            True,
+            disable_remark=True,
+        )
+        registered_names.append(reg.name)
+
+        data = AbbrData()
+        with data:
+            data.add_entry(
+                AbbrMeaning("for example", remark="Latin exempli gratia"),
+                "e.g.",
+                {
+                    "priority": 5,
+                    "tags": ["test-glossary-disable-remark-override"],
+                    "wrap": "word",
+                },
+            )
+
+        testee = GlossaryNode(
+            None, glossary_name="test-glossary-disable-remark-override"
+        )
+        with pytest.MonkeyPatch.context() as mp:
+            mp.setattr(
+                "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
+                lambda: data,
+            )
+            opt = testee.content_lines(disable_remark=False)
+
+        print(opt)
+        assert opt == ["- e.g.:for example (Latin exempli gratia)"]
+
     def test_glossary_priority_threshold_filters(_, registered_names):
         reg = register_abbr_glossary(
             "test-glossary-threshold-filtered", True

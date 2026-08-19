@@ -93,12 +93,13 @@ Q.v. [abbreviation entries `json` file](#abbreviation-entries-json-file) below f
 
 
 
-#### `register_abbr_glossary(name, uses_numbered_list=False, is_sorted=False)`
+#### `register_abbr_glossary(name, uses_numbered_list=False, is_sorted=False, disable_remark=False)`
 
 Register a glossary name so entries may reference it via `tags` (v.i.), and set that glossary's default rendering behavior for its `GlossaryNode`:
 
 - `uses_numbered_list`: render entries with numbered markers (`"1. ..."`) instead of bullets (`"- ..."`)
 - `is_sorted`: render entries ordered by ascending `priority` instead of insertion order
+- `disable_remark`: omit the `(...)` remark suffix (v.i.) from every entry in this glossary by default
 
 ```python
 from kaye_engine.abbr_collection import register_abbr_glossary
@@ -156,7 +157,7 @@ Every abbreviation-related [dynamic node](dynamic-content-doc.md) lives in `kaye
 | `DecodeOnlyAbbrNode` | `(decode-only-abbr)` | `decode_only_abbr_node.py` | scans a `query=` string against `get_abbr_data().automaton`, verifying each raw match with `AbbrEntry.verify_found` before including it; falls back to every `always_understand`-tagged entry when `query` is omitted |
 | `GlossaryNode` | `(glossary-name)` | `glossary_node.py` | every entry whose `glossaries` array contains `glossary-name` |
 
-Unlike `DecodeOnlyAbbrNode`, `GlossaryNode` is not a fixed engine type — one instance is created per glossary name a consumer registered via `register_abbr_glossary` (v.s.) and referenced on `AbbrEntry.glossaries` (q.v. [`tags`](#tags) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, and insertion order vs. sorted by `priority` — defaults to that glossary's registered flags, and both may be overridden per render via `content_lines(is_sorted=..., uses_numbered_list=...)`. Whether high-priority-number entries are hidden is a generation-time-only concern, not a registration default: pass `content_lines(glossary_priority_threshold=...)` (or the matching `generate_prompt(glossary_priority_threshold=...)` kwarg, since it flows through to every checkmarked node's `content_lines()`) — `None` (default) disables the filter. Q.v. [dynamic-content-doc.md](dynamic-content-doc.md) for the heading resolution order.
+Unlike `DecodeOnlyAbbrNode`, `GlossaryNode` is not a fixed engine type — one instance is created per glossary name a consumer registered via `register_abbr_glossary` (v.s.) and referenced on `AbbrEntry.glossaries` (q.v. [`tags`](#tags) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, insertion order vs. sorted by `priority`, and whether the `(...)` remark suffix appears — defaults to that glossary's registered flags, and all three may be overridden per render via `content_lines(is_sorted=..., uses_numbered_list=..., disable_remark=...)`. Whether high-priority-number entries are hidden is a generation-time-only concern, not a registration default: pass `content_lines(glossary_priority_threshold=...)` (or the matching `generate_prompt(glossary_priority_threshold=...)` kwarg, since it flows through to every checkmarked node's `content_lines()`) — `None` (default) disables the filter. Q.v. [dynamic-content-doc.md](dynamic-content-doc.md) for the heading resolution order.
 
 
 
@@ -315,7 +316,7 @@ A *required array* of *string*. Each item is resolved by trying it against
 the fixed, engine-defined `AbbrTags` enum first; anything that doesn't
 match a member is treated instead as a free-form, consumer-defined
 glossary name, which must already be registered via
-[`register_abbr_glossary`](#register_abbr_glossaryname-uses_numbered_listfalse-is_sortedfalse)
+[`register_abbr_glossary`](#register_abbr_glossaryname-uses_numbered_listfalse-is_sortedfalse-disable_remarkfalse)
 before this entry is loaded, or loading raises `ValueError`.
 
 Fixed `AbbrTags` values:
@@ -368,4 +369,4 @@ Must be a *string* of these selected values:
 
 An *optional string* free-text note about this specific abbreviation (as opposed to the meaning's `remark`, which applies to every spelling). Omit this key entirely when there is no remark.
 
-When rendered as a Markdown list entry, the meaning's `remark` and the abbr's `remark` are both included (in that order, separated by `; `) when present, e.g. `- abbr:meaning (meaning remark; abbr remark)`.
+When rendered as a Markdown list entry, the meaning's `remark` and the abbr's `remark` are both included (in that order, separated by `; `) when present, e.g. `- abbr:meaning (meaning remark; abbr remark)`. Pass `disable_remark=True` to `AbbrEntry.as_md_list_entry`, `GlossaryNode.content_lines`, or `register_abbr_glossary` (v.s.) to omit this suffix regardless of either `remark` being set.

@@ -367,8 +367,8 @@ Use `.generate_prompt()` to render the concrete prompt as a single string.
 Use `render.render_prompt_lines()` (`kaye_engine.prompt.blueprint.render`) when you
 want the rendered prompt as a list of lines instead.
 
-Both support `disable_first_heading=`, `show_comment=`, and
-`conditional_sidecars=` to conditionally include conditional sidecar nodes during rendering.
+Both take a `profile=` `RenderProfile` (fields include `disable_first_heading`,
+`show_comment`, and `conditional_sidecars`) to conditionally include conditional sidecar nodes during rendering.
 For details on sidecar node types and conditional inclusion patterns, see [`sidecar-node-doc.md`](sidecar-node-doc.md#conditional-sidecar-nodes).
 Any extra keyword arguments are passed through to node `content_lines()`
 implementations, which is how dynamic nodes receive values such as `query=`;

@@ -4,6 +4,7 @@ generate_parser.py
 define ``register_generate_parser``
 """
 
+import dataclasses
 from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
@@ -13,9 +14,10 @@ from kaye_engine.cli.blueprint.blueprint_io_parser import (
 )
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.render_options_parser import (
-    build_render_options_parent_parser,
-    resolve_render_options,
+from kaye_engine.cli.claude.setup import get_surface_profiles
+from kaye_engine.cli.render_profile_parser import (
+    build_render_profile_parent_parser,
+    resolve_render_profile,
 )
 from kaye_engine.cli.sparseness_parser import SPARSENESS_DESCRIPTION
 from kaye_engine.kamilog import (
@@ -52,14 +54,19 @@ def _generate_main(args):  ####################################################
     check_corpus_setup_for_cli()
 
     blueprint, display_name, registry = load_blueprint_from_args(args)
-    render_kwargs = resolve_render_options(args, default_show_comment=True)
+    render_profile = resolve_render_profile(
+        args,
+        surface_profiles=get_surface_profiles(),
+        default_show_comment=True,
+    )
+    render_profile = dataclasses.replace(
+        render_profile, display_name=display_name
+    )
 
     if registry is not None:
-        prompt = registry.content(display_name=display_name, **render_kwargs)
+        prompt = registry.content(profile=render_profile)
     else:
-        prompt = blueprint.generate_prompt(
-            display_name=display_name, **render_kwargs
-        )
+        prompt = blueprint.generate_prompt(profile=render_profile)
 
     print(prompt)
 
@@ -76,8 +83,9 @@ def register_generate_parser(cli_subparser):  ##################################
         aliases=["gen", "g"],
         parents=[
             blueprint_io_parser,
-            build_render_options_parent_parser(
-                default_sparseness=DEFAULT_SPARSENESS
+            build_render_profile_parent_parser(
+                default_sparseness=DEFAULT_SPARSENESS,
+                surface_profiles=get_surface_profiles(),
             ),
         ],
     )
