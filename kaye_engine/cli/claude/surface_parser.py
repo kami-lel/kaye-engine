@@ -9,13 +9,11 @@ subcommand
 
 from argparse import ArgumentParser
 
-from kaye_engine.prompt.claude_surface import ClaudeSurface
-
 __all__ = ("build_surface_parent_parser",)
 
 
 # Main Entry Point  ############################################################
-def build_surface_parent_parser(default):
+def build_surface_parent_parser(default, *, surface_profiles=None):
     """
     build a fresh, help-suppressed ``ArgumentParser`` carrying only the
     ``--surface`` flag, for use as a `parents=[...]` entry -- a fresh
@@ -26,17 +24,23 @@ def build_surface_parent_parser(default):
     :param default: member names checkmarked when ``--surface`` is
             omitted
     :type default: Iterable[str]
+    :param surface_profiles: populates the ``--surface`` flag's
+            choices; ``None`` or empty omits ``--surface`` entirely --
+            precedented by ``default_surface=()`` for surface-less
+            subcommands
+    :type surface_profiles: dict[str, RenderProfile] or None, optional
     :return: the parent parser
     :rtype: ArgumentParser
     """
     parent = ArgumentParser(add_help=False)
-    parent.add_argument(
-        "-u",
-        "--surface",
-        nargs="+",
-        metavar="SURFACE",
-        choices=[member.name for member in ClaudeSurface],
-        default=list(default),
-        help="Claude surface(s) to checkmark for; combinable",
-    )
+    if surface_profiles:
+        parent.add_argument(
+            "-u",
+            "--surface",
+            nargs="+",
+            metavar="SURFACE",
+            choices=list(surface_profiles),
+            default=list(default),
+            help="Claude surface(s) to checkmark for; combinable",
+        )
     return parent
