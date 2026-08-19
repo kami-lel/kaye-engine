@@ -13,6 +13,8 @@ __all__ = (
     "exportable_registry",
     "register_exportable_entry",
     "get_exportable",
+    "merge_conditional_sidecars",
+    "merge_affordances",
 )
 
 
@@ -86,6 +88,41 @@ class Exportable(ABC):
         :rtype: str
         """
 
+    @abstractmethod
+    def merge(self, other):
+        """
+        combine ``self`` with ``other`` of a compatible kind into a
+        new, unregistered instance; a concrete class with no sensible
+        merge raises
+
+
+        :param other: exportable to merge with
+        :type other: Exportable
+        :raises TypeError: ``other`` is not a compatible kind
+        :raises NotImplementedError: this kind has no defined merge
+        :return: newly created, unregistered merged instance
+        :rtype: Exportable
+        """
+
+    def __or__(self, other):
+        """
+        create a merged exportable
+
+        (wrapper of and identical to ``.merge()``)
+
+
+        :param other:
+        :type other: Exportable
+        :raises TypeError:
+        :raises NotImplementedError:
+        :return: merged exportable
+        :rtype: Exportable
+        """
+        if not isinstance(other, Exportable):
+            return NotImplemented
+
+        return self.merge(other)
+
 
 # Entry Point  #################################################################
 
@@ -135,3 +172,49 @@ def get_exportable(canonical_name):
         raise KeyError(
             "no exportable registered under name: {}".format(canonical_name)
         ) from e
+
+
+def merge_conditional_sidecars(*groups):
+    """
+    union of sidecar names across ``groups``, deduped, first-seen order
+
+
+    :param groups: conditional sidecar tuples to merge
+    :type groups: Iterable[str]
+    :return: merged, deduped sidecar names
+    :rtype: tuple
+    """
+    merged = []
+    for group in groups:
+        for name in group:
+            if name not in merged:
+                merged.append(name)
+    return tuple(merged)
+
+
+def merge_affordances(*selections):
+    """
+    union of affordance selections across ``selections``, deduped,
+    first-seen order; ``None`` means "off" and contributes nothing
+
+
+    :param selections: affordance selections to merge
+    :type selections: Iterable[str] or None
+    :return: merged, deduped affordance selection; ``None`` only when
+            every selection is ``None``
+    :rtype: tuple or None
+    """
+    merged = []
+    seen_non_none = False
+    for selection in selections:
+        if selection is None:
+            continue
+        seen_non_none = True
+        for name in selection:
+            if name not in merged:
+                merged.append(name)
+
+    if not seen_non_none:
+        return None
+
+    return tuple(merged)
