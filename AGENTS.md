@@ -157,13 +157,14 @@ Bash command patterns) into `settings.json`, sourced from
 `kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so
 comments are allowed).
 
-`kaye_engine/cli/cli_continue/` is **deprecated and unreachable** —
-`cli_main.py` never registers it, so no `continue` subcommand exists. Do not
-document it, invoke it, or wire it back in without being asked.
+The Continue AI integration (formerly `kaye_engine/cli/cli_continue/`) has
+been removed entirely; no `continue` subcommand exists. Do not document it,
+invoke it, or add it back without being asked.
 
 Every `claude` subcommand needs a consumer to call
-`setup_claude_cli(plugin_name, display_name, marketplace_name, chat_bp_name,
-coder_bp_name, version, marketplace_folder_name)` before invoking the CLI —
+`setup_claude_cli(plugin_name, display_name, marketplace_name,
+chat_exportable_name, chat_coder_exportable_name, version,
+marketplace_folder_name)` before invoking the CLI —
 there is no default for any of the seven. `display_name` is stamped into
 `plugin.json`'s `display_name` field by `claude plugin export`; it replaces
 the former hardcoded `DISPLAY_NAME` constant in `kaye_engine/__init__.py`. On
