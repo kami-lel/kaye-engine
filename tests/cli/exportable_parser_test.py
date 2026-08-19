@@ -23,6 +23,9 @@ class _FakeExportable(Exportable):
     def content(self, **_render_kwargs):
         return "fake exportable content for " + self.canonical_name
 
+    def merge(self, other):
+        raise NotImplementedError("_FakeExportable does not support merge()")
+
 
 def _build_exportable_parser():
     root_parser = ArgumentParser()

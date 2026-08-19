@@ -90,9 +90,9 @@ To load the marketplace in VS Code:
 
 ## Consumer Requirement
 
-A corpus must register a Chat blueprint and a Coder blueprint under whatever names it passes to `setup_claude_cli(...)`; `user_prompt/export.py` resolves them via `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` in `blueprint_name.py`.
+A corpus must register a Chat exportable and a Chat Coder exportable under whatever names it passes to `setup_claude_cli(...)` as `chat_exportable_name`/`chat_coder_exportable_name`; `user_prompt/export.py` resolves them via `get_claude_chat_exportable()`/`get_claude_chat_coder_exportable()` in `exportable_name.py`.
 
-The Coder blueprint (`coder_bp_name`) is merged into the Chat blueprint via `|` to build the final `-c` prompt used by `usp -c`, `claude code`, and `claude vs-code-extension`; it may also double as its own standalone exportable Skill (e.g. a consumer package registers one blueprint, `"coder"`, for both roles — see `consumer-pkg/bp/coder.py`).
+The Chat Coder exportable (`chat_coder_exportable_name`) is the precomputed merge (via `Exportable.merge()`/`|`, q.v. [`exportable-registry-doc.md`](exportable-registry-doc.md)) of the Chat exportable and the Coder exportable, built once at registration time rather than merged live at export time; it is what builds the final `-c` prompt used by `usp -c`, `claude code`, and `claude vs-code-extension`. Both Chat and Chat Coder may also double as their own standalone exportable Skills (e.g. a consumer package registers `"chat"` and `"chat-coder"` — see `consumer-pkg/bp/general.py`/`consumer-pkg/bp/coder.py`).
 
 ----
 
