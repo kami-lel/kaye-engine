@@ -8,9 +8,9 @@ from pathlib import Path
 
 from kaye_engine import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.blueprint_name import (
-    get_claude_chat_blueprint,
-    get_claude_coder_blueprint,
+from kaye_engine.cli.claude.exportable_name import (
+    get_claude_chat_coder_exportable,
+    get_claude_chat_exportable,
 )
 
 # logger  ######################################################################
@@ -20,12 +20,14 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 # Main Entry Point  ############################################################
 def generate_user_system_prompt(*, use_coder=False, render_kwargs=None):
     """
-    render the Chat blueprint as the Claude user/system prompt
+    render the Chat exportable as the Claude user/system prompt
 
-    renders the configured Chat blueprint; optionally appends the
-    configured Coder blueprint
+    renders the configured Chat exportable; when ``use_coder``, renders
+    the configured Chat Coder exportable instead -- the precomputed
+    merge of Chat and Coder
 
-    :param use_coder: append the Coder blueprint after the main blueprint
+    :param use_coder: render the precomputed Chat+Coder exportable
+            instead of the plain Chat exportable
     :type use_coder: bool
     :param render_kwargs: kwargs forwarded to ``generate_prompt()``, v.s.
             ``resolve_render_options()``; ``None`` renders with
@@ -34,12 +36,13 @@ def generate_user_system_prompt(*, use_coder=False, render_kwargs=None):
     :return: rendered prompt
     :rtype: str
     """
-    blueprint = get_claude_chat_blueprint()
+    exportable = (
+        get_claude_chat_coder_exportable()
+        if use_coder
+        else get_claude_chat_exportable()
+    )
 
-    if use_coder:
-        blueprint = blueprint | get_claude_coder_blueprint()
-
-    return blueprint.generate_prompt(**(render_kwargs or {}))
+    return exportable.content(**(render_kwargs or {}))
 
 
 def export_user_system_prompt_file(
@@ -49,15 +52,16 @@ def export_user_system_prompt_file(
     render_kwargs=None,
 ):
     """
-    export the Chat blueprint as Claude user/system prompt to CLAUDE.md
+    export the Chat exportable as Claude user/system prompt to CLAUDE.md
 
-    renders the configured Chat blueprint via
+    renders the configured Chat (or Chat Coder) exportable via
     :func:`generate_user_system_prompt` and writes the prompt to the given
     file path
 
     :param file_path: destination file path for CLAUDE.md
     :type file_path: Path-like
-    :param use_coder: append the Coder blueprint after the main blueprint
+    :param use_coder: render the precomputed Chat+Coder exportable
+            instead of the plain Chat exportable
     :type use_coder: bool
     :param render_kwargs: kwargs forwarded to ``generate_prompt()``, v.s.
             ``resolve_render_options()``; ``None`` renders with
