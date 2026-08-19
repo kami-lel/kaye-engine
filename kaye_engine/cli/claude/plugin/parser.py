@@ -52,7 +52,7 @@ def register_plugin_parser(cli_subparser):  ####################################
         aliases=["p"],
         parents=[
             build_render_profile_parent_parser(
-                default_surface=("vsc",),
+                default_surface=("chat", "cowork"),
                 default_sparseness=DEFAULT_SPARSENESS,
                 surface_profiles=get_surface_profiles(),
             )
